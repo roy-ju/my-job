@@ -19,7 +19,8 @@
     "react/function-component-definition": "off",
     "import/prefer-default-export": "off",
     "react/require-default-props": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-undef": "off"
   },
-  "ignorePatterns": ["*.config.js", "types/*.d.ts"]
+  "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }
