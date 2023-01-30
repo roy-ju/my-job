@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
 type Props = {
+  listingID: number;
   onClickGoBack: () => void;
   onClickChatRoom: () => void;
 };
 
 export default function ListingDetail({
+  listingID,
   onClickGoBack,
   onClickChatRoom,
 }: Props) {
@@ -20,7 +22,7 @@ export default function ListingDetail({
       >
         닫기
       </button>
-      <p className="mb-4">매물상세페이지</p>
+      <p className="mb-4">매물상세페이지{listingID}</p>
       <button
         className="rounded-lg bg-blue-500 py-2 px-4 text-white hover:bg-blue-700"
         type="button"

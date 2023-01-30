@@ -9,15 +9,17 @@ const HomePage: NextPageWithLayout = () => {
   const router = useRouter();
 
   const onClickMyPage = useCallback(() => {
-    router.navigate('/my');
+    router.push('my');
   }, [router]);
 
   const onClickListingDetail = useCallback(() => {
-    router.navigate('/listings/1');
+    router.push('listingDetail', {
+      listingID: 1,
+    });
   }, [router]);
 
   const onClickListings = useCallback(() => {
-    router.navigate({ pathname: '/listings', query: { listOpen: true } });
+    router.push('listings');
   }, [router]);
 
   return (

@@ -20,7 +20,8 @@
     "import/prefer-default-export": "off",
     "react/require-default-props": "off",
     "no-nested-ternary": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "array-callback-return": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }

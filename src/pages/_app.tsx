@@ -8,7 +8,7 @@ export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
   P,
   IP
 > & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement, pageProps: any) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -18,5 +18,9 @@ type AppPropsWithLayout = AppProps & {
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  return <RecoilRoot>{getLayout(<Component {...pageProps} />)}</RecoilRoot>;
+  return (
+    <RecoilRoot>
+      {getLayout(<Component {...pageProps} />, pageProps)}
+    </RecoilRoot>
+  );
 }
