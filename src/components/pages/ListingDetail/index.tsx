@@ -11,7 +11,7 @@ export default function ListingDetailPage({ depth, listingID }: Props) {
   const router = useRouter();
 
   const onClickGoBack = useCallback(() => {
-    router.pop(depth);
+    router.pop(depth - 1);
   }, [router, depth]);
 
   const onClickChatRoom = useCallback(() => {

@@ -10,7 +10,7 @@ export default function ListingsPage({ depth }: Props) {
   const router = useRouter();
 
   const onClickGoBack = useCallback(() => {
-    router.pop(depth);
+    router.pop(depth - 1);
   }, [router, depth]);
 
   const onClickListingDetail = useCallback(

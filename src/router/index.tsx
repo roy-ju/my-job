@@ -40,7 +40,12 @@ export default function Router({ route, query, depth }: Props) {
       return <ChatRoom depth={depth} />;
     }
     default: {
-      return <div>unknown: {route}</div>;
+      return (
+        <div>
+          depth: {depth} <br />
+          unknown: {route}
+        </div>
+      );
     }
   }
 }
