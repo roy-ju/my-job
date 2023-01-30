@@ -61,7 +61,7 @@ export default function useRouter() {
         .split('/')
         .filter((seg) => seg !== '');
 
-      if (to) {
+      if (to !== undefined) {
         segments = segments.slice(0, to);
       } else {
         segments.pop();
@@ -99,7 +99,7 @@ export default function useRouter() {
         .split('/')
         .filter((seg) => seg !== '');
 
-      if (to) {
+      if (to !== undefined) {
         segments = segments.slice(0, to);
       }
 
