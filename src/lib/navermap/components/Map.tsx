@@ -1,9 +1,10 @@
-import { useIsomorphicLayoutEffect } from '@/hooks';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { createContext, useRef, useState } from 'react';
 import useNaverMapEvent from '../hooks/useNaverEvent';
+import { NaverLatLngBounds, NaverMap } from '../types';
 
-export const NaverMapContext = createContext<naver.maps.Map>(
-  undefined as unknown as naver.maps.Map,
+export const NaverMapContext = createContext<NaverMap>(
+  undefined as unknown as NaverMap,
 );
 
 export type MapProps = {
@@ -12,13 +13,10 @@ export type MapProps = {
   zoom: number;
   minZoom?: number;
   maxZoom?: number;
-  onCreate?: (map: naver.maps.Map) => void;
-  onBoundsChanged?: (
-    map: naver.maps.Map,
-    bounds: naver.maps.LatLngBounds,
-  ) => void;
-  onZoomChanged?: (map: naver.maps.Map, zoom: number) => void;
-  onIdle?: (map: naver.maps.Map) => void;
+  onCreate?: (map: NaverMap) => void;
+  onBoundsChanged?: (map: NaverMap, bounds: NaverLatLngBounds) => void;
+  onZoomChanged?: (map: NaverMap, zoom: number) => void;
+  onIdle?: (map: NaverMap) => void;
 };
 
 export default function Map({
@@ -33,7 +31,7 @@ export default function Map({
   onIdle,
 }: MapProps) {
   const container = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<naver.maps.Map>();
+  const [map, setMap] = useState<NaverMap>();
 
   useIsomorphicLayoutEffect(() => {
     const mapContainer = container.current;
@@ -58,6 +56,22 @@ export default function Map({
     if (!map || !onCreate) return;
     onCreate(map);
   }, [map, onCreate]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!map) return;
+    const prevCenter = map.getCenter() as naver.maps.LatLng;
+    const centerPos = new naver.maps.LatLng(center.lat, center.lng);
+
+    if (prevCenter.equals(centerPos)) {
+      return;
+    }
+    map.setCenter(centerPos);
+  }, [map, center.lat, center.lng]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!map || !zoom) return;
+    map.setZoom(zoom);
+  }, [map, zoom]);
 
   useNaverMapEvent(map, 'bounds_changed', onBoundsChanged);
   useNaverMapEvent(map, 'zoom_changed', onZoomChanged);

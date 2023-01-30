@@ -1,4 +1,5 @@
-import { Map } from '@/lib/navermap';
+import { NegocioMap } from '@/components/templates';
+import { useMapLayout } from '@/hooks/services';
 import type { ReactNode } from 'react';
 
 type Props = {
@@ -6,18 +7,18 @@ type Props = {
 };
 
 export default function MapLayout({ children }: Props) {
+  const { minZoom, maxZoom, initialZoom, initialCenter, onCreate } =
+    useMapLayout();
+
   return (
-    <div className="relative h-full w-full overflow-hidden">
-      <div className="absolute top-0 left-0 z-0 h-full w-full">
-        <Map
-          center={{
-            lat: 37.3945005,
-            lng: 127.1109415,
-          }}
-          zoom={17}
-        />
-      </div>
+    <NegocioMap
+      center={initialCenter}
+      zoom={initialZoom}
+      minZoom={minZoom}
+      maxZoom={maxZoom}
+      onCreate={onCreate}
+    >
       {children}
-    </div>
+    </NegocioMap>
   );
 }

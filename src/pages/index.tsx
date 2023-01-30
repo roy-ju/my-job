@@ -1,15 +1,38 @@
+import { Panel } from '@/components/atoms';
+import { Home } from '@/components/templates';
+import { useRouter } from '@/hooks/utils';
 import { MapLayout } from '@/layouts';
-import Link from 'next/link';
+import { useCallback } from 'react';
 import { NextPageWithLayout } from './_app';
 
-const Home: NextPageWithLayout = () => (
-  <div className="absolute z-10 h-full w-[375px] bg-white">
-    <Link href="/listings">listings</Link>
-  </div>
-);
+const HomePage: NextPageWithLayout = () => {
+  const router = useRouter();
 
-Home.getLayout = function getLayout(page) {
+  const onClickMyPage = useCallback(() => {
+    router.navigate('/my');
+  }, [router]);
+
+  const onClickListingDetail = useCallback(() => {
+    router.navigate('/listings/1');
+  }, [router]);
+
+  const onClickListings = useCallback(() => {
+    router.navigate({ pathname: '/listings', query: { listOpen: true } });
+  }, [router]);
+
+  return (
+    <Panel>
+      <Home
+        onClickListingDetail={onClickListingDetail}
+        onClickMyPage={onClickMyPage}
+        onClickListings={onClickListings}
+      />
+    </Panel>
+  );
+};
+
+HomePage.getLayout = function getLayout(page) {
   return <MapLayout>{page}</MapLayout>;
 };
 
-export default Home;
+export default HomePage;

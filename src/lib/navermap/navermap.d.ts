@@ -821,6 +821,8 @@ declare namespace naver.maps {
 
     getZoom(): number;
 
+    autoResize(): void;
+
     morph(
       coord: Coord | CoordLiteral,
       zoom?: number,

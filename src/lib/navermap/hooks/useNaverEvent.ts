@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
+import { NaverMap } from '../types';
 
 export default function useNaverMapEvent(
-  target: naver.maps.Map | undefined,
+  target: NaverMap | undefined,
   eventName: string,
-  callback?: (t: naver.maps.Map, ...args: any[]) => void,
+  callback?: (t: NaverMap, ...args: any[]) => void,
 ) {
   useEffect(() => {
     if (!naver.maps) {
