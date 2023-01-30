@@ -7,6 +7,14 @@ export default function useRouter() {
   const push = useCallback(
     (pathname: string, queryParams?: NodeJS.Dict<string | number>) => {
       if (router.asPath.includes(pathname)) {
+        router.replace({
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            ...queryParams,
+          },
+        });
+
         return;
       }
 
