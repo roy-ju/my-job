@@ -19,7 +19,11 @@ export default function Router({ route, query, depth }: Props) {
     }
     case 'listingDetail': {
       return (
-        <ListingDetail depth={depth} listingID={Number(query.listingID)} />
+        <ListingDetail
+          key={query.listingID as string}
+          depth={depth}
+          listingID={Number(query.listingID)}
+        />
       );
     }
     case 'chatRoom': {

@@ -3,14 +3,19 @@ import { atom, useRecoilValue } from 'recoil';
 import { v1 } from 'uuid';
 
 type MapState = {
-  m?: NaverMap;
+  m: NaverMap | null;
 };
 
 export const mapState = atom<MapState>({
   key: `negocio_map/${v1()}`,
+  default: {
+    m: null,
+  },
   dangerouslyAllowMutability: true,
 });
 
 export default function useMap() {
-  return useRecoilValue(mapState).m;
+  const { m } = useRecoilValue(mapState);
+
+  return m;
 }
