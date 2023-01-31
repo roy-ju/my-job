@@ -1,24 +1,9 @@
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
 
-function LoadingPanel() {
-  return <div>loading...</div>;
-}
-
-const Listings = dynamic(() => import('@/components/pages/Listings'), {
-  loading: () => <LoadingPanel />,
-});
-
-const ListingDetail = dynamic(
-  () => import('@/components/pages/ListingDetail'),
-  {
-    loading: () => <LoadingPanel />,
-  },
-);
-
-const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'), {
-  loading: () => <LoadingPanel />,
-});
+const Listings = dynamic(() => import('@/components/pages/Listings'));
+const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail'));
+const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'));
 
 type Props = {
   route: string;
