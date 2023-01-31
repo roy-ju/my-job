@@ -7,8 +7,15 @@ type Props = {
 };
 
 export default function MapLayout({ children }: Props) {
-  const { minZoom, maxZoom, initialZoom, initialCenter, onCreate, onClick } =
-    useMapLayout();
+  const {
+    minZoom,
+    maxZoom,
+    initialZoom,
+    initialCenter,
+    onCreate,
+    onClick,
+    onIdle,
+  } = useMapLayout();
 
   return (
     <NegocioMap
@@ -18,6 +25,7 @@ export default function MapLayout({ children }: Props) {
       maxZoom={maxZoom}
       onCreate={onCreate}
       onClick={onClick}
+      onIdle={onIdle}
     >
       {children}
     </NegocioMap>

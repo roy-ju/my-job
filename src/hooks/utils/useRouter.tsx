@@ -136,9 +136,30 @@ export default function useRouter() {
     [router],
   );
 
+  const shallowReplace = useCallback(
+    (queryParams: NodeJS.Dict<string | number>) => {
+      router.replace(
+        {
+          pathname: '',
+          query: {
+            ...queryParams,
+          },
+        },
+        undefined,
+        {
+          shallow: true,
+        },
+      );
+    },
+    [router],
+  );
+
   return {
     push,
     pop,
     replace,
+    shallowReplace,
+    query: router.query,
+    isReady: router.isReady,
   };
 }
