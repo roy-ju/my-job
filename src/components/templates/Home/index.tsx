@@ -2,12 +2,14 @@ type Props = {
   onClickMyPage: () => void;
   onClickListingDetail: () => void;
   onClickListings: () => void;
+  onClickDanjiDetail: () => void;
 };
 
 export default function Home({
   onClickMyPage,
   onClickListingDetail,
   onClickListings,
+  onClickDanjiDetail,
 }: Props) {
   return (
     <div>
@@ -33,6 +35,13 @@ export default function Home({
           onClick={onClickListings}
         >
           매물목록으로 이동
+        </button>
+        <button
+          className="rounded-lg bg-blue-500 py-2 px-4 text-center text-white hover:bg-blue-700"
+          type="button"
+          onClick={onClickDanjiDetail}
+        >
+          단지상세로 이동
         </button>
       </div>
     </div>

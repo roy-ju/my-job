@@ -28,7 +28,9 @@
     "react/require-default-props": "off",
     "no-nested-ternary": "off",
     "no-undef": "off",
-    "array-callback-return": "off"
+    "array-callback-return": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "no-param-reassign": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }

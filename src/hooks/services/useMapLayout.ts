@@ -31,7 +31,7 @@ export default function useMapLayout() {
   const minZoom = 8;
   const maxZoom = 19;
 
-  const initialZoom = useMemo(() => getMapState((ms) => Number(ms[2]), 10), []);
+  const initialZoom = useMemo(() => getMapState((ms) => Number(ms[2]), 16), []);
 
   const initialCenter = useMemo(
     () =>
@@ -73,6 +73,8 @@ export default function useMapLayout() {
     (_map: NaverMap) => {
       const zoom = _map.getZoom();
       const center = _map.getCenter() as NaverLatLng;
+      // query 파라미터에 현재 지도위치 정보를 넣어서,
+      // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
       const ms = [center.lat(), center.lng(), zoom].join(',');
       router.shallowReplace({
         ...router.query,

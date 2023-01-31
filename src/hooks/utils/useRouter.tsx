@@ -136,6 +136,9 @@ export default function useRouter() {
     [router],
   );
 
+  /**
+   * 쿼리파라미터만 업데이트한다.
+   */
   const shallowReplace = useCallback(
     (queryParams: NodeJS.Dict<string | number>) => {
       router.replace(

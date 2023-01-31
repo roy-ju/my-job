@@ -23,6 +23,10 @@ export default function HomePage({ depth }: Props) {
     router.push('listings');
   }, [router]);
 
+  const onClickDanjiDetail = useCallback(() => {
+    router.push('danjiDetail');
+  }, [router]);
+
   return (
     <>
       <p>{depth}</p>
@@ -30,6 +34,7 @@ export default function HomePage({ depth }: Props) {
         onClickListingDetail={onClickListingDetail}
         onClickMyPage={onClickMyPage}
         onClickListings={onClickListings}
+        onClickDanjiDetail={onClickDanjiDetail}
       />
     </>
   );

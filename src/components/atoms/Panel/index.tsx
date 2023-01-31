@@ -6,7 +6,7 @@ type Props = {
 
 export default function Panel({ children }: Props) {
   return (
-    <div className="panel h-full w-[375px] bg-white p-2 shadow-md">
+    <div className="panel h-full w-[375px] overflow-auto bg-white p-2 shadow-md">
       {children}
     </div>
   );
