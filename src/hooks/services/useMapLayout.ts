@@ -33,6 +33,10 @@ export default function useMapLayout() {
     [setM],
   );
 
+  const onClick = useCallback(() => {
+    router.replace('', 0);
+  }, [router]);
+
   useEffect(() => {
     // 지도 panel 추가되고 생성됨에 따라, 지도 사이즈가 달라지는 케이스 핸들
     map?.autoResize();
@@ -44,5 +48,6 @@ export default function useMapLayout() {
     initialZoom,
     initialCenter,
     onCreate,
+    onClick,
   };
 }

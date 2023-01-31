@@ -16,6 +16,9 @@ export default function ChatRoomPage({ depth }: Props) {
   return (
     <>
       <p>{depth}</p>
+      <button type="button" onClick={() => router.replace('', 0)}>
+        click me
+      </button>
       <ChatRoom onClickGoBack={onClickGoBack} />
     </>
   );

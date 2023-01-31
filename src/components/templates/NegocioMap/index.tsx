@@ -8,6 +8,7 @@ type Props = {
   maxZoom: number;
   children?: ReactNode;
   onCreate: (map: NaverMap) => void;
+  onClick: () => void;
 };
 
 export default function NegocioMap({
@@ -16,6 +17,7 @@ export default function NegocioMap({
   minZoom,
   maxZoom,
   onCreate,
+  onClick,
   children,
 }: Props) {
   return (
@@ -28,6 +30,7 @@ export default function NegocioMap({
           minZoom={minZoom}
           maxZoom={maxZoom}
           onCreate={onCreate}
+          onClick={onClick}
         />
       </div>
     </div>

@@ -10,6 +10,7 @@ export default function useRouter() {
    */
   const push = useCallback(
     (pathname: string, queryParams?: NodeJS.Dict<string | number>) => {
+      // 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트
       if (router.asPath.includes(pathname)) {
         router.replace({
           pathname: router.pathname,
@@ -26,6 +27,16 @@ export default function useRouter() {
         .split('?')[0]
         .split('/')
         .filter((seg) => seg !== '');
+
+      // 최대 3개의 segment 까지만 가능한데, 초과하여 추가하려고 할때는 에러
+      if (segments.length > 2) {
+        // eslint-disable-next-line no-console
+        console.error(
+          'unable to push a new route. the current number of segments is %d',
+          segments.length,
+        );
+        return;
+      }
 
       segments.push(pathname);
 

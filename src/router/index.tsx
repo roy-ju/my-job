@@ -6,9 +6,9 @@ const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail'));
 const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'));
 
 type Props = {
-  route: string;
-  query: ParsedUrlQuery;
-  depth: number;
+  route: string; // url segments 에서 가장 우측에 위치한 segment
+  query: ParsedUrlQuery; // 쿼리 파라미터
+  depth: number; // route segment 의 depth
 };
 
 export default function Router({ route, query, depth }: Props) {

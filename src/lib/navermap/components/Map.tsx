@@ -17,6 +17,7 @@ export type MapProps = {
   onBoundsChanged?: (map: NaverMap, bounds: NaverLatLngBounds) => void;
   onZoomChanged?: (map: NaverMap, zoom: number) => void;
   onIdle?: (map: NaverMap) => void;
+  onClick?: (map: NaverMap) => void;
 };
 
 export default function Map({
@@ -29,6 +30,7 @@ export default function Map({
   onBoundsChanged,
   onZoomChanged,
   onIdle,
+  onClick,
 }: MapProps) {
   const container = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<NaverMap>();
@@ -76,6 +78,7 @@ export default function Map({
   useNaverMapEvent(map, 'bounds_changed', onBoundsChanged);
   useNaverMapEvent(map, 'zoom_changed', onZoomChanged);
   useNaverMapEvent(map, 'idle', onIdle);
+  useNaverMapEvent(map, 'click', onClick);
 
   return (
     <div
