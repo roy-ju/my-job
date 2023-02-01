@@ -5,6 +5,7 @@ import {
 } from '@/pages/_app';
 import { GetServerSideProps } from 'next';
 
+import { MapLayout } from '@/layouts';
 import PrevPage from '@/pages/[1]';
 
 const Page: NextPageWithLayout<PanelBasedPageProps> = () => null;
@@ -14,16 +15,15 @@ Page.getComponent = function getComponent(pageProps) {
 };
 
 Page.getLayout = function getLayout(page, pageProps) {
-  return PrevPage.getLayout?.(
-    <>
+  return (
+    <MapLayout>
       {PrevPage.getComponent?.({
         query: pageProps.query,
         route: pageProps.query['1'],
         depth: 1,
       })}
       {page}
-    </>,
-    pageProps,
+    </MapLayout>
   );
 };
 

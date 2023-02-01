@@ -1,6 +1,6 @@
 import { NegocioMap } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
-import type { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type Props = {
   children?: ReactNode;
@@ -27,7 +27,7 @@ export default function MapLayout({ children }: Props) {
       onClick={onClick}
       onIdle={onIdle}
     >
-      {children}
+      <div className="flex h-full">{children}</div>
     </NegocioMap>
   );
 }

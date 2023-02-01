@@ -4,7 +4,7 @@ import '@/styles/globals.css';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { ParsedUrlQuery } from 'querystring';
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
@@ -12,11 +12,11 @@ export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
   IP
 > & {
   getLayout?: (
-    page: ReactElement,
+    page: ReactNode,
     pageProps: any,
-    prevPage?: ReactElement,
+    prevPage?: ReactNode,
   ) => ReactNode;
-  getComponent?: (pageProps: any) => ReactElement;
+  getComponent?: (pageProps: any) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -40,10 +40,8 @@ export type PanelBasedPageProps = {
 
 export function PanelBasedPage({ depth, route, query }: PanelBasedPageProps) {
   return (
-    <>
-      <Panel>
-        <Router depth={depth} route={route} query={query} />
-      </Panel>
-    </>
+    <Panel>
+      <Router depth={depth} route={route} query={query} />
+    </Panel>
   );
 }

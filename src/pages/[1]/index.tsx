@@ -13,11 +13,7 @@ Page.getComponent = function getComponent(pageProps) {
 };
 
 Page.getLayout = function getLayout(page) {
-  return (
-    <MapLayout>
-      <>{page}</>
-    </MapLayout>
-  );
+  return <MapLayout>{page}</MapLayout>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => ({
