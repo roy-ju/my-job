@@ -28,17 +28,25 @@ export default function useRouter() {
         .split('/')
         .filter((seg) => seg !== '');
 
+      // 예전 룰 더 이상 사용되지 않음.
       // 최대 3개의 segment 까지만 가능한데, 초과하여 추가하려고 할때는 에러
-      if (segments.length > 2) {
-        // eslint-disable-next-line no-console
-        console.error(
-          'unable to push a new route. the current number of segments is %d',
-          segments.length,
-        );
-        return;
-      }
+      // if (segments.length > 2) {
+      //   // eslint-disable-next-line no-console
+      //   console.error(
+      //     'unable to push a new route. the current number of segments is %d',
+      //     segments.length,
+      //   );
+      //   return;
+      // }
+      // segments.push(pathname);
 
-      segments.push(pathname);
+      // 현재의 룰
+      if (segments.length > 1) {
+        segments[0] = segments[1];
+        segments[1] = pathname;
+      } else {
+        segments.push(pathname);
+      }
 
       for (let i = 1; i < 6; i += 1) {
         delete router.query[`${i}`];
@@ -51,7 +59,7 @@ export default function useRouter() {
 
       let path = '/';
 
-      segments.map((value, index) => {
+      segments.forEach((value, index) => {
         path += `[${index + 1}]/`;
         query[index + 1] = value;
       });
@@ -88,7 +96,7 @@ export default function useRouter() {
 
       let path = '/';
 
-      segments.map((value, index) => {
+      segments.forEach((value, index) => {
         path += `[${index + 1}]/`;
         query[index + 1] = value;
       });
@@ -126,7 +134,7 @@ export default function useRouter() {
 
       let path = '/';
 
-      segments.map((value, index) => {
+      segments.forEach((value, index) => {
         path += `[${index + 1}]/`;
         query[index + 1] = value;
       });

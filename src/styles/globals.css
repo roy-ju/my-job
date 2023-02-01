@@ -13,10 +13,3 @@ body,
 #__next {
   height: 100%;
 }
-
-.panel:nth-last-of-type(4) {
-  display: none;
-}
-.panel:nth-last-of-type(5) {
-  display: none;
-}

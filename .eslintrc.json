@@ -30,7 +30,8 @@
     "no-undef": "off",
     "array-callback-return": "off",
     "react/jsx-no-useless-fragment": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "prefer-destructuring": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }
