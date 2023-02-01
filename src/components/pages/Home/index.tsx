@@ -7,24 +7,26 @@ type Props = {
 };
 
 export default function HomePage({ depth }: Props) {
-  const router = useRouter();
+  const router = useRouter(depth);
 
   const onClickMyPage = useCallback(() => {
-    router.push('my');
+    router.replace('my');
   }, [router]);
 
   const onClickListingDetail = useCallback(() => {
-    router.push('listingDetail', {
-      listingID: 1,
+    router.replace('listingDetail', {
+      queryParams: {
+        listingID: 1,
+      },
     });
   }, [router]);
 
   const onClickListings = useCallback(() => {
-    router.push('listings');
+    router.replace('listings');
   }, [router]);
 
   const onClickDanjiDetail = useCallback(() => {
-    router.push('danjiDetail');
+    router.replace('danjiDetail');
   }, [router]);
 
   return (

@@ -9,15 +9,19 @@ type Props = {
 };
 
 export default function ListingDetailPage({ depth, listingID }: Props) {
-  const router = useRouter();
+  const router = useRouter(depth);
   const map = useMap();
 
   const onClickGoBack = useCallback(() => {
-    router.pop(depth - 1);
-  }, [router, depth]);
+    router.pop();
+  }, [router]);
 
   const onClickChatRoom = useCallback(() => {
     router.push('chatRoom');
+  }, [router]);
+
+  const onClickReport = useCallback(() => {
+    router.push('reportListing');
   }, [router]);
 
   useEffect(() => {
@@ -52,11 +56,20 @@ export default function ListingDetailPage({ depth, listingID }: Props) {
   return (
     <>
       <p>{depth}</p>
+      {depth === 2 && (
+        <button
+          className="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
+          type="button"
+          onClick={onClickGoBack}
+        >
+          닫기
+        </button>
+      )}
       <ListingDetail
         depth={depth}
         listingID={listingID}
-        onClickGoBack={onClickGoBack}
         onClickChatRoom={onClickChatRoom}
+        onClickReport={onClickReport}
       />
     </>
   );

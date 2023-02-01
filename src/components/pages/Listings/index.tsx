@@ -7,15 +7,19 @@ type Props = {
 };
 
 export default function ListingsPage({ depth }: Props) {
-  const router = useRouter();
+  const router = useRouter(depth);
 
   const onClickGoBack = useCallback(() => {
-    router.pop(depth - 1);
-  }, [router, depth]);
+    router.pop();
+  }, [router]);
 
   const onClickListingDetail = useCallback(
     (id: number) => {
-      router.push('listingDetail', { listingID: id });
+      router.push('listingDetail', {
+        queryParams: {
+          listingID: id,
+        },
+      });
     },
     [router],
   );
@@ -23,10 +27,16 @@ export default function ListingsPage({ depth }: Props) {
   return (
     <>
       <p>{depth}</p>
-      <Listings
-        onClickGoBack={onClickGoBack}
-        onClickListingDetail={onClickListingDetail}
-      />
+      {depth === 2 && (
+        <button
+          className="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
+          type="button"
+          onClick={onClickGoBack}
+        >
+          닫기
+        </button>
+      )}
+      <Listings onClickListingDetail={onClickListingDetail} />
     </>
   );
 }

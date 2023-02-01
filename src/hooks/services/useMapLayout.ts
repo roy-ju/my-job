@@ -21,7 +21,7 @@ function getMapState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
  * 지도레이아웃 초기화와 이벤트 기능구현을 담당하는 훅
  */
 export default function useMapLayout() {
-  const router = useRouter();
+  const router = useRouter(0);
   const [map, setMap] = useState<NaverMap>();
   const setM = useSetRecoilState(mapState);
 
@@ -63,7 +63,7 @@ export default function useMapLayout() {
    * 단, 오버레이를 클릭했을 때는 이벤트가 발생하지 않는다.
    */
   const onClick = useCallback(() => {
-    router.replace('', 0);
+    router.popAll();
   }, [router]);
 
   /**
@@ -76,7 +76,7 @@ export default function useMapLayout() {
       // query 파라미터에 현재 지도위치 정보를 넣어서,
       // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
       const ms = [center.lat(), center.lng(), zoom].join(',');
-      router.shallowReplace({
+      router.setQueryParams({
         ...router.query,
         ms,
       });

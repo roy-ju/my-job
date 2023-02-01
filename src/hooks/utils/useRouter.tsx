@@ -1,22 +1,28 @@
 import { useRouter as useNextRouter } from 'next/router';
 import { useCallback } from 'react';
 
-export default function useRouter() {
+type NavigationOptions = {
+  queryParams?: NodeJS.Dict<string | number>;
+};
+
+export default function useRouter(depth: number) {
   const router = useNextRouter();
 
   /**
    * 현재 열려있는 패널의 바로 좌측에 새로운 패널을 추가한다.
    * 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트 한다.
+   * 2 depth 에서 (최대 depth) 에서 푸쉬하는 경우
+   * 이전 depth 를 밀어내고 새로운 depth 를 추가한다.
    */
   const push = useCallback(
-    (pathname: string, queryParams?: NodeJS.Dict<string | number>) => {
+    (pathname: string, options?: NavigationOptions) => {
       // 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트
       if (router.asPath.includes(pathname)) {
         router.replace({
           pathname: router.pathname,
           query: {
             ...router.query,
-            ...queryParams,
+            ...options?.queryParams,
           },
         });
 
@@ -28,21 +34,14 @@ export default function useRouter() {
         .split('/')
         .filter((seg) => seg !== '');
 
-      // 예전 룰 더 이상 사용되지 않음.
-      // 최대 3개의 segment 까지만 가능한데, 초과하여 추가하려고 할때는 에러
-      // if (segments.length > 2) {
-      //   // eslint-disable-next-line no-console
-      //   console.error(
-      //     'unable to push a new route. the current number of segments is %d',
-      //     segments.length,
-      //   );
-      //   return;
-      // }
-      // segments.push(pathname);
-
       // 현재의 룰
       if (segments.length > 1) {
-        segments[0] = segments[1];
+        if (segments.length === depth) {
+          segments[0] = segments[1];
+          segments[1] = pathname;
+        } else {
+          segments[1] = pathname;
+        }
         segments[1] = pathname;
       } else {
         segments.push(pathname);
@@ -54,7 +53,7 @@ export default function useRouter() {
 
       const query = {
         ...router.query,
-        ...queryParams,
+        ...options?.queryParams,
       };
 
       let path = '/';
@@ -66,7 +65,7 @@ export default function useRouter() {
 
       router.replace({ pathname: path, query });
     },
-    [router],
+    [router, depth],
   );
 
   /**
@@ -74,17 +73,13 @@ export default function useRouter() {
    * calledDepth 가 있으면 호출된 depth 포함 우측에 열린 모든 패널을 닫는다.
    */
   const pop = useCallback(
-    (to?: number) => {
+    (options?: NavigationOptions) => {
       let segments = router.asPath
         .split('?')[0]
         .split('/')
         .filter((seg) => seg !== '');
 
-      if (to !== undefined) {
-        segments = segments.slice(0, to);
-      } else {
-        segments.pop();
-      }
+      segments = segments.slice(0, depth - 1);
 
       for (let i = 1; i < 6; i += 1) {
         delete router.query[`${i}`];
@@ -92,6 +87,7 @@ export default function useRouter() {
 
       const query = {
         ...router.query,
+        ...options?.queryParams,
       };
 
       let path = '/';
@@ -103,7 +99,7 @@ export default function useRouter() {
 
       router.replace({ pathname: path, query });
     },
-    [router],
+    [router, depth],
   );
 
   /**
@@ -112,17 +108,18 @@ export default function useRouter() {
    * 해당 depth 의 패널을 새로운 패널로 대체한다.
    */
   const replace = useCallback(
-    (pathname: string, to?: number) => {
+    (pathname: string, options?: NavigationOptions) => {
       let segments = router.asPath
         .split('?')[0]
         .split('/')
         .filter((seg) => seg !== '');
 
-      if (to !== undefined) {
-        segments = segments.slice(0, to);
+      segments = segments.slice(0, depth);
+      if (segments.length === 0) {
+        segments.push(pathname);
+      } else {
+        segments[segments.length - 1] = pathname;
       }
-
-      segments[segments.length - 1] = pathname;
 
       for (let i = 1; i < 6; i += 1) {
         delete router.query[`${i}`];
@@ -130,6 +127,7 @@ export default function useRouter() {
 
       const query = {
         ...router.query,
+        ...options?.queryParams,
       };
 
       let path = '/';
@@ -141,13 +139,24 @@ export default function useRouter() {
 
       router.replace({ pathname: path, query });
     },
-    [router],
+    [router, depth],
   );
+
+  /**
+   * 모든 depth 들을 닫는다.
+   */
+  const popAll = useCallback(() => {
+    for (let i = 1; i < 6; i += 1) {
+      delete router.query[`${i}`];
+    }
+
+    router.replace({ pathname: '/', query: { ...router.query } });
+  }, [router]);
 
   /**
    * 쿼리파라미터만 업데이트한다.
    */
-  const shallowReplace = useCallback(
+  const setQueryParams = useCallback(
     (queryParams: NodeJS.Dict<string | number>) => {
       router.replace(
         {
@@ -168,8 +177,9 @@ export default function useRouter() {
   return {
     push,
     pop,
+    popAll,
     replace,
-    shallowReplace,
+    setQueryParams,
     query: router.query,
     isReady: router.isReady,
   };

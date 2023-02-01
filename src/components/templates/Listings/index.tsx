@@ -1,25 +1,14 @@
 import { useState } from 'react';
 
 type Props = {
-  onClickGoBack: () => void;
   onClickListingDetail: (id: number) => void;
 };
 
-export default function Listings({
-  onClickGoBack,
-  onClickListingDetail,
-}: Props) {
+export default function Listings({ onClickListingDetail }: Props) {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      <button
-        className="rounded-lg bg-blue-500 py-1 px-2 text-center text-white hover:bg-blue-700"
-        type="button"
-        onClick={onClickGoBack}
-      >
-        닫기
-      </button>
       <p>매물목록페이지</p>
       <button
         type="button"

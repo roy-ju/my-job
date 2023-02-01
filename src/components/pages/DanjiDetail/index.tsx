@@ -7,25 +7,33 @@ type Props = {
 };
 
 export default function DanjiDetailPage({ depth }: Props) {
-  const router = useRouter();
-  const onClickListingDetail = useCallback(() => {
-    router.push('listingDetail', {
-      listingID: 1,
-    });
-  }, [router]);
+  const router = useRouter(depth);
 
   const onClickGoBack = useCallback(() => {
-    router.pop(depth - 1);
-  }, [router, depth]);
+    router.pop();
+  }, [router]);
+
+  const onClickListingDetail = useCallback(() => {
+    router.push('listingDetail', {
+      queryParams: {
+        listingID: 1,
+      },
+    });
+  }, [router]);
 
   return (
     <>
       <p>{depth}</p>
-      <DanjiDetail
-        depth={depth}
-        onClickListingDetail={onClickListingDetail}
-        onClickGoBack={onClickGoBack}
-      />
+      {depth === 2 && (
+        <button
+          className="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
+          type="button"
+          onClick={onClickGoBack}
+        >
+          닫기
+        </button>
+      )}
+      <DanjiDetail depth={depth} onClickListingDetail={onClickListingDetail} />
     </>
   );
 }
