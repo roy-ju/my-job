@@ -5,6 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from '../utils';
 
+const USER_LAST_LOCATION = 'user_last_location';
+
 function getMapState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
   if (typeof window !== 'undefined') {
     const searchParams = new URLSearchParams(window.location.search);
@@ -17,6 +19,20 @@ function getMapState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
 
   return defaultValue;
 }
+
+function getUserLastLocation(): { lat: number; lng: number } {
+  if (typeof localStorage !== 'undefined') {
+    const raw = localStorage.getItem(USER_LAST_LOCATION);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.lat && parsed.lng) {
+        return { lat: parsed.lat, lng: parsed.lng };
+      }
+    }
+  }
+  return { lat: 37.3945005, lng: 127.1109415 };
+}
+
 /**
  * 지도레이아웃 초기화와 이벤트 기능구현을 담당하는 훅
  */
@@ -40,7 +56,7 @@ export default function useMapLayout() {
           lat: Number(ms[0]),
           lng: Number(ms[1]),
         }),
-        { lat: 37.3945005, lng: 127.1109415 },
+        getUserLastLocation(),
       ),
     [],
   );
@@ -54,6 +70,20 @@ export default function useMapLayout() {
       setM({
         m,
       });
+      // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
+      const mapStateExists = getMapState(() => true, false);
+      if (
+        !mapStateExists &&
+        typeof navigator !== 'undefined' &&
+        typeof localStorage !== 'undefined'
+      ) {
+        navigator.geolocation.getCurrentPosition(({ coords }) => {
+          // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
+          const latlng = { lat: coords.latitude, lng: coords.longitude };
+          localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+          m.morph(latlng, 16);
+        });
+      }
     },
     [setM],
   );
