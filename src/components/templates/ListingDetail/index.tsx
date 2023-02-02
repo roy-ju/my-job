@@ -1,15 +1,12 @@
-import { Shared } from '@/components/atoms';
 import { useState } from 'react';
 
 type Props = {
-  depth: number;
   listingID: number;
   onClickChatRoom: () => void;
   onClickReport: () => void;
 };
 
 export default function ListingDetail({
-  depth,
   listingID,
   onClickChatRoom,
   onClickReport,
@@ -42,10 +39,6 @@ export default function ListingDetail({
       >
         {count}
       </button>
-      <Shared componentKey="shared1" depth={depth}>
-        <p>공통정보</p>
-      </Shared>
-      <p>고유정보</p>
     </div>
   );
 }

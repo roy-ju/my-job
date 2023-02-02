@@ -13,6 +13,8 @@ export default function useRouter(depth: number) {
    * 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트 한다.
    * 2 depth 에서 (최대 depth) 에서 푸쉬하는 경우
    * 이전 depth 를 밀어내고 새로운 depth 를 추가한다.
+   * 2 depth 가 열려 있는 상태에서 1 depth 가 새로운 depth 푸쉬하려고 할때는
+   * 기존에 있느 2 depth 를 그 새로운 depth 로 대체한다.
    */
   const push = useCallback(
     (pathname: string, options?: NavigationOptions) => {
@@ -69,8 +71,7 @@ export default function useRouter(depth: number) {
   );
 
   /**
-   * calledDepth 가 없으면 현재 가장 우측에 열려있는 패널을 닫는다
-   * calledDepth 가 있으면 호출된 depth 포함 우측에 열린 모든 패널을 닫는다.
+   * 현재 depth 기준으로 호출된 depth 포함 오른쪽에 열려있는 모든 depth 들을 닫는다.
    */
   const pop = useCallback(
     (options?: NavigationOptions) => {
@@ -103,9 +104,7 @@ export default function useRouter(depth: number) {
   );
 
   /**
-   * 가장 우측에 열린 패널을 새로운 패널로 대채한다.
-   * depth 가 설정되어있으면, 해당 depth 우측에 있는 모든 패널을 닫고
-   * 해당 depth 의 패널을 새로운 패널로 대체한다.
+   * 오른쪽에 열려있는 모든 depth 들을 닫고 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replace = useCallback(
     (pathname: string, options?: NavigationOptions) => {
@@ -181,6 +180,7 @@ export default function useRouter(depth: number) {
     replace,
     setQueryParams,
     query: router.query,
+    asPath: router.asPath,
     isReady: router.isReady,
   };
 }

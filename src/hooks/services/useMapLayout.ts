@@ -7,17 +7,38 @@ import { useSetRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter } from '../utils';
 
 const USER_LAST_LOCATION = 'user_last_location';
-const DEFAULT_LAT = 37.3945005;
+const DEFAULT_LAT = 37.3945005; // 판교역
 const DEFAULT_LNG = 127.1109415;
-const DEFAULT_ZOOM = 16;
+const DEFAULT_ZOOM = 16; // 100m
+const DEFAULT_MIN_ZOOM = 8; // 30km
+const DEFAULT_MAX_ZOOM = 19; // 20m
+
+/**
+ * 현재 지도 위치정보를 쿼리파라미터에 저장한다.
+ */
+function setMapState(map: NaverMap) {
+  const zoom = map.getZoom();
+  const center = map.getCenter() as NaverLatLng;
+
+  const ms = [center.lat(), center.lng(), zoom].join(',');
+  if (typeof window !== 'undefined') {
+    // 보통의 경우라면 router 를 사용해서 쿼리파라미터를 업데이트 하겠지만,
+    // 지도 쿼리파라미터 업데이트 같은 경우에는 컴포넌트의 리렌더링이 불필요 함으로,
+    // History API 를 사용해서 직접 업데이트 한다.
+    const url = new URL(window.location.toString());
+    url.searchParams.set('ms', ms);
+    window.history.replaceState(window.history.state, '', url);
+  }
+}
 
 /**
  * ms 쿼리파라미터를 가지고 온다. 가지고 올 수 없으면 지정한 default 값을 반환한다.
  */
 function getMapState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
   if (typeof window !== 'undefined') {
+    // setMapState 에서 History API 를 사용해서 쿼리파라미터를 업데이트 했으므로,
+    // router.query 로 가지고올수 없다. location.search 로 직접가져와서 파싱한다.
     const searchParams = new URLSearchParams(window.location.search);
-
     if (typeof searchParams.get('ms') === 'string') {
       const ms = (searchParams.get('ms') as string).split(',');
       return ms.length > 2 ? cb(ms) : defaultValue;
@@ -55,9 +76,6 @@ export default function useMapLayout() {
   /**
    * 지도의 초기값들을 설정한다.
    */
-  const minZoom = 8;
-  const maxZoom = 19;
-
   const initialZoom = useMemo(
     () => getMapState((ms) => Number(ms[2]), DEFAULT_ZOOM),
     [],
@@ -104,7 +122,7 @@ export default function useMapLayout() {
 
   /**
    * 사용자가 지도에서 마우스 왼쪽 버튼을 클릭하면 이벤트가 발생한다.
-   * 단, 오버레이를 클릭했을 때는 이벤트가 발생하지 않는다.
+   * 단, 오버레이(지도마커)를 클릭했을 때는 이벤트가 발생하지 않는다.
    */
   const onClick = useCallback(() => {
     router.popAll();
@@ -117,16 +135,9 @@ export default function useMapLayout() {
     () =>
       _.debounce(
         (_map: NaverMap) => {
-          const zoom = _map.getZoom();
-          const center = _map.getCenter() as NaverLatLng;
           // query 파라미터에 현재 지도위치 정보를 넣어서,
           // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-          const ms = [center.lat(), center.lng(), zoom].join(',');
-          if (typeof window !== 'undefined') {
-            const url = new URL(window.location.toString());
-            url.searchParams.set('ms', ms);
-            window.history.replaceState({}, '', url);
-          }
+          setMapState(_map);
         },
         300,
         { leading: true, trailing: true },
@@ -140,8 +151,8 @@ export default function useMapLayout() {
   }, [router, map]);
 
   return {
-    minZoom,
-    maxZoom,
+    minZoom: DEFAULT_MIN_ZOOM,
+    maxZoom: DEFAULT_MAX_ZOOM,
     initialZoom,
     initialCenter,
     onCreate,

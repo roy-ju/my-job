@@ -1,5 +1,6 @@
 import { Home } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import { loginWithKakao } from '@/lib/kakao';
 import { memo, useCallback } from 'react';
 
 type Props = {
@@ -9,11 +10,11 @@ type Props = {
 export default memo(({ depth }: Props) => {
   const router = useRouter(depth);
 
-  const onClickMyPage = useCallback(() => {
+  const handleClickMyPage = useCallback(() => {
     router.replace('my');
   }, [router]);
 
-  const onClickListingDetail = useCallback(() => {
+  const handleClickListingDetail = useCallback(() => {
     router.replace('listingDetail', {
       queryParams: {
         listingID: 1,
@@ -21,22 +22,27 @@ export default memo(({ depth }: Props) => {
     });
   }, [router]);
 
-  const onClickListings = useCallback(() => {
+  const handleClickListings = useCallback(() => {
     router.replace('listings');
   }, [router]);
 
-  const onClickDanjiDetail = useCallback(() => {
+  const handleClickDanjiDetail = useCallback(() => {
     router.replace('danjiDetail');
+  }, [router]);
+
+  const handleClickLoginWithKakao = useCallback(() => {
+    loginWithKakao(router.asPath);
   }, [router]);
 
   return (
     <>
       <p>{depth}</p>
       <Home
-        onClickListingDetail={onClickListingDetail}
-        onClickMyPage={onClickMyPage}
-        onClickListings={onClickListings}
-        onClickDanjiDetail={onClickDanjiDetail}
+        onClickListingDetail={handleClickListingDetail}
+        onClickMyPage={handleClickMyPage}
+        onClickListings={handleClickListings}
+        onClickDanjiDetail={handleClickDanjiDetail}
+        onClickLoginWithKakao={handleClickLoginWithKakao}
       />
     </>
   );

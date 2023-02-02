@@ -12,15 +12,15 @@ export default memo(({ depth, listingID }: Props) => {
   const router = useRouter(depth);
   const map = useMap();
 
-  const onClickGoBack = useCallback(() => {
+  const handleClickGoBack = useCallback(() => {
     router.pop();
   }, [router]);
 
-  const onClickChatRoom = useCallback(() => {
+  const handleClickChatRoom = useCallback(() => {
     router.push('chatRoom');
   }, [router]);
 
-  const onClickReport = useCallback(() => {
+  const handleClickReport = useCallback(() => {
     router.push('reportListing');
   }, [router]);
 
@@ -60,16 +60,15 @@ export default memo(({ depth, listingID }: Props) => {
         <button
           className="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
           type="button"
-          onClick={onClickGoBack}
+          onClick={handleClickGoBack}
         >
           닫기
         </button>
       )}
       <ListingDetail
-        depth={depth}
         listingID={listingID}
-        onClickChatRoom={onClickChatRoom}
-        onClickReport={onClickReport}
+        onClickChatRoom={handleClickChatRoom}
+        onClickReport={handleClickReport}
       />
     </>
   );
