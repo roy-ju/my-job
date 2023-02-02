@@ -1,14 +1,14 @@
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import useMap from '@/states/map';
-import { useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 
 type Props = {
   depth: number;
   listingID: number;
 };
 
-export default function ListingDetailPage({ depth, listingID }: Props) {
+export default memo(({ depth, listingID }: Props) => {
   const router = useRouter(depth);
   const map = useMap();
 
@@ -73,4 +73,4 @@ export default function ListingDetailPage({ depth, listingID }: Props) {
       />
     </>
   );
-}
+});

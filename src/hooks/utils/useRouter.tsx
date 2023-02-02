@@ -150,7 +150,7 @@ export default function useRouter(depth: number) {
       delete router.query[`${i}`];
     }
 
-    router.replace({ pathname: '/', query: { ...router.query } });
+    router.replace({ pathname: '/' });
   }, [router]);
 
   /**

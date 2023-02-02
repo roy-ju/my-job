@@ -1,11 +1,11 @@
 import { useRouter } from '@/hooks/utils';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 type Props = {
   depth: number;
 };
 
-export default function ReportListing({ depth }: Props) {
+export default memo(({ depth }: Props) => {
   const router = useRouter(depth);
 
   const onClickGoBack = useCallback(() => {
@@ -25,4 +25,4 @@ export default function ReportListing({ depth }: Props) {
       <p>신고하기</p>
     </>
   );
-}
+});

@@ -1,12 +1,12 @@
 import { ChatRoom } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 type Props = {
   depth: number;
 };
 
-export default function ChatRoomPage({ depth }: Props) {
+export default memo(({ depth }: Props) => {
   const router = useRouter(depth);
 
   const onClickGoBack = useCallback(() => {
@@ -28,4 +28,4 @@ export default function ChatRoomPage({ depth }: Props) {
       <ChatRoom />
     </>
   );
-}
+});

@@ -4,7 +4,7 @@ import '@/styles/globals.css';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { ParsedUrlQuery } from 'querystring';
-import type { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<

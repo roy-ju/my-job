@@ -112,20 +112,18 @@ export default function useMapLayout() {
   /**
    * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
    */
-  const onIdle = useCallback(
-    (_map: NaverMap) => {
-      const zoom = _map.getZoom();
-      const center = _map.getCenter() as NaverLatLng;
-      // query 파라미터에 현재 지도위치 정보를 넣어서,
-      // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-      const ms = [center.lat(), center.lng(), zoom].join(',');
-      router.setQueryParams({
-        ...router.query,
-        ms,
-      });
-    },
-    [router],
-  );
+  const onIdle = useCallback((_map: NaverMap) => {
+    const zoom = _map.getZoom();
+    const center = _map.getCenter() as NaverLatLng;
+    // query 파라미터에 현재 지도위치 정보를 넣어서,
+    // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
+    const ms = [center.lat(), center.lng(), zoom].join(',');
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.toString());
+      url.searchParams.set('ms', ms);
+      window.history.replaceState({}, '', url);
+    }
+  }, []);
 
   useEffect(() => {
     // 지도 panel 추가되고 생성됨에 따라, 지도 사이즈가 달라지는 케이스 핸들

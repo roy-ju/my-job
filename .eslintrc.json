@@ -31,7 +31,8 @@
     "array-callback-return": "off",
     "react/jsx-no-useless-fragment": "off",
     "no-param-reassign": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "react/display-name": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }

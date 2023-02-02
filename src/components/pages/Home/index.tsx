@@ -1,12 +1,12 @@
 import { Home } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 type Props = {
   depth: number;
 };
 
-export default function HomePage({ depth }: Props) {
+export default memo(({ depth }: Props) => {
   const router = useRouter(depth);
 
   const onClickMyPage = useCallback(() => {
@@ -40,4 +40,4 @@ export default function HomePage({ depth }: Props) {
       />
     </>
   );
-}
+});
