@@ -15,3 +15,9 @@ Default.args = {
   panels: <Panel width="375px" />,
   map: null,
 };
+
+Default.parameters = {
+  controls: {
+    exclude: ['panels', 'map'],
+  },
+};
