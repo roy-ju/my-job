@@ -7,9 +7,7 @@ type Props = {
 
 export default function Panel({ width, children }: Props) {
   return (
-    <div
-      className={`h-full w-[${width}] overflow-y-auto border-r border-red-400`}
-    >
+    <div className={`h-full w-[${width}] overflow-y-auto bg-white`}>
       {children}
     </div>
   );
