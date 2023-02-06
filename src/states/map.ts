@@ -2,20 +2,13 @@ import { NaverMap } from '@/lib/navermap';
 import { atom, useRecoilValue } from 'recoil';
 import { v1 } from 'uuid';
 
-type MapState = {
-  m: NaverMap | null;
-};
-
-export const mapState = atom<MapState>({
+export const mapState = atom<NaverMap | null>({
   key: `negocio_map/${v1()}`,
-  default: {
-    m: null,
-  },
+  default: null,
   dangerouslyAllowMutability: true,
 });
 
 export default function useMap() {
-  const { m } = useRecoilValue(mapState);
-
-  return m;
+  const map = useRecoilValue(mapState);
+  return map;
 }

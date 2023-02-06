@@ -1,11 +1,8 @@
-import { Shared } from '@/components/atoms';
-
 type Props = {
-  depth: number;
   onClickListingDetail: () => void;
 };
 
-export default function DanjiDetail({ depth, onClickListingDetail }: Props) {
+export default function DanjiDetail({ onClickListingDetail }: Props) {
   return (
     <div>
       <p>단지상세</p>
@@ -18,10 +15,6 @@ export default function DanjiDetail({ depth, onClickListingDetail }: Props) {
           메물상세로 이동 id 1
         </button>
       </div>
-      <Shared componentKey="shared1" depth={depth}>
-        <p>공통정보</p>
-      </Shared>
-      <p>고유정보</p>
     </div>
   );
 }

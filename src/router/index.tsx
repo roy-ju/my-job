@@ -12,7 +12,6 @@ type Props = {
   query: ParsedUrlQuery; // 쿼리 파라미터
   depth: number; // route segment 의 depth
 };
-
 export default function Router({ route, query, depth }: Props) {
   switch (route) {
     case 'listings': {

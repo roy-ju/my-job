@@ -1,5 +1,5 @@
 import { Map, NaverMap } from '@/lib/navermap';
-import type { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type Props = {
   center: { lat: number; lng: number };
@@ -25,7 +25,7 @@ export default function NegocioMap({
   return (
     <div className="flex h-full w-full flex-row overflow-hidden">
       {children}
-      <div className="h-full flex-1">
+      <div id="map-container" className="flex-1">
         <Map
           center={center}
           zoom={zoom}

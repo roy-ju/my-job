@@ -2,9 +2,9 @@ import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { mapState } from '@/states/map';
 import _ from 'lodash';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { useIsomorphicLayoutEffect, useRouter } from '../utils';
+import { useRouter } from '../utils';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -70,8 +70,7 @@ function getUserLastLocation(): { lat: number; lng: number } {
  */
 export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
-  const [map, setMap] = useState<NaverMap>();
-  const setM = useSetRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+  const setMap = useSetRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   /**
    * 지도의 초기값들을 설정한다.
@@ -98,10 +97,10 @@ export default function useMapLayout() {
    */
   const onCreate = useCallback(
     (m: NaverMap) => {
+      if (typeof window !== 'undefined') {
+        window.NaverMap = m;
+      }
       setMap(m);
-      setM({
-        m,
-      });
       // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
       const mapStateExists = getMapState(() => true, false);
       if (
@@ -117,7 +116,7 @@ export default function useMapLayout() {
         });
       }
     },
-    [setM],
+    [setMap],
   );
 
   /**
@@ -145,10 +144,27 @@ export default function useMapLayout() {
     [],
   );
 
-  useIsomorphicLayoutEffect(() => {
-    // 지도 panel 추가되고 생성됨에 따라, 지도 사이즈가 달라지는 케이스 핸들
-    map?.autoResize();
-  }, [router, map]);
+  /**
+   * depth 가 열리고 닫힘에 따라, 지도 사이즈가 재조정이 필요할때 호출된다.
+   * route 의 변화에 따라서 지도를 resize 해도 되지만, 그렇게 되면
+   * 뻑뻑하게 reisze 돼서, resizeObserver 로 매 프레임마다 resize 를 해준다.
+   */
+  useEffect(() => {
+    const mapElement = document.getElementById('map-container');
+    const resizeObserver = new ResizeObserver(() => {
+      if (typeof window !== 'undefined') {
+        window.NaverMap?.autoResize();
+      }
+    });
+
+    if (mapElement) {
+      resizeObserver.observe(mapElement);
+      return () => {
+        resizeObserver.unobserve(mapElement);
+      };
+    }
+    return () => {};
+  }, []);
 
   return {
     minZoom: DEFAULT_MIN_ZOOM,

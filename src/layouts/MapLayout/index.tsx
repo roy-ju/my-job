@@ -1,5 +1,6 @@
 import { NegocioMap } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
+import { AnimatePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -27,7 +28,7 @@ export default function MapLayout({ children }: Props) {
       onClick={onClick}
       onIdle={onIdle}
     >
-      <div className="flex h-full">{children}</div>
+      <AnimatePresence initial={false}>{children}</AnimatePresence>
     </NegocioMap>
   );
 }

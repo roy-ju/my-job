@@ -1976,3 +1976,7 @@ declare namespace naver.maps {
     function fromPointToCoord(point: Point): Point;
   }
 }
+
+declare interface Window {
+  NaverMap?: naver.maps.Map;
+}

@@ -3,8 +3,9 @@ export function isKakaoSDKLoaded() {
 }
 
 export function initializeKakaoSDK() {
-  if (isKakaoSDKLoaded()) {
-    Kakao.init('be0771795b03472e82b6e48281084c04');
+  const jsKey = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+  if (isKakaoSDKLoaded() && jsKey) {
+    Kakao.init(jsKey);
   }
 }
 

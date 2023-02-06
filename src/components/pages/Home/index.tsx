@@ -36,7 +36,6 @@ export default memo(({ depth }: Props) => {
 
   return (
     <>
-      <p>{depth}</p>
       <Home
         onClickListingDetail={handleClickListingDetail}
         onClickMyPage={handleClickMyPage}

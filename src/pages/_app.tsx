@@ -1,4 +1,4 @@
-import { Panel } from '@/components/atoms';
+import { AnimatedPanel } from '@/components/molecules';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import Router from '@/router';
 import '@/styles/globals.css';
@@ -31,12 +31,14 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <>
+      {/* 카카오 SDK CDN Script */}
       <Script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
         integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
         crossOrigin="anonymous"
         onLoad={initializeKakaoSDK}
       />
+      {/* Root Component */}
       <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
     </>
   );
@@ -50,8 +52,8 @@ export type PanelBasedPageProps = {
 
 export function PanelBasedPage({ depth, route, query }: PanelBasedPageProps) {
   return (
-    <Panel>
+    <AnimatedPanel width="375px" animationDuration={0.3}>
       <Router depth={depth} route={route} query={query} />
-    </Panel>
+    </AnimatedPanel>
   );
 }

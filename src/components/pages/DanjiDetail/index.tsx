@@ -23,7 +23,6 @@ export default memo(({ depth }: Props) => {
 
   return (
     <>
-      <p>{depth}</p>
       {depth === 2 && (
         <button
           className="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
@@ -33,7 +32,7 @@ export default memo(({ depth }: Props) => {
           닫기
         </button>
       )}
-      <DanjiDetail depth={depth} onClickListingDetail={onClickListingDetail} />
+      <DanjiDetail onClickListingDetail={onClickListingDetail} />
     </>
   );
 });
