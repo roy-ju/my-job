@@ -1,4 +1,5 @@
 /* eslint-disable react/no-danger */
+import { initializeKakaoSDK } from '@/lib/kakao';
 import { extractCritical } from '@emotion/server';
 import Document, {
   DocumentContext,
@@ -43,12 +44,12 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
             data-emotion-css={this.props?.ids?.join(' ')}
             dangerouslySetInnerHTML={{ __html: this.props.css }}
           />
-          {/* 
-          네이버 지도 CDN. 
-          beforeInteractive(Load the script before any Next.js code and before any page hydration occurs.) 
-          를 사용하기 위해서 _document.tsx 에 위치한다. 
-          beforeInteractive 없이 하면 ReferenceError: naver is not defined 가 처음 렌더링때 뜬다.
-        */}
+          <Script
+            src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+            integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
+            crossOrigin="anonymous"
+            onLoad={initializeKakaoSDK}
+          />
           <Script
             strategy="beforeInteractive"
             src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder`}

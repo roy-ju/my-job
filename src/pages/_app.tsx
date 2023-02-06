@@ -1,12 +1,10 @@
 import { AnimatedPanel } from '@/components/molecules';
-import { initializeKakaoSDK } from '@/lib/kakao';
 import Router from '@/router';
 import globals from '@/styles/globals';
 import { cache } from '@emotion/css';
 import { CacheProvider, Global } from '@emotion/react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import Script from 'next/script';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
@@ -33,21 +31,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getComponent = Component.getComponent ?? ((p) => <Component {...p} />);
 
   return (
-    <>
-      {/* 카카오 SDK CDN Script */}
-      <Script
-        src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
-        crossOrigin="anonymous"
-        onLoad={initializeKakaoSDK}
-      />
-      <CacheProvider value={cache}>
-        <BaseStyles />
-        <Global styles={globals} />
-        {/* Root Component */}
-        <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
-      </CacheProvider>
-    </>
+    <CacheProvider value={cache}>
+      <BaseStyles />
+      <Global styles={globals} />
+      {/* Root Component */}
+      <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
+    </CacheProvider>
   );
 }
 
