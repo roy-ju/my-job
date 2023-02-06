@@ -14,9 +14,3 @@ Default.args = {
   width: '375px',
   animationDuration: 0.5,
 };
-
-Default.parameters = {
-  controls: {
-    exclude: ['width', 'onAnimationComplete'],
-  },
-};

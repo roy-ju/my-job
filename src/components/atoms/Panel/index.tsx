@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import tw from 'twin.macro';
 
 type Props = {
   width: string;
@@ -7,7 +8,14 @@ type Props = {
 
 export default function Panel({ width, children }: Props) {
   return (
-    <div className={`h-full w-[${width}] overflow-y-auto bg-white`}>
+    <div
+      css={[
+        tw`h-full overflow-y-auto bg-white`,
+        {
+          width,
+        },
+      ]}
+    >
       {children}
     </div>
   );

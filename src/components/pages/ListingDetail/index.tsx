@@ -57,7 +57,7 @@ export default memo(({ depth, listingID }: Props) => {
     <>
       {depth === 2 && (
         <button
-          className="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
+          tw="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
           type="button"
           onClick={handleClickGoBack}
         >

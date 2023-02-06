@@ -1,7 +1,9 @@
 import { AnimatedPanel } from '@/components/molecules';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import Router from '@/router';
-import '@/styles/globals.css';
+import GlobalStyles from '@/styles/GlobalStyles';
+import { cache } from '@emotion/css';
+import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
@@ -38,8 +40,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         crossOrigin="anonymous"
         onLoad={initializeKakaoSDK}
       />
-      {/* Root Component */}
-      <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
+      <CacheProvider value={cache}>
+        <GlobalStyles />
+        {/* Root Component */}
+        <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
+      </CacheProvider>
     </>
   );
 }

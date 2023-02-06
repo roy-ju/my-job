@@ -7,9 +7,9 @@ type Props = {
 
 export default function NegocioMap({ map, panels }: Props) {
   return (
-    <div className="flex h-full w-full flex-row overflow-hidden">
+    <div tw="flex h-full w-full flex-row overflow-hidden">
       {panels}
-      <div id="map-container" className="flex-1">
+      <div id="map-container" tw="flex-1">
         {map}
       </div>
     </div>

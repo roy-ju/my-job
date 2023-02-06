@@ -13,9 +13,3 @@ export const Default: ComponentStory<typeof Panel> = (args) => (
 Default.args = {
   width: '375px',
 };
-
-Default.parameters = {
-  controls: {
-    exclude: ['width'],
-  },
-};

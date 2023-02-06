@@ -82,11 +82,7 @@ export default memo(
     useNaverMapEvent(map, 'click', onClick);
 
     return (
-      <div
-        className="h-full w-full"
-        id={id || 'negocio-naver-map'}
-        ref={container}
-      />
+      <div tw="h-full w-full" id={id || 'negocio-naver-map'} ref={container} />
     );
   },
 );

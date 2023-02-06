@@ -1,13 +1,13 @@
-import '../src/styles/globals.css';
+import React from 'react';
+
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import GlobalStyles from '../src/styles/GlobalStyles';
+
+const cache = createCache({ prepend: true, key: 'twin' });
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
   backgrounds: {
     default: 'dark',
     values: [
@@ -21,4 +21,14 @@ export const parameters = {
       },
     ],
   },
+  controls: { expanded: true },
 };
+
+export const decorators = [
+  (Story) => (
+    <CacheProvider value={cache}>
+      <GlobalStyles />
+      <Story />
+    </CacheProvider>
+  ),
+];
