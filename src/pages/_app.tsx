@@ -1,15 +1,16 @@
 import { AnimatedPanel } from '@/components/molecules';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import Router from '@/router';
-import GlobalStyles from '@/styles/GlobalStyles';
+import globals from '@/styles/globals';
 import { cache } from '@emotion/css';
-import { CacheProvider } from '@emotion/react';
+import { CacheProvider, Global } from '@emotion/react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
+import { GlobalStyles as BaseStyles } from 'twin.macro';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
   P,
@@ -41,7 +42,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         onLoad={initializeKakaoSDK}
       />
       <CacheProvider value={cache}>
-        <GlobalStyles />
+        <BaseStyles />
+        <Global styles={globals} />
         {/* Root Component */}
         <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
       </CacheProvider>

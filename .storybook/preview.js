@@ -1,8 +1,7 @@
-import React from 'react';
-
+import globals from '@/styles/globals';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import GlobalStyles from '../src/styles/GlobalStyles';
+import { CacheProvider, Global } from '@emotion/react';
+import { GlobalStyles } from 'twin.macro';
 
 const cache = createCache({ prepend: true, key: 'twin' });
 
@@ -28,6 +27,7 @@ export const decorators = [
   (Story) => (
     <CacheProvider value={cache}>
       <GlobalStyles />
+      <Global styles={globals} />
       <Story />
     </CacheProvider>
   ),
