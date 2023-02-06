@@ -1,5 +1,6 @@
-import { NegocioMap } from '@/components/templates';
+import { MapLayout as Layout } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
+import { Map } from '@/lib/navermap';
 import { AnimatePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 
@@ -19,16 +20,19 @@ export default function MapLayout({ children }: Props) {
   } = useMapLayout();
 
   return (
-    <NegocioMap
-      center={initialCenter}
-      zoom={initialZoom}
-      minZoom={minZoom}
-      maxZoom={maxZoom}
-      onCreate={onCreate}
-      onClick={onClick}
-      onIdle={onIdle}
-    >
-      <AnimatePresence initial={false}>{children}</AnimatePresence>
-    </NegocioMap>
+    <Layout
+      panels={<AnimatePresence initial={false}>{children}</AnimatePresence>}
+      map={
+        <Map
+          center={initialCenter}
+          zoom={initialZoom}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
+          onCreate={onCreate}
+          onClick={onClick}
+          onIdle={onIdle}
+        />
+      }
+    />
   );
 }

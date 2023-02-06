@@ -52,7 +52,7 @@ export type PanelBasedPageProps = {
 
 export function PanelBasedPage({ depth, route, query }: PanelBasedPageProps) {
   return (
-    <AnimatedPanel width="375px" animationDuration={0}>
+    <AnimatedPanel width="375px" animationDuration={0.3}>
       <Router depth={depth} route={route} query={query} />
     </AnimatedPanel>
   );
