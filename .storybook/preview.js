@@ -12,11 +12,11 @@ export const parameters = {
     values: [
       {
         name: 'white',
-        value: '#fffff',
+        value: '#fff',
       },
       {
         name: 'dark',
-        value: '#1e293b',
+        value: '#444',
       },
     ],
   },

@@ -5,9 +5,11 @@ import { memo, useCallback } from 'react';
 
 type Props = {
   depth: number;
+  panelWidth?: string;
+  panelAnimationDuration?: number;
 };
 
-export default memo(({ depth }: Props) => {
+export default memo(({ panelAnimationDuration, panelWidth, depth }: Props) => {
   const router = useRouter(depth);
 
   const handleClose = useCallback(() => {
@@ -26,7 +28,12 @@ export default memo(({ depth }: Props) => {
   );
 
   return (
-    <ClosablePanel closable={depth === 2} onClickClose={handleClose}>
+    <ClosablePanel
+      width={panelWidth}
+      animationDuration={panelAnimationDuration}
+      closable={depth === 2}
+      onClickClose={handleClose}
+    >
       <Listings onClickListingDetail={handleClickListingDetail} />
     </ClosablePanel>
   );

@@ -16,5 +16,6 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "tailwindcss.jsxPropImportChecking": false
 }

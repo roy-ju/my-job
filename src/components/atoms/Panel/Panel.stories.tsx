@@ -12,4 +12,5 @@ export const Default: ComponentStory<typeof Panel> = (args) => (
 
 Default.args = {
   width: '375px',
+  animationDuration: 0.3,
 };

@@ -22,14 +22,13 @@ export default function Panel({
         type: 'tween',
         duration: animationDuration,
       }}
-      style={{
-        height: '100%',
-        overflowX: 'hidden',
-        background: 'white',
-      }}
+      tw="h-full overflow-x-hidden bg-white shadow-2xl"
     >
       <div
-        css={[tw`overflow-x-hidden overflow-y-auto w-full h-full`, { width }]}
+        css={[
+          tw`overflow-x-hidden overflow-y-auto w-full h-full p-2`,
+          { width },
+        ]}
       >
         {children}
       </div>
