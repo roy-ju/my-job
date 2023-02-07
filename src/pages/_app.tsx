@@ -34,7 +34,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <CacheProvider value={cache}>
       <BaseStyles />
       <Global styles={globals} />
-      {/* Root Component */}
       <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
     </CacheProvider>
   );
