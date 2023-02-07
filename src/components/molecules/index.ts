@@ -1,1 +1,1 @@
-export { default as AnimatedPanel } from './AnimatedPanel';
+export { default as ClosablePanel } from './ClosablePanel';

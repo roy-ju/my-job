@@ -1,15 +1,12 @@
 import { MapLayout } from '@/layouts';
-import {
-  NextPageWithLayout,
-  PanelBasedPage,
-  PanelBasedPageProps,
-} from '@/pages/_app';
+import { NextPageWithLayout } from '@/pages/_app';
+import Router from '@/router';
 import { GetServerSideProps } from 'next';
 
-const Page: NextPageWithLayout<PanelBasedPageProps> = () => null;
+const Page: NextPageWithLayout = () => null;
 
 Page.getComponent = function getComponent(pageProps) {
-  return <PanelBasedPage key={pageProps.route} {...pageProps} />;
+  return <Router key={pageProps.route} {...pageProps} />;
 };
 
 Page.getLayout = function getLayout(page) {

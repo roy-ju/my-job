@@ -1,3 +1,4 @@
+import { ClosablePanel } from '@/components/molecules';
 import { Listings } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import { memo, useCallback } from 'react';
@@ -9,11 +10,11 @@ type Props = {
 export default memo(({ depth }: Props) => {
   const router = useRouter(depth);
 
-  const onClickGoBack = useCallback(() => {
+  const handleClose = useCallback(() => {
     router.pop();
   }, [router]);
 
-  const onClickListingDetail = useCallback(
+  const handleClickListingDetail = useCallback(
     (id: number) => {
       router.push('listingDetail', {
         queryParams: {
@@ -25,17 +26,8 @@ export default memo(({ depth }: Props) => {
   );
 
   return (
-    <>
-      {depth === 2 && (
-        <button
-          tw="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
-          type="button"
-          onClick={onClickGoBack}
-        >
-          닫기
-        </button>
-      )}
-      <Listings onClickListingDetail={onClickListingDetail} />
-    </>
+    <ClosablePanel closable={depth === 2} onClickClose={handleClose}>
+      <Listings onClickListingDetail={handleClickListingDetail} />
+    </ClosablePanel>
   );
 });

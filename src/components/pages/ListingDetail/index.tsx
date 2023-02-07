@@ -1,3 +1,4 @@
+import { ClosablePanel } from '@/components/molecules';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import useMap from '@/states/map';
@@ -12,7 +13,7 @@ export default memo(({ depth, listingID }: Props) => {
   const router = useRouter(depth);
   const map = useMap();
 
-  const handleClickGoBack = useCallback(() => {
+  const handleClickClose = useCallback(() => {
     router.pop();
   }, [router]);
 
@@ -54,21 +55,12 @@ export default memo(({ depth, listingID }: Props) => {
   }, [listingID, map]);
 
   return (
-    <>
-      {depth === 2 && (
-        <button
-          tw="absolute top-[10px] left-[750px] z-[200] bg-gray-800 p-2 text-white"
-          type="button"
-          onClick={handleClickGoBack}
-        >
-          닫기
-        </button>
-      )}
+    <ClosablePanel closable={depth === 2} onClickClose={handleClickClose}>
       <ListingDetail
         listingID={listingID}
         onClickChatRoom={handleClickChatRoom}
         onClickReport={handleClickReport}
       />
-    </>
+    </ClosablePanel>
   );
 });
