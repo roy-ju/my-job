@@ -93,7 +93,7 @@ export default function useMapLayout() {
   );
 
   /**
-   * 맵 생성시 호출된다.
+   * 맵 생성시 호출된다. map.isReady === false
    */
   const onCreate = useCallback(
     (m: NaverMap) => {
@@ -101,23 +101,29 @@ export default function useMapLayout() {
         window.NaverMap = m;
       }
       setMap(m);
-      // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
-      const mapStateExists = getMapState(() => true, false);
-      if (
-        !mapStateExists &&
-        typeof navigator !== 'undefined' &&
-        typeof localStorage !== 'undefined'
-      ) {
-        navigator.geolocation.getCurrentPosition(({ coords }) => {
-          // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
-          const latlng = { lat: coords.latitude, lng: coords.longitude };
-          localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-          m.morph(latlng, DEFAULT_ZOOM);
-        });
-      }
     },
     [setMap],
   );
+
+  /**
+   * 맵이 초기화 될때 호출된다. map.isReady === true
+   */
+  const onInit = useCallback((m: NaverMap) => {
+    // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
+    const mapStateExists = getMapState(() => true, false);
+    if (
+      !mapStateExists &&
+      typeof navigator !== 'undefined' &&
+      typeof localStorage !== 'undefined'
+    ) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
+        const latlng = { lat: coords.latitude, lng: coords.longitude };
+        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+        m.morph(latlng, DEFAULT_ZOOM);
+      });
+    }
+  }, []);
 
   /**
    * 사용자가 지도에서 마우스 왼쪽 버튼을 클릭하면 이벤트가 발생한다.
@@ -171,6 +177,7 @@ export default function useMapLayout() {
     maxZoom: DEFAULT_MAX_ZOOM,
     initialZoom,
     initialCenter,
+    onInit,
     onCreate,
     onClick,
     onIdle,

@@ -1,5 +1,5 @@
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import { createContext, memo, useRef, useState } from 'react';
+import { createContext, memo, ReactNode, useRef, useState } from 'react';
 import useNaverMapEvent from '../hooks/useNaverEvent';
 import { NaverLatLngBounds, NaverMap } from '../types';
 
@@ -13,11 +13,13 @@ export type MapProps = {
   zoom: number;
   minZoom?: number;
   maxZoom?: number;
+  onInit?: (map: NaverMap) => void;
   onCreate?: (map: NaverMap) => void;
   onBoundsChanged?: (map: NaverMap, bounds: NaverLatLngBounds) => void;
   onZoomChanged?: (map: NaverMap, zoom: number) => void;
   onIdle?: (map: NaverMap) => void;
   onClick?: (map: NaverMap) => void;
+  children?: ReactNode;
 };
 
 export default memo(
@@ -27,11 +29,13 @@ export default memo(
     zoom,
     minZoom,
     maxZoom,
+    onInit,
     onCreate,
     onBoundsChanged,
     onZoomChanged,
     onIdle,
     onClick,
+    children,
   }: MapProps) => {
     const container = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<NaverMap>();
@@ -80,9 +84,21 @@ export default memo(
     useNaverMapEvent(map, 'zoom_changed', onZoomChanged);
     useNaverMapEvent(map, 'idle', onIdle);
     useNaverMapEvent(map, 'click', onClick);
+    useNaverMapEvent(map, 'init', onInit);
 
     return (
-      <div tw="h-full w-full" id={id || 'negocio-naver-map'} ref={container} />
+      <>
+        <div
+          tw="h-full w-full"
+          id={id || 'negocio-naver-map'}
+          ref={container}
+        />
+        {map && (
+          <NaverMapContext.Provider value={map}>
+            {children}
+          </NaverMapContext.Provider>
+        )}
+      </>
     );
   },
 );

@@ -791,6 +791,8 @@ declare namespace naver.maps {
 
     mapSystemProjection: any;
 
+    isReady: boolean;
+
     constructor(mapDiv: string | HTMLElement, mapOptions?: MapOptions);
 
     addPane(name: string, elementOrIndex: HTMLElement | number): void;
@@ -1184,6 +1186,8 @@ declare namespace naver.maps {
   }
   // Overlay
   class OverlayView extends KVO {
+    position?: naver.maps.LatLng;
+
     draw(): void;
 
     getContainerTopLeft(): Point;

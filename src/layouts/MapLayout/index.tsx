@@ -8,31 +8,37 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function MapLayout({ children }: Props) {
+function MapWrapper() {
   const {
     minZoom,
     maxZoom,
     initialZoom,
     initialCenter,
+    onInit,
     onCreate,
     onClick,
     onIdle,
   } = useMapLayout();
 
   return (
+    <Map
+      center={initialCenter}
+      zoom={initialZoom}
+      minZoom={minZoom}
+      maxZoom={maxZoom}
+      onInit={onInit}
+      onCreate={onCreate}
+      onClick={onClick}
+      onIdle={onIdle}
+    />
+  );
+}
+
+export default function MapLayout({ children }: Props) {
+  return (
     <Layout
       panels={<AnimatePresence initial={false}>{children}</AnimatePresence>}
-      map={
-        <Map
-          center={initialCenter}
-          zoom={initialZoom}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          onCreate={onCreate}
-          onClick={onClick}
-          onIdle={onIdle}
-        />
-      }
+      map={<MapWrapper />}
     />
   );
 }
