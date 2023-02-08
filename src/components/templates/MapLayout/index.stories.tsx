@@ -13,6 +13,7 @@ export const PanelClosed: ComponentStory<typeof MapLayout> = (args) => (
     <MapLayout.Map />
   </MapLayout>
 );
+PanelClosed.storyName = '0 뎁스';
 
 export const PanelOpened: ComponentStory<typeof MapLayout> = (args) => (
   <MapLayout {...args}>
@@ -22,6 +23,7 @@ export const PanelOpened: ComponentStory<typeof MapLayout> = (args) => (
     <MapLayout.Map />
   </MapLayout>
 );
+PanelOpened.storyName = '1 뎁스';
 
 export const TwoPanelsOpened: ComponentStory<typeof MapLayout> = (args) => (
   <MapLayout {...args}>
@@ -32,3 +34,4 @@ export const TwoPanelsOpened: ComponentStory<typeof MapLayout> = (args) => (
     <MapLayout.Map />
   </MapLayout>
 );
+TwoPanelsOpened.storyName = '2 뎁스';
