@@ -1,4 +1,4 @@
-import { Panel } from '@/components/atoms';
+import { ClosablePanel } from '@/components/molecules';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import MapLayout from '.';
 
@@ -7,18 +7,28 @@ export default {
   component: MapLayout,
 } as ComponentMeta<typeof MapLayout>;
 
-export const PanelOpen: ComponentStory<typeof MapLayout> = (args) => (
+export const PanelClosed: ComponentStory<typeof MapLayout> = (args) => (
+  <MapLayout {...args}>
+    <MapLayout.Panels />
+    <MapLayout.Map />
+  </MapLayout>
+);
+
+export const PanelOpened: ComponentStory<typeof MapLayout> = (args) => (
   <MapLayout {...args}>
     <MapLayout.Panels>
-      <Panel />
+      <ClosablePanel closable={false} />
     </MapLayout.Panels>
     <MapLayout.Map />
   </MapLayout>
 );
 
-export const PanelClosed: ComponentStory<typeof MapLayout> = (args) => (
+export const TwoPanelsOpened: ComponentStory<typeof MapLayout> = (args) => (
   <MapLayout {...args}>
-    <MapLayout.Panels />
+    <MapLayout.Panels>
+      <ClosablePanel closable={false} />
+      <ClosablePanel closable />
+    </MapLayout.Panels>
     <MapLayout.Map />
   </MapLayout>
 );
