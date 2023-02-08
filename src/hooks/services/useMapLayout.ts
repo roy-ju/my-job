@@ -175,8 +175,8 @@ export default function useMapLayout() {
   return {
     minZoom: DEFAULT_MIN_ZOOM,
     maxZoom: DEFAULT_MAX_ZOOM,
-    initialZoom,
-    initialCenter,
+    zoom: initialZoom,
+    center: initialCenter,
     onInit,
     onCreate,
     onClick,

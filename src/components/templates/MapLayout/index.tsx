@@ -1,17 +1,30 @@
 import { ReactNode } from 'react';
 
-type Props = {
-  map: ReactNode;
-  panels: ReactNode;
-};
+type PropsWithChildren = { children?: ReactNode };
 
-export default function NegocioMap({ map, panels }: Props) {
+function LayoutMain({ children }: PropsWithChildren) {
+  return <div tw="flex h-full w-full flex-row overflow-hidden">{children}</div>;
+}
+
+function LayoutPanels({ children }: PropsWithChildren) {
+  return <div tw="flex flex-row z-20">{children}</div>;
+}
+
+function LayoutMap({ children }: PropsWithChildren) {
   return (
-    <div tw="flex h-full w-full flex-row overflow-hidden">
-      <div tw="flex flex-row z-20">{panels}</div>
-      <div id="map-container" tw="flex-1 z-10">
-        {map}
-      </div>
+    <div id="map-container" tw="relative flex-1 z-10">
+      <button
+        type="button"
+        tw="absolute bg-amber-700 p-2 top-0 right-0 z-[1000]"
+      >
+        CLICK
+      </button>
+      {children}
     </div>
   );
 }
+
+export default Object.assign(LayoutMain, {
+  Panels: LayoutPanels,
+  Map: LayoutMap,
+});

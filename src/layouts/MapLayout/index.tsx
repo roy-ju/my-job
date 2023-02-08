@@ -9,36 +9,22 @@ type Props = {
 };
 
 function MapWrapper() {
-  const {
-    minZoom,
-    maxZoom,
-    initialZoom,
-    initialCenter,
-    onInit,
-    onCreate,
-    onClick,
-    onIdle,
-  } = useMapLayout();
+  const props = useMapLayout();
 
   return (
-    <Map
-      center={initialCenter}
-      zoom={initialZoom}
-      minZoom={minZoom}
-      maxZoom={maxZoom}
-      onInit={onInit}
-      onCreate={onCreate}
-      onClick={onClick}
-      onIdle={onIdle}
-    />
+    <Layout.Map>
+      <Map {...props} />
+    </Layout.Map>
   );
 }
 
 export default function MapLayout({ children }: Props) {
   return (
-    <Layout
-      panels={<AnimatePresence initial={false}>{children}</AnimatePresence>}
-      map={<MapWrapper />}
-    />
+    <Layout>
+      <Layout.Panels>
+        <AnimatePresence initial={false}>{children}</AnimatePresence>
+      </Layout.Panels>
+      <MapWrapper />
+    </Layout>
   );
 }

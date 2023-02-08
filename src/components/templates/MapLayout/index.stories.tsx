@@ -1,23 +1,24 @@
 import { Panel } from '@/components/atoms';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-import MapLayout from './index';
+import MapLayout from '.';
 
 export default {
   title: 'templates/MapLayout',
   component: MapLayout,
 } as ComponentMeta<typeof MapLayout>;
 
-export const Default: ComponentStory<typeof MapLayout> = (args) => (
-  <MapLayout {...args} />
+export const PanelOpen: ComponentStory<typeof MapLayout> = (args) => (
+  <MapLayout {...args}>
+    <MapLayout.Panels>
+      <Panel />
+    </MapLayout.Panels>
+    <MapLayout.Map />
+  </MapLayout>
 );
 
-Default.args = {
-  panels: <Panel width="375px" />,
-  map: null,
-};
-
-Default.parameters = {
-  controls: {
-    exclude: ['panels', 'map'],
-  },
-};
+export const PanelClosed: ComponentStory<typeof MapLayout> = (args) => (
+  <MapLayout {...args}>
+    <MapLayout.Panels />
+    <MapLayout.Map />
+  </MapLayout>
+);
