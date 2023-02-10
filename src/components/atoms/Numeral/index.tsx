@@ -6,6 +6,8 @@ type Props = {
   koreanNumber?: boolean;
   minimumFractionDigits?: number;
   maximumFractionDigits?: number;
+  falsy?: string;
+  suffix?: string;
   children?: number | string;
 } & React.HTMLAttributes<HTMLSpanElement>;
 
@@ -15,6 +17,8 @@ export default React.memo(
     koreanNumber = false,
     minimumFractionDigits = 0,
     maximumFractionDigits = 2,
+    falsy,
+    suffix = '',
     children,
     ...spanProps
   }: Props) => {
@@ -29,14 +33,17 @@ export default React.memo(
     );
 
     const renderChildren = () => {
-      const childrenType = typeof children;
-      if (childrenType === 'string' || childrenType === 'number') {
-        if (koreanNumber) {
-          return formatNumberInKorean(Number(children), formatFn);
-        }
-        return formatFn(Number(children));
+      const numeral = Number(children);
+      if (falsy !== undefined && !numeral) {
+        return falsy;
       }
-      return '';
+      if (!Number.isNaN(numeral)) {
+        const formatted = koreanNumber
+          ? formatNumberInKorean(numeral, formatFn)
+          : formatFn(numeral);
+        return `${formatted}${suffix}`;
+      }
+      return numeral;
     };
 
     return <span {...spanProps}>{renderChildren()}</span>;
