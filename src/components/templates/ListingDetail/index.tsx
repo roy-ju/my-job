@@ -1,3 +1,4 @@
+import { Numeral } from '@/components/atoms';
 import { useState } from 'react';
 
 type Props = {
@@ -16,6 +17,9 @@ export default function ListingDetail({
   return (
     <div>
       <p tw="mb-4">매물상세페이지{listingID}</p>
+      <Numeral tw="text-amber-300">123456</Numeral>
+      <br />
+      <br />
       <button
         tw="rounded-lg bg-blue-500 py-2 px-4 text-white hover:bg-blue-700"
         type="button"

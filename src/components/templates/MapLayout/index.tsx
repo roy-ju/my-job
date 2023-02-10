@@ -10,7 +10,7 @@ function LayoutPanels({ children }: PropsWithChildren) {
   return <div tw="flex flex-row z-20">{children}</div>;
 }
 
-function LayoutMap({ children }: PropsWithChildren) {
+function LayoutMapContainer({ children }: PropsWithChildren) {
   return (
     <div id="map-container" tw="relative flex-1 z-10">
       <button
@@ -26,5 +26,5 @@ function LayoutMap({ children }: PropsWithChildren) {
 
 export default Object.assign(LayoutMain, {
   Panels: LayoutPanels,
-  Map: LayoutMap,
+  MapContainer: LayoutMapContainer,
 });

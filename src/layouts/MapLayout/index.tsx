@@ -12,9 +12,9 @@ function MapWrapper() {
   const props = useMapLayout();
 
   return (
-    <Layout.Map>
+    <Layout.MapContainer>
       <Map {...props} />
-    </Layout.Map>
+    </Layout.MapContainer>
   );
 }
 
