@@ -8,11 +8,11 @@ const cache = createCache({ prepend: true, key: 'twin' });
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   backgrounds: {
-    default: 'white',
+    default: 'light',
     values: [
       {
-        name: 'white',
-        value: '#fff',
+        name: 'light',
+        value: '#F4F6FA',
       },
       {
         name: 'dark',
