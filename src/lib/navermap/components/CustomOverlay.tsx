@@ -32,6 +32,7 @@ export default function CustomOverlay({ position, children }: Props) {
     const container = containerRef.current;
 
     container.style.width = 'fit-content';
+    container.style.zIndex = '10';
 
     overlayView.onAdd = () => {
       const { overlayLayer } = overlayView.getPanes();
