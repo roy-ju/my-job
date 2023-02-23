@@ -72,6 +72,7 @@ module.exports = {
           1000: '#212529',
         },
         nego: {
+          DEFAULT: '#7048E8',
           100: '#F3F0FF',
           200: '#E5DBFF',
           300: '#D0BFFF',
