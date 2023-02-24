@@ -1,7 +1,7 @@
 name: Test Build
 on:
-  push:
-    branches: [test]
+  # push:
+  #   branches: [test]
 env:
   AWS_REGION: ap-northeast-2
   ECR_REGISTRY: 430360552021.dkr.ecr.ap-northeast-2.amazonaws.com
