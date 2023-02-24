@@ -12,7 +12,6 @@ module.exports = {
         h1: [
           '1.5rem',
           {
-            lineHeight: '1.5rem',
             lineHeight: '2.125rem',
             letterSpacing: '-0.25px',
           },
@@ -20,7 +19,6 @@ module.exports = {
         h2: [
           '1.25rem',
           {
-            lineHeight: '1.25rem',
             lineHeight: '1.75rem',
             letterSpacing: '-0.25px',
           },
@@ -28,7 +26,6 @@ module.exports = {
         h3: [
           '1.125rem',
           {
-            lineHeight: '1.125rem',
             lineHeight: '1.625rem',
             letterSpacing: '-0.25px',
           },
@@ -36,7 +33,6 @@ module.exports = {
         b1: [
           '1rem',
           {
-            lineHeight: '1rem',
             lineHeight: '1.5rem',
             letterSpacing: '-0.25px',
           },
@@ -44,7 +40,6 @@ module.exports = {
         b2: [
           '0.875rem',
           {
-            lineHeight: '0.875rem',
             lineHeight: '1.375rem',
             letterSpacing: '-0.25px',
           },
@@ -52,7 +47,6 @@ module.exports = {
         info: [
           '0.75rem',
           {
-            lineHeight: '0.75rem',
             lineHeight: '1.25rem',
             letterSpacing: '-0.25px',
           },
