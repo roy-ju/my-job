@@ -1,5 +1,4 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-import { useMemo } from 'react';
 
 import Home from '@/assets/icons/home.svg';
 import MapPin from '@/assets/icons/map_pin.svg';
@@ -13,28 +12,16 @@ export default {
   component: GlobalNavigation,
 } as ComponentMeta<typeof GlobalNavigation>;
 
-export const Default: ComponentStory<typeof GlobalNavigation> = (args) => {
-  const arr = useMemo(
-    () => ['홈', '지도', '나의거래', '문의목록', 'My네고'],
-    [],
-  );
-  const iconArr = useMemo(
-    // eslint-disable-next-line react/jsx-key
-    () => [<Home />, <MapPin />, <Bidding />, <ChatBubble />, <User />],
-    [],
-  );
-  return (
-    <GlobalNavigation {...args}>
-      {arr.map((v, i) => (
-        <GlobalNavigation.TabButton
-          key={v}
-          text={v}
-          idx={i}
-          icon={iconArr[i]}
-        />
-      ))}
-    </GlobalNavigation>
-  );
-};
+export const Default: ComponentStory<typeof GlobalNavigation> = (args) => (
+  <GlobalNavigation {...args}>
+    <GlobalNavigation.TabButton text="홈" idx={0} icon={<Home />} />
+    <GlobalNavigation.TabButton text="지도" idx={1} icon={<MapPin />} />
+    <GlobalNavigation.TabButton text="나의거래" idx={2} icon={<Bidding />} />
+    <GlobalNavigation.TabButton text="문의목록" idx={3} icon={<ChatBubble />} />
+    <GlobalNavigation.TabButton text="My네고" idx={4} icon={<User />} />
+  </GlobalNavigation>
+);
 
-Default.args = {};
+Default.args = {
+  defaultTabIndex: 0,
+};
