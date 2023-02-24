@@ -22,7 +22,7 @@ export default function Panel({
         type: 'tween',
         duration: animationDuration,
       }}
-      tw="h-full overflow-x-hidden bg-white shadow-2xl"
+      tw="h-full overflow-x-hidden bg-white shadow-[-4px_0px_24px_rgba(0,0,0,0.1)]"
     >
       <div
         css={[
