@@ -7,7 +7,6 @@ export function formatNumberInKorean(
   const splitUnit = 10000;
   const splitCount = unitWords.length;
   const resultArray = [];
-
   let resultString = '';
 
   if (inputNumber === 0) {
