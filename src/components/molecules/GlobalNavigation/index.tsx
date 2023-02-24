@@ -3,16 +3,13 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import tw from 'twin.macro';
 import Logo from '@/assets/icons/logo.svg';
 import Menu from '@/assets/icons/menu.svg';
-
-type Props = {
-  children?: ReactNode;
-};
 
 type NavigationContextType = {
   selectedTab: number;
@@ -26,8 +23,16 @@ const defaultOption = {
 
 const NavigationContext = createContext<NavigationContextType>(defaultOption);
 
-function GlobalNavigation({ children }: Props) {
-  const [selectedTab, setSelectedTab] = useState<number>(0);
+function GlobalNavigation({
+  children,
+  onChangeTab,
+  defaultTabIndex = 0,
+}: {
+  children: ReactNode;
+  onChangeTab?: () => void;
+  defaultTabIndex?: number;
+}) {
+  const [selectedTab, setSelectedTab] = useState<number>(defaultTabIndex);
 
   const changeTab = useCallback(
     (value: number) => {
@@ -43,6 +48,11 @@ function GlobalNavigation({ children }: Props) {
     }),
     [selectedTab, changeTab],
   );
+
+  useEffect(() => {
+    if (!onChangeTab) return;
+    onChangeTab();
+  }, [selectedTab, onChangeTab]);
 
   return (
     <NavigationContext.Provider value={providerValue}>
