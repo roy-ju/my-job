@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import MapPin from '@/assets/icons/map_pin.svg';
+
 import type { ReactNode } from 'react';
 import tw from 'twin.macro';
 
@@ -24,9 +26,10 @@ export default function Panel({
       }}
       tw="h-full overflow-x-hidden bg-white shadow-2xl"
     >
+      <MapPin />
       <div
         css={[
-          tw`overflow-x-hidden overflow-y-auto w-full h-full p-2`,
+          tw`w-full h-full p-2 overflow-x-hidden overflow-y-auto`,
           { width },
         ]}
       >
