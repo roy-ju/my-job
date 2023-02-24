@@ -7,6 +7,8 @@ import {
   useState,
 } from 'react';
 import tw from 'twin.macro';
+import Logo from '@/assets/icons/logo.svg';
+import Menu from '@/assets/icons/menu.svg';
 
 type Props = {
   children?: ReactNode;
@@ -44,9 +46,19 @@ function GlobalNavigation({ children }: Props) {
 
   return (
     <NavigationContext.Provider value={providerValue}>
-      <div tw="w-16 h-full bg-white flex flex-col">
-        <div tw="w-full h-[5.25rem] flex flex-col items-center py-5" />
-        {children}
+      <div tw="w-16 h-full min-h-[36rem] bg-white flex flex-col justify-between">
+        <div>
+          <div tw="w-full h-[5.5rem] flex justify-center items-center py-5">
+            <Logo />
+          </div>
+          {children}
+        </div>
+        <button
+          type="button"
+          tw="w-full h-[5.25rem] flex justify-center items-center py-5 mb-5"
+        >
+          <Menu />
+        </button>
       </div>
     </NavigationContext.Provider>
   );
@@ -62,7 +74,15 @@ function useNavigationContext() {
   return context;
 }
 
-function TabButton({ text, idx }: { text: string; idx: number }) {
+function TabButton({
+  text,
+  idx,
+  icon,
+}: {
+  text: string;
+  idx: number;
+  icon: any;
+}) {
   const { selectedTab, changeTab } = useNavigationContext();
 
   function handleTabButton() {
@@ -74,11 +94,14 @@ function TabButton({ text, idx }: { text: string; idx: number }) {
     <button
       type="button"
       css={[
-        tw`w-full h-[5.25rem] flex flex-col items-center py-5`,
+        tw`w-full h-[5.25rem] flex flex-col items-center py-5 gap-2`,
         selectedTab === idx ? tw`bg-nego-100` : tw`bg-white`,
       ]}
       onClick={handleTabButton}
     >
+      <div css={[selectedTab === idx ? tw`text-nego-700` : tw`text-gray-600`]}>
+        {icon}
+      </div>
       <span
         css={[
           tw`text-info`,

@@ -26,7 +26,7 @@ export default function Panel({
     >
       <div
         css={[
-          tw`overflow-x-hidden overflow-y-auto w-full h-full p-2`,
+          tw`w-full h-full p-2 overflow-x-hidden overflow-y-auto`,
           { width },
         ]}
       >
