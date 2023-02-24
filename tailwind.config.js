@@ -14,7 +14,7 @@ module.exports = {
           {
             lineHeight: '1.5rem',
             lineHeight: '2.125rem',
-            letterSpacing: '-0.025em',
+            letterSpacing: '-0.25px',
           },
         ],
         h2: [
@@ -22,7 +22,7 @@ module.exports = {
           {
             lineHeight: '1.25rem',
             lineHeight: '1.75rem',
-            letterSpacing: '-0.025em',
+            letterSpacing: '-0.25px',
           },
         ],
         h3: [
@@ -30,7 +30,7 @@ module.exports = {
           {
             lineHeight: '1.125rem',
             lineHeight: '1.625rem',
-            letterSpacing: '-0.025em',
+            letterSpacing: '-0.25px',
           },
         ],
         b1: [
@@ -38,7 +38,7 @@ module.exports = {
           {
             lineHeight: '1rem',
             lineHeight: '1.5rem',
-            letterSpacing: '-0.025em',
+            letterSpacing: '-0.25px',
           },
         ],
         b2: [
@@ -46,15 +46,15 @@ module.exports = {
           {
             lineHeight: '0.875rem',
             lineHeight: '1.375rem',
-            letterSpacing: '-0.025em',
+            letterSpacing: '-0.25px',
           },
         ],
         info: [
           '0.75rem',
           {
             lineHeight: '0.75rem',
-            lineHeight: '0.8rem',
-            letterSpacing: '-0.025em',
+            lineHeight: '1.25rem',
+            letterSpacing: '-0.25px',
           },
         ],
       },
@@ -83,6 +83,11 @@ module.exports = {
           800: '#7048E8',
           900: '#6741D9',
           1000: '#5F3DC4',
+        },
+        blue: {
+          DEFAULT: '#4C6EF5',
+          700: '#4C6EF5',
+          1000: '#364FC7',
         },
       },
       spacing: {
