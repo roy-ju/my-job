@@ -1,11 +1,10 @@
-import globals from '@/styles/globals';
 import { cache } from '@emotion/css';
-import { CacheProvider, Global } from '@emotion/react';
+import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
-import { GlobalStyles as BaseStyles } from 'twin.macro';
+import GlobalStyles from '@/styles/GlobalStyles';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
   P,
@@ -29,8 +28,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <CacheProvider value={cache}>
-      <BaseStyles />
-      <Global styles={globals} />
+      <GlobalStyles />
       <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
     </CacheProvider>
   );
