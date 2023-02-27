@@ -14,13 +14,17 @@ export const Default: ComponentStory<typeof Button> = (args) => (
 );
 
 Default.args = {
-  theme: 'default',
+  theme: 'primary',
+  size: 'default',
 };
 
 export const Theme = () => (
-  <div tw="flex gap-1">
-    <Button theme="outlined">Outlined Button</Button>
-    <Button theme="ghost">Ghost Button</Button>
+  <div tw="flex gap-2">
+    <Button theme="primary">Primary</Button>
+    <Button theme="secondary">Secondary</Button>
+    <Button theme="gray">Gray</Button>
+    <Button theme="outlined">Outlined</Button>
+    <Button theme="ghost">Ghost</Button>
   </div>
 );
 
@@ -29,7 +33,7 @@ export const IconButton = () => (
     <Button theme="outlined">
       <User />
     </Button>
-    <Button theme="default">
+    <Button theme="primary">
       <User />
     </Button>
     <Button theme="ghost">
@@ -40,14 +44,48 @@ export const IconButton = () => (
 
 export const Size = () => (
   <div tw="flex gap-1">
-    <Button size="small">Small Button</Button>
-    <Button size="big">Big Button</Button>
+    <Button size="small">Small</Button>
+    <Button size="medium">Medium</Button>
+    <Button size="big">Big</Button>
   </div>
 );
 
 export const DisabledButton = () => (
   <div tw="flex gap-1">
-    <Button disabled>Disabled Button</Button>
+    <Button disabled>Disabled</Button>
+    <Button theme="secondary" disabled>
+      Disabled
+    </Button>
+    <Button theme="gray" disabled>
+      Disabled
+    </Button>
+    <Button theme="outlined" disabled>
+      Disabled
+    </Button>
+  </div>
+);
+
+export const LoadingButton = () => (
+  <div tw="flex gap-1">
+    <Button size="small" isLoading />
+    <Button size="medium" isLoading theme="secondary" />
+    <Button size="big" isLoading theme="gray" />
+    <Button isLoading theme="outlined" />
+  </div>
+);
+
+export const SelectedButton = () => (
+  <div tw="flex gap-1">
+    <Button isSelected>primary</Button>
+    <Button isSelected theme="secondary">
+      secondary
+    </Button>
+    <Button isSelected theme="gray">
+      gray
+    </Button>
+    <Button isSelected theme="outlined">
+      outlined
+    </Button>
   </div>
 );
 
