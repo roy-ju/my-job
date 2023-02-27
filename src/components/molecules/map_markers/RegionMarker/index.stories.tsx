@@ -35,5 +35,5 @@ export const DongHoga: ComponentStory<typeof RegionMarker> = (args) => (
 DongHoga.storyName = '동/호가';
 DongHoga.args = {
   name: '논현동',
-  variant: 'blue',
+  variant: 'nego',
 };
