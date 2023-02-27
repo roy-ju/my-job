@@ -21,6 +21,7 @@ export const Default: ComponentStory<typeof Numeral> = (args) => (
 Default.args = {
   thousandsSeparated: true,
   koreanNumber: false,
+  koreanNumberShort: false,
   minimumFractionDigits: 0,
   maximumFractionDigits: 2,
   children: 1234,

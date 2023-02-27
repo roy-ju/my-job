@@ -7,7 +7,8 @@ import { formatNumberInKorean } from '@/utils/strings';
 
 type Props = {
   thousandsSeparated?: boolean; // 1000 => 1,000
-  koreanNumber?: boolean; // 3500000 => 3억 5000만
+  koreanNumber?: boolean; // 350000000 => 3억 5000만
+  koreanNumberShort?: boolean; // 350000000 => 3.5억
   minimumFractionDigits?: number; // 1.2 => 1.20
   maximumFractionDigits?: number; // 1.234 => 1.23
   falsy?: string; // 0이나 숫자가 아닌값을 표현
@@ -19,6 +20,7 @@ export default React.memo(
   ({
     thousandsSeparated = true,
     koreanNumber = false,
+    koreanNumberShort = false,
     minimumFractionDigits = 0,
     maximumFractionDigits = 2,
     falsy,
@@ -42,9 +44,15 @@ export default React.memo(
         return falsy;
       }
       if (!Number.isNaN(numeral)) {
-        const formatted = koreanNumber
-          ? formatNumberInKorean(numeral, formatFn)
-          : formatFn(numeral);
+        let formatted = '';
+        if (koreanNumber) {
+          formatted = formatNumberInKorean(numeral, { formatFn });
+        } else if (koreanNumberShort) {
+          formatted = formatNumberInKorean(numeral, { formatFn, short: true });
+        } else {
+          formatted = formatFn(numeral);
+        }
+
         return `${formatted}${suffix}`;
       }
       return numeral;
