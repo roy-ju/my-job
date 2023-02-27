@@ -1,16 +1,15 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-
-import { CheckBox } from '.';
+import { Checkbox } from '.';
 
 export default {
   title: 'atoms/CheckBox',
-  component: CheckBox,
-} as ComponentMeta<typeof CheckBox>;
+  component: Checkbox,
+} as ComponentMeta<typeof Checkbox>;
 
-export const Default: ComponentStory<typeof CheckBox> = () => (
-  <CheckBox>
+export const Default: ComponentStory<typeof Checkbox> = () => (
+  <Checkbox>
     <span>유형</span>
-  </CheckBox>
+  </Checkbox>
 );
 
 Default.args = {};

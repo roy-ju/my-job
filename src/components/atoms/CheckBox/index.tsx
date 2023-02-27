@@ -6,7 +6,7 @@ type Props = {
   onChange?: () => void;
 };
 
-export function CheckBox({ children, onChange }: Props) {
+export function Checkbox({ children, onChange }: Props) {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
