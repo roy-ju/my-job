@@ -17,6 +17,7 @@ function MapWrapper() {
     <Layout.MapContainer>
       <Map {...props}>
         <CustomOverlay
+          anchor="bottom-left"
           position={{
             lat: 37.3945005,
             lng: 127.1109415,
