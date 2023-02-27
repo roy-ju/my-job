@@ -1,44 +1,65 @@
 import React, { ReactNode } from 'react';
 import tw, { TwStyle } from 'twin.macro';
+import LoadingDot from '@/assets/icons/loading_dot.svg';
 
 type Props = {
   /** 버튼 안의 내용 */
-  children: string | ReactNode;
+  children?: string | ReactNode;
   /** 클릭 했을 때 호출할 함수 */
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   /** 버튼 테마 */
-  theme?: 'default' | 'outlined' | 'ghost';
+  theme?: 'primary' | 'outlined' | 'ghost' | 'secondary' | 'gray';
   /** 버튼 사이즈 */
-  size?: 'small' | 'big' | 'fit';
+  size?: 'default' | 'small' | 'big' | 'medium';
   /** 버튼 비활성화 */
   disabled?: boolean;
   /** 커스텀 스타일 */
   custom?: TwStyle;
+  /** 로딩 여부 */
+  isLoading?: boolean;
+  /** 선택되었는지 여부 */
+  isSelected?: boolean;
 };
 
-const defaultStyle = tw`w-fit rounded-[0.5rem]`;
+const defaultStyle = tw`w-fit h-fit rounded-[0.5rem]`;
 
 const themes = {
-  default: tw`text-white bg-nego-800 disabled:bg-gray-200`,
-  outlined: tw`bg-white border-gray-300 border-[1px] text-gray-1000`,
+  primary: tw`text-white bg-gray-1000 hover:bg-gray-800 disabled:bg-gray-400 disabled:text-white`,
+  secondary: tw`text-white bg-nego-800 hover:bg-nego-600 disabled:bg-nego-300 disabled:text-white`,
+  gray: tw`text-gray-1000 bg-gray-200 hover:bg-gray-400 disabled:bg-gray-200`,
+  outlined: tw`bg-white border-gray-300 border-[1px] text-gray-1000 hover:border-gray-1000 hover:bg-white disabled:text-gray-500 disabled:border-gray-500`,
   ghost: tw``,
 };
 
 const sizes = {
-  small: tw`px-2 h-8 text-b2`,
-  big: tw`px-2 h-14 text-b1`,
-  fit: tw`p-2 w-fit h-fit`,
+  default: tw`px-4 h-[3.5rem]`,
+  small: tw`px-4 h-[2rem] text-info`,
+  medium: tw`px-4 h-[2.5rem]`,
+  big: tw`px-4 h-[3rem]`,
 };
 
 const disabledStyle = tw`text-gray-600`;
 
+function getSelectedStyle(t: string) {
+  switch (t) {
+    case 'gray':
+      return tw`bg-gray-1000 text-white`;
+    case 'outlined':
+      return tw`bg-gray-200 border-gray-1000`;
+    default:
+      return tw``;
+  }
+}
+
 export function Button({
   children,
   onClick,
-  theme = 'default',
-  size = 'fit',
+  theme = 'primary',
+  size = 'default',
   disabled = false,
   custom,
+  isLoading = false,
+  isSelected = false,
 }: Props) {
   return (
     <button
@@ -48,12 +69,27 @@ export function Button({
         themes[theme],
         sizes[size],
         disabled && disabledStyle,
+        isLoading && tw`pointer-events-none`,
+        isSelected && getSelectedStyle(theme),
         custom,
       ]}
       onClick={onClick}
       disabled={disabled}
     >
-      <span>{children}</span>
+      {isLoading && (
+        <div tw="flex gap-2">
+          <div>
+            <LoadingDot />
+          </div>
+          <div tw="opacity-50">
+            <LoadingDot />
+          </div>
+          <div tw="opacity-20">
+            <LoadingDot />
+          </div>
+        </div>
+      )}
+      {!isLoading && <span>{children}</span>}
     </button>
   );
 }
