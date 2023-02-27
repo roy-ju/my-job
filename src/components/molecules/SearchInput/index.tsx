@@ -15,8 +15,12 @@ export function MapSearchInput({ onChange, onClickButton }: Props) {
       placeholder="주소 또는 단지명을 입력하세요"
       onChange={onChange}
     >
-      <Button custom={tw`p-2.5`} onClick={onClickButton}>
-        <Search style={{ width: '1rem' }} />
+      <Button
+        theme="secondary"
+        custom={tw`h-[2.25rem] px-[0.625rem]`}
+        onClick={onClickButton}
+      >
+        <Search />
       </Button>
     </Input>
   );
