@@ -6,7 +6,7 @@ export function formatNumberInKorean(
   },
 ) {
   if (options?.short && number >= 100000000) {
-    return `${number / 100000000} 억`;
+    return `${number / 100000000}억`;
   }
 
   const inputNumber = number < 0 ? 0 : number;
