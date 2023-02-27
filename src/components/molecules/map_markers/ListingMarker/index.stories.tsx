@@ -12,7 +12,7 @@ export const Listing: ComponentStory<typeof ListingMarker> = (args) => (
 
 Listing.storyName = '매물';
 Listing.args = {
-  price: 100000000,
+  price: 3540000000,
   count: 0,
 };
 
@@ -22,6 +22,6 @@ export const ListingWithCount: ComponentStory<typeof ListingMarker> = (
 
 ListingWithCount.storyName = '매물/n개';
 ListingWithCount.args = {
-  price: 100000000,
+  price: 3540000000,
   count: 9,
 };
