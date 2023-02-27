@@ -1,13 +1,22 @@
+import { Numeral } from '@/components/atoms';
 import { Children, ReactNode } from 'react';
 import tw from 'twin.macro';
 import variants, { VariantKey } from '../variants';
 
 function DanjiCount({ count }: { count: number }) {
-  return <p tw="text-info text-inherit">단지 {count}</p>;
+  return (
+    <p tw="text-info text-inherit">
+      단지 <Numeral>{count}</Numeral>
+    </p>
+  );
 }
 
 function ListingCount({ count }: { count: number }) {
-  return <p tw="text-info text-inherit">매물 {count}</p>;
+  return (
+    <p tw="text-info text-inherit">
+      매물 <Numeral>{count}</Numeral>
+    </p>
+  );
 }
 
 function Divider() {
