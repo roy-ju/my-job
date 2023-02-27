@@ -1,7 +1,14 @@
 export function formatNumberInKorean(
   number: number,
-  formatFn?: (num: number) => string,
+  options?: {
+    formatFn?: (num: number) => string;
+    short?: boolean;
+  },
 ) {
+  if (options?.short && number >= 100000000) {
+    return `${number / 100000000} 억`;
+  }
+
   const inputNumber = number < 0 ? 0 : number;
   const unitWords = ['', '만', '억', '조', '경'];
   const splitUnit = 10000;
@@ -23,7 +30,9 @@ export function formatNumberInKorean(
 
   for (let i = 0; i < resultArray.length; i += 1) {
     if (resultArray[i]) {
-      const num = formatFn ? formatFn(resultArray[i]) : resultArray[i];
+      const num = options?.formatFn
+        ? options.formatFn(resultArray[i])
+        : resultArray[i];
       resultString = `${num + unitWords[i]} ${resultString}`;
     }
   }
