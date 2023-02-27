@@ -2,15 +2,58 @@ import { ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { NaverMapContext } from './Map';
 
+type Anchor =
+  | 'center'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
+
 type Props = {
   position: {
     lat: number;
     lng: number;
   };
+  anchor?: Anchor;
   children?: ReactNode;
 };
 
-export default function CustomOverlay({ position, children }: Props) {
+function getOffset(width: number, height: number, anchor: Anchor) {
+  if (anchor === 'top-left') {
+    return {
+      widthOffset: 0,
+      heightOffset: 0,
+    };
+  }
+  if (anchor === 'top-right') {
+    return {
+      widthOffset: width,
+      heightOffset: 0,
+    };
+  }
+  if (anchor === 'bottom-left') {
+    return {
+      widthOffset: 0,
+      heightOffset: height,
+    };
+  }
+  if (anchor === 'bottom-right') {
+    return {
+      widthOffset: width,
+      heightOffset: height,
+    };
+  }
+  return {
+    widthOffset: width / 2,
+    heightOffset: height / 2,
+  };
+}
+
+export default function CustomOverlay({
+  position,
+  anchor = 'center',
+  children,
+}: Props) {
   const map = useContext(NaverMapContext);
   const containerRef = useRef(document.createElement('div'));
   const overlayViewRef = useRef(new naver.maps.OverlayView());
@@ -52,8 +95,10 @@ export default function CustomOverlay({ position, children }: Props) {
       const width = container.clientWidth;
       const height = container.clientHeight;
 
-      const x = pixelPosition.x - width / 2;
-      const y = pixelPosition.y - height / 2;
+      const { widthOffset, heightOffset } = getOffset(width, height, anchor);
+
+      const x = pixelPosition.x - widthOffset;
+      const y = pixelPosition.y - heightOffset;
 
       container.style.position = 'absolute';
       container.style.left = `${x}px`;
@@ -63,7 +108,7 @@ export default function CustomOverlay({ position, children }: Props) {
     return () => {
       overlayView.setMap(null);
     };
-  }, []);
+  }, [anchor]);
 
   useEffect(() => {
     const overlayView = overlayViewRef.current;
