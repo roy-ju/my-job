@@ -4,6 +4,12 @@ import RegionMarker from '.';
 export default {
   title: 'molecules/map_markers/RegionMarker',
   component: RegionMarker,
+  argTypes: {
+    variant: {
+      options: ['blue', 'nego'],
+      control: { type: 'radio' },
+    },
+  },
 } as ComponentMeta<typeof RegionMarker>;
 
 export const DongRealPrice: ComponentStory<typeof RegionMarker> = (args) => (
@@ -17,6 +23,7 @@ export const DongRealPrice: ComponentStory<typeof RegionMarker> = (args) => (
 DongRealPrice.storyName = '동/실거래가';
 DongRealPrice.args = {
   name: '논현동',
+  variant: 'blue',
 };
 
 export const DongHoga: ComponentStory<typeof RegionMarker> = (args) => (
@@ -28,4 +35,5 @@ export const DongHoga: ComponentStory<typeof RegionMarker> = (args) => (
 DongHoga.storyName = '동/호가';
 DongHoga.args = {
   name: '논현동',
+  variant: 'blue',
 };
