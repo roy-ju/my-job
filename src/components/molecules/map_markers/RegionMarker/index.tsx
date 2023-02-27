@@ -1,18 +1,6 @@
 import { Children, ReactNode } from 'react';
-import tw, { theme } from 'twin.macro';
-
-const variants = {
-  blue: {
-    bgColor: theme`colors.blue.700`,
-    textColor: theme`colors.blue.1000`,
-  },
-  nego: {
-    bgColor: theme`colors.nego.800`,
-    textColor: theme`colors.nego.1000`,
-  },
-};
-
-type VariantType = keyof typeof variants;
+import tw from 'twin.macro';
+import variants, { VariantKey } from '../variants';
 
 function DanjiCount({ count }: { count: number }) {
   return <p tw="text-info text-inherit">단지 {count}</p>;
@@ -32,7 +20,7 @@ function Container({
   children,
 }: {
   name: string;
-  variant: VariantType;
+  variant: VariantKey;
   children: ReactNode;
 }) {
   const childrenCount = Children.count(children);
@@ -42,7 +30,7 @@ function Container({
     <div tw="w-fit">
       <div
         css={[
-          tw`flex flex-col rounded-lg min-w-[5.5rem] h-[3.75rem]`,
+          tw`flex flex-col rounded-lg min-w-[5.5rem] h-[60px] shadow-[0_8px_16px_rgba(0,0,0,0.14)]`,
           { minWidth, overflowY: 'visible' },
         ]}
       >
@@ -56,7 +44,7 @@ function Container({
         </div>
         <div
           css={[
-            tw`flex items-center justify-center flex-1 px-2 bg-white rounded-b-lg shadow-md`,
+            tw`flex items-center justify-center flex-1 px-2 bg-white rounded-b-lg`,
             { color: variants[variant].textColor },
           ]}
         >
