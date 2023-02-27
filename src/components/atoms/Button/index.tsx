@@ -14,7 +14,7 @@ type Props = {
   disabled?: boolean;
   /** 커스텀 스타일 */
   custom?: TwStyle;
-} & React.HTMLAttributes<HTMLSpanElement>;
+};
 
 const defaultStyle = tw`w-fit rounded-[0.5rem]`;
 

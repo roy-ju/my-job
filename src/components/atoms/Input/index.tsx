@@ -33,7 +33,7 @@ export function Input({
         disabled={disabled}
         onChange={onChange}
         css={[
-          tw` w-[14.5rem]  placeholder:text-b1 placeholder:text-gray-600`,
+          tw` w-[14.6rem]  placeholder:text-b1 placeholder:text-gray-600`,
           disabled && style.disabled,
           inputStyle,
         ]}
