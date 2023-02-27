@@ -23,15 +23,15 @@ function Divider() {
   return <div tw="w-px h-1.5 mx-1 bg-gray-300" />;
 }
 
-function Container({
-  name,
-  variant,
-  children,
-}: {
+type Props = {
+  /** 지역명 e.g. 역삼동 */
   name: string;
+  /** 마커 색상 */
   variant: VariantKey;
   children: ReactNode;
-}) {
+};
+
+function Container({ name, variant, children }: Props) {
   const childrenCount = Children.count(children);
   const minWidth = childrenCount > 1 ? '5.5rem' : '3.75rem';
 

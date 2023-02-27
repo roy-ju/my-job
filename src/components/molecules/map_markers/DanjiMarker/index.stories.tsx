@@ -43,6 +43,6 @@ DanjiRealPriceWithCount.storyName = '단지/실거래가/n개';
 DanjiRealPriceWithCount.args = {
   variant: 'blue',
   area: 34,
-  price: 3500000000,
+  price: 3540000000,
   count: 9,
 };
