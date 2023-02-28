@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import MapSearchInput from '.';
 
 export default {
-  title: 'molecules/MapSearchInput',
+  title: 'organisms/MapSearchInput',
   component: MapSearchInput,
 } as ComponentMeta<typeof MapSearchInput>;
 
