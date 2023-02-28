@@ -7,9 +7,7 @@ export default {
 } as ComponentMeta<typeof Checkbox>;
 
 export const Default: ComponentStory<typeof Checkbox> = () => (
-  <Checkbox>
-    <span>유형</span>
-  </Checkbox>
+  <Checkbox text="유형" onChange={() => {}} />
 );
 
 Default.args = {};
