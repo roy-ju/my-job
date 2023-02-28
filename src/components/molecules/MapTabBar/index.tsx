@@ -1,4 +1,4 @@
-import { Button } from '@/components/atoms/Button';
+import { Button } from '@/components/atoms';
 import { ReactNode, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import FilterIcon from '@/assets/icons/filter.svg';

@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
-import { RadioButton } from '.';
+import RadioButton from '.';
 
 export default {
   title: 'atoms/RadioButton',

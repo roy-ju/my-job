@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import User from '@/assets/icons/user.svg';
 import tw from 'twin.macro';
 
-import { Button } from '.';
+import Button from '.';
 
 export default {
   title: 'atoms/Button',

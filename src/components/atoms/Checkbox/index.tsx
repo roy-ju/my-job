@@ -6,7 +6,7 @@ type Props = {
   currentValue: any[];
 };
 
-export function Checkbox({ value, currentValue, onClick }: Props) {
+function Checkbox({ value, currentValue, onClick }: Props) {
   return (
     <button
       type="button"
@@ -24,3 +24,5 @@ export function Checkbox({ value, currentValue, onClick }: Props) {
     </button>
   );
 }
+
+export default Checkbox;

@@ -1,6 +1,5 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-
-import { MapSearchInput } from '.';
+import MapSearchInput from '.';
 
 export default {
   title: 'molecules/MapSearchInput',

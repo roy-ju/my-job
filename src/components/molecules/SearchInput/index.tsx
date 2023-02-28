@@ -1,5 +1,4 @@
-import { Button } from '@/components/atoms/Button';
-import { Input } from '@/components/atoms/Input';
+import { Button, Input } from '@/components/atoms';
 import Search from '@/assets/icons/search.svg';
 import tw from 'twin.macro';
 
@@ -8,7 +7,7 @@ type Props = {
   onClickButton?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export function MapSearchInput({ onChange, onClickButton }: Props) {
+function MapSearchInput({ onChange, onClickButton }: Props) {
   return (
     <Input
       divStyle={tw`w-[23.75rem] flex justify-between`}
@@ -25,3 +24,5 @@ export function MapSearchInput({ onChange, onClickButton }: Props) {
     </Input>
   );
 }
+
+export default MapSearchInput;

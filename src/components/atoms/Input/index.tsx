@@ -16,7 +16,7 @@ const style = {
   disabled: tw`bg-gray-100`,
 };
 
-export function Input({
+function Input({
   placeholder,
   children,
   divStyle,
@@ -43,3 +43,5 @@ export function Input({
     </div>
   );
 }
+
+export default Input;
