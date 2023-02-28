@@ -10,6 +10,7 @@ export default {
 export const Default: ComponentStory<typeof MapTabBar> = () => (
   <MapTabBar>
     <MapTabBar.BuildingTab />
+    <MapTabBar.FilterTab />
   </MapTabBar>
 );
 
