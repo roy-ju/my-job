@@ -1,4 +1,4 @@
-import { DanjiMarker } from '@/components/molecules';
+import { DanjiMarker } from '@/components/organisms';
 import { MapLayout as Layout } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
 import { Map } from '@/lib/navermap';

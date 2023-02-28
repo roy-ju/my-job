@@ -3,7 +3,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import MapTabBar from '.';
 
 export default {
-  title: 'molecules/MapTabBar',
+  title: 'organisms/MapTabBar',
   component: MapTabBar,
 } as ComponentMeta<typeof MapTabBar>;
 
