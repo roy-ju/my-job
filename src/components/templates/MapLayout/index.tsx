@@ -5,6 +5,7 @@ import MapPin from '@/assets/icons/map_pin.svg';
 import Bidding from '@/assets/icons/bidding.svg';
 import ChatBubble from '@/assets/icons/chat_bubble.svg';
 import User from '@/assets/icons/user.svg';
+import { MapControls } from '@/components/organisms';
 
 type PropsWithChildren = { children?: ReactNode };
 
@@ -44,6 +45,19 @@ function LayoutPanels({ children }: PropsWithChildren) {
 function LayoutMapContainer({ children }: PropsWithChildren) {
   return (
     <div id="map-container" tw="relative flex-1 z-10">
+      <div tw="absolute right-5 top-5 flex flex-col gap-6 z-10">
+        <MapControls.Group>
+          <MapControls.MapButton />
+          <MapControls.RoadMapButton />
+          <MapControls.MapTileButton />
+          <MapControls.SchoolButton />
+        </MapControls.Group>
+        <MapControls.Group>
+          <MapControls.ZoomInButton />
+          <MapControls.ZoomOutButton />
+        </MapControls.Group>
+        <MapControls.GPSButton />
+      </div>
       {children}
     </div>
   );
