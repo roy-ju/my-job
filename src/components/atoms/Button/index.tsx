@@ -51,7 +51,7 @@ function getSelectedStyle(t: string) {
   }
 }
 
-export function Button({
+function Button({
   children,
   onClick,
   theme = 'primary',
@@ -93,3 +93,5 @@ export function Button({
     </button>
   );
 }
+
+export default Button;

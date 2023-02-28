@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
-import { Checkbox } from '.';
+import Checkbox from '.';
 
 export default {
   title: 'atoms/CheckBox',

@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import Search from '@/assets/icons/search.svg';
 
 import tw from 'twin.macro';
-import { Input } from '.';
+import Input from '.';
 
 export default {
   title: 'atoms/Input',

@@ -7,7 +7,7 @@ type Props = {
   onClick: (v: any) => void;
 };
 
-export function RadioButton({ label, currentValue, onClick }: Props) {
+function RadioButton({ label, currentValue, onClick }: Props) {
   return (
     <button
       type="button"
@@ -30,3 +30,5 @@ export function RadioButton({ label, currentValue, onClick }: Props) {
     </button>
   );
 }
+
+export default RadioButton;
