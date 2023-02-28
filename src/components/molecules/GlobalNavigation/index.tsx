@@ -56,7 +56,7 @@ function GlobalNavigation({
 
   return (
     <NavigationContext.Provider value={providerValue}>
-      <div tw="w-16 h-full min-h-[36rem] bg-white flex flex-col justify-between">
+      <div tw="w-16 h-full min-h-[36rem] bg-white flex flex-col justify-between border-r border-gray-300">
         <div>
           <div tw="w-full h-[5.5rem] flex justify-center items-center py-5">
             <Logo />
