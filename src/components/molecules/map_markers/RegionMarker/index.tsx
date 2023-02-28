@@ -1,5 +1,5 @@
 import { Numeral } from '@/components/atoms';
-import { Children, ReactNode } from 'react';
+import { Children, MouseEventHandler, ReactNode } from 'react';
 import tw from 'twin.macro';
 import variants, { VariantKey } from '../variants';
 
@@ -28,18 +28,21 @@ type Props = {
   name: string;
   /** 마커 색상 */
   variant: VariantKey;
+  /** 매물수, 단지수 */
   children: ReactNode;
+  /** 마커 클릭이벤트 핸들러 */
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-function Container({ name, variant, children }: Props) {
+function Container({ name, variant, children, onClick }: Props) {
   const childrenCount = Children.count(children);
   const minWidth = childrenCount > 1 ? '5.5rem' : '3.75rem';
 
   return (
-    <div tw="w-fit">
+    <button type="button" tw="w-fit" onClick={onClick}>
       <div
         css={[
-          tw`flex flex-col rounded-lg min-w-[5.5rem] h-[60px] shadow-[0_8px_16px_rgba(0,0,0,0.14)]`,
+          tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px] shadow-[0_8px_16px_rgba(0,0,0,0.14)]`,
           { minWidth, overflowY: 'visible' },
         ]}
       >
@@ -60,7 +63,7 @@ function Container({ name, variant, children }: Props) {
           {children}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
