@@ -8,7 +8,7 @@ import User from '@/assets/icons/user.svg';
 import GlobalNavigation from './index';
 
 export default {
-  title: 'molecules/GlobalNavigation',
+  title: 'organisms/GlobalNavigation',
   component: GlobalNavigation,
 } as ComponentMeta<typeof GlobalNavigation>;
 
