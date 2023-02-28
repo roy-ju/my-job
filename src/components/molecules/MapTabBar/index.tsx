@@ -1,6 +1,8 @@
 import { Button } from '@/components/atoms/Button';
 import { ReactNode, useEffect, useState } from 'react';
 import tw from 'twin.macro';
+import FilterIcon from '@/assets/icons/filter.svg';
+import ResetIcon from '@/assets/icons/reset.svg';
 
 function MapTabBar({ children }: { children: ReactNode }) {
   return (
@@ -76,6 +78,34 @@ function BuildingTab({
   );
 }
 
+function FilterTab() {
+  return (
+    <div tw="w-full h-16 flex items-center justify-center gap-4">
+      <div tw="flex items-center gap-2">
+        <Button theme="outlined" size="small" custom={tw`p-2`}>
+          <FilterIcon />
+        </Button>
+        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+          유형
+        </Button>
+        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+          매매
+        </Button>
+        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+          가격
+        </Button>
+        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+          세대수
+        </Button>
+        <Button theme="outlined" size="small" custom={tw`p-2`}>
+          <ResetIcon />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 MapTabBar.BuildingTab = BuildingTab;
+MapTabBar.FilterTab = FilterTab;
 
 export default MapTabBar;
