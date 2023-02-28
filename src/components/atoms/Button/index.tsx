@@ -1,8 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import tw, { TwStyle } from 'twin.macro';
 import LoadingDot from '@/assets/icons/loading_dot.svg';
+import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
+import { resolveProps } from '@/utils';
 
-type Props = {
+export type ButtonProps = {
   /** 버튼 안의 내용 */
   children?: string | ReactNode;
   /** 클릭 했을 때 호출할 함수 */
@@ -10,7 +12,7 @@ type Props = {
   /** 버튼 테마 */
   theme?: 'primary' | 'outlined' | 'ghost' | 'secondary' | 'gray';
   /** 버튼 사이즈 */
-  size?: 'default' | 'small' | 'big' | 'medium';
+  size?: 'default' | 'small' | 'big' | 'medium' | 'none';
   /** 버튼 비활성화 */
   disabled?: boolean;
   /** 커스텀 스타일 */
@@ -21,13 +23,13 @@ type Props = {
   isSelected?: boolean;
 };
 
-const defaultStyle = tw`w-fit h-fit rounded-[0.5rem]`;
+const defaultStyle = tw`flex items-center justify-center h-fit rounded-[0.5rem]`;
 
 const themes = {
   primary: tw`text-white bg-gray-1000 hover:bg-gray-800 disabled:bg-gray-400 disabled:text-white`,
   secondary: tw`text-white bg-nego-800 hover:bg-nego-600 disabled:bg-nego-300 disabled:text-white`,
   gray: tw`text-gray-1000 bg-gray-200 hover:bg-gray-400 disabled:bg-gray-200`,
-  outlined: tw`bg-white border-gray-300 border-[1px] text-gray-1000 hover:border-gray-1000 hover:bg-white disabled:text-gray-500 disabled:border-gray-500`,
+  outlined: tw`bg-white border-gray-300 border-l border-r border-t border-b text-gray-1000 hover:border-gray-1000 hover:bg-white disabled:text-gray-500 disabled:border-gray-500`,
   ghost: tw``,
 };
 
@@ -36,6 +38,7 @@ const sizes = {
   small: tw`px-4 h-[2rem] text-info`,
   medium: tw`px-4 h-[2.5rem]`,
   big: tw`px-4 h-[3rem]`,
+  none: tw``,
 };
 
 const disabledStyle = tw`text-gray-600`;
@@ -51,16 +54,21 @@ function getSelectedStyle(t: string) {
   }
 }
 
-function Button({
-  children,
-  onClick,
-  theme = 'primary',
-  size = 'default',
-  disabled = false,
-  custom,
-  isLoading = false,
-  isSelected = false,
-}: Props) {
+function Button(inProps: ButtonProps) {
+  const contextProps = useContext(ButtonGroupContext);
+  const resolvedProps = resolveProps(inProps, contextProps);
+  const {
+    children,
+    onClick,
+    theme = 'primary',
+    size = 'default',
+    disabled = false,
+    custom,
+    isLoading = false,
+    isSelected = false,
+    buttonStyle, // custom button style from ButtonGroup
+  } = resolvedProps;
+
   return (
     <button
       type="button"
@@ -72,6 +80,7 @@ function Button({
         isLoading && tw`pointer-events-none`,
         isSelected && getSelectedStyle(theme),
         custom,
+        buttonStyle,
       ]}
       onClick={onClick}
       disabled={disabled}
@@ -89,7 +98,7 @@ function Button({
           </div>
         </div>
       )}
-      {!isLoading && <span>{children}</span>}
+      {!isLoading && children}
     </button>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { formatNumberInKorean } from '@/utils/strings';
+import { formatNumberInKorean } from '@/utils';
 
 /**
  * 숫자를 포맷해서 보여주는 컴포넌트

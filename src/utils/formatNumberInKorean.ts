@@ -1,4 +1,4 @@
-export function formatNumberInKorean(
+export default function formatNumberInKorean(
   number: number,
   options?: {
     formatFn?: (num: number) => string;
