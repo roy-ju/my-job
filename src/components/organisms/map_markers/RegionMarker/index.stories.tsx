@@ -9,7 +9,7 @@ type ArgType = {
 };
 
 export default {
-  title: 'molecules/map_markers/RegionMarker',
+  title: 'organisms/map_markers/RegionMarker',
   component: RegionMarker,
   argTypes: {
     variant: {

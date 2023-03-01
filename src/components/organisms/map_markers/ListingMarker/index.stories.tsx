@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import ListingMarker from '.';
 
 export default {
-  title: 'molecules/map_markers/ListingMarker',
+  title: 'organisms/map_markers/ListingMarker',
   component: ListingMarker,
 } as ComponentMeta<typeof ListingMarker>;
 

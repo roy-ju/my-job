@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import DanjiMarker from '.';
 
 export default {
-  title: 'molecules/map_markers/DanjiMarker',
+  title: 'organisms/map_markers/DanjiMarker',
   component: DanjiMarker,
   argTypes: {
     variant: {
