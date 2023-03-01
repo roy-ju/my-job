@@ -27,12 +27,12 @@ function areEqualValues(a: any, b: any) {
   return String(a) === String(b);
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: any;
-} & HTMLAttributes<HTMLInputElement>;
+}
 
 export default forwardRef<HTMLInputElement, Props>(
   (
