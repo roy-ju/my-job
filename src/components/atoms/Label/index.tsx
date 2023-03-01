@@ -1,7 +1,7 @@
 import {
   ChangeEventHandler,
   cloneElement,
-  DOMAttributes,
+  HTMLAttributes,
   ReactElement,
 } from 'react';
 import tw, { styled } from 'twin.macro';
@@ -53,16 +53,14 @@ const LabelText = styled.span<{ labelPlacement: LabelPlacement }>`
   }}
 `;
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLLabelElement> {
   label: string | ReactElement;
   control: ReactElement;
   labelPlacement?: LabelPlacement;
   checked?: boolean;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLLabelElement>;
   value?: any;
-  tw?: DOMAttributes<HTMLLabelElement>['tw'];
-  css?: DOMAttributes<HTMLLabelElement>['css'];
-};
+}
 
 export default function Label(props: Props) {
   const {

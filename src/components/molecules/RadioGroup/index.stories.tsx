@@ -1,4 +1,5 @@
 import { Radio } from '@/components/atoms';
+import Label from '@/components/atoms/Label';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 import RadioGroup from '.';
@@ -30,4 +31,11 @@ export const Controlled: ComponentStory<typeof RadioGroup> = () => {
     </RadioGroup>
   );
 };
-Uncontrolled.args = {};
+
+export const WithLabel: ComponentStory<typeof RadioGroup> = () => (
+  <RadioGroup tw="flex gap-2">
+    <Label control={<Radio />} value={1} label="떡볶이" />
+    <Label control={<Radio />} value={2} label="튀김" />
+    <Label control={<Radio />} value={3} label="순대" />
+  </RadioGroup>
+);

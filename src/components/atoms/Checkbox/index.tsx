@@ -1,28 +1,45 @@
-import Check from '@/assets/icons/check.svg';
+import { useControlled } from '@/hooks/utils';
+import { ChangeEventHandler, forwardRef, useCallback } from 'react';
+import tw from 'twin.macro';
+import CheckboxCheckedIcon from '@/assets/icons/checkbox_checked.svg';
+import CheckboxUncheckedIcon from '@/assets/icons/checkbox_unchecked.svg';
+
+const CheckboxRoot = tw.span`inline-flex relative`;
+
+const CheckboxInput = tw.input`absolute opacity-0 w-full h-full top-0 left-0 z-[1] hover:cursor-pointer`;
 
 type Props = {
-  value?: any;
-  onClick: (v: any) => void;
-  currentValue: any[];
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
-function Checkbox({ value, currentValue, onClick }: Props) {
-  return (
-    <button
-      type="button"
-      tw="flex items-center gap-2"
-      onClick={() => {
-        onClick(value);
-      }}
-    >
-      {currentValue.indexOf(value) !== -1 ? (
-        <Check />
-      ) : (
-        <div tw="w-[1.25rem] h-[1.25rem] rounded-[0.25rem]  bg-white border-gray-1000 cursor-pointer border-[1px]" />
-      )}
-      <span>{value}</span>
-    </button>
-  );
-}
+export default forwardRef<HTMLInputElement, Props>(
+  ({ checked: checkedProp, defaultChecked, onChange }, ref) => {
+    const [checked, setCheckedState] = useControlled({
+      controlled: checkedProp,
+      default: Boolean(defaultChecked),
+    });
 
-export default Checkbox;
+    const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+      (event) => {
+        setCheckedState(event.target.checked);
+        if (onChange) {
+          onChange(event);
+        }
+      },
+      [onChange, setCheckedState],
+    );
+    return (
+      <CheckboxRoot>
+        <CheckboxInput
+          type="checkbox"
+          checked={checked}
+          onChange={handleInputChange}
+          ref={ref}
+        />
+        {checked ? <CheckboxCheckedIcon /> : <CheckboxUncheckedIcon />}
+      </CheckboxRoot>
+    );
+  },
+);
