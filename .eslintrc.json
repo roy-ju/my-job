@@ -35,7 +35,8 @@
     "react/jsx-no-useless-fragment": "off",
     "no-param-reassign": "off",
     "prefer-destructuring": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "react/destructuring-assignment": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }
