@@ -1,19 +1,26 @@
 import { useControlled } from '@/hooks/utils';
-import { ChangeEvent, ChangeEventHandler, ReactNode, useMemo } from 'react';
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  HTMLAttributes,
+  ReactNode,
+  useMemo,
+} from 'react';
 import RadioGroupContext from './RadioGroupContext';
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   value?: any;
   defaultValue?: any;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   children?: ReactNode;
-};
+}
 
 export default function RadioGroup({
   value: valueProp,
   defaultValue,
   onChange,
   children,
+  ...others
 }: Props) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
@@ -36,7 +43,7 @@ export default function RadioGroup({
 
   return (
     <RadioGroupContext.Provider value={context}>
-      {children}
+      <div {...others}>{children}</div>
     </RadioGroupContext.Provider>
   );
 }

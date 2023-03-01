@@ -4,33 +4,30 @@ import { useState } from 'react';
 import RadioGroup from '.';
 
 export default {
-  title: 'atoms/RadioGroup',
+  title: 'molecules/RadioGroup',
   component: RadioGroup,
 } as ComponentMeta<typeof RadioGroup>;
 
 export const Uncontrolled: ComponentStory<typeof RadioGroup> = () => (
-  <div tw="flex gap-1">
-    <RadioGroup defaultValue={1}>
-      <Radio value={1} />
-      <Radio value={2} />
-      <Radio value={3} />
-    </RadioGroup>
-  </div>
+  <RadioGroup defaultValue={1} tw="flex gap-2">
+    <Radio value={1} />
+    <Radio value={2} />
+    <Radio value={3} />
+  </RadioGroup>
 );
 
 export const Controlled: ComponentStory<typeof RadioGroup> = () => {
   const [value, setValue] = useState(0);
   return (
-    <div tw="flex gap-1">
-      <RadioGroup
-        value={value}
-        onChange={(e) => setValue(Number(e.target.value))}
-      >
-        <Radio value={1} />
-        <Radio value={2} />
-        <Radio value={3} />
-      </RadioGroup>
-    </div>
+    <RadioGroup
+      value={value}
+      onChange={(e) => setValue(Number(e.target.value))}
+      tw="flex gap-2"
+    >
+      <Radio value={1} />
+      <Radio value={2} />
+      <Radio value={3} />
+    </RadioGroup>
   );
 };
 Uncontrolled.args = {};
