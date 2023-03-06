@@ -6,12 +6,12 @@ import {
   useCallback,
 } from 'react';
 import tw from 'twin.macro';
-import CheckboxCheckedIcon from '@/assets/icons/checkbox_checked.svg';
-import CheckboxUncheckedIcon from '@/assets/icons/checkbox_unchecked.svg';
 
-const CheckboxRoot = tw.span`inline-flex relative`;
+import ToggleOnIcon from '@/assets/icons/toggle_on.svg';
+import ToggleOffIcon from '@/assets/icons/toggle_off.svg';
 
-const CheckboxInput = tw.input`absolute opacity-0 w-full h-full top-0 left-0 z-[1] hover:cursor-pointer`;
+const ToggleRoot = tw.span`inline-flex relative`;
+const ToggleInput = tw.input`absolute opacity-0 w-full h-full top-0 left-0`;
 
 interface Props extends HTMLAttributes<HTMLInputElement> {
   checked?: boolean;
@@ -35,17 +35,18 @@ export default forwardRef<HTMLInputElement, Props>(
       },
       [onChange, setCheckedState],
     );
+
     return (
-      <CheckboxRoot>
-        <CheckboxInput
+      <ToggleRoot>
+        <ToggleInput
           type="checkbox"
           checked={checked}
           onChange={handleInputChange}
           ref={ref}
           {...others}
         />
-        {checked ? <CheckboxCheckedIcon /> : <CheckboxUncheckedIcon />}
-      </CheckboxRoot>
+        {checked ? <ToggleOnIcon /> : <ToggleOffIcon />}
+      </ToggleRoot>
     );
   },
 );
