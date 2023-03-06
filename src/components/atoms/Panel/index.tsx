@@ -2,11 +2,11 @@ import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
 import tw from 'twin.macro';
 
-type Props = {
+interface Props {
   width?: string;
   animationDuration?: number;
   children?: ReactNode;
-};
+}
 
 export default function Panel({
   width = '375px',

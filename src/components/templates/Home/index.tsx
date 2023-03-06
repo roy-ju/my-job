@@ -1,10 +1,10 @@
-type Props = {
+interface Props {
   onClickMyPage: () => void;
   onClickListingDetail: () => void;
   onClickListings: () => void;
   onClickDanjiDetail: () => void;
   onClickLoginWithKakao: () => void;
-};
+}
 
 export default function Home({
   onClickMyPage,

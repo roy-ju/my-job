@@ -6,9 +6,9 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 import { AnimatePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 
-type Props = {
+interface Props {
   children?: ReactNode;
-};
+}
 
 function MapWrapper() {
   const props = useMapLayout();

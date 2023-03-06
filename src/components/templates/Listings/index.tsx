@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-type Props = {
+interface Props {
   onClickListingDetail: (id: number) => void;
-};
+}
 
 export default function Listings({ onClickListingDetail }: Props) {
   const [count, setCount] = useState(0);

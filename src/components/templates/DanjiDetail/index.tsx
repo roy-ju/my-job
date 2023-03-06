@@ -1,6 +1,6 @@
-type Props = {
+interface Props {
   onClickListingDetail: () => void;
-};
+}
 
 export default function DanjiDetail({ onClickListingDetail }: Props) {
   return (

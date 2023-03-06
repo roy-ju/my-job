@@ -1,11 +1,11 @@
 import { Numeral } from '@/components/atoms';
 import { useState } from 'react';
 
-type Props = {
+interface Props {
   listingID: number;
   onClickChatRoom: () => void;
   onClickReport: () => void;
-};
+}
 
 export default function ListingDetail({
   listingID,

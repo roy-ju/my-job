@@ -15,11 +15,11 @@ const commonProps = {
   panelAnimationDuration: DEFAULT_PANEL_ANIMATION_DURATION,
 };
 
-type Props = {
+interface Props {
   route: string; // url segments 에서 가장 우측에 위치한 segment
   query: ParsedUrlQuery; // 쿼리 파라미터
   depth: number; // route segment 의 depth
-};
+}
 
 export default function Router({ route, query, depth }: Props) {
   switch (route) {

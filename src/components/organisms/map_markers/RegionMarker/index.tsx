@@ -23,7 +23,7 @@ function Divider() {
   return <div tw="w-px h-1.5 mx-1 bg-gray-300" />;
 }
 
-type Props = {
+interface Props {
   /** 지역명 e.g. 역삼동 */
   name: string;
   /** 마커 색상 */
@@ -32,7 +32,7 @@ type Props = {
   children: ReactNode;
   /** 마커 클릭이벤트 핸들러 */
   onClick?: MouseEventHandler<HTMLButtonElement>;
-};
+}
 
 function Container({ name, variant, children, onClick }: Props) {
   const childrenCount = Children.count(children);
