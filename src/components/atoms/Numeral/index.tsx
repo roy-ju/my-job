@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { HTMLAttributes, useCallback } from 'react';
 import { formatNumberInKorean } from '@/utils';
 
 /**
  * 숫자를 포맷해서 보여주는 컴포넌트
  */
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLSpanElement> {
   thousandsSeparated?: boolean; // 1000 => 1,000
   koreanNumber?: boolean; // 350000000 => 3억 5000만
   koreanNumberShort?: boolean; // 350000000 => 3.5억
@@ -14,7 +14,7 @@ type Props = {
   falsy?: string; // 0이나 숫자가 아닌값을 표현
   suffix?: string; // 숫자뒤에 붙는 문자 (e.g. 원)
   children?: number | string; // 포맷할 숫자
-} & React.HTMLAttributes<HTMLSpanElement>;
+}
 
 export default React.memo(
   ({

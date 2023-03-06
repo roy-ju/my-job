@@ -7,7 +7,7 @@ import ButtonGroupContext from './ButtonGroupContext';
 
 type Orientaion = 'horizontal' | 'vertical';
 
-export type ButtonGroupProps = {
+export interface ButtonGroupProps {
   size?: ButtonProps['size'];
   theme?: ButtonProps['theme'];
   separated?: boolean;
@@ -15,7 +15,7 @@ export type ButtonGroupProps = {
   buttonStyle?: TwStyle | string;
   containerStyle?: TwStyle | SerializedStyles;
   children?: ReactNode;
-};
+}
 
 const Container = styled.div`
   display: inline-flex;

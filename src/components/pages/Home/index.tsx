@@ -3,9 +3,9 @@ import { useRouter } from '@/hooks/utils';
 import { loginWithKakao } from '@/lib/kakao';
 import { memo, useCallback } from 'react';
 
-type Props = {
+interface Props {
   depth: number;
-};
+}
 
 export default memo(({ depth }: Props) => {
   const router = useRouter(depth);
