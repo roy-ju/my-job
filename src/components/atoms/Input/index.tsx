@@ -40,7 +40,7 @@ function Input({
         onFocus={onFocus}
         onBlur={onBlur}
         css={[
-          tw` w-[14.6rem] h-[2.25rem]  placeholder:text-b1 placeholder:text-gray-600`,
+          tw` w-[14.6rem] h-full  placeholder:text-b1 placeholder:text-gray-600`,
           disabled && style.disabled,
           inputStyle,
         ]}
