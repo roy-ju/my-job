@@ -37,7 +37,8 @@
     "prefer-destructuring": "off",
     "react/display-name": "off",
     "react/destructuring-assignment": "off",
-    "react/no-this-in-sfc": "off"
+    "react/no-this-in-sfc": "off",
+    "react/no-unused-prop-types": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }

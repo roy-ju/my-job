@@ -1,6 +1,12 @@
-import { Button } from '@/components/atoms';
-import { ButtonGroup } from '@/components/molecules';
-import type { ReactNode } from 'react';
+import { Button, Label, Radio } from '@/components/atoms';
+import { ButtonGroup, RadioGroup } from '@/components/molecules';
+import {
+  ChangeEventHandler,
+  ReactNode,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import tw, { theme } from 'twin.macro';
 import SchoolIcon from '@/assets/icons/school.svg';
 import StackIcon from '@/assets/icons/stack.svg';
@@ -9,6 +15,8 @@ import NaverMapPin from '@/assets/icons/naver_map_pin.svg';
 import PlusIcon from '@/assets/icons/plus.svg';
 import MinusIcon from '@/assets/icons/minus.svg';
 import GPSIcon from '@/assets/icons/gps.svg';
+import { usePopper } from 'react-popper';
+import { useOutsideClick } from '@/hooks/utils';
 
 interface OnClickProps {
   onClick?: () => void;
@@ -59,16 +67,75 @@ function MapTileButton({ selected = false, onClick }: SelectableProps) {
   );
 }
 
-function SchoolButton({ selected = false, onClick }: SelectableProps) {
+interface SchoolButtonProps extends SelectableProps {
+  value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+}
+
+function SchoolButton({
+  selected = false,
+  value,
+  onChange,
+  onClick,
+}: SchoolButtonProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLButtonElement | null>(null);
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
+    null,
+  );
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    placement: 'right-start',
+  });
+
+  const outsideRef = useRef<HTMLDivElement | null>(null);
+
+  useOutsideClick({
+    ref: outsideRef,
+    handler: () => {
+      setIsOpen(false);
+    },
+  });
+
+  const handleButtonClick = useCallback(() => {
+    onClick?.();
+    setIsOpen(true);
+  }, [onClick]);
+
   return (
-    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
-      <SchoolIcon
-        color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
-      />
-      <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>
-        학교
-      </ButtonText>
-    </Button>
+    <>
+      <Button
+        ref={setReferenceElement}
+        onClick={handleButtonClick}
+        custom={tw`flex-col w-10 h-14`}
+      >
+        <SchoolIcon
+          color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
+        />
+        <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>
+          학교
+        </ButtonText>
+      </Button>
+      {isOpen && (
+        <div
+          ref={setPopperElement}
+          style={styles.popper}
+          {...attributes.popper}
+        >
+          <div ref={outsideRef}>
+            <RadioGroup
+              value={value}
+              onChange={onChange}
+              tw="w-[108px] flex flex-col bg-white mr-2 rounded-lg shadow gap-4 p-4"
+            >
+              <Label control={<Radio />} value="elementary" label="초등학교" />
+              <Label control={<Radio />} value="middle" label="중학교" />
+              <Label control={<Radio />} value="high" label="고등학교" />
+            </RadioGroup>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
