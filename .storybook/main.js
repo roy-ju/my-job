@@ -28,12 +28,21 @@ module.exports = {
       (rule) => rule.test && rule.test.test('.svg'),
     );
     fileLoaderRule.exclude = /\.svg$/;
-
-    config.module.rules.push({
-      test: /\.svg$/,
-      enforce: 'pre',
-      loader: require.resolve('@svgr/webpack'),
-    });
+    config.module.rules.push(
+      ...[
+        {
+          test: /\.svg$/i,
+          type: 'asset',
+          resourceQuery: /url/, // *.svg?url
+        },
+        {
+          test: /\.svg$/i,
+          issuer: /\.[jt]sx?$/,
+          resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
+          use: ['@svgr/webpack'],
+        },
+      ],
+    );
     return config;
   },
 };
