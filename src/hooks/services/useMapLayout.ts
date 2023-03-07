@@ -2,7 +2,14 @@ import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { mapState } from '@/states/map';
 import _ from 'lodash';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from '../utils';
 
@@ -73,6 +80,7 @@ export default function useMapLayout() {
   const [map, setMap] = useRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
   const [mapType, setMapType] = useState('normal');
   const [isStreetLayerActive, setIsStreetLayerActive] = useState(false);
+  const [schoolType, setSchoolType] = useState('');
 
   const streetLayerRef = useRef<naver.maps.StreetLayer>();
 
@@ -232,9 +240,14 @@ export default function useMapLayout() {
     setIsStreetLayerActive((prev) => !prev);
   }, []);
 
+  const handleChangeSchoolType = useCallback<
+    ChangeEventHandler<HTMLInputElement>
+  >((event) => {
+    setSchoolType(event.target.value);
+  }, []);
+
   return {
-    isStreetLayerActive,
-    mapType,
+    // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
     maxZoom: DEFAULT_MAX_ZOOM,
     zoom: initialZoom,
@@ -243,11 +256,16 @@ export default function useMapLayout() {
     onCreate,
     onClick,
     onIdle,
+    // ones with business logics
+    isStreetLayerActive,
+    mapType,
+    schoolType,
     morphToCurrentLocation,
     zoomIn,
     zoomOut,
     setMapTypeNormal,
     setMapTypeTerrain,
     toggleStreetLayer,
+    handleChangeSchoolType,
   };
 }

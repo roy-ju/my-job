@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ChangeEventHandler, ReactNode } from 'react';
 import Home from '@/assets/icons/home.svg';
 import MapPin from '@/assets/icons/map_pin.svg';
 import Bidding from '@/assets/icons/bidding.svg';
@@ -16,6 +16,7 @@ interface LayoutPanelsProps {
 
 interface LayoutMapContainerProps {
   mapType?: string;
+  schoolType?: string;
   isStreetLayerActive?: boolean;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
@@ -24,6 +25,7 @@ interface LayoutMapContainerProps {
   onClickMapTypeTerrain?: () => void;
   onClickMapTypeRoadMap?: () => void;
   onClickMapTypeNormal?: () => void;
+  onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
   children?: ReactNode;
 }
 
@@ -63,6 +65,7 @@ function LayoutPanels({ children }: LayoutPanelsProps) {
 function LayoutMapContainer({
   mapType,
   isStreetLayerActive = false,
+  schoolType,
   onClickCurrentLocation,
   onClickMapTypeNormal,
   onClickMapTypeTerrain,
@@ -70,6 +73,7 @@ function LayoutMapContainer({
   onClickSchool,
   onClickZoomIn,
   onClickZoomOut,
+  onChangeSchoolType,
   children,
 }: LayoutMapContainerProps) {
   return (
@@ -88,7 +92,12 @@ function LayoutMapContainer({
             selected={mapType === 'terrain'}
             onClick={onClickMapTypeTerrain}
           />
-          <MapControls.SchoolButton onClick={onClickSchool} />
+          <MapControls.SchoolButton
+            selected={Boolean(schoolType)}
+            value={schoolType}
+            onChange={onChangeSchoolType}
+            onClick={onClickSchool}
+          />
         </MapControls.Group>
         <MapControls.GPSButton onClick={onClickCurrentLocation} />
         <MapControls.Group>
