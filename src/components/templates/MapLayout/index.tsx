@@ -4,7 +4,11 @@ import MapPin from '@/assets/icons/map_pin.svg';
 import Bidding from '@/assets/icons/bidding.svg';
 import ChatBubble from '@/assets/icons/chat_bubble.svg';
 import User from '@/assets/icons/user.svg';
-import { MapControls, GlobalNavigation } from '@/components/organisms';
+import {
+  MapControls,
+  GlobalNavigation,
+  MapPriceSelect,
+} from '@/components/organisms';
 
 interface LayoutMainProps {
   children?: ReactNode;
@@ -77,8 +81,11 @@ function LayoutMapContainer({
   children,
 }: LayoutMapContainerProps) {
   return (
-    <div id="map-container" tw="relative flex-1 z-10">
-      <div tw="absolute right-5 top-5 flex flex-col gap-6 z-10">
+    <div id="map-container" tw="relative flex-1">
+      <div tw="absolute right-5 top-5 z-20">
+        <MapPriceSelect />
+      </div>
+      <div tw="absolute right-5 top-[84px] flex flex-col gap-6 z-10">
         <MapControls.Group>
           <MapControls.MapButton
             selected={mapType === 'normal'}
