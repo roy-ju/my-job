@@ -30,7 +30,7 @@ const ButtonText = tw.div`text-info text-gray-1000 mt-1`;
 
 function MapButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
+    <Button onClick={onClick} tw="flex-col w-10 h-14">
       <NaverMapPin
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
       />
@@ -43,7 +43,7 @@ function MapButton({ selected = false, onClick }: SelectableProps) {
 
 function StreetViewButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
+    <Button onClick={onClick} tw="flex-col w-10 h-14">
       <MapPinRoad
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
       />
@@ -56,7 +56,7 @@ function StreetViewButton({ selected = false, onClick }: SelectableProps) {
 
 function CadastralButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
+    <Button onClick={onClick} tw="flex-col w-10 h-14">
       <StackIcon
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
       />
@@ -107,7 +107,7 @@ function SchoolButton({
       <Button
         ref={setReferenceElement}
         onClick={handleButtonClick}
-        custom={tw`flex-col w-10 h-14`}
+        tw="flex-col w-10 h-14"
       >
         <SchoolIcon
           color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
@@ -141,7 +141,7 @@ function SchoolButton({
 
 function ZoomInButton({ onClick }: OnClickProps) {
   return (
-    <Button onClick={onClick} custom={tw`flex-col w-10 h-10`}>
+    <Button onClick={onClick} tw="flex-col w-10 h-10">
       <PlusIcon />
     </Button>
   );
@@ -149,7 +149,7 @@ function ZoomInButton({ onClick }: OnClickProps) {
 
 function ZoomOutButton({ onClick }: OnClickProps) {
   return (
-    <Button onClick={onClick} custom={tw`flex-col w-10 h-10`}>
+    <Button onClick={onClick} tw="flex-col w-10 h-10">
       <MinusIcon />
     </Button>
   );
@@ -159,9 +159,9 @@ function GPSButton({ selected = false, onClick }: SelectableProps) {
   return (
     <Button
       onClick={onClick}
-      theme="ghost"
+      variant="ghost"
       size="none"
-      custom={tw`flex-col w-10 h-10 bg-white shadow`}
+      tw="flex-col w-10 h-10 bg-white shadow"
     >
       <GPSIcon
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
@@ -174,10 +174,10 @@ function Group({ children }: { children?: ReactNode }) {
   return (
     <ButtonGroup
       separated
-      theme="ghost"
+      variant="ghost"
       orientation="vertical"
       size="none"
-      containerStyle={tw`bg-white rounded-lg shadow`}
+      tw="bg-white rounded-lg shadow"
     >
       {children}
     </ButtonGroup>

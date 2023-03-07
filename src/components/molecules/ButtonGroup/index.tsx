@@ -1,24 +1,39 @@
 import { ButtonProps } from '@/components/atoms/Button';
 import { createClassName } from '@/utils';
-import type { SerializedStyles } from '@emotion/react';
-import { ReactNode, useMemo } from 'react';
-import tw, { styled, TwStyle } from 'twin.macro';
+import { HTMLProps, ReactNode, useMemo } from 'react';
+import tw, { styled } from 'twin.macro';
 import ButtonGroupContext from './ButtonGroupContext';
 
 type Orientaion = 'horizontal' | 'vertical';
 
-export interface ButtonGroupProps {
+export interface ButtonGroupProps
+  extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'as'> {
   size?: ButtonProps['size'];
-  theme?: ButtonProps['theme'];
+  variant?: ButtonProps['variant'];
   separated?: boolean;
   orientation?: Orientaion;
-  buttonStyle?: TwStyle | string;
-  containerStyle?: TwStyle | SerializedStyles;
   children?: ReactNode;
 }
 
-const Container = styled.div`
+const separatorStyles = {
+  primary: tw`border-gray-800`,
+  secondary: tw`border-gray-300`,
+  gray: tw`border-gray-500`,
+  ghost: tw`border-gray-300`,
+  outlined: tw``,
+};
+
+const Container = styled.div<{
+  orientation: Orientaion;
+  separated: boolean;
+  variant: ButtonProps['variant'];
+}>`
   display: inline-flex;
+  ${({ orientation }) => orientation === 'horizontal' && tw`flex-row`}
+  ${({ orientation }) => orientation === 'vertical' && tw`flex-col`}
+  ${({ separated, variant }) =>
+    separated && variant && separatorStyles[variant]}
+
   &.buttonGroup-horizontal {
     button:not(:first-of-type) {
       border-top-left-radius: 0;
@@ -62,49 +77,37 @@ const Container = styled.div`
   }
 `;
 
-const separatorStyles = {
-  primary: tw`border-gray-800`,
-  secondary: tw`border-gray-300`,
-  gray: tw`border-gray-500`,
-  ghost: tw`border-gray-300`,
-  outlined: tw``,
-};
-
 export default function ButtonGroup({
   size = 'default',
-  theme = 'primary',
+  variant = 'primary',
   orientation = 'horizontal',
   separated = false,
-  buttonStyle,
-  containerStyle,
   children,
+  ...others
 }: ButtonGroupProps) {
   const className = createClassName(
     'buttonGroup',
     orientation,
-    theme ?? '',
+    variant ?? '',
     separated ? 'separated' : '',
   );
 
   const context = useMemo(
     () => ({
       size,
-      theme,
-      buttonStyle,
+      variant,
     }),
-    [size, theme, buttonStyle],
+    [size, variant],
   );
 
   return (
     <ButtonGroupContext.Provider value={context}>
       <Container
+        variant={variant}
         className={className}
-        css={[
-          orientation === 'horizontal' && tw`flex-row`,
-          orientation === 'vertical' && tw`flex-col`,
-          separated && separatorStyles[theme],
-          containerStyle,
-        ]}
+        orientation={orientation}
+        separated={separated}
+        {...others}
       >
         {children}
       </Container>

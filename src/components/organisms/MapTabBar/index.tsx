@@ -37,8 +37,8 @@ function BuildingTab({
   return (
     <div tw="flex items-center px-2 border-b-[1px] border-gray-300">
       <Button
-        theme="ghost"
-        custom={tw`px-2`}
+        variant="ghost"
+        tw="px-2"
         onClick={() => setSelectedTab(TabIndex.Apart)}
       >
         <span
@@ -50,8 +50,8 @@ function BuildingTab({
       </Button>
       <div tw="w-[1px] h-2 bg-gray-300 mx-2" />
       <Button
-        theme="ghost"
-        custom={tw`px-2`}
+        variant="ghost"
+        tw="px-2"
         onClick={() => setSelectedTab(TabIndex.villa)}
       >
         <span
@@ -63,8 +63,8 @@ function BuildingTab({
       </Button>
       <div tw="w-[1px] h-2 bg-gray-300 mx-2" />
       <Button
-        theme="ghost"
-        custom={tw`px-2`}
+        variant="ghost"
+        tw="px-2"
         onClick={() => setSelectedTab(TabIndex.oneRoom)}
       >
         <span
@@ -82,22 +82,22 @@ function FilterTab() {
   return (
     <div tw="w-full h-16 flex items-center justify-center gap-4">
       <div tw="flex items-center gap-2">
-        <Button theme="outlined" size="small" custom={tw`p-2`}>
+        <Button variant="outlined" size="small" tw="p-2">
           <FilterIcon />
         </Button>
-        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+        <Button variant="outlined" size="small" tw="text-b2">
           유형
         </Button>
-        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+        <Button variant="outlined" size="small" tw="text-b2">
           매매
         </Button>
-        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+        <Button variant="outlined" size="small" tw="text-b2">
           가격
         </Button>
-        <Button theme="outlined" size="small" custom={tw`text-b2`}>
+        <Button variant="outlined" size="small" tw="text-b2">
           세대수
         </Button>
-        <Button theme="outlined" size="small" custom={tw`p-2`}>
+        <Button variant="outlined" size="small" tw="p-2">
           <ResetIcon />
         </Button>
       </div>

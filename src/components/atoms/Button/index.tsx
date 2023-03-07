@@ -1,31 +1,12 @@
 import React, { forwardRef, ReactNode, useContext } from 'react';
-import tw, { TwStyle } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 import LoadingDot from '@/assets/icons/loading_dot.svg';
 import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
 import { resolveProps } from '@/utils';
 
-export interface ButtonProps {
-  /** 버튼 안의 내용 */
-  children?: string | ReactNode;
-  /** 클릭 했을 때 호출할 함수 */
-  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-  /** 버튼 테마 */
-  theme?: 'primary' | 'outlined' | 'ghost' | 'secondary' | 'gray';
-  /** 버튼 사이즈 */
-  size?: 'default' | 'small' | 'big' | 'medium' | 'none';
-  /** 버튼 비활성화 */
-  disabled?: boolean;
-  /** 커스텀 스타일 */
-  custom?: TwStyle;
-  /** 로딩 여부 */
-  isLoading?: boolean;
-  /** 선택되었는지 여부 */
-  isSelected?: boolean;
-}
-
 const defaultStyle = tw`flex items-center justify-center h-fit rounded-[0.5rem]`;
 
-const themes = {
+const variants = {
   primary: tw`text-white bg-gray-1000 hover:bg-gray-800 disabled:bg-gray-400 disabled:text-white`,
   secondary: tw`text-white bg-nego-800 hover:bg-nego-600 disabled:bg-nego-300 disabled:text-white`,
   gray: tw`text-gray-1000 bg-gray-200 hover:bg-gray-400 disabled:bg-gray-200`,
@@ -41,18 +22,42 @@ const sizes = {
   none: tw``,
 };
 
+const selectedStyles = {
+  gray: tw`bg-gray-1000 text-white`,
+  outlined: tw`bg-gray-200 border-gray-1000`,
+  primary: tw``,
+  secondary: tw``,
+  ghost: tw``,
+};
+
 const disabledStyle = tw`text-gray-600`;
 
-function getSelectedStyle(t: string) {
-  switch (t) {
-    case 'gray':
-      return tw`bg-gray-1000 text-white`;
-    case 'outlined':
-      return tw`bg-gray-200 border-gray-1000`;
-    default:
-      return tw``;
-  }
+export interface ButtonProps {
+  /** 버튼 안의 내용 */
+  children?: string | ReactNode;
+  /** 클릭 했을 때 호출할 함수 */
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  /** 버튼 테마 */
+  variant?: 'primary' | 'outlined' | 'ghost' | 'secondary' | 'gray';
+  /** 버튼 사이즈 */
+  size?: 'default' | 'small' | 'big' | 'medium' | 'none';
+  /** 버튼 비활성화 */
+  disabled?: boolean;
+  /** 로딩 여부 */
+  isLoading?: boolean;
+  /** 선택되었는지 여부 */
+  isSelected?: boolean;
 }
+
+const ButtonRoot = styled.button<ButtonProps>`
+  ${defaultStyle}
+  ${({ variant }) => variant && variants[variant]}
+  ${({ size }) => size && sizes[size]}
+  ${({ disabled }) => disabled && disabledStyle}
+  ${({ isLoading }) => isLoading && tw`pointer-events-none`}
+  ${({ isSelected, variant }) =>
+    isSelected && variant && selectedStyles[variant]}
+`;
 
 export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
   const contextProps = useContext(ButtonGroupContext);
@@ -60,31 +65,25 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
   const {
     children,
     onClick,
-    theme = 'primary',
+    variant = 'primary',
     size = 'default',
     disabled = false,
-    custom,
     isLoading = false,
     isSelected = false,
-    buttonStyle, // custom button style from ButtonGroup
+    ...others
   } = resolvedProps;
 
   return (
-    <button
+    <ButtonRoot
       ref={ref}
       type="button"
-      css={[
-        defaultStyle,
-        themes[theme],
-        sizes[size],
-        disabled && disabledStyle,
-        isLoading && tw`pointer-events-none`,
-        isSelected && getSelectedStyle(theme),
-        custom,
-        buttonStyle,
-      ]}
       onClick={onClick}
       disabled={disabled}
+      variant={variant}
+      size={size}
+      isLoading={isLoading}
+      isSelected={isSelected}
+      {...others}
     >
       {isLoading && (
         <div tw="flex gap-2">
@@ -100,6 +99,6 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
         </div>
       )}
       {!isLoading && children}
-    </button>
+    </ButtonRoot>
   );
 });

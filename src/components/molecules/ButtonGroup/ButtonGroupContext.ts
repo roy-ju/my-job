@@ -3,8 +3,7 @@ import type { ButtonGroupProps } from '.';
 
 interface IButtonGroupContext {
   size?: ButtonGroupProps['size'];
-  theme?: ButtonGroupProps['theme'];
-  buttonStyle?: ButtonGroupProps['buttonStyle'];
+  variant?: ButtonGroupProps['variant'];
   orientation?: ButtonGroupProps['orientation'];
 }
 

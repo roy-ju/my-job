@@ -52,8 +52,8 @@ function SearchInput({
           </button>
         )}
         <Button
-          theme="secondary"
-          custom={tw`h-[2.25rem] px-[0.625rem]`}
+          variant="secondary"
+          tw="h-[2.25rem] px-[0.625rem]"
           onClick={onClickButton}
         >
           <Search />
