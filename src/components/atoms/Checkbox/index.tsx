@@ -1,10 +1,5 @@
 import { useControlled } from '@/hooks/utils';
-import {
-  ChangeEventHandler,
-  forwardRef,
-  HTMLAttributes,
-  useCallback,
-} from 'react';
+import { ChangeEventHandler, forwardRef, HTMLProps, useCallback } from 'react';
 import tw from 'twin.macro';
 import CheckboxCheckedIcon from '@/assets/icons/checkbox_checked.svg';
 import CheckboxUncheckedIcon from '@/assets/icons/checkbox_unchecked.svg';
@@ -13,7 +8,7 @@ const CheckboxRoot = tw.span`inline-flex relative`;
 
 const CheckboxInput = tw.input`absolute opacity-0 w-full h-full top-0 left-0 z-[1] hover:cursor-pointer`;
 
-interface Props extends HTMLAttributes<HTMLInputElement> {
+interface Props extends HTMLProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;

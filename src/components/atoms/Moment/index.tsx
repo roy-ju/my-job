@@ -1,11 +1,11 @@
 import moment from 'moment';
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLProps } from 'react';
 
 /**
  * 날짜문자열을 포맷해서 보여주는 컴포넌트
  */
 
-interface Props extends HTMLAttributes<HTMLSpanElement> {
+interface Props extends HTMLProps<HTMLSpanElement> {
   format: string; // YYYY년 M월 D일
   children: string; // 포맷할 날짜 문자열
 }
