@@ -10,7 +10,7 @@ interface Props {
 
 export default function Panel({
   width = '375px',
-  animationDuration = 0.3,
+  animationDuration = 0,
   children,
 }: Props) {
   return (

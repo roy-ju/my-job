@@ -1,9 +1,9 @@
-import { DanjiMarker } from '@/components/organisms';
+// import { DanjiMarker } from '@/components/organisms';
 import { MapLayout as Layout } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
 import { Map } from '@/lib/navermap';
-import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
-import { AnimatePresence } from 'framer-motion';
+// import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
+// import { AnimatePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 
 interface Props {
@@ -16,7 +16,7 @@ function MapWrapper() {
   return (
     <Layout.MapContainer>
       <Map {...props}>
-        <CustomOverlay
+        {/* <CustomOverlay
           anchor="bottom-left"
           position={{
             lat: 37.3945005,
@@ -24,7 +24,7 @@ function MapWrapper() {
           }}
         >
           <DanjiMarker variant="blue" area={34} price={300000000} count={1} />
-        </CustomOverlay>
+        </CustomOverlay> */}
       </Map>
     </Layout.MapContainer>
   );
@@ -34,7 +34,8 @@ export default function MapLayout({ children }: Props) {
   return (
     <Layout>
       <Layout.Panels>
-        <AnimatePresence initial={false}>{children}</AnimatePresence>
+        {/* <AnimatePresence initial={false}>{children}</AnimatePresence> */}
+        {children}
       </Layout.Panels>
       <MapWrapper />
     </Layout>
