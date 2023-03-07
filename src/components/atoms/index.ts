@@ -4,5 +4,5 @@ export { default as Button } from './Button';
 export { default as Checkbox } from './Checkbox';
 export { default as Input } from './Input';
 export { default as Moment } from './Moment';
-export { default as RadioButton } from './RadioButton';
 export { default as Radio } from './Radio';
+export { default as Toggle } from './Toggle';

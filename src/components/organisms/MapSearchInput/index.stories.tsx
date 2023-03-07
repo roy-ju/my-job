@@ -12,8 +12,9 @@ export const Default: ComponentStory<typeof MapSearchInput> = () => (
     <MapSearchInput.CurrentSearch
       onClickClose={() => {}}
       onClickItem={() => {}}
+      currentSearchList={[]}
     />
-    <MapSearchInput.SearchList onClickItem={() => {}} />
+    <MapSearchInput.SearchList onClickItem={() => {}} SearchItemList={[]} />
   </MapSearchInput>
 );
 
