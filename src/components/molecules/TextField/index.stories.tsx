@@ -4,7 +4,7 @@ import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 import TextField from '.';
 
 export default {
-  title: 'atoms/TextField',
+  title: 'molecules/TextField',
   component: TextField,
   argTypes: {
     falsy: {
