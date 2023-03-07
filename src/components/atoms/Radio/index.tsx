@@ -4,7 +4,7 @@ import {
   ChangeEvent,
   ChangeEventHandler,
   forwardRef,
-  HTMLAttributes,
+  HTMLProps,
   useCallback,
 } from 'react';
 import tw, { styled } from 'twin.macro';
@@ -27,7 +27,7 @@ function areEqualValues(a: any, b: any) {
   return String(a) === String(b);
 }
 
-interface Props extends HTMLAttributes<HTMLInputElement> {
+interface Props extends HTMLProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;

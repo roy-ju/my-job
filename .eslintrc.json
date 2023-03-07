@@ -36,7 +36,8 @@
     "no-param-reassign": "off",
     "prefer-destructuring": "off",
     "react/display-name": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "react/no-this-in-sfc": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }
