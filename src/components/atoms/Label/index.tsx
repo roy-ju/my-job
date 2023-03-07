@@ -53,7 +53,7 @@ const LabelText = styled.span<{ labelPlacement: LabelPlacement }>`
   }}
 `;
 
-interface Props extends HTMLProps<HTMLLabelElement> {
+interface Props extends Omit<HTMLProps<HTMLLabelElement>, 'label' | 'as'> {
   label: string | ReactElement;
   control: ReactElement;
   labelPlacement?: LabelPlacement;
