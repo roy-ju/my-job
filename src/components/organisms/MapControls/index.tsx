@@ -1,7 +1,7 @@
 import { Button } from '@/components/atoms';
 import { ButtonGroup } from '@/components/molecules';
 import type { ReactNode } from 'react';
-import tw from 'twin.macro';
+import tw, { theme } from 'twin.macro';
 import SchoolIcon from '@/assets/icons/school.svg';
 import StackIcon from '@/assets/icons/stack.svg';
 import MapPinRoad from '@/assets/icons/map_pin_road.svg';
@@ -10,68 +10,95 @@ import PlusIcon from '@/assets/icons/plus.svg';
 import MinusIcon from '@/assets/icons/minus.svg';
 import GPSIcon from '@/assets/icons/gps.svg';
 
+interface OnClickProps {
+  onClick?: () => void;
+}
+
+interface SelectableProps extends OnClickProps {
+  selected?: boolean;
+}
+
 const ButtonText = tw.div`text-info text-gray-1000 mt-1`;
 
-function MapButton() {
+function MapButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button custom={tw`flex-col w-10 h-14`}>
-      <NaverMapPin />
-      <ButtonText>지도</ButtonText>
+    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
+      <NaverMapPin
+        color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
+      />
+      <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>
+        지도
+      </ButtonText>
     </Button>
   );
 }
 
-function RoadMapButton() {
+function RoadMapButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button custom={tw`flex-col w-10 h-14`}>
-      <MapPinRoad />
-      <ButtonText>로드</ButtonText>
+    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
+      <MapPinRoad
+        color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
+      />
+      <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>
+        로드
+      </ButtonText>
     </Button>
   );
 }
 
-function MapTileButton() {
+function MapTileButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button custom={tw`flex-col w-10 h-14`}>
-      <StackIcon />
-      <ButtonText>지적</ButtonText>
+    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
+      <StackIcon
+        color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
+      />
+      <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>
+        지적
+      </ButtonText>
     </Button>
   );
 }
 
-function SchoolButton() {
+function SchoolButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button custom={tw`flex-col w-10 h-14`}>
-      <SchoolIcon />
-      <ButtonText>학교</ButtonText>
+    <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
+      <SchoolIcon
+        color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
+      />
+      <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>
+        학교
+      </ButtonText>
     </Button>
   );
 }
 
-function ZoomInButton() {
+function ZoomInButton({ onClick }: OnClickProps) {
   return (
-    <Button custom={tw`flex-col w-10 h-10`}>
+    <Button onClick={onClick} custom={tw`flex-col w-10 h-10`}>
       <PlusIcon />
     </Button>
   );
 }
 
-function ZoomOutButton() {
+function ZoomOutButton({ onClick }: OnClickProps) {
   return (
-    <Button custom={tw`flex-col w-10 h-10`}>
+    <Button onClick={onClick} custom={tw`flex-col w-10 h-10`}>
       <MinusIcon />
     </Button>
   );
 }
 
-function GPSButton() {
+function GPSButton({ selected = false, onClick }: SelectableProps) {
   return (
     <Button
+      onClick={onClick}
       theme="ghost"
       size="none"
       custom={tw`flex-col w-10 h-10 bg-white shadow`}
     >
-      <GPSIcon />
+      <GPSIcon
+        color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
+      />
     </Button>
   );
 }

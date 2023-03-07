@@ -11,10 +11,28 @@ interface Props {
 }
 
 function MapWrapper() {
-  const props = useMapLayout();
+  const {
+    morphToCurrentLocation,
+    zoomIn,
+    zoomOut,
+    setMapTypeNormal,
+    setMapTypeTerrain,
+    toggleStreetLayer,
+    isStreetLayerActive,
+    ...props
+  } = useMapLayout();
 
   return (
-    <Layout.MapContainer>
+    <Layout.MapContainer
+      mapType={props.mapType}
+      isStreetLayerActive={isStreetLayerActive}
+      onClickCurrentLocation={morphToCurrentLocation}
+      onClickZoomIn={zoomIn}
+      onClickZoomOut={zoomOut}
+      onClickMapTypeNormal={setMapTypeNormal}
+      onClickMapTypeTerrain={setMapTypeTerrain}
+      onClickMapTypeRoadMap={toggleStreetLayer}
+    >
       <Map {...props}>
         {/* <CustomOverlay
           anchor="bottom-left"
