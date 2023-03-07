@@ -1,6 +1,6 @@
-type Props = {
+interface Props {
   onClickGoBack: () => void;
-};
+}
 
 export default function My({ onClickGoBack }: Props) {
   return (

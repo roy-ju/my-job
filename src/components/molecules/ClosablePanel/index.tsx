@@ -2,13 +2,13 @@ import { Panel } from '@/components/atoms';
 import { useIsPresent } from 'framer-motion';
 import type { ReactNode } from 'react';
 
-type Props = {
+interface Props {
   children?: ReactNode;
   closable?: boolean;
   width?: string;
   animationDuration?: number;
   onClickClose?: () => void;
-};
+}
 
 export default function ClosablePanel({
   closable = true,

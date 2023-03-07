@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ChangeEventHandler, ReactNode } from 'react';
 import Home from '@/assets/icons/home.svg';
 import MapPin from '@/assets/icons/map_pin.svg';
 import Bidding from '@/assets/icons/bidding.svg';
@@ -6,9 +6,30 @@ import ChatBubble from '@/assets/icons/chat_bubble.svg';
 import User from '@/assets/icons/user.svg';
 import { MapControls, GlobalNavigation } from '@/components/organisms';
 
-type PropsWithChildren = { children?: ReactNode };
+interface LayoutMainProps {
+  children?: ReactNode;
+}
 
-function LayoutMain({ children }: PropsWithChildren) {
+interface LayoutPanelsProps {
+  children?: ReactNode;
+}
+
+interface LayoutMapContainerProps {
+  mapType?: string;
+  schoolType?: string;
+  isStreetLayerActive?: boolean;
+  onClickCurrentLocation?: () => void;
+  onClickZoomIn?: () => void;
+  onClickZoomOut?: () => void;
+  onClickSchool?: () => void;
+  onClickMapTypeTerrain?: () => void;
+  onClickMapTypeRoadMap?: () => void;
+  onClickMapTypeNormal?: () => void;
+  onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
+  children?: ReactNode;
+}
+
+function LayoutMain({ children }: LayoutMainProps) {
   return (
     <div tw="flex h-full w-full flex-row overflow-hidden">
       <div tw="z-30">
@@ -33,7 +54,7 @@ function LayoutMain({ children }: PropsWithChildren) {
   );
 }
 
-function LayoutPanels({ children }: PropsWithChildren) {
+function LayoutPanels({ children }: LayoutPanelsProps) {
   return (
     <div tw="flex flex-row h-full z-20 shadow-[-4px_0px_24px_rgba(0,0,0,0.1)]">
       {children}
@@ -41,21 +62,48 @@ function LayoutPanels({ children }: PropsWithChildren) {
   );
 }
 
-function LayoutMapContainer({ children }: PropsWithChildren) {
+function LayoutMapContainer({
+  mapType,
+  isStreetLayerActive = false,
+  schoolType,
+  onClickCurrentLocation,
+  onClickMapTypeNormal,
+  onClickMapTypeTerrain,
+  onClickMapTypeRoadMap,
+  onClickSchool,
+  onClickZoomIn,
+  onClickZoomOut,
+  onChangeSchoolType,
+  children,
+}: LayoutMapContainerProps) {
   return (
     <div id="map-container" tw="relative flex-1 z-10">
       <div tw="absolute right-5 top-5 flex flex-col gap-6 z-10">
         <MapControls.Group>
-          <MapControls.MapButton />
-          <MapControls.RoadMapButton />
-          <MapControls.MapTileButton />
-          <MapControls.SchoolButton />
+          <MapControls.MapButton
+            selected={mapType === 'normal'}
+            onClick={onClickMapTypeNormal}
+          />
+          <MapControls.RoadMapButton
+            selected={isStreetLayerActive}
+            onClick={onClickMapTypeRoadMap}
+          />
+          <MapControls.MapTileButton
+            selected={mapType === 'terrain'}
+            onClick={onClickMapTypeTerrain}
+          />
+          <MapControls.SchoolButton
+            selected={Boolean(schoolType)}
+            value={schoolType}
+            onChange={onChangeSchoolType}
+            onClick={onClickSchool}
+          />
         </MapControls.Group>
+        <MapControls.GPSButton onClick={onClickCurrentLocation} />
         <MapControls.Group>
-          <MapControls.ZoomInButton />
-          <MapControls.ZoomOutButton />
+          <MapControls.ZoomInButton onClick={onClickZoomIn} />
+          <MapControls.ZoomOutButton onClick={onClickZoomOut} />
         </MapControls.Group>
-        <MapControls.GPSButton />
       </div>
       {children}
     </div>
