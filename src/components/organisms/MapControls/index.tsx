@@ -41,7 +41,7 @@ function MapButton({ selected = false, onClick }: SelectableProps) {
   );
 }
 
-function RoadMapButton({ selected = false, onClick }: SelectableProps) {
+function StreetViewButton({ selected = false, onClick }: SelectableProps) {
   return (
     <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
       <MapPinRoad
@@ -54,7 +54,7 @@ function RoadMapButton({ selected = false, onClick }: SelectableProps) {
   );
 }
 
-function MapTileButton({ selected = false, onClick }: SelectableProps) {
+function CadastralButton({ selected = false, onClick }: SelectableProps) {
   return (
     <Button onClick={onClick} custom={tw`flex-col w-10 h-14`}>
       <StackIcon
@@ -191,8 +191,8 @@ function MapControls() {
 export default Object.assign(MapControls, {
   Group,
   MapButton,
-  RoadMapButton,
-  MapTileButton,
+  StreetViewButton,
+  CadastralButton,
   SchoolButton,
   ZoomInButton,
   ZoomOutButton,

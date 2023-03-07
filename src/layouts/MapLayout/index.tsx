@@ -13,11 +13,9 @@ function MapWrapper() {
     morphToCurrentLocation,
     zoomIn,
     zoomOut,
-    setMapTypeNormal,
-    setMapTypeTerrain,
-    toggleStreetLayer,
+    handleChangeMapType,
     handleChangeSchoolType,
-    isStreetLayerActive,
+    mapType,
     schoolType,
     // Map
     ...props
@@ -25,15 +23,14 @@ function MapWrapper() {
 
   return (
     <Layout.MapContainer
-      mapType={props.mapType}
+      mapType={mapType}
       schoolType={schoolType}
-      isStreetLayerActive={isStreetLayerActive}
       onClickCurrentLocation={morphToCurrentLocation}
       onClickZoomIn={zoomIn}
       onClickZoomOut={zoomOut}
-      onClickMapTypeNormal={setMapTypeNormal}
-      onClickMapTypeTerrain={setMapTypeTerrain}
-      onClickMapTypeRoadMap={toggleStreetLayer}
+      onClickMapTypeNormal={() => handleChangeMapType('normal')}
+      onClickMapTypeCadastral={() => handleChangeMapType('cadastral')}
+      onClickMapTypeStreet={() => handleChangeMapType('street')}
       onChangeSchoolType={handleChangeSchoolType}
     >
       <Map {...props} />

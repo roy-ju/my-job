@@ -21,13 +21,12 @@ interface LayoutPanelsProps {
 interface LayoutMapContainerProps {
   mapType?: string;
   schoolType?: string;
-  isStreetLayerActive?: boolean;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
   onClickSchool?: () => void;
-  onClickMapTypeTerrain?: () => void;
-  onClickMapTypeRoadMap?: () => void;
+  onClickMapTypeCadastral?: () => void;
+  onClickMapTypeStreet?: () => void;
   onClickMapTypeNormal?: () => void;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
   children?: ReactNode;
@@ -68,12 +67,11 @@ function LayoutPanels({ children }: LayoutPanelsProps) {
 
 function LayoutMapContainer({
   mapType,
-  isStreetLayerActive = false,
   schoolType,
   onClickCurrentLocation,
   onClickMapTypeNormal,
-  onClickMapTypeTerrain,
-  onClickMapTypeRoadMap,
+  onClickMapTypeCadastral,
+  onClickMapTypeStreet,
   onClickSchool,
   onClickZoomIn,
   onClickZoomOut,
@@ -91,13 +89,13 @@ function LayoutMapContainer({
             selected={mapType === 'normal'}
             onClick={onClickMapTypeNormal}
           />
-          <MapControls.RoadMapButton
-            selected={isStreetLayerActive}
-            onClick={onClickMapTypeRoadMap}
+          <MapControls.StreetViewButton
+            selected={mapType === 'street'}
+            onClick={onClickMapTypeStreet}
           />
-          <MapControls.MapTileButton
-            selected={mapType === 'terrain'}
-            onClick={onClickMapTypeTerrain}
+          <MapControls.CadastralButton
+            selected={mapType === 'cadastral'}
+            onClick={onClickMapTypeCadastral}
           />
           <MapControls.SchoolButton
             selected={Boolean(schoolType)}
