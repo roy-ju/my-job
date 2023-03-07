@@ -9,14 +9,14 @@ type Anchor =
   | 'bottom-left'
   | 'bottom-right';
 
-type Props = {
+interface Props {
   position: {
     lat: number;
     lng: number;
   };
   anchor?: Anchor;
   children?: ReactNode;
-};
+}
 
 function getOffset(width: number, height: number, anchor: Anchor) {
   if (anchor === 'top-left') {

@@ -4,12 +4,12 @@ import { useRouter } from '@/hooks/utils';
 import useMap from '@/states/map';
 import { memo, useCallback, useEffect } from 'react';
 
-type Props = {
+interface Props {
   depth: number;
   listingID: number;
   panelWidth?: string;
   panelAnimationDuration?: number;
-};
+}
 
 export default memo(
   ({ panelWidth, panelAnimationDuration, depth, listingID }: Props) => {

@@ -2,13 +2,13 @@ import { useControlled } from '@/hooks/utils';
 import {
   ChangeEvent,
   ChangeEventHandler,
-  HTMLAttributes,
+  HTMLProps,
   ReactNode,
   useMemo,
 } from 'react';
 import RadioGroupContext from './RadioGroupContext';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface Props extends HTMLProps<HTMLDivElement> {
   value?: any;
   defaultValue?: any;
   onChange?: ChangeEventHandler<HTMLInputElement>;

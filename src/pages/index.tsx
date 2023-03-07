@@ -1,7 +1,8 @@
+import { Home } from '@/components/pages';
 import { MapLayout } from '@/layouts';
 import { NextPageWithLayout } from './_app';
 
-const Page: NextPageWithLayout = () => <></>;
+const Page: NextPageWithLayout = () => <Home />;
 
 Page.getLayout = function getLayout(page) {
   return <MapLayout>{page}</MapLayout>;

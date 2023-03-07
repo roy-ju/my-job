@@ -3,11 +3,11 @@ import { ReportListing } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import { memo, useCallback } from 'react';
 
-type Props = {
+interface Props {
   depth: number;
   panelWidth?: string;
   panelAnimationDuration?: number;
-};
+}
 
 export default memo(({ panelAnimationDuration, panelWidth, depth }: Props) => {
   const router = useRouter(depth);

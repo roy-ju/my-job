@@ -5,7 +5,7 @@ import MarkerTail from '../assets/marker_tail.svg';
 import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
 import variants, { VariantKey } from '../variants';
 
-type Props = {
+interface Props {
   /** 마커 색상 */
   variant: VariantKey;
   /** 평 */
@@ -16,7 +16,7 @@ type Props = {
   count: number;
   /** 마커 클릭 이벤트 핸들러 */
   onClick?: MouseEventHandler<HTMLButtonElement>;
-};
+}
 
 export default React.memo(
   ({ variant, area, price, count = 0, onClick }: Props) => (

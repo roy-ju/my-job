@@ -13,6 +13,7 @@ export type MapProps = {
   zoom: number;
   minZoom?: number;
   maxZoom?: number;
+  mapType?: string;
   onInit?: (map: NaverMap) => void;
   onCreate?: (map: NaverMap) => void;
   onBoundsChanged?: (map: NaverMap, bounds: NaverLatLngBounds) => void;
@@ -29,6 +30,7 @@ export default memo(
     zoom,
     minZoom,
     maxZoom,
+    mapType,
     onInit,
     onCreate,
     onBoundsChanged,
@@ -50,6 +52,7 @@ export default memo(
         zoom,
         minZoom: 8 || minZoom,
         maxZoom: 19 || maxZoom,
+        mapTypeId: mapType ?? naver.maps.MapTypeId.NORMAL,
       });
 
       setMap(naverMap);
@@ -79,6 +82,11 @@ export default memo(
       if (!map || !zoom) return;
       map.setZoom(zoom);
     }, [map, zoom]);
+
+    useIsomorphicLayoutEffect(() => {
+      if (!map || !mapType) return;
+      map.setMapTypeId(mapType);
+    }, [map, mapType]);
 
     useNaverMapEvent(map, 'bounds_changed', onBoundsChanged);
     useNaverMapEvent(map, 'zoom_changed', onZoomChanged);

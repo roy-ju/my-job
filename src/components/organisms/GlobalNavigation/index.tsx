@@ -11,10 +11,10 @@ import tw from 'twin.macro';
 import Logo from '@/assets/icons/logo.svg';
 import Menu from '@/assets/icons/menu.svg';
 
-type NavigationContextType = {
+interface NavigationContextType {
   selectedTab: number;
   changeTab: (tab: number) => void;
-};
+}
 
 const defaultOption = {
   selectedTab: 0,

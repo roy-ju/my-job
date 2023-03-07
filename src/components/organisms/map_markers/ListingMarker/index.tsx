@@ -4,14 +4,14 @@ import tw from 'twin.macro';
 import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
 import MarkerTail from '../assets/marker_tail.svg';
 
-type Props = {
+interface Props {
   /** 금액 */
   price: number;
   /** 매물수 */
   count: number;
   /** 마커 클릭 이벤트 핸들러 */
   onClick?: MouseEventHandler<HTMLButtonElement>;
-};
+}
 
 export default React.memo(({ price, count = 0, onClick }: Props) => (
   <button type="button" tw="relative w-fit" onClick={onClick}>

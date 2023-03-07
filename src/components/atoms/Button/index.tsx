@@ -1,10 +1,10 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { forwardRef, ReactNode, useContext } from 'react';
 import tw, { TwStyle } from 'twin.macro';
 import LoadingDot from '@/assets/icons/loading_dot.svg';
 import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
 import { resolveProps } from '@/utils';
 
-export type ButtonProps = {
+export interface ButtonProps {
   /** 버튼 안의 내용 */
   children?: string | ReactNode;
   /** 클릭 했을 때 호출할 함수 */
@@ -21,7 +21,7 @@ export type ButtonProps = {
   isLoading?: boolean;
   /** 선택되었는지 여부 */
   isSelected?: boolean;
-};
+}
 
 const defaultStyle = tw`flex items-center justify-center h-fit rounded-[0.5rem]`;
 
@@ -54,7 +54,7 @@ function getSelectedStyle(t: string) {
   }
 }
 
-function Button(inProps: ButtonProps) {
+export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
   const contextProps = useContext(ButtonGroupContext);
   const resolvedProps = resolveProps(inProps, contextProps);
   const {
@@ -71,6 +71,7 @@ function Button(inProps: ButtonProps) {
 
   return (
     <button
+      ref={ref}
       type="button"
       css={[
         defaultStyle,
@@ -101,6 +102,4 @@ function Button(inProps: ButtonProps) {
       {!isLoading && children}
     </button>
   );
-}
-
-export default Button;
+});

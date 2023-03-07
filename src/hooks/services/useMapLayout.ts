@@ -2,8 +2,15 @@ import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { mapState } from '@/states/map';
 import _ from 'lodash';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useSetRecoilState } from 'recoil';
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { useRecoilState } from 'recoil';
 import { useRouter } from '../utils';
 
 const USER_LAST_LOCATION = 'user_last_location';
@@ -70,7 +77,12 @@ function getUserLastLocation(): { lat: number; lng: number } {
  */
 export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
-  const setMap = useSetRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+  const [map, setMap] = useRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+  const [mapType, setMapType] = useState('normal');
+  const [isStreetLayerActive, setIsStreetLayerActive] = useState(false);
+  const [schoolType, setSchoolType] = useState('');
+
+  const streetLayerRef = useRef<naver.maps.StreetLayer>();
 
   /**
    * 지도의 초기값들을 설정한다.
@@ -100,6 +112,7 @@ export default function useMapLayout() {
       if (typeof window !== 'undefined') {
         window.NaverMap = m;
       }
+
       setMap(m);
     },
     [setMap],
@@ -172,7 +185,69 @@ export default function useMapLayout() {
     return () => {};
   }, []);
 
+  /**
+   * 로드뷰 핸들링
+   */
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof naver === 'undefined') {
+      return;
+    }
+    if (!map) {
+      return;
+    }
+
+    if (isStreetLayerActive) {
+      if (!streetLayerRef.current) {
+        streetLayerRef.current = new naver.maps.StreetLayer();
+      }
+
+      streetLayerRef.current.setMap(map);
+    } else {
+      streetLayerRef.current?.setMap(null);
+    }
+  }, [map, isStreetLayerActive]);
+
+  // Map Control Handlers
+
+  const morphToCurrentLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
+      const latlng = { lat: coords.latitude, lng: coords.longitude };
+      localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+      map?.morph(latlng, DEFAULT_ZOOM);
+    });
+  }, [map]);
+
+  const zoomIn = useCallback(() => {
+    if (!map) return;
+    map.zoomBy(1, undefined, true);
+  }, [map]);
+
+  const zoomOut = useCallback(() => {
+    if (!map) return;
+    map.zoomBy(-1, undefined, true);
+  }, [map]);
+
+  const setMapTypeNormal = useCallback(() => {
+    setMapType(naver.maps.MapTypeId.NORMAL);
+  }, []);
+
+  const setMapTypeTerrain = useCallback(() => {
+    setMapType(naver.maps.MapTypeId.TERRAIN);
+  }, []);
+
+  const toggleStreetLayer = useCallback(() => {
+    setIsStreetLayerActive((prev) => !prev);
+  }, []);
+
+  const handleChangeSchoolType = useCallback<
+    ChangeEventHandler<HTMLInputElement>
+  >((event) => {
+    setSchoolType(event.target.value);
+  }, []);
+
   return {
+    // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
     maxZoom: DEFAULT_MAX_ZOOM,
     zoom: initialZoom,
@@ -181,5 +256,16 @@ export default function useMapLayout() {
     onCreate,
     onClick,
     onIdle,
+    // ones with business logics
+    isStreetLayerActive,
+    mapType,
+    schoolType,
+    morphToCurrentLocation,
+    zoomIn,
+    zoomOut,
+    setMapTypeNormal,
+    setMapTypeTerrain,
+    toggleStreetLayer,
+    handleChangeSchoolType,
   };
 }

@@ -1,7 +1,7 @@
-import { ChangeEvent, HTMLAttributes, ReactNode } from 'react';
+import { ChangeEvent, forwardRef, HTMLProps, ReactNode } from 'react';
 import tw, { TwStyle } from 'twin.macro';
 
-interface Props extends HTMLAttributes<HTMLInputElement> {
+interface Props extends HTMLProps<HTMLInputElement> {
   placeholder?: string;
   children?: ReactNode;
   divStyle?: TwStyle;
@@ -13,24 +13,28 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
 }
 
 const style = {
-  default: tw`relative w-fit bg-white py-2.5 pl-4 pr-2.5 border-[1px] rounded-[0.5rem]  flex items-center`,
+  default: tw`relative w-full bg-white py-2.5 pl-4 pr-2.5 border-[1px] rounded-[0.5rem]  flex items-center`,
   disabled: tw`bg-gray-100`,
 };
 
-function Input({
-  placeholder,
-  children,
-  divStyle,
-  inputStyle,
-  icon,
-  disabled,
-  onChange,
-  onFocus,
-  onBlur,
-  value,
-}: Props) {
-  return (
-    <div css={[style.default, disabled && style.disabled, divStyle]}>
+const Input = forwardRef<HTMLDivElement, Props>(
+  (
+    {
+      placeholder,
+      children,
+      divStyle,
+      inputStyle,
+      icon,
+      disabled,
+      onChange,
+      onFocus,
+      onBlur,
+      value,
+      ...others
+    },
+    ref,
+  ) => (
+    <div ref={ref} css={[style.default, disabled && style.disabled, divStyle]}>
       {icon}
       <input
         value={value}
@@ -40,15 +44,15 @@ function Input({
         onFocus={onFocus}
         onBlur={onBlur}
         css={[
-          tw` w-[14.6rem] h-full  placeholder:text-b1 placeholder:text-gray-600`,
+          tw` w-full h-[2.25rem]  placeholder:text-b1 placeholder:text-gray-600`,
           disabled && style.disabled,
           inputStyle,
         ]}
         type="text"
+        {...others}
       />
       {children}
     </div>
-  );
-}
-
+  ),
+);
 export default Input;

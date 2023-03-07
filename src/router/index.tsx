@@ -8,18 +8,18 @@ const DanjiDetail = dynamic(() => import('@/components/pages/DanjiDetail'));
 const ReportListing = dynamic(() => import('@/components/pages/ReportListing'));
 
 const DEFAULT_PANEL_WIDTH = '375px';
-const DEFAULT_PANEL_ANIMATION_DURATION = 0.3;
+const DEFAULT_PANEL_ANIMATION_DURATION = 0;
 
 const commonProps = {
   panelWidth: DEFAULT_PANEL_WIDTH,
   panelAnimationDuration: DEFAULT_PANEL_ANIMATION_DURATION,
 };
 
-type Props = {
+interface Props {
   route: string; // url segments 에서 가장 우측에 위치한 segment
   query: ParsedUrlQuery; // 쿼리 파라미터
   depth: number; // route segment 의 depth
-};
+}
 
 export default function Router({ route, query, depth }: Props) {
   switch (route) {
