@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 import { ChangeEventHandler, forwardRef, useCallback } from 'react';
 import { useControlled } from '@/hooks/utils';
-import CheckUrl from '@/assets/icons/check.svg';
+import checkURLPath from '@/assets/icons/check.svg?url';
 
 interface Props {
   toggleOn?: boolean;
@@ -46,7 +46,7 @@ const Toggle = forwardRef<HTMLInputElement, Props>(
           ]}
           ref={ref}
           style={{
-            backgroundImage: `url(${CheckUrl})`,
+            backgroundImage: `url('${checkURLPath}')`,
           }}
         />
       </ToggleRoot>
