@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ToggleRoot = styled.span<{ checked: boolean }>`
-  ${tw`inline-flex relative w-[2.75rem] h-[1.75rem] bg-gray-400 rounded-[34px] py-0.5`}
+  ${tw`inline-flex relative w-[2.75rem] h-[1.75rem] bg-gray-400 rounded-[34px] `}
   ${({ checked }) => checked && tw`bg-gray-1000`}
 `;
 const Toggle = forwardRef<HTMLInputElement, Props>(
@@ -40,13 +40,16 @@ const Toggle = forwardRef<HTMLInputElement, Props>(
           checked={checked}
           onChange={handleToggleChange}
           css={[
-            tw`appearance-none w-[1.5rem] h-[1.5rem] bg-white rounded-full absolute top-0 left-0 z-[1] flex items-center justify-center cursor-pointer m-0.5`,
+            tw`appearance-none w-[1.5rem] h-[1.5rem] bg-white text-white rounded-full absolute top-0 left-0 z-[1] flex items-center justify-center cursor-pointer m-0.5`,
             tw`duration-75 ease-in-out transform translate-x-0`,
-            checked && tw`duration-75 ease-in-out transform translate-x-4`,
+            checked &&
+              tw`duration-75 ease-in-out transform translate-x-4 text-gray-1000`,
           ]}
           ref={ref}
           style={{
-            backgroundImage: `url('${checkURLPath}')`,
+            backgroundImage: checked ? `url('${checkURLPath}')` : '',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
           }}
         />
       </ToggleRoot>
