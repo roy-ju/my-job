@@ -15,7 +15,7 @@ import {
 function MapSearchInput({ children }: { children: ReactNode }) {
   return (
     <MapSearchInputProvider>
-      <div tw="w-fit drop-shadow-[0px 12px 20px rgba(0, 0, 0, 0.1)]">
+      <div tw="w-[23.75rem] drop-shadow-[0px 12px 20px rgba(0, 0, 0, 0.1)]">
         {children}
       </div>
     </MapSearchInputProvider>
@@ -36,7 +36,7 @@ function SearchInput({
   return (
     <Input
       value={inputValue || ''}
-      divStyle={tw`w-[23.75rem] flex justify-between`}
+      divStyle={tw`flex justify-between w-full `}
       placeholder="주소 또는 단지명을 입력하세요"
       onFocus={() => setFocused(true)}
       // onBlur={() => setFocused(false)}
@@ -78,6 +78,7 @@ function CurrentSearch({
   // 포커스 되었고 / input value가 없을 때만 최근 검색 목록을 보여준다.
   if (!isFocused || !!inputValue) return null;
 
+  // to do : currentSearchList type이 정해지면 반복문 사용
   return (
     <div tw="w-[23.75rem]  bg-white mt-2 rounded-[0.5rem] py-2">
       {currentSearchList ? (
@@ -139,23 +140,11 @@ function SearchList({
   // 포커스 되었고 / input value가 있을 때만 검색 결과 목록을 보여준다.
   if (!isFocused || !inputValue || inputValue === '') return null;
 
+  // to do : SearchItemList type이 정해지면 반복문 사용
   return (
     <div tw="w-[23.75rem] min-h-[4.1rem] h-fit bg-white mt-2 rounded-[0.5rem] pb-2">
-      {!SearchItemList ? (
+      {SearchItemList ? (
         <Container tw="h-fit max-h-[43rem] flex-none overflow-y-auto">
-          <button
-            type="button"
-            tw="w-full flex flex-col p-4 hover:bg-gray-200"
-            onClick={onClickItem}
-          >
-            <div tw="w-full flex items-center justify-between mb-2">
-              <span tw="text-b2 leading-[14px]">판교역</span>
-              <span tw="text-info text-gray-700 leading-[12px]">기차역</span>
-            </div>
-            <span tw="text-info text-gray-700 leading-[12px]">
-              경기 성남시 분당구 현암로 3
-            </span>
-          </button>
           <button
             type="button"
             tw="w-full flex flex-col p-4 hover:bg-gray-200"
