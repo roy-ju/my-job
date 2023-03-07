@@ -5,3 +5,4 @@ export { default as DanjiMarker } from './map_markers/DanjiMarker';
 export { default as ListingMarker } from './map_markers/ListingMarker';
 export { default as MapTabBar } from './MapTabBar';
 export { default as MapSearchInput } from './MapSearchInput';
+export { default as MapPriceSelect } from './MapPriceSelect';
