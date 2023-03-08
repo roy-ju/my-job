@@ -8,6 +8,7 @@ import {
   MapControls,
   GlobalNavigation,
   MapPriceSelect,
+  MapSearchTextField,
 } from '@/components/organisms';
 import { Button } from '@/components/atoms';
 
@@ -84,6 +85,10 @@ function LayoutMapContainer({
 }: LayoutMapContainerProps) {
   return (
     <div id="map-container" tw="relative flex-1">
+      <div tw="absolute left-5 top-5 z-10 w-[380px]">
+        <MapSearchTextField />
+      </div>
+
       <div tw="absolute right-5 top-5 z-20">
         <MapPriceSelect />
       </div>
