@@ -4,7 +4,7 @@ import LoadingDot from '@/assets/icons/loading_dot.svg';
 import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
 import { resolveProps } from '@/utils';
 
-const defaultStyle = tw`flex items-center justify-center h-fit rounded-lg`;
+const defaultStyle = tw`flex items-center justify-center h-fit rounded-lg transition-colors`;
 
 const variants = {
   primary: tw`text-white bg-gray-1000 hover:bg-gray-800 disabled:bg-gray-400 disabled:text-white`,
