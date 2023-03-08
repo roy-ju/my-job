@@ -12,6 +12,7 @@ import {
 } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from '../utils';
+import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -239,6 +240,20 @@ export default function useMapLayout() {
     setSchoolType(event.target.value);
   }, []);
 
+  const handleMapSearch = useCallback(
+    (item: KakaoAddressAutocompleteResponseItem) => {
+      if (!map) return;
+      map.morph(
+        {
+          lat: item.lat,
+          lng: item.lng,
+        },
+        18,
+      );
+    },
+    [map],
+  );
+
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -257,5 +272,6 @@ export default function useMapLayout() {
     zoomOut,
     handleChangeMapType,
     handleChangeSchoolType,
+    handleMapSearch,
   };
 }

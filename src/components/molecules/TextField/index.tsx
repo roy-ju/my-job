@@ -27,8 +27,14 @@ const Container = forwardRef<HTMLDivElement, RootProps>((props, ref) => (
 
 const Input = forwardRef<HTMLInputElement, Omit<InputProps, 'as' | 'theme'>>(
   (inProps, ref) => {
-    const { value, onChange, onFocus } = useContext(AutocompleteContext);
-    const resolvedProps = resolveProps(inProps, { value, onChange, onFocus });
+    const { value, onChange, onFocus, onKeyDown } =
+      useContext(AutocompleteContext);
+    const resolvedProps = resolveProps(inProps, {
+      value,
+      onChange,
+      onFocus,
+      onKeyDown,
+    });
 
     return <StyledInput ref={ref} {...resolvedProps} />;
   },

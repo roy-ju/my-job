@@ -5,6 +5,7 @@ import React, {
   Children,
   HTMLProps,
   isValidElement,
+  KeyboardEventHandler,
   ReactNode,
   useCallback,
   useContext,
@@ -81,8 +82,9 @@ function Container({
     setIsOpen(true);
   }, []);
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((e?: any) => {
     setIsOpen(false);
+    e?.currentTarget?.blur?.();
   }, []);
 
   const [value, setValueProp] = useControlled({
@@ -109,14 +111,32 @@ function Container({
     [handleInputChange, handleClose],
   );
 
+  const handleKeyDown = useCallback<KeyboardEventHandler<HTMLInputElement>>(
+    (e) => {
+      if (e.which !== 229) {
+        // Wait until IME settled.
+        if (e.key === 'Escape') {
+          e.currentTarget.blur();
+          handleClose();
+        } else if (e.key === 'Enter') {
+          e.currentTarget.blur();
+          e.currentTarget.form?.requestSubmit();
+          handleClose();
+        }
+      }
+    },
+    [handleClose],
+  );
+
   const context = useMemo(
     () => ({
       value,
       onChange: handleInputChange,
       onFocus: handleOpen,
       onOptionClick: handleOptionClick,
+      onKeyDown: handleKeyDown,
     }),
-    [value, handleInputChange, handleOpen, handleOptionClick],
+    [value, handleInputChange, handleOpen, handleOptionClick, handleKeyDown],
   );
 
   useOutsideClick({

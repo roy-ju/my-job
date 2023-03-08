@@ -17,6 +17,7 @@ function MapWrapper() {
     handleChangeSchoolType,
     mapType,
     schoolType,
+    handleMapSearch,
     // Map
     ...props
   } = useMapLayout();
@@ -32,6 +33,7 @@ function MapWrapper() {
       onClickMapTypeCadastral={() => handleChangeMapType('cadastral')}
       onClickMapTypeStreet={() => handleChangeMapType('street')}
       onChangeSchoolType={handleChangeSchoolType}
+      onMapSearchSubmit={handleMapSearch}
     >
       <Map {...props} />
     </Layout.MapContainer>
