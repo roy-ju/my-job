@@ -9,12 +9,12 @@ export default {
 } as ComponentMeta<typeof Button>;
 
 export const Default: ComponentStory<typeof Button> = (args) => (
-  <Button {...args}>Button</Button>
+  <Button {...args}>네고시오</Button>
 );
 
 Default.args = {
   variant: 'primary',
-  size: 'default',
+  size: 'big',
 };
 
 export const variant = () => (
@@ -46,6 +46,7 @@ export const Size = () => (
     <Button size="small">Small</Button>
     <Button size="medium">Medium</Button>
     <Button size="big">Big</Button>
+    <Button size="bigger">Bigger</Button>
   </div>
 );
 

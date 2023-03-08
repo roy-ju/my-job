@@ -9,6 +9,10 @@ import {
   GlobalNavigation,
   MapPriceSelect,
 } from '@/components/organisms';
+import { Button } from '@/components/atoms';
+
+import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
+import HouseGreenIcon from '@/assets/icons/house_green.svg';
 
 interface LayoutMainProps {
   children?: ReactNode;
@@ -109,6 +113,21 @@ function LayoutMapContainer({
           <MapControls.ZoomInButton onClick={onClickZoomIn} />
           <MapControls.ZoomOutButton onClick={onClickZoomOut} />
         </MapControls.Group>
+      </div>
+      <div tw="absolute right-5 bottom-10 flex gap-2">
+        <Button
+          variant="ghost"
+          tw="bg-white font-bold shadow hover:bg-gray-300"
+        >
+          <RefreshOrangeIcon style={{ marginRight: '0.5rem' }} />
+          중개사 사이트
+        </Button>
+        <Button
+          variant="ghost"
+          tw="bg-white font-bold shadow hover:bg-gray-300"
+        >
+          <HouseGreenIcon style={{ marginRight: '0.5rem' }} />집 내놓기
+        </Button>
       </div>
       {children}
     </div>

@@ -4,7 +4,7 @@ import LoadingDot from '@/assets/icons/loading_dot.svg';
 import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
 import { resolveProps } from '@/utils';
 
-const defaultStyle = tw`flex items-center justify-center h-fit rounded-[0.5rem]`;
+const defaultStyle = tw`flex items-center justify-center h-fit rounded-lg`;
 
 const variants = {
   primary: tw`text-white bg-gray-1000 hover:bg-gray-800 disabled:bg-gray-400 disabled:text-white`,
@@ -15,11 +15,11 @@ const variants = {
 };
 
 const sizes = {
-  default: tw`px-4 h-[3.5rem]`,
-  small: tw`px-4 h-[2rem] text-info`,
-  medium: tw`px-4 h-[2.5rem]`,
-  big: tw`px-4 h-[3rem]`,
-  none: tw``,
+  small: tw`px-4 h-[2rem] text-info leading-4`,
+  medium: tw`px-4 h-[2.5rem] text-b2 leading-4`,
+  big: tw`px-4 h-[3rem] text-b2 leading-4`,
+  bigger: tw`px-4 h-[3.5rem] text-b2 leading-4`,
+  none: tw`text-b2 leading-4`,
 };
 
 const selectedStyles = {
@@ -40,7 +40,7 @@ export interface ButtonProps {
   /** 버튼 테마 */
   variant?: 'primary' | 'outlined' | 'ghost' | 'secondary' | 'gray';
   /** 버튼 사이즈 */
-  size?: 'default' | 'small' | 'big' | 'medium' | 'none';
+  size?: 'small' | 'medium' | 'big' | 'bigger' | 'none';
   /** 버튼 비활성화 */
   disabled?: boolean;
   /** 로딩 여부 */
@@ -66,7 +66,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
     children,
     onClick,
     variant = 'primary',
-    size = 'default',
+    size = 'big',
     disabled = false,
     isLoading = false,
     isSelected = false,

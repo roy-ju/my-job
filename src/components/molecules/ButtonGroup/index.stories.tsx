@@ -30,9 +30,9 @@ export const Default: ComponentStory<typeof ButtonGroup> = (args) => (
 Default.storyName = '기본';
 Default.args = {
   orientation: 'horizontal',
-  separated: false,
+  separated: true,
   variant: 'primary',
-  size: 'default',
+  size: 'big',
 };
 
 export const CustomStyles: ComponentStory<typeof ButtonGroup> = (args) => (
