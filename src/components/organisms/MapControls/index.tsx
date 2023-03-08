@@ -30,7 +30,7 @@ const ButtonText = tw.div`text-info text-gray-1000 mt-1`;
 
 function MapButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} tw="flex-col w-10 h-14">
+    <Button onClick={onClick} tw="flex-col w-10 h-14 hover:bg-gray-300">
       <NaverMapPin
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
       />
@@ -43,7 +43,7 @@ function MapButton({ selected = false, onClick }: SelectableProps) {
 
 function StreetViewButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} tw="flex-col w-10 h-14">
+    <Button onClick={onClick} tw="flex-col w-10 h-14 hover:bg-gray-300">
       <MapPinRoad
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
       />
@@ -56,7 +56,7 @@ function StreetViewButton({ selected = false, onClick }: SelectableProps) {
 
 function CadastralButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} tw="flex-col w-10 h-14">
+    <Button onClick={onClick} tw="flex-col w-10 h-14 hover:bg-gray-300">
       <StackIcon
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
       />
@@ -107,7 +107,7 @@ function SchoolButton({
       <Button
         ref={setReferenceElement}
         onClick={handleButtonClick}
-        tw="flex-col w-10 h-14"
+        tw="flex-col w-10 h-14 hover:bg-gray-300"
       >
         <SchoolIcon
           color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}
@@ -141,7 +141,7 @@ function SchoolButton({
 
 function ZoomInButton({ onClick }: OnClickProps) {
   return (
-    <Button onClick={onClick} tw="flex-col w-10 h-10">
+    <Button onClick={onClick} tw="flex-col w-10 h-10 hover:bg-gray-300">
       <PlusIcon />
     </Button>
   );
@@ -149,7 +149,7 @@ function ZoomInButton({ onClick }: OnClickProps) {
 
 function ZoomOutButton({ onClick }: OnClickProps) {
   return (
-    <Button onClick={onClick} tw="flex-col w-10 h-10">
+    <Button onClick={onClick} tw="flex-col w-10 h-10 hover:bg-gray-300">
       <MinusIcon />
     </Button>
   );
@@ -161,7 +161,7 @@ function GPSButton({ selected = false, onClick }: SelectableProps) {
       onClick={onClick}
       variant="ghost"
       size="none"
-      tw="flex-col w-10 h-10 bg-white shadow"
+      tw="flex-col w-10 h-10 bg-white shadow hover:bg-gray-300"
     >
       <GPSIcon
         color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`}

@@ -1,7 +1,6 @@
 import { ButtonProps } from '@/components/atoms/Button';
-import { createClassName } from '@/utils';
 import { HTMLProps, ReactNode, useMemo } from 'react';
-import tw, { styled } from 'twin.macro';
+import tw, { css, styled } from 'twin.macro';
 import ButtonGroupContext from './ButtonGroupContext';
 
 type Orientaion = 'horizontal' | 'vertical';
@@ -29,49 +28,67 @@ const Container = styled.div<{
   variant: ButtonProps['variant'];
 }>`
   display: inline-flex;
-  ${({ orientation }) => orientation === 'horizontal' && tw`flex-row`}
-  ${({ orientation }) => orientation === 'vertical' && tw`flex-col`}
+  ${({ orientation }) =>
+    orientation === 'horizontal' &&
+    css`
+      flex-direction: row;
+      button:not(:first-of-type) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+      button:not(:last-of-type) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      button:not(:last-of-type) {
+        border-right-width: 0;
+      }
+    `}
+  ${({ orientation }) =>
+    orientation === 'vertical' &&
+    css`
+      flex-direction: column;
+      button:not(:first-of-type) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+      button:not(:last-of-type) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      button:not(:last-of-type) {
+        border-bottom-width: 0;
+      }
+    `}
+
+  ${({ variant, separated, orientation }) =>
+    separated &&
+    variant !== 'outlined' &&
+    orientation === 'horizontal' &&
+    css`
+      button:not(:last-of-type) {
+        border-right-width: 1px;
+        border-color: inherit;
+      }
+    `}
+
+    ${({ variant, separated, orientation }) =>
+    separated &&
+    variant !== 'outlined' &&
+    orientation === 'vertical' &&
+    css`
+      button:not(:last-of-type) {
+        border-bottom-width: 1px;
+        border-color: inherit;
+      }
+    `}
+    
+  
   ${({ separated, variant }) =>
     separated && variant && separatorStyles[variant]}
 
-  &.buttonGroup-horizontal {
-    button:not(:first-of-type) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    button:not(:last-of-type) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    button:not(:last-of-type) {
-      border-right-width: 0;
-    }
-  }
-  &.buttonGroup-vertical {
-    button:not(:first-of-type) {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-    button:not(:last-of-type) {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    button:not(:last-of-type) {
-      border-bottom-width: 0;
-    }
-  }
-  &.buttonGroup-separated.buttonGroup-vertical:not(.buttonGroup-outlined) {
-    button:not(:last-of-type) {
-      border-bottom-width: 1px;
-      border-color: inherit;
-    }
-  }
-  &.buttonGroup-separated.buttonGroup-horizontal:not(.buttonGroup-outlined) {
-    button:not(:last-of-type) {
-      border-right-width: 1px;
-      border-color: inherit;
-    }
-  }
+
+
   button:hover {
     border-color: inherit;
   }
@@ -85,13 +102,6 @@ export default function ButtonGroup({
   children,
   ...others
 }: ButtonGroupProps) {
-  const className = createClassName(
-    'buttonGroup',
-    orientation,
-    variant ?? '',
-    separated ? 'separated' : '',
-  );
-
   const context = useMemo(
     () => ({
       size,
@@ -104,7 +114,6 @@ export default function ButtonGroup({
     <ButtonGroupContext.Provider value={context}>
       <Container
         variant={variant}
-        className={className}
         orientation={orientation}
         separated={separated}
         {...others}
