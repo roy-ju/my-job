@@ -104,17 +104,22 @@ function TabButton({
     <button
       type="button"
       css={[
-        tw`w-full h-[5.25rem] flex flex-col items-center py-5 gap-2 hover:bg-gray-300`,
-        selectedTab === idx ? tw`bg-nego-100` : tw`bg-white`,
+        tw`w-full h-[5.25rem] flex flex-col items-center py-5 gap-2 hover:bg-gray-300 transition-colors`,
+        selectedTab === idx ? tw`bg-nego-100 hover:bg-nego-100` : tw`bg-white`,
       ]}
       onClick={handleTabButton}
     >
-      <div css={[selectedTab === idx ? tw`text-nego-700` : tw`text-gray-600`]}>
+      <div
+        css={[
+          tw`transition-colors`,
+          selectedTab === idx ? tw`text-nego-700` : tw`text-gray-600`,
+        ]}
+      >
         {icon}
       </div>
       <span
         css={[
-          tw`text-info`,
+          tw`transition-colors text-info`,
           selectedTab === idx ? tw`text-nego-1000` : tw`text-gray-1000`,
         ]}
       >

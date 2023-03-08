@@ -9,7 +9,7 @@ export default function MapSearchTextField() {
         <TextField.Trailing>
           <button
             type="button"
-            tw="inline-flex items-center justify-center w-9 h-9 bg-nego rounded-lg"
+            tw="inline-flex items-center justify-center w-9 h-9 bg-nego rounded-lg hover:bg-nego-600 transition-colors"
           >
             <SearchIcon color="#fff" />
           </button>
@@ -19,7 +19,7 @@ export default function MapSearchTextField() {
         <div tw="flex flex-col mt-2 w-full bg-white shadow rounded-lg">
           <Autocomplete.Option
             value="판교역"
-            tw="p-4 gap-2 hover:bg-gray-200 rounded-lg text-start"
+            tw="p-4 gap-2 hover:bg-gray-200 rounded-lg text-start transition-colors"
           >
             <div tw="flex items-center justify-between">
               <span tw="text-b2 text-gray-1000">판교역</span>
@@ -29,7 +29,7 @@ export default function MapSearchTextField() {
           </Autocomplete.Option>
           <Autocomplete.Option
             value="판교역 신분당선"
-            tw="p-4 gap-2 hover:bg-gray-200 rounded-lg text-start"
+            tw="p-4 gap-2 hover:bg-gray-200 rounded-lg text-start transition-colors"
           >
             <div tw="flex items-center justify-between">
               <span tw="text-b2 text-gray-1000">판교역 신분당선</span>
@@ -39,7 +39,7 @@ export default function MapSearchTextField() {
           </Autocomplete.Option>
           <Autocomplete.Option
             value="판교역 경강선"
-            tw="p-4 gap-2 hover:bg-gray-200 rounded-lg text-start"
+            tw="p-4 gap-2 hover:bg-gray-200 rounded-lg text-start transition-colors"
           >
             <div tw="flex items-center justify-between">
               <span tw="text-b2 text-gray-1000">판교역 경강선</span>

@@ -6,14 +6,14 @@ import tw, { styled, theme } from 'twin.macro';
 import CheckIcon from '@/assets/icons/check.svg';
 
 const SelectButton = styled.button`
-  ${tw`inline-flex items-center justify-between w-[119px] h-10 px-4 bg-white rounded-lg shadow`}
+  ${tw`inline-flex items-center justify-between w-[119px] h-10 px-4 bg-white rounded-lg shadow transition-colors`}
   &:hover {
     ${tw`bg-gray-300`}
   }
 `;
 
 const SelectItem = styled.button`
-  ${tw`flex items-center justify-between w-full h-10 px-4 bg-white text-gray-1000`}
+  ${tw`flex items-center justify-between w-full h-10 px-4 transition-colors bg-white text-gray-1000`}
   &:hover {
     ${tw`bg-gray-300`}
   }
@@ -71,6 +71,7 @@ export default function MapPriceSelect({ value: valueProp, onChange }: Props) {
           color={theme`colors.gray.1000`}
           style={{
             transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.15s',
           }}
         />
       </SelectButton>
