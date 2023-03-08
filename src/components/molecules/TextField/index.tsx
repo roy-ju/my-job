@@ -1,10 +1,12 @@
-import { forwardRef, HTMLProps } from 'react';
+import { resolveProps } from '@/utils';
+import { forwardRef, HTMLProps, useContext } from 'react';
 import tw, { styled } from 'twin.macro';
+import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 
 const StyledContainer = tw.div`flex items-center rounded-lg bg-white h-14`;
 
 const StyledInput = styled.input`
-  ${tw`flex-1 h-full px-4 py-2.5 text-b1 text-gray-1000 bg-transparent`}
+  ${tw`flex-1 h-full px-4 py-2.5 text-b1 text-gray-1000 bg-transparent placeholder:text-gray-600`}
 `;
 
 const StyledLeading = tw.span`pl-2.5`;
@@ -24,7 +26,12 @@ const Container = forwardRef<HTMLDivElement, RootProps>((props, ref) => (
 ));
 
 const Input = forwardRef<HTMLInputElement, Omit<InputProps, 'as' | 'theme'>>(
-  (props, ref) => <StyledInput ref={ref} {...props} />,
+  (inProps, ref) => {
+    const { value, onChange, onFocus } = useContext(AutocompleteContext);
+    const resolvedProps = resolveProps(inProps, { value, onChange, onFocus });
+
+    return <StyledInput ref={ref} {...resolvedProps} />;
+  },
 );
 
 function Leading(props: LeadingProps) {
