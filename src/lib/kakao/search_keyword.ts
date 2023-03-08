@@ -28,6 +28,8 @@ export interface KeywordSearchResponse {
 }
 
 export default async function searchKeyword(query: string) {
+  if (!query) return null;
+
   try {
     const { data } = await axios.get(
       `https://dapi.kakao.com/v2/local/search/keyword.json?query=${query}`,
