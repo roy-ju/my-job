@@ -17,6 +17,23 @@ const customStyles = css`
   #root {
     height: 100%;
   }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 5.2px;
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #adb5bd;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #ffffff;
+    border-left: none;
+    border-right: none;
+  }
 `;
 
 export default function GlobalStyles() {
