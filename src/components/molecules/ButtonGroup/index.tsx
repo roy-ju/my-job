@@ -95,7 +95,7 @@ const Container = styled.div<{
 `;
 
 export default function ButtonGroup({
-  size = 'default',
+  size = 'big',
   variant = 'primary',
   orientation = 'horizontal',
   separated = false,
