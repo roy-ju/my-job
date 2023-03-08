@@ -15,6 +15,7 @@ import { Button } from '@/components/atoms';
 
 import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
 import HouseGreenIcon from '@/assets/icons/house_green.svg';
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
 interface LayoutMainProps {
   children?: ReactNode;
@@ -35,6 +36,7 @@ interface LayoutMapContainerProps {
   onClickMapTypeStreet?: () => void;
   onClickMapTypeNormal?: () => void;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
+  onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem) => void;
   children?: ReactNode;
 }
 
@@ -82,12 +84,13 @@ function LayoutMapContainer({
   onClickZoomIn,
   onClickZoomOut,
   onChangeSchoolType,
+  onMapSearchSubmit,
   children,
 }: LayoutMapContainerProps) {
   return (
     <div id="map-container" tw="relative flex-1">
       <div tw="absolute left-5 top-5 z-10 w-[380px] flex flex-col gap-2">
-        <MapSearchTextField />
+        <MapSearchTextField onSubmit={onMapSearchSubmit} />
         <MapFilter />
       </div>
 
