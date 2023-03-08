@@ -31,11 +31,7 @@ export default function useKakaoAddressAutocomplete(query: string) {
   );
 
   useEffect(() => {
-    if (query) {
-      search(query);
-    } else {
-      setResults([]);
-    }
+    search(query);
   }, [query, search]);
 
   return results;
