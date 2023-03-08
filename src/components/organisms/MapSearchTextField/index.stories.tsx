@@ -9,8 +9,3 @@ export default {
 export const Default: ComponentStory<typeof MapSearchTextField> = () => (
   <MapSearchTextField />
 );
-
-Default.args = {
-  width: '375px',
-  animationDuration: 0.3,
-};
