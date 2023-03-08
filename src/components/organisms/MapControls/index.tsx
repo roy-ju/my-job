@@ -92,6 +92,7 @@ function SchoolButton({
 
   useOutsideClick({
     ref: outsideRef,
+    enabled: isOpen,
     handler: () => {
       setIsOpen(false);
     },
@@ -99,7 +100,7 @@ function SchoolButton({
 
   const handleButtonClick = useCallback(() => {
     onClick?.();
-    setIsOpen(true);
+    setIsOpen((prev) => !prev);
   }, [onClick]);
 
   return (

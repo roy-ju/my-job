@@ -114,7 +114,7 @@ function LayoutMapContainer({
           <MapControls.ZoomOutButton onClick={onClickZoomOut} />
         </MapControls.Group>
       </div>
-      <div tw="absolute right-5 bottom-10 flex gap-2">
+      <div tw="absolute right-5 bottom-10 flex gap-2 z-10">
         <Button
           variant="ghost"
           tw="bg-white font-bold shadow hover:bg-gray-300"
@@ -127,6 +127,11 @@ function LayoutMapContainer({
           tw="bg-white font-bold shadow hover:bg-gray-300"
         >
           <HouseGreenIcon style={{ marginRight: '0.5rem' }} />집 내놓기
+        </Button>
+      </div>
+      <div tw="inline-flex w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
+        <Button size="medium" tw="shadow font-bold rounded-4xl">
+          이 지역 매물 12
         </Button>
       </div>
       {children}
