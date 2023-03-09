@@ -99,6 +99,10 @@ export default function MapFilter({
     [filterTypes],
   );
 
+  const handleCloseFilters = useCallback(() => {
+    setFilters([]);
+  }, []);
+
   useEffect(() => {
     switch (realestateTypeGroup) {
       case 'apt,oftl':
@@ -147,7 +151,7 @@ export default function MapFilter({
           onToggleExpansion={handleToggleExpansion}
           onClickFilterType={handleClickFilterType}
         />
-        <div tw="w-full h-px bg-gray-300" />
+        {filters.length > 0 && <div tw="w-full h-px bg-gray-300" />}
         <FiltersContainer>
           {isRealestateTypeFilterAdded && (
             <RealestateTypeFilter realestateTypeGroup={realestateTypeGroup} />
@@ -157,6 +161,19 @@ export default function MapFilter({
           )}
           {isPriceFilterAdded && <PriceFilter buyOrRents="1,2,3" />}
         </FiltersContainer>
+        {filters.length > 0 && (
+          <div>
+            <div tw="w-full h-px bg-gray-300" />
+            <div tw="flex items-center justify-between">
+              <Button variant="ghost" tw="underline">
+                필터 초기화
+              </Button>
+              <Button variant="ghost" onClick={handleCloseFilters}>
+                닫기
+              </Button>
+            </div>
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );
