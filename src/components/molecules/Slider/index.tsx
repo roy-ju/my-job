@@ -96,7 +96,7 @@ export default function Slider({
         </StyledTrack>
       </div>
       {labels && (
-        <div tw="flex justify-between px-3 pt-1">
+        <div tw="flex justify-between px-3 pt-1 pb-3">
           {labels.map((label) => (
             <div key={label} tw="relative flex flex-col">
               <span tw="w-px h-1 bg-gray-400" />
