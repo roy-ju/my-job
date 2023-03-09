@@ -3,7 +3,13 @@ import { Autocomplete, TextField } from '@/components/molecules';
 import { useKakaoAddressAutocomplete } from '@/hooks/services';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useControlled } from '@/hooks/utils';
-import { ChangeEventHandler, FormEventHandler, useCallback } from 'react';
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEventHandler,
+  useCallback,
+} from 'react';
+import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 
 interface MapSearchTextFieldProps {
   value?: string;
@@ -31,6 +37,15 @@ export default function MapSearchTextField({
     [onChange, setValueState],
   );
 
+  const handleClearInput = useCallback(() => {
+    handleInputValueChange({
+      type: 'change',
+      target: {
+        value: '',
+      },
+    } as unknown as ChangeEvent<HTMLInputElement>);
+  }, [handleInputValueChange]);
+
   const results = useKakaoAddressAutocomplete(value);
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -48,7 +63,16 @@ export default function MapSearchTextField({
       <Autocomplete value={value} onChange={handleInputValueChange}>
         <TextField tw="shadow">
           <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
-          <TextField.Trailing>
+          <TextField.Trailing tw="flex items-center">
+            {value.length > 0 && (
+              <button
+                onClick={handleClearInput}
+                type="button"
+                tw="inline-flex items-center justify-center w-5 h-5 mr-4"
+              >
+                <DeleteAllIcon />
+              </button>
+            )}
             <button
               type="submit"
               tw="inline-flex items-center justify-center w-9 h-9 bg-nego rounded-lg hover:bg-nego-600 transition-colors"
