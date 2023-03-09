@@ -154,7 +154,7 @@ function Container({
         {isOpen && (
           <div
             ref={setPopperElement}
-            style={styles.popper}
+            style={{ ...styles.popper, zIndex: 100 }}
             {...attributes.popper}
           >
             {autocompletePopper}
