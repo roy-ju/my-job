@@ -42,13 +42,6 @@ export default function useKakaoAddressAutocomplete(query: string) {
           lng: +item.x,
         })) ?? [];
 
-      keywordItems.sort((a, b) => {
-        if (a === '아파트' || a === '오피스텔') {
-          return 1;
-        }
-        return -1;
-      });
-
       const addressItems: KakaoAddressAutocompleteResponseItem[] =
         addressRes?.documents
           .filter((item) => item.address && item.address.b_code)
