@@ -9,6 +9,8 @@ import { FilterType, RealestateTypeGroup } from './types';
 import RealestateTypeFilter from './RealestateTypeFilter';
 import BuyorRentFilter from './BuyOrRentFilter';
 import PriceFilter from './PriceFilter';
+import HouseholdFilter from './HouseholdFilter';
+import EtcFilter from './EtcFilter';
 
 function useFilterType(filterType: FilterType, filters: FilterType[]) {
   return useMemo(() => filters.includes(filterType), [filters, filterType]);
@@ -46,7 +48,7 @@ export default function MapFilter({
   realestateTypeGroup: realestateTypeGroupProp,
   onChangerealestateTypeGroup,
 }: MapFilterProps) {
-  const [realestateTypeGroup, setrealestateTypeGroupState] = useControlled({
+  const [realestateTypeGroup, setRealestateTypeGroupState] = useControlled({
     controlled: realestateTypeGroupProp,
     default: 'apt,oftl' as RealestateTypeGroup,
   });
@@ -57,7 +59,7 @@ export default function MapFilter({
     'realestateType',
     'buyOrRent',
     'price',
-    'saedaeCount',
+    'household',
     'etc',
   ]);
 
@@ -69,14 +71,19 @@ export default function MapFilter({
 
   const isPriceFilterAdded = useFilterType('price', filters);
 
-  // const isSaedaeCountFilterAdded = useFilterType('realestateType', filters);
+  const isHouseholdFilterAdded = useFilterType('household', filters);
+
+  const isEtcFilterAdded = useFilterType('etc', filters);
+
+  // const ishouseholdFilterAdded = useFilterType('realestateType', filters);
 
   const handlerealestateTypeGroupChange = useCallback(
     (value: RealestateTypeGroup) => {
-      setrealestateTypeGroupState(value);
+      setRealestateTypeGroupState(value);
       onChangerealestateTypeGroup?.(value);
+      setFilters([]);
     },
-    [setrealestateTypeGroupState, onChangerealestateTypeGroup],
+    [setRealestateTypeGroupState, onChangerealestateTypeGroup],
   );
 
   const handleToggleExpansion = useCallback(() => {
@@ -106,13 +113,13 @@ export default function MapFilter({
   useEffect(() => {
     switch (realestateTypeGroup) {
       case 'apt,oftl':
-        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'saedaeCount']);
+        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household']);
         break;
       case 'villa,dandok':
         setFilterTypes(['realestateType', 'buyOrRent', 'price']);
         break;
       case 'one,two':
-        setFilterTypes(['realestateType', 'buyOrRent', 'price']);
+        setFilterTypes(['etc']);
         break;
       default:
         break;
@@ -160,6 +167,8 @@ export default function MapFilter({
             <BuyorRentFilter realestateTypeGroup={realestateTypeGroup} />
           )}
           {isPriceFilterAdded && <PriceFilter buyOrRents="1,2,3" />}
+          {isHouseholdFilterAdded && <HouseholdFilter />}
+          {isEtcFilterAdded && <EtcFilter />}
         </FiltersContainer>
         {filters.length > 0 && (
           <div>

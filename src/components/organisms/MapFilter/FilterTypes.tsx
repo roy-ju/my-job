@@ -18,7 +18,7 @@ function getFilterTypeLabel(filterType: FilterType) {
   if (filterType === 'price') {
     return '가격';
   }
-  if (filterType === 'saedaeCount') {
+  if (filterType === 'household') {
     return '세대수';
   }
   if (filterType === 'etc') {

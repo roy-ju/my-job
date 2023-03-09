@@ -4,6 +4,7 @@ import tw, { theme, styled } from 'twin.macro';
 const StyledSlider = styled(RSlider<number[]>)`
   width: 100%;
   height: 24px;
+  z-index: 3;
 `;
 
 const StyledThumb = styled.div`
@@ -26,7 +27,7 @@ const StyledTrack = styled.div`
   width: 100%;
   padding-left: 12px;
   padding-right: 12px;
-  z-index: -1;
+  z-index: 1;
 `;
 
 const InvisibleTrack = styled.div<{ index: number }>`
@@ -37,6 +38,7 @@ const InvisibleTrack = styled.div<{ index: number }>`
     props.index === 1 ? theme`colors.gray.1000` : 'transparent'};
   border-radius: 4px;
   height: 4px;
+  z-index: 1;
 `;
 
 const Label = styled.span`
@@ -51,8 +53,7 @@ const Label = styled.span`
 
 const Thumb: NonNullable<ReactSliderProps<number[]>['renderThumb']> = (
   props,
-  state,
-) => <StyledThumb {...(props as any)}>{state.valueNow}</StyledThumb>;
+) => <StyledThumb {...(props as any)} />;
 
 const Track: NonNullable<ReactSliderProps<number[]>['renderTrack']> = (
   props,
@@ -66,7 +67,7 @@ interface Props {
   value?: number[];
   defaultValue?: number[];
   labels?: string[];
-  onChange?: (value: readonly number[], index: number) => void;
+  onChange?: (value: number[], index: number) => void;
 }
 
 export default function Slider({
@@ -84,6 +85,7 @@ export default function Slider({
         <StyledSlider
           min={min}
           max={max}
+          minDistance={1}
           step={step}
           defaultValue={defaultValue}
           value={value}
