@@ -1,14 +1,30 @@
 import { Button } from '@/components/atoms';
 import { ButtonProps } from '@/components/atoms/Button';
 import tw, { styled } from 'twin.macro';
-import FilterIcon from '@/assets/icons/filter.svg';
-import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
-import { useCallback, useState } from 'react';
-import ChevronDownIcon from '@/assets/icons/chevron_down.svg';
-import { isOverflown as checkOverflow } from '@/utils';
+import { useControlled } from '@/hooks/utils';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
+import FilterTypes from './FilterTypes';
+import { FilterType, RealestateTypeGroup } from './types';
+import RealestateTypeFilter from './RealestateTypeFilter';
+import BuyorRentFilter from './BuyOrRentFilter';
+import PriceFilter from './PriceFilter';
 
-const RealestateTypeTabButton = styled(
+function useFilterType(filterType: FilterType, filters: FilterType[]) {
+  return useMemo(() => filters.includes(filterType), [filters, filterType]);
+}
+
+const FiltersContainer = styled.div`
+  & > div {
+    ${tw`mx-4`}
+  }
+
+  & > div:not(:last-of-type) {
+    ${tw`border-b border-gray-300`}
+  }
+`;
+
+const RealestateTypeGroupTabButton = styled(
   ({ size = 'bigger', variant = 'ghost', ...props }: ButtonProps) => (
     <Button size={size} variant={variant} {...props} />
   ),
@@ -17,122 +33,130 @@ const RealestateTypeTabButton = styled(
   isSelected && tw`text-gray-1000`,
 ]);
 
-const FilterButton = styled(
-  ({ size = 'small', variant = 'outlined', ...props }: ButtonProps) => (
-    <Button size={size} variant={variant} {...props} />
-  ),
-)(() => [tw`text-b2 shrink-0`]);
-
 const Separator = tw.div`w-px h-2 bg-gray-300 mx-2`;
 
 interface MapFilterProps {
-  realestateType?: string;
-  onChangeRealestateType?: (realestateType: string) => void;
+  realestateTypeGroup?: RealestateTypeGroup;
+  onChangerealestateTypeGroup?: (
+    realestateTypeGroup: RealestateTypeGroup,
+  ) => void;
 }
 
 export default function MapFilter({
-  realestateType: realestateTypeProp,
-  onChangeRealestateType,
+  realestateTypeGroup: realestateTypeGroupProp,
+  onChangerealestateTypeGroup,
 }: MapFilterProps) {
-  const [filterContainer, setFilterContainer] = useState<HTMLDivElement | null>(
-    null,
-  );
-  const [realestateType, setRealestateTypeState] = useControlled({
-    controlled: realestateTypeProp,
-    default: 'apt,oftl',
+  const [realestateTypeGroup, setrealestateTypeGroupState] = useControlled({
+    controlled: realestateTypeGroupProp,
+    default: 'apt,oftl' as RealestateTypeGroup,
   });
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isOverflown, setIsOverflown] = useState(false);
 
-  const handleRealestateTypeChange = useCallback(
-    (value: string) => {
-      setRealestateTypeState(value);
-      onChangeRealestateType?.(value);
+  const [isFilterTypesExpanded, setIsFilterTypeExapnded] = useState(false);
+
+  const [filterTypes, setFilterTypes] = useState<FilterType[]>([
+    'realestateType',
+    'buyOrRent',
+    'price',
+    'saedaeCount',
+    'etc',
+  ]);
+
+  const [filters, setFilters] = useState<FilterType[]>([]);
+
+  const isRealestateTypeFilterAdded = useFilterType('realestateType', filters);
+
+  const isBuyOrRentFilterAdded = useFilterType('buyOrRent', filters);
+
+  const isPriceFilterAdded = useFilterType('price', filters);
+
+  // const isSaedaeCountFilterAdded = useFilterType('realestateType', filters);
+
+  const handlerealestateTypeGroupChange = useCallback(
+    (value: RealestateTypeGroup) => {
+      setrealestateTypeGroupState(value);
+      onChangerealestateTypeGroup?.(value);
     },
-    [setRealestateTypeState, onChangeRealestateType],
+    [setrealestateTypeGroupState, onChangerealestateTypeGroup],
   );
 
-  const handleToggleFilterExpansion = useCallback(() => {
-    setIsExpanded((prev) => !prev);
+  const handleToggleExpansion = useCallback(() => {
+    setIsFilterTypeExapnded((prev) => !prev);
   }, []);
 
-  useIsomorphicLayoutEffect(() => {
-    if (filterContainer) {
-      setIsOverflown(checkOverflow(filterContainer));
+  const handleClickFilterType = useCallback(
+    (filterType: FilterType) => {
+      if (filterType === 'all') {
+        setFilters([...filterTypes]);
+      } else {
+        setFilters((prev) => {
+          if (prev.length > 1 || prev[0] !== filterType) {
+            return [filterType];
+          }
+          return prev;
+        });
+      }
+    },
+    [filterTypes],
+  );
+
+  useEffect(() => {
+    switch (realestateTypeGroup) {
+      case 'apt,oftl':
+        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'saedaeCount']);
+        break;
+      case 'villa,dandok':
+        setFilterTypes(['realestateType', 'buyOrRent', 'price']);
+        break;
+      case 'one,two':
+        setFilterTypes(['realestateType', 'buyOrRent', 'price']);
+        break;
+      default:
+        break;
     }
-  }, [filterContainer, isExpanded]);
+  }, [realestateTypeGroup]);
 
   return (
-    <motion.div layout="size" tw="bg-white shadow rounded-lg overflow-hidden">
+    <motion.div layout tw="bg-white shadow rounded-lg overflow-hidden">
       <motion.div layout="preserve-aspect">
         <div tw="flex items-center px-2">
-          <RealestateTypeTabButton
-            isSelected={realestateType === 'apt,oftl'}
-            onClick={() => handleRealestateTypeChange('apt,oftl')}
+          <RealestateTypeGroupTabButton
+            isSelected={realestateTypeGroup === 'apt,oftl'}
+            onClick={() => handlerealestateTypeGroupChange('apt,oftl')}
           >
             아파트 · 오피스텔
-          </RealestateTypeTabButton>
+          </RealestateTypeGroupTabButton>
           <Separator />
-          <RealestateTypeTabButton
-            isSelected={realestateType === 'villa,dandok'}
-            onClick={() => handleRealestateTypeChange('villa,dandok')}
+          <RealestateTypeGroupTabButton
+            isSelected={realestateTypeGroup === 'villa,dandok'}
+            onClick={() => handlerealestateTypeGroupChange('villa,dandok')}
           >
             빌라 · 주택
-          </RealestateTypeTabButton>
+          </RealestateTypeGroupTabButton>
           <Separator />
-          <RealestateTypeTabButton
-            isSelected={realestateType === 'one,two'}
-            onClick={() => handleRealestateTypeChange('one,two')}
+          <RealestateTypeGroupTabButton
+            isSelected={realestateTypeGroup === 'one,two'}
+            onClick={() => handlerealestateTypeGroupChange('one,two')}
           >
             원룸 · 투룸
-          </RealestateTypeTabButton>
+          </RealestateTypeGroupTabButton>
         </div>
         <div tw="w-full h-px bg-gray-300" />
-        <div tw="flex relative">
-          <div
-            ref={setFilterContainer}
-            css={[
-              tw`flex items-center gap-2 p-4 overflow-x-hidden`,
-              isExpanded && tw`flex-wrap`,
-            ]}
-          >
-            <FilterButton isSelected tw="p-2">
-              <FilterIcon />
-            </FilterButton>
-            <FilterButton isSelected>유형</FilterButton>
-            <FilterButton>거래종류</FilterButton>
-            <FilterButton>가격</FilterButton>
-            <FilterButton>세대수</FilterButton>
-            <FilterButton>기타</FilterButton>
-          </div>
-          {isExpanded && (
-            <Button
-              onClick={handleToggleFilterExpansion}
-              size="none"
-              variant="ghost"
-              tw="w-10 h-12 pt-4 pr-2 bg-white shrink-0"
-            >
-              <ChevronDownIcon
-                style={{
-                  transform: 'rotate(180deg)',
-                }}
-              />
-            </Button>
+        <FilterTypes
+          filterTypes={filterTypes}
+          expanded={isFilterTypesExpanded}
+          onToggleExpansion={handleToggleExpansion}
+          onClickFilterType={handleClickFilterType}
+        />
+        <div tw="w-full h-px bg-gray-300" />
+        <FiltersContainer>
+          {isRealestateTypeFilterAdded && (
+            <RealestateTypeFilter realestateTypeGroup={realestateTypeGroup} />
           )}
-          {filterContainer && !isExpanded && isOverflown && (
-            <div tw="absolute top-0 right-0 h-full flex items-center">
-              <div tw="w-10 h-full bg-gradient-to-l from-white to-transparent" />
-              <Button
-                onClick={handleToggleFilterExpansion}
-                size="none"
-                variant="ghost"
-                tw="w-10 h-full pr-2 bg-white"
-              >
-                <ChevronDownIcon />
-              </Button>
-            </div>
+          {isBuyOrRentFilterAdded && (
+            <BuyorRentFilter realestateTypeGroup={realestateTypeGroup} />
           )}
-        </div>
+          {isPriceFilterAdded && <PriceFilter buyOrRents="1,2,3" />}
+        </FiltersContainer>
       </motion.div>
     </motion.div>
   );
