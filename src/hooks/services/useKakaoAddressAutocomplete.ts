@@ -52,6 +52,7 @@ export default function useKakaoAddressAutocomplete(query: string) {
           .map((item) => ({
             id: item.address?.b_code ?? '',
             placeName:
+              item.road_address?.road_name ||
               item.address?.region_3depth_name ||
               item.address?.region_2depth_name ||
               item.address?.region_1depth_name ||
