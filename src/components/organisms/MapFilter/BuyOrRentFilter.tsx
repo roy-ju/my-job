@@ -50,7 +50,7 @@ export default function BuyorRentFilter({
   );
 
   return (
-    <div tw="py-5 bg-white">
+    <div tw="py-5">
       <p tw="text-b1 text-gray-1000 font-bold mb-5">거래 종류</p>
       <RadioGroup tw="flex gap-4" value={value} onChange={handleInputChange}>
         {optionsList[realestateTypeGroup].map((option) => (

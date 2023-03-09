@@ -1,6 +1,8 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import MapFilter from '.';
 import BuyorRentFilter from './BuyOrRentFilter';
+import EtcFilter from './EtcFilter';
+import HouseholdFilter from './HouseholdFilter';
 import PriceFilter from './PriceFilter';
 import RealestateTypeFilter from './RealestateTypeFilter';
 
@@ -16,10 +18,25 @@ export const Default: ComponentStory<typeof MapFilter> = () => (
 );
 
 export const FilterList: ComponentStory<typeof RealestateTypeFilter> = () => (
-  <div tw="flex flex-col gap-2">
-    <RealestateTypeFilter realestateTypeGroup="apt,oftl" />
-    <BuyorRentFilter realestateTypeGroup="apt,oftl" />
-    <PriceFilter buyOrRents="1,2,3" />
+  <div tw="flex flex-col gap-2 pb-10">
+    <div tw="px-4 bg-white">
+      <RealestateTypeFilter realestateTypeGroup="apt,oftl" />
+    </div>
+    <div tw="px-4 bg-white">
+      <RealestateTypeFilter realestateTypeGroup="villa,dandok" />
+    </div>
+    <div tw="px-4 bg-white">
+      <BuyorRentFilter realestateTypeGroup="villa,dandok" />
+    </div>
+    <div tw="px-4 bg-white">
+      <PriceFilter buyOrRents="1,2,3" />
+    </div>
+    <div tw="px-4 bg-white">
+      <HouseholdFilter />
+    </div>
+    <div tw="px-4 bg-white">
+      <EtcFilter />
+    </div>
   </div>
 );
 

@@ -4,5 +4,5 @@ export type FilterType =
   | 'realestateType'
   | 'buyOrRent'
   | 'price'
-  | 'saedaeCount'
+  | 'household'
   | 'etc';
