@@ -82,9 +82,9 @@ export default function MapSearchTextField({
           </TextField.Trailing>
         </TextField>
         <Autocomplete.Popper>
-          <div tw="flex flex-col mt-2 w-full max-h-[600px] bg-white shadow rounded-lg overflow-y-auto">
+          <div tw="flex flex-col py-2 mt-2 w-full max-h-[600px] bg-white shadow rounded-lg overflow-y-auto">
             {value.length < 1 && results.length < 1 && (
-              <div tw="px-4 py-6">
+              <div tw="px-4 py-4">
                 <p tw="text-b2 text-gray-1000 leading-none">
                   최근 검색 기록이 없습니다.
                 </p>
@@ -92,7 +92,7 @@ export default function MapSearchTextField({
             )}
 
             {value.length > 0 && results.length < 1 && (
-              <div tw="px-4 py-6">
+              <div tw="px-4 py-4">
                 <p tw="mb-2 text-b2 text-gray-1000 leading-none">
                   검색 결과가 없습니다.
                 </p>
@@ -107,7 +107,7 @@ export default function MapSearchTextField({
                 key={result.id}
                 value={result.placeName}
                 onClick={() => onSubmit?.(result)}
-                tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 rounded-lg text-start transition-colors"
+                tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
               >
                 <div tw="flex items-center justify-between">
                   <span tw="text-b2 text-gray-1000">{result.placeName}</span>

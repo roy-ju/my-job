@@ -32,24 +32,32 @@ export default function useKakaoAddressAutocomplete(query: string) {
       ]);
 
       const keywordItems: KakaoAddressAutocompleteResponseItem[] =
-        keywordRes?.documents.map((item) => ({
-          id: item.id,
-          addressName: item.address_name,
-          categoryName: item.category_name.split('>').pop()?.trim() ?? '',
-          placeName: item.place_name,
-          roadAddressName: item.road_address_name,
-          lat: +item.y,
-          lng: +item.x,
-        })) ?? [];
+        keywordRes?.documents
+          .map((item) => ({
+            id: item.id,
+            addressName: item.address_name,
+            categoryName: item.category_name.split('>').pop()?.trim() ?? '',
+            placeName: item.place_name,
+            roadAddressName: item.road_address_name,
+            lat: +item.y,
+            lng: +item.x,
+          }))
+          .sort((item) =>
+            ['아파트', '오피스텔'].includes(item.categoryName) ? -1 : 1,
+          ) ?? [];
 
       const addressItems: KakaoAddressAutocompleteResponseItem[] =
         addressRes?.documents
           .filter((item) => item.address && item.address.b_code)
           .map((item) => ({
             id: item.address?.b_code ?? '',
-            addressName: item.address_name,
+            placeName:
+              item.address?.region_3depth_name ||
+              item.address?.region_2depth_name ||
+              item.address?.region_1depth_name ||
+              '',
             categoryName: '지역',
-            placeName: item.address_name,
+            addressName: item.address_name,
             roadAddressName: item.road_address?.address_name ?? '',
             lat: +item.y,
             lng: +item.x,
