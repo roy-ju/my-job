@@ -7,9 +7,13 @@ export default {
 } as ComponentMeta<typeof MapPositionBar>;
 
 export const Default: ComponentStory<typeof MapPositionBar> = () => (
-  <MapPositionBar
-    position1="서울특별시"
-    position2="중구"
-    position3="남대문로 2가"
-  />
+  <div tw="flex gap-2">
+    <MapPositionBar position1="서울특별시" />
+    <MapPositionBar position1="서울특별시" position2="중구" />
+    <MapPositionBar
+      position1="서울특별시"
+      position2="중구"
+      position3="남대문로 2가"
+    />
+  </div>
 );
