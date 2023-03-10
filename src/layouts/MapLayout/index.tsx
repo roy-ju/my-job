@@ -18,6 +18,7 @@ function MapWrapper() {
     mapType,
     schoolType,
     handleMapSearch,
+    centerAddress,
     // Map
     ...props
   } = useMapLayout();
@@ -29,6 +30,7 @@ function MapWrapper() {
       mapType={mapType}
       schoolType={schoolType}
       filter={filter}
+      centerAddress={centerAddress}
       onClickCurrentLocation={morphToCurrentLocation}
       onClickZoomIn={zoomIn}
       onClickZoomOut={zoomOut}

@@ -4,12 +4,20 @@ import MapPin from '@/assets/icons/map_pin.svg';
 import Bidding from '@/assets/icons/bidding.svg';
 import ChatBubble from '@/assets/icons/chat_bubble.svg';
 import User from '@/assets/icons/user.svg';
-import { MapControls, GlobalNavigation, MapPriceSelect, MapSearchTextField, MapFilter } from '@/components/organisms';
+import {
+  MapControls,
+  GlobalNavigation,
+  MapPriceSelect,
+  MapSearchTextField,
+  MapFilter,
+  MapToggleButton,
+} from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
 import HouseGreenIcon from '@/assets/icons/house_green.svg';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { Filter, RealestateTypeGroup } from '@/components/organisms/MapFilter/types';
+import MapPositionBar from '@/components/organisms/MapPositionBar';
 
 interface LayoutMainProps {
   children?: ReactNode;
@@ -24,6 +32,7 @@ interface LayoutMapContainerProps {
   schoolType?: string;
   filter?: Filter;
   realestateTypeGroup?: RealestateTypeGroup;
+  centerAddress?: string[];
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -63,6 +72,7 @@ function LayoutMapContainer({
   mapType,
   schoolType,
   filter,
+  centerAddress,
   onClickCurrentLocation,
   onClickMapTypeNormal,
   onClickMapTypeCadastral,
@@ -80,6 +90,10 @@ function LayoutMapContainer({
       <div tw="absolute left-5 top-5 z-10 w-[380px] flex flex-col gap-2">
         <MapSearchTextField onSubmit={onMapSearchSubmit} />
         <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
+      </div>
+
+      <div tw="absolute left-0 right-0 mx-auto w-fit top-5 z-20">
+        <MapToggleButton />
       </div>
 
       <div tw="absolute right-5 top-5 z-20">
@@ -112,7 +126,12 @@ function LayoutMapContainer({
           <HouseGreenIcon style={{ marginRight: '0.5rem' }} />집 내놓기
         </Button>
       </div>
-      <div tw="inline-flex w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
+      <div tw="inline-flex gap-2 w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
+        <MapPositionBar
+          position1={centerAddress?.[0] ?? ''}
+          position2={centerAddress?.[1]}
+          position3={centerAddress?.[2]}
+        />
         <Button size="medium" tw="shadow font-bold rounded-4xl">
           이 지역 매물 12
         </Button>
