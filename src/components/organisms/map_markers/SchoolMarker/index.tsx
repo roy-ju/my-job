@@ -1,24 +1,17 @@
 import tw from 'twin.macro';
 import School from '../assets/school.svg';
 
-function SchoolMarker({
-  name,
-  onClick,
-}: {
-  name: string;
-  onClick?: () => void;
-}) {
+function SchoolMarker({ type, name, onClick }: { type: number; name: string; onClick?: () => void }) {
   function createIconColor() {
-    const lastWord = name.slice(-1);
-    switch (lastWord) {
-      case '초':
+    switch (type) {
+      case 0:
         return tw`text-yellow-700`;
-      case '중':
+      case 1:
         return tw`text-orange-700`;
-      case '고':
+      case 2:
         return tw`text-green-700`;
       default:
-        return tw``;
+        return '';
     }
   }
 

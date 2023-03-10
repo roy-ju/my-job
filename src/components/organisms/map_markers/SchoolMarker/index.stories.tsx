@@ -8,8 +8,8 @@ export default {
 
 export const Default: ComponentStory<typeof SchoolMarker> = () => (
   <div tw="inline-flex gap-2">
-    <SchoolMarker name="윤슬초" />
-    <SchoolMarker name="윤중" />
-    <SchoolMarker name="한국외고" onClick={() => {}} />
+    <SchoolMarker type={0} name="윤슬초" />
+    <SchoolMarker type={1} name="윤중" />
+    <SchoolMarker type={2} name="한국외고" onClick={() => {}} />
   </div>
 );
