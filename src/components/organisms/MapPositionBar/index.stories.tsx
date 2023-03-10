@@ -8,12 +8,8 @@ export default {
 
 export const Default: ComponentStory<typeof MapPositionBar> = () => (
   <div tw="flex gap-2">
-    <MapPositionBar position1="서울특별시" />
-    <MapPositionBar position1="서울특별시" position2="중구" />
-    <MapPositionBar
-      position1="서울특별시"
-      position2="중구"
-      position3="남대문로 2가"
-    />
+    <MapPositionBar sido="서울특별시" />
+    <MapPositionBar sido="서울특별시" sigungu="중구" />
+    <MapPositionBar sido="서울특별시" sigungu="중구" eubmyundong="남대문로 2가" />
   </div>
 );

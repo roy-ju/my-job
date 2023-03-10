@@ -92,8 +92,10 @@ function LayoutMapContainer({
         <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
       </div>
 
-      <div tw="absolute left-0 right-0 mx-auto w-fit top-5 z-20">
-        <MapToggleButton />
+      <div tw="absolute left-[400px] right-[139px] top-5 z-20 flex justify-center pointer-events-none">
+        <div tw="w-fit pointer-events-auto">
+          <MapToggleButton />
+        </div>
       </div>
 
       <div tw="absolute right-5 top-5 z-20">
@@ -127,12 +129,8 @@ function LayoutMapContainer({
         </Button>
       </div>
       <div tw="inline-flex gap-2 w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
-        <MapPositionBar
-          position1={centerAddress?.[0] ?? ''}
-          position2={centerAddress?.[1]}
-          position3={centerAddress?.[2]}
-        />
-        <Button size="medium" tw="shadow font-bold rounded-4xl">
+        <MapPositionBar sido={centerAddress?.[0] ?? ''} sigungu={centerAddress?.[1]} eubmyundong={centerAddress?.[2]} />
+        <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl">
           이 지역 매물 12
         </Button>
       </div>
