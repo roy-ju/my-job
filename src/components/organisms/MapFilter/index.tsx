@@ -354,7 +354,7 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
         onClickFilterType={handleClickFilterType}
       />
       {filters.length > 0 && <div tw="w-full h-px bg-gray-300" />}
-      <FiltersContainer>
+      <FiltersContainer tw="max-h-[500px] overflow-y-auto">
         {isRealestateTypeFilterAdded && (
           <RealestateTypeFilter
             realestateTypeGroup={filter.realestateTypeGroup}
