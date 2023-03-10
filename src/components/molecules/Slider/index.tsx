@@ -67,6 +67,7 @@ interface Props {
   value?: number[];
   defaultValue?: number[];
   labels?: string[];
+  minDistance?: number;
   onChange?: (value: number[], index: number) => void;
 }
 
@@ -77,6 +78,7 @@ export default function Slider({
   value,
   defaultValue,
   labels,
+  minDistance = 1,
   onChange,
 }: Props) {
   return (
@@ -85,7 +87,7 @@ export default function Slider({
         <StyledSlider
           min={min}
           max={max}
-          minDistance={1}
+          minDistance={minDistance}
           step={step}
           defaultValue={defaultValue}
           value={value}
