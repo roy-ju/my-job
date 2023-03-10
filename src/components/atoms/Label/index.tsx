@@ -1,9 +1,4 @@
-import {
-  ChangeEventHandler,
-  cloneElement,
-  HTMLProps,
-  ReactElement,
-} from 'react';
+import { ChangeEventHandler, cloneElement, HTMLProps, ReactElement } from 'react';
 import tw, { styled } from 'twin.macro';
 
 type LabelPlacement = 'bottom' | 'top' | 'start' | 'end';
@@ -53,46 +48,29 @@ const LabelText = styled.span<{ labelPlacement: LabelPlacement }>`
   }}
 `;
 
-interface Props extends Omit<HTMLProps<HTMLLabelElement>, 'label' | 'as'> {
+interface Props extends Omit<HTMLProps<HTMLLabelElement>, 'onChange' | 'label' | 'as'> {
   label: string | ReactElement;
   control: ReactElement;
   labelPlacement?: LabelPlacement;
   checked?: boolean;
-  onChange?: ChangeEventHandler<HTMLLabelElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: any;
 }
 
 export default function Label(props: Props) {
-  const {
-    control,
-    label,
-    labelPlacement = 'end',
-    checked,
-    onChange,
-    value,
-    ...others
-  } = props;
+  const { control, label, labelPlacement = 'end', checked, onChange, value, ...others } = props;
 
   const controlProps: { [key: string]: any } = {};
 
-  if (
-    typeof control.props.checked === 'undefined' &&
-    typeof checked !== 'undefined'
-  ) {
+  if (typeof control.props.checked === 'undefined' && typeof checked !== 'undefined') {
     controlProps.checked = checked;
   }
 
-  if (
-    typeof control.props.onChange === 'undefined' &&
-    typeof onChange !== 'undefined'
-  ) {
+  if (typeof control.props.onChange === 'undefined' && typeof onChange !== 'undefined') {
     controlProps.onChange = onChange;
   }
 
-  if (
-    typeof control.props.value === 'undefined' &&
-    typeof value !== 'undefined'
-  ) {
+  if (typeof control.props.value === 'undefined' && typeof value !== 'undefined') {
     controlProps.value = value;
   }
 

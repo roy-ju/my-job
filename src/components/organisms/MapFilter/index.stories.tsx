@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-import MapFilter from '.';
+import MapFilter, { getDefaultFilterAptOftl } from '.';
 import BuyorRentFilter from './BuyOrRentFilter';
 import EtcFilter from './EtcFilter';
 import HouseholdFilter from './HouseholdFilter';
@@ -11,11 +11,22 @@ export default {
   component: MapFilter,
 } as ComponentMeta<typeof MapFilter>;
 
-export const Default: ComponentStory<typeof MapFilter> = () => (
+export const Uncontrolled: ComponentStory<typeof MapFilter> = () => (
   <div tw="w-[380px]">
     <MapFilter />
   </div>
 );
+
+export const ControlledWithArgs: ComponentStory<typeof MapFilter> = (args) => (
+  <div tw="w-[380px]">
+    <MapFilter {...args} />
+  </div>
+);
+
+ControlledWithArgs.args = {
+  filter: getDefaultFilterAptOftl(),
+  realestateTypeGroup: 'apt,oftl',
+};
 
 export const FilterList: ComponentStory<typeof RealestateTypeFilter> = () => (
   <div tw="flex flex-col gap-2 pb-10">
