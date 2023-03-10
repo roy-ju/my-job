@@ -7,6 +7,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import ChevronDownIcon from '@/assets/icons/chevron_down.svg';
 import { formatNumberInKorean, isOverflown as checkOverflow } from '@/utils';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
+import { RealestateType } from '@/constants/enums';
 import { Filter, FilterType } from './types';
 import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from './PriceFilter';
 
@@ -29,10 +30,8 @@ function getRangeLabel(steps: number[], range: number[], short = false) {
     .join('~');
 }
 
-function getFilterTypeProps(
-  filterType: FilterType,
-  filter: Filter,
-): [string, boolean] {
+// TODO: Refactor
+function getFilterTypeProps(filterType: FilterType, filter: Filter): [string, boolean] {
   if (filterType === 'realestateType') {
     const realestateTypes = filter.realestateTypes.split(',');
     if (realestateTypes.length > 1) return ['유형', false];
@@ -40,8 +39,16 @@ function getFilterTypeProps(
     return [RealestateTypeString[Number(realestateTypes[0])], true];
   }
   if (filterType === 'buyOrRent') {
+    const realestateTypes = filter.realestateTypes.split(',');
     const buyOrRents = filter.buyOrRents.split(',');
+
     if (buyOrRents.length > 2) return ['거래 종류', false];
+    if (
+      realestateTypes.includes(`${RealestateType.OneRoom}`) ||
+      realestateTypes.includes(`${RealestateType.TwoRoom}`)
+    ) {
+      if (buyOrRents.length > 1) return ['거래 종류', false];
+    }
 
     if (filter.buyOrRents === '2,3') {
       return ['전월세', true];
@@ -71,9 +78,24 @@ function getFilterTypeProps(
     return ['가격', false];
   }
   if (filterType === 'household') {
+    if (filter.minHousehold !== '0') {
+      return [`${filter.minHousehold}세대~`, true];
+    }
+
     return ['세대수', false];
   }
   if (filterType === 'etc') {
+    const labels = [];
+    if (filter.quickSale) {
+      labels.push('급매');
+    }
+    if (filter.gapInvestment) {
+      labels.push('갭투자');
+    }
+    if (labels.length > 0) {
+      return [labels.join(', '), true];
+    }
+
     return ['기타', false];
   }
 
@@ -101,9 +123,7 @@ export default function FilterTypes({
   onToggleExpansion,
   onClickFilterType,
 }: FilterTypesProps) {
-  const [filterContainer, setFilterContainer] = useState<HTMLDivElement | null>(
-    null,
-  );
+  const [filterContainer, setFilterContainer] = useState<HTMLDivElement | null>(null);
   const [isExpanded, setIsExpandedState] = useControlled({
     controlled: expandedProp,
     default: false,
@@ -145,10 +165,7 @@ export default function FilterTypes({
     <div tw="flex relative">
       <div
         ref={setFilterContainer}
-        css={[
-          tw`flex items-center gap-2 p-4 overflow-x-hidden`,
-          isExpanded && tw`flex-wrap`,
-        ]}
+        css={[tw`flex items-center gap-2 p-4 overflow-x-hidden`, isExpanded && tw`flex-wrap`]}
       >
         <FilterButton
           isSelected={isFilterEnabled}
