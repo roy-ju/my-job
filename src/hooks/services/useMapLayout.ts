@@ -1,15 +1,9 @@
+import { coordToRegion } from '@/lib/kakao';
 import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { mapState } from '@/states/map';
 import _ from 'lodash';
-import {
-  ChangeEventHandler,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from '../utils';
 import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
@@ -82,14 +76,26 @@ export default function useMapLayout() {
   const [mapType, setMapType] = useState('normal');
   const [schoolType, setSchoolType] = useState('');
   const mapLayerRef = useRef<naver.maps.LabelLayer | null>(null); // 지적도, 거리뷰 레이어
+  const [centerAddress, setCenterAddress] = useState(['서울특별시', '중구', '남대문로2가']);
+
+  /**
+   * 지도 중심좌표를 reverse geocoding 한다.
+   */
+  const handleCenterAddressChange = useCallback(async (_map: NaverMap) => {
+    const center = _map.getCenter() as NaverLatLng;
+    const response = await coordToRegion(center.x, center.y);
+    if (response && response.documents?.length > 0) {
+      const region = response.documents.filter((item) => item.region_type === 'B')[0];
+      if (region) {
+        setCenterAddress([region.region_1depth_name, region.region_2depth_name, region.region_3depth_name]);
+      }
+    }
+  }, []);
 
   /**
    * 지도의 초기값들을 설정한다.
    */
-  const initialZoom = useMemo(
-    () => getMapState((ms) => Number(ms[2]), DEFAULT_ZOOM),
-    [],
-  );
+  const initialZoom = useMemo(() => getMapState((ms) => Number(ms[2]), DEFAULT_ZOOM), []);
 
   const initialCenter = useMemo(
     () =>
@@ -113,8 +119,9 @@ export default function useMapLayout() {
       }
 
       setMap(m);
+      handleCenterAddressChange(m);
     },
-    [setMap],
+    [setMap, handleCenterAddressChange],
   );
 
   /**
@@ -123,11 +130,7 @@ export default function useMapLayout() {
   const onInit = useCallback((m: NaverMap) => {
     // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
     const mapStateExists = getMapState(() => true, false);
-    if (
-      !mapStateExists &&
-      typeof navigator !== 'undefined' &&
-      typeof localStorage !== 'undefined'
-    ) {
+    if (!mapStateExists && typeof navigator !== 'undefined' && typeof localStorage !== 'undefined') {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
         const latlng = { lat: coords.latitude, lng: coords.longitude };
@@ -144,7 +147,6 @@ export default function useMapLayout() {
   const onClick = useCallback(() => {
     router.popAll();
   }, [router]);
-
   /**
    * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
    */
@@ -155,11 +157,13 @@ export default function useMapLayout() {
           // query 파라미터에 현재 지도위치 정보를 넣어서,
           // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
           setMapState(_map);
+          // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
+          handleCenterAddressChange(_map);
         },
         300,
         { leading: true, trailing: true },
       ),
-    [],
+    [handleCenterAddressChange],
   );
 
   /**
@@ -234,9 +238,7 @@ export default function useMapLayout() {
     setMapType(mt);
   }, []);
 
-  const handleChangeSchoolType = useCallback<
-    ChangeEventHandler<HTMLInputElement>
-  >((event) => {
+  const handleChangeSchoolType = useCallback<ChangeEventHandler<HTMLInputElement>>((event) => {
     setSchoolType(event.target.value);
   }, []);
 
@@ -260,6 +262,7 @@ export default function useMapLayout() {
     maxZoom: DEFAULT_MAX_ZOOM,
     zoom: initialZoom,
     center: initialCenter,
+    centerAddress,
     onInit,
     onCreate,
     onClick,

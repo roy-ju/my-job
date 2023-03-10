@@ -1,5 +1,5 @@
 import { MapLayout as Layout } from '@/components/templates';
-import { useMapLayout } from '@/hooks/services';
+import { useMapLayout, useMapMarkers } from '@/hooks/services';
 import { Map } from '@/lib/navermap';
 import { ReactNode } from 'react';
 
@@ -18,14 +18,19 @@ function MapWrapper() {
     mapType,
     schoolType,
     handleMapSearch,
+    centerAddress,
     // Map
     ...props
   } = useMapLayout();
+
+  const { filter, handleChangeFilter } = useMapMarkers();
 
   return (
     <Layout.MapContainer
       mapType={mapType}
       schoolType={schoolType}
+      filter={filter}
+      centerAddress={centerAddress}
       onClickCurrentLocation={morphToCurrentLocation}
       onClickZoomIn={zoomIn}
       onClickZoomOut={zoomOut}
@@ -34,6 +39,7 @@ function MapWrapper() {
       onClickMapTypeStreet={() => handleChangeMapType('street')}
       onChangeSchoolType={handleChangeSchoolType}
       onMapSearchSubmit={handleMapSearch}
+      onChangeFilter={handleChangeFilter}
     >
       <Map {...props} />
     </Layout.MapContainer>

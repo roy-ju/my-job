@@ -16,11 +16,7 @@ function MapPositionBar({ position1, position2, position3 }: Props) {
       {position2 && (
         <>
           <div tw="w-[1px] h-4 bg-gray-300" />
-          <Button
-            variant="outlined"
-            size="medium"
-            tw="rounded-[30px] border-white"
-          >
+          <Button variant="outlined" size="medium" tw="rounded-[30px] border-white">
             {position2}
           </Button>
         </>
@@ -28,11 +24,7 @@ function MapPositionBar({ position1, position2, position3 }: Props) {
       {position3 && (
         <>
           <div tw="w-[1px] h-4 bg-gray-300" />
-          <Button
-            variant="outlined"
-            size="medium"
-            tw="rounded-[30px] border-white"
-          >
+          <Button variant="outlined" size="medium" tw="rounded-[30px] border-white">
             {position3}
           </Button>
         </>

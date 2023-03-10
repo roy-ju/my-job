@@ -10,12 +10,14 @@ import {
   MapPriceSelect,
   MapSearchTextField,
   MapFilter,
+  MapToggleButton,
 } from '@/components/organisms';
 import { Button } from '@/components/atoms';
-
 import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
 import HouseGreenIcon from '@/assets/icons/house_green.svg';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import { Filter, RealestateTypeGroup } from '@/components/organisms/MapFilter/types';
+import MapPositionBar from '@/components/organisms/MapPositionBar';
 
 interface LayoutMainProps {
   children?: ReactNode;
@@ -28,6 +30,9 @@ interface LayoutPanelsProps {
 interface LayoutMapContainerProps {
   mapType?: string;
   schoolType?: string;
+  filter?: Filter;
+  realestateTypeGroup?: RealestateTypeGroup;
+  centerAddress?: string[];
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -37,6 +42,8 @@ interface LayoutMapContainerProps {
   onClickMapTypeNormal?: () => void;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
   onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem) => void;
+  onChangeFilter?: (filter: Partial<Filter>) => void;
+  onChangeRealestateTypeGroup?: (realestateTypeGroup: RealestateTypeGroup) => void;
   children?: ReactNode;
 }
 
@@ -47,16 +54,8 @@ function LayoutMain({ children }: LayoutMainProps) {
         <GlobalNavigation>
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
           <GlobalNavigation.TabButton idx={1} text="지도" icon={<MapPin />} />
-          <GlobalNavigation.TabButton
-            idx={2}
-            text="나의거래"
-            icon={<Bidding />}
-          />
-          <GlobalNavigation.TabButton
-            idx={3}
-            text="문의목록"
-            icon={<ChatBubble />}
-          />
+          <GlobalNavigation.TabButton idx={2} text="나의거래" icon={<Bidding />} />
+          <GlobalNavigation.TabButton idx={3} text="문의목록" icon={<ChatBubble />} />
           <GlobalNavigation.TabButton idx={4} text="My네고" icon={<User />} />
         </GlobalNavigation>
       </div>
@@ -66,16 +65,14 @@ function LayoutMain({ children }: LayoutMainProps) {
 }
 
 function LayoutPanels({ children }: LayoutPanelsProps) {
-  return (
-    <div tw="flex flex-row h-full z-20 shadow-[-4px_0px_24px_rgba(0,0,0,0.1)]">
-      {children}
-    </div>
-  );
+  return <div tw="flex flex-row h-full z-20 shadow-[-4px_0px_24px_rgba(0,0,0,0.1)]">{children}</div>;
 }
 
 function LayoutMapContainer({
   mapType,
   schoolType,
+  filter,
+  centerAddress,
   onClickCurrentLocation,
   onClickMapTypeNormal,
   onClickMapTypeCadastral,
@@ -85,13 +82,18 @@ function LayoutMapContainer({
   onClickZoomOut,
   onChangeSchoolType,
   onMapSearchSubmit,
+  onChangeFilter,
   children,
 }: LayoutMapContainerProps) {
   return (
     <div id="map-container" tw="relative flex-1">
       <div tw="absolute left-5 top-5 z-10 w-[380px] flex flex-col gap-2">
         <MapSearchTextField onSubmit={onMapSearchSubmit} />
-        <MapFilter />
+        <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
+      </div>
+
+      <div tw="absolute left-0 right-0 mx-auto w-fit top-5 z-20">
+        <MapToggleButton />
       </div>
 
       <div tw="absolute right-5 top-5 z-20">
@@ -99,18 +101,9 @@ function LayoutMapContainer({
       </div>
       <div tw="absolute right-5 top-[84px] flex flex-col gap-6 z-10">
         <MapControls.Group>
-          <MapControls.MapButton
-            selected={mapType === 'normal'}
-            onClick={onClickMapTypeNormal}
-          />
-          <MapControls.StreetViewButton
-            selected={mapType === 'street'}
-            onClick={onClickMapTypeStreet}
-          />
-          <MapControls.CadastralButton
-            selected={mapType === 'cadastral'}
-            onClick={onClickMapTypeCadastral}
-          />
+          <MapControls.MapButton selected={mapType === 'normal'} onClick={onClickMapTypeNormal} />
+          <MapControls.StreetViewButton selected={mapType === 'street'} onClick={onClickMapTypeStreet} />
+          <MapControls.CadastralButton selected={mapType === 'cadastral'} onClick={onClickMapTypeCadastral} />
           <MapControls.SchoolButton
             selected={Boolean(schoolType)}
             value={schoolType}
@@ -125,21 +118,20 @@ function LayoutMapContainer({
         </MapControls.Group>
       </div>
       <div tw="absolute right-5 bottom-10 flex gap-2 z-10">
-        <Button
-          variant="ghost"
-          tw="bg-white font-bold shadow hover:bg-gray-300"
-        >
+        <Button variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
           <RefreshOrangeIcon style={{ marginRight: '0.5rem' }} />
           중개사 사이트
         </Button>
-        <Button
-          variant="ghost"
-          tw="bg-white font-bold shadow hover:bg-gray-300"
-        >
+        <Button variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
           <HouseGreenIcon style={{ marginRight: '0.5rem' }} />집 내놓기
         </Button>
       </div>
-      <div tw="inline-flex w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
+      <div tw="inline-flex gap-2 w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
+        <MapPositionBar
+          position1={centerAddress?.[0] ?? ''}
+          position2={centerAddress?.[1]}
+          position3={centerAddress?.[2]}
+        />
         <Button size="medium" tw="shadow font-bold rounded-4xl">
           이 지역 매물 12
         </Button>
