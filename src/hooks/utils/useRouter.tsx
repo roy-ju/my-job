@@ -149,7 +149,11 @@ export default function useRouter(depth: number) {
       delete router.query[`${i}`];
     }
 
-    router.replace({ pathname: '/' });
+    const query = {
+      ...router.query,
+    };
+
+    router.replace({ pathname: '/', query });
   }, [router]);
 
   /**

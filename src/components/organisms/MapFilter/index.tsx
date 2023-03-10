@@ -14,6 +14,7 @@ import EtcFilter from './EtcFilter';
 
 export function getDefaultFilterAptOftl(): Filter {
   return {
+    realestateTypeGroup: 'apt,oftl',
     realestateTypes: [RealestateType.Apartment, RealestateType.Officetel].join(','),
     buyOrRents: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
@@ -27,6 +28,7 @@ export function getDefaultFilterAptOftl(): Filter {
 
 export function getDefaultFilterVillaDandok(): Filter {
   return {
+    realestateTypeGroup: 'villa,dandok',
     realestateTypes: [
       RealestateType.Yunrip,
       RealestateType.Dasaedae,
@@ -45,6 +47,7 @@ export function getDefaultFilterVillaDandok(): Filter {
 
 export function getDefaultFilterOneRoomTwoRoom(): Filter {
   return {
+    realestateTypeGroup: 'one,two',
     realestateTypes: [RealestateType.OneRoom, RealestateType.TwoRoom].join(','),
     buyOrRents: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
@@ -73,33 +76,18 @@ const FiltersContainer = styled.div`
   }
 `;
 
-const RealestateTypeGroupTabButton = styled(
-  ({ size = 'bigger', variant = 'ghost', ...props }: ButtonProps) => (
-    <Button size={size} variant={variant} {...props} />
-  ),
-)(({ isSelected }) => [tw`px-2 font-bold text-gray-600 text-b1`, isSelected && tw`text-gray-1000`]);
+const RealestateTypeGroupTabButton = styled(({ size = 'bigger', variant = 'ghost', ...props }: ButtonProps) => (
+  <Button size={size} variant={variant} {...props} />
+))(({ isSelected }) => [tw`px-2 font-bold text-gray-600 text-b1`, isSelected && tw`text-gray-1000`]);
 
 const Separator = tw.div`w-px h-2 bg-gray-300 mx-2`;
 
 interface MapFilterProps {
-  realestateTypeGroup?: RealestateTypeGroup;
   filter?: Filter;
-  onChangeRealestateTypeGroup?: (realestateTypeGroup: RealestateTypeGroup) => void;
   onChangeFilter?: (newFilter: Partial<Filter>) => void;
 }
 
-export default function MapFilter({
-  realestateTypeGroup: realestateTypeGroupProp,
-  filter: filterProp,
-  onChangeRealestateTypeGroup,
-  onChangeFilter,
-}: MapFilterProps) {
-  // 필터 대분류 ("아파트,오피스텔", "빌라,주택", "원룸,투룸")
-  const [realestateTypeGroup, setRealestateTypeGroupState] = useControlled({
-    controlled: realestateTypeGroupProp,
-    default: 'apt,oftl' as RealestateTypeGroup,
-  });
-
+export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFilterProps) {
   // 필터
   const [filter, setFilterState] = useControlled({
     controlled: filterProp,
@@ -139,11 +127,31 @@ export default function MapFilter({
   // 필터 대분류 Change Event Handler
   const handleChangeRealestateTypeGroup = useCallback(
     (value: RealestateTypeGroup) => {
-      setRealestateTypeGroupState(value);
-      onChangeRealestateTypeGroup?.(value);
+      switch (value) {
+        case 'apt,oftl':
+          setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+          setFilters([]);
+          setFilterState(getDefaultFilterAptOftl());
+          onChangeFilter?.(getDefaultFilterAptOftl());
+          break;
+        case 'villa,dandok':
+          setFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
+          setFilters([]);
+          setFilterState(getDefaultFilterVillaDandok());
+          onChangeFilter?.(getDefaultFilterVillaDandok());
+          break;
+        case 'one,two':
+          setFilterTypes(['realestateType', 'buyOrRent', 'price']);
+          setFilters([]);
+          setFilterState(getDefaultFilterOneRoomTwoRoom());
+          onChangeFilter?.(getDefaultFilterOneRoomTwoRoom());
+          break;
+        default:
+          break;
+      }
       setIsFilterTypeExapnded(false);
     },
-    [setRealestateTypeGroupState, onChangeRealestateTypeGroup],
+    [setFilterState, onChangeFilter],
   );
 
   // 필터 종류 열림/닫힘 Toggle Event Handler
@@ -176,16 +184,16 @@ export default function MapFilter({
   const handleResetFilter = useCallback(() => {
     let defaultFilter = null;
 
-    if (realestateTypeGroup === 'apt,oftl') {
+    if (filter.realestateTypeGroup === 'apt,oftl') {
       defaultFilter = getDefaultFilterAptOftl();
-    } else if (realestateTypeGroup === 'villa,dandok') {
+    } else if (filter.realestateTypeGroup === 'villa,dandok') {
       defaultFilter = getDefaultFilterVillaDandok();
     }
     if (defaultFilter !== null) {
       setFilterState(defaultFilter);
       onChangeFilter?.(defaultFilter);
     }
-  }, [realestateTypeGroup, setFilterState, onChangeFilter]);
+  }, [filter.realestateTypeGroup, setFilterState, onChangeFilter]);
 
   // 유형 필터 Change Event Handler
   const handleChangeRealestateTypes = useCallback(
@@ -291,35 +299,9 @@ export default function MapFilter({
     [onChangeFilter, setFilterState],
   );
 
-  // 필터 대분류에 따라, 필터 종류 바꾸고 필터 초기화
-  useEffect(() => {
-    switch (realestateTypeGroup) {
-      case 'apt,oftl':
-        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
-        setFilters([]);
-        setFilterState(getDefaultFilterAptOftl());
-        onChangeFilter?.(getDefaultFilterAptOftl());
-        break;
-      case 'villa,dandok':
-        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
-        setFilters([]);
-        setFilterState(getDefaultFilterVillaDandok());
-        onChangeFilter?.(getDefaultFilterVillaDandok());
-        break;
-      case 'one,two':
-        setFilterTypes(['realestateType', 'buyOrRent', 'price']);
-        setFilters([]);
-        setFilterState(getDefaultFilterOneRoomTwoRoom());
-        onChangeFilter?.(getDefaultFilterOneRoomTwoRoom());
-        break;
-      default:
-        break;
-    }
-  }, [realestateTypeGroup, setFilterState, onChangeFilter]);
-
   // 기타 필터 존재 여부
   useEffect(() => {
-    if (['apt,oftl', 'villa,dandok'].includes(realestateTypeGroup)) {
+    if (['apt,oftl', 'villa,dandok'].includes(filter.realestateTypeGroup)) {
       const buyOrRents = filter.buyOrRents.split(',').map((item) => Number(item) as BuyOrRent);
       if (buyOrRents.includes(BuyOrRent.Buy)) {
         setFilterTypes((prev) => {
@@ -337,27 +319,27 @@ export default function MapFilter({
         });
       }
     }
-  }, [realestateTypeGroup, filter.buyOrRents]);
+  }, [filter.realestateTypeGroup, filter.buyOrRents]);
 
   return (
     <div tw="bg-white shadow rounded-lg overflow-hidden">
       <div tw="flex items-center px-2">
         <RealestateTypeGroupTabButton
-          isSelected={realestateTypeGroup === 'apt,oftl'}
+          isSelected={filter.realestateTypeGroup === 'apt,oftl'}
           onClick={() => handleChangeRealestateTypeGroup('apt,oftl')}
         >
           아파트 · 오피스텔
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
-          isSelected={realestateTypeGroup === 'villa,dandok'}
+          isSelected={filter.realestateTypeGroup === 'villa,dandok'}
           onClick={() => handleChangeRealestateTypeGroup('villa,dandok')}
         >
           빌라 · 주택
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
-          isSelected={realestateTypeGroup === 'one,two'}
+          isSelected={filter.realestateTypeGroup === 'one,two'}
           onClick={() => handleChangeRealestateTypeGroup('one,two')}
         >
           원룸 · 투룸
@@ -375,14 +357,14 @@ export default function MapFilter({
       <FiltersContainer>
         {isRealestateTypeFilterAdded && (
           <RealestateTypeFilter
-            realestateTypeGroup={realestateTypeGroup}
+            realestateTypeGroup={filter.realestateTypeGroup}
             value={filter.realestateTypes}
             onChange={handleChangeRealestateTypes}
           />
         )}
         {isBuyOrRentFilterAdded && (
           <BuyorRentFilter
-            realestateTypeGroup={realestateTypeGroup}
+            realestateTypeGroup={filter.realestateTypeGroup}
             value={filter.buyOrRents}
             onChange={handleChangeBuyOrRents}
           />
@@ -398,9 +380,7 @@ export default function MapFilter({
             onChangeRentRange={handleChangeRentRange}
           />
         )}
-        {isHouseholdFilterAdded && (
-          <HouseholdFilter value={filter.minHousehold} onChange={handleChangeMinHousehold} />
-        )}
+        {isHouseholdFilterAdded && <HouseholdFilter value={filter.minHousehold} onChange={handleChangeMinHousehold} />}
         {isEtcFilterAdded && (
           <EtcFilter
             quickSale={filter.quickSale}
