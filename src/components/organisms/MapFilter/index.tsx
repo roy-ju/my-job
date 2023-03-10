@@ -8,19 +8,13 @@ import FilterTypes from './FilterTypes';
 import { Filter, FilterType, RealestateTypeGroup } from './types';
 import RealestateTypeFilter from './RealestateTypeFilter';
 import BuyorRentFilter from './BuyOrRentFilter';
-import PriceFilter, {
-  DEPOSIT_STEPS,
-  PRICE_STEPS,
-  RENT_STEPS,
-} from './PriceFilter';
+import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from './PriceFilter';
 import HouseholdFilter from './HouseholdFilter';
 import EtcFilter from './EtcFilter';
 
 function getDefaultFilterAptOftl(): Filter {
   return {
-    realestateTypes: [RealestateType.Apartment, RealestateType.Officetel].join(
-      ',',
-    ),
+    realestateTypes: [RealestateType.Apartment, RealestateType.Officetel].join(','),
     buyOrRents: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
     depositRange: [0, DEPOSIT_STEPS.length - 1],
@@ -43,8 +37,11 @@ function getDefaultFilterVillaDandok(): Filter {
   };
 }
 
-function useFilterType(filterType: FilterType, filters: FilterType[]) {
-  return useMemo(() => filters.includes(filterType), [filters, filterType]);
+function useFilterType(filterType: FilterType, filters: FilterType[], filterTypes: FilterType[]) {
+  return useMemo(
+    () => filters.includes(filterType) && filterTypes.includes(filterType),
+    [filters, filterType, filterTypes],
+  );
 }
 
 const FiltersContainer = styled.div`
@@ -61,19 +58,14 @@ const RealestateTypeGroupTabButton = styled(
   ({ size = 'bigger', variant = 'ghost', ...props }: ButtonProps) => (
     <Button size={size} variant={variant} {...props} />
   ),
-)(({ isSelected }) => [
-  tw`px-2 font-bold text-gray-600 text-b1`,
-  isSelected && tw`text-gray-1000`,
-]);
+)(({ isSelected }) => [tw`px-2 font-bold text-gray-600 text-b1`, isSelected && tw`text-gray-1000`]);
 
 const Separator = tw.div`w-px h-2 bg-gray-300 mx-2`;
 
 interface MapFilterProps {
   realestateTypeGroup?: RealestateTypeGroup;
   filter?: Filter;
-  onChangerealestateTypeGroup?: (
-    realestateTypeGroup: RealestateTypeGroup,
-  ) => void;
+  onChangerealestateTypeGroup?: (realestateTypeGroup: RealestateTypeGroup) => void;
   onChangeFilter?: (newFilter: Partial<Filter>) => void;
 }
 
@@ -111,19 +103,19 @@ export default function MapFilter({
   const [filters, setFilters] = useState<FilterType[]>([]);
 
   // 유형 필터 열림/닫힘
-  const isRealestateTypeFilterAdded = useFilterType('realestateType', filters);
+  const isRealestateTypeFilterAdded = useFilterType('realestateType', filters, filterTypes);
 
   // 거래 종류 필터 열림/닫힘
-  const isBuyOrRentFilterAdded = useFilterType('buyOrRent', filters);
+  const isBuyOrRentFilterAdded = useFilterType('buyOrRent', filters, filterTypes);
 
   // 가격 필터 열림/닫힘
-  const isPriceFilterAdded = useFilterType('price', filters);
+  const isPriceFilterAdded = useFilterType('price', filters, filterTypes);
 
   // 세대수 필터 열림/닫힘
-  const isHouseholdFilterAdded = useFilterType('household', filters);
+  const isHouseholdFilterAdded = useFilterType('household', filters, filterTypes);
 
   // 기타 필터 열림/닫힘
-  const isEtcFilterAdded = useFilterType('etc', filters);
+  const isEtcFilterAdded = useFilterType('etc', filters, filterTypes);
 
   // 필터 대분류 Change Event Handler
   const handleChangeRealestateTypeGroup = useCallback(
@@ -252,12 +244,12 @@ export default function MapFilter({
   useEffect(() => {
     switch (realestateTypeGroup) {
       case 'apt,oftl':
-        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household']);
+        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
         setFilterState(getDefaultFilterAptOftl());
         onChangeFilter?.(getDefaultFilterAptOftl());
         break;
       case 'villa,dandok':
-        setFilterTypes(['realestateType', 'buyOrRent', 'price']);
+        setFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
         setFilterState(getDefaultFilterVillaDandok());
         onChangeFilter?.(getDefaultFilterVillaDandok());
         break;
@@ -271,9 +263,7 @@ export default function MapFilter({
 
   useEffect(() => {
     if (['apt,oftl', 'villa,dandok'].includes(realestateTypeGroup)) {
-      const buyOrRents = filter.buyOrRents
-        .split(',')
-        .map((item) => Number(item) as BuyOrRent);
+      const buyOrRents = filter.buyOrRents.split(',').map((item) => Number(item) as BuyOrRent);
       if (buyOrRents.includes(BuyOrRent.Buy)) {
         setFilterTypes((prev) => {
           if (!prev.includes('etc')) {
