@@ -34,8 +34,13 @@ function getRangeLabel(steps: number[], range: number[], short = false) {
 function getFilterTypeProps(filterType: FilterType, filter: Filter): [string, boolean] {
   if (filterType === 'realestateType') {
     const realestateTypes = filter.realestateTypes.split(',');
+    if (filter.realestateTypes === [RealestateType.Yunrip, RealestateType.Dasaedae].join(',')) {
+      return ['빌라', true];
+    }
+    if (filter.realestateTypes === [RealestateType.Dandok, RealestateType.Dagagoo].join(',')) {
+      return ['단독 / 다가구', true];
+    }
     if (realestateTypes.length > 1) return ['유형', false];
-
     return [RealestateTypeString[Number(realestateTypes[0])], true];
   }
   if (filterType === 'buyOrRent') {
@@ -167,11 +172,7 @@ export default function FilterTypes({
         ref={setFilterContainer}
         css={[tw`flex items-center gap-2 p-4 overflow-x-hidden`, isExpanded && tw`flex-wrap`]}
       >
-        <FilterButton
-          isSelected={isFilterEnabled}
-          tw="p-2"
-          onClick={() => onClickFilterType('all')}
-        >
+        <FilterButton isSelected={isFilterEnabled} tw="p-2" onClick={() => onClickFilterType('all')}>
           <FilterIcon />
         </FilterButton>
         {filterTypes.map((filterType) => (
@@ -201,12 +202,7 @@ export default function FilterTypes({
       {filterContainer && !isExpanded && isOverflown && (
         <div tw="absolute top-0 right-0 h-full flex items-center">
           <div tw="w-10 h-full bg-gradient-to-l from-white to-transparent" />
-          <Button
-            onClick={handleToggleFilterExpansion}
-            size="none"
-            variant="ghost"
-            tw="w-10 h-full pr-2 bg-white"
-          >
+          <Button onClick={handleToggleFilterExpansion} size="none" variant="ghost" tw="w-10 h-full pr-2 bg-white">
             <ChevronDownIcon />
           </Button>
         </div>
