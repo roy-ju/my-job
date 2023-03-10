@@ -63,7 +63,7 @@ const Track: NonNullable<ReactSliderProps<number[]>['renderTrack']> = (
 interface Props {
   min: number;
   max: number;
-  step: number;
+  step?: number;
   value?: number[];
   defaultValue?: number[];
   labels?: string[];
@@ -74,7 +74,7 @@ interface Props {
 export default function Slider({
   min,
   max,
-  step,
+  step = 1,
   value,
   defaultValue,
   labels,
