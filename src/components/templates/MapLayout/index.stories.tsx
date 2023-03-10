@@ -8,11 +8,7 @@ export default {
 } as ComponentMeta<typeof MapLayout>;
 
 function MapPlaceholder() {
-  return (
-    <div tw="w-full h-full flex items-center justify-center font-bold text-h1">
-      MAP
-    </div>
-  );
+  return <div tw="w-full h-full flex items-center justify-center font-bold text-h1">MAP</div>;
 }
 
 export const PanelClosed: ComponentStory<typeof MapLayout> = (args) => (
