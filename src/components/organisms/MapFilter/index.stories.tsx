@@ -25,7 +25,6 @@ export const ControlledWithArgs: ComponentStory<typeof MapFilter> = (args) => (
 
 ControlledWithArgs.args = {
   filter: getDefaultFilterAptOftl(),
-  realestateTypeGroup: 'apt,oftl',
 };
 
 export const FilterList: ComponentStory<typeof RealestateTypeFilter> = () => (
