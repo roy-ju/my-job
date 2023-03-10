@@ -269,6 +269,29 @@ export default function MapFilter({
     }
   }, [realestateTypeGroup, setFilterState, onChangeFilter]);
 
+  useEffect(() => {
+    if (['apt,oftl', 'villa,dandok'].includes(realestateTypeGroup)) {
+      const buyOrRents = filter.buyOrRents
+        .split(',')
+        .map((item) => Number(item) as BuyOrRent);
+      if (buyOrRents.includes(BuyOrRent.Buy)) {
+        setFilterTypes((prev) => {
+          if (!prev.includes('etc')) {
+            return [...prev, 'etc'];
+          }
+          return prev;
+        });
+      } else {
+        setFilterTypes((prev) => {
+          if (prev.includes('etc')) {
+            return prev.filter((item) => item !== 'etc');
+          }
+          return prev;
+        });
+      }
+    }
+  }, [realestateTypeGroup, filter.buyOrRents]);
+
   return (
     <div tw="bg-white shadow rounded-lg overflow-hidden">
       <div tw="flex items-center px-2">
