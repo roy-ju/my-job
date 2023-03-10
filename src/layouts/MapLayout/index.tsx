@@ -14,8 +14,10 @@ function MapWrapper() {
     zoomIn,
     zoomOut,
     handleChangeMapType,
+    handleChangeMapLayer,
     handleChangeSchoolType,
     mapType,
+    mapLayer,
     schoolType,
     handleMapSearch,
     centerAddress,
@@ -27,6 +29,7 @@ function MapWrapper() {
 
   return (
     <Layout.MapContainer
+      mapLayer={mapLayer}
       mapType={mapType}
       schoolType={schoolType}
       filter={filter}
@@ -34,9 +37,9 @@ function MapWrapper() {
       onClickCurrentLocation={morphToCurrentLocation}
       onClickZoomIn={zoomIn}
       onClickZoomOut={zoomOut}
-      onClickMapTypeNormal={() => handleChangeMapType('normal')}
-      onClickMapTypeCadastral={() => handleChangeMapType('cadastral')}
-      onClickMapTypeStreet={() => handleChangeMapType('street')}
+      onChangeMapType={handleChangeMapType}
+      onClickMapLayerCadastral={() => handleChangeMapLayer('cadastral')}
+      onClickMapLayerStreet={() => handleChangeMapLayer('street')}
       onChangeSchoolType={handleChangeSchoolType}
       onMapSearchSubmit={handleMapSearch}
       onChangeFilter={handleChangeFilter}

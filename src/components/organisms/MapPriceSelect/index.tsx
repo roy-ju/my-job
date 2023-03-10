@@ -27,13 +27,18 @@ interface Props {
 export default function MapPriceSelect({ value: valueProp, onChange }: Props) {
   const outsideRef = useRef<HTMLDivElement | null>(null);
 
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null,
-  );
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'bottom',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -59,14 +64,8 @@ export default function MapPriceSelect({ value: valueProp, onChange }: Props) {
 
   return (
     <div ref={outsideRef}>
-      <SelectButton
-        type="button"
-        ref={setReferenceElement}
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        <span tw="text-b2 font-bold text-gray-1000">
-          {value === 'buy' ? '매매 가격' : '전월세 금액'}
-        </span>
+      <SelectButton type="button" ref={setReferenceElement} onClick={() => setIsOpen((prev) => !prev)}>
+        <span tw="text-b2 font-bold text-gray-1000">{value === 'buy' ? '매매 가격' : '전월세 금액'}</span>
         <ChevronDownIcon
           color={theme`colors.gray.1000`}
           style={{
@@ -77,31 +76,17 @@ export default function MapPriceSelect({ value: valueProp, onChange }: Props) {
       </SelectButton>
       {isOpen && (
         <div
-          tw="w-[119px] mt-2 shadow rounded-lg bg-white flex flex-col py-2"
+          tw="w-[119px] shadow rounded-lg bg-white flex flex-col py-2"
           ref={setPopperElement}
           style={styles.popper}
           {...attributes.popper}
         >
           <SelectItem onClick={() => handleChangeValue('buy')}>
-            <span
-              css={[
-                tw`font-bold text-b2`,
-                value === 'buy' && tw`text-nego-1000`,
-              ]}
-            >
-              매매 가격
-            </span>
+            <span css={[tw`font-bold text-b2`, value === 'buy' && tw`text-nego-1000`]}>매매 가격</span>
             {value === 'buy' && <CheckIcon color={theme`colors.nego.1000`} />}
           </SelectItem>
           <SelectItem onClick={() => handleChangeValue('rent')}>
-            <span
-              css={[
-                tw`font-bold text-b2`,
-                value === 'rent' && tw`text-nego-1000`,
-              ]}
-            >
-              전월세 금액
-            </span>
+            <span css={[tw`font-bold text-b2`, value === 'rent' && tw`text-nego-1000`]}>전월세 금액</span>
             {value === 'rent' && <CheckIcon color={theme`colors.nego.1000`} />}
           </SelectItem>
         </div>

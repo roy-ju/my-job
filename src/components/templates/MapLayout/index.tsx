@@ -29,6 +29,7 @@ interface LayoutPanelsProps {
 
 interface LayoutMapContainerProps {
   mapType?: string;
+  mapLayer?: string;
   schoolType?: string;
   filter?: Filter;
   realestateTypeGroup?: RealestateTypeGroup;
@@ -37,9 +38,9 @@ interface LayoutMapContainerProps {
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
   onClickSchool?: () => void;
-  onClickMapTypeCadastral?: () => void;
-  onClickMapTypeStreet?: () => void;
-  onClickMapTypeNormal?: () => void;
+  onClickMapLayerCadastral?: () => void;
+  onClickMapLayerStreet?: () => void;
+  onChangeMapType?: ChangeEventHandler<HTMLInputElement>;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
   onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem) => void;
   onChangeFilter?: (filter: Partial<Filter>) => void;
@@ -70,13 +71,14 @@ function LayoutPanels({ children }: LayoutPanelsProps) {
 
 function LayoutMapContainer({
   mapType,
+  mapLayer,
   schoolType,
   filter,
   centerAddress,
   onClickCurrentLocation,
-  onClickMapTypeNormal,
-  onClickMapTypeCadastral,
-  onClickMapTypeStreet,
+  onClickMapLayerCadastral,
+  onClickMapLayerStreet,
+  onChangeMapType,
   onClickSchool,
   onClickZoomIn,
   onClickZoomOut,
@@ -92,7 +94,7 @@ function LayoutMapContainer({
         <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
       </div>
 
-      <div tw="absolute left-[400px] right-[139px] top-5 z-20 flex justify-center pointer-events-none">
+      <div tw="absolute left-[400px] right-[139px] top-5 z-20 flex justify-center pointer-events-none 2xl:left-0 2xl:right-0 2xl:mx-auto">
         <div tw="w-fit pointer-events-auto">
           <MapToggleButton />
         </div>
@@ -103,11 +105,11 @@ function LayoutMapContainer({
       </div>
       <div tw="absolute right-5 top-[84px] flex flex-col gap-6 z-10">
         <MapControls.Group>
-          <MapControls.MapButton selected={mapType === 'normal'} onClick={onClickMapTypeNormal} />
-          <MapControls.StreetViewButton selected={mapType === 'street'} onClick={onClickMapTypeStreet} />
-          <MapControls.CadastralButton selected={mapType === 'cadastral'} onClick={onClickMapTypeCadastral} />
+          <MapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
+          <MapControls.StreetViewButton selected={mapLayer === 'street'} onClick={onClickMapLayerStreet} />
+          <MapControls.CadastralButton selected={mapLayer === 'cadastral'} onClick={onClickMapLayerCadastral} />
           <MapControls.SchoolButton
-            selected={Boolean(schoolType)}
+            selected={schoolType !== 'none'}
             value={schoolType}
             onChange={onChangeSchoolType}
             onClick={onClickSchool}

@@ -74,7 +74,8 @@ export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
   const [map, setMap] = useRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
   const [mapType, setMapType] = useState('normal');
-  const [schoolType, setSchoolType] = useState('');
+  const [mapLayer, setMapLayer] = useState('none');
+  const [schoolType, setSchoolType] = useState('none');
   const mapLayerRef = useRef<naver.maps.LabelLayer | null>(null); // 지적도, 거리뷰 레이어
   const [centerAddress, setCenterAddress] = useState(['서울특별시', '중구', '남대문로2가']);
 
@@ -189,7 +190,7 @@ export default function useMapLayout() {
   }, []);
 
   /**
-   * 맵 타입 핸들링
+   * 맵 레이어 핸들링
    */
   useEffect(() => {
     if (typeof window === 'undefined' || typeof naver === 'undefined') {
@@ -199,19 +200,19 @@ export default function useMapLayout() {
       return;
     }
 
-    if (mapType === 'normal') {
+    if (mapLayer === 'none') {
       mapLayerRef.current?.setMap(null);
       mapLayerRef.current = null;
-    } else if (mapType === 'cadastral') {
+    } else if (mapLayer === 'cadastral') {
       mapLayerRef.current?.setMap(null);
       mapLayerRef.current = new naver.maps.CadastralLayer();
       mapLayerRef.current.setMap(map);
-    } else if (mapType === 'street') {
+    } else if (mapLayer === 'street') {
       mapLayerRef.current?.setMap(null);
       mapLayerRef.current = new naver.maps.StreetLayer();
       mapLayerRef.current.setMap(map);
     }
-  }, [map, mapType]);
+  }, [map, mapLayer]);
 
   // Map Control Handlers
 
@@ -234,8 +235,38 @@ export default function useMapLayout() {
     map.zoomBy(-1, undefined, true);
   }, [map]);
 
-  const handleChangeMapType = useCallback((mt: string) => {
-    setMapType(mt);
+  const handleChangeMapType = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (event) => {
+      if (!map) return;
+      const newMapType = event.target.value;
+
+      switch (newMapType) {
+        case 'normal':
+          map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+          break;
+        case 'satellite':
+          map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+          break;
+        case 'terrain':
+          map.setMapTypeId(naver.maps.MapTypeId.TERRAIN);
+          break;
+        default:
+          map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+          break;
+      }
+
+      setMapType(event.target.value);
+    },
+    [map],
+  );
+
+  const handleChangeMapLayer = useCallback((ml: string) => {
+    setMapLayer((prev) => {
+      if (prev === ml) {
+        return 'none';
+      }
+      return ml;
+    });
   }, []);
 
   const handleChangeSchoolType = useCallback<ChangeEventHandler<HTMLInputElement>>((event) => {
@@ -269,11 +300,13 @@ export default function useMapLayout() {
     onIdle,
     // ones with business logics
     mapType,
+    mapLayer,
     schoolType,
     morphToCurrentLocation,
     zoomIn,
     zoomOut,
     handleChangeMapType,
+    handleChangeMapLayer,
     handleChangeSchoolType,
     handleMapSearch,
   };
