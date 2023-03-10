@@ -22,7 +22,14 @@ const optionsList = {
     { label: '매매', value: [BuyOrRent.Buy].join(',') },
     { label: '전월세', value: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(',') },
   ],
-  'one,two': [],
+  'one,two': [
+    {
+      label: '전월세',
+      value: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
+    },
+    { label: '전세', value: [BuyOrRent.Jeonsae].join(',') },
+    { label: '월세', value: [BuyOrRent.Wolsae].join(',') },
+  ],
 };
 
 interface BuyOrRentFilterProps {
@@ -54,12 +61,7 @@ export default function BuyorRentFilter({
       <p tw="text-b1 text-gray-1000 font-bold mb-5">거래 종류</p>
       <RadioGroup tw="flex gap-4" value={value} onChange={handleInputChange}>
         {optionsList[realestateTypeGroup].map((option) => (
-          <Label
-            key={option.value}
-            control={<Radio />}
-            value={option.value}
-            label={option.label}
-          />
+          <Label key={option.value} control={<Radio />} value={option.value} label={option.label} />
         ))}
       </RadioGroup>
     </div>
