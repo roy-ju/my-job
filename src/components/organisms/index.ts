@@ -7,3 +7,4 @@ export { default as MapTabBar } from './MapTabBar';
 export { default as MapPriceSelect } from './MapPriceSelect';
 export { default as MapSearchTextField } from './MapSearchTextField';
 export { default as MapFilter } from './MapFilter';
+export { default as MapToggleButton } from './MapToggleButton';
