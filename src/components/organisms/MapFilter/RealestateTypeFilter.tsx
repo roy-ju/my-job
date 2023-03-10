@@ -33,7 +33,14 @@ const optionsList = {
       value: [RealestateType.Dandok, RealestateType.Dagagoo].join(','),
     },
   ],
-  'one,two': [],
+  'one,two': [
+    {
+      label: '전체',
+      value: [RealestateType.OneRoom, RealestateType.TwoRoom].join(','),
+    },
+    { label: '원룸', value: [RealestateType.OneRoom].join(',') },
+    { label: '투룸', value: [RealestateType.TwoRoom].join(',') },
+  ],
 };
 
 interface RealestateTypeFilterProps {
@@ -65,12 +72,7 @@ export default function RealestateTypeFilter({
       <p tw="text-b1 text-gray-1000 font-bold mb-5">유형</p>
       <RadioGroup tw="flex gap-4" value={value} onChange={handleInputChange}>
         {optionsList[realestateTypeGroup].map((option) => (
-          <Label
-            key={option.value}
-            control={<Radio />}
-            value={option.value}
-            label={option.label}
-          />
+          <Label key={option.value} control={<Radio />} value={option.value} label={option.label} />
         ))}
       </RadioGroup>
     </div>

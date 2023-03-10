@@ -9,6 +9,8 @@ export const RealestateTypeString: EnumStringMapper = {
   [RealestateType.Yunrip]: '빌라',
   [RealestateType.Dandok]: '단독',
   [RealestateType.Dagagoo]: '다가구',
+  [RealestateType.OneRoom]: '원룸',
+  [RealestateType.TwoRoom]: '투룸',
 };
 
 export const BuyOrRentString: EnumStringMapper = {

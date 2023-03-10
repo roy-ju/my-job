@@ -1,12 +1,8 @@
 export type RealestateTypeGroup = 'apt,oftl' | 'villa,dandok' | 'one,two';
 
-export type FilterType =
-  | 'all'
-  | 'realestateType'
-  | 'buyOrRent'
-  | 'price'
-  | 'household'
-  | 'etc';
+export type FilterType = 'all' | 'realestateType' | 'buyOrRent' | 'price' | 'household' | 'etc';
+
+export type MinHousehold = '0' | '20' | '100' | '300' | '500' | '1000';
 
 export interface Filter {
   realestateTypes: string; // comma separated string. e.g. '1,2'
@@ -14,4 +10,7 @@ export interface Filter {
   priceRange: number[];
   depositRange: number[];
   rentRange: number[];
+  minHousehold: MinHousehold;
+  quickSale: boolean;
+  gapInvestment: boolean;
 }
