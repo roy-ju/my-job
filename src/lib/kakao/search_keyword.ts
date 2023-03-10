@@ -31,9 +31,14 @@ export default async function searchKeyword(query: string) {
   if (!query) return null;
 
   try {
+    const params = new URLSearchParams({
+      query,
+    });
+
     const { data } = await axios.get(
-      `https://dapi.kakao.com/v2/local/search/keyword.json?query=${query}`,
+      `https://dapi.kakao.com/v2/local/search/keyword.json`,
       {
+        params,
         headers: {
           Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
         },

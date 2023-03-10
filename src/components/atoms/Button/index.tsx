@@ -23,7 +23,7 @@ const sizes = {
 };
 
 const selectedStyles = {
-  gray: tw`bg-gray-1000 text-white`,
+  gray: tw`bg-gray-1000 text-white hover:bg-gray-800`,
   outlined: tw`bg-gray-200 border-gray-1000`,
   primary: tw``,
   secondary: tw``,
