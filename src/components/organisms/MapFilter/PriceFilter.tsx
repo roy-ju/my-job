@@ -4,57 +4,68 @@ import { formatNumberInKorean } from '@/utils';
 import _ from 'lodash';
 import { useMemo, useState } from 'react';
 
+function useEnabled(value: BuyOrRent, list: string) {
+  return useMemo(() => list.split(',').includes(`${value}`), [list, value]);
+}
+
+function f(n: number) {
+  return formatNumberInKorean(n, {
+    formatFn: (v) => v.toLocaleString('ko-KR', { useGrouping: true }),
+  });
+}
+
 const priceSteps = [
-  0,
-  30000000,
+  ..._.range(0, 50000000, 30000000),
   ..._.range(50000000, 500000000, 50000000),
-  ..._.range(500000000, 1600000001, 100000000),
+  ..._.range(500000000, 1700000000, 100000000),
 ];
 
 const depositSteps = [
   ..._.range(0, 5000000, 1000000),
   ..._.range(5000000, 70000000, 5000000),
   ..._.range(70000000, 200000000, 10000000),
-  ..._.range(200000000, 900000000, 50000000),
-  ..._.range(900000000, 1000000001, 100000000),
+  ..._.range(200000000, 1200000000, 50000000),
+  ..._.range(1200000000, 1400000000, 100000000),
 ];
 
-function useEnabled(value: BuyOrRent, list: string) {
-  return useMemo(() => list.split(',').includes(`${value}`), [list, value]);
-}
+const rentSteps = [
+  ..._.range(0, 500000, 50000),
+  ..._.range(500000, 600000, 10000),
+  ..._.range(600000, 800000, 50000),
+  ..._.range(800000, 2100000, 100000),
+  ..._.range(2500000, 4500000, 500000),
+];
 
-function PriceLabel({ range }: { range: number[] }) {
+const priceLabels = [
+  '0',
+  f(priceSteps[Math.floor(priceSteps.length / 2)]),
+  '무제한',
+];
+
+const depositLabels = [
+  '0',
+  f(depositSteps[Math.floor(depositSteps.length / 2)]),
+  '무제한',
+];
+
+const rentLabels = [
+  '0',
+  f(rentSteps[Math.floor(rentSteps.length / 2)]),
+  '무제한',
+];
+
+function PriceLabel({ steps, range }: { steps: number[]; range: number[] }) {
   const label = useMemo(() => {
-    if (range[0] === 0 && range[1] === priceSteps.length - 1) {
+    if (range[0] === 0 && range[1] === steps.length - 1) {
       return '무제한';
     }
 
-    if (range[0] !== 0 && range[1] === priceSteps.length - 1) {
-      return `${formatNumberInKorean(priceSteps[range[0]])} ~ 무제한`;
+    if (range[0] !== 0 && range[1] === steps.length - 1) {
+      return `${f(steps[range[0]])} ~ 무제한`;
     }
 
-    return `${formatNumberInKorean(
-      priceSteps[range[0]],
-    )} ~ ${formatNumberInKorean(priceSteps[range[1]])}`;
-  }, [range]);
-
-  return <span tw="text-b2 text-nego-1000">{label}</span>;
-}
-
-function DepositLabel({ range }: { range: number[] }) {
-  const label = useMemo(() => {
-    if (range[0] === 0 && range[1] === depositSteps.length - 1) {
-      return '무제한';
-    }
-
-    if (range[0] !== 0 && range[1] === depositSteps.length - 1) {
-      return `${formatNumberInKorean(depositSteps[range[0]])} ~ 무제한`;
-    }
-
-    return `${formatNumberInKorean(
-      depositSteps[range[0]],
-    )} ~ ${formatNumberInKorean(depositSteps[range[1]])}`;
-  }, [range]);
+    return `${f(steps[range[0]])} ~ ${f(steps[range[1]])}`;
+  }, [range, steps]);
 
   return <span tw="text-b2 text-nego-1000">{label}</span>;
 }
@@ -71,6 +82,7 @@ export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
     0,
     depositSteps.length - 1,
   ]);
+  const [rentRange, setRentRange] = useState([0, rentSteps.length - 1]);
 
   const buyEnabled = useEnabled(BuyOrRent.Buy, buyOrRents);
 
@@ -86,14 +98,13 @@ export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">매매가</span>
-              <PriceLabel range={priceRange} />
+              <PriceLabel steps={priceSteps} range={priceRange} />
             </div>
             <Slider
               min={0}
               max={priceSteps.length - 1}
-              step={1}
               defaultValue={[0, priceSteps.length - 1]}
-              labels={['0', '5억', '무제한']}
+              labels={priceLabels}
               value={priceRange}
               onChange={(range) => setPriceRange(range)}
             />
@@ -103,14 +114,13 @@ export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">보증금 (전 / 월세)</span>
-              <DepositLabel range={depositRange} />
+              <PriceLabel steps={depositSteps} range={depositRange} />
             </div>
             <Slider
               min={0}
               max={depositSteps.length - 1}
-              step={1}
               defaultValue={[0, depositSteps.length - 1]}
-              labels={['0', '1억 2,000만', '무제한']}
+              labels={depositLabels}
               value={depositRange}
               onChange={(range) => setDepositRange(range)}
             />
@@ -119,15 +129,16 @@ export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
         {wolsaeEnabled && (
           <div>
             <div tw="flex items-center justify-between mb-2.5">
-              <span tw="text-b2 text-gray-1000">매매가</span>
-              <span tw="text-b2 text-nego-1000">무제한</span>
+              <span tw="text-b2 text-gray-1000">월차임</span>
+              <PriceLabel steps={rentSteps} range={rentRange} />
             </div>
             <Slider
               min={0}
-              max={10}
-              step={1}
-              defaultValue={[0, 10]}
-              labels={['0', '60만', '무제한']}
+              max={rentSteps.length - 1}
+              defaultValue={[0, rentSteps.length - 1]}
+              labels={rentLabels}
+              value={rentRange}
+              onChange={(range) => setRentRange(range)}
             />
           </div>
         )}
