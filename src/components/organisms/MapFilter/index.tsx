@@ -162,6 +162,20 @@ export default function MapFilter({
     setFilters([]);
   }, []);
 
+  const handleResetFilter = useCallback(() => {
+    let defaultFilter = null;
+
+    if (realestateTypeGroup === 'apt,oftl') {
+      defaultFilter = getDefaultFilterAptOftl();
+    } else if (realestateTypeGroup === 'villa,dandok') {
+      defaultFilter = getDefaultFilterVillaDandok();
+    }
+    if (defaultFilter !== null) {
+      setFilterState(defaultFilter);
+      onChangeFilter?.(defaultFilter);
+    }
+  }, [realestateTypeGroup, setFilterState, onChangeFilter]);
+
   // 유형 필터 Change Event Handler
   const handleChangeRealestateTypes = useCallback(
     (newRealestateTypes: string) => {
@@ -321,7 +335,7 @@ export default function MapFilter({
         <div>
           <div tw="w-full h-px bg-gray-300" />
           <div tw="flex items-center justify-between">
-            <Button variant="ghost" tw="underline">
+            <Button variant="ghost" tw="underline" onClick={handleResetFilter}>
               필터 초기화
             </Button>
             <Button variant="ghost" onClick={handleCloseFilters}>
