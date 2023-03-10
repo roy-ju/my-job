@@ -122,6 +122,14 @@ export default function FilterTypes({
     return list;
   }, [filter, filterTypes]);
 
+  const isFilterEnabled = useMemo(
+    () =>
+      Object.entries(filterTypeProps)
+        .map(([_, value]) => value.isSelected)
+        .filter((item) => item).length > 0,
+    [filterTypeProps],
+  );
+
   const handleToggleFilterExpansion = useCallback(() => {
     setIsExpandedState((prev) => !prev);
     onToggleExpansion();
@@ -142,7 +150,11 @@ export default function FilterTypes({
           isExpanded && tw`flex-wrap`,
         ]}
       >
-        <FilterButton tw="p-2" onClick={() => onClickFilterType('all')}>
+        <FilterButton
+          isSelected={isFilterEnabled}
+          tw="p-2"
+          onClick={() => onClickFilterType('all')}
+        >
           <FilterIcon />
         </FilterButton>
         {filterTypes.map((filterType) => (
