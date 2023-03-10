@@ -6,7 +6,7 @@ import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 const StyledContainer = tw.div`flex items-center rounded-lg bg-white h-14`;
 
 const StyledInput = styled.input`
-  ${tw`flex-1 h-full px-4 py-2.5 text-b1 text-gray-1000 bg-transparent placeholder:text-gray-600`}
+  ${tw`flex-1 min-w-0 h-full px-4 py-2.5 text-b1 text-gray-1000 bg-transparent placeholder:text-gray-600`}
 `;
 
 const StyledLeading = tw.span`pl-2.5`;

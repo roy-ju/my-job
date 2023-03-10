@@ -6,14 +6,14 @@ export default function useControlled<T>({
 }: {
   controlled: T | undefined;
   default: T;
-}): [T, (_: T) => void] {
+}): [T, (_: T | ((prev: T) => T)) => void] {
   const { current: isControlled } = useRef(controlled !== undefined);
   const [valueState, setValue] = useState(defaultProp);
 
   const value = isControlled ? controlled! : valueState;
 
   const setValueIfUncontrolled = useCallback(
-    (newValue: T) => {
+    (newValue: T | ((prev: T) => T)) => {
       if (!isControlled) {
         setValue(newValue);
       }
