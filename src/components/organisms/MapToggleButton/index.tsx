@@ -1,5 +1,5 @@
 import { Button } from '@/components/atoms';
-import tw from 'twin.macro';
+import tw, { theme } from 'twin.macro';
 import Chart from '@/assets/icons/chart.svg';
 import HomeWithDollar from '@/assets/icons/home_with_dollar.svg';
 
@@ -28,9 +28,7 @@ function MapToggleButton({ value, onClick }: Props) {
         onClick={() => onClick(0)}
       >
         <Chart
-          style={{
-            color: value === 0 ? 'white' : '#4C6EF5',
-          }}
+          color={value === 0 ? theme`colors.white` : theme`colors.blue.700`}
         />
         <span css={[tw`font-bold text-b1`, value === 0 && tw`text-white`]}>
           실거래가
@@ -42,9 +40,7 @@ function MapToggleButton({ value, onClick }: Props) {
         onClick={() => onClick(1)}
       >
         <HomeWithDollar
-          style={{
-            color: value === 1 ? 'white' : '#7048E8',
-          }}
+          color={value === 1 ? theme`colors.white` : theme`colors.nego.800`}
         />
         <span css={[tw`font-bold text-b1 `, value === 1 && tw`text-white`]}>
           호가
