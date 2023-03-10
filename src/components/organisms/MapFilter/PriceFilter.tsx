@@ -1,8 +1,9 @@
 import { Slider } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
+import { useControlled } from '@/hooks/utils';
 import { formatNumberInKorean } from '@/utils';
 import _ from 'lodash';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 function useEnabled(value: BuyOrRent, list: string) {
   return useMemo(() => list.split(',').includes(`${value}`), [list, value]);
@@ -14,13 +15,13 @@ function f(n: number) {
   });
 }
 
-const priceSteps = [
+export const PRICE_STEPS = [
   ..._.range(0, 50000000, 30000000),
   ..._.range(50000000, 500000000, 50000000),
   ..._.range(500000000, 1700000000, 100000000),
 ];
 
-const depositSteps = [
+export const DEPOSIT_STEPS = [
   ..._.range(0, 5000000, 1000000),
   ..._.range(5000000, 70000000, 5000000),
   ..._.range(70000000, 200000000, 10000000),
@@ -28,7 +29,7 @@ const depositSteps = [
   ..._.range(1200000000, 1400000000, 100000000),
 ];
 
-const rentSteps = [
+export const RENT_STEPS = [
   ..._.range(0, 500000, 50000),
   ..._.range(500000, 600000, 10000),
   ..._.range(600000, 800000, 50000),
@@ -38,19 +39,19 @@ const rentSteps = [
 
 const priceLabels = [
   '0',
-  f(priceSteps[Math.floor(priceSteps.length / 2)]),
+  f(PRICE_STEPS[Math.floor(PRICE_STEPS.length / 2)]),
   '무제한',
 ];
 
 const depositLabels = [
   '0',
-  f(depositSteps[Math.floor(depositSteps.length / 2)]),
+  f(DEPOSIT_STEPS[Math.floor(DEPOSIT_STEPS.length / 2)]),
   '무제한',
 ];
 
 const rentLabels = [
   '0',
-  f(rentSteps[Math.floor(rentSteps.length / 2)]),
+  f(RENT_STEPS[Math.floor(RENT_STEPS.length / 2)]),
   '무제한',
 ];
 
@@ -72,23 +73,67 @@ function PriceLabel({ steps, range }: { steps: number[]; range: number[] }) {
 
 interface PriceFilterProps {
   buyOrRents: string;
-  value?: string;
-  onChange?: (value: string) => void;
+  priceRange?: number[];
+  depositRange?: number[];
+  rentRange?: number[];
+  onChangePriceRange?: (range: number[]) => void;
+  onChangeDepositRange?: (range: number[]) => void;
+  onChangeRentRange?: (range: number[]) => void;
 }
 
-export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
-  const [priceRange, setPriceRange] = useState([0, priceSteps.length - 1]);
-  const [depositRange, setDepositRange] = useState([
-    0,
-    depositSteps.length - 1,
-  ]);
-  const [rentRange, setRentRange] = useState([0, rentSteps.length - 1]);
+export default function PriceFilter({
+  priceRange: priceRangeProp,
+  depositRange: depositRangeProp,
+  rentRange: rentRangeProp,
+  buyOrRents,
+  onChangePriceRange,
+  onChangeDepositRange,
+  onChangeRentRange,
+}: PriceFilterProps) {
+  const [priceRange, setPriceRange] = useControlled({
+    controlled: priceRangeProp,
+    default: [0, PRICE_STEPS.length - 1],
+  });
+
+  const [depositRange, setDepositRange] = useControlled({
+    controlled: depositRangeProp,
+    default: [0, DEPOSIT_STEPS.length - 1],
+  });
+
+  const [rentRange, setRentRange] = useControlled({
+    controlled: rentRangeProp,
+    default: [0, RENT_STEPS.length - 1],
+  });
 
   const buyEnabled = useEnabled(BuyOrRent.Buy, buyOrRents);
 
   const jeonsaeEnabled = useEnabled(BuyOrRent.Jeonsae, buyOrRents);
 
   const wolsaeEnabled = useEnabled(BuyOrRent.Wolsae, buyOrRents);
+
+  const handleChangePriceRange = useCallback(
+    (newRange: number[]) => {
+      setPriceRange(newRange);
+      onChangePriceRange?.(newRange);
+    },
+    [setPriceRange, onChangePriceRange],
+  );
+
+  const handleChangeDepositRange = useCallback(
+    (newRange: number[]) => {
+      setDepositRange(newRange);
+      onChangeDepositRange?.(newRange);
+    },
+    [setDepositRange, onChangeDepositRange],
+  );
+
+  const handleChangeRentRange = useCallback(
+    (newRange: number[]) => {
+      setRentRange(newRange);
+      onChangeRentRange?.(newRange);
+    },
+    [setRentRange, onChangeRentRange],
+  );
 
   return (
     <div tw="py-5">
@@ -98,15 +143,15 @@ export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">매매가</span>
-              <PriceLabel steps={priceSteps} range={priceRange} />
+              <PriceLabel steps={PRICE_STEPS} range={priceRange} />
             </div>
             <Slider
               min={0}
-              max={priceSteps.length - 1}
-              defaultValue={[0, priceSteps.length - 1]}
+              max={PRICE_STEPS.length - 1}
+              defaultValue={[0, PRICE_STEPS.length - 1]}
               labels={priceLabels}
               value={priceRange}
-              onChange={(range) => setPriceRange(range)}
+              onChange={handleChangePriceRange}
             />
           </div>
         )}
@@ -114,15 +159,15 @@ export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">보증금 (전 / 월세)</span>
-              <PriceLabel steps={depositSteps} range={depositRange} />
+              <PriceLabel steps={DEPOSIT_STEPS} range={depositRange} />
             </div>
             <Slider
               min={0}
-              max={depositSteps.length - 1}
-              defaultValue={[0, depositSteps.length - 1]}
+              max={DEPOSIT_STEPS.length - 1}
+              defaultValue={[0, DEPOSIT_STEPS.length - 1]}
               labels={depositLabels}
               value={depositRange}
-              onChange={(range) => setDepositRange(range)}
+              onChange={handleChangeDepositRange}
             />
           </div>
         )}
@@ -130,15 +175,15 @@ export default function PriceFilter({ buyOrRents }: PriceFilterProps) {
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">월차임</span>
-              <PriceLabel steps={rentSteps} range={rentRange} />
+              <PriceLabel steps={RENT_STEPS} range={rentRange} />
             </div>
             <Slider
               min={0}
-              max={rentSteps.length - 1}
-              defaultValue={[0, rentSteps.length - 1]}
+              max={RENT_STEPS.length - 1}
+              defaultValue={[0, RENT_STEPS.length - 1]}
               labels={rentLabels}
               value={rentRange}
-              onChange={(range) => setRentRange(range)}
+              onChange={handleChangeRentRange}
             />
           </div>
         )}
