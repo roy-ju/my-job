@@ -40,13 +40,15 @@ function Container({ name, variant, children, onClick }: Props) {
 
   return (
     <button type="button" tw="w-fit" onClick={onClick}>
-      <div css={[tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px]`, { minWidth, overflowY: 'visible' }]}>
-        {/* <div
+      <div
         css={[
-          tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px] shadow-[0_8px_16px_rgba(0,0,0,0.14)]`,
+          tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px]`,
           { minWidth, overflowY: 'visible' },
+          {
+            boxShadow: '7px 7px 5px rgba(0, 0, 0, 0.16)',
+          },
         ]}
-      > */}
+      >
         <div
           css={[
             tw`flex items-center justify-center flex-1 px-2 rounded-t-lg`,

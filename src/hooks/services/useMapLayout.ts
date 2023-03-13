@@ -1,3 +1,5 @@
+import getHakgudo from '@/apis/map/map_hakgudo';
+import getSchools from '@/apis/map/map_schools';
 import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/map_search_level';
 import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
 import { Filter } from '@/components/organisms/MapFilter/types';
@@ -13,7 +15,8 @@ import { useRouter } from '../utils';
 import useStateSyncedWithURL from '../utils/useStateSyncedWithURL';
 import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
 
-interface CommonMapMarkers {
+interface CommonMapMarker {
+  variant: 'blue' | 'nego';
   bubjungdongCode?: string;
   bubjungdongName?: string;
   danjiCount?: number;
@@ -30,6 +33,15 @@ interface CommonMapMarkers {
   listingCount: number;
   lat: number;
   lng: number;
+}
+
+interface CommonSchoolMarker {
+  id: string;
+  type: string;
+  lat: number;
+  lng: number;
+  name: string;
+  onClick?: () => void;
 }
 
 export interface MapBounds {
@@ -113,7 +125,15 @@ export default function useMapLayout() {
   const [bounds, setBounds] = useState<MapBounds | null>(null);
   const [filter, setFilter] = useStateSyncedWithURL<Filter>('filter', getDefaultFilterAptOftl());
   const [listingCount, setListingCount] = useState(0);
-  const [markers, setMarkers] = useState<CommonMapMarkers[]>([]);
+  const [markers, setMarkers] = useState<CommonMapMarker[]>([]);
+  const [schoolMarkers, setSchoolMarkers] = useState<CommonSchoolMarker[]>([]);
+  const [polygons, setPolygons] = useState<naver.maps.Polygon[]>([]);
+
+  const [mapToggleValue, setMapToggleValue] = useState(0);
+
+  const handleChangeMapToggleValue = useCallback((newValue: number) => {
+    setMapToggleValue(newValue);
+  }, []);
 
   /**
    * 지도 중심좌표를 reverse geocoding 한다.
@@ -146,13 +166,29 @@ export default function useMapLayout() {
     [],
   );
 
-  const updateMarkers = useCallback(async (mapBounds: MapBounds) => {
-    const res = await mapSearch({ level: mapBounds.mapLevel, bounds: mapBounds });
+  /**
+   * 지도위의 마커를 그린다.
+   */
+  const updateMarkers = useCallback(async (mapBounds: MapBounds, mapFilter: Filter, toggleValue: number) => {
+    const res = await mapSearch({
+      level: mapBounds.mapLevel,
+      bounds: mapBounds,
+      filter: mapFilter,
+      mapToggleValue: toggleValue,
+    });
     setListingCount(res?.listing_count ?? 0);
+
+    const isHoga = mapFilter.realestateTypeGroup !== 'apt,oftl' || toggleValue === 1;
+
     if (res && mapBounds.mapLevel !== 1) {
-      const regions = (res as MapSearchResponse).results;
+      let regions = (res as MapSearchResponse).results;
+      if (isHoga) {
+        regions = regions.filter((region) => region.listing_count !== 0);
+      }
+
       setMarkers(
         regions?.map((item) => ({
+          variant: isHoga ? 'nego' : 'blue',
           bubjungdongCode: item.bubjungdong_code,
           bubjungdongName: item.bubjungdong_name,
           danjiCount: item.danji_count,
@@ -162,13 +198,18 @@ export default function useMapLayout() {
         })),
       );
     } else if (res && mapBounds.mapLevel === 1) {
-      const danjis = (res as MapSearchLevelOneResponse).danji_list;
+      let danjis = (res as MapSearchLevelOneResponse).danji_list;
+      if (isHoga) {
+        danjis = danjis.filter((danji) => danji.listing_count !== 0);
+      }
+
       const danjiMap: {
-        [key: string]: CommonMapMarkers;
+        [key: string]: CommonMapMarker;
       } = {};
 
       danjis?.map((item) => {
         danjiMap[`${item.pnu}${item.danji_realestate_type}`] = {
+          variant: isHoga ? 'nego' : 'blue',
           pnu: item.pnu,
           danjiRealestateType: item.danji_realestate_type,
           pyoung: item.pyoung,
@@ -185,6 +226,48 @@ export default function useMapLayout() {
     }
   }, []);
 
+  const updateSchoolMarkers = useCallback(async (_map: NaverMap, mapBounds: MapBounds, st: string) => {
+    const schoolTypes = st === 'elementary' ? '1' : st === 'middle' ? '2' : '3';
+
+    const res = await getSchools({ schoolTypes, bounds: mapBounds });
+    setSchoolMarkers(
+      res?.list?.map((item) => ({
+        id: item.school_id,
+        lat: item.lat,
+        lng: item.long,
+        name: item.school_name.replace('등학교', ''),
+        type: st,
+        onClick: async () => {
+          const hakgudoRes = await getHakgudo(item.school_id);
+          const multiPolygon = hakgudoRes?.list;
+
+          const polygonsArr: any[] = [];
+          multiPolygon?.forEach((p: any) => {
+            const polyArr: any[] = [];
+            const ps = JSON.parse(p.polygons as string)?.coordinates[0];
+
+            ps[0].forEach((v: any) => {
+              polyArr.push(new naver.maps.LatLng(v[1], v[0]));
+            });
+
+            const poly = new naver.maps.Polygon({
+              map: _map,
+              paths: polyArr,
+              fillColor: '#FF6D41',
+              fillOpacity: 0.15,
+              strokeColor: '#F34829',
+              strokeOpacity: 1,
+              strokeWeight: 2,
+            });
+            polygonsArr.push(poly);
+          });
+
+          setPolygons(polygonsArr);
+        },
+      })) ?? [],
+    );
+  }, []);
+
   /**
    * 지도 코너 좌표값을 업데이트 한다.
    */
@@ -193,7 +276,7 @@ export default function useMapLayout() {
 
     const meters = getMetersByZoom(m.getZoom());
 
-    if (meters <= 50) {
+    if (meters <= 100) {
       mapLevel = 1;
     } else if (meters < 1000) {
       mapLevel = 2;
@@ -291,6 +374,7 @@ export default function useMapLayout() {
 
   const onZooming = useCallback((_map: NaverMap) => {
     setMarkers([]);
+    setSchoolMarkers([]);
   }, []);
 
   /**
@@ -342,9 +426,37 @@ export default function useMapLayout() {
 
   useEffect(() => {
     if (bounds) {
-      updateMarkers(bounds);
+      updateMarkers(bounds, filter, mapToggleValue);
     }
-  }, [bounds, updateMarkers]);
+  }, [bounds, updateMarkers, filter, mapToggleValue]);
+
+  useEffect(() => {
+    if (bounds && schoolType !== 'none' && map) {
+      updateSchoolMarkers(map, bounds, schoolType);
+    } else if (schoolType === 'none') {
+      setSchoolMarkers([]);
+    }
+  }, [map, bounds, schoolType, updateSchoolMarkers]);
+
+  useEffect(() => {
+    setPolygons([]);
+  }, [schoolType]);
+
+  useEffect(() => {
+    const level = bounds?.mapLevel ?? -1;
+    if (level > 2 && polygons.length > 0) {
+      setPolygons([]);
+    }
+  }, [bounds?.mapLevel, polygons]);
+
+  useEffect(
+    () => () => {
+      polygons.forEach((v: naver.maps.Polygon) => {
+        v.setMap(null);
+      });
+    },
+    [polygons],
+  );
 
   // Map Control Handlers
 
@@ -442,10 +554,12 @@ export default function useMapLayout() {
     filter,
     listingCount,
     markers,
+    schoolMarkers,
     bounds,
     mapType,
     mapLayer,
     schoolType,
+    mapToggleValue,
     morphToCurrentLocation,
     zoomIn,
     zoomOut,
@@ -454,5 +568,6 @@ export default function useMapLayout() {
     handleChangeSchoolType,
     handleMapSearch,
     handleChangeFilter,
+    handleChangeMapToggleValue,
   };
 }

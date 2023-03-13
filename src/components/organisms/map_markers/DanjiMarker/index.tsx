@@ -38,7 +38,7 @@ export default React.memo(({ variant, area, price, count = 0, onClick }: Props) 
     </div>
     {/* Background */}
     <div tw="absolute top-0 left-0 flex flex-col w-full h-full z-[-1]">
-      <div tw="flex flex-col flex-1 rounded-lg">
+      <div tw="flex flex-col flex-1 rounded-lg shadow-[7px_7px_5px_rgba(0,0,0,0.16)]">
         <div tw="relative flex">
           <div css={[tw`flex-1 h-[23px] bg-white rounded-tl-lg`, count === 0 && tw`rounded-tr-lg`]} />
           <div tw="absolute left-0 bottom-0 w-full h-[2px] bg-white" />
@@ -69,7 +69,7 @@ export default React.memo(({ variant, area, price, count = 0, onClick }: Props) 
             left: '0px',
             height: '2px',
             width: '90%',
-            // boxShadow: '1px 3px 6px 1px rgba(0,0,0,0.5)',
+            boxShadow: '7px 7px 5px rgba(0, 0, 0, 0.16)',
           },
         ]}
       />
