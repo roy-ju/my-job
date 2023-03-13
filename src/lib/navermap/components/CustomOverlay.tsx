@@ -2,12 +2,7 @@ import { ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { NaverMapContext } from './Map';
 
-type Anchor =
-  | 'center'
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right';
+type Anchor = 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 interface Props {
   position: {
@@ -49,18 +44,11 @@ function getOffset(width: number, height: number, anchor: Anchor) {
   };
 }
 
-export default function CustomOverlay({
-  position,
-  anchor = 'center',
-  children,
-}: Props) {
+export default function CustomOverlay({ position, anchor = 'center', children }: Props) {
   const map = useContext(NaverMapContext);
   const containerRef = useRef(document.createElement('div'));
   const overlayViewRef = useRef(new naver.maps.OverlayView());
-  const pos = useMemo(
-    () => new naver.maps.LatLng(position.lat, position.lng),
-    [position.lat, position.lng],
-  );
+  const pos = useMemo(() => new naver.maps.LatLng(position.lat, position.lng), [position.lat, position.lng]);
 
   useEffect(() => {
     const overlayView = overlayViewRef.current;
