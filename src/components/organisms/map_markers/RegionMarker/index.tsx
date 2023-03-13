@@ -40,12 +40,13 @@ function Container({ name, variant, children, onClick }: Props) {
 
   return (
     <button type="button" tw="w-fit" onClick={onClick}>
-      <div
+      <div css={[tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px]`, { minWidth, overflowY: 'visible' }]}>
+        {/* <div
         css={[
           tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px] shadow-[0_8px_16px_rgba(0,0,0,0.14)]`,
           { minWidth, overflowY: 'visible' },
         ]}
-      >
+      > */}
         <div
           css={[
             tw`flex items-center justify-center flex-1 px-2 rounded-t-lg`,
@@ -56,7 +57,7 @@ function Container({ name, variant, children, onClick }: Props) {
         </div>
         <div
           css={[
-            tw`flex items-center justify-center flex-1 px-2 bg-white rounded-b-lg`,
+            tw`flex items-center justify-center flex-1 px-2 bg-white rounded-b-lg whitespace-nowrap`,
             { color: variants[variant].textColor },
           ]}
         >

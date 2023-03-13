@@ -3,9 +3,7 @@ import { createContext, memo, ReactNode, useRef, useState } from 'react';
 import useNaverMapEvent from '../hooks/useNaverEvent';
 import { NaverLatLngBounds, NaverMap } from '../types';
 
-export const NaverMapContext = createContext<NaverMap>(
-  undefined as unknown as NaverMap,
-);
+export const NaverMapContext = createContext<NaverMap>(undefined as unknown as NaverMap);
 
 export type MapProps = {
   id?: string;
@@ -18,6 +16,7 @@ export type MapProps = {
   onCreate?: (map: NaverMap) => void;
   onBoundsChanged?: (map: NaverMap, bounds: NaverLatLngBounds) => void;
   onZoomChanged?: (map: NaverMap, zoom: number) => void;
+  onZooming?: (map: NaverMap, zoom: number) => void;
   onIdle?: (map: NaverMap) => void;
   onClick?: (map: NaverMap) => void;
   children?: ReactNode;
@@ -35,6 +34,7 @@ export default memo(
     onCreate,
     onBoundsChanged,
     onZoomChanged,
+    onZooming,
     onIdle,
     onClick,
     children,
@@ -88,6 +88,7 @@ export default memo(
       map.setMapTypeId(mapType);
     }, [map, mapType]);
 
+    useNaverMapEvent(map, 'zooming', onZooming);
     useNaverMapEvent(map, 'bounds_changed', onBoundsChanged);
     useNaverMapEvent(map, 'zoom_changed', onZoomChanged);
     useNaverMapEvent(map, 'idle', onIdle);
@@ -96,16 +97,8 @@ export default memo(
 
     return (
       <>
-        <div
-          tw="h-full w-full"
-          id={id || 'negocio-naver-map'}
-          ref={container}
-        />
-        {map && (
-          <NaverMapContext.Provider value={map}>
-            {children}
-          </NaverMapContext.Provider>
-        )}
+        <div tw="h-full w-full" id={id || 'negocio-naver-map'} ref={container} />
+        {map && <NaverMapContext.Provider value={map}>{children}</NaverMapContext.Provider>}
       </>
     );
   },

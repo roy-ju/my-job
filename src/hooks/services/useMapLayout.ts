@@ -1,12 +1,44 @@
+import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/map_search_level';
+import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
+import { Filter } from '@/components/organisms/MapFilter/types';
 import { coordToRegion } from '@/lib/kakao';
 import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
+import { getMetersByZoom } from '@/lib/navermap/utils';
 import { mapState } from '@/states/map';
 import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from '../utils';
+import useStateSyncedWithURL from '../utils/useStateSyncedWithURL';
 import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
+
+interface CommonMapMarkers {
+  bubjungdongCode?: string;
+  bubjungdongName?: string;
+  danjiCount?: number;
+  pnu?: string;
+  danjiRealestateType?: number;
+  pyoung?: string;
+  price?: number;
+  monthlyRentFee?: number;
+  roadNameAddress?: string;
+  jibunAddress?: string;
+  listingIDs?: string;
+  tradePrice?: number;
+  deposit?: number;
+  listingCount: number;
+  lat: number;
+  lng: number;
+}
+
+export interface MapBounds {
+  mapLevel: number;
+  sw: { lat: number; lng: number };
+  ne: { lat: number; lng: number };
+  nw: { lat: number; lng: number };
+  se: { lat: number; lng: number };
+}
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -77,7 +109,11 @@ export default function useMapLayout() {
   const [mapLayer, setMapLayer] = useState('none');
   const [schoolType, setSchoolType] = useState('none');
   const mapLayerRef = useRef<naver.maps.LabelLayer | null>(null); // 지적도, 거리뷰 레이어
-  const [centerAddress, setCenterAddress] = useState(['서울특별시', '중구', '남대문로2가']);
+  const [centerAddress, setCenterAddress] = useState(['서울특별시', '중구', '남대문로2가']); // 맵 중앙 주소
+  const [bounds, setBounds] = useState<MapBounds | null>(null);
+  const [filter, setFilter] = useStateSyncedWithURL<Filter>('filter', getDefaultFilterAptOftl());
+  const [listingCount, setListingCount] = useState(0);
+  const [markers, setMarkers] = useState<CommonMapMarkers[]>([]);
 
   /**
    * 지도 중심좌표를 reverse geocoding 한다.
@@ -110,6 +146,87 @@ export default function useMapLayout() {
     [],
   );
 
+  const updateMarkers = useCallback(async (mapBounds: MapBounds) => {
+    const res = await mapSearch({ level: mapBounds.mapLevel, bounds: mapBounds });
+    setListingCount(res?.listing_count ?? 0);
+    if (res && mapBounds.mapLevel !== 1) {
+      const regions = (res as MapSearchResponse).results;
+      setMarkers(
+        regions?.map((item) => ({
+          bubjungdongCode: item.bubjungdong_code,
+          bubjungdongName: item.bubjungdong_name,
+          danjiCount: item.danji_count,
+          listingCount: item.listing_count,
+          lat: item.lat,
+          lng: item.long,
+        })),
+      );
+    } else if (res && mapBounds.mapLevel === 1) {
+      const danjis = (res as MapSearchLevelOneResponse).danji_list;
+      const danjiMap: {
+        [key: string]: CommonMapMarkers;
+      } = {};
+
+      danjis?.map((item) => {
+        danjiMap[`${item.pnu}${item.danji_realestate_type}`] = {
+          pnu: item.pnu,
+          danjiRealestateType: item.danji_realestate_type,
+          pyoung: item.pyoung,
+          price: item.price,
+          jibunAddress: item.jibun_address,
+          roadNameAddress: item.road_name_address,
+          listingCount: item.listing_count,
+          lat: item.lat,
+          lng: item.long,
+        };
+      });
+
+      setMarkers(Object.values(danjiMap));
+    }
+  }, []);
+
+  /**
+   * 지도 코너 좌표값을 업데이트 한다.
+   */
+  const updateBounds = useCallback((m: NaverMap) => {
+    let mapLevel = -1;
+
+    const meters = getMetersByZoom(m.getZoom());
+
+    if (meters <= 50) {
+      mapLevel = 1;
+    } else if (meters < 1000) {
+      mapLevel = 2;
+    } else if (meters <= 5000) {
+      mapLevel = 3;
+    } else {
+      mapLevel = 4;
+    }
+
+    const naverMapBounds = m.getBounds() as naver.maps.LatLngBounds;
+    const sw = naverMapBounds.getSW();
+    const ne = naverMapBounds.getNE();
+    setBounds({
+      mapLevel,
+      sw: {
+        lat: sw.lat(),
+        lng: sw.lng(),
+      },
+      ne: {
+        lat: ne.lat(),
+        lng: ne.lng(),
+      },
+      nw: {
+        lat: ne.lat(),
+        lng: sw.lng(),
+      },
+      se: {
+        lat: sw.lat(),
+        lng: ne.lng(),
+      },
+    });
+  }, []);
+
   /**
    * 맵 생성시 호출된다. map.isReady === false
    */
@@ -121,8 +238,9 @@ export default function useMapLayout() {
 
       setMap(m);
       handleCenterAddressChange(m);
+      updateBounds(m);
     },
-    [setMap, handleCenterAddressChange],
+    [setMap, handleCenterAddressChange, updateBounds],
   );
 
   /**
@@ -148,6 +266,7 @@ export default function useMapLayout() {
   const onClick = useCallback(() => {
     router.popAll();
   }, [router]);
+
   /**
    * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
    */
@@ -160,12 +279,19 @@ export default function useMapLayout() {
           setMapState(_map);
           // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
           handleCenterAddressChange(_map);
+
+          // 지도 코너 좌표값을 업데이트 한다.
+          updateBounds(_map);
         },
         300,
         { leading: true, trailing: true },
       ),
-    [handleCenterAddressChange],
+    [handleCenterAddressChange, updateBounds],
   );
+
+  const onZooming = useCallback((_map: NaverMap) => {
+    setMarkers([]);
+  }, []);
 
   /**
    * depth 가 열리고 닫힘에 따라, 지도 사이즈가 재조정이 필요할때 호출된다.
@@ -213,6 +339,12 @@ export default function useMapLayout() {
       mapLayerRef.current.setMap(map);
     }
   }, [map, mapLayer]);
+
+  useEffect(() => {
+    if (bounds) {
+      updateMarkers(bounds);
+    }
+  }, [bounds, updateMarkers]);
 
   // Map Control Handlers
 
@@ -287,6 +419,13 @@ export default function useMapLayout() {
     [map],
   );
 
+  const handleChangeFilter = useCallback(
+    (value: Partial<Filter>) => {
+      setFilter((prev) => ({ ...prev, ...value }));
+    },
+    [setFilter],
+  );
+
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -298,7 +437,12 @@ export default function useMapLayout() {
     onCreate,
     onClick,
     onIdle,
+    onZooming,
     // ones with business logics
+    filter,
+    listingCount,
+    markers,
+    bounds,
     mapType,
     mapLayer,
     schoolType,
@@ -309,5 +453,6 @@ export default function useMapLayout() {
     handleChangeMapLayer,
     handleChangeSchoolType,
     handleMapSearch,
+    handleChangeFilter,
   };
 }

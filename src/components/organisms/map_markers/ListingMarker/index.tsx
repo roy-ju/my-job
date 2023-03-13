@@ -17,7 +17,7 @@ export default React.memo(({ price, count = 0, onClick }: Props) => (
   <button type="button" tw="relative w-fit" onClick={onClick}>
     {/* Content */}
     <div tw="min-w-[2.5rem] h-[46px] flex items-center justify-start pl-2 pr-3 pb-2">
-      <Numeral koreanNumberShort tw="text-b2 text-white font-bold leading-none">
+      <Numeral koreanNumberShort tw="text-b2 text-white font-bold leading-none whitespace-nowrap">
         {price}
       </Numeral>
     </div>
@@ -25,12 +25,7 @@ export default React.memo(({ price, count = 0, onClick }: Props) => (
     <div css={[tw`absolute top-0 left-0 flex flex-col w-full h-full z-[-1]`]}>
       <div tw="flex flex-col flex-1 rounded-lg shadow-[0_8px_16px_rgba(0,0,0,0.14)]">
         <div tw="relative text-nego flex">
-          <div
-            css={[
-              tw`flex-1 bg-nego rounded-tl-lg h-[23px]`,
-              count === 0 && tw`rounded-tr-lg`,
-            ]}
-          />
+          <div css={[tw`flex-1 bg-nego rounded-tl-lg h-[23px]`, count === 0 && tw`rounded-tr-lg`]} />
           <div tw="absolute left-0 bottom-[-1px] z-[-1] w-full h-[2px] bg-nego" />
           {/* Listing Count */}
           {count !== 0 && (
@@ -38,7 +33,7 @@ export default React.memo(({ price, count = 0, onClick }: Props) => (
               <div tw="absolute top-0 right-[23px] h-full w-[2px] bg-nego" />
               <div tw="relative">
                 <MarkerRoundedCorner />
-                <div tw="absolute h-5 px-2 top-[-8px] left-[12px] rounded-[40px] bg-black text-white text-info font-bold">
+                <div tw="absolute h-5 px-2 top-[-8px] left-[12px] rounded-[40px] bg-black text-white text-info font-bold whitespace-nowrap">
                   {count}
                 </div>
               </div>
