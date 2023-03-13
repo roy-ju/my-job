@@ -1,3 +1,4 @@
+import OutsideClick from '@/components/atoms/OutsideClick';
 import { DanjiMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 import { MapLayout as Layout } from '@/components/templates';
@@ -23,6 +24,7 @@ function MapWrapper() {
     handleChangeFilter,
     handleChangeMapToggleValue,
     handleChangePriceType,
+    handleClosePanorama,
     mapType,
     mapLayer,
     schoolType,
@@ -36,101 +38,111 @@ function MapWrapper() {
     selectedDanjiSummary,
     selectedSchoolID,
     priceType,
+    panoramaLocation,
     // Map
     ...props
   } = useMapLayout();
 
   return (
-    <Layout.MapContainer
-      mapLayer={mapLayer}
-      mapType={mapType}
-      schoolType={schoolType}
-      priceType={priceType}
-      filter={filter}
-      centerAddress={centerAddress}
-      mapToggleValue={mapToggleValue}
-      listingCount={listingCount}
-      onClickCurrentLocation={morphToCurrentLocation}
-      onClickZoomIn={zoomIn}
-      onClickZoomOut={zoomOut}
-      onChangeMapType={handleChangeMapType}
-      onClickMapLayerCadastral={() => handleChangeMapLayer('cadastral')}
-      onClickMapLayerStreet={() => handleChangeMapLayer('street')}
-      onChangeSchoolType={handleChangeSchoolType}
-      onMapSearchSubmit={handleMapSearch}
-      onChangeFilter={handleChangeFilter}
-      onChangeMapToggleValue={handleChangeMapToggleValue}
-      onChangePriceType={handleChangePriceType}
-    >
-      <Map {...props}>
-        {bounds?.mapLevel !== 1 &&
-          markers?.map((marker) => (
-            <CustomOverlay
-              key={marker.id}
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-            >
-              <RegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''} onClick={marker.onClick}>
-                <RegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
-                <RegionMarker.Divider />
-                <RegionMarker.ListingCount count={marker.listingCount} />
-              </RegionMarker>
-            </CustomOverlay>
-          ))}
-
-        {bounds?.mapLevel === 1 &&
-          markers?.map((marker) => (
-            <CustomOverlay
-              zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
-              anchor="bottom-left"
-              key={marker.id}
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-            >
-              <DanjiMarker
-                selected={selectedDanjiSummary?.id === marker.id}
-                variant={marker.variant}
-                area={Number(marker?.pyoung ?? 0)}
-                price={marker.price ?? 0}
-                count={marker?.listingCount ?? 0}
-                onClick={marker.onClick}
+    <>
+      <Layout.MapContainer
+        mapLayer={mapLayer}
+        mapType={mapType}
+        schoolType={schoolType}
+        priceType={priceType}
+        filter={filter}
+        centerAddress={centerAddress}
+        mapToggleValue={mapToggleValue}
+        listingCount={listingCount}
+        onClickCurrentLocation={morphToCurrentLocation}
+        onClickZoomIn={zoomIn}
+        onClickZoomOut={zoomOut}
+        onChangeMapType={handleChangeMapType}
+        onClickMapLayerCadastral={() => handleChangeMapLayer('cadastral')}
+        onClickMapLayerStreet={() => handleChangeMapLayer('street')}
+        onChangeSchoolType={handleChangeSchoolType}
+        onMapSearchSubmit={handleMapSearch}
+        onChangeFilter={handleChangeFilter}
+        onChangeMapToggleValue={handleChangeMapToggleValue}
+        onChangePriceType={handleChangePriceType}
+      >
+        <Map {...props}>
+          {bounds?.mapLevel !== 1 &&
+            markers?.map((marker) => (
+              <CustomOverlay
+                key={marker.id}
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
               >
-                {selectedDanjiSummary?.id === marker.id && (
-                  <DanjiMarker.Popper
-                    name={selectedDanjiSummary?.name ?? ''}
-                    householdCount={selectedDanjiSummary?.householdCount ?? 0}
-                    buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
-                    rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
-                  />
-                )}
-              </DanjiMarker>
-            </CustomOverlay>
-          ))}
+                <RegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''} onClick={marker.onClick}>
+                  <RegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
+                  <RegionMarker.Divider />
+                  <RegionMarker.ListingCount count={marker.listingCount} />
+                </RegionMarker>
+              </CustomOverlay>
+            ))}
 
-        {(bounds?.mapLevel ?? 4) < 3 &&
-          schoolMarkers?.map((marker) => (
-            <CustomOverlay
-              zIndex={selectedSchoolID === marker.id ? 100 : 9}
-              key={marker.id}
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-            >
-              <SchoolMarker
-                selected={selectedSchoolID === marker.id}
-                onClick={marker.onClick}
-                name={marker.name}
-                type={marker.type}
-              />
-            </CustomOverlay>
-          ))}
-      </Map>
-    </Layout.MapContainer>
+          {bounds?.mapLevel === 1 &&
+            markers?.map((marker) => (
+              <CustomOverlay
+                zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
+                anchor="bottom-left"
+                key={marker.id}
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+              >
+                <DanjiMarker
+                  selected={selectedDanjiSummary?.id === marker.id}
+                  variant={marker.variant}
+                  area={Number(marker?.pyoung ?? 0)}
+                  price={marker.price ?? 0}
+                  count={marker?.listingCount ?? 0}
+                  onClick={marker.onClick}
+                >
+                  {selectedDanjiSummary?.id === marker.id && (
+                    <DanjiMarker.Popper
+                      name={selectedDanjiSummary?.name ?? ''}
+                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
+                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
+                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
+                    />
+                  )}
+                </DanjiMarker>
+              </CustomOverlay>
+            ))}
+
+          {(bounds?.mapLevel ?? 4) < 3 &&
+            schoolMarkers?.map((marker) => (
+              <CustomOverlay
+                zIndex={selectedSchoolID === marker.id ? 100 : 9}
+                key={marker.id}
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+              >
+                <SchoolMarker
+                  selected={selectedSchoolID === marker.id}
+                  onClick={marker.onClick}
+                  name={marker.name}
+                  type={marker.type}
+                />
+              </CustomOverlay>
+            ))}
+        </Map>
+      </Layout.MapContainer>
+      {panoramaLocation && (
+        <Layout.Overlay tw="flex items-center justify-center">
+          <OutsideClick onOutsideClick={handleClosePanorama}>
+            <div tw="w-[780px] max-h-[960px] h-[85vh] bg-white" />
+          </OutsideClick>
+        </Layout.Overlay>
+      )}
+    </>
   );
 }
 

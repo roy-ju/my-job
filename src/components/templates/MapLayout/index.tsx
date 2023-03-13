@@ -18,6 +18,7 @@ import HouseGreenIcon from '@/assets/icons/house_green.svg';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { Filter } from '@/components/organisms/MapFilter/types';
 import MapPositionBar from '@/components/organisms/MapPositionBar';
+import tw from 'twin.macro';
 
 interface LayoutMainProps {
   children?: ReactNode;
@@ -151,7 +152,10 @@ function LayoutMapContainer({
   );
 }
 
+const Overlay = tw.div`fixed left-0 right-0 top-0 bottom-0 z-[1000] bg-[rgba(0,0,0,0.4)]`;
+
 export default Object.assign(LayoutMain, {
   Panels: LayoutPanels,
   MapContainer: LayoutMapContainer,
+  Overlay,
 });
