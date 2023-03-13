@@ -83,7 +83,7 @@ function MapWrapper() {
         {bounds?.mapLevel === 1 &&
           markers?.map((marker) => (
             <CustomOverlay
-              zIndex={selectedDanjiSummary?.id === marker.id ? 100 : 10}
+              zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
               anchor="bottom-left"
               key={marker.id}
               position={{
