@@ -1,4 +1,5 @@
 import { DanjiMarker, RegionMarker } from '@/components/organisms';
+import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 import { MapLayout as Layout } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
 import { Map } from '@/lib/navermap';
@@ -20,6 +21,7 @@ function MapWrapper() {
     handleChangeSchoolType,
     handleMapSearch,
     handleChangeFilter,
+    handleChangeMapToggleValue,
     mapType,
     mapLayer,
     schoolType,
@@ -27,6 +29,9 @@ function MapWrapper() {
     bounds,
     filter,
     markers,
+    schoolMarkers,
+    mapToggleValue,
+    listingCount,
     // Map
     ...props
   } = useMapLayout();
@@ -38,6 +43,8 @@ function MapWrapper() {
       schoolType={schoolType}
       filter={filter}
       centerAddress={centerAddress}
+      mapToggleValue={mapToggleValue}
+      listingCount={listingCount}
       onClickCurrentLocation={morphToCurrentLocation}
       onClickZoomIn={zoomIn}
       onClickZoomOut={zoomOut}
@@ -47,6 +54,7 @@ function MapWrapper() {
       onChangeSchoolType={handleChangeSchoolType}
       onMapSearchSubmit={handleMapSearch}
       onChangeFilter={handleChangeFilter}
+      onChangeMapToggleValue={handleChangeMapToggleValue}
     >
       <Map {...props}>
         {bounds?.mapLevel !== 1 &&
@@ -58,7 +66,7 @@ function MapWrapper() {
                 lng: marker.lng,
               }}
             >
-              <RegionMarker variant="blue" name={marker?.bubjungdongName ?? ''}>
+              <RegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''}>
                 <RegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
                 <RegionMarker.Divider />
                 <RegionMarker.ListingCount count={marker.listingCount} />
@@ -69,6 +77,7 @@ function MapWrapper() {
         {bounds?.mapLevel === 1 &&
           markers?.map((marker) => (
             <CustomOverlay
+              anchor="bottom-left"
               key={`${marker.pnu}${marker.danjiRealestateType}`}
               position={{
                 lat: marker.lat,
@@ -76,11 +85,24 @@ function MapWrapper() {
               }}
             >
               <DanjiMarker
-                variant="blue"
+                variant={marker.variant}
                 area={Number(marker?.pyoung ?? 0)}
                 price={marker.price ?? 0}
                 count={marker?.listingCount ?? 0}
               />
+            </CustomOverlay>
+          ))}
+
+        {(bounds?.mapLevel ?? 4) < 3 &&
+          schoolMarkers?.map((marker) => (
+            <CustomOverlay
+              key={marker.id}
+              position={{
+                lat: marker.lat,
+                lng: marker.lng,
+              }}
+            >
+              <SchoolMarker onClick={marker.onClick} name={marker.name} type={marker.type} />
             </CustomOverlay>
           ))}
       </Map>

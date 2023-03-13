@@ -16,7 +16,7 @@ import { Button } from '@/components/atoms';
 import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
 import HouseGreenIcon from '@/assets/icons/house_green.svg';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { Filter, RealestateTypeGroup } from '@/components/organisms/MapFilter/types';
+import { Filter } from '@/components/organisms/MapFilter/types';
 import MapPositionBar from '@/components/organisms/MapPositionBar';
 
 interface LayoutMainProps {
@@ -30,10 +30,11 @@ interface LayoutPanelsProps {
 interface LayoutMapContainerProps {
   mapType?: string;
   mapLayer?: string;
+  mapToggleValue?: number;
   schoolType?: string;
   filter?: Filter;
-  realestateTypeGroup?: RealestateTypeGroup;
   centerAddress?: string[];
+  listingCount?: number;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -44,7 +45,7 @@ interface LayoutMapContainerProps {
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
   onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem) => void;
   onChangeFilter?: (filter: Partial<Filter>) => void;
-  onChangeRealestateTypeGroup?: (realestateTypeGroup: RealestateTypeGroup) => void;
+  onChangeMapToggleValue?: (value: number) => void;
   children?: ReactNode;
 }
 
@@ -75,6 +76,8 @@ function LayoutMapContainer({
   schoolType,
   filter,
   centerAddress,
+  mapToggleValue,
+  listingCount,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
@@ -85,6 +88,7 @@ function LayoutMapContainer({
   onChangeSchoolType,
   onMapSearchSubmit,
   onChangeFilter,
+  onChangeMapToggleValue,
   children,
 }: LayoutMapContainerProps) {
   return (
@@ -94,11 +98,13 @@ function LayoutMapContainer({
         <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
       </div>
 
-      <div tw="absolute left-[400px] right-[139px] top-5 z-20 flex justify-center pointer-events-none 2xl:left-0 2xl:right-0 2xl:mx-auto">
-        <div tw="w-fit pointer-events-auto">
-          <MapToggleButton />
+      {filter?.realestateTypeGroup === 'apt,oftl' && (
+        <div tw="absolute left-[400px] right-[139px] top-5 z-20 flex justify-center pointer-events-none 2xl:left-0 2xl:right-0 2xl:mx-auto">
+          <div tw="w-fit pointer-events-auto">
+            <MapToggleButton value={mapToggleValue} onChange={onChangeMapToggleValue} />
+          </div>
         </div>
-      </div>
+      )}
 
       <div tw="absolute right-5 top-5 z-20">
         <MapPriceSelect />
@@ -133,7 +139,7 @@ function LayoutMapContainer({
       <div tw="inline-flex gap-2 w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
         <MapPositionBar sido={centerAddress?.[0] ?? ''} sigungu={centerAddress?.[1]} eubmyundong={centerAddress?.[2]} />
         <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl">
-          이 지역 매물 12
+          이 지역 매물 {listingCount ?? 0}
         </Button>
       </div>
       {children}
