@@ -154,6 +154,10 @@ export default function useMapLayout() {
     setPriceType(newValue);
   }, []);
 
+  const handleClosePanorama = useCallback(() => {
+    setPanoramaLocation(null);
+  }, []);
+
   /**
    * 지도 중심좌표를 reverse geocoding 한다.
    */
@@ -645,5 +649,6 @@ export default function useMapLayout() {
     handleChangeFilter,
     handleChangeMapToggleValue,
     handleChangePriceType,
+    handleClosePanorama,
   };
 }
