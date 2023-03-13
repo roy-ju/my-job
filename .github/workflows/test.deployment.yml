@@ -33,7 +33,9 @@ jobs:
           echo -e " \
           NEXT_PUBLIC_NCP_CLIENT_ID=${{ secrets.NCP_CLIENT_ID }} \n \
           NEXT_PUBLIC_KAKAO_JS_KEY=${{ secrets.KAKAO_JS_KEY }} \n \
-          NEXT_PUBLIC_KAKAO_REST_API_KEY=8b923d24a3571774ae96df04914bb65f \n \
+          NEXT_PUBLIC_KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }} \n \
+          NEXT_PUBLIC_NEGOCIO_REST_API_BASE_URL=https://api-test.negocio.kr \n \
+          NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL=wss://websocket-test.negocio.kr \n \
           " > .env
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
