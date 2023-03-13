@@ -32,6 +32,8 @@ function MapWrapper() {
     schoolMarkers,
     mapToggleValue,
     listingCount,
+    selectedDanjiSummary,
+    selectedSchoolID,
     // Map
     ...props
   } = useMapLayout();
@@ -60,13 +62,13 @@ function MapWrapper() {
         {bounds?.mapLevel !== 1 &&
           markers?.map((marker) => (
             <CustomOverlay
-              key={marker.bubjungdongCode}
+              key={marker.id}
               position={{
                 lat: marker.lat,
                 lng: marker.lng,
               }}
             >
-              <RegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''}>
+              <RegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''} onClick={marker.onClick}>
                 <RegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
                 <RegionMarker.Divider />
                 <RegionMarker.ListingCount count={marker.listingCount} />
@@ -77,18 +79,23 @@ function MapWrapper() {
         {bounds?.mapLevel === 1 &&
           markers?.map((marker) => (
             <CustomOverlay
+              zIndex={selectedDanjiSummary?.id === marker.id ? 100 : 10}
               anchor="bottom-left"
-              key={`${marker.pnu}${marker.danjiRealestateType}`}
+              key={marker.id}
               position={{
                 lat: marker.lat,
                 lng: marker.lng,
               }}
             >
               <DanjiMarker
+                selected={selectedDanjiSummary?.id === marker.id}
+                name={selectedDanjiSummary?.name}
+                householdCount={selectedDanjiSummary?.householdCount}
                 variant={marker.variant}
                 area={Number(marker?.pyoung ?? 0)}
                 price={marker.price ?? 0}
                 count={marker?.listingCount ?? 0}
+                onClick={marker.onClick}
               />
             </CustomOverlay>
           ))}
@@ -96,6 +103,7 @@ function MapWrapper() {
         {(bounds?.mapLevel ?? 4) < 3 &&
           schoolMarkers?.map((marker) => (
             <CustomOverlay
+              zIndex={selectedSchoolID === marker.id ? 100 : 9}
               key={marker.id}
               position={{
                 lat: marker.lat,

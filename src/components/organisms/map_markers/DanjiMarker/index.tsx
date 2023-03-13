@@ -1,11 +1,17 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import { Numeral } from '@/components/atoms';
 import tw from 'twin.macro';
+import { usePopper } from 'react-popper';
 import MarkerTail from '../assets/marker_tail.svg';
 import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
 import variants, { VariantKey } from '../variants';
 
 interface Props {
+  name?: string;
+  householdCount?: number;
+
+  /** 선택 여부 */
+  selected: boolean;
   /** 마커 색상 */
   variant: VariantKey;
   /** 평 */
@@ -18,61 +24,79 @@ interface Props {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export default React.memo(({ variant, area, price, count = 0, onClick }: Props) => (
-  <button type="button" tw="relative w-fit" onClick={onClick}>
-    {/* Content */}
-    <div tw="min-w-[3rem] h-[62px] pb-2 flex flex-col">
-      <div css={[tw`h-[23px] flex items-center justify-start pl-2`, count !== 0 && tw`pr-6`]}>
-        <Numeral
-          css={[tw`text-[10px] leading-[10px] whitespace-nowrap`, { color: variants[variant].textColor }]}
-          suffix="평"
-        >
-          {area}
-        </Numeral>
-      </div>
-      <div tw="flex flex-1 items-center justify-start pl-2 pr-3">
-        <Numeral tw="text-b2 text-white font-bold whitespace-nowrap" koreanNumberShort falsy="-">
-          {price}
-        </Numeral>
-      </div>
-    </div>
-    {/* Background */}
-    <div tw="absolute top-0 left-0 flex flex-col w-full h-full z-[-1]">
-      <div tw="flex flex-col flex-1 rounded-lg shadow-[7px_7px_5px_rgba(0,0,0,0.16)]">
-        <div tw="relative flex">
-          <div css={[tw`flex-1 h-[23px] bg-white rounded-tl-lg`, count === 0 && tw`rounded-tr-lg`]} />
-          <div tw="absolute left-0 bottom-0 w-full h-[2px] bg-white" />
-          {count !== 0 && (
-            <>
-              <div tw="absolute top-0 right-[23px] h-[23px] w-[2px] bg-white" />
-              <div tw="relative">
-                <MarkerRoundedCorner color="#FFF" />
-                <div tw="absolute h-5 px-2 top-[-8px] left-[12px] rounded-[40px] bg-black text-white text-info font-bold">
-                  {count}
-                </div>
-              </div>
-            </>
-          )}
+export default React.memo(({ name, householdCount, selected, variant, area, price, count = 0, onClick }: Props) => {
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    placement: 'top',
+  });
+
+  return (
+    <div>
+      {selected && (
+        <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+          <div tw="p-3 whitespace-nowrap bg-white flex flex-col mb-2 rounded-lg border border-gray-1000 z-[100]">
+            <span tw="text-b2 font-bold leading-4 mb-1">{name}</span>
+            <span tw="text-gray-700 text-info leading-none">{householdCount}세대</span>
+          </div>
         </div>
-        <div css={[tw`flex-1 rounded-br-lg`, { backgroundColor: variants[variant].bgColor }]} />
-      </div>
-      <div css={{ color: variants[variant].bgColor }} style={{ transform: 'translateY(-1px)' }}>
-        <MarkerTail />
-      </div>
-      <div
-        css={[
-          tw`rounded-b-lg`,
-          {
-            zIndex: -1,
-            position: 'absolute',
-            bottom: '8px',
-            left: '0px',
-            height: '2px',
-            width: '90%',
-            boxShadow: '7px 7px 5px rgba(0, 0, 0, 0.16)',
-          },
-        ]}
-      />
+      )}
+      <button ref={setReferenceElement} type="button" tw="relative w-fit" onClick={onClick}>
+        {/* Content */}
+        <div tw="min-w-[3rem] h-[62px] pb-2 flex flex-col">
+          <div css={[tw`h-[23px] flex items-center justify-start pl-2`, count !== 0 && tw`pr-6`]}>
+            <Numeral
+              css={[tw`text-[10px] leading-[10px] whitespace-nowrap`, { color: variants[variant].textColor }]}
+              suffix="평"
+            >
+              {area}
+            </Numeral>
+          </div>
+          <div tw="flex flex-1 items-center justify-start pl-2 pr-3">
+            <Numeral tw="text-b2 text-white font-bold whitespace-nowrap" koreanNumberShort falsy="-">
+              {price}
+            </Numeral>
+          </div>
+        </div>
+        {/* Background */}
+        <div tw="absolute top-0 left-0 flex flex-col w-full h-full z-[-1]">
+          <div tw="flex flex-col flex-1 rounded-lg shadow-[7px_7px_5px_rgba(0,0,0,0.16)]">
+            <div tw="relative flex">
+              <div css={[tw`flex-1 h-[23px] bg-white rounded-tl-lg`, count === 0 && tw`rounded-tr-lg`]} />
+              <div tw="absolute left-0 bottom-0 w-full h-[2px] bg-white" />
+              {count !== 0 && (
+                <>
+                  <div tw="absolute top-0 right-[23px] h-[23px] w-[2px] bg-white" />
+                  <div tw="relative">
+                    <MarkerRoundedCorner color="#FFF" />
+                    <div tw="absolute h-5 px-2 top-[-8px] left-[12px] rounded-[40px] bg-black text-white text-info font-bold">
+                      {count}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            <div css={[tw`flex-1 rounded-br-lg`, { backgroundColor: variants[variant].bgColor }]} />
+          </div>
+          <div css={{ color: variants[variant].bgColor }} style={{ transform: 'translateY(-1px)' }}>
+            <MarkerTail />
+          </div>
+          <div
+            css={[
+              tw`rounded-b-lg`,
+              {
+                zIndex: -1,
+                position: 'absolute',
+                bottom: '8px',
+                left: '0px',
+                height: '2px',
+                width: '90%',
+                boxShadow: '7px 7px 5px rgba(0, 0, 0, 0.16)',
+              },
+            ]}
+          />
+        </div>
+      </button>
     </div>
-  </button>
-));
+  );
+});

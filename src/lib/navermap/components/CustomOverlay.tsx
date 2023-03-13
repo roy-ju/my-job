@@ -10,6 +10,7 @@ interface Props {
     lng: number;
   };
   anchor?: Anchor;
+  zIndex?: number;
   children?: ReactNode;
 }
 
@@ -44,7 +45,7 @@ function getOffset(width: number, height: number, anchor: Anchor) {
   };
 }
 
-export default function CustomOverlay({ position, anchor = 'center', children }: Props) {
+export default function CustomOverlay({ position, zIndex = 10, anchor = 'center', children }: Props) {
   const map = useContext(NaverMapContext);
   const containerRef = useRef(document.createElement('div'));
   const overlayViewRef = useRef(new naver.maps.OverlayView());
@@ -63,7 +64,7 @@ export default function CustomOverlay({ position, anchor = 'center', children }:
     const container = containerRef.current;
 
     container.style.width = 'fit-content';
-    container.style.zIndex = '10';
+    container.style.zIndex = `${zIndex}`;
 
     overlayView.onAdd = () => {
       const { overlayLayer } = overlayView.getPanes();
@@ -96,12 +97,20 @@ export default function CustomOverlay({ position, anchor = 'center', children }:
     return () => {
       overlayView.setMap(null);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anchor]);
 
   useEffect(() => {
     const overlayView = overlayViewRef.current;
     overlayView.setMap(map);
   }, [map]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.style.zIndex = `${zIndex}`;
+    }
+  }, [zIndex]);
 
   return createPortal(children, containerRef.current);
 }
