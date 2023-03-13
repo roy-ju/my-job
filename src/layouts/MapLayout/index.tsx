@@ -88,15 +88,21 @@ function MapWrapper() {
               }}
             >
               <DanjiMarker
-                selected={selectedDanjiSummary?.id === marker.id}
-                name={selectedDanjiSummary?.name}
-                householdCount={selectedDanjiSummary?.householdCount}
                 variant={marker.variant}
                 area={Number(marker?.pyoung ?? 0)}
                 price={marker.price ?? 0}
                 count={marker?.listingCount ?? 0}
                 onClick={marker.onClick}
-              />
+              >
+                {selectedDanjiSummary?.id === marker.id && (
+                  <DanjiMarker.Popper
+                    name={selectedDanjiSummary?.name ?? ''}
+                    householdCount={selectedDanjiSummary?.householdCount ?? 0}
+                    buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
+                    rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
+                  />
+                )}
+              </DanjiMarker>
             </CustomOverlay>
           ))}
 

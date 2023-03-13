@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from 'react';
+import React, { MouseEventHandler, ReactNode, useMemo, useState } from 'react';
 import { Numeral } from '@/components/atoms';
 import tw from 'twin.macro';
 import { usePopper } from 'react-popper';
@@ -7,11 +7,6 @@ import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
 import variants, { VariantKey } from '../variants';
 
 interface Props {
-  name?: string;
-  householdCount?: number;
-
-  /** 선택 여부 */
-  selected: boolean;
   /** 마커 색상 */
   variant: VariantKey;
   /** 평 */
@@ -22,9 +17,11 @@ interface Props {
   count: number;
   /** 마커 클릭 이벤트 핸들러 */
   onClick?: MouseEventHandler<HTMLButtonElement>;
+
+  children?: ReactNode;
 }
 
-export default React.memo(({ name, householdCount, selected, variant, area, price, count = 0, onClick }: Props) => {
+const DanjiMarker = React.memo(({ variant, area, price, count = 0, onClick, children }: Props) => {
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -33,12 +30,9 @@ export default React.memo(({ name, householdCount, selected, variant, area, pric
 
   return (
     <div>
-      {selected && (
+      {children && (
         <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-          <div tw="p-3 whitespace-nowrap bg-white flex flex-col mb-2 rounded-lg border border-gray-1000 z-[100]">
-            <span tw="text-b2 font-bold leading-4 mb-1">{name}</span>
-            <span tw="text-gray-700 text-info leading-none">{householdCount}세대</span>
-          </div>
+          {children}
         </div>
       )}
       <button ref={setReferenceElement} type="button" tw="relative w-fit" onClick={onClick}>
@@ -99,4 +93,40 @@ export default React.memo(({ name, householdCount, selected, variant, area, pric
       </button>
     </div>
   );
+});
+
+interface PopperProps {
+  /** 단지명  */
+  name: string;
+  /** 세대수 */
+  householdCount: number;
+  /** 매매 매물수 */
+  buyListingCount: number;
+  /** 전월세 매물수 */
+  rentListingCount: number;
+}
+
+function Popper({ name, householdCount, buyListingCount, rentListingCount }: PopperProps) {
+  return (
+    <div tw="p-3 whitespace-nowrap bg-white flex flex-col mb-2 rounded-lg border border-gray-1000 z-[100]">
+      <span tw="text-b2 font-bold leading-4 mb-1">{name}</span>
+      <div tw="flex gap-2 items-center">
+        <span tw="text-gray-700 text-info leading-none">{householdCount}세대</span>
+        {Boolean(buyListingCount) && (
+          <span tw="text-gray-700 text-info leading-none">
+            매매 <span tw="text-gray-1000">{buyListingCount}</span>
+          </span>
+        )}
+        {Boolean(rentListingCount) && (
+          <span tw="text-gray-700 text-info leading-none">
+            전월세 <span tw="text-gray-1000">{rentListingCount}</span>
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Object.assign(DanjiMarker, {
+  Popper,
 });

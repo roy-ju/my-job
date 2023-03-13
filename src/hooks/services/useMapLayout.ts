@@ -20,6 +20,8 @@ interface DanjiSummary {
   id: string;
   name: string;
   householdCount: number;
+  buyListingCount: number;
+  rentListingCount: number;
 }
 
 interface CommonMapMarker {
@@ -252,7 +254,6 @@ export default function useMapLayout() {
                 lat: item.lat,
                 lng: item.long,
               });
-              // setSelectedMarkerID(`${item.pnu}${item.danji_realestate_type}`);
               getDanjiSummary({
                 pnu: item.pnu,
                 buyOrRent: mapFilter.buyOrRents,
@@ -262,6 +263,8 @@ export default function useMapLayout() {
                   id: `${item.pnu}${item.danji_realestate_type}`,
                   name: summary?.string ?? '',
                   householdCount: summary?.saedae_count ?? 0,
+                  buyListingCount: summary?.buy_listing_count ?? 0,
+                  rentListingCount: summary?.rent_listing_count ?? 0,
                 });
               });
             },
@@ -287,30 +290,21 @@ export default function useMapLayout() {
         type: st,
         onClick: async () => {
           const hakgudoRes = await getHakgudo(item.school_id);
-          const multiPolygon = hakgudoRes?.list;
-
-          const polygonsArr: any[] = [];
-          multiPolygon?.forEach((p: any) => {
-            const polyArr: any[] = [];
-            const ps = JSON.parse(p.polygons as string)?.coordinates[0];
-
-            ps[0].forEach((v: any) => {
-              polyArr.push(new naver.maps.LatLng(v[1], v[0]));
-            });
-
-            const poly = new naver.maps.Polygon({
-              map: _map,
-              paths: polyArr,
-              fillColor: '#FF6D41',
-              fillOpacity: 0.15,
-              strokeColor: '#F34829',
-              strokeOpacity: 1,
-              strokeWeight: 2,
-            });
-            polygonsArr.push(poly);
-          });
-
-          setPolygons(polygonsArr);
+          setPolygons(
+            hakgudoRes?.list?.map((p: any) => {
+              const paths = JSON.parse(p.polygons as string)?.coordinates[0][0];
+              const poly = new naver.maps.Polygon({
+                map: _map,
+                paths: paths.map((v: [number, number]) => new naver.maps.LatLng(v[1], v[0])),
+                fillColor: '#FF6D41',
+                fillOpacity: 0.15,
+                strokeColor: '#F34829',
+                strokeOpacity: 1,
+                strokeWeight: 2,
+              });
+              return poly;
+            }) ?? [],
+          );
           setSelectedSchoolID(item.school_id);
           _map.morph({
             lat: item.lat,
