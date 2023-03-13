@@ -622,6 +622,7 @@ export default function useMapLayout() {
     onIdle,
     onZooming,
     // ones with business logics
+    panoramaLocation,
     selectedDanjiSummary,
     filter,
     listingCount,
