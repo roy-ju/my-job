@@ -29,6 +29,7 @@ interface LayoutPanelsProps {
 
 interface LayoutMapContainerProps {
   mapType?: string;
+  priceType?: string;
   mapLayer?: string;
   mapToggleValue?: number;
   schoolType?: string;
@@ -46,6 +47,7 @@ interface LayoutMapContainerProps {
   onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem) => void;
   onChangeFilter?: (filter: Partial<Filter>) => void;
   onChangeMapToggleValue?: (value: number) => void;
+  onChangePriceType?: (value: string) => void;
   children?: ReactNode;
 }
 
@@ -72,6 +74,7 @@ function LayoutPanels({ children }: LayoutPanelsProps) {
 
 function LayoutMapContainer({
   mapType,
+  priceType,
   mapLayer,
   schoolType,
   filter,
@@ -89,6 +92,7 @@ function LayoutMapContainer({
   onMapSearchSubmit,
   onChangeFilter,
   onChangeMapToggleValue,
+  onChangePriceType,
   children,
 }: LayoutMapContainerProps) {
   return (
@@ -107,7 +111,7 @@ function LayoutMapContainer({
       )}
 
       <div tw="absolute right-5 top-5 z-20">
-        <MapPriceSelect />
+        <MapPriceSelect value={priceType} onChange={onChangePriceType} />
       </div>
       <div tw="absolute right-5 top-[84px] flex flex-col gap-6 z-10">
         <MapControls.Group>

@@ -22,6 +22,7 @@ function MapWrapper() {
     handleMapSearch,
     handleChangeFilter,
     handleChangeMapToggleValue,
+    handleChangePriceType,
     mapType,
     mapLayer,
     schoolType,
@@ -34,6 +35,7 @@ function MapWrapper() {
     listingCount,
     selectedDanjiSummary,
     selectedSchoolID,
+    priceType,
     // Map
     ...props
   } = useMapLayout();
@@ -43,6 +45,7 @@ function MapWrapper() {
       mapLayer={mapLayer}
       mapType={mapType}
       schoolType={schoolType}
+      priceType={priceType}
       filter={filter}
       centerAddress={centerAddress}
       mapToggleValue={mapToggleValue}
@@ -57,6 +60,7 @@ function MapWrapper() {
       onMapSearchSubmit={handleMapSearch}
       onChangeFilter={handleChangeFilter}
       onChangeMapToggleValue={handleChangeMapToggleValue}
+      onChangePriceType={handleChangePriceType}
     >
       <Map {...props}>
         {bounds?.mapLevel !== 1 &&
@@ -88,6 +92,7 @@ function MapWrapper() {
               }}
             >
               <DanjiMarker
+                selected={selectedDanjiSummary?.id === marker.id}
                 variant={marker.variant}
                 area={Number(marker?.pyoung ?? 0)}
                 price={marker.price ?? 0}
@@ -116,7 +121,12 @@ function MapWrapper() {
                 lng: marker.lng,
               }}
             >
-              <SchoolMarker onClick={marker.onClick} name={marker.name} type={marker.type} />
+              <SchoolMarker
+                selected={selectedSchoolID === marker.id}
+                onClick={marker.onClick}
+                name={marker.name}
+                type={marker.type}
+              />
             </CustomOverlay>
           ))}
       </Map>

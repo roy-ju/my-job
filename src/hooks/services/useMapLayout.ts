@@ -131,6 +131,7 @@ export default function useMapLayout() {
   const [mapType, setMapType] = useState('normal');
   const [mapLayer, setMapLayer] = useState('none');
   const [schoolType, setSchoolType] = useState('none');
+  const [priceType, setPriceType] = useState('buy');
   const mapLayerRef = useRef<naver.maps.LabelLayer | null>(null); // 지적도, 거리뷰 레이어
   const [centerAddress, setCenterAddress] = useState(['서울특별시', '중구', '남대문로2가']); // 맵 중앙 주소
   const [bounds, setBounds] = useState<MapBounds | null>(null);
@@ -146,6 +147,10 @@ export default function useMapLayout() {
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
+  }, []);
+
+  const handleChangePriceType = useCallback((newValue: string) => {
+    setPriceType(newValue);
   }, []);
 
   /**
@@ -424,6 +429,7 @@ export default function useMapLayout() {
   const onZooming = useCallback((_map: NaverMap) => {
     setMarkers([]);
     setSchoolMarkers([]);
+    setSelectedDanjiSummary(null);
   }, []);
 
   /**
@@ -506,6 +512,14 @@ export default function useMapLayout() {
     },
     [polygons],
   );
+
+  useEffect(() => {
+    if (filter.buyOrRents === '2,3') {
+      setPriceType('rent');
+    } else {
+      setPriceType('buy');
+    }
+  }, [filter.buyOrRents]);
 
   // Map Control Handlers
 
@@ -608,6 +622,7 @@ export default function useMapLayout() {
     bounds,
     mapType,
     mapLayer,
+    priceType,
     schoolType,
     mapToggleValue,
     selectedSchoolID,
@@ -620,5 +635,6 @@ export default function useMapLayout() {
     handleMapSearch,
     handleChangeFilter,
     handleChangeMapToggleValue,
+    handleChangePriceType,
   };
 }
