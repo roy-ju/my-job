@@ -18,7 +18,7 @@ export type MapProps = {
   onZoomChanged?: (map: NaverMap, zoom: number) => void;
   onZooming?: (map: NaverMap, zoom: number) => void;
   onIdle?: (map: NaverMap) => void;
-  onClick?: (map: NaverMap) => void;
+  onClick?: (map: NaverMap, ...args: any[]) => void;
   children?: ReactNode;
 };
 

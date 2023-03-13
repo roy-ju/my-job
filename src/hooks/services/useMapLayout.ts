@@ -142,6 +142,7 @@ export default function useMapLayout() {
   const [polygons, setPolygons] = useState<naver.maps.Polygon[]>([]);
   const [selectedDanjiSummary, setSelectedDanjiSummary] = useState<DanjiSummary | null>(null);
   const [selectedSchoolID, setSelectedSchoolID] = useState('');
+  const [panoramaLocation, setPanoramaLocation] = useState<naver.maps.LatLng | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
@@ -328,9 +329,9 @@ export default function useMapLayout() {
 
     const meters = getMetersByZoom(m.getZoom());
 
-    if (meters <= 100) {
+    if (meters <= 50) {
       mapLevel = 1;
-    } else if (meters < 1000) {
+    } else if (meters <= 500) {
       mapLevel = 2;
     } else if (meters <= 5000) {
       mapLevel = 3;
@@ -398,11 +399,18 @@ export default function useMapLayout() {
    * 사용자가 지도에서 마우스 왼쪽 버튼을 클릭하면 이벤트가 발생한다.
    * 단, 오버레이(지도마커)를 클릭했을 때는 이벤트가 발생하지 않는다.
    */
-  const onClick = useCallback(() => {
-    router.popAll();
-    setSelectedDanjiSummary(null);
-    setPolygons([]);
-  }, [router]);
+  const onMapClick = useCallback(
+    (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
+      router.popAll();
+      setSelectedDanjiSummary(null);
+      setPolygons([]);
+
+      if (mapLayer === 'street') {
+        setPanoramaLocation(e.latlng);
+      }
+    },
+    [router, mapLayer],
+  );
 
   /**
    * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
@@ -610,7 +618,7 @@ export default function useMapLayout() {
     centerAddress,
     onInit,
     onCreate,
-    onClick,
+    onClick: onMapClick,
     onIdle,
     onZooming,
     // ones with business logics
