@@ -30,6 +30,14 @@ const DanjiMarker = React.memo(({ selected = false, variant, area, price, count 
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'top',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, count === 0 ? 0 : 4],
+        },
+      },
+    ],
   });
 
   return (
