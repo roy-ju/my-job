@@ -65,6 +65,7 @@ export default async function mapSearch({
   bounds,
   filter,
   mapToggleValue,
+  priceType,
 }: {
   level: number;
   bounds: {
@@ -75,6 +76,7 @@ export default async function mapSearch({
   };
   filter: Filter;
   mapToggleValue: number;
+  priceType: string;
 }) {
   try {
     const f: MapSearchFilter = {
@@ -140,6 +142,7 @@ export default async function mapSearch({
       sw_long: bounds.sw.lng,
       se_lat: bounds.se.lat,
       se_long: bounds.se.lng,
+      price_type: priceType === 'buy' ? 1 : 2,
       ...f,
     });
     return data as MapSearchResponse | MapSearchLevelOneResponse;
