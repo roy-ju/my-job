@@ -127,21 +127,37 @@ function getUserLastLocation(): { lat: number; lng: number } {
  */
 export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
+
   const [map, setMap] = useRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+
   const [mapType, setMapType] = useState('normal');
+
   const [mapLayer, setMapLayer] = useState('none');
+
   const [schoolType, setSchoolType] = useState('none');
+
   const [priceType, setPriceType] = useState('buy');
+
   const mapLayerRef = useRef<naver.maps.LabelLayer | null>(null); // 지적도, 거리뷰 레이어
+
   const [centerAddress, setCenterAddress] = useState(['서울특별시', '중구', '남대문로2가']); // 맵 중앙 주소
+
   const [bounds, setBounds] = useState<MapBounds | null>(null);
+
   const [filter, setFilter] = useStateSyncedWithURL<Filter>('filter', getDefaultFilterAptOftl());
+
   const [listingCount, setListingCount] = useState(0);
+
   const [markers, setMarkers] = useState<CommonMapMarker[]>([]);
+
   const [schoolMarkers, setSchoolMarkers] = useState<CommonSchoolMarker[]>([]);
+
   const [polygons, setPolygons] = useState<naver.maps.Polygon[]>([]);
+
   const [selectedDanjiSummary, setSelectedDanjiSummary] = useState<DanjiSummary | null>(null);
+
   const [selectedSchoolID, setSelectedSchoolID] = useState('');
+
   const [panoramaLocation, setPanoramaLocation] = useState<naver.maps.LatLng | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
@@ -202,18 +218,18 @@ export default function useMapLayout() {
       });
       setListingCount(res?.listing_count ?? 0);
 
-      const isHoga = mapFilter.realestateTypeGroup !== 'apt,oftl' || toggleValue === 1;
+      const variant = mapFilter.realestateTypeGroup === 'apt,oftl' || toggleValue === 0 ? 'blue' : 'nego';
 
       if (res && mapBounds.mapLevel !== 1) {
         let regions = (res as MapSearchResponse).results;
-        if (isHoga) {
+        if (variant === 'nego') {
           regions = regions.filter((region) => region.listing_count !== 0);
         }
 
         setMarkers(
           regions?.map((item) => ({
             id: item.bubjungdong_code,
-            variant: isHoga ? 'nego' : 'blue',
+            variant,
             bubjungdongCode: item.bubjungdong_code,
             bubjungdongName: item.bubjungdong_name,
             danjiCount: item.danji_count,
@@ -235,7 +251,7 @@ export default function useMapLayout() {
         );
       } else if (res && mapBounds.mapLevel === 1) {
         let danjis = (res as MapSearchLevelOneResponse).danji_list;
-        if (isHoga) {
+        if (variant === 'nego') {
           danjis = danjis?.filter((danji) => danji.listing_count !== 0);
         }
 
@@ -246,7 +262,7 @@ export default function useMapLayout() {
         danjis?.map((item) => {
           danjiMap[`${item.pnu}${item.danji_realestate_type}`] = {
             id: `${item.pnu}${item.danji_realestate_type}`,
-            variant: isHoga ? 'nego' : 'blue',
+            variant,
             pnu: item.pnu,
             danjiRealestateType: item.danji_realestate_type,
             pyoung: item.pyoung,
