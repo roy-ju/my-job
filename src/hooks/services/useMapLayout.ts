@@ -222,7 +222,7 @@ export default function useMapLayout() {
       });
       setListingCount(res?.listing_count ?? 0);
 
-      const variant = mapFilter.realestateTypeGroup === 'apt,oftl' || toggleValue === 0 ? 'blue' : 'nego';
+      const variant = mapFilter.realestateTypeGroup !== 'apt,oftl' || toggleValue === 1 ? 'nego' : 'blue';
 
       if (res && mapBounds.mapLevel !== 1) {
         let regions = (res as MapSearchResponse).results;

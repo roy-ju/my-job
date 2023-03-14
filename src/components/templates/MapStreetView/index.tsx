@@ -1,5 +1,5 @@
 import { NavigationHeader } from '@/components/molecules';
-import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import tw from 'twin.macro';
 import { Map, NaverMap, Panorama } from '@/lib/navermap';
@@ -39,27 +39,18 @@ function MapStreetView({ title, position, onClickBackButton, children }: Props) 
       </NavigationHeader>
       <div tw="relative flex-1 flex flex-col">
         <MapStreetViewContext.Provider value={context}>{children}</MapStreetViewContext.Provider>
-        <div css={[tw`absolute z-20 right-4 bottom-4`, expanded && tw`bottom-1/3`]}>
-          <button
-            tw="bg-white w-10 h-10 rounded-lg flex items-center justify-center relative"
-            type="button"
-            onClick={() => setExpanded((prev) => !prev)}
-          >
-            <span css={!expanded && tw`rotate-180`}>
-              <ChevronDown />
-            </span>
-          </button>
-        </div>
       </div>
     </div>
   );
 }
 
 function StreetViewPanorama() {
-  const { setPanorama, expanded, position } = useContext(MapStreetViewContext);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const { setPanorama, setExpanded, expanded, position } = useContext(MapStreetViewContext);
   const onCreate = useCallback(
-    (panorama: naver.maps.Panorama) => {
-      setPanorama(panorama);
+    (p: naver.maps.Panorama) => {
+      setPanorama(p);
     },
     [setPanorama],
   );
@@ -67,10 +58,24 @@ function StreetViewPanorama() {
   if (!position) return null;
 
   return (
-    <div css={[tw`relative overflow-hidden`, expanded ? tw`h-[70%]` : tw`h-[100%]`]}>
-      <div tw="relative w-full h-full flex-1 z-10">
+    <div css={[tw`relative overflow-hidden transition-all`, expanded ? tw`h-[70%]` : tw`h-[100%]`]}>
+      <div ref={containerRef} tw="absolute left-0 top-0 z-10 w-full h-full">
         <Panorama position={position} onCreate={onCreate} />
       </div>
+      <button
+        tw="bg-white w-10 h-10 rounded-lg flex items-center justify-center absolute right-4 bottom-4 z-20"
+        style={{
+          // 각도에 따른 상단 DIV - 각도에 따른 상단 absolute div 사라짐 => translate3d(0,0,0) 추가후 해결
+          // fix: https://gist.github.com/chooco13/7ebe04639627f51a3c5cf310f14d22c5
+          transform: 'translate3d(0,0,0)',
+        }}
+        type="button"
+        onClick={() => setExpanded((prev) => !prev)}
+      >
+        <span css={!expanded && tw`rotate-180`}>
+          <ChevronDown />
+        </span>
+      </button>
     </div>
   );
 }
