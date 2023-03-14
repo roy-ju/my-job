@@ -158,7 +158,10 @@ export default function useMapLayout() {
 
   const [selectedSchoolID, setSelectedSchoolID] = useState('');
 
-  const [panoramaLocation, setPanoramaLocation] = useState<naver.maps.LatLng | null>(null);
+  const [streetViewEvent, setStreetViewEvent] = useState<{
+    address: string;
+    latlng: naver.maps.LatLng;
+  } | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
@@ -170,8 +173,8 @@ export default function useMapLayout() {
     setPriceType(newValue);
   }, []);
 
-  const handleClosePanorama = useCallback(() => {
-    setPanoramaLocation(null);
+  const handleCloseStreetView = useCallback(() => {
+    setStreetViewEvent(null);
   }, []);
 
   /**
@@ -420,13 +423,20 @@ export default function useMapLayout() {
    * 단, 오버레이(지도마커)를 클릭했을 때는 이벤트가 발생하지 않는다.
    */
   const onMapClick = useCallback(
-    (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
+    async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
       router.popAll();
       setSelectedDanjiSummary(null);
       setPolygons([]);
 
       if (mapLayer === 'street') {
-        setPanoramaLocation(e.latlng);
+        const response = await coordToRegion(e.latlng.lng(), e.latlng.lat());
+        if (response && response.documents?.length > 0) {
+          const region = response.documents.filter((item) => item.region_type === 'B')[0];
+          setStreetViewEvent({
+            address: `${region.region_1depth_name} ${region.region_2depth_name} ${region.region_3depth_name}`,
+            latlng: e.latlng,
+          });
+        }
       }
     },
     [router, mapLayer],
@@ -642,7 +652,7 @@ export default function useMapLayout() {
     onIdle,
     onZooming,
     // ones with business logics
-    panoramaLocation,
+    streetViewEvent,
     selectedDanjiSummary,
     filter,
     listingCount,
@@ -665,6 +675,6 @@ export default function useMapLayout() {
     handleChangeFilter,
     handleChangeMapToggleValue,
     handleChangePriceType,
-    handleClosePanorama,
+    handleCloseStreetView,
   };
 }

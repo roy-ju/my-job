@@ -1,7 +1,7 @@
 import OutsideClick from '@/components/atoms/OutsideClick';
 import { DanjiMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
-import { MapLayout as Layout } from '@/components/templates';
+import { MapLayout as Layout, MapStreetView } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
 import { Map } from '@/lib/navermap';
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
@@ -24,7 +24,7 @@ function MapWrapper() {
     handleChangeFilter,
     handleChangeMapToggleValue,
     handleChangePriceType,
-    handleClosePanorama,
+    handleCloseStreetView,
     mapType,
     mapLayer,
     schoolType,
@@ -38,7 +38,7 @@ function MapWrapper() {
     selectedDanjiSummary,
     selectedSchoolID,
     priceType,
-    panoramaLocation,
+    streetViewEvent,
     // Map
     ...props
   } = useMapLayout();
@@ -135,10 +135,19 @@ function MapWrapper() {
             ))}
         </Map>
       </Layout.MapContainer>
-      {panoramaLocation && (
+      {streetViewEvent && (
         <Layout.Overlay tw="flex items-center justify-center">
-          <OutsideClick onOutsideClick={handleClosePanorama}>
-            <div tw="w-[780px] max-h-[960px] h-[85vh] bg-white" />
+          <OutsideClick onOutsideClick={handleCloseStreetView}>
+            <div tw="w-[780px] max-h-[960px] h-[85vh] bg-white rounded-lg">
+              <MapStreetView
+                position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
+                title={streetViewEvent.address}
+                onClickBackButton={handleCloseStreetView}
+              >
+                <MapStreetView.Panorama />
+                <MapStreetView.Map />
+              </MapStreetView>
+            </div>
           </OutsideClick>
         </Layout.Overlay>
       )}

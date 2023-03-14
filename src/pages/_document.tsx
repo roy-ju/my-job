@@ -1,14 +1,7 @@
 /* eslint-disable react/no-danger */
 import { initializeKakaoSDK } from '@/lib/kakao';
 import { extractCritical } from '@emotion/server';
-import Document, {
-  DocumentContext,
-  DocumentInitialProps,
-  Head,
-  Html,
-  Main,
-  NextScript,
-} from 'next/document';
+import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document';
 import Script from 'next/script';
 
 type NewDocumentInitialProps = DocumentInitialProps & {
@@ -17,19 +10,14 @@ type NewDocumentInitialProps = DocumentInitialProps & {
 };
 
 class CustomDocument extends Document<NewDocumentInitialProps> {
-  static async getInitialProps(
-    ctx: DocumentContext,
-  ): Promise<DocumentInitialProps> {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
     const critical = extractCritical(initialProps.html);
     initialProps.html = critical.html;
     initialProps.styles = (
       <>
         {initialProps.styles}
-        <style
-          data-emotion-css={critical.ids.join(' ')}
-          dangerouslySetInnerHTML={{ __html: critical.css }}
-        />
+        <style data-emotion-css={critical.ids.join(' ')} dangerouslySetInnerHTML={{ __html: critical.css }} />
       </>
     );
 
@@ -40,10 +28,7 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
     return (
       <Html lang="en">
         <Head>
-          <style
-            data-emotion-css={this.props?.ids?.join(' ')}
-            dangerouslySetInnerHTML={{ __html: this.props.css }}
-          />
+          <style data-emotion-css={this.props?.ids?.join(' ')} dangerouslySetInnerHTML={{ __html: this.props.css }} />
           <link
             rel="stylesheet"
             as="style"
@@ -58,7 +43,7 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
           />
           <Script
             strategy="beforeInteractive"
-            src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder`}
+            src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder,panorama`}
           />
         </Head>
         <body>

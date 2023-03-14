@@ -1,0 +1,19 @@
+import tw from 'twin.macro';
+import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
+
+const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center`;
+
+function BackButton({ onClick }: { onClick?: () => void }) {
+  return (
+    <button type="button" onClick={onClick} tw="h-full pr-3">
+      <ChevronLeftIcon />
+    </button>
+  );
+}
+
+const Title = tw.div`text-b1 text-gray-1000 font-bold`;
+
+export default Object.assign(NavigationHeader, {
+  BackButton,
+  Title,
+});
