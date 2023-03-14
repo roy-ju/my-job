@@ -212,12 +212,13 @@ export default function useMapLayout() {
    * 지도위의 마커를 그린다.
    */
   const updateMarkers = useCallback(
-    async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number) => {
+    async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
       const res = await mapSearch({
         level: mapBounds.mapLevel,
         bounds: mapBounds,
         filter: mapFilter,
         mapToggleValue: toggleValue,
+        priceType: priceTypeValue,
       });
       setListingCount(res?.listing_count ?? 0);
 
@@ -520,9 +521,9 @@ export default function useMapLayout() {
 
   useEffect(() => {
     if (bounds && map) {
-      updateMarkers(map, bounds, filter, mapToggleValue);
+      updateMarkers(map, bounds, filter, mapToggleValue, priceType);
     }
-  }, [map, bounds, updateMarkers, filter, mapToggleValue]);
+  }, [map, bounds, updateMarkers, filter, mapToggleValue, priceType]);
 
   useEffect(() => {
     if (bounds && schoolType !== 'none' && map) {
