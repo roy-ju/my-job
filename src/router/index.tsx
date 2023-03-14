@@ -6,6 +6,7 @@ const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail'));
 const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'));
 const DanjiDetail = dynamic(() => import('@/components/pages/DanjiDetail'));
 const ReportListing = dynamic(() => import('@/components/pages/ReportListing'));
+const ChatRoomList = dynamic(() => import('@/components/pages/ChatRoomList'));
 
 const DEFAULT_PANEL_WIDTH = '375px';
 const DEFAULT_PANEL_ANIMATION_DURATION = 0;
@@ -38,6 +39,9 @@ export default function Router({ route, query, depth }: Props) {
     }
     case 'chatRoom': {
       return <ChatRoom depth={depth} {...commonProps} />;
+    }
+    case 'chatRoomList': {
+      return <ChatRoomList depth={depth} {...commonProps} />;
     }
     case 'danjiDetail': {
       return <DanjiDetail depth={depth} {...commonProps} />;

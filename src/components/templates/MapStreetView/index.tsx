@@ -35,7 +35,7 @@ function MapStreetView({ title, position, onClickBackButton, children }: Props) 
     <div tw="w-full h-full bg-white rounded-lg overflow-hidden flex flex-col">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBackButton} />
-        <NavigationHeader.Title>{title}</NavigationHeader.Title>
+        <NavigationHeader.Title tw="text-b1">{title}</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="relative flex-1 flex flex-col">
         <MapStreetViewContext.Provider value={context}>{children}</MapStreetViewContext.Provider>

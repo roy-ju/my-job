@@ -8,11 +8,7 @@ interface Props {
   children?: ReactNode;
 }
 
-export default function Panel({
-  width = '375px',
-  animationDuration = 0,
-  children,
-}: Props) {
+export default function Panel({ width = '375px', animationDuration = 0, children }: Props) {
   return (
     <motion.div
       initial={{ width: '0px' }}
@@ -22,16 +18,9 @@ export default function Panel({
         type: 'tween',
         duration: animationDuration,
       }}
-      tw="h-full overflow-x-hidden bg-white"
+      tw="h-full bg-white shadow"
     >
-      <div
-        css={[
-          tw`w-full h-full p-2 overflow-x-hidden overflow-y-auto`,
-          { width },
-        ]}
-      >
-        {children}
-      </div>
+      <div css={[tw`w-full h-full p-2 overflow-x-hidden overflow-y-auto`, { width }]}>{children}</div>
     </motion.div>
   );
 }

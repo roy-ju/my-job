@@ -353,7 +353,7 @@ export default function useMapLayout() {
 
     const meters = getMetersByZoom(m.getZoom());
 
-    if (meters <= 50) {
+    if (meters <= 100) {
       mapLevel = 1;
     } else if (meters <= 500) {
       mapLevel = 2;

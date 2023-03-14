@@ -5,8 +5,9 @@ import { MapLayout as Layout, MapStreetView } from '@/components/templates';
 import { useMapLayout } from '@/hooks/services';
 import { Map } from '@/lib/navermap';
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from '@/hooks/utils';
 
 interface Props {
   children?: ReactNode;
@@ -165,8 +166,40 @@ function MapWrapper() {
 }
 
 export default function MapLayout({ children }: Props) {
+  const router = useRouter(0);
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleChangeTabIndex = useCallback(
+    (index: number) => {
+      switch (index) {
+        case 0: // 홈
+          router.popAll();
+          break;
+        case 1: // 지도
+          break;
+        case 2: // 나의거래
+          break;
+        case 3: // 문의목록
+          router.replace('chatRoomList');
+          break;
+        case 4: // My네고
+          break;
+        default:
+          break;
+      }
+      setTabIndex(index);
+    },
+    [router],
+  );
+
+  useEffect(() => {
+    if (router.pathname === '/') {
+      setTabIndex(0);
+    }
+  }, [router.pathname]);
+
   return (
-    <Layout>
+    <Layout tabIndex={tabIndex} onChangeTab={handleChangeTabIndex}>
       <Layout.Panels>{children}</Layout.Panels>
       {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서
       분리된 컴포넌트로 사용한다. */}
