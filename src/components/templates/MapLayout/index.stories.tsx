@@ -14,7 +14,7 @@ function MapPlaceholder() {
 export const PanelClosed: ComponentStory<typeof MapLayout> = (args) => (
   <MapLayout {...args}>
     <MapLayout.Panels />
-    <MapLayout.MapContainer>
+    <MapLayout.MapContainer centerAddress={['서울특별시', '강남구', '역삼동']}>
       <MapPlaceholder />
     </MapLayout.MapContainer>
   </MapLayout>
@@ -26,7 +26,7 @@ export const PanelOpened: ComponentStory<typeof MapLayout> = (args) => (
     <MapLayout.Panels>
       <ClosablePanel closable={false} />
     </MapLayout.Panels>
-    <MapLayout.MapContainer>
+    <MapLayout.MapContainer centerAddress={['서울특별시', '강남구', '역삼동']}>
       <MapPlaceholder />
     </MapLayout.MapContainer>
   </MapLayout>
@@ -39,7 +39,7 @@ export const TwoPanelsOpened: ComponentStory<typeof MapLayout> = (args) => (
       <ClosablePanel closable={false} />
       <ClosablePanel closable />
     </MapLayout.Panels>
-    <MapLayout.MapContainer>
+    <MapLayout.MapContainer centerAddress={['서울특별시', '강남구', '역삼동']}>
       <MapPlaceholder />
     </MapLayout.MapContainer>
   </MapLayout>
