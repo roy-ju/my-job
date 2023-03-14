@@ -16,7 +16,7 @@ import { useIsomorphicLayoutEffect, useRouter } from '../utils';
 import useStateSyncedWithURL from '../utils/useStateSyncedWithURL';
 import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
 
-interface DanjiSummary {
+export interface DanjiSummary {
   id: string;
   name: string;
   householdCount: number;
@@ -24,7 +24,7 @@ interface DanjiSummary {
   rentListingCount: number;
 }
 
-interface CommonMapMarker {
+export interface CommonMapMarker {
   id: string;
   variant: 'blue' | 'nego';
   bubjungdongCode?: string;
@@ -46,7 +46,7 @@ interface CommonMapMarker {
   onClick?: () => void;
 }
 
-interface CommonSchoolMarker {
+export interface CommonSchoolMarker {
   id: string;
   type: string;
   lat: number;

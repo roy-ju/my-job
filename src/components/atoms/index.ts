@@ -6,3 +6,4 @@ export { default as Input } from './Input';
 export { default as Moment } from './Moment';
 export { default as Radio } from './Radio';
 export { default as Label } from './Label';
+export { default as Separator } from './Separator';
