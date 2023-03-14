@@ -6,15 +6,8 @@ import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
 import GlobalStyles from '@/styles/GlobalStyles';
 
-export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
-  P,
-  IP
-> & {
-  getLayout?: (
-    page: ReactNode,
-    pageProps: any,
-    prevPage?: ReactNode,
-  ) => ReactNode;
+export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
   getComponent?: (pageProps: any) => ReactNode;
 };
 

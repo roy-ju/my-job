@@ -8,7 +8,7 @@ const DanjiDetail = dynamic(() => import('@/components/pages/DanjiDetail'));
 const ReportListing = dynamic(() => import('@/components/pages/ReportListing'));
 const ChatRoomList = dynamic(() => import('@/components/pages/ChatRoomList'));
 
-const DEFAULT_PANEL_WIDTH = '375px';
+const DEFAULT_PANEL_WIDTH = '380px';
 const DEFAULT_PANEL_ANIMATION_DURATION = 0;
 
 const commonProps = {
