@@ -185,6 +185,7 @@ export default function useRouter(depth: number) {
     setQueryParams,
     query: router.query,
     asPath: router.asPath,
+    pathname: router.pathname,
     isReady: router.isReady,
   };
 }

@@ -11,7 +11,7 @@ function BackButton({ onClick }: { onClick?: () => void }) {
   );
 }
 
-const Title = tw.div`text-b1 text-gray-1000 font-bold`;
+const Title = tw.div`text-h3 text-gray-1000 font-bold`;
 
 export default Object.assign(NavigationHeader, {
   BackButton,

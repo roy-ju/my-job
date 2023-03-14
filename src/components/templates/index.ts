@@ -8,3 +8,4 @@ export { default as My } from './My';
 export { default as PageNotFound } from './PageNotFound';
 export { default as ReportListing } from './ReportListing';
 export { default as MapStreetView } from './MapStreetView';
+export { default as ChatRoomList } from './ChatRoomList';
