@@ -12,7 +12,7 @@ import { mapState } from '@/states/map';
 import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { useRouter } from '../utils';
+import { useIsomorphicLayoutEffect, useRouter } from '../utils';
 import useStateSyncedWithURL from '../utils/useStateSyncedWithURL';
 import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
 
@@ -466,7 +466,7 @@ export default function useMapLayout() {
     [handleCenterAddressChange, updateBounds],
   );
 
-  const onZooming = useCallback((_map: NaverMap) => {
+  const onZoomStart = useCallback((_map: NaverMap) => {
     setMarkers([]);
     setSchoolMarkers([]);
     setSelectedDanjiSummary(null);
@@ -537,14 +537,7 @@ export default function useMapLayout() {
     setPolygons([]);
   }, [schoolType]);
 
-  useEffect(() => {
-    const level = bounds?.mapLevel ?? -1;
-    if (level > 2 && polygons.length > 0) {
-      setPolygons([]);
-    }
-  }, [bounds?.mapLevel, polygons]);
-
-  useEffect(
+  useIsomorphicLayoutEffect(
     () => () => {
       polygons.forEach((v: naver.maps.Polygon) => {
         v.setMap(null);
@@ -652,7 +645,7 @@ export default function useMapLayout() {
     onCreate,
     onClick: onMapClick,
     onIdle,
-    onZooming,
+    onZoomStart,
     // ones with business logics
     streetViewEvent,
     selectedDanjiSummary,

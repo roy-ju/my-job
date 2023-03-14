@@ -17,6 +17,7 @@ export type MapProps = {
   onBoundsChanged?: (map: NaverMap, bounds: NaverLatLngBounds) => void;
   onZoomChanged?: (map: NaverMap, zoom: number) => void;
   onZooming?: (map: NaverMap, zoom: number) => void;
+  onZoomStart?: (map: NaverMap, zoom: number) => void;
   onIdle?: (map: NaverMap) => void;
   onClick?: (map: NaverMap, ...args: any[]) => void;
   children?: ReactNode;
@@ -35,6 +36,7 @@ export default memo(
     onBoundsChanged,
     onZoomChanged,
     onZooming,
+    onZoomStart,
     onIdle,
     onClick,
     children,
@@ -94,6 +96,7 @@ export default memo(
     useNaverMapEvent(map, 'idle', onIdle);
     useNaverMapEvent(map, 'click', onClick);
     useNaverMapEvent(map, 'init', onInit);
+    useNaverMapEvent(map, 'zoomstart', onZoomStart);
 
     return (
       <>
