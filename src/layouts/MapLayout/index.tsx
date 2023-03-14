@@ -6,6 +6,7 @@ import { useMapLayout } from '@/hooks/services';
 import { Map } from '@/lib/navermap';
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 import { ReactNode } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface Props {
   children?: ReactNode;
@@ -135,22 +136,30 @@ function MapWrapper() {
             ))}
         </Map>
       </Layout.MapContainer>
-      {streetViewEvent && (
-        <Layout.Overlay tw="flex items-center justify-center">
-          <OutsideClick onOutsideClick={handleCloseStreetView}>
-            <div tw="w-[780px] max-h-[960px] h-[85vh] bg-white rounded-lg">
-              <MapStreetView
-                position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
-                title={streetViewEvent.address}
-                onClickBackButton={handleCloseStreetView}
+      <AnimatePresence>
+        {streetViewEvent && (
+          <Layout.Overlay tw="flex items-center justify-center">
+            <OutsideClick onOutsideClick={handleCloseStreetView}>
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
               >
-                <MapStreetView.Panorama />
-                <MapStreetView.Map />
-              </MapStreetView>
-            </div>
-          </OutsideClick>
-        </Layout.Overlay>
-      )}
+                <div tw="w-[780px] max-h-[960px] h-[85vh] bg-white rounded-lg">
+                  <MapStreetView
+                    position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
+                    title={streetViewEvent.address}
+                    onClickBackButton={handleCloseStreetView}
+                  >
+                    <MapStreetView.Panorama />
+                    <MapStreetView.Map />
+                  </MapStreetView>
+                </div>
+              </motion.div>
+            </OutsideClick>
+          </Layout.Overlay>
+        )}
+      </AnimatePresence>
     </>
   );
 }
