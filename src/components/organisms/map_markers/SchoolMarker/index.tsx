@@ -30,7 +30,7 @@ function SchoolMarker({
       type="button"
       onClick={onClick}
       css={[
-        tw`animate-scale min-w-[77px] w-fit flex items-center h-8 bg-white rounded-[26px] relative shadow-[7px 7px 7px rgba(0, 0, 0, 0.1)]`,
+        tw`animate-scale will-change-transform [text-rendering: optimizeSpeed] min-w-[77px] w-fit flex items-center h-8 bg-white rounded-[26px] relative shadow-[7px 7px 7px rgba(0, 0, 0, 0.1)]`,
         selected && tw`animate-bounce`,
       ]}
     >
