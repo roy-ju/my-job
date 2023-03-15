@@ -55,6 +55,7 @@ export default memo(
         minZoom: 8 || minZoom,
         maxZoom: 19 || maxZoom,
         mapTypeId: mapType ?? naver.maps.MapTypeId.NORMAL,
+        disableKineticPan: false,
       });
 
       setMap(naverMap);

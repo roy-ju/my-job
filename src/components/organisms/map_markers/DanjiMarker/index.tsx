@@ -40,8 +40,9 @@ const DanjiMarker = React.memo(({ selected = false, variant, area, price, count 
   });
 
   return (
-    // <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-    <div css={selected && tw`animate-bounce`}>
+    <div
+      css={[tw`animate-scale will-change-transform [text-rendering: optimizeSpeed]`, selected && tw`animate-bounce`]}
+    >
       {children && (
         <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
           {children}
@@ -104,7 +105,6 @@ const DanjiMarker = React.memo(({ selected = false, variant, area, price, count 
         </div>
       </button>
     </div>
-    // </motion.div>
   );
 });
 

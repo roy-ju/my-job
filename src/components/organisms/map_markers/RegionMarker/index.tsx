@@ -1,7 +1,6 @@
 import { Numeral } from '@/components/atoms';
 import { Children, MouseEventHandler, ReactNode } from 'react';
 import tw from 'twin.macro';
-// import { motion } from 'framer-motion';
 import variants, { VariantKey } from '../variants';
 
 function DanjiCount({ count }: { count: number }) {
@@ -40,8 +39,11 @@ function Container({ name, variant, children, onClick }: Props) {
   const minWidth = childrenCount > 1 ? '5.5rem' : '3.75rem';
 
   return (
-    // <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-    <button type="button" tw="w-fit" onClick={onClick}>
+    <button
+      type="button"
+      tw="w-fit animate-scale will-change-transform [text-rendering: optimizeSpeed]"
+      onClick={onClick}
+    >
       <div
         css={[
           tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px]`,
@@ -69,7 +71,6 @@ function Container({ name, variant, children, onClick }: Props) {
         </div>
       </div>
     </button>
-    // </motion.div>
   );
 }
 
