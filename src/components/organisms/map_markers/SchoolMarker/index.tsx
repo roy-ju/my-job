@@ -1,5 +1,5 @@
 import tw from 'twin.macro';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import School from '../assets/school.svg';
 
 function SchoolMarker({
@@ -27,19 +27,19 @@ function SchoolMarker({
   }
 
   return (
-    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-      <button
-        type="button"
-        onClick={onClick}
-        css={[
-          tw`min-w-[77px] w-fit flex items-center h-8 bg-white rounded-[26px] relative shadow-[7px 7px 7px rgba(0, 0, 0, 0.1)]`,
-          selected && tw`animate-bounce`,
-        ]}
-      >
-        <School css={[tw`absolute top-0 left-0`, createIconColor()]} />
-        <span tw="text-info font-bold pl-10 pr-4 whitespace-nowrap text-gray-1000">{name}</span>
-      </button>
-    </motion.div>
+    // <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+    <button
+      type="button"
+      onClick={onClick}
+      css={[
+        tw`min-w-[77px] w-fit flex items-center h-8 bg-white rounded-[26px] relative shadow-[7px 7px 7px rgba(0, 0, 0, 0.1)]`,
+        selected && tw`animate-bounce`,
+      ]}
+    >
+      <School css={[tw`absolute top-0 left-0`, createIconColor()]} />
+      <span tw="text-info font-bold pl-10 pr-4 whitespace-nowrap text-gray-1000">{name}</span>
+    </button>
+    // </motion.div>
   );
 }
 

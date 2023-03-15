@@ -1,7 +1,7 @@
 import { Numeral } from '@/components/atoms';
 import { Children, MouseEventHandler, ReactNode } from 'react';
 import tw from 'twin.macro';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import variants, { VariantKey } from '../variants';
 
 function DanjiCount({ count }: { count: number }) {
@@ -40,36 +40,36 @@ function Container({ name, variant, children, onClick }: Props) {
   const minWidth = childrenCount > 1 ? '5.5rem' : '3.75rem';
 
   return (
-    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-      <button type="button" tw="w-fit" onClick={onClick}>
+    // <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+    <button type="button" tw="w-fit" onClick={onClick}>
+      <div
+        css={[
+          tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px]`,
+          { minWidth, overflowY: 'visible' },
+          {
+            boxShadow: '7px 7px 5px rgba(0, 0, 0, 0.16)',
+          },
+        ]}
+      >
         <div
           css={[
-            tw`relative flex flex-col rounded-lg min-w-[5.5rem] h-[60px]`,
-            { minWidth, overflowY: 'visible' },
-            {
-              boxShadow: '7px 7px 5px rgba(0, 0, 0, 0.16)',
-            },
+            tw`flex items-center justify-center flex-1 px-2 rounded-t-lg`,
+            { backgroundColor: variants[variant].bgColor },
           ]}
         >
-          <div
-            css={[
-              tw`flex items-center justify-center flex-1 px-2 rounded-t-lg`,
-              { backgroundColor: variants[variant].bgColor },
-            ]}
-          >
-            <p tw="text-b2 font-bold text-white">{name}</p>
-          </div>
-          <div
-            css={[
-              tw`flex items-center justify-center flex-1 px-2 bg-white rounded-b-lg whitespace-nowrap`,
-              { color: variants[variant].textColor },
-            ]}
-          >
-            {children}
-          </div>
+          <p tw="text-b2 font-bold text-white">{name}</p>
         </div>
-      </button>
-    </motion.div>
+        <div
+          css={[
+            tw`flex items-center justify-center flex-1 px-2 bg-white rounded-b-lg whitespace-nowrap`,
+            { color: variants[variant].textColor },
+          ]}
+        >
+          {children}
+        </div>
+      </div>
+    </button>
+    // </motion.div>
   );
 }
 
