@@ -4,24 +4,7 @@ import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from '@/hooks/services/useMapLayout';
-import { ReactNode, useEffect, useState } from 'react';
-
-function DeferredRender({ children }: { children: ReactNode }) {
-  const [readyToRender, setReadyToRender] = useState(false);
-
-  useEffect(() => {
-    requestIdleCallback(
-      () => {
-        setReadyToRender(true);
-      },
-      { timeout: 10000 },
-    );
-  }, []);
-
-  if (!readyToRender) return null;
-
-  return children as JSX.Element;
-}
+import DeferredRender from '@/components/atoms/DeferredRender';
 
 interface MarkersProps {
   mapLevel: number;
