@@ -178,6 +178,15 @@ module.exports = {
       borderRadius: {
         '4xl': '2.25rem',
       },
+      keyframes: {
+        scale: {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        scale: 'scale 0.3s normal ease-in-out',
+      },
     },
   },
   plugins: [],
