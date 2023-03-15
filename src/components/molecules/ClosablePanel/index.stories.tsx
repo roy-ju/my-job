@@ -6,12 +6,9 @@ export default {
   component: ClosablePanel,
 } as ComponentMeta<typeof ClosablePanel>;
 
-export const Default: ComponentStory<typeof ClosablePanel> = (args) => (
-  <ClosablePanel {...args} />
-);
+export const Default: ComponentStory<typeof ClosablePanel> = (args) => <ClosablePanel {...args} />;
 
 Default.args = {
   width: '375px',
-  animationDuration: 0.3,
   closable: true,
 };

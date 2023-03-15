@@ -6,17 +6,10 @@ interface Props {
   children?: ReactNode;
   closable?: boolean;
   width?: string;
-  animationDuration?: number;
   onClickClose?: () => void;
 }
 
-export default function ClosablePanel({
-  closable = true,
-  width,
-  animationDuration,
-  children,
-  onClickClose,
-}: Props) {
+export default function ClosablePanel({ closable = true, width, children, onClickClose }: Props) {
   const isPresent = useIsPresent();
 
   return (
@@ -30,9 +23,7 @@ export default function ClosablePanel({
           닫기
         </button>
       )}
-      <Panel width={width} animationDuration={animationDuration}>
-        {children}
-      </Panel>
+      <Panel width={width}>{children}</Panel>
     </div>
   );
 }

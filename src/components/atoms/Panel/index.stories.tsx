@@ -6,11 +6,8 @@ export default {
   component: Panel,
 } as ComponentMeta<typeof Panel>;
 
-export const Default: ComponentStory<typeof Panel> = (args) => (
-  <Panel {...args} />
-);
+export const Default: ComponentStory<typeof Panel> = (args) => <Panel {...args} />;
 
 Default.args = {
   width: '375px',
-  animationDuration: 0.3,
 };
