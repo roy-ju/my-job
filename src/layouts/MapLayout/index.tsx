@@ -123,6 +123,9 @@ export default function MapLayout({ children }: Props) {
           break;
         case 4: // My네고
           break;
+        case 5: // 개발자설정
+          router.replace('developer');
+          break;
         default:
           break;
       }

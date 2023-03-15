@@ -5,5 +5,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_KAKAO_REST_API_KEY: string;
     NEXT_PUBLIC_NEGOCIO_REST_API_BASE_URL: string;
     NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL: string;
+    NEXT_PUBLIC_APP_ENVIRONMENT: string;
   }
 }

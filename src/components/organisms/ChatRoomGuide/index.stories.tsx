@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import ChatRoomGuide from '.';
 
 export default {
-  title: 'molecules/ChatRoomGuide',
+  title: 'organisms/ChatRoomGuide',
   component: ChatRoomGuide,
 } as ComponentMeta<typeof ChatRoomGuide>;
 

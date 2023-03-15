@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import ChatRoomListNoData from '.';
 
 export default {
-  title: 'molecules/ChatRoomListNoData',
+  title: 'organisms/ChatRoomListNoData',
   component: ChatRoomListNoData,
 } as ComponentMeta<typeof ChatRoomListNoData>;
 

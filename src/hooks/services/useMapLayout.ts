@@ -1,7 +1,7 @@
-import getDanjiSummary from '@/apis/map/map_danji_summary';
-import getHakgudo from '@/apis/map/map_hakgudo';
-import getSchools from '@/apis/map/map_schools';
-import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/map_search_level';
+import getDanjiSummary from '@/apis/map/mapDanjiSummary';
+import getHakgudo from '@/apis/map/mapHakgudos';
+import getSchools from '@/apis/map/mapSchools';
+import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
 import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
 import { Filter } from '@/components/organisms/MapFilter/types';
 import { coordToRegion } from '@/lib/kakao';
