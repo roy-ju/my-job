@@ -4,7 +4,7 @@ import tw, { css, GlobalStyles as BaseStyles } from 'twin.macro';
 
 const customStyles = css`
   body {
-    ${tw`antialiased`}
+    ${tw`antialiased text-gray-1000`}
   }
 
   * {

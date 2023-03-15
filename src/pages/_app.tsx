@@ -5,6 +5,8 @@ import type { AppProps } from 'next/app';
 import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
 import GlobalStyles from '@/styles/GlobalStyles';
+import SWRConfig from '@/lib/swr';
+import { AuthProvider } from '@/providers';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -22,7 +24,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <CacheProvider value={cache}>
       <GlobalStyles />
-      <RecoilRoot>{getLayout(getComponent(pageProps), pageProps)}</RecoilRoot>
+      <RecoilRoot>
+        <SWRConfig>
+          <AuthProvider>{getLayout(getComponent(pageProps), pageProps)}</AuthProvider>
+        </SWRConfig>
+      </RecoilRoot>
     </CacheProvider>
   );
 }

@@ -8,6 +8,8 @@ const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'), { loading:
 const DanjiDetail = dynamic(() => import('@/components/pages/DanjiDetail'), { loading: () => <Panel /> });
 const ReportListing = dynamic(() => import('@/components/pages/ReportListing'), { loading: () => <Panel /> });
 const ChatRoomList = dynamic(() => import('@/components/pages/ChatRoomList'), { loading: () => <Panel /> });
+const Developer = dynamic(() => import('@/components/pages/Developer'), { loading: () => <Panel /> });
+const NotFound = dynamic(() => import('@/components/pages/NotFound'), { loading: () => <Panel /> });
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -48,13 +50,14 @@ export default function Router({ route, query, depth }: Props) {
     case 'reportListing': {
       return <ReportListing depth={depth} {...commonProps} />;
     }
+    case 'developer': {
+      if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {
+        return <Developer depth={depth} {...commonProps} />;
+      }
+      return <NotFound depth={depth} {...commonProps} />;
+    }
     default: {
-      return (
-        <div>
-          depth: {depth} <br />
-          unknown: {route}
-        </div>
-      );
+      return <NotFound depth={depth} {...commonProps} />;
     }
   }
 }

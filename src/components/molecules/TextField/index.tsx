@@ -21,24 +21,19 @@ interface LeadingProps extends HTMLProps<HTMLSpanElement> {}
 
 interface TrailingProps extends HTMLProps<HTMLSpanElement> {}
 
-const Container = forwardRef<HTMLDivElement, RootProps>((props, ref) => (
-  <StyledContainer ref={ref} {...props} />
-));
+const Container = forwardRef<HTMLDivElement, RootProps>((props, ref) => <StyledContainer ref={ref} {...props} />);
 
-const Input = forwardRef<HTMLInputElement, Omit<InputProps, 'as' | 'theme'>>(
-  (inProps, ref) => {
-    const { value, onChange, onFocus, onKeyDown } =
-      useContext(AutocompleteContext);
-    const resolvedProps = resolveProps(inProps, {
-      value,
-      onChange,
-      onFocus,
-      onKeyDown,
-    });
+const Input = forwardRef<HTMLInputElement, Omit<InputProps, 'as' | 'theme'>>((inProps, ref) => {
+  const { value, onChange, onFocus, onKeyDown } = useContext(AutocompleteContext);
+  const resolvedProps = resolveProps(inProps, {
+    value,
+    onChange,
+    onFocus,
+    onKeyDown,
+  });
 
-    return <StyledInput ref={ref} {...resolvedProps} />;
-  },
-);
+  return <StyledInput ref={ref} {...resolvedProps} />;
+});
 
 function Leading(props: LeadingProps) {
   return <StyledLeading {...props} />;

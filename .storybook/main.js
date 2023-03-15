@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    'storybook-addon-next',
   ],
   framework: '@storybook/react',
   core: {
@@ -24,9 +25,7 @@ module.exports = {
       '@emotion/styled': getPackageDir('@emotion/styled'),
       '@': path.resolve(__dirname, '../src/'),
     };
-    const fileLoaderRule = config.module.rules.find(
-      (rule) => rule.test && rule.test.test('.svg'),
-    );
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test && rule.test.test('.svg'));
     fileLoaderRule.exclude = /\.svg$/;
     config.module.rules.push(
       ...[
@@ -56,9 +55,7 @@ function getPackageDir(filepath) {
     }
     const { dir, root } = path.parse(currDir);
     if (dir === root) {
-      throw new Error(
-        `Could not find package.json in the parent directories starting from ${filepath}.`,
-      );
+      throw new Error(`Could not find package.json in the parent directories starting from ${filepath}.`);
     }
     currDir = dir;
   }

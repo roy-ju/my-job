@@ -165,6 +165,10 @@ module.exports = {
         9: '2.25rem',
         10: '2.5rem',
       },
+      height: {
+        4.5: '1.125rem',
+        37.5: '9.375rem',
+      },
       boxShadow: {
         DEFAULT: '0px 8px 16px rgba(0, 0, 0, 0.14)',
         sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
@@ -177,6 +181,7 @@ module.exports = {
       },
       borderRadius: {
         '4xl': '2.25rem',
+        bubble: '3.25rem',
       },
       keyframes: {
         scale: {

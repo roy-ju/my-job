@@ -40,7 +40,8 @@
     "react/no-this-in-sfc": "off",
     "react/no-unused-prop-types": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "warn"
+    "@typescript-eslint/no-shadow": "warn",
+    "camelcase": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }
