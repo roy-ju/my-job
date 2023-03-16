@@ -9,3 +9,4 @@ export { default as Label } from './Label';
 export { default as Separator } from './Separator';
 export { default as Chip } from './Chip';
 export { default as Avatar } from './Avatar';
+export { default as Loading } from './Loading';

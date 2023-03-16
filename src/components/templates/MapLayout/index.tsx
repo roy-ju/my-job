@@ -109,7 +109,7 @@ function LayoutMapContainer({
       </div>
 
       {filter?.realestateTypeGroup === 'apt,oftl' && (
-        <div tw="absolute left-[400px] right-[139px] top-5 z-20 flex justify-center pointer-events-none 2xl:left-0 2xl:right-0 2xl:mx-auto">
+        <div tw="absolute left-[400px] right-[139px] top-5 z-20 flex justify-center pointer-events-none">
           <div tw="w-fit pointer-events-auto">
             <MapToggleButton value={mapToggleValue} onChange={onChangeMapToggleValue} />
           </div>

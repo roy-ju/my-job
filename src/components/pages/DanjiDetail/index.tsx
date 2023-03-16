@@ -17,7 +17,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const handleCLickListingDetail = useCallback(() => {
     router.push('listingDetail', {
-      queryParams: {
+      searchParams: {
         listingID: 1,
       },
     });

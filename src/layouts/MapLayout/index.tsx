@@ -1,10 +1,10 @@
 import OutsideClick from '@/components/atoms/OutsideClick';
 import { MapLayout as Layout, MapStreetView } from '@/components/templates';
-import { useMapLayout } from '@/hooks/services';
 import { Map } from '@/lib/navermap';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/hooks/utils';
+import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
 interface Props {

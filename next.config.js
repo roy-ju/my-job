@@ -4,6 +4,20 @@ const withTwin = require('./withTwin.js');
 const nextConfig = withTwin({
   reactStrictMode: false,
   output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'agent-test.negocio.kr',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'negocio-agent-photos.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+      },
+    ],
+  },
   webpack: (config, options) => {
     const originalEntry = config.entry;
     config.entry = async () => {

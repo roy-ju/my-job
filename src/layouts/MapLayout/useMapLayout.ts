@@ -12,8 +12,8 @@ import { mapState } from '@/states/map';
 import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '../utils';
-import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
+import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
