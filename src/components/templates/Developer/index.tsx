@@ -1,22 +1,22 @@
 import { Button } from '@/components/atoms';
 import { NavigationHeader, TextField } from '@/components/molecules';
-import { ChangeEventHandler, useCallback, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 
 interface Props {
-  jwt?: string;
-  onChangeJwt?: (jwt: string) => void;
+  defaultJwt?: string;
+  onApplyChangeJwt?: (newJwt: string) => void;
 }
 
-export default function Developer({ jwt: jwtProp, onChangeJwt }: Props) {
-  const [jwt, setJwt] = useState(jwtProp ?? '');
+export default function Developer({ defaultJwt, onApplyChangeJwt }: Props) {
+  const [jwt, setJwt] = useState(defaultJwt);
+
+  useEffect(() => {
+    setJwt(defaultJwt);
+  }, [defaultJwt]);
 
   const handleChangeJwt = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setJwt(e.target.value);
   }, []);
-
-  const handleApplyChangeJwt = useCallback(() => {
-    onChangeJwt?.(jwt);
-  }, [onChangeJwt, jwt]);
 
   return (
     <div>
@@ -28,7 +28,7 @@ export default function Developer({ jwt: jwtProp, onChangeJwt }: Props) {
         <TextField tw="border border-gray-700">
           <TextField.Input value={jwt} onChange={handleChangeJwt} placeholder="엑세스토큰" />
           <TextField.Trailing>
-            <Button size="small" onClick={handleApplyChangeJwt}>
+            <Button size="small" onClick={() => onApplyChangeJwt?.(jwt ?? '')}>
               적용
             </Button>
           </TextField.Trailing>

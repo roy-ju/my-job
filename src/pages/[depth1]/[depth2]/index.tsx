@@ -2,7 +2,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { GetServerSideProps } from 'next';
 
 import { MapLayout } from '@/layouts';
-import PrevPage from '@/pages/[1]';
+import PrevPage from '@/pages/[depth1]';
 import Router from '@/router';
 
 const Page: NextPageWithLayout = () => null;
@@ -16,7 +16,7 @@ Page.getLayout = function getLayout(page, pageProps) {
     <MapLayout>
       {PrevPage.getComponent?.({
         query: pageProps.query,
-        route: pageProps.query['1'],
+        route: pageProps.query.depth1,
         depth: 1,
       })}
       {page}
@@ -27,7 +27,7 @@ Page.getLayout = function getLayout(page, pageProps) {
 export const getServerSideProps: GetServerSideProps = async (context) => ({
   props: {
     query: context.query,
-    route: context.query['2'],
+    route: context.query.depth2,
     depth: 2,
   },
 });

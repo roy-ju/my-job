@@ -16,7 +16,7 @@ Page.getLayout = function getLayout(page) {
 export const getServerSideProps: GetServerSideProps = async (context) => ({
   props: {
     query: context.query,
-    route: context.query['1'],
+    route: context.query.depth1,
     depth: 1,
   },
 });

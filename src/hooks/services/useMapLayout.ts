@@ -12,8 +12,7 @@ import { mapState } from '@/states/map';
 import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { useIsomorphicLayoutEffect, useRouter } from '../utils';
-import useSearchParams from '../utils/useSearchParams';
+import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '../utils';
 import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
 
 const USER_LAST_LOCATION = 'user_last_location';
@@ -73,16 +72,12 @@ export interface MapBounds {
 /**
  * 현재 지도 위치정보를 쿼리파라미터에 저장한다.
  */
-function setMapState(router: ReturnType<typeof useRouter>, map: NaverMap) {
+function setMapState(map: NaverMap) {
   const zoom = map.getZoom();
   const center = map.getCenter() as NaverLatLng;
 
   const ms = [center.lat(), center.lng(), zoom].join(',');
-  if (typeof window !== 'undefined') {
-    router.setSearchParams({
-      ms,
-    });
-  }
+  window.sessionStorage.setItem('ms', ms);
 }
 
 /**
@@ -90,15 +85,12 @@ function setMapState(router: ReturnType<typeof useRouter>, map: NaverMap) {
  */
 function getMapState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
   if (typeof window !== 'undefined') {
-    // setMapState 에서 History API 를 사용해서 쿼리파라미터를 업데이트 했으므로,
-    // router.query 로 가지고올수 없다. location.search 로 직접가져와서 파싱한다.
-    const searchParams = new URLSearchParams(window.location.search);
-    if (typeof searchParams.get('ms') === 'string') {
-      const ms = (searchParams.get('ms') as string).split(',');
+    const item = window.sessionStorage.getItem('ms');
+    if (item !== null) {
+      const ms = item.split(',');
       return ms.length > 2 ? cb(ms) : defaultValue;
     }
   }
-
   return defaultValue;
 }
 
@@ -141,7 +133,7 @@ export default function useMapLayout() {
 
   const [bounds, setBounds] = useState<MapBounds | null>(null);
 
-  const [filterState, setFilter] = useSearchParams<Filter>('filter');
+  const [filter, setFilter] = useSessionStorage<Filter>('mapFilter', getDefaultFilterAptOftl());
 
   const [listingCount, setListingCount] = useState(0);
 
@@ -161,8 +153,6 @@ export default function useMapLayout() {
   } | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
-
-  const filter = useMemo(() => filterState ?? getDefaultFilterAptOftl(), [filterState]);
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
@@ -283,6 +273,7 @@ export default function useMapLayout() {
                 lat: item.lat,
                 lng: item.long,
               });
+
               getDanjiSummary({
                 pnu: item.pnu,
                 buyOrRent: mapFilter.buyOrRents,
@@ -452,7 +443,7 @@ export default function useMapLayout() {
         (_map: NaverMap) => {
           // query 파라미터에 현재 지도위치 정보를 넣어서,
           // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-          setMapState(router, _map);
+          setMapState(_map);
           // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
           handleCenterAddressChange(_map);
 
@@ -462,7 +453,7 @@ export default function useMapLayout() {
         300,
         { leading: true, trailing: true },
       ),
-    [handleCenterAddressChange, updateBounds, router],
+    [handleCenterAddressChange, updateBounds],
   );
 
   const onZoomStart = useCallback((_map: NaverMap) => {

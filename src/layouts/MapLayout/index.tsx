@@ -13,7 +13,6 @@ interface Props {
 
 function MapWrapper() {
   const {
-    // Layout.MapContainer
     morphToCurrentLocation,
     zoomIn,
     zoomOut,
@@ -39,7 +38,6 @@ function MapWrapper() {
     selectedSchoolID,
     priceType,
     streetViewEvent,
-    // Map
     ...props
   } = useMapLayout();
 

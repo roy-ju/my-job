@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export default function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
+export default function useSessionStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(initialValue);
 
   useEffect(() => {
-    const item = window.localStorage.getItem(key);
+    const item = window.sessionStorage.getItem(key);
     if (item !== null) {
       setStoredValue(JSON.parse(item));
     }
@@ -16,7 +16,7 @@ export default function useLocalStorage<T>(key: string, initialValue: T): [T, (v
         const valueToStore = value instanceof Function ? value(prev) : value;
         // Save to local storage
         if (typeof window !== 'undefined') {
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
         }
         return valueToStore;
       });
