@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import axios from '@/lib/axios';
 
 export interface GetUserInfoResponse {
   ID: number;
@@ -44,4 +45,13 @@ export default function useAPI_GetUserInfo(options?: { revalidateIfStale?: boole
     data,
     isLoading,
   };
+}
+
+export async function getUserInfo() {
+  try {
+    const { data } = await axios.post('/user/info/get');
+    return data as GetUserInfoResponse;
+  } catch (e) {
+    return null;
+  }
 }
