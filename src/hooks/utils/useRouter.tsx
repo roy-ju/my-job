@@ -1,5 +1,5 @@
 import { useRouter as useNextRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 type NavigationOptions = {
   queryParams?: NodeJS.Dict<string | number>;
@@ -149,43 +149,36 @@ export default function useRouter(depth: number) {
       delete router.query[`${i}`];
     }
 
-    const query = {
-      ...router.query,
-    };
+    const query = { ...router.query };
 
     router.replace({ pathname: '/', query });
   }, [router]);
 
-  /**
-   * 쿼리파라미터만 업데이트한다.
-   */
-  const setQueryParams = useCallback(
-    (queryParams: NodeJS.Dict<string | number>) => {
+  const setSearchParams = useCallback(
+    (params: NodeJS.Dict<string>) => {
       router.replace(
         {
-          pathname: '',
-          query: {
-            ...queryParams,
-          },
+          query: { ...router.query, ...params },
         },
         undefined,
-        {
-          shallow: true,
-        },
+        { shallow: true },
       );
     },
     [router],
   );
 
-  return {
-    push,
-    pop,
-    popAll,
-    replace,
-    setQueryParams,
-    query: router.query,
-    asPath: router.asPath,
-    pathname: router.pathname,
-    isReady: router.isReady,
-  };
+  return useMemo(
+    () => ({
+      push,
+      pop,
+      popAll,
+      replace,
+      setSearchParams,
+      query: router.query,
+      asPath: router.asPath,
+      pathname: router.pathname,
+      isReady: router.isReady,
+    }),
+    [push, pop, popAll, replace, setSearchParams, router.query, router.asPath, router.pathname, router.isReady],
+  );
 }

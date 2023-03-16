@@ -13,8 +13,15 @@ import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter } from '../utils';
-import useStateSyncedWithURL from '../utils/useStateSyncedWithURL';
+import useSearchParams from '../utils/useSearchParams';
 import { KakaoAddressAutocompleteResponseItem } from './useKakaoAddressAutocomplete';
+
+const USER_LAST_LOCATION = 'user_last_location';
+const DEFAULT_LAT = 37.3945005; // 판교역
+const DEFAULT_LNG = 127.1109415;
+const DEFAULT_ZOOM = 14; // 500m
+const DEFAULT_MIN_ZOOM = 8; // 30km
+const DEFAULT_MAX_ZOOM = 19; // 20m
 
 export interface DanjiSummary {
   id: string;
@@ -63,28 +70,18 @@ export interface MapBounds {
   se: { lat: number; lng: number };
 }
 
-const USER_LAST_LOCATION = 'user_last_location';
-const DEFAULT_LAT = 37.3945005; // 판교역
-const DEFAULT_LNG = 127.1109415;
-const DEFAULT_ZOOM = 14; // 500m
-const DEFAULT_MIN_ZOOM = 8; // 30km
-const DEFAULT_MAX_ZOOM = 19; // 20m
-
 /**
  * 현재 지도 위치정보를 쿼리파라미터에 저장한다.
  */
-function setMapState(map: NaverMap) {
+function setMapState(router: ReturnType<typeof useRouter>, map: NaverMap) {
   const zoom = map.getZoom();
   const center = map.getCenter() as NaverLatLng;
 
   const ms = [center.lat(), center.lng(), zoom].join(',');
   if (typeof window !== 'undefined') {
-    // 보통의 경우라면 router 를 사용해서 쿼리파라미터를 업데이트 하겠지만,
-    // 지도 쿼리파라미터 업데이트 같은 경우에는 컴포넌트의 리렌더링이 불필요 함으로,
-    // History API 를 사용해서 직접 업데이트 한다.
-    const url = new URL(window.location.toString());
-    url.searchParams.set('ms', ms);
-    window.history.replaceState(window.history.state, '', url);
+    router.setSearchParams({
+      ms,
+    });
   }
 }
 
@@ -144,7 +141,7 @@ export default function useMapLayout() {
 
   const [bounds, setBounds] = useState<MapBounds | null>(null);
 
-  const [filter, setFilter] = useStateSyncedWithURL<Filter>('filter', getDefaultFilterAptOftl());
+  const [filterState, setFilter] = useSearchParams<Filter>('filter');
 
   const [listingCount, setListingCount] = useState(0);
 
@@ -164,6 +161,8 @@ export default function useMapLayout() {
   } | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
+
+  const filter = useMemo(() => filterState ?? getDefaultFilterAptOftl(), [filterState]);
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
@@ -453,7 +452,7 @@ export default function useMapLayout() {
         (_map: NaverMap) => {
           // query 파라미터에 현재 지도위치 정보를 넣어서,
           // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-          setMapState(_map);
+          setMapState(router, _map);
           // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
           handleCenterAddressChange(_map);
 
@@ -463,12 +462,22 @@ export default function useMapLayout() {
         300,
         { leading: true, trailing: true },
       ),
-    [handleCenterAddressChange, updateBounds],
+    [handleCenterAddressChange, updateBounds, router],
   );
 
   const onZoomStart = useCallback((_map: NaverMap) => {
-    setMarkers([]);
-    setSchoolMarkers([]);
+    setMarkers((prev) => {
+      if (prev.length > 0) {
+        return [];
+      }
+      return prev;
+    });
+    setSchoolMarkers((prev) => {
+      if (prev.length > 0) {
+        return [];
+      }
+      return prev;
+    });
     setSelectedDanjiSummary(null);
   }, []);
 
@@ -629,7 +638,13 @@ export default function useMapLayout() {
 
   const handleChangeFilter = useCallback(
     (value: Partial<Filter>) => {
-      setFilter((prev) => ({ ...prev, ...value }));
+      setFilter((prev) => {
+        const old = prev === null ? getDefaultFilterAptOftl() : prev;
+        return {
+          ...old,
+          ...value,
+        };
+      });
     },
     [setFilter],
   );
