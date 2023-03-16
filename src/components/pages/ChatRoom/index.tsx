@@ -1,3 +1,4 @@
+import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
 import { ClosablePanel } from '@/components/molecules';
 import { ChatRoom } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
@@ -10,6 +11,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  useAPI_ChatRoomDetail(Number(router.query.chatRoomID));
 
   const handleClickClose = useCallback(() => {
     router.pop();

@@ -1,7 +1,11 @@
+import { NavigationHeader } from '@/components/molecules';
+
 export default function ChatRoom() {
   return (
-    <div>
-      <p>중개사채팅방</p>
+    <div tw="flex flex-col h-full">
+      <NavigationHeader>
+        <NavigationHeader.Title tw="text-b1">공개용 주소 최대 22자 모두 노출 가능</NavigationHeader.Title>
+      </NavigationHeader>
     </div>
   );
 }

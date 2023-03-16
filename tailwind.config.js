@@ -70,6 +70,7 @@ module.exports = {
         },
         nego: {
           DEFAULT: '#7048E8',
+          50: '#F3F0FF50',
           100: '#F3F0FF',
           200: '#E5DBFF',
           300: '#D0BFFF',
@@ -96,6 +97,7 @@ module.exports = {
         },
         red: {
           DEFAULT: '#F83D3D',
+          50: '#FFE2E4',
           100: '#FFE2E4',
           200: '#FFC7CA',
           300: '#FFA9AE',

@@ -2,7 +2,7 @@ import { useRouter as useNextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
 type NavigationOptions = {
-  queryParams?: NodeJS.Dict<string | number>;
+  searchParams?: NodeJS.Dict<string | number>;
 };
 
 export default function useRouter(depth: number) {
@@ -19,12 +19,13 @@ export default function useRouter(depth: number) {
   const push = useCallback(
     (pathname: string, options?: NavigationOptions) => {
       // 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트
-      if (router.asPath.includes(pathname)) {
+
+      if (router.asPath.split('/').filter((item) => item === pathname).length > 0) {
         router.replace({
           pathname: router.pathname,
           query: {
             ...router.query,
-            ...options?.queryParams,
+            ...options?.searchParams,
           },
         });
 
@@ -54,8 +55,8 @@ export default function useRouter(depth: number) {
       }
 
       const query = {
-        ...router.query,
-        ...options?.queryParams,
+        // ...router.query,
+        ...options?.searchParams,
       };
 
       let path = '/';
@@ -87,8 +88,8 @@ export default function useRouter(depth: number) {
       }
 
       const query = {
-        ...router.query,
-        ...options?.queryParams,
+        // ...router.query,
+        ...options?.searchParams,
       };
 
       let path = '/';
@@ -125,8 +126,8 @@ export default function useRouter(depth: number) {
       }
 
       const query = {
-        ...router.query,
-        ...options?.queryParams,
+        // ...router.query,
+        ...options?.searchParams,
       };
 
       let path = '/';
@@ -154,9 +155,9 @@ export default function useRouter(depth: number) {
       delete router.query[`depth${i}`];
     }
 
-    const query = { ...router.query };
+    // const query = { ...router.query };
 
-    router.replace({ pathname: '/', query });
+    router.replace({ pathname: '/', query: {} });
   }, [router]);
 
   return useMemo(

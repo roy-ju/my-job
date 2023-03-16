@@ -10,7 +10,7 @@ const mock = [
     lastMessage: '최근 메시지가 들어갑니다. 최대 2줄까지 노출됩니다. 메시지 내용이 길 경우에는 이렇게 ',
     listingStatus: '매물 STATUS',
     lastMessageTime: '2023-01-01',
-    unreadMessageCount: 0,
+    unreadMessageCount: 1,
     profileImagePath: defaultAvatar,
     active: true,
   },
@@ -21,7 +21,7 @@ const mock = [
     lastMessage: '최근 메시지가 들어갑니다. 최대 2줄까지 노출됩니다. 메시지 내용이 길 경우에는 이렇게 ',
     listingStatus: '매물 STATUS',
     lastMessageTime: '2023-01-01',
-    unreadMessageCount: 9,
+    unreadMessageCount: 2,
     profileImagePath: defaultAvatar,
     active: false,
   },
@@ -65,7 +65,7 @@ const mock = [
     lastMessage: '최근 메시지가 들어갑니다. 최대 2줄까지 노출됩니다. 메시지 내용이 길 경우에는 이렇게 ',
     listingStatus: '매물 STATUS',
     lastMessageTime: '2023-01-01',
-    unreadMessageCount: 999,
+    unreadMessageCount: 0,
     profileImagePath: defaultAvatar,
     active: false,
   },
@@ -100,12 +100,18 @@ export default {
 
 export const Default: ComponentStory<typeof ChatRoomList> = () => (
   <div tw="w-[380px] h-full bg-white">
-    <ChatRoomList list={[]} />
+    <ChatRoomList isLoading={false} list={[]} />
   </div>
 );
 
 export const Items: ComponentStory<typeof ChatRoomList> = () => (
   <div tw="w-[380px] h-full bg-white">
-    <ChatRoomList list={mock} />
+    <ChatRoomList isLoading={false} list={mock} />
+  </div>
+);
+
+export const Loading: ComponentStory<typeof ChatRoomList> = () => (
+  <div tw="w-[380px] h-full bg-white">
+    <ChatRoomList isLoading list={[]} />
   </div>
 );
