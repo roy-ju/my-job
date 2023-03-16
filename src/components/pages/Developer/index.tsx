@@ -11,9 +11,8 @@ interface Props {
 
 export default memo(({ panelWidth, depth }: Props) => {
   const [jwt, setJwt] = useLocalStorage(Keys.ACCESS_TOKEN, '');
-  // const [jwt, setJwt] = useSearchParams<string>('jwt');
 
-  const handleChangeJwt = useCallback(
+  const handleApplyChangeJwt = useCallback(
     (newValue: string) => {
       setJwt(newValue);
     },
@@ -22,7 +21,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   return (
     <ClosablePanel width={panelWidth} closable={depth === 2}>
-      <DeveloperTemplate jwt={jwt ?? ''} onChangeJwt={handleChangeJwt} />
+      <DeveloperTemplate defaultJwt={jwt} onApplyChangeJwt={handleApplyChangeJwt} />
     </ClosablePanel>
   );
 });

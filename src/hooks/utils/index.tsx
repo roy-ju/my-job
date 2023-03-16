@@ -5,4 +5,4 @@ export { default as useControlled } from './useControlled';
 export { default as useOutsideClick } from './useOutsideClick';
 export { default as useCallbackRef } from './useCallbackRef';
 export { default as useLocalStorage } from './useLocalStorage';
-export { default as useSearchParams } from './useSearchParams';
+export { default as useSessionStorage } from './useSessionStorage';

@@ -50,7 +50,7 @@ export default function useRouter(depth: number) {
       }
 
       for (let i = 1; i < 6; i += 1) {
-        delete router.query[`${i}`];
+        delete router.query[`depth${i}`];
       }
 
       const query = {
@@ -61,8 +61,8 @@ export default function useRouter(depth: number) {
       let path = '/';
 
       segments.forEach((value, index) => {
-        path += `[${index + 1}]/`;
-        query[index + 1] = value;
+        path += `[depth${index + 1}]/`;
+        query[`depth${index + 1}`] = value;
       });
 
       router.replace({ pathname: path, query });
@@ -83,7 +83,7 @@ export default function useRouter(depth: number) {
       segments = segments.slice(0, depth - 1);
 
       for (let i = 1; i < 6; i += 1) {
-        delete router.query[`${i}`];
+        delete router.query[`depth${i}`];
       }
 
       const query = {
@@ -94,8 +94,8 @@ export default function useRouter(depth: number) {
       let path = '/';
 
       segments.forEach((value, index) => {
-        path += `[${index + 1}]/`;
-        query[index + 1] = value;
+        path += `[depth${index + 1}]/`;
+        query[`depth${index + 1}`] = value;
       });
 
       router.replace({ pathname: path, query });
@@ -121,7 +121,7 @@ export default function useRouter(depth: number) {
       }
 
       for (let i = 1; i < 6; i += 1) {
-        delete router.query[`${i}`];
+        delete router.query[`depth${i}`];
       }
 
       const query = {
@@ -132,11 +132,12 @@ export default function useRouter(depth: number) {
       let path = '/';
 
       segments.forEach((value, index) => {
-        path += `[${index + 1}]/`;
-        query[index + 1] = value;
+        path += `[depth${index + 1}]/`;
+        query[`depth${index + 1}`] = value;
       });
 
-      router.replace({ pathname: path, query });
+      const param = { pathname: path, query };
+      router.replace(param);
     },
     [router, depth],
   );
@@ -145,8 +146,12 @@ export default function useRouter(depth: number) {
    * 모든 depth 들을 닫는다.
    */
   const popAll = useCallback(() => {
+    if (router.pathname === '/') {
+      return;
+    }
+
     for (let i = 1; i < 6; i += 1) {
-      delete router.query[`${i}`];
+      delete router.query[`depth${i}`];
     }
 
     const query = { ...router.query };
@@ -154,31 +159,17 @@ export default function useRouter(depth: number) {
     router.replace({ pathname: '/', query });
   }, [router]);
 
-  const setSearchParams = useCallback(
-    (params: NodeJS.Dict<string>) => {
-      router.replace(
-        {
-          query: { ...router.query, ...params },
-        },
-        undefined,
-        { shallow: true },
-      );
-    },
-    [router],
-  );
-
   return useMemo(
     () => ({
       push,
       pop,
       popAll,
       replace,
-      setSearchParams,
       query: router.query,
       asPath: router.asPath,
       pathname: router.pathname,
       isReady: router.isReady,
     }),
-    [push, pop, popAll, replace, setSearchParams, router.query, router.asPath, router.pathname, router.isReady],
+    [push, pop, popAll, replace, router.query, router.asPath, router.pathname, router.isReady],
   );
 }
