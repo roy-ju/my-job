@@ -20,7 +20,7 @@ export function getDefaultFilterAptOftl(): Filter {
     priceRange: [0, PRICE_STEPS.length - 1],
     depositRange: [0, DEPOSIT_STEPS.length - 1],
     rentRange: [0, RENT_STEPS.length - 1],
-    minHousehold: '0',
+    minHousehold: '100',
     gapInvestment: false,
     quickSale: false,
   };
