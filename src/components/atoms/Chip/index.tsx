@@ -1,12 +1,13 @@
 import tw, { styled } from 'twin.macro';
 
 interface Props {
-  variant?: 'nego' | 'red';
+  variant?: 'nego' | 'red' | 'gray';
 }
 
 const colors = {
   nego: tw`bg-nego-100 text-nego-1000`,
   red: tw`bg-red-100 text-red-1000`,
+  gray: tw`text-gray-700 bg-gray-300`,
 };
 
 export default styled.span<Props>(({ variant = 'nego' }) => [

@@ -5,3 +5,4 @@ export { default as Slider } from './Slider';
 export { default as Autocomplete } from './Autocomplete';
 export { default as TextField } from './TextField';
 export { default as NavigationHeader } from './NavigationHeader';
+export { default as Accordion } from './Accordion';

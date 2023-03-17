@@ -19,7 +19,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <ClosablePanel width={panelWidth} closable={depth === 2} onClickClose={handleClickClose}>
-      <ChatRoom />
+      <ChatRoom title="공개용 주소 최대 22자 모두 노출 가능" />
     </ClosablePanel>
   );
 });

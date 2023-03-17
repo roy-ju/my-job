@@ -10,5 +10,6 @@ export const Default: ComponentStory<typeof Chip> = () => (
   <div tw="flex gap-2">
     <Chip>상담</Chip>
     <Chip variant="red">참여</Chip>
+    <Chip variant="gray">참여</Chip>
   </div>
 );
