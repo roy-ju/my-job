@@ -83,7 +83,7 @@ function TabButton({ text, idx, icon }: { text: string; idx: number; icon: any }
     <button
       type="button"
       css={[
-        tw`w-full h-[5.25rem] flex flex-col items-center py-5 gap-2 hover:bg-gray-300 transition-colors`,
+        tw`w-full h-[5.25rem] flex flex-col items-center py-5 gap-2 hover:bg-gray-100 transition-colors`,
         selectedTab === idx ? tw`bg-nego-100 hover:bg-nego-100` : tw`bg-white`,
       ]}
       onClick={handleTabButton}

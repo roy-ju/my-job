@@ -167,6 +167,9 @@ module.exports = {
         9: '2.25rem',
         10: '2.5rem',
       },
+      width: {
+        21: '5.25rem',
+      },
       height: {
         4.5: '1.125rem',
         37.5: '9.375rem',
