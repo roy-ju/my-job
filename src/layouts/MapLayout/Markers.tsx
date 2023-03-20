@@ -3,8 +3,8 @@ import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
-import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from '@/hooks/services/useMapLayout';
 import DeferredRender from '@/components/atoms/DeferredRender';
+import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
 interface MarkersProps {
   mapLevel: number;
