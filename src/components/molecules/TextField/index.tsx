@@ -1,5 +1,6 @@
-import { resolveProps } from '@/utils';
-import { ChangeEventHandler, forwardRef, HTMLProps, useCallback, useContext } from 'react';
+import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { mergeRefs, resolveProps } from '@/utils';
+import { ChangeEventHandler, forwardRef, HTMLProps, useCallback, useContext, useRef } from 'react';
 import tw, { css, styled } from 'twin.macro';
 import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 
@@ -50,22 +51,34 @@ const Input = forwardRef<HTMLInputElement, Omit<InputProps, 'as' | 'theme'>>((in
 });
 
 const TextArea = forwardRef<HTMLTextAreaElement, Omit<TextAreaProps, 'as' | 'theme'>>(
-  ({ onChange, ...others }, inRef) => {
-    const handleResize = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
-      e.target.style.height = `0px`;
-      const { scrollHeight } = e.target;
-      e.target.style.height = `${scrollHeight}px`;
-    }, []);
+  ({ value: valueProp, onChange, ...others }, inRef) => {
+    const innerRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const [value, setValueState] = useControlled({
+      controlled: valueProp,
+      default: '',
+    });
 
     const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
       (e) => {
-        handleResize(e);
+        setValueState(e.target.value);
         onChange?.(e);
       },
-      [handleResize, onChange],
+      [onChange, setValueState],
     );
 
-    return <StyledTextArea ref={inRef} rows={1} onChange={handleChange} {...others} />;
+    useIsomorphicLayoutEffect(() => {
+      const target = innerRef.current;
+      if (target) {
+        target.style.height = `0px`;
+        const { scrollHeight } = target;
+        target.style.height = `${scrollHeight}px`;
+      }
+    }, [value]);
+
+    return (
+      <StyledTextArea ref={mergeRefs([innerRef, inRef])} rows={1} value={value} onChange={handleChange} {...others} />
+    );
   },
 );
 

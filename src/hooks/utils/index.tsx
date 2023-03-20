@@ -6,3 +6,4 @@ export { default as useOutsideClick } from './useOutsideClick';
 export { default as useCallbackRef } from './useCallbackRef';
 export { default as useLocalStorage } from './useLocalStorage';
 export { default as useSessionStorage } from './useSessionStorage';
+export { default as useWebSocket } from './useWebSocket';
