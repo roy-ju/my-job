@@ -39,18 +39,18 @@ export const Trailing: ComponentStory<typeof TextField> = () => (
   <TextField>
     <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
     <TextField.Trailing tw="flex items-center">
-      <button
-        type="button"
-        tw="inline-flex items-center justify-center w-5 h-5 mr-4"
-      >
+      <button type="button" tw="inline-flex items-center justify-center w-5 h-5 mr-4">
         <DeleteAllIcon />
       </button>
-      <button
-        type="button"
-        tw="inline-flex items-center justify-center w-9 h-9 bg-nego rounded-lg"
-      >
+      <button type="button" tw="inline-flex items-center justify-center w-9 h-9 bg-nego rounded-lg">
         <SearchIcon color="#fff" />
       </button>
     </TextField.Trailing>
+  </TextField>
+);
+
+export const Multiline: ComponentStory<typeof TextField> = () => (
+  <TextField>
+    <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
   </TextField>
 );
