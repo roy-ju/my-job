@@ -1,7 +1,7 @@
 import tw from 'twin.macro';
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 
-const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center`;
+const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shrink-0`;
 
 function BackButton({ onClick }: { onClick?: () => void }) {
   return (

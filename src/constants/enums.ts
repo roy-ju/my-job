@@ -16,3 +16,10 @@ export enum BuyOrRent {
   Jeonsae = 2,
   Wolsae = 3,
 }
+
+export enum ChatUserType {
+  Buyer = 1,
+  Seller = 2,
+  Agent = 3,
+  System = 4,
+}

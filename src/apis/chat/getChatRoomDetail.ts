@@ -28,6 +28,19 @@ export interface GetChatRoomDetailResponse {
   visit_schedule_time: any;
   can_close: boolean;
   participating: boolean;
+  list?: {
+    id: number;
+    chat_room_id: number;
+    chat_room_type: number;
+    listing_id: number;
+    user_id: any;
+    chat_user_type: number;
+    message: string;
+    buyer_read_time: any;
+    seller_read_time: string;
+    agent_read_time: string;
+    created_time: string;
+  }[];
 }
 
 export default function useAPI_ChatRoomDetail(id: number) {
