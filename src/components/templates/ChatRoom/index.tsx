@@ -1,6 +1,6 @@
 import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { ChatRoomAgentSummary, ChatRoomTextField } from '@/components/organisms';
+import { ChatRoomAgentSummary, ChatRoomDetailsAccordion, ChatRoomTextField } from '@/components/organisms';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { useRef } from 'react';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
@@ -12,6 +12,8 @@ interface ChatRoomProps {
   agentDescription: string;
   isLoading: boolean;
   chatMessages: IChatMessage[];
+  inputRef?: (element: HTMLTextAreaElement | null) => void;
+  onSendMessage?: (message: string) => void;
 }
 
 export default function ChatRoom({
@@ -21,6 +23,8 @@ export default function ChatRoom({
   officeName,
   agentDescription,
   chatMessages,
+  inputRef,
+  onSendMessage,
 }: ChatRoomProps) {
   const listRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,7 +39,8 @@ export default function ChatRoom({
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1">{title}</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-scroll px-5 py-6" ref={listRef}>
+      <ChatRoomDetailsAccordion />
+      <div tw="flex-1 min-h-0 overflow-scroll px-5 py-6 border-t border-gray-300" ref={listRef}>
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (
@@ -55,7 +60,7 @@ export default function ChatRoom({
         )}
       </div>
       <div tw="px-5 pt-4 pb-10">
-        <ChatRoomTextField />
+        <ChatRoomTextField inputRef={inputRef} onSendMessage={onSendMessage} />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
 import { ClosablePanel } from '@/components/molecules';
 import { ChatRoom } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
+import useChatRoom from './useChatRoom';
 
 interface Props {
   depth: number;
@@ -11,19 +11,8 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const { data, isLoading } = useAPI_ChatRoomDetail(Number(router.query.chatRoomID));
-
-  const chatMessages = useMemo(
-    () =>
-      data?.list?.map((chat) => ({
-        id: chat.id,
-        name: data?.agent_name,
-        message: chat.message,
-        chatUserType: chat.chat_user_type,
-        sentTime: chat.created_time,
-      })) ?? [],
-    [data],
-  );
+  const { listingTitle, agentName, agentDescription, agentOfficeName, chatMessages, isLoading, handleSendMessage } =
+    useChatRoom(Number(router.query.chatRoomID));
 
   const handleClickClose = useCallback(() => {
     router.pop();
@@ -32,12 +21,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <ClosablePanel width={panelWidth} closable={depth === 2} onClickClose={handleClickClose}>
       <ChatRoom
-        title={data?.listing_title ?? ''}
-        agentName={data?.agent_name ?? ''}
-        officeName={data?.agent_office_name ?? ''}
-        agentDescription={data?.agent_description ?? ''}
+        title={listingTitle ?? ''}
+        agentName={agentName ?? ''}
+        officeName={agentOfficeName ?? ''}
+        agentDescription={agentDescription ?? ''}
         isLoading={isLoading}
         chatMessages={chatMessages}
+        onSendMessage={handleSendMessage}
       />
     </ClosablePanel>
   );
