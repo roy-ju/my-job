@@ -23,11 +23,12 @@ function getSenderName(children: ReactNode) {
 
 function getAvatar(children: ReactNode) {
   const childrenArray = Children.toArray(children);
-  return childrenArray.filter((child) => isValidElement(child) && child.type === AvatarType);
+  const filtered = childrenArray.filter((child) => isValidElement(child) && child.type === AvatarType);
+  return filtered.length > 0 ? filtered : null;
 }
 
 interface ContainerProps {
-  variant?: 'nego' | 'gray';
+  variant?: 'nego' | 'gray' | 'system';
   children?: ReactNode;
 }
 
@@ -41,13 +42,21 @@ function Container({ variant, children }: ContainerProps) {
 
   return (
     <ChatMessageContext.Provider value={context}>
-      <div tw="flex items-start gap-3">
-        {avatar}
-        <div tw="flex flex-col gap-1.5">
+      <div tw="flex items-start w-full gap-3">
+        {avatar || (variant !== 'system' && <div tw="w-8" />)}
+        <div tw="flex flex-1 flex-col gap-1.5">
           {senderName}
-          <div css={[tw`flex items-end gap-1`, variant === 'nego' && tw`flex-row-reverse`]}>
+          <div
+            css={[
+              tw`flex items-end gap-1`,
+              variant === 'nego' && tw`flex-row-reverse`,
+              variant === 'system' && tw`justify-center`,
+            ]}
+          >
             <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{bubble}</div>
-            {sentTime}
+            {variant !== 'system' && (
+              <div css={[tw`w-12 shrink-0`, variant === 'nego' && tw`text-end`]}>{sentTime}</div>
+            )}
           </div>
         </div>
       </div>

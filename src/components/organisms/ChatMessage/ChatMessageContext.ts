@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 interface IChatMessageContext {
-  variant?: 'gray' | 'nego';
+  variant?: 'gray' | 'nego' | 'system';
 }
 
 const ChatMessageContext = createContext<IChatMessageContext>({});

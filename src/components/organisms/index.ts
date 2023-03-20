@@ -12,3 +12,5 @@ export { default as ChatRoomGuide } from './ChatRoomGuide';
 export { default as ChatRoomListItem } from './ChatRoomListItem';
 export { default as ChatRoomDetailsAccordion } from './ChatRoomDetailsAccordion';
 export { default as ChatMessage } from './ChatMessage';
+export { default as ChatRoomTextField } from './ChatRoomTextField';
+export { default as ChatRoomAgentSummary } from './ChatRoomAgentSummary';

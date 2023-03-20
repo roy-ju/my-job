@@ -24,7 +24,7 @@ export default function ChatRoomTextField() {
     <TextField css={[tw`border items-end rounded-[20px]`, focused ? tw`border-gray-1000` : tw`border-gray-300`]}>
       <TextField.TextArea
         placeholder="메시지를 입력하세요"
-        tw="text-b2 leading-4 py-3 placeholder:text-gray-700"
+        tw="text-b2 leading-4 py-3 placeholder:text-gray-700 max-h-[106px]"
         onBlur={handleBlur}
         onFocus={handleFocus}
         onChange={handleChange}
