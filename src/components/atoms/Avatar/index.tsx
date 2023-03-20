@@ -1,16 +1,24 @@
 import Image, { StaticImageData } from 'next/image';
 import tw from 'twin.macro';
 
-interface AvatarProps {
-  alt: string;
-  src: string | StaticImageData;
+export interface AvatarProps {
+  alt?: string;
+  src?: string | StaticImageData;
   active?: boolean;
+  size?: number;
 }
 
-export default function Avatar({ alt, src, active }: AvatarProps) {
+export default function Avatar({ alt = '', src = '', active, size = 56 }: AvatarProps) {
   return (
     <div tw="inline-block relative shrink-0 w-fit h-fit">
-      <Image alt={alt} src={src} width={56} height={56} tw="w-14 h-14 rounded-full bg-gray-200 object-cover" />
+      <Image
+        alt={alt}
+        src={src}
+        width={size}
+        height={size}
+        tw="rounded-full bg-gray-200 object-cover"
+        style={{ width: `${size}px`, height: `${size}px` }}
+      />
       {active !== undefined && (
         <div
           css={[
