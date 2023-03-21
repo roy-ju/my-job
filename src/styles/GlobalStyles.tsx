@@ -1,6 +1,6 @@
 import React from 'react';
 import { Global } from '@emotion/react';
-import tw, { css, GlobalStyles as BaseStyles } from 'twin.macro';
+import tw, { css, GlobalStyles as BaseStyles, theme } from 'twin.macro';
 
 const customStyles = css`
   body {
@@ -26,11 +26,11 @@ const customStyles = css`
     display: none;
   }
   ::-webkit-scrollbar-thumb {
-    background: #adb5bd;
+    background: ${theme`colors.gray.600`};
     border-radius: 10px;
   }
   ::-webkit-scrollbar-track {
-    background-color: #ffffff;
+    background-color: transparent;
     border-left: none;
     border-right: none;
   }
