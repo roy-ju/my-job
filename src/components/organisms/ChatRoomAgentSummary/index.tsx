@@ -1,10 +1,11 @@
 import { Avatar } from '@/components/atoms';
+import { StaticImageData } from 'next/image';
 
 interface Props {
   officeName: string;
   agentName: string;
   agentDescription: string;
-  agentProfileImagePath: string;
+  agentProfileImagePath: string | StaticImageData;
 }
 
 export default function ChatRoomAgentSummary({

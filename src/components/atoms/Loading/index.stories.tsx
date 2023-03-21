@@ -6,4 +6,6 @@ export default {
   component: Loading,
 } as ComponentMeta<typeof Loading>;
 
-export const Default: ComponentStory<typeof Loading> = () => <Loading tw="text-center" />;
+export const Default: ComponentStory<typeof Loading> = () => <Loading />;
+
+export const Center: ComponentStory<typeof Loading> = () => <Loading tw="text-center" />;

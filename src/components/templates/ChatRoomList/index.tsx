@@ -1,6 +1,7 @@
 import { Loading, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomGuide, ChatRoomListItem, ChatRoomListNoData } from '@/components/organisms';
+import { StaticImageData } from 'next/image';
 import tw, { styled } from 'twin.macro';
 
 const ListContainer = styled.div`
@@ -10,8 +11,21 @@ const ListContainer = styled.div`
   }
 `;
 
+interface IChatRoomListItem {
+  title: string;
+  chatRoomType: string;
+  agentDescription: string;
+  lastMessage: string;
+  lastMessageTime: string;
+  unreadMessageCount: number;
+  profileImagePath: string | StaticImageData;
+  listingStatus: string;
+  id: number;
+  active: boolean;
+}
+
 interface ChatRoomListProps {
-  list: any[];
+  list: IChatRoomListItem[];
   onClickListItem?: (chatRoomID: number) => void;
   isLoading: boolean;
 }

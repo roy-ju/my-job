@@ -7,11 +7,7 @@ export default {
   component: ChatRoomListItem,
 } as ComponentMeta<typeof ChatRoomListItem>;
 
-export const Default: ComponentStory<typeof ChatRoomListItem> = (args) => (
-  <div tw="w-[380px] bg-white">
-    <ChatRoomListItem {...args} />
-  </div>
-);
+export const Default: ComponentStory<typeof ChatRoomListItem> = (args) => <ChatRoomListItem {...args} />;
 
 Default.args = {
   title: 'title',

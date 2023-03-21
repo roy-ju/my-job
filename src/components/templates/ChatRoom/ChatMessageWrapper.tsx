@@ -1,11 +1,12 @@
 import { ChatMessage } from '@/components/organisms';
 import { ChatUserType } from '@/constants/enums';
+import { StaticImageData } from 'next/image';
 import { memo, useMemo } from 'react';
 
 export interface IChatMessage {
   id: number;
   chatUserType: ChatUserType;
-  profileImagePath?: string;
+  profileImagePath?: string | StaticImageData;
   name: string;
   message: string;
   sentTime: string;

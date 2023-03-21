@@ -4,6 +4,7 @@ import ChatRoomList from '.';
 
 const mock = [
   {
+    id: 1,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -15,6 +16,7 @@ const mock = [
     active: true,
   },
   {
+    id: 2,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -26,6 +28,7 @@ const mock = [
     active: false,
   },
   {
+    id: 3,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -37,6 +40,7 @@ const mock = [
     active: false,
   },
   {
+    id: 4,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -48,6 +52,7 @@ const mock = [
     active: false,
   },
   {
+    id: 5,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -59,6 +64,7 @@ const mock = [
     active: false,
   },
   {
+    id: 6,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -70,6 +76,7 @@ const mock = [
     active: false,
   },
   {
+    id: 7,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -81,6 +88,7 @@ const mock = [
     active: false,
   },
   {
+    id: 8,
     title: '최대 22자 공개용주소 모두 들어갑니다.',
     chatRoomType: '상담',
     agentDescription: '최대 1줄로 중개사무소명이 들어갑니다. 길 경우에는 ...',
@@ -98,20 +106,24 @@ export default {
   component: ChatRoomList,
 } as ComponentMeta<typeof ChatRoomList>;
 
-export const Default: ComponentStory<typeof ChatRoomList> = () => (
+export const Default: ComponentStory<typeof ChatRoomList> = (args) => (
   <div tw="w-[380px] h-full bg-white">
-    <ChatRoomList isLoading={false} list={[]} />
+    <ChatRoomList {...args} />
   </div>
 );
 
-export const Items: ComponentStory<typeof ChatRoomList> = () => (
+Default.args = {
+  list: mock,
+  isLoading: false,
+};
+
+export const NoItems: ComponentStory<typeof ChatRoomList> = (args) => (
   <div tw="w-[380px] h-full bg-white">
-    <ChatRoomList isLoading={false} list={mock} />
+    <ChatRoomList {...args} />
   </div>
 );
 
-export const Loading: ComponentStory<typeof ChatRoomList> = () => (
-  <div tw="w-[380px] h-full bg-white">
-    <ChatRoomList isLoading list={[]} />
-  </div>
-);
+NoItems.args = {
+  list: [],
+  isLoading: false,
+};
