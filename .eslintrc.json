@@ -41,7 +41,8 @@
     "react/no-unused-prop-types": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "warn",
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-console": ["warn", { "allow": ["warn", "error", "log"] }]
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }

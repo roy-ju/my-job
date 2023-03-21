@@ -9,7 +9,7 @@ const variants = {
 };
 
 const Container = styled.div<{ variant?: 'nego' | 'gray' | 'system' }>(({ variant = 'gray' }) => [
-  tw`inline-block min-w-0 px-4 py-2 rounded-lg text-b2 w-fit`,
+  tw`inline-block min-w-0 px-4 py-2 whitespace-pre-wrap rounded-lg text-b2 w-fit`,
   variants[variant],
 ]);
 

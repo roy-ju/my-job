@@ -4,11 +4,12 @@ import tw, { theme } from 'twin.macro';
 import { ChangeEventHandler, KeyboardEventHandler, useCallback, useState } from 'react';
 
 interface Props {
+  disabled?: boolean;
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
 }
 
-export default function ChatRoomTextField({ inputRef, onSendMessage }: Props) {
+export default function ChatRoomTextField({ disabled = false, inputRef, onSendMessage }: Props) {
   const [value, setValue] = useState('');
 
   const [focused, setFocused] = useState(false);
@@ -27,7 +28,7 @@ export default function ChatRoomTextField({ inputRef, onSendMessage }: Props) {
 
   const handleSendMessage = useCallback(() => {
     onSendMessage?.(value);
-    setValue(value);
+    setValue('');
   }, [value, onSendMessage]);
 
   const handleKeyDown = useCallback<KeyboardEventHandler<HTMLTextAreaElement>>(
@@ -48,9 +49,10 @@ export default function ChatRoomTextField({ inputRef, onSendMessage }: Props) {
   return (
     <TextField css={[tw`border items-end rounded-[20px]`, focused ? tw`border-gray-1000` : tw`border-gray-300`]}>
       <TextField.TextArea
+        disabled={disabled}
         value={value}
         ref={inputRef}
-        placeholder="메시지를 입력하세요"
+        placeholder={disabled ? '메시지를 입력할 수 없어요' : '메시지를 입력하세요'}
         tw="text-b2 leading-4 py-3 placeholder:text-gray-700 max-h-[106px]"
         onBlur={handleBlur}
         onFocus={handleFocus}
