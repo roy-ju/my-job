@@ -59,7 +59,7 @@ export default function ChatRoomListItem({
               <div tw="text-info leading-3.5 text-gray-700">{listingStatus}</div>
               <div tw="w-px h-2 bg-gray-300" />
               <div tw="text-info leading-3.5 text-gray-700">
-                <Moment format="YYYY년 M월 D일 HH:mm">{lastMessageTime}</Moment>
+                <Moment format="calendar">{lastMessageTime}</Moment>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { ClosablePanel } from '@/components/molecules';
+import { Panel } from '@/components/atoms';
 import { Listings } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import { memo, useCallback } from 'react';
@@ -10,10 +10,6 @@ interface Props {
 
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
-
-  const handleClose = useCallback(() => {
-    router.pop();
-  }, [router]);
 
   const handleClickListingDetail = useCallback(
     (id: number) => {
@@ -27,8 +23,8 @@ export default memo(({ panelWidth, depth }: Props) => {
   );
 
   return (
-    <ClosablePanel width={panelWidth} closable={depth === 2} onClickClose={handleClose}>
+    <Panel width={panelWidth}>
       <Listings onClickListingDetail={handleClickListingDetail} />
-    </ClosablePanel>
+    </Panel>
   );
 });

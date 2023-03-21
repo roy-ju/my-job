@@ -105,6 +105,36 @@ export default function useRouter(depth: number) {
   );
 
   /**
+   * 가장 오른쪽에 열려 있는 depth 를 닫는다.
+   */
+  const popLast = useCallback(() => {
+    const segments = router.asPath
+      .split('?')[0]
+      .split('/')
+      .filter((seg) => seg !== '');
+
+    segments.pop();
+
+    for (let i = 1; i < 6; i += 1) {
+      delete router.query[`depth${i}`];
+    }
+
+    const query: Record<string, string> = {
+      // ...router.query,
+      // ...options?.searchParams,
+    };
+
+    let path = '/';
+
+    segments.forEach((value, index) => {
+      path += `[depth${index + 1}]/`;
+      query[`depth${index + 1}`] = value;
+    });
+
+    router.replace({ pathname: path, query });
+  }, [router]);
+
+  /**
    * 오른쪽에 열려있는 모든 depth 들을 닫고 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replace = useCallback(
@@ -162,8 +192,10 @@ export default function useRouter(depth: number) {
 
   return useMemo(
     () => ({
+      depth: router.query.depth2 ? 2 : router.query.depth1 ? 1 : 0,
       push,
       pop,
+      popLast,
       popAll,
       replace,
       query: router.query,
@@ -171,6 +203,6 @@ export default function useRouter(depth: number) {
       pathname: router.pathname,
       isReady: router.isReady,
     }),
-    [push, pop, popAll, replace, router.query, router.asPath, router.pathname, router.isReady],
+    [push, pop, popAll, popLast, replace, router.query, router.asPath, router.pathname, router.isReady],
   );
 }

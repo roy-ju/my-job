@@ -1,7 +1,7 @@
-import { ClosablePanel } from '@/components/molecules';
+import { Panel } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import useChatRoom from './useChatRoom';
 
 interface Props {
@@ -17,27 +17,25 @@ export default memo(({ depth, panelWidth }: Props) => {
     agentDescription,
     agentOfficeName,
     chatMessages,
+    agentProfileImagePath,
     isLoading,
     isTextFieldDisabled,
     handleSendMessage,
   } = useChatRoom(Number(router.query.chatRoomID));
 
-  const handleClickClose = useCallback(() => {
-    router.pop();
-  }, [router]);
-
   return (
-    <ClosablePanel width={panelWidth} closable={depth === 2} onClickClose={handleClickClose}>
+    <Panel width={panelWidth}>
       <ChatRoom
         title={listingTitle ?? ''}
         agentName={agentName ?? ''}
         officeName={agentOfficeName ?? ''}
         agentDescription={agentDescription ?? ''}
+        agentProfileImagePath={agentProfileImagePath ?? ''}
         isLoading={isLoading}
         chatMessages={chatMessages}
         textFieldDisabled={isTextFieldDisabled}
         onSendMessage={handleSendMessage}
       />
-    </ClosablePanel>
+    </Panel>
   );
 });

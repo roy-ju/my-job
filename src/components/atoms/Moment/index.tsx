@@ -13,5 +13,7 @@ interface Props extends HTMLProps<HTMLSpanElement> {
 }
 
 export default React.memo(({ format, children, ...spanProps }: Props) => (
-  <span {...spanProps}>{moment(children).locale('ko').format(format)}</span>
+  <span {...spanProps}>
+    {format === 'calendar' ? moment(children).locale('ko').calendar() : moment(children).locale('ko').format(format)}
+  </span>
 ));

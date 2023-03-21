@@ -10,6 +10,7 @@ interface ChatRoomProps {
   agentName: string;
   officeName: string;
   agentDescription: string;
+  agentProfileImagePath: string;
   isLoading: boolean;
   chatMessages: IChatMessage[];
   textFieldDisabled?: boolean;
@@ -23,6 +24,7 @@ export default function ChatRoom({
   agentName,
   officeName,
   agentDescription,
+  agentProfileImagePath,
   chatMessages,
   textFieldDisabled = false,
   inputRef,
@@ -47,7 +49,12 @@ export default function ChatRoom({
           <Loading tw="text-center mt-10" />
         ) : (
           <div>
-            <ChatRoomAgentSummary agentName={agentName} officeName={officeName} agentDescription={agentDescription} />
+            <ChatRoomAgentSummary
+              agentName={agentName}
+              officeName={officeName}
+              agentDescription={agentDescription}
+              agentProfileImagePath={agentProfileImagePath}
+            />
             <div tw="flex flex-col gap-2 pt-8">
               {chatMessages.map((chat, index) => (
                 <ChatMessageWrapper

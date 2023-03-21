@@ -1,4 +1,3 @@
-import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { ChatMessage } from '@/components/organisms';
 import { ChatUserType } from '@/constants/enums';
 import { memo, useMemo } from 'react';
@@ -6,6 +5,7 @@ import { memo, useMemo } from 'react';
 export interface IChatMessage {
   id: number;
   chatUserType: ChatUserType;
+  profileImagePath?: string;
   name: string;
   message: string;
   sentTime: string;
@@ -46,7 +46,7 @@ export default memo(
     return (
       <div style={{ marginBottom: extraMarginBottom }}>
         <ChatMessage variant={variant}>
-          {shouldRenderAvatar && <ChatMessage.Avatar src={defaultAvatar} />}
+          {shouldRenderAvatar && <ChatMessage.Avatar src={chat.profileImagePath} />}
           {shouldRenderAvatar && <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>}
           <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>
           {shouldRenderSentTime && <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>}

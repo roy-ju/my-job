@@ -11,7 +11,13 @@ interface Props {
   children?: ReactNode;
 }
 
-function MapWrapper() {
+function MapWrapper({
+  pannelsVisible,
+  onTogglePanelsVisibility,
+}: {
+  pannelsVisible: boolean;
+  onTogglePanelsVisibility: () => void;
+}) {
   const {
     morphToCurrentLocation,
     zoomIn,
@@ -41,6 +47,8 @@ function MapWrapper() {
     ...props
   } = useMapLayout();
 
+  const { depth, popLast } = useRouter(0);
+
   return (
     <>
       <Layout.MapContainer
@@ -52,6 +60,8 @@ function MapWrapper() {
         centerAddress={centerAddress}
         mapToggleValue={mapToggleValue}
         listingCount={listingCount}
+        showClosePanelButton={depth > 1}
+        pannelsVisible={pannelsVisible}
         onClickCurrentLocation={morphToCurrentLocation}
         onClickZoomIn={zoomIn}
         onClickZoomOut={zoomOut}
@@ -63,6 +73,8 @@ function MapWrapper() {
         onChangeFilter={handleChangeFilter}
         onChangeMapToggleValue={handleChangeMapToggleValue}
         onChangePriceType={handleChangePriceType}
+        onClickClosePanel={popLast}
+        onTogglePannelsVisibility={onTogglePanelsVisibility}
       >
         <Map {...props}>
           <Markers
@@ -105,6 +117,7 @@ function MapWrapper() {
 export default function MapLayout({ children }: Props) {
   const router = useRouter(0);
   const [tabIndex, setTabIndex] = useState(0);
+  const [panelsVisible, setPanelsVisible] = useState(true);
 
   const handleChangeTabIndex = useCallback(
     (index: number) => {
@@ -128,6 +141,7 @@ export default function MapLayout({ children }: Props) {
           break;
       }
       setTabIndex(index);
+      setPanelsVisible(true);
     },
     [router],
   );
@@ -138,12 +152,14 @@ export default function MapLayout({ children }: Props) {
     }
   }, [router.pathname]);
 
+  const togglePanelsVisibility = useCallback(() => setPanelsVisible((prev) => !prev), []);
+
   return (
     <Layout tabIndex={tabIndex} onChangeTab={handleChangeTabIndex}>
-      <Layout.Panels>{children}</Layout.Panels>
+      <Layout.Panels visible={panelsVisible}>{children}</Layout.Panels>
       {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서
       분리된 컴포넌트로 사용한다. */}
-      <MapWrapper />
+      <MapWrapper pannelsVisible={panelsVisible} onTogglePanelsVisibility={togglePanelsVisibility} />
     </Layout>
   );
 }

@@ -1,4 +1,4 @@
-import { ClosablePanel } from '@/components/molecules';
+import { Panel } from '@/components/atoms';
 import { ChatRoomList as ChatRoomListTemplate } from '@/components/templates';
 import useChatRoomList from './useChatRoomList';
 
@@ -11,8 +11,8 @@ export default function ChatRoomList({ depth, panelWidth }: Props) {
   const { chatRoomList, isLoading, handleClickListItem } = useChatRoomList(depth);
 
   return (
-    <ClosablePanel width={panelWidth} closable={depth === 2}>
+    <Panel width={panelWidth}>
       <ChatRoomListTemplate list={chatRoomList} isLoading={isLoading} onClickListItem={handleClickListItem} />
-    </ClosablePanel>
+    </Panel>
   );
 }
