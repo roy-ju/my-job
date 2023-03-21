@@ -1,7 +1,5 @@
 name: Test Build
-on:
-  push:
-    branches: [test]
+on: workflow_dispatch
 env:
   AWS_REGION: ap-northeast-2
   ECR_REGISTRY: 430360552021.dkr.ecr.ap-northeast-2.amazonaws.com
@@ -10,6 +8,9 @@ env:
   TASK_DEFINITION_FAMILY: test-user-pc
   ECS_SERVICE_NAME: test-user-pc
   ECS_CLUSTER_NAME: negocio-client-test
+  NEGOCIO_REST_API_BASE_URL: https://api-test.negocio.kr
+  NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket-test.negocio.kr
+  NEGOCIO_APP_ENVIRONMENT: test
 jobs:
   build-image:
     name: Build Image
@@ -38,9 +39,9 @@ jobs:
           NEXT_PUBLIC_NCP_CLIENT_ID=${{ secrets.NCP_CLIENT_ID }} \n \
           NEXT_PUBLIC_KAKAO_JS_KEY=${{ secrets.KAKAO_JS_KEY }} \n \
           NEXT_PUBLIC_KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }} \n \
-          NEXT_PUBLIC_NEGOCIO_REST_API_BASE_URL=https://api-test.negocio.kr \n \
-          NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL=wss://websocket-test.negocio.kr \n \
-          NEXT_PUBLIC_APP_ENVIRONMENT=test \n \
+          NEXT_PUBLIC_NEGOCIO_REST_API_BASE_URL=${{ env.NEGOCIO_REST_API_BASE_URL }} \n \
+          NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL=${{ env.NEGOCIO_WEBSOCKET_BASE_URL }} \n \
+          NEXT_PUBLIC_APP_ENVIRONMENT=${{ env.NEGOCIO_APP_ENVIRONMENT }} \n \
           " > .env
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
