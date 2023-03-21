@@ -12,8 +12,8 @@ env:
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket-test.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: test
 jobs:
-  build-image:
-    name: Build Image
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,6 +34,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           echo -e " \
           NEXT_PUBLIC_NCP_CLIENT_ID=${{ secrets.NCP_CLIENT_ID }} \n \
@@ -43,9 +44,9 @@ jobs:
           NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL=${{ env.NEGOCIO_WEBSOCKET_BASE_URL }} \n \
           NEXT_PUBLIC_APP_ENVIRONMENT=${{ env.NEGOCIO_APP_ENVIRONMENT }} \n \
           " > .env
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:latest" >> $GITHUB_OUTPUT
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Download task definition
         run: |
