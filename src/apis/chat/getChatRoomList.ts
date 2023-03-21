@@ -11,6 +11,7 @@ export interface GetChatRoomListResponse {
         latest_message_time: string;
         agent_office_name: string;
         agent_profile_image_full_path: string;
+        agent_description: string;
         title: string;
         status: string;
         my_status: string;
