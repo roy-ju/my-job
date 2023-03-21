@@ -16,7 +16,7 @@ export default function useChatRoomList(depth: number) {
       unreadMessageCount: item.unread_message_count,
       profileImagePath: item.agent_profile_image_full_path,
       listingStatus: 'listingStatus',
-      agentDescription: 'agent description',
+      agentDescription: item.agent_description,
       chatRoomType: item.my_status2,
       active: true,
     }));
