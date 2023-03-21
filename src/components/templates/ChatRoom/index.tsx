@@ -50,12 +50,14 @@ export default function ChatRoom({
           <Loading tw="text-center mt-10" />
         ) : (
           <div>
-            <ChatRoomAgentSummary
-              agentName={agentName}
-              officeName={officeName}
-              agentDescription={agentDescription}
-              agentProfileImagePath={agentProfileImagePath}
-            />
+            {chatMessages.length > 0 && (
+              <ChatRoomAgentSummary
+                agentName={agentName}
+                officeName={officeName}
+                agentDescription={agentDescription}
+                agentProfileImagePath={agentProfileImagePath}
+              />
+            )}
             <div tw="flex flex-col gap-2 pt-8">
               {chatMessages.map((chat, index) => (
                 <ChatMessageWrapper
