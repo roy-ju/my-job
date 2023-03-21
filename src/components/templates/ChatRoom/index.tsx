@@ -2,6 +2,7 @@ import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomAgentSummary, ChatRoomDetailsAccordion, ChatRoomTextField } from '@/components/organisms';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { StaticImageData } from 'next/image';
 import { useRef } from 'react';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
 
@@ -10,7 +11,7 @@ interface ChatRoomProps {
   agentName: string;
   officeName: string;
   agentDescription: string;
-  agentProfileImagePath: string;
+  agentProfileImagePath: string | StaticImageData;
   isLoading: boolean;
   chatMessages: IChatMessage[];
   textFieldDisabled?: boolean;

@@ -11,17 +11,9 @@ export default {
   component: MapFilter,
 } as ComponentMeta<typeof MapFilter>;
 
-export const Uncontrolled: ComponentStory<typeof MapFilter> = () => (
-  <div tw="w-[380px]">
-    <MapFilter />
-  </div>
-);
+export const Uncontrolled: ComponentStory<typeof MapFilter> = () => <MapFilter />;
 
-export const ControlledWithArgs: ComponentStory<typeof MapFilter> = (args) => (
-  <div tw="w-[380px]">
-    <MapFilter {...args} />
-  </div>
-);
+export const ControlledWithArgs: ComponentStory<typeof MapFilter> = (args) => <MapFilter {...args} />;
 
 ControlledWithArgs.args = {
   filter: getDefaultFilterAptOftl(),
