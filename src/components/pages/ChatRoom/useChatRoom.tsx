@@ -25,9 +25,7 @@ export default function useChatRoom(chatRoomID: number) {
   }, [accessToken, chatRoomID]);
 
   const { connect, sendMessage } = useWebSocket(webSocketUrl, {
-    onOpen: () => {
-      console.log('socket connection opened');
-    },
+    onOpen: () => {},
     onClose: () => {
       setTextFieldDisabled(true);
     },
