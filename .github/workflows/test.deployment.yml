@@ -6,6 +6,10 @@ env:
   AWS_REGION: ap-northeast-2
   ECR_REGISTRY: 430360552021.dkr.ecr.ap-northeast-2.amazonaws.com
   ECR_REPOSITORY: test-user-pc
+  CONTAINER_NAME: test-user-pc
+  TASK_DEFINITION_FAMILY: test-user-pc
+  ECS_SERVICE_NAME: test-user-pc
+  ECS_CLUSTER_NAME: negocio-client-test
 jobs:
   build-image:
     name: Build Image
@@ -44,20 +48,20 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition test-user-pc --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_FAMILY }} --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: my-container
+          container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: test-user-pc
-          cluster: negocio-client-test
+          service: ${{ env.ECS_SERVICE_NAME }}
+          cluster: ${{ env.ECS_CLUSTER_NAME }}
           wait-for-service-stability: true
