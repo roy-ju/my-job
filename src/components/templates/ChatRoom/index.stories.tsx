@@ -14,6 +14,7 @@ export const Default: ComponentStory<typeof ChatRoom> = (args) => (
 );
 
 Default.args = {
+  textFieldDisabled: true,
   title: '공개용 주소 최대 22자 모두 노출 가능',
   officeName: '네고시오 공인중개사사무소',
   agentName: '김네고',

@@ -64,6 +64,8 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       onClose(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Closed);
     };
+
+    webSocketRef.current = webSocket;
   }, [socketUrl, onOpen, onClose, onMessage, onError]);
 
   const sendMessage = useCallback<WebSocket['send']>(
@@ -71,7 +73,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       if (readyState === WebSocketReadyState.Open) {
         webSocketRef.current?.send(message);
       } else {
-        throw new Error('WebSocket disconnected');
+        console.error(`Failed to send message, ${message}. WebSocket is not connected.`);
       }
     },
     [readyState],

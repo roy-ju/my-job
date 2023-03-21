@@ -22,6 +22,12 @@ export const Default: ComponentStory<typeof TextField> = () => (
   </TextField>
 );
 
+export const DefaultDisabled: ComponentStory<typeof TextField> = () => (
+  <TextField>
+    <TextField.Input disabled placeholder="주소 또는 단지명을 입력하세요" />
+  </TextField>
+);
+
 export const Placeholder: ComponentStory<typeof TextField> = () => (
   <TextField>
     <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
@@ -52,5 +58,11 @@ export const Trailing: ComponentStory<typeof TextField> = () => (
 export const Multiline: ComponentStory<typeof TextField> = () => (
   <TextField>
     <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
+  </TextField>
+);
+
+export const MultilineDisabled: ComponentStory<typeof TextField> = () => (
+  <TextField>
+    <TextField.TextArea disabled placeholder="주소 또는 단지명을 입력하세요" />
   </TextField>
 );

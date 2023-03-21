@@ -11,8 +11,16 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const { listingTitle, agentName, agentDescription, agentOfficeName, chatMessages, isLoading, handleSendMessage } =
-    useChatRoom(Number(router.query.chatRoomID));
+  const {
+    listingTitle,
+    agentName,
+    agentDescription,
+    agentOfficeName,
+    chatMessages,
+    isLoading,
+    isTextFieldDisabled,
+    handleSendMessage,
+  } = useChatRoom(Number(router.query.chatRoomID));
 
   const handleClickClose = useCallback(() => {
     router.pop();
@@ -27,6 +35,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         agentDescription={agentDescription ?? ''}
         isLoading={isLoading}
         chatMessages={chatMessages}
+        textFieldDisabled={isTextFieldDisabled}
         onSendMessage={handleSendMessage}
       />
     </ClosablePanel>

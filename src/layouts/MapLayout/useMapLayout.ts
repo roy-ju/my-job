@@ -240,7 +240,7 @@ export default function useMapLayout() {
                 _map.getZoom() + 2,
               );
             },
-          })),
+          })) ?? [],
         );
       } else if (res && mapBounds.mapLevel === 1) {
         let danjis = (res as MapSearchLevelOneResponse).danji_list;

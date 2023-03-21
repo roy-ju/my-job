@@ -12,6 +12,7 @@ interface ChatRoomProps {
   agentDescription: string;
   isLoading: boolean;
   chatMessages: IChatMessage[];
+  textFieldDisabled?: boolean;
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
 }
@@ -23,6 +24,7 @@ export default function ChatRoom({
   officeName,
   agentDescription,
   chatMessages,
+  textFieldDisabled = false,
   inputRef,
   onSendMessage,
 }: ChatRoomProps) {
@@ -60,7 +62,7 @@ export default function ChatRoom({
         )}
       </div>
       <div tw="px-5 pt-4 pb-10">
-        <ChatRoomTextField inputRef={inputRef} onSendMessage={onSendMessage} />
+        <ChatRoomTextField disabled={textFieldDisabled} inputRef={inputRef} onSendMessage={onSendMessage} />
       </div>
     </div>
   );
