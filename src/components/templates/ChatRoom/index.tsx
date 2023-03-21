@@ -44,7 +44,7 @@ export default function ChatRoom({
         <NavigationHeader.Title tw="text-b1">{title}</NavigationHeader.Title>
       </NavigationHeader>
       <ChatRoomDetailsAccordion />
-      <div tw="flex-1 min-h-0 overflow-scroll px-5 py-6 border-t border-gray-300" ref={listRef}>
+      <div tw="flex-1 min-h-0 overflow-y-scroll px-5 py-6 border-t border-gray-300" ref={listRef}>
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (
