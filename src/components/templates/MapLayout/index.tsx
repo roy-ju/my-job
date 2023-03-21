@@ -67,7 +67,7 @@ interface LayoutMapContainerProps {
   centerAddress?: string[];
   listingCount?: number;
   showClosePanelButton?: boolean;
-  pannelsVisible?: boolean;
+  panelsVisible?: boolean;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -81,7 +81,7 @@ interface LayoutMapContainerProps {
   onChangeMapToggleValue?: (value: number) => void;
   onChangePriceType?: (value: string) => void;
   onClickClosePanel?: () => void;
-  onTogglePannelsVisibility?: () => void;
+  onTogglepanelsVisibility?: () => void;
   children?: ReactNode;
 }
 
@@ -95,7 +95,7 @@ function LayoutMapContainer({
   mapToggleValue,
   listingCount,
   showClosePanelButton = false,
-  pannelsVisible = true,
+  panelsVisible = true,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
@@ -109,7 +109,7 @@ function LayoutMapContainer({
   onChangeMapToggleValue,
   onChangePriceType,
   onClickClosePanel,
-  onTogglePannelsVisibility,
+  onTogglepanelsVisibility,
   children,
 }: LayoutMapContainerProps) {
   return (
@@ -119,9 +119,9 @@ function LayoutMapContainer({
           variant="ghost"
           size="none"
           tw="flex-col w-10 h-10 bg-white shadow hover:bg-gray-300"
-          onClick={onTogglePannelsVisibility}
+          onClick={onTogglepanelsVisibility}
         >
-          <ChevronLeftIcon style={{ transform: pannelsVisible ? 'rotate(0deg)' : 'rotate(180deg)' }} />
+          <ChevronLeftIcon style={{ transform: panelsVisible ? 'rotate(0deg)' : 'rotate(180deg)' }} />
         </Button>
       </div>
 

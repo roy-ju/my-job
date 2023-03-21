@@ -12,10 +12,10 @@ interface Props {
 }
 
 function MapWrapper({
-  pannelsVisible,
+  panelsVisible,
   onTogglePanelsVisibility,
 }: {
-  pannelsVisible: boolean;
+  panelsVisible: boolean;
   onTogglePanelsVisibility: () => void;
 }) {
   const {
@@ -61,7 +61,7 @@ function MapWrapper({
         mapToggleValue={mapToggleValue}
         listingCount={listingCount}
         showClosePanelButton={depth > 1}
-        pannelsVisible={pannelsVisible}
+        panelsVisible={panelsVisible}
         onClickCurrentLocation={morphToCurrentLocation}
         onClickZoomIn={zoomIn}
         onClickZoomOut={zoomOut}
@@ -74,7 +74,7 @@ function MapWrapper({
         onChangeMapToggleValue={handleChangeMapToggleValue}
         onChangePriceType={handleChangePriceType}
         onClickClosePanel={popLast}
-        onTogglePannelsVisibility={onTogglePanelsVisibility}
+        onTogglepanelsVisibility={onTogglePanelsVisibility}
       >
         <Map {...props}>
           <Markers
@@ -159,7 +159,7 @@ export default function MapLayout({ children }: Props) {
       <Layout.Panels visible={panelsVisible}>{children}</Layout.Panels>
       {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서
       분리된 컴포넌트로 사용한다. */}
-      <MapWrapper pannelsVisible={panelsVisible} onTogglePanelsVisibility={togglePanelsVisibility} />
+      <MapWrapper panelsVisible={panelsVisible} onTogglePanelsVisibility={togglePanelsVisibility} />
     </Layout>
   );
 }
