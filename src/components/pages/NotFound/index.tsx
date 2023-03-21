@@ -1,4 +1,4 @@
-import { ClosablePanel } from '@/components/molecules';
+import { Panel } from '@/components/atoms';
 import { memo } from 'react';
 
 interface Props {
@@ -6,8 +6,8 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth, depth }: Props) => (
-  <ClosablePanel width={panelWidth} closable={depth === 2}>
+export default memo(({ panelWidth }: Props) => (
+  <Panel width={panelWidth}>
     <div />
-  </ClosablePanel>
+  </Panel>
 ));

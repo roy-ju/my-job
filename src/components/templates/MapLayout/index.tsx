@@ -19,6 +19,8 @@ import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoA
 import { Filter } from '@/components/organisms/MapFilter/types';
 import MapPositionBar from '@/components/organisms/MapPositionBar';
 import tw from 'twin.macro';
+import CloseIcon from '@/assets/icons/close.svg';
+import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 
 interface LayoutMainProps {
   children?: ReactNode;
@@ -47,11 +49,12 @@ function LayoutMain({ tabIndex, onChangeTab, children }: LayoutMainProps) {
 }
 
 interface LayoutPanelsProps {
+  visible?: boolean;
   children?: ReactNode;
 }
 
-function LayoutPanels({ children }: LayoutPanelsProps) {
-  return <div tw="flex flex-row h-full z-20">{children}</div>;
+function LayoutPanels({ visible = true, children }: LayoutPanelsProps) {
+  return <div css={[tw`z-20 flex flex-row h-full`, !visible && tw`hidden`]}>{children}</div>;
 }
 
 interface LayoutMapContainerProps {
@@ -63,6 +66,8 @@ interface LayoutMapContainerProps {
   filter?: Filter;
   centerAddress?: string[];
   listingCount?: number;
+  showClosePanelButton?: boolean;
+  pannelsVisible?: boolean;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -75,6 +80,8 @@ interface LayoutMapContainerProps {
   onChangeFilter?: (filter: Partial<Filter>) => void;
   onChangeMapToggleValue?: (value: number) => void;
   onChangePriceType?: (value: string) => void;
+  onClickClosePanel?: () => void;
+  onTogglePannelsVisibility?: () => void;
   children?: ReactNode;
 }
 
@@ -87,6 +94,8 @@ function LayoutMapContainer({
   centerAddress,
   mapToggleValue,
   listingCount,
+  showClosePanelButton = false,
+  pannelsVisible = true,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
@@ -99,13 +108,37 @@ function LayoutMapContainer({
   onChangeFilter,
   onChangeMapToggleValue,
   onChangePriceType,
+  onClickClosePanel,
+  onTogglePannelsVisibility,
   children,
 }: LayoutMapContainerProps) {
   return (
     <div id="map-container" tw="relative flex-1">
-      <div tw="absolute left-5 top-5 z-10 w-[380px] flex flex-col gap-2">
-        <MapSearchTextField onSubmit={onMapSearchSubmit} />
-        <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
+      <div tw="absolute left-5 bottom-5 z-10">
+        <Button
+          variant="ghost"
+          size="none"
+          tw="flex-col w-10 h-10 bg-white shadow hover:bg-gray-300"
+          onClick={onTogglePannelsVisibility}
+        >
+          <ChevronLeftIcon style={{ transform: pannelsVisible ? 'rotate(0deg)' : 'rotate(180deg)' }} />
+        </Button>
+      </div>
+
+      <div tw="absolute top-5 left-0 z-10 flex">
+        {showClosePanelButton && (
+          <button
+            tw="w-10 h-10 flex items-center justify-center bg-nego p-2 text-white rounded-tr-lg rounded-br-lg"
+            type="button"
+            onClick={onClickClosePanel}
+          >
+            <CloseIcon />
+          </button>
+        )}
+        <div tw="flex flex-col gap-2 w-[380px] ml-5">
+          <MapSearchTextField onSubmit={onMapSearchSubmit} />
+          <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
+        </div>
       </div>
 
       {filter?.realestateTypeGroup === 'apt,oftl' && (

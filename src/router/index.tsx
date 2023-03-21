@@ -39,7 +39,7 @@ export default function Router({ route, query, depth }: Props) {
       );
     }
     case 'chatRoom': {
-      return <ChatRoom depth={depth} {...commonProps} />;
+      return <ChatRoom key={query.chatRoomID as string} depth={depth} {...commonProps} />;
     }
     case 'chatRoomList': {
       return <ChatRoomList depth={depth} {...commonProps} />;

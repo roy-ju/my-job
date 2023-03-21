@@ -1,4 +1,4 @@
-import { ClosablePanel } from '@/components/molecules';
+import { Panel } from '@/components/atoms';
 import { Developer as DeveloperTemplate } from '@/components/templates';
 import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
@@ -10,7 +10,7 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth, depth }: Props) => {
+export default memo(({ panelWidth }: Props) => {
   const { mutateUser } = useAuth();
   const [jwt, setJwt] = useLocalStorage(Keys.ACCESS_TOKEN, '');
 
@@ -23,8 +23,8 @@ export default memo(({ panelWidth, depth }: Props) => {
   );
 
   return (
-    <ClosablePanel width={panelWidth} closable={depth === 2}>
+    <Panel width={panelWidth}>
       <DeveloperTemplate defaultJwt={jwt} onApplyChangeJwt={handleApplyChangeJwt} />
-    </ClosablePanel>
+    </Panel>
   );
 });

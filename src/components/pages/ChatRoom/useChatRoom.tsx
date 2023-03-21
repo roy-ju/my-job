@@ -1,9 +1,8 @@
 import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
 import { IChatMessage } from '@/components/templates/ChatRoom/ChatMessageWrapper';
-import { ChatUserType } from '@/constants/enums';
 import Keys from '@/constants/storage_keys';
 import { useLocalStorage } from '@/hooks/utils';
-import useWebSocket, { WebSocketReadyState } from '@/hooks/utils/useWebSocket';
+import useWebSocket from '@/hooks/utils/useWebSocket';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface WebSocketMessage {
@@ -17,6 +16,7 @@ export default function useChatRoom(chatRoomID: number) {
   const { data, isLoading } = useAPI_ChatRoomDetail(chatRoomID);
   const [accessToken] = useLocalStorage(Keys.ACCESS_TOKEN, '');
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
+  const [textFieldDisabled, setTextFieldDisabled] = useState(false);
 
   const webSocketUrl = useMemo(() => {
     if (!chatRoomID || !accessToken) return '';
@@ -24,28 +24,31 @@ export default function useChatRoom(chatRoomID: number) {
     return `${baseURL}/chat/ws/${chatRoomID}/${accessToken}`;
   }, [accessToken, chatRoomID]);
 
-  const { connect, sendMessage, readyState } = useWebSocket(webSocketUrl, {
+  const { connect, sendMessage } = useWebSocket(webSocketUrl, {
     onOpen: () => {
-      console.log('opened!');
+      console.log('socket connection opened');
     },
     onClose: () => {
-      console.log('closed!');
+      setTextFieldDisabled(true);
     },
-    onError: () => {
-      console.log('error!');
+    onError: (event) => {
+      console.error(event);
     },
     onMessage: (event) => {
       const chat = JSON.parse(event.data) as WebSocketMessage;
-      setChatMessages((prev) => [
-        ...prev,
-        {
-          id: chat.chat_id,
-          name: chat.chat_user_type === ChatUserType.Agent ? '공인중개사' : '',
-          message: chat.message,
-          chatUserType: chat.chat_user_type,
-          sentTime: new Date().toISOString(),
-        },
-      ]);
+      if (chat.chat_id && chat.message) {
+        setChatMessages((prev) => [
+          ...prev,
+          {
+            id: chat.chat_id,
+            name: `공인중개사 ${data?.agent_name}`,
+            profileImagePath: data?.agent_profile_image_full_path,
+            message: chat.message,
+            chatUserType: chat.chat_user_type,
+            sentTime: new Date().toISOString(),
+          },
+        ]);
+      }
     },
   });
 
@@ -55,6 +58,7 @@ export default function useChatRoom(chatRoomID: number) {
         data?.list?.map((chat) => ({
           id: chat.id,
           name: `공인중개사 ${data?.agent_name}`,
+          profileImagePath: data?.agent_profile_image_full_path,
           message: chat.message,
           chatUserType: chat.chat_user_type,
           sentTime: chat.created_time,
@@ -83,7 +87,8 @@ export default function useChatRoom(chatRoomID: number) {
   );
 
   return {
-    isTextFieldDisabled: readyState === WebSocketReadyState.Closed,
+    isTextFieldDisabled: textFieldDisabled,
+    agentProfileImagePath: data?.agent_profile_image_full_path,
     listingTitle: data?.listing_title,
     agentName: data?.agent_name,
     agentOfficeName: data?.agent_office_name,

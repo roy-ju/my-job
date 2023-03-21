@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import useCallbackRef from './useCallbackRef';
+import useLatest from './useLatest';
 import useUnmount from './useUnmount';
 
 export enum WebSocketReadyState {
@@ -17,10 +17,10 @@ export interface UseWebSocketOptions {
 }
 
 export default function useWebSocket(socketUrl: string, options: UseWebSocketOptions = {}) {
-  const onOpen = useCallbackRef(options.onOpen);
-  const onClose = useCallbackRef(options.onClose);
-  const onMessage = useCallbackRef(options.onMessage);
-  const onError = useCallbackRef(options.onError);
+  const onOpen = useLatest(options.onOpen);
+  const onClose = useLatest(options.onClose);
+  const onMessage = useLatest(options.onMessage);
+  const onError = useLatest(options.onError);
 
   const webSocketRef = useRef<WebSocket>();
   const unmountedRef = useRef(false);
@@ -38,7 +38,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       if (unmountedRef.current) {
         return;
       }
-      onError(event, webSocket);
+      onError.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Closed);
     };
 
@@ -46,7 +46,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       if (unmountedRef.current) {
         return;
       }
-      onOpen(event, webSocket);
+      onOpen.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Open);
     };
 
@@ -54,19 +54,19 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       if (unmountedRef.current) {
         return;
       }
-      onMessage(event, webSocket);
+      onMessage.current?.(event, webSocket);
     };
 
     webSocket.onclose = (event) => {
       if (unmountedRef.current) {
         return;
       }
-      onClose(event, webSocket);
+      onClose.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Closed);
     };
 
     webSocketRef.current = webSocket;
-  }, [socketUrl, onOpen, onClose, onMessage, onError]);
+  }, [socketUrl, onOpen, onError, onMessage, onClose]);
 
   const sendMessage = useCallback<WebSocket['send']>(
     (message) => {

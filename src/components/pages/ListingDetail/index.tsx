@@ -1,4 +1,4 @@
-import { ClosablePanel } from '@/components/molecules';
+import { Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import useMap from '@/states/map';
@@ -13,10 +13,6 @@ interface Props {
 export default memo(({ panelWidth, depth, listingID }: Props) => {
   const router = useRouter(depth);
   const map = useMap();
-
-  const handleClickClose = useCallback(() => {
-    router.pop();
-  }, [router]);
 
   const handleClickChatRoom = useCallback(() => {
     router.push('chatRoom');
@@ -56,8 +52,8 @@ export default memo(({ panelWidth, depth, listingID }: Props) => {
   }, [listingID, map]);
 
   return (
-    <ClosablePanel width={panelWidth} closable={depth === 2} onClickClose={handleClickClose}>
+    <Panel width={panelWidth}>
       <ListingDetail listingID={listingID} onClickChatRoom={handleClickChatRoom} onClickReport={handleClickReport} />
-    </ClosablePanel>
+    </Panel>
   );
 });
