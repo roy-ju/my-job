@@ -1,6 +1,6 @@
 import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { ChatRoomAgentSummary, ChatRoomDetailsAccordion, ChatRoomTextField } from '@/components/organisms';
+import { ChatRoomAgentSummary, ChatRoomTextField } from '@/components/organisms';
 import useLatest from '@/hooks/utils/useLatest';
 import { StaticImageData } from 'next/image';
 import { useCallback } from 'react';
@@ -37,6 +37,7 @@ export default function ChatRoom({
   const renderItem = useCallback(
     (index: number, chatMessage: IChatMessage) => (
       <ChatMessageWrapper
+        key={chatMessage.id}
         chat={chatMessage}
         prevChat={messagesRef.current?.[index - 1]}
         nextChat={messagesRef.current?.[index + 1]}
@@ -47,7 +48,7 @@ export default function ChatRoom({
 
   const renderHeader = useCallback(
     () => (
-      <div tw="pt-6 pb-8 px-5">
+      <div tw="pt-6 pb-8 px-5" key="chatRoomAgentSummary">
         <ChatRoomAgentSummary
           agentDescription={agentDescription}
           agentName={agentName}
@@ -64,7 +65,6 @@ export default function ChatRoom({
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1">{title}</NavigationHeader.Title>
       </NavigationHeader>
-      <ChatRoomDetailsAccordion />
       <div tw="flex-1 min-h-0 overflow-y-hidden border-t border-gray-300">
         {isLoading || chatMessages.length < 1 ? (
           <Loading tw="text-center mt-10" />
