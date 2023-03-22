@@ -1,5 +1,4 @@
 /* eslint-disable react/no-danger */
-import { initializeKakaoSDK } from '@/lib/kakao';
 import { extractCritical } from '@emotion/server';
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document';
 import Script from 'next/script';
@@ -34,12 +33,6 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
             as="style"
             crossOrigin="anonymous"
             href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css"
-          />
-          <Script
-            src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-            integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
-            crossOrigin="anonymous"
-            onLoad={initializeKakaoSDK}
           />
           <Script
             strategy="beforeInteractive"

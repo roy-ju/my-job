@@ -1,10 +1,5 @@
-export default function loginWithKakao(returnURL: string) {
+export default function loginWithKakao() {
   if (typeof Kakao !== 'undefined') {
-    Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3000/callback/kakaoLogin',
-      state: JSON.stringify({
-        returnURL,
-      }),
-    });
+    Kakao.Auth.login();
   }
 }
