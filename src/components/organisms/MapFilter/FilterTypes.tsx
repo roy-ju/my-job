@@ -136,12 +136,12 @@ export default function FilterTypes({
   const [isOverflown, setIsOverflown] = useState(false);
 
   const filterTypeProps = useMemo(() => {
-    const list: { [key: string]: { label: string; isSelected: boolean } } = {};
+    const list: { [key: string]: { label: string; selected: boolean } } = {};
     filterTypes.forEach((filterType) => {
-      const [label, isSelected] = getFilterTypeProps(filterType, filter);
+      const [label, selected] = getFilterTypeProps(filterType, filter);
       list[filterType] = {
         label,
-        isSelected,
+        selected,
       };
     });
     return list;
@@ -150,7 +150,7 @@ export default function FilterTypes({
   const isFilterEnabled = useMemo(
     () =>
       Object.entries(filterTypeProps)
-        .map(([_, value]) => value.isSelected)
+        .map(([_, value]) => value.selected)
         .filter((item) => item).length > 0,
     [filterTypeProps],
   );
@@ -172,14 +172,14 @@ export default function FilterTypes({
         ref={setFilterContainer}
         css={[tw`flex items-center gap-2 p-4 overflow-x-hidden`, isExpanded && tw`flex-wrap`]}
       >
-        <FilterButton isSelected={isFilterEnabled} tw="p-2" onClick={() => onClickFilterType('all')}>
+        <FilterButton selected={isFilterEnabled} tw="p-2" onClick={() => onClickFilterType('all')}>
           <FilterIcon />
         </FilterButton>
         {filterTypes.map((filterType) => (
           <FilterButton
             key={filterType}
             onClick={() => onClickFilterType(filterType)}
-            isSelected={filterTypeProps[filterType].isSelected}
+            selected={filterTypeProps[filterType].selected}
           >
             {filterTypeProps[filterType].label}
           </FilterButton>

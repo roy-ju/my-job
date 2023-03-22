@@ -1,6 +1,7 @@
 import { ChatUserType } from '@/constants/enums';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
+import { Panel } from '@/components/atoms';
 import ChatRoom from '.';
 
 export default {
@@ -9,9 +10,9 @@ export default {
 } as ComponentMeta<typeof ChatRoom>;
 
 export const Default: ComponentStory<typeof ChatRoom> = (args) => (
-  <div tw="w-[380px] h-full bg-white">
+  <Panel>
     <ChatRoom {...args} />
-  </div>
+  </Panel>
 );
 
 Default.args = {
@@ -36,9 +37,9 @@ Default.args = {
 };
 
 export const ThousandsMessages: ComponentStory<typeof ChatRoom> = (args) => (
-  <div tw="w-[380px] h-full bg-white">
+  <Panel>
     <ChatRoom {...args} />
-  </div>
+  </Panel>
 );
 
 ThousandsMessages.args = {

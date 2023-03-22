@@ -8,9 +8,7 @@ export default {
   component: Button,
 } as ComponentMeta<typeof Button>;
 
-export const Default: ComponentStory<typeof Button> = (args) => (
-  <Button {...args}>네고시오</Button>
-);
+export const Default: ComponentStory<typeof Button> = (args) => <Button {...args}>네고시오</Button>;
 
 Default.args = {
   variant: 'primary',
@@ -76,14 +74,14 @@ export const LoadingButton = () => (
 
 export const SelectedButton = () => (
   <div tw="flex gap-1">
-    <Button isSelected>primary</Button>
-    <Button isSelected variant="secondary">
+    <Button selected>primary</Button>
+    <Button selected variant="secondary">
       secondary
     </Button>
-    <Button isSelected variant="gray">
+    <Button selected variant="gray">
       gray
     </Button>
-    <Button isSelected variant="outlined">
+    <Button selected variant="outlined">
       outlined
     </Button>
   </div>
@@ -92,8 +90,6 @@ export const SelectedButton = () => (
 export const CustomButton = () => (
   <div tw="flex gap-1">
     <Button tw="bg-red-200">Custom Button</Button>
-    <Button tw="w-40 h-20 border-4 rounded-full shadow-2xl border-nego-400">
-      Custom Button
-    </Button>
+    <Button tw="w-40 h-20 border-4 rounded-full shadow-2xl border-nego-400">Custom Button</Button>
   </div>
 );

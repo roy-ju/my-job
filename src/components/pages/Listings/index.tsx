@@ -1,6 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { Listings } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 
 interface Props {
@@ -13,7 +14,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const handleClickListingDetail = useCallback(
     (id: number) => {
-      router.push('listingDetail', {
+      router.push(Routes.ListingDetail, {
         searchParams: {
           listingID: id,
         },

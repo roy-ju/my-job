@@ -54,6 +54,7 @@ module.exports = {
       },
       lineHeight: {
         3.5: '0.875rem',
+        4.5: '1.125rem',
       },
       colors: {
         gray: {

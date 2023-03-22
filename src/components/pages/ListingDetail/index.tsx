@@ -1,6 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import useMap from '@/states/map';
 import { memo, useCallback, useEffect } from 'react';
 
@@ -15,12 +16,10 @@ export default memo(({ panelWidth, depth, listingID }: Props) => {
   const map = useMap();
 
   const handleClickChatRoom = useCallback(() => {
-    router.push('chatRoom');
+    router.push(Routes.ChatRoom);
   }, [router]);
 
-  const handleClickReport = useCallback(() => {
-    router.push('reportListing');
-  }, [router]);
+  const handleClickReport = useCallback(() => {}, []);
 
   useEffect(() => {
     if (!listingID || !map) return;

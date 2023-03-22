@@ -6,14 +6,14 @@ import { useControlled } from '@/hooks/utils';
 import { useCallback } from 'react';
 import { MinHousehold } from './types';
 
-const StyledButton = styled((props: ButtonProps) => <ButtonBase variant="gray" {...props} />)(
-  () => [tw`flex h-8 gap-2 py-0 pl-3 pr-4 text-b2`],
-);
+const StyledButton = styled((props: ButtonProps) => <ButtonBase variant="gray" {...props} />)(() => [
+  tw`flex h-8 gap-2 py-0 pl-3 pr-4 text-b2`,
+]);
 
 function Button(props: ButtonProps) {
   return (
     <StyledButton {...props}>
-      <CheckIcon color={props.isSelected ? theme`colors.white` : theme`colors.gray.600`} />
+      <CheckIcon color={props.selected ? theme`colors.white` : theme`colors.gray.600`} />
       {props.children}
     </StyledButton>
   );
@@ -42,22 +42,22 @@ export default function HouseholdFilter({ value: valueProp, onChange }: Househol
     <div tw="py-5">
       <p tw="text-b1 text-gray-1000 font-bold mb-5">세대수</p>
       <div tw="flex flex-wrap gap-2">
-        <Button isSelected={value === '0'} onClick={() => handleChangeValue('0')}>
+        <Button selected={value === '0'} onClick={() => handleChangeValue('0')}>
           전체
         </Button>
-        <Button isSelected={value === '20'} onClick={() => handleChangeValue('20')}>
+        <Button selected={value === '20'} onClick={() => handleChangeValue('20')}>
           20세대~
         </Button>
-        <Button isSelected={value === '100'} onClick={() => handleChangeValue('100')}>
+        <Button selected={value === '100'} onClick={() => handleChangeValue('100')}>
           100세대~
         </Button>
-        <Button isSelected={value === '300'} onClick={() => handleChangeValue('300')}>
+        <Button selected={value === '300'} onClick={() => handleChangeValue('300')}>
           300세대~
         </Button>
-        <Button isSelected={value === '500'} onClick={() => handleChangeValue('500')}>
+        <Button selected={value === '500'} onClick={() => handleChangeValue('500')}>
           500세대~
         </Button>
-        <Button isSelected={value === '1000'} onClick={() => handleChangeValue('1000')}>
+        <Button selected={value === '1000'} onClick={() => handleChangeValue('1000')}>
           1,000세대~
         </Button>
       </div>

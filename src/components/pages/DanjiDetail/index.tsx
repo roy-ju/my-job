@@ -1,6 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { DanjiDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 
 interface Props {
@@ -12,7 +13,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
 
   const handleCLickListingDetail = useCallback(() => {
-    router.push('listingDetail', {
+    router.push(Routes.ListingDetail, {
       searchParams: {
         listingID: 1,
       },

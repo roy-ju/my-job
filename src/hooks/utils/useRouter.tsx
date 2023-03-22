@@ -14,7 +14,7 @@ export default function useRouter(depth: number) {
    * 2 depth 에서 (최대 depth) 에서 푸쉬하는 경우
    * 이전 depth 를 밀어내고 새로운 depth 를 추가한다.
    * 2 depth 가 열려 있는 상태에서 1 depth 가 새로운 depth 푸쉬하려고 할때는
-   * 기존에 있느 2 depth 를 그 새로운 depth 로 대체한다.
+   * 기존에 있는 2 depth 를 그 새로운 depth 로 대체한다.
    */
   const push = useCallback(
     (pathname: string, options?: NavigationOptions) => {

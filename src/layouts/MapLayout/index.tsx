@@ -4,6 +4,7 @@ import { Map } from '@/lib/navermap';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -130,12 +131,13 @@ export default function MapLayout({ children }: Props) {
         case 2: // 나의거래
           break;
         case 3: // 문의목록
-          router.replace('chatRoomList');
+          router.replace(Routes.ChatRoomList);
           break;
         case 4: // My네고
+          router.replace(Routes.My);
           break;
         case 5: // 개발자설정
-          router.replace('developer');
+          router.replace(Routes.Developer);
           break;
         default:
           break;
