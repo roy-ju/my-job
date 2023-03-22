@@ -56,6 +56,7 @@ function AccordionDetails({ children, ...others }: HTMLProps<HTMLDivElement>) {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
+          transition={{ type: 'just' }}
           tw="overflow-hidden"
         >
           <div {...others}>{children}</div>
