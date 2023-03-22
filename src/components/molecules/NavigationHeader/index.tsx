@@ -11,9 +11,12 @@ function BackButton({ onClick }: { onClick?: () => void }) {
   );
 }
 
+const Button = tw.button`relative h-full`;
+
 const Title = tw.div`text-h3 text-gray-1000 font-bold`;
 
 export default Object.assign(NavigationHeader, {
   BackButton,
   Title,
+  Button,
 });

@@ -1,5 +1,6 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
+import { Panel } from '@/components/atoms';
 import ChatRoomList from '.';
 
 const mock = [
@@ -107,9 +108,9 @@ export default {
 } as ComponentMeta<typeof ChatRoomList>;
 
 export const Default: ComponentStory<typeof ChatRoomList> = (args) => (
-  <div tw="w-[380px] h-full bg-white">
+  <Panel>
     <ChatRoomList {...args} />
-  </div>
+  </Panel>
 );
 
 Default.args = {
@@ -118,9 +119,9 @@ Default.args = {
 };
 
 export const NoItems: ComponentStory<typeof ChatRoomList> = (args) => (
-  <div tw="w-[380px] h-full bg-white">
+  <Panel>
     <ChatRoomList {...args} />
-  </div>
+  </Panel>
 );
 
 NoItems.args = {

@@ -1,3 +1,4 @@
+import { Panel } from '@/components/atoms';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import Developer from '.';
 
@@ -7,7 +8,7 @@ export default {
 } as ComponentMeta<typeof Developer>;
 
 export const Default: ComponentStory<typeof Developer> = () => (
-  <div tw="w-[380px] h-full bg-white">
+  <Panel>
     <Developer />
-  </div>
+  </Panel>
 );

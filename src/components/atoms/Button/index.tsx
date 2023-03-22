@@ -46,7 +46,7 @@ export interface ButtonProps {
   /** 로딩 여부 */
   isLoading?: boolean;
   /** 선택되었는지 여부 */
-  isSelected?: boolean;
+  selected?: boolean;
 }
 
 const ButtonRoot = styled.button<ButtonProps>`
@@ -55,8 +55,7 @@ const ButtonRoot = styled.button<ButtonProps>`
   ${({ size }) => size && sizes[size]}
   ${({ disabled }) => disabled && disabledStyle}
   ${({ isLoading }) => isLoading && tw`pointer-events-none`}
-  ${({ isSelected, variant }) =>
-    isSelected && variant && selectedStyles[variant]}
+  ${({ selected, variant }) => selected && variant && selectedStyles[variant]}
 `;
 
 export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
@@ -69,7 +68,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
     size = 'big',
     disabled = false,
     isLoading = false,
-    isSelected = false,
+    selected = false,
     ...others
   } = resolvedProps;
 
@@ -82,7 +81,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
       variant={variant}
       size={size}
       isLoading={isLoading}
-      isSelected={isSelected}
+      selected={selected}
       {...others}
     >
       {isLoading && (

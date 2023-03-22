@@ -1,5 +1,6 @@
 import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import { useCallback, useMemo } from 'react';
 
 export default function useChatRoomList(depth: number) {
@@ -24,7 +25,7 @@ export default function useChatRoomList(depth: number) {
 
   const handleClickListItem = useCallback(
     (id: number) => {
-      router.push('chatRoom', { searchParams: { chatRoomID: id } });
+      router.push(Routes.ChatRoom, { searchParams: { chatRoomID: id } });
     },
     [router],
   );

@@ -78,7 +78,7 @@ const FiltersContainer = styled.div`
 
 const RealestateTypeGroupTabButton = styled(({ size = 'bigger', variant = 'ghost', ...props }: ButtonProps) => (
   <Button size={size} variant={variant} {...props} />
-))(({ isSelected }) => [tw`px-2 font-bold text-gray-600 text-b1`, isSelected && tw`text-gray-1000`]);
+))(({ selected }) => [tw`px-2 font-bold text-gray-600 text-b1`, selected && tw`text-gray-1000`]);
 
 const Separator = tw.div`w-px h-2 bg-gray-300 mx-2`;
 
@@ -325,21 +325,21 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
     <div tw="bg-white shadow rounded-lg overflow-hidden">
       <div tw="flex items-center px-2">
         <RealestateTypeGroupTabButton
-          isSelected={filter.realestateTypeGroup === 'apt,oftl'}
+          selected={filter.realestateTypeGroup === 'apt,oftl'}
           onClick={() => handleChangeRealestateTypeGroup('apt,oftl')}
         >
           아파트 · 오피스텔
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
-          isSelected={filter.realestateTypeGroup === 'villa,dandok'}
+          selected={filter.realestateTypeGroup === 'villa,dandok'}
           onClick={() => handleChangeRealestateTypeGroup('villa,dandok')}
         >
           빌라 · 주택
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
-          isSelected={filter.realestateTypeGroup === 'one,two'}
+          selected={filter.realestateTypeGroup === 'one,two'}
           onClick={() => handleChangeRealestateTypeGroup('one,two')}
         >
           원룸 · 투룸
