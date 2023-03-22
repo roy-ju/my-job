@@ -37,15 +37,15 @@ export default memo(
       return false;
     }, [nextChat, chat]);
 
-    const extraMarginBottom = useMemo(() => {
+    const extraPaddingBottom = useMemo(() => {
       if (nextChat && nextChat.chatUserType !== chat.chatUserType) {
-        return '16px';
+        return '24px';
       }
-      return '0px';
+      return '8px';
     }, [nextChat, chat]);
 
     return (
-      <div style={{ marginBottom: extraMarginBottom }}>
+      <div tw="px-5" style={{ paddingBottom: extraPaddingBottom }}>
         <ChatMessage variant={variant}>
           {shouldRenderAvatar && <ChatMessage.Avatar src={chat.profileImagePath} />}
           {shouldRenderAvatar && <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>}
