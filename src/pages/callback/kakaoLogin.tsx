@@ -10,9 +10,7 @@ const Page: NextPage = () => {
     if (code && state) {
       const parsedState = JSON.parse(state as string);
       const returnURL = parsedState.returnURL as string;
-      if (returnURL) {
-        setTimeout(() => router.back(), 1000);
-      }
+      console.log(returnURL);
     }
   }, [router]);
 
