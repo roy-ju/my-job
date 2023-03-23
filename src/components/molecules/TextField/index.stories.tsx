@@ -17,28 +17,141 @@ export default {
 } as ComponentMeta<typeof TextField>;
 
 export const Default: ComponentStory<typeof TextField> = () => (
-  <TextField>
-    <TextField.Input />
-  </TextField>
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Input />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input />
+    </TextField>
+  </div>
+);
+
+export const Sizes: ComponentStory<typeof TextField> = () => (
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Input />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input />
+    </TextField>
+    <TextField>
+      <TextField.Input placeholder="플레이스홀더" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input placeholder="플레이스홀더" />
+    </TextField>
+    <TextField>
+      <TextField.Input label="레이블" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input label="레이블" />
+    </TextField>
+    <TextField size="medium">
+      <TextField.Input />
+    </TextField>
+    <TextField variant="outlined" size="medium">
+      <TextField.Input />
+    </TextField>
+    <TextField size="medium">
+      <TextField.Input placeholder="플레이스홀더" />
+    </TextField>
+    <TextField variant="outlined" size="medium">
+      <TextField.Input placeholder="플레이스홀더" />
+    </TextField>
+    <TextField size="medium">
+      <TextField.Input label="레이블" />
+    </TextField>
+    <TextField variant="outlined" size="medium">
+      <TextField.Input label="레이블" />
+    </TextField>
+  </div>
 );
 
 export const DefaultDisabled: ComponentStory<typeof TextField> = () => (
-  <TextField>
-    <TextField.Input disabled placeholder="주소 또는 단지명을 입력하세요" />
-  </TextField>
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Input disabled />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input disabled />
+    </TextField>
+    <TextField>
+      <TextField.Input disabled value="기흥더샵프라임뷰" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input disabled value="기흥더샵프라임뷰" />
+    </TextField>
+  </div>
+);
+
+export const Label: ComponentStory<typeof TextField> = () => (
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Input label="단지명" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input label="단지명" />
+    </TextField>
+    <TextField>
+      <TextField.Input label="단지명" value="기흥더샵프라임뷰" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input label="단지명" value="기흥더샵프라임뷰" />
+    </TextField>
+  </div>
+);
+
+export const LabelDisabled: ComponentStory<typeof TextField> = () => (
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Input disabled label="단지명" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input disabled label="단지명" />
+    </TextField>
+    <TextField>
+      <TextField.Input disabled label="단지명" value="기흥더샵프라임뷰" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input disabled label="단지명" value="기흥더샵프라임뷰" />
+    </TextField>
+  </div>
 );
 
 export const Placeholder: ComponentStory<typeof TextField> = () => (
-  <TextField>
-    <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
-  </TextField>
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+  </div>
+);
+
+export const PlaceholderDisabled: ComponentStory<typeof TextField> = () => (
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Input placeholder="주소 또는 단지명을 입력하세요" disabled />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.Input placeholder="주소 또는 단지명을 입력하세요" disabled />
+    </TextField>
+  </div>
 );
 
 export const Leading: ComponentStory<typeof TextField> = () => (
-  <TextField>
-    <TextField.Leading>Leading</TextField.Leading>
-    <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
-  </TextField>
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.Leading>Leading</TextField.Leading>
+      <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+    <TextField>
+      <TextField.Leading>Leading</TextField.Leading>
+      <TextField.Input label="주소" />
+    </TextField>
+  </div>
 );
 
 export const Trailing: ComponentStory<typeof TextField> = () => (
@@ -55,10 +168,43 @@ export const Trailing: ComponentStory<typeof TextField> = () => (
   </TextField>
 );
 
+export const Error: ComponentStory<typeof TextField> = () => (
+  <div tw="flex flex-col gap-2">
+    <TextField hasError>
+      <TextField.Input placeholder="단지명" />
+    </TextField>
+    <TextField hasError variant="outlined">
+      <TextField.Input label="단지명" />
+    </TextField>
+  </div>
+);
+
 export const Multiline: ComponentStory<typeof TextField> = () => (
-  <TextField>
-    <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
-  </TextField>
+  <div tw="flex flex-col gap-2">
+    <TextField>
+      <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+    <TextField size="medium">
+      <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+    <TextField variant="outlined" size="medium">
+      <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+  </div>
+);
+
+export const MultilineError: ComponentStory<typeof TextField> = () => (
+  <div tw="flex flex-col gap-2">
+    <TextField hasError>
+      <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+    <TextField hasError variant="outlined">
+      <TextField.TextArea placeholder="주소 또는 단지명을 입력하세요" />
+    </TextField>
+  </div>
 );
 
 export const MultilineDisabled: ComponentStory<typeof TextField> = () => (

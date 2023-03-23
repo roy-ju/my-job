@@ -24,9 +24,8 @@ export default function Developer({ defaultJwt, onApplyChangeJwt }: Props) {
         <NavigationHeader.Title>개발자 설정</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="p-5">
-        <div tw="mb-1 text-gray-700 text-info">엑세스토큰</div>
-        <TextField tw="border border-gray-700">
-          <TextField.Input value={jwt} onChange={handleChangeJwt} placeholder="엑세스토큰" />
+        <TextField variant="outlined">
+          <TextField.Input value={jwt} onChange={handleChangeJwt} label="엑세스토큰" />
           <TextField.Trailing>
             <Button size="small" onClick={() => onApplyChangeJwt?.(jwt ?? '')}>
               적용
