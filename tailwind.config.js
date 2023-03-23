@@ -194,9 +194,20 @@ module.exports = {
           '0%': { transform: 'scale(0)' },
           '100%': { transform: 'scale(1)' },
         },
+        panelSlideIn: {
+          '0%': {
+            opacity: 0,
+            transform: 'translate(-100px, 0px)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translate(0px, 0px)',
+          },
+        },
       },
       animation: {
         scale: 'scale 0.3s normal ease-in-out',
+        panelSlideIn: 'panelSlideIn 0.5s cubic-bezier(0.77, 0, 0.175, 1)',
       },
     },
   },

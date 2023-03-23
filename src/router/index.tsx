@@ -8,6 +8,10 @@ const NotificationList = dynamic(() => import('@/components/pages/NotificationLi
   ssr: false,
   loading: () => <Panel />,
 });
+const NotificationSettings = dynamic(() => import('@/components/pages/NotificationSettings'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const Listings = dynamic(() => import('@/components/pages/Listings'), { loading: () => <Panel /> });
 const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail'), { loading: () => <Panel /> });
 const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'), { ssr: false, loading: () => <Panel /> });
@@ -36,6 +40,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.NotificationList: {
       return <NotificationList depth={depth} {...commonProps} />;
+    }
+
+    case Routes.NotificationSettings: {
+      return <NotificationSettings depth={depth} {...commonProps} />;
     }
 
     case Routes.ListingList: {

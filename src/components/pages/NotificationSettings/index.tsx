@@ -1,5 +1,5 @@
 import { Panel } from '@/components/atoms';
-import { NotificationList as NotificationListTemplate } from '@/components/templates';
+import { NotificationSettings as NotificationSettingsTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
@@ -11,19 +11,13 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-
-  const handleHeaderItemClick = useCallback(
-    (index: number) => {
-      if (index === 1) {
-        router.replace(Routes.NotificationSettings);
-      }
-    },
-    [router],
-  );
+  const handleClickBackButton = useCallback(() => {
+    router.replace(Routes.NotificationList);
+  }, [router]);
 
   return (
     <Panel width={panelWidth}>
-      <NotificationListTemplate onClickHeaderItem={handleHeaderItemClick} />
+      <NotificationSettingsTemplate onClickBackButton={handleClickBackButton} />
     </Panel>
   );
 });
