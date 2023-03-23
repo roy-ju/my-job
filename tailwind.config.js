@@ -173,6 +173,8 @@ module.exports = {
       },
       height: {
         4.5: '1.125rem',
+        11.5: '2.875rem',
+        13.5: '3.375rem',
         37.5: '9.375rem',
       },
       boxShadow: {
