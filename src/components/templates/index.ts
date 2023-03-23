@@ -11,3 +11,4 @@ export { default as MapStreetView } from './MapStreetView';
 export { default as ChatRoomList } from './ChatRoomList';
 export { default as Developer } from './Developer';
 export { default as NotificationList } from './NotificationList';
+export { default as NotificationSettings } from './NotificationSettings';

@@ -22,3 +22,12 @@ export const WithButton: ComponentStory<typeof NavigationHeader> = () => (
     </NavigationHeader.Button>
   </NavigationHeader>
 );
+
+const items = ['삭제하기', '알림설정'];
+
+export const WithMoreButton: ComponentStory<typeof NavigationHeader> = () => (
+  <NavigationHeader>
+    <NavigationHeader.Title>My네고</NavigationHeader.Title>
+    <NavigationHeader.MoreButton items={items} />
+  </NavigationHeader>
+);

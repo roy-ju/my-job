@@ -7,6 +7,8 @@ import { useCallback } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
 
+const headerItems = ['채팅방나가기'];
+
 interface ChatRoomProps {
   title: string;
   agentName: string;
@@ -64,6 +66,7 @@ export default function ChatRoom({
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1">{title}</NavigationHeader.Title>
+        <NavigationHeader.MoreButton items={headerItems} />
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-y-hidden border-t border-gray-300">
         {isLoading || chatMessages.length < 1 ? (

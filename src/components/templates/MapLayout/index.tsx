@@ -1,4 +1,4 @@
-import { ChangeEventHandler, ReactNode } from 'react';
+import { ChangeEventHandler, Children, isValidElement, ReactNode } from 'react';
 import Home from '@/assets/icons/home.svg';
 import MapPin from '@/assets/icons/map_pin.svg';
 import Bidding from '@/assets/icons/bidding.svg';
@@ -50,11 +50,22 @@ function LayoutMain({ tabIndex, onChangeTab, children }: LayoutMainProps) {
 
 interface LayoutPanelsProps {
   visible?: boolean;
+  // onAnimationComplete?: () => void;
   children?: ReactNode;
 }
 
 function LayoutPanels({ visible = true, children }: LayoutPanelsProps) {
-  return <div css={[tw`z-20 flex flex-row h-full`, !visible && tw`hidden`]}>{children}</div>;
+  return (
+    <div css={[tw`z-20 flex flex-row h-full`, !visible && tw`hidden`]}>
+      {Children.toArray(children).map((child, index) =>
+        isValidElement(child) ? (
+          <div tw="shadow overflow-hidden animate-panelSlideIn" key={child.props.route ? `panel-${index}` : `${index}`}>
+            {child}
+          </div>
+        ) : null,
+      )}
+    </div>
+  );
 }
 
 interface LayoutMapContainerProps {
