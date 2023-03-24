@@ -78,6 +78,7 @@ export default function Markers({
           <DeferredRender key={marker.id}>
             <CustomOverlay
               zIndex={selectedSchoolID === marker.id ? 100 : 9}
+              anchor="bottom-left"
               position={{
                 lat: marker.lat,
                 lng: marker.lng,
