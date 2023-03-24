@@ -1,5 +1,6 @@
 const Routes = {
   My: 'my',
+  MyDetail: 'myDetail',
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',
   ListingList: 'listings',

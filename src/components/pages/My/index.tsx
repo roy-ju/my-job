@@ -18,12 +18,17 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.NotificationList);
   }, [router]);
 
+  const handleClickMyDetail = useCallback(() => {
+    router.push(Routes.MyDetail);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
         isLoading={isLoading}
         nickname={user?.nickname}
         onClickNotificationList={handleClickNotificationList}
+        onClickMyDetail={handleClickMyDetail}
       />
     </Panel>
   );

@@ -33,14 +33,28 @@ function MapToggleButton({ value: valueProp, onChange }: Props) {
     >
       <Button variant="ghost" tw="relative p-4 h-full z-10 gap-2" onClick={() => handleChangeValue(0)}>
         <Chart css={[tw`transition-colors`, value === 0 ? tw`text-white` : tw`text-blue-700`]} />
-        <span css={[tw`font-bold transition-colors text-b1`, value === 0 && tw`text-white`]}>실거래 정보</span>
+        <span
+          css={[
+            tw`overflow-hidden font-bold transition-colors text-b1 whitespace-nowrap text-ellipsis`,
+            value === 0 && tw`text-white`,
+          ]}
+        >
+          실거래 정보
+        </span>
         {value === 0 && (
           <motion.div layoutId="selection" tw="absolute top-0 left-0 bg-blue-700 w-full h-full -z-10 rounded-[60px]" />
         )}
       </Button>
       <Button variant="ghost" tw="relative z-10 p-4 h-full gap-2.5" onClick={() => handleChangeValue(1)}>
         <HomeWithDollar css={[tw`transition-colors`, value === 1 ? tw`text-white` : tw`text-nego-800`]} />
-        <span css={[tw`font-bold transition-colors text-b1`, value === 1 && tw`text-white`]}>매물 정보</span>
+        <span
+          css={[
+            tw`overflow-hidden font-bold transition-colors text-b1 whitespace-nowrap text-ellipsis`,
+            value === 1 && tw`text-white`,
+          ]}
+        >
+          매물 정보
+        </span>
         {value === 1 && (
           <motion.div layoutId="selection" tw="absolute top-0 left-0 bg-nego-800 w-full h-full -z-10 rounded-[60px]" />
         )}

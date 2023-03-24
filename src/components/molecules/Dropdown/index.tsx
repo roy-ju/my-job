@@ -5,6 +5,7 @@ import { useControlled, useOutsideClick } from '@/hooks/utils';
 import { ModifierPhases } from '@popperjs/core';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
+import { motion, AnimatePresence } from 'framer-motion';
 import TextField from '../TextField';
 import { SizeType, VariantType } from '../TextField/TextFieldContext';
 import DropdownContext from './DropdownContext';
@@ -81,7 +82,7 @@ function Dropdown({
     [],
   );
 
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const { styles, attributes, state } = usePopper(referenceElement, popperElement, {
     placement: 'bottom',
     modifiers,
   });
@@ -116,13 +117,23 @@ function Dropdown({
             />
           </TextField.Trailing>
         </TextField>
-        {isOpen && Children.count(children) > 0 && (
-          <div ref={setPopperElement} style={{ ...styles.popper, zIndex: 100 }} {...attributes.popper}>
-            <OptionsContainer>
-              <div tw="max-h-[400px] overflow-y-auto">{children}</div>
-            </OptionsContainer>
-          </div>
-        )}
+        <AnimatePresence>
+          {isOpen && Children.count(children) > 0 && (
+            <div ref={setPopperElement} style={{ ...styles.popper, zIndex: 100 }} {...attributes.popper}>
+              <motion.div
+                style={{ transformOrigin: state?.placement === 'bottom' ? 'top' : 'bottom' }}
+                initial={{ opacity: 0, scaleY: 0 }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                exit={{ opacity: 0, scaleY: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <OptionsContainer>
+                  <div tw="max-h-[400px] overflow-y-auto">{children}</div>
+                </OptionsContainer>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </DropdownContext.Provider>
   );
