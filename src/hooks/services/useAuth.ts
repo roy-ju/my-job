@@ -1,26 +1,32 @@
-import { getUserInfo } from '@/apis/user/getUserInfo';
-import { userState } from '@/states/user';
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import { useCallback, useMemo } from 'react';
-import { useRecoilState } from 'recoil';
+import { mutate } from 'swr';
 
 export default function useAuth() {
-  const [state, setState] = useRecoilState(userState);
+  const {
+    data,
+    isLoading,
+    mutate: mutateBase,
+  } = useAPI_GetUserInfo({ revalidateIfStale: false, revalidateOnFocus: false });
 
-  const mutateUser = useCallback(async () => {
-    setState((prev) => ({ ...prev, isLoading: true }));
-    const data = await getUserInfo();
-    setState({
-      user: data
+  const user = useMemo(
+    () =>
+      data
         ? {
             id: data.ID,
             name: data.name,
             nickname: data.nickname,
             email: data.email,
+            phone: data.phone,
           }
         : null,
-      isLoading: false,
-    });
-  }, [setState]);
+    [data],
+  );
 
-  return useMemo(() => ({ ...state, mutateUser }), [state, mutateUser]);
+  const mutateUser = useCallback(() => {
+    mutate(() => true, undefined, false);
+    mutateBase();
+  }, [mutateBase]);
+
+  return useMemo(() => ({ user, isLoading, mutate: mutateUser }), [user, mutateUser, isLoading]);
 }

@@ -696,7 +696,6 @@ export default function useMapLayout() {
         18,
       );
       // 마커 API 응답후, 주소로 마커를 선택하기위해서 저장해둔다.
-      console.log(item);
       lastSearchItem.current = item;
     },
     [map, lastSearchItem],

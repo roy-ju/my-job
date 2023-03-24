@@ -6,9 +6,9 @@ import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
 import GlobalStyles from '@/styles/GlobalStyles';
 import SWRConfig from '@/lib/swr';
-import { AuthProvider } from '@/providers';
 import Script from 'next/script';
 import { initializeKakaoSDK } from '@/lib/kakao';
+import { useAuth } from '@/hooks/services';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -18,6 +18,11 @@ export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+function AuthProvider({ children }: { children?: ReactNode }) {
+  useAuth();
+  return children as JSX.Element;
+}
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);

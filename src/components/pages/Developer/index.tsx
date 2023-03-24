@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default memo(({ panelWidth }: Props) => {
-  const { user, mutateUser } = useAuth();
+  const { user, mutate: mutateUser } = useAuth();
   const { data: getJwtListResponse } = useAPI_GetJwtList();
   const jwtList = useMemo(() => getJwtListResponse ?? [], [getJwtListResponse]);
   const jwtOwners = useMemo(() => jwtList.map((item) => item.nickname), [jwtList]);

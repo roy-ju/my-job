@@ -10,7 +10,7 @@ interface SummaryItemProps {
 
 function SummaryItem({ title, value }: SummaryItemProps) {
   return (
-    <Button variant="ghost" tw="w-[123px] flex flex-col items-center">
+    <Button variant="ghost" tw="w-[121px] flex flex-col items-center hover:bg-gray-50">
       <div tw="text-info text-gray-700">{title}</div>
       <div tw="text-b1 text-nego-1000 font-bold">{value}</div>
     </Button>
@@ -23,9 +23,10 @@ interface MySummaryProps {
   nickname?: string;
   point?: number;
   couponCount?: number;
+  onClickMyDetail?: () => void;
 }
 
-export default function MySummary({ isLoading, nickname, profileImagePath }: MySummaryProps) {
+export default function MySummary({ isLoading, nickname, profileImagePath, onClickMyDetail }: MySummaryProps) {
   if (isLoading) {
     return (
       <div tw="h-[185px] flex items-center justify-center">
@@ -36,7 +37,11 @@ export default function MySummary({ isLoading, nickname, profileImagePath }: MyS
 
   return (
     <div>
-      <button type="button" tw="w-full py-6 px-5 flex items-center text-start border-b border-b-gray-300">
+      <button
+        type="button"
+        tw="w-full py-6 px-5 flex items-center text-start border-b border-b-gray-300 hover:bg-gray-50"
+        onClick={onClickMyDetail}
+      >
         <Avatar size={48} src={profileImagePath} />
         <div tw="text-b1 font-bold ml-3 mr-1">{nickname ?? '김네고'}</div>
         <ChevronLeftIcon
@@ -48,7 +53,7 @@ export default function MySummary({ isLoading, nickname, profileImagePath }: MyS
       </button>
       <div tw="py-5 flex items-center justify-center">
         <SummaryItem title="포인트" value="999,000P" />
-        <div tw="w-[2px] h-6 bg-gray-300" />
+        <div tw="w-[2px] h-6 bg-gray-300 mx-1" />
         <SummaryItem title="쿠폰" value="6장" />
       </div>
     </div>

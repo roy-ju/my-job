@@ -8,9 +8,10 @@ interface Props {
   isLoading?: boolean;
   nickname?: string;
   onClickNotificationList?: () => void;
+  onClickMyDetail?: () => void;
 }
 
-export default function My({ isLoading, nickname, onClickNotificationList }: Props) {
+export default function My({ isLoading, nickname, onClickNotificationList, onClickMyDetail }: Props) {
   return (
     <div>
       <NavigationHeader>
@@ -19,7 +20,12 @@ export default function My({ isLoading, nickname, onClickNotificationList }: Pro
           <BellIcon />
         </NavigationHeader.Button>
       </NavigationHeader>
-      <MySummary isLoading={isLoading} profileImagePath={defaultAvatar} nickname={nickname} />
+      <MySummary
+        isLoading={isLoading}
+        profileImagePath={defaultAvatar}
+        nickname={nickname}
+        onClickMyDetail={onClickMyDetail}
+      />
       <Separator />
       <div tw="pt-5">
         <MyPageNavigationList>

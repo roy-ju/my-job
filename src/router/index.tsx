@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/My'), { ssr: false, loading: () => <Panel /> });
+const MyDetail = dynamic(() => import('@/components/pages/MyDetail'), { ssr: false, loading: () => <Panel /> });
 const NotificationList = dynamic(() => import('@/components/pages/NotificationList'), {
   ssr: false,
   loading: () => <Panel />,
@@ -36,6 +37,10 @@ export default function Router({ route, query, depth }: Props) {
   switch (route) {
     case Routes.My: {
       return <My depth={depth} {...commonProps} />;
+    }
+
+    case Routes.MyDetail: {
+      return <MyDetail depth={depth} {...commonProps} />;
     }
 
     case Routes.NotificationList: {

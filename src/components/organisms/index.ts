@@ -18,3 +18,4 @@ export { default as MyPageNavigationList } from './MyPageNavigationList';
 export { default as MySummary } from './MySummary';
 export { default as NotificationFilterTab } from './NotificationFilterTab';
 export { default as NotificaitonListItem } from './NotificationListItem';
+export { default as MyDetailForm } from './MyDetailForm';
