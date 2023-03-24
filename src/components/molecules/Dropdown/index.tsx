@@ -1,4 +1,4 @@
-import { HTMLProps, ReactNode, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { Children, HTMLProps, ReactNode, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { usePopper } from 'react-popper';
 import { useControlled, useOutsideClick } from '@/hooks/utils';
@@ -116,7 +116,7 @@ function Dropdown({
             />
           </TextField.Trailing>
         </TextField>
-        {isOpen && (
+        {isOpen && Children.count(children) > 0 && (
           <div ref={setPopperElement} style={{ ...styles.popper, zIndex: 100 }} {...attributes.popper}>
             <OptionsContainer>
               <div tw="max-h-[400px] overflow-y-auto">{children}</div>

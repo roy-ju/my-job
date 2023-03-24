@@ -1,9 +1,9 @@
+import useAPI_GetJwtList from '@/apis/test/getJwtList';
 import { Panel } from '@/components/atoms';
 import { Developer as DeveloperTemplate } from '@/components/templates';
 import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
-import { useLocalStorage } from '@/hooks/utils';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -11,20 +11,34 @@ interface Props {
 }
 
 export default memo(({ panelWidth }: Props) => {
-  const { mutateUser } = useAuth();
-  const [jwt, setJwt] = useLocalStorage(Keys.ACCESS_TOKEN, '');
+  const { user, mutateUser } = useAuth();
+  const { data: getJwtListResponse } = useAPI_GetJwtList();
+  const jwtList = useMemo(() => getJwtListResponse ?? [], [getJwtListResponse]);
+  const jwtOwners = useMemo(() => jwtList.map((item) => item.nickname), [jwtList]);
 
-  const handleApplyChangeJwt = useCallback(
+  const [jwtOwner, setJwtOwner] = useState('');
+
+  const handleChangeJwtOwner = useCallback(
     (newValue: string) => {
-      setJwt(newValue);
+      setJwtOwner(newValue);
+      localStorage.setItem(
+        Keys.ACCESS_TOKEN,
+        JSON.stringify(jwtList.find((item) => item.nickname === newValue)?.jwt ?? ''),
+      );
       mutateUser();
     },
-    [setJwt, mutateUser],
+    [jwtList, mutateUser],
   );
 
   return (
     <Panel width={panelWidth}>
-      <DeveloperTemplate defaultJwt={jwt} onApplyChangeJwt={handleApplyChangeJwt} />
+      <DeveloperTemplate
+        userName={user?.name ?? ''}
+        userNickname={user?.nickname ?? ''}
+        jwtOwner={jwtOwner}
+        onChangeJwtOwner={handleChangeJwtOwner}
+        jwtOwners={jwtOwners}
+      />
     </Panel>
   );
 });

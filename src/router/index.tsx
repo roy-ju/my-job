@@ -17,7 +17,7 @@ const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail'), 
 const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'), { ssr: false, loading: () => <Panel /> });
 const DanjiDetail = dynamic(() => import('@/components/pages/DanjiDetail'), { loading: () => <Panel /> });
 const ChatRoomList = dynamic(() => import('@/components/pages/ChatRoomList'), { ssr: false, loading: () => <Panel /> });
-const Developer = dynamic(() => import('@/components/pages/Developer'), { loading: () => <Panel /> });
+const Developer = dynamic(() => import('@/components/pages/Developer'), { ssr: false, loading: () => <Panel /> });
 const NotFound = dynamic(() => import('@/components/pages/NotFound'), { loading: () => <Panel /> });
 
 const DEFAULT_PANEL_WIDTH = '380px';

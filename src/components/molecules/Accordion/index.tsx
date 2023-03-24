@@ -53,9 +53,9 @@ function AccordionDetails({ children, ...others }: HTMLProps<HTMLDivElement>) {
     <AnimatePresence>
       {expanded && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
+          initial={{ height: 0 }}
+          animate={{ height: 'auto' }}
+          exit={{ height: 0 }}
           transition={{ type: 'just' }}
           tw="overflow-hidden"
         >
