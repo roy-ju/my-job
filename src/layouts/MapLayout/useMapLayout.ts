@@ -145,6 +145,8 @@ export default function useMapLayout() {
 
   const [selectedDanjiSummary, setSelectedDanjiSummary] = useState<DanjiSummary | null>(null);
 
+  const lastSearchItem = useRef<KakaoAddressAutocompleteResponseItem | null>(null);
+
   const [selectedSchoolID, setSelectedSchoolID] = useState('');
 
   const [streetViewEvent, setStreetViewEvent] = useState<{
@@ -198,6 +200,26 @@ export default function useMapLayout() {
   );
 
   /**
+   * 단지를 선택한다. (선택이란, 단지마커 애니메이션을 활성화하고 마커위에 단지요약정보를 보여준다.)
+   */
+  const selectDanji = useCallback(async (pnu: string, realestateType: number) => {
+    const summary = await getDanjiSummary({
+      pnu,
+      buyOrRent: '1,2,3',
+      danjiRealestateType: realestateType,
+    });
+    if (summary) {
+      setSelectedDanjiSummary({
+        id: `${pnu}${realestateType}`,
+        name: summary?.string ?? '',
+        householdCount: summary?.saedae_count ?? 0,
+        buyListingCount: summary?.buy_listing_count ?? 0,
+        rentListingCount: summary?.rent_listing_count ?? 0,
+      });
+    }
+  }, []);
+
+  /**
    * 지도위의 마커를 그린다.
    */
   const updateMarkers = useCallback(
@@ -209,6 +231,7 @@ export default function useMapLayout() {
         mapToggleValue: toggleValue,
         priceType: priceTypeValue,
       });
+
       setListingCount(res?.listing_count ?? 0);
 
       const variant = mapFilter.realestateTypeGroup !== 'apt,oftl' || toggleValue === 1 ? 'nego' : 'blue';
@@ -268,35 +291,41 @@ export default function useMapLayout() {
             onClick: () => {
               setPolygons([]);
               setSelectedSchoolID('');
-
               _map?.morph({
                 lat: item.lat,
                 lng: item.long,
               });
-
-              getDanjiSummary({
-                pnu: item.pnu,
-                buyOrRent: mapFilter.buyOrRents,
-                danjiRealestateType: item.danji_realestate_type,
-              }).then((summary) => {
-                setSelectedDanjiSummary({
-                  id: `${item.pnu}${item.danji_realestate_type}`,
-                  name: summary?.string ?? '',
-                  householdCount: summary?.saedae_count ?? 0,
-                  buyListingCount: summary?.buy_listing_count ?? 0,
-                  rentListingCount: summary?.rent_listing_count ?? 0,
-                });
-              });
+              selectDanji(item.pnu, item.danji_realestate_type);
             },
           };
         });
 
+        // 맵의 주소검색 결과에 마커가 포함되어있으면, 마커를 선택한다.
+        if (lastSearchItem.current) {
+          const searchedDanji = danjis.find(
+            ({ jibun_address, road_name_address }) =>
+              lastSearchItem.current?.roadAddressName === road_name_address ||
+              lastSearchItem.current?.addressName === jibun_address,
+          );
+          if (searchedDanji) {
+            _map?.morph({
+              lat: searchedDanji.lat,
+              lng: searchedDanji.long,
+            });
+            selectDanji(searchedDanji.pnu, searchedDanji.danji_realestate_type);
+          }
+          lastSearchItem.current = null;
+        }
+
         setMarkers(Object.values(danjiMap));
       }
     },
-    [],
+    [selectDanji, lastSearchItem],
   );
 
+  /**
+   * 학교 마커를 그린다.
+   */
   const updateSchoolMarkers = useCallback(async (_map: NaverMap, mapBounds: MapBounds, st: string) => {
     const schoolTypes = st === 'elementary' ? '1' : st === 'middle' ? '2' : '3';
 
@@ -456,6 +485,9 @@ export default function useMapLayout() {
     [handleCenterAddressChange, updateBounds],
   );
 
+  /**
+   * 줌 효과가 시작될때, 이벤트가 발생한다.
+   */
   const onZoomStart = useCallback((_map: NaverMap) => {
     setMarkers((prev) => {
       if (prev.length > 0) {
@@ -519,12 +551,18 @@ export default function useMapLayout() {
     }
   }, [map, mapLayer]);
 
+  /**
+   * 맵이 이동할때마다, 마커를 그린다.
+   */
   useEffect(() => {
     if (bounds && map) {
       updateMarkers(map, bounds, filter, mapToggleValue, priceType);
     }
   }, [map, bounds, updateMarkers, filter, mapToggleValue, priceType]);
 
+  /**
+   * 학교가 활성화되어있으면, 맵이 이동할때마다 학교 마커를 그린다.
+   */
   useEffect(() => {
     if (bounds && schoolType !== 'none' && map) {
       updateSchoolMarkers(map, bounds, schoolType);
@@ -533,10 +571,16 @@ export default function useMapLayout() {
     }
   }, [map, bounds, schoolType, updateSchoolMarkers]);
 
+  /**
+   * 학교필터가 변경될때, 맵에 그려져있는 학구도 폴리곤을 없앤다.
+   */
   useEffect(() => {
     setPolygons([]);
   }, [schoolType]);
 
+  /**
+   * 폴리곤을 그린다.
+   */
   useIsomorphicLayoutEffect(
     () => () => {
       polygons.forEach((v: naver.maps.Polygon) => {
@@ -546,6 +590,9 @@ export default function useMapLayout() {
     [polygons],
   );
 
+  /**
+   * 필터의 거래종류가 바뀔때, 가격정보표시도 바꾼다.
+   */
   useEffect(() => {
     if (filter.buyOrRents === '2,3') {
       setPriceType('rent');
@@ -553,6 +600,31 @@ export default function useMapLayout() {
       setPriceType('buy');
     }
   }, [filter.buyOrRents]);
+
+  // useEffect(() => {
+  //   if (lastSearchItem !== null && markers.length > 0) {
+  //     const searchedMarker = markers.find(
+  //       (marker) =>
+  //         marker.jibunAddress === lastSearchItem.addressName ||
+  //         marker.roadNameAddress === lastSearchItem.roadAddressName,
+  //     );
+  //     if (searchedMarker && searchedMarker.pnu) {
+  //       getDanjiSummary({
+  //         pnu: searchedMarker.pnu,
+  //         buyOrRent: mapFilter.buyOrRents,
+  //         danjiRealestateType: item.danji_realestate_type,
+  //       }).then((summary) => {
+  //         setSelectedDanjiSummary({
+  //           id: `${item.pnu}${item.danji_realestate_type}`,
+  //           name: summary?.string ?? '',
+  //           householdCount: summary?.saedae_count ?? 0,
+  //           buyListingCount: summary?.buy_listing_count ?? 0,
+  //           rentListingCount: summary?.rent_listing_count ?? 0,
+  //         });
+  //       });
+  //     }
+  //   }
+  // }, [lastSearchItem, markers]);
 
   // Map Control Handlers
 
@@ -623,8 +695,11 @@ export default function useMapLayout() {
         },
         18,
       );
+      // 마커 API 응답후, 주소로 마커를 선택하기위해서 저장해둔다.
+      console.log(item);
+      lastSearchItem.current = item;
     },
-    [map],
+    [map, lastSearchItem],
   );
 
   const handleChangeFilter = useCallback(
