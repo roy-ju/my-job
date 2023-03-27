@@ -19,3 +19,4 @@ export { default as MySummary } from './MySummary';
 export { default as NotificationFilterTab } from './NotificationFilterTab';
 export { default as NotificaitonListItem } from './NotificationListItem';
 export { default as MyDetailForm } from './MyDetailForm';
+export { default as NotificationSettingsForm } from './NotificationSettingsForm';

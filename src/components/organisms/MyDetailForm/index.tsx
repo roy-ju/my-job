@@ -1,4 +1,4 @@
-import { Button, Separator as BaseSeparator } from '@/components/atoms';
+import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
 import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
@@ -79,10 +79,10 @@ function IdentityInfo({ name, phone }: IdentityInfoProps) {
     <div tw="px-5">
       <div tw="flex flex-col gap-3 mb-4">
         <div tw="text-b1 leading-4 font-bold">본인인증 정보</div>
-        <ul tw="text-info text-gray-700">
-          {!name && !phone && <li>- 매물등록신청, 거래 참여 등을 하기 위해서는 본인인증이 필요합니다</li>}
-          {name && !phone && <li>- 휴대폰 번혼를 등록하시면 중요한 알림을 받으실 수 있습니다</li>}
-        </ul>
+        <Ul>
+          {!name && !phone && <li>매물등록신청, 거래 참여 등을 하기 위해서는 본인인증이 필요합니다</li>}
+          {name && !phone && <li>휴대폰 번혼를 등록하시면 중요한 알림을 받으실 수 있습니다</li>}
+        </Ul>
       </div>
       <div tw="flex flex-col gap-3">
         {name && (
@@ -114,10 +114,10 @@ function AddressInfo({ address, addressDetail, verified = false }: AddressInfoPr
       <div tw="flex items-center justify-between mb-3">
         <div tw="text-b1 leading-4 font-bold">주소 정보</div>
       </div>
-      <ul tw="text-info text-gray-700 mb-4">
-        <li>- 거주 또는 소유하신 부동산의 주소를 입력해 주세요.</li>
-        <li>- 등록하신 주소지의 단지 및 주변 지역에 대한 신규 매물 및 실거래가 정보를 알려드립니다.</li>
-      </ul>
+      <Ul tw="text-info text-gray-700 mb-4">
+        <li>거주 또는 소유하신 부동산의 주소를 입력해 주세요.</li>
+        <li>등록하신 주소지의 단지 및 주변 지역에 대한 신규 매물 및 실거래가 정보를 알려드립니다.</li>
+      </Ul>
       <div tw="flex flex-col gap-3">
         <TextField variant="outlined">
           <TextField.Input label="주소" value={address} readOnly />
@@ -135,10 +135,10 @@ function PrivacyRetentionInfo() {
       <div tw="flex items-center justify-between mb-3">
         <div tw="text-b1 leading-4 font-bold">개인정보 보관기간</div>
       </div>
-      <ul tw="text-info text-gray-700 mb-4">
-        <li>- 개인정보를 파기 또는 분리 저장, 관리해야 하는 서비스 미이용 기간을 선택 해 주세요.</li>
-        <li>- 선택한 기간동안 서비스를 이용하지 않을 경우 휴면 계정으로 전환 또는 가입해지 됩니다.</li>
-      </ul>
+      <Ul tw="text-info text-gray-700 mb-4">
+        <li>개인정보를 파기 또는 분리 저장, 관리해야 하는 서비스 미이용 기간을 선택 해 주세요.</li>
+        <li>선택한 기간동안 서비스를 이용하지 않을 경우 휴면 계정으로 전환 또는 가입해지 됩니다.</li>
+      </Ul>
       <div tw="flex flex-col gap-3">
         <Dropdown value="탈퇴시까지">
           <Dropdown.Option value="1년">1년</Dropdown.Option>
