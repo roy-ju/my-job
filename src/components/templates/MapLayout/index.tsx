@@ -139,7 +139,7 @@ function LayoutMapContainer({
       <div tw="absolute top-5 left-0 z-10 flex">
         {showClosePanelButton && (
           <button
-            tw="w-10 h-10 flex items-center justify-center bg-nego p-2 text-white rounded-tr-lg rounded-br-lg hover:bg-nego-600"
+            tw="w-10 h-10 flex items-center justify-center bg-nego p-2 text-white rounded-tr-lg rounded-br-lg shadow hover:bg-nego-600"
             type="button"
             onClick={onClickClosePanel}
           >
