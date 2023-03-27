@@ -9,10 +9,18 @@ interface MyDetailProps {
   phone: string;
   address: string;
   addressDetail: string;
-  verified: boolean;
+  addressVerified: boolean;
 }
 
-export default function MyDetail({ nickname, email, name, phone, address, addressDetail, verified }: MyDetailProps) {
+export default function MyDetail({
+  nickname,
+  email,
+  name,
+  phone,
+  address,
+  addressDetail,
+  addressVerified,
+}: MyDetailProps) {
   return (
     <div>
       <NavigationHeader>
@@ -23,7 +31,7 @@ export default function MyDetail({ nickname, email, name, phone, address, addres
         <MyDetailForm.Separator />
         <MyDetailForm.IdentityInfo name={name} phone={phone} />
         <MyDetailForm.Separator />
-        <MyDetailForm.AddressInfo address={address} addressDetail={addressDetail} verified={verified} />
+        <MyDetailForm.AddressInfo address={address} addressDetail={addressDetail} verified={addressVerified} />
         <MyDetailForm.Separator />
         <MyDetailForm.PrivacyRetentionInfo />
         <div tw="px-5 mt-10">
