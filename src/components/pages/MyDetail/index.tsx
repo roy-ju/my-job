@@ -20,7 +20,7 @@ export default memo(({ panelWidth }: Props) => {
         phone={phone ?? ''}
         address={roadNameAddress ?? ''}
         addressDetail={addressDetail ?? ''}
-        verified={ownershipVerified ?? false}
+        addressVerified={ownershipVerified ?? false}
       />
     </Panel>
   );

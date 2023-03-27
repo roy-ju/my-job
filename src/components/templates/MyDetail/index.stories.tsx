@@ -20,5 +20,5 @@ Default.args = {
   phone: '01012341234',
   address: '서울 강남구 역삼동',
   addressDetail: '817-13',
-  verified: true,
+  addressVerified: true,
 };

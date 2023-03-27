@@ -77,14 +77,26 @@ interface IdentityInfoProps {
 function IdentityInfo({ name, phone }: IdentityInfoProps) {
   return (
     <div tw="px-5">
-      <div tw="flex items-center justify-between mb-4">
+      <div tw="flex flex-col gap-3 mb-4">
         <div tw="text-b1 leading-4 font-bold">본인인증 정보</div>
+        <ul tw="text-info text-gray-700">
+          {!name && !phone && <li>- 매물등록신청, 거래 참여 등을 하기 위해서는 본인인증이 필요합니다</li>}
+          {name && !phone && <li>- 휴대폰 번혼를 등록하시면 중요한 알림을 받으실 수 있습니다</li>}
+        </ul>
       </div>
       <div tw="flex flex-col gap-3">
-        <TextField>
-          <TextField.Input label="실명" disabled value={name} />
-        </TextField>
-        <UpdatableTextField label="휴대폰 번호" value={phone} />
+        {name && (
+          <TextField>
+            <TextField.Input label="실명" disabled value={name} />
+          </TextField>
+        )}
+        {!name && (
+          <Button variant="secondary" tw="font-bold">
+            본인인증하기
+          </Button>
+        )}
+        {phone && <UpdatableTextField label="휴대폰 번호" value={phone} />}
+        {name && !phone && <Button variant="outlined">휴대폰 번호 등록하기</Button>}
       </div>
     </div>
   );
