@@ -23,10 +23,6 @@ const NotFound = dynamic(() => import('@/components/pages/NotFound'), { loading:
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
-const commonProps = {
-  panelWidth: DEFAULT_PANEL_WIDTH,
-};
-
 interface Props {
   route: string; // url segments 에서 가장 우측에 위치한 segment
   query: ParsedUrlQuery; // 쿼리 파라미터
@@ -34,59 +30,57 @@ interface Props {
 }
 
 export default function Router({ route, query, depth }: Props) {
+  const props = {
+    panelWidth: DEFAULT_PANEL_WIDTH,
+    depth,
+  };
+
   switch (route) {
     case Routes.My: {
-      return <My depth={depth} {...commonProps} />;
+      return <My {...props} />;
     }
 
     case Routes.MyDetail: {
-      return <MyDetail depth={depth} {...commonProps} />;
+      return <MyDetail {...props} />;
     }
 
     case Routes.NotificationList: {
-      return <NotificationList depth={depth} {...commonProps} />;
+      return <NotificationList {...props} />;
     }
 
     case Routes.NotificationSettings: {
-      return <NotificationSettings depth={depth} {...commonProps} />;
+      return <NotificationSettings {...props} />;
     }
 
     case Routes.ListingList: {
-      return <Listings depth={depth} {...commonProps} />;
+      return <Listings {...props} />;
     }
 
     case Routes.ListingDetail: {
-      return (
-        <ListingDetail
-          key={query.listingID as string}
-          depth={depth}
-          listingID={Number(query.listingID)}
-          {...commonProps}
-        />
-      );
+      return <ListingDetail key={query.listingID as string} listingID={Number(query.listingID)} {...props} />;
     }
 
     case Routes.ChatRoom: {
-      return <ChatRoom key={query.chatRoomID as string} depth={depth} {...commonProps} />;
+      return <ChatRoom key={query.chatRoomID as string} {...props} />;
     }
 
     case Routes.ChatRoomList: {
-      return <ChatRoomList depth={depth} {...commonProps} />;
+      return <ChatRoomList {...props} />;
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail depth={depth} {...commonProps} />;
+      return <DanjiDetail {...props} />;
     }
 
     case Routes.Developer: {
       if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {
-        return <Developer depth={depth} {...commonProps} />;
+        return <Developer {...props} />;
       }
-      return <NotFound depth={depth} {...commonProps} />;
+      return <NotFound {...props} />;
     }
 
     default: {
-      return <NotFound depth={depth} {...commonProps} />;
+      return <NotFound {...props} />;
     }
   }
 }

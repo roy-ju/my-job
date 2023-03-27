@@ -48,7 +48,10 @@ function MoreButton({ items, onClickItem }: MoreButtonProps) {
                 key={item}
                 type="button"
                 tw="py-3 px-4 text-b2 leading-4 hover:bg-gray-100"
-                onClick={() => onClickItem?.(index, item)}
+                onClick={() => {
+                  onClickItem?.(index, item);
+                  setIsOpen(false);
+                }}
               >
                 {item}
               </button>

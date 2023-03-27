@@ -1,4 +1,4 @@
-import { InfiniteScroll, Loading } from '@/components/atoms';
+import { Button, InfiniteScroll, Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { NotificationFilterTab, NotificaitonListItem } from '@/components/organisms';
 import tw, { styled } from 'twin.macro';
@@ -24,21 +24,31 @@ interface Props {
   tabIndex?: number;
   notifications?: INotificationListItem[];
   isLoading?: boolean;
+  isDeleting?: boolean;
+  checkedState?: Record<number, boolean>;
+  onNext?: () => void;
   onChangeTabIndex?: (index: number) => void;
   onClickHeaderItem?: (index: number, item: string) => void;
-  onNext?: () => void;
+  onClickNotification?: (id: number) => void;
+  onChangeNotificationChecked?: (id: number, checked: boolean) => void;
+  onDeleteNotifications?: () => void;
 }
 
 export default function NotificationList({
   tabIndex,
   notifications = [],
+  checkedState,
   isLoading = false,
+  isDeleting = false,
   onNext,
   onChangeTabIndex,
   onClickHeaderItem,
+  onClickNotification,
+  onChangeNotificationChecked,
+  onDeleteNotifications,
 }: Props) {
   return (
-    <div tw="h-full flex flex-col">
+    <div tw="relative h-full flex flex-col">
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1">알림</NavigationHeader.Title>
         <NavigationHeader.MoreButton items={headerItems} onClickItem={onClickHeaderItem} />
@@ -58,9 +68,20 @@ export default function NotificationList({
               listingTitle={item.listingTitle}
               createdTime={item.createdTime}
               unread={item.unread}
+              checkbox={isDeleting}
+              checked={checkedState ? Boolean(checkedState[item.id]) : undefined}
+              onClick={() => onClickNotification?.(item.id)}
+              onChange={(checked) => onChangeNotificationChecked?.(item.id, checked)}
             />
           ))}
         </List>
+      )}
+      {isDeleting && (
+        <div tw="absolute left-0 bottom-0 w-full px-5 py-4 bg-white shadow-persistentBottomBar">
+          <Button variant="secondary" size="bigger" tw="w-full" onClick={onDeleteNotifications}>
+            삭제하기
+          </Button>
+        </div>
       )}
     </div>
   );
