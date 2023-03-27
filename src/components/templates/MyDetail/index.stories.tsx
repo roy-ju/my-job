@@ -7,12 +7,18 @@ export default {
   component: MyDetail,
 } as ComponentMeta<typeof MyDetail>;
 
-export const Default: ComponentStory<typeof MyDetail> = () => (
+export const Default: ComponentStory<typeof MyDetail> = (args) => (
   <Panel>
-    <MyDetail />
+    <MyDetail {...args} />
   </Panel>
 );
 
 Default.args = {
-  isLoading: false,
+  nickname: '김네고',
+  email: 'joel.kim@negocio.co.kr',
+  name: '김네고',
+  phone: '01012341234',
+  address: '서울 강남구 역삼동',
+  addressDetail: '817-13',
+  verified: true,
 };
