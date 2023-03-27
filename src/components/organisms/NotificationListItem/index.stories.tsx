@@ -14,4 +14,5 @@ Default.args = {
   listingTitle: '자이아파트 힐스테이트 105동',
   createdTime: '2023-03-22T08:01:32.085Z',
   unread: false,
+  checkbox: false,
 };

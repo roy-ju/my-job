@@ -9,15 +9,30 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const { notifications, isLoading, handleNextPage, handleHeaderItemClick } = useNotificationList(depth);
+  const {
+    notifications,
+    isLoading,
+    isDeleting,
+    checkedState,
+    handleNextPage,
+    handleHeaderItemClick,
+    handleNotificationChecked,
+    handleNotificationClick,
+    handleDelete,
+  } = useNotificationList(depth);
 
   return (
     <Panel width={panelWidth}>
       <NotificationListTemplate
+        checkedState={checkedState}
         isLoading={isLoading}
+        isDeleting={isDeleting}
         notifications={notifications}
         onNext={handleNextPage}
         onClickHeaderItem={handleHeaderItemClick}
+        onChangeNotificationChecked={handleNotificationChecked}
+        onClickNotification={handleNotificationClick}
+        onDeleteNotifications={handleDelete}
       />
     </Panel>
   );

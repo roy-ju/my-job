@@ -14,6 +14,7 @@ export const Default: ComponentStory<typeof NotificationList> = (args) => (
 );
 
 Default.args = {
+  isDeleting: false,
   notifications: Array(50)
     .fill(0)
     .map((_, i) => ({
