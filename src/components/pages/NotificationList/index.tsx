@@ -1,8 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { NotificationList as NotificationListTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
+import useNotificationList from './useNotificationList';
 
 interface Props {
   depth: number;
@@ -10,20 +9,16 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
-
-  const handleHeaderItemClick = useCallback(
-    (index: number) => {
-      if (index === 1) {
-        router.replace(Routes.NotificationSettings);
-      }
-    },
-    [router],
-  );
+  const { notifications, isLoading, handleNextPage, handleHeaderItemClick } = useNotificationList(depth);
 
   return (
     <Panel width={panelWidth}>
-      <NotificationListTemplate onClickHeaderItem={handleHeaderItemClick} />
+      <NotificationListTemplate
+        isLoading={isLoading}
+        notifications={notifications}
+        onNext={handleNextPage}
+        onClickHeaderItem={handleHeaderItemClick}
+      />
     </Panel>
   );
 });
