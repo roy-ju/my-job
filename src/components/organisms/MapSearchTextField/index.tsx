@@ -3,12 +3,7 @@ import { Autocomplete, TextField } from '@/components/molecules';
 import { useKakaoAddressAutocomplete } from '@/hooks/services';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useControlled } from '@/hooks/utils';
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEventHandler,
-  useCallback,
-} from 'react';
+import { ChangeEvent, ChangeEventHandler, FormEventHandler, useCallback } from 'react';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 
 interface MapSearchTextFieldProps {
@@ -17,19 +12,13 @@ interface MapSearchTextFieldProps {
   onSubmit?: (value: KakaoAddressAutocompleteResponseItem) => void;
 }
 
-export default function MapSearchTextField({
-  value: valueProp,
-  onSubmit,
-  onChange,
-}: MapSearchTextFieldProps) {
+export default function MapSearchTextField({ value: valueProp, onSubmit, onChange }: MapSearchTextFieldProps) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: '',
   });
 
-  const handleInputValueChange = useCallback<
-    ChangeEventHandler<HTMLInputElement>
-  >(
+  const handleInputValueChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       setValueState(e.target.value);
       onChange?.(e.target.value);
@@ -59,9 +48,9 @@ export default function MapSearchTextField({
   );
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} tw="shadow rounded-lg">
       <Autocomplete value={value} onChange={handleInputValueChange}>
-        <TextField tw="shadow">
+        <TextField>
           <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
           <TextField.Trailing tw="flex items-center">
             {value.length > 0 && (
@@ -85,20 +74,14 @@ export default function MapSearchTextField({
           <div tw="flex flex-col py-2 mt-2 w-full max-h-[600px] bg-white shadow rounded-lg overflow-y-auto">
             {value.length < 1 && results.length < 1 && (
               <div tw="px-4 py-4">
-                <p tw="text-b2 text-gray-1000 leading-none">
-                  최근 검색 기록이 없습니다.
-                </p>
+                <p tw="text-b2 text-gray-1000 leading-none">최근 검색 기록이 없습니다.</p>
               </div>
             )}
 
             {value.length > 0 && results.length < 1 && (
               <div tw="px-4 py-4">
-                <p tw="mb-2 text-b2 text-gray-1000 leading-none">
-                  검색 결과가 없습니다.
-                </p>
-                <p tw="text-info text-gray-700 leading-none">
-                  검색어를 한 번 더 확인해 주세요.
-                </p>
+                <p tw="mb-2 text-b2 text-gray-1000 leading-none">검색 결과가 없습니다.</p>
+                <p tw="text-info text-gray-700 leading-none">검색어를 한 번 더 확인해 주세요.</p>
               </div>
             )}
 
@@ -111,13 +94,9 @@ export default function MapSearchTextField({
               >
                 <div tw="flex items-center justify-between">
                   <span tw="text-b2 text-gray-1000">{result.placeName}</span>
-                  <span tw="text-info text-gray-700">
-                    {result.categoryName}
-                  </span>
+                  <span tw="text-info text-gray-700">{result.categoryName}</span>
                 </div>
-                <div tw="text-info text-gray-700">
-                  {result.roadAddressName || result.addressName}
-                </div>
+                <div tw="text-info text-gray-700">{result.roadAddressName || result.addressName}</div>
               </Autocomplete.Option>
             ))}
           </div>

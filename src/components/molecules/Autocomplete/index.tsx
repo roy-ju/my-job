@@ -23,16 +23,12 @@ const AutocompletePopperType = (<Popper />).type;
 
 function getAutocompletePopper(children: ReactNode) {
   const childArray = Children.toArray(children);
-  return childArray.filter(
-    (child) => isValidElement(child) && child.type === AutocompletePopperType,
-  );
+  return childArray.filter((child) => isValidElement(child) && child.type === AutocompletePopperType);
 }
 
 function getOtherChildren(children: ReactNode) {
   const childArray = Children.toArray(children);
-  return childArray.filter(
-    (child) => isValidElement(child) && child.type !== AutocompletePopperType,
-  );
+  return childArray.filter((child) => isValidElement(child) && child.type !== AutocompletePopperType);
 }
 
 interface AutocompleteProps {
@@ -41,17 +37,10 @@ interface AutocompleteProps {
   children?: ReactNode;
 }
 
-function Container({
-  value: valueProp,
-  onChange,
-  children,
-}: AutocompleteProps) {
+function Container({ value: valueProp, onChange, children }: AutocompleteProps) {
   const outsideRef = useRef<HTMLDivElement | null>(null);
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLDivElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null,
-  );
+  const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null);
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
 
   const modifiers = useMemo(
     () => [
@@ -152,11 +141,7 @@ function Container({
       <div ref={outsideRef}>
         <div ref={setReferenceElement}>{otherChildren}</div>
         {isOpen && (
-          <div
-            ref={setPopperElement}
-            style={{ ...styles.popper, zIndex: 100 }}
-            {...attributes.popper}
-          >
+          <div ref={setPopperElement} style={{ ...styles.popper, zIndex: 100 }} {...attributes.popper}>
             {autocompletePopper}
           </div>
         )}
