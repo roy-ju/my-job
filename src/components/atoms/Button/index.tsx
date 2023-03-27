@@ -1,8 +1,8 @@
 import React, { forwardRef, ReactNode, useContext } from 'react';
 import tw, { styled } from 'twin.macro';
-import LoadingDot from '@/assets/icons/loading_dot.svg';
 import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
 import { resolveProps } from '@/utils';
+import Loading from '../Loading';
 
 const defaultStyle = tw`flex items-center justify-center h-fit rounded-lg transition-colors`;
 
@@ -84,19 +84,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
       selected={selected}
       {...others}
     >
-      {isLoading && (
-        <div tw="flex gap-2">
-          <div>
-            <LoadingDot />
-          </div>
-          <div tw="opacity-50">
-            <LoadingDot />
-          </div>
-          <div tw="opacity-20">
-            <LoadingDot />
-          </div>
-        </div>
-      )}
+      {isLoading && <Loading size="small" />}
       {!isLoading && children}
     </ButtonRoot>
   );
