@@ -1,12 +1,18 @@
+import deleteNotifications from '@/apis/notification/deleteNotifications';
 import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
+import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
+import readNotifications from '@/apis/notification/readNotifications';
 import { useRouter } from '@/hooks/utils';
+import useUnmount from '@/hooks/utils/useUnmount';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function useNotificationList(depth: number) {
   const router = useRouter(depth);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
-  const { data, isLoading, increamentPageNumber } = useAPI_GetNotificationList();
+  const { mutate: mutateUnreadNotificationCount } = useAPI_GetUnreadNotificationCount();
+  const { data, isLoading, increamentPageNumber, mutate } = useAPI_GetNotificationList();
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [checkedState, setCheckedState] = useState<Record<number, boolean>>({});
@@ -19,7 +25,7 @@ export default function useNotificationList(depth: number) {
         message: item.message,
         listingTitle: item.listing_title,
         createdTime: item.created_time,
-        unread: item.read_time !== null,
+        unread: item.read_time === null,
       })),
     [data],
   );
@@ -47,19 +53,31 @@ export default function useNotificationList(depth: number) {
     setCheckedState((prev) => ({ ...prev, [id]: checked }));
   }, []);
 
-  const handleDelete = useCallback(() => {
-    // const ids = Object.keys(checkedState)
-    //   .filter((id) => checkedState[Number(id)])
-    //   .map((id) => Number(id));
+  const handleDelete = useCallback(async () => {
+    const ids = Object.keys(checkedState)
+      .filter((id) => checkedState[Number(id)])
+      .join(',');
+    if (ids !== '') {
+      setIsDeleteLoading(true);
+      await deleteNotifications(ids);
+    }
+    setIsDeleteLoading(false);
     setIsDeleting(false);
-  }, []);
+    mutate();
+  }, [checkedState, mutate]);
 
   useEffect(() => {
     setCheckedState({});
   }, [isDeleting]);
 
+  useUnmount(async () => {
+    await readNotifications();
+    mutateUnreadNotificationCount();
+  });
+
   return {
     isLoading,
+    isDeleteLoading,
     notifications,
     checkedState,
     isDeleting,

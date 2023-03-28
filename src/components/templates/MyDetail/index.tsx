@@ -10,6 +10,7 @@ interface MyDetailProps {
   address: string;
   addressDetail: string;
   addressVerified: boolean;
+  onClickDeregister: () => void;
 }
 
 export default function MyDetail({
@@ -20,6 +21,7 @@ export default function MyDetail({
   address,
   addressDetail,
   addressVerified,
+  onClickDeregister,
 }: MyDetailProps) {
   return (
     <div>
@@ -35,7 +37,7 @@ export default function MyDetail({
         <MyDetailForm.Separator />
         <MyDetailForm.PrivacyRetentionInfo />
         <div tw="px-5 mt-10">
-          <Button variant="outlined" tw="w-full" size="medium">
+          <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
             회원 탈퇴
           </Button>
         </div>

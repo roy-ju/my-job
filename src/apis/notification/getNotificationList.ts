@@ -35,6 +35,7 @@ export default function useAPI_GetNotificationList() {
     size,
     setSize,
     isLoading,
+    mutate,
   } = useSWRInfinite<GetNotificationListResponse>(user ? getKey : () => null);
 
   const data = useMemo(() => {
@@ -51,5 +52,6 @@ export default function useAPI_GetNotificationList() {
     pageNumber: size,
     isLoading,
     increamentPageNumber,
+    mutate,
   };
 }

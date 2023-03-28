@@ -40,7 +40,9 @@ export default function ChatRoomListItem({
               <div tw="text-b2 text-gray-1000 font-bold leading-4 overflow-hidden whitespace-nowrap text-ellipsis">
                 {title}
               </div>
-              <Chip>{chatRoomType}</Chip>
+              <div tw="shrink-0">
+                <Chip>{chatRoomType}</Chip>
+              </div>
             </div>
             <div tw="text-info leading-3.5 text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis mb-[3px] mr-8">
               {agentDescription}

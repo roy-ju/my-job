@@ -15,4 +15,5 @@ export const Default: ComponentStory<typeof My> = (args) => (
 
 Default.args = {
   isLoading: false,
+  unreadNotificationCount: 1,
 };

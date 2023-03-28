@@ -14,6 +14,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     isLoading,
     isDeleting,
     checkedState,
+    isDeleteLoading,
     handleNextPage,
     handleHeaderItemClick,
     handleNotificationChecked,
@@ -27,6 +28,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         checkedState={checkedState}
         isLoading={isLoading}
         isDeleting={isDeleting}
+        isDeleteLoading={isDeleteLoading}
         notifications={notifications}
         onNext={handleNextPage}
         onClickHeaderItem={handleHeaderItemClick}

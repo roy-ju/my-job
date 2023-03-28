@@ -12,7 +12,7 @@ interface Props {
 
 export default memo(({ panelWidth }: Props) => {
   const { user, mutate: mutateUser } = useAuth();
-  const { data: getJwtListResponse } = useAPI_GetJwtList();
+  const { data: getJwtListResponse, mutate: mutateJwtList } = useAPI_GetJwtList();
   const jwtList = useMemo(() => getJwtListResponse ?? [], [getJwtListResponse]);
   const jwtOwners = useMemo(() => jwtList.map((item) => item.nickname), [jwtList]);
 
@@ -26,8 +26,9 @@ export default memo(({ panelWidth }: Props) => {
         JSON.stringify(jwtList.find((item) => item.nickname === newValue)?.jwt ?? ''),
       );
       mutateUser();
+      mutateJwtList();
     },
-    [jwtList, mutateUser],
+    [jwtList, mutateUser, mutateJwtList],
   );
 
   return (

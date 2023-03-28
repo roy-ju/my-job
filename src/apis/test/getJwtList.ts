@@ -7,9 +7,10 @@ type GetJwtListResponse = {
 }[];
 
 export default function useAPI_GetJwtList() {
-  const { data, isLoading } = useSWR<GetJwtListResponse>('/jwt/list');
+  const { data, isLoading, mutate } = useSWR<GetJwtListResponse>('/jwt/list');
   return {
     data,
     isLoading,
+    mutate,
   };
 }

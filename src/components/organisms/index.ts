@@ -20,3 +20,4 @@ export { default as NotificationFilterTab } from './NotificationFilterTab';
 export { default as NotificaitonListItem } from './NotificationListItem';
 export { default as MyDetailForm } from './MyDetailForm';
 export { default as NotificationSettingsForm } from './NotificationSettingsForm';
+export { default as DeregisterForm } from './DeregisterForm';

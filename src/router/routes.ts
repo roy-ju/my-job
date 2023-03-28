@@ -8,6 +8,7 @@ const Routes = {
   ChatRoom: 'chatRoom',
   ChatRoomList: 'chatRoomList',
   DanjiDetail: 'danjiDetail',
+  Deregister: 'deregister',
   Developer: 'developer',
 };
 

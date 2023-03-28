@@ -51,7 +51,7 @@ export default function NotificationListItem({
         <div tw="flex flex-col py-5">
           <div tw="flex items-center">
             <div tw="flex gap-1">
-              <Chip>거래</Chip>
+              <Chip variant="gray">거래</Chip>
               <Chip>기타</Chip>
             </div>
             <div tw="flex items-center ml-auto gap-2">

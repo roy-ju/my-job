@@ -20,6 +20,7 @@ const DanjiDetail = dynamic(() => import('@/components/pages/DanjiDetail'), { lo
 const ChatRoomList = dynamic(() => import('@/components/pages/ChatRoomList'), { ssr: false, loading: () => <Panel /> });
 const Developer = dynamic(() => import('@/components/pages/Developer'), { ssr: false, loading: () => <Panel /> });
 const NotFound = dynamic(() => import('@/components/pages/NotFound'), { loading: () => <Panel /> });
+const Deregister = dynamic(() => import('@/components/pages/Deregister'), { ssr: false, loading: () => <Panel /> });
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -50,6 +51,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.NotificationSettings: {
       return <NotificationSettings {...props} />;
+    }
+
+    case Routes.Deregister: {
+      return <Deregister {...props} />;
     }
 
     case Routes.ListingList: {
