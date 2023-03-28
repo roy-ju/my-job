@@ -23,8 +23,8 @@ export interface GetUserInfoResponse {
   service_notification: boolean;
   suspend_types?: any;
   privacy_retention_type: number;
-  marketing_agreement_date?: any;
-  marketing_disagreement_date: Date;
+  marketing_agreement_date: string | null;
+  marketing_disagreement_date: string | null;
   nego_money: number;
   nego_point: number;
   has_pin: boolean;

@@ -25,7 +25,7 @@ export default memo(({ panelWidth }: Props) => {
         Keys.ACCESS_TOKEN,
         JSON.stringify(jwtList.find((item) => item.nickname === newValue)?.jwt ?? ''),
       );
-      mutateUser();
+      mutateUser(true);
       mutateJwtList();
     },
     [jwtList, mutateUser, mutateJwtList],
