@@ -21,13 +21,13 @@ const opacity = keyframes`
 
 const Conatiner = styled.div`
   & > svg:nth-of-type(1) {
-    animation: ${opacity} 0.6s 0.1s ease-in-out infinite;
+    animation: ${opacity} 0.6s 0.1s infinite alternate linear;
   }
   & > svg:nth-of-type(2) {
-    animation: ${opacity} 0.6s 0.2s ease-in-out infinite;
+    animation: ${opacity} 0.6s 0.2s infinite alternate linear;
   }
   & > svg:nth-of-type(3) {
-    animation: ${opacity} 0.6s 0.3s ease-in-out infinite;
+    animation: ${opacity} 0.6s 0.3s infinite alternate linear;
   }
 `;
 
