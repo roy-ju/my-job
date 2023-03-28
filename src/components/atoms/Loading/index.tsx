@@ -24,10 +24,10 @@ const Conatiner = styled.div`
     animation: ${opacity} 0.6s 0.1s infinite alternate linear;
   }
   & > svg:nth-of-type(2) {
-    animation: ${opacity} 0.6s 0.2s infinite alternate linear;
+    animation: ${opacity} 0.6s 0.2s infinite alternate;
   }
   & > svg:nth-of-type(3) {
-    animation: ${opacity} 0.6s 0.3s infinite alternate linear;
+    animation: ${opacity} 0.6s 0.3s infinite alternate;
   }
 `;
 
@@ -39,9 +39,9 @@ export default function Loading({ size = 'medium', ...others }: LoadingProps) {
   return (
     <div {...others}>
       <Conatiner css={[tw`flex justify-center gap-4`, gaps[size]]}>
-        <LoadingIcon css={iconSizes[size]} />
-        <LoadingIcon css={iconSizes[size]} />
-        <LoadingIcon css={iconSizes[size]} />
+        <LoadingIcon css={[tw`opacity-20`, iconSizes[size]]} />
+        <LoadingIcon css={[tw`opacity-20`, iconSizes[size]]} />
+        <LoadingIcon css={[tw`opacity-20`, iconSizes[size]]} />
       </Conatiner>
     </div>
   );
