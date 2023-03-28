@@ -25,6 +25,7 @@ interface Props {
   notifications?: INotificationListItem[];
   isLoading?: boolean;
   isDeleting?: boolean;
+  isDeleteLoading?: boolean;
   checkedState?: Record<number, boolean>;
   onNext?: () => void;
   onChangeTabIndex?: (index: number) => void;
@@ -40,6 +41,7 @@ export default function NotificationList({
   checkedState,
   isLoading = false,
   isDeleting = false,
+  isDeleteLoading = false,
   onNext,
   onChangeTabIndex,
   onClickHeaderItem,
@@ -78,7 +80,13 @@ export default function NotificationList({
       )}
       {isDeleting && (
         <div tw="absolute left-0 bottom-0 w-full px-5 py-4 bg-white shadow-persistentBottomBar">
-          <Button variant="secondary" size="bigger" tw="w-full" onClick={onDeleteNotifications}>
+          <Button
+            isLoading={isDeleteLoading}
+            variant="secondary"
+            size="bigger"
+            tw="w-full"
+            onClick={onDeleteNotifications}
+          >
             삭제하기
           </Button>
         </div>

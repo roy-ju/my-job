@@ -8,8 +8,9 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth }: Props) => {
-  const { nickname, email, name, phone, roadNameAddress, addressDetail, ownershipVerified } = useMyDetail();
+export default memo(({ depth, panelWidth }: Props) => {
+  const { nickname, email, name, phone, roadNameAddress, addressDetail, ownershipVerified, handleClickDeregister } =
+    useMyDetail(depth);
 
   return (
     <Panel width={panelWidth}>
@@ -21,6 +22,7 @@ export default memo(({ panelWidth }: Props) => {
         address={roadNameAddress ?? ''}
         addressDetail={addressDetail ?? ''}
         addressVerified={ownershipVerified ?? false}
+        onClickDeregister={handleClickDeregister}
       />
     </Panel>
   );

@@ -1,7 +1,9 @@
 import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
+import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import { IChatMessage } from '@/components/templates/ChatRoom/ChatMessageWrapper';
 import Keys from '@/constants/storage_keys';
 import { useLocalStorage } from '@/hooks/utils';
+import useLatest from '@/hooks/utils/useLatest';
 import useWebSocket from '@/hooks/utils/useWebSocket';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -17,6 +19,8 @@ export default function useChatRoom(chatRoomID: number) {
   const [accessToken] = useLocalStorage(Keys.ACCESS_TOKEN, '');
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
   const [textFieldDisabled, setTextFieldDisabled] = useState(false);
+  const { mutate: mutateChatRoomList } = useAPI_ChatRoomList();
+  const mutateListRef = useLatest(mutateChatRoomList);
 
   const webSocketUrl = useMemo(() => {
     if (!chatRoomID || !accessToken) return '';
@@ -35,6 +39,7 @@ export default function useChatRoom(chatRoomID: number) {
     onMessage: (event) => {
       const chat = JSON.parse(event.data) as WebSocketMessage;
       if (chat.chat_id && chat.message) {
+        mutateListRef.current();
         setChatMessages((prev) => [
           ...prev,
           {

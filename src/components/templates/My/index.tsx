@@ -7,17 +7,31 @@ import defaultAvatar from '@/../public/static/images/default_avatar.png';
 interface Props {
   isLoading?: boolean;
   nickname?: string;
+  unreadNotificationCount?: number;
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
 }
 
-export default function My({ isLoading, nickname, onClickNotificationList, onClickMyDetail }: Props) {
+export default function My({
+  isLoading,
+  nickname,
+  unreadNotificationCount = 0,
+  onClickNotificationList,
+  onClickMyDetail,
+}: Props) {
   return (
     <div>
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1 leading-none">My네고</NavigationHeader.Title>
         <NavigationHeader.Button tw="ml-auto" onClick={onClickNotificationList}>
-          <BellIcon />
+          <div tw="relative">
+            <BellIcon />
+            {unreadNotificationCount > 0 && (
+              <span tw="absolute right-1 top-0 translate-x-1/2 text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center">
+                {unreadNotificationCount}
+              </span>
+            )}
+          </div>
         </NavigationHeader.Button>
       </NavigationHeader>
       <MySummary
