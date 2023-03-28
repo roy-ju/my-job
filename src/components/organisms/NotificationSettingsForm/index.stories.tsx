@@ -12,6 +12,10 @@ export const ServiceForm: ComponentStory<typeof NotificationSettingsForm.Service
 
 export const ChatForm: ComponentStory<typeof NotificationSettingsForm.Chat> = () => <NotificationSettingsForm.Chat />;
 
-export const MarketingForm: ComponentStory<typeof NotificationSettingsForm.Marketing> = () => (
-  <NotificationSettingsForm.Marketing />
+export const MarketingForm: ComponentStory<typeof NotificationSettingsForm.Marketing> = (args) => (
+  <NotificationSettingsForm.Marketing {...args} />
 );
+
+MarketingForm.args = {
+  agreementDate: '2022-10-10',
+};
