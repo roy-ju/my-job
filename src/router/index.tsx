@@ -13,6 +13,8 @@ const NotificationSettings = dynamic(() => import('@/components/pages/Notificati
   ssr: false,
   loading: () => <Panel />,
 });
+const NoticeList = dynamic(() => import('@/components/pages/NoticeList'), { ssr: false, loading: () => <Panel /> });
+const NoticeDetail = dynamic(() => import('@/components/pages/NoticeDetail'), { ssr: false, loading: () => <Panel /> });
 const Listings = dynamic(() => import('@/components/pages/Listings'), { loading: () => <Panel /> });
 const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail'), { loading: () => <Panel /> });
 const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'), { ssr: false, loading: () => <Panel /> });
@@ -51,6 +53,14 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.NotificationSettings: {
       return <NotificationSettings {...props} />;
+    }
+
+    case Routes.NoticeList: {
+      return <NoticeList {...props} />;
+    }
+
+    case Routes.NoticeDetail: {
+      return <NoticeDetail {...props} />;
     }
 
     case Routes.Deregister: {

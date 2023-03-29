@@ -9,9 +9,10 @@ export interface INoticeListItem {
 
 export interface NoticeListProps {
   notices: INoticeListItem[];
+  onClickItem?: (id: number) => void;
 }
 
-export default function NoticeList({ notices }: NoticeListProps) {
+export default function NoticeList({ notices, onClickItem }: NoticeListProps) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -19,7 +20,12 @@ export default function NoticeList({ notices }: NoticeListProps) {
       </NavigationHeader>
       <div tw="pt-1 flex-1 min-h-0 overflow-auto">
         {notices.map((item) => (
-          <NoticeListItem key={item.id} title={item.title} createdTime={item.createdTime} />
+          <NoticeListItem
+            key={item.id}
+            title={item.title}
+            createdTime={item.createdTime}
+            onClick={() => onClickItem?.(item.id)}
+          />
         ))}
       </div>
     </div>
