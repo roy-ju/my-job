@@ -10,6 +10,7 @@ interface Props {
   unreadNotificationCount?: number;
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
+  onClickNoticeList?: () => void;
 }
 
 export default function My({
@@ -18,6 +19,7 @@ export default function My({
   unreadNotificationCount = 0,
   onClickNotificationList,
   onClickMyDetail,
+  onClickNoticeList,
 }: Props) {
   return (
     <div>
@@ -46,7 +48,7 @@ export default function My({
           <MyPageNavigationList.Item title="관심실거래가 현황" />
           <MyPageNavigationList.Item title="거래참여 이력" />
           <MyPageNavigationList.Item title="네고시오 소개" />
-          <MyPageNavigationList.Item title="공지사항" />
+          <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
           <MyPageNavigationList.Item title="자주 묻는 질문" />
           <MyPageNavigationList.Item title="서비스 문의" />
           <MyPageNavigationList.Item title="서비스 정보" />

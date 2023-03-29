@@ -65,7 +65,7 @@ function MoreButton({ items, onClickItem }: MoreButtonProps) {
 
 const Button = tw.button`relative h-full`;
 
-const Title = tw.div`text-b1 text-gray-1000 font-bold pt-px`;
+const Title = tw.div`flex-1 min-w-0 overflow-hidden whitespace-nowrap text-ellipsis text-b1 text-gray-1000 font-bold pt-px pr-1`;
 
 export default Object.assign(NavigationHeader, {
   Title,

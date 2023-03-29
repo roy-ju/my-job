@@ -14,3 +14,5 @@ export { default as NotificationList } from './NotificationList';
 export { default as NotificationSettings } from './NotificationSettings';
 export { default as MyDetail } from './MyDetail';
 export { default as Deregister } from './Deregister';
+export { default as NoticeList } from './NoticeList';
+export { default as NoticeDetail } from './NoticeDetail';

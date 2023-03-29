@@ -3,6 +3,8 @@ const Routes = {
   MyDetail: 'myDetail',
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',
+  NoticeList: 'noticeList',
+  NoticeDetail: 'noticeDetail',
   ListingList: 'listings',
   ListingDetail: 'listingDetail',
   ChatRoom: 'chatRoom',
