@@ -1,14 +1,10 @@
-import React, { ReactNode, useContext, useMemo } from 'react';
+import React, { ReactNode } from 'react';
 import { Button } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
-import PopupContext from './PopupContext';
+import tw from 'twin.macro';
+import ButtonGroup, { ButtonGroupProps } from '@/components/molecules/ButtonGroup';
 
 interface PopupProps {
-  isOpen?: boolean;
   children?: ReactNode;
-  onClick?: () => void;
-  onCancel?: () => void;
-  hasTwoButton?: true;
 }
 
 type PopupSubComponentProps = Pick<PopupProps, 'children'>;
@@ -25,64 +21,26 @@ function PopupContents({ children }: PopupSubComponentProps) {
 
 /* Button Components */
 
-function PopupCancelButton({ children }: PopupSubComponentProps) {
-  const { onCancel: handleCancel } = useContext(PopupContext);
+const PopupCancelButton = tw(Button)`flex-1 rounded-t-none text-gray-1000 bg-gray-200 hover:bg-gray-400`;
 
-  return (
-    <Button onClick={handleCancel} variant="ghost" size="big" tw="rounded-none">
-      {children}
-    </Button>
-  );
-}
+const PopupActionButton = tw(Button)`flex-1 rounded-t-none bg-nego-800 hover:bg-nego-600`;
 
-function PopupActionButton({ children }: PopupSubComponentProps) {
-  const { onClick: handleClick, hasTwoButton } = useContext(PopupContext);
-
-  if (hasTwoButton) {
-    return (
-      <Button onClick={handleClick} variant="secondary" size="big" tw="rounded-none rounded-br-lg">
-        {children}
-      </Button>
-    );
-  }
-  return (
-    <Button onClick={handleClick} variant="secondary" size="big" tw="rounded-none rounded-b-lg">
-      {children}
-    </Button>
-  );
-}
+const PopupButtonGroup = tw(({ size = 'big', ...others }: ButtonGroupProps) => (
+  <ButtonGroup size={size} {...others} />
+))`w-full`;
 
 /* Super Component */
 
-function PopupMain({ isOpen: isOpenProp, children, onClick, onCancel, hasTwoButton }: PopupProps) {
-  const [isOpen, setIsOpen] = useControlled({ controlled: isOpenProp, default: false });
-
-  const handleCancel = useMemo(
-    () =>
-      onCancel ||
-      (() => {
-        setIsOpen(false);
-      }),
-    [onCancel, setIsOpen],
-  );
-
-  const context = useMemo(
-    () => ({ onCancel: handleCancel, onClick, hasTwoButton, isOpen }),
-    [handleCancel, onClick, hasTwoButton, isOpen],
-  );
-
-  // if (!isOpen) return null;
-
-  return (
-    <PopupContext.Provider value={context}>
-      <div tw="min-w-[20rem]  bg-white shadow-[20px_32px_56px_rgba(0,0,0,0.1)] rounded-lg">{children}</div>
-    </PopupContext.Provider>
-  );
+function PopupMain({ children }: PopupProps) {
+  return <div tw="w-[20rem]  bg-white shadow rounded-lg">{children}</div>;
 }
 
-export const Popup = Object.assign(PopupMain, {
+const Popup = Object.assign(PopupMain, {
   Title: PopupTitle,
   Contents: PopupContents,
+  ButtonGroup: PopupButtonGroup,
   ActionButton: PopupActionButton,
   CancelButton: PopupCancelButton,
 });
+
+export default Popup;

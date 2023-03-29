@@ -9,6 +9,7 @@ interface Props {
   loggedIn?: boolean;
   nickname?: string;
   unreadNotificationCount?: number;
+  onClickLogin?: () => void;
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
   onClickNoticeList?: () => void;
@@ -19,6 +20,7 @@ export default function My({
   loggedIn,
   nickname,
   unreadNotificationCount = 0,
+  onClickLogin,
   onClickNotificationList,
   onClickMyDetail,
   onClickNoticeList,
@@ -49,14 +51,12 @@ export default function My({
         )}
         {!isLoading && !loggedIn && (
           <div tw="mt-5 mb-14">
-            <LoginRequired />
+            <LoginRequired onClickLogin={onClickLogin} />
           </div>
         )}
         <Separator />
         <div tw="pt-5">
           <MyPageNavigationList>
-            <MyPageNavigationList.Item title="관심실거래가 현황" />
-            <MyPageNavigationList.Item title="거래참여 이력" />
             <MyPageNavigationList.Item title="네고시오 소개" />
             <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
             <MyPageNavigationList.Item title="자주 묻는 질문" />

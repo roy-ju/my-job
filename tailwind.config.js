@@ -112,6 +112,8 @@ module.exports = {
         },
         yellow: {
           DEFAULT: '#FFF5D9',
+          kakao: '#FEE500',
+          kakaoHover: '#FADA0A',
           100: '#FFF5D9',
           200: '#FFEEC0',
           300: '#FFE59F',

@@ -16,6 +16,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { user, isLoading } = useAuth();
   const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
 
+  const handleClickLogin = useCallback(() => {
+    router.push(Routes.Login);
+  }, [router]);
+
   const handleClickNotificationList = useCallback(() => {
     router.push(Routes.NotificationList);
   }, [router]);
@@ -35,6 +39,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}
         onClickMyDetail={handleClickMyDetail}
         onClickNoticeList={handleClickNoticeList}

@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Popup } from '.';
+import Popup from '.';
 
 export default {
   title: 'molecules/Popup',
@@ -16,14 +16,14 @@ export const Default: ComponentStory<typeof Popup> = () => (
         중개사와 채팅을 통해서 주소공개를 요청하실 수 있습니다.
       </Popup.Contents>
     </div>
-    <div tw="grid">
+    <Popup.ButtonGroup>
       <Popup.ActionButton>확인</Popup.ActionButton>
-    </div>
+    </Popup.ButtonGroup>
   </Popup>
 );
 
 export const WithTwoButton: ComponentStory<typeof Popup> = () => (
-  <Popup hasTwoButton>
+  <Popup>
     <div tw="px-5 py-6 flex flex-col gap-4">
       <Popup.Title>채팅방을 나가시겠습니까?</Popup.Title>
       <Popup.Contents>
@@ -32,10 +32,10 @@ export const WithTwoButton: ComponentStory<typeof Popup> = () => (
         방문일정이 완료되기 전까지 채팅방을 이용해주세요.
       </Popup.Contents>
     </div>
-    <div tw="grid grid-cols-2">
+    <Popup.ButtonGroup>
       <Popup.CancelButton>취소</Popup.CancelButton>
       <Popup.ActionButton>채팅방 나가기</Popup.ActionButton>
-    </div>
+    </Popup.ButtonGroup>
   </Popup>
 );
 
@@ -44,20 +44,20 @@ export const OnlyTitle: ComponentStory<typeof Popup> = () => (
     <div tw="px-5 py-12 text-center">
       <Popup.Title>최고가 제안자가 변경조건 동의 대기중일 경우 최고가를 수락할 수 없습니다.</Popup.Title>
     </div>
-    <div tw="grid">
+    <Popup.ButtonGroup>
       <Popup.ActionButton>채팅방 나가기</Popup.ActionButton>
-    </div>
+    </Popup.ButtonGroup>
   </Popup>
 );
 
 export const OnlyTitleWithTwoButton: ComponentStory<typeof Popup> = () => (
-  <Popup hasTwoButton>
+  <Popup>
     <div tw="px-5 py-12 text-center">
       <Popup.Title>최고가 제안자가 변경조건 동의 대기중일 경우 최고가를 수락할 수 없습니다.</Popup.Title>
     </div>
-    <div tw="grid grid-cols-2">
+    <Popup.ButtonGroup>
       <Popup.CancelButton>취소</Popup.CancelButton>
       <Popup.ActionButton>채팅방 나가기</Popup.ActionButton>
-    </div>
+    </Popup.ButtonGroup>
   </Popup>
 );

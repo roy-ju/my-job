@@ -30,16 +30,6 @@ interface ChatRoomListProps {
   isLoading: boolean;
 }
 
-function NoData() {
-  return (
-    <div tw="flex-1">
-      <ChatRoomListNoData />
-      <Separator />
-      <ChatRoomGuide />
-    </div>
-  );
-}
-
 function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
   return (
     <div tw="flex-1 min-h-0">
@@ -62,6 +52,18 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
           />
         ))}
       </ListContainer>
+    </div>
+  );
+}
+
+function NoData() {
+  return (
+    <div tw="flex-1">
+      <div tw="pt-12 pb-10">
+        <ChatRoomListNoData />
+      </div>
+      <Separator />
+      <ChatRoomGuide />
     </div>
   );
 }
