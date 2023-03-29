@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useMemo, useCallback } from 'react';
+import React, { ReactNode, useContext, useMemo } from 'react';
 import { Button } from '@/components/atoms';
 import { useControlled } from '@/hooks/utils';
 import PopupContext from './PopupContext';
@@ -57,16 +57,21 @@ function PopupActionButton({ children }: PopupSubComponentProps) {
 function PopupMain({ isOpen: isOpenProp, children, onClick, onCancel, hasTwoButton }: PopupProps) {
   const [isOpen, setIsOpen] = useControlled({ controlled: isOpenProp, default: false });
 
-  const handleCancel = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen, onCancel]);
+  const handleCancel = useMemo(
+    () =>
+      onCancel ||
+      (() => {
+        setIsOpen(false);
+      }),
+    [onCancel, setIsOpen],
+  );
 
   const context = useMemo(
     () => ({ onCancel: handleCancel, onClick, hasTwoButton, isOpen }),
     [handleCancel, onClick, hasTwoButton, isOpen],
   );
 
-  //if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   return (
     <PopupContext.Provider value={context}>
