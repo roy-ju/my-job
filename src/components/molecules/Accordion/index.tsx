@@ -33,15 +33,21 @@ function Accordion({ expanded: expandedProp, onChange, children }: AccordionProp
 
 const SummaryButton = tw.button`w-full flex items-center justify-between hover:bg-gray-100`;
 
-function AccordionSummary({ children, ...others }: Omit<HTMLProps<HTMLButtonElement>, 'type' | 'onClick'>) {
+interface AccordionSummaryProps extends Omit<HTMLProps<HTMLButtonElement>, 'type' | 'onClick'> {
+  hideArrow?: boolean;
+}
+
+function AccordionSummary({ children, hideArrow = false, ...others }: AccordionSummaryProps) {
   const { expanded, onChange } = useContext(AccordionContext);
 
   return (
     <SummaryButton type="button" onClick={() => onChange?.(!expanded)} {...others}>
       <div>{children}</div>
-      <div css={[tw`transition-transform`, expanded && tw`rotate-180`]}>
-        <ChevronDown />
-      </div>
+      {!hideArrow && (
+        <div css={[tw`transition-transform`, expanded && tw`rotate-180`]}>
+          <ChevronDown />
+        </div>
+      )}
     </SummaryButton>
   );
 }
