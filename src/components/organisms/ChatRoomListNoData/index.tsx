@@ -2,7 +2,7 @@ import { Button } from '@/components/atoms';
 
 export default function ChatRoomListNoData() {
   return (
-    <div tw="pt-12 pb-10 bg-white flex flex-col items-center justify-center">
+    <div tw="flex flex-col items-center justify-center">
       <div tw="text-h2 leading-none text-gray-1000 font-bold text-center mb-4">
         중개사 채팅을
         <br />
