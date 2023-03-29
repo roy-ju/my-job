@@ -40,6 +40,7 @@ export default function useAPI_GetUserInfo(options?: { revalidateIfStale?: boole
   const { data, isLoading, mutate } = useSWR<GetUserInfoResponse>('/user/info/get', null, {
     ...options,
   });
+
   return {
     data,
     isLoading,

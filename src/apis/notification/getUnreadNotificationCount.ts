@@ -1,3 +1,4 @@
+import { useAuth } from '@/hooks/services';
 import useSWR from 'swr';
 
 interface Response {
@@ -5,7 +6,9 @@ interface Response {
 }
 
 export default function useAPI_GetUnreadNotificationCount() {
-  const { data, mutate } = useSWR<Response>('/notification/unread/total');
+  const { user } = useAuth();
+
+  const { data, mutate } = useSWR<Response>(user ? '/notification/unread/total' : null);
   return {
     count: data?.total_unread_count ?? 0,
     mutate,

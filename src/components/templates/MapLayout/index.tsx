@@ -37,7 +37,7 @@ function LayoutMain({ tabIndex, onChangeTab, children }: LayoutMainProps) {
           <GlobalNavigation.TabButton idx={1} text="지도" icon={<MapPin />} />
           <GlobalNavigation.TabButton idx={2} text="나의거래" icon={<Bidding />} />
           <GlobalNavigation.TabButton idx={3} text="문의목록" icon={<ChatBubble />} />
-          <GlobalNavigation.TabButton idx={4} text="My네고" icon={<User />} />
+          <GlobalNavigation.TabButton idx={4} text="마이페이지" icon={<User />} />
           {process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' && (
             <GlobalNavigation.TabButton idx={5} text="개발자설정" icon={<User />} />
           )}

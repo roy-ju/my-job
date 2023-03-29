@@ -16,7 +16,7 @@ export const Default: ComponentStory<typeof NavigationHeader> = () => (
 
 export const WithButton: ComponentStory<typeof NavigationHeader> = () => (
   <NavigationHeader>
-    <NavigationHeader.Title>My네고</NavigationHeader.Title>
+    <NavigationHeader.Title>마이페이지</NavigationHeader.Title>
     <NavigationHeader.Button tw="ml-auto">
       <BellIcon />
     </NavigationHeader.Button>
@@ -27,7 +27,7 @@ const items = ['삭제하기', '알림설정'];
 
 export const WithMoreButton: ComponentStory<typeof NavigationHeader> = () => (
   <NavigationHeader>
-    <NavigationHeader.Title>My네고</NavigationHeader.Title>
+    <NavigationHeader.Title>마이페이지</NavigationHeader.Title>
     <NavigationHeader.MoreButton items={items} />
   </NavigationHeader>
 );

@@ -1,4 +1,4 @@
-import { Avatar, Button, Loading } from '@/components/atoms';
+import { Avatar, Button } from '@/components/atoms';
 import { StaticImageData } from 'next/image';
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import { theme } from 'twin.macro';
@@ -18,7 +18,6 @@ function SummaryItem({ title, value }: SummaryItemProps) {
 }
 
 interface MySummaryProps {
-  isLoading?: boolean;
   profileImagePath?: string | StaticImageData;
   nickname?: string;
   point?: number;
@@ -26,15 +25,7 @@ interface MySummaryProps {
   onClickMyDetail?: () => void;
 }
 
-export default function MySummary({ isLoading, nickname, profileImagePath, onClickMyDetail }: MySummaryProps) {
-  if (isLoading) {
-    return (
-      <div tw="h-[185px] flex items-center justify-center">
-        <Loading tw="text-center" />
-      </div>
-    );
-  }
-
+export default function MySummary({ nickname, profileImagePath, onClickMyDetail }: MySummaryProps) {
   return (
     <div>
       <button
