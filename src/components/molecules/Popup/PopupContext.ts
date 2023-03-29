@@ -1,11 +1,12 @@
 import { createContext } from 'react';
 
 interface IPopupContext {
-  closePopup: () => void;
+  isOpen?: boolean;
   onClick?: () => void;
-  variant?: 'twinButton' | undefined;
+  onCancel?: () => void;
+  hasTwoButton?: true;
 }
 
-const PopupContext = createContext<IPopupContext>({ closePopup: () => {} });
+const PopupContext = createContext<IPopupContext>({});
 
 export default PopupContext;
