@@ -18,6 +18,6 @@ export const Default: ComponentStory<typeof GlobalNavigation> = () => (
     <GlobalNavigation.TabButton text="지도" idx={1} icon={<MapPin />} />
     <GlobalNavigation.TabButton text="관심목록" idx={2} icon={<Heart />} />
     <GlobalNavigation.TabButton text="문의목록" idx={3} icon={<ChatBubble />} />
-    <GlobalNavigation.TabButton text="My네고" idx={4} icon={<User />} />
+    <GlobalNavigation.TabButton text="마이페이지" idx={4} icon={<User />} />
   </GlobalNavigation>
 );

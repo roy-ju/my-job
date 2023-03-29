@@ -14,7 +14,6 @@ export const Default: ComponentStory<typeof MySummary> = (args) => (
 );
 
 Default.args = {
-  isLoading: false,
   profileImagePath: defaultAvatar,
   nickname: '김네고',
 };

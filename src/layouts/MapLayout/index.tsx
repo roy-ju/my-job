@@ -133,7 +133,7 @@ export default function MapLayout({ children }: Props) {
         case 3: // 문의목록
           router.replace(Routes.ChatRoomList);
           break;
-        case 4: // My네고
+        case 4: // 마이페이지
           router.replace(Routes.My);
           break;
         case 5: // 개발자설정

@@ -33,6 +33,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       <MyTemplate
         unreadNotificationCount={unreadNotificationCount}
         isLoading={isLoading}
+        loggedIn={user !== null}
         nickname={user?.nickname}
         onClickNotificationList={handleClickNotificationList}
         onClickMyDetail={handleClickMyDetail}
