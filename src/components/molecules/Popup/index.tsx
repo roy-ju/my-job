@@ -1,76 +1,44 @@
-import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import tw from 'twin.macro';
-import { createPortal } from 'react-dom';
-import { Button } from '../../atoms';
+import React, { ReactNode, useContext, useMemo, useCallback } from 'react';
+import { Button } from '@/components/atoms';
+import { useControlled } from '@/hooks/utils';
 import PopupContext from './PopupContext';
 
 interface PopupProps {
+  isOpen?: boolean;
   children?: ReactNode;
-  onChange?: () => void;
-  variant?: 'twinButton' | undefined;
+  onClick?: () => void;
+  onCancel?: () => void;
+  hasTwoButton?: true;
 }
 
 type PopupSubComponentProps = Pick<PopupProps, 'children'>;
 
 /* Text Components */
 
-function PopupTextWrapper({ children }: PopupSubComponentProps) {
-  if (children && Array.isArray(children)) {
-    return <div css={tw`px-5 py-6`}>{children}</div>;
-  }
-
-  return <div css={tw`px-5 py-12 font-sans text-center`}>{children}</div>;
-}
-
 function PopupTitle({ children }: PopupSubComponentProps) {
-  return <div css={tw`font-bold text-h3`}>{children}</div>;
+  return <strong tw="font-bold text-h3">{children}</strong>;
 }
 
 function PopupContents({ children }: PopupSubComponentProps) {
-  return <div css={tw`text-gray-700 text-info`}>{children}</div>;
+  return <p tw="text-gray-700 text-info">{children}</p>;
 }
 
 /* Button Components */
 
-function PopupButtonWrapper({ children }: PopupSubComponentProps) {
-  if (Array.isArray(children)) {
-    return <div css={tw`grid grid-cols-2`}>{children}</div>;
-  }
-
-  return <div css={tw`grid`}>{children}</div>;
-}
-
 function PopupCancelButton({ children }: PopupSubComponentProps) {
-  const { closePopup } = useContext(PopupContext);
+  const { onCancel: handleCancel } = useContext(PopupContext);
 
   return (
-    <Button onClick={closePopup} variant="gray" size="big" tw="bg-[#FFCD4E]/[.3] hover:bg-[#FFCD4E]/[.2] rounded-none">
+    <Button onClick={handleCancel} variant="ghost" size="big" tw="rounded-none">
       {children}
     </Button>
   );
 }
 
-function PopupConfirmButton({ children }: PopupSubComponentProps) {
-  const { onClick: handleClick, variant } = useContext(PopupContext);
+function PopupActionButton({ children }: PopupSubComponentProps) {
+  const { onClick: handleClick, hasTwoButton } = useContext(PopupContext);
 
-  if (variant === 'twinButton') {
-    return (
-      <Button onClick={handleClick} variant="secondary" size="big" tw="rounded-none rounded-br-lg">
-        {children}
-      </Button>
-    );
-  }
-  return (
-    <Button onClick={handleClick} variant="secondary" size="big" tw="rounded-none rounded-b-lg">
-      {children}
-    </Button>
-  );
-}
-
-function PopupCustomButton({ children }: PopupSubComponentProps) {
-  const { onClick: handleClick, variant } = useContext(PopupContext);
-
-  if (variant === 'twinButton') {
+  if (hasTwoButton) {
     return (
       <Button onClick={handleClick} variant="secondary" size="big" tw="rounded-none rounded-br-lg">
         {children}
@@ -86,39 +54,30 @@ function PopupCustomButton({ children }: PopupSubComponentProps) {
 
 /* Super Component */
 
-function PopupMain({ children, onChange, variant }: PopupProps) {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isCSR, setIsCSR] = useState(false);
+function PopupMain({ isOpen: isOpenProp, children, onClick, onCancel, hasTwoButton }: PopupProps) {
+  const [isOpen, setIsOpen] = useControlled({ controlled: isOpenProp, default: false });
 
-  useEffect(() => {
-    setIsCSR(true);
-  }, []);
-
-  const closePopup = useCallback(() => {
+  const handleCancel = useCallback(() => {
     setIsOpen(false);
-  }, []);
+  }, [setIsOpen, onCancel]);
 
-  const context = useMemo(() => ({ onChange, closePopup, variant }), [onChange, closePopup, variant]);
+  const context = useMemo(
+    () => ({ onCancel: handleCancel, onClick, hasTwoButton, isOpen }),
+    [handleCancel, onClick, hasTwoButton, isOpen],
+  );
 
-  if (!isOpen) return null;
-  if (!isCSR) return null;
+  //if (!isOpen) return null;
 
-  return createPortal(
+  return (
     <PopupContext.Provider value={context}>
-      <div css={tw`absolute flex items-center justify-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2`}>
-        <div css={tw`min-w-[20rem] shadow-[20px_32px_56px_rgba(0,0,0,0.1)] rounded-lg`}>{children}</div>
-      </div>
-    </PopupContext.Provider>,
-    document.body,
+      <div tw="min-w-[20rem]  bg-white shadow-[20px_32px_56px_rgba(0,0,0,0.1)] rounded-lg">{children}</div>
+    </PopupContext.Provider>
   );
 }
 
 export const Popup = Object.assign(PopupMain, {
   Title: PopupTitle,
   Contents: PopupContents,
-  TextWrapper: PopupTextWrapper,
-  ConfirmButton: PopupConfirmButton,
+  ActionButton: PopupActionButton,
   CancelButton: PopupCancelButton,
-  CustomButton: PopupCustomButton,
-  ButtonWrapper: PopupButtonWrapper,
 });
