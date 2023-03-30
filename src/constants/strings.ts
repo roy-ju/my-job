@@ -1,6 +1,6 @@
 import { BuyOrRent, RealestateType } from './enums';
 
-export const RealestateTypeString: Record<RealestateType, string> = {
+export const RealestateTypeString: Record<number, string> = {
   [RealestateType.Apartment]: '아파트',
   [RealestateType.Officetel]: '오피스텔',
   [RealestateType.Dasaedae]: '아파트',
@@ -11,7 +11,7 @@ export const RealestateTypeString: Record<RealestateType, string> = {
   [RealestateType.TwoRoom]: '투룸',
 };
 
-export const BuyOrRentString: Record<BuyOrRent, string> = {
+export const BuyOrRentString: Record<number, string> = {
   [BuyOrRent.Buy]: '매매',
   [BuyOrRent.Jeonsae]: '전세',
   [BuyOrRent.Wolsae]: '월세',
