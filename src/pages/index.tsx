@@ -1,4 +1,4 @@
-import Home from '@/components/pages/Home';
+import Home from '@/components/pages/pc/Home';
 import { MapLayout } from '@/layouts';
 import { NextPageWithLayout } from './_app';
 

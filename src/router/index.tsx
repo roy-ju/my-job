@@ -1,29 +1,40 @@
+/**
+ * PC에서 사용되는 라우터
+ * Mobile에서는 src/pages 디렉토리를 사용한다.
+ */
+
 import { Panel } from '@/components/atoms';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
 import Routes from './routes';
 
-const My = dynamic(() => import('@/components/pages/My'), { ssr: false, loading: () => <Panel /> });
-const MyDetail = dynamic(() => import('@/components/pages/MyDetail'), { ssr: false, loading: () => <Panel /> });
-const NotificationList = dynamic(() => import('@/components/pages/NotificationList'), {
+const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
+const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: () => <Panel /> });
+const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
   loading: () => <Panel />,
 });
-const NotificationSettings = dynamic(() => import('@/components/pages/NotificationSettings'), {
+const NotificationSettings = dynamic(() => import('@/components/pages/pc/NotificationSettings'), {
   ssr: false,
   loading: () => <Panel />,
 });
-const NoticeList = dynamic(() => import('@/components/pages/NoticeList'), { ssr: false, loading: () => <Panel /> });
-const NoticeDetail = dynamic(() => import('@/components/pages/NoticeDetail'), { ssr: false, loading: () => <Panel /> });
-const Login = dynamic(() => import('@/components/pages/Login'), { ssr: false, loading: () => <Panel /> });
-const Listings = dynamic(() => import('@/components/pages/Listings'), { loading: () => <Panel /> });
-const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail'), { loading: () => <Panel /> });
-const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'), { ssr: false, loading: () => <Panel /> });
-const DanjiDetail = dynamic(() => import('@/components/pages/DanjiDetail'), { loading: () => <Panel /> });
-const ChatRoomList = dynamic(() => import('@/components/pages/ChatRoomList'), { ssr: false, loading: () => <Panel /> });
-const Developer = dynamic(() => import('@/components/pages/Developer'), { ssr: false, loading: () => <Panel /> });
-const NotFound = dynamic(() => import('@/components/pages/NotFound'), { loading: () => <Panel /> });
-const Deregister = dynamic(() => import('@/components/pages/Deregister'), { ssr: false, loading: () => <Panel /> });
+const NoticeList = dynamic(() => import('@/components/pages/pc/NoticeList'), { ssr: false, loading: () => <Panel /> });
+const NoticeDetail = dynamic(() => import('@/components/pages/pc/NoticeDetail'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: () => <Panel /> });
+const Listings = dynamic(() => import('@/components/pages/pc/Listings'), { loading: () => <Panel /> });
+const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: () => <Panel /> });
+const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: () => <Panel /> });
+const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), { loading: () => <Panel /> });
+const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: () => <Panel /> });
+const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: () => <Panel /> });
+const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), { ssr: false, loading: () => <Panel /> });
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
