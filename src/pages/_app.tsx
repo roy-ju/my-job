@@ -30,7 +30,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <>
-      <Script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js" onLoad={initializeKakaoSDK} />
+      <Script
+        src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
+        crossOrigin="anonymous"
+        onLoad={initializeKakaoSDK}
+      />
       <CacheProvider value={cache}>
         <GlobalStyles />
         <RecoilRoot>
