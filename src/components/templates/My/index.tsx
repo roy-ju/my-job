@@ -29,16 +29,18 @@ export default function My({
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1 leading-none">마이페이지</NavigationHeader.Title>
-        <NavigationHeader.Button tw="ml-auto" onClick={onClickNotificationList}>
-          <div tw="relative">
-            <BellIcon />
-            {unreadNotificationCount > 0 && (
-              <span tw="absolute right-1 top-0 translate-x-1/2 text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center">
-                {unreadNotificationCount}
-              </span>
-            )}
-          </div>
-        </NavigationHeader.Button>
+        {loggedIn && (
+          <NavigationHeader.Button tw="ml-auto" onClick={onClickNotificationList}>
+            <div tw="relative">
+              <BellIcon />
+              {unreadNotificationCount > 0 && (
+                <span tw="absolute right-1 top-0 translate-x-1/2 text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center">
+                  {unreadNotificationCount}
+                </span>
+              )}
+            </div>
+          </NavigationHeader.Button>
+        )}
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         {isLoading && (
