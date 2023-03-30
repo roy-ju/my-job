@@ -1,3 +1,7 @@
+/**
+ * PC에서 사용되는 Routes 이름들
+ */
+
 const Routes = {
   ChatRoom: 'chatRoom',
   ChatRoomList: 'chatRoomList',
