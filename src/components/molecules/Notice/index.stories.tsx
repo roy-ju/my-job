@@ -7,6 +7,19 @@ export default {
   component: Notice,
 } as ComponentMeta<typeof Notice>;
 
+export const Default: ComponentStory<typeof Notice> = () => (
+  <Notice>
+    <div tw="flex flex-col gap-4 items-center text-center">
+      <Notice.Title>이러이러합니다.</Notice.Title>
+      <Notice.Contents>
+        이러이러해서
+        <br />
+        저러저러합니다.
+      </Notice.Contents>
+    </div>
+  </Notice>
+);
+
 export const EmptyServiceContactList: ComponentStory<typeof Notice> = () => (
   <Notice>
     <div tw="flex flex-col gap-4 items-center text-center">
@@ -20,3 +33,10 @@ export const EmptyServiceContactList: ComponentStory<typeof Notice> = () => (
     </div>
   </Notice>
 );
+
+/*
+<div tw="bg-white h-full">
+
+      
+</div>
+*/
