@@ -1,8 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { Login as LoginTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback } from 'react';
 
 interface Props {
   depth: number;
@@ -11,17 +10,11 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const { user, isLoading } = useAuth();
 
   const handleKakaoLogin = useCallback(() => {
+    router.pop();
     window.open(`${window.location.origin}/auth/kakao`, '_blank');
-  }, []);
-
-  useEffect(() => {
-    if (user && !isLoading) {
-      router.pop();
-    }
-  }, [router, user, isLoading]);
+  }, [router]);
 
   return (
     <Panel width={panelWidth}>

@@ -1,3 +1,4 @@
+import { authFetcher } from '@/lib/swr';
 import useSWR from 'swr';
 
 export interface GetUserInfoResponse {
@@ -37,7 +38,7 @@ export interface GetUserInfoResponse {
 }
 
 export default function useAPI_GetUserInfo(options?: { revalidateIfStale?: boolean; revalidateOnFocus?: boolean }) {
-  const { data, isLoading, mutate } = useSWR<GetUserInfoResponse>('/user/info/get', null, {
+  const { data, isLoading, mutate } = useSWR<GetUserInfoResponse>('/user/info/get', authFetcher, {
     ...options,
   });
 
