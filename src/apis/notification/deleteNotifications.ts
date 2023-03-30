@@ -1,5 +1,9 @@
 import axios from '@/lib/axios';
 
 export default async function deleteNotifications(ids: string) {
-  await axios.post('/notification/delete', { ids });
+  try {
+    return await axios.post('/notification/delete', { ids });
+  } catch (e) {
+    return null;
+  }
 }
