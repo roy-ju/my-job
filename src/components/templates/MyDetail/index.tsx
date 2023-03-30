@@ -11,6 +11,7 @@ interface MyDetailProps {
   addressDetail: string;
   addressVerified: boolean;
   onClickDeregister: () => void;
+  onClickLogout: () => void;
 }
 
 export default function MyDetail({
@@ -22,6 +23,7 @@ export default function MyDetail({
   addressDetail,
   addressVerified,
   onClickDeregister,
+  onClickLogout,
 }: MyDetailProps) {
   return (
     <div>
@@ -29,7 +31,7 @@ export default function MyDetail({
         <NavigationHeader.Title tw="text-b1">회원정보</NavigationHeader.Title>
       </NavigationHeader>
       <MyDetailForm tw="pt-6 pb-10">
-        <MyDetailForm.LoginInfo nickname={nickname} email={email} />
+        <MyDetailForm.LoginInfo nickname={nickname} email={email} onClickLogout={onClickLogout} />
         <MyDetailForm.Separator />
         <MyDetailForm.IdentityInfo name={name} phone={phone} />
         <MyDetailForm.Separator />

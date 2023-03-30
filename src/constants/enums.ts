@@ -1,3 +1,8 @@
+export enum SocialLoginType {
+  Kakao = 1,
+  Apple = 2,
+}
+
 export enum RealestateType {
   Apartment = 10,
   Officetel = 20,
