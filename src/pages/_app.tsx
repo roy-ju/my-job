@@ -2,7 +2,7 @@ import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import GlobalStyles from '@/styles/GlobalStyles';
 import SWRConfig from '@/lib/swr';
@@ -19,8 +19,16 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-function AuthProvider({ children }: { children?: ReactNode }) {
-  useAuth();
+function NegocioProvider({ children }: { children?: ReactNode }) {
+  const { mutate } = useAuth();
+  useEffect(() => {
+    window.Negocio = {
+      onLoginSuccess: () => {
+        mutate(true);
+      },
+    };
+  }, [mutate]);
+
   return children as JSX.Element;
 }
 
@@ -40,7 +48,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <GlobalStyles />
         <RecoilRoot>
           <SWRConfig>
-            <AuthProvider>{getLayout(getComponent(pageProps), pageProps)}</AuthProvider>
+            <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
           </SWRConfig>
         </RecoilRoot>
       </CacheProvider>

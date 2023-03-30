@@ -1,4 +1,5 @@
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import Keys from '@/constants/storage_keys';
 import { useCallback, useMemo } from 'react';
 import { mutate } from 'swr';
 
@@ -38,5 +39,10 @@ export default function useAuth() {
     [mutateBase],
   );
 
-  return useMemo(() => ({ user, isLoading, mutate: mutateUser }), [user, mutateUser, isLoading]);
+  const logout = useCallback(() => {
+    localStorage.removeItem(Keys.ACCESS_TOKEN);
+    mutate(() => true, undefined, false);
+  }, []);
+
+  return useMemo(() => ({ user, isLoading, mutate: mutateUser, logout }), [user, mutateUser, isLoading, logout]);
 }

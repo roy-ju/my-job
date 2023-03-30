@@ -50,14 +50,15 @@ function HomeOwner({ verified }: HomeOwnerProps) {
 interface LoginInfoProps {
   nickname?: string;
   email?: string;
+  onClickLogout?: () => void;
 }
 
-function LoginInfo({ nickname, email }: LoginInfoProps) {
+function LoginInfo({ nickname, email, onClickLogout }: LoginInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex items-center justify-between mb-4">
         <div tw="text-b1 leading-4 font-bold">로그인 정보</div>
-        <Button variant="ghost" size="none" tw="text-info leading-4 underline">
+        <Button variant="ghost" size="none" tw="text-info leading-4 underline" onClick={onClickLogout}>
           로그아웃
         </Button>
       </div>

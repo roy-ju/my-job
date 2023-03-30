@@ -5,7 +5,6 @@ import { useCallback } from 'react';
 
 const Page: NextPage = () => {
   const handleLogin = useCallback(() => {
-    console.log('login with kakao');
     loginWithKakao();
   }, []);
 

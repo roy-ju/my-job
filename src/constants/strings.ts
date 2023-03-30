@@ -1,8 +1,6 @@
 import { BuyOrRent, RealestateType } from './enums';
 
-type EnumStringMapper = { [e: number]: string };
-
-export const RealestateTypeString: EnumStringMapper = {
+export const RealestateTypeString: Record<RealestateType, string> = {
   [RealestateType.Apartment]: '아파트',
   [RealestateType.Officetel]: '오피스텔',
   [RealestateType.Dasaedae]: '아파트',
@@ -13,7 +11,7 @@ export const RealestateTypeString: EnumStringMapper = {
   [RealestateType.TwoRoom]: '투룸',
 };
 
-export const BuyOrRentString: EnumStringMapper = {
+export const BuyOrRentString: Record<BuyOrRent, string> = {
   [BuyOrRent.Buy]: '매매',
   [BuyOrRent.Jeonsae]: '전세',
   [BuyOrRent.Wolsae]: '월세',
