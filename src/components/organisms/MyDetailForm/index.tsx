@@ -119,13 +119,19 @@ function AddressInfo({ address, addressDetail, verified = false }: AddressInfoPr
         <li>거주 또는 소유하신 부동산의 주소를 입력해 주세요.</li>
         <li>등록하신 주소지의 단지 및 주변 지역에 대한 신규 매물 및 실거래가 정보를 알려드립니다.</li>
       </Ul>
-      <div tw="flex flex-col gap-3">
-        <TextField variant="outlined">
-          <TextField.Input label="주소" value={address} readOnly />
-        </TextField>
-        <UpdatableTextField label="상세 주소" value={addressDetail} />
-        <HomeOwner verified={verified} />
-      </div>
+      {address ? (
+        <div tw="flex flex-col gap-3">
+          <TextField variant="outlined">
+            <TextField.Input label="주소" value={address} readOnly />
+          </TextField>
+          <UpdatableTextField label="상세 주소" value={addressDetail} />
+          <HomeOwner verified={verified} />
+        </div>
+      ) : (
+        <Button tw="w-full font-bold" variant="secondary">
+          주소 등록하기
+        </Button>
+      )}
     </div>
   );
 }
