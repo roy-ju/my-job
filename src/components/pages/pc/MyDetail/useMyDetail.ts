@@ -15,8 +15,8 @@ export default function useMyDetail(depth: number) {
   }, [router]);
 
   const handleLogout = useCallback(() => {
-    logout();
     router.pop();
+    logout();
   }, [logout, router]);
 
   return useMemo(

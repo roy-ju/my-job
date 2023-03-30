@@ -1,4 +1,5 @@
 import { useAuth } from '@/hooks/services';
+import { authFetcher } from '@/lib/swr';
 import useSWR from 'swr';
 
 export interface GetUserAddressResponse {
@@ -11,7 +12,7 @@ export interface GetUserAddressResponse {
 
 export default function useAPI_GetUserAddress() {
   const { user } = useAuth();
-  const { data, isLoading } = useSWR<GetUserAddressResponse>(user ? '/user/address/get' : null);
+  const { data, isLoading } = useSWR<GetUserAddressResponse>(user ? '/user/address/get' : null, authFetcher);
   return {
     data,
     isLoading,

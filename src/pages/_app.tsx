@@ -24,7 +24,7 @@ function NegocioProvider({ children }: { children?: ReactNode }) {
   useEffect(() => {
     window.Negocio = {
       onLoginSuccess: () => {
-        mutate(true);
+        mutate();
       },
     };
   }, [mutate]);
