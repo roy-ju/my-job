@@ -1,4 +1,5 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Panel } from '@/components/atoms';
 import ServiceContact from '.';
 
 const mock = [
@@ -6,81 +7,17 @@ const mock = [
     id: 1,
     contents: 'asd',
     createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
+    adminContents: '',
+    adminCreatedTime: '',
     didReply: false,
   },
   {
-    id: 1,
+    id: 2,
     contents: 'asd',
     createdTime: '2022.02.01',
     adminContents: 'asdsa',
     adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
-  },
-  {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: false,
+    didReply: true,
   },
 ];
 
@@ -89,13 +26,21 @@ export default {
   component: ServiceContact,
 } as ComponentMeta<typeof ServiceContact>;
 
-export const Default: ComponentStory<typeof ServiceContact> = (args) => <ServiceContact {...args} />;
+export const Default: ComponentStory<typeof ServiceContact> = (args) => (
+  <Panel>
+    <ServiceContact {...args} />
+  </Panel>
+);
 
 Default.args = {
   list: mock,
 };
 
-export const NoItems: ComponentStory<typeof ServiceContact> = (args) => <ServiceContact {...args} />;
+export const NoItems: ComponentStory<typeof ServiceContact> = (args) => (
+  <Panel>
+    <ServiceContact {...args} />
+  </Panel>
+);
 
 NoItems.args = {
   list: [],

@@ -9,9 +9,8 @@ interface IInquiryProps {
 
 export default function Inquiry({ placeholder, value, onChange }: IInquiryProps) {
   return (
-    <div tw="px-5 h-[calc(100%_-_88px)]">
-      {/* 스토리북 ui 테스트를 위해 TextField 컴포넌트의 높이를 임시로 50%로 지정하였습니다. 30rem으로 수정해야 함. */}
-      <TextField variant="outlined" tw="h-[50%]">
+    <div tw="px-5">
+      <TextField variant="outlined" tw="h-[30rem]">
         <TextField.TextArea
           value={value}
           placeholder={placeholder}
