@@ -21,7 +21,7 @@ export default function ServiceContact({ list }: ServiceContactProps) {
   const renderList = () => {
     if (list.length > 0) return <List list={list} />;
     return (
-      <div tw="h-[calc(100vh_-_88px)] mt-12">
+      <div tw="mt-12">
         <NoData />
       </div>
     );
@@ -62,11 +62,11 @@ export default function ServiceContact({ list }: ServiceContactProps) {
   );
 
   return (
-    <div tw="flex flex-col h-full bg-white w-[380px] min-h-screen">
+    <div tw="relative flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.Title>서비스 문의</NavigationHeader.Title>
       </NavigationHeader>
-      {isInquiring ? renderInquiry() : renderList()}
+      <div tw="flex-1">{isInquiring ? renderInquiry() : renderList()}</div>
       <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">
         {isInquiring ? renderInquiryButton() : renderListButton()}
       </div>
