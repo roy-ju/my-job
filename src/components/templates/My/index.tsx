@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavigationHeader } from '@/components/molecules';
 import BellIcon from '@/assets/icons/bell.svg';
 import { LoginRequired, MyPageNavigationList, MySummary } from '@/components/organisms';
@@ -14,6 +15,7 @@ interface Props {
   onClickMyDetail?: () => void;
   onClickNoticeList?: () => void;
   onClickServiceContact?: () => void;
+  onClickMyRealPriceList?: () => void;
 }
 
 export default function My({
@@ -26,6 +28,7 @@ export default function My({
   onClickMyDetail,
   onClickNoticeList,
   onClickServiceContact,
+  onClickMyRealPriceList,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -61,6 +64,12 @@ export default function My({
         <Separator />
         <div tw="pt-5">
           <MyPageNavigationList>
+            {loggedIn && (
+              <>
+                <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />
+                <MyPageNavigationList.Item title="거래참여 이력" />
+              </>
+            )}
             <MyPageNavigationList.Item title="네고시오 소개" />
             <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
             <MyPageNavigationList.Item title="자주 묻는 질문" />

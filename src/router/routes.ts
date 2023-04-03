@@ -16,6 +16,7 @@ const Routes = {
   MyAddress: 'myAddress',
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
+  MyRealPriceList: 'myRealPriceList',
   MyDetail: 'myDetail',
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',
