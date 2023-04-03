@@ -7,7 +7,19 @@ export default {
   component: ServiceContactListItem,
 } as ComponentMeta<typeof ServiceContactListItem>;
 
-export const Default: ComponentStory<typeof ServiceContactListItem> = () => (
+export const WaitingForReply: ComponentStory<typeof ServiceContactListItem> = () => (
+  <div tw="w-[380px]">
+    <ServiceContactListItem>
+      <ServiceContactListItem.User
+        contents="재의의 요구가 있을 때에는 국회는 재의에 붙이고, 재적의원과반수의 출석과 출석의원 3분의 2 이상의 찬성으로 전과 같은 의결을 하면 그 법률안은 법률로서 확정된다."
+        createdTime="2022.01.10"
+        didReply={false}
+      />
+    </ServiceContactListItem>
+  </div>
+);
+
+export const Answered: ComponentStory<typeof ServiceContactListItem> = () => (
   <div tw="w-[380px]">
     <ServiceContactListItem>
       <ServiceContactListItem.User
@@ -22,4 +34,3 @@ export const Default: ComponentStory<typeof ServiceContactListItem> = () => (
     </ServiceContactListItem>
   </div>
 );
-Default.args = {};
