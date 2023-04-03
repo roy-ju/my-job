@@ -20,3 +20,4 @@ export { default as Login } from './Login';
 export { default as MyAddress } from './MyAddress';
 export { default as MyAddressDetail } from './MyAddressDetail';
 export { default as MyAddressVerifying } from './MyAddressVerifying';
+export { default as ServiceContact } from './ServiceContact';
