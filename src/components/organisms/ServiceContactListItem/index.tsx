@@ -8,7 +8,7 @@ interface ServiceContactListItemProps {
 interface ServiceContactListItemUserProps {
   contents: string;
   createdTime: string;
-  didReply?: true;
+  didReply: boolean;
 }
 interface ServiceContactListItemAdminProps {
   contents: string;
@@ -47,7 +47,7 @@ function ServiceContactListItemMain({ children }: ServiceContactListItemProps) {
   return (
     <Accordion>
       <Accordion.Summary hideArrow>{childrenArray[0]}</Accordion.Summary>
-      {childrenArray[1] && <Accordion.Details>{childrenArray[1]}</Accordion.Details>}
+      {childrenArray[1] ? <Accordion.Details>{childrenArray[1]}</Accordion.Details> : null}
     </Accordion>
   );
 }
