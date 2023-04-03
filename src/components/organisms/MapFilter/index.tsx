@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 import FilterTypes from './FilterTypes';
 import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from './types';
-import RealestateTypeFilter from './RealestateTypeFilter';
+import RealestateTypeRoomCountFilter from './RealestateTypeRoomCountFilter';
 import BuyorRentFilter from './BuyOrRentFilter';
 import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from './PriceFilter';
 import HouseholdFilter from './HouseholdFilter';
@@ -23,6 +23,7 @@ export function getDefaultFilterAptOftl(): Filter {
     minHousehold: '100',
     gapInvestment: false,
     quickSale: false,
+    roomCounts: '',
   };
 }
 
@@ -42,13 +43,21 @@ export function getDefaultFilterVillaDandok(): Filter {
     minHousehold: '0',
     gapInvestment: false,
     quickSale: false,
+    roomCounts: '',
   };
 }
 
 export function getDefaultFilterOneRoomTwoRoom(): Filter {
   return {
     realestateTypeGroup: 'one,two',
-    realestateTypes: [RealestateType.OneRoom, RealestateType.TwoRoom].join(','),
+    realestateTypes: [
+      RealestateType.Apartment,
+      RealestateType.Officetel,
+      RealestateType.Yunrip,
+      RealestateType.Dasaedae,
+      RealestateType.Dandok,
+      RealestateType.Dagagoo,
+    ].join(','),
     buyOrRents: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
     depositRange: [0, DEPOSIT_STEPS.length - 1],
@@ -56,6 +65,7 @@ export function getDefaultFilterOneRoomTwoRoom(): Filter {
     minHousehold: '0',
     gapInvestment: false,
     quickSale: false,
+    roomCounts: '1,2',
   };
 }
 
@@ -110,7 +120,7 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
   const [filters, setFilters] = useState<FilterType[]>([]);
 
   // 유형 필터 열림/닫힘
-  const isRealestateTypeFilterAdded = useFilterType('realestateType', filters, filterTypes);
+  const isRealestateTypeRoomCountFilterAdded = useFilterType('realestateType', filters, filterTypes);
 
   // 거래 종류 필터 열림/닫힘
   const isBuyOrRentFilterAdded = useFilterType('buyOrRent', filters, filterTypes);
@@ -207,6 +217,18 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
     [onChangeFilter, setFilterState],
   );
 
+  // 유형 필터 방개수 Change Event Handler
+  const handleChangeRoomCounts = useCallback(
+    (newRoomCounts: string) => {
+      setFilterState((prev) => ({
+        ...prev,
+        roomCounts: newRoomCounts,
+      }));
+      onChangeFilter?.({ roomCounts: newRoomCounts });
+    },
+    [onChangeFilter, setFilterState],
+  );
+
   // 거래 종류 필터 Change Event Handler
   const handleChangeBuyOrRents = useCallback(
     (newBuyOrRents: string) => {
@@ -299,26 +321,24 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
     [onChangeFilter, setFilterState],
   );
 
-  // 기타 필터 존재 여부
+  // 필터 존재 여부
   useEffect(() => {
-    if (['apt,oftl', 'villa,dandok'].includes(filter.realestateTypeGroup)) {
-      const buyOrRents = filter.buyOrRents.split(',').map((item) => Number(item) as BuyOrRent);
-      if (buyOrRents.includes(BuyOrRent.Buy)) {
-        setFilterTypes((prev) => {
-          if (!prev.includes('etc')) {
-            return [...prev, 'etc'];
-          }
-          return prev;
-        });
-      } else {
-        setFilterTypes((prev) => {
-          if (prev.includes('etc')) {
-            return prev.filter((item) => item !== 'etc');
-          }
-          return prev;
-        });
-      }
+    const fts = [];
+    if (filter.realestateTypeGroup === 'apt,oftl') {
+      fts.push(...['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+    } else if (filter.realestateTypeGroup === 'villa,dandok') {
+      fts.push(...['realestateType', 'buyOrRent', 'price', 'etc']);
+    } else if (filter.realestateTypeGroup === 'one,two') {
+      fts.push(...['realestateType', 'buyOrRent', 'price']);
     }
+
+    const buyOrRents = filter.buyOrRents.split(',').map((item) => Number(item) as BuyOrRent);
+
+    if (!buyOrRents.includes(BuyOrRent.Buy)) {
+      fts.filter((item) => item !== 'etc');
+    }
+
+    setFilterTypes(fts as FilterType[]);
   }, [filter.realestateTypeGroup, filter.buyOrRents]);
 
   return (
@@ -355,11 +375,13 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
       />
       {filters.length > 0 && <div tw="w-full h-px bg-gray-300" />}
       <FiltersContainer tw="max-h-[500px] overflow-y-auto">
-        {isRealestateTypeFilterAdded && (
-          <RealestateTypeFilter
+        {isRealestateTypeRoomCountFilterAdded && (
+          <RealestateTypeRoomCountFilter
             realestateTypeGroup={filter.realestateTypeGroup}
-            value={filter.realestateTypes}
-            onChange={handleChangeRealestateTypes}
+            realestateTypes={filter.realestateTypes}
+            roomCounts={filter.roomCounts}
+            onChangeRealestateTypes={handleChangeRealestateTypes}
+            onChangeRoomCounts={handleChangeRoomCounts}
           />
         )}
         {isBuyOrRentFilterAdded && (
