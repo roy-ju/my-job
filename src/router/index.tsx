@@ -44,6 +44,10 @@ const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'),
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: () => <Panel /> });
 const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: () => <Panel /> });
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), { ssr: false, loading: () => <Panel /> });
+const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/DeregisterDisclaimer'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -98,6 +102,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.Deregister: {
       return <Deregister {...props} />;
+    }
+
+    case Routes.DeregisterDisclaimer: {
+      return <DeregisterDisclaimer {...props} />;
     }
 
     case Routes.Login: {
