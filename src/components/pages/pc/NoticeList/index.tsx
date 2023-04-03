@@ -27,7 +27,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickItem = useCallback(
     (id: number) => {
-      router.replace(Routes.NoticeDetail, { searchParams: { noticeID: id } });
+      router.replace(Routes.NoticeDetail, { searchParams: { noticeID: `${id}` } });
     },
     [router],
   );

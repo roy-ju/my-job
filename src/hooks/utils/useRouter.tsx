@@ -1,8 +1,15 @@
 import { useRouter as useNextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
+function removeTrailingSlash(url: string) {
+  return url.endsWith('/') ? url.slice(0, -1) : url;
+}
+
 type NavigationOptions = {
-  searchParams?: NodeJS.Dict<string | number>;
+  // url 뒤에 붙는 query e.g. ?name=joel
+  searchParams?: Record<string, string>;
+  // url 에 보이지 않는 query
+  state?: Record<string, string>;
 };
 
 export default function useRouter(depth: number) {
@@ -18,20 +25,6 @@ export default function useRouter(depth: number) {
    */
   const push = useCallback(
     (pathname: string, options?: NavigationOptions) => {
-      // 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트
-
-      if (router.asPath.split('/').filter((item) => item === pathname).length > 0) {
-        router.replace({
-          pathname: router.pathname,
-          query: {
-            ...router.query,
-            ...options?.searchParams,
-          },
-        });
-
-        return;
-      }
-
       const segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -55,18 +48,27 @@ export default function useRouter(depth: number) {
       }
 
       const query = {
-        // ...router.query,
+        ...options?.state,
         ...options?.searchParams,
       };
 
       let path = '/';
+      let asPath = '/';
 
       segments.forEach((value, index) => {
         path += `[depth${index + 1}]/`;
+        asPath += `${value}/`;
         query[`depth${index + 1}`] = value;
       });
 
-      router.replace({ pathname: path, query });
+      asPath = removeTrailingSlash(asPath);
+
+      if (options?.searchParams) {
+        const searchParams = new URLSearchParams(options.searchParams);
+        asPath += `?${searchParams}`;
+      }
+
+      router.replace({ pathname: path, query }, asPath);
     },
     [router, depth],
   );
@@ -157,18 +159,27 @@ export default function useRouter(depth: number) {
 
       const query = {
         // ...router.query,
+        ...options?.state,
         ...options?.searchParams,
       };
 
       let path = '/';
+      let asPath = '/';
 
       segments.forEach((value, index) => {
         path += `[depth${index + 1}]/`;
+        asPath += `${value}/`;
         query[`depth${index + 1}`] = value;
       });
 
-      const param = { pathname: path, query };
-      router.replace(param);
+      asPath = removeTrailingSlash(asPath);
+
+      if (options?.searchParams) {
+        const searchParams = new URLSearchParams(options.searchParams);
+        asPath += `?${searchParams}`;
+      }
+
+      router.replace({ pathname: path, query }, asPath);
     },
     [router, depth],
   );

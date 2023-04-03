@@ -12,6 +12,7 @@ interface MyDetailProps {
   addressVerified: boolean;
   onClickDeregister: () => void;
   onClickLogout: () => void;
+  onClickUpdateAddress: () => void;
 }
 
 export default function MyDetail({
@@ -24,6 +25,7 @@ export default function MyDetail({
   addressVerified,
   onClickDeregister,
   onClickLogout,
+  onClickUpdateAddress,
 }: MyDetailProps) {
   return (
     <div>
@@ -35,7 +37,12 @@ export default function MyDetail({
         <MyDetailForm.Separator />
         <MyDetailForm.IdentityInfo name={name} phone={phone} />
         <MyDetailForm.Separator />
-        <MyDetailForm.AddressInfo address={address} addressDetail={addressDetail} verified={addressVerified} />
+        <MyDetailForm.AddressInfo
+          address={address}
+          addressDetail={addressDetail}
+          verified={addressVerified}
+          onClickUpdateAddress={onClickUpdateAddress}
+        />
         <MyDetailForm.Separator />
         <MyDetailForm.PrivacyRetentionInfo />
         <div tw="px-5 mt-10">
