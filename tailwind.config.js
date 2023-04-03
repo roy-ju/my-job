@@ -51,11 +51,18 @@ module.exports = {
             letterSpacing: '-0.25px',
           },
         ],
+        count: [
+          '0.5rem',
+          {
+            lineHeight: '1.25rem',
+            letterSpacing: '0 !important',
+          },
+        ],
         mobCaption: [
           '0.75rem',
           {
-            lineHeight: '1.25rem',
-            letterSpacing: '-0.25px',
+            lineHeight: '0.875rem',
+            letterSpacing: '0 !important',
           },
         ],
       },
@@ -89,6 +96,8 @@ module.exports = {
           800: '#7048E8',
           900: '#6741D9',
           1000: '#5F3DC4',
+          1100: '#5F52F6',
+          1200: '#9368EF',
         },
         blue: {
           DEFAULT: '#4C6EF5',
@@ -181,7 +190,8 @@ module.exports = {
         21: '5.25rem',
       },
       maxWidth: {
-        mobile: '380px',
+        mobile: '26.75rem',
+        mobileSmall: '23.4375rem',
       },
       height: {
         4.5: '1.125rem',
@@ -203,6 +213,7 @@ module.exports = {
       borderRadius: {
         '4xl': '2.25rem',
         bubble: '3.25rem',
+        100: '10rem',
       },
       keyframes: {
         scale: {
@@ -223,6 +234,12 @@ module.exports = {
       animation: {
         scale: 'scale 0.3s normal ease-in-out',
         panelSlideIn: 'panelSlideIn 0.5s cubic-bezier(0.77, 0, 0.175, 1)',
+      },
+      backdropBlur: {
+        20: '20px',
+      },
+      screens: {
+        mobile: { min: '374px', max: '375px' },
       },
     },
   },
