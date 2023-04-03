@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
-export interface GetNoticeDetailResponse {
+export interface GetServiceQnaItemResponse {
   admin_message: string;
   admin_response_time: string;
   created_time: string;
@@ -10,10 +10,10 @@ export interface GetNoticeDetailResponse {
   user_message: string;
 }
 
-export default function useAPI_GetNoticeDetail(id: number) {
-  const { data, isLoading, mutate } = useSWR<GetNoticeDetailResponse>(['/my/serviceqna/get', { service_qna_id: id }]);
+export default function useAPI_GetServiceQnaItem(id: number) {
+  const { data, isLoading, mutate } = useSWR<GetServiceQnaItemResponse>(['/my/serviceqna/get', { service_qna_id: id }]);
 
-  const notice = useMemo(
+  const qna = useMemo(
     () =>
       data
         ? {
@@ -28,5 +28,5 @@ export default function useAPI_GetNoticeDetail(id: number) {
     [data],
   );
 
-  return { data: notice, isLoading, mutate };
+  return { data: qna, isLoading, mutate };
 }
