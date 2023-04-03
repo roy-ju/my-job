@@ -19,3 +19,4 @@ export { default as NoticeDetail } from './NoticeDetail';
 export { default as Login } from './Login';
 export { default as MyAddress } from './MyAddress';
 export { default as MyAddressDetail } from './MyAddressDetail';
+export { default as MyAddressVerifying } from './MyAddressVerifying';

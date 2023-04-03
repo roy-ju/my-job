@@ -15,8 +15,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
-      console.log(value);
-      router.replace(Routes.MyAddressDetail);
+      router.replace(Routes.MyAddressDetail, {
+        state: {
+          addressData: JSON.stringify(value),
+        },
+      });
     },
     [router],
   );

@@ -14,6 +14,10 @@ const MyAddressDetail = dynamic(() => import('@/components/pages/pc/MyAddressDet
   ssr: false,
   loading: () => <Panel />,
 });
+const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/pc/MyAddressVerifying'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: () => <Panel /> });
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
@@ -70,6 +74,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.MyAddressDetail: {
       return <MyAddressDetail {...props} />;
+    }
+
+    case Routes.MyAddressVerifying: {
+      return <MyAddressDetailVerifying {...props} />;
     }
 
     case Routes.NotificationList: {
