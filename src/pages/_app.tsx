@@ -10,12 +10,7 @@ import SWRConfig from '@/lib/swr';
 import Script from 'next/script';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import { useAuth } from '@/hooks/services';
-<<<<<<< HEAD
 import { Toast } from '@/components/atoms';
-
-=======
-import { ToastContainer } from 'react-toastify';
->>>>>>> 884de0f5903f5ac1e134b4c82d61fc3da5be3c2e
 import 'react-toastify/dist/ReactToastify.css';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
@@ -57,11 +52,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <RecoilRoot>
           <SWRConfig>
             <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
-<<<<<<< HEAD
             <Toast autoClose={2000} position="top-center" closeButton={false} hideProgressBar newestOnTop limit={1} />
-=======
-            <ToastContainer autoClose={2000} theme="dark" hideProgressBar closeOnClick position="bottom-center" />
->>>>>>> 884de0f5903f5ac1e134b4c82d61fc3da5be3c2e
           </SWRConfig>
         </RecoilRoot>
       </CacheProvider>
