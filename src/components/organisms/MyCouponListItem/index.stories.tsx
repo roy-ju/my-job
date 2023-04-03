@@ -7,4 +7,8 @@ export default {
   component: MyCouponListItem,
 } as ComponentMeta<typeof MyCouponListItem>;
 
-export const Default: ComponentStory<typeof MyCouponListItem> = () => <MyCouponListItem />;
+export const Default: ComponentStory<typeof MyCouponListItem> = (args) => <MyCouponListItem {...args} />;
+
+Default.args = {
+  isExpired: false,
+};

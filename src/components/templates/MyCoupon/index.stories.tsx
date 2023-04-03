@@ -7,8 +7,12 @@ export default {
   component: MyCoupon,
 } as ComponentMeta<typeof MyCoupon>;
 
-export const NoData: ComponentStory<typeof MyCoupon> = () => (
+export const Default: ComponentStory<typeof MyCoupon> = ({ hasData }) => (
   <Panel>
-    <MyCoupon />
+    <MyCoupon hasData={hasData} />
   </Panel>
 );
+
+Default.args = {
+  hasData: true,
+};
