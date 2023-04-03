@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
@@ -9,6 +10,9 @@ import SWRConfig from '@/lib/swr';
 import Script from 'next/script';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import { useAuth } from '@/hooks/services';
+import { Toast } from '@/components/atoms';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -49,6 +53,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <RecoilRoot>
           <SWRConfig>
             <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
+            <Toast autoClose={2000} position="top-center" closeButton={false} hideProgressBar newestOnTop limit={1} />
           </SWRConfig>
         </RecoilRoot>
       </CacheProvider>

@@ -10,6 +10,7 @@ export { default as MapToggleButton } from './MapToggleButton';
 
 export { default as MobMapHeader } from './MobMapHeader';
 export { default as MobMapFilter } from './MobMapFilter';
+export { default as MobMapControls } from './MobMapControls';
 export { default as MobMapPositionBar } from './MobMapPositionBar';
 export { default as MobMapToggleButton } from './MobMapToggleButton';
 export { default as MobGlobalNavigation } from './MobGlobalNavigation';
