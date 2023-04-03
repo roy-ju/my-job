@@ -4,6 +4,8 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
+import { useCallback, useEffect, useMemo } from 'react';
+import { toastError } from '@/components/molecules';
 import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
 interface MarkersProps {
@@ -21,7 +23,19 @@ export default function Markers({
   selectedDanjiSummary,
   selectedSchoolID,
 }: MarkersProps) {
-  console.log(mapLevel);
+  const shouldShowSchoolMarker = useMemo(() => {
+    if (mapLevel !== 1 && schoolMarkers.length > 1) {
+      toastError({ message: '지도를 확대하여 학교마커를 확인하세요.', id: 'toast-error-map-school' });
+      return false;
+    }
+
+    if (mapLevel === 1 && schoolMarkers.length > 1) {
+      return true;
+    }
+
+    return false;
+  }, [mapLevel, schoolMarkers]);
+
   return (
     <>
       {mapLevel !== 1 &&
@@ -75,6 +89,7 @@ export default function Markers({
         ))}
 
       {(mapLevel ?? 4) < 3 &&
+        shouldShowSchoolMarker &&
         schoolMarkers?.map((marker) => (
           <DeferredRender key={marker.id}>
             <CustomOverlay

@@ -17,8 +17,6 @@ interface Props {
 function MapWrapper() {
   const {
     morphToCurrentLocation,
-    zoomIn,
-    zoomOut,
     handleChangeMapType,
     handleChangeMapLayer,
     handleChangeSchoolType,
@@ -55,8 +53,6 @@ function MapWrapper() {
         centerAddress={centerAddress}
         mapToggleValue={mapToggleValue}
         onClickCurrentLocation={morphToCurrentLocation}
-        onClickZoomIn={zoomIn}
-        onClickZoomOut={zoomOut}
         onChangeMapType={handleChangeMapType}
         onClickMapLayerCadastral={() => handleChangeMapLayer('cadastral')}
         onClickMapLayerStreet={() => handleChangeMapLayer('street')}

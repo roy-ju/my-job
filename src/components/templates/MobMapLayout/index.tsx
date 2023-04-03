@@ -1,5 +1,5 @@
 import { ChangeEventHandler, ReactNode } from 'react';
-import { MapControls, MobMapPositionBar, MobMapPriceSelect, MobMapToggleButton } from '@/components/organisms';
+import { MobMapControls, MobMapPositionBar, MobMapPriceSelect, MobMapToggleButton } from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
 import HouseGreenIcon from '@/assets/icons/house_green.svg';
@@ -18,8 +18,6 @@ interface MobLayoutMapContainerProps {
   filter?: Filter;
   centerAddress?: string[];
   onClickCurrentLocation?: () => void;
-  onClickZoomIn?: () => void;
-  onClickZoomOut?: () => void;
   onClickSchool?: () => void;
   onClickMapLayerCadastral?: () => void;
   onClickMapLayerStreet?: () => void;
@@ -46,8 +44,6 @@ function MobLayoutMapContainer({
   onClickMapLayerStreet,
   onChangeMapType,
   onClickSchool,
-  onClickZoomIn,
-  onClickZoomOut,
   onChangeSchoolType,
   onMapSearchSubmit,
   onChangeFilter,
@@ -71,18 +67,18 @@ function MobLayoutMapContainer({
           <MobMapPriceSelect value={priceType} onChange={onChangePriceType} />
         </div>
         <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-10">
-          <MapControls.Group>
-            <MapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
-            <MapControls.StreetViewButton selected={mapLayer === 'street'} onClick={onClickMapLayerStreet} />
-            <MapControls.CadastralButton selected={mapLayer === 'cadastral'} onClick={onClickMapLayerCadastral} />
-            <MapControls.SchoolButton
+          <MobMapControls.Group>
+            <MobMapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
+            <MobMapControls.StreetViewButton selected={mapLayer === 'street'} onClick={onClickMapLayerStreet} />
+            <MobMapControls.CadastralButton selected={mapLayer === 'cadastral'} onClick={onClickMapLayerCadastral} />
+            <MobMapControls.SchoolButton
               selected={schoolType !== 'none'}
               value={schoolType}
               onChange={onChangeSchoolType}
               onClick={onClickSchool}
             />
-          </MapControls.Group>
-          <MapControls.GPSButton onClick={onClickCurrentLocation} />
+          </MobMapControls.Group>
+          <MobMapControls.GPSButton onClick={onClickCurrentLocation} />
         </div>
         <div tw="w-full max-w-mobile inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10">
           <MobMapPositionBar
