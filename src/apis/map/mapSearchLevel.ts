@@ -58,6 +58,7 @@ export interface MapSearchFilter {
   buy_or_rent: string;
   realestate_type: string;
   gap_investment: boolean;
+  room_count: string;
 }
 
 export default async function mapSearch({
@@ -98,6 +99,7 @@ export default async function mapSearch({
       monthly_rent_fee2_min: null,
       monthly_rent_fee_max: null,
       monthly_rent_fee_min: null,
+      room_count: filter.roomCounts,
     };
 
     if (mapToggleValue === 0) {

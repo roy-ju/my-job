@@ -7,6 +7,7 @@ const Routes = {
   ChatRoomList: 'chatRoomList',
   DanjiDetail: 'danjiDetail',
   Deregister: 'deregister',
+  DeregisterDisclaimer: 'deregisterDisclaimer',
   Developer: 'developer',
   Login: 'login',
   ListingList: 'listings',
@@ -20,6 +21,7 @@ const Routes = {
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
+  ServiceContact: 'serviceContact',
 };
 
 export default Routes;

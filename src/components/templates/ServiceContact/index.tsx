@@ -12,6 +12,7 @@ interface ServiceContactProps {
 export default function ServiceContact({ list }: ServiceContactProps) {
   const [isInquiring, setIsInquiring] = useState(false);
   const [inquiryText, SetInquiryText] = useState('');
+  const headerTitle = isInquiring ? '문의하기' : '서비스 문의';
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -64,7 +65,7 @@ export default function ServiceContact({ list }: ServiceContactProps) {
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.Title>서비스 문의</NavigationHeader.Title>
+        <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1">{isInquiring ? renderInquiry() : renderList()}</div>
       <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">

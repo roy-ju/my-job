@@ -32,6 +32,10 @@ const NoticeDetail = dynamic(() => import('@/components/pages/pc/NoticeDetail'),
   ssr: false,
   loading: () => <Panel />,
 });
+const ServiceContact = dynamic(() => import('@/components/pages/pc/ServiceContact'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: () => <Panel /> });
 const Listings = dynamic(() => import('@/components/pages/pc/Listings'), { loading: () => <Panel /> });
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: () => <Panel /> });
@@ -44,6 +48,10 @@ const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'),
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: () => <Panel /> });
 const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: () => <Panel /> });
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), { ssr: false, loading: () => <Panel /> });
+const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/DeregisterDisclaimer'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -96,8 +104,16 @@ export default function Router({ route, query, depth }: Props) {
       return <NoticeDetail {...props} />;
     }
 
+    case Routes.ServiceContact: {
+      return <ServiceContact {...props} />;
+    }
+
     case Routes.Deregister: {
       return <Deregister {...props} />;
+    }
+
+    case Routes.DeregisterDisclaimer: {
+      return <DeregisterDisclaimer {...props} />;
     }
 
     case Routes.Login: {

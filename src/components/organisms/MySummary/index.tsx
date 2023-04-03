@@ -43,9 +43,9 @@ export default function MySummary({ nickname, profileImagePath, onClickMyDetail 
         />
       </button>
       <div tw="py-5 flex items-center justify-center">
-        <SummaryItem title="포인트" value="999,000P" />
+        <SummaryItem title="포인트" value="0P" />
         <div tw="w-[2px] h-6 bg-gray-300 mx-1" />
-        <SummaryItem title="쿠폰" value="6장" />
+        <SummaryItem title="쿠폰" value="0장" />
       </div>
     </div>
   );
