@@ -70,6 +70,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       <MyAddressDetail
         addressLine1={addressLine1}
         addressLine2={addressLine2}
+        errorMessage={
+          router.query.errorCode ? '인터넷 등기소에서 응답을 받을 수 없습니다. 잠시 후 다시 시도해주세요.' : undefined
+        }
         dong={dong}
         ho={ho}
         onChangeDong={handleChangeDong}
