@@ -8,12 +8,13 @@ import { coordToRegion } from '@/lib/kakao';
 import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { getMetersByZoom } from '@/lib/navermap/utils';
-import { mapState } from '@/states/map';
 import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import { mobileMapState } from '@/states/mobileMap';
+import { toastError } from '@/components/molecules';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -77,7 +78,7 @@ function setMapState(map: NaverMap) {
   const center = map.getCenter() as NaverLatLng;
 
   const ms = [center.lat(), center.lng(), zoom].join(',');
-  window.sessionStorage.setItem('ms', ms);
+  window.sessionStorage.setItem('mobMs', ms);
 }
 
 /**
@@ -85,7 +86,7 @@ function setMapState(map: NaverMap) {
  */
 function getMapState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
   if (typeof window !== 'undefined') {
-    const item = window.sessionStorage.getItem('ms');
+    const item = window.sessionStorage.getItem('mobMs');
     if (item !== null) {
       const ms = item.split(',');
       return ms.length > 2 ? cb(ms) : defaultValue;
@@ -115,9 +116,9 @@ function getUserLastLocation(): { lat: number; lng: number } {
  * 지도레이아웃 초기화와 이벤트 기능구현을 담당하는 훅
  */
 export default function useMapLayout() {
-  const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
 
-  const [map, setMap] = useRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+
+  const [map, setMap] = useRecoilState(mobileMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
 
@@ -446,7 +447,6 @@ export default function useMapLayout() {
    */
   const onMapClick = useCallback(
     async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
-      router.popAll();
       setSelectedSchoolID('');
       setSelectedDanjiSummary(null);
       setPolygons([]);
@@ -462,7 +462,7 @@ export default function useMapLayout() {
         }
       }
     },
-    [router, mapLayer],
+    [mapLayer],
   );
 
   /**

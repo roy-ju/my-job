@@ -13,3 +13,4 @@ export { default as InfiniteScroll } from './InfiniteScroll';
 export { default as Switch } from './Switch';
 export { default as Ul } from './Ul';
 export { default as MobileContainer } from './MobileContainer';
+export { default as Toast } from "./Toast"
