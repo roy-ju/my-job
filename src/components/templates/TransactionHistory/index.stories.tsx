@@ -7,12 +7,12 @@ export default {
   component: TransactionHistory,
 } as ComponentMeta<typeof TransactionHistory>;
 
-export const Default: ComponentStory<typeof TransactionHistory> = ({ type }) => (
+export const Default: ComponentStory<typeof TransactionHistory> = (args) => (
   <Panel>
-    <TransactionHistory type={type} />
+    <TransactionHistory {...args} />
   </Panel>
 );
 
 Default.args = {
-  type: '기본',
+  list: [],
 };
