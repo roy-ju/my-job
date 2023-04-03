@@ -7,9 +7,7 @@ export default function MyCoupon() {
       <NavigationHeader>
         <NavigationHeader.Title>나의 쿠폰</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="m-24">
-        <NoData />
-      </div>
+      <NoData />
     </div>
   );
 }
