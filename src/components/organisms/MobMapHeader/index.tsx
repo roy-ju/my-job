@@ -10,7 +10,7 @@ interface Props {
 
 export default function MobMapHeader({ value }: Props) {
   return (
-    <div tw="max-w-mobile bg-gradient-to-r from-nego-1200 to-nego-1100 px-20 py-16">
+    <div tw="max-w-mobile bg-gradient-to-r from-nego-1200 to-nego-1100 px-5 py-4">
       <div tw="flex items-center">
         <LogoIcon />
         <div tw="flex items-center ml-auto gap-5">
