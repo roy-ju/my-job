@@ -5,6 +5,7 @@ import { ChangeEventHandler } from 'react';
 export interface AddressDetailFormProps {
   addressLine1: string;
   addressLine2: string;
+  errorMessage?: string;
   dong?: string;
   ho?: string;
   onChangeDong?: ChangeEventHandler<HTMLInputElement>;
@@ -15,6 +16,7 @@ export interface AddressDetailFormProps {
 export default function AddressDetailForm({
   addressLine1,
   addressLine2,
+  errorMessage,
   dong,
   ho,
   onChangeDong,
@@ -44,6 +46,7 @@ export default function AddressDetailForm({
       <Ul>
         <li>신축 및 재건축으로 등기부가 조회되지 않는 주택의 경우, 매물등록을 할 수 없습니다.</li>
         <li>해당 정보가 없다면 비워두시고 진행하셔도 됩니다.</li>
+        {errorMessage && <li tw="text-red-800">{errorMessage}</li>}
       </Ul>
     </div>
   );

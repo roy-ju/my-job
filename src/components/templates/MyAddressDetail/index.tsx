@@ -6,6 +6,7 @@ import { ChangeEventHandler } from 'react';
 export interface MyAddressDetailProps {
   addressLine1: string;
   addressLine2: string;
+  errorMessage?: string;
   dong?: string;
   ho?: string;
   onChangeDong?: ChangeEventHandler<HTMLInputElement>;
@@ -17,6 +18,7 @@ export interface MyAddressDetailProps {
 export default function MyAddressDetail({
   addressLine1,
   addressLine2,
+  errorMessage,
   dong,
   ho,
   onChangeDong,
@@ -34,6 +36,7 @@ export default function MyAddressDetail({
         <AddressDetailForm
           addressLine1={addressLine1}
           addressLine2={addressLine2}
+          errorMessage={errorMessage}
           dong={dong}
           ho={ho}
           onChangeDong={onChangeDong}
