@@ -9,12 +9,12 @@ const ListContainer = styled.div`
 `;
 
 export interface IServiceContactItem {
+  admin_message: string;
+  admin_response_time: string;
+  created_time: string;
   id: number;
-  contents: string;
-  createdTime: string;
-  didReply: boolean;
-  adminContents: string;
-  adminCreatedTime: string;
+  user_id: number;
+  user_message: string;
 }
 
 export default function List({ list }: { list: IServiceContactItem[] }) {
@@ -23,12 +23,12 @@ export default function List({ list }: { list: IServiceContactItem[] }) {
       {list.map((item) => (
         <ServiceContactListItem key={item.id}>
           <ServiceContactListItem.User
-            contents={item.contents}
-            createdTime={item.createdTime}
-            didReply={item.didReply}
+            userMessage={item.user_message}
+            createdTime={item.created_time}
+            didReply={!!item.admin_message}
           />
-          {item.didReply ? (
-            <ServiceContactListItem.Admin contents={item.adminContents} createdTime={item.adminCreatedTime} />
+          {item.admin_message ? (
+            <ServiceContactListItem.Admin adminMessage={item.admin_message} responseTime={item.admin_response_time} />
           ) : null}
         </ServiceContactListItem>
       ))}
