@@ -21,6 +21,7 @@ const Routes = {
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
+  ServiceContact: 'serviceContact',
 };
 
 export default Routes;

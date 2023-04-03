@@ -6,20 +6,20 @@ interface ServiceContactListItemProps {
 }
 
 interface ServiceContactListItemUserProps {
-  contents: string;
+  userMessage: string;
   createdTime: string;
   didReply: boolean;
 }
 interface ServiceContactListItemAdminProps {
-  contents: string;
-  createdTime: string;
+  adminMessage: string;
+  responseTime: string;
 }
 
-function ServiceContactListItemUser({ contents, createdTime, didReply }: ServiceContactListItemUserProps) {
+function ServiceContactListItemUser({ userMessage, createdTime, didReply }: ServiceContactListItemUserProps) {
   return (
     <div tw="flex justify-between pl-5 py-5 pr-2 w-[23.75rem]">
       <div tw="basis-64">
-        <p tw="text-b2 text-left mb-2 break-all">{contents}</p>
+        <p tw="text-b2 text-left mb-2 break-all">{userMessage}</p>
         <span tw="text-info text-gray-700 text-left block">{createdTime}</span>
       </div>
       <div tw="text-right">
@@ -32,11 +32,11 @@ function ServiceContactListItemUser({ contents, createdTime, didReply }: Service
     </div>
   );
 }
-function ServiceContacatListItemAdmin({ contents, createdTime }: ServiceContactListItemAdminProps) {
+function ServiceContacatListItemAdmin({ adminMessage, responseTime }: ServiceContactListItemAdminProps) {
   return (
     <div tw="p-5">
-      <p tw="text-b2 mb-2 break-all">{contents}</p>
-      <span tw="text-info text-gray-700">{`네고시오 운영팀 | ${createdTime}`}</span>
+      <p tw="text-b2 mb-2 break-all">{adminMessage}</p>
+      <span tw="text-info text-gray-700">{`네고시오 운영팀 | ${responseTime}`}</span>
     </div>
   );
 }
