@@ -53,7 +53,12 @@ export default function My({
           </div>
         )}
         {!isLoading && loggedIn && (
-          <MySummary profileImagePath={defaultAvatar} nickname={nickname} onClickMyDetail={onClickMyDetail} />
+          <MySummary
+            profileImagePath={defaultAvatar}
+            nickname={nickname}
+            onClickMyDetail={onClickMyDetail}
+            onClickMyCoupon={onClickMyCoupon}
+          />
         )}
         {!isLoading && !loggedIn && (
           <div tw="mt-5 mb-14">
@@ -68,8 +73,6 @@ export default function My({
             <MyPageNavigationList.Item title="자주 묻는 질문" />
             <MyPageNavigationList.Item title="서비스 문의" onClick={onClickServiceContact} />
             <MyPageNavigationList.Item title="서비스 정보" />
-            {/* 테스트용도 */}
-            <MyPageNavigationList.Item title="나의 쿠폰" onClick={onClickMyCoupon} />
           </MyPageNavigationList>
         </div>
       </div>
