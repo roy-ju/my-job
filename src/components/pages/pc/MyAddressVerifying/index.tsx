@@ -26,7 +26,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const verify = useCallback(async () => {
     const { addressData: inAddressData, dong, ho } = router.query;
-    if (!inAddressData || !dong || !ho) {
+    if (!inAddressData) {
       router.replace(Routes.MyAddress);
       return;
     }

@@ -1,4 +1,5 @@
 import { Panel } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MyAddressDetail } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useRouter } from '@/hooks/utils';
@@ -15,6 +16,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
   const [dong, setDong] = useState('');
   const [ho, setHo] = useState('');
+  const [popupOpen, setPopupOpen] = useState(true);
 
   const addressLine1 = useMemo(() => {
     if (addressData) {
@@ -71,7 +73,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         addressLine1={addressLine1}
         addressLine2={addressLine2}
         errorMessage={
-          router.query.errorCode ? '인터넷 등기소에서 응답을 받을 수 없습니다. 잠시 후 다시 시도해주세요.' : undefined
+          router.query.errorCode && router.query.errorCode !== '1036'
+            ? '인터넷 등기소에서 응답을 받을 수 없습니다. 잠시 후 다시 시도해주세요.'
+            : undefined
         }
         dong={dong}
         ho={ho}
@@ -80,6 +84,20 @@ export default memo(({ depth, panelWidth }: Props) => {
         onSubmit={handleSubmit}
         onSearchAnotherAddress={handleBack}
       />
+      {router.query.errorCode === '1036' && popupOpen && (
+        <OverlayPresenter>
+          <Popup>
+            <div tw="px-5 py-12 text-center">
+              <Popup.Title>
+                주소 등록을 위한 주소 확인은 하루 최대 5회까지 할 수 있습니다. 내일 다시 참여해 주세요.
+              </Popup.Title>
+            </div>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });
