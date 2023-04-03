@@ -173,6 +173,9 @@ module.exports = {
       width: {
         21: '5.25rem',
       },
+      maxWidth: {
+        mobile: '380px',
+      },
       height: {
         4.5: '1.125rem',
         11.5: '2.875rem',
