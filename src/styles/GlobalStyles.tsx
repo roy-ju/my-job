@@ -38,6 +38,10 @@ const customStyles = css`
     border-right: none;
   }
 
+  .Toastify__toast {
+    background: rgba(0, 0, 0, 0.85);
+  }
+
   @media screen and (max-width: 374px) {
     html {
       // font-size: clamp(1px, 2.65vw, 10px);
