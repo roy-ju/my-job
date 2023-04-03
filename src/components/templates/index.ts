@@ -20,9 +20,6 @@ export { default as Login } from './Login';
 export { default as MyAddress } from './MyAddress';
 export { default as MyAddressDetail } from './MyAddressDetail';
 export { default as MyAddressVerifying } from './MyAddressVerifying';
-<<<<<<< HEAD
 export { default as ServiceContact } from './ServiceContact';
-=======
 export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
->>>>>>> 61947b15af0564e05766d2ed65f76e9be0b626c8
