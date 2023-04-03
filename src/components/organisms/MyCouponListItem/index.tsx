@@ -10,7 +10,7 @@ function AvailableCoupon() {
       </div>
       <div tw="mr-14">
         <strong>중개수수료 할인</strong>
-        <p tw="text-[.625rem] text-gray-700">발급일 2021.11.11</p>
+        <p tw="text-[.625rem] text-left text-gray-700">발급일 2021.11.11</p>
       </div>
     </div>
   );
@@ -33,11 +33,11 @@ function UnAvailableCoupon() {
   );
 }
 
-export default function MyCouponListItem() {
+export default function MyCouponListItem({ isExpired }: { isExpired: boolean }) {
   return (
     <Accordion>
-      <div tw="py-3 pl-4 pr-8">
-        <Accordion.Summary>{UnAvailableCoupon()}</Accordion.Summary>
+      <div tw="py-3 pl-4 pr-4 border border-gray-300 rounded-lg">
+        <Accordion.Summary>{isExpired ? UnAvailableCoupon() : AvailableCoupon()}</Accordion.Summary>
       </div>
     </Accordion>
   );
