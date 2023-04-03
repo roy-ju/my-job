@@ -8,14 +8,21 @@ interface UpdatetableTextFieldProps {
   value?: string;
   disabled?: boolean;
   readOnly?: boolean;
+  onClickUpdate?: () => void;
 }
 
-function UpdatableTextField({ label, value, disabled = false, readOnly = false }: UpdatetableTextFieldProps) {
+function UpdatableTextField({
+  label,
+  value,
+  disabled = false,
+  readOnly = false,
+  onClickUpdate,
+}: UpdatetableTextFieldProps) {
   return (
     <TextField variant="outlined">
       <TextField.Input value={value} label={label} disabled={disabled} readOnly={readOnly} />
       <TextField.Trailing>
-        <Button size="small" variant="gray">
+        <Button size="small" variant="gray" onClick={onClickUpdate}>
           변경
         </Button>
       </TextField.Trailing>
@@ -107,9 +114,10 @@ interface AddressInfoProps {
   address?: string;
   addressDetail?: string;
   verified?: boolean;
+  onClickUpdateAddress?: () => void;
 }
 
-function AddressInfo({ address, addressDetail, verified = false }: AddressInfoProps) {
+function AddressInfo({ address, addressDetail, verified = false, onClickUpdateAddress }: AddressInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex items-center justify-between mb-3">
@@ -124,11 +132,11 @@ function AddressInfo({ address, addressDetail, verified = false }: AddressInfoPr
           <TextField variant="outlined">
             <TextField.Input label="주소" value={address} readOnly />
           </TextField>
-          <UpdatableTextField label="상세 주소" value={addressDetail} />
+          <UpdatableTextField label="상세 주소" value={addressDetail} onClickUpdate={onClickUpdateAddress} />
           <HomeOwner verified={verified} />
         </div>
       ) : (
-        <Button tw="w-full font-bold" variant="secondary">
+        <Button onClick={onClickUpdateAddress} tw="w-full font-bold" variant="secondary">
           주소 등록하기
         </Button>
       )}

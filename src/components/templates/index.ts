@@ -17,4 +17,5 @@ export { default as Deregister } from './Deregister';
 export { default as NoticeList } from './NoticeList';
 export { default as NoticeDetail } from './NoticeDetail';
 export { default as Login } from './Login';
-export { default as RegisterMyAddress } from './RegisterMyAddress';
+export { default as MyAddress } from './MyAddress';
+export { default as MyAddressDetail } from './MyAddressDetail';

@@ -2,7 +2,10 @@ import { useRouter as useNextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
 type NavigationOptions = {
-  searchParams?: NodeJS.Dict<string | number>;
+  // url 뒤에 붙는 query e.g. ?name=joel
+  searchParams?: Record<string, string | number>;
+  // url 에 보이지 않는 query
+  state?: Record<string, unknown>;
 };
 
 export default function useRouter(depth: number) {
@@ -161,13 +164,18 @@ export default function useRouter(depth: number) {
       };
 
       let path = '/';
+      let asPath = '/';
 
       segments.forEach((value, index) => {
         path += `[depth${index + 1}]/`;
+        asPath += `${value}/`;
         query[`depth${index + 1}`] = value;
       });
 
       const param = { pathname: path, query };
+      console.log({ pathname: path, query });
+      console.log(window.history.state);
+      console.log(asPath);
       router.replace(param);
     },
     [router, depth],
