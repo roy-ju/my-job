@@ -23,3 +23,4 @@ export { default as MyAddressVerifying } from './MyAddressVerifying';
 export { default as ServiceContact } from './ServiceContact';
 export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
+export { default as MyCoupon } from './MyCoupon';
