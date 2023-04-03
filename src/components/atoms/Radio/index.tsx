@@ -1,12 +1,6 @@
 import useRadioGroup from '@/components/molecules/RadioGroup/useRadioGroup';
 import useControlled from '@/hooks/utils/useControlled';
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  forwardRef,
-  HTMLProps,
-  useCallback,
-} from 'react';
+import { ChangeEvent, ChangeEventHandler, forwardRef, HTMLProps, useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
 
 const RadioRoot = tw.span`inline-flex relative`;
@@ -35,16 +29,7 @@ interface Props extends HTMLProps<HTMLInputElement> {
 }
 
 export default forwardRef<HTMLInputElement, Props>(
-  (
-    {
-      checked: checkedProp,
-      defaultChecked,
-      onChange: onChangeProp,
-      value,
-      ...others
-    },
-    ref,
-  ) => {
+  ({ checked: checkedProp, defaultChecked, onChange: onChangeProp, value, ...others }, ref) => {
     const radioGroup = useRadioGroup();
     const radioGroupOnChange = radioGroup?.onChange;
     const onChange = useCallback(
@@ -79,14 +64,7 @@ export default forwardRef<HTMLInputElement, Props>(
 
     return (
       <RadioRoot>
-        <RadioInput
-          {...others}
-          type="radio"
-          value={value}
-          checked={checked}
-          onChange={handleInputChange}
-          ref={ref}
-        />
+        <RadioInput {...others} type="radio" value={value} checked={checked} onChange={handleInputChange} ref={ref} />
         <RadioIcon checked={checked} />
       </RadioRoot>
     );

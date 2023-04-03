@@ -16,9 +16,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.MyDetail);
   }, [router]);
 
+  const handleClickNext = useCallback(() => {
+    router.replace(Routes.DeregisterDisclaimer);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
-      <DeregisterTemplate onClickBackButton={handleClickBackButton} />
+      <DeregisterTemplate onClickBackButton={handleClickBackButton} onClickNext={handleClickNext} />
     </Panel>
   );
 });

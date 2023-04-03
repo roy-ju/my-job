@@ -16,6 +16,11 @@ export { default as MobGlobalNavigation } from './MobGlobalNavigation';
 export { default as MobMapPriceSelect } from './MobMapPriceSelect';
 
 
+export { default as MobRegionMarker } from './map_markers/MobRegionMarker';
+export { default as MobDanjiMarker } from './map_markers/MobDanjiMarker';
+export { default as MobListingMarker } from './map_markers/MobListingMarker';
+
+
 export { default as ChatRoomListNoData } from './ChatRoomListNoData';
 export { default as ChatRoomGuide } from './ChatRoomGuide';
 export { default as ChatRoomListItem } from './ChatRoomListItem';
