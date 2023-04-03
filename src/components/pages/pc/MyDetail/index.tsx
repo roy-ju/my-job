@@ -19,6 +19,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     ownershipVerified,
     handleClickDeregister,
     handleLogout,
+    handleUpdateAddress,
   } = useMyDetail(depth);
 
   return (
@@ -33,6 +34,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         addressVerified={ownershipVerified ?? false}
         onClickDeregister={handleClickDeregister}
         onClickLogout={handleLogout}
+        onClickUpdateAddress={handleUpdateAddress}
       />
     </Panel>
   );

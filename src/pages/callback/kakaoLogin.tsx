@@ -33,6 +33,7 @@ const Page: NextPage = () => {
 
     if (loginResponse.access_token) {
       localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
+      localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
       window.opener?.Negocio.onLoginSuccess();
       window.close();
     }

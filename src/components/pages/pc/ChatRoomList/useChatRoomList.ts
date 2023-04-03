@@ -25,7 +25,12 @@ export default function useChatRoomList(depth: number) {
 
   const handleClickListItem = useCallback(
     (id: number) => {
-      router.push(Routes.ChatRoom, { searchParams: { chatRoomID: id } });
+      router.push(Routes.ChatRoom, {
+        searchParams: { chatRoomID: `${id}` },
+        state: {
+          name: 'Jihyo',
+        },
+      });
     },
     [router],
   );

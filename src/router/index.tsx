@@ -9,6 +9,15 @@ import { ParsedUrlQuery } from 'querystring';
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
+const MyAddress = dynamic(() => import('@/components/pages/pc/MyAddress'), { ssr: false, loading: () => <Panel /> });
+const MyAddressDetail = dynamic(() => import('@/components/pages/pc/MyAddressDetail'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/pc/MyAddressVerifying'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: () => <Panel /> });
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
@@ -57,6 +66,18 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.MyDetail: {
       return <MyDetail {...props} />;
+    }
+
+    case Routes.MyAddress: {
+      return <MyAddress {...props} />;
+    }
+
+    case Routes.MyAddressDetail: {
+      return <MyAddressDetail {...props} />;
+    }
+
+    case Routes.MyAddressVerifying: {
+      return <MyAddressDetailVerifying {...props} />;
     }
 
     case Routes.NotificationList: {

@@ -19,6 +19,10 @@ export default function useMyDetail(depth: number) {
     logout();
   }, [logout, router]);
 
+  const handleUpdateAddress = useCallback(() => {
+    router.replace(Routes.MyAddress);
+  }, [router]);
+
   return useMemo(
     () => ({
       ...user,
@@ -28,7 +32,8 @@ export default function useMyDetail(depth: number) {
       isUserAddressLoading,
       handleClickDeregister,
       handleLogout,
+      handleUpdateAddress,
     }),
-    [user, userAddressData, isUserAddressLoading, handleClickDeregister, handleLogout],
+    [user, userAddressData, isUserAddressLoading, handleClickDeregister, handleLogout, handleUpdateAddress],
   );
 }

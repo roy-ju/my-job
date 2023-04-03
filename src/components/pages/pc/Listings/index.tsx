@@ -16,7 +16,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     (id: number) => {
       router.push(Routes.ListingDetail, {
         searchParams: {
-          listingID: id,
+          listingID: `${id}`,
         },
       });
     },
