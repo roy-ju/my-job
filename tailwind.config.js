@@ -51,6 +51,13 @@ module.exports = {
             letterSpacing: '-0.25px',
           },
         ],
+        mobCaption: [
+          '0.75rem',
+          {
+            lineHeight: '1.25rem',
+            letterSpacing: '-0.25px',
+          },
+        ],
       },
       lineHeight: {
         3.5: '0.875rem',
