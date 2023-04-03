@@ -3,13 +3,11 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
-  mode: 'jit',
   theme: {
     extend: {
       fontFamily: {
         sans: ['Pretendard', ...defaultTheme.fontFamily.sans],
       },
-
       fontSize: {
         h1: [
           '1.5rem',
@@ -170,12 +168,6 @@ module.exports = {
           1000: '#CA2F0B',
         },
       },
-      padding: {
-        8: '0.5rem',
-        10: '0.6025rem',
-        16: '1rem',
-        20: '1.25rem',
-      },
       spacing: {
         px: '1px',
         0: '0px',
@@ -197,17 +189,15 @@ module.exports = {
       width: {
         21: '5.25rem',
       },
-      maxWidth: { mobile: '26.75rem', mobileSmall: '23.4375rem' },
+      maxWidth: {
+        mobile: '26.75rem',
+        mobileSmall: '23.4375rem',
+      },
       height: {
-        5: '0.3125rem',
         4.5: '1.125rem',
         11.5: '2.875rem',
         13.5: '3.375rem',
         37.5: '9.375rem',
-      },
-      gap: {
-        5: '0.3125rem',
-        20: '1.25rem',
       },
       boxShadow: {
         DEFAULT: '0px 8px 16px rgba(0, 0, 0, 0.14)',

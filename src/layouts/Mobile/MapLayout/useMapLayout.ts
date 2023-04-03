@@ -133,7 +133,7 @@ export default function useMapLayout() {
 
   const [bounds, setBounds] = useState<MapBounds | null>(null);
 
-  const [filter, setFilter] = useSessionStorage<Filter>('mapFilter', getDefaultFilterAptOftl());
+  const [filter, setFilter] = useSessionStorage<Filter>('mobMapFilter', getDefaultFilterAptOftl());
 
   const [listingCount, setListingCount] = useState(0);
 
@@ -373,6 +373,8 @@ export default function useMapLayout() {
     const meters = getMetersByZoom(m.getZoom());
 
     if (meters <= 100) {
+      mapLevel = 1;
+    } else if (meters <= 300) {
       mapLevel = 1;
     } else if (meters <= 500) {
       mapLevel = 2;
