@@ -36,6 +36,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.ServiceContact);
   }, [router]);
 
+  const handleClickMyRealPriceList = useCallback(() => {
+    router.push(Routes.MyRealPriceList);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -48,6 +52,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickMyDetail={handleClickMyDetail}
         onClickNoticeList={handleClickNoticeList}
         onClickServiceContact={handleClickServiceContact}
+        onClickMyRealPriceList={handleClickMyRealPriceList}
       />
     </Panel>
   );
