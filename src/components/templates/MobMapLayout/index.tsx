@@ -70,7 +70,7 @@ function MobLayoutMapContainer({
         <div tw="absolute right-4 top-3 z-20">
           <MobMapPriceSelect value={priceType} onChange={onChangePriceType} />
         </div>
-        <div tw="absolute right-5 top-[84px] flex flex-col gap-6 z-10">
+        <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-10">
           <MapControls.Group>
             <MapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
             <MapControls.StreetViewButton selected={mapLayer === 'street'} onClick={onClickMapLayerStreet} />

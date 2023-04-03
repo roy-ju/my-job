@@ -172,7 +172,6 @@ module.exports = {
       },
       padding: {
         8: '0.5rem',
-        10: '0.6025rem',
         16: '1rem',
         20: '1.25rem',
       },
@@ -199,14 +198,12 @@ module.exports = {
       },
       maxWidth: { mobile: '26.75rem', mobileSmall: '23.4375rem' },
       height: {
-        5: '0.3125rem',
         4.5: '1.125rem',
         11.5: '2.875rem',
         13.5: '3.375rem',
         37.5: '9.375rem',
       },
       gap: {
-        5: '0.3125rem',
         20: '1.25rem',
       },
       boxShadow: {

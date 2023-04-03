@@ -1,9 +1,9 @@
-import { DanjiMarker, RegionMarker } from '@/components/organisms';
-import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
+import { MobDanjiMarker, MobRegionMarker } from '@/components/organisms';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
+import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
 import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
 interface MarkersProps {
@@ -21,6 +21,7 @@ export default function Markers({
   selectedDanjiSummary,
   selectedSchoolID,
 }: MarkersProps) {
+  console.log(mapLevel);
   return (
     <>
       {mapLevel !== 1 &&
@@ -32,11 +33,11 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <RegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''} onClick={marker.onClick}>
-                <RegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
-                <RegionMarker.Divider />
-                <RegionMarker.ListingCount count={marker.listingCount} />
-              </RegionMarker>
+              <MobRegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''} onClick={marker.onClick}>
+                <MobRegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
+                <MobRegionMarker.Divider />
+                <MobRegionMarker.ListingCount count={marker.listingCount} />
+              </MobRegionMarker>
             </CustomOverlay>
           </DeferredRender>
         ))}
@@ -52,7 +53,7 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <DanjiMarker
+              <MobDanjiMarker
                 selected={selectedDanjiSummary?.id === marker.id}
                 variant={marker.variant}
                 area={Number(marker?.pyoung ?? 0)}
@@ -61,14 +62,14 @@ export default function Markers({
                 onClick={marker.onClick}
               >
                 {selectedDanjiSummary?.id === marker.id && (
-                  <DanjiMarker.Popper
+                  <MobDanjiMarker.Popper
                     name={selectedDanjiSummary?.name ?? ''}
                     householdCount={selectedDanjiSummary?.householdCount ?? 0}
                     buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
                     rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
                   />
                 )}
-              </DanjiMarker>
+              </MobDanjiMarker>
             </CustomOverlay>
           </DeferredRender>
         ))}
@@ -84,7 +85,7 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <SchoolMarker
+              <MobSchoolMarker
                 selected={selectedSchoolID === marker.id}
                 onClick={marker.onClick}
                 name={marker.name}
