@@ -3,11 +3,13 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  mode: 'jit',
   theme: {
     extend: {
       fontFamily: {
         sans: ['Pretendard', ...defaultTheme.fontFamily.sans],
       },
+
       fontSize: {
         h1: [
           '1.5rem',
@@ -51,6 +53,20 @@ module.exports = {
             letterSpacing: '-0.25px',
           },
         ],
+        count: [
+          '0.5rem',
+          {
+            lineHeight: '1.25rem',
+            letterSpacing: '0 !important',
+          },
+        ],
+        mobCaption: [
+          '0.75rem',
+          {
+            lineHeight: '0.875rem',
+            letterSpacing: '0 !important',
+          },
+        ],
       },
       lineHeight: {
         3.5: '0.875rem',
@@ -82,6 +98,8 @@ module.exports = {
           800: '#7048E8',
           900: '#6741D9',
           1000: '#5F3DC4',
+          1100: '#5F52F6',
+          1200: '#9368EF',
         },
         blue: {
           DEFAULT: '#4C6EF5',
@@ -152,6 +170,12 @@ module.exports = {
           1000: '#CA2F0B',
         },
       },
+      padding: {
+        8: '0.5rem',
+        10: '0.6025rem',
+        16: '1rem',
+        20: '1.25rem',
+      },
       spacing: {
         px: '1px',
         0: '0px',
@@ -173,11 +197,17 @@ module.exports = {
       width: {
         21: '5.25rem',
       },
+      maxWidth: { mobile: '26.75rem', mobileSmall: '23.4375rem' },
       height: {
+        5: '0.3125rem',
         4.5: '1.125rem',
         11.5: '2.875rem',
         13.5: '3.375rem',
         37.5: '9.375rem',
+      },
+      gap: {
+        5: '0.3125rem',
+        20: '1.25rem',
       },
       boxShadow: {
         DEFAULT: '0px 8px 16px rgba(0, 0, 0, 0.14)',
@@ -193,6 +223,7 @@ module.exports = {
       borderRadius: {
         '4xl': '2.25rem',
         bubble: '3.25rem',
+        100: '10rem',
       },
       keyframes: {
         scale: {
@@ -213,6 +244,12 @@ module.exports = {
       animation: {
         scale: 'scale 0.3s normal ease-in-out',
         panelSlideIn: 'panelSlideIn 0.5s cubic-bezier(0.77, 0, 0.175, 1)',
+      },
+      backdropBlur: {
+        20: '20px',
+      },
+      screens: {
+        mobile: { min: '374px', max: '375px' },
       },
     },
   },

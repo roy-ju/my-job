@@ -5,5 +5,5 @@ export interface MobileContainerProps {
 }
 
 export default function MobileContainer({ children }: MobileContainerProps) {
-  return <div tw="w-full h-full overflow-x-hidden overflow-y-auto">{children}</div>;
+  return <div tw="max-w-mobile w-full mx-auto h-full overflow-x-hidden overflow-y-hidden">{children}</div>;
 }
