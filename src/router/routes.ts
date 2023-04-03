@@ -12,6 +12,8 @@ const Routes = {
   ListingList: 'listings',
   ListingDetail: 'listingDetail',
   My: 'my',
+  MyAddress: 'myAddress',
+  MyAddressDetail: 'myAddressDetail',
   MyDetail: 'myDetail',
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',

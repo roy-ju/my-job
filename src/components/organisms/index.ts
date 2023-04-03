@@ -24,3 +24,4 @@ export { default as DeregisterForm } from './DeregisterForm';
 export { default as NoticeListItem } from './NoticeListItem';
 export { default as LoginRequired } from './LoginRequired';
 export { default as LoginForm } from './LoginForm';
+export { default as AddressSearchForm } from './AddressSearchForm';

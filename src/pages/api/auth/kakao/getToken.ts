@@ -29,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     client_id: clientID,
     redirect_uri: redirectUri,
     code,
+    client_secret: process.env.KAKAO_CLIENT_SECRET,
   };
 
   const requestHeaders = {
