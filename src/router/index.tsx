@@ -36,6 +36,10 @@ const ServiceContact = dynamic(() => import('@/components/pages/pc/ServiceContac
   ssr: false,
   loading: () => <Panel />,
 });
+const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: () => <Panel /> });
 const Listings = dynamic(() => import('@/components/pages/pc/Listings'), { loading: () => <Panel /> });
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: () => <Panel /> });
@@ -106,6 +110,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ServiceContact: {
       return <ServiceContact {...props} />;
+    }
+
+    case Routes.MyCoupon: {
+      return <MyCoupon {...props} />;
     }
 
     case Routes.Deregister: {

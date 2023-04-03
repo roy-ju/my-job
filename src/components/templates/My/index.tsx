@@ -14,6 +14,7 @@ interface Props {
   onClickMyDetail?: () => void;
   onClickNoticeList?: () => void;
   onClickServiceContact?: () => void;
+  onClickMyCoupon?: () => void;
 }
 
 export default function My({
@@ -26,6 +27,7 @@ export default function My({
   onClickMyDetail,
   onClickNoticeList,
   onClickServiceContact,
+  onClickMyCoupon,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -66,6 +68,8 @@ export default function My({
             <MyPageNavigationList.Item title="자주 묻는 질문" />
             <MyPageNavigationList.Item title="서비스 문의" onClick={onClickServiceContact} />
             <MyPageNavigationList.Item title="서비스 정보" />
+            {/* 테스트용도 */}
+            <MyPageNavigationList.Item title="나의 쿠폰" onClick={onClickMyCoupon} />
           </MyPageNavigationList>
         </div>
       </div>

@@ -22,6 +22,7 @@ const Routes = {
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
   ServiceContact: 'serviceContact',
+  MyCoupon: 'myCoupon',
 };
 
 export default Routes;
