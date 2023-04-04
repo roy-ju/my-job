@@ -1,6 +1,8 @@
+import { Button } from '@/components/atoms';
 import { Dropdown, NavigationHeader, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   userNickname?: string;
@@ -51,6 +53,9 @@ export default function Developer({
             </Dropdown.Option>
           ))}
         </Dropdown>
+        <Button onClick={() => toast('Toast Default')}>Toast Default</Button>
+        <Button onClick={() => toast('Toast Default')}>Toast Error</Button>
+        <Button onClick={() => toast('Toast Default')}>Toast Success</Button>
       </div>
     </div>
   );
