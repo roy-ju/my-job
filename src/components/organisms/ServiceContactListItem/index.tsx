@@ -52,7 +52,9 @@ function ServiceContactListItemMain({ children }: ServiceContactListItemProps) {
   );
 }
 
-export const ServiceContactListItem = Object.assign(ServiceContactListItemMain, {
+const ServiceContactListItem = Object.assign(ServiceContactListItemMain, {
   User: ServiceContactListItemUser,
   Admin: ServiceContacatListItemAdmin,
 });
+
+export default ServiceContactListItem;

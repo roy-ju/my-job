@@ -1,5 +1,5 @@
 import tw, { styled } from 'twin.macro';
-import { ServiceContactListItem } from '@/components/organisms/ServiceContactListItem';
+import ServiceContactListItem from '@/components/organisms/ServiceContactListItem';
 
 const ListContainer = styled.div`
   ${tw`max-h-full min-h-0 overflow-x-hidden overflow-y-auto`}
