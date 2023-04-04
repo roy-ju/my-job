@@ -20,7 +20,7 @@ export const Default: ComponentStory<typeof Information> = () => (
   </Information>
 );
 
-export const EmptyServiceContactList: ComponentStory<typeof Information> = () => (
+export const EmptyQnaList: ComponentStory<typeof Information> = () => (
   <Information>
     <div tw="flex flex-col gap-4 items-center text-center">
       <ExclamationMark />

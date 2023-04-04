@@ -2,24 +2,24 @@ import { NavigationHeader, Information } from '@/components/molecules';
 import { Button } from '@/components/atoms';
 import { ChangeEvent, useState } from 'react';
 import createServiceQna from '@/apis/serviceqna/createServiceQna';
-import List, { IServiceContactItem } from './List';
+import List, { IQnaItem } from './List';
 import NoData from './Nodata';
-import Inquiry from './Inquiry';
+import Inquiry from './Qna';
 
-interface ServiceContactProps {
-  list: IServiceContactItem[];
+interface QnaProps {
+  list: IQnaItem[];
   loggedIn: boolean;
   mutateQna: () => void;
 }
 
-export default function ServiceContact({ list, loggedIn, mutateQna }: ServiceContactProps) {
-  const [isInquiring, setIsInquiring] = useState(false);
-  const [inquiryText, SetInquiryText] = useState('');
-  const headerTitle = isInquiring ? '문의하기' : '서비스 문의';
+export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
+  const [isQna, setIsQna] = useState(false);
+  const [qnaText, SetQnaText] = useState('');
+  const headerTitle = isQna ? '문의하기' : '서비스 문의';
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    SetInquiryText(value);
+    SetQnaText(value);
   };
 
   const renderList = () => {
@@ -34,7 +34,7 @@ export default function ServiceContact({ list, loggedIn, mutateQna }: ServiceCon
   const renderListButton = () => (
     <Button
       onClick={() => {
-        setIsInquiring(true);
+        setIsQna(true);
       }}
       variant="secondary"
       size="bigger"
@@ -44,24 +44,24 @@ export default function ServiceContact({ list, loggedIn, mutateQna }: ServiceCon
     </Button>
   );
 
-  const renderInquiry = () => (
+  const renderQna = () => (
     <Inquiry
-      value={inquiryText}
+      value={qnaText}
       onChange={handleChange}
       placeholder="내용을 입력하세요 &#13;&#10;매물에 대한 문의는 중개사에게 문의하기를 이용하세요"
     />
   );
-  const renderInquiryButton = () => (
+  const renderQnaButton = () => (
     <Button
       onClick={async () => {
-        setIsInquiring(false);
-        await createServiceQna(inquiryText);
+        setIsQna(false);
+        await createServiceQna(qnaText);
         mutateQna();
       }}
       variant="secondary"
       size="bigger"
       tw="w-full"
-      disabled={!inquiryText}
+      disabled={!qnaText}
     >
       문의하기
     </Button>
@@ -74,9 +74,9 @@ export default function ServiceContact({ list, loggedIn, mutateQna }: ServiceCon
       </NavigationHeader>
       {loggedIn ? (
         <>
-          <div tw="flex-1">{isInquiring ? renderInquiry() : renderList()}</div>
+          <div tw="flex-1">{isQna ? renderQna() : renderList()}</div>
           <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">
-            {isInquiring ? renderInquiryButton() : renderListButton()}
+            {isQna ? renderQnaButton() : renderListButton()}
           </div>
         </>
       ) : (

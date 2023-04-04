@@ -32,8 +32,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.NoticeList);
   }, [router]);
 
-  const handleClickServiceContact = useCallback(() => {
-    router.push(Routes.ServiceContact);
+  const handleClickQna = useCallback(() => {
+    router.push(Routes.Qna);
   }, [router]);
 
   const handleClickMyRealPriceList = useCallback(() => {
@@ -67,7 +67,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickNotificationList={handleClickNotificationList}
         onClickMyDetail={handleClickMyDetail}
         onClickNoticeList={handleClickNoticeList}
-        onClickServiceContact={handleClickServiceContact}
+        onClickQna={handleClickQna}
         onClickMyRealPriceList={handleClickMyRealPriceList}
         onClickTransactionHistory={handleClickTransactionHistory}
         onClickFAQ={handleClickFAQ}

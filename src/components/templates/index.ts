@@ -20,7 +20,7 @@ export { default as Login } from './Login';
 export { default as MyAddress } from './MyAddress';
 export { default as MyAddressDetail } from './MyAddressDetail';
 export { default as MyAddressVerifying } from './MyAddressVerifying';
-export { default as ServiceContact } from './ServiceContact';
+export { default as Qna } from './Qna';
 export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
 export { default as MyRealPriceList } from './MyRealPriceList';

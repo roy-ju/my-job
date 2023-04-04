@@ -1,13 +1,13 @@
 import { TextField } from '@/components/molecules';
 import { ChangeEvent } from 'react';
 
-interface IInquiryProps {
+interface IQnaProps {
   value?: string;
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function Inquiry({ placeholder, value, onChange }: IInquiryProps) {
+export default function Qna({ placeholder, value, onChange }: IQnaProps) {
   return (
     <div tw="px-5">
       <TextField variant="outlined" tw="h-[30rem]">

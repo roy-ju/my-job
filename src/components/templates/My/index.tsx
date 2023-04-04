@@ -14,7 +14,7 @@ interface Props {
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
   onClickNoticeList?: () => void;
-  onClickServiceContact?: () => void;
+  onClickQna?: () => void;
   onClickMyRealPriceList?: () => void;
   onClickTransactionHistory?: () => void;
   onClickFAQ?: () => void;
@@ -31,7 +31,7 @@ export default function My({
   onClickNotificationList,
   onClickMyDetail,
   onClickNoticeList,
-  onClickServiceContact,
+  onClickQna,
   onClickMyRealPriceList,
   onClickTransactionHistory,
   onClickFAQ,
@@ -91,7 +91,7 @@ export default function My({
             <MyPageNavigationList.Item title="네고시오 소개" />
             <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
             <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
-            <MyPageNavigationList.Item title="서비스 문의" onClick={onClickServiceContact} />
+            <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />
             <MyPageNavigationList.Item title="서비스 정보" />
           </MyPageNavigationList>
         </div>
