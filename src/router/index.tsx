@@ -79,6 +79,8 @@ const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
   loading: () => <Panel />,
 });
 
+const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
+
 const DEFAULT_PANEL_WIDTH = '380px';
 
 interface Props {
@@ -151,6 +153,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.MyCoupon: {
       return <MyCoupon {...props} />;
+    }
+
+    case Routes.ServiceInfo: {
+      return <ServiceInfo {...props} />;
     }
 
     case Routes.Deregister: {

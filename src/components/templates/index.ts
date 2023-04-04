@@ -28,3 +28,4 @@ export { default as TransactionHistory } from './TransactionHistory';
 export { default as FAQ } from './FAQ';
 export { default as NegoPoint } from './NegoPoint';
 export { default as MyCoupon } from './MyCoupon';
+export { default as ServiceInfo } from './ServiceInfo';
