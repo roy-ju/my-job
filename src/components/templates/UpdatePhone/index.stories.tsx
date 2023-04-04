@@ -16,4 +16,5 @@ export const Default: ComponentStory<typeof UpdatePhone> = (args) => (
 Default.args = {
   sent: false,
   codeVerified: false,
+  codeErrorMessage: '',
 };
