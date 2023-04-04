@@ -2,27 +2,32 @@ import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
 import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
+import { ChangeEventHandler } from 'react';
 
 interface UpdatetableTextFieldProps {
   label: string;
   value?: string;
   disabled?: boolean;
+  buttonDisabled?: boolean;
   readOnly?: boolean;
   onClickUpdate?: () => void;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 function UpdatableTextField({
   label,
   value,
   disabled = false,
+  buttonDisabled = false,
   readOnly = false,
   onClickUpdate,
+  onChange,
 }: UpdatetableTextFieldProps) {
   return (
     <TextField variant="outlined">
-      <TextField.Input value={value} label={label} disabled={disabled} readOnly={readOnly} />
+      <TextField.Input onChange={onChange} value={value} label={label} disabled={disabled} readOnly={readOnly} />
       <TextField.Trailing>
-        <Button size="small" variant="gray" onClick={onClickUpdate}>
+        <Button disabled={buttonDisabled} size="small" variant="gray" onClick={onClickUpdate}>
           변경
         </Button>
       </TextField.Trailing>
@@ -57,10 +62,20 @@ function HomeOwner({ verified }: HomeOwnerProps) {
 interface LoginInfoProps {
   nickname?: string;
   email?: string;
+  updateNicknameButtonDisabled?: boolean;
   onClickLogout?: () => void;
+  onClickUpdateNickname?: () => void;
+  onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
 }
 
-function LoginInfo({ nickname, email, onClickLogout }: LoginInfoProps) {
+function LoginInfo({
+  nickname,
+  email,
+  updateNicknameButtonDisabled = true,
+  onClickLogout,
+  onClickUpdateNickname,
+  onChangeNickname,
+}: LoginInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex items-center justify-between mb-4">
@@ -70,7 +85,13 @@ function LoginInfo({ nickname, email, onClickLogout }: LoginInfoProps) {
         </Button>
       </div>
       <div tw="flex flex-col gap-3">
-        <UpdatableTextField label="닉네임" value={nickname} />
+        <UpdatableTextField
+          label="닉네임"
+          value={nickname}
+          buttonDisabled={updateNicknameButtonDisabled}
+          onClickUpdate={onClickUpdateNickname}
+          onChange={onChangeNickname}
+        />
         <UpdatableTextField label="간편 로그인" readOnly value={email} />
       </div>
     </div>

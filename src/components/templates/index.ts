@@ -30,3 +30,4 @@ export { default as NegoPoint } from './NegoPoint';
 export { default as MyCoupon } from './MyCoupon';
 export { default as ServiceInfo } from './ServiceInfo';
 export { default as BusinessInfo } from './BusinessInfo';
+export { default as Register } from './Register';

@@ -47,3 +47,4 @@ export { default as TransactionHistoryDetail } from './TransactionHistoryDetail'
 export { default as TransactionHistoryListItem } from './TransactionHistoryListItem';
 export { default as FAQListItem } from './FAQListItem';
 export { default as ServiceInfoList } from './ServiceInfoList';
+export { default as RegisterForm } from './RegisterForm';

@@ -80,6 +80,10 @@ const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'),
   ssr: false,
   loading: () => <Panel />,
 });
+const Register = dynamic(() => import('@/components/pages/pc/Register'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 
@@ -199,6 +203,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.BusinessInfo: {
       return <BusinessInfo {...props} />;
+    }
+
+    case Routes.Register: {
+      return <Register {...props} />;
     }
 
     case Routes.Developer: {
