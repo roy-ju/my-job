@@ -44,16 +44,16 @@ function getFilterTypeProps(filterType: FilterType, filter: Filter): [string, bo
     return [RealestateTypeString[Number(realestateTypes[0])], true];
   }
   if (filterType === 'buyOrRent') {
-    const realestateTypes = filter.realestateTypes.split(',');
+    // const realestateTypes = filter.realestateTypes.split(',');
     const buyOrRents = filter.buyOrRents.split(',');
 
     if (buyOrRents.length > 2) return ['거래 종류', false];
-    if (
-      realestateTypes.includes(`${RealestateType.OneRoom}`) ||
-      realestateTypes.includes(`${RealestateType.TwoRoom}`)
-    ) {
-      if (buyOrRents.length > 1) return ['거래 종류', false];
-    }
+    // if (
+    //   realestateTypes.includes(`${RealestateType.OneRoom}`) ||
+    //   realestateTypes.includes(`${RealestateType.TwoRoom}`)
+    // ) {
+    //   if (buyOrRents.length > 1) return ['거래 종류', false];
+    // }
 
     if (filter.buyOrRents === '2,3') {
       return ['전월세', true];
