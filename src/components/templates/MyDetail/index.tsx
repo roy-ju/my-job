@@ -13,6 +13,7 @@ interface MyDetailProps {
   onClickDeregister: () => void;
   onClickLogout: () => void;
   onClickUpdateAddress: () => void;
+  onClickUpdatePhone: () => void;
 }
 
 export default function MyDetail({
@@ -26,6 +27,7 @@ export default function MyDetail({
   onClickDeregister,
   onClickLogout,
   onClickUpdateAddress,
+  onClickUpdatePhone,
 }: MyDetailProps) {
   return (
     <div>
@@ -35,7 +37,7 @@ export default function MyDetail({
       <MyDetailForm tw="pt-6 pb-10">
         <MyDetailForm.LoginInfo nickname={nickname} email={email} onClickLogout={onClickLogout} />
         <MyDetailForm.Separator />
-        <MyDetailForm.IdentityInfo name={name} phone={phone} />
+        <MyDetailForm.IdentityInfo name={name} phone={phone} onClickUpdate={onClickUpdatePhone} />
         <MyDetailForm.Separator />
         <MyDetailForm.AddressInfo
           address={address}

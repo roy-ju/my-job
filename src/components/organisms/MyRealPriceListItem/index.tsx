@@ -23,7 +23,7 @@ export default function MyRealPriceListItem({
 }: MyRealPriceListItemProps) {
   return (
     <div tw="bg-white">
-      <button type="button" tw="text-start w-full flex flex-col items-stretch p-5">
+      <button type="button" tw="text-start w-full flex flex-col items-stretch p-5 hover:bg-gray-50 transition-colors">
         <div tw="flex items-center justify-between mb-2">
           <div tw="text-b2 leading-none">{danjiName}</div>
           <div tw="text-b2 leading-none text-nego-1000">

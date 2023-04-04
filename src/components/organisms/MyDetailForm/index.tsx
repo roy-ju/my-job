@@ -80,9 +80,10 @@ function LoginInfo({ nickname, email, onClickLogout }: LoginInfoProps) {
 interface IdentityInfoProps {
   name?: string;
   phone?: string;
+  onClickUpdate?: () => void;
 }
 
-function IdentityInfo({ name, phone }: IdentityInfoProps) {
+function IdentityInfo({ name, phone, onClickUpdate }: IdentityInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex flex-col gap-3 mb-4">
@@ -103,8 +104,12 @@ function IdentityInfo({ name, phone }: IdentityInfoProps) {
             본인인증하기
           </Button>
         )}
-        {phone && <UpdatableTextField label="휴대폰 번호" value={phone} />}
-        {name && !phone && <Button variant="outlined">휴대폰 번호 등록하기</Button>}
+        {phone && <UpdatableTextField label="휴대폰 번호" value={phone} onClickUpdate={onClickUpdate} />}
+        {name && !phone && (
+          <Button variant="outlined" onClick={onClickUpdate}>
+            휴대폰 번호 등록하기
+          </Button>
+        )}
       </div>
     </div>
   );

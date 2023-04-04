@@ -56,6 +56,10 @@ const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/Deregis
   ssr: false,
   loading: () => <Panel />,
 });
+const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -146,6 +150,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.DanjiDetail: {
       return <DanjiDetail {...props} />;
+    }
+
+    case Routes.UpdatePhone: {
+      return <UpdatePhone {...props} />;
     }
 
     case Routes.Developer: {

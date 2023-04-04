@@ -23,6 +23,10 @@ export default function useMyDetail(depth: number) {
     router.replace(Routes.MyAddress);
   }, [router]);
 
+  const handleUpdatePhone = useCallback(() => {
+    router.replace(Routes.UpdatePhone);
+  }, [router]);
+
   return useMemo(
     () => ({
       ...user,
@@ -33,7 +37,16 @@ export default function useMyDetail(depth: number) {
       handleClickDeregister,
       handleLogout,
       handleUpdateAddress,
+      handleUpdatePhone,
     }),
-    [user, userAddressData, isUserAddressLoading, handleClickDeregister, handleLogout, handleUpdateAddress],
+    [
+      user,
+      userAddressData,
+      isUserAddressLoading,
+      handleClickDeregister,
+      handleLogout,
+      handleUpdateAddress,
+      handleUpdatePhone,
+    ],
   );
 }
