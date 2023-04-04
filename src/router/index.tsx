@@ -60,6 +60,10 @@ const TransactionHistory = dynamic(() => import('@/components/pages/pc/Transacti
   ssr: false,
   loading: () => <Panel />,
 });
+const FAQ = dynamic(() => import('@/components/pages/pc/FAQ'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -122,6 +126,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ServiceContact: {
       return <ServiceContact {...props} />;
+    }
+
+    case Routes.FAQ: {
+      return <FAQ {...props} />;
     }
 
     case Routes.Deregister: {
