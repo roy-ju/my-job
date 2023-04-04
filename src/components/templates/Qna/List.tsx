@@ -1,5 +1,5 @@
 import tw, { styled } from 'twin.macro';
-import ServiceContactListItem from '@/components/organisms/ServiceContactListItem';
+import QnaListItem from '@/components/organisms/QnaListItem';
 
 const ListContainer = styled.div`
   ${tw`max-h-full min-h-0 overflow-x-hidden overflow-y-auto`}
@@ -8,7 +8,7 @@ const ListContainer = styled.div`
   }
 `;
 
-export interface IServiceContactItem {
+export interface IQnaItem {
   admin_message: string;
   admin_response_time: string;
   created_time: string;
@@ -17,20 +17,20 @@ export interface IServiceContactItem {
   user_message: string;
 }
 
-export default function List({ list }: { list: IServiceContactItem[] }) {
+export default function List({ list }: { list: IQnaItem[] }) {
   return (
     <ListContainer>
       {list.map((item) => (
-        <ServiceContactListItem key={item.id}>
-          <ServiceContactListItem.User
+        <QnaListItem key={item.id}>
+          <QnaListItem.User
             userMessage={item.user_message}
             createdTime={item.created_time}
             didReply={!!item.admin_message}
           />
           {item.admin_message ? (
-            <ServiceContactListItem.Admin adminMessage={item.admin_message} responseTime={item.admin_response_time} />
+            <QnaListItem.Admin adminMessage={item.admin_message} responseTime={item.admin_response_time} />
           ) : null}
-        </ServiceContactListItem>
+        </QnaListItem>
       ))}
     </ListContainer>
   );

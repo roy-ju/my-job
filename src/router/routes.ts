@@ -23,7 +23,7 @@ const Routes = {
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
   NegoPoint: 'negoPoint',
-  ServiceContact: 'serviceContact',
+  Qna: 'qna',
   TransactionHistory: 'transactionHistory',
   FAQ: 'faq',
   UpdatePhone: 'updatePhone',

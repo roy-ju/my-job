@@ -37,7 +37,7 @@ const NoticeDetail = dynamic(() => import('@/components/pages/pc/NoticeDetail'),
   ssr: false,
   loading: () => <Panel />,
 });
-const ServiceContact = dynamic(() => import('@/components/pages/pc/ServiceContact'), {
+const Qna = dynamic(() => import('@/components/pages/pc/Qna'), {
   ssr: false,
   loading: () => <Panel />,
 });
@@ -141,8 +141,8 @@ export default function Router({ route, query, depth }: Props) {
       return <NegoPoint {...props} />;
     }
 
-    case Routes.ServiceContact: {
-      return <ServiceContact {...props} />;
+    case Routes.Qna: {
+      return <Qna {...props} />;
     }
 
     case Routes.FAQ: {

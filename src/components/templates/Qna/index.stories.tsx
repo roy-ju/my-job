@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Panel } from '@/components/atoms';
-import ServiceContact from '.';
+import Qna from '.';
 
 const mock = [
   {
@@ -30,13 +30,13 @@ const mock = [
 ];
 
 export default {
-  title: 'templates/ServiceContact',
-  component: ServiceContact,
-} as ComponentMeta<typeof ServiceContact>;
+  title: 'templates/Qna',
+  component: Qna,
+} as ComponentMeta<typeof Qna>;
 
-export const Default: ComponentStory<typeof ServiceContact> = (args) => (
+export const Default: ComponentStory<typeof Qna> = (args) => (
   <Panel>
-    <ServiceContact {...args} />
+    <Qna {...args} />
   </Panel>
 );
 
@@ -44,9 +44,9 @@ Default.args = {
   list: mock,
 };
 
-export const NoItems: ComponentStory<typeof ServiceContact> = (args) => (
+export const NoItems: ComponentStory<typeof Qna> = (args) => (
   <Panel>
-    <ServiceContact {...args} />
+    <Qna {...args} />
   </Panel>
 );
 

@@ -1,21 +1,21 @@
 import React, { ReactNode, Children } from 'react';
 import { Accordion } from '@/components/molecules';
 
-interface ServiceContactListItemProps {
+interface QnaListItemProps {
   children: ReactNode;
 }
 
-interface ServiceContactListItemUserProps {
+interface QnaListItemUserProps {
   userMessage: string;
   createdTime: string;
   didReply: boolean;
 }
-interface ServiceContactListItemAdminProps {
+interface QnaListItemAdminProps {
   adminMessage: string;
   responseTime: string;
 }
 
-function ServiceContactListItemUser({ userMessage, createdTime, didReply }: ServiceContactListItemUserProps) {
+function QnaListItemUser({ userMessage, createdTime, didReply }: QnaListItemUserProps) {
   return (
     <div tw="flex justify-between px-5 py-5 w-[23.75rem]">
       <div tw="basis-64">
@@ -32,7 +32,7 @@ function ServiceContactListItemUser({ userMessage, createdTime, didReply }: Serv
     </div>
   );
 }
-function ServiceContacatListItemAdmin({ adminMessage, responseTime }: ServiceContactListItemAdminProps) {
+function QnaListItemAdmin({ adminMessage, responseTime }: QnaListItemAdminProps) {
   return (
     <div tw="p-5">
       <p tw="text-b2 mb-2 break-all">{adminMessage}</p>
@@ -41,7 +41,7 @@ function ServiceContacatListItemAdmin({ adminMessage, responseTime }: ServiceCon
   );
 }
 
-function ServiceContactListItemMain({ children }: ServiceContactListItemProps) {
+function QnaListItemMain({ children }: QnaListItemProps) {
   const childrenArray = Children.toArray(children);
 
   return (
@@ -52,9 +52,9 @@ function ServiceContactListItemMain({ children }: ServiceContactListItemProps) {
   );
 }
 
-const ServiceContactListItem = Object.assign(ServiceContactListItemMain, {
-  User: ServiceContactListItemUser,
-  Admin: ServiceContacatListItemAdmin,
+const QnaListItem = Object.assign(QnaListItemMain, {
+  User: QnaListItemUser,
+  Admin: QnaListItemAdmin,
 });
 
-export default ServiceContactListItem;
+export default QnaListItem;

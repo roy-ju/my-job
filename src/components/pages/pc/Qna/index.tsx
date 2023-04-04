@@ -1,7 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { useAuth } from '@/hooks/services';
 import { memo } from 'react';
-import { ServiceContact as ServiceContactTemplate } from '@/components/templates';
+import { Qna as QnaTemplate } from '@/components/templates';
 import useAPI_GetServiceQnaList from '@/apis/serviceqna/getServiceQnaList';
 
 interface Props {
@@ -15,7 +15,7 @@ export default memo(({ panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <ServiceContactTemplate mutateQna={mutate} loggedIn={user !== null} list={list} />
+      <QnaTemplate mutateQna={mutate} loggedIn={user !== null} list={list} />
     </Panel>
   );
 });
