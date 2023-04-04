@@ -25,3 +25,4 @@ export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
 export { default as MyRealPriceList } from './MyRealPriceList';
 export { default as TransactionHistory } from './TransactionHistory';
+export { default as FAQ } from './FAQ';
