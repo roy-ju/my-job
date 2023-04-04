@@ -28,6 +28,7 @@ const Routes = {
   FAQ: 'faq',
   UpdatePhone: 'updatePhone',
   MyCoupon: 'myCoupon',
+  BusinessInfo: 'businessInfo',
 };
 
 export default Routes;
