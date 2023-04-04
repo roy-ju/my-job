@@ -24,7 +24,10 @@ export interface GetNotificationListResponse {
 }
 
 function getKey(buyOrRent: number) {
-  return (size: number) => ['my/realprice/list', { page_number: size + 1, buy_or_rent: buyOrRent, sort_by: 1 }];
+  return (size: number, previousPageData: GetNotificationListResponse) => {
+    if (size > 0 && (previousPageData === null || previousPageData.list.length < 1)) return null;
+    return ['my/realprice/list', { page_number: size + 1, buy_or_rent: buyOrRent, sort_by: 1 }];
+  };
 }
 
 export default function useAPI_GetMyRealPriceList(buyOrRent: number) {
@@ -39,7 +42,10 @@ export default function useAPI_GetMyRealPriceList(buyOrRent: number) {
 
   const data = useMemo(() => {
     if (!dataList) return [];
-    return dataList?.map((item) => item.list).flat();
+    return dataList
+      ?.filter((item) => Boolean(item))
+      .map((item) => item?.list)
+      .flat();
   }, [dataList]);
 
   const increamentPageNumber = useCallback(() => {
@@ -54,6 +60,6 @@ export default function useAPI_GetMyRealPriceList(buyOrRent: number) {
     size,
     setSize,
     mutate,
-    updatedTime: dataList?.[0].updated_time,
+    updatedTime: dataList?.[0]?.updated_time,
   };
 }

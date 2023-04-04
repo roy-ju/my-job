@@ -15,13 +15,13 @@ export default memo(({ panelWidth }: Props) => {
   const list = useMemo(
     () =>
       data.map((item) => ({
-        danjiName: item.danji_name,
-        price: item.price,
-        monthlyRentFee: item.monthly_rent_fee,
-        createdTime: `${item.deal_year}.${item.deal_month}.${item.deal_day}`,
-        area: item.jeonyong_area,
-        buyOrRent: item.buy_or_rent,
-        dealType: item.deal_type,
+        danjiName: item?.danji_name,
+        price: item?.price,
+        monthlyRentFee: item?.monthly_rent_fee,
+        createdTime: `${item?.deal_year}.${item?.deal_month}.${item?.deal_day}`,
+        area: item?.jeonyong_area,
+        buyOrRent: item?.buy_or_rent,
+        dealType: item?.deal_type,
       })),
     [data],
   );

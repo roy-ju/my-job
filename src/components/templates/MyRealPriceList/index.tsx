@@ -39,9 +39,11 @@ export default function MyRealPriceList({
         <div tw="text-info leading-none text-gray-700 mb-7">
           나의 관심 매물, 관심 단지 혹은 나의 주소지 주변 실거래 현황입니다.
         </div>
-        <div tw="mb-4 text-info text-gray-700">
-          최근 업데이트: <Moment format="YYYY.MM.DD">{updatedTime}</Moment>
-        </div>
+        {updatedTime && (
+          <div tw="mb-4 text-info text-gray-700">
+            최근 업데이트: <Moment format="YYYY.MM.DD">{updatedTime}</Moment>
+          </div>
+        )}
         <Tabs variant="contained" value={buyOrRent} onChange={onChangeBuyOrRent}>
           <Tabs.Tab value={0}>전체</Tabs.Tab>
           <Tabs.Tab value={1}>매매</Tabs.Tab>
