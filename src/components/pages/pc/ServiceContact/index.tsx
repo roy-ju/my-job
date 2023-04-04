@@ -9,7 +9,7 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ depth, panelWidth }: Props) => {
+export default memo(({ panelWidth }: Props) => {
   const { user } = useAuth();
   const { list } = useAPI_GetServiceQnaList();
   return (
