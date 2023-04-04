@@ -212,3 +212,20 @@ export const MultilineDisabled: ComponentStory<typeof TextField> = () => (
     <TextField.TextArea disabled placeholder="주소 또는 단지명을 입력하세요" />
   </TextField>
 );
+
+export const HelperMessages: ComponentStory<typeof TextField> = () => (
+  <div tw="flex flex-col gap-4">
+    <div>
+      <TextField>
+        <TextField.Input label="주소" />
+      </TextField>
+      <TextField.ErrorMessage message="안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요" />
+    </div>
+    <div>
+      <TextField>
+        <TextField.Input label="주소" />
+      </TextField>
+      <TextField.SuccessMessage message="안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요" />
+    </div>
+  </div>
+);

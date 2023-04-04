@@ -1,8 +1,10 @@
+import sendPhoneVerificationCode from '@/apis/user/sendPhoneVerificationCode';
+import updatePhone from '@/apis/user/updatePhone';
 import { Panel } from '@/components/atoms';
 import { UpdatePhone } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { ChangeEventHandler, memo, useCallback, useState } from 'react';
+import { ChangeEventHandler, memo, useCallback, useMemo, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -15,6 +17,14 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [code, setCode] = useState('');
   const [sent, setSent] = useState(false);
   const [codeVerified, setCodeVerified] = useState(false);
+  const [errorCode, setErrorCode] = useState<number | null>(null);
+
+  const errorMessage = useMemo(() => {
+    if (errorCode === 1021) {
+      return '인증번호가 일치하지 않습니다.';
+    }
+    return '';
+  }, [errorCode]);
 
   const handleChangePhone = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setPhone(e.target.value);
@@ -24,13 +34,21 @@ export default memo(({ depth, panelWidth }: Props) => {
     setCode(e.target.value);
   }, []);
 
-  const handleClickSend = useCallback(() => {
+  const handleClickSend = useCallback(async () => {
     setSent(true);
-  }, []);
+    await sendPhoneVerificationCode(phone);
+  }, [phone]);
 
-  const handleClickVerifyCode = useCallback(() => {
-    setCodeVerified(true);
-  }, []);
+  const handleClickVerifyCode = useCallback(async () => {
+    const res = await updatePhone(phone, code);
+    if (res?.error_code) {
+      setErrorCode(res?.error_code);
+      setCodeVerified(false);
+    } else {
+      setErrorCode(null);
+      setCodeVerified(true);
+    }
+  }, [phone, code]);
 
   const handleClickNext = useCallback(() => {
     router.replace(Routes.MyDetail);
@@ -42,6 +60,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         phone={phone}
         code={code}
         sent={sent}
+        codeErrorMessage={errorMessage}
         codeVerified={codeVerified}
         onChangePhone={handleChangePhone}
         onChangeCode={handleChangeCode}
