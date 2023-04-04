@@ -1,6 +1,7 @@
 import { Button } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { MyDetailForm } from '@/components/organisms';
+import { ChangeEventHandler } from 'react';
 
 interface MyDetailProps {
   nickname: string;
@@ -10,10 +11,13 @@ interface MyDetailProps {
   address: string;
   addressDetail: string;
   addressVerified: boolean;
+  updateNicknameButtonDisabled: boolean;
   onClickDeregister: () => void;
   onClickLogout: () => void;
   onClickUpdateAddress: () => void;
   onClickUpdatePhone: () => void;
+  onClickUpdateNickname: () => void;
+  onChangeNickname: ChangeEventHandler<HTMLInputElement>;
 }
 
 export default function MyDetail({
@@ -24,10 +28,13 @@ export default function MyDetail({
   address,
   addressDetail,
   addressVerified,
+  updateNicknameButtonDisabled,
   onClickDeregister,
   onClickLogout,
   onClickUpdateAddress,
   onClickUpdatePhone,
+  onClickUpdateNickname,
+  onChangeNickname,
 }: MyDetailProps) {
   return (
     <div>
@@ -35,7 +42,14 @@ export default function MyDetail({
         <NavigationHeader.Title tw="text-b1">회원정보</NavigationHeader.Title>
       </NavigationHeader>
       <MyDetailForm tw="pt-6 pb-10">
-        <MyDetailForm.LoginInfo nickname={nickname} email={email} onClickLogout={onClickLogout} />
+        <MyDetailForm.LoginInfo
+          nickname={nickname}
+          email={email}
+          updateNicknameButtonDisabled={updateNicknameButtonDisabled}
+          onClickLogout={onClickLogout}
+          onClickUpdateNickname={onClickUpdateNickname}
+          onChangeNickname={onChangeNickname}
+        />
         <MyDetailForm.Separator />
         <MyDetailForm.IdentityInfo name={name} phone={phone} onClickUpdate={onClickUpdatePhone} />
         <MyDetailForm.Separator />

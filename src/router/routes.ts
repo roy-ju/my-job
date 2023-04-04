@@ -30,6 +30,7 @@ const Routes = {
   MyCoupon: 'myCoupon',
   ServiceInfo: 'serviceInfo',
   BusinessInfo: 'businessInfo',
+  Register: 'register',
 };
 
 export default Routes;
