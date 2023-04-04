@@ -1,4 +1,4 @@
-import { NavigationHeader, Dropdown, Accordion } from '@/components/molecules';
+import { NavigationHeader, Dropdown } from '@/components/molecules';
 import { useState } from 'react';
 import List from './List';
 

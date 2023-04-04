@@ -6,7 +6,6 @@
 import { Panel } from '@/components/atoms';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
-
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
@@ -69,12 +68,15 @@ const FAQ = dynamic(() => import('@/components/pages/pc/FAQ'), {
   ssr: false,
   loading: () => <Panel />,
 });
-
 const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
   ssr: false,
   loading: () => <Panel />,
 });
 const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'), {
   ssr: false,
   loading: () => <Panel />,
 });
@@ -193,6 +195,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.UpdatePhone: {
       return <UpdatePhone {...props} />;
+    }
+
+    case Routes.BusinessInfo: {
+      return <BusinessInfo {...props} />;
     }
 
     case Routes.Developer: {
