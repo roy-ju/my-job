@@ -22,9 +22,11 @@ const Routes = {
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
+  NegoPoint: 'negoPoint',
   ServiceContact: 'serviceContact',
   TransactionHistory: 'transactionHistory',
   FAQ: 'faq',
+  UpdatePhone: 'updatePhone',
 };
 
 export default Routes;
