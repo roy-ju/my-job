@@ -43,8 +43,8 @@ export default function useAPI_GetMyRealPriceList(buyOrRent: number) {
   const data = useMemo(() => {
     if (!dataList) return [];
     return dataList
-      ?.filter((item) => Boolean(item))
-      .map((item) => item?.list)
+      ?.map((item) => item?.list)
+      .filter((item) => Boolean(item))
       .flat();
   }, [dataList]);
 
