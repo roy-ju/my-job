@@ -27,6 +27,7 @@ const Routes = {
   TransactionHistory: 'transactionHistory',
   FAQ: 'faq',
   UpdatePhone: 'updatePhone',
+  MyCoupon: 'myCoupon',
 };
 
 export default Routes;
