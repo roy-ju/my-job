@@ -80,23 +80,10 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
           </div>
         </>
       ) : (
-        <div tw="flex-1 flex flex-col justify-center items-center text-center">
-          <Information>
-            <Information.Title>
-              <div tw="mb-1.5">
-                <span tw="text-[#522AFF]">서비스 문의</span>가 없습니다.
-              </div>
-            </Information.Title>
-            <Information.Contents>
-              서비스 이용에 관한 궁금한 점을
-              <br />
-              네고시오에 직접 물어보세요.
-            </Information.Contents>
-          </Information>
-          <Button variant="secondary" tw="mt-16 w-[6.7rem] text-b1 font-bold" size="bigger">
-            문의하기
-          </Button>
-        </div>
+        <>
+          <div tw="flex-1">{renderList()}</div>
+          <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">{renderListButton()}</div>
+        </>
       )}
     </div>
   );
