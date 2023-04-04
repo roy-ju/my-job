@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
-import { Information } from '.';
+import Information from '.';
 
 export default {
   title: 'molecules/Information',
@@ -33,10 +33,3 @@ export const EmptyServiceContactList: ComponentStory<typeof Information> = () =>
     </div>
   </Information>
 );
-
-/*
-<div tw="bg-white h-full">
-
-      
-</div>
-*/
