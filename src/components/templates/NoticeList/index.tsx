@@ -1,3 +1,4 @@
+import { InfiniteScroll } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { NoticeListItem } from '@/components/organisms';
 
@@ -10,15 +11,16 @@ export interface INoticeListItem {
 export interface NoticeListProps {
   notices: INoticeListItem[];
   onClickItem?: (id: number) => void;
+  onNext?: () => void;
 }
 
-export default function NoticeList({ notices, onClickItem }: NoticeListProps) {
+export default function NoticeList({ notices, onClickItem, onNext }: NoticeListProps) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.Title>공지사항</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="pt-1 flex-1 min-h-0 overflow-auto">
+      <InfiniteScroll tw="pt-1 flex-1 min-h-0 overflow-auto" onNext={onNext}>
         {notices.map((item) => (
           <NoticeListItem
             key={item.id}
@@ -27,7 +29,7 @@ export default function NoticeList({ notices, onClickItem }: NoticeListProps) {
             onClick={() => onClickItem?.(item.id)}
           />
         ))}
-      </div>
+      </InfiniteScroll>
     </div>
   );
 }
