@@ -56,6 +56,10 @@ const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/Deregis
   ssr: false,
   loading: () => <Panel />,
 });
+const TransactionHistory = dynamic(() => import('@/components/pages/pc/TransactionHistory'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -110,6 +114,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.NoticeDetail: {
       return <NoticeDetail {...props} />;
+    }
+
+    case Routes.TransactionHistory: {
+      return <TransactionHistory {...props} />;
     }
 
     case Routes.ServiceContact: {
