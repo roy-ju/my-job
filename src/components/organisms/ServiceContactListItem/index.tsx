@@ -17,7 +17,7 @@ interface ServiceContactListItemAdminProps {
 
 function ServiceContactListItemUser({ userMessage, createdTime, didReply }: ServiceContactListItemUserProps) {
   return (
-    <div tw="flex justify-between pl-5 py-5 pr-2 w-[23.75rem]">
+    <div tw="flex justify-between px-5 py-5 w-[23.75rem]">
       <div tw="basis-64">
         <p tw="text-b2 text-left mb-2 break-all">{userMessage}</p>
         <span tw="text-info text-gray-700 text-left block">{createdTime}</span>
