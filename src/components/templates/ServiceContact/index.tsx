@@ -10,9 +10,10 @@ import Inquiry from './Inquiry';
 interface ServiceContactProps {
   list: IServiceContactItem[];
   loggedIn: boolean;
+  mutateQna: () => void;
 }
 
-export default function ServiceContact({ list, loggedIn }: ServiceContactProps) {
+export default function ServiceContact({ list, loggedIn, mutateQna }: ServiceContactProps) {
   const [isInquiring, setIsInquiring] = useState(false);
   const [inquiryText, SetInquiryText] = useState('');
   const headerTitle = isInquiring ? '문의하기' : '서비스 문의';
@@ -53,9 +54,10 @@ export default function ServiceContact({ list, loggedIn }: ServiceContactProps) 
   );
   const renderInquiryButton = () => (
     <Button
-      onClick={() => {
+      onClick={async () => {
         setIsInquiring(false);
-        createServiceQna(inquiryText);
+        await createServiceQna(inquiryText);
+        mutateQna();
       }}
       variant="secondary"
       size="bigger"

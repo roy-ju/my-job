@@ -11,9 +11,7 @@ export interface GetServiceQnaListResponse {
 }
 
 export default function useAPI_GetServiceQnaList() {
-  const { data, isLoading, mutate } = useSWR<GetServiceQnaListResponse[]>('/my/serviceqna/list', {
-    refreshInterval: 1000,
-  });
+  const { data, isLoading, mutate } = useSWR<GetServiceQnaListResponse[]>('/my/serviceqna/list');
 
   const list = useMemo(
     () =>
