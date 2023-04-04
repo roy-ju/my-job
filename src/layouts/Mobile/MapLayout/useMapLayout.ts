@@ -14,7 +14,6 @@ import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { mobileMapState } from '@/states/mobileMap';
-import { toastError } from '@/components/molecules';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -116,8 +115,6 @@ function getUserLastLocation(): { lat: number; lng: number } {
  * 지도레이아웃 초기화와 이벤트 기능구현을 담당하는 훅
  */
 export default function useMapLayout() {
-
-
   const [map, setMap] = useRecoilState(mobileMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
