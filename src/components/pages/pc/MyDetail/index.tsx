@@ -20,6 +20,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleClickDeregister,
     handleLogout,
     handleUpdateAddress,
+    handleUpdatePhone,
   } = useMyDetail(depth);
 
   return (
@@ -35,6 +36,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickDeregister={handleClickDeregister}
         onClickLogout={handleLogout}
         onClickUpdateAddress={handleUpdateAddress}
+        onClickUpdatePhone={handleUpdatePhone}
       />
     </Panel>
   );

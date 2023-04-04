@@ -6,11 +6,12 @@ import { theme } from 'twin.macro';
 interface SummaryItemProps {
   title: string;
   value: string;
+  onClick?: () => void;
 }
 
-function SummaryItem({ title, value }: SummaryItemProps) {
+function SummaryItem({ title, value, onClick }: SummaryItemProps) {
   return (
-    <Button variant="ghost" tw="w-[121px] flex flex-col items-center hover:bg-gray-50">
+    <Button variant="ghost" tw="w-[121px] flex flex-col items-center hover:bg-gray-50" onClick={onClick}>
       <div tw="text-info text-gray-700">{title}</div>
       <div tw="text-b1 text-nego-1000 font-bold">{value}</div>
     </Button>
@@ -23,9 +24,17 @@ interface MySummaryProps {
   point?: number;
   couponCount?: number;
   onClickMyDetail?: () => void;
+  onClickNegoPoint?: () => void;
+  onClickCoupons?: () => void;
 }
 
-export default function MySummary({ nickname, profileImagePath, onClickMyDetail }: MySummaryProps) {
+export default function MySummary({
+  nickname,
+  profileImagePath,
+  onClickMyDetail,
+  onClickCoupons,
+  onClickNegoPoint,
+}: MySummaryProps) {
   return (
     <div>
       <button
@@ -43,9 +52,9 @@ export default function MySummary({ nickname, profileImagePath, onClickMyDetail 
         />
       </button>
       <div tw="py-5 flex items-center justify-center">
-        <SummaryItem title="포인트" value="0P" />
+        <SummaryItem title="포인트" value="0P" onClick={onClickNegoPoint} />
         <div tw="w-[2px] h-6 bg-gray-300 mx-1" />
-        <SummaryItem title="쿠폰" value="0장" />
+        <SummaryItem title="쿠폰" value="0장" onClick={onClickCoupons} />
       </div>
     </div>
   );

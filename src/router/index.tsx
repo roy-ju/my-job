@@ -6,6 +6,7 @@
 import { Panel } from '@/components/atoms';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
+
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
@@ -61,6 +62,15 @@ const TransactionHistory = dynamic(() => import('@/components/pages/pc/Transacti
   loading: () => <Panel />,
 });
 const FAQ = dynamic(() => import('@/components/pages/pc/FAQ'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+
+const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
   ssr: false,
   loading: () => <Panel />,
 });
@@ -123,6 +133,9 @@ export default function Router({ route, query, depth }: Props) {
     case Routes.TransactionHistory: {
       return <TransactionHistory {...props} />;
     }
+    case Routes.NegoPoint: {
+      return <NegoPoint {...props} />;
+    }
 
     case Routes.ServiceContact: {
       return <ServiceContact {...props} />;
@@ -162,6 +175,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.DanjiDetail: {
       return <DanjiDetail {...props} />;
+    }
+
+    case Routes.UpdatePhone: {
+      return <UpdatePhone {...props} />;
     }
 
     case Routes.Developer: {

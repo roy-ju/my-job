@@ -376,6 +376,7 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
       {filters.length > 0 && <div tw="w-full h-px bg-gray-300" />}
       <FiltersContainer tw="max-h-[500px] overflow-y-auto">
         {isRealestateTypeRoomCountFilterAdded && (
+          // TODO: 방개수와 부동산종류 필터 두개로 나누는 리펙토링 필요.
           <RealestateTypeRoomCountFilter
             realestateTypeGroup={filter.realestateTypeGroup}
             realestateTypes={filter.realestateTypes}

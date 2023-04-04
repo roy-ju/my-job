@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationHeader } from '@/components/molecules';
 import BellIcon from '@/assets/icons/bell.svg';
-import { LoginRequired, MyPageNavigationList, MySummary } from '@/components/organisms';
+import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 
@@ -18,6 +18,8 @@ interface Props {
   onClickMyRealPriceList?: () => void;
   onClickTransactionHistory?: () => void;
   onClickFAQ?: () => void;
+  onClickNegoPoint?: () => void;
+  onClickCoupons?: () => void;
 }
 
 export default function My({
@@ -33,6 +35,8 @@ export default function My({
   onClickMyRealPriceList,
   onClickTransactionHistory,
   onClickFAQ,
+  onClickCoupons,
+  onClickNegoPoint,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -51,14 +55,24 @@ export default function My({
           </NavigationHeader.Button>
         )}
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-auto">
+      <div tw="flex-1 min-h-0 overflow-auto pb-10">
         {isLoading && (
           <div tw="h-40 flex items-center justify-center">
             <Loading />
           </div>
         )}
         {!isLoading && loggedIn && (
-          <MySummary profileImagePath={defaultAvatar} nickname={nickname} onClickMyDetail={onClickMyDetail} />
+          <>
+            <MySummary
+              profileImagePath={defaultAvatar}
+              nickname={nickname}
+              onClickMyDetail={onClickMyDetail}
+              onClickCoupons={onClickCoupons}
+              onClickNegoPoint={onClickNegoPoint}
+            />
+            <Separator />
+            <MyListingsSummary />
+          </>
         )}
         {!isLoading && !loggedIn && (
           <div tw="mt-5 mb-14">
