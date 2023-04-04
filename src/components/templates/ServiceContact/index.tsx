@@ -1,7 +1,6 @@
-import { NavigationHeader } from '@/components/molecules';
+import { NavigationHeader, Information } from '@/components/molecules';
 import { Button } from '@/components/atoms';
 import { ChangeEvent, useState } from 'react';
-import { Information } from '@/components/molecules/Information';
 import createServiceQna from '@/apis/serviceqna/createServiceQna';
 import List, { IServiceContactItem } from './List';
 import NoData from './Nodata';

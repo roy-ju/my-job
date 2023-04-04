@@ -18,7 +18,7 @@ function InformationMain({ children }: InformationProps) {
   return <div>{children}</div>;
 }
 
-export const Information = Object.assign(InformationMain, {
+export default Object.assign(InformationMain, {
   Title: InformationTitle,
   Contents: InformationContents,
 });

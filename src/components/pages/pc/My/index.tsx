@@ -47,8 +47,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickFAQ = useCallback(() => {
     router.push(Routes.FAQ);
   }, [router]);
+
   const handleClickNegoPoint = useCallback(() => {
     router.push(Routes.NegoPoint);
+  }, [router]);
+
+  const handleClickCoupons = useCallback(() => {
+    router.push(Routes.MyCoupon);
   }, [router]);
 
   return (
@@ -67,6 +72,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickTransactionHistory={handleClickTransactionHistory}
         onClickFAQ={handleClickFAQ}
         onClickNegoPoint={handleClickNegoPoint}
+        onClickCoupons={handleClickCoupons}
       />
     </Panel>
   );

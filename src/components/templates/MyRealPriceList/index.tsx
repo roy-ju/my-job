@@ -1,6 +1,8 @@
+import React from 'react';
 import { InfiniteScroll, Loading, Moment } from '@/components/atoms';
-import { NavigationHeader, Tabs } from '@/components/molecules';
+import { NavigationHeader, Tabs, Information } from '@/components/molecules';
 import { MyRealPriceListItem } from '@/components/organisms';
+import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 
 export interface IMyRealPriceListItem {
   danjiName: string;
@@ -40,16 +42,30 @@ export default function MyRealPriceList({
           나의 관심 매물, 관심 단지 혹은 나의 주소지 주변 실거래 현황입니다.
         </div>
         {updatedTime && (
-          <div tw="mb-4 text-info text-gray-700">
-            최근 업데이트: <Moment format="YYYY.MM.DD">{updatedTime}</Moment>
+          <>
+            <div tw="mb-4 text-info text-gray-700">
+              최근 업데이트: <Moment format="YYYY.MM.DD">{updatedTime}</Moment>
+            </div>
+            <Tabs variant="contained" value={buyOrRent} onChange={onChangeBuyOrRent}>
+              <Tabs.Tab value={0}>전체</Tabs.Tab>
+              <Tabs.Tab value={1}>매매</Tabs.Tab>
+              <Tabs.Tab value={2}>전월세</Tabs.Tab>
+              <Tabs.Indicator />
+            </Tabs>
+          </>
+        )}
+
+        {!isLoading && !updatedTime && (
+          <div tw="my-24">
+            <Information>
+              <div tw="flex flex-col gap-4 items-center text-center">
+                <ExclamationMark />
+                <Information.Title>실거래 정보가 없습니다.</Information.Title>
+              </div>
+            </Information>
           </div>
         )}
-        <Tabs variant="contained" value={buyOrRent} onChange={onChangeBuyOrRent}>
-          <Tabs.Tab value={0}>전체</Tabs.Tab>
-          <Tabs.Tab value={1}>매매</Tabs.Tab>
-          <Tabs.Tab value={2}>전월세</Tabs.Tab>
-          <Tabs.Indicator />
-        </Tabs>
+
         {!isLoading ? (
           <InfiniteScroll tw="flex-1 min-h-0 overflow-y-scroll -mx-5" onNext={onNext}>
             {list.map((item) => (
