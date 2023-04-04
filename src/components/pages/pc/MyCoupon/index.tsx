@@ -1,6 +1,4 @@
 import { Panel } from '@/components/atoms';
-import { useAuth } from '@/hooks/services';
-import { useRouter } from '@/hooks/utils';
 import { memo } from 'react';
 import { MyCoupon as MyCouponTemplate } from '@/components/templates';
 
@@ -9,7 +7,7 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ depth, panelWidth }: Props) => (
+export default memo(({ panelWidth }: Props) => (
   <Panel width={panelWidth}>
     <MyCouponTemplate hasData={false} />
   </Panel>
