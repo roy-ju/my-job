@@ -11,10 +11,11 @@ interface Props {
 
 export default memo(({ panelWidth }: Props) => {
   const { user } = useAuth();
-  const { list } = useAPI_GetServiceQnaList();
+  const { list, mutate } = useAPI_GetServiceQnaList();
+
   return (
     <Panel width={panelWidth}>
-      <ServiceContactTemplate loggedIn={user !== null} list={list} />
+      <ServiceContactTemplate mutateQna={mutate} loggedIn={user !== null} list={list} />
     </Panel>
   );
 });
