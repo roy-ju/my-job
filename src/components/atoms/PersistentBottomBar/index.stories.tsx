@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import PersistentBottomBar from '.';
 
 export default {
-  title: 'PersistentBottomBar',
+  title: 'atoms/PersistentBottomBar',
   component: PersistentBottomBar,
 } as ComponentMeta<typeof PersistentBottomBar>;
 
