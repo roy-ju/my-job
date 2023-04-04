@@ -23,6 +23,7 @@ const Routes = {
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
   ServiceContact: 'serviceContact',
+  TransactionHistory: 'transactionHistory',
 };
 
 export default Routes;

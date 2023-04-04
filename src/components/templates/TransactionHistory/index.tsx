@@ -14,7 +14,7 @@ export default function TransactionHistory({ list }: Props) {
       </NavigationHeader>
       <Tabs>
         <Tabs.Tab value={0}>
-          전체 <span tw="text-nego">7</span>
+          전체 <span tw="text-nego">0</span>
         </Tabs.Tab>
         <Tabs.Tab value={1}>참여중 거래</Tabs.Tab>
         <Tabs.Tab value={2}>지난 거래</Tabs.Tab>
