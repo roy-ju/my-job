@@ -56,6 +56,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.MyCoupon);
   }, [router]);
 
+  const handleServiceInfo = useCallback(() => {
+    router.push(Routes.ServiceInfo);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -73,6 +77,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickFAQ={handleClickFAQ}
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
+        onClickServiceInfo={handleServiceInfo}
       />
     </Panel>
   );
