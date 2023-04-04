@@ -54,7 +54,7 @@ export default function ServiceContact({ list, loggedIn }: ServiceContactProps) 
   const renderInquiryButton = () => (
     <Button
       onClick={() => {
-        setIsInquiring(true);
+        setIsInquiring(false);
         createServiceQna(inquiryText);
       }}
       variant="secondary"
