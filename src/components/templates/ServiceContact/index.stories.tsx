@@ -4,20 +4,28 @@ import ServiceContact from '.';
 
 const mock = [
   {
-    id: 1,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: '',
-    adminCreatedTime: '',
-    didReply: false,
+    admin_message: 'string',
+    admin_response_time: 'string',
+    created_time: 'string',
+    id: 0,
+    user_id: 0,
+    user_message: 'string',
   },
   {
+    admin_message: 'string',
+    admin_response_time: 'string',
+    created_time: 'string',
+    id: 1,
+    user_id: 1,
+    user_message: 'string',
+  },
+  {
+    admin_message: 'string',
+    admin_response_time: 'string',
+    created_time: 'string',
     id: 2,
-    contents: 'asd',
-    createdTime: '2022.02.01',
-    adminContents: 'asdsa',
-    adminCreatedTime: '2022.03.03',
-    didReply: true,
+    user_id: 2,
+    user_message: 'string',
   },
 ];
 
