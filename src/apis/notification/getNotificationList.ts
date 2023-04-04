@@ -24,7 +24,8 @@ export interface GetNotificationListResponse {
   list: NotificationListItem[];
 }
 
-function getKey(size: number) {
+function getKey(size: number, previousPageData: GetNotificationListResponse) {
+  if (previousPageData && !previousPageData.has_next) return null;
   return ['/notification/list', { page_number: size + 1, page_size: 10 }];
 }
 
