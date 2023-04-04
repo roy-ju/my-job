@@ -1,4 +1,4 @@
-import { NavigationHeader, Information } from '@/components/molecules';
+import { NavigationHeader } from '@/components/molecules';
 import { Button } from '@/components/atoms';
 import { ChangeEvent, useState } from 'react';
 import createServiceQna from '@/apis/serviceqna/createServiceQna';
