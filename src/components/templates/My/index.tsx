@@ -16,6 +16,8 @@ interface Props {
   onClickNoticeList?: () => void;
   onClickServiceContact?: () => void;
   onClickMyRealPriceList?: () => void;
+  onClickNegoPoint?: () => void;
+  onClickCoupons?: () => void;
 }
 
 export default function My({
@@ -29,6 +31,8 @@ export default function My({
   onClickNoticeList,
   onClickServiceContact,
   onClickMyRealPriceList,
+  onClickCoupons,
+  onClickNegoPoint,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -54,7 +58,13 @@ export default function My({
           </div>
         )}
         {!isLoading && loggedIn && (
-          <MySummary profileImagePath={defaultAvatar} nickname={nickname} onClickMyDetail={onClickMyDetail} />
+          <MySummary
+            profileImagePath={defaultAvatar}
+            nickname={nickname}
+            onClickMyDetail={onClickMyDetail}
+            onClickCoupons={onClickCoupons}
+            onClickNegoPoint={onClickNegoPoint}
+          />
         )}
         {!isLoading && !loggedIn && (
           <div tw="mt-5 mb-14">

@@ -60,6 +60,10 @@ const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
   ssr: false,
   loading: () => <Panel />,
 });
+const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -114,6 +118,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.NoticeDetail: {
       return <NoticeDetail {...props} />;
+    }
+
+    case Routes.NegoPoint: {
+      return <NegoPoint {...props} />;
     }
 
     case Routes.ServiceContact: {

@@ -22,6 +22,7 @@ const Routes = {
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
+  NegoPoint: 'negoPoint',
   ServiceContact: 'serviceContact',
   UpdatePhone: 'updatePhone',
 };

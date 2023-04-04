@@ -24,3 +24,4 @@ export { default as ServiceContact } from './ServiceContact';
 export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
 export { default as MyRealPriceList } from './MyRealPriceList';
+export { default as NegoPoint } from './NegoPoint';
