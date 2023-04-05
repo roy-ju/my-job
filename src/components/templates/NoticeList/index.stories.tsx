@@ -14,7 +14,7 @@ export const Default: ComponentStory<typeof NoticeList> = (args) => (
 );
 
 Default.args = {
-  notices: Array(30)
+  notices: Array(3)
     .fill(0)
     .map((_, index) => ({
       id: index,

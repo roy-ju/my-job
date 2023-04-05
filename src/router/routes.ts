@@ -16,12 +16,21 @@ const Routes = {
   MyAddress: 'myAddress',
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
+  MyRealPriceList: 'myRealPriceList',
   MyDetail: 'myDetail',
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
-  ServiceContact: 'serviceContact',
+  NegoPoint: 'negoPoint',
+  Qna: 'qna',
+  TransactionHistory: 'transactionHistory',
+  FAQ: 'faq',
+  UpdatePhone: 'updatePhone',
+  MyCoupon: 'myCoupon',
+  ServiceInfo: 'serviceInfo',
+  BusinessInfo: 'businessInfo',
+  Register: 'register',
 };
 
 export default Routes;

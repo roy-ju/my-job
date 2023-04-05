@@ -13,16 +13,16 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
-  const { list } = useAPI_GetNoticeList();
+  const { data, increamentPageNumber } = useAPI_GetNoticeList();
 
   const notices = useMemo(
     () =>
-      list.map((item) => ({
+      data.map((item) => ({
         id: item.id,
         title: item.category ? `[${item.category}] ${item.title}` : item.title,
-        createdTime: item.createdTime,
+        createdTime: item.created_time,
       })),
-    [list],
+    [data],
   );
 
   const handleClickItem = useCallback(
@@ -34,7 +34,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <NoticeList notices={notices} onClickItem={handleClickItem} />
+      <NoticeList notices={notices} onClickItem={handleClickItem} onNext={increamentPageNumber} />
     </Panel>
   );
 });

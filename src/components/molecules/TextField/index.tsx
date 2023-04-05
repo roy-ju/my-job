@@ -13,6 +13,8 @@ import React, {
   useState,
 } from 'react';
 import tw, { css, styled } from 'twin.macro';
+import ErrorIcon from '@/assets/icons/error.svg';
+import SuccessIcon from '@/assets/icons/success.svg';
 import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 import TextFieldContext, { SizeType, VariantType } from './TextFieldContext';
 
@@ -31,6 +33,14 @@ interface TextAreaProps extends HTMLProps<HTMLTextAreaElement> {}
 interface LeadingProps extends HTMLProps<HTMLSpanElement> {}
 
 interface TrailingProps extends HTMLProps<HTMLSpanElement> {}
+
+interface ErrorMessageProps {
+  message: string;
+}
+
+interface SuccessMessageProps {
+  message: string;
+}
 
 const StyledContainer = styled.div<{
   disabled: boolean;
@@ -276,9 +286,29 @@ function Trailing(props: TrailingProps) {
   return <StyledTrailing {...props} />;
 }
 
+function ErrorMessage({ message }: ErrorMessageProps) {
+  return (
+    <div tw="flex mt-2">
+      <ErrorIcon tw="shrink-0" />
+      <span tw="text-info leading-4 pl-1 text-red-800">{message}</span>
+    </div>
+  );
+}
+
+function SuccessMessage({ message }: SuccessMessageProps) {
+  return (
+    <div tw="flex mt-2">
+      <SuccessIcon tw="shrink-0" />
+      <span tw="text-info leading-4 pl-1 text-green-1000">{message}</span>
+    </div>
+  );
+}
+
 export default Object.assign(Container, {
   Input,
   TextArea,
   Leading,
   Trailing,
+  ErrorMessage,
+  SuccessMessage,
 });

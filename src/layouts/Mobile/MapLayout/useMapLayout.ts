@@ -238,8 +238,8 @@ export default function useMapLayout() {
 
       if (res && mapBounds.mapLevel !== 1) {
         let regions = (res as MapSearchResponse).results;
-        if (variant === 'nego' && regions) {
-          regions = regions.filter((region) => region.listing_count !== 0);
+        if (variant === 'nego') {
+          regions = regions?.filter((region) => region.listing_count !== 0);
         }
 
         setMarkers(

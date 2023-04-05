@@ -32,8 +32,32 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.NoticeList);
   }, [router]);
 
-  const handleClickServiceContact = useCallback(() => {
-    router.push(Routes.ServiceContact);
+  const handleClickQna = useCallback(() => {
+    router.push(Routes.Qna);
+  }, [router]);
+
+  const handleClickMyRealPriceList = useCallback(() => {
+    router.push(Routes.MyRealPriceList);
+  }, [router]);
+
+  const handleClickTransactionHistory = useCallback(() => {
+    router.push(Routes.TransactionHistory);
+  }, [router]);
+
+  const handleClickFAQ = useCallback(() => {
+    router.push(Routes.FAQ);
+  }, [router]);
+
+  const handleClickNegoPoint = useCallback(() => {
+    router.push(Routes.NegoPoint);
+  }, [router]);
+
+  const handleClickCoupons = useCallback(() => {
+    router.push(Routes.MyCoupon);
+  }, [router]);
+
+  const handleServiceInfo = useCallback(() => {
+    router.push(Routes.ServiceInfo);
   }, [router]);
 
   return (
@@ -47,7 +71,13 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickNotificationList={handleClickNotificationList}
         onClickMyDetail={handleClickMyDetail}
         onClickNoticeList={handleClickNoticeList}
-        onClickServiceContact={handleClickServiceContact}
+        onClickQna={handleClickQna}
+        onClickMyRealPriceList={handleClickMyRealPriceList}
+        onClickTransactionHistory={handleClickTransactionHistory}
+        onClickFAQ={handleClickFAQ}
+        onClickNegoPoint={handleClickNegoPoint}
+        onClickCoupons={handleClickCoupons}
+        onClickServiceInfo={handleServiceInfo}
       />
     </Panel>
   );

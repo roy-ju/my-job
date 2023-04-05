@@ -2,27 +2,32 @@ import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
 import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
+import { ChangeEventHandler } from 'react';
 
 interface UpdatetableTextFieldProps {
   label: string;
   value?: string;
   disabled?: boolean;
+  buttonDisabled?: boolean;
   readOnly?: boolean;
   onClickUpdate?: () => void;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 function UpdatableTextField({
   label,
   value,
   disabled = false,
+  buttonDisabled = false,
   readOnly = false,
   onClickUpdate,
+  onChange,
 }: UpdatetableTextFieldProps) {
   return (
     <TextField variant="outlined">
-      <TextField.Input value={value} label={label} disabled={disabled} readOnly={readOnly} />
+      <TextField.Input onChange={onChange} value={value} label={label} disabled={disabled} readOnly={readOnly} />
       <TextField.Trailing>
-        <Button size="small" variant="gray" onClick={onClickUpdate}>
+        <Button disabled={buttonDisabled} size="small" variant="gray" onClick={onClickUpdate}>
           변경
         </Button>
       </TextField.Trailing>
@@ -57,10 +62,22 @@ function HomeOwner({ verified }: HomeOwnerProps) {
 interface LoginInfoProps {
   nickname?: string;
   email?: string;
+  updateNicknameButtonDisabled?: boolean;
   onClickLogout?: () => void;
+  onClickUpdateNickname?: () => void;
+  onClickUpdateEmail?: () => void;
+  onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
 }
 
-function LoginInfo({ nickname, email, onClickLogout }: LoginInfoProps) {
+function LoginInfo({
+  nickname,
+  email,
+  updateNicknameButtonDisabled = true,
+  onClickLogout,
+  onClickUpdateNickname,
+  onClickUpdateEmail,
+  onChangeNickname,
+}: LoginInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex items-center justify-between mb-4">
@@ -70,8 +87,14 @@ function LoginInfo({ nickname, email, onClickLogout }: LoginInfoProps) {
         </Button>
       </div>
       <div tw="flex flex-col gap-3">
-        <UpdatableTextField label="닉네임" value={nickname} />
-        <UpdatableTextField label="간편 로그인" readOnly value={email} />
+        <UpdatableTextField
+          label="닉네임"
+          value={nickname}
+          buttonDisabled={updateNicknameButtonDisabled}
+          onClickUpdate={onClickUpdateNickname}
+          onChange={onChangeNickname}
+        />
+        <UpdatableTextField label="간편 로그인" readOnly value={email} onClickUpdate={onClickUpdateEmail} />
       </div>
     </div>
   );
@@ -80,9 +103,10 @@ function LoginInfo({ nickname, email, onClickLogout }: LoginInfoProps) {
 interface IdentityInfoProps {
   name?: string;
   phone?: string;
+  onClickUpdate?: () => void;
 }
 
-function IdentityInfo({ name, phone }: IdentityInfoProps) {
+function IdentityInfo({ name, phone, onClickUpdate }: IdentityInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex flex-col gap-3 mb-4">
@@ -103,8 +127,12 @@ function IdentityInfo({ name, phone }: IdentityInfoProps) {
             본인인증하기
           </Button>
         )}
-        {phone && <UpdatableTextField label="휴대폰 번호" value={phone} />}
-        {name && !phone && <Button variant="outlined">휴대폰 번호 등록하기</Button>}
+        {phone && <UpdatableTextField label="휴대폰 번호" value={phone} onClickUpdate={onClickUpdate} />}
+        {name && !phone && (
+          <Button variant="outlined" onClick={onClickUpdate}>
+            휴대폰 번호 등록하기
+          </Button>
+        )}
       </div>
     </div>
   );

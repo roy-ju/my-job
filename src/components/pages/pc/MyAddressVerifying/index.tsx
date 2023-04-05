@@ -7,6 +7,7 @@ import { useRouter } from '@/hooks/utils';
 import { searchAddress } from '@/lib/kakao/search_address';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -76,6 +77,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         });
       }
 
+      toast.success('주소가 성공적으로 변경되었습니다');
       router.replace(Routes.MyDetail);
     } else {
       router.replace(Routes.MyAddressDetail, {

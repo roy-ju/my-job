@@ -5,9 +5,9 @@ import { useControlled } from '@/hooks/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 import Close from '@/assets/icons/close_24.svg';
-import { toastSuccess } from '@/components/molecules';
 import useMap from '@/states/mobileMap';
 import useDocumentHeight from '@/hooks/utils/useDocumentHeight';
+import { toast } from 'react-toastify';
 import FilterTypes from './FilterTypes';
 import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from './types';
 import BuyorRentFilter from './BuyOrRentFilter';
@@ -55,14 +55,7 @@ export function getDefaultFilterVillaDandok(): Filter {
 export function getDefaultFilterOneRoomTwoRoom(): Filter {
   return {
     realestateTypeGroup: 'one,two',
-    realestateTypes: [
-      RealestateType.Apartment,
-      RealestateType.Officetel,
-      RealestateType.Yunrip,
-      RealestateType.Dasaedae,
-      RealestateType.Dandok,
-      RealestateType.Dagagoo,
-    ].join(','),
+    realestateTypes: [].join(','),
     buyOrRents: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
     depositRange: [0, DEPOSIT_STEPS.length - 1],
@@ -288,7 +281,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   const handleSummitFilters = useCallback(() => {
     // setFilters([]);
     setIsAllFilterExpanded(false);
-    toastSuccess({ message: '필터를 적용했습니다.', id: 'negocio-apply-filter' });
+    toast.success('필터를 적용했습니다.', { toastId: 'negocio-apply-filter' });
   }, []);
 
   // 필터 종류 Click Event Handler
@@ -477,7 +470,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
       handleUIChangeFilter?.(defaultFilter);
     }
 
-    toastSuccess({ message: '필터를 초기화 했습니다.', id: 'negocio-initialize-filter' });
+    toast.success('필터를 초기화 했습니다.', { toastId: 'negocio-initialize-filter' });
   }, [uiFilter.realestateTypeGroup, setUIFilterState, handleUIChangeFilter]);
 
   const handleUIChangeRealestateTypes = useCallback(
