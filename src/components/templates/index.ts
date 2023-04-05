@@ -35,3 +35,5 @@ export { default as ServiceInfo } from './ServiceInfo';
 export { default as BusinessInfo } from './BusinessInfo';
 export { default as Register } from './Register';
 export { default as MobGuideOverlay } from './MobGuideOverlay';
+export { default as RegisterSuccess } from './RegisterSuccess';
+export { default as VerifyCiSuccess } from './VerifyCiSuccess';

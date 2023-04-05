@@ -1,25 +1,53 @@
 import { Button, Separator } from '@/components/atoms';
 import { RegisterForm } from '@/components/organisms';
+import { TermsState } from '@/components/organisms/RegisterForm';
+import { ChangeEventHandler } from 'react';
 
-export default function Register() {
+export interface RegisterProps {
+  email?: string;
+  nickname?: string;
+  privacyRetention?: string;
+  terms?: TermsState;
+  formValid?: boolean;
+  isLoading?: boolean;
+  nicknameErrorMessage?: string;
+  onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
+  onChangePrivacyRetention?: (value: string) => void;
+  onChangeTerms?: (newState: TermsState) => void;
+  onClickNext?: () => void;
+}
+
+export default function Register({
+  email = '',
+  nickname,
+  terms,
+  privacyRetention,
+  formValid = false,
+  isLoading = false,
+  nicknameErrorMessage,
+  onChangeNickname,
+  onChangePrivacyRetention,
+  onChangeTerms,
+  onClickNext,
+}: RegisterProps) {
   return (
     <div tw="pt-12">
       <div>
-        <RegisterForm.Email />
+        <RegisterForm.Email value={email} />
       </div>
       <div tw="my-10">
-        <RegisterForm.Nickname />
-      </div>
-      <Separator />
-      <div tw="my-10">
-        <RegisterForm.PrivacyRetention />
+        <RegisterForm.Nickname value={nickname} onChange={onChangeNickname} errorMessage={nicknameErrorMessage} />
       </div>
       <Separator />
       <div tw="my-10">
-        <RegisterForm.Terms />
+        <RegisterForm.PrivacyRetention value={privacyRetention} onChange={onChangePrivacyRetention} />
+      </div>
+      <Separator />
+      <div tw="my-10">
+        <RegisterForm.Terms state={terms} onChangeState={onChangeTerms} />
       </div>
       <div tw="mb-8 px-5">
-        <Button disabled tw="w-full" size="bigger">
+        <Button isLoading={isLoading} disabled={!formValid} tw="w-full" size="bigger" onClick={onClickNext}>
           다음
         </Button>
       </div>

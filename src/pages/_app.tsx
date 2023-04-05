@@ -28,9 +28,7 @@ function NegocioProvider({ children }: { children?: ReactNode }) {
   const { mutate } = useAuth();
   useEffect(() => {
     window.Negocio = {
-      callbacks: {
-        loginSuccess: () => mutate(),
-      },
+      callbacks: {},
     };
   }, [mutate]);
 

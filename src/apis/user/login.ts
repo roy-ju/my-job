@@ -1,11 +1,15 @@
 import axios from '@/lib/axios';
 
 interface LoginRequest {
-  browser: string;
-  device: string;
-  ipAddress: string;
+  browser?: string;
+  device?: string;
+  ipAddress?: string;
   socialLoginType: number;
   token: string;
+  privacyRetentionType?: number;
+  marketing?: boolean;
+  nickname?: string;
+  email?: string;
 }
 
 interface LoginResponse {
@@ -22,7 +26,17 @@ interface LoginResponse {
   exp: number;
 }
 
-export default async function login({ browser, device, ipAddress, socialLoginType, token }: LoginRequest) {
+export default async function login({
+  browser,
+  device,
+  ipAddress,
+  socialLoginType,
+  token,
+  email,
+  nickname,
+  privacyRetentionType,
+  marketing,
+}: LoginRequest) {
   try {
     const { data } = await axios.post('/user/login/sns', {
       browser,
@@ -30,6 +44,12 @@ export default async function login({ browser, device, ipAddress, socialLoginTyp
       device,
       social_login_type: socialLoginType,
       token,
+
+      // for new registration
+      email,
+      nickname,
+      privacy_retention_type: privacyRetentionType,
+      marketing,
     });
     return data as LoginResponse;
   } catch (e) {

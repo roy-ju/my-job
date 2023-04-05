@@ -1,6 +1,7 @@
 import React from 'react';
 import { CacheProvider } from '@emotion/react';
 import GlobalStyles from '../src/styles/GlobalStyles';
+import PcGlobalStyles from '../src/styles/PcGlobalStyles';
 import createCache from '@emotion/cache';
 
 const cache = createCache({ prepend: true, key: 'twin' });
@@ -32,6 +33,7 @@ export const decorators = [
     <CacheProvider value={cache}>
       <Story />
       <GlobalStyles />
+      <PcGlobalStyles />
     </CacheProvider>
   ),
 ];
