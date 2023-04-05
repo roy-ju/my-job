@@ -1,5 +1,5 @@
 import { Popup } from '@/components/molecules';
-import { loginWithKakao } from '@/lib/kakao';
+import { loginWithApple } from '@/lib/apple';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
@@ -10,11 +10,11 @@ const Page: NextPage = () => {
   const handleLogin = useCallback(() => {
     const loginType = router.query.type;
     if (loginType === 'update') {
-      loginWithKakao('update');
+      loginWithApple('update');
       return;
     }
 
-    loginWithKakao();
+    loginWithApple();
   }, [router]);
 
   const handleCancel = useCallback(() => {
@@ -25,7 +25,7 @@ const Page: NextPage = () => {
     <div tw="h-full w-full flex items-center justify-center bg-[rgba(0,0,0,0.5)]">
       <Popup>
         <Popup.ContentGroup tw="px-5 py-12 text-center">
-          <Popup.Title>카카오 로그인을 진행하시겠습니까?</Popup.Title>
+          <Popup.Title>Apple 로그인을 진행하시겠습니까?</Popup.Title>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>
           <Popup.CancelButton onClick={handleCancel}>취소</Popup.CancelButton>

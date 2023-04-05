@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
@@ -50,6 +49,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         crossOrigin="anonymous"
         onLoad={initializeKakaoSDK}
       />
+      <Script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" />
       <CacheProvider value={cache}>
         <GlobalStyles />
         <RecoilRoot>
