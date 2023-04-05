@@ -447,7 +447,10 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
       </div>
 
       {uiFilters.length > 0 && (
-        <div tw="flex gap-2 fixed bottom-0 left-auto right-auto items-center justify-between py-4 px-5 w-full max-w-mobile bg-white z-50 shadow-persistentBottomBar">
+        <div
+          tw="flex gap-2 fixed bottom-0 left-auto right-auto items-center justify-between py-4 w-full max-w-mobile bg-white z-50 shadow-persistentBottomBar"
+          style={{ paddingLeft: '1.6rem', paddingRight: '1.6rem' }}
+        >
           <Button variant="outlined" size="bigger" tw="flex-[1]" onClick={handleResetUIFilter}>
             필터 초기화
           </Button>
