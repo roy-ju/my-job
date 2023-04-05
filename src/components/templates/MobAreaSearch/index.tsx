@@ -114,7 +114,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
               return (
                 <Button
                   variant="primary"
-                  tw="bg-gray-800 text-white rounded-none hover:rounded-none min-h-[2.5rem]"
+                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] hover:bg-gray-200"
                   key={item.code}
                   id={item.code}
                   name={convertSidoName(item.name)}
@@ -135,7 +135,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
             return (
               <Button
                 variant="primary"
-                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-800 hover:rounded-none hover:text-white min-h-[2.5rem]"
+                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-200 hover:rounded-none hover:text-gray-1000 min-h-[2.5rem]"
                 key={item.code}
                 id={item.code}
                 name={convertSidoName(item.name)}
@@ -161,7 +161,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
               return (
                 <Button
                   variant="primary"
-                  tw="bg-gray-800 text-white rounded-none hover:rounded-none min-h-[2.5rem]"
+                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] hover:bg-gray-200"
                   key={item.code}
                   id={item.code}
                   name={convertSigunguName(item.name)}
@@ -181,7 +181,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
             return (
               <Button
                 variant="primary"
-                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-800 hover:rounded-none hover:text-white min-h-[2.5rem]"
+                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-200 hover:rounded-none hover:text-gray-1000 min-h-[2.5rem]"
                 key={item.code}
                 id={item.code}
                 name={convertSigunguName(item.name)}
@@ -206,7 +206,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
               return (
                 <Button
                   variant="primary"
-                  tw="bg-gray-800 text-white rounded-none hover:rounded-none min-h-[2.5rem]"
+                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] hover:bg-gray-200"
                   key={item.code}
                   id={item.code}
                   name={item.name}
@@ -224,7 +224,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
             return (
               <Button
                 variant="primary"
-                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-800 hover:rounded-none hover:text-white min-h-[2.5rem]"
+                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-200 hover:rounded-none hover:text-gray-1000 min-h-[2.5rem]"
                 key={item.code}
                 id={item.code}
                 name={item.name}

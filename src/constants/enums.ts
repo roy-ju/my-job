@@ -3,7 +3,6 @@ export enum SocialLoginType {
   Apple = 2,
 }
 
-
 export enum RealestateType {
   Apartment = 10,
   Officetel = 20,
@@ -29,4 +28,23 @@ export enum ChatUserType {
   Seller = 2,
   Agent = 3,
   System = 4,
+}
+
+export function describeRealestateType(type: RealestateType | undefined | null) {
+  switch (type) {
+    case RealestateType.Apartment:
+      return '아파트';
+    case RealestateType.Officetel:
+      return '오피스텔';
+    case RealestateType.Dasaedae:
+      return '빌라';
+    case RealestateType.Yunrip:
+      return '빌라';
+    case RealestateType.Dandok:
+      return '단독';
+    case RealestateType.Dagagoo:
+      return '다가구';
+    default:
+      return '';
+  }
 }
