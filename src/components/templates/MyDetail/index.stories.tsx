@@ -21,4 +21,5 @@ Default.args = {
   address: '서울 강남구 역삼동',
   addressDetail: '817-13',
   addressVerified: true,
+  isLoading: false,
 };
