@@ -5,6 +5,7 @@ import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import PcGlobalStyles from '@/styles/PcGlobalStyles';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -158,6 +159,7 @@ export default function MapLayout({ children }: Props) {
 
   return (
     <>
+      <PcGlobalStyles />
       <Layout tabIndex={tabIndex} onChangeTab={handleChangeTabIndex}>
         <Layout.Panels visible={panelsVisible}>{children}</Layout.Panels>
         {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서
