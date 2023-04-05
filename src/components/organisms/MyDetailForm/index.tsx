@@ -65,6 +65,7 @@ interface LoginInfoProps {
   updateNicknameButtonDisabled?: boolean;
   onClickLogout?: () => void;
   onClickUpdateNickname?: () => void;
+  onClickUpdateEmail?: () => void;
   onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -74,6 +75,7 @@ function LoginInfo({
   updateNicknameButtonDisabled = true,
   onClickLogout,
   onClickUpdateNickname,
+  onClickUpdateEmail,
   onChangeNickname,
 }: LoginInfoProps) {
   return (
@@ -92,7 +94,7 @@ function LoginInfo({
           onClickUpdate={onClickUpdateNickname}
           onChange={onChangeNickname}
         />
-        <UpdatableTextField label="간편 로그인" readOnly value={email} />
+        <UpdatableTextField label="간편 로그인" readOnly value={email} onClickUpdate={onClickUpdateEmail} />
       </div>
     </div>
   );

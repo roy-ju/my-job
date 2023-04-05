@@ -13,6 +13,7 @@ export default function useMyDetail(depth: number) {
   const { data: userAddressData, isLoading: isUserAddressLoading } = useAPI_GetUserAddress();
 
   const [nicknamePopup, setNicknamePopup] = useState(false);
+  const [emailPopup, setEmailPopup] = useState(false);
 
   const [nickname, setNickname] = useState('');
 
@@ -43,6 +44,22 @@ export default function useMyDetail(depth: number) {
     setNicknamePopup(true);
   }, []);
 
+  const handleClickUpdateEmail = useCallback(() => {
+    setEmailPopup(true);
+  }, []);
+
+  const handleClickCancelUpdateEmail = useCallback(() => {
+    setEmailPopup(false);
+  }, []);
+
+  const handleClickUpdateToKakao = useCallback(() => {
+    setEmailPopup(false);
+  }, []);
+
+  const handleClickUpdateToApple = useCallback(() => {
+    setEmailPopup(false);
+  }, []);
+
   const updateNickname = useCallback(async () => {
     setNicknamePopup(false);
     const res = await updateNicknameApi(nickname);
@@ -71,6 +88,7 @@ export default function useMyDetail(depth: number) {
       updateNicknameButtonDisabled,
       nickname,
       nicknamePopup,
+      emailPopup,
       addressDetail: userAddressData?.address_detail,
       roadNameAddress: userAddressData?.road_name_address,
       ownershipVerified: userAddressData?.ownership_verified,
@@ -83,11 +101,16 @@ export default function useMyDetail(depth: number) {
       updateNickname,
       cancelUpdateNickname,
       handleChangeNickname,
+      handleClickUpdateEmail,
+      handleClickCancelUpdateEmail,
+      handleClickUpdateToKakao,
+      handleClickUpdateToApple,
     }),
     [
       updateNicknameButtonDisabled,
       nickname,
       nicknamePopup,
+      emailPopup,
       user,
       userAddressData,
       isUserAddressLoading,
@@ -100,6 +123,10 @@ export default function useMyDetail(depth: number) {
       updateNickname,
       cancelUpdateNickname,
       handleChangeNickname,
+      handleClickUpdateEmail,
+      handleClickCancelUpdateEmail,
+      handleClickUpdateToKakao,
+      handleClickUpdateToApple,
     ],
   );
 }

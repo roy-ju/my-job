@@ -18,6 +18,7 @@ interface MyDetailProps {
   onClickUpdateAddress: () => void;
   onClickUpdatePhone: () => void;
   onClickUpdateNickname: () => void;
+  onClickUpdateEmail: () => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -36,6 +37,7 @@ export default function MyDetail({
   onClickUpdateAddress,
   onClickUpdatePhone,
   onClickUpdateNickname,
+  onClickUpdateEmail,
   onChangeNickname,
 }: MyDetailProps) {
   return (
@@ -53,6 +55,7 @@ export default function MyDetail({
             updateNicknameButtonDisabled={updateNicknameButtonDisabled}
             onClickLogout={onClickLogout}
             onClickUpdateNickname={onClickUpdateNickname}
+            onClickUpdateEmail={onClickUpdateEmail}
             onChangeNickname={onChangeNickname}
           />
           <MyDetailForm.Separator />
