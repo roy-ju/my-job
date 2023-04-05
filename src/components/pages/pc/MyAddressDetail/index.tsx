@@ -87,11 +87,11 @@ export default memo(({ depth, panelWidth }: Props) => {
       {router.query.errorCode === '1036' && popupOpen && (
         <OverlayPresenter>
           <Popup>
-            <div tw="px-5 py-12 text-center">
+            <Popup.ContentGroup>
               <Popup.Title>
                 주소 등록을 위한 주소 확인은 하루 최대 5회까지 할 수 있습니다. 내일 다시 참여해 주세요.
               </Popup.Title>
-            </div>
+            </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
