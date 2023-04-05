@@ -23,6 +23,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     nicknamePopup,
     emailPopup,
     updateNicknameButtonDisabled,
+    updateEmailPopup,
     handleClickDeregister,
     handleLogout,
     handleUpdateAddress,
@@ -35,6 +36,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleClickCancelUpdateEmail,
     handleClickUpdateToApple,
     handleClickUpdateToKakao,
+    handleCloseEmailUpdatePopup,
   } = useMyDetail(depth);
 
   return (
@@ -68,6 +70,24 @@ export default memo(({ depth, panelWidth }: Props) => {
             onClickCancel={handleClickCancelUpdateEmail}
             onClickApple={handleClickUpdateToApple}
             onClickKakao={handleClickUpdateToKakao}
+          />
+        </OverlayPresenter>
+      )}
+      {updateEmailPopup === 'success' && (
+        <OverlayPresenter>
+          <UpdateEmailPopup.Success onClickClose={handleCloseEmailUpdatePopup} />
+        </OverlayPresenter>
+      )}
+      {updateEmailPopup === 'duplicated_ci' && (
+        <OverlayPresenter>
+          <UpdateEmailPopup.DuplicatedCi onClickClose={handleCloseEmailUpdatePopup} />
+        </OverlayPresenter>
+      )}
+      {updateEmailPopup === 'duplicated_email' && (
+        <OverlayPresenter>
+          <UpdateEmailPopup.DuplicatedEmail
+            onClickOverwrite={handleCloseEmailUpdatePopup}
+            onClickClose={handleCloseEmailUpdatePopup}
           />
         </OverlayPresenter>
       )}

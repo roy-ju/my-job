@@ -1,4 +1,5 @@
 import deregister from '@/apis/user/deregister';
+import { useAPI_GetDeregisterStatus } from '@/apis/user/getDeregisterStatus';
 import { Panel } from '@/components/atoms';
 import { DeregisterDisclaimer as DeregisterDisclaimerTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
@@ -16,6 +17,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const { logout } = useAuth();
 
+  const { data } = useAPI_GetDeregisterStatus();
+
   const handleClickBackButton = useCallback(() => {
     router.replace(Routes.Deregister);
   }, [router]);
@@ -32,7 +35,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <DeregisterDisclaimerTemplate onClickBack={handleClickBackButton} onClickDeregister={handleDeregister} />
+      <DeregisterDisclaimerTemplate
+        onClickBack={handleClickBackButton}
+        onClickDeregister={handleDeregister}
+        canDeregister={data?.can_deregister ?? false}
+      />
     </Panel>
   );
 });

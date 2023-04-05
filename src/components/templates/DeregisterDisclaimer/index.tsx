@@ -2,11 +2,17 @@ import { Button, PersistentBottomBar, Separator, Ul } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 
 export interface DeregisterDisclaimerProps {
+  canDeregister?: boolean;
+
   onClickBack?: () => void;
   onClickDeregister?: () => void;
 }
 
-export default function DeregisterDisclaimer({ onClickDeregister, onClickBack }: DeregisterDisclaimerProps) {
+export default function DeregisterDisclaimer({
+  canDeregister = false,
+  onClickDeregister,
+  onClickBack,
+}: DeregisterDisclaimerProps) {
   return (
     <div tw="relative h-full flex flex-col">
       <NavigationHeader>
@@ -43,7 +49,7 @@ export default function DeregisterDisclaimer({ onClickDeregister, onClickBack }:
         </div>
       </div>
       <PersistentBottomBar>
-        <Button onClick={onClickDeregister} size="bigger" variant="secondary" tw="w-full">
+        <Button disabled={!canDeregister} onClick={onClickDeregister} size="bigger" variant="secondary" tw="w-full">
           탈퇴하기
         </Button>
       </PersistentBottomBar>

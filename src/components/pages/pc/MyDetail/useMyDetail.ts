@@ -5,6 +5,11 @@ import Routes from '@/router/routes';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 import updateNicknameApi from '@/apis/user/updateNickname';
 import { toast } from 'react-toastify';
+import { loginWithApple } from '@/lib/apple';
+import updateEmail from '@/apis/user/updateEmail';
+import { SocialLoginType } from '@/constants/enums';
+
+type UpdateEmailPopupType = 'none' | 'duplicated_ci' | 'duplicated_email' | 'success';
 
 export default function useMyDetail(depth: number) {
   const router = useRouter(depth);
@@ -14,6 +19,7 @@ export default function useMyDetail(depth: number) {
 
   const [nicknamePopup, setNicknamePopup] = useState(false);
   const [emailPopup, setEmailPopup] = useState(false);
+  const [updateEmailPopup, setUpdateEmailPopup] = useState<UpdateEmailPopupType>('none');
 
   const [nickname, setNickname] = useState('');
 
@@ -52,13 +58,41 @@ export default function useMyDetail(depth: number) {
     setEmailPopup(false);
   }, []);
 
-  const handleClickUpdateToKakao = useCallback(() => {
-    setEmailPopup(false);
+  const handleCloseEmailUpdatePopup = useCallback(() => {
+    setUpdateEmailPopup('none');
   }, []);
 
-  const handleClickUpdateToApple = useCallback(() => {
-    setEmailPopup(false);
+  const handleUpdateEmailResponse = useCallback((response: ErrorResponse | null) => {
+    if (response === null) {
+      setUpdateEmailPopup('success');
+    }
+    if (response?.error_code === 1022) {
+      setUpdateEmailPopup('duplicated_ci');
+    }
+    if (response?.error_code === 1023) {
+      setUpdateEmailPopup('duplicated_email');
+    }
   }, []);
+
+  const handleClickUpdateToKakao = useCallback(() => {
+    window.Negocio.callbacks.updateToKakao = (response: ErrorResponse | null) => {
+      handleUpdateEmailResponse(response);
+    };
+
+    window.open(`${window.location.origin}/auth/kakao?type=update`, '_blank');
+    setEmailPopup(false);
+  }, [handleUpdateEmailResponse]);
+
+  const handleClickUpdateToApple = useCallback(async () => {
+    const res = await loginWithApple();
+    if (res && !res.error) {
+      const idToken = res.authorization.id_token;
+      const updateEmailRes = await updateEmail(idToken, SocialLoginType.Apple);
+      handleUpdateEmailResponse(updateEmailRes);
+    }
+
+    setEmailPopup(false);
+  }, [handleUpdateEmailResponse]);
 
   const updateNickname = useCallback(async () => {
     setNicknamePopup(false);
@@ -93,6 +127,7 @@ export default function useMyDetail(depth: number) {
       roadNameAddress: userAddressData?.road_name_address,
       ownershipVerified: userAddressData?.ownership_verified,
       isUserAddressLoading,
+      updateEmailPopup,
       handleClickDeregister,
       handleLogout,
       handleUpdateAddress,
@@ -105,6 +140,7 @@ export default function useMyDetail(depth: number) {
       handleClickCancelUpdateEmail,
       handleClickUpdateToKakao,
       handleClickUpdateToApple,
+      handleCloseEmailUpdatePopup,
     }),
     [
       updateNicknameButtonDisabled,
@@ -115,6 +151,7 @@ export default function useMyDetail(depth: number) {
       userAddressData,
       isUserAddressLoading,
       isUserLoading,
+      updateEmailPopup,
       handleClickDeregister,
       handleLogout,
       handleUpdateAddress,
@@ -127,6 +164,7 @@ export default function useMyDetail(depth: number) {
       handleClickCancelUpdateEmail,
       handleClickUpdateToKakao,
       handleClickUpdateToApple,
+      handleCloseEmailUpdatePopup,
     ],
   );
 }
