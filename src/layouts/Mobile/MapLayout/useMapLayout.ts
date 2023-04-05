@@ -28,6 +28,14 @@ export interface DanjiSummary {
   householdCount: number;
   buyListingCount: number;
   rentListingCount: number;
+  realestateType: number;
+  buyPrice: number;
+  latestDealDate?: string;
+  pnu?: string;
+  rentPrice: number;
+  saedaeCount: number;
+  string?: string;
+  useAcceptedYear?: string;
 }
 
 export interface CommonMapMarker {
@@ -154,9 +162,9 @@ export default function useMapLayout() {
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
-  const [code,setCode] = useState<string>()
+  const [code, setCode] = useState<string>();
 
-  const [currentLocation,setCurrentLocation] = useState<{lat?:number,lng?:number}>();
+  const [currentLocation, setCurrentLocation] = useState<{ lat?: number; lng?: number }>();
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
@@ -180,7 +188,7 @@ export default function useMapLayout() {
     if (response && response.documents?.length > 0) {
       const region = response.documents.filter((item) => item.region_type === 'B')[0];
       if (region) {
-        setCode(region.code)
+        setCode(region.code);
         setCenterAddress([region.region_1depth_name, region.region_2depth_name, region.region_3depth_name]);
       }
     }
@@ -219,10 +227,18 @@ export default function useMapLayout() {
         householdCount: summary?.saedae_count ?? 0,
         buyListingCount: summary?.buy_listing_count ?? 0,
         rentListingCount: summary?.rent_listing_count ?? 0,
+        realestateType: summary?.realestate_type ?? 0,
+        buyPrice: summary?.buy_price ?? 0,
+        rentPrice: summary?.rent_price ?? 0,
+        latestDealDate: summary?.latest_deal_date,
+        pnu:summary?.pnu,
+        saedaeCount: summary?.saedae_count ?? 0,
+        string: summary?.string,
+        useAcceptedYear: summary?.use_accepted_year
       });
     }
-  }, []);
-
+  }, [])
+    
   /**
    * 지도위의 마커를 그린다.
    */
@@ -517,7 +533,6 @@ export default function useMapLayout() {
   useEffect(() => {
     const mapElement = document.getElementById('map-container');
     const resizeObserver = new ResizeObserver(() => {
-      
       if (typeof window !== 'undefined') {
         window.NaverMap?.autoResize();
       }
@@ -529,7 +544,7 @@ export default function useMapLayout() {
         resizeObserver.unobserve(mapElement);
       };
     }
-    
+
     return () => {};
   }, []);
 
@@ -640,7 +655,7 @@ export default function useMapLayout() {
       // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
       const latlng = { lat: coords.latitude, lng: coords.longitude };
       localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-      setCurrentLocation({lat:coords.latitude,lng:coords.longitude})
+      setCurrentLocation({ lat: coords.latitude, lng: coords.longitude });
       map?.morph(latlng, DEFAULT_ZOOM);
     });
   }, [map]);
@@ -721,7 +736,6 @@ export default function useMapLayout() {
     },
     [setFilter],
   );
-
 
   return {
     // common map handlers and properties
