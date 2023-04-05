@@ -69,7 +69,7 @@ const ToastContainer = memo(({ platform }: ToastContainerProps) =>
       closeButton={false}
       hideProgressBar
       newestOnTop
-      position="top-right"
+      position="top-left"
       icon={ToastIcon}
     />
   ),
