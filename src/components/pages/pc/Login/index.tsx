@@ -5,8 +5,10 @@ import { SocialLoginType } from '@/constants/enums';
 import Keys from '@/constants/storage_keys';
 import { useRouter } from '@/hooks/utils';
 import { loginWithApple } from '@/lib/apple';
-import { memo, useCallback } from 'react';
+import Routes from '@/router/routes';
+import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -17,9 +19,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
   const handleKakaoLogin = useCallback(() => {
-    router.pop();
     window.open(`${window.location.origin}/auth/kakao`, '_blank');
-  }, [router]);
+  }, []);
 
   const handleAppleLogin = useCallback(async () => {
     const res = await loginWithApple();
@@ -43,6 +44,20 @@ export default memo(({ depth, panelWidth }: Props) => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    window.Negocio.callbacks.loginSuccess = () => {
+      mutate(() => true, undefined);
+      router.pop();
+    };
+    window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
+      router.replace(Routes.Register, { state: { email, token, socialLoginType: `${socialLoginType}` } });
+    };
+    return () => {
+      delete window.Negocio.callbacks.loginSuccess;
+      delete window.Negocio.callbacks.newRegister;
+    };
+  }, [router]);
 
   return (
     <Panel width={panelWidth}>

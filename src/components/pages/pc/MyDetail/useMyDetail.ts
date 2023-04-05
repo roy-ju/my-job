@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { loginWithApple } from '@/lib/apple';
 import updateEmail from '@/apis/user/updateEmail';
 import { SocialLoginType } from '@/constants/enums';
+import checkNickname from '@/apis/user/checkNickname';
 
 type UpdateEmailPopupType = 'none' | 'duplicated_ci' | 'duplicated_email' | 'success';
 
@@ -33,8 +34,8 @@ export default function useMyDetail(depth: number) {
     router.replace(Routes.Deregister);
   }, [router]);
 
-  const handleLogout = useCallback(() => {
-    router.pop();
+  const handleLogout = useCallback(async () => {
+    await router.pop();
     logout();
   }, [logout, router]);
 
@@ -96,6 +97,12 @@ export default function useMyDetail(depth: number) {
 
   const updateNickname = useCallback(async () => {
     setNicknamePopup(false);
+    const checkNicknameRes = await checkNickname(nickname);
+    if (checkNicknameRes?.error_code) {
+      toast.error('중복된 닉네임 입니다.');
+      return;
+    }
+
     const res = await updateNicknameApi(nickname);
     if (res?.error_code) {
       toast.error('닉네임을 변경할 수 없습니다.');

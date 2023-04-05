@@ -24,3 +24,10 @@ export enum ChatUserType {
   Agent = 3,
   System = 4,
 }
+
+export enum PrivacyRetentionType {
+  OneYear = 1,
+  ThreeYear = 2,
+  FiveYear = 3,
+  Deregister = 4,
+}

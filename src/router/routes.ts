@@ -31,6 +31,8 @@ const Routes = {
   ServiceInfo: 'serviceInfo',
   BusinessInfo: 'businessInfo',
   Register: 'register',
+  RegisterSuccess: 'registerSuccess',
+  VerifyCiSuccess: 'verifyCiSuccess',
 };
 
 export default Routes;
