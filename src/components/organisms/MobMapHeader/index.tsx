@@ -4,7 +4,7 @@ import NotificationIcon from '@/assets/icons/notification_24px.svg';
 import { Button } from '@/components/atoms';
 import NewCount from '@/components/atoms/NewCount';
 
-import useFullScreenDialogStore from '@/hooks/recoil/useFullScreenDialog';
+import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 import { MobSearchMap } from '@/components/templates/MobSearchMap';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function MobMapHeader({ value }: Props) {
-  const { dialogStates, addFullScreenDialog, closeAll } = useFullScreenDialogStore();
+  const { addFullScreenDialog } = useFullScreenDialogStore();
 
   const onClickSearchIcon = () => {
     addFullScreenDialog({

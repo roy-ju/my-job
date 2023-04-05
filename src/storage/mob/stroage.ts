@@ -2,19 +2,21 @@
 
 import { nanoid } from 'nanoid';
 
-const storagePrefix = 'negocio_user_mob_next_js';
+const storagePrefix = 'negocio_user_mob_next_js_';
 
 export type RecentSearch = {
   id: string;
-  query: {
-    address: string;
-    roadNameAddress: string;
-    placeName: string;
-    categoryName: string;
-    x: number;
-    y: number;
-  };
   createdTime: string;
+
+  query: {
+    id?: string;
+    addressName: string;
+    categoryName: string;
+    placeName: string;
+    roadAddressName: string;
+    lat: number;
+    lng: number;
+  };
 };
 
 const recentSearchStorage = {

@@ -154,6 +154,8 @@ export default function useMapLayout() {
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
+  const [code,setCode] = useState<string>()
+
   const [currentLocation,setCurrentLocation] = useState<{lat?:number,lng?:number}>();
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
@@ -174,9 +176,11 @@ export default function useMapLayout() {
   const handleCenterAddressChange = useCallback(async (_map: NaverMap) => {
     const center = _map.getCenter() as NaverLatLng;
     const response = await coordToRegion(center.x, center.y);
+
     if (response && response.documents?.length > 0) {
       const region = response.documents.filter((item) => item.region_type === 'B')[0];
       if (region) {
+        setCode(region.code)
         setCenterAddress([region.region_1depth_name, region.region_2depth_name, region.region_3depth_name]);
       }
     }
@@ -718,6 +722,7 @@ export default function useMapLayout() {
     [setFilter],
   );
 
+
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -725,6 +730,7 @@ export default function useMapLayout() {
     zoom: initialZoom,
     center: initialCenter,
     centerAddress,
+    code,
     onInit,
     onCreate,
     onClick: onMapClick,

@@ -7,13 +7,15 @@ import useMapLayout from '@/layouts/Mobile/MapLayout/useMapLayout';
 import ChveronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import { Button } from '@/components/atoms';
 import storage from '@/storage/mob/stroage';
-import { useState, useCallback, ChangeEventHandler, FormEventHandler } from 'react';
-import { useKakaoAddressAutocomplete } from '@/hooks/services';
-import useFullScreenDialogStore from '@/hooks/recoil/useFullScreenDialog';
+import { useState, useCallback, ChangeEventHandler, FormEventHandler, ChangeEvent } from 'react';
+import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import Close from '@/assets/icons/close.svg';
+import DeleteAllIcon from '@/assets/icons/delete_all.svg';
+import useMobKakaoAddressAutocomplete from '@/hooks/services/useMobKakaoAddressAutoComplete';
 
 function Guide() {
   return (
-    <div>
+    <div tw="p-4 mt-[1.5rem]">
       <div tw="text-b1 leading-none font-bold mb-3">이렇게 검색해 보세요</div>
       <div tw="h-14 flex flex-col justify-center">
         <div tw="text-b2 leading-none mb-2">도로명 + 건물번호</div>
@@ -36,7 +38,7 @@ export function MobSearchMap() {
 
   const [textValue, setTextValueState] = useState('');
 
-  const results = useKakaoAddressAutocomplete(textValue);
+  const results = useMobKakaoAddressAutocomplete(textValue);
 
   const handleInputValueChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -44,6 +46,15 @@ export function MobSearchMap() {
     },
     [setTextValueState],
   );
+
+  const handleClearInput = useCallback(() => {
+    handleInputValueChange({
+      type: 'change',
+      target: {
+        value: '',
+      },
+    } as unknown as ChangeEvent<HTMLInputElement>);
+  }, [handleInputValueChange]);
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
@@ -78,15 +89,70 @@ export function MobSearchMap() {
               onChange={handleInputValueChange}
               tw="border-gray-300"
             />
+            <TextField.Trailing tw="flex items-center">
+              {textValue.length > 0 && (
+                <button
+                  onClick={handleClearInput}
+                  type="button"
+                  tw="inline-flex items-center justify-center w-5 h-5 mr-4"
+                >
+                  <DeleteAllIcon />
+                </button>
+              )}
+            </TextField.Trailing>
           </TextField>
         </div>
-        <div tw="flex mt-[5.25rem] flex-col gap-3 pt-3 pb-3 pr-5 pl-5 overflow-y-auto">
-          {textValue.length === 0 && <Guide />}
-          {/* {textValue.length < 1 && results.length < 1 && (
-            <div tw="px-4 py-4">
-              <p tw="text-b2 text-gray-1000 leading-none">최근 검색 기록이 없습니다.</p>
-            </div>
-          )} */}
+        <div tw="flex mt-[4.75rem] flex-col overflow-y-auto">
+          {!(recentSearches && recentSearches.length >= 1) && textValue.length === 0 && <Guide />}
+
+          {textValue.length === 0 && recentSearches && recentSearches.length >= 1 && (
+            <>
+              <div tw="flex pt-7 pb-2 px-4 items-center justify-between">
+                <span tw="font-bold [line-height: 0.875rem]">최근 검색</span>
+                <Button
+                  variant="ghost"
+                  tw="h-0 p-0"
+                  onClick={() => {
+                    setRecentSearches([]);
+                    storage.clearRecentSearches();
+                  }}
+                >
+                  <span tw="text-gray-700 [text-decoration-line: underline]">전체 삭제</span>
+                </Button>
+              </div>
+
+              {recentSearches.map(({ id, query }) => (
+                <Autocomplete.Option
+                  key={id}
+                  value={query.placeName}
+                  onClick={() => {
+                    handleMapSearch?.(query);
+                    closeAll();
+                  }}
+                  tw="p-4 gap-2 hover:bg-gray-200 text-start transition-colors"
+                >
+                  <div tw="flex items-center justify-between mb-2">
+                    <span tw="text-b2 text-gray-1000 [line-height: 0.875rem]">{query.placeName}</span>
+                    <Button
+                      variant="ghost"
+                      tw="px-0 py-0 h-0"
+                      onClick={(e) => {
+                        e?.stopPropagation();
+                        setRecentSearches((prev) => prev.filter((p) => p.id !== id));
+                        storage.removeRecentSearch(id);
+                      }}
+                    >
+                      <Close style={{ color: '#ADB5BD' }} />
+                    </Button>
+                  </div>
+                  <div tw="text-info text-gray-700 [line-height: 0.75rem]">
+                    {query.roadAddressName || query.addressName}
+                  </div>
+                </Autocomplete.Option>
+              ))}
+            </>
+          )}
+
           {textValue.length > 0 && results.length < 1 && (
             <div tw="px-4 py-4">
               <p tw="mb-2 text-b2 text-gray-1000 leading-none">검색 결과가 없습니다.</p>
@@ -98,14 +164,20 @@ export function MobSearchMap() {
             <Autocomplete.Option
               key={result.id}
               value={result.placeName}
-              onClick={() => handleMapSearch?.(result)}
-              tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
+              onClick={() => {
+                storage.addRecentSearch({ query: result });
+                handleMapSearch?.(result);
+                closeAll();
+              }}
+              tw="p-4 gap-2 hover:bg-gray-200 text-start transition-colors"
             >
-              <div tw="flex items-center justify-between">
-                <span tw="text-b2 text-gray-1000">{result.placeName}</span>
-                <span tw="text-info text-gray-700">{result.categoryName}</span>
+              <div tw="flex items-center justify-between mb-2">
+                <span tw="text-b2 text-gray-1000 [line-height: 0.875rem]">{result.placeName}</span>
+                <span tw="text-info text-gray-700 [line-height: 0.875rem]">{result.categoryName}</span>
               </div>
-              <div tw="text-info text-gray-700">{result.roadAddressName || result.addressName}</div>
+              <div tw="text-info text-gray-700 [line-height: 0.75rem]">
+                {result.roadAddressName || result.addressName}
+              </div>
             </Autocomplete.Option>
           ))}
         </div>
