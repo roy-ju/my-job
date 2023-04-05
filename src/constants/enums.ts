@@ -3,6 +3,7 @@ export enum SocialLoginType {
   Apple = 2,
 }
 
+
 export enum RealestateType {
   Apartment = 10,
   Officetel = 20,
@@ -10,6 +11,11 @@ export enum RealestateType {
   Yunrip = 40,
   Dandok = 50,
   Dagagoo = 60,
+}
+
+export enum RoomCounts {
+  OneRoom = 1,
+  TwoRoom = 2,
 }
 
 export enum BuyOrRent {

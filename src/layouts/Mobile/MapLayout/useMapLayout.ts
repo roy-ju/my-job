@@ -14,7 +14,6 @@ import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { mobileMapState } from '@/states/mobileMap';
-import { toastError } from '@/components/molecules';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -116,8 +115,6 @@ function getUserLastLocation(): { lat: number; lng: number } {
  * 지도레이아웃 초기화와 이벤트 기능구현을 담당하는 훅
  */
 export default function useMapLayout() {
-
-
   const [map, setMap] = useRecoilState(mobileMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
@@ -156,6 +153,8 @@ export default function useMapLayout() {
   } | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
+
+  const [currentLocation,setCurrentLocation] = useState<{lat?:number,lng?:number}>();
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
@@ -239,7 +238,7 @@ export default function useMapLayout() {
 
       if (res && mapBounds.mapLevel !== 1) {
         let regions = (res as MapSearchResponse).results;
-        if (variant === 'nego') {
+        if (variant === 'nego' && regions) {
           regions = regions.filter((region) => region.listing_count !== 0);
         }
 
@@ -514,6 +513,7 @@ export default function useMapLayout() {
   useEffect(() => {
     const mapElement = document.getElementById('map-container');
     const resizeObserver = new ResizeObserver(() => {
+      
       if (typeof window !== 'undefined') {
         window.NaverMap?.autoResize();
       }
@@ -525,6 +525,7 @@ export default function useMapLayout() {
         resizeObserver.unobserve(mapElement);
       };
     }
+    
     return () => {};
   }, []);
 
@@ -635,6 +636,7 @@ export default function useMapLayout() {
       // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
       const latlng = { lat: coords.latitude, lng: coords.longitude };
       localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+      setCurrentLocation({lat:coords.latitude,lng:coords.longitude})
       map?.morph(latlng, DEFAULT_ZOOM);
     });
   }, [map]);
@@ -742,6 +744,7 @@ export default function useMapLayout() {
     schoolType,
     mapToggleValue,
     selectedSchoolID,
+    currentLocation,
     morphToCurrentLocation,
     zoomIn,
     zoomOut,

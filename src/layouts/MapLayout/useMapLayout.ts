@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import getDanjiSummary from '@/apis/map/mapDanjiSummary';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
@@ -335,7 +336,7 @@ export default function useMapLayout() {
         id: item.school_id,
         lat: item.lat,
         lng: item.long,
-        name: item.school_name.replace('등학교', ''),
+        name: schoolType==="2"? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
         type: st,
         onClick: async () => {
           const hakgudoRes = await getHakgudo(item.school_id);

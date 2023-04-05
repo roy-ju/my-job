@@ -12,6 +12,8 @@ import { initializeKakaoSDK } from '@/lib/kakao';
 import { useAuth } from '@/hooks/services';
 import { Toast } from '@/components/atoms';
 import 'react-toastify/dist/ReactToastify.css';
+import OverlayContainer from '@/components/molecules/FullScreenDialog';
+import { updateVH } from '@/utils/updateVH';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -35,6 +37,12 @@ function NegocioProvider({ children }: { children?: ReactNode }) {
   return children as JSX.Element;
 }
 
+updateVH();
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', updateVH);
+}
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const getComponent = Component.getComponent ?? ((p) => <Component {...p} />);
@@ -51,6 +59,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <GlobalStyles />
         <RecoilRoot>
           <SWRConfig>
+            <OverlayContainer />
             <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
             <Toast autoClose={2000} position="top-center" closeButton={false} hideProgressBar newestOnTop limit={1} />
           </SWRConfig>
