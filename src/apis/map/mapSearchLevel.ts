@@ -84,6 +84,7 @@ export default async function mapSearch({
       realestate_type: filter.realestateTypes,
       buy_or_rent: filter.buyOrRents,
       saedae_min: Number(filter.minHousehold) === 0 ? null : Number(filter.minHousehold),
+      // saedae_min: Number(filter.minHousehold),
       listing_type: filter.quickSale ? 3 : mapToggleValue === 1 ? 0 : null,
       gap_investment: filter.gapInvestment,
       trade_price_max: null,

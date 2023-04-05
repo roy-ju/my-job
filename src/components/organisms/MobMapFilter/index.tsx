@@ -110,6 +110,9 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
 
   // 필터 종류 열림/닫힘
   const [isFirstFilterTypesExpanded, setIsFirstFilterTypesExpanded] = useState(false);
+  const [isFirstFilterTypesExpandedTwo, setIsFirstFilterTypesExpandedTwo] = useState(false);
+  const [isFirstFilterTypesExpandedThree, setIsFirstFilterTypesExpandedThree] = useState(false);
+
   const [isSecondFilterTypesExpandedOne, setIsSecondFilterTypesExpandedOne] = useState(false);
   const [isSecondFilterTypesExpandedTwo, setIsSecondFilterTypesExpandedTwo] = useState(false);
   const [isSecondFilterTypesExpandedThree, setIsSecondFilterTypesExpandedThree] = useState(false);
@@ -191,29 +194,56 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
       switch (value) {
         case 'apt,oftl':
           setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
-          setFilters([]);
+          // setFilters([]);
           setFilterState(getDefaultFilterAptOftl());
           onChangeFilter?.(getDefaultFilterAptOftl());
+
           break;
         case 'villa,dandok':
           setFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
-          setFilters([]);
+          // setFilters([]);
           setFilterState(getDefaultFilterVillaDandok());
           onChangeFilter?.(getDefaultFilterVillaDandok());
+
           break;
         case 'one,two':
           setFilterTypes(['realestateType', 'buyOrRent', 'price']);
-          setFilters([]);
+          // setFilters([]);
           setFilterState(getDefaultFilterOneRoomTwoRoom());
           onChangeFilter?.(getDefaultFilterOneRoomTwoRoom());
+
           break;
         default:
           break;
       }
+
       setIsFilterTypeExapnded(false);
-      setIsFirstFilterTypesExpanded((prev) => !prev);
+
+      if (isSecondFilterTypesExpandedOne) {
+        setIsSecondFilterTypesExpandedOne(false);
+      }
+      if (isSecondFilterTypesExpandedTwo) {
+        setIsSecondFilterTypesExpandedTwo(false);
+      }
+      if (isSecondFilterTypesExpandedThree) {
+        setIsSecondFilterTypesExpandedThree(false);
+      }
+      if (isSecondFilterTypesExpandedFour) {
+        setIsSecondFilterTypesExpandedFour(false);
+      }
+      if (isSecondFilterTypesExpandedFive) {
+        setIsSecondFilterTypesExpandedFive(false);
+      }
     },
-    [setFilterState, onChangeFilter],
+    [
+      isSecondFilterTypesExpandedFive,
+      isSecondFilterTypesExpandedFour,
+      isSecondFilterTypesExpandedOne,
+      isSecondFilterTypesExpandedThree,
+      isSecondFilterTypesExpandedTwo,
+      onChangeFilter,
+      setFilterState,
+    ],
   );
 
   const handleUIChangeRealestateTypeGroup = useCallback(
@@ -221,25 +251,26 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
       switch (value) {
         case 'apt,oftl':
           setUIFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
-          setUIFilters([]);
+          // setUIFilters([]);
           setUIFilterState(getDefaultFilterAptOftl());
           handleUIChangeFilter?.(getDefaultFilterAptOftl());
           break;
         case 'villa,dandok':
           setUIFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
-          setUIFilters([]);
+          // setUIFilters([]);
           setUIFilterState(getDefaultFilterVillaDandok());
           handleUIChangeFilter?.(getDefaultFilterVillaDandok());
           break;
         case 'one,two':
           setUIFilterTypes(['realestateType', 'buyOrRent', 'price']);
-          setUIFilters([]);
+          // setUIFilters([]);
           setUIFilterState(getDefaultFilterOneRoomTwoRoom());
           handleUIChangeFilter?.(getDefaultFilterOneRoomTwoRoom());
           break;
         default:
           break;
       }
+
       setIsUIFilterTypeExapnded(false);
     },
     [setUIFilterState, handleUIChangeFilter],
@@ -268,8 +299,8 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
 
   // 열려 있는 모든 필터 닫기 버튼 Click Event Handler
   const handleCloseFilters = useCallback(() => {
-    setFilters([]);
-    setIsFirstFilterTypesExpanded(false);
+    // setFilters([]);
+    // setIsFirstFilterTypesExpanded(false);
     setIsSecondFilterTypesExpandedFive(false);
     setIsSecondFilterTypesExpandedFour(false);
     setIsSecondFilterTypesExpandedThree(false);
@@ -279,7 +310,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   }, []);
 
   const handleSummitFilters = useCallback(() => {
-    // setFilters([]);
+    // setFI(uiFilter);
     setIsAllFilterExpanded(false);
     toast.success('필터를 적용했습니다.', { toastId: 'negocio-apply-filter' });
   }, []);
@@ -632,6 +663,8 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
     isBuyOrRentFilterAdded,
     isEtcFilterAdded,
     isFirstFilterTypesExpanded,
+    isFirstFilterTypesExpandedTwo,
+    isFirstFilterTypesExpandedThree,
     isPriceFilterAdded,
     isEtcFilterAdded,
     isSecondFilterTypesExpandedFive,
@@ -647,27 +680,83 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
         <FilterTypes onClickFilterType={handleClickFilterType} />
         <RealestateTypeGroupTabButton
           selected={filter.realestateTypeGroup === 'apt,oftl'}
-          onClick={() => handleChangeRealestateTypeGroup('apt,oftl')}
+          onClick={() => {
+            if (filter.realestateTypeGroup !== 'apt,oftl') {
+              handleChangeRealestateTypeGroup('apt,oftl');
+
+              setIsFirstFilterTypesExpandedTwo(false);
+              setIsFirstFilterTypesExpandedThree(false);
+            } else {
+              setIsFirstFilterTypesExpandedTwo(false);
+              setIsFirstFilterTypesExpandedThree(false);
+
+              setIsFirstFilterTypesExpanded((prev) => !prev);
+            }
+          }}
         >
           아파트·오피스텔
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
           selected={filter.realestateTypeGroup === 'villa,dandok'}
-          onClick={() => handleChangeRealestateTypeGroup('villa,dandok')}
+          onClick={() => {
+            if (filter.realestateTypeGroup !== 'villa,dandok') {
+              handleChangeRealestateTypeGroup('villa,dandok');
+
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedThree(false);
+            } else {
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedThree(false);
+
+              setIsFirstFilterTypesExpandedTwo((prev) => !prev);
+            }
+          }}
         >
           빌라·주택
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
           selected={filter.realestateTypeGroup === 'one,two'}
-          onClick={() => handleChangeRealestateTypeGroup('one,two')}
+          onClick={() => {
+            if (filter.realestateTypeGroup !== 'one,two') {
+              handleChangeRealestateTypeGroup('one,two');
+
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedTwo(false);
+            } else {
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedTwo(false);
+
+              setIsFirstFilterTypesExpandedThree((prev) => !prev);
+            }
+          }}
         >
           원룸·투룸
         </RealestateTypeGroupTabButton>
       </div>
 
       {isFirstFilterTypesExpanded && (
+        <FilterTypesMedium
+          filter={filter}
+          filterTypes={filterTypes}
+          expanded={isFilterTypesExpanded}
+          onToggleExpansion={handleToggleExpansion}
+          onClickFilterType={handleClickFilterType}
+        />
+      )}
+
+      {isFirstFilterTypesExpandedTwo && (
+        <FilterTypesMedium
+          filter={filter}
+          filterTypes={filterTypes}
+          expanded={isFilterTypesExpanded}
+          onToggleExpansion={handleToggleExpansion}
+          onClickFilterType={handleClickFilterType}
+        />
+      )}
+
+      {isFirstFilterTypesExpandedThree && (
         <FilterTypesMedium
           filter={filter}
           filterTypes={filterTypes}
@@ -732,7 +821,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
 
       {isAllFilterExpanded && (
         <>
-          <FiltersContainer tw="w-full max-w-mobile min-h-[100vh] overflow-y-auto [z-index: 100] absolute top-0 bg-white">
+          <FiltersContainer tw="w-full max-w-mobile min-h-[100vh] overflow-y-auto [z-index: 1000] absolute top-0 bg-white">
             <div tw="py-4 flex items-center justify-between [z-index: 50] bg-white">
               <span tw="text-b1 [line-height: 1] font-bold">전체 필터</span>
               <Button
@@ -842,7 +931,11 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
         </>
       )}
 
-      {isFirstFilterTypesExpanded && (
+      {(isSecondFilterTypesExpandedOne ||
+        isSecondFilterTypesExpandedTwo ||
+        isSecondFilterTypesExpandedThree ||
+        isSecondFilterTypesExpandedFour ||
+        isSecondFilterTypesExpandedFive) && (
         <div>
           <div tw="w-full h-px bg-gray-300" />
           <div tw="flex items-center justify-between">
