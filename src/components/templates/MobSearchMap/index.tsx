@@ -80,13 +80,13 @@ export function MobSearchMap() {
             />
           </TextField>
         </div>
-        <div tw="flex mt-[4.625rem] flex-col gap-3 pt-3 pb-3 pr-5 pl-5 overflow-y-auto">
+        <div tw="flex mt-[5.25rem] flex-col gap-3 pt-3 pb-3 pr-5 pl-5 overflow-y-auto">
           {textValue.length === 0 && <Guide />}
-          {textValue.length < 1 && results.length < 1 && (
+          {/* {textValue.length < 1 && results.length < 1 && (
             <div tw="px-4 py-4">
               <p tw="text-b2 text-gray-1000 leading-none">최근 검색 기록이 없습니다.</p>
             </div>
-          )}
+          )} */}
           {textValue.length > 0 && results.length < 1 && (
             <div tw="px-4 py-4">
               <p tw="mb-2 text-b2 text-gray-1000 leading-none">검색 결과가 없습니다.</p>
