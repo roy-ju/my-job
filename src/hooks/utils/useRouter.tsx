@@ -68,7 +68,7 @@ export default function useRouter(depth: number) {
         asPath += `?${searchParams}`;
       }
 
-      router.replace({ pathname: path, query }, asPath);
+      return router.replace({ pathname: path, query }, asPath);
     },
     [router, depth],
   );
@@ -101,7 +101,7 @@ export default function useRouter(depth: number) {
         query[`depth${index + 1}`] = value;
       });
 
-      router.replace({ pathname: path, query });
+      return router.replace({ pathname: path, query });
     },
     [router, depth],
   );
@@ -133,7 +133,7 @@ export default function useRouter(depth: number) {
       query[`depth${index + 1}`] = value;
     });
 
-    router.replace({ pathname: path, query });
+    return router.replace({ pathname: path, query });
   }, [router]);
 
   /**
@@ -179,7 +179,7 @@ export default function useRouter(depth: number) {
         asPath += `?${searchParams}`;
       }
 
-      router.replace({ pathname: path, query }, asPath);
+      return router.replace({ pathname: path, query }, asPath);
     },
     [router, depth],
   );
@@ -189,7 +189,9 @@ export default function useRouter(depth: number) {
    */
   const popAll = useCallback(() => {
     if (router.pathname === '/') {
-      return;
+      return new Promise<boolean>((resolve) => {
+        resolve(false);
+      });
     }
 
     for (let i = 1; i < 6; i += 1) {
@@ -198,7 +200,7 @@ export default function useRouter(depth: number) {
 
     // const query = { ...router.query };
 
-    router.replace({ pathname: '/', query: {} });
+    return router.replace({ pathname: '/', query: {} });
   }, [router]);
 
   return useMemo(

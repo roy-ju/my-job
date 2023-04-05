@@ -40,6 +40,13 @@ export enum NegotiationTarget {
   Wolsae = 2,
 }
 
+export enum PrivacyRetentionType {
+  OneYear = 1,
+  ThreeYear = 2,
+  FiveYear = 3,
+  Deregister = 4,
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:

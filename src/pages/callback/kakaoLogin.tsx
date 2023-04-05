@@ -36,8 +36,14 @@ const Page: NextPage = () => {
       localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
       localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
       window.opener?.Negocio.callbacks?.loginSuccess?.();
-      window.close();
+    } else if (loginResponse.new_registration) {
+      window.opener?.Negocio.callbacks?.newRegister?.(
+        loginResponse.email,
+        kakaoAccessTokenResponse.accessToken,
+        SocialLoginType.Kakao,
+      );
     }
+    window.close();
 
     return true;
   }, []);

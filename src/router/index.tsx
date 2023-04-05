@@ -84,7 +84,14 @@ const Register = dynamic(() => import('@/components/pages/pc/Register'), {
   ssr: false,
   loading: () => <Panel />,
 });
-
+const RegisterSuccess = dynamic(() => import('@/components/pages/pc/RegisterSuccess'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 
 const DEFAULT_PANEL_WIDTH = '380px';
@@ -207,6 +214,14 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.Register: {
       return <Register {...props} />;
+    }
+
+    case Routes.RegisterSuccess: {
+      return <RegisterSuccess {...props} />;
+    }
+
+    case Routes.VerifyCiSuccess: {
+      return <VerifyCiSuccess {...props} />;
     }
 
     case Routes.Developer: {
