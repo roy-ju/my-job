@@ -57,8 +57,6 @@ const Page: NextPage = () => {
       redirectUri: `${window.location.origin}${window.location.pathname}`,
     });
 
-    console.log(kakaoAccessTokenResponse);
-
     if (!kakaoAccessTokenResponse) {
       return false;
     }
