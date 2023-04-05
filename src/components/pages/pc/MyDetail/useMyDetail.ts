@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 export default function useMyDetail(depth: number) {
   const router = useRouter(depth);
 
-  const { user, logout, mutate: mutateUser, isLoading } = useAuth();
+  const { user, logout, mutate: mutateUser, isLoading: isUserLoading } = useAuth();
   const { data: userAddressData, isLoading: isUserAddressLoading } = useAPI_GetUserAddress();
 
   const [nicknamePopup, setNicknamePopup] = useState(false);
@@ -67,7 +67,7 @@ export default function useMyDetail(depth: number) {
   return useMemo(
     () => ({
       ...user,
-      isLoadingUser: isLoading,
+      isLoading: isUserLoading || isUserAddressLoading,
       updateNicknameButtonDisabled,
       nickname,
       nicknamePopup,
@@ -91,6 +91,7 @@ export default function useMyDetail(depth: number) {
       user,
       userAddressData,
       isUserAddressLoading,
+      isUserLoading,
       handleClickDeregister,
       handleLogout,
       handleUpdateAddress,
@@ -99,7 +100,6 @@ export default function useMyDetail(depth: number) {
       updateNickname,
       cancelUpdateNickname,
       handleChangeNickname,
-      isLoading,
     ],
   );
 }

@@ -11,6 +11,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const {
+    isLoading,
     nickname,
     email,
     name,
@@ -33,6 +34,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <MyDetailTemplate
+        isLoading={isLoading}
         nickname={nickname}
         email={email ?? ''}
         name={name ?? ''}
