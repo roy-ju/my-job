@@ -1,6 +1,10 @@
+import login from '@/apis/user/login';
 import { Panel } from '@/components/atoms';
 import { Login as LoginTemplate } from '@/components/templates';
+import { SocialLoginType } from '@/constants/enums';
+import Keys from '@/constants/storage_keys';
 import { useRouter } from '@/hooks/utils';
+import { loginWithApple } from '@/lib/apple';
 import { memo, useCallback } from 'react';
 
 interface Props {
@@ -16,19 +20,26 @@ export default memo(({ depth, panelWidth }: Props) => {
     window.open(`${window.location.origin}/auth/kakao`, '_blank');
   }, [router]);
 
-  const handleAppleLogin = useCallback(() => {
-    router.pop();
-    window.open(`${window.location.origin}/auth/apple`, '_blank');
+  const handleAppleLogin = useCallback(async () => {
+    const res = await loginWithApple();
+    if (res && !res.error) {
+      const idToken = res.authorization.id_token;
 
-    // window.AppleID.auth.init({
-    //   clientId: 'kr.co.negocio.service',
-    //   scope: 'email name',
-    //   redirectURI: `${window.location.origin}/callback/appleLogin`,
-    //   state: '',
-    //   usePopup: false,
-    // });
-    // window.AppleID.auth.signIn();
-  }, [router]);
+      const loginResponse = await login({
+        browser: '',
+        device: '',
+        ipAddress: '',
+        socialLoginType: SocialLoginType.Apple,
+        token: idToken,
+      });
+
+      if (loginResponse?.access_token) {
+        localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
+        localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
+        window.Negocio.onLoginSuccess();
+      }
+    }
+  }, []);
 
   return (
     <Panel width={panelWidth}>
