@@ -2,6 +2,7 @@ import OutsideClick from '@/components/atoms/OutsideClick';
 
 import { Map } from '@/lib/navermap';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { MapLayout as Layout, MobMapStreetView } from '@/components/templates';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -25,6 +26,7 @@ function MapWrapper() {
     handleChangeMapToggleValue,
     handleChangePriceType,
     handleCloseStreetView,
+    currentLocation,
     mapType,
     mapLayer,
     schoolType,
@@ -52,6 +54,8 @@ function MapWrapper() {
         filter={filter}
         centerAddress={centerAddress}
         mapToggleValue={mapToggleValue}
+        listingCount={listingCount}
+        currentLocation={currentLocation}
         onClickCurrentLocation={morphToCurrentLocation}
         onChangeMapType={handleChangeMapType}
         onClickMapLayerCadastral={() => handleChangeMapLayer('cadastral')}
@@ -69,34 +73,35 @@ function MapWrapper() {
             schoolMarkers={schoolMarkers}
             selectedDanjiSummary={selectedDanjiSummary}
             selectedSchoolID={selectedSchoolID}
+            currentLocation={currentLocation}
           />
         </Map>
+        <AnimatePresence>
+          {streetViewEvent && (
+            <Layout.Overlay tw="flex items-center justify-center w-full">
+              <div tw="w-[100%] max-w-mobile">
+                <OutsideClick onOutsideClick={handleCloseStreetView}>
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                  >
+                    <div tw="min-w-[23.475rem] max-w-mobile max-h-[100vh] h-[100vh] bg-white">
+                      <MobMapStreetView
+                        position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
+                        title={streetViewEvent.address}
+                        onClickBackButton={handleCloseStreetView}
+                      >
+                        <MobMapStreetView.Panorama />
+                      </MobMapStreetView>
+                    </div>
+                  </motion.div>
+                </OutsideClick>
+              </div>
+            </Layout.Overlay>
+          )}
+        </AnimatePresence>
       </MobLayoutMapContainer>
-      <AnimatePresence>
-        {streetViewEvent && (
-          // <Layout.Overlay tw="flex items-center justify-center">
-          //   <OutsideClick onOutsideClick={handleCloseStreetView}>
-          //     <motion.div
-          //       initial={{ scale: 0, opacity: 0 }}
-          //       animate={{ scale: 1, opacity: 1 }}
-          //       exit={{ scale: 0, opacity: 0 }}
-          //     >
-          //       <div tw="w-[780px] max-h-[960px] h-[85vh] bg-white rounded-lg">
-          //         <MapStreetView
-          //           position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
-          //           title={streetViewEvent.address}
-          //           onClickBackButton={handleCloseStreetView}
-          //         >
-          //           <MapStreetView.Panorama />
-          //           <MapStreetView.Map />
-          //         </MapStreetView>
-          //       </div>
-          //     </motion.div>
-          //   </OutsideClick>
-          // </Layout.Overlay>
-          <div />
-        )}
-      </AnimatePresence>
     </>
   );
 }

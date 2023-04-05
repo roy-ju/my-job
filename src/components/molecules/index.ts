@@ -9,4 +9,5 @@ export { default as Dropdown } from './Dropdown';
 export { default as Tabs } from './Tabs';
 export { default as Popup } from './Popup';
 export { default as OverlayPresenter } from './OverlayPresenter';
-export  *  from "./ToastType"
+export { default as OverlayContainer } from './FullScreenDialog';
+export * from './ToastType';

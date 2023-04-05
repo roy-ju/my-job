@@ -4,8 +4,9 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { toastError } from '@/components/molecules';
+import CurrentLocationIcon from '@/assets/icons/current_location.svg';
 import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
 interface MarkersProps {
@@ -14,6 +15,12 @@ interface MarkersProps {
   schoolMarkers: CommonSchoolMarker[];
   selectedDanjiSummary: DanjiSummary | null;
   selectedSchoolID: string;
+  currentLocation:
+    | {
+        lat?: number | undefined;
+        lng?: number | undefined;
+      }
+    | undefined;
 }
 
 export default function Markers({
@@ -22,6 +29,7 @@ export default function Markers({
   schoolMarkers,
   selectedDanjiSummary,
   selectedSchoolID,
+  currentLocation,
 }: MarkersProps) {
   const shouldShowSchoolMarker = useMemo(() => {
     if (mapLevel !== 1 && schoolMarkers.length > 1) {
@@ -38,6 +46,19 @@ export default function Markers({
 
   return (
     <>
+      {currentLocation?.lat && currentLocation?.lng && (
+        <DeferredRender key="marker-location">
+          <CustomOverlay
+            position={{
+              lat: currentLocation.lat,
+              lng: currentLocation.lng,
+            }}
+          >
+            <CurrentLocationIcon />
+          </CustomOverlay>
+        </DeferredRender>
+      )}
+
       {mapLevel !== 1 &&
         markers.map((marker) => (
           <DeferredRender key={marker.id}>

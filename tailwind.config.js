@@ -98,6 +98,7 @@ module.exports = {
           1000: '#5F3DC4',
           1100: '#5F52F6',
           1200: '#9368EF',
+          1300: '#EDEAFF',
         },
         blue: {
           DEFAULT: '#4C6EF5',

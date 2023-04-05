@@ -154,8 +154,6 @@ export default function MapLayout({ children }: Props) {
     }
   }, [router.pathname]);
 
-  console.log('render');
-
   const togglePanelsVisibility = useCallback(() => setPanelsVisible((prev) => !prev), []);
 
   return (

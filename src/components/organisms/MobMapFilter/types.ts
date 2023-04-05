@@ -14,4 +14,5 @@ export interface Filter {
   minHousehold: MinHousehold;
   quickSale: boolean;
   gapInvestment: boolean;
+  roomCounts: string;
 }

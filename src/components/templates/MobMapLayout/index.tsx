@@ -1,11 +1,8 @@
 import { ChangeEventHandler, ReactNode } from 'react';
 import { MobMapControls, MobMapPositionBar, MobMapPriceSelect, MobMapToggleButton } from '@/components/organisms';
 import { Button } from '@/components/atoms';
-import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
-import HouseGreenIcon from '@/assets/icons/house_green.svg';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { Filter } from '@/components/organisms/MapFilter/types';
-import MapPositionBar from '@/components/organisms/MapPositionBar';
 import MobMapFilter from '@/components/organisms/MobMapFilter';
 import { convertSidoName } from '@/utils/fotmat';
 
@@ -17,6 +14,13 @@ interface MobLayoutMapContainerProps {
   schoolType?: string;
   filter?: Filter;
   centerAddress?: string[];
+  listingCount?: number;
+  currentLocation:
+    | {
+        lat?: number | undefined;
+        lng?: number | undefined;
+      }
+    | undefined;
   onClickCurrentLocation?: () => void;
   onClickSchool?: () => void;
   onClickMapLayerCadastral?: () => void;
@@ -39,13 +43,14 @@ function MobLayoutMapContainer({
   filter,
   centerAddress,
   mapToggleValue,
+  listingCount,
+  currentLocation,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
   onChangeMapType,
   onClickSchool,
   onChangeSchoolType,
-  onMapSearchSubmit,
   onChangeFilter,
   onChangeMapToggleValue,
   onChangePriceType,
@@ -54,11 +59,21 @@ function MobLayoutMapContainer({
   return (
     <>
       <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
-      <div id="map-container" tw="relative h-[calc(100vh-7rem-5.25rem)] max-h-[calc(100vh-7rem-5.25rem)]">
+      <div id="map-container" tw="relative flex-1">
         {filter?.realestateTypeGroup === 'apt,oftl' && (
           <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
             <div tw="w-fit pointer-events-auto">
               <MobMapToggleButton value={mapToggleValue} onChange={onChangeMapToggleValue} />
+            </div>
+          </div>
+        )}
+
+        {filter?.realestateTypeGroup !== 'apt,oftl' && (
+          <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
+            <div tw="w-fit pointer-events-auto">
+              <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl bg-nego-800">
+                이 지역 매물 {listingCount ?? 0}
+              </Button>
             </div>
           </div>
         )}
@@ -78,7 +93,10 @@ function MobLayoutMapContainer({
               onClick={onClickSchool}
             />
           </MobMapControls.Group>
-          <MobMapControls.GPSButton onClick={onClickCurrentLocation} />
+          <MobMapControls.GPSButton
+            selected={!!(currentLocation?.lat && currentLocation?.lng)}
+            onClick={onClickCurrentLocation}
+          />
         </div>
         <div tw="w-full max-w-mobile inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10">
           <MobMapPositionBar
