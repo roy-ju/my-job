@@ -30,6 +30,16 @@ export enum ChatUserType {
   System = 4,
 }
 
+export enum NegotiationOrAuction {
+  Negotiation = 1,
+  Auction = 2,
+}
+
+export enum NegotiationTarget {
+  Deposit = 1,
+  Wolsae = 2,
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:
@@ -47,4 +57,26 @@ export function describeRealestateType(type: RealestateType | undefined | null) 
     default:
       return '';
   }
+}
+
+export function describeTargetPrice({
+  negotiation_or_auction,
+  isOwnerLabel = false,
+}: {
+  negotiation_or_auction?: NegotiationOrAuction;
+  isOwnerLabel?: boolean;
+}) {
+  switch (negotiation_or_auction) {
+    case NegotiationOrAuction.Auction:
+      return '낙찰기준가';
+    case NegotiationOrAuction.Negotiation:
+      return isOwnerLabel ? '집주인 희망가' : '희망가';
+    default:
+      return '';
+  }
+}
+
+export function describeBiddingPrice({ negotiation_or_auction }: { negotiation_or_auction?: NegotiationOrAuction }) {
+  if (negotiation_or_auction === NegotiationOrAuction.Auction) return '입찰가';
+  return '제안가';
 }
