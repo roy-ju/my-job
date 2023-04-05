@@ -8,6 +8,7 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import MobLayoutMapContainer from '@/components/templates/MobMapLayout';
 import { MapFilter } from '@/components/organisms';
+import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -46,6 +47,7 @@ function MapWrapper() {
 
   return (
     <>
+      <MobileGlobalStyles />
       <MobLayoutMapContainer
         mapLayer={mapLayer}
         mapType={mapType}

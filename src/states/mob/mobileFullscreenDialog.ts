@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export type FullScreenDialog = {
+export type MobileFullScreenDialog = {
   id: string;
   body?: JSX.Element;
   onClose?: () => void;
@@ -9,7 +9,7 @@ export type FullScreenDialog = {
   onAnimationComplete?: () => void;
 };
 
-export const fullScreenDialogs = atom<FullScreenDialog[]>({
+export const mobileFullScreenDialogs = atom<MobileFullScreenDialog[]>({
   key: 'fullScreenDialogs',
   default: [],
 });

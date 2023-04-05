@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
-import { FullScreenDialog as FullScreenDialogProps } from '@/states/fullscreenDialog';
+import { MobileFullScreenDialog as MobileFullScreenDialogProps } from '@/states/mob/mobileFullscreenDialog';
 import useFullScreenDialogStore from '@/hooks/recoil/useFullScreenDialog';
 import { useRouter } from 'next/router';
 import { useScrollLock } from '@/hooks/utils/useScrollLock';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 
 type Props = {
   onChange: (active: boolean) => void;
@@ -29,7 +30,7 @@ function Backdrop() {
   return <div tw="absolute pointer-events-none left-0 top-0 w-[100vw] h-[100%] [z-index: -1]" />;
 }
 
-function FullScreenDialog({ body, onClose }: FullScreenDialogProps) {
+function FullScreenDialog({ body, onClose }: MobileFullScreenDialogProps) {
   const handleClose = useCallback(() => {
     onClose?.();
   }, [onClose]);
@@ -86,9 +87,12 @@ export default function OverlayContainer() {
   useScrollLock(dialogsActive);
 
   return (
-    <Container>
-      <Backdrop />
-      <FullScreenDialogs onChange={onDialogsChange} />
-    </Container>
+    <>
+      <MobileGlobalStyles />
+      <Container>
+        <Backdrop />
+        <FullScreenDialogs onChange={onDialogsChange} />
+      </Container>
+    </>
   );
 }

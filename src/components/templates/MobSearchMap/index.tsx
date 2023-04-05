@@ -6,7 +6,7 @@ import useMapLayout from '@/layouts/Mobile/MapLayout/useMapLayout';
 
 import ChveronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import { Button } from '@/components/atoms';
-import storage from '@/storage/stroage';
+import storage from '@/storage/mob/stroage';
 import { useState, useCallback, ChangeEventHandler, FormEventHandler } from 'react';
 import { useKakaoAddressAutocomplete } from '@/hooks/services';
 import useFullScreenDialogStore from '@/hooks/recoil/useFullScreenDialog';

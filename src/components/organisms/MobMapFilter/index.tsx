@@ -5,7 +5,7 @@ import { useControlled } from '@/hooks/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 import Close from '@/assets/icons/close_24.svg';
-import useMap from '@/states/mobileMap';
+import useMap from '@/states/mob/mobileMap';
 import useDocumentHeight from '@/hooks/utils/useDocumentHeight';
 import { toast } from 'react-toastify';
 import FilterTypes from './FilterTypes';
