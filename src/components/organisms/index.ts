@@ -48,3 +48,5 @@ export { default as TransactionHistoryListItem } from './TransactionHistoryListI
 export { default as FAQListItem } from './FAQListItem';
 export { default as ServiceInfoList } from './ServiceInfoList';
 export { default as RegisterForm } from './RegisterForm';
+
+export * from './popups';

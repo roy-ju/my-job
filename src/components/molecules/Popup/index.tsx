@@ -7,17 +7,13 @@ interface PopupProps {
   children?: ReactNode;
 }
 
-type PopupSubComponentProps = Pick<PopupProps, 'children'>;
-
 /* Text Components */
 
-function PopupTitle({ children }: PopupSubComponentProps) {
-  return <strong tw="font-bold text-h3">{children}</strong>;
-}
+const PopupTitle = tw.strong`font-bold text-h3`;
 
-function PopupContents({ children }: PopupSubComponentProps) {
-  return <p tw="text-gray-700 text-info">{children}</p>;
-}
+const PopupBody = tw.p`text-gray-700 text-info`;
+
+const PopupContentGroup = tw.div`px-5 py-6 flex flex-col gap-4 bg-white rounded-t-lg`;
 
 /* Button Components */
 
@@ -32,12 +28,13 @@ const PopupButtonGroup = tw(({ size = 'big', ...others }: ButtonGroupProps) => (
 /* Super Component */
 
 function PopupMain({ children }: PopupProps) {
-  return <div tw="w-[20rem]  bg-white shadow rounded-lg">{children}</div>;
+  return <div tw="w-[20rem] shadow">{children}</div>;
 }
 
 const Popup = Object.assign(PopupMain, {
   Title: PopupTitle,
-  Contents: PopupContents,
+  Body: PopupBody,
+  ContentGroup: PopupContentGroup,
   ButtonGroup: PopupButtonGroup,
   ActionButton: PopupActionButton,
   CancelButton: PopupCancelButton,
