@@ -28,7 +28,7 @@ const PopupButtonGroup = tw(({ size = 'big', ...others }: ButtonGroupProps) => (
 /* Super Component */
 
 function PopupMain({ children }: PopupProps) {
-  return <div tw="w-[20rem] shadow">{children}</div>;
+  return <div tw="w-[20rem] shadow rounded-lg">{children}</div>;
 }
 
 const Popup = Object.assign(PopupMain, {
