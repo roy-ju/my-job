@@ -1,5 +1,4 @@
-import { fullScreenDialogs } from '@/states/fullscreenDialog';
-
+import { mobileFullScreenDialogs } from '@/states/mob/mobileFullscreenDialog';
 import { nanoid } from 'nanoid';
 import { useRecoilState } from 'recoil';
 
@@ -13,7 +12,7 @@ export type FullScreenDialog = {
 };
 
 export default function useFullScreenDialogStore() {
-  const [dialogStates, setDialogStates] = useRecoilState(fullScreenDialogs);
+  const [dialogStates, setDialogStates] = useRecoilState(mobileFullScreenDialogs);
 
   const addFullScreenDialog = (fullScreenDialog: Omit<FullScreenDialog, 'id'>) => {
     const id = nanoid();

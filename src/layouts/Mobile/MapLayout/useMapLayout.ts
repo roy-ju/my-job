@@ -13,7 +13,7 @@ import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState }
 import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { mobileMapState } from '@/states/mobileMap';
+import { mobileMapState } from '@/states/mob/mobileMap';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
