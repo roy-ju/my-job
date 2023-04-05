@@ -1,20 +1,14 @@
+/* eslint-disable consistent-return */
 import OutsideClick from '@/components/atoms/OutsideClick';
 
 import { Map } from '@/lib/navermap';
-import { MapLayout as Layout, MobMapStreetView } from '@/components/templates';
+import { MapLayout as Layout, MobGuideOverlay, MobMapStreetView } from '@/components/templates';
 import { AnimatePresence, motion } from 'framer-motion';
 import MobLayoutMapContainer from '@/components/templates/MobMapLayout';
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
-import { Chip, Separator } from '@/components/atoms';
-import {
-  describeBiddingPrice,
-  describeRealestateType,
-  describeTargetPrice,
-  NegotiationOrAuction,
-  RealestateType,
-} from '@/constants/enums';
-import CheveronDown from '@/assets/icons/chevron_down.svg';
-import { formatNumberInKorean } from '@/utils';
+
+import { useEffect, useState } from 'react';
+
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -49,10 +43,34 @@ function MapWrapper() {
     ...props
   } = useMapLayout();
 
-  console.log(selectedDanjiSummary);
+  const [isRenderGuideOverlay, setIsRenderGuideOverlay] = useState(false);
+
+  const disappearGuideOverlay = () => {
+    setIsRenderGuideOverlay(false);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('neogico-mob-map-initial') === 'true') {
+      setIsRenderGuideOverlay(false);
+      return;
+    }
+    if (!localStorage.getItem('neogico-mob-map-initial')) {
+      localStorage.setItem('neogico-mob-map-initial', 'true');
+      setIsRenderGuideOverlay(true);
+    }
+    return () => setIsRenderGuideOverlay(false);
+  }, []);
+
+  useEffect(() => {
+    if (isRenderGuideOverlay) {
+      const timeout = setTimeout(() => setIsRenderGuideOverlay(false), 1000000);
+      return () => clearTimeout(timeout);
+    }
+  }, [isRenderGuideOverlay]);
 
   return (
     <>
+      {isRenderGuideOverlay && <MobGuideOverlay disappearGuideOverlay={disappearGuideOverlay} />}
       <MobileGlobalStyles />
       <MobLayoutMapContainer
         code={code}
@@ -190,7 +208,7 @@ function MapWrapper() {
         </div>
       )} */}
 
-      {selectedDanjiSummary && (
+      {/* {selectedDanjiSummary && (
         <div tw="w-[100%] max-w-mobile [border-bottom-width: 1px] border-b-gray-1100 absolute rounded-t-lg px-4 py-5 bottom-[5.25rem] bg-white [z-index:9999]">
           <div tw="flex items-center">
             {selectedDanjiSummary?.realestateType === RealestateType.Apartment && (
@@ -246,7 +264,7 @@ function MapWrapper() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 }
