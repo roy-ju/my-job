@@ -172,7 +172,12 @@ function AddressInfo({ address, addressDetail, verified = false, onClickUpdateAd
   );
 }
 
-function PrivacyRetentionInfo() {
+interface PrivacyRetentionInfoProps {
+  value?: string;
+  onChange?: (value: string) => void;
+}
+
+function PrivacyRetentionInfo({ value, onChange }: PrivacyRetentionInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex items-center justify-between mb-3">
@@ -183,7 +188,7 @@ function PrivacyRetentionInfo() {
         <li>선택한 기간동안 서비스를 이용하지 않을 경우 휴면 계정으로 전환 또는 가입해지 됩니다.</li>
       </Ul>
       <div tw="flex flex-col gap-3">
-        <Dropdown value="탈퇴시까지">
+        <Dropdown placeholder="개인정보 보관기간" value={value} onChange={onChange}>
           <Dropdown.Option value="1년">1년</Dropdown.Option>
           <Dropdown.Option value="3년">3년</Dropdown.Option>
           <Dropdown.Option value="5년">5년</Dropdown.Option>
