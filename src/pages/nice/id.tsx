@@ -12,7 +12,7 @@ const Page: NextPage = () => {
     if (!router.query.type) return;
 
     getNiceEncData({
-      returnUrl: `${window.location.origin}/callback/niceId`,
+      returnUrl: `${window.location.origin}/callback/niceId?type=${router.query.type}`,
       type: Number(router.query.type),
     }).then((res) => {
       const form = formRef.current;

@@ -300,7 +300,7 @@ export default function useMapLayout() {
 
         // 맵의 주소검색 결과에 마커가 포함되어있으면, 마커를 선택한다.
         if (lastSearchItem.current) {
-          const searchedDanji = danjis.find(
+          const searchedDanji = danjis?.find(
             ({ jibun_address, road_name_address }) =>
               lastSearchItem.current?.roadAddressName === road_name_address ||
               lastSearchItem.current?.addressName === jibun_address,
