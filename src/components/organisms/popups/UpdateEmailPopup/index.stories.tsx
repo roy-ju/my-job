@@ -8,4 +8,10 @@ export default {
 
 export const Default: ComponentStory<typeof UpdateEmailPopup> = (args) => <UpdateEmailPopup {...args} />;
 
+export const Success = () => <UpdateEmailPopup.Success />;
+
+export const DuplicatedCi = () => <UpdateEmailPopup.DuplicatedCi />;
+
+export const DuplicatedEmail = () => <UpdateEmailPopup.DuplicatedEmail />;
+
 Default.args = {};

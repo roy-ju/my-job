@@ -9,7 +9,7 @@ export interface UpdateEmailPopupProps {
   onClickCancel?: () => void;
 }
 
-export default function UpdateEmailPopup({ onClickKakao, onClickApple, onClickCancel }: UpdateEmailPopupProps) {
+function UpdateEmailPopup({ onClickKakao, onClickApple, onClickCancel }: UpdateEmailPopupProps) {
   return (
     <Popup>
       <Popup.ContentGroup tw="gap-5">
@@ -30,3 +30,72 @@ export default function UpdateEmailPopup({ onClickKakao, onClickApple, onClickCa
     </Popup>
   );
 }
+
+interface SuccessProps {
+  onClickClose?: () => void;
+}
+
+function Success({ onClickClose }: SuccessProps) {
+  return (
+    <Popup>
+      <Popup.ContentGroup tw="gap-5 py-12">
+        <Popup.Title tw="text-center">변경이 반영되었습니다.</Popup.Title>
+      </Popup.ContentGroup>
+      <Popup.ButtonGroup>
+        <Popup.ActionButton onClick={onClickClose}>확인</Popup.ActionButton>
+      </Popup.ButtonGroup>
+    </Popup>
+  );
+}
+
+interface DuplicatedCiProps {
+  onClickClose?: () => void;
+}
+
+function DuplicatedCi({ onClickClose }: DuplicatedCiProps) {
+  return (
+    <Popup>
+      <Popup.ContentGroup>
+        <Popup.Title>변경 오류</Popup.Title>
+        <Popup.Body>
+          이미 다른 네고시오 계정에서 사용되고 있습니다.
+          <br />
+          다른 간편로그인 방법을 선택해주세요.
+        </Popup.Body>
+      </Popup.ContentGroup>
+      <Popup.ButtonGroup>
+        <Popup.ActionButton onClick={onClickClose}>확인</Popup.ActionButton>
+      </Popup.ButtonGroup>
+    </Popup>
+  );
+}
+
+interface DuplicatedEmailProps {
+  onClickOverwrite?: () => void;
+  onClickClose?: () => void;
+}
+
+function DuplicatedEmail({ onClickOverwrite, onClickClose }: DuplicatedEmailProps) {
+  return (
+    <Popup>
+      <Popup.ContentGroup>
+        <Popup.Title>간편로그인 방법 변경</Popup.Title>
+        <Popup.Body>
+          이미 다른 네고시오 계정에서 사용되고 있습니다.
+          <br />
+          해당계정을 삭제하고 간편로그인 방법 변경을 계속 진행하시겠습니까?
+        </Popup.Body>
+      </Popup.ContentGroup>
+      <Popup.ButtonGroup>
+        <Popup.CancelButton onClick={onClickOverwrite}>취소</Popup.CancelButton>
+        <Popup.ActionButton onClick={onClickClose}>확인</Popup.ActionButton>
+      </Popup.ButtonGroup>
+    </Popup>
+  );
+}
+
+export default Object.assign(UpdateEmailPopup, {
+  Success,
+  DuplicatedCi,
+  DuplicatedEmail,
+});

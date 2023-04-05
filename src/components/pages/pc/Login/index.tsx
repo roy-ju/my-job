@@ -6,6 +6,7 @@ import Keys from '@/constants/storage_keys';
 import { useRouter } from '@/hooks/utils';
 import { loginWithApple } from '@/lib/apple';
 import { memo, useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -36,7 +37,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       if (loginResponse?.access_token) {
         localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
         localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
-        window.Negocio.onLoginSuccess();
+        window.Negocio.callbacks.loginSuccess?.();
+      } else {
+        toast.error('로그인에 실패하였습니다.');
       }
     }
   }, []);
