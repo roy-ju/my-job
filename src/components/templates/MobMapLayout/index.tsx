@@ -5,8 +5,11 @@ import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoA
 import { Filter } from '@/components/organisms/MapFilter/types';
 import MobMapFilter from '@/components/organisms/MobMapFilter';
 import { convertSidoName } from '@/utils/fotmat';
+import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import MobAreaSearch from '../MobAreaSearch';
 
 interface MobLayoutMapContainerProps {
+  code?: string;
   mapType?: string;
   priceType?: string;
   mapLayer?: string;
@@ -36,6 +39,7 @@ interface MobLayoutMapContainerProps {
 }
 
 function MobLayoutMapContainer({
+  code,
   mapType,
   priceType,
   mapLayer,
@@ -56,6 +60,12 @@ function MobLayoutMapContainer({
   onChangePriceType,
   children,
 }: MobLayoutMapContainerProps) {
+  const { addFullScreenDialog } = useFullScreenDialogStore();
+
+  const openFullSearchArea = () => {
+    addFullScreenDialog({ body: <MobAreaSearch code={code} centerAddress={centerAddress} /> });
+  };
+
   return (
     <>
       <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
@@ -103,6 +113,7 @@ function MobLayoutMapContainer({
             sido={convertSidoName(centerAddress?.[0])}
             sigungu={centerAddress?.[1]}
             eubmyundong={centerAddress?.[2]}
+            onClick={openFullSearchArea}
           />
           <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl text-info">
             매물 추천받기

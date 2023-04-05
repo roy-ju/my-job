@@ -13,10 +13,8 @@ export interface KakaoAddressAutocompleteResponseItem {
   lng: number;
 }
 
-export default function useKakaoAddressAutocomplete(query: string) {
-  const [results, setResults] = useState<
-    KakaoAddressAutocompleteResponseItem[]
-  >([]);
+export default function useMobKakaoAddressAutocomplete(query: string) {
+  const [results, setResults] = useState<KakaoAddressAutocompleteResponseItem[]>([]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const search = useCallback(
@@ -26,10 +24,7 @@ export default function useKakaoAddressAutocomplete(query: string) {
         return;
       }
 
-      const [keywordRes, addressRes] = await Promise.all([
-        searchKeyword(q),
-        searchAddress(q),
-      ]);
+      const [keywordRes, addressRes] = await Promise.all([searchKeyword(q), searchAddress(q)]);
 
       const keywordItems: KakaoAddressAutocompleteResponseItem[] =
         keywordRes?.documents
@@ -42,9 +37,7 @@ export default function useKakaoAddressAutocomplete(query: string) {
             lat: +item.y,
             lng: +item.x,
           }))
-          .sort((item) =>
-            ['아파트', '오피스텔'].includes(item.categoryName) ? -1 : 1,
-          ) ?? [];
+          .sort((item) => (['아파트', '오피스텔'].includes(item.categoryName) ? -1 : 1)) ?? [];
 
       const addressItems: KakaoAddressAutocompleteResponseItem[] =
         addressRes?.documents
@@ -65,7 +58,7 @@ export default function useKakaoAddressAutocomplete(query: string) {
           })) ?? [];
 
       setResults([...addressItems, ...keywordItems]);
-    }, 300),
+    }, 100),
     [],
   );
 

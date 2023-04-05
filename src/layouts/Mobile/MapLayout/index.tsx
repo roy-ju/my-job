@@ -1,20 +1,12 @@
 import OutsideClick from '@/components/atoms/OutsideClick';
 
 import { Map } from '@/lib/navermap';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { MapLayout as Layout, MobMapStreetView } from '@/components/templates';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import MobLayoutMapContainer from '@/components/templates/MobMapLayout';
-import { MapFilter } from '@/components/organisms';
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
-
-interface Props {
-  children?: ReactNode;
-}
 
 function MapWrapper() {
   const {
@@ -27,6 +19,7 @@ function MapWrapper() {
     handleChangeMapToggleValue,
     handleChangePriceType,
     handleCloseStreetView,
+    code,
     currentLocation,
     mapType,
     mapLayer,
@@ -49,6 +42,7 @@ function MapWrapper() {
     <>
       <MobileGlobalStyles />
       <MobLayoutMapContainer
+        code={code}
         mapLayer={mapLayer}
         mapType={mapType}
         schoolType={schoolType}

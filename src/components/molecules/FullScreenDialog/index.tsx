@@ -2,7 +2,7 @@
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { MobileFullScreenDialog as MobileFullScreenDialogProps } from '@/states/mob/mobileFullscreenDialog';
-import useFullScreenDialogStore from '@/hooks/recoil/useFullScreenDialog';
+import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 import { useRouter } from 'next/router';
 import { useScrollLock } from '@/hooks/utils/useScrollLock';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
