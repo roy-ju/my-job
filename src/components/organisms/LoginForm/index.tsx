@@ -1,11 +1,13 @@
 import { Button } from '@/components/atoms';
 import KakaoLogoIcon from '@/assets/icons/kakao_logo.svg';
+import AppleLogoIcon from '@/assets/icons/apple.svg';
 
 export interface LoginFormProps {
   onClickKakaoLogin?: () => void;
+  onClickAppleLogin?: () => void;
 }
 
-export default function LoginForm({ onClickKakaoLogin }: LoginFormProps) {
+export default function LoginForm({ onClickKakaoLogin, onClickAppleLogin }: LoginFormProps) {
   return (
     <div>
       <div tw="flex flex-col gap-3">
@@ -18,8 +20,8 @@ export default function LoginForm({ onClickKakaoLogin }: LoginFormProps) {
           <KakaoLogoIcon tw="mr-2" />
           카카오로 시작하기
         </Button>
-        <Button variant="outlined" tw="w-full" size="bigger">
-          다른 방법으로 시작하기
+        <Button tw="w-full" size="bigger" onClick={onClickAppleLogin}>
+          <AppleLogoIcon tw="mr-2" /> Apple로 시작하기
         </Button>
       </div>
       <div tw="flex items-center justify-center mt-4 gap-2">

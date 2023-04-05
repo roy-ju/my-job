@@ -53,6 +53,7 @@ export default function useMyDetail(depth: number) {
   }, []);
 
   const handleClickUpdateToKakao = useCallback(() => {
+    window.open(`${window.location.origin}/auth/kakao?type=update`, '_blank');
     setEmailPopup(false);
   }, []);
 
