@@ -1,13 +1,11 @@
 import { Button } from '@/components/atoms';
 import { ButtonProps } from '@/components/atoms/Button';
 import tw, { styled } from 'twin.macro';
-import { useControlled } from '@/hooks/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 import Close from '@/assets/icons/close_24.svg';
 import { toast } from 'react-toastify';
 import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
-import useMapLayout from '@/layouts/Mobile/MapLayout/useMapLayout';
 import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from '../MobMapFilter/types';
 import BuyorRentFilter from '../MobMapFilter/BuyOrRentFilter';
 import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '../MobMapFilter/PriceFilter';
@@ -75,7 +73,7 @@ function useFilterType(filterType: FilterType, filters: FilterType[], filterType
 
 const FiltersContainer = styled.div`
   & > div {
-    ${tw`px-5`}
+    ${tw`px-1`}
   }
 
   & > div:not(:last-of-type) {
@@ -96,14 +94,6 @@ interface MapFilterProps {
 
 export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: MapFilterProps) {
   const { closeAll } = useFullScreenDialogStore();
-
-  const { handleChangeFilter } = useMapLayout();
-
-  // 필터
-  const [filter, setFilterState] = useControlled({
-    controlled: filterProp,
-    default: getDefaultFilterAptOftl(),
-  });
 
   const [uiFilter, setUIFilterState] = useState<Filter>(filterProp || getDefaultFilterAptOftl());
 
@@ -188,19 +178,14 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
     setIsUIFilterTypeExapnded((prev) => !prev);
   }, []);
 
-  // 전체 필터 닫기
-  const handleCloseAllFilterExpanded = useCallback(() => {
-    setUIFilters([]);
-  }, []);
-
   // 열려 있는 모든 필터 닫기 버튼 Click Event Handler
 
   const handleSummitFilters = useCallback(() => {
-    handleChangeFilter(uiFilter);
+    onChangeFilter?.(uiFilter);
     closeAll();
 
     toast.success('필터를 적용했습니다.', { toastId: 'negocio-apply-filter' });
-  }, [closeAll, handleChangeFilter, uiFilter]);
+  }, [closeAll, onChangeFilter, uiFilter]);
 
   const handleResetUIFilter = useCallback(() => {
     let defaultFilter = null;
@@ -366,92 +351,100 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
   }, [uiFilter]);
 
   return (
-    <FiltersContainer tw="w-full max-w-mobile min-h-[100vh] overflow-y-auto [z-index: 100] absolute top-0 bg-white">
-      <div tw="py-4 flex items-center justify-between [z-index: 50] bg-white">
-        <span tw="text-b1 [line-height: 1] font-bold">전체 필터</span>
-        <Button variant="ghost" tw="px-0 py-0 h-[1.5rem]" onClick={closeAll}>
-          <Close />
-        </Button>
+    <FiltersContainer tw="w-full max-w-mobile min-h-[100vh] overflow-y-hidden [z-index: 100] bg-white">
+      <div tw="w-[100%] max-w-mobile fixed top-0 left-auto right-auto [z-index: 50] bg-white">
+        <div tw="flex items-center justify-between py-4 px-4">
+          <span tw="text-b1 [line-height: 1] font-bold">전체 필터</span>
+          <Button variant="ghost" tw="px-0 py-0 h-[1.5rem]" onClick={closeAll}>
+            <Close />
+          </Button>
+        </div>
+
+        <div tw="flex items-center [z-index: 50] bg-white px-4">
+          <RealestateTypeGroupTabButton
+            selected={uiFilter.realestateTypeGroup === 'apt,oftl'}
+            onClick={() => {
+              handleUIChangeRealestateTypeGroup('apt,oftl');
+            }}
+            tw="pl-0"
+          >
+            아파트·오피스텔
+          </RealestateTypeGroupTabButton>
+          <Separator />
+          <RealestateTypeGroupTabButton
+            selected={uiFilter.realestateTypeGroup === 'villa,dandok'}
+            onClick={() => {
+              handleUIChangeRealestateTypeGroup('villa,dandok');
+            }}
+          >
+            빌라·주택
+          </RealestateTypeGroupTabButton>
+          <Separator />
+          <RealestateTypeGroupTabButton
+            selected={uiFilter.realestateTypeGroup === 'one,two'}
+            onClick={() => {
+              handleUIChangeRealestateTypeGroup('one,two');
+            }}
+            tw="pr-0"
+          >
+            원룸·투룸
+          </RealestateTypeGroupTabButton>
+        </div>
+
+        <FilterTypesMedium
+          filter={uiFilter}
+          filterTypes={uiFilterTypes}
+          expanded={isUIFilterTypesExpanded}
+          onToggleExpansion={handleToggleUIExpansion}
+        />
       </div>
-      <div tw="flex items-center [z-index: 50] bg-white">
-        <RealestateTypeGroupTabButton
-          selected={uiFilter.realestateTypeGroup === 'apt,oftl'}
-          onClick={() => {
-            handleUIChangeRealestateTypeGroup('apt,oftl');
-          }}
-          tw="pl-0"
-        >
-          아파트·오피스텔
-        </RealestateTypeGroupTabButton>
-        <Separator />
-        <RealestateTypeGroupTabButton
-          selected={uiFilter.realestateTypeGroup === 'villa,dandok'}
-          onClick={() => {
-            handleUIChangeRealestateTypeGroup('villa,dandok');
-          }}
-        >
-          빌라·주택
-        </RealestateTypeGroupTabButton>
-        <Separator />
-        <RealestateTypeGroupTabButton
-          selected={uiFilter.realestateTypeGroup === 'one,two'}
-          onClick={() => {
-            handleUIChangeRealestateTypeGroup('one,two');
-          }}
-          tw="pr-0"
-        >
-          원룸·투룸
-        </RealestateTypeGroupTabButton>
+
+      <div tw="mt-[10.5rem] h-[calc(100vh - 5.5rem - 10.5rem)] overflow-y-auto left-auto right-auto [z-index: 1000] bg-white">
+        <div tw="px-4">
+          {isUIRealestateTypeRoomCountFilterAdded && (
+            <RealestateTypeRoomCountFilter
+              realestateTypeGroup={uiFilter.realestateTypeGroup}
+              realestateTypes={uiFilter.realestateTypes}
+              roomCounts={uiFilter.roomCounts}
+              onChangeRealestateTypes={handleUIChangeRealestateTypes}
+              onChangeRoomCounts={handleUIChangeRoomCounts}
+            />
+          )}
+
+          {isUIBuyOrRentFilterAdded && (
+            <BuyorRentFilter
+              realestateTypeGroup={uiFilter.realestateTypeGroup}
+              value={uiFilter.buyOrRents}
+              onChange={handleUIChangeBuyOrRents}
+            />
+          )}
+
+          {isUIPriceFilterAdded && (
+            <PriceFilter
+              buyOrRents={uiFilter.buyOrRents}
+              priceRange={uiFilter.priceRange}
+              depositRange={uiFilter.depositRange}
+              rentRange={uiFilter.rentRange}
+              onChangePriceRange={handleUIChangePriceRange}
+              onChangeDepositRange={handleUIChangeDepositRange}
+              onChangeRentRange={handleUIChangeRentRange}
+            />
+          )}
+
+          {isUIHouseholdFilterAdded && (
+            <HouseholdFilter value={uiFilter.minHousehold} onChange={handleUIChangeMinHousehold} />
+          )}
+
+          {isUIEtcFilterAdded && (
+            <EtcFilter
+              quickSale={uiFilter.quickSale}
+              gapInvestment={uiFilter.gapInvestment}
+              onChangeQuickSale={handleUIChangeQuickSale}
+              onChangeGapInvestment={handleUIChangeGapInvestment}
+            />
+          )}
+        </div>
       </div>
-      <FilterTypesMedium
-        filter={uiFilter}
-        filterTypes={uiFilterTypes}
-        expanded={isUIFilterTypesExpanded}
-        onToggleExpansion={handleToggleUIExpansion}
-      />
-
-      {isUIRealestateTypeRoomCountFilterAdded && (
-        <RealestateTypeRoomCountFilter
-          realestateTypeGroup={uiFilter.realestateTypeGroup}
-          realestateTypes={uiFilter.realestateTypes}
-          roomCounts={uiFilter.roomCounts}
-          onChangeRealestateTypes={handleUIChangeRealestateTypes}
-          onChangeRoomCounts={handleUIChangeRoomCounts}
-        />
-      )}
-
-      {isUIBuyOrRentFilterAdded && (
-        <BuyorRentFilter
-          realestateTypeGroup={uiFilter.realestateTypeGroup}
-          value={uiFilter.buyOrRents}
-          onChange={handleUIChangeBuyOrRents}
-        />
-      )}
-
-      {isUIPriceFilterAdded && (
-        <PriceFilter
-          buyOrRents={uiFilter.buyOrRents}
-          priceRange={uiFilter.priceRange}
-          depositRange={uiFilter.depositRange}
-          rentRange={uiFilter.rentRange}
-          onChangePriceRange={handleUIChangePriceRange}
-          onChangeDepositRange={handleUIChangeDepositRange}
-          onChangeRentRange={handleUIChangeRentRange}
-        />
-      )}
-
-      {isUIHouseholdFilterAdded && (
-        <HouseholdFilter value={uiFilter.minHousehold} onChange={handleUIChangeMinHousehold} />
-      )}
-
-      {isUIEtcFilterAdded && (
-        <EtcFilter
-          quickSale={uiFilter.quickSale}
-          gapInvestment={uiFilter.gapInvestment}
-          onChangeQuickSale={handleUIChangeQuickSale}
-          onChangeGapInvestment={handleUIChangeGapInvestment}
-        />
-      )}
 
       {uiFilters.length > 0 && (
         <div tw="flex gap-2 fixed bottom-0 left-auto right-auto items-center justify-between py-4 px-5 w-full max-w-mobile bg-white z-50 shadow-persistentBottomBar">

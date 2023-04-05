@@ -39,6 +39,7 @@ function MapWrapper() {
     selectedSchoolID,
     priceType,
     streetViewEvent,
+
     ...props
   } = useMapLayout();
 

@@ -37,7 +37,7 @@ function FullScreenDialog({ body, onClose }: MobileFullScreenDialogProps) {
 
   return (
     <div tw="absolute w-[100vw] h-[100%] [z-index: 1300]">
-      <div tw="absolute w-[100vw] h-[100%] overflow-y-scroll overflow-x-hidden pointer-events-auto">
+      <div tw="absolute w-[100vw] h-[100%] overflow-y-auto overflow-x-hidden pointer-events-auto">
         <div tw="relative w-[100vw] h-[100%]">
           <div tw="pointer-events-auto w-[100vw]  overflow-x-hidden max-w-mobile min-h-[100%] my-0 mx-auto bg-white">
             {body && React.cloneElement(body, { onClose: handleClose })}
