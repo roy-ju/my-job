@@ -1,12 +1,21 @@
 import { Popup } from '@/components/molecules';
 import { loginWithKakao } from '@/lib/kakao';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
 const Page: NextPage = () => {
+  const router = useRouter();
+
   const handleLogin = useCallback(() => {
+    const loginType = router.query.type;
+    if (loginType === 'update') {
+      loginWithKakao('update');
+      return;
+    }
+
     loginWithKakao();
-  }, []);
+  }, [router]);
 
   const handleCancel = useCallback(() => {
     window.close();

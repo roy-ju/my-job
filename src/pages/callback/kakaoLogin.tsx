@@ -5,11 +5,12 @@ import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
 import login from '@/apis/user/login';
 import { SocialLoginType } from '@/constants/enums';
 import Keys from '@/constants/storage_keys';
+import updateEmail from '@/apis/user/updateEmail';
 
 const Page: NextPage = () => {
   const router = useRouter();
 
-  const handleKakaoLogin = useCallback(async (code: string) => {
+  const handleLogin = useCallback(async (code: string) => {
     const kakaoAccessTokenResponse = await getKakaoAccessToken({
       code,
       redirectUri: `${window.location.origin}${window.location.pathname}`,
@@ -34,19 +35,40 @@ const Page: NextPage = () => {
     if (loginResponse.access_token) {
       localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
       localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
-      window.opener?.Negocio.onLoginSuccess();
+      window.opener?.Negocio.callbacks?.loginSuccess?.();
       window.close();
     }
 
     return true;
   }, []);
 
-  useEffect(() => {
-    const { code } = router.query;
-    if (typeof code === 'string') {
-      handleKakaoLogin(code);
+  const handleEmailUpdate = useCallback(async (code: string) => {
+    const kakaoAccessTokenResponse = await getKakaoAccessToken({
+      code,
+      redirectUri: `${window.location.origin}${window.location.pathname}`,
+    });
+
+    if (!kakaoAccessTokenResponse) {
+      return false;
     }
-  }, [handleKakaoLogin, router]);
+
+    const updateEmailRes = await updateEmail(kakaoAccessTokenResponse.accessToken, SocialLoginType.Kakao);
+    window.opener?.Negocio?.callbacks?.updateToKakao?.(updateEmailRes);
+    window.close();
+
+    return true;
+  }, []);
+
+  useEffect(() => {
+    const { code, state: queryState } = router.query;
+    if (typeof code === 'string') {
+      if (queryState === 'update') {
+        handleEmailUpdate(code);
+      } else {
+        handleLogin(code);
+      }
+    }
+  }, [handleLogin, handleEmailUpdate, router]);
 
   return <div />;
 };
