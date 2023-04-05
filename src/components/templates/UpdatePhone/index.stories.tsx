@@ -1,5 +1,4 @@
 import { Panel } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import UpdatePhone from '.';
 
@@ -10,9 +9,12 @@ export default {
 
 export const Default: ComponentStory<typeof UpdatePhone> = (args) => (
   <Panel>
-    <NavigationHeader />
     <UpdatePhone {...args} />
   </Panel>
 );
 
-Default.args = {};
+Default.args = {
+  sent: false,
+  codeVerified: false,
+  codeErrorMessage: '',
+};

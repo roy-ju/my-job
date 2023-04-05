@@ -23,7 +23,6 @@ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const { config: originalRequest, response } = error;
-    console.log(response.status, originalRequest._retry);
     if (response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const item = localStorage.getItem(Keys.REFRESH_TOKEN);

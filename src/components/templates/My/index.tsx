@@ -1,6 +1,7 @@
+import React from 'react';
 import { NavigationHeader } from '@/components/molecules';
 import BellIcon from '@/assets/icons/bell.svg';
-import { LoginRequired, MyPageNavigationList, MySummary } from '@/components/organisms';
+import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 
@@ -13,7 +14,13 @@ interface Props {
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
   onClickNoticeList?: () => void;
-  onClickServiceContact?: () => void;
+  onClickQna?: () => void;
+  onClickMyRealPriceList?: () => void;
+  onClickTransactionHistory?: () => void;
+  onClickFAQ?: () => void;
+  onClickNegoPoint?: () => void;
+  onClickCoupons?: () => void;
+  onClickServiceInfo?: () => void;
 }
 
 export default function My({
@@ -25,7 +32,13 @@ export default function My({
   onClickNotificationList,
   onClickMyDetail,
   onClickNoticeList,
-  onClickServiceContact,
+  onClickQna,
+  onClickMyRealPriceList,
+  onClickTransactionHistory,
+  onClickFAQ,
+  onClickCoupons,
+  onClickNegoPoint,
+  onClickServiceInfo,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -44,14 +57,24 @@ export default function My({
           </NavigationHeader.Button>
         )}
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-auto">
+      <div tw="flex-1 min-h-0 overflow-auto pb-10">
         {isLoading && (
           <div tw="h-40 flex items-center justify-center">
             <Loading />
           </div>
         )}
         {!isLoading && loggedIn && (
-          <MySummary profileImagePath={defaultAvatar} nickname={nickname} onClickMyDetail={onClickMyDetail} />
+          <>
+            <MySummary
+              profileImagePath={defaultAvatar}
+              nickname={nickname}
+              onClickMyDetail={onClickMyDetail}
+              onClickCoupons={onClickCoupons}
+              onClickNegoPoint={onClickNegoPoint}
+            />
+            <Separator />
+            <MyListingsSummary />
+          </>
         )}
         {!isLoading && !loggedIn && (
           <div tw="mt-5 mb-14">
@@ -61,11 +84,17 @@ export default function My({
         <Separator />
         <div tw="pt-5">
           <MyPageNavigationList>
+            {loggedIn && (
+              <>
+                <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />
+                <MyPageNavigationList.Item title="거래참여 이력" onClick={onClickTransactionHistory} />
+              </>
+            )}
             <MyPageNavigationList.Item title="네고시오 소개" />
             <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
-            <MyPageNavigationList.Item title="자주 묻는 질문" />
-            <MyPageNavigationList.Item title="서비스 문의" onClick={onClickServiceContact} />
-            <MyPageNavigationList.Item title="서비스 정보" />
+            <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
+            <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />
+            <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
           </MyPageNavigationList>
         </div>
       </div>

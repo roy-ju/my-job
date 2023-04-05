@@ -240,7 +240,7 @@ export default function useMapLayout() {
       if (res && mapBounds.mapLevel !== 1) {
         let regions = (res as MapSearchResponse).results;
         if (variant === 'nego') {
-          regions = regions.filter((region) => region.listing_count !== 0);
+          regions = regions?.filter((region) => region.listing_count !== 0);
         }
 
         setMarkers(
@@ -601,31 +601,6 @@ export default function useMapLayout() {
       setPriceType('buy');
     }
   }, [filter.buyOrRents]);
-
-  // useEffect(() => {
-  //   if (lastSearchItem !== null && markers.length > 0) {
-  //     const searchedMarker = markers.find(
-  //       (marker) =>
-  //         marker.jibunAddress === lastSearchItem.addressName ||
-  //         marker.roadNameAddress === lastSearchItem.roadAddressName,
-  //     );
-  //     if (searchedMarker && searchedMarker.pnu) {
-  //       getDanjiSummary({
-  //         pnu: searchedMarker.pnu,
-  //         buyOrRent: mapFilter.buyOrRents,
-  //         danjiRealestateType: item.danji_realestate_type,
-  //       }).then((summary) => {
-  //         setSelectedDanjiSummary({
-  //           id: `${item.pnu}${item.danji_realestate_type}`,
-  //           name: summary?.string ?? '',
-  //           householdCount: summary?.saedae_count ?? 0,
-  //           buyListingCount: summary?.buy_listing_count ?? 0,
-  //           rentListingCount: summary?.rent_listing_count ?? 0,
-  //         });
-  //       });
-  //     }
-  //   }
-  // }, [lastSearchItem, markers]);
 
   // Map Control Handlers
 

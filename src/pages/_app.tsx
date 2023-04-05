@@ -10,10 +10,11 @@ import SWRConfig from '@/lib/swr';
 import Script from 'next/script';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import { useAuth } from '@/hooks/services';
-import { Toast } from '@/components/atoms';
 import 'react-toastify/dist/ReactToastify.css';
 import OverlayContainer from '@/components/molecules/FullScreenDialog';
 import { updateVH } from '@/utils/updateVH';
+import ToastContainer from '@/lib/toastify';
+import { usePlatform } from '@/hooks/utils';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -47,6 +48,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const getComponent = Component.getComponent ?? ((p) => <Component {...p} />);
 
+  const platform = usePlatform();
+
   return (
     <>
       <Script
@@ -61,7 +64,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <SWRConfig>
             <OverlayContainer />
             <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
-            <Toast autoClose={2000} position="top-center" closeButton={false} hideProgressBar newestOnTop limit={1} />
+            <ToastContainer platform={platform} />
           </SWRConfig>
         </RecoilRoot>
       </CacheProvider>

@@ -4,7 +4,7 @@ import BuyorRentFilter from './BuyOrRentFilter';
 import EtcFilter from './EtcFilter';
 import HouseholdFilter from './HouseholdFilter';
 import PriceFilter from './PriceFilter';
-import RealestateTypeFilter from './RealestateTypeFilter';
+import RealestateTypeRoomCountFilter from './RealestateTypeRoomCountFilter';
 
 export default {
   title: 'organisms/MapFilter',
@@ -19,13 +19,13 @@ ControlledWithArgs.args = {
   filter: getDefaultFilterAptOftl(),
 };
 
-export const FilterList: ComponentStory<typeof RealestateTypeFilter> = () => (
+export const FilterList: ComponentStory<typeof RealestateTypeRoomCountFilter> = () => (
   <div tw="flex flex-col gap-2 pb-10">
     <div tw="px-4 bg-white">
-      <RealestateTypeFilter realestateTypeGroup="apt,oftl" />
+      <RealestateTypeRoomCountFilter realestateTypeGroup="apt,oftl" />
     </div>
     <div tw="px-4 bg-white">
-      <RealestateTypeFilter realestateTypeGroup="villa,dandok" />
+      <RealestateTypeRoomCountFilter realestateTypeGroup="villa,dandok" />
     </div>
     <div tw="px-4 bg-white">
       <BuyorRentFilter realestateTypeGroup="villa,dandok" />

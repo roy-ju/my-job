@@ -31,10 +31,10 @@ const optionsList = {
   'one,two': [
     {
       label: '전체',
-      value: [RealestateType.OneRoom, RealestateType.TwoRoom].join(','),
+      value: [RealestateType.Apartment, RealestateType.Officetel].join(','),
     },
-    { label: '원룸', value: [RealestateType.OneRoom].join(',') },
-    { label: '투룸', value: [RealestateType.TwoRoom].join(',') },
+    { label: '아파트', value: [RealestateType.Apartment].join(',') },
+    { label: '오피스텔', value: [RealestateType.Officetel].join(',') },
   ],
 };
 

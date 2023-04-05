@@ -4,7 +4,11 @@ import { useCallback, useMemo } from 'react';
 import { mutate } from 'swr';
 
 export default function useAuth() {
-  const { data, isLoading } = useAPI_GetUserInfo({ revalidateIfStale: false, revalidateOnFocus: false });
+  const {
+    data,
+    isLoading,
+    mutate: mutateUserInfo,
+  } = useAPI_GetUserInfo({ revalidateIfStale: false, revalidateOnFocus: false });
 
   const user = useMemo(
     () =>
@@ -25,9 +29,16 @@ export default function useAuth() {
     [data],
   );
 
-  const mutateUser = useCallback(() => {
-    mutate(() => true, undefined);
-  }, []);
+  const mutateUser = useCallback(
+    (clearCache = true) => {
+      if (clearCache) {
+        mutate(() => true, undefined);
+      } else {
+        mutateUserInfo();
+      }
+    },
+    [mutateUserInfo],
+  );
 
   const logout = useCallback(() => {
     localStorage.removeItem(Keys.ACCESS_TOKEN);

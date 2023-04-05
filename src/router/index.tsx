@@ -19,6 +19,10 @@ const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/pc/MyA
   loading: () => <Panel />,
 });
 const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: () => <Panel /> });
+const MyRealPriceList = dynamic(() => import('@/components/pages/pc/MyRealPriceList'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
   loading: () => <Panel />,
@@ -32,7 +36,11 @@ const NoticeDetail = dynamic(() => import('@/components/pages/pc/NoticeDetail'),
   ssr: false,
   loading: () => <Panel />,
 });
-const ServiceContact = dynamic(() => import('@/components/pages/pc/ServiceContact'), {
+const Qna = dynamic(() => import('@/components/pages/pc/Qna'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   ssr: false,
   loading: () => <Panel />,
 });
@@ -52,6 +60,32 @@ const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/Deregis
   ssr: false,
   loading: () => <Panel />,
 });
+const TransactionHistory = dynamic(() => import('@/components/pages/pc/TransactionHistory'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const FAQ = dynamic(() => import('@/components/pages/pc/FAQ'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const Register = dynamic(() => import('@/components/pages/pc/Register'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+
+const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -88,6 +122,10 @@ export default function Router({ route, query, depth }: Props) {
       return <MyAddressDetailVerifying {...props} />;
     }
 
+    case Routes.MyRealPriceList: {
+      return <MyRealPriceList {...props} />;
+    }
+
     case Routes.NotificationList: {
       return <NotificationList {...props} />;
     }
@@ -104,8 +142,27 @@ export default function Router({ route, query, depth }: Props) {
       return <NoticeDetail {...props} />;
     }
 
-    case Routes.ServiceContact: {
-      return <ServiceContact {...props} />;
+    case Routes.TransactionHistory: {
+      return <TransactionHistory {...props} />;
+    }
+    case Routes.NegoPoint: {
+      return <NegoPoint {...props} />;
+    }
+
+    case Routes.Qna: {
+      return <Qna {...props} />;
+    }
+
+    case Routes.FAQ: {
+      return <FAQ {...props} />;
+    }
+
+    case Routes.MyCoupon: {
+      return <MyCoupon {...props} />;
+    }
+
+    case Routes.ServiceInfo: {
+      return <ServiceInfo {...props} />;
     }
 
     case Routes.Deregister: {
@@ -138,6 +195,18 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.DanjiDetail: {
       return <DanjiDetail {...props} />;
+    }
+
+    case Routes.UpdatePhone: {
+      return <UpdatePhone {...props} />;
+    }
+
+    case Routes.BusinessInfo: {
+      return <BusinessInfo {...props} />;
+    }
+
+    case Routes.Register: {
+      return <Register {...props} />;
     }
 
     case Routes.Developer: {
