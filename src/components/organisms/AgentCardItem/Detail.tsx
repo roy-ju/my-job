@@ -11,24 +11,21 @@ export default function AgentCardItemDetail({
   registrationNumber,
   description,
 }: DetailProps) {
+  const fields = [
+    { label: '전화번호', value: cellPhone },
+    { label: '주소', value: fullJibunAddress },
+    { label: '등록번호', value: registrationNumber },
+    { label: '한줄소개', value: description },
+  ];
+
   return (
-    <div tw="mt-4 flex flex-col gap-2">
-      <div tw="flex">
-        <span tw="text-mobCaption text-gray-700 mr-1 min-w-[3.25rem]">전화번호</span>
-        <span tw="text-mobCaption ">{cellPhone}</span>
-      </div>
-      <div tw="flex">
-        <span tw="text-mobCaption text-gray-700 mr-1 min-w-[3.25rem]">주소</span>
-        <span tw="text-mobCaption ">{fullJibunAddress}</span>
-      </div>
-      <div tw="flex">
-        <span tw="text-mobCaption text-gray-700 mr-1 min-w-[3.25rem]">등록번호</span>
-        <span tw="text-mobCaption ">{registrationNumber}</span>
-      </div>
-      <div tw="flex">
-        <span tw="text-mobCaption text-gray-700 mr-1 min-w-[3.25rem]">한줄소개</span>
-        <span tw="text-mobCaption  break-all">{description}</span>
-      </div>
+    <div className="mt-4 flex flex-col gap-2">
+      {fields.map(({ label, value }) => (
+        <div key={label} className="flex">
+          <div className="mr-1 min-w-[3.25rem] text-mobCaption text-gray-700">{label}</div>
+          <div className="break-all text-mobCaption">{value}</div>
+        </div>
+      ))}
     </div>
   );
 }
