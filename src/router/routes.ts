@@ -34,6 +34,7 @@ const Routes = {
   RegisterSuccess: 'registerSuccess',
   VerifyCi: 'verifyCi',
   VerifyCiSuccess: 'verifyCiSuccess',
+  FindAccount: 'findAccount',
 };
 
 export default Routes;
