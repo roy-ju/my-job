@@ -6,6 +6,7 @@ import { BuyOrRent, RealestateType } from '@/constants/enums';
 import Close from '@/assets/icons/close_24.svg';
 import { toast } from 'react-toastify';
 import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import _ from 'lodash';
 import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from '../MobMapFilter/types';
 import BuyorRentFilter from '../MobMapFilter/BuyOrRentFilter';
 import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '../MobMapFilter/PriceFilter';
@@ -197,13 +198,12 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
     } else if (uiFilter.realestateTypeGroup === 'one,two') {
       defaultFilter = getDefaultFilterOneRoomTwoRoom();
     }
+
     if (defaultFilter !== null) {
       setUIFilterState(defaultFilter);
       handleUIChangeFilter?.(defaultFilter);
     }
-
-    toast.success('필터를 초기화 했습니다.', { toastId: 'negocio-initialize-filter' });
-  }, [uiFilter.realestateTypeGroup, setUIFilterState, handleUIChangeFilter]);
+  }, [uiFilter, handleUIChangeFilter]);
 
   const handleUIChangeRealestateTypes = useCallback(
     (newRealestateTypes: string) => {
