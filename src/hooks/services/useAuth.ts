@@ -32,10 +32,9 @@ export default function useAuth() {
   const mutateUser = useCallback(
     (clearCache = true) => {
       if (clearCache) {
-        mutate(() => true, undefined);
-      } else {
-        mutateUserInfo();
+        return mutate(() => true, undefined);
       }
+      return mutateUserInfo();
     },
     [mutateUserInfo],
   );
