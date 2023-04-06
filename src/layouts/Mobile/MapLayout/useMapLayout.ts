@@ -15,7 +15,7 @@ import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { mobileMapState } from '@/states/mob/mobileMap';
 
-const USER_LAST_LOCATION = 'user_last_location';
+const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
 const DEFAULT_LNG = 127.1109415;
 const DEFAULT_ZOOM = 14; // 500m
@@ -231,14 +231,14 @@ export default function useMapLayout() {
         buyPrice: summary?.buy_price ?? 0,
         rentPrice: summary?.rent_price ?? 0,
         latestDealDate: summary?.latest_deal_date,
-        pnu:summary?.pnu,
+        pnu: summary?.pnu,
         saedaeCount: summary?.saedae_count ?? 0,
         string: summary?.string,
-        useAcceptedYear: summary?.use_accepted_year
+        useAcceptedYear: summary?.use_accepted_year,
       });
     }
-  }, [])
-    
+  }, []);
+
   /**
    * 지도위의 마커를 그린다.
    */
@@ -258,6 +258,8 @@ export default function useMapLayout() {
 
       if (res && mapBounds.mapLevel !== 1) {
         let regions = (res as MapSearchResponse).results;
+        console.log(variant);
+
         if (variant === 'nego') {
           regions = regions?.filter((region) => region.listing_count !== 0);
         }
@@ -287,6 +289,7 @@ export default function useMapLayout() {
         );
       } else if (res && mapBounds.mapLevel === 1) {
         let danjis = (res as MapSearchLevelOneResponse).danji_list;
+
         if (variant === 'nego') {
           danjis = danjis?.filter((danji) => danji.listing_count !== 0);
         }
@@ -532,6 +535,7 @@ export default function useMapLayout() {
    */
   useEffect(() => {
     const mapElement = document.getElementById('map-container');
+
     const resizeObserver = new ResizeObserver(() => {
       if (typeof window !== 'undefined') {
         window.NaverMap?.autoResize();
@@ -540,6 +544,7 @@ export default function useMapLayout() {
 
     if (mapElement) {
       resizeObserver.observe(mapElement);
+
       return () => {
         resizeObserver.unobserve(mapElement);
       };

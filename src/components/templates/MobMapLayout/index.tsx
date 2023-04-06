@@ -69,7 +69,7 @@ function MobLayoutMapContainer({
   return (
     <>
       <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
-      <div id="map-container" tw="relative flex-1">
+      <div id="map-container" tw="relative flex-1 min-h-0 h-[calc(100vh - 5.25rem - 7rem)] mb-[5.25rem]">
         {filter?.realestateTypeGroup === 'apt,oftl' && (
           <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
             <div tw="w-fit pointer-events-auto">

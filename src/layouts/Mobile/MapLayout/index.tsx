@@ -63,7 +63,7 @@ function MapWrapper() {
 
   useEffect(() => {
     if (isRenderGuideOverlay) {
-      const timeout = setTimeout(() => setIsRenderGuideOverlay(false), 1000000);
+      const timeout = setTimeout(() => setIsRenderGuideOverlay(false), 5000);
       return () => clearTimeout(timeout);
     }
   }, [isRenderGuideOverlay]);
