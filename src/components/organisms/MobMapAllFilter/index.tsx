@@ -200,13 +200,10 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
     }
 
     if (defaultFilter !== null) {
-      if (!_.isEqual(uiFilter, filterProp)) {
-        setUIFilterState(defaultFilter);
-        handleUIChangeFilter?.(defaultFilter);
-        toast.success('필터를 초기화 했습니다.', { toastId: 'negocio-initialize-filter' });
-      }
+      setUIFilterState(defaultFilter);
+      handleUIChangeFilter?.(defaultFilter);
     }
-  }, [uiFilter, filterProp, handleUIChangeFilter]);
+  }, [uiFilter, handleUIChangeFilter]);
 
   const handleUIChangeRealestateTypes = useCallback(
     (newRealestateTypes: string) => {
