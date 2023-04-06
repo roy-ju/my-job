@@ -11,11 +11,12 @@ export async function updateCi(req: {
   tokenVersionId: string;
   type: number;
 }): Promise<UpdateCIResponse | null> {
-  return axios.post('/user/update/ci', {
+  const { data } = await axios.post('/user/update/ci', {
     enc_data: req.encData,
     integrity_value: req.integrityValue,
     kie: req.kie,
     token_version_id: req.tokenVersionId,
     type: req.type,
   });
+  return data;
 }
