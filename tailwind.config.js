@@ -82,6 +82,7 @@ module.exports = {
           800: '#495057',
           900: '#343A40',
           1000: '#212529',
+          1100: '#E6E8ED',
         },
         nego: {
           DEFAULT: '#7048E8',
@@ -98,6 +99,7 @@ module.exports = {
           1000: '#5F3DC4',
           1100: '#5F52F6',
           1200: '#9368EF',
+          1300: '#EDEAFF',
         },
         blue: {
           DEFAULT: '#4C6EF5',

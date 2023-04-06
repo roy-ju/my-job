@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import getDanjiSummary from '@/apis/map/mapDanjiSummary';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
@@ -15,6 +16,7 @@ import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import getListingSummary from '@/apis/map/mapListingSummary';
+
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -392,7 +394,7 @@ export default function useMapLayout() {
         id: item.school_id,
         lat: item.lat,
         lng: item.long,
-        name: item.school_name.replace('등학교', ''),
+        name: schoolType==="2"? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
         type: st,
         onClick: async () => {
           const hakgudoRes = await getHakgudo(item.school_id);

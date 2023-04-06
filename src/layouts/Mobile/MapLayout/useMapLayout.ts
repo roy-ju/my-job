@@ -13,9 +13,10 @@ import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState }
 import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { mobileMapState } from '@/states/mobileMap';
+import { mobileMapState } from '@/states/mob/mobileMap';
+import getListingSummary from '@/apis/map/mapListingSummary';
 
-const USER_LAST_LOCATION = 'user_last_location';
+const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
 const DEFAULT_LNG = 127.1109415;
 const DEFAULT_ZOOM = 14; // 500m
@@ -28,6 +29,29 @@ export interface DanjiSummary {
   householdCount: number;
   buyListingCount: number;
   rentListingCount: number;
+  realestateType: number;
+  buyPrice: number;
+  latestDealDate?: string;
+  pnu?: string;
+  rentPrice: number;
+  saedaeCount: number;
+  string?: string;
+  useAcceptedYear?: string;
+}
+
+export interface ListingSummary {
+  biddingMonthlyRentFee: number;
+  biddingTradeOrDepositPrice: number;
+  buyOrRent: number;
+  gonggeupArea: string;
+  jeonyoungArea: string;
+  listingId: number;
+  listingTitle: string;
+  monthlyRentFee: number;
+  negotiationOrAuction: number;
+  negotiationTarget: number;
+  realestateType: number;
+  tradeOrDepositPrice: number;
 }
 
 export interface CommonMapMarker {
@@ -143,6 +167,8 @@ export default function useMapLayout() {
 
   const [selectedDanjiSummary, setSelectedDanjiSummary] = useState<DanjiSummary | null>(null);
 
+  const [selctedListingSummary, setSelectedListingSummary] = useState<ListingSummary | null>(null);
+
   const lastSearchItem = useRef<KakaoAddressAutocompleteResponseItem | null>(null);
 
   const [selectedSchoolID, setSelectedSchoolID] = useState('');
@@ -153,6 +179,10 @@ export default function useMapLayout() {
   } | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
+
+  const [code, setCode] = useState<string>();
+
+  const [currentLocation, setCurrentLocation] = useState<{ lat?: number; lng?: number }>();
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
@@ -172,9 +202,11 @@ export default function useMapLayout() {
   const handleCenterAddressChange = useCallback(async (_map: NaverMap) => {
     const center = _map.getCenter() as NaverLatLng;
     const response = await coordToRegion(center.x, center.y);
+
     if (response && response.documents?.length > 0) {
       const region = response.documents.filter((item) => item.region_type === 'B')[0];
       if (region) {
+        setCode(region.code);
         setCenterAddress([region.region_1depth_name, region.region_2depth_name, region.region_3depth_name]);
       }
     }
@@ -198,24 +230,59 @@ export default function useMapLayout() {
   );
 
   /**
-   * 단지를 선택한다. (선택이란, 단지마커 애니메이션을 활성화하고 마커위에 단지요약정보를 보여준다.)
+   * 단지/매물을 선택한다. (선택이란, 단지마커 애니메이션을 활성화하고 마커위에 단지요약정보를 보여준다.)
    */
-  const selectDanji = useCallback(async (pnu: string, realestateType: number) => {
-    const summary = await getDanjiSummary({
-      pnu,
-      buyOrRent: '1,2,3',
-      danjiRealestateType: realestateType,
-    });
-    if (summary) {
-      setSelectedDanjiSummary({
-        id: `${pnu}${realestateType}`,
-        name: summary?.string ?? '',
-        householdCount: summary?.saedae_count ?? 0,
-        buyListingCount: summary?.buy_listing_count ?? 0,
-        rentListingCount: summary?.rent_listing_count ?? 0,
-      });
-    }
-  }, []);
+
+  const selectMarker = useCallback(
+    async ({ pnu, realestateType, listingIds }: { pnu?: string; realestateType?: number; listingIds?: string }) => {
+      if (listingIds) {
+        const listingId = listingIds.split(',')[0];
+        if (listingId) {
+          const summary = await getListingSummary({ listingId: Number(listingId) });
+          if (summary) {
+            setSelectedListingSummary({
+              biddingMonthlyRentFee: summary.bidding_monthly_rent_fee,
+              biddingTradeOrDepositPrice: summary.bidding_trade_or_deposit_price,
+              buyOrRent: summary.buy_or_rent,
+              gonggeupArea: summary.gonggeup_area,
+              jeonyoungArea: summary.jeonyoung_area,
+              listingId: summary.listing_id,
+              listingTitle: summary.listing_title,
+              monthlyRentFee: summary.monthly_rent_fee,
+              negotiationOrAuction: summary.negotiation_or_auction,
+              negotiationTarget: summary.negotiation_target,
+              realestateType: summary.realestate_type,
+              tradeOrDepositPrice: summary.trade_or_deposit_price,
+            });
+          }
+        }
+      } else if (pnu && realestateType) {
+        const summary = await getDanjiSummary({
+          pnu,
+          buyOrRent: '1,2,3',
+          danjiRealestateType: realestateType,
+        });
+        if (summary) {
+          setSelectedDanjiSummary({
+            id: `${pnu}${realestateType}`,
+            name: summary?.string ?? '',
+            householdCount: summary?.saedae_count ?? 0,
+            buyListingCount: summary?.buy_listing_count ?? 0,
+            rentListingCount: summary?.rent_listing_count ?? 0,
+            realestateType: summary?.realestate_type ?? 0,
+            buyPrice: summary?.buy_price ?? 0,
+            rentPrice: summary?.rent_price ?? 0,
+            latestDealDate: summary?.latest_deal_date,
+            pnu: summary?.pnu,
+            saedaeCount: summary?.saedae_count ?? 0,
+            string: summary?.string,
+            useAcceptedYear: summary?.use_accepted_year,
+          });
+        }
+      }
+    },
+    [],
+  );
 
   /**
    * 지도위의 마커를 그린다.
@@ -264,6 +331,33 @@ export default function useMapLayout() {
           })) ?? [],
         );
       } else if (res && mapBounds.mapLevel === 1) {
+        const listings = (res as MapSearchLevelOneResponse).listing_list ?? [];
+        const listingMap: {
+          [key: string]: CommonMapMarker;
+        } = {};
+
+        listings?.map((item) => {
+          listingMap[`${item.listing_ids}`] = {
+            id: item.listing_ids,
+            variant,
+            listingCount: item.listing_count,
+            lat: item.lat,
+            lng: item.long,
+            price: item.trade_price || item.deposit || 0,
+            onClick: () => {
+              setPolygons([]);
+              setSelectedSchoolID('');
+              _map?.morph({
+                lat: item.lat,
+                lng: item.long,
+              });
+              selectMarker({
+                listingIds: item.listing_ids,
+              });
+            },
+          };
+        });
+
         let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
         if (variant === 'nego') {
           danjis = danjis?.filter((danji) => danji.listing_count !== 0);
@@ -293,7 +387,10 @@ export default function useMapLayout() {
                 lat: item.lat,
                 lng: item.long,
               });
-              selectDanji(item.pnu, item.danji_realestate_type);
+              selectMarker({
+                pnu: item.pnu,
+                realestateType: item.danji_realestate_type,
+              });
             },
           };
         });
@@ -310,15 +407,22 @@ export default function useMapLayout() {
               lat: searchedDanji.lat,
               lng: searchedDanji.long,
             });
-            selectDanji(searchedDanji.pnu, searchedDanji.danji_realestate_type);
+            selectMarker({
+              pnu: searchedDanji.pnu,
+              realestateType: searchedDanji.danji_realestate_type,
+            });
           }
           lastSearchItem.current = null;
         }
 
-        setMarkers(Object.values(danjiMap));
+        if (listings.length > 0) {
+          setMarkers(Object.values(listingMap));
+        } else {
+          setMarkers(Object.values(danjiMap));
+        }
       }
     },
-    [selectDanji, lastSearchItem],
+    [selectMarker, lastSearchItem],
   );
 
   /**
@@ -446,6 +550,7 @@ export default function useMapLayout() {
     async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
       setSelectedSchoolID('');
       setSelectedDanjiSummary(null);
+      setSelectedListingSummary(null);
       setPolygons([]);
 
       if (mapLayer === 'street') {
@@ -510,6 +615,7 @@ export default function useMapLayout() {
    */
   useEffect(() => {
     const mapElement = document.getElementById('map-container');
+
     const resizeObserver = new ResizeObserver(() => {
       if (typeof window !== 'undefined') {
         window.NaverMap?.autoResize();
@@ -518,10 +624,12 @@ export default function useMapLayout() {
 
     if (mapElement) {
       resizeObserver.observe(mapElement);
+
       return () => {
         resizeObserver.unobserve(mapElement);
       };
     }
+
     return () => {};
   }, []);
 
@@ -632,6 +740,7 @@ export default function useMapLayout() {
       // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
       const latlng = { lat: coords.latitude, lng: coords.longitude };
       localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+      setCurrentLocation({ lat: coords.latitude, lng: coords.longitude });
       map?.morph(latlng, DEFAULT_ZOOM);
     });
   }, [map]);
@@ -702,6 +811,8 @@ export default function useMapLayout() {
 
   const handleChangeFilter = useCallback(
     (value: Partial<Filter>) => {
+      setSelectedDanjiSummary(null);
+      setSelectedListingSummary(null);
       setFilter((prev) => {
         const old = prev === null ? getDefaultFilterAptOftl() : prev;
         return {
@@ -720,6 +831,7 @@ export default function useMapLayout() {
     zoom: initialZoom,
     center: initialCenter,
     centerAddress,
+    code,
     onInit,
     onCreate,
     onClick: onMapClick,
@@ -728,6 +840,7 @@ export default function useMapLayout() {
     // ones with business logics
     streetViewEvent,
     selectedDanjiSummary,
+    selctedListingSummary,
     filter,
     listingCount,
     markers,
@@ -739,6 +852,7 @@ export default function useMapLayout() {
     schoolType,
     mapToggleValue,
     selectedSchoolID,
+    currentLocation,
     morphToCurrentLocation,
     zoomIn,
     zoomOut,
