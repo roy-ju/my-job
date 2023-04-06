@@ -4,13 +4,16 @@ import tw, { styled } from 'twin.macro';
 import { useControlled } from '@/hooks/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
+import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 import FilterTypes from './FilterTypes';
 import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from './types';
-import RealestateTypeFilter from './RealestateTypeFilter';
 import BuyorRentFilter from './BuyOrRentFilter';
 import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from './PriceFilter';
 import HouseholdFilter from './HouseholdFilter';
 import EtcFilter from './EtcFilter';
+import FilterTypesMedium from './FilterTypesMedium';
+import RealestateTypeRoomCountFilter from './RealestateTypeRoomCountFilter';
+import MobAllMapFilter from '../MobMapAllFilter';
 
 export function getDefaultFilterAptOftl(): Filter {
   return {
@@ -23,6 +26,7 @@ export function getDefaultFilterAptOftl(): Filter {
     minHousehold: '100',
     gapInvestment: false,
     quickSale: false,
+    roomCounts: '',
   };
 }
 
@@ -42,6 +46,7 @@ export function getDefaultFilterVillaDandok(): Filter {
     minHousehold: '0',
     gapInvestment: false,
     quickSale: false,
+    roomCounts: '',
   };
 }
 
@@ -56,6 +61,7 @@ export function getDefaultFilterOneRoomTwoRoom(): Filter {
     minHousehold: '0',
     gapInvestment: false,
     quickSale: false,
+    roomCounts: '1,2',
   };
 }
 
@@ -65,16 +71,6 @@ function useFilterType(filterType: FilterType, filters: FilterType[], filterType
     [filters, filterType, filterTypes],
   );
 }
-
-const FiltersContainer = styled.div`
-  & > div {
-    ${tw`mx-4`}
-  }
-
-  & > div:not(:last-of-type) {
-    ${tw`border-b border-gray-300`}
-  }
-`;
 
 const RealestateTypeGroupTabButton = styled(({ size = 'bigger', variant = 'ghost', ...props }: ButtonProps) => (
   <Button size={size} variant={variant} {...props} />
@@ -95,7 +91,18 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   });
 
   // 필터 종류 열림/닫힘
+  const [isFirstFilterTypesExpanded, setIsFirstFilterTypesExpanded] = useState(false);
+  const [isFirstFilterTypesExpandedTwo, setIsFirstFilterTypesExpandedTwo] = useState(false);
+  const [isFirstFilterTypesExpandedThree, setIsFirstFilterTypesExpandedThree] = useState(false);
+
+  const [isSecondFilterTypesExpandedOne, setIsSecondFilterTypesExpandedOne] = useState(false);
+  const [isSecondFilterTypesExpandedTwo, setIsSecondFilterTypesExpandedTwo] = useState(false);
+  const [isSecondFilterTypesExpandedThree, setIsSecondFilterTypesExpandedThree] = useState(false);
+  const [isSecondFilterTypesExpandedFour, setIsSecondFilterTypesExpandedFour] = useState(false);
+  const [isSecondFilterTypesExpandedFive, setIsSecondFilterTypesExpandedFive] = useState(false);
   const [isFilterTypesExpanded, setIsFilterTypeExapnded] = useState(false);
+
+  const { addFullScreenDialog } = useFullScreenDialogStore();
 
   // 선택가능한 필터 종류들
   const [filterTypes, setFilterTypes] = useState<FilterType[]>([
@@ -110,7 +117,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   const [filters, setFilters] = useState<FilterType[]>([]);
 
   // 유형 필터 열림/닫힘
-  const isRealestateTypeFilterAdded = useFilterType('realestateType', filters, filterTypes);
+  const isRealestateTypeRoomCountFilterAdded = useFilterType('realestateType', filters, filterTypes);
 
   // 거래 종류 필터 열림/닫힘
   const isBuyOrRentFilterAdded = useFilterType('buyOrRent', filters, filterTypes);
@@ -130,28 +137,57 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
       switch (value) {
         case 'apt,oftl':
           setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
-          setFilters([]);
+
+          // setFilters([]);
           setFilterState(getDefaultFilterAptOftl());
           onChangeFilter?.(getDefaultFilterAptOftl());
+
           break;
         case 'villa,dandok':
           setFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
-          setFilters([]);
+          // setFilters([]);
           setFilterState(getDefaultFilterVillaDandok());
           onChangeFilter?.(getDefaultFilterVillaDandok());
+
           break;
         case 'one,two':
           setFilterTypes(['realestateType', 'buyOrRent', 'price']);
-          setFilters([]);
+          // setFilters([]);
           setFilterState(getDefaultFilterOneRoomTwoRoom());
           onChangeFilter?.(getDefaultFilterOneRoomTwoRoom());
+
           break;
         default:
           break;
       }
+
       setIsFilterTypeExapnded(false);
+
+      if (isSecondFilterTypesExpandedOne) {
+        setIsSecondFilterTypesExpandedOne(false);
+      }
+      if (isSecondFilterTypesExpandedTwo) {
+        setIsSecondFilterTypesExpandedTwo(false);
+      }
+      if (isSecondFilterTypesExpandedThree) {
+        setIsSecondFilterTypesExpandedThree(false);
+      }
+      if (isSecondFilterTypesExpandedFour) {
+        setIsSecondFilterTypesExpandedFour(false);
+      }
+      if (isSecondFilterTypesExpandedFive) {
+        setIsSecondFilterTypesExpandedFive(false);
+      }
     },
-    [setFilterState, onChangeFilter],
+    [
+      isSecondFilterTypesExpandedFive,
+      isSecondFilterTypesExpandedFour,
+      isSecondFilterTypesExpandedOne,
+      isSecondFilterTypesExpandedThree,
+      isSecondFilterTypesExpandedTwo,
+      onChangeFilter,
+      setFilterState,
+    ],
   );
 
   // 필터 종류 열림/닫힘 Toggle Event Handler
@@ -159,11 +195,73 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
     setIsFilterTypeExapnded((prev) => !prev);
   }, []);
 
+  // 전체 필터 열기
+  const handleOpenAllFilterExpanded = useCallback(() => {
+    addFullScreenDialog({
+      body: <MobAllMapFilter filter={filter} onChangeFilter={onChangeFilter} />,
+    });
+  }, [addFullScreenDialog, filter, onChangeFilter]);
+
+  // 열려 있는 모든 필터 닫기 버튼 Click Event Handler
+  const handleCloseFilters = useCallback(() => {
+    setIsSecondFilterTypesExpandedFive(false);
+    setIsSecondFilterTypesExpandedFour(false);
+    setIsSecondFilterTypesExpandedThree(false);
+    setIsSecondFilterTypesExpandedTwo(false);
+    setIsSecondFilterTypesExpandedOne(false);
+  }, []);
+
   // 필터 종류 Click Event Handler
   const handleClickFilterType = useCallback(
     (filterType: FilterType) => {
+      if (filterType === 'realestateType') {
+        setIsSecondFilterTypesExpandedOne((prev) => !prev);
+        setIsSecondFilterTypesExpandedTwo(false);
+        setIsSecondFilterTypesExpandedThree(false);
+        setIsSecondFilterTypesExpandedFour(false);
+        setIsSecondFilterTypesExpandedFive(false);
+      }
+
+      if (filterType === 'buyOrRent') {
+        setIsSecondFilterTypesExpandedTwo((prev) => !prev);
+
+        setIsSecondFilterTypesExpandedOne(false);
+        setIsSecondFilterTypesExpandedThree(false);
+        setIsSecondFilterTypesExpandedFour(false);
+        setIsSecondFilterTypesExpandedFive(false);
+      }
+
+      if (filterType === 'price') {
+        setIsSecondFilterTypesExpandedThree((prev) => !prev);
+
+        setIsSecondFilterTypesExpandedOne(false);
+        setIsSecondFilterTypesExpandedTwo(false);
+        setIsSecondFilterTypesExpandedFour(false);
+        setIsSecondFilterTypesExpandedFive(false);
+      }
+
+      if (filterType === 'household') {
+        setIsSecondFilterTypesExpandedFour((prev) => !prev);
+
+        setIsSecondFilterTypesExpandedOne(false);
+        setIsSecondFilterTypesExpandedTwo(false);
+        setIsSecondFilterTypesExpandedThree(false);
+        setIsSecondFilterTypesExpandedFive(false);
+      }
+
+      if (filterType === 'etc') {
+        setIsSecondFilterTypesExpandedFive((prev) => !prev);
+
+        setIsSecondFilterTypesExpandedOne(false);
+        setIsSecondFilterTypesExpandedTwo(false);
+        setIsSecondFilterTypesExpandedThree(false);
+        setIsSecondFilterTypesExpandedFour(false);
+      }
+
       if (filterType === 'all') {
         setFilters([...filterTypes]);
+
+        handleOpenAllFilterExpanded();
       } else {
         setFilters((prev) => {
           if (prev.length > 1 || prev[0] !== filterType) {
@@ -173,13 +271,8 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
         });
       }
     },
-    [filterTypes],
+    [filterTypes, handleOpenAllFilterExpanded],
   );
-
-  // 열려 있는 모든 필터 닫기 버튼 Click Event Handler
-  const handleCloseFilters = useCallback(() => {
-    setFilters([]);
-  }, []);
 
   const handleResetFilter = useCallback(() => {
     let defaultFilter = null;
@@ -188,6 +281,8 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
       defaultFilter = getDefaultFilterAptOftl();
     } else if (filter.realestateTypeGroup === 'villa,dandok') {
       defaultFilter = getDefaultFilterVillaDandok();
+    } else if (filter.realestateTypeGroup === 'one,two') {
+      defaultFilter = getDefaultFilterOneRoomTwoRoom();
     }
     if (defaultFilter !== null) {
       setFilterState(defaultFilter);
@@ -203,6 +298,18 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
         realestateTypes: newRealestateTypes,
       }));
       onChangeFilter?.({ realestateTypes: newRealestateTypes });
+    },
+    [onChangeFilter, setFilterState],
+  );
+
+  // 유형 필터 방개수 Change Event Handler
+  const handleChangeRoomCounts = useCallback(
+    (newRoomCounts: string) => {
+      setFilterState((prev) => ({
+        ...prev,
+        roomCounts: newRoomCounts,
+      }));
+      onChangeFilter?.({ roomCounts: newRoomCounts });
     },
     [onChangeFilter, setFilterState],
   );
@@ -299,77 +406,142 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
     [onChangeFilter, setFilterState],
   );
 
-  // 기타 필터 존재 여부
+  // 필터 존재 여부
   useEffect(() => {
-    if (['apt,oftl', 'villa,dandok'].includes(filter.realestateTypeGroup)) {
-      const buyOrRents = filter.buyOrRents.split(',').map((item) => Number(item) as BuyOrRent);
-      if (buyOrRents.includes(BuyOrRent.Buy)) {
-        setFilterTypes((prev) => {
-          if (!prev.includes('etc')) {
-            return [...prev, 'etc'];
-          }
-          return prev;
-        });
-      } else {
-        setFilterTypes((prev) => {
-          if (prev.includes('etc')) {
-            return prev.filter((item) => item !== 'etc');
-          }
-          return prev;
-        });
-      }
+    const fts = [];
+    if (filter.realestateTypeGroup === 'apt,oftl') {
+      fts.push(...['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+    } else if (filter.realestateTypeGroup === 'villa,dandok') {
+      fts.push(...['realestateType', 'buyOrRent', 'price', 'etc']);
+    } else if (filter.realestateTypeGroup === 'one,two') {
+      fts.push(...['realestateType', 'buyOrRent', 'price']);
     }
-  }, [filter.realestateTypeGroup, filter.buyOrRents]);
+
+    const buyOrRents = filter.buyOrRents.split(',').map((item) => Number(item) as BuyOrRent);
+
+    if (!buyOrRents.includes(BuyOrRent.Buy)) {
+      fts.filter((item) => item !== 'etc');
+    }
+
+    setFilterTypes(fts as FilterType[]);
+  }, [filter.realestateTypeGroup, filter.buyOrRents, filter]);
 
   return (
-    <div tw="bg-white shadow rounded-lg overflow-hidden">
+    <div tw="bg-white shadow rounded-lg overflow-hidden" id="negocio-map-header">
       <div tw="flex items-center px-2">
+        <FilterTypes onClickFilterType={handleClickFilterType} />
         <RealestateTypeGroupTabButton
           selected={filter.realestateTypeGroup === 'apt,oftl'}
-          onClick={() => handleChangeRealestateTypeGroup('apt,oftl')}
+          onClick={() => {
+            if (filter.realestateTypeGroup !== 'apt,oftl') {
+              handleChangeRealestateTypeGroup('apt,oftl');
+
+              setIsFirstFilterTypesExpandedTwo(false);
+              setIsFirstFilterTypesExpandedThree(false);
+            } else {
+              setIsFirstFilterTypesExpandedTwo(false);
+              setIsFirstFilterTypesExpandedThree(false);
+
+              setIsFirstFilterTypesExpanded((prev) => !prev);
+            }
+          }}
         >
-          아파트 · 오피스텔
+          아파트·오피스텔
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
           selected={filter.realestateTypeGroup === 'villa,dandok'}
-          onClick={() => handleChangeRealestateTypeGroup('villa,dandok')}
+          onClick={() => {
+            if (filter.realestateTypeGroup !== 'villa,dandok') {
+              handleChangeRealestateTypeGroup('villa,dandok');
+
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedThree(false);
+            } else {
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedThree(false);
+
+              setIsFirstFilterTypesExpandedTwo((prev) => !prev);
+            }
+          }}
         >
-          빌라 · 주택
+          빌라·주택
         </RealestateTypeGroupTabButton>
         <Separator />
         <RealestateTypeGroupTabButton
           selected={filter.realestateTypeGroup === 'one,two'}
-          onClick={() => handleChangeRealestateTypeGroup('one,two')}
+          onClick={() => {
+            if (filter.realestateTypeGroup !== 'one,two') {
+              handleChangeRealestateTypeGroup('one,two');
+
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedTwo(false);
+            } else {
+              setIsFirstFilterTypesExpanded(false);
+              setIsFirstFilterTypesExpandedTwo(false);
+
+              setIsFirstFilterTypesExpandedThree((prev) => !prev);
+            }
+          }}
         >
-          원룸 · 투룸
+          원룸·투룸
         </RealestateTypeGroupTabButton>
       </div>
-      <div tw="w-full h-px bg-gray-300" />
-      {/* <FilterTypes
-        filter={filter}
-        filterTypes={filterTypes}
-        expanded={isFilterTypesExpanded}
-        onToggleExpansion={handleToggleExpansion}
-        onClickFilterType={handleClickFilterType}
-      /> */}
-      {filters.length > 0 && <div tw="w-full h-px bg-gray-300" />}
-      {/* <FiltersContainer tw="max-h-[500px] overflow-y-auto">
-        {isRealestateTypeFilterAdded && (
-          <RealestateTypeFilter
+
+      {isFirstFilterTypesExpanded && (
+        <FilterTypesMedium
+          filter={filter}
+          filterTypes={filterTypes}
+          expanded={isFilterTypesExpanded}
+          onToggleExpansion={handleToggleExpansion}
+          onClickFilterType={handleClickFilterType}
+        />
+      )}
+
+      {isFirstFilterTypesExpandedTwo && (
+        <FilterTypesMedium
+          filter={filter}
+          filterTypes={filterTypes}
+          expanded={isFilterTypesExpanded}
+          onToggleExpansion={handleToggleExpansion}
+          onClickFilterType={handleClickFilterType}
+        />
+      )}
+
+      {isFirstFilterTypesExpandedThree && (
+        <FilterTypesMedium
+          filter={filter}
+          filterTypes={filterTypes}
+          expanded={isFilterTypesExpanded}
+          onToggleExpansion={handleToggleExpansion}
+          onClickFilterType={handleClickFilterType}
+        />
+      )}
+
+      {isRealestateTypeRoomCountFilterAdded && isSecondFilterTypesExpandedOne && (
+        <div tw="px-4">
+          <RealestateTypeRoomCountFilter
             realestateTypeGroup={filter.realestateTypeGroup}
-            value={filter.realestateTypes}
-            onChange={handleChangeRealestateTypes}
+            realestateTypes={filter.realestateTypes}
+            roomCounts={filter.roomCounts}
+            onChangeRealestateTypes={handleChangeRealestateTypes}
+            onChangeRoomCounts={handleChangeRoomCounts}
           />
-        )}
-        {isBuyOrRentFilterAdded && (
+        </div>
+      )}
+
+      {isBuyOrRentFilterAdded && isSecondFilterTypesExpandedTwo && (
+        <div tw="px-4">
           <BuyorRentFilter
             realestateTypeGroup={filter.realestateTypeGroup}
             value={filter.buyOrRents}
             onChange={handleChangeBuyOrRents}
           />
-        )}
-        {isPriceFilterAdded && (
+        </div>
+      )}
+
+      {isPriceFilterAdded && isSecondFilterTypesExpandedThree && (
+        <div tw="px-4">
           <PriceFilter
             buyOrRents={filter.buyOrRents}
             priceRange={filter.priceRange}
@@ -379,18 +551,31 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
             onChangeDepositRange={handleChangeDepositRange}
             onChangeRentRange={handleChangeRentRange}
           />
-        )}
-        {isHouseholdFilterAdded && <HouseholdFilter value={filter.minHousehold} onChange={handleChangeMinHousehold} />}
-        {isEtcFilterAdded && (
+        </div>
+      )}
+
+      {isHouseholdFilterAdded && isSecondFilterTypesExpandedFour && (
+        <div tw="px-4">
+          <HouseholdFilter value={filter.minHousehold} onChange={handleChangeMinHousehold} />
+        </div>
+      )}
+
+      {isEtcFilterAdded && isSecondFilterTypesExpandedFive && (
+        <div tw="px-4">
           <EtcFilter
             quickSale={filter.quickSale}
             gapInvestment={filter.gapInvestment}
             onChangeQuickSale={handleChangeQuickSale}
             onChangeGapInvestment={handleChangeGapInvestment}
           />
-        )}
-      </FiltersContainer> */}
-      {filters.length > 0 && (
+        </div>
+      )}
+
+      {(isSecondFilterTypesExpandedOne ||
+        isSecondFilterTypesExpandedTwo ||
+        isSecondFilterTypesExpandedThree ||
+        isSecondFilterTypesExpandedFour ||
+        isSecondFilterTypesExpandedFive) && (
         <div>
           <div tw="w-full h-px bg-gray-300" />
           <div tw="flex items-center justify-between">

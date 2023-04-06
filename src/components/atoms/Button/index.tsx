@@ -47,6 +47,8 @@ export interface ButtonProps {
   isLoading?: boolean;
   /** 선택되었는지 여부 */
   selected?: boolean;
+  id?: string;
+  name?: string;
 }
 
 const ButtonRoot = styled.button<ButtonProps>`
@@ -69,6 +71,8 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
     disabled = false,
     isLoading = false,
     selected = false,
+    name,
+    id,
     ...others
   } = resolvedProps;
 
@@ -82,6 +86,8 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
       size={size}
       isLoading={isLoading}
       selected={selected}
+      name={name}
+      id={id}
       {...others}
     >
       {isLoading && <Loading size="small" />}
