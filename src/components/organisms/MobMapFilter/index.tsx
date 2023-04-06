@@ -4,8 +4,6 @@ import tw, { styled } from 'twin.macro';
 import { useControlled } from '@/hooks/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
-import useMap from '@/states/mob/mobileMap';
-import useDocumentHeight from '@/hooks/utils/useDocumentHeight';
 import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 import FilterTypes from './FilterTypes';
 import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from './types';
@@ -86,15 +84,11 @@ interface MapFilterProps {
 }
 
 export default function MobMapFilter({ filter: filterProp, onChangeFilter }: MapFilterProps) {
-  const map = useMap();
-
   // 필터
   const [filter, setFilterState] = useControlled({
     controlled: filterProp,
     default: getDefaultFilterAptOftl(),
   });
-
-  const [isAllFilterExpanded, setIsAllFilterExpanded] = useState(false);
 
   // 필터 종류 열림/닫힘
   const [isFirstFilterTypesExpanded, setIsFirstFilterTypesExpanded] = useState(false);
@@ -215,7 +209,6 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
     setIsSecondFilterTypesExpandedThree(false);
     setIsSecondFilterTypesExpandedTwo(false);
     setIsSecondFilterTypesExpandedOne(false);
-    setIsAllFilterExpanded(false);
   }, []);
 
   // 필터 종류 Click Event Handler
@@ -432,42 +425,6 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
 
     setFilterTypes(fts as FilterType[]);
   }, [filter.realestateTypeGroup, filter.buyOrRents, filter]);
-
-  const { height: winHeight } = useDocumentHeight();
-
-  useEffect(() => {
-    if (map && !isAllFilterExpanded) {
-      const headerFirst = document.getElementById('negocio-top-header');
-      const headerSecond = document.getElementById('negocio-map-header');
-
-      const footer = document.getElementById('negocio-mob-global-navigation');
-
-      if (headerFirst && headerSecond && footer && winHeight) {
-        const footerHeight = winHeight - footer.offsetTop;
-        const headerHeight = headerFirst.offsetHeight + headerSecond.offsetHeight;
-
-        const mapHeight = winHeight - headerHeight - footerHeight;
-        const mapWidth = headerFirst.offsetWidth;
-        map.setSize({ width: mapWidth, height: mapHeight });
-      }
-    }
-  }, [
-    winHeight,
-    map,
-    isAllFilterExpanded,
-    isBuyOrRentFilterAdded,
-    isEtcFilterAdded,
-    isFirstFilterTypesExpanded,
-    isFirstFilterTypesExpandedTwo,
-    isFirstFilterTypesExpandedThree,
-    isPriceFilterAdded,
-    isEtcFilterAdded,
-    isSecondFilterTypesExpandedFive,
-    isSecondFilterTypesExpandedFour,
-    isSecondFilterTypesExpandedThree,
-    isSecondFilterTypesExpandedTwo,
-    isSecondFilterTypesExpandedOne,
-  ]);
 
   return (
     <div tw="bg-white shadow rounded-lg overflow-hidden" id="negocio-map-header">
