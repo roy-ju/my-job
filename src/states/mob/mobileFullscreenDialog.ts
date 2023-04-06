@@ -1,5 +1,7 @@
 import { atom } from 'recoil';
 
+import { v1 } from 'uuid';
+
 export type MobileFullScreenDialog = {
   id: string;
   body?: JSX.Element;
@@ -10,8 +12,9 @@ export type MobileFullScreenDialog = {
 };
 
 export const mobileFullScreenDialogs = atom<MobileFullScreenDialog[]>({
-  key: 'fullScreenDialogs',
+  key: `fullScreenDialogs${v1}`,
   default: [],
+  dangerouslyAllowMutability: true,
 });
 
 
