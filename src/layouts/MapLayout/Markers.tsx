@@ -1,4 +1,4 @@
-import { DanjiMarker, RegionMarker } from '@/components/organisms';
+import { DanjiMarker, ListingMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
@@ -52,23 +52,41 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <DanjiMarker
-                selected={selectedDanjiSummary?.id === marker.id}
-                variant={marker.variant}
-                area={Number(marker?.pyoung ?? 0)}
-                price={marker.price ?? 0}
-                count={marker?.listingCount ?? 0}
-                onClick={marker.onClick}
-              >
-                {selectedDanjiSummary?.id === marker.id && (
-                  <DanjiMarker.Popper
-                    name={selectedDanjiSummary?.name ?? ''}
-                    householdCount={selectedDanjiSummary?.householdCount ?? 0}
-                    buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
-                    rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
-                  />
-                )}
-              </DanjiMarker>
+              {marker.pyoung ? (
+                <DanjiMarker
+                  selected={selectedDanjiSummary?.id === marker.id}
+                  variant={marker.variant}
+                  area={Number(marker?.pyoung ?? 0)}
+                  price={marker.price ?? 0}
+                  count={marker?.listingCount ?? 0}
+                  onClick={marker.onClick}
+                >
+                  {selectedDanjiSummary?.id === marker.id && (
+                    <DanjiMarker.Popper
+                      name={selectedDanjiSummary?.name ?? ''}
+                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
+                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
+                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
+                    />
+                  )}
+                </DanjiMarker>
+              ) : (
+                <ListingMarker
+                  selected={selectedDanjiSummary?.id === marker.id}
+                  price={marker.price ?? 0}
+                  count={marker.listingCount ?? 0}
+                  onClick={marker.onClick}
+                >
+                  {selectedDanjiSummary?.id === marker.id && (
+                    <ListingMarker.Popper
+                      name={selectedDanjiSummary?.name ?? ''}
+                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
+                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
+                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
+                    />
+                  )}
+                </ListingMarker>
+              )}
             </CustomOverlay>
           </DeferredRender>
         ))}
