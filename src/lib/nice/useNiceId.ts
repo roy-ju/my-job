@@ -1,25 +1,36 @@
+import useUnmount from '@/hooks/utils/useUnmount';
 import openPopupWindow from '@/utils/openPopupWindow';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+
+export interface NiceResponse {
+  kie: string;
+  encData: string;
+  integrityValue: string;
+  tokenVersionId: string;
+  type: string;
+}
+
+type VerificationType = 'phone' | 'ipin';
 
 export default function useNiceId() {
-  const init = useCallback(() => {}, []);
-  const deInit = useCallback(() => {}, []);
+  const request = useCallback((type: VerificationType, callback?: (res: NiceResponse) => void) => {
+    let typeInteger = 1;
+    if (type === 'ipin') {
+      typeInteger = 2;
+    }
 
-  const request = useCallback(async () => {
+    window.Negocio.callbacks.niceResponse = (arg: NiceResponse) => {
+      callback?.(arg);
+    };
     openPopupWindow({
-      url: '/nice/id?type=1',
+      url: `/nice/id?type=${typeInteger}`,
       title: '본인인증',
       width: 490,
       height: 812,
     });
   }, []);
 
-  useEffect(
-    () => () => {
-      deInit();
-    },
-    [deInit],
-  );
+  useUnmount(() => delete window.Negocio.callbacks.niceResponse);
 
-  return useMemo(() => ({ request, init, deInit }), [request, init, deInit]);
+  return useMemo(() => ({ request }), [request]);
 }

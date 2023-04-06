@@ -12,11 +12,7 @@ export type MobileFullScreenDialog = {
 };
 
 export const mobileFullScreenDialogs = atom<MobileFullScreenDialog[]>({
-  key: `fullScreenDialogs${v1}`,
+  key: `fullScreenDialogs/${v1()}`,
   default: [],
   dangerouslyAllowMutability: true,
 });
-
-
-
-

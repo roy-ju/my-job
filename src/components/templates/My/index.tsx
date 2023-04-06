@@ -93,7 +93,7 @@ export default function My({
             <MyPageNavigationList.Item title="네고시오 소개" />
             <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
             <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
-            <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />
+            {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
             <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
           </MyPageNavigationList>
         </div>
