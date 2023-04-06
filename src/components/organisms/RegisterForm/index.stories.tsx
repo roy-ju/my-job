@@ -6,7 +6,7 @@ export default {
   component: RegisterForm,
 } as ComponentMeta<typeof RegisterForm>;
 
-export const Email = () => <RegisterForm.Email />;
+export const Email = () => <RegisterForm.Email value="joel.kim@negocio.co.kr" />;
 
 export const Nickname = () => <RegisterForm.Nickname />;
 
