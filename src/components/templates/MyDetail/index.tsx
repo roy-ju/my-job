@@ -20,6 +20,7 @@ interface MyDetailProps {
   onClickUpdateNickname: () => void;
   onClickUpdateEmail: () => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
+  onClickVerifyCi?: () => void;
 }
 
 export default function MyDetail({
@@ -39,6 +40,7 @@ export default function MyDetail({
   onClickUpdateNickname,
   onClickUpdateEmail,
   onChangeNickname,
+  onClickVerifyCi,
 }: MyDetailProps) {
   return (
     <div>
@@ -59,7 +61,12 @@ export default function MyDetail({
             onChangeNickname={onChangeNickname}
           />
           <MyDetailForm.Separator />
-          <MyDetailForm.IdentityInfo name={name} phone={phone} onClickUpdate={onClickUpdatePhone} />
+          <MyDetailForm.IdentityInfo
+            name={name}
+            phone={phone}
+            onClickUpdate={onClickUpdatePhone}
+            onClickVerifyCi={onClickVerifyCi}
+          />
           <MyDetailForm.Separator />
           <MyDetailForm.AddressInfo
             address={address}
