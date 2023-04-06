@@ -343,7 +343,7 @@ export default function useMapLayout() {
             listingCount: item.listing_count,
             lat: item.lat,
             lng: item.long,
-            price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
+            price: item.trade_price || item.deposit || 0,
             onClick: () => {
               setPolygons([]);
               setSelectedSchoolID('');
