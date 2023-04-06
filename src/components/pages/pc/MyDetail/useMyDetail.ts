@@ -112,6 +112,10 @@ export default function useMyDetail(depth: number) {
     mutateUser(false);
   }, [nickname, mutateUser]);
 
+  const handleNavigateToVerifyCi = useCallback(() => {
+    router.replace(Routes.VerifyCi);
+  }, [router]);
+
   const cancelUpdateNickname = useCallback(() => {
     setNicknamePopup(false);
   }, []);
@@ -148,6 +152,7 @@ export default function useMyDetail(depth: number) {
       handleClickUpdateToKakao,
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
+      handleNavigateToVerifyCi,
     }),
     [
       updateNicknameButtonDisabled,
@@ -172,6 +177,7 @@ export default function useMyDetail(depth: number) {
       handleClickUpdateToKakao,
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
+      handleNavigateToVerifyCi,
     ],
   );
 }

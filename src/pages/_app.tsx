@@ -10,6 +10,8 @@ import Script from 'next/script';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import { useAuth } from '@/hooks/services';
 import 'react-toastify/dist/ReactToastify.css';
+import OverlayContainer from '@/components/molecules/FullScreenDialog';
+import { updateVH } from '@/utils/updateVH';
 import ToastContainer from '@/lib/toastify';
 import { usePlatform } from '@/hooks/utils';
 
@@ -33,6 +35,12 @@ function NegocioProvider({ children }: { children?: ReactNode }) {
   return children as JSX.Element;
 }
 
+updateVH();
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', updateVH);
+}
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const getComponent = Component.getComponent ?? ((p) => <Component {...p} />);
@@ -52,6 +60,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <GlobalStyles />
         <RecoilRoot>
           <SWRConfig>
+            <OverlayContainer />
             <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
             <ToastContainer platform={platform} />
           </SWRConfig>

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface KakaoAddressAutocompleteResponseItem {
-  id: string;
+  id?: string;
   addressName: string;
   categoryName: string;
   placeName: string;
@@ -57,7 +57,7 @@ export default function useKakaoAddressAutocomplete(query: string) {
               item.address?.region_2depth_name ||
               item.address?.region_1depth_name ||
               '',
-            categoryName: '지역',
+            categoryName: '특정주소',
             addressName: item.address_name,
             roadAddressName: item.road_address?.address_name ?? '',
             lat: +item.y,
