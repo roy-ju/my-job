@@ -26,7 +26,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleDeregister = useCallback(async () => {
     const deregistered = await deregister('');
     if (deregistered) {
-      router.popAll();
+      await router.popAll();
       logout();
     } else {
       toast.error('Cannot deregister');

@@ -45,6 +45,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, []);
 
+  const handleForgotMyAccount = useCallback(() => {
+    router.replace(Routes.FindAccount);
+  }, [router]);
+
   useEffect(() => {
     window.Negocio.callbacks.loginSuccess = () => {
       mutate(() => true, undefined);
@@ -61,7 +65,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <LoginTemplate onClickKakaoLogin={handleKakaoLogin} onClickAppleLogin={handleAppleLogin} />
+      <LoginTemplate
+        onClickKakaoLogin={handleKakaoLogin}
+        onClickAppleLogin={handleAppleLogin}
+        onClickForgotMyAccount={handleForgotMyAccount}
+      />
     </Panel>
   );
 });

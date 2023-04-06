@@ -5,9 +5,10 @@ import AppleLogoIcon from '@/assets/icons/apple.svg';
 export interface LoginFormProps {
   onClickKakaoLogin?: () => void;
   onClickAppleLogin?: () => void;
+  onClickForgotMyAccount?: () => void;
 }
 
-export default function LoginForm({ onClickKakaoLogin, onClickAppleLogin }: LoginFormProps) {
+export default function LoginForm({ onClickKakaoLogin, onClickAppleLogin, onClickForgotMyAccount }: LoginFormProps) {
   return (
     <div>
       <div tw="flex flex-col gap-3">
@@ -25,7 +26,12 @@ export default function LoginForm({ onClickKakaoLogin, onClickAppleLogin }: Logi
         </Button>
       </div>
       <div tw="flex items-center justify-center mt-4 gap-2">
-        <Button size="none" variant="ghost" tw="text-info font-bold text-gray-500 hover:text-gray-700">
+        <Button
+          size="none"
+          variant="ghost"
+          tw="text-info font-bold text-gray-500 hover:text-gray-700"
+          onClick={onClickForgotMyAccount}
+        >
           계정 정보를 잃어버리셨나요?
         </Button>
         <div tw="w-px h-2 bg-gray-100" />

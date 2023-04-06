@@ -88,10 +88,19 @@ const RegisterSuccess = dynamic(() => import('@/components/pages/pc/RegisterSucc
   ssr: false,
   loading: () => <Panel />,
 });
+const VerifyCi = dynamic(() => import('@/components/pages/pc/VerifyCi'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
   ssr: false,
   loading: () => <Panel />,
 });
+const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 
 const DEFAULT_PANEL_WIDTH = '380px';
@@ -220,8 +229,16 @@ export default function Router({ route, query, depth }: Props) {
       return <RegisterSuccess {...props} />;
     }
 
+    case Routes.VerifyCi: {
+      return <VerifyCi {...props} />;
+    }
+
     case Routes.VerifyCiSuccess: {
       return <VerifyCiSuccess {...props} />;
+    }
+
+    case Routes.FindAccount: {
+      return <FindAccount {...props} />;
     }
 
     case Routes.Developer: {
