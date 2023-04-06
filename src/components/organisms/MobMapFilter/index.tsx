@@ -145,6 +145,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
           break;
         case 'villa,dandok':
           setFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
+
           // setFilters([]);
           setFilterState(getDefaultFilterVillaDandok());
           onChangeFilter?.(getDefaultFilterVillaDandok());
@@ -152,6 +153,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
           break;
         case 'one,two':
           setFilterTypes(['realestateType', 'buyOrRent', 'price']);
+
           // setFilters([]);
           setFilterState(getDefaultFilterOneRoomTwoRoom());
           onChangeFilter?.(getDefaultFilterOneRoomTwoRoom());
