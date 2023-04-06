@@ -1,6 +1,6 @@
 import axios from '@/lib/axios';
 
-export type GetListingSummaryResponse = {
+export interface GetListingSummaryResponse {
   listing_id: number;
   realestate_type: number;
   listing_title: string;
@@ -13,7 +13,7 @@ export type GetListingSummaryResponse = {
   negotiation_target: number;
   gonggeup_area: string;
   jeonyoung_area: string;
-} & ErrorResponse;
+}
 
 export default async function getListingSummary({ listingId }: { listingId: number }) {
   try {

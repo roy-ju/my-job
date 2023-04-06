@@ -15,6 +15,8 @@ import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState }
 import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import getListingSummary from '@/apis/map/mapListingSummary';
+
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -201,24 +203,43 @@ export default function useMapLayout() {
   );
 
   /**
-   * 단지를 선택한다. (선택이란, 단지마커 애니메이션을 활성화하고 마커위에 단지요약정보를 보여준다.)
+   * 단지/매물을 선택한다. (선택이란, 단지마커 애니메이션을 활성화하고 마커위에 단지요약정보를 보여준다.)
    */
-  const selectDanji = useCallback(async (pnu: string, realestateType: number) => {
-    const summary = await getDanjiSummary({
-      pnu,
-      buyOrRent: '1,2,3',
-      danjiRealestateType: realestateType,
-    });
-    if (summary) {
-      setSelectedDanjiSummary({
-        id: `${pnu}${realestateType}`,
-        name: summary?.string ?? '',
-        householdCount: summary?.saedae_count ?? 0,
-        buyListingCount: summary?.buy_listing_count ?? 0,
-        rentListingCount: summary?.rent_listing_count ?? 0,
-      });
-    }
-  }, []);
+  const selectMarker = useCallback(
+    async ({ pnu, realestateType, listingIds }: { pnu?: string; realestateType?: number; listingIds?: string }) => {
+      if (listingIds) {
+        const listingId = listingIds.split(',')[0];
+        if (listingId) {
+          const summary = await getListingSummary({ listingId: Number(listingId) });
+          if (summary) {
+            setSelectedDanjiSummary({
+              id: listingIds,
+              name: summary.listing_title,
+              householdCount: 0,
+              buyListingCount: 0,
+              rentListingCount: 0,
+            });
+          }
+        }
+      } else if (pnu && realestateType) {
+        const summary = await getDanjiSummary({
+          pnu,
+          buyOrRent: '1,2,3',
+          danjiRealestateType: realestateType,
+        });
+        if (summary) {
+          setSelectedDanjiSummary({
+            id: `${pnu}${realestateType}`,
+            name: summary?.string ?? '',
+            householdCount: summary?.saedae_count ?? 0,
+            buyListingCount: summary?.buy_listing_count ?? 0,
+            rentListingCount: summary?.rent_listing_count ?? 0,
+          });
+        }
+      }
+    },
+    [],
+  );
 
   /**
    * 지도위의 마커를 그린다.
@@ -267,7 +288,34 @@ export default function useMapLayout() {
           })) ?? [],
         );
       } else if (res && mapBounds.mapLevel === 1) {
-        let danjis = (res as MapSearchLevelOneResponse).danji_list;
+        const listings = (res as MapSearchLevelOneResponse).listing_list ?? [];
+        const listingMap: {
+          [key: string]: CommonMapMarker;
+        } = {};
+
+        listings?.map((item) => {
+          listingMap[`${item.listing_ids}`] = {
+            id: item.listing_ids,
+            variant,
+            listingCount: item.listing_count,
+            lat: item.lat,
+            lng: item.long,
+            price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
+            onClick: () => {
+              setPolygons([]);
+              setSelectedSchoolID('');
+              _map?.morph({
+                lat: item.lat,
+                lng: item.long,
+              });
+              selectMarker({
+                listingIds: item.listing_ids,
+              });
+            },
+          };
+        });
+
+        let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
         if (variant === 'nego') {
           danjis = danjis?.filter((danji) => danji.listing_count !== 0);
         }
@@ -296,7 +344,10 @@ export default function useMapLayout() {
                 lat: item.lat,
                 lng: item.long,
               });
-              selectDanji(item.pnu, item.danji_realestate_type);
+              selectMarker({
+                pnu: item.pnu,
+                realestateType: item.danji_realestate_type,
+              });
             },
           };
         });
@@ -313,15 +364,22 @@ export default function useMapLayout() {
               lat: searchedDanji.lat,
               lng: searchedDanji.long,
             });
-            selectDanji(searchedDanji.pnu, searchedDanji.danji_realestate_type);
+            selectMarker({
+              pnu: searchedDanji.pnu,
+              realestateType: searchedDanji.danji_realestate_type,
+            });
           }
           lastSearchItem.current = null;
         }
 
-        setMarkers(Object.values(danjiMap));
+        if (listings.length > 0) {
+          setMarkers(Object.values(listingMap));
+        } else {
+          setMarkers(Object.values(danjiMap));
+        }
       }
     },
-    [selectDanji, lastSearchItem],
+    [selectMarker, lastSearchItem],
   );
 
   /**

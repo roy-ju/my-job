@@ -288,8 +288,7 @@ export default function useMapLayout() {
           })) ?? [],
         );
       } else if (res && mapBounds.mapLevel === 1) {
-        let danjis = (res as MapSearchLevelOneResponse).danji_list;
-
+        let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
         if (variant === 'nego') {
           danjis = danjis?.filter((danji) => danji.listing_count !== 0);
         }
