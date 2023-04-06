@@ -1,3 +1,4 @@
+import { Panel } from '@/components/atoms';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import FAQ from '.';
 
@@ -6,6 +7,10 @@ export default {
   component: FAQ,
 } as ComponentMeta<typeof FAQ>;
 
-export const Default: ComponentStory<typeof FAQ> = () => <FAQ />;
+export const Default: ComponentStory<typeof FAQ> = () => (
+  <Panel>
+    <FAQ />
+  </Panel>
+);
 
 Default.args = {};

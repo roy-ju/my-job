@@ -10,7 +10,7 @@ const variants = {
   primary: tw`text-white bg-gray-1000 hover:bg-gray-800 disabled:bg-gray-400 disabled:text-white`,
   secondary: tw`text-white bg-nego-800 hover:bg-nego-600 disabled:bg-nego-300 disabled:text-white`,
   gray: tw`text-gray-1000 bg-gray-200 hover:bg-gray-400 disabled:bg-gray-200`,
-  outlined: tw`bg-white border-gray-300 border-l border-r border-t border-b text-gray-1000 hover:border-gray-1000 hover:bg-white disabled:text-gray-500 disabled:border-gray-500`,
+  outlined: tw`bg-white border-gray-300 border-l border-r border-t border-b text-gray-1000 hover:border-gray-1000 disabled:text-gray-500 disabled:border-gray-500`,
   ghost: tw``,
 };
 
