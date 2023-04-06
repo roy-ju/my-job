@@ -37,6 +37,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleClickUpdateToApple,
     handleClickUpdateToKakao,
     handleCloseEmailUpdatePopup,
+    handleNavigateToVerifyCi,
   } = useMyDetail(depth);
 
   return (
@@ -58,6 +59,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickUpdatePhone={handleUpdatePhone}
         onClickUpdateNickname={handleClickUpdateNickname}
         onClickUpdateEmail={handleClickUpdateEmail}
+        onClickVerifyCi={handleNavigateToVerifyCi}
       />
       {nicknamePopup && (
         <OverlayPresenter>
