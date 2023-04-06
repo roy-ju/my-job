@@ -5,7 +5,6 @@ import AgentCardItemFoldButton from './Button';
 
 export interface AgentCardItemProps {
   children?: ReactNode;
-  hasFoldButton?: true;
 }
 
 const AgentCardItemProfileType = (<AgentCardItemProfile profileImageFullPath="" />).type;
