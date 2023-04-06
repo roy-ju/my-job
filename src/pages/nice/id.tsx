@@ -25,8 +25,15 @@ const Page: NextPage = () => {
     });
   }, [router]);
 
+  if (!router.query.type) return null;
+
+  const requestUrl =
+    router.query.type === '1'
+      ? 'https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb' // 나이스 휴대폰 본인인증
+      : 'https://cert.vno.co.kr/ipin.cb'; // 나이스 아이핀 본인인증
+
   return (
-    <form ref={formRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb">
+    <form ref={formRef} action={requestUrl}>
       <input type="hidden" name="m" value="service" />
       <input type="hidden" name="token_version_id" />
       <input type="hidden" name="enc_data" />

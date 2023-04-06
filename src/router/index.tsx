@@ -88,6 +88,10 @@ const RegisterSuccess = dynamic(() => import('@/components/pages/pc/RegisterSucc
   ssr: false,
   loading: () => <Panel />,
 });
+const VerifyCi = dynamic(() => import('@/components/pages/pc/VerifyCi'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
   ssr: false,
   loading: () => <Panel />,
@@ -218,6 +222,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.RegisterSuccess: {
       return <RegisterSuccess {...props} />;
+    }
+
+    case Routes.VerifyCi: {
+      return <VerifyCi {...props} />;
     }
 
     case Routes.VerifyCiSuccess: {

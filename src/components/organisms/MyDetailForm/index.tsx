@@ -104,9 +104,10 @@ interface IdentityInfoProps {
   name?: string;
   phone?: string;
   onClickUpdate?: () => void;
+  onClickVerifyCi?: () => void;
 }
 
-function IdentityInfo({ name, phone, onClickUpdate }: IdentityInfoProps) {
+function IdentityInfo({ name, phone, onClickUpdate, onClickVerifyCi }: IdentityInfoProps) {
   return (
     <div tw="px-5">
       <div tw="flex flex-col gap-3 mb-4">
@@ -123,7 +124,7 @@ function IdentityInfo({ name, phone, onClickUpdate }: IdentityInfoProps) {
           </TextField>
         )}
         {!name && (
-          <Button variant="secondary" tw="font-bold">
+          <Button variant="secondary" tw="font-bold" onClick={onClickVerifyCi}>
             본인인증하기
           </Button>
         )}
