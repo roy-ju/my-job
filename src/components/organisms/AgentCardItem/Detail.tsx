@@ -19,11 +19,11 @@ export default function AgentCardItemDetail({
   ];
 
   return (
-    <div className="mt-4 flex flex-col gap-2">
+    <div tw="mt-4 flex flex-col gap-2">
       {fields.map(({ label, value }) => (
-        <div key={label} className="flex">
-          <div className="mr-1 min-w-[3.25rem] text-mobCaption text-gray-700">{label}</div>
-          <div className="break-all text-mobCaption">{value}</div>
+        <div key={label} tw="flex">
+          <span tw="mr-1 min-w-[3.25rem] text-mobCaption text-gray-700">{label}</span>
+          <span tw="break-all text-mobCaption">{value}</span>
         </div>
       ))}
     </div>
