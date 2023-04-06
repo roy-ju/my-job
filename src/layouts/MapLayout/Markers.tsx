@@ -71,7 +71,21 @@ export default function Markers({
                   )}
                 </DanjiMarker>
               ) : (
-                <ListingMarker price={marker.price ?? 0} count={marker.listingCount ?? 0} />
+                <ListingMarker
+                  selected={selectedDanjiSummary?.id === marker.id}
+                  price={marker.price ?? 0}
+                  count={marker.listingCount ?? 0}
+                  onClick={marker.onClick}
+                >
+                  {selectedDanjiSummary?.id === marker.id && (
+                    <ListingMarker.Popper
+                      name={selectedDanjiSummary?.name ?? ''}
+                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
+                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
+                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
+                    />
+                  )}
+                </ListingMarker>
               )}
             </CustomOverlay>
           </DeferredRender>
