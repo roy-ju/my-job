@@ -266,7 +266,23 @@ export default function useMapLayout() {
           })) ?? [],
         );
       } else if (res && mapBounds.mapLevel === 1) {
-        let danjis = (res as MapSearchLevelOneResponse).danji_list;
+        const listings = (res as MapSearchLevelOneResponse).listing_list ?? [];
+        const listingMap: {
+          [key: string]: CommonMapMarker;
+        } = {};
+
+        listings?.map((item) => {
+          listingMap[`${item.listing_ids}`] = {
+            id: item.listing_ids,
+            variant,
+            listingCount: item.listing_count,
+            lat: item.lat,
+            lng: item.long,
+            price: item.trade_price,
+          };
+        });
+
+        let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
         if (variant === 'nego') {
           danjis = danjis?.filter((danji) => danji.listing_count !== 0);
         }
@@ -317,7 +333,11 @@ export default function useMapLayout() {
           lastSearchItem.current = null;
         }
 
-        setMarkers(Object.values(danjiMap));
+        if (listings.length > 0) {
+          setMarkers(Object.values(listingMap));
+        } else {
+          setMarkers(Object.values(danjiMap));
+        }
       }
     },
     [selectDanji, lastSearchItem],
