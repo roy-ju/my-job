@@ -38,3 +38,4 @@ export { default as MobGuideOverlay } from './MobGuideOverlay';
 export { default as RegisterSuccess } from './RegisterSuccess';
 export { default as VerifyCi } from './VerifyCi';
 export { default as VerifyCiSuccess } from './VerifyCiSuccess';
+export { default as FindAccount } from './FindAccount';
