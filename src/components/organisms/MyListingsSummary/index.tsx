@@ -9,9 +9,13 @@ export interface MyListingsSummaryProps {
   totalRegisteredCount?: number;
   waitingCount?: number;
   registeredCount?: number;
+  onClickCreateListing?: () => void;
 }
 
-export default function MyListingsSummary({ totalParticipatingCount = 0 }: MyListingsSummaryProps) {
+export default function MyListingsSummary({
+  totalParticipatingCount = 0,
+  onClickCreateListing,
+}: MyListingsSummaryProps) {
   return (
     <div tw="bg-white px-5 py-10 flex flex-col">
       <div tw="text-b1 leading-none font-bold mb-4">가격 제안한 매물</div>
@@ -53,7 +57,11 @@ export default function MyListingsSummary({ totalParticipatingCount = 0 }: MyLis
           <div tw="text-b1 font-bold leading-6">0</div>
         </Button>
       </div>
-      <Button variant="ghost" tw="w-full border border-nego-800 h-[60px] hover:bg-nego-100">
+      <Button
+        variant="ghost"
+        tw="w-full border border-nego-800 h-[60px] hover:bg-nego-100"
+        onClick={onClickCreateListing}
+      >
         <div tw="text-start w-full h-full flex items-center">
           <HouseIcon tw="mr-3" />
           <div tw="flex-1 flex flex-col gap-0.5">

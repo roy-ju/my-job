@@ -60,6 +60,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.ServiceInfo);
   }, [router]);
 
+  const handleCreateListing = useCallback(() => {
+    router.push(Routes.ListingCreateAddress);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -78,6 +82,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
+        onClickCreateListing={handleCreateListing}
       />
     </Panel>
   );

@@ -100,7 +100,18 @@ const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
   ssr: false,
   loading: () => <Panel />,
 });
-
+const ListingCreateAddress = dynamic(() => import('@/components/pages/pc/ListingCreateAddress'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const ListingCreateAddressDetail = dynamic(() => import('@/components/pages/pc/ListingCreateAddressDetail'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const ListingCreateForm = dynamic(() => import('@/components/pages/pc/ListingCreateForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 
 const DEFAULT_PANEL_WIDTH = '380px';
@@ -239,6 +250,18 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.FindAccount: {
       return <FindAccount {...props} />;
+    }
+
+    case Routes.ListingCreateAddress: {
+      return <ListingCreateAddress {...props} />;
+    }
+
+    case Routes.ListingCreateAddressDetail: {
+      return <ListingCreateAddressDetail {...props} />;
+    }
+
+    case Routes.ListingCreateForm: {
+      return <ListingCreateForm {...props} />;
     }
 
     case Routes.Developer: {

@@ -6,6 +6,8 @@ import InterimAmount from './InterimAmount';
 import RemainingAmount from './RemainingAmount';
 import Schedule from './Schedule';
 import PaymentSchedule from './PaymentSchedule';
+import IsOwner from './IsOwner';
+import OwnerInfo from './OwnerInfo';
 
 const ListingCreateForm = {
   BuyOrRent,
@@ -16,6 +18,8 @@ const ListingCreateForm = {
   RemainingAmount,
   Schedule,
   PaymentSchedule,
+  IsOwner,
+  OwnerInfo,
 };
 
 export default ListingCreateForm;
