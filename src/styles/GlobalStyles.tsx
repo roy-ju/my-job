@@ -1,6 +1,6 @@
 import React from 'react';
 import { Global } from '@emotion/react';
-import tw, { css, GlobalStyles as BaseStyles } from 'twin.macro';
+import tw, { css, GlobalStyles as BaseStyles, theme } from 'twin.macro';
 
 const customStyles = css`
   body {
@@ -16,6 +16,26 @@ const customStyles = css`
   #__next,
   #root {
     height: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 5.2px;
+  }
+
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${theme`colors.gray.600`};
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-left: none;
+    border-right: none;
   }
 `;
 

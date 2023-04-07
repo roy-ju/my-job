@@ -14,7 +14,7 @@ const OptionsContainer = tw.div`bg-white rounded-lg py-2 border border-gray-1000
 
 const OptionItem = tw.button`w-full text-start flex items-center justify-between py-3 px-4 leading-4 text-b2 hover:bg-gray-200 transition-colors`;
 
-interface DropdownProps {
+interface DropdownProps extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value' | 'onChange'> {
   placeholder?: string;
   label?: string;
   variant?: VariantType;
@@ -32,6 +32,7 @@ function Dropdown({
   value: valueProp,
   onChange,
   children,
+  ...others
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -98,7 +99,7 @@ function Dropdown({
 
   return (
     <DropdownContext.Provider value={context}>
-      <div ref={outsideRef}>
+      <div ref={outsideRef} {...others}>
         <TextField ref={setReferenceElement} variant={variant} size={size}>
           <TextField.Input
             placeholder={placeholder}
