@@ -22,3 +22,7 @@ export const Schedule = () => <ListingCreateForm.Schedule />;
 export const InterimAmount = () => <ListingCreateForm.InterimAmount />;
 
 export const PaymentSchedule = () => <ListingCreateForm.PaymentSchedule />;
+
+export const IsOwner = () => <ListingCreateForm.IsOwner />;
+
+export const OwnerInfo = () => <ListingCreateForm.OwnerInfo />;

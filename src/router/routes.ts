@@ -35,6 +35,9 @@ const Routes = {
   VerifyCi: 'verifyCi',
   VerifyCiSuccess: 'verifyCiSuccess',
   FindAccount: 'findAccount',
+  ListingCreateAddress: 'listingCreateAddress',
+  ListingCreateAddressDetail: 'listingCreateAddressDetail',
+  ListingCreateForm: 'listingCreateForm',
 };
 
 export default Routes;

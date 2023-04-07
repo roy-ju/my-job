@@ -21,6 +21,7 @@ interface Props {
   onClickNegoPoint?: () => void;
   onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
+  onClickCreateListing?: () => void;
 }
 
 export default function My({
@@ -39,6 +40,7 @@ export default function My({
   onClickCoupons,
   onClickNegoPoint,
   onClickServiceInfo,
+  onClickCreateListing,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -73,7 +75,7 @@ export default function My({
               onClickNegoPoint={onClickNegoPoint}
             />
             <Separator />
-            <MyListingsSummary />
+            <MyListingsSummary onClickCreateListing={onClickCreateListing} />
           </>
         )}
         {!isLoading && !loggedIn && (
