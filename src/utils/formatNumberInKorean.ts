@@ -6,7 +6,7 @@ export default function formatNumberInKorean(
   },
 ) {
   if (options?.short && number >= 100000000) {
-    return `${number / 100000000}억`;
+    return `${options?.formatFn?.(number / 100000000) ?? number / 100000000}억`;
   }
 
   const inputNumber = number < 0 ? 0 : number;
@@ -30,9 +30,7 @@ export default function formatNumberInKorean(
 
   for (let i = 0; i < resultArray.length; i += 1) {
     if (resultArray[i]) {
-      const num = options?.formatFn
-        ? options.formatFn(resultArray[i])
-        : resultArray[i];
+      const num = options?.formatFn ? options.formatFn(resultArray[i]) : resultArray[i];
       resultString = `${num + unitWords[i]} ${resultString}`;
     }
   }

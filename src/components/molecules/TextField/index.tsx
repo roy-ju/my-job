@@ -1,6 +1,5 @@
-import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
-import { mergeRefs, resolveProps } from '@/utils';
 import React, {
+  ReactNode,
   ChangeEventHandler,
   FocusEventHandler,
   forwardRef,
@@ -12,6 +11,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { mergeRefs, resolveProps } from '@/utils';
 import tw, { css, styled } from 'twin.macro';
 import ErrorIcon from '@/assets/icons/error.svg';
 import SuccessIcon from '@/assets/icons/success.svg';
@@ -37,11 +38,11 @@ interface LeadingProps extends HTMLProps<HTMLSpanElement> {}
 interface TrailingProps extends HTMLProps<HTMLSpanElement> {}
 
 interface ErrorMessageProps {
-  message: string;
+  children?: ReactNode;
 }
 
 interface SuccessMessageProps {
-  message: string;
+  children?: ReactNode;
 }
 
 type StyledInputProps = InputProps & { inSize: SizeType; hasError: boolean };
@@ -321,7 +322,7 @@ const PriceInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp,
       <NumericInput {...props} ref={ref} thousandSeparator="," value={value} onChange={handleChange} />
       {value && (
         <PriceSuffix inSize={size} disabled={disabled} label={props.label}>
-          만원
+          만 원
         </PriceSuffix>
       )}
     </>
@@ -402,23 +403,25 @@ function Trailing(props: TrailingProps) {
   return <StyledTrailing {...props} />;
 }
 
-function ErrorMessage({ message }: ErrorMessageProps) {
+function ErrorMessage({ children }: ErrorMessageProps) {
   return (
     <div tw="flex mt-2">
       <ErrorIcon tw="shrink-0" />
-      <span tw="text-info leading-4 pl-1 text-red-800">{message}</span>
+      <span tw="text-info leading-4 pl-1 text-red-800">{children}</span>
     </div>
   );
 }
 
-function SuccessMessage({ message }: SuccessMessageProps) {
+function SuccessMessage({ children }: SuccessMessageProps) {
   return (
     <div tw="flex mt-2">
       <SuccessIcon tw="shrink-0" />
-      <span tw="text-info leading-4 pl-1 text-green-1000">{message}</span>
+      <span tw="text-info leading-4 pl-1 text-green-1000">{children}</span>
     </div>
   );
 }
+
+const HelperMessage = tw.div`text-end mt-2 text-info leading-4 pl-1 text-gray-700`;
 
 export default Object.assign(Container, {
   Input,
@@ -429,4 +432,5 @@ export default Object.assign(Container, {
   Trailing,
   ErrorMessage,
   SuccessMessage,
+  HelperMessage,
 });

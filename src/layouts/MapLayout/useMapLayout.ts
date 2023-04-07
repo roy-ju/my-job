@@ -17,7 +17,6 @@ import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import getListingSummary from '@/apis/map/mapListingSummary';
 
-
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
 const DEFAULT_LNG = 127.1109415;
@@ -159,6 +158,8 @@ export default function useMapLayout() {
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
+  const isPanningRef = useRef(false);
+
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
   }, []);
@@ -275,6 +276,7 @@ export default function useMapLayout() {
             lat: item.lat,
             lng: item.long,
             onClick: () => {
+              if (isPanningRef.current) return;
               setPolygons([]);
               setSelectedSchoolID('');
               _map?.morph(
@@ -302,6 +304,7 @@ export default function useMapLayout() {
             lng: item.long,
             price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
             onClick: () => {
+              if (isPanningRef.current) return;
               setPolygons([]);
               setSelectedSchoolID('');
               _map?.morph({
@@ -338,6 +341,7 @@ export default function useMapLayout() {
             lat: item.lat,
             lng: item.long,
             onClick: () => {
+              if (isPanningRef.current) return;
               setPolygons([]);
               setSelectedSchoolID('');
               _map?.morph({
@@ -394,9 +398,10 @@ export default function useMapLayout() {
         id: item.school_id,
         lat: item.lat,
         lng: item.long,
-        name: schoolType==="2"? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
+        name: schoolType === '2' ? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
         type: st,
         onClick: async () => {
+          if (isPanningRef.current) return;
           const hakgudoRes = await getHakgudo(item.school_id);
           setPolygons(
             hakgudoRes?.list?.map((p: any) => {
@@ -525,24 +530,27 @@ export default function useMapLayout() {
   /**
    * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
    */
-  const onIdle = useMemo(
-    () =>
-      _.debounce(
-        (_map: NaverMap) => {
-          // query 파라미터에 현재 지도위치 정보를 넣어서,
-          // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-          setMapState(_map);
-          // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
-          handleCenterAddressChange(_map);
+  const onIdle = useCallback(
+    (_map: NaverMap) => {
+      isPanningRef.current = false;
+      // query 파라미터에 현재 지도위치 정보를 넣어서,
+      // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
+      setMapState(_map);
+      // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
+      handleCenterAddressChange(_map);
 
-          // 지도 코너 좌표값을 업데이트 한다.
-          updateBounds(_map);
-        },
-        300,
-        { leading: true, trailing: true },
-      ),
+      // 지도 코너 좌표값을 업데이트 한다.
+      updateBounds(_map);
+    },
     [handleCenterAddressChange, updateBounds],
   );
+
+  /**
+   *  지도가 움직일때 발생한다.
+   */
+  const onBoundsChanged = useCallback(() => {
+    isPanningRef.current = true;
+  }, []);
 
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
@@ -758,6 +766,7 @@ export default function useMapLayout() {
     onInit,
     onCreate,
     onClick: onMapClick,
+    onBoundsChanged,
     onIdle,
     onZoomStart,
     // ones with business logics
