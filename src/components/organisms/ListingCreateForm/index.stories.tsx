@@ -9,7 +9,7 @@ export default meta;
 
 export const BuyOrRent = () => <ListingCreateForm.BuyOrRent />;
 
-export const Price = () => <ListingCreateForm.Price buyOrRent={BuyOrRentType.Buy} />;
+export const Price = () => <ListingCreateForm.Price buyOrRent={BuyOrRentType.Wolsae} />;
 
 export const DebtSuccession = () => <ListingCreateForm.DebtSuccession />;
 

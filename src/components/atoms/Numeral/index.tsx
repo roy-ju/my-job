@@ -5,7 +5,7 @@ import { formatNumberInKorean } from '@/utils';
  * 숫자를 포맷해서 보여주는 컴포넌트
  */
 
-interface Props extends HTMLProps<HTMLSpanElement> {
+export interface NumeralProps extends HTMLProps<HTMLSpanElement> {
   thousandsSeparated?: boolean; // 1000 => 1,000
   koreanNumber?: boolean; // 350000000 => 3억 5000만
   koreanNumberShort?: boolean; // 350000000 => 3.5억
@@ -27,7 +27,7 @@ export default React.memo(
     suffix = '',
     children,
     ...spanProps
-  }: Props) => {
+  }: NumeralProps) => {
     const formatFn = useCallback(
       (value: number): string =>
         value.toLocaleString('ko-KR', {

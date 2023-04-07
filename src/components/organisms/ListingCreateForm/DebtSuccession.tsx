@@ -44,9 +44,12 @@ export default function DebtSuccession({
         </Button>
       </div>
       <div tw="mt-3 flex flex-col gap-4">
-        <TextField variant="outlined">
-          <TextField.Input label="보증금" value={deposit} onChange={handleChangePrice} />
-        </TextField>
+        <div>
+          <TextField variant="outlined">
+            <TextField.PriceInput label="보증금" value={deposit} onChange={handleChangePrice} />
+          </TextField>
+          <TextField.PriceHelperMessage>{deposit}</TextField.PriceHelperMessage>
+        </div>
       </div>
     </div>
   );

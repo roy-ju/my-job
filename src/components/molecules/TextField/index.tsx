@@ -17,6 +17,7 @@ import tw, { css, styled } from 'twin.macro';
 import ErrorIcon from '@/assets/icons/error.svg';
 import SuccessIcon from '@/assets/icons/success.svg';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import { Numeral } from '@/components/atoms';
 import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 import TextFieldContext, { SizeType, VariantType } from './TextFieldContext';
 
@@ -421,7 +422,22 @@ function SuccessMessage({ children }: SuccessMessageProps) {
   );
 }
 
-const HelperMessage = tw.div`text-end mt-2 text-info leading-4 pl-1 text-gray-700`;
+const HelperMessage = tw.div`text-end text-info leading-3 mt-2 h-3 pl-1 text-gray-700`;
+
+function PriceHelperMessage({
+  children,
+  ...props
+}: Omit<HTMLProps<HTMLDivElement>, 'children'> & { children: string | number }) {
+  const numberChild = Number(children) ?? 0;
+
+  if (!numberChild) return null;
+
+  return (
+    <HelperMessage {...props}>
+      <Numeral koreanNumber>{numberChild * 10000}</Numeral>
+    </HelperMessage>
+  );
+}
 
 export default Object.assign(Container, {
   Input,
@@ -433,4 +449,5 @@ export default Object.assign(Container, {
   ErrorMessage,
   SuccessMessage,
   HelperMessage,
+  PriceHelperMessage,
 });

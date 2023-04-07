@@ -51,13 +51,19 @@ export default function Price({
       </div>
       <div tw="text-info text-gray-700">가격협상 중에는 언제든 희망가를 수정할 수 있습니다.</div>
       <div tw="mt-3 flex flex-col gap-4">
-        <TextField variant="outlined">
-          <TextField.Input label="매매가" value={price} onChange={handleChangePrice} />
-        </TextField>
-        {buyOrRent === BuyOrRent.Wolsae && (
+        <div>
           <TextField variant="outlined">
-            <TextField.Input label="월차임" value={monthlyRentFee} onChange={handleChangeMonthlyRentFee} />
+            <TextField.PriceInput label="매매가" value={price} onChange={handleChangePrice} />
           </TextField>
+          <TextField.PriceHelperMessage>{price}</TextField.PriceHelperMessage>
+        </div>
+        {buyOrRent === BuyOrRent.Wolsae && (
+          <div>
+            <TextField variant="outlined">
+              <TextField.PriceInput label="월차임" value={monthlyRentFee} onChange={handleChangeMonthlyRentFee} />
+            </TextField>
+            <TextField.PriceHelperMessage>{monthlyRentFee}</TextField.PriceHelperMessage>
+          </div>
         )}
       </div>
     </div>
