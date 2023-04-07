@@ -1,6 +1,7 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import SearchIcon from '@/assets/icons/search.svg';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
+
 import TextField from '.';
 
 export default {
@@ -227,5 +228,33 @@ export const HelperMessages: ComponentStory<typeof TextField> = () => (
       </TextField>
       <TextField.SuccessMessage message="안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요" />
     </div>
+  </div>
+);
+
+export const Price = () => (
+  <div tw="flex flex-col gap-4">
+    <TextField variant="outlined">
+      <TextField.PriceInput placeholder="금액" />
+    </TextField>
+
+    <TextField variant="outlined">
+      <TextField.PriceInput label="금액" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.PriceInput label="금액" value="1000" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.PriceInput label="금액" value="1000" disabled />
+    </TextField>
+
+    <TextField variant="outlined" size="medium">
+      <TextField.PriceInput label="금액" />
+    </TextField>
+    <TextField variant="outlined" size="medium">
+      <TextField.PriceInput label="금액" value="1000" />
+    </TextField>
+    <TextField variant="outlined" size="medium">
+      <TextField.PriceInput label="금액" value="1000" disabled />
+    </TextField>
   </div>
 );
