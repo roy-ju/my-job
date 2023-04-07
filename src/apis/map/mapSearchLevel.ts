@@ -71,6 +71,7 @@ export default async function mapSearch({
   filter,
   mapToggleValue,
   priceType,
+  abortController,
 }: {
   level: number;
   bounds: {
@@ -82,6 +83,7 @@ export default async function mapSearch({
   filter: Filter;
   mapToggleValue: number;
   priceType: string;
+  abortController?: AbortController;
 }) {
   try {
     const f: MapSearchFilter = {
@@ -141,18 +143,22 @@ export default async function mapSearch({
       }
     }
 
-    const { data } = await axios.post(`/map/search/level/${level}`, {
-      ne_lat: bounds.ne.lat,
-      ne_long: bounds.ne.lng,
-      nw_lat: bounds.nw.lat,
-      nw_long: bounds.nw.lng,
-      sw_lat: bounds.sw.lat,
-      sw_long: bounds.sw.lng,
-      se_lat: bounds.se.lat,
-      se_long: bounds.se.lng,
-      price_type: priceType === 'buy' ? 1 : 2,
-      ...f,
-    });
+    const { data } = await axios.post(
+      `/map/search/level/${level}`,
+      {
+        ne_lat: bounds.ne.lat,
+        ne_long: bounds.ne.lng,
+        nw_lat: bounds.nw.lat,
+        nw_long: bounds.nw.lng,
+        sw_lat: bounds.sw.lat,
+        sw_long: bounds.sw.lng,
+        se_lat: bounds.se.lat,
+        se_long: bounds.se.lng,
+        price_type: priceType === 'buy' ? 1 : 2,
+        ...f,
+      },
+      { signal: abortController?.signal },
+    );
     return data as MapSearchResponse | MapSearchLevelOneResponse;
   } catch (e) {
     return null;
