@@ -49,5 +49,6 @@ export { default as FAQListItem } from './FAQListItem';
 export { default as ServiceInfoList } from './ServiceInfoList';
 export { default as RegisterForm } from './RegisterForm';
 export { default as AgentCardItem } from './AgentCardItem';
+export { default as TransationCondition } from './TransactionCondition';
 
 export * from './popups';
