@@ -119,6 +119,8 @@ function getUserLastLocation(): { lat: number; lng: number } {
 export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
 
+  const abortControllerRef = useRef<AbortController>();
+
   const [map, setMap] = useRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
@@ -247,12 +249,15 @@ export default function useMapLayout() {
    */
   const updateMarkers = useCallback(
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
       const res = await mapSearch({
         level: mapBounds.mapLevel,
         bounds: mapBounds,
         filter: mapFilter,
         mapToggleValue: toggleValue,
         priceType: priceTypeValue,
+        abortController: abortControllerRef.current,
       });
 
       setListingCount(res?.listing_count ?? 0);
@@ -530,18 +535,25 @@ export default function useMapLayout() {
   /**
    * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
    */
-  const onIdle = useCallback(
-    (_map: NaverMap) => {
-      isPanningRef.current = false;
-      // query 파라미터에 현재 지도위치 정보를 넣어서,
-      // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-      setMapState(_map);
-      // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
-      handleCenterAddressChange(_map);
+  const onIdle = useMemo(
+    () =>
+      _.debounce(
+        (_map: NaverMap) => {
+          setTimeout(() => {
+            isPanningRef.current = false;
+          }, 100);
+          // query 파라미터에 현재 지도위치 정보를 넣어서,
+          // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
+          setMapState(_map);
+          // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
+          handleCenterAddressChange(_map);
 
-      // 지도 코너 좌표값을 업데이트 한다.
-      updateBounds(_map);
-    },
+          // 지도 코너 좌표값을 업데이트 한다.
+          updateBounds(_map);
+        },
+        300,
+        { leading: true, trailing: true },
+      ),
     [handleCenterAddressChange, updateBounds],
   );
 
@@ -549,6 +561,7 @@ export default function useMapLayout() {
    *  지도가 움직일때 발생한다.
    */
   const onBoundsChanged = useCallback(() => {
+    console.log('panning');
     isPanningRef.current = true;
   }, []);
 
