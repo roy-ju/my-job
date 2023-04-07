@@ -82,8 +82,8 @@ export default function UpdatePhone({
                   </Button>
                 </TextField.Trailing>
               </TextField>
-              {codeErrorMessage && !codeVerified && <TextField.ErrorMessage message={codeErrorMessage} />}
-              {codeVerified && <TextField.SuccessMessage message="인증되었습니다" />}
+              {codeErrorMessage && !codeVerified && <TextField.ErrorMessage>{codeErrorMessage}</TextField.ErrorMessage>}
+              {codeVerified && <TextField.SuccessMessage>인증되었습니다</TextField.SuccessMessage>}
             </div>
           )}
         </div>

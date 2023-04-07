@@ -220,13 +220,15 @@ export const HelperMessages: ComponentStory<typeof TextField> = () => (
       <TextField>
         <TextField.Input label="주소" />
       </TextField>
-      <TextField.ErrorMessage message="안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요" />
+      <TextField.ErrorMessage>안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요</TextField.ErrorMessage>
     </div>
     <div>
       <TextField>
         <TextField.Input label="주소" />
       </TextField>
-      <TextField.SuccessMessage message="안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요" />
+      <TextField.SuccessMessage>
+        안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
+      </TextField.SuccessMessage>
     </div>
   </div>
 );
@@ -236,7 +238,6 @@ export const Price = () => (
     <TextField variant="outlined">
       <TextField.PriceInput placeholder="금액" />
     </TextField>
-
     <TextField variant="outlined">
       <TextField.PriceInput label="금액" />
     </TextField>
@@ -246,7 +247,6 @@ export const Price = () => (
     <TextField variant="outlined">
       <TextField.PriceInput label="금액" value="1000" disabled />
     </TextField>
-
     <TextField variant="outlined" size="medium">
       <TextField.PriceInput label="금액" />
     </TextField>
@@ -256,5 +256,25 @@ export const Price = () => (
     <TextField variant="outlined" size="medium">
       <TextField.PriceInput label="금액" value="1000" disabled />
     </TextField>
+  </div>
+);
+
+export const PriceWithHelper = () => (
+  <div tw="flex flex-col gap-4">
+    <div>
+      <TextField variant="outlined">
+        <TextField.PriceInput label="금액" />
+      </TextField>
+      <TextField.HelperMessage>100억 6,000만</TextField.HelperMessage>
+    </div>
+    <div>
+      <TextField variant="outlined" hasError>
+        <TextField.PriceInput label="금액" />
+      </TextField>
+      <div tw="flex justify-between">
+        <TextField.ErrorMessage>에러메시지</TextField.ErrorMessage>
+        <TextField.HelperMessage>100억 6,000만</TextField.HelperMessage>
+      </div>
+    </div>
   </div>
 );
