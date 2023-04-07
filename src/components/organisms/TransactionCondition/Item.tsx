@@ -1,4 +1,6 @@
-export interface ItemProps {
+import React from 'react';
+
+interface ItemProps {
   label?:
     | '거래종류'
     | '매매가'

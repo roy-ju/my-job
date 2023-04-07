@@ -9,10 +9,11 @@ interface AccordionProps {
   expanded?: boolean;
   onChange?: (expanded: boolean) => void;
   children?: ReactNode;
+  defaultExpanded?: boolean;
 }
 
-function Accordion({ expanded: expandedProp, onChange, children }: AccordionProps) {
-  const [expanded, setExpanded] = useControlled({ controlled: expandedProp, default: false });
+function Accordion({ expanded: expandedProp, onChange, children, defaultExpanded = false }: AccordionProps) {
+  const [expanded, setExpanded] = useControlled({ controlled: expandedProp, default: defaultExpanded });
 
   const handleChange = useCallback(
     (value: boolean) => {

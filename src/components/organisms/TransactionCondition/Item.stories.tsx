@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-import TransactionConditionListItem from '.';
+import TransactionConditionListItem from './Item';
 
 export default {
   title: 'organisms/TransactionConditionListItem',
@@ -22,3 +22,5 @@ export const Default: ComponentStory<typeof TransactionConditionListItem> = () =
     <TransactionConditionListItem label="특약조건" value="특약조건으로 무엇이 들어갈 수 있을까나 아아" />
   </div>
 );
+
+Default.args = {};
