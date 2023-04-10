@@ -561,7 +561,6 @@ export default function useMapLayout() {
    *  지도가 움직일때 발생한다.
    */
   const onBoundsChanged = useCallback(() => {
-    console.log('panning');
     isPanningRef.current = true;
   }, []);
 
