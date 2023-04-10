@@ -235,12 +235,16 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
         priceRange: [0, PRICE_STEPS.length - 1],
         depositRange: [0, DEPOSIT_STEPS.length - 1],
         rentRange: [0, RENT_STEPS.length - 1],
+        gapInvestment: false,
+        quickSale: false,
       }));
       handleUIChangeFilter?.({
         buyOrRents: newBuyOrRents,
         priceRange: [0, PRICE_STEPS.length - 1],
         depositRange: [0, DEPOSIT_STEPS.length - 1],
         rentRange: [0, RENT_STEPS.length - 1],
+        gapInvestment: false,
+        quickSale: false,
       });
     },
     [handleUIChangeFilter, setUIFilterState],
@@ -340,10 +344,18 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
 
   useEffect(() => {
     if (uiFilter.realestateTypeGroup === 'apt,oftl') {
-      setUIFilters(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+      if (uiFilter.buyOrRents === '1') {
+        setUIFilters(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+      } else {
+        setUIFilters(['realestateType', 'buyOrRent', 'price', 'household']);
+      }
     }
     if (uiFilter.realestateTypeGroup === 'villa,dandok') {
-      setUIFilters(['realestateType', 'buyOrRent', 'price', 'etc']);
+      if (uiFilter.buyOrRents === '1') {
+        setUIFilters(['realestateType', 'buyOrRent', 'price', 'etc']);
+      } else {
+        setUIFilters(['realestateType', 'buyOrRent', 'price']);
+      }
     }
     if (uiFilter.realestateTypeGroup === 'one,two') {
       setUIFilters(['realestateType', 'buyOrRent', 'price']);
