@@ -1,6 +1,11 @@
+import { MobileContainer } from '@/components/atoms';
 import My from '@/components/pages/mobile/My';
-import type { NextPage } from 'next';
+import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPage = () => <My />;
+const Page: NextPageWithLayout = () => <My />;
+
+Page.getLayout = function getLayout(page) {
+  return <MobileContainer>{page}</MobileContainer>;
+};
 
 export default Page;
