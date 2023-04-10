@@ -1,13 +1,10 @@
-/* eslint-disable consistent-return */
 import OutsideClick from '@/components/atoms/OutsideClick';
 
 import { Map } from '@/lib/navermap';
-import { MapLayout as Layout, MobGuideOverlay, MobMapStreetView } from '@/components/templates';
+import { MapLayout as Layout, MobMapStreetView } from '@/components/templates';
 import { AnimatePresence, motion } from 'framer-motion';
 import MobLayoutMapContainer from '@/components/templates/MobMapLayout';
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
-
-import { useEffect, useState } from 'react';
 
 import Markers from './Markers';
 import useMapLayout from './useMapLayout';
@@ -43,35 +40,9 @@ function MapWrapper() {
     ...props
   } = useMapLayout();
 
-  const [isRenderGuideOverlay, setIsRenderGuideOverlay] = useState(false);
-
-  const disappearGuideOverlay = () => {
-    setIsRenderGuideOverlay(false);
-  };
-
-  useEffect(() => {
-    if (localStorage.getItem('neogico-mob-map-initial') === 'true') {
-      setIsRenderGuideOverlay(false);
-      return;
-    }
-    if (!localStorage.getItem('neogico-mob-map-initial')) {
-      localStorage.setItem('neogico-mob-map-initial', 'true');
-      setIsRenderGuideOverlay(true);
-    }
-    return () => setIsRenderGuideOverlay(false);
-  }, []);
-
-  useEffect(() => {
-    if (isRenderGuideOverlay) {
-      const timeout = setTimeout(() => setIsRenderGuideOverlay(false), 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [isRenderGuideOverlay]);
-
   return (
     <>
       <MobileGlobalStyles />
-      {isRenderGuideOverlay && <MobGuideOverlay disappearGuideOverlay={disappearGuideOverlay} />}
       <MobLayoutMapContainer
         code={code}
         mapLayer={mapLayer}
@@ -107,7 +78,7 @@ function MapWrapper() {
         </Map>
         <AnimatePresence>
           {streetViewEvent && (
-            <Layout.Overlay tw="flex items-center justify-center w-full">
+            <Layout.Overlay tw="flex items-center justify-center w-full h-[100vh]">
               <div tw="w-[100%] max-w-mobile">
                 <OutsideClick onOutsideClick={handleCloseStreetView}>
                   <motion.div
@@ -115,7 +86,7 @@ function MapWrapper() {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                   >
-                    <div tw="min-w-[23.475rem] max-w-mobile max-h-[100vh] h-[100vh] bg-white">
+                    <div tw="min-w-[23.475rem] h-[100vh] max-h-[100vh] max-w-mobile bg-white">
                       <MobMapStreetView
                         position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
                         title={streetViewEvent.address}
