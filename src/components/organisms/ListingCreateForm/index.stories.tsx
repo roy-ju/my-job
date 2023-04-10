@@ -36,3 +36,11 @@ export const ExtraOptions = () => <ListingCreateForm.ExtraOptions />;
 export const AdminFee = () => <ListingCreateForm.AdminFee />;
 
 export const Description = () => <ListingCreateForm.Description />;
+
+export const RentArea = () => <ListingCreateForm.RentArea />;
+
+export const JeonsaeLoan = () => <ListingCreateForm.JeonsaeLoan isJeonsae />;
+
+export const MoveInDate = () => <ListingCreateForm.MoveInDate />;
+
+export const RentTerm = () => <ListingCreateForm.RentTerm />;
