@@ -22,8 +22,6 @@ export default function MobGlobalNavigation() {
     return { color: '#9DA2AC' };
   };
 
-  console.log(router.pathname);
-
   return (
     <div
       tw="w-full max-w-mobile flex flex-col gap-5 py-2 px-[0.6025rem] bg-white [z-index: 300]"

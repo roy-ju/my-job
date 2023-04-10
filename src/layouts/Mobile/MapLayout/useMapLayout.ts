@@ -181,8 +181,6 @@ export default function useMapLayout() {
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
-  console.log(mapToggleValue)
-
   const isPanningRef = useRef(false);
 
   const [code, setCode] = useState<string>();

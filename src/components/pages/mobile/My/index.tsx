@@ -1,12 +1,11 @@
 import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
-import { MobGlobalNavigation } from '@/components/organisms';
-import { My as MyTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
+import { MobMy as MobMyTemplate } from '@/components/templates';
 
-export default function My() {
+export default function MobMy() {
   const router = useRouter();
 
   const { user, isLoading } = useAuth();
@@ -33,7 +32,7 @@ export default function My() {
   }, [router]);
 
   const handleClickMyRealPriceList = useCallback(() => {
-    router.push(`my/${Routes.MyRealPriceList}`);
+    router.push(`my/${Routes.MyRealPriceListMobile}`);
   }, [router]);
 
   const handleClickTransactionHistory = useCallback(() => {
@@ -59,31 +58,28 @@ export default function My() {
   const handleCreateListing = useCallback(() => {
     router.push(`my/${Routes.ListingCreateAddress}`);
   }, [router]);
+
   return (
-    <div tw="fixed w-full max-w-mobile">
-      <div tw="overflow-y-hidden h-[calc(100vh-8rem)] mb-auto">
-        <MyTemplate
-          unreadNotificationCount={unreadNotificationCount}
-          isLoading={isLoading}
-          loggedIn={user !== null}
-          nickname={user?.nickname}
-          onClickLogin={handleClickLogin}
-          onClickNotificationList={handleClickNotificationList}
-          onClickMyDetail={handleClickMyDetail}
-          onClickNoticeList={handleClickNoticeList}
-          onClickQna={handleClickQna}
-          onClickMyRealPriceList={handleClickMyRealPriceList}
-          onClickTransactionHistory={handleClickTransactionHistory}
-          onClickFAQ={handleClickFAQ}
-          onClickNegoPoint={handleClickNegoPoint}
-          onClickCoupons={handleClickCoupons}
-          onClickServiceInfo={handleServiceInfo}
-          onClickCreateListing={handleCreateListing}
-        />
-      </div>
-      <div tw="w-full max-w-mobile fixed bottom-0 left-auto right-auto">
-        <MobGlobalNavigation />
-      </div>
-    </div>
+    <>
+      <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
+      <MobMyTemplate
+        unreadNotificationCount={unreadNotificationCount}
+        isLoading={isLoading}
+        loggedIn={user !== null}
+        nickname={user?.nickname}
+        onClickLogin={handleClickLogin}
+        onClickNotificationList={handleClickNotificationList}
+        onClickMyDetail={handleClickMyDetail}
+        onClickNoticeList={handleClickNoticeList}
+        onClickQna={handleClickQna}
+        onClickMyRealPriceList={handleClickMyRealPriceList}
+        onClickTransactionHistory={handleClickTransactionHistory}
+        onClickFAQ={handleClickFAQ}
+        onClickNegoPoint={handleClickNegoPoint}
+        onClickCoupons={handleClickCoupons}
+        onClickServiceInfo={handleServiceInfo}
+        onClickCreateListing={handleCreateListing}
+      />
+    </>
   );
 }

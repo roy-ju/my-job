@@ -27,6 +27,7 @@ export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
 export { default as MobSearchMap } from './MobSearchMap';
 export { default as MobAreaSearch } from './MobAreaSearch';
 export { default as MyRealPriceList } from './MyRealPriceList';
+export { default as MobMy } from './MobMy';
 export { default as TransactionHistory } from './TransactionHistory';
 export { default as FAQ } from './FAQ';
 export { default as NegoPoint } from './NegoPoint';

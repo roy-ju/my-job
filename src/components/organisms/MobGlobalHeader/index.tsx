@@ -25,6 +25,7 @@ export type HeaderProps = {
   isEndClose?: boolean;
   startComponent?: React.ReactNode;
   endComponent?: React.ReactNode;
+  onClickBack?: () => void;
 };
 
 export function MobGlobalHeader({
@@ -34,6 +35,7 @@ export function MobGlobalHeader({
   isEndClose = false,
   endComponent,
   startComponent,
+  onClickBack,
 }: HeaderProps) {
   const router = useRouter();
 
@@ -42,13 +44,18 @@ export function MobGlobalHeader({
       const navigationIndex = window.history.state?.idx;
       const canGoBack = navigationIndex !== 0;
 
+      if (onClickBack) {
+        onClickBack();
+        return;
+      }
+
       if (canGoBack) {
         router.back();
       } else {
         router.replace('/');
       }
     }
-  }, [router]);
+  }, [onClickBack, router]);
 
   return (
     <AppBar id="negocio-header">
