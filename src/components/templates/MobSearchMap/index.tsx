@@ -12,6 +12,8 @@ import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog'
 import Close from '@/assets/icons/close.svg';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 import useMobKakaoAddressAutocomplete from '@/hooks/services/useMobKakaoAddressAutoComplete';
+import { checkPlatform } from '@/utils/checkPlatform';
+import tw from 'twin.macro';
 
 function Guide() {
   return (
@@ -74,8 +76,8 @@ export function MobSearchMap() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div tw="w-[100%] max-w-mobile mx-auto z-[1000] bg-white">
-        <div tw="w-[100%] max-w-mobile fixed left-auto right-auto top-0 flex items-center gap-3 pt-4 pb-3 pr-4 pl-4 bg-white">
+      <div tw="fixed top-0 left-auto right-auto w-[100%] max-w-mobile mx-auto bg-white">
+        <div tw="w-[100%] max-w-mobile sticky top-0 left-auto right-auto flex items-center gap-3 pt-4 pb-3 pr-4 pl-4 bg-white">
           <Button variant="ghost" tw="px-0" onClick={closeAll}>
             <ChveronLeftIcon />
           </Button>
@@ -102,8 +104,11 @@ export function MobSearchMap() {
             </TextField.Trailing>
           </TextField>
         </div>
-        {/* <div tw="w-full bg-red h-[100%] fixed"> */}
-        <div tw="flex mt-[4.75rem] flex-col overflow-y-auto bg-white">
+
+        <div
+          tw="flex flex-col bg-white overflow-y-auto"
+          css={[checkPlatform() === 'mobile' ? tw`h-[calc(100vh-12rem)]` : tw`h-[calc(100vh-4.75rem)]`]}
+        >
           {!(recentSearches && recentSearches.length >= 1) && textValue.length === 0 && <Guide />}
 
           {textValue.length === 0 && recentSearches && recentSearches.length >= 1 && (
