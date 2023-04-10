@@ -25,6 +25,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     contractAmountNegotiable,
     remainingAmount,
     interims,
+    debtSuccessionDeposit,
+    debtSuccessionMiscs,
+    collaterals,
+    specialTerms,
+    moveInDate,
+    beforeOrAfter,
     handleChangeIsOwner,
     handleChangeOwnerName,
     handleChangeOwnerPhone,
@@ -38,6 +44,27 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeContractAmount,
     handleChangeContractAmountNegotiable,
     handleChangeRemainingAmount,
+    handleChangeDebtSuccessionDeposit,
+    handleAddDebtSuccessionMisc,
+    handleChangeSpecialTerms,
+    handleAddCollaterals,
+    handleChangeBeforeOrAfter,
+    handleChangeMoveInDate,
+
+    remainingAmountDate,
+    remainingAmountBeforeOrAfter,
+    handleChangeRemainingAmountDate,
+    handleChangeRemainingAmountBeforeOrAfter,
+
+    rentArea,
+    handleChangeRentArea,
+
+    rentTermMonth,
+    rentTermYear,
+    rentTermNegotiable,
+    handleChangeRentTermMonth,
+    handleChangeRentTermYear,
+    handleChangeRentTermNegotiable,
   } = useListingCreateForm(depth);
 
   return (
@@ -56,6 +83,12 @@ export default memo(({ depth, panelWidth }: Props) => {
         contractAmountNegotiable={contractAmountNegotiable}
         remainingAmount={remainingAmount}
         interims={interims}
+        debtSuccessionDeposit={debtSuccessionDeposit}
+        debtSuccessionMiscs={debtSuccessionMiscs}
+        collaterals={collaterals}
+        specialTerms={specialTerms}
+        moveInDate={moveInDate}
+        beforeOrAfter={beforeOrAfter}
         onClickNext={handleClickNext}
         onChangeIsOwner={handleChangeIsOwner}
         onChangeOwnerName={handleChangeOwnerName}
@@ -67,6 +100,24 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeContractAmount={handleChangeContractAmount}
         onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
         onChangeRemainingAmount={handleChangeRemainingAmount}
+        onChangeDebtSuccessionDeposit={handleChangeDebtSuccessionDeposit}
+        onClickAddDebtSuccessionMisc={handleAddDebtSuccessionMisc}
+        onChangeSpecialTerms={handleChangeSpecialTerms}
+        onClickAddCollateral={handleAddCollaterals}
+        onChangeMoveInDate={handleChangeMoveInDate}
+        onChangeBeforeOrAfter={handleChangeBeforeOrAfter}
+        remainingAmountDate={remainingAmountDate}
+        remainingAmountBeforeOrAfter={remainingAmountBeforeOrAfter}
+        onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
+        onChangeRemainingAmountBeforeOrAfter={handleChangeRemainingAmountBeforeOrAfter}
+        rentArea={rentArea}
+        onChangeRentArea={handleChangeRentArea}
+        rentTermYear={rentTermYear}
+        rentTermMonth={rentTermMonth}
+        rentTermNegotiable={rentTermNegotiable}
+        onChangeRentTermYear={handleChangeRentTermYear}
+        onChangeRentTermMonth={handleChangeRentTermMonth}
+        onChangeRentTermNegotiable={handleChangeRentTermNegotiable}
       />
       {popup === 'buyOrRentChagne' && (
         <OverlayPresenter>

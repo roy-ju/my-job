@@ -1,26 +1,67 @@
 import { Dropdown } from '@/components/molecules';
-import Check from '@/assets/icons/check.svg';
+import CheckIcon from '@/assets/icons/check.svg';
+import { useControlled } from '@/hooks/utils';
+import { useCallback } from 'react';
+import { Button } from '@/components/atoms';
 
 interface RentTermProps {
-  onClick?: () => void;
+  rentTermYear?: string;
+  rentTermMonth?: string;
+  rentTermNegotiable?: boolean;
+  onChangeRentTermYear?: (value: string) => void;
+  onChangeRentTermMonth?: (value: string) => void;
+  onChangeRentTermNegotiable?: (value: boolean) => void;
 }
 
-export default function RentTerm({ onClick: handleClick }: RentTermProps) {
+export default function RentTerm({
+  rentTermYear,
+  rentTermMonth,
+  rentTermNegotiable,
+  onChangeRentTermYear,
+  onChangeRentTermMonth,
+  onChangeRentTermNegotiable,
+}: RentTermProps) {
+  const [negotiable, setNegotiable] = useControlled({
+    controlled: rentTermNegotiable,
+    default: true,
+  });
+
+  const handleChangeNegotiable = useCallback(
+    (checked: boolean) => {
+      setNegotiable(checked);
+      onChangeRentTermNegotiable?.(checked);
+    },
+    [setNegotiable, onChangeRentTermNegotiable],
+  );
+
   return (
     <div>
       <div>
         <div tw="flex justify-between mb-3">
           <div tw="text-b1 leading-none font-bold">임대 기간</div>
-          <button type="button" onClick={handleClick} tw="flex gap-2.5 py-2 px-4 bg-gray-200 rounded-lg">
-            <span tw="text-gray-600">
-              <Check />
-            </span>
-            <span tw="text-b2 leading-none">협의 불가</span>
-          </button>
+          <Button
+            size="small"
+            variant="gray"
+            selected={!negotiable}
+            onClick={() => handleChangeNegotiable(!negotiable)}
+          >
+            <CheckIcon tw="mr-2 text-gray-600" />
+            협의 불가
+          </Button>
         </div>
         <div tw="flex gap-3">
-          <Dropdown tw="flex-1 min-w-0 text-black" variant="outlined" value="2년" />
-          <Dropdown tw="flex-1 min-w-0 text-black" variant="outlined" value="0개월" />
+          <Dropdown
+            tw="flex-1 min-w-0 text-black"
+            variant="outlined"
+            value={rentTermYear}
+            onChange={onChangeRentTermYear}
+          />
+          <Dropdown
+            tw="flex-1 min-w-0 text-black"
+            variant="outlined"
+            value={rentTermMonth}
+            onChange={onChangeRentTermMonth}
+          />
         </div>
       </div>
     </div>
