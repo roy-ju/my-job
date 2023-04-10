@@ -1,7 +1,11 @@
+import { InterimType } from '@/components/templates/ListingCreateForm/FormContext';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { useCallback, useMemo, useState } from 'react';
+import { BuyOrRent } from '@/constants/enums';
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+// import Routes from '@/router/routes';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 type PopupType = 'none' | 'buyOrRentChagne';
 
@@ -13,12 +17,48 @@ export default function useListingCreateForm(depth: number) {
   const [forms, setForms] = useState<string[]>([Forms.IsOwner]);
 
   const [isOwner, setIsOwner] = useState(true);
+  const [ownerName, setOwnerName] = useState('');
+  const [ownerPhone, setOwnerPhone] = useState('');
+
   const [buyOrRent, setBuyOrRent] = useState(0);
   const [price, setPrice] = useState('');
   const [monthlyRentFee, setMonthlyRentFee] = useState('');
+  const [contractAmount, setContractAmount] = useState('');
+  const [contractAmountNegotiable, setContractAmountNegotiable] = useState(true);
+  const [remainingAmount, setRemainingAmount] = useState('');
+  const [interims, setInterims] = useState<InterimType[]>([]);
 
-  const setNextForm = useCallback((formName: string) => {
-    setForms((prev) => [...prev, formName]);
+  const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
+
+  const addressLine1 = useMemo(() => {
+    if (addressData) {
+      if (addressData.roadAddressName) {
+        return addressData.roadAddressName;
+      }
+      return addressData.addressName;
+    }
+    return '';
+  }, [addressData]);
+
+  const addressLine2 = useMemo(() => {
+    if (addressData && addressData.placeName) {
+      return addressData.placeName;
+    }
+    return '';
+  }, [addressData]);
+
+  useEffect(() => {
+    const { addressData: inAddressData } = router.query;
+    if (!inAddressData) {
+      // router.replace(Routes.ListingCreateAddress);
+    } else {
+      const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
+      setAddressData(parsed);
+    }
+  }, [router]);
+
+  const setNextForm = useCallback((...formNames: string[]) => {
+    setForms((prev) => [...prev, ...formNames]);
   }, []);
 
   const resetBuyOrRent = useCallback(() => {
@@ -50,25 +90,74 @@ export default function useListingCreateForm(depth: number) {
     [forms, resetBuyOrRent, resetPrice],
   );
 
+  /** Input Validations 과 다음에는 어떤 필드가 올지 결정하는 핸들러들 */
+
   const handleSubmitIsOwner = useCallback(() => {
     setNextForm(Forms.BuyOrRent);
   }, [setNextForm]);
 
   const handleSubmitBuyOrRent = useCallback(() => {
+    if (buyOrRent === 0) {
+      console.error('buy_or_rent cannot be 0');
+      return;
+    }
+
     setNextForm(Forms.Price);
-  }, [setNextForm]);
+  }, [buyOrRent, setNextForm]);
 
   const handleSubmitPrice = useCallback(() => {
+    if (price === '') {
+      console.error('price is required');
+      return;
+    }
+
+    if (buyOrRent === BuyOrRent.Wolsae && monthlyRentFee === '') {
+      console.error('monthly_rent_fee is required');
+      return;
+    }
+
     setNextForm(Forms.PaymentSchedules);
-  }, [setNextForm]);
+  }, [buyOrRent, price, monthlyRentFee, setNextForm]);
 
   const handleSubmitPaymentSchedules = useCallback(() => {
     setNextForm(Forms.SpecialTerms);
   }, [setNextForm]);
 
   const handleSubmitSpecialTerms = useCallback(() => {
-    router.replace(Routes.ListingCreateChooseAgent);
-  }, [router]);
+    setNextForm(Forms.ListingOptions, Forms.ExtraOptions, Forms.AdminFee, Forms.Description);
+  }, [setNextForm]);
+
+  const handleSubmitFinal = useCallback(() => {
+    console.log(router.asPath);
+    console.log({
+      addressData,
+      isOwner,
+      ownerName,
+      ownerPhone,
+      buyOrRent,
+      price,
+      monthlyRentFee,
+      contractAmount,
+      contractAmountNegotiable,
+      remainingAmount,
+      interims,
+    });
+
+    // router.replace(Routes.ListingCreateChooseAgent);
+  }, [
+    addressData,
+    isOwner,
+    ownerName,
+    ownerPhone,
+    buyOrRent,
+    price,
+    monthlyRentFee,
+    contractAmount,
+    contractAmountNegotiable,
+    remainingAmount,
+    interims,
+    router,
+  ]);
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
@@ -88,6 +177,9 @@ export default function useListingCreateForm(depth: number) {
       case Forms.SpecialTerms:
         handleSubmitSpecialTerms();
         break;
+      case Forms.Description:
+        handleSubmitFinal();
+        break;
       default:
         break;
     }
@@ -98,6 +190,7 @@ export default function useListingCreateForm(depth: number) {
     handleSubmitPrice,
     handleSubmitPaymentSchedules,
     handleSubmitSpecialTerms,
+    handleSubmitFinal,
   ]);
 
   const handleCancelChangeBuyOrRent = useCallback(() => {
@@ -111,6 +204,14 @@ export default function useListingCreateForm(depth: number) {
 
   const handleChangeIsOwner = useCallback((value: boolean) => {
     setIsOwner(value);
+  }, []);
+
+  const handleChangeOwnerName = useCallback((value: string) => {
+    setOwnerName(value);
+  }, []);
+
+  const handleChangeOwnerPhone = useCallback((value: string) => {
+    setOwnerPhone(value);
   }, []);
 
   const handleChangeBuyOrRent = useCallback(
@@ -133,18 +234,120 @@ export default function useListingCreateForm(depth: number) {
     setMonthlyRentFee(value);
   }, []);
 
+  const handleChangeContractAmount = useCallback((value: string) => {
+    setContractAmount(value);
+  }, []);
+
+  const handleChangeContractAmountNegotiable = useCallback((value: boolean) => {
+    setContractAmountNegotiable(value);
+  }, []);
+
+  const handleChangeRemainingAmount = useCallback((value: string) => {
+    setRemainingAmount(value);
+  }, []);
+
+  const handleChangeInterimPrice = useCallback(
+    (key: string) => (value: string) => {
+      setInterims((prev) => {
+        const updated = [...prev];
+        const interim = prev.find((item) => item.key === key);
+        if (interim) {
+          interim.price = value;
+        }
+        return updated;
+      });
+    },
+    [],
+  );
+
+  const handleChangeInterimNegotiable = useCallback(
+    (key: string) => (value: boolean) => {
+      setInterims((prev) => {
+        const updated = [...prev];
+        const interim = prev.find((item) => item.key === key);
+        if (interim) {
+          interim.negotiable = value;
+        }
+        return updated;
+      });
+    },
+    [],
+  );
+
+  const handleRemoveInterim = useCallback(
+    (key: string) => () => {
+      setInterims((prev) => prev.filter((interim) => interim.key !== key));
+    },
+    [],
+  );
+
+  const handleAddInterim = useCallback(() => {
+    const newInterims = [...interims];
+    const key = uuidv4();
+    newInterims.push({ price: '', negotiable: true, key });
+    newInterims[newInterims.length - 1].onRemove = handleRemoveInterim(key);
+    newInterims[newInterims.length - 1].onChangePrice = handleChangeInterimPrice(key);
+    newInterims[newInterims.length - 1].onChangeNegotiable = handleChangeInterimNegotiable(key);
+    setInterims(newInterims);
+  }, [interims, handleRemoveInterim, handleChangeInterimPrice, handleChangeInterimNegotiable]);
+
+  useIsomorphicLayoutEffect(() => {
+    const currentForm = forms[forms.length - 1];
+    if (currentForm === Forms.IsOwner) return;
+    // 기타정보
+    if (currentForm === Forms.Description) {
+      const formElement = document.getElementById(Forms.ListingOptions);
+      formElement?.scrollIntoView({ behavior: 'smooth' });
+      const nextButtonContainer = document.getElementById('formSubmitContainer');
+      if (nextButtonContainer) {
+        nextButtonContainer.style.height = '';
+      }
+
+      return;
+    }
+
+    const formContainer = document.getElementById('formContainer');
+    const formElement = document.getElementById(currentForm);
+    const nextButtonContainer = document.getElementById('formSubmitContainer');
+
+    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
+    const formElementHeight = formElement?.getBoundingClientRect().height ?? 0;
+
+    if (nextButtonContainer) {
+      nextButtonContainer.style.height = `${containerHeight - formElementHeight}px`;
+      formElement?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [forms]);
+
   return useMemo(
     () => ({
+      addressLine1,
+      addressLine2,
+
       forms,
       isOwner,
+      ownerName,
+      ownerPhone,
       buyOrRent,
       price,
       monthlyRentFee,
+
+      contractAmount,
+      contractAmountNegotiable,
+      remainingAmount,
+      interims,
+
       handleChangeIsOwner,
+      handleChangeOwnerName,
+      handleChangeOwnerPhone,
       handleChangeBuyOrRent,
       handleClickNext,
       handleChangePrice,
       handleChangeMonthlyRentFee,
+      handleChangeContractAmount,
+      handleChangeContractAmountNegotiable,
+      handleChangeRemainingAmount,
+      handleAddInterim,
 
       // Popup actions
       popup,
@@ -152,19 +355,36 @@ export default function useListingCreateForm(depth: number) {
       handleConfirmChangeBuyOrRent,
     }),
     [
+      addressLine1,
+      addressLine2,
+
       popup,
       forms,
       isOwner,
+      ownerName,
+      ownerPhone,
       buyOrRent,
       price,
       monthlyRentFee,
+      contractAmount,
+      contractAmountNegotiable,
+      remainingAmount,
+
+      interims,
+
       handleChangeIsOwner,
+      handleChangeOwnerName,
+      handleChangeOwnerPhone,
       handleChangeBuyOrRent,
       handleClickNext,
       handleCancelChangeBuyOrRent,
       handleConfirmChangeBuyOrRent,
       handleChangePrice,
       handleChangeMonthlyRentFee,
+      handleChangeContractAmount,
+      handleChangeContractAmountNegotiable,
+      handleChangeRemainingAmount,
+      handleAddInterim,
     ],
   );
 }

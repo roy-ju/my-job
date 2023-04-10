@@ -2,7 +2,7 @@ import { Button, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { useCallback, useMemo } from 'react';
-import FormContext from './FormContext';
+import FormContext, { InterimType } from './FormContext';
 import FormRenderer, { Forms } from './FormRenderer';
 
 export interface ListingCreateFormProps {
@@ -16,12 +16,23 @@ export interface ListingCreateFormProps {
   buyOrRent?: number;
   price?: string;
   monthlyRentFee?: string;
+  contractAmount?: string;
+  contractAmountNegotiable?: boolean;
+  remainingAmount?: string;
+  interims?: InterimType[];
+
   onChangeIsOwner?: (value: boolean) => void;
   onChangeOwnerName?: (value: string) => void;
   onChangeOwnerPhone?: (value: string) => void;
   onChangeBuyOrRent?: (value: number) => void;
   onChangePrice?: (value: string) => void;
-  onChnageMonthlyRentFee?: (value: string) => void;
+  onChangeMonthlyRentFee?: (value: string) => void;
+
+  onClickAddInterim?: () => void;
+  onChangeContractAmount?: (value: string) => void;
+  onChangeContractAmountNegotiable?: (value: boolean) => void;
+  onChangeRemainingAmount?: (value: string) => void;
+
   onClickNext?: () => void;
 }
 
@@ -36,15 +47,28 @@ export default function ListingCreateForm({
   buyOrRent: buyOrRentProp,
   price: priceProp,
   monthlyRentFee: monthlyRentFeeProp,
+
+  contractAmount: contractAmountProp,
+  contractAmountNegotiable: contractAmountNegotiableProp,
+  remainingAmount: remainingAmountProp,
+  interims: interimsProp,
+
   onChangeIsOwner,
   onChangeOwnerName,
   onChangeOwnerPhone,
   onChangeBuyOrRent,
   onChangePrice,
-  onChnageMonthlyRentFee,
+  onChangeMonthlyRentFee,
   onClickNext,
+
+  onChangeContractAmount,
+  onChangeContractAmountNegotiable,
+  onChangeRemainingAmount,
+  onClickAddInterim,
 }: ListingCreateFormProps) {
   const defaultForms = useMemo(() => [Forms.IsOwner], []);
+  const defaultInterims = useMemo(() => [] as InterimType[], []);
+
   const [forms] = useControlled({ controlled: formsProp, default: defaultForms });
 
   const [isOwner, setIsOwner] = useControlled({ controlled: isOwnerProp, default: true });
@@ -53,6 +77,13 @@ export default function ListingCreateForm({
   const [buyOrRent, setBuyOrRent] = useControlled({ controlled: buyOrRentProp, default: 0 });
   const [price, setPrice] = useControlled({ controlled: priceProp, default: '' });
   const [monthlyRentFee, setMonthlyRentFee] = useControlled({ controlled: monthlyRentFeeProp, default: '' });
+  const [contractAmount, setContractAmount] = useControlled({ controlled: contractAmountProp, default: '' });
+  const [contractAmountNegotiable, setContractAmountNegotiable] = useControlled({
+    controlled: contractAmountNegotiableProp,
+    default: true,
+  });
+  const [remainingAmount, setRemainingAmount] = useControlled({ controlled: remainingAmountProp, default: '' });
+  const [interims] = useControlled({ controlled: interimsProp, default: defaultInterims });
 
   const handleChangeIsOwner = useCallback(
     (value: boolean) => {
@@ -97,10 +128,38 @@ export default function ListingCreateForm({
   const handleChangeMonthlyRentFee = useCallback(
     (value: string) => {
       setMonthlyRentFee(value);
-      onChnageMonthlyRentFee?.(value);
+      onChangeMonthlyRentFee?.(value);
     },
-    [setMonthlyRentFee, onChnageMonthlyRentFee],
+    [setMonthlyRentFee, onChangeMonthlyRentFee],
   );
+
+  const handleChangeContractAmount = useCallback(
+    (value: string) => {
+      setContractAmount(value);
+      onChangeContractAmount?.(value);
+    },
+    [setContractAmount, onChangeContractAmount],
+  );
+
+  const handleChangeContractAmountNegotiable = useCallback(
+    (value: boolean) => {
+      setContractAmountNegotiable(value);
+      onChangeContractAmountNegotiable?.(value);
+    },
+    [setContractAmountNegotiable, onChangeContractAmountNegotiable],
+  );
+
+  const handleChangeRemainingAmount = useCallback(
+    (value: string) => {
+      setRemainingAmount(value);
+      onChangeRemainingAmount?.(value);
+    },
+    [setRemainingAmount, onChangeRemainingAmount],
+  );
+
+  const handleAddInterim = useCallback(() => {
+    onClickAddInterim?.();
+  }, [onClickAddInterim]);
 
   const context = useMemo(
     () => ({
@@ -110,12 +169,20 @@ export default function ListingCreateForm({
       buyOrRent,
       price,
       monthlyRentFee,
+      contractAmount,
+      contractAmountNegotiable,
+      remainingAmount,
+      interims,
       onChangeIsOwner: handleChangeIsOwner,
       onChangeOwnerName: handleChangeOwnerName,
       onChangeOwnerPhone: handleChangeOwnerPhone,
       onChangeBuyOrRent: handleChangeBuyOrRent,
       onChangePrice: handleChangePrice,
       onChangeMonthlyRentFee: handleChangeMonthlyRentFee,
+      onChangeContractAmount: handleChangeContractAmount,
+      onChangeContractAmountNegotiable: handleChangeContractAmountNegotiable,
+      onChangeRemainingAmount: handleChangeRemainingAmount,
+      onClickAddInterim: handleAddInterim,
     }),
     [
       isOwner,
@@ -124,12 +191,20 @@ export default function ListingCreateForm({
       buyOrRent,
       price,
       monthlyRentFee,
+      contractAmount,
+      contractAmountNegotiable,
+      remainingAmount,
+      interims,
       handleChangeIsOwner,
       handleChangeOwnerName,
       handleChangeOwnerPhone,
       handleChangeBuyOrRent,
       handleChangePrice,
       handleChangeMonthlyRentFee,
+      handleChangeContractAmount,
+      handleChangeContractAmountNegotiable,
+      handleChangeRemainingAmount,
+      handleAddInterim,
     ],
   );
 
@@ -143,7 +218,7 @@ export default function ListingCreateForm({
         <NavigationHeader.Title>매물등록 신청</NavigationHeader.Title>
       </NavigationHeader>
       <FormContext.Provider value={context}>
-        <div tw="flex-1 min-h-0 overflow-auto">
+        <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">
           <div tw="px-5 pt-6 pb-10">
             <div tw="text-b1 leading-none font-bold mb-3">매물 주소</div>
             <div tw="text-b1">{addressLine1}</div>
@@ -157,7 +232,7 @@ export default function ListingCreateForm({
             </div>
           ))}
 
-          <div tw="px-5 pb-20">
+          <div id="formSubmitContainer" tw="px-5 pb-20">
             <Button onClick={handleClickNext} tw="w-full" size="bigger">
               다음
             </Button>
