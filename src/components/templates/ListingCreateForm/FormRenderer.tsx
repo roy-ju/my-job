@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { ListingCreateForm as Form } from '@/components/organisms';
 import { BuyOrRent } from '@/constants/enums';
 import { useContext } from 'react';
@@ -9,6 +10,10 @@ export const Forms = {
   BuyOrRent: 'buyOrRent',
   PaymentSchedules: 'paymentSchedule',
   SpecialTerms: 'specialTerms',
+  ListingOptions: 'listingOptions',
+  ExtraOptions: 'extraOptions',
+  AdminFee: 'adminFee',
+  Description: 'description',
 };
 
 interface Props {
@@ -33,13 +38,22 @@ export default function FormRenderer({ form }: Props) {
     monthlyRentFee,
     onChangePrice,
     onChangeMonthlyRentFee,
+    // 희망 지급일정
+    contractAmount,
+    contractAmountNegotiable,
+    remainingAmount,
+    interims,
+    onChangeContractAmount,
+    onChangeContractAmountNegotiable,
+    onChangeRemainingAmount,
+    onClickAddInterim,
   } = useContext(FormContext);
 
   switch (form) {
     case Forms.IsOwner:
       return (
-        <>
-          <div tw="px-5 pt-10 pb-5">
+        <div>
+          <div id={Forms.IsOwner} tw="px-5 pt-10 pb-5">
             <Form.IsOwner isOwner={isOwner} onChangeIsOwner={onChangeIsOwner} />
           </div>
           {!isOwner && (
@@ -52,17 +66,17 @@ export default function FormRenderer({ form }: Props) {
               />
             </div>
           )}
-        </>
+        </div>
       );
     case Forms.BuyOrRent:
       return (
-        <div tw="px-5 py-10">
+        <div id={Forms.BuyOrRent} tw="px-5 py-10">
           <Form.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
         </div>
       );
     case Forms.Price:
       return (
-        <div tw="px-5 py-10">
+        <div id={Forms.Price} tw="px-5 py-10">
           <Form.Price
             buyOrRent={buyOrRent ?? BuyOrRent.Buy}
             price={price}
@@ -74,27 +88,64 @@ export default function FormRenderer({ form }: Props) {
       );
     case Forms.PaymentSchedules:
       return (
-        <div tw="py-10">
+        <div id={Forms.PaymentSchedules} tw="py-10">
           <div tw="pb-7 px-5">
-            <Form.PaymentSchedule showCalculator={buyOrRent === BuyOrRent.Buy} />
+            <Form.PaymentSchedule showCalculator={buyOrRent === BuyOrRent.Buy} onClickAddInterim={onClickAddInterim} />
           </div>
           <div tw="px-5 pb-7 border-b border-b-gray-300">
-            <Form.ContractAmount />
+            <Form.ContractAmount
+              price={contractAmount}
+              negotiable={contractAmountNegotiable}
+              onChangePrice={onChangeContractAmount}
+              onChangeNegotiable={onChangeContractAmountNegotiable}
+            />
           </div>
-          <div tw="px-5 py-7 flex flex-col gap-4 border-b border-b-gray-300">
-            <Form.InterimAmount />
-            <Form.Schedule />
-          </div>
+          {interims?.map((interim) => (
+            <div key={interim.key} tw="px-5 py-7 flex flex-col gap-4 border-b border-b-gray-300">
+              <Form.InterimAmount
+                price={interim.price}
+                negotiable={interim.negotiable}
+                onChangePrice={interim.onChangePrice}
+                onChangeNegotiable={interim.onChangeNegotiable}
+                onClickRemove={interim.onRemove}
+              />
+              <Form.Schedule />
+            </div>
+          ))}
           <div tw="px-5 pt-7 flex flex-col gap-4">
-            <Form.RemainingAmount />
+            <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
             <Form.Schedule />
           </div>
         </div>
       );
     case Forms.SpecialTerms:
       return (
-        <div tw="px-5 py-10">
+        <div id={Forms.SpecialTerms} tw="px-5 py-10">
           <Form.SpecialTerms />
+        </div>
+      );
+    case Forms.ListingOptions:
+      return (
+        <div id={Forms.ListingOptions} tw="px-5 py-10">
+          <Form.ListingOptions />
+        </div>
+      );
+    case Forms.ExtraOptions:
+      return (
+        <div id={Forms.ExtraOptions} tw="px-5 py-10">
+          <Form.ExtraOptions />
+        </div>
+      );
+    case Forms.AdminFee:
+      return (
+        <div id={Forms.AdminFee} tw="px-5 py-10">
+          <Form.AdminFee />
+        </div>
+      );
+    case Forms.Description:
+      return (
+        <div id={Forms.Description} tw="px-5 py-10">
+          <Form.Description />
         </div>
       );
     default:
