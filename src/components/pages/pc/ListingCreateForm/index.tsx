@@ -30,7 +30,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeOwnerPhone,
     handleChangeBuyOrRent,
     handleClickNext,
-    handleCancelChangeBuyOrRent,
+    closePopup,
     handleConfirmChangeBuyOrRent,
     handleChangePrice,
     handleChangeMonthlyRentFee,
@@ -75,7 +75,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.Title>입력하신 값들이 초기화 됩니다.</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={handleCancelChangeBuyOrRent}>취소</Popup.CancelButton>
+              <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
               <Popup.ActionButton onClick={handleConfirmChangeBuyOrRent}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
