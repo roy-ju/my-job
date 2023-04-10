@@ -26,3 +26,5 @@ export const PaymentSchedule = () => <ListingCreateForm.PaymentSchedule />;
 export const IsOwner = () => <ListingCreateForm.IsOwner />;
 
 export const OwnerInfo = () => <ListingCreateForm.OwnerInfo />;
+
+export const SpecialTerms = () => <ListingCreateForm.SpecialTerms />;

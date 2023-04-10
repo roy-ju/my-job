@@ -1,7 +1,7 @@
 import { TextField } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
 import { useControlled } from '@/hooks/utils';
-import { ChangeEventHandler, useCallback } from 'react';
+import { ChangeEventHandler, useCallback, useMemo } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import { Button } from '@/components/atoms';
 
@@ -22,6 +22,12 @@ export default function Price({
   onChangeMonthlyRentFee,
   onClickQuestion,
 }: PriceProps) {
+  const priceLabel = useMemo(() => {
+    if (buyOrRent === BuyOrRent.Buy) return '매매가';
+    if (buyOrRent === BuyOrRent.Jeonsae) return '전세가';
+    return '보증금';
+  }, [buyOrRent]);
+
   const [price, setPrice] = useControlled({ controlled: priceProp, default: '' });
   const [monthlyRentFee, setMonthlyRentFee] = useControlled({ controlled: monthlyRentFeeProp, default: '' });
 
@@ -53,7 +59,7 @@ export default function Price({
       <div tw="mt-3 flex flex-col gap-4">
         <div>
           <TextField variant="outlined">
-            <TextField.PriceInput label="매매가" value={price} onChange={handleChangePrice} />
+            <TextField.PriceInput label={priceLabel} value={price} onChange={handleChangePrice} />
           </TextField>
           <TextField.PriceHelperMessage>{price}</TextField.PriceHelperMessage>
         </div>
