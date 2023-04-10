@@ -36,7 +36,7 @@ export default function RentArea({ value, onChangeValue, onClickQuestion }: Rent
   return (
     <div>
       <div tw="mb-3 flex items-center gap-1">
-        <div tw="text-b1 leading-none font-bold">특약조건</div>
+        <div tw="text-b1 leading-none font-bold">임대할 부분</div>
         <Button variant="ghost" size="none" tw="pb-px" onClick={onClickQuestion}>
           <QuestionIcon />
         </Button>
