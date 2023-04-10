@@ -7,8 +7,8 @@ export interface MobileContainerProps {
 export default function MobileContainer({ children }: MobileContainerProps) {
   return (
     <>
-      <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
-      <div tw="max-w-mobile min-h-screen my-0 mx-auto h-full">{children}</div>
+      {/* <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" /> */}
+      <div tw="relative max-w-mobile [min-height: 100vh] my-0 mx-auto [z-index: 1]">{children}</div>
     </>
   );
 }

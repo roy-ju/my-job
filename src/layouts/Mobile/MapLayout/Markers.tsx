@@ -78,27 +78,25 @@ export default function Markers({
         ))}
 
       {mapLevel === 1 &&
-        markers.map((marker) => {
-          console.log(marker);
-          return (
-            <DeferredRender key={marker.id}>
-              <CustomOverlay
-                zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
-                anchor="bottom-left"
-                position={{
-                  lat: marker.lat,
-                  lng: marker.lng,
-                }}
+        markers.map((marker) => (
+          <DeferredRender key={marker.id}>
+            <CustomOverlay
+              zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
+              anchor="bottom-left"
+              position={{
+                lat: marker.lat,
+                lng: marker.lng,
+              }}
+            >
+              <MobDanjiMarker
+                selected={selectedDanjiSummary?.id === marker.id}
+                variant={marker.variant}
+                area={Number(marker?.pyoung ?? 0)}
+                price={marker.price ?? 0}
+                count={marker?.listingCount ?? 0}
+                onClick={marker.onClick}
               >
-                <MobDanjiMarker
-                  selected={selectedDanjiSummary?.id === marker.id}
-                  variant={marker.variant}
-                  area={Number(marker?.pyoung ?? 0)}
-                  price={marker.price ?? 0}
-                  count={marker?.listingCount ?? 0}
-                  onClick={marker.onClick}
-                >
-                  {/* {selectedDanjiSummary?.id === marker.id && (
+                {/* {selectedDanjiSummary?.id === marker.id && (
                     <MobDanjiMarker.Popper
                       name={selectedDanjiSummary?.name ?? ''}
                       householdCount={selectedDanjiSummary?.householdCount ?? 0}
@@ -106,11 +104,10 @@ export default function Markers({
                       rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
                     />
                   )} */}
-                </MobDanjiMarker>
-              </CustomOverlay>
-            </DeferredRender>
-          );
-        })}
+              </MobDanjiMarker>
+            </CustomOverlay>
+          </DeferredRender>
+        ))}
 
       {(mapLevel ?? 4) < 3 &&
         shouldShowSchoolMarker &&
