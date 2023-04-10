@@ -39,6 +39,7 @@ interface MobLayoutMapContainerProps {
     | undefined;
   selectedDanjiSummary: DanjiSummary | null;
   selctedListingSummary: ListingSummary | null;
+  priceSelectDisabled?: boolean;
   onClickCurrentLocation?: () => void;
   onClickSchool?: () => void;
   onClickMapLayerCadastral?: () => void;
@@ -66,6 +67,7 @@ function MobLayoutMapContainer({
   currentLocation,
   selectedDanjiSummary,
   selctedListingSummary,
+  priceSelectDisabled = false,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
@@ -149,7 +151,7 @@ function MobLayoutMapContainer({
         )}
 
         <div tw="absolute right-4 top-3 z-20">
-          <MobMapPriceSelect value={priceType} onChange={onChangePriceType} />
+          <MobMapPriceSelect disabled={priceSelectDisabled} value={priceType} onChange={onChangePriceType} />
         </div>
 
         <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-10">

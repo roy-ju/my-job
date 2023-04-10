@@ -8,7 +8,7 @@ import { DanjiSummary } from '@/layouts/Mobile/MapLayout/useMapLayout';
 
 export default function MobDanjiSummary({ selectedDanjiSummary }: { selectedDanjiSummary: DanjiSummary }) {
   return (
-    <div tw="w-[100%] mx-auto max-w-mobile [border-bottom-width: 1px] border-b-gray-1100 absolute rounded-t-lg px-4 py-5 bottom-[5.25rem] bg-white [z-index:9999]">
+    <div tw="w-[100%] mx-auto max-w-mobile [border-bottom-width: 1px] border-b-gray-1100 absolute rounded-t-lg px-4 py-5 bottom-[5.25rem] bg-white [z-index:500]">
       <div tw="flex items-center">
         {selectedDanjiSummary?.realestateType === RealestateType.Apartment && (
           <Chip tw="text-green-1000 bg-green">{describeRealestateType(selectedDanjiSummary?.realestateType)}</Chip>

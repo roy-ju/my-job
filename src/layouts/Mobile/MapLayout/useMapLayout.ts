@@ -157,6 +157,7 @@ export default function useMapLayout() {
 
   const [filter, setFilter] = useSessionStorage<Filter>('mobMapFilter', getDefaultFilterAptOftl());
 
+
   const [listingCount, setListingCount] = useState(0);
 
   const [markers, setMarkers] = useState<CommonMapMarker[]>([]);
@@ -179,6 +180,10 @@ export default function useMapLayout() {
   } | null>(null);
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
+
+  console.log(mapToggleValue)
+
+  const isPanningRef = useRef(false);
 
   const [code, setCode] = useState<string>();
 
@@ -343,7 +348,8 @@ export default function useMapLayout() {
             listingCount: item.listing_count,
             lat: item.lat,
             lng: item.long,
-            price: item.trade_price || item.deposit || 0,
+             price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
+            // price: item.trade_price || item.deposit || 0,
             onClick: () => {
               setPolygons([]);
               setSelectedSchoolID('');
@@ -574,6 +580,9 @@ export default function useMapLayout() {
     () =>
       _.debounce(
         (_map: NaverMap) => {
+          setTimeout(() => {
+            isPanningRef.current = false;
+          }, 100);
           // query 파라미터에 현재 지도위치 정보를 넣어서,
           // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
           setMapState(_map);
@@ -588,6 +597,13 @@ export default function useMapLayout() {
       ),
     [handleCenterAddressChange, updateBounds],
   );
+
+  /**
+   *  지도가 움직일때 발생한다.
+   */
+  const onBoundsChanged = useCallback(() => {
+    isPanningRef.current = true;
+  }, []);
 
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
@@ -835,6 +851,7 @@ export default function useMapLayout() {
     onInit,
     onCreate,
     onClick: onMapClick,
+    onBoundsChanged,
     onIdle,
     onZoomStart,
     // ones with business logics
