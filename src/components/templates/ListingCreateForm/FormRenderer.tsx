@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import { Separator } from '@/components/atoms';
 import { ListingCreateForm as Form } from '@/components/organisms';
 import { BuyOrRent } from '@/constants/enums';
 import { useContext } from 'react';
@@ -10,10 +11,7 @@ export const Forms = {
   BuyOrRent: 'buyOrRent',
   PaymentSchedules: 'paymentSchedule',
   SpecialTerms: 'specialTerms',
-  ListingOptions: 'listingOptions',
-  ExtraOptions: 'extraOptions',
-  AdminFee: 'adminFee',
-  Description: 'description',
+  Optionals: 'optionals',
 };
 
 interface Props {
@@ -124,28 +122,22 @@ export default function FormRenderer({ form }: Props) {
           <Form.SpecialTerms />
         </div>
       );
-    case Forms.ListingOptions:
+    case Forms.Optionals:
       return (
-        <div id={Forms.ListingOptions} tw="px-5 py-10">
-          <Form.ListingOptions />
-        </div>
-      );
-    case Forms.ExtraOptions:
-      return (
-        <div id={Forms.ExtraOptions} tw="px-5 py-10">
-          <Form.ExtraOptions />
-        </div>
-      );
-    case Forms.AdminFee:
-      return (
-        <div id={Forms.AdminFee} tw="px-5 py-10">
-          <Form.AdminFee />
-        </div>
-      );
-    case Forms.Description:
-      return (
-        <div id={Forms.Description} tw="px-5 py-10">
-          <Form.Description />
+        <div id={Forms.Optionals}>
+          <div tw="px-5 py-10">
+            <Form.ListingOptions />
+          </div>
+          <Separator />
+          <div tw="px-5 py-10">
+            <Form.ExtraOptions />
+          </div>
+          <div tw="px-5 py-10">
+            <Form.AdminFee />
+          </div>
+          <div tw="px-5 py-10">
+            <Form.Description />
+          </div>
         </div>
       );
     default:
