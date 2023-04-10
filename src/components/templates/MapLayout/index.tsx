@@ -79,6 +79,7 @@ interface LayoutMapContainerProps {
   listingCount?: number;
   showClosePanelButton?: boolean;
   panelsVisible?: boolean;
+  priceSelectDisabled?: boolean;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -107,6 +108,7 @@ function LayoutMapContainer({
   listingCount,
   showClosePanelButton = false,
   panelsVisible = true,
+  priceSelectDisabled = false,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
@@ -161,7 +163,7 @@ function LayoutMapContainer({
       )}
 
       <div tw="absolute right-5 top-5 z-20">
-        <MapPriceSelect value={priceType} onChange={onChangePriceType} />
+        <MapPriceSelect disabled={priceSelectDisabled} value={priceType} onChange={onChangePriceType} />
       </div>
       <div tw="absolute right-5 top-[84px] flex flex-col gap-6 z-10">
         <MapControls.Group>

@@ -59,6 +59,7 @@ function MapWrapper({
         schoolType={schoolType}
         priceType={priceType}
         filter={filter}
+        priceSelectDisabled={filter.buyOrRents !== '1,2,3'}
         centerAddress={centerAddress}
         mapToggleValue={mapToggleValue}
         listingCount={listingCount}
