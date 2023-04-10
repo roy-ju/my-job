@@ -9,6 +9,10 @@ import PaymentSchedule from './PaymentSchedule';
 import IsOwner from './IsOwner';
 import OwnerInfo from './OwnerInfo';
 import SpecialTerms from './SpecialTerms';
+import ListingOptions from './ListingOptions';
+import ExtraOptions from './ExtraOptions';
+import AdminFee from './AdminFee';
+import Description from './Description';
 
 const ListingCreateForm = {
   BuyOrRent,
@@ -22,6 +26,10 @@ const ListingCreateForm = {
   IsOwner,
   OwnerInfo,
   SpecialTerms,
+  ListingOptions,
+  ExtraOptions,
+  AdminFee,
+  Description,
 };
 
 export default ListingCreateForm;

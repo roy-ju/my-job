@@ -36,7 +36,7 @@ function Nickname({ errorMessage, value, onChange }: NicknameProps) {
       <TextField variant="outlined" hasError={Boolean(errorMessage)}>
         <TextField.Input label="닉네임" value={value} onChange={onChange} />
       </TextField>
-      {errorMessage && <TextField.ErrorMessage message={errorMessage} />}
+      {errorMessage && <TextField.ErrorMessage>{errorMessage}</TextField.ErrorMessage>}
     </div>
   );
 }
