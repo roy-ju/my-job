@@ -7,11 +7,17 @@ import FormContext from './FormContext';
 
 export const Forms = {
   IsOwner: 'isOwner',
-  Price: 'price',
   BuyOrRent: 'buyOrRent',
+  Price: 'price',
+  DebtSuccessions: 'debtSuccessions',
+  Collaterals: 'collaterals',
   PaymentSchedules: 'paymentSchedule',
   SpecialTerms: 'specialTerms',
   Optionals: 'optionals',
+  MoveInDate: 'moveInDate',
+  RentArea: 'rentArea',
+  RentTerm: 'rentTerm',
+  JeonsaeLoan: 'jeonsaeLoan',
 };
 
 interface Props {
@@ -40,11 +46,40 @@ export default function FormRenderer({ form }: Props) {
     contractAmount,
     contractAmountNegotiable,
     remainingAmount,
+    remainingAmountDate,
+    remainingAmountBeforeOrAfter,
     interims,
     onChangeContractAmount,
     onChangeContractAmountNegotiable,
     onChangeRemainingAmount,
     onClickAddInterim,
+    onChangeRemainingAmountDate,
+    onChangeRemainingAmountBeforeOrAfter,
+    // 채무승계
+    debtSuccessionDeposit,
+    debtSuccessionMiscs,
+    onChangeDebtSuccessionDeposit,
+    onClickAddDebtSuccessionMisc,
+    // 선순위 담보권
+    collaterals,
+    onClickAddCollateral,
+    // 입주가능시기
+    moveInDate,
+    beforeOrAfter,
+    onChangeMoveInDate,
+    onChangeBeforeOrAfter,
+    specialTerms,
+    onChangeSpecialTerms,
+    // 임대할 부분
+    rentArea,
+    onChangeRentArea,
+
+    rentTermMonth,
+    rentTermYear,
+    rentTermNegotiable,
+    onChangeRentTermMonth,
+    onChangeRentTermYear,
+    onChangeRentTermNegotiable,
   } = useContext(FormContext);
 
   switch (form) {
@@ -84,6 +119,50 @@ export default function FormRenderer({ form }: Props) {
           />
         </div>
       );
+    case Forms.DebtSuccessions:
+      return (
+        <div id={Forms.DebtSuccessions}>
+          <div tw="px-5 py-10">
+            <Form.DebtSuccession
+              deposit={debtSuccessionDeposit}
+              onChangeDeposit={onChangeDebtSuccessionDeposit}
+              onClickAdd={onClickAddDebtSuccessionMisc}
+            />
+          </div>
+          {debtSuccessionMiscs?.map((debtSuccession) => (
+            <div key={debtSuccession.key} tw="px-5 py-7 border-t border-t-gray-300">
+              <Form.DebtSuccession.Miscellaneous
+                name={debtSuccession.name}
+                price={debtSuccession.price}
+                onChangeName={debtSuccession.onChangeName}
+                onChangePrice={debtSuccession.onChangePrice}
+                onClickRemove={debtSuccession.onRemove}
+              />
+            </div>
+          ))}
+        </div>
+      );
+
+    case Forms.Collaterals:
+      return (
+        <div id={Forms.Collaterals}>
+          <div tw="px-5 py-10">
+            <Form.Collateral onClickAdd={onClickAddCollateral} />
+          </div>
+          {collaterals?.map((collateral) => (
+            <div key={collateral.key} tw="px-4 pb-10">
+              <Form.Collateral.Item
+                name={collateral.name}
+                price={collateral.price}
+                onChangeName={collateral.onChangeName}
+                onChangePrice={collateral.onChangePrice}
+                onClickRemove={collateral.onRemove}
+              />
+            </div>
+          ))}
+        </div>
+      );
+
     case Forms.PaymentSchedules:
       return (
         <div id={Forms.PaymentSchedules} tw="py-10">
@@ -112,16 +191,59 @@ export default function FormRenderer({ form }: Props) {
           ))}
           <div tw="px-5 pt-7 flex flex-col gap-4">
             <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
-            <Form.Schedule />
+            <Form.Schedule
+              date={remainingAmountDate}
+              beforeOrAfter={remainingAmountBeforeOrAfter}
+              onChangeDate={onChangeRemainingAmountDate}
+              onChangeBeforeOrAfter={onChangeRemainingAmountBeforeOrAfter}
+            />
           </div>
         </div>
       );
     case Forms.SpecialTerms:
       return (
         <div id={Forms.SpecialTerms} tw="px-5 py-10">
-          <Form.SpecialTerms />
+          <Form.SpecialTerms value={specialTerms} onChangeValue={onChangeSpecialTerms} />
         </div>
       );
+
+    case Forms.MoveInDate:
+      return (
+        <div id={Forms.MoveInDate} tw="px-5 py-10">
+          <Form.MoveInDate
+            date={moveInDate}
+            beforeOrAfter={beforeOrAfter}
+            onChangeDate={onChangeMoveInDate}
+            onChangeBeforeOrAfter={onChangeBeforeOrAfter}
+          />
+        </div>
+      );
+    case Forms.RentArea:
+      return (
+        <div id={Forms.RentArea} tw="px-5 py-10">
+          <Form.RentArea value={rentArea} onChangeValue={onChangeRentArea} />
+        </div>
+      );
+    case Forms.RentTerm:
+      return (
+        <div id={Forms.RentTerm} tw="px-5 py-10">
+          <Form.RentTerm
+            rentTermYear={rentTermYear}
+            rentTermMonth={rentTermMonth}
+            rentTermNegotiable={rentTermNegotiable}
+            onChangeRentTermYear={onChangeRentTermYear}
+            onChangeRentTermMonth={onChangeRentTermMonth}
+            onChangeRentTermNegotiable={onChangeRentTermNegotiable}
+          />
+        </div>
+      );
+    case Forms.JeonsaeLoan:
+      return (
+        <div id={Forms.JeonsaeLoan} tw="px-5 py-10">
+          <Form.JeonsaeLoan isJeonsae={buyOrRent === BuyOrRent.Jeonsae} />
+        </div>
+      );
+
     case Forms.Optionals:
       return (
         <div id={Forms.Optionals}>

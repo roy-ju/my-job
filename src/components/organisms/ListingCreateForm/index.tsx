@@ -1,6 +1,7 @@
 import BuyOrRent from './BuyOrRent';
 import Price from './Price';
 import DebtSuccession from './DebtSuccession';
+import Collateral from './Collateral';
 import ContractAmount from './ContractAmount';
 import InterimAmount from './InterimAmount';
 import RemainingAmount from './RemainingAmount';
@@ -22,6 +23,7 @@ const ListingCreateForm = {
   BuyOrRent,
   Price,
   DebtSuccession,
+  Collateral,
   ContractAmount,
   InterimAmount,
   RemainingAmount,

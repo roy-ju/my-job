@@ -13,6 +13,10 @@ export const Price = () => <ListingCreateForm.Price buyOrRent={BuyOrRentType.Wol
 
 export const DebtSuccession = () => <ListingCreateForm.DebtSuccession />;
 
+export const DebtSuccessionMiscellaneous = () => <ListingCreateForm.DebtSuccession.Miscellaneous />;
+
+export const Collateral = () => <ListingCreateForm.Collateral />;
+
 export const ContractAmount = () => <ListingCreateForm.ContractAmount />;
 
 export const RemainingAmount = () => <ListingCreateForm.RemainingAmount />;
