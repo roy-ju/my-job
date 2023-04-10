@@ -41,7 +41,12 @@ const MobDanjiMarker = React.memo(({ selected = false, variant, area, price, cou
             </div>
           )}
           <div tw="flex flex-1 items-center justify-start pl-2 pr-3">
-            <Numeral tw="text-b2 text-white font-bold whitespace-nowrap" koreanNumberShort falsy="-">
+            <Numeral
+              tw="text-b2 text-white font-bold whitespace-nowrap"
+              koreanNumberShort
+              falsy="-"
+              maximumFractionDigits={1}
+            >
               {price}
             </Numeral>
           </div>

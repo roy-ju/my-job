@@ -136,7 +136,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
     (value: RealestateTypeGroup) => {
       switch (value) {
         case 'apt,oftl':
-          setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+          setFilterTypes(['realestateType', 'buyOrRent', 'price', 'household']);
 
           // setFilters([]);
           setFilterState(getDefaultFilterAptOftl());
@@ -144,7 +144,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
 
           break;
         case 'villa,dandok':
-          setFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
+          setFilterTypes(['realestateType', 'buyOrRent', 'price']);
 
           // setFilters([]);
           setFilterState(getDefaultFilterVillaDandok());
@@ -325,12 +325,17 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
         priceRange: [0, PRICE_STEPS.length - 1],
         depositRange: [0, DEPOSIT_STEPS.length - 1],
         rentRange: [0, RENT_STEPS.length - 1],
+        gapInvestment: false,
+        quickSale: false,
       }));
+
       onChangeFilter?.({
         buyOrRents: newBuyOrRents,
         priceRange: [0, PRICE_STEPS.length - 1],
         depositRange: [0, DEPOSIT_STEPS.length - 1],
         rentRange: [0, RENT_STEPS.length - 1],
+        gapInvestment: false,
+        quickSale: false,
       });
     },
     [onChangeFilter, setFilterState],
@@ -412,9 +417,17 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   useEffect(() => {
     const fts = [];
     if (filter.realestateTypeGroup === 'apt,oftl') {
-      fts.push(...['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+      if (filter.buyOrRents === '1') {
+        fts.push(...['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+      } else {
+        fts.push(...['realestateType', 'buyOrRent', 'price', 'household']);
+      }
     } else if (filter.realestateTypeGroup === 'villa,dandok') {
-      fts.push(...['realestateType', 'buyOrRent', 'price', 'etc']);
+      if (filter.buyOrRents === '1') {
+        fts.push(...['realestateType', 'buyOrRent', 'price', 'etc']);
+      } else {
+        fts.push(...['realestateType', 'buyOrRent', 'price']);
+      }
     } else if (filter.realestateTypeGroup === 'one,two') {
       fts.push(...['realestateType', 'buyOrRent', 'price']);
     }
@@ -429,7 +442,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   }, [filter.realestateTypeGroup, filter.buyOrRents, filter]);
 
   return (
-    <div tw="bg-white shadow rounded-lg overflow-hidden" id="negocio-map-header">
+    <div tw="w-full max-w-mobile bg-white shadow rounded-lg" id="negocio-map-header">
       <div tw="flex items-center px-2">
         <FilterTypes onClickFilterType={handleClickFilterType} />
         <RealestateTypeGroupTabButton
