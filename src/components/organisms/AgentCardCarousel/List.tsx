@@ -31,6 +31,14 @@ export default function List({ data }: ListProps) {
     setCurrentIndex((prev) => (currentIndex === data.length - 1 ? 0 : prev + 1));
     setSlideDirection('right');
   };
+  const handleIndicator = (e: React.MouseEventHandler<HTMLButtonElement>, index: number) => () => {
+    setCurrentIndex(index);
+    if (currentIndex > index) {
+      setSlideDirection('left');
+    } else {
+      setSlideDirection('right');
+    }
+  };
 
   useLayoutEffect(() => {
     const timer = setTimeout(() => {
@@ -73,7 +81,7 @@ export default function List({ data }: ListProps) {
             direction="right"
             tw="absolute top-1/2 right-[1.65rem] translate-x-1/2 -translate-y-1/2"
           />
-          <Indicator dataLength={data.length} currentIndex={currentIndex} />
+          <Indicator dataLength={data.length} currentIndex={currentIndex} handleIndicator={handleIndicator} />
         </div>
       ) : null}
     </AnimatePresence>
