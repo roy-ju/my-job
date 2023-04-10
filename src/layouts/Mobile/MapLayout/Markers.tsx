@@ -78,36 +78,39 @@ export default function Markers({
         ))}
 
       {mapLevel === 1 &&
-        markers.map((marker) => (
-          <DeferredRender key={marker.id}>
-            <CustomOverlay
-              zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
-              anchor="bottom-left"
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-            >
-              {marker.pyoung ? (
-                <MobDanjiMarker
-                  selected={selectedDanjiSummary?.id === marker.id}
-                  variant={marker.variant}
-                  area={Number(marker?.pyoung ?? 0)}
-                  price={marker.price ?? 0}
-                  count={marker?.listingCount ?? 0}
-                  onClick={marker.onClick}
-                />
-              ) : (
-                <MobListingMarker
-                  selected={selectedDanjiSummary?.id === marker.id}
-                  price={marker.price ?? 0}
-                  count={marker.listingCount ?? 0}
-                  onClick={marker.onClick}
-                />
-              )}
-            </CustomOverlay>
-          </DeferredRender>
-        ))}
+        markers.map((marker) => {
+          console.log(marker);
+          return (
+            <DeferredRender key={marker.id}>
+              <CustomOverlay
+                zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
+                anchor="bottom-left"
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+              >
+                {marker.pyoung ? (
+                  <MobDanjiMarker
+                    selected={selectedDanjiSummary?.id === marker.id}
+                    variant={marker.variant}
+                    area={Number(marker?.pyoung ?? 0)}
+                    price={marker.price ?? 0}
+                    count={marker?.listingCount ?? 0}
+                    onClick={marker.onClick}
+                  />
+                ) : (
+                  <MobListingMarker
+                    selected={selectedDanjiSummary?.id === marker.id}
+                    price={marker.price ?? 0}
+                    count={marker.listingCount ?? 0}
+                    onClick={marker.onClick}
+                  />
+                )}
+              </CustomOverlay>
+            </DeferredRender>
+          );
+        })}
 
       {(mapLevel ?? 4) < 3 &&
         shouldShowSchoolMarker &&
