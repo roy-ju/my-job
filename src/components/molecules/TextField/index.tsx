@@ -27,9 +27,11 @@ interface RootProps extends Omit<HTMLProps<HTMLDivElement>, 'theme' | 'as' | 'si
   hasError?: boolean;
 }
 
-interface InputProps extends Omit<HTMLProps<HTMLInputElement>, 'as' | 'theme' | 'size' | 'type' | 'value'> {
+interface InputProps
+  extends Omit<HTMLProps<HTMLInputElement>, 'as' | 'theme' | 'size' | 'type' | 'value' | 'onChange'> {
   label?: string;
   value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 interface TextAreaProps extends HTMLProps<HTMLTextAreaElement> {}
