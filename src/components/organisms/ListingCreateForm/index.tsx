@@ -13,6 +13,10 @@ import ListingOptions from './ListingOptions';
 import ExtraOptions from './ExtraOptions';
 import AdminFee from './AdminFee';
 import Description from './Description';
+import RentArea from './RentArea';
+import JeonsaeLoan from './JeonsaeLoan';
+import MoveInDate from './MoveInDate';
+import RentTerm from './RentTerm';
 
 const ListingCreateForm = {
   BuyOrRent,
@@ -30,6 +34,10 @@ const ListingCreateForm = {
   ExtraOptions,
   AdminFee,
   Description,
+  RentArea,
+  JeonsaeLoan,
+  MoveInDate,
+  RentTerm,
 };
 
 export default ListingCreateForm;
