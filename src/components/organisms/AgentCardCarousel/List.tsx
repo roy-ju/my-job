@@ -1,10 +1,10 @@
 import { AnimatePresence } from 'framer-motion';
 import React, { useLayoutEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { AgentCardItem } from '@/components/organisms';
 import CarouselItem from './Item';
 import Button from './Button';
 import Indicator from './Indicator';
+import AgentCardItem from '../AgentCardItem';
 
 export interface ListProps {
   data: {
