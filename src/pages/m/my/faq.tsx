@@ -1,21 +1,15 @@
-import { FAQ } from '@/components/templates';
 import { NextPageWithLayout } from '@/pages/_app';
 import { MobileContainer } from '@/components/atoms';
-import { MobGlobalHeader } from '@/components/organisms/MobGlobalHeader';
+import MobFAQ from '@/components/templates/MobFAQ';
 
 function FaqWrraper() {
-  return <FAQ />;
+  return <MobFAQ />;
 }
 
 const Page: NextPageWithLayout = () => <FaqWrraper />;
 
 Page.getLayout = function getLayout(page) {
-  return (
-    <MobileContainer>
-      <MobGlobalHeader title="자주 묻는 질문" />
-      {page}
-    </MobileContainer>
-  );
+  return <MobileContainer>{page}</MobileContainer>;
 };
 
 export default Page;
