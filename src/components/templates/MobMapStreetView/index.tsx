@@ -40,7 +40,7 @@ function MobMapStreetView({ title, position, onClickBackButton, children }: Prop
           <Close />
         </Button>
       </NavigationHeader>
-      <div tw="relative flex-1 flex flex-col">
+      <div tw="relative flex-1">
         <MapStreetViewContext.Provider value={context}>{children}</MapStreetViewContext.Provider>
       </div>
     </div>
@@ -50,13 +50,29 @@ function MobMapStreetView({ title, position, onClickBackButton, children }: Prop
 function StreetViewPanorama() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const { setPanorama, expanded, position } = useContext(MapStreetViewContext);
+  const { setPanorama, panorama, expanded, position } = useContext(MapStreetViewContext);
   const onCreate = useCallback(
     (p: naver.maps.Panorama) => {
       setPanorama(p);
     },
     [setPanorama],
   );
+
+  useEffect(() => {
+    const callback = () => {
+      if (!containerRef.current || !panorama) return;
+      if (!naver.maps) return;
+
+      const { offsetWidth, offsetHeight } = containerRef.current;
+
+      const size = new naver.maps.Size(offsetWidth, offsetHeight);
+
+      panorama.setSize(size);
+    };
+
+    window.addEventListener('resize', callback);
+    return () => window.removeEventListener('resize', callback);
+  }, [panorama]);
 
   if (!position) return null;
 
@@ -65,18 +81,6 @@ function StreetViewPanorama() {
       <div ref={containerRef} tw="absolute left-0 top-0 z-10 w-full h-full">
         <Panorama position={position} onCreate={onCreate} />
       </div>
-      {/* <button
-        tw="bg-white w-10 h-10 rounded-lg flex items-center justify-center absolute right-4 bottom-4 z-20"
-        style={{
-          // 각도에 따른 상단 DIV - 각도에 따른 상단 absolute div 사라짐 => translate3d(0,0,0) 추가후 해결
-          // fix: https://gist.github.com/chooco13/7ebe04639627f51a3c5cf310f14d22c5
-          transform: 'translate3d(0,0,0)',
-        }}
-        type="button"
-        onClick={() => setExpanded((prev) => !prev)}
-      >
-        <Close />
-      </button> */}
     </div>
   );
 }
