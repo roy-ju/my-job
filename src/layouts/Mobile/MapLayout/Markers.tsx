@@ -1,4 +1,4 @@
-import { MobDanjiMarker, MobRegionMarker } from '@/components/organisms';
+import { MobDanjiMarker, MobListingMarker, MobRegionMarker } from '@/components/organisms';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
@@ -88,23 +88,23 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <MobDanjiMarker
-                selected={selectedDanjiSummary?.id === marker.id}
-                variant={marker.variant}
-                area={Number(marker?.pyoung ?? 0)}
-                price={marker.price ?? 0}
-                count={marker?.listingCount ?? 0}
-                onClick={marker.onClick}
-              >
-                {/* {selectedDanjiSummary?.id === marker.id && (
-                    <MobDanjiMarker.Popper
-                      name={selectedDanjiSummary?.name ?? ''}
-                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
-                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
-                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
-                    />
-                  )} */}
-              </MobDanjiMarker>
+              {marker.pyoung ? (
+                <MobDanjiMarker
+                  selected={selectedDanjiSummary?.id === marker.id}
+                  variant={marker.variant}
+                  area={Number(marker?.pyoung ?? 0)}
+                  price={marker.price ?? 0}
+                  count={marker?.listingCount ?? 0}
+                  onClick={marker.onClick}
+                />
+              ) : (
+                <MobListingMarker
+                  selected={selectedDanjiSummary?.id === marker.id}
+                  price={marker.price ?? 0}
+                  count={marker.listingCount ?? 0}
+                  onClick={marker.onClick}
+                />
+              )}
             </CustomOverlay>
           </DeferredRender>
         ))}
