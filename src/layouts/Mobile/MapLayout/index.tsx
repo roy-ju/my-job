@@ -56,6 +56,7 @@ function MapWrapper() {
         currentLocation={currentLocation}
         selectedDanjiSummary={selectedDanjiSummary}
         selctedListingSummary={selctedListingSummary}
+        priceSelectDisabled={filter.buyOrRents !== '1,2,3'}
         onClickCurrentLocation={morphToCurrentLocation}
         onChangeMapType={handleChangeMapType}
         onClickMapLayerCadastral={() => handleChangeMapLayer('cadastral')}
