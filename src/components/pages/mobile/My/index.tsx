@@ -60,7 +60,7 @@ export default function My() {
     router.push(`my/${Routes.ListingCreateAddress}`);
   }, [router]);
   return (
-    <>
+    <div tw="fixed w-full max-w-mobile">
       <div tw="overflow-y-hidden h-[calc(100vh-8rem)] mb-auto">
         <MyTemplate
           unreadNotificationCount={unreadNotificationCount}
@@ -84,6 +84,6 @@ export default function My() {
       <div tw="w-full max-w-mobile fixed bottom-0 left-auto right-auto">
         <MobGlobalNavigation />
       </div>
-    </>
+    </div>
   );
 }

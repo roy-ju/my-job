@@ -26,7 +26,7 @@ function NoticeDetailWrraper() {
   }, [data]);
 
   const handleGoToList = useCallback(() => {
-    router.replace(`my/${Routes.NoticeList}`);
+    router.replace(`/m/my/${Routes.NoticeList}`);
   }, [router]);
 
   return isLoading ? (
