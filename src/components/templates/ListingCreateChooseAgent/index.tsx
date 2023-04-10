@@ -12,9 +12,10 @@ interface Props {
     registrationNumber: string;
     description: string;
   }[];
+  onClickNext?: () => void;
 }
 
-export default function ListingCreateChooseAgent({ agents }: Props) {
+export default function ListingCreateChooseAgent({ agents, onClickNext }: Props) {
   return (
     <div>
       <NavigationHeader>
@@ -23,12 +24,12 @@ export default function ListingCreateChooseAgent({ agents }: Props) {
       <div tw="px-5 pt-6 mb-7">
         <div tw="text-b1 font-bold leading-none mb-3">중개사 선택</div>
         <Ul>
-          <li>매물등록 신청 이후, 담당 중개사 변경은 네고시오 문의를 통해서만 가능하 신중하게 선택해 주세요.</li>
+          <li>매물등록 신청 이후, 담당 중개사 변경은 네고시오 문의를 통해서만 가능하니 신중하게 선택해 주세요.</li>
         </Ul>
       </div>
       <AgentCardCarousel data={agents} />
       <div tw="mt-10 px-5">
-        <Button size="bigger" tw="w-full">
+        <Button size="bigger" tw="w-full" onClick={onClickNext}>
           다음
         </Button>
       </div>

@@ -39,6 +39,7 @@ const Routes = {
   ListingCreateAddressDetail: 'listingCreateAddressDetail',
   ListingCreateForm: 'listingCreateForm',
   ListingCreateChooseAgent: 'listingCreateChooseAgent',
+  ListingCreateSummary: 'listingCreateSummary',
 };
 
 export default Routes;

@@ -116,6 +116,10 @@ const ListingCreateChooseAgent = dynamic(() => import('@/components/pages/pc/Lis
   ssr: false,
   loading: () => <Panel />,
 });
+const ListingCreateSummary = dynamic(() => import('@/components/pages/pc/ListingCreateSummary'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 
 const DEFAULT_PANEL_WIDTH = '380px';
@@ -270,6 +274,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingCreateChooseAgent: {
       return <ListingCreateChooseAgent {...props} />;
+    }
+
+    case Routes.ListingCreateSummary: {
+      return <ListingCreateSummary {...props} />;
     }
 
     case Routes.Developer: {
