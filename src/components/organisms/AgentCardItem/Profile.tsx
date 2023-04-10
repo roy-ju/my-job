@@ -11,11 +11,11 @@ export default function AgentCardItemProfile({ officeName, profileImageFullPath,
     <div tw="flex">
       <div tw="mr-3 w-14 aspect-square rounded-full">
         <Image
-          tw="rounded-full object-cover aspect-square"
+          tw="rounded-full object-cover aspect-square bg-gray-400"
           src={profileImageFullPath}
           height={56}
           width={56}
-          alt={`공인중개사 ${name}의 프로필 사진`}
+          alt=""
         />
       </div>
       <div tw="flex flex-col justify-center">
