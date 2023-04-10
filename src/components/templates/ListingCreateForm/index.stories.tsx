@@ -8,7 +8,14 @@ export default {
   component: ListingCreateForm,
 } as ComponentMeta<typeof ListingCreateForm>;
 
-const forms = [Forms.PaymentSchedules, Forms.SpecialTerms];
+const forms = [
+  Forms.PaymentSchedules,
+  Forms.SpecialTerms,
+  Forms.ListingOptions,
+  Forms.ExtraOptions,
+  Forms.AdminFee,
+  Forms.Description,
+];
 
 export const Default: ComponentStory<typeof ListingCreateForm> = () => (
   <Panel>
