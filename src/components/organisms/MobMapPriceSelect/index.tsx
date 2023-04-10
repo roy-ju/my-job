@@ -22,9 +22,10 @@ const SelectItem = styled.button`
 interface Props {
   value?: string;
   onChange?: (value: string) => void;
+  disabled?: boolean;
 }
 
-export default function MobMapPriceSelect({ value: valueProp, onChange }: Props) {
+export default function MobMapPriceSelect({ value: valueProp, onChange, disabled = false }: Props) {
   const outsideRef = useRef<HTMLDivElement | null>(null);
 
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
@@ -64,15 +65,23 @@ export default function MobMapPriceSelect({ value: valueProp, onChange }: Props)
 
   return (
     <div ref={outsideRef}>
-      <SelectButton type="button" ref={setReferenceElement} onClick={() => setIsOpen((prev) => !prev)}>
+      <SelectButton
+        type="button"
+        disabled={disabled}
+        ref={setReferenceElement}
+        onClick={() => setIsOpen((prev) => !prev)}
+        css={disabled && tw`w-fit`}
+      >
         <span tw="text-b2 font-bold text-gray-1000">{value === 'buy' ? '매매 가격' : '전월세 금액'}</span>
-        <ChevronDownIcon
-          color={theme`colors.gray.1000`}
-          style={{
-            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.15s',
-          }}
-        />
+        {!disabled && (
+          <ChevronDownIcon
+            color={theme`colors.gray.1000`}
+            style={{
+              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.15s',
+            }}
+          />
+        )}
       </SelectButton>
       {isOpen && (
         <div
