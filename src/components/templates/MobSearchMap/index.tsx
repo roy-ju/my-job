@@ -102,6 +102,7 @@ export function MobSearchMap() {
             </TextField.Trailing>
           </TextField>
         </div>
+        {/* <div tw="w-full bg-red h-[100%] fixed"> */}
         <div tw="flex mt-[4.75rem] flex-col overflow-y-auto bg-white">
           {!(recentSearches && recentSearches.length >= 1) && textValue.length === 0 && <Guide />}
 
@@ -182,6 +183,7 @@ export function MobSearchMap() {
           ))}
         </div>
       </div>
+      {/* </div> */}
     </form>
   );
 }
