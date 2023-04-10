@@ -19,8 +19,8 @@ export default function AgentCardItemProfile({ officeName, profileImageFullPath,
         />
       </div>
       <div tw="flex flex-col justify-center">
-        <strong>{`${officeName} 공인중개사무소`}</strong>
-        <p tw="text-mobCaption text-gray-700">{`공인중개사 ${name}`}</p>
+        <strong tw="leading-7">{`${officeName} 공인중개사무소`}</strong>
+        <p tw="text-mobCaption text-gray-700 leading-7">{`공인중개사 ${name}`}</p>
       </div>
     </div>
   );
