@@ -13,8 +13,8 @@ export default function Schedule() {
           <Label control={<Radio />} label="날짜 지정" />
         </div>
         <div tw="flex gap-3">
-          <Dropdown tw="flex-1" variant="outlined" placeholder="날짜 선택" />
-          <Dropdown tw="flex-1" variant="outlined" placeholder="이전" />
+          <Dropdown tw="flex-1 min-w-0" variant="outlined" placeholder="날짜 선택" />
+          <Dropdown tw="flex-1 min-w-0" variant="outlined" placeholder="이전" />
         </div>
       </div>
     </div>
