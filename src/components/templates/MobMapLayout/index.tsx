@@ -1,11 +1,21 @@
 import { ChangeEventHandler, ReactNode } from 'react';
-import { MobMapControls, MobMapPositionBar, MobMapPriceSelect, MobMapToggleButton } from '@/components/organisms';
+import {
+  MobDanjiSummary,
+  MobGlobalNavigation,
+  MobListingSummary,
+  MobMapControls,
+  MobMapHeader,
+  MobMapPositionBar,
+  MobMapPriceSelect,
+  MobMapToggleButton,
+} from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { Filter } from '@/components/organisms/MapFilter/types';
 import MobMapFilter from '@/components/organisms/MobMapFilter';
 import { convertSidoName } from '@/utils/fotmat';
 import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import { DanjiSummary, ListingSummary } from '@/layouts/Mobile/MapLayout/useMapLayout';
 import MobAreaSearch from '../MobAreaSearch';
 
 interface MobLayoutMapContainerProps {
@@ -24,6 +34,8 @@ interface MobLayoutMapContainerProps {
         lng?: number | undefined;
       }
     | undefined;
+  selectedDanjiSummary: DanjiSummary | null;
+  selctedListingSummary: ListingSummary | null;
   onClickCurrentLocation?: () => void;
   onClickSchool?: () => void;
   onClickMapLayerCadastral?: () => void;
@@ -49,6 +61,8 @@ function MobLayoutMapContainer({
   mapToggleValue,
   listingCount,
   currentLocation,
+  selectedDanjiSummary,
+  selctedListingSummary,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
@@ -67,9 +81,10 @@ function MobLayoutMapContainer({
   };
 
   return (
-    <>
+    <div tw="flex flex-col w-full max-w-mobile h-full overflow-y-hidden mx-auto items-center">
+      <MobMapHeader />
       <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
-      <div id="map-container" tw="relative flex-1 min-h-0 h-[calc(100vh - 5.25rem - 7rem)] mb-[5.25rem]">
+      <div id="map-container" tw="relative flex-1 w-full max-w-mobile">
         {filter?.realestateTypeGroup === 'apt,oftl' && (
           <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
             <div tw="w-fit pointer-events-auto">
@@ -91,6 +106,7 @@ function MobLayoutMapContainer({
         <div tw="absolute right-4 top-3 z-20">
           <MobMapPriceSelect value={priceType} onChange={onChangePriceType} />
         </div>
+
         <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-10">
           <MobMapControls.Group>
             <MobMapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
@@ -108,6 +124,7 @@ function MobLayoutMapContainer({
             onClick={onClickCurrentLocation}
           />
         </div>
+
         <div tw="w-full max-w-mobile inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10">
           <MobMapPositionBar
             sido={convertSidoName(centerAddress?.[0])}
@@ -121,7 +138,12 @@ function MobLayoutMapContainer({
         </div>
         {children}
       </div>
-    </>
+
+      {selectedDanjiSummary && <MobDanjiSummary selectedDanjiSummary={selectedDanjiSummary} />}
+      {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />}
+
+      <MobGlobalNavigation />
+    </div>
   );
 }
 
