@@ -148,13 +148,13 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
     (value: RealestateTypeGroup) => {
       switch (value) {
         case 'apt,oftl':
-          setUIFilterTypes(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+          setUIFilterTypes(['realestateType', 'buyOrRent', 'price', 'household']);
           setUIFilters([]);
           setUIFilterState(getDefaultFilterAptOftl());
           handleUIChangeFilter?.(getDefaultFilterAptOftl());
           break;
         case 'villa,dandok':
-          setUIFilterTypes(['realestateType', 'buyOrRent', 'price', 'etc']);
+          setUIFilterTypes(['realestateType', 'buyOrRent', 'price']);
           setUIFilters([]);
           setUIFilterState(getDefaultFilterVillaDandok());
           handleUIChangeFilter?.(getDefaultFilterVillaDandok());
@@ -320,9 +320,17 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
   useEffect(() => {
     const fts = [];
     if (uiFilter.realestateTypeGroup === 'apt,oftl') {
-      fts.push(...['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+      if (uiFilter.buyOrRents === '1') {
+        fts.push(...['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
+      } else {
+        fts.push(...['realestateType', 'buyOrRent', 'price', 'household']);
+      }
     } else if (uiFilter.realestateTypeGroup === 'villa,dandok') {
-      fts.push(...['realestateType', 'buyOrRent', 'price', 'etc']);
+      if (uiFilter.buyOrRents === '1') {
+        fts.push(...['realestateType', 'buyOrRent', 'price', 'etc']);
+      } else {
+        fts.push(...['realestateType', 'buyOrRent', 'price']);
+      }
     } else if (uiFilter.realestateTypeGroup === 'one,two') {
       fts.push(...['realestateType', 'buyOrRent', 'price']);
     }
@@ -337,12 +345,6 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
   }, [uiFilter]);
 
   useEffect(() => {
-    if (filterProp) {
-      setUIFilterState(filterProp);
-    }
-  }, [filterProp]);
-
-  useEffect(() => {
     if (uiFilter.realestateTypeGroup === 'apt,oftl') {
       if (uiFilter.buyOrRents === '1') {
         setUIFilters(['realestateType', 'buyOrRent', 'price', 'household', 'etc']);
@@ -350,6 +352,7 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
         setUIFilters(['realestateType', 'buyOrRent', 'price', 'household']);
       }
     }
+
     if (uiFilter.realestateTypeGroup === 'villa,dandok') {
       if (uiFilter.buyOrRents === '1') {
         setUIFilters(['realestateType', 'buyOrRent', 'price', 'etc']);
@@ -357,10 +360,17 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
         setUIFilters(['realestateType', 'buyOrRent', 'price']);
       }
     }
+
     if (uiFilter.realestateTypeGroup === 'one,two') {
       setUIFilters(['realestateType', 'buyOrRent', 'price']);
     }
   }, [uiFilter]);
+
+  useEffect(() => {
+    if (filterProp) {
+      setUIFilterState(filterProp);
+    }
+  }, [filterProp]);
 
   return (
     <FiltersContainer tw="w-full max-w-mobile min-h-[100vh] overflow-y-hidden [z-index: 100] bg-white">
@@ -411,7 +421,7 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
         />
       </div>
 
-      <div tw="mt-[10.5rem] h-[calc(100vh - 5.5rem - 10.5rem)] overflow-y-auto left-auto right-auto [z-index: 1000] bg-white">
+      <div tw="w-full max-w-mobile fixed h-[calc(100vh - 5.5rem - 10.5rem)] overflow-y-auto left-auto right-auto [z-index: 1000] bg-white mt-[10.5rem] pb-[7rem]">
         <div tw="px-4">
           {isUIRealestateTypeRoomCountFilterAdded && (
             <RealestateTypeRoomCountFilter
@@ -460,7 +470,7 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
 
       {uiFilters.length > 0 && (
         <div
-          tw="flex gap-2 fixed bottom-0 left-auto right-auto items-center justify-between py-4 w-full max-w-mobile bg-white z-50 shadow-persistentBottomBar"
+          tw="flex gap-2 fixed bottom-0 left-auto right-auto items-center justify-between py-4 w-full max-w-mobile bg-white z-50 shadow-persistentBottomBar [z-index: 1001]"
           style={{ paddingLeft: '1.6rem', paddingRight: '1.6rem' }}
         >
           <Button variant="outlined" size="bigger" tw="flex-[1]" onClick={handleResetUIFilter}>
