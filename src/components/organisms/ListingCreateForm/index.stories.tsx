@@ -28,3 +28,11 @@ export const IsOwner = () => <ListingCreateForm.IsOwner />;
 export const OwnerInfo = () => <ListingCreateForm.OwnerInfo />;
 
 export const SpecialTerms = () => <ListingCreateForm.SpecialTerms />;
+
+export const ListingOptions = () => <ListingCreateForm.ListingOptions />;
+
+export const ExtraOptions = () => <ListingCreateForm.ExtraOptions />;
+
+export const AdminFee = () => <ListingCreateForm.AdminFee />;
+
+export const Description = () => <ListingCreateForm.Description />;

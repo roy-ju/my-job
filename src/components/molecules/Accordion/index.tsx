@@ -57,7 +57,7 @@ function AccordionDetails({ children, ...others }: HTMLProps<HTMLDivElement>) {
   const { expanded } = useContext(AccordionContext);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {expanded && (
         <motion.div
           initial={{ height: 0 }}

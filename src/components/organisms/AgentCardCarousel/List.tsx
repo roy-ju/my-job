@@ -1,10 +1,10 @@
 import { AnimatePresence } from 'framer-motion';
 import React, { useLayoutEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { AgentCardItem } from '@/components/organisms';
 import CarouselItem from './Item';
 import Button from './Button';
 import Indicator from './Indicator';
+import AgentCardItem from '../AgentCardItem';
 
 export interface ListProps {
   data: {
@@ -30,6 +30,14 @@ export default function List({ data }: ListProps) {
   const handleNextClick = () => {
     setCurrentIndex((prev) => (currentIndex === data.length - 1 ? 0 : prev + 1));
     setSlideDirection('right');
+  };
+  const handleIndicator = (e: React.MouseEventHandler<HTMLButtonElement>, index: number) => () => {
+    setCurrentIndex(index);
+    if (currentIndex > index) {
+      setSlideDirection('left');
+    } else {
+      setSlideDirection('right');
+    }
   };
 
   useLayoutEffect(() => {
@@ -73,7 +81,7 @@ export default function List({ data }: ListProps) {
             direction="right"
             tw="absolute top-1/2 right-[1.65rem] translate-x-1/2 -translate-y-1/2"
           />
-          <Indicator dataLength={data.length} currentIndex={currentIndex} />
+          <Indicator dataLength={data.length} currentIndex={currentIndex} handleIndicator={handleIndicator} />
         </div>
       ) : null}
     </AnimatePresence>
