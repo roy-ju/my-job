@@ -33,7 +33,6 @@ export default function List({ data }: ListProps) {
   };
 
   useLayoutEffect(() => {
-    setShowItem(false);
     const timer = setTimeout(() => {
       setShowItem(true);
     }, 1);
@@ -45,26 +44,24 @@ export default function List({ data }: ListProps) {
   }, [currentIndex]);
 
   return (
-    <>
+    <AnimatePresence initial={false}>
       {showItem ? (
         <div tw="relative">
-          <AnimatePresence>
-            <CarouselItem key={uuidv4()} slideDirection={slideDirection}>
-              <AgentCardItem defaultExpanded>
-                <AgentCardItem.Profile
-                  officeName={data[currentIndex].officeName}
-                  profileImageFullPath={data[currentIndex].profileImageFullPath}
-                  name={data[currentIndex].name}
-                />
-                <AgentCardItem.Detail
-                  cellPhone={data[currentIndex].cellPhone}
-                  fullJibunAddress={data[currentIndex].fullJibunAddress}
-                  registrationNumber={data[currentIndex].registrationNumber}
-                  description={data[currentIndex].description}
-                />
-              </AgentCardItem>
-            </CarouselItem>
-          </AnimatePresence>
+          <CarouselItem key={uuidv4()} slideDirection={slideDirection}>
+            <AgentCardItem defaultExpanded>
+              <AgentCardItem.Profile
+                officeName={data[currentIndex].officeName}
+                profileImageFullPath={data[currentIndex].profileImageFullPath}
+                name={data[currentIndex].name}
+              />
+              <AgentCardItem.Detail
+                cellPhone={data[currentIndex].cellPhone}
+                fullJibunAddress={data[currentIndex].fullJibunAddress}
+                registrationNumber={data[currentIndex].registrationNumber}
+                description={data[currentIndex].description}
+              />
+            </AgentCardItem>
+          </CarouselItem>
 
           <Button
             onClick={handlePrevClick}
@@ -79,6 +76,6 @@ export default function List({ data }: ListProps) {
           <Indicator dataLength={data.length} currentIndex={currentIndex} />
         </div>
       ) : null}
-    </>
+    </AnimatePresence>
   );
 }
