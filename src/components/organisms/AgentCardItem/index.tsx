@@ -5,6 +5,7 @@ import AgentCardItemFoldButton from './Button';
 
 export interface AgentCardItemProps {
   children?: ReactNode;
+  defaultExpanded?: boolean;
 }
 
 const AgentCardItemProfileType = (<AgentCardItemProfile profileImageFullPath="" />).type;
@@ -16,8 +17,8 @@ const getChildComponent = (children: ReactNode, componentType: string) => {
   return childrenArray.filter((child) => isValidElement(child) && child.type === componentType);
 };
 
-function AgentCardItem({ children }: AgentCardItemProps) {
-  const [expanded, setIsExpanded] = useState(false);
+function AgentCardItem({ children, defaultExpanded = false }: AgentCardItemProps) {
+  const [expanded, setIsExpanded] = useState(defaultExpanded);
 
   const profileContents = getChildComponent(children, AgentCardItemProfileType);
   const detailContents = getChildComponent(children, AgentCardItemDetailType);
@@ -28,7 +29,7 @@ function AgentCardItem({ children }: AgentCardItemProps) {
       onClick: () => setIsExpanded(!expanded),
     });
   return (
-    <div tw="rounded-[0.75rem] bg-gray-100 px-4 pt-4 pb-5">
+    <div tw="rounded-[0.75rem] px-4 pt-4 pb-5">
       {profileContents}
       {expanded && detailContents}
       {foldButton}
