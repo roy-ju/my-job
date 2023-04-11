@@ -29,6 +29,9 @@ export interface ListingCreateSummaryProps {
   rentTermMonth?: number;
   rentArea?: string;
   specialTerms?: string;
+
+  onClickCreate?: () => void;
+  onClickUpdate?: () => void;
 }
 
 export default function ListingCreateSummary({
@@ -41,6 +44,9 @@ export default function ListingCreateSummary({
   agentDescription,
 
   buyOrRent,
+
+  onClickCreate,
+  onClickUpdate,
 }: ListingCreateSummaryProps) {
   return (
     <div tw="h-full flex flex-col">
@@ -99,12 +105,12 @@ export default function ListingCreateSummary({
           </TransactionCondition>
         </div>
         <div tw="py-10 flex items-center justify-center">
-          <Button variant="ghost" size="none" tw="underline text-info">
+          <Button variant="ghost" size="none" tw="underline text-info" onClick={onClickUpdate}>
             입력정보 수정/중개사 재선택
           </Button>
         </div>
         <div tw="px-5 pb-10">
-          <Button size="bigger" tw="w-full">
+          <Button size="bigger" tw="w-full" onClick={onClickCreate}>
             매물등록 신청
           </Button>
         </div>
