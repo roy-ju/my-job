@@ -11,14 +11,14 @@ export default function useChatRoomList(depth: number) {
     if (!data || !data.list) return [];
     return data.list.map((item) => ({
       id: item.chat_room_id,
-      title: item.title,
+      title: item.agent_office_name,
       lastMessage: item.latest_message,
       lastMessageTime: item.latest_message_time,
       unreadMessageCount: item.unread_message_count,
       profileImagePath: item.agent_profile_image_full_path,
-      listingStatus: 'listingStatus',
+      listingStatus: item.listing_status,
       agentDescription: item.agent_description,
-      chatRoomType: item.my_status2,
+      chatRoomType: item.chat_status,
       active: true,
     }));
   }, [data]);

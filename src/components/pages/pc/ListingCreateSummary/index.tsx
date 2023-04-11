@@ -1,5 +1,7 @@
 import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
+import updateListing from '@/apis/listing/updateListing';
 import { Loading, Panel } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateSummary } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -15,6 +17,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const agentID = Number(router.query.agentID) ?? 0;
   const [agent, setAgent] = useState<GetAgentListResponse['agent_list'][0] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [poppup, setPopup] = useState(false);
+
   const params = useMemo(() => {
     if (typeof router.query.params === 'string') {
       return JSON.parse(router.query.params);
@@ -32,6 +36,16 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
     setIsLoading(false);
   }, [listingID, agentID]);
+
+  const onClickCreate = useCallback(async () => {
+    await updateListing({
+      ...params,
+      listing_id: listingID,
+      user_selected_agent_id: agentID,
+    });
+
+    setPopup(true);
+  }, [params, listingID, agentID]);
 
   useEffect(() => {
     fetchAgentList();
@@ -68,7 +82,28 @@ export default memo(({ depth, panelWidth }: Props) => {
           interimAmount2={params.interim_amount2}
           interimAmount3={params.interim_amount3}
           specialTerms={params.specialTerms}
+          onClickCreate={onClickCreate}
         />
+      )}
+      {poppup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>수고하셨습니다!</Popup.Title>
+              <Popup.Body>주소 및 소유자 확인후 중개사 배정이 완료됩니다.</Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton
+                onClick={() => {
+                  setPopup(false);
+                  router.pop();
+                }}
+              >
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
       )}
     </Panel>
   );

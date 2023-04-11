@@ -14,8 +14,8 @@ export interface GetChatRoomListResponse {
         agent_description: string;
         title: string;
         status: string;
-        my_status: string;
-        my_status2: string;
+        chat_status: string;
+        listing_status: string;
       }[]
     | null;
 }
