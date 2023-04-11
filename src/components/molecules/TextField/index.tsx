@@ -16,7 +16,7 @@ import { mergeRefs, resolveProps } from '@/utils';
 import tw, { css, styled } from 'twin.macro';
 import ErrorIcon from '@/assets/icons/error.svg';
 import SuccessIcon from '@/assets/icons/success.svg';
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import { NumericFormat, NumericFormatProps, PatternFormat, PatternFormatProps } from 'react-number-format';
 import { Numeral } from '@/components/atoms';
 import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 import TextFieldContext, { SizeType, VariantType } from './TextFieldContext';
@@ -74,6 +74,19 @@ const StyledInput = styled.input(({ inSize, disabled, label, hasError }: StyledI
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledNumericInput = styled(({ inSize, label, hasError, ...others }: NumericFormatProps & StyledInputProps) => (
   <NumericFormat {...others} />
+))(({ inSize, disabled, label, hasError }) => [
+  tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
+  disabled && tw`text-gray-700 placeholder-gray-500`,
+  label && tw`px-4 pb-3 pt-7`,
+  hasError && tw`placeholder-red-800`,
+  inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
+  inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
+]);
+
+// prevent props for styled components from being passed to the actual component.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const StyledPatternInput = styled(({ inSize, label, hasError, ...others }: PatternFormatProps & StyledInputProps) => (
+  <PatternFormat {...others} />
 ))(({ inSize, disabled, label, hasError }) => [
   tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
   disabled && tw`text-gray-700 placeholder-gray-500`,
@@ -305,6 +318,69 @@ const NumericInput = forwardRef<
   );
 });
 
+const PatternInput = forwardRef<
+  HTMLInputElement,
+  Omit<InputProps & PatternFormatProps, 'value' | 'defaultValue'> & { value?: string }
+>(({ label, value: valueProp, onChange, onFocus, onBlur, ...others }, ref) => {
+  const { size, focused, disabled, hasError, setFocused, setDisabled } = useContext(TextFieldContext);
+
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    default: '',
+  });
+
+  const handleChange = useCallback<NonNullable<NumericFormatProps['onValueChange']>>(
+    (values) => {
+      setValue(values.formattedValue);
+      onChange?.({ target: { value: values.formattedValue } } as any);
+    },
+    [onChange, setValue],
+  );
+
+  const handleFocus = useCallback<FocusEventHandler<HTMLInputElement>>(
+    (e) => {
+      setFocused(true);
+      onFocus?.(e);
+    },
+    [onFocus, setFocused],
+  );
+
+  const handleBlur = useCallback<FocusEventHandler<HTMLInputElement>>(
+    (e) => {
+      setFocused(false);
+      onBlur?.(e);
+    },
+    [onBlur, setFocused],
+  );
+
+  useEffect(() => {
+    if (others.disabled !== undefined) {
+      setDisabled(others.disabled);
+    }
+  }, [others.disabled, setDisabled]);
+
+  return (
+    <>
+      {label && (
+        <StyledLabel inSize={size} hasError={hasError} disabled={disabled} focused={focused || value.length > 0}>
+          {label}
+        </StyledLabel>
+      )}
+      <StyledPatternInput
+        ref={ref}
+        inSize={size}
+        value={value}
+        onValueChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        label={label}
+        hasError={hasError}
+        {...others}
+      />
+    </>
+  );
+});
+
 const PriceInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp, onChange, ...props }, ref) => {
   const { size, disabled } = useContext(TextFieldContext);
   const [value, setValue] = useControlled({
@@ -330,6 +406,23 @@ const PriceInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp,
       )}
     </>
   );
+});
+
+const DateInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp, onChange, ...props }, ref) => {
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    default: '',
+  });
+
+  const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      setValue(e.target.value);
+      onChange?.(e);
+    },
+    [setValue, onChange],
+  );
+
+  return <PatternInput format="####-##-##" {...props} ref={ref} value={value} onChange={handleChange} />;
 });
 
 const TextArea = forwardRef<HTMLTextAreaElement, Omit<TextAreaProps, 'as' | 'theme'>>(
@@ -444,7 +537,9 @@ function PriceHelperMessage({
 export default Object.assign(Container, {
   Input,
   NumericInput,
+  PatternInput,
   PriceInput,
+  DateInput,
   TextArea,
   Leading,
   Trailing,

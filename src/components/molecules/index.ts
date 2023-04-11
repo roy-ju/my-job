@@ -10,4 +10,4 @@ export { default as Tabs } from './Tabs';
 export { default as Popup } from './Popup';
 export { default as OverlayPresenter } from './OverlayPresenter';
 export { default as Information } from './Information';
-export { default as DateInput } from './DateInput';
+// export { default as DateInput } from './DateInput';
