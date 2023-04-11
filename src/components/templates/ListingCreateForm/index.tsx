@@ -29,7 +29,7 @@ export default function ListingCreateForm({
   contractAmountNegotiable,
   remainingAmount,
   remainingAmountDate,
-  remainingAmountBeforeOrAfter,
+  remainingAmountDateType,
   interims,
 
   debtSuccessionDeposit,
@@ -38,7 +38,7 @@ export default function ListingCreateForm({
   collaterals,
 
   moveInDate,
-  beforeOrAfter,
+  dateType,
   specialTerms,
 
   onChangeIsOwner,
@@ -54,7 +54,7 @@ export default function ListingCreateForm({
   onChangeContractAmountNegotiable,
   onChangeRemainingAmount,
   onChangeRemainingAmountDate,
-  onChangeRemainingAmountBeforeOrAfter,
+  onChangeRemainingAmountDateType,
   onClickAddInterim,
 
   onChangeDebtSuccessionDeposit,
@@ -63,7 +63,7 @@ export default function ListingCreateForm({
   onClickAddCollateral,
 
   onChangeMoveInDate,
-  onChangeBeforeOrAfter,
+  onChangeDateType,
   onChangeSpecialTerms,
 
   rentArea,
@@ -95,7 +95,7 @@ export default function ListingCreateForm({
       collaterals,
 
       moveInDate,
-      beforeOrAfter,
+      dateType,
       specialTerms,
 
       onChangeIsOwner,
@@ -114,13 +114,13 @@ export default function ListingCreateForm({
       onClickAddCollateral,
 
       onChangeMoveInDate,
-      onChangeBeforeOrAfter,
+      onChangeDateType,
       onChangeSpecialTerms,
 
       remainingAmountDate,
-      remainingAmountBeforeOrAfter,
+      remainingAmountDateType,
       onChangeRemainingAmountDate,
-      onChangeRemainingAmountBeforeOrAfter,
+      onChangeRemainingAmountDateType,
 
       rentArea,
       onChangeRentArea,
@@ -150,7 +150,7 @@ export default function ListingCreateForm({
       collaterals,
 
       moveInDate,
-      beforeOrAfter,
+      dateType,
       specialTerms,
 
       onChangeIsOwner,
@@ -170,12 +170,12 @@ export default function ListingCreateForm({
 
       onChangeMoveInDate,
       onChangeSpecialTerms,
-      onChangeBeforeOrAfter,
+      onChangeDateType,
 
       remainingAmountDate,
-      remainingAmountBeforeOrAfter,
+      remainingAmountDateType,
       onChangeRemainingAmountDate,
-      onChangeRemainingAmountBeforeOrAfter,
+      onChangeRemainingAmountDateType,
 
       rentArea,
       onChangeRentArea,
