@@ -11,6 +11,13 @@ export default function TransactionHistoryList() {
       <TransactionHistoryListItem />
       <TransactionHistoryListItem />
       <TransactionHistoryListItem />
+      <TransactionHistoryListItem />
+      <TransactionHistoryListItem />
+      <TransactionHistoryListItem />
+      <TransactionHistoryListItem />
+      <TransactionHistoryListItem />
+      <TransactionHistoryListItem />
+      <TransactionHistoryListItem />
     </div>
   );
 }
