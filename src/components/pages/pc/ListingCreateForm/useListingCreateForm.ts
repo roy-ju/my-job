@@ -1,13 +1,15 @@
 import { CollateralType, DebtSuccessionType, InterimType } from '@/components/templates/ListingCreateForm/FormContext';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import { useAuth } from '@/hooks/services';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
+import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+import convertToDateString from '@/utils/convertToDateString';
 import _ from 'lodash';
 // import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import makeListingCreateParams from './makeListingCreateParams';
 
@@ -15,8 +17,9 @@ type PopupType = 'none' | 'buyOrRentChagne';
 
 export default function useListingCreateForm(depth: number) {
   const router = useRouter(depth);
-  // 매물 주소 정보
-  const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
+
+  const { user } = useAuth();
+
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
   // 벨리데이션 에러 팝업
@@ -42,7 +45,7 @@ export default function useListingCreateForm(depth: number) {
   // 잔금
   const [remainingAmount, setRemainingAmount] = useState('');
   const [remainingAmountDate, setRemainingAmountDate] = useState('');
-  const [remainingAmountDateType, setRemainingAMountDateType] = useState('이전');
+  const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
   // 중도금
   const [interims, setInterims] = useState<InterimType[]>([]);
   // 채무승계 보증금
@@ -63,32 +66,12 @@ export default function useListingCreateForm(depth: number) {
   const [rentTermMonth, setRentTermMonth] = useState('0개월');
   const [rentTermNegotiable, setRentTermNegotiable] = useState(true);
 
-  const addressLine1 = useMemo(() => {
-    if (addressData) {
-      if (addressData.roadAddressName) {
-        return addressData.roadAddressName;
-      }
-      return addressData.addressName;
-    }
-    return '';
-  }, [addressData]);
+  const [jeonsaeLoan, setJeonsaeLoan] = useState(true);
 
-  const addressLine2 = useMemo(() => {
-    if (addressData && addressData.placeName) {
-      return addressData.placeName;
-    }
-    return '';
-  }, [addressData]);
+  const [quickSale, setQuickSale] = useState(false);
 
-  useEffect(() => {
-    const { addressData: inAddressData } = router.query;
-    if (!inAddressData) {
-      // router.replace(Routes.ListingCreateAddress);
-    } else {
-      const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
-      setAddressData(parsed);
-    }
-  }, [router]);
+  const addressLine1 = router.query.addressLine1 as string;
+  const addressLine2 = router.query.addressLine2 as string;
 
   const setNextForm = useCallback((...formNames: string[]) => {
     setForms((prev) => [...prev, ...formNames]);
@@ -276,40 +259,46 @@ export default function useListingCreateForm(depth: number) {
       return;
     }
 
-    if (addressData !== null) {
-      const params = makeListingCreateParams({
-        addressData,
-        ownerName,
-        ownerPhone,
-        buyOrRent,
-        price,
-        monthlyRentFee,
-        contractAmount,
-        contractAmountNegotiable,
-        remainingAmount,
-        remainingAmountDate,
-        remainingAmountDateType,
-        interims,
-        debtSuccessionDeposit,
-        debtSuccessionMiscs,
-        jeonsaeLoan: false,
-        moveInDate,
-        dateType,
-        rentArea,
-        rentTermYear,
-        rentTermMonth,
-        rentTermNegotiable,
-        specialTerms,
-      });
-      console.log(params);
-    } else {
-      toast.error('address_data cannot be null');
+    const params = makeListingCreateParams({
+      ownerName,
+      ownerPhone,
+      buyOrRent,
+      price,
+      monthlyRentFee,
+      contractAmount,
+      contractAmountNegotiable,
+      remainingAmount,
+      remainingAmountDate,
+      remainingAmountDateType,
+      interims,
+      debtSuccessionDeposit,
+      debtSuccessionMiscs,
+      jeonsaeLoan,
+      moveInDate,
+      dateType,
+      rentArea,
+      rentTermYear,
+      rentTermMonth,
+      rentTermNegotiable,
+      specialTerms,
+      collaterals,
+      quickSale,
+    });
+
+    if (isOwner && user) {
+      params.owner_name = user.name;
+      params.owner_phone = user.phone;
     }
 
-    // router.replace(Routes.ListingCreateChooseAgent);
+    const encoded = JSON.stringify(params);
+
+    router.replace(Routes.ListingCreateChooseAgent, {
+      searchParams: { listingID: router.query.listingID as string, params: encoded },
+    });
   }, [
+    router,
+    user,
     isOwner,
-    addressData,
     ownerName,
     ownerPhone,
     buyOrRent,
@@ -330,6 +319,9 @@ export default function useListingCreateForm(depth: number) {
     rentTermMonth,
     rentTermNegotiable,
     specialTerms,
+    collaterals,
+    quickSale,
+    jeonsaeLoan,
   ]);
 
   const handleClickNext = useCallback(() => {
@@ -391,6 +383,10 @@ export default function useListingCreateForm(depth: number) {
   ]);
 
   // 입력필드 값 Change Event Handlers
+
+  const handleChangeQuickSale = useCallback((value: boolean) => {
+    setQuickSale(value);
+  }, []);
 
   const handleChangeIsOwner = useCallback((value: boolean) => {
     setIsOwner(value);
@@ -636,7 +632,7 @@ export default function useListingCreateForm(depth: number) {
   }, []);
 
   const handleChangeRemainingAmountDateType = useCallback((value: string) => {
-    setRemainingAMountDateType(value);
+    setRemainingAmountDateType(value);
   }, []);
 
   const handleChangeRentArea = useCallback((value: string) => {
@@ -653,6 +649,10 @@ export default function useListingCreateForm(depth: number) {
 
   const handleChangeRentTermNegotiable = useCallback((value: boolean) => {
     setRentTermNegotiable(value);
+  }, []);
+
+  const handleChangeJeonsaeLoan = useCallback((value: boolean) => {
+    setJeonsaeLoan(value);
   }, []);
 
   // 잔금 계산
@@ -705,6 +705,169 @@ export default function useListingCreateForm(depth: number) {
     setPopup('none');
     resetForms(Forms.BuyOrRent);
   }, [resetForms]);
+
+  // 수정하기로 왔을때, parmas 에서 값을 꺼내와서 초기값으로 설정한다.
+  useIsomorphicLayoutEffect(() => {
+    const params = router.query.params;
+    if (typeof params !== 'string') return;
+    const parsed = JSON.parse(params);
+    console.log(parsed);
+
+    const convertDateType = (value: number) => {
+      if (value === 1) return '이전';
+      if (value === 2) return '이후';
+      return '이전';
+    };
+
+    if (parsed.owner_name && parsed.owner_phone) {
+      setIsOwner(false);
+      setOwnerName(parsed.owner_name);
+      setOwnerPhone(parsed.owner_phone);
+    }
+
+    if (parsed.buy_or_rent === BuyOrRent.Buy) {
+      setForms([
+        Forms.IsOwner,
+        Forms.BuyOrRent,
+        Forms.Price,
+        Forms.DebtSuccessions,
+        Forms.MoveInDate,
+        Forms.PaymentSchedules,
+        Forms.SpecialTerms,
+        Forms.Optionals,
+      ]);
+    } else {
+      setForms([
+        Forms.IsOwner,
+        Forms.BuyOrRent,
+        Forms.Price,
+        Forms.RentArea,
+        Forms.RentTerm,
+        Forms.MoveInDate,
+        Forms.PaymentSchedules,
+        Forms.Collaterals,
+        Forms.JeonsaeLoan,
+        Forms.SpecialTerms,
+        Forms.Optionals,
+      ]);
+    }
+
+    if (parsed.buy_or_rent) {
+      setBuyOrRent(parsed.buy_or_rent);
+    }
+
+    if (parsed.trade_price) {
+      setPrice(convertNumberToPriceInput(parsed.trade_price));
+    }
+
+    if (parsed.deposit) {
+      setPrice(convertNumberToPriceInput(parsed.deposit));
+    }
+
+    if (parsed.monthly_rent_fee) {
+      setMonthlyRentFee(convertNumberToPriceInput(parsed.monthly_rent_fee));
+    }
+
+    if (parsed.rent_area) {
+      setRentArea(parsed.rent_area);
+    }
+
+    if (parsed.rent_contract_term_year) {
+      setRentTermYear(`${parsed.rent_contract_term_year}년`);
+    }
+
+    if (parsed.rent_contract_term_month) {
+      setRentTermYear(`${parsed.rent_contract_term_month}개월`);
+    }
+
+    if (parsed.rent_contract_term_negotiable !== undefined) {
+      setRentTermNegotiable(parsed.rent_contract_term_negotiable);
+    }
+
+    if (parsed.move_in_date) {
+      setMoveInDate(convertToDateString(parsed.move_in_date));
+    }
+
+    if (parsed.contract_amount) {
+      setContractAmount(convertNumberToPriceInput(parsed.contract_amount));
+    }
+
+    if (parsed.contract_amount_negotiable !== undefined) {
+      setContractAmountNegotiable(parsed.contract_amount_negotiable);
+    }
+
+    if (parsed.remaining_amount_payment_time) {
+      setRemainingAmountDate(convertToDateString(parsed.remaining_amount_payment_time));
+    }
+
+    if (parsed.remaining_amount_payment_time_type) {
+      setRemainingAmountDateType(convertDateType(parsed.remaining_amount_payment_time_type));
+    }
+
+    if (parsed.quick_sale !== undefined) {
+      setQuickSale(parsed.quick_sale);
+    }
+
+    if (parsed.special_terms) {
+      setSpecialTerms(parsed.special_terms);
+    }
+
+    if (parsed.jeonsae_loan !== undefined) {
+      setJeonsaeLoan(parsed.jeonsae_loan);
+    }
+
+    const defaultInterims: InterimType[] = [];
+
+    if (parsed.interim_amount1) {
+      const k = uuidv4();
+      defaultInterims.push({
+        key: k,
+        price: convertNumberToPriceInput(parsed.interim_amount1),
+        negotiable: Boolean(parsed.interim_amount_negotiable1),
+        date: parsed.interim_amount_payment_time1 ? convertToDateString(parsed.interim_amount_payment_time1) : '',
+        dateType: convertDateType(parsed.interim_amount_payment_time1_type),
+        onChangePrice: handleChangeInterimPrice(k),
+        onChangeNegotiable: handleChangeInterimNegotiable(k),
+        onChangeDate: handleChangeInterimDate(k),
+        onChangeDateType: handleChangeInterimDateType(k),
+        onRemove: handleRemoveInterim(k),
+      });
+    }
+
+    if (parsed.interim_amount2) {
+      const k = uuidv4();
+      defaultInterims.push({
+        key: k,
+        price: convertNumberToPriceInput(parsed.interim_amount2),
+        negotiable: Boolean(parsed.interim_amount_negotiable2),
+        date: parsed.interim_amount_payment_time2 ? convertToDateString(parsed.interim_amount_payment_time2) : '',
+        dateType: convertDateType(parsed.interim_amount_payment_time2_type),
+        onChangePrice: handleChangeInterimPrice(k),
+        onChangeNegotiable: handleChangeInterimNegotiable(k),
+        onChangeDate: handleChangeInterimDate(k),
+        onChangeDateType: handleChangeInterimDateType(k),
+        onRemove: handleRemoveInterim(k),
+      });
+    }
+
+    if (parsed.interim_amount3) {
+      const k = uuidv4();
+      defaultInterims.push({
+        key: k,
+        price: convertNumberToPriceInput(parsed.interim_amount3),
+        negotiable: Boolean(parsed.interim_amount_negotiable3),
+        date: parsed.interim_amount_payment_time3 ? convertToDateString(parsed.interim_amount_payment_time3) : '',
+        dateType: convertDateType(parsed.interim_amount_payment_time3_type),
+        onChangePrice: handleChangeInterimPrice(k),
+        onChangeNegotiable: handleChangeInterimNegotiable(k),
+        onChangeDate: handleChangeInterimDate(k),
+        onChangeDateType: handleChangeInterimDateType(k),
+        onRemove: handleRemoveInterim(k),
+      });
+    }
+
+    setInterims(defaultInterims);
+  }, [router.query.params]);
 
   return useMemo(
     () => ({
@@ -765,6 +928,12 @@ export default function useListingCreateForm(depth: number) {
       handleChangeRentTermMonth,
       handleChangeRentTermYear,
       handleChangeRentTermNegotiable,
+
+      quickSale,
+      handleChangeQuickSale,
+
+      jeonsaeLoan,
+      handleChangeJeonsaeLoan,
 
       // Popup actions
       popup,
@@ -834,6 +1003,12 @@ export default function useListingCreateForm(depth: number) {
       handleChangeRentTermMonth,
       handleChangeRentTermYear,
       handleChangeRentTermNegotiable,
+
+      quickSale,
+      handleChangeQuickSale,
+
+      jeonsaeLoan,
+      handleChangeJeonsaeLoan,
     ],
   );
 }

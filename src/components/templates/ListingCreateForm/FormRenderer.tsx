@@ -82,6 +82,9 @@ export default function FormRenderer({ form }: Props) {
     onChangeRentTermMonth,
     onChangeRentTermYear,
     onChangeRentTermNegotiable,
+
+    jeonsaeLoan,
+    onChangeJeonsaeLoan,
   } = useContext(FormContext);
 
   switch (form) {
@@ -255,7 +258,11 @@ export default function FormRenderer({ form }: Props) {
     case Forms.JeonsaeLoan:
       return (
         <div id={Forms.JeonsaeLoan} tw="px-5 py-10">
-          <Form.JeonsaeLoan isJeonsae={buyOrRent === BuyOrRent.Jeonsae} />
+          <Form.JeonsaeLoan
+            isJeonsae={buyOrRent === BuyOrRent.Jeonsae}
+            value={jeonsaeLoan}
+            onChange={onChangeJeonsaeLoan}
+          />
         </div>
       );
 

@@ -1,6 +1,6 @@
 import { RadioGroup, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
-import { ChangeEventHandler, useCallback, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import { Button, Label, Radio } from '@/components/atoms';
 
@@ -32,6 +32,12 @@ export default function RentArea({ value, onChangeValue, onClickQuestion }: Rent
     },
     [handleChange],
   );
+
+  useEffect(() => {
+    if (value && hasRentArea === '0') {
+      setHasRentArea('1');
+    }
+  }, [value, hasRentArea]);
 
   return (
     <div>

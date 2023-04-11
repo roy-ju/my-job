@@ -1,21 +1,25 @@
 import List from './List';
 
+export interface AgentCarouselItem {
+  id: number;
+  officeName: string;
+  profileImageFullPath: string;
+  name: string;
+  cellPhone: string;
+  fullJibunAddress: string;
+  registrationNumber: string;
+  description: string;
+}
 export interface AgentCardCarouselProps {
-  data: {
-    officeName: string;
-    profileImageFullPath: string;
-    name: string;
-    cellPhone: string;
-    fullJibunAddress: string;
-    registrationNumber: string;
-    description: string;
-  }[];
+  data: AgentCarouselItem[];
+  index?: number;
+  onChangeIndex?: (index: number) => void;
 }
 
-export default function AgentCardCarousel({ data }: AgentCardCarouselProps) {
+export default function AgentCardCarousel({ data, index, onChangeIndex }: AgentCardCarouselProps) {
   return (
     <div>
-      <List data={data} />
+      <List data={data} index={index} onChangeIndex={onChangeIndex} />
     </div>
   );
 }
