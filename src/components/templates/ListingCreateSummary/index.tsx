@@ -41,22 +41,7 @@ export default function ListingCreateSummary({
   agentDescription,
 
   buyOrRent,
-}: // price,
-// monthlyRentFee,
-// contractAmount,
-// remainingAmount,
-// interimAmount1,
-// interimAmount2,
-// interimAmount3,
-// debtSuccessions,
-// collaterals,
-// moveInDate,
-// moveInDateType,
-// rentTermYear,
-// rentTermMonth,
-// rentArea,
-// specialTerms,
-ListingCreateSummaryProps) {
+}: ListingCreateSummaryProps) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
