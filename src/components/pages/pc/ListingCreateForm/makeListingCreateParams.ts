@@ -1,7 +1,6 @@
 import { CollateralType, DebtSuccessionType, InterimType } from '@/components/templates/ListingCreateForm/FormContext';
 import { BuyOrRent } from '@/constants/enums';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
-import convertToISOString from '@/utils/convertToISOString';
 
 interface Args {
   ownerName: string;
@@ -12,7 +11,7 @@ interface Args {
   contractAmount: string;
   contractAmountNegotiable: boolean;
   remainingAmount: string;
-  remainingAmountDate: string;
+  remainingAmountDate: Date | null;
   remainingAmountDateType: string;
   interims: InterimType[];
 
@@ -20,8 +19,8 @@ interface Args {
   debtSuccessionMiscs: DebtSuccessionType[];
   jeonsaeLoan: boolean;
 
-  moveInDate: string;
-  dateType: string;
+  moveInDate: Date | null;
+  moveInDateType: string;
 
   rentArea: string;
   rentTermYear: string;
@@ -74,29 +73,29 @@ export default function makeListingCreateParams(args: Args) {
 
     interim_amount1: convertPriceInputToNumber(args.interims[0]?.price),
     interim_amount_negotiable1: args.interims[0]?.negotiable,
-    interim_amount_payment_time1: args.interims[0]?.date && convertToISOString(args.interims[0]?.date),
+    interim_amount_payment_time1: args.interims[0]?.date?.toISOString(),
     interim_amount_payment_time1_type: getDateType(args.interims[0]?.dateType),
 
     interim_amount2: convertPriceInputToNumber(args.interims[1]?.price),
     interim_amount_negotiable2: args.interims[1]?.negotiable,
-    interim_amount_payment_time2: args.interims[1]?.date && convertToISOString(args.interims[1]?.date),
+    interim_amount_payment_time2: args.interims[1]?.date?.toISOString(),
     interim_amount_payment_time2_type: getDateType(args.interims[1]?.dateType),
 
     interim_amount3: convertPriceInputToNumber(args.interims[2]?.price),
     interim_amount_negotiable3: args.interims[2]?.negotiable,
-    interim_amount_payment_time3: args.interims[2]?.date && convertToISOString(args.interims[2]?.date),
+    interim_amount_payment_time3: args.interims[2]?.date?.toISOString(),
     interim_amount_payment_time3_type: getDateType(args.interims[2]?.dateType),
 
     jeonsae_loan: args.jeonsaeLoan,
 
-    move_in_date: args.moveInDate && convertToISOString(args.moveInDate),
-    move_in_date_type: getDateType(args.dateType),
+    move_in_date: args.moveInDate?.toISOString(),
+    move_in_date_type: getDateType(args.moveInDateType),
 
     owner_name: args.ownerName,
     owner_phone: args.ownerPhone,
 
     remaining_amount: convertPriceInputToNumber(args.remainingAmount),
-    remaining_amount_payment_time: args.remainingAmountDate && convertToISOString(args.remainingAmountDate),
+    remaining_amount_payment_time: args.remainingAmountDate?.toISOString(),
     remaining_amount_payment_time_type: getDateType(args.remainingAmountDateType),
 
     rent_area: args.rentArea,
