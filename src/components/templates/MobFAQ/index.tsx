@@ -1,5 +1,5 @@
 import { Dropdown } from '@/components/molecules';
-import { MobGlobalHeader } from '@/components/organisms/MobGlobalHeader';
+import { MobGlobalHeader } from '@/components/organisms';
 import { useState } from 'react';
 import MobList from './MobList';
 

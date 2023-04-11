@@ -1,5 +1,4 @@
-import { ServiceInfoList } from '@/components/organisms';
-import { MobGlobalHeader } from '@/components/organisms/MobGlobalHeader';
+import { ServiceInfoList, MobGlobalHeader } from '@/components/organisms';
 
 export interface ServiceInfoProps {
   onClickBusinessInfo?: () => void;
