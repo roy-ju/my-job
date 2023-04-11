@@ -4,13 +4,13 @@ import { useState } from 'react';
 
 interface Props {
   date?: string;
-  beforeOrAfter?: string;
+  dateType?: string;
   onChangeType?: (value: string) => void;
   onChangeDate?: (value: string) => void;
-  onChangeBeforeOrAfter?: (value: string) => void;
+  onChangeDateType?: (value: string) => void;
 }
 
-export default function MoveInDate({ date, beforeOrAfter, onChangeDate, onChangeBeforeOrAfter }: Props) {
+export default function MoveInDate({ date, dateType, onChangeDate, onChangeDateType }: Props) {
   const [type, setType] = useState('0');
 
   return (
@@ -25,7 +25,7 @@ export default function MoveInDate({ date, beforeOrAfter, onChangeDate, onChange
           onChange={(e) => {
             if (e.target.value === '0') {
               onChangeDate?.('');
-              onChangeBeforeOrAfter?.('이전');
+              onChangeDateType?.('이전');
             }
             setType(e.target.value);
           }}
@@ -38,7 +38,7 @@ export default function MoveInDate({ date, beforeOrAfter, onChangeDate, onChange
             <TextField tw="flex-1 min-w-0" variant="outlined">
               <TextField.Input label="날짜" value={date} onChange={(e) => onChangeDate?.(e.target.value)} />
             </TextField>
-            <Dropdown tw="flex-1 min-w-0" variant="outlined" value={beforeOrAfter} onChange={onChangeBeforeOrAfter}>
+            <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
               <Dropdown.Option value="이전">이전</Dropdown.Option>
               <Dropdown.Option value="이후">이후</Dropdown.Option>
             </Dropdown>

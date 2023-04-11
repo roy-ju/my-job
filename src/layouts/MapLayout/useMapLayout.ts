@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import getDanjiSummary from '@/apis/map/mapDanjiSummary';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
@@ -391,47 +390,52 @@ export default function useMapLayout() {
     [selectMarker, lastSearchItem],
   );
 
+  const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
+
   /**
    * 학교 마커를 그린다.
    */
-  const updateSchoolMarkers = useCallback(async (_map: NaverMap, mapBounds: MapBounds, st: string) => {
-    const schoolTypes = st === 'elementary' ? '1' : st === 'middle' ? '2' : '3';
+  const updateSchoolMarkers = useCallback(
+    async (_map: NaverMap, mapBounds: MapBounds, st: string) => {
+      const schoolTypes = st === 'elementary' ? '1' : st === 'middle' ? '2' : '3';
 
-    const res = await getSchools({ schoolTypes, bounds: mapBounds });
-    setSchoolMarkers(
-      res?.list?.map((item) => ({
-        id: item.school_id,
-        lat: item.lat,
-        lng: item.long,
-        name: schoolType === '2' ? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
-        type: st,
-        onClick: async () => {
-          if (isPanningRef.current) return;
-          const hakgudoRes = await getHakgudo(item.school_id);
-          setPolygons(
-            hakgudoRes?.list?.map((p: any) => {
-              const paths = JSON.parse(p.polygons as string)?.coordinates[0][0];
-              const poly = new naver.maps.Polygon({
-                map: _map,
-                paths: paths.map((v: [number, number]) => new naver.maps.LatLng(v[1], v[0])),
-                fillColor: '#FF6D41',
-                fillOpacity: 0.15,
-                strokeColor: '#F34829',
-                strokeOpacity: 1,
-                strokeWeight: 2,
-              });
-              return poly;
-            }) ?? [],
-          );
-          setSelectedSchoolID(item.school_id);
-          _map.morph({
-            lat: item.lat,
-            lng: item.long,
-          });
-        },
-      })) ?? [],
-    );
-  }, []);
+      const res = await getSchools({ schoolTypes, bounds: mapBounds });
+      setSchoolMarkers(
+        res?.list?.map((item) => ({
+          id: item.school_id,
+          lat: item.lat,
+          lng: item.long,
+          name: schoolType === '2' ? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
+          type: st,
+          onClick: async () => {
+            if (isPanningRef.current) return;
+            const hakgudoRes = await getHakgudo(item.school_id);
+            setPolygons(
+              hakgudoRes?.list?.map((p: any) => {
+                const paths = JSON.parse(p.polygons as string)?.coordinates[0][0];
+                const poly = new naver.maps.Polygon({
+                  map: _map,
+                  paths: paths.map((v: [number, number]) => new naver.maps.LatLng(v[1], v[0])),
+                  fillColor: '#FF6D41',
+                  fillOpacity: 0.15,
+                  strokeColor: '#F34829',
+                  strokeOpacity: 1,
+                  strokeWeight: 2,
+                });
+                return poly;
+              }) ?? [],
+            );
+            setSelectedSchoolID(item.school_id);
+            _map.morph({
+              lat: item.lat,
+              lng: item.long,
+            });
+          },
+        })) ?? [],
+      );
+    },
+    [schoolType],
+  );
 
   /**
    * 지도 코너 좌표값을 업데이트 한다.
@@ -635,9 +639,9 @@ export default function useMapLayout() {
    */
   useEffect(() => {
     if (bounds && map) {
-      updateMarkers(map, bounds, filter, mapToggleValue, priceType);
+      deferredUpdateMarkers(map, bounds, filter, mapToggleValue, priceType);
     }
-  }, [map, bounds, updateMarkers, filter, mapToggleValue, priceType]);
+  }, [map, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
 
   /**
    * 학교가 활성화되어있으면, 맵이 이동할때마다 학교 마커를 그린다.
@@ -668,17 +672,6 @@ export default function useMapLayout() {
     },
     [polygons],
   );
-
-  /**
-   * 필터의 거래종류가 바뀔때, 가격정보표시도 바꾼다.
-   */
-  useEffect(() => {
-    if (filter.buyOrRents === '2,3') {
-      setPriceType('rent');
-    } else {
-      setPriceType('buy');
-    }
-  }, [filter.buyOrRents]);
 
   // Map Control Handlers
 
@@ -767,6 +760,40 @@ export default function useMapLayout() {
     },
     [setFilter],
   );
+
+  /**
+   * 필터의 거래종류가 바뀔때, 가격정보표시도 바꾼다.
+   */
+  useEffect(() => {
+    if (filter.buyOrRents === '2,3') {
+      setPriceType('rent');
+    } else {
+      setPriceType('buy');
+    }
+  }, [filter.buyOrRents]);
+
+  /**
+   * 가격정보표시가 바뀔때 필터의 거래종류도 바꾼다.
+   */
+  useEffect(() => {
+    if (priceType === 'rent') {
+      handleChangeFilter({ buyOrRents: '2,3' });
+    } else {
+      handleChangeFilter({ buyOrRents: '1' });
+    }
+  }, [handleChangeFilter, priceType]);
+
+  /**
+   * 필터의 거래종류가 바뀔때 가격필터를 초기화한다
+   */
+  useEffect(() => {
+    const { priceRange, depositRange, rentRange } = getDefaultFilterAptOftl();
+    handleChangeFilter({
+      priceRange,
+      depositRange,
+      rentRange,
+    });
+  }, [filter.buyOrRents, handleChangeFilter]);
 
   return {
     // common map handlers and properties

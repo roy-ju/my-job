@@ -40,21 +40,23 @@ export default function FormRenderer({ form }: Props) {
     // Price
     price,
     monthlyRentFee,
+    quickSale,
     onChangePrice,
     onChangeMonthlyRentFee,
+    onChangeQuickSale,
     // 희망 지급일정
     contractAmount,
     contractAmountNegotiable,
     remainingAmount,
     remainingAmountDate,
-    remainingAmountBeforeOrAfter,
+    remainingAmountDateType,
     interims,
     onChangeContractAmount,
     onChangeContractAmountNegotiable,
     onChangeRemainingAmount,
     onClickAddInterim,
     onChangeRemainingAmountDate,
-    onChangeRemainingAmountBeforeOrAfter,
+    onChangeRemainingAmountDateType,
     // 채무승계
     debtSuccessionDeposit,
     debtSuccessionMiscs,
@@ -65,9 +67,9 @@ export default function FormRenderer({ form }: Props) {
     onClickAddCollateral,
     // 입주가능시기
     moveInDate,
-    beforeOrAfter,
+    dateType,
     onChangeMoveInDate,
-    onChangeBeforeOrAfter,
+    onChangeDateType,
     specialTerms,
     onChangeSpecialTerms,
     // 임대할 부분
@@ -113,9 +115,11 @@ export default function FormRenderer({ form }: Props) {
           <Form.Price
             buyOrRent={buyOrRent ?? BuyOrRent.Buy}
             price={price}
+            quickSale={quickSale}
             monthlyRentFee={monthlyRentFee}
             onChangePrice={onChangePrice}
             onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+            onChangeQuickSale={onChangeQuickSale}
           />
         </div>
       );
@@ -167,7 +171,13 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.PaymentSchedules} tw="py-10">
           <div tw="pb-7 px-5">
-            <Form.PaymentSchedule showCalculator={buyOrRent === BuyOrRent.Buy} onClickAddInterim={onClickAddInterim} />
+            <Form.PaymentSchedule
+              price={price}
+              debtSuccessionDeposit={debtSuccessionDeposit}
+              debtSuccessionMiscs={debtSuccessionMiscs}
+              showCalculator={buyOrRent === BuyOrRent.Buy}
+              onClickAddInterim={onClickAddInterim}
+            />
           </div>
           <div tw="px-5 pb-7 border-b border-b-gray-300">
             <Form.ContractAmount
@@ -186,16 +196,21 @@ export default function FormRenderer({ form }: Props) {
                 onChangeNegotiable={interim.onChangeNegotiable}
                 onClickRemove={interim.onRemove}
               />
-              <Form.Schedule />
+              <Form.Schedule
+                date={interim.date}
+                dateType={interim.dateType}
+                onChangeDate={interim.onChangeDate}
+                onChangeDateType={interim.onChangeDateType}
+              />
             </div>
           ))}
           <div tw="px-5 pt-7 flex flex-col gap-4">
             <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
             <Form.Schedule
               date={remainingAmountDate}
-              beforeOrAfter={remainingAmountBeforeOrAfter}
+              dateType={remainingAmountDateType}
               onChangeDate={onChangeRemainingAmountDate}
-              onChangeBeforeOrAfter={onChangeRemainingAmountBeforeOrAfter}
+              onChangeDateType={onChangeRemainingAmountDateType}
             />
           </div>
         </div>
@@ -212,9 +227,9 @@ export default function FormRenderer({ form }: Props) {
         <div id={Forms.MoveInDate} tw="px-5 py-10">
           <Form.MoveInDate
             date={moveInDate}
-            beforeOrAfter={beforeOrAfter}
+            dateType={dateType}
             onChangeDate={onChangeMoveInDate}
-            onChangeBeforeOrAfter={onChangeBeforeOrAfter}
+            onChangeDateType={onChangeDateType}
           />
         </div>
       );

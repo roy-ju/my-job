@@ -3,9 +3,13 @@ import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+import _ from 'lodash';
 // import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+import makeListingCreateParams from './makeListingCreateParams';
 
 type PopupType = 'none' | 'buyOrRentChagne';
 
@@ -15,6 +19,8 @@ export default function useListingCreateForm(depth: number) {
   const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
+  // 벨리데이션 에러 팝업
+  const [errPopup, setErrPopup] = useState('');
   // 현재 화면에 그려진 입력필드들
   const [forms, setForms] = useState<string[]>([Forms.IsOwner]);
   // 소유자 본인인지 아닌지
@@ -36,7 +42,7 @@ export default function useListingCreateForm(depth: number) {
   // 잔금
   const [remainingAmount, setRemainingAmount] = useState('');
   const [remainingAmountDate, setRemainingAmountDate] = useState('');
-  const [remainingAmountBeforeOrAfter, setRemainingAMountBeforeOrAfter] = useState('이전');
+  const [remainingAmountDateType, setRemainingAMountDateType] = useState('이전');
   // 중도금
   const [interims, setInterims] = useState<InterimType[]>([]);
   // 채무승계 보증금
@@ -49,7 +55,7 @@ export default function useListingCreateForm(depth: number) {
   const [specialTerms, setSpecialTerms] = useState('');
   // 입주가능시기
   const [moveInDate, setMoveInDate] = useState('');
-  const [beforeOrAfter, setBeforeOrAfter] = useState('이전');
+  const [dateType, setDateType] = useState('이전');
   // 임대할 부분
   const [rentArea, setRentArea] = useState('');
   // 임대기간
@@ -141,7 +147,7 @@ export default function useListingCreateForm(depth: number) {
   // 소유자 본인 submit
   const handleSubmitIsOwner = useCallback(() => {
     if (!isOwner && (!ownerName || !ownerPhone)) {
-      console.error('owner_name and owner_phone is required when isOwner is false');
+      setErrPopup('owner_name and owner_phone is required when isOwner is false');
       return;
     }
     setNextForm(Forms.BuyOrRent);
@@ -150,7 +156,7 @@ export default function useListingCreateForm(depth: number) {
   // 거래유형 submit
   const handleSubmitBuyOrRent = useCallback(() => {
     if (buyOrRent === 0) {
-      console.error('buy_or_rent cannot be 0');
+      setErrPopup('buy_or_rent cannot be 0');
       return;
     }
 
@@ -160,13 +166,17 @@ export default function useListingCreateForm(depth: number) {
   // 가격 submit
   const handleSubmitPrice = useCallback(() => {
     if (price === '') {
-      console.error('price is required');
+      setErrPopup('price is required');
       return;
     }
 
     if (buyOrRent === BuyOrRent.Wolsae && monthlyRentFee === '') {
-      console.error('monthly_rent_fee is required');
+      setErrPopup('monthly_rent_fee is required');
       return;
+    }
+
+    if (contractAmount === '') {
+      setContractAmount(`${Math.floor(Number(price) * 0.1)}`);
     }
 
     if (buyOrRent === BuyOrRent.Buy) {
@@ -174,7 +184,7 @@ export default function useListingCreateForm(depth: number) {
     } else {
       setNextForm(Forms.RentArea);
     }
-  }, [buyOrRent, price, monthlyRentFee, setNextForm]);
+  }, [buyOrRent, price, contractAmount, monthlyRentFee, setNextForm]);
 
   // 채무승계 submit
   const handleSubmitDebtSuccessions = useCallback(() => {
@@ -198,12 +208,21 @@ export default function useListingCreateForm(depth: number) {
 
   // 희망지급일정 submit
   const handleSubmitPaymentSchedules = useCallback(() => {
+    if (contractAmount === '') {
+      setErrPopup('contract_amount cannot be empty');
+      return;
+    }
+    if (remainingAmount === '' || Number(remainingAmount) < 0) {
+      setErrPopup('remaining_amount cannot be empty or less than 0');
+      return;
+    }
+
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.SpecialTerms);
     } else {
       setNextForm(Forms.Collaterals);
     }
-  }, [buyOrRent, setNextForm]);
+  }, [contractAmount, remainingAmount, buyOrRent, setNextForm]);
 
   //  선순위 담보권 submit
   const handleSubmitCollaterals = useCallback(() => {
@@ -222,27 +241,75 @@ export default function useListingCreateForm(depth: number) {
 
   // 모든 필드 다 입력후 최종적으로 다음 버튼 눌렀을때 handler
   const handleSubmitFinal = useCallback(() => {
-    console.log(router.asPath);
-    console.log({
-      addressData,
-      isOwner,
-      ownerName,
-      ownerPhone,
-      buyOrRent,
-      price,
-      monthlyRentFee,
-      contractAmount,
-      contractAmountNegotiable,
-      remainingAmount,
-      interims,
-      debtSuccessionDeposit,
-      debtSuccessionMiscs,
-    });
+    // 한번더 최종 밸리데이션
+    if (!isOwner && (!ownerName || !ownerPhone)) {
+      setErrPopup('owner_name and owner_phone is required when isOwner is false');
+      const isOwnerForm = document.getElementById(Forms.IsOwner);
+      isOwnerForm?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if (price === '') {
+      setErrPopup('price is required');
+      const priceForm = document.getElementById(Forms.Price);
+      priceForm?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if (buyOrRent === BuyOrRent.Wolsae && monthlyRentFee === '') {
+      setErrPopup('monthly_rent_fee is required');
+      const priceForm = document.getElementById(Forms.Price);
+      priceForm?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if (contractAmount === '') {
+      setErrPopup('contract_amount cannot be empty');
+      const paymentForm = document.getElementById(Forms.PaymentSchedules);
+      paymentForm?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    if (remainingAmount === '' || Number(remainingAmount) < 0) {
+      setErrPopup('remaining_amount cannot be empty or less than 0');
+      const paymentForm = document.getElementById(Forms.PaymentSchedules);
+      paymentForm?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if (addressData !== null) {
+      const params = makeListingCreateParams({
+        addressData,
+        ownerName,
+        ownerPhone,
+        buyOrRent,
+        price,
+        monthlyRentFee,
+        contractAmount,
+        contractAmountNegotiable,
+        remainingAmount,
+        remainingAmountDate,
+        remainingAmountDateType,
+        interims,
+        debtSuccessionDeposit,
+        debtSuccessionMiscs,
+        jeonsaeLoan: false,
+        moveInDate,
+        dateType,
+        rentArea,
+        rentTermYear,
+        rentTermMonth,
+        rentTermNegotiable,
+        specialTerms,
+      });
+      console.log(params);
+    } else {
+      toast.error('address_data cannot be null');
+    }
 
     // router.replace(Routes.ListingCreateChooseAgent);
   }, [
-    addressData,
     isOwner,
+    addressData,
     ownerName,
     ownerPhone,
     buyOrRent,
@@ -251,10 +318,18 @@ export default function useListingCreateForm(depth: number) {
     contractAmount,
     contractAmountNegotiable,
     remainingAmount,
+    remainingAmountDate,
+    remainingAmountDateType,
     interims,
     debtSuccessionDeposit,
     debtSuccessionMiscs,
-    router,
+    moveInDate,
+    dateType,
+    rentArea,
+    rentTermYear,
+    rentTermMonth,
+    rentTermNegotiable,
+    specialTerms,
   ]);
 
   const handleClickNext = useCallback(() => {
@@ -375,6 +450,34 @@ export default function useListingCreateForm(depth: number) {
     [],
   );
 
+  const handleChangeInterimDate = useCallback(
+    (key: string) => (value: string) => {
+      setInterims((prev) => {
+        const updated = [...prev];
+        const interim = prev.find((item) => item.key === key);
+        if (interim) {
+          interim.date = value;
+        }
+        return updated;
+      });
+    },
+    [],
+  );
+
+  const handleChangeInterimDateType = useCallback(
+    (key: string) => (value: string) => {
+      setInterims((prev) => {
+        const updated = [...prev];
+        const interim = prev.find((item) => item.key === key);
+        if (interim) {
+          interim.dateType = value;
+        }
+        return updated;
+      });
+    },
+    [],
+  );
+
   const handleChangeInterimNegotiable = useCallback(
     (key: string) => (value: boolean) => {
       setInterims((prev) => {
@@ -401,12 +504,21 @@ export default function useListingCreateForm(depth: number) {
   const handleAddInterim = useCallback(() => {
     const newInterims = [...interims];
     const key = uuidv4();
-    newInterims.push({ price: '', negotiable: true, key });
+    newInterims.push({ price: '', date: '', dateType: '이전', negotiable: true, key });
     newInterims[newInterims.length - 1].onRemove = handleRemoveInterim(key);
     newInterims[newInterims.length - 1].onChangePrice = handleChangeInterimPrice(key);
+    newInterims[newInterims.length - 1].onChangeDate = handleChangeInterimDate(key);
+    newInterims[newInterims.length - 1].onChangeDateType = handleChangeInterimDateType(key);
     newInterims[newInterims.length - 1].onChangeNegotiable = handleChangeInterimNegotiable(key);
     setInterims(newInterims);
-  }, [interims, handleRemoveInterim, handleChangeInterimPrice, handleChangeInterimNegotiable]);
+  }, [
+    interims,
+    handleRemoveInterim,
+    handleChangeInterimPrice,
+    handleChangeInterimNegotiable,
+    handleChangeInterimDate,
+    handleChangeInterimDateType,
+  ]);
 
   const handleChangeDebtSuccessionDeposit = useCallback((value: string) => {
     setDebtSuccessionDeposit(value);
@@ -515,16 +627,16 @@ export default function useListingCreateForm(depth: number) {
     setMoveInDate(value);
   }, []);
 
-  const handleChangeBeforeOrAfter = useCallback((value: string) => {
-    setBeforeOrAfter(value);
+  const handleChangeDateType = useCallback((value: string) => {
+    setDateType(value);
   }, []);
 
   const handleChangeRemainingAmountDate = useCallback((value: string) => {
     setRemainingAmountDate(value);
   }, []);
 
-  const handleChangeRemainingAmountBeforeOrAfter = useCallback((value: string) => {
-    setRemainingAMountBeforeOrAfter(value);
+  const handleChangeRemainingAmountDateType = useCallback((value: string) => {
+    setRemainingAMountDateType(value);
   }, []);
 
   const handleChangeRentArea = useCallback((value: string) => {
@@ -542,6 +654,19 @@ export default function useListingCreateForm(depth: number) {
   const handleChangeRentTermNegotiable = useCallback((value: boolean) => {
     setRentTermNegotiable(value);
   }, []);
+
+  // 잔금 계산
+  useEffect(() => {
+    const p = convertPriceInputToNumber(price);
+    const deposit = convertPriceInputToNumber(debtSuccessionDeposit);
+    const miscTotal = _.sum(debtSuccessionMiscs?.map((item) => convertPriceInputToNumber(item.price))) ?? 0;
+    const actualTotal = p - deposit - miscTotal;
+
+    const c = convertPriceInputToNumber(contractAmount);
+    const interimsTotal = _.sum(interims?.map((item) => convertPriceInputToNumber(item.price))) ?? 0;
+    const r = actualTotal - c - interimsTotal;
+    setRemainingAmount(`${r / 10000}`);
+  }, [price, contractAmount, debtSuccessionDeposit, debtSuccessionMiscs, interims]);
 
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
@@ -570,6 +695,10 @@ export default function useListingCreateForm(depth: number) {
 
   const closePopup = useCallback(() => {
     setPopup('none');
+  }, []);
+
+  const closeErrPopup = useCallback(() => {
+    setErrPopup('');
   }, []);
 
   const handleConfirmChangeBuyOrRent = useCallback(() => {
@@ -602,7 +731,7 @@ export default function useListingCreateForm(depth: number) {
       specialTerms,
 
       moveInDate,
-      beforeOrAfter,
+      dateType,
 
       handleChangeIsOwner,
       handleChangeOwnerName,
@@ -620,12 +749,12 @@ export default function useListingCreateForm(depth: number) {
       handleChangeSpecialTerms,
       handleAddCollaterals,
       handleChangeMoveInDate,
-      handleChangeBeforeOrAfter,
+      handleChangeDateType,
 
       remainingAmountDate,
-      remainingAmountBeforeOrAfter,
+      remainingAmountDateType,
       handleChangeRemainingAmountDate,
-      handleChangeRemainingAmountBeforeOrAfter,
+      handleChangeRemainingAmountDateType,
 
       rentArea,
       handleChangeRentArea,
@@ -639,7 +768,9 @@ export default function useListingCreateForm(depth: number) {
 
       // Popup actions
       popup,
+      errPopup,
       closePopup,
+      closeErrPopup,
       handleConfirmChangeBuyOrRent,
     }),
     [
@@ -647,6 +778,7 @@ export default function useListingCreateForm(depth: number) {
       addressLine2,
 
       popup,
+      errPopup,
       forms,
       isOwner,
       ownerName,
@@ -665,7 +797,7 @@ export default function useListingCreateForm(depth: number) {
 
       specialTerms,
       moveInDate,
-      beforeOrAfter,
+      dateType,
 
       handleChangeIsOwner,
       handleChangeOwnerName,
@@ -673,6 +805,7 @@ export default function useListingCreateForm(depth: number) {
       handleChangeBuyOrRent,
       handleClickNext,
       closePopup,
+      closeErrPopup,
       handleConfirmChangeBuyOrRent,
       handleChangePrice,
       handleChangeMonthlyRentFee,
@@ -685,12 +818,12 @@ export default function useListingCreateForm(depth: number) {
       handleChangeSpecialTerms,
       handleAddCollaterals,
       handleChangeMoveInDate,
-      handleChangeBeforeOrAfter,
+      handleChangeDateType,
 
       remainingAmountDate,
-      remainingAmountBeforeOrAfter,
+      remainingAmountDateType,
       handleChangeRemainingAmountDate,
-      handleChangeRemainingAmountBeforeOrAfter,
+      handleChangeRemainingAmountDateType,
 
       rentArea,
       handleChangeRentArea,

@@ -4,8 +4,12 @@ export interface InterimType {
   key: string;
   price?: string;
   negotiable?: boolean;
+  date?: string;
+  dateType?: string;
   onChangePrice?: (value: string) => void;
   onChangeNegotiable?: (value: boolean) => void;
+  onChangeDate?: (value: string) => void;
+  onChangeDateType?: (value: string) => void;
   onRemove?: () => void;
 }
 
@@ -55,14 +59,14 @@ export interface IFormContext {
   contractAmountNegotiable?: boolean;
   remainingAmount?: string;
   remainingAmountDate?: string;
-  remainingAmountBeforeOrAfter?: string;
+  remainingAmountDateType?: string;
   interims?: InterimType[];
   onClickAddInterim?: () => void;
   onChangeContractAmount?: (value: string) => void;
   onChangeContractAmountNegotiable?: (value: boolean) => void;
   onChangeRemainingAmount?: (value: string) => void;
   onChangeRemainingAmountDate?: (value: string) => void;
-  onChangeRemainingAmountBeforeOrAfter?: (value: string) => void;
+  onChangeRemainingAmountDateType?: (value: string) => void;
 
   // 채무승계
   debtSuccessionDeposit?: string;
@@ -76,9 +80,9 @@ export interface IFormContext {
 
   // 입주가능시기
   moveInDate?: string;
-  beforeOrAfter?: string;
+  dateType?: string;
   onChangeMoveInDate?: (value: string) => void;
-  onChangeBeforeOrAfter?: (value: string) => void;
+  onChangeDateType?: (value: string) => void;
 
   // 특약사항
   specialTerms?: string;
