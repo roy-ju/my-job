@@ -38,7 +38,7 @@ export default function ListingCreateForm({
   collaterals,
 
   moveInDate,
-  dateType,
+  moveInDateType,
   specialTerms,
 
   onChangeIsOwner,
@@ -63,7 +63,7 @@ export default function ListingCreateForm({
   onClickAddCollateral,
 
   onChangeMoveInDate,
-  onChangeDateType,
+  onChangeMoveInDateType,
   onChangeSpecialTerms,
 
   rentArea,
@@ -98,7 +98,7 @@ export default function ListingCreateForm({
       collaterals,
 
       moveInDate,
-      dateType,
+      moveInDateType,
       specialTerms,
 
       onChangeIsOwner,
@@ -117,7 +117,7 @@ export default function ListingCreateForm({
       onClickAddCollateral,
 
       onChangeMoveInDate,
-      onChangeDateType,
+      onChangeMoveInDateType,
       onChangeSpecialTerms,
 
       remainingAmountDate,
@@ -155,7 +155,7 @@ export default function ListingCreateForm({
       collaterals,
 
       moveInDate,
-      dateType,
+      moveInDateType,
       specialTerms,
 
       onChangeIsOwner,
@@ -175,7 +175,7 @@ export default function ListingCreateForm({
 
       onChangeMoveInDate,
       onChangeSpecialTerms,
-      onChangeDateType,
+      onChangeMoveInDateType,
 
       remainingAmountDate,
       remainingAmountDateType,
