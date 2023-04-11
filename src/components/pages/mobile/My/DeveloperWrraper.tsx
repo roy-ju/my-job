@@ -2,6 +2,7 @@ import useAPI_GetJwtList from '@/apis/test/getJwtList';
 import { MobDeveloper } from '@/components/templates';
 import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
+import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -25,7 +26,7 @@ export default function DeveloperWrraper() {
       );
       mutateUser();
       setTimeout(() => {
-        router.back();
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
       }, 300);
     },
     [jwtList, mutateUser, router],

@@ -1,3 +1,4 @@
+/** PC */
 export { default as ChatRoom } from './ChatRoom';
 export { default as DanjiDetail } from './DanjiDetail';
 export { default as Home } from './Home';
@@ -8,7 +9,6 @@ export { default as My } from './My';
 export { default as PageNotFound } from './PageNotFound';
 export { default as ReportListing } from './ReportListing';
 export { default as MapStreetView } from './MapStreetView';
-
 export { default as ChatRoomList } from './ChatRoomList';
 export { default as Developer } from './Developer';
 export { default as NotificationList } from './NotificationList';
@@ -24,7 +24,25 @@ export { default as MyAddressVerifying } from './MyAddressVerifying';
 export { default as Qna } from './Qna';
 export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
+export { default as MyRealPriceList } from './MyRealPriceList';
+export { default as TransactionHistory } from './TransactionHistory';
+export { default as FAQ } from './FAQ';
+export { default as NegoPoint } from './NegoPoint';
+export { default as MyCoupon } from './MyCoupon';
+export { default as ServiceInfo } from './ServiceInfo';
+export { default as BusinessInfo } from './BusinessInfo';
+export { default as Register } from './Register';
+export { default as RegisterSuccess } from './RegisterSuccess';
+export { default as VerifyCi } from './VerifyCi';
+export { default as VerifyCiSuccess } from './VerifyCiSuccess';
+export { default as FindAccount } from './FindAccount';
+export { default as ListingCreateAddress } from './ListingCreateAddress';
+export { default as ListingCreateAddressDetail } from './ListingCreateAddressDetail';
+export { default as ListingCreateForm } from './ListingCreateForm';
+export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
+export { default as ListingCreateSummary } from './ListingCreateSummary';
 
+/** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';
 export { default as MobAreaSearch } from './MobAreaSearch';
 export { default as MobLayoutMapContainer } from './MobMapLayout';
@@ -55,21 +73,5 @@ export { default as MobVerifyCiSuccess } from './MobVerifyCiSuccess';
 export { default as MobMyNegoMoney } from './MobMyNegoMoney';
 export { default as MobMyCoupon } from './MobMyCoupon';
 export { default as MobMyNegoPoint } from './MobMyNegoPoint';
-
-export { default as MyRealPriceList } from './MyRealPriceList';
-export { default as TransactionHistory } from './TransactionHistory';
-export { default as FAQ } from './FAQ';
-export { default as NegoPoint } from './NegoPoint';
-export { default as MyCoupon } from './MyCoupon';
-export { default as ServiceInfo } from './ServiceInfo';
-export { default as BusinessInfo } from './BusinessInfo';
-export { default as Register } from './Register';
-export { default as RegisterSuccess } from './RegisterSuccess';
-export { default as VerifyCi } from './VerifyCi';
-export { default as VerifyCiSuccess } from './VerifyCiSuccess';
-export { default as FindAccount } from './FindAccount';
-export { default as ListingCreateAddress } from './ListingCreateAddress';
-export { default as ListingCreateAddressDetail } from './ListingCreateAddressDetail';
-export { default as ListingCreateForm } from './ListingCreateForm';
-export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
-export { default as ListingCreateSummary } from './ListingCreateSummary';
+export { default as MobNotificationList } from './MobNotificationList';
+export { default as MobNotificationSettings } from './MobNotificationSettings';
