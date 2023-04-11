@@ -1,13 +1,12 @@
 import { CollateralType, DebtSuccessionType, InterimType } from '@/components/templates/ListingCreateForm/FormContext';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 import _ from 'lodash';
 // import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import makeListingCreateParams from './makeListingCreateParams';
 
@@ -15,8 +14,6 @@ type PopupType = 'none' | 'buyOrRentChagne';
 
 export default function useListingCreateForm(depth: number) {
   const router = useRouter(depth);
-  // 매물 주소 정보
-  const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
   // 벨리데이션 에러 팝업
@@ -63,32 +60,10 @@ export default function useListingCreateForm(depth: number) {
   const [rentTermMonth, setRentTermMonth] = useState('0개월');
   const [rentTermNegotiable, setRentTermNegotiable] = useState(true);
 
-  const addressLine1 = useMemo(() => {
-    if (addressData) {
-      if (addressData.roadAddressName) {
-        return addressData.roadAddressName;
-      }
-      return addressData.addressName;
-    }
-    return '';
-  }, [addressData]);
+  const [quickSale, setQuickSale] = useState(false);
 
-  const addressLine2 = useMemo(() => {
-    if (addressData && addressData.placeName) {
-      return addressData.placeName;
-    }
-    return '';
-  }, [addressData]);
-
-  useEffect(() => {
-    const { addressData: inAddressData } = router.query;
-    if (!inAddressData) {
-      // router.replace(Routes.ListingCreateAddress);
-    } else {
-      const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
-      setAddressData(parsed);
-    }
-  }, [router]);
+  const addressLine1 = router.query.addressLine1 as string;
+  const addressLine2 = router.query.addressLine2 as string;
 
   const setNextForm = useCallback((...formNames: string[]) => {
     setForms((prev) => [...prev, ...formNames]);
@@ -276,40 +251,40 @@ export default function useListingCreateForm(depth: number) {
       return;
     }
 
-    if (addressData !== null) {
-      const params = makeListingCreateParams({
-        addressData,
-        ownerName,
-        ownerPhone,
-        buyOrRent,
-        price,
-        monthlyRentFee,
-        contractAmount,
-        contractAmountNegotiable,
-        remainingAmount,
-        remainingAmountDate,
-        remainingAmountDateType,
-        interims,
-        debtSuccessionDeposit,
-        debtSuccessionMiscs,
-        jeonsaeLoan: false,
-        moveInDate,
-        dateType,
-        rentArea,
-        rentTermYear,
-        rentTermMonth,
-        rentTermNegotiable,
-        specialTerms,
-      });
-      console.log(params);
-    } else {
-      toast.error('address_data cannot be null');
-    }
+    const params = makeListingCreateParams({
+      ownerName,
+      ownerPhone,
+      buyOrRent,
+      price,
+      monthlyRentFee,
+      contractAmount,
+      contractAmountNegotiable,
+      remainingAmount,
+      remainingAmountDate,
+      remainingAmountDateType,
+      interims,
+      debtSuccessionDeposit,
+      debtSuccessionMiscs,
+      jeonsaeLoan: false,
+      moveInDate,
+      dateType,
+      rentArea,
+      rentTermYear,
+      rentTermMonth,
+      rentTermNegotiable,
+      specialTerms,
+      collaterals,
+      quickSale,
+    });
 
-    // router.replace(Routes.ListingCreateChooseAgent);
+    const encoded = JSON.stringify(params);
+
+    router.replace(Routes.ListingCreateChooseAgent, {
+      searchParams: { listingID: router.query.listingID as string, params: encoded },
+    });
   }, [
+    router,
     isOwner,
-    addressData,
     ownerName,
     ownerPhone,
     buyOrRent,
@@ -330,6 +305,8 @@ export default function useListingCreateForm(depth: number) {
     rentTermMonth,
     rentTermNegotiable,
     specialTerms,
+    collaterals,
+    quickSale,
   ]);
 
   const handleClickNext = useCallback(() => {
@@ -391,6 +368,10 @@ export default function useListingCreateForm(depth: number) {
   ]);
 
   // 입력필드 값 Change Event Handlers
+
+  const handleChangeQuickSale = useCallback((value: boolean) => {
+    setQuickSale(value);
+  }, []);
 
   const handleChangeIsOwner = useCallback((value: boolean) => {
     setIsOwner(value);
@@ -766,6 +747,9 @@ export default function useListingCreateForm(depth: number) {
       handleChangeRentTermYear,
       handleChangeRentTermNegotiable,
 
+      quickSale,
+      handleChangeQuickSale,
+
       // Popup actions
       popup,
       errPopup,
@@ -834,6 +818,9 @@ export default function useListingCreateForm(depth: number) {
       handleChangeRentTermMonth,
       handleChangeRentTermYear,
       handleChangeRentTermNegotiable,
+
+      quickSale,
+      handleChangeQuickSale,
     ],
   );
 }
