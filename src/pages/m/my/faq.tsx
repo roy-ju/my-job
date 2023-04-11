@@ -1,10 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 import { MobileContainer } from '@/components/atoms';
-import MobFAQ from '@/components/templates/MobFAQ';
-
-function FaqWrraper() {
-  return <MobFAQ />;
-}
+import { FaqWrraper } from '@/components/pages/mobile';
 
 const Page: NextPageWithLayout = () => <FaqWrraper />;
 

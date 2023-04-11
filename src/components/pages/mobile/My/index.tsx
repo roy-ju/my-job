@@ -20,7 +20,7 @@ export default function MobMy() {
   }, [router]);
 
   const handleClickMyDetail = useCallback(() => {
-    router.push(`my/${Routes.MyDetail}`);
+    router.push(`my/${Routes.MyDetailMobile}`);
   }, [router]);
 
   const handleClickNoticeList = useCallback(() => {

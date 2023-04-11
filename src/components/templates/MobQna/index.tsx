@@ -1,7 +1,7 @@
 import { Button } from '@/components/atoms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import createServiceQna from '@/apis/serviceqna/createServiceQna';
-import { MobGlobalHeader } from '@/components/organisms/MobGlobalHeader';
+import { MobGlobalHeader } from '@/components/organisms';
 import List, { IQnaItem } from './List';
 import NoData from './Nodata';
 import Inquiry from './Qna';

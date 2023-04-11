@@ -11,11 +11,11 @@ const AppBar = styled.div`
 `;
 
 const Toolbar = styled.div`
-  ${tw`flex items-center relative px-[1.125rem] min-h-[3.5rem] bg-white [color: black] overflow-hidden w-full max-w-mobile [margin: 0 auto]`}
+  ${tw`flex items-center px-[1rem] py-[1rem] min-h-[3.5rem] bg-white [color: black] overflow-hidden w-full max-w-mobile [margin: 0 auto]`}
 `;
 
 const AppBarTitle = styled.span`
-  ${tw`absolute left-[50%] -translate-x-1/2 [width: calc(100%-17rem)] overflow-hidden [text-align: center] [font-size: 0.9375rem] [line-height: 1.5] [font-weight: 500] whitespace-nowrap [text-overflow: ellipsis]`}
+  ${tw`[width: calc(100%-17rem)] overflow-hidden [text-align: left] [font-size: 1rem] [line-height: 1.5] [font-weight: 700] whitespace-nowrap [text-overflow: ellipsis]`}
 `;
 
 export type HeaderProps = {
@@ -28,7 +28,7 @@ export type HeaderProps = {
   onClickBack?: () => void;
 };
 
-export function MobGlobalHeader({
+export default function MobGlobalHeader({
   title,
   hideBackButton = false,
   closeButton = false,
@@ -66,7 +66,7 @@ export function MobGlobalHeader({
             onClick={() => {
               handleGoBack();
             }}
-            tw="p-0 h-[1.5rem]"
+            tw="p-0 h-[1.5rem] mr-3"
           >
             <ArrowLeft
               style={{
@@ -79,7 +79,7 @@ export function MobGlobalHeader({
 
         {!isEndClose && closeButton && (
           <Button variant="ghost" tw="p-0 h-[1.5rem]">
-            <Close style={{ width: '1.125rem', height: '1.125rem' }} />
+            <Close style={{ width: '1.5rem', height: '1.5rem' }} />
           </Button>
         )}
 
@@ -91,7 +91,7 @@ export function MobGlobalHeader({
 
         {isEndClose && closeButton && (
           <Button variant="ghost" tw="p-0 h-[1.5rem]">
-            <Close style={{ width: '1.125rem', height: '1.125rem' }} />
+            <Close style={{ width: '1.5rem', height: '1.5rem' }} />
           </Button>
         )}
       </Toolbar>
