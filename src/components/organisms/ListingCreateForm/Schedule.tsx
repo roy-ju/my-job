@@ -1,6 +1,6 @@
 import { Label, Radio } from '@/components/atoms';
 import { Dropdown, RadioGroup, TextField } from '@/components/molecules';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props {
   date?: string;
@@ -12,6 +12,12 @@ interface Props {
 
 export default function Schedule({ date, dateType, onChangeDate, onChangeDateType }: Props) {
   const [type, setType] = useState('0');
+
+  useEffect(() => {
+    if (date && type === '0') {
+      setType('1');
+    }
+  }, [date, type]);
 
   return (
     <div>

@@ -99,6 +99,10 @@ export interface IFormContext {
   onChangeRentTermYear?: (value: string) => void;
   onChangeRentTermMonth?: (value: string) => void;
   onChangeRentTermNegotiable?: (value: boolean) => void;
+
+  // 전세자금대출
+  jeonsaeLoan?: boolean;
+  onChangeJeonsaeLoan?: (value: boolean) => void;
 }
 
 const FormContext = createContext<IFormContext>({});

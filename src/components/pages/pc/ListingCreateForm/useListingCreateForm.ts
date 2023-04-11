@@ -4,6 +4,7 @@ import { BuyOrRent } from '@/constants/enums';
 import { useAuth } from '@/hooks/services';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 import _ from 'lodash';
 // import Routes from '@/router/routes';
@@ -43,7 +44,7 @@ export default function useListingCreateForm(depth: number) {
   // 잔금
   const [remainingAmount, setRemainingAmount] = useState('');
   const [remainingAmountDate, setRemainingAmountDate] = useState('');
-  const [remainingAmountDateType, setRemainingAMountDateType] = useState('이전');
+  const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
   // 중도금
   const [interims, setInterims] = useState<InterimType[]>([]);
   // 채무승계 보증금
@@ -63,6 +64,8 @@ export default function useListingCreateForm(depth: number) {
   const [rentTermYear, setRentTermYear] = useState('2년');
   const [rentTermMonth, setRentTermMonth] = useState('0개월');
   const [rentTermNegotiable, setRentTermNegotiable] = useState(true);
+
+  const [jeonsaeLoan, setJeonsaeLoan] = useState(true);
 
   const [quickSale, setQuickSale] = useState(false);
 
@@ -269,7 +272,7 @@ export default function useListingCreateForm(depth: number) {
       interims,
       debtSuccessionDeposit,
       debtSuccessionMiscs,
-      jeonsaeLoan: false,
+      jeonsaeLoan,
       moveInDate,
       dateType,
       rentArea,
@@ -317,6 +320,7 @@ export default function useListingCreateForm(depth: number) {
     specialTerms,
     collaterals,
     quickSale,
+    jeonsaeLoan,
   ]);
 
   const handleClickNext = useCallback(() => {
@@ -627,7 +631,7 @@ export default function useListingCreateForm(depth: number) {
   }, []);
 
   const handleChangeRemainingAmountDateType = useCallback((value: string) => {
-    setRemainingAMountDateType(value);
+    setRemainingAmountDateType(value);
   }, []);
 
   const handleChangeRentArea = useCallback((value: string) => {
@@ -644,6 +648,10 @@ export default function useListingCreateForm(depth: number) {
 
   const handleChangeRentTermNegotiable = useCallback((value: boolean) => {
     setRentTermNegotiable(value);
+  }, []);
+
+  const handleChangeJeonsaeLoan = useCallback((value: boolean) => {
+    setJeonsaeLoan(value);
   }, []);
 
   // 잔금 계산
@@ -696,6 +704,169 @@ export default function useListingCreateForm(depth: number) {
     setPopup('none');
     resetForms(Forms.BuyOrRent);
   }, [resetForms]);
+
+  // 수정하기로 왔을때, parmas 에서 값을 꺼내와서 초기값으로 설정한다.
+  useIsomorphicLayoutEffect(() => {
+    const params = router.query.params;
+    if (typeof params !== 'string') return;
+    const parsed = JSON.parse(params);
+    console.log(parsed);
+
+    const convertDateType = (value: number) => {
+      if (value === 1) return '이전';
+      if (value === 2) return '이후';
+      return '이전';
+    };
+
+    if (parsed.owner_name && parsed.owner_phone) {
+      setIsOwner(false);
+      setOwnerName(parsed.owner_name);
+      setOwnerPhone(parsed.owner_phone);
+    }
+
+    if (parsed.buy_or_rent === BuyOrRent.Buy) {
+      setForms([
+        Forms.IsOwner,
+        Forms.BuyOrRent,
+        Forms.Price,
+        Forms.DebtSuccessions,
+        Forms.MoveInDate,
+        Forms.PaymentSchedules,
+        Forms.SpecialTerms,
+        Forms.Optionals,
+      ]);
+    } else {
+      setForms([
+        Forms.IsOwner,
+        Forms.BuyOrRent,
+        Forms.Price,
+        Forms.RentArea,
+        Forms.RentTerm,
+        Forms.MoveInDate,
+        Forms.PaymentSchedules,
+        Forms.Collaterals,
+        Forms.JeonsaeLoan,
+        Forms.SpecialTerms,
+        Forms.Optionals,
+      ]);
+    }
+
+    if (parsed.buy_or_rent) {
+      setBuyOrRent(parsed.buy_or_rent);
+    }
+
+    if (parsed.trade_price) {
+      setPrice(convertNumberToPriceInput(parsed.trade_price));
+    }
+
+    if (parsed.deposit) {
+      setPrice(convertNumberToPriceInput(parsed.deposit));
+    }
+
+    if (parsed.monthly_rent_fee) {
+      setMonthlyRentFee(convertNumberToPriceInput(parsed.monthly_rent_fee));
+    }
+
+    if (parsed.rent_area) {
+      setRentArea(parsed.rent_area);
+    }
+
+    if (parsed.rent_contract_term_year) {
+      setRentTermYear(`${parsed.rent_contract_term_year}년`);
+    }
+
+    if (parsed.rent_contract_term_month) {
+      setRentTermYear(`${parsed.rent_contract_term_month}개월`);
+    }
+
+    if (parsed.rent_contract_term_negotiable !== undefined) {
+      setRentTermNegotiable(parsed.rent_contract_term_negotiable);
+    }
+
+    if (parsed.move_in_date) {
+      setMoveInDate(parsed.move_in_date);
+    }
+
+    if (parsed.contract_amount) {
+      setContractAmount(convertNumberToPriceInput(parsed.contract_amount));
+    }
+
+    if (parsed.contract_amount_negotiable !== undefined) {
+      setContractAmountNegotiable(parsed.contract_amount_negotiable);
+    }
+
+    if (parsed.remaining_amount_payment_time) {
+      setRemainingAmountDate(parsed.remaining_amount_payment_time);
+    }
+
+    if (parsed.remaining_amount_payment_time_type) {
+      setRemainingAmountDateType(convertDateType(parsed.remaining_amount_payment_time_type));
+    }
+
+    if (parsed.quick_sale !== undefined) {
+      setQuickSale(parsed.quick_sale);
+    }
+
+    if (parsed.special_terms) {
+      setSpecialTerms(parsed.special_terms);
+    }
+
+    if (parsed.jeonsae_loan !== undefined) {
+      setJeonsaeLoan(parsed.jeonsae_loan);
+    }
+
+    const defaultInterims: InterimType[] = [];
+
+    if (parsed.interim_amount1) {
+      const k = uuidv4();
+      defaultInterims.push({
+        key: k,
+        price: convertNumberToPriceInput(parsed.interim_amount1),
+        negotiable: Boolean(parsed.interim_amount_negotiable1),
+        date: parsed.interim_amount_payment_time1 ?? '',
+        dateType: convertDateType(parsed.interim_amount_payment_time1_type),
+        onChangePrice: handleChangeInterimPrice(k),
+        onChangeNegotiable: handleChangeInterimNegotiable(k),
+        onChangeDate: handleChangeInterimDate(k),
+        onChangeDateType: handleChangeInterimDateType(k),
+        onRemove: handleRemoveInterim(k),
+      });
+    }
+
+    if (parsed.interim_amount2) {
+      const k = uuidv4();
+      defaultInterims.push({
+        key: k,
+        price: convertNumberToPriceInput(parsed.interim_amount2),
+        negotiable: Boolean(parsed.interim_amount_negotiable2),
+        date: parsed.interim_amount_payment_time2 ?? '',
+        dateType: convertDateType(parsed.interim_amount_payment_time2_type),
+        onChangePrice: handleChangeInterimPrice(k),
+        onChangeNegotiable: handleChangeInterimNegotiable(k),
+        onChangeDate: handleChangeInterimDate(k),
+        onChangeDateType: handleChangeInterimDateType(k),
+        onRemove: handleRemoveInterim(k),
+      });
+    }
+
+    if (parsed.interim_amount3) {
+      const k = uuidv4();
+      defaultInterims.push({
+        key: k,
+        price: convertNumberToPriceInput(parsed.interim_amount3),
+        negotiable: Boolean(parsed.interim_amount_negotiable3),
+        date: parsed.interim_amount_payment_time3 ?? '',
+        dateType: convertDateType(parsed.interim_amount_payment_time3_type),
+        onChangePrice: handleChangeInterimPrice(k),
+        onChangeNegotiable: handleChangeInterimNegotiable(k),
+        onChangeDate: handleChangeInterimDate(k),
+        onChangeDateType: handleChangeInterimDateType(k),
+        onRemove: handleRemoveInterim(k),
+      });
+    }
+
+    setInterims(defaultInterims);
+  }, [router.query.params]);
 
   return useMemo(
     () => ({
@@ -759,6 +930,9 @@ export default function useListingCreateForm(depth: number) {
 
       quickSale,
       handleChangeQuickSale,
+
+      jeonsaeLoan,
+      handleChangeJeonsaeLoan,
 
       // Popup actions
       popup,
@@ -831,6 +1005,9 @@ export default function useListingCreateForm(depth: number) {
 
       quickSale,
       handleChangeQuickSale,
+
+      jeonsaeLoan,
+      handleChangeJeonsaeLoan,
     ],
   );
 }

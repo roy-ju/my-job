@@ -4,6 +4,7 @@ import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateSummary } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
@@ -50,6 +51,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     setPopup(true);
   }, [params, listingID, agentID]);
 
+  const onClickUpdate = useCallback(() => {
+    router.replace(Routes.ListingCreateForm, {
+      searchParams: {
+        listingID: router.query.listingID as string,
+        params: router.query.params as string,
+      },
+    });
+  }, [router]);
+
   useEffect(() => {
     fetchAgentList();
   }, [fetchAgentList]);
@@ -86,6 +96,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           interimAmount3={params.interim_amount3}
           specialTerms={params.specialTerms}
           onClickCreate={onClickCreate}
+          onClickUpdate={onClickUpdate}
           isLoading={isCreating}
         />
       )}

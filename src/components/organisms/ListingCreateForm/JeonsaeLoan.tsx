@@ -1,12 +1,11 @@
 import { Button } from '@/components/atoms';
 import { useControlled } from '@/hooks/utils';
-import { BuyOrRent as BuyOrRentType } from '@/constants/enums';
 import { useCallback } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 
 interface JeonsaeLoanProps {
-  value?: number;
-  onChange?: (value: number) => void;
+  value?: boolean;
+  onChange?: (value: boolean) => void;
   isJeonsae?: boolean;
   onClickQuestion?: () => void;
 }
@@ -14,11 +13,11 @@ interface JeonsaeLoanProps {
 export default function JeonsaeLoan({ value: valueProp, onChange, isJeonsae, onClickQuestion }: JeonsaeLoanProps) {
   const [value, setValue] = useControlled({
     controlled: valueProp,
-    default: 0,
+    default: true,
   });
 
   const handleChange = useCallback(
-    (v: number) => {
+    (v: boolean) => {
       setValue(v);
       onChange?.(v);
     },
@@ -38,8 +37,8 @@ export default function JeonsaeLoan({ value: valueProp, onChange, isJeonsae, onC
           size="bigger"
           variant="outlined"
           tw="flex-1"
-          selected={value === BuyOrRentType.Jeonsae}
-          onClick={() => handleChange(BuyOrRentType.Jeonsae)}
+          selected={value === true}
+          onClick={() => handleChange(true)}
         >
           가능
         </Button>
@@ -47,8 +46,8 @@ export default function JeonsaeLoan({ value: valueProp, onChange, isJeonsae, onC
           size="bigger"
           variant="outlined"
           tw="flex-1"
-          selected={value === BuyOrRentType.Wolsae}
-          onClick={() => handleChange(BuyOrRentType.Wolsae)}
+          selected={value === false}
+          onClick={() => handleChange(false)}
         >
           불가능
         </Button>
