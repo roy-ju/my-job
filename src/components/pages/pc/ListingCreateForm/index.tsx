@@ -31,7 +31,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     collaterals,
     specialTerms,
     moveInDate,
-    dateType,
+    moveInDateType,
     handleChangeIsOwner,
     handleChangeOwnerName,
     handleChangeOwnerPhone,
@@ -50,7 +50,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleAddDebtSuccessionMisc,
     handleChangeSpecialTerms,
     handleAddCollaterals,
-    handleChangeDateType,
+    handleChangeMoveInDateType,
     handleChangeMoveInDate,
 
     remainingAmountDate,
@@ -96,7 +96,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         collaterals={collaterals}
         specialTerms={specialTerms}
         moveInDate={moveInDate}
-        dateType={dateType}
+        moveInDateType={moveInDateType}
         onClickNext={handleClickNext}
         onChangeIsOwner={handleChangeIsOwner}
         onChangeOwnerName={handleChangeOwnerName}
@@ -113,7 +113,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeSpecialTerms={handleChangeSpecialTerms}
         onClickAddCollateral={handleAddCollaterals}
         onChangeMoveInDate={handleChangeMoveInDate}
-        onChangeDateType={handleChangeDateType}
+        onChangeMoveInDateType={handleChangeMoveInDateType}
         remainingAmountDate={remainingAmountDate}
         remainingAmountDateType={remainingAmountDateType}
         onChangeRemainingAmountDate={handleChangeRemainingAmountDate}

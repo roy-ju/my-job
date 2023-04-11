@@ -1,12 +1,11 @@
 import { Label, Radio } from '@/components/atoms';
-import { Dropdown, RadioGroup, TextField } from '@/components/molecules';
+import { DatePicker, Dropdown, RadioGroup } from '@/components/molecules';
 import { useEffect, useState } from 'react';
 
 interface Props {
-  date?: string;
+  date?: Date | null;
   dateType?: string;
-  onChangeType?: (value: string) => void;
-  onChangeDate?: (value: string) => void;
+  onChangeDate?: (value: Date | null) => void;
   onChangeDateType?: (value: string) => void;
 }
 
@@ -30,7 +29,7 @@ export default function MoveInDate({ date, dateType, onChangeDate, onChangeDateT
           value={type}
           onChange={(e) => {
             if (e.target.value === '0') {
-              onChangeDate?.('');
+              onChangeDate?.(null);
               onChangeDateType?.('이전');
             }
             setType(e.target.value);
@@ -41,9 +40,12 @@ export default function MoveInDate({ date, dateType, onChangeDate, onChangeDateT
         </RadioGroup>
         {type === '1' && (
           <div tw="flex gap-3">
-            <TextField tw="flex-1 min-w-0" variant="outlined">
-              <TextField.DateInput label="날짜" value={date} onChange={(e) => onChangeDate?.(e.target.value)} />
-            </TextField>
+            <DatePicker
+              tw="flex-1 min-w-0"
+              placeholder="날짜"
+              value={date}
+              onChange={(value) => onChangeDate?.(value)}
+            />
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
               <Dropdown.Option value="이전">이전</Dropdown.Option>
               <Dropdown.Option value="이후">이후</Dropdown.Option>
