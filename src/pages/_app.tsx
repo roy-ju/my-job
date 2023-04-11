@@ -14,7 +14,6 @@ import OverlayContainer from '@/components/molecules/FullScreenDialog';
 import { updateVH } from '@/utils/updateVH';
 import ToastContainer from '@/lib/toastify';
 import { usePlatform } from '@/hooks/utils';
-import 'react-datepicker/dist/react-datepicker.css';
 import Head from 'next/head';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
