@@ -6,6 +6,7 @@ import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+import convertToDateString from '@/utils/convertToDateString';
 import _ from 'lodash';
 // import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -784,7 +785,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (parsed.move_in_date) {
-      setMoveInDate(parsed.move_in_date);
+      setMoveInDate(convertToDateString(parsed.move_in_date));
     }
 
     if (parsed.contract_amount) {
@@ -796,7 +797,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (parsed.remaining_amount_payment_time) {
-      setRemainingAmountDate(parsed.remaining_amount_payment_time);
+      setRemainingAmountDate(convertToDateString(parsed.remaining_amount_payment_time));
     }
 
     if (parsed.remaining_amount_payment_time_type) {
@@ -823,7 +824,7 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount1),
         negotiable: Boolean(parsed.interim_amount_negotiable1),
-        date: parsed.interim_amount_payment_time1 ?? '',
+        date: parsed.interim_amount_payment_time1 ? convertToDateString(parsed.interim_amount_payment_time1) : '',
         dateType: convertDateType(parsed.interim_amount_payment_time1_type),
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
@@ -839,7 +840,7 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount2),
         negotiable: Boolean(parsed.interim_amount_negotiable2),
-        date: parsed.interim_amount_payment_time2 ?? '',
+        date: parsed.interim_amount_payment_time2 ? convertToDateString(parsed.interim_amount_payment_time2) : '',
         dateType: convertDateType(parsed.interim_amount_payment_time2_type),
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
@@ -855,7 +856,7 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount3),
         negotiable: Boolean(parsed.interim_amount_negotiable3),
-        date: parsed.interim_amount_payment_time3 ?? '',
+        date: parsed.interim_amount_payment_time3 ? convertToDateString(parsed.interim_amount_payment_time3) : '',
         dateType: convertDateType(parsed.interim_amount_payment_time3_type),
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
