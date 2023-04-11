@@ -28,7 +28,7 @@ export type HeaderProps = {
   onClickBack?: () => void;
 };
 
-export function MobGlobalHeader({
+export default function MobGlobalHeader({
   title,
   hideBackButton = false,
   closeButton = false,

@@ -1,9 +1,8 @@
 import React from 'react';
 import { InfiniteScroll, Loading, Moment } from '@/components/atoms';
 import { Tabs, Information } from '@/components/molecules';
-import { MobGlobalNavigation, MyRealPriceListItem } from '@/components/organisms';
+import { MobGlobalNavigation, MyRealPriceListItem, MobGlobalHeader } from '@/components/organisms';
 import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
-import { MobGlobalHeader } from '@/components/organisms/MobGlobalHeader';
 
 export interface IMyRealPriceListItem {
   danjiName: string;

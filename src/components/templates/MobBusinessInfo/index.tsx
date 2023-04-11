@@ -1,4 +1,4 @@
-import { MobGlobalHeader } from '@/components/organisms/MobGlobalHeader';
+import { MobGlobalHeader } from '@/components/organisms';
 import { useEffect, useState } from 'react';
 import tw, { styled } from 'twin.macro';
 

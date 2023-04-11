@@ -1,4 +1,4 @@
-import MobMy from '@/components/pages/mobile/My';
+import { MobMy } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
 
 const Page: NextPageWithLayout = () => <MobMy />;

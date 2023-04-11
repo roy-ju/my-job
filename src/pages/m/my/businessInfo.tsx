@@ -1,10 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 import { MobileContainer } from '@/components/atoms';
-import MobBusinessInfo from '@/components/templates/MobBusinessInfo';
-
-function BusinessInfoWrraper() {
-  return <MobBusinessInfo />;
-}
+import { BusinessInfoWrraper } from '@/components/pages/mobile';
 
 const Page: NextPageWithLayout = () => <BusinessInfoWrraper />;
 

@@ -1,16 +1,7 @@
-import useAPI_GetServiceQnaList from '@/apis/serviceqna/getServiceQnaList';
-import MobQna from '@/components/templates/MobQna';
-import { useAuth } from '@/hooks/services';
+import { QnaWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
 
-function MobMyQnaWrraper() {
-  const { user } = useAuth();
-  const { list, mutate } = useAPI_GetServiceQnaList();
-
-  return <MobQna mutateQna={mutate} loggedIn={user !== null} list={list} />;
-}
-
-const Page: NextPageWithLayout = () => <MobMyQnaWrraper />;
+const Page: NextPageWithLayout = () => <QnaWrraper />;
 
 Page.getLayout = function getLayout(page) {
   return (
