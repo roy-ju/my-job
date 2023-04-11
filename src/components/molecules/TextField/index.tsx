@@ -21,7 +21,7 @@ import { Numeral } from '@/components/atoms';
 import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 import TextFieldContext, { SizeType, VariantType } from './TextFieldContext';
 
-interface RootProps extends Omit<HTMLProps<HTMLDivElement>, 'theme' | 'as' | 'size'> {
+export interface TextFieldProps extends Omit<HTMLProps<HTMLDivElement>, 'theme' | 'as' | 'size'> {
   variant?: VariantType;
   size?: SizeType;
   hasError?: boolean;
@@ -54,7 +54,7 @@ const StyledContainer = styled.div<{
   disabled: boolean;
   focused: boolean;
   hasError: boolean;
-  variant: NonNullable<RootProps['variant']>;
+  variant: NonNullable<TextFieldProps['variant']>;
 }>(({ disabled, hasError }) => [
   tw`box-border relative flex items-center overflow-x-hidden bg-white rounded-lg`,
   disabled && tw`bg-gray-100`,
@@ -148,7 +148,7 @@ const StyledLeading = tw.span`pl-2.5`;
 
 const StyledTrailing = tw.span`pr-2.5`;
 
-const Container = forwardRef<HTMLDivElement, RootProps>(
+const Container = forwardRef<HTMLDivElement, TextFieldProps>(
   ({ variant = 'ghost', size = 'big', hasError = false, children, ...nativeProps }, ref) => {
     const [focused, setFocused] = useState(false);
     const [disabled, setDisabled] = useState<boolean>(false);
