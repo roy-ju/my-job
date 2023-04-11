@@ -1,17 +1,20 @@
-import { Tabs } from '@/components/molecules';
-import { MobGlobalHeader } from '@/components/organisms';
+import { NavigationHeader, Tabs } from '@/components/molecules';
+
 import TransactionHistoryList from './TransactionHistoryList';
 import NoData from './Nodata';
 
 interface Props {
   list: any[];
+  onClickBack?: () => void;
 }
 
-export default function MobTransactionHistory({ list }: Props) {
+export default function MobTransactionHistory({ list, onClickBack }: Props) {
   return (
     <div tw="w-full max-w-mobile mx-auto relative flex flex-col h-full bg-white">
-      <MobGlobalHeader title="거래참여 이력" />
-      <div tw="w-full max-w-full min-h-[4rem]" />
+      <NavigationHeader>
+        <NavigationHeader.BackButton onClick={onClickBack} />
+        <NavigationHeader.Title>거래참여 이력</NavigationHeader.Title>
+      </NavigationHeader>
       <Tabs>
         <Tabs.Tab value={0}>
           전체 <span tw="text-nego">0</span>
@@ -20,14 +23,7 @@ export default function MobTransactionHistory({ list }: Props) {
         <Tabs.Tab value={2}>지난 거래</Tabs.Tab>
         <Tabs.Indicator />
       </Tabs>
-
-      {list.length ? (
-        <div tw="overflow-y-auto">
-          <TransactionHistoryList />
-        </div>
-      ) : (
-        <NoData />
-      )}
+      <div tw="flex-1 min-h-0 overflow-auto pb-5">{list.length ? <TransactionHistoryList /> : <NoData />}</div>
     </div>
   );
 }

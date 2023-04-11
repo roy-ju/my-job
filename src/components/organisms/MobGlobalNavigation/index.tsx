@@ -17,7 +17,7 @@ export default function MobGlobalNavigation() {
   };
 
   const isActiveColor = (path: string, activePath: string) => {
-    if (path === activePath) {
+    if (path.includes(activePath)) {
       return { color: '#212529' };
     }
     return { color: '#9DA2AC' };
