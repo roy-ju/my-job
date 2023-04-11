@@ -1,6 +1,8 @@
 import React from 'react';
 import { Global } from '@emotion/react';
 import tw, { css, GlobalStyles as BaseStyles, theme } from 'twin.macro';
+import toastifyStyles from '@/lib/react-toastify/styles';
+import datepickerStyles from '@/lib/react-datepicker/styles';
 
 const customStyles = css`
   body {
@@ -43,7 +45,7 @@ export default function GlobalStyles() {
   return (
     <>
       <BaseStyles />
-      <Global styles={customStyles} />
+      <Global styles={[customStyles, toastifyStyles, datepickerStyles]} />
     </>
   );
 }
