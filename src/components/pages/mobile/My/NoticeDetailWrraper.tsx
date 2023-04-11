@@ -26,7 +26,7 @@ export default function NoticeDetailWrraper() {
   }, [data]);
 
   const handleGoToList = useCallback(() => {
-    router.replace(`/m/my/${Routes.NoticeList}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.NoticeList}`);
   }, [router]);
 
   return isLoading ? (

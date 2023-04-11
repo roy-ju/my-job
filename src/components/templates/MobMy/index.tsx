@@ -4,9 +4,9 @@ import BellIcon from '@/assets/icons/bell.svg';
 import {
   LoginRequired,
   MobGlobalNavigation,
+  MobMySummary,
   MyListingsSummary,
   MyPageNavigationList,
-  MySummary,
 } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
@@ -24,10 +24,12 @@ interface Props {
   onClickMyRealPriceList?: () => void;
   onClickTransactionHistory?: () => void;
   onClickFAQ?: () => void;
+  onClickNegoMoney?: () => void;
   onClickNegoPoint?: () => void;
   onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
   onClickCreateListing?: () => void;
+  onClickDeveloper?: () => void;
 }
 
 export default function MobMy({
@@ -43,10 +45,12 @@ export default function MobMy({
   onClickMyRealPriceList,
   onClickTransactionHistory,
   onClickFAQ,
+  onClickNegoMoney,
   onClickCoupons,
   onClickNegoPoint,
   onClickServiceInfo,
   onClickCreateListing,
+  onClickDeveloper,
 }: Props) {
   return (
     <div tw="w-full max-w-mobile mx-auto flex flex-col h-full bg-white">
@@ -73,12 +77,13 @@ export default function MobMy({
         )}
         {!isLoading && loggedIn && (
           <>
-            <MySummary
+            <MobMySummary
               profileImagePath={defaultAvatar}
               nickname={nickname}
               onClickMyDetail={onClickMyDetail}
               onClickCoupons={onClickCoupons}
               onClickNegoPoint={onClickNegoPoint}
+              onClickNegoMoney={onClickNegoMoney}
             />
             <Separator />
             <MyListingsSummary onClickCreateListing={onClickCreateListing} />
@@ -103,6 +108,9 @@ export default function MobMy({
             <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
             {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
             <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
+            {process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' && (
+              <MyPageNavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />
+            )}
           </MyPageNavigationList>
         </div>
       </div>

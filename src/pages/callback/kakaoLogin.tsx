@@ -43,6 +43,7 @@ const Page: NextPage = () => {
         SocialLoginType.Kakao,
       );
     }
+
     window.close();
 
     return true;
@@ -67,6 +68,7 @@ const Page: NextPage = () => {
 
   useEffect(() => {
     const { code, state: queryState } = router.query;
+    console.log(code);
     if (typeof code === 'string') {
       if (queryState === 'update') {
         handleEmailUpdate(code);

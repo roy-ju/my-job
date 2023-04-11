@@ -43,12 +43,16 @@ export default function MobMy() {
     router.push(`my/${Routes.FAQ}`);
   }, [router]);
 
+  const handleClickNegoMoney = useCallback(() => {
+    router.push(`my/${Routes.NegoMoney}`);
+  }, [router]);
+
   const handleClickNegoPoint = useCallback(() => {
     router.push(`my/${Routes.NegoPoint}`);
   }, [router]);
 
   const handleClickCoupons = useCallback(() => {
-    router.push(`my/${Routes.MyCoupon}`);
+    router.push(`my/${Routes.MyCouponMobile}`);
   }, [router]);
 
   const handleServiceInfo = useCallback(() => {
@@ -57,6 +61,10 @@ export default function MobMy() {
 
   const handleCreateListing = useCallback(() => {
     router.push(`my/${Routes.ListingCreateAddress}`);
+  }, [router]);
+
+  const handleDeveloper = useCallback(() => {
+    router.push(`my/${Routes.Developer}`);
   }, [router]);
 
   return (
@@ -75,10 +83,12 @@ export default function MobMy() {
         onClickMyRealPriceList={handleClickMyRealPriceList}
         onClickTransactionHistory={handleClickTransactionHistory}
         onClickFAQ={handleClickFAQ}
+        onClickNegoMoney={handleClickNegoMoney}
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
         onClickCreateListing={handleCreateListing}
+        onClickDeveloper={handleDeveloper}
       />
     </>
   );
