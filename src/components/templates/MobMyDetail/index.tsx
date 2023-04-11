@@ -44,7 +44,7 @@ export default function MobMyDetail({
   return (
     <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
       <MobGlobalHeader title="회원정보" />
-      <div tw="flex-1 min-h-0 overflow-y-auto">
+      <div tw="flex-1 min-h-0 overflow-y-auto mt-[3.5rem]">
         {isLoading ? (
           <Loading tw="mt-10" />
         ) : (

@@ -59,6 +59,10 @@ export default function MobMy() {
     router.push(`my/${Routes.ListingCreateAddress}`);
   }, [router]);
 
+  const handleDeveloper = useCallback(() => {
+    router.push(`my/${Routes.Developer}`);
+  }, [router]);
+
   return (
     <>
       <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
@@ -79,6 +83,7 @@ export default function MobMy() {
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
         onClickCreateListing={handleCreateListing}
+        onClickDeveloper={handleDeveloper}
       />
     </>
   );

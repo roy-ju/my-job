@@ -6,6 +6,9 @@ export { default as MobMap } from './Map';
 /** 마이페이지 */
 export { default as MobMy } from './My';
 export { default as DetailWrrpaer } from './My/DetailWrraper';
+export { default as DeveloperWrraper } from './My/DeveloperWrraper';
+export { default as LoginWrraper } from './My/LoginWrraper';
+export { default as DetailWrraper } from './My/DetailWrraper';
 export { default as FaqWrraper } from './My/FaqWrraper';
 export { default as NoticeListWrraper } from './My/NoticeListWrraper';
 export { default as NoticeDetailWrraper } from './My/NoticeDetailWrraper';
