@@ -151,7 +151,13 @@ function MobLayoutMapContainer({
         )}
 
         <div tw="absolute right-4 top-3 z-20">
-          <MobMapPriceSelect disabled={priceSelectDisabled} value={priceType} onChange={onChangePriceType} />
+          <MobMapPriceSelect
+            filter={filter}
+            value={priceType}
+            disabled={priceSelectDisabled}
+            onChange={onChangePriceType}
+            onChangeFilter={onChangeFilter}
+          />
         </div>
 
         <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-10">

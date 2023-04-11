@@ -32,6 +32,7 @@ export { default as MobGuideOverlay } from './MobGuideOverlay';
 export { default as MobMapStreetView } from './MobMapStreetView';
 
 export { default as MobMy } from './MobMy';
+export { default as MobMyDetail } from './MobMyDetail';
 export { default as MobFAQ } from './MobFAQ';
 export { default as MobNoticeList } from './MobNoticeList';
 export { default as MobNoticeDetail } from './MobNoticeDetail';

@@ -4,6 +4,9 @@ import { usePopper } from 'react-popper';
 import ChevronDownIcon from '@/assets/icons/chevron_down.svg';
 import tw, { styled, theme } from 'twin.macro';
 import CheckIcon from '@/assets/icons/check.svg';
+import { Filter } from '../MobMapFilter/types';
+import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '../MobMapFilter/PriceFilter';
+import { getDefaultFilterAptOftl } from '../MobMapFilter';
 
 const SelectButton = styled.button`
   ${tw`inline-flex items-center justify-between w-[105px] h-10 px-3 bg-white rounded-lg shadow transition-colors`}
@@ -20,12 +23,25 @@ const SelectItem = styled.button`
 `;
 
 interface Props {
+  filter?: Filter;
   value?: string;
-  onChange?: (value: string) => void;
   disabled?: boolean;
+  onChange?: (value: string) => void;
+  onChangeFilter?: (newFilter: Partial<Filter>) => void;
 }
 
-export default function MobMapPriceSelect({ value: valueProp, onChange, disabled = false }: Props) {
+export default function MobMapPriceSelect({
+  value: valueProp,
+  filter: filterProp,
+  disabled = false,
+  onChange,
+  onChangeFilter,
+}: Props) {
+  const [_, setFilterState] = useControlled({
+    controlled: filterProp,
+    default: getDefaultFilterAptOftl(),
+  });
+
   const outsideRef = useRef<HTMLDivElement | null>(null);
 
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
@@ -63,6 +79,31 @@ export default function MobMapPriceSelect({ value: valueProp, onChange, disabled
     [setValueState, onChange],
   );
 
+  // 거래 종류 필터 Change Event Handler
+  const handleChangeBuyOrRents = useCallback(
+    (newBuyOrRents: string) => {
+      setFilterState((prev) => ({
+        ...prev,
+        buyOrRents: newBuyOrRents,
+        priceRange: [0, PRICE_STEPS.length - 1],
+        depositRange: [0, DEPOSIT_STEPS.length - 1],
+        rentRange: [0, RENT_STEPS.length - 1],
+        gapInvestment: false,
+        quickSale: false,
+      }));
+
+      onChangeFilter?.({
+        buyOrRents: newBuyOrRents,
+        priceRange: [0, PRICE_STEPS.length - 1],
+        depositRange: [0, DEPOSIT_STEPS.length - 1],
+        rentRange: [0, RENT_STEPS.length - 1],
+        gapInvestment: false,
+        quickSale: false,
+      });
+    },
+    [onChangeFilter, setFilterState],
+  );
+
   return (
     <div ref={outsideRef}>
       <SelectButton
@@ -90,11 +131,21 @@ export default function MobMapPriceSelect({ value: valueProp, onChange, disabled
           style={styles.popper}
           {...attributes.popper}
         >
-          <SelectItem onClick={() => handleChangeValue('buy')}>
+          <SelectItem
+            onClick={() => {
+              handleChangeValue('buy');
+              handleChangeBuyOrRents('1');
+            }}
+          >
             <span css={[tw`font-bold text-b2`, value === 'buy' && tw`text-nego-1000`]}>매매 가격</span>
             {value === 'buy' && <CheckIcon color={theme`colors.nego.1000`} />}
           </SelectItem>
-          <SelectItem onClick={() => handleChangeValue('rent')}>
+          <SelectItem
+            onClick={() => {
+              handleChangeValue('rent');
+              handleChangeBuyOrRents('2,3');
+            }}
+          >
             <span css={[tw`font-bold text-b2`, value === 'rent' && tw`text-nego-1000`]}>전월세 금액</span>
             {value === 'rent' && <CheckIcon color={theme`colors.nego.1000`} />}
           </SelectItem>
