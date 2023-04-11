@@ -24,7 +24,12 @@ export default function useMyDetail() {
 
   const [nickname, setNickname] = useState('');
 
-  const updateNicknameButtonDisabled = useMemo(() => user?.nickname === nickname, [user?.nickname, nickname]);
+  const updateNicknameButtonDisabled = useMemo(() => {
+    if (nickname.length === 0) {
+      return true;
+    }
+    return user?.nickname === nickname;
+  }, [user?.nickname, nickname]);
 
   const handleChangeNickname = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setNickname(e.target.value);
@@ -36,7 +41,7 @@ export default function useMyDetail() {
 
   const handleLogout = useCallback(async () => {
     router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
-    
+
     setTimeout(() => {
       logout();
     }, 200);
@@ -47,7 +52,7 @@ export default function useMyDetail() {
   }, [router]);
 
   const handleUpdatePhone = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.UpdatePhone}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.UpdatePhone}`);
   }, [router]);
 
   const handleClickUpdateNickname = useCallback(() => {
@@ -100,6 +105,7 @@ export default function useMyDetail() {
 
   const updateNickname = useCallback(async () => {
     setNicknamePopup(false);
+
     const checkNicknameRes = await checkNickname(nickname);
     if (checkNicknameRes?.error_code) {
       toast.error('중복된 닉네임 입니다.');

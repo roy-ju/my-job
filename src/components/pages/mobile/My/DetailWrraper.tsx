@@ -1,6 +1,7 @@
 import { OverlayPresenter } from '@/components/molecules';
 import { UpdateEmailPopup, UpdateNicknamePopup } from '@/components/organisms';
 import { MobMyDetail } from '@/components/templates';
+import { useScrollLock } from '@/hooks/utils/useScrollLock';
 import useMyDetail from './hooks/useMyDetail';
 
 export default function DetailWrraper() {
@@ -32,6 +33,14 @@ export default function DetailWrraper() {
     handleCloseEmailUpdatePopup,
     handleNavigateToVerifyCi,
   } = useMyDetail();
+
+  useScrollLock(
+    nicknamePopup ||
+      emailPopup ||
+      updateEmailPopup === 'success' ||
+      updateEmailPopup === 'duplicated_ci' ||
+      updateEmailPopup === 'duplicated_email',
+  );
 
   return (
     <>

@@ -33,9 +33,12 @@ export { default as MobMapStreetView } from './MobMapStreetView';
 export { default as MobLogin } from './MobLogin';
 export { default as MobRegister } from './MobRegister';
 export { default as MobRegisterSuccess } from './MobRegisterSuccess';
-
+export { default as MobUpdatePhone } from './MobUpdatePhone';
 export { default as MobMy } from './MobMy';
 export { default as MobMyDetail } from './MobMyDetail';
+export { default as MobMyAddress } from './MobMyAddress';
+export { default as MobMyAddressDetail } from './MobMyAddressDetail';
+export { default as MobMyAddressVerifying } from './MobMyAddressVerifying';
 export { default as MobDeveloper } from './MobDeveloper';
 export { default as MobFAQ } from './MobFAQ';
 export { default as MobNoticeList } from './MobNoticeList';
@@ -49,7 +52,6 @@ export { default as MobDeregister } from './MobDeregister';
 export { default as MobDeregisterDisclaimer } from './MobDeregisterDisclaimer';
 export { default as MobVerifyCi } from './MobVerifyCi';
 export { default as MobVerifyCiSuccess } from './MobVerifyCiSuccess';
-
 export { default as MobMyNegoMoney } from './MobMyNegoMoney';
 export { default as MobMyCoupon } from './MobMyCoupon';
 export { default as MobMyNegoPoint } from './MobMyNegoPoint';
