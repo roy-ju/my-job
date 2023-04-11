@@ -30,6 +30,8 @@ export interface ListingCreateSummaryProps {
   rentArea?: string;
   specialTerms?: string;
 
+  isLoading?: boolean;
+
   onClickCreate?: () => void;
   onClickUpdate?: () => void;
 }
@@ -44,6 +46,8 @@ export default function ListingCreateSummary({
   agentDescription,
 
   buyOrRent,
+
+  isLoading,
 
   onClickCreate,
   onClickUpdate,
@@ -110,7 +114,7 @@ export default function ListingCreateSummary({
           </Button>
         </div>
         <div tw="px-5 pb-10">
-          <Button size="bigger" tw="w-full" onClick={onClickCreate}>
+          <Button isLoading={isLoading} size="bigger" tw="w-full" onClick={onClickCreate}>
             매물등록 신청
           </Button>
         </div>
