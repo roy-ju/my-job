@@ -4,6 +4,14 @@ import { useControlled } from '@/hooks/utils';
 import { useCallback } from 'react';
 import { Button } from '@/components/atoms';
 
+const yearOptions = Array(11)
+  .fill(0)
+  .map((_, i) => `${i}년`);
+
+const monthOptions = Array(13)
+  .fill(0)
+  .map((_, i) => `${i}개월`);
+
 interface RentTermProps {
   rentTermYear?: string;
   rentTermMonth?: string;
@@ -55,13 +63,25 @@ export default function RentTerm({
             variant="outlined"
             value={rentTermYear}
             onChange={onChangeRentTermYear}
-          />
+          >
+            {yearOptions.map((item) => (
+              <Dropdown.Option key={item} value={item}>
+                {item}
+              </Dropdown.Option>
+            ))}
+          </Dropdown>
           <Dropdown
             tw="flex-1 min-w-0 text-black"
             variant="outlined"
             value={rentTermMonth}
             onChange={onChangeRentTermMonth}
-          />
+          >
+            {monthOptions.map((item) => (
+              <Dropdown.Option key={item} value={item}>
+                {item}
+              </Dropdown.Option>
+            ))}
+          </Dropdown>
         </div>
       </div>
     </div>

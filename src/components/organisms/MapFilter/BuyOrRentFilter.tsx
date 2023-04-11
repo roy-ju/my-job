@@ -7,18 +7,10 @@ import { RealestateTypeGroup } from './types';
 
 const optionsList = {
   'apt,oftl': [
-    {
-      label: '매매 / 전월세',
-      value: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
-    },
     { label: '매매', value: [BuyOrRent.Buy].join(',') },
     { label: '전월세', value: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(',') },
   ],
   'villa,dandok': [
-    {
-      label: '매매 / 전월세',
-      value: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
-    },
     { label: '매매', value: [BuyOrRent.Buy].join(',') },
     { label: '전월세', value: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(',') },
   ],
@@ -38,11 +30,7 @@ interface BuyOrRentFilterProps {
   onChange?: (value: string) => void;
 }
 
-export default function BuyorRentFilter({
-  realestateTypeGroup,
-  value: valueProp,
-  onChange,
-}: BuyOrRentFilterProps) {
+export default function BuyorRentFilter({ realestateTypeGroup, value: valueProp, onChange }: BuyOrRentFilterProps) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: optionsList[realestateTypeGroup][0].value,

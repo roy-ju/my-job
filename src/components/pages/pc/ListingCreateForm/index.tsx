@@ -14,6 +14,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     addressLine1,
     addressLine2,
     popup,
+    errPopup,
     forms,
     isOwner,
     ownerName,
@@ -30,13 +31,14 @@ export default memo(({ depth, panelWidth }: Props) => {
     collaterals,
     specialTerms,
     moveInDate,
-    beforeOrAfter,
+    dateType,
     handleChangeIsOwner,
     handleChangeOwnerName,
     handleChangeOwnerPhone,
     handleChangeBuyOrRent,
     handleClickNext,
     closePopup,
+    closeErrPopup,
     handleConfirmChangeBuyOrRent,
     handleChangePrice,
     handleChangeMonthlyRentFee,
@@ -48,13 +50,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleAddDebtSuccessionMisc,
     handleChangeSpecialTerms,
     handleAddCollaterals,
-    handleChangeBeforeOrAfter,
+    handleChangeDateType,
     handleChangeMoveInDate,
 
     remainingAmountDate,
-    remainingAmountBeforeOrAfter,
+    remainingAmountDateType,
     handleChangeRemainingAmountDate,
-    handleChangeRemainingAmountBeforeOrAfter,
+    handleChangeRemainingAmountDateType,
 
     rentArea,
     handleChangeRentArea,
@@ -88,7 +90,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         collaterals={collaterals}
         specialTerms={specialTerms}
         moveInDate={moveInDate}
-        beforeOrAfter={beforeOrAfter}
+        dateType={dateType}
         onClickNext={handleClickNext}
         onChangeIsOwner={handleChangeIsOwner}
         onChangeOwnerName={handleChangeOwnerName}
@@ -105,11 +107,11 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeSpecialTerms={handleChangeSpecialTerms}
         onClickAddCollateral={handleAddCollaterals}
         onChangeMoveInDate={handleChangeMoveInDate}
-        onChangeBeforeOrAfter={handleChangeBeforeOrAfter}
+        onChangeDateType={handleChangeDateType}
         remainingAmountDate={remainingAmountDate}
-        remainingAmountBeforeOrAfter={remainingAmountBeforeOrAfter}
+        remainingAmountDateType={remainingAmountDateType}
         onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
-        onChangeRemainingAmountBeforeOrAfter={handleChangeRemainingAmountBeforeOrAfter}
+        onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
         rentArea={rentArea}
         onChangeRentArea={handleChangeRentArea}
         rentTermYear={rentTermYear}
@@ -128,6 +130,18 @@ export default memo(({ depth, panelWidth }: Props) => {
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
               <Popup.ActionButton onClick={handleConfirmChangeBuyOrRent}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {errPopup !== '' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>{errPopup}</Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={closeErrPopup}>닫기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
