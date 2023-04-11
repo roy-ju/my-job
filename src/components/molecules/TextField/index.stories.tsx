@@ -259,6 +259,17 @@ export const Price = () => (
   </div>
 );
 
+export const Date = () => (
+  <div tw="flex flex-col gap-4">
+    <TextField variant="outlined">
+      <TextField.DateInput placeholder="날짜" />
+    </TextField>
+    <TextField variant="outlined">
+      <TextField.DateInput label="날짜" />
+    </TextField>
+  </div>
+);
+
 export const PriceWithHelper = () => (
   <div tw="flex flex-col gap-4">
     <div>
