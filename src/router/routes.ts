@@ -3,6 +3,7 @@
  */
 
 const Routes = {
+  Chat: 'chat',
   ChatRoom: 'chatRoom',
   ChatRoomList: 'chatRoomList',
   DanjiDetail: 'danjiDetail',
@@ -13,7 +14,11 @@ const Routes = {
   ListingList: 'listings',
   ListingDetail: 'listingDetail',
   My: 'my',
+  Map: 'map',
+
   MyAddress: 'myAddress',
+  MyAddressMobile: 'address',
+
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
 
@@ -27,12 +32,18 @@ const Routes = {
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
+
+  NegoMoney: 'negoMoney',
   NegoPoint: 'negoPoint',
+
   Qna: 'qna',
   TransactionHistory: 'transactionHistory',
   FAQ: 'faq',
   UpdatePhone: 'updatePhone',
+
   MyCoupon: 'myCoupon',
+  MyCouponMobile: 'coupon',
+
   ServiceInfo: 'serviceInfo',
   BusinessInfo: 'businessInfo',
   Register: 'register',
@@ -45,6 +56,8 @@ const Routes = {
   ListingCreateForm: 'listingCreateForm',
   ListingCreateChooseAgent: 'listingCreateChooseAgent',
   ListingCreateSummary: 'listingCreateSummary',
+
+  EntryMobile: 'm',
 };
 
 export default Routes;

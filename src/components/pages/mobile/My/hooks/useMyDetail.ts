@@ -31,19 +31,23 @@ export default function useMyDetail() {
   }, []);
 
   const handleClickDeregister = useCallback(() => {
-    router.replace(Routes.Deregister);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.Deregister}`);
   }, [router]);
 
   const handleLogout = useCallback(async () => {
-    logout();
-  }, [logout]);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    
+    setTimeout(() => {
+      logout();
+    }, 200);
+  }, [logout, router]);
 
   const handleUpdateAddress = useCallback(() => {
-    router.replace(Routes.MyAddress);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`);
   }, [router]);
 
   const handleUpdatePhone = useCallback(() => {
-    router.replace(Routes.UpdatePhone);
+    router.replace(`/${Routes.EntryMobile}/${Routes.UpdatePhone}`);
   }, [router]);
 
   const handleClickUpdateNickname = useCallback(() => {
