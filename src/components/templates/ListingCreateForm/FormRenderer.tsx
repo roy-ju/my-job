@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+import { Separator } from '@/components/atoms';
 import { ListingCreateForm as Form } from '@/components/organisms';
 import { BuyOrRent } from '@/constants/enums';
 import { useContext } from 'react';
@@ -5,10 +7,17 @@ import FormContext from './FormContext';
 
 export const Forms = {
   IsOwner: 'isOwner',
-  Price: 'price',
   BuyOrRent: 'buyOrRent',
+  Price: 'price',
+  DebtSuccessions: 'debtSuccessions',
+  Collaterals: 'collaterals',
   PaymentSchedules: 'paymentSchedule',
   SpecialTerms: 'specialTerms',
+  Optionals: 'optionals',
+  MoveInDate: 'moveInDate',
+  RentArea: 'rentArea',
+  RentTerm: 'rentTerm',
+  JeonsaeLoan: 'jeonsaeLoan',
 };
 
 interface Props {
@@ -31,15 +40,55 @@ export default function FormRenderer({ form }: Props) {
     // Price
     price,
     monthlyRentFee,
+    quickSale,
     onChangePrice,
     onChangeMonthlyRentFee,
+    onChangeQuickSale,
+    // 희망 지급일정
+    contractAmount,
+    contractAmountNegotiable,
+    remainingAmount,
+    remainingAmountDate,
+    remainingAmountDateType,
+    interims,
+    onChangeContractAmount,
+    onChangeContractAmountNegotiable,
+    onChangeRemainingAmount,
+    onClickAddInterim,
+    onChangeRemainingAmountDate,
+    onChangeRemainingAmountDateType,
+    // 채무승계
+    debtSuccessionDeposit,
+    debtSuccessionMiscs,
+    onChangeDebtSuccessionDeposit,
+    onClickAddDebtSuccessionMisc,
+    // 선순위 담보권
+    collaterals,
+    onClickAddCollateral,
+    // 입주가능시기
+    moveInDate,
+    dateType,
+    onChangeMoveInDate,
+    onChangeDateType,
+    specialTerms,
+    onChangeSpecialTerms,
+    // 임대할 부분
+    rentArea,
+    onChangeRentArea,
+
+    rentTermMonth,
+    rentTermYear,
+    rentTermNegotiable,
+    onChangeRentTermMonth,
+    onChangeRentTermYear,
+    onChangeRentTermNegotiable,
   } = useContext(FormContext);
 
   switch (form) {
     case Forms.IsOwner:
       return (
-        <>
-          <div tw="px-5 pt-10 pb-5">
+        <div>
+          <div id={Forms.IsOwner} tw="px-5 pt-10 pb-5">
             <Form.IsOwner isOwner={isOwner} onChangeIsOwner={onChangeIsOwner} />
           </div>
           {!isOwner && (
@@ -52,49 +101,180 @@ export default function FormRenderer({ form }: Props) {
               />
             </div>
           )}
-        </>
+        </div>
       );
     case Forms.BuyOrRent:
       return (
-        <div tw="px-5 py-10">
+        <div id={Forms.BuyOrRent} tw="px-5 py-10">
           <Form.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
         </div>
       );
     case Forms.Price:
       return (
-        <div tw="px-5 py-10">
+        <div id={Forms.Price} tw="px-5 py-10">
           <Form.Price
             buyOrRent={buyOrRent ?? BuyOrRent.Buy}
             price={price}
+            quickSale={quickSale}
             monthlyRentFee={monthlyRentFee}
             onChangePrice={onChangePrice}
             onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+            onChangeQuickSale={onChangeQuickSale}
           />
         </div>
       );
+    case Forms.DebtSuccessions:
+      return (
+        <div id={Forms.DebtSuccessions}>
+          <div tw="px-5 py-10">
+            <Form.DebtSuccession
+              deposit={debtSuccessionDeposit}
+              onChangeDeposit={onChangeDebtSuccessionDeposit}
+              onClickAdd={onClickAddDebtSuccessionMisc}
+            />
+          </div>
+          {debtSuccessionMiscs?.map((debtSuccession) => (
+            <div key={debtSuccession.key} tw="px-5 py-7 border-t border-t-gray-300">
+              <Form.DebtSuccession.Miscellaneous
+                name={debtSuccession.name}
+                price={debtSuccession.price}
+                onChangeName={debtSuccession.onChangeName}
+                onChangePrice={debtSuccession.onChangePrice}
+                onClickRemove={debtSuccession.onRemove}
+              />
+            </div>
+          ))}
+        </div>
+      );
+
+    case Forms.Collaterals:
+      return (
+        <div id={Forms.Collaterals}>
+          <div tw="px-5 py-10">
+            <Form.Collateral onClickAdd={onClickAddCollateral} />
+          </div>
+          {collaterals?.map((collateral) => (
+            <div key={collateral.key} tw="px-4 pb-10">
+              <Form.Collateral.Item
+                name={collateral.name}
+                price={collateral.price}
+                onChangeName={collateral.onChangeName}
+                onChangePrice={collateral.onChangePrice}
+                onClickRemove={collateral.onRemove}
+              />
+            </div>
+          ))}
+        </div>
+      );
+
     case Forms.PaymentSchedules:
       return (
-        <div tw="py-10">
+        <div id={Forms.PaymentSchedules} tw="py-10">
           <div tw="pb-7 px-5">
-            <Form.PaymentSchedule showCalculator={buyOrRent === BuyOrRent.Buy} />
+            <Form.PaymentSchedule
+              price={price}
+              debtSuccessionDeposit={debtSuccessionDeposit}
+              debtSuccessionMiscs={debtSuccessionMiscs}
+              showCalculator={buyOrRent === BuyOrRent.Buy}
+              onClickAddInterim={onClickAddInterim}
+            />
           </div>
           <div tw="px-5 pb-7 border-b border-b-gray-300">
-            <Form.ContractAmount />
+            <Form.ContractAmount
+              price={contractAmount}
+              negotiable={contractAmountNegotiable}
+              onChangePrice={onChangeContractAmount}
+              onChangeNegotiable={onChangeContractAmountNegotiable}
+            />
           </div>
-          <div tw="px-5 py-7 flex flex-col gap-4 border-b border-b-gray-300">
-            <Form.InterimAmount />
-            <Form.Schedule />
-          </div>
+          {interims?.map((interim) => (
+            <div key={interim.key} tw="px-5 py-7 flex flex-col gap-4 border-b border-b-gray-300">
+              <Form.InterimAmount
+                price={interim.price}
+                negotiable={interim.negotiable}
+                onChangePrice={interim.onChangePrice}
+                onChangeNegotiable={interim.onChangeNegotiable}
+                onClickRemove={interim.onRemove}
+              />
+              <Form.Schedule
+                date={interim.date}
+                dateType={interim.dateType}
+                onChangeDate={interim.onChangeDate}
+                onChangeDateType={interim.onChangeDateType}
+              />
+            </div>
+          ))}
           <div tw="px-5 pt-7 flex flex-col gap-4">
-            <Form.RemainingAmount />
-            <Form.Schedule />
+            <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
+            <Form.Schedule
+              date={remainingAmountDate}
+              dateType={remainingAmountDateType}
+              onChangeDate={onChangeRemainingAmountDate}
+              onChangeDateType={onChangeRemainingAmountDateType}
+            />
           </div>
         </div>
       );
     case Forms.SpecialTerms:
       return (
-        <div tw="px-5 py-10">
-          <Form.SpecialTerms />
+        <div id={Forms.SpecialTerms} tw="px-5 py-10">
+          <Form.SpecialTerms value={specialTerms} onChangeValue={onChangeSpecialTerms} />
+        </div>
+      );
+
+    case Forms.MoveInDate:
+      return (
+        <div id={Forms.MoveInDate} tw="px-5 py-10">
+          <Form.MoveInDate
+            date={moveInDate}
+            dateType={dateType}
+            onChangeDate={onChangeMoveInDate}
+            onChangeDateType={onChangeDateType}
+          />
+        </div>
+      );
+    case Forms.RentArea:
+      return (
+        <div id={Forms.RentArea} tw="px-5 py-10">
+          <Form.RentArea value={rentArea} onChangeValue={onChangeRentArea} />
+        </div>
+      );
+    case Forms.RentTerm:
+      return (
+        <div id={Forms.RentTerm} tw="px-5 py-10">
+          <Form.RentTerm
+            rentTermYear={rentTermYear}
+            rentTermMonth={rentTermMonth}
+            rentTermNegotiable={rentTermNegotiable}
+            onChangeRentTermYear={onChangeRentTermYear}
+            onChangeRentTermMonth={onChangeRentTermMonth}
+            onChangeRentTermNegotiable={onChangeRentTermNegotiable}
+          />
+        </div>
+      );
+    case Forms.JeonsaeLoan:
+      return (
+        <div id={Forms.JeonsaeLoan} tw="px-5 py-10">
+          <Form.JeonsaeLoan isJeonsae={buyOrRent === BuyOrRent.Jeonsae} />
+        </div>
+      );
+
+    case Forms.Optionals:
+      return (
+        <div id={Forms.Optionals}>
+          <div tw="px-5 py-10">
+            <Form.ListingOptions />
+          </div>
+          <Separator />
+          <div tw="px-5 py-10">
+            <Form.ExtraOptions />
+          </div>
+          <div tw="px-5 py-10">
+            <Form.AdminFee />
+          </div>
+          <div tw="px-5 py-10">
+            <Form.Description />
+          </div>
         </div>
       );
     default:

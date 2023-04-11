@@ -9,6 +9,7 @@ export interface ListingCreateAddressDetailProps {
   errorMessage?: string;
   dong?: string;
   ho?: string;
+  isLoading?: boolean;
   onChangeDong?: ChangeEventHandler<HTMLInputElement>;
   onChangeHo?: ChangeEventHandler<HTMLInputElement>;
   onSubmit?: () => void;
@@ -21,6 +22,7 @@ export default function ListingCreateAddressDetail({
   errorMessage,
   dong,
   ho,
+  isLoading,
   onChangeDong,
   onChangeHo,
   onSubmit,
@@ -44,7 +46,7 @@ export default function ListingCreateAddressDetail({
           onClickSearchAnotherAddress={onSearchAnotherAddress}
         />
         <div tw="px-5 mt-12">
-          <Button size="bigger" tw="w-full" onClick={onSubmit}>
+          <Button isLoading={isLoading} size="bigger" tw="w-full" onClick={onSubmit}>
             다음
           </Button>
         </div>

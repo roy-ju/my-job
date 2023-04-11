@@ -1,5 +1,7 @@
 import { BuyOrRent as BuyOrRentType } from '@/constants/enums';
+import type { ComponentStory } from '@storybook/react';
 import ListingCreateForm from '.';
+import { PaymentScheduleProps } from './PaymentSchedule';
 
 const meta = {
   title: 'organisms/ListingCreateForm',
@@ -13,6 +15,10 @@ export const Price = () => <ListingCreateForm.Price buyOrRent={BuyOrRentType.Wol
 
 export const DebtSuccession = () => <ListingCreateForm.DebtSuccession />;
 
+export const DebtSuccessionMiscellaneous = () => <ListingCreateForm.DebtSuccession.Miscellaneous />;
+
+export const Collateral = () => <ListingCreateForm.Collateral />;
+
 export const ContractAmount = () => <ListingCreateForm.ContractAmount />;
 
 export const RemainingAmount = () => <ListingCreateForm.RemainingAmount />;
@@ -21,7 +27,18 @@ export const Schedule = () => <ListingCreateForm.Schedule />;
 
 export const InterimAmount = () => <ListingCreateForm.InterimAmount />;
 
-export const PaymentSchedule = () => <ListingCreateForm.PaymentSchedule />;
+export const PaymentSchedule: ComponentStory<typeof ListingCreateForm.PaymentSchedule> = (
+  args: PaymentScheduleProps,
+) => <ListingCreateForm.PaymentSchedule {...args} />;
+
+PaymentSchedule.args = {
+  price: '1000',
+  debtSuccessionDeposit: '200',
+  debtSuccessionMiscs: [
+    { key: '1', price: '100' },
+    { key: '2', price: '100' },
+  ],
+};
 
 export const IsOwner = () => <ListingCreateForm.IsOwner />;
 

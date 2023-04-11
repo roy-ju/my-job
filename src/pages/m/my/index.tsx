@@ -1,6 +1,10 @@
-import My from '@/components/pages/mobile/My';
-import type { NextPage } from 'next';
+import { MobMy } from '@/components/pages/mobile';
+import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPage = () => <My />;
+const Page: NextPageWithLayout = () => <MobMy />;
+
+Page.getLayout = function getLayout(page) {
+  return <>{page}</>;
+};
 
 export default Page;

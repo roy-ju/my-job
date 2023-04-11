@@ -16,7 +16,7 @@ export function getDefaultFilterAptOftl(): Filter {
   return {
     realestateTypeGroup: 'apt,oftl',
     realestateTypes: [RealestateType.Apartment, RealestateType.Officetel].join(','),
-    buyOrRents: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
+    buyOrRents: [BuyOrRent.Buy].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
     depositRange: [0, DEPOSIT_STEPS.length - 1],
     rentRange: [0, RENT_STEPS.length - 1],
@@ -36,7 +36,7 @@ export function getDefaultFilterVillaDandok(): Filter {
       RealestateType.Dandok,
       RealestateType.Dagagoo,
     ].join(','),
-    buyOrRents: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
+    buyOrRents: [BuyOrRent.Buy].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
     depositRange: [0, DEPOSIT_STEPS.length - 1],
     rentRange: [0, RENT_STEPS.length - 1],
