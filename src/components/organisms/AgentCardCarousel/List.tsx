@@ -1,12 +1,15 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useControlled } from '@/hooks/utils';
 import CarouselItem from './Item';
 import Button from './Button';
 import Indicator from './Indicator';
 import AgentCardItem from '../AgentCardItem';
 
 export interface ListProps {
+  index?: number;
+  onChangeIndex?: (index: number) => void;
   data: {
     officeName: string;
     profileImageFullPath: string;
@@ -18,19 +21,34 @@ export interface ListProps {
   }[];
 }
 
-export default function List({ data }: ListProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function List({ index: i, onChangeIndex, data }: ListProps) {
+  const [currentIndex, setCurrentIndex] = useControlled({
+    controlled: i,
+    default: 0,
+  });
   const [showItem, setShowItem] = useState(true);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('left');
 
+  const handleChangeIndex = useCallback(
+    (value: number) => {
+      setCurrentIndex(value);
+      onChangeIndex?.(value);
+    },
+    [onChangeIndex, setCurrentIndex],
+  );
+
   const handlePrevClick = () => {
-    setCurrentIndex((prev) => (currentIndex === 0 ? data.length - 1 : prev - 1));
+    // setCurrentIndex((prev) => (currentIndex === 0 ? data.length - 1 : prev - 1));
+    handleChangeIndex(currentIndex === 0 ? data.length - 1 : currentIndex - 1);
     setSlideDirection('left');
   };
+
   const handleNextClick = () => {
-    setCurrentIndex((prev) => (currentIndex === data.length - 1 ? 0 : prev + 1));
+    // setCurrentIndex((prev) => (currentIndex === data.length - 1 ? 0 : prev + 1));
+    handleChangeIndex(currentIndex === data.length - 1 ? 0 : currentIndex + 1);
     setSlideDirection('right');
   };
+
   const handleIndicator = (e: React.MouseEventHandler<HTMLButtonElement>, index: number) => () => {
     setCurrentIndex(index);
     if (currentIndex > index) {

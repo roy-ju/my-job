@@ -1,6 +1,7 @@
 import { Button, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { AgentCardItem, TransactionCondition } from '@/components/organisms';
+import { BuyOrRentString } from '@/constants/strings';
 
 export interface ListingCreateSummaryProps {
   agentOfficeName: string;
@@ -10,6 +11,24 @@ export interface ListingCreateSummaryProps {
   agentJibunAddress: string;
   agentRegistrationNumber: string;
   agentDescription: string;
+
+  buyOrRent?: number;
+  tradePrice?: number;
+  deposit?: number;
+  monthlyRentFee?: number;
+  contractAmount?: number;
+  remainingAmount?: number;
+  interimAmount1?: number;
+  interimAmount2?: number;
+  interimAmount3?: number;
+  debtSuccessions?: { name: string; amount: number }[];
+  collaterals?: { name: string; amount: number }[];
+  moveInDate?: string;
+  moveInDateType?: string; // dateType = 1 : 이전,  2: 이후
+  rentTermYear?: number;
+  rentTermMonth?: number;
+  rentArea?: string;
+  specialTerms?: string;
 }
 
 export default function ListingCreateSummary({
@@ -20,7 +39,24 @@ export default function ListingCreateSummary({
   agentJibunAddress,
   agentRegistrationNumber,
   agentDescription,
-}: ListingCreateSummaryProps) {
+
+  buyOrRent,
+}: // price,
+// monthlyRentFee,
+// contractAmount,
+// remainingAmount,
+// interimAmount1,
+// interimAmount2,
+// interimAmount3,
+// debtSuccessions,
+// collaterals,
+// moveInDate,
+// moveInDateType,
+// rentTermYear,
+// rentTermMonth,
+// rentArea,
+// specialTerms,
+ListingCreateSummaryProps) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
@@ -56,7 +92,7 @@ export default function ListingCreateSummary({
           <div tw="mt-10 mb-4 text-b1 font-bold leading-none">거래조건</div>
           <TransactionCondition>
             <TransactionCondition.List>
-              <TransactionCondition.Item label="거래종류" value="월세" />
+              {buyOrRent && <TransactionCondition.Item label="거래종류" value={BuyOrRentString[buyOrRent]} />}
               <TransactionCondition.Item label="희망가" value="3억 1,000만/100만" />
               <TransactionCondition.Section title="지급일정" hasToolTip>
                 <TransactionCondition.Item label="계약금" value={1} />

@@ -67,6 +67,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeRentTermMonth,
     handleChangeRentTermYear,
     handleChangeRentTermNegotiable,
+
+    quickSale,
+    handleChangeQuickSale,
   } = useListingCreateForm(depth);
 
   return (
@@ -120,6 +123,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeRentTermYear={handleChangeRentTermYear}
         onChangeRentTermMonth={handleChangeRentTermMonth}
         onChangeRentTermNegotiable={handleChangeRentTermNegotiable}
+        quickSale={quickSale}
+        onChangeQuickSale={handleChangeQuickSale}
       />
       {popup === 'buyOrRentChagne' && (
         <OverlayPresenter>
