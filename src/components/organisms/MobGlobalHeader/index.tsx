@@ -7,16 +7,14 @@ import { Button } from '@/components/atoms';
 import { useRouter } from 'next/router';
 
 const AppBar = styled.div`
-  ${tw`[box-shadow: none] fixed top-0 left-auto right-auto [width: 100%] max-w-mobile [margin: 0 auto] bg-white [border-bottom: 1px solid #F0F0F6] z-[300]`}
+  ${tw`[box-shadow: none] fixed top-0 left-auto right-auto [width: 100%] max-w-mobile [margin: 0 auto] bg-white z-[300]`}
 `;
 
 const Toolbar = styled.div`
   ${tw`flex items-center px-[1rem] py-[1rem] min-h-[3.5rem] bg-white [color: black] overflow-hidden w-full max-w-mobile [margin: 0 auto]`}
 `;
 
-const AppBarTitle = styled.span`
-  ${tw`[width: calc(100%-17rem)] overflow-hidden [text-align: left] [font-size: 1rem] [line-height: 1.5] [font-weight: 700] whitespace-nowrap [text-overflow: ellipsis]`}
-`;
+const AppBarTitle = tw.div`flex-1 min-w-0 overflow-hidden whitespace-nowrap text-ellipsis text-b1 text-gray-1000 font-bold pt-px pr-1`;
 
 export type HeaderProps = {
   title?: string | React.ReactNode;
@@ -68,12 +66,7 @@ export default function MobGlobalHeader({
             }}
             tw="p-0 h-[1.5rem] mr-3"
           >
-            <ArrowLeft
-              style={{
-                width: '1.5rem',
-                height: '1.5rem',
-              }}
-            />
+            <ArrowLeft />
           </Button>
         )}
 

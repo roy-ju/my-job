@@ -14,7 +14,7 @@ export default function LoginWrraper() {
   const router = useRouter();
 
   const handleKakaoLogin = useCallback(() => {
-    window.open(`${window.location.origin}/m/auth/kakao`, '_blank');
+    window.open(`${window.location.origin}/${Routes.EntryMobile}/auth/kakao`, '_blank');
   }, []);
 
   const handleAppleLogin = useCallback(async () => {
@@ -47,14 +47,19 @@ export default function LoginWrraper() {
   useEffect(() => {
     window.Negocio.callbacks.loginSuccess = () => {
       mutate(() => true, undefined);
-      router.replace(`/m/${Routes.My}`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
     };
-    // window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
-    //   router.replace(Routes.Register, { state: { email, token, socialLoginType: `${socialLoginType}` } });
-    // };
+
+    window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
+      router.replace({
+        pathname: `/${Routes.EntryMobile}/${Routes.Register}`,
+        query: { email, token, socialLoginType: `${socialLoginType}` },
+      });
+    };
+
     return () => {
       delete window.Negocio.callbacks.loginSuccess;
-      // delete window.Negocio.callbacks.newRegister;
+      delete window.Negocio.callbacks.newRegister;
     };
   }, [router]);
 

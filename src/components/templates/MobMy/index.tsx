@@ -4,9 +4,9 @@ import BellIcon from '@/assets/icons/bell.svg';
 import {
   LoginRequired,
   MobGlobalNavigation,
+  MobMySummary,
   MyListingsSummary,
   MyPageNavigationList,
-  MySummary,
 } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
@@ -24,6 +24,7 @@ interface Props {
   onClickMyRealPriceList?: () => void;
   onClickTransactionHistory?: () => void;
   onClickFAQ?: () => void;
+  onClickNegoMoney?: () => void;
   onClickNegoPoint?: () => void;
   onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
@@ -44,6 +45,7 @@ export default function MobMy({
   onClickMyRealPriceList,
   onClickTransactionHistory,
   onClickFAQ,
+  onClickNegoMoney,
   onClickCoupons,
   onClickNegoPoint,
   onClickServiceInfo,
@@ -75,12 +77,13 @@ export default function MobMy({
         )}
         {!isLoading && loggedIn && (
           <>
-            <MySummary
+            <MobMySummary
               profileImagePath={defaultAvatar}
               nickname={nickname}
               onClickMyDetail={onClickMyDetail}
               onClickCoupons={onClickCoupons}
               onClickNegoPoint={onClickNegoPoint}
+              onClickNegoMoney={onClickNegoMoney}
             />
             <Separator />
             <MyListingsSummary onClickCreateListing={onClickCreateListing} />

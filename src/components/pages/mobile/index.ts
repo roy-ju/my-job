@@ -17,3 +17,16 @@ export { default as QnaWrraper } from './My/QnaWrraper';
 export { default as RealPriceListWrraper } from './My/RealPriceListWrraper';
 export { default as ServiceInfoWrraper } from './My/ServiceInfoWrraper';
 export { default as TransactionHistoryWrraper } from './My/TransactionHistoryWrraper';
+export { default as DeregisterWrraper } from './My/DeregisterWrraper';
+export { default as DeregisterDisclaimerWrraper } from './My/DeregisterDisclaimerWrraper';
+export { default as NegoPointWrraper } from './My/NegoPointWrraper';
+export { default as NegoMoneyWrraper } from './My/NegoMoneyWrraper';
+export { default as CouponWrraper } from './My/CouponWrraper';
+
+/** 회원가입 */
+export { default as RegisterWrraper } from './Register';
+export { default as SuccessWrraper } from './Register/SuccessWrraper';
+
+/** 본인인증 */
+export { default as VerifyCiWrraper } from './VerifyCi';
+export { default as VerifyCiSuccessWrraper } from './VerifyCiSuccess';
