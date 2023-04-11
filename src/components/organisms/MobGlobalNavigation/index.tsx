@@ -7,12 +7,13 @@ import { Button } from '@/components/atoms';
 import BottomBezel from '@/components/atoms/BottomBezel';
 import { useRouter } from 'next/router';
 import tw from 'twin.macro';
+import Routes from '@/router/routes';
 
 export default function MobGlobalNavigation() {
   const router = useRouter();
 
   const onClickButton = (path: string) => {
-    router.push(path);
+    router.push(`/${Routes.EntryMobile}/${path}`);
   };
 
   const isActiveColor = (path: string, activePath: string) => {
@@ -36,21 +37,30 @@ export default function MobGlobalNavigation() {
           <HeartIcon style={{ color: '#9DA2AC' }} />
           <span tw="text-mobCaption text-gray-1200">관심목록</span>
         </Button>
-        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]" onClick={() => onClickButton('map')}>
-          <MapIcon style={isActiveColor(router.pathname, '/m/map')} />
-          <span tw="text-mobCaption text-gray-1200" css={[router.pathname === '/m/map' && tw`text-gray-1000`]}>
+        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]" onClick={() => onClickButton(Routes.Map)}>
+          <MapIcon style={isActiveColor(router.pathname, `/${Routes.EntryMobile}/${Routes.Map}`)} />
+          <span
+            tw="text-mobCaption text-gray-1200"
+            css={[router.pathname === `/${Routes.EntryMobile}/${Routes.Map}` && tw`text-gray-1000`]}
+          >
             지도
           </span>
         </Button>
         <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]">
-          <ChatIcon style={isActiveColor(router.pathname, '/m/chat')} />
-          <span tw="text-mobCaption text-gray-1200" css={[router.pathname === '/m/chat' && tw`text-gray-1000`]}>
+          <ChatIcon style={isActiveColor(router.pathname, `/${Routes.EntryMobile}/${Routes.Chat}`)} />
+          <span
+            tw="text-mobCaption text-gray-1200"
+            css={[router.pathname === `/${Routes.EntryMobile}/${Routes.Chat}` && tw`text-gray-1000`]}
+          >
             중개사 채팅
           </span>
         </Button>
-        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]" onClick={() => onClickButton('my')}>
-          <UserIcon style={isActiveColor(router.pathname, '/m/my')} />
-          <span tw="text-mobCaption text-gray-1200" css={[router.pathname === '/m/my' && tw`text-gray-1000`]}>
+        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]" onClick={() => onClickButton(Routes.My)}>
+          <UserIcon style={isActiveColor(router.pathname, `/${Routes.EntryMobile}/${Routes.My}`)} />
+          <span
+            tw="text-mobCaption text-gray-1200"
+            css={[router.pathname === `/${Routes.EntryMobile}/${Routes.My}` && tw`text-gray-1000`]}
+          >
             My 네고
           </span>
         </Button>
