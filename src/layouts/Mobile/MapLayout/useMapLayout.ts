@@ -2,7 +2,7 @@ import getDanjiSummary from '@/apis/map/mapDanjiSummary';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
 import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
-import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
+
 import { Filter } from '@/components/organisms/MapFilter/types';
 import { coordToRegion } from '@/lib/kakao';
 import { NaverMap } from '@/lib/navermap';
@@ -15,6 +15,7 @@ import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { mobileMapState } from '@/states/mob/mobileMap';
 import getListingSummary from '@/apis/map/mapListingSummary';
+import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -141,6 +142,8 @@ function getUserLastLocation(): { lat: number; lng: number } {
 export default function useMapLayout() {
   const [map, setMap] = useRecoilState(mobileMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
+  const abortControllerRef = useRef<AbortController>();
+
   const [mapType, setMapType] = useState('normal');
 
   const [mapLayer, setMapLayer] = useState('none');
@@ -156,7 +159,6 @@ export default function useMapLayout() {
   const [bounds, setBounds] = useState<MapBounds | null>(null);
 
   const [filter, setFilter] = useSessionStorage<Filter>('mobMapFilter', getDefaultFilterAptOftl());
-
 
   const [listingCount, setListingCount] = useState(0);
 
@@ -292,12 +294,16 @@ export default function useMapLayout() {
    */
   const updateMarkers = useCallback(
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+
       const res = await mapSearch({
         level: mapBounds.mapLevel,
         bounds: mapBounds,
         filter: mapFilter,
         mapToggleValue: toggleValue,
         priceType: priceTypeValue,
+        abortController: abortControllerRef.current,
       });
 
       setListingCount(res?.listing_count ?? 0);
@@ -346,7 +352,7 @@ export default function useMapLayout() {
             listingCount: item.listing_count,
             lat: item.lat,
             lng: item.long,
-             price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
+            price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
             // price: item.trade_price || item.deposit || 0,
             onClick: () => {
               setPolygons([]);
