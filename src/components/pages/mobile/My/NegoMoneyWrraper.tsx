@@ -1,5 +1,11 @@
 import { MobMyNegoMoney } from '@/components/templates';
+import { useRouter } from 'next/router';
 
 export default function NegomoneyWrraper() {
-  return <MobMyNegoMoney />;
+  const router = useRouter();
+  const handleClickBack = () => {
+    router.back();
+  };
+
+  return <MobMyNegoMoney onClickBack={handleClickBack} />;
 }
