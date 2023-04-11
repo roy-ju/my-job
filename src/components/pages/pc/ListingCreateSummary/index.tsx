@@ -17,6 +17,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const agentID = Number(router.query.agentID) ?? 0;
   const [agent, setAgent] = useState<GetAgentListResponse['agent_list'][0] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
   const [poppup, setPopup] = useState(false);
 
   const params = useMemo(() => {
@@ -38,11 +39,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [listingID, agentID]);
 
   const onClickCreate = useCallback(async () => {
+    setIsCreating(true);
     await updateListing({
       ...params,
       listing_id: listingID,
       user_selected_agent_id: agentID,
     });
+    setIsCreating(false);
 
     setPopup(true);
   }, [params, listingID, agentID]);
@@ -83,6 +86,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           interimAmount3={params.interim_amount3}
           specialTerms={params.specialTerms}
           onClickCreate={onClickCreate}
+          isLoading={isCreating}
         />
       )}
       {poppup && (
