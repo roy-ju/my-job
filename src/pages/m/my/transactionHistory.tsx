@@ -1,11 +1,7 @@
-import MobTransactionHistory from '@/components/templates/MobTransactionHistory';
+import { TransactionHistoryWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
 
-function MobTransactionHistoryWrraper() {
-  return <MobTransactionHistory list={[]} />;
-}
-
-const Page: NextPageWithLayout = () => <MobTransactionHistoryWrraper />;
+const Page: NextPageWithLayout = () => <TransactionHistoryWrraper />;
 
 Page.getLayout = function getLayout(page) {
   return (

@@ -1,5 +1,5 @@
 import { Tabs } from '@/components/molecules';
-import { MobGlobalHeader } from '@/components/organisms/MobGlobalHeader';
+import { MobGlobalHeader } from '@/components/organisms';
 import TransactionHistoryList from './TransactionHistoryList';
 import NoData from './Nodata';
 

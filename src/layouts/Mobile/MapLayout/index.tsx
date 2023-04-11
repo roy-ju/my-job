@@ -1,11 +1,8 @@
 import OutsideClick from '@/components/atoms/OutsideClick';
-
 import { Map } from '@/lib/navermap';
-import { MapLayout as Layout, MobMapStreetView } from '@/components/templates';
+import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/components/templates';
 import { AnimatePresence, motion } from 'framer-motion';
-import MobLayoutMapContainer from '@/components/templates/MobMapLayout';
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
-
 import Markers from './Markers';
 import useMapLayout from './useMapLayout';
 
@@ -56,7 +53,7 @@ function MapWrapper() {
         currentLocation={currentLocation}
         selectedDanjiSummary={selectedDanjiSummary}
         selctedListingSummary={selctedListingSummary}
-        priceSelectDisabled={filter.buyOrRents !== '1,2,3'}
+        priceSelectDisabled={filter.realestateTypeGroup === 'one,two'}
         onClickCurrentLocation={morphToCurrentLocation}
         onChangeMapType={handleChangeMapType}
         onClickMapLayerCadastral={() => handleChangeMapLayer('cadastral')}
