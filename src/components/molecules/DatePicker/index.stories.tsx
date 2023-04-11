@@ -6,9 +6,9 @@ export default {
   component: DatePicker,
 } as ComponentMeta<typeof DatePicker>;
 
-export const Default: ComponentStory<typeof DatePicker> = () => (
+export const Default: ComponentStory<typeof DatePicker> = (args) => (
   <div tw="flex flex-col gap-4">
-    <DatePicker />
+    <DatePicker {...args} />
   </div>
 );
 
