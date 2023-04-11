@@ -1,6 +1,7 @@
 import { CollateralType, DebtSuccessionType, InterimType } from '@/components/templates/ListingCreateForm/FormContext';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
+import { useAuth } from '@/hooks/services';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
@@ -14,6 +15,9 @@ type PopupType = 'none' | 'buyOrRentChagne';
 
 export default function useListingCreateForm(depth: number) {
   const router = useRouter(depth);
+
+  const { user } = useAuth();
+
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
   // 벨리데이션 에러 팝업
@@ -277,6 +281,11 @@ export default function useListingCreateForm(depth: number) {
       quickSale,
     });
 
+    if (isOwner && user) {
+      params.owner_name = user.name;
+      params.owner_phone = user.phone;
+    }
+
     const encoded = JSON.stringify(params);
 
     router.replace(Routes.ListingCreateChooseAgent, {
@@ -284,6 +293,7 @@ export default function useListingCreateForm(depth: number) {
     });
   }, [
     router,
+    user,
     isOwner,
     ownerName,
     ownerPhone,
