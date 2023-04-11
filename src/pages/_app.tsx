@@ -9,10 +9,10 @@ import SWRConfig from '@/lib/swr';
 import Script from 'next/script';
 import { initializeKakaoSDK } from '@/lib/kakao';
 import { useAuth } from '@/hooks/services';
-import 'react-toastify/dist/ReactToastify.css';
+
 import OverlayContainer from '@/components/molecules/FullScreenDialog';
 import { updateVH } from '@/utils/updateVH';
-import ToastContainer from '@/lib/toastify';
+import ToastContainer from '@/lib/react-toastify';
 import { usePlatform } from '@/hooks/utils';
 import Head from 'next/head';
 

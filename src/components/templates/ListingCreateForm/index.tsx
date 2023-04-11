@@ -75,6 +75,9 @@ export default function ListingCreateForm({
   onChangeRentTermMonth,
   onChangeRentTermNegotiable,
   onChangeRentTermYear,
+
+  jeonsaeLoan,
+  onChangeJeonsaeLoan,
 }: ListingCreateFormProps) {
   const context = useMemo(
     () => ({
@@ -131,6 +134,8 @@ export default function ListingCreateForm({
       onChangeRentTermMonth,
       onChangeRentTermNegotiable,
       onChangeRentTermYear,
+      jeonsaeLoan,
+      onChangeJeonsaeLoan,
     }),
     [
       isOwner,
@@ -186,6 +191,9 @@ export default function ListingCreateForm({
       onChangeRentTermMonth,
       onChangeRentTermNegotiable,
       onChangeRentTermYear,
+
+      jeonsaeLoan,
+      onChangeJeonsaeLoan,
     ],
   );
 
@@ -196,12 +204,17 @@ export default function ListingCreateForm({
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">
-          <div tw="px-5 pt-6 pb-10">
-            <div tw="text-b1 leading-none font-bold mb-3">매물 주소</div>
-            <div tw="text-b1">{addressLine1}</div>
-            <div tw="text-info">{addressLine2}</div>
-          </div>
-          <Separator />
+          {addressLine1 && addressLine2 && (
+            <div>
+              <div tw="px-5 pt-6 pb-10">
+                <div tw="text-b1 leading-none font-bold mb-3">매물 주소</div>
+                <div tw="text-b1">{addressLine1}</div>
+                <div tw="text-info">{addressLine2}</div>
+              </div>
+              <Separator />
+            </div>
+          )}
+
           {forms?.map((form, index) => (
             <div key={form}>
               <FormRenderer form={form} />
