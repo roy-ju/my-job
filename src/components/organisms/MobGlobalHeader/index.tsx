@@ -7,7 +7,7 @@ import { Button } from '@/components/atoms';
 import { useRouter } from 'next/router';
 
 const AppBar = styled.div`
-  ${tw`[box-shadow: none] fixed top-0 left-auto right-auto [width: 100%] max-w-mobile [margin: 0 auto] bg-white [border-bottom: 1px solid #F0F0F6]`}
+  ${tw`[box-shadow: none] fixed top-0 left-auto right-auto [width: 100%] max-w-mobile [margin: 0 auto] bg-white [border-bottom: 1px solid #F0F0F6] z-[300]`}
 `;
 
 const Toolbar = styled.div`
