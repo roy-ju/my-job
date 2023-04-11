@@ -6,9 +6,7 @@ import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
-import convertToDateString from '@/utils/convertToDateString';
 import _ from 'lodash';
-// import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import makeListingCreateParams from './makeListingCreateParams';
@@ -44,7 +42,7 @@ export default function useListingCreateForm(depth: number) {
   const [contractAmountNegotiable, setContractAmountNegotiable] = useState(true);
   // 잔금
   const [remainingAmount, setRemainingAmount] = useState('');
-  const [remainingAmountDate, setRemainingAmountDate] = useState('');
+  const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
   // 중도금
   const [interims, setInterims] = useState<InterimType[]>([]);
@@ -57,8 +55,8 @@ export default function useListingCreateForm(depth: number) {
   // 특약사항
   const [specialTerms, setSpecialTerms] = useState('');
   // 입주가능시기
-  const [moveInDate, setMoveInDate] = useState('');
-  const [dateType, setDateType] = useState('이전');
+  const [moveInDate, setMoveInDate] = useState<Date | null>(null);
+  const [moveInDateType, setMoveInDateType] = useState('이전');
   // 임대할 부분
   const [rentArea, setRentArea] = useState('');
   // 임대기간
@@ -275,7 +273,7 @@ export default function useListingCreateForm(depth: number) {
       debtSuccessionMiscs,
       jeonsaeLoan,
       moveInDate,
-      dateType,
+      moveInDateType,
       rentArea,
       rentTermYear,
       rentTermMonth,
@@ -313,7 +311,7 @@ export default function useListingCreateForm(depth: number) {
     debtSuccessionDeposit,
     debtSuccessionMiscs,
     moveInDate,
-    dateType,
+    moveInDateType,
     rentArea,
     rentTermYear,
     rentTermMonth,
@@ -447,7 +445,7 @@ export default function useListingCreateForm(depth: number) {
   );
 
   const handleChangeInterimDate = useCallback(
-    (key: string) => (value: string) => {
+    (key: string) => (value: Date | null) => {
       setInterims((prev) => {
         const updated = [...prev];
         const interim = prev.find((item) => item.key === key);
@@ -500,7 +498,7 @@ export default function useListingCreateForm(depth: number) {
   const handleAddInterim = useCallback(() => {
     const newInterims = [...interims];
     const key = uuidv4();
-    newInterims.push({ price: '', date: '', dateType: '이전', negotiable: true, key });
+    newInterims.push({ price: '', date: null, dateType: '이전', negotiable: true, key });
     newInterims[newInterims.length - 1].onRemove = handleRemoveInterim(key);
     newInterims[newInterims.length - 1].onChangePrice = handleChangeInterimPrice(key);
     newInterims[newInterims.length - 1].onChangeDate = handleChangeInterimDate(key);
@@ -619,15 +617,15 @@ export default function useListingCreateForm(depth: number) {
     setSpecialTerms(value);
   }, []);
 
-  const handleChangeMoveInDate = useCallback((value: string) => {
+  const handleChangeMoveInDate = useCallback((value: Date | null) => {
     setMoveInDate(value);
   }, []);
 
-  const handleChangeDateType = useCallback((value: string) => {
-    setDateType(value);
+  const handleChangeMoveInDateType = useCallback((value: string) => {
+    setMoveInDateType(value);
   }, []);
 
-  const handleChangeRemainingAmountDate = useCallback((value: string) => {
+  const handleChangeRemainingAmountDate = useCallback((value: Date | null) => {
     setRemainingAmountDate(value);
   }, []);
 
@@ -785,7 +783,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (parsed.move_in_date) {
-      setMoveInDate(convertToDateString(parsed.move_in_date));
+      setMoveInDate(new Date(parsed.move_in_date));
     }
 
     if (parsed.contract_amount) {
@@ -797,7 +795,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (parsed.remaining_amount_payment_time) {
-      setRemainingAmountDate(convertToDateString(parsed.remaining_amount_payment_time));
+      setRemainingAmountDate(new Date(parsed.remaining_amount_payment_time));
     }
 
     if (parsed.remaining_amount_payment_time_type) {
@@ -824,7 +822,7 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount1),
         negotiable: Boolean(parsed.interim_amount_negotiable1),
-        date: parsed.interim_amount_payment_time1 ? convertToDateString(parsed.interim_amount_payment_time1) : '',
+        date: parsed.interim_amount_payment_time1 ? new Date(parsed.interim_amount_payment_time1) : null,
         dateType: convertDateType(parsed.interim_amount_payment_time1_type),
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
@@ -840,7 +838,7 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount2),
         negotiable: Boolean(parsed.interim_amount_negotiable2),
-        date: parsed.interim_amount_payment_time2 ? convertToDateString(parsed.interim_amount_payment_time2) : '',
+        date: parsed.interim_amount_payment_time2 ? new Date(parsed.interim_amount_payment_time2) : null,
         dateType: convertDateType(parsed.interim_amount_payment_time2_type),
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
@@ -856,7 +854,7 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount3),
         negotiable: Boolean(parsed.interim_amount_negotiable3),
-        date: parsed.interim_amount_payment_time3 ? convertToDateString(parsed.interim_amount_payment_time3) : '',
+        date: parsed.interim_amount_payment_time3 ? new Date(parsed.interim_amount_payment_time3) : null,
         dateType: convertDateType(parsed.interim_amount_payment_time3_type),
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
@@ -894,7 +892,7 @@ export default function useListingCreateForm(depth: number) {
       specialTerms,
 
       moveInDate,
-      dateType,
+      moveInDateType,
 
       handleChangeIsOwner,
       handleChangeOwnerName,
@@ -912,7 +910,7 @@ export default function useListingCreateForm(depth: number) {
       handleChangeSpecialTerms,
       handleAddCollaterals,
       handleChangeMoveInDate,
-      handleChangeDateType,
+      handleChangeMoveInDateType,
 
       remainingAmountDate,
       remainingAmountDateType,
@@ -966,7 +964,7 @@ export default function useListingCreateForm(depth: number) {
 
       specialTerms,
       moveInDate,
-      dateType,
+      moveInDateType,
 
       handleChangeIsOwner,
       handleChangeOwnerName,
@@ -987,7 +985,7 @@ export default function useListingCreateForm(depth: number) {
       handleChangeSpecialTerms,
       handleAddCollaterals,
       handleChangeMoveInDate,
-      handleChangeDateType,
+      handleChangeMoveInDateType,
 
       remainingAmountDate,
       remainingAmountDateType,

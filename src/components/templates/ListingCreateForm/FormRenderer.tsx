@@ -67,9 +67,9 @@ export default function FormRenderer({ form }: Props) {
     onClickAddCollateral,
     // 입주가능시기
     moveInDate,
-    dateType,
+    moveInDateType,
     onChangeMoveInDate,
-    onChangeDateType,
+    onChangeMoveInDateType,
     specialTerms,
     onChangeSpecialTerms,
     // 임대할 부분
@@ -230,9 +230,9 @@ export default function FormRenderer({ form }: Props) {
         <div id={Forms.MoveInDate} tw="px-5 py-10">
           <Form.MoveInDate
             date={moveInDate}
-            dateType={dateType}
+            dateType={moveInDateType}
             onChangeDate={onChangeMoveInDate}
-            onChangeDateType={onChangeDateType}
+            onChangeDateType={onChangeMoveInDateType}
           />
         </div>
       );

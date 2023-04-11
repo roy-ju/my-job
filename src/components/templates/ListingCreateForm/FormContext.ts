@@ -4,11 +4,11 @@ export interface InterimType {
   key: string;
   price?: string;
   negotiable?: boolean;
-  date?: string;
+  date?: Date | null;
   dateType?: string;
   onChangePrice?: (value: string) => void;
   onChangeNegotiable?: (value: boolean) => void;
-  onChangeDate?: (value: string) => void;
+  onChangeDate?: (value: Date | null) => void;
   onChangeDateType?: (value: string) => void;
   onRemove?: () => void;
 }
@@ -58,14 +58,14 @@ export interface IFormContext {
   contractAmount?: string;
   contractAmountNegotiable?: boolean;
   remainingAmount?: string;
-  remainingAmountDate?: string;
+  remainingAmountDate?: Date | null;
   remainingAmountDateType?: string;
   interims?: InterimType[];
   onClickAddInterim?: () => void;
   onChangeContractAmount?: (value: string) => void;
   onChangeContractAmountNegotiable?: (value: boolean) => void;
   onChangeRemainingAmount?: (value: string) => void;
-  onChangeRemainingAmountDate?: (value: string) => void;
+  onChangeRemainingAmountDate?: (value: Date | null) => void;
   onChangeRemainingAmountDateType?: (value: string) => void;
 
   // 채무승계
@@ -79,10 +79,10 @@ export interface IFormContext {
   onClickAddCollateral?: () => void;
 
   // 입주가능시기
-  moveInDate?: string;
-  dateType?: string;
-  onChangeMoveInDate?: (value: string) => void;
-  onChangeDateType?: (value: string) => void;
+  moveInDate?: Date | null;
+  moveInDateType?: string;
+  onChangeMoveInDate?: (value: Date | null) => void;
+  onChangeMoveInDateType?: (value: string) => void;
 
   // 특약사항
   specialTerms?: string;
