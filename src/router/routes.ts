@@ -17,10 +17,12 @@ const Routes = {
   Map: 'map',
 
   MyAddress: 'myAddress',
-  MyAddressMobile: 'address',
-
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
+
+  MyAddressMobile: 'address',
+  MyAddressDetailMobile: 'addressDetail',
+  MyAddressVerifyingMobile: 'addressVerifying',
 
   MyRealPriceList: 'myRealPriceList',
   MyRealPriceListMobile: 'realPriceList',
