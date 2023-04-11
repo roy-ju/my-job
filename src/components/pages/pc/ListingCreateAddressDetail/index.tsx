@@ -1,10 +1,14 @@
+import checkDuplicate from '@/apis/listing/checkDuplicate';
+import createListing from '@/apis/listing/createListing';
 import { Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateAddressDetail } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useRouter } from '@/hooks/utils';
+import { searchAddress } from '@/lib/kakao/search_address';
 import Routes from '@/router/routes';
 import { ChangeEventHandler, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -16,7 +20,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
   const [dong, setDong] = useState('');
   const [ho, setHo] = useState('');
-  const [popupOpen, setPopupOpen] = useState(true);
+  const [popup, setPopup] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const addressLine1 = useMemo(() => {
     if (addressData) {
@@ -43,15 +48,68 @@ export default memo(({ depth, panelWidth }: Props) => {
     setHo(e.target.value);
   }, []);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
+    setIsLoading(true);
+    const roadNameAddress = addressData?.roadAddressName;
+    if (!roadNameAddress) {
+      toast.error('road_name_address is undefined');
+      return;
+    }
+
+    const dupRes = await checkDuplicate({
+      roadNameAddress,
+      dong,
+      ho,
+    });
+
+    if (!dupRes?.can_create) {
+      setPopup('중복된 매물이 등록되어있습니다.');
+      setIsLoading(false);
+      return;
+    }
+
+    const searchRes = await searchAddress(roadNameAddress);
+
+    if (!searchRes || !searchRes.documents[0]?.address?.b_code) {
+      toast.error('unable to get bubjungdong_code from kakao');
+      setIsLoading(false);
+      return;
+    }
+
+    const address = searchRes.documents[0].address;
+
+    const createRes = await createListing({
+      road_name_address: roadNameAddress,
+      jibun_address: addressData.addressName,
+      bubjungdong_code: address.b_code,
+      sido: address.region_1depth_name,
+      sigungu: address.region_2depth_name,
+      eubmyundong: address.region_3depth_name,
+      li: '',
+      building_name: addressData.placeName,
+      long: addressData.lng,
+      lat: addressData.lat,
+      dong,
+      ho,
+    });
+
+    if (!createRes?.listing_id) {
+      toast.error('unable to create listing');
+      return;
+    }
+
+    setIsLoading(false);
+
     router.replace(Routes.ListingCreateForm, {
+      searchParams: {
+        listingID: `${createRes.listing_id}`,
+      },
       state: {
-        addressData: router.query.addressData as string,
-        dong,
-        ho,
+        addressLine1,
+        addressLine2,
       },
     });
-  }, [router, dong, ho]);
+  }, [router, dong, ho, addressData, addressLine1, addressLine2]);
 
   const handleBack = useCallback(() => {
     router.replace(Routes.ListingCreateAddress);
@@ -83,17 +141,16 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeHo={handleChangeHo}
         onSubmit={handleSubmit}
         onSearchAnotherAddress={handleBack}
+        isLoading={isLoading}
       />
-      {router.query.errorCode === '1036' && popupOpen && (
+      {popup && (
         <OverlayPresenter>
           <Popup>
-            <Popup.ContentGroup>
-              <Popup.Title>
-                주소 등록을 위한 주소 확인은 하루 최대 5회까지 할 수 있습니다. 내일 다시 참여해 주세요.
-              </Popup.Title>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>{popup}</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>
+              <Popup.ActionButton onClick={() => setPopup('')}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

@@ -1,54 +1,69 @@
+import getAgentList from '@/apis/listing/getAgentList';
 import { Panel } from '@/components/atoms';
+import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { ListingCreateChooseAgent } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 interface Props {
   depth: number;
   panelWidth?: string;
 }
 
-const mock = [
-  {
-    officeName: '네고시오',
-    profileImageFullPath: '',
-    name: '김네고',
-    cellPhone: '031-2222-2222',
-    fullJibunAddress: '경기도 성남시 분당구 백현동 645-12',
-    registrationNumber: '12345-8219-71734',
-    description: '한줄소개가 들어갑니다. 최대 50자입니다. 어디까지 가야할까요? 네고시오 화이팅 열심히',
-  },
-  {
-    officeName: 'Jay',
-    profileImageFullPath: '',
-    name: '제이제이',
-    cellPhone: '02-2222-2222',
-    fullJibunAddress: '경기도 성남시 분당구 백현동 645-12',
-    registrationNumber: '12345-8219-71734',
-    description: '한줄소개가 들어갑니다. 최대 50자입니다. 어디까지 가야할까요? 네고시오 화이팅 열심히',
-  },
-  {
-    officeName: 'NOOOOO',
-    profileImageFullPath: '',
-    name: '네임네임네임',
-    cellPhone: '02-2222-2222',
-    fullJibunAddress: '경기도 성남시 분당구 백현동 645-12',
-    registrationNumber: '12345-8219-71734',
-    description: '한줄소개가 들어갑니다. 최대 50자입니다. 어디까지 가야할까요? 네고시오 화이팅 열심히',
-  },
-];
-
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const listingID = Number(router.query.listingID) ?? 0;
+  const [index, setIndex] = useState(0);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [agents, setAgents] = useState<AgentCarouselItem[]>([]);
+
+  const fetchAgentList = useCallback(async () => {
+    setIsLoading(true);
+    const res = await getAgentList({ listing_id: listingID });
+    setIsLoading(false);
+    if (res && res.agent_list) {
+      setAgents(
+        res.agent_list.map((item) => ({
+          id: item.id,
+          officeName: item.office_name,
+          profileImageFullPath: item.profile_image_full_path,
+          name: item.name,
+          cellPhone: item.cell_phone,
+          fullJibunAddress: item.full_jibun_address,
+          registrationNumber: item.registration_number,
+          description: item.description,
+        })),
+      );
+    }
+  }, [listingID]);
+
+  useEffect(() => {
+    fetchAgentList();
+  }, [fetchAgentList]);
 
   const handleClickNext = useCallback(() => {
-    router.replace(Routes.ListingCreateSummary);
-  }, [router]);
+    const agentId = agents[index]?.id;
+    router.replace(Routes.ListingCreateSummary, {
+      searchParams: {
+        listingID: router.query.listingID as string,
+        agentID: `${agentId}`,
+        params: router.query.params as string,
+      },
+    });
+  }, [agents, index, router]);
 
   return (
     <Panel width={panelWidth}>
-      <ListingCreateChooseAgent agents={mock} onClickNext={handleClickNext} />
+      <ListingCreateChooseAgent
+        agents={agents}
+        isLoading={isLoading}
+        onClickNext={handleClickNext}
+        index={index}
+        onChangeIndex={(value) => setIndex(value)}
+      />
     </Panel>
   );
 });

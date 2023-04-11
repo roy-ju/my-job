@@ -1,21 +1,49 @@
 import { Label, Radio } from '@/components/atoms';
-import { Dropdown } from '@/components/molecules';
+import { Dropdown, RadioGroup, TextField } from '@/components/molecules';
+import { useState } from 'react';
 
-export default function MoveInDate() {
+interface Props {
+  date?: string;
+  dateType?: string;
+  onChangeType?: (value: string) => void;
+  onChangeDate?: (value: string) => void;
+  onChangeDateType?: (value: string) => void;
+}
+
+export default function MoveInDate({ date, dateType, onChangeDate, onChangeDateType }: Props) {
+  const [type, setType] = useState('0');
+
   return (
     <div>
       <div>
         <div tw="flex justify-between mb-3">
           <div tw="text-b1 leading-none font-bold">입주 가능 시기</div>
         </div>
-        <div tw="flex gap-4 mb-4">
-          <Label control={<Radio />} label="즉시 입주 가능" />
-          <Label control={<Radio />} label="날짜 지정" />
-        </div>
-        <div tw="flex gap-3">
-          <Dropdown tw="flex-1 min-w-0" variant="outlined" value="날짜 선택" />
-          <Dropdown tw="flex-1 min-w-0" variant="outlined" value="이후" />
-        </div>
+        <RadioGroup
+          tw="flex gap-4 mb-4"
+          value={type}
+          onChange={(e) => {
+            if (e.target.value === '0') {
+              onChangeDate?.('');
+              onChangeDateType?.('이전');
+            }
+            setType(e.target.value);
+          }}
+        >
+          <Label control={<Radio />} value="0" label="즉시 입주 가능" />
+          <Label control={<Radio />} value="1" label="날짜 지정" />
+        </RadioGroup>
+        {type === '1' && (
+          <div tw="flex gap-3">
+            <TextField tw="flex-1 min-w-0" variant="outlined">
+              <TextField.Input label="날짜" value={date} onChange={(e) => onChangeDate?.(e.target.value)} />
+            </TextField>
+            <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
+              <Dropdown.Option value="이전">이전</Dropdown.Option>
+              <Dropdown.Option value="이후">이후</Dropdown.Option>
+            </Dropdown>
+          </div>
+        )}
       </div>
     </div>
   );

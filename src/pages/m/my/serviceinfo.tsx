@@ -1,5 +1,11 @@
-import { ServiceInfo } from '@/components/templates';
+import { NextPageWithLayout } from '@/pages/_app';
+import { MobileContainer } from '@/components/atoms';
+import { ServiceInfoWrraper } from '@/components/pages/mobile';
 
-export default function serviceinfo() {
-  return <ServiceInfo />;
-}
+const Page: NextPageWithLayout = () => <ServiceInfoWrraper />;
+
+Page.getLayout = function getLayout(page) {
+  return <MobileContainer>{page}</MobileContainer>;
+};
+
+export default Page;

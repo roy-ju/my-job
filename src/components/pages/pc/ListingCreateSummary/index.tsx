@@ -1,24 +1,114 @@
-import { Panel } from '@/components/atoms';
+import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
+import updateListing from '@/apis/listing/updateListing';
+import { Loading, Panel } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateSummary } from '@/components/templates';
-import { memo } from 'react';
-
-const mockArgs = {
-  agentOfficeName: '네고시오',
-  agentProfileImageFullPath: '',
-  agentName: '김네고',
-  agentCellPhone: '02-2222-2222',
-  agentJibunAddress: '경기도 성남시 분당구 백현동 645-12',
-  agentRegistrationNumber: '12345-8219-71734',
-  agentDescription: '한줄소개가 들어갑니다. 최대 50자입니다. 어디까지 가야할까요? 네고시오 화이팅 열심히',
-};
+import { useRouter } from '@/hooks/utils';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
   depth: number;
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth }: Props) => (
-  <Panel width={panelWidth}>
-    <ListingCreateSummary {...mockArgs} />
-  </Panel>
-));
+export default memo(({ depth, panelWidth }: Props) => {
+  const router = useRouter(depth);
+  const listingID = Number(router.query.listingID) ?? 0;
+  const agentID = Number(router.query.agentID) ?? 0;
+  const [agent, setAgent] = useState<GetAgentListResponse['agent_list'][0] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
+  const [poppup, setPopup] = useState(false);
+
+  const params = useMemo(() => {
+    if (typeof router.query.params === 'string') {
+      return JSON.parse(router.query.params);
+    }
+    return null;
+  }, [router.query.params]);
+
+  const fetchAgentList = useCallback(async () => {
+    if (!agentID || !listingID) return;
+    setIsLoading(true);
+    const res = await getAgentList({ listing_id: listingID });
+    if (res && res.agent_list) {
+      const a = res.agent_list.filter((item) => item.id === agentID)[0];
+      setAgent(a ?? null);
+    }
+    setIsLoading(false);
+  }, [listingID, agentID]);
+
+  const onClickCreate = useCallback(async () => {
+    setIsCreating(true);
+    await updateListing({
+      ...params,
+      listing_id: listingID,
+      user_selected_agent_id: agentID,
+    });
+    setIsCreating(false);
+
+    setPopup(true);
+  }, [params, listingID, agentID]);
+
+  useEffect(() => {
+    fetchAgentList();
+  }, [fetchAgentList]);
+
+  useEffect(() => {
+    if (params === null || !listingID || !agentID) {
+      router.pop();
+    }
+  }, [params, listingID, agentID, router]);
+
+  return (
+    <Panel width={panelWidth}>
+      {isLoading || !agent ? (
+        <div tw="py-20">
+          <Loading />
+        </div>
+      ) : (
+        <ListingCreateSummary
+          agentOfficeName={agent.office_name}
+          agentProfileImageFullPath={agent.profile_image_full_path}
+          agentName={agent.name}
+          agentCellPhone={agent.cell_phone}
+          agentJibunAddress={agent.full_jibun_address}
+          agentDescription={agent.description}
+          agentRegistrationNumber={agent.registration_number}
+          buyOrRent={params.buy_or_rent}
+          tradePrice={params.trade_price}
+          deposit={params.deposit}
+          monthlyRentFee={params.monthly_rent_fee}
+          contractAmount={params.contract_amount}
+          remainingAmount={params.remaining_amount}
+          interimAmount1={params.interim_amount1}
+          interimAmount2={params.interim_amount2}
+          interimAmount3={params.interim_amount3}
+          specialTerms={params.specialTerms}
+          onClickCreate={onClickCreate}
+          isLoading={isCreating}
+        />
+      )}
+      {poppup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>수고하셨습니다!</Popup.Title>
+              <Popup.Body>주소 및 소유자 확인후 중개사 배정이 완료됩니다.</Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton
+                onClick={() => {
+                  setPopup(false);
+                  router.pop();
+                }}
+              >
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+    </Panel>
+  );
+});
