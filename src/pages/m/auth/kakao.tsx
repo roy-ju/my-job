@@ -9,6 +9,7 @@ const Page: NextPage = () => {
 
   const handleLogin = useCallback(() => {
     const loginType = router.query.type;
+
     if (loginType === 'update') {
       loginWithKakao('update');
       return;

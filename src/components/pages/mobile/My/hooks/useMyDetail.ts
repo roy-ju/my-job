@@ -37,8 +37,8 @@ export default function useMyDetail() {
     setNickname(e.target.value);
   }, []);
 
-  const handleChangePrivacyRetentionType = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    async (e) => {
+  const handleChangePrivacyRetentionType = useCallback(
+    async (e: string) => {
       const value = e as unknown as string;
 
       setPrivacyRetentionType(value);
@@ -157,7 +157,7 @@ export default function useMyDetail() {
   }, [nickname, mutateUser]);
 
   const handleNavigateToVerifyCi = useCallback(() => {
-    router.replace(Routes.VerifyCi);
+    router.replace(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
   }, [router]);
 
   const cancelUpdateNickname = useCallback(() => {

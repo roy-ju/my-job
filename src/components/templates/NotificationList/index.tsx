@@ -52,7 +52,7 @@ export default function NotificationList({
   onClickBack,
 }: Props) {
   return (
-    <div tw="fixed top-0 left-0 right-0 w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+    <div tw="relative h-full flex flex-col">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title tw="text-b1">알림</NavigationHeader.Title>

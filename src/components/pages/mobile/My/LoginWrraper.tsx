@@ -14,7 +14,7 @@ export default function LoginWrraper() {
   const router = useRouter();
 
   const handleKakaoLogin = useCallback(() => {
-    window.open(`${window.location.origin}/${Routes.EntryMobile}/auth/kakao`, '_blank');
+    window.open(`${window.location.origin}/auth/kakao`, '_blank');
   }, []);
 
   const handleAppleLogin = useCallback(async () => {
@@ -40,9 +40,9 @@ export default function LoginWrraper() {
     }
   }, []);
 
-  // const handleForgotMyAccount = useCallback(() => {
-  //   router.replace(Routes.FindAccount);
-  // }, [router]);
+  const handleForgotMyAccount = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.FindAccount}`);
+  }, [router]);
 
   useEffect(() => {
     window.Negocio.callbacks.loginSuccess = () => {
@@ -63,5 +63,11 @@ export default function LoginWrraper() {
     };
   }, [router]);
 
-  return <MobLogin onClickKakaoLogin={handleKakaoLogin} onClickAppleLogin={handleAppleLogin} />;
+  return (
+    <MobLogin
+      onClickKakaoLogin={handleKakaoLogin}
+      onClickAppleLogin={handleAppleLogin}
+      onClickForgotMyAccount={handleForgotMyAccount}
+    />
+  );
 }
