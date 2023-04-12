@@ -229,7 +229,7 @@ export default function Router({ route, query, depth }: Props) {
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail {...props} />;
+      return <DanjiDetail key={`${query.p}-${query.rt}`} {...props} />;
     }
 
     case Routes.UpdatePhone: {

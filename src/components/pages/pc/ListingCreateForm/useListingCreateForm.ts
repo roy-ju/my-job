@@ -230,12 +230,19 @@ export default function useListingCreateForm(depth: number) {
       return;
     }
 
+    if (remainingAmountDate && rentEndDate) {
+      if (remainingAmountDate.getTime() >= rentEndDate.getTime()) {
+        setErrPopup('잔금날짜는 기존 임대차 계약 종료일 이전이어야 합니다.');
+        return;
+      }
+    }
+
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.SpecialTerms);
     } else {
       setNextForm(Forms.Collaterals);
     }
-  }, [contractAmount, remainingAmount, buyOrRent, setNextForm]);
+  }, [contractAmount, remainingAmount, remainingAmountDate, rentEndDate, buyOrRent, setNextForm]);
 
   //  선순위 담보권 submit
   const handleSubmitCollaterals = useCallback(() => {
