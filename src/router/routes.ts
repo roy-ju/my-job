@@ -6,13 +6,17 @@ const Routes = {
   Chat: 'chat',
   ChatRoom: 'chatRoom',
   ChatRoomList: 'chatRoomList',
+  
   DanjiDetail: 'danjiDetail',
+  
   Deregister: 'deregister',
   DeregisterDisclaimer: 'deregisterDisclaimer',
   Developer: 'developer',
   Login: 'login',
+  
   ListingList: 'listings',
   ListingDetail: 'listingDetail',
+  
   My: 'my',
   Map: 'map',
 
