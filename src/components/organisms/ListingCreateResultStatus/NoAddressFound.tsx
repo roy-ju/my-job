@@ -10,8 +10,8 @@ interface Props {
 
 export default function NoAddressFound({ addressLine1, addressLine2, onClickUpdateAddress, onClickStartOver }: Props) {
   return (
-    <div>
-      <div tw="text-b1 font-bold">주소지 확인이 필요합니다.</div>
+    <div tw="px-5">
+      <div tw="text-h2 font-bold">주소지 확인이 필요합니다.</div>
       <div tw="my-2.5 flex items-center gap-1">
         <ErrorIcon />
         <div tw="text-info leading-4 text-red-800">입력한 주소로 등기부 조회가 되지 않습니다.</div>

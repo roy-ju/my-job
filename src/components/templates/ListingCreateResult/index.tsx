@@ -59,7 +59,7 @@ export default function ListingCreateResult({
         <NavigationHeader.Title>매물등록 신청 결과</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
-        <div tw="pt-6 pb-10 px-5">
+        <div tw="pt-6 pb-10">
           {listingStatus === ListingStatus.VerifyAddress && <ListingCreateResultStatus.VerifyingAddress />}
           {listingStatus === ListingStatus.WaitingForAgentCompletion && (
             <ListingCreateResultStatus.WaitingForAgentCompletion />
