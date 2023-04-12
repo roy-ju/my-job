@@ -44,13 +44,22 @@ export default memo(({ depth, panelWidth }: Props) => {
     fetchAgentList();
   }, [fetchAgentList]);
 
+  useEffect(() => {
+    const { params } = router.query;
+    if (!params) router.pop();
+  }, [router]);
+
   const handleClickNext = useCallback(() => {
     const agentId = agents[index]?.id;
     router.replace(Routes.ListingCreateSummary, {
       searchParams: {
         listingID: router.query.listingID as string,
         agentID: `${agentId}`,
+      },
+      state: {
         params: router.query.params as string,
+        addressLine1: router.query.addressLine1 as string,
+        addressLine2: router.query.addressLine2 as string,
       },
     });
   }, [agents, index, router]);

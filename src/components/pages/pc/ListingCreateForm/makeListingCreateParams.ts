@@ -35,6 +35,10 @@ interface Args {
   adminFee: string;
 
   listingPhotoUrls: string[];
+
+  danjiPhotoUrls: string[];
+
+  description: string;
 }
 
 function getDateType(value?: string) {
@@ -66,6 +70,7 @@ export default function makeListingCreateParams(args: Args) {
   );
 
   const params: Record<string, unknown> = {
+    negotiation_or_auction: 1,
     administrative_fee: convertPriceInputToNumber(args.adminFee),
     buy_or_rent: args.buyOrRent,
     contract_amount: convertPriceInputToNumber(args.contractAmount),
@@ -73,19 +78,19 @@ export default function makeListingCreateParams(args: Args) {
     collaterals,
     debt_successions: debtSuccessions,
     deposit: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
-    description: '',
+    description: args.description,
 
     interim_amount1: convertPriceInputToNumber(args.interims[0]?.price),
-    interim_amount_negotiable1: args.interims[0]?.negotiable,
-    interim_amount_payment_time1: args.interims[0]?.date?.toISOString(),
-    interim_amount_payment_time1_type: getDateType(args.interims[0]?.dateType),
+    interim_amount_negotiable1: args.interims[0]?.negotiable, // true: 중도금 협의가능 false: 중도금 협의불가
+    interim_amount_payment_time1: args.interims[0]?.date?.toISOString(), // 중도금 지급일
+    interim_amount_payment_time1_type: getDateType(args.interims[0]?.dateType), // 중도금 지급일 이전/이후 1: 이전 2: 이후
 
-    interim_amount2: convertPriceInputToNumber(args.interims[1]?.price),
+    interim_amount2: convertPriceInputToNumber(args.interims[1]?.price), // 상동
     interim_amount_negotiable2: args.interims[1]?.negotiable,
     interim_amount_payment_time2: args.interims[1]?.date?.toISOString(),
     interim_amount_payment_time2_type: getDateType(args.interims[1]?.dateType),
 
-    interim_amount3: convertPriceInputToNumber(args.interims[2]?.price),
+    interim_amount3: convertPriceInputToNumber(args.interims[2]?.price), // 상동
     interim_amount_negotiable3: args.interims[2]?.negotiable,
     interim_amount_payment_time3: args.interims[2]?.date?.toISOString(),
     interim_amount_payment_time3_type: getDateType(args.interims[2]?.dateType),
@@ -99,8 +104,8 @@ export default function makeListingCreateParams(args: Args) {
     owner_phone: args.ownerPhone,
 
     remaining_amount: convertPriceInputToNumber(args.remainingAmount),
-    remaining_amount_payment_time: args.remainingAmountDate?.toISOString(),
-    remaining_amount_payment_time_type: getDateType(args.remainingAmountDateType),
+    remaining_amount_payment_time: args.remainingAmountDate?.toISOString(), // 잔금 지급일
+    remaining_amount_payment_time_type: getDateType(args.remainingAmountDateType), // 잔금 지급일 이전/이후 1: 이전 2: 이후
 
     rent_area: args.rentArea,
     rent_contract_term_year: Number(args.rentTermYear.replace('년', '')) ?? 0,
@@ -113,6 +118,7 @@ export default function makeListingCreateParams(args: Args) {
     quick_sale: args.quickSale,
 
     listingPhotoUrls: args.listingPhotoUrls,
+    danjiPhotoUrls: args.danjiPhotoUrls,
   };
 
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);

@@ -79,6 +79,12 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     listingPhotoUrls,
     handleChangeListingPhotoUrls,
+
+    danjiPhotoUrls,
+    handleChangeDanjiPhotoUrls,
+
+    description,
+    handleChangeDescription,
   } = useListingCreateForm(depth);
 
   return (
@@ -140,6 +146,10 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeAdminFee={handleChangeAdminFee}
         listingPhotoUrls={listingPhotoUrls}
         onChangeListingPhotoUrls={handleChangeListingPhotoUrls}
+        danjiPhotoUrls={danjiPhotoUrls}
+        onChangeDanjiPhotoUrls={handleChangeDanjiPhotoUrls}
+        description={description}
+        onChangeDescription={handleChangeDescription}
       />
       {popup === 'buyOrRentChagne' && (
         <OverlayPresenter>
