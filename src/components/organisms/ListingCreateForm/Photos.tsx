@@ -24,10 +24,11 @@ export default function Photos({ urls, onChange }: Props) {
   const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     async (e) => {
       const fileUrls = Array.from(e.target.files ?? []).map((item) => URL.createObjectURL(item));
-      setValues(fileUrls);
-      onChange?.(fileUrls);
+      const newValues = [...values, ...fileUrls];
+      setValues(newValues);
+      onChange?.(newValues);
     },
-    [setValues, onChange],
+    [setValues, onChange, values],
   );
 
   return (
@@ -44,7 +45,14 @@ export default function Photos({ urls, onChange }: Props) {
         {(values?.length ?? 0) > 0 && (
           <div tw="flex min-w-0 flex-wrap gap-4">
             {values.map((item) => (
-              <Image key={item} src={item} alt="" width={100} height={100} tw="w-[30%] h-24 bg-gray-100 object-cover" />
+              <Image
+                key={item}
+                src={item}
+                alt=""
+                width={100}
+                height={100}
+                tw="w-[30%] h-24 bg-gray-100 object-cover rounded-lg"
+              />
             ))}
           </div>
         )}

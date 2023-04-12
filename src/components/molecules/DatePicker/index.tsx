@@ -6,22 +6,32 @@ import TextField, { TextFieldProps } from '../TextField';
 type CustomInputProps = TextFieldProps &
   Omit<HTMLProps<HTMLInputElement>, 'value' | 'size'> & {
     value?: string;
+    label?: string;
   };
 
-const Input = forwardRef<HTMLInputElement, CustomInputProps>(({ variant, size, hasError, ...props }, ref) => (
+const Input = forwardRef<HTMLInputElement, CustomInputProps>(({ variant, label, size, hasError, ...props }, ref) => (
   <TextField variant={variant} size={size} hasError={hasError}>
-    <TextField.Input {...props} placeholder={props.placeholder} value={props.value} onClick={props.onClick} ref={ref} />
+    <TextField.Input
+      {...props}
+      placeholder={props.placeholder}
+      label={label}
+      value={props.value}
+      onClick={props.onClick}
+      ref={ref}
+    />
   </TextField>
 ));
 
 export interface DatePickerProps extends Omit<TextFieldProps, 'value' | 'onChange' | 'children'> {
   placeholder?: string;
+  label?: string;
   value?: Date | null;
   onChange?: (value: Date | null) => void;
 }
 
 export default function DatePicker({
   placeholder,
+  label,
   value: valueProp,
   onChange,
   variant,
@@ -43,8 +53,8 @@ export default function DatePicker({
   );
 
   const customInput = useMemo(
-    () => <Input variant={variant} size={size} hasError={hasError} />,
-    [variant, size, hasError],
+    () => <Input label={label} variant={variant} size={size} hasError={hasError} />,
+    [variant, size, hasError, label],
   );
 
   return (

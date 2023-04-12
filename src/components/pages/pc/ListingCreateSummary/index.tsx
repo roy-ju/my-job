@@ -1,5 +1,7 @@
 import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
+import updateDanjiPhoto from '@/apis/listing/updateDanjiPhoto';
 import updateListing from '@/apis/listing/updateListing';
+import uploadListingPhoto from '@/apis/listing/updateListingPhoto';
 import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateSummary } from '@/components/templates';
@@ -7,6 +9,7 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import getFileFromUrl from '@/utils/getFileFromUrl';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { v4 } from 'uuid';
 
 interface Props {
   depth: number;
@@ -42,11 +45,14 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const onClickCreate = useCallback(async () => {
     setIsCreating(true);
-    const { listingPhotoUrls, ...fields } = params;
+    const { listingPhotoUrls, danjiPhotoUrls, ...fields } = params;
 
     listingPhotoUrls?.map(async (item: string) => {
-      const file = await getFileFromUrl(item, 'hello');
-      console.log(file);
+      getFileFromUrl(item, v4()).then((f) => uploadListingPhoto(listingID, f));
+    });
+
+    danjiPhotoUrls?.map(async (item: string) => {
+      getFileFromUrl(item, v4()).then((f) => updateDanjiPhoto(listingID, f));
     });
 
     await updateListing({
@@ -54,6 +60,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       listing_id: listingID,
       user_selected_agent_id: agentID,
     });
+
     setIsCreating(false);
 
     setPopup(true);
@@ -63,7 +70,11 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
         listingID: router.query.listingID as string,
+      },
+      state: {
         params: router.query.params as string,
+        addressLine1: router.query.addressLine1 as string,
+        addressLine2: router.query.addressLine2 as string,
       },
     });
   }, [router]);
