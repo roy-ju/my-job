@@ -16,64 +16,6 @@ export default function useRouter(depth: number) {
   const router = useNextRouter();
 
   /**
-   * 현재 열려있는 패널의 바로 좌측에 새로운 패널을 추가한다.
-   * 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트 한다.
-   * 2 depth 에서 (최대 depth) 에서 푸쉬하는 경우
-   * 이전 depth 를 밀어내고 새로운 depth 를 추가한다.
-   * 2 depth 가 열려 있는 상태에서 1 depth 가 새로운 depth 푸쉬하려고 할때는
-   * 기존에 있는 2 depth 를 그 새로운 depth 로 대체한다.
-   */
-  const push = useCallback(
-    (pathname: string, options?: NavigationOptions) => {
-      const segments = router.asPath
-        .split('?')[0]
-        .split('/')
-        .filter((seg) => seg !== '');
-
-      // 현재의 룰
-      if (segments.length > 1) {
-        if (segments.length === depth) {
-          segments[0] = segments[1];
-          segments[1] = pathname;
-        } else {
-          segments[1] = pathname;
-        }
-        segments[1] = pathname;
-      } else {
-        segments.push(pathname);
-      }
-
-      for (let i = 1; i < 6; i += 1) {
-        delete router.query[`depth${i}`];
-      }
-
-      const query = {
-        ...options?.state,
-        ...options?.searchParams,
-      };
-
-      let path = '/';
-      let asPath = '/';
-
-      segments.forEach((value, index) => {
-        path += `[depth${index + 1}]/`;
-        asPath += `${value}/`;
-        query[`depth${index + 1}`] = value;
-      });
-
-      asPath = removeTrailingSlash(asPath);
-
-      if (options?.searchParams) {
-        const searchParams = new URLSearchParams(options.searchParams);
-        asPath += `?${searchParams}`;
-      }
-
-      return router.replace({ pathname: path, query }, asPath);
-    },
-    [router, depth],
-  );
-
-  /**
    * 현재 depth 기준으로 호출된 depth 포함 오른쪽에 열려있는 모든 depth 들을 닫는다.
    */
   const pop = useCallback(
@@ -202,6 +144,70 @@ export default function useRouter(depth: number) {
 
     return router.replace({ pathname: '/', query: {} });
   }, [router]);
+
+  /**
+   * 현재 열려있는 패널의 바로 좌측에 새로운 패널을 추가한다.
+   * 이미 해당 패널이 열려있으면 쿼리파라미터만 업데이트 한다.
+   * 2 depth 에서 (최대 depth) 에서 푸쉬하는 경우
+   * 이전 depth 를 밀어내고 새로운 depth 를 추가한다.
+   * 2 depth 가 열려 있는 상태에서 1 depth 가 새로운 depth 푸쉬하려고 할때는
+   * 기존에 있는 2 depth 를 그 새로운 depth 로 대체한다.
+   */
+  const push = useCallback(
+    (pathname: string, options?: NavigationOptions) => {
+      const segments = router.asPath
+        .split('?')[0]
+        .split('/')
+        .filter((seg) => seg !== '');
+
+      // 이미 열려있는 pathname 인지 확인해본다.
+      const segmentIndex = segments.findIndex((seg) => seg === pathname);
+      if (segmentIndex !== -1) {
+        return replace(pathname, options);
+      }
+
+      // 현재의 룰
+      if (segments.length > 1) {
+        if (segments.length === depth) {
+          segments[0] = segments[1];
+          segments[1] = pathname;
+        } else {
+          segments[1] = pathname;
+        }
+        segments[1] = pathname;
+      } else {
+        segments.push(pathname);
+      }
+
+      for (let i = 1; i < 6; i += 1) {
+        delete router.query[`depth${i}`];
+      }
+
+      const query = {
+        ...options?.state,
+        ...options?.searchParams,
+      };
+
+      let path = '/';
+      let asPath = '/';
+
+      segments.forEach((value, index) => {
+        path += `[depth${index + 1}]/`;
+        asPath += `${value}/`;
+        query[`depth${index + 1}`] = value;
+      });
+
+      asPath = removeTrailingSlash(asPath);
+
+      if (options?.searchParams) {
+        const searchParams = new URLSearchParams(options.searchParams);
+        asPath += `?${searchParams}`;
+      }
+
+      return router.replace({ pathname: path, query }, asPath);
+    },
+    [router, depth, replace],
+  );
 
   return useMemo(
     () => ({

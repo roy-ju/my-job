@@ -85,6 +85,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     description,
     handleChangeDescription,
+
+    rentEndDate,
+    handleChangeRentEndDate,
   } = useListingCreateForm(depth);
 
   return (
@@ -150,6 +153,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeDanjiPhotoUrls={handleChangeDanjiPhotoUrls}
         description={description}
         onChangeDescription={handleChangeDescription}
+        rentEndDate={rentEndDate}
+        onChangeRentEndDate={handleChangeRentEndDate}
       />
       {popup === 'buyOrRentChagne' && (
         <OverlayPresenter>
