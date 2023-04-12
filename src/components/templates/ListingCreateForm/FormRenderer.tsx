@@ -91,6 +91,12 @@ export default function FormRenderer({ form }: Props) {
 
     listingPhotoUrls,
     onChangeListingPhotoUrls,
+
+    danjiPhotoUrls,
+    onChangeDanjiPhotoUrls,
+
+    description,
+    onChangeDescription,
   } = useContext(FormContext);
 
   switch (form) {
@@ -288,7 +294,7 @@ export default function FormRenderer({ form }: Props) {
           </div>
           <Separator />
           <div tw="px-5 py-10">
-            <Form.Description />
+            <Form.Description value={description} onChangeValue={onChangeDescription} />
           </div>
           <Separator />
           <div tw="px-5 py-10">
@@ -304,7 +310,7 @@ export default function FormRenderer({ form }: Props) {
               <div tw="text-b1 leading-none font-bold">단지 사진</div>
               <div tw="text-info text-gray-700 leading-4">- 최대 6장</div>
             </div>
-            <Form.Photos />
+            <Form.Photos urls={danjiPhotoUrls} onChange={onChangeDanjiPhotoUrls} />
           </div>
         </div>
       );

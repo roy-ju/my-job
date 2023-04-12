@@ -35,6 +35,10 @@ interface Args {
   adminFee: string;
 
   listingPhotoUrls: string[];
+
+  danjiPhotoUrls: string[];
+
+  description: string;
 }
 
 function getDateType(value?: string) {
@@ -66,6 +70,7 @@ export default function makeListingCreateParams(args: Args) {
   );
 
   const params: Record<string, unknown> = {
+    negotiation_or_auction: 1,
     administrative_fee: convertPriceInputToNumber(args.adminFee),
     buy_or_rent: args.buyOrRent,
     contract_amount: convertPriceInputToNumber(args.contractAmount),
@@ -73,7 +78,7 @@ export default function makeListingCreateParams(args: Args) {
     collaterals,
     debt_successions: debtSuccessions,
     deposit: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
-    description: '',
+    description: args.description,
 
     interim_amount1: convertPriceInputToNumber(args.interims[0]?.price),
     interim_amount_negotiable1: args.interims[0]?.negotiable,
@@ -113,6 +118,7 @@ export default function makeListingCreateParams(args: Args) {
     quick_sale: args.quickSale,
 
     listingPhotoUrls: args.listingPhotoUrls,
+    danjiPhotoUrls: args.danjiPhotoUrls,
   };
 
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);

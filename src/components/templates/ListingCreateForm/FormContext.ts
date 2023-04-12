@@ -110,6 +110,12 @@ export interface IFormContext {
 
   listingPhotoUrls?: string[];
   onChangeListingPhotoUrls?: (values: string[]) => void;
+
+  danjiPhotoUrls?: string[];
+  onChangeDanjiPhotoUrls?: (values: string[]) => void;
+
+  description?: string;
+  onChangeDescription?: (value: string) => void;
 }
 
 const FormContext = createContext<IFormContext>({});
