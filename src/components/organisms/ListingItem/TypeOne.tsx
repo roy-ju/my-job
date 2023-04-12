@@ -16,7 +16,7 @@ export default function TypeOne({ item, isLast = false }: { item?: DanjiListings
         </div>
       )}
       <div tw="flex items-center">
-        {!item.quick_sale && (
+        {item.quick_sale && (
           <div tw="relative w-4 h-4 bg-red-700 [border-radius: 50%] mr-1">
             <span tw="absolute [top: 50%] [left: 50%] -translate-x-1/2 -translate-y-1/2 [font-size: 11px] [line-height: 1] font-bold text-b1  text-red-50">
               급
