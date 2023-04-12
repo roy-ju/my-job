@@ -75,3 +75,4 @@ export { default as MobMyCoupon } from './MobMyCoupon';
 export { default as MobMyNegoPoint } from './MobMyNegoPoint';
 export { default as MobNotificationList } from './MobNotificationList';
 export { default as MobNotificationSettings } from './MobNotificationSettings';
+export { default as MobFindAccount } from './MobFindAccount';
