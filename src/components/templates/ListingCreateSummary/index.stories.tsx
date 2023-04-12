@@ -30,12 +30,14 @@ Default.args = {
   interimAmount1: 100_000,
   interimAmount2: 100_000,
   interimAmount3: 100_000,
+
   debtSuccessions: [
     {
       name: '보증금',
       amount: 10_000_000,
     },
   ],
+
   collaterals: [
     {
       name: '보증금',
@@ -46,6 +48,7 @@ Default.args = {
       amount: 10_000_000_000,
     },
   ],
+  jeonsaeLoan: true,
   moveInDate: '2023-01-02',
   rentTermYear: 2,
   rentTermMonth: 4,
