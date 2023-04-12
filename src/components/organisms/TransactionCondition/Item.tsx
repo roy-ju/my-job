@@ -17,7 +17,8 @@ interface ItemProps {
     | '임대기간'
     | '임대할부분'
     | '특약조건'
-    | '희망가';
+    | '희망가'
+    | '채무승계희망금액';
   value?: number | number[] | { name: string; amount: number }[] | string | boolean;
   value2?: number | number[] | { name: string; amount: number }[] | string | boolean;
 }
@@ -61,16 +62,18 @@ export default function Item({ label, value, value2 }: ItemProps) {
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all flex flex-col">
-            <div tw="flex">
-              <span tw="text-b2">
-                <Numeral thousandsSeparated koreanNumber>
-                  {value as number}
-                </Numeral>
-              </span>
-              &nbsp;
-              <span tw="text-info text-gray-700 leading-6">*협의불가</span>
-            </div>
+          <span tw="break-all flex flex-col gap-[0.5625rem]">
+            {(value as number[]).map((amount) => (
+              <div tw="flex " key={amount}>
+                <span tw="text-b2">
+                  <Numeral thousandsSeparated koreanNumber>
+                    {amount}
+                  </Numeral>
+                </span>
+                &nbsp;
+                <span tw="text-info text-gray-700 leading-6">*협의불가</span>
+              </div>
+            ))}
             <span tw="text-info text-gray-700 ">지급일: 2022.03.03 이후</span>
           </span>
         </div>
@@ -78,6 +81,23 @@ export default function Item({ label, value, value2 }: ItemProps) {
     }
 
     case '선순위담보권': {
+      return (
+        <>
+          {(value as [])?.map(({ name, amount }) => (
+            <div tw="flex py-[0.5625rem]" key={name}>
+              <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{name}</span>
+              <span tw="break-all text-b2">
+                <Numeral thousandsSeparated koreanNumber>
+                  {amount}
+                </Numeral>
+              </span>
+            </div>
+          ))}
+        </>
+      );
+    }
+
+    case '채무승계희망금액': {
       return (
         <>
           {(value as [])?.map(({ name, amount }) => (
