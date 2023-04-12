@@ -102,6 +102,8 @@ export default function makeListingCreateParams(args: Args) {
     move_in_date: args.moveInDate?.toISOString(),
     move_in_date_type: getDateType(args.moveInDateType),
 
+    monthly_rent_fee: convertPriceInputToNumber(args.monthlyRentFee),
+
     owner_name: args.ownerName,
     owner_phone: args.ownerPhone,
 
