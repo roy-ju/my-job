@@ -801,7 +801,6 @@ export default function useListingCreateForm(depth: number) {
     const params = router.query.params;
     if (typeof params !== 'string') return;
     const parsed = JSON.parse(params);
-    console.log(parsed);
 
     const convertDateType = (value: number) => {
       if (value === 1) return '이전';
