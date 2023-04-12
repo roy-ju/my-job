@@ -1,4 +1,4 @@
-import { NotificationList } from '@/components/templates';
+import { MobNotificationList } from '@/components/templates';
 import { useRouter } from 'next/router';
 import React from 'react';
 import useNotificationList from './hooks/useNotificationList';
@@ -24,7 +24,7 @@ export default function NotificationWrraper() {
   };
 
   return (
-    <NotificationList
+    <MobNotificationList
       checkedState={checkedState}
       isLoading={isLoading}
       isDeleting={isDeleting}
