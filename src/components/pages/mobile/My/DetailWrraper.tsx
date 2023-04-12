@@ -18,6 +18,7 @@ export default function DetailWrraper() {
     emailPopup,
     updateNicknameButtonDisabled,
     updateEmailPopup,
+    privacyRetentionType,
     handleClickDeregister,
     handleLogout,
     handleUpdateAddress,
@@ -32,6 +33,7 @@ export default function DetailWrraper() {
     handleClickUpdateToKakao,
     handleCloseEmailUpdatePopup,
     handleNavigateToVerifyCi,
+    handleChangePrivacyRetentionType,
   } = useMyDetail();
 
   useScrollLock(
@@ -53,6 +55,7 @@ export default function DetailWrraper() {
         address={roadNameAddress ?? ''}
         addressDetail={addressDetail ?? ''}
         addressVerified={ownershipVerified ?? false}
+        privacyRetentionType={privacyRetentionType}
         updateNicknameButtonDisabled={updateNicknameButtonDisabled}
         onChangeNickname={handleChangeNickname}
         onClickDeregister={handleClickDeregister}
@@ -62,6 +65,7 @@ export default function DetailWrraper() {
         onClickUpdateNickname={handleClickUpdateNickname}
         onClickUpdateEmail={handleClickUpdateEmail}
         onClickVerifyCi={handleNavigateToVerifyCi}
+        onClickUpdatePrivacyRetentionType={handleChangePrivacyRetentionType}
       />
       {nicknamePopup && (
         <OverlayPresenter>

@@ -12,6 +12,7 @@ interface MyDetailProps {
   addressVerified: boolean;
   updateNicknameButtonDisabled: boolean;
   isLoading: boolean;
+  privacyRetentionType: string;
   onClickDeregister: () => void;
   onClickLogout: () => void;
   onClickUpdateAddress: () => void;
@@ -20,6 +21,7 @@ interface MyDetailProps {
   onClickUpdateEmail: () => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
+  onClickUpdatePrivacyRetentionType: ChangeEventHandler<HTMLInputElement>;
 }
 
 export default function MobMyDetail({
@@ -32,6 +34,7 @@ export default function MobMyDetail({
   addressVerified,
   updateNicknameButtonDisabled,
   isLoading,
+  privacyRetentionType,
   onClickDeregister,
   onClickLogout,
   onClickUpdateAddress,
@@ -40,6 +43,7 @@ export default function MobMyDetail({
   onClickUpdateEmail,
   onChangeNickname,
   onClickVerifyCi,
+  onClickUpdatePrivacyRetentionType,
 }: MyDetailProps) {
   return (
     <>
@@ -74,7 +78,10 @@ export default function MobMyDetail({
                 onClickUpdateAddress={onClickUpdateAddress}
               />
               <MyDetailForm.Separator />
-              <MyDetailForm.PrivacyRetentionInfo />
+              <MyDetailForm.PrivacyRetentionInfo
+                value={privacyRetentionType}
+                onChange={onClickUpdatePrivacyRetentionType}
+              />
               <div tw="px-5 mt-10">
                 <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
                   회원 탈퇴
