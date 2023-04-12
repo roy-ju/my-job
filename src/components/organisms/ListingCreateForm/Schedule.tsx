@@ -42,6 +42,7 @@ export default function Schedule({ date, dateType, onChangeDate, onChangeDateTyp
         {type === '1' && (
           <div tw="flex gap-3">
             <DatePicker
+              variant="outlined"
               tw="flex-1 min-w-0"
               placeholder="날짜"
               value={date}

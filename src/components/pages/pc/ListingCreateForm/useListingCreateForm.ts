@@ -68,6 +68,10 @@ export default function useListingCreateForm(depth: number) {
 
   const [quickSale, setQuickSale] = useState(false);
 
+  const [adminFee, setAdminFee] = useState('');
+
+  const [listingPhotoUrls, setListingPhotoUrls] = useState<string[]>([]);
+
   const addressLine1 = router.query.addressLine1 as string;
   const addressLine2 = router.query.addressLine2 as string;
 
@@ -281,6 +285,8 @@ export default function useListingCreateForm(depth: number) {
       specialTerms,
       collaterals,
       quickSale,
+      adminFee,
+      listingPhotoUrls,
     });
 
     if (isOwner && user) {
@@ -320,6 +326,8 @@ export default function useListingCreateForm(depth: number) {
     collaterals,
     quickSale,
     jeonsaeLoan,
+    adminFee,
+    listingPhotoUrls,
   ]);
 
   const handleClickNext = useCallback(() => {
@@ -653,6 +661,14 @@ export default function useListingCreateForm(depth: number) {
     setJeonsaeLoan(value);
   }, []);
 
+  const handleChangeAdminFee = useCallback((value: string) => {
+    setAdminFee(value);
+  }, []);
+
+  const handleChangeListingPhotoUrls = useCallback((values: string[]) => {
+    setListingPhotoUrls(values);
+  }, []);
+
   // 잔금 계산
   useEffect(() => {
     const p = convertPriceInputToNumber(price);
@@ -814,6 +830,10 @@ export default function useListingCreateForm(depth: number) {
       setJeonsaeLoan(parsed.jeonsae_loan);
     }
 
+    if (parsed.administrative_fee) {
+      setAdminFee(convertNumberToPriceInput(parsed.administrative_fee));
+    }
+
     const defaultInterims: InterimType[] = [];
 
     if (parsed.interim_amount1) {
@@ -933,6 +953,12 @@ export default function useListingCreateForm(depth: number) {
       jeonsaeLoan,
       handleChangeJeonsaeLoan,
 
+      adminFee,
+      handleChangeAdminFee,
+
+      listingPhotoUrls,
+      handleChangeListingPhotoUrls,
+
       // Popup actions
       popup,
       errPopup,
@@ -1007,6 +1033,12 @@ export default function useListingCreateForm(depth: number) {
 
       jeonsaeLoan,
       handleChangeJeonsaeLoan,
+
+      adminFee,
+      handleChangeAdminFee,
+
+      listingPhotoUrls,
+      handleChangeListingPhotoUrls,
     ],
   );
 }

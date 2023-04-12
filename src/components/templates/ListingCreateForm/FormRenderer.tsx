@@ -85,6 +85,12 @@ export default function FormRenderer({ form }: Props) {
 
     jeonsaeLoan,
     onChangeJeonsaeLoan,
+
+    adminFee,
+    onChangeAdminFee,
+
+    listingPhotoUrls,
+    onChangeListingPhotoUrls,
   } = useContext(FormContext);
 
   switch (form) {
@@ -276,11 +282,29 @@ export default function FormRenderer({ form }: Props) {
           <div tw="px-5 py-10">
             <Form.ExtraOptions />
           </div>
+          <Separator />
           <div tw="px-5 py-10">
-            <Form.AdminFee />
+            <Form.AdminFee value={adminFee} onChange={onChangeAdminFee} />
           </div>
+          <Separator />
           <div tw="px-5 py-10">
             <Form.Description />
+          </div>
+          <Separator />
+          <div tw="px-5 py-10">
+            <div tw="flex justify-between mb-4">
+              <div tw="text-b1 leading-none font-bold">매물 사진</div>
+              <div tw="text-info text-gray-700 leading-4">- 최대 6장</div>
+            </div>
+            <Form.Photos urls={listingPhotoUrls} onChange={onChangeListingPhotoUrls} />
+          </div>
+          <Separator />
+          <div tw="px-5 py-10">
+            <div tw="flex justify-between mb-4">
+              <div tw="text-b1 leading-none font-bold">단지 사진</div>
+              <div tw="text-info text-gray-700 leading-4">- 최대 6장</div>
+            </div>
+            <Form.Photos />
           </div>
         </div>
       );
