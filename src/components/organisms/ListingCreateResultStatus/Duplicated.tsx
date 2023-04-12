@@ -10,8 +10,8 @@ interface Props {
 
 export default function Duplicated({ addressLine1, addressLine2, buyOrRent, rentArea }: Props) {
   return (
-    <div>
-      <div tw="text-b1 font-bold">이미 등록된 매물주소입니다.</div>
+    <div tw="px-5">
+      <div tw="text-h2 font-bold">이미 등록된 매물주소입니다.</div>
       <Ul tw="mt-2 mb-5">
         <li>등록 신청이 완료된 매물주소, 등록 준비 상태인 매물주소는 추가 등록 신청 을 할 수 없습니다.</li>
         <li>네고시오는 매물 하나당 한번만 등록할 수 있습니다. (1 매물, 1 등록)</li>
