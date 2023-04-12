@@ -9,6 +9,7 @@ import updateEmail from '@/apis/user/updateEmail';
 import { SocialLoginType } from '@/constants/enums';
 import checkNickname from '@/apis/user/checkNickname';
 import { useRouter } from 'next/router';
+import { updatePrivacyRetention } from '@/apis/my/updatePrivacyRetention';
 
 type UpdateEmailPopupType = 'none' | 'duplicated_ci' | 'duplicated_email' | 'success';
 
@@ -22,6 +23,7 @@ export default function useMyDetail() {
   const [emailPopup, setEmailPopup] = useState(false);
   const [updateEmailPopup, setUpdateEmailPopup] = useState<UpdateEmailPopupType>('none');
 
+  const [privacyRetentionType, setPrivacyRetentionType] = useState<string>('');
   const [nickname, setNickname] = useState('');
 
   const updateNicknameButtonDisabled = useMemo(() => {
@@ -35,12 +37,45 @@ export default function useMyDetail() {
     setNickname(e.target.value);
   }, []);
 
+  const handleChangePrivacyRetentionType = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    async (e) => {
+      const value = e as unknown as string;
+
+      setPrivacyRetentionType(value);
+
+      let reqVal: number = 0;
+
+      if (value === '1년') {
+        reqVal = 1;
+      }
+
+      if (value === '3년') {
+        reqVal = 2;
+      }
+
+      if (value === '5년') {
+        reqVal = 3;
+      }
+
+      if (value === '탈퇴시까지') {
+        reqVal = 4;
+      }
+
+      const updatePrivacyRetentionRes = await updatePrivacyRetention({ privacy_retention_type: Number(reqVal) });
+
+      if (!updatePrivacyRetentionRes) {
+        mutateUser(false);
+      }
+    },
+    [mutateUser],
+  );
+
   const handleClickDeregister = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.Deregister}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.Deregister}`);
   }, [router]);
 
   const handleLogout = useCallback(async () => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.My}`);
 
     setTimeout(() => {
       logout();
@@ -48,11 +83,11 @@ export default function useMyDetail() {
   }, [logout, router]);
 
   const handleUpdateAddress = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`);
   }, [router]);
 
   const handleUpdatePhone = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.UpdatePhone}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.UpdatePhone}`);
   }, [router]);
 
   const handleClickUpdateNickname = useCallback(() => {
@@ -135,6 +170,28 @@ export default function useMyDetail() {
     }
   }, [user?.nickname]);
 
+  useEffect(() => {
+    if (user?.privacyRetentionType) {
+      let stringVal: string = '';
+
+      if (user?.privacyRetentionType === 1) {
+        stringVal = '1년';
+      }
+
+      if (user?.privacyRetentionType === 2) {
+        stringVal = '3년';
+      }
+      if (user?.privacyRetentionType === 3) {
+        stringVal = '5년';
+      }
+      if (user?.privacyRetentionType === 4) {
+        stringVal = '탈퇴시까지';
+      }
+
+      setPrivacyRetentionType(stringVal);
+    }
+  }, [user?.privacyRetentionType]);
+
   return useMemo(
     () => ({
       ...user,
@@ -148,6 +205,7 @@ export default function useMyDetail() {
       ownershipVerified: userAddressData?.ownership_verified,
       isUserAddressLoading,
       updateEmailPopup,
+      privacyRetentionType,
       handleClickDeregister,
       handleLogout,
       handleUpdateAddress,
@@ -162,6 +220,7 @@ export default function useMyDetail() {
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
       handleNavigateToVerifyCi,
+      handleChangePrivacyRetentionType,
     }),
     [
       updateNicknameButtonDisabled,
@@ -173,6 +232,7 @@ export default function useMyDetail() {
       isUserAddressLoading,
       isUserLoading,
       updateEmailPopup,
+      privacyRetentionType,
       handleClickDeregister,
       handleLogout,
       handleUpdateAddress,
@@ -187,6 +247,7 @@ export default function useMyDetail() {
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
       handleNavigateToVerifyCi,
+      handleChangePrivacyRetentionType,
     ],
   );
 }
