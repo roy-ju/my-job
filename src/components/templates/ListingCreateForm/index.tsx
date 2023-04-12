@@ -78,6 +78,12 @@ export default function ListingCreateForm({
 
   jeonsaeLoan,
   onChangeJeonsaeLoan,
+
+  adminFee,
+  onChangeAdminFee,
+
+  listingPhotoUrls,
+  onChangeListingPhotoUrls,
 }: ListingCreateFormProps) {
   const context = useMemo(
     () => ({
@@ -136,6 +142,10 @@ export default function ListingCreateForm({
       onChangeRentTermYear,
       jeonsaeLoan,
       onChangeJeonsaeLoan,
+      adminFee,
+      onChangeAdminFee,
+      listingPhotoUrls,
+      onChangeListingPhotoUrls,
     }),
     [
       isOwner,
@@ -194,6 +204,12 @@ export default function ListingCreateForm({
 
       jeonsaeLoan,
       onChangeJeonsaeLoan,
+
+      adminFee,
+      onChangeAdminFee,
+
+      listingPhotoUrls,
+      onChangeListingPhotoUrls,
     ],
   );
 

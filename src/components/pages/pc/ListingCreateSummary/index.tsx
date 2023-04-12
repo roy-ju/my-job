@@ -5,6 +5,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateSummary } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import getFileFromUrl from '@/utils/getFileFromUrl';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
@@ -41,8 +42,15 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const onClickCreate = useCallback(async () => {
     setIsCreating(true);
+    const { listingPhotoUrls, ...fields } = params;
+
+    listingPhotoUrls?.map(async (item: string) => {
+      const file = await getFileFromUrl(item, 'hello');
+      console.log(file);
+    });
+
     await updateListing({
-      ...params,
+      ...fields,
       listing_id: listingID,
       user_selected_agent_id: agentID,
     });
@@ -94,7 +102,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           interimAmount1={params.interim_amount1}
           interimAmount2={params.interim_amount2}
           interimAmount3={params.interim_amount3}
-          specialTerms={params.specialTerms}
+          specialTerms={params.special_terms}
           onClickCreate={onClickCreate}
           onClickUpdate={onClickUpdate}
           isLoading={isCreating}

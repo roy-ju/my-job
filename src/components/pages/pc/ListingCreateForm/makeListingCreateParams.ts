@@ -31,6 +31,10 @@ interface Args {
   collaterals: CollateralType[];
 
   quickSale: boolean;
+
+  adminFee: string;
+
+  listingPhotoUrls: string[];
 }
 
 function getDateType(value?: string) {
@@ -62,7 +66,7 @@ export default function makeListingCreateParams(args: Args) {
   );
 
   const params: Record<string, unknown> = {
-    administrative_fee: 0,
+    administrative_fee: convertPriceInputToNumber(args.adminFee),
     buy_or_rent: args.buyOrRent,
     contract_amount: convertPriceInputToNumber(args.contractAmount),
     contract_amount_negotiable: args.contractAmountNegotiable,
@@ -107,6 +111,8 @@ export default function makeListingCreateParams(args: Args) {
 
     trade_price: args.buyOrRent === BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     quick_sale: args.quickSale,
+
+    listingPhotoUrls: args.listingPhotoUrls,
   };
 
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);
