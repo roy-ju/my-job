@@ -1,7 +1,7 @@
-import { DetailWrraper } from '@/components/pages/mobile';
+import AddressDetailWrraper from '@/components/pages/mobile/My/AddressDetailWrraper';
 import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPageWithLayout = () => <DetailWrraper />;
+const Page: NextPageWithLayout = () => <AddressDetailWrraper />;
 
 Page.getLayout = function getLayout(page) {
   return (

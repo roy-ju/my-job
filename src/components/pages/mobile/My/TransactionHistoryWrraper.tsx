@@ -1,5 +1,11 @@
 import { MobTransactionHistory } from '@/components/templates';
+import { useRouter } from 'next/router';
 
 export default function TransactionHistoryWrraper() {
-  return <MobTransactionHistory list={[]} />;
+  const router = useRouter();
+  const handleClickBack = () => {
+    router.back();
+  };
+
+  return <MobTransactionHistory list={[]} onClickBack={handleClickBack} />;
 }

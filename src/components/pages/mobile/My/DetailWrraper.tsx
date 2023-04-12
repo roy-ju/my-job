@@ -1,6 +1,7 @@
 import { OverlayPresenter } from '@/components/molecules';
 import { UpdateEmailPopup, UpdateNicknamePopup } from '@/components/organisms';
 import { MobMyDetail } from '@/components/templates';
+import { useScrollLock } from '@/hooks/utils/useScrollLock';
 import useMyDetail from './hooks/useMyDetail';
 
 export default function DetailWrraper() {
@@ -17,6 +18,7 @@ export default function DetailWrraper() {
     emailPopup,
     updateNicknameButtonDisabled,
     updateEmailPopup,
+    privacyRetentionType,
     handleClickDeregister,
     handleLogout,
     handleUpdateAddress,
@@ -31,7 +33,16 @@ export default function DetailWrraper() {
     handleClickUpdateToKakao,
     handleCloseEmailUpdatePopup,
     handleNavigateToVerifyCi,
+    handleChangePrivacyRetentionType,
   } = useMyDetail();
+
+  useScrollLock(
+    nicknamePopup ||
+      emailPopup ||
+      updateEmailPopup === 'success' ||
+      updateEmailPopup === 'duplicated_ci' ||
+      updateEmailPopup === 'duplicated_email',
+  );
 
   return (
     <>
@@ -44,6 +55,7 @@ export default function DetailWrraper() {
         address={roadNameAddress ?? ''}
         addressDetail={addressDetail ?? ''}
         addressVerified={ownershipVerified ?? false}
+        privacyRetentionType={privacyRetentionType}
         updateNicknameButtonDisabled={updateNicknameButtonDisabled}
         onChangeNickname={handleChangeNickname}
         onClickDeregister={handleClickDeregister}
@@ -53,6 +65,7 @@ export default function DetailWrraper() {
         onClickUpdateNickname={handleClickUpdateNickname}
         onClickUpdateEmail={handleClickUpdateEmail}
         onClickVerifyCi={handleNavigateToVerifyCi}
+        onClickUpdatePrivacyRetentionType={handleChangePrivacyRetentionType}
       />
       {nicknamePopup && (
         <OverlayPresenter>

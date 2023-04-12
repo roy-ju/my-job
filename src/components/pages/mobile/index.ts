@@ -22,6 +22,13 @@ export { default as DeregisterDisclaimerWrraper } from './My/DeregisterDisclaime
 export { default as NegoPointWrraper } from './My/NegoPointWrraper';
 export { default as NegoMoneyWrraper } from './My/NegoMoneyWrraper';
 export { default as CouponWrraper } from './My/CouponWrraper';
+export { default as UpdatePhoneWrraper } from './My/UpdatePhoneWrraper';
+export { default as AddressWrraper } from './My/AddressWrraper';
+export { default as AddressDetailWrrpaer } from './My/AddressDetailWrraper';
+export { default as AddressVerifyingWrraper } from './My/AddressVerifyingWrraper';
+export { default as NotificationSettingsWrraper } from './My/NotificationSettingsWrraper';
+export { default as NotificationWrraper } from './My/NotificationWrraper';
+
 
 /** 회원가입 */
 export { default as RegisterWrraper } from './Register';

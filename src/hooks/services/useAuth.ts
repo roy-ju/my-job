@@ -24,6 +24,7 @@ export default function useAuth() {
             marketingNotification: !data.marketing_disagreement_date,
             marketingAgreementDate: data.marketing_agreement_date,
             marketingDisagreementDate: data.marketing_disagreement_date,
+            privacyRetentionType: data.privacy_retention_type,
           }
         : null,
     [data],
