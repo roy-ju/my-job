@@ -18,6 +18,7 @@ export const Forms = {
   RentArea: 'rentArea',
   RentTerm: 'rentTerm',
   JeonsaeLoan: 'jeonsaeLoan',
+  RentEndDate: 'rentEndDate',
 };
 
 interface Props {
@@ -97,6 +98,9 @@ export default function FormRenderer({ form }: Props) {
 
     description,
     onChangeDescription,
+
+    rentEndDate,
+    onChangeRentEndDate,
   } = useContext(FormContext);
 
   switch (form) {
@@ -275,6 +279,13 @@ export default function FormRenderer({ form }: Props) {
             value={jeonsaeLoan}
             onChange={onChangeJeonsaeLoan}
           />
+        </div>
+      );
+
+    case Forms.RentEndDate:
+      return (
+        <div id={Forms.RentEndDate} tw="px-5 py-10">
+          <Form.RentEndDate date={rentEndDate} onChangeDate={onChangeRentEndDate} />
         </div>
       );
 

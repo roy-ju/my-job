@@ -90,6 +90,9 @@ export default function ListingCreateForm({
 
   description,
   onChangeDescription,
+
+  rentEndDate,
+  onChangeRentEndDate,
 }: ListingCreateFormProps) {
   const context = useMemo(
     () => ({
@@ -161,6 +164,9 @@ export default function ListingCreateForm({
 
       description,
       onChangeDescription,
+
+      rentEndDate,
+      onChangeRentEndDate,
     }),
     [
       isOwner,
@@ -231,6 +237,9 @@ export default function ListingCreateForm({
 
       description,
       onChangeDescription,
+
+      rentEndDate,
+      onChangeRentEndDate,
     ],
   );
 
