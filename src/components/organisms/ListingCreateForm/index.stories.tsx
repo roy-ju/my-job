@@ -61,3 +61,5 @@ export const JeonsaeLoan = () => <ListingCreateForm.JeonsaeLoan isJeonsae />;
 export const MoveInDate = () => <ListingCreateForm.MoveInDate />;
 
 export const RentTerm = () => <ListingCreateForm.RentTerm />;
+
+export const Photos = () => <ListingCreateForm.Photos />;
