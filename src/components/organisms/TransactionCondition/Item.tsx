@@ -1,4 +1,5 @@
 import React from 'react';
+import { Moment, Numeral } from '@/components/atoms';
 
 interface ItemProps {
   label?:
@@ -17,17 +18,23 @@ interface ItemProps {
     | '임대할부분'
     | '특약조건'
     | '희망가';
-  value?: number | number[] | { name: string; amount: number } | string | boolean;
+  value?: number | number[] | { name: string; amount: number }[] | string | boolean;
+  value2?: number | number[] | { name: string; amount: number }[] | string | boolean;
 }
 
-export default function Item({ label, value }: ItemProps) {
+export default function Item({ label, value, value2 }: ItemProps) {
   switch (label) {
     case '계약금': {
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
           <span tw="break-all flex">
-            <span tw="text-b2">{`${value}억`}</span>&nbsp;
+            <span tw="text-b2">
+              <Numeral thousandsSeparated koreanNumber>
+                {value as number}
+              </Numeral>
+            </span>
+            &nbsp;
             <span tw="text-info text-gray-700 leading-6">*협의불가</span>
           </span>
         </div>
@@ -39,7 +46,11 @@ export default function Item({ label, value }: ItemProps) {
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
           <span tw="break-all flex flex-col">
-            <span tw="text-b2">{`${value}억`}</span>
+            <span tw="text-b2">
+              <Numeral thousandsSeparated koreanNumber>
+                {value as number}
+              </Numeral>
+            </span>
             <span tw="text-info text-gray-700 ">지급일: 2022.03.03 이후</span>
           </span>
         </div>
@@ -52,7 +63,12 @@ export default function Item({ label, value }: ItemProps) {
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
           <span tw="break-all flex flex-col">
             <div tw="flex">
-              <span tw="text-b2">{`${value}억`}</span>&nbsp;
+              <span tw="text-b2">
+                <Numeral thousandsSeparated koreanNumber>
+                  {value as number}
+                </Numeral>
+              </span>
+              &nbsp;
               <span tw="text-info text-gray-700 leading-6">*협의불가</span>
             </div>
             <span tw="text-info text-gray-700 ">지급일: 2022.03.03 이후</span>
@@ -62,89 +78,116 @@ export default function Item({ label, value }: ItemProps) {
     }
 
     case '선순위담보권': {
-      if (typeof value !== 'object' || !('name' in value)) return <></>;
-
       return (
-        <div tw="flex py-[0.5625rem]">
-          <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{value.name}</span>
-          <span tw="break-all text-b2">{value.amount}</span>
-        </div>
+        <>
+          {(value as [])?.map(({ name, amount }) => (
+            <div tw="flex py-[0.5625rem]" key={name}>
+              <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{name}</span>
+              <span tw="break-all text-b2">
+                <Numeral thousandsSeparated koreanNumber>
+                  {amount}
+                </Numeral>
+              </span>
+            </div>
+          ))}
+        </>
       );
     }
 
     case '거래종류': {
-      if (typeof value === 'object') return <></>;
-
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all text-b2">{value}</span>
+          <span tw="break-all text-b2">{value as string}</span>
         </div>
       );
     }
 
     case '실제지급총액': {
-      if (typeof value === 'object') return <></>;
+      const debtSuccessionsTotal = (value2 as []).reduce((total, { amount: num }) => total + num, 0);
 
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all text-b2">{`${value}억`}</span>
+          <span tw="break-all text-b2">
+            <Numeral thousandsSeparated koreanNumber>
+              {(value as number) + debtSuccessionsTotal}
+            </Numeral>
+          </span>
+        </div>
+      );
+    }
+
+    case '희망가': {
+      const content = value2 ? (
+        <>
+          <Numeral thousandsSeparated koreanNumber>
+            {value as number}
+          </Numeral>
+          {' / '}
+          <Numeral thousandsSeparated koreanNumber>
+            {value2 as number}
+          </Numeral>
+        </>
+      ) : (
+        <Numeral thousandsSeparated koreanNumber>
+          {value as number}
+        </Numeral>
+      );
+
+      return (
+        <div tw="flex py-[0.5625rem]">
+          <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
+          <span tw="break-all text-b2">{content}</span>
         </div>
       );
     }
 
     case '전세자금대출': {
-      if (typeof value === 'object') return <></>;
-
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all text-b2">{value ? '가능' : '불가'}</span>
+          <span tw="break-all text-b2">{(value as boolean) ? '가능' : '불가'}</span>
         </div>
       );
     }
 
     case '입주가능시기': {
-      if (typeof value === 'object') return <></>;
-
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all text-b2">{value}</span>
+          <span tw="break-all text-b2">
+            <Moment format="YYYY년 M월 D일">{value as string}</Moment> 이전
+          </span>
         </div>
       );
     }
 
     case '임대기간': {
-      if (typeof value === 'object') return <></>;
+      const content = value2 ? `${value}년 ${value2}개월` : `${value}년`;
 
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all text-b2">{`${value}년`}</span>
+          <span tw="break-all text-b2">{content}</span>
         </div>
       );
     }
 
     case '임대할부분': {
-      if (typeof value === 'object') return <></>;
-
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all text-b2">{value}</span>
+          <span tw="break-all text-b2">{value as string}</span>
         </div>
       );
     }
 
     case '특약조건': {
-      if (typeof value === 'object') return <></>;
-
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
-          <span tw="break-all text-b2">{value}</span>
+          <span tw="break-all text-b2">{value as string}</span>
         </div>
       );
     }
