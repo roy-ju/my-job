@@ -28,6 +28,7 @@ export { default as AddressDetailWrrpaer } from './My/AddressDetailWrraper';
 export { default as AddressVerifyingWrraper } from './My/AddressVerifyingWrraper';
 export { default as NotificationSettingsWrraper } from './My/NotificationSettingsWrraper';
 export { default as NotificationWrraper } from './My/NotificationWrraper';
+export { default as FindAccountWrraper } from './My/FindAccountWrraper';
 
 
 /** 회원가입 */
