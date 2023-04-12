@@ -103,6 +103,13 @@ export interface IFormContext {
   // 전세자금대출
   jeonsaeLoan?: boolean;
   onChangeJeonsaeLoan?: (value: boolean) => void;
+
+  // 고정관리비
+  adminFee?: string;
+  onChangeAdminFee?: (value: string) => void;
+
+  listingPhotoUrls?: string[];
+  onChangeListingPhotoUrls?: (values: string[]) => void;
 }
 
 const FormContext = createContext<IFormContext>({});
