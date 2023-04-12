@@ -18,6 +18,7 @@ import RentArea from './RentArea';
 import JeonsaeLoan from './JeonsaeLoan';
 import MoveInDate from './MoveInDate';
 import RentTerm from './RentTerm';
+import Photos from './Photos';
 
 const ListingCreateForm = {
   BuyOrRent,
@@ -40,6 +41,7 @@ const ListingCreateForm = {
   JeonsaeLoan,
   MoveInDate,
   RentTerm,
+  Photos,
 };
 
 export default ListingCreateForm;
