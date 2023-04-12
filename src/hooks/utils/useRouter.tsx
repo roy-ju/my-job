@@ -160,11 +160,11 @@ export default function useRouter(depth: number) {
         .split('/')
         .filter((seg) => seg !== '');
 
-      // 이미 열려있는 pathname 인지 확인해본다.
-      const segmentIndex = segments.findIndex((seg) => seg === pathname);
-      if (segmentIndex !== -1) {
-        return replace(pathname, options);
-      }
+      // // 이미 열려있는 pathname 인지 확인해본다.
+      // const segmentIndex = segments.findIndex((seg) => seg === pathname);
+      // if (segmentIndex !== -1) {
+      //   return replace(pathname, options);
+      // }
 
       // 현재의 룰
       if (segments.length > 1) {
@@ -206,7 +206,7 @@ export default function useRouter(depth: number) {
 
       return router.replace({ pathname: path, query }, asPath);
     },
-    [router, depth, replace],
+    [router, depth],
   );
 
   return useMemo(
