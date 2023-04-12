@@ -6,17 +6,17 @@ const Routes = {
   Chat: 'chat',
   ChatRoom: 'chatRoom',
   ChatRoomList: 'chatRoomList',
-  
+
   DanjiDetail: 'danjiDetail',
-  
+
   Deregister: 'deregister',
   DeregisterDisclaimer: 'deregisterDisclaimer',
   Developer: 'developer',
   Login: 'login',
-  
+
   ListingList: 'listings',
   ListingDetail: 'listingDetail',
-  
+
   My: 'my',
   Map: 'map',
 
@@ -57,11 +57,15 @@ const Routes = {
   VerifyCi: 'verifyCi',
   VerifyCiSuccess: 'verifyCiSuccess',
   FindAccount: 'findAccount',
+
   ListingCreateAddress: 'listingCreateAddress',
   ListingCreateAddressDetail: 'listingCreateAddressDetail',
   ListingCreateForm: 'listingCreateForm',
   ListingCreateChooseAgent: 'listingCreateChooseAgent',
   ListingCreateSummary: 'listingCreateSummary',
+  ListingCreateResult: 'listingCreateResult',
+  ListingCreateUpdateAddress: 'listingCreateUpdateAddress',
+  ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
 
   EntryMobile: 'm',
 };

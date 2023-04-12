@@ -137,7 +137,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setPopup(false);
-                  router.pop();
+                  router.replace(Routes.ListingCreateResult, { searchParams: { listingID: `${listingID}` } });
                 }}
               >
                 확인
