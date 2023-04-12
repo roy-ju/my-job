@@ -175,7 +175,7 @@ function AddressInfo({ address, addressDetail, verified = false, onClickUpdateAd
 
 interface PrivacyRetentionInfoProps {
   value?: string;
-  onChange?: (value: string) => void;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 function PrivacyRetentionInfo({ value, onChange }: PrivacyRetentionInfoProps) {
