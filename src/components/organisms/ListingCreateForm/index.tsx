@@ -19,6 +19,7 @@ import JeonsaeLoan from './JeonsaeLoan';
 import MoveInDate from './MoveInDate';
 import RentTerm from './RentTerm';
 import Photos from './Photos';
+import RentEndDate from './RentEndDate';
 
 const ListingCreateForm = {
   BuyOrRent,
@@ -41,6 +42,7 @@ const ListingCreateForm = {
   JeonsaeLoan,
   MoveInDate,
   RentTerm,
+  RentEndDate,
   Photos,
 };
 

@@ -63,3 +63,5 @@ export const MoveInDate = () => <ListingCreateForm.MoveInDate />;
 export const RentTerm = () => <ListingCreateForm.RentTerm />;
 
 export const Photos = () => <ListingCreateForm.Photos />;
+
+export const RentEndDate = () => <ListingCreateForm.RentEndDate />;

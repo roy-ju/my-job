@@ -43,7 +43,7 @@ export default function MoveInDate({ date, dateType, onChangeDate, onChangeDateT
             <DatePicker
               variant="outlined"
               tw="flex-1 min-w-0"
-              placeholder="날짜"
+              label="날짜"
               value={date}
               onChange={(value) => onChangeDate?.(value)}
             />

@@ -9,6 +9,7 @@ import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 import _ from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 import makeListingCreateParams from './makeListingCreateParams';
 
 type PopupType = 'none' | 'buyOrRentChagne';
@@ -59,20 +60,27 @@ export default function useListingCreateForm(depth: number) {
   const [moveInDateType, setMoveInDateType] = useState('이전');
   // 임대할 부분
   const [rentArea, setRentArea] = useState('');
-  // 임대기간
+  // 임대기간 년
   const [rentTermYear, setRentTermYear] = useState('2년');
+  // 임대기간 월
   const [rentTermMonth, setRentTermMonth] = useState('0개월');
+  // 임대기간 네고가능
   const [rentTermNegotiable, setRentTermNegotiable] = useState(true);
-
+  // 전세자금대출
   const [jeonsaeLoan, setJeonsaeLoan] = useState(true);
-
+  // 급매
   const [quickSale, setQuickSale] = useState(false);
-
+  // 고정관리비
   const [adminFee, setAdminFee] = useState('');
-
+  // 매물설명
+  const [description, setDescription] = useState('');
+  // 매물사진
   const [listingPhotoUrls, setListingPhotoUrls] = useState<string[]>([]);
-
+  // 단지사진
+  const [danjiPhotoUrls, setDanjiPhotoUrls] = useState<string[]>([]);
+  // 화면에 표현할 주소1
   const addressLine1 = router.query.addressLine1 as string;
+  // 화면에 표현할 주소2
   const addressLine2 = router.query.addressLine2 as string;
 
   const setNextForm = useCallback((...formNames: string[]) => {
@@ -132,7 +140,7 @@ export default function useListingCreateForm(depth: number) {
   // 소유자 본인 submit
   const handleSubmitIsOwner = useCallback(() => {
     if (!isOwner && (!ownerName || !ownerPhone)) {
-      setErrPopup('owner_name and owner_phone is required when isOwner is false');
+      setErrPopup('소유자 성명과 휴대폰 번호를 입력해주세요.');
       return;
     }
     setNextForm(Forms.BuyOrRent);
@@ -141,7 +149,7 @@ export default function useListingCreateForm(depth: number) {
   // 거래유형 submit
   const handleSubmitBuyOrRent = useCallback(() => {
     if (buyOrRent === 0) {
-      setErrPopup('buy_or_rent cannot be 0');
+      setErrPopup('거래종류를 선택해주세요.');
       return;
     }
 
@@ -151,12 +159,14 @@ export default function useListingCreateForm(depth: number) {
   // 가격 submit
   const handleSubmitPrice = useCallback(() => {
     if (price === '') {
-      setErrPopup('price is required');
+      if (buyOrRent === BuyOrRent.Buy) setErrPopup('희망가를 입력해주세요.');
+      if (buyOrRent === BuyOrRent.Jeonsae) setErrPopup('전세금을 입력해주세요.');
+      if (buyOrRent === BuyOrRent.Wolsae) setErrPopup('보증금을 입력해주세요.');
       return;
     }
 
     if (buyOrRent === BuyOrRent.Wolsae && monthlyRentFee === '') {
-      setErrPopup('monthly_rent_fee is required');
+      setErrPopup('월세를 입력해주세요');
       return;
     }
 
@@ -194,11 +204,11 @@ export default function useListingCreateForm(depth: number) {
   // 희망지급일정 submit
   const handleSubmitPaymentSchedules = useCallback(() => {
     if (contractAmount === '') {
-      setErrPopup('contract_amount cannot be empty');
+      setErrPopup('계약금을 입력해주세요');
       return;
     }
     if (remainingAmount === '' || Number(remainingAmount) < 0) {
-      setErrPopup('remaining_amount cannot be empty or less than 0');
+      setErrPopup('입력하신 금액은 실제 지급 총액을 넘을 수 없습니다.');
       return;
     }
 
@@ -228,34 +238,42 @@ export default function useListingCreateForm(depth: number) {
   const handleSubmitFinal = useCallback(() => {
     // 한번더 최종 밸리데이션
     if (!isOwner && (!ownerName || !ownerPhone)) {
-      setErrPopup('owner_name and owner_phone is required when isOwner is false');
+      setErrPopup('소유자 성명과 휴대폰 번호를 입력해주세요.');
       const isOwnerForm = document.getElementById(Forms.IsOwner);
       isOwnerForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
+    if (buyOrRent === 0) {
+      setErrPopup('거래종류를 선택해주세요.');
+      const buyOrRentForm = document.getElementById(Forms.BuyOrRent);
+      buyOrRentForm?.scrollIntoView({ behavior: 'smooth' });
+    }
+
     if (price === '') {
-      setErrPopup('price is required');
+      if (buyOrRent === BuyOrRent.Buy) setErrPopup('희망가를 입력해주세요.');
+      if (buyOrRent === BuyOrRent.Jeonsae) setErrPopup('전세금을 입력해주세요.');
+      if (buyOrRent === BuyOrRent.Wolsae) setErrPopup('보증금을 입력해주세요.');
       const priceForm = document.getElementById(Forms.Price);
       priceForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
     if (buyOrRent === BuyOrRent.Wolsae && monthlyRentFee === '') {
-      setErrPopup('monthly_rent_fee is required');
+      setErrPopup('월세를 입력해주세요');
       const priceForm = document.getElementById(Forms.Price);
       priceForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
     if (contractAmount === '') {
-      setErrPopup('contract_amount cannot be empty');
+      setErrPopup('계약금을 입력해주세요');
       const paymentForm = document.getElementById(Forms.PaymentSchedules);
       paymentForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     if (remainingAmount === '' || Number(remainingAmount) < 0) {
-      setErrPopup('remaining_amount cannot be empty or less than 0');
+      setErrPopup('입력하신 금액은 실제 지급 총액을 넘을 수 없습니다.');
       const paymentForm = document.getElementById(Forms.PaymentSchedules);
       paymentForm?.scrollIntoView({ behavior: 'smooth' });
       return;
@@ -286,7 +304,9 @@ export default function useListingCreateForm(depth: number) {
       collaterals,
       quickSale,
       adminFee,
+      description,
       listingPhotoUrls,
+      danjiPhotoUrls,
     });
 
     if (isOwner && user) {
@@ -297,7 +317,8 @@ export default function useListingCreateForm(depth: number) {
     const encoded = JSON.stringify(params);
 
     router.replace(Routes.ListingCreateChooseAgent, {
-      searchParams: { listingID: router.query.listingID as string, params: encoded },
+      searchParams: { listingID: router.query.listingID as string },
+      state: { params: encoded, addressLine1, addressLine2 },
     });
   }, [
     router,
@@ -327,7 +348,11 @@ export default function useListingCreateForm(depth: number) {
     quickSale,
     jeonsaeLoan,
     adminFee,
+    description,
     listingPhotoUrls,
+    danjiPhotoUrls,
+    addressLine1,
+    addressLine2,
   ]);
 
   const handleClickNext = useCallback(() => {
@@ -665,8 +690,26 @@ export default function useListingCreateForm(depth: number) {
     setAdminFee(value);
   }, []);
 
+  const handleChangeDescription = useCallback((value: string) => {
+    setDescription(value);
+  }, []);
+
   const handleChangeListingPhotoUrls = useCallback((values: string[]) => {
+    if (values.length > 6) {
+      toast.error('6개까지 추가 가능합니다.');
+      return;
+    }
+
     setListingPhotoUrls(values);
+  }, []);
+
+  const handleChangeDanjiPhotoUrls = useCallback((values: string[]) => {
+    if (values.length > 6) {
+      toast.error('6개까지 추가 가능합니다.');
+      return;
+    }
+
+    setDanjiPhotoUrls(values);
   }, []);
 
   // 잔금 계산
@@ -719,6 +762,11 @@ export default function useListingCreateForm(depth: number) {
     setPopup('none');
     resetForms(Forms.BuyOrRent);
   }, [resetForms]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!router.query.listingID) router.pop();
+    if (!router.query.addressLine1) router.pop();
+  }, [router]);
 
   // 수정하기로 왔을때, parmas 에서 값을 꺼내와서 초기값으로 설정한다.
   useIsomorphicLayoutEffect(() => {
@@ -884,6 +932,18 @@ export default function useListingCreateForm(depth: number) {
       });
     }
 
+    if (parsed.description) {
+      setDescription(parsed.description);
+    }
+
+    if (parsed.listingPhotoUrls) {
+      setListingPhotoUrls(parsed.listingPhotoUrls);
+    }
+
+    if (parsed.danjiPhotoUrls) {
+      setDanjiPhotoUrls(parsed.danjiPhotoUrls);
+    }
+
     setInterims(defaultInterims);
   }, [router.query.params]);
 
@@ -958,6 +1018,12 @@ export default function useListingCreateForm(depth: number) {
 
       listingPhotoUrls,
       handleChangeListingPhotoUrls,
+
+      danjiPhotoUrls,
+      handleChangeDanjiPhotoUrls,
+
+      description,
+      handleChangeDescription,
 
       // Popup actions
       popup,
@@ -1039,6 +1105,12 @@ export default function useListingCreateForm(depth: number) {
 
       listingPhotoUrls,
       handleChangeListingPhotoUrls,
+
+      danjiPhotoUrls,
+      handleChangeDanjiPhotoUrls,
+
+      description,
+      handleChangeDescription,
     ],
   );
 }
