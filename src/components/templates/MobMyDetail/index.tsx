@@ -21,7 +21,7 @@ interface MyDetailProps {
   onClickUpdateEmail: () => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
-  onClickUpdatePrivacyRetentionType: ChangeEventHandler<HTMLInputElement>;
+  onClickUpdatePrivacyRetentionType: (value: string) => void;
 }
 
 export default function MobMyDetail({

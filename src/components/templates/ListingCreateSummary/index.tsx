@@ -42,31 +42,31 @@ export default function ListingCreateSummary({
   agentName,
   agentCellPhone,
   agentJibunAddress,
-  agentRegistrationNumber,
   agentDescription,
+  agentRegistrationNumber,
 
   buyOrRent,
-  tradePrice = 0,
-  deposit = 0,
-  monthlyRentFee = 0,
+  tradePrice,
+  deposit,
+  monthlyRentFee,
   contractAmount,
-  interimAmount1 = 0,
-  interimAmount2 = 0,
-  interimAmount3 = 0,
-  remainingAmount = 0,
-  debtSuccessions = [],
-  collaterals = [],
-  moveInDate = '',
-  jeonsaeLoan = false,
-  rentTermMonth = 0,
-  rentTermYear = 0,
-  rentArea = '',
-  specialTerms = '',
-
-  isLoading,
-
+  remainingAmount,
+  interimAmount1,
+  interimAmount2,
+  interimAmount3,
+  moveInDate,
+  specialTerms,
   onClickCreate,
   onClickUpdate,
+  isLoading,
+
+  debtSuccessions,
+  collaterals,
+
+  jeonsaeLoan,
+  rentTermMonth,
+  rentTermYear,
+  rentArea,
 }: ListingCreateSummaryProps) {
   return (
     <div tw="h-full flex flex-col">
@@ -103,28 +103,53 @@ export default function ListingCreateSummary({
           <div tw="mt-10 mb-4 text-b1 font-bold leading-none">거래조건</div>
           <TransactionCondition>
             <TransactionCondition.List>
-              {buyOrRent && <TransactionCondition.Item label="거래종류" value={BuyOrRentString[buyOrRent]} />}
-              <TransactionCondition.Item label="희망가" value={tradePrice || deposit} value2={monthlyRentFee} />
-              <TransactionCondition.Section title="지급일정" hasToolTip>
-                <TransactionCondition.Item label="계약금" value={contractAmount} />
-                <TransactionCondition.Item label="중도금" value={interimAmount1 + interimAmount2 + interimAmount3} />
-                <TransactionCondition.Item label="잔금" value={remainingAmount} />
-                <TransactionCondition.Item
-                  label="실제지급총액"
-                  value={tradePrice || deposit}
-                  value2={debtSuccessions}
-                />
-              </TransactionCondition.Section>
-              <TransactionCondition.Section title="선순위 담보권" hasToolTip>
-                <TransactionCondition.Item label="선순위담보권" value={collaterals} />
-              </TransactionCondition.Section>
-              <TransactionCondition.Section title="세부정보">
-                <TransactionCondition.Item label="입주가능시기" value={moveInDate} />
-                <TransactionCondition.Item label="전세자금대출" value={jeonsaeLoan} />
-                <TransactionCondition.Item label="임대기간" value={rentTermYear} value2={rentTermMonth} />
-                <TransactionCondition.Item label="임대할부분" value={rentArea} />
-              </TransactionCondition.Section>
-              <TransactionCondition.Item label="특약조건" value={specialTerms} />
+              {!!buyOrRent && <TransactionCondition.Item label="거래종류" value={BuyOrRentString[buyOrRent]} />}
+              {!!(tradePrice || deposit) && (
+                <TransactionCondition.Item label="희망가" value={tradePrice || deposit} value2={monthlyRentFee} />
+              )}
+
+              {!!(contractAmount || interimAmount1 || remainingAmount || tradePrice || deposit) && (
+                <TransactionCondition.Section title="지급일정" hasToolTip>
+                  {!!contractAmount && <TransactionCondition.Item label="계약금" value={contractAmount} />}
+                  {!!interimAmount1 && (
+                    <TransactionCondition.Item
+                      label="중도금"
+                      value={[interimAmount1, interimAmount2, interimAmount3] as number[]}
+                    />
+                  )}
+                  {!!remainingAmount && <TransactionCondition.Item label="잔금" value={remainingAmount} />}
+                  {!!(tradePrice || deposit) && (
+                    <TransactionCondition.Item
+                      label="실제지급총액"
+                      value={tradePrice || deposit}
+                      value2={debtSuccessions}
+                    />
+                  )}
+                </TransactionCondition.Section>
+              )}
+
+              {!!collaterals?.length && (
+                <TransactionCondition.Section title="선순위 담보권" hasToolTip>
+                  <TransactionCondition.Item label="선순위담보권" value={collaterals} />
+                </TransactionCondition.Section>
+              )}
+              {!!debtSuccessions?.length && (
+                <TransactionCondition.Section title="채무승계 희망금액" hasToolTip>
+                  <TransactionCondition.Item label="채무승계희망금액" value={debtSuccessions} />
+                </TransactionCondition.Section>
+              )}
+
+              {!!(moveInDate || jeonsaeLoan || rentTermMonth || rentTermYear || rentArea) && (
+                <TransactionCondition.Section title="세부정보">
+                  {moveInDate && <TransactionCondition.Item label="입주가능시기" value={moveInDate} />}
+                  {jeonsaeLoan && <TransactionCondition.Item label="전세자금대출" value={jeonsaeLoan} />}
+                  {(rentTermYear || rentTermMonth) && (
+                    <TransactionCondition.Item label="임대기간" value={rentTermYear} value2={rentTermMonth} />
+                  )}
+                  {rentArea && <TransactionCondition.Item label="임대할부분" value={rentArea} />}
+                </TransactionCondition.Section>
+              )}
+              {!!specialTerms && <TransactionCondition.Item label="특약조건" value={specialTerms} />}
             </TransactionCondition.List>
           </TransactionCondition>
         </div>

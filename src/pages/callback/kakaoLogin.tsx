@@ -68,6 +68,9 @@ const Page: NextPage = () => {
 
   useEffect(() => {
     const { code, state: queryState } = router.query;
+
+    console.log(queryState);
+
     if (typeof code === 'string') {
       if (queryState === 'update') {
         handleEmailUpdate(code);
