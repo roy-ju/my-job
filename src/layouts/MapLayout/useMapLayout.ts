@@ -15,6 +15,7 @@ import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import getListingSummary from '@/apis/map/mapListingSummary';
+import Routes from '@/router/routes';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -346,6 +347,12 @@ export default function useMapLayout() {
             lng: item.long,
             onClick: () => {
               if (isPanningRef.current) return;
+
+              // 단지 상세로 보내는 Router
+              router.push(Routes.DanjiDetail, {
+                searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
+              });
+
               setPolygons([]);
               setSelectedSchoolID('');
               _map?.morph({
@@ -387,7 +394,7 @@ export default function useMapLayout() {
         }
       }
     },
-    [selectMarker, lastSearchItem],
+    [selectMarker, lastSearchItem, router],
   );
 
   const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);

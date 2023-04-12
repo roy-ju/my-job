@@ -39,6 +39,8 @@ interface Args {
   danjiPhotoUrls: string[];
 
   description: string;
+
+  rentEndDate: Date | null;
 }
 
 function getDateType(value?: string) {
@@ -116,6 +118,8 @@ export default function makeListingCreateParams(args: Args) {
 
     trade_price: args.buyOrRent === BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     quick_sale: args.quickSale,
+
+    rent_end_date: args.rentEndDate?.toISOString(),
 
     listingPhotoUrls: args.listingPhotoUrls,
     danjiPhotoUrls: args.danjiPhotoUrls,
