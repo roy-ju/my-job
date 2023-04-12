@@ -116,6 +116,9 @@ export interface IFormContext {
 
   description?: string;
   onChangeDescription?: (value: string) => void;
+
+  rentEndDate?: Date | null;
+  onChangeRentEndDate?: (value: Date | null) => void;
 }
 
 const FormContext = createContext<IFormContext>({});
