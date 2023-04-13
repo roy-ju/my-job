@@ -13,12 +13,12 @@ const Table = styled.table`
   }
 `;
 
-const TableRow = tw.tr``;
+// const TableRow = tw.tr``;
 
-const TableHead = tw.th``;
+// const TableHead = tw.th``;
 
-const TableData = tw.td``;
+// const TableData = tw.td``;
 
-const TableAccordion = tw.div``;
+// const TableAccordion = tw.div``;
 
 export default Table;
