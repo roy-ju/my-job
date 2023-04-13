@@ -84,7 +84,7 @@ export default function Item({
   moveInDateType,
   rentTermYear,
   rentTermMonth,
-  rentArea,
+  rentArea = '전체',
   specialTerms,
   jeonsaeLoan,
 }: ItemProps) {
