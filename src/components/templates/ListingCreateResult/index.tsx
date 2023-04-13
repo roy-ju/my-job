@@ -226,28 +226,19 @@ export default function ListingCreateResult({
                 </TransactionCondition.Section>
               )}
 
-              {!!(
-                conditionItemProps.moveInDate ||
-                conditionItemProps.jeonsaeLoan ||
-                conditionItemProps.rentTermMonth ||
-                conditionItemProps.rentTermYear ||
-                conditionItemProps.rentArea
-              ) && (
-                <TransactionCondition.Section title="세부정보">
-                  {conditionItemProps.moveInDate && (
-                    <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
-                  )}
-                  {conditionItemProps.jeonsaeLoan && (
-                    <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
-                  )}
-                  {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (
-                    <TransactionCondition.Item label="임대기간" {...conditionItemProps} />
-                  )}
-                  {conditionItemProps.rentArea && (
-                    <TransactionCondition.Item label="임대할부분" {...conditionItemProps} />
-                  )}
-                </TransactionCondition.Section>
-              )}
+              <TransactionCondition.Section title="세부정보">
+                {conditionItemProps.moveInDate && (
+                  <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
+                )}
+                {conditionItemProps.jeonsaeLoan && (
+                  <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
+                )}
+                {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (
+                  <TransactionCondition.Item label="임대기간" {...conditionItemProps} />
+                )}
+                <TransactionCondition.Item label="임대할부분" {...conditionItemProps} />
+              </TransactionCondition.Section>
+
               {!!conditionItemProps.specialTerms && (
                 <TransactionCondition.Item label="특약조건" {...conditionItemProps} />
               )}

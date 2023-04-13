@@ -66,6 +66,7 @@ export default function DatePicker({
         onChange={handleChangeValue}
         customInput={customInput}
         showPopperArrow={false}
+        tw="cursor-pointer"
       />
     </div>
   );
