@@ -39,6 +39,12 @@ export const Duplicated = () => (
   </Panel>
 );
 
+export const OwnerConsent = () => (
+  <Panel>
+    <ListingCreateResultStatus.OwnerConsent />
+  </Panel>
+);
+
 const agents = [
   {
     id: 0,
