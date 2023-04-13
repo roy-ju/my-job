@@ -46,6 +46,24 @@ export default memo(({ depth, panelWidth }: Props) => {
     [data?.agent_list],
   );
 
+  const debtSuccessions = useMemo(
+    () =>
+      data?.debt_successions?.map((item) => ({
+        amount: item.amount,
+        name: item.name,
+      })),
+    [data?.debt_successions],
+  );
+
+  const collaterals = useMemo(
+    () =>
+      data?.collaterals?.map((item) => ({
+        amount: item.amount,
+        name: item.name,
+      })),
+    [data?.collaterals],
+  );
+
   useEffect(() => {
     if (!listingID) {
       router.pop();
@@ -111,8 +129,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         interimAmountPaymentTimeType1={data?.listing.interim_amount_payment_time1_type}
         interimAmountPaymentTimeType2={data?.listing.interim_amount_payment_time2_type}
         interimAmountPaymentTimeType3={data?.listing.interim_amount_payment_time3_type}
-        debtSuccessions={data?.debt_successions}
-        collaterals={data?.collaterals}
+        debtSuccessions={debtSuccessions}
+        collaterals={collaterals}
         moveInDate={data?.listing.move_in_date}
         moveInDateType={data?.listing.move_in_date_type}
         rentTermMonth={data?.listing.rent_contract_term_month}

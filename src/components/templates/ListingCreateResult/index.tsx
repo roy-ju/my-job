@@ -99,9 +99,8 @@ export default function ListingCreateResult({
         <NavigationHeader.Title>매물등록 신청 결과</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
-        <ListingCreateResultStatus.OwnerConsent />
-
         <div tw="pt-6 pb-10">
+          {listingStatus === ListingStatus.VerifyOwnershipFinished && <ListingCreateResultStatus.OwnerConsent />}
           {(listingStatus === ListingStatus.VerifyAddress || listingStatus === ListingStatus.VerifyOwnership) && (
             <ListingCreateResultStatus.VerifyingAddress />
           )}
@@ -230,14 +229,13 @@ export default function ListingCreateResult({
             </TransactionCondition.List>
           </TransactionCondition>
         </div>
-        <div tw="py-10 flex items-center justify-center">
+        {/* <div tw="py-10 flex items-center justify-center">
           <Button variant="ghost" size="none" tw="underline text-info" onClick={() => {}}>
             입력정보 수정/중개사 재선택
           </Button>
-        </div>
-
+        </div> */}
         <div tw="pt-10 px-5 pb-10">
-          {listingStatus === ListingStatus.Duplicated ? (
+          {listingStatus !== ListingStatus.Duplicated ? (
             <Button size="bigger" tw="w-full" onClick={onClickMyListings}>
               나의 거래 목록
             </Button>
