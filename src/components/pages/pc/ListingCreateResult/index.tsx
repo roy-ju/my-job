@@ -2,13 +2,14 @@ import assignAgent from '@/apis/listing/assignAgent';
 import deleteMyListing from '@/apis/listing/deleteMyListing';
 import useAPI_MyListingDetail from '@/apis/listing/getMyListingDetail';
 import selectListingAddress from '@/apis/listing/selectListingAddress';
+import sendOwnerVerification from '@/apis/listing/sendOwnerVerification';
 import { Panel } from '@/components/atoms';
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingCreateResult } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback, useEffect, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -20,6 +21,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { data, mutate, isLoading } = useAPI_MyListingDetail(listingID);
+
+  const [isSendingSms, setIsSendingSms] = useState(false);
 
   const addressList = useMemo<AddressListItem[]>(
     () =>
@@ -101,6 +104,22 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.pop();
   }, [router, listingID]);
 
+  const onClickSendOwnerVerification = useCallback(
+    async (name: string, phone: string) => {
+      setIsSendingSms(true);
+      console.log(listingID, name, phone);
+      await sendOwnerVerification({
+        listing_id: listingID,
+        name,
+        phone,
+      });
+      await mutate();
+
+      setIsSendingSms(false);
+    },
+    [listingID, mutate],
+  );
+
   return (
     <Panel width={panelWidth}>
       <ListingCreateResult
@@ -141,6 +160,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         addressLine2={data?.full_road_name_address?.replace(data?.listing.road_name_address ?? '', '')}
         addressList={addressList}
         agents={agentList}
+        isSendingSms={isSendingSms}
+        ownerName={data?.listing?.owner_name}
+        ownerPhone={data?.listing?.owner_phone}
         onClickStartOver={() => router.replace(Routes.ListingCreateAddress)}
         onClickUpdateAddress={() =>
           router.replace(Routes.ListingCreateUpdateAddress, { searchParams: { listingID: `${listingID}` } })
@@ -148,6 +170,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onSelectAddress={onSelectAddress}
         onSelectAgent={onSelectAgent}
         onClickRemoveFromListings={onClickRemoveFromListings}
+        onClickSendOwnerVerification={onClickSendOwnerVerification}
       />
     </Panel>
   );
