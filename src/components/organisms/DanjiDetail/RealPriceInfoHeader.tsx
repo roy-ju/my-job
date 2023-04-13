@@ -14,6 +14,8 @@ export default function RealPriceInfoHeader({
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
 }) {
+  if (!buyOrRent) return null;
+
   return (
     <div>
       <div>

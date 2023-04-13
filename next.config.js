@@ -20,6 +20,7 @@ const nextConfig = withTwin({
   },
   webpack: (config, options) => {
     const originalEntry = config.entry;
+
     config.entry = async () => {
       const entries = await originalEntry();
 
@@ -40,6 +41,7 @@ const nextConfig = withTwin({
           type: 'asset',
           resourceQuery: /url/, // *.svg?url
         },
+
         {
           test: /\.svg$/i,
           issuer: /\.[jt]sx?$/,

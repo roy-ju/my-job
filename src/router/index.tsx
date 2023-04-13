@@ -50,7 +50,10 @@ const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false,
 const Listings = dynamic(() => import('@/components/pages/pc/Listings'), { loading: () => <Panel /> });
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: () => <Panel /> });
 const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: () => <Panel /> });
-const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), { loading: () => <Panel /> });
+const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
 const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
   ssr: false,
   loading: () => <Panel />,
