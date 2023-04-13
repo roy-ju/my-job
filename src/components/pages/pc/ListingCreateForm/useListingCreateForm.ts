@@ -969,7 +969,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (parsed.debt_successions) {
-      if (parsed.debt_successions[0].name === '보증금') {
+      if (parsed.debt_successions[0]?.name === '보증금') {
         setDebtSuccessionDeposit(convertNumberToPriceInput(parsed.debt_successions[0].amount));
       }
       parsed.debt_successions.slice(1).forEach((item: { amount: number; name: string }) => {
