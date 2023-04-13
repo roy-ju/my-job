@@ -124,8 +124,31 @@ export interface GetMyListingDetailResponse {
   options: any[];
   target_price: number;
   seller_agent_chat_room_id: any;
-  address_list: any;
-  agent_list: any;
+  address_list:
+    | {
+        realestate_unique_number: string;
+        full_road_name_address: string;
+        address_detail: string;
+      }[]
+    | null;
+  agent_list:
+    | {
+        id: number;
+        name: string;
+        email: string;
+        profile_image_full_path: string;
+        office_name: string;
+        cell_phone: string;
+        office_phone: string;
+        full_road_name_address: string;
+        full_jibun_address: string;
+        registration_number: string;
+        description: string;
+        unit: number;
+        distance_from_listing: number;
+        performance_score: number;
+      }[]
+    | null;
 }
 
 export default function useAPI_MyListingDetail(listingID: number) {

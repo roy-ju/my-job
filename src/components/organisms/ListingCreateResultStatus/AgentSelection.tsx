@@ -1,14 +1,15 @@
 import { Button, Ul } from '@/components/atoms';
+import { useState } from 'react';
 import AgentCardCarousel, { AgentCarouselItem } from '../AgentCardCarousel';
 
 interface Props {
   agents: AgentCarouselItem[];
-  index?: number;
-  onClickNext?: () => void;
-  onChangeIndex?: (index: number) => void;
+  onClickNext?: (index: number) => void;
 }
 
-export default function AgentSelection({ agents, index, onClickNext, onChangeIndex }: Props) {
+export default function AgentSelection({ agents, onClickNext }: Props) {
+  const [index, setIndex] = useState(0);
+
   return (
     <div>
       <div tw="px-5">
@@ -18,10 +19,10 @@ export default function AgentSelection({ agents, index, onClickNext, onChangeInd
         </Ul>
       </div>
       <div tw="py-7">
-        <AgentCardCarousel data={agents} index={index} onChangeIndex={onChangeIndex} />
+        <AgentCardCarousel data={agents} index={index} onChangeIndex={(i) => setIndex(i)} />
       </div>
       <div tw="px-5">
-        <Button variant="secondary" size="bigger" tw="w-full" onClick={onClickNext}>
+        <Button variant="secondary" size="bigger" tw="w-full" onClick={() => onClickNext?.(index)}>
           중개사 선택하기
         </Button>
       </div>

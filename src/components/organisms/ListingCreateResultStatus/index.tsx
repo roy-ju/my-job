@@ -4,6 +4,7 @@ import WaitingForAgentCompletion from './WaitingForAgentCompletion';
 import Duplicated from './Duplicated';
 import AgentSelection from './AgentSelection';
 import OwnerConsent from './OwnerConsent';
+import MultipleAddressesFound from './MultipleAddressesFound';
 
 const ListingCreateResultStatus = {
   VerifyingAddress,
@@ -12,6 +13,7 @@ const ListingCreateResultStatus = {
   Duplicated,
   AgentSelection,
   OwnerConsent,
+  MultipleAddressesFound,
 };
 
 export default ListingCreateResultStatus;
