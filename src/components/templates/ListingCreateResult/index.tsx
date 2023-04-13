@@ -60,6 +60,7 @@ export interface ListingCreateResultProps {
   onSelectAddress?: (realestateUniqueNumber: string) => void;
   onSelectAgent?: (index: number) => void;
   onClickStartOver?: () => void;
+  onClickRemoveFromListings?: () => void;
 }
 
 export default function ListingCreateResult({
@@ -81,7 +82,7 @@ export default function ListingCreateResult({
   onSelectAddress,
   onSelectAgent,
   onClickStartOver,
-
+  onClickRemoveFromListings,
   ...conditionItemProps
 }: ListingCreateResultProps) {
   if (isLoading) {
@@ -101,7 +102,9 @@ export default function ListingCreateResult({
         <ListingCreateResultStatus.OwnerConsent />
 
         <div tw="pt-6 pb-10">
-          {listingStatus === ListingStatus.VerifyAddress && <ListingCreateResultStatus.VerifyingAddress />}
+          {(listingStatus === ListingStatus.VerifyAddress || listingStatus === ListingStatus.VerifyOwnership) && (
+            <ListingCreateResultStatus.VerifyingAddress />
+          )}
           {listingStatus === ListingStatus.WaitingForAgentCompletion && (
             <ListingCreateResultStatus.WaitingForAgentCompletion />
           )}
@@ -232,10 +235,17 @@ export default function ListingCreateResult({
             입력정보 수정/중개사 재선택
           </Button>
         </div>
-        <div tw=" px-5 pb-10">
-          <Button size="bigger" tw="w-full" onClick={onClickMyListings}>
-            나의 거래 목록
-          </Button>
+
+        <div tw="pt-10 px-5 pb-10">
+          {listingStatus === ListingStatus.Duplicated ? (
+            <Button size="bigger" tw="w-full" onClick={onClickMyListings}>
+              나의 거래 목록
+            </Button>
+          ) : (
+            <Button size="bigger" tw="w-full" onClick={onClickRemoveFromListings}>
+              목록에서 삭제
+            </Button>
+          )}
         </div>
       </div>
     </div>
