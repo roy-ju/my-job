@@ -1,13 +1,15 @@
 import assignAgent from '@/apis/listing/assignAgent';
+import deleteMyListing from '@/apis/listing/deleteMyListing';
 import useAPI_MyListingDetail from '@/apis/listing/getMyListingDetail';
 import selectListingAddress from '@/apis/listing/selectListingAddress';
+import sendOwnerVerification from '@/apis/listing/sendOwnerVerification';
 import { Panel } from '@/components/atoms';
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingCreateResult } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback, useEffect, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -19,6 +21,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { data, mutate, isLoading } = useAPI_MyListingDetail(listingID);
+
+  const [isSendingSms, setIsSendingSms] = useState(false);
 
   const addressList = useMemo<AddressListItem[]>(
     () =>
@@ -43,6 +47,24 @@ export default memo(({ depth, panelWidth }: Props) => {
         description: item.description,
       })) ?? [],
     [data?.agent_list],
+  );
+
+  const debtSuccessions = useMemo(
+    () =>
+      data?.debt_successions?.map((item) => ({
+        amount: item.amount,
+        name: item.name,
+      })),
+    [data?.debt_successions],
+  );
+
+  const collaterals = useMemo(
+    () =>
+      data?.collaterals?.map((item) => ({
+        amount: item.amount,
+        name: item.name,
+      })),
+    [data?.collaterals],
   );
 
   useEffect(() => {
@@ -77,6 +99,27 @@ export default memo(({ depth, panelWidth }: Props) => {
     [data?.agent_list, listingID, mutate],
   );
 
+  const onClickRemoveFromListings = useCallback(async () => {
+    deleteMyListing(listingID);
+    router.pop();
+  }, [router, listingID]);
+
+  const onClickSendOwnerVerification = useCallback(
+    async (name: string, phone: string) => {
+      setIsSendingSms(true);
+      console.log(listingID, name, phone);
+      await sendOwnerVerification({
+        listing_id: listingID,
+        name,
+        phone,
+      });
+      await mutate();
+
+      setIsSendingSms(false);
+    },
+    [listingID, mutate],
+  );
+
   return (
     <Panel width={panelWidth}>
       <ListingCreateResult
@@ -90,16 +133,44 @@ export default memo(({ depth, panelWidth }: Props) => {
         listingStatus={data?.listing_status}
         buyOrRent={data?.listing.buy_or_rent}
         rentArea={data?.listing.rent_area}
+        tradePrice={data?.listing.trade_price}
+        deposit={data?.listing.deposit}
+        monthlyRentFee={data?.listing.monthly_rent_fee}
+        contractAmount={data?.listing.contract_amount}
+        remainingAmount={data?.listing.remaining_amount}
+        interimAmount1={data?.listing.interim_amount1}
+        interimAmount2={data?.listing.interim_amount2}
+        interimAmount3={data?.listing.interim_amount3}
+        interimAmountNegotiable1={data?.listing.interim_amount_negotiable1}
+        interimAmountPaymentTime1={data?.listing.interim_amount_payment_time1}
+        interimAmountPaymentTime2={data?.listing.interim_amount_payment_time2}
+        interimAmountPaymentTime3={data?.listing.interim_amount_payment_time3}
+        interimAmountPaymentTimeType1={data?.listing.interim_amount_payment_time1_type}
+        interimAmountPaymentTimeType2={data?.listing.interim_amount_payment_time2_type}
+        interimAmountPaymentTimeType3={data?.listing.interim_amount_payment_time3_type}
+        debtSuccessions={debtSuccessions}
+        collaterals={collaterals}
+        moveInDate={data?.listing.move_in_date}
+        moveInDateType={data?.listing.move_in_date_type}
+        rentTermMonth={data?.listing.rent_contract_term_month}
+        rentTermYear={data?.listing.rent_contract_term_year}
+        specialTerms={data?.listing.special_terms}
+        jeonsaeLoan={data?.listing.jeonsae_loan}
         addressLine1={data?.listing.road_name_address ?? data?.listing.jibun_address}
         addressLine2={data?.full_road_name_address?.replace(data?.listing.road_name_address ?? '', '')}
         addressList={addressList}
         agents={agentList}
+        isSendingSms={isSendingSms}
+        ownerName={data?.listing?.owner_name}
+        ownerPhone={data?.listing?.owner_phone}
         onClickStartOver={() => router.replace(Routes.ListingCreateAddress)}
         onClickUpdateAddress={() =>
           router.replace(Routes.ListingCreateUpdateAddress, { searchParams: { listingID: `${listingID}` } })
         }
         onSelectAddress={onSelectAddress}
         onSelectAgent={onSelectAgent}
+        onClickRemoveFromListings={onClickRemoveFromListings}
+        onClickSendOwnerVerification={onClickSendOwnerVerification}
       />
     </Panel>
   );

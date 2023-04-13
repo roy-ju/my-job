@@ -118,8 +118,24 @@ export interface GetMyListingDetailResponse {
   monthly_rent_fee: number;
   full_road_name_address: string;
   agent_summary: AgentSummary;
-  debt_successions: any[];
-  collaterals: any[];
+  debt_successions:
+    | {
+        id: number;
+        listing_id: number;
+        name: string;
+        amount: number;
+        created_time: string;
+      }[]
+    | null;
+  collaterals:
+    | {
+        id: number;
+        listing_id: number;
+        name: string;
+        amount: number;
+        created_time: string;
+      }[]
+    | null;
   tags: any[];
   options: any[];
   target_price: number;

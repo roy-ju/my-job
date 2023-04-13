@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid4 } from 'uuid';
 import { Moment, Numeral } from '@/components/atoms';
 import { BuyOrRentString } from '@/constants/strings';
 
@@ -25,14 +26,23 @@ interface ItemProps {
   tradePrice?: number;
   deposit?: number;
   monthlyRentFee?: number;
-  contractAmount?: number;
-  remainingAmount?: number;
   interimAmount1?: number;
   interimAmount2?: number;
   interimAmount3?: number;
   interimAmountNegotiable1?: boolean;
-  interimAmountPaymentTime?: string;
-  interimAmountPaymentTimeType?: number;
+  interimAmountNegotiable2?: boolean;
+  interimAmountNegotiable3?: boolean;
+  interimAmountPaymentTime1?: string;
+  interimAmountPaymentTimeType1?: number;
+  interimAmountPaymentTime2?: string;
+  interimAmountPaymentTimeType2?: number;
+  interimAmountPaymentTime3?: string;
+  interimAmountPaymentTimeType3?: number;
+  contractAmount?: number;
+  contractAmountNegotiable?: boolean;
+  remainingAmount?: number;
+  remainingAmountPaymentTime?: string;
+  remainingAmountPaymentTimeType?: number;
   debtSuccessions?: { name: string; amount: number }[];
   collaterals?: { name: string; amount: number }[];
   moveInDate?: string;
@@ -51,21 +61,30 @@ export default function Item({
   tradePrice,
   deposit,
   monthlyRentFee,
-  contractAmount,
-  remainingAmount,
   interimAmount1,
   interimAmount2,
   interimAmount3,
   interimAmountNegotiable1,
-  interimAmountPaymentTime,
-  interimAmountPaymentTimeType,
+  interimAmountNegotiable2,
+  interimAmountNegotiable3,
+  interimAmountPaymentTime1,
+  interimAmountPaymentTimeType1,
+  interimAmountPaymentTime2,
+  interimAmountPaymentTimeType2,
+  interimAmountPaymentTime3,
+  interimAmountPaymentTimeType3,
+  contractAmount,
+  contractAmountNegotiable,
+  remainingAmount,
+  remainingAmountPaymentTime,
+  remainingAmountPaymentTimeType,
   debtSuccessions,
   collaterals,
   moveInDate,
   moveInDateType,
   rentTermYear,
   rentTermMonth,
-  rentArea,
+  rentArea = '전체',
   specialTerms,
   jeonsaeLoan,
 }: ItemProps) {
@@ -87,45 +106,43 @@ export default function Item({
                 </Numeral>
               </div>
               &nbsp;
-              {!interimAmountNegotiable1 && <span tw="text-info text-gray-700 leading-6">*협의불가</span>}
+              {!contractAmountNegotiable && <span tw="text-info text-gray-700 leading-6">*협의불가</span>}
             </div>
-            {!!interimAmountPaymentTime && (
-              <div tw="text-info text-gray-700 ">
-                <>
-                  지급일: <Moment format="YYYY.MM.DD">{interimAmountPaymentTime}</Moment>{' '}
-                  {dateType[`${interimAmountPaymentTimeType as 1 | 2}`]}
-                </>
-              </div>
-            )}
           </div>
         </div>
       );
     }
 
     case '중도금': {
+      const interimAmountArray = [
+        [interimAmount1, interimAmountNegotiable1, interimAmountPaymentTime1, interimAmountPaymentTimeType1],
+        [interimAmount2, interimAmountNegotiable2, interimAmountPaymentTime2, interimAmountPaymentTimeType2],
+        [interimAmount3, interimAmountNegotiable3, interimAmountPaymentTime3, interimAmountPaymentTimeType3],
+      ];
+
       return (
         <div tw="flex py-[0.5625rem]">
           <div tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</div>
           <div tw="break-all flex flex-col gap-[0.5625rem]">
-            {[interimAmount1, interimAmount2, interimAmount3]?.map((amount) => {
+            {interimAmountArray?.map(([amount, negotiable, paymentTime, paymentTimeType]) => {
               if (!amount) return null;
 
               return (
-                <div key={amount}>
+                <div key={uuid4()}>
                   <div tw="flex">
                     <div tw="text-b2">
                       <Numeral thousandsSeparated koreanNumber>
-                        {remainingAmount}
+                        {amount as number}
                       </Numeral>
                     </div>
                     &nbsp;
-                    {!interimAmountNegotiable1 && <span tw="text-info text-gray-700 leading-6">*협의불가</span>}
+                    {!negotiable && <span tw="text-info text-gray-700 leading-6">*협의불가</span>}
                   </div>
-                  {!!interimAmountPaymentTime && (
+                  {!!paymentTime && (
                     <div tw="text-info text-gray-700 ">
                       <>
-                        지급일: <Moment format="YYYY.MM.DD">{interimAmountPaymentTime}</Moment>{' '}
-                        {dateType[`${interimAmountPaymentTimeType as 1 | 2}`]}
+                        지급일: <Moment format="YYYY.MM.DD">{paymentTime as string}</Moment>{' '}
+                        {dateType[`${paymentTimeType as 1 | 2}`]}
                       </>
                     </div>
                   )}
@@ -149,13 +166,12 @@ export default function Item({
                 </Numeral>
               </div>
               &nbsp;
-              {!interimAmountNegotiable1 && <span tw="text-info text-gray-700 leading-6">*협의불가</span>}
             </div>
-            {!!interimAmountPaymentTime && (
+            {!!remainingAmountPaymentTime && (
               <div tw="text-info text-gray-700 ">
                 <>
-                  지급일: <Moment format="YYYY.MM.DD">{interimAmountPaymentTime}</Moment>{' '}
-                  {dateType[`${interimAmountPaymentTimeType as 1 | 2}`]}
+                  지급일: <Moment format="YYYY.MM.DD">{remainingAmountPaymentTime}</Moment>{' '}
+                  {dateType[`${remainingAmountPaymentTimeType as 1 | 2}`]}
                 </>
               </div>
             )}
@@ -168,7 +184,7 @@ export default function Item({
       return (
         <>
           {collaterals?.map(({ name, amount }) => (
-            <div tw="flex py-[0.5625rem]" key={name}>
+            <div tw="flex py-[0.5625rem]" key={uuid4()}>
               <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{name}</span>
               <span tw="break-all text-b2">
                 <Numeral thousandsSeparated koreanNumber>
@@ -185,7 +201,7 @@ export default function Item({
       return (
         <>
           {debtSuccessions?.map(({ name, amount }) => (
-            <div tw="flex py-[0.5625rem]" key={name}>
+            <div tw="flex py-[0.5625rem]" key={uuid4()}>
               <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{name}</span>
               <span tw="break-all text-b2">
                 <Numeral thousandsSeparated koreanNumber>
