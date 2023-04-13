@@ -9,7 +9,18 @@ interface Props {
 }
 
 export default memo(({ panelWidth, depth }: Props) => {
-  const { danji, danjiPhotos, isShowDanjiPhotos, danjiListings } = useDanjiDetail(depth);
+  const {
+    danji,
+    danjiPhotos,
+    danjiListings,
+    danjiRealPricesData,
+    danjiRealPricesPyoungList,
+    buyOrRent,
+    selectedYear,
+    isShowDanjiPhotos,
+    onChangeBuyOrRent,
+    onChangeSelectedYear,
+  } = useDanjiDetail(depth);
 
   return (
     <Panel width={panelWidth}>
@@ -17,8 +28,14 @@ export default memo(({ panelWidth, depth }: Props) => {
         danji={danji}
         danjiPhotos={danjiPhotos}
         danjiListings={danjiListings}
+        danjiRealPricesData={danjiRealPricesData}
+        danjiRealPricesPyoungList={danjiRealPricesPyoungList}
+        buyOrRent={buyOrRent}
+        selectedYear={selectedYear}
         isShowDanjiPhotos={isShowDanjiPhotos}
         onClickListingDetail={() => {}}
+        onChangeBuyOrRent={onChangeBuyOrRent}
+        onChangeSelectedYear={onChangeSelectedYear}
       />
     </Panel>
   );

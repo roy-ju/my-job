@@ -13,12 +13,12 @@ export default function ActiveListingInfo({ danjiListings }: { danjiListings?: G
         <span tw="text-b1 text-nego [line-height: 1] font-bold">{danjiListings.length}</span>
       </div>
       <ListingItem>
-        {danjiListings.map((item, index) => (
+        {danjiListings.slice(0, 3).map((item, index) => (
           <ListingItem.TypeOne key={item.listing_id} item={item} isLast={danjiListings.length - 1 === index} />
         ))}
       </ListingItem>
 
-      {danjiListings.length >= 3 && (
+      {danjiListings.length > 3 && (
         <div tw="flex flex-col gap-3 pt-3">
           <Button variant="outlined" size="medium" tw="w-full ">
             매물 전체보기

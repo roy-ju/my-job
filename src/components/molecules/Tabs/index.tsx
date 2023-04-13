@@ -33,7 +33,7 @@ function Tab({ value, children }: TabProps) {
 
   return (
     <button type="button" onClick={() => onChange(value)} css={[tw`relative z-10`, tabStyles[variant]]}>
-      <span css={[value === currentValue && tw`font-bold text-gray-1000`]}>{children}</span>
+      <span css={[value === currentValue ? tw`font-bold text-gray-1000` : tw`text-gray-700`]}>{children}</span>
     </button>
   );
 }
