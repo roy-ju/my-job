@@ -55,12 +55,18 @@ export interface ListingCreateResultProps {
   addressList?: AddressListItem[];
   agents?: AgentCarouselItem[];
 
+  isSendingSms?: boolean;
+
+  ownerName?: string;
+  ownerPhone?: string;
+
   onClickMyListings?: () => void;
   onClickUpdateAddress?: () => void;
   onSelectAddress?: (realestateUniqueNumber: string) => void;
   onSelectAgent?: (index: number) => void;
   onClickStartOver?: () => void;
   onClickRemoveFromListings?: () => void;
+  onClickSendOwnerVerification?: (name: string, phone: string) => void;
 }
 
 export default function ListingCreateResult({
@@ -77,12 +83,18 @@ export default function ListingCreateResult({
   addressLine2,
   addressList,
   agents,
+  isSendingSms,
+
+  ownerName,
+  ownerPhone,
+
   onClickMyListings,
   onClickUpdateAddress,
   onSelectAddress,
   onSelectAgent,
   onClickStartOver,
   onClickRemoveFromListings,
+  onClickSendOwnerVerification,
   ...conditionItemProps
 }: ListingCreateResultProps) {
   if (isLoading) {
@@ -100,7 +112,20 @@ export default function ListingCreateResult({
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="pt-6 pb-10">
-          {listingStatus === ListingStatus.VerifyOwnershipFinished && <ListingCreateResultStatus.OwnerConsent />}
+          {listingStatus === ListingStatus.VerifyOwnershipNotFound && (
+            <ListingCreateResultStatus.VerifyOwnershipNotFound
+              isLoading={isSendingSms}
+              onClickSend={onClickSendOwnerVerification}
+            />
+          )}
+          {listingStatus === ListingStatus.WaitingForOwnerAgreement && (
+            <ListingCreateResultStatus.WaitingForOwnerAgreement
+              ownerName={ownerName}
+              ownerPhone={ownerPhone}
+              isLoading={isSendingSms}
+              onClickSend={onClickSendOwnerVerification}
+            />
+          )}
           {(listingStatus === ListingStatus.VerifyAddress || listingStatus === ListingStatus.VerifyOwnership) && (
             <ListingCreateResultStatus.VerifyingAddress />
           )}
