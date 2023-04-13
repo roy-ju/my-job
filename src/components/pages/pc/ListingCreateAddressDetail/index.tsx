@@ -112,7 +112,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router, dong, ho, addressData, addressLine1, addressLine2]);
 
   const handleBack = useCallback(() => {
-    router.pop();
+    router.replace(Routes.ListingCreateAddress);
   }, [router]);
 
   useEffect(() => {
