@@ -1,6 +1,8 @@
 import { Button, Loading, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { AgentCardItem, ListingCreateResultStatus } from '@/components/organisms';
+import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
+import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingStatus } from '@/constants/enums';
 
 export interface ListingCreateResultProps {
@@ -22,8 +24,13 @@ export interface ListingCreateResultProps {
   buyOrRent?: number;
   rentArea?: string;
 
+  addressList?: AddressListItem[];
+  agents?: AgentCarouselItem[];
+
   onClickMyListings?: () => void;
   onClickUpdateAddress?: () => void;
+  onSelectAddress?: (realestateUniqueNumber: string) => void;
+  onSelectAgent?: (index: number) => void;
   onClickStartOver?: () => void;
 }
 
@@ -41,8 +48,12 @@ export default function ListingCreateResult({
   addressLine2,
   buyOrRent,
   rentArea,
+  addressList,
+  agents,
   onClickMyListings,
   onClickUpdateAddress,
+  onSelectAddress,
+  onSelectAgent,
   onClickStartOver,
 }: ListingCreateResultProps) {
   if (isLoading) {
@@ -80,28 +91,41 @@ export default function ListingCreateResult({
               rentArea={rentArea}
             />
           )}
+          {listingStatus === ListingStatus.MultipleAddressesFound && (
+            <ListingCreateResultStatus.MultipleAddressesFound
+              addressLine1={addressLine1 ?? ''}
+              addressLine2={addressLine2 ?? ''}
+              addressList={addressList}
+              onClickItem={onSelectAddress}
+            />
+          )}
+          {listingStatus === ListingStatus.AgentSelection && agents && (
+            <ListingCreateResultStatus.AgentSelection agents={agents} onClickNext={onSelectAgent} />
+          )}
         </div>
         <Separator />
-        <div tw="py-10 px-5">
-          <div tw="text-b1 font-bold mb-4">중개사 정보</div>
-          <div tw="rounded-xl bg-gray-100">
-            <AgentCardItem defaultExpanded>
-              <AgentCardItem.Profile
-                officeName={agentOfficeName}
-                profileImageFullPath={agentProfileImageFullPath}
-                name={agentName}
-              />
-              <AgentCardItem.Detail
-                cellPhone={agentCellPhone}
-                fullJibunAddress={agentJibunAddress}
-                registrationNumber={agentRegistrationNumber}
-                description={agentDescription}
-              />
-              <AgentCardItem.FoldButton />
-            </AgentCardItem>
+        {agentName && (
+          <div tw="pt-10 px-5">
+            <div tw="text-b1 font-bold mb-4">중개사 정보</div>
+            <div tw="rounded-xl bg-gray-100">
+              <AgentCardItem defaultExpanded>
+                <AgentCardItem.Profile
+                  officeName={agentOfficeName}
+                  profileImageFullPath={agentProfileImageFullPath}
+                  name={agentName}
+                />
+                <AgentCardItem.Detail
+                  cellPhone={agentCellPhone}
+                  fullJibunAddress={agentJibunAddress}
+                  registrationNumber={agentRegistrationNumber}
+                  description={agentDescription}
+                />
+                <AgentCardItem.FoldButton />
+              </AgentCardItem>
+            </div>
           </div>
-        </div>
-        <div tw="px-5 pb-10">
+        )}
+        <div tw="pt-10 px-5 pb-10">
           <Button size="bigger" tw="w-full" onClick={onClickMyListings}>
             나의 거래 목록
           </Button>
