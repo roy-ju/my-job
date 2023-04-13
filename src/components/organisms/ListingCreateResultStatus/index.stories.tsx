@@ -41,7 +41,7 @@ export const Duplicated = () => (
 
 export const OwnerConsent = () => (
   <Panel>
-    <ListingCreateResultStatus.OwnerConsent />
+    <ListingCreateResultStatus.WaitingForOwnerAgreement />
   </Panel>
 );
 

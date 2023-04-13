@@ -93,10 +93,14 @@ export default function MapSearchTextField({ value: valueProp, onSubmit, onChang
                 tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
               >
                 <div tw="flex items-center justify-between">
-                  <span tw="text-b2 text-gray-1000">{result.placeName}</span>
+                  <span tw="text-b2 text-gray-1000">
+                    {result.placeName || result.roadAddressName || result.addressName}
+                  </span>
                   <span tw="text-info text-gray-700">{result.categoryName}</span>
                 </div>
-                <div tw="text-info text-gray-700">{result.roadAddressName || result.addressName}</div>
+                {result.placeName && (
+                  <div tw="text-info text-gray-700">{result.roadAddressName || result.addressName}</div>
+                )}
               </Autocomplete.Option>
             ))}
           </div>

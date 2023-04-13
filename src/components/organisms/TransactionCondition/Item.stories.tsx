@@ -33,8 +33,8 @@ Default.args = {
   interimAmount2: 1_000_000,
   interimAmount3: 1_000_000,
   interimAmountNegotiable1: false,
-  interimAmountPaymentTime: '2011-10-05T14:48:00.000Z',
-  interimAmountPaymentTimeType: 1,
+  interimAmountPaymentTime1: '2011-10-05T14:48:00.000Z',
+  interimAmountPaymentTimeType1: 1,
   collaterals: [
     { name: 'Jay', amount: 10_000_000 },
     { name: '조엘', amount: 10_000_000 },

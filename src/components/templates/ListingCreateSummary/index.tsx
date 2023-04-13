@@ -15,14 +15,23 @@ export interface ListingCreateSummaryProps {
   tradePrice?: number;
   deposit?: number;
   monthlyRentFee?: number;
-  contractAmount?: number;
-  remainingAmount?: number;
   interimAmount1?: number;
   interimAmount2?: number;
   interimAmount3?: number;
   interimAmountNegotiable1?: boolean;
-  interimAmountPaymentTime?: string;
-  interimAmountPaymentTimeType?: number;
+  interimAmountNegotiable2?: boolean;
+  interimAmountNegotiable3?: boolean;
+  interimAmountPaymentTime1?: string;
+  interimAmountPaymentTime2?: string;
+  interimAmountPaymentTime3?: string;
+  interimAmountPaymentTimeType1?: number;
+  interimAmountPaymentTimeType2?: number;
+  interimAmountPaymentTimeType3?: number;
+  contractAmount?: number;
+  contractAmountNegotiable?: boolean;
+  remainingAmount?: number;
+  remainingAmountPaymentTime?: string;
+  remainingAmountPaymentTimeType?: number;
   debtSuccessions?: { name: string; amount: number }[];
   collaterals?: { name: string; amount: number }[];
   moveInDate?: string;
@@ -127,28 +136,19 @@ export default function ListingCreateSummary({
                 </TransactionCondition.Section>
               )}
 
-              {!!(
-                conditionItemProps.moveInDate ||
-                conditionItemProps.jeonsaeLoan ||
-                conditionItemProps.rentTermMonth ||
-                conditionItemProps.rentTermYear ||
-                conditionItemProps.rentArea
-              ) && (
-                <TransactionCondition.Section title="세부정보">
-                  {conditionItemProps.moveInDate && (
-                    <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
-                  )}
-                  {conditionItemProps.jeonsaeLoan && (
-                    <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
-                  )}
-                  {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (
-                    <TransactionCondition.Item label="임대기간" {...conditionItemProps} />
-                  )}
-                  {conditionItemProps.rentArea && (
-                    <TransactionCondition.Item label="임대할부분" {...conditionItemProps} />
-                  )}
-                </TransactionCondition.Section>
-              )}
+              <TransactionCondition.Section title="세부정보">
+                {conditionItemProps.moveInDate && (
+                  <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
+                )}
+                {conditionItemProps.jeonsaeLoan && (
+                  <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
+                )}
+                {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (
+                  <TransactionCondition.Item label="임대기간" {...conditionItemProps} />
+                )}
+                <TransactionCondition.Item label="임대할부분" {...conditionItemProps} />
+              </TransactionCondition.Section>
+
               {!!conditionItemProps.specialTerms && (
                 <TransactionCondition.Item label="특약조건" {...conditionItemProps} />
               )}
