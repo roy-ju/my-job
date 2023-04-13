@@ -4,13 +4,15 @@ import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
 import { formatNumberInKorean } from '@/utils';
 import { cuttingDot } from '@/utils/fotmat';
 import tw from 'twin.macro';
+import View from '@/assets/icons/view.svg';
+import Participants from '@/assets/icons/participants.svg';
 
 export default function TypeOne({ item, isLast = false }: { item?: DanjiListingsListItem; isLast?: boolean }) {
   if (!item) return null;
 
   return (
     <div tw="flex flex-col py-5" css={[!isLast && tw`[border-bottom: 1px solid #E9ECEF]`]}>
-      {!item.is_participating && (
+      {item.is_participating && (
         <div tw="mb-2">
           <Chip tw="bg-green-1100 text-white">참여중</Chip>
         </div>
@@ -29,7 +31,7 @@ export default function TypeOne({ item, isLast = false }: { item?: DanjiListings
         ) : (
           <>
             <span tw="font-bold text-b1">
-              {formatNumberInKorean(item.trade_or_deposit_price)}/{formatNumberInKorean(item.monthly_rent_fee)}
+              {formatNumberInKorean(item.trade_or_deposit_price)} / {formatNumberInKorean(item.monthly_rent_fee)}
             </span>
           </>
         )}
@@ -38,18 +40,30 @@ export default function TypeOne({ item, isLast = false }: { item?: DanjiListings
         <span tw="text-info">{item.listing_title}</span>
       </div>
 
-      <div tw="flex items-center gap-1">
-        <span tw="text-gray-700 text-info">전용 {cuttingDot(Number(item.jeonyong_area)) || '-'}㎡</span>
+      <div tw="flex items-center justify-between">
+        <div tw="flex items-center gap-1">
+          <span tw="text-gray-700 text-info">전용 {cuttingDot(Number(item.jeonyong_area)) || '-'}㎡</span>
 
-        <div tw="w-px h-2 bg-gray-300" />
+          <div tw="w-px h-2 bg-gray-300" />
 
-        <span tw="text-gray-700 text-info">
-          {item.floor_description.slice(0, 1) || '-'}/{item.total_floor}층
-        </span>
+          <span tw="text-gray-700 text-info">
+            {item.floor_description.slice(0, 1) || '-'}/{item.total_floor}층
+          </span>
 
-        <div tw="w-px h-2 bg-gray-300" />
+          <div tw="w-px h-2 bg-gray-300" />
 
-        <span tw="text-gray-700 text-info">{item.direction}</span>
+          <span tw="text-gray-700 text-info">{item.direction}</span>
+        </div>
+        <div tw="flex items-center gap-3">
+          <div tw="flex items-center gap-1">
+            <View />
+            <span tw="text-info text-gray-700">{item.view_count}</span>
+          </div>
+          <div tw="flex items-center gap-1">
+            <Participants />
+            <span tw="text-info text-gray-700">{item.participants_count}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

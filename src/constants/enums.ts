@@ -47,6 +47,14 @@ export enum PrivacyRetentionType {
   Deregister = 4,
 }
 
+export enum Year {
+  One = 1,
+  Two = 2,
+  Three = 3,
+  Four = 4,
+  Five = 5,
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:
