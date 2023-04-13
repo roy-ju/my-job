@@ -1,4 +1,5 @@
 import React, { Children, ReactNode } from 'react';
+import { v4 as uuid4 } from 'uuid';
 
 interface ListProps {
   children?: ReactNode;
@@ -8,7 +9,7 @@ export default function List({ children }: ListProps) {
   const childrenArray = Children.toArray(children);
 
   return (
-    <>
+    <React.Fragment key={uuid4()}>
       {Array.isArray(childrenArray) &&
         childrenArray.map((child, i) => (
           <>
@@ -16,6 +17,6 @@ export default function List({ children }: ListProps) {
             {child}
           </>
         ))}
-    </>
+    </React.Fragment>
   );
 }

@@ -184,7 +184,7 @@ export default function Item({
       return (
         <>
           {collaterals?.map(({ name, amount }) => (
-            <div tw="flex py-[0.5625rem]" key={name}>
+            <div tw="flex py-[0.5625rem]" key={uuid4()}>
               <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{name}</span>
               <span tw="break-all text-b2">
                 <Numeral thousandsSeparated koreanNumber>
@@ -201,7 +201,7 @@ export default function Item({
       return (
         <>
           {debtSuccessions?.map(({ name, amount }) => (
-            <div tw="flex py-[0.5625rem]" key={name}>
+            <div tw="flex py-[0.5625rem]" key={uuid4()}>
               <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{name}</span>
               <span tw="break-all text-b2">
                 <Numeral thousandsSeparated koreanNumber>
