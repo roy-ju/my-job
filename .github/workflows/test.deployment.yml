@@ -9,7 +9,7 @@ env:
   ECS_SERVICE_NAME: test-user-pc
   ECS_CLUSTER_NAME: negocio-client-test
   NEGOCIO_REST_API_BASE_URL: https://api2-test.negocio.kr
-  NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket-test.negocio.kr
+  NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket2-test.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: test
 jobs:
   deploy:
