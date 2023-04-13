@@ -1,4 +1,5 @@
 import assignAgent from '@/apis/listing/assignAgent';
+import deleteMyListing from '@/apis/listing/deleteMyListing';
 import useAPI_MyListingDetail from '@/apis/listing/getMyListingDetail';
 import selectListingAddress from '@/apis/listing/selectListingAddress';
 import { Panel } from '@/components/atoms';
@@ -77,6 +78,11 @@ export default memo(({ depth, panelWidth }: Props) => {
     [data?.agent_list, listingID, mutate],
   );
 
+  const onClickRemoveFromListings = useCallback(async () => {
+    deleteMyListing(listingID);
+    router.pop();
+  }, [router, listingID]);
+
   return (
     <Panel width={panelWidth}>
       <ListingCreateResult
@@ -100,6 +106,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         }
         onSelectAddress={onSelectAddress}
         onSelectAgent={onSelectAgent}
+        onClickRemoveFromListings={onClickRemoveFromListings}
       />
     </Panel>
   );
