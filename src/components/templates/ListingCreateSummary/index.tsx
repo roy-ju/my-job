@@ -1,7 +1,6 @@
 import { Button, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { AgentCardItem, TransactionCondition } from '@/components/organisms';
-import { BuyOrRentString } from '@/constants/strings';
 
 export interface ListingCreateSummaryProps {
   agentOfficeName: string;
@@ -21,17 +20,20 @@ export interface ListingCreateSummaryProps {
   interimAmount1?: number;
   interimAmount2?: number;
   interimAmount3?: number;
+  interimAmountNegotiable1?: boolean;
+  interimAmountPaymentTime?: string;
+  interimAmountPaymentTimeType?: number;
   debtSuccessions?: { name: string; amount: number }[];
   collaterals?: { name: string; amount: number }[];
   moveInDate?: string;
-  moveInDateType?: string; // dateType = 1 : 이전,  2: 이후
+  moveInDateType?: number; // dateType = 1 : 이전,  2: 이후
   rentTermYear?: number;
   rentTermMonth?: number;
   rentArea?: string;
   specialTerms?: string;
   jeonsaeLoan?: boolean;
-  isLoading?: boolean;
 
+  isLoading?: boolean;
   onClickCreate?: () => void;
   onClickUpdate?: () => void;
 }
@@ -45,28 +47,11 @@ export default function ListingCreateSummary({
   agentDescription,
   agentRegistrationNumber,
 
-  buyOrRent,
-  tradePrice,
-  deposit,
-  monthlyRentFee,
-  contractAmount,
-  remainingAmount,
-  interimAmount1,
-  interimAmount2,
-  interimAmount3,
-  moveInDate,
-  specialTerms,
   onClickCreate,
   onClickUpdate,
   isLoading,
 
-  debtSuccessions,
-  collaterals,
-
-  jeonsaeLoan,
-  rentTermMonth,
-  rentTermYear,
-  rentArea,
+  ...conditionItemProps
 }: ListingCreateSummaryProps) {
   return (
     <div tw="h-full flex flex-col">
@@ -103,53 +88,70 @@ export default function ListingCreateSummary({
           <div tw="mt-10 mb-4 text-b1 font-bold leading-none">거래조건</div>
           <TransactionCondition>
             <TransactionCondition.List>
-              {!!buyOrRent && <TransactionCondition.Item label="거래종류" value={BuyOrRentString[buyOrRent]} />}
-              {!!(tradePrice || deposit) && (
-                <TransactionCondition.Item label="희망가" value={tradePrice || deposit} value2={monthlyRentFee} />
+              {!!conditionItemProps.buyOrRent && <TransactionCondition.Item label="거래종류" {...conditionItemProps} />}
+              {!!(conditionItemProps.tradePrice || conditionItemProps.deposit) && (
+                <TransactionCondition.Item label="희망가" {...conditionItemProps} />
               )}
 
-              {!!(contractAmount || interimAmount1 || remainingAmount || tradePrice || deposit) && (
+              {!!(
+                conditionItemProps.contractAmount ||
+                conditionItemProps.interimAmount1 ||
+                conditionItemProps.remainingAmount ||
+                conditionItemProps.tradePrice ||
+                conditionItemProps.deposit
+              ) && (
                 <TransactionCondition.Section title="지급일정" hasToolTip>
-                  {!!contractAmount && <TransactionCondition.Item label="계약금" value={contractAmount} />}
-                  {!!interimAmount1 && (
-                    <TransactionCondition.Item
-                      label="중도금"
-                      value={[interimAmount1, interimAmount2, interimAmount3] as number[]}
-                    />
+                  {!!conditionItemProps.contractAmount && (
+                    <TransactionCondition.Item label="계약금" {...conditionItemProps} />
                   )}
-                  {!!remainingAmount && <TransactionCondition.Item label="잔금" value={remainingAmount} />}
-                  {!!(tradePrice || deposit) && (
-                    <TransactionCondition.Item
-                      label="실제지급총액"
-                      value={tradePrice || deposit}
-                      value2={debtSuccessions}
-                    />
+                  {!!conditionItemProps.interimAmount1 && (
+                    <TransactionCondition.Item label="중도금" {...conditionItemProps} />
+                  )}
+                  {!!conditionItemProps.remainingAmount && (
+                    <TransactionCondition.Item label="잔금" {...conditionItemProps} />
+                  )}
+                  {!!(conditionItemProps.tradePrice || conditionItemProps.deposit) && (
+                    <TransactionCondition.Item label="실제지급총액" {...conditionItemProps} />
                   )}
                 </TransactionCondition.Section>
               )}
 
-              {!!collaterals?.length && (
+              {!!conditionItemProps.collaterals?.length && (
                 <TransactionCondition.Section title="선순위 담보권" hasToolTip>
-                  <TransactionCondition.Item label="선순위담보권" value={collaterals} />
+                  <TransactionCondition.Item label="선순위담보권" {...conditionItemProps} />
                 </TransactionCondition.Section>
               )}
-              {!!debtSuccessions?.length && (
+              {!!conditionItemProps.debtSuccessions?.length && (
                 <TransactionCondition.Section title="채무승계 희망금액" hasToolTip>
-                  <TransactionCondition.Item label="채무승계희망금액" value={debtSuccessions} />
+                  <TransactionCondition.Item label="채무승계희망금액" {...conditionItemProps} />
                 </TransactionCondition.Section>
               )}
 
-              {!!(moveInDate || jeonsaeLoan || rentTermMonth || rentTermYear || rentArea) && (
+              {!!(
+                conditionItemProps.moveInDate ||
+                conditionItemProps.jeonsaeLoan ||
+                conditionItemProps.rentTermMonth ||
+                conditionItemProps.rentTermYear ||
+                conditionItemProps.rentArea
+              ) && (
                 <TransactionCondition.Section title="세부정보">
-                  {moveInDate && <TransactionCondition.Item label="입주가능시기" value={moveInDate} />}
-                  {jeonsaeLoan && <TransactionCondition.Item label="전세자금대출" value={jeonsaeLoan} />}
-                  {(rentTermYear || rentTermMonth) && (
-                    <TransactionCondition.Item label="임대기간" value={rentTermYear} value2={rentTermMonth} />
+                  {conditionItemProps.moveInDate && (
+                    <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
                   )}
-                  {rentArea && <TransactionCondition.Item label="임대할부분" value={rentArea} />}
+                  {conditionItemProps.jeonsaeLoan && (
+                    <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
+                  )}
+                  {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (
+                    <TransactionCondition.Item label="임대기간" {...conditionItemProps} />
+                  )}
+                  {conditionItemProps.rentArea && (
+                    <TransactionCondition.Item label="임대할부분" {...conditionItemProps} />
+                  )}
                 </TransactionCondition.Section>
               )}
-              {!!specialTerms && <TransactionCondition.Item label="특약조건" value={specialTerms} />}
+              {!!conditionItemProps.specialTerms && (
+                <TransactionCondition.Item label="특약조건" {...conditionItemProps} />
+              )}
             </TransactionCondition.List>
           </TransactionCondition>
         </div>

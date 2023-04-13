@@ -6,6 +6,8 @@
 import { Panel } from '@/components/atoms';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
+import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
+import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
@@ -120,6 +122,10 @@ const ListingCreateSummary = dynamic(() => import('@/components/pages/pc/Listing
   ssr: false,
   loading: () => <Panel />,
 });
+const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingCreateResult'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 
 const DEFAULT_PANEL_WIDTH = '380px';
@@ -229,7 +235,7 @@ export default function Router({ route, query, depth }: Props) {
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail {...props} />;
+      return <DanjiDetail key={`${query.p}-${query.rt}`} {...props} />;
     }
 
     case Routes.UpdatePhone: {
@@ -278,6 +284,18 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingCreateSummary: {
       return <ListingCreateSummary {...props} />;
+    }
+
+    case Routes.ListingCreateResult: {
+      return <ListingCreateResult {...props} />;
+    }
+
+    case Routes.ListingCreateUpdateAddress: {
+      return <ListingCreateUpdateAddress {...props} />;
+    }
+
+    case Routes.ListingCreateUpdateAddressDetail: {
+      return <ListingCreateUpdateAddressDetail {...props} />;
     }
 
     case Routes.Developer: {

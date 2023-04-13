@@ -11,3 +11,4 @@ export { default as Popup } from './Popup';
 export { default as OverlayPresenter } from './OverlayPresenter';
 export { default as Information } from './Information';
 export { default as DatePicker } from './DatePicker';
+export { default as Table } from './Table';
