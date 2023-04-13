@@ -5,15 +5,9 @@ import ChevronDown from '@/assets/icons/chevron_down_24.svg';
 import ExpandableGroupContext from './ExpandableGroupContext';
 
 const Table = styled.table`
-  ${tw`w-full text-b2`}
-  th {
-    ${tw`py-2 mr-3 font-normal text-gray-700 text-start`}
-  }
-  td {
-    ${tw`py-2 pl-3 align-top`}
-  }
-  tr {
-    ${tw`border-b border-b-gray-800`}
+  ${tw`w-full table-fixed text-b2`}
+  tr:not(tbody[aria-label='grouped'] tr:not(:last-of-type)) {
+    ${tw`border-b border-b-gray-300`}
   }
 `;
 
@@ -21,9 +15,9 @@ const TableBody = tw.tbody``;
 
 const TableRow = tw.tr``;
 
-const TableHead = tw.th``;
+const TableHead = tw.th`align-top py-2 mr-3 font-normal text-gray-700 text-start w-[40%]`;
 
-const TableData = tw.td``;
+const TableData = tw.td`py-2 pl-3 align-top w-[60%]`;
 
 interface ExpandableGroupProps {
   expanded?: boolean;
@@ -48,7 +42,7 @@ function TableGroup({ expanded: expandedProp, onChange, children, defaultExpande
   return <ExpandableGroupContext.Provider value={context}>{children}</ExpandableGroupContext.Provider>;
 }
 
-const SummaryButton = tw.th`hover:bg-gray-100`;
+const SummaryButton = tw.th`py-2 mr-3 font-normal text-gray-700 text-start hover:bg-gray-100 hover:cursor-pointer`;
 
 function TableGroupSummary({ children }: { children: ReactNode }) {
   const { expanded, onChange } = useContext(ExpandableGroupContext);
@@ -72,9 +66,11 @@ function TableGroupSummary({ children }: { children: ReactNode }) {
 function TableGroupDetails({ children }: { children: ReactNode }) {
   const { expanded } = useContext(ExpandableGroupContext);
 
-  if (!expanded) return null;
-
-  return <TableBody tw="overflow-hidden">{children}</TableBody>;
+  return (
+    <TableBody aria-label="grouped" css={[tw`overflow-hidden`, !expanded && tw`hidden`]}>
+      {children}
+    </TableBody>
+  );
 }
 
 export default Object.assign(Table, {
