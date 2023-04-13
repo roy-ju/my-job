@@ -349,7 +349,7 @@ export default function useMapLayout() {
               if (isPanningRef.current) return;
 
               // 단지 상세로 보내는 Router
-              router.push(Routes.DanjiDetail, {
+              router.replace(Routes.DanjiDetail, {
                 searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
               });
 
