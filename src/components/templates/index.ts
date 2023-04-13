@@ -41,6 +41,7 @@ export { default as ListingCreateAddressDetail } from './ListingCreateAddressDet
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
 export { default as ListingCreateSummary } from './ListingCreateSummary';
+export { default as ListingCreateResult } from './ListingCreateResult';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

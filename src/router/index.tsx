@@ -6,6 +6,8 @@
 import { Panel } from '@/components/atoms';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
+import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
+import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
@@ -117,6 +119,10 @@ const ListingCreateChooseAgent = dynamic(() => import('@/components/pages/pc/Lis
   loading: () => <Panel />,
 });
 const ListingCreateSummary = dynamic(() => import('@/components/pages/pc/ListingCreateSummary'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingCreateResult'), {
   ssr: false,
   loading: () => <Panel />,
 });
@@ -278,6 +284,18 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingCreateSummary: {
       return <ListingCreateSummary {...props} />;
+    }
+
+    case Routes.ListingCreateResult: {
+      return <ListingCreateResult {...props} />;
+    }
+
+    case Routes.ListingCreateUpdateAddress: {
+      return <ListingCreateUpdateAddress {...props} />;
+    }
+
+    case Routes.ListingCreateUpdateAddressDetail: {
+      return <ListingCreateUpdateAddressDetail {...props} />;
     }
 
     case Routes.Developer: {
