@@ -2,8 +2,6 @@ import { Button, Ul } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 
-interface OwnerConsentProps {}
-
 export default function OwnerConsent() {
   return (
     <div tw="px-5">
