@@ -74,6 +74,8 @@ export default function useListingCreateForm(depth: number) {
   const [adminFee, setAdminFee] = useState('');
   // 매물설명
   const [description, setDescription] = useState('');
+  // 임대차계약 종료일
+  const [rentEndDate, setRentEndDate] = useState<Date | null>(null);
   // 매물사진
   const [listingPhotoUrls, setListingPhotoUrls] = useState<string[]>([]);
   // 단지사진
@@ -183,8 +185,14 @@ export default function useListingCreateForm(depth: number) {
 
   // 채무승계 submit
   const handleSubmitDebtSuccessions = useCallback(() => {
-    setNextForm(Forms.MoveInDate);
-  }, [setNextForm]);
+    console.log(debtSuccessionDeposit);
+
+    if (debtSuccessionDeposit) {
+      setNextForm(Forms.RentEndDate);
+    } else {
+      setNextForm(Forms.MoveInDate);
+    }
+  }, [debtSuccessionDeposit, setNextForm]);
 
   // 임대할 부분 submit
   const handleSubmitRentArea = useCallback(() => {
@@ -195,6 +203,16 @@ export default function useListingCreateForm(depth: number) {
   const handleSubmitMoveInDate = useCallback(() => {
     setNextForm(Forms.PaymentSchedules);
   }, [setNextForm]);
+
+  // 임대차계약종료일 submit
+  const handleSubmitRentEndDate = useCallback(() => {
+    if (!rentEndDate) {
+      setErrPopup('임대차 계약 종료일을 입력해주세요.');
+      return;
+    }
+
+    setNextForm(Forms.PaymentSchedules);
+  }, [rentEndDate, setNextForm]);
 
   // 임대기간 submit
   const handleSubmitRentTerm = useCallback(() => {
@@ -212,12 +230,19 @@ export default function useListingCreateForm(depth: number) {
       return;
     }
 
+    if (remainingAmountDate && rentEndDate) {
+      if (remainingAmountDate.getTime() >= rentEndDate.getTime()) {
+        setErrPopup('잔금날짜는 기존 임대차 계약 종료일 이전이어야 합니다.');
+        return;
+      }
+    }
+
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.SpecialTerms);
     } else {
       setNextForm(Forms.Collaterals);
     }
-  }, [contractAmount, remainingAmount, buyOrRent, setNextForm]);
+  }, [contractAmount, remainingAmount, remainingAmountDate, rentEndDate, buyOrRent, setNextForm]);
 
   //  선순위 담보권 submit
   const handleSubmitCollaterals = useCallback(() => {
@@ -305,6 +330,7 @@ export default function useListingCreateForm(depth: number) {
       quickSale,
       adminFee,
       description,
+      rentEndDate,
       listingPhotoUrls,
       danjiPhotoUrls,
     });
@@ -349,6 +375,7 @@ export default function useListingCreateForm(depth: number) {
     jeonsaeLoan,
     adminFee,
     description,
+    rentEndDate,
     listingPhotoUrls,
     danjiPhotoUrls,
     addressLine1,
@@ -391,6 +418,9 @@ export default function useListingCreateForm(depth: number) {
       case Forms.SpecialTerms:
         handleSubmitSpecialTerms();
         break;
+      case Forms.RentEndDate:
+        handleSubmitRentEndDate();
+        break;
       case Forms.Optionals:
         handleSubmitFinal();
         break;
@@ -410,6 +440,7 @@ export default function useListingCreateForm(depth: number) {
     handleSubmitRentTerm,
     handleSubmitCollaterals,
     handleSubmitJeonsaeLaon,
+    handleSubmitRentEndDate,
     handleSubmitFinal,
   ]);
 
@@ -694,6 +725,10 @@ export default function useListingCreateForm(depth: number) {
     setDescription(value);
   }, []);
 
+  const handleChangeRentEndDate = useCallback((value: Date | null) => {
+    setRentEndDate(value);
+  }, []);
+
   const handleChangeListingPhotoUrls = useCallback((values: string[]) => {
     if (values.length > 6) {
       toast.error('6개까지 추가 가능합니다.');
@@ -773,7 +808,6 @@ export default function useListingCreateForm(depth: number) {
     const params = router.query.params;
     if (typeof params !== 'string') return;
     const parsed = JSON.parse(params);
-    console.log(parsed);
 
     const convertDateType = (value: number) => {
       if (value === 1) return '이전';
@@ -793,7 +827,7 @@ export default function useListingCreateForm(depth: number) {
         Forms.BuyOrRent,
         Forms.Price,
         Forms.DebtSuccessions,
-        Forms.MoveInDate,
+        parsed.debt_successions ? Forms.RentEndDate : Forms.MoveInDate,
         Forms.PaymentSchedules,
         Forms.SpecialTerms,
         Forms.Optionals,
@@ -883,6 +917,8 @@ export default function useListingCreateForm(depth: number) {
     }
 
     const defaultInterims: InterimType[] = [];
+    const defaultDebtSuccessions: DebtSuccessionType[] = [];
+    const defaultCollaterals: CollateralType[] = [];
 
     if (parsed.interim_amount1) {
       const k = uuidv4();
@@ -932,6 +968,41 @@ export default function useListingCreateForm(depth: number) {
       });
     }
 
+    if (parsed.debt_successions) {
+      if (parsed.debt_successions[0].name === '보증금') {
+        setDebtSuccessionDeposit(convertNumberToPriceInput(parsed.debt_successions[0].amount));
+      }
+      parsed.debt_successions.slice(1).forEach((item: { amount: number; name: string }) => {
+        const k = uuidv4();
+        defaultDebtSuccessions.push({
+          key: k,
+          name: item.name,
+          price: convertNumberToPriceInput(item.amount),
+          onChangeName: handleChangeDebtSuccessionMiscName(k),
+          onChangePrice: handleChangeDebtSuccessionMiscPrice(k),
+          onRemove: handleRemoveDebtSuccessionMisc(k),
+        });
+      });
+    }
+
+    if (parsed.collaterals) {
+      parsed.collaterals.forEach((item: { amount: number; name: string }) => {
+        const k = uuidv4();
+        defaultCollaterals.push({
+          key: k,
+          name: item.name,
+          price: convertNumberToPriceInput(item.amount),
+          onChangeName: handleChangeCollateralName(k),
+          onChangePrice: handleChangeCollateralPrice(k),
+          onRemove: handleRemoveCollateral(k),
+        });
+      });
+    }
+
+    if (parsed.rent_end_date) {
+      setRentEndDate(new Date(parsed.rent_end_date));
+    }
+
     if (parsed.description) {
       setDescription(parsed.description);
     }
@@ -945,6 +1016,8 @@ export default function useListingCreateForm(depth: number) {
     }
 
     setInterims(defaultInterims);
+    setDebtSuccessionMiscs(defaultDebtSuccessions);
+    setCollaterals(defaultCollaterals);
   }, [router.query.params]);
 
   return useMemo(
@@ -1024,6 +1097,9 @@ export default function useListingCreateForm(depth: number) {
 
       description,
       handleChangeDescription,
+
+      rentEndDate,
+      handleChangeRentEndDate,
 
       // Popup actions
       popup,
@@ -1111,6 +1187,9 @@ export default function useListingCreateForm(depth: number) {
 
       description,
       handleChangeDescription,
+
+      rentEndDate,
+      handleChangeRentEndDate,
     ],
   );
 }

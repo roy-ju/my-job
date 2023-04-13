@@ -39,6 +39,8 @@ interface Args {
   danjiPhotoUrls: string[];
 
   description: string;
+
+  rentEndDate: Date | null;
 }
 
 function getDateType(value?: string) {
@@ -100,6 +102,8 @@ export default function makeListingCreateParams(args: Args) {
     move_in_date: args.moveInDate?.toISOString(),
     move_in_date_type: getDateType(args.moveInDateType),
 
+    monthly_rent_fee: convertPriceInputToNumber(args.monthlyRentFee),
+
     owner_name: args.ownerName,
     owner_phone: args.ownerPhone,
 
@@ -116,6 +120,8 @@ export default function makeListingCreateParams(args: Args) {
 
     trade_price: args.buyOrRent === BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     quick_sale: args.quickSale,
+
+    rent_end_date: args.rentEndDate?.toISOString(),
 
     listingPhotoUrls: args.listingPhotoUrls,
     danjiPhotoUrls: args.danjiPhotoUrls,

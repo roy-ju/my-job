@@ -104,23 +104,27 @@ export default memo(({ depth, panelWidth }: Props) => {
           agentJibunAddress={agent.full_jibun_address}
           agentDescription={agent.description}
           agentRegistrationNumber={agent.registration_number}
-          buyOrRent={params.buy_or_rent}
-          tradePrice={params.trade_price}
-          deposit={params.deposit}
-          monthlyRentFee={params.monthly_rent_fee}
-          contractAmount={params.contract_amount}
-          remainingAmount={params.remaining_amount}
-          interimAmount1={params.interim_amount1}
-          interimAmount2={params.interim_amount2}
-          interimAmount3={params.interim_amount3}
-          moveInDate={params.move_in_date}
-          specialTerms={params.special_terms}
-          debtSuccessions={params.debt_successions}
-          collaterals={params.collaterals}
-          jeonsaeLoan={params.jeonsae_loan}
-          rentTermMonth={params.rent_contract_term_month}
-          rentTermYear={params.rent_contract_term_year}
-          rentArea={params.rent_area}
+          buyOrRent={params?.buy_or_rent}
+          tradePrice={params?.trade_price}
+          deposit={params?.deposit}
+          monthlyRentFee={params?.monthly_rent_fee}
+          contractAmount={params?.contract_amount}
+          remainingAmount={params?.remaining_amount}
+          interimAmount1={params?.interim_amount1}
+          interimAmount2={params?.interim_amount2}
+          interimAmount3={params?.interim_amount3}
+          interimAmountNegotiable1={params?.interim_negotiable1}
+          interimAmountPaymentTime={params?.interim_amount_payment_time}
+          interimAmountPaymentTimeType={params?.interim_amount_payment_time_type}
+          moveInDate={params?.move_in_date}
+          moveInDateType={params?.move_in_date_type}
+          specialTerms={params?.special_terms}
+          debtSuccessions={params?.debt_successions}
+          collaterals={params?.collaterals}
+          jeonsaeLoan={params?.jeonsae_loan}
+          rentTermMonth={params?.rent_contract_term_month}
+          rentTermYear={params?.rent_contract_term_year}
+          rentArea={params?.rent_area}
           onClickCreate={onClickCreate}
           onClickUpdate={onClickUpdate}
           isLoading={isCreating}
@@ -137,7 +141,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setPopup(false);
-                  router.pop();
+                  router.replace(Routes.ListingCreateResult, { searchParams: { listingID: `${listingID}` } });
                 }}
               >
                 확인
