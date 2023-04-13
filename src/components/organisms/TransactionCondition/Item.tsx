@@ -208,14 +208,19 @@ export default function Item({
     }
 
     case '실제지급총액': {
-      const debtSuccessionsTotal = debtSuccessions?.reduce((total, { amount: num }) => total + num, 0) as number;
+      const totalAmount =
+        (contractAmount ?? 0) +
+        (interimAmount1 ?? 0) +
+        (interimAmount2 ?? 0) +
+        (interimAmount3 ?? 0) +
+        (remainingAmount ?? 0);
 
       return (
         <div tw="flex py-[0.5625rem]">
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
           <span tw="break-all text-b2">
             <Numeral thousandsSeparated koreanNumber>
-              {((tradePrice || deposit) as number) + debtSuccessionsTotal}
+              {totalAmount}
             </Numeral>
           </span>
         </div>
