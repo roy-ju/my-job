@@ -47,6 +47,14 @@ export enum PrivacyRetentionType {
   Deregister = 4,
 }
 
+export enum Year {
+  One = 1,
+  Two = 2,
+  Three = 3,
+  Four = 4,
+  Five = 5,
+}
+
 export enum ListingStatus {
   VerifyAddress = 10, // 등기부 주소 조회 서비스 요청중 (실패시 계속 같은 Status 유지) check
   NoAddressFound = 11, // 주소확인 불가 check
@@ -104,4 +112,30 @@ export function describeTargetPrice({
 export function describeBiddingPrice({ negotiation_or_auction }: { negotiation_or_auction?: NegotiationOrAuction }) {
   if (negotiation_or_auction === NegotiationOrAuction.Auction) return '입찰가';
   return '제안가';
+}
+
+export function describeBuyOrRent(type: BuyOrRent | null | undefined) {
+  switch (type) {
+    case BuyOrRent.Buy:
+      return '매매';
+    case BuyOrRent.Jeonsae:
+      return '전세';
+    case BuyOrRent.Wolsae:
+      return '월세';
+    default:
+      return '';
+  }
+}
+
+export function describeJeonsaeWolsaeSame(type: BuyOrRent | null | undefined) {
+  switch (type) {
+    case BuyOrRent.Buy:
+      return '매매';
+    case BuyOrRent.Jeonsae:
+      return '전월세';
+    case BuyOrRent.Wolsae:
+      return '전월세';
+    default:
+      return '';
+  }
 }
