@@ -1,25 +1,43 @@
 import { Checkbox, Label } from '@/components/atoms';
+import { useControlled } from '@/hooks/utils';
+import { ChangeEventHandler, useCallback } from 'react';
 
 interface ExtraOptionsProps {
-  handleCheckBoxChange?: () => void;
+  extraOptions?: number[];
+  onChangeExtraOptions?: (id: number) => void;
+  listingOptions?: {
+    id: number;
+    name: string;
+    createdTime: string;
+  }[];
 }
 
-export default function ExtraOptions({ handleCheckBoxChange }: ExtraOptionsProps) {
+export default function ExtraOptions({
+  extraOptions: extraOptionsValueProp,
+  onChangeExtraOptions,
+  listingOptions,
+}: ExtraOptionsProps) {
+  const [extraOptionsValue, setExtraOptionsValue] = useControlled({
+    controlled: extraOptionsValueProp,
+    default: [],
+  });
+
+  const handleCheckBoxChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      setExtraOptionsValue([...extraOptionsValue, +e.target.id]);
+      onChangeExtraOptions?.(+e.target.id);
+    },
+    [setExtraOptionsValue, onChangeExtraOptions, extraOptionsValue],
+  );
+
   return (
     <div>
       <div tw="text-b1 leading-none font-bold">매물 옵션</div>
       <div tw="mt-3 text-info text-gray-700">- 복수선택 가능합니다.</div>
       <div tw="mt-4 grid grid-cols-3  gap-4">
-        <Label label="엘리베이터" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="에어컨" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="냉장고" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="전자레인지" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="인덕션" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="세탁기" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="건조기" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="옷장" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="도어락" control={<Checkbox onChange={handleCheckBoxChange} />} />
-        <Label label="CCTV" control={<Checkbox onChange={handleCheckBoxChange} />} />
+        {listingOptions?.map(({ name, id }, i) => (
+          <Label label={name} key={id} control={<Checkbox id={`${id}`} onChange={handleCheckBoxChange} />} />
+        ))}
       </div>
     </div>
   );
