@@ -28,3 +28,23 @@ export function convertSigunguName(v: string | undefined | null) {
 
   return v;
 }
+
+export function cuttingDot(target: number | undefined) {
+  if (!target) return '-';
+
+  const convertedNum = target.toString();
+  const dotIndex = convertedNum.indexOf('.');
+
+  if (dotIndex === -1) {
+    return convertedNum;
+  }
+
+  return convertedNum.slice(0, dotIndex);
+}
+
+export function minDigits(num: number, digits: number) {
+  return num.toLocaleString('en-US', {
+    useGrouping: false,
+    minimumIntegerDigits: digits,
+  });
+}

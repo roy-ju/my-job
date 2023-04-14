@@ -34,6 +34,9 @@ export type GetDanjiDetailResponse = {
   sigungu_name: string;
   sido_code: string;
   sigungu_code: string;
+  jeonyong_min: number;
+  jeonyong_max: number;
+  suggest_count: number;
 } & ErrorResponse;
 
 export function useAPI_GetDanjiDetail({
