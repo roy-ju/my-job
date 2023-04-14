@@ -2,6 +2,7 @@ import { Panel } from '@/components/atoms';
 import { DanjiDetail } from '@/components/templates';
 import { memo } from 'react';
 import useDanjiDetail from './useDanjiDetail';
+import useDanjiRealPricesChart from './useDanjiRealPricesChart';
 import useDanjiStatusChart from './useDanjiStatusChart';
 import useDanjiStatusChartJeonsae from './useDanjiStatusChartJeonsae';
 
@@ -21,6 +22,8 @@ export default memo(({ panelWidth, depth }: Props) => {
     danjiTradeTurnRateSigunguData,
     danjiJeonsaeRateRateData,
     danjiJeonsaeRateSigunguData,
+    danjiRealPricesListData,
+    danjiRealPricesList,
     buyOrRent,
     selectedYear,
     isShowDanjiPhotos,
@@ -28,12 +31,15 @@ export default memo(({ panelWidth, depth }: Props) => {
     selectedJeonyongArea,
     selectedJeonyongAreaMax,
     selectedIndex,
+    checked,
+    onChangeChecked,
     onChangeSelectedArea,
     onChangeSelectedJeonyongArea,
     onChangeSelectedJeonyongAreaMax,
     onChangeSelectedIndex,
     onChangeBuyOrRent,
     onChangeSelectedYear,
+    danjiRealPriesListSetSize,
   } = useDanjiDetail(depth);
 
   const { listDanji, danjiChartData, sidoChartData, sigunguChartData, xAxis } = useDanjiStatusChart({
@@ -51,6 +57,15 @@ export default memo(({ panelWidth, depth }: Props) => {
     danji,
     buyOrRent,
     selectedYear,
+  });
+
+  const { realpricesChartData } = useDanjiRealPricesChart({
+    danji,
+    buyOrRent,
+    selectedYear,
+    selectedIndex,
+    directDealExcluded: checked || false,
+    list: danjiRealPricesPyoungList,
   });
 
   return (
@@ -81,6 +96,10 @@ export default memo(({ panelWidth, depth }: Props) => {
         selectedJeonyongAreaMax={selectedJeonyongAreaMax}
         selectedIndex={selectedIndex}
         isShowDanjiPhotos={isShowDanjiPhotos}
+        realpricesChartData={realpricesChartData}
+        danjiRealPricesListData={danjiRealPricesListData}
+        danjiRealPricesList={danjiRealPricesList}
+        checked={checked}
         onClickListingDetail={() => {}}
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}
@@ -88,6 +107,8 @@ export default memo(({ panelWidth, depth }: Props) => {
         onChangeSelectedArea={onChangeSelectedArea}
         onChangeSelectedJeonyongArea={onChangeSelectedJeonyongArea}
         onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
+        onChangeChecked={onChangeChecked}
+        danjiRealPriesListSetSize={danjiRealPriesListSetSize}
       />
     </Panel>
   );

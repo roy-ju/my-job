@@ -34,8 +34,7 @@ const InvisibleTrack = styled.div<{ index: number }>`
   top: 50%;
   bottom: 0;
   transform: translateY(-50%);
-  background: ${(props) =>
-    props.index === 1 ? theme`colors.gray.1000` : 'transparent'};
+  background: ${(props) => (props.index === 1 ? theme`colors.gray.1000` : 'transparent')};
   border-radius: 4px;
   height: 4px;
   z-index: 1;
@@ -51,14 +50,11 @@ const Label = styled.span`
   white-space: nowrap;
 `;
 
-const Thumb: NonNullable<ReactSliderProps<number[]>['renderThumb']> = (
-  props,
-) => <StyledThumb {...(props as any)} />;
+const Thumb: NonNullable<ReactSliderProps<number[]>['renderThumb']> = (props) => <StyledThumb {...(props as any)} />;
 
-const Track: NonNullable<ReactSliderProps<number[]>['renderTrack']> = (
-  props,
-  state,
-) => <InvisibleTrack {...(props as any)} index={state.index} />;
+const Track: NonNullable<ReactSliderProps<number[]>['renderTrack']> = (props, state) => (
+  <InvisibleTrack {...(props as any)} index={state.index} />
+);
 
 interface Props {
   min: number;
@@ -71,16 +67,7 @@ interface Props {
   onChange?: (value: number[], index: number) => void;
 }
 
-export default function Slider({
-  min,
-  max,
-  step = 1,
-  value,
-  defaultValue,
-  labels,
-  minDistance = 1,
-  onChange,
-}: Props) {
+export default function Slider({ min, max, step = 1, value, defaultValue, labels, minDistance = 1, onChange }: Props) {
   return (
     <div>
       <div tw="relative">

@@ -47,6 +47,7 @@ export interface ButtonProps {
   isLoading?: boolean;
   /** 선택되었는지 여부 */
   selected?: boolean;
+  value?: string | number;
   id?: string;
   name?: string;
 }
@@ -71,6 +72,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
     disabled = false,
     isLoading = false,
     selected = false,
+    value,
     name,
     id,
     ...others
@@ -87,6 +89,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
       isLoading={isLoading}
       selected={selected}
       name={name}
+      value={value}
       id={id}
       {...others}
     >

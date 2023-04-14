@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import ActiveListingInfo from './ActiveListingInfo';
 import BasicInfo from './BasicInfo';
 import RealPriceInfo from './RealPriceInfo';
+import RealPricesList from './RealPricesList';
 import RealPricesPyoungList from './RealPricesPyoungList';
 
 interface DanjiDetailSectionProps {
@@ -17,4 +18,5 @@ export default Object.assign(DanjiDetailSection, {
   ActiveInfo: ActiveListingInfo,
   RealPriceInfo,
   RealPricesPyoungList,
+  RealPricesList,
 });
