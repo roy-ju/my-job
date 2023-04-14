@@ -41,3 +41,10 @@ export function cuttingDot(target: number | undefined) {
 
   return convertedNum.slice(0, dotIndex);
 }
+
+export function minDigits(num: number, digits: number) {
+  return num.toLocaleString('en-US', {
+    useGrouping: false,
+    minimumIntegerDigits: digits,
+  });
+}

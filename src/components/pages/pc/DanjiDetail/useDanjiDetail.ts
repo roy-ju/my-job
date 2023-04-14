@@ -1,6 +1,7 @@
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
 import { useAPI_GetDanjiPhotos } from '@/apis/danji/danjiPhotos';
+import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import {
   useAPI_DanjiJeonsaerate,
@@ -26,6 +27,8 @@ export default function useDanjiDetail(depth: number) {
   const [selectedJeonyongAreaMax, setSelectedJeonyongAreaMax] = useState<string>();
   const [selectedIndex, setSelectedIndex] = useState<number>();
 
+  const [checked, setChecked] = useState<boolean>();
+
   const { danji } = useAPI_GetDanjiDetail({
     pnu: router?.query?.p as string,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
@@ -42,7 +45,11 @@ export default function useDanjiDetail(depth: number) {
     pageSize: 4,
   });
 
-  const { data: danjiRealPricesData, list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
+  const {
+    data: danjiRealPricesData,
+    list: danjiRealPricesPyoungList,
+    isLoading: danjiRealPricesPyoungListLoading,
+  } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
     buyOrRent: isMutate ? buyOrRent : null,
@@ -76,6 +83,21 @@ export default function useDanjiDetail(depth: number) {
     year: selectedYear,
   });
 
+  const {
+    data: danjiRealPricesListData,
+    list: danjiRealPricesList,
+    setSize: danjiRealPriesListSetSize,
+  } = useAPI_DanjiRealPricesList({
+    pnu: danji?.pnu,
+    realestateType: danji?.type,
+    buyOrRent,
+    list: danjiRealPricesPyoungList,
+    directDealExcluded: checked || false,
+    selectedIndex,
+    year: selectedYear,
+    ps: 10,
+  });
+
   const isShowDanjiPhotos = useMemo(() => {
     if (danjiPhotos && danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0) {
       return true;
@@ -87,6 +109,10 @@ export default function useDanjiDetail(depth: number) {
   const onChangeBuyOrRent = useCallback((value: number) => {
     setBuyOrRent(value);
     setIsMutate(true);
+  }, []);
+
+  const onChangeChecked = useCallback(() => {
+    setChecked((prev) => !prev);
   }, []);
 
   const onChangeSelectedYear = useCallback((value: number) => {
@@ -115,6 +141,17 @@ export default function useDanjiDetail(depth: number) {
     }
   }, [danjiRealPricesData]);
 
+  useEffect(() => {
+    if (danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0) {
+      const index = danjiRealPricesPyoungList.findIndex((ele) => ele.default === true);
+      setSelectedArea(danjiRealPricesPyoungList[index]?.gonggeup_pyoung.toString());
+      setSelectedJeonyongArea(danjiRealPricesPyoungList[index]?.min_jeonyong.toString());
+      setSelectedJeonyongAreaMax(danjiRealPricesPyoungList[index]?.max_jeonyong.toString());
+      setSelectedIndex(index);
+      setBuyOrRent(danjiRealPricesData?.buy_or_rent);
+    }
+  }, [danjiRealPricesData?.buy_or_rent, danjiRealPricesPyoungList, danjiRealPricesPyoungListLoading]);
+
   return useMemo(
     () => ({
       danji,
@@ -133,6 +170,11 @@ export default function useDanjiDetail(depth: number) {
       selectedJeonyongArea,
       selectedJeonyongAreaMax,
       selectedIndex,
+      checked,
+      danjiRealPricesListData,
+      danjiRealPricesList,
+      danjiRealPriesListSetSize,
+      onChangeChecked,
       onChangeBuyOrRent,
       onChangeSelectedYear,
       onChangeSelectedArea,
@@ -158,6 +200,10 @@ export default function useDanjiDetail(depth: number) {
       selectedJeonyongArea,
       selectedJeonyongAreaMax,
       selectedIndex,
+      checked,
+      danjiRealPricesListData,
+      danjiRealPricesList,
+      onChangeChecked,
       onChangeBuyOrRent,
       onChangeSelectedYear,
       onChangeSelectedArea,
@@ -165,6 +211,7 @@ export default function useDanjiDetail(depth: number) {
       onChangeSelectedJeonyongAreaMax,
       onChangeSelectedIndex,
       increamentPageNumber,
+      danjiRealPriesListSetSize,
     ],
   );
 }
