@@ -92,6 +92,23 @@ export interface IFormContext {
   rentArea?: string;
   onChangeRentArea?: (value: string) => void;
 
+  // 베란다 확장
+  verandaExtended?: boolean;
+  onChangeVerandaExtended?: (value: boolean) => void;
+
+  // 2년 내 올수리
+  verandaRemodelling?: boolean;
+  onChangeVerandaRemodelling?: (value: boolean) => void;
+
+  // 추가 옵션
+  extraOptions?: number[];
+  onChangeExtraOptions?: (id: number) => void;
+  listingOptions?: {
+    id: number;
+    name: string;
+    createdTime: string;
+  }[];
+
   // 임대기간
   rentTermYear?: string;
   rentTermMonth?: string;

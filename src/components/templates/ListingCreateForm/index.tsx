@@ -41,6 +41,15 @@ export default function ListingCreateForm({
   moveInDateType,
   specialTerms,
 
+  verandaExtended,
+  verandaRemodelling,
+  onChangeVerandaExtended,
+  onChangeVerandaRemodelling,
+
+  extraOptions,
+  onChangeExtraOptions,
+  listingOptions,
+
   onChangeIsOwner,
   onChangeOwnerName,
   onChangeOwnerPhone,
@@ -116,6 +125,15 @@ export default function ListingCreateForm({
       moveInDateType,
       specialTerms,
 
+      verandaExtended,
+      verandaRemodelling,
+      onChangeVerandaExtended,
+      onChangeVerandaRemodelling,
+
+      extraOptions,
+      onChangeExtraOptions,
+      listingOptions,
+
       onChangeIsOwner,
       onChangeOwnerName,
       onChangeOwnerPhone,
@@ -188,6 +206,15 @@ export default function ListingCreateForm({
       moveInDate,
       moveInDateType,
       specialTerms,
+
+      verandaExtended,
+      verandaRemodelling,
+      onChangeVerandaExtended,
+      onChangeVerandaRemodelling,
+
+      extraOptions,
+      onChangeExtraOptions,
+      listingOptions,
 
       onChangeIsOwner,
       onChangeOwnerName,

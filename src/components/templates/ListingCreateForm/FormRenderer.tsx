@@ -76,6 +76,18 @@ export default function FormRenderer({ form }: Props) {
     // 임대할 부분
     rentArea,
     onChangeRentArea,
+    // 베란다 확장
+    verandaExtended,
+    onChangeVerandaExtended,
+
+    // 2년 내 올수리
+    verandaRemodelling,
+    onChangeVerandaRemodelling,
+
+    // 추가 옵션
+    extraOptions,
+    onChangeExtraOptions,
+    listingOptions,
 
     rentTermMonth,
     rentTermYear,
@@ -293,11 +305,20 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.Optionals}>
           <div tw="px-5 py-10">
-            <Form.ListingOptions />
+            <Form.ListingOptions
+              verandaExtended={verandaExtended}
+              verandaRemodelling={verandaRemodelling}
+              onChangeVerandaExtended={onChangeVerandaExtended}
+              onChangeVerandaRemodelling={onChangeVerandaRemodelling}
+            />
           </div>
           <Separator />
           <div tw="px-5 py-10">
-            <Form.ExtraOptions />
+            <Form.ExtraOptions
+              extraOptions={extraOptions}
+              onChangeExtraOptions={onChangeExtraOptions}
+              listingOptions={listingOptions}
+            />
           </div>
           <Separator />
           <div tw="px-5 py-10">
