@@ -28,6 +28,10 @@ interface Args {
   rentTermNegotiable: boolean;
   specialTerms: string;
 
+  verandaExtended: boolean;
+  verandaRemodelling: boolean;
+  extraOptions: number[];
+
   collaterals: CollateralType[];
 
   quickSale: boolean;
@@ -117,6 +121,10 @@ export default function makeListingCreateParams(args: Args) {
     rent_contract_term_negotiable: args.rentTermNegotiable,
 
     special_terms: args.specialTerms,
+
+    veranda_extended: args.verandaExtended,
+    veranda_remodelling: args.verandaRemodelling,
+    extra_options: args.extraOptions,
 
     trade_price: args.buyOrRent === BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     quick_sale: args.quickSale,
