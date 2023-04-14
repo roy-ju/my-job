@@ -2,6 +2,7 @@ import { Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateForm } from '@/components/templates';
 import { memo } from 'react';
+import useAPI_GetOptionList from '@/apis/listing/getOptionList';
 import useListingCreateForm from './useListingCreateForm';
 
 interface Props {
@@ -61,6 +62,14 @@ export default memo(({ depth, panelWidth }: Props) => {
     rentArea,
     handleChangeRentArea,
 
+    verandaExtended,
+    verandaRemodelling,
+    handleChangeVerandaExtended,
+    handleChangeVerandaRemodelling,
+
+    extraOptions,
+    handleChangeExtraOptions,
+
     rentTermMonth,
     rentTermYear,
     rentTermNegotiable,
@@ -90,6 +99,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeRentEndDate,
   } = useListingCreateForm(depth);
 
+  const { list: listingOptions } = useAPI_GetOptionList();
+
   return (
     <Panel width={panelWidth}>
       <ListingCreateForm
@@ -110,6 +121,13 @@ export default memo(({ depth, panelWidth }: Props) => {
         debtSuccessionMiscs={debtSuccessionMiscs}
         collaterals={collaterals}
         specialTerms={specialTerms}
+        verandaExtended={verandaExtended}
+        verandaRemodelling={verandaRemodelling}
+        onChangeVerandaExtended={handleChangeVerandaExtended}
+        onChangeVerandaRemodelling={handleChangeVerandaRemodelling}
+        extraOptions={extraOptions}
+        onChangeExtraOptions={handleChangeExtraOptions}
+        listingOptions={listingOptions}
         moveInDate={moveInDate}
         moveInDateType={moveInDateType}
         onClickNext={handleClickNext}
