@@ -2,7 +2,13 @@ import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
 import { Button } from '@/components/atoms';
 import ListingItem from '../ListingItem';
 
-export default function ActiveListingInfo({ danjiListings }: { danjiListings?: GetDanjiListingsResponse['list'] }) {
+export default function ActiveListingInfo({
+  danjiListings,
+  onClick,
+}: {
+  danjiListings?: GetDanjiListingsResponse['list'];
+  onClick?: (id: number) => void;
+}) {
   if (!danjiListings) return null;
   if (danjiListings && danjiListings.length === 0) return null;
 
@@ -14,7 +20,12 @@ export default function ActiveListingInfo({ danjiListings }: { danjiListings?: G
       </div>
       <ListingItem>
         {danjiListings.slice(0, 3).map((item, index) => (
-          <ListingItem.TypeOne key={item.listing_id} item={item} isLast={danjiListings.length - 1 === index} />
+          <ListingItem.TypeOne
+            key={item.listing_id}
+            item={item}
+            isLast={danjiListings.length - 1 === index}
+            onClick={onClick}
+          />
         ))}
       </ListingItem>
 

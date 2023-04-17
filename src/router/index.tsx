@@ -130,6 +130,18 @@ const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingC
   loading: () => <Panel />,
 });
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
+const BiddingForm = dynamic(() => import('@/components/pages/pc/BiddingForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const BiddingSummary = dynamic(() => import('@/components/pages/pc/BiddingSummary'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const BiddingSuccess = dynamic(() => import('@/components/pages/pc/BiddingSuccess'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -299,6 +311,18 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingCreateUpdateAddressDetail: {
       return <ListingCreateUpdateAddressDetail {...props} />;
+    }
+
+    case Routes.BiddingForm: {
+      return <BiddingForm {...props} />;
+    }
+
+    case Routes.BiddingSummary: {
+      return <BiddingSummary {...props} />;
+    }
+
+    case Routes.BiddingSuccess: {
+      return <BiddingSuccess {...props} />;
     }
 
     case Routes.Developer: {
