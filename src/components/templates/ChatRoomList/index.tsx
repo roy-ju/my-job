@@ -12,15 +12,14 @@ const ListContainer = styled.div`
 `;
 
 interface IChatRoomListItem {
-  title: string;
-  chatRoomType: string;
-  agentDescription: string;
+  id: number;
+  profileImagePath: string | StaticImageData;
+  officeName: string;
+  listingTitle: string;
+  unreadMessageCount: number;
   lastMessage: string;
   lastMessageTime: string;
-  unreadMessageCount: number;
-  profileImagePath: string | StaticImageData;
-  listingStatus: string;
-  id: number;
+  additionalListingCount: number;
   active: boolean;
 }
 
@@ -40,12 +39,11 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
             onClick={() => {
               onClickListItem?.(item.id);
             }}
-            title={item.title}
-            chatRoomType={item.chatRoomType}
-            agentDescription={item.agentDescription}
+            officeName={item.officeName}
             lastMessage={item.lastMessage}
-            listingStatus={item.listingStatus}
+            listingTitle={item.listingTitle}
             lastMessageTime={item.lastMessageTime}
+            additionalListingCount={item.additionalListingCount}
             unreadMessageCount={item.unreadMessageCount}
             profileImagePath={item.profileImagePath}
             active={item.active}
@@ -78,7 +76,7 @@ export default function ChatRoomList({ list, isLoading, onClickListItem }: ChatR
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.Title>문의목록</NavigationHeader.Title>
+        <NavigationHeader.Title>{list.length > 0 ? '채팅' : '문의목록'}</NavigationHeader.Title>
       </NavigationHeader>
       {renderList()}
     </div>
