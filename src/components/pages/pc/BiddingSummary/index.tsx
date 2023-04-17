@@ -43,7 +43,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     setIsCreatingBidding(false);
     router.replace(Routes.BiddingSuccess, {
       searchParams: { listingID: `${listingID}` },
-      state: { canReceiveSuggest: `${Boolean(res?.can_receive_suggest)}` },
+      state: { canReceiveSuggest: `${res?.can_receive_suggest}` },
     });
   }, [router, listingID, params, mutateListing]);
 
