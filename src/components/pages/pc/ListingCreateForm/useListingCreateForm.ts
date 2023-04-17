@@ -339,9 +339,9 @@ export default function useListingCreateForm(depth: number) {
       rentEndDate,
       listingPhotoUrls,
       danjiPhotoUrls,
-      verandaExtended: false,
-      verandaRemodelling: false,
-      extraOptions: [],
+      verandaExtended,
+      verandaRemodelling,
+      extraOptions,
     });
 
     if (isOwner && user) {
@@ -389,6 +389,9 @@ export default function useListingCreateForm(depth: number) {
     danjiPhotoUrls,
     addressLine1,
     addressLine2,
+    extraOptions,
+    verandaExtended,
+    verandaRemodelling,
   ]);
 
   const handleClickNext = useCallback(() => {
@@ -935,8 +938,8 @@ export default function useListingCreateForm(depth: number) {
       setVerandaRemodelling(parsed.veranda_remodelling);
     }
 
-    if (parsed.extraOptions) {
-      setExtraOptions([parsed.extraOptions]);
+    if (parsed.extra_options) {
+      setExtraOptions(parsed.extra_options);
     }
 
     if (parsed.jeonsae_loan !== undefined) {
