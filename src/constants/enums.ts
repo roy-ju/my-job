@@ -73,6 +73,20 @@ export enum ListingStatus {
   Deleted = 24, // 중개사 임시저장 상태
 }
 
+export enum VisitUserType {
+  NotLoggedIn = 1, // 로그인 안한 유저
+  BuyerGeneral = 2, // 로그인 한 유저 - 미제안
+  SellerGeneral = 3, // 매도인 - 가계약금 이전
+  SellerPreContract = 4, // 매도인 - 가계약금 이후
+  Submitted = 5, // 매수인 제안상태 (중개사가 액션전)
+  Rejected = 6, // 매수인 제안거걸 (중개사가 거절함)
+  Accepted = 7, // 매수인 제안수락 (중개사가 수락하여 채팅방 열림)
+  HasSuggested = 8, // 매수인 제안은 없고 중개인의 추천이 있는 경우
+  HasRejectedSuggest = 9, // 매수인 제안이 없고 중개인의 추천이 있는데 거절한 경우
+  PreContractOthers = 10, // 가계약금 입금 됐지만 당사자가 아님
+  PreContractSelf = 11, // 가계약금 입금된 당사자
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:

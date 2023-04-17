@@ -76,7 +76,7 @@ function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: Ta
 
   return (
     <TabsContext.Provider value={context}>
-      <div css={[tw`flex items-center`, tabsStyles[variant]]}>
+      <motion.div layout layoutRoot css={[tw`flex items-center`, tabsStyles[variant]]}>
         {tabChildren?.map((child) =>
           isValidElement(child) ? (
             <div tw="relative flex-1" key={child.key ?? child.props.value}>
@@ -92,7 +92,7 @@ function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: Ta
             </div>
           ) : null,
         )}
-      </div>
+      </motion.div>
     </TabsContext.Provider>
   );
 }

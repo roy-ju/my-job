@@ -32,7 +32,7 @@ export default function useRouter(depth: number) {
       }
 
       const query = {
-        // ...router.query,
+        ...router.query,
         ...options?.searchParams,
       };
 
@@ -64,7 +64,7 @@ export default function useRouter(depth: number) {
     }
 
     const query: Record<string, string> = {
-      // ...router.query,
+      ...(router.query as Record<string, string>),
       // ...options?.searchParams,
     };
 
