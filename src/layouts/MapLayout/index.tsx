@@ -167,7 +167,6 @@ export default function MapLayout({ children }: Props) {
       분리된 컴포넌트로 사용한다. */}
         <MapWrapper panelsVisible={panelsVisible} onTogglePanelsVisibility={togglePanelsVisibility} />
       </Layout>
-      <div id="rootOverlay" tw="pointer-events-none" />
     </>
   );
 }
