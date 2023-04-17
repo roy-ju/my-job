@@ -10,6 +10,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const canReceiveSuggest = router.query.canReceiveSuggest === 'true';
 
   const onClickNext = useCallback(() => {
     router.pop();
@@ -17,7 +18,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <BiddingSuccess onClickNext={onClickNext} />
+      <BiddingSuccess onClickNext={onClickNext} canReceiveSuggest={canReceiveSuggest} />
     </Panel>
   );
 });
