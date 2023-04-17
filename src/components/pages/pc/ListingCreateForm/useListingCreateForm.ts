@@ -70,6 +70,12 @@ export default function useListingCreateForm(depth: number) {
   const [jeonsaeLoan, setJeonsaeLoan] = useState(true);
   // 급매
   const [quickSale, setQuickSale] = useState(false);
+  // 베란다 확장
+  const [verandaExtended, setVerandaExtended] = useState(false);
+  // 2년 내 올수리
+  const [verandaRemodelling, setVerandaRemodelling] = useState(false);
+  // 추가 옵션
+  const [extraOptions, setExtraOptions] = useState<number[]>([]);
   // 고정관리비
   const [adminFee, setAdminFee] = useState('');
   // 매물설명
@@ -683,6 +689,17 @@ export default function useListingCreateForm(depth: number) {
   const handleChangeSpecialTerms = useCallback((value: string) => {
     setSpecialTerms(value);
   }, []);
+  const handleChangeVerandaExtended = useCallback((value: boolean) => {
+    setVerandaExtended(value);
+  }, []);
+
+  const handleChangeVerandaRemodelling = useCallback((value: boolean) => {
+    setVerandaRemodelling(value);
+  }, []);
+
+  const handleChangeExtraOptions = useCallback((id: number) => {
+    setExtraOptions((prev) => [...prev, id]);
+  }, []);
 
   const handleChangeMoveInDate = useCallback((value: Date | null) => {
     setMoveInDate(value);
@@ -910,6 +927,17 @@ export default function useListingCreateForm(depth: number) {
     if (parsed.special_terms) {
       setSpecialTerms(parsed.special_terms);
     }
+    if (parsed.veranda_extended) {
+      setVerandaExtended(parsed.veranda_extended);
+    }
+
+    if (parsed.veranda_remodelling) {
+      setVerandaRemodelling(parsed.veranda_remodelling);
+    }
+
+    if (parsed.extraOptions) {
+      setExtraOptions([parsed.extraOptions]);
+    }
 
     if (parsed.jeonsae_loan !== undefined) {
       setJeonsaeLoan(parsed.jeonsae_loan);
@@ -1049,6 +1077,13 @@ export default function useListingCreateForm(depth: number) {
 
       moveInDate,
       moveInDateType,
+      verandaExtended,
+      verandaRemodelling,
+      handleChangeVerandaExtended,
+      handleChangeVerandaRemodelling,
+
+      extraOptions,
+      handleChangeExtraOptions,
 
       handleChangeIsOwner,
       handleChangeOwnerName,
@@ -1136,6 +1171,14 @@ export default function useListingCreateForm(depth: number) {
       specialTerms,
       moveInDate,
       moveInDateType,
+
+      verandaExtended,
+      verandaRemodelling,
+      handleChangeVerandaExtended,
+      handleChangeVerandaRemodelling,
+
+      extraOptions,
+      handleChangeExtraOptions,
 
       handleChangeIsOwner,
       handleChangeOwnerName,
