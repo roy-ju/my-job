@@ -66,7 +66,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           address_detail: verifiedAddress.address_detail,
           bubjungdong_code: res2.documents[0].address.b_code,
           jibun_address: res2.documents[0].address.address_name,
-          building_name: addressData.placeName,
+          building_name: res2.documents[0].road_address?.building_name ?? '',
           eubmyundong: res2.documents[0].address.region_3depth_name,
           lat: addressData.lat,
           long: addressData.lng,

@@ -10,6 +10,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const {
+    nextButtonDisabled,
     listing,
     type,
     handleChangeType,
@@ -48,6 +49,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <BiddingForm
+        nextButtonDisabled={nextButtonDisabled}
         listing={listing}
         forms={forms}
         onClickNext={handleClickNext}

@@ -6,11 +6,13 @@ import FormContext, { IFormContext } from './FormContext';
 
 interface Props extends IFormContext {
   forms?: string[];
+  nextButtonDisabled?: boolean;
   onClickNext?: () => void;
 }
 
 export default function BiddingForm({
   forms,
+  nextButtonDisabled,
   onClickNext,
 
   listing,
@@ -165,7 +167,7 @@ export default function BiddingForm({
         </div>
       </FormContext.Provider>
       <PersistentBottomBar>
-        <Button onClick={onClickNext} tw="w-full" size="bigger">
+        <Button disabled={nextButtonDisabled} onClick={onClickNext} tw="w-full" size="bigger">
           다음
         </Button>
       </PersistentBottomBar>

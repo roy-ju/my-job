@@ -2,7 +2,7 @@ import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import { Forms } from '@/components/templates/BiddingForm/FormRenderer';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BuyOrRent } from '@/constants/enums';
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 
@@ -12,6 +12,8 @@ export default function useBiddingForm(depth: number) {
   const listingID = Number(router.query.listingID);
 
   const { data } = useAPI_GetListingDetail(listingID);
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
   const [type, setType] = useState(1);
   const [price, setPrice] = useState('');
@@ -32,6 +34,19 @@ export default function useBiddingForm(depth: number) {
 
   const handleChangeType = useCallback((value: number) => {
     setType(value);
+    if (value === 2) {
+      setForms([Forms.Price]);
+      setPrice('');
+      setMonthlyRentFee('');
+      setCanHaveMoreContractAmount(null);
+      setContractAmount('');
+      setCanHaveMoreInterimAmount(null);
+      setInterimAmount('');
+      setCanHaveEarlierRemainingAmountDate(null);
+      setRemainingAmountDate(null);
+      setCanHaveEarlierMoveInDate(null);
+      setMoveInDate(null);
+    }
   }, []);
 
   const handleChangePrice = useCallback((value: string) => {
@@ -167,6 +182,7 @@ export default function useBiddingForm(depth: number) {
   }, [setNextForm]);
 
   const handleClickNext = useCallback(() => {
+    setNextButtonDisabled(true);
     const lastForm = forms[forms.length - 1];
 
     switch (lastForm) {
@@ -231,7 +247,83 @@ export default function useBiddingForm(depth: number) {
     }
   }, [forms]);
 
+  // 버튼 비활성화 로직
+  useEffect(() => {
+    setNextButtonDisabled(false);
+
+    const currentForm = forms[forms.length - 1];
+    const buyOrRent = data?.listing.buy_or_rent ?? 0;
+    if (currentForm === Forms.Price) {
+      if (type === 1) {
+        const priceNum = Number(price) ?? 0;
+        const monthlyRentFeeNum = Number(monthlyRentFee) ?? 0;
+
+        if ([BuyOrRent.Buy, BuyOrRent.Jeonsae].includes(buyOrRent) && priceNum < 1) {
+          setNextButtonDisabled(true);
+        }
+        if (buyOrRent === BuyOrRent.Wolsae && (priceNum < 1 || monthlyRentFeeNum < 1)) {
+          setNextButtonDisabled(true);
+        }
+      }
+    }
+
+    if (currentForm === Forms.ContractAmount) {
+      const contractAmountNum = Number(contractAmount) ?? 0;
+
+      if (canHaveMoreContractAmount === null) {
+        setNextButtonDisabled(true);
+      }
+      if (canHaveMoreContractAmount === true && contractAmountNum < 1) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.InterimAmount) {
+      const interimAmountNum = Number(interimAmount) ?? 0;
+
+      if (canHaveMoreInterimAmount === null) {
+        setNextButtonDisabled(true);
+      }
+      if (canHaveMoreInterimAmount === true && interimAmountNum < 1) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.RemainingAmount) {
+      if (canHaveEarlierRemainingAmountDate === null) {
+        setNextButtonDisabled(true);
+      }
+      if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.MoveInDate) {
+      if (canHaveEarlierMoveInDate === null) {
+        setNextButtonDisabled(true);
+      }
+      if (canHaveEarlierMoveInDate === true && moveInDate === null) {
+        setNextButtonDisabled(true);
+      }
+    }
+  }, [
+    forms,
+    type,
+    price,
+    monthlyRentFee,
+    data?.listing.buy_or_rent,
+    canHaveMoreContractAmount,
+    contractAmount,
+    canHaveMoreInterimAmount,
+    interimAmount,
+    canHaveEarlierRemainingAmountDate,
+    remainingAmountDate,
+    canHaveEarlierMoveInDate,
+    moveInDate,
+  ]);
+
   return {
+    nextButtonDisabled,
     listing: data?.listing,
     type,
     handleChangeType,
