@@ -2,8 +2,9 @@ import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import { Forms } from '@/components/templates/BiddingForm/FormRenderer';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent } from '@/constants/enums';
+import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 
 export default function useBiddingForm(depth: number) {
@@ -12,6 +13,13 @@ export default function useBiddingForm(depth: number) {
   const listingID = Number(router.query.listingID);
 
   const { data } = useAPI_GetListingDetail(listingID);
+
+  const biddingParams = useMemo(() => {
+    if (typeof router.query.params === 'string') {
+      return JSON.parse(router.query.params);
+    }
+    return null;
+  }, [router.query.params]);
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
@@ -324,9 +332,66 @@ export default function useBiddingForm(depth: number) {
     moveInDate,
   ]);
 
+  useIsomorphicLayoutEffect(() => {
+    if (!biddingParams) return;
+    console.log(biddingParams);
+    if (data?.listing?.buy_or_rent === BuyOrRent.Buy && biddingParams.accepting_target_price === false) {
+      setForms([Forms.Price, Forms.ContractAmount, Forms.InterimAmount, Forms.RemainingAmount, Forms.Etc]);
+    } else if (
+      [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].includes(data?.listing?.buy_or_rent ?? 0) &&
+      biddingParams.accepting_target_price === false
+    ) {
+      setForms([Forms.Price, Forms.ContractAmount, Forms.InterimAmount, Forms.MoveInDate, Forms.Etc]);
+    }
+
+    if (biddingParams.accepting_target_price === true) {
+      setType(2);
+    }
+    if (biddingParams.accepting_target_price === false) {
+      setType(1);
+    }
+    if (biddingParams.bidding_trade_or_deposit_price) {
+      setPrice(convertNumberToPriceInput(biddingParams.bidding_trade_or_deposit_price));
+    }
+    if (biddingParams.bidding_monthly_rent_fee) {
+      setMonthlyRentFee(convertNumberToPriceInput(biddingParams.bidding_monthly_rent_fee));
+    }
+    if (biddingParams.can_have_more_contract_amount !== null) {
+      setCanHaveMoreContractAmount(biddingParams.can_have_more_contract_amount);
+    }
+    if (biddingParams.contract_amount) {
+      setContractAmount(convertNumberToPriceInput(biddingParams.contract_amount));
+    }
+    if (biddingParams.can_have_more_interim_amount !== null) {
+      setCanHaveMoreInterimAmount(biddingParams.can_have_more_interim_amount);
+    }
+    if (biddingParams.interim_amount) {
+      setInterimAmount(convertNumberToPriceInput(biddingParams.interim_amount));
+    }
+    if (biddingParams.can_have_earlier_remaining_amount_payment_time !== null) {
+      setCanHaveEarlierRemainingAmountDate(biddingParams.can_have_earlier_remaining_amount_payment_time);
+    }
+    if (biddingParams.remaining_amount_payment_time) {
+      setRemainingAmountDate(new Date(biddingParams.remaining_amount_payment_time));
+    }
+    if (biddingParams.can_have_earlier_move_in_date !== null) {
+      setCanHaveEarlierMoveInDate(biddingParams.can_have_earlier_move_in_date);
+    }
+    if (biddingParams.move_in_date) {
+      setRemainingAmountDate(new Date(biddingParams.move_in_date));
+    }
+    if (biddingParams.etcs) {
+      setEtcs(biddingParams.etcs.split(','));
+    }
+    if (biddingParams.description) {
+      setDescription(biddingParams.description);
+    }
+  }, [biddingParams, data?.listing?.buy_or_rent]);
+
   return {
     nextButtonDisabled,
     listing: data?.listing,
+    displayAddress: data?.display_address,
     type,
     handleChangeType,
     forms,

@@ -50,7 +50,7 @@ export default function Etc({
 
   const handleChangeDescription = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
     (e) => {
-      if (e.target.value.length > 100) {
+      if (e.target.value.length > 200) {
         return;
       }
       setDescription(e.target.value);
@@ -108,7 +108,7 @@ export default function Etc({
             spellCheck="false"
           />
         </TextField>
-        <TextField.HelperMessage>{description.length} / 100</TextField.HelperMessage>
+        <TextField.HelperMessage>{description.length} / 200</TextField.HelperMessage>
       </div>
     </div>
   );
