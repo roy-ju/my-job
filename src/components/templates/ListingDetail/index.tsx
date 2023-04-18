@@ -5,7 +5,11 @@ import { ListingCtaButtons } from '@/components/organisms';
 
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { useScroll } from '@/hooks/utils';
+import tw from 'twin.macro';
+import Image from 'next/image';
+import Paths from '@/constants/paths';
 
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
@@ -22,21 +26,32 @@ export default function ListingDetail({
 }: ListingDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
+  const [isHeaderActive, setIsHeaderActive] = useState(false);
+
+  useScroll(scrollContainer, ({ scrollY }) => {
+    setIsHeaderActive(scrollY > 0.1);
+  });
+
   return (
     <div tw="relative flex flex-col h-full">
-      <NavigationHeader tw="bg-transparent w-full absolute top-0 left-0">
-        <NavigationHeader.Title tw="text-white">{listingDetail?.listing?.listing_title}</NavigationHeader.Title>
+      <NavigationHeader
+        css={[
+          tw`absolute top-0 left-0 w-full text-white transition-colors bg-transparent`,
+          isHeaderActive && tw`bg-white text-gray-1000`,
+        ]}
+      >
+        <NavigationHeader.Title tw="text-inherit">{listingDetail?.listing?.listing_title}</NavigationHeader.Title>
         <div tw="flex gap-4">
           <NavigationHeader.Button>
-            <ShareIcon tw="text-white" />
+            <ShareIcon tw="text-inherit" />
           </NavigationHeader.Button>
           <NavigationHeader.Button>
-            <HeartOutlinedIcon tw="text-white" />
+            <HeartOutlinedIcon tw="text-inherit" />
           </NavigationHeader.Button>
         </div>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
-        <div tw="w-full h-[256px] bg-red" />
+        <div tw="w-full h-[256px] bg-gray-700 flex items-center justify-center font-bold">IMAGE SECTION</div>
         <div tw="h-[2000px]" />
       </div>
       <PersistentBottomBar>
@@ -45,7 +60,6 @@ export default function ListingDetail({
           buttonSize="bigger"
           onNavigateToParticipateBidding={onNavigateToParticipateBidding}
           onNavigateToUpdateBidding={onNavigateToUpdateBidding}
-          onNavigateToUpdateRejectedBidding={onNavigateToUpdateBidding}
         />
       </PersistentBottomBar>
     </div>
