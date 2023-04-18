@@ -58,6 +58,10 @@ const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'),
   ssr: false,
   loading: () => <Panel />,
 });
+const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomReport'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: () => <Panel /> });
 const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: () => <Panel /> });
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), { ssr: false, loading: () => <Panel /> });
@@ -259,6 +263,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ChatRoomList: {
       return <ChatRoomList {...props} />;
+    }
+
+    case Routes.ChatRoomReport: {
+      return <ChatRoomReport {...props} />;
     }
 
     case Routes.DanjiDetail: {
