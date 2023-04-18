@@ -1,24 +1,16 @@
-export function formatLastMessageTime(timeString: string): string {
-  const now = new Date();
-  const time = new Date(timeString);
+import moment from 'moment';
 
-  const minute = 60 * 1000;
-  const hour = 60 * minute;
-  const day = 24 * hour;
+export function formatLastMessageTime(LastMessageTime: string): string {
+  const now = moment();
+  const messageTime = moment(LastMessageTime);
+  const diffMinutes = now.diff(messageTime, 'minutes');
 
-  const diff = now.getTime() - time.getTime();
-
-  if (diff < minute) {
+  if (diffMinutes < 1) {
     return '조금 전';
   }
-  if (diff < day) {
-    const amPm = time.getHours() < 12 ? '오전' : '오후';
-    const hours = time.getHours() % 12 || 12;
-    const minutes = time.getMinutes().toString().padStart(2, '0');
-    return `${amPm} ${hours}:${minutes}`;
+  if (diffMinutes < 1440) {
+    // 24시간 = 1440분
+    return messageTime.format('A hh:mm'); // 오후 혹은 오전 hh:mm 형태
   }
-  const year = time.getFullYear();
-  const month = (time.getMonth() + 1).toString().padStart(2, '0');
-  const date = time.getDate().toString().padStart(2, '0');
-  return `${year}.${month}.${date}`;
+  return messageTime.format('YYYY.MM.DD'); // YYYY.MM.DD 형태
 }

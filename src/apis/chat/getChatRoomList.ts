@@ -11,7 +11,7 @@ export interface GetChatRoomListResponse {
         unread_message_count: number;
         latest_message: string;
         latest_message_time: string;
-        additional_listing_count: 0;
+        additional_listing_count: number;
       }[]
     | null;
 }
