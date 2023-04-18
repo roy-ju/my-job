@@ -8,8 +8,6 @@ import ShareIcon from '@/assets/icons/share.svg';
 import { useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
-import Image from 'next/image';
-import Paths from '@/constants/paths';
 
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
