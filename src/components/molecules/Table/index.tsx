@@ -17,7 +17,7 @@ const TableRow = tw.tr``;
 
 const TableHead = tw.th`align-top py-2 mr-3 font-normal text-gray-700 text-start w-[40%]`;
 
-const TableData = tw.td`py-2 pl-3 align-top w-[60%]`;
+const TableData = tw.td`py-2 pl-3 align-top w-[60%] break-all`;
 
 interface ExpandableGroupProps {
   expanded?: boolean;

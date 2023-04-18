@@ -121,14 +121,31 @@ export default function BiddingSummary({
           <div tw="flex-1 text-center">
             <div tw="text-info text-gray-700">나의 제안가</div>
             <div tw="text-b1 font-bold text-nego-1000">
-              {listingBuyOrRent === BuyOrRent.Wolsae ? (
-                <span>
-                  <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
-                </span>
+              {acceptingTargetPrice ? (
+                <div>
+                  {listingBuyOrRent === BuyOrRent.Wolsae ? (
+                    <span>
+                      <Numeral koreanNumber>{listingPrice}</Numeral> /{' '}
+                      <Numeral koreanNumber>{listingMonthlyRentFee}</Numeral>
+                    </span>
+                  ) : (
+                    <span>
+                      <Numeral koreanNumber>{listingPrice}</Numeral>
+                    </span>
+                  )}
+                </div>
               ) : (
-                <span>
-                  <Numeral koreanNumber>{price}</Numeral>
-                </span>
+                <div>
+                  {listingBuyOrRent === BuyOrRent.Wolsae ? (
+                    <span>
+                      <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
+                    </span>
+                  ) : (
+                    <span>
+                      <Numeral koreanNumber>{price}</Numeral>
+                    </span>
+                  )}
+                </div>
               )}
             </div>
           </div>
