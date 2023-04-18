@@ -99,6 +99,8 @@ export default function useDanjiDetail(depth: number) {
     ps: 10,
   });
 
+  
+
   const isShowDanjiPhotos = useMemo(() => {
     if (danjiPhotos && danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0) {
       return true;

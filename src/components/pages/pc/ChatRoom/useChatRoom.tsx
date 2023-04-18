@@ -100,5 +100,6 @@ export default function useChatRoom(chatRoomID: number) {
     chatMessages,
     isLoading,
     handleSendMessage,
+    chatUserType: data?.chat_user_type,
   };
 }
