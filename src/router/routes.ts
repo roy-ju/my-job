@@ -58,6 +58,7 @@ const Routes = {
   VerifyCiSuccess: 'verifyCiSuccess',
   FindAccount: 'findAccount',
 
+  // 매물등록
   ListingCreateAddress: 'listingCreateAddress',
   ListingCreateAddressDetail: 'listingCreateAddressDetail',
   ListingCreateForm: 'listingCreateForm',
@@ -67,9 +68,15 @@ const Routes = {
   ListingCreateUpdateAddress: 'listingCreateUpdateAddress',
   ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
 
+  // 가격제안
   BiddingForm: 'biddingForm',
   BiddingSummary: 'biddingSummary',
   BiddingSuccess: 'biddingSuccess',
+
+  // 가격제안 수정
+  UpdateBiddingForm: 'updateBiddingForm',
+  UpdateBiddingSummary: 'updateBiddingSummary',
+  UpdateBiddingSuccess: 'updateBiddingSuccess',
 
   EntryMobile: 'm',
 };

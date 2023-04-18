@@ -1,18 +1,24 @@
 import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import { Forms } from '@/components/templates/BiddingForm/FormRenderer';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BuyOrRent } from '@/constants/enums';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
-import makeCreateBiddingParams from './makeCreateBiddingParams';
+import useAPI_GetBiddingInfo, { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
+import Routes from '@/router/routes';
+import makeUpdateBiddingParams from './makeUpdateBiddingParams';
 
-export default function useBiddingForm(depth: number) {
+export default function useUpdateBiddingForm(depth: number) {
   const router = useRouter(depth);
 
-  const listingID = Number(router.query.listingID);
+  const listingID = Number(router.query.listingID) ?? 0;
+  const biddingID = Number(router.query.biddingID) ?? 0;
 
-  const { data } = useAPI_GetListingDetail(listingID);
+  const scrollLockRef = useRef(true);
+
+  const { data, isLoading: isLoadingListing } = useAPI_GetListingDetail(listingID);
+  const { data: biddingData } = useAPI_GetBiddingInfo(biddingID);
+  const [isLoadingBidding, setIsLoadingBidding] = useState(true);
 
   const biddingParams = useMemo(() => {
     if (typeof router.query.params === 'string') {
@@ -118,7 +124,7 @@ export default function useBiddingForm(depth: number) {
   }, []);
 
   const handleSubmitFinal = useCallback(() => {
-    const params = makeCreateBiddingParams({
+    const reqParams = makeUpdateBiddingParams({
       acceptingTargetPrice: type === 2,
       price,
       monthlyRentFee,
@@ -134,18 +140,20 @@ export default function useBiddingForm(depth: number) {
       moveInDateType,
       etcs,
       description,
+      biddingInfo: biddingData as GetBiddingInfoResponse,
     });
-
-    router.replace(Routes.BiddingSummary, {
+    router.replace(Routes.UpdateBiddingSummary, {
       searchParams: {
         listingID: router.query.listingID as string,
+        biddingID: router.query.biddingID as string,
       },
       state: {
-        params: JSON.stringify(params),
+        params: JSON.stringify(reqParams),
       },
     });
   }, [
     router,
+    biddingData,
     price,
     type,
     monthlyRentFee,
@@ -192,6 +200,7 @@ export default function useBiddingForm(depth: number) {
   }, [setNextForm]);
 
   const handleClickNext = useCallback(() => {
+    scrollLockRef.current = false;
     setNextButtonDisabled(true);
     const lastForm = forms[forms.length - 1];
 
@@ -253,7 +262,9 @@ export default function useBiddingForm(depth: number) {
         }
       }
 
-      formElement.scrollIntoView({ behavior: 'smooth' });
+      if (!scrollLockRef.current) {
+        formElement.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }, [forms]);
 
@@ -334,6 +345,8 @@ export default function useBiddingForm(depth: number) {
 
   useIsomorphicLayoutEffect(() => {
     if (!biddingParams) return;
+
+    console.log('updating from bidding params');
     if (data?.listing?.buy_or_rent === BuyOrRent.Buy && biddingParams.accepting_target_price === false) {
       setForms([Forms.Price, Forms.ContractAmount, Forms.InterimAmount, Forms.RemainingAmount, Forms.Etc]);
     } else if (
@@ -387,8 +400,71 @@ export default function useBiddingForm(depth: number) {
     }
   }, [biddingParams, data?.listing?.buy_or_rent]);
 
+  useIsomorphicLayoutEffect(() => {
+    if (biddingParams) {
+      setIsLoadingBidding(false);
+      return;
+    }
+    console.log('updating from bidding data');
+    if (!biddingData || !data?.listing?.buy_or_rent) return;
+    if (data?.listing?.buy_or_rent === BuyOrRent.Buy && biddingData.accepting_target_price === false) {
+      setForms([Forms.Price, Forms.ContractAmount, Forms.InterimAmount, Forms.RemainingAmount, Forms.Etc]);
+    } else if (
+      [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].includes(data?.listing?.buy_or_rent ?? 0) &&
+      biddingData.accepting_target_price === false
+    ) {
+      setForms([Forms.Price, Forms.ContractAmount, Forms.InterimAmount, Forms.MoveInDate, Forms.Etc]);
+    }
+
+    if (biddingData.accepting_target_price === true) {
+      setType(2);
+    }
+    if (biddingData.accepting_target_price === false) {
+      setType(1);
+    }
+    if (biddingData.bidding_trade_or_deposit_price) {
+      setPrice(convertNumberToPriceInput(biddingData.bidding_trade_or_deposit_price));
+    }
+    if (biddingData.bidding_monthly_rent_fee) {
+      setMonthlyRentFee(convertNumberToPriceInput(biddingData.bidding_monthly_rent_fee));
+    }
+    if (biddingData.can_have_more_contract_amount !== null) {
+      setCanHaveMoreContractAmount(biddingData.can_have_more_contract_amount);
+    }
+    if (biddingData.contract_amount) {
+      setContractAmount(convertNumberToPriceInput(biddingData.contract_amount));
+    }
+    if (biddingData.can_have_more_interim_amount !== null) {
+      setCanHaveMoreInterimAmount(biddingData.can_have_more_interim_amount);
+    }
+    if (biddingData.interim_amount) {
+      setInterimAmount(convertNumberToPriceInput(biddingData.interim_amount));
+    }
+    if (biddingData.can_have_earlier_remaining_amount_payment_time !== null) {
+      setCanHaveEarlierRemainingAmountDate(biddingData.can_have_earlier_remaining_amount_payment_time);
+    }
+    if (biddingData.remaining_amount_payment_time) {
+      setRemainingAmountDate(new Date(biddingData.remaining_amount_payment_time));
+    }
+    if (biddingData.can_have_earlier_move_in_date !== null) {
+      setCanHaveEarlierMoveInDate(biddingData.can_have_earlier_move_in_date);
+    }
+    if (biddingData.move_in_date) {
+      setRemainingAmountDate(new Date(biddingData.move_in_date));
+    }
+    if (biddingData.etcs) {
+      setEtcs(biddingData.etcs.split(','));
+    }
+    if (biddingData.description) {
+      setDescription(biddingData.description);
+    }
+    setIsLoadingBidding(false);
+  }, [biddingParams, biddingData, data?.listing?.buy_or_rent]);
+
   return {
     nextButtonDisabled,
+    isLoadingListing,
+    isLoadingBidding,
     listing: data?.listing,
     displayAddress: data?.display_address,
     type,
