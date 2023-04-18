@@ -48,3 +48,19 @@ export function minDigits(num: number, digits: number) {
     minimumIntegerDigits: digits,
   });
 }
+
+export function formatUseAcceptedYear(value: string) {
+  if (value.length === 4) {
+    return `${value}년`;
+  }
+
+  if (value.length === 6) {
+    return `${value.substring(0, 4)}년 ${value.substring(4, 6)}월`;
+  }
+
+  if (value.length === 8) {
+    return `${value.substring(0, 4)}년 ${value.substring(4, 6)}월 ${value.substring(6, 8)}일`;
+  }
+
+  return value;
+}
