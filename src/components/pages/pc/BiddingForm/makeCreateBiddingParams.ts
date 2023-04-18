@@ -1,6 +1,7 @@
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
 interface Args {
+  acceptingTargetPrice: boolean;
   price: string;
   monthlyRentFee: string;
   canHaveMoreContractAmount: boolean | null;
@@ -29,6 +30,8 @@ function getDateType(value?: string) {
 
 export default function makeCreateBiddingParams(args: Args) {
   const params: Record<string, unknown> = {
+    accepting_target_price: args.acceptingTargetPrice,
+
     bidding_trade_or_deposit_price: convertPriceInputToNumber(args.price),
     bidding_monthly_rent_fee: convertPriceInputToNumber(args.monthlyRentFee),
 

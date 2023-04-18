@@ -1,5 +1,6 @@
 import { Button, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader, Table } from '@/components/molecules';
+import tw, { styled } from 'twin.macro';
 
 interface Props {
   isCreatingBidding?: boolean;
@@ -18,6 +19,16 @@ interface Props {
   onClickNext?: () => void;
 }
 
+const StyledTable = styled.table`
+  ${tw`w-full table-fixed text-b2`}
+  th {
+    ${tw`text-gray-1000 w-[20%] py-1`}
+  }
+  td {
+    ${tw`py-1 text-end`}
+  }
+`;
+
 export default function BiddingSummary({ isCreatingBidding, onClickBack, onClickNext }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -29,7 +40,7 @@ export default function BiddingSummary({ isCreatingBidding, onClickBack, onClick
         <div tw="px-5">
           <div tw="text-b1 font-bold">나의 상세조건</div>
           <div tw="py-4">
-            <Table>
+            <StyledTable>
               <Table.Body>
                 <Table.Row>
                   <Table.Head>가격</Table.Head>
@@ -52,7 +63,7 @@ export default function BiddingSummary({ isCreatingBidding, onClickBack, onClick
                   <Table.Data>올수리 예정입니다, 실거주 목적입니다.</Table.Data>
                 </Table.Row>
               </Table.Body>
-            </Table>
+            </StyledTable>
           </div>
         </div>
       </div>
