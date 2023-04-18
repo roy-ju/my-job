@@ -70,4 +70,6 @@ export { default as ListingCreateResultStatus } from './ListingCreateResultStatu
 export { default as ListingCtaButtons } from './ListingCtaButtons';
 export { default as BiddingForm } from './BiddingForm';
 
+export { default as ListingSummaryCard } from './ListingSummaryCard';
+
 export * from './popups';
