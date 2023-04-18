@@ -79,6 +79,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
 
     const address = searchRes.documents[0].address;
+    const roadAddress = searchRes.documents[0].road_address;
 
     await updateMyListingAddress({
       listing_id: listingID,
@@ -91,7 +92,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       eubmyundong: address.region_3depth_name,
 
       li: '',
-      building_name: addressData.placeName,
+      building_name: roadAddress?.building_name ?? '',
       long: addressData.lng,
       lat: addressData.lat,
       dong,
