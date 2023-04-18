@@ -4,7 +4,7 @@ import { Loading, Panel } from '@/components/atoms';
 import { BiddingSummary } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -56,6 +56,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   }, [router]);
 
+  useEffect(() => {
+    if (!params) router.pop();
+  }, [router, params]);
+
   return (
     <Panel width={panelWidth}>
       {isLoading ? (
@@ -73,6 +77,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           listingPrice={data?.trade_or_deposit_price}
           listingMonthlyRentFee={data?.monthly_rent_fee}
           listingBuyOrRent={data?.listing?.buy_or_rent}
+          acceptingTargetPrice={params?.accepting_target_price}
           price={params?.bidding_trade_or_deposit_price}
           monthlyRentFee={params?.bidding_monthly_rent_fee}
           contractAmount={params?.contract_amount}

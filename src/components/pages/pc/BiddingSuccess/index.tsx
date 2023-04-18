@@ -2,7 +2,7 @@ import createSuggestFromBidding from '@/apis/suggest/createSuggestFromBidding';
 import { Panel } from '@/components/atoms';
 import { BiddingSuccess } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -28,6 +28,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     },
     [router, biddingID],
   );
+
+  useEffect(() => {
+    if (!router.query.canReceiveSuggest) router.pop();
+  }, [router.query.canReceiveSuggest, router]);
 
   return (
     <Panel width={panelWidth}>
