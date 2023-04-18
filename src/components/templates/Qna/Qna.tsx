@@ -1,5 +1,5 @@
 import { TextField } from '@/components/molecules';
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 
 interface IQnaProps {
   value?: string;
