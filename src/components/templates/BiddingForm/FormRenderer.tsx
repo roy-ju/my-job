@@ -1,5 +1,6 @@
 import { BiddingForm as Form } from '@/components/organisms';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
+import _ from 'lodash';
 import FormContext from './FormContext';
 
 export const Forms = {
@@ -58,6 +59,12 @@ export default function FormRenderer({ form }: Props) {
     onChangeDescription,
   } = useContext(FormContext);
 
+  const totalInterimAmount = useMemo(
+    () =>
+      _.sum([listing?.interim_amount1, listing?.interim_amount2, listing?.interim_amount3]?.map((item) => item ?? 0)),
+    [listing?.interim_amount1, listing?.interim_amount2, listing?.interim_amount3],
+  );
+
   switch (form) {
     case Forms.Price:
       return (
@@ -79,6 +86,8 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.ContractAmount}>
           <Form.ContractAmount
+            listingPrice={listing?.trade_price || listing?.deposit}
+            listingContractAmount={listing?.contract_amount}
             value={canHaveMoreContractAmount}
             onChange={onChangeCanHaveMoreContractAmount}
             amount={contractAmount}
@@ -90,6 +99,8 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.InterimAmount}>
           <Form.InterimAmount
+            listingPrice={listing?.trade_price || listing?.deposit}
+            listingInterimAmount={totalInterimAmount}
             value={canHaveMoreInterimAmount}
             onChange={onChangeCanHaveMoreInterimAmount}
             amount={interimAmount}
@@ -101,6 +112,7 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.RemainingAmount}>
           <Form.RemainingAmount
+            listingRemainingAmountDate={listing?.remaining_amount_payment_time}
             value={canHaveEarilerRemainingAmountDate}
             onChange={onChangeCanHaveEarilerRemainingAmountDate}
             date={remainingAmountDate}

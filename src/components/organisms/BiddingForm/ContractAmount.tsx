@@ -1,9 +1,13 @@
-import { Button } from '@/components/atoms';
+import { Button, Numeral } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
-import { ChangeEventHandler, useCallback } from 'react';
+import getPercentOf from '@/utils/getPercentOf';
+import { ChangeEventHandler, useCallback, useMemo } from 'react';
 
 export interface ContractAmountProps {
+  listingPrice?: number;
+  listingContractAmount?: number;
+
   value?: boolean | null;
   onChange?: (value: boolean) => void;
   amount?: string;
@@ -11,6 +15,9 @@ export interface ContractAmountProps {
 }
 
 export default function ContractAmount({
+  listingPrice = 0,
+  listingContractAmount = 0,
+
   value: valueProp,
   amount: amountProp,
   onChange,
@@ -35,11 +42,18 @@ export default function ContractAmount({
     [setAmount, onChangeAmount],
   );
 
+  const percentage = useMemo(
+    () => getPercentOf(listingContractAmount, listingPrice),
+    [listingPrice, listingContractAmount],
+  );
+
   return (
     <div>
       <div tw="py-7 px-5">
         <div tw="font-bold">계약금을 더 지급할 수 있으신가요?</div>
-        <div tw="text-info text-gray-700 mb-4">집주인은 10%(금액)를 희망해요</div>
+        <div tw="text-info text-gray-700 mb-4">
+          집주인은 {percentage}%(<Numeral koreanNumber>{listingContractAmount}</Numeral>)를 희망해요
+        </div>
         <div tw="flex gap-3">
           <Button
             size="bigger"

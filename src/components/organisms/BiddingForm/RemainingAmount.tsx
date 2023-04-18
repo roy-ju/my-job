@@ -1,9 +1,11 @@
-import { Button } from '@/components/atoms';
+import { Button, Moment } from '@/components/atoms';
 import { DatePicker, Dropdown } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { useCallback } from 'react';
 
 export interface RemainingAmountProps {
+  listingRemainingAmountDate?: string | null;
+
   value?: boolean | null;
   onChange?: (value: boolean) => void;
   date?: Date | null;
@@ -13,6 +15,8 @@ export interface RemainingAmountProps {
 }
 
 export default function RemainingAmount({
+  listingRemainingAmountDate = null,
+
   value: valueProp,
   onChange,
   date,
@@ -34,8 +38,12 @@ export default function RemainingAmount({
     <div>
       <div tw="py-7 px-5">
         <div tw="font-bold">잔금 기일을 앞당길 수 있으신가요?</div>
-        <div tw="text-info text-gray-700 mb-4">집주인은 2023년 04월 25일을 희망해요.</div>
-        <div tw="flex gap-3">
+        {listingRemainingAmountDate && (
+          <div tw="text-info text-gray-700">
+            집주인은 <Moment format="yyyy년 MM월 DD일">{listingRemainingAmountDate}</Moment>을 희망해요.
+          </div>
+        )}
+        <div tw="flex gap-3 mt-4">
           <Button
             size="bigger"
             variant="outlined"
