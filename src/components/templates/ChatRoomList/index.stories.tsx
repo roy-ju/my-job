@@ -11,7 +11,7 @@ const mock = [
       '최근 메세지가 들어갑니다 최근 메세지가 2줄 최금 네세지가 들어갑니다. 최근 메세지가 들어갑니다. 최근 메세지가 들어갑니다.  최근 메세지가 들어갑니다.  최근 메세지가 들어갑니다.',
     listingTitle: '도곡한라비발디프라펠리스 101동',
     additionalListingCount: 2,
-    lastMessageTime: '2023-04-14T15:20:05+09:00',
+    lastMessageTime: '2023-04-18T15:20:05+09:00',
     unreadMessageCount: 1,
     profileImagePath: defaultAvatar,
     active: true,

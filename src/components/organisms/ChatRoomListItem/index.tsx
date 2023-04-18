@@ -16,7 +16,7 @@ interface ChatRoomListItemProps {
 }
 
 export default function ChatRoomListItem({
-  active,
+  active = true,
   profileImagePath,
   officeName,
   lastMessage,
