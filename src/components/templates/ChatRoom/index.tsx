@@ -7,8 +7,6 @@ import { useCallback } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
 
-const headerItems = ['신고하기', '채팅방나가기'];
-
 interface ChatRoomProps {
   title: string;
   agentName: string;
@@ -23,6 +21,7 @@ interface ChatRoomProps {
   onSendMessage?: (message: string) => void;
 
   onClickReportButton?: () => void;
+  onClickLeaveButton?: () => void;
 }
 
 export default function ChatRoom({
@@ -39,8 +38,17 @@ export default function ChatRoom({
   onSendMessage,
 
   onClickReportButton,
+  onClickLeaveButton,
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
+
+  const headerItems = [
+    { label: '신고하기', onClick: onClickReportButton },
+    {
+      label: '채팅방 나가기',
+      onClick: onClickLeaveButton,
+    },
+  ];
 
   const renderItem = useCallback(
     (index: number, chatMessage: IChatMessage) => (
@@ -72,7 +80,10 @@ export default function ChatRoom({
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1">{officeName}</NavigationHeader.Title>
-        <NavigationHeader.MoreButton onClickItem={onClickReportButton} items={headerItems} />
+        <NavigationHeader.MoreButton
+          onClickItem={(index) => headerItems[index]?.onClick?.()}
+          items={headerItems.map((item) => item.label)}
+        />
       </NavigationHeader>
       <div tw="flex p-4 border-t border-gray-300  justify-between">
         <div> {title + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}</div>
