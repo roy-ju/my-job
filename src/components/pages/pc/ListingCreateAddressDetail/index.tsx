@@ -77,6 +77,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
 
     const address = searchRes.documents[0].address;
+    const roadAddress = searchRes.documents[0].road_address;
 
     const createRes = await createListing({
       road_name_address: roadNameAddress,
@@ -86,7 +87,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       sigungu: address.region_2depth_name,
       eubmyundong: address.region_3depth_name,
       li: '',
-      building_name: addressData.placeName,
+      building_name: roadAddress?.building_name ?? '',
       long: addressData.lng,
       lat: addressData.lat,
       dong,

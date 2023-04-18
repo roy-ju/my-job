@@ -30,7 +30,6 @@ export { default as NotificationSettingsWrraper } from './My/NotificationSetting
 export { default as NotificationWrraper } from './My/NotificationWrraper';
 export { default as FindAccountWrraper } from './My/FindAccountWrraper';
 
-
 /** 회원가입 */
 export { default as RegisterWrraper } from './Register';
 export { default as SuccessWrraper } from './Register/SuccessWrraper';
@@ -38,3 +37,6 @@ export { default as SuccessWrraper } from './Register/SuccessWrraper';
 /** 본인인증 */
 export { default as VerifyCiWrraper } from './VerifyCi';
 export { default as VerifyCiSuccessWrraper } from './VerifyCiSuccess';
+
+/** 소유자인증 */
+export { default as OwnerVerification } from './OwnerVerification';

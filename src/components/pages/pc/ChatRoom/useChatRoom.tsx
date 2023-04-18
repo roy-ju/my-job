@@ -96,8 +96,10 @@ export default function useChatRoom(chatRoomID: number) {
     agentName: data?.agent_name,
     agentOfficeName: data?.agent_office_name,
     agentDescription: data?.agent_description,
+    additionalListingCount: data?.additional_listing_count,
     chatMessages,
     isLoading,
     handleSendMessage,
+    chatUserType: data?.chat_user_type,
   };
 }

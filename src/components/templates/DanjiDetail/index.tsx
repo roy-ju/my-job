@@ -95,7 +95,7 @@ interface Props {
   isShowDanjiPhotos?: boolean;
   danjiRealPricesListData?: DanjiRealPricesListResponse[];
   danjiRealPricesList?: DanjiRealPricesListItem[];
-  onClickListingDetail: () => void;
+  onClickListingDetail: (id: number) => void;
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
   onChangeSelectedIndex?: (value: number) => void;
@@ -157,7 +157,7 @@ export default function DanjiDetail({
           <DanjiDetailSection.Info danji={danji} />
           {danjiListings && danjiListings.length > 0 && (
             <>
-              <DanjiDetailSection.ActiveInfo danjiListings={danjiListings} />
+              <DanjiDetailSection.ActiveInfo danjiListings={danjiListings} onClick={onClickListingDetail} />
             </>
           )}
         </div>

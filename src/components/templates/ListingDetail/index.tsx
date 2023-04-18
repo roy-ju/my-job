@@ -1,48 +1,45 @@
-import { Numeral } from '@/components/atoms';
-import { useState } from 'react';
+import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+import { Loading, PersistentBottomBar } from '@/components/atoms';
+import { NavigationHeader } from '@/components/molecules';
+import { ListingCtaButtons } from '@/components/organisms';
 
-interface Props {
-  listingID: number;
-  onClickChatRoom: () => void;
-  onClickReport: () => void;
+export interface ListingDetailProps {
+  listing?: GetListingDetailResponse['listing'];
+  visitUserType?: number;
+  isLoading?: boolean;
+
+  onNavigateToParticipateBidding?: () => void;
+  onNavigateToUpdateBidding?: () => void;
 }
 
 export default function ListingDetail({
-  listingID,
-  onClickChatRoom,
-  onClickReport,
-}: Props) {
-  const [count, setCount] = useState(0);
+  listing,
+  visitUserType,
+  isLoading,
+  onNavigateToParticipateBidding,
+  onNavigateToUpdateBidding,
+}: ListingDetailProps) {
+  if (isLoading)
+    return (
+      <div tw="py-20">
+        <Loading />
+      </div>
+    );
 
   return (
-    <div>
-      <p tw="mb-4">매물상세페이지{listingID}</p>
-      <Numeral tw="text-amber-300">123456</Numeral>
-      <br />
-      <br />
-      <button
-        tw="rounded-lg bg-blue-500 py-2 px-4 text-white hover:bg-blue-700"
-        type="button"
-        onClick={onClickChatRoom}
-      >
-        중개사 채팅방으로 이동
-      </button>
-      <br />
-      <button
-        tw="rounded-lg bg-blue-500 py-2 px-4 text-white hover:bg-blue-700"
-        type="button"
-        onClick={onClickReport}
-      >
-        신고하기
-      </button>
-      <br />
-      <button
-        type="button"
-        tw="rounded-lg bg-blue-500 py-2 px-4 text-white hover:bg-blue-700"
-        onClick={() => setCount((prev) => prev + 1)}
-      >
-        {count}
-      </button>
+    <div tw="flex flex-col h-full">
+      <NavigationHeader>
+        <NavigationHeader.Title>{listing?.listing_title}</NavigationHeader.Title>
+      </NavigationHeader>
+      <div tw="flex-1 min-h-0" />
+      <PersistentBottomBar>
+        <ListingCtaButtons
+          visitUserType={visitUserType ?? 0}
+          buttonSize="bigger"
+          onNavigateToParticipateBidding={onNavigateToParticipateBidding}
+          onNavigateToUpdateBidding={onNavigateToUpdateBidding}
+        />
+      </PersistentBottomBar>
     </div>
   );
 }

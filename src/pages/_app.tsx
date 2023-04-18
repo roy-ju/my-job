@@ -65,6 +65,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <RecoilRoot>
           <SWRConfig>
             <OverlayContainer />
+            <div id="rootOverlay" tw="pointer-events-none [z-index: 1500]" />
             <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
             <ToastContainer platform={platform} />
           </SWRConfig>

@@ -8,7 +8,7 @@ Page.getLayout = function getLayout(page) {
     <>
       <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
       {page}
-      <div id="rootOverlay" tw="pointer-events-none [z-index:1500]" />
+      {/* <div id="rootOverlay" tw="pointer-events-none [z-index:1500]" /> */}
     </>
   );
 };

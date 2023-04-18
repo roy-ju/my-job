@@ -283,7 +283,8 @@ export default function Item({
           <span tw="mr-3 items-start justify-self-start min-w-[5.25rem] text-b2 text-gray-700">{label}</span>
           <span tw="break-all text-b2">
             <>
-              <Moment format="YYYY.MM.DD">{moveInDate}</Moment> {dateType[`${moveInDateType as 1 | 2}`]}
+              <Moment format="YYYY.MM.DD">{moveInDate || '즉시 입주 가능'}</Moment>{' '}
+              {dateType[`${moveInDateType as 1 | 2}`]}
             </>
           </span>
         </div>
