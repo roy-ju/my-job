@@ -87,6 +87,16 @@ export enum VisitUserType {
   PreContractSelf = 11, // 가계약금 입금된 당사자
 }
 
+export enum BiddingStatus {
+  BiddingStatusSubmitted = 1, // 리뉴얼추가: 가격제안중 (입찰형에서는 입찰중인 상태)
+  BiddingStatusAccepted = 2, // 리뉴얼추가: 중개사가 수락하여 하여 채팅방이 열리거나 유저가 중개사가 추천한 매물을 수락한 경우
+  BiddingStatusRejected = 3, // 리뉴얼추가: 중개사가 거절한 상태(다시 수락될수도 있음)
+  BiddingStatusNegotiating = 4, // 리뉴얼변경: 우선협상자 선정 (입찰형에서 입찰 기간 끝날때만 존재할수 있는 Status). 네고형에서는
+  BiddingStatusPreContractComplete = 5, // 리뉴얼추가: 거래성사(가계약금)
+  BiddingStatusContractComplete = 6, // 리뉴얼추가: 거래완료(계약체결) - 거래성사 단계를 스킵할수도 있다
+  BiddingStatusCancelled = 7, // 제안 취소: BiddingCancelType이 반드시 존재
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:
