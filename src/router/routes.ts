@@ -67,6 +67,10 @@ const Routes = {
   ListingCreateUpdateAddress: 'listingCreateUpdateAddress',
   ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
 
+  BiddingForm: 'biddingForm',
+  BiddingSummary: 'biddingSummary',
+  BiddingSuccess: 'biddingSuccess',
+
   EntryMobile: 'm',
 };
 
