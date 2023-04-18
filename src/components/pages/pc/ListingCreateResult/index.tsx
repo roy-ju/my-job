@@ -107,7 +107,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   const onClickSendOwnerVerification = useCallback(
     async (name: string, phone: string) => {
       setIsSendingSms(true);
-      console.log(listingID, name, phone);
       await sendOwnerVerification({
         listing_id: listingID,
         name,
