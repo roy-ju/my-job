@@ -140,7 +140,7 @@ export default function ListingCreateSummary({
                 {conditionItemProps.moveInDate && (
                   <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
                 )}
-                {conditionItemProps.jeonsaeLoan && (
+                {typeof conditionItemProps.jeonsaeLoan === 'boolean' && (
                   <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
                 )}
                 {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (
