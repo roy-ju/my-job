@@ -1,11 +1,13 @@
 import { NavigationHeader } from '@/components/molecules';
 import { Button, Loading, PersistentBottomBar, Separator } from '@/components/atoms';
 import { useMemo } from 'react';
+import { ListingSummaryCard } from '@/components/organisms';
 import FormRenderer from './FormRenderer';
 import FormContext, { IFormContext } from './FormContext';
 
 interface Props extends IFormContext {
   forms?: string[];
+  displayAddress?: string;
   nextButtonDisabled?: boolean;
   onClickNext?: () => void;
 }
@@ -16,6 +18,7 @@ export default function BiddingForm({
   onClickNext,
 
   listing,
+  displayAddress,
 
   type,
   onChangeType,
@@ -154,6 +157,16 @@ export default function BiddingForm({
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">
+          <div tw="px-5 pt-7">
+            <ListingSummaryCard
+              listingTitle={listing?.listing_title ?? ''}
+              address={displayAddress ?? ''}
+              area={listing?.jeonyong_area ?? ''}
+              floorDescription={listing?.floor_description ?? ''}
+              floor={listing?.floor ?? ''}
+              direction={listing?.direction ?? ''}
+            />
+          </div>
           {forms?.map((form, index) => (
             <div key={form}>
               <FormRenderer form={form} />

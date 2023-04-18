@@ -327,6 +327,7 @@ export default function useBiddingForm(depth: number) {
   return {
     nextButtonDisabled,
     listing: data?.listing,
+    displayAddress: data?.display_address,
     type,
     handleChangeType,
     forms,
