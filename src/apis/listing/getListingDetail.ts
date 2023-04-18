@@ -69,7 +69,7 @@ interface Listing {
   rent_contract_term_year: number;
   rent_contract_term_month: number;
   rent_contract_term_negotiable: boolean;
-  rent_end_date: string;
+  rent_end_date: string | null;
   move_in_date: any;
   move_in_date_type: number;
   rent_area: string;

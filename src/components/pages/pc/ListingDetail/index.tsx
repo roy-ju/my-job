@@ -1,5 +1,5 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Panel } from '@/components/atoms';
+import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+import { Loading, Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -38,11 +38,24 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     });
   }, [router, data?.bidding_id]);
 
+  if (data?.error_code) {
+    return <Panel width={panelWidth}>{data?.error_code}</Panel>;
+  }
+
+  if (isLoading) {
+    return (
+      <Panel width={panelWidth}>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </Panel>
+    );
+  }
+
   return (
     <Panel width={panelWidth}>
       <ListingDetail
-        listing={data?.listing}
-        visitUserType={data?.visit_user_type}
+        listingDetail={data as GetListingDetailResponse}
         isLoading={isLoading}
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
