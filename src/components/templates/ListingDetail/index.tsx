@@ -24,10 +24,10 @@ export default function ListingDetail({
 }: ListingDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
-  const [isHeaderActive, setIsHeaderActive] = useState(false);
+  const [isHeaderActive, setIsHeaderActive] = useState(true);
 
-  useScroll(scrollContainer, ({ scrollY }) => {
-    setIsHeaderActive(scrollY > 0.1);
+  useScroll(scrollContainer, () => {
+    setIsHeaderActive(true);
   });
 
   return (
@@ -49,7 +49,7 @@ export default function ListingDetail({
         </div>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
-        <div tw="w-full h-[256px] bg-gray-700 flex items-center justify-center font-bold">IMAGE SECTION</div>
+        {/* <div tw="w-full h-[256px] bg-gray-700 flex items-center justify-center font-bold">IMAGE SECTION</div> */}
         <div tw="h-[2000px]" />
       </div>
       <PersistentBottomBar>
