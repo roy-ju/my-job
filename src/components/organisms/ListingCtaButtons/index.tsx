@@ -5,7 +5,6 @@ interface CommonProps {
   buttonSize?: 'big' | 'bigger';
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
-  onNavigateToUpdateRejectedBidding?: () => void;
 }
 
 function BuyerGeneral({ buttonSize = 'bigger', onNavigateToParticipateBidding }: CommonProps) {
@@ -28,10 +27,10 @@ function Submitted({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonP
   );
 }
 
-function Rejected({ buttonSize = 'bigger', onNavigateToUpdateRejectedBidding }: CommonProps) {
+function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateRejectedBidding}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
         제안 확인 / 수정
       </Button>
       <div tw="flex items-center justify-center mt-5">
