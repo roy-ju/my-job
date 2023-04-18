@@ -3,33 +3,35 @@ import { VisitUserType } from '@/constants/enums';
 
 interface CommonProps {
   buttonSize?: 'big' | 'bigger';
-  onClick?: () => void;
+  onNavigateToParticipateBidding?: () => void;
+  onNavigateToUpdateBidding?: () => void;
+  onNavigateToUpdateRejectedBidding?: () => void;
 }
 
-function BuyerGeneral({ buttonSize = 'bigger', onClick }: CommonProps) {
+function BuyerGeneral({ buttonSize = 'bigger', onNavigateToParticipateBidding }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToParticipateBidding}>
         가격 제안하러 가기
       </Button>
     </div>
   );
 }
 
-function Submitted({ buttonSize = 'bigger', onClick }: CommonProps) {
+function Submitted({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
         제안 확인 / 수정
       </Button>
     </div>
   );
 }
 
-function Rejected({ buttonSize = 'bigger', onClick }: CommonProps) {
+function Rejected({ buttonSize = 'bigger', onNavigateToUpdateRejectedBidding }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateRejectedBidding}>
         제안 확인 / 수정
       </Button>
       <div tw="flex items-center justify-center mt-5">
@@ -41,73 +43,73 @@ function Rejected({ buttonSize = 'bigger', onClick }: CommonProps) {
   );
 }
 
-function HasSuggested({ buttonSize = 'bigger', onClick }: CommonProps) {
+function HasSuggested({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div tw="flex items-center gap-3">
       <Button variant="outlined" tw="w-full" size={buttonSize}>
         관심없음
       </Button>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize}>
         네고 협의
       </Button>
     </div>
   );
 }
 
-function HasRejectedSuggest({ buttonSize = 'bigger', onClick }: CommonProps) {
+function HasRejectedSuggest({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize}>
         네고 협의 하기
       </Button>
     </div>
   );
 }
 
-function Accepted({ buttonSize = 'bigger', onClick }: CommonProps) {
+function Accepted({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize}>
         중개사 채팅
       </Button>
     </div>
   );
 }
 
-function PreContractSelf({ buttonSize = 'bigger', onClick }: CommonProps) {
+function PreContractSelf({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize}>
         중개사 채팅
       </Button>
     </div>
   );
 }
 
-function PreContractOthers({ buttonSize = 'bigger', onClick }: CommonProps) {
+function PreContractOthers({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize}>
         다른 매물 추천받기
       </Button>
     </div>
   );
 }
 
-function SellerGeneral({ buttonSize = 'bigger', onClick }: CommonProps) {
+function SellerGeneral({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize}>
         중개사 채팅
       </Button>
     </div>
   );
 }
 
-function SellerPreContract({ buttonSize = 'bigger', onClick }: CommonProps) {
+function SellerPreContract({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onClick}>
+      <Button tw="w-full" size={buttonSize}>
         중개사 채팅
       </Button>
     </div>

@@ -6,6 +6,7 @@ import FormRenderer from './FormRenderer';
 import FormContext, { IFormContext } from './FormContext';
 
 interface Props extends IFormContext {
+  headerTitle?: string;
   forms?: string[];
   displayAddress?: string;
   nextButtonDisabled?: boolean;
@@ -13,6 +14,8 @@ interface Props extends IFormContext {
 }
 
 export default function BiddingForm({
+  headerTitle = '가격제안',
+
   forms,
   nextButtonDisabled,
   onClickNext,
@@ -153,7 +156,7 @@ export default function BiddingForm({
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.Title>가격제안</NavigationHeader.Title>
+        <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">

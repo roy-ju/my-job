@@ -33,6 +33,8 @@ interface Props {
   etcs?: string;
   description?: string;
 
+  buttonText?: string;
+
   onClickBack?: () => void;
   onClickNext?: () => void;
 }
@@ -75,6 +77,9 @@ export default function BiddingSummary({
   description,
   acceptingTargetPrice = false,
   isCreatingBidding,
+
+  buttonText = '완료',
+
   onClickBack,
   onClickNext,
 }: Props) {
@@ -221,7 +226,7 @@ export default function BiddingSummary({
       </div>
       <PersistentBottomBar>
         <Button isLoading={isCreatingBidding} tw="w-full" size="bigger" onClick={onClickNext}>
-          완료
+          {buttonText}
         </Button>
       </PersistentBottomBar>
     </div>
