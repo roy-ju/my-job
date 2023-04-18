@@ -1,8 +1,11 @@
 import { Panel } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import Routes from '@/router/routes';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+import { ChatUserType } from '@/constants/enums';
+import closeChatRoom from '@/apis/chat/closeChatRoom';
 import useChatRoom from './useChatRoom';
 
 interface Props {
@@ -12,6 +15,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const [popupOpen, setPopupOpen] = useState(false);
   const {
     listingTitle,
     agentName,
@@ -23,16 +27,43 @@ export default memo(({ depth, panelWidth }: Props) => {
     isTextFieldDisabled,
     handleSendMessage,
     additionalListingCount,
+    chatUserType,
   } = useChatRoom(Number(router.query.chatRoomID));
 
-  // 신고하기 버튼 함수
-
-  // 채팅방 나가기 함수
   const handleClickReportButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
     router.replace(`${Routes.ChatRoomReport}`, {
       searchParams: { chatRoomID },
     });
+  };
+
+  const handleClickLeaveButton = () => {
+    setPopupOpen(true);
+  };
+
+  const handleCloseChatRoom = async () => {
+    const chatRoomID = Number(router.query.chatRoomID);
+    await closeChatRoom(chatRoomID);
+    router.pop();
+  };
+
+  const renderPopupBodyContents = () => {
+    if (chatUserType === ChatUserType.Buyer) {
+      return '채팅을 나가시면 이 중개사님과의 협의중인 모든 매물에 제안이 취소되며 협의 재개를 위해서는 다시 제안이 필요합니다. 채팅방을 나가시겠습니까?';
+    }
+    return '등록된 매물의 담당 중개사님과의 채팅종료는 매물등록 취소나 거래성사되어야만 가능합니다. ';
+  };
+
+  const renderPopupButton = () => {
+    if (chatUserType === ChatUserType.Buyer) {
+      return (
+        <>
+          <Popup.CancelButton>돌아가기</Popup.CancelButton>
+          <Popup.ActionButton onClick={handleCloseChatRoom}>채팅방 나가기</Popup.ActionButton>
+        </>
+      );
+    }
+    return <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>;
   };
 
   return (
@@ -49,7 +80,19 @@ export default memo(({ depth, panelWidth }: Props) => {
         textFieldDisabled={isTextFieldDisabled}
         onSendMessage={handleSendMessage}
         onClickReportButton={handleClickReportButton}
+        onClickLeaveButton={handleClickLeaveButton}
       />
+      {popupOpen && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>채팅방 나가기</Popup.Title>
+              <Popup.Body>{renderPopupBodyContents()}</Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>{renderPopupButton()}</Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });
