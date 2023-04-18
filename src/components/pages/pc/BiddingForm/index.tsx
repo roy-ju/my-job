@@ -12,6 +12,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const {
     nextButtonDisabled,
     listing,
+    displayAddress,
     type,
     handleChangeType,
     forms,
@@ -51,6 +52,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       <BiddingForm
         nextButtonDisabled={nextButtonDisabled}
         listing={listing}
+        displayAddress={displayAddress}
         forms={forms}
         onClickNext={handleClickNext}
         type={type}
