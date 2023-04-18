@@ -111,6 +111,7 @@ export default function useBiddingForm(depth: number) {
 
   const handleSubmitFinal = useCallback(() => {
     const params = makeCreateBiddingParams({
+      acceptingTargetPrice: type === 2,
       price,
       monthlyRentFee,
       canHaveMoreContractAmount,
@@ -138,6 +139,7 @@ export default function useBiddingForm(depth: number) {
   }, [
     router,
     price,
+    type,
     monthlyRentFee,
     canHaveMoreContractAmount,
     contractAmount,

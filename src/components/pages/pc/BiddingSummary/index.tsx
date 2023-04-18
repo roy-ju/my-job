@@ -30,13 +30,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     setIsCreatingBidding(true);
     let res: CreateBiddingResponse | null = null;
 
-    if (params.price) {
+    if (!params.accepting_target_price) {
       res = await createBidding({
         listing_id: listingID,
         ...params,
       });
     } else {
-      res = await createBidding({ listing_id: listingID });
+      res = await createBidding({ listing_id: listingID, accepting_target_price: true });
     }
 
     await mutateListing();
