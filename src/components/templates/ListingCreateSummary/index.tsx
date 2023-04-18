@@ -137,10 +137,8 @@ export default function ListingCreateSummary({
               )}
 
               <TransactionCondition.Section title="세부정보">
-                {conditionItemProps.moveInDate && (
-                  <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
-                )}
-                {conditionItemProps.jeonsaeLoan && (
+                <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
+                {typeof conditionItemProps.jeonsaeLoan === 'boolean' && (
                   <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
                 )}
                 {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (

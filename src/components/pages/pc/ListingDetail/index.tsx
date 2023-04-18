@@ -1,9 +1,10 @@
+import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import { Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import useMap from '@/states/map';
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -11,48 +12,41 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth, depth, listingID }: Props) => {
+export default memo(({ depth, panelWidth, listingID }: Props) => {
   const router = useRouter(depth);
-  const map = useMap();
 
-  const handleClickChatRoom = useCallback(() => {
-    router.push(Routes.ChatRoom);
+  const { data, isLoading } = useAPI_GetListingDetail(listingID);
+
+  const handleNavigateToParticipateBidding = useCallback(() => {
+    router.push(Routes.BiddingForm, {
+      searchParams: {
+        listingID: router.query.listingID as string,
+      },
+    });
   }, [router]);
 
-  const handleClickReport = useCallback(() => {}, []);
-
-  useEffect(() => {
-    if (!listingID || !map) return;
-    if (listingID === 1) {
-      map.morph(
-        {
-          lat: 37.2826672623871,
-          lng: 127.110737118808,
-        },
-        18,
-      );
-    } else if (listingID === 2) {
-      map.morph(
-        {
-          lat: 37.2803856406884,
-          lng: 127.114722215283,
-        },
-        18,
-      );
-    } else if (listingID === 3) {
-      map.morph(
-        {
-          lat: 37.261811831367,
-          lng: 127.108737254546,
-        },
-        18,
-      );
+  const handleNavigateToUpdateBidding = useCallback(() => {
+    if (!data?.bidding_id) {
+      toast.error('bidding_id not found');
     }
-  }, [listingID, map]);
+
+    router.push(Routes.UpdateBiddingForm, {
+      searchParams: {
+        listingID: router.query.listingID as string,
+        biddingID: `${data?.bidding_id}`,
+      },
+    });
+  }, [router, data?.bidding_id]);
 
   return (
     <Panel width={panelWidth}>
-      <ListingDetail listingID={listingID} onClickChatRoom={handleClickChatRoom} onClickReport={handleClickReport} />
+      <ListingDetail
+        listing={data?.listing}
+        visitUserType={data?.visit_user_type}
+        isLoading={isLoading}
+        onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
+        onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
+      />
     </Panel>
   );
 });

@@ -40,6 +40,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     onChangeBuyOrRent,
     onChangeSelectedYear,
     danjiRealPriesListSetSize,
+    navigateToListingDetail,
   } = useDanjiDetail(depth);
 
   const { listDanji, danjiChartData, sidoChartData, sigunguChartData, xAxis } = useDanjiStatusChart({
@@ -100,7 +101,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         danjiRealPricesListData={danjiRealPricesListData}
         danjiRealPricesList={danjiRealPricesList}
         checked={checked}
-        onClickListingDetail={() => {}}
+        onClickListingDetail={navigateToListingDetail}
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}
         onChangeSelectedIndex={onChangeSelectedIndex}

@@ -17,6 +17,8 @@ export default function ExtraOptions({
   onChangeExtraOptions,
   listingOptions,
 }: ExtraOptionsProps) {
+  console.log(extraOptionsValueProp, '1');
+
   const [extraOptionsValue, setExtraOptionsValue] = useControlled({
     controlled: extraOptionsValueProp,
     default: [],
@@ -30,13 +32,19 @@ export default function ExtraOptions({
     [setExtraOptionsValue, onChangeExtraOptions, extraOptionsValue],
   );
 
+  console.log(extraOptionsValue, '2');
+
   return (
     <div>
       <div tw="text-b1 leading-none font-bold">매물 옵션</div>
       <div tw="mt-3 text-info text-gray-700">- 복수선택 가능합니다.</div>
       <div tw="mt-4 grid grid-cols-3  gap-4">
         {listingOptions?.map(({ name, id }) => (
-          <Label label={name} key={id} control={<Checkbox id={`${id}`} onChange={handleCheckBoxChange} />} />
+          <Label
+            label={name}
+            key={id}
+            control={<Checkbox id={`${id}`} onChange={handleCheckBoxChange} checked={extraOptionsValue.includes(id)} />}
+          />
         ))}
       </div>
     </div>

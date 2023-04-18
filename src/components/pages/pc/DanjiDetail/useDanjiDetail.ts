@@ -11,6 +11,7 @@ import {
 } from '@/apis/danji/danjiTradeTurnRate';
 import { Year } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function useDanjiDetail(depth: number) {
@@ -137,6 +138,15 @@ export default function useDanjiDetail(depth: number) {
     setSelectedIndex(val);
   }, []);
 
+  const navigateToListingDetail = useCallback(
+    (id: number) => {
+      router.push(Routes.ListingDetail, {
+        searchParams: { listingID: `${id}`, p: router.query.p as string, rt: router.query.rt as string },
+      });
+    },
+    [router],
+  );
+
   useEffect(() => {
     if (danjiRealPricesData && danjiRealPricesData.buy_or_rent) {
       setBuyOrRent(danjiRealPricesData.buy_or_rent);
@@ -184,6 +194,7 @@ export default function useDanjiDetail(depth: number) {
       onChangeSelectedJeonyongAreaMax,
       onChangeSelectedIndex,
       increamentPageNumber,
+      navigateToListingDetail,
     }),
     [
       danji,
@@ -214,6 +225,7 @@ export default function useDanjiDetail(depth: number) {
       onChangeSelectedIndex,
       increamentPageNumber,
       danjiRealPriesListSetSize,
+      navigateToListingDetail,
     ],
   );
 }

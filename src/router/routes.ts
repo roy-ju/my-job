@@ -6,6 +6,7 @@ const Routes = {
   Chat: 'chat',
   ChatRoom: 'chatRoom',
   ChatRoomList: 'chatRoomList',
+  ChatRoomReport: 'chatRoomReport',
 
   DanjiDetail: 'danjiDetail',
 
@@ -58,6 +59,7 @@ const Routes = {
   VerifyCiSuccess: 'verifyCiSuccess',
   FindAccount: 'findAccount',
 
+  // 매물등록
   ListingCreateAddress: 'listingCreateAddress',
   ListingCreateAddressDetail: 'listingCreateAddressDetail',
   ListingCreateForm: 'listingCreateForm',
@@ -66,6 +68,16 @@ const Routes = {
   ListingCreateResult: 'listingCreateResult',
   ListingCreateUpdateAddress: 'listingCreateUpdateAddress',
   ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
+
+  // 가격제안
+  BiddingForm: 'biddingForm',
+  BiddingSummary: 'biddingSummary',
+  BiddingSuccess: 'biddingSuccess',
+
+  // 가격제안 수정
+  UpdateBiddingForm: 'updateBiddingForm',
+  UpdateBiddingSummary: 'updateBiddingSummary',
+  UpdateBiddingSuccess: 'updateBiddingSuccess',
 
   EntryMobile: 'm',
 };

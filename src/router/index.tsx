@@ -58,6 +58,10 @@ const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'),
   ssr: false,
   loading: () => <Panel />,
 });
+const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomReport'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: () => <Panel /> });
 const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: () => <Panel /> });
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), { ssr: false, loading: () => <Panel /> });
@@ -130,6 +134,30 @@ const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingC
   loading: () => <Panel />,
 });
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
+const BiddingForm = dynamic(() => import('@/components/pages/pc/BiddingForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const BiddingSummary = dynamic(() => import('@/components/pages/pc/BiddingSummary'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const BiddingSuccess = dynamic(() => import('@/components/pages/pc/BiddingSuccess'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const UpdateBiddingForm = dynamic(() => import('@/components/pages/pc/UpdateBiddingForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const UpdateBiddingSummary = dynamic(() => import('@/components/pages/pc/UpdateBiddingSummary'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const UpdateBiddingSuccess = dynamic(() => import('@/components/pages/pc/UpdateBiddingSuccess'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -237,6 +265,10 @@ export default function Router({ route, query, depth }: Props) {
       return <ChatRoomList {...props} />;
     }
 
+    case Routes.ChatRoomReport: {
+      return <ChatRoomReport {...props} />;
+    }
+
     case Routes.DanjiDetail: {
       return <DanjiDetail key={`${query.p}-${query.rt}`} {...props} />;
     }
@@ -299,6 +331,30 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingCreateUpdateAddressDetail: {
       return <ListingCreateUpdateAddressDetail {...props} />;
+    }
+
+    case Routes.BiddingForm: {
+      return <BiddingForm {...props} />;
+    }
+
+    case Routes.BiddingSummary: {
+      return <BiddingSummary {...props} />;
+    }
+
+    case Routes.BiddingSuccess: {
+      return <BiddingSuccess {...props} />;
+    }
+
+    case Routes.UpdateBiddingForm: {
+      return <UpdateBiddingForm {...props} />;
+    }
+
+    case Routes.UpdateBiddingSummary: {
+      return <UpdateBiddingSummary {...props} />;
+    }
+
+    case Routes.UpdateBiddingSuccess: {
+      return <UpdateBiddingSuccess {...props} />;
     }
 
     case Routes.Developer: {
