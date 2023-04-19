@@ -2,6 +2,7 @@ import { ChatUserType } from '@/constants/enums';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { Panel } from '@/components/atoms';
+import Paths from '@/constants/paths';
 import ChatRoom from '.';
 
 export default {
@@ -24,6 +25,7 @@ Default.args = {
   agentDescription:
     '이곳은네고시오공인중개사의자기소개가보여지는곳입니다 이곳은네이곳은네고시오공인중개사의자기소개가보여',
   agentProfileImagePath: defaultAvatar,
+  additionalListingCount: 2,
   chatMessages: Array(3)
     .fill(0)
     .map((_, index) => ({
@@ -34,6 +36,45 @@ Default.args = {
       profileImagePath: defaultAvatar,
       sentTime: '2023-03-21T03:43:40.133Z',
     })),
+
+  list: [
+    {
+      listingId: 1,
+      buyOrRent: 2,
+      tradeOrDepositPrice: 111111111,
+      monthlyRentFee: 1111111,
+      listingTitle: '펜트라우스 104동',
+      jeonyongArea: '44',
+      thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
+      floorDescription: '저',
+      totalFloor: '22',
+      direction: '남',
+    },
+    {
+      listingId: 1,
+      buyOrRent: 2,
+      tradeOrDepositPrice: 111111111,
+      monthlyRentFee: 1111111,
+      listingTitle: '펜트라우스 104동',
+      jeonyongArea: '44',
+      thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
+      floorDescription: '저',
+      totalFloor: '22',
+      direction: '남',
+    },
+    {
+      listingId: 1,
+      buyOrRent: 2,
+      tradeOrDepositPrice: 111111111,
+      monthlyRentFee: 1111111,
+      listingTitle: '펜트라우스 104동',
+      jeonyongArea: '44',
+      thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
+      floorDescription: '저',
+      totalFloor: '22',
+      direction: '남',
+    },
+  ],
 };
 
 export const ThousandsMessages: ComponentStory<typeof ChatRoom> = (args) => (

@@ -8,8 +8,8 @@ import TabsContext from './TabsContext';
 
 const tabStyles = {
   ghost: tw`w-full`,
-  outlined: tw`w-full h-10 text-b1`,
-  contained: tw`w-full h-9 text-b2 text-gray-700`,
+  outlined: tw`w-full h-10 text-b1 hover:bg-gray-100`,
+  contained: tw`w-full rounded-lg h-9 text-b2 text-gray-700 hover:bg-gray-100`,
 };
 
 const indicatorStyles = {
@@ -53,6 +53,7 @@ interface TabsProps {
 }
 
 function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: TabsProps) {
+  // ref 로 감싸면 이상한 UI현상 발견
   const nanoId = customAlphabet('1234567890abcedfgh', 10);
   const [value, setValue] = useControlled({ controlled: valueProp, default: 0 });
 

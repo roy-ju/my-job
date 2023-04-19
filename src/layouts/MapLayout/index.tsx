@@ -131,6 +131,7 @@ export default function MapLayout({ children }: Props) {
         case 1: // 지도
           break;
         case 2: // 나의거래
+          router.replace(Routes.MyFavoriteList);
           break;
         case 3: // 문의목록
           router.replace(Routes.ChatRoomList);
