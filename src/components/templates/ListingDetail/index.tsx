@@ -1,13 +1,14 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-import { PersistentBottomBar } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
+import { PersistentBottomBar, Separator } from '@/components/atoms';
+import { Accordion, NavigationHeader, Tabs } from '@/components/molecules';
 import { ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
 
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
 import { useRef, useState } from 'react';
-import { useScroll } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
+import UserStatusStrings from './strings';
 
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
@@ -25,12 +26,27 @@ export default function ListingDetail({
   onNavigateToChatRoom,
 }: ListingDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
+  const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
+  const [isTopCtaButtonsVisible, setIsTopCtaButtonsVisible] = useState(true);
 
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0.1);
   });
+
+  useIsomorphicLayoutEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsTopCtaButtonsVisible(entry.isIntersecting);
+    });
+
+    if (userStatusAccordion) {
+      observer.observe(userStatusAccordion);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, [userStatusAccordion]);
 
   return (
     <div tw="relative flex flex-col h-full">
@@ -74,16 +90,55 @@ export default function ListingDetail({
             tags={listingDetail?.tags?.map((tag) => tag.name)}
           />
         </div>
+        {Object.keys(UserStatusStrings).includes(`${listingDetail?.visit_user_type}`) && (
+          <div>
+            <Separator />
+            <Accordion defaultExpanded>
+              <Accordion.Summary tw="h-14 px-5 font-bold">
+                {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.title}
+              </Accordion.Summary>
+              <Accordion.Details tw="pt-1 pb-6 px-5 text-b2 text-gray-700 whitespace-pre-wrap">
+                {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.title}
+                <div tw="mt-5" ref={setUserStatusAccordion}>
+                  <ListingCtaButtons
+                    visitUserType={listingDetail?.visit_user_type ?? 0}
+                    buttonSize="big"
+                    onNavigateToParticipateBidding={onNavigateToParticipateBidding}
+                    onNavigateToUpdateBidding={onNavigateToUpdateBidding}
+                    onNavigateToChatRoom={onNavigateToChatRoom}
+                  />
+                </div>
+              </Accordion.Details>
+            </Accordion>
+          </div>
+        )}
+        <Separator />
+        <div tw="sticky top-8 pt-6">
+          <Tabs>
+            <Tabs.Tab value={0}>
+              <span tw="text-b2">거래정보</span>
+            </Tabs.Tab>
+            <Tabs.Tab value={1}>
+              <span tw="text-b2">단지정보</span>
+            </Tabs.Tab>
+            <Tabs.Tab value={2}>
+              <span tw="text-b2">Q&A</span>
+            </Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs>
+        </div>
       </div>
-      <PersistentBottomBar>
-        <ListingCtaButtons
-          visitUserType={listingDetail?.visit_user_type ?? 0}
-          buttonSize="bigger"
-          onNavigateToParticipateBidding={onNavigateToParticipateBidding}
-          onNavigateToUpdateBidding={onNavigateToUpdateBidding}
-          onNavigateToChatRoom={onNavigateToChatRoom}
-        />
-      </PersistentBottomBar>
+      {!isTopCtaButtonsVisible && (
+        <PersistentBottomBar>
+          <ListingCtaButtons
+            visitUserType={listingDetail?.visit_user_type ?? 0}
+            buttonSize="bigger"
+            onNavigateToParticipateBidding={onNavigateToParticipateBidding}
+            onNavigateToUpdateBidding={onNavigateToUpdateBidding}
+            onNavigateToChatRoom={onNavigateToChatRoom}
+          />
+        </PersistentBottomBar>
+      )}
     </div>
   );
 }
