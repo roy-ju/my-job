@@ -1,14 +1,15 @@
-import { isValidElement, ReactNode, useCallback, useContext, useMemo } from 'react';
+import { isValidElement, ReactNode, useCallback, useContext, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useControlled } from '@/hooks/utils';
 import tw from 'twin.macro';
 import getChildrenByType from '@/utils/getChildrenByType';
+import { v4 } from 'uuid';
 import TabsContext from './TabsContext';
 
 const tabStyles = {
   ghost: tw`w-full`,
-  outlined: tw`w-full h-10 text-b1`,
-  contained: tw`w-full h-9 text-b2 text-gray-700`,
+  outlined: tw`w-full h-10 text-b1 hover:bg-gray-100`,
+  contained: tw`w-full rounded-lg h-9 text-b2 text-gray-700 hover:bg-gray-100`,
 };
 
 const indicatorStyles = {
@@ -52,6 +53,8 @@ interface TabsProps {
 }
 
 function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: TabsProps) {
+  const layoutID = useRef(v4());
+
   const [value, setValue] = useControlled({ controlled: valueProp, default: 0 });
 
   const handleChange = useCallback(
@@ -83,8 +86,11 @@ function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: Ta
               {child}
               {value === child.props.value && (
                 <motion.div
-                  layoutId={`${variant}-indicator`}
-                  tw="absolute left-0 top-0 w-full h-full pointer-events-none z-0"
+                  layoutId={`${layoutID.current}-indicator`}
+                  css={[
+                    tw`absolute left-0 top-0 w-full h-full pointer-events-none`,
+                    variant === 'outlined' ? tw`z-10` : tw`z-0`,
+                  ]}
                 >
                   {indicatorChild}
                 </motion.div>

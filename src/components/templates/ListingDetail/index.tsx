@@ -3,6 +3,7 @@ import { PersistentBottomBar, Separator } from '@/components/atoms';
 import { Accordion, NavigationHeader, Tabs } from '@/components/molecules';
 import { ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
 
+import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
 import { useMemo, useRef, useState } from 'react';
@@ -14,6 +15,7 @@ export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   isLoading?: boolean;
 
+  onClickFavorite?: () => void;
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
@@ -21,6 +23,7 @@ export interface ListingDetailProps {
 
 export default function ListingDetail({
   listingDetail,
+  onClickFavorite,
   onNavigateToParticipateBidding,
   onNavigateToUpdateBidding,
   onNavigateToChatRoom,
@@ -85,8 +88,8 @@ export default function ListingDetail({
           <NavigationHeader.Button>
             <ShareIcon tw="text-inherit" />
           </NavigationHeader.Button>
-          <NavigationHeader.Button>
-            <HeartOutlinedIcon tw="text-inherit" />
+          <NavigationHeader.Button onClick={onClickFavorite}>
+            {listingDetail?.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-inherit" />}
           </NavigationHeader.Button>
         </div>
       </NavigationHeader>
@@ -159,6 +162,10 @@ export default function ListingDetail({
             biddingsChatRoomCreated={biddingsChatRoomCreated}
             biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
           />
+        </div>
+        <Separator />
+        <div tw="py-10 px-5">
+          <ListingDetailSection.Conditions listing={listingDetail?.listing} />
         </div>
       </div>
       {!isTopCtaButtonsVisible && (
