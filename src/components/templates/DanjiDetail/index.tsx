@@ -152,6 +152,7 @@ export default function DanjiDetail({
 
   return (
     <div tw="flex flex-col h-full">
+      <DanjiDetailSection.Header danji={danji} danjiPhotos={danjiPhotos} isShowDanjiPhotos={isShowDanjiPhotos} />
       <DanjiDetailSection>
         <div tw="pt-6" css={[danjiListings && danjiListings.slice(0, 3).length === 3 ? tw`pb-10` : tw`pb-1`]}>
           <DanjiDetailSection.Info danji={danji} />
