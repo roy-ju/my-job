@@ -1,37 +1,70 @@
 import useSWR from 'swr';
 
-export type GetDanjiMapSchoolsResponse = {
-  list:
+export type GetDanjiSchoolsResponse = {
+  list_all:
     | [
         {
-          school_name: string;
           school_id: string;
+          name: string;
           school_type: string;
-          long: number;
-          lat: number;
+          found_type: string;
+          students_per_teacher_count: number;
+          distance_in_km: number;
+        },
+      ]
+    | null;
+  list_elementary_schools:
+    | [
+        {
+          school_id: string;
+          name: string;
+          school_type: string;
+          found_type: string;
+          students_per_teacher_count: number;
+          distance_in_km: number;
+        },
+      ]
+    | null;
+  list_middle_schools:
+    | [
+        {
+          school_id: string;
+          name: string;
+          school_type: string;
+          found_type: string;
+          students_per_teacher_count: number;
+          distance_in_km: 0.884931097977557;
+        },
+      ]
+    | null;
+  list_high_schools:
+    | [
+        {
+          school_id: string;
+          name: string;
+          school_type: string;
+          found_type: string;
+          students_per_teacher_count: number;
           distance_in_km: number;
         },
       ]
     | null;
 } & ErrorResponse;
 
-export function useAPI_DanjiMapSchools({
+export function useAPI_DanjiSchools({
   pnu,
   realestateType,
-  schoolTypes,
 }: {
   pnu?: string | null;
   realestateType?: number | null;
-  schoolTypes?: string | null;
 }) {
-  const { data, error, mutate } = useSWR<GetDanjiMapSchoolsResponse>(
+  const { data, error, mutate } = useSWR<GetDanjiSchoolsResponse>(
     pnu && realestateType
       ? [
-          '/danji/map/schools',
+          '/danji/schools',
           {
             pnu,
             realestate_type: Number(realestateType),
-            school_types: schoolTypes,
           },
         ]
       : null,
@@ -42,7 +75,10 @@ export function useAPI_DanjiMapSchools({
   return {
     data,
     isLoading: !data && !error,
-    list: data?.list || [],
+    listAll: data?.list_all || [],
+    listElementarySchools: data?.list_elementary_schools || [],
+    listMiddleSchools: data?.list_middle_schools || [],
+    listHighSchools: data?.list_high_schools || [],
     error,
     mutate,
   };

@@ -281,7 +281,7 @@ export default function DanjiDetail({
         <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
         <DanjiDetailSection.DetailInfo danji={danji} />
         <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-        <DanjiDetailSection.SchoolInfo />
+        <DanjiDetailSection.SchoolInfo danji={danji} />
       </DanjiDetailSection>
     </div>
   );

@@ -109,7 +109,7 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
           setOpen((prev) => !prev);
         }}
       >
-        {open ? '더보기' : '접어두기'}
+        {open ? '접어두기' : '더보기'}
       </Button>
     </div>
   );
