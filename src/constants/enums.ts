@@ -78,6 +78,7 @@ export enum ListingStatus {
   Complete = 22, // 거래 성사 상태
   Cancelled = 23, // 취소 상태. 매도인 취소, 중개사 취소. 삭제와는 구분되어야 함
   Deleted = 24, // 중개사 임시저장 상태
+  CompleteComplete = 25,
 }
 
 export enum VisitUserType {
