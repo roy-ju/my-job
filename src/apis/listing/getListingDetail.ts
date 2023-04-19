@@ -2,7 +2,7 @@ import useSWR from 'swr';
 
 interface Listing {
   id: number;
-  user_id: number;
+  user_id: number | null;
   agent_id: any;
   assigned_agent_id: number;
   trade_id: string;
@@ -170,10 +170,14 @@ export interface GetListingDetailResponse {
     | null;
   debt_successions: DebtSuccession[];
   collaterals: any[];
-  tags: any[];
+  tags: {
+    id: number;
+    name: string;
+    created_time: string;
+  }[];
   options: any[];
-  biddings_chat_room_created: any;
-  biddings_chat_room_not_created: BiddingsChatRoomNotCreated[];
+  biddings_chat_room_created: BiddingsChatRoomNotCreated[] | null;
+  biddings_chat_room_not_created: BiddingsChatRoomNotCreated[] | null;
 }
 
 export default function useAPI_GetListingDetail(id: number) {
