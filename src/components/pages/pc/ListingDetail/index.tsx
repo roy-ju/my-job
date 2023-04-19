@@ -1,5 +1,7 @@
+import { addFavorite } from '@/apis/listing/addListingFavroite';
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
+import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { Loading, Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
@@ -17,7 +19,18 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
   const router = useRouter(depth);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
-  const { data, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+  const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+
+  const handleClickFavorite = useCallback(async () => {
+    if (data?.listing?.id) {
+      if (data.is_favorite) {
+        await removeFavorite(data.listing.id);
+      } else {
+        await addFavorite(data.listing.id);
+      }
+      await mutateListing();
+    }
+  }, [data, mutateListing]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
     router.push(Routes.BiddingForm, {
@@ -82,6 +95,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
       <ListingDetail
         listingDetail={data as GetListingDetailResponse}
         isLoading={isLoading || isLoadingStatus}
+        onClickFavorite={handleClickFavorite}
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
         onNavigateToChatRoom={handleNavigateToChatRoom}

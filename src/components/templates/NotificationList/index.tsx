@@ -49,12 +49,12 @@ export default function NotificationList({
   onClickNotification,
   onChangeNotificationChecked,
   onDeleteNotifications,
-  onClickBack,
-}: Props) {
+}: // onClickBack,
+Props) {
   return (
     <div tw="relative h-full flex flex-col">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickBack} />
+        {/* <NavigationHeader.BackButton onClick={onClickBack} /> */}
         <NavigationHeader.Title tw="text-b1">알림</NavigationHeader.Title>
         <NavigationHeader.MoreButton items={headerItems} onClickItem={onClickHeaderItem} />
       </NavigationHeader>
