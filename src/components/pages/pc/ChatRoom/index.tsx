@@ -6,6 +6,7 @@ import Routes from '@/router/routes';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
+import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import useChatRoom from './useChatRoom';
 
 interface Props {
@@ -29,6 +30,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     additionalListingCount,
     chatUserType,
   } = useChatRoom(Number(router.query.chatRoomID));
+  const { list } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const handleClickReportButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
@@ -69,6 +71,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ChatRoom
+        list={list}
         title={listingTitle ?? ''}
         agentName={agentName ?? ''}
         officeName={agentOfficeName ?? ''}
@@ -76,6 +79,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         agentProfileImagePath={agentProfileImagePath ?? ''}
         additionalListingCount={additionalListingCount ?? 0}
         isLoading={isLoading}
+        chatUserType={chatUserType ?? 0}
         chatMessages={chatMessages}
         textFieldDisabled={isTextFieldDisabled}
         onSendMessage={handleSendMessage}

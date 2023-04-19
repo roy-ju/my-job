@@ -3,9 +3,10 @@ import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomAgentSummary, ChatRoomTextField } from '@/components/organisms';
 import useLatest from '@/hooks/utils/useLatest';
 import { StaticImageData } from 'next/image';
-import { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
+import ListingList, { ListingCardProps } from './ListingList';
 
 interface ChatRoomProps {
   title: string;
@@ -16,17 +17,21 @@ interface ChatRoomProps {
   additionalListingCount: number;
   isLoading: boolean;
   chatMessages: IChatMessage[];
+  chatUserType: number;
   textFieldDisabled?: boolean;
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
 
   onClickReportButton?: () => void;
   onClickLeaveButton?: () => void;
+
+  list: ListingCardProps[];
 }
 
 export default function ChatRoom({
   isLoading,
   title, // listingTitle
+  chatUserType,
   chatMessages,
   textFieldDisabled = false,
   agentDescription,
@@ -39,6 +44,8 @@ export default function ChatRoom({
 
   onClickReportButton,
   onClickLeaveButton,
+
+  list,
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
 
@@ -76,8 +83,10 @@ export default function ChatRoom({
     [agentDescription, agentName, agentProfileImagePath, officeName],
   );
 
+  const [showListingList, setShowListingList] = useState(false);
+
   return (
-    <div tw="flex flex-col h-full">
+    <div tw="flex flex-col h-full relative">
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1">{officeName}</NavigationHeader.Title>
         <NavigationHeader.MoreButton
@@ -85,33 +94,46 @@ export default function ChatRoom({
           items={headerItems.map((item) => item.label)}
         />
       </NavigationHeader>
-      <div tw="flex p-4 border-t border-gray-300  justify-between">
+      <button
+        type="button"
+        onClick={() => {
+          setShowListingList(true);
+        }}
+        tw="flex p-4 border-t border-gray-300  justify-between cursor-pointer"
+      >
         <div> {title + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}</div>
-        <button tw="shrink-0 mt-1 self-start  underline text-info text-gray-1000" type="button">
-          더보기
-        </button>
-      </div>
+        <div tw="shrink-0 mt-1 self-start  underline text-info text-gray-1000">더보기</div>
+      </button>
       <div tw="flex-1 min-h-0 overflow-y-hidden border-t border-gray-300">
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (
           <Virtuoso
-            defaultItemHeight={38} // 각 아이템의 높이
-            style={{ height: '100%', width: '100%' }} // 컨테이너의 높이
-            atBottomThreshold={24} // 스크롤이 맨 아래에 있을 때, 아래로 스크롤을 할 때, 새로운 아이템이 추가되는 시점
-            followOutput="auto" // 스크롤이 맨 아래에 있을 때, 새로운 아이템이 추가되면, 스크롤을 맨 아래로 내림
-            initialTopMostItemIndex={messagesRef.current.length - 1} // 초기에 스크롤을 맨 아래로 내림
-            data={chatMessages} // 아이템 리스트
-            itemContent={renderItem} // 아이템을 렌더링하는 함수
+            defaultItemHeight={38}
+            style={{ height: '100%', width: '100%' }}
+            atBottomThreshold={24}
+            followOutput="auto"
+            initialTopMostItemIndex={messagesRef.current.length - 1}
+            data={chatMessages}
+            itemContent={renderItem}
             components={{
               Header: renderHeader,
-            }} // 헤더를 렌더링하는 함수
+            }}
           />
         )}
       </div>
       <div tw="px-5 pt-4 pb-10">
         <ChatRoomTextField disabled={textFieldDisabled} inputRef={inputRef} onSendMessage={onSendMessage} />
       </div>
+      {showListingList && (
+        <ListingList
+          list={list}
+          setShowListingList={setShowListingList}
+          chatUserType={chatUserType}
+          agentName={agentName}
+          officeName={officeName}
+        />
+      )}
     </div>
   );
 }
