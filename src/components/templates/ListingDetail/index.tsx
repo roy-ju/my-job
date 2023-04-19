@@ -5,7 +5,7 @@ import { ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components
 
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import UserStatusStrings from './strings';
@@ -30,6 +30,30 @@ export default function ListingDetail({
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [isTopCtaButtonsVisible, setIsTopCtaButtonsVisible] = useState(true);
+
+  const biddingsChatRoomCreated = useMemo(
+    () =>
+      listingDetail?.biddings_chat_room_created?.map((item) => ({
+        nickname: item.nickname,
+        createdTime: item.created_time,
+        price: item.trade_or_deposit_price,
+        monthlyRentFee: item.monthly_rent_fee,
+        isMyBidding: item.is_my_bidding,
+      })),
+    [listingDetail?.biddings_chat_room_created],
+  );
+
+  const biddingsChatRoomNotCreated = useMemo(
+    () =>
+      listingDetail?.biddings_chat_room_not_created?.map((item) => ({
+        nickname: item.nickname,
+        createdTime: item.created_time,
+        price: item.trade_or_deposit_price,
+        monthlyRentFee: item.monthly_rent_fee,
+        isMyBidding: item.is_my_bidding,
+      })),
+    [listingDetail?.biddings_chat_room_not_created],
+  );
 
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0.1);
@@ -88,6 +112,8 @@ export default function ListingDetail({
             floorDescription={listingDetail?.listing?.floor_description}
             direction={listingDetail?.listing?.direction}
             tags={listingDetail?.tags?.map((tag) => tag.name)}
+            quickSale={listingDetail?.listing?.quick_sale}
+            quickSaleComparative={listingDetail?.listing?.quick_sale_comparative}
           />
         </div>
         {Object.keys(UserStatusStrings).includes(`${listingDetail?.visit_user_type}`) && (
@@ -126,6 +152,13 @@ export default function ListingDetail({
             </Tabs.Tab>
             <Tabs.Indicator />
           </Tabs>
+        </div>
+        <div tw="px-5 pt-6 pb-10">
+          <ListingDetailSection.Biddings
+            showBiddingPrice={listingDetail?.is_owner ?? false}
+            biddingsChatRoomCreated={biddingsChatRoomCreated}
+            biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
+          />
         </div>
       </div>
       {!isTopCtaButtonsVisible && (
