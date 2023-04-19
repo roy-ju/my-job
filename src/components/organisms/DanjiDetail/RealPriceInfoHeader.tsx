@@ -2,18 +2,24 @@ import React from 'react';
 import { Tabs } from '@/components/molecules';
 import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
 import { Button } from '@/components/atoms';
+import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 
 export default function RealPriceInfoHeader({
+  depth,
   buyOrRent,
   selectedYear,
   onChangeBuyOrRent,
   onChangeSelectedYear,
 }: {
+  depth: number;
   buyOrRent?: number;
   selectedYear?: number;
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
 }) {
+  const router = useRouter(depth);
+
   if (!buyOrRent) return null;
 
   return (
@@ -34,7 +40,16 @@ export default function RealPriceInfoHeader({
         </Tabs>
       </div>
       <div tw="mt-4">
-        <Button variant="primary" tw="w-full">
+        <Button
+          variant="primary"
+          tw="w-full"
+          onClick={() =>
+            router.push(Routes.DanjiRealPriceDetail, {
+              searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+              state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+            })
+          }
+        >
           실거래 심층분석
         </Button>
       </div>

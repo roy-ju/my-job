@@ -66,6 +66,7 @@ type JeonsaeListDanji = {
 }[];
 
 interface Props {
+  depth: number;
   danji?: GetDanjiDetailResponse;
   danjiPhotos?: GetDanjiPhotosResponse;
   danjiListings?: GetDanjiListingsResponse['list'];
@@ -109,6 +110,7 @@ interface Props {
 }
 
 export default function DanjiDetail({
+  depth,
   danji,
   danjiPhotos,
   danjiListings,
@@ -168,6 +170,7 @@ export default function DanjiDetail({
             <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
             <div tw="pt-10">
               <DanjiDetailSection.RealPriceInfo
+                depth={depth}
                 buyOrRent={buyOrRent}
                 danji={danji}
                 danjiRealPricesData={danjiRealPricesData}

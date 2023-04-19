@@ -101,13 +101,13 @@ export default function useDanjiDetail(depth: number) {
     ps: 10,
   });
 
-    const isShowDanjiPhotos = useMemo(() => {
-      if (danjiPhotos && danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0) {
-        return true;
-      }
+  const isShowDanjiPhotos = useMemo(() => {
+    if (danjiPhotos && danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0) {
+      return true;
+    }
 
-      return false;
-    }, [danjiPhotos]);
+    return false;
+  }, [danjiPhotos]);
 
   const onChangeBuyOrRent = useCallback((value: number) => {
     setBuyOrRent(value);

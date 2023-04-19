@@ -72,6 +72,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <DanjiDetail
+        depth={depth}
         danji={danji}
         danjiPhotos={danjiPhotos}
         danjiListings={danjiListings}
