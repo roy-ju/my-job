@@ -1,6 +1,7 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Separator } from '@/components/atoms';
 import React from 'react';
+import RealPriceDanjiListAll from './RealPriceDanjiListAll/RealPriceDanjiListAll';
 import { RealPriceAllListWrraper } from './RealPriceListAll/RealPriceAllListWrraper';
 import { RealPriceTAndVChartWrraper } from './RealPriceTAndVChart/RealPriceTAndVChartWrraper';
 import { RealPriceTradeTrendChartWrraper } from './RealPriceTradeTrends/RealPriceTradeTrendChartWrraper';
@@ -30,6 +31,8 @@ export default function RealPriceDetailContent({
 
         <RealPriceTradeTrendChartWrraper danji={danji} buyOrRent={buyOrRent} selectedYear={selectedYear} />
       </div>
+      <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
+      <RealPriceDanjiListAll />
       <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
       <RealPriceAllListWrraper danji={danji} buyOrRent={buyOrRent} />
     </div>
