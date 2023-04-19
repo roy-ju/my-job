@@ -56,15 +56,15 @@ const paddingLeft = 11;
 const paddingVertical = 9;
 
 function getDate(d: ChartData[0]) {
-  return new Date(d.date).valueOf();
+  return d?.date ? new Date(d.date).valueOf() : new Date().valueOf();
 }
 
 function getBuyPrice(d: ChartData[0]) {
-  return d.buy_price;
+  return d?.buy_price;
 }
 
 function getJeonsaePrice(d: ChartData[0]) {
-  return d.jeonsae_price;
+  return d?.jeonsae_price;
 }
 
 function getYPriceDomainPrices(d1?: number, d2?: number[] | null) {

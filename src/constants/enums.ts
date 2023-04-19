@@ -55,6 +55,13 @@ export enum Year {
   Five = 5,
 }
 
+export enum SchoolType {
+  All = 0,
+  ElementarySchool = 1,
+  MiddleSchool = 2,
+  HighSchool = 3,
+}
+
 export enum ListingStatus {
   VerifyAddress = 10, // 등기부 주소 조회 서비스 요청중 (실패시 계속 같은 Status 유지) check
   NoAddressFound = 11, // 주소확인 불가 check
