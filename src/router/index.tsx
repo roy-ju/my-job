@@ -25,6 +25,10 @@ const MyRealPriceList = dynamic(() => import('@/components/pages/pc/MyRealPriceL
   ssr: false,
   loading: () => <Panel />,
 });
+const MyFavoriteList = dynamic(() => import('@/components/pages/pc/MyFavoriteList'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
   loading: () => <Panel />,
@@ -201,6 +205,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.MyRealPriceList: {
       return <MyRealPriceList {...props} />;
+    }
+
+    case Routes.MyFavoriteList: {
+      return <MyFavoriteList {...props} />;
     }
 
     case Routes.NotificationList: {
