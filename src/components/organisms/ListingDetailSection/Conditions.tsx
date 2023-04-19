@@ -1,11 +1,13 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { Moment, Numeral } from '@/components/atoms';
 import { Table } from '@/components/molecules';
-import { BuyOrRent } from '@/constants/enums';
-import { BuyOrRentString } from '@/constants/strings';
+import { BuyOrRent, ListingStatus } from '@/constants/enums';
+import { BuyOrRentString, TargetPriceLabel } from '@/constants/strings';
 
 export interface ConditionsProps {
   listing?: GetListingDetailResponse['listing'];
+  debtSuccessions?: GetListingDetailResponse['debt_successions'];
+  collaterals?: GetListingDetailResponse['collaterals'];
 }
 
 function getPaymentTimeType(value: number) {
@@ -13,7 +15,7 @@ function getPaymentTimeType(value: number) {
   return '이후';
 }
 
-export default function Conditions({ listing }: ConditionsProps) {
+export default function Conditions({ listing, debtSuccessions, collaterals }: ConditionsProps) {
   return (
     <div>
       <div tw="mb-3">
@@ -26,7 +28,7 @@ export default function Conditions({ listing }: ConditionsProps) {
             <Table.Data>{BuyOrRentString[listing?.buy_or_rent ?? 0]}</Table.Data>
           </Table.Row>
           <Table.Row>
-            <Table.Head>희망가</Table.Head>
+            <Table.Head>{TargetPriceLabel[listing?.status ?? ListingStatus.Active] ?? '희망가'}</Table.Head>
             <Table.Data>
               {listing?.buy_or_rent === BuyOrRent.Buy && <Numeral koreanNumber>{listing.trade_price}</Numeral>}
               {listing?.buy_or_rent === BuyOrRent.Jeonsae && <Numeral koreanNumber>{listing.deposit}</Numeral>}
@@ -40,26 +42,40 @@ export default function Conditions({ listing }: ConditionsProps) {
             </Table.Data>
           </Table.Row>
         </Table.Body>
-        <Table.Group defaultExpanded>
-          <Table.GroupSummary>
-            <span tw="text-gray-1000">채무승계금액</span>
-          </Table.GroupSummary>
-          <Table.GroupDetails>
-            {listing?.move_in_date && (
-              <Table.Row>
-                <Table.Head>입주가능시기</Table.Head>
-                <Table.Data>
-                  <Moment format="yyyy.MM.DD">{listing?.move_in_date}</Moment>{' '}
-                  {getPaymentTimeType(listing?.move_in_date_type ?? 1)}
-                </Table.Data>
-              </Table.Row>
-            )}
-            <Table.Row>
-              <Table.Head>특약조건</Table.Head>
-              <Table.Data>{listing?.special_terms ? listing?.special_terms : '없음'}</Table.Data>
-            </Table.Row>
-          </Table.GroupDetails>
-        </Table.Group>
+        {Boolean(debtSuccessions?.length) && (
+          <Table.Group defaultExpanded>
+            <Table.GroupSummary>
+              <span tw="text-gray-1000">채무승계금액</span>
+            </Table.GroupSummary>
+            <Table.GroupDetails>
+              {debtSuccessions?.map((item) => (
+                <Table.Row key={item.id}>
+                  <Table.Head>{item.name}</Table.Head>
+                  <Table.Data>
+                    <Numeral koreanNumber>{item.amount}</Numeral>
+                  </Table.Data>
+                </Table.Row>
+              ))}
+            </Table.GroupDetails>
+          </Table.Group>
+        )}
+        {Boolean(collaterals?.length) && (
+          <Table.Group defaultExpanded>
+            <Table.GroupSummary>
+              <span tw="text-gray-1000">선순위 담보권</span>
+            </Table.GroupSummary>
+            <Table.GroupDetails>
+              {collaterals?.map((item) => (
+                <Table.Row key={item.id}>
+                  <Table.Head>{item.name}</Table.Head>
+                  <Table.Data>
+                    <Numeral koreanNumber>{item.amount}</Numeral>
+                  </Table.Data>
+                </Table.Row>
+              ))}
+            </Table.GroupDetails>
+          </Table.Group>
+        )}
         <Table.Group defaultExpanded>
           <Table.GroupSummary>
             <span tw="text-gray-1000">지급일정</span>
@@ -147,6 +163,27 @@ export default function Conditions({ listing }: ConditionsProps) {
                   <Moment format="yyyy.MM.DD">{listing?.move_in_date}</Moment>{' '}
                   {getPaymentTimeType(listing?.move_in_date_type ?? 1)}
                 </Table.Data>
+              </Table.Row>
+            )}
+            {listing?.buy_or_rent !== BuyOrRent.Buy && (
+              <Table.Row>
+                <Table.Head>전세자금대출</Table.Head>
+                <Table.Data>{listing?.jeonsae_loan ? '가능' : '불가능'}</Table.Data>
+              </Table.Row>
+            )}
+            {listing?.buy_or_rent !== BuyOrRent.Buy && (
+              <Table.Row>
+                <Table.Head>임대기간</Table.Head>
+                <Table.Data>
+                  {Boolean(listing?.rent_contract_term_year) && `${listing?.rent_contract_term_year}년`}
+                  {Boolean(listing?.rent_contract_term_month) && `${listing?.rent_contract_term_month}개월`}
+                </Table.Data>
+              </Table.Row>
+            )}
+            {listing?.buy_or_rent !== BuyOrRent.Buy && (
+              <Table.Row>
+                <Table.Head>임대할 부분</Table.Head>
+                <Table.Data>{listing?.rent_area ? '전체' : listing?.rent_area}</Table.Data>
               </Table.Row>
             )}
             <Table.Row>

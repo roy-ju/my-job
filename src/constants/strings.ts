@@ -1,4 +1,4 @@
-import { BuyOrRent, RealestateType } from './enums';
+import { BuyOrRent, RealestateType, ListingStatus } from './enums';
 
 export const RealestateTypeString: Record<number, string> = {
   [RealestateType.Apartment]: '아파트',
@@ -13,4 +13,10 @@ export const BuyOrRentString: Record<number, string> = {
   [BuyOrRent.Buy]: '매매',
   [BuyOrRent.Jeonsae]: '전세',
   [BuyOrRent.Wolsae]: '월세',
+};
+
+export const TargetPriceLabel: Record<number, string> = {
+  [ListingStatus.Active]: '희망가',
+  [ListingStatus.Complete]: '체결가',
+  [ListingStatus.CompleteComplete]: '체결가',
 };
