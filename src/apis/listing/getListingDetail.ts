@@ -2,7 +2,7 @@ import useSWR from 'swr';
 
 interface Listing {
   id: number;
-  user_id: number;
+  user_id: number | null;
   agent_id: any;
   assigned_agent_id: number;
   trade_id: string;
@@ -69,7 +69,7 @@ interface Listing {
   rent_contract_term_year: number;
   rent_contract_term_month: number;
   rent_contract_term_negotiable: boolean;
-  rent_end_date: string;
+  rent_end_date: string | null;
   move_in_date: any;
   move_in_date_type: number;
   rent_area: string;
@@ -144,21 +144,46 @@ export interface GetListingDetailResponse {
   total_parking_count: string;
   parking_per_saedae: string;
   active_status_time: string;
-  photos: any[];
-  danji_photos: any[];
+  photos:
+    | {
+        id: number;
+        listing_id: number;
+        pnu: any;
+        token: any;
+        document_type: number;
+        full_file_path: string;
+        thumb_file_path: string;
+        created_time: string;
+      }[]
+    | null;
+  danji_photos:
+    | {
+        id: number;
+        listing_id: number;
+        pnu: any;
+        token: any;
+        document_type: number;
+        full_file_path: string;
+        thumb_file_path: string;
+        created_time: string;
+      }[]
+    | null;
   debt_successions: DebtSuccession[];
   collaterals: any[];
-  tags: any[];
+  tags: {
+    id: number;
+    name: string;
+    created_time: string;
+  }[];
   options: any[];
-  biddings_chat_room_created: any;
-  biddings_chat_room_not_created: BiddingsChatRoomNotCreated[];
+  biddings_chat_room_created: BiddingsChatRoomNotCreated[] | null;
+  biddings_chat_room_not_created: BiddingsChatRoomNotCreated[] | null;
 }
 
 export default function useAPI_GetListingDetail(id: number) {
-  const { data, isLoading, mutate } = useSWR<GetListingDetailResponse & ErrorResponse>([
-    '/listing/detail',
-    { listing_id: id },
-  ]);
+  const { data, isLoading, mutate } = useSWR<GetListingDetailResponse & ErrorResponse>(
+    id !== 0 ? ['/listing/detail', { listing_id: id }] : null,
+  );
 
   return { data, isLoading, mutate };
 }

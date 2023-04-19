@@ -27,14 +27,14 @@ function ChartTableBody({
 }) {
   const getColor = () => {
     if (buyOrRent === BuyOrRent.Buy) {
-      return '#341D99';
+      return '#5F3DC4';
     }
 
     if (monthlyRentFee && monthlyRentFee > 0) {
-      return '#FFB800';
+      return '#009F40';
     }
 
-    return '#56CA8D';
+    return '#CA2F0B';
   };
 
   return isIcon ? (

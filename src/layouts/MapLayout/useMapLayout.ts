@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import getDanjiSummary from '@/apis/map/mapDanjiSummary';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
@@ -615,6 +616,19 @@ export default function useMapLayout() {
     }
     return () => {};
   }, []);
+
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined' && window.Negocio?.callbacks.test) {
+  //     console.log('hi');
+  //     console.log(window.Negocio)
+
+  //     return () => {
+  //       delete window.Negocio.callbacks.test;
+  //     };
+  //   }
+
+     
+  // }, []);
 
   /**
    * 맵 레이어 핸들링
