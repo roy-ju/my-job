@@ -7,6 +7,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
 import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
+import { mutate } from 'swr';
 import useChatRoom from './useChatRoom';
 
 interface Props {
@@ -46,6 +47,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleCloseChatRoom = async () => {
     const chatRoomID = Number(router.query.chatRoomID);
     await closeChatRoom(chatRoomID);
+    await mutate('/chat/room/list');
     router.pop();
   };
 
