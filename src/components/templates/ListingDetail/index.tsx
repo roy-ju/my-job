@@ -1,7 +1,7 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { ListingCtaButtons, PhotoHero } from '@/components/organisms';
+import { ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
 
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
@@ -51,7 +51,29 @@ export default function ListingDetail({
         </div>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
-        <PhotoHero itemSize={0} />
+        <PhotoHero
+          itemSize={listingDetail?.photos?.length ?? 0}
+          photoPath={listingDetail?.photos?.[0]?.full_file_path}
+        />
+        <div tw="px-5 py-6">
+          <ListingDetailSection.Summary
+            createdTime={listingDetail?.active_status_time}
+            viewCount={listingDetail?.listing?.view_count}
+            participatorCount={listingDetail?.participator_count}
+            listingTitle={listingDetail?.listing?.listing_title}
+            address={listingDetail?.display_address}
+            buyOrRent={listingDetail?.listing?.buy_or_rent}
+            price={listingDetail?.trade_or_deposit_price}
+            monthlyRentFee={listingDetail?.monthly_rent_fee}
+            realestateType={listingDetail?.listing?.realestate_type}
+            jeonyongArea={listingDetail?.listing?.jeonyong_area}
+            gonggeupArea={listingDetail?.listing?.gonggeup_area}
+            floor={listingDetail?.listing?.floor}
+            floorDescription={listingDetail?.listing?.floor_description}
+            direction={listingDetail?.listing?.direction}
+            tags={listingDetail?.tags?.map((tag) => tag.name)}
+          />
+        </div>
       </div>
       <PersistentBottomBar>
         <ListingCtaButtons
