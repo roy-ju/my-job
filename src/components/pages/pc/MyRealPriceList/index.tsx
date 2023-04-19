@@ -44,7 +44,7 @@ export default memo(({ panelWidth }: Props) => {
     <Panel width={panelWidth}>
       <MyRealPriceList
         isLoading={isLoading}
-        key={buyOrRent}
+        // key={buyOrRent}
         list={list}
         buyOrRent={buyOrRent}
         onChangeBuyOrRent={handleChangeBuyOrRent}

@@ -1,9 +1,10 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Panel } from '@/components/atoms';
+import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
+import { Loading, Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
@@ -15,7 +16,8 @@ interface Props {
 export default memo(({ depth, panelWidth, listingID }: Props) => {
   const router = useRouter(depth);
 
-  const { data, isLoading } = useAPI_GetListingDetail(listingID);
+  const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
+  const { data, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
     router.push(Routes.BiddingForm, {
@@ -38,14 +40,51 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     });
   }, [router, data?.bidding_id]);
 
+  const handleNavigateToChatRoom = useCallback(() => {
+    if (data?.chat_room_id) {
+      router.push(Routes.ChatRoom, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          chatRoomID: `${data.chat_room_id}`,
+        },
+      });
+    }
+  }, [router, data]);
+
+  useEffect(() => {
+    console.log('listing detail mounted!!!!!');
+  }, []);
+
+  if (data?.error_code) {
+    return <Panel width={panelWidth}>{data?.error_code}</Panel>;
+  }
+
+  if (isLoading || isLoadingStatus) {
+    return (
+      <Panel width={panelWidth}>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </Panel>
+    );
+  }
+
+  if (!statusData?.can_access) {
+    return (
+      <Panel width={panelWidth}>
+        <div tw="py-20">CANNOT ACCESS</div>
+      </Panel>
+    );
+  }
+
   return (
     <Panel width={panelWidth}>
       <ListingDetail
-        listing={data?.listing}
-        visitUserType={data?.visit_user_type}
-        isLoading={isLoading}
+        listingDetail={data as GetListingDetailResponse}
+        isLoading={isLoading || isLoadingStatus}
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
+        onNavigateToChatRoom={handleNavigateToChatRoom}
       />
     </Panel>
   );
