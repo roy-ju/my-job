@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { useAuth } from '@/hooks/services';
 import { toast } from 'react-toastify';
 import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
+import PhotoHero from '../PhotoHero';
 
 export function DanjiHeader({
   danji,
@@ -32,8 +33,8 @@ export function DanjiHeader({
 
   const { user, isLoading: isAuthLoading } = useAuth();
 
-  useScroll(scrollContainer, () => {
-    setIsHeaderActive(true);
+  useScroll(scrollContainer, ({ scrollY }) => {
+    setIsHeaderActive(scrollY > 0.1);
   });
 
   const onClickFavorite = useCallback(async () => {
@@ -68,7 +69,7 @@ export function DanjiHeader({
     <div tw="relative flex flex-col h-full">
       <NavigationHeader
         css={[
-          tw`absolute top-0 left-0 w-full text-white transition-colors bg-transparent`,
+          tw`absolute top-0 left-0 z-50 w-full text-white transition-colors bg-transparent`,
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
@@ -90,7 +91,10 @@ export function DanjiHeader({
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         {danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0 ? (
-          <div />
+          <PhotoHero
+            itemSize={danjiPhotos.danji_photos.length ?? 0}
+            photoPath={danjiPhotos.danji_photos?.[0]?.full_file_path}
+          />
         ) : (
           <Image
             width={380}
