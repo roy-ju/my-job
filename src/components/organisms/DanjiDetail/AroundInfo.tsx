@@ -83,7 +83,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
   }, [activeCategory.SW8, catergoryList]);
 
-  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [update]);
+  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [markers]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
@@ -197,6 +197,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           selected={selectedAround}
           onClick={() => {
             setSelectedAround((prev) => !prev);
+            // window.Negocio.callbacks.test();
           }}
         >
           정보보기
