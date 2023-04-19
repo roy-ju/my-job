@@ -29,6 +29,8 @@ export interface SummaryProps {
   floorDescription?: string;
   floor?: string;
   direction?: string;
+  quickSale?: boolean;
+  quickSaleComparative?: string;
 }
 
 export default function Summary({
@@ -47,6 +49,8 @@ export default function Summary({
   floorDescription,
   floor,
   tags,
+  quickSale = false,
+  quickSaleComparative = '',
 }: SummaryProps) {
   const floorString = useMemo(() => {
     const arr: string[] = [];
@@ -90,13 +94,15 @@ export default function Summary({
             </span>
           )}
         </div>
-        <Chip variant="red">급매</Chip>
+        {quickSale && <Chip variant="red">급매</Chip>}
         <TooltipIcon />
       </div>
-      <div tw="text-b2 mb-4">
-        최근 실거래 대비 <span tw="text-blue-1000">- 3%</span>
-      </div>
-      <div tw="py-2 px-3 bg-gray-100 rounded-lg text-b2 leading-5 flex gap-2 items-center">
+      {quickSale && Boolean(quickSaleComparative) && (
+        <div tw="text-b2">
+          최근 실거래 대비 <span tw="text-blue-1000">{quickSaleComparative}</span>
+        </div>
+      )}
+      <div tw="py-2 px-3 bg-gray-100 rounded-lg text-b2 leading-5 flex gap-2 items-center mt-4">
         <MapPinIcon tw="w-4 h-4 text-gray-600" />
         {address}
       </div>
