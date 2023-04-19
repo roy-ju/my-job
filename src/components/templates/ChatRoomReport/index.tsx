@@ -45,7 +45,6 @@ export default function CharRoomReport({
         >
           신고하기
         </Button>
-        <div tw="mx-auto mt-7 w-[148px] h-[5px] bg-gray-1000 rounded-full" />
       </PersistentBottomBar>
     </div>
   );
