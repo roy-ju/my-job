@@ -33,6 +33,7 @@ export { default as ServiceInfo } from './ServiceInfo';
 export { default as BusinessInfo } from './BusinessInfo';
 export { default as Register } from './Register';
 export { default as RegisterSuccess } from './RegisterSuccess';
+export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as VerifyCi } from './VerifyCi';
 export { default as VerifyCiSuccess } from './VerifyCiSuccess';
 export { default as FindAccount } from './FindAccount';

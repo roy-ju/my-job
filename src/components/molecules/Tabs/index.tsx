@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useControlled } from '@/hooks/utils';
 import tw from 'twin.macro';
 import getChildrenByType from '@/utils/getChildrenByType';
+import { customAlphabet } from 'nanoid';
 import TabsContext from './TabsContext';
 
 const tabStyles = {
@@ -52,6 +53,7 @@ interface TabsProps {
 }
 
 function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: TabsProps) {
+  const nanoId = customAlphabet('1234567890abcedfgh', 10);
   const [value, setValue] = useControlled({ controlled: valueProp, default: 0 });
 
   const handleChange = useCallback(
@@ -83,7 +85,7 @@ function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: Ta
               {child}
               {value === child.props.value && (
                 <motion.div
-                  layoutId={`${variant}-indicator`}
+                  layoutId={`${nanoId()}-${variant}-indicator`}
                   tw="absolute left-0 top-0 w-full h-full pointer-events-none z-0"
                 >
                   {indicatorChild}

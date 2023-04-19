@@ -9,6 +9,7 @@ const Routes = {
   ChatRoomReport: 'chatRoomReport',
 
   DanjiDetail: 'danjiDetail',
+  DanjiRealPriceDetail: 'RealPrice',
 
   Deregister: 'deregister',
   DeregisterDisclaimer: 'deregisterDisclaimer',
