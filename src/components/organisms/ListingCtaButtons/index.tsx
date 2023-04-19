@@ -5,6 +5,7 @@ interface CommonProps {
   buttonSize?: 'big' | 'bigger';
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
+  onNavigateToChatRoom?: () => void;
 }
 
 function BuyerGeneral({ buttonSize = 'bigger', onNavigateToParticipateBidding }: CommonProps) {
@@ -65,20 +66,20 @@ function HasRejectedSuggest({ buttonSize = 'bigger' }: CommonProps) {
   );
 }
 
-function Accepted({ buttonSize = 'bigger' }: CommonProps) {
+function Accepted({ buttonSize = 'bigger', onNavigateToChatRoom }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToChatRoom}>
         중개사 채팅
       </Button>
     </div>
   );
 }
 
-function PreContractSelf({ buttonSize = 'bigger' }: CommonProps) {
+function PreContractSelf({ buttonSize = 'bigger', onNavigateToChatRoom }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToChatRoom}>
         중개사 채팅
       </Button>
     </div>
@@ -95,20 +96,20 @@ function PreContractOthers({ buttonSize = 'bigger' }: CommonProps) {
   );
 }
 
-function SellerGeneral({ buttonSize = 'bigger' }: CommonProps) {
+function SellerGeneral({ buttonSize = 'bigger', onNavigateToChatRoom }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToChatRoom}>
         중개사 채팅
       </Button>
     </div>
   );
 }
 
-function SellerPreContract({ buttonSize = 'bigger' }: CommonProps) {
+function SellerPreContract({ buttonSize = 'bigger', onNavigateToChatRoom }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToChatRoom}>
         중개사 채팅
       </Button>
     </div>

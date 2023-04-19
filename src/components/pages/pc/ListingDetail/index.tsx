@@ -40,6 +40,17 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     });
   }, [router, data?.bidding_id]);
 
+  const handleNavigateToChatRoom = useCallback(() => {
+    if (data?.chat_room_id) {
+      router.push(Routes.ChatRoom, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          chatRoomID: `${data.chat_room_id}`,
+        },
+      });
+    }
+  }, [router, data]);
+
   if (data?.error_code) {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;
   }
@@ -69,6 +80,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
         isLoading={isLoading || isLoadingStatus}
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
+        onNavigateToChatRoom={handleNavigateToChatRoom}
       />
     </Panel>
   );
