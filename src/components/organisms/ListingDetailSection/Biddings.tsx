@@ -1,0 +1,144 @@
+import { Chip, Moment, Numeral } from '@/components/atoms';
+import { Table } from '@/components/molecules';
+import tw, { styled } from 'twin.macro';
+
+const StyledTable = styled.table`
+  ${tw`w-full table-fixed text-b2`}
+  tbody[aria-label='biddingHeader'] tr {
+    th,
+    td {
+      ${tw`text-gray-700`}
+    }
+  }
+
+  tbody tr:not(:last-of-type) {
+    ${tw`border-b border-b-gray-300`}
+  }
+  th,
+  td {
+    width: 50%;
+    ${tw`text-gray-1000`}
+  }
+
+  td {
+    text-align: end;
+  }
+`;
+
+interface BiddingItem {
+  nickname: string;
+  createdTime: string | null;
+  price: number;
+  monthlyRentFee: number;
+  isMyBidding: boolean;
+}
+
+interface BiddingsProps {
+  showBiddingPrice?: boolean;
+  biddingsChatRoomCreated?: BiddingItem[] | null;
+  biddingsChatRoomNotCreated?: BiddingItem[] | null;
+}
+
+export default function Biddings({
+  showBiddingPrice = false,
+  biddingsChatRoomCreated,
+  biddingsChatRoomNotCreated,
+}: BiddingsProps) {
+  if (!biddingsChatRoomCreated && !biddingsChatRoomNotCreated) {
+    return (
+      <div>
+        <div tw="mb-3">
+          <div tw="font-bold">제안 현황</div>
+        </div>
+        <div tw="text-center text-gray-700 text-b2 py-8">
+          생각해보는 금액을 제안해 보시고,
+          <br />
+          네고의 기회를 잡아보세요!
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div tw="mb-3">
+        <div tw="font-bold">제안 현황</div>
+      </div>
+      <div>
+        <StyledTable>
+          <Table.Body aria-label="biddingHeader">
+            <Table.Row>
+              <Table.Head>제안자</Table.Head>
+              {showBiddingPrice && <Table.Data>제안금액</Table.Data>}
+              <Table.Data>제안시간</Table.Data>
+            </Table.Row>
+          </Table.Body>
+          {biddingsChatRoomCreated && (
+            <Table.Body css={[biddingsChatRoomNotCreated && tw`border-b border-b-nego-800`]}>
+              {biddingsChatRoomCreated?.map((item) => (
+                <Table.Row key={item.nickname + item.createdTime}>
+                  <Table.Head>
+                    {item.isMyBidding ? (
+                      <span tw="font-bold text-nego-1000">나의 제안가</span>
+                    ) : (
+                      <span>
+                        {item.nickname} <Chip tw="ml-1">네고중</Chip>
+                      </span>
+                    )}
+                  </Table.Head>
+                  {showBiddingPrice && (
+                    <Table.Data>
+                      <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '-'}
+                        {Boolean(item.monthlyRentFee) && (
+                          <span>
+                            /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>
+                          </span>
+                        )}
+                      </span>
+                    </Table.Data>
+                  )}
+                  <Table.Data>
+                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                      {item.createdTime ? <Moment format="calendar">{item.createdTime}</Moment> : '-'}
+                    </span>
+                  </Table.Data>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          )}
+          {biddingsChatRoomNotCreated && (
+            <Table.Body>
+              {biddingsChatRoomNotCreated?.map((item) => (
+                <Table.Row key={item.nickname}>
+                  <Table.Head>
+                    {item.isMyBidding ? (
+                      <span tw="font-bold text-nego-1000">나의 제안가</span>
+                    ) : (
+                      <span>{item.nickname}</span>
+                    )}
+                  </Table.Head>
+                  {showBiddingPrice && (
+                    <Table.Data>
+                      <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '-'}
+                        {Boolean(item.monthlyRentFee) && (
+                          <span>
+                            /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>
+                          </span>
+                        )}
+                      </span>
+                    </Table.Data>
+                  )}
+                  <Table.Data>
+                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>-</span>
+                  </Table.Data>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          )}
+        </StyledTable>
+      </div>
+    </div>
+  );
+}

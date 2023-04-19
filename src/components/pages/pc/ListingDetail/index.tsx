@@ -4,7 +4,7 @@ import { Loading, Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
@@ -50,6 +50,10 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
       });
     }
   }, [router, data]);
+
+  useEffect(() => {
+    console.log('listing detail mounted!!!!!');
+  }, []);
 
   if (data?.error_code) {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;
