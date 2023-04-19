@@ -154,7 +154,7 @@ export default function DanjiDetail({
     <div tw="flex flex-col h-full">
       <DanjiDetailSection.Header danji={danji} danjiPhotos={danjiPhotos} isShowDanjiPhotos={isShowDanjiPhotos} />
       <DanjiDetailSection>
-        <div tw="pt-6" css={[danjiListings && danjiListings.slice(0, 3).length === 3 ? tw`pb-10` : tw`pb-1`]}>
+        <div tw="pt-6" css={[danjiListings && danjiListings.slice(0, 3).length === 3 ? tw`pb-10` : tw`pb-10`]}>
           <DanjiDetailSection.Info danji={danji} />
           {danjiListings && danjiListings.length > 0 && (
             <>
@@ -163,10 +163,9 @@ export default function DanjiDetail({
           )}
         </div>
 
-        <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-
         {danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0 && (
           <>
+            <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
             <div tw="pt-10">
               <DanjiDetailSection.RealPriceInfo
                 buyOrRent={buyOrRent}
