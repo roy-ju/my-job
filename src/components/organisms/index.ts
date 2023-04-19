@@ -73,5 +73,6 @@ export { default as BiddingForm } from './BiddingForm';
 export { default as ListingSummaryCard } from './ListingSummaryCard';
 
 export { default as PhotoHero } from './PhotoHero';
+export { default as ListingDetailSection } from './ListingDetailSection';
 
 export * from './popups';
