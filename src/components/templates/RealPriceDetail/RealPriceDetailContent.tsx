@@ -32,7 +32,7 @@ export default function RealPriceDetailContent({
         <RealPriceTradeTrendChartWrraper danji={danji} buyOrRent={buyOrRent} selectedYear={selectedYear} />
       </div>
       <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
-      <RealPriceDanjiListAll />
+      <RealPriceDanjiListAll danji={danji} buyOrRent={buyOrRent} />
       <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
       <RealPriceAllListWrraper danji={danji} buyOrRent={buyOrRent} />
     </div>
