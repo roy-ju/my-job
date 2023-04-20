@@ -7,7 +7,9 @@ export default function useScroll(
   callback: (coords: { scrollX: number; scrollY: number }) => void,
 ) {
   const getPositions = () => {
+    console.log("hi")
     const el = unRef(target);
+
     if (!el) return;
 
     return {
