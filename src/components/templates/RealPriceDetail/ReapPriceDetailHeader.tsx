@@ -21,7 +21,7 @@ export default function ReapPriceDetailHeader({
   if (!danji) return null;
 
   return (
-    <div>
+    <div tw="">
       <NavigationHeader>
         <NavigationHeader.Title tw="text-inherit">실거래 심층 분석</NavigationHeader.Title>
       </NavigationHeader>

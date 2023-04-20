@@ -41,7 +41,9 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}
       />
-      <RealPriceDetailContent danji={danji} buyOrRent={buyOrRent || 1} selectedYear={selectedYear || 3} />
+      <div tw="overflow-y-auto">
+        <RealPriceDetailContent danji={danji} buyOrRent={buyOrRent || 1} selectedYear={selectedYear || 3} />
+      </div>
     </div>
   );
 }

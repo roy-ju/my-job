@@ -20,22 +20,16 @@ export function DanjiHeader({
   danji,
   danjiPhotos,
   isShowDanjiPhotos,
+  isHeaderActive,
 }: {
   danji?: GetDanjiDetailResponse;
   danjiPhotos?: GetDanjiPhotosResponse;
   isShowDanjiPhotos?: boolean;
+  isHeaderActive: boolean;
 }) {
-  const scrollContainer = useRef<HTMLDivElement | null>(null);
-
-  const [isHeaderActive, setIsHeaderActive] = useState(false);
-
   const [isFavorite, setIsFavorite] = useState(!!danji?.is_favorite);
 
   const { user, isLoading: isAuthLoading } = useAuth();
-
-  useScroll(scrollContainer, ({ scrollY }) => {
-    setIsHeaderActive(scrollY > 0.1);
-  });
 
   const onClickFavorite = useCallback(async () => {
     if (!danji || isAuthLoading) return;
@@ -66,7 +60,7 @@ export function DanjiHeader({
   if (!danji) return null;
 
   return (
-    <div tw="relative flex flex-col h-full">
+    <div tw="relative flex flex-col">
       <NavigationHeader
         css={[
           tw`absolute top-0 left-0 z-50 w-full text-white transition-colors bg-transparent`,
@@ -89,22 +83,24 @@ export function DanjiHeader({
           )}
         </div>
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
-        {danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0 ? (
-          <PhotoHero
-            itemSize={danjiPhotos.danji_photos.length ?? 0}
-            photoPath={danjiPhotos.danji_photos?.[0]?.full_file_path}
-          />
-        ) : (
-          <Image
-            width={380}
-            height={256}
-            alt="image"
-            src={Apartment}
-            style={{ objectFit: 'cover', width: '380px', height: '256px' }}
-          />
-        )}
-      </div>
+      {!isHeaderActive && (
+        <div tw="flex-1 min-h-0">
+          {danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0 ? (
+            <PhotoHero
+              itemSize={danjiPhotos.danji_photos.length ?? 0}
+              photoPath={danjiPhotos.danji_photos?.[0]?.full_file_path}
+            />
+          ) : (
+            <Image
+              width={380}
+              height={256}
+              alt="image"
+              src={Apartment}
+              style={{ objectFit: 'cover', width: '380px', height: '256px' }}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -16,6 +16,9 @@ import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { MonthStartDate } from '@/components/pages/pc/DanjiDetail/useXAxisDate';
 import { BuyOrRent, describeJeonsaeWolsaeSame } from '@/constants/enums';
 import { DanjiRealPricesListItem, DanjiRealPricesListResponse } from '@/apis/danji/danjiRealPricesList';
+
+import { useRef, useState } from 'react';
+import { useScroll } from '@/hooks/utils';
 import DanjiStatusChartWrraper from './DanjiStatusChartWrraper';
 import DanjiStatusTradeChartWrraper from './DanjiStatusTradeChartWrraper';
 import DanjiStatusJeonsaeChartWrraper from './DanjiStatusJeonsaeChartWrraper';
@@ -150,144 +153,159 @@ export default function DanjiDetail({
   onChangeSelectedJeonyongAreaMax,
   danjiRealPriesListSetSize,
 }: Props) {
+  const [isHeaderActive, setIsHeaderActive] = useState(false);
+
+  const scrollContainer = useRef<HTMLDivElement | null>(null);
+
+  useScroll(scrollContainer, ({ scrollY }) => {
+    setIsHeaderActive(scrollY > 0.1);
+  });
+
   if (!danji) return null;
 
   return (
-    <div tw="flex flex-col h-full">
-      <DanjiDetailSection.Header danji={danji} danjiPhotos={danjiPhotos} isShowDanjiPhotos={isShowDanjiPhotos} />
-      <DanjiDetailSection>
-        <div tw="pt-6" css={[danjiListings && danjiListings.slice(0, 3).length === 3 ? tw`pb-10` : tw`pb-10`]}>
-          <DanjiDetailSection.Info danji={danji} />
-          {danjiListings && danjiListings.length > 0 && (
+    <div tw="relative flex flex-col h-full">
+      <DanjiDetailSection.Header
+        danji={danji}
+        danjiPhotos={danjiPhotos}
+        isShowDanjiPhotos={isShowDanjiPhotos}
+        isHeaderActive={isHeaderActive}
+      />
+      <div tw="overflow-y-auto " ref={scrollContainer}>
+        <DanjiDetailSection>
+          <div tw="pt-6" css={[danjiListings && danjiListings.slice(0, 3).length === 3 ? tw`pb-10` : tw`pb-10`]}>
+            <DanjiDetailSection.Info danji={danji} />
+            {danjiListings && danjiListings.length > 0 && (
+              <>
+                <DanjiDetailSection.ActiveInfo danjiListings={danjiListings} onClick={onClickListingDetail} />
+              </>
+            )}
+          </div>
+
+          {danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0 && (
             <>
-              <DanjiDetailSection.ActiveInfo danjiListings={danjiListings} onClick={onClickListingDetail} />
-            </>
-          )}
-        </div>
-
-        {danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0 && (
-          <>
-            <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-            <div tw="pt-10">
-              <DanjiDetailSection.RealPriceInfo
-                depth={depth}
-                buyOrRent={buyOrRent}
-                danji={danji}
-                danjiRealPricesData={danjiRealPricesData}
-                danjiTradeTurnRateData={danjiTradeTurnRateData}
-                danjiTradeTurnRateSigunguData={danjiTradeTurnRateSigunguData}
-                danjiJeonsaeRateRateData={danjiJeonsaeRateRateData}
-                danjiJeonsaeRateSigunguData={danjiJeonsaeRateSigunguData}
-                selectedYear={selectedYear}
-                onChangeBuyOrRent={onChangeBuyOrRent}
-                onChangeSelectedYear={onChangeSelectedYear}
-              />
-            </div>
-            <div tw="px-5 mt-10">
-              <div tw="mb-3">
-                <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
-                  면적당 거래가 ({describeJeonsaeWolsaeSame(buyOrRent)} / ㎡)
-                </span>
+              <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+              <div tw="pt-10">
+                <DanjiDetailSection.RealPriceInfo
+                  depth={depth}
+                  buyOrRent={buyOrRent}
+                  danji={danji}
+                  danjiRealPricesData={danjiRealPricesData}
+                  danjiTradeTurnRateData={danjiTradeTurnRateData}
+                  danjiTradeTurnRateSigunguData={danjiTradeTurnRateSigunguData}
+                  danjiJeonsaeRateRateData={danjiJeonsaeRateRateData}
+                  danjiJeonsaeRateSigunguData={danjiJeonsaeRateSigunguData}
+                  selectedYear={selectedYear}
+                  onChangeBuyOrRent={onChangeBuyOrRent}
+                  onChangeSelectedYear={onChangeSelectedYear}
+                />
               </div>
-              <ParentSize>
-                {({ width }) => (
-                  <DanjiStatusChartWrraper
-                    width={width}
-                    xAxis={xAxis}
-                    listDanji={listDanji}
-                    danjiChartData={danjiChartData}
-                    sigunguChartData={sigunguChartData}
-                    sidoChartData={sidoChartData}
-                    selectedYear={selectedYear}
-                  />
-                )}
-              </ParentSize>
-            </div>
-
-            {buyOrRent === BuyOrRent.Jeonsae && (
               <div tw="px-5 mt-10">
                 <div tw="mb-3">
-                  <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">평균 전세가율</span>
+                  <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
+                    면적당 거래가 ({describeJeonsaeWolsaeSame(buyOrRent)} / ㎡)
+                  </span>
                 </div>
                 <ParentSize>
                   {({ width }) => (
-                    <DanjiStatusJeonsaeChartWrraper
+                    <DanjiStatusChartWrraper
                       width={width}
                       xAxis={xAxis}
-                      listDanji={jeonsaeListDanji}
-                      danjiChartData={jeonsaeDanjiChartData}
-                      sigunguChartData={jeonsaeSigunguChartData}
-                      sidoChartData={jeonsaeSidoChartData}
+                      listDanji={listDanji}
+                      danjiChartData={danjiChartData}
+                      sigunguChartData={sigunguChartData}
+                      sidoChartData={sidoChartData}
                       selectedYear={selectedYear}
                     />
                   )}
                 </ParentSize>
               </div>
-            )}
 
-            <div tw="px-5 mt-10">
-              <div tw="mb-3">
-                <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
-                  총 거래량 ({describeJeonsaeWolsaeSame(buyOrRent)})
-                </span>
+              {buyOrRent === BuyOrRent.Jeonsae && (
+                <div tw="px-5 mt-10">
+                  <div tw="mb-3">
+                    <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">평균 전세가율</span>
+                  </div>
+                  <ParentSize>
+                    {({ width }) => (
+                      <DanjiStatusJeonsaeChartWrraper
+                        width={width}
+                        xAxis={xAxis}
+                        listDanji={jeonsaeListDanji}
+                        danjiChartData={jeonsaeDanjiChartData}
+                        sigunguChartData={jeonsaeSigunguChartData}
+                        sidoChartData={jeonsaeSidoChartData}
+                        selectedYear={selectedYear}
+                      />
+                    )}
+                  </ParentSize>
+                </div>
+              )}
+
+              <div tw="px-5 mt-10">
+                <div tw="mb-3">
+                  <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
+                    총 거래량 ({describeJeonsaeWolsaeSame(buyOrRent)})
+                  </span>
+                </div>
+                <ParentSize>
+                  {({ width }) => (
+                    <DanjiStatusTradeChartWrraper
+                      width={width}
+                      xAxis={xAxis}
+                      listDanji={listDanji}
+                      danjiChartData={danjiChartData}
+                      selectedYear={selectedYear}
+                    />
+                  )}
+                </ParentSize>
               </div>
-              <ParentSize>
-                {({ width }) => (
-                  <DanjiStatusTradeChartWrraper
-                    width={width}
-                    xAxis={xAxis}
-                    listDanji={listDanji}
-                    danjiChartData={danjiChartData}
-                    selectedYear={selectedYear}
-                  />
-                )}
-              </ParentSize>
-            </div>
 
-            <DanjiDetailSection.RealPricesPyoungList
-              buyOrRent={buyOrRent}
-              danjiRealPricesPyoungList={danjiRealPricesPyoungList}
-              selectedArea={selectedArea}
-              selectedIndex={selectedIndex}
-              checked={checked}
-              onChangeChecked={onChangeChecked}
-              onChangeSelectedIndex={onChangeSelectedIndex}
-              onChangeSelectedArea={onChangeSelectedArea}
-              onChangeSelectedJeonyongArea={onChangeSelectedJeonyongArea}
-              onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
-            />
+              <DanjiDetailSection.RealPricesPyoungList
+                buyOrRent={buyOrRent}
+                danjiRealPricesPyoungList={danjiRealPricesPyoungList}
+                selectedArea={selectedArea}
+                selectedIndex={selectedIndex}
+                checked={checked}
+                onChangeChecked={onChangeChecked}
+                onChangeSelectedIndex={onChangeSelectedIndex}
+                onChangeSelectedArea={onChangeSelectedArea}
+                onChangeSelectedJeonyongArea={onChangeSelectedJeonyongArea}
+                onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
+              />
 
-            <div tw="px-5">
-              <ParentSize>
-                {({ width }) => (
-                  <DanjiRealPriceChart
-                    width={width}
-                    xAxis={xAxis}
-                    buyOrRent={buyOrRent}
-                    selectedYear={selectedYear}
-                    selectedIndex={selectedIndex}
-                    realpricesChartData={realpricesChartData}
-                    checked={checked}
-                  />
-                )}
-              </ParentSize>
-            </div>
+              <div tw="px-5">
+                <ParentSize>
+                  {({ width }) => (
+                    <DanjiRealPriceChart
+                      width={width}
+                      xAxis={xAxis}
+                      buyOrRent={buyOrRent}
+                      selectedYear={selectedYear}
+                      selectedIndex={selectedIndex}
+                      realpricesChartData={realpricesChartData}
+                      checked={checked}
+                    />
+                  )}
+                </ParentSize>
+              </div>
 
-            <DanjiDetailSection.RealPricesList
-              danjiRealPricesListData={danjiRealPricesListData}
-              danjiRealPricesList={danjiRealPricesList}
-              danjiRealPriesListSetSize={danjiRealPriesListSetSize}
-              isMorePage={false}
-            />
-          </>
-        )}
-        <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-        <DanjiDetailSection.DetailInfo danji={danji} />
-        <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-        <DanjiDetailSection.SchoolInfo danji={danji} />
-        <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-        <DanjiDetailSection.AroundInfo danji={danji} />
-      </DanjiDetailSection>
+              <DanjiDetailSection.RealPricesList
+                danjiRealPricesListData={danjiRealPricesListData}
+                danjiRealPricesList={danjiRealPricesList}
+                danjiRealPriesListSetSize={danjiRealPriesListSetSize}
+                isMorePage={false}
+              />
+            </>
+          )}
+          <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+          <DanjiDetailSection.DetailInfo danji={danji} />
+          <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+          <DanjiDetailSection.SchoolInfo danji={danji} />
+          <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+          <DanjiDetailSection.AroundInfo danji={danji} />
+        </DanjiDetailSection>
+      </div>
     </div>
   );
 }
