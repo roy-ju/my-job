@@ -38,9 +38,31 @@ export default function DanjiSelect({ depth, panelWidth }: Props) {
     }
   }, [router.query]);
 
+  const handleClickTradePage = useCallback(() => {
+    router.replace(Routes.DanjiRealTradeDetail, {
+      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+      state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+    });
+  }, [buyOrRent, router, selectedYear]);
+
+  useEffect(() => {
+    if (router?.query?.bor) {
+      setBuyOrRent(Number(router.query.bor));
+    }
+
+    if (router?.query?.sl) {
+      setSelectedYear(Number(router.query.sl));
+    }
+  }, [router.query]);
+
   return (
     <Panel width={panelWidth}>
-      <DanjiSelectTemplate depth={depth} danji={danji} handleClickBackButton={handleClickBackButton} />
+      <DanjiSelectTemplate
+        depth={depth}
+        danji={danji}
+        handleClickBackButton={handleClickBackButton}
+        handleClickTradePage={handleClickTradePage}
+      />
     </Panel>
   );
 }

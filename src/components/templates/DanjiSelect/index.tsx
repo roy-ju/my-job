@@ -56,10 +56,12 @@ export default function DanjiSelect({
   danji,
   depth,
   handleClickBackButton,
+  handleClickTradePage,
 }: {
   danji?: GetDanjiDetailResponse;
   depth: number;
   handleClickBackButton: () => void;
+  handleClickTradePage: () => void;
 }) {
   const router = useRouter(depth);
 
@@ -115,12 +117,7 @@ export default function DanjiSelect({
       localStorage.setItem(prefixComparison, JSON.stringify(comparisonList));
 
       setTimeout(() => {
-        // router;
-        // navigate(
-        //   `${PATHNAME.DANJI_REALTRADE_DETAIL}/${pnu}/${type}?bor=${params.get('bor')}&sl=${params.get(
-        //     'sl',
-        //   )}&sg=${gungu}&rt2=${rt}`,
-        // );
+        handleClickTradePage();
       }, 100);
     }
   };
