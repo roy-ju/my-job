@@ -62,6 +62,10 @@ const DanjiRealPriceDetail = dynamic(() => import('@/components/pages/pc/RealPri
   loading: () => <Panel />,
   ssr: false,
 });
+const DanjiSelect = dynamic(() => import('@/components/pages/pc/DanjiSelect'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
 const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
   ssr: false,
   loading: () => <Panel />,
@@ -288,6 +292,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.DanjiRealPriceDetail: {
       return <DanjiRealPriceDetail key={`${query.p}-${query.rt}`} {...props} />;
+    }
+
+    case Routes.DanjiSelect: {
+      return <DanjiSelect key={`${query.p}-${query.rt}`} {...props} />;
     }
 
     case Routes.UpdatePhone: {

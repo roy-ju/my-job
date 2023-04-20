@@ -11,12 +11,14 @@ export default function ReapPriceDetailHeader({
   selectedYear,
   onChangeBuyOrRent,
   onChangeSelectedYear,
+  onClickSelectPage,
 }: {
   danji?: GetDanjiDetailResponse;
   buyOrRent?: number;
   selectedYear?: number;
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
+  onClickSelectPage?: () => void;
 }) {
   if (!danji) return null;
 
@@ -27,7 +29,7 @@ export default function ReapPriceDetailHeader({
       </NavigationHeader>
       <div tw="flex items-center justify-between mb-2 px-5">
         <span tw="text-h3 font-bold">{danji.name}</span>
-        <Button variant="outlined" size="small">
+        <Button variant="outlined" size="small" onClick={onClickSelectPage}>
           VS 타단지와 비교
         </Button>
       </div>
