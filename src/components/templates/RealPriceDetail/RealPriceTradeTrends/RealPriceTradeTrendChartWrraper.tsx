@@ -152,7 +152,10 @@ export const RealPriceTradeTrendChartWrraper = React.memo(
 
     return (
       <div>
-        <div tw="flex items-center justify-center mt-3 bg-gray-100 gap-2 py-2.5">
+        <div tw="flex flex-col [gap: 14px]">
+          <span tw="text-b2 [line-height: 1] text-gray-1000">1,000세대당 거래량</span>
+        </div>
+        <div tw="flex items-center justify-center mt-4 bg-gray-100 gap-2 py-2.5">
           {danji?.name && (
             <div tw="flex items-center gap-1.5">
               <DanjiIcon />

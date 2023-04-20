@@ -2,7 +2,7 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 
 export type VariantType = 'ghost' | 'outlined';
 
-export type SizeType = 'big' | 'medium';
+export type SizeType = 'small' | 'big' | 'medium';
 
 interface ITextFieldContext {
   variant: VariantType;

@@ -139,14 +139,17 @@ export const Chart = React.memo(
         const cloneSigunguData = cloneDeep(sigunguChartData);
         const cloneSidoData = cloneDeep(sidoChartData);
 
-        const d0 = Object?.assign(cloneDanjiData[index - 1], cloneSigunguData[index - 1], cloneSidoData[index - 1]);
+        const d0 =
+          index > 0
+            ? Object?.assign(cloneDanjiData[index - 1], cloneSigunguData[index - 1], cloneSidoData[index - 1])
+            : undefined;
 
         const d1 =
           sidoChartData[index] && Object?.assign(cloneDanjiData[index], cloneSigunguData[index], cloneSidoData[index]);
 
         let d = d0;
 
-        if (d1 && getDate(d1)) {
+        if (d1 && getDate(d1) && d0) {
           d = x0.valueOf() - getDate(d0).valueOf() > getDate(d1).valueOf() - x0.valueOf() ? d1 : d0;
         }
 
