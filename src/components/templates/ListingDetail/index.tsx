@@ -147,7 +147,7 @@ export default function ListingDetail({
           </div>
         )}
         <Separator />
-        <div tw="sticky top-8 pt-6">
+        <div tw="sticky top-8 pt-6 z-50">
           <Tabs>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
