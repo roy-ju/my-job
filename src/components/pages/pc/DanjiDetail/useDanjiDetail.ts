@@ -138,6 +138,18 @@ export default function useDanjiDetail(depth: number) {
     setSelectedIndex(val);
   }, []);
 
+  const handleListingAll = useCallback(() => {
+    router.push(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+  }, [router]);
+
+  const handleRealPriceList = useCallback(() => {
+    router.push(Routes.DanjiRealPriceList, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+  }, [router]);
+
+  const handlePhotos = useCallback(() => {
+    router.push(Routes.DanjiPhotos, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+  }, [router]);
+
   const navigateToListingDetail = useCallback(
     (id: number) => {
       router.push(Routes.ListingDetail, {
@@ -185,6 +197,9 @@ export default function useDanjiDetail(depth: number) {
       checked,
       danjiRealPricesListData,
       danjiRealPricesList,
+      handleRealPriceList,
+      handlePhotos,
+      handleListingAll,
       danjiRealPriesListSetSize,
       onChangeChecked,
       onChangeBuyOrRent,
@@ -216,6 +231,9 @@ export default function useDanjiDetail(depth: number) {
       checked,
       danjiRealPricesListData,
       danjiRealPricesList,
+      handleRealPriceList,
+      handlePhotos,
+      handleListingAll,
       onChangeChecked,
       onChangeBuyOrRent,
       onChangeSelectedYear,

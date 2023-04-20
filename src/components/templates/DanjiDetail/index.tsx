@@ -18,7 +18,8 @@ import { BuyOrRent, describeJeonsaeWolsaeSame } from '@/constants/enums';
 import { DanjiRealPricesListItem, DanjiRealPricesListResponse } from '@/apis/danji/danjiRealPricesList';
 
 import { useRef, useState } from 'react';
-import { useScroll } from '@/hooks/utils';
+import { useRouter, useScroll } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import DanjiStatusChartWrraper from './DanjiStatusChartWrraper';
 import DanjiStatusTradeChartWrraper from './DanjiStatusTradeChartWrraper';
 import DanjiStatusJeonsaeChartWrraper from './DanjiStatusJeonsaeChartWrraper';
@@ -99,6 +100,9 @@ interface Props {
   isShowDanjiPhotos?: boolean;
   danjiRealPricesListData?: DanjiRealPricesListResponse[];
   danjiRealPricesList?: DanjiRealPricesListItem[];
+  handlePhotos?: () => void;
+  handleRealPriceList?: () => void;
+  handleListingAll?: () => void;
   onClickListingDetail: (id: number) => void;
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
@@ -143,6 +147,9 @@ export default function DanjiDetail({
   selectedJeonyongArea,
   selectedJeonyongAreaMax,
   isShowDanjiPhotos,
+  handlePhotos,
+  handleRealPriceList,
+  handleListingAll,
   onClickListingDetail,
   onChangeChecked,
   onChangeBuyOrRent,
@@ -170,6 +177,7 @@ export default function DanjiDetail({
         danjiPhotos={danjiPhotos}
         isShowDanjiPhotos={isShowDanjiPhotos}
         isHeaderActive={isHeaderActive}
+        handlePhotos={handlePhotos}
       />
       <div tw="overflow-y-auto " ref={scrollContainer}>
         <DanjiDetailSection>
@@ -177,7 +185,11 @@ export default function DanjiDetail({
             <DanjiDetailSection.Info danji={danji} />
             {danjiListings && danjiListings.length > 0 && (
               <>
-                <DanjiDetailSection.ActiveInfo danjiListings={danjiListings} onClick={onClickListingDetail} />
+                <DanjiDetailSection.ActiveInfo
+                  danjiListings={danjiListings}
+                  onClick={onClickListingDetail}
+                  handleListingAll={handleListingAll}
+                />
               </>
             )}
           </div>

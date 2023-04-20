@@ -21,11 +21,13 @@ export function DanjiHeader({
   danjiPhotos,
   isShowDanjiPhotos,
   isHeaderActive,
+  handlePhotos,
 }: {
   danji?: GetDanjiDetailResponse;
   danjiPhotos?: GetDanjiPhotosResponse;
   isShowDanjiPhotos?: boolean;
   isHeaderActive: boolean;
+  handlePhotos?: () => void;
 }) {
   const [isFavorite, setIsFavorite] = useState(!!danji?.is_favorite);
 
@@ -89,6 +91,7 @@ export function DanjiHeader({
             <PhotoHero
               itemSize={danjiPhotos.danji_photos.length ?? 0}
               photoPath={danjiPhotos.danji_photos?.[0]?.full_file_path}
+              handlePhotos={handlePhotos}
             />
           ) : (
             <Image
