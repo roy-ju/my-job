@@ -24,7 +24,7 @@ const ListItemComponent = ({
   date: string;
   onClickItem: () => void;
 }) => (
-  <div tw="py-3 [border-bottom: 1px solid #E4E4EF] hover:[background: #F1EEFF]" onClick={onClickItem}>
+  <div tw="py-3 [border-bottom: 1px solid #E4E4EF]" onClick={onClickItem}>
     <div tw="flex flex-row items-center justify-between mb-1.5">
       <span tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
         {title}

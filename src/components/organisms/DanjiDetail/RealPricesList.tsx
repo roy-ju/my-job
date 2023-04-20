@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DanjiRealPricesListItem, DanjiRealPricesListResponse } from '@/apis/danji/danjiRealPricesList';
 import { customAlphabet } from 'nanoid';
 import TradeIcon from '@/assets/icons/trade.svg';

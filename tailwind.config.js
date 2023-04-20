@@ -128,6 +128,7 @@ module.exports = {
           800: '#EA2323',
           900: '#CE1515',
           1000: '#B51313',
+          1100: '#CA2F0B',
         },
         yellow: {
           DEFAULT: '#FFF5D9',
