@@ -5,31 +5,32 @@ import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
 
 import React from 'react';
 
-export default function ReapPriceDetailHeader({
+export default function ReapTradeDetailHeader({
   danji,
   buyOrRent,
   selectedYear,
   onChangeBuyOrRent,
   onChangeSelectedYear,
-  onClickSelectPage,
+  onClickBackButton,
 }: {
   danji?: GetDanjiDetailResponse;
   buyOrRent?: number;
   selectedYear?: number;
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
-  onClickSelectPage?: () => void;
+  onClickBackButton?: () => void;
 }) {
   if (!danji) return null;
 
   return (
-    <div tw="">
+    <div tw="flex flex-col">
       <NavigationHeader>
+        <NavigationHeader.BackButton onClick={onClickBackButton} />
         <NavigationHeader.Title tw="text-inherit">실거래 심층 분석</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex items-center justify-between mb-2 px-5">
         <span tw="text-b1 [line-height: 1] font-bold">{danji.name}</span>
-        <Button variant="outlined" size="small" onClick={onClickSelectPage}>
+        <Button variant="outlined" size="small" selected>
           VS 타단지와 비교
         </Button>
       </div>

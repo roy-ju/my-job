@@ -55,7 +55,7 @@ export const SelectedDanjiListItem = ({
       {getRenderIcon(index)}
       <span
         tw="ml-2 text-info [line-height: 1.25rem] text-gray-1000"
-        style={isDefaultDanji ? { color: '#FF542D', fontWeight: 500 } : {}}
+        style={isDefaultDanji ? { color: '#FF542D', fontWeight: 700 } : {}}
       >
         {title}
       </span>

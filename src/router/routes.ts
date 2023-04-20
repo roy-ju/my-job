@@ -10,6 +10,7 @@ const Routes = {
 
   DanjiDetail: 'danjiDetail',
   DanjiRealPriceDetail: 'realPrice',
+  DanjiRealTradeDetail: 'realTrade',
   DanjiSelect: 'select',
 
   Deregister: 'deregister',
