@@ -5,9 +5,11 @@ import ListingItem from '../ListingItem';
 export default function ActiveListingInfo({
   danjiListings,
   onClick,
+  handleListingAll,
 }: {
   danjiListings?: GetDanjiListingsResponse['list'];
   onClick?: (id: number) => void;
+  handleListingAll?: () => void;
 }) {
   if (!danjiListings) return null;
   if (danjiListings && danjiListings.length === 0) return null;
@@ -31,7 +33,7 @@ export default function ActiveListingInfo({
 
       {danjiListings.length > 3 && (
         <div tw="flex flex-col gap-3 pt-3">
-          <Button variant="outlined" size="medium" tw="w-full ">
+          <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
             매물 전체보기
           </Button>
         </div>

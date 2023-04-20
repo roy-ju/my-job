@@ -2,8 +2,10 @@
 export { default as ChatRoom } from './ChatRoom';
 export { default as ChatRoomList } from './ChatRoomList';
 export { default as ChatRoomReport } from './ChatRoomReport';
+export { default as DanjiPhotos } from './DanjiPhotos';
 export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiSelect } from './DanjiSelect';
+export { default as DanjiListings } from './DanjiListings';
 export { default as Home } from './Home';
 export { default as Listings } from './Listings';
 export { default as MapLayout } from './MapLayout';
