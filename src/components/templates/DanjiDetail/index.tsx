@@ -307,6 +307,7 @@ export default function DanjiDetail({
                 danjiRealPricesList={danjiRealPricesList}
                 danjiRealPriesListSetSize={danjiRealPriesListSetSize}
                 isMorePage={false}
+                handleRealPriceList={handleRealPriceList}
               />
             </>
           )}

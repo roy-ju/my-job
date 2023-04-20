@@ -6,6 +6,7 @@ export { default as DanjiPhotos } from './DanjiPhotos';
 export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiListings } from './DanjiListings';
+export { default as DanjiRealPriceListAll } from './DanjiRealPriceListAll';
 export { default as Home } from './Home';
 export { default as Listings } from './Listings';
 export { default as MapLayout } from './MapLayout';
