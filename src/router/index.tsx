@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
 import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
 import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
+import { v4 as uuidv4 } from 'uuid';
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
@@ -56,6 +57,11 @@ const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'
 const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: () => <Panel /> });
 
 const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
+const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
   loading: () => <Panel />,
   ssr: false,
 });
@@ -200,6 +206,7 @@ interface Props {
 }
 
 export default function Router({ route, query, depth }: Props) {
+  const key = uuidv4();
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -314,11 +321,11 @@ export default function Router({ route, query, depth }: Props) {
     }
 
     case Routes.DanjiRealPriceDetail: {
-      return <DanjiRealPriceDetail key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiRealPriceDetail key={`${query.p}-${query.rt}-${key}`} {...props} />;
     }
 
     case Routes.DanjiRealTradeDetail: {
-      return <DanjiRealTradeDetail key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiRealTradeDetail key={`${query.p}-${query.rt}-${key}`} {...props} />;
     }
 
     case Routes.DanjiSelect: {
@@ -327,6 +334,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.DanjiListings: {
       return <DanjiListings key={`${query.p}-${query.rt}`} {...props} />;
+    }
+
+    case Routes.DanjiRealPriceList: {
+      return <DanjiRealPriceListAll key={`${query.p}-${query.rt}-${key}`} {...props} />;
     }
 
     case Routes.UpdatePhone: {

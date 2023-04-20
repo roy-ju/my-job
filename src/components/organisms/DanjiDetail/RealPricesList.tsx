@@ -8,6 +8,7 @@ import { formatNumberInKorean } from '@/utils';
 import { minDigits } from '@/utils/fotmat';
 
 import { Button } from '@/components/atoms';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
 function ChartTableBody({
   title,
@@ -71,6 +72,7 @@ export default function RealPricesList({
   danjiRealPricesList,
   danjiRealPriesListSetSize,
   isMorePage,
+  handleRealPriceList,
 }: {
   danjiRealPricesListData?: DanjiRealPricesListResponse[];
   danjiRealPricesList?: DanjiRealPricesListItem[];
@@ -78,6 +80,7 @@ export default function RealPricesList({
     size: number | ((_size: number) => number),
   ) => Promise<DanjiRealPricesListResponse[] | undefined>;
   isMorePage: boolean;
+  handleRealPriceList?: () => void;
 }) {
   const nanoid = customAlphabet('1234567890abcedfg', 10);
 
@@ -105,6 +108,14 @@ export default function RealPricesList({
 
     return '-';
   }, []);
+
+  const onIntersect = useCallback(() => {
+    if (danjiRealPricesListData && danjiRealPriesListSetSize) {
+      danjiRealPriesListSetSize((prev) => prev + 1);
+    }
+  }, [danjiRealPricesListData, danjiRealPriesListSetSize]);
+
+  useInfiniteScroll(listEndRef, onIntersect);
 
   return (
     <div tw="mt-5 px-5 pb-10">
@@ -157,7 +168,15 @@ export default function RealPricesList({
         ? null
         : danjiRealPricesList &&
           danjiRealPricesList.length > 8 && (
-            <Button variant="outlined" tw="w-full mt-3" onClick={() => {}}>
+            <Button
+              variant="outlined"
+              tw="w-full mt-3"
+              onClick={() => {
+                if (handleRealPriceList) {
+                  handleRealPriceList();
+                }
+              }}
+            >
               더보기
             </Button>
           )}
