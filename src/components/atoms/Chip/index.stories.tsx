@@ -11,5 +11,6 @@ export const Default: ComponentStory<typeof Chip> = () => (
     <Chip>상담</Chip>
     <Chip variant="red">참여</Chip>
     <Chip variant="gray">참여</Chip>
+    <Chip variant="green">참여</Chip>
   </div>
 );
