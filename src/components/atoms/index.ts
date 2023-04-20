@@ -14,3 +14,4 @@ export { default as Switch } from './Switch';
 export { default as Ul } from './Ul';
 export { default as MobileContainer } from './MobileContainer';
 export { default as PersistentBottomBar } from './PersistentBottomBar';
+export { default as BottomBezel } from './BottomBezel';
