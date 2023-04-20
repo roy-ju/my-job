@@ -1,13 +1,14 @@
 import tw, { styled } from 'twin.macro';
 
 interface Props {
-  variant?: 'nego' | 'red' | 'gray' | 'outlined';
+  variant?: 'nego' | 'red' | 'gray' | 'green' | 'outlined';
 }
 
 const colors = {
   nego: tw`bg-nego-100 text-nego-1000`,
   red: tw`bg-red-100 text-red-1000`,
   gray: tw`text-gray-700 bg-gray-300`,
+  green: tw`bg-green-100 text-green-1000`,
   outlined: tw`text-gray-900 bg-white border border-gray-300`,
 };
 
