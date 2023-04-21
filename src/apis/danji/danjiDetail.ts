@@ -4,6 +4,7 @@ export type GetDanjiDetailResponse = {
   pnu: string;
   type: number;
   name: string;
+  bubjungdong_code: string;
   road_name_address: string;
   jibun_address: string;
   long: number;

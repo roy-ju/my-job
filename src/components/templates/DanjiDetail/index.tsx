@@ -100,6 +100,8 @@ interface Props {
   isShowDanjiPhotos?: boolean;
   danjiRealPricesListData?: DanjiRealPricesListResponse[];
   danjiRealPricesList?: DanjiRealPricesListItem[];
+  isRecommendationService: boolean;
+  handleRecommendation?: () => void;
   handlePhotos?: () => void;
   handleRealPriceList?: () => void;
   handleListingAll?: () => void;
@@ -147,6 +149,8 @@ export default function DanjiDetail({
   selectedJeonyongArea,
   selectedJeonyongAreaMax,
   isShowDanjiPhotos,
+  isRecommendationService,
+  handleRecommendation,
   handlePhotos,
   handleRealPriceList,
   handleListingAll,
@@ -182,7 +186,11 @@ export default function DanjiDetail({
       <div tw="overflow-y-auto " ref={scrollContainer}>
         <DanjiDetailSection>
           <div tw="pt-6" css={[danjiListings && danjiListings.slice(0, 3).length === 3 ? tw`pb-10` : tw`pb-10`]}>
-            <DanjiDetailSection.Info danji={danji} />
+            <DanjiDetailSection.Info
+              danji={danji}
+              isRecommendationService={isRecommendationService}
+              handleRecommendation={handleRecommendation}
+            />
             {danjiListings && danjiListings.length > 0 && (
               <>
                 <DanjiDetailSection.ActiveInfo

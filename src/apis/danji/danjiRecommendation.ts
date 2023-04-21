@@ -1,8 +1,15 @@
-import axios from 'axios';
+import axios from '@/lib/axios';
 
-export async function danjiSuggestEligibilityCheck(data: { bubjungdong_code: string }): Promise<ErrorResponse | null> {
+type DanjiSuggestEligibilityCheckResponse = {
+  eligible: true;
+} & ErrorResponse;
+
+export default async function danjiSuggestEligibilityCheck(
+  bubjungdong_code: string,
+): Promise<DanjiSuggestEligibilityCheckResponse | null> {
   try {
-    return await axios.post('/suggest/eligibility/check', data);
+    const { data } = await axios.post('/suggest/eligibility/check', { bubjungdong_code });
+    return data as DanjiSuggestEligibilityCheckResponse;
   } catch (e) {
     return null;
   }
