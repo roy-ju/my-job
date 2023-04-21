@@ -22,6 +22,7 @@ export interface ListingDetailProps {
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
+  onNavigateToCreateQna?: () => void;
 }
 
 export default function ListingDetail({
@@ -30,6 +31,7 @@ export default function ListingDetail({
   onNavigateToParticipateBidding,
   onNavigateToUpdateBidding,
   onNavigateToChatRoom,
+  onNavigateToCreateQna,
 }: ListingDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
@@ -311,6 +313,14 @@ export default function ListingDetail({
             </div>
           </div>
         )}
+        <Separator />
+        <div tw="py-10 px-5">
+          <ListingDetailSection.Agent agent={listingDetail?.agent_summary} />
+        </div>
+        <Separator />
+        <div tw="py-10 px-5">
+          <ListingDetailSection.Qna onClickCreateQna={onNavigateToCreateQna} />
+        </div>
       </div>
       {!isTopCtaButtonsVisible && (
         <PersistentBottomBar>
