@@ -4,6 +4,7 @@ import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
 import { useAPI_GetDanjiPhotos } from '@/apis/danji/danjiPhotos';
 import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
+import danjiSuggestEligibilityCheck from '@/apis/danji/danjiRecommendation';
 
 import {
   useAPI_DanjiJeonsaerate,
@@ -28,6 +29,7 @@ export default function useDanjiDetail(depth: number) {
   const [selectedJeonyongArea, setSelectedJeonyongArea] = useState<string>();
   const [selectedJeonyongAreaMax, setSelectedJeonyongAreaMax] = useState<string>();
   const [selectedIndex, setSelectedIndex] = useState<number>();
+  const [isRecommendationService, setIsRecommendationService] = useState(false);
 
   const [checked, setChecked] = useState<boolean>();
 
@@ -141,6 +143,12 @@ export default function useDanjiDetail(depth: number) {
     router.push(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
   }, [router]);
 
+  const handleRecommendation = useCallback(() => {
+    router.push(Routes.DanjiRecommendation, {
+      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+    });
+  }, [router]);
+
   const handleRealPriceList = useCallback(() => {
     if (buyOrRent) {
       sessionStorage.setItem('d-br', buyOrRent.toString());
@@ -220,6 +228,22 @@ export default function useDanjiDetail(depth: number) {
   );
 
   useEffect(() => {
+    async function isAccessible(code: string) {
+      const response = await danjiSuggestEligibilityCheck(code);
+
+      if (response && response.eligible) {
+        setIsRecommendationService(true);
+      } else if (response && !response.eligible) {
+        setIsRecommendationService(false);
+      }
+    }
+
+    if (danji && danji.bubjungdong_code) {
+      isAccessible(danji.bubjungdong_code);
+    }
+  }, [danji]);
+
+  useEffect(() => {
     if (danjiRealPricesData && danjiRealPricesData.buy_or_rent) {
       setBuyOrRent(danjiRealPricesData.buy_or_rent);
     }
@@ -257,6 +281,8 @@ export default function useDanjiDetail(depth: number) {
       checked,
       danjiRealPricesListData,
       danjiRealPricesList,
+      isRecommendationService,
+      handleRecommendation,
       handleRealPriceList,
       handlePhotos,
       handleListingAll,
@@ -291,6 +317,8 @@ export default function useDanjiDetail(depth: number) {
       checked,
       danjiRealPricesListData,
       danjiRealPricesList,
+      isRecommendationService,
+      handleRecommendation,
       handleRealPriceList,
       handlePhotos,
       handleListingAll,
