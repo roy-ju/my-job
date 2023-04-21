@@ -7,8 +7,11 @@ import useUnmount from '@/hooks/utils/useUnmount';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+// import { useRouter as useNextRouter } from 'next/router';
+
 export default function useNotificationList(depth: number) {
   const router = useRouter(depth);
+  // const nextRouter = useNextRouter();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const { mutate: mutateUnreadNotificationCount } = useAPI_GetUnreadNotificationCount();
@@ -47,6 +50,9 @@ export default function useNotificationList(depth: number) {
 
   const handleNotificationClick = useCallback((id: number) => {
     console.log('clicked', id);
+    // const url = new URL(window.location.toString());
+    // console.log(url.pathname + url.search);
+    // nextRouter.replace('/notifications/listingDetail?listingID=3070');
   }, []);
 
   const handleNotificationChecked = useCallback((id: number, checked: boolean) => {

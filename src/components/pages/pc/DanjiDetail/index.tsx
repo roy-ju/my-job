@@ -32,6 +32,9 @@ export default memo(({ panelWidth, depth }: Props) => {
     selectedJeonyongAreaMax,
     selectedIndex,
     checked,
+    handlePhotos,
+    handleRealPriceList,
+    handleListingAll,
     onChangeChecked,
     onChangeSelectedArea,
     onChangeSelectedJeonyongArea,
@@ -72,6 +75,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <DanjiDetail
+        depth={depth}
         danji={danji}
         danjiPhotos={danjiPhotos}
         danjiListings={danjiListings}
@@ -101,6 +105,9 @@ export default memo(({ panelWidth, depth }: Props) => {
         danjiRealPricesListData={danjiRealPricesListData}
         danjiRealPricesList={danjiRealPricesList}
         checked={checked}
+        handlePhotos={handlePhotos}
+        handleRealPriceList={handleRealPriceList}
+        handleListingAll={handleListingAll}
         onClickListingDetail={navigateToListingDetail}
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}

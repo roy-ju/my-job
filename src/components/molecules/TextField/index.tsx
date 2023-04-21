@@ -66,6 +66,7 @@ const StyledInput = styled.input(({ inSize, disabled, label, hasError }: StyledI
   disabled && tw`text-gray-700 placeholder-gray-500`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
+  inSize === 'small' && tw`[height: 32px] pl-4 pr-2 py-0 text-info leading-4`,
   inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
   inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
 ]);
@@ -79,6 +80,7 @@ const StyledNumericInput = styled(({ inSize, label, hasError, ...others }: Numer
   disabled && tw`text-gray-700 placeholder-gray-500`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
+  inSize === 'small' && tw`[height: 32px] px-4 py-2 text-info leading-4`,
   inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
   inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
 ]);
@@ -92,6 +94,7 @@ const StyledPatternInput = styled(({ inSize, label, hasError, ...others }: Patte
   disabled && tw`text-gray-700 placeholder-gray-500`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
+  inSize === 'small' && tw`[height: 32px] px-4 py-2 text-info leading-4`,
   inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
   inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
 ]);
@@ -119,20 +122,20 @@ const StyledLabel = styled.div<{ inSize: SizeType; focused: boolean; disabled: b
     disabled && tw`text-gray-600`,
     focused && tw`leading-none translate-y-3 text-info`,
     hasError && tw`text-red-800`,
+    inSize === 'small' && tw`leading-none translate-x-4 translate-y-4 text-info`,
     inSize === 'medium' && tw`leading-none translate-x-4 translate-y-4 text-b2`,
     inSize === 'medium' && focused && tw`translate-y-2 text-[10px] leading-none`,
   ],
 );
 
-const PriceSuffix = styled.span<{ inSize: SizeType; label?: string; disabled?: boolean }>(
-  ({ inSize, label, disabled }) => [
-    tw`box-content h-4 px-4 py-5 leading-none text-b1`,
-    disabled && tw`text-gray-700`,
-    label && tw`px-4 pb-3 pt-7`,
-    inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
-    inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
-  ],
-);
+const Suffix = styled.span<{ inSize: SizeType; label?: string; disabled?: boolean }>(({ inSize, label, disabled }) => [
+  tw`box-content h-4 px-4 py-5 leading-none text-b1`,
+  disabled && tw`text-gray-700`,
+  label && tw`px-4 pb-3 pt-7`,
+  inSize === 'small' && tw`[height: 32px] px-4 py-2 leading-4 text-info`,
+  inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
+  inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
+]);
 
 const Border = styled.div<{ variant: VariantType; hasError: boolean; focused: boolean; disabled: boolean }>(
   ({ focused, variant, hasError, disabled }) => [
@@ -381,32 +384,34 @@ const PatternInput = forwardRef<
   );
 });
 
-const PriceInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp, onChange, ...props }, ref) => {
-  const { size, disabled } = useContext(TextFieldContext);
-  const [value, setValue] = useControlled({
-    controlled: valueProp,
-    default: '',
-  });
+const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string }>(
+  ({ value: valueProp, onChange, suffix = '만 원', ...props }, ref) => {
+    const { size, disabled } = useContext(TextFieldContext);
+    const [value, setValue] = useControlled({
+      controlled: valueProp,
+      default: '',
+    });
 
-  const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (e) => {
-      setValue(e.target.value);
-      onChange?.(e);
-    },
-    [setValue, onChange],
-  );
+    const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+      (e) => {
+        setValue(e.target.value);
+        onChange?.(e);
+      },
+      [setValue, onChange],
+    );
 
-  return (
-    <>
-      <NumericInput {...props} ref={ref} thousandSeparator="," value={value} onChange={handleChange} />
-      {value && (
-        <PriceSuffix inSize={size} disabled={disabled} label={props.label}>
-          만 원
-        </PriceSuffix>
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        <NumericInput {...props} ref={ref} thousandSeparator="," value={value} onChange={handleChange} />
+        {value && (
+          <Suffix inSize={size} disabled={disabled} label={props.label}>
+            {suffix}
+          </Suffix>
+        )}
+      </>
+    );
+  },
+);
 
 const DateInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp, onChange, ...props }, ref) => {
   const [value, setValue] = useControlled({

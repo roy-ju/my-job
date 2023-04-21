@@ -1,14 +1,15 @@
-import { isValidElement, ReactNode, useCallback, useContext, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { isValidElement, ReactNode, useCallback, useContext, useMemo, useRef } from 'react';
+import { LayoutGroup, motion } from 'framer-motion';
 import { useControlled } from '@/hooks/utils';
 import tw from 'twin.macro';
 import getChildrenByType from '@/utils/getChildrenByType';
+import { v4 } from 'uuid';
 import TabsContext from './TabsContext';
 
 const tabStyles = {
   ghost: tw`w-full`,
-  outlined: tw`w-full h-10 text-b1`,
-  contained: tw`w-full h-9 text-b2 text-gray-700`,
+  outlined: tw`w-full h-10 text-b1 relative z-10 hover:bg-gray-100`,
+  contained: tw`w-full rounded-lg h-9 text-b2 text-gray-700 relative z-30`,
 };
 
 const indicatorStyles = {
@@ -32,7 +33,7 @@ function Tab({ value, children }: TabProps) {
   const { variant, value: currentValue, onChange } = useContext(TabsContext);
 
   return (
-    <button type="button" onClick={() => onChange(value)} css={[tw`relative z-10`, tabStyles[variant]]}>
+    <button type="button" onClick={() => onChange(value)} css={tabStyles[variant]}>
       <span css={[value === currentValue ? tw`font-bold text-gray-1000` : tw`text-gray-700`]}>{children}</span>
     </button>
   );
@@ -52,6 +53,8 @@ interface TabsProps {
 }
 
 function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: TabsProps) {
+  const layoutId = useRef(v4());
+
   const [value, setValue] = useControlled({ controlled: valueProp, default: 0 });
 
   const handleChange = useCallback(
@@ -76,23 +79,22 @@ function Tabs({ variant = 'outlined', value: valueProp, children, onChange }: Ta
 
   return (
     <TabsContext.Provider value={context}>
-      <motion.div layout layoutRoot css={[tw`flex items-center`, tabsStyles[variant]]}>
-        {tabChildren?.map((child) =>
-          isValidElement(child) ? (
-            <div tw="relative flex-1" key={child.key ?? child.props.value}>
-              {child}
-              {value === child.props.value && (
-                <motion.div
-                  layoutId={`${variant}-indicator`}
-                  tw="absolute left-0 top-0 w-full h-full pointer-events-none z-0"
-                >
-                  {indicatorChild}
-                </motion.div>
-              )}
-            </div>
-          ) : null,
-        )}
-      </motion.div>
+      <LayoutGroup id={layoutId.current}>
+        <div css={[tw`flex items-center`, tabsStyles[variant]]}>
+          {tabChildren?.map((child) =>
+            isValidElement(child) ? (
+              <div tw="relative flex-1" key={child.key ?? child.props.value}>
+                {child}
+                {value === child.props.value && (
+                  <motion.div layoutId="indicator" tw="absolute w-full h-full left-0 top-0 pointer-events-none z-20">
+                    {indicatorChild}
+                  </motion.div>
+                )}
+              </div>
+            ) : null,
+          )}
+        </div>
+      </LayoutGroup>
     </TabsContext.Provider>
   );
 }

@@ -5,8 +5,8 @@ import { Button } from '@/components/atoms';
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
 import { SchoolType } from '@/constants/enums';
+import useDanjiStore from '@/hooks/recoil/useDanjiStore';
 
-import useMap from '@/states/map';
 import checkStudentCount from '@/utils/checkStudentCount';
 import getDistance from '@/utils/getDistance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -14,10 +14,10 @@ import NoDataTypeOne from './NoData';
 
 export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
-  const [selectedHakgudo, setSelectedHakgudo] = useState<boolean>(false);
+
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
 
-  const map = useMap();
+  const { buttonState, handleSchoolButton } = useDanjiStore();
 
   const {
     isLoading: danjiSchoolsIsLoading,
@@ -56,12 +56,6 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     setSelectedSchoolType(SchoolType.ElementarySchool);
   }, [listElementarySchools.length, listHighSchools.length, listMiddleSchools.length]);
 
-  useEffect(() => {
-    if (selectedHakgudo && danji?.lat && danji.long) {
-      map?.setCenter({ lat: danji.lat, lng: danji.long });
-    }
-  }, [selectedHakgudo, danji, map]);
-
   if (!danji || !selectedSchoolType) return null;
 
   return (
@@ -71,9 +65,9 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         <Button
           size="small"
           variant="outlined"
-          selected={selectedHakgudo}
+          selected={!!buttonState?.school}
           onClick={() => {
-            setSelectedHakgudo((prev) => !prev);
+            handleSchoolButton();
           }}
         >
           학구도

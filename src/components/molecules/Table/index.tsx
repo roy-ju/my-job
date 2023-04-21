@@ -1,4 +1,4 @@
-import tw, { styled } from 'twin.macro';
+import tw, { styled, theme } from 'twin.macro';
 import { ReactNode, useCallback, useContext, useMemo } from 'react';
 import { useControlled } from '@/hooks/utils';
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
@@ -6,8 +6,19 @@ import ExpandableGroupContext from './ExpandableGroupContext';
 
 const Table = styled.table`
   ${tw`w-full table-fixed text-b2`}
-  tr:not(tbody[aria-label='grouped'] tr:not(:last-of-type)) {
-    ${tw`border-b border-b-gray-300`}
+  tbody:not([aria-label='grouped-expanded']):not([aria-label='grouped-summary']) {
+    tr {
+      ${tw`border-b border-b-gray-300`}
+    }
+  }
+  tbody[aria-label='grouped-expanded'] {
+    tr:last-of-type {
+      ${tw`border-b border-b-gray-300`}
+    }
+  }
+
+  tbody:not([aria-label='grouped-collapsed']):last-of-type tr:last-of-type {
+    ${tw`border-b-0`}
   }
 `;
 
@@ -48,8 +59,17 @@ function TableGroupSummary({ children }: { children: ReactNode }) {
   const { expanded, onChange } = useContext(ExpandableGroupContext);
 
   return (
-    <TableBody>
-      <TableRow style={expanded ? { borderBottomColor: 'transparent' } : undefined}>
+    <TableBody
+      aria-label="grouped-summary"
+      style={
+        !expanded
+          ? {
+              borderBottom: `1px solid ${theme`colors.gray.300`}`,
+            }
+          : undefined
+      }
+    >
+      <TableRow>
         <SummaryButton colSpan={2} onClick={() => onChange?.(!expanded)}>
           <div tw="flex items-center justify-between">
             <div>{children}</div>
@@ -67,8 +87,8 @@ function TableGroupDetails({ children }: { children: ReactNode }) {
   const { expanded } = useContext(ExpandableGroupContext);
 
   return (
-    <TableBody aria-label="grouped" css={[tw`overflow-hidden`, !expanded && tw`hidden`]}>
-      {children}
+    <TableBody aria-label={expanded ? 'grouped-expanded' : 'grouped-collapsed'} css={[tw`overflow-hidden`]}>
+      {expanded && children}
     </TableBody>
   );
 }

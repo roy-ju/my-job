@@ -8,6 +8,7 @@ export default function useScroll(
 ) {
   const getPositions = () => {
     const el = unRef(target);
+
     if (!el) return;
 
     return {

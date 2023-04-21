@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
 import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
 import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
+import { v4 as uuidv4 } from 'uuid';
 import Routes from './routes';
 
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
@@ -54,10 +55,42 @@ const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false,
 const Listings = dynamic(() => import('@/components/pages/pc/Listings'), { loading: () => <Panel /> });
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: () => <Panel /> });
 const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: () => <Panel /> });
+
 const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
   loading: () => <Panel />,
   ssr: false,
 });
+
+const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
+const DanjiPhotos = dynamic(() => import('@/components/pages/pc/DanjiPhotos'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
+const DanjiRealPriceDetail = dynamic(() => import('@/components/pages/pc/RealPriceDetail'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
+const DanjiRealTradeDetail = dynamic(() => import('@/components/pages/pc/RealTradeDetail'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
+const DanjiSelect = dynamic(() => import('@/components/pages/pc/DanjiSelect'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
+const DanjiListings = dynamic(() => import('@/components/pages/pc/DanjiListings'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
 const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
   ssr: false,
   loading: () => <Panel />,
@@ -121,6 +154,7 @@ const ListingCreateAddressDetail = dynamic(() => import('@/components/pages/pc/L
   ssr: false,
   loading: () => <Panel />,
 });
+
 const ListingCreateForm = dynamic(() => import('@/components/pages/pc/ListingCreateForm'), {
   ssr: false,
   loading: () => <Panel />,
@@ -162,6 +196,14 @@ const UpdateBiddingSuccess = dynamic(() => import('@/components/pages/pc/UpdateB
   ssr: false,
   loading: () => <Panel />,
 });
+const ListingQnaCreateForm = dynamic(() => import('@/components/pages/pc/ListingQnaCreateForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestRegionalForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -172,6 +214,7 @@ interface Props {
 }
 
 export default function Router({ route, query, depth }: Props) {
+  const key = uuidv4();
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -281,6 +324,30 @@ export default function Router({ route, query, depth }: Props) {
       return <DanjiDetail key={`${query.p}-${query.rt}`} {...props} />;
     }
 
+    case Routes.DanjiPhotos: {
+      return <DanjiPhotos key={`${query.p}-${query.rt}`} {...props} />;
+    }
+
+    case Routes.DanjiRealPriceDetail: {
+      return <DanjiRealPriceDetail key={`${query.p}-${query.rt}-${key}`} {...props} />;
+    }
+
+    case Routes.DanjiRealTradeDetail: {
+      return <DanjiRealTradeDetail key={`${query.p}-${query.rt}-${key}`} {...props} />;
+    }
+
+    case Routes.DanjiSelect: {
+      return <DanjiSelect key={`${query.p}-${query.rt}`} {...props} />;
+    }
+
+    case Routes.DanjiListings: {
+      return <DanjiListings key={`${query.p}-${query.rt}`} {...props} />;
+    }
+
+    case Routes.DanjiRealPriceList: {
+      return <DanjiRealPriceListAll key={`${query.p}-${query.rt}-${key}`} {...props} />;
+    }
+
     case Routes.UpdatePhone: {
       return <UpdatePhone {...props} />;
     }
@@ -363,6 +430,14 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.UpdateBiddingSuccess: {
       return <UpdateBiddingSuccess {...props} />;
+    }
+
+    case Routes.ListingQnaCreateForm: {
+      return <ListingQnaCreateForm {...props} />;
+    }
+
+    case Routes.SuggestRegionalForm: {
+      return <SuggestRegionalForm {...props} />;
     }
 
     case Routes.Developer: {
