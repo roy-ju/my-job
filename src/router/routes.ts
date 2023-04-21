@@ -90,6 +90,9 @@ const Routes = {
   ListingDetail: 'listingDetail',
   ListingQnaCreateForm: 'listngQnaCreate',
 
+  // 지역매물추천
+  SuggestRegionalForm: 'suggestRegionalForm',
+
   EntryMobile: 'm',
 };
 
