@@ -1,11 +1,11 @@
 import { Button } from '@/components/atoms';
 import Paths from '@/constants/paths';
-import { styled } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 const Container = styled.div`
+  ${tw`bg-gray-100`}
   position: relative;
   height: 256px;
-  background-color: gray;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

@@ -1,5 +1,6 @@
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+// import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
 import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { Loading, Panel } from '@/components/atoms';
@@ -20,6 +21,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+  // const { data: qnaData } = useAPI_GetListingQnaList(statusData?.can_access ? listingID : 0);
 
   const handleClickFavorite = useCallback(async () => {
     if (data?.listing?.id) {
@@ -31,6 +33,14 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
       await mutateListing();
     }
   }, [data, mutateListing]);
+
+  const handleNavigateToCreateQna = useCallback(() => {
+    router.push(Routes.ListingQnaCreateForm, {
+      searchParams: {
+        listingID: router.query.listingID as string,
+      },
+    });
+  }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
     router.push(Routes.BiddingForm, {
@@ -99,6 +109,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
         onNavigateToChatRoom={handleNavigateToChatRoom}
+        onNavigateToCreateQna={handleNavigateToCreateQna}
       />
     </Panel>
   );
