@@ -5,13 +5,15 @@ const colors = {
   협의중: tw`bg-nego-600`,
 };
 
-export default function ListingStatusChip({ status = '제안중' }: { status: '제안중' | '협의중' }) {
+export default function ListingStatusChip({ status }: { status: string }) {
+  if (status !== '제안중' && status !== '협의중') return null;
+
   return (
     <div
       tw="absolute top-0 left-0 rounded-tl-lg rounded-br px-1.5 text-info font-semibold text-white"
-      css={colors[status]}
+      css={colors?.[status]}
     >
-      제안중
+      {status}
     </div>
   );
 }

@@ -62,7 +62,7 @@ export { default as AgentCardItem } from './AgentCardItem';
 export { default as TransactionCondition } from './TransactionCondition';
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as AgentCardCarousel } from './AgentCardCarousel';
-export { default as MyFavoriteListItem } from './MyFavoriteListItem';
+export { default as MyListItem } from './MyListItem';
 
 export { default as DanjiDetailSection } from './DanjiDetail';
 export { default as ListingItem } from './ListingItem';
