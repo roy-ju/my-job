@@ -1,7 +1,6 @@
 import React from 'react';
 import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 import { Information } from '@/components/molecules';
-import { Button } from '@/components/atoms';
 
 interface Props {
   listType: string;
@@ -19,9 +18,6 @@ export default function NoData({ listType }: Props) {
           온라인으로 바로 네고를 시작해보세요
         </Information.Contents>
       </div>
-      <Button size="medium" tw="block mx-auto" variant="primary">
-        {listType} 검색하기
-      </Button>
     </Information>
   );
 }

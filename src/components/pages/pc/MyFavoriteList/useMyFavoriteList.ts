@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import addMyFavoriteListing from '@/apis/my/addMyFavoriteListing';
 import addMyFavoriteDanji from '@/apis/my/addMyFavoriteDanji';
 import deleteMyFavoriteDanji from '@/apis/my/deleteMyFavoriteDanji';
@@ -7,11 +7,27 @@ import useAPI_GetMyFavoriteDanjiList from '@/apis/my/getMyFavoriteDanjiList';
 import useAPI_GetMyFavoriteListingList from '@/apis/my/getMyFavoriteListingList';
 
 export default function useMyFavoriteList() {
+  const [listingSortingType, setListingSortingType] = useState('등록일순');
+
+  const convertListingSortingType = useCallback(() => {
+    switch (listingSortingType) {
+      case '등록일순':
+        return 1;
+      case '조회순':
+        return 2;
+      case '참여자순':
+        return 3;
+      default:
+        return 1;
+    }
+  }, [listingSortingType]);
+
   const {
     count: danjiFavoriteCount,
     data: danjis,
     incrementalPageNumber: danjiIncrementalPageNumber,
     mutate: danjiMutate,
+    isLoading: isDanjiLoading,
   } = useAPI_GetMyFavoriteDanjiList();
 
   const {
@@ -19,7 +35,8 @@ export default function useMyFavoriteList() {
     data: listings,
     incrementalPageNumber: listingIncrementalPageNumber,
     mutate: listingMutate,
-  } = useAPI_GetMyFavoriteListingList();
+    isLoading: isListingLoading,
+  } = useAPI_GetMyFavoriteListingList(convertListingSortingType());
 
   const handleToggleListingLike = useCallback(
     async (id: number, isListingFavorite: boolean) => {
@@ -32,6 +49,10 @@ export default function useMyFavoriteList() {
     },
     [listingMutate],
   );
+
+  const handleChangeListingSortingType = useCallback((newValue: string) => {
+    setListingSortingType(newValue);
+  }, []);
 
   const handleToggleDanjiLike = useCallback(
     async (pnu: string, realestateType: number, isDanjiFavorite: boolean) => {
@@ -103,5 +124,9 @@ export default function useMyFavoriteList() {
     handleToggleDanjiLike,
     listingIncrementalPageNumber,
     danjiIncrementalPageNumber,
+    listingSortingType,
+    handleChangeListingSortingType,
+    isDanjiLoading,
+    isListingLoading,
   };
 }
