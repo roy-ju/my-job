@@ -75,4 +75,6 @@ export { default as ListingSummaryCard } from './ListingSummaryCard';
 export { default as PhotoHero } from './PhotoHero';
 export { default as ListingDetailSection } from './ListingDetailSection';
 
+export { default as SuggestRegionalForm } from './SuggestRegionalForm';
+
 export * from './popups';
