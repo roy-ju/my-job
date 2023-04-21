@@ -198,8 +198,6 @@ export const IntersetedPyoungField = ({
     }
     return false;
   }, [danjiRealPricesPyoungList]);
-  console.log(danjiRealPricesPyoungList);
-  console.log(isShowDanjiRealPricesPyoungList);
 
   return (
     <>
@@ -345,7 +343,7 @@ export const LiveOrInvestmentField = ({
     )}
     {purpose === 2 && (
       <div tw="pt-7 px-5">
-        <span tw="text-b1 font-bold">투자</span>
+        <span tw="text-b1 font-bold">잔금일</span>
         <div tw="flex items-center mt-4 gap-3">
           <DatePicker
             variant="outlined"
