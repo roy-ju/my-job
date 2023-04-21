@@ -1,9 +1,98 @@
+import { RegionItem } from '@/components/organisms/RegionList';
 import { Forms } from '@/components/templates/SuggestRegionalForm/FormRenderer';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { BuyOrRent } from '@/constants/enums';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
+import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
+import { toast } from 'react-toastify';
+import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
-export default function useSuggestRegionalForm() {
+export default function useSuggestRegionalForm(depth: number) {
+  const router = useRouter(depth);
+
   const [forms, setForms] = useState<string[]>([Forms.Region]);
+  const [isRegionListOpen, setIsRegionListOpen] = useState(false);
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+
+  const [bubjungdong, setBubjungdong] = useState<RegionItem | null>(null);
+  const [realestateType, setRealestateType] = useState<number[]>([]);
+  const [buyOrRent, setBuyOrRent] = useState(0);
+  const [price, setPrice] = useState('');
+  const [monthlyRentFee, setMonthlyRentFee] = useState('');
+  const [minArea, setMinArea] = useState('');
+  const [maxArea, setMaxArea] = useState('');
+  const [floor, setFloor] = useState<string[]>([]);
+  const [purpose, setPurpose] = useState('');
+  const [moveInDate, setMoveInDate] = useState<Date | null>(null);
+  const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
+  const [moveInDateType, setMoveInDateType] = useState('이전');
+  const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
+
+  const [description, setDescription] = useState('');
+
+  const handleChangeBubjungdong = useCallback((item: RegionItem) => {
+    setBubjungdong(item);
+  }, []);
+
+  const handleChangeRealestateType = useCallback((value: number[]) => {
+    setRealestateType(value);
+  }, []);
+
+  const handleChangeBuyOrRent = useCallback((value: number) => {
+    setBuyOrRent(value);
+  }, []);
+
+  const handleChangePrice = useCallback((value: string) => {
+    setPrice(value);
+  }, []);
+
+  const handleChangeMonthlyRentFee = useCallback((value: string) => {
+    setMonthlyRentFee(value);
+  }, []);
+
+  const handleChangeMinArea = useCallback((value: string) => {
+    setMinArea(value);
+  }, []);
+
+  const handleChangeMaxArea = useCallback((value: string) => {
+    setMaxArea(value);
+  }, []);
+
+  const handleChangeFloor = useCallback((value: string[]) => {
+    setFloor(value);
+  }, []);
+
+  const handleChangePurpose = useCallback((value: string) => {
+    setPurpose(value);
+  }, []);
+
+  const handleChangeDescription = useCallback((value: string) => {
+    setDescription(value);
+  }, []);
+
+  const handleChangeMoveInDate = useCallback((value: Date | null) => {
+    setMoveInDate(value);
+  }, []);
+
+  const handleChangeMoveInDateType = useCallback((value: string) => {
+    setMoveInDateType(value);
+  }, []);
+
+  const handleChangeRemainingAmountDate = useCallback((value: Date | null) => {
+    setRemainingAmountDate(value);
+  }, []);
+
+  const handleChangeRemainingAmountDateType = useCallback((value: string) => {
+    setRemainingAmountDateType(value);
+  }, []);
+
+  const handleOpenRegionList = useCallback(() => {
+    setIsRegionListOpen(true);
+  }, []);
+
+  const handleCloseRegionList = useCallback(() => {
+    setIsRegionListOpen(false);
+  }, []);
 
   const setNextForm = useCallback((...formNames: string[]) => {
     setForms((prev) => [...prev, ...formNames]);
@@ -14,6 +103,10 @@ export default function useSuggestRegionalForm() {
   }, [setNextForm]);
 
   const handleSubmitRealestateType = useCallback(() => {
+    setNextForm(Forms.BuyOrRent);
+  }, [setNextForm]);
+
+  const handleSubmitBuyOrRent = useCallback(() => {
     setNextForm(Forms.Price);
   }, [setNextForm]);
 
@@ -22,18 +115,61 @@ export default function useSuggestRegionalForm() {
   }, [setNextForm]);
 
   const handleSubmitArea = useCallback(() => {
-    setNextForm(Forms.Floor);
-  }, [setNextForm]);
+    if (buyOrRent === BuyOrRent.Buy) {
+      setNextForm(Forms.Purpose);
+    } else {
+      setNextForm(Forms.Floor);
+    }
+  }, [buyOrRent, setNextForm]);
 
   const handleSubmitFloor = useCallback(() => {
-    setNextForm(Forms.Purpose);
-  }, [setNextForm]);
-
-  const handleSubmitPurpose = useCallback(() => {
     setNextForm(Forms.Description);
   }, [setNextForm]);
 
-  const handleSubmitDescription = useCallback(() => {}, []);
+  const handleSubmitPurpose = useCallback(() => {
+    setNextForm(Forms.Floor);
+  }, [setNextForm]);
+
+  const handleSubmitFinal = useCallback(async () => {
+    if (!bubjungdong) return;
+
+    const params = makeSuggestRegionalParams({
+      bubjungdong,
+      realestateType,
+      buyOrRent,
+      price,
+      monthlyRentFee,
+      minArea,
+      maxArea,
+      floor,
+      purpose,
+      moveInDate,
+      moveInDateType,
+      remainingAmountDate,
+      remainingAmountDateType,
+      description,
+    });
+    console.log(params);
+    createSuggestRegional(params);
+    toast.success('requested');
+    router.pop();
+  }, [
+    bubjungdong,
+    realestateType,
+    buyOrRent,
+    price,
+    monthlyRentFee,
+    minArea,
+    maxArea,
+    floor,
+    purpose,
+    moveInDate,
+    moveInDateType,
+    remainingAmountDate,
+    remainingAmountDateType,
+    description,
+    router,
+  ]);
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
@@ -44,6 +180,10 @@ export default function useSuggestRegionalForm() {
 
       case Forms.RealestateType:
         handleSubmitRealestateType();
+        break;
+
+      case Forms.BuyOrRent:
+        handleSubmitBuyOrRent();
         break;
 
       case Forms.Price:
@@ -63,7 +203,7 @@ export default function useSuggestRegionalForm() {
         break;
 
       case Forms.Description:
-        handleSubmitDescription();
+        handleSubmitFinal();
         break;
 
       default:
@@ -73,11 +213,12 @@ export default function useSuggestRegionalForm() {
     forms,
     handleSubmitRegion,
     handleSubmitRealestateType,
+    handleSubmitBuyOrRent,
     handleSubmitPrice,
     handleSubmitArea,
     handleSubmitFloor,
     handleSubmitPurpose,
-    handleSubmitDescription,
+    handleSubmitFinal,
   ]);
 
   // 필드 자동스크롤 로직
@@ -99,12 +240,110 @@ export default function useSuggestRegionalForm() {
         }
       }
 
-      formElement.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
     }
   }, [forms]);
 
+  // 버튼 비활성화 로직
+  useIsomorphicLayoutEffect(() => {
+    setNextButtonDisabled(false);
+    const currentForm = forms[forms.length - 1];
+
+    if (currentForm === Forms.Region) {
+      if (!bubjungdong) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.RealestateType) {
+      if (!realestateType) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.BuyOrRent) {
+      if (!buyOrRent) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Price) {
+      if (!price) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Floor) {
+      if (!floor) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Purpose) {
+      if (!purpose) {
+        setNextButtonDisabled(true);
+      }
+
+      if (purpose === '투자') {
+        if (!remainingAmountDate) {
+          setNextButtonDisabled(true);
+        }
+      } else if (purpose === '실거주') {
+        if (!moveInDate) {
+          setNextButtonDisabled(true);
+        }
+      }
+    }
+  }, [forms, bubjungdong, realestateType, buyOrRent, price, floor, purpose, remainingAmountDate, moveInDate]);
+
   return {
     forms,
+    isRegionListOpen,
+    nextButtonDisabled,
     handleClickNext,
+    handleOpenRegionList,
+    handleCloseRegionList,
+
+    bubjungdong,
+    handleChangeBubjungdong,
+
+    realestateType,
+    handleChangeRealestateType,
+
+    buyOrRent,
+    handleChangeBuyOrRent,
+
+    price,
+    handleChangePrice,
+
+    monthlyRentFee,
+    handleChangeMonthlyRentFee,
+
+    minArea,
+    handleChangeMinArea,
+
+    maxArea,
+    handleChangeMaxArea,
+
+    floor,
+    handleChangeFloor,
+
+    purpose,
+    handleChangePurpose,
+
+    description,
+    handleChangeDescription,
+
+    moveInDate,
+    handleChangeMoveInDate,
+
+    moveInDateType,
+    handleChangeMoveInDateType,
+
+    remainingAmountDate,
+    handleChangeRemainingAmountDate,
+
+    remainingAmountDateType,
+    handleChangeRemainingAmountDateType,
   };
 }

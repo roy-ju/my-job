@@ -1,11 +1,34 @@
 import { Button } from '@/components/atoms';
+import { useControlled } from '@/hooks/utils';
+import { useCallback } from 'react';
 
 export interface FloorProps {
-  value?: string;
-  onChange?: (value: string) => void;
+  value?: string[];
+  onChange?: (value: string[]) => void;
 }
 
-export default function Floor({ value, onChange }: FloorProps) {
+const defaultValue: string[] = [];
+
+export default function Floor({ value: valueProp, onChange }: FloorProps) {
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    default: defaultValue,
+  });
+
+  const handleClick = useCallback(
+    (type: string) => {
+      let newValue = [...value];
+      if (newValue.includes(type)) {
+        newValue = newValue.filter((item) => item !== type);
+      } else {
+        newValue.push(type);
+      }
+      setValue(newValue);
+      onChange?.(newValue);
+    },
+    [onChange, value, setValue],
+  );
+
   return (
     <div>
       <div tw="mb-4">
@@ -17,8 +40,8 @@ export default function Floor({ value, onChange }: FloorProps) {
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === '저층'}
-            onClick={() => onChange?.('저층')}
+            selected={value.includes('저층')}
+            onClick={() => handleClick?.('저층')}
           >
             저층
           </Button>
@@ -26,8 +49,8 @@ export default function Floor({ value, onChange }: FloorProps) {
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === '중층'}
-            onClick={() => onChange?.('중층')}
+            selected={value.includes('중층')}
+            onClick={() => handleClick?.('중층')}
           >
             중층
           </Button>
@@ -35,8 +58,8 @@ export default function Floor({ value, onChange }: FloorProps) {
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === '고층'}
-            onClick={() => onChange?.('고층')}
+            selected={value.includes('고층')}
+            onClick={() => handleClick?.('고층')}
           >
             고층
           </Button>

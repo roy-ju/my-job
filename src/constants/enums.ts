@@ -55,6 +55,12 @@ export enum Year {
   Five = 5,
 }
 
+export enum TimeType {
+  BeforeDay = 1,
+  AfterDay = 2,
+  Day=3
+}
+
 export enum SchoolType {
   All = 0,
   ElementarySchool = 1,
@@ -119,6 +125,19 @@ export function describeRealestateType(type: RealestateType | undefined | null) 
       return '단독';
     case RealestateType.Dagagoo:
       return '다가구';
+    default:
+      return '';
+  }
+}
+
+export function describeTimeType(type: TimeType|undefined|null) {
+  switch (type) {
+    case TimeType.BeforeDay:
+      return '이전';
+    case TimeType.AfterDay:
+      return '이후';
+    case TimeType.Day:
+      return '당일';
     default:
       return '';
   }
