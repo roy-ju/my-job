@@ -135,3 +135,5 @@ export const Conditions = () => (
     }}
   />
 );
+
+export const Qna = () => <ListingDetailSection.Qna />;

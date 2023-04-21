@@ -128,16 +128,14 @@ const StyledLabel = styled.div<{ inSize: SizeType; focused: boolean; disabled: b
   ],
 );
 
-const PriceSuffix = styled.span<{ inSize: SizeType; label?: string; disabled?: boolean }>(
-  ({ inSize, label, disabled }) => [
-    tw`box-content h-4 px-4 py-5 leading-none text-b1`,
-    disabled && tw`text-gray-700`,
-    label && tw`px-4 pb-3 pt-7`,
-    inSize === 'small' && tw`[height: 32px] px-4 py-2 leading-4 text-info`,
-    inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
-    inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
-  ],
-);
+const Suffix = styled.span<{ inSize: SizeType; label?: string; disabled?: boolean }>(({ inSize, label, disabled }) => [
+  tw`box-content h-4 px-4 py-5 leading-none text-b1`,
+  disabled && tw`text-gray-700`,
+  label && tw`px-4 pb-3 pt-7`,
+  inSize === 'small' && tw`[height: 32px] px-4 py-2 leading-4 text-info`,
+  inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
+  inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
+]);
 
 const Border = styled.div<{ variant: VariantType; hasError: boolean; focused: boolean; disabled: boolean }>(
   ({ focused, variant, hasError, disabled }) => [
@@ -386,32 +384,34 @@ const PatternInput = forwardRef<
   );
 });
 
-const PriceInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp, onChange, ...props }, ref) => {
-  const { size, disabled } = useContext(TextFieldContext);
-  const [value, setValue] = useControlled({
-    controlled: valueProp,
-    default: '',
-  });
+const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string }>(
+  ({ value: valueProp, onChange, suffix = '만 원', ...props }, ref) => {
+    const { size, disabled } = useContext(TextFieldContext);
+    const [value, setValue] = useControlled({
+      controlled: valueProp,
+      default: '',
+    });
 
-  const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (e) => {
-      setValue(e.target.value);
-      onChange?.(e);
-    },
-    [setValue, onChange],
-  );
+    const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+      (e) => {
+        setValue(e.target.value);
+        onChange?.(e);
+      },
+      [setValue, onChange],
+    );
 
-  return (
-    <>
-      <NumericInput {...props} ref={ref} thousandSeparator="," value={value} onChange={handleChange} />
-      {value && (
-        <PriceSuffix inSize={size} disabled={disabled} label={props.label}>
-          만 원
-        </PriceSuffix>
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        <NumericInput {...props} ref={ref} thousandSeparator="," value={value} onChange={handleChange} />
+        {value && (
+          <Suffix inSize={size} disabled={disabled} label={props.label}>
+            {suffix}
+          </Suffix>
+        )}
+      </>
+    );
+  },
+);
 
 const DateInput = forwardRef<HTMLInputElement, InputProps>(({ value: valueProp, onChange, ...props }, ref) => {
   const [value, setValue] = useControlled({

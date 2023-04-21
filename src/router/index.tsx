@@ -206,6 +206,14 @@ const UpdateBiddingSuccess = dynamic(() => import('@/components/pages/pc/UpdateB
   ssr: false,
   loading: () => <Panel />,
 });
+const ListingQnaCreateForm = dynamic(() => import('@/components/pages/pc/ListingQnaCreateForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestRegionalForm'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -440,6 +448,14 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.UpdateBiddingSuccess: {
       return <UpdateBiddingSuccess {...props} />;
+    }
+
+    case Routes.ListingQnaCreateForm: {
+      return <ListingQnaCreateForm {...props} />;
+    }
+
+    case Routes.SuggestRegionalForm: {
+      return <SuggestRegionalForm {...props} />;
     }
 
     case Routes.Developer: {

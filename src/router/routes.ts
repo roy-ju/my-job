@@ -24,7 +24,6 @@ const Routes = {
   Login: 'login',
 
   ListingList: 'listings',
-  ListingDetail: 'listingDetail',
 
   My: 'my',
   Map: 'map',
@@ -88,6 +87,13 @@ const Routes = {
   UpdateBiddingForm: 'updateBiddingForm',
   UpdateBiddingSummary: 'updateBiddingSummary',
   UpdateBiddingSuccess: 'updateBiddingSuccess',
+
+  // 매물상세
+  ListingDetail: 'listingDetail',
+  ListingQnaCreateForm: 'listngQnaCreate',
+
+  // 지역매물추천
+  SuggestRegionalForm: 'suggestRegionalForm',
 
   EntryMobile: 'm',
 };
