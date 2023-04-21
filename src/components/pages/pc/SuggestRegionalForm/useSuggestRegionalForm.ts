@@ -1,27 +1,32 @@
 import { RegionItem } from '@/components/organisms/RegionList';
 import { Forms } from '@/components/templates/SuggestRegionalForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
+import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
+import { toast } from 'react-toastify';
+import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
-export default function useSuggestRegionalForm() {
+export default function useSuggestRegionalForm(depth: number) {
+  const router = useRouter(depth);
+
   const [forms, setForms] = useState<string[]>([Forms.Region]);
   const [isRegionListOpen, setIsRegionListOpen] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
   const [bubjungdong, setBubjungdong] = useState<RegionItem | null>(null);
-  const [realestateType, setRealestateType] = useState(0);
+  const [realestateType, setRealestateType] = useState<number[]>([]);
   const [buyOrRent, setBuyOrRent] = useState(0);
   const [price, setPrice] = useState('');
   const [monthlyRentFee, setMonthlyRentFee] = useState('');
   const [minArea, setMinArea] = useState('');
   const [maxArea, setMaxArea] = useState('');
-  const [floor, setFloor] = useState('');
+  const [floor, setFloor] = useState<string[]>([]);
   const [purpose, setPurpose] = useState('');
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
-  const [moveInDateType, setMoveInDateType] = useState('');
-  const [remainingAmountDateType, setRemainingAmountDateType] = useState('');
+  const [moveInDateType, setMoveInDateType] = useState('이전');
+  const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
 
   const [description, setDescription] = useState('');
 
@@ -29,7 +34,7 @@ export default function useSuggestRegionalForm() {
     setBubjungdong(item);
   }, []);
 
-  const handleChangeRealestateType = useCallback((value: number) => {
+  const handleChangeRealestateType = useCallback((value: number[]) => {
     setRealestateType(value);
   }, []);
 
@@ -53,7 +58,7 @@ export default function useSuggestRegionalForm() {
     setMaxArea(value);
   }, []);
 
-  const handleChangeFloor = useCallback((value: string) => {
+  const handleChangeFloor = useCallback((value: string[]) => {
     setFloor(value);
   }, []);
 
@@ -110,22 +115,61 @@ export default function useSuggestRegionalForm() {
   }, [setNextForm]);
 
   const handleSubmitArea = useCallback(() => {
-    setNextForm(Forms.Floor);
-  }, [setNextForm]);
-
-  const handleSubmitFloor = useCallback(() => {
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.Purpose);
     } else {
-      setNextForm(Forms.Description);
+      setNextForm(Forms.Floor);
     }
   }, [buyOrRent, setNextForm]);
 
-  const handleSubmitPurpose = useCallback(() => {
+  const handleSubmitFloor = useCallback(() => {
     setNextForm(Forms.Description);
   }, [setNextForm]);
 
-  const handleSubmitDescription = useCallback(() => {}, []);
+  const handleSubmitPurpose = useCallback(() => {
+    setNextForm(Forms.Floor);
+  }, [setNextForm]);
+
+  const handleSubmitFinal = useCallback(async () => {
+    if (!bubjungdong) return;
+
+    const params = makeSuggestRegionalParams({
+      bubjungdong,
+      realestateType,
+      buyOrRent,
+      price,
+      monthlyRentFee,
+      minArea,
+      maxArea,
+      floor,
+      purpose,
+      moveInDate,
+      moveInDateType,
+      remainingAmountDate,
+      remainingAmountDateType,
+      description,
+    });
+    console.log(params);
+    createSuggestRegional(params);
+    toast.success('requested');
+    router.pop();
+  }, [
+    bubjungdong,
+    realestateType,
+    buyOrRent,
+    price,
+    monthlyRentFee,
+    minArea,
+    maxArea,
+    floor,
+    purpose,
+    moveInDate,
+    moveInDateType,
+    remainingAmountDate,
+    remainingAmountDateType,
+    description,
+    router,
+  ]);
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
@@ -159,7 +203,7 @@ export default function useSuggestRegionalForm() {
         break;
 
       case Forms.Description:
-        handleSubmitDescription();
+        handleSubmitFinal();
         break;
 
       default:
@@ -174,7 +218,7 @@ export default function useSuggestRegionalForm() {
     handleSubmitArea,
     handleSubmitFloor,
     handleSubmitPurpose,
-    handleSubmitDescription,
+    handleSubmitFinal,
   ]);
 
   // 필드 자동스크롤 로직
@@ -234,7 +278,23 @@ export default function useSuggestRegionalForm() {
         setNextButtonDisabled(true);
       }
     }
-  }, [forms, bubjungdong, realestateType, buyOrRent, price, floor]);
+
+    if (currentForm === Forms.Purpose) {
+      if (!purpose) {
+        setNextButtonDisabled(true);
+      }
+
+      if (purpose === '투자') {
+        if (!remainingAmountDate) {
+          setNextButtonDisabled(true);
+        }
+      } else if (purpose === '실거주') {
+        if (!moveInDate) {
+          setNextButtonDisabled(true);
+        }
+      }
+    }
+  }, [forms, bubjungdong, realestateType, buyOrRent, price, floor, purpose, remainingAmountDate, moveInDate]);
 
   return {
     forms,

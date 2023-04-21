@@ -45,8 +45,14 @@ export default function SuggestRegionalForm({
   moveInDate,
   onChangeMoveInDate,
 
+  moveInDateType,
+  onChangeMoveInDateType,
+
   remainingAmountDate,
   onChangeRemainingAmountDate,
+
+  remainingAmountDateType,
+  onChangeRemainingAmountDateType,
 
   description,
   onChangeDescription,
@@ -83,8 +89,14 @@ export default function SuggestRegionalForm({
       moveInDate,
       onChangeMoveInDate,
 
+      moveInDateType,
+      onChangeMoveInDateType,
+
       remainingAmountDate,
       onChangeRemainingAmountDate,
+
+      remainingAmountDateType,
+      onChangeRemainingAmountDateType,
 
       description,
       onChangeDescription,
@@ -120,8 +132,14 @@ export default function SuggestRegionalForm({
       moveInDate,
       onChangeMoveInDate,
 
+      moveInDateType,
+      onChangeMoveInDateType,
+
       remainingAmountDate,
       onChangeRemainingAmountDate,
+
+      remainingAmountDateType,
+      onChangeRemainingAmountDateType,
 
       description,
       onChangeDescription,
