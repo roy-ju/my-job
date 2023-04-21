@@ -1,9 +1,5 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Panel } from '@/components/atoms';
-import {
-  DanjiItem as DanjiItemStory,
-  ListingItem as ListingItemStory,
-} from '@/components/organisms/MyListItem/index.stories';
 import Paths from '@/constants/paths';
 import MyFavoriteList from '.';
 
@@ -19,11 +15,12 @@ export const Default: ComponentStory<typeof MyFavoriteList> = (args) => (
 );
 
 Default.args = {
+  listingSortingType: '등록일순',
   listingList: [
     {
       listingId: 1301,
       thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
-      listingTitle: '106동 1601호',
+      listingTitle: '매봉삼성아파트 106동 1601호',
       realestateType: 10,
       jeonyongArea: '84.55',
       floorDescription: '고층',
@@ -43,7 +40,7 @@ Default.args = {
     {
       listingId: 1301,
       thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
-      listingTitle: '106동 1601호',
+      listingTitle: '매봉삼성아파트 106동 1601호',
       realestateType: 10,
       jeonyongArea: '84.55',
       floorDescription: '고층',
@@ -63,7 +60,7 @@ Default.args = {
     {
       listingId: 1301,
       thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
-      listingTitle: '106동 1601호',
+      listingTitle: '매봉삼성아파트 106동 1601호',
       realestateType: 10,
       jeonyongArea: '84.55',
       floorDescription: '고층',

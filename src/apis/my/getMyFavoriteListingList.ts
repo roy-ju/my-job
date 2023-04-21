@@ -28,13 +28,23 @@ export interface GetMyFavoriteListingListResponse {
   list: IFavoriteListingListItem[];
 }
 
+function getKey(orderBy: number) {
+  return (size: number, previousPageData: GetMyFavoriteListingListResponse) => {
+    if (size > 0 && (previousPageData === null || previousPageData?.list?.length < 1)) return null;
+    return ['/my/favorite/listings', { page_number: size + 1, page_size: 10, order_by: orderBy }];
+  };
+}
+
+/*
 function getKey(size: number, previousPageData: GetMyFavoriteListingListResponse) {
   const previousLength = previousPageData?.list?.length ?? 0;
   if (previousPageData && previousLength < 1) return null;
-  return ['/my/favorite/listings', { page_number: size + 1, page_size: 10 }];
+  console.log(size);
+  return ['/my/favorite/listings', { page_number: size + 1, page_size: 10, order_by: 3 }];
 }
+*/
 
-export default function useAPI_GetMyFavoriteListingList() {
+export default function useAPI_GetMyFavoriteListingList(orderBy: number) {
   const { user } = useAuth();
   const {
     data: dataList,
@@ -42,7 +52,7 @@ export default function useAPI_GetMyFavoriteListingList() {
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<GetMyFavoriteListingListResponse>(user ? () => getKey : () => null);
+  } = useSWRInfinite<GetMyFavoriteListingListResponse>(user ? getKey(orderBy) : () => null);
   const count = dataList?.[0]?.count;
   const data = useMemo(() => {
     if (!dataList) return [];

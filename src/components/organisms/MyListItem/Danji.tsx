@@ -33,11 +33,12 @@ const informationStringWrapper = css`
 
 interface DanjiProps extends IMyDanjiListItem {
   onToggleDanjiLike?: (pnu: string, realestateType: number, isDanjiFavorite: boolean) => void;
+  onClickDanjiItem?: (pnu: string, realestateType: number) => () => void;
 }
 
 export default function Danji({
   onToggleDanjiLike,
-  danjiId,
+  onClickDanjiItem,
   pnu,
   realestateType,
   eubmyundong,
@@ -94,7 +95,11 @@ export default function Danji({
   };
 
   return (
-    <div tw="border-gray-300 border rounded-lg">
+    <button
+      type="button"
+      tw="border-gray-300 block border w-full rounded-lg"
+      onClick={onClickDanjiItem?.(pnu, realestateType)}
+    >
       <div tw="justify-between flex px-4 pt-[1.125rem] pb-4">
         <div tw="text-left">
           <div tw="mb-1.5 flex gap-1">
@@ -127,6 +132,6 @@ export default function Danji({
           월세 <span tw="text-blue-1000 font-medium">{wolsaeCount}</span>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

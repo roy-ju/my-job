@@ -31,6 +31,7 @@ export interface IMyListingListItem {
 
 export interface ListingProps extends IMyListingListItem {
   onToggleListingLike?: (listingId: number, isListingFavorite: boolean) => void;
+  onClickListingItem?: (listingId: number) => () => void;
 }
 
 const informationStringWrapper = css`
@@ -43,6 +44,7 @@ const informationStringWrapper = css`
 
 export default function Listing({
   onToggleListingLike,
+  onClickListingItem,
   listingId,
   thumbnailFullPath,
   listingTitle,
@@ -122,7 +124,7 @@ export default function Listing({
   };
 
   return (
-    <div tw="flex gap-3 items-center">
+    <button type="button" tw="flex gap-3 items-center w-full" onClick={onClickListingItem?.(listingId)}>
       <div tw="relative">
         <ListingStatusChip status={labelText} />
         <Image
@@ -147,7 +149,7 @@ export default function Listing({
             {renderPrice()}
           </Numeral>
         </div>
-        <div tw="text-info">{listingTitle}</div>
+        <div tw="text-info text-left">{listingTitle}</div>
         <div tw="flex justify-between items-center">
           <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
             {jeonyongArea && <div>{`전용 ${jeonyongArea}㎡`}</div>}
@@ -157,6 +159,6 @@ export default function Listing({
           <ListingPopularityInformation viewCount={viewCount} offerCount={participantsCount} />
         </div>
       </div>
-    </div>
+    </button>
   );
 }

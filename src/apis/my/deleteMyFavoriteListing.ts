@@ -6,7 +6,7 @@ interface deleteMyFavoriteListingRequest {
 
 export default async function deleteMyFavoriteListing(req: deleteMyFavoriteListingRequest) {
   try {
-    await axios.post('/listing/favorite/delete', req);
+    await axios.post('/listing/favorite/remove', req);
     return null;
   } catch (e) {
     return null;
