@@ -18,4 +18,6 @@ export const Area = () => <SuggestRegionalForm.Area />;
 
 export const Floor = () => <SuggestRegionalForm.Floor />;
 
+export const Purpose = () => <SuggestRegionalForm.Purpose />;
+
 export const Description = () => <SuggestRegionalForm.Description />;
