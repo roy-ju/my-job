@@ -1,6 +1,6 @@
 import { NavigationHeader } from '@/components/molecules';
 
-export default function SuggestRegional() {
+export default function SuggestRegionalForm() {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
