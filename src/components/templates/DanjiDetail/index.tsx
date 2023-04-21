@@ -164,9 +164,9 @@ export default function DanjiDetail({
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
-  useScroll(scrollContainer, ({ scrollY }) => {
-    setIsHeaderActive(scrollY > 0.1);
-  });
+  // useScroll(scrollContainer, ({ scrollY }) => {
+  //   setIsHeaderActive(scrollY > 0.1);
+  // });
 
   if (!danji) return null;
 
