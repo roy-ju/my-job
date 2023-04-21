@@ -32,6 +32,8 @@ export default memo(({ panelWidth, depth }: Props) => {
     selectedJeonyongAreaMax,
     selectedIndex,
     checked,
+    isRecommendationService,
+    handleRecommendation,
     handlePhotos,
     handleRealPriceList,
     handleListingAll,
@@ -105,6 +107,8 @@ export default memo(({ panelWidth, depth }: Props) => {
         danjiRealPricesListData={danjiRealPricesListData}
         danjiRealPricesList={danjiRealPricesList}
         checked={checked}
+        isRecommendationService={isRecommendationService}
+        handleRecommendation={handleRecommendation}
         handlePhotos={handlePhotos}
         handleRealPriceList={handleRealPriceList}
         handleListingAll={handleListingAll}

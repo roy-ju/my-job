@@ -61,6 +61,16 @@ const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
   ssr: false,
 });
 
+const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
+const DanjiRecommendationSuccess = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSuccess'), {
+  loading: () => <Panel />,
+  ssr: false,
+});
+
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
   loading: () => <Panel />,
   ssr: false,
@@ -322,6 +332,14 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.DanjiDetail: {
       return <DanjiDetail key={`${query.p}-${query.rt}`} {...props} />;
+    }
+
+    case Routes.DanjiRecommendation: {
+      return <DanjiRecommendation key={`${query.p}-${query.rt}`} {...props} />;
+    }
+
+    case Routes.DanjiRecommendationSuccess: {
+      return <DanjiRecommendationSuccess key={`${query.p}-${query.rt}`} {...props} />;
     }
 
     case Routes.DanjiPhotos: {
