@@ -89,6 +89,7 @@ interface LayoutMapContainerProps {
   onClickSchool?: () => void;
   onClickMapLayerCadastral?: () => void;
   onClickMapLayerStreet?: () => void;
+  onClickSuggestReginoal?: () => void;
   onChangeMapType?: ChangeEventHandler<HTMLInputElement>;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
   onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem) => void;
@@ -115,6 +116,7 @@ function LayoutMapContainer({
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
+  onClickSuggestReginoal,
   onChangeMapType,
   onClickSchool,
   onClickZoomIn,
@@ -185,6 +187,21 @@ function LayoutMapContainer({
           <MapControls.ZoomInButton onClick={onClickZoomIn} />
           <MapControls.ZoomOutButton onClick={onClickZoomOut} />
         </MapControls.Group>
+      </div>
+      <div tw="absolute right-5 bottom-[104px] z-10">
+        <Button
+          variant="ghost"
+          size="none"
+          tw="px-4 bg-white shadow hover:bg-gray-300"
+          onClick={onClickSuggestReginoal}
+        >
+          <div tw="pt-5 pb-4 text-start mr-10">
+            <span tw="text-info leading-4">찾으시는 매물이 없다면,</span>
+            <br />
+            <span tw="text-b2 font-bold leading-5">매물을 추천받아 보세요.</span>
+          </div>
+          <ChevronLeftIcon tw="text-gray-700 w-4 h-4 rotate-180" />
+        </Button>
       </div>
       <div tw="absolute right-5 bottom-10 flex gap-2 z-10">
         <Button variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
