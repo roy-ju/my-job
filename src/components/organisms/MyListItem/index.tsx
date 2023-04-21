@@ -1,9 +1,9 @@
 import Danji from './Danji';
 import Listing from './Listing';
 
-const MyFavoriteListItem = {
+const MyListItem = {
   Danji,
   Listing,
 };
 
-export default MyFavoriteListItem;
+export default MyListItem;

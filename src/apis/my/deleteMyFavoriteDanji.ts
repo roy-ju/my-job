@@ -7,7 +7,7 @@ interface deleteMyFavoriteDanjiRequest {
 
 export default async function deleteMyFavoriteDanji(req: deleteMyFavoriteDanjiRequest) {
   try {
-    await axios.post('/danji/favorite/delete', req);
+    await axios.post('/danji/favorite/remove', req);
     return null;
   } catch (e) {
     return null;
