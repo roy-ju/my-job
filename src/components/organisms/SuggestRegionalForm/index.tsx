@@ -6,6 +6,8 @@ import Area from './Area';
 import Floor from './Floor';
 import Description from './Description';
 import Purpose from './Purpose';
+import MoveInDate from './MoveInDate';
+import RemainingAmountDate from './RemainingAmountDate';
 
 const SuggestRegionalForm = {
   Region,
@@ -16,6 +18,8 @@ const SuggestRegionalForm = {
   Floor,
   Purpose,
   Description,
+  MoveInDate,
+  RemainingAmountDate,
 };
 
 export default SuggestRegionalForm;
