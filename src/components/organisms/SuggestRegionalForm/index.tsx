@@ -5,6 +5,7 @@ import Price from './Price';
 import Area from './Area';
 import Floor from './Floor';
 import Description from './Description';
+import Purpose from './Purpose';
 
 const SuggestRegionalForm = {
   Region,
@@ -13,6 +14,7 @@ const SuggestRegionalForm = {
   Price,
   Area,
   Floor,
+  Purpose,
   Description,
 };
 

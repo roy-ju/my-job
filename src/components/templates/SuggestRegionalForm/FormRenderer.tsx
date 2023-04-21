@@ -8,6 +8,7 @@ export const Forms = {
   Price: 'price',
   Area: 'area',
   Floor: 'floor',
+  Purpose: 'purpose',
   Description: 'description',
 };
 
@@ -61,9 +62,18 @@ export default function FormRenderer({ form }: Props) {
 
     case Forms.Floor:
       return (
-        <div id={Forms.Area}>
+        <div id={Forms.Floor}>
           <div tw="py-10 px-5">
             <SuggestRegionalForm.Floor />
+          </div>
+        </div>
+      );
+
+    case Forms.Purpose:
+      return (
+        <div id={Forms.Purpose}>
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.Purpose />
           </div>
         </div>
       );
