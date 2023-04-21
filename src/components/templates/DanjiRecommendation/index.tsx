@@ -198,6 +198,8 @@ export const IntersetedPyoungField = ({
     }
     return false;
   }, [danjiRealPricesPyoungList]);
+  console.log(danjiRealPricesPyoungList);
+  console.log(isShowDanjiRealPricesPyoungList);
 
   return (
     <>

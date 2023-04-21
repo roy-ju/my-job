@@ -6,7 +6,7 @@ import { DanjiRecommendation as DanjiRecommendationTemplate } from '@/components
 import { BuyOrRent } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEventHandler, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
@@ -42,8 +42,8 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   });
 
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
-    pnu: step === 3 ? danji?.pnu : undefined,
-    realestateType: step === 3 ? danji?.type : undefined,
+    pnu: danji?.pnu,
+    realestateType: danji?.type,
     buyOrRent,
   });
 
@@ -67,7 +67,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       }
 
       if (buyOrRent === BuyOrRent.Jeonsae) {
-        if (Number(tradeOrDepositPrice) && Number(monthlyRentFee)) {
+        if (Number(tradeOrDepositPrice)) {
           return true;
         }
         return false;
@@ -108,7 +108,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     return false;
   }, [
     buyOrRent,
-    monthlyRentFee,
     moveInDate,
     moveInDateType,
     purpose,
@@ -378,8 +377,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       setStep((prev) => prev + 1);
     }
   };
-
-  useEffect(() => {}, [buyOrRent]);
 
   if (!danji) return null;
 
