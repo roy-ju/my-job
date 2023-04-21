@@ -4,8 +4,8 @@ export interface IFormContext {
   region?: string;
   onClickOpenRegionList?: () => void;
 
-  realestateType?: number;
-  onChangeRealestateType?: (value: number) => void;
+  realestateType?: number[];
+  onChangeRealestateType?: (value: number[]) => void;
 
   buyOrRent?: number;
   onChangeBuyOrRent?: (value: number) => void;
@@ -22,8 +22,8 @@ export interface IFormContext {
   maxArea?: string;
   onChangeMaxArea?: (value: string) => void;
 
-  floor?: string;
-  onChangeFloor?: (value: string) => void;
+  floor?: string[];
+  onChangeFloor?: (value: string[]) => void;
 
   purpose?: string;
   onChangePurpose?: (value: string) => void;

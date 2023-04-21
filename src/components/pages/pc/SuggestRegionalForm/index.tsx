@@ -10,7 +10,7 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth }: Props) => {
+export default memo(({ panelWidth, depth }: Props) => {
   const {
     isRegionListOpen,
     forms,
@@ -49,15 +49,18 @@ export default memo(({ panelWidth }: Props) => {
     description,
     handleChangeDescription,
 
-    // moveInDate,
-    // handleChangeMoveInDate,
+    moveInDate,
+    handleChangeMoveInDate,
 
-    // moveInDateType,
-    // handleChangeMoveInDateType,
+    moveInDateType,
+    handleChangeMoveInDateType,
 
-    // remainingAmountDate,
-    // handleChangeRemainingAmountDate,
-  } = useSuggestRegionalForm();
+    remainingAmountDate,
+    handleChangeRemainingAmountDate,
+
+    remainingAmountDateType,
+    handleChangeRemainingAmountDateType,
+  } = useSuggestRegionalForm(depth);
 
   return (
     <>
@@ -86,6 +89,14 @@ export default memo(({ panelWidth }: Props) => {
           onChangePurpose={handleChangePurpose}
           description={description}
           onChangeDescription={handleChangeDescription}
+          moveInDate={moveInDate}
+          onChangeMoveInDate={handleChangeMoveInDate}
+          moveInDateType={moveInDateType}
+          onChangeMoveInDateType={handleChangeMoveInDateType}
+          remainingAmountDate={remainingAmountDate}
+          onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
+          remainingAmountDateType={remainingAmountDateType}
+          onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
         />
       </Panel>
       {isRegionListOpen && (

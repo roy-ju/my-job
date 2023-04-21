@@ -24,10 +24,12 @@ export default function RegionForm({ onClickClose, onSubmit }: RegionFormProps) 
 
   const sidoList = useMemo(
     () =>
-      sidoData?.list?.map((item) => ({
-        name: convertSidoName(item.name),
-        code: item.code,
-      })),
+      sidoData?.list
+        ?.map((item) => ({
+          name: convertSidoName(item.name),
+          code: item.code,
+        }))
+        .filter((item) => ['서울', '경기', '인천'].includes(item.name)),
     [sidoData],
   );
 

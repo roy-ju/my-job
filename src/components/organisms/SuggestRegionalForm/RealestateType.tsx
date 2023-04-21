@@ -1,12 +1,35 @@
 import { Button } from '@/components/atoms';
 import { RealestateType as RealestateTypeType } from '@/constants/enums';
+import { useControlled } from '@/hooks/utils';
+import { useCallback } from 'react';
 
 export interface RealestateTypeProps {
-  value?: number;
-  onChange?: (value: number) => void;
+  value?: number[];
+  onChange?: (value: number[]) => void;
 }
 
-export default function RealestateType({ value, onChange }: RealestateTypeProps) {
+const defaultValue: number[] = [];
+
+export default function RealestateType({ value: valueProp, onChange }: RealestateTypeProps) {
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    default: defaultValue,
+  });
+
+  const handleClick = useCallback(
+    (type: number) => {
+      let newValue = [...value];
+      if (newValue.includes(type)) {
+        newValue = newValue.filter((item) => item !== type);
+      } else {
+        newValue.push(type);
+      }
+      setValue(newValue);
+      onChange?.(newValue);
+    },
+    [onChange, value, setValue],
+  );
+
   return (
     <div>
       <div tw="mb-4">
@@ -18,8 +41,8 @@ export default function RealestateType({ value, onChange }: RealestateTypeProps)
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === RealestateTypeType.Apartment}
-            onClick={() => onChange?.(RealestateTypeType.Apartment)}
+            selected={value.includes(RealestateTypeType.Apartment)}
+            onClick={() => handleClick?.(RealestateTypeType.Apartment)}
           >
             아파트
           </Button>
@@ -27,8 +50,8 @@ export default function RealestateType({ value, onChange }: RealestateTypeProps)
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === RealestateTypeType.Officetel}
-            onClick={() => onChange?.(RealestateTypeType.Officetel)}
+            selected={value.includes(RealestateTypeType.Officetel)}
+            onClick={() => handleClick?.(RealestateTypeType.Officetel)}
           >
             오피스텔
           </Button>
@@ -38,8 +61,8 @@ export default function RealestateType({ value, onChange }: RealestateTypeProps)
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === RealestateTypeType.Dandok}
-            onClick={() => onChange?.(RealestateTypeType.Dandok)}
+            selected={value.includes(RealestateTypeType.Dandok)}
+            onClick={() => handleClick?.(RealestateTypeType.Dandok)}
           >
             단독
           </Button>
@@ -47,8 +70,8 @@ export default function RealestateType({ value, onChange }: RealestateTypeProps)
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === RealestateTypeType.Dagagoo}
-            onClick={() => onChange?.(RealestateTypeType.Dagagoo)}
+            selected={value.includes(RealestateTypeType.Dagagoo)}
+            onClick={() => handleClick?.(RealestateTypeType.Dagagoo)}
           >
             다가구
           </Button>
@@ -56,8 +79,8 @@ export default function RealestateType({ value, onChange }: RealestateTypeProps)
             size="bigger"
             variant="outlined"
             tw="flex-1"
-            selected={value === RealestateTypeType.Dasaedae}
-            onClick={() => onChange?.(RealestateTypeType.Dasaedae)}
+            selected={value.includes(RealestateTypeType.Dasaedae)}
+            onClick={() => handleClick?.(RealestateTypeType.Dasaedae)}
           >
             빌라
           </Button>
