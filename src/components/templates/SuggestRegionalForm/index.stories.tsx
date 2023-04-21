@@ -3,7 +3,7 @@ import { Panel } from '@/components/atoms';
 import SuggestRegionalForm from '.';
 
 export default {
-  title: 'tempaltes/SuggestRegionalForm',
+  title: 'templates/SuggestRegionalForm',
   component: SuggestRegionalForm,
 } as ComponentMeta<typeof SuggestRegionalForm>;
 
