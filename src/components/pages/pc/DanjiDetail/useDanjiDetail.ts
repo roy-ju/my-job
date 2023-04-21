@@ -24,7 +24,6 @@ export default function useDanjiDetail(depth: number) {
 
   // 평리스트 API가 처음에 두번 호출되는 것을 방지하기 위한 State
   const [isMutate, setIsMutate] = useState(false);
-
   const [selectedArea, setSelectedArea] = useState<string>();
   const [selectedJeonyongArea, setSelectedJeonyongArea] = useState<string>();
   const [selectedJeonyongAreaMax, setSelectedJeonyongAreaMax] = useState<string>();
@@ -101,13 +100,13 @@ export default function useDanjiDetail(depth: number) {
     ps: 10,
   });
 
-    const isShowDanjiPhotos = useMemo(() => {
-      if (danjiPhotos && danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0) {
-        return true;
-      }
+  const isShowDanjiPhotos = useMemo(() => {
+    if (danjiPhotos && danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0) {
+      return true;
+    }
 
-      return false;
-    }, [danjiPhotos]);
+    return false;
+  }, [danjiPhotos]);
 
   const onChangeBuyOrRent = useCallback((value: number) => {
     setBuyOrRent(value);
@@ -137,6 +136,79 @@ export default function useDanjiDetail(depth: number) {
   const onChangeSelectedIndex = useCallback((val: number) => {
     setSelectedIndex(val);
   }, []);
+
+  const handleListingAll = useCallback(() => {
+    router.push(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+  }, [router]);
+
+  const handleRealPriceList = useCallback(() => {
+    if (buyOrRent) {
+      sessionStorage.setItem('d-br', buyOrRent.toString());
+    } else if (!buyOrRent) {
+      sessionStorage.removeItem('d-br');
+    }
+
+    if (selectedYear) {
+      sessionStorage.setItem('d-yr', selectedYear.toString());
+    } else if (!selectedYear) {
+      sessionStorage.removeItem('d-yr');
+    }
+
+    if (selectedArea) {
+      sessionStorage.setItem('d-gr', selectedArea.toString());
+    } else if (!selectedArea) {
+      sessionStorage.removeItem('d-gr');
+    }
+
+    if (selectedJeonyongArea) {
+      sessionStorage.setItem('d-jr-s', selectedJeonyongArea.toString());
+    } else if (!selectedJeonyongArea) {
+      sessionStorage.removeItem('d-jr-s');
+    }
+
+    if (selectedJeonyongAreaMax) {
+      sessionStorage.setItem('d-jr-m', selectedJeonyongAreaMax.toString());
+    } else if (!selectedJeonyongAreaMax) {
+      sessionStorage.removeItem('d-jr-m');
+    }
+
+    if (typeof selectedIndex === 'number') {
+      sessionStorage.setItem('d-sl-i', selectedIndex.toString());
+    } else if (typeof selectedIndex !== 'number') {
+      sessionStorage.removeItem('d-sl-i');
+    }
+
+    if (danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0) {
+      sessionStorage.setItem('d-py-l', JSON.stringify(danjiRealPricesPyoungList));
+    } else {
+      sessionStorage.removeItem('d-py-l');
+    }
+
+    if (checked) {
+      sessionStorage.setItem('d-ch', '1');
+    } else if (!checked) {
+      sessionStorage.setItem('d-ch', '2');
+    }
+
+    router.push(Routes.DanjiRealPriceList, {
+      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+      state: {},
+    });
+  }, [
+    buyOrRent,
+    checked,
+    danjiRealPricesPyoungList,
+    router,
+    selectedArea,
+    selectedIndex,
+    selectedJeonyongArea,
+    selectedJeonyongAreaMax,
+    selectedYear,
+  ]);
+
+  const handlePhotos = useCallback(() => {
+    router.push(Routes.DanjiPhotos, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+  }, [router]);
 
   const navigateToListingDetail = useCallback(
     (id: number) => {
@@ -185,6 +257,9 @@ export default function useDanjiDetail(depth: number) {
       checked,
       danjiRealPricesListData,
       danjiRealPricesList,
+      handleRealPriceList,
+      handlePhotos,
+      handleListingAll,
       danjiRealPriesListSetSize,
       onChangeChecked,
       onChangeBuyOrRent,
@@ -216,6 +291,9 @@ export default function useDanjiDetail(depth: number) {
       checked,
       danjiRealPricesListData,
       danjiRealPricesList,
+      handleRealPriceList,
+      handlePhotos,
+      handleListingAll,
       onChangeChecked,
       onChangeBuyOrRent,
       onChangeSelectedYear,

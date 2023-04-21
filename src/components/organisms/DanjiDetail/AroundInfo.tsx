@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button } from '@/components/atoms';
+import useDanjiStore from '@/hooks/recoil/useDanjiStore';
 import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
@@ -42,6 +43,9 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const [activeCategory, setActiveCategory] = useState<BtnState>({
     SW8: true,
   });
+
+  const { buttonState, handleAroundButton } = useDanjiStore();
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [selectedAround, setSelectedAround] = useState<boolean>(false);
 
@@ -194,10 +198,9 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         <Button
           size="small"
           variant="outlined"
-          selected={selectedAround}
+          selected={!!buttonState?.around}
           onClick={() => {
-            setSelectedAround((prev) => !prev);
-            // window.Negocio.callbacks.test();
+            handleAroundButton();
           }}
         >
           정보보기

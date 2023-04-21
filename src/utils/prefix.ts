@@ -1,0 +1,1 @@
+export const prefixComparison = 'negocio-user-comparison-danji';

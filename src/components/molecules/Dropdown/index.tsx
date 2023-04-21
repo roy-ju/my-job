@@ -14,6 +14,8 @@ const OptionsContainer = tw.div`bg-white rounded-lg py-2 border border-gray-1000
 
 const OptionItem = tw.button`w-full text-start flex items-center justify-between py-3 px-4 leading-4 text-b2 hover:bg-gray-200 transition-colors`;
 
+const OptionSmallItem = tw.button`w-full text-start flex items-center justify-between py-2 pl-4 pr-3 leading-4 text-info hover:bg-gray-200 transition-colors`;
+
 interface DropdownProps extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value' | 'onChange'> {
   placeholder?: string;
   label?: string;
@@ -109,14 +111,26 @@ function Dropdown({
             readOnly
             tw="hover:cursor-pointer"
           />
-          <TextField.Trailing tw="pr-4">
-            <ChevronDown
-              style={{
-                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s ease-in-out',
-              }}
-            />
-          </TextField.Trailing>
+          {size === 'small' && (
+            <TextField.Trailing tw="pr-3">
+              <ChevronDown
+                style={{
+                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease-in-out',
+                }}
+              />
+            </TextField.Trailing>
+          )}
+          {size !== 'small' && (
+            <TextField.Trailing tw="pr-4">
+              <ChevronDown
+                style={{
+                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease-in-out',
+                }}
+              />
+            </TextField.Trailing>
+          )}
         </TextField>
         <AnimatePresence>
           {isOpen && Children.count(children) > 0 && (
@@ -156,4 +170,15 @@ function Option({ value, children, ...others }: OptionProps) {
   );
 }
 
-export default Object.assign(Dropdown, { Option });
+function OptionSmall({ value, children, ...others }: OptionProps) {
+  const { value: currentValue, onChange } = useContext(DropdownContext);
+
+  return (
+    <OptionSmallItem type="button" {...others} onClick={() => onChange(value)}>
+      <div>{children}</div>
+      {value === currentValue && <SelectedIcon />}
+    </OptionSmallItem>
+  );
+}
+
+export default Object.assign(Dropdown, { Option, OptionSmall });
