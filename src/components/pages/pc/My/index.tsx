@@ -1,3 +1,4 @@
+import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import { Panel } from '@/components/atoms';
 import { My as MyTemplate } from '@/components/templates';
@@ -15,6 +16,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const { user, isLoading } = useAuth();
   const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
+  const { data: dashboardData } = useAPI_GetDashboardInfo();
 
   const handleClickLogin = useCallback(() => {
     router.push(Routes.Login);
@@ -64,6 +66,14 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.ListingCreateAddress);
   }, [router]);
 
+  const handleSuggestRegional = useCallback(() => {
+    router.push(Routes.SuggestRegionalForm);
+  }, [router]);
+
+  const handleReceivedSuggests = useCallback(() => {}, []);
+
+  const handleRequestedSuggests = useCallback(() => {}, []);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -71,6 +81,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}
         onClickMyDetail={handleClickMyDetail}
@@ -83,6 +94,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
         onClickCreateListing={handleCreateListing}
+        onClickSuggestRegional={handleSuggestRegional}
+        onClickReceivedSuggests={handleReceivedSuggests}
+        onClickRequestedSuggests={handleRequestedSuggests}
       />
     </Panel>
   );
