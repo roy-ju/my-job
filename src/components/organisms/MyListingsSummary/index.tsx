@@ -1,60 +1,86 @@
 import { Button } from '@/components/atoms';
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import HouseIcon from '@/assets/icons/house_28.svg';
+import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
 export interface MyListingsSummaryProps {
-  totalParticipatingCount?: number;
-  negotiatingCount?: number;
-  participationCompletedCount?: number;
-  totalRegisteredCount?: number;
-  waitingCount?: number;
-  registeredCount?: number;
+  dashboardInfo?: GetDashboardInfoResponse | null;
   onClickCreateListing?: () => void;
+  onClickSuggestRegional?: () => void;
+  onClickRequestedSuggests?: () => void;
+  onClickReceivedSuggests?: () => void;
 }
 
 export default function MyListingsSummary({
-  totalParticipatingCount = 0,
+  dashboardInfo,
   onClickCreateListing,
+  onClickSuggestRegional,
+  onClickReceivedSuggests,
+  onClickRequestedSuggests,
 }: MyListingsSummaryProps) {
   return (
-    <div tw="bg-white px-5 py-10 flex flex-col">
+    <div tw="bg-white px-5 pb-10 flex flex-col">
+      <div tw="mb-10">
+        <div tw="flex py-3">
+          <Button onClick={onClickRequestedSuggests} variant="ghost" size="none" tw="flex-1 h-[44px] hover:bg-gray-200">
+            <div>
+              <div tw="font-bold text-blue-1000">{dashboardInfo?.suggest_sent_count ?? 0}</div>
+              <div tw="text-info text-gray-700">나의 추천 요청</div>
+            </div>
+          </Button>
+          <div tw="w-px mx-4 h-[44px] bg-gray-300" />
+          <Button onClick={onClickReceivedSuggests} variant="ghost" size="none" tw="flex-1 h-[44px] hover:bg-gray-200">
+            <div>
+              <div tw="font-bold text-red-1000">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
+              <div tw="text-info text-gray-700">추천받은 매물</div>
+            </div>
+          </Button>
+        </div>
+        <Button onClick={onClickSuggestRegional} tw="w-full" size="medium" variant="secondary">
+          새로운 매물 추천 받아보기
+        </Button>
+      </div>
       <div tw="text-b1 leading-none font-bold mb-4">가격 제안한 매물</div>
       <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
         <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
-          <div tw="text-info text-gray-700 leading-6">전체</div>
-          <div tw="text-b1 font-bold leading-6 text-nego-1000">{totalParticipatingCount}</div>
+          <div tw="text-info text-gray-700 leading-6">제안중</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_submitted_count ?? 0}</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
         <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
           <div tw="text-info text-gray-700 leading-6">협상중</div>
-          <div tw="text-b1 font-bold leading-6">0</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_accepted_count ?? 0}</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
         <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
           <div tw="text-info text-gray-700 leading-6">거래성사</div>
-          <div tw="text-b1 font-bold leading-6">0</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_pre_contract_complete_count ?? 0}</div>
+        </Button>
+        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+          <div tw="text-info text-gray-700 leading-6">지난거래</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_past_count ?? 0}</div>
         </Button>
       </div>
       <div tw="text-b1 leading-none font-bold mb-4">등록한 매물</div>
       <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
         <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
-          <div tw="text-info text-gray-700 leading-6">전체</div>
-          <div tw="text-b1 font-bold leading-6 text-red-1000">0</div>
-        </Button>
-        <div tw="w-px h-5 bg-gray-300" />
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
           <div tw="text-info text-gray-700 leading-6">등록신청</div>
-          <div tw="text-b1 font-bold leading-6">0</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_registering_listing_count ?? 0}</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
         <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
-          <div tw="text-info text-gray-700 leading-6">진행중</div>
-          <div tw="text-b1 font-bold leading-6">0</div>
+          <div tw="text-info text-gray-700 leading-6">거래중</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_active_listing_count ?? 0}</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
         <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
-          <div tw="text-info text-gray-700 leading-6">종료</div>
-          <div tw="text-b1 font-bold leading-6">0</div>
+          <div tw="text-info text-gray-700 leading-6">거래성사</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_contract_complete_listing_count ?? 0}</div>
+        </Button>
+        <div tw="w-px h-5 bg-gray-300" />
+        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+          <div tw="text-info text-gray-700 leading-6">취소</div>
+          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_cancelled_listing_count ?? 0}</div>
         </Button>
       </div>
       <Button
