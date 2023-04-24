@@ -226,6 +226,18 @@ const SuggestRegionalSuccess = dynamic(() => import('@/components/pages/pc/Sugge
   ssr: false,
   loading: () => <Panel />,
 });
+const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const SuggestReceivedList = dynamic(() => import('@/components/pages/pc/SuggestReceivedList'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -479,6 +491,18 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.SuggestRegionalSuccess: {
       return <SuggestRegionalSuccess {...props} />;
+    }
+
+    case Routes.SuggestRequestedList: {
+      return <SuggestRequestedList {...props} />;
+    }
+
+    case Routes.SuggestReceivedList: {
+      return <SuggestReceivedList {...props} />;
+    }
+
+    case Routes.SuggestDetail: {
+      return <SuggestDetail {...props} />;
     }
 
     case Routes.Developer: {

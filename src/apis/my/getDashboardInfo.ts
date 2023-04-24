@@ -17,9 +17,10 @@ export interface GetDashboardInfoResponse {
 
 export default function useAPI_GetDashboardInfo() {
   const { user } = useAuth();
-  const { data, isLoading } = useSWR<GetDashboardInfoResponse>(user ? '/my/dashboard/info' : null, authFetcher);
+  const { data, isLoading, mutate } = useSWR<GetDashboardInfoResponse>(user ? '/my/dashboard/info' : null, authFetcher);
   return {
     data,
     isLoading,
+    mutate,
   };
 }

@@ -1,5 +1,4 @@
 import { Button } from '@/components/atoms';
-import Paths from '@/constants/paths';
 import tw, { styled } from 'twin.macro';
 
 const Container = styled.div`
@@ -18,13 +17,8 @@ export interface PhotoHeroProps {
   itemSize?: number;
 }
 
-export default function PhotoHero({
-  photoPath,
-  handlePhotos,
-  defaultPhotoPath = Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
-  itemSize = 0,
-}: PhotoHeroProps) {
-  const imgPath = photoPath ?? defaultPhotoPath;
+export default function PhotoHero({ photoPath, handlePhotos, itemSize = 0 }: PhotoHeroProps) {
+  const imgPath = photoPath;
 
   return (
     <Container
