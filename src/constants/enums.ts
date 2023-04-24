@@ -58,7 +58,7 @@ export enum Year {
 export enum TimeType {
   BeforeDay = 1,
   AfterDay = 2,
-  Day=3
+  Day = 3,
 }
 
 export enum SchoolType {
@@ -111,6 +111,12 @@ export enum BiddingStatus {
   BiddingStatusCancelled = 7, // 제안 취소: BiddingCancelType이 반드시 존재
 }
 
+export enum SuggestStatus {
+  Active = 1,
+  Stopped = 2,
+  UserDeleted = 3,
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:
@@ -130,7 +136,7 @@ export function describeRealestateType(type: RealestateType | undefined | null) 
   }
 }
 
-export function describeTimeType(type: TimeType|undefined|null) {
+export function describeTimeType(type: TimeType | undefined | null) {
   switch (type) {
     case TimeType.BeforeDay:
       return '이전';

@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 interface Props {
-  variant?: 'nego' | 'red' | 'gray' | 'green' | 'outlined';
+  variant?: 'nego' | 'red' | 'gray' | 'green' | 'blue' | 'orange' | 'outlined';
 }
 
 const colors = {
@@ -9,6 +9,8 @@ const colors = {
   red: tw`bg-red-100 text-red-1000`,
   gray: tw`text-gray-700 bg-gray-300`,
   green: tw`bg-green-100 text-green-1000`,
+  blue: tw`bg-blue-100 text-blue-1000`,
+  orange: tw`bg-orange-100 text-orange-1000`,
   outlined: tw`text-gray-900 bg-white border border-gray-300`,
 };
 

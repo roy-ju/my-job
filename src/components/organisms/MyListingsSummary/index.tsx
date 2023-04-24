@@ -65,7 +65,6 @@ export default function MyListingsSummary({
       </div>
       <div tw="text-b1 leading-none font-bold mb-4">등록한 매물</div>
       <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
-        <div tw="w-px h-5 bg-gray-300" />
         <Button
           onClick={() => onClickMyRegisteredListings?.(1)}
           size="none"
