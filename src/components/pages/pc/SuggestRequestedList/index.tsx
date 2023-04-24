@@ -31,6 +31,17 @@ export default memo(({ panelWidth, depth }: Props) => {
     router.replace(Routes.SuggestRegionalForm);
   }, [router]);
 
+  const handleClickSuggestItem = useCallback(
+    (id: number) => {
+      router.replace(Routes.SuggestDetail, {
+        searchParams: {
+          suggestID: `${id}`,
+        },
+      });
+    },
+    [router],
+  );
+
   const handleChangeListStyle = useCallback((style: 'default' | 'delete') => {
     setItemsToDelete({});
     setListStyle(style);
@@ -102,6 +113,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         listStyle={listStyle}
         list={data}
         onClickSuggestRegional={handleClickSuggestRegional}
+        onClickSuggestItem={handleClickSuggestItem}
         onClickDelete={handleClickDelete}
         onChangeListStyle={handleChangeListStyle}
         onChangeSuggestChecked={handleChangeSuggestChecked}
