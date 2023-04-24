@@ -1,3 +1,4 @@
+import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
 import { Panel } from '@/components/atoms';
 import { SuggestRegionalSummary } from '@/components/templates';
@@ -13,6 +14,8 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const [isCreating, setIsCreating] = useState(false);
+
+  const { mutate } = useAPI_GetDashboardInfo();
 
   const params = useMemo<Record<string, any>>(() => {
     if (typeof router.query.params === 'string') {
@@ -30,6 +33,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     delete params?.address;
     await createSuggestRegional(params);
+    await mutate();
 
     setIsCreating(false);
 
@@ -38,7 +42,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         params: router.query.params as string,
       },
     });
-  }, [router, params]);
+  }, [router, params, mutate]);
 
   useIsomorphicLayoutEffect(() => {
     if (!params) router.pop();
