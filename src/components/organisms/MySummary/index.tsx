@@ -1,22 +1,7 @@
-import { Avatar, Button } from '@/components/atoms';
+import { Avatar } from '@/components/atoms';
 import { StaticImageData } from 'next/image';
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import { theme } from 'twin.macro';
-
-interface SummaryItemProps {
-  title: string;
-  value: string;
-  onClick?: () => void;
-}
-
-function SummaryItem({ title, value, onClick }: SummaryItemProps) {
-  return (
-    <Button variant="ghost" tw="w-[121px] flex flex-col items-center hover:bg-gray-50" onClick={onClick}>
-      <div tw="text-info text-gray-700">{title}</div>
-      <div tw="text-b1 text-nego-1000 font-bold">{value}</div>
-    </Button>
-  );
-}
 
 interface MySummaryProps {
   profileImagePath?: string | StaticImageData;
@@ -28,13 +13,7 @@ interface MySummaryProps {
   onClickCoupons?: () => void;
 }
 
-export default function MySummary({
-  nickname,
-  profileImagePath,
-  onClickMyDetail,
-  onClickCoupons,
-  onClickNegoPoint,
-}: MySummaryProps) {
+export default function MySummary({ nickname, profileImagePath, onClickMyDetail }: MySummaryProps) {
   return (
     <div>
       <button
@@ -51,11 +30,6 @@ export default function MySummary({
           style={{ transform: 'rotate(180deg)' }}
         />
       </button>
-      <div tw="py-5 flex items-center justify-center">
-        <SummaryItem title="포인트" value="0P" onClick={onClickNegoPoint} />
-        <div tw="w-[2px] h-6 bg-gray-300 mx-1" />
-        <SummaryItem title="쿠폰" value="0장" onClick={onClickCoupons} />
-      </div>
     </div>
   );
 }

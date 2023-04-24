@@ -1,0 +1,115 @@
+import { Button, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
+import { NavigationHeader, Table } from '@/components/molecules';
+import falsy from '@/utils/falsy';
+import tw, { styled } from 'twin.macro';
+
+const StyledTable = styled.table`
+  ${tw`w-full text-b2`}
+  th {
+    ${tw`py-1 text-gray-1000`}
+  }
+  td {
+    ${tw`py-1 text-end`}
+  }
+`;
+
+interface Props {
+  address?: string;
+  buyOrRents?: string;
+  price?: number;
+  monthlyRentFee?: number;
+  minArea?: string;
+  maxArea?: string;
+  purpose?: string;
+  floor?: string;
+  description?: string;
+  isNextButtonLoading?: boolean;
+  onClickBack?: () => void;
+  onClickNext?: () => void;
+}
+
+export default function SuggestRegionalSummary({
+  address,
+  buyOrRents,
+  price,
+  monthlyRentFee,
+  minArea,
+  maxArea,
+  purpose,
+  floor,
+  description,
+  isNextButtonLoading,
+  onClickBack,
+  onClickNext,
+}: Props) {
+  return (
+    <div tw="flex flex-col h-full">
+      <NavigationHeader>
+        <NavigationHeader.BackButton onClick={onClickBack} />
+        <NavigationHeader.Title>지역 매물 추천받기</NavigationHeader.Title>
+      </NavigationHeader>
+      <div tw="flex-1 min-h-0 overflow-auto">
+        <div tw="py-7 px-5">
+          <div tw="font-bold">입력한 내용으로 매물추천을 받아 볼래요. </div>
+        </div>
+        <Separator />
+        <div tw="py-7 px-5">
+          <div tw="font-bold mb-4">원하는 매물</div>
+          <div>
+            <StyledTable>
+              <Table.Body>
+                <Table.Row>
+                  <Table.Head>지역</Table.Head>
+                  <Table.Data>{address}</Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>거래 종류</Table.Head>
+                  <Table.Data>{buyOrRents === '1' ? '매매' : '전월세'}</Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>가격</Table.Head>
+                  <Table.Data>
+                    {monthlyRentFee ? (
+                      <span>
+                        <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
+                      </span>
+                    ) : (
+                      <span>
+                        <Numeral koreanNumber>{price}</Numeral>
+                      </span>
+                    )}
+                  </Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>관심있는 평수</Table.Head>
+                  <Table.Data>
+                    {minArea}평 ~ {maxArea}평
+                  </Table.Data>
+                </Table.Row>
+                {buyOrRents === '1' && (
+                  <Table.Row>
+                    <Table.Head>매매거래 목적</Table.Head>
+                    <Table.Data>{purpose}</Table.Data>
+                  </Table.Row>
+                )}
+                <Table.Row>
+                  <Table.Head>관심있는 층 수</Table.Head>
+                  <Table.Data>{floor}</Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>추가 조건</Table.Head>
+                  <Table.Data>{falsy(description, '없음')}</Table.Data>
+                </Table.Row>
+              </Table.Body>
+            </StyledTable>
+          </div>
+        </div>
+      </div>
+      <PersistentBottomBar>
+        <Button tw="w-full" size="bigger" onClick={onClickNext} isLoading={isNextButtonLoading}>
+          확인
+        </Button>
+      </PersistentBottomBar>
+    </div>
+  );
+}

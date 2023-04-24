@@ -27,6 +27,7 @@ function getDateType(value?: string) {
 
 export default function makeSuggestRegionalParams(args: Args) {
   const params: Record<string, unknown> = {
+    address: args.bubjungdong.name,
     bubjungdong_code: args.bubjungdong.code,
     realestate_types: `${args.realestateType}`,
     buy_or_rents: args.buyOrRent === BuyOrRent.Buy ? '1' : '2,3',
