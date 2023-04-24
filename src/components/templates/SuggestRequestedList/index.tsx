@@ -20,6 +20,7 @@ interface Props {
   onClickDelete?: () => void;
   onChangeListStyle?: (style: 'default' | 'delete') => void;
   onChangeSuggestChecked?: (id: number, checked: boolean) => void;
+  onClickSuggestItem?: (id: number) => void;
 }
 
 export default function SuggestRequestedList({
@@ -29,6 +30,7 @@ export default function SuggestRequestedList({
   onClickDelete,
   onChangeListStyle,
   onChangeSuggestChecked,
+  onClickSuggestItem,
 }: Props) {
   const handleListItemCheckedStateChange = useCallback(
     (id: number) => (checked: boolean) => {
@@ -79,6 +81,7 @@ export default function SuggestRequestedList({
                     key={item.suggest_id}
                     item={item}
                     onChange={handleListItemCheckedStateChange(item.suggest_id)}
+                    onClick={() => onClickSuggestItem?.(item.suggest_id)}
                     inputType={listStyle === 'delete' ? 'checkbox' : 'switch'}
                     checked={listStyle === 'default' ? item.status === SuggestStatus.Stopped : undefined}
                   />

@@ -101,6 +101,7 @@ const Routes = {
   // 나의 추천요청 / 추천받은매물
   SuggestRequestedList: 'suggestRequestedList',
   SuggestReceivedList: 'suggestReceivedList',
+  SuggestDetail: 'suggestDetail',
 
   EntryMobile: 'm',
 };

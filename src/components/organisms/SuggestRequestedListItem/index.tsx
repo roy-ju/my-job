@@ -2,7 +2,7 @@ import { GetMySuggestListResponse } from '@/apis/suggest/getMySuggestList';
 import { Checkbox, Chip, Moment, Switch } from '@/components/atoms';
 import { RealestateType } from '@/constants/enums';
 import { RealestateTypeString } from '@/constants/strings';
-import { ChangeEventHandler, useCallback, useMemo } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useCallback, useMemo } from 'react';
 
 const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
   [RealestateType.Apartment]: 'nego',
@@ -19,6 +19,7 @@ interface Props {
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: (value: boolean) => void;
+  onClick?: () => void;
 }
 
 export default function SuggestRequestedListItem({
@@ -27,6 +28,7 @@ export default function SuggestRequestedListItem({
   checked,
   defaultChecked,
   onChange,
+  onClick,
 }: Props) {
   const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -35,6 +37,10 @@ export default function SuggestRequestedListItem({
     [onChange],
   );
 
+  const stopPropgation = useCallback<MouseEventHandler<HTMLInputElement>>((e) => {
+    e.stopPropagation();
+  }, []);
+
   const realestateTypes = useMemo(
     () => item?.realestate_types?.split(',').map((d) => Number(d)) ?? [],
     [item?.realestate_types],
@@ -42,10 +48,12 @@ export default function SuggestRequestedListItem({
 
   return (
     <div>
-      <button type="button" tw="w-full text-start px-5 hover:bg-gray-100">
+      <button type="button" tw="w-full text-start px-5 hover:bg-gray-100" onClick={onClick}>
         <div tw="py-5">
           <div tw="flex items-center gap-3">
-            {inputType === 'checkbox' && <Checkbox checked={checked} onChange={handleInputChange} />}
+            {inputType === 'checkbox' && (
+              <Checkbox checked={checked} onChange={handleInputChange} onClick={stopPropgation} />
+            )}
             <div tw="flex gap-1 flex-1">
               {realestateTypes?.map((d) => (
                 <Chip key={d} variant={chipVariantByRealestateType[d]}>
@@ -54,7 +62,12 @@ export default function SuggestRequestedListItem({
               ))}
             </div>
             {inputType === 'switch' && (
-              <Switch defaultChecked={defaultChecked} checked={checked} onChange={handleInputChange} />
+              <Switch
+                defaultChecked={defaultChecked}
+                checked={checked}
+                onChange={handleInputChange}
+                onClick={stopPropgation}
+              />
             )}
           </div>
           <div tw="text-b1 font-bold my-1.5">{item?.title}</div>

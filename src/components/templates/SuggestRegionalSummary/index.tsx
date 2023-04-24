@@ -103,8 +103,18 @@ export default function SuggestRegionalSummary({
                     <Table.Data>
                       <span>{purpose}</span>
                       <span> </span>
-                      {remainingAmountPaymentTime && <Moment format="yyyy.MM.DD">{remainingAmountPaymentTime}</Moment>}
-                      {moveInDate && <Moment format="yyyy.MM.DD">{moveInDate}</Moment>}
+                      {remainingAmountPaymentTime && (
+                        <span>
+                          잔금일:
+                          <Moment format="yyyy.MM.DD">{remainingAmountPaymentTime}</Moment>
+                        </span>
+                      )}
+                      {moveInDate && (
+                        <span>
+                          입주일:
+                          <Moment format="yyyy.MM.DD">{moveInDate}</Moment>
+                        </span>
+                      )}
                       <span> </span>
                       {remainingAmountPaymentTimeType && <span>{TimeTypeString[remainingAmountPaymentTimeType]}</span>}
                       {moveInDateType && <span>{TimeTypeString[moveInDateType]}</span>}

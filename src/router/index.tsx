@@ -234,6 +234,10 @@ const SuggestReceivedList = dynamic(() => import('@/components/pages/pc/SuggestR
   ssr: false,
   loading: () => <Panel />,
 });
+const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -495,6 +499,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.SuggestReceivedList: {
       return <SuggestReceivedList {...props} />;
+    }
+
+    case Routes.SuggestDetail: {
+      return <SuggestDetail {...props} />;
     }
 
     case Routes.Developer: {
