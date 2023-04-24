@@ -78,9 +78,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.SuggestRegionalForm);
   }, [router]);
 
-  const handleReceivedSuggests = useCallback(() => {}, []);
+  const handleReceivedSuggests = useCallback(() => {
+    router.push(Routes.SuggestReceivedList);
+  }, [router]);
 
-  const handleRequestedSuggests = useCallback(() => {}, []);
+  const handleRequestedSuggests = useCallback(() => {
+    router.push(Routes.SuggestRequestedList);
+  }, [router]);
 
   return (
     <Panel width={panelWidth}>

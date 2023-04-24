@@ -1,9 +1,10 @@
-import { BuyOrRent, RealestateType, ListingStatus } from './enums';
+import { BuyOrRent, RealestateType, ListingStatus, TimeType } from './enums';
+import Paths from './paths';
 
 export const RealestateTypeString: Record<number, string> = {
   [RealestateType.Apartment]: '아파트',
   [RealestateType.Officetel]: '오피스텔',
-  [RealestateType.Dasaedae]: '아파트',
+  [RealestateType.Dasaedae]: '빌라',
   [RealestateType.Yunrip]: '빌라',
   [RealestateType.Dandok]: '단독',
   [RealestateType.Dagagoo]: '다가구',
@@ -19,4 +20,28 @@ export const TargetPriceLabel: Record<number, string> = {
   [ListingStatus.Active]: '희망가',
   [ListingStatus.Complete]: '체결가',
   [ListingStatus.CompleteComplete]: '체결가',
+};
+
+export const TimeTypeString: Record<number, string> = {
+  [TimeType.AfterDay]: '이후',
+  [TimeType.BeforeDay]: '이전',
+  [TimeType.Day]: '당일',
+};
+
+export const DefaultListingImage: Record<number, string> = {
+  [RealestateType.Apartment]: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
+  [RealestateType.Officetel]: Paths.DEFAULT_OFFICETEL_IMAGE_PATH,
+  [RealestateType.Dasaedae]: Paths.DEFAULT_DASAEDAE_IMAGE_PATH,
+  [RealestateType.Yunrip]: Paths.DEFAULT_DASAEDAE_IMAGE_PATH,
+  [RealestateType.Dandok]: Paths.DEFAULT_DANDOK_IMAGE_PATH,
+  [RealestateType.Dagagoo]: Paths.DEFAULT_DANDOK_IMAGE_PATH,
+};
+
+export const DefaultListingImageLg: Record<number, string> = {
+  [RealestateType.Apartment]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
+  [RealestateType.Officetel]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
+  [RealestateType.Dasaedae]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
+  [RealestateType.Yunrip]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
+  [RealestateType.Dandok]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
+  [RealestateType.Dagagoo]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
 };

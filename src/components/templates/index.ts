@@ -61,6 +61,9 @@ export { default as MyRegisteredListings } from './MyRegisteredListings';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
+export { default as SuggestReceivedList } from './SuggestReceivedList';
+export { default as SuggestRequestedList } from './SuggestRequestedList';
+export { default as SuggestDetail } from './SuggestDetail';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';
