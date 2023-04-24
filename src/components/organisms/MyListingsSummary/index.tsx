@@ -6,6 +6,7 @@ import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 export interface MyListingsSummaryProps {
   dashboardInfo?: GetDashboardInfoResponse | null;
   onClickCreateListing?: () => void;
+  onClickMyRegisteredListings?: (params: number) => void;
   onClickSuggestRegional?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickReceivedSuggests?: () => void;
@@ -14,6 +15,7 @@ export interface MyListingsSummaryProps {
 export default function MyListingsSummary({
   dashboardInfo,
   onClickCreateListing,
+  onClickMyRegisteredListings,
   onClickSuggestRegional,
   onClickReceivedSuggests,
   onClickRequestedSuggests,
@@ -63,22 +65,42 @@ export default function MyListingsSummary({
       </div>
       <div tw="text-b1 leading-none font-bold mb-4">등록한 매물</div>
       <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <div tw="w-px h-5 bg-gray-300" />
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(1)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">등록신청</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_registering_listing_count ?? 0}</div>
         </Button>
-        <div tw="w-px h-5 bg-gray-300" />
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(2)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">거래중</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_active_listing_count ?? 0}</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(3)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">거래성사</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_contract_complete_listing_count ?? 0}</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(4)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">취소</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_cancelled_listing_count ?? 0}</div>
         </Button>
