@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { useAuth } from '@/hooks/services';
 import { toast } from 'react-toastify';
 import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
+import { DefaultListingImageLg } from '@/constants/strings';
 import PhotoHero from '../PhotoHero';
 
 export function DanjiHeader({
@@ -90,7 +91,7 @@ export function DanjiHeader({
           {danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0 ? (
             <PhotoHero
               itemSize={danjiPhotos.danji_photos.length ?? 0}
-              photoPath={danjiPhotos.danji_photos?.[0]?.full_file_path}
+              photoPath={danjiPhotos.danji_photos?.[0]?.full_file_path ?? DefaultListingImageLg[danji.type]}
               handlePhotos={handlePhotos}
             />
           ) : (

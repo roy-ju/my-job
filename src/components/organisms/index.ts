@@ -53,6 +53,7 @@ export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRequestedListNoData } from './SuggestRequestedListNoData';
 export { default as SuggestReceivedListNoData } from './SuggestReceivedListNoData';
 export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
+export { default as ListingRecommendListItem } from './ListingRecommendListItem';
 
 // 모바일 전용
 export { default as MobDanjiSummary } from './MobDanjiSummary';
