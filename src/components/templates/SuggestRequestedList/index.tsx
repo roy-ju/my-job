@@ -1,12 +1,12 @@
 import { GetMySuggestListResponse } from '@/apis/suggest/getMySuggestList';
-import { Button } from '@/components/atoms';
+import { Button, InfiniteScroll } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { SuggestRequestedListItem, SuggestRequestedListNoData } from '@/components/organisms';
 import { SuggestStatus } from '@/constants/enums';
 import { useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
 
-const ListContainer = styled.div`
+const ListContainer = styled(InfiniteScroll)`
   width: 100%;
   & > div:not(:last-of-type) > button > div {
     ${tw`border-b border-b-gray-300`}
@@ -21,6 +21,7 @@ interface Props {
   onChangeListStyle?: (style: 'default' | 'delete') => void;
   onChangeSuggestChecked?: (id: number, checked: boolean) => void;
   onClickSuggestItem?: (id: number) => void;
+  onNext?: () => void;
 }
 
 export default function SuggestRequestedList({
@@ -31,6 +32,7 @@ export default function SuggestRequestedList({
   onChangeListStyle,
   onChangeSuggestChecked,
   onClickSuggestItem,
+  onNext,
 }: Props) {
   const handleListItemCheckedStateChange = useCallback(
     (id: number) => (checked: boolean) => {
@@ -75,7 +77,7 @@ export default function SuggestRequestedList({
             )}
             {listStyle === 'default' && <div tw="px-5 text-end text-info">추천 그만받기</div>}
             <div tw="flex flex-1 min-h-0 overflow-auto">
-              <ListContainer>
+              <ListContainer onNext={onNext}>
                 {list?.map((item) => (
                   <SuggestRequestedListItem
                     key={item.suggest_id}
