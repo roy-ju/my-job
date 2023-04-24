@@ -3,8 +3,9 @@ import { Forms } from '@/components/templates/SuggestRegionalForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
-import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
-import { toast } from 'react-toastify';
+// import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
+// import { toast } from 'react-toastify';
+import Routes from '@/router/routes';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
 export default function useSuggestRegionalForm(depth: number) {
@@ -149,10 +150,17 @@ export default function useSuggestRegionalForm(depth: number) {
       remainingAmountDateType,
       description,
     });
-    console.log(params);
-    createSuggestRegional(params);
-    toast.success('requested');
-    router.pop();
+
+    router.replace(Routes.SuggestRegionalSummary, {
+      state: {
+        params: JSON.stringify(params),
+      },
+    });
+
+    // console.log(params);
+    // createSuggestRegional(params);
+    // toast.success('requested');
+    // router.pop();
   }, [
     bubjungdong,
     realestateType,
