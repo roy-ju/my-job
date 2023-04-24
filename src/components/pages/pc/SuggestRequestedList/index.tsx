@@ -21,7 +21,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const [popup, setPopup] = useState('none');
 
-  const { data, isLoading, mutate } = useAPI_GetMySuggestList();
+  const { data, isLoading, mutate, increamentPageNumber } = useAPI_GetMySuggestList();
 
   const [itemsToDelete, setItemsToDelete] = useState<Record<number, boolean>>({});
 
@@ -117,6 +117,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         onClickDelete={handleClickDelete}
         onChangeListStyle={handleChangeListStyle}
         onChangeSuggestChecked={handleChangeSuggestChecked}
+        onNext={increamentPageNumber}
       />
       {popup === 'delete' && (
         <OverlayPresenter>
