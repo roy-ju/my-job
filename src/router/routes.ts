@@ -97,6 +97,10 @@ const Routes = {
   SuggestRegionalSummary: 'suggestRegionalSummary',
   SuggestRegionalSuccess: 'suggestRegionalSuccess',
 
+  // 나의 추천요청 / 추천받은매물
+  SuggestRequestedList: 'suggestRequestedList',
+  SuggestReceivedList: 'suggestReceivedList',
+
   EntryMobile: 'm',
 };
 

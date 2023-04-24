@@ -60,6 +60,8 @@ export { default as MyFavoriteList } from './MyFavoriteList';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
+export { default as SuggestReceivedList } from './SuggestReceivedList';
+export { default as SuggestRequestedList } from './SuggestRequestedList';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

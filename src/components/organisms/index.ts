@@ -1,3 +1,4 @@
+// PC + 모바일 공유
 export { default as MapControls } from './MapControls';
 export { default as GlobalNavigation } from './GlobalNavigation';
 export { default as RegionMarker } from './map_markers/RegionMarker';
@@ -7,29 +8,6 @@ export { default as MapPriceSelect } from './MapPriceSelect';
 export { default as MapSearchTextField } from './MapSearchTextField';
 export { default as MapFilter } from './MapFilter';
 export { default as MapToggleButton } from './MapToggleButton';
-
-export { default as MobDanjiSummary } from './MobDanjiSummary';
-export { default as MobGlobalHeader } from './MobGlobalHeader';
-export { default as MobGlobalNavigation } from './MobGlobalNavigation';
-export { default as MobListingSummary } from './MobListingSummary';
-export { default as MobMapAllFilter } from './MobMapAllFilter';
-export { default as MobMapControls } from './MobMapControls';
-export { default as MobMapFilter } from './MobMapFilter';
-export { default as MobMapHeader } from './MobMapHeader';
-export { default as MobMapPositionBar } from './MobMapPositionBar';
-export { default as MobMapPriceSelect } from './MobMapPriceSelect';
-export { default as MobMapToggleButton } from './MobMapToggleButton';
-export { default as MobQnaListItem } from './MobQnaListItem';
-
-export { default as MobRegionMarker } from './map_markers/MobRegionMarker';
-export { default as MobDanjiMarker } from './map_markers/MobDanjiMarker';
-export { default as MobListingMarker } from './map_markers/MobListingMarker';
-export { default as MobSchoolMarker } from './map_markers/MobSchoolMarker';
-
-export { default as MobRegisterForm } from './MobRegisterForm';
-export { default as MobMySummary } from './MobMySummary';
-export { default as MobMyNegoMoney } from './MobMyNegoMoney';
-
 export { default as ChatRoomListNoData } from './ChatRoomListNoData';
 export { default as ChatRoomGuide } from './ChatRoomGuide';
 export { default as ChatRoomListItem } from './ChatRoomListItem';
@@ -63,19 +41,39 @@ export { default as TransactionCondition } from './TransactionCondition';
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as AgentCardCarousel } from './AgentCardCarousel';
 export { default as MyListItem } from './MyListItem';
-
 export { default as DanjiDetailSection } from './DanjiDetail';
 export { default as ListingItem } from './ListingItem';
 export { default as ListingCreateResultStatus } from './ListingCreateResultStatus';
-
 export { default as ListingCtaButtons } from './ListingCtaButtons';
 export { default as BiddingForm } from './BiddingForm';
-
 export { default as ListingSummaryCard } from './ListingSummaryCard';
-
 export { default as PhotoHero } from './PhotoHero';
 export { default as ListingDetailSection } from './ListingDetailSection';
-
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
+export { default as SuggestRequestedListNoData } from './SuggestRequestedListNoData';
+export { default as SuggestReceivedListNoData } from './SuggestReceivedListNoData';
+
+// 모바일 전용
+export { default as MobDanjiSummary } from './MobDanjiSummary';
+export { default as MobGlobalHeader } from './MobGlobalHeader';
+export { default as MobGlobalNavigation } from './MobGlobalNavigation';
+export { default as MobListingSummary } from './MobListingSummary';
+export { default as MobMapAllFilter } from './MobMapAllFilter';
+export { default as MobMapControls } from './MobMapControls';
+export { default as MobMapFilter } from './MobMapFilter';
+export { default as MobMapHeader } from './MobMapHeader';
+export { default as MobMapPositionBar } from './MobMapPositionBar';
+export { default as MobMapPriceSelect } from './MobMapPriceSelect';
+export { default as MobMapToggleButton } from './MobMapToggleButton';
+export { default as MobQnaListItem } from './MobQnaListItem';
+
+export { default as MobRegionMarker } from './map_markers/MobRegionMarker';
+export { default as MobDanjiMarker } from './map_markers/MobDanjiMarker';
+export { default as MobListingMarker } from './map_markers/MobListingMarker';
+export { default as MobSchoolMarker } from './map_markers/MobSchoolMarker';
+
+export { default as MobRegisterForm } from './MobRegisterForm';
+export { default as MobMySummary } from './MobMySummary';
+export { default as MobMyNegoMoney } from './MobMyNegoMoney';
 
 export * from './popups';
