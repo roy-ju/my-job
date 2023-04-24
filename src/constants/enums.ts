@@ -117,6 +117,13 @@ export enum SuggestStatus {
   UserDeleted = 3,
 }
 
+export enum SuggestRecommendStatus {
+  Sent = 1,
+  Accepted = 2,
+  NotInterested = 3,
+  Cancelled = 4,
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:

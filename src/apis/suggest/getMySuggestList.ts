@@ -1,3 +1,4 @@
+import { useAuth } from '@/hooks/services';
 import { useCallback, useMemo } from 'react';
 import useSWRInfinite from 'swr/infinite';
 
@@ -20,7 +21,15 @@ function getKey(size: number, previousPageData: GetMySuggestListResponse) {
 }
 
 export default function useAPI_GetMySuggestList() {
-  const { data: dataList, size, setSize, isLoading, mutate } = useSWRInfinite<GetMySuggestListResponse>(getKey);
+  const { user } = useAuth();
+
+  const {
+    data: dataList,
+    size,
+    setSize,
+    isLoading,
+    mutate,
+  } = useSWRInfinite<GetMySuggestListResponse>(user ? getKey : () => null);
   const data = useMemo(() => {
     if (!dataList) return [];
     return dataList

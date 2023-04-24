@@ -9,7 +9,7 @@ import ShareIcon from '@/assets/icons/share.svg';
 import { useMemo, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
-import { RealestateTypeString } from '@/constants/strings';
+import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
 import { BuyOrRent } from '@/constants/enums';
 import UserStatusStrings from './strings';
@@ -103,7 +103,10 @@ export default function ListingDetail({
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <PhotoHero
           itemSize={listingDetail?.photos?.length ?? 0}
-          photoPath={listingDetail?.photos?.[0]?.full_file_path}
+          photoPath={
+            listingDetail?.photos?.[0]?.full_file_path ??
+            DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]
+          }
         />
         <div tw="px-5 py-6">
           <ListingDetailSection.Summary
