@@ -2,6 +2,7 @@ import { GetMySuggestDetailResponse } from '@/apis/suggest/getMySuggestDetail';
 import { Moment, Numeral } from '@/components/atoms';
 import { NavigationHeader, Table, Tabs } from '@/components/molecules';
 import { RealestateTypeString, TimeTypeString } from '@/constants/strings';
+import falsy from '@/utils/falsy';
 import { useMemo } from 'react';
 import tw, { styled } from 'twin.macro';
 
@@ -34,7 +35,7 @@ export default function SuggestDetail({ suggestData, onClickBack }: Props) {
     <div tw="h-full flex flex-col">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
-        <NavigationHeader.Title>지역</NavigationHeader.Title>
+        <NavigationHeader.Title>{suggestData?.request_target_text}</NavigationHeader.Title>
       </NavigationHeader>
       <Tabs>
         <Tabs.Tab value={0}>
@@ -73,7 +74,7 @@ export default function SuggestDetail({ suggestData, onClickBack }: Props) {
               </Table.Row>
               <Table.Row>
                 <Table.Head>지역</Table.Head>
-                <Table.Data>서울 강남구 도곡동</Table.Data>
+                <Table.Data>{suggestData?.request_target_text}</Table.Data>
               </Table.Row>
               <Table.Row>
                 <Table.Head>부동산 유형</Table.Head>
@@ -98,10 +99,12 @@ export default function SuggestDetail({ suggestData, onClickBack }: Props) {
                   )}
                 </Table.Data>
               </Table.Row>
-              <Table.Row>
-                <Table.Head>관심있는 평수</Table.Head>
-                <Table.Data>{suggestData?.pyoung_text}</Table.Data>
-              </Table.Row>
+              {suggestData?.pyoung_text && (
+                <Table.Row>
+                  <Table.Head>관심있는 평수</Table.Head>
+                  <Table.Data>{suggestData?.pyoung_text}</Table.Data>
+                </Table.Row>
+              )}
               {suggestData?.buy_or_rents === '1' && (
                 <Table.Row>
                   <Table.Head>매매거래 목적</Table.Head>
@@ -134,7 +137,7 @@ export default function SuggestDetail({ suggestData, onClickBack }: Props) {
               </Table.Row>
               <Table.Row>
                 <Table.Head>추가 조건</Table.Head>
-                <Table.Data>{suggestData?.note}</Table.Data>
+                <Table.Data>{falsy(suggestData?.note, '없음')}</Table.Data>
               </Table.Row>
             </Table.Body>
           </StyledTable>
