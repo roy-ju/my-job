@@ -35,15 +35,6 @@ function getKey(orderBy: number) {
   };
 }
 
-/*
-function getKey(size: number, previousPageData: GetMyFavoriteListingListResponse) {
-  const previousLength = previousPageData?.list?.length ?? 0;
-  if (previousPageData && previousLength < 1) return null;
-  console.log(size);
-  return ['/my/favorite/listings', { page_number: size + 1, page_size: 10, order_by: 3 }];
-}
-*/
-
 export default function useAPI_GetMyFavoriteListingList(orderBy: number) {
   const { user } = useAuth();
   const {
