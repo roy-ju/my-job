@@ -59,6 +59,10 @@ export default memo(({ depth, panelWidth }: Props) => {
         purpose={params?.purpose}
         floor={params?.floors}
         description={params?.note}
+        remainingAmountPaymentTime={params.remaining_amount_payment_time}
+        remainingAmountPaymentTimeType={params.remaining_amount_payment_time_type}
+        moveInDate={params.move_in_date}
+        moveInDateType={params.move_in_date_type}
       />
     </Panel>
   );

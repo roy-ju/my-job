@@ -1,5 +1,6 @@
-import { Button, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
+import { Button, Moment, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader, Table } from '@/components/molecules';
+import { TimeTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
 import tw, { styled } from 'twin.macro';
 
@@ -23,6 +24,10 @@ interface Props {
   purpose?: string;
   floor?: string;
   description?: string;
+  remainingAmountPaymentTime?: string;
+  remainingAmountPaymentTimeType?: number;
+  moveInDate?: string;
+  moveInDateType?: number;
   isNextButtonLoading?: boolean;
   onClickBack?: () => void;
   onClickNext?: () => void;
@@ -38,6 +43,10 @@ export default function SuggestRegionalSummary({
   purpose,
   floor,
   description,
+  remainingAmountPaymentTime,
+  remainingAmountPaymentTimeType,
+  moveInDate,
+  moveInDateType,
   isNextButtonLoading,
   onClickBack,
   onClickNext,
@@ -80,16 +89,26 @@ export default function SuggestRegionalSummary({
                     )}
                   </Table.Data>
                 </Table.Row>
-                <Table.Row>
-                  <Table.Head>관심있는 평수</Table.Head>
-                  <Table.Data>
-                    {minArea}평 ~ {maxArea}평
-                  </Table.Data>
-                </Table.Row>
+                {maxArea && (
+                  <Table.Row>
+                    <Table.Head>관심있는 평수</Table.Head>
+                    <Table.Data>
+                      {minArea}평 ~ {maxArea}평
+                    </Table.Data>
+                  </Table.Row>
+                )}
                 {buyOrRents === '1' && (
                   <Table.Row>
                     <Table.Head>매매거래 목적</Table.Head>
-                    <Table.Data>{purpose}</Table.Data>
+                    <Table.Data>
+                      <span>{purpose}</span>
+                      <span> </span>
+                      {remainingAmountPaymentTime && <Moment format="yyyy.MM.DD">{remainingAmountPaymentTime}</Moment>}
+                      {moveInDate && <Moment format="yyyy.MM.DD">{moveInDate}</Moment>}
+                      <span> </span>
+                      {remainingAmountPaymentTimeType && <span>{TimeTypeString[remainingAmountPaymentTimeType]}</span>}
+                      {moveInDateType && <span>{TimeTypeString[moveInDateType]}</span>}
+                    </Table.Data>
                   </Table.Row>
                 )}
                 <Table.Row>
