@@ -43,6 +43,7 @@ const Routes = {
   MyDetailMobile: 'detail',
 
   MyFavoriteList: 'myFavoriteList',
+  MyRegisteredListingList: 'myRegisteredListings',
 
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',

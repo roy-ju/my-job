@@ -64,6 +64,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.ListingCreateAddress);
   }, [router]);
 
+  const handleClickMyRegisteredListings = useCallback(
+    (params: number) => {
+      router.push(Routes.MyRegisteredListingList, {
+        searchParams: { tab: `${params}` },
+      });
+    },
+    [router],
+  );
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -83,6 +92,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
         onClickCreateListing={handleCreateListing}
+        onClickMyRegisteredListings={handleClickMyRegisteredListings}
       />
     </Panel>
   );
