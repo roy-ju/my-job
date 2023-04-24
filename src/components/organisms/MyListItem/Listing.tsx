@@ -141,7 +141,9 @@ export default function Listing({
             <Chip variant={setChipVariant()}>{renderRealestateType()}</Chip>
             {eubmyundong && <Chip variant="gray">{eubmyundong}</Chip>}
           </div>
-          <LikeButton onLike={() => onToggleListingLike?.(listingId, isFavorite)} isFavorite={isFavorite} />
+          {isFavorite && (
+            <LikeButton onLike={() => onToggleListingLike?.(listingId, isFavorite)} isFavorite={isFavorite} />
+          )}
         </div>
         <div tw="font-bold text-b1 flex gap-1.5 items-center">
           {quickSale && <QuickSaleChip />} {renderBuyOrRentType()}{' '}

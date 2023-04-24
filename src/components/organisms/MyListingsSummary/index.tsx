@@ -101,7 +101,7 @@ export default function MyListingsSummary({
           variant="ghost"
           tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
         >
-          <div tw="text-info text-gray-700 leading-6">취소</div>
+          <div tw="text-info text-gray-700 leading-6">지난거래</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_cancelled_listing_count ?? 0}</div>
         </Button>
       </div>

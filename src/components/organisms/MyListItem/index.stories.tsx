@@ -21,6 +21,12 @@ export const ListingItem: ComponentStory<typeof MyListItem.Listing> = (args) => 
   </Panel>
 );
 
+export const RegisteringListingItem: ComponentStory<typeof MyListItem.RegisteringListing> = (args) => (
+  <Panel>
+    <MyListItem.RegisteringListing {...args} />
+  </Panel>
+);
+
 DanjiItem.args = {
   danjiId: 3,
   pnu: '4113510900107380000',
@@ -42,6 +48,27 @@ DanjiItem.args = {
 };
 
 ListingItem.args = {
+  listingId: 1301,
+  thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
+  listingTitle: '106동 1601호',
+  realestateType: 10,
+  jeonyongArea: '84.55',
+  floorDescription: '고층',
+  totalFloor: '18',
+  direction: '남향',
+  buyOrRent: 1,
+  quickSale: true,
+  isParticipating: false,
+  viewCount: 3,
+  participantsCount: 1,
+  tradeOrDepositPrice: 16000000000,
+  monthlyRentFee: 0,
+  eubmyundong: '신갈동',
+  isFavorite: true,
+  labelText: '협의중',
+};
+
+RegisteringListingItem.args = {
   listingId: 1301,
   thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
   listingTitle: '106동 1601호',
