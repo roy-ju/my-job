@@ -30,6 +30,10 @@ const MyFavoriteList = dynamic(() => import('@/components/pages/pc/MyFavoriteLis
   ssr: false,
   loading: () => <Panel />,
 });
+const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegisteredListings'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
   loading: () => <Panel />,
@@ -257,6 +261,9 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.MyFavoriteList: {
       return <MyFavoriteList {...props} />;
+    }
+    case Routes.MyRegisteredListingList: {
+      return <MyRegisteredListings {...props} />;
     }
 
     case Routes.NotificationList: {

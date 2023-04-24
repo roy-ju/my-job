@@ -10,11 +10,13 @@ export interface MyListingsSummaryProps {
   waitingCount?: number;
   registeredCount?: number;
   onClickCreateListing?: () => void;
+  onClickMyRegisteredListings?: (params: number) => void;
 }
 
 export default function MyListingsSummary({
   totalParticipatingCount = 0,
   onClickCreateListing,
+  onClickMyRegisteredListings,
 }: MyListingsSummaryProps) {
   return (
     <div tw="bg-white px-5 py-10 flex flex-col">
@@ -37,22 +39,42 @@ export default function MyListingsSummary({
       </div>
       <div tw="text-b1 leading-none font-bold mb-4">등록한 매물</div>
       <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(1)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">전체</div>
           <div tw="text-b1 font-bold leading-6 text-red-1000">0</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(2)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">등록신청</div>
           <div tw="text-b1 font-bold leading-6">0</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(3)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">진행중</div>
           <div tw="text-b1 font-bold leading-6">0</div>
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
-        <Button size="none" variant="ghost" tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors">
+        <Button
+          onClick={() => onClickMyRegisteredListings?.(4)}
+          size="none"
+          variant="ghost"
+          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+        >
           <div tw="text-info text-gray-700 leading-6">종료</div>
           <div tw="text-b1 font-bold leading-6">0</div>
         </Button>
