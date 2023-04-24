@@ -4,12 +4,14 @@ import BellIcon from '@/assets/icons/bell.svg';
 import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
+import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
 interface Props {
   isLoading?: boolean;
   loggedIn?: boolean;
   nickname?: string;
   unreadNotificationCount?: number;
+  dashboardInfo?: GetDashboardInfoResponse | null;
   onClickLogin?: () => void;
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
@@ -23,6 +25,9 @@ interface Props {
   onClickServiceInfo?: () => void;
   onClickCreateListing?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
+  onClickSuggestRegional?: () => void;
+  onClickReceivedSuggests?: () => void;
+  onClickRequestedSuggests?: () => void;
 }
 
 export default function My({
@@ -30,6 +35,7 @@ export default function My({
   loggedIn,
   nickname,
   unreadNotificationCount = 0,
+  dashboardInfo,
   onClickLogin,
   onClickNotificationList,
   onClickMyDetail,
@@ -43,6 +49,9 @@ export default function My({
   onClickServiceInfo,
   onClickCreateListing,
   onClickMyRegisteredListings,
+  onClickSuggestRegional,
+  onClickReceivedSuggests,
+  onClickRequestedSuggests,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -76,10 +85,13 @@ export default function My({
               onClickCoupons={onClickCoupons}
               onClickNegoPoint={onClickNegoPoint}
             />
-            <Separator />
             <MyListingsSummary
+              dashboardInfo={dashboardInfo}
               onClickCreateListing={onClickCreateListing}
               onClickMyRegisteredListings={onClickMyRegisteredListings}
+              onClickSuggestRegional={onClickSuggestRegional}
+              onClickReceivedSuggests={onClickReceivedSuggests}
+              onClickRequestedSuggests={onClickRequestedSuggests}
             />
           </>
         )}

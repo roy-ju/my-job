@@ -58,6 +58,8 @@ export { default as BiddingSummary } from './BiddingSummary';
 export { default as BiddingSuccess } from './BiddingSuccess';
 export { default as MyFavoriteList } from './MyFavoriteList';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
+export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
+export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

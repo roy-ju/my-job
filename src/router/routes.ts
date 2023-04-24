@@ -95,6 +95,8 @@ const Routes = {
 
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
+  SuggestRegionalSummary: 'suggestRegionalSummary',
+  SuggestRegionalSuccess: 'suggestRegionalSuccess',
 
   EntryMobile: 'm',
 };

@@ -218,6 +218,14 @@ const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestR
   ssr: false,
   loading: () => <Panel />,
 });
+const SuggestRegionalSummary = dynamic(() => import('@/components/pages/pc/SuggestRegionalSummary'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const SuggestRegionalSuccess = dynamic(() => import('@/components/pages/pc/SuggestRegionalSuccess'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -463,6 +471,14 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.SuggestRegionalForm: {
       return <SuggestRegionalForm {...props} />;
+    }
+
+    case Routes.SuggestRegionalSummary: {
+      return <SuggestRegionalSummary {...props} />;
+    }
+
+    case Routes.SuggestRegionalSuccess: {
+      return <SuggestRegionalSuccess {...props} />;
     }
 
     case Routes.Developer: {
