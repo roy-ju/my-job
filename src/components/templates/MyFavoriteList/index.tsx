@@ -54,7 +54,7 @@ export default function MyFavoriteList({
 
   const renderList = () => {
     let contents: JSX.Element;
-    if (activeTab === 0 && danjiList?.length > 0) {
+    if (activeTab === 0 && listingList.length > 0) {
       contents = (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={onListingNext}>
           {renderDropdown()}
