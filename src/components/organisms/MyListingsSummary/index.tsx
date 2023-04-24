@@ -24,14 +24,14 @@ export default function MyListingsSummary({
         <div tw="flex py-3">
           <Button onClick={onClickRequestedSuggests} variant="ghost" size="none" tw="flex-1 h-[44px] hover:bg-gray-200">
             <div>
-              <div tw="font-bold text-blue-1000">{dashboardInfo?.suggest_sent_count ?? 0}</div>
+              <div tw="text-b1 font-bold text-blue-1000">{dashboardInfo?.suggest_sent_count ?? 0}</div>
               <div tw="text-info text-gray-700">나의 추천 요청</div>
             </div>
           </Button>
           <div tw="w-px mx-4 h-[44px] bg-gray-300" />
           <Button onClick={onClickReceivedSuggests} variant="ghost" size="none" tw="flex-1 h-[44px] hover:bg-gray-200">
             <div>
-              <div tw="font-bold text-red-1000">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
+              <div tw="text-b1 font-bold text-red-1000">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
               <div tw="text-info text-gray-700">추천받은 매물</div>
             </div>
           </Button>
