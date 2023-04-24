@@ -3,7 +3,7 @@ import { BuyOrRent, RealestateType, ListingStatus } from './enums';
 export const RealestateTypeString: Record<number, string> = {
   [RealestateType.Apartment]: '아파트',
   [RealestateType.Officetel]: '오피스텔',
-  [RealestateType.Dasaedae]: '아파트',
+  [RealestateType.Dasaedae]: '빌라',
   [RealestateType.Yunrip]: '빌라',
   [RealestateType.Dandok]: '단독',
   [RealestateType.Dagagoo]: '다가구',
