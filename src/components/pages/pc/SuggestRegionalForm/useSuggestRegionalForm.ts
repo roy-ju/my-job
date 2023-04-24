@@ -3,8 +3,6 @@ import { Forms } from '@/components/templates/SuggestRegionalForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
-// import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
-// import { toast } from 'react-toastify';
 import Routes from '@/router/routes';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
@@ -156,11 +154,6 @@ export default function useSuggestRegionalForm(depth: number) {
         params: JSON.stringify(params),
       },
     });
-
-    // console.log(params);
-    // createSuggestRegional(params);
-    // toast.success('requested');
-    // router.pop();
   }, [
     bubjungdong,
     realestateType,
@@ -264,7 +257,7 @@ export default function useSuggestRegionalForm(depth: number) {
     }
 
     if (currentForm === Forms.RealestateType) {
-      if (!realestateType) {
+      if (!realestateType.length) {
         setNextButtonDisabled(true);
       }
     }
@@ -282,7 +275,7 @@ export default function useSuggestRegionalForm(depth: number) {
     }
 
     if (currentForm === Forms.Floor) {
-      if (!floor) {
+      if (!floor.length) {
         setNextButtonDisabled(true);
       }
     }
