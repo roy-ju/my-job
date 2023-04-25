@@ -42,7 +42,7 @@ export default function MyFavoriteList({
 }: MyFavoriteListProps) {
   const [activeTab, setActiveTab] = useState(0);
 
-  const Divider = tw.div`border-b border-gray-300 my-5`;
+  const Divider = tw.div`border-b border-gray-300 mx-5`;
 
   const renderDropdown = () => (
     <Dropdown tw="mt-5 ml-5 w-28" onChange={handleChangeListingSortingType} size="medium" value={listingSortingType}>
@@ -58,7 +58,7 @@ export default function MyFavoriteList({
       contents = (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={onListingNext}>
           {renderDropdown()}
-          <div tw="mx-5 my-4">
+          <div>
             {listingList?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
