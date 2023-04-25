@@ -1,6 +1,7 @@
 import { GetMySuggestDetailResponse } from '@/apis/suggest/getMySuggestDetail';
 import { Moment, Numeral } from '@/components/atoms';
 import { Table } from '@/components/molecules';
+import { RealestateType } from '@/constants/enums';
 import { RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
 import { useMemo } from 'react';
@@ -23,10 +24,14 @@ interface RequestDetailProps {
 export default function RequestDetail({ suggestData }: RequestDetailProps) {
   const realestateTypes = useMemo(
     () =>
-      suggestData?.realestate_types
-        ?.split(',')
-        .map((item) => RealestateTypeString[Number(item)])
-        .join(', '),
+      Array.from(
+        new Set(
+          suggestData?.realestate_types
+            ?.split(',')
+            .map((d) => Number(d))
+            .map((d) => (d === RealestateType.Yunrip ? RealestateType.Dasaedae : d)) ?? [],
+        ),
+      ).map((item) => RealestateTypeString[item]),
     [suggestData?.realestate_types],
   );
 
