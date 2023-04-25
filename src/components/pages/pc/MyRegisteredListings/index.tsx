@@ -32,6 +32,17 @@ export default memo(({ depth, panelWidth }: Props) => {
     myCancelledListingData,
     myCancelledListingIncrementalPageNumber,
     myCancelledListingIsLoading,
+
+    isDeleteActive,
+    isPopupActive,
+    handleChangeCheckbox,
+    handleActiveDelete,
+    handleCancelDelete,
+    handleOpenPopup,
+    handleClosePopup,
+
+    checkedListingIdList,
+    handleDeleteListingList,
   } = useMyRegisteredListings();
   const [tab, setTab] = useState(Number(router.query.tab));
   const [isLoading, setIsLoading] = useState(false);
@@ -68,6 +79,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   };
 
+  const handleNavigateToListingCreate = () => {
+    router.replace(Routes.ListingCreateAddress);
+  };
+
   const handleChangeListingTab = useCallback(
     (newValue: number) => {
       const searchParams: Record<string, string> = {
@@ -94,6 +109,16 @@ export default memo(({ depth, panelWidth }: Props) => {
         tab={tab}
         onChangeListingTab={handleChangeListingTab}
         onClickListingItem={handleClickListingItem}
+        onClickNavigateToListingCreate={handleNavigateToListingCreate}
+        isDeleteActive={isDeleteActive}
+        isPopupActive={isPopupActive}
+        checkedListingIdList={checkedListingIdList}
+        onChangeCheckbox={handleChangeCheckbox}
+        onDeleteListingList={handleDeleteListingList}
+        onActiveDelete={handleActiveDelete}
+        onCancelDelete={handleCancelDelete}
+        onOpenPopup={handleOpenPopup}
+        onClosePopup={handleClosePopup}
         myRegisteringListingCount={myRegisteringListingCount ?? 0}
         myRegisteringListingData={myRegisteringListingData ?? []}
         myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}

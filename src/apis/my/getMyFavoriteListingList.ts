@@ -21,6 +21,7 @@ export interface IFavoriteListingListItem {
   eubmyundong: string;
   is_favorite: boolean;
   label_text: string;
+  status_text: string;
 }
 
 export interface GetMyFavoriteListingListResponse {

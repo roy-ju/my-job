@@ -36,6 +36,7 @@ Default.args = {
       eubmyundong: '신갈동',
       isFavorite: true,
       labelText: '제안중',
+      statusText: '',
     },
     {
       listingId: 1301,
@@ -56,6 +57,7 @@ Default.args = {
       eubmyundong: '신갈동',
       isFavorite: true,
       labelText: '제안중',
+      statusText: '',
     },
     {
       listingId: 1301,
@@ -76,6 +78,7 @@ Default.args = {
       eubmyundong: '신갈동',
       isFavorite: true,
       labelText: '제안중',
+      statusText: '',
     },
   ],
   danjiList: [

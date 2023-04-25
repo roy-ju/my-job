@@ -1,6 +1,12 @@
 import useAPI_GetMyRegisteredListingList from '@/apis/my/getMyRegisteredListingList';
+import { useState } from 'react';
+import deleteMyListing from '@/apis/my/deleteMyListing';
 
 export default function useMyRegisteredListings() {
+  const [isDeleteActive, setIsDeleteActive] = useState(false);
+  const [isPopupActive, setIsPopupActive] = useState(false);
+  const [checkedListingIdList, setCheckedListingIdList] = useState<number[]>([]);
+
   const {
     count: myRegisteringListingCount,
     data: myRegisteringListingData,
@@ -30,6 +36,43 @@ export default function useMyRegisteredListings() {
     isLoading: myCancelledListingIsLoading,
   } = useAPI_GetMyRegisteredListingList(4);
 
+  const handleChangeCheckbox = (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    if (checked) {
+      setCheckedListingIdList([...checkedListingIdList, listingId]);
+    } else {
+      setCheckedListingIdList(checkedListingIdList.filter((id) => id !== listingId));
+    }
+  };
+
+  const handleDeleteListingList = async () => {
+    await Promise.all(
+      checkedListingIdList?.map(async (listingId) => {
+        deleteMyListing({ listing_id: listingId });
+      }),
+    );
+    await myRegisteringListingMutate();
+    setIsDeleteActive(false);
+    setIsPopupActive(false);
+  };
+
+  const handleActiveDelete = () => {
+    setIsDeleteActive(true);
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteActive(false);
+    setCheckedListingIdList([]);
+  };
+
+  const handleOpenPopup = () => {
+    setIsPopupActive(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupActive(false);
+  };
+
   return {
     myRegisteringListingCount,
     myRegisteringListingData,
@@ -54,5 +97,16 @@ export default function useMyRegisteredListings() {
     myCancelledListingIncrementalPageNumber,
     myCancelledListingMutate,
     myCancelledListingIsLoading,
+
+    isDeleteActive,
+    isPopupActive,
+    handleDeleteListingList,
+    handleActiveDelete,
+    handleCancelDelete,
+    handleOpenPopup,
+    handleClosePopup,
+
+    checkedListingIdList,
+    handleChangeCheckbox,
   };
 }

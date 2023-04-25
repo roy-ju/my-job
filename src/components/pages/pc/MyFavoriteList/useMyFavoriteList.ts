@@ -111,6 +111,7 @@ export default function useMyFavoriteList() {
         eubmyundong: item.eubmyundong,
         isFavorite: item.is_favorite,
         labelText: item.label_text,
+        statusText: item.status_text,
       })),
     [listings],
   );

@@ -4,6 +4,8 @@ import { MyListItem } from '@/components/organisms';
 import { IMyListingListItem } from '@/components/organisms/MyListItem/Listing';
 import { InfiniteScroll } from '@/components/atoms';
 
+import NoDataUI from './NoDataUI';
+
 const Wrapper = tw.div`py-2`;
 
 const Divider = tw.div`border-b border-gray-300 mx-5`;
@@ -17,7 +19,12 @@ enum MyRegisteredListingStatus {
 
 export interface ListingsRendererProps {
   tabStatus: number;
+  isDeleteActive: boolean;
+  checkedListingIdList: number[];
+
   onClickListingItem: (listingId: number) => () => void;
+  onClickNavigateToListingCreate: () => void;
+  onChangeCheckbox: (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
 
   myRegisteringListingData: IMyListingListItem[];
   myActiveListingData: IMyListingListItem[];
@@ -32,7 +39,12 @@ export interface ListingsRendererProps {
 
 export default function ListingsRenderer({
   tabStatus,
+  isDeleteActive,
+  checkedListingIdList,
+
   onClickListingItem,
+  onClickNavigateToListingCreate,
+  onChangeCheckbox,
 
   myRegisteringListingData,
   myContractCompleteListingData,
@@ -45,20 +57,31 @@ export default function ListingsRenderer({
   myCancelledListingIncrementalPageNumber,
 }: ListingsRendererProps) {
   switch (tabStatus) {
-    case MyRegisteredListingStatus.RegisteringListing:
+    case MyRegisteredListingStatus.RegisteringListing: {
+      if (!myRegisteringListingData?.length) return <NoDataUI tabStatus={1} onClick={onClickNavigateToListingCreate} />;
+
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myRegisteringListingIncrementalPageNumber}>
           <Wrapper>
             {myRegisteringListingData?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.RegisteringListing onClickListingItem={onClickListingItem} {...item} />
+                <MyListItem.RegisteringListing
+                  isDeleteActive={isDeleteActive}
+                  checkedListingIdList={checkedListingIdList}
+                  onClickListingItem={onClickListingItem}
+                  onChangeCheckbox={onChangeCheckbox}
+                  {...item}
+                />
               </React.Fragment>
             ))}
           </Wrapper>
         </InfiniteScroll>
       );
-    case MyRegisteredListingStatus.ActiveListing:
+    }
+    case MyRegisteredListingStatus.ActiveListing: {
+      if (!myActiveListingData?.length) return <NoDataUI tabStatus={2} onClick={onClickNavigateToListingCreate} />;
+
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myActiveListingIncrementalPageNumber}>
           <Wrapper>
@@ -71,7 +94,11 @@ export default function ListingsRenderer({
           </Wrapper>
         </InfiniteScroll>
       );
-    case MyRegisteredListingStatus.ContractCompleteListing:
+    }
+    case MyRegisteredListingStatus.ContractCompleteListing: {
+      if (!myContractCompleteListingData?.length)
+        return <NoDataUI onClick={onClickNavigateToListingCreate} tabStatus={3} />;
+
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myContractCompleteListingIncrementalPageNumber}>
           <Wrapper>
@@ -84,7 +111,10 @@ export default function ListingsRenderer({
           </Wrapper>
         </InfiniteScroll>
       );
-    case MyRegisteredListingStatus.CancelledListing:
+    }
+    case MyRegisteredListingStatus.CancelledListing: {
+      if (!myCancelledListingData?.length) return <NoDataUI onClick={onClickNavigateToListingCreate} tabStatus={4} />;
+
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myCancelledListingIncrementalPageNumber}>
           <Wrapper>
@@ -97,6 +127,7 @@ export default function ListingsRenderer({
           </Wrapper>
         </InfiniteScroll>
       );
+    }
     default:
       return <Wrapper />;
   }

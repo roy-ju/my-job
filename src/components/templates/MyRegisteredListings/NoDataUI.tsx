@@ -16,15 +16,15 @@ const title = {
   [MyRegisteredListingStatus.CancelledListing]: '지난거래 매물이 없습니다.',
 };
 
-export default function NoDataUI({ tabStatus }: { tabStatus: 1 | 2 | 3 | 4 }) {
+export default function NoDataUI({ tabStatus, onClick }: { tabStatus: 1 | 2 | 3 | 4; onClick: () => void }) {
   return (
-    <div tw="flex-1 min-h-0">
+    <div tw="flex-1 min-h-0 mt-7">
       <Information>
         <div tw="flex flex-col gap-4 items-center text-center">
           <ExclamationMark />
           <Information.Title>{title[tabStatus]}</Information.Title>
           <Information.Contents>거래가 필요한 매물을 등록하고 온라인으로 네고를 시작해보세요</Information.Contents>
-          <Button />
+          <Button onClick={onClick}>매물등록 신청하기</Button>
         </div>
       </Information>
     </div>

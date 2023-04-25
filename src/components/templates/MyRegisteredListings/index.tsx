@@ -1,11 +1,23 @@
-import { NavigationHeader, Tabs } from '@/components/molecules';
+import { Tabs } from '@/components/molecules';
 import { IMyListingListItem } from '@/components/organisms/MyListItem/Listing';
+import HeaderRenderer from './HeaderRenderer';
 import ListingsRenderer from './ListingsRenderer';
 
 export interface MyRegisteredListingsProps {
   tab: number;
   onChangeListingTab: (newValue: number) => void;
   onClickListingItem: (listingId: number) => () => void;
+  onClickNavigateToListingCreate: () => void;
+
+  isDeleteActive: boolean;
+  isPopupActive: boolean;
+  checkedListingIdList: number[];
+  onChangeCheckbox: (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDeleteListingList: () => void;
+  onActiveDelete: () => void;
+  onCancelDelete: () => void;
+  onOpenPopup: () => void;
+  onClosePopup: () => void;
 
   myRegisteringListingCount: number;
   myRegisteringListingData: IMyListingListItem[];
@@ -25,6 +37,18 @@ export default function MyRegisteredListings({
   tab,
   onChangeListingTab,
   onClickListingItem,
+  onClickNavigateToListingCreate,
+
+  isDeleteActive,
+  isPopupActive,
+  checkedListingIdList,
+  onChangeCheckbox,
+  onDeleteListingList,
+  onActiveDelete,
+  onCancelDelete,
+  onOpenPopup,
+  onClosePopup,
+
   myRegisteringListingCount,
   myRegisteringListingData,
   myRegisteringListingIncrementalPageNumber,
@@ -40,9 +64,16 @@ export default function MyRegisteredListings({
 }: MyRegisteredListingsProps) {
   return (
     <div tw="h-full flex flex-col">
-      <NavigationHeader>
-        <NavigationHeader.Title>등록한 매물</NavigationHeader.Title>
-      </NavigationHeader>
+      <HeaderRenderer
+        tabStatus={tab}
+        isDeleteActive={isDeleteActive}
+        isPopupActive={isPopupActive}
+        onDeleteListingList={onDeleteListingList}
+        onActiveDelete={onActiveDelete}
+        onCancelDelete={onCancelDelete}
+        onOpenPopup={onOpenPopup}
+        onClosePopup={onClosePopup}
+      />
       <Tabs value={tab} onChange={onChangeListingTab}>
         <Tabs.Tab value={1}>
           <span tw="text-b2">
@@ -68,7 +99,11 @@ export default function MyRegisteredListings({
       </Tabs>
       <ListingsRenderer
         tabStatus={tab}
+        isDeleteActive={isDeleteActive}
+        checkedListingIdList={checkedListingIdList}
+        onChangeCheckbox={onChangeCheckbox}
         onClickListingItem={onClickListingItem}
+        onClickNavigateToListingCreate={onClickNavigateToListingCreate}
         myRegisteringListingData={myRegisteringListingData}
         myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
         myActiveListingData={myActiveListingData}

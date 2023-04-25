@@ -28,6 +28,7 @@ export interface IMyListingListItem {
   eubmyundong: string;
   isFavorite: boolean;
   labelText: string;
+  statusText: string;
 }
 
 export interface ListingProps extends IMyListingListItem {
