@@ -15,6 +15,7 @@ import { updateVH } from '@/utils/updateVH';
 import ToastContainer from '@/lib/react-toastify';
 import { usePlatform } from '@/hooks/utils';
 import Head from 'next/head';
+import AppConfig from '@/config';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -51,6 +52,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
+        <title>{AppConfig.title}</title>
+        <meta name="description" content={AppConfig.description} />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
       </Head>
       <Script

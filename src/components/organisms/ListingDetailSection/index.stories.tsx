@@ -162,3 +162,5 @@ export const Qna = () => (
     ]}
   />
 );
+
+export const Faq = () => <ListingDetailSection.Faq />;

@@ -1,7 +1,6 @@
 import { Dropdown } from '@/components/molecules';
-import { MobGlobalHeader } from '@/components/organisms';
+import { FaqList, MobGlobalHeader } from '@/components/organisms';
 import { useState } from 'react';
-import MobList from './MobList';
 
 export default function MobFAQ() {
   const [selectedValue, setSelectedValue] = useState('거래에 참여하고 싶어요.');
@@ -23,7 +22,9 @@ export default function MobFAQ() {
         </Dropdown>
       </div>
       <div tw="h-3 bg-gray-100 shrink-0" />
-      <MobList />
+      <div tw="py-5">
+        <FaqList />
+      </div>
     </div>
   );
 }
