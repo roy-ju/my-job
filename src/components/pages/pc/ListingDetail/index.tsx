@@ -9,6 +9,8 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 import { toast } from 'react-toastify';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
   depth: number;
@@ -17,11 +19,23 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth, listingID }: Props) => {
+  const { redirectable } = useListingDetailRedirector(listingID, depth);
+
   const router = useRouter(depth);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+
   // const { data: qnaData } = useAPI_GetListingQnaList(statusData?.can_access ? listingID : 0);
+
+  const handleClickMoreItem = useCallback(
+    (_: number, buttonTitle: string) => {
+      if (buttonTitle === '매물관리') {
+        router.push(Routes.ListingManage, { persistParams: true });
+      }
+    },
+    [router],
+  );
 
   const handleClickFavorite = useCallback(async () => {
     if (data?.listing?.id) {
@@ -29,6 +43,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
         await removeFavorite(data.listing.id);
       } else {
         await addFavorite(data.listing.id);
+        toast.success('관심 매물에 추가되었습니다.');
       }
       await mutateListing();
     }
@@ -78,7 +93,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;
   }
 
-  if (isLoading || isLoadingStatus) {
+  if (isLoading || isLoadingStatus || (!statusData?.can_access && redirectable)) {
     return (
       <Panel width={panelWidth}>
         <div tw="py-20">
@@ -88,11 +103,18 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     );
   }
 
-  if (!statusData?.can_access) {
+  if (!statusData?.can_access && !redirectable) {
     return (
-      <Panel width={panelWidth}>
-        <div tw="py-20">CANNOT ACCESS</div>
-      </Panel>
+      <OverlayPresenter>
+        <Popup>
+          <Popup.ContentGroup tw="py-10">
+            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+          </Popup.ContentGroup>
+          <Popup.ButtonGroup>
+            <Popup.ActionButton onClick={() => router.pop()}>확인</Popup.ActionButton>
+          </Popup.ButtonGroup>
+        </Popup>
+      </OverlayPresenter>
     );
   }
 
@@ -101,6 +123,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
       <ListingDetail
         listingDetail={data as GetListingDetailResponse}
         isLoading={isLoading || isLoadingStatus}
+        onClickMoreItem={handleClickMoreItem}
         onClickFavorite={handleClickFavorite}
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
