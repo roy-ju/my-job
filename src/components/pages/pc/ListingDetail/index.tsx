@@ -32,6 +32,8 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     (_: number, buttonTitle: string) => {
       if (buttonTitle === '매물관리') {
         router.push(Routes.ListingManage, { persistParams: true });
+      } else if (buttonTitle === '신고하기') {
+        router.push(Routes.ListingReport, { persistParams: true });
       }
     },
     [router],
