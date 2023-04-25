@@ -3,11 +3,12 @@ import { NavigationHeader, TextField } from '@/components/molecules';
 import { ChangeEventHandler, useCallback, useState } from 'react';
 
 interface Props {
+  tradeID?: string;
   isReporting?: boolean;
   onClickReport?: (value: string) => void;
 }
 
-export default function ListingReport({ isReporting, onClickReport }: Props) {
+export default function ListingReport({ tradeID, isReporting, onClickReport }: Props) {
   const [value, setValue] = useState('');
 
   const handleChangeValue = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
@@ -20,7 +21,7 @@ export default function ListingReport({ isReporting, onClickReport }: Props) {
         <NavigationHeader.Title>신고하기</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="py-7 flex-1 px-5">
-        <div tw="font-bold">매물번호 T2203110001</div>
+        <div tw="font-bold">매물번호 {tradeID}</div>
         <div tw="mt-4">
           <TextField variant="outlined" size="medium">
             <TextField.TextArea

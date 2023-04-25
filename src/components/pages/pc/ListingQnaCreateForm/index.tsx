@@ -1,16 +1,30 @@
 import { Panel } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
-import { memo } from 'react';
+import { ListingQnaCreateForm } from '@/components/templates';
+import { useRouter } from '@/hooks/utils';
+import { memo, useCallback, useState } from 'react';
 
 interface Props {
   depth: number;
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth }: Props) => (
-  <Panel width={panelWidth}>
-    <NavigationHeader>
-      <NavigationHeader.Title>매물문의하기</NavigationHeader.Title>
-    </NavigationHeader>
-  </Panel>
-));
+export default memo(({ depth, panelWidth }: Props) => {
+  const router = useRouter(depth);
+  const [isCreating, setIsCreating] = useState(false);
+
+  const handleCreateQna = useCallback(
+    (value: string) => {
+      setIsCreating(true);
+      console.log(value);
+      setIsCreating(false);
+      router.pop();
+    },
+    [router],
+  );
+
+  return (
+    <Panel width={panelWidth}>
+      <ListingQnaCreateForm isCreating={isCreating} onClickCreateQna={handleCreateQna} />
+    </Panel>
+  );
+});
