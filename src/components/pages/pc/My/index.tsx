@@ -42,10 +42,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.MyRealPriceList);
   }, [router]);
 
-  const handleClickTransactionHistory = useCallback(() => {
-    router.push(Routes.TransactionHistory);
-  }, [router]);
-
   const handleClickFAQ = useCallback(() => {
     router.push(Routes.FAQ);
   }, [router]);
@@ -100,7 +96,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickNoticeList={handleClickNoticeList}
         onClickQna={handleClickQna}
         onClickMyRealPriceList={handleClickMyRealPriceList}
-        onClickTransactionHistory={handleClickTransactionHistory}
         onClickFAQ={handleClickFAQ}
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
