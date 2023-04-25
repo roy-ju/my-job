@@ -31,7 +31,9 @@ export default function RequestDetail({ suggestData }: RequestDetailProps) {
             .map((d) => Number(d))
             .map((d) => (d === RealestateType.Yunrip ? RealestateType.Dasaedae : d)) ?? [],
         ),
-      ).map((item) => RealestateTypeString[item]),
+      )
+        .map((item) => RealestateTypeString[item])
+        .join(', '),
     [suggestData?.realestate_types],
   );
 
