@@ -1,13 +1,12 @@
-import tw, { styled } from 'twin.macro';
+import tw from 'twin.macro';
 import React from 'react';
 import { MyListItem } from '@/components/organisms';
 import { IMyListingListItem } from '@/components/organisms/MyListItem/Listing';
 import { InfiniteScroll } from '@/components/atoms';
 
-const Wrapper = styled.div`
-  ${tw`px-5 py-7`}
-`;
-const Divider = tw.div`border-b border-gray-300 my-5`;
+const Wrapper = tw.div`py-2`;
+
+const Divider = tw.div`border-b border-gray-300 mx-5`;
 
 enum MyRegisteredListingStatus {
   RegisteringListing = 1, // 등록신청

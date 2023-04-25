@@ -5,18 +5,14 @@ import tw from 'twin.macro';
 import { Button, Checkbox, Chip, Moment, Numeral } from '@/components/atoms';
 import { ButtonGroup } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
-import { RealestateType, SuggestRecommendStatus } from '@/constants/enums';
-import { BuyOrRentString, DefaultListingImage, RealestateTypeString } from '@/constants/strings';
+import { SuggestRecommendStatus } from '@/constants/enums';
+import {
+  BuyOrRentString,
+  DefaultListingImage,
+  RealestateTypeChipVariant,
+  RealestateTypeString,
+} from '@/constants/strings';
 import { Avatar } from '../ChatMessage/Avatar';
-
-const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
-  [RealestateType.Apartment]: 'nego',
-  [RealestateType.Officetel]: 'green',
-  [RealestateType.Dandok]: 'red',
-  [RealestateType.Dagagoo]: 'blue',
-  [RealestateType.Yunrip]: 'orange',
-  [RealestateType.Dasaedae]: 'orange',
-};
 
 interface Props {
   showCheckbox?: boolean;
@@ -99,7 +95,7 @@ export default function ListingRecommendListItem({
           <div tw="flex-1">
             <div tw="flex gap-1 items-center">
               {renderStatusChip()}
-              <Chip variant={chipVariantByRealestateType[item?.realestate_type ?? 0]}>
+              <Chip variant={RealestateTypeChipVariant[item?.realestate_type ?? 0]}>
                 {RealestateTypeString[item?.realestate_type ?? 0]}
               </Chip>
               <Chip variant="gray">{item?.eubmyundong}</Chip>

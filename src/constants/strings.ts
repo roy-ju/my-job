@@ -45,3 +45,12 @@ export const DefaultListingImageLg: Record<number, string> = {
   [RealestateType.Dandok]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
   [RealestateType.Dagagoo]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
 };
+
+export const RealestateTypeChipVariant: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
+  [RealestateType.Apartment]: 'nego',
+  [RealestateType.Officetel]: 'green',
+  [RealestateType.Dandok]: 'red',
+  [RealestateType.Dagagoo]: 'blue',
+  [RealestateType.Yunrip]: 'orange',
+  [RealestateType.Dasaedae]: 'orange',
+};

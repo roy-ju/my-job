@@ -1,7 +1,7 @@
-import Paths from '@/constants/paths';
 import Image from 'next/image';
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 import { Numeral } from '@/components/atoms';
+import { BuyOrRentString, DefaultListingImage } from '@/constants/strings';
 import { IMyListingListItem } from './Listing';
 
 interface Props extends IMyListingListItem {
@@ -16,20 +16,10 @@ export default function RegisteringListing({
   listingTitle,
   buyOrRent,
   tradeOrDepositPrice,
+  realestateType,
   monthlyRentFee,
   statusText,
 }: Props) {
-  const renderBuyOrRentType = () => {
-    switch (buyOrRent) {
-      case BuyOrRent.Buy:
-        return '매매';
-      case BuyOrRent.Jeonsae:
-        return '전세';
-      default:
-        return '월세';
-    }
-  };
-
   const renderPrice = () => {
     switch (buyOrRent) {
       case BuyOrRent.Buy:
@@ -41,10 +31,16 @@ export default function RegisteringListing({
     }
   };
 
+  const rt = realestateType ?? RealestateType.Apartment;
+
   return (
-    <button onClick={onClickListingItem?.(listingId)} type="button" tw="flex gap-3 items-center w-full">
+    <button
+      onClick={onClickListingItem?.(listingId)}
+      type="button"
+      tw="flex gap-3 items-center w-full px-5 py-5 hover:bg-gray-100"
+    >
       <Image
-        src={thumbnailFullPath ?? Paths.DEFAULT_APARTMENT_IMAGE_PATH}
+        src={thumbnailFullPath ?? DefaultListingImage[rt]}
         alt="매물 사진"
         width={92}
         height={92}
@@ -52,7 +48,7 @@ export default function RegisteringListing({
       />
       <div tw="flex-1 text-left">
         <div tw="font-bold text-b1">
-          {renderBuyOrRentType()}{' '}
+          {BuyOrRentString[buyOrRent]}{' '}
           <Numeral thousandsSeparated koreanNumber>
             {renderPrice()}
           </Numeral>
