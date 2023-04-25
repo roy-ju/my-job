@@ -17,9 +17,9 @@ const PopupContentGroup = tw.div`px-5 py-6 flex flex-col gap-4 bg-white rounded-
 
 /* Button Components */
 
-const PopupCancelButton = tw(Button)`flex-1 rounded-t-none text-gray-1000 bg-gray-200 hover:bg-gray-400`;
+const PopupCancelButton = tw(Button)`border-none flex-1 rounded-t-none text-gray-1000 bg-gray-200 hover:bg-gray-400`;
 
-const PopupActionButton = tw(Button)`flex-1 rounded-t-none bg-nego-800 hover:bg-nego-600`;
+const PopupActionButton = tw(Button)`border-none flex-1 rounded-t-none bg-nego-800 hover:bg-nego-600`;
 
 const PopupButtonGroup = tw(({ size = 'big', ...others }: ButtonGroupProps) => (
   <ButtonGroup size={size} {...others} />

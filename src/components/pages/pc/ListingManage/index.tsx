@@ -33,7 +33,9 @@ export default memo(({ panelWidth, depth }: Props) => {
     setPopup('cancelListing');
   }, []);
 
-  const handleReport = useCallback(() => {}, []);
+  const handleReport = useCallback(() => {
+    router.replace(Routes.ListingReport, { persistParams: true });
+  }, [router]);
 
   const handleChat = useCallback(() => {
     if (listingData?.chat_room_id) {
