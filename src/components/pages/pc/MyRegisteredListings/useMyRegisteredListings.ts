@@ -1,6 +1,7 @@
 import useAPI_GetMyRegisteredListingList from '@/apis/my/getMyRegisteredListingList';
 import { useState } from 'react';
 import deleteMyListing from '@/apis/my/deleteMyListing';
+import { mutate } from 'swr';
 
 export default function useMyRegisteredListings() {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
@@ -46,12 +47,11 @@ export default function useMyRegisteredListings() {
   };
 
   const handleDeleteListingList = async () => {
-    await Promise.all(
-      checkedListingIdList?.map(async (listingId) => {
-        deleteMyListing({ listing_id: listingId });
-      }),
-    );
+    await Promise.all(checkedListingIdList?.map((listingId) => deleteMyListing({ listing_id: listingId })));
+
     await myRegisteringListingMutate();
+    await mutate('/my/dashboard/info');
+
     setIsDeleteActive(false);
     setIsPopupActive(false);
   };
