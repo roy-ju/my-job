@@ -2,7 +2,8 @@ import Image from 'next/image';
 import Paths from '@/constants/paths';
 import { Chip, Numeral } from '@/components/atoms';
 import { css } from 'twin.macro';
-import { RealestateType, BuyOrRent } from '@/constants/enums';
+import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRentString, RealestateTypeChipVariant, RealestateTypeString } from '@/constants/strings';
 import LikeButton from './LikeButton';
 import QuickSaleChip from './QuickSaleChip';
 import ListingPopularityInformation from './ListingPopularityInformation';
@@ -63,55 +64,6 @@ export default function Listing({
   isFavorite,
   labelText,
 }: ListingProps) {
-  const renderRealestateType = () => {
-    switch (realestateType) {
-      case RealestateType.Apartment:
-        return '아파트';
-      case RealestateType.Officetel:
-        return '오피스텔';
-      case RealestateType.Dasaedae:
-        return '다세대';
-      case RealestateType.Yunrip:
-        return '연립';
-      case RealestateType.Dandok:
-        return '단독';
-      case RealestateType.Dagagoo:
-        return '다가구';
-      default:
-        return '아파트';
-    }
-  };
-
-  const setChipVariant = () => {
-    switch (realestateType) {
-      case RealestateType.Apartment:
-        return 'nego';
-      case RealestateType.Officetel:
-        return 'green';
-      case RealestateType.Dasaedae:
-        break;
-      case RealestateType.Yunrip:
-        break;
-      case RealestateType.Dandok:
-        break;
-      case RealestateType.Dagagoo:
-        break;
-      default:
-        break;
-    }
-  };
-
-  const renderBuyOrRentType = () => {
-    switch (buyOrRent) {
-      case BuyOrRent.Buy:
-        return '매매';
-      case BuyOrRent.Jeonsae:
-        return '전세';
-      default:
-        return '월세';
-    }
-  };
-
   const renderPrice = () => {
     switch (buyOrRent) {
       case BuyOrRent.Buy:
@@ -124,7 +76,11 @@ export default function Listing({
   };
 
   return (
-    <button type="button" tw="flex gap-3 items-center w-full" onClick={onClickListingItem?.(listingId)}>
+    <button
+      type="button"
+      tw="flex gap-3 items-center w-full hover:bg-gray-100 px-5 py-5"
+      onClick={onClickListingItem?.(listingId)}
+    >
       <div tw="relative">
         <ListingStatusChip status={labelText} />
         <Image
@@ -138,7 +94,7 @@ export default function Listing({
       <div tw="flex-1">
         <div tw="mb-1.5 flex justify-between">
           <div tw="flex gap-1">
-            <Chip variant={setChipVariant()}>{renderRealestateType()}</Chip>
+            <Chip variant={RealestateTypeChipVariant[realestateType]}>{RealestateTypeString[realestateType]}</Chip>
             {eubmyundong && <Chip variant="gray">{eubmyundong}</Chip>}
           </div>
           {isFavorite && (
@@ -146,7 +102,7 @@ export default function Listing({
           )}
         </div>
         <div tw="font-bold text-b1 flex gap-1.5 items-center">
-          {quickSale && <QuickSaleChip />} {renderBuyOrRentType()}{' '}
+          {quickSale && <QuickSaleChip />} {BuyOrRentString[buyOrRent]}{' '}
           <Numeral thousandsSeparated koreanNumber>
             {renderPrice()}
           </Numeral>
