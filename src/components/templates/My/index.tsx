@@ -18,7 +18,6 @@ interface Props {
   onClickNoticeList?: () => void;
   onClickQna?: () => void;
   onClickMyRealPriceList?: () => void;
-  onClickTransactionHistory?: () => void;
   onClickFAQ?: () => void;
   onClickNegoPoint?: () => void;
   onClickCoupons?: () => void;
@@ -42,7 +41,6 @@ export default function My({
   onClickNoticeList,
   onClickQna,
   onClickMyRealPriceList,
-  onClickTransactionHistory,
   onClickFAQ,
   onClickCoupons,
   onClickNegoPoint,
@@ -103,12 +101,7 @@ export default function My({
         <Separator />
         <div tw="pt-5">
           <MyPageNavigationList>
-            {loggedIn && (
-              <>
-                <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />
-                <MyPageNavigationList.Item title="거래참여 이력" onClick={onClickTransactionHistory} />
-              </>
-            )}
+            {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
             <MyPageNavigationList.Item title="네고시오 소개" />
             <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
             <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />

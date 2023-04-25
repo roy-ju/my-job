@@ -30,15 +30,15 @@ export interface GetMySuggestRecommendsResponse {
     | null;
 }
 
-function getKey(suggestID: number) {
+function getKey(suggestID: number | null, filter?: number) {
   return (size: number, previousPageData: GetMySuggestRecommendsResponse) => {
     const previousLength = previousPageData?.list?.length ?? 0;
     if (previousPageData && previousLength < 1) return null;
-    return [`/my/suggest/recommends`, { page_number: size + 1, page_size: 10, suggest_id: suggestID }];
+    return [`/my/suggest/recommends`, { page_number: size + 1, page_size: 10, suggest_id: suggestID, filter }];
   };
 }
 
-export default function useAPI_GetMySuggestRecommends(suggestID: number) {
+export default function useAPI_GetMySuggestRecommends(suggestID: number | null, filter?: number) {
   const { user } = useAuth();
   const {
     data: dataList,
@@ -46,7 +46,9 @@ export default function useAPI_GetMySuggestRecommends(suggestID: number) {
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<GetMySuggestRecommendsResponse>(user && suggestID ? getKey(suggestID) : () => null);
+  } = useSWRInfinite<GetMySuggestRecommendsResponse>(
+    user && (suggestID || filter) ? getKey(suggestID, filter) : () => null,
+  );
   const data = useMemo(() => {
     if (!dataList) return [];
     return dataList

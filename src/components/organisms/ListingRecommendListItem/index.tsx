@@ -2,7 +2,7 @@ import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import tw from 'twin.macro';
-import { Button, Chip, Moment, Numeral } from '@/components/atoms';
+import { Button, Checkbox, Chip, Moment, Numeral } from '@/components/atoms';
 import { ButtonGroup } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { RealestateType, SuggestRecommendStatus } from '@/constants/enums';
@@ -19,6 +19,7 @@ const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'bl
 };
 
 interface Props {
+  showCheckbox?: boolean;
   item?: NonNullable<GetMySuggestRecommendsResponse['list']>[0];
   onClickListing?: () => void;
   onClickChat?: () => void;
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export default function ListingRecommendListItem({
+  showCheckbox = false,
   item,
   onClickListing,
   onClickChat,
@@ -85,6 +87,7 @@ export default function ListingRecommendListItem({
   return (
     <div tw="bg-white rounded-lg border border-gray-300 shadow">
       <div tw="flex items-center gap-2 px-4 pt-4 pb-3 border-b border-b-gray-300">
+        {showCheckbox && <Checkbox />}
         <Avatar size={24} alt="alt" src={item?.agent_profile_image_url} />
         <div tw="text-b2 font-bold mr-auto">{item?.agent_name} 중개사의 추천</div>
         <div tw="text-info text-gray-700">
