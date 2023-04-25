@@ -11,13 +11,18 @@ import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import UserStatusStrings from './strings';
+
+const commonOptions = ['신고하기', '중개약정확인'];
+
+const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
 
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   isLoading?: boolean;
 
+  onClickMoreItem?: (index: number, buttonTitle: string) => void;
   onClickFavorite?: () => void;
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
@@ -27,6 +32,7 @@ export interface ListingDetailProps {
 
 export default function ListingDetail({
   listingDetail,
+  onClickMoreItem,
   onClickFavorite,
   onNavigateToParticipateBidding,
   onNavigateToUpdateBidding,
@@ -98,6 +104,11 @@ export default function ListingDetail({
           <NavigationHeader.Button onClick={onClickFavorite}>
             {listingDetail?.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-inherit" />}
           </NavigationHeader.Button>
+          <NavigationHeader.MoreButton
+            iconColor={isHeaderActive ? 'dark' : 'light'}
+            onClickItem={onClickMoreItem}
+            items={listingDetail?.visit_user_type === VisitUserType.SellerGeneral ? sellerOptions : commonOptions}
+          />
         </div>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
@@ -137,7 +148,7 @@ export default function ListingDetail({
                 {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.title}
               </Accordion.Summary>
               <Accordion.Details tw="pt-1 pb-6 px-5 text-b2 text-gray-700 whitespace-pre-wrap">
-                {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.title}
+                {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.body}
                 <div tw="mt-5" ref={setUserStatusAccordion}>
                   <ListingCtaButtons
                     visitUserType={listingDetail?.visit_user_type ?? 0}
@@ -152,7 +163,7 @@ export default function ListingDetail({
           </div>
         )}
         <Separator />
-        <div tw="sticky top-8 pt-6 z-50">
+        <div tw="sticky top-8 pt-6 z-40">
           <Tabs>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>

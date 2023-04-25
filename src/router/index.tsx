@@ -214,6 +214,10 @@ const ListingQnaCreateForm = dynamic(() => import('@/components/pages/pc/Listing
   ssr: false,
   loading: () => <Panel />,
 });
+const ListingManage = dynamic(() => import('@/components/pages/pc/ListingManage'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestRegionalForm'), {
   ssr: false,
   loading: () => <Panel />,
@@ -479,6 +483,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingQnaCreateForm: {
       return <ListingQnaCreateForm {...props} />;
+    }
+
+    case Routes.ListingManage: {
+      return <ListingManage {...props} />;
     }
 
     case Routes.SuggestRegionalForm: {

@@ -6,6 +6,7 @@ function removeTrailingSlash(url: string) {
 }
 
 type NavigationOptions = {
+  persistParams?: boolean;
   // url 뒤에 붙는 query e.g. ?name=joel
   searchParams?: Record<string, string>;
   // url 에 보이지 않는 query
@@ -96,8 +97,17 @@ export default function useRouter(depth: number) {
           delete router.query[`depth${i}`];
         }
 
-        const query = {
-          // ...router.query,
+        let query: Record<string, any> = {};
+
+        if (options?.persistParams) {
+          options.searchParams = {
+            ...(router.query as Record<string, string>),
+            ...options.searchParams,
+          };
+        }
+
+        query = {
+          ...query,
           ...options?.state,
           ...options?.searchParams,
         };
@@ -145,8 +155,17 @@ export default function useRouter(depth: number) {
         delete router.query[`depth${i}`];
       }
 
-      const query = {
-        // ...router.query,
+      let query: Record<string, any> = {};
+
+      if (options?.persistParams) {
+        options.searchParams = {
+          ...(router.query as Record<string, string>),
+          ...options.searchParams,
+        };
+      }
+
+      query = {
+        ...query,
         ...options?.state,
         ...options?.searchParams,
       };
@@ -229,7 +248,17 @@ export default function useRouter(depth: number) {
         delete router.query[`depth${i}`];
       }
 
-      const query = {
+      let query: Record<string, any> = {};
+
+      if (options?.persistParams) {
+        options.searchParams = {
+          ...(router.query as Record<string, string>),
+          ...options.searchParams,
+        };
+      }
+
+      query = {
+        ...query,
         ...options?.state,
         ...options?.searchParams,
       };
