@@ -99,6 +99,8 @@ export enum VisitUserType {
   HasRejectedSuggest = 9, // 매수인 제안이 없고 중개인의 추천이 있는데 거절한 경우
   PreContractOthers = 10, // 가계약금 입금 됐지만 당사자가 아님
   PreContractSelf = 11, // 가계약금 입금된 당사자
+  SellerContractComplete = 12, // 마이페이지 - 지난거래 탭으로 가야함
+  SellerCancelled = 13, // 마이페이지 - 지난거래 탭으로 가야함
 }
 
 export enum BiddingStatus {
