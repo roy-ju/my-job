@@ -98,6 +98,7 @@ export default function ListingDetail({
           <NavigationHeader.Button onClick={onClickFavorite}>
             {listingDetail?.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-inherit" />}
           </NavigationHeader.Button>
+          {/* <NavigationHeader.MoreButton onClickItem={() => {}} items={[]} /> */}
         </div>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
