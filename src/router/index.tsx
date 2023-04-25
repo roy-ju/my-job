@@ -218,6 +218,10 @@ const ListingManage = dynamic(() => import('@/components/pages/pc/ListingManage'
   ssr: false,
   loading: () => <Panel />,
 });
+const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestRegionalForm'), {
   ssr: false,
   loading: () => <Panel />,
@@ -487,6 +491,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingManage: {
       return <ListingManage {...props} />;
+    }
+
+    case Routes.ListingReport: {
+      return <ListingReport {...props} />;
     }
 
     case Routes.SuggestRegionalForm: {
