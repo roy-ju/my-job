@@ -16,11 +16,12 @@ function BackButton({ onClick }: { onClick?: () => void }) {
 }
 
 interface MoreButtonProps {
+  iconColor?: 'dark' | 'light';
   items: string[];
   onClickItem?: (index: number, item: string) => void;
 }
 
-function MoreButton({ items, onClickItem }: MoreButtonProps) {
+function MoreButton({ iconColor = 'dark', items, onClickItem }: MoreButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const outsideRef = useRef<HTMLDivElement | null>(null);
@@ -38,7 +39,8 @@ function MoreButton({ items, onClickItem }: MoreButtonProps) {
   return (
     <>
       <button ref={setReferenceElement} type="button" tw="relative h-full ml-auto" onClick={handleMoreButtonClick}>
-        <TripleDotsIcon />
+        {iconColor === 'light' && <TripleDotsIcon tw="text-white" />}
+        {iconColor === 'dark' && <TripleDotsIcon />}
       </button>
       {isOpen && (
         <div ref={setPopperElement} style={styles.popper} {...attributes.popper} tw="z-50">
@@ -47,7 +49,7 @@ function MoreButton({ items, onClickItem }: MoreButtonProps) {
               <button
                 key={item}
                 type="button"
-                tw="py-3 px-4 text-b2 leading-4 hover:bg-gray-100"
+                tw="py-3 px-4 text-b2 text-gray-1000 leading-4 hover:bg-gray-100"
                 onClick={() => {
                   onClickItem?.(index, item);
                   setIsOpen(false);

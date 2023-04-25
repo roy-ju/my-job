@@ -64,6 +64,7 @@ export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
 export { default as SuggestReceivedList } from './SuggestReceivedList';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestDetail } from './SuggestDetail';
+export { default as ListingManage } from './ListingManage';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';
