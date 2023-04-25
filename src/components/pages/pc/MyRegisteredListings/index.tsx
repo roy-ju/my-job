@@ -58,19 +58,28 @@ export default memo(({ depth, panelWidth }: Props) => {
   ]);
 
   const handleClickListingItem = (listingId: number) => () => {
+    const searchParams: Record<string, string> = {
+      tab: `${tab}`,
+      listingID: `${listingId}`,
+    };
+
     router.push(Routes.ListingDetail, {
-      searchParams: {
-        listingID: `${listingId}`,
-      },
+      searchParams,
     });
   };
 
   const handleChangeListingTab = useCallback(
     (newValue: number) => {
+      const searchParams: Record<string, string> = {
+        tab: `${newValue}`,
+      };
+
+      if (router.query.listingID) {
+        searchParams.listingID = router.query.listingID as string;
+      }
+
       setTab(Number(newValue));
-      router.replace(Routes.MyRegisteredListingList, {
-        searchParams: { tab: `${newValue}` },
-      });
+      router.replaceCurrent(Routes.MyRegisteredListingList, { searchParams });
     },
     [setTab, router],
   );

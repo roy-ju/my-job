@@ -79,6 +79,52 @@ export default function useRouter(depth: number) {
   }, [router]);
 
   /**
+   * 오른쪽에 열려있는 모든 depth 를 유지한체 현재의 depth 를 새로운 depth 로 대체한다.
+   */
+  const replaceCurrent = useCallback(
+    (pathname: string, options?: NavigationOptions) => {
+      const segments = router.asPath
+        .split('?')[0]
+        .split('/')
+        .filter((seg) => seg !== '');
+      const currentSegmentIndex = depth - 1;
+
+      if (currentSegmentIndex > -1) {
+        segments[currentSegmentIndex] = pathname;
+
+        for (let i = 1; i < 6; i += 1) {
+          delete router.query[`depth${i}`];
+        }
+
+        const query = {
+          // ...router.query,
+          ...options?.state,
+          ...options?.searchParams,
+        };
+
+        let path = '/';
+        let asPath = '/';
+
+        segments.forEach((value, index) => {
+          path += `[depth${index + 1}]/`;
+          asPath += `${value}/`;
+          query[`depth${index + 1}`] = value;
+        });
+
+        asPath = removeTrailingSlash(asPath);
+
+        if (options?.searchParams) {
+          const searchParams = new URLSearchParams(options.searchParams);
+          asPath += `?${searchParams}`;
+        }
+
+        return router.replace({ pathname: path, query }, asPath);
+      }
+    },
+    [depth, router],
+  );
+
+  /**
    * 오른쪽에 열려있는 모든 depth 들을 닫고 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replace = useCallback(
@@ -217,11 +263,12 @@ export default function useRouter(depth: number) {
       popLast,
       popAll,
       replace,
+      replaceCurrent,
       query: router.query,
       asPath: router.asPath,
       pathname: router.pathname,
       isReady: router.isReady,
     }),
-    [push, pop, popAll, popLast, replace, router.query, router.asPath, router.pathname, router.isReady],
+    [push, replaceCurrent, pop, popAll, popLast, replace, router.query, router.asPath, router.pathname, router.isReady],
   );
 }
