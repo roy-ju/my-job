@@ -9,6 +9,7 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 import { toast } from 'react-toastify';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -94,9 +95,18 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
   }
 
   if (!statusData?.can_access && !redirectable) {
-    <Panel width={panelWidth}>
-      <div tw="py-20">CANNOT ACCESS</div>
-    </Panel>;
+    return (
+      <OverlayPresenter>
+        <Popup>
+          <Popup.ContentGroup tw="py-10">
+            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+          </Popup.ContentGroup>
+          <Popup.ButtonGroup>
+            <Popup.ActionButton onClick={() => router.pop()}>확인</Popup.ActionButton>
+          </Popup.ButtonGroup>
+        </Popup>
+      </OverlayPresenter>
+    );
   }
 
   return (
