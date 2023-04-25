@@ -9,6 +9,7 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 import { toast } from 'react-toastify';
+import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
   depth: number;
@@ -17,10 +18,13 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth, listingID }: Props) => {
+  const { redirectable } = useListingDetailRedirector(listingID, depth);
+
   const router = useRouter(depth);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+
   // const { data: qnaData } = useAPI_GetListingQnaList(statusData?.can_access ? listingID : 0);
 
   const handleClickFavorite = useCallback(async () => {
@@ -29,6 +33,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
         await removeFavorite(data.listing.id);
       } else {
         await addFavorite(data.listing.id);
+        toast.success('관심 매물에 추가되었습니다.');
       }
       await mutateListing();
     }
@@ -78,7 +83,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;
   }
 
-  if (isLoading || isLoadingStatus) {
+  if (isLoading || isLoadingStatus || (!statusData?.can_access && redirectable)) {
     return (
       <Panel width={panelWidth}>
         <div tw="py-20">
@@ -88,12 +93,10 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     );
   }
 
-  if (!statusData?.can_access) {
-    return (
-      <Panel width={panelWidth}>
-        <div tw="py-20">CANNOT ACCESS</div>
-      </Panel>
-    );
+  if (!statusData?.can_access && !redirectable) {
+    <Panel width={panelWidth}>
+      <div tw="py-20">CANNOT ACCESS</div>
+    </Panel>;
   }
 
   return (
