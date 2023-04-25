@@ -42,7 +42,15 @@ export default function SuggestRequestedListItem({
   }, []);
 
   const realestateTypes = useMemo(
-    () => item?.realestate_types?.split(',').map((d) => Number(d)) ?? [],
+    () =>
+      Array.from(
+        new Set(
+          item?.realestate_types
+            ?.split(',')
+            .map((d) => Number(d))
+            .map((d) => (d === RealestateType.Yunrip ? RealestateType.Dasaedae : d)) ?? [],
+        ),
+      ),
     [item?.realestate_types],
   );
 
