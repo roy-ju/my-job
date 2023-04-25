@@ -121,13 +121,12 @@ function Wrapper({ visitUserType, ...props }: { visitUserType: number } & Common
     return <BuyerGeneral {...props} />;
   if (visitUserType === VisitUserType.Submitted) return <Submitted {...props} />;
   if (visitUserType === VisitUserType.Rejected) return <Rejected {...props} />;
-  if (visitUserType === VisitUserType.HasSuggested) return <HasSuggested {...props} />;
-  if (visitUserType === VisitUserType.HasRejectedSuggest) return <HasRejectedSuggest {...props} />;
+  if (visitUserType === VisitUserType.HasSuggestRecommend) return <HasSuggested {...props} />;
   if (visitUserType === VisitUserType.Accepted) return <Accepted {...props} />;
   if (visitUserType === VisitUserType.PreContractSelf) return <PreContractSelf {...props} />;
   if (visitUserType === VisitUserType.PreContractOthers) return <PreContractOthers {...props} />;
   if (visitUserType === VisitUserType.SellerGeneral) return <SellerGeneral {...props} />;
-  if (visitUserType === VisitUserType.SellerPreContract) return <SellerPreContract {...props} />;
+  if (visitUserType === VisitUserType.SellerPreContractComplete) return <SellerPreContract {...props} />;
 
   return null;
 }
