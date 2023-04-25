@@ -28,6 +28,15 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
 
   // const { data: qnaData } = useAPI_GetListingQnaList(statusData?.can_access ? listingID : 0);
 
+  const handleClickMoreItem = useCallback(
+    (_: number, buttonTitle: string) => {
+      if (buttonTitle === '매물관리') {
+        router.push(Routes.ListingManage, { persistParams: true });
+      }
+    },
+    [router],
+  );
+
   const handleClickFavorite = useCallback(async () => {
     if (data?.listing?.id) {
       if (data.is_favorite) {
@@ -114,6 +123,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
       <ListingDetail
         listingDetail={data as GetListingDetailResponse}
         isLoading={isLoading || isLoadingStatus}
+        onClickMoreItem={handleClickMoreItem}
         onClickFavorite={handleClickFavorite}
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
