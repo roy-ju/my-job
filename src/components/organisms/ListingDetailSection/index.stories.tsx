@@ -136,4 +136,29 @@ export const Conditions = () => (
   />
 );
 
-export const Qna = () => <ListingDetailSection.Qna />;
+export const Qna = () => (
+  <ListingDetailSection.Qna
+    qnaList={[
+      {
+        id: 326,
+        user_id: 112,
+        user_nickname: '김지효효효효',
+        message: 'dwqdqwdwq',
+        agent_message: null,
+        agent_response_time: null,
+        owner: true,
+        created_time: '2023-04-25T15:19:42+09:00',
+      },
+      {
+        id: 325,
+        user_id: 64,
+        user_nickname: '검성김지효2',
+        message: 'dwqdqwdwq',
+        agent_message: null,
+        agent_response_time: null,
+        owner: false,
+        created_time: '2023-04-21T09:00:36+09:00',
+      },
+    ]}
+  />
+);
