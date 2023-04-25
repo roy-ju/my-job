@@ -62,8 +62,9 @@ export default function Qna({ qnaList, isLoading, onClickCreateQna }: QnaProps) 
       </div>
       {qnaSize > 0 ? (
         <ListContainer>
-          <ListItem />
-          <ListItem />
+          {qnaList?.map((item) => (
+            <ListItem key={item.id} />
+          ))}
         </ListContainer>
       ) : (
         <div tw="text-b2 text-gray-700 h-12 my-4 flex items-center justify-center">매물문의 내역이 없습니다.</div>
