@@ -58,7 +58,7 @@ export default function useAPI_GetListingQnaList(listingID: number) {
     return dataList
       ?.map((item) => item?.list)
       .filter((item) => Boolean(item))
-      .flat();
+      .flat() as GetListingQnaListResponse['list'];
   }, [dataList]);
 
   const increamentPageNumber = useCallback(() => {
@@ -68,6 +68,7 @@ export default function useAPI_GetListingQnaList(listingID: number) {
   return {
     data,
     pageNumber: size,
+    hasNext: Boolean(dataList?.[size - 1]?.has_next),
     isLoading,
     increamentPageNumber,
     size,
