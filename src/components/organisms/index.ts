@@ -33,7 +33,6 @@ export { default as MyCouponListItem } from './MyCouponListItem';
 export { default as QnaListitem } from './QnaListItem';
 export { default as TransactionHistoryDetail } from './TransactionHistoryDetail';
 export { default as TransactionHistoryListItem } from './TransactionHistoryListItem';
-export { default as FAQListItem } from './FAQListItem';
 export { default as ServiceInfoList } from './ServiceInfoList';
 export { default as RegisterForm } from './RegisterForm';
 export { default as AgentCardItem } from './AgentCardItem';
@@ -54,6 +53,7 @@ export { default as SuggestRequestedListNoData } from './SuggestRequestedListNoD
 export { default as SuggestReceivedListNoData } from './SuggestReceivedListNoData';
 export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
 export { default as ListingRecommendListItem } from './ListingRecommendListItem';
+export { default as FaqList } from './FaqList';
 
 // 모바일 전용
 export { default as MobDanjiSummary } from './MobDanjiSummary';

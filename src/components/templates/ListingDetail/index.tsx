@@ -355,6 +355,10 @@ export default function ListingDetail({
             onClickDeleteQna={onClickDeleteQna}
           />
         </div>
+        <Separator />
+        <div tw="py-10 px-5">
+          <ListingDetailSection.Faq />
+        </div>
       </div>
       {!isTopCtaButtonsVisible && (
         <PersistentBottomBar>
