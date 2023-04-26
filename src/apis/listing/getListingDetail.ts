@@ -178,6 +178,10 @@ export interface GetListingDetailResponse {
   options: any[];
   biddings_chat_room_created: BiddingsChatRoomNotCreated[] | null;
   biddings_chat_room_not_created: BiddingsChatRoomNotCreated[] | null;
+  suggest_recommend_id: number | null;
+  bidding_reject_reason?: string | null;
+  highest_bidding_trade_or_deposit_price?: number;
+  highest_bidding_monthly_rent_fee?: number;
 }
 
 export default function useAPI_GetListingDetail(id: number) {

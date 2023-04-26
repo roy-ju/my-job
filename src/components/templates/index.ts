@@ -10,7 +10,6 @@ export { default as DanjiRealPriceListAll } from './DanjiRealPriceListAll';
 export { default as DanjiRecommendation } from './DanjiRecommendation';
 export { default as DanjiRecommendationSuccess } from './DanjiRecommendationSuccess';
 export { default as Home } from './Home';
-export { default as Listings } from './Listings';
 export { default as MapLayout } from './MapLayout';
 export { default as My } from './My';
 export { default as PageNotFound } from './PageNotFound';
@@ -68,6 +67,8 @@ export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
 export { default as PhotoGallery } from './PhotoGallery';
+export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
+export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPriceUpdateSummary';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

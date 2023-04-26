@@ -6,6 +6,10 @@ interface CommonProps {
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
+  onNavigateToSuggestRegional?: () => void;
+  onNavigateToUpdateTargetPrice?: () => void;
+  onClickSuggestNotInterested?: () => void;
+  onClickSuggestAcceptRecommend?: () => void;
 }
 
 function BuyerGeneral({ buttonSize = 'bigger', onNavigateToParticipateBidding }: CommonProps) {
@@ -34,22 +38,21 @@ function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonPr
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
         제안 확인 / 수정
       </Button>
-      <div tw="flex items-center justify-center mt-5">
-        <Button size="none" variant="ghost" tw="underline text-info leading-4">
-          다른 매물 추천받기
-        </Button>
-      </div>
     </div>
   );
 }
 
-function HasSuggested({ buttonSize = 'bigger' }: CommonProps) {
+function HasSuggested({
+  buttonSize = 'bigger',
+  onClickSuggestNotInterested,
+  onClickSuggestAcceptRecommend,
+}: CommonProps) {
   return (
     <div tw="flex items-center gap-3">
-      <Button variant="outlined" tw="w-full" size={buttonSize}>
+      <Button variant="outlined" tw="w-full" size={buttonSize} onClick={onClickSuggestNotInterested}>
         관심없음
       </Button>
-      <Button tw="w-full" size={buttonSize}>
+      <Button tw="w-full" size={buttonSize} onClick={onClickSuggestAcceptRecommend}>
         네고 협의
       </Button>
     </div>
@@ -86,19 +89,22 @@ function PreContractSelf({ buttonSize = 'bigger', onNavigateToChatRoom }: Common
   );
 }
 
-function PreContractOthers({ buttonSize = 'bigger' }: CommonProps) {
+function PreContractOthers({ buttonSize = 'bigger', onNavigateToSuggestRegional }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToSuggestRegional}>
         다른 매물 추천받기
       </Button>
     </div>
   );
 }
 
-function SellerGeneral({ buttonSize = 'bigger', onNavigateToChatRoom }: CommonProps) {
+function SellerGeneral({ buttonSize = 'bigger', onNavigateToChatRoom, onNavigateToUpdateTargetPrice }: CommonProps) {
   return (
-    <div>
+    <div tw="flex items-center gap-3">
+      <Button variant="outlined" tw="w-full" size={buttonSize} onClick={onNavigateToUpdateTargetPrice}>
+        희망가 수정
+      </Button>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToChatRoom}>
         중개사 채팅
       </Button>

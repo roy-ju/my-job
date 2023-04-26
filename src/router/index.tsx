@@ -56,7 +56,6 @@ const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   loading: () => <Panel />,
 });
 const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: () => <Panel /> });
-const Listings = dynamic(() => import('@/components/pages/pc/Listings'), { loading: () => <Panel /> });
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: () => <Panel /> });
 const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: () => <Panel /> });
 
@@ -250,6 +249,15 @@ const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingP
   ssr: false,
   loading: () => <Panel />,
 });
+const ListingTargetPriceUpdate = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdate'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdateSummary'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+
 const DEFAULT_PANEL_WIDTH = '380px';
 
 interface Props {
@@ -346,10 +354,6 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.Login: {
       return <Login {...props} />;
-    }
-
-    case Routes.ListingList: {
-      return <Listings {...props} />;
     }
 
     case Routes.ListingDetail: {
@@ -526,6 +530,14 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingPhotoGallery: {
       return <ListingPhotoGallery {...props} />;
+    }
+
+    case Routes.ListingTargetPriceUpdate: {
+      return <ListingTargetPriceUpdate {...props} />;
+    }
+
+    case Routes.ListingTargetPriceUpdateSummary: {
+      return <ListingTargetPriceUpdateSummary {...props} />;
     }
 
     case Routes.Developer: {
