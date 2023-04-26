@@ -12,4 +12,7 @@ export const Default: ComponentStory<typeof DatePicker> = (args) => (
   </div>
 );
 
-Default.args = {};
+Default.args = {
+  variant: 'outlined',
+  placeholder: '날짜선택',
+};

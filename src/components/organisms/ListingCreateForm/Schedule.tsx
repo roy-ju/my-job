@@ -47,6 +47,7 @@ export default function Schedule({ date, dateType, onChangeDate, onChangeDateTyp
               placeholder="날짜"
               value={date}
               onChange={(value) => onChangeDate?.(value)}
+              minDate={new Date()}
             />
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
               <Dropdown.Option value="이전">이전</Dropdown.Option>

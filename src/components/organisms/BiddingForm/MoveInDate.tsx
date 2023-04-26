@@ -60,6 +60,7 @@ export default function MoveInDate({
           <div tw="font-bold">입주가 가능한 가장 빠른 날을 선택해주세요.</div>
           <div tw="flex gap-3">
             <DatePicker
+              minDate={new Date()}
               variant="outlined"
               tw="flex-1 min-w-0"
               placeholder="날짜"
