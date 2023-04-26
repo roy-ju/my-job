@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { promises as fs } from 'fs';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { query, method } = req;
+  const { method } = req;
 
   if (method !== 'GET') {
     res.setHeader('Allow', ['GET']);
@@ -14,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const dir = path.join(process.cwd(), 'src/assets/contents/faq.csv');
-  console.log(query);
 
   try {
     await fs.readFile(dir, 'utf-8');

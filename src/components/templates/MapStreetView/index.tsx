@@ -30,7 +30,6 @@ function MapStreetView({ title, position, onClickBackButton, children }: Props) 
     }),
     [position.lat, position.lng, expanded, panorama],
   );
-  console.log('hi');
 
   return (
     <div tw="w-full h-full bg-white rounded-lg overflow-hidden flex flex-col">
