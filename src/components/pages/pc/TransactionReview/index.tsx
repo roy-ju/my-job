@@ -1,5 +1,5 @@
 import { Panel } from '@/components/atoms';
-import { ChangeEvent, ChangeEventHandler, memo, useCallback, useState } from 'react';
+import { ChangeEvent, ChangeEventHandler, memo, useCallback, useEffect, useState } from 'react';
 import { TransactionReview as TransactionReviewTemplate } from '@/components/templates';
 import useAPI_GetTransactionReview from '@/apis/my/getTransactionReview';
 import { useRouter } from '@/hooks/utils';
@@ -16,12 +16,20 @@ interface Props {
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
   const { data } = useAPI_GetTransactionReview(Number(router.query.listingContractID));
-  const [ratingText, setRatingText] = useState(data?.ratingText ?? '');
-  const [recommendations, setRecommendations] = useState<string[]>(() => {
-    if (!data?.recommendations) return [];
-    return data?.recommendations.split('');
-  });
+  const [ratingText, setRatingText] = useState('');
+  const [recommendations, setRecommendations] = useState<string[]>([]);
   const [freeFeedback, setFreeFeedback] = useState('');
+
+  useEffect(() => {
+    if (data) {
+      setRatingText(data?.ratingText ?? '');
+      setRecommendations(() => {
+        if (!data?.recommendations) return [];
+        return data?.recommendations.split(',');
+      });
+      setFreeFeedback(data?.freeFeedback ?? '');
+    }
+  }, [data]);
 
   const { data: info } = useAPI_GetTransactionReviewInfo(Number(router.query.listingContractID));
 
@@ -50,7 +58,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   };
 
   const handleSubmit = async () => {
-    const stringTypeRecommendations = recommendations.join('');
+    const stringTypeRecommendations = recommendations.join(',');
     await createTransactionReview({
       listingContractID: Number(router.query.listingContractID),
       ratingText,
