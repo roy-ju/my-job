@@ -81,6 +81,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.ListingCreateAddress);
   };
 
+  const handleNavigateToListingDetailPassed = (listingId: number) => () => {
+    router.replace(Routes.ListingDetailPassed, {
+      persistParams: true,
+      searchParams: {
+        listingID: `${listingId}`,
+      },
+    });
+  };
+
   const handleChangeListingTab = useCallback(
     (newValue: number) => {
       setTab(Number(newValue));
@@ -103,6 +112,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeListingTab={handleChangeListingTab}
         onClickListingItem={handleClickListingItem}
         onClickNavigateToListingCreate={handleNavigateToListingCreate}
+        onClickNavigateToListingDetailPassed={handleNavigateToListingDetailPassed}
         isDeleteActive={isDeleteActive}
         isPopupActive={isPopupActive}
         checkedListingIdList={checkedListingIdList}
