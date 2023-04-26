@@ -24,6 +24,7 @@ export interface ListingsRendererProps {
 
   onClickListingItem: (listingId: number) => () => void;
   onClickNavigateToListingCreate: () => void;
+  onClickNavigateToListingDetailPassed: (listingId: number) => () => void;
   onChangeCheckbox: (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
 
   myRegisteringListingData: IMyListingListItem[];
@@ -44,6 +45,7 @@ export default function ListingsRenderer({
 
   onClickListingItem,
   onClickNavigateToListingCreate,
+  onClickNavigateToListingDetailPassed,
   onChangeCheckbox,
 
   myRegisteringListingData,
@@ -121,7 +123,7 @@ export default function ListingsRenderer({
             {myCancelledListingData?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing onClickListingItem={onClickListingItem} {...item} />
+                <MyListItem.Listing onClickListingItem={onClickNavigateToListingDetailPassed} {...item} />
               </React.Fragment>
             ))}
           </Wrapper>
