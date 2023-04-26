@@ -8,6 +8,7 @@ export interface MyRegisteredListingsProps {
   onChangeListingTab: (newValue: number) => void;
   onClickListingItem: (listingId: number) => () => void;
   onClickNavigateToListingCreate: () => void;
+  onClickNavigateToListingDetailPassed: (listingId: number) => () => void;
 
   isDeleteActive: boolean;
   isPopupActive: boolean;
@@ -38,6 +39,7 @@ export default function MyRegisteredListings({
   onChangeListingTab,
   onClickListingItem,
   onClickNavigateToListingCreate,
+  onClickNavigateToListingDetailPassed,
 
   isDeleteActive,
   isPopupActive,
@@ -104,6 +106,7 @@ export default function MyRegisteredListings({
         onChangeCheckbox={onChangeCheckbox}
         onClickListingItem={onClickListingItem}
         onClickNavigateToListingCreate={onClickNavigateToListingCreate}
+        onClickNavigateToListingDetailPassed={onClickNavigateToListingDetailPassed}
         myRegisteringListingData={myRegisteringListingData}
         myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
         myActiveListingData={myActiveListingData}

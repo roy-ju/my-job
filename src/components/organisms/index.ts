@@ -53,6 +53,7 @@ export { default as SuggestRequestedListNoData } from './SuggestRequestedListNoD
 export { default as SuggestReceivedListNoData } from './SuggestReceivedListNoData';
 export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
 export { default as ListingRecommendListItem } from './ListingRecommendListItem';
+export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
 export { default as FaqList } from './FaqList';
 
 // 모바일 전용
