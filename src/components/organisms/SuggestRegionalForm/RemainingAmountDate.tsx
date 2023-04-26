@@ -20,7 +20,7 @@ export default function RemainingAmountDate({
         <DatePicker
           variant="outlined"
           tw="flex-1 min-w-0"
-          label="날짜"
+          placeholder="날짜"
           value={remainingAmountDate}
           onChange={(v) => onChangeRemainingAmountDate?.(v)}
         />
@@ -31,8 +31,8 @@ export default function RemainingAmountDate({
           onChange={onChangeRemainingAmountDateType}
         >
           <Dropdown.Option value="이전">이전</Dropdown.Option>
-          <Dropdown.Option value="당일">당일</Dropdown.Option>
           <Dropdown.Option value="이후">이후</Dropdown.Option>
+          <Dropdown.Option value="당일">당일</Dropdown.Option>
         </Dropdown>
       </div>
     </div>

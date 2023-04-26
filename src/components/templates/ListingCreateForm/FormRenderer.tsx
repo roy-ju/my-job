@@ -312,14 +312,18 @@ export default function FormRenderer({ form }: Props) {
               onChangeVerandaRemodelling={onChangeVerandaRemodelling}
             />
           </div>
-          <Separator />
-          <div tw="px-5 py-10">
-            <Form.ExtraOptions
-              extraOptions={extraOptions}
-              onChangeExtraOptions={onChangeExtraOptions}
-              listingOptions={listingOptions}
-            />
-          </div>
+          {buyOrRent !== BuyOrRent.Buy && (
+            <div>
+              <Separator />
+              <div tw="px-5 py-10">
+                <Form.ExtraOptions
+                  extraOptions={extraOptions}
+                  onChangeExtraOptions={onChangeExtraOptions}
+                  listingOptions={listingOptions}
+                />
+              </div>
+            </div>
+          )}
           <Separator />
           <div tw="px-5 py-10">
             <Form.AdminFee value={adminFee} onChange={onChangeAdminFee} />

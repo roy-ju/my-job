@@ -18,8 +18,8 @@ export const BuyOrRentString: Record<number, string> = {
 
 export const TargetPriceLabel: Record<number, string> = {
   [ListingStatus.Active]: '희망가',
-  [ListingStatus.Complete]: '체결가',
-  [ListingStatus.CompleteComplete]: '체결가',
+  [ListingStatus.ContractComplete]: '체결가',
+  [ListingStatus.PreContractComplete]: '체결가',
 };
 
 export const TimeTypeString: Record<number, string> = {

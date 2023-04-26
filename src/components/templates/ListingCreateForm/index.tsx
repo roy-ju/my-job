@@ -1,18 +1,23 @@
-import { Button, Separator } from '@/components/atoms';
+import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { useMemo } from 'react';
 import FormContext, { IFormContext } from './FormContext';
 import FormRenderer from './FormRenderer';
 
 export interface ListingCreateFormProps extends IFormContext {
+  nextButtonDisabled?: boolean;
+
   addressLine1: string;
   addressLine2: string;
 
   forms?: string[];
   onClickNext?: () => void;
+  onClickBack?: () => void;
 }
 
 export default function ListingCreateForm({
+  nextButtonDisabled,
+
   addressLine1,
   addressLine2,
 
@@ -102,6 +107,8 @@ export default function ListingCreateForm({
 
   rentEndDate,
   onChangeRentEndDate,
+
+  onClickBack,
 }: ListingCreateFormProps) {
   const context = useMemo(
     () => ({
@@ -273,6 +280,7 @@ export default function ListingCreateForm({
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>매물등록 신청</NavigationHeader.Title>
       </NavigationHeader>
       <FormContext.Provider value={context}>
@@ -294,13 +302,12 @@ export default function ListingCreateForm({
               {forms.length !== index + 1 && <Separator />}
             </div>
           ))}
-
-          <div id="formSubmitContainer" tw="px-5 pb-20">
-            <Button onClick={onClickNext} tw="w-full" size="bigger">
-              다음
-            </Button>
-          </div>
         </div>
+        <PersistentBottomBar>
+          <Button onClick={onClickNext} tw="w-full" size="bigger" disabled={nextButtonDisabled}>
+            다음
+          </Button>
+        </PersistentBottomBar>
       </FormContext.Provider>
     </div>
   );

@@ -269,5 +269,6 @@ Default.args = {
       },
     ],
     biddings_chat_room_not_created: null,
+    suggest_recommend_id: null,
   },
 };

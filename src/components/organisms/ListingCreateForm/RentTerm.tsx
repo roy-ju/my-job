@@ -8,7 +8,7 @@ const yearOptions = Array(11)
   .fill(0)
   .map((_, i) => `${i}년`);
 
-const monthOptions = Array(13)
+const monthOptions = Array(12)
   .fill(0)
   .map((_, i) => `${i}개월`);
 

@@ -16,7 +16,13 @@ import { mergeRefs, resolveProps } from '@/utils';
 import tw, { css, styled } from 'twin.macro';
 import ErrorIcon from '@/assets/icons/error.svg';
 import SuccessIcon from '@/assets/icons/success.svg';
-import { NumericFormat, NumericFormatProps, PatternFormat, PatternFormatProps } from 'react-number-format';
+import {
+  NumberFormatValues,
+  NumericFormat,
+  NumericFormatProps,
+  PatternFormat,
+  PatternFormatProps,
+} from 'react-number-format';
 import { Numeral } from '@/components/atoms';
 import AutocompleteContext from '../Autocomplete/AutocompleteContext';
 import TextFieldContext, { SizeType, VariantType } from './TextFieldContext';
@@ -384,8 +390,8 @@ const PatternInput = forwardRef<
   );
 });
 
-const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string }>(
-  ({ value: valueProp, onChange, suffix = '만 원', ...props }, ref) => {
+const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string; isZeroAllowd?: boolean }>(
+  ({ value: valueProp, onChange, suffix = '만 원', isZeroAllowd = false, ...props }, ref) => {
     const { size, disabled } = useContext(TextFieldContext);
     const [value, setValue] = useControlled({
       controlled: valueProp,
@@ -400,9 +406,24 @@ const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string }
       [setValue, onChange],
     );
 
+    const isAllowed = useCallback(
+      (values: NumberFormatValues) => {
+        if (!isZeroAllowd && values.floatValue === 0) return false;
+        return true;
+      },
+      [isZeroAllowd],
+    );
+
     return (
       <>
-        <NumericInput {...props} ref={ref} thousandSeparator="," value={value} onChange={handleChange} />
+        <NumericInput
+          {...props}
+          ref={ref}
+          thousandSeparator=","
+          value={value}
+          isAllowed={isAllowed}
+          onChange={handleChange}
+        />
         {value && (
           <Suffix inSize={size} disabled={disabled} label={props.label}>
             {suffix}

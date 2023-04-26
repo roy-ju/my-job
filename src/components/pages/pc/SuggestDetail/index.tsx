@@ -3,10 +3,11 @@ import useAPI_GetMySuggestDetail from '@/apis/suggest/getMySuggestDetail';
 import useAPI_GetMySuggestRecommends from '@/apis/suggest/getMySuggestRecommends';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { Loading, Panel } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -16,6 +17,11 @@ interface Props {
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
   const suggestID = Number(router.query.suggestID) ?? 0;
+
+  const [popup, setPopup] = useState('none');
+  const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
+
+  const popupData = useRef(0);
 
   const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
   const { data: recommendData, count, mutate } = useAPI_GetMySuggestRecommends(suggestID);
@@ -31,21 +37,31 @@ export default memo(({ panelWidth, depth }: Props) => {
     [router],
   );
 
-  const handleClickNotInterested = useCallback(
-    async (id: number) => {
-      await notIntersted(id);
-      mutate();
-    },
-    [mutate],
-  );
+  const openNotInterestedPopup = useCallback((id: number) => {
+    popupData.current = id;
+    setPopup('notInterested');
+  }, []);
 
-  const handleClickRecommendAccept = useCallback(
-    async (id: number) => {
-      await acceptRecommend(id);
-      mutate();
-    },
-    [mutate],
-  );
+  const openAcceptRecommendPopup = useCallback((id: number) => {
+    popupData.current = id;
+    setPopup('acceptRecommend');
+  }, []);
+
+  const handleNotInterested = useCallback(async () => {
+    setIsPopupButtonLoading(true);
+    await notIntersted(popupData.current);
+    await mutate();
+    setIsPopupButtonLoading(false);
+    setPopup('none');
+  }, [mutate]);
+
+  const handleRecommendAccept = useCallback(async () => {
+    setIsPopupButtonLoading(true);
+    await acceptRecommend(popupData.current);
+    await mutate();
+    setIsPopupButtonLoading(false);
+    setPopup('none');
+  }, [mutate]);
 
   if (isLoading) {
     return (
@@ -65,10 +81,48 @@ export default memo(({ panelWidth, depth }: Props) => {
         suggestData={data}
         onClickBack={() => router.replace(Routes.SuggestRequestedList)}
         onClickListing={(id) => router.replace(Routes.ListingDetail, { searchParams: { listingID: `${id}` } })}
-        onClickNotInterested={handleClickNotInterested}
-        onClickRecommendAccept={handleClickRecommendAccept}
+        onClickNotInterested={openNotInterestedPopup}
+        onClickRecommendAccept={openAcceptRecommendPopup}
         onClickChat={handleClickChat}
       />
+      {popup === 'notInterested' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-10">
+              <Popup.Title>
+                관심없음으로 표시한 매물은
+                <br />
+                추천받은 목록에서 삭제됩니다.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
+              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleNotInterested}>
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'acceptRecommend' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-10">
+              <Popup.Title>
+                중개사님과의 채팅방이 개설됩니다.
+                <br />
+                채팅방을 나가시면 네고 협의가 중단되니 유의해 주세요.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
+              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleRecommendAccept}>
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });

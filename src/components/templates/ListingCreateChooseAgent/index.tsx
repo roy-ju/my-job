@@ -8,13 +8,22 @@ interface Props {
   agents: AgentCarouselItem[];
   index?: number;
   onClickNext?: () => void;
+  onClickBack?: () => void;
   onChangeIndex?: (index: number) => void;
 }
 
-export default function ListingCreateChooseAgent({ isLoading, agents, index, onClickNext, onChangeIndex }: Props) {
+export default function ListingCreateChooseAgent({
+  isLoading,
+  agents,
+  index,
+  onClickNext,
+  onClickBack,
+  onChangeIndex,
+}: Props) {
   return (
     <div>
       <NavigationHeader>
+        <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>매물등록 신청</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="px-5 pt-6 mb-7">

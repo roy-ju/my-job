@@ -9,6 +9,7 @@ export interface GetMySuggestListResponse {
         realestate_types: string;
         title: string;
         status: number;
+        suggest_recommended_count: number;
         created_time: string;
       }[]
     | null;

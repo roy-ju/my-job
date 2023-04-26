@@ -75,6 +75,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         params: router.query.params as string,
         addressLine1: router.query.addressLine1 as string,
         addressLine2: router.query.addressLine2 as string,
+        addressData: router.query.addressData as string,
       },
     });
   }, [router]);
