@@ -11,7 +11,7 @@ interface Props {
 export default function Panel({ width = '380px', zIndex = 1, children }: Props) {
   return (
     <motion.div
-      initial={{ x: '-380px', opacity: 0 }}
+      initial={{ x: '-100px', opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ type: 'spring', damping: 30, stiffness: 200 }}
       layout
