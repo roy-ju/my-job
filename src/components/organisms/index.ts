@@ -54,6 +54,7 @@ export { default as SuggestRequestedListNoData } from './SuggestRequestedListNoD
 export { default as SuggestReceivedListNoData } from './SuggestReceivedListNoData';
 export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
 export { default as ListingRecommendListItem } from './ListingRecommendListItem';
+export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
 
 // 모바일 전용
 export { default as MobDanjiSummary } from './MobDanjiSummary';
