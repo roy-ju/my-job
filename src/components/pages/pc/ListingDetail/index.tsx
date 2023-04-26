@@ -106,6 +106,10 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     }
   }, [router, data]);
 
+  const handleNavigateToPhotoGallery = useCallback(() => {
+    router.push(Routes.ListingPhotoGallery, { persistParams: true });
+  }, [router]);
+
   if (data?.error_code) {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;
   }
@@ -150,6 +154,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
         onNavigateToChatRoom={handleNavigateToChatRoom}
         onNavigateToCreateQna={handleNavigateToCreateQna}
+        onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
       />
     </Panel>
   );

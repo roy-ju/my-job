@@ -92,7 +92,7 @@ export function DanjiHeader({
             <PhotoHero
               itemSize={danjiPhotos.danji_photos.length ?? 0}
               photoPath={danjiPhotos.danji_photos?.[0]?.full_file_path ?? DefaultListingImageLg[danji.type]}
-              handlePhotos={handlePhotos}
+              onClickViewPhotos={handlePhotos}
             />
           ) : (
             <Image
