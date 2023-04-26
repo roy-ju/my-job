@@ -45,6 +45,8 @@ const Routes = {
   MyFavoriteList: 'myFavoriteList',
   MyRegisteredListingList: 'myRegisteredListings',
 
+  ListingDetailPassed: 'listingDetailPassed',
+
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
@@ -55,6 +57,7 @@ const Routes = {
 
   Qna: 'qna',
   TransactionHistory: 'transactionHistory',
+  TransactionReview: 'transactionReview',
   FAQ: 'faq',
   UpdatePhone: 'updatePhone',
 
