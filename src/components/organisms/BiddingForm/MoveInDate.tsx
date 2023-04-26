@@ -60,15 +60,17 @@ export default function MoveInDate({
           <div tw="font-bold">입주가 가능한 가장 빠른 날을 선택해주세요.</div>
           <div tw="flex gap-3">
             <DatePicker
+              minDate={new Date()}
               variant="outlined"
               tw="flex-1 min-w-0"
-              label="날짜"
+              placeholder="날짜"
               value={date}
               onChange={(v) => onChangeDate?.(v)}
             />
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
               <Dropdown.Option value="이전">이전</Dropdown.Option>
               <Dropdown.Option value="이후">이후</Dropdown.Option>
+              <Dropdown.Option value="당일">당일</Dropdown.Option>
             </Dropdown>
           </div>
         </div>

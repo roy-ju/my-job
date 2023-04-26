@@ -20,14 +20,14 @@ export default function MoveInDate({
         <DatePicker
           variant="outlined"
           tw="flex-1 min-w-0"
-          label="날짜"
+          placeholder="날짜"
           value={moveInDate}
           onChange={(v) => onChangeMoveInDate?.(v)}
         />
         <Dropdown tw="flex-1 min-w-0" variant="outlined" value={moveInDateType} onChange={onChangeMoveInDateType}>
           <Dropdown.Option value="이전">이전</Dropdown.Option>
-          <Dropdown.Option value="당일">당일</Dropdown.Option>
           <Dropdown.Option value="이후">이후</Dropdown.Option>
+          <Dropdown.Option value="당일">당일</Dropdown.Option>
         </Dropdown>
       </div>
     </div>

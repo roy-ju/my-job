@@ -29,15 +29,18 @@ export interface ListingDetailProps {
 
   onClickMoreItem?: (index: number, buttonTitle: string) => void;
   onClickFavorite?: () => void;
-
+  onNavigateToCreateQna?: () => void;
+  onNavigateToPhotoGallery?: () => void;
   onClickLoadMoreQna?: () => void;
   onClickDeleteQna?: (id: number) => void;
 
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
-  onNavigateToCreateQna?: () => void;
-  onNavigateToPhotoGallery?: () => void;
+  onNavigateToSuggestRegional?: () => void;
+  onNavigateToUpdateTargetPrice?: () => void;
+  onClickSuggestNotInterested?: () => void;
+  onClickSuggestAcceptRecommend?: () => void;
 }
 
 export default function ListingDetail({
@@ -48,11 +51,15 @@ export default function ListingDetail({
   onClickFavorite,
   onClickLoadMoreQna,
   onClickDeleteQna,
+  onClickSuggestAcceptRecommend,
+  onClickSuggestNotInterested,
   onNavigateToParticipateBidding,
   onNavigateToUpdateBidding,
+  onNavigateToUpdateTargetPrice,
   onNavigateToChatRoom,
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
+  onNavigateToSuggestRegional,
 }: ListingDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
@@ -165,13 +172,24 @@ export default function ListingDetail({
               </Accordion.Summary>
               <Accordion.Details tw="pt-1 pb-6 px-5 text-b2 text-gray-700 whitespace-pre-wrap">
                 {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.body}
+                {listingDetail?.bidding_reject_reason && (
+                  <div tw="mt-5">
+                    <span tw="text-nego-1000">중개사님 추가답변</span>
+                    <br />
+                    {listingDetail?.bidding_reject_reason}
+                  </div>
+                )}
                 <div tw="mt-5" ref={setUserStatusAccordion}>
                   <ListingCtaButtons
                     visitUserType={listingDetail?.visit_user_type ?? 0}
                     buttonSize="big"
                     onNavigateToParticipateBidding={onNavigateToParticipateBidding}
                     onNavigateToUpdateBidding={onNavigateToUpdateBidding}
+                    onNavigateToUpdateTargetPrice={onNavigateToUpdateTargetPrice}
                     onNavigateToChatRoom={onNavigateToChatRoom}
+                    onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
+                    onClickSuggestNotInterested={onClickSuggestNotInterested}
+                    onNavigateToSuggestRegional={onNavigateToSuggestRegional}
                   />
                 </div>
               </Accordion.Details>
@@ -370,7 +388,11 @@ export default function ListingDetail({
             buttonSize="bigger"
             onNavigateToParticipateBidding={onNavigateToParticipateBidding}
             onNavigateToUpdateBidding={onNavigateToUpdateBidding}
+            onNavigateToUpdateTargetPrice={onNavigateToUpdateTargetPrice}
             onNavigateToChatRoom={onNavigateToChatRoom}
+            onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
+            onClickSuggestNotInterested={onClickSuggestNotInterested}
+            onNavigateToSuggestRegional={onNavigateToSuggestRegional}
           />
         </PersistentBottomBar>
       )}

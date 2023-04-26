@@ -108,6 +108,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       state: {
         addressLine1,
         addressLine2,
+        addressData: router.query.addressData as string,
       },
     });
   }, [router, dong, ho, addressData, addressLine1, addressLine2]);

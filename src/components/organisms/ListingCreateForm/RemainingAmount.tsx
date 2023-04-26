@@ -28,7 +28,7 @@ export default function RemainingAmount({ value: valueProp, onChange }: Props) {
           <div tw="text-info">잔금</div>
         </div>
         <TextField variant="outlined">
-          <TextField.PriceInput disabled label="잔금" value={value} onChange={handleChange} />
+          <TextField.PriceInput disabled label="잔금" value={value} onChange={handleChange} isZeroAllowd />
         </TextField>
         <TextField.PriceHelperMessage>{value}</TextField.PriceHelperMessage>
       </div>

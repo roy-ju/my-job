@@ -113,7 +113,7 @@ export default function ListingDetailPassed({
         <div tw="mt-7 py-6 px-5 bg-gray-100 text-gray-1000">
           <div tw="mb-4 text-b1 font-bold">진행 상황</div>
           <div tw="flex flex-col gap-2">
-            {ListingStatus.Complete === listingStatus && (
+            {ListingStatus.ContractComplete === listingStatus && (
               <>
                 <div tw="text-b2 flex justify-between">
                   <span>체결일</span>

@@ -14,9 +14,10 @@ export default function RentEndDate({ date, onChangeDate }: Props) {
         </div>
         <div tw="flex">
           <DatePicker
+            minDate={new Date()}
             variant="outlined"
             tw="flex-1 min-w-0"
-            label="종료일"
+            placeholder="종료일"
             value={date}
             onChange={(value) => onChangeDate?.(value)}
           />

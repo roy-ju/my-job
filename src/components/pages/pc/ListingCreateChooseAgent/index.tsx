@@ -49,6 +49,20 @@ export default memo(({ depth, panelWidth }: Props) => {
     if (!params) router.pop();
   }, [router]);
 
+  const handleClickBack = useCallback(() => {
+    router.replace(Routes.ListingCreateForm, {
+      searchParams: {
+        listingID: router.query.listingID as string,
+      },
+      state: {
+        params: router.query.params as string,
+        addressLine1: router.query.addressLine1 as string,
+        addressLine2: router.query.addressLine2 as string,
+        addressData: router.query.addressData as string,
+      },
+    });
+  }, [router]);
+
   const handleClickNext = useCallback(() => {
     const agentId = agents[index]?.id;
     router.replace(Routes.ListingCreateSummary, {
@@ -60,6 +74,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         params: router.query.params as string,
         addressLine1: router.query.addressLine1 as string,
         addressLine2: router.query.addressLine2 as string,
+        addressData: router.query.addressData as string,
       },
     });
   }, [agents, index, router]);
@@ -70,6 +85,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         agents={agents}
         isLoading={isLoading}
         onClickNext={handleClickNext}
+        onClickBack={handleClickBack}
         index={index}
         onChangeIndex={(value) => setIndex(value)}
       />
