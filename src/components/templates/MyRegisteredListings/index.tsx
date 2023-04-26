@@ -64,9 +64,11 @@ export default function MyRegisteredListings({
   myCancelledListingData,
   myCancelledListingIncrementalPageNumber,
 }: MyRegisteredListingsProps) {
+  console.log(!!0);
   return (
     <div tw="h-full flex flex-col">
       <HeaderRenderer
+        hasRegisteringListing={!!myRegisteringListingCount}
         tabStatus={tab}
         isDeleteActive={isDeleteActive}
         isPopupActive={isPopupActive}
