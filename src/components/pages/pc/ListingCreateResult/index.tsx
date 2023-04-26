@@ -119,6 +119,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     [listingID, mutate],
   );
 
+  const handleNavigateToMyListings = useCallback(() => {
+    router.replace(Routes.MyRegisteredListingList, { searchParams: { tab: '1' } });
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <ListingCreateResult
@@ -170,6 +174,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onSelectAgent={onSelectAgent}
         onClickRemoveFromListings={onClickRemoveFromListings}
         onClickSendOwnerVerification={onClickSendOwnerVerification}
+        onClickMyListings={handleNavigateToMyListings}
       />
     </Panel>
   );

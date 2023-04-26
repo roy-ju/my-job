@@ -7,7 +7,7 @@ import Routes from '@/router/routes';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 import _ from 'lodash';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 import makeListingCreateParams from './makeListingCreateParams';
@@ -19,6 +19,7 @@ export default function useListingCreateForm(depth: number) {
 
   const { user } = useAuth();
 
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
   // 벨리데이션 에러 팝업
@@ -812,9 +813,52 @@ export default function useListingCreateForm(depth: number) {
         }
       }
 
-      formElement.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
     }
   }, [forms]);
+
+  // 버튼 비활성화 로직
+  useEffect(() => {
+    setNextButtonDisabled(false);
+    const currentForm = forms[forms.length - 1];
+    if (currentForm === Forms.IsOwner) {
+      if (!isOwner && (!ownerName || !ownerPhone)) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.BuyOrRent) {
+      if (!buyOrRent) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Price) {
+      if (!price) {
+        setNextButtonDisabled(true);
+      }
+
+      if (buyOrRent === BuyOrRent.Wolsae && !monthlyRentFee) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.RentEndDate) {
+      if (!rentEndDate) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.PaymentSchedules) {
+      if (!contractAmount) {
+        setNextButtonDisabled(true);
+      }
+      if (interims.length > 0) {
+        const falsies = interims.map((item) => item.price).filter((value) => value === '');
+        if (falsies.length > 0) setNextButtonDisabled(true);
+      }
+    }
+  }, [forms, isOwner, ownerName, ownerPhone, buyOrRent, price, monthlyRentFee, rentEndDate, contractAmount, interims]);
 
   // 팝업 콜백들
 
@@ -1065,197 +1109,103 @@ export default function useListingCreateForm(depth: number) {
     setCollaterals(defaultCollaterals);
   }, [router.query.params]);
 
-  return useMemo(
-    () => ({
-      handleClickBack,
-      openBackPopup,
+  return {
+    nextButtonDisabled,
 
-      addressLine1,
-      addressLine2,
+    handleClickBack,
+    openBackPopup,
 
-      forms,
-      isOwner,
-      ownerName,
-      ownerPhone,
-      buyOrRent,
-      price,
-      monthlyRentFee,
+    addressLine1,
+    addressLine2,
 
-      contractAmount,
-      contractAmountNegotiable,
-      remainingAmount,
-      interims,
+    forms,
+    isOwner,
+    ownerName,
+    ownerPhone,
+    buyOrRent,
+    price,
+    monthlyRentFee,
 
-      debtSuccessionDeposit,
-      debtSuccessionMiscs,
-      collaterals,
+    contractAmount,
+    contractAmountNegotiable,
+    remainingAmount,
+    interims,
 
-      specialTerms,
+    debtSuccessionDeposit,
+    debtSuccessionMiscs,
+    collaterals,
 
-      moveInDate,
-      moveInDateType,
-      verandaExtended,
-      verandaRemodelling,
-      handleChangeVerandaExtended,
-      handleChangeVerandaRemodelling,
+    specialTerms,
 
-      extraOptions,
-      handleChangeExtraOptions,
+    moveInDate,
+    moveInDateType,
+    verandaExtended,
+    verandaRemodelling,
+    handleChangeVerandaExtended,
+    handleChangeVerandaRemodelling,
 
-      handleChangeIsOwner,
-      handleChangeOwnerName,
-      handleChangeOwnerPhone,
-      handleChangeBuyOrRent,
-      handleClickNext,
-      handleChangePrice,
-      handleChangeMonthlyRentFee,
-      handleChangeContractAmount,
-      handleChangeContractAmountNegotiable,
-      handleChangeRemainingAmount,
-      handleAddInterim,
-      handleChangeDebtSuccessionDeposit,
-      handleAddDebtSuccessionMisc,
-      handleChangeSpecialTerms,
-      handleAddCollaterals,
-      handleChangeMoveInDate,
-      handleChangeMoveInDateType,
+    extraOptions,
+    handleChangeExtraOptions,
 
-      remainingAmountDate,
-      remainingAmountDateType,
-      handleChangeRemainingAmountDate,
-      handleChangeRemainingAmountDateType,
+    handleChangeIsOwner,
+    handleChangeOwnerName,
+    handleChangeOwnerPhone,
+    handleChangeBuyOrRent,
+    handleClickNext,
+    handleChangePrice,
+    handleChangeMonthlyRentFee,
+    handleChangeContractAmount,
+    handleChangeContractAmountNegotiable,
+    handleChangeRemainingAmount,
+    handleAddInterim,
+    handleChangeDebtSuccessionDeposit,
+    handleAddDebtSuccessionMisc,
+    handleChangeSpecialTerms,
+    handleAddCollaterals,
+    handleChangeMoveInDate,
+    handleChangeMoveInDateType,
 
-      rentArea,
-      handleChangeRentArea,
+    remainingAmountDate,
+    remainingAmountDateType,
+    handleChangeRemainingAmountDate,
+    handleChangeRemainingAmountDateType,
 
-      rentTermMonth,
-      rentTermYear,
-      rentTermNegotiable,
-      handleChangeRentTermMonth,
-      handleChangeRentTermYear,
-      handleChangeRentTermNegotiable,
+    rentArea,
+    handleChangeRentArea,
 
-      quickSale,
-      handleChangeQuickSale,
+    rentTermMonth,
+    rentTermYear,
+    rentTermNegotiable,
+    handleChangeRentTermMonth,
+    handleChangeRentTermYear,
+    handleChangeRentTermNegotiable,
 
-      jeonsaeLoan,
-      handleChangeJeonsaeLoan,
+    quickSale,
+    handleChangeQuickSale,
 
-      adminFee,
-      handleChangeAdminFee,
+    jeonsaeLoan,
+    handleChangeJeonsaeLoan,
 
-      listingPhotoUrls,
-      handleChangeListingPhotoUrls,
+    adminFee,
+    handleChangeAdminFee,
 
-      danjiPhotoUrls,
-      handleChangeDanjiPhotoUrls,
+    listingPhotoUrls,
+    handleChangeListingPhotoUrls,
 
-      description,
-      handleChangeDescription,
+    danjiPhotoUrls,
+    handleChangeDanjiPhotoUrls,
 
-      rentEndDate,
-      handleChangeRentEndDate,
+    description,
+    handleChangeDescription,
 
-      // Popup actions
-      popup,
-      errPopup,
-      closePopup,
-      closeErrPopup,
-      handleConfirmChangeBuyOrRent,
-    }),
-    [
-      handleClickBack,
-      openBackPopup,
+    rentEndDate,
+    handleChangeRentEndDate,
 
-      addressLine1,
-      addressLine2,
-
-      popup,
-      errPopup,
-      forms,
-      isOwner,
-      ownerName,
-      ownerPhone,
-      buyOrRent,
-      price,
-      monthlyRentFee,
-      contractAmount,
-      contractAmountNegotiable,
-      remainingAmount,
-
-      interims,
-      debtSuccessionDeposit,
-      debtSuccessionMiscs,
-      collaterals,
-
-      specialTerms,
-      moveInDate,
-      moveInDateType,
-
-      verandaExtended,
-      verandaRemodelling,
-      handleChangeVerandaExtended,
-      handleChangeVerandaRemodelling,
-
-      extraOptions,
-      handleChangeExtraOptions,
-
-      handleChangeIsOwner,
-      handleChangeOwnerName,
-      handleChangeOwnerPhone,
-      handleChangeBuyOrRent,
-      handleClickNext,
-      closePopup,
-      closeErrPopup,
-      handleConfirmChangeBuyOrRent,
-      handleChangePrice,
-      handleChangeMonthlyRentFee,
-      handleChangeContractAmount,
-      handleChangeContractAmountNegotiable,
-      handleChangeRemainingAmount,
-      handleAddInterim,
-      handleChangeDebtSuccessionDeposit,
-      handleAddDebtSuccessionMisc,
-      handleChangeSpecialTerms,
-      handleAddCollaterals,
-      handleChangeMoveInDate,
-      handleChangeMoveInDateType,
-
-      remainingAmountDate,
-      remainingAmountDateType,
-      handleChangeRemainingAmountDate,
-      handleChangeRemainingAmountDateType,
-
-      rentArea,
-      handleChangeRentArea,
-
-      rentTermMonth,
-      rentTermYear,
-      rentTermNegotiable,
-      handleChangeRentTermMonth,
-      handleChangeRentTermYear,
-      handleChangeRentTermNegotiable,
-
-      quickSale,
-      handleChangeQuickSale,
-
-      jeonsaeLoan,
-      handleChangeJeonsaeLoan,
-
-      adminFee,
-      handleChangeAdminFee,
-
-      listingPhotoUrls,
-      handleChangeListingPhotoUrls,
-
-      danjiPhotoUrls,
-      handleChangeDanjiPhotoUrls,
-
-      description,
-      handleChangeDescription,
-
-      rentEndDate,
-      handleChangeRentEndDate,
-    ],
-  );
+    // Popup actions
+    popup,
+    errPopup,
+    closePopup,
+    closeErrPopup,
+    handleConfirmChangeBuyOrRent,
+  };
 }

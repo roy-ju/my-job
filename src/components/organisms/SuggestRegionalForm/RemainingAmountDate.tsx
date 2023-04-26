@@ -20,7 +20,7 @@ export default function RemainingAmountDate({
         <DatePicker
           variant="outlined"
           tw="flex-1 min-w-0"
-          label="날짜"
+          placeholder="날짜"
           value={remainingAmountDate}
           onChange={(v) => onChangeRemainingAmountDate?.(v)}
         />
