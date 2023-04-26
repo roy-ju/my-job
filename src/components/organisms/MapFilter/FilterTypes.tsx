@@ -198,7 +198,7 @@ export default function FilterTypes({
       )}
       {filterContainer && !isExpanded && isOverflown && (
         <div tw="absolute top-0 right-0 h-full flex items-center">
-          <div tw="w-10 h-full bg-gradient-to-l from-white to-transparent" />
+          <div tw="w-10 h-full bg-gradient-to-l from-white to-[rgba(255,255,255,0)]" />
           <Button onClick={handleToggleFilterExpansion} size="none" variant="ghost" tw="w-10 h-full pr-2 bg-white">
             <ChevronDownIcon />
           </Button>
