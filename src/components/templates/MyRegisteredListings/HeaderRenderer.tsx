@@ -1,6 +1,7 @@
 import { OverlayPresenter, Popup, NavigationHeader } from '@/components/molecules';
 
 interface Props {
+  hasRegisteringListing: boolean;
   tabStatus: number;
   isDeleteActive: boolean;
   isPopupActive: boolean;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function HeaderRenderer({
+  hasRegisteringListing = false,
   tabStatus,
   isDeleteActive,
   isPopupActive,
@@ -21,7 +23,8 @@ export default function HeaderRenderer({
   onClosePopup,
   onOpenPopup,
 }: Props) {
-  if (tabStatus === 1) {
+  console.log(hasRegisteringListing);
+  if (hasRegisteringListing && tabStatus === 1) {
     if (isDeleteActive) {
       return (
         <>
