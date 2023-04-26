@@ -23,7 +23,6 @@ export default function HeaderRenderer({
   onClosePopup,
   onOpenPopup,
 }: Props) {
-  console.log(hasRegisteringListing);
   if (hasRegisteringListing && tabStatus === 1) {
     if (isDeleteActive) {
       return (

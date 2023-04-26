@@ -25,6 +25,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   const handleNavigateToChatRoom = () => {
+    if (!data?.seller_agent_chat_room_id) return;
+
     chatRoomRouter.replace(Routes.ChatRoom, {
       searchParams: {
         chatRoomID: String(data?.seller_agent_chat_room_id),
@@ -35,7 +37,12 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleNavigateToTransactionReview = () => {
     router.replace(Routes.TransactionReview, {
       searchParams: {
+        listingContractID: String(data?.listing_contract_id),
+        tab: router.query.tab as string,
         listingID: String(data?.listing_id),
+      },
+      state: {
+        hasReview: String(data?.has_review),
       },
     });
   };
