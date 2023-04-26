@@ -34,6 +34,12 @@ const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegis
   ssr: false,
   loading: () => <Panel />,
 });
+
+const ListingDetailPassed = dynamic(() => import('@/components/pages/pc/ListingDetailPassed'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
   loading: () => <Panel />,
@@ -121,6 +127,10 @@ const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/Deregis
   loading: () => <Panel />,
 });
 const TransactionHistory = dynamic(() => import('@/components/pages/pc/TransactionHistory'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
+const TransactionReview = dynamic(() => import('@/components/pages/pc/TransactionReview'), {
   ssr: false,
   loading: () => <Panel />,
 });
@@ -294,6 +304,10 @@ export default function Router({ route, query, depth }: Props) {
       return <MyRegisteredListings {...props} />;
     }
 
+    case Routes.ListingDetailPassed: {
+      return <ListingDetailPassed {...props} />;
+    }
+
     case Routes.NotificationList: {
       return <NotificationList {...props} />;
     }
@@ -312,6 +326,9 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.TransactionHistory: {
       return <TransactionHistory {...props} />;
+    }
+    case Routes.TransactionReview: {
+      return <TransactionReview {...props} />;
     }
     case Routes.NegoPoint: {
       return <NegoPoint {...props} />;
