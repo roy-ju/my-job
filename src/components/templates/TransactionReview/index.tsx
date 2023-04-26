@@ -1,5 +1,58 @@
-export interface TransactionReviewProps {}
+import { Button } from '@/components/atoms';
+import { NavigationHeader } from '@/components/molecules';
+import { TransactionReviewForm } from '@/components/organisms';
 
-export default function TransactionReview() {
-  return <div tw="h-full flex flex-col" />;
+interface Props {
+  hasReview: boolean;
+  agentName: string;
+  userNickname: string;
+  ratingText: string;
+  recommendations: string[];
+  freeFeedback: string;
+  onClickRatingText: (text: string) => () => void;
+  onChangeRecommendations: (text: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeFreeFeedback: React.ChangeEventHandler<HTMLTextAreaElement>;
+  onSubmit: () => void;
+  onGoBack: () => void;
+}
+
+export default function TransactionReview({
+  hasReview,
+  agentName,
+  userNickname,
+  ratingText,
+  recommendations,
+  freeFeedback,
+  onClickRatingText,
+  onChangeRecommendations,
+  onChangeFreeFeedback,
+  onSubmit,
+  onGoBack,
+}: Props) {
+  return (
+    <div tw="h-full flex flex-col">
+      <NavigationHeader>
+        <NavigationHeader.BackButton onClick={onGoBack} />
+        <NavigationHeader.Title>거래후기 남기기</NavigationHeader.Title>
+      </NavigationHeader>
+      <div tw="flex-1 px-5 mt-7">
+        <TransactionReviewForm
+          hasReview={hasReview}
+          agentName={agentName}
+          userNickname={userNickname}
+          ratingText={ratingText}
+          recommendations={recommendations}
+          freeFeedback={freeFeedback}
+          onClickRatingText={onClickRatingText}
+          onChangeRecommendations={onChangeRecommendations}
+          onChangeFreeFeedback={onChangeFreeFeedback}
+        />
+      </div>
+      <div tw="px-5 py-4 w-full bg-white shadow-persistentBottomBar">
+        <Button onClick={hasReview ? onGoBack : onSubmit} size="bigger" tw="w-full">
+          {hasReview ? '확인' : '후기 남기기'}
+        </Button>
+      </div>
+    </div>
+  );
 }
