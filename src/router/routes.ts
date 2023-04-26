@@ -97,6 +97,7 @@ const Routes = {
   ListingQnaCreateForm: 'listngQnaCreate',
   ListingManage: 'listingManage',
   ListingReport: 'listingReport',
+  ListingPhotoGallery: 'listingPhotoGallery',
 
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',

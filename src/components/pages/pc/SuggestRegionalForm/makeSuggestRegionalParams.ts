@@ -1,5 +1,5 @@
 import { RegionItem } from '@/components/organisms/RegionList';
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
 interface Args {
@@ -26,6 +26,10 @@ function getDateType(value?: string) {
 }
 
 export default function makeSuggestRegionalParams(args: Args) {
+  if (args.realestateType.includes(RealestateType.Dasaedae)) {
+    args.realestateType.push(RealestateType.Yunrip);
+  }
+
   const params: Record<string, unknown> = {
     address: args.bubjungdong.name,
     bubjungdong_code: args.bubjungdong.code,

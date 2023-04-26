@@ -75,7 +75,6 @@ function TabButton({ text, idx, icon }: { text: string; idx: number; icon: any }
   const { selectedTab, changeTab } = useNavigationContext();
 
   function handleTabButton() {
-    if (selectedTab === idx) return;
     changeTab(idx);
   }
 

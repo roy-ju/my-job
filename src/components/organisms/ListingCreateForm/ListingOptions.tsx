@@ -15,8 +15,6 @@ export default function ListingOptions({
   onChangeVerandaExtended,
   onChangeVerandaRemodelling,
 }: ListingOptionsProps) {
-  console.log(verandaExtendedValueProp, '1');
-
   const [verandaExtendedValue, setVerandaExtendedValue] = useControlled({
     controlled: verandaExtendedValueProp,
     default: false,
@@ -41,8 +39,6 @@ export default function ListingOptions({
     },
     [setVerandaRemodellingValue, onChangeVerandaRemodelling],
   );
-
-  console.log(verandaExtendedValue, '2');
 
   return (
     <div>

@@ -1,4 +1,5 @@
 /* eslint-disable react/no-danger */
+import AppConfig from '@/config';
 import { extractCritical } from '@emotion/server';
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document';
 import Script from 'next/script';
@@ -25,7 +26,7 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang={AppConfig.locale}>
         <Head>
           <style data-emotion-css={this.props?.ids?.join(' ')} dangerouslySetInnerHTML={{ __html: this.props.css }} />
           <link
