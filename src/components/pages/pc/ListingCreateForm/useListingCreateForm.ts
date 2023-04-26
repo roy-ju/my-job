@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 import makeListingCreateParams from './makeListingCreateParams';
 
-type PopupType = 'none' | 'buyOrRentChagne';
+type PopupType = 'none' | 'buyOrRentChagne' | 'back';
 
 export default function useListingCreateForm(depth: number) {
   const router = useRouter(depth);
@@ -351,7 +351,7 @@ export default function useListingCreateForm(depth: number) {
 
     router.replace(Routes.ListingCreateChooseAgent, {
       searchParams: { listingID: router.query.listingID as string },
-      state: { params: encoded, addressLine1, addressLine2 },
+      state: { params: encoded, addressLine1, addressLine2, addressData: router.query.addressData as string },
     });
   }, [
     router,
@@ -391,6 +391,18 @@ export default function useListingCreateForm(depth: number) {
     verandaExtended,
     verandaRemodelling,
   ]);
+
+  const openBackPopup = useCallback(() => {
+    setPopup('back');
+  }, []);
+
+  const handleClickBack = useCallback(() => {
+    router.replace(Routes.ListingCreateAddressDetail, {
+      state: {
+        addressData: router.query.addressData as string,
+      },
+    });
+  }, [router]);
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
@@ -785,22 +797,22 @@ export default function useListingCreateForm(depth: number) {
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
     if (currentForm === Forms.IsOwner) return;
-
     const formContainer = document.getElementById('formContainer');
     const formElement = document.getElementById(currentForm);
-    const nextButtonContainer = document.getElementById('formSubmitContainer');
 
     const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
-    const formElementHeight = formElement?.getBoundingClientRect().height ?? 0;
 
-    if (nextButtonContainer) {
-      const height = containerHeight - formElementHeight;
-      if (height > 0) {
-        nextButtonContainer.style.minHeight = `${height}px`;
-      } else {
-        nextButtonContainer.style.minHeight = '';
+    if (formElement) {
+      formElement.style.minHeight = `${containerHeight}px`;
+      const prevForm = forms[forms.length - 2];
+      if (prevForm) {
+        const prevFormElement = document.getElementById(prevForm);
+        if (prevFormElement) {
+          prevFormElement.style.minHeight = '';
+        }
       }
-      formElement?.scrollIntoView({ behavior: 'smooth' });
+
+      formElement.scrollIntoView({ behavior: 'smooth' });
     }
   }, [forms]);
 
@@ -833,6 +845,7 @@ export default function useListingCreateForm(depth: number) {
     const convertDateType = (value: number) => {
       if (value === 1) return '이전';
       if (value === 2) return '이후';
+      if (value === 3) return '당일';
       return '이전';
     };
 
@@ -1054,6 +1067,9 @@ export default function useListingCreateForm(depth: number) {
 
   return useMemo(
     () => ({
+      handleClickBack,
+      openBackPopup,
+
       addressLine1,
       addressLine2,
 
@@ -1148,6 +1164,9 @@ export default function useListingCreateForm(depth: number) {
       handleConfirmChangeBuyOrRent,
     }),
     [
+      handleClickBack,
+      openBackPopup,
+
       addressLine1,
       addressLine2,
 

@@ -1,4 +1,4 @@
-import { Button } from '@/components/atoms';
+import { Button, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import AddressDetailForm from '@/components/organisms/AddressDetailForm';
 import { ChangeEventHandler } from 'react';
@@ -45,12 +45,12 @@ export default function ListingCreateAddressDetail({
           onChangeHo={onChangeHo}
           onClickSearchAnotherAddress={onSearchAnotherAddress}
         />
-        <div tw="px-5 mt-12">
-          <Button isLoading={isLoading} size="bigger" tw="w-full" onClick={onSubmit}>
-            다음
-          </Button>
-        </div>
       </div>
+      <PersistentBottomBar>
+        <Button isLoading={isLoading} size="bigger" tw="w-full" onClick={onSubmit}>
+          다음
+        </Button>
+      </PersistentBottomBar>
     </div>
   );
 }

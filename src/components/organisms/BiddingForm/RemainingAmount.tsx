@@ -78,6 +78,7 @@ export default function RemainingAmount({
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
               <Dropdown.Option value="이전">이전</Dropdown.Option>
               <Dropdown.Option value="이후">이후</Dropdown.Option>
+              <Dropdown.Option value="당일">당일</Dropdown.Option>
             </Dropdown>
           </div>
         </div>
