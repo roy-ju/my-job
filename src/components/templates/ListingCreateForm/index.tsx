@@ -5,6 +5,8 @@ import FormContext, { IFormContext } from './FormContext';
 import FormRenderer from './FormRenderer';
 
 export interface ListingCreateFormProps extends IFormContext {
+  nextButtonDisabled?: boolean;
+
   addressLine1: string;
   addressLine2: string;
 
@@ -14,6 +16,8 @@ export interface ListingCreateFormProps extends IFormContext {
 }
 
 export default function ListingCreateForm({
+  nextButtonDisabled,
+
   addressLine1,
   addressLine2,
 
@@ -300,7 +304,7 @@ export default function ListingCreateForm({
           ))}
         </div>
         <PersistentBottomBar>
-          <Button onClick={onClickNext} tw="w-full" size="bigger">
+          <Button onClick={onClickNext} tw="w-full" size="bigger" disabled={nextButtonDisabled}>
             다음
           </Button>
         </PersistentBottomBar>

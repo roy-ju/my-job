@@ -24,14 +24,12 @@ const Input = forwardRef<HTMLInputElement, CustomInputProps>(({ variant, label, 
 
 export interface DatePickerProps extends Omit<TextFieldProps, 'value' | 'onChange' | 'children'> {
   placeholder?: string;
-  label?: string;
   value?: Date | null;
   onChange?: (value: Date | null) => void;
 }
 
 export default function DatePicker({
   placeholder,
-  label,
   value: valueProp,
   onChange,
   variant,
@@ -53,8 +51,8 @@ export default function DatePicker({
   );
 
   const customInput = useMemo(
-    () => <Input label={label} variant={variant} size={size} hasError={hasError} />,
-    [variant, size, hasError, label],
+    () => <Input variant={variant} size={size} hasError={hasError} />,
+    [variant, size, hasError],
   );
 
   return (
