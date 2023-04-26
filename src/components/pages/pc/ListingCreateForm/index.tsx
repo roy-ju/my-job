@@ -97,6 +97,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     rentEndDate,
     handleChangeRentEndDate,
+
+    handleClickBack,
+    openBackPopup,
   } = useListingCreateForm(depth);
 
   const { list: listingOptions } = useAPI_GetOptionList();
@@ -104,6 +107,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ListingCreateForm
+        onClickBack={openBackPopup}
         addressLine1={addressLine1}
         addressLine2={addressLine2}
         forms={forms}
@@ -174,6 +178,23 @@ export default memo(({ depth, panelWidth }: Props) => {
         rentEndDate={rentEndDate}
         onChangeRentEndDate={handleChangeRentEndDate}
       />
+      {popup === 'back' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>
+                정말 뒤로 돌아가시겠습니까?
+                <br />
+                입력하신 정보가 저장되지 않습니다.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleClickBack}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
       {popup === 'buyOrRentChagne' && (
         <OverlayPresenter>
           <Popup>

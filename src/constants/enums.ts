@@ -81,10 +81,10 @@ export enum ListingStatus {
   Duplicated = 19, // (등록 불가 매물) 모든 유형의 중복 매물이 있어서 등록이 불가능해서 삭제 가능한 상태
   Active = 20, // Active 상태
   Negotiating = 21, // 우선협상자 선정 상태
-  Complete = 22, // 거래 성사 상태
+  ContractComplete = 22, // 거래 성사 상태
   Cancelled = 23, // 취소 상태. 매도인 취소, 중개사 취소. 삭제와는 구분되어야 함
   Deleted = 24, // 중개사 임시저장 상태
-  CompleteComplete = 25,
+  PreContractComplete = 25, // 거래성사 -가계약금 입금완료
 }
 
 export enum VisitUserType {
