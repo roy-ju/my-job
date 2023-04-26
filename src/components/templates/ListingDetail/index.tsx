@@ -12,6 +12,7 @@ import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
+import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import UserStatusStrings from './strings';
 
 const commonOptions = ['신고하기', '중개약정확인'];
@@ -20,24 +21,38 @@ const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
 
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
+  qnaList?: GetListingQnaListResponse['list'];
+  hasMoreQnas?: boolean;
+
+  isLoadingQna?: boolean;
   isLoading?: boolean;
 
   onClickMoreItem?: (index: number, buttonTitle: string) => void;
   onClickFavorite?: () => void;
+
+  onClickLoadMoreQna?: () => void;
+  onClickDeleteQna?: (id: number) => void;
+
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
   onNavigateToCreateQna?: () => void;
+  onNavigateToPhotoGallery?: () => void;
 }
 
 export default function ListingDetail({
   listingDetail,
+  qnaList,
+  hasMoreQnas,
   onClickMoreItem,
   onClickFavorite,
+  onClickLoadMoreQna,
+  onClickDeleteQna,
   onNavigateToParticipateBidding,
   onNavigateToUpdateBidding,
   onNavigateToChatRoom,
   onNavigateToCreateQna,
+  onNavigateToPhotoGallery,
 }: ListingDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
@@ -113,6 +128,7 @@ export default function ListingDetail({
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <PhotoHero
+          onClickViewPhotos={onNavigateToPhotoGallery}
           itemSize={listingDetail?.photos?.length ?? 0}
           photoPath={
             listingDetail?.photos?.[0]?.full_file_path ??
@@ -333,7 +349,18 @@ export default function ListingDetail({
         </div>
         <Separator />
         <div tw="py-10 px-5">
-          <ListingDetailSection.Qna onClickCreateQna={onNavigateToCreateQna} />
+          <ListingDetailSection.Qna
+            isOwner={listingDetail?.visit_user_type === VisitUserType.SellerGeneral}
+            hasNext={hasMoreQnas}
+            qnaList={qnaList}
+            onClickCreateQna={onNavigateToCreateQna}
+            onClickNext={onClickLoadMoreQna}
+            onClickDeleteQna={onClickDeleteQna}
+          />
+        </div>
+        <Separator />
+        <div tw="py-10 px-5">
+          <ListingDetailSection.Faq />
         </div>
       </div>
       {!isTopCtaButtonsVisible && (

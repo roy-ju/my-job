@@ -17,8 +17,6 @@ export default function ExtraOptions({
   onChangeExtraOptions,
   listingOptions,
 }: ExtraOptionsProps) {
-  console.log(extraOptionsValueProp, '1');
-
   const [extraOptionsValue, setExtraOptionsValue] = useControlled({
     controlled: extraOptionsValueProp,
     default: [],
@@ -32,7 +30,6 @@ export default function ExtraOptions({
     [setExtraOptionsValue, onChangeExtraOptions, extraOptionsValue],
   );
 
-  console.log(extraOptionsValue, '2');
 
   return (
     <div>

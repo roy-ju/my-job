@@ -196,9 +196,9 @@ function LayoutMapContainer({
           onClick={onClickSuggestReginoal}
         >
           <div tw="pt-5 pb-4 text-start mr-10">
-            <span tw="text-info leading-4">찾으시는 매물이 없다면,</span>
+            <span tw="text-info leading-4 whitespace-nowrap">찾으시는 매물이 없다면,</span>
             <br />
-            <span tw="text-b2 font-bold leading-5">매물을 추천받아 보세요.</span>
+            <span tw="text-b2 font-bold leading-5 whitespace-nowrap">매물을 추천받아 보세요.</span>
           </div>
           <ChevronLeftIcon tw="text-gray-700 w-4 h-4 rotate-180" />
         </Button>
@@ -206,10 +206,11 @@ function LayoutMapContainer({
       <div tw="absolute right-5 bottom-10 flex gap-2 z-10">
         <Button variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
           <RefreshOrangeIcon style={{ marginRight: '0.5rem' }} />
-          중개사 사이트
+          <span tw="whitespace-nowrap">중개사 사이트</span>
         </Button>
         <Button variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
-          <HouseGreenIcon style={{ marginRight: '0.5rem' }} />집 내놓기
+          <HouseGreenIcon style={{ marginRight: '0.5rem' }} />
+          <span tw="whitespace-nowrap">집 내놓기</span>
         </Button>
       </div>
       <div tw="inline-flex gap-2 w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">

@@ -46,10 +46,6 @@ export default function DanjiRealPriceListAll({
     sessionStorage.getItem('d-jr-s')?.toString() || '',
   );
 
-  console.log(selectedArea);
-  console.log(selectedJeonyongArea);
-  console.log(selectedJeonyongAreaMax);
-
   const [selectedIndex, setSelectedIndex] = useSessionStorage(
     'd-sl-i',
     sessionStorage.getItem('d-sl-i') ? Number(sessionStorage.getItem('d-sl-i')) : 1,

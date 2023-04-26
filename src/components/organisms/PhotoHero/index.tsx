@@ -12,12 +12,12 @@ const Container = styled.div`
 
 export interface PhotoHeroProps {
   defaultPhotoPath?: string;
-  handlePhotos?: () => void;
+  onClickViewPhotos?: () => void;
   photoPath?: string;
   itemSize?: number;
 }
 
-export default function PhotoHero({ photoPath, handlePhotos, itemSize = 0 }: PhotoHeroProps) {
+export default function PhotoHero({ photoPath, onClickViewPhotos, itemSize = 0 }: PhotoHeroProps) {
   const imgPath = photoPath;
 
   return (
@@ -26,13 +26,15 @@ export default function PhotoHero({ photoPath, handlePhotos, itemSize = 0 }: Pho
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${imgPath}')`,
       }}
     >
-      <Button
-        onClick={handlePhotos}
-        size="none"
-        tw="rounded-bubble h-5 text-[10px] text-white px-2 bg-gray-1000/50 absolute bottom-3 right-5"
-      >
-        1 / {itemSize} 모두보기
-      </Button>
+      {itemSize > 0 && (
+        <Button
+          onClick={onClickViewPhotos}
+          size="none"
+          tw="rounded-bubble h-5 text-[10px] text-white px-2 bg-gray-1000/50 absolute bottom-3 right-5"
+        >
+          1 / {itemSize} 모두보기
+        </Button>
+      )}
     </Container>
   );
 }

@@ -1,3 +1,4 @@
+import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import reportListing from '@/apis/listing/reportListing';
 import { Panel } from '@/components/atoms';
 import { ListingReport } from '@/components/templates';
@@ -13,6 +14,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
+  const { data } = useAPI_GetListingDetail(listingID);
   const [isReporting, setIsReporting] = useState(false);
 
   const handleReport = useCallback(
@@ -31,7 +33,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <ListingReport isReporting={isReporting} onClickReport={handleReport} />
+      <ListingReport tradeID={data?.listing?.trade_id} isReporting={isReporting} onClickReport={handleReport} />
     </Panel>
   );
 });

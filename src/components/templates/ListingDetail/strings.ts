@@ -27,13 +27,9 @@ const UserStatusStrings: Record<
     title: '다시 제안해보세요.',
     body: '제안한 내용으로 현재는 네고가 진행되기 어려울거 같아요. 제안을 수정해 보거나, 제안했던 내용으로 주변 지역의 다른 매물을 추천받아보세요.',
   },
-  [VisitUserType.HasSuggested]: {
+  [VisitUserType.HasSuggestRecommend]: {
     title: '중개사님이 추천한 매물이에요.',
     body: '중개사님과 채팅을 통해 협의해 보고 싶으시다면 네고 협의 버튼을 눌러주세요!',
-  },
-  [VisitUserType.HasRejectedSuggest]: {
-    title: '관심 없다고 하신 메물이에요.',
-    body: '다시 관심이 생기셨다면 네고 협의 하기 버튼을 눌러주세요! 중개사님과의 채팅이 가능합니다.',
   },
   [VisitUserType.Accepted]: {
     title: '네고 협의가 진행 중이에요.',

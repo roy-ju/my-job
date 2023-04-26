@@ -68,6 +68,8 @@ export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestDetail } from './SuggestDetail';
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
+export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
+export { default as PhotoGallery } from './PhotoGallery';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

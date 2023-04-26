@@ -256,7 +256,10 @@ const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'
   ssr: false,
   loading: () => <Panel />,
 });
-
+const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingPhotoGallery'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 const DEFAULT_PANEL_WIDTH = '380px';
 
 interface Props {
@@ -536,6 +539,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.SuggestDetail: {
       return <SuggestDetail {...props} />;
+    }
+
+    case Routes.ListingPhotoGallery: {
+      return <ListingPhotoGallery {...props} />;
     }
 
     case Routes.Developer: {
