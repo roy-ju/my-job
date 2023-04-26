@@ -95,6 +95,8 @@ const Routes = {
   ListingManage: 'listingManage',
   ListingReport: 'listingReport',
   ListingPhotoGallery: 'listingPhotoGallery',
+  ListingTargetPriceUpdate: 'listingTargetPriceUpdate',
+  ListingTargetPriceUpdateSummary: 'listingTargetPriceUpdateSummary',
 
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
