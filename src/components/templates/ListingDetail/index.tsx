@@ -37,6 +37,7 @@ export interface ListingDetailProps {
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
   onNavigateToCreateQna?: () => void;
+  onNavigateToPhotoGallery?: () => void;
 }
 
 export default function ListingDetail({
@@ -51,6 +52,7 @@ export default function ListingDetail({
   onNavigateToUpdateBidding,
   onNavigateToChatRoom,
   onNavigateToCreateQna,
+  onNavigateToPhotoGallery,
 }: ListingDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
@@ -126,6 +128,7 @@ export default function ListingDetail({
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <PhotoHero
+          onClickViewPhotos={onNavigateToPhotoGallery}
           itemSize={listingDetail?.photos?.length ?? 0}
           photoPath={
             listingDetail?.photos?.[0]?.full_file_path ??
