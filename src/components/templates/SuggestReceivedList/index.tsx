@@ -71,25 +71,6 @@ export default function SuggestReceivedList({
     <div tw="h-full flex flex-col">
       <NavigationHeader>
         <NavigationHeader.Title>추천받은 매물</NavigationHeader.Title>
-        {/* {tabIndex === 3 && (
-          <div>
-            {listStyle === 'none' && (
-              <NavigationHeader.Button tw="text-b2 underline" onClick={() => onChangeListStyle?.('delete')}>
-                선택삭제
-              </NavigationHeader.Button>
-            )}
-            {listStyle === 'delete' && (
-              <div tw="flex gap-3">
-                <NavigationHeader.Button tw="text-b2 underline" onClick={() => onChangeListStyle?.('none')}>
-                  취소
-                </NavigationHeader.Button>
-                <NavigationHeader.Button tw="text-b2 underline" onClick={onClickDelete}>
-                  삭제하기
-                </NavigationHeader.Button>
-              </div>
-            )}
-          </div>
-        )} */}
       </NavigationHeader>
       <Tabs value={tabIndex} onChange={onChangeTabIndex}>
         <Tabs.Tab value={1}>
