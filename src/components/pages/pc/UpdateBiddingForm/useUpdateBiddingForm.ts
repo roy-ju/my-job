@@ -346,7 +346,6 @@ export default function useUpdateBiddingForm(depth: number) {
   useIsomorphicLayoutEffect(() => {
     if (!biddingParams) return;
 
-    console.log('updating from bidding params');
     if (data?.listing?.buy_or_rent === BuyOrRent.Buy && biddingParams.accepting_target_price === false) {
       setForms([Forms.Price, Forms.ContractAmount, Forms.InterimAmount, Forms.RemainingAmount, Forms.Etc]);
     } else if (
@@ -405,7 +404,6 @@ export default function useUpdateBiddingForm(depth: number) {
       setIsLoadingBidding(false);
       return;
     }
-    console.log('updating from bidding data');
     if (!biddingData || !data?.listing?.buy_or_rent) return;
     if (data?.listing?.buy_or_rent === BuyOrRent.Buy && biddingData.accepting_target_price === false) {
       setForms([Forms.Price, Forms.ContractAmount, Forms.InterimAmount, Forms.RemainingAmount, Forms.Etc]);
