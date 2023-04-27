@@ -30,6 +30,7 @@ export default function useDanjiDetail(depth: number) {
   const [selectedJeonyongAreaMax, setSelectedJeonyongAreaMax] = useState<string>();
   const [selectedIndex, setSelectedIndex] = useState<number>();
   const [isRecommendationService, setIsRecommendationService] = useState(false);
+  const [isRealPricesAvailable, setIsRealPricesAvailable] = useState(false);
 
   const [checked, setChecked] = useState<boolean>();
 
@@ -101,6 +102,12 @@ export default function useDanjiDetail(depth: number) {
     year: selectedYear,
     ps: 10,
   });
+
+  useEffect(() => {
+    if (!danjiRealPricesPyoungListLoading) {
+      setIsRealPricesAvailable(Boolean(danjiRealPricesPyoungList?.length));
+    }
+  }, [danjiRealPricesPyoungList, danjiRealPricesPyoungListLoading]);
 
   const isShowDanjiPhotos = useMemo(() => {
     if (danjiPhotos && danjiPhotos?.danji_photos && danjiPhotos.danji_photos.length > 0) {
@@ -262,6 +269,7 @@ export default function useDanjiDetail(depth: number) {
 
   return useMemo(
     () => ({
+      isRealPricesAvailable,
       danji,
       danjiPhotos,
       danjiListings,
@@ -298,6 +306,7 @@ export default function useDanjiDetail(depth: number) {
       navigateToListingDetail,
     }),
     [
+      isRealPricesAvailable,
       danji,
       danjiPhotos,
       danjiListings,

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
 import { GetDanjiPhotosResponse } from '@/apis/danji/danjiPhotos';
@@ -9,17 +8,21 @@ import {
   GetDanjiTradeTurnrateResponse,
   GetDanjiTradeTurnrateSigunguResponse,
 } from '@/apis/danji/danjiTradeTurnRate';
-import { Separator } from '@/components/atoms';
-import { DanjiDetailSection } from '@/components/organisms';
+import { Loading, Separator } from '@/components/atoms';
+import { DanjiDetailSection, PhotoHero } from '@/components/organisms';
 import tw from 'twin.macro';
 import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { MonthStartDate } from '@/components/pages/pc/DanjiDetail/useXAxisDate';
 import { BuyOrRent, describeJeonsaeWolsaeSame } from '@/constants/enums';
 import { DanjiRealPricesListItem, DanjiRealPricesListResponse } from '@/apis/danji/danjiRealPricesList';
+import ShareIcon from '@/assets/icons/share.svg';
+import HeartFilledIcon from '@/assets/icons/heart.svg';
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 
 import { useRef, useState } from 'react';
-import { useRouter, useScroll } from '@/hooks/utils';
-import Routes from '@/router/routes';
+import { useScroll } from '@/hooks/utils';
+import { NavigationHeader } from '@/components/molecules';
+import { DefaultListingImageLg } from '@/constants/strings';
 import DanjiStatusChartWrraper from './DanjiStatusChartWrraper';
 import DanjiStatusTradeChartWrraper from './DanjiStatusTradeChartWrraper';
 import DanjiStatusJeonsaeChartWrraper from './DanjiStatusJeonsaeChartWrraper';
@@ -72,6 +75,7 @@ type JeonsaeListDanji = {
 interface Props {
   depth: number;
   danji?: GetDanjiDetailResponse;
+  isRealPricesAvailable?: boolean;
   danjiPhotos?: GetDanjiPhotosResponse;
   danjiListings?: GetDanjiListingsResponse['list'];
   danjiRealPricesData?: GetDanjiRealPricesPyoungListResponse;
@@ -121,6 +125,7 @@ interface Props {
 export default function DanjiDetail({
   depth,
   danji,
+  isRealPricesAvailable,
   danjiPhotos,
   danjiListings,
   danjiRealPricesData,
@@ -146,9 +151,6 @@ export default function DanjiDetail({
   selectedYear,
   selectedArea,
   selectedIndex,
-  selectedJeonyongArea,
-  selectedJeonyongAreaMax,
-  isShowDanjiPhotos,
   isRecommendationService,
   handleRecommendation,
   handlePhotos,
@@ -164,46 +166,67 @@ export default function DanjiDetail({
   onChangeSelectedJeonyongAreaMax,
   danjiRealPriesListSetSize,
 }: Props) {
-  const [isHeaderActive, setIsHeaderActive] = useState(false);
-
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
-  // useScroll(scrollContainer, ({ scrollY }) => {
-  //   setIsHeaderActive(scrollY > 0.1);
-  // });
+  const [isHeaderActive, setIsHeaderActive] = useState(false);
 
-  if (!danji) return null;
+  useScroll(scrollContainer, ({ scrollY }) => {
+    setIsHeaderActive(scrollY > 0.1);
+  });
+
+  if (!danji)
+    return (
+      <div tw="py-20">
+        <Loading />
+      </div>
+    );
 
   return (
     <div tw="relative flex flex-col h-full">
-      <DanjiDetailSection.Header
-        danji={danji}
-        danjiPhotos={danjiPhotos}
-        isShowDanjiPhotos={isShowDanjiPhotos}
-        isHeaderActive={isHeaderActive}
-        handlePhotos={handlePhotos}
-      />
+      <NavigationHeader
+        css={[
+          tw`absolute top-0 left-0 z-50 w-full text-white transition-colors bg-transparent`,
+          isHeaderActive && tw`bg-white text-gray-1000`,
+        ]}
+      >
+        <NavigationHeader.Title tw="text-inherit">{danji.name}</NavigationHeader.Title>
+        <div tw="flex gap-4">
+          <NavigationHeader.Button>
+            <ShareIcon tw="text-inherit" />
+          </NavigationHeader.Button>
+          <NavigationHeader.Button>
+            {danji?.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-inherit" />}
+          </NavigationHeader.Button>
+        </div>
+      </NavigationHeader>
       <div tw="overflow-y-auto " ref={scrollContainer}>
+        <PhotoHero
+          itemSize={danjiPhotos?.danji_photos?.length ?? 0}
+          photoPath={danjiPhotos?.danji_photos?.[0]?.full_file_path ?? DefaultListingImageLg[danji.type]}
+          onClickViewPhotos={handlePhotos}
+        />
         <DanjiDetailSection>
-          <div tw="pt-6" css={[danjiListings && danjiListings.slice(0, 3).length === 3 ? tw`pb-10` : tw`pb-10`]}>
-            <DanjiDetailSection.Info
-              danji={danji}
-              isRecommendationService={isRecommendationService}
-              handleRecommendation={handleRecommendation}
-            />
+          <div tw="pt-6">
+            <div tw="pb-10">
+              <DanjiDetailSection.Info
+                danji={danji}
+                isRecommendationService={isRecommendationService}
+                handleRecommendation={handleRecommendation}
+              />
+            </div>
             {danjiListings && danjiListings.length > 0 && (
-              <>
+              <div tw="pb-8">
                 <DanjiDetailSection.ActiveInfo
                   danjiListings={danjiListings}
                   onClick={onClickListingDetail}
                   handleListingAll={handleListingAll}
                 />
-              </>
+              </div>
             )}
           </div>
 
-          {danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0 && (
-            <>
+          {isRealPricesAvailable && (
+            <div>
               <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
               <div tw="pt-10">
                 <DanjiDetailSection.RealPriceInfo
@@ -317,7 +340,7 @@ export default function DanjiDetail({
                 isMorePage={false}
                 handleRealPriceList={handleRealPriceList}
               />
-            </>
+            </div>
           )}
           <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
           <DanjiDetailSection.DetailInfo danji={danji} />

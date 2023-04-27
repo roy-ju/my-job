@@ -13,6 +13,7 @@ interface Props {
 
 export default memo(({ panelWidth, depth }: Props) => {
   const {
+    isRealPricesAvailable,
     danji,
     danjiPhotos,
     danjiListings,
@@ -79,6 +80,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       <DanjiDetail
         depth={depth}
         danji={danji}
+        isRealPricesAvailable={isRealPricesAvailable}
         danjiPhotos={danjiPhotos}
         danjiListings={danjiListings}
         danjiRealPricesData={danjiRealPricesData}
