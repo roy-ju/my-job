@@ -56,11 +56,14 @@ export default function useListingCreateForm(depth: number) {
   const [collaterals, setCollaterals] = useState<CollateralType[]>([]);
   // 특약사항
   const [specialTerms, setSpecialTerms] = useState('');
+  const [hasSpecialTerms, setHasSpecialTerms] = useState('0');
   // 입주가능시기
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
+  const [hasMoveInDate, setHasMoveInDate] = useState('0'); // '0' 없음 , '1' 있음
   // 임대할 부분
   const [rentArea, setRentArea] = useState('');
+  const [hasRentArea, setHasRentArea] = useState('0');
   // 임대기간 년
   const [rentTermYear, setRentTermYear] = useState('2년');
   // 임대기간 월
@@ -849,6 +852,18 @@ export default function useListingCreateForm(depth: number) {
       }
     }
 
+    if (currentForm === Forms.RentArea) {
+      if (hasRentArea === '1' && !rentArea) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.MoveInDate) {
+      if (hasMoveInDate === '1' && !moveInDate) {
+        setNextButtonDisabled(true);
+      }
+    }
+
     if (currentForm === Forms.RentEndDate) {
       if (!rentEndDate) {
         setNextButtonDisabled(true);
@@ -864,7 +879,30 @@ export default function useListingCreateForm(depth: number) {
         if (falsies.length > 0) setNextButtonDisabled(true);
       }
     }
-  }, [forms, isOwner, ownerName, ownerPhone, buyOrRent, price, monthlyRentFee, rentEndDate, contractAmount, interims]);
+
+    if (currentForm === Forms.SpecialTerms) {
+      if (hasSpecialTerms === '1' && !specialTerms) {
+        setNextButtonDisabled(true);
+      }
+    }
+  }, [
+    forms,
+    isOwner,
+    ownerName,
+    ownerPhone,
+    buyOrRent,
+    price,
+    monthlyRentFee,
+    rentEndDate,
+    contractAmount,
+    interims,
+    hasSpecialTerms,
+    specialTerms,
+    hasMoveInDate,
+    moveInDate,
+    rentArea,
+    hasRentArea,
+  ]);
 
   // 팝업 콜백들
 
@@ -1177,7 +1215,9 @@ export default function useListingCreateForm(depth: number) {
     handleChangeRemainingAmountDateType,
 
     rentArea,
+    hasRentArea,
     handleChangeRentArea,
+    handleChangeHasRentArea: setHasRentArea,
 
     rentTermMonth,
     rentTermYear,
@@ -1206,6 +1246,12 @@ export default function useListingCreateForm(depth: number) {
 
     rentEndDate,
     handleChangeRentEndDate,
+
+    hasMoveInDate,
+    handleChangeHasMoveInDate: setHasMoveInDate,
+
+    hasSpecialTerms,
+    handleChangeHasSpecialTerms: setHasSpecialTerms,
 
     // Popup actions
     popup,

@@ -1,7 +1,7 @@
 import { useControlled } from '@/hooks/utils';
 import { forwardRef, HTMLProps, useCallback, useMemo } from 'react';
 import RDatePicker, { ReactDatePickerCustomHeaderProps } from 'react-datepicker';
-import CalendarIcon from '@/assets/icons/calendar.svg';
+// import CalendarIcon from '@/assets/icons/calendar.svg';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 
 import { Moment } from '@/components/atoms';
@@ -39,9 +39,9 @@ type CustomInputProps = TextFieldProps &
 
 const Input = forwardRef<HTMLInputElement, CustomInputProps>(({ variant, label, size, hasError, ...props }, ref) => (
   <TextField variant={variant} size={size} hasError={hasError}>
-    <TextField.Leading tw="pl-4 -mr-2">
+    {/* <TextField.Leading tw="pl-4 -mr-2">
       <CalendarIcon tw="text-gray-1000" />
-    </TextField.Leading>
+    </TextField.Leading> */}
     <TextField.Input
       {...props}
       placeholder={props.placeholder}

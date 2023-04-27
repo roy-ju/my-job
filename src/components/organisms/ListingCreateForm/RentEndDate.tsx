@@ -17,7 +17,7 @@ export default function RentEndDate({ date, onChangeDate }: Props) {
             minDate={new Date()}
             variant="outlined"
             tw="flex-1 min-w-0"
-            placeholder="종료일"
+            placeholder="날짜 선택"
             value={date}
             onChange={(value) => onChangeDate?.(value)}
           />

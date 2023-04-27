@@ -1,17 +1,29 @@
 import { RadioGroup, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
-import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import { Button, Label, Radio } from '@/components/atoms';
 
 interface SpecialTermsProps {
   value?: string;
+  hasSpecialTerms?: string;
   onChangeValue?: (value: string) => void;
+  onChangeHasSpecialTerms?: (value: string) => void;
   onClickQuestion?: () => void;
 }
 
-export default function SpecialTerms({ value, onChangeValue, onClickQuestion }: SpecialTermsProps) {
-  const [hasSpecialTerms, setHasSpecialTerms] = useState('0');
+export default function SpecialTerms({
+  value,
+  hasSpecialTerms: hasSpecialTermsProp,
+  onChangeHasSpecialTerms,
+  onChangeValue,
+  onClickQuestion,
+}: SpecialTermsProps) {
+  const [hasSpecialTerms, setHasSpecialTerms] = useControlled({
+    controlled: hasSpecialTermsProp,
+    default: '0',
+  });
+
   const [specialTerms, setSpecialTerms] = useControlled({ controlled: value, default: '' });
 
   const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
@@ -28,16 +40,18 @@ export default function SpecialTerms({ value, onChangeValue, onClickQuestion }: 
   const handleChangeHasSpecialTerms = useCallback(
     (v: string) => {
       setHasSpecialTerms(v);
+      onChangeHasSpecialTerms?.(v);
       handleChange({ target: { value: '' } } as any);
     },
-    [handleChange],
+    [handleChange, setHasSpecialTerms, onChangeHasSpecialTerms],
   );
 
   useEffect(() => {
     if (value && hasSpecialTerms === '0') {
       setHasSpecialTerms('1');
+      onChangeHasSpecialTerms?.('1');
     }
-  }, [value, hasSpecialTerms]);
+  }, [value, hasSpecialTerms, setHasSpecialTerms, onChangeHasSpecialTerms]);
 
   return (
     <div>
