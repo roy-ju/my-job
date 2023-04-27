@@ -47,6 +47,11 @@ const ListingDetailPassed = dynamic(() => import('@/components/pages/pc/ListingD
   loading: FallbackComponent,
 });
 
+const ListingDetailHistory = dynamic(() => import('@/components/pages/pc/ListingDetailHistory'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -331,6 +336,9 @@ export default function Router({ route, query, depth }: Props) {
     }
     case Routes.ListingDetailPassed: {
       return <ListingDetailPassed {...props} />;
+    }
+    case Routes.ListingDetailHistory: {
+      return <ListingDetailHistory {...props} />;
     }
 
     case Routes.NotificationList: {
