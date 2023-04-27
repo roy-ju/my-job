@@ -76,6 +76,8 @@ export default function Listing({
     }
   };
 
+  const isMyPage = window.location.pathname.includes('my/');
+
   return (
     <button
       type="button"
@@ -98,7 +100,7 @@ export default function Listing({
             <Chip variant={RealestateTypeChipVariant[realestateType]}>{RealestateTypeString[realestateType]}</Chip>
             {eubmyundong && <Chip variant="gray">{eubmyundong}</Chip>}
           </div>
-          {isFavorite && (
+          {isFavorite && !isMyPage && (
             <LikeButton onLike={() => onToggleListingLike?.(listingId, isFavorite)} isFavorite={isFavorite} />
           )}
         </div>
