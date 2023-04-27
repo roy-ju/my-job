@@ -81,16 +81,22 @@ export interface IFormContext {
   // 입주가능시기
   moveInDate?: Date | null;
   moveInDateType?: string;
+  hasMoveInDate?: string;
   onChangeMoveInDate?: (value: Date | null) => void;
   onChangeMoveInDateType?: (value: string) => void;
+  onChangeHasMoveInDate?: (value: string) => void;
 
   // 특약사항
   specialTerms?: string;
+  hasSpecialTerms?: string;
   onChangeSpecialTerms?: (value: string) => void;
+  onChangeHasSpecialTerms?: (value: string) => void;
 
   // 임대할 부분
   rentArea?: string;
+  hasRentArea?: string;
   onChangeRentArea?: (value: string) => void;
+  onChangeHasRentArea?: (value: string) => void;
 
   // 베란다 확장
   verandaExtended?: boolean;

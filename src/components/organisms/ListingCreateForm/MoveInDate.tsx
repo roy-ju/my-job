@@ -1,22 +1,43 @@
 import { Label, Radio } from '@/components/atoms';
 import { DatePicker, Dropdown, RadioGroup } from '@/components/molecules';
-import { useEffect, useState } from 'react';
+import { useControlled } from '@/hooks/utils';
+import { useCallback, useEffect } from 'react';
 
 interface Props {
   date?: Date | null;
   dateType?: string;
+  hasDate?: string;
   onChangeDate?: (value: Date | null) => void;
   onChangeDateType?: (value: string) => void;
+  onChangeHasDate?: (value: string) => void;
 }
 
-export default function MoveInDate({ date, dateType, onChangeDate, onChangeDateType }: Props) {
-  const [type, setType] = useState('0');
+export default function MoveInDate({
+  date,
+  dateType,
+  hasDate,
+  onChangeDate,
+  onChangeDateType,
+  onChangeHasDate,
+}: Props) {
+  const [type, setType] = useControlled({
+    controlled: hasDate,
+    default: '0',
+  });
+
+  const handleChangeHasDate = useCallback(
+    (value: string) => {
+      setType(value);
+      onChangeHasDate?.(value);
+    },
+    [onChangeHasDate, setType],
+  );
 
   useEffect(() => {
     if (date && type === '0') {
-      setType('1');
+      handleChangeHasDate('1');
     }
-  }, [date, type]);
+  }, [date, type, handleChangeHasDate]);
 
   return (
     <div>
@@ -32,7 +53,7 @@ export default function MoveInDate({ date, dateType, onChangeDate, onChangeDateT
               onChangeDate?.(null);
               onChangeDateType?.('이전');
             }
-            setType(e.target.value);
+            handleChangeHasDate(e.target.value);
           }}
         >
           <Label control={<Radio />} value="0" label="즉시 입주 가능" />

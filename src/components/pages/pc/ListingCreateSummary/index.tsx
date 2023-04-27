@@ -45,7 +45,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const onClickCreate = useCallback(async () => {
     setIsCreating(true);
-    const { listingPhotoUrls, danjiPhotoUrls, ...fields } = params;
+    // isOwner 는 스킵..
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { listingPhotoUrls, danjiPhotoUrls, isOwner, ...fields } = params;
 
     listingPhotoUrls?.map(async (item: string) => {
       getFileFromUrl(item, v4()).then((f) => uploadListingPhoto(listingID, f));
@@ -105,36 +107,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           agentJibunAddress={agent.full_jibun_address}
           agentDescription={agent.description}
           agentRegistrationNumber={agent.registration_number}
-          buyOrRent={params?.buy_or_rent}
-          tradePrice={params?.trade_price}
-          deposit={params?.deposit}
-          monthlyRentFee={params?.monthly_rent_fee}
-          interimAmount1={params?.interim_amount1}
-          interimAmount2={params?.interim_amount2}
-          interimAmount3={params?.interim_amount3}
-          interimAmountNegotiable1={params?.interim_negotiable1}
-          interimAmountNegotiable2={params?.interim_negotiable2}
-          interimAmountNegotiable3={params?.interim_negotiable3}
-          interimAmountPaymentTime1={params?.interim_amount_payment_time1}
-          interimAmountPaymentTime2={params?.interim_amount_payment_time2}
-          interimAmountPaymentTime3={params?.interim_amount_payment_time3}
-          interimAmountPaymentTimeType1={params?.interim_amount_payment_time_type1}
-          interimAmountPaymentTimeType2={params?.interim_amount_payment_time_type2}
-          interimAmountPaymentTimeType3={params?.interim_amount_payment_time_type3}
-          contractAmount={params?.contract_amount}
-          contractAmountNegotiable={params?.contract_amount_negotiable}
-          remainingAmount={params?.remaining_amount}
-          remainingAmountPaymentTime={params?.remaining_amount_payment_time}
-          remainingAmountPaymentTimeType={params?.remaining_amount_payment_time_type}
-          moveInDate={params?.move_in_date}
-          moveInDateType={params?.move_in_date_type}
-          specialTerms={params?.special_terms}
-          debtSuccessions={params?.debt_successions}
-          collaterals={params?.collaterals}
-          jeonsaeLoan={params?.jeonsae_loan}
-          rentTermMonth={params?.rent_contract_term_month}
-          rentTermYear={params?.rent_contract_term_year}
-          rentArea={params?.rent_area}
+          listing={params}
           onClickCreate={onClickCreate}
           onClickUpdate={onClickUpdate}
           isLoading={isCreating}

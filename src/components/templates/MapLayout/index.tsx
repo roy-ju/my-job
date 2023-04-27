@@ -55,20 +55,7 @@ interface LayoutPanelsProps {
 }
 
 function LayoutPanels({ visible = true, children }: LayoutPanelsProps) {
-  // 페이지 컴포넌트가 리마운트 되는 이슈가 있어서 일단 애니메이션 빼고...
-
-  return (
-    <div css={[tw`z-20 flex flex-row h-full`, !visible && tw`hidden`]}>
-      {/* {Children.toArray(children).map((child, index) =>
-        isValidElement(child) ? (
-          <div tw="shadow overflow-hidden animate-panelSlideIn" key={child.props.route ? `panel-${index}` : `${index}`}>
-            {child}
-          </div>
-        ) : null,
-      )} */}
-      {children}
-    </div>
-  );
+  return <div css={[tw`z-20 flex flex-row h-full`, !visible && tw`hidden`]}>{children}</div>;
 }
 
 interface LayoutMapContainerProps {

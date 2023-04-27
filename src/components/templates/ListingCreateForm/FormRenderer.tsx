@@ -66,16 +66,26 @@ export default function FormRenderer({ form }: Props) {
     // 선순위 담보권
     collaterals,
     onClickAddCollateral,
+
     // 입주가능시기
     moveInDate,
     moveInDateType,
+    hasMoveInDate,
     onChangeMoveInDate,
     onChangeMoveInDateType,
+    onChangeHasMoveInDate,
+
+    // 특약사항
     specialTerms,
+    hasSpecialTerms,
     onChangeSpecialTerms,
+    onChangeHasSpecialTerms,
+
     // 임대할 부분
     rentArea,
+    hasRentArea,
     onChangeRentArea,
+    onChangeHasRentArea,
     // 베란다 확장
     verandaExtended,
     onChangeVerandaExtended,
@@ -249,7 +259,12 @@ export default function FormRenderer({ form }: Props) {
     case Forms.SpecialTerms:
       return (
         <div id={Forms.SpecialTerms} tw="px-5 py-10">
-          <Form.SpecialTerms value={specialTerms} onChangeValue={onChangeSpecialTerms} />
+          <Form.SpecialTerms
+            hasSpecialTerms={hasSpecialTerms}
+            onChangeHasSpecialTerms={onChangeHasSpecialTerms}
+            value={specialTerms}
+            onChangeValue={onChangeSpecialTerms}
+          />
         </div>
       );
 
@@ -259,15 +274,22 @@ export default function FormRenderer({ form }: Props) {
           <Form.MoveInDate
             date={moveInDate}
             dateType={moveInDateType}
+            hasDate={hasMoveInDate}
             onChangeDate={onChangeMoveInDate}
             onChangeDateType={onChangeMoveInDateType}
+            onChangeHasDate={onChangeHasMoveInDate}
           />
         </div>
       );
     case Forms.RentArea:
       return (
         <div id={Forms.RentArea} tw="px-5 py-10">
-          <Form.RentArea value={rentArea} onChangeValue={onChangeRentArea} />
+          <Form.RentArea
+            hasRentArea={hasRentArea}
+            onChangeHasRentArea={onChangeHasRentArea}
+            value={rentArea}
+            onChangeValue={onChangeRentArea}
+          />
         </div>
       );
     case Forms.RentTerm:

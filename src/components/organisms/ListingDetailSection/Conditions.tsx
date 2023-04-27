@@ -49,7 +49,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
             </Table.GroupSummary>
             <Table.GroupDetails>
               {debtSuccessions?.map((item) => (
-                <Table.Row key={item.id}>
+                <Table.Row key={item.id ?? item.name + item.amount}>
                   <Table.Head>{item.name}</Table.Head>
                   <Table.Data>
                     <Numeral koreanNumber>{item.amount}</Numeral>
@@ -66,7 +66,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
             </Table.GroupSummary>
             <Table.GroupDetails>
               {collaterals?.map((item) => (
-                <Table.Row key={item.id}>
+                <Table.Row key={item.id ?? item.name + item.amount}>
                   <Table.Head>{item.name}</Table.Head>
                   <Table.Data>
                     <Numeral koreanNumber>{item.amount}</Numeral>
@@ -156,12 +156,23 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
             <span tw="text-gray-1000">세부정보</span>
           </Table.GroupSummary>
           <Table.GroupDetails>
-            {listing?.move_in_date && (
+            {!listing?.rent_end_date ? (
               <Table.Row>
                 <Table.Head>입주가능시기</Table.Head>
+                {listing?.move_in_date ? (
+                  <Table.Data>
+                    <Moment format="yyyy.MM.DD">{listing?.move_in_date}</Moment>{' '}
+                    {getPaymentTimeType(listing?.move_in_date_type ?? 1)}
+                  </Table.Data>
+                ) : (
+                  <Table.Data>즉시입주가능</Table.Data>
+                )}
+              </Table.Row>
+            ) : (
+              <Table.Row>
+                <Table.Head>임대차계약종료일</Table.Head>
                 <Table.Data>
-                  <Moment format="yyyy.MM.DD">{listing?.move_in_date}</Moment>{' '}
-                  {getPaymentTimeType(listing?.move_in_date_type ?? 1)}
+                  <Moment format="yyyy.MM.DD">{listing?.rent_end_date}</Moment>{' '}
                 </Table.Data>
               </Table.Row>
             )}

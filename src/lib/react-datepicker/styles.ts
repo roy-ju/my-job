@@ -1,7 +1,6 @@
 import { css } from 'twin.macro';
 
 const styles = css`
-  @charset "UTF-8";
   .react-datepicker__year-read-view--down-arrow,
   .react-datepicker__month-read-view--down-arrow,
   .react-datepicker__month-year-read-view--down-arrow,
@@ -313,7 +312,6 @@ const styles = css`
     .react-datepicker-time__input-container
     .react-datepicker-time__input
     input[type='time'] {
-    -moz-appearance: textfield;
   }
   .react-datepicker__input-time-container .react-datepicker-time__input-container .react-datepicker-time__delimiter {
     margin-left: 5px;

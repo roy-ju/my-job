@@ -3,6 +3,7 @@ import updateMyListingAddress from '@/apis/listing/updateMyListingAddress';
 import { Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateAddressDetail } from '@/components/templates';
+import ErrorCodes from '@/constants/error_codes';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useRouter } from '@/hooks/utils';
 import { searchAddress } from '@/lib/kakao/search_address';
@@ -81,7 +82,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     const address = searchRes.documents[0].address;
     const roadAddress = searchRes.documents[0].road_address;
 
-    await updateMyListingAddress({
+    const res = await updateMyListingAddress({
       listing_id: listingID,
       road_name_address: roadNameAddress,
       jibun_address: address.address_name,
@@ -99,12 +100,23 @@ export default memo(({ depth, panelWidth }: Props) => {
       ho,
     });
 
+    if (res?.error_code === ErrorCodes.DUPLICATED_LISTING) {
+      setPopup('중복된 매물이 등록되어있습니다.');
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(false);
 
+    const searchParams: Record<string, string> = {
+      listingID: `${listingID}`,
+    };
+    if (router.query.tab) {
+      searchParams.tab = `${router.query.tab}`;
+    }
+
     router.replace(Routes.ListingCreateResult, {
-      searchParams: {
-        listingID: `${listingID}`,
-      },
+      searchParams,
     });
   }, [router, dong, ho, addressData, listingID]);
 

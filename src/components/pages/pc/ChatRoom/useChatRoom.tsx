@@ -15,7 +15,8 @@ interface WebSocketMessage {
 }
 
 export default function useChatRoom(chatRoomID: number) {
-  const { data, isLoading } = useAPI_ChatRoomDetail(chatRoomID);
+  const [isLoading, setIsLoading] = useState(true);
+  const { data } = useAPI_ChatRoomDetail(chatRoomID);
   const [accessToken] = useLocalStorage(Keys.ACCESS_TOKEN, '');
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
   const [textFieldDisabled, setTextFieldDisabled] = useState(false);
@@ -56,6 +57,9 @@ export default function useChatRoom(chatRoomID: number) {
   });
 
   useEffect(() => {
+    if (data) {
+      setIsLoading(false);
+    }
     if (data?.list) {
       setChatMessages(
         data?.list?.map((chat) => ({

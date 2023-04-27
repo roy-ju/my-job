@@ -340,8 +340,8 @@ const PatternInput = forwardRef<
 
   const handleChange = useCallback<NonNullable<NumericFormatProps['onValueChange']>>(
     (values) => {
-      setValue(values.formattedValue);
-      onChange?.({ target: { value: values.formattedValue } } as any);
+      setValue(`${values.value}`);
+      onChange?.({ target: { value: `${values.value}` } } as any);
     },
     [onChange, setValue],
   );
@@ -376,6 +376,9 @@ const PatternInput = forwardRef<
         </StyledLabel>
       )}
       <StyledPatternInput
+        displayType="input"
+        type="text"
+        valueIsNumericString
         ref={ref}
         inSize={size}
         value={value}
@@ -390,8 +393,14 @@ const PatternInput = forwardRef<
   );
 });
 
-const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string; isZeroAllowd?: boolean }>(
-  ({ value: valueProp, onChange, suffix = '만 원', isZeroAllowd = false, ...props }, ref) => {
+const PriceInput = forwardRef<
+  HTMLInputElement,
+  InputProps & { suffix?: string; isZeroAllowed?: boolean; isNegativeAllowed?: boolean }
+>(
+  (
+    { value: valueProp, onChange, suffix = '만 원', isZeroAllowed = false, isNegativeAllowed = false, ...props },
+    ref,
+  ) => {
     const { size, disabled } = useContext(TextFieldContext);
     const [value, setValue] = useControlled({
       controlled: valueProp,
@@ -408,10 +417,12 @@ const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string; 
 
     const isAllowed = useCallback(
       (values: NumberFormatValues) => {
-        if (!isZeroAllowd && values.floatValue === 0) return false;
+        const val = values.floatValue ?? 0;
+        if (!isZeroAllowed && val === 0) return false;
+        if (!isNegativeAllowed && val < 0) return false;
         return true;
       },
-      [isZeroAllowd],
+      [isZeroAllowed, isNegativeAllowed],
     );
 
     return (
@@ -420,6 +431,7 @@ const PriceInput = forwardRef<HTMLInputElement, InputProps & { suffix?: string; 
           {...props}
           ref={ref}
           thousandSeparator=","
+          decimalScale={0}
           value={value}
           isAllowed={isAllowed}
           onChange={handleChange}

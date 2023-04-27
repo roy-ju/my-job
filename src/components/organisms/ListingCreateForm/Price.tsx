@@ -70,23 +70,31 @@ export default function Price({
             <QuestionIcon />
           </Button>
         </div>
-        <Button
-          size="small"
-          variant="gray"
-          tw="ml-auto"
-          selected={quickSale}
-          onClick={() => handleChangeQuickSale(!quickSale)}
-        >
-          <CheckIcon tw="mr-2 text-gray-600" />
-          급매
-        </Button>
+        {buyOrRent === BuyOrRent.Buy && (
+          <Button
+            size="small"
+            variant="gray"
+            tw="ml-auto"
+            selected={quickSale}
+            onClick={() => handleChangeQuickSale(!quickSale)}
+          >
+            <CheckIcon tw="mr-2 text-gray-600" />
+            급매
+          </Button>
+        )}
       </div>
       <div tw="text-info text-gray-700">
-        가격협상 중에는 언제든 희망가를 수정할 수 있습니다.
-        <br />
-        급매 표시 및 변경은 중개사를 통하여 가능합니다.
-        <br />
-        급매인 경우, 평균가 대비 할인율 등이 표시될 수 있습니다.
+        {buyOrRent === BuyOrRent.Buy ? (
+          <p>
+            가격협상 중에는 언제든 희망가를 수정할 수 있습니다.
+            <br />
+            급매 표시 및 변경은 중개사를 통하여 가능합니다.
+            <br />
+            급매인 경우, 평균가 대비 할인율 등이 표시될 수 있습니다.
+          </p>
+        ) : (
+          <p>가격협상 중에는 언제든 희망가를 수정할 수 있습니다.</p>
+        )}
       </div>
       <div tw="mt-3 flex flex-col gap-4">
         <div>
