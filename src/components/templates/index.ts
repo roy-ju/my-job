@@ -30,6 +30,7 @@ export { default as Qna } from './Qna';
 export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
 export { default as MyRealPriceList } from './MyRealPriceList';
+export { default as MySuggestionList } from './MySuggestionList';
 export { default as TransactionHistory } from './TransactionHistory';
 export { default as TransactionReview } from './TransactionReview';
 export { default as FAQ } from './FAQ';

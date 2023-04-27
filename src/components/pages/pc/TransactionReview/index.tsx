@@ -1,5 +1,5 @@
 import { Panel } from '@/components/atoms';
-import { ChangeEvent, ChangeEventHandler, memo, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, ChangeEventHandler, memo, useCallback, useState } from 'react';
 import { TransactionReview as TransactionReviewTemplate } from '@/components/templates';
 import useAPI_GetTransactionReview from '@/apis/my/getTransactionReview';
 import { useRouter } from '@/hooks/utils';
@@ -15,28 +15,24 @@ interface Props {
 
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
-  const { data } = useAPI_GetTransactionReview(Number(router.query.listingContractID));
-  const [ratingText, setRatingText] = useState('');
-  const [recommendations, setRecommendations] = useState<string[]>([]);
-  const [freeFeedback, setFreeFeedback] = useState('');
+  const { data: info, mutate: mutateInfo } = useAPI_GetTransactionReviewInfo(Number(router.query.listingContractID));
 
-  useEffect(() => {
-    if (data) {
-      setRatingText(data?.ratingText ?? '');
-      setRecommendations(() => {
-        if (!data?.recommendations) return [];
-        return data?.recommendations.split(',');
-      });
-      setFreeFeedback(data?.freeFeedback ?? '');
-    }
-  }, [data]);
+  const { data: reviewData } = useAPI_GetTransactionReview(Number(router.query.listingContractID), info?.hasReview);
 
-  const { data: info } = useAPI_GetTransactionReviewInfo(Number(router.query.listingContractID));
+  const [ratingText, setRatingText] = useState(reviewData?.ratingText ?? '');
+  const [recommendations, setRecommendations] = useState<string[]>(() => {
+    if (reviewData?.recommendations) return reviewData?.recommendations.split(',');
+    return [];
+  });
+  const [freeFeedback, setFreeFeedback] = useState(reviewData?.freeFeedback ?? '');
 
   const handleClickRatingText = (text: string) => () => {
+    if (info?.hasReview) return;
     setRatingText(text);
   };
   const handleChangeRecommendations = (text: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    if (info?.hasReview) return;
+
     if (e.target.checked) {
       setRecommendations((prev) => [...prev, text]);
     } else {
@@ -65,6 +61,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       recommendations: stringTypeRecommendations,
       freeFeedback,
     });
+    await mutateInfo();
     toast.success('후기를 남겨주셔서 감사합니다.');
     handleGoBack();
   };
@@ -72,7 +69,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <TransactionReviewTemplate
-        hasReview={router.query.hasReview === 'true'}
+        hasReview={info?.hasReview ?? false}
         agentName={info?.agentName ?? ''}
         userNickname={info?.userNickname ?? ''}
         ratingText={ratingText}

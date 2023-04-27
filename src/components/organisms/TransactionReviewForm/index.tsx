@@ -39,7 +39,6 @@ export default function TransactionReviewForm({
         <SubTitle>선호도는 중개사님에게 공개되지 않아요.</SubTitle>
         <div tw="flex gap-3">
           <Button
-            disabled={hasReview}
             variant={ratingText.includes('별로예요') ? 'primary' : 'gray'}
             size="small"
             onClick={onClickRatingText?.('별로예요')}
@@ -48,7 +47,6 @@ export default function TransactionReviewForm({
             별로예요
           </Button>
           <Button
-            disabled={hasReview}
             variant={ratingText.includes('추천해요') ? 'primary' : 'gray'}
             size="small"
             onClick={onClickRatingText?.('추천해요')}
@@ -57,7 +55,6 @@ export default function TransactionReviewForm({
             추천해요
           </Button>
           <Button
-            disabled={hasReview}
             variant={ratingText.includes('강력추천') ? 'primary' : 'gray'}
             size="small"
             onClick={onClickRatingText?.('강력추천')}

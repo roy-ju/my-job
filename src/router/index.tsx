@@ -34,6 +34,10 @@ const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegis
   ssr: false,
   loading: () => <Panel />,
 });
+const MySuggestionList = dynamic(() => import('@/components/pages/pc/MySuggestionList'), {
+  ssr: false,
+  loading: () => <Panel />,
+});
 
 const ListingDetailPassed = dynamic(() => import('@/components/pages/pc/ListingDetailPassed'), {
   ssr: false,
@@ -314,7 +318,9 @@ export default function Router({ route, query, depth }: Props) {
     case Routes.MyRegisteredListingList: {
       return <MyRegisteredListings {...props} />;
     }
-
+    case Routes.MySuggestionList: {
+      return <MySuggestionList {...props} />;
+    }
     case Routes.ListingDetailPassed: {
       return <ListingDetailPassed {...props} />;
     }

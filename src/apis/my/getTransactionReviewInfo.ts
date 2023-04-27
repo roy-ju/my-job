@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import useSWR from 'swr';
 
 interface GetTransactionReviewInfoResponse {
+  has_review: boolean;
   user_nickname: string;
   agent_name: string;
 }
@@ -17,6 +18,7 @@ export default function useAPI_GetTransactionReviewInfo(id: number) {
     () =>
       data
         ? {
+            hasReview: data.has_review,
             userNickname: data.user_nickname,
             agentName: data.agent_name,
           }

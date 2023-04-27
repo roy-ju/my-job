@@ -9,7 +9,6 @@ interface Props {
   onNavigateToListingDetail?: () => void;
   onNavigateToChatRoom?: () => void;
   onNavigateToTransactionReview?: () => void;
-  isContractCompletionOneWeekPassed: boolean;
 
   listingId: number;
   listingStatus: number;
@@ -34,7 +33,6 @@ export default function ListingDetailPassed({
   onNavigateToListingDetail,
   onNavigateToChatRoom,
   onNavigateToTransactionReview,
-  isContractCompletionOneWeekPassed,
   listingStatus,
   thumbnailFullPath,
   listingTitle,
@@ -51,14 +49,6 @@ export default function ListingDetailPassed({
 }: Props) {
   const renderButton = () => {
     if (ListingStatus.Cancelled === listingStatus) return null;
-
-    if (!isContractCompletionOneWeekPassed) {
-      return (
-        <Button onClick={onNavigateToChatRoom} tw="h-10 w-full" variant="outlined">
-          채팅 바로가기
-        </Button>
-      );
-    }
 
     return (
       <>
