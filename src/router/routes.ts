@@ -45,6 +45,8 @@ const Routes = {
   MyFavoriteList: 'myFavoriteList',
   MyRegisteredListingList: 'myRegisteredListings',
 
+  MySuggestionList: 'mySuggestionList',
+
   ListingDetailPassed: 'listingDetailPassed',
 
   NotificationList: 'notifications',

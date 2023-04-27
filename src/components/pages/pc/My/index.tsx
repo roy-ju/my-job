@@ -70,6 +70,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     },
     [router],
   );
+  const handleClickSuggestionList = useCallback(
+    (params: number) => {
+      router.push(Routes.MySuggestionList, {
+        searchParams: { tab: `${params}` },
+      });
+    },
+    [router],
+  );
+
   const handleSuggestRegional = useCallback(() => {
     router.push(Routes.SuggestRegionalForm);
   }, [router]);
@@ -102,6 +111,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickServiceInfo={handleServiceInfo}
         onClickCreateListing={handleCreateListing}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
+        onClickMySuggestionList={handleClickSuggestionList}
         onClickSuggestRegional={handleSuggestRegional}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
