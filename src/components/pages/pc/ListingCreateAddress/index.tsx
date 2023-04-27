@@ -1,4 +1,4 @@
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Panel } from '@/components/atoms';
 import { ListingCreateAddress } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useRouter } from '@/hooks/utils';
@@ -25,8 +25,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   );
 
   return (
-    <Panel width={panelWidth}>
-      <ListingCreateAddress onSubmit={handleSubmit} />
-    </Panel>
+    <AuthRequired ciRequired depth={depth}>
+      <Panel width={panelWidth}>
+        <ListingCreateAddress onSubmit={handleSubmit} />
+      </Panel>
+    </AuthRequired>
   );
 });

@@ -109,9 +109,6 @@ export default function FormRenderer({ form }: Props) {
     jeonsaeLoan,
     onChangeJeonsaeLoan,
 
-    adminFee,
-    onChangeAdminFee,
-
     listingPhotoUrls,
     onChangeListingPhotoUrls,
 
@@ -346,10 +343,6 @@ export default function FormRenderer({ form }: Props) {
               </div>
             </div>
           )}
-          <Separator />
-          <div tw="px-5 py-10">
-            <Form.AdminFee value={adminFee} onChange={onChangeAdminFee} />
-          </div>
           <Separator />
           <div tw="px-5 py-10">
             <Form.Description value={description} onChangeValue={onChangeDescription} />
