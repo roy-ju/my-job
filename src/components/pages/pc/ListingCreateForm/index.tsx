@@ -1,8 +1,11 @@
 import { Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateForm } from '@/components/templates';
-import { memo } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import useAPI_GetOptionList from '@/apis/listing/getOptionList';
+import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
+import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
+import { motion } from 'framer-motion';
 import useListingCreateForm from './useListingCreateForm';
 
 interface Props {
@@ -105,6 +108,16 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const { list: listingOptions } = useAPI_GetOptionList();
 
+  const [isCoachVisible, setIsCoachVisible] = useState(false);
+  const hasBeenVisible = useRef(false);
+
+  useEffect(() => {
+    const currentForm = forms[forms.length - 1];
+    if (currentForm === Forms.BuyOrRent) {
+      setIsCoachVisible(true);
+    }
+  }, [forms]);
+
   return (
     <Panel width={panelWidth}>
       <ListingCreateForm
@@ -180,6 +193,41 @@ export default memo(({ depth, panelWidth }: Props) => {
         rentEndDate={rentEndDate}
         onChangeRentEndDate={handleChangeRentEndDate}
       />
+      {isCoachVisible && !hasBeenVisible.current && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          role="presentation"
+          onClick={() => {
+            setIsCoachVisible(false);
+            hasBeenVisible.current = true;
+          }}
+          tw="absolute left-0 top-0 w-full h-full bg-black/60 flex flex-col items-center justify-center"
+        >
+          <div>
+            <div tw="flex items-center justify-center mb-5">
+              <motion.div
+                animate={{
+                  opacity: [0, 1],
+                  y: [30, 0],
+                  rotate: [-50, 0],
+                }}
+                transition={{
+                  delay: 0.1,
+                  duration: 1,
+                }}
+              >
+                <CoachScrollUp />
+              </motion.div>
+            </div>
+            <div tw="text-center font-bold text-white text-b1">
+              위로 스크롤하여
+              <br />
+              이전 항목을 다시 볼 수 있습니다.
+            </div>
+          </div>
+        </motion.div>
+      )}
       {popup === 'back' && (
         <OverlayPresenter>
           <Popup>

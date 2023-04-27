@@ -151,6 +151,10 @@ export default function useRouter(depth: number) {
         segments[segments.length - 1] = pathname;
       }
 
+      if (segments.length === 2 && segments[0] === segments[1]) {
+        segments.pop();
+      }
+
       for (let i = 1; i < 6; i += 1) {
         delete router.query[`depth${i}`];
       }

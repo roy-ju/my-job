@@ -310,6 +310,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     const params = makeListingCreateParams({
+      isOwner,
       ownerName,
       ownerPhone,
       buyOrRent,
@@ -474,6 +475,11 @@ export default function useListingCreateForm(depth: number) {
   }, []);
 
   const handleChangeIsOwner = useCallback((value: boolean) => {
+    if (value) {
+      setOwnerName('');
+      setOwnerPhone('');
+    }
+
     setIsOwner(value);
   }, []);
 
@@ -822,7 +828,7 @@ export default function useListingCreateForm(depth: number) {
     setNextButtonDisabled(false);
     const currentForm = forms[forms.length - 1];
     if (currentForm === Forms.IsOwner) {
-      if (!isOwner && (!ownerName || !ownerPhone)) {
+      if (!isOwner && (!ownerName || ownerPhone.length !== 11)) {
         setNextButtonDisabled(true);
       }
     }
@@ -893,10 +899,10 @@ export default function useListingCreateForm(depth: number) {
       return '이전';
     };
 
-    if (parsed.owner_name && parsed.owner_phone) {
+    if (!parsed.isOwner) {
       setIsOwner(false);
-      setOwnerName(parsed.owner_name);
-      setOwnerPhone(parsed.owner_phone);
+      setOwnerName(parsed.owner_name ?? '');
+      setOwnerPhone(parsed.owner_phone ?? '');
     }
 
     if (parsed.buy_or_rent === BuyOrRent.Buy) {
@@ -905,7 +911,7 @@ export default function useListingCreateForm(depth: number) {
         Forms.BuyOrRent,
         Forms.Price,
         Forms.DebtSuccessions,
-        parsed.debt_successions ? Forms.RentEndDate : Forms.MoveInDate,
+        parsed.debt_successions?.[0]?.amount ? Forms.RentEndDate : Forms.MoveInDate,
         Forms.PaymentSchedules,
         Forms.SpecialTerms,
         Forms.Optionals,

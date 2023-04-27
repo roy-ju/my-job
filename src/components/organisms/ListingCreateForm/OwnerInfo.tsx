@@ -23,7 +23,7 @@ export default function OwnerInfo({ name, phone, onChangeName, onChangePhone }: 
           <TextField.Input label="소유자 성명" value={name} onChange={onChangeName} />
         </TextField>
         <TextField variant="outlined">
-          <TextField.Input label="휴대폰 번호" value={phone} onChange={onChangePhone} />
+          <TextField.PatternInput format="###-####-####" label="휴대폰 번호" value={phone} onChange={onChangePhone} />
         </TextField>
       </div>
     </div>
