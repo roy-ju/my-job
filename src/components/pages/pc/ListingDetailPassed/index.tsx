@@ -4,7 +4,6 @@ import { useRouter } from '@/hooks/utils';
 import useAPI_GetMyListingDetailPassed from '@/apis/my/getMyListingDetailPassed';
 import { ListingDetailPassed as ListingDetailPassedTemplate } from '@/components/templates';
 import Routes from '@/router/routes';
-import moment from 'moment';
 
 interface Props {
   depth: number;
@@ -55,17 +54,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   };
 
-  const isContractCompletionOneWeekPassed = (() => {
-    if (!data?.contract_completion_date) return false;
-
-    const contractCompletionDate = moment(data?.contract_completion_date);
-    const now = moment();
-
-    const diff = now.diff(contractCompletionDate, 'days');
-
-    return diff >= 7;
-  })();
-
   return (
     <Panel width={panelWidth}>
       <ListingDetailPassedTemplate
@@ -73,7 +61,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onNavigateToListingDetail={handleNavigateToListingDetail}
         onNavigateToChatRoom={handleNavigateToChatRoom}
         onNavigateToTransactionReview={handleNavigateToTransactionReview}
-        isContractCompletionOneWeekPassed={isContractCompletionOneWeekPassed}
         listingId={data?.listing_id ?? 0}
         listingStatus={data?.listing_status ?? 0}
         thumbnailFullPath={data?.thumbnail_full_path}
