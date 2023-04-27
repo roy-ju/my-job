@@ -1,7 +1,8 @@
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback, useMemo, useRef } from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/atoms';
+import PlusIcon from '@/assets/icons/plus.svg';
+import CloseIcon from '@/assets/icons/close.svg';
 
 interface Props {
   urls?: string[];
@@ -12,6 +13,7 @@ export default function Photos({ urls, onChange }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const defaultUrls = useMemo(() => [], []);
+
   const [values, setValues] = useControlled({
     controlled: urls,
     default: defaultUrls,
@@ -31,6 +33,16 @@ export default function Photos({ urls, onChange }: Props) {
     [setValues, onChange, values],
   );
 
+  const handleDeleteByIndex = useCallback(
+    (index: number) => {
+      const newValues = [...values];
+      newValues.splice(index, 1);
+      setValues(newValues);
+      onChange?.(newValues);
+    },
+    [setValues, values, onChange],
+  );
+
   return (
     <div tw="relative">
       <input
@@ -44,21 +56,36 @@ export default function Photos({ urls, onChange }: Props) {
       <div tw="flex flex-col gap-4">
         {(values?.length ?? 0) > 0 && (
           <div tw="flex min-w-0 flex-wrap gap-4">
-            {values.map((item) => (
-              <Image
+            {values.map((item, index) => (
+              <div
                 key={item}
-                src={item}
-                alt=""
-                width={100}
-                height={100}
-                tw="w-[30%] h-24 bg-gray-100 object-cover rounded-lg"
-              />
+                tw="relative w-[30%] h-24 bg-gray-100 rounded-lg bg-no-repeat bg-center bg-cover"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${item}')`,
+                }}
+              >
+                <Button
+                  onClick={() => handleDeleteByIndex(index)}
+                  variant="ghost"
+                  size="none"
+                  tw="w-5 h-5 bg-white absolute top-2 right-2 rounded-lg hover:bg-gray-400"
+                >
+                  <CloseIcon />
+                </Button>
+              </div>
             ))}
+            {values.length < 6 && (
+              <Button variant="gray" size="none" tw="w-[30%] h-24" onClick={openFileChooser}>
+                <PlusIcon tw="text-gray-900" />
+              </Button>
+            )}
           </div>
         )}
-        <Button variant="gray" tw="w-full" onClick={openFileChooser}>
-          + 사진 추가
-        </Button>
+        {!values?.length && (
+          <Button variant="gray" tw="w-full" onClick={openFileChooser}>
+            + 사진 추가
+          </Button>
+        )}
       </div>
     </div>
   );

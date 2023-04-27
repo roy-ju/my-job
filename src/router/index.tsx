@@ -8,268 +8,277 @@ import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
 import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
 import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
-import { v4 as uuidv4 } from 'uuid';
 import Routes from './routes';
 
-const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: () => <Panel /> });
-const MyAddress = dynamic(() => import('@/components/pages/pc/MyAddress'), { ssr: false, loading: () => <Panel /> });
+function FallbackComponent() {
+  return <Panel />;
+}
+
+const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: FallbackComponent });
+const MyAddress = dynamic(() => import('@/components/pages/pc/MyAddress'), { ssr: false, loading: FallbackComponent });
 const MyAddressDetail = dynamic(() => import('@/components/pages/pc/MyAddressDetail'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/pc/MyAddressVerifying'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
-const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: () => <Panel /> });
+const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: FallbackComponent });
 const MyRealPriceList = dynamic(() => import('@/components/pages/pc/MyRealPriceList'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const MyFavoriteList = dynamic(() => import('@/components/pages/pc/MyFavoriteList'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegisteredListings'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const MyParticipatingListings = dynamic(() => import('@/components/pages/pc/MyParticipatingListings'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 
 const ListingDetailPassed = dynamic(() => import('@/components/pages/pc/ListingDetailPassed'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 
 const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const NotificationSettings = dynamic(() => import('@/components/pages/pc/NotificationSettings'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
-const NoticeList = dynamic(() => import('@/components/pages/pc/NoticeList'), { ssr: false, loading: () => <Panel /> });
+const NoticeList = dynamic(() => import('@/components/pages/pc/NoticeList'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const NoticeDetail = dynamic(() => import('@/components/pages/pc/NoticeDetail'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const Qna = dynamic(() => import('@/components/pages/pc/Qna'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
-const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: () => <Panel /> });
-const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: () => <Panel /> });
-const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: () => <Panel /> });
+const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: FallbackComponent });
+const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: FallbackComponent });
+const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: FallbackComponent });
 
 const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiRecommendationSuccess = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSuccess'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiPhotos = dynamic(() => import('@/components/pages/pc/DanjiPhotos'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiRealPriceDetail = dynamic(() => import('@/components/pages/pc/RealPriceDetail'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiRealTradeDetail = dynamic(() => import('@/components/pages/pc/RealTradeDetail'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiSelect = dynamic(() => import('@/components/pages/pc/DanjiSelect'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const DanjiListings = dynamic(() => import('@/components/pages/pc/DanjiListings'), {
-  loading: () => <Panel />,
+  loading: FallbackComponent,
   ssr: false,
 });
 
 const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomReport'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
-const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: () => <Panel /> });
-const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: () => <Panel /> });
-const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), { ssr: false, loading: () => <Panel /> });
+const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: FallbackComponent });
+const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: FallbackComponent });
+const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/DeregisterDisclaimer'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const TransactionHistory = dynamic(() => import('@/components/pages/pc/TransactionHistory'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const TransactionReview = dynamic(() => import('@/components/pages/pc/TransactionReview'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const FAQ = dynamic(() => import('@/components/pages/pc/FAQ'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const Register = dynamic(() => import('@/components/pages/pc/Register'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const RegisterSuccess = dynamic(() => import('@/components/pages/pc/RegisterSuccess'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const VerifyCi = dynamic(() => import('@/components/pages/pc/VerifyCi'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingCreateAddress = dynamic(() => import('@/components/pages/pc/ListingCreateAddress'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingCreateAddressDetail = dynamic(() => import('@/components/pages/pc/ListingCreateAddressDetail'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 
 const ListingCreateForm = dynamic(() => import('@/components/pages/pc/ListingCreateForm'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingCreateChooseAgent = dynamic(() => import('@/components/pages/pc/ListingCreateChooseAgent'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingCreateSummary = dynamic(() => import('@/components/pages/pc/ListingCreateSummary'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingCreateResult'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
 const BiddingForm = dynamic(() => import('@/components/pages/pc/BiddingForm'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const BiddingSummary = dynamic(() => import('@/components/pages/pc/BiddingSummary'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const BiddingSuccess = dynamic(() => import('@/components/pages/pc/BiddingSuccess'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const UpdateBiddingForm = dynamic(() => import('@/components/pages/pc/UpdateBiddingForm'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const UpdateBiddingSummary = dynamic(() => import('@/components/pages/pc/UpdateBiddingSummary'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const UpdateBiddingSuccess = dynamic(() => import('@/components/pages/pc/UpdateBiddingSuccess'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingQnaCreateForm = dynamic(() => import('@/components/pages/pc/ListingQnaCreateForm'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingManage = dynamic(() => import('@/components/pages/pc/ListingManage'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestRegionalForm'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const SuggestRegionalSummary = dynamic(() => import('@/components/pages/pc/SuggestRegionalSummary'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const SuggestRegionalSuccess = dynamic(() => import('@/components/pages/pc/SuggestRegionalSuccess'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const SuggestReceivedList = dynamic(() => import('@/components/pages/pc/SuggestReceivedList'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingPhotoGallery'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingTargetPriceUpdate = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdate'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdateSummary'), {
   ssr: false,
-  loading: () => <Panel />,
+  loading: FallbackComponent,
 });
 
 const DEFAULT_PANEL_WIDTH = '380px';
@@ -281,7 +290,6 @@ interface Props {
 }
 
 export default function Router({ route, query, depth }: Props) {
-  const key = uuidv4();
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -412,11 +420,11 @@ export default function Router({ route, query, depth }: Props) {
     }
 
     case Routes.DanjiRealPriceDetail: {
-      return <DanjiRealPriceDetail key={`${query.p}-${query.rt}-${key}`} {...props} />;
+      return <DanjiRealPriceDetail key={`${query.p}-${query.rt}`} {...props} />;
     }
 
     case Routes.DanjiRealTradeDetail: {
-      return <DanjiRealTradeDetail key={`${query.p}-${query.rt}-${key}`} {...props} />;
+      return <DanjiRealTradeDetail key={`${query.p}-${query.rt}`} {...props} />;
     }
 
     case Routes.DanjiSelect: {
@@ -428,7 +436,7 @@ export default function Router({ route, query, depth }: Props) {
     }
 
     case Routes.DanjiRealPriceList: {
-      return <DanjiRealPriceListAll key={`${query.p}-${query.rt}-${key}`} {...props} />;
+      return <DanjiRealPriceListAll key={`${query.p}-${query.rt}`} {...props} />;
     }
 
     case Routes.UpdatePhone: {

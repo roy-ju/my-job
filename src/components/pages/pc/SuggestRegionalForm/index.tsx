@@ -1,4 +1,4 @@
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Panel } from '@/components/atoms';
 import { SuggestRegionalForm } from '@/components/templates';
 import { memo } from 'react';
 import { OverlayPresenter } from '@/components/molecules';
@@ -63,7 +63,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   } = useSuggestRegionalForm(depth);
 
   return (
-    <>
+    <AuthRequired ciRequired depth={depth}>
       <Panel width={panelWidth}>
         <SuggestRegionalForm
           forms={forms}
@@ -112,6 +112,6 @@ export default memo(({ panelWidth, depth }: Props) => {
           </div>
         </OverlayPresenter>
       )}
-    </>
+    </AuthRequired>
   );
 });
