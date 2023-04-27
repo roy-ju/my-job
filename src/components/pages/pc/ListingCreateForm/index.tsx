@@ -63,7 +63,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeRemainingAmountDateType,
 
     rentArea,
+    hasRentArea,
     handleChangeRentArea,
+    handleChangeHasRentArea,
 
     verandaExtended,
     verandaRemodelling,
@@ -100,6 +102,12 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     rentEndDate,
     handleChangeRentEndDate,
+
+    hasMoveInDate,
+    handleChangeHasMoveInDate,
+
+    hasSpecialTerms,
+    handleChangeHasSpecialTerms,
 
     handleClickBack,
     openBackPopup,
@@ -171,7 +179,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
         onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
         rentArea={rentArea}
+        hasRentArea={hasRentArea}
         onChangeRentArea={handleChangeRentArea}
+        onChangeHasRentArea={handleChangeHasRentArea}
         rentTermYear={rentTermYear}
         rentTermMonth={rentTermMonth}
         rentTermNegotiable={rentTermNegotiable}
@@ -192,6 +202,10 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeDescription={handleChangeDescription}
         rentEndDate={rentEndDate}
         onChangeRentEndDate={handleChangeRentEndDate}
+        hasMoveInDate={hasMoveInDate}
+        onChangeHasMoveInDate={handleChangeHasMoveInDate}
+        hasSpecialTerms={hasSpecialTerms}
+        onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
       />
       {isCoachVisible && !hasBeenVisible.current && (
         <motion.div

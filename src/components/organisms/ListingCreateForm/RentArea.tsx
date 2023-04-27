@@ -1,17 +1,29 @@
 import { RadioGroup, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
-import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import { Button, Label, Radio } from '@/components/atoms';
 
 interface RentAreaProps {
   value?: string;
+  hasRentArea?: string;
   onChangeValue?: (value: string) => void;
+  onChangeHasRentArea?: (value: string) => void;
   onClickQuestion?: () => void;
 }
 
-export default function RentArea({ value, onChangeValue, onClickQuestion }: RentAreaProps) {
-  const [hasRentArea, setHasRentArea] = useState('0');
+export default function RentArea({
+  value,
+  hasRentArea: hasRentAreaProp,
+  onChangeValue,
+  onChangeHasRentArea,
+  onClickQuestion,
+}: RentAreaProps) {
+  const [hasRentArea, setHasRentArea] = useControlled({
+    controlled: hasRentAreaProp,
+    default: '0',
+  });
+
   const [rentArea, setRentArea] = useControlled({ controlled: value, default: '' });
 
   const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -28,16 +40,18 @@ export default function RentArea({ value, onChangeValue, onClickQuestion }: Rent
   const handleChangeHasRentArea = useCallback(
     (v: string) => {
       setHasRentArea(v);
+      onChangeHasRentArea?.(v);
       handleChange({ target: { value: '' } } as any);
     },
-    [handleChange],
+    [handleChange, setHasRentArea, onChangeHasRentArea],
   );
 
   useEffect(() => {
     if (value && hasRentArea === '0') {
       setHasRentArea('1');
+      onChangeHasRentArea?.('1');
     }
-  }, [value, hasRentArea]);
+  }, [value, hasRentArea, setHasRentArea, onChangeHasRentArea]);
 
   return (
     <div>
