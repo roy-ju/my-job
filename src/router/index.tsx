@@ -37,7 +37,7 @@ const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegis
   ssr: false,
   loading: FallbackComponent,
 });
-const MySuggestionList = dynamic(() => import('@/components/pages/pc/MySuggestionList'), {
+const MyParticipatingListings = dynamic(() => import('@/components/pages/pc/MyParticipatingListings'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -326,8 +326,8 @@ export default function Router({ route, query, depth }: Props) {
     case Routes.MyRegisteredListingList: {
       return <MyRegisteredListings {...props} />;
     }
-    case Routes.MySuggestionList: {
-      return <MySuggestionList {...props} />;
+    case Routes.MyParticipatingListings: {
+      return <MyParticipatingListings {...props} />;
     }
     case Routes.ListingDetailPassed: {
       return <ListingDetailPassed {...props} />;

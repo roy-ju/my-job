@@ -7,7 +7,7 @@ export interface MyListingsSummaryProps {
   dashboardInfo?: GetDashboardInfoResponse | null;
   onClickCreateListing?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
-  onClickMySuggestionList?: (params: number) => void;
+  onClickMyParticipatingListings?: (params: number) => void;
   onClickSuggestRegional?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickReceivedSuggests?: () => void;
@@ -17,7 +17,7 @@ export default function MyListingsSummary({
   dashboardInfo,
   onClickCreateListing,
   onClickMyRegisteredListings,
-  onClickMySuggestionList,
+  onClickMyParticipatingListings,
   onClickSuggestRegional,
   onClickRequestedSuggests,
 }: MyListingsSummaryProps) {
@@ -38,7 +38,7 @@ export default function MyListingsSummary({
       <div tw="text-b1 leading-none font-bold mb-4">나의 가격 제안 현황</div>
       <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
         <Button
-          onClick={() => onClickMySuggestionList?.(1)}
+          onClick={() => onClickMyParticipatingListings?.(1)}
           size="none"
           variant="ghost"
           tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
@@ -48,7 +48,7 @@ export default function MyListingsSummary({
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
         <Button
-          onClick={() => onClickMySuggestionList?.(2)}
+          onClick={() => onClickMyParticipatingListings?.(2)}
           size="none"
           variant="ghost"
           tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
@@ -58,7 +58,7 @@ export default function MyListingsSummary({
         </Button>
         <div tw="w-px h-5 bg-gray-300" />
         <Button
-          onClick={() => onClickMySuggestionList?.(3)}
+          onClick={() => onClickMyParticipatingListings?.(3)}
           size="none"
           variant="ghost"
           tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
@@ -67,7 +67,7 @@ export default function MyListingsSummary({
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_pre_contract_complete_count ?? 0}</div>
         </Button>
         <Button
-          onClick={() => onClickMySuggestionList?.(4)}
+          onClick={() => onClickMyParticipatingListings?.(4)}
           size="none"
           variant="ghost"
           tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
