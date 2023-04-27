@@ -48,6 +48,7 @@ const Routes = {
   MyParticipatingListings: 'myParticipatingListings',
 
   ListingDetailPassed: 'listingDetailPassed',
+  ListingDetailHistory: 'listingDetailHistory',
 
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',
