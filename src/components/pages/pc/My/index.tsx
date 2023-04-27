@@ -70,9 +70,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     },
     [router],
   );
-  const handleClickSuggestionList = useCallback(
+  const handleClickMyParticipatingListings = useCallback(
     (params: number) => {
-      router.push(Routes.MySuggestionList, {
+      router.push(Routes.MyParticipatingListings, {
         searchParams: { tab: `${params}` },
       });
     },
@@ -111,7 +111,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickServiceInfo={handleServiceInfo}
         onClickCreateListing={handleCreateListing}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
-        onClickMySuggestionList={handleClickSuggestionList}
+        onClickMyParticipatingListings={handleClickMyParticipatingListings}
         onClickSuggestRegional={handleSuggestRegional}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
