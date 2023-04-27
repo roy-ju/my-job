@@ -18,7 +18,7 @@ export default function Panel({ width = '380px', zIndex = 1, children }: Props) 
       tw="h-full bg-white shadow"
       style={{ width, zIndex }}
     >
-      <div css={[tw`w-full h-full overflow-y-auto`, { width }]}>{children}</div>
+      <div css={[tw`relative w-full h-full overflow-y-auto`, { width }]}>{children}</div>
     </motion.div>
   );
 }

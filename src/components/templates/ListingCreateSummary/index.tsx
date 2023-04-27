@@ -1,6 +1,6 @@
 import { Button, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { AgentCardItem, TransactionCondition } from '@/components/organisms';
+import { AgentCardItem, ListingDetailSection } from '@/components/organisms';
 
 export interface ListingCreateSummaryProps {
   agentOfficeName: string;
@@ -11,36 +11,7 @@ export interface ListingCreateSummaryProps {
   agentRegistrationNumber: string;
   agentDescription: string;
 
-  buyOrRent?: number;
-  tradePrice?: number;
-  deposit?: number;
-  monthlyRentFee?: number;
-  interimAmount1?: number;
-  interimAmount2?: number;
-  interimAmount3?: number;
-  interimAmountNegotiable1?: boolean;
-  interimAmountNegotiable2?: boolean;
-  interimAmountNegotiable3?: boolean;
-  interimAmountPaymentTime1?: string;
-  interimAmountPaymentTime2?: string;
-  interimAmountPaymentTime3?: string;
-  interimAmountPaymentTimeType1?: number;
-  interimAmountPaymentTimeType2?: number;
-  interimAmountPaymentTimeType3?: number;
-  contractAmount?: number;
-  contractAmountNegotiable?: boolean;
-  remainingAmount?: number;
-  remainingAmountPaymentTime?: string;
-  remainingAmountPaymentTimeType?: number;
-  debtSuccessions?: { name: string; amount: number }[];
-  collaterals?: { name: string; amount: number }[];
-  moveInDate?: string;
-  moveInDateType?: number; // dateType = 1 : 이전,  2: 이후
-  rentTermYear?: number;
-  rentTermMonth?: number;
-  rentArea?: string;
-  specialTerms?: string;
-  jeonsaeLoan?: boolean;
+  listing?: any;
 
   isLoading?: boolean;
   onClickCreate?: () => void;
@@ -60,7 +31,7 @@ export default function ListingCreateSummary({
   onClickUpdate,
   isLoading,
 
-  ...conditionItemProps
+  listing,
 }: ListingCreateSummaryProps) {
   return (
     <div tw="h-full flex flex-col">
@@ -93,65 +64,12 @@ export default function ListingCreateSummary({
           </div>
         </div>
         <Separator />
-        <div tw="px-5">
-          <div tw="mt-10 mb-4 text-b1 font-bold leading-none">거래조건</div>
-          <TransactionCondition>
-            <TransactionCondition.List>
-              {!!conditionItemProps.buyOrRent && <TransactionCondition.Item label="거래종류" {...conditionItemProps} />}
-              {!!(conditionItemProps.tradePrice || conditionItemProps.deposit) && (
-                <TransactionCondition.Item label="희망가" {...conditionItemProps} />
-              )}
-
-              {!!(
-                conditionItemProps.contractAmount ||
-                conditionItemProps.interimAmount1 ||
-                conditionItemProps.remainingAmount ||
-                conditionItemProps.tradePrice ||
-                conditionItemProps.deposit
-              ) && (
-                <TransactionCondition.Section title="지급일정" hasToolTip>
-                  {!!conditionItemProps.contractAmount && (
-                    <TransactionCondition.Item label="계약금" {...conditionItemProps} />
-                  )}
-                  {!!conditionItemProps.interimAmount1 && (
-                    <TransactionCondition.Item label="중도금" {...conditionItemProps} />
-                  )}
-                  {!!conditionItemProps.remainingAmount && (
-                    <TransactionCondition.Item label="잔금" {...conditionItemProps} />
-                  )}
-                  {!!(conditionItemProps.tradePrice || conditionItemProps.deposit) && (
-                    <TransactionCondition.Item label="실제지급총액" {...conditionItemProps} />
-                  )}
-                </TransactionCondition.Section>
-              )}
-
-              {!!conditionItemProps.collaterals?.length && (
-                <TransactionCondition.Section title="선순위 담보권" hasToolTip>
-                  <TransactionCondition.Item label="선순위담보권" {...conditionItemProps} />
-                </TransactionCondition.Section>
-              )}
-              {!!conditionItemProps.debtSuccessions?.length && (
-                <TransactionCondition.Section title="채무승계 희망금액" hasToolTip>
-                  <TransactionCondition.Item label="채무승계희망금액" {...conditionItemProps} />
-                </TransactionCondition.Section>
-              )}
-
-              <TransactionCondition.Section title="세부정보">
-                <TransactionCondition.Item label="입주가능시기" {...conditionItemProps} />
-                {typeof conditionItemProps.jeonsaeLoan === 'boolean' && (
-                  <TransactionCondition.Item label="전세자금대출" {...conditionItemProps} />
-                )}
-                {(conditionItemProps.rentTermYear || conditionItemProps.rentTermMonth) && (
-                  <TransactionCondition.Item label="임대기간" {...conditionItemProps} />
-                )}
-                <TransactionCondition.Item label="임대할부분" {...conditionItemProps} />
-              </TransactionCondition.Section>
-
-              {!!conditionItemProps.specialTerms && (
-                <TransactionCondition.Item label="특약조건" {...conditionItemProps} />
-              )}
-            </TransactionCondition.List>
-          </TransactionCondition>
+        <div tw="px-5 pt-10">
+          <ListingDetailSection.Conditions
+            listing={listing}
+            debtSuccessions={listing?.debt_successions}
+            collaterals={listing?.collaterals}
+          />
         </div>
         <div tw="py-10 flex items-center justify-center">
           <Button variant="ghost" size="none" tw="underline text-info" onClick={onClickUpdate}>

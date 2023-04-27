@@ -3,6 +3,7 @@ import { BuyOrRent } from '@/constants/enums';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
 interface Args {
+  isOwner: boolean;
   ownerName: string;
   ownerPhone: string;
   buyOrRent: number;
@@ -136,6 +137,7 @@ export default function makeListingCreateParams(args: Args) {
 
     listingPhotoUrls: args.listingPhotoUrls,
     danjiPhotoUrls: args.danjiPhotoUrls,
+    isOwner: args.isOwner, // 클라이언트 로직을 위해서 사용, 서버로 넘기지않음.
   };
 
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);
