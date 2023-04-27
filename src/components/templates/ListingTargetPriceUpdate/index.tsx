@@ -94,18 +94,22 @@ export default function ListingTargetPriceUpdate({
           <div tw="flex-1 text-center">
             <div tw="text-info text-gray-700">최고 제안가</div>
             <div tw="text-b1 font-bold text-nego-1000">
-              <div>
-                {listingBuyOrRent === BuyOrRent.Wolsae ? (
-                  <span>
-                    <Numeral koreanNumber>{highestPrice}</Numeral> /{' '}
-                    <Numeral koreanNumber>{highestMonthlyRentFee}</Numeral>
-                  </span>
-                ) : (
-                  <span>
-                    <Numeral koreanNumber>{highestPrice}</Numeral>
-                  </span>
-                )}
-              </div>
+              {highestPrice ? (
+                <div>
+                  {listingBuyOrRent === BuyOrRent.Wolsae ? (
+                    <span>
+                      <Numeral koreanNumber>{highestPrice}</Numeral> /{' '}
+                      <Numeral koreanNumber>{highestMonthlyRentFee}</Numeral>
+                    </span>
+                  ) : (
+                    <span>
+                      <Numeral koreanNumber>{highestPrice}</Numeral>
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <span>-</span>
+              )}
             </div>
           </div>
         </div>

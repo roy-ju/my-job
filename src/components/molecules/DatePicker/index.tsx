@@ -1,11 +1,25 @@
 import { useControlled } from '@/hooks/utils';
 import { forwardRef, HTMLProps, useCallback, useMemo } from 'react';
 import RDatePicker, { ReactDatePickerCustomHeaderProps } from 'react-datepicker';
-import CalendarIcon from '@/assets/icons/calendar.svg';
+// import CalendarIcon from '@/assets/icons/calendar.svg';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 
 import { Moment } from '@/components/atoms';
+import tw, { styled } from 'twin.macro';
 import TextField, { TextFieldProps } from '../TextField';
+
+const StyleOverride = styled.div`
+  .react-datepicker {
+    ${tw`rounded-lg shadow text-gray-1000 border-gray-1000`}
+  }
+  .react-datepicker__header {
+    ${tw`bg-gray-100 rounded-t-lg border-gray-1000`}
+  }
+  .react-datepicker__day,
+  .react-datepicker__day-name {
+    ${tw`w-8 h-8 m-0.5 leading-8 text-b2`}
+  }
+`;
 
 const weekDays: Record<string, string> = {
   Monday: '월',
@@ -25,9 +39,9 @@ type CustomInputProps = TextFieldProps &
 
 const Input = forwardRef<HTMLInputElement, CustomInputProps>(({ variant, label, size, hasError, ...props }, ref) => (
   <TextField variant={variant} size={size} hasError={hasError}>
-    <TextField.Leading tw="pl-4 -mr-2">
+    {/* <TextField.Leading tw="pl-4 -mr-2">
       <CalendarIcon tw="text-gray-1000" />
-    </TextField.Leading>
+    </TextField.Leading> */}
     <TextField.Input
       {...props}
       placeholder={props.placeholder}
@@ -107,7 +121,7 @@ export default function DatePicker({
   );
 
   return (
-    <div {...others}>
+    <StyleOverride {...others}>
       <RDatePicker
         minDate={minDate}
         maxDate={maxDate}
@@ -122,6 +136,6 @@ export default function DatePicker({
         showPopperArrow={false}
         tw="cursor-pointer"
       />
-    </div>
+    </StyleOverride>
   );
 }

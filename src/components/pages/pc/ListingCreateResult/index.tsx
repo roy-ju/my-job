@@ -166,7 +166,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         isSendingSms={isSendingSms}
         ownerName={data?.listing?.owner_name}
         ownerPhone={data?.listing?.owner_phone}
-        onClickStartOver={() => router.replace(Routes.ListingCreateAddress)}
+        onClickStartOver={() => router.replace(Routes.ListingCreateAddress, { persistParams: true })}
         onClickUpdateAddress={() =>
           router.replace(Routes.ListingCreateUpdateAddress, { searchParams: { listingID: `${listingID}` } })
         }

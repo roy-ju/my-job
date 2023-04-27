@@ -44,7 +44,10 @@ export default function ListingCreateForm({
 
   moveInDate,
   moveInDateType,
+  hasMoveInDate,
+  onChangeHasMoveInDate,
   specialTerms,
+  hasSpecialTerms,
 
   verandaExtended,
   verandaRemodelling,
@@ -79,9 +82,12 @@ export default function ListingCreateForm({
   onChangeMoveInDate,
   onChangeMoveInDateType,
   onChangeSpecialTerms,
+  onChangeHasSpecialTerms,
 
   rentArea,
+  hasRentArea,
   onChangeRentArea,
+  onChangeHasRentArea,
 
   rentTermYear,
   rentTermMonth,
@@ -130,7 +136,13 @@ export default function ListingCreateForm({
 
       moveInDate,
       moveInDateType,
+      hasMoveInDate,
+      onChangeMoveInDate,
+      onChangeMoveInDateType,
+      onChangeHasMoveInDate,
+
       specialTerms,
+      hasSpecialTerms,
 
       verandaExtended,
       verandaRemodelling,
@@ -156,9 +168,8 @@ export default function ListingCreateForm({
       onClickAddDebtSuccessionMisc,
       onClickAddCollateral,
 
-      onChangeMoveInDate,
-      onChangeMoveInDateType,
       onChangeSpecialTerms,
+      onChangeHasSpecialTerms,
 
       remainingAmountDate,
       remainingAmountDateType,
@@ -166,7 +177,9 @@ export default function ListingCreateForm({
       onChangeRemainingAmountDateType,
 
       rentArea,
+      hasRentArea,
       onChangeRentArea,
+      onChangeHasRentArea,
 
       rentTermYear,
       rentTermMonth,
@@ -248,7 +261,9 @@ export default function ListingCreateForm({
       onChangeRemainingAmountDateType,
 
       rentArea,
+      hasRentArea,
       onChangeRentArea,
+      onChangeHasRentArea,
 
       rentTermYear,
       rentTermMonth,
@@ -274,6 +289,12 @@ export default function ListingCreateForm({
 
       rentEndDate,
       onChangeRentEndDate,
+
+      hasMoveInDate,
+      onChangeHasMoveInDate,
+
+      hasSpecialTerms,
+      onChangeHasSpecialTerms,
     ],
   );
 

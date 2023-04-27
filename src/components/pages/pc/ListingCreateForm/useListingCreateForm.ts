@@ -56,11 +56,14 @@ export default function useListingCreateForm(depth: number) {
   const [collaterals, setCollaterals] = useState<CollateralType[]>([]);
   // 특약사항
   const [specialTerms, setSpecialTerms] = useState('');
+  const [hasSpecialTerms, setHasSpecialTerms] = useState('0');
   // 입주가능시기
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
+  const [hasMoveInDate, setHasMoveInDate] = useState('0'); // '0' 없음 , '1' 있음
   // 임대할 부분
   const [rentArea, setRentArea] = useState('');
+  const [hasRentArea, setHasRentArea] = useState('0');
   // 임대기간 년
   const [rentTermYear, setRentTermYear] = useState('2년');
   // 임대기간 월
@@ -310,6 +313,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     const params = makeListingCreateParams({
+      isOwner,
       ownerName,
       ownerPhone,
       buyOrRent,
@@ -474,6 +478,11 @@ export default function useListingCreateForm(depth: number) {
   }, []);
 
   const handleChangeIsOwner = useCallback((value: boolean) => {
+    if (value) {
+      setOwnerName('');
+      setOwnerPhone('');
+    }
+
     setIsOwner(value);
   }, []);
 
@@ -822,7 +831,7 @@ export default function useListingCreateForm(depth: number) {
     setNextButtonDisabled(false);
     const currentForm = forms[forms.length - 1];
     if (currentForm === Forms.IsOwner) {
-      if (!isOwner && (!ownerName || !ownerPhone)) {
+      if (!isOwner && (!ownerName || ownerPhone.length !== 11)) {
         setNextButtonDisabled(true);
       }
     }
@@ -843,6 +852,18 @@ export default function useListingCreateForm(depth: number) {
       }
     }
 
+    if (currentForm === Forms.RentArea) {
+      if (hasRentArea === '1' && !rentArea) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.MoveInDate) {
+      if (hasMoveInDate === '1' && !moveInDate) {
+        setNextButtonDisabled(true);
+      }
+    }
+
     if (currentForm === Forms.RentEndDate) {
       if (!rentEndDate) {
         setNextButtonDisabled(true);
@@ -858,7 +879,30 @@ export default function useListingCreateForm(depth: number) {
         if (falsies.length > 0) setNextButtonDisabled(true);
       }
     }
-  }, [forms, isOwner, ownerName, ownerPhone, buyOrRent, price, monthlyRentFee, rentEndDate, contractAmount, interims]);
+
+    if (currentForm === Forms.SpecialTerms) {
+      if (hasSpecialTerms === '1' && !specialTerms) {
+        setNextButtonDisabled(true);
+      }
+    }
+  }, [
+    forms,
+    isOwner,
+    ownerName,
+    ownerPhone,
+    buyOrRent,
+    price,
+    monthlyRentFee,
+    rentEndDate,
+    contractAmount,
+    interims,
+    hasSpecialTerms,
+    specialTerms,
+    hasMoveInDate,
+    moveInDate,
+    rentArea,
+    hasRentArea,
+  ]);
 
   // 팝업 콜백들
 
@@ -893,10 +937,10 @@ export default function useListingCreateForm(depth: number) {
       return '이전';
     };
 
-    if (parsed.owner_name && parsed.owner_phone) {
+    if (!parsed.isOwner) {
       setIsOwner(false);
-      setOwnerName(parsed.owner_name);
-      setOwnerPhone(parsed.owner_phone);
+      setOwnerName(parsed.owner_name ?? '');
+      setOwnerPhone(parsed.owner_phone ?? '');
     }
 
     if (parsed.buy_or_rent === BuyOrRent.Buy) {
@@ -905,7 +949,7 @@ export default function useListingCreateForm(depth: number) {
         Forms.BuyOrRent,
         Forms.Price,
         Forms.DebtSuccessions,
-        parsed.debt_successions ? Forms.RentEndDate : Forms.MoveInDate,
+        parsed.debt_successions?.[0]?.amount ? Forms.RentEndDate : Forms.MoveInDate,
         Forms.PaymentSchedules,
         Forms.SpecialTerms,
         Forms.Optionals,
@@ -1171,7 +1215,9 @@ export default function useListingCreateForm(depth: number) {
     handleChangeRemainingAmountDateType,
 
     rentArea,
+    hasRentArea,
     handleChangeRentArea,
+    handleChangeHasRentArea: setHasRentArea,
 
     rentTermMonth,
     rentTermYear,
@@ -1200,6 +1246,12 @@ export default function useListingCreateForm(depth: number) {
 
     rentEndDate,
     handleChangeRentEndDate,
+
+    hasMoveInDate,
+    handleChangeHasMoveInDate: setHasMoveInDate,
+
+    hasSpecialTerms,
+    handleChangeHasSpecialTerms: setHasSpecialTerms,
 
     // Popup actions
     popup,
