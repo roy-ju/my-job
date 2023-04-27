@@ -79,6 +79,12 @@ export default function makeListingCreateParams(args: Args) {
       .map((item) => ({ name: item.name, amount: convertPriceInputToNumber(item.price) })),
   );
 
+  args.interims = args.interims.sort((a, b) => {
+    const d1 = a.date ?? new Date();
+    const d2 = b.date ?? new Date();
+    return d1.getTime() > d2.getTime() ? 1 : -1;
+  });
+
   const params: Record<string, unknown> = {
     negotiation_or_auction: 1,
     administrative_fee: convertPriceInputToNumber(args.adminFee),

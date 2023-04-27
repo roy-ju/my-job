@@ -7,6 +7,7 @@ import { Panel } from '@/components/atoms';
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingCreateResult } from '@/components/templates';
+import { ListingStatus } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -122,6 +123,11 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleNavigateToMyListings = useCallback(() => {
     router.replace(Routes.MyRegisteredListingList, { searchParams: { tab: '1' } });
   }, [router]);
+
+  if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
+    router.pop();
+    return null;
+  }
 
   return (
     <Panel width={panelWidth}>

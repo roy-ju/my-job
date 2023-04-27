@@ -15,3 +15,4 @@ export { default as Ul } from './Ul';
 export { default as MobileContainer } from './MobileContainer';
 export { default as PersistentBottomBar } from './PersistentBottomBar';
 export { default as BottomBezel } from './BottomBezel';
+export { default as AuthRequired } from './AuthRequired';

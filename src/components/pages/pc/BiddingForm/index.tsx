@@ -1,4 +1,4 @@
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Panel } from '@/components/atoms';
 import { BiddingForm } from '@/components/templates';
 import { memo } from 'react';
 import useBiddingForm from './useBiddingForm';
@@ -48,44 +48,46 @@ export default memo(({ depth, panelWidth }: Props) => {
   } = useBiddingForm(depth);
 
   return (
-    <Panel width={panelWidth}>
-      <BiddingForm
-        nextButtonDisabled={nextButtonDisabled}
-        listing={listing}
-        displayAddress={displayAddress}
-        forms={forms}
-        onClickNext={handleClickNext}
-        type={type}
-        onChangeType={handleChangeType}
-        price={price}
-        onChangePrice={handleChangePrice}
-        monthlyRentFee={monthlyRentFee}
-        onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-        canHaveMoreContractAmount={canHaveMoreContractAmount}
-        onChangeCanHaveMoreContractAmount={handleChangeCanHaveMoreContractAmount}
-        contractAmount={contractAmount}
-        onChangeContractAmount={handleChangeContractAmount}
-        canHaveMoreInterimAmount={canHaveMoreInterimAmount}
-        onChangeCanHaveMoreInterimAmount={handleChangeCanHaveMoreInterimAmount}
-        interimAmount={interimAmount}
-        onChangeInterimAmount={handleChangeInterimAmount}
-        canHaveEarilerRemainingAmountDate={canHaveEarlierRemainingAmountDate}
-        onChangeCanHaveEarilerRemainingAmountDate={handleChangeCanHaveEarlierRemainingAmountDate}
-        remainingAmountDate={remainingAmountDate}
-        onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
-        remainingAmountDateType={remainingAmountDateType}
-        onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
-        canHaveEarilerMoveInDate={canHaveEarlierMoveInDate}
-        onChangeCanHaveEarilerMoveInDate={handleChangeCanHaveEarlierMoveInDate}
-        moveInDate={moveInDate}
-        onChangeMoveInDate={handleChangeMoveInDate}
-        moveInDateType={moveInDateType}
-        onChangeMoveInDateType={handleChangeMoveInDateType}
-        etcs={etcs}
-        onChangeEtcs={handleChangeEtcs}
-        description={description}
-        onChangeDescription={handleChangeDescription}
-      />
-    </Panel>
+    <AuthRequired depth={depth} ciRequired>
+      <Panel width={panelWidth}>
+        <BiddingForm
+          nextButtonDisabled={nextButtonDisabled}
+          listing={listing}
+          displayAddress={displayAddress}
+          forms={forms}
+          onClickNext={handleClickNext}
+          type={type}
+          onChangeType={handleChangeType}
+          price={price}
+          onChangePrice={handleChangePrice}
+          monthlyRentFee={monthlyRentFee}
+          onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+          canHaveMoreContractAmount={canHaveMoreContractAmount}
+          onChangeCanHaveMoreContractAmount={handleChangeCanHaveMoreContractAmount}
+          contractAmount={contractAmount}
+          onChangeContractAmount={handleChangeContractAmount}
+          canHaveMoreInterimAmount={canHaveMoreInterimAmount}
+          onChangeCanHaveMoreInterimAmount={handleChangeCanHaveMoreInterimAmount}
+          interimAmount={interimAmount}
+          onChangeInterimAmount={handleChangeInterimAmount}
+          canHaveEarilerRemainingAmountDate={canHaveEarlierRemainingAmountDate}
+          onChangeCanHaveEarilerRemainingAmountDate={handleChangeCanHaveEarlierRemainingAmountDate}
+          remainingAmountDate={remainingAmountDate}
+          onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
+          remainingAmountDateType={remainingAmountDateType}
+          onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
+          canHaveEarilerMoveInDate={canHaveEarlierMoveInDate}
+          onChangeCanHaveEarilerMoveInDate={handleChangeCanHaveEarlierMoveInDate}
+          moveInDate={moveInDate}
+          onChangeMoveInDate={handleChangeMoveInDate}
+          moveInDateType={moveInDateType}
+          onChangeMoveInDateType={handleChangeMoveInDateType}
+          etcs={etcs}
+          onChangeEtcs={handleChangeEtcs}
+          description={description}
+          onChangeDescription={handleChangeDescription}
+        />
+      </Panel>
+    </AuthRequired>
   );
 });
