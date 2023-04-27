@@ -9,10 +9,10 @@ interface GetTransactionReviewResponse {
   free_feedback: string;
 }
 
-export default function useAPI_GetTransactionReview(id: number) {
+export default function useAPI_GetTransactionReview(id: number, hasReview: boolean = false) {
   const { user } = useAuth();
   const { data, isLoading, mutate } = useSWR<GetTransactionReviewResponse>(
-    user ? ['/review/get', { listing_contract_id: id }] : null,
+    user && hasReview ? ['/review/get', { listing_contract_id: id }] : null,
   );
 
   const review = useMemo(

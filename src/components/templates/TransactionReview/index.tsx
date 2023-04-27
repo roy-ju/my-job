@@ -49,7 +49,12 @@ export default function TransactionReview({
         />
       </div>
       <div tw="px-5 py-4 w-full bg-white shadow-persistentBottomBar">
-        <Button onClick={hasReview ? onGoBack : onSubmit} size="bigger" tw="w-full">
+        <Button
+          disabled={!hasReview && (!ratingText || recommendations.length === 0)}
+          onClick={hasReview ? onGoBack : onSubmit}
+          size="bigger"
+          tw="w-full"
+        >
           {hasReview ? '확인' : '후기 남기기'}
         </Button>
       </div>
