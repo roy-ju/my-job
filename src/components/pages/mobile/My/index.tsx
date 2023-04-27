@@ -60,7 +60,7 @@ export default function MobMy() {
   }, [router]);
 
   const handleCreateListing = useCallback(() => {
-    router.push(`my/${Routes.ListingCreateAddress}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
   }, [router]);
 
   const handleDeveloper = useCallback(() => {
