@@ -6,6 +6,6 @@ export default {
   component: TransactionReviewForm,
 } as ComponentMeta<typeof TransactionReviewForm>;
 
-export const Default: ComponentStory<typeof TransactionReviewForm> = () => <TransactionReviewForm />;
+export const Default: ComponentStory<typeof TransactionReviewForm> = (args) => <TransactionReviewForm {...args} />;
 
 Default.args = {};
