@@ -166,11 +166,15 @@ export default function useBiddingForm(depth: number) {
 
   const handleSubmitPrice = useCallback(() => {
     if (type === 1) {
-      setNextForm(Forms.ContractAmount);
+      if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
+        setNextForm(Forms.MoveInDate);
+      } else {
+        setNextForm(Forms.ContractAmount);
+      }
     } else {
       handleSubmitFinal();
     }
-  }, [type, setNextForm, handleSubmitFinal]);
+  }, [type, data?.listing.buy_or_rent, setNextForm, handleSubmitFinal]);
 
   const handleSubmitContractAmount = useCallback(() => {
     setNextForm(Forms.InterimAmount);
