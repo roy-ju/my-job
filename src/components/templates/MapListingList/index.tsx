@@ -25,9 +25,10 @@ interface Props {
   isLoading?: boolean;
   data?: MapSearchListResponse['list'];
   onClickListing?: (id: number) => void;
+  onToggleFavorite?: (id: number, active: boolean) => void;
 }
 
-export default function MapListingList({ data, isLoading, onClickListing }: Props) {
+export default function MapListingList({ data, isLoading, onClickListing, onToggleFavorite }: Props) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -72,6 +73,7 @@ export default function MapListingList({ data, isLoading, onClickListing }: Prop
                   onClickListingItem={(id) => () => {
                     onClickListing?.(id);
                   }}
+                  onToggleListingLike={onToggleFavorite}
                 />
               ))}
             </motion.div>

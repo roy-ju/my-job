@@ -99,8 +99,8 @@ export default function Listing({
             <Chip variant={RealestateTypeChipVariant[realestateType]}>{RealestateTypeString[realestateType]}</Chip>
             {eubmyundong && <Chip variant="gray">{eubmyundong}</Chip>}
           </div>
-          {isFavorite && !isMyPage && (
-            <LikeButton onLike={() => onToggleListingLike?.(listingId, isFavorite)} isFavorite={isFavorite} />
+          {!isMyPage && (
+            <LikeButton onLike={(active) => onToggleListingLike?.(listingId, active)} isFavorite={isFavorite} />
           )}
         </div>
         <div tw="font-bold text-b1 flex gap-1.5 items-center">

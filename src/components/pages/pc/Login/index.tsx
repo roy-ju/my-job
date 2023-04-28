@@ -9,7 +9,6 @@ import { loginWithApple } from '@/lib/apple';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
-// import { mutate } from 'swr';
 
 interface Props {
   depth: number;
