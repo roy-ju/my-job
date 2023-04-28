@@ -75,7 +75,7 @@ const ListingCreateChooseAgent = () => {
           addressData: router.query.addressData as string,
         },
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}?listingId=${router.query.listingID}&${router.query.listingID}`,
+      `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}?listingID=${router.query.listingID}`,
     );
   }, [agents, index, router]);
 

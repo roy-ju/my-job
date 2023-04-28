@@ -1,7 +1,7 @@
-import { ListingCreateAddressDetail } from '@/components/pages/mobile';
+import { ListingCreateSummary } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPageWithLayout = () => <ListingCreateAddressDetail />;
+const Page: NextPageWithLayout = () => <ListingCreateSummary />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

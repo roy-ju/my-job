@@ -417,9 +417,11 @@ const PriceInput = forwardRef<
 
     const isAllowed = useCallback(
       (values: NumberFormatValues) => {
-        const val = values.floatValue ?? 0;
-        if (!isZeroAllowed && val === 0) return false;
-        if (!isNegativeAllowed && val < 0) return false;
+        const val = values.floatValue;
+        if (val !== undefined) {
+          if (!isZeroAllowed && val === 0) return false;
+          if (!isNegativeAllowed && val < 0) return false;
+        }
         return true;
       },
       [isZeroAllowed, isNegativeAllowed],

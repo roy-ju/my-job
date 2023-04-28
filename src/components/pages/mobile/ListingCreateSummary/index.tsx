@@ -3,9 +3,9 @@ import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList'
 import updateDanjiPhoto from '@/apis/listing/updateDanjiPhoto';
 import updateListing from '@/apis/listing/updateListing';
 import uploadListingPhoto from '@/apis/listing/updateListingPhoto';
-import { Loading } from '@/components/atoms';
-// import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MobListingCreateSummary } from '@/components/templates';
+import { Loading, MobileContainer } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+import { ListingCreateSummary as ListingCreateSummaryTemplate } from '@/components/templates';
 import Routes from '@/router/routes';
 import getFileFromUrl from '@/utils/getFileFromUrl';
 import { useRouter } from 'next/router';
@@ -93,25 +93,29 @@ const ListingCreateSummary = () => {
   return (
     <>
       {isLoading || !agent ? (
-        <div tw="py-20">
-          <Loading />
-        </div>
+        <MobileContainer>
+          <div tw="py-20">
+            <Loading />
+          </div>
+        </MobileContainer>
       ) : (
-        <MobListingCreateSummary
-          agentOfficeName={agent.office_name}
-          agentProfileImageFullPath={agent.profile_image_full_path}
-          agentName={agent.name}
-          agentCellPhone={agent.cell_phone}
-          agentJibunAddress={agent.full_jibun_address}
-          agentDescription={agent.description}
-          agentRegistrationNumber={agent.registration_number}
-          listing={params}
-          onClickCreate={onClickCreate}
-          onClickUpdate={onClickUpdate}
-          isLoading={isCreating}
-        />
+        <MobileContainer>
+          <ListingCreateSummaryTemplate
+            agentOfficeName={agent.office_name}
+            agentProfileImageFullPath={agent.profile_image_full_path}
+            agentName={agent.name}
+            agentCellPhone={agent.cell_phone}
+            agentJibunAddress={agent.full_jibun_address}
+            agentDescription={agent.description}
+            agentRegistrationNumber={agent.registration_number}
+            listing={params}
+            onClickCreate={onClickCreate}
+            onClickUpdate={onClickUpdate}
+            isLoading={isCreating}
+          />
+        </MobileContainer>
       )}
-      {/* {poppup && (
+      {poppup && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
@@ -122,7 +126,20 @@ const ListingCreateSummary = () => {
               <Popup.ActionButton
                 onClick={() => {
                   setPopup(false);
-                  router.replace(Routes.ListingCreateResult, { searchParams: { listingID: `${listingID}` } });
+                  router.replace(
+                    {
+                      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}`,
+                      query: {
+                        listingID: router.query.listingID as string,
+                        agentID: `${agentID}`,
+                        params: router.query.params as string,
+                        addressLine1: router.query.addressLine1 as string,
+                        addressLine2: router.query.addressLine2 as string,
+                        addressData: router.query.addressData as string,
+                      },
+                    },
+                    `/${Routes.EntryMobile}/${Routes.ListingCreateResult}?listingID=${router.query.listingID}`,
+                  );
                 }}
               >
                 확인
@@ -130,7 +147,7 @@ const ListingCreateSummary = () => {
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
-      )} */}
+      )}
     </>
   );
 };
