@@ -64,6 +64,7 @@ export default function useRouter(depth: number) {
       delete router.query[`depth${i}`];
     }
 
+    delete router.query.params;
     const query: Record<string, string> = {
       ...(router.query as Record<string, string>),
       // ...options?.searchParams,

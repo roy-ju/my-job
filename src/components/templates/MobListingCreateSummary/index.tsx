@@ -34,7 +34,7 @@ export default function MobListingCreateSummary({
   listing,
 }: ListingCreateSummaryProps) {
   return (
-    <div tw="h-full flex flex-col">
+    <div tw="h-full flex flex-col bg-white mx-auto">
       <NavigationHeader>
         <NavigationHeader.Title>매물등록 신청 최종 확인</NavigationHeader.Title>
       </NavigationHeader>
