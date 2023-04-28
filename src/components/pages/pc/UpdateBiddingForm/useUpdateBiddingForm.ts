@@ -6,6 +6,7 @@ import { BuyOrRent } from '@/constants/enums';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import useAPI_GetBiddingInfo, { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
 import Routes from '@/router/routes';
+import { TimeTypeString } from '@/constants/strings';
 import makeUpdateBiddingParams from './makeUpdateBiddingParams';
 
 export default function useUpdateBiddingForm(depth: number) {
@@ -345,7 +346,6 @@ export default function useUpdateBiddingForm(depth: number) {
 
   useIsomorphicLayoutEffect(() => {
     if (!biddingParams) return;
-    console.log(biddingParams);
 
     if (data?.listing?.buy_or_rent === BuyOrRent.Buy && biddingParams.accepting_target_price === false) {
       // 매매일때
@@ -386,11 +386,17 @@ export default function useUpdateBiddingForm(depth: number) {
     if (biddingParams.remaining_amount_payment_time) {
       setRemainingAmountDate(new Date(biddingParams.remaining_amount_payment_time));
     }
+    if (biddingParams.remaining_amount_payment_time_type) {
+      setRemainingAmountDateType(TimeTypeString[biddingParams.remaining_amount_payment_time_type]);
+    }
     if (biddingParams.can_have_earlier_move_in_date !== null) {
       setCanHaveEarlierMoveInDate(biddingParams.can_have_earlier_move_in_date);
     }
     if (biddingParams.move_in_date) {
       setMoveInDate(new Date(biddingParams.move_in_date));
+    }
+    if (biddingParams.move_in_date_type) {
+      setMoveInDateType(TimeTypeString[biddingParams.move_in_date_type]);
     }
     if (biddingParams.etcs) {
       setEtcs(biddingParams.etcs.split(','));
@@ -445,11 +451,17 @@ export default function useUpdateBiddingForm(depth: number) {
     if (biddingData.remaining_amount_payment_time) {
       setRemainingAmountDate(new Date(biddingData.remaining_amount_payment_time));
     }
+    if (biddingData.remaining_amount_payment_time_type) {
+      setRemainingAmountDateType(TimeTypeString[biddingData.remaining_amount_payment_time_type]);
+    }
     if (biddingData.can_have_earlier_move_in_date !== null) {
       setCanHaveEarlierMoveInDate(biddingData.can_have_earlier_move_in_date);
     }
     if (biddingData.move_in_date) {
-      setRemainingAmountDate(new Date(biddingData.move_in_date));
+      setMoveInDate(new Date(biddingData.move_in_date));
+    }
+    if (biddingData.move_in_date_type) {
+      setMoveInDateType(TimeTypeString[biddingData.move_in_date_type]);
     }
     if (biddingData.etcs) {
       setEtcs(biddingData.etcs.split(','));
