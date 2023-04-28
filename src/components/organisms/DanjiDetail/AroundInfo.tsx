@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button } from '@/components/atoms';
-import useDanjiStore from '@/hooks/recoil/useDanjiStore';
-import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
+import { convertedArr, getAverageDistance } from '@/hooks/utils/aroundInfo';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
 import { cloneDeep } from 'lodash';
@@ -35,19 +32,16 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const refs = useRef<any>([]);
 
   const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);
-  const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
+  // const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
   const [isMoreClick, setIsMoreClick] = useState(false);
   const [sliceNum, setSliceNum] = useState(3);
-  const [update, setUpdate] = useState(false);
+  // const [update, setUpdate] = useState(false);
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({
     SW8: true,
   });
 
-  const { buttonState, handleAroundButton } = useDanjiStore();
-
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [selectedAround, setSelectedAround] = useState<boolean>(false);
 
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();
@@ -87,7 +81,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
   }, [activeCategory.SW8, catergoryList]);
 
-  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [markers]);
+  // const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [markers]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
@@ -98,7 +92,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
     setActiveCategory(() => ({ [id]: true }));
     setCategoryList([]);
-    setMarkers([]);
+    // setMarkers([]);
   };
 
   useEffect(() => {
@@ -136,7 +130,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
       if (response && response?.documents) {
         setNodata(false);
         const copiedResData = cloneDeep(response.documents);
-        const copiedResMarkerData = cloneDeep(response.documents);
+        // const copiedResMarkerData = cloneDeep(response.documents);
 
         const convertedResData = copiedResData.map((item) => {
           if (item.category_group_code === KakaoMapCategoryCode.SUBWAY) {
@@ -174,7 +168,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           p: 0,
         });
 
-        setUpdate(true);
+        // setUpdate(true);
       }
     }
 
@@ -185,7 +179,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     });
 
     return () => {
-      setUpdate(false);
+      // setUpdate(false);
     };
   }, [activeCategory, danji]);
 
@@ -198,15 +192,16 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         <Button
           size="small"
           variant="outlined"
-          selected={!!buttonState?.around}
-          onClick={() => {
-            handleAroundButton();
-          }}
+          // selected={!!buttonState?.around}
+          // onClick={() => {
+          //   handleAroundButton();
+          // }}
         >
           정보보기
         </Button>
       </div>
       <div
+        role="presentation"
         ref={scrollRef}
         onMouseDown={onDragStart}
         onMouseMove={onDragMove}

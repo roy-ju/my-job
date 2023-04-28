@@ -1,8 +1,8 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { Moment, Numeral } from '@/components/atoms';
 import { Table } from '@/components/molecules';
-import { BuyOrRent, ListingStatus } from '@/constants/enums';
-import { BuyOrRentString, TargetPriceLabel } from '@/constants/strings';
+import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRentString } from '@/constants/strings';
 
 export interface ConditionsProps {
   listing?: GetListingDetailResponse['listing'];
@@ -28,7 +28,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
             <Table.Data>{BuyOrRentString[listing?.buy_or_rent ?? 0]}</Table.Data>
           </Table.Row>
           <Table.Row>
-            <Table.Head>{TargetPriceLabel[listing?.status ?? ListingStatus.Active] ?? '희망가'}</Table.Head>
+            <Table.Head>희망가</Table.Head>
             <Table.Data>
               {listing?.buy_or_rent === BuyOrRent.Buy && <Numeral koreanNumber>{listing.trade_price}</Numeral>}
               {listing?.buy_or_rent === BuyOrRent.Jeonsae && <Numeral koreanNumber>{listing.deposit}</Numeral>}

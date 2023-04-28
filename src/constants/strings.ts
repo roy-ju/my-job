@@ -1,4 +1,4 @@
-import { BuyOrRent, RealestateType, ListingStatus, TimeType } from './enums';
+import { BuyOrRent, RealestateType, TimeType } from './enums';
 import Paths from './paths';
 
 export const RealestateTypeString: Record<number, string> = {
@@ -16,11 +16,12 @@ export const BuyOrRentString: Record<number, string> = {
   [BuyOrRent.Wolsae]: '월세',
 };
 
-export const TargetPriceLabel: Record<number, string> = {
-  [ListingStatus.Active]: '희망가',
-  [ListingStatus.ContractComplete]: '체결가',
-  [ListingStatus.PreContractComplete]: '체결가',
-};
+// 정책 삭제
+// export const TargetPriceLabel: Record<number, string> = {
+//   [ListingStatus.Active]: '희망가',
+//   [ListingStatus.ContractComplete]: '체결가',
+//   [ListingStatus.PreContractComplete]: '체결가',
+// };
 
 export const TimeTypeString: Record<number, string> = {
   [TimeType.AfterDay]: '이후',

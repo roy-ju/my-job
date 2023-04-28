@@ -98,8 +98,6 @@ export enum VisitUserType {
   HasSuggestRecommend = 8, // 매수인 제안은 없고 중개인의 추천이 있는 경우
   PreContractOthers = 9, // 가계약금 입금 됐지만 당사자가 아님
   PreContractSelf = 10, // 가계약금 입금된 당사자
-  SellerContractComplete = 11, // 마이페이지 - 지난거래 탭으로 가야함
-  SellerCancelled = 12, // 마이페이지 - 지난거래 탭으로 가야함
 }
 
 export enum BiddingStatus {

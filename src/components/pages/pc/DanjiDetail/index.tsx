@@ -47,6 +47,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     onChangeSelectedYear,
     danjiRealPriesListSetSize,
     navigateToListingDetail,
+    handleChangeHakgudoActive,
   } = useDanjiDetail(depth);
 
   const { listDanji, danjiChartData, sidoChartData, sigunguChartData, xAxis } = useDanjiStatusChart({
@@ -123,6 +124,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
         onChangeChecked={onChangeChecked}
         danjiRealPriesListSetSize={danjiRealPriesListSetSize}
+        onChangeHakgudoActive={handleChangeHakgudoActive}
       />
     </Panel>
   );

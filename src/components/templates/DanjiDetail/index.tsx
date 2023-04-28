@@ -120,6 +120,7 @@ interface Props {
   danjiRealPriesListSetSize?: (
     size: number | ((_size: number) => number),
   ) => Promise<DanjiRealPricesListResponse[] | undefined>;
+  onChangeHakgudoActive?: (active: boolean) => void;
 }
 
 export default function DanjiDetail({
@@ -165,6 +166,7 @@ export default function DanjiDetail({
   onChangeSelectedJeonyongArea,
   onChangeSelectedJeonyongAreaMax,
   danjiRealPriesListSetSize,
+  onChangeHakgudoActive,
 }: Props) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
@@ -345,7 +347,7 @@ export default function DanjiDetail({
           <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
           <DanjiDetailSection.DetailInfo danji={danji} />
           <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-          <DanjiDetailSection.SchoolInfo danji={danji} />
+          <DanjiDetailSection.SchoolInfo danji={danji} onChangeHakgudoActive={onChangeHakgudoActive} />
           <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
           <DanjiDetailSection.AroundInfo danji={danji} />
         </DanjiDetailSection>
