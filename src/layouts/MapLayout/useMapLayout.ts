@@ -807,16 +807,14 @@ export default function useMapLayout() {
     });
   }, [filter.buyOrRents, handleChangeFilter]);
 
-  useEffect(() => {
-    if (mapState?.naverMap) {
-      setMapState((prev) => ({
-        ...prev,
-        setSchoolType(type: number, schoolIds) {
-          console.log('hello', type, schoolIds);
-        },
-      }));
-    }
-  }, [mapState?.naverMap]);
+  // useEffect(() => {
+  //   if (mapState?.naverMap) {
+  //     setMapState((prev) => ({
+  //       ...prev,
+  //       setSchoolType() {},
+  //     }));
+  //   }
+  // }, [mapState?.naverMap]);
 
   return {
     // common map handlers and properties
