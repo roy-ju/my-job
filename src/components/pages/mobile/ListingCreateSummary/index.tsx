@@ -91,29 +91,25 @@ const ListingCreateSummary = () => {
   }, [params, listingID, agentID, router]);
 
   return (
-    <>
+    <MobileContainer>
       {isLoading || !agent ? (
-        <MobileContainer>
-          <div tw="py-20">
-            <Loading />
-          </div>
-        </MobileContainer>
+        <div tw="py-20">
+          <Loading />
+        </div>
       ) : (
-        <MobileContainer>
-          <ListingCreateSummaryTemplate
-            agentOfficeName={agent.office_name}
-            agentProfileImageFullPath={agent.profile_image_full_path}
-            agentName={agent.name}
-            agentCellPhone={agent.cell_phone}
-            agentJibunAddress={agent.full_jibun_address}
-            agentDescription={agent.description}
-            agentRegistrationNumber={agent.registration_number}
-            listing={params}
-            onClickCreate={onClickCreate}
-            onClickUpdate={onClickUpdate}
-            isLoading={isCreating}
-          />
-        </MobileContainer>
+        <ListingCreateSummaryTemplate
+          agentOfficeName={agent.office_name}
+          agentProfileImageFullPath={agent.profile_image_full_path}
+          agentName={agent.name}
+          agentCellPhone={agent.cell_phone}
+          agentJibunAddress={agent.full_jibun_address}
+          agentDescription={agent.description}
+          agentRegistrationNumber={agent.registration_number}
+          listing={params}
+          onClickCreate={onClickCreate}
+          onClickUpdate={onClickUpdate}
+          isLoading={isCreating}
+        />
       )}
       {poppup && (
         <OverlayPresenter>
@@ -148,7 +144,7 @@ const ListingCreateSummary = () => {
           </Popup>
         </OverlayPresenter>
       )}
-    </>
+    </MobileContainer>
   );
 };
 

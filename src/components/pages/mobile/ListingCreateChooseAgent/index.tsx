@@ -2,10 +2,11 @@
 import getAgentList from '@/apis/listing/getAgentList';
 
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
-import { MobListingCreateChooseAgent } from '@/components/templates';
+import { ListingCreateChooseAgent as ListingCreateChooseAgentTemplate } from '@/components/templates';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useState } from 'react';
+import { MobileContainer } from '@/components/atoms';
 
 const ListingCreateChooseAgent = () => {
   const router = useRouter();
@@ -80,14 +81,16 @@ const ListingCreateChooseAgent = () => {
   }, [agents, index, router]);
 
   return (
-    <MobListingCreateChooseAgent
-      agents={agents}
-      isLoading={isLoading}
-      onClickNext={handleClickNext}
-      onClickBack={handleClickBack}
-      index={index}
-      onChangeIndex={(value) => setIndex(value)}
-    />
+    <MobileContainer>
+      <ListingCreateChooseAgentTemplate
+        agents={agents}
+        isLoading={isLoading}
+        onClickNext={handleClickNext}
+        onClickBack={handleClickBack}
+        index={index}
+        onChangeIndex={(value) => setIndex(value)}
+      />
+    </MobileContainer>
   );
 };
 
