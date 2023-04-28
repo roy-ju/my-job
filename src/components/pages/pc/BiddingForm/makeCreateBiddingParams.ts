@@ -38,9 +38,9 @@ export default function makeCreateBiddingParams(args: Args) {
     bidding_trade_or_deposit_price: convertPriceInputToNumber(args.price),
     bidding_monthly_rent_fee: convertPriceInputToNumber(args.monthlyRentFee),
 
-    can_have_more_contract_amount: args.canHaveMoreContractAmount,
+    can_have_more_contract_amount: args.canHaveMoreContractAmount ?? false,
     contract_amount: convertPriceInputToNumber(args.contractAmount),
-    can_have_more_interim_amount: args.canHaveMoreInterimAmount,
+    can_have_more_interim_amount: args.canHaveMoreInterimAmount ?? false,
     interim_amount: convertPriceInputToNumber(args.interimAmount),
     can_have_earlier_remaining_amount_payment_time: args.canHaveEarlierRemainingAmountDate,
     remaining_amount_payment_time: args.remainingAmountDate?.toISOString(), // 잔금 지급일
