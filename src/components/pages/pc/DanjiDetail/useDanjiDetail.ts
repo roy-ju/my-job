@@ -234,6 +234,8 @@ export default function useDanjiDetail(depth: number) {
     [router],
   );
 
+  const handleChangeHakgudoActive = useCallback(() => {}, []);
+
   useEffect(() => {
     async function isAccessible(code: string) {
       const response = await danjiSuggestEligibilityCheck(code);
@@ -304,6 +306,7 @@ export default function useDanjiDetail(depth: number) {
       onChangeSelectedIndex,
       increamentPageNumber,
       navigateToListingDetail,
+      handleChangeHakgudoActive,
     }),
     [
       isRealPricesAvailable,
@@ -341,6 +344,7 @@ export default function useDanjiDetail(depth: number) {
       increamentPageNumber,
       danjiRealPriesListSetSize,
       navigateToListingDetail,
+      handleChangeHakgudoActive,
     ],
   );
 }
