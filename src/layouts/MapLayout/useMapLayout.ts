@@ -426,6 +426,9 @@ export default function useMapLayout() {
               pnu: searchedDanji.pnu,
               realestateType: searchedDanji.danji_realestate_type,
             });
+            router.replace(Routes.DanjiDetail, {
+              searchParams: { p: searchedDanji.pnu, rt: searchedDanji.danji_realestate_type.toString() },
+            });
           }
           lastSearchItem.current = null;
         }
