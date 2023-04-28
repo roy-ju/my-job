@@ -2,13 +2,12 @@ import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
 import GlobalStyles from '@/styles/GlobalStyles';
 import SWRConfig from '@/lib/swr';
 import Script from 'next/script';
 import { initializeKakaoSDK } from '@/lib/kakao';
-import { useAuth } from '@/hooks/services';
 
 import OverlayContainer from '@/components/molecules/FullScreenDialog';
 import { updateVH } from '@/utils/updateVH';
@@ -16,6 +15,7 @@ import ToastContainer from '@/lib/react-toastify';
 import { usePlatform } from '@/hooks/utils';
 import Head from 'next/head';
 import AppConfig from '@/config';
+import { isClient } from '@/utils/is';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -27,12 +27,16 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function NegocioProvider({ children }: { children?: ReactNode }) {
-  const { mutate } = useAuth();
-  useEffect(() => {
+  if (isClient && typeof window.Negocio === 'undefined') {
     window.Negocio = {
       callbacks: {},
+      mapEventListeners: {
+        filter: {},
+        bounds: {},
+        toggle: {},
+      },
     };
-  }, [mutate]);
+  }
 
   return children as JSX.Element;
 }

@@ -72,6 +72,46 @@ export interface MapBounds {
   se: { lat: number; lng: number };
 }
 
+export function getBounds(m: NaverMap): MapBounds {
+  let mapLevel = -1;
+
+  const meters = getMetersByZoom(m.getZoom());
+
+  if (meters <= 100) {
+    mapLevel = 1;
+  } else if (meters <= 500) {
+    mapLevel = 2;
+  } else if (meters <= 5000) {
+    mapLevel = 3;
+  } else {
+    mapLevel = 4;
+  }
+
+  const naverMapBounds = m.getBounds() as naver.maps.LatLngBounds;
+  const sw = naverMapBounds.getSW();
+  const ne = naverMapBounds.getNE();
+
+  return {
+    mapLevel,
+    sw: {
+      lat: sw.lat(),
+      lng: sw.lng(),
+    },
+    ne: {
+      lat: ne.lat(),
+      lng: ne.lng(),
+    },
+    nw: {
+      lat: ne.lat(),
+      lng: sw.lng(),
+    },
+    se: {
+      lat: sw.lat(),
+      lng: ne.lng(),
+    },
+  };
+}
+
 /**
  * 현재 지도 위치정보를 쿼리파라미터에 저장한다.
  */
@@ -451,42 +491,7 @@ export default function useMapLayout() {
    * 지도 코너 좌표값을 업데이트 한다.
    */
   const updateBounds = useCallback((m: NaverMap) => {
-    let mapLevel = -1;
-
-    const meters = getMetersByZoom(m.getZoom());
-
-    if (meters <= 100) {
-      mapLevel = 1;
-    } else if (meters <= 500) {
-      mapLevel = 2;
-    } else if (meters <= 5000) {
-      mapLevel = 3;
-    } else {
-      mapLevel = 4;
-    }
-
-    const naverMapBounds = m.getBounds() as naver.maps.LatLngBounds;
-    const sw = naverMapBounds.getSW();
-    const ne = naverMapBounds.getNE();
-    setBounds({
-      mapLevel,
-      sw: {
-        lat: sw.lat(),
-        lng: sw.lng(),
-      },
-      ne: {
-        lat: ne.lat(),
-        lng: ne.lng(),
-      },
-      nw: {
-        lat: ne.lat(),
-        lng: sw.lng(),
-      },
-      se: {
-        lat: sw.lat(),
-        lng: ne.lng(),
-      },
-    });
+    setBounds(getBounds(m));
   }, []);
 
   /**
@@ -764,6 +769,9 @@ export default function useMapLayout() {
     (value: Partial<Filter>) => {
       setFilter((prev) => {
         const old = prev === null ? getDefaultFilterAptOftl() : prev;
+        if (_.isEqual(old, { ...old, ...value })) {
+          return old;
+        }
         return {
           ...old,
           ...value,
@@ -807,14 +815,25 @@ export default function useMapLayout() {
     });
   }, [filter.buyOrRents, handleChangeFilter]);
 
-  // useEffect(() => {
-  //   if (mapState?.naverMap) {
-  //     setMapState((prev) => ({
-  //       ...prev,
-  //       setSchoolType() {},
-  //     }));
-  //   }
-  // }, [mapState?.naverMap]);
+  // dispatch negocio map events
+
+  useEffect(() => {
+    Object.values(window.Negocio.mapEventListeners.bounds).forEach((cb) => {
+      cb(bounds);
+    });
+  }, [bounds]);
+
+  useEffect(() => {
+    Object.values(window.Negocio.mapEventListeners.filter).forEach((cb) => {
+      cb(filter);
+    });
+  }, [filter]);
+
+  useEffect(() => {
+    Object.values(window.Negocio.mapEventListeners.toggle).forEach((cb) => {
+      cb(mapToggleValue);
+    });
+  }, [mapToggleValue]);
 
   return {
     // common map handlers and properties

@@ -8,7 +8,6 @@ import { SchoolType } from '@/constants/enums';
 import checkStudentCount from '@/utils/checkStudentCount';
 import getDistance from '@/utils/getDistance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import useMap from '@/states/map';
 import NoDataTypeOne from './NoData';
 
 export default function SchoolInfo({
@@ -17,8 +16,6 @@ export default function SchoolInfo({
   danji?: GetDanjiDetailResponse;
   onChangeHakgudoActive?: (active: boolean) => void;
 }) {
-  const { setSchoolType } = useMap();
-
   const [hakgudoActive, setHakgudoActive] = useState(false);
 
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
@@ -66,15 +63,6 @@ export default function SchoolInfo({
 
     setSelectedSchoolType(SchoolType.ElementarySchool);
   }, [listElementarySchools.length, listHighSchools.length, listMiddleSchools.length]);
-
-  useEffect(() => {
-    if (hakgudoActive && selectedSchoolType && schoolList?.length) {
-      setSchoolType?.(
-        selectedSchoolType,
-        schoolList.map((item) => item.school_id),
-      );
-    }
-  }, [hakgudoActive, selectedSchoolType, schoolList, setSchoolType]);
 
   if (!danji || !selectedSchoolType) return null;
 

@@ -3,8 +3,7 @@ import { atom, useRecoilValue } from 'recoil';
 import { v1 } from 'uuid';
 
 interface IMapState {
-  naverMap?: NaverMap | null;
-  setSchoolType?: (schoolType: number, schoolIds: string[]) => void;
+  naverMap?: NaverMap;
 }
 
 export const mapState = atom<IMapState>({
