@@ -1,4 +1,4 @@
-import { MobAuthRequired } from '@/components/atoms';
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { MobListingCreateAddress } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -30,7 +30,9 @@ const ListingCreateAddress = () => {
 
   return (
     <MobAuthRequired ciRequired>
-      <MobListingCreateAddress onSubmit={handleSubmit} onClickBack={handleClickBack} />
+      <MobileContainer>
+        <MobListingCreateAddress onSubmit={handleSubmit} onClickBack={handleClickBack} />
+      </MobileContainer>
     </MobAuthRequired>
   );
 };

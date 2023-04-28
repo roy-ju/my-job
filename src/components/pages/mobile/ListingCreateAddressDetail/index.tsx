@@ -1,14 +1,15 @@
 import checkDuplicate from '@/apis/listing/checkDuplicate';
 import createListing from '@/apis/listing/createListing';
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MobListingCreateAddressDetail } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
+import { ListingCreateAddressDetail as ListingCreateAddressDetailTemplate } from '@/components/templates';
 import { searchAddress } from '@/lib/kakao/search_address';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
+import { MobileContainer } from '@/components/atoms';
 
 const ListingCreateAddressDetail = () => {
   const router = useRouter();
@@ -125,8 +126,8 @@ const ListingCreateAddressDetail = () => {
   }, [router]);
 
   return (
-    <>
-      <MobListingCreateAddressDetail
+    <MobileContainer>
+      <ListingCreateAddressDetailTemplate
         addressLine1={addressLine1}
         addressLine2={addressLine2}
         errorMessage={
@@ -154,7 +155,7 @@ const ListingCreateAddressDetail = () => {
           </Popup>
         </OverlayPresenter>
       )}
-    </>
+    </MobileContainer>
   );
 };
 

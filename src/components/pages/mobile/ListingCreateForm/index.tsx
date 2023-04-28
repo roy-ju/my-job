@@ -1,10 +1,11 @@
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MobListingCreateForm } from '@/components/templates';
+import { ListingCreateForm as ListingCreateFormTemplate } from '@/components/templates';
 import { useEffect, useRef, useState } from 'react';
 import useAPI_GetOptionList from '@/apis/listing/getOptionList';
 import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { motion } from 'framer-motion';
+import { MobileContainer } from '@/components/atoms';
 import useListingCreateForm from './useListingCreateForm';
 
 const ListingCreateForm = () => {
@@ -121,8 +122,8 @@ const ListingCreateForm = () => {
   }, [forms]);
 
   return (
-    <>
-      <MobListingCreateForm
+    <MobileContainer>
+      <ListingCreateFormTemplate
         nextButtonDisabled={nextButtonDisabled}
         onClickBack={openBackPopup}
         addressLine1={addressLine1}
@@ -278,7 +279,7 @@ const ListingCreateForm = () => {
           </Popup>
         </OverlayPresenter>
       )}
-    </>
+    </MobileContainer>
   );
 };
 
