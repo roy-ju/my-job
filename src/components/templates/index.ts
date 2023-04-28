@@ -73,6 +73,7 @@ export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
 export { default as PhotoGallery } from './PhotoGallery';
 export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
 export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPriceUpdateSummary';
+export { default as MapListingList } from './MapListingList';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

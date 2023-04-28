@@ -31,6 +31,7 @@ export default function useAPI_GetMySuggestList() {
     isLoading,
     mutate,
   } = useSWRInfinite<GetMySuggestListResponse>(user ? getKey : () => null);
+
   const data = useMemo(() => {
     if (!dataList) return [];
     return dataList

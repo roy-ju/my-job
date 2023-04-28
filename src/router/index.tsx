@@ -14,6 +14,10 @@ function FallbackComponent() {
   return <Panel />;
 }
 
+const MapListingList = dynamic(() => import('@/components/pages/pc/MapListingList'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: FallbackComponent });
 const MyAddress = dynamic(() => import('@/components/pages/pc/MyAddress'), { ssr: false, loading: FallbackComponent });
 const MyAddressDetail = dynamic(() => import('@/components/pages/pc/MyAddressDetail'), {
@@ -328,15 +332,19 @@ export default function Router({ route, query, depth }: Props) {
     case Routes.MyFavoriteList: {
       return <MyFavoriteList {...props} />;
     }
+
     case Routes.MyRegisteredListingList: {
       return <MyRegisteredListings {...props} />;
     }
+
     case Routes.MyParticipatingListings: {
       return <MyParticipatingListings {...props} />;
     }
+
     case Routes.ListingDetailPassed: {
       return <ListingDetailPassed {...props} />;
     }
+
     case Routes.ListingDetailHistory: {
       return <ListingDetailHistory {...props} />;
     }
@@ -360,9 +368,11 @@ export default function Router({ route, query, depth }: Props) {
     case Routes.TransactionHistory: {
       return <TransactionHistory {...props} />;
     }
+
     case Routes.TransactionReview: {
       return <TransactionReview {...props} />;
     }
+
     case Routes.NegoPoint: {
       return <NegoPoint {...props} />;
     }
@@ -577,6 +587,10 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ListingTargetPriceUpdateSummary: {
       return <ListingTargetPriceUpdateSummary {...props} />;
+    }
+
+    case Routes.MapListingList: {
+      return <MapListingList {...props} />;
     }
 
     case Routes.Developer: {
