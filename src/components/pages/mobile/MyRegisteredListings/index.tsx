@@ -63,13 +63,8 @@ export default memo(() => {
     myCancelledListingIsLoading,
   ]);
 
-  const handleClickListingItem = () => () => {
-    // router.push(Routes.ListingDetail, {
-    //   persistParams: true,
-    //   searchParams: {
-    //     listingID: `${listingId}`,
-    //   },
-    // });
+  const handleClickListingItem = (listingID: number) => () => {
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   };
 
   const handleNavigateToListingCreate = () => {
@@ -88,16 +83,12 @@ export default memo(() => {
   const handleChangeListingTab = useCallback(
     (newValue: number) => {
       setTab(Number(newValue));
-      // router.replaceCurrent(Routes.MyRegisteredListingList, {
-      //   persistParams: true,
-      //   searchParams: { tab: `${newValue}` },
-      // });
     },
     [setTab],
   );
 
   const handleClickBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    router.back();
   }, [router]);
 
   if (!isLoading) {

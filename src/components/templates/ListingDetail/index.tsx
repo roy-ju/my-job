@@ -51,6 +51,8 @@ export interface ListingDetailProps {
   onNavigateToUpdateTargetPrice?: () => void;
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
+
+  onClickBack?: () => void;
 }
 
 export default function ListingDetail({
@@ -71,6 +73,7 @@ export default function ListingDetail({
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
   onNavigateToSuggestRegional,
+  onClickBack,
 }: ListingDetailProps) {
   const {
     isRealPricesAvailable,
@@ -193,6 +196,7 @@ export default function ListingDetail({
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-inherit">{listingDetail?.listing?.listing_title}</NavigationHeader.Title>
         <div tw="flex gap-4">
           <NavigationHeader.Button>

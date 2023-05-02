@@ -39,8 +39,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   const handleClickMyRealPriceList = useCallback(() => {
-    router.push(Routes.MyRealPriceList);
-  }, [router]);
+    router.push(Routes.MyRealPriceList, {
+      searchParams: { nickname: user!.nickname },
+    });
+  }, [router, user]);
 
   const handleClickFAQ = useCallback(() => {
     router.push(Routes.FAQ);
