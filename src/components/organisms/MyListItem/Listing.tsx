@@ -36,6 +36,7 @@ export interface ListingProps extends IMyListingListItem {
   onClickListingItem?: (listingId: number) => () => void;
   onNavigateToListingDetailHistory?: (listingId: number, biddingId: number) => () => void;
   biddingId?: number;
+  showPopularityInformation?: boolean;
   showLikeButton?: boolean;
 }
 
@@ -69,6 +70,7 @@ export default function Listing({
   isFavorite,
   labelText,
   biddingId,
+  showPopularityInformation = true,
   showLikeButton = true,
 }: ListingProps) {
   const renderPrice = () => {
@@ -124,7 +126,9 @@ export default function Listing({
             <div>{totalFloor && floorDescription && `${floorDescription?.[0]}/${totalFloor}층`}</div>
             <div>{direction}</div>
           </div>
-          <ListingPopularityInformation viewCount={viewCount} offerCount={participantsCount} />
+          {showPopularityInformation && (
+            <ListingPopularityInformation viewCount={viewCount} offerCount={participantsCount} />
+          )}
         </div>
       </div>
     </button>
