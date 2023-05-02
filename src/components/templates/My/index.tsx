@@ -107,7 +107,7 @@ export default function My({
         <div tw="pt-5">
           <MyPageNavigationList>
             {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
-            <MyPageNavigationList.Item title="네고시오 소개" />
+            {/* <MyPageNavigationList.Item title="네고시오 소개" /> */}
             <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
             <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
             {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
