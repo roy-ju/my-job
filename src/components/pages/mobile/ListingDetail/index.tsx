@@ -99,12 +99,6 @@ export default memo(() => {
 
   const handleNavigateToChatRoom = useCallback(() => {
     if (data?.chat_room_id) {
-      // router.push(Routes.ChatRoom, {
-      //   searchParams: {
-      //     listingID: router.query.listingID as string,
-      //     chatRoomID: `${data.chat_room_id}`,
-      //   },
-      // });
       router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${data.chat_room_id}`);
     }
   }, [router, data]);
@@ -114,7 +108,7 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToUpdateTargetPrice = useCallback(() => {
-    // router.push(Routes.ListingTargetPriceUpdate, { persistParams: true });
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingTargetPriceUpdate}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToSuggestRegional = useCallback(() => {

@@ -69,6 +69,8 @@ export { default as SuggestDetail } from './SuggestDetail';
 
 /** 매물 상세 */
 export { default as ListingDetail } from './ListingDetail';
+export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
+export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPriceUpdateSummary';
 
 /** 관심목록 */
 export { default as MyFavoriteList } from './MyFavoriteList';
