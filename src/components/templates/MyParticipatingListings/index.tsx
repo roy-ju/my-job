@@ -16,7 +16,7 @@ export interface MyParticipatingListingsProps {
 export default function MyParticipatingListings({
   tab,
   onChangeListingTab,
-  onClickListingItem,
+  // onClickListingItem,
   onNavigateToListingDetailHistory,
   biddingStatus,
   onClickBack,
@@ -52,7 +52,7 @@ export default function MyParticipatingListings({
       </Tabs>
       <ListingsRenderer
         onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
-        onClickListingItem={onClickListingItem}
+        // onClickListingItem={onClickListingItem}
         tabStatus={tab}
         biddingStatus={biddingStatus}
       />
