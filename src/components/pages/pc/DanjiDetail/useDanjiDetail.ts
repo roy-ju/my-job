@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
@@ -17,11 +18,14 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-export default function useDanjiDetail(depth: number) {
+export default function useDanjiDetail(depth: number, p?: string, rt?: number) {
   const router = useRouter(depth);
 
   const [buyOrRent, setBuyOrRent] = useState<number>();
   const [selectedYear, setSelectedYear] = useState<number>(Year.Three);
+
+  const [listingDetailPnu, setListingDetailPnu] = useState<string>();
+  const [listingDetailRt, setListingDetailRt] = useState<number>();
 
   // 평리스트 API가 처음에 두번 호출되는 것을 방지하기 위한 State
   const [isMutate, setIsMutate] = useState(false);
@@ -34,10 +38,13 @@ export default function useDanjiDetail(depth: number) {
 
   const [checked, setChecked] = useState<boolean>();
 
-  const { danji } = useAPI_GetDanjiDetail({
-    pnu: router?.query?.p as string,
-    realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
+  const { danji,  } = useAPI_GetDanjiDetail({
+    pnu: listingDetailPnu || (router?.query?.p as string),
+    realestateType: listingDetailRt || (router?.query?.rt ? Number(router.query.rt) : undefined),
+    
   });
+
+  
 
   const { danjiPhotos } = useAPI_GetDanjiPhotos({
     pnu: danji?.pnu,
@@ -116,6 +123,18 @@ export default function useDanjiDetail(depth: number) {
 
     return false;
   }, [danjiPhotos]);
+
+  useEffect(() => {
+    if (p) {
+      setListingDetailPnu(p);
+    }
+  }, [p]);
+
+  useEffect(() => {
+    if (rt) {
+      setListingDetailRt(rt);
+    }
+  }, [rt]);
 
   const onChangeBuyOrRent = useCallback((value: number) => {
     setBuyOrRent(value);

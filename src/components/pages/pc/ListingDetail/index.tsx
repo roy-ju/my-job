@@ -13,6 +13,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import deleteListingQna from '@/apis/listing/deleteListingQna';
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
+
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -187,6 +188,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ListingDetail
+        depth={depth}
         listingDetail={data as GetListingDetailResponse}
         qnaList={qnaData}
         isLoading={isLoading || isLoadingStatus}
