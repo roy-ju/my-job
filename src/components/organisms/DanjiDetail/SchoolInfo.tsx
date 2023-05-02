@@ -11,12 +11,7 @@ import getDistance from '@/utils/getDistance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import NoDataTypeOne from './NoData';
 
-export default function SchoolInfo({
-  danji,
-}: {
-  danji?: GetDanjiDetailResponse;
-  onChangeHakgudoActive?: (active: boolean) => void;
-}) {
+export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   const [hakgudoActive, setHakgudoActive] = useState(false);
 
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();

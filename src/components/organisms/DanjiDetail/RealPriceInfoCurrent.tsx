@@ -5,10 +5,10 @@ import DanjiIcon from '@/assets/icons/danji_line.svg';
 import SigunguIcon from '@/assets/icons/sigungu_line.svg';
 import SidoIcon from '@/assets/icons/sido_line.svg';
 import {
-  GetDanjiJeonsaerateResponse,
-  GetDanjiJeonsaerateSigunguResponse,
-  GetDanjiTradeTurnrateResponse,
-  GetDanjiTradeTurnrateSigunguResponse,
+  useAPI_DanjiJeonsaerate,
+  useAPI_DanjiJeonsaerateSigungu,
+  useAPI_DanjiTradeTurnrate,
+  useAPI_DanjiTradeTurnrateSigungu,
 } from '@/apis/danji/danjiTradeTurnRate';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useMemo } from 'react';
@@ -16,18 +16,40 @@ import { useMemo } from 'react';
 export default function RealPriceInfoCurrent({
   buyOrRent,
   danji,
-  danjiTradeTurnRateData,
-  danjiTradeTurnRateSigunguData,
-  danjiJeonsaeRateRateData,
-  danjiJeonsaeRateSigunguData,
+  selectedYear,
 }: {
   buyOrRent?: number;
   danji?: GetDanjiDetailResponse;
-  danjiTradeTurnRateData?: GetDanjiTradeTurnrateResponse;
-  danjiTradeTurnRateSigunguData?: GetDanjiTradeTurnrateSigunguResponse;
-  danjiJeonsaeRateRateData?: GetDanjiJeonsaerateResponse;
-  danjiJeonsaeRateSigunguData?: GetDanjiJeonsaerateSigunguResponse;
+  selectedYear?: number;
 }) {
+  const { data: danjiTradeTurnRateData } = useAPI_DanjiTradeTurnrate({
+    buyOrRent,
+    pnu: danji?.pnu,
+    realestateType: danji?.type,
+    year: selectedYear,
+  });
+
+  const { data: danjiTradeTurnRateSigunguData } = useAPI_DanjiTradeTurnrateSigungu({
+    buyOrRent,
+    pnu: danji?.pnu,
+    realestateType: danji?.type,
+    year: selectedYear,
+  });
+
+  const { data: danjiJeonsaeRateRateData } = useAPI_DanjiJeonsaerate({
+    buyOrRent,
+    pnu: danji?.pnu,
+    realestateType: danji?.type,
+    year: selectedYear,
+  });
+
+  const { data: danjiJeonsaeRateSigunguData } = useAPI_DanjiJeonsaerateSigungu({
+    buyOrRent,
+    pnu: danji?.pnu,
+    realestateType: danji?.type,
+    year: selectedYear,
+  });
+
   const tradeTurnRate = useMemo(() => {
     if (danjiTradeTurnRateData?.trade_turn_rate) {
       return `${Math.round(danjiTradeTurnRateData.trade_turn_rate * 10) / 10}%`;
@@ -62,6 +84,8 @@ export default function RealPriceInfoCurrent({
     }
     return '';
   }, [danji]);
+
+  if (!danji || !buyOrRent || !selectedYear) return null;
 
   return (
     <div tw="mt-6">

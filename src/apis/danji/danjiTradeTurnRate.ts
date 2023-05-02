@@ -26,7 +26,7 @@ export function useAPI_DanjiTradeTurnrate({
   buyOrRent?: number;
   pnu?: string | null;
   realestateType?: number | null;
-  year: number;
+  year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiTradeTurnrateResponse>(
     buyOrRent === BuyOrRent.Buy && pnu && realestateType && year
@@ -59,7 +59,7 @@ export function useAPI_DanjiTradeTurnrateSigungu({
   buyOrRent?: number;
   pnu?: string | null;
   realestateType?: number | null;
-  year: number;
+  year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiTradeTurnrateSigunguResponse>(
     buyOrRent === BuyOrRent.Buy && pnu && realestateType && year
@@ -92,7 +92,7 @@ export function useAPI_DanjiJeonsaerate({
   buyOrRent?: number;
   pnu?: string | null;
   realestateType?: number | null;
-  year: number;
+  year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiJeonsaerateResponse>(
     buyOrRent === BuyOrRent.Jeonsae && pnu && realestateType && year
@@ -125,7 +125,7 @@ export function useAPI_DanjiJeonsaerateSigungu({
   buyOrRent?: number;
   pnu?: string | null;
   realestateType?: number | null;
-  year: number;
+  year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiJeonsaerateSigunguResponse>(
     buyOrRent === BuyOrRent.Jeonsae && pnu && realestateType && year

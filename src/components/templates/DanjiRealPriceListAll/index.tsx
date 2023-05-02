@@ -1,11 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-
-import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { NavigationHeader } from '@/components/molecules';
 import { DanjiDetailSection } from '@/components/organisms';
-
 import RealPriceInfoHeader from '@/components/organisms/DanjiDetail/RealPriceInfoHeader';
 import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
 import { BuyOrRent, Year } from '@/constants/enums';
@@ -104,21 +101,6 @@ export default function DanjiRealPriceListAll({
   } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
-  });
-
-  const {
-    data: realpricesData,
-    list: realPricesList,
-    setSize,
-  } = useAPI_DanjiRealPricesList({
-    pnu: danji?.pnu,
-    realestateType: danji?.type || null,
-    buyOrRent,
-    year: selectedYear,
-    ps: 10,
-    directDealExcluded: checkedBoolean,
-    selectedIndex,
-    list: realPricesPyoungList,
   });
 
   const { realpricesChartData, xAxis } = useDanjiRealPricesChart({
@@ -236,10 +218,17 @@ export default function DanjiRealPriceListAll({
           </ParentSize>
         </div>
         <DanjiDetailSection.RealPricesList
-          danjiRealPricesListData={realpricesData}
-          danjiRealPricesList={realPricesList}
-          danjiRealPriesListSetSize={setSize}
+          depth={depth}
+          danji={danji}
           isMorePage
+          buyOrRent={buyOrRent}
+          selectedGonggeup={selectedArea}
+          selectedYear={selectedYear}
+          selectedArea={selectedJeonyongArea}
+          selectedAreaMax={selectedJeonyongAreaMax}
+          checked={checkedBoolean}
+          selectedIndex={selectedIndex}
+          danjiRealPricesPyoungList={realPricesPyoungList}
         />
       </div>
     </div>

@@ -4,7 +4,7 @@ type DanjiSuggestEligibilityCheckResponse = {
   eligible: true;
 } & ErrorResponse;
 
-export default async function danjiSuggestEligibilityCheck(
+export async function danjiSuggestEligibilityCheck(
   bubjungdong_code: string,
 ): Promise<DanjiSuggestEligibilityCheckResponse | null> {
   try {

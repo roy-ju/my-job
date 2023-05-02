@@ -43,7 +43,7 @@ export default function useDanjiRealPricesChart({
       ]
     | []
     | null;
-  directDealExcluded:boolean
+  directDealExcluded: boolean;
 }) {
   const { data: graphData, isLoading } = useAPI_DanjiRealPriceChart({
     directDealExcluded,
@@ -142,5 +142,8 @@ export default function useDanjiRealPricesChart({
     return filteredList.sort((a, b) => a.date.getTime() - b.date.getTime());
   }, [graphData, buyOrRent, selectedYear]);
 
-  return useMemo(() => ({ realpricesChartData: data, xAxis, isLoading }), [data, selectedYear]);
+  return useMemo(
+    () => ({ realData: graphData?.list || [], realpricesChartData: data, xAxis, isLoading }),
+    [data, selectedYear],
+  );
 }
