@@ -108,7 +108,7 @@ export default function ListingsRenderer({
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
                 <MyListItem.Listing
-                  isContractCompleted
+                  showPopularityInformation={false}
                   showLikeButton={false}
                   onClickListingItem={onClickListingItem}
                   {...item}
@@ -129,7 +129,7 @@ export default function ListingsRenderer({
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
                 <MyListItem.Listing
-                  isContractCompleted
+                  showPopularityInformation={false}
                   showLikeButton={false}
                   onClickListingItem={onClickNavigateToListingDetailPassed}
                   {...item}

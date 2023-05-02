@@ -25,7 +25,6 @@ export default function ListingRenderer({
   onNavigateToListingDetailHistory,
   tabStatus,
   biddingStatus,
-  onClickListingItem,
 }: ListingRendererProps) {
   switch (tabStatus) {
     case BiddingStatus.Submitted: {
@@ -81,7 +80,12 @@ export default function ListingRenderer({
             {biddingStatus.preContractCompleted.data?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing onNavigateToListingDetailHistory={onNavigateToListingDetailHistory} {...item} />
+                <MyListItem.Listing
+                  showLikeButton={false}
+                  showPopularityInformation={false}
+                  onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
+                  {...item}
+                />
               </React.Fragment>
             ))}
           </Wrapper>
@@ -97,7 +101,12 @@ export default function ListingRenderer({
             {biddingStatus.past.data?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing onNavigateToListingDetailHistory={onNavigateToListingDetailHistory} {...item} />
+                <MyListItem.Listing
+                  showLikeButton={false}
+                  showPopularityInformation={false}
+                  onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
+                  {...item}
+                />
               </React.Fragment>
             ))}
           </Wrapper>
