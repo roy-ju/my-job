@@ -50,7 +50,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true }: Props) {
   const [isShowRpTab, setIsShowRpTab] = useState(false);
 
   useScroll(scrollContainer, ({ scrollY }) => {
-    setIsHeaderActive(scrollY > 0.1);
+    setIsHeaderActive(scrollY > 0);
   });
 
   const onDragStart = (e: MouseEvent<HTMLDivElement>) => {

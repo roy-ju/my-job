@@ -24,12 +24,17 @@ export default function ExtraOptions({
 
   const handleCheckBoxChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
-      setExtraOptionsValue([...extraOptionsValue, +e.target.id]);
+      let newValue = [...extraOptionsValue];
+      if (extraOptionsValue.includes(+e.target.id)) {
+        newValue = newValue.filter((item) => item !== +e.target.id);
+      } else {
+        newValue.push(+e.target.id);
+      }
+      setExtraOptionsValue(newValue);
       onChangeExtraOptions?.(+e.target.id);
     },
     [setExtraOptionsValue, onChangeExtraOptions, extraOptionsValue],
   );
-
 
   return (
     <div>
