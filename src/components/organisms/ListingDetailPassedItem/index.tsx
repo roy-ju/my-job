@@ -51,15 +51,15 @@ export default function ListingDetailPassedItem({
     <div tw="flex w-full justify-between">
       <div tw="flex gap-3 items-center">
         <Image
-          src={listingImagePath ?? Paths.DEFAULT_APARTMENT_IMAGE_PATH}
+          src={listingImagePath || Paths.DEFAULT_APARTMENT_IMAGE_PATH}
           alt=""
           width={64}
           height={64}
           tw="rounded-lg"
         />
-        <div>
-          <div tw="font-bold text-b1">{listingTitle}</div>
-          <div tw="text-info text-left">{address}</div>
+        <div tw="overflow-hidden">
+          <div tw="font-bold text-b1 truncate">{listingTitle}</div>
+          <div tw="text-info text-left truncate">{address}</div>
           <div css={informationStringWrapper}>
             {area && <div>전용 {area}㎡</div>}
             {floorString && <div>{floorString}</div>}

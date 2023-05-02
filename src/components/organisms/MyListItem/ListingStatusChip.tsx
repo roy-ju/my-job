@@ -6,6 +6,7 @@ const colors = {
   '가계약금 입금': tw`bg-gray-1000`,
   '체결 매물': tw`bg-nego-800`,
   '등록 취소': tw`bg-gray-700`,
+  '제안 취소': tw`bg-red-800`,
 };
 
 export default function ListingStatusChip({ status }: { status: string }) {
@@ -14,7 +15,8 @@ export default function ListingStatusChip({ status }: { status: string }) {
     status !== '협의중' &&
     status !== '가계약금 입금' &&
     status !== '체결 매물' &&
-    status !== '등록 취소'
+    status !== '등록 취소' &&
+    status !== '제안 취소'
   )
     return null;
 

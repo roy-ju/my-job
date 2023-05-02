@@ -32,6 +32,24 @@ export default memo(({ depth, panelWidth }: Props) => {
     [setTab, router],
   );
 
+  const handleClickListingItem = (listingId: number) => () => {
+    router.push(Routes.ListingDetail, {
+      persistParams: true,
+      searchParams: {
+        listingID: `${listingId}`,
+      },
+    });
+  };
+  const handleNavigateToListingDetailHistory = (listingId: number, biddingId: number) => () => {
+    router.replace(Routes.ListingDetailHistory, {
+      persistParams: true,
+      searchParams: {
+        listingID: `${listingId}`,
+        biddingID: `${biddingId}`,
+      },
+    });
+  };
+
   if (!isLoading) {
     return <Panel width={panelWidth} />;
   }
@@ -41,6 +59,8 @@ export default memo(({ depth, panelWidth }: Props) => {
       <MyParticipatingListingsTemplate
         tab={tab}
         onChangeListingTab={handleChangeListingTab}
+        onClickListingItem={handleClickListingItem}
+        onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
         biddingStatus={biddingStatus}
       />
     </Panel>

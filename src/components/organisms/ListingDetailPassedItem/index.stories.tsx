@@ -9,7 +9,7 @@ export default {
 export const Default: ComponentStory<typeof ListingDetailPassedItem> = (args) => <ListingDetailPassedItem {...args} />;
 
 Default.args = {
-  listingTitle: '펜트라우스 104동',
+  listingTitle: '펜트라우스 104동sssdsadasdsadasdasn',
   address: '도로명주소',
   area: '44',
   floorDescription: '저',
