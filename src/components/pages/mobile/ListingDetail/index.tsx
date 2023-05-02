@@ -179,7 +179,12 @@ export default memo(() => {
             <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.replace(`/${Routes.EntryMobile}`)}>확인</Popup.ActionButton>
+            <Popup.ActionButton
+              // onClick={() => router.replace(`/${Routes.EntryMobile}`)}
+              onClick={() => router.back()}
+            >
+              확인
+            </Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>

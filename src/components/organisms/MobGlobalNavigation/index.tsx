@@ -36,7 +36,11 @@ export default function MobGlobalNavigation({ index }: { index?: number }) {
             홈
           </span>
         </Button>
-        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]">
+        <Button
+          variant="ghost"
+          tw="flex-col px-0 h-auto flex-1 gap-[5px]"
+          onClick={() => onClickButton(Routes.MyFavoriteList)}
+        >
           <HeartIcon css={index === 1 ? buttonStyles.selected : buttonStyles.default} />
           <span css={[tw`text-gray-700 text-mobCaption`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>
             관심목록

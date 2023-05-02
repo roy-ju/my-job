@@ -154,7 +154,7 @@ export default function ListingRecommendListItem({
           </button>
         )}
       </div>
-      <div>{renderCtas()}</div>
+      <div tw="pt-2">{renderCtas()}</div>
     </div>
   );
 }

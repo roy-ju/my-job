@@ -23,16 +23,15 @@ export default memo(() => {
   const [listStyle, setListStyle] = useState<'default' | 'delete'>('default');
 
   const handleClickSuggestRegional = useCallback(() => {
-    router.replace(Routes.SuggestRegionalForm);
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
   }, [router]);
 
-  const handleClickSuggestItem = useCallback(() => {
-    // router.replace(Routes.SuggestDetail, {
-    //   searchParams: {
-    //     suggestID: `${id}`,
-    //   },
-    // });
-  }, []);
+  const handleClickSuggestItem = useCallback(
+    (id: number) => {
+      router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?suggestID=${id}`);
+    },
+    [router],
+  );
 
   const handleChangeListStyle = useCallback((style: 'default' | 'delete') => {
     setItemsToDelete({});
@@ -90,7 +89,6 @@ export default memo(() => {
   );
 
   const handleClickBack = useCallback(() => {
-    // router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
     router.back();
   }, [router]);
 
@@ -121,7 +119,11 @@ export default memo(() => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">선택한 항목을 목록에서 삭제하시겠습니까?</Popup.Title>
+              <Popup.Title tw="text-center">
+                선택한 항목을 목록에서
+                <br />
+                삭제하시겠습니까?
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
@@ -134,7 +136,11 @@ export default memo(() => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">선택한 요청의 매물 추천을 그만 받으시겠습니까?</Popup.Title>
+              <Popup.Title tw="text-center">
+                선택한 요청의 매물 추천을
+                <br />
+                그만 받으시겠습니까?
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
@@ -147,7 +153,11 @@ export default memo(() => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">선택한 요청의 매물 추천을 다시 받으시겠습니까?</Popup.Title>
+              <Popup.Title tw="text-center">
+                선택한 요청의 매물 추천을
+                <br />
+                다시 받으시겠습니까?
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
