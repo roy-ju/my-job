@@ -3,12 +3,12 @@ import { Forms } from '@/components/templates/SuggestRegionalForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
-// import Routes from '@/router/routes';
-// import { useRouter } from 'next/router';
+import Routes from '@/router/routes';
+import { useRouter } from 'next/router';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
 export default function useSuggestRegionalForm() {
-  // const router = useRouter();
+  const router = useRouter();
 
   const [forms, setForms] = useState<string[]>([Forms.Region]);
   const [isRegionListOpen, setIsRegionListOpen] = useState(false);
@@ -150,13 +150,15 @@ export default function useSuggestRegionalForm() {
       description,
     });
 
-    console.log(params);
-
-    // router.replace(Routes.SuggestRegionalSummary, {
-    //   state: {
-    //     params: JSON.stringify(params),
-    //   },
-    // });
+    router.replace(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalSummary}`,
+        query: {
+          params: JSON.stringify(params),
+        },
+      },
+      `/${Routes.EntryMobile}/${Routes.SuggestRegionalSummary}`,
+    );
   }, [
     bubjungdong,
     realestateType,
@@ -172,7 +174,7 @@ export default function useSuggestRegionalForm() {
     remainingAmountDate,
     remainingAmountDateType,
     description,
-    // router,
+    router,
   ]);
 
   const handleClickNext = useCallback(() => {

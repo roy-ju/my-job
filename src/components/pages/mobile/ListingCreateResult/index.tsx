@@ -122,6 +122,10 @@ export default memo(() => {
     });
   }, [router]);
 
+  const handleClickBack = useCallback(() => {
+    router.back();
+  }, [router]);
+
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     // router.pop();
     return null;
@@ -130,6 +134,7 @@ export default memo(() => {
   return (
     <MobileContainer>
       <ListingCreateResult
+        onClickBack={handleClickBack}
         isLoading={isLoading}
         agentOfficeName={data?.agent_summary?.office_name}
         agentName={data?.agent_summary?.name}

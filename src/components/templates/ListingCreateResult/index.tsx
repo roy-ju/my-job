@@ -67,6 +67,7 @@ export interface ListingCreateResultProps {
   onClickStartOver?: () => void;
   onClickRemoveFromListings?: () => void;
   onClickSendOwnerVerification?: (name: string, phone: string) => void;
+  onClickBack?: () => void;
 }
 
 export default function ListingCreateResult({
@@ -95,6 +96,7 @@ export default function ListingCreateResult({
   onClickStartOver,
   onClickRemoveFromListings,
   onClickSendOwnerVerification,
+  onClickBack,
   ...conditionItemProps
 }: ListingCreateResultProps) {
   if (isLoading) {
@@ -108,6 +110,7 @@ export default function ListingCreateResult({
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>매물등록 신청 결과</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 pb-10 min-h-0 overflow-auto">
