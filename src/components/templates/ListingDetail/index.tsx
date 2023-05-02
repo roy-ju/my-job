@@ -29,7 +29,7 @@ const commonOptions = ['신고하기', '중개약정확인'];
 const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
 
 export interface ListingDetailProps {
-  depth: number;
+  depth?: number;
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
@@ -56,7 +56,7 @@ export interface ListingDetailProps {
 }
 
 export default function ListingDetail({
-  depth,
+  depth = 0,
   listingDetail,
   qnaList,
   hasMoreQnas,

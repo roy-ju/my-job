@@ -55,12 +55,14 @@ export default function ListingTargetPriceUpdate({
   onChangeMonthlyRentFee,
 
   onClickNext,
+  onClickBack,
 }: Props) {
   const isNextButtonDisabled = listingBuyOrRent === BuyOrRent.Wolsae ? !price || !monthlyRentFee : !price;
 
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>희망가 수정</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
