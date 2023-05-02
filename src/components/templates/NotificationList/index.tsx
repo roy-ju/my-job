@@ -18,8 +18,6 @@ const List = styled(InfiniteScroll)`
   }
 `;
 
-const headerItems = ['삭제하기', '알림설정'];
-
 interface Props {
   tabIndex?: number;
   notifications?: INotificationListItem[];
@@ -51,6 +49,8 @@ export default function NotificationList({
   onDeleteNotifications,
 }: // onClickBack,
 Props) {
+  const headerItems = [isDeleting ? '취소하기' : '삭제하기', '알림설정'];
+
   return (
     <div tw="relative h-full flex flex-col">
       <NavigationHeader>
