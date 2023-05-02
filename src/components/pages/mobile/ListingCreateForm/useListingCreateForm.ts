@@ -736,9 +736,18 @@ export default function useListingCreateForm() {
     setVerandaRemodelling(value);
   }, []);
 
-  const handleChangeExtraOptions = useCallback((id: number) => {
-    setExtraOptions((prev) => [...prev, id]);
-  }, []);
+  const handleChangeExtraOptions = useCallback(
+    (id: number) => {
+      let newValue = [...extraOptions];
+      if (extraOptions.includes(id)) {
+        newValue = newValue.filter((item) => item !== id);
+      } else {
+        newValue.push(id);
+      }
+      setExtraOptions(newValue);
+    },
+    [extraOptions],
+  );
 
   const handleChangeMoveInDate = useCallback((value: Date | null) => {
     setMoveInDate(value);
