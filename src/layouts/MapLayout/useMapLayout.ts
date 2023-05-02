@@ -9,7 +9,7 @@ import { coordToRegion } from '@/lib/kakao';
 import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { getMetersByZoom } from '@/lib/navermap/utils';
-import { mapState } from '@/states/map';
+import { mapState as recoilMapState } from '@/states/map';
 import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -72,10 +72,50 @@ export interface MapBounds {
   se: { lat: number; lng: number };
 }
 
+export function getBounds(m: NaverMap): MapBounds {
+  let mapLevel = -1;
+
+  const meters = getMetersByZoom(m.getZoom());
+
+  if (meters <= 100) {
+    mapLevel = 1;
+  } else if (meters <= 500) {
+    mapLevel = 2;
+  } else if (meters <= 5000) {
+    mapLevel = 3;
+  } else {
+    mapLevel = 4;
+  }
+
+  const naverMapBounds = m.getBounds() as naver.maps.LatLngBounds;
+  const sw = naverMapBounds.getSW();
+  const ne = naverMapBounds.getNE();
+
+  return {
+    mapLevel,
+    sw: {
+      lat: sw.lat(),
+      lng: sw.lng(),
+    },
+    ne: {
+      lat: ne.lat(),
+      lng: ne.lng(),
+    },
+    nw: {
+      lat: ne.lat(),
+      lng: sw.lng(),
+    },
+    se: {
+      lat: sw.lat(),
+      lng: ne.lng(),
+    },
+  };
+}
+
 /**
  * 현재 지도 위치정보를 쿼리파라미터에 저장한다.
  */
-function setMapState(map: NaverMap) {
+function setMapPositionState(map: NaverMap) {
   const zoom = map.getZoom();
   const center = map.getCenter() as NaverLatLng;
 
@@ -86,7 +126,7 @@ function setMapState(map: NaverMap) {
 /**
  * ms 쿼리파라미터를 가지고 온다. 가지고 올 수 없으면 지정한 default 값을 반환한다.
  */
-function getMapState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
+function getMapPositionState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
   if (typeof window !== 'undefined') {
     const item = window.sessionStorage.getItem('ms');
     if (item !== null) {
@@ -122,7 +162,7 @@ export default function useMapLayout() {
 
   const abortControllerRef = useRef<AbortController>();
 
-  const [map, setMap] = useRecoilState(mapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+  const [mapState, setMapState] = useRecoilState(recoilMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
 
@@ -192,11 +232,11 @@ export default function useMapLayout() {
   /**
    * 지도의 초기값들을 설정한다.
    */
-  const initialZoom = useMemo(() => getMapState((ms) => Number(ms[2]), DEFAULT_ZOOM), []);
+  const initialZoom = useMemo(() => getMapPositionState((ms) => Number(ms[2]), DEFAULT_ZOOM), []);
 
   const initialCenter = useMemo(
     () =>
-      getMapState(
+      getMapPositionState(
         (ms) => ({
           lat: Number(ms[0]),
           lng: Number(ms[1]),
@@ -296,6 +336,7 @@ export default function useMapLayout() {
           })) ?? [],
         );
       } else if (res && mapBounds.mapLevel === 1) {
+        // 매물 마커
         const listings = (res as MapSearchLevelOneResponse).listing_list ?? [];
         const listingMap: {
           [key: string]: CommonMapMarker;
@@ -324,6 +365,7 @@ export default function useMapLayout() {
           };
         });
 
+        // 단지 마커
         let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
         if (variant === 'nego') {
           danjis = danjis?.filter((danji) => danji.listing_count !== 0);
@@ -383,6 +425,9 @@ export default function useMapLayout() {
             selectMarker({
               pnu: searchedDanji.pnu,
               realestateType: searchedDanji.danji_realestate_type,
+            });
+            router.replace(Routes.DanjiDetail, {
+              searchParams: { p: searchedDanji.pnu, rt: searchedDanji.danji_realestate_type.toString() },
             });
           }
           lastSearchItem.current = null;
@@ -449,42 +494,7 @@ export default function useMapLayout() {
    * 지도 코너 좌표값을 업데이트 한다.
    */
   const updateBounds = useCallback((m: NaverMap) => {
-    let mapLevel = -1;
-
-    const meters = getMetersByZoom(m.getZoom());
-
-    if (meters <= 100) {
-      mapLevel = 1;
-    } else if (meters <= 500) {
-      mapLevel = 2;
-    } else if (meters <= 5000) {
-      mapLevel = 3;
-    } else {
-      mapLevel = 4;
-    }
-
-    const naverMapBounds = m.getBounds() as naver.maps.LatLngBounds;
-    const sw = naverMapBounds.getSW();
-    const ne = naverMapBounds.getNE();
-    setBounds({
-      mapLevel,
-      sw: {
-        lat: sw.lat(),
-        lng: sw.lng(),
-      },
-      ne: {
-        lat: ne.lat(),
-        lng: ne.lng(),
-      },
-      nw: {
-        lat: ne.lat(),
-        lng: sw.lng(),
-      },
-      se: {
-        lat: sw.lat(),
-        lng: ne.lng(),
-      },
-    });
+    setBounds(getBounds(m));
   }, []);
 
   /**
@@ -496,11 +506,13 @@ export default function useMapLayout() {
         window.NaverMap = m;
       }
 
-      setMap(m);
+      setMapState({
+        naverMap: m,
+      });
       handleCenterAddressChange(m);
       updateBounds(m);
     },
-    [setMap, handleCenterAddressChange, updateBounds],
+    [setMapState, handleCenterAddressChange, updateBounds],
   );
 
   /**
@@ -508,7 +520,7 @@ export default function useMapLayout() {
    */
   const onInit = useCallback((m: NaverMap) => {
     // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
-    const mapStateExists = getMapState(() => true, false);
+    const mapStateExists = getMapPositionState(() => true, false);
     if (!mapStateExists && typeof navigator !== 'undefined' && typeof localStorage !== 'undefined') {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
@@ -525,7 +537,7 @@ export default function useMapLayout() {
    */
   const onMapClick = useCallback(
     async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
-      router.popAll();
+      // router.popAll();
       setSelectedSchoolID('');
       setSelectedDanjiSummary(null);
       setPolygons([]);
@@ -556,7 +568,7 @@ export default function useMapLayout() {
           }, 100);
           // query 파라미터에 현재 지도위치 정보를 넣어서,
           // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-          setMapState(_map);
+          setMapPositionState(_map);
           // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
           handleCenterAddressChange(_map);
 
@@ -617,18 +629,6 @@ export default function useMapLayout() {
     return () => {};
   }, []);
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined' && window.Negocio?.callbacks.test) {
-  //     console.log('hi');
-  //     console.log(window.Negocio)
-
-  //     return () => {
-  //       delete window.Negocio.callbacks.test;
-  //     };
-  //   }
-
-  // }, []);
-
   /**
    * 맵 레이어 핸들링
    */
@@ -636,7 +636,7 @@ export default function useMapLayout() {
     if (typeof window === 'undefined' || typeof naver === 'undefined') {
       return;
     }
-    if (!map) {
+    if (!mapState?.naverMap) {
       return;
     }
 
@@ -646,33 +646,33 @@ export default function useMapLayout() {
     } else if (mapLayer === 'cadastral') {
       mapLayerRef.current?.setMap(null);
       mapLayerRef.current = new naver.maps.CadastralLayer();
-      mapLayerRef.current.setMap(map);
+      mapLayerRef.current.setMap(mapState.naverMap);
     } else if (mapLayer === 'street') {
       mapLayerRef.current?.setMap(null);
       mapLayerRef.current = new naver.maps.StreetLayer();
-      mapLayerRef.current.setMap(map);
+      mapLayerRef.current.setMap(mapState.naverMap);
     }
-  }, [map, mapLayer]);
+  }, [mapState?.naverMap, mapLayer]);
 
   /**
    * 맵이 이동할때마다, 마커를 그린다.
    */
   useEffect(() => {
-    if (bounds && map) {
-      deferredUpdateMarkers(map, bounds, filter, mapToggleValue, priceType);
+    if (bounds && mapState?.naverMap) {
+      deferredUpdateMarkers(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
     }
-  }, [map, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
+  }, [mapState?.naverMap, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
 
   /**
    * 학교가 활성화되어있으면, 맵이 이동할때마다 학교 마커를 그린다.
    */
   useEffect(() => {
-    if (bounds && schoolType !== 'none' && map) {
-      updateSchoolMarkers(map, bounds, schoolType);
+    if (bounds && schoolType !== 'none' && mapState?.naverMap) {
+      updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
     } else if (schoolType === 'none') {
       setSchoolMarkers([]);
     }
-  }, [map, bounds, schoolType, updateSchoolMarkers]);
+  }, [mapState?.naverMap, bounds, schoolType, updateSchoolMarkers]);
 
   /**
    * 학교필터가 변경될때, 맵에 그려져있는 학구도 폴리곤을 없앤다.
@@ -700,43 +700,43 @@ export default function useMapLayout() {
       // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
       const latlng = { lat: coords.latitude, lng: coords.longitude };
       localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-      map?.morph(latlng, DEFAULT_ZOOM);
+      mapState?.naverMap?.morph(latlng, DEFAULT_ZOOM);
     });
-  }, [map]);
+  }, [mapState?.naverMap]);
 
   const zoomIn = useCallback(() => {
-    if (!map) return;
-    map.zoomBy(1, undefined, true);
-  }, [map]);
+    if (!mapState?.naverMap) return;
+    mapState?.naverMap.zoomBy(1, undefined, true);
+  }, [mapState?.naverMap]);
 
   const zoomOut = useCallback(() => {
-    if (!map) return;
-    map.zoomBy(-1, undefined, true);
-  }, [map]);
+    if (!mapState?.naverMap) return;
+    mapState?.naverMap.zoomBy(-1, undefined, true);
+  }, [mapState?.naverMap]);
 
   const handleChangeMapType = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (event) => {
-      if (!map) return;
+      if (!mapState?.naverMap) return;
       const newMapType = event.target.value;
 
       switch (newMapType) {
         case 'normal':
-          map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.NORMAL);
           break;
         case 'satellite':
-          map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
           break;
         case 'terrain':
-          map.setMapTypeId(naver.maps.MapTypeId.TERRAIN);
+          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.TERRAIN);
           break;
         default:
-          map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.NORMAL);
           break;
       }
 
       setMapType(event.target.value);
     },
-    [map],
+    [mapState?.naverMap],
   );
 
   const handleChangeMapLayer = useCallback((ml: string) => {
@@ -754,8 +754,8 @@ export default function useMapLayout() {
 
   const handleMapSearch = useCallback(
     (item: KakaoAddressAutocompleteResponseItem) => {
-      if (!map) return;
-      map.morph(
+      if (!mapState?.naverMap) return;
+      mapState?.naverMap.morph(
         {
           lat: item.lat,
           lng: item.lng,
@@ -765,13 +765,16 @@ export default function useMapLayout() {
       // 마커 API 응답후, 주소로 마커를 선택하기위해서 저장해둔다.
       lastSearchItem.current = item;
     },
-    [map, lastSearchItem],
+    [mapState?.naverMap, lastSearchItem],
   );
 
   const handleChangeFilter = useCallback(
     (value: Partial<Filter>) => {
       setFilter((prev) => {
         const old = prev === null ? getDefaultFilterAptOftl() : prev;
+        if (_.isEqual(old, { ...old, ...value })) {
+          return old;
+        }
         return {
           ...old,
           ...value,
@@ -814,6 +817,26 @@ export default function useMapLayout() {
       rentRange,
     });
   }, [filter.buyOrRents, handleChangeFilter]);
+
+  // dispatch negocio map events
+
+  useEffect(() => {
+    Object.values(window.Negocio.mapEventListeners.bounds).forEach((cb) => {
+      cb(bounds);
+    });
+  }, [bounds]);
+
+  useEffect(() => {
+    Object.values(window.Negocio.mapEventListeners.filter).forEach((cb) => {
+      cb(filter);
+    });
+  }, [filter]);
+
+  useEffect(() => {
+    Object.values(window.Negocio.mapEventListeners.toggle).forEach((cb) => {
+      cb(mapToggleValue);
+    });
+  }, [mapToggleValue]);
 
   return {
     // common map handlers and properties

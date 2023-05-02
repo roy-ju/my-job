@@ -12,7 +12,7 @@ export default function MobMy() {
   const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
 
   const handleClickLogin = useCallback(() => {
-    router.push(`my/${Routes.Login}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.Login}`);
   }, [router]);
 
   const handleClickNotificationList = useCallback(() => {
@@ -60,7 +60,7 @@ export default function MobMy() {
   }, [router]);
 
   const handleCreateListing = useCallback(() => {
-    router.push(`my/${Routes.ListingCreateAddress}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
   }, [router]);
 
   const handleDeveloper = useCallback(() => {

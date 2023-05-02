@@ -1,23 +1,26 @@
-/* eslint-disable consistent-return */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiSchools } from '@/apis/danji/danjiSchools';
 import { Button } from '@/components/atoms';
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
 import { SchoolType } from '@/constants/enums';
-import useDanjiStore from '@/hooks/recoil/useDanjiStore';
 
 import checkStudentCount from '@/utils/checkStudentCount';
 import getDistance from '@/utils/getDistance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import NoDataTypeOne from './NoData';
 
-export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
+export default function SchoolInfo({
+  danji,
+}: {
+  danji?: GetDanjiDetailResponse;
+  onChangeHakgudoActive?: (active: boolean) => void;
+}) {
+  const [hakgudoActive, setHakgudoActive] = useState(false);
+
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
 
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
-
-  const { buttonState, handleSchoolButton } = useDanjiStore();
 
   const {
     isLoading: danjiSchoolsIsLoading,
@@ -37,6 +40,11 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const onChangeSelectedSchoolType = useCallback((val: number) => {
     setSelectedSchoolType(val);
   }, []);
+
+  const handleClickHakgudo = useCallback(() => {
+    const val = !hakgudoActive;
+    setHakgudoActive(val);
+  }, [hakgudoActive]);
 
   useEffect(() => {
     if (listElementarySchools.length > 0) {
@@ -62,14 +70,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     <div tw="w-full pt-10 pb-10 px-5">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">학군</span>
-        <Button
-          size="small"
-          variant="outlined"
-          selected={!!buttonState?.school}
-          onClick={() => {
-            handleSchoolButton();
-          }}
-        >
+        <Button size="small" variant="outlined" selected={hakgudoActive} onClick={handleClickHakgudo}>
           학구도
         </Button>
       </div>

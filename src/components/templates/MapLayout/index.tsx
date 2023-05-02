@@ -84,6 +84,7 @@ interface LayoutMapContainerProps {
   onChangeMapToggleValue?: (value: number) => void;
   onChangePriceType?: (value: string) => void;
   onClickClosePanel?: () => void;
+  onClickMapListingList?: () => void;
   onTogglepanelsVisibility?: () => void;
   children?: ReactNode;
 }
@@ -114,6 +115,7 @@ function LayoutMapContainer({
   onChangeMapToggleValue,
   onChangePriceType,
   onClickClosePanel,
+  onClickMapListingList,
   onTogglepanelsVisibility,
   children,
 }: LayoutMapContainerProps) {
@@ -202,7 +204,7 @@ function LayoutMapContainer({
       </div>
       <div tw="inline-flex gap-2 w-fit absolute left-0 right-0 bottom-10 mx-auto z-10">
         <MapPositionBar sido={centerAddress?.[0] ?? ''} sigungu={centerAddress?.[1]} eubmyundong={centerAddress?.[2]} />
-        <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl">
+        <Button onClick={onClickMapListingList} size="medium" tw="whitespace-nowrap font-bold rounded-4xl">
           이 지역 매물 {listingCount ?? 0}
         </Button>
       </div>

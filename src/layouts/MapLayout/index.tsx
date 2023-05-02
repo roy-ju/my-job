@@ -55,6 +55,10 @@ function MapWrapper({
     replace(Routes.SuggestRegionalForm);
   }, [replace]);
 
+  const handleClickMapListingList = useCallback(() => {
+    replace(Routes.MapListingList);
+  }, [replace]);
+
   return (
     <>
       <Layout.MapContainer
@@ -82,6 +86,7 @@ function MapWrapper({
         onChangePriceType={handleChangePriceType}
         onClickClosePanel={popLast}
         onClickSuggestReginoal={handleClickSuggestRegional}
+        onClickMapListingList={handleClickMapListingList}
         onTogglepanelsVisibility={onTogglePanelsVisibility}
       >
         <Map {...props}>

@@ -19,7 +19,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
   const handleClickLogin = useCallback(() => {
-    router.push(Routes.Login);
+    router.replace(`/${Routes.EntryMobile}/${Routes.Login}`);
   }, [router]);
 
   const handleClickNotificationList = useCallback(() => {

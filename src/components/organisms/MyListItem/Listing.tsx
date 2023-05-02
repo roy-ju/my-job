@@ -1,4 +1,4 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 import Paths from '@/constants/paths';
 import { Chip, Numeral } from '@/components/atoms';
 import { css } from 'twin.macro';
@@ -93,12 +93,11 @@ export default function Listing({
     >
       <div tw="relative">
         <ListingStatusChip status={labelText} />
-        <Image
-          src={thumbnailFullPath ?? Paths.DEFAULT_APARTMENT_IMAGE_PATH}
-          alt={`${listingTitle} 사진`}
-          width={92}
-          height={92}
-          tw="rounded-lg"
+        <div
+          tw="rounded-lg w-[92px] h-[92px] bg-no-repeat bg-center bg-cover"
+          style={{
+            backgroundImage: `url('${thumbnailFullPath ?? Paths.DEFAULT_APARTMENT_IMAGE_PATH}')`,
+          }}
         />
       </div>
       <div tw="flex-1">
@@ -107,8 +106,8 @@ export default function Listing({
             <Chip variant={RealestateTypeChipVariant[realestateType]}>{RealestateTypeString[realestateType]}</Chip>
             {eubmyundong && <Chip variant="gray">{eubmyundong}</Chip>}
           </div>
-          {isFavorite && !isMyPage && (
-            <LikeButton onLike={() => onToggleListingLike?.(listingId, isFavorite)} isFavorite={isFavorite} />
+          {!isMyPage && (
+            <LikeButton onLike={(active) => onToggleListingLike?.(listingId, active)} isFavorite={isFavorite} />
           )}
         </div>
         <div tw="font-bold text-b1 flex gap-1.5 items-center">

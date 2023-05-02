@@ -23,10 +23,9 @@ const Routes = {
   Developer: 'developer',
   Login: 'login',
 
-  ListingList: 'listings',
-
   My: 'my',
   Map: 'map',
+  MapListingList: 'mapListingList',
 
   MyAddress: 'myAddress',
   MyAddressDetail: 'myAddressDetail',

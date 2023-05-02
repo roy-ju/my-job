@@ -51,7 +51,8 @@ const StyledTable = styled.table`
 
 function getDateTypeString(value: number) {
   if (value === 1) return '이전';
-  return '이후';
+  if (value === 2) return '이후';
+  return '당일';
 }
 
 export default function BiddingSummary({
@@ -68,6 +69,7 @@ export default function BiddingSummary({
   listingMonthlyRentFee = 0,
   price = 0,
   monthlyRentFee = 0,
+  contractAmount = 0,
   interimAmount = 0,
   remainingAmountDate,
   remainingAmountDateType = 1,
@@ -83,11 +85,14 @@ export default function BiddingSummary({
   onClickBack,
   onClickNext,
 }: Props) {
-  const etcsString = useMemo(() => {
+  const noteString = useMemo(() => {
     const arr = etcs?.split(',') ?? [];
-    const tagged = arr.map((item) => `#${item}`);
-    return tagged.join(' ');
-  }, [etcs]);
+    const tagged = arr.map((item) => `${item}`);
+    if (description) {
+      tagged.push(description);
+    }
+    return tagged.join('\n');
+  }, [etcs, description]);
 
   return (
     <div tw="flex flex-col h-full">
@@ -179,6 +184,14 @@ export default function BiddingSummary({
                         </Table.Data>
                       </Table.Row>
                     )}
+                    {Boolean(contractAmount) && (
+                      <Table.Row>
+                        <Table.Head>계약금</Table.Head>
+                        <Table.Data>
+                          최대 <Numeral koreanNumber>{contractAmount}</Numeral> 원까지 지급 가능
+                        </Table.Data>
+                      </Table.Row>
+                    )}
                     {Boolean(interimAmount) && (
                       <Table.Row>
                         <Table.Head>중도금</Table.Head>
@@ -198,23 +211,19 @@ export default function BiddingSummary({
                     )}
                     {Boolean(moveInDate) && (
                       <Table.Row>
-                        <Table.Head>잔금</Table.Head>
+                        <Table.Head>빠른입주</Table.Head>
                         <Table.Data>
                           입주 가능한 날: <Moment format="yyyy년 MM월 DD일">{moveInDate}</Moment>{' '}
                           {getDateTypeString(moveInDateType)}
                         </Table.Data>
                       </Table.Row>
                     )}
-                    {Boolean(etcs) && (
-                      <Table.Row>
-                        <Table.Head>기타 선택</Table.Head>
-                        <Table.Data>{etcsString}</Table.Data>
-                      </Table.Row>
-                    )}
-                    {Boolean(description) && (
+                    {Boolean(noteString) && (
                       <Table.Row>
                         <Table.Head>추가 조건</Table.Head>
-                        <Table.Data>{description}</Table.Data>
+                        <Table.Data>
+                          <p tw="whitespace-pre-wrap">{noteString}</p>
+                        </Table.Data>
                       </Table.Row>
                     )}
                   </Table.Body>

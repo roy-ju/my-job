@@ -59,7 +59,12 @@ export default function WaitingForOwnerAgreement({ ownerName, ownerPhone, isLoad
         </TextField>
         <div>
           <TextField variant="outlined" hasError={!!phoneErrMsg}>
-            <TextField.Input label="휴대폰 번호" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <TextField.PatternInput
+              format="###-####-####"
+              label="휴대폰 번호"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </TextField>
           {phoneErrMsg && <TextField.ErrorMessage>{phoneErrMsg}</TextField.ErrorMessage>}
         </div>

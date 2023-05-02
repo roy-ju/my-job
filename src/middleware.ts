@@ -8,9 +8,14 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     return NextResponse.rewrite(new URL('/html/ie-not-supported.html', request.url));
   }
 
-  // TODO:
-  // If user-agent is mobile redirect them to /m/... page.
-  // Otherwise, there will be no redirection.
+  if (ua.indexOf('Mobi') > -1) {
+    const segments = request.nextUrl.pathname.split('/');
+    const firstSegment = segments[1];
+
+    if (firstSegment !== 'm') {
+      return NextResponse.redirect(`${request.nextUrl.origin}/m`);
+    }
+  }
 
   return NextResponse.next();
 }

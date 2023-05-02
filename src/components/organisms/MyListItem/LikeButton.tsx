@@ -1,16 +1,27 @@
 import Heart from '@/assets/icons/heart.svg';
-import tw from 'twin.macro';
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
+import { useState } from 'react';
 
-export default function LikeButton({ onLike, isFavorite }: { isFavorite: boolean; onLike?: () => void }) {
+export default function LikeButton({
+  onLike,
+  isFavorite,
+}: {
+  isFavorite: boolean;
+  onLike?: (active: boolean) => void;
+}) {
+  const [active, setActive] = useState(isFavorite);
+
   return (
     <span
       role="presentation"
       onClick={(e) => {
         e.stopPropagation();
-        onLike?.();
+        const val = !active;
+        onLike?.(val);
+        setActive(val);
       }}
     >
-      <Heart css={[tw`text-white stroke-1 stroke-black`, isFavorite && tw`text-red-800 stroke-0`]} />
+      {active ? <Heart tw="text-red-800" /> : <HeartOutlinedIcon tw="text-gray-1000" />}
     </span>
   );
 }
