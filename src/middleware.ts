@@ -1,5 +1,7 @@
 import { NextFetchEvent, NextRequest, NextResponse, userAgent } from 'next/server';
 
+const exemptions = ['m', 'auth', 'callback', 'nice'];
+
 export function middleware(request: NextRequest, _: NextFetchEvent) {
   const { ua } = userAgent(request);
 
@@ -12,7 +14,7 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     const segments = request.nextUrl.pathname.split('/');
     const firstSegment = segments[1];
 
-    if (firstSegment !== 'm') {
+    if (!exemptions.includes(firstSegment)) {
       return NextResponse.redirect(`${request.nextUrl.origin}/m`);
     }
   }
