@@ -6,7 +6,7 @@ import { ListingCreateChooseAgent as ListingCreateChooseAgentTemplate } from '@/
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useState } from 'react';
-import { MobileContainer } from '@/components/atoms';
+import { Loading, MobileContainer } from '@/components/atoms';
 
 const ListingCreateChooseAgent = () => {
   const router = useRouter();
@@ -40,10 +40,6 @@ const ListingCreateChooseAgent = () => {
   useEffect(() => {
     fetchAgentList();
   }, [fetchAgentList]);
-
-  useEffect(() => {
-    const { params } = router.query;
-  }, [router]);
 
   const handleClickBack = useCallback(() => {
     router.replace(
@@ -79,6 +75,22 @@ const ListingCreateChooseAgent = () => {
       `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}?listingID=${router.query.listingID}`,
     );
   }, [agents, index, router]);
+
+  useEffect(() => {
+    if (!router.query.listingID || !router.query.addressData || !router.query.params) {
+      router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    }
+  }, [router]);
+
+  if (!router.query.listingID || !router.query.addressData || !router.query.params) {
+    return (
+      <MobileContainer>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </MobileContainer>
+    );
+  }
 
   return (
     <MobileContainer>

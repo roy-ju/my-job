@@ -1,18 +1,20 @@
 import checkDuplicate from '@/apis/listing/checkDuplicate';
-import createListing from '@/apis/listing/createListing';
+import updateMyListingAddress from '@/apis/listing/updateMyListingAddress';
+import { MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { ListingCreateAddressDetail } from '@/components/templates';
+import ErrorCodes from '@/constants/error_codes';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-
-import { ListingCreateAddressDetail as ListingCreateAddressDetailTemplate } from '@/components/templates';
 import { searchAddress } from '@/lib/kakao/search_address';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEventHandler, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Loading, MobileContainer } from '@/components/atoms';
 
-const ListingCreateAddressDetail = () => {
+export default memo(() => {
   const router = useRouter();
+  const listingID = Number(router.query.listingID) ?? 0;
+
   const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
   const [dong, setDong] = useState('');
   const [ho, setHo] = useState('');
@@ -75,13 +77,16 @@ const ListingCreateAddressDetail = () => {
     const address = searchRes.documents[0].address;
     const roadAddress = searchRes.documents[0].road_address;
 
-    const createRes = await createListing({
+    const res = await updateMyListingAddress({
+      listing_id: listingID,
       road_name_address: roadNameAddress,
-      jibun_address: addressData.addressName,
+      jibun_address: address.address_name,
       bubjungdong_code: address.b_code,
+
       sido: address.region_1depth_name,
       sigungu: address.region_2depth_name,
       eubmyundong: address.region_3depth_name,
+
       li: '',
       building_name: roadAddress?.building_name ?? '',
       long: addressData.lng,
@@ -90,8 +95,9 @@ const ListingCreateAddressDetail = () => {
       ho,
     });
 
-    if (!createRes?.listing_id) {
-      toast.error('unable to create listing');
+    if (res?.error_code === ErrorCodes.DUPLICATED_LISTING) {
+      setPopup('중복된 매물이 등록되어있습니다.');
+      setIsLoading(false);
       return;
     }
 
@@ -99,45 +105,37 @@ const ListingCreateAddressDetail = () => {
 
     router.replace(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateResult}`,
         query: {
-          listingID: `${createRes.listing_id}`,
-          addressLine1,
-          addressLine2,
-          addressData: router.query.addressData as string,
+          listingID: `${listingID}`,
         },
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateForm}?listingID=${createRes.listing_id}`,
+      `/${Routes.EntryMobile}/${Routes.ListingCreateResult}?listingID=${listingID}`,
     );
-  }, [router, dong, ho, addressData, addressLine1, addressLine2]);
+  }, [router, dong, ho, addressData, listingID]);
 
   const handleBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
-  }, [router]);
+    // router.pop();
+    router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateUpdateAddress}?listingID=${listingID}`);
+  }, [listingID, router]);
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
     if (!inAddressData) {
-      router.replace(Routes.ListingCreateAddress);
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
     } else {
       const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
       setAddressData(parsed);
     }
   }, [router]);
 
-  if (!router.query.addressData) {
-    return (
-      <MobileContainer>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </MobileContainer>
-    );
-  }
+  useEffect(() => {
+    if (!listingID) router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+  }, [listingID, router]);
 
   return (
     <MobileContainer>
-      <ListingCreateAddressDetailTemplate
+      <ListingCreateAddressDetail
         addressLine1={addressLine1}
         addressLine2={addressLine2}
         errorMessage={
@@ -167,6 +165,4 @@ const ListingCreateAddressDetail = () => {
       )}
     </MobileContainer>
   );
-};
-
-export default ListingCreateAddressDetail;
+});
