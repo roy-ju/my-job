@@ -47,7 +47,7 @@ export function useAPI_GetDanjiDetail({
   pnu?: string | null;
   realestateType?: number | null;
 }) {
-  const { data, error } = useSWR<GetDanjiDetailResponse>(
+  const { data, error, mutate } = useSWR<GetDanjiDetailResponse>(
     pnu && realestateType ? ['/danji/get/v2', { pnu, realestate_type: Number(realestateType) }] : null,
     null,
     {
@@ -60,6 +60,7 @@ export function useAPI_GetDanjiDetail({
   return {
     danji: data,
     isLoading: pnu && realestateType ? !data && !error : false,
+    mutate,
     error,
   };
 }
