@@ -10,6 +10,7 @@ interface Props {
   onCancelDelete: () => void;
   onOpenPopup: () => void;
   onClosePopup: () => void;
+  onClickBack?: () => void;
 }
 
 export default function HeaderRenderer({
@@ -22,12 +23,14 @@ export default function HeaderRenderer({
   onCancelDelete,
   onClosePopup,
   onOpenPopup,
+  onClickBack,
 }: Props) {
   if (hasRegisteringListing && tabStatus === 1) {
     if (isDeleteActive) {
       return (
         <>
           <NavigationHeader>
+            {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
             <NavigationHeader.Title>등록한 매물</NavigationHeader.Title>
             <NavigationHeader.Button onClick={onCancelDelete} tw="underline text-b2 mr-3 text-gray-1000">
               취소
@@ -56,6 +59,7 @@ export default function HeaderRenderer({
 
     return (
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>등록한 매물</NavigationHeader.Title>
         <NavigationHeader.Button onClick={onActiveDelete} tw="underline text-b2 text-gray-1000">
           선택삭제
@@ -66,6 +70,7 @@ export default function HeaderRenderer({
 
   return (
     <NavigationHeader>
+      {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
       <NavigationHeader.Title>등록한 매물</NavigationHeader.Title>
     </NavigationHeader>
   );
