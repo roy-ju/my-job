@@ -123,7 +123,11 @@ export default memo(({ panelWidth, depth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">선택한 항목을 목록에서 삭제하시겠습니까?</Popup.Title>
+              <Popup.Title tw="text-center">
+                선택한 항목을 목록에서
+                <br />
+                삭제하시겠습니까?
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
@@ -136,7 +140,11 @@ export default memo(({ panelWidth, depth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">선택한 요청의 매물 추천을 그만 받으시겠습니까?</Popup.Title>
+              <Popup.Title tw="text-center">
+                선택한 요청의 매물 추천을
+                <br />
+                그만 받으시겠습니까?
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
@@ -149,7 +157,11 @@ export default memo(({ panelWidth, depth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">선택한 요청의 매물 추천을 다시 받으시겠습니까?</Popup.Title>
+              <Popup.Title tw="text-center">
+                선택한 요청의 매물 추천을
+                <br />
+                다시 받으시겠습니까?
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
