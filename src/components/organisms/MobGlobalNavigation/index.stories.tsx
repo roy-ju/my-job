@@ -11,11 +11,3 @@ export const Default: ComponentStory<typeof MobGlobalNavigation> = () => (
     <MobGlobalNavigation />
   </div>
 );
-
-Default.args = {
-  Home: true,
-  Heart: false,
-  Map: false,
-  Chat: false,
-  My: false,
-};

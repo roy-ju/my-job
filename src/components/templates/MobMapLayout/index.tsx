@@ -235,7 +235,7 @@ function MobLayoutMapContainer({
       {selectedDanjiSummary && <MobDanjiSummary selectedDanjiSummary={selectedDanjiSummary} />}
       {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />}
 
-      <MobGlobalNavigation />
+      <MobGlobalNavigation index={2} />
     </div>
   );
 }
