@@ -8,6 +8,8 @@ import NoDataUI from './NoDataUI';
 interface ListingRendererProps {
   tabStatus: number;
   biddingStatus: IBiddingStatus;
+  onClickListingItem: (listingId: number) => () => void;
+  onNavigateToListingDetailHistory: (listingId: number, biddingId: number) => () => void;
 }
 
 const Wrapper = tw.div`py-2`;
@@ -20,7 +22,12 @@ enum BiddingStatus {
   Past = 4, // 지난거래
 }
 
-export default function ListingRenderer({ tabStatus, biddingStatus }: ListingRendererProps) {
+export default function ListingRenderer({
+  onNavigateToListingDetailHistory,
+  tabStatus,
+  biddingStatus,
+  onClickListingItem,
+}: ListingRendererProps) {
   switch (tabStatus) {
     case BiddingStatus.Submitted: {
       if (!biddingStatus.submitted.count) return <NoDataUI tabStatus={1} />;
@@ -31,7 +38,7 @@ export default function ListingRenderer({ tabStatus, biddingStatus }: ListingRen
             {biddingStatus.submitted.data?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing {...item} />
+                <MyListItem.Listing onNavigateToListingDetailHistory={onNavigateToListingDetailHistory} {...item} />
               </React.Fragment>
             ))}
           </Wrapper>
@@ -47,7 +54,7 @@ export default function ListingRenderer({ tabStatus, biddingStatus }: ListingRen
             {biddingStatus.accepted.data?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing {...item} />
+                <MyListItem.Listing onNavigateToListingDetailHistory={onNavigateToListingDetailHistory} {...item} />
               </React.Fragment>
             ))}
           </Wrapper>
@@ -67,7 +74,7 @@ export default function ListingRenderer({ tabStatus, biddingStatus }: ListingRen
             {biddingStatus.preContractCompleted.data?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing {...item} />
+                <MyListItem.Listing onNavigateToListingDetailHistory={onNavigateToListingDetailHistory} {...item} />
               </React.Fragment>
             ))}
           </Wrapper>
@@ -83,7 +90,7 @@ export default function ListingRenderer({ tabStatus, biddingStatus }: ListingRen
             {biddingStatus.past.data?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing {...item} />
+                <MyListItem.Listing onNavigateToListingDetailHistory={onNavigateToListingDetailHistory} {...item} />
               </React.Fragment>
             ))}
           </Wrapper>

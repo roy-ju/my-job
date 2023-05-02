@@ -34,6 +34,8 @@ export interface IMyListingListItem {
 export interface ListingProps extends IMyListingListItem {
   onToggleListingLike?: (listingId: number, isListingFavorite: boolean) => void;
   onClickListingItem?: (listingId: number) => () => void;
+  onNavigateToListingDetailHistory?: (listingId: number, biddingId: number) => () => void;
+  biddingId?: number;
 }
 
 const informationStringWrapper = css`
@@ -47,6 +49,7 @@ const informationStringWrapper = css`
 export default function Listing({
   onToggleListingLike,
   onClickListingItem,
+  onNavigateToListingDetailHistory,
   listingId,
   thumbnailFullPath,
   listingTitle,
@@ -64,6 +67,7 @@ export default function Listing({
   eubmyundong,
   isFavorite,
   labelText,
+  biddingId,
 }: ListingProps) {
   const renderPrice = () => {
     switch (buyOrRent) {
@@ -77,12 +81,15 @@ export default function Listing({
   };
 
   const isMyPage = window.location.pathname.includes('my/');
+  const isOnClickToNavigate = biddingId;
 
   return (
     <button
       type="button"
       tw="flex gap-3 items-center w-full hover:bg-gray-100 px-5 py-5"
-      onClick={onClickListingItem?.(listingId)}
+      onClick={
+        isOnClickToNavigate ? onNavigateToListingDetailHistory?.(listingId, biddingId) : onClickListingItem?.(listingId)
+      }
     >
       <div tw="relative">
         <ListingStatusChip status={labelText} />
