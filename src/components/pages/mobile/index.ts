@@ -55,5 +55,6 @@ export { default as ListingCreateUpdateAddressDetail } from './ListingCreateUpda
 export { default as ChatRoomList } from './ChatRoomList';
 export { default as ChatRoom } from './ChatRoom';
 
-/** 등록한 매물 */
+/** 매물 목록 */
 export { default as MyRegisteredListings } from './MyRegisteredListings';
+export { default as MyParticipatingListings } from './MyParticipatingListings';

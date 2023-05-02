@@ -76,7 +76,7 @@ export default function MobMy() {
 
   const handleClickMyParticipatingListings = useCallback(
     (params: number) => {
-      router.push(`/${Routes.EntryMobile}/${Routes.MyRegisteredListingList}?tab=${params}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.MyParticipatingListings}?tab=${params}`);
     },
     [router],
   );

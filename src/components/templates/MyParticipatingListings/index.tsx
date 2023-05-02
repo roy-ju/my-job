@@ -10,6 +10,7 @@ export interface MyParticipatingListingsProps {
   onChangeListingTab: (newValue: number) => void;
   onClickListingItem: (listingId: number) => () => void;
   onNavigateToListingDetailHistory: (listingId: number, biddingId: number) => () => void;
+  onClickBack?: () => void;
 }
 
 export default function MyParticipatingListings({
@@ -18,10 +19,12 @@ export default function MyParticipatingListings({
   onClickListingItem,
   onNavigateToListingDetailHistory,
   biddingStatus,
+  onClickBack,
 }: MyParticipatingListingsProps) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>가격 제안한 매물</NavigationHeader.Title>
       </NavigationHeader>
       <Tabs value={tab} onChange={onChangeListingTab}>
