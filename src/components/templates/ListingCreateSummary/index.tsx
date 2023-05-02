@@ -1,4 +1,4 @@
-import { Button, Separator } from '@/components/atoms';
+import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { AgentCardItem, ListingDetailSection } from '@/components/organisms';
 
@@ -76,12 +76,12 @@ export default function ListingCreateSummary({
             입력정보 수정/중개사 재선택
           </Button>
         </div>
-        <div tw="px-5 pb-10">
-          <Button isLoading={isLoading} size="bigger" tw="w-full" onClick={onClickCreate}>
-            매물등록 신청
-          </Button>
-        </div>
       </div>
+      <PersistentBottomBar>
+        <Button isLoading={isLoading} size="bigger" tw="w-full" onClick={onClickCreate}>
+          매물등록 신청
+        </Button>
+      </PersistentBottomBar>
     </div>
   );
 }

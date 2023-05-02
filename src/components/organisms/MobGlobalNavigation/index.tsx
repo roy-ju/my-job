@@ -4,7 +4,6 @@ import MapIcon from '@/assets/icons/mob_map_pin.svg';
 import ChatIcon from '@/assets/icons/mob_chat.svg';
 import UserIcon from '@/assets/icons/user.svg';
 import { Button } from '@/components/atoms';
-import BottomBezel from '@/components/atoms/BottomBezel';
 import { useRouter } from 'next/router';
 import tw from 'twin.macro';
 import Routes from '@/router/routes';
@@ -25,7 +24,7 @@ export default function MobGlobalNavigation() {
 
   return (
     <div
-      tw="w-full max-w-mobile flex flex-col gap-5 py-2 px-[0.6025rem] bg-white [z-index: 300]"
+      tw="w-full max-w-mobile flex flex-col gap-5 py-2 pb-5 px-[0.6025rem] bg-white [z-index: 300]"
       id="negocio-mob-global-navigation"
     >
       <div tw="flex items-center">
@@ -65,7 +64,6 @@ export default function MobGlobalNavigation() {
           </span>
         </Button>
       </div>
-      <BottomBezel />
     </div>
   );
 }
