@@ -8,12 +8,15 @@ export interface MyParticipatingListingsProps {
   biddingStatus: IBiddingStatus;
 
   onChangeListingTab: (newValue: number) => void;
+  onClickListingItem: (listingId: number) => () => void;
+  onNavigateToListingDetailHistory: (listingId: number, biddingId: number) => () => void;
 }
 
 export default function MyParticipatingListings({
   tab,
   onChangeListingTab,
-
+  onClickListingItem,
+  onNavigateToListingDetailHistory,
   biddingStatus,
 }: MyParticipatingListingsProps) {
   return (
@@ -44,7 +47,12 @@ export default function MyParticipatingListings({
         </Tabs.Tab>
         <Tabs.Indicator />
       </Tabs>
-      <ListingsRenderer tabStatus={tab} biddingStatus={biddingStatus} />
+      <ListingsRenderer
+        onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
+        onClickListingItem={onClickListingItem}
+        tabStatus={tab}
+        biddingStatus={biddingStatus}
+      />
     </div>
   );
 }

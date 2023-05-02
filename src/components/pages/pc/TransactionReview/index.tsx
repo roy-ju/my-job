@@ -7,6 +7,7 @@ import useAPI_GetTransactionReviewInfo from '@/apis/my/getTransactionReviewInfo'
 import Routes from '@/router/routes';
 import createTransactionReview from '@/apis/my/createTransactionReview';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -62,6 +63,8 @@ export default memo(({ panelWidth, depth }: Props) => {
       freeFeedback,
     });
     await mutateInfo();
+    await mutate('/my/listings/participated/detail');
+    await mutate('/my/listing/past/detail');
     toast.success('후기를 남겨주셔서 감사합니다.');
     handleGoBack();
   };
