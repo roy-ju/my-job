@@ -3,13 +3,17 @@ import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
-import { MobMy as MobMyTemplate } from '@/components/templates';
+import { My as MyTemplate } from '@/components/templates';
+import { MobileContainer } from '@/components/atoms';
+import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
+import { MobGlobalNavigation } from '@/components/organisms';
 
 export default function MobMy() {
   const router = useRouter();
 
   const { user, isLoading } = useAuth();
   const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
+  const { data: dashboardData } = useAPI_GetDashboardInfo();
 
   const handleClickLogin = useCallback(() => {
     router.replace(`/${Routes.EntryMobile}/${Routes.Login}`);
@@ -35,17 +39,17 @@ export default function MobMy() {
     router.push(`my/${Routes.MyRealPriceListMobile}`);
   }, [router]);
 
-  const handleClickTransactionHistory = useCallback(() => {
-    router.push(`my/${Routes.TransactionHistory}`);
-  }, [router]);
+  // const handleClickTransactionHistory = useCallback(() => {
+  //   router.push(`my/${Routes.TransactionHistory}`);
+  // }, [router]);
 
   const handleClickFAQ = useCallback(() => {
     router.push(`my/${Routes.FAQ}`);
   }, [router]);
 
-  const handleClickNegoMoney = useCallback(() => {
-    router.push(`my/${Routes.NegoMoney}`);
-  }, [router]);
+  // const handleClickNegoMoney = useCallback(() => {
+  //   router.push(`my/${Routes.NegoMoney}`);
+  // }, [router]);
 
   const handleClickNegoPoint = useCallback(() => {
     router.push(`my/${Routes.NegoPoint}`);
@@ -63,33 +67,61 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
   }, [router]);
 
-  const handleDeveloper = useCallback(() => {
-    router.push(`my/${Routes.Developer}`);
-  }, [router]);
+  // const handleDeveloper = useCallback(() => {
+  //   router.push(`my/${Routes.Developer}`);
+  // }, [router]);
+
+  // return (
+  //   <>
+  //     <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
+  //     <MobMyTemplate
+  //       unreadNotificationCount={unreadNotificationCount}
+  //       isLoading={isLoading}
+  //       loggedIn={user !== null}
+  //       nickname={user?.nickname}
+  //       onClickLogin={handleClickLogin}
+  //       onClickNotificationList={handleClickNotificationList}
+  //       onClickMyDetail={handleClickMyDetail}
+  //       onClickNoticeList={handleClickNoticeList}
+  //       onClickQna={handleClickQna}
+  //       onClickMyRealPriceList={handleClickMyRealPriceList}
+  //       onClickTransactionHistory={handleClickTransactionHistory}
+  //       onClickFAQ={handleClickFAQ}
+  //       onClickNegoMoney={handleClickNegoMoney}
+  //       onClickNegoPoint={handleClickNegoPoint}
+  //       onClickCoupons={handleClickCoupons}
+  //       onClickServiceInfo={handleServiceInfo}
+  //       onClickCreateListing={handleCreateListing}
+  //       onClickDeveloper={handleDeveloper}
+  //     />
+  //   </>
+  // );
 
   return (
-    <>
-      <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
-      <MobMyTemplate
+    <MobileContainer bottomNav={<MobGlobalNavigation />}>
+      <MyTemplate
         unreadNotificationCount={unreadNotificationCount}
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}
         onClickMyDetail={handleClickMyDetail}
         onClickNoticeList={handleClickNoticeList}
         onClickQna={handleClickQna}
         onClickMyRealPriceList={handleClickMyRealPriceList}
-        onClickTransactionHistory={handleClickTransactionHistory}
         onClickFAQ={handleClickFAQ}
-        onClickNegoMoney={handleClickNegoMoney}
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
         onClickCreateListing={handleCreateListing}
-        onClickDeveloper={handleDeveloper}
+        // onClickMyRegisteredListings={handleClickMyRegisteredListings}
+        // onClickMyParticipatingListings={handleClickMyParticipatingListings}
+        // onClickSuggestRegional={handleSuggestRegional}
+        // onClickReceivedSuggests={handleReceivedSuggests}
+        // onClickRequestedSuggests={handleRequestedSuggests}
       />
-    </>
+    </MobileContainer>
   );
 }
