@@ -48,7 +48,11 @@ export default function VerifyCiWrraper() {
 
   return (
     <>
-      <MobVerifyCi onClickIPinVerification={handleVerifyIPin} onClickPhoneVerification={handleVerifyPhone} />
+      <MobVerifyCi
+        onClickBack={() => router.back()}
+        onClickIPinVerification={handleVerifyIPin}
+        onClickPhoneVerification={handleVerifyPhone}
+      />
 
       {errorCode === ErrorCodes.DUPLCATED_CI && (
         <OverlayPresenter>
