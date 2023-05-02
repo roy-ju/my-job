@@ -11,6 +11,7 @@ export interface GetMyListingDetailPassedResponse {
   total_floor: string;
   direction: string;
   seller_agent_chat_room_id: number;
+  seller_agent_chat_room_closed: boolean;
   contract_completion_date: string;
   contract_trade_or_deposit_price: number;
   contract_monthly_rent_fee: number;

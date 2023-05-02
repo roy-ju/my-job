@@ -18,7 +18,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleNavigateToListingDetail = () => {
     router.replace(Routes.ListingDetail, {
       searchParams: {
-        chatRoomID: String(data?.seller_agent_chat_room_id),
+        listingID: String(data?.listing_id),
       },
     });
   };
@@ -71,6 +71,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         totalFloor={data?.total_floor ?? ''}
         direction={data?.direction ?? ''}
         sellerAgentChatRoomId={data?.seller_agent_chat_room_id ?? 0}
+        sellerAgentChatRoomClosed={data?.seller_agent_chat_room_closed ?? false}
         contractCompletionDate={data?.contract_completion_date ?? ''}
         contractTradeOrDepositPrice={data?.contract_trade_or_deposit_price ?? 0}
         contractMonthlyRentFee={data?.contract_monthly_rent_fee ?? 0}
