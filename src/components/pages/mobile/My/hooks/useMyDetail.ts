@@ -157,7 +157,7 @@ export default function useMyDetail() {
   }, [nickname, mutateUser]);
 
   const handleNavigateToVerifyCi = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
   }, [router]);
 
   const cancelUpdateNickname = useCallback(() => {

@@ -16,7 +16,7 @@ export default function MobMy() {
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
   const handleClickLogin = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.Login}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
   }, [router]);
 
   const handleClickNotificationList = useCallback(() => {
@@ -93,9 +93,9 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
   }, [router]);
 
-  // const handleDeveloper = useCallback(() => {
-  //   router.push(`my/${Routes.Developer}`);
-  // }, [router]);
+  const handleDeveloper = useCallback(() => {
+    router.push(`my/${Routes.Developer}`);
+  }, [router]);
 
   // return (
   //   <>
@@ -147,6 +147,7 @@ export default function MobMy() {
         onClickSuggestRegional={handleSuggestRegional}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
+        onClickDeveloper={handleDeveloper}
       />
     </MobileContainer>
   );

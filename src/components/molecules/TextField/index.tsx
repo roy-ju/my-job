@@ -376,6 +376,7 @@ const PatternInput = forwardRef<
         </StyledLabel>
       )}
       <StyledPatternInput
+        pattern="[0-9]*"
         displayType="input"
         type="text"
         valueIsNumericString
@@ -437,6 +438,7 @@ const PriceInput = forwardRef<
           value={value}
           isAllowed={isAllowed}
           onChange={handleChange}
+          pattern="[0-9]*"
         />
         {value && (
           <Suffix inSize={size} disabled={disabled} label={props.label}>

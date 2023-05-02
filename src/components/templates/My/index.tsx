@@ -28,6 +28,7 @@ interface Props {
   onClickSuggestRegional?: () => void;
   onClickReceivedSuggests?: () => void;
   onClickRequestedSuggests?: () => void;
+  onClickDeveloper?: () => void;
 }
 
 export default function My({
@@ -52,6 +53,7 @@ export default function My({
   onClickSuggestRegional,
   onClickReceivedSuggests,
   onClickRequestedSuggests,
+  onClickDeveloper,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -110,6 +112,7 @@ export default function My({
             <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
             {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
             <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
+            {onClickDeveloper && <MyPageNavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
           </MyPageNavigationList>
         </div>
       </div>
