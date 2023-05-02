@@ -4,7 +4,7 @@ import { NotificationSettings as NotificationSettingsTemplate } from '@/componen
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { ChangeEventHandler, memo, useCallback } from 'react';
+import { ChangeEventHandler, memo, useCallback, useEffect, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -13,46 +13,46 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const { user } = useAuth();
 
-  const { user, mutate: mutateUser } = useAuth();
+  const [serviceNotification, setServiceNotification] = useState<boolean | undefined>(false);
+  const [chatPushNotification, setChatPushNotification] = useState<boolean | undefined>(false);
+  const [marketingNotification, setMarketingNotification] = useState<boolean | undefined>(false);
+
+  useEffect(() => {
+    setServiceNotification(user?.serviceNotification);
+    setChatPushNotification(user?.chatPushNotification);
+    setMarketingNotification(user?.marketingNotification);
+  }, [user]);
 
   const handleClickBackButton = useCallback(() => {
     router.replace(Routes.NotificationList);
   }, [router]);
 
-  const handleChangeService = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    async (e) => {
-      const { checked } = e.target;
-      await updateNotificationConfig('service', checked);
-      mutateUser();
-    },
-    [mutateUser],
-  );
+  const handleChangeService = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
+    const { checked } = e.target;
+    await updateNotificationConfig('service', checked);
+    setServiceNotification(checked);
+  }, []);
 
-  const handleChangeChat = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    async (e) => {
-      const { checked } = e.target;
-      await updateNotificationConfig('chat', checked);
-      mutateUser();
-    },
-    [mutateUser],
-  );
+  const handleChangeChat = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
+    const { checked } = e.target;
+    await updateNotificationConfig('chat', checked);
+    setChatPushNotification(checked);
+  }, []);
 
-  const handleChangeMarketing = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    async (e) => {
-      const { checked } = e.target;
-      await updateNotificationConfig('marketing', checked);
-      mutateUser();
-    },
-    [mutateUser],
-  );
+  const handleChangeMarketing = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
+    const { checked } = e.target;
+    await updateNotificationConfig('marketing', checked);
+    setMarketingNotification(checked);
+  }, []);
 
   return (
     <Panel width={panelWidth}>
       <NotificationSettingsTemplate
-        service={user?.serviceNotification ?? false}
-        chat={user?.chatPushNotification ?? false}
-        marketing={user?.marketingNotification ?? false}
+        service={serviceNotification ?? false}
+        chat={chatPushNotification ?? false}
+        marketing={marketingNotification ?? false}
         marketingAgreementDate={user?.marketingAgreementDate}
         marketingDisagreementDate={user?.marketingDisagreementDate}
         onClickBackButton={handleClickBackButton}
