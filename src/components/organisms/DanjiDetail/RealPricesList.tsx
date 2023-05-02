@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { DanjiRealPricesListItem, DanjiRealPricesListResponse } from '@/apis/danji/danjiRealPricesList';
+import {
+  DanjiRealPricesListItem,
+  DanjiRealPricesListResponse,
+  useAPI_DanjiRealPricesList,
+} from '@/apis/danji/danjiRealPricesList';
 import { customAlphabet } from 'nanoid';
 import TradeIcon from '@/assets/icons/trade.svg';
 import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
@@ -9,6 +13,10 @@ import { minDigits } from '@/utils/fotmat';
 
 import { Button } from '@/components/atoms';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
+import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 
 function ChartTableBody({
   title,
@@ -68,20 +76,32 @@ function ChartTableBody({
 }
 
 export default function RealPricesList({
-  danjiRealPricesListData,
-  danjiRealPricesList,
-  danjiRealPriesListSetSize,
+  depth,
+  danji,
   isMorePage,
-  handleRealPriceList,
+  buyOrRent,
+  selectedYear,
+  selectedGonggeup,
+  selectedArea,
+  selectedAreaMax,
+  checked,
+  selectedIndex,
+  danjiRealPricesPyoungList,
 }: {
-  danjiRealPricesListData?: DanjiRealPricesListResponse[];
-  danjiRealPricesList?: DanjiRealPricesListItem[];
-  danjiRealPriesListSetSize?: (
-    size: number | ((_size: number) => number),
-  ) => Promise<DanjiRealPricesListResponse[] | undefined>;
+  depth: number;
+  danji?: GetDanjiDetailResponse;
   isMorePage: boolean;
-  handleRealPriceList?: () => void;
+  buyOrRent?: number;
+  selectedYear?: number;
+  selectedGonggeup?: string;
+  selectedArea?: string;
+  selectedAreaMax?: string;
+  checked: boolean;
+  selectedIndex?: number;
+  danjiRealPricesPyoungList: GetDanjiRealPricesPyoungListResponse['list'];
 }) {
+  const router = useRouter(depth);
+
   const nanoid = customAlphabet('1234567890abcedfg', 10);
 
   const listEndRef = useRef<HTMLDivElement>(null);
@@ -109,13 +129,93 @@ export default function RealPricesList({
     return '-';
   }, []);
 
+  const {
+    data,
+    list: realPricesList,
+    setSize,
+    isLoading: realPricesListLoading,
+  } = useAPI_DanjiRealPricesList({
+    pnu: danji?.pnu,
+    realestateType: danji?.type ? Number(danji.type) : null,
+    buyOrRent,
+    year: selectedYear || 3,
+    ps: 10,
+    directDealExcluded: checked,
+    selectedIndex,
+    list: danjiRealPricesPyoungList,
+  });
+
   const onIntersect = useCallback(() => {
-    if (danjiRealPricesListData && danjiRealPriesListSetSize) {
-      danjiRealPriesListSetSize((prev) => prev + 1);
+    if (realPricesList && realPricesList) {
+      setSize((prev) => prev + 1);
     }
-  }, [danjiRealPricesListData, danjiRealPriesListSetSize]);
+  }, [realPricesList, setSize]);
 
   useInfiniteScroll(listEndRef, onIntersect);
+
+  const handleRealPriceList = useCallback(() => {
+    if (buyOrRent) {
+      sessionStorage.setItem('d-br', buyOrRent.toString());
+    } else if (!buyOrRent) {
+      sessionStorage.removeItem('d-br');
+    }
+
+    if (selectedYear) {
+      sessionStorage.setItem('d-yr', selectedYear.toString());
+    } else if (!selectedYear) {
+      sessionStorage.removeItem('d-yr');
+    }
+
+    if (selectedGonggeup) {
+      sessionStorage.setItem('d-gr', selectedGonggeup.toString());
+    } else if (!selectedArea) {
+      sessionStorage.removeItem('d-gr');
+    }
+
+    if (selectedArea) {
+      sessionStorage.setItem('d-jr-s', selectedArea.toString());
+    } else if (!selectedArea) {
+      sessionStorage.removeItem('d-jr-s');
+    }
+
+    if (selectedAreaMax) {
+      sessionStorage.setItem('d-jr-m', selectedAreaMax.toString());
+    } else if (!selectedAreaMax) {
+      sessionStorage.removeItem('d-jr-m');
+    }
+
+    if (typeof selectedIndex === 'number') {
+      sessionStorage.setItem('d-sl-i', selectedIndex.toString());
+    } else if (typeof selectedIndex !== 'number') {
+      sessionStorage.removeItem('d-sl-i');
+    }
+
+    if (danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0) {
+      sessionStorage.setItem('d-py-l', JSON.stringify(danjiRealPricesPyoungList));
+    } else {
+      sessionStorage.removeItem('d-py-l');
+    }
+
+    if (checked) {
+      sessionStorage.setItem('d-ch', '1');
+    } else if (!checked) {
+      sessionStorage.setItem('d-ch', '2');
+    }
+
+    router.push(Routes.DanjiRealPriceList, {
+      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+    });
+  }, [
+    buyOrRent,
+    checked,
+    danjiRealPricesPyoungList,
+    router,
+    selectedArea,
+    selectedAreaMax,
+    selectedGonggeup,
+    selectedIndex,
+    selectedYear,
+  ]);
 
   return (
     <div tw="mt-5 px-5 pb-10">
@@ -129,9 +229,9 @@ export default function RealPricesList({
           </div>
         </div>
         <div>
-          {danjiRealPricesList && danjiRealPricesList.length > 0 ? (
+          {realPricesList && realPricesList.length > 0 ? (
             <>
-              {(isMorePage ? danjiRealPricesList : danjiRealPricesList.slice(0, 8)).map((item) => (
+              {(isMorePage ? realPricesList : realPricesList.slice(0, 8)).map((item) => (
                 <div
                   key={nanoid()}
                   tw="flex flex-row items-center [padding: 8px 0px 8px 0px] [border-bottom: 1px solid #F4F6FA]"
@@ -166,8 +266,8 @@ export default function RealPricesList({
       </div>
       {isMorePage
         ? null
-        : danjiRealPricesList &&
-          danjiRealPricesList.length > 8 && (
+        : realPricesList &&
+          realPricesList.length > 8 && (
             <Button
               variant="outlined"
               tw="w-full mt-3"
