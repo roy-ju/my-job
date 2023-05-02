@@ -22,6 +22,7 @@ interface Props {
   onChangeSuggestChecked?: (id: number, checked: boolean) => void;
   onClickSuggestItem?: (id: number) => void;
   onNext?: () => void;
+  onClickBack?: () => void;
 }
 
 export default function SuggestRequestedList({
@@ -33,6 +34,7 @@ export default function SuggestRequestedList({
   onChangeSuggestChecked,
   onClickSuggestItem,
   onNext,
+  onClickBack,
 }: Props) {
   const handleListItemCheckedStateChange = useCallback(
     (id: number) => (checked: boolean) => {
@@ -44,6 +46,7 @@ export default function SuggestRequestedList({
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>나의 추천 요청</NavigationHeader.Title>
         {Boolean(list?.length) && (
           <div>

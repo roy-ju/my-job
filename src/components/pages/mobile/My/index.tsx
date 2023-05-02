@@ -81,6 +81,18 @@ export default function MobMy() {
     [router],
   );
 
+  const handleReceivedSuggests = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestReceivedList}`);
+  }, [router]);
+
+  const handleSuggestRegional = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  }, [router]);
+
+  const handleRequestedSuggests = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
+  }, [router]);
+
   // const handleDeveloper = useCallback(() => {
   //   router.push(`my/${Routes.Developer}`);
   // }, [router]);
@@ -132,9 +144,9 @@ export default function MobMy() {
         onClickCreateListing={handleCreateListing}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        // onClickSuggestRegional={handleSuggestRegional}
-        // onClickReceivedSuggests={handleReceivedSuggests}
-        // onClickRequestedSuggests={handleRequestedSuggests}
+        onClickSuggestRegional={handleSuggestRegional}
+        onClickReceivedSuggests={handleReceivedSuggests}
+        onClickRequestedSuggests={handleRequestedSuggests}
       />
     </MobileContainer>
   );
