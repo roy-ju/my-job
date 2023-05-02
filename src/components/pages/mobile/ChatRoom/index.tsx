@@ -8,7 +8,6 @@ import closeChatRoom from '@/apis/chat/closeChatRoom';
 import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
-import Routes from '@/router/routes';
 import useChatRoom from './useChatRoom';
 
 export default memo(() => {
@@ -83,7 +82,7 @@ export default memo(() => {
         onSendMessage={handleSendMessage}
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
-        onClickBack={() => router.replace(`/${Routes.EntryMobile}/${Routes.ChatRoomList}`)}
+        onClickBack={() => router.back()}
       />
       {popupOpen && (
         <OverlayPresenter>

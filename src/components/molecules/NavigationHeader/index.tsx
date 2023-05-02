@@ -10,7 +10,7 @@ const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shri
 function BackButton({ onClick }: { onClick?: () => void }) {
   return (
     <button type="button" onClick={onClick} tw="h-full pr-3">
-      <ChevronLeftIcon />
+      <ChevronLeftIcon tw="text-inherit" />
     </button>
   );
 }

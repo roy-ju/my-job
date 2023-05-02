@@ -26,7 +26,7 @@ export default function useChatRoomList() {
   const handleClickListItem = useCallback(
     (id: number) => {
       console.log(id);
-      router.replace(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${id}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${id}`);
     },
     [router],
   );

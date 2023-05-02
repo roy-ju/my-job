@@ -23,14 +23,10 @@ export default memo(() => {
     [setTab],
   );
 
-  const handleClickListingItem = () => () => {
-    // router.push(Routes.ListingDetail, {
-    //   persistParams: true,
-    //   searchParams: {
-    //     listingID: `${listingId}`,
-    //   },
-    // });
+  const handleClickListingItem = (listingID: number) => () => {
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   };
+
   const handleNavigateToListingDetailHistory = () => () => {
     // router.replace(Routes.ListingDetailHistory, {
     //   persistParams: true,
@@ -42,7 +38,7 @@ export default memo(() => {
   };
 
   const handleClickBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    router.back();
   }, [router]);
 
   if (!isLoading) {
