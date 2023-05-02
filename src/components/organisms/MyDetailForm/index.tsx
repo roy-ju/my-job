@@ -35,6 +35,55 @@ function UpdatableTextField({
   );
 }
 
+function UpdatableNicknameTextField({
+  label,
+  value,
+  disabled = false,
+  buttonDisabled = false,
+  readOnly = false,
+  onClickUpdate,
+  onChange,
+}: UpdatetableTextFieldProps) {
+  const regex = /^[a-zA-Z0-9가-힣]{3,20}$/;
+  const lengthRegex = /^.{3,20}$/;
+  const noSpecialStringRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s]*$/;
+  let errorMessage = '';
+  let isValidNickname = true;
+
+  if (value?.length) {
+    if (!noSpecialStringRegex.test(value)) {
+      errorMessage = '이모티콘과 특수문자는 사용할 수 없습니다.';
+      isValidNickname = false;
+    }
+    if (!lengthRegex.test(value)) {
+      errorMessage = '닉네임은 3~20글자 이어야 합니다.';
+      isValidNickname = false;
+    }
+    if (regex.test(value)) {
+      isValidNickname = true;
+    }
+  }
+
+  return (
+    <>
+      <TextField variant="outlined" hasError={!isValidNickname}>
+        <TextField.Input onChange={onChange} value={value} label={label} disabled={disabled} readOnly={readOnly} />
+        <TextField.Trailing>
+          <Button
+            disabled={buttonDisabled || !isValidNickname || !value?.length}
+            size="small"
+            variant="gray"
+            onClick={onClickUpdate}
+          >
+            변경
+          </Button>
+        </TextField.Trailing>
+      </TextField>
+      {errorMessage && <TextField.ErrorMessage>{errorMessage}</TextField.ErrorMessage>}
+    </>
+  );
+}
+
 interface HomeOwnerProps {
   verified: boolean;
 }
@@ -87,7 +136,7 @@ function LoginInfo({
         </Button>
       </div>
       <div tw="flex flex-col gap-3">
-        <UpdatableTextField
+        <UpdatableNicknameTextField
           label="닉네임"
           value={nickname}
           buttonDisabled={updateNicknameButtonDisabled}
