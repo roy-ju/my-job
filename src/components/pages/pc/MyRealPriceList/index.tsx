@@ -2,15 +2,17 @@ import useAPI_GetMyRealPriceList from '@/apis/my/getMyRealPriceList';
 import { Panel } from '@/components/atoms';
 import { MyRealPriceList } from '@/components/templates';
 import { memo, useCallback, useMemo, useState } from 'react';
+import { useRouter } from '@/hooks/utils';
 
 interface Props {
   depth: number;
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth }: Props) => {
+export default memo(({ depth, panelWidth }: Props) => {
   const [buyOrRent, setBuyOrRent] = useState(0);
   const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(buyOrRent);
+  const router = useRouter(depth);
 
   const list = useMemo(
     () =>
@@ -46,6 +48,7 @@ export default memo(({ panelWidth }: Props) => {
         isLoading={isLoading}
         // key={buyOrRent}
         list={list}
+        nickname={(router.query.nickname as string) ?? ''}
         buyOrRent={buyOrRent}
         onChangeBuyOrRent={handleChangeBuyOrRent}
         onNext={handleNextpage}
