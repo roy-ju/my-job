@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiSchools } from '@/apis/danji/danjiSchools';
 import { Button } from '@/components/atoms';
@@ -70,9 +71,9 @@ export default function SchoolInfo({
     <div tw="w-full pt-10 pb-10 px-5">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">학군</span>
-        <Button size="small" variant="outlined" selected={hakgudoActive} onClick={handleClickHakgudo}>
+        {/* <Button size="small" variant="outlined" selected={hakgudoActive} onClick={handleClickHakgudo}>
           학구도
-        </Button>
+        </Button> */}
       </div>
       <SchoolTabs variant="contained" value={selectedSchoolType} tw="mt-2" onChange={onChangeSelectedSchoolType}>
         <SchoolTabs.Tab value={SchoolType.ElementarySchool}>초등학교</SchoolTabs.Tab>
