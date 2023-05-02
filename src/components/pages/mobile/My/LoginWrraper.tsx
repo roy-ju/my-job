@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-import { MobLogin } from '@/components/templates';
 import { loginWithApple } from '@/lib/apple';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
@@ -9,6 +8,8 @@ import { mutate } from 'swr';
 import login from '@/apis/user/login';
 import Keys from '@/constants/storage_keys';
 import Routes from '@/router/routes';
+import { MobileContainer } from '@/components/atoms';
+import { Login as LoginTemplate } from '@/components/templates';
 
 export default function LoginWrraper() {
   const router = useRouter();
@@ -64,10 +65,13 @@ export default function LoginWrraper() {
   }, [router]);
 
   return (
-    <MobLogin
-      onClickKakaoLogin={handleKakaoLogin}
-      onClickAppleLogin={handleAppleLogin}
-      onClickForgotMyAccount={handleForgotMyAccount}
-    />
+    <MobileContainer>
+      <LoginTemplate
+        onClickKakaoLogin={handleKakaoLogin}
+        onClickAppleLogin={handleAppleLogin}
+        onClickForgotMyAccount={handleForgotMyAccount}
+        onClickBack={() => router.back()}
+      />
+    </MobileContainer>
   );
 }

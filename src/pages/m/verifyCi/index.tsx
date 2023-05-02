@@ -1,9 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
-import dynamic from 'next/dynamic';
 
-const NoSSRVerifyCiWrraper = dynamic(() => import('@/components/pages/mobile/VerifyCi'), { ssr: false });
+import VerifyCi from '@/components/pages/mobile/VerifyCi';
 
-const Page: NextPageWithLayout = () => <NoSSRVerifyCiWrraper />;
+const Page: NextPageWithLayout = () => <VerifyCi />;
 
 Page.getLayout = function getLayout(page) {
   return (
