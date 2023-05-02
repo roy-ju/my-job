@@ -65,6 +65,10 @@ export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
+export { default as SuggestDetail } from './SuggestDetail';
 
 /** 매물 상세 */
 export { default as ListingDetail } from './ListingDetail';
+
+/** 관심목록 */
+export { default as MyFavoriteList } from './MyFavoriteList';
