@@ -36,7 +36,6 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
       onClick={() => {
         setIsQna(true);
       }}
-      variant="secondary"
       size="bigger"
       tw="w-full"
     >
@@ -58,7 +57,6 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
         await createServiceQna(qnaText);
         mutateQna();
       }}
-      variant="secondary"
       size="bigger"
       tw="w-full"
       disabled={!qnaText}
