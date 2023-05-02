@@ -1,5 +1,6 @@
 import { MobileContainer } from '@/components/atoms';
+import { MobGlobalNavigation } from '@/components/organisms';
 
 export default function Home() {
-  return <MobileContainer>Home</MobileContainer>;
+  return <MobileContainer bottomNav={<MobGlobalNavigation index={0} />} />;
 }
