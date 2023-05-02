@@ -355,7 +355,7 @@ export default function useListingCreateForm() {
 
     const encoded = JSON.stringify(params);
 
-    router.push(
+    router.replace(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateChooseAgent}`,
         query: {
@@ -412,7 +412,7 @@ export default function useListingCreateForm() {
   }, []);
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    // router.back();
 
     router.replace(
       {

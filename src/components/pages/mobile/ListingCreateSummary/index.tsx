@@ -90,6 +90,12 @@ const ListingCreateSummary = () => {
     }
   }, [params, listingID, agentID, router]);
 
+  useEffect(() => {
+    if (!router.query.listingID || !router.query.params) {
+      router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    }
+  }, [router]);
+
   return (
     <MobileContainer>
       {isLoading || !agent ? (

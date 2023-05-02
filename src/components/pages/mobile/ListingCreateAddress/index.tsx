@@ -15,7 +15,7 @@ const ListingCreateAddress = () => {
 
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
-      router.push(
+      router.replace(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
           query: {

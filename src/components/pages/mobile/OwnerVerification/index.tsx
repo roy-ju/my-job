@@ -3,6 +3,7 @@ import { OwnerVerification as Template, OwnerVerificationComplete as CompleteTem
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import ErrorCodes from '@/constants/error_codes';
+import Routes from '@/router/routes';
 
 export default function OwnerVerification() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function OwnerVerification() {
   const { data, isLoading } = useAPI_GetAgreementInfo(loi, token);
 
   const handleVerify = useCallback(() => {
-    router.push(`ov/ci?t=${router.query.t}&loi=${router.query.loi}`);
+    router.replace(`/${Routes.EntryMobile}/ov/ci?t=${router.query.t}&loi=${router.query.loi}`);
   }, [router]);
 
   return (
