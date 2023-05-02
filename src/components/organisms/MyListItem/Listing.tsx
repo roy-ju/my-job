@@ -36,6 +36,7 @@ export interface ListingProps extends IMyListingListItem {
   onClickListingItem?: (listingId: number) => () => void;
   onNavigateToListingDetailHistory?: (listingId: number, biddingId: number) => () => void;
   biddingId?: number;
+  isContractCompleted?: boolean;
 }
 
 const informationStringWrapper = css`
@@ -68,6 +69,7 @@ export default function Listing({
   isFavorite,
   labelText,
   biddingId,
+  isContractCompleted,
 }: ListingProps) {
   const renderPrice = () => {
     switch (buyOrRent) {
@@ -123,7 +125,9 @@ export default function Listing({
             <div>{totalFloor && floorDescription && `${floorDescription?.[0]}/${totalFloor}층`}</div>
             <div>{direction}</div>
           </div>
-          <ListingPopularityInformation viewCount={viewCount} offerCount={participantsCount} />
+          {!isContractCompleted && (
+            <ListingPopularityInformation viewCount={viewCount} offerCount={participantsCount} />
+          )}
         </div>
       </div>
     </button>
