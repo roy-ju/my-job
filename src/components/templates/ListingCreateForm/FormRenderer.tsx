@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Separator } from '@/components/atoms';
+import { Button, Separator } from '@/components/atoms';
 import { ListingCreateForm as Form } from '@/components/organisms';
 import { BuyOrRent } from '@/constants/enums';
 import { useContext } from 'react';
@@ -26,6 +26,10 @@ interface Props {
 }
 
 export default function FormRenderer({ form }: Props) {
+  const isPermSettingsSupported =
+    typeof window !== 'undefined' &&
+    (!!window.Android?.goToAppPermissionSettings || !!window.webkit?.messageHandlers?.goToAppPermissionSettings);
+
   const {
     // IsOwner
     isOwner,
@@ -348,15 +352,40 @@ export default function FormRenderer({ form }: Props) {
             <Form.Description value={description} onChangeValue={onChangeDescription} />
           </div>
           <Separator />
-          <div tw="px-5 py-10">
+          <div tw="px-5 pt-10 pb-7">
+            <div tw="flex items-center justify-between">
+              <div tw="text-b1 font-bold">사진 등록</div>
+              {isPermSettingsSupported && (
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.Android?.goToAppPermissionSettings?.();
+                      window.webkit?.messageHandlers?.goToAppPermissionSettings?.postMessage?.(
+                        'goToAppPermissionSettings',
+                      );
+                    }
+                  }}
+                >
+                  권한 설정 확인
+                </Button>
+              )}
+            </div>
+            {isPermSettingsSupported && (
+              <div tw="text-info text-gray-700 mt-1">
+                카메라 이용을 위해서는 카메라와 미디어 접근권한을 모두 허용해 주세요.
+              </div>
+            )}
+          </div>
+          <div tw="px-5 pb-10">
             <div tw="flex justify-between mb-4">
               <div tw="text-b1 leading-none font-bold">매물 사진</div>
               <div tw="text-info text-gray-700 leading-4">- 최대 6장</div>
             </div>
             <Form.Photos urls={listingPhotoUrls} onChange={onChangeListingPhotoUrls} />
           </div>
-          <Separator />
-          <div tw="px-5 py-10">
+          <div tw="px-5 pb-10">
             <div tw="flex justify-between mb-4">
               <div tw="text-b1 leading-none font-bold">단지 사진</div>
               <div tw="text-info text-gray-700 leading-4">- 최대 6장</div>
