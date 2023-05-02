@@ -1,7 +1,7 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { Button, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
 import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
-import { ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
+import { DanjiDetailSection, ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
 
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
@@ -11,15 +11,25 @@ import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
-import { BuyOrRent, VisitUserType } from '@/constants/enums';
+import { BuyOrRent, describeJeonsaeWolsaeSame, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
+import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
+import { ParentSize } from '@visx/responsive';
+import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
+import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatusChart';
+import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
 import UserStatusStrings from './strings';
+import { DanjiRealPriceChart } from '../DanjiDetail/DanjiRealPriceChart';
+import DanjiStatusChartWrraper from '../DanjiDetail/DanjiStatusChartWrraper';
+import DanjiStatusJeonsaeChartWrraper from '../DanjiDetail/DanjiStatusJeonsaeChartWrraper';
+import DanjiStatusTradeChartWrraper from '../DanjiDetail/DanjiStatusTradeChartWrraper';
 
 const commonOptions = ['신고하기', '중개약정확인'];
 
 const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
 
 export interface ListingDetailProps {
+  depth: number;
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
@@ -46,6 +56,7 @@ export interface ListingDetailProps {
 }
 
 export default function ListingDetail({
+  depth,
   listingDetail,
   qnaList,
   hasMoreQnas,
@@ -64,8 +75,72 @@ export default function ListingDetail({
   onNavigateToSuggestRegional,
   onClickBack,
 }: ListingDetailProps) {
+  const {
+    isRealPricesAvailable,
+    danji,
+    danjiListings,
+    danjiRealPricesData,
+    danjiRealPricesPyoungList,
+    danjiTradeTurnRateData,
+    danjiTradeTurnRateSigunguData,
+    danjiJeonsaeRateRateData,
+    danjiJeonsaeRateSigunguData,
+    danjiRealPricesListData,
+    danjiRealPricesList,
+    buyOrRent,
+    selectedYear,
+    selectedArea,
+    selectedIndex,
+    checked,
+    isRecommendationService,
+    handleRecommendation,
+    handleRealPriceList,
+    handleListingAll,
+    onChangeChecked,
+    onChangeSelectedArea,
+    onChangeSelectedJeonyongArea,
+    onChangeSelectedJeonyongAreaMax,
+    onChangeSelectedIndex,
+    onChangeBuyOrRent,
+    onChangeSelectedYear,
+    danjiRealPriesListSetSize,
+    navigateToListingDetail,
+    handleChangeHakgudoActive,
+  } = useDanjiDetail(depth, listingDetail?.listing.pnu, listingDetail?.listing.realestate_type);
+
+  const { listDanji, danjiChartData, sidoChartData, sigunguChartData, xAxis } = useDanjiStatusChart({
+    danji,
+    buyOrRent,
+    selectedYear,
+  });
+
+  const {
+    listDanji: jeonsaeListDanji,
+    danjiChartData: jeonsaeDanjiChartData,
+    sidoChartData: jeonsaeSidoChartData,
+    sigunguChartData: jeonsaeSigunguChartData,
+  } = useDanjiStatusChartJeonsae({
+    danji,
+    buyOrRent,
+    selectedYear,
+  });
+
+  const { realpricesChartData } = useDanjiRealPricesChart({
+    danji,
+    buyOrRent,
+    selectedYear,
+    selectedIndex,
+    directDealExcluded: checked || false,
+    list: danjiRealPricesPyoungList,
+  });
+
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
+
+  const basicContainerRef = useRef<HTMLDivElement | null>(null);
+  const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
+  const basicDetailContainerRef = useRef<HTMLDivElement | null>(null);
+  const danjiSchoolContainerRef = useRef<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [isTopCtaButtonsVisible, setIsTopCtaButtonsVisible] = useState(true);
@@ -366,6 +441,157 @@ export default function ListingDetail({
           </div>
         )}
         <Separator />
+        <DanjiDetailSection>
+          <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
+            <div tw="pb-10">
+              <DanjiDetailSection.Info
+                danji={danji}
+                isRecommendationService={isRecommendationService}
+                handleRecommendation={handleRecommendation}
+              />
+            </div>
+            {danjiListings && danjiListings.length > 0 && (
+              <div tw="pb-8">
+                <DanjiDetailSection.ActiveInfo
+                  danjiListings={danjiListings}
+                  onClick={navigateToListingDetail}
+                  handleListingAll={handleListingAll}
+                />
+              </div>
+            )}
+          </div>
+
+          {isRealPricesAvailable && (
+            <div id="negocio-danjidetail-rp" ref={realPriceContainerRef}>
+              <Separator tw="w-full [min-height: 8px]" />
+              <div tw="pt-10">
+                <DanjiDetailSection.RealPriceInfo
+                  depth={depth}
+                  buyOrRent={buyOrRent}
+                  danji={danji}
+                  danjiRealPricesData={danjiRealPricesData}
+                  danjiTradeTurnRateData={danjiTradeTurnRateData}
+                  danjiTradeTurnRateSigunguData={danjiTradeTurnRateSigunguData}
+                  danjiJeonsaeRateRateData={danjiJeonsaeRateRateData}
+                  danjiJeonsaeRateSigunguData={danjiJeonsaeRateSigunguData}
+                  selectedYear={selectedYear}
+                  onChangeBuyOrRent={onChangeBuyOrRent}
+                  onChangeSelectedYear={onChangeSelectedYear}
+                />
+              </div>
+              <div tw="px-5 mt-10">
+                <div tw="mb-3">
+                  <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
+                    면적당 거래가 ({describeJeonsaeWolsaeSame(buyOrRent)} / ㎡)
+                  </span>
+                </div>
+                <ParentSize>
+                  {({ width }) => (
+                    <DanjiStatusChartWrraper
+                      width={width}
+                      xAxis={xAxis}
+                      listDanji={listDanji}
+                      danjiChartData={danjiChartData}
+                      sigunguChartData={sigunguChartData}
+                      sidoChartData={sidoChartData}
+                      selectedYear={selectedYear}
+                    />
+                  )}
+                </ParentSize>
+              </div>
+
+              {buyOrRent === BuyOrRent.Jeonsae && (
+                <div tw="px-5 mt-10">
+                  <div tw="mb-3">
+                    <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">평균 전세가율</span>
+                  </div>
+                  <ParentSize>
+                    {({ width }) => (
+                      <DanjiStatusJeonsaeChartWrraper
+                        width={width}
+                        xAxis={xAxis}
+                        listDanji={jeonsaeListDanji}
+                        danjiChartData={jeonsaeDanjiChartData}
+                        sigunguChartData={jeonsaeSigunguChartData}
+                        sidoChartData={jeonsaeSidoChartData}
+                        selectedYear={selectedYear}
+                      />
+                    )}
+                  </ParentSize>
+                </div>
+              )}
+
+              <div tw="px-5 mt-10">
+                <div tw="mb-3">
+                  <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
+                    총 거래량 ({describeJeonsaeWolsaeSame(buyOrRent)})
+                  </span>
+                </div>
+                <ParentSize>
+                  {({ width }) => (
+                    <DanjiStatusTradeChartWrraper
+                      width={width}
+                      xAxis={xAxis}
+                      listDanji={listDanji}
+                      danjiChartData={danjiChartData}
+                      selectedYear={selectedYear}
+                    />
+                  )}
+                </ParentSize>
+              </div>
+
+              <DanjiDetailSection.RealPricesPyoungList
+                buyOrRent={buyOrRent}
+                danjiRealPricesPyoungList={danjiRealPricesPyoungList}
+                selectedArea={selectedArea}
+                selectedIndex={selectedIndex}
+                checked={checked}
+                onChangeChecked={onChangeChecked}
+                onChangeSelectedIndex={onChangeSelectedIndex}
+                onChangeSelectedArea={onChangeSelectedArea}
+                onChangeSelectedJeonyongArea={onChangeSelectedJeonyongArea}
+                onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
+              />
+
+              <div tw="px-5">
+                <ParentSize>
+                  {({ width }) => (
+                    <DanjiRealPriceChart
+                      width={width}
+                      xAxis={xAxis}
+                      buyOrRent={buyOrRent}
+                      selectedYear={selectedYear}
+                      selectedIndex={selectedIndex}
+                      realpricesChartData={realpricesChartData}
+                      checked={checked}
+                    />
+                  )}
+                </ParentSize>
+              </div>
+
+              <DanjiDetailSection.RealPricesList
+                danjiRealPricesListData={danjiRealPricesListData}
+                danjiRealPricesList={danjiRealPricesList}
+                danjiRealPriesListSetSize={danjiRealPriesListSetSize}
+                isMorePage={false}
+                handleRealPriceList={handleRealPriceList}
+              />
+            </div>
+          )}
+
+          <div id="negocio-danjidetail-bid" ref={basicDetailContainerRef}>
+            <Separator tw="w-full [min-height: 8px]" />
+            <DanjiDetailSection.DetailInfo danji={danji} />
+          </div>
+
+          <div id="negocio-danjidetail-sc" ref={danjiSchoolContainerRef}>
+            <Separator tw="w-full [min-height: 8px]" />
+            <DanjiDetailSection.SchoolInfo danji={danji} onChangeHakgudoActive={handleChangeHakgudoActive} />
+            <Separator tw="w-full [min-height: 8px]" />
+            <DanjiDetailSection.AroundInfo danji={danji} />
+            <Separator tw="w-full [min-height: 8px]" />
+          </div>
+        </DanjiDetailSection>
         <div tw="py-10 px-5">
           <ListingDetailSection.Agent agent={listingDetail?.agent_summary} />
         </div>
