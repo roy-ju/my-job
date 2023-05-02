@@ -1,4 +1,4 @@
-import { Button, Loading, Separator } from '@/components/atoms';
+import { Button, Loading, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { AgentCardItem, ListingCreateResultStatus, TransactionCondition } from '@/components/organisms';
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
@@ -110,7 +110,7 @@ export default function ListingCreateResult({
       <NavigationHeader>
         <NavigationHeader.Title>매물등록 신청 결과</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-auto">
+      <div tw="flex-1 pb-10 min-h-0 overflow-auto">
         <div tw="pt-6 pb-10">
           {listingStatus === ListingStatus.VerifyOwnershipNotFound && (
             <ListingCreateResultStatus.VerifyOwnershipNotFound
@@ -250,18 +250,18 @@ export default function ListingCreateResult({
             입력정보 수정/중개사 재선택
           </Button>
         </div> */}
-        <div tw="pt-10 px-5 pb-10">
-          {listingStatus !== ListingStatus.Duplicated ? (
-            <Button size="bigger" tw="w-full" onClick={onClickMyListings}>
-              나의 거래 목록
-            </Button>
-          ) : (
-            <Button size="bigger" tw="w-full" onClick={onClickRemoveFromListings}>
-              목록에서 삭제
-            </Button>
-          )}
-        </div>
       </div>
+      <PersistentBottomBar>
+        {listingStatus !== ListingStatus.Duplicated ? (
+          <Button size="bigger" tw="w-full" onClick={onClickMyListings}>
+            나의 거래 목록
+          </Button>
+        ) : (
+          <Button size="bigger" tw="w-full" onClick={onClickRemoveFromListings}>
+            목록에서 삭제
+          </Button>
+        )}
+      </PersistentBottomBar>
     </div>
   );
 }
