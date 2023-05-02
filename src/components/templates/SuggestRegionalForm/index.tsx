@@ -8,6 +8,7 @@ interface Props extends IFormContext {
   forms?: string[];
   nextButtonDisabled?: boolean;
   onClickNext?: () => void;
+  onClickBack?: () => void;
 }
 
 export default function SuggestRegionalForm({
@@ -56,6 +57,8 @@ export default function SuggestRegionalForm({
 
   description,
   onChangeDescription,
+
+  onClickBack,
 }: Props) {
   const context = useMemo(
     () => ({
@@ -149,6 +152,7 @@ export default function SuggestRegionalForm({
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>지역 매물 추천받기</NavigationHeader.Title>
       </NavigationHeader>
       <FormContext.Provider value={context}>

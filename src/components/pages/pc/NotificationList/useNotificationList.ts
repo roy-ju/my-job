@@ -2,7 +2,9 @@ import deleteNotifications from '@/apis/notification/deleteNotifications';
 import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
 import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import readNotifications from '@/apis/notification/readNotifications';
+import getNotificationUrl from '@/apis/notification/getNotificationUrl';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import useUnmount from '@/hooks/utils/useUnmount';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -11,7 +13,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function useNotificationList(depth: number) {
   const router = useRouter(depth);
-  // const nextRouter = useNextRouter();
+  const nextRouter = useNextRouter();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const { mutate: mutateUnreadNotificationCount } = useAPI_GetUnreadNotificationCount();
@@ -48,12 +50,20 @@ export default function useNotificationList(depth: number) {
     [router],
   );
 
-  const handleNotificationClick = useCallback((id: number) => {
-    console.log('clicked', id);
-    // const url = new URL(window.location.toString());
-    // console.log(url.pathname + url.search);
-    // nextRouter.replace('/notifications/listingDetail?listingID=3070');
-  }, []);
+  const handleNotificationClick = useCallback(
+    async (id: number) => {
+      const response = await getNotificationUrl(id);
+      if (response === null) return;
+      const url = response?.data?.url;
+      nextRouter.replace(url);
+
+      //    router.replace(url);
+      // const url = new URL(window.location.toString());
+      // console.log(url.pathname + url.search);
+      // nextRouter.replace('/notifications/listingDetail?listingID=3070');
+    },
+    [nextRouter],
+  );
 
   const handleNotificationChecked = useCallback((id: number, checked: boolean) => {
     setCheckedState((prev) => ({ ...prev, [id]: checked }));

@@ -8,7 +8,6 @@ import NoDataUI from './NoDataUI';
 interface ListingRendererProps {
   tabStatus: number;
   biddingStatus: IBiddingStatus;
-  onClickListingItem: (listingId: number) => () => void;
   onNavigateToListingDetailHistory: (listingId: number, biddingId: number) => () => void;
 }
 
@@ -26,8 +25,7 @@ export default function ListingRenderer({
   onNavigateToListingDetailHistory,
   tabStatus,
   biddingStatus,
-}: // onClickListingItem,
-ListingRendererProps) {
+}: ListingRendererProps) {
   switch (tabStatus) {
     case BiddingStatus.Submitted: {
       if (!biddingStatus.submitted.count) return <NoDataUI tabStatus={1} />;
@@ -84,6 +82,7 @@ ListingRendererProps) {
                 {i > 0 && <Divider />}
                 <MyListItem.Listing
                   showLikeButton={false}
+                  showPopularityInformation={false}
                   onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
                   {...item}
                 />
@@ -104,6 +103,7 @@ ListingRendererProps) {
                 {i > 0 && <Divider />}
                 <MyListItem.Listing
                   showLikeButton={false}
+                  showPopularityInformation={false}
                   onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
                   {...item}
                 />

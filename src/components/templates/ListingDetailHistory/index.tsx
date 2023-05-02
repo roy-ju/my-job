@@ -28,6 +28,7 @@ interface ListingDetailHistoryProps {
   onNavigateToChatRoom?: () => void;
   onNavigateToListingDetail?: () => void;
   onNavigateToTransactionReview?: () => void;
+  onNavigateToUpdateBiddingForm?: () => void;
 
   biddingId: number;
   biddingMonthlyRentFee: number;
@@ -95,6 +96,7 @@ export default function ListingDetailHistory({
   onNavigateToChatRoom,
   onNavigateToListingDetail,
   onNavigateToTransactionReview,
+  onNavigateToUpdateBiddingForm,
 
   biddingMonthlyRentFee,
 
@@ -133,7 +135,7 @@ export default function ListingDetailHistory({
   const renderButton = () => {
     if (isSubmitted)
       return (
-        <Button tw="h-10 mt-4 w-full" variant="outlined">
+        <Button onClick={onNavigateToUpdateBiddingForm} tw="h-10 mt-4 w-full" variant="outlined">
           제안가 수정하기
         </Button>
       );
@@ -159,7 +161,7 @@ export default function ListingDetailHistory({
             {buyerAgentChatRoomClosed ? '채팅 보기' : '채팅 바로가기'}
           </Button>
 
-          <Button onClick={onNavigateToTransactionReview} tw="h-10 mt-4 w-full" variant="outlined">
+          <Button onClick={onNavigateToTransactionReview} tw="h-10 mt-4 w-full">
             {hasReview ? '거래후기 보기' : '거래후기 남기기'}
           </Button>
         </div>

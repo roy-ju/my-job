@@ -7,8 +7,32 @@ import ErrorContainedIcon from '@/assets/icons/toast_icon_error_contained.svg';
 import ErrorIcon from '@/assets/icons/toast_icon_error.svg';
 import { memo } from 'react';
 
-const CustomStyled = styled(RToastContainer)`
+const CustomStyledPc = styled(RToastContainer)`
   --toastify-toast-min-height: 48px;
+
+  .Toastify__toast {
+    ${tw`rounded-lg bg-gray-1000/90`}
+  }
+  .Toastify__toast-body {
+    ${tw`text-white text-b2`}
+  }
+  .Toastify__toast.Toastify__toast--default {
+  }
+  .Toastify__toast.Toastify__toast--info {
+  }
+  .Toastify__toast.Toastify__toast--success {
+    ${tw`bg-green-900/90`}
+  }
+  .Toastify__toast.Toastify__toast--warning {
+  }
+  .Toastify__toast.Toastify__toast--error {
+    ${tw`bg-red/90`}
+  }
+`;
+
+const CustomStyledMobile = styled(RToastContainer)`
+  --toastify-toast-min-height: 48px;
+  ${tw`w-full p-5`}
 
   .Toastify__toast {
     ${tw`rounded-lg bg-gray-1000/90`}
@@ -53,7 +77,7 @@ interface ToastContainerProps {
 
 const ToastContainer = memo(({ platform }: ToastContainerProps) =>
   platform === 'mobile' ? (
-    <CustomStyled
+    <CustomStyledMobile
       draggable={false}
       autoClose={2000}
       closeButton={false}
@@ -63,7 +87,7 @@ const ToastContainer = memo(({ platform }: ToastContainerProps) =>
       icon={ToastIcon}
     />
   ) : (
-    <CustomStyled
+    <CustomStyledPc
       draggable={false}
       autoClose={2000}
       closeButton={false}

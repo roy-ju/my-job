@@ -1,9 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
-import dynamic from 'next/dynamic';
 
-const NoSSRLoginWrraper = dynamic(() => import('@/components/pages/mobile/My/LoginWrraper'), { ssr: false });
+import LoginWrapper from '@/components/pages/mobile/My/LoginWrraper';
 
-const Page: NextPageWithLayout = () => <NoSSRLoginWrraper />;
+const Page: NextPageWithLayout = () => <LoginWrapper />;
 
 Page.getLayout = function getLayout(page) {
   return (
