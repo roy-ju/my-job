@@ -1,0 +1,40 @@
+interface Android {
+  cancelAllNotifications?: () => void;
+  cancelAllNotificationsByTag?: (tag: string) => void;
+  cancelAllNotificationsByTagContains?: (tagContains: string) => void;
+  goToAppPermissionSettings?: () => void;
+  askLocationPermissionIfNotGranted?: () => void;
+}
+
+interface WebKit {
+  messageHandlers?: WebKitMessageHandlers;
+}
+
+interface WebKitMessageHandlers {
+  cancelAllNotificationsByTagContains?: WebKitMessageHandler;
+  goToAppPermissionSettings?: WebKitMessageHandler;
+  checkCameraPermission?: WebKitMessageHandler;
+}
+
+interface WebKitMessageHandler {
+  postMessage?: (body: string) => void;
+}
+
+interface NegocioWeb {
+  readNotificationByID?: (id: number) => void;
+}
+
+declare interface Window {
+  Android?: Android;
+  webkit?: WebKit;
+  NegocioWeb?: NegocioWeb;
+
+  getLocation?: (
+    position: {
+      coords: {
+        latitude: number;
+        longitude: number;
+      };
+    } | null,
+  ) => void;
+}

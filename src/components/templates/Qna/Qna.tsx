@@ -9,7 +9,7 @@ interface IQnaProps {
 
 export default function Qna({ placeholder, value, onChange }: IQnaProps) {
   return (
-    <div tw="px-5">
+    <div tw="px-5 mt-7">
       <TextField variant="outlined" tw="h-[30rem]">
         <TextField.TextArea
           value={value}
@@ -19,7 +19,7 @@ export default function Qna({ placeholder, value, onChange }: IQnaProps) {
           maxLength={100}
         />
       </TextField>
-      <p tw="text-info mt-1.5">{value!.length}/100</p>
+      <TextField.HelperMessage>{value!.length}/100</TextField.HelperMessage>
     </div>
   );
 }

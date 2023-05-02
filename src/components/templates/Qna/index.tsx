@@ -36,7 +36,6 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
       onClick={() => {
         setIsQna(true);
       }}
-      variant="secondary"
       size="bigger"
       tw="w-full"
     >
@@ -58,7 +57,6 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
         await createServiceQna(qnaText);
         mutateQna();
       }}
-      variant="secondary"
       size="bigger"
       tw="w-full"
       disabled={!qnaText}
@@ -70,6 +68,7 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader>
+        {isQna && <NavigationHeader.BackButton onClick={() => setIsQna(false)} />}
         <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
       </NavigationHeader>
       {loggedIn ? (
