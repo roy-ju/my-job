@@ -64,7 +64,7 @@ Props) {
       {isLoading ? (
         <Loading tw="text-center mt-10" />
       ) : (
-        <List tw="flex-1 min-h-0 overflow-scroll" onNext={onNext}>
+        <List tw="flex-1 min-h-0 overflow-scroll" css={[isDeleting && tw`mb-[68px]`]} onNext={onNext}>
           {notifications.map((item) => (
             <NotificaitonListItem
               key={item.id}
