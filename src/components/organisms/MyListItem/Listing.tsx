@@ -36,7 +36,8 @@ export interface ListingProps extends IMyListingListItem {
   onClickListingItem?: (listingId: number) => () => void;
   onNavigateToListingDetailHistory?: (listingId: number, biddingId: number) => () => void;
   biddingId?: number;
-  isContractCompleted?: boolean;
+  showPopularityInformation?: boolean;
+  showLikeButton?: boolean;
 }
 
 const informationStringWrapper = css`
@@ -69,7 +70,8 @@ export default function Listing({
   isFavorite,
   labelText,
   biddingId,
-  isContractCompleted,
+  showPopularityInformation = true,
+  showLikeButton = true,
 }: ListingProps) {
   const renderPrice = () => {
     switch (buyOrRent) {
@@ -82,7 +84,6 @@ export default function Listing({
     }
   };
 
-  const isMyPage = window.location.pathname.includes('my/');
   const isOnClickToNavigate = biddingId;
 
   return (
@@ -108,7 +109,7 @@ export default function Listing({
             <Chip variant={RealestateTypeChipVariant[realestateType]}>{RealestateTypeString[realestateType]}</Chip>
             {eubmyundong && <Chip variant="gray">{eubmyundong}</Chip>}
           </div>
-          {!isMyPage && (
+          {showLikeButton && (
             <LikeButton onLike={(active) => onToggleListingLike?.(listingId, active)} isFavorite={isFavorite} />
           )}
         </div>
@@ -125,7 +126,7 @@ export default function Listing({
             <div>{totalFloor && floorDescription && `${floorDescription?.[0]}/${totalFloor}층`}</div>
             <div>{direction}</div>
           </div>
-          {!isContractCompleted && (
+          {showPopularityInformation && (
             <ListingPopularityInformation viewCount={viewCount} offerCount={participantsCount} />
           )}
         </div>

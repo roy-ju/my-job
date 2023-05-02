@@ -24,6 +24,7 @@ interface ChatRoomProps {
 
   onClickReportButton?: () => void;
   onClickLeaveButton?: () => void;
+  onClickBack?: () => void;
 
   list: ListingCardProps[];
 }
@@ -44,6 +45,7 @@ export default function ChatRoom({
 
   onClickReportButton,
   onClickLeaveButton,
+  onClickBack,
 
   list,
 }: ChatRoomProps) {
@@ -88,6 +90,7 @@ export default function ChatRoom({
   return (
     <div tw="flex flex-col h-full relative">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-b1">{officeName}</NavigationHeader.Title>
         <NavigationHeader.MoreButton
           onClickItem={(index) => headerItems[index]?.onClick?.()}

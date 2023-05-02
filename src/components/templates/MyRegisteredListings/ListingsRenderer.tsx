@@ -90,7 +90,7 @@ export default function ListingsRenderer({
             {myActiveListingData?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing onClickListingItem={onClickListingItem} {...item} />
+                <MyListItem.Listing showLikeButton={false} onClickListingItem={onClickListingItem} {...item} />
               </React.Fragment>
             ))}
           </Wrapper>
@@ -107,7 +107,12 @@ export default function ListingsRenderer({
             {myContractCompleteListingData?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing isContractCompleted onClickListingItem={onClickListingItem} {...item} />
+                <MyListItem.Listing
+                  isContractCompleted
+                  showLikeButton={false}
+                  onClickListingItem={onClickListingItem}
+                  {...item}
+                />
               </React.Fragment>
             ))}
           </Wrapper>
@@ -125,6 +130,7 @@ export default function ListingsRenderer({
                 {i > 0 && <Divider />}
                 <MyListItem.Listing
                   isContractCompleted
+                  showLikeButton={false}
                   onClickListingItem={onClickNavigateToListingDetailPassed}
                   {...item}
                 />

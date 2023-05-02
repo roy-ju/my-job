@@ -50,3 +50,16 @@ export { default as ListingCreateSummary } from './ListingCreateSummary';
 export { default as ListingCreateResult } from './ListingCreateResult';
 export { default as ListingCreateUpdateAddress } from './ListingCreateUpdateAddress';
 export { default as ListingCreateUpdateAddressDetail } from './ListingCreateUpdateAddressDetail';
+
+/** 채팅 */
+export { default as ChatRoomList } from './ChatRoomList';
+export { default as ChatRoom } from './ChatRoom';
+
+/** 매물 목록 */
+export { default as MyRegisteredListings } from './MyRegisteredListings';
+export { default as MyParticipatingListings } from './MyParticipatingListings';
+
+/** 지역 추천 */
+export { default as SuggestReceivedList } from './SuggestReceivedList';
+export { default as SuggestRegionalForm } from './SuggestRegionalForm';
+export { default as SuggestRequestedList } from './SuggestRequestedList';
