@@ -70,6 +70,7 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader>
+        {isQna && <NavigationHeader.BackButton onClick={() => setIsQna(false)} />}
         <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
       </NavigationHeader>
       {loggedIn ? (
