@@ -98,7 +98,7 @@ export default function MobMy() {
   // );
 
   return (
-    <MobileContainer bottomNav={<MobGlobalNavigation />}>
+    <MobileContainer bottomNav={<MobGlobalNavigation index={4} />}>
       <MyTemplate
         unreadNotificationCount={unreadNotificationCount}
         isLoading={isLoading}

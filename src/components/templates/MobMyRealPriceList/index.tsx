@@ -89,7 +89,7 @@ export default function MobMyRealPriceList({
         )}
       </div>
       <div tw="w-full max-w-mobile fixed bottom-0 left-auto right-auto">
-        <MobGlobalNavigation />
+        <MobGlobalNavigation index={4} />
       </div>
     </div>
   );
