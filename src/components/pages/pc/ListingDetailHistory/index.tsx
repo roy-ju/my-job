@@ -49,6 +49,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   };
 
+  const handleNavigateToUpdateBiddingForm = () => {
+    router.replace(Routes.UpdateBiddingForm, {
+      searchParams: {
+        listingID: String(data?.listing_id),
+        biddingID: String(data?.bidding_id),
+      },
+    });
+  };
+
   const handleNavigateToListingDetail = () => {
     router.replace(Routes.ListingDetail, {
       searchParams: {
@@ -94,6 +103,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onNavigateToChatRoom={handleNavigateToChatRoom}
         onNavigateToTransactionReview={handleNavigateToTransactionReview}
         onNavigateToListingDetail={handleNavigateToListingDetail}
+        onNavigateToUpdateBiddingForm={handleNavigateToUpdateBiddingForm}
         biddingId={data?.bidding_id ?? 0}
         biddingMonthlyRentFee={data?.bidding_monthly_rent_fee ?? 0}
         biddingStatus={data?.bidding_status ?? 0}
