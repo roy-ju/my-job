@@ -1,18 +1,14 @@
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
-import { Panel } from '@/components/atoms';
+import { MobileContainer } from '@/components/atoms';
 import { SuggestRegionalSummary } from '@/components/templates';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { useRouter } from 'next/router';
 import { memo, useCallback, useMemo, useState } from 'react';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
-
-export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+export default memo(() => {
+  const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
 
   const { mutate } = useAPI_GetDashboardInfo();
@@ -25,7 +21,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router.query.params]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(Routes.SuggestRegionalForm);
+    router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
   }, [router]);
 
   const handleClickNext = useCallback(async () => {
@@ -37,19 +33,25 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     setIsCreating(false);
 
-    router.replace(Routes.SuggestRegionalSuccess, {
-      state: {
-        params: router.query.params as string,
+    router.replace(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalSuccess}`,
+        query: {
+          params: router.query.params,
+        },
       },
-    });
+      `/${Routes.EntryMobile}/${Routes.SuggestRegionalSuccess}`,
+    );
   }, [router, params, mutate]);
 
   useIsomorphicLayoutEffect(() => {
-    if (!params) router.pop();
+    if (!params) {
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    }
   }, [params, router]);
 
   return (
-    <Panel width={panelWidth}>
+    <MobileContainer>
       <SuggestRegionalSummary
         onClickBack={handleClickBack}
         onClickNext={handleClickNext}
@@ -68,6 +70,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         moveInDate={params?.move_in_date}
         moveInDateType={params?.move_in_date_type}
       />
-    </Panel>
+    </MobileContainer>
   );
 });

@@ -90,7 +90,8 @@ export default memo(() => {
   );
 
   const handleClickBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    // router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    router.back();
   }, [router]);
 
   if (isLoading) {

@@ -3,7 +3,7 @@ import { SuggestRegionalForm } from '@/components/templates';
 import { memo, useCallback } from 'react';
 import { OverlayPresenter } from '@/components/molecules';
 import { useRouter } from 'next/router';
-import Routes from '@/router/routes';
+// import Routes from '@/router/routes';
 import useSuggestRegionalForm from './useSuggestRegionalForm';
 import RegionForm from './RegionForm';
 
@@ -62,7 +62,7 @@ export default memo(() => {
   } = useSuggestRegionalForm();
 
   const handleClickBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    router.back();
   }, [router]);
 
   return (

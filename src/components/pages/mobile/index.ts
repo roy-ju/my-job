@@ -61,5 +61,10 @@ export { default as MyParticipatingListings } from './MyParticipatingListings';
 
 /** 지역 추천 */
 export { default as SuggestReceivedList } from './SuggestReceivedList';
-export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
+export { default as SuggestRegionalForm } from './SuggestRegionalForm';
+export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
+export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
+
+/** 매물 상세 */
+export { default as ListingDetail } from './ListingDetail';
