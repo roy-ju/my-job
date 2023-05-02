@@ -32,6 +32,8 @@ export interface MyRegisteredListingsProps {
   myCancelledListingCount: number;
   myCancelledListingData: IMyListingListItem[];
   myCancelledListingIncrementalPageNumber: () => void;
+
+  onClickBack?: () => void;
 }
 
 export default function MyRegisteredListings({
@@ -63,10 +65,13 @@ export default function MyRegisteredListings({
   myCancelledListingCount,
   myCancelledListingData,
   myCancelledListingIncrementalPageNumber,
+
+  onClickBack,
 }: MyRegisteredListingsProps) {
   return (
     <div tw="h-full flex flex-col">
       <HeaderRenderer
+        onClickBack={onClickBack}
         hasRegisteringListing={!!myRegisteringListingCount}
         tabStatus={tab}
         isDeleteActive={isDeleteActive}

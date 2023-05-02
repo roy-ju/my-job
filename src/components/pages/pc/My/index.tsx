@@ -70,6 +70,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     },
     [router],
   );
+
   const handleClickMyParticipatingListings = useCallback(
     (params: number) => {
       router.push(Routes.MyParticipatingListings, {

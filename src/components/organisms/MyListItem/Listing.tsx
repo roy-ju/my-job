@@ -36,6 +36,7 @@ export interface ListingProps extends IMyListingListItem {
   onClickListingItem?: (listingId: number) => () => void;
   onNavigateToListingDetailHistory?: (listingId: number, biddingId: number) => () => void;
   biddingId?: number;
+  showLikeButton?: boolean;
 }
 
 const informationStringWrapper = css`
@@ -68,6 +69,7 @@ export default function Listing({
   isFavorite,
   labelText,
   biddingId,
+  showLikeButton = true,
 }: ListingProps) {
   const renderPrice = () => {
     switch (buyOrRent) {
@@ -80,7 +82,6 @@ export default function Listing({
     }
   };
 
-  const isMyPage = window.location.pathname.includes('my/');
   const isOnClickToNavigate = biddingId;
 
   return (
@@ -106,7 +107,7 @@ export default function Listing({
             <Chip variant={RealestateTypeChipVariant[realestateType]}>{RealestateTypeString[realestateType]}</Chip>
             {eubmyundong && <Chip variant="gray">{eubmyundong}</Chip>}
           </div>
-          {!isMyPage && (
+          {showLikeButton && (
             <LikeButton onLike={(active) => onToggleListingLike?.(listingId, active)} isFavorite={isFavorite} />
           )}
         </div>
