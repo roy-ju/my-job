@@ -172,7 +172,7 @@ export default function ListingDetail({
   );
 
   useScroll(scrollContainer, ({ scrollY }) => {
-    setIsHeaderActive(scrollY > 0.1);
+    setIsHeaderActive(scrollY > 0);
   });
 
   useIsomorphicLayoutEffect(() => {
