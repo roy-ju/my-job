@@ -14,7 +14,6 @@ export default function RealPriceInfo({
   depth,
   danji,
   buyOrRent,
-  danjiRealPricesData,
   danjiTradeTurnRateData,
   danjiTradeTurnRateSigunguData,
   danjiJeonsaeRateRateData,
@@ -36,8 +35,6 @@ export default function RealPriceInfo({
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
 }) {
-  if (!danjiRealPricesData) return null;
-
   return (
     <div tw="px-5">
       <div tw="mb-4">

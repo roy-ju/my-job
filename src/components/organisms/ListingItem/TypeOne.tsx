@@ -19,7 +19,7 @@ export default function TypeOne({
   if (!item) return null;
 
   return (
-    <div>
+    <div tw="hover:bg-gray-200 px-5">
       <button
         type="button"
         tw="flex flex-col py-5"

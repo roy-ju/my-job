@@ -8,3 +8,4 @@ export { default as useSessionStorage } from './useSessionStorage';
 export { default as useWebSocket } from './useWebSocket';
 export { default as usePlatform } from './usePlatform';
 export { default as useScroll } from './useScroll';
+export { default as useNegocioMapEvent } from './useNegocioMapEvent';

@@ -2,9 +2,13 @@ import { NaverMap } from '@/lib/navermap';
 import { atom, useRecoilValue } from 'recoil';
 import { v1 } from 'uuid';
 
-export const mapState = atom<NaverMap | null>({
+interface IMapState {
+  naverMap?: NaverMap;
+}
+
+export const mapState = atom<IMapState>({
   key: `negocio_map/${v1()}`,
-  default: null,
+  default: {},
   dangerouslyAllowMutability: true,
 });
 

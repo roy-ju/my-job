@@ -3,12 +3,12 @@ import { Panel } from '@/components/atoms';
 import { Login as LoginTemplate } from '@/components/templates';
 import { SocialLoginType } from '@/constants/enums';
 import Keys from '@/constants/storage_keys';
+import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import { loginWithApple } from '@/lib/apple';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { mutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -16,6 +16,7 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
+  const { mutate: mutateUser } = useAuth();
   const router = useRouter(depth);
 
   const handleKakaoLogin = useCallback(() => {
@@ -51,7 +52,8 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     window.Negocio.callbacks.loginSuccess = () => {
-      mutate(() => true, undefined);
+      console.log('loginSUccess');
+      mutateUser(true);
       router.pop();
     };
     window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
@@ -61,7 +63,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       delete window.Negocio.callbacks.loginSuccess;
       delete window.Negocio.callbacks.newRegister;
     };
-  }, [router]);
+  }, [router, mutateUser]);
 
   return (
     <Panel width={panelWidth}>

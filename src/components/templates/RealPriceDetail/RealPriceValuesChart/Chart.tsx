@@ -335,7 +335,7 @@ export const Chart = React.memo(
                 return formatNumberInKorean(toNumber(price));
               }
 
-              if (price < 10000000) {
+              if (Number(price) < 10000000) {
                 return formatNumberInKorean(toNumber(price));
               }
 

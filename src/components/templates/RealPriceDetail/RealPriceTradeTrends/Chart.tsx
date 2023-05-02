@@ -160,7 +160,6 @@ export const Chart = React.memo(
             1;
           if (x < xScale(getDate(sidoChartData[firstIndex]))) {
             const tooltipTopValue = getSidoCount(sidoChartData[firstIndex]);
-
             showTooltip({
               tooltipData: Object?.assign(
                 cloneDanjiData[firstIndex],

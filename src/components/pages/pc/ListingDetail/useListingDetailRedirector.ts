@@ -22,11 +22,6 @@ export default function useListingDetailRedirector(listingID: number, depth: num
       return;
     }
 
-    if (visitUserType === VisitUserType.SellerContractComplete || visitUserType === VisitUserType.SellerCancelled) {
-      // 거래이력페이지로
-      return;
-    }
-
     setRedirectable(false);
   }, [statusData]);
   return {

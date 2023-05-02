@@ -5,6 +5,7 @@ import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent } from '@/constants/enums';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
+import { TimeTypeString } from '@/constants/strings';
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 
 export default function useBiddingForm(depth: number) {
@@ -165,11 +166,15 @@ export default function useBiddingForm(depth: number) {
 
   const handleSubmitPrice = useCallback(() => {
     if (type === 1) {
-      setNextForm(Forms.ContractAmount);
+      if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
+        setNextForm(Forms.MoveInDate);
+      } else {
+        setNextForm(Forms.ContractAmount);
+      }
     } else {
       handleSubmitFinal();
     }
-  }, [type, setNextForm, handleSubmitFinal]);
+  }, [type, data?.listing.buy_or_rent, setNextForm, handleSubmitFinal]);
 
   const handleSubmitContractAmount = useCallback(() => {
     setNextForm(Forms.InterimAmount);
@@ -373,11 +378,17 @@ export default function useBiddingForm(depth: number) {
     if (biddingParams.remaining_amount_payment_time) {
       setRemainingAmountDate(new Date(biddingParams.remaining_amount_payment_time));
     }
+    if (biddingParams.remaining_amount_payment_time_type) {
+      setRemainingAmountDateType(TimeTypeString[biddingParams.remaining_amount_payment_time_type]);
+    }
     if (biddingParams.can_have_earlier_move_in_date !== null) {
       setCanHaveEarlierMoveInDate(biddingParams.can_have_earlier_move_in_date);
     }
     if (biddingParams.move_in_date) {
       setRemainingAmountDate(new Date(biddingParams.move_in_date));
+    }
+    if (biddingParams.move_in_date_type) {
+      setMoveInDateType(TimeTypeString[biddingParams.move_in_date_type]);
     }
     if (biddingParams.etcs) {
       setEtcs(biddingParams.etcs.split(','));
