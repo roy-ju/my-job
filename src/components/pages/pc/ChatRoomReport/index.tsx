@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Panel } from '@/components/atoms';
 import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';

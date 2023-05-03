@@ -2,8 +2,8 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { NavigationHeader } from '@/components/molecules';
-import { DanjiDetailSection } from '@/components/organisms';
-import RealPriceInfoHeader from '@/components/organisms/DanjiDetail/RealPriceInfoHeader';
+import { MobDanjiDetailSection } from '@/components/organisms';
+import RealPriceInfoHeader from '@/components/organisms/MobDanjiDetail/RealPriceInfoHeader';
 import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
 import { BuyOrRent, Year } from '@/constants/enums';
 import { useSessionStorage } from '@/hooks/utils';
@@ -11,14 +11,12 @@ import { ParentSize } from '@visx/responsive';
 import { useCallback, useEffect, useState } from 'react';
 import { DanjiRealPriceChart } from '../DanjiDetail/DanjiRealPriceChart';
 
-export default function DanjiRealPriceListAll({
-  depth,
+export default function MobDanjiRealPriceListAll({
   danji,
-  onClickBackButton,
+  onClickBack,
 }: {
-  depth: number;
   danji?: GetDanjiDetailResponse;
-  onClickBackButton?: () => void;
+  onClickBack?: () => void;
 }) {
   const [checked, setChecked] = useSessionStorage('d-ch', sessionStorage.getItem('d-ch') || '1');
 
@@ -47,8 +45,6 @@ export default function DanjiRealPriceListAll({
     'd-sl-i',
     sessionStorage.getItem('d-sl-i') ? Number(sessionStorage.getItem('d-sl-i')) : 1,
   );
-
-  console.log(selectedIndex);
 
   const onChangeChecked = () => {
     setCheckedBoolean((prev) => !prev);
@@ -175,14 +171,13 @@ export default function DanjiRealPriceListAll({
   if (selectedIndex === null || !data?.buy_or_rent) return null;
 
   return (
-    <div tw="relative flex flex-col h-full">
+    <div tw="w-full max-w-mobile relative flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickBackButton} />
+        <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>평형별 실거래 내역</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="px-5">
         <RealPriceInfoHeader
-          depth={depth}
           buyOrRent={buyOrRent}
           selectedYear={selectedYear}
           onChangeBuyOrRent={onChangeBuyOrRent}
@@ -191,7 +186,7 @@ export default function DanjiRealPriceListAll({
         />
       </div>
       <div tw="overflow-auto">
-        <DanjiDetailSection.RealPricesPyoungList
+        <MobDanjiDetailSection.RealPricesPyoungList
           buyOrRent={buyOrRent}
           danjiRealPricesPyoungList={realPricesPyoungList}
           selectedArea={selectedArea}
@@ -219,8 +214,7 @@ export default function DanjiRealPriceListAll({
             )}
           </ParentSize>
         </div>
-        <DanjiDetailSection.RealPricesList
-          depth={depth}
+        <MobDanjiDetailSection.RealPricesList
           danji={danji}
           isMorePage
           buyOrRent={buyOrRent}

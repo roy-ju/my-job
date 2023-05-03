@@ -1,14 +1,12 @@
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
-import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useState } from 'react';
-import ReapPriceDetailHeader from './ReapPriceDetailHeader';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
+import RealPriceDetailContent from '../RealPriceDetail/RealPriceDetailContent';
+import ReapPriceDetailHeader from '../RealPriceDetail/ReapPriceDetailHeader';
 
-const RealPriceDetailContent = dynamic(() => import('./RealPriceDetailContent'), { ssr: false });
-
-export default function RealPriceDetail({ depth }: { depth: number }) {
-  const router = useRouter(depth);
+export default function MobRealPriceDetail() {
+  const router = useRouter();
   const [buyOrRent, setBuyOrRent] = useState<number>();
   const [selectedYear, setSelectedYear] = useState<number>();
 
@@ -26,10 +24,22 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
   }, []);
 
   const onClickSelectPage = () => {
-    router.replace(Routes.DanjiSelect, {
-      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
-      state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
-    });
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiSelect}`,
+        query: {
+          p: `${router.query.p}`,
+          rt: router.query.rt as string,
+          bor: buyOrRent?.toString() || '',
+          sl: selectedYear?.toString() || '',
+        },
+      },
+      `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiSelect}?p=${router.query.p}&rt=${router.query.rt}`,
+    );
+  };
+
+  const onClickBack = () => {
+    router.back();
   };
 
   useEffect(() => {
@@ -43,7 +53,7 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
   }, [router.query]);
 
   return (
-    <div tw="relative flex flex-col h-full">
+    <div tw="w-full max-w-mobile relative flex flex-col h-full">
       <ReapPriceDetailHeader
         danji={danji}
         buyOrRent={buyOrRent || 1}
@@ -51,6 +61,7 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}
         onClickSelectPage={onClickSelectPage}
+        onClickBack={onClickBack}
       />
       <div tw="overflow-y-auto">
         <RealPriceDetailContent danji={danji} buyOrRent={buyOrRent || 1} selectedYear={selectedYear || 3} />
