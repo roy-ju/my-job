@@ -40,7 +40,7 @@ export default function MyParticipatingListings({
         </Tabs.Tab>
         <Tabs.Tab value={3}>
           <span tw="text-b2">
-            거래성사 <span tw="text-gray-1000 font-bold">{biddingStatus.accepted.count}</span>
+            거래성사 <span tw="text-gray-1000 font-bold">{biddingStatus.preContractCompleted.count}</span>
           </span>
         </Tabs.Tab>
         <Tabs.Tab value={4}>
