@@ -38,11 +38,12 @@ export default memo(() => {
 
   const handleClickMoreItem = useCallback(
     (_: number, buttonTitle: string) => {
-      // if (buttonTitle === '매물관리') {
-      //   router.push(Routes.ListingManage, { persistParams: true });
-      // } else if (buttonTitle === '신고하기') {
-      //   router.push(Routes.ListingReport, { persistParams: true });
-      // }
+      if (buttonTitle === '매물관리') {
+        // router.push(Routes.ListingManage, { persistParams: true });
+        router.push(`/${Routes.EntryMobile}/${Routes.ListingManage}?listingID=${router.query.listingID}`);
+      } else if (buttonTitle === '신고하기') {
+        // router.push(Routes.ListingReport, { persistParams: true });
+      }
     },
     [router],
   );
@@ -77,24 +78,16 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
-    // router.push(Routes.BiddingForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //   },
-    // });
+    router.push(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToUpdateBidding = useCallback(() => {
     if (!data?.bidding_id) {
       toast.error('bidding_id not found');
     }
-
-    // router.push(Routes.UpdateBiddingForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //     biddingID: `${data?.bidding_id}`,
-    //   },
-    // });
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.UpdateBiddingForm}?listingID=${router.query.listingID}&biddingID=${data?.bidding_id}`,
+    );
   }, [router, data?.bidding_id]);
 
   const handleNavigateToChatRoom = useCallback(() => {
@@ -112,7 +105,7 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToSuggestRegional = useCallback(() => {
-    // router.replace(Routes.SuggestRegionalForm, { persistParams: true });
+    router.push(`/${Routes.EntryMobile}/$${Routes.SuggestRegionalForm}`);
   }, [router]);
 
   const openSuggestNotInterstedPopup = useCallback(() => {
