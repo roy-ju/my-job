@@ -83,7 +83,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       router.replace(Routes.MyAddressDetail, {
         state: {
           addressData: router.query.addressData as string,
-          errorCode: '1111',
+          errorCode: '10000',
         },
       });
     }

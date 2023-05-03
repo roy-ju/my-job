@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
@@ -38,11 +36,11 @@ export default memo(() => {
 
   const handleClickMoreItem = useCallback(
     (_: number, buttonTitle: string) => {
-      // if (buttonTitle === '매물관리') {
-      //   router.push(Routes.ListingManage, { persistParams: true });
-      // } else if (buttonTitle === '신고하기') {
-      //   router.push(Routes.ListingReport, { persistParams: true });
-      // }
+      if (buttonTitle === '매물관리') {
+        router.push(`/${Routes.EntryMobile}/${Routes.ListingManage}?listingID=${router.query.listingID}`);
+      } else if (buttonTitle === '신고하기') {
+        router.push(`/${Routes.EntryMobile}/${Routes.ListingReport}?listingID=${router.query.listingID}`);
+      }
     },
     [router],
   );
@@ -69,32 +67,20 @@ export default memo(() => {
   );
 
   const handleNavigateToCreateQna = useCallback(() => {
-    // router.push(Routes.ListingQnaCreateForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //   },
-    // });
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
-    // router.push(Routes.BiddingForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //   },
-    // });
+    router.push(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToUpdateBidding = useCallback(() => {
     if (!data?.bidding_id) {
       toast.error('bidding_id not found');
     }
-
-    // router.push(Routes.UpdateBiddingForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //     biddingID: `${data?.bidding_id}`,
-    //   },
-    // });
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.UpdateBiddingForm}?listingID=${router.query.listingID}&biddingID=${data?.bidding_id}`,
+    );
   }, [router, data?.bidding_id]);
 
   const handleNavigateToChatRoom = useCallback(() => {
@@ -105,14 +91,14 @@ export default memo(() => {
 
   const handleNavigateToPhotoGallery = useCallback(() => {
     // router.push(Routes.ListingPhotoGallery, { persistParams: true });
-  }, [router]);
+  }, []);
 
   const handleNavigateToUpdateTargetPrice = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingTargetPriceUpdate}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToSuggestRegional = useCallback(() => {
-    // router.replace(Routes.SuggestRegionalForm, { persistParams: true });
+    router.push(`/${Routes.EntryMobile}/$${Routes.SuggestRegionalForm}`);
   }, [router]);
 
   const openSuggestNotInterstedPopup = useCallback(() => {
@@ -173,12 +159,7 @@ export default memo(() => {
             <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton
-              // onClick={() => router.replace(`/${Routes.EntryMobile}`)}
-              onClick={() => router.back()}
-            >
-              확인
-            </Popup.ActionButton>
+            <Popup.ActionButton onClick={() => router.back()}>확인</Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>
