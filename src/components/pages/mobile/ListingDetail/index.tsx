@@ -77,11 +77,7 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
-    // router.push(Routes.BiddingForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //   },
-    // });
+    router.push(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToUpdateBidding = useCallback(() => {
@@ -112,7 +108,7 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToSuggestRegional = useCallback(() => {
-    // router.replace(Routes.SuggestRegionalForm, { persistParams: true });
+    router.push(`/${Routes.EntryMobile}/$${Routes.SuggestRegionalForm}`);
   }, [router]);
 
   const openSuggestNotInterstedPopup = useCallback(() => {

@@ -11,6 +11,7 @@ interface Props extends IFormContext {
   displayAddress?: string;
   nextButtonDisabled?: boolean;
   onClickNext?: () => void;
+  onClickBack?: () => void;
 }
 
 export default function BiddingForm({
@@ -60,6 +61,8 @@ export default function BiddingForm({
 
   description,
   onChangeDescription,
+
+  onClickBack,
 }: Props) {
   const context = useMemo(
     () => ({
@@ -156,6 +159,7 @@ export default function BiddingForm({
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
       </NavigationHeader>
       <FormContext.Provider value={context}>

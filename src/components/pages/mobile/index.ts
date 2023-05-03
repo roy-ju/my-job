@@ -72,5 +72,10 @@ export { default as ListingDetail } from './ListingDetail';
 export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
 export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPriceUpdateSummary';
 
+/** 가격제안 */
+export { default as BiddingForm } from './BiddingForm';
+export { default as BiddingSummary } from './BiddingSummary';
+export { default as BiddingSuccess } from './BiddingSuccess';
+
 /** 관심목록 */
 export { default as MyFavoriteList } from './MyFavoriteList';
