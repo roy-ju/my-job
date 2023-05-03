@@ -3,7 +3,7 @@ import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
 import { ChangeEventHandler } from 'react';
-import { nicknameRegex } from '@/constants/regex';
+import { NICKNAME_REGEX } from '@/constants/regex';
 
 interface UpdatetableTextFieldProps {
   label: string;
@@ -49,15 +49,15 @@ function UpdatableNicknameTextField({
   let isValidNickname = true;
 
   if (value?.length) {
-    if (!nicknameRegex.noSpecialStringRegex.test(value)) {
+    if (!NICKNAME_REGEX.noSpecialStringRegex.test(value)) {
       errorMessage = '공백, 특수문자, 이모티콘 등은 사용할 수 없습니다.';
       isValidNickname = false;
     }
-    if (!nicknameRegex.length.test(value)) {
+    if (!NICKNAME_REGEX.length.test(value)) {
       errorMessage = '닉네임은 3~20글자 이어야 합니다.';
       isValidNickname = false;
     }
-    if (nicknameRegex.general.test(value)) {
+    if (NICKNAME_REGEX.general.test(value)) {
       isValidNickname = true;
     }
   }
