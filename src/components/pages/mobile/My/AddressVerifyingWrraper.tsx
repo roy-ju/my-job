@@ -76,7 +76,7 @@ export default function AddressVerifyingWrraper() {
     } else {
       router.replace({
         pathname: `/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressDetailMobile}`,
-        query: { addressData: router.query.addressData as string, errorCode: '1111' },
+        query: { addressData: router.query.addressData as string, errorCode: '10000' },
       });
     }
   }, [router]);

@@ -78,6 +78,9 @@ const ErrorCodes = {
   // 5000~
   NEGOPOINT_UNABLE_TO_CONVERT: 5000, // 네고포인트를 네고머니로 전환할 수 없음
   NEGOPOINT_LACK_OF_BALANCE: 5001, // 현재 보유 네고포인트가 부족함
+
+  // 클라이언트 전용 에러코드
+  MULTIPLE_ADDRESSES_FOUND: 10000,
 };
 
 export default ErrorCodes;
