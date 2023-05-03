@@ -7,6 +7,7 @@ import { checkPlatform } from '@/utils/checkPlatform';
 
 interface CustomProperties {
   '--left'?: string;
+  '--width'?: string;
 }
 type TooltipData = {
   buy_price?: number;
@@ -17,6 +18,7 @@ type TooltipData = {
 };
 
 type Props = {
+  width: number;
   left?: number;
   top?: number;
   data?: TooltipData;
@@ -28,7 +30,7 @@ const StyledTooltipTypography = styled.span``;
 
 const ColoredTooltipTypography = styled.span``;
 
-const DanjiChartTooltip = React.memo(({ left = 0, top, data = {}, buy, jeonsae }: Props) => {
+const DanjiChartTooltip = React.memo(({ left = 0, top, data = {}, buy, jeonsae, width }: Props) => {
   if (buy && (!data.buy_price || data.buy_price === 0)) return null;
   if (jeonsae && (!data.jeonsae_price || data.jeonsae_price === 0)) return null;
 
@@ -48,16 +50,17 @@ const DanjiChartTooltip = React.memo(({ left = 0, top, data = {}, buy, jeonsae }
         }}
       >
         <div
-          style={{ '--left': `${left}px` } as CustomProperties & React.CSSProperties}
-          tw="flex flex-row items-center justify-center bg-white [width: 20.9375rem] [min-width: 20.9375rem] [border-radius: 4px] [text-align: center] [padding: 12px 12px 12px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
+          style={{ '--left': `${left}px`, '--width': `${width}px` } as CustomProperties & React.CSSProperties}
+          tw="flex flex-row items-center justify-center bg-white max-w-mobile [border-radius: 4px] [text-align: center] [padding: 12px 12px 12px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
           css={[
             checkPlatform() === 'pc'
-              ? tw`before:[left: calc(var(--left)-7.07px)]`
-              : tw`before:[left: calc(var(--left)-5.8px)]`,
+              ? tw`before:[left: calc(var(--left)-6px)]`
+              : tw`before:[left: calc(var(--left)-5.5px)]`,
             buy &&
               tw`[border-color: #7048E8] [border-width: 1px] border-solid before:[border-bottom-color: #7048E8] before:[border-bottom-width: 1px] before:[border-right-color: #7048E8]  before:[border-right-width: 1px] before:border-solid `,
             jeonsae &&
               tw`[border-color: #FF542D] [border-width: 1px] border-solid before:[border-bottom-color: #FF542D] before:[border-bottom-width: 1px] before:[border-right-color: #FF542D]  before:[border-right-width: 1px] before:border-solid`,
+            tw`[width: var(--width)]`,
           ]}
         >
           {data.date && (

@@ -135,6 +135,10 @@ export default function RealPricesPyoungList({
     }
   }, [selectedIndex]);
 
+  console.log(danjiRealPricesPyoungList);
+
+  console.log(selectedArea);
+
   if (!danjiRealPricesPyoungList) return null;
 
   return danjiRealPricesPyoungList?.length > 0 ? (
@@ -157,7 +161,7 @@ export default function RealPricesPyoungList({
         onTouchEnd={onTouchEnd}
       >
         {danjiRealPricesPyoungList.map((item, index) =>
-          item.gonggeup_pyoung.toString() === selectedArea ? (
+          item.gonggeup_pyoung.toString() === selectedArea?.toString() ? (
             <Button
               ref={(element) => {
                 refs.current[index] = element;
@@ -193,32 +197,37 @@ export default function RealPricesPyoungList({
       <div tw="flex justify-center items-center gap-2 bg-gray-100 mt-4 py-[9px] [border-radius: 0.5rem]">
         <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
           {`공급 ${
-            danjiRealPricesPyoungList.find((ele) => selectedArea === ele.gonggeup_pyoung.toString())?.gonggeup_pyoung ||
-            '-'
+            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+              ?.gonggeup_pyoung || '-'
           }평`}
         </span>
         <div tw="w-px h-2 bg-gray-300" />
         <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
           {cuttingDot(
-            danjiRealPricesPyoungList.find((ele) => selectedArea === ele.gonggeup_pyoung.toString())?.min_jeonyong,
+            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+              ?.min_jeonyong,
           ) ===
           cuttingDot(
-            danjiRealPricesPyoungList.find((ele) => selectedArea === ele.gonggeup_pyoung.toString())?.max_jeonyong,
+            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+              ?.max_jeonyong,
           )
             ? `전용 ${cuttingDot(
-                danjiRealPricesPyoungList.find((ele) => selectedArea === ele.gonggeup_pyoung.toString())?.min_jeonyong,
+                danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                  ?.min_jeonyong,
               )}㎡`
             : `전용 ${cuttingDot(
-                danjiRealPricesPyoungList.find((ele) => selectedArea === ele.gonggeup_pyoung.toString())?.min_jeonyong,
+                danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                  ?.min_jeonyong,
               )}㎡ ~ ${cuttingDot(
-                danjiRealPricesPyoungList.find((ele) => selectedArea === ele.gonggeup_pyoung.toString())?.max_jeonyong,
+                danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                  ?.max_jeonyong,
               )}㎡`}
         </span>
         <div tw="w-px h-2 bg-gray-300" />
         <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
           {`${
-            danjiRealPricesPyoungList.find((ele) => selectedArea === ele.gonggeup_pyoung.toString())?.saedae_count ||
-            '-'
+            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+              ?.saedae_count || '-'
           }세대
             `}
         </span>

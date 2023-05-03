@@ -392,6 +392,7 @@ export const DanjiRealPriceChart = React.memo(
           xAxis={xAxis}
         />
         <DanjiChartTooltip
+          width={width}
           left={tooltipLeft}
           data={tooltipData}
           buy={buyOrRent === BuyOrRent.Buy}

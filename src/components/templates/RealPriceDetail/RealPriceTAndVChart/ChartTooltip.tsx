@@ -9,6 +9,7 @@ import tw from 'twin.macro';
 
 interface CustomProperties {
   '--left'?: string;
+  '--width'?: string;
 }
 
 type TooltipData = {
@@ -23,17 +24,18 @@ type TooltipData = {
 };
 
 type Props = {
+  width: number;
   left?: number;
   top?: number;
   data?: TooltipData;
 };
 
-export const ChartTooltip = React.memo(({ left = 0, top, data = {} }: Props) => (
+export const ChartTooltip = React.memo(({ width, left = 0, top, data = {} }: Props) => (
   <div>
     <TooltipWithBounds
       top={top}
       left={left}
-      className="tooltip-container"
+      className="tooltip-container-2"
       style={{
         ...defaultStyles,
         margin: 0,
@@ -44,13 +46,14 @@ export const ChartTooltip = React.memo(({ left = 0, top, data = {} }: Props) => 
       }}
     >
       <div
-        style={{ '--left': `${left}px` } as CustomProperties & React.CSSProperties}
-        tw="flex flex-row items-center bg-white [width: 20.9375rem] [min-width: 20.9375rem] [border-radius: 4px] [text-align: left] [padding: 12px 12px 12px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
+        style={{ '--left': `${left}px`, '--width': `${width}px` } as CustomProperties & React.CSSProperties}
+        tw="flex flex-row items-center bg-white max-w-mobile [border-radius: 4px] [text-align: left] [padding: 12px 12px 12px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
         css={[
           checkPlatform() === 'pc'
-            ? tw`before:[left: calc(var(--left)-7.07px)]`
-            : tw`before:[left: calc(var(--left)-5.8px)]`,
+            ? tw`before:[left: calc(var(--left)-6px)]`
+            : tw`before:[left: calc(var(--left)-5.5px)]`,
           tw`[border-color: #FF542D] [border-width: 1px] border-solid before:[border-bottom-color: #FF542D] before:[border-bottom-width: 1px] before:[border-right-color: #FF542D]  before:[border-right-width: 1px] before:border-solid `,
+          tw`[width: var(--width)]`,
         ]}
       >
         <div>
