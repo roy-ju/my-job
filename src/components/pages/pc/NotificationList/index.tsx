@@ -10,11 +10,13 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const {
-    notifications,
+    filteredNotificationsByTabIndex,
     isLoading,
     isDeleting,
     checkedState,
     isDeleteLoading,
+    tabIndex,
+    handleChangeTabIndex,
     handleNextPage,
     handleHeaderItemClick,
     handleNotificationChecked,
@@ -25,16 +27,18 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <NotificationListTemplate
+        tabIndex={tabIndex}
         checkedState={checkedState}
         isLoading={isLoading}
         isDeleting={isDeleting}
         isDeleteLoading={isDeleteLoading}
-        notifications={notifications}
+        notifications={filteredNotificationsByTabIndex}
         onNext={handleNextPage}
         onClickHeaderItem={handleHeaderItemClick}
         onChangeNotificationChecked={handleNotificationChecked}
         onClickNotification={handleNotificationClick}
         onDeleteNotifications={handleDelete}
+        onChangeTabIndex={handleChangeTabIndex}
       />
     </Panel>
   );
