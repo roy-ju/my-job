@@ -10,6 +10,7 @@ import { useAPI_ThisDanjiRecentlyRealPricesListAll } from '@/apis/danji/danjiRec
 import { formatNumberInKorean } from '@/utils';
 import { Button, Checkbox } from '@/components/atoms';
 import { minDigits } from '@/utils/fotmat';
+import DanjiChartNodata from '@/components/organisms/DanjiDetail/DanjiChartNodata';
 
 const CharTableHeaderList = [
   { title: '계약일', width: '67px', textAlign: 'left' },
@@ -142,6 +143,12 @@ export default function RealPriceDanjiListAll({
             </div>
           ))}
         </>
+      )}
+
+      {list.length === 0 && (
+        <div tw="py-5">
+          <DanjiChartNodata />
+        </div>
       )}
       {isShowMoreButton && (
         <Button
