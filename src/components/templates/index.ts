@@ -115,3 +115,5 @@ export { default as MobListingCreateAddressDetail } from './MobListingCreateAddr
 export { default as MobListingCreateForm } from './MobListingCreateForm';
 export { default as MobListingCreateChooseAgent } from './MobListingCreateChooseAgent';
 export { default as MobListingCreateSummary } from './MobListingCreateSummary';
+
+export { default as MobDanjiDetail } from './MobDanjiDetail';

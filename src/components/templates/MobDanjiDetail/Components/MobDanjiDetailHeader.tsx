@@ -6,17 +6,19 @@ import tw from 'twin.macro';
 import ShareIcon from '@/assets/icons/share.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
+import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
 import { useAuth } from '@/hooks/services';
 import { toast } from 'react-toastify';
-import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
 
-export default function DanjiDetailHeader({
-  isHeaderActive,
+export default function MobDanjiDetailHeader({
   danji,
+  isHeaderActive,
+  onClickBack,
   handleMutateDanji,
 }: {
-  isHeaderActive: boolean;
   danji?: GetDanjiDetailResponse;
+  isHeaderActive: boolean;
+  onClickBack: () => void;
   handleMutateDanji?: () => void;
 }) {
   const [isFavorite, setIsFavorite] = useState(!!danji?.is_favorite);
@@ -67,6 +69,7 @@ export default function DanjiDetailHeader({
         isHeaderActive && tw`bg-white text-gray-1000`,
       ]}
     >
+      <NavigationHeader.BackButton onClick={onClickBack} />
       <NavigationHeader.Title tw="text-inherit">{danji.name}</NavigationHeader.Title>
       <div tw="flex gap-4">
         <NavigationHeader.Button>

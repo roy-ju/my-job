@@ -2,23 +2,26 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { Button } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { cuttingDot } from '@/utils/fotmat';
 import moment from 'moment';
+import { useRouter } from 'next/router';
 import React, { useState, useCallback, useEffect } from 'react';
 
-export default function BasicInfo({ depth, danji }: { depth: number; danji: GetDanjiDetailResponse }) {
-  const router = useRouter(depth);
-
+export default function BasicInfo({ danji }: { danji: GetDanjiDetailResponse }) {
+  const router = useRouter();
   const [isRecommendationService, setIsRecommendationService] = useState(false);
 
   const handleRecommendation = useCallback(() => {
     if (!danji?.pnu || !danji.type) return;
 
-    router.push(Routes.DanjiRecommendation, {
-      searchParams: { p: `${danji.pnu}`, rt: danji.type.toString() as string },
-    });
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?p=${danji.pnu}&rt=${danji.type}`,
+        query: { p: danji.pnu, rt: danji.type.toString() as string },
+      },
+      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?p=${danji.pnu}&rt=${danji.type}`,
+    );
   }, [danji?.pnu, danji?.type, router]);
 
   const [openPopup, setOpenPopup] = useState(false);

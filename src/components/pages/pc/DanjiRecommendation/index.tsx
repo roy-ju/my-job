@@ -1,7 +1,7 @@
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Panel } from '@/components/atoms';
 import { DanjiRecommendation as DanjiRecommendationTemplate } from '@/components/templates';
 import { BuyOrRent } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
@@ -381,7 +381,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   if (!danji) return null;
 
   return (
-    <>
+    <AuthRequired ciRequired depth={depth}>
       <Panel width={panelWidth}>
         <DanjiRecommendationTemplate
           danji={danji}
@@ -428,6 +428,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
           handleCTA={handleCTA}
         />
       </Panel>
-    </>
+    </AuthRequired>
   );
 }
