@@ -46,13 +46,13 @@ function UpdatableNicknameTextField({
 }: UpdatetableTextFieldProps) {
   const regex = /^[a-zA-Z0-9가-힣]{3,20}$/;
   const lengthRegex = /^.{3,20}$/;
-  const noSpecialStringRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s]*$/;
+  const noSpecialStringRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]*$/;
   let errorMessage = '';
   let isValidNickname = true;
 
   if (value?.length) {
     if (!noSpecialStringRegex.test(value)) {
-      errorMessage = '이모티콘과 특수문자는 사용할 수 없습니다.';
+      errorMessage = '공백, 특수문자, 이모티콘 등은 사용할 수 없습니다.';
       isValidNickname = false;
     }
     if (!lengthRegex.test(value)) {
