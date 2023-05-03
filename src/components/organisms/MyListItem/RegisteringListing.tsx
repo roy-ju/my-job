@@ -49,7 +49,9 @@ export default function RegisteringListing({
       css={[!isDeleteActive && tw`hover:bg-gray-100`]}
     >
       {isDeleteActive && (
-        <Checkbox checked={checkedListingIdList?.includes(listingId)} onChange={onChangeCheckbox?.(listingId)} />
+        <div tw="mt-[6px]">
+          <Checkbox checked={checkedListingIdList?.includes(listingId)} onChange={onChangeCheckbox?.(listingId)} />
+        </div>
       )}
       <div tw="flex gap-3 items-center w-full">
         <Image
