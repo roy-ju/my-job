@@ -96,7 +96,7 @@ const Routes = {
 
   // 매물상세
   ListingDetail: 'listingDetail',
-  ListingQnaCreateForm: 'listngQnaCreate',
+  ListingQnaCreateForm: 'listingQnaCreate',
   ListingManage: 'listingManage',
   ListingReport: 'listingReport',
   ListingPhotoGallery: 'listingPhotoGallery',

@@ -5,9 +5,10 @@ import { ChangeEventHandler, useCallback, useState } from 'react';
 interface Props {
   isCreating?: boolean;
   onClickCreateQna?: (value: string) => void;
+  onClickBack?: () => void;
 }
 
-export default function ListingReport({ isCreating, onClickCreateQna }: Props) {
+export default function ListingReport({ isCreating, onClickCreateQna, onClickBack }: Props) {
   const [value, setValue] = useState('');
 
   const handleChangeValue = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
@@ -18,6 +19,7 @@ export default function ListingReport({ isCreating, onClickCreateQna }: Props) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>매물문의하기</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="py-7 flex-1 px-5">

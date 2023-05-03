@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
@@ -69,11 +67,7 @@ export default memo(() => {
   );
 
   const handleNavigateToCreateQna = useCallback(() => {
-    // router.push(Routes.ListingQnaCreateForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //   },
-    // });
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
@@ -97,7 +91,7 @@ export default memo(() => {
 
   const handleNavigateToPhotoGallery = useCallback(() => {
     // router.push(Routes.ListingPhotoGallery, { persistParams: true });
-  }, [router]);
+  }, []);
 
   const handleNavigateToUpdateTargetPrice = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingTargetPriceUpdate}?listingID=${router.query.listingID}`);
@@ -165,12 +159,7 @@ export default memo(() => {
             <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton
-              // onClick={() => router.replace(`/${Routes.EntryMobile}`)}
-              onClick={() => router.back()}
-            >
-              확인
-            </Popup.ActionButton>
+            <Popup.ActionButton onClick={() => router.back()}>확인</Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>
