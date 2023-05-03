@@ -74,3 +74,8 @@ export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPrice
 
 /** 관심목록 */
 export { default as MyFavoriteList } from './MyFavoriteList';
+
+
+/** 단지상세 */
+export { default as DanjiDetail } from './DanjiDetail';
+
