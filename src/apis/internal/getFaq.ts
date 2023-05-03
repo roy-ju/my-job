@@ -9,12 +9,14 @@ function fetcher(arg: string | [string, any]) {
 }
 
 export type GetFaqListResponse = {
-  a: string;
-  q: string;
-}[];
+  [category: string]: {
+    q: string;
+    a: string;
+  }[];
+};
 
-export default function useAPI_Internal_GetFaqList(category: string) {
-  const { data, isLoading, mutate } = useSWR<GetFaqListResponse>(`/api/faq?category=${category}`, fetcher);
+export default function useAPI_Internal_GetFaqList() {
+  const { data, isLoading, mutate } = useSWR<GetFaqListResponse>(`/api/faq`, fetcher);
   return {
     data,
     isLoading,
