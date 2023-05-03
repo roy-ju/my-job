@@ -1,9 +1,11 @@
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
-import RealPriceDetailContent from './RealPriceDetailContent';
 import ReapPriceDetailHeader from './ReapPriceDetailHeader';
+
+const RealPriceDetailContent = dynamic(() => import('./RealPriceDetailContent'), { ssr: false });
 
 export default function RealPriceDetail({ depth }: { depth: number }) {
   const router = useRouter(depth);

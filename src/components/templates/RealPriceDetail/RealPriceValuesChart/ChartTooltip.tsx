@@ -9,6 +9,7 @@ import tw from 'twin.macro';
 
 interface CustomProperties {
   '--left'?: string;
+  '--width'?: string;
 }
 
 type TooltipData = {
@@ -23,6 +24,7 @@ type TooltipData = {
 };
 
 type Props = {
+  width: number;
   danjiName?: string;
   sidoName?: string;
   sigunguName?: string;
@@ -33,7 +35,7 @@ type Props = {
 };
 
 export const ChartTooltip = React.memo(
-  ({ left = 0, top, data = {}, danjiName, sidoName, sigunguName, setIsLineBreak }: Props) => {
+  ({ width, left = 0, top, data = {}, danjiName, sidoName, sigunguName, setIsLineBreak }: Props) => {
     const isLineBreak = useCallback(() => {
       const danjiN = danjiName || '';
       const danjiP = data.danji_price ? formatNumberInKorean(Math.floor(data.danji_price / 10000) * 10000) : '';
@@ -73,13 +75,14 @@ export const ChartTooltip = React.memo(
           }}
         >
           <div
-            style={{ '--left': `${left}px` } as CustomProperties & React.CSSProperties}
-            tw="flex flex-row items-center bg-white [width: 20.9375rem] [min-width: 20.9375rem] [border-radius: 4px] [text-align: left] [padding: 12px 12px 12px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
+            style={{ '--left': `${left}px`, '--width': `${width}px` } as CustomProperties & React.CSSProperties}
+            tw="flex flex-row items-center bg-white max-w-mobile [border-radius: 4px] [text-align: left] [padding: 12px 12px 12px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
             css={[
               checkPlatform() === 'pc'
-                ? tw`before:[left: calc(var(--left)-7.07px)]`
-                : tw`before:[left: calc(var(--left)-5.8px)]`,
+                ? tw`before:[left: calc(var(--left)-6px)]`
+                : tw`before:[left: calc(var(--left)-5.5px)]`,
               tw`[border-color: #4C6EF5] [border-width: 1px] border-solid before:[border-bottom-color: #4C6EF5] before:[border-bottom-width: 1px] before:[border-right-color: #4C6EF5]  before:[border-right-width: 1px] before:border-solid `,
+              tw`[width: var(--width)]`,
             ]}
           >
             <div>

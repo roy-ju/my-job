@@ -1,16 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  DanjiRealPricesListItem,
-  DanjiRealPricesListResponse,
-  useAPI_DanjiRealPricesList,
-} from '@/apis/danji/danjiRealPricesList';
+import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
 import { customAlphabet } from 'nanoid';
 import TradeIcon from '@/assets/icons/trade.svg';
 import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
 import { useCallback, useRef } from 'react';
 import { formatNumberInKorean } from '@/utils';
 import { minDigits } from '@/utils/fotmat';
-
 import { Button } from '@/components/atoms';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
@@ -129,12 +123,7 @@ export default function RealPricesList({
     return '-';
   }, []);
 
-  const {
-    data,
-    list: realPricesList,
-    setSize,
-    isLoading: realPricesListLoading,
-  } = useAPI_DanjiRealPricesList({
+  const { list: realPricesList, setSize } = useAPI_DanjiRealPricesList({
     pnu: danji?.pnu,
     realestateType: danji?.type ? Number(danji.type) : null,
     buyOrRent,

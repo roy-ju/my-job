@@ -48,6 +48,8 @@ export default function DanjiRealPriceListAll({
     sessionStorage.getItem('d-sl-i') ? Number(sessionStorage.getItem('d-sl-i')) : 1,
   );
 
+  console.log(selectedIndex);
+
   const onChangeChecked = () => {
     setCheckedBoolean((prev) => !prev);
   };

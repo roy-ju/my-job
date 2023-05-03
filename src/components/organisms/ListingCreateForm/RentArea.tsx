@@ -3,6 +3,7 @@ import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback, useEffect } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import { Button, Label, Radio } from '@/components/atoms';
+import useTooltip from '@/states/tooltip';
 
 interface RentAreaProps {
   value?: string;
@@ -17,8 +18,9 @@ export default function RentArea({
   hasRentArea: hasRentAreaProp,
   onChangeValue,
   onChangeHasRentArea,
-  onClickQuestion,
 }: RentAreaProps) {
+  const { openTooltip } = useTooltip();
+
   const [hasRentArea, setHasRentArea] = useControlled({
     controlled: hasRentAreaProp,
     default: '0',
@@ -57,7 +59,7 @@ export default function RentArea({
     <div>
       <div tw="mb-3 flex items-center gap-1">
         <div tw="text-b1 leading-none font-bold">임대할 부분</div>
-        <Button variant="ghost" size="none" tw="pb-px" onClick={onClickQuestion}>
+        <Button variant="ghost" size="none" tw="pb-px" onClick={() => openTooltip('rentArea')}>
           <QuestionIcon />
         </Button>
       </div>
