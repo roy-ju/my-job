@@ -27,14 +27,8 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   };
 
-  const handleNavigateToListingDetailHistory = () => () => {
-    // router.replace(Routes.ListingDetailHistory, {
-    //   persistParams: true,
-    //   searchParams: {
-    //     listingID: `${listingId}`,
-    //     biddingID: `${biddingId}`,
-    //   },
-    // });
+  const handleNavigateToListingDetailHistory = (listingID: number, biddingID: number) => () => {
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingDetailHistory}?listingID=${listingID}&biddingID=${biddingID}`);
   };
 
   const handleClickBack = useCallback(() => {

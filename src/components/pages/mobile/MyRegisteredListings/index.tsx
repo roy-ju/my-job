@@ -71,13 +71,8 @@ export default memo(() => {
     router.replace(Routes.ListingCreateAddress);
   };
 
-  const handleNavigateToListingDetailPassed = () => () => {
-    // router.replace(Routes.ListingDetailPassed, {
-    //   persistParams: true,
-    //   searchParams: {
-    //     listingID: `${listingId}`,
-    //   },
-    // });
+  const handleNavigateToListingDetailPassed = (listingID: number) => () => {
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingDetailPassed}?listingID=${listingID}`);
   };
 
   const handleChangeListingTab = useCallback(

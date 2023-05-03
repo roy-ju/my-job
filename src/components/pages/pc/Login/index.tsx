@@ -40,11 +40,19 @@ export default memo(({ depth, panelWidth }: Props) => {
         localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
         localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
         window.Negocio.callbacks.loginSuccess?.();
+      } else if (loginResponse?.new_registration) {
+        router.replace(Routes.Register, {
+          state: {
+            email: loginResponse?.email,
+            token: idToken,
+            socialLoginType: `${SocialLoginType.Apple}`,
+          },
+        });
       } else {
         toast.error('로그인에 실패하였습니다.');
       }
     }
-  }, []);
+  }, [router]);
 
   const handleForgotMyAccount = useCallback(() => {
     router.replace(Routes.FindAccount);
