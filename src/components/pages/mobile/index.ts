@@ -71,6 +71,7 @@ export { default as SuggestDetail } from './SuggestDetail';
 export { default as ListingDetail } from './ListingDetail';
 export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
 export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPriceUpdateSummary';
+export { default as ListingManage } from './ListingManage';
 
 /** 가격제안 */
 export { default as BiddingForm } from './BiddingForm';
