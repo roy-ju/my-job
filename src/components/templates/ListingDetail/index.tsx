@@ -165,7 +165,7 @@ export default function ListingDetail({
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <PhotoHero
           onClickViewPhotos={onNavigateToPhotoGallery}
-          itemSize={listingDetail?.photos?.length ?? 0}
+          itemSize={(listingDetail?.photos?.length ?? 0) + (listingDetail?.danji_photos?.length ?? 0)}
           photoPath={
             listingDetail?.photos?.[0]?.full_file_path ??
             DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]
