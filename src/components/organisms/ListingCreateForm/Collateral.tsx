@@ -18,7 +18,7 @@ function Container({ onClickAdd }: ContainerProps) {
         <div>
           <div tw="mb-3 flex items-center gap-1">
             <div tw="text-b1 leading-none font-bold">선순위 담보권</div>
-            <Button variant="ghost" size="none" tw="pb-px" onClick={() => openTooltip('collaterals')}>
+            <Button variant="ghost" size="none" tw="pb-px" onClick={() => openTooltip('')}>
               <QuestionIcon />
             </Button>
           </div>

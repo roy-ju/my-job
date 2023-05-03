@@ -1,9 +1,10 @@
+import { TooltipType } from '@/constants/tooltips';
 import { useCallback } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { v1 } from 'uuid';
 
 interface ITooltipState {
-  activeTooltip: string;
+  activeTooltip: TooltipType | '';
 }
 
 export const tooltipState = atom<ITooltipState>({
@@ -17,7 +18,7 @@ export default function useTooltip() {
   const [state, setState] = useRecoilState(tooltipState);
 
   const openTooltip = useCallback(
-    (tooltip: string) => {
+    (tooltip: TooltipType | '') => {
       setState({
         activeTooltip: tooltip,
       });
