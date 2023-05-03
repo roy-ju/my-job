@@ -1,13 +1,18 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import HTML_20230322 from '@/assets/terms/service_agreement/20230322';
+import { Panel } from '@/components/atoms';
 import ServiceTerms from '.';
 
 export default {
-  title: 'ServiceTerms',
+  title: 'templates/ServiceTerms',
   component: ServiceTerms,
 } as ComponentMeta<typeof ServiceTerms>;
 
-export const Default: ComponentStory<typeof ServiceTerms> = (args) => <ServiceTerms {...args} />;
+export const Default: ComponentStory<typeof ServiceTerms> = (args) => (
+  <Panel>
+    <ServiceTerms {...args} />
+  </Panel>
+);
 
 Default.args = {
   html: HTML_20230322,
