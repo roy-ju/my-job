@@ -12,16 +12,17 @@ import { useRef, useState, MouseEvent, useEffect, useCallback } from 'react';
 import { useScroll } from '@/hooks/utils';
 
 import DanjiDetailHeader from './Components/DanjiDetailHeader';
-import { DanjiPhotoHero } from './Components/DanjiPhotoHero';
+import DanjiPhotoHero from './Components/DanjiPhotoHero';
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
 
 interface Props {
   depth: number;
   danji?: GetDanjiDetailResponse;
   isShowTab?: boolean;
+  handleMutateDanji?: () => void;
 }
 
-export default function DanjiDetail({ depth, danji, isShowTab = true }: Props) {
+export default function DanjiDetail({ depth, danji, isShowTab = true, handleMutateDanji }: Props) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
@@ -228,7 +229,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true }: Props) {
 
   return (
     <div tw="relative flex flex-col h-full">
-      <DanjiDetailHeader danji={danji} isHeaderActive={isHeaderActive} />
+      <DanjiDetailHeader danji={danji} isHeaderActive={isHeaderActive} handleMutateDanji={handleMutateDanji} />
       <div tw="overflow-y-auto" ref={scrollContainer}>
         <DanjiPhotoHero danji={danji} depth={depth} />
         {isShowTab && (

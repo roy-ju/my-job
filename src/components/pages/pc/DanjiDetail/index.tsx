@@ -9,11 +9,15 @@ interface Props {
 }
 
 export default memo(({ panelWidth, depth }: Props) => {
-  const { danji } = useDanjiDetail(depth);
+  const { danji, mutate } = useDanjiDetail(depth);
+
+  const handleMutateDanji = () => {
+    mutate();
+  };
 
   return (
     <Panel width={panelWidth}>
-      <DanjiDetail depth={depth} danji={danji} isShowTab />
+      <DanjiDetail depth={depth} danji={danji} isShowTab handleMutateDanji={handleMutateDanji} />
     </Panel>
   );
 });

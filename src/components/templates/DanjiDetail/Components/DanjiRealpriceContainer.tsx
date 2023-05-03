@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { Separator } from '@/components/atoms';
@@ -33,7 +32,6 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
   const [selectedJeonyongArea, setSelectedJeonyongArea] = useState<string>();
   const [selectedJeonyongAreaMax, setSelectedJeonyongAreaMax] = useState<string>();
   const [selectedIndex, setSelectedIndex] = useState<number>();
-  const [isRealPricesAvailable, setIsRealPricesAvailable] = useState(false);
   const [checked, setChecked] = useState<boolean>(false);
 
   const {
