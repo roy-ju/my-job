@@ -63,7 +63,7 @@ export default function ActiveListingInfo({
           ))}
         </ListingItem>
 
-        {danjiListings.length < 3 && (
+        {danjiListings.length > 3 && (
           <div tw="flex flex-col gap-3 pt-3 px-5">
             <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
               매물 전체보기
