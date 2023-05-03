@@ -15,6 +15,7 @@ export default function useNotificationList(depth: number) {
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const { mutate: mutateUnreadNotificationCount } = useAPI_GetUnreadNotificationCount();
   const { data, isLoading, increamentPageNumber, mutate } = useAPI_GetNotificationList();
@@ -28,6 +29,8 @@ export default function useNotificationList(depth: number) {
         id: item.id,
         title: item.title,
         message: item.message,
+        type: item.type,
+        category: item.category,
         listingTitle: item.listing_title,
         createdTime: item.created_time,
         unread: item.read_time === null,
@@ -48,6 +51,13 @@ export default function useNotificationList(depth: number) {
       }
     },
     [router],
+  );
+
+  const handleChangeTabIndex = useCallback(
+    (index: number) => {
+      setTabIndex(index);
+    },
+    [setTabIndex],
   );
 
   const handleNotificationClick = useCallback(
@@ -82,6 +92,11 @@ export default function useNotificationList(depth: number) {
     mutate();
   }, [checkedState, mutate]);
 
+  const filteredNotificationsByTabIndex = useMemo(() => {
+    if (tabIndex === 0) return notifications;
+    return notifications.filter((item) => item.type === tabIndex);
+  }, [tabIndex, notifications]);
+
   useEffect(() => {
     setCheckedState({});
   }, [isDeleting]);
@@ -94,9 +109,11 @@ export default function useNotificationList(depth: number) {
   return {
     isLoading,
     isDeleteLoading,
-    notifications,
+    filteredNotificationsByTabIndex,
     checkedState,
     isDeleting,
+    tabIndex,
+    handleChangeTabIndex,
     handleHeaderItemClick,
     handleNextPage,
     handleNotificationClick,
