@@ -37,8 +37,18 @@ export default memo(({ depth, panelWidth }: Props) => {
     [setSelectedTerms],
   );
 
+  console.log(router);
+
   const handleGoBack = useCallback(() => {
-    router.replace(Routes.TermsAndPolicy);
+    if (router.query.register)
+      router.replace(Routes.Register, {
+        state: {
+          email: router.query.email as string,
+          token: router.query.token as string,
+          socialLoginType: router.query.socialLoginType as string,
+        },
+      });
+    else router.replace(Routes.TermsAndPolicy);
   }, [router]);
 
   return (
