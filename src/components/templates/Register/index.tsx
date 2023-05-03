@@ -47,7 +47,13 @@ export default function Register({
         <RegisterForm.Terms state={terms} onChangeState={onChangeTerms} />
       </div>
       <div tw="mb-8 px-5">
-        <Button isLoading={isLoading} disabled={!formValid} tw="w-full" size="bigger" onClick={onClickNext}>
+        <Button
+          isLoading={isLoading}
+          disabled={!formValid || Boolean(nicknameErrorMessage)}
+          tw="w-full"
+          size="bigger"
+          onClick={onClickNext}
+        >
           다음
         </Button>
       </div>
