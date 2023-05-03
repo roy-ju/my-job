@@ -15,6 +15,10 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     const firstSegment = segments[1];
 
     if (!exemptions.includes(firstSegment)) {
+      const lastSegment = segments[segments.length - 1];
+      if (lastSegment && firstSegment !== 'my') {
+        return NextResponse.redirect(`${request.nextUrl.origin}/m/${lastSegment}${request.nextUrl.search}`);
+      }
       return NextResponse.redirect(`${request.nextUrl.origin}/m`);
     }
   }
