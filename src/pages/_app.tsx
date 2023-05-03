@@ -15,7 +15,8 @@ import ToastContainer from '@/lib/react-toastify';
 import { usePlatform } from '@/hooks/utils';
 import Head from 'next/head';
 import AppConfig from '@/config';
-import { isClient } from '@/utils/is';
+import NegocioProvider from '@/providers/NegocioProvider';
+import TooltipProvider from '@/providers/TooltipProvider';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -25,21 +26,6 @@ export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
-
-function NegocioProvider({ children }: { children?: ReactNode }) {
-  if (isClient && typeof window.Negocio === 'undefined') {
-    window.Negocio = {
-      callbacks: {},
-      mapEventListeners: {
-        filter: {},
-        bounds: {},
-        toggle: {},
-      },
-    };
-  }
-
-  return children as JSX.Element;
-}
 
 updateVH();
 
@@ -75,6 +61,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             <div id="rootOverlay" tw="pointer-events-none [z-index: 1500]" />
             <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
             <ToastContainer platform={platform} />
+            <TooltipProvider />
           </SWRConfig>
         </RecoilRoot>
       </CacheProvider>

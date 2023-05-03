@@ -3,19 +3,22 @@ import { ChangeEvent } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import RemoveIcon from '@/assets/icons/remove.svg';
 import { TextField } from '@/components/molecules';
+import useTooltip from '@/states/tooltip';
 
 interface ContainerProps {
   onClickAdd?: () => void;
 }
 
 function Container({ onClickAdd }: ContainerProps) {
+  const { openTooltip } = useTooltip();
+
   return (
     <div>
       <div tw="flex items-start justify-between">
         <div>
           <div tw="mb-3 flex items-center gap-1">
             <div tw="text-b1 leading-none font-bold">선순위 담보권</div>
-            <Button variant="ghost" size="none" tw="pb-px">
+            <Button variant="ghost" size="none" tw="pb-px" onClick={() => openTooltip('collaterals')}>
               <QuestionIcon />
             </Button>
           </div>
