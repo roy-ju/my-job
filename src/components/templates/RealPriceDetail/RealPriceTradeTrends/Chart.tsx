@@ -40,15 +40,15 @@ function getDate(d: ChartData[0]) {
 }
 
 function getDanjiCount(d: ChartData[0]) {
-  return d?.danji_count;
+  return d?.danji_count || 0;
 }
 
 function getSigunguCount(d: ChartData[0]) {
-  return d?.sigungu_count;
+  return d?.sigungu_count || 0;
 }
 
 function getSidoCount(d: ChartData[0]) {
-  return d?.sido_count;
+  return d?.sido_count || 0;
 }
 
 function isTouchDevice() {
@@ -152,12 +152,17 @@ export const Chart = React.memo(
             });
           }
 
-          const firstIndex = sidoChartData.findIndex((item) => item.sido_count && item.sido_count > 0);
+          const firstIndex = sidoChartData.findIndex(
+            (item) => typeof item.sido_count === 'number' && item.sido_count >= 0,
+          );
 
           const lastIndex =
             sidoChartData.length -
-            [...sidoChartData].reverse().findIndex((item) => item.sido_count && item.sido_count > 0) -
+            [...sidoChartData]
+              .reverse()
+              .findIndex((item) => typeof item.sido_count === 'number' && item.sido_count >= 0) -
             1;
+
           if (x < xScale(getDate(sidoChartData[firstIndex]))) {
             const tooltipTopValue = getSidoCount(sidoChartData[firstIndex]);
             showTooltip({
@@ -171,7 +176,9 @@ export const Chart = React.memo(
             });
             return;
           }
+
           if (x > xScale(getDate(sidoChartData[lastIndex]))) {
+            console.log(lastIndex);
             const tooltipTopValue = getSidoCount(sidoChartData[lastIndex]);
 
             showTooltip({
@@ -344,6 +351,7 @@ export const Chart = React.memo(
         </div>
         {tooltipData && (
           <ChartTooltip
+            width={width}
             left={tooltipLeft ? tooltipLeft - 2 : tooltipLeft}
             data={tooltipData}
             danjiName={danjiName}

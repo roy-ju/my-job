@@ -4,14 +4,12 @@ import RealPriceInfoCurrent from './RealPriceInfoCurrent';
 import RealPriceInfoHeader from './RealPriceInfoHeader';
 
 export default function RealPriceInfo({
-  depth,
   danji,
   buyOrRent,
   selectedYear,
   onChangeBuyOrRent,
   onChangeSelectedYear,
 }: {
-  depth: number;
   danji?: GetDanjiDetailResponse;
   buyOrRent?: number;
   selectedYear?: number;
@@ -26,7 +24,6 @@ export default function RealPriceInfo({
         <span tw="text-b1 [line-height: 1] [letter-spacing: -0.4px] font-bold">단지 실거래 분석</span>
       </div>
       <RealPriceInfoHeader
-        depth={depth}
         buyOrRent={buyOrRent}
         selectedYear={selectedYear}
         onChangeBuyOrRent={onChangeBuyOrRent}

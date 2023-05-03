@@ -8,9 +8,10 @@ import { useScroll } from '@/hooks/utils';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import tw, { styled } from 'twin.macro';
-import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
+
 import MobDanjiDetailHeader from './Components/MobDanjiDetailHeader';
 import MobDanjiPhotoHero from './Components/MobDanjiPhotoHero';
+import MobDanjiRealpriceContainer from './Components/MobDanjiRealpriceContainer';
 
 interface Props {
   danji?: GetDanjiDetailResponse;
@@ -28,6 +29,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
   const refs = useRef<any>([]);
 
   const basicContainerRef = useRef<HTMLDivElement | null>(null);
+  const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
   const basicDetailContainerRef = useRef<HTMLDivElement | null>(null);
   const danjiSchoolContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -126,14 +128,13 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
             <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={setLoadingListing} />
           </div>
 
-          {/* <DanjiRealpriceContainer
+          <MobDanjiRealpriceContainer
             ref={realPriceContainerRef}
             danji={danji}
-            depth={depth}
             isShowRpTab={isShowRpTab}
             setLoadingRp={setLoadingRp}
             setIsShowRpTab={setIsShowRpTab}
-          /> */}
+          />
 
           <div id="mob-negocio-danjidetail-bid" ref={basicDetailContainerRef}>
             <Separator tw="w-full [min-height: 8px]" />

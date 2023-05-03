@@ -394,6 +394,7 @@ export const Chart = React.memo(
         </div>
         {tooltipData && (
           <ChartTooltip
+            width={width}
             left={tooltipLeft ? tooltipLeft - 2 : tooltipLeft}
             data={tooltipData}
             danjiName={danjiName}
