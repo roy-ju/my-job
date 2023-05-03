@@ -117,3 +117,5 @@ export { default as MobListingCreateChooseAgent } from './MobListingCreateChoose
 export { default as MobListingCreateSummary } from './MobListingCreateSummary';
 
 export { default as MobDanjiDetail } from './MobDanjiDetail';
+export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';
+export { default as MobRealPriceDetail } from './MobRealPriceDetail';

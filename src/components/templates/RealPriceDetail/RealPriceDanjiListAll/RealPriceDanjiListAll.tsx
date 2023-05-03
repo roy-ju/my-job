@@ -23,7 +23,7 @@ const CharTableHeaderList = [
 const StyledTableTypography = tw.span`text-b2 [letter-spacing: -0.4px] text-gray-1000`;
 
 const ChartTableHeader = ({ title, width, textAlign = 'left' }: { title: string; width: string; textAlign?: any }) => (
-  <div style={{ width, textAlign }}>
+  <div style={{ minWidth: width, width: '100%', textAlign }}>
     <StyledTableTypography>{title}</StyledTableTypography>
   </div>
 );
@@ -94,7 +94,7 @@ export default function RealPriceDanjiListAll({
         <>
           {list.map((item) => (
             <div key={nanoid()} tw="flex [border-bottom: 1px solid #F8F9FA] py-2">
-              <div tw="w-[67px] [text-align: left]">
+              <div tw="min-w-[67px] w-full [text-align: left]">
                 <span tw="text-b2">
                   {`${(item.year && item.year.slice(2, 4)) || ''}.${minDigits(+item.month, 2)}.${minDigits(
                     +item.day,
@@ -102,7 +102,7 @@ export default function RealPriceDanjiListAll({
                   )}`}
                 </span>
               </div>
-              <div tw="w-[48px] [text-align: right]">
+              <div tw="min-w-[48px] w-full [text-align: right]">
                 {item.buy_or_rent === BuyOrRent.Buy && (
                   <span tw="text-b2 text-nego-1000">{describeBuyOrRent(item.buy_or_rent)}</span>
                 )}
@@ -113,13 +113,13 @@ export default function RealPriceDanjiListAll({
                   <span tw="text-b2 text-green-1000">{describeBuyOrRent(item.buy_or_rent)}</span>
                 )}
               </div>
-              <div tw="w-[56px] [text-align: right]">
+              <div tw="min-w-[56px] w-full [text-align: right]">
                 <span tw="text-b2">{`${item.floor}층` || '-'}</span>
               </div>
-              <div tw="w-[56px] [text-align: right]">
+              <div tw="min-w-[56px] w-full [text-align: right]">
                 <span tw="text-b2">{`${item.pyoung}평` || '-'}</span>
               </div>
-              <div tw="flex items-center w-[103px] [text-align: right]">
+              <div tw="flex items-center min-w-[103px] w-full [text-align: right]">
                 {item.buy_or_rent === BuyOrRent.Buy && item.trade_type === '직거래' && (
                   <TradeIcon
                     style={{

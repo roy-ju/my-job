@@ -1,22 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  DanjiRealPricesListItem,
-  DanjiRealPricesListResponse,
-  useAPI_DanjiRealPricesList,
-} from '@/apis/danji/danjiRealPricesList';
+import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
 import { customAlphabet } from 'nanoid';
 import TradeIcon from '@/assets/icons/trade.svg';
 import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
 import { useCallback, useRef } from 'react';
 import { formatNumberInKorean } from '@/utils';
 import { minDigits } from '@/utils/fotmat';
-
 import { Button } from '@/components/atoms';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
-import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { useRouter } from 'next/router';
 
 function ChartTableBody({
   title,
@@ -50,7 +44,8 @@ function ChartTableBody({
   return isIcon ? (
     <div
       style={{
-        width,
+        width: '100%',
+        minWidth: width,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end',
@@ -67,7 +62,10 @@ function ChartTableBody({
       <span tw="text-b2 font-normal">{title}</span>
     </div>
   ) : (
-    <div tw="flex flex-row [text-align: right]" style={{ width, textAlign: isLeft ? 'left' : 'right' }}>
+    <div
+      tw="flex flex-row [text-align: right]"
+      style={{ width: '100%', minWidth: width, textAlign: isLeft ? 'left' : 'right' }}
+    >
       <span tw="w-full text-b2 font-normal" style={{ color: isSpecialColor ? getColor() : '#212529' }}>
         {title}
       </span>
@@ -76,7 +74,6 @@ function ChartTableBody({
 }
 
 export default function RealPricesList({
-  depth,
   danji,
   isMorePage,
   buyOrRent,
@@ -88,7 +85,6 @@ export default function RealPricesList({
   selectedIndex,
   danjiRealPricesPyoungList,
 }: {
-  depth: number;
   danji?: GetDanjiDetailResponse;
   isMorePage: boolean;
   buyOrRent?: number;
@@ -100,7 +96,7 @@ export default function RealPricesList({
   selectedIndex?: number;
   danjiRealPricesPyoungList: GetDanjiRealPricesPyoungListResponse['list'];
 }) {
-  const router = useRouter(depth);
+  const router = useRouter();
 
   const nanoid = customAlphabet('1234567890abcedfg', 10);
 
@@ -129,12 +125,7 @@ export default function RealPricesList({
     return '-';
   }, []);
 
-  const {
-    data,
-    list: realPricesList,
-    setSize,
-    isLoading: realPricesListLoading,
-  } = useAPI_DanjiRealPricesList({
+  const { list: realPricesList, setSize } = useAPI_DanjiRealPricesList({
     pnu: danji?.pnu,
     realestateType: danji?.type ? Number(danji.type) : null,
     buyOrRent,
@@ -202,9 +193,13 @@ export default function RealPricesList({
       sessionStorage.setItem('d-ch', '2');
     }
 
-    router.push(Routes.DanjiRealPriceList, {
-      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
-    });
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}`,
+        query: { p: `${router.query.p}`, rt: router.query.rt as string },
+      },
+      `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}?p=${router.query.p}&rt=${router.query.rt}`,
+    );
   }, [
     buyOrRent,
     checked,
@@ -222,10 +217,10 @@ export default function RealPricesList({
       <div tw="w-full">
         <div>
           <div tw="flex [border-bottom: 1px solid #E9ECEF] [border-top: 1px solid #E9ECEF]">
-            <div tw="w-[4.375rem] py-2 text-b2 font-normal [text-align: left]">계약일</div>
-            <div tw="w-[3.5rem] py-2 text-b2 font-normal [text-align: right]">거래</div>
-            <div tw="w-[3.5rem] py-2 text-b2 font-normal [text-align: right]">층수</div>
-            <div tw="w-[9.625rem] py-2 text-b2 font-normal [text-align: right]">실거래가</div>
+            <div tw="w-full min-w-[4.375rem] py-2 text-b2 font-normal [text-align: left]">계약일</div>
+            <div tw="w-full min-w-[3.5rem] py-2 text-b2 font-normal [text-align: right]">거래</div>
+            <div tw="w-full min-w-[3.5rem] py-2 text-b2 font-normal [text-align: right]">층수</div>
+            <div tw="w-full min-w-[9.625rem] py-2 text-b2 font-normal [text-align: right]">실거래가</div>
           </div>
         </div>
         <div>

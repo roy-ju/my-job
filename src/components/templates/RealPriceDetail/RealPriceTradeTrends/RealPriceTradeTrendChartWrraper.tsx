@@ -64,7 +64,7 @@ export const RealPriceTradeTrendChartWrraper = React.memo(
         const month = moment(date).format('YYYY-M');
         if (!dataMap[month]) {
           dataMap[month] = {
-            sido_count: 0,
+            sigungu_count: 0,
             isManipulate: true,
           };
         }
