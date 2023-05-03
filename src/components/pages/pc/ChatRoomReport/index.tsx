@@ -5,7 +5,6 @@ import { useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
 import createReportChatRoom from '@/apis/chat/createReportChatRoom';
 import Routes from '@/router/routes';
-import { OverlayPresenter, Popup } from '@/components/molecules';
 import useChatRoom from '../ChatRoom/useChatRoom';
 
 interface Props {
