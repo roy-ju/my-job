@@ -10,7 +10,7 @@ import CheveronDown from '@/assets/icons/chevron_down_24.svg';
 export default function MobListingSummary({ selctedListingSummary }: { selctedListingSummary: ListingSummary }) {
   return (
     selctedListingSummary && (
-      <div tw="w-[100%] max-w-mobile [border-bottom-width: 1px] border-b-gray-1100 absolute rounded-t-lg px-4 py-5 bottom-[5.25rem] bg-white [z-index:500] mx-auto">
+      <div tw="w-[100%] max-w-mobile [border-bottom-width: 1px] border-b-gray-1100 absolute rounded-t-lg px-4 py-5 bottom-[5rem] bg-white [z-index:500] mx-auto">
         <div tw="flex items-center">
           {selctedListingSummary?.realestateType === RealestateType.Apartment && (
             <Chip tw="text-green-1000 bg-green">{describeRealestateType(selctedListingSummary?.realestateType)}</Chip>
