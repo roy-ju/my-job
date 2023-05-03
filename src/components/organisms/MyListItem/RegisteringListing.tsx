@@ -48,19 +48,21 @@ export default function RegisteringListing({
       tw="flex gap-3 w-full py-5 px-5"
       css={[!isDeleteActive && tw`hover:bg-gray-100`]}
     >
-      {isDeleteActive && (
-        <div tw="mt-[6px]">
-          <Checkbox checked={checkedListingIdList?.includes(listingId)} onChange={onChangeCheckbox?.(listingId)} />
-        </div>
-      )}
       <div tw="flex gap-3 items-center w-full">
-        <Image
-          src={thumbnailFullPath ?? DefaultListingImage[rt]}
-          alt="매물 사진"
-          width={92}
-          height={92}
-          tw="rounded-lg"
-        />
+        <div tw="flex gap-3">
+          {isDeleteActive && (
+            <div tw="">
+              <Checkbox checked={checkedListingIdList?.includes(listingId)} onChange={onChangeCheckbox?.(listingId)} />
+            </div>
+          )}
+          <Image
+            src={thumbnailFullPath ?? DefaultListingImage[rt]}
+            alt="매물 사진"
+            width={92}
+            height={92}
+            tw="rounded-lg"
+          />
+        </div>
         <div tw="flex-1 text-left">
           <div tw="font-bold text-b1">
             {BuyOrRentString[buyOrRent]}{' '}
