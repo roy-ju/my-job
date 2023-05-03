@@ -339,7 +339,9 @@ export const Chart = React.memo(
             xAxis={xAxis}
           />
         </div>
-        {tooltipData && <ChartTooltip left={tooltipLeft ? tooltipLeft - 2 : tooltipLeft} data={tooltipData} />}
+        {tooltipData && (
+          <ChartTooltip width={width} left={tooltipLeft ? tooltipLeft - 2 : tooltipLeft} data={tooltipData} />
+        )}
       </div>
     );
   },

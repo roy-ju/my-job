@@ -4,16 +4,18 @@ import { ChangeEvent, ChangeEventHandler, useCallback } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import { Button } from '@/components/atoms';
 import RemoveIcon from '@/assets/icons/remove.svg';
+import useTooltip from '@/states/tooltip';
 
 interface DepositProps {
   deposit?: string;
   monthlyRentFee?: string;
   onChangeDeposit?: (newValue: string) => void;
-  onClickQuestion?: () => void;
   onClickAdd?: () => void;
 }
 
-function Deposit({ deposit: depositProp, onChangeDeposit, onClickQuestion, onClickAdd }: DepositProps) {
+function Deposit({ deposit: depositProp, onChangeDeposit, onClickAdd }: DepositProps) {
+  const { openTooltip } = useTooltip();
+
   const [deposit, setDeposit] = useControlled({ controlled: depositProp, default: '' });
 
   const handleChangePrice = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -30,7 +32,7 @@ function Deposit({ deposit: depositProp, onChangeDeposit, onClickQuestion, onCli
         <div>
           <div tw="mb-3 flex items-center gap-1">
             <div tw="text-b1 leading-none font-bold">채무승계 희망금액</div>
-            <Button variant="ghost" size="none" tw="pb-px" onClick={onClickQuestion}>
+            <Button variant="ghost" size="none" tw="pb-px" onClick={() => openTooltip('debtSuccessions')}>
               <QuestionIcon />
             </Button>
           </div>

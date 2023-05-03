@@ -12,6 +12,7 @@ export default function ReapPriceDetailHeader({
   onChangeBuyOrRent,
   onChangeSelectedYear,
   onClickSelectPage,
+  onClickBack,
 }: {
   danji?: GetDanjiDetailResponse;
   buyOrRent?: number;
@@ -19,12 +20,14 @@ export default function ReapPriceDetailHeader({
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
   onClickSelectPage?: () => void;
+  onClickBack?: () => void;
 }) {
   if (!danji) return null;
 
   return (
     <div tw="">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-inherit">실거래 심층 분석</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex items-center justify-between mb-2 px-5">
