@@ -38,11 +38,12 @@ export default memo(() => {
 
   const handleClickMoreItem = useCallback(
     (_: number, buttonTitle: string) => {
-      // if (buttonTitle === '매물관리') {
-      //   router.push(Routes.ListingManage, { persistParams: true });
-      // } else if (buttonTitle === '신고하기') {
-      //   router.push(Routes.ListingReport, { persistParams: true });
-      // }
+      if (buttonTitle === '매물관리') {
+        // router.push(Routes.ListingManage, { persistParams: true });
+        router.push(`/${Routes.EntryMobile}/${Routes.ListingManage}?listingID=${router.query.listingID}`);
+      } else if (buttonTitle === '신고하기') {
+        // router.push(Routes.ListingReport, { persistParams: true });
+      }
     },
     [router],
   );
