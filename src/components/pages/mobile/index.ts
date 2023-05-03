@@ -76,11 +76,12 @@ export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPrice
 export { default as BiddingForm } from './BiddingForm';
 export { default as BiddingSummary } from './BiddingSummary';
 export { default as BiddingSuccess } from './BiddingSuccess';
+export { default as UpdateBiddingForm } from './UpdateBiddingForm';
+export { default as UpdateBiddingSummary } from './UpdateBiddingSummary';
+export { default as UpdateBiddingSuccess } from './UpdateBiddingSuccess';
 
 /** 관심목록 */
 export { default as MyFavoriteList } from './MyFavoriteList';
 
-
 /** 단지상세 */
 export { default as DanjiDetail } from './DanjiDetail';
-
