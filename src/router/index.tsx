@@ -216,7 +216,26 @@ const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingC
   ssr: false,
   loading: FallbackComponent,
 });
-const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'));
+const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const TermsAndPolicy = dynamic(() => import('@/components/pages/pc/TermsAndPolicy'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const ServiceTerms = dynamic(() => import('@/components/pages/pc/ServiceTerms'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const PrivacyTerms = dynamic(() => import('@/components/pages/pc/PrivacyTerms'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const LocationTerms = dynamic(() => import('@/components/pages/pc/LocationTerms'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const BiddingForm = dynamic(() => import('@/components/pages/pc/BiddingForm'), {
   ssr: false,
   loading: FallbackComponent,
@@ -391,6 +410,20 @@ export default function Router({ route, query, depth }: Props) {
 
     case Routes.ServiceInfo: {
       return <ServiceInfo {...props} />;
+    }
+
+    case Routes.TermsAndPolicy: {
+      return <TermsAndPolicy {...props} />;
+    }
+
+    case Routes.ServiceTerms: {
+      return <ServiceTerms {...props} />;
+    }
+    case Routes.PrivacyTerms: {
+      return <PrivacyTerms {...props} />;
+    }
+    case Routes.LocationTerms: {
+      return <LocationTerms {...props} />;
     }
 
     case Routes.Deregister: {
