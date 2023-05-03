@@ -3,6 +3,7 @@ import { CacheProvider } from '@emotion/react';
 import GlobalStyles from '../src/styles/GlobalStyles';
 import PcGlobalStyles from '../src/styles/PcGlobalStyles';
 import createCache from '@emotion/cache';
+import { RecoilRoot } from 'recoil';
 
 const cache = createCache({ prepend: true, key: 'twin' });
 
@@ -31,7 +32,9 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <CacheProvider value={cache}>
-      <Story />
+      <RecoilRoot>
+        <Story />
+      </RecoilRoot>
       <GlobalStyles />
       <PcGlobalStyles />
     </CacheProvider>
