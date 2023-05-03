@@ -75,6 +75,10 @@ export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
 
+/** 지난거래 */
+export { default as ListingDetailPassed } from './ListingDetailPassed';
+export { default as ListingDetailHistory } from './ListingDetailHistory';
+
 /** 가격제안 */
 export { default as BiddingForm } from './BiddingForm';
 export { default as BiddingSummary } from './BiddingSummary';
@@ -93,4 +97,3 @@ export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiListings } from './DanjiListings';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
-

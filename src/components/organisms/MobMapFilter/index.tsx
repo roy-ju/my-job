@@ -55,7 +55,14 @@ export function getDefaultFilterVillaDandok(): Filter {
 export function getDefaultFilterOneRoomTwoRoom(): Filter {
   return {
     realestateTypeGroup: 'one,two',
-    realestateTypes: [].join(','),
+    realestateTypes: [
+      RealestateType.Apartment,
+      RealestateType.Officetel,
+      RealestateType.Yunrip,
+      RealestateType.Dasaedae,
+      RealestateType.Dandok,
+      RealestateType.Dagagoo,
+    ].join(','),
     buyOrRents: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
     priceRange: [0, PRICE_STEPS.length - 1],
     depositRange: [0, DEPOSIT_STEPS.length - 1],
