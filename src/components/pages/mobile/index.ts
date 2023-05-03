@@ -90,6 +90,7 @@ export { default as MyFavoriteList } from './MyFavoriteList';
 export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiRealRriceListAll } from './DanjiRealRriceListAll';
 export { default as DanjiSelect } from './DanjiSelect';
+export { default as DanjiListings } from './DanjiListings';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 

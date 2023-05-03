@@ -25,10 +25,10 @@ export default function ActiveListingInfo({
   const handleListingAll = useCallback(() => {
     router.push(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiListings}?p=${danji?.pnu}&rt=${danji?.type}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiListings}`,
         query: { p: `${router.query.p}`, rt: router.query.rt as string },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiListings}?p=${danji?.pnu}&rt=${danji?.type}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiListings}?p=${danji?.pnu}&rt=${danji?.type}`,
     );
   }, [danji?.pnu, danji?.type, router]);
 
@@ -72,7 +72,7 @@ export default function ActiveListingInfo({
           ))}
         </ListingItem>
 
-        {danjiListings.length < 3 && (
+        {danjiListings.length > 3 && (
           <div tw="flex flex-col gap-3 pt-3 px-5">
             <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
               매물 전체보기
