@@ -119,3 +119,5 @@ export { default as MobListingCreateSummary } from './MobListingCreateSummary';
 export { default as MobDanjiDetail } from './MobDanjiDetail';
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';
 export { default as MobRealPriceDetail } from './MobRealPriceDetail';
+export { default as MobDanjiSelect } from './MobDanjiSelect';
+export { default as MobRealTradeDetail } from './MobRealTradeDetail';
