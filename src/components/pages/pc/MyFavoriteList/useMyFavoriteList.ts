@@ -40,7 +40,7 @@ export default function useMyFavoriteList() {
 
   const handleToggleListingLike = useCallback(
     async (id: number, isListingFavorite: boolean) => {
-      if (isListingFavorite) {
+      if (!isListingFavorite) {
         await deleteMyFavoriteListing({ listing_id: id });
       } else {
         await addMyFavoriteListing({ listing_id: id });
