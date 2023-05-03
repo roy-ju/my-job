@@ -1,9 +1,10 @@
 import { NavigationHeader, Table } from '@/components/molecules';
 
-export default function BusinessInfo() {
+export default function BusinessInfo({ onClickGoBack }: { onClickGoBack?: () => void }) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
+        <NavigationHeader.BackButton onClick={onClickGoBack} />
         <NavigationHeader.Title>사업자정보</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 px-5 pt-2.5">
