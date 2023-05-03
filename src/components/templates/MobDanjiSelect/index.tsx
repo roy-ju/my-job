@@ -11,8 +11,8 @@ import { prefixComparison } from '@/utils/prefix';
 import { customAlphabet } from 'nanoid';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { DanjiComparisonItem } from './DanjiComparisonItem';
-import { SelectedDanjiListItem } from './SelectedDanjiListItem';
+import { DanjiComparisonItem } from '../DanjiSelect/DanjiComparisonItem';
+import { SelectedDanjiListItem } from '../DanjiSelect/SelectedDanjiListItem';
 
 type ComparisonList = {
   colorCode: string;
@@ -50,16 +50,15 @@ function getInitialColorWidthIndex(index: number) {
   return '#7048E8';
 }
 
-export default function DanjiSelect({
+const MobDanjiSelect = ({
   danji,
   handleClickBackButton,
   handleClickTradePage,
 }: {
   danji?: GetDanjiDetailResponse;
-  depth: number;
   handleClickBackButton: () => void;
   handleClickTradePage: () => void;
-}) {
+}) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedSigungu, setSelectedSigungu] = useState('');
   const [selectedRealestateType, setSelectedRealestateType] = useState('');
@@ -72,6 +71,7 @@ export default function DanjiSelect({
   const [selectedRealestateTypeCode, setSelectedRealestateTypeCode] = useState<number>();
   const [comparisonList, setComparisonList] = useState<ComparisonList>([]);
   const [isLastClick, setIsLastClick] = useState(false);
+  const [render, setRender] = useState(false);
 
   const listEndRef = useRef<HTMLDivElement>(null);
 
@@ -159,26 +159,29 @@ export default function DanjiSelect({
     }
   };
 
-  const removeDanji = (item: ListItemDanji) => {
-    if (comparisonList && comparisonList.length > 0) {
-      setComparisonList((prev) => {
-        if (prev.length === 1) {
-          setIsLastClick(true);
-          localStorage.removeItem(prefixComparison);
-          return [];
-        }
+  const removeDanji = useCallback(
+    (item: ListItemDanji) => {
+      if (comparisonList && comparisonList.length > 0) {
+        setComparisonList((prev) => {
+          if (prev.length === 0) {
+            setIsLastClick(true);
+            localStorage.removeItem(prefixComparison);
+            return [];
+          }
 
-        if (localStorage.getItem(prefixComparison)) {
-          localStorage.setItem(
-            prefixComparison,
-            JSON.stringify([...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu)),
-          );
-        }
+          if (localStorage.getItem(prefixComparison)) {
+            localStorage.setItem(
+              prefixComparison,
+              JSON.stringify([...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu)),
+            );
+          }
 
-        return [...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu);
-      });
-    }
-  };
+          return [...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu);
+        });
+      }
+    },
+    [comparisonList],
+  );
 
   const onIntersect = useCallback(() => {
     if (data) {
@@ -231,7 +234,7 @@ export default function DanjiSelect({
       }));
       setComparisonList(danjiListWithColorCode);
     }
-  }, [danjiListFirstLoading, isLastClick]);
+  }, [danjiListFirstLoading, isLastClick, render]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -247,10 +250,14 @@ export default function DanjiSelect({
     return () => clearTimeout(timeout);
   }, []);
 
+  useEffect(() => {
+    setRender(true);
+  }, []);
+
   if (!danji || !selectedValue) return null;
 
   return (
-    <div tw="relative flex flex-col h-full">
+    <div tw="w-full max-w-mobile relative flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={handleClickBackButton} />
         <NavigationHeader.Title>{danji?.name} 비교하기</NavigationHeader.Title>
@@ -398,4 +405,6 @@ export default function DanjiSelect({
       </PersistentBottomBar>
     </div>
   );
-}
+};
+
+export default React.memo(MobDanjiSelect);

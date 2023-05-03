@@ -89,5 +89,7 @@ export { default as MyFavoriteList } from './MyFavoriteList';
 /** 단지상세 */
 export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiRealRriceListAll } from './DanjiRealRriceListAll';
+export { default as DanjiSelect } from './DanjiSelect';
 export { default as RealPriceDetail } from './RealPriceDetail';
+export { default as RealTradeDetail } from './RealTradeDetail';
 

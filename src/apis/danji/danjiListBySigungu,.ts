@@ -103,7 +103,7 @@ export function useAPI_DanjiListbySigunguFirst({
   realestateType?: number | null;
   realestateType2?: number | null;
 }) {
-  const { data, error, mutate } = useSWR<DanjiListbySigunguResponse>(
+  const { data, error, mutate, } = useSWR<DanjiListbySigunguResponse>(
     isNotFetch
       ? null
       : localStorage.getItem(prefixComparison)

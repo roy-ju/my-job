@@ -59,14 +59,12 @@ export const SelectedDanjiListItem = ({
       >
         {title}
       </span>
-      {!isDefaultDanji && (
+      {!isDefaultDanji && item && (
         <Button
           variant="ghost"
           tw="h-0 pr-0 ml-auto [text-decoration: underline]  text-gray-700"
           onClick={() => {
-            if (removeDanji && item) {
-              removeDanji(item);
-            }
+            removeDanji?.(item);
           }}
         >
           삭제
