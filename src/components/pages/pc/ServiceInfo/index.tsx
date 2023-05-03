@@ -16,9 +16,16 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.BusinessInfo);
   }, [router]);
 
+  const handleClickTermsAndPolicy = useCallback(() => {
+    router.replace(Routes.TermsAndPolicy);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
-      <ServiceInfoTemplate onClickBusinessInfo={handleClickBusinessInfo} />
+      <ServiceInfoTemplate
+        onClickBusinessInfo={handleClickBusinessInfo}
+        onClickTermsAndPolicy={handleClickTermsAndPolicy}
+      />
     </Panel>
   );
 });

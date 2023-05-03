@@ -22,7 +22,7 @@ export default function FaqList({
       {list?.map((item) => (
         <Accordion key={item.q}>
           <Accordion.Summary tw="px-5 py-2">
-            <p tw="text-b2 mb-2">{item.q}</p>
+            <p tw="text-b2 mb-2 text-start">{item.q}</p>
             <p tw="text-gray-700 text-mobCaption text-left">2022.10.10</p>
           </Accordion.Summary>
           <Accordion.Details>
