@@ -80,4 +80,6 @@ export { default as MobRegisterForm } from './MobRegisterForm';
 export { default as MobMySummary } from './MobMySummary';
 export { default as MobMyNegoMoney } from './MobMyNegoMoney';
 
+export { default as MobDanjiDetailSection } from './MobDanjiDetail';
+
 export * from './popups';
