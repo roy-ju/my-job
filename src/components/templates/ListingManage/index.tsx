@@ -7,14 +7,16 @@ interface Props {
   onClickChat?: () => void;
   onClickDelete?: (reason: string) => void;
   onClickReport?: () => void;
+  onClickBack?: () => void;
 }
 
-export default function ListingManage({ onClickChat, onClickDelete, onClickReport }: Props) {
+export default function ListingManage({ onClickBack, onClickChat, onClickDelete, onClickReport }: Props) {
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>매물관리</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="py-7 px-5">

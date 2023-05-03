@@ -6,6 +6,8 @@ import tw, { styled } from 'twin.macro';
 export interface INotificationListItem {
   id: number;
   title: string;
+  type: number;
+  category: number;
   message: string;
   listingTitle: string;
   createdTime: string;
@@ -69,6 +71,8 @@ export default function MobNotificationList({
             <NotificaitonListItem
               key={item.id}
               title={item.title}
+              type={item.type}
+              category={item.category}
               message={item.message}
               listingTitle={item.listingTitle}
               createdTime={item.createdTime}

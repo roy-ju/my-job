@@ -23,6 +23,8 @@ export default function useNotificationList() {
         id: item.id,
         title: item.title,
         message: item.message,
+        type: item.type,
+        category: item.category,
         listingTitle: item.listing_title,
         createdTime: item.created_time,
         unread: item.read_time === null,
