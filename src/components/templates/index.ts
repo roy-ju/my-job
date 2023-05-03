@@ -37,6 +37,8 @@ export { default as FAQ } from './FAQ';
 export { default as NegoPoint } from './NegoPoint';
 export { default as MyCoupon } from './MyCoupon';
 export { default as ServiceInfo } from './ServiceInfo';
+export { default as TermsAndPolicy } from './TermsAndPolicy';
+export { default as ServiceTerms } from './ServiceTerms';
 export { default as BusinessInfo } from './BusinessInfo';
 export { default as Register } from './Register';
 export { default as RegisterSuccess } from './RegisterSuccess';

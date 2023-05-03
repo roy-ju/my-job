@@ -66,13 +66,19 @@ const Routes = {
   MyCoupon: 'myCoupon',
   MyCouponMobile: 'coupon',
 
-  ServiceInfo: 'serviceInfo',
-  BusinessInfo: 'businessInfo',
   Register: 'register',
   RegisterSuccess: 'registerSuccess',
   VerifyCi: 'verifyCi',
   VerifyCiSuccess: 'verifyCiSuccess',
   FindAccount: 'findAccount',
+
+  // 서비스 정보
+  ServiceInfo: 'serviceInfo',
+  BusinessInfo: 'businessInfo',
+  TermsAndPolicy: 'termsAndPolicy',
+  ServiceTerms: 'serviceTerms',
+  PrivacyTerms: 'privacyTerms',
+  LocationTerms: 'locationTerms',
 
   // 매물등록
   ListingCreateAddress: 'listingCreateAddress',
