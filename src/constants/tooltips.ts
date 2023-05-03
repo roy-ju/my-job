@@ -1,5 +1,7 @@
+export type TooltipType = 'debtSuccessions' | 'rentArea';
+
 const Tooltips: Record<
-  string,
+  TooltipType,
   {
     title: string;
     body: string;

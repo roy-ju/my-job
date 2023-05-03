@@ -11,7 +11,9 @@ export default function TooltipProvider() {
         <Popup>
           <Popup.ContentGroup>
             <Popup.Title>{Tooltips[activeTooltip]?.title}</Popup.Title>
-            <Popup.Body>{Tooltips[activeTooltip]?.body}</Popup.Body>
+            <Popup.Body>
+              <p tw="whitespace-pre-wrap">{Tooltips[activeTooltip]?.body}</p>
+            </Popup.Body>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
             <Popup.ActionButton onClick={closeTooltip}>확인</Popup.ActionButton>
