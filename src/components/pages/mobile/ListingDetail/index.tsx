@@ -84,13 +84,9 @@ export default memo(() => {
     if (!data?.bidding_id) {
       toast.error('bidding_id not found');
     }
-
-    // router.push(Routes.UpdateBiddingForm, {
-    //   searchParams: {
-    //     listingID: router.query.listingID as string,
-    //     biddingID: `${data?.bidding_id}`,
-    //   },
-    // });
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.UpdateBiddingForm}?listingID=${router.query.listingID}&biddingID=${data?.bidding_id}`,
+    );
   }, [router, data?.bidding_id]);
 
   const handleNavigateToChatRoom = useCallback(() => {
