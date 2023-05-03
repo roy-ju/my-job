@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
 
-const items = ['전체', '거래', '서비스', '마케팅', '커뮤니티'];
+const items = ['전체', '서비스', '거래', '마케팅', '커뮤니티'];
 
 const Button = styled(ButtonBase)(({ selected }) => [
   tw`h-12 px-3 font-bold leading-none text-gray-600 transition-colors text-b1`,
