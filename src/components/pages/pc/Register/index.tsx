@@ -4,6 +4,7 @@ import { Panel } from '@/components/atoms';
 import { TermsState } from '@/components/organisms/RegisterForm';
 import { Register } from '@/components/templates';
 import { PrivacyRetentionType } from '@/constants/enums';
+import { NICKNAME_REGEX } from '@/constants/regex';
 import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
@@ -49,6 +50,17 @@ export default memo(({ depth, panelWidth }: Props) => {
   );
 
   const handleChangeNickname = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    if (e.target.value?.length) {
+      if (!NICKNAME_REGEX.noSpecialStringRegex.test(e.target.value)) {
+        setNickNameErrMsg('공백, 특수문자, 이모티콘 등은 사용할 수 없습니다.');
+      }
+      if (!NICKNAME_REGEX.length.test(e.target.value)) {
+        setNickNameErrMsg('닉네임은 3~20글자 이어야 합니다.');
+      }
+      if (NICKNAME_REGEX.general.test(e.target.value)) {
+        setNickNameErrMsg('');
+      }
+    }
     setNickname(e.target.value);
   }, []);
 
