@@ -645,7 +645,7 @@ interface MetaInsertedProps extends RouterProps {
   ogImagePath?: string;
 }
 
-export default function MetaInserted({ title, description, ...props }: MetaInsertedProps) {
+export default function MetaInserted({ title, description, ogImagePath, ...props }: MetaInsertedProps) {
   return (
     <>
       <Head>
@@ -653,7 +653,7 @@ export default function MetaInserted({ title, description, ...props }: MetaInser
         {description && <meta name="description" content={description} key="desc" />}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        {/* <meta property="og:image" content="https://example.com/images/cool-page.jpg" /> */}
+        {ogImagePath && <meta property="og:image" content={ogImagePath} />}
       </Head>
       <Router {...props} />
     </>
