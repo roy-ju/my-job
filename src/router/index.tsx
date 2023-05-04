@@ -649,10 +649,8 @@ export default function MetaInserted({ title, description, ogImagePath, ...props
   return (
     <>
       <Head>
-        {title && <title>{title}</title>}
-        {description && <meta name="description" content={description} key="desc" />}
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
+        {title && <meta property="og:title" content={title} />}
+        {description && <meta property="og:description" content={description} />}
         {ogImagePath && <meta property="og:image" content={ogImagePath} />}
       </Head>
       <Router {...props} />
