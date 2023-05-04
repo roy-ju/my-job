@@ -178,7 +178,6 @@ export const Chart = React.memo(
           }
 
           if (x > xScale(getDate(sidoChartData[lastIndex]))) {
-            console.log(lastIndex);
             const tooltipTopValue = getSidoCount(sidoChartData[lastIndex]);
 
             showTooltip({
