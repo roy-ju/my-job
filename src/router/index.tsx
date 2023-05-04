@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
 import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
 import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
+import Head from 'next/head';
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -311,13 +312,13 @@ const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
-interface Props {
+interface RouterProps {
   route: string; // url segments 에서 가장 우측에 위치한 segment
   query: ParsedUrlQuery; // 쿼리 파라미터
   depth: number; // route segment 의 depth
 }
 
-export default function Router({ route, query, depth }: Props) {
+function Router({ route, query, depth }: RouterProps) {
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -637,4 +638,24 @@ export default function Router({ route, query, depth }: Props) {
       return <NotFound {...props} />;
     }
   }
+}
+interface MetaInsertedProps extends RouterProps {
+  title?: string;
+  description?: string;
+  ogImagePath?: string;
+}
+
+export default function MetaInserted({ title, description, ogImagePath, ...props }: MetaInsertedProps) {
+  return (
+    <>
+      <Head>
+        {title && <title>{title}</title>}
+        {description && <meta name="description" content={description} key="desc" />}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        {ogImagePath && <meta property="og:image" content={ogImagePath} />}
+      </Head>
+      <Router {...props} />
+    </>
+  );
 }

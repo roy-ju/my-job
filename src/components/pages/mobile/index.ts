@@ -2,6 +2,7 @@ export { default as Home } from './Home';
 
 /** 지도 */
 export { default as MobMap } from './Map';
+export { default as MapListingList } from './MapListingList';
 
 /** 마이페이지 */
 export { default as MobMy } from './My';
@@ -74,6 +75,7 @@ export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPrice
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
+export { default as ListingPhotoGallery } from './ListingPhotoGallery';
 
 /** 지난거래 */
 export { default as ListingDetailPassed } from './ListingDetailPassed';

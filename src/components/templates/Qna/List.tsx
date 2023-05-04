@@ -19,9 +19,9 @@ export default function List({ list }: { list: IQnaItem[] }) {
   return (
     <ListContainer>
       {list.map((item, i) => (
-        <>
+        <React.Fragment key={item.id}>
           {!!i && <div tw="border-t mx-5 border-gray-100" />}
-          <QnaListItem key={item.id}>
+          <QnaListItem>
             <QnaListItem.User
               userMessage={item.user_message}
               createdTime={item.created_time}
@@ -31,7 +31,7 @@ export default function List({ list }: { list: IQnaItem[] }) {
               <QnaListItem.Admin adminMessage={item.admin_message} responseTime={item.admin_response_time} />
             ) : null}
           </QnaListItem>
-        </>
+        </React.Fragment>
       ))}
     </ListContainer>
   );

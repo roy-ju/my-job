@@ -4,28 +4,21 @@ import Qna from '.';
 
 const mock = [
   {
-    admin_message: 'string',
-    admin_response_time: 'string',
-    created_time: 'string',
+    admin_message:
+      '어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다어드민메세지입니다',
+    admin_response_time: '2023-05-04T11:01:30+09:00',
+    created_time: '2023-05-04T11:01:30+09:00',
     id: 0,
     user_id: 0,
-    user_message: 'string',
+    user_message: '유저메시지입니다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ',
   },
   {
-    admin_message: 'string',
-    admin_response_time: 'string',
-    created_time: 'string',
+    admin_message: '',
+    admin_response_time: '',
+    created_time: '2023-05-04T11:01:30+09:00',
     id: 1,
     user_id: 1,
-    user_message: 'string',
-  },
-  {
-    admin_message: 'string',
-    admin_response_time: 'string',
-    created_time: 'string',
-    id: 2,
-    user_id: 2,
-    user_message: 'string',
+    user_message: '유저메세지유저메시지입니다!!!!',
   },
 ];
 

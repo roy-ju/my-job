@@ -12,7 +12,7 @@ import { initializeKakaoSDK } from '@/lib/kakao';
 import OverlayContainer from '@/components/molecules/FullScreenDialog';
 import { updateVH } from '@/utils/updateVH';
 import ToastContainer from '@/lib/react-toastify';
-import { usePlatform } from '@/hooks/utils';
+import { usePageLoading, usePlatform } from '@/hooks/utils';
 import Head from 'next/head';
 import AppConfig from '@/config';
 import NegocioProvider from '@/providers/NegocioProvider';
@@ -39,12 +39,17 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   const platform = usePlatform();
 
+  usePageLoading();
+
   return (
     <>
       <Head>
         <title>{AppConfig.title}</title>
         <meta name="description" content={AppConfig.description} />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
+        <meta property="og:title" content={AppConfig.title} />
+        <meta property="og:description" content={AppConfig.description} />
+        <meta property="og:image" content={AppConfig.ogImagePath} />
       </Head>
       <Script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"

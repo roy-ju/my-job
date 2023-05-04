@@ -55,6 +55,7 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
       onClick={async () => {
         setIsQna(false);
         await createServiceQna(qnaText);
+        SetQnaText('');
         mutateQna();
       }}
       size="bigger"

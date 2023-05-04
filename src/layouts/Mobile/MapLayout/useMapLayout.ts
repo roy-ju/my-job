@@ -16,6 +16,8 @@ import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoA
 import { mobileMapState } from '@/states/mob/mobileMap';
 import getListingSummary from '@/apis/map/mapListingSummary';
 import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
+import { useRouter } from 'next/router';
+import Routes from '@/router/routes';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -140,6 +142,8 @@ function getUserLastLocation(): { lat: number; lng: number } {
  * 지도레이아웃 초기화와 이벤트 기능구현을 담당하는 훅
  */
 export default function useMapLayout() {
+  const router = useRouter();
+
   const [map, setMap] = useRecoilState(mobileMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const abortControllerRef = useRef<AbortController>();
@@ -844,6 +848,17 @@ export default function useMapLayout() {
     [setFilter],
   );
 
+  const handleClickMapListingList = useCallback(() => {
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.MapListingList}`,
+      query: {
+        bounds: JSON.stringify(bounds),
+        filter: JSON.stringify(filter),
+        mapToggleValue: `${mapToggleValue}`,
+      },
+    });
+  }, [router, bounds, filter, mapToggleValue]);
+
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -885,5 +900,6 @@ export default function useMapLayout() {
     handleChangeMapToggleValue,
     handleChangePriceType,
     handleCloseStreetView,
+    handleClickMapListingList,
   };
 }

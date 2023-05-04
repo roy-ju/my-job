@@ -90,8 +90,8 @@ export default memo(() => {
   }, [router, data]);
 
   const handleNavigateToPhotoGallery = useCallback(() => {
-    // router.push(Routes.ListingPhotoGallery, { persistParams: true });
-  }, []);
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingPhotoGallery}?listingID=${router.query.listingID}`);
+  }, [router]);
 
   const handleNavigateToUpdateTargetPrice = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingTargetPriceUpdate}?listingID=${router.query.listingID}`);
