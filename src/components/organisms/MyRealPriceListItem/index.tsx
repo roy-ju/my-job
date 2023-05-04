@@ -1,5 +1,5 @@
 import React from 'react';
-import { Moment, Numeral } from '@/components/atoms';
+import { Numeral } from '@/components/atoms';
 import { BuyOrRent } from '@/constants/enums';
 
 export interface MyRealPriceListItemProps {
@@ -37,7 +37,7 @@ export default function MyRealPriceListItem({
           </div>
         </div>
         <div tw="flex items-center gap-1.5 text-info leading-3.5 text-gray-700">
-          <Moment format="YYYY.MM.DD">{createdTime}</Moment>
+          <span>{createdTime}</span>
           <div tw="w-px h-2 bg-gray-300" />
           <span>전용 {area}㎡</span>
           <div tw="w-px h-2 bg-gray-300" />
