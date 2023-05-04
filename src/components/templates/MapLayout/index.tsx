@@ -85,6 +85,8 @@ interface LayoutMapContainerProps {
   onChangePriceType?: (value: string) => void;
   onClickClosePanel?: () => void;
   onClickMapListingList?: () => void;
+  onClickListingCreateAddress?: () => void;
+  onClickAgentSite?: () => void;
   onTogglepanelsVisibility?: () => void;
   children?: ReactNode;
 }
@@ -116,6 +118,8 @@ function LayoutMapContainer({
   onChangePriceType,
   onClickClosePanel,
   onClickMapListingList,
+  onClickAgentSite,
+  onClickListingCreateAddress,
   onTogglepanelsVisibility,
   children,
 }: LayoutMapContainerProps) {
@@ -193,11 +197,11 @@ function LayoutMapContainer({
         </Button>
       </div>
       <div tw="absolute right-5 bottom-10 flex gap-2 z-10">
-        <Button variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
+        <Button onClick={onClickAgentSite} variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
           <RefreshOrangeIcon style={{ marginRight: '0.5rem' }} />
           <span tw="whitespace-nowrap">중개사 사이트</span>
         </Button>
-        <Button variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
+        <Button onClick={onClickListingCreateAddress} variant="ghost" tw="bg-white font-bold shadow hover:bg-gray-300">
           <HouseGreenIcon style={{ marginRight: '0.5rem' }} />
           <span tw="whitespace-nowrap">집 내놓기</span>
         </Button>
