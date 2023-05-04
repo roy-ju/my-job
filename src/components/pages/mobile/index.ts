@@ -2,6 +2,7 @@ export { default as Home } from './Home';
 
 /** 지도 */
 export { default as MobMap } from './Map';
+export { default as MapListingList } from './MapListingList';
 
 /** 마이페이지 */
 export { default as MobMy } from './My';
