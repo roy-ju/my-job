@@ -67,12 +67,17 @@ export default memo(({ depth, panelWidth }: Props) => {
     };
   }, [router, mutateUser]);
 
+  const handleClickFAQ = useCallback(() => {
+    router.replace(Routes.FAQ);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <LoginTemplate
         onClickKakaoLogin={handleKakaoLogin}
         onClickAppleLogin={handleAppleLogin}
         onClickForgotMyAccount={handleForgotMyAccount}
+        onClickFAQ={handleClickFAQ}
       />
     </Panel>
   );
