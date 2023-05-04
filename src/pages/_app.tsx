@@ -45,7 +45,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>{AppConfig.title}</title>
-        <meta name="description" content={AppConfig.description} />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
       </Head>
       <Script
