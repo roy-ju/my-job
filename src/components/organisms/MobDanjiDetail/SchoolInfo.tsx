@@ -5,6 +5,7 @@ import { Button } from '@/components/atoms';
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
 import { SchoolType } from '@/constants/enums';
+import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 
 import checkStudentCount from '@/utils/checkStudentCount';
 import getDistance from '@/utils/getDistance';
@@ -12,12 +13,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import NoDataTypeOne from './NoData';
 
 export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
-  const [hakgudoActive, setHakgudoActive] = useState(false);
-
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
-
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
-
+  const { makeTrueSchool } = useDanjiMapButtonStore();
   const {
     isLoading: danjiSchoolsIsLoading,
     listElementarySchools,
@@ -38,9 +36,20 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   }, []);
 
   const handleClickHakgudo = useCallback(() => {
-    const val = !hakgudoActive;
-    setHakgudoActive(val);
-  }, [hakgudoActive]);
+    if (!danji) return;
+
+    if (selectedSchoolType === SchoolType.ElementarySchool) {
+      sessionStorage.setItem('danji-selected-school', '"1"');
+    }
+    if (selectedSchoolType === SchoolType.MiddleSchool) {
+      sessionStorage.setItem('danji-selected-school', '"2"');
+    }
+    if (selectedSchoolType === SchoolType.HighSchool) {
+      sessionStorage.setItem('danji-selected-school', '"3"');
+    }
+
+    makeTrueSchool();
+  }, [danji, makeTrueSchool, selectedSchoolType]);
 
   useEffect(() => {
     if (listElementarySchools.length > 0) {
@@ -66,9 +75,9 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     <div tw="w-full pt-10 pb-10 px-5">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">학군</span>
-        {/* <Button size="small" variant="outlined" selected={hakgudoActive} onClick={handleClickHakgudo}>
+        <Button size="small" variant="outlined" onClick={handleClickHakgudo}>
           학구도
-        </Button> */}
+        </Button>
       </div>
       <SchoolTabs variant="contained" value={selectedSchoolType} tw="mt-2" onChange={onChangeSelectedSchoolType}>
         <SchoolTabs.Tab value={SchoolType.ElementarySchool}>초등학교</SchoolTabs.Tab>

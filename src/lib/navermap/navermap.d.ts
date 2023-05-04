@@ -447,6 +447,7 @@ declare namespace naver.maps {
     zoomControlOptions?: ZoomControlOptions;
     aroundControl?: boolean;
     aroundControlOptions?: AroundControlOptions;
+    flightSpot?: boolean;
   }
   interface PanoramaPov {
     pan: number;
@@ -1500,11 +1501,10 @@ declare namespace naver.maps {
   }
   class FlightSpot extends KVO {
     constructor();
-
     getMap(): Map | null;
-
     setMap(map: Map | null): void;
   }
+
   class AroundControl extends CustomControl {
     constructor(aroundControlOptions: AroundControlOptions);
   }
