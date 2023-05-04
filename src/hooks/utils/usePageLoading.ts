@@ -1,14 +1,14 @@
 import Router from 'next/router';
 import { useEffect } from 'react';
-// import NProgress from 'nprogress';
+import NProgress from 'nprogress';
 
 export default function usePageLoading() {
   useEffect(() => {
     const routeEventStart = () => {
-      // NProgress.start();
+      NProgress.start();
     };
     const routeEventEnd = () => {
-      // NProgress.done();
+      NProgress.done();
     };
 
     Router.events.on('routeChangeStart', routeEventStart);
