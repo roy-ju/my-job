@@ -2,17 +2,12 @@ import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { Moment, Numeral } from '@/components/atoms';
 import { Table } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
-import { BuyOrRentString } from '@/constants/strings';
+import { BuyOrRentString, TimeTypeString } from '@/constants/strings';
 
 export interface ConditionsProps {
   listing?: GetListingDetailResponse['listing'];
   debtSuccessions?: GetListingDetailResponse['debt_successions'];
   collaterals?: GetListingDetailResponse['collaterals'];
-}
-
-function getPaymentTimeType(value: number) {
-  if (value === 1) return '이전';
-  return '이후';
 }
 
 export default function Conditions({ listing, debtSuccessions, collaterals }: ConditionsProps) {
@@ -98,7 +93,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                     <span tw="text-info text-gray-700">
                       <br />
                       지급일: <Moment format="yyyy.MM.DD">{listing?.interim_amount_payment_time1}</Moment>{' '}
-                      {getPaymentTimeType(listing?.interim_amount_payment_time1_type ?? 1)}
+                      {TimeTypeString[listing?.interim_amount_payment_time1_type ?? 1]}
                     </span>
                   )}
                 </Table.Data>
@@ -114,7 +109,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                     <span tw="text-info text-gray-700">
                       <br />
                       지급일: <Moment format="yyyy.MM.DD">{listing?.interim_amount_payment_time2}</Moment>{' '}
-                      {getPaymentTimeType(listing?.interim_amount_payment_time2_type ?? 1)}
+                      {TimeTypeString[listing?.interim_amount_payment_time2_type ?? 1]}
                     </span>
                   )}
                 </Table.Data>
@@ -130,7 +125,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                     <span tw="text-info text-gray-700">
                       <br />
                       지급일: <Moment format="yyyy.MM.DD">{listing?.interim_amount_payment_time3}</Moment>{' '}
-                      {getPaymentTimeType(listing?.interim_amount_payment_time3_type ?? 1)}
+                      {TimeTypeString[listing?.interim_amount_payment_time3_type ?? 1]}
                     </span>
                   )}
                 </Table.Data>
@@ -144,7 +139,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                   <span tw="text-info text-gray-700">
                     <br />
                     지급일: <Moment format="yyyy.MM.DD">{listing?.remaining_amount_payment_time}</Moment>{' '}
-                    {getPaymentTimeType(listing?.remaining_amount_payment_time_type ?? 1)}
+                    {TimeTypeString[listing?.remaining_amount_payment_time_type ?? 1]}
                   </span>
                 )}
               </Table.Data>
@@ -162,7 +157,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                 {listing?.move_in_date ? (
                   <Table.Data>
                     <Moment format="yyyy.MM.DD">{listing?.move_in_date}</Moment>{' '}
-                    {getPaymentTimeType(listing?.move_in_date_type ?? 1)}
+                    {TimeTypeString[listing?.move_in_date_type ?? 1]}
                   </Table.Data>
                 ) : (
                   <Table.Data>즉시입주가능</Table.Data>
