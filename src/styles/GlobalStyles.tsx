@@ -3,6 +3,7 @@ import { Global } from '@emotion/react';
 import tw, { css, GlobalStyles as BaseStyles, theme } from 'twin.macro';
 import toastifyStyles from '@/lib/react-toastify/styles';
 import datepickerStyles from '@/lib/react-datepicker/styles';
+import nprogressStyles from '@/lib/nprogress/styles';
 
 const customStyles = css`
   body {
@@ -45,7 +46,7 @@ export default function GlobalStyles() {
   return (
     <>
       <BaseStyles />
-      <Global styles={[customStyles, toastifyStyles, datepickerStyles]} />
+      <Global styles={[customStyles, toastifyStyles, datepickerStyles, nprogressStyles]} />
     </>
   );
 }

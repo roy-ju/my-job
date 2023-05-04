@@ -12,7 +12,7 @@ import { initializeKakaoSDK } from '@/lib/kakao';
 import OverlayContainer from '@/components/molecules/FullScreenDialog';
 import { updateVH } from '@/utils/updateVH';
 import ToastContainer from '@/lib/react-toastify';
-import { usePlatform } from '@/hooks/utils';
+import { usePageLoading, usePlatform } from '@/hooks/utils';
 import Head from 'next/head';
 import AppConfig from '@/config';
 import NegocioProvider from '@/providers/NegocioProvider';
@@ -38,6 +38,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getComponent = Component.getComponent ?? ((p) => <Component {...p} />);
 
   const platform = usePlatform();
+
+  usePageLoading();
 
   return (
     <>
