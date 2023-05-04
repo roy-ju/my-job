@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { NaverMap } from '../types';
 
 export default function useNaverMapEvent(
-  target: NaverMap | undefined,
+  target: NaverMap | undefined | null,
   eventName: string,
   callback?: (t: NaverMap, ...args: any[]) => void,
 ) {
@@ -19,11 +19,7 @@ export default function useNaverMapEvent(
       return callback(target, ...arg);
     };
 
-    const listener = naver.maps.Event.addListener(
-      target,
-      eventName,
-      wrapCallback,
-    );
+    const listener = naver.maps.Event.addListener(target, eventName, wrapCallback);
 
     return () => {
       naver.maps?.Event.removeListener(listener);

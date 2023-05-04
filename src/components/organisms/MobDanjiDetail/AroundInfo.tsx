@@ -3,6 +3,7 @@ import { Button } from '@/components/atoms';
 import { convertedArr, getAverageDistance } from '@/hooks/utils/aroundInfo';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
+import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 import { cloneDeep } from 'lodash';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
 import tw from 'twin.macro';
@@ -30,7 +31,6 @@ const buttonList: { id: keyof BtnState; korTitle: string }[] = [
 export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
-
   const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);
   // const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
   const [isMoreClick, setIsMoreClick] = useState(false);
@@ -40,9 +40,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const [activeCategory, setActiveCategory] = useState<BtnState>({
     SW8: true,
   });
-
+  const { makeTrueAround, makeBindDanji } = useDanjiMapButtonStore();
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();
 
@@ -189,16 +188,16 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     <div tw="w-full pt-10 pb-10 px-5">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">교통 및 주변정보</span>
-        {/* <Button
+        <Button
           size="small"
           variant="outlined"
-          selected={!!buttonState?.around}
           onClick={() => {
-            handleAroundButton();
+            makeTrueAround();
+            makeBindDanji(danji);
           }}
         >
-          정보보기
-        </Button> */}
+          지도에서 보기
+        </Button>
       </div>
       <div
         role="presentation"
