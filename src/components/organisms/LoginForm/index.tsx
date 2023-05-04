@@ -6,9 +6,15 @@ export interface LoginFormProps {
   onClickKakaoLogin?: () => void;
   onClickAppleLogin?: () => void;
   onClickForgotMyAccount?: () => void;
+  onClickFAQ?: () => void;
 }
 
-export default function LoginForm({ onClickKakaoLogin, onClickAppleLogin, onClickForgotMyAccount }: LoginFormProps) {
+export default function LoginForm({
+  onClickKakaoLogin,
+  onClickAppleLogin,
+  onClickForgotMyAccount,
+  onClickFAQ,
+}: LoginFormProps) {
   return (
     <div>
       <div tw="flex flex-col gap-3">
@@ -35,7 +41,12 @@ export default function LoginForm({ onClickKakaoLogin, onClickAppleLogin, onClic
           계정 정보를 잃어버리셨나요?
         </Button>
         <div tw="w-px h-2 bg-gray-100" />
-        <Button size="none" variant="ghost" tw="text-info font-bold text-gray-500 hover:text-gray-700">
+        <Button
+          onClick={onClickFAQ}
+          size="none"
+          variant="ghost"
+          tw="text-info font-bold text-gray-500 hover:text-gray-700"
+        >
           자주 묻는 질문
         </Button>
       </div>

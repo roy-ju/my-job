@@ -1,4 +1,4 @@
-import { BuyOrRent, RealestateType, TimeType } from './enums';
+import { BuyOrRent, RealestateType, TimeType, PrivacyRetentionType } from './enums';
 import Paths from './paths';
 
 export const RealestateTypeString: Record<number, string> = {
@@ -54,4 +54,11 @@ export const RealestateTypeChipVariant: Record<number, 'nego' | 'green' | 'red' 
   [RealestateType.Dagagoo]: 'blue',
   [RealestateType.Yunrip]: 'orange',
   [RealestateType.Dasaedae]: 'orange',
+};
+
+export const PrivacyRetentionTypeString: Record<number, string> = {
+  [PrivacyRetentionType.OneYear]: '1년',
+  [PrivacyRetentionType.ThreeYear]: '3년',
+  [PrivacyRetentionType.FiveYear]: '5년',
+  [PrivacyRetentionType.Deregister]: '탈퇴시까지',
 };
