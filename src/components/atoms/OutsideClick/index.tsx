@@ -2,7 +2,7 @@ import { useOutsideClick } from '@/hooks/utils';
 import { ReactNode, useRef } from 'react';
 
 interface OutsideClickProps {
-  onOutsideClick: () => void;
+  onOutsideClick?: () => void;
   children: ReactNode;
 }
 

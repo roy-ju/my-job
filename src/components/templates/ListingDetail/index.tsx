@@ -53,7 +53,7 @@ export interface ListingDetailProps {
   onNavigateToUpdateTargetPrice?: () => void;
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
-
+  onClickShare?: () => void;
   onClickBack?: () => void;
 }
 
@@ -75,6 +75,7 @@ export default function ListingDetail({
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
   onNavigateToSuggestRegional,
+  onClickShare,
   onClickBack,
 }: ListingDetailProps) {
   const { danji } = useDanjiDetail(depth, listingDetail?.listing.pnu, listingDetail?.listing.realestate_type);
@@ -149,7 +150,7 @@ export default function ListingDetail({
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-inherit">{listingDetail?.listing?.listing_title}</NavigationHeader.Title>
         <div tw="flex gap-4">
-          <NavigationHeader.Button>
+          <NavigationHeader.Button onClick={onClickShare}>
             <ShareIcon tw="text-inherit" />
           </NavigationHeader.Button>
           <NavigationHeader.Button onClick={onClickFavorite}>

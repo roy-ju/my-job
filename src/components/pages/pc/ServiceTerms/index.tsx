@@ -37,8 +37,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     [setSelectedTerms],
   );
 
-  console.log(router);
-
   const handleGoBack = useCallback(() => {
     if (router.query.register)
       router.replace(Routes.Register, {

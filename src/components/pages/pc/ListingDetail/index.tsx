@@ -14,6 +14,11 @@ import deleteListingQna from '@/apis/listing/deleteListingQna';
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 
+import { BuyOrRent } from '@/constants/enums';
+import { formatNumberInKorean } from '@/utils';
+import Paths from '@/constants/paths';
+import { SharePopup } from '@/components/organisms';
+import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -156,6 +161,68 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     setPopup('none');
   }, [data?.suggest_recommend_id, mutateListing]);
 
+  const handleClickShare = useCallback(() => {
+    setPopup('share');
+  }, []);
+
+  const handleCopyUrl = useCallback(() => {
+    let priceText = '';
+    if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
+      priceText = `${formatNumberInKorean(data?.trade_or_deposit_price)}/${formatNumberInKorean(
+        data?.monthly_rent_fee,
+      )}`;
+    } else {
+      priceText = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}`;
+    }
+
+    const content = `[네고시오] ${data?.display_address}\n► 부동산 종류 : ${
+      RealestateTypeString[data?.listing?.realestate_type ?? 0]
+    }\n► 거래종류 : ${BuyOrRentString[data?.listing.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
+      window.origin
+    }/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
+    navigator.clipboard.writeText(content);
+    setPopup('none');
+    toast.success('복사되었습니다.');
+  }, [data]);
+
+  const handleShareViaKakao = useCallback(() => {
+    const link = `${window.origin}/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
+    let description = data?.display_address;
+
+    if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
+      description = `${formatNumberInKorean(data?.trade_or_deposit_price)}/${formatNumberInKorean(
+        data?.monthly_rent_fee,
+      )}, ${data?.display_address}`;
+    } else {
+      description = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}, ${data?.display_address}`;
+    }
+
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      installTalk: true,
+      content: {
+        title: data?.listing?.listing_title ?? '',
+        description,
+        imageUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
+        link: {
+          mobileWebUrl: link,
+          webUrl: link,
+        },
+        imageWidth: 1200,
+        imageHeight: 630,
+      },
+      buttons: [
+        {
+          title: '자세히보기',
+          link: {
+            mobileWebUrl: link,
+            webUrl: link,
+          },
+        },
+      ],
+    });
+  }, [data]);
+
   if (data?.error_code) {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;
   }
@@ -193,6 +260,7 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
         qnaList={qnaData}
         isLoading={isLoading || isLoadingStatus}
         hasMoreQnas={hasMoreQnas}
+        onClickShare={handleClickShare}
         onClickMoreItem={handleClickMoreItem}
         onClickFavorite={handleClickFavorite}
         onClickLoadMoreQna={loadMoreQnas}
@@ -243,6 +311,15 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
               </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'share' && (
+        <OverlayPresenter>
+          <SharePopup
+            onClickOutside={() => setPopup('none')}
+            onClickShareViaKakao={handleShareViaKakao}
+            onClickCopyUrl={handleCopyUrl}
+          />
         </OverlayPresenter>
       )}
     </Panel>
