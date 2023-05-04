@@ -37,7 +37,7 @@ type AroundListType = {
 
 const Box = styled.div``;
 
-export function DanjiAroundMapCard({
+export default function DanjiAroundMapCard({
   aroundList,
   addressName,
   defaultMapSize = '190px',
@@ -154,8 +154,6 @@ export function DanjiAroundMapCard({
       setSelectedIndex(firstIndex);
     }
   }, [addressName, aroundList]);
-
-  console.log(selectedIndex);
 
   if (!danji) return null;
 

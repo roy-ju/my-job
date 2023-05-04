@@ -16,7 +16,7 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
 import styled from '@emotion/styled';
 import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
-import { DanjiAroundMapCard } from './DanjiAroundMapCard';
+import DanjiAroundMapCard from './DanjiAroundMapCard';
 
 type BtnState = {
   SW8?: boolean;
@@ -56,7 +56,7 @@ const Wrapper = styled(motion.div)({
 const BottomSheetContent = styled('div')({
   overflow: ' auto',
   WebkitOverflowScrolling: 'touch',
-  minHeight: '10.5rem',
+  minHeight: '105px',
   marginBottom: '43px',
   paddingLeft: '20px',
   paddingRight: '21px',
@@ -155,10 +155,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
           background: '#F1EEFF',
           borderTop: '1px solid  #E4E4EF',
           borderBottom: '1px solid  #E4E4EF',
-          paddingTop: '16px',
-          paddingBottom: '16px',
-          paddingLeft: '8px',
-          paddingRight: '8px',
+          paddingTop: '8px',
+          paddingBottom: '8px',
+          paddingLeft: '16px',
+          paddingRight: '16px',
           cursor: 'pointer',
         };
       }
@@ -167,10 +167,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
         return {
           background: '#F1EEFF',
           borderBottom: '1px solid  #E4E4EF',
-          paddingTop: '16px',
-          paddingBottom: '16px',
-          paddingLeft: '8px',
-          paddingRight: '8px',
+          paddingTop: '8px',
+          paddingBottom: '8px',
+          paddingLeft: '16px',
+          paddingRight: '16px',
           cursor: 'pointer',
         };
       }
@@ -189,10 +189,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
       return {
         background: '#F1EEFF',
         borderBottom: '1px solid  #E4E4EF',
-        paddingTop: '16px',
-        paddingBottom: '16px',
-        paddingLeft: '8px',
-        paddingRight: '8px',
+        paddingTop: '8px',
+        paddingBottom: '8px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
         cursor: 'pointer',
       };
     }
@@ -201,20 +201,20 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
       return {
         borderTop: '1px solid  #E4E4EF',
         borderBottom: '1px solid  #E4E4EF',
-        paddingTop: '16px',
-        paddingBottom: '16px',
-        paddingLeft: '8px',
-        paddingRight: '8px',
+        paddingTop: '8px',
+        paddingBottom: '8px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
         cursor: 'pointer',
       };
     }
 
     return {
       borderBottom: '1px solid  #E4E4EF',
-      paddingTop: '16px',
-      paddingBottom: '16px',
-      paddingLeft: '8px',
-      paddingRight: '8px',
+      paddingTop: '8px',
+      paddingBottom: '8px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
       cursor: 'pointer',
     };
   };
@@ -458,25 +458,30 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
             (nodata ? (
               <p
                 tw="text-gray-700 text-b2 [line-height: 20px]"
-                style={{ minHeight: '10.5rem', zIndex: 131, textAlign: 'center' }}
+                style={{ minHeight: '105px', zIndex: 131, textAlign: 'center' }}
               >
                 다른 주변 정보를 확인해 보세요.
               </p>
             ) : (
-              <p tw="text-gray-700 text-b2 [line-height: 20px]" style={{ minWidth: '100%', minHeight: '10.5rem' }} />
+              <p tw="text-gray-700 text-b2 [line-height: 20px]" style={{ minWidth: '100%', minHeight: '105px' }} />
             ))}
           {catergoryList && catergoryList.length > 0 && (
             <div
               className="danji-around-detail-list-wrraper"
               style={{
-                minHeight: '10.5rem',
-                maxHeight: '10.5rem',
+                minHeight: '105px',
+                maxHeight: '105px',
                 overflowY: 'auto',
               }}
             >
               {convertedCategory.map((item, index) => (
                 <Stack
-                  style={{ ...getStylingFuction(item.address_name, index), display: 'flex', flexDirection: 'row' }}
+                  style={{
+                    ...getStylingFuction(item.address_name, index),
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
                   id={item.id}
                   key={item.id}
                   ref={(element) => {

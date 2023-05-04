@@ -2,12 +2,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
-
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-// import { MapCardStreet } from './MapCardStreet';
-
 import { getZoomByMeters } from '@/utils/map';
-
 import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
 import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 import { NaverMapV1 } from '@/lib/navermapV1';

@@ -1,14 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button } from '@/components/atoms';
-import { convertedArr, getAverageDistance } from '@/hooks/utils/aroundInfo';
+// import { DanjiAroundMapCard } from '@/components/templates/MobDanjiDetail/Components/DanjiAroundMapCard';
+import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
 import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 import { cloneDeep } from 'lodash';
+import dynamic from 'next/dynamic';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
 import tw from 'twin.macro';
 import NoDataTypeOne from './NoData';
 import ConvertArrayToSubwayComponent from './SubwayFormatComponent';
+
+const DanjiAroundMapCard = dynamic(
+  () => import('@/components/templates/MobDanjiDetail/Components/DanjiAroundMapCard'),
+  { ssr: false },
+);
 
 type BtnState = {
   SW8?: boolean;
@@ -32,10 +40,10 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
   const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);
-  // const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
+  const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
   const [isMoreClick, setIsMoreClick] = useState(false);
   const [sliceNum, setSliceNum] = useState(3);
-  // const [update, setUpdate] = useState(false);
+  const [update, setUpdate] = useState(false);
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({
     SW8: true,
@@ -78,9 +86,9 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
       return convertedArr([...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance)));
 
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
-  }, [activeCategory.SW8, catergoryList]);
+  }, [activeCategory.SW8, catergoryList, update]);
 
-  // const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [markers]);
+  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [update, markers]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
@@ -91,7 +99,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
     setActiveCategory(() => ({ [id]: true }));
     setCategoryList([]);
-    // setMarkers([]);
+    setMarkers([]);
   };
 
   useEffect(() => {
@@ -121,7 +129,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
       if (response && response.documents.length === 0) {
         setCategoryList([]);
-        // setMarkers([]);
+        setMarkers([]);
         setNodata(true);
         return;
       }
@@ -129,7 +137,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
       if (response && response?.documents) {
         setNodata(false);
         const copiedResData = cloneDeep(response.documents);
-        // const copiedResMarkerData = cloneDeep(response.documents);
+        const copiedResMarkerData = cloneDeep(response.documents);
 
         const convertedResData = copiedResData.map((item) => {
           if (item.category_group_code === KakaoMapCategoryCode.SUBWAY) {
@@ -149,7 +157,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         });
 
         setCategoryList((prev) => [...prev, ...convertedResData]);
-        // setMarkers((prev) => [...prev, ...copiedResMarkerData]);
+        setMarkers((prev) => [...prev, ...copiedResMarkerData]);
       }
 
       if (response && !response?.meta.is_end) {
@@ -167,7 +175,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           p: 0,
         });
 
-        // setUpdate(true);
+        setUpdate(true);
       }
     }
 
@@ -178,7 +186,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     });
 
     return () => {
-      // setUpdate(false);
+      setUpdate(false);
     };
   }, [activeCategory, danji]);
 
@@ -199,6 +207,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           지도에서 보기
         </Button>
       </div>
+
       <div
         role="presentation"
         ref={scrollRef}
@@ -224,6 +233,10 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
             {item.korTitle}
           </Button>
         ))}
+      </div>
+
+      <div tw="relative [margin-top: 16px] [margin-bottom: 16px]">
+        <DanjiAroundMapCard aroundList={convertedMarker} danji={danji} addressName="" />
       </div>
 
       {catergoryList.length === 0 &&
@@ -255,7 +268,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                 />
               )}
               <span tw="ml-2 text-b2">{item.place_name}</span>
-              <span tw="text-b2 ml-auto text-gray-500">{getAverageDistance(item.distance)}m</span>
+              <span tw="text-b2 ml-auto text-gray-1000">{getAverageDistance(item.distance)}m</span>
             </div>
           ))}
           {convertedCategory.length > 3 &&

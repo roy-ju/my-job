@@ -12,6 +12,7 @@
  * Zoom 18: 30m
  * Zoom 19: 20m
  */
+
 export function getZoomByMeters(meters: number) {
   if (meters <= 5) return 21;
   if (meters <= 10) return 20;
@@ -60,4 +61,14 @@ export function getZoomByMapLevel(mapLevel: number) {
   if (mapLevel === 1) {
     return 15;
   }
+}
+
+export function getListingMapLevelByZoom(zoom: number) {
+  const meters = getMetersByZoom(zoom);
+  // when meters is negative, its an error.
+  if (meters === -1) return 4;
+  if (meters <= 300) return 1;
+  if (meters <= 500) return 2;
+  if (meters <= 5000) return 3;
+  return 4;
 }
