@@ -11,6 +11,7 @@ env:
   NEGOCIO_REST_API_BASE_URL: https://api2-test.negocio.kr
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket2-test.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: test
+  NEGOCIO_AGENT_CLIENT_URL: https://agent-test2.negocio.kr/
 jobs:
   deploy:
     name: Deploy
@@ -44,6 +45,7 @@ jobs:
           NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL=${{ env.NEGOCIO_WEBSOCKET_BASE_URL }} \n \
           NEXT_PUBLIC_APP_ENVIRONMENT=${{ env.NEGOCIO_APP_ENVIRONMENT }} \n \
           KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \n \
+          NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL=${{ env.NEGOCIO_AGENT_CLIENT_URL }} \n \
           " > .env
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
