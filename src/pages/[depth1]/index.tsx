@@ -15,9 +15,10 @@ Page.getLayout = function getLayout(page) {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  await getHtmlMetas(context.query);
+  const metas = await getHtmlMetas(context.query);
   return {
     props: {
+      ...metas,
       query: context.query,
       route: context.query.depth1,
       depth: 1,
