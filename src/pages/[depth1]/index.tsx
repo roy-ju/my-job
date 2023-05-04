@@ -1,6 +1,7 @@
 import { MapLayout } from '@/layouts';
 import { NextPageWithLayout } from '@/pages/_app';
 import Router from '@/router';
+import getHtmlMetas from '@/utils/getHtmlMetas';
 import { GetServerSideProps } from 'next';
 
 const Page: NextPageWithLayout = () => null;
@@ -13,12 +14,15 @@ Page.getLayout = function getLayout(page) {
   return <MapLayout>{page}</MapLayout>;
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => ({
-  props: {
-    query: context.query,
-    route: context.query.depth1,
-    depth: 1,
-  },
-});
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  await getHtmlMetas(context.query);
+  return {
+    props: {
+      query: context.query,
+      route: context.query.depth1,
+      depth: 1,
+    },
+  };
+};
 
 export default Page;

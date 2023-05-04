@@ -51,6 +51,7 @@ interface MobLayoutMapContainerProps {
   onChangeMapToggleValue?: (value: number) => void;
   onChangePriceType?: (value: string) => void;
   onTogglepanelsVisibility?: () => void;
+  onClickMapListingList?: () => void;
   children?: ReactNode;
 }
 
@@ -77,6 +78,7 @@ function MobLayoutMapContainer({
   onChangeFilter,
   onChangeMapToggleValue,
   onChangePriceType,
+  onClickMapListingList,
   children,
 }: MobLayoutMapContainerProps) {
   const { addFullScreenDialog } = useFullScreenDialogStore();
@@ -143,7 +145,11 @@ function MobLayoutMapContainer({
         {filter?.realestateTypeGroup !== 'apt,oftl' && (
           <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
             <div tw="w-fit pointer-events-auto">
-              <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl bg-nego-800">
+              <Button
+                size="medium"
+                tw="whitespace-nowrap font-bold rounded-4xl bg-nego-800"
+                onClick={onClickMapListingList}
+              >
                 이 지역 매물 {listingCount ?? 0}
               </Button>
             </div>
