@@ -80,11 +80,7 @@ export default function InterimAmount({
           <div tw="font-bold">총 넣을 수 있는 중도금을 적어주세요.</div>
           <div>
             <TextField variant="outlined">
-              <TextField.PriceInput
-                placeholder="예) 15%, 2억 2,000만 원"
-                value={amount}
-                onChange={handleChangeAmount}
-              />
+              <TextField.PriceInput label="중도금" value={amount} onChange={handleChangeAmount} />
             </TextField>
             <TextField.PriceHelperMessage>{amount}</TextField.PriceHelperMessage>
           </div>
