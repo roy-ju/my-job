@@ -12,6 +12,10 @@ const DanjiAroundDetail = dynamic(() => import('@/components/templates/MobDanjiD
   ssr: false,
 });
 
+const DanjiSchoolDetail = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail'), {
+  ssr: false,
+});
+
 const DanjiDetail = () => {
   const { danji, mutate } = useDanjiDetail();
 
@@ -63,6 +67,12 @@ const DanjiDetail = () => {
       {isTrueAround && (
         <MobileContainer>
           <DanjiAroundDetail danji={danjiAroundData} />
+        </MobileContainer>
+      )}
+
+      {isTrueSchool && (
+        <MobileContainer>
+          <DanjiSchoolDetail lat={danji?.lat} lng={danji?.long} rt={danji?.type} pnu={danji?.pnu} />
         </MobileContainer>
       )}
     </>

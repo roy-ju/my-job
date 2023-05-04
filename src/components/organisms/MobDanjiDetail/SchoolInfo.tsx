@@ -36,8 +36,20 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   }, []);
 
   const handleClickHakgudo = useCallback(() => {
+    if (!danji) return;
+
+    if (selectedSchoolType === SchoolType.ElementarySchool) {
+      sessionStorage.setItem('danji-selected-school', '"1"');
+    }
+    if (selectedSchoolType === SchoolType.MiddleSchool) {
+      sessionStorage.setItem('danji-selected-school', '"2"');
+    }
+    if (selectedSchoolType === SchoolType.HighSchool) {
+      sessionStorage.setItem('danji-selected-school', '"3"');
+    }
+
     makeTrueSchool();
-  }, [makeTrueSchool]);
+  }, [danji, makeTrueSchool, selectedSchoolType]);
 
   useEffect(() => {
     if (listElementarySchools.length > 0) {
