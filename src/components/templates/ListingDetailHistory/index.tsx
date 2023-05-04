@@ -211,7 +211,7 @@ export default function ListingDetailHistory({
           statusText={statusText}
         />
       </div>
-      {!isPreContractCompleted && !isContractCompleted && (
+      {!isPreContractCompleted && !isContractCompleted && !isCancelled && (
         <div tw="mt-1 py-6 px-5">
           <SuggestionCard
             isMonthlyRent={isMonthlyRent}
