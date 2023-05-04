@@ -14,7 +14,7 @@ export default function useMapListingList() {
   const [bounds, setBounds] = useState<MapBounds | null>(null);
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
-  const { data, isLoading } = useAPI_MapSearchList(mapToggleValue, bounds, filter);
+  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(mapToggleValue, bounds, filter);
 
   // 지도 필터가 바뀔때 호출
   const onFilterChange = useCallback((f: Filter) => {
@@ -54,5 +54,6 @@ export default function useMapListingList() {
   return {
     data,
     isLoading,
+    increamentPageNumber,
   };
 }

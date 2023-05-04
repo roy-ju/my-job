@@ -11,7 +11,7 @@ import useMapListingList from './useMapListingList';
 export default memo(() => {
   const router = useRouter();
 
-  const { data, isLoading } = useMapListingList();
+  const { data, isLoading, increamentPageNumber } = useMapListingList();
 
   const onClickListing = useCallback(
     (id: number) => {
@@ -38,6 +38,7 @@ export default memo(() => {
         onClickListing={onClickListing}
         onToggleFavorite={onToggleFav}
         onClickBack={() => router.back()}
+        onNext={increamentPageNumber}
       />
     </MobileContainer>
   );

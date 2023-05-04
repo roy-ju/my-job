@@ -1,6 +1,6 @@
 import { NavigationHeader } from '@/components/molecules';
 import ExclamationIcon from '@/assets/icons/exclamation_mark.svg';
-import { Loading } from '@/components/atoms';
+import { InfiniteScroll, Loading } from '@/components/atoms';
 import { MapSearchListResponse } from '@/apis/map/mapSearchList';
 import { MyListItem } from '@/components/organisms';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -31,9 +31,17 @@ interface Props {
   onClickListing?: (id: number) => void;
   onToggleFavorite?: (id: number, active: boolean) => void;
   onClickBack?: () => void;
+  onNext?: () => void;
 }
 
-export default function MapListingList({ data, isLoading, onClickListing, onToggleFavorite, onClickBack }: Props) {
+export default function MapListingList({
+  data,
+  isLoading,
+  onClickListing,
+  onToggleFavorite,
+  onClickBack,
+  onNext,
+}: Props) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -54,36 +62,38 @@ export default function MapListingList({ data, isLoading, onClickListing, onTogg
           )}
           {!isLoading && Boolean(data?.length) && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.1 }}>
-              {data?.map((item, i) => (
-                <React.Fragment key={item.listing_id}>
-                  {i > 0 && <Divider />}
-                  <MyListItem.Listing
-                    listingId={item.listing_id}
-                    listingTitle={item.listing_title}
-                    tradeOrDepositPrice={item.trade_or_deposit_price}
-                    monthlyRentFee={item.monthly_rent_fee}
-                    realestateType={item.realestate_type}
-                    jeonyongArea={item.jeonyong_area}
-                    totalFloor={item.total_floor}
-                    quickSale={item.quick_sale ?? false}
-                    isParticipating={item.is_participating}
-                    participantsCount={item.participants_count}
-                    isFavorite={item.is_favorite}
-                    eubmyundong={item.eubmyundong}
-                    labelText={item.label_text}
-                    viewCount={item.view_count}
-                    thumbnailFullPath={item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]}
-                    buyOrRent={item.buy_or_rent}
-                    floorDescription={item.floor_description}
-                    direction={item.direction}
-                    statusText=""
-                    onClickListingItem={(id) => () => {
-                      onClickListing?.(id);
-                    }}
-                    onToggleListingLike={onToggleFavorite}
-                  />
-                </React.Fragment>
-              ))}
+              <InfiniteScroll onNext={onNext}>
+                {data?.map((item, i) => (
+                  <React.Fragment key={item.listing_id}>
+                    {i > 0 && <Divider />}
+                    <MyListItem.Listing
+                      listingId={item.listing_id}
+                      listingTitle={item.listing_title}
+                      tradeOrDepositPrice={item.trade_or_deposit_price}
+                      monthlyRentFee={item.monthly_rent_fee}
+                      realestateType={item.realestate_type}
+                      jeonyongArea={item.jeonyong_area}
+                      totalFloor={item.total_floor}
+                      quickSale={item.quick_sale ?? false}
+                      isParticipating={item.is_participating}
+                      participantsCount={item.participants_count}
+                      isFavorite={item.is_favorite}
+                      eubmyundong={item.eubmyundong}
+                      labelText={item.label_text}
+                      viewCount={item.view_count}
+                      thumbnailFullPath={item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]}
+                      buyOrRent={item.buy_or_rent}
+                      floorDescription={item.floor_description}
+                      direction={item.direction}
+                      statusText=""
+                      onClickListingItem={(id) => () => {
+                        onClickListing?.(id);
+                      }}
+                      onToggleListingLike={onToggleFavorite}
+                    />
+                  </React.Fragment>
+                ))}
+              </InfiniteScroll>
             </motion.div>
           )}
         </div>
