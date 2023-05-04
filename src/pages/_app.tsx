@@ -45,11 +45,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>{AppConfig.title}</title>
-        <meta name="description" content={AppConfig.description} />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
-        <meta property="og:title" content={AppConfig.title} />
-        <meta property="og:description" content={AppConfig.description} />
-        <meta property="og:image" content={AppConfig.ogImagePath} />
       </Head>
       <Script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
