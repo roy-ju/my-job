@@ -115,6 +115,43 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [router]);
 
+  const handleNavigateToServiceTerms = useCallback(() => {
+    router.replace(Routes.ServiceTerms, {
+      searchParams: {
+        register: 'true',
+      },
+      state: {
+        email: router.query.email as string,
+        token: router.query.token as string,
+        socialLoginType: router.query.socialLoginType as string,
+      },
+    });
+  }, [router]);
+  const handleNavigateToPrivacyTerms = useCallback(() => {
+    router.replace(Routes.PrivacyTerms, {
+      searchParams: {
+        register: 'true',
+      },
+      state: {
+        email: router.query.email as string,
+        token: router.query.token as string,
+        socialLoginType: router.query.socialLoginType as string,
+      },
+    });
+  }, [router]);
+  const handleNavigateToLocationTerms = useCallback(() => {
+    router.replace(Routes.LocationTerms, {
+      searchParams: {
+        register: 'true',
+      },
+      state: {
+        email: router.query.email as string,
+        token: router.query.token as string,
+        socialLoginType: router.query.socialLoginType as string,
+      },
+    });
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <Register
@@ -129,6 +166,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangePrivacyRetention={handleChangePrivacyRetention}
         onChangeTerms={handleChangeTerms}
         onClickNext={handleClickNext}
+        onNavigateToServiceTerms={handleNavigateToServiceTerms}
+        onNavigateToPrivacyTerms={handleNavigateToPrivacyTerms}
+        onNavigateToLocationTerms={handleNavigateToLocationTerms}
       />
     </Panel>
   );

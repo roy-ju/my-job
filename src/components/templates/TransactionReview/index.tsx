@@ -33,7 +33,7 @@ export default function TransactionReview({
     <div tw="h-full flex flex-col">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onGoBack} />
-        <NavigationHeader.Title>거래후기 남기기</NavigationHeader.Title>
+        <NavigationHeader.Title>{hasReview ? '거래후기 보기' : '거래후기 남기기'}</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 px-5 mt-7">
         <TransactionReviewForm
