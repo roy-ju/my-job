@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import { MapLayout } from '@/layouts';
 import PrevPage from '@/pages/[depth1]';
 import Router from '@/router';
+import getHtmlMetas from '@/utils/getHtmlMetas';
 
 const Page: NextPageWithLayout = () => null;
 
@@ -24,12 +25,17 @@ Page.getLayout = function getLayout(page, pageProps) {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => ({
-  props: {
-    query: context.query,
-    route: context.query.depth2,
-    depth: 2,
-  },
-});
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const metas = await getHtmlMetas(context.query);
+
+  return {
+    props: {
+      ...metas,
+      query: context.query,
+      route: context.query.depth2,
+      depth: 2,
+    },
+  };
+};
 
 export default Page;

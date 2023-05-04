@@ -178,91 +178,93 @@ export default function ListingDetailHistory({
         <NavigationHeader.BackButton onClick={onNavigateToBack} />
         <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="px-5 mt-7">
-        <ListingDetailPassedItem
-          listingTitle={listingTitle}
-          address={roadNameAddress}
-          area={jeonyongArea}
-          floorDescription={floorDescription}
-          floor={totalFloor}
-          direction={direction}
-          listingImagePath={thumbnailFullPath}
-          onClick={onNavigateToListingDetail}
-        />
-        {!isPreContractCompleted && !isContractCompleted && (
-          <PriceCard
-            isMonthlyRent={isMonthlyRent}
-            tradeOrDepositPrice={tradeOrDepositPrice}
-            monthlyRentFee={monthlyRentFee}
-            biddingTradeOrDepositPrice={biddingTradeOrDepositPrice}
-            biddingMonthlyRentFee={biddingMonthlyRentFee}
+      <div tw="flex-1 min-h-0 overflow-auto">
+        <div tw="px-5 mt-7">
+          <ListingDetailPassedItem
+            listingTitle={listingTitle}
+            address={roadNameAddress}
+            area={jeonyongArea}
+            floorDescription={floorDescription}
+            floor={totalFloor}
+            direction={direction}
+            listingImagePath={thumbnailFullPath}
+            onClick={onNavigateToListingDetail}
           />
-        )}
-        {renderButton()}
-      </div>
-      <div tw="mt-7">
-        <StatusCard
-          isContractCompleted={isContractCompleted}
-          isPreContractCompleted={isPreContractCompleted}
-          isMonthlyRent={isMonthlyRent}
-          contractBiddingMonthlyRentFee={contractBiddingMonthlyRentFee}
-          contractBiddingTradeOrDepositPrice={contractBiddingTradeOrDepositPrice}
-          contractDate={contractDate}
-          statusText={statusText}
-        />
-      </div>
-      {!isPreContractCompleted && !isContractCompleted && (
-        <div tw="mt-1 py-6 px-5">
-          <SuggestionCard
+          {!isPreContractCompleted && !isContractCompleted && (
+            <PriceCard
+              isMonthlyRent={isMonthlyRent}
+              tradeOrDepositPrice={tradeOrDepositPrice}
+              monthlyRentFee={monthlyRentFee}
+              biddingTradeOrDepositPrice={biddingTradeOrDepositPrice}
+              biddingMonthlyRentFee={biddingMonthlyRentFee}
+            />
+          )}
+          {renderButton()}
+        </div>
+        <div tw="mt-7">
+          <StatusCard
+            isContractCompleted={isContractCompleted}
+            isPreContractCompleted={isPreContractCompleted}
             isMonthlyRent={isMonthlyRent}
-            biddingMonthlyRentFee={biddingMonthlyRentFee}
-            biddingTradeOrDepositPrice={biddingTradeOrDepositPrice}
-            canHaveEarlierMoveInDate={canHaveEarlierMoveInDate}
-            canHaveEarlierRemainingAmountPaymentTime={canHaveEarlierRemainingAmountPaymentTime}
-            canHaveMoreContractAmount={canHaveMoreContractAmount}
-            canHaveMoreInterimAmount={canHaveMoreInterimAmount}
-            remainingAmountPaymentTime={remainingAmountPaymentTime}
-            remainingAmountPaymentTimeType={remainingAmountPaymentTimeType}
-            contractAmount={contractAmount}
-            interimAmount={interimAmount}
-            moveInDate={moveInDate}
-            moveInDateType={moveInDateType}
-            description={description}
-            etcs={etcs}
+            contractBiddingMonthlyRentFee={contractBiddingMonthlyRentFee}
+            contractBiddingTradeOrDepositPrice={contractBiddingTradeOrDepositPrice}
+            contractDate={contractDate}
+            statusText={statusText}
           />
         </div>
-      )}
-      <div tw="py-7 px-5">
-        <div tw="text-b1 mb-4 font-bold">거래참여 상세 이력</div>
-        <StyledTable>
-          <Table.Body>
-            {list?.map((item) => (
-              <Table.Row key={item.created_time}>
-                <Table.Head tw="self-start">{item.description}</Table.Head>
-                <Table.Data tw="text-right">
-                  <Moment format="YYYY.MM.DD HH:MM">{item.created_time}</Moment>
-                  <div>
-                    {item.bidding_monthly_rent_fee !== 0 ? (
-                      <div>
+        {!isPreContractCompleted && !isContractCompleted && !isCancelled && (
+          <div tw="mt-1 py-6 px-5">
+            <SuggestionCard
+              isMonthlyRent={isMonthlyRent}
+              biddingMonthlyRentFee={biddingMonthlyRentFee}
+              biddingTradeOrDepositPrice={biddingTradeOrDepositPrice}
+              canHaveEarlierMoveInDate={canHaveEarlierMoveInDate}
+              canHaveEarlierRemainingAmountPaymentTime={canHaveEarlierRemainingAmountPaymentTime}
+              canHaveMoreContractAmount={canHaveMoreContractAmount}
+              canHaveMoreInterimAmount={canHaveMoreInterimAmount}
+              remainingAmountPaymentTime={remainingAmountPaymentTime}
+              remainingAmountPaymentTimeType={remainingAmountPaymentTimeType}
+              contractAmount={contractAmount}
+              interimAmount={interimAmount}
+              moveInDate={moveInDate}
+              moveInDateType={moveInDateType}
+              description={description}
+              etcs={etcs}
+            />
+          </div>
+        )}
+        <div tw="py-7 px-5">
+          <div tw="text-b1 mb-4 font-bold">거래참여 상세 이력</div>
+          <StyledTable>
+            <Table.Body>
+              {list?.map((item) => (
+                <Table.Row key={item.created_time}>
+                  <Table.Head tw="self-start">{item.description}</Table.Head>
+                  <Table.Data tw="text-right">
+                    <Moment format="YYYY.MM.DD HH:mm">{item.created_time}</Moment>
+                    <div>
+                      {item.bidding_monthly_rent_fee !== 0 ? (
+                        <div>
+                          <Numeral thousandsSeparated koreanNumber>
+                            {item.bidding_trade_or_deposit_price}
+                          </Numeral>
+                          {' / '}
+                          <Numeral thousandsSeparated koreanNumber>
+                            {item.bidding_monthly_rent_fee}
+                          </Numeral>
+                        </div>
+                      ) : (
                         <Numeral thousandsSeparated koreanNumber>
                           {item.bidding_trade_or_deposit_price}
                         </Numeral>
-                        {' / '}
-                        <Numeral thousandsSeparated koreanNumber>
-                          {item.bidding_monthly_rent_fee}
-                        </Numeral>
-                      </div>
-                    ) : (
-                      <Numeral thousandsSeparated koreanNumber>
-                        {item.bidding_trade_or_deposit_price}
-                      </Numeral>
-                    )}
-                  </div>
-                </Table.Data>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </StyledTable>
+                      )}
+                    </div>
+                  </Table.Data>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </StyledTable>
+        </div>
       </div>
     </div>
   );

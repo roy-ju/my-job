@@ -155,16 +155,16 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
       if (response && !response?.meta.is_end) {
         getPlaceData({
-          x: danji.long.toString(),
-          y: danji.lat.toString(),
+          x: danji.long?.toString(),
+          y: danji.lat?.toString(),
           p: (page += 1),
         });
       }
 
       if (response && response?.meta.is_end) {
         getPlaceData({
-          x: danji.long.toString(),
-          y: danji.lat.toString(),
+          x: danji.long?.toString(),
+          y: danji.lat?.toString(),
           p: 0,
         });
 
@@ -173,8 +173,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     }
 
     getPlaceData({
-      x: danji?.long.toString(),
-      y: danji?.lat.toString(),
+      x: danji?.long?.toString(),
+      y: danji?.lat?.toString(),
       p: 1,
     });
 

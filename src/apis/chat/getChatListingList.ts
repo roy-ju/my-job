@@ -20,7 +20,7 @@ export interface GetChatListingListResponse {
 export default function useAPI_GetChatListingList(id: number) {
   const { user, isLoading: isLoadingUser } = useAuth();
   const { data, isLoading, mutate } = useSWR<GetChatListingListResponse>(
-    user ? ['/chat/room/listings', { chat_room_id: id }] : null,
+    user && id ? ['/chat/room/listings', { chat_room_id: id }] : null,
   );
 
   const list = useMemo(

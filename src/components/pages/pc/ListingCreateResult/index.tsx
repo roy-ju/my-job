@@ -50,24 +50,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     [data?.agent_list],
   );
 
-  const debtSuccessions = useMemo(
-    () =>
-      data?.debt_successions?.map((item) => ({
-        amount: item.amount,
-        name: item.name,
-      })),
-    [data?.debt_successions],
-  );
-
-  const collaterals = useMemo(
-    () =>
-      data?.collaterals?.map((item) => ({
-        amount: item.amount,
-        name: item.name,
-      })),
-    [data?.collaterals],
-  );
-
   useEffect(() => {
     if (!listingID) {
       router.pop();
@@ -133,40 +115,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     <Panel width={panelWidth}>
       <ListingCreateResult
         isLoading={isLoading}
-        agentOfficeName={data?.agent_summary?.office_name}
-        agentName={data?.agent_summary?.name}
-        agentCellPhone={data?.agent_summary?.cell_phone}
-        agentJibunAddress={data?.agent_summary?.address}
-        agentRegistrationNumber={data?.agent_summary?.registration_number}
-        agentProfileImageFullPath={data?.agent_summary?.profile_image_full_path}
-        listingStatus={data?.listing_status}
-        buyOrRent={data?.listing.buy_or_rent}
-        rentArea={data?.listing.rent_area}
-        tradePrice={data?.listing.trade_price}
-        deposit={data?.listing.deposit}
-        monthlyRentFee={data?.listing.monthly_rent_fee}
-        contractAmount={data?.listing.contract_amount}
-        remainingAmount={data?.listing.remaining_amount}
-        interimAmount1={data?.listing.interim_amount1}
-        interimAmount2={data?.listing.interim_amount2}
-        interimAmount3={data?.listing.interim_amount3}
-        interimAmountNegotiable1={data?.listing.interim_amount_negotiable1}
-        interimAmountPaymentTime1={data?.listing.interim_amount_payment_time1}
-        interimAmountPaymentTime2={data?.listing.interim_amount_payment_time2}
-        interimAmountPaymentTime3={data?.listing.interim_amount_payment_time3}
-        interimAmountPaymentTimeType1={data?.listing.interim_amount_payment_time1_type}
-        interimAmountPaymentTimeType2={data?.listing.interim_amount_payment_time2_type}
-        interimAmountPaymentTimeType3={data?.listing.interim_amount_payment_time3_type}
-        debtSuccessions={debtSuccessions}
-        collaterals={collaterals}
-        moveInDate={data?.listing.move_in_date}
-        moveInDateType={data?.listing.move_in_date_type}
-        rentTermMonth={data?.listing.rent_contract_term_month}
-        rentTermYear={data?.listing.rent_contract_term_year}
-        specialTerms={data?.listing.special_terms}
-        jeonsaeLoan={data?.listing.jeonsae_loan}
-        addressLine1={data?.listing.road_name_address ?? data?.listing.jibun_address}
-        addressLine2={data?.full_road_name_address?.replace(data?.listing.road_name_address ?? '', '')}
+        data={data}
         addressList={addressList}
         agents={agentList}
         isSendingSms={isSendingSms}
