@@ -135,10 +135,6 @@ export default function RealPricesPyoungList({
     }
   }, [selectedIndex]);
 
-  console.log(danjiRealPricesPyoungList);
-
-  console.log(selectedArea);
-
   if (!danjiRealPricesPyoungList) return null;
 
   return danjiRealPricesPyoungList?.length > 0 ? (
