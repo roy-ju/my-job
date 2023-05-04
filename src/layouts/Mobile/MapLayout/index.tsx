@@ -17,6 +17,7 @@ function MapWrapper() {
     handleChangeMapToggleValue,
     handleChangePriceType,
     handleCloseStreetView,
+    handleClickMapListingList,
     code,
     currentLocation,
     mapType,
@@ -63,6 +64,7 @@ function MapWrapper() {
         onChangeFilter={handleChangeFilter}
         onChangeMapToggleValue={handleChangeMapToggleValue}
         onChangePriceType={handleChangePriceType}
+        onClickMapListingList={handleClickMapListingList}
       >
         <Map {...props}>
           <Markers

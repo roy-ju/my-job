@@ -19,7 +19,7 @@ export default function PhotoGallery({ headerTitle, photoPaths }: Props) {
             key={path}
             tw="w-full h-[254px] bg-no-repeat bg-center bg-cover shrink-0"
             style={{
-              backgroundImage: `url('${photoPaths?.[0]}')`,
+              backgroundImage: `url('${path}')`,
             }}
           />
         ))}

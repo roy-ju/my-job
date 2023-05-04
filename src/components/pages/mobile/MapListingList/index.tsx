@@ -1,26 +1,21 @@
-import { Panel } from '@/components/atoms';
+import { MobileContainer } from '@/components/atoms';
 import { MapListingList } from '@/components/templates';
 import { memo, useCallback } from 'react';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import { toast } from 'react-toastify';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+import { useRouter } from 'next/router';
+import Routes from '@/router/routes';
 import useMapListingList from './useMapListingList';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
-
-export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+export default memo(() => {
+  const router = useRouter();
 
   const { data, isLoading, increamentPageNumber } = useMapListingList();
 
   const onClickListing = useCallback(
     (id: number) => {
-      router.push(Routes.ListingDetail, { searchParams: { listingID: `${id}` } });
+      router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`);
     },
     [router],
   );
@@ -35,19 +30,16 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, []);
 
-  const handleNextPage = useCallback(() => {
-    increamentPageNumber();
-  }, [increamentPageNumber]);
-
   return (
-    <Panel width={panelWidth}>
+    <MobileContainer>
       <MapListingList
         data={data}
         isLoading={isLoading}
         onClickListing={onClickListing}
         onToggleFavorite={onToggleFav}
-        onNext={handleNextPage}
+        onClickBack={() => router.back()}
+        onNext={increamentPageNumber}
       />
-    </Panel>
+    </MobileContainer>
   );
 });
