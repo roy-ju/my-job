@@ -16,4 +16,5 @@ export { default as MobileContainer } from './MobileContainer';
 export { default as PersistentBottomBar } from './PersistentBottomBar';
 export { default as BottomBezel } from './BottomBezel';
 export { default as AuthRequired } from './AuthRequired';
-export { default as MobAuthRequired } from "./MobAuthRequired"
+export { default as MobAuthRequired } from './MobAuthRequired';
+export { default as TopLoadingBar } from './TopLoadingBar';

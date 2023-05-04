@@ -651,9 +651,9 @@ export default function MetaInserted({ title, description, ...props }: MetaInser
       <Head>
         {title && <title>{title}</title>}
         {description && <meta name="description" content={description} key="desc" />}
-        <meta property="og:title" content="Social Title for Cool Page" />
-        <meta property="og:description" content="And a social description for our cool page" />
-        <meta property="og:image" content="https://example.com/images/cool-page.jpg" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        {/* <meta property="og:image" content="https://example.com/images/cool-page.jpg" /> */}
       </Head>
       <Router {...props} />
     </>
