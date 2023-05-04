@@ -104,7 +104,7 @@ export default function TransactionReviewForm({
             spellCheck={false}
             value={freeFeedback}
             onChange={onChangeFreeFeedback}
-            placeholder="자유롭게 작성해주세요. (선택사항)"
+            placeholder={hasReview ? '' : '자유롭게 작성해주세요. (선택사항)'}
             tw="min-h-[76px]"
             readOnly={hasReview}
           />
