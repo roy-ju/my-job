@@ -3,9 +3,16 @@ import Paths from '@/constants/paths';
 import axios from '@/lib/axios';
 import Routes from '@/router/routes';
 import { ParsedUrlQuery } from 'querystring';
+import AppConfig from '@/config';
 import formatNumberInKorean from './formatNumberInKorean';
 
 export default async function getHtmlMetas(query: ParsedUrlQuery) {
+  const defaultMeta = {
+    title: AppConfig.title,
+    description: AppConfig.description,
+    ogImagePath: AppConfig.ogImagePath,
+  };
+
   const targetRoute = query.depth2 ?? query.depth1;
 
   if (targetRoute === Routes.ListingDetail) {
@@ -28,7 +35,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
       };
     } catch (e) {
-      return {};
+      return defaultMeta;
     }
   }
 
@@ -45,9 +52,9 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
       };
     } catch (e) {
-      return {};
+      return defaultMeta;
     }
   }
 
-  return {};
+  return defaultMeta;
 }
