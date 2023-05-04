@@ -46,12 +46,22 @@ export default memo(({ panelWidth, depth }: Props) => {
   }, []);
 
   const handleGoBack = () => {
-    router.replace(Routes.ListingDetailPassed, {
-      searchParams: {
-        tab: `${4}`,
-        listingID: router.query.listingID as string,
-      },
-    });
+    if (router.query.biddingID) {
+      router.replace(Routes.ListingDetailHistory, {
+        searchParams: {
+          tab: `${4}`,
+          listingID: router.query.listingID as string,
+          biddingID: router.query.biddingID as string,
+        },
+      });
+    } else {
+      router.replace(Routes.ListingDetailPassed, {
+        searchParams: {
+          tab: `${4}`,
+          listingID: router.query.listingID as string,
+        },
+      });
+    }
   };
 
   const handleSubmit = async () => {
