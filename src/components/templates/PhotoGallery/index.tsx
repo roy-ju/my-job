@@ -3,12 +3,14 @@ import { NavigationHeader } from '@/components/molecules';
 interface Props {
   headerTitle?: string;
   photoPaths?: string[];
+  onClickBack?: () => void;
 }
 
-export default function PhotoGallery({ headerTitle, photoPaths }: Props) {
+export default function PhotoGallery({ headerTitle, photoPaths, onClickBack }: Props) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>
           {headerTitle} <span tw="font-bold text-nego">{photoPaths?.length}</span>
         </NavigationHeader.Title>

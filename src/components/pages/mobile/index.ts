@@ -75,6 +75,7 @@ export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPrice
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
+export { default as ListingPhotoGallery } from './ListingPhotoGallery';
 
 /** 지난거래 */
 export { default as ListingDetailPassed } from './ListingDetailPassed';
