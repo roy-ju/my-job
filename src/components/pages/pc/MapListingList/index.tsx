@@ -16,7 +16,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
-  const { data, isLoading } = useMapListingList();
+  const { data, isLoading, increamentPageNumber } = useMapListingList();
 
   const onClickListing = useCallback(
     (id: number) => {
@@ -35,6 +35,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, []);
 
+  const handleNextPage = useCallback(() => {
+    increamentPageNumber();
+  }, [increamentPageNumber]);
+
   return (
     <Panel width={panelWidth}>
       <MapListingList
@@ -42,6 +46,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         isLoading={isLoading}
         onClickListing={onClickListing}
         onToggleFavorite={onToggleFav}
+        onNext={handleNextPage}
       />
     </Panel>
   );
