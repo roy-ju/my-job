@@ -59,6 +59,14 @@ function MapWrapper({
     replace(Routes.MapListingList);
   }, [replace]);
 
+  const handleClickListingCreateAddress = useCallback(() => {
+    replace(Routes.ListingCreateAddress);
+  }, [replace]);
+
+  const handleClickAgentSite = useCallback(() => {
+    window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
+  }, []);
+
   return (
     <>
       <Layout.MapContainer
@@ -87,6 +95,8 @@ function MapWrapper({
         onClickClosePanel={popLast}
         onClickSuggestReginoal={handleClickSuggestRegional}
         onClickMapListingList={handleClickMapListingList}
+        onClickListingCreateAddress={handleClickListingCreateAddress}
+        onClickAgentSite={handleClickAgentSite}
         onTogglepanelsVisibility={onTogglePanelsVisibility}
       >
         <Map {...props}>
