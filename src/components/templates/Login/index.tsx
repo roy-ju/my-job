@@ -6,6 +6,7 @@ export interface LoginProps {
   onClickAppleLogin?: () => void;
   onClickForgotMyAccount?: () => void;
   onClickBack?: () => void;
+  onClickFAQ?: () => void;
 }
 
 export default function Login({
@@ -13,6 +14,7 @@ export default function Login({
   onClickAppleLogin,
   onClickForgotMyAccount,
   onClickBack,
+  onClickFAQ,
 }: LoginProps) {
   return (
     <div>
@@ -26,6 +28,7 @@ export default function Login({
           onClickKakaoLogin={onClickKakaoLogin}
           onClickAppleLogin={onClickAppleLogin}
           onClickForgotMyAccount={onClickForgotMyAccount}
+          onClickFAQ={onClickFAQ}
         />
       </div>
     </div>
