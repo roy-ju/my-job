@@ -77,14 +77,14 @@ export default function Markers({
                   count={marker.listingCount ?? 0}
                   onClick={marker.onClick}
                 >
-                  {selectedDanjiSummary?.id === marker.id && (
+                  {/* {selectedDanjiSummary?.id === marker.id && (
                     <ListingMarker.Popper
                       name={selectedDanjiSummary?.name ?? ''}
                       householdCount={selectedDanjiSummary?.householdCount ?? 0}
                       buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
                       rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
                     />
-                  )}
+                  )} */}
                 </ListingMarker>
               )}
             </CustomOverlay>
