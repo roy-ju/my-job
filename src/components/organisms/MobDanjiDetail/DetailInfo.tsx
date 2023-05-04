@@ -1,6 +1,7 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button } from '@/components/atoms';
 import { Table } from '@/components/molecules';
+import { MapCardDanji } from '@/components/templates/MobDanjiMap';
 import { describeRealestateType } from '@/constants/enums';
 import { formatUseAcceptedYear } from '@/utils/fotmat';
 import { useState } from 'react';
@@ -13,6 +14,9 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
   return (
     <div tw="px-5 pt-10 pb-10">
       <span tw="font-bold text-b1 [line-height: 1]">단지 기본정보</span>
+      <div tw="[min-height: 16px]" />
+      <MapCardDanji danji={danji} />
+      <div tw="[min-height: 16px]" />
       <Table>
         <Table.Body>
           <Table.Row>
