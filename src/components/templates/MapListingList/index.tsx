@@ -30,12 +30,14 @@ interface Props {
   data?: MapSearchListResponse['list'];
   onClickListing?: (id: number) => void;
   onToggleFavorite?: (id: number, active: boolean) => void;
+  onClickBack?: () => void;
 }
 
-export default function MapListingList({ data, isLoading, onClickListing, onToggleFavorite }: Props) {
+export default function MapListingList({ data, isLoading, onClickListing, onToggleFavorite, onClickBack }: Props) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>매물 목록</NavigationHeader.Title>
       </NavigationHeader>
       <AnimatePresence mode="wait">

@@ -101,7 +101,7 @@ export default function BasicInfo({ depth, danji }: { depth: number; danji: GetD
               </>
             )}
 
-            {danji.construction_start_date.replaceAll(' ', '') && (
+            {danji.construction_start_date?.replaceAll(' ', '') && (
               <>
                 <div tw="w-px h-2 bg-gray-300" />
                 <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')}</span>
