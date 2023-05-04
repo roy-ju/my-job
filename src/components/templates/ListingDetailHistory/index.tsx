@@ -211,7 +211,7 @@ export default function ListingDetailHistory({
           statusText={statusText}
         />
       </div>
-      {!isPreContractCompleted && !isContractCompleted && (
+      {!isPreContractCompleted && !isContractCompleted && !isCancelled && (
         <div tw="mt-1 py-6 px-5">
           <SuggestionCard
             isMonthlyRent={isMonthlyRent}
@@ -240,7 +240,7 @@ export default function ListingDetailHistory({
               <Table.Row key={item.created_time}>
                 <Table.Head tw="self-start">{item.description}</Table.Head>
                 <Table.Data tw="text-right">
-                  <Moment format="YYYY.MM.DD HH:MM">{item.created_time}</Moment>
+                  <Moment format="YYYY.MM.DD HH:mm">{item.created_time}</Moment>
                   <div>
                     {item.bidding_monthly_rent_fee !== 0 ? (
                       <div>
