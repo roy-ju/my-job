@@ -10,13 +10,14 @@ interface IQnaProps {
 export default function Qna({ placeholder, value, onChange }: IQnaProps) {
   return (
     <div tw="px-5 mt-7">
-      <TextField variant="outlined" tw="h-[30rem]">
+      <TextField variant="outlined">
         <TextField.TextArea
           value={value}
           placeholder={placeholder}
-          tw="placeholder:text-b2 min-h-full  max-h-full resize-none text-b2"
+          tw="placeholder:text-b2 min-h-[74px] text-b2"
           onChange={onChange}
           maxLength={100}
+          spellCheck={false}
         />
       </TextField>
       <TextField.HelperMessage>{value!.length}/100</TextField.HelperMessage>
