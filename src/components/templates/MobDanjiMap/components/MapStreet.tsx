@@ -82,20 +82,20 @@ export function MapStreet({
     }
   }, [panorama]);
 
-  useEffect(() => {
-    const callback = () => {
-      if (!containerRef.current || !panorama || !isFullScreen) return;
-      if (!naver.maps) return;
-      const { offsetWidth, offsetHeight } = containerRef.current;
+  // useEffect(() => {
+  //   const callback = () => {
+  //     if (!containerRef.current || !panorama || !isFullScreen) return;
+  //     if (!naver.maps) return;
+  //     const { offsetWidth, offsetHeight } = containerRef.current;
 
-      const size = new naver.maps.Size(offsetWidth, offsetHeight);
+  //     const size = new naver.maps.Size(offsetWidth, offsetHeight);
 
-      panorama.setSize(size);
-    };
+  //     panorama.setSize(size);
+  //   };
 
-    window.addEventListener('resize', callback);
-    return () => window.removeEventListener('resize', callback);
-  }, [containerId, panorama, mapHeight, isFullScreen]);
+  //   window.addEventListener('resize', callback);
+  //   return () => window.removeEventListener('resize', callback);
+  // }, [containerId, panorama, mapHeight, isFullScreen]);
 
   useEffect(
     () => () => {

@@ -190,7 +190,15 @@ export function FullScreenMap({ type, danji }: { type: string; danji?: GetDanjiD
         )}
 
         {(mapButtonStore.isShowMap || mapButtonStore.isShowRoad) && (
-          <div style={{ position: 'absolute', top: '12px', right: '16px', transform: 'translate3d(0, 0, 0)' }}>
+          <div
+            style={{
+              position: 'absolute',
+              top: '12px',
+              right: '16px',
+              transform: 'translate3d(0, 0, 0)',
+              zIndex: 10000,
+            }}
+          >
             <MapControls.Group>
               {mapButtonStore.isShowMap && <MapButton onClick={() => makeGeneralMap()} selected={mapType === 'map'} />}
               {mapButtonStore.isShowRoad && (
