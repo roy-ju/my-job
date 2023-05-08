@@ -490,6 +490,7 @@ export default function ListingDetail({
             </DanjiDetailSection>
           </div>
         )}
+
         <div id="qnaSection" ref={setQnaSection}>
           <div tw="py-10 px-5">
             <ListingDetailSection.Agent agent={listingDetail?.agent_summary} />
