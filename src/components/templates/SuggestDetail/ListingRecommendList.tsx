@@ -7,6 +7,7 @@ interface Props {
   onClickChat?: (id: number) => void;
   onClickNotInterested?: (id: number) => void;
   onClickRecommendAccept?: (id: number) => void;
+  onClickNewRecommendations?: () => void;
 }
 
 export default function ListingRecommendList({
@@ -15,11 +16,12 @@ export default function ListingRecommendList({
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
+  onClickNewRecommendations,
 }: Props) {
   if (!recommendData?.length) {
     return (
       <div tw="py-7">
-        <SuggestReceivedListNoData />
+        <SuggestReceivedListNoData onClick={onClickNewRecommendations} />
       </div>
     );
   }
