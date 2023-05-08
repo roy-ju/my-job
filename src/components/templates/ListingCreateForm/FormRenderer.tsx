@@ -31,6 +31,8 @@ export default function FormRenderer({ form }: Props) {
     (!!window.Android?.goToAppPermissionSettings || !!window.webkit?.messageHandlers?.goToAppPermissionSettings);
 
   const {
+    isAddInterimButtonDisabled,
+
     // IsOwner
     isOwner,
     onChangeIsOwner,
@@ -214,6 +216,7 @@ export default function FormRenderer({ form }: Props) {
         <div id={Forms.PaymentSchedules} tw="py-10">
           <div tw="pb-7 px-5">
             <Form.PaymentSchedule
+              isAddButtonDisabled={isAddInterimButtonDisabled}
               price={price}
               debtSuccessionDeposit={debtSuccessionDeposit}
               debtSuccessionMiscs={debtSuccessionMiscs}

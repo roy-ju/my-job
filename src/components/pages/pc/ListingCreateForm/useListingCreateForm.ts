@@ -19,6 +19,8 @@ export default function useListingCreateForm(depth: number) {
 
   const { user } = useAuth();
 
+  const [isAddInterimButtonDisabled, setIsAddInterimButtonDisabled] = useState(false);
+
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
@@ -592,6 +594,8 @@ export default function useListingCreateForm(depth: number) {
 
   // 중도금 추가
   const handleAddInterim = useCallback(() => {
+    if (interims.length === 3) return;
+
     const newInterims = [...interims];
     const key = uuidv4();
     newInterims.push({ price: '', date: null, dateType: '이전', negotiable: true, key });
@@ -650,6 +654,10 @@ export default function useListingCreateForm(depth: number) {
   );
 
   const handleAddDebtSuccessionMisc = useCallback(() => {
+    if (debtSuccessionMiscs.length > 1) {
+      toast.error('최대 2개까지 추가 가능합니다.');
+    }
+
     const newDebtSuccessions = [...debtSuccessionMiscs];
     const key = uuidv4();
     newDebtSuccessions.push({ price: '', name: '', key });
@@ -700,6 +708,11 @@ export default function useListingCreateForm(depth: number) {
   );
 
   const handleAddCollaterals = useCallback(() => {
+    if (collaterals.length > 2) {
+      toast.error('최대 3개까지 추가 가능합니다.');
+      return;
+    }
+
     const newCollaterals = [...collaterals];
     const key = uuidv4();
     newCollaterals.push({ price: '', name: '', key });
@@ -1162,7 +1175,13 @@ export default function useListingCreateForm(depth: number) {
     setCollaterals(defaultCollaterals);
   }, [router.query.params]);
 
+  useEffect(() => {
+    setIsAddInterimButtonDisabled(interims.length > 2);
+  }, [interims]);
+
   return {
+    isAddInterimButtonDisabled,
+
     nextButtonDisabled,
 
     handleClickBack,
