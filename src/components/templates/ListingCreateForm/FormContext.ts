@@ -32,6 +32,8 @@ export interface CollateralType {
 }
 
 export interface IFormContext {
+  isAddInterimButtonDisabled?: boolean;
+
   // IsOwner
   isOwner?: boolean;
   onChangeIsOwner?: (value: boolean) => void;
