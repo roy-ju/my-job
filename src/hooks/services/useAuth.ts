@@ -1,5 +1,5 @@
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-import { deleteFcmToken } from '@/apis/user/updateFcmToken';
+import { deleteFcmToken, updateFcmToken } from '@/apis/user/updateFcmToken';
 import Keys from '@/constants/storage_keys';
 import { useCallback, useMemo } from 'react';
 import { mutate } from 'swr';
@@ -42,13 +42,13 @@ export default function useAuth() {
     [mutateUserInfo],
   );
 
-  const logout = useCallback(() => {
-    localStorage.removeItem(Keys.ACCESS_TOKEN);
-
+  const logout = useCallback(async () => {
     const fcmToken = localStorage.getItem(Keys.FCM_TOKEN);
     if (fcmToken) {
-      deleteFcmToken({ token: fcmToken });
+      await deleteFcmToken({ token: fcmToken });
     }
+
+    localStorage.removeItem(Keys.ACCESS_TOKEN);
 
     mutate(() => true, undefined);
   }, []);
@@ -56,6 +56,17 @@ export default function useAuth() {
   const login = useCallback(async (accessToken: string, refreshToken: string) => {
     localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(accessToken));
     localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(refreshToken));
+
+    const fcmToken = localStorage.getItem(Keys.FCM_TOKEN);
+    const deviceId = localStorage.getItem(Keys.DEVICE_ID);
+
+    if (fcmToken && deviceId) {
+      updateFcmToken({
+        token: fcmToken,
+        device_id: deviceId,
+      });
+    }
+
     return mutate(() => true, undefined);
   }, []);
 
