@@ -26,7 +26,12 @@ interface ChatRoomProps {
   onClickLeaveButton?: () => void;
   onClickBack?: () => void;
 
-  list: ListingCardProps[];
+  sellerList: ListingCardProps[];
+  buyerContractList: ListingCardProps[];
+  buyerActiveList: ListingCardProps[];
+
+  onClickNavigateToListingDetail?: (listingID: number) => () => void;
+  onClickNavigateToListingDetailHistory?: (listingID: number, biddingID: number) => () => void;
 }
 
 export default function ChatRoom({
@@ -47,7 +52,12 @@ export default function ChatRoom({
   onClickLeaveButton,
   onClickBack,
 
-  list,
+  sellerList,
+  buyerContractList,
+  buyerActiveList,
+
+  onClickNavigateToListingDetail,
+  onClickNavigateToListingDetailHistory,
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
 
@@ -130,11 +140,15 @@ export default function ChatRoom({
       </div>
       {showListingList && (
         <ListingList
-          list={list}
+          sellerList={sellerList}
+          buyerContractList={buyerContractList}
+          buyerActiveList={buyerActiveList}
           setShowListingList={setShowListingList}
           chatUserType={chatUserType}
           agentName={agentName}
           officeName={officeName}
+          onClickNavigateToListingDetail={onClickNavigateToListingDetail}
+          onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
         />
       )}
     </div>

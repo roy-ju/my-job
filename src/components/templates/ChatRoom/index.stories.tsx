@@ -37,9 +37,12 @@ Default.args = {
       sentTime: '2023-03-21T03:43:40.133Z',
     })),
 
-  list: [
+  buyerActiveList: [
     {
       listingId: 1,
+      biddingId: 1,
+      listingStatus: 0,
+      labelText: '',
       buyOrRent: 2,
       tradeOrDepositPrice: 111111111,
       monthlyRentFee: 1111111,
@@ -50,20 +53,14 @@ Default.args = {
       totalFloor: '22',
       direction: '남',
     },
+  ],
+
+  buyerContractList: [
     {
       listingId: 1,
-      buyOrRent: 2,
-      tradeOrDepositPrice: 111111111,
-      monthlyRentFee: 1111111,
-      listingTitle: '펜트라우스 104동',
-      jeonyongArea: '44',
-      thumbnailFullPath: Paths.DEFAULT_APARTMENT_IMAGE_PATH,
-      floorDescription: '저',
-      totalFloor: '22',
-      direction: '남',
-    },
-    {
-      listingId: 1,
+      biddingId: 1,
+      listingStatus: 0,
+      labelText: '',
       buyOrRent: 2,
       tradeOrDepositPrice: 111111111,
       monthlyRentFee: 1111111,
