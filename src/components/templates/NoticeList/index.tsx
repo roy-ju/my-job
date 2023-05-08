@@ -10,14 +10,16 @@ export interface INoticeListItem {
 
 export interface NoticeListProps {
   notices: INoticeListItem[];
+  onClickBack?: () => void;
   onClickItem?: (id: number) => void;
   onNext?: () => void;
 }
 
-export default function NoticeList({ notices, onClickItem, onNext }: NoticeListProps) {
+export default function NoticeList({ notices, onClickBack, onClickItem, onNext }: NoticeListProps) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>공지사항</NavigationHeader.Title>
       </NavigationHeader>
       <InfiniteScroll tw="pt-1 flex-1 min-h-0 overflow-auto" onNext={onNext}>

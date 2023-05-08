@@ -1,11 +1,14 @@
-import { MobMyCoupon } from '@/components/templates';
+import { MobileContainer } from '@/components/atoms';
+import { MyCoupon } from '@/components/templates';
+
 import { useRouter } from 'next/router';
 
 export default function CouponWrraper() {
   const router = useRouter();
-  const handleClickBackButton = () => {
-    router.back();
-  };
 
-  return <MobMyCoupon hasData={false} onClickBack={handleClickBackButton} />;
+  return (
+    <MobileContainer>
+      <MyCoupon hasData={false} onClickBack={() => router.back()} />
+    </MobileContainer>
+  );
 }

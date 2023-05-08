@@ -27,7 +27,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickNext = useCallback(async () => {
     setIsUpdating(true);
 
-    console.log(afterMonthlyRentFee, afterPrice);
     await updateTargetPrice({
       listing_id: listingID,
       trade_or_deposit_price: afterPrice,

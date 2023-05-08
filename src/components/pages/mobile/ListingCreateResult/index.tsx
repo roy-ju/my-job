@@ -98,7 +98,6 @@ export default memo(() => {
   );
 
   const handleNavigateToMyListings = useCallback(() => {
-    // router.replace(Routes.MyRegisteredListingList, { searchParams: { tab: '1' } });
     router.replace({
       pathname: `/${Routes.EntryMobile}/${Routes.My}`,
     });
@@ -109,7 +108,6 @@ export default memo(() => {
   }, [router]);
 
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
-    // router.pop();
     return null;
   }
 

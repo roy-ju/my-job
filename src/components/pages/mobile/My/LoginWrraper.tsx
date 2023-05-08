@@ -43,7 +43,7 @@ export default function LoginWrraper() {
   }, []);
 
   const handleForgotMyAccount = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.FindAccount}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.FindAccount}`);
   }, [router]);
 
   useEffect(() => {

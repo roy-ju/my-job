@@ -1,5 +1,6 @@
 import useAPI_GetNoticeList from '@/apis/notice/getNoticeList';
-import { MobNoticeList } from '@/components/templates';
+import { MobileContainer } from '@/components/atoms';
+import { NoticeList } from '@/components/templates';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useMemo, useCallback } from 'react';
@@ -18,7 +19,24 @@ export default function NoticeListWrraper() {
     [data],
   );
 
-  const handleClickItem = useCallback((id: number) => router.push(`${Routes.NoticeDetail}/${id}`), [router]);
+  const handleClickItem = useCallback(
+    (id: number) => {
+      router.push(
+        { pathname: `/${Routes.EntryMobile}/${Routes.NoticeDetail}`, query: { noticeID: `${id}` } },
+        `/${Routes.EntryMobile}/${Routes.NoticeDetail}?noticeID=${id}`,
+      );
+    },
+    [router],
+  );
 
-  return <MobNoticeList notices={notices} onClickItem={handleClickItem} onNext={increamentPageNumber} />;
+  return (
+    <MobileContainer>
+      <NoticeList
+        onClickBack={() => router.back()}
+        notices={notices}
+        onClickItem={handleClickItem}
+        onNext={increamentPageNumber}
+      />
+    </MobileContainer>
+  );
 }

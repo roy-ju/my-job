@@ -78,7 +78,7 @@ export default function SuggestRequestedList({
                 </Button>
               </div>
             )}
-            {listStyle === 'default' && <div tw="px-5 text-end text-info">추천 받기</div>}
+            {listStyle === 'default' && <div tw="px-5 text-end text-info">추천 계속받기</div>}
             <div tw="flex flex-1 min-h-0 overflow-auto">
               <ListContainer onNext={onNext}>
                 {list?.map((item) => (

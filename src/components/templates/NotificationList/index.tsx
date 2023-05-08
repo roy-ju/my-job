@@ -50,8 +50,8 @@ export default function NotificationList({
   onClickNotification,
   onChangeNotificationChecked,
   onDeleteNotifications,
-}: // onClickBack,
-Props) {
+  onClickBack,
+}: Props) {
   const headerItems = [isDeleting ? '취소하기' : '삭제하기', '알림설정'];
 
   const renderContent = (() => {
@@ -95,7 +95,7 @@ Props) {
   return (
     <div tw="relative h-full flex flex-col">
       <NavigationHeader>
-        {/* <NavigationHeader.BackButton onClick={onClickBack} /> */}
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-b1">알림</NavigationHeader.Title>
         <NavigationHeader.MoreButton items={headerItems} onClickItem={onClickHeaderItem} />
       </NavigationHeader>

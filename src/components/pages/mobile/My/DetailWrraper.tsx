@@ -1,3 +1,4 @@
+import { MobileContainer } from '@/components/atoms';
 import { OverlayPresenter } from '@/components/molecules';
 import { UpdateEmailPopup, UpdateNicknamePopup } from '@/components/organisms';
 import { MobMyDetail } from '@/components/templates';
@@ -45,7 +46,7 @@ export default function DetailWrraper() {
   );
 
   return (
-    <>
+    <MobileContainer>
       <MobMyDetail
         isLoading={isLoading}
         nickname={nickname}
@@ -64,8 +65,8 @@ export default function DetailWrraper() {
         onClickUpdatePhone={handleUpdatePhone}
         onClickUpdateNickname={handleClickUpdateNickname}
         onClickUpdateEmail={handleClickUpdateEmail}
-        onClickVerifyCi={handleNavigateToVerifyCi}
         onClickUpdatePrivacyRetentionType={handleChangePrivacyRetentionType}
+        onClickVerifyCi={handleNavigateToVerifyCi}
       />
       {nicknamePopup && (
         <OverlayPresenter>
@@ -99,6 +100,6 @@ export default function DetailWrraper() {
           />
         </OverlayPresenter>
       )}
-    </>
+    </MobileContainer>
   );
 }
