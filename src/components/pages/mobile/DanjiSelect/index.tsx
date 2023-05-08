@@ -38,7 +38,7 @@ export default function DanjiSelect() {
   const handleClickTradePage = useCallback(() => {
     router.replace(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealTradeDetail}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealTradeDetail}`,
         query: {
           p: `${router.query.p}`,
           rt: router.query.rt as string,
@@ -46,7 +46,7 @@ export default function DanjiSelect() {
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealTradeDetail}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealTradeDetail}?p=${router.query.p}&rt=${router.query.rt}`,
     );
   }, [buyOrRent, router, selectedYear]);
 

@@ -24,16 +24,30 @@ export default function ActiveListingInfo({
   });
 
   const handleListingAll = useCallback(() => {
-    router.push(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
-  }, [router]);
+    if (router.query.listingID) {
+      router.push(Routes.DanjiListings, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: danji?.pnu || `${router.query.p}` || '',
+          rt: danji?.type.toString() || (router.query.rt as string) || '',
+        },
+      });
+    } else {
+      router.push(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+    }
+  }, [router, danji]);
 
   const handleListingDetail = useCallback(
     (id: number) => {
-      router.push(Routes.ListingDetail, {
-        searchParams: { listingID: `${id}`, p: router.query.p as string, rt: router.query.rt as string },
+      router.replace(Routes.ListingDetail, {
+        searchParams: {
+          listingID: `${id}`,
+          p: danji?.pnu || `${router.query.p}` || '',
+          rt: danji?.type.toString() || (router.query.rt as string) || '',
+        },
       });
     },
-    [router],
+    [router, danji],
   );
 
   useEffect(() => {
@@ -63,7 +77,7 @@ export default function ActiveListingInfo({
           ))}
         </ListingItem>
 
-        {danjiListings.length > 3 && (
+        {danjiListings.length > 2 && (
           <div tw="flex flex-col gap-3 pt-3 px-5">
             <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
               매물 전체보기

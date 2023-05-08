@@ -4,7 +4,7 @@ import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
 import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { Loading, MobileContainer } from '@/components/atoms';
-import { ListingDetail } from '@/components/templates';
+import { MobListingDetail } from '@/components/templates';
 import Routes from '@/router/routes';
 import { memo, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -235,7 +235,7 @@ export default memo(() => {
 
   return (
     <MobileContainer>
-      <ListingDetail
+      <MobListingDetail
         listingDetail={data as GetListingDetailResponse}
         qnaList={qnaData}
         isLoading={isLoading || isLoadingStatus}

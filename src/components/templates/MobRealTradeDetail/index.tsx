@@ -50,7 +50,7 @@ export default function MobRealTradeDetail() {
 
           router.replace(
             {
-              pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}`,
+              pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,
               query: {
                 p: `${router.query.p}`,
                 rt: router.query.rt as string,
@@ -58,7 +58,7 @@ export default function MobRealTradeDetail() {
                 sl: selectedYear?.toString() || '',
               },
             },
-            `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?p=${router.query.p}&rt=${router.query.rt}`,
+            `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?p=${router.query.p}&rt=${router.query.rt}`,
           );
 
           return [];

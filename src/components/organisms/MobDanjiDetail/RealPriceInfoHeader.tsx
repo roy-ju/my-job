@@ -7,12 +7,16 @@ import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 
 export default function RealPriceInfoHeader({
+  pnu,
+  rt,
   buyOrRent,
   selectedYear,
   isMoreButton = true,
   onChangeBuyOrRent,
   onChangeSelectedYear,
 }: {
+  pnu?: string;
+  rt?: number;
   buyOrRent?: number;
   selectedYear?: number;
   isMoreButton?: boolean;
@@ -20,6 +24,21 @@ export default function RealPriceInfoHeader({
   onChangeSelectedYear?: (value: number) => void;
 }) {
   const router = useRouter();
+
+  const handleCTA = () => {
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,
+        query: {
+          p: pnu || `${router.query.p}` || '',
+          rt: rt?.toString() || (router.query.rt as string) || '',
+          bor: buyOrRent?.toString() || '',
+          sl: selectedYear?.toString() || '',
+        },
+      },
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?p=${router.query.p}&rt=${router.query.rt}`,
+    );
+  };
 
   if (!buyOrRent) return null;
 
@@ -42,24 +61,7 @@ export default function RealPriceInfoHeader({
       </div>
       {isMoreButton && (
         <div tw="mt-4">
-          <Button
-            variant="primary"
-            tw="w-full"
-            onClick={() =>
-              router.push(
-                {
-                  pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}`,
-                  query: {
-                    p: `${router.query.p}`,
-                    rt: router.query.rt as string,
-                    bor: buyOrRent?.toString() || '',
-                    sl: selectedYear?.toString() || '',
-                  },
-                },
-                `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?p=${router.query.p}&rt=${router.query.rt}`,
-              )
-            }
-          >
+          <Button variant="primary" tw="w-full" onClick={() => handleCTA()}>
             실거래 심층분석
           </Button>
         </div>

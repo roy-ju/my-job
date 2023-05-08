@@ -195,10 +195,10 @@ export default function RealPricesList({
 
     router.push(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}`,
         query: { p: `${router.query.p}`, rt: router.query.rt as string },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?p=${router.query.p}&rt=${router.query.rt}`,
     );
   }, [
     buyOrRent,
