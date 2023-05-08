@@ -162,7 +162,7 @@ export default function DanjiSelect({
   const removeDanji = (item: ListItemDanji) => {
     if (comparisonList && comparisonList.length > 0) {
       setComparisonList((prev) => {
-        if (prev.length === 1) {
+        if (prev.length === 0) {
           setIsLastClick(true);
           localStorage.removeItem(prefixComparison);
           return [];

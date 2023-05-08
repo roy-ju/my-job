@@ -25,10 +25,13 @@ export default function ActiveListingInfo({
   const handleListingAll = useCallback(() => {
     router.push(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiListings}`,
-        query: { p: `${router.query.p}`, rt: router.query.rt as string },
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiListings}`,
+        query: {
+          p: router.query.p ? `${router.query.p}` : danji?.pnu || '',
+          rt: router.query.rt ? (router.query.rt as string) : danji?.type?.toString() || '',
+        },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiListings}?p=${danji?.pnu}&rt=${danji?.type}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiListings}?p=${danji?.pnu}&rt=${danji?.type}`,
     );
   }, [danji?.pnu, danji?.type, router]);
 
@@ -37,12 +40,16 @@ export default function ActiveListingInfo({
       router.push(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
-          query: { listingID: `${id}`, p: router.query.p as string, rt: router.query.rt as string },
+          query: {
+            listingID: `${id}`,
+            p: router.query.p ? `${router.query.p}` : danji?.pnu || '',
+            rt: router.query.rt ? (router.query.rt as string) : danji?.type?.toString() || '',
+          },
         },
         `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
       );
     },
-    [router],
+    [router, danji],
   );
 
   useEffect(() => {
