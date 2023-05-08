@@ -30,8 +30,8 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       }
 
       return {
-        title: data?.listing?.listing_title,
-        description,
+        title: data?.listing?.listing_title ?? '',
+        description: description ?? '',
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
       };
     } catch (e) {
@@ -47,8 +47,8 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       });
 
       return {
-        title: data?.name,
-        description: data?.road_name_address ?? data?.jibun_address,
+        title: data?.name ?? '',
+        description: data?.road_name_address ?? data?.jibun_address ?? '',
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
       };
     } catch (e) {
