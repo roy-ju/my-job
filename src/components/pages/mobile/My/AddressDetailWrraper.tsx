@@ -40,13 +40,13 @@ export default function AddressDetailWrraper() {
 
   const handleSubmit = useCallback(() => {
     router.replace({
-      pathname: `/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressVerifyingMobile}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddressVerifying}`,
       query: { addressData: router.query.addressData as string, dong, ho },
     });
   }, [router, dong, ho]);
 
   const handleBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
   }, [router]);
 
   const getErrorMessage = () => {
@@ -59,7 +59,7 @@ export default function AddressDetailWrraper() {
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
     if (!inAddressData) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
     } else {
       const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
       setAddressData(parsed);

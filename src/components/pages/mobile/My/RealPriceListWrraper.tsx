@@ -1,9 +1,12 @@
 import useAPI_GetMyRealPriceList from '@/apis/my/getMyRealPriceList';
+import { MobileContainer } from '@/components/atoms';
 import { MobMyRealPriceList } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
+import { useRouter } from 'next/router';
 import { useState, useMemo, useCallback } from 'react';
 
 export default function RealPriceListWrraper() {
+  const router = useRouter();
   const [buyOrRent, setBuyOrRent] = useState(0);
   const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(buyOrRent);
   const { user } = useAuth();
@@ -37,15 +40,18 @@ export default function RealPriceListWrraper() {
   );
 
   return (
-    <MobMyRealPriceList
-      nickname={user?.nickname}
-      isLoading={isLoading}
-      key={buyOrRent}
-      list={list}
-      buyOrRent={buyOrRent}
-      onChangeBuyOrRent={handleChangeBuyOrRent}
-      onNext={handleNextpage}
-      updatedTime={updatedTime ?? ''}
-    />
+    <MobileContainer>
+      <MobMyRealPriceList
+        nickname={user?.nickname}
+        isLoading={isLoading}
+        key={buyOrRent}
+        list={list}
+        buyOrRent={buyOrRent}
+        onChangeBuyOrRent={handleChangeBuyOrRent}
+        onClickBack={() => router.back()}
+        onNext={handleNextpage}
+        updatedTime={updatedTime ?? ''}
+      />
+    </MobileContainer>
   );
 }

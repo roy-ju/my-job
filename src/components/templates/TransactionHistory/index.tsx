@@ -4,12 +4,14 @@ import NoData from './Nodata';
 
 interface Props {
   list: any[];
+  onClickBack?: () => void;
 }
 
-export default function TransactionHistory({ list }: Props) {
+export default function TransactionHistory({ list, onClickBack }: Props) {
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>거래참여 이력</NavigationHeader.Title>
       </NavigationHeader>
       <Tabs>

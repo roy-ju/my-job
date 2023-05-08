@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { Button, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
 import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
@@ -6,7 +5,7 @@ import { ListingCtaButtons, ListingDetailSection, MobDanjiDetailSection, PhotoHe
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
@@ -15,7 +14,6 @@ import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
 import UserStatusStrings from './strings';
-import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
 
 const commonOptions = ['신고하기', '중개약정확인'];
@@ -23,7 +21,6 @@ const commonOptions = ['신고하기', '중개약정확인'];
 const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
 
 export interface ListingDetailProps {
-  depth?: number;
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
@@ -50,7 +47,6 @@ export interface ListingDetailProps {
 }
 
 export default function MobListingDetail({
-  depth = 0,
   listingDetail,
   qnaList,
   hasMoreQnas,
@@ -85,9 +81,17 @@ export default function MobListingDetail({
   const basicDetailContainerRef = useRef<HTMLDivElement | null>(null);
   const danjiSchoolContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const [loadingListing, setLoadingListing] = useState(true);
-  const [loadingRp, setLoadingRp] = useState(true);
-  const [loadingSchool, setLoadingSchool] = useState(true);
+  const [listingInfoSection, setListingInfoSection] = useState<HTMLDivElement | null>(null);
+  const [danjiSection, setDanjiSection] = useState<HTMLDivElement | null>(null);
+  const [qnaSection, setQnaSection] = useState<HTMLDivElement | null>(null);
+
+  const [tabIndex, setTabIndex] = useState(0);
+  const [visibleState, setVisibleState] = useState<Record<string, boolean>>({
+    listingInfoSection: true,
+    danjiSection: false,
+    qnaSection: false,
+  });
+
   const [isShowRpTab, setIsShowRpTab] = useState(false);
 
   const biddingsChatRoomCreated = useMemo(
@@ -114,6 +118,30 @@ export default function MobListingDetail({
     [listingDetail?.biddings_chat_room_not_created],
   );
 
+  const handleTabItemClick = useCallback(
+    (i: number) => {
+      if (i === 0) {
+        scrollContainer.current?.scrollBy({
+          top: (listingInfoSection?.getBoundingClientRect().top ?? 0) - 96,
+          behavior: 'smooth',
+        });
+      }
+      if (i === 1) {
+        scrollContainer.current?.scrollBy({
+          top: (danjiSection?.getBoundingClientRect().top ?? 0) - 96,
+          behavior: 'smooth',
+        });
+      }
+      if (i === 2) {
+        scrollContainer.current?.scrollBy({
+          top: (qnaSection?.getBoundingClientRect().top ?? 0) - 96,
+          behavior: 'smooth',
+        });
+      }
+    },
+    [listingInfoSection, danjiSection, qnaSection],
+  );
+
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0);
   });
@@ -131,11 +159,50 @@ export default function MobListingDetail({
     };
   }, [userStatusAccordion]);
 
+  useIsomorphicLayoutEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        setVisibleState((prev) => ({ ...prev, [entry.target.id]: entry.isIntersecting }));
+      });
+    });
+
+    if (listingInfoSection) {
+      observer.observe(listingInfoSection);
+    }
+
+    if (danjiSection) {
+      observer.observe(danjiSection);
+    }
+
+    if (qnaSection) {
+      observer.observe(qnaSection);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [listingInfoSection, danjiSection, qnaSection]);
+
+  useEffect(() => {
+    let i = 0;
+
+    if (visibleState.listingInfoSection === true) {
+      i = 0;
+    }
+    if (visibleState.danjiSection === true) {
+      i = 1;
+    }
+    if (visibleState.qnaSection === true) {
+      i = 2;
+    }
+    setTabIndex(i);
+  }, [visibleState]);
+
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader
         css={[
-          tw`absolute top-0 left-0 z-50 w-full text-white transition-colors bg-transparent`,
+          tw`absolute top-0 left-0 [z-index: 300] w-full text-white transition-colors bg-transparent`,
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
@@ -219,219 +286,227 @@ export default function MobListingDetail({
           </div>
         )}
         <Separator />
-        <div tw="sticky top-8 pt-6 z-40">
-          <Tabs>
+        <div tw="sticky top-8 pt-6 [z-index: 300]">
+          <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
             </Tabs.Tab>
-            <Tabs.Tab value={1}>
-              <span tw="text-b2">단지정보</span>
-            </Tabs.Tab>
+            {listingDetail?.listing.pnu && (
+              <Tabs.Tab value={1}>
+                <span tw="text-b2">단지정보</span>
+              </Tabs.Tab>
+            )}
             <Tabs.Tab value={2}>
               <span tw="text-b2">Q&A</span>
             </Tabs.Tab>
             <Tabs.Indicator />
           </Tabs>
         </div>
-        <div tw="px-5 pt-6 pb-10">
-          <ListingDetailSection.Biddings
-            showBiddingPrice={listingDetail?.is_owner ?? false}
-            biddingsChatRoomCreated={biddingsChatRoomCreated}
-            biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
-          />
-        </div>
-        <Separator />
-        <div tw="py-10 px-5">
-          <ListingDetailSection.Conditions
-            listing={listingDetail?.listing}
-            debtSuccessions={listingDetail?.debt_successions}
-            collaterals={listingDetail?.collaterals}
-          />
-        </div>
-        <Separator />
-        <div tw="py-10 px-5">
-          <div tw="font-bold mb-3">매물 기본정보</div>
-          <Table>
-            <Table.Body>
-              <Table.Row>
-                <Table.Head>매물번호</Table.Head>
-                <Table.Data>{listingDetail?.listing?.trade_id}</Table.Data>
-              </Table.Row>
-              <Table.Row>
-                <Table.Head>부동산 종류</Table.Head>
-                <Table.Data>{RealestateTypeString[listingDetail?.listing?.realestate_type ?? 0]}</Table.Data>
-              </Table.Row>
-              <Table.Row>
-                <Table.Head>면적</Table.Head>
-                <Table.Data>
-                  공급 {listingDetail?.listing?.gonggeup_area}㎡ / 전용 {listingDetail?.listing?.jeonyong_area}㎡
-                </Table.Data>
-              </Table.Row>
-              <Table.Row>
-                <Table.Head>방향</Table.Head>
-                <Table.Data>
-                  {listingDetail?.listing.direction} <span tw="text-info text-gray-700">거실기준</span>
-                </Table.Data>
-              </Table.Row>
-              <Table.Row>
-                <Table.Head>복층여부</Table.Head>
-                <Table.Data>{listingDetail?.listing?.storey}</Table.Data>
-              </Table.Row>
-            </Table.Body>
-            {infoSectionExpanded && (
+        <div id="listingInfoSection" ref={setListingInfoSection}>
+          <div tw="px-5 pt-6 pb-10">
+            <ListingDetailSection.Biddings
+              showBiddingPrice={listingDetail?.is_owner ?? false}
+              biddingsChatRoomCreated={biddingsChatRoomCreated}
+              biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
+            />
+          </div>
+          <Separator />
+          <div tw="py-10 px-5">
+            <ListingDetailSection.Conditions
+              listing={listingDetail?.listing}
+              debtSuccessions={listingDetail?.debt_successions}
+              collaterals={listingDetail?.collaterals}
+            />
+          </div>
+          <Separator />
+          <div tw="py-10 px-5">
+            <div tw="font-bold mb-3">매물 기본정보</div>
+            <Table>
               <Table.Body>
                 <Table.Row>
-                  <Table.Head>방 / 욕실</Table.Head>
+                  <Table.Head>매물번호</Table.Head>
+                  <Table.Data>{listingDetail?.listing?.trade_id}</Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>부동산 종류</Table.Head>
+                  <Table.Data>{RealestateTypeString[listingDetail?.listing?.realestate_type ?? 0]}</Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>면적</Table.Head>
                   <Table.Data>
-                    {falsy(listingDetail?.listing.room_count, '-')}개 /{' '}
-                    {falsy(listingDetail?.listing.bathroom_count, '-')}개
+                    공급 {listingDetail?.listing?.gonggeup_area}㎡ / 전용 {listingDetail?.listing?.jeonyong_area}㎡
                   </Table.Data>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Head>해당 층 / 총 층</Table.Head>
+                  <Table.Head>방향</Table.Head>
                   <Table.Data>
-                    {falsy(listingDetail?.listing.floor_description, '-')} /{' '}
-                    {falsy(listingDetail?.listing?.total_floor, '-')}층
+                    {listingDetail?.listing.direction} <span tw="text-info text-gray-700">거실기준</span>
                   </Table.Data>
                 </Table.Row>
-                {(listingDetail?.parking_per_saedae || listingDetail?.total_parking_count) && (
-                  <Table.Row>
-                    <Table.Head>
-                      총 주차대수 <br />/ 세대당 주차대수
-                    </Table.Head>
-                    <Table.Data>
-                      {falsy(listingDetail?.total_parking_count, '-')}대 /{' '}
-                      {falsy(listingDetail?.parking_per_saedae, '-')}대
-                    </Table.Data>
-                  </Table.Row>
-                )}
                 <Table.Row>
-                  <Table.Head>고정관리비</Table.Head>
-                  <Table.Data>
-                    {listingDetail?.listing?.administrative_fee ? (
-                      <Numeral>{listingDetail?.listing?.administrative_fee}</Numeral>
-                    ) : (
-                      '없음'
-                    )}
-                  </Table.Data>
+                  <Table.Head>복층여부</Table.Head>
+                  <Table.Data>{listingDetail?.listing?.storey}</Table.Data>
                 </Table.Row>
               </Table.Body>
-            )}
-          </Table>
-          <Button variant="outlined" tw="w-full mt-3" onClick={() => setInfoSectionExpanded((prev) => !prev)}>
-            {infoSectionExpanded ? '접기' : '더보기'}
-          </Button>
-        </div>
-        {(listingDetail?.listing?.veranda_extended || listingDetail?.listing.veranda_remodelling) && (
-          <div>
-            <Separator />
-            <div tw="py-10 px-5">
-              <div tw="font-bold mb-3">매물 상세정보</div>
-              <Table>
+              {infoSectionExpanded && (
                 <Table.Body>
-                  {listingDetail?.listing?.veranda_extended && (
+                  <Table.Row>
+                    <Table.Head>방 / 욕실</Table.Head>
+                    <Table.Data>
+                      {falsy(listingDetail?.listing.room_count, '-')}개 /{' '}
+                      {falsy(listingDetail?.listing.bathroom_count, '-')}개
+                    </Table.Data>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Head>해당 층 / 총 층</Table.Head>
+                    <Table.Data>
+                      {falsy(listingDetail?.listing.floor_description, '-')} /{' '}
+                      {falsy(listingDetail?.listing?.total_floor, '-')}층
+                    </Table.Data>
+                  </Table.Row>
+                  {(listingDetail?.parking_per_saedae || listingDetail?.total_parking_count) && (
                     <Table.Row>
                       <Table.Head>
-                        베란다
-                        <br />
-                        확장 여부
+                        총 주차대수 <br />/ 세대당 주차대수
                       </Table.Head>
-                      <Table.Data>확장</Table.Data>
+                      <Table.Data>
+                        {falsy(listingDetail?.total_parking_count, '-')}대 /{' '}
+                        {falsy(listingDetail?.parking_per_saedae, '-')}대
+                      </Table.Data>
                     </Table.Row>
                   )}
-                  {listingDetail?.listing?.veranda_remodelling && (
+                  <Table.Row>
+                    <Table.Head>고정관리비</Table.Head>
+                    <Table.Data>
+                      {listingDetail?.listing?.administrative_fee ? (
+                        <Numeral>{listingDetail?.listing?.administrative_fee}</Numeral>
+                      ) : (
+                        '없음'
+                      )}
+                    </Table.Data>
+                  </Table.Row>
+                </Table.Body>
+              )}
+            </Table>
+            <Button variant="outlined" tw="w-full mt-3" onClick={() => setInfoSectionExpanded((prev) => !prev)}>
+              {infoSectionExpanded ? '접기' : '더보기'}
+            </Button>
+          </div>
+          {(listingDetail?.listing?.veranda_extended || listingDetail?.listing.veranda_remodelling) && (
+            <div>
+              <Separator />
+              <div tw="py-10 px-5">
+                <div tw="font-bold mb-3">매물 상세정보</div>
+                <Table>
+                  <Table.Body>
+                    {listingDetail?.listing?.veranda_extended && (
+                      <Table.Row>
+                        <Table.Head>
+                          베란다
+                          <br />
+                          확장 여부
+                        </Table.Head>
+                        <Table.Data>확장</Table.Data>
+                      </Table.Row>
+                    )}
+                    {listingDetail?.listing?.veranda_remodelling && (
+                      <Table.Row>
+                        <Table.Head>올수리 여부</Table.Head>
+                        <Table.Data>2년 내 올수리</Table.Data>
+                      </Table.Row>
+                    )}
+                  </Table.Body>
+                </Table>
+              </div>
+            </div>
+          )}
+          {listingDetail?.listing?.buy_or_rent === BuyOrRent.Buy && (
+            <div>
+              <Separator />
+              <div tw="py-10 px-5">
+                <div tw="font-bold mb-3">관련 규제 정보</div>
+                <Table>
+                  <Table.Body>
                     <Table.Row>
-                      <Table.Head>올수리 여부</Table.Head>
-                      <Table.Data>2년 내 올수리</Table.Data>
+                      <Table.Head>투기지역 여부</Table.Head>
+                      <Table.Data>{falsy(listingDetail?.listing?.toogi_region, '해당없음')}</Table.Data>
                     </Table.Row>
-                  )}
-                </Table.Body>
-              </Table>
+                    <Table.Row>
+                      <Table.Head>
+                        토지거래 허가
+                        <br />
+                        구역 여부
+                      </Table.Head>
+                      <Table.Data>{listingDetail?.listing?.toji_trade_eligible ? '허가구역' : '해당없음'}</Table.Data>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+              </div>
             </div>
-          </div>
-        )}
-        {listingDetail?.listing?.buy_or_rent === BuyOrRent.Buy && (
-          <div>
-            <Separator />
-            <div tw="py-10 px-5">
-              <div tw="font-bold mb-3">관련 규제 정보</div>
-              <Table>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Head>투기지역 여부</Table.Head>
-                    <Table.Data>{falsy(listingDetail?.listing?.toogi_region, '해당없음')}</Table.Data>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Head>
-                      토지거래 허가
-                      <br />
-                      구역 여부
-                    </Table.Head>
-                    <Table.Data>{listingDetail?.listing?.toji_trade_eligible ? '허가구역' : '해당없음'}</Table.Data>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
+          )}
+          {listingDetail?.listing?.description && (
+            <div>
+              <Separator />
+              <div tw="py-10 px-5">
+                <div tw="font-bold mb-3">특이사항</div>
+                <div tw="whitespace-pre-wrap break-all text-b2">{listingDetail?.listing?.description}</div>
+              </div>
             </div>
-          </div>
-        )}
-        {listingDetail?.listing?.description && (
-          <div>
-            <Separator />
-            <div tw="py-10 px-5">
-              <div tw="font-bold mb-3">특이사항</div>
-              <div tw="whitespace-pre-wrap break-all text-b2">{listingDetail?.listing?.description}</div>
-            </div>
-          </div>
-        )}
-        <Separator />
+          )}
+          <Separator />
+        </div>
 
         {danji && (
-          <MobDanjiDetailSection>
-            <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
-              <MobDanjiDetailSection.Info danji={danji} />
-              <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={setLoadingListing} />
-            </div>
+          <div id="danjiSection" ref={setDanjiSection}>
+            <MobDanjiDetailSection>
+              <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
+                <MobDanjiDetailSection.Info danji={danji} />
+                <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={() => {}} />
+              </div>
 
-            <MobDanjiRealpriceContainer
-              ref={realPriceContainerRef}
-              danji={danji}
-              isShowRpTab={isShowRpTab}
-              setLoadingRp={setLoadingRp}
-              setIsShowRpTab={setIsShowRpTab}
-            />
+              <MobDanjiRealpriceContainer
+                ref={realPriceContainerRef}
+                danji={danji}
+                isShowRpTab={isShowRpTab}
+                setLoadingRp={() => {}}
+                setIsShowRpTab={setIsShowRpTab}
+              />
 
-            <div id="negocio-danjidetail-bid" ref={basicDetailContainerRef}>
-              <Separator tw="w-full [min-height: 8px]" />
-              <MobDanjiDetailSection.DetailInfo danji={danji} />
-            </div>
+              <div id="negocio-danjidetail-bid" ref={basicDetailContainerRef}>
+                <Separator tw="w-full [min-height: 8px]" />
+                <MobDanjiDetailSection.DetailInfo danji={danji} />
+              </div>
 
-            <div id="negocio-danjidetail-sc" ref={danjiSchoolContainerRef}>
-              <Separator tw="w-full [min-height: 8px]" />
-              <MobDanjiDetailSection.SchoolInfo danji={danji} />
-              <Separator tw="w-full [min-height: 8px]" />
-              <MobDanjiDetailSection.AroundInfo danji={danji} />
-              <Separator tw="w-full [min-height: 8px]" />
-            </div>
-          </MobDanjiDetailSection>
+              <div id="negocio-danjidetail-sc" ref={danjiSchoolContainerRef}>
+                <Separator tw="w-full [min-height: 8px]" />
+                <MobDanjiDetailSection.SchoolInfo danji={danji} />
+                <Separator tw="w-full [min-height: 8px]" />
+                <MobDanjiDetailSection.AroundInfo danji={danji} />
+                <Separator tw="w-full [min-height: 8px]" />
+              </div>
+            </MobDanjiDetailSection>
+          </div>
         )}
 
-        <div tw="py-10 px-5">
-          <ListingDetailSection.Agent agent={listingDetail?.agent_summary} />
-        </div>
-        <Separator />
-        <div tw="py-10 px-5">
-          <ListingDetailSection.Qna
-            isOwner={listingDetail?.visit_user_type === VisitUserType.SellerGeneral}
-            hasNext={hasMoreQnas}
-            qnaList={qnaList}
-            onClickCreateQna={onNavigateToCreateQna}
-            onClickNext={onClickLoadMoreQna}
-            onClickDeleteQna={onClickDeleteQna}
-          />
-        </div>
-        <Separator />
-        <div tw="py-10 px-5">
-          <ListingDetailSection.Faq />
+        <div id="qnaSection" ref={setQnaSection}>
+          <div tw="py-10 px-5">
+            <ListingDetailSection.Agent agent={listingDetail?.agent_summary} />
+          </div>
+          <Separator />
+          <div tw="py-10 px-5">
+            <ListingDetailSection.Qna
+              isOwner={listingDetail?.visit_user_type === VisitUserType.SellerGeneral}
+              hasNext={hasMoreQnas}
+              qnaList={qnaList}
+              onClickCreateQna={onNavigateToCreateQna}
+              onClickNext={onClickLoadMoreQna}
+              onClickDeleteQna={onClickDeleteQna}
+            />
+          </div>
+          <Separator />
+          <div tw="py-10 px-5">
+            <ListingDetailSection.Faq />
+          </div>
         </div>
       </div>
       {!isTopCtaButtonsVisible && (

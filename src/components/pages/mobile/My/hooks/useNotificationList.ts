@@ -1,5 +1,6 @@
 import deleteNotifications from '@/apis/notification/deleteNotifications';
 import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
+import getNotificationUrl from '@/apis/notification/getNotificationUrl';
 import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import readNotifications from '@/apis/notification/readNotifications';
 import useUnmount from '@/hooks/utils/useUnmount';
@@ -10,8 +11,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 export default function useNotificationList() {
   const router = useRouter();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const { mutate: mutateUnreadNotificationCount } = useAPI_GetUnreadNotificationCount();
+
   const { data, isLoading, increamentPageNumber, mutate } = useAPI_GetNotificationList();
 
   const [isDeleting, setIsDeleting] = useState(false);
@@ -39,7 +42,7 @@ export default function useNotificationList() {
   const handleHeaderItemClick = useCallback(
     (index: number) => {
       if (index === 1) {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.NotificationSettings}`);
+        router.replace(`/${Routes.EntryMobile}/${Routes.NotificationSettings}`);
       } else if (index === 0) {
         setIsDeleting((prev) => !prev);
       }
@@ -47,9 +50,23 @@ export default function useNotificationList() {
     [router],
   );
 
-  const handleNotificationClick = useCallback((id: number) => {
-    console.log('clicked', id);
-  }, []);
+  const handleChangeTabIndex = useCallback(
+    (index: number) => {
+      setTabIndex(index);
+    },
+    [setTabIndex],
+  );
+
+  const handleNotificationClick = useCallback(
+    async (id: number) => {
+      const response = await getNotificationUrl(id);
+
+      if (response === null) return;
+      const url = response?.data?.url;
+      router.replace(url);
+    },
+    [router],
+  );
 
   const handleNotificationChecked = useCallback((id: number, checked: boolean) => {
     setCheckedState((prev) => ({ ...prev, [id]: checked }));
@@ -68,6 +85,11 @@ export default function useNotificationList() {
     mutate();
   }, [checkedState, mutate]);
 
+  const filteredNotificationsByTabIndex = useMemo(() => {
+    if (tabIndex === 0) return notifications;
+    return notifications.filter((item) => item.type === tabIndex);
+  }, [tabIndex, notifications]);
+
   useEffect(() => {
     setCheckedState({});
   }, [isDeleting]);
@@ -81,8 +103,11 @@ export default function useNotificationList() {
     isLoading,
     isDeleteLoading,
     notifications,
+    filteredNotificationsByTabIndex,
     checkedState,
     isDeleting,
+    tabIndex,
+    handleChangeTabIndex,
     handleHeaderItemClick,
     handleNextPage,
     handleNotificationClick,

@@ -7,7 +7,7 @@ export default function ServiceInfoWrraper() {
   const router = useRouter();
 
   const handleClickBusinessInfo = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.BusinessInfo}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.BusinessInfo}`);
   }, [router]);
 
   return <MobServiceInfo onClickBusinessInfo={handleClickBusinessInfo} />;

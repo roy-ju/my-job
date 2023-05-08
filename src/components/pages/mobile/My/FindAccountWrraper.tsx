@@ -1,4 +1,5 @@
 import loginByCi from '@/apis/user/loginByCi';
+import { MobileContainer } from '@/components/atoms';
 import { MobFindAccount } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
 import { useAuth } from '@/hooks/services';
@@ -29,7 +30,7 @@ export default function FindAccountWrraper() {
       } else if (loginRes?.access_token) {
         if (loginRes?.access_token) {
           await login(loginRes.access_token, loginRes.refresh_token);
-          router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyDetailMobile}`);
+          router.replace(`/${Routes.EntryMobile}/${Routes.MyDetail}`);
         } else {
           toast.error('로그인에 실패하였습니다.');
         }
@@ -51,10 +52,12 @@ export default function FindAccountWrraper() {
   }, [router]);
 
   return (
-    <MobFindAccount
-      onClickPhoneVerification={handleVerifyPhone}
-      onClickIPinVerification={handleVerifyIPin}
-      onClickBack={handleClickBack}
-    />
+    <MobileContainer>
+      <MobFindAccount
+        onClickPhoneVerification={handleVerifyPhone}
+        onClickIPinVerification={handleVerifyIPin}
+        onClickBack={handleClickBack}
+      />
+    </MobileContainer>
   );
 }
