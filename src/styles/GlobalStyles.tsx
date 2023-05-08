@@ -24,7 +24,7 @@ const customStyles = css`
 
   ::-webkit-scrollbar {
     width: 4px;
-    height: 5.2px;
+    height: 4px;
   }
 
   ::-webkit-scrollbar-button {
