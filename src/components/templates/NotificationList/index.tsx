@@ -1,7 +1,8 @@
 import { Button, InfiniteScroll, Loading } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
+import { Information, NavigationHeader } from '@/components/molecules';
 import { NotificationFilterTab, NotificaitonListItem } from '@/components/organisms';
 import tw, { styled } from 'twin.macro';
+import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 
 export interface INotificationListItem {
   id: number;
@@ -53,6 +54,44 @@ export default function NotificationList({
 Props) {
   const headerItems = [isDeleting ? '취소하기' : '삭제하기', '알림설정'];
 
+  const renderContent = (() => {
+    if (isLoading) {
+      return <Loading tw="text-center mt-10" />;
+    }
+    if (notifications.length === 0) {
+      return (
+        <div tw="flex-1 min-h-0 mt-7">
+          <Information>
+            <div tw="flex flex-col gap-4 items-center text-center">
+              <ExclamationMark />
+              <Information.Title>알림이 없습니다.</Information.Title>
+            </div>
+          </Information>
+        </div>
+      );
+    }
+    return (
+      <List tw="flex-1 min-h-0 overflow-scroll" css={[isDeleting && tw`mb-[68px]`]} onNext={onNext}>
+        {notifications.map((item) => (
+          <NotificaitonListItem
+            key={item.id}
+            title={item.title}
+            type={item.type}
+            category={item.category}
+            message={item.message}
+            listingTitle={item.listingTitle}
+            createdTime={item.createdTime}
+            unread={item.unread}
+            checkbox={isDeleting}
+            checked={checkedState ? Boolean(checkedState[item.id]) : undefined}
+            onClick={() => onClickNotification?.(item.id)}
+            onChange={(checked) => onChangeNotificationChecked?.(item.id, checked)}
+          />
+        ))}
+      </List>
+    );
+  })();
+
   return (
     <div tw="relative h-full flex flex-col">
       <NavigationHeader>
@@ -63,28 +102,7 @@ Props) {
       <div tw="mt-2">
         <NotificationFilterTab index={tabIndex} onChangeIndex={onChangeTabIndex} />
       </div>
-      {isLoading ? (
-        <Loading tw="text-center mt-10" />
-      ) : (
-        <List tw="flex-1 min-h-0 overflow-scroll" css={[isDeleting && tw`mb-[68px]`]} onNext={onNext}>
-          {notifications.map((item) => (
-            <NotificaitonListItem
-              key={item.id}
-              title={item.title}
-              type={item.type}
-              category={item.category}
-              message={item.message}
-              listingTitle={item.listingTitle}
-              createdTime={item.createdTime}
-              unread={item.unread}
-              checkbox={isDeleting}
-              checked={checkedState ? Boolean(checkedState[item.id]) : undefined}
-              onClick={() => onClickNotification?.(item.id)}
-              onChange={(checked) => onChangeNotificationChecked?.(item.id, checked)}
-            />
-          ))}
-        </List>
-      )}
+      {renderContent}
       {isDeleting && (
         <div tw="absolute left-0 bottom-0 w-full px-5 py-4 bg-white shadow-persistentBottomBar">
           <Button
