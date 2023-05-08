@@ -65,7 +65,13 @@ class OverlayViewDanji extends naver.maps.OverlayView {
   }
 }
 
-export function CustomOverlayDanji({ id, className, position, children, centerDanji }: CustomOverlayDanjiProps) {
+export default function CustomOverlayDanji({
+  id,
+  className,
+  position,
+  children,
+  centerDanji,
+}: CustomOverlayDanjiProps) {
   const map = useContext(NaverMapContext);
   const container = useRef(document.createElement('div'));
 

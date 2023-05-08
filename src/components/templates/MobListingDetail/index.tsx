@@ -15,7 +15,6 @@ import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
 import UserStatusStrings from './strings';
-import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
 
 const commonOptions = ['신고하기', '중개약정확인'];
@@ -23,7 +22,6 @@ const commonOptions = ['신고하기', '중개약정확인'];
 const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
 
 export interface ListingDetailProps {
-  depth?: number;
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
@@ -50,7 +48,6 @@ export interface ListingDetailProps {
 }
 
 export default function MobListingDetail({
-  depth = 0,
   listingDetail,
   qnaList,
   hasMoreQnas,
@@ -224,9 +221,11 @@ export default function MobListingDetail({
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
             </Tabs.Tab>
-            <Tabs.Tab value={1}>
-              <span tw="text-b2">단지정보</span>
-            </Tabs.Tab>
+            {listingDetail?.listing.pnu && (
+              <Tabs.Tab value={1}>
+                <span tw="text-b2">단지정보</span>
+              </Tabs.Tab>
+            )}
             <Tabs.Tab value={2}>
               <span tw="text-b2">Q&A</span>
             </Tabs.Tab>

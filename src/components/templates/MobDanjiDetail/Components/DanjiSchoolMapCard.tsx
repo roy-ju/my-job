@@ -12,7 +12,9 @@ import { NaverMapV1 } from '@/lib/navermapV1';
 import { MobSchoolMarker } from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import getHakgudo from '@/apis/map/mapHakgudos';
-import { CustomOverlayDanji } from './CustomOverlayDanji';
+import dynamic from 'next/dynamic';
+
+const CustomOverlayDanji = dynamic(() => import('./CustomOverlayDanji'), { ssr: false });
 
 type GetSchoolResponse = {
   school_name: string;
