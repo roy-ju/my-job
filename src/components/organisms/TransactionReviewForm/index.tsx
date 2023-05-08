@@ -39,27 +39,27 @@ export default function TransactionReviewForm({
         <SubTitle>선호도는 중개사님에게 공개되지 않아요.</SubTitle>
         <div tw="flex gap-3">
           <Button
-            variant={ratingText.includes('별로예요') ? 'primary' : 'gray'}
+            variant={ratingText?.includes('별로예요') ? 'primary' : 'gray'}
             size="small"
             onClick={onClickRatingText?.('별로예요')}
           >
-            <CheckIcon tw="mr-2" css={[!ratingText.includes('별로예요') && tw`text-gray-600`]} />
+            <CheckIcon tw="mr-2" css={[!ratingText?.includes('별로예요') && tw`text-gray-600`]} />
             별로예요
           </Button>
           <Button
-            variant={ratingText.includes('추천해요') ? 'primary' : 'gray'}
+            variant={ratingText?.includes('추천해요') ? 'primary' : 'gray'}
             size="small"
             onClick={onClickRatingText?.('추천해요')}
           >
-            <CheckIcon tw="mr-2 text-gray-600" css={[!ratingText.includes('추천해요') && tw`text-gray-600`]} />
+            <CheckIcon tw="mr-2 text-gray-600" css={[!ratingText?.includes('추천해요') && tw`text-gray-600`]} />
             추천해요
           </Button>
           <Button
-            variant={ratingText.includes('강력추천') ? 'primary' : 'gray'}
+            variant={ratingText?.includes('강력추천') ? 'primary' : 'gray'}
             size="small"
             onClick={onClickRatingText?.('강력추천')}
           >
-            <CheckIcon tw="mr-2" css={[!ratingText.includes('강력추천') && tw`text-gray-600`]} />
+            <CheckIcon tw="mr-2" css={[!ratingText?.includes('강력추천') && tw`text-gray-600`]} />
             강력추천
           </Button>
         </div>
@@ -70,26 +70,26 @@ export default function TransactionReviewForm({
         <div tw="flex flex-col gap-4">
           <Label
             label="적극적으로 네고를 해주세요"
-            checked={recommendations.includes('적극적으로 네고를 해주세요')}
+            checked={recommendations?.includes('적극적으로 네고를 해주세요')}
             control={
               <Checkbox onChange={onChangeRecommendations?.('적극적으로 네고를 해주세요')} readOnly={hasReview} />
             }
           />
           <Label
             label="쉽고 자세하게 설명을 해주세요"
-            checked={recommendations.includes('쉽고 자세하게 설명을 해주세요')}
+            checked={recommendations?.includes('쉽고 자세하게 설명을 해주세요')}
             readOnly={hasReview}
             control={<Checkbox onChange={onChangeRecommendations?.('쉽고 자세하게 설명을 해주세요')} />}
           />
           <Label
             label="응답이 빨라요"
-            checked={recommendations.includes('응답이 빨라요')}
+            checked={recommendations?.includes('응답이 빨라요')}
             readOnly={hasReview}
             control={<Checkbox onChange={onChangeRecommendations?.('응답이 빨라요')} />}
           />
           <Label
             label="친절하고 매너가 좋아요"
-            checked={recommendations.includes('친절하고 매너가 좋아요')}
+            checked={recommendations?.includes('친절하고 매너가 좋아요')}
             readOnly={hasReview}
             control={<Checkbox onChange={onChangeRecommendations?.('친절하고 매너가 좋아요')} />}
           />
@@ -109,7 +109,7 @@ export default function TransactionReviewForm({
             readOnly={hasReview}
           />
         </TextField>
-        <TextField.HelperMessage tw="text-gray-1000">{`${freeFeedback.length}/100`}</TextField.HelperMessage>
+        <TextField.HelperMessage tw="text-gray-1000">{`${freeFeedback?.length}/100`}</TextField.HelperMessage>
       </div>
     </div>
   );
