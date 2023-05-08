@@ -2,19 +2,26 @@ import { useMemo } from 'react';
 import useSWR from 'swr';
 import { useAuth } from '@/hooks/services';
 
+interface Listing {
+  listing_id: number;
+  bidding_id: number;
+  listing_status: number;
+  buy_or_rent: number;
+  trade_or_deposit_price: number;
+  monthly_rent_fee: number;
+  listing_title: string;
+  jeonyong_area: string;
+  thumbnail_full_path: any;
+  floor_description: string;
+  total_floor: string;
+  direction: string;
+  label_text: string;
+}
+
 export interface GetChatListingListResponse {
-  list: {
-    listing_id: number;
-    buy_or_rent: number;
-    trade_or_deposit_price: number;
-    monthly_rent_fee: number;
-    listing_title: string;
-    jeonyong_area: string;
-    thumbnail_full_path: string;
-    floor_description: string;
-    total_floor: string;
-    direction: string;
-  }[];
+  seller_list: Listing[];
+  buyer_contract_list: Listing[];
+  buyer_active_list: Listing[];
 }
 
 export default function useAPI_GetChatListingList(id: number) {
@@ -23,10 +30,12 @@ export default function useAPI_GetChatListingList(id: number) {
     user && id ? ['/chat/room/listings', { chat_room_id: id }] : null,
   );
 
-  const list = useMemo(
+  const sellerList = useMemo(
     () =>
-      data?.list?.map((item) => ({
+      data?.seller_list?.map((item) => ({
         listingId: item.listing_id,
+        listingStatus: item.listing_status,
+        biddingId: item.bidding_id,
         buyOrRent: item.buy_or_rent,
         tradeOrDepositPrice: item.trade_or_deposit_price,
         monthlyRentFee: item.monthly_rent_fee,
@@ -36,9 +45,50 @@ export default function useAPI_GetChatListingList(id: number) {
         floorDescription: item.floor_description,
         totalFloor: item.total_floor,
         direction: item.direction,
+        labelText: item.label_text,
       })) ?? [],
-    [data],
+    [data?.seller_list],
   );
 
-  return { list, isLoading: isLoading || isLoadingUser, mutate };
+  const buyerContractList = useMemo(
+    () =>
+      data?.buyer_contract_list?.map((item) => ({
+        listingId: item.listing_id,
+        listingStatus: item.listing_status,
+        biddingId: item.bidding_id,
+        buyOrRent: item.buy_or_rent,
+        tradeOrDepositPrice: item.trade_or_deposit_price,
+        monthlyRentFee: item.monthly_rent_fee,
+        listingTitle: item.listing_title,
+        jeonyongArea: item.jeonyong_area,
+        thumbnailFullPath: item.thumbnail_full_path,
+        floorDescription: item.floor_description,
+        totalFloor: item.total_floor,
+        direction: item.direction,
+        labelText: item.label_text,
+      })) ?? [],
+    [data?.buyer_contract_list],
+  );
+
+  const buyerActiveList = useMemo(
+    () =>
+      data?.buyer_active_list?.map((item) => ({
+        listingId: item.listing_id,
+        listingStatus: item.listing_status,
+        biddingId: item.bidding_id,
+        buyOrRent: item.buy_or_rent,
+        tradeOrDepositPrice: item.trade_or_deposit_price,
+        monthlyRentFee: item.monthly_rent_fee,
+        listingTitle: item.listing_title,
+        jeonyongArea: item.jeonyong_area,
+        thumbnailFullPath: item.thumbnail_full_path,
+        floorDescription: item.floor_description,
+        totalFloor: item.total_floor,
+        direction: item.direction,
+        labelText: item.label_text,
+      })) ?? [],
+    [data?.buyer_active_list],
+  );
+
+  return { sellerList, buyerContractList, buyerActiveList, isLoading: isLoading || isLoadingUser, mutate };
 }
