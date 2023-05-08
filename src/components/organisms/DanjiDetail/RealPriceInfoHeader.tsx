@@ -6,6 +6,8 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 
 export default function RealPriceInfoHeader({
+  pnu,
+  type,
   depth,
   buyOrRent,
   selectedYear,
@@ -13,6 +15,8 @@ export default function RealPriceInfoHeader({
   onChangeBuyOrRent,
   onChangeSelectedYear,
 }: {
+  pnu?: string;
+  type?: number;
   depth: number;
   buyOrRent?: number;
   selectedYear?: number;
@@ -46,12 +50,26 @@ export default function RealPriceInfoHeader({
           <Button
             variant="primary"
             tw="w-full"
-            onClick={() =>
-              router.push(Routes.DanjiRealPriceDetail, {
-                searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
-                state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
-              })
-            }
+            onClick={() => {
+              if (router.query.listingID) {
+                router.push(Routes.DanjiRealPriceDetail, {
+                  searchParams: {
+                    listingID: router.query.listingID as string,
+                    p: router.query.p ? `${router.query.p}` : pnu || '',
+                    rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
+                  },
+                  state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+                });
+              } else {
+                router.push(Routes.DanjiRealPriceDetail, {
+                  searchParams: {
+                    p: router.query.p ? `${router.query.p}` : pnu || '',
+                    rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
+                  },
+                  state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+                });
+              }
+            }}
           >
             실거래 심층분석
           </Button>

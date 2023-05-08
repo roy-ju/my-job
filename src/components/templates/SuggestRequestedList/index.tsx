@@ -78,7 +78,7 @@ export default function SuggestRequestedList({
                 </Button>
               </div>
             )}
-            {listStyle === 'default' && <div tw="px-5 text-end text-info">추천 그만받기</div>}
+            {listStyle === 'default' && <div tw="px-5 text-end text-info">추천 받기</div>}
             <div tw="flex flex-1 min-h-0 overflow-auto">
               <ListContainer onNext={onNext}>
                 {list?.map((item) => (
@@ -88,7 +88,7 @@ export default function SuggestRequestedList({
                     onChange={handleListItemCheckedStateChange(item.suggest_id)}
                     onClick={() => onClickSuggestItem?.(item.suggest_id)}
                     inputType={listStyle === 'delete' ? 'checkbox' : 'switch'}
-                    checked={listStyle === 'default' ? item.status === SuggestStatus.Stopped : undefined}
+                    checked={listStyle === 'default' ? item.status === SuggestStatus.Active : undefined}
                   />
                 ))}
               </ListContainer>

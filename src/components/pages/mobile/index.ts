@@ -80,6 +80,7 @@ export { default as ListingPhotoGallery } from './ListingPhotoGallery';
 /** 지난거래 */
 export { default as ListingDetailPassed } from './ListingDetailPassed';
 export { default as ListingDetailHistory } from './ListingDetailHistory';
+export { default as TransactionReview } from './TransactionReview';
 
 /** 가격제안 */
 export { default as BiddingForm } from './BiddingForm';
@@ -97,5 +98,7 @@ export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiRealRriceListAll } from './DanjiRealRriceListAll';
 export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiListings } from './DanjiListings';
+export { default as DanjiRecommendation } from './DanjiRecommendation';
+export { default as DanjiRecommendationSuccess } from './DanjiRecommendationSuccess';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';

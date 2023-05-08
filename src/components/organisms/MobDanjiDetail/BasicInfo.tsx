@@ -17,7 +17,7 @@ export default function BasicInfo({ danji }: { danji: GetDanjiDetailResponse }) 
 
     router.push(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?p=${danji.pnu}&rt=${danji.type}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
         query: { p: danji.pnu, rt: danji.type.toString() as string },
       },
       `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?p=${danji.pnu}&rt=${danji.type}`,

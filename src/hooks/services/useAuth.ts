@@ -1,4 +1,5 @@
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import { deleteFcmToken } from '@/apis/user/updateFcmToken';
 import Keys from '@/constants/storage_keys';
 import { useCallback, useMemo } from 'react';
 import { mutate } from 'swr';
@@ -43,8 +44,23 @@ export default function useAuth() {
 
   const logout = useCallback(() => {
     localStorage.removeItem(Keys.ACCESS_TOKEN);
+
+    const fcmToken = localStorage.getItem(Keys.FCM_TOKEN);
+    if (fcmToken) {
+      deleteFcmToken({ token: fcmToken });
+    }
+
     mutate(() => true, undefined);
   }, []);
 
-  return useMemo(() => ({ user, isLoading, mutate: mutateUser, logout }), [user, mutateUser, isLoading, logout]);
+  const login = useCallback(async (accessToken: string, refreshToken: string) => {
+    localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(accessToken));
+    localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(refreshToken));
+    return mutate(() => true, undefined);
+  }, []);
+
+  return useMemo(
+    () => ({ user, isLoading, mutate: mutateUser, logout, login }),
+    [user, mutateUser, isLoading, logout, login],
+  );
 }
