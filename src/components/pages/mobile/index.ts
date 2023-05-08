@@ -34,6 +34,8 @@ export { default as FindAccountWrraper } from './My/FindAccountWrraper';
 export { default as ServiceInfo } from './ServiceInfo';
 export { default as OpenSourceLicenses } from './OpenSourceLicenses';
 export { default as VersionInfo } from './VersionInfo';
+export { default as BusinessInfo } from './BusinessInfo';
+export { default as TermsAndPolicy } from './TermsAndPolicy';
 
 /** 회원가입 */
 export { default as RegisterWrraper } from './Register';
