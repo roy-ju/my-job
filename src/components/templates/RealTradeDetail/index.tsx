@@ -37,21 +37,44 @@ export default function RealTradeDetail({ depth }: { depth: number }) {
   }, []);
 
   const handleClickBackButton = () => {
-    router.replace(Routes.DanjiRealPriceDetail, {
-      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
-      state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
-    });
+    if (router.query.listingID) {
+      router.replace(Routes.DanjiRealPriceDetail, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: `${router.query.p}`,
+          rt: router.query.rt as string,
+        },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    } else {
+      router.replace(Routes.DanjiRealPriceDetail, {
+        searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    }
   };
 
   const removeDanji = (item: ListItemDanji) => {
     if (comparisonList && comparisonList.length > 0) {
       setComparisonList((prev) => {
-        if (prev.length === 1) {
+        if (prev.length === 0) {
           localStorage.removeItem(prefixComparison);
-          router.replace(Routes.DanjiRealPriceDetail, {
-            searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
-            state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
-          });
+
+          if (router.query.listingID) {
+            router.replace(Routes.DanjiRealPriceDetail, {
+              searchParams: {
+                listingID: router.query.listingID as string,
+                p: `${router.query.p}`,
+                rt: router.query.rt as string,
+              },
+              state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+            });
+          } else {
+            router.replace(Routes.DanjiRealPriceDetail, {
+              searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+              state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+            });
+          }
 
           return [];
         }
