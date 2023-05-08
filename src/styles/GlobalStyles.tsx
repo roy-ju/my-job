@@ -19,6 +19,7 @@ const customStyles = css`
   #__next,
   #root {
     height: 100%;
+    overflow: hidden;
   }
 
   ::-webkit-scrollbar {

@@ -1,13 +1,12 @@
 import useAPI_GetJwtList from '@/apis/test/getJwtList';
 import { MobDeveloper } from '@/components/templates';
-import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState } from 'react';
 
 export default function DeveloperWrraper() {
-  const { user, mutate: mutateUser } = useAuth();
+  const { user, login } = useAuth();
   const { data: getJwtListResponse } = useAPI_GetJwtList();
 
   const jwtList = useMemo(() => getJwtListResponse ?? [], [getJwtListResponse]);
@@ -20,16 +19,18 @@ export default function DeveloperWrraper() {
   const handleChangeJwtOwner = useCallback(
     (newValue: string) => {
       setJwtOwner(newValue);
-      localStorage.setItem(
-        Keys.ACCESS_TOKEN,
-        JSON.stringify(jwtList.find((item) => item.nickname === newValue)?.jwt ?? ''),
-      );
-      mutateUser();
+      // localStorage.setItem(
+      //   Keys.ACCESS_TOKEN,
+      //   JSON.stringify(jwtList.find((item) => item.nickname === newValue)?.jwt ?? ''),
+      // );
+      // mutateUser();
+      login(jwtList.find((item) => item.nickname === newValue)?.jwt ?? '', '');
+
       setTimeout(() => {
         router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
       }, 300);
     },
-    [jwtList, mutateUser, router],
+    [jwtList, login, router],
   );
 
   return (
