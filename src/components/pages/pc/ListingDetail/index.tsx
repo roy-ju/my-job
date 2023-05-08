@@ -30,8 +30,6 @@ interface Props {
 export default memo(({ depth, panelWidth, listingID }: Props) => {
   const { redirectable } = useListingDetailRedirector(listingID, depth);
 
-  console.log(redirectable);
-
   const router = useRouter(depth);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
