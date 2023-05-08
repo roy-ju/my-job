@@ -14,8 +14,10 @@ export default memo(() => {
       <ServiceInfo
         onClickBusinessInfo={() => router.push(`/${Routes.EntryMobile}/${Routes.BusinessInfo}`)}
         onClickTermsAndPolicy={() => router.push(`/${Routes.EntryMobile}/${Routes.TermsAndPolicy}`)}
-        onClickOpenSourceLicense={isNativeApp ? () => router.push(`/${Routes.EntryMobile}`) : undefined}
-        onClickVersionInfo={isNativeApp ? () => router.push(`/${Routes.EntryMobile}`) : undefined}
+        onClickOpenSourceLicense={
+          isNativeApp ? () => router.push(`/${Routes.EntryMobile}/${Routes.OpenSourceLicenses}`) : undefined
+        }
+        onClickVersionInfo={isNativeApp ? () => router.push(`/${Routes.EntryMobile}/${Routes.VersionInfo}`) : undefined}
         onClickBack={() => router.back()}
       />
     </MobileContainer>
