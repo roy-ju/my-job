@@ -8,6 +8,7 @@ import { SuggestRequestedList } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useRef, useState } from 'react';
+import { mutate as otherMutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -75,6 +76,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       setPopup('none');
       await deleteSuggests(items);
       await mutate();
+      otherMutate('/my/dashboard/info');
     }
   }, [itemsToDelete, mutate]);
 
