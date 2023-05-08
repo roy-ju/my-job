@@ -76,11 +76,29 @@ export default function Listing({
   const renderPrice = () => {
     switch (buyOrRent) {
       case BuyOrRent.Buy:
-        return tradeOrDepositPrice;
+        return (
+          <Numeral thousandsSeparated koreanNumber>
+            {tradeOrDepositPrice}
+          </Numeral>
+        );
       case BuyOrRent.Jeonsae:
-        return tradeOrDepositPrice;
+        return (
+          <Numeral thousandsSeparated koreanNumber>
+            {tradeOrDepositPrice}
+          </Numeral>
+        );
       default:
-        return monthlyRentFee;
+        return (
+          <>
+            <Numeral thousandsSeparated koreanNumber>
+              {tradeOrDepositPrice}
+            </Numeral>
+            {' / '}
+            <Numeral thousandsSeparated koreanNumber>
+              {monthlyRentFee}
+            </Numeral>
+          </>
+        );
     }
   };
 
@@ -114,10 +132,7 @@ export default function Listing({
           )}
         </div>
         <div tw="font-bold text-b1 flex gap-1.5 items-center">
-          {quickSale && <QuickSaleChip />} {BuyOrRentString[buyOrRent]}{' '}
-          <Numeral thousandsSeparated koreanNumber>
-            {renderPrice()}
-          </Numeral>
+          {quickSale && <QuickSaleChip />} {BuyOrRentString[buyOrRent]} {renderPrice()}
         </div>
         <div tw="text-info text-left">{listingTitle}</div>
         <div tw="flex justify-between items-center">

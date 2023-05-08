@@ -17,6 +17,11 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   if (targetRoute === Routes.ListingDetail) {
     try {
+      const { data: statusData } = await axios.post('/listing/status', { listing_id: Number(query.listingID) });
+      if (statusData?.can_access !== true) {
+        return defaultMeta;
+      }
+
       const { data } = await axios.post('/listing/detail', { listing_id: Number(query.listingID) });
 
       let description = data?.display_address;
@@ -30,8 +35,8 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       }
 
       return {
-        title: data?.listing?.listing_title,
-        description,
+        title: data?.listing?.listing_title ?? '',
+        description: description ?? '',
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
       };
     } catch (e) {
@@ -47,8 +52,8 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       });
 
       return {
-        title: data?.name,
-        description: data?.road_name_address ?? data?.jibun_address,
+        title: data?.name ?? '',
+        description: data?.road_name_address ?? data?.jibun_address ?? '',
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
       };
     } catch (e) {
