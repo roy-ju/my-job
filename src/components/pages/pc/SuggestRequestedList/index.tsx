@@ -82,7 +82,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     (id: number, checked: boolean) => {
       if (listStyle === 'default') {
         popupDataRef.current = id;
-        if (checked) {
+        if (!checked) {
           setPopup('suggestStop');
         } else {
           setPopup('suggestResume');
