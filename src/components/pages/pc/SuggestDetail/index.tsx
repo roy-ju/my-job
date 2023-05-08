@@ -37,6 +37,10 @@ export default memo(({ panelWidth, depth }: Props) => {
     [router],
   );
 
+  const handleNaviagteToSuggestRegionalForm = useCallback(() => {
+    router.replace(Routes.SuggestRegionalForm);
+  }, [router]);
+
   const openNotInterestedPopup = useCallback((id: number) => {
     popupData.current = id;
     setPopup('notInterested');
@@ -84,6 +88,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         onClickNotInterested={openNotInterestedPopup}
         onClickRecommendAccept={openAcceptRecommendPopup}
         onClickChat={handleClickChat}
+        onClickNewRecommendations={handleNaviagteToSuggestRegionalForm}
       />
       {popup === 'notInterested' && (
         <OverlayPresenter>
