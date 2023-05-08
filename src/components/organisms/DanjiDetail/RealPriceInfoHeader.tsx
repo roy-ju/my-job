@@ -26,6 +26,27 @@ export default function RealPriceInfoHeader({
 }) {
   const router = useRouter(depth);
 
+  const handleCTA = () => {
+    if (router.query.listingID) {
+      router.push(Routes.DanjiRealPriceDetail, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: router.query.p ? `${router.query.p}` : pnu || '',
+          rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
+        },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    } else {
+      router.push(Routes.DanjiRealPriceDetail, {
+        searchParams: {
+          p: router.query.p ? `${router.query.p}` : pnu || '',
+          rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
+        },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    }
+  };
+
   if (!buyOrRent) return null;
 
   return (
@@ -47,30 +68,7 @@ export default function RealPriceInfoHeader({
       </div>
       {isMoreButton && (
         <div tw="mt-4">
-          <Button
-            variant="primary"
-            tw="w-full"
-            onClick={() => {
-              if (router.query.listingID) {
-                router.push(Routes.DanjiRealPriceDetail, {
-                  searchParams: {
-                    listingID: router.query.listingID as string,
-                    p: router.query.p ? `${router.query.p}` : pnu || '',
-                    rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
-                  },
-                  state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
-                });
-              } else {
-                router.push(Routes.DanjiRealPriceDetail, {
-                  searchParams: {
-                    p: router.query.p ? `${router.query.p}` : pnu || '',
-                    rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
-                  },
-                  state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
-                });
-              }
-            }}
-          >
+          <Button variant="primary" tw="w-full" onClick={() => handleCTA()}>
             실거래 심층분석
           </Button>
         </div>

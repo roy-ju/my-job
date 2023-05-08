@@ -191,10 +191,24 @@ export default function RealPricesList({
       sessionStorage.setItem('d-ch', '2');
     }
 
-    router.push(Routes.DanjiRealPriceList, {
-      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
-    });
+    if (router.query.listingID) {
+      router.push(Routes.DanjiRealPriceList, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: danji?.pnu || `${router.query.p}` || '',
+          rt: danji?.type.toString() || (router.query.rt as string) || '',
+        },
+      });
+    } else {
+      router.push(Routes.DanjiRealPriceList, {
+        searchParams: {
+          p: danji?.pnu || `${router.query.p}` || '',
+          rt: danji?.type.toString() || (router.query.rt as string) || '',
+        },
+      });
+    }
   }, [
+    danji,
     buyOrRent,
     checked,
     danjiRealPricesPyoungList,

@@ -316,9 +316,15 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       });
 
       if (!res?.error_code) {
-        router.replace(Routes.DanjiRecommendationSuccess, {
-          searchParams: { p: danji.pnu, rt: danji.type.toString() },
-        });
+        if (router.query.listingID) {
+          router.replace(Routes.DanjiRecommendationSuccess, {
+            searchParams: { listingID: router.query.listingID as string, p: danji.pnu, rt: danji.type.toString() },
+          });
+        } else {
+          router.replace(Routes.DanjiRecommendationSuccess, {
+            searchParams: { p: danji.pnu, rt: danji.type.toString() },
+          });
+        }
       }
     }
     if (buyOrRent === BuyOrRent.Jeonsae) {
@@ -348,9 +354,15 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       });
 
       if (!res?.error_code) {
-        router.replace(Routes.DanjiRecommendationSuccess, {
-          searchParams: { p: danji.pnu, rt: danji.type.toString() },
-        });
+        if (router.query.listingID) {
+          router.replace(Routes.DanjiRecommendationSuccess, {
+            searchParams: { listingID: router.query.listingID as string, p: danji.pnu, rt: danji.type.toString() },
+          });
+        } else {
+          router.replace(Routes.DanjiRecommendationSuccess, {
+            searchParams: { p: danji.pnu, rt: danji.type.toString() },
+          });
+        }
       }
     }
   };
