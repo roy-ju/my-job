@@ -33,9 +33,7 @@ const Page: NextPage = () => {
     }
 
     if (loginResponse.access_token) {
-      localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
-      localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
-      window.opener?.Negocio.callbacks?.loginSuccess?.();
+      window.opener?.Negocio.callbacks?.loginSuccess?.(loginResponse.access_token, loginResponse.refresh_token);
     } else if (loginResponse.new_registration) {
       window.opener?.Negocio.callbacks?.newRegister?.(
         loginResponse.email,

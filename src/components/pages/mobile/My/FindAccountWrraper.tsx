@@ -1,7 +1,6 @@
 import loginByCi from '@/apis/user/loginByCi';
 import { MobFindAccount } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
-import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 import Routes from '@/router/routes';
@@ -10,7 +9,7 @@ import { useCallback } from 'react';
 import { toast } from 'react-toastify';
 
 export default function FindAccountWrraper() {
-  const { mutate } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
   const { request } = useNiceId();
 
@@ -29,16 +28,14 @@ export default function FindAccountWrraper() {
         toast.error(`Error Code ${loginRes.error_code}`);
       } else if (loginRes?.access_token) {
         if (loginRes?.access_token) {
-          localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginRes.access_token));
-          localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginRes.refresh_token));
-          await mutate();
+          await login(loginRes.access_token, loginRes.refresh_token);
           router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyDetailMobile}`);
         } else {
           toast.error('로그인에 실패하였습니다.');
         }
       }
     },
-    [router, mutate],
+    [router, login],
   );
 
   const handleVerifyPhone = useCallback(() => {

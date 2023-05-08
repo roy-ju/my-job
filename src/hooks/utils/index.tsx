@@ -10,3 +10,4 @@ export { default as usePlatform } from './usePlatform';
 export { default as useScroll } from './useScroll';
 export { default as useNegocioMapEvent } from './useNegocioMapEvent';
 export { default as usePageLoading } from './usePageLoading';
+export { default as useNativeAppEventListeners } from './useNativeAppEventListeners';
