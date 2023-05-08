@@ -31,6 +31,8 @@ export { default as NotificationSettingsWrraper } from './My/NotificationSetting
 export { default as NotificationWrraper } from './My/NotificationWrraper';
 export { default as FindAccountWrraper } from './My/FindAccountWrraper';
 
+export { default as ServiceInfo } from './ServiceInfo';
+
 /** 회원가입 */
 export { default as RegisterWrraper } from './Register';
 export { default as SuccessWrraper } from './Register/SuccessWrraper';
