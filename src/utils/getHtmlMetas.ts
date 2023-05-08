@@ -17,6 +17,11 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   if (targetRoute === Routes.ListingDetail) {
     try {
+      const { data: statusData } = await axios.post('/listing/status', { listing_id: Number(query.listingID) });
+      if (statusData?.can_access !== true) {
+        return defaultMeta;
+      }
+
       const { data } = await axios.post('/listing/detail', { listing_id: Number(query.listingID) });
 
       let description = data?.display_address;
