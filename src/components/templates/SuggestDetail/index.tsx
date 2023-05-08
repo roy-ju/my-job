@@ -14,6 +14,7 @@ interface Props {
   onClickChat?: (id: number) => void;
   onClickNotInterested?: (id: number) => void;
   onClickRecommendAccept?: (id: number) => void;
+  onClickNewRecommendations?: () => void;
 }
 
 export default function SuggestDetail({
@@ -25,6 +26,7 @@ export default function SuggestDetail({
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
+  onClickNewRecommendations,
 }: Props) {
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -53,6 +55,7 @@ export default function SuggestDetail({
             onClickChat={onClickChat}
             onClickNotInterested={onClickNotInterested}
             onClickRecommendAccept={onClickRecommendAccept}
+            onClickNewRecommendations={onClickNewRecommendations}
           />
         )}
       </div>
