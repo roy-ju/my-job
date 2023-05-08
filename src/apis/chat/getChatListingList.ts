@@ -25,7 +25,7 @@ export default function useAPI_GetChatListingList(id: number) {
 
   const list = useMemo(
     () =>
-      data?.list.map((item) => ({
+      data?.list?.map((item) => ({
         listingId: item.listing_id,
         buyOrRent: item.buy_or_rent,
         tradeOrDepositPrice: item.trade_or_deposit_price,
