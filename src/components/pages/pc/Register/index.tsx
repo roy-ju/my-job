@@ -5,7 +5,6 @@ import { TermsState } from '@/components/organisms/RegisterForm';
 import { Register } from '@/components/templates';
 import { PrivacyRetentionType } from '@/constants/enums';
 import { NICKNAME_REGEX } from '@/constants/regex';
-import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -17,7 +16,7 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const { mutate: mutateUser } = useAuth();
+  const { login: handleLogin } = useAuth();
 
   const router = useRouter(depth);
 
@@ -100,14 +99,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
 
     if (loginResponse?.access_token) {
-      localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
-      localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
-      mutateUser();
+      handleLogin(loginResponse.access_token, loginResponse.refresh_token);
     }
 
     setIsLoading(false);
     router.replace(Routes.RegisterSuccess);
-  }, [email, terms, privacyRetention, nickname, router, mutateUser]);
+  }, [email, terms, privacyRetention, nickname, router, handleLogin]);
 
   useEffect(() => {
     if (!router.query.email || !router.query.token || !router.query.socialLoginType) {
