@@ -19,19 +19,30 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const { data } = useAPI_GetDeregisterStatus();
 
+  let deregisterReasons = router.query.deregisterReasons as string;
+
+  if (router.query.extraReasons) {
+    deregisterReasons = deregisterReasons?.concat(',', router.query.extraReasons as string);
+  }
+
   const handleClickBackButton = useCallback(() => {
-    router.replace(Routes.Deregister);
+    router.replace(Routes.Deregister, {
+      state: {
+        deregisterReasons: router.query.deregisterReasons as string,
+        extraReasons: router.query.extraReasons as string,
+      },
+    });
   }, [router]);
 
   const handleDeregister = useCallback(async () => {
-    const deregistered = await deregister('');
+    const deregistered = await deregister(deregisterReasons);
     if (deregistered) {
       await router.popAll();
       logout();
     } else {
       toast.error('Cannot deregister');
     }
-  }, [logout, router]);
+  }, [logout, router, deregisterReasons]);
 
   return (
     <Panel width={panelWidth}>

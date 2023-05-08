@@ -1,13 +1,25 @@
 import { Button } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { DeregisterForm } from '@/components/organisms';
+import { ChangeEvent } from 'react';
 
 interface Props {
   onClickBackButton?: () => void;
   onClickNext?: () => void;
+  deregisterReasons?: string[];
+  onChangeDeregisterReasons?: (e: ChangeEvent<HTMLInputElement>) => void;
+  extraReasons?: string;
+  onChangeExtraReasons?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function Deregister({ onClickBackButton, onClickNext }: Props) {
+export default function Deregister({
+  deregisterReasons,
+  extraReasons,
+  onChangeDeregisterReasons,
+  onChangeExtraReasons,
+  onClickBackButton,
+  onClickNext,
+}: Props) {
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader>
@@ -23,7 +35,12 @@ export default function Deregister({ onClickBackButton, onClickNext }: Props) {
           <br />
           알려주세요
         </div>
-        <DeregisterForm />
+        <DeregisterForm
+          extraReasons={extraReasons}
+          onChangeTextArea={onChangeExtraReasons}
+          deregisterReasons={deregisterReasons}
+          onChangeCheckbox={onChangeDeregisterReasons}
+        />
       </div>
       <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">
         <Button variant="secondary" size="bigger" tw="w-full" onClick={onClickNext}>
