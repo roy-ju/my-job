@@ -4,14 +4,15 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { SocialLoginType } from '@/constants/enums';
 import { toast } from 'react-toastify';
-import { mutate } from 'swr';
 import login from '@/apis/user/login';
-import Keys from '@/constants/storage_keys';
 import Routes from '@/router/routes';
 import { MobileContainer } from '@/components/atoms';
 import { Login as LoginTemplate } from '@/components/templates';
+import { useAuth } from '@/hooks/services';
 
 export default function LoginWrraper() {
+  const { login: handleLogin } = useAuth();
+
   const router = useRouter();
 
   const handleKakaoLogin = useCallback(() => {
@@ -32,9 +33,7 @@ export default function LoginWrraper() {
       });
 
       if (loginResponse?.access_token) {
-        localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
-        localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
-        window.Negocio.callbacks.loginSuccess?.();
+        window.Negocio.callbacks.loginSuccess?.(loginResponse.access_token, loginResponse.refresh_token);
       } else if (loginResponse?.new_registration) {
         window.Negocio.callbacks.newRegister?.(loginResponse?.email, idToken, SocialLoginType.Apple);
       } else {
@@ -48,8 +47,8 @@ export default function LoginWrraper() {
   }, [router]);
 
   useEffect(() => {
-    window.Negocio.callbacks.loginSuccess = () => {
-      mutate(() => true, undefined);
+    window.Negocio.callbacks.loginSuccess = async (accessToken: string, refreshToken: string) => {
+      await handleLogin(accessToken, refreshToken);
       router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
     };
 
@@ -64,7 +63,7 @@ export default function LoginWrraper() {
       delete window.Negocio.callbacks.loginSuccess;
       delete window.Negocio.callbacks.newRegister;
     };
-  }, [router]);
+  }, [router, handleLogin]);
 
   return (
     <MobileContainer>
