@@ -35,7 +35,7 @@ export default function TransactionReview({
         <NavigationHeader.BackButton onClick={onGoBack} />
         <NavigationHeader.Title>{hasReview ? '거래후기 보기' : '거래후기 남기기'}</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex-1 px-5 mt-7">
+      <div tw="flex-1 px-5 py-7 min-h-0 overflow-y-auto">
         <TransactionReviewForm
           hasReview={hasReview}
           agentName={agentName}
