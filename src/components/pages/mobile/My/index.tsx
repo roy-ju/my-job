@@ -60,7 +60,7 @@ export default function MobMy() {
   }, [router]);
 
   const handleServiceInfo = useCallback(() => {
-    router.push(`my/${Routes.ServiceInfo}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.ServiceInfo}`);
   }, [router]);
 
   const handleCreateListing = useCallback(() => {
