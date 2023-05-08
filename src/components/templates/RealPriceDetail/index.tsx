@@ -26,10 +26,21 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
   }, []);
 
   const onClickSelectPage = () => {
-    router.replace(Routes.DanjiSelect, {
-      searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
-      state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
-    });
+    if (router.query.listingID) {
+      router.replace(Routes.DanjiSelect, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: `${router.query.p}`,
+          rt: router.query.rt as string,
+        },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    } else {
+      router.replace(Routes.DanjiSelect, {
+        searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    }
   };
 
   useEffect(() => {

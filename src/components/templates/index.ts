@@ -114,6 +114,8 @@ export { default as MobNotificationList } from './MobNotificationList';
 export { default as MobNotificationSettings } from './MobNotificationSettings';
 export { default as MobFindAccount } from './MobFindAccount';
 
+
+export { default as MobListingDetail } from './MobListingDetail';
 export { default as MobListingCreateAddress } from './MobListingCreateAddress';
 export { default as MobListingCreateAddressDetail } from './MobListingCreateAddressDetail';
 export { default as MobListingCreateForm } from './MobListingCreateForm';

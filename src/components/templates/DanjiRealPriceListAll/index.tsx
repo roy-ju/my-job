@@ -180,6 +180,8 @@ export default function DanjiRealPriceListAll({
       </NavigationHeader>
       <div tw="px-5">
         <RealPriceInfoHeader
+          pnu={danji.pnu}
+          type={danji.type}
           depth={depth}
           buyOrRent={buyOrRent}
           selectedYear={selectedYear}

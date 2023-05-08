@@ -16,9 +16,19 @@ export default function BasicInfo({ depth, danji }: { depth: number; danji: GetD
   const handleRecommendation = useCallback(() => {
     if (!danji?.pnu || !danji.type) return;
 
-    router.push(Routes.DanjiRecommendation, {
-      searchParams: { p: `${danji.pnu}`, rt: danji.type.toString() as string },
-    });
+    if (router.query.listingID) {
+      router.push(Routes.DanjiRecommendation, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: `${danji.pnu}`,
+          rt: danji.type.toString() as string,
+        },
+      });
+    } else {
+      router.push(Routes.DanjiRecommendation, {
+        searchParams: { p: `${danji.pnu}`, rt: danji.type.toString() as string },
+      });
+    }
   }, [danji?.pnu, danji?.type, router]);
 
   const [openPopup, setOpenPopup] = useState(false);
