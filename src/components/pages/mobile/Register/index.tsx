@@ -3,7 +3,6 @@ import login from '@/apis/user/login';
 import { TermsState } from '@/components/organisms/RegisterForm';
 import { MobRegister } from '@/components/templates';
 import { PrivacyRetentionType } from '@/constants/enums';
-import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
