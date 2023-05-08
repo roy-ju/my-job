@@ -112,6 +112,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleClickBack,
     openBackPopup,
     nextButtonDisabled,
+
+    isAddInterimButtonDisabled,
   } = useListingCreateForm(depth);
 
   const { list: listingOptions } = useAPI_GetOptionList();
@@ -129,6 +131,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ListingCreateForm
+        isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         nextButtonDisabled={nextButtonDisabled}
         onClickBack={openBackPopup}
         addressLine1={addressLine1}

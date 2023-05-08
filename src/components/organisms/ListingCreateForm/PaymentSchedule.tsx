@@ -10,6 +10,7 @@ export interface PaymentScheduleProps {
   price?: string;
   debtSuccessionDeposit?: string;
   debtSuccessionMiscs?: DebtSuccessionType[];
+  isAddButtonDisabled?: boolean;
 }
 
 export default function PaymentSchedule({
@@ -18,6 +19,7 @@ export default function PaymentSchedule({
   price: priceStr,
   debtSuccessionDeposit: debtSuccessionDepositStr,
   debtSuccessionMiscs,
+  isAddButtonDisabled = false,
 }: PaymentScheduleProps) {
   const price = convertPriceInputToNumber(priceStr);
   const debtSuccessionTotal = useMemo(() => {
@@ -30,7 +32,7 @@ export default function PaymentSchedule({
     <div tw="flex flex-col gap-6">
       <div tw="flex justify-between">
         <div tw="text-b1 leading-none font-bold">희망 지급일정</div>
-        <Button size="small" variant="outlined" onClick={onClickAddInterim}>
+        <Button size="small" variant="outlined" onClick={onClickAddInterim} disabled={isAddButtonDisabled}>
           중도금 추가
         </Button>
       </div>

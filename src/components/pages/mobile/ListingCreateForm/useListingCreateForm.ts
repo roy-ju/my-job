@@ -20,6 +20,8 @@ export default function useListingCreateForm() {
 
   const { user } = useAuth();
 
+  const [isAddInterimButtonDisabled, setIsAddInterimButtonDisabled] = useState(false);
+
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
@@ -608,6 +610,8 @@ export default function useListingCreateForm() {
 
   // 중도금 추가
   const handleAddInterim = useCallback(() => {
+    if (interims.length === 3) return;
+
     const newInterims = [...interims];
     const key = uuidv4();
     newInterims.push({ price: '', date: null, dateType: '이전', negotiable: true, key });
@@ -1174,7 +1178,12 @@ export default function useListingCreateForm() {
     setCollaterals(defaultCollaterals);
   }, [router.query.params]);
 
+  useEffect(() => {
+    setIsAddInterimButtonDisabled(interims.length > 2);
+  }, [interims]);
+
   return {
+    isAddInterimButtonDisabled,
     nextButtonDisabled,
 
     handleClickBack,

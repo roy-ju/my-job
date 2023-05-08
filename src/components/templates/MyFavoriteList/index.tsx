@@ -43,6 +43,7 @@ export default function MyFavoriteList({
   const [activeTab, setActiveTab] = useState(0);
 
   const Divider = tw.div`border-b border-gray-300 mx-5`;
+  const DanjiDivider = tw.div`border-b border-gray-300  my-5`;
 
   const renderDropdown = () => (
     <Dropdown tw="mt-5 ml-5 w-28" onChange={handleChangeListingSortingType} size="medium" value={listingSortingType}>
@@ -78,7 +79,7 @@ export default function MyFavoriteList({
           <div tw="mx-5 my-7">
             {danjiList?.map((item, i) => (
               <React.Fragment key={item.danjiId}>
-                {i > 0 && <Divider />}
+                {i > 0 && <DanjiDivider />}
                 <MyListItem.Danji
                   onClickDanjiItem={handleClickDanjiItem}
                   onToggleDanjiLike={onToggleDanjiLike}
