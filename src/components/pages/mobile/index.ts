@@ -32,6 +32,8 @@ export { default as NotificationWrraper } from './My/NotificationWrraper';
 export { default as FindAccountWrraper } from './My/FindAccountWrraper';
 
 export { default as ServiceInfo } from './ServiceInfo';
+export { default as OpenSourceLicenses } from './OpenSourceLicenses';
+export { default as VersionInfo } from './VersionInfo';
 
 /** 회원가입 */
 export { default as RegisterWrraper } from './Register';
