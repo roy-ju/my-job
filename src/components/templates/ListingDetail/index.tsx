@@ -197,6 +197,7 @@ export default function ListingDetail({
     if (visibleState.qnaSection === true) {
       i = 2;
     }
+
     setTabIndex(i);
   }, [visibleState]);
 
