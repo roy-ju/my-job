@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-return-assign */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 import { Loading, Separator } from '@/components/atoms';
@@ -25,30 +21,27 @@ interface Props {
 export default function DanjiDetail({ depth, danji, isShowTab = true, handleMutateDanji }: Props) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const refs = useRef<any>([]);
 
-  const basicContainerRef = useRef<HTMLDivElement | null>(null);
-  const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
-  const basicDetailContainerRef = useRef<HTMLDivElement | null>(null);
-  const danjiSchoolContainerRef = useRef<HTMLDivElement | null>(null);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
-
-  const [basicInfoVisible, setBasicInfoVisible] = useState(true);
-  const [realPriceVisible, setRealPriceVisible] = useState(false);
-  const [detailInfoVisible, setDetailInfoVisible] = useState(false);
-  const [schoolInfoVisible, setSchoolInfoVisible] = useState(false);
-  const [bottomReached, setBottomReached] = useState(false);
+  const [listingsSection, setListingsSection] = useState<HTMLDivElement | null>(null);
+  const [realPriceSection, setRealPriceSection] = useState<HTMLDivElement | null>(null);
+  const [infoSection, setInfoSection] = useState<HTMLDivElement | null>(null);
+  const [facilitiesSection, setFacilitiesSection] = useState<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
 
-  const [activeTab, setActiveTab] = useState(1);
+  const [tabIndex, setTabIndex] = useState(0);
+
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();
 
-  const [loadingListing, setLoadingListing] = useState(true);
-  const [loadingRp, setLoadingRp] = useState(true);
-  const [loadingSchool, setLoadingSchool] = useState(true);
   const [isShowRpTab, setIsShowRpTab] = useState(false);
+
+  const [visibleState, setVisibleState] = useState<Record<string, boolean>>({
+    listingsSection: true,
+    realPriceSection: false,
+    infoSection: false,
+    facilitiesSection: false,
+  });
 
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0);
@@ -82,143 +75,105 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     }
   };
 
-  const calculateOffsetTop = useCallback(() => {
-    const headerElement = document.getElementById('negocio-header');
-    const tabsElement = document.getElementById('negocio-danjidetail-tabs');
-
-    let headerHeight = 0;
-    let tabsHeight = 0;
-
-    if (headerElement && tabsElement) {
-      headerHeight = headerElement.getBoundingClientRect().height;
-      tabsHeight = tabsElement.getBoundingClientRect().height;
-    }
-
-    return headerHeight + tabsHeight;
-  }, []);
-
   const onClickTab = useCallback(
     (index: number) => {
-      if (!isShowTab) return;
+      if (index === 0) {
+        scrollContainer.current?.scrollBy({
+          top: (listingsSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          behavior: 'smooth',
+        });
+      }
 
-      if (!danji) return;
+      if (index === 1) {
+        scrollContainer.current?.scrollBy({
+          top: (realPriceSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          behavior: 'smooth',
+        });
+      }
 
-      if (index === activeTab) return;
+      if (index === 2) {
+        scrollContainer.current?.scrollBy({
+          top: (infoSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          behavior: 'smooth',
+        });
+      }
 
-      const offsetTop = calculateOffsetTop();
-
-      if (index === 1 && basicContainerRef.current && scrollContainer.current) {
-        const elementPosition = basicContainerRef.current.offsetTop;
-        const offsetPosition = elementPosition + scrollContainer.current.scrollTop - offsetTop;
-        scrollContainer.current.scrollTo({ top: offsetPosition });
-      } else if (index === 2 && realPriceContainerRef.current && scrollContainer.current) {
-        const elementPosition = realPriceContainerRef.current.offsetTop;
-        const offsetPosition = elementPosition + scrollContainer.current.scrollTop - offsetTop;
-        scrollContainer.current.scrollTo({ top: offsetPosition });
-      } else if (index === 3 && basicDetailContainerRef.current && scrollContainer.current) {
-        const elementPosition = basicDetailContainerRef.current.offsetTop;
-        const offsetPosition = elementPosition + scrollContainer.current.scrollTop - offsetTop;
-        scrollContainer.current.scrollTo({ top: offsetPosition });
-      } else if (index === 4 && danjiSchoolContainerRef.current && scrollContainer.current) {
-        const elementPosition = danjiSchoolContainerRef.current.offsetTop;
-        const offsetPosition = elementPosition + scrollContainer.current.scrollTop - offsetTop;
-        scrollContainer.current.scrollTo({ top: offsetPosition });
+      if (index === 3) {
+        scrollContainer.current?.scrollBy({
+          top: (facilitiesSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          behavior: 'smooth',
+        });
       }
     },
-    [activeTab, calculateOffsetTop, danji, isShowTab],
+    [listingsSection, realPriceSection, infoSection, facilitiesSection],
   );
 
   useEffect(() => {
-    if (typeof activeTab === 'number' && danji) {
-      const selectedElement = refs.current[activeTab];
-
-      if (scrollRef.current && selectedElement) {
-        const { offsetLeft } = scrollRef.current;
-        const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
-
-        scrollRef.current.scrollLeft =
-          childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
-      }
-    }
-  }, [danji, activeTab]);
-
-  useEffect(() => {
-    if (!isShowTab) return;
-
-    const cb: IntersectionObserverCallback = (entries) => {
-      entries.forEach((item) => {
-        const targetID = item.target.id;
-        const idPrefix = 'negocio-danjidetail-';
-        const { isIntersecting } = item;
-
-        if (targetID === `${idPrefix}bi`) {
-          setBasicInfoVisible(isIntersecting);
-        } else if (targetID === `${idPrefix}rp`) {
-          setRealPriceVisible(isIntersecting);
-        } else if (targetID === `${idPrefix}bid`) {
-          setDetailInfoVisible(isIntersecting);
-        } else if (targetID === `${idPrefix}sc`) {
-          setSchoolInfoVisible(isIntersecting);
-        } else if (targetID === `${idPrefix}bottom`) {
-          setBottomReached(isIntersecting);
-        }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        setVisibleState((prev) => ({
+          ...prev,
+          [entry.target.id]: entry.isIntersecting,
+        }));
       });
-    };
-
-    const observer = new IntersectionObserver(cb, {
-      rootMargin: `-120px 0px -120px 0px`,
-      threshold: 0.1,
     });
 
-    const observerBottom = new IntersectionObserver(cb, {
-      rootMargin: `0px 0px 0px 0px`,
-      threshold: 0.1,
-    });
-
-    if (basicContainerRef.current) {
-      observer.observe(basicContainerRef.current);
+    if (listingsSection) {
+      observer.observe(listingsSection);
     }
 
-    if (realPriceContainerRef.current) {
-      observer.observe(realPriceContainerRef.current);
+    if (realPriceSection) {
+      observer.observe(realPriceSection);
     }
 
-    if (basicDetailContainerRef.current) {
-      observer.observe(basicDetailContainerRef.current);
+    if (infoSection) {
+      observer.observe(infoSection);
     }
 
-    if (danjiSchoolContainerRef.current) {
-      observer.observe(danjiSchoolContainerRef.current);
-    }
-
-    if (bottomRef.current) {
-      observerBottom.observe(bottomRef.current);
+    if (facilitiesSection) {
+      observer.observe(facilitiesSection);
     }
 
     return () => {
       observer.disconnect();
-      observerBottom.disconnect();
     };
-  }, [isShowTab]);
+  }, [listingsSection, realPriceSection, infoSection, facilitiesSection]);
 
   useEffect(() => {
-    if (!isShowTab) return;
+    let i = 0;
 
-    if (bottomReached) {
-      setActiveTab(4);
-      return;
+    if (visibleState.facilitiesSection === true) {
+      i = 3;
     }
 
-    if (basicInfoVisible) {
-      setActiveTab(1);
-    } else if (realPriceVisible) {
-      setActiveTab(2);
-    } else if (detailInfoVisible) {
-      setActiveTab(3);
-    } else if (schoolInfoVisible) {
-      setActiveTab(4);
+    if (visibleState.infoSection === true) {
+      i = 2;
     }
-  }, [basicInfoVisible, bottomReached, detailInfoVisible, isShowTab, realPriceVisible, schoolInfoVisible]);
+
+    if (visibleState.realPriceSection === true) {
+      i = 1;
+    }
+
+    if (visibleState.listingsSection === true) {
+      i = 0;
+    }
+
+    setTabIndex(i);
+  }, [visibleState]);
+
+  // useEffect(() => {
+  //   if (typeof activeTab === 'number' && danji) {
+  //     const selectedElement = refs.current[activeTab];
+
+  //     if (scrollRef.current && selectedElement) {
+  //       const { offsetLeft } = scrollRef.current;
+  //       const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
+
+  //       scrollRef.current.scrollLeft =
+  //         childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
+  //     }
+  //   }
+  // }, [danji, activeTab]);
 
   if (!danji)
     return (
@@ -236,48 +191,32 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           <div id="negocio-danjidetail-tabs" tw="px-3 py-2 sticky bg-white [top: 56px] [z-index: 100]">
             <div
               tw="flex flex-row items-center overflow-x-auto gap-2"
-              // role="presentation"
+              role="presentation"
               ref={scrollRef}
               onMouseDown={onDragStart}
               onMouseMove={onDragMove}
               onMouseUp={onDragEnd}
               onMouseLeave={onDragEnd}
             >
-              <div
-                tw="p-2 whitespace-nowrap cursor-pointer"
-                onClick={() => onClickTab(1)}
-                ref={(el) => (refs.current[1] = el)}
-              >
-                <span tw="text-b1 font-bold" css={[activeTab === 1 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+              <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(0)}>
+                <span tw="text-b1 font-bold" css={[tabIndex === 0 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                   단지 매물
                 </span>
               </div>
               {isShowRpTab && (
-                <div
-                  tw="p-2 whitespace-nowrap cursor-pointer"
-                  onClick={() => onClickTab(2)}
-                  ref={(el) => (refs.current[2] = el)}
-                >
-                  <span tw="text-b1 font-bold" css={[activeTab === 2 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+                <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(1)}>
+                  <span tw="text-b1 font-bold" css={[tabIndex === 1 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                     단지 실거래 분석
                   </span>
                 </div>
               )}
-              <div
-                tw="p-2 whitespace-nowrap cursor-pointer"
-                onClick={() => onClickTab(3)}
-                ref={(el) => (refs.current[3] = el)}
-              >
-                <span tw="text-b1 font-bold" css={[activeTab === 3 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+              <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(2)}>
+                <span tw="text-b1 font-bold" css={[tabIndex === 2 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                   기본 정보
                 </span>
               </div>
-              <div
-                tw="p-2 whitespace-nowrap cursor-pointer"
-                onClick={() => onClickTab(4)}
-                ref={(el) => (refs.current[4] = el)}
-              >
-                <span tw="text-b1 font-bold" css={[activeTab === 4 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+              <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(3)}>
+                <span tw="text-b1 font-bold" css={[tabIndex === 3 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                   학군 및 주변 정보
                 </span>
               </div>
@@ -286,33 +225,34 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
         )}
 
         <DanjiDetailSection>
-          <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
+          <div tw="pt-6" id="listingsSection" ref={setListingsSection}>
             <DanjiDetailSection.Info danji={danji} depth={depth} />
-            <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={setLoadingListing} />
+            <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
           </div>
 
-          <DanjiRealpriceContainer
-            ref={realPriceContainerRef}
-            danji={danji}
-            depth={depth}
-            isShowRpTab={isShowRpTab}
-            setLoadingRp={setLoadingRp}
-            setIsShowRpTab={setIsShowRpTab}
-          />
+          <div id="realPriceSection" ref={setRealPriceSection}>
+            <DanjiRealpriceContainer
+              danji={danji}
+              depth={depth}
+              isShowRpTab={isShowRpTab}
+              setLoadingRp={() => {}}
+              setIsShowRpTab={setIsShowRpTab}
+            />
+          </div>
 
-          <div id="negocio-danjidetail-bid" ref={basicDetailContainerRef}>
+          <div id="infoSection" ref={setInfoSection}>
             <Separator tw="w-full [min-height: 8px]" />
             <DanjiDetailSection.DetailInfo danji={danji} />
           </div>
 
-          <div id="negocio-danjidetail-sc" ref={danjiSchoolContainerRef}>
+          <div id="facilitiesSection" ref={setFacilitiesSection}>
             <Separator tw="w-full [min-height: 8px]" />
             <DanjiDetailSection.SchoolInfo danji={danji} />
             <Separator tw="w-full [min-height: 8px]" />
             <DanjiDetailSection.AroundInfo danji={danji} />
           </div>
         </DanjiDetailSection>
-        <div id="negocio-danjidetail-bottom" ref={bottomRef} style={{ height: '10px' }} />
+        <div id="negocio-danjidetail-bottom" style={{ height: '10px' }} />
       </div>
     </div>
   );
