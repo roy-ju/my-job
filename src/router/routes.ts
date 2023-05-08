@@ -119,6 +119,11 @@ const Routes = {
   SuggestReceivedList: 'suggestReceivedList',
   SuggestDetail: 'suggestDetail',
 
+  // 오픈소스라이선스
+  OpenSourceLicenses: 'openSourceLicenses',
+  // 버전정보
+  VersionInfo: 'versionInfo',
+
   EntryMobile: 'm',
 };
 
