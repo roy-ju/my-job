@@ -10,6 +10,7 @@ import { getZoomByMeters } from '@/utils/map';
 import { NaverMapV1 } from '@/lib/navermapV1';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
+import dynamic from 'next/dynamic';
 import {
   DanjiBankMarker,
   DanjiConvienceMarker,
@@ -18,7 +19,8 @@ import {
   DanjiMartMarker,
   DanjiSubwayMarker,
 } from './DanjiMarker';
-import { CustomOverlayDanji } from './CustomOverlayDanji';
+
+const CustomOverlayDanji = dynamic(() => import('./CustomOverlayDanji'), { ssr: false });
 
 type AroundListType = {
   address_name: string;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
@@ -6,7 +7,7 @@ import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { Loading, MobileContainer } from '@/components/atoms';
 import { MobListingDetail } from '@/components/templates';
 import Routes from '@/router/routes';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import deleteListingQna from '@/apis/listing/deleteListingQna';
@@ -18,7 +19,13 @@ import { BuyOrRent } from '@/constants/enums';
 import formatNumberInKorean from '@/utils/formatNumberInKorean';
 import Paths from '@/constants/paths';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
+import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
+import { FullScreenMap } from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
+import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail';
+import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
 import useListingDetailRedirector from './useListingDetailRedirector';
+import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 export default memo(() => {
   const router = useRouter();
@@ -29,6 +36,21 @@ export default memo(() => {
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
+
+  const {
+    danjiAroundData,
+    isTrue,
+    isTrueSchool,
+    isTrueAround,
+    makeFalse,
+    makeFalseAround,
+    makeFalseSchool,
+    makeBindDanji,
+  } = useDanjiMapButtonStore();
+
+  const { mapType, makeGeneralMap } = useDanjiMapTypeStore();
+
+  const { danji } = useDanjiDetail(data?.listing.pnu, data?.listing.realestate_type);
 
   const {
     data: qnaData,
@@ -204,6 +226,18 @@ export default memo(() => {
     });
   }, [data]);
 
+  useEffect(
+    () => () => {
+      // 페이지가 언마운트 됐을때 초기화
+      makeFalse();
+      makeFalseAround();
+      makeFalseSchool();
+      makeGeneralMap();
+      makeBindDanji(undefined);
+    },
+    [],
+  );
+
   if (data?.error_code) {
     return <MobileContainer>{data?.error_code}</MobileContainer>;
   }
@@ -234,75 +268,99 @@ export default memo(() => {
   }
 
   return (
-    <MobileContainer>
-      <MobListingDetail
-        listingDetail={data as GetListingDetailResponse}
-        qnaList={qnaData}
-        isLoading={isLoading || isLoadingStatus}
-        hasMoreQnas={hasMoreQnas}
-        onClickShare={handleClickShare}
-        onClickMoreItem={handleClickMoreItem}
-        onClickFavorite={handleClickFavorite}
-        onClickLoadMoreQna={loadMoreQnas}
-        onClickDeleteQna={handleClickDeleteQna}
-        onClickSuggestAcceptRecommend={openSuggestAcceptRecommendPopup}
-        onClickSuggestNotInterested={openSuggestNotInterstedPopup}
-        onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
-        onNavigateToUpdateTargetPrice={handleNavigateToUpdateTargetPrice}
-        onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
-        onNavigateToChatRoom={handleNavigateToChatRoom}
-        onNavigateToCreateQna={handleNavigateToCreateQna}
-        onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
-        onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
-        onClickBack={handleClickBack}
-      />
-      {popup === 'suggestNotInterested' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-10">
-              <Popup.Title>
-                관심없음으로 표시한 매물은
-                <br />
-                추천받은 목록에서 삭제됩니다.
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleSuggestNotInterested}>
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+    <>
+      {!isTrue && !isTrueAround && !isTrueSchool && (
+        <>
+          <MobileContainer>
+            <MobListingDetail
+              listingDetail={data as GetListingDetailResponse}
+              qnaList={qnaData}
+              isLoading={isLoading || isLoadingStatus}
+              hasMoreQnas={hasMoreQnas}
+              onClickShare={handleClickShare}
+              onClickMoreItem={handleClickMoreItem}
+              onClickFavorite={handleClickFavorite}
+              onClickLoadMoreQna={loadMoreQnas}
+              onClickDeleteQna={handleClickDeleteQna}
+              onClickSuggestAcceptRecommend={openSuggestAcceptRecommendPopup}
+              onClickSuggestNotInterested={openSuggestNotInterstedPopup}
+              onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
+              onNavigateToUpdateTargetPrice={handleNavigateToUpdateTargetPrice}
+              onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
+              onNavigateToChatRoom={handleNavigateToChatRoom}
+              onNavigateToCreateQna={handleNavigateToCreateQna}
+              onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
+              onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
+              onClickBack={handleClickBack}
+            />
+            {popup === 'suggestNotInterested' && (
+              <OverlayPresenter>
+                <Popup>
+                  <Popup.ContentGroup tw="py-10">
+                    <Popup.Title>
+                      관심없음으로 표시한 매물은
+                      <br />
+                      추천받은 목록에서 삭제됩니다.
+                    </Popup.Title>
+                  </Popup.ContentGroup>
+                  <Popup.ButtonGroup>
+                    <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
+                    <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleSuggestNotInterested}>
+                      확인
+                    </Popup.ActionButton>
+                  </Popup.ButtonGroup>
+                </Popup>
+              </OverlayPresenter>
+            )}
+            {popup === 'suggestAcceptRecommend' && (
+              <OverlayPresenter>
+                <Popup>
+                  <Popup.ContentGroup tw="py-10">
+                    <Popup.Title>
+                      중개사님과의 채팅방이 개설됩니다.
+                      <br />
+                      채팅방을 나가시면 네고 협의가 중단되니 유의해 주세요.
+                    </Popup.Title>
+                  </Popup.ContentGroup>
+                  <Popup.ButtonGroup>
+                    <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
+                    <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleSuggestAcceptRecommend}>
+                      확인
+                    </Popup.ActionButton>
+                  </Popup.ButtonGroup>
+                </Popup>
+              </OverlayPresenter>
+            )}
+            {popup === 'share' && (
+              <OverlayPresenter>
+                <SharePopup
+                  onClickOutside={() => setPopup('none')}
+                  onClickShareViaKakao={handleShareViaKakao}
+                  onClickCopyUrl={handleCopyUrl}
+                />
+              </OverlayPresenter>
+            )}
+          </MobileContainer>
+        </>
       )}
-      {popup === 'suggestAcceptRecommend' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-10">
-              <Popup.Title>
-                중개사님과의 채팅방이 개설됩니다.
-                <br />
-                채팅방을 나가시면 네고 협의가 중단되니 유의해 주세요.
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleSuggestAcceptRecommend}>
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+
+      {isTrue && (
+        <MobileContainer>
+          <FullScreenMap danji={danji} type={mapType} />
+        </MobileContainer>
       )}
-      {popup === 'share' && (
-        <OverlayPresenter>
-          <SharePopup
-            onClickOutside={() => setPopup('none')}
-            onClickShareViaKakao={handleShareViaKakao}
-            onClickCopyUrl={handleCopyUrl}
-          />
-        </OverlayPresenter>
+
+      {isTrueAround && (
+        <MobileContainer>
+          <DanjiAroundDetail danji={danjiAroundData} />
+        </MobileContainer>
       )}
-    </MobileContainer>
+
+      {isTrueSchool && (
+        <MobileContainer>
+          <DanjiSchoolDetail lat={danji?.lat} lng={danji?.long} rt={danji?.type} pnu={danji?.pnu} />
+        </MobileContainer>
+      )}
+    </>
   );
 });

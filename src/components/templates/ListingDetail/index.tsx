@@ -2,7 +2,6 @@ import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { Button, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
 import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
 import { DanjiDetailSection, ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
-
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
@@ -294,7 +293,7 @@ export default function ListingDetail({
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
             </Tabs.Tab>
-            {danji && (
+            {listingDetail?.listing.pnu && (
               <Tabs.Tab value={1}>
                 <span tw="text-b2">단지정보</span>
               </Tabs.Tab>
