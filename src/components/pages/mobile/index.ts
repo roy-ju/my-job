@@ -80,6 +80,7 @@ export { default as ListingPhotoGallery } from './ListingPhotoGallery';
 /** 지난거래 */
 export { default as ListingDetailPassed } from './ListingDetailPassed';
 export { default as ListingDetailHistory } from './ListingDetailHistory';
+export { default as TransactionReview } from './TransactionReview';
 
 /** 가격제안 */
 export { default as BiddingForm } from './BiddingForm';
