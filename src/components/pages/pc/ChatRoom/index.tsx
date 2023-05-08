@@ -31,7 +31,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     additionalListingCount,
     chatUserType,
   } = useChatRoom(Number(router.query.chatRoomID));
-  const { list } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
+  const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const handleClickReportButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
@@ -49,6 +49,24 @@ export default memo(({ depth, panelWidth }: Props) => {
     await closeChatRoom(chatRoomID);
     await mutate('/chat/room/list');
     router.pop();
+  };
+
+  const handleClickNavigateToListingDetail = (listingID: number) => () => {
+    router.replace(Routes.ListingDetail, {
+      searchParams: { listingID: `${listingID}` },
+    });
+  };
+
+  const handleClickNavigateToListingDetailHistory = (listingID: number, biddingID: number) => () => {
+    if (biddingID) {
+      router.replace(Routes.ListingDetailHistory, {
+        searchParams: { listingID: `${listingID}`, biddingID: `${biddingID}`, tab: `${4}` },
+      });
+    } else {
+      router.replace(Routes.ListingDetailPassed, {
+        searchParams: { listingID: `${listingID}`, tab: `${4}` },
+      });
+    }
   };
 
   const renderPopupBodyContents = () => {
@@ -73,7 +91,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ChatRoom
-        list={list}
+        sellerList={sellerList}
+        buyerContractList={buyerContractList}
+        buyerActiveList={buyerActiveList}
         title={listingTitle ?? ''}
         agentName={agentName ?? ''}
         officeName={agentOfficeName ?? ''}
@@ -87,6 +107,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         onSendMessage={handleSendMessage}
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
+        onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
+        onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
       />
       {popupOpen && (
         <OverlayPresenter>
