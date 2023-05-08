@@ -3,7 +3,6 @@ import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { Button, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
 import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
 import { DanjiDetailSection, ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
-
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
@@ -12,18 +11,10 @@ import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
-import { BuyOrRent, describeJeonsaeWolsaeSame, VisitUserType } from '@/constants/enums';
+import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
-import { ParentSize } from '@visx/responsive';
-import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
-import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatusChart';
-import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
 import UserStatusStrings from './strings';
-import { DanjiRealPriceChart } from '../DanjiDetail/DanjiRealPriceChart';
-import DanjiStatusChartWrraper from '../DanjiDetail/DanjiStatusChartWrraper';
-import DanjiStatusJeonsaeChartWrraper from '../DanjiDetail/DanjiStatusJeonsaeChartWrraper';
-import DanjiStatusTradeChartWrraper from '../DanjiDetail/DanjiStatusTradeChartWrraper';
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
 const commonOptions = ['신고하기', '중개약정확인'];
@@ -232,9 +223,11 @@ export default function ListingDetail({
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
             </Tabs.Tab>
-            <Tabs.Tab value={1}>
-              <span tw="text-b2">단지정보</span>
-            </Tabs.Tab>
+            {listingDetail?.listing.pnu && (
+              <Tabs.Tab value={1}>
+                <span tw="text-b2">단지정보</span>
+              </Tabs.Tab>
+            )}
             <Tabs.Tab value={2}>
               <span tw="text-b2">Q&A</span>
             </Tabs.Tab>
