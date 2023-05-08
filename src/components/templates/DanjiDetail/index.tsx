@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 import { Loading, Separator } from '@/components/atoms';
@@ -21,6 +22,7 @@ interface Props {
 export default function DanjiDetail({ depth, danji, isShowTab = true, handleMutateDanji }: Props) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const refs = useRef<any>([]);
 
   const [listingsSection, setListingsSection] = useState<HTMLDivElement | null>(null);
   const [realPriceSection, setRealPriceSection] = useState<HTMLDivElement | null>(null);
@@ -109,14 +111,17 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
   );
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        setVisibleState((prev) => ({
-          ...prev,
-          [entry.target.id]: entry.isIntersecting,
-        }));
-      });
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setVisibleState((prev) => ({
+            ...prev,
+            [entry.target.id]: entry.isIntersecting,
+          }));
+        });
+      },
+      { rootMargin: '-120px 0px 0px 0px', threshold: 0.2 },
+    );
 
     if (listingsSection) {
       observer.observe(listingsSection);
@@ -142,38 +147,46 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
   useEffect(() => {
     let i = 0;
 
-    if (visibleState.facilitiesSection === true) {
-      i = 3;
-    }
-
-    if (visibleState.infoSection === true) {
-      i = 2;
+    if (visibleState.listingsSection === true) {
+      i = 0;
+      setTabIndex(i);
+      return;
     }
 
     if (visibleState.realPriceSection === true) {
       i = 1;
+      setTabIndex(i);
+      return;
     }
 
-    if (visibleState.listingsSection === true) {
-      i = 0;
+    if (visibleState.infoSection === true) {
+      i = 2;
+      setTabIndex(i);
+      return;
+    }
+
+    if (visibleState.facilitiesSection === true) {
+      i = 3;
+      setTabIndex(i);
+      return;
     }
 
     setTabIndex(i);
   }, [visibleState]);
 
-  // useEffect(() => {
-  //   if (typeof activeTab === 'number' && danji) {
-  //     const selectedElement = refs.current[activeTab];
+  useEffect(() => {
+    if (typeof tabIndex === 'number' && danji) {
+      const selectedElement = refs.current[tabIndex];
 
-  //     if (scrollRef.current && selectedElement) {
-  //       const { offsetLeft } = scrollRef.current;
-  //       const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
+      if (scrollRef.current && selectedElement) {
+        const { offsetLeft } = scrollRef.current;
+        const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
 
-  //       scrollRef.current.scrollLeft =
-  //         childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
-  //     }
-  //   }
-  // }, [danji, activeTab]);
+        scrollRef.current.scrollLeft =
+          childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
+      }
+    }
+  }, [danji, tabIndex]);
 
   if (!danji)
     return (
@@ -198,24 +211,47 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               onMouseUp={onDragEnd}
               onMouseLeave={onDragEnd}
             >
-              <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(0)}>
+              <div
+                role="presentation"
+                tw="p-2 whitespace-nowrap cursor-pointer"
+                onClick={() => onClickTab(0)}
+                ref={(el) => (refs.current[0] = el)}
+              >
                 <span tw="text-b1 font-bold" css={[tabIndex === 0 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                   단지 매물
                 </span>
               </div>
+
               {isShowRpTab && (
-                <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(1)}>
+                <div
+                  role="presentation"
+                  tw="p-2 whitespace-nowrap cursor-pointer"
+                  onClick={() => onClickTab(1)}
+                  ref={(el) => (refs.current[1] = el)}
+                >
                   <span tw="text-b1 font-bold" css={[tabIndex === 1 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                     단지 실거래 분석
                   </span>
                 </div>
               )}
-              <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(2)}>
+
+              <div
+                role="presentation"
+                tw="p-2 whitespace-nowrap cursor-pointer"
+                onClick={() => onClickTab(2)}
+                ref={(el) => (refs.current[2] = el)}
+              >
                 <span tw="text-b1 font-bold" css={[tabIndex === 2 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                   기본 정보
                 </span>
               </div>
-              <div role="presentation" tw="p-2 whitespace-nowrap cursor-pointer" onClick={() => onClickTab(3)}>
+
+              <div
+                role="presentation"
+                tw="p-2 whitespace-nowrap cursor-pointer"
+                onClick={() => onClickTab(3)}
+                ref={(el) => (refs.current[3] = el)}
+              >
                 <span tw="text-b1 font-bold" css={[tabIndex === 3 ? tw`text-gray-1000` : tw`text-gray-600`]}>
                   학군 및 주변 정보
                 </span>
