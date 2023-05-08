@@ -75,7 +75,7 @@ export default function DanjiSchoolMapCard({
   );
 
   const { list, isLoading } = useAPI_DanjiMapSchools({
-    schoolTypes: schoolType || undefined,
+    schoolTypes: Number(schoolType) ? Number(schoolType).toString() : undefined,
     pnu: pnu || undefined,
     realestateType: rt || undefined,
   });

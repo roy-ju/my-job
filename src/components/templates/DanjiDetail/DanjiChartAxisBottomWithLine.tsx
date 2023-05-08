@@ -44,7 +44,7 @@ export function DanjiChartAxisBottomWithLine({
         left={paddingLeft}
         tickLabelProps={(_, index) => ({
           fontSize: '11px',
-          fontFamily: 'pretend',
+          // fontFamily: 'pretend',
           fontWeight: 400,
           fill: '#868E96',
           textAnchor: 'end',

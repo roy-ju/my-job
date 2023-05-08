@@ -25,7 +25,7 @@ export function useAPI_DanjiMapSchools({
   schoolTypes?: string | null;
 }) {
   const { data, error, mutate } = useSWR<GetDanjiMapSchools>(
-    pnu && realestateType
+    pnu && realestateType && schoolTypes
       ? [
           '/danji/map/schools',
           {
