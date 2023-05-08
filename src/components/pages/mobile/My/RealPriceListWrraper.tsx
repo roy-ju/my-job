@@ -1,10 +1,12 @@
 import useAPI_GetMyRealPriceList from '@/apis/my/getMyRealPriceList';
 import { MobMyRealPriceList } from '@/components/templates';
+import { useAuth } from '@/hooks/services';
 import { useState, useMemo, useCallback } from 'react';
 
 export default function RealPriceListWrraper() {
   const [buyOrRent, setBuyOrRent] = useState(0);
   const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(buyOrRent);
+  const { user } = useAuth();
 
   const list = useMemo(
     () =>
@@ -36,6 +38,7 @@ export default function RealPriceListWrraper() {
 
   return (
     <MobMyRealPriceList
+      nickname={user?.nickname}
       isLoading={isLoading}
       key={buyOrRent}
       list={list}

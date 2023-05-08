@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function RegisterWrraper() {
-  const { mutate: mutateUser } = useAuth();
+  const { login: handleLogin } = useAuth();
 
   const router = useRouter();
 
@@ -86,14 +86,12 @@ export default function RegisterWrraper() {
     });
 
     if (loginResponse?.access_token) {
-      localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginResponse.access_token));
-      localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginResponse.refresh_token));
-      mutateUser();
+      handleLogin(loginResponse.access_token, loginResponse.refresh_token);
     }
 
     setIsLoading(false);
     router.replace(`/${Routes.EntryMobile}/${Routes.RegisterSuccess}`);
-  }, [email, terms, privacyRetention, nickname, router, mutateUser]);
+  }, [email, terms, privacyRetention, nickname, router, handleLogin]);
 
   useEffect(() => {
     if (!router.query.email || !router.query.token || !router.query.socialLoginType) {

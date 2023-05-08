@@ -1,29 +1,24 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_GetDanjiPhotos } from '@/apis/danji/danjiPhotos';
 import { PhotoHero } from '@/components/organisms';
-
-import Routes from '@/router/routes';
 import { useCallback } from 'react';
 import { DefaultListingImageLg } from '@/constants/strings';
-import { useRouter } from 'next/router';
+import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import MobDanjiPhotos from '../../MobDanjiPhotos';
 
 export default function MobDanjiPhotoHero({ danji }: { danji?: GetDanjiDetailResponse }) {
-  const router = useRouter();
-
-  const handlePhotos = useCallback(() => {
-    router.push(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiPhotos}`,
-        query: { p: router.query.p, rt: router.query.rt },
-      },
-      `/${Routes.EntryMobile}/${Routes.DanjiPhotos}?p=${router.query.p}&rt${router.query.rt}`,
-    );
-  }, [router]);
+  const { addFullScreenDialog, closeAll } = useFullScreenDialogStore();
 
   const { danjiPhotos } = useAPI_GetDanjiPhotos({
     pnu: danji?.pnu,
     realestateType: danji?.type,
   });
+
+  const handlePhotos = useCallback(() => {
+    addFullScreenDialog({
+      body: <MobDanjiPhotos danjiPhotos={danjiPhotos} onClickBack={closeAll} />,
+    });
+  }, [addFullScreenDialog, closeAll, danjiPhotos]);
 
   if (!danji) return null;
 

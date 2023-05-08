@@ -21,6 +21,7 @@ export interface MyRealPriceListProps {
   isLoading?: boolean;
   onNext?: () => void;
   onChangeBuyOrRent?: (newValue: number) => void;
+  nickname?: string;
 }
 
 export default function MobMyRealPriceList({
@@ -30,12 +31,13 @@ export default function MobMyRealPriceList({
   buyOrRent,
   onChangeBuyOrRent,
   onNext,
+  nickname,
 }: MyRealPriceListProps) {
   return (
     <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
       <MobGlobalHeader title="관심 실거래가" />
       <div tw="px-5 pt-6 flex-1 flex flex-col min-h-0 mt-[3.5rem]">
-        <div tw="text-h2 font-bold mb-4">김네고님이 관심 가질 만한 실거래 정보</div>
+        <div tw="text-h2 font-bold mb-4">{nickname}님이 관심 가질 만한 실거래 정보</div>
         <div tw="text-info leading-none text-gray-700 mb-7">
           나의 관심 매물, 관심 단지 혹은 나의 주소지 주변 실거래 현황입니다.
         </div>

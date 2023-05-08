@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const { mutate } = useAuth();
+  const { login } = useAuth();
   const router = useRouter(depth);
   const { request } = useNiceId();
 
@@ -35,16 +35,14 @@ export default memo(({ depth, panelWidth }: Props) => {
         toast.error(`Error Code ${loginRes.error_code}`);
       } else if (loginRes?.access_token) {
         if (loginRes?.access_token) {
-          localStorage.setItem(Keys.ACCESS_TOKEN, JSON.stringify(loginRes.access_token));
-          localStorage.setItem(Keys.REFRESH_TOKEN, JSON.stringify(loginRes.refresh_token));
-          await mutate();
+          await login(loginRes.access_token, loginRes.refresh_token);
           router.replace(Routes.MyDetail);
         } else {
           toast.error('로그인에 실패하였습니다.');
         }
       }
     },
-    [router, mutate],
+    [router, login],
   );
 
   const handleVerifyPhone = useCallback(() => {
