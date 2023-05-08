@@ -4,7 +4,6 @@ import { useCallback, useEffect } from 'react';
 import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
 import login from '@/apis/user/login';
 import { SocialLoginType } from '@/constants/enums';
-import Keys from '@/constants/storage_keys';
 import updateEmail from '@/apis/user/updateEmail';
 
 const Page: NextPage = () => {
