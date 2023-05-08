@@ -26,7 +26,7 @@ export default function MobRealPriceDetail() {
   const onClickSelectPage = () => {
     router.push(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiSelect}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiSelect}`,
         query: {
           p: `${router.query.p}`,
           rt: router.query.rt as string,
@@ -34,7 +34,7 @@ export default function MobRealPriceDetail() {
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${Routes.DanjiSelect}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?p=${router.query.p}&rt=${router.query.rt}`,
     );
   };
 
