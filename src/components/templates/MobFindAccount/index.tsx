@@ -15,7 +15,7 @@ export default function MobFindAccount({
   return (
     <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickBack} />
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>계정정보 찾기</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="text-h2 font-bold mb-1 pt-1 px-5">

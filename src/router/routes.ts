@@ -31,15 +31,8 @@ const Routes = {
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
 
-  MyAddressMobile: 'address',
-  MyAddressDetailMobile: 'addressDetail',
-  MyAddressVerifyingMobile: 'addressVerifying',
-
   MyRealPriceList: 'myRealPriceList',
-  MyRealPriceListMobile: 'realPriceList',
-
   MyDetail: 'myDetail',
-  MyDetailMobile: 'detail',
 
   MyFavoriteList: 'myFavoriteList',
   MyRegisteredListingList: 'myRegisteredListings',
@@ -64,7 +57,6 @@ const Routes = {
   UpdatePhone: 'updatePhone',
 
   MyCoupon: 'myCoupon',
-  MyCouponMobile: 'coupon',
 
   Register: 'register',
   RegisterSuccess: 'registerSuccess',

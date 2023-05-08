@@ -20,23 +20,23 @@ export default function MobMy() {
   }, [router]);
 
   const handleClickNotificationList = useCallback(() => {
-    router.push(`my/${Routes.NotificationList}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
   }, [router]);
 
   const handleClickMyDetail = useCallback(() => {
-    router.push(`my/${Routes.MyDetailMobile}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.MyDetail}`);
   }, [router]);
 
   const handleClickNoticeList = useCallback(() => {
-    router.push(`my/${Routes.NoticeList}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.NoticeList}`);
   }, [router]);
 
   const handleClickQna = useCallback(() => {
-    router.push(`my/${Routes.Qna}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.Qna}`);
   }, [router]);
 
   const handleClickMyRealPriceList = useCallback(() => {
-    router.push(`my/${Routes.MyRealPriceListMobile}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.MyRealPriceList}`);
   }, [router]);
 
   // const handleClickTransactionHistory = useCallback(() => {
@@ -44,7 +44,7 @@ export default function MobMy() {
   // }, [router]);
 
   const handleClickFAQ = useCallback(() => {
-    router.push(`my/${Routes.FAQ}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.FAQ}`);
   }, [router]);
 
   // const handleClickNegoMoney = useCallback(() => {
@@ -52,11 +52,11 @@ export default function MobMy() {
   // }, [router]);
 
   const handleClickNegoPoint = useCallback(() => {
-    router.push(`my/${Routes.NegoPoint}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.NegoPoint}`);
   }, [router]);
 
   const handleClickCoupons = useCallback(() => {
-    router.push(`my/${Routes.MyCouponMobile}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.MyCoupon}`);
   }, [router]);
 
   const handleServiceInfo = useCallback(() => {

@@ -71,7 +71,7 @@ export default function useMyDetail() {
   );
 
   const handleClickDeregister = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.Deregister}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.Deregister}`);
   }, [router]);
 
   const handleLogout = useCallback(async () => {
@@ -83,11 +83,11 @@ export default function useMyDetail() {
   }, [logout, router]);
 
   const handleUpdateAddress = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
   }, [router]);
 
   const handleUpdatePhone = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.My}/${Routes.UpdatePhone}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.UpdatePhone}`);
   }, [router]);
 
   const handleClickUpdateNickname = useCallback(() => {

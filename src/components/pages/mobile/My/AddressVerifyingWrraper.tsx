@@ -13,7 +13,7 @@ export default function AddressVerifyingWrraper() {
 
   const onClickBack = useCallback(() => {
     router.replace({
-      pathname: `/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
       query: {
         addressData: router.query.addressData as string,
       },
@@ -23,7 +23,7 @@ export default function AddressVerifyingWrraper() {
   const verify = useCallback(async () => {
     const { addressData: inAddressData, dong, ho } = router.query;
     if (!inAddressData) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressMobile}`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
       return;
     }
 
@@ -44,7 +44,7 @@ export default function AddressVerifyingWrraper() {
 
     if (res?.error_code) {
       router.replace({
-        pathname: `/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressDetailMobile}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
         query: { addressData: router.query.addressData as string, errorCode: `${res.error_code}` },
       });
 
@@ -72,10 +72,10 @@ export default function AddressVerifyingWrraper() {
       }
 
       toast.success('주소가 성공적으로 변경되었습니다');
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyDetailMobile}`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.MyDetail}`);
     } else {
       router.replace({
-        pathname: `/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressDetailMobile}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
         query: { addressData: router.query.addressData as string, errorCode: '10000' },
       });
     }
