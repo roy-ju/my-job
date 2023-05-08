@@ -10,9 +10,10 @@ interface QnaProps {
   list: IQnaItem[];
   loggedIn: boolean;
   mutateQna: () => void;
+  onClickBack?: () => void;
 }
 
-export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
+export default function Qna({ list, loggedIn, mutateQna, onClickBack }: QnaProps) {
   const [isQna, setIsQna] = useState(false);
   const [qnaText, SetQnaText] = useState('');
   const headerTitle = isQna ? '문의하기' : '서비스 문의';
@@ -69,19 +70,23 @@ export default function Qna({ list, loggedIn, mutateQna }: QnaProps) {
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader>
-        {isQna && <NavigationHeader.BackButton onClick={() => setIsQna(false)} />}
+        {isQna ? (
+          <NavigationHeader.BackButton onClick={() => setIsQna(false)} />
+        ) : onClickBack ? (
+          <NavigationHeader.BackButton onClick={onClickBack} />
+        ) : null}
         <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
       </NavigationHeader>
       {loggedIn ? (
         <>
-          <div tw="flex-1">{isQna ? renderQna() : renderList()}</div>
+          <div tw="flex-1 overflow-y-auto">{isQna ? renderQna() : renderList()}</div>
           <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">
             {isQna ? renderQnaButton() : renderListButton()}
           </div>
         </>
       ) : (
         <>
-          <div tw="flex-1">{renderList()}</div>
+          <div tw="flex-1 overflow-y-auto">{renderList()}</div>
           <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">{renderListButton()}</div>
         </>
       )}

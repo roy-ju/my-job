@@ -23,7 +23,7 @@ export default function Deregister({
   return (
     <div tw="relative flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickBackButton} />
+        {onClickBackButton && <NavigationHeader.BackButton onClick={onClickBackButton} />}
         <NavigationHeader.Title>회원탈퇴</NavigationHeader.Title>
         <Button size="none" variant="ghost" tw="underline text-info leading-4" onClick={onClickNext}>
           건너뛰기

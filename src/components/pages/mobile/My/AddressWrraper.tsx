@@ -14,7 +14,7 @@ export default function AddressWrraper() {
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
       router.replace({
-        pathname: `/${Routes.EntryMobile}/${Routes.My}/${Routes.MyAddressDetailMobile}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
         query: { addressData: JSON.stringify(value) },
       });
     },

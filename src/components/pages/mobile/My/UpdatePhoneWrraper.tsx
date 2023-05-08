@@ -45,7 +45,7 @@ export default function UpdatePhoneWrraper() {
   }, [phone, code]);
 
   const handleClickNext = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.MyDetailMobile}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.MyDetail}`);
   }, [router]);
 
   const handleClickBack = () => {

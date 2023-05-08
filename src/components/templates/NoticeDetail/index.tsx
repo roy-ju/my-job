@@ -7,12 +7,20 @@ export interface NoticeDetailProps {
   createdTime: string;
   descriptionHTML: string;
   onClickGoToList?: () => void;
+  onClickBack?: () => void;
 }
 
-export default function NoticeDetail({ title, createdTime, descriptionHTML, onClickGoToList }: NoticeDetailProps) {
+export default function NoticeDetail({
+  title,
+  createdTime,
+  descriptionHTML,
+  onClickGoToList,
+  onClickBack,
+}: NoticeDetailProps) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>{title}</NavigationHeader.Title>
         <NavigationHeader.Button tw="text-info underline" onClick={onClickGoToList}>
           목록보기

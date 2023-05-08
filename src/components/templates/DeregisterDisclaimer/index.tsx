@@ -3,7 +3,6 @@ import { NavigationHeader } from '@/components/molecules';
 
 export interface DeregisterDisclaimerProps {
   canDeregister?: boolean;
-
   onClickBack?: () => void;
   onClickDeregister?: () => void;
 }
@@ -16,7 +15,7 @@ export default function DeregisterDisclaimer({
   return (
     <div tw="relative h-full flex flex-col">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickBack} />
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>회원탈퇴</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-y-auto">

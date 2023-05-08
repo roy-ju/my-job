@@ -1,6 +1,7 @@
 import deregister from '@/apis/user/deregister';
 import { useAPI_GetDeregisterStatus } from '@/apis/user/getDeregisterStatus';
-import { MobDeregisterDisclaimer } from '@/components/templates';
+import { MobileContainer } from '@/components/atoms';
+import { DeregisterDisclaimer } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 
 import Routes from '@/router/routes';
@@ -14,25 +15,35 @@ export default function DeregisterDisclaimerWrraper() {
 
   const { data } = useAPI_GetDeregisterStatus();
 
+  const deregisterReasons = router.query.deregisterReasons as string;
+
   const handleClickBackButton = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.Deregister}`);
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.Deregister}`,
+      query: {
+        deregisterReasons: router.query.deregisterReasons as string,
+        extraReasons: router.query.extraReasons as string,
+      },
+    });
   }, [router]);
 
   const handleDeregister = useCallback(async () => {
-    const deregistered = await deregister('');
+    const deregistered = await deregister(deregisterReasons);
     if (deregistered) {
       logout();
       router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
     } else {
       toast.error('Cannot deregister');
     }
-  }, [logout, router]);
+  }, [deregisterReasons, logout, router]);
 
   return (
-    <MobDeregisterDisclaimer
-      onClickBack={handleClickBackButton}
-      onClickDeregister={handleDeregister}
-      canDeregister={data?.can_deregister ?? false}
-    />
+    <MobileContainer>
+      <DeregisterDisclaimer
+        onClickBack={handleClickBackButton}
+        onClickDeregister={handleDeregister}
+        canDeregister={data?.can_deregister ?? false}
+      />
+    </MobileContainer>
   );
 }

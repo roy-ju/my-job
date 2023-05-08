@@ -1,7 +1,7 @@
 import useAPI_GetNoticeDetail from '@/apis/notice/getNoticeDetail';
+import { MobileContainer } from '@/components/atoms';
 
 import Loading from '@/components/atoms/Loading';
-import { MobGlobalHeader } from '@/components/organisms';
 import { NoticeDetail } from '@/components/templates';
 
 import Routes from '@/router/routes';
@@ -11,7 +11,7 @@ import { useMemo, useCallback } from 'react';
 export default function NoticeDetailWrraper() {
   const router = useRouter();
 
-  const noticeID = useMemo(() => Number(router.query.id), [router.query]);
+  const noticeID = useMemo(() => Number(router.query.noticeID), [router.query]);
 
   const { data, isLoading } = useAPI_GetNoticeDetail(noticeID);
 
@@ -26,20 +26,20 @@ export default function NoticeDetailWrraper() {
   }, [data]);
 
   const handleGoToList = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}/${Routes.NoticeList}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.NoticeList}`);
   }, [router]);
 
   return isLoading ? (
     <Loading tw="mt-10" />
   ) : (
-    <>
-      <MobGlobalHeader title={title} />
+    <MobileContainer>
       <NoticeDetail
         title={title}
         createdTime={data?.createdTime ?? ''}
         descriptionHTML={data?.description ?? ''}
         onClickGoToList={handleGoToList}
+        onClickBack={() => router.back()}
       />
-    </>
+    </MobileContainer>
   );
 }

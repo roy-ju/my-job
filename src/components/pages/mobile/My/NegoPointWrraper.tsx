@@ -1,4 +1,5 @@
-import { MobMyNegoPoint } from '@/components/templates';
+import { MobileContainer } from '@/components/atoms';
+import { NegoPoint } from '@/components/templates';
 import { useRouter } from 'next/router';
 
 export default function NegoPointWrraper() {
@@ -6,5 +7,10 @@ export default function NegoPointWrraper() {
   const handleClickBack = () => {
     router.back();
   };
-  return <MobMyNegoPoint onClickBack={handleClickBack} />;
+
+  return (
+    <MobileContainer>
+      <NegoPoint onClickBack={handleClickBack} />
+    </MobileContainer>
+  );
 }

@@ -4,7 +4,7 @@ import { FaqList } from '@/components/organisms';
 import useAPI_Internal_GetFaqList from '@/apis/internal/getFaq';
 import { Loading } from '@/components/atoms';
 
-export default function FAQ() {
+export default function FAQ({ onClickBack }: { onClickBack?: () => void }) {
   const [category, setCategory] = useState('');
 
   const { data } = useAPI_Internal_GetFaqList();
@@ -31,6 +31,7 @@ export default function FAQ() {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>자주 묻는 질문</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="px-5 bg-white pt-6 pb-10">
