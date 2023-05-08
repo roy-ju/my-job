@@ -421,7 +421,7 @@ export const EtcField = ({
   </div>
 );
 
-export default function DanjiRecommendation({
+export default function MobDanjiRecommendation({
   danji,
   step,
   buyOrRent,
@@ -510,7 +510,7 @@ export default function DanjiRecommendation({
 }) {
   return (
     <>
-      <div tw="w-full max-w-mobile relative h-full flex flex-col">
+      <div tw="relative h-full flex flex-col">
         <NavigationHeader>
           {!isRenderFinalForm && onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
           {isRenderFinalForm && onClickBackFinalForm && <NavigationHeader.BackButton onClick={onClickBackFinalForm} />}
