@@ -89,7 +89,12 @@ export default function RegisterWrraper() {
     }
 
     setIsLoading(false);
-    router.replace(`/${Routes.EntryMobile}/${Routes.RegisterSuccess}`);
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.RegisterSuccess}`,
+      query: {
+        redirect: router.query.redirect ?? '',
+      },
+    });
   }, [email, terms, privacyRetention, nickname, router, handleLogin]);
 
   useEffect(() => {

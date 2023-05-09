@@ -1,6 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { RegisterSuccess } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 
@@ -11,13 +12,20 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const handleLeave = useCallback(() => {
-    router.pop();
-  }, [router]);
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const redirect = urlSearchParams.get('redirect');
+    if (redirect) {
+      nextRouter.replace(redirect);
+    } else {
+      router.pop();
+    }
+  }, [nextRouter, router]);
 
   const navigateToVerifyCi = useCallback(() => {
-    router.replace(Routes.VerifyCi);
+    router.replace(Routes.VerifyCi, { searchParams: { redirect: (router.query.redirect as string) ?? '' } });
   }, [router]);
 
   return (
