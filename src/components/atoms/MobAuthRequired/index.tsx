@@ -4,7 +4,6 @@ import { isClient } from '@/utils/is';
 import { ReactNode } from 'react';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import Panel from '../Panel';
 import MobileContainer from '../MobileContainer';
 import Loading from '../Loading';
 
@@ -32,17 +31,27 @@ export default function MobAuthRequired({ ciRequired = false, onAccessDenied, ch
   if (!user) {
     onAccessDenied?.();
     if (isClient && router.isReady) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.Login}`);
+      router.replace({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
     }
-    return <Panel />;
+    return <MobileContainer />;
   }
 
   if (ciRequired && !user.isVerified) {
     onAccessDenied?.();
     if (isClient && router.isReady) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+      router.replace({
+        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
     }
-    return <Panel />;
+    return <MobileContainer />;
   }
 
   return children as JSX.Element;

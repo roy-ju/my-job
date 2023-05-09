@@ -27,7 +27,6 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
     );
 
   if (!user) {
-    console.log(router.asPath);
     onAccessDenied?.();
     if (isClient && router.isReady) {
       router.replace(Routes.Login, {

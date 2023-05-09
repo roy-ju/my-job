@@ -1,17 +1,18 @@
 import deregister from '@/apis/user/deregister';
 import { useAPI_GetDeregisterStatus } from '@/apis/user/getDeregisterStatus';
+import { deleteFcmToken } from '@/apis/user/updateFcmToken';
 import { MobileContainer } from '@/components/atoms';
 import { DeregisterDisclaimer } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import Keys from '@/constants/storage_keys';
 
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 
 export default function DeregisterDisclaimerWrraper() {
   const router = useRouter();
-  const { logout } = useAuth();
 
   const { data } = useAPI_GetDeregisterStatus();
 
@@ -28,14 +29,19 @@ export default function DeregisterDisclaimerWrraper() {
   }, [router]);
 
   const handleDeregister = useCallback(async () => {
+    const fcmToken = localStorage.getItem(Keys.FCM_TOKEN);
+    if (fcmToken) {
+      await deleteFcmToken({ token: fcmToken });
+    }
     const deregistered = await deregister(deregisterReasons);
+    localStorage.removeItem(Keys.ACCESS_TOKEN);
     if (deregistered) {
-      logout();
+      await mutate(() => true, undefined);
       router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
     } else {
       toast.error('Cannot deregister');
     }
-  }, [deregisterReasons, logout, router]);
+  }, [deregisterReasons, router]);
 
   return (
     <MobileContainer>

@@ -25,7 +25,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [nextRouter, router]);
 
   const navigateToVerifyCi = useCallback(() => {
-    router.replace(Routes.VerifyCi);
+    router.replace(Routes.VerifyCi, { searchParams: { redirect: (router.query.redirect as string) ?? '' } });
   }, [router]);
 
   return (
