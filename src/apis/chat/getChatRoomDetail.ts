@@ -2,16 +2,21 @@ import { useAuth } from '@/hooks/services';
 import useSWR from 'swr';
 
 export interface GetChatRoomDetailResponse {
-  chat_room_id: number;
-  listing_title: string;
-  agent_profile_image_full_path: string;
-  agent_office_name: string;
-  agent_name: string;
+  additional_listing_count: number;
   agent_description: string;
-  oldest_unread_chat_id: any;
+  agent_name: string;
+  agent_office_name: string;
+  agent_profile_image_full_path: string;
+  chat_room_id: number;
   chat_room_type: number;
   chat_user_type: number;
-  additional_listing_count: number;
+
+  has_contract_complete_listings: boolean;
+  has_pre_contract_complete_listings: boolean;
+
+  listing_title: string;
+
+  oldest_unread_chat_id: any;
 
   list?: {
     id: number;
