@@ -327,7 +327,7 @@ export default function ListingCreateForm({
               <div tw="px-5 pt-6 pb-10">
                 <div tw="text-b1 leading-none font-bold mb-3">매물 주소</div>
                 <div tw="text-b1">{addressLine1}</div>
-                <div tw="text-info">
+                <div tw="text-info text-gray-700">
                   {addressLine2} {dong} {ho}
                 </div>
               </div>
