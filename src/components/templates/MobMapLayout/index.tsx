@@ -52,6 +52,7 @@ interface MobLayoutMapContainerProps {
   onChangePriceType?: (value: string) => void;
   onTogglepanelsVisibility?: () => void;
   onClickMapListingList?: () => void;
+  onClickSuggestReginoal?: () => void;
   children?: ReactNode;
 }
 
@@ -79,6 +80,7 @@ function MobLayoutMapContainer({
   onChangeMapToggleValue,
   onChangePriceType,
   onClickMapListingList,
+  onClickSuggestReginoal,
   children,
 }: MobLayoutMapContainerProps) {
   const { addFullScreenDialog } = useFullScreenDialogStore();
@@ -206,7 +208,7 @@ function MobLayoutMapContainer({
             onClick={openFullSearchArea}
           />
 
-          <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl text-info pointer-events-none">
+          <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl text-info" onClick={onClickSuggestReginoal}>
             매물 추천받기
           </Button>
         </div>
