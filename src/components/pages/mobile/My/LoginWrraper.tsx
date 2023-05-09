@@ -47,15 +47,22 @@ export default function LoginWrraper() {
   }, [router]);
 
   useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const redirect = urlSearchParams.get('redirect');
+
     window.Negocio.callbacks.loginSuccess = async (accessToken: string, refreshToken: string) => {
       await handleLogin(accessToken, refreshToken);
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      if (redirect) {
+        router.replace(redirect);
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      }
     };
 
     window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
       router.replace({
         pathname: `/${Routes.EntryMobile}/${Routes.Register}`,
-        query: { email, token, socialLoginType: `${socialLoginType}` },
+        query: { email, token, socialLoginType: `${socialLoginType}`, redirect: redirect ?? '' },
       });
     };
 

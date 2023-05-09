@@ -8,11 +8,22 @@ export default function SuccessWrraper() {
   const router = useRouter();
 
   const handleLeave = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.Map}`);
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const redirect = urlSearchParams.get('redirect');
+    if (redirect) {
+      router.replace(redirect);
+    } else {
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    }
   }, [router]);
 
   const navigateToVerifyCi = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+      query: {
+        redirect: router.query.redirect ?? '',
+      },
+    });
   }, [router]);
 
   return <MobRegisterSuccess onClickLeave={handleLeave} onClickVerifyCi={navigateToVerifyCi} />;
