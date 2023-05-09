@@ -656,6 +656,7 @@ export default function useListingCreateForm(depth: number) {
   const handleAddDebtSuccessionMisc = useCallback(() => {
     if (debtSuccessionMiscs.length > 1) {
       toast.error('최대 2개까지 추가 가능합니다.');
+      return;
     }
 
     const newDebtSuccessions = [...debtSuccessionMiscs];
