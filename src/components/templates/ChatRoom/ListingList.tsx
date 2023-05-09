@@ -2,6 +2,7 @@ import { Separator } from '@/components/atoms';
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useOutsideClick } from '@/hooks/utils';
+import { css } from 'twin.macro';
 import ChatRoomListingListItem from '@/components/organisms/ChatRoomListingListItem';
 
 export interface ListingCardProps {
@@ -32,6 +33,15 @@ interface Props {
   onClickNavigateToListingDetailHistory?: (listingId: number, biddingId: number) => () => void;
 }
 
+const ListingListDivider = css`
+  & > div:not(:last-of-type)::after {
+    content: '';
+    display: block;
+    border-bottom: 1px solid #e9ecef; // text-gray-300
+    margin-bottom: 28px;
+  }
+`;
+
 export default function ListingList({
   setShowListingList,
   sellerList,
@@ -53,7 +63,7 @@ export default function ListingList({
 
   return (
     <motion.div
-      tw="flex flex-1 flex-col items-center justify-center right-0 absolute left-0 top-0 bottom-0"
+      tw="flex flex-1 flex-col items-center justify-center absolute left-0 w-full min-h-full z-50"
       initial={{ opacity: 0, x: '100%', backgroundColor: 'rgba(0,0,0,0)' }}
       animate={{ opacity: 1, x: 0, backgroundColor: 'rgba(0,0,0,0.6)' }}
       transition={{ duration: 0.3 }}
@@ -64,49 +74,52 @@ export default function ListingList({
           <div tw="text-info text-gray-700">{officeName}</div>
         </div>
         <Separator />
-        <div tw=" py-4">
-          <div>
-            {buyerContractList?.map((args, i) => (
-              <>
-                {i === 0 && <div tw="px-5 text-b1 font-bold mb-4">거래성사 매물</div>}
-                {i !== 0 && <div tw="border-t border-gray-300" />}
-                <ChatRoomListingListItem
-                  onClickNavigateToListingDetail={onClickNavigateToListingDetail}
-                  onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
-                  key={args.listingId}
-                  {...args}
-                />
-              </>
-            ))}
-          </div>
-          <div>
-            {buyerActiveList?.map((args, i) => (
-              <>
-                {i === 0 && <div tw="px-5 text-b1 font-bold mb-4">협의중 매물</div>}
-                {i !== 0 && <div tw="border-t border-gray-300" />}
-                <ChatRoomListingListItem
-                  onClickNavigateToListingDetail={onClickNavigateToListingDetail}
-                  onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
-                  key={args.listingId}
-                  {...args}
-                />
-              </>
-            ))}
-          </div>
-          <div>
-            {sellerList?.map((args, i) => (
-              <>
-                {i === 0 && <div tw="px-5 text-b1 font-bold mb-4">등록한 매물</div>}
-                {i !== 0 && <div tw="border-t border-gray-300" />}
-                <ChatRoomListingListItem
-                  onClickNavigateToListingDetail={onClickNavigateToListingDetail}
-                  onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
-                  key={args.listingId}
-                  {...args}
-                />
-              </>
-            ))}
-          </div>
+        <div css={ListingListDivider} tw="py-4">
+          {buyerContractList?.length > 0 && (
+            <div>
+              {buyerContractList?.map((args, i) => (
+                <React.Fragment key={args.listingId}>
+                  {i === 0 && <div tw="px-5 text-b1 font-bold ">거래성사 매물</div>}
+                  {i !== 0 && <div tw="border-t border-gray-300" />}
+                  <ChatRoomListingListItem
+                    onClickNavigateToListingDetail={onClickNavigateToListingDetail}
+                    onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
+                    {...args}
+                  />
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+          {buyerActiveList?.length > 0 && (
+            <div>
+              {buyerActiveList?.map((args, i) => (
+                <React.Fragment key={args.listingId}>
+                  {i === 0 && <div tw="px-5 text-b1 font-bold ">협의중 매물</div>}
+                  {i !== 0 && <div tw="border-t border-gray-300" />}
+                  <ChatRoomListingListItem
+                    onClickNavigateToListingDetail={onClickNavigateToListingDetail}
+                    onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
+                    {...args}
+                  />
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+          {sellerList?.length > 0 && (
+            <div>
+              {sellerList?.map((args, i) => (
+                <React.Fragment key={args.listingId}>
+                  {i === 0 && <div tw="px-5 text-b1 font-bold ">등록한 매물</div>}
+                  {i !== 0 && <div tw="border-t border-gray-300" />}
+                  <ChatRoomListingListItem
+                    onClickNavigateToListingDetail={onClickNavigateToListingDetail}
+                    onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
+                    {...args}
+                  />
+                </React.Fragment>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
