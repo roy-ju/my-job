@@ -118,7 +118,7 @@ export default function ChatRoomListingListItem({
           ) : (
             <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
               {jeonyongArea && <div>{`전용 ${jeonyongArea}㎡`}</div>}
-              <div>{totalFloor && floorDescription && `${floorDescription?.[0]}/${totalFloor}층`}</div>
+              <div>{floorDescription ? `${floorDescription?.[0]}/${totalFloor}층` : `${totalFloor}층`}</div>
               <div>{direction}</div>
             </div>
           )}
