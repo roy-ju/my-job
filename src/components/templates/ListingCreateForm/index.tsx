@@ -10,6 +10,9 @@ export interface ListingCreateFormProps extends IFormContext {
   addressLine1: string;
   addressLine2: string;
 
+  dong: string;
+  ho: string;
+
   forms?: string[];
   onClickNext?: () => void;
   onClickBack?: () => void;
@@ -22,6 +25,9 @@ export default function ListingCreateForm({
 
   addressLine1,
   addressLine2,
+
+  dong,
+  ho,
 
   forms,
   isOwner,
@@ -208,6 +214,9 @@ export default function ListingCreateForm({
 
       rentEndDate,
       onChangeRentEndDate,
+
+      dong,
+      ho,
     }),
     [
       isAddInterimButtonDisabled,
@@ -299,6 +308,9 @@ export default function ListingCreateForm({
 
       hasSpecialTerms,
       onChangeHasSpecialTerms,
+
+      dong,
+      ho,
     ],
   );
 
@@ -315,7 +327,9 @@ export default function ListingCreateForm({
               <div tw="px-5 pt-6 pb-10">
                 <div tw="text-b1 leading-none font-bold mb-3">매물 주소</div>
                 <div tw="text-b1">{addressLine1}</div>
-                <div tw="text-info">{addressLine2}</div>
+                <div tw="text-info">
+                  {addressLine2} {dong} {ho}
+                </div>
               </div>
               <Separator />
             </div>

@@ -112,6 +112,9 @@ const ListingCreateForm = () => {
     openBackPopup,
     nextButtonDisabled,
     isAddInterimButtonDisabled,
+
+    dong,
+    ho,
   } = useListingCreateForm();
 
   const { list: listingOptions } = useAPI_GetOptionList();
@@ -145,6 +148,8 @@ const ListingCreateForm = () => {
   return (
     <MobileContainer>
       <ListingCreateFormTemplate
+        dong={dong ?? ''}
+        ho={ho ?? ''}
         isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         nextButtonDisabled={nextButtonDisabled}
         onClickBack={openBackPopup}
