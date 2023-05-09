@@ -7,8 +7,12 @@ export default function ServiceInfoWrraper() {
   const router = useRouter();
 
   const handleClickBusinessInfo = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.BusinessInfo}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.BusinessInfo}`);
   }, [router]);
 
-  return <MobServiceInfo onClickBusinessInfo={handleClickBusinessInfo} />;
+  const handleClickBack = () => {
+    router.back();
+  };
+
+  return <MobServiceInfo onClickBusinessInfo={handleClickBusinessInfo} onClickBack={handleClickBack} />;
 }
