@@ -97,7 +97,7 @@ export default function ChatRoomListingListItem({
   return (
     <button
       type="button"
-      tw="flex gap-3 items-center w-full hover:bg-gray-100 px-5 py-5"
+      tw="flex gap-3 items-center w-full hover:bg-gray-100 px-5 pt-[26px] pb-[24px]"
       onClick={
         labelText === '체결 매물'
           ? onClickNavigateToListingDetailHistory?.(listingId, biddingId)
