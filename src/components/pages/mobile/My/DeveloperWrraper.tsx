@@ -1,4 +1,5 @@
 import useAPI_GetJwtList from '@/apis/test/getJwtList';
+import { MobileContainer } from '@/components/atoms';
 import { MobDeveloper } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
@@ -34,7 +35,7 @@ export default function DeveloperWrraper() {
   );
 
   return (
-    <div tw="w-full max-w-mobile mx-auto h-full bg-white">
+    <MobileContainer>
       <MobDeveloper
         userName={user?.name ?? ''}
         userNickname={user?.nickname ?? ''}
@@ -42,6 +43,6 @@ export default function DeveloperWrraper() {
         onChangeJwtOwner={handleChangeJwtOwner}
         jwtOwners={jwtOwners}
       />
-    </div>
+    </MobileContainer>
   );
 }
