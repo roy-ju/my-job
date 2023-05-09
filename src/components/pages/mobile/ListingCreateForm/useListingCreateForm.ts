@@ -98,6 +98,9 @@ export default function useListingCreateForm() {
   // 화면에 표현할 주소2
   const addressLine2 = router.query.addressLine2 as string;
 
+  const dong = router.query.dong as string;
+  const ho = router.query.ho as string;
+
   const setNextForm = useCallback((...formNames: string[]) => {
     setForms((prev) => [...prev, ...formNames]);
   }, []);
@@ -1292,6 +1295,9 @@ export default function useListingCreateForm() {
 
     hasSpecialTerms,
     handleChangeHasSpecialTerms: setHasSpecialTerms,
+
+    dong,
+    ho,
 
     // Popup actions
     popup,

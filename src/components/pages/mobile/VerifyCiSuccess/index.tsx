@@ -8,7 +8,13 @@ export default function VerifyCiSuccessWrraper() {
   const router = useRouter();
 
   const handleLeave = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.Map}`);
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const redirect = urlSearchParams.get('redirect');
+    if (redirect) {
+      router.replace(redirect);
+    } else {
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    }
   }, [router]);
 
   return <MobVerifyCiSuccess onClickLeave={handleLeave} />;
