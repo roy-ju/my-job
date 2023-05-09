@@ -23,6 +23,10 @@ export default function useChatRoomList(depth: number) {
     }));
   }, [data]);
 
+  const handleNavigateToMap = useCallback(() => {
+    router.replace(Routes.Map);
+  }, [router]);
+
   const handleClickListItem = useCallback(
     (id: number) => {
       router.push(Routes.ChatRoom, {
@@ -39,5 +43,6 @@ export default function useChatRoomList(depth: number) {
     chatRoomList,
     isLoading,
     handleClickListItem,
+    handleNavigateToMap,
   };
 }
