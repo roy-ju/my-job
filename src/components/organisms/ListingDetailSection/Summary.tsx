@@ -1,6 +1,6 @@
 import EyeIcon from '@/assets/icons/eye.svg';
 import UserIcon from '@/assets/icons/user.svg';
-import TooltipIcon from '@/assets/icons/tooltip.svg';
+// import TooltipIcon from '@/assets/icons/tooltip.svg';
 import MapPinIcon from '@/assets/icons/map_pin.svg';
 
 import AptIcon from '@/assets/icons/apt.svg';
@@ -95,7 +95,7 @@ export default function Summary({
           )}
         </div>
         {quickSale && <Chip variant="red">급매</Chip>}
-        <TooltipIcon />
+        {/* <TooltipIcon /> */}
       </div>
       {quickSale && Boolean(quickSaleComparative) && (
         <div tw="text-b2">
