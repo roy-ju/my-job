@@ -2,6 +2,7 @@ import { ChatMessage } from '@/components/organisms';
 import { ChatUserType } from '@/constants/enums';
 import { StaticImageData } from 'next/image';
 import { memo, useMemo } from 'react';
+import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
 
 export interface IChatMessage {
   id: number;
@@ -34,6 +35,7 @@ export default memo(
     const shouldRenderSentTime = useMemo(() => {
       if (!nextChat) return true;
       if (nextChat.chatUserType !== chat.chatUserType) return true;
+      if (formatLastMessageTime(nextChat.sentTime) !== formatLastMessageTime(chat.sentTime)) return true;
       return false;
     }, [nextChat, chat]);
 
