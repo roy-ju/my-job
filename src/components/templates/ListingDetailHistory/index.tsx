@@ -239,7 +239,7 @@ export default function ListingDetailHistory({
             <Table.Body>
               {list?.map((item) => (
                 <Table.Row key={item.created_time}>
-                  <Table.Head tw="self-start">{item.description}</Table.Head>
+                  <Table.Head tw="self-start whitespace-nowrap">{item.description}</Table.Head>
                   <Table.Data tw="text-right">
                     <Moment format="YYYY.MM.DD HH:mm">{item.created_time}</Moment>
                     <div>

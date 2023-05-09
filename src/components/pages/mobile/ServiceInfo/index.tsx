@@ -18,6 +18,8 @@ export default memo(() => {
           isNativeApp ? () => router.push(`/${Routes.EntryMobile}/${Routes.OpenSourceLicenses}`) : undefined
         }
         onClickVersionInfo={isNativeApp ? () => router.push(`/${Routes.EntryMobile}/${Routes.VersionInfo}`) : undefined}
+        // onClickOpenSourceLicense={() => router.push(`/${Routes.EntryMobile}/${Routes.OpenSourceLicenses}`)}
+        // onClickVersionInfo={() => router.push(`/${Routes.EntryMobile}/${Routes.VersionInfo}`)}
         onClickBack={() => router.back()}
       />
     </MobileContainer>

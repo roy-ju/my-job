@@ -104,7 +104,7 @@ export default function SuggestionCard({
           )}
           {canHaveEarlierMoveInDate && (
             <Table.Row tw="flex justify-between">
-              <Table.Head tw="self-start">입주가능시기</Table.Head>
+              <Table.Head tw="self-start min-w-fit">입주가능시기</Table.Head>
               <Table.Data>
                 <Moment format="YYYY년 MM월 DD일">{moveInDate}</Moment> {TimeTypeString[moveInDateType]}
               </Table.Data>
