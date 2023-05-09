@@ -105,6 +105,8 @@ const ListingCreateAddressDetail = () => {
           addressLine1,
           addressLine2,
           addressData: router.query.addressData as string,
+          dong: dong && `${dong}동`,
+          ho: ho && `${ho}호`,
         },
       },
       `/${Routes.EntryMobile}/${Routes.ListingCreateForm}?listingID=${createRes.listing_id}`,

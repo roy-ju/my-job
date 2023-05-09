@@ -20,10 +20,15 @@ export default function OwnerInfo({ name, phone, onChangeName, onChangePhone }: 
       </Ul>
       <div tw="flex flex-col gap-3">
         <TextField variant="outlined">
-          <TextField.Input label="소유자 성명" value={name} onChange={onChangeName} />
+          <TextField.Input label="소유자 성명 입력" value={name} onChange={onChangeName} />
         </TextField>
         <TextField variant="outlined">
-          <TextField.PatternInput format="###-####-####" label="휴대폰 번호" value={phone} onChange={onChangePhone} />
+          <TextField.PatternInput
+            format="###-####-####"
+            label="소유자 휴대폰번호 입력"
+            value={phone}
+            onChange={onChangePhone}
+          />
         </TextField>
       </div>
     </div>
