@@ -44,12 +44,14 @@ export default memo(({ depth, panelWidth }: Props) => {
     checkedListingIdList,
     handleDeleteListingList,
   } = useMyRegisteredListings();
-  const [tab, setTab] = useState(Number(router.query.tab));
+  const [tab, setTab] = useState(Number(router.query.tab ?? 1));
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (router.query.tab) {
       setTab(Number(router.query.tab));
+    } else {
+      setTab(1);
     }
   }, [router.query.tab]);
 
