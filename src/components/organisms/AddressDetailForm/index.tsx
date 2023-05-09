@@ -36,11 +36,13 @@ export default function AddressDetailForm({
         <div tw="text-info text-gray-700">{addressLine2}</div>
       </div>
       <div tw="flex gap-2 my-3">
-        <TextField variant="outlined" tw="flex-1">
+        <TextField variant="outlined" tw="flex-1 relative">
           <TextField.Input label="동 명" value={dong} onChange={onChangeDong} />
+          <span tw="absolute flex h-full items-center right-0 text-b1 pr-4 text-gray-1000">동</span>
         </TextField>
         <TextField variant="outlined" tw="flex-1">
           <TextField.Input label="호수 명" value={ho} onChange={onChangeHo} />
+          <span tw="absolute flex h-full items-center right-0 text-b1 pr-4 text-gray-1000">호</span>
         </TextField>
       </div>
       <Ul>
