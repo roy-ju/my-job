@@ -173,10 +173,11 @@ export default function MapLayout({ children }: Props) {
   );
 
   useEffect(() => {
+    setPanelsVisible(true);
     if (router.pathname === '/') {
       setTabIndex(0);
     }
-  }, [router.pathname]);
+  }, [router]);
 
   const togglePanelsVisibility = useCallback(() => setPanelsVisible((prev) => !prev), []);
 
