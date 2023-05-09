@@ -189,7 +189,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
             {listing?.buy_or_rent !== BuyOrRent.Buy && (
               <Table.Row>
                 <Table.Head>임대할 부분</Table.Head>
-                <Table.Data>{listing?.rent_area ? '전체' : listing?.rent_area}</Table.Data>
+                <Table.Data>{!listing?.rent_area ? '전체' : listing?.rent_area}</Table.Data>
               </Table.Row>
             )}
             <Table.Row>

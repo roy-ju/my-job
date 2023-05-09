@@ -656,6 +656,7 @@ export default function useListingCreateForm(depth: number) {
   const handleAddDebtSuccessionMisc = useCallback(() => {
     if (debtSuccessionMiscs.length > 1) {
       toast.error('최대 2개까지 추가 가능합니다.');
+      return;
     }
 
     const newDebtSuccessions = [...debtSuccessionMiscs];
@@ -1017,7 +1018,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (parsed.rent_contract_term_month) {
-      setRentTermYear(`${parsed.rent_contract_term_month}개월`);
+      setRentTermMonth(`${parsed.rent_contract_term_month}개월`);
     }
 
     if (parsed.rent_contract_term_negotiable !== undefined) {
