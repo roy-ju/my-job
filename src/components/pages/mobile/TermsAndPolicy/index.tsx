@@ -20,7 +20,7 @@ export default memo(() => {
   }, [router]);
 
   const handleGoBack = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ServiceInfo}`);
+    router.back();
   }, [router]);
 
   return (
