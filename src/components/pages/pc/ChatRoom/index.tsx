@@ -30,6 +30,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleSendMessage,
     additionalListingCount,
     chatUserType,
+
+    hasContractCompleteListings,
+    hasPreContractCompleteListings,
   } = useChatRoom(Number(router.query.chatRoomID));
   const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
@@ -70,18 +73,25 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   const renderPopupBodyContents = () => {
-    if (chatUserType === ChatUserType.Buyer) {
-      return '채팅을 나가시면 이 중개사님과의 협의중인 모든 매물에 제안이 취소되며 협의 재개를 위해서는 다시 제안이 필요합니다. 채팅방을 나가시겠습니까?';
+    if (hasPreContractCompleteListings) {
+      return '가계약금 입금한 매물이 있어 채팅방을 나갈 수 없습니다.';
     }
-    return '등록된 매물의 담당 중개사님과의 채팅종료는 매물등록 취소나 거래성사되어야만 가능합니다. ';
+    if (hasContractCompleteListings) {
+      return `계약체결 1주일이 경과되지 않아 채팅방을 나갈 수 없습니다.`;
+    }
+    if (chatUserType === ChatUserType.Seller) {
+      return '등록된 매물의 담당 중개사님과의 채팅종료는 매물등록 취소나 거래성사되어야만 가능합니다.';
+    }
+
+    return '채팅을 나가시면 이 중개사님과의 협의중인 모든 매물에 제안이 취소되며 협의 재개를 위해서는 다시 제안이 필요합니다. 채팅방을 나가시겠습니까?';
   };
 
   const renderPopupButton = () => {
-    if (chatUserType === ChatUserType.Buyer) {
+    if (chatUserType === ChatUserType.Buyer && !hasPreContractCompleteListings && !hasContractCompleteListings) {
       return (
         <>
-          <Popup.CancelButton>돌아가기</Popup.CancelButton>
-          <Popup.ActionButton onClick={handleCloseChatRoom}>채팅방 나가기</Popup.ActionButton>
+          <Popup.CancelButton onClick={() => setPopupOpen(false)}>취소</Popup.CancelButton>
+          <Popup.ActionButton onClick={handleCloseChatRoom}>확인</Popup.ActionButton>
         </>
       );
     }
@@ -114,7 +124,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>채팅방 나가기</Popup.Title>
+              <Popup.Title tw="text-center">채팅방 나가기</Popup.Title>
               <Popup.Body>{renderPopupBodyContents()}</Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>{renderPopupButton()}</Popup.ButtonGroup>
