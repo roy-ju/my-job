@@ -300,7 +300,7 @@ export const Chart = React.memo(
             tickLabelProps={() => ({
               dy: '0.3em',
               fontSize: '12px',
-              fontFamily: 'pretend',
+              // fontFamily: 'pretend',
               fontWeight: 400,
               fill: '#868E96',
               textAnchor: 'end',

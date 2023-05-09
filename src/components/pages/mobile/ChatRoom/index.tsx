@@ -26,7 +26,7 @@ export default memo(() => {
     additionalListingCount,
     chatUserType,
   } = useChatRoom(Number(router.query.chatRoomID));
-  const { list } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
+  const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const handleClickReportButton = () => {
     // const chatRoomID = router.query.chatRoomID as string;
@@ -68,7 +68,9 @@ export default memo(() => {
   return (
     <MobileContainer>
       <ChatRoom
-        list={list}
+        sellerList={sellerList}
+        buyerContractList={buyerContractList}
+        buyerActiveList={buyerActiveList}
         title={listingTitle ?? ''}
         agentName={agentName ?? ''}
         officeName={agentOfficeName ?? ''}
