@@ -38,7 +38,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
       if (!updateCiRes?.error_code) {
         mutateUser(false);
-        router.replace(Routes.VerifyCiSuccess);
+        router.replace(Routes.VerifyCiSuccess, { searchParams: { redirect: (router.query.redirect as string) ?? '' } });
       }
     },
     [router, mutateUser],
