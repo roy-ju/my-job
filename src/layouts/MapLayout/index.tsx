@@ -149,6 +149,7 @@ export default function MapLayout({ children }: Props) {
           router.popAll();
           break;
         case 1: // 지도
+          router.replace(Routes.Map);
           break;
         case 2: // 나의거래
           router.replace(Routes.MyFavoriteList);
