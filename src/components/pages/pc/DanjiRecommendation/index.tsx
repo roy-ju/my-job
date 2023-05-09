@@ -4,7 +4,7 @@ import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { DanjiRecommendation as DanjiRecommendationTemplate } from '@/components/templates';
 import { BuyOrRent } from '@/constants/enums';
-import { useRouter } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import React, { ChangeEventHandler, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -13,6 +13,8 @@ interface Props {
   depth: number;
   panelWidth?: string;
 }
+
+const prefixDanjiRecommend: string = 'danji-recommend-';
 
 export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const router = useRouter(depth);
@@ -35,6 +37,8 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const [etc, setEtc] = useState('');
   const [isRenderFinalForm, setIsRenderFinalForm] = useState(false);
   const [checked, setChecked] = useState(false);
+
+  const [forms, setForms] = useState<string[]>([`${prefixDanjiRecommend}default`]);
 
   const { danji } = useAPI_GetDanjiDetail({
     pnu: router?.query?.p as string,
@@ -266,6 +270,8 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
     setEtc('');
 
+    setForms([`${prefixDanjiRecommend}default`]);
+
     setOpenResetPopup(false);
   };
 
@@ -374,9 +380,48 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const onClickBackFinalForm = () => {
     setIsRenderFinalForm(false);
     setChecked(false);
+
+    if (step === 6 && buyOrRent === BuyOrRent.Jeonsae) {
+      setStep(5);
+    }
+
+    if (step === 7 && buyOrRent === BuyOrRent.Buy) {
+      setStep(6);
+    }
   };
 
   const onClickNext = (isValid: boolean) => {
+    if (step === 0) {
+      setForms((prev) => [...prev, `${prefixDanjiRecommend}buyOrRent`]);
+    }
+
+    if (step === 1) {
+      setForms((prev) => [...prev, `${prefixDanjiRecommend}price`]);
+    }
+
+    if (step === 2) {
+      setForms((prev) => [...prev, `${prefixDanjiRecommend}area`]);
+    }
+
+    if (step === 3) {
+      if (buyOrRent === BuyOrRent.Buy) {
+        setForms((prev) => [...prev, `${prefixDanjiRecommend}purpose`]);
+      } else {
+        setForms((prev) => [...prev, `${prefixDanjiRecommend}floor`]);
+      }
+    }
+
+    if (step === 4) {
+      if (buyOrRent === BuyOrRent.Buy) {
+        setForms((prev) => [...prev, `${prefixDanjiRecommend}floor`]);
+      } else {
+        setForms((prev) => [...prev, `${prefixDanjiRecommend}etc`]);
+      }
+    }
+
+    if (step === 5 && buyOrRent === BuyOrRent.Buy) {
+      setForms((prev) => [...prev, `${prefixDanjiRecommend}etc`]);
+    }
     if (step === 5 && buyOrRent === BuyOrRent.Jeonsae) {
       setIsRenderFinalForm(true);
     }
@@ -389,6 +434,28 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       setStep((prev) => prev + 1);
     }
   };
+
+  useIsomorphicLayoutEffect(() => {
+    const currentForm = forms[forms.length - 1];
+
+    const formContainer = document.getElementById(`${prefixDanjiRecommend}formContainer`);
+    const formElement = document.getElementById(currentForm);
+
+    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
+
+    if (formElement) {
+      formElement.style.minHeight = `${containerHeight}px`;
+      const prevForm = forms[forms.length - 2];
+      if (prevForm) {
+        const prevFormElement = document.getElementById(prevForm);
+        if (prevFormElement) {
+          prevFormElement.style.minHeight = '';
+        }
+      }
+
+      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+    }
+  }, [forms, isRenderFinalForm]);
 
   if (!danji) return null;
 

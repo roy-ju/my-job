@@ -1,12 +1,14 @@
 import deregister from '@/apis/user/deregister';
 import { useAPI_GetDeregisterStatus } from '@/apis/user/getDeregisterStatus';
+import { deleteFcmToken } from '@/apis/user/updateFcmToken';
 import { Panel } from '@/components/atoms';
 import { DeregisterDisclaimer as DeregisterDisclaimerTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import Keys from '@/constants/storage_keys';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -15,7 +17,6 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const { logout } = useAuth();
 
   const { data } = useAPI_GetDeregisterStatus();
 
@@ -35,14 +36,19 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   const handleDeregister = useCallback(async () => {
+    const fcmToken = localStorage.getItem(Keys.FCM_TOKEN);
+    if (fcmToken) {
+      await deleteFcmToken({ token: fcmToken });
+    }
     const deregistered = await deregister(deregisterReasons);
+    localStorage.removeItem(Keys.ACCESS_TOKEN);
     if (deregistered) {
+      await mutate(() => true, undefined);
       await router.popAll();
-      logout();
     } else {
       toast.error('Cannot deregister');
     }
-  }, [logout, router, deregisterReasons]);
+  }, [router, deregisterReasons]);
 
   return (
     <Panel width={panelWidth}>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
@@ -144,35 +145,34 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     };
   }, [listingsSection, realPriceSection, infoSection, facilitiesSection]);
 
-  useEffect(() => {
-    let i = 0;
+  // useEffect(() => {
+  //   let i = 0;
 
-    if (visibleState.listingsSection === true) {
-      i = 0;
-      setTabIndex(i);
-      return;
-    }
+  //   if (visibleState.listingsSection === true) {
+  //     i = 0;
+  //     setTabIndex(i);
+  //     return;
+  //   }
 
-    if (visibleState.realPriceSection === true) {
-      i = 1;
-      setTabIndex(i);
-      return;
-    }
+  //   if (visibleState.realPriceSection === true) {
+  //     i = 1;
+  //     setTabIndex(i);
+  //     return;
+  //   }
 
-    if (visibleState.infoSection === true) {
-      i = 2;
-      setTabIndex(i);
-      return;
-    }
+  //   if (visibleState.infoSection === true) {
+  //     i = 2;
+  //     setTabIndex(i);
+  //     return;
+  //   }
 
-    if (visibleState.facilitiesSection === true) {
-      i = 3;
-      setTabIndex(i);
-      return;
-    }
+  //   if (visibleState.facilitiesSection === true) {
+  //     i = 3;
+  //     setTabIndex(i);
+  //   }
 
-    setTabIndex(i);
-  }, [visibleState]);
+  //   setTabIndex(i);
+  // }, [visibleState]);
 
   useEffect(() => {
     if (typeof tabIndex === 'number' && danji) {
@@ -214,7 +214,10 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               <div
                 role="presentation"
                 tw="p-2 whitespace-nowrap cursor-pointer"
-                onClick={() => onClickTab(0)}
+                onClick={() => {
+                  onClickTab(0);
+                  setTabIndex(0);
+                }}
                 ref={(el) => (refs.current[0] = el)}
               >
                 <span tw="text-b1 font-bold" css={[tabIndex === 0 ? tw`text-gray-1000` : tw`text-gray-600`]}>
@@ -226,7 +229,10 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                 <div
                   role="presentation"
                   tw="p-2 whitespace-nowrap cursor-pointer"
-                  onClick={() => onClickTab(1)}
+                  onClick={() => {
+                    onClickTab(1);
+                    setTabIndex(1);
+                  }}
                   ref={(el) => (refs.current[1] = el)}
                 >
                   <span tw="text-b1 font-bold" css={[tabIndex === 1 ? tw`text-gray-1000` : tw`text-gray-600`]}>
@@ -238,7 +244,10 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               <div
                 role="presentation"
                 tw="p-2 whitespace-nowrap cursor-pointer"
-                onClick={() => onClickTab(2)}
+                onClick={() => {
+                  onClickTab(2);
+                  setTabIndex(2);
+                }}
                 ref={(el) => (refs.current[2] = el)}
               >
                 <span tw="text-b1 font-bold" css={[tabIndex === 2 ? tw`text-gray-1000` : tw`text-gray-600`]}>
@@ -249,7 +258,10 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               <div
                 role="presentation"
                 tw="p-2 whitespace-nowrap cursor-pointer"
-                onClick={() => onClickTab(3)}
+                onClick={() => {
+                  onClickTab(3);
+                  setTabIndex(3);
+                }}
                 ref={(el) => (refs.current[3] = el)}
               >
                 <span tw="text-b1 font-bold" css={[tabIndex === 3 ? tw`text-gray-1000` : tw`text-gray-600`]}>

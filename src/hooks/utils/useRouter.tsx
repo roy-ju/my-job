@@ -31,6 +31,7 @@ export default function useRouter(depth: number) {
       for (let i = 1; i < 6; i += 1) {
         delete router.query[`depth${i}`];
       }
+      delete router.query.redirect;
 
       const query = {
         ...router.query,
@@ -65,6 +66,8 @@ export default function useRouter(depth: number) {
     }
 
     delete router.query.params;
+    delete router.query.redirect;
+
     const query: Record<string, string> = {
       ...(router.query as Record<string, string>),
       // ...options?.searchParams,
@@ -97,6 +100,7 @@ export default function useRouter(depth: number) {
         for (let i = 1; i < 6; i += 1) {
           delete router.query[`depth${i}`];
         }
+        delete router.query.redirect;
 
         let query: Record<string, any> = {};
 
@@ -159,6 +163,7 @@ export default function useRouter(depth: number) {
       for (let i = 1; i < 6; i += 1) {
         delete router.query[`depth${i}`];
       }
+      delete router.query.redirect;
 
       let query: Record<string, any> = {};
 
@@ -252,6 +257,8 @@ export default function useRouter(depth: number) {
       for (let i = 1; i < 6; i += 1) {
         delete router.query[`depth${i}`];
       }
+
+      delete router.query.redirect;
 
       let query: Record<string, any> = {};
 
