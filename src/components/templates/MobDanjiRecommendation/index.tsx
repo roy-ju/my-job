@@ -410,7 +410,7 @@ export const EtcField = ({
           value={etc}
           onChange={onChangeEtcField}
           tw="[min-height: 76px] py-[16px] px-[20px] placeholder:[line-height: 22px]"
-          placeholder="예) 중층의 매물을 원해요.                                              초등학교가 가까운 매물 제안해주세요."
+          placeholder="예) 중층의 매물을 원해요.                                                 초등학교가 가까운 매물 제안해주세요."
           spellCheck="false"
         />
       </TextField>
@@ -518,20 +518,22 @@ export default function MobDanjiRecommendation({
         </NavigationHeader>
 
         {!isRenderFinalForm && (
-          <div tw="flex-1 overflow-auto">
-            <BasicInfo danji={danji} />
-            <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-            <GuideInfo />
-            <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+          <div id="danji-recommend-formContainer" tw="flex-1 min-h-0 overflow-auto">
+            <div id="danji-recommend-default">
+              <BasicInfo danji={danji} />
+              <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+              <GuideInfo />
+              <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+            </div>
             {typeof step === 'number' && step > 0 && (
-              <>
+              <div id="danji-recommend-buyOrRent">
                 <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              </>
+              </div>
             )}
 
             {typeof step === 'number' && step > 1 && (
-              <>
+              <div id="danji-recommend-price">
                 <PriceField
                   buyOrRent={buyOrRent}
                   tradeOrDepositPrice={tradeOrDepositPrice}
@@ -540,11 +542,11 @@ export default function MobDanjiRecommendation({
                   onChangeMonthlyRentFee={onChangeMonthlyRentFee}
                 />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              </>
+              </div>
             )}
 
             {typeof step === 'number' && step > 2 && (
-              <>
+              <div id="danji-recommend-area">
                 <IntersetedPyoungField
                   danjiRealPricesPyoungList={danjiRealPricesPyoungList}
                   selectedGonggeupPyoungList={selectedGonggeupPyoungList}
@@ -556,11 +558,11 @@ export default function MobDanjiRecommendation({
                   onClickPyoungCloseButton={onClickPyoungCloseButton}
                 />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              </>
+              </div>
             )}
 
             {typeof step === 'number' && step > 3 && buyOrRent === BuyOrRent.Buy && (
-              <>
+              <div id="danji-recommend-purpose">
                 <LiveOrInvestmentField
                   purpose={purpose}
                   remainingAmountPaymentTime={remainingAmountPaymentTime}
@@ -575,29 +577,33 @@ export default function MobDanjiRecommendation({
                   onChangeRemainingAmountTimeType={onChangeRemainingAmountTimeType}
                 />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              </>
+              </div>
             )}
 
             {typeof step === 'number' && step > 4 && buyOrRent === BuyOrRent.Buy && (
-              <>
+              <div id="danji-recommend-floor">
                 <InterestedFloor totalFloors={totalFloors} onClickFloorButton={onClickFloorButton} />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              </>
+              </div>
             )}
 
             {typeof step === 'number' && step > 5 && buyOrRent === BuyOrRent.Buy && (
-              <EtcField etc={etc} onChangeEtcField={onChangeEtcField} />
+              <div id="danji-recommend-etc">
+                <EtcField etc={etc} onChangeEtcField={onChangeEtcField} />
+              </div>
             )}
 
             {typeof step === 'number' && step > 3 && buyOrRent !== BuyOrRent.Buy && (
-              <>
+              <div id="danji-recommend-floor">
                 <InterestedFloor totalFloors={totalFloors} onClickFloorButton={onClickFloorButton} />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              </>
+              </div>
             )}
 
             {typeof step === 'number' && step > 4 && buyOrRent !== BuyOrRent.Buy && (
-              <EtcField etc={etc} onChangeEtcField={onChangeEtcField} />
+              <div id="danji-recommend-etc">
+                <EtcField etc={etc} onChangeEtcField={onChangeEtcField} />
+              </div>
             )}
           </div>
         )}
