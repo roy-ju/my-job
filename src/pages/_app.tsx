@@ -17,6 +17,7 @@ import Head from 'next/head';
 import AppConfig from '@/config';
 import NegocioProvider from '@/providers/NegocioProvider';
 import TooltipProvider from '@/providers/TooltipProvider';
+import ErrorBoundary from '@/providers/ErrorBoundary';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -61,7 +62,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <SWRConfig>
             <OverlayContainer />
             <div id="rootOverlay" tw="pointer-events-none [z-index: 1500]" />
-            <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
+            <ErrorBoundary>
+              <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
+            </ErrorBoundary>
             <ToastContainer platform={platform} />
             <TooltipProvider />
           </SWRConfig>
