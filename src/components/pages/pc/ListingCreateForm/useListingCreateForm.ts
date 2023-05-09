@@ -1017,7 +1017,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (parsed.rent_contract_term_month) {
-      setRentTermYear(`${parsed.rent_contract_term_month}개월`);
+      setRentTermMonth(`${parsed.rent_contract_term_month}개월`);
     }
 
     if (parsed.rent_contract_term_negotiable !== undefined) {
