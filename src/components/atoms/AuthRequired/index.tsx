@@ -27,9 +27,15 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
     );
 
   if (!user) {
+    console.log(router.asPath);
     onAccessDenied?.();
     if (isClient && router.isReady) {
-      router.replace(Routes.Login, { persistParams: true });
+      router.replace(Routes.Login, {
+        persistParams: true,
+        searchParams: {
+          redirect: `${router.asPath}`,
+        },
+      });
     }
     return <Panel />;
   }
@@ -37,7 +43,7 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
   if (ciRequired && !user.isVerified) {
     onAccessDenied?.();
     if (isClient && router.isReady) {
-      router.replace(Routes.VerifyCi, { persistParams: true });
+      router.replace(Routes.VerifyCi, { persistParams: true, searchParams: { redirect: `${router.asPath}` } });
     }
     return <Panel />;
   }
