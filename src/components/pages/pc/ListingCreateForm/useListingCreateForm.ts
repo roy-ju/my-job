@@ -96,6 +96,10 @@ export default function useListingCreateForm(depth: number) {
   const addressLine1 = router.query.addressLine1 as string;
   // 화면에 표현할 주소2
   const addressLine2 = router.query.addressLine2 as string;
+  // 화면에 표시할 동
+  const dong = router.query.dong as string;
+  // 화면에 표시할 호
+  const ho = router.query.ho as string;
 
   const setNextForm = useCallback((...formNames: string[]) => {
     setForms((prev) => [...prev, ...formNames]);
@@ -1281,6 +1285,9 @@ export default function useListingCreateForm(depth: number) {
 
     hasSpecialTerms,
     handleChangeHasSpecialTerms: setHasSpecialTerms,
+
+    dong,
+    ho,
 
     // Popup actions
     popup,

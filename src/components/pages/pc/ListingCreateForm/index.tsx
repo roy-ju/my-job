@@ -15,6 +15,9 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const {
+    dong,
+    ho,
+
     addressLine1,
     addressLine2,
     popup,
@@ -131,6 +134,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ListingCreateForm
+        dong={dong ?? ''}
+        ho={ho ?? ''}
         isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         nextButtonDisabled={nextButtonDisabled}
         onClickBack={openBackPopup}
