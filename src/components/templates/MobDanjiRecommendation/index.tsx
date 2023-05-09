@@ -27,7 +27,7 @@ export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailRespon
         </>
       )}
 
-      {danji.construction_start_date.replaceAll(' ', '') && (
+      {danji?.construction_start_date?.replaceAll(' ', '') && (
         <>
           <div tw="w-px h-2 bg-gray-300 mx-1" />
           <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</span>
@@ -409,8 +409,8 @@ export const EtcField = ({
         <TextField.TextArea
           value={etc}
           onChange={onChangeEtcField}
-          tw="min-h-[76px]"
-          placeholder="예) 중층의 매물을 원해요.&#13;&#10;매물에 대한 문의는 중개사에게 문의하기를 이용하세요"
+          tw="[min-height: 76px] py-[16px] px-[20px] placeholder:[line-height: 22px]"
+          placeholder="예) 중층의 매물을 원해요.                                              초등학교가 가까운 매물 제안해주세요."
           spellCheck="false"
         />
       </TextField>

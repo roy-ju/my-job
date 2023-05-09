@@ -94,7 +94,7 @@ export default function MobMy() {
   }, [router]);
 
   const handleDeveloper = useCallback(() => {
-    router.push(`my/${Routes.Developer}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.Developer}`);
   }, [router]);
 
   // return (
