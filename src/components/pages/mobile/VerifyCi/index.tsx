@@ -32,7 +32,12 @@ export default function VerifyCiWrraper() {
 
       if (!updateCiRes?.error_code) {
         mutateUser(false);
-        router.replace(`/${Routes.EntryMobile}/${Routes.VerifyCiSuccess}`);
+        router.replace({
+          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCiSuccess}`,
+          query: {
+            redirect: router.query.redirect ?? '',
+          },
+        });
       }
     },
     [router, mutateUser],
