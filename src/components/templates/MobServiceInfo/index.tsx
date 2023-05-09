@@ -2,12 +2,13 @@ import { ServiceInfoList, MobGlobalHeader } from '@/components/organisms';
 
 export interface ServiceInfoProps {
   onClickBusinessInfo?: () => void;
+  onClickBack?: () => void;
 }
 
-export default function MobServiceInfo({ onClickBusinessInfo }: ServiceInfoProps) {
+export default function MobServiceInfo({ onClickBusinessInfo, onClickBack }: ServiceInfoProps) {
   return (
     <div tw="flex flex-col h-full">
-      <MobGlobalHeader title="서비스 정보" />
+      <MobGlobalHeader title="서비스 정보" onClickBack={onClickBack} />
       <div tw="fixed w-full max-w-mobile top-[3.6rem]">
         <ServiceInfoList>
           <ServiceInfoList.Item title="약관 및 정책" />
