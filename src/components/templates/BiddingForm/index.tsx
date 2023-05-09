@@ -164,7 +164,7 @@ export default function BiddingForm({
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">
-          <div tw="px-5 pt-7">
+          <div tw="px-5 py-7">
             <ListingSummaryCard
               listingTitle={listing?.listing_title ?? ''}
               address={displayAddress ?? ''}
@@ -174,6 +174,8 @@ export default function BiddingForm({
               direction={listing?.direction ?? ''}
             />
           </div>
+          <Separator />
+
           {forms?.map((form, index) => (
             <div key={form}>
               <FormRenderer form={form} />
