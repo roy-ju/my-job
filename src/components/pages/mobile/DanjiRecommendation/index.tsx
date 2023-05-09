@@ -1,7 +1,7 @@
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
-import { AuthRequired, MobileContainer } from '@/components/atoms';
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { MobDanjiRecommendation } from '@/components/templates';
 
 import { BuyOrRent } from '@/constants/enums';
@@ -385,7 +385,7 @@ export default function DanjiRecommendation() {
   if (!danji) return null;
 
   return (
-    <AuthRequired ciRequired>
+    <MobAuthRequired ciRequired>
       <MobileContainer>
         <MobDanjiRecommendation
           danji={danji}
@@ -432,6 +432,6 @@ export default function DanjiRecommendation() {
           handleCTA={handleCTA}
         />
       </MobileContainer>
-    </AuthRequired>
+    </MobAuthRequired>
   );
 }

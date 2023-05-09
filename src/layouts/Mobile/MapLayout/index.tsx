@@ -3,8 +3,11 @@ import { Map } from '@/lib/navermap';
 import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/components/templates';
 import { AnimatePresence, motion } from 'framer-motion';
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
-import Markers from './Markers';
+import Routes from '@/router/routes';
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 import useMapLayout from './useMapLayout';
+import Markers from './Markers';
 
 function MapWrapper() {
   const {
@@ -38,6 +41,12 @@ function MapWrapper() {
     ...props
   } = useMapLayout();
 
+  const router = useRouter();
+
+  const handleClickSuggestRegional = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  }, [router]);
+
   return (
     <>
       <MobileGlobalStyles />
@@ -65,6 +74,7 @@ function MapWrapper() {
         onChangeMapToggleValue={handleChangeMapToggleValue}
         onChangePriceType={handleChangePriceType}
         onClickMapListingList={handleClickMapListingList}
+        onClickSuggestReginoal={handleClickSuggestRegional}
       >
         <Map {...props}>
           <Markers
