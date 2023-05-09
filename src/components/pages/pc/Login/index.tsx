@@ -71,9 +71,13 @@ export default memo(({ depth, panelWidth }: Props) => {
         state: { email, token, socialLoginType: `${socialLoginType}` },
       });
     };
+    window.Negocio.callbacks.loginFail = () => {
+      toast.error('로그인에 실패하였습니다.');
+    };
     return () => {
       delete window.Negocio.callbacks.loginSuccess;
       delete window.Negocio.callbacks.newRegister;
+      delete window.Negocio.callbacks.loginFail;
     };
   }, [router, handleLogin, nextRouter]);
 

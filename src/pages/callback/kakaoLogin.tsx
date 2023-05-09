@@ -39,6 +39,8 @@ const Page: NextPage = () => {
         kakaoAccessTokenResponse.accessToken,
         SocialLoginType.Kakao,
       );
+    } else {
+      window.opener?.Negocio.callbacks?.loginFail?.();
     }
 
     window.close();
