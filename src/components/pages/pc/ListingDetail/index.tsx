@@ -7,7 +7,7 @@ import { Loading, Panel } from '@/components/atoms';
 import { ListingDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import deleteListingQna from '@/apis/listing/deleteListingQna';
@@ -19,6 +19,7 @@ import { formatNumberInKorean } from '@/utils';
 import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
+import viewListing from '@/apis/listing/viewListing';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -222,6 +223,17 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
       ],
     });
   }, [data]);
+
+  useEffect(() => {
+    if (statusData?.can_access === true) {
+      viewListing({
+        listing_id: listingID,
+        ip_address: '',
+        device: '',
+        browser: '',
+      });
+    }
+  }, [listingID, statusData]);
 
   if (data?.error_code) {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;

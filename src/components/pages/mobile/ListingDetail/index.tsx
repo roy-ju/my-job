@@ -24,6 +24,7 @@ import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
 import { FullScreenMap } from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
 import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail';
 import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
+import viewListing from '@/apis/listing/viewListing';
 import useListingDetailRedirector from './useListingDetailRedirector';
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
@@ -237,6 +238,17 @@ export default memo(() => {
     },
     [],
   );
+
+  useEffect(() => {
+    if (statusData?.can_access === true) {
+      viewListing({
+        listing_id: listingID,
+        ip_address: '',
+        device: '',
+        browser: '',
+      });
+    }
+  }, [listingID, statusData]);
 
   if (data?.error_code) {
     return <MobileContainer>{data?.error_code}</MobileContainer>;
