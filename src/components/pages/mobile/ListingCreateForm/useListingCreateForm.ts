@@ -670,6 +670,11 @@ export default function useListingCreateForm() {
   );
 
   const handleAddDebtSuccessionMisc = useCallback(() => {
+    if (debtSuccessionMiscs.length > 1) {
+      toast.error('최대 2개까지 추가 가능합니다.');
+      return;
+    }
+
     const newDebtSuccessions = [...debtSuccessionMiscs];
     const key = uuidv4();
     newDebtSuccessions.push({ price: '', name: '', key });
@@ -720,6 +725,11 @@ export default function useListingCreateForm() {
   );
 
   const handleAddCollaterals = useCallback(() => {
+    if (collaterals.length > 2) {
+      toast.error('최대 3개까지 추가 가능합니다.');
+      return;
+    }
+
     const newCollaterals = [...collaterals];
     const key = uuidv4();
     newCollaterals.push({ price: '', name: '', key });
