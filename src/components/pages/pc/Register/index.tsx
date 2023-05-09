@@ -103,7 +103,11 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
 
     setIsLoading(false);
-    router.replace(Routes.RegisterSuccess);
+    router.replace(Routes.RegisterSuccess, {
+      searchParams: {
+        redirect: (router.query.redirect as string) ?? '',
+      },
+    });
   }, [email, terms, privacyRetention, nickname, router, handleLogin]);
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { Login as LoginTemplate } from '@/components/templates';
 import { SocialLoginType } from '@/constants/enums';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import { loginWithApple } from '@/lib/apple';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect } from 'react';
@@ -17,6 +18,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const { login: handleLogin } = useAuth();
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const handleKakaoLogin = useCallback(() => {
     window.open(`${window.location.origin}/auth/kakao`, '_blank');
@@ -50,18 +52,30 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const redirect = urlSearchParams.get('redirect');
+
     window.Negocio.callbacks.loginSuccess = async (accessToken: string, refreshToken: string) => {
       await handleLogin(accessToken, refreshToken);
-      router.pop();
+      if (redirect) {
+        nextRouter.replace(redirect);
+      } else {
+        router.pop();
+      }
     };
     window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
-      router.replace(Routes.Register, { state: { email, token, socialLoginType: `${socialLoginType}` } });
+      router.replace(Routes.Register, {
+        searchParams: {
+          redirect: redirect ?? '',
+        },
+        state: { email, token, socialLoginType: `${socialLoginType}` },
+      });
     };
     return () => {
       delete window.Negocio.callbacks.loginSuccess;
       delete window.Negocio.callbacks.newRegister;
     };
-  }, [router, handleLogin]);
+  }, [router, handleLogin, nextRouter]);
 
   const handleClickFAQ = useCallback(() => {
     router.replace(Routes.FAQ);
