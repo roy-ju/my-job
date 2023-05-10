@@ -20,6 +20,8 @@ export default function useListingCreateForm(depth: number) {
   const { user } = useAuth();
 
   const [isAddInterimButtonDisabled, setIsAddInterimButtonDisabled] = useState(false);
+  const [isAddCollateralDisabled, setIsAddCollateralDisabled] = useState(false);
+  const [isAddDebtSuccessionDisabled, setIsAddDebtSuccessionDisabled] = useState(false);
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   // 화면에 띄워진 팝업
@@ -1184,8 +1186,18 @@ export default function useListingCreateForm(depth: number) {
     setIsAddInterimButtonDisabled(interims.length > 2);
   }, [interims]);
 
+  useEffect(() => {
+    setIsAddDebtSuccessionDisabled(debtSuccessionMiscs.length > 1);
+  }, [debtSuccessionMiscs]);
+
+  useEffect(() => {
+    setIsAddCollateralDisabled(collaterals.length > 2);
+  }, [collaterals]);
+
   return {
     isAddInterimButtonDisabled,
+    isAddCollateralDisabled,
+    isAddDebtSuccessionDisabled,
 
     nextButtonDisabled,
 
