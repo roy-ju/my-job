@@ -17,6 +17,9 @@ export interface RegisterProps {
   onChangeTerms?: (newState: TermsState) => void;
   onClickNext?: () => void;
   onClickBackButton?: () => void;
+  onNavigateToServiceTerms?: () => void;
+  onNavigateToPrivacyTerms?: () => void;
+  onNavigateToLocationTerms?: () => void;
 }
 
 export default function MobRegister({
@@ -32,6 +35,9 @@ export default function MobRegister({
   onChangeTerms,
   onClickNext,
   onClickBackButton,
+  onNavigateToLocationTerms,
+  onNavigateToPrivacyTerms,
+  onNavigateToServiceTerms,
 }: RegisterProps) {
   return (
     <div tw="w-full max-w-mobile relative flex flex-col mx-auto bg-white h-full">
@@ -52,7 +58,13 @@ export default function MobRegister({
         </div>
         <Separator />
         <div tw="my-10">
-          <MobRegisterForm.Terms state={terms} onChangeState={onChangeTerms} />
+          <MobRegisterForm.Terms
+            state={terms}
+            onChangeState={onChangeTerms}
+            onNavigateToServiceTerms={onNavigateToServiceTerms}
+            onNavigateToPrivacyTerms={onNavigateToPrivacyTerms}
+            onNavigateToLocationTerms={onNavigateToLocationTerms}
+          />
         </div>
         <div tw="mb-20 px-5">
           <Button isLoading={isLoading} disabled={!formValid} tw="w-full" size="bigger" onClick={onClickNext}>
