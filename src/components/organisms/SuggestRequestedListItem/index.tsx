@@ -56,7 +56,11 @@ export default function SuggestRequestedListItem({
 
   return (
     <div>
-      <button type="button" tw="w-full text-start px-5 hover:bg-gray-100" onClick={onClick}>
+      <button
+        type="button"
+        tw="w-full text-start px-5 hover:bg-gray-100"
+        onClick={inputType === 'checkbox' ? undefined : onClick}
+      >
         <div tw="py-5">
           <div tw="flex items-center gap-3">
             {inputType === 'checkbox' && (
