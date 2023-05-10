@@ -314,12 +314,13 @@ export const DanjiRealPriceChart = React.memo(
       if (buyOrRent === BuyOrRent.Buy && realpricesChartData.filter((item) => item.buy_count).length === 0) {
         return true;
       }
+
       if (buyOrRent !== BuyOrRent.Buy && realpricesChartData.filter((item) => item.jeonsae_count).length === 0) {
         return true;
       }
 
       return false;
-    }, [realpricesChartData, buyOrRent]);
+    }, [buyOrRent, realpricesChartData]);
 
     useEffect(() => {
       hideTooltip();
@@ -363,7 +364,6 @@ export const DanjiRealPriceChart = React.memo(
             xScale={xScale}
             tickValues={tickValues}
             yScalePrice={yScalePrice}
-            renderNodata={renderNodata}
             tooltipLeft={tooltipLeft}
             tooltipData={tooltipData}
             tooltipTop={tooltipTop}
