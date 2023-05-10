@@ -20,6 +20,7 @@ import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import viewListing from '@/apis/listing/viewListing';
+import { useAuth } from '@/hooks/services';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -30,6 +31,8 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
+  const { user } = useAuth();
+
   const { redirectable } = useListingDetailRedirector(listingID, depth);
 
   const router = useRouter(depth);
@@ -68,6 +71,14 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   );
 
   const handleClickFavorite = useCallback(async () => {
+    if (!user) {
+      router.replaceCurrent(Routes.Login, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}`, back: 'true' },
+      });
+      return;
+    }
+
     if (data?.listing?.id) {
       if (data.is_favorite) {
         await removeFavorite(data.listing.id);
@@ -77,7 +88,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
       }
       await mutateListing();
     }
-  }, [data, mutateListing]);
+  }, [data, mutateListing, user, router]);
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
