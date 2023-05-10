@@ -40,11 +40,11 @@ export const DefaultListingImage: Record<number, string> = {
 
 export const DefaultListingImageLg: Record<number, string> = {
   [RealestateType.Apartment]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
-  [RealestateType.Officetel]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
-  [RealestateType.Dasaedae]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
-  [RealestateType.Yunrip]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
-  [RealestateType.Dandok]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
-  [RealestateType.Dagagoo]: Paths.DEFAULT_APARTMENT_IMAGE_LG_PATH,
+  [RealestateType.Officetel]: Paths.DEFAULT_OFFICETEL_IMAGE_LG_PATH,
+  [RealestateType.Dasaedae]: Paths.DEFAULT_DASAEDAE_IMAGE_LG_PATH,
+  [RealestateType.Yunrip]: Paths.DEFAULT_DASAEDAE_IMAGE_LG_PATH,
+  [RealestateType.Dandok]: Paths.DEFAULT_DANDOK_IMAGE_LG_PATH,
+  [RealestateType.Dagagoo]: Paths.DEFAULT_DANDOK_IMAGE_LG_PATH,
 };
 
 export const RealestateTypeChipVariant: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
