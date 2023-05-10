@@ -77,14 +77,18 @@ export default function ActiveListingInfo({
           <Dropdown
             size="small"
             variant="outlined"
-            tw="min-w-0 ml-auto"
+            tw="[width: 92px] min-w-0 ml-auto"
             value={dropDownValue}
             onChange={(v) => {
               setDropDownValue(v);
             }}
           >
-            <Dropdown.Option value="최신순">최신순</Dropdown.Option>
-            <Dropdown.Option value="가격순">가격순</Dropdown.Option>
+            <Dropdown.Option tw="[width: 92px]" value="최신순">
+              최신순
+            </Dropdown.Option>
+            <Dropdown.Option tw="[width: 92px]" value="가격순">
+              가격순
+            </Dropdown.Option>
           </Dropdown>
         </div>
         <ListingItem>
