@@ -7,9 +7,10 @@ import useTooltip from '@/states/tooltip';
 
 interface ContainerProps {
   onClickAdd?: () => void;
+  isAddButtonDisabled?: boolean;
 }
 
-function Container({ onClickAdd }: ContainerProps) {
+function Container({ onClickAdd, isAddButtonDisabled }: ContainerProps) {
   const { openTooltip } = useTooltip();
 
   return (
@@ -24,9 +25,11 @@ function Container({ onClickAdd }: ContainerProps) {
           </div>
           <div tw="text-info text-gray-700">매물과 관련된 채무가 없다면 다음을 누르세요.</div>
         </div>
-        <Button variant="outlined" size="small" onClick={onClickAdd}>
-          항목 추가
-        </Button>
+        {!isAddButtonDisabled && (
+          <Button variant="outlined" size="small" onClick={onClickAdd}>
+            항목 추가
+          </Button>
+        )}
       </div>
     </div>
   );

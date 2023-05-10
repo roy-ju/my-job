@@ -117,6 +117,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     nextButtonDisabled,
 
     isAddInterimButtonDisabled,
+    isAddCollateralDisabled,
+    isAddDebtSuccessionDisabled,
   } = useListingCreateForm(depth);
 
   const { list: listingOptions } = useAPI_GetOptionList();
@@ -137,6 +139,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         dong={dong ?? ''}
         ho={ho ?? ''}
         isAddInterimButtonDisabled={isAddInterimButtonDisabled}
+        isAddCollateralDisabled={isAddCollateralDisabled}
+        isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
         onClickBack={openBackPopup}
         addressLine1={addressLine1}

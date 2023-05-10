@@ -33,6 +33,8 @@ export interface CollateralType {
 
 export interface IFormContext {
   isAddInterimButtonDisabled?: boolean;
+  isAddDebtSuccessionDisabled?: boolean;
+  isAddCollateralDisabled?: boolean;
 
   // IsOwner
   isOwner?: boolean;

@@ -1,4 +1,5 @@
 import { DatePicker, Dropdown } from '@/components/molecules';
+import { useRef } from 'react';
 
 export interface RemainingAmountDateProps {
   remainingAmountDate?: Date | null;
@@ -13,6 +14,8 @@ export default function RemainingAmountDate({
   remainingAmountDateType,
   onChangeRemainingAmountDateType,
 }: RemainingAmountDateProps) {
+  const minDate = useRef(new Date());
+
   return (
     <div>
       <div tw="font-bold mb-4">잔금일</div>
@@ -23,6 +26,7 @@ export default function RemainingAmountDate({
           placeholder="날짜"
           value={remainingAmountDate}
           onChange={(v) => onChangeRemainingAmountDate?.(v)}
+          minDate={minDate.current}
         />
         <Dropdown
           tw="flex-1 min-w-0"
