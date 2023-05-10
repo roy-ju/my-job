@@ -1,13 +1,13 @@
 import { MobileContainer } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
 import { memo, useState } from 'react';
-// import Routes from '@/router/routes';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
 import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
+import Routes from '@/router/routes';
 import useChatRoom from './useChatRoom';
 
 export default memo(() => {
@@ -29,10 +29,12 @@ export default memo(() => {
   const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const handleClickReportButton = () => {
-    // const chatRoomID = router.query.chatRoomID as string;
-    // router.replace(`${Routes.ChatRoomReport}`, {
-    //   searchParams: { chatRoomID },
-    // });
+    const chatRoomID = router.query.chatRoomID as string;
+
+    router.push(
+      { pathname: `/${Routes.EntryMobile}/${Routes.ChatRoomReport}`, query: { chatRoomID } },
+      `/${Routes.EntryMobile}/${Routes.ChatRoomReport}?chatRoomID=${chatRoomID}`,
+    );
   };
 
   const handleClickLeaveButton = () => {
@@ -43,7 +45,27 @@ export default memo(() => {
     const chatRoomID = Number(router.query.chatRoomID);
     await closeChatRoom(chatRoomID);
     await mutate('/chat/room/list');
-    // router.pop();
+  };
+
+  const handleClickNavigateToListingDetail = (listingID: number) => () => {
+    router.replace(
+      { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`, query: { listingID: `${listingID}` } },
+      `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`,
+    );
+  };
+
+  const handleClickNavigateToListingDetailHistory = (listingID: number, biddingID: number) => () => {
+    if (biddingID) {
+      router.replace(
+        { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}`, query: { listingID: `${listingID}` } },
+        `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}?listingID=${listingID}&biddingID=${biddingID}&tab=${4}`,
+      );
+    } else {
+      router.replace(
+        { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetailPassed}`, query: { listingID: `${listingID}` } },
+        `/${Routes.EntryMobile}/${Routes.ListingDetailPassed}?listingID=${listingID}&tab=${4}`,
+      );
+    }
   };
 
   const renderPopupBodyContents = () => {
@@ -84,6 +106,8 @@ export default memo(() => {
         onSendMessage={handleSendMessage}
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
+        onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
+        onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
         onClickBack={() => router.back()}
       />
       {popupOpen && (
