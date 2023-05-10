@@ -6,6 +6,7 @@ import React, {
   HTMLProps,
   isValidElement,
   KeyboardEventHandler,
+  MouseEventHandler,
   ReactNode,
   useCallback,
   useContext,
@@ -152,16 +153,19 @@ function Container({ value: valueProp, onChange, children }: AutocompleteProps) 
 
 interface OptionProps extends HTMLProps<HTMLButtonElement> {
   value: string;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 function Option({ value, onClick, ...others }: OptionProps) {
   const { onOptionClick } = useContext(AutocompleteContext);
 
-  const handleClick = useCallback(() => {
-    onOptionClick?.(value);
-    onClick?.();
-  }, [onOptionClick, onClick, value]);
+  const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (e) => {
+      onOptionClick?.(value);
+      onClick?.(e);
+    },
+    [onOptionClick, onClick, value],
+  );
 
   return <button {...others} onClick={handleClick} type="button" />;
 }

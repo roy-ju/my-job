@@ -70,6 +70,7 @@ interface LayoutMapContainerProps {
   showClosePanelButton?: boolean;
   panelsVisible?: boolean;
   priceSelectDisabled?: boolean;
+  recentSearches?: KakaoAddressAutocompleteResponseItem[];
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -79,7 +80,7 @@ interface LayoutMapContainerProps {
   onClickSuggestReginoal?: () => void;
   onChangeMapType?: ChangeEventHandler<HTMLInputElement>;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
-  onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem) => void;
+  onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem, isFromRecentSearch: boolean) => void;
   onChangeFilter?: (filter: Partial<Filter>) => void;
   onChangeMapToggleValue?: (value: number) => void;
   onChangePriceType?: (value: string) => void;
@@ -88,6 +89,8 @@ interface LayoutMapContainerProps {
   onClickListingCreateAddress?: () => void;
   onClickAgentSite?: () => void;
   onTogglepanelsVisibility?: () => void;
+  onClickRemoveAllRecentSearches?: () => void;
+  onClickRemoveRecentSearch?: (id: string) => void;
   children?: ReactNode;
 }
 
@@ -103,6 +106,7 @@ function LayoutMapContainer({
   showClosePanelButton = false,
   panelsVisible = true,
   priceSelectDisabled = false,
+  recentSearches,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
@@ -121,6 +125,8 @@ function LayoutMapContainer({
   onClickAgentSite,
   onClickListingCreateAddress,
   onTogglepanelsVisibility,
+  onClickRemoveAllRecentSearches,
+  onClickRemoveRecentSearch,
   children,
 }: LayoutMapContainerProps) {
   return (
@@ -147,7 +153,12 @@ function LayoutMapContainer({
           </button>
         )}
         <div tw="flex flex-col gap-2 w-[380px] ml-5">
-          <MapSearchTextField onSubmit={onMapSearchSubmit} />
+          <MapSearchTextField
+            recentSearches={recentSearches}
+            onSubmit={onMapSearchSubmit}
+            onClickRemoveAllRecentSearches={onClickRemoveAllRecentSearches}
+            onClickRemoveRecentSearch={onClickRemoveRecentSearch}
+          />
           <MapFilter filter={filter} onChangeFilter={onChangeFilter} />
         </div>
       </div>
