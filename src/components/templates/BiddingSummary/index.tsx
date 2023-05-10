@@ -128,6 +128,7 @@ export default function BiddingSummary({
               )}
             </div>
           </div>
+          <div tw="border-r min-h-full border-gray-300" />
           <div tw="flex-1 text-center">
             <div tw="text-info text-gray-700">나의 제안가</div>
             <div tw="text-b1 font-bold text-nego-1000">
