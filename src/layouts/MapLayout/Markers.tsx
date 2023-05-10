@@ -91,26 +91,25 @@ export default function Markers({
           </DeferredRender>
         ))}
 
-      {(mapLevel ?? 4) < 3 &&
-        schoolMarkers?.map((marker) => (
-          <DeferredRender key={marker.id}>
-            <CustomOverlay
-              zIndex={selectedSchoolID === marker.id ? 100 : 9}
-              anchor="bottom-left"
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-            >
-              <SchoolMarker
-                selected={selectedSchoolID === marker.id}
-                onClick={marker.onClick}
-                name={marker.name}
-                type={marker.type}
-              />
-            </CustomOverlay>
-          </DeferredRender>
-        ))}
+      {schoolMarkers?.map((marker) => (
+        <DeferredRender key={marker.id}>
+          <CustomOverlay
+            zIndex={selectedSchoolID === marker.id ? 100 : 9}
+            anchor="bottom-left"
+            position={{
+              lat: marker.lat,
+              lng: marker.lng,
+            }}
+          >
+            <SchoolMarker
+              selected={selectedSchoolID === marker.id}
+              onClick={marker.onClick}
+              name={marker.name}
+              type={marker.type}
+            />
+          </CustomOverlay>
+        </DeferredRender>
+      ))}
     </>
   );
 }

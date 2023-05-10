@@ -20,7 +20,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const onClickListing = useCallback(
     (id: number) => {
-      router.push(Routes.ListingDetail, { searchParams: { listingID: `${id}` } });
+      router.push(Routes.ListingDetail, { persistParams: true, searchParams: { listingID: `${id}` } });
     },
     [router],
   );
@@ -42,6 +42,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <MapListingList
+        key={(router.query.listingIDs as string) ?? 'mapListingList'}
         data={data}
         isLoading={isLoading}
         onClickListing={onClickListing}

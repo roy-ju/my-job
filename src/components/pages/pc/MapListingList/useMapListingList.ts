@@ -5,16 +5,24 @@ import { useNegocioMapEvent } from '@/hooks/utils';
 import { MapBounds, getBounds } from '@/layouts/MapLayout/useMapLayout';
 import useMap from '@/states/map';
 import _ from 'lodash';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function useMapListingList() {
+  const router = useRouter();
+
   const { naverMap } = useMap();
 
   const [filter, setFilter] = useState<Filter | null>(null);
   const [bounds, setBounds] = useState<MapBounds | null>(null);
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
-  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(mapToggleValue, bounds, filter);
+  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(
+    mapToggleValue,
+    bounds,
+    filter,
+    router.query.listingIDs as string,
+  );
 
   // 지도 필터가 바뀔때 호출
   const onFilterChange = useCallback((f: Filter) => {
