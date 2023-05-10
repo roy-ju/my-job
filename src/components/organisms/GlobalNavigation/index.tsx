@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo } from 'react';
 import tw from 'twin.macro';
 import Logo from '@/assets/icons/logo.svg';
-import Menu from '@/assets/icons/menu.svg';
 import { useControlled } from '@/hooks/utils';
+import GlobalHambergerMenu from '../GlobalHambergerMenu';
 
 interface NavigationContextType {
   selectedTab: number;
@@ -55,9 +55,7 @@ function GlobalNavigation({
           </div>
           {children}
         </div>
-        <button type="button" tw="w-full h-[5.25rem] flex justify-center items-center py-5 mb-5">
-          <Menu />
-        </button>
+        <GlobalHambergerMenu />
       </div>
     </NavigationContext.Provider>
   );
