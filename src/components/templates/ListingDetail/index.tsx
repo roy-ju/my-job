@@ -6,13 +6,14 @@ import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import ShareIcon from '@/assets/icons/share.svg';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
+import Routes from '@/router/routes';
 import UserStatusStrings from './strings';
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
@@ -68,6 +69,8 @@ export default function ListingDetail({
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
+  const router = useRouter(depth);
+
   const { danji } = useDanjiDetail(depth, listingDetail?.listing.pnu, listingDetail?.listing.realestate_type);
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
@@ -200,6 +203,8 @@ export default function ListingDetail({
 
     setTabIndex(i);
   }, [visibleState]);
+
+  const isShowlistingsSection = useMemo(() => router?.query?.depth2 !== Routes.DanjiListings, [router.query]);
 
   return (
     <div tw="relative flex flex-col h-full">
@@ -462,16 +467,19 @@ export default function ListingDetail({
         {danji && !danji.error_code && (
           <div id="danjiSection" ref={setDanjiSection}>
             <DanjiDetailSection>
-              <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
-                <DanjiDetailSection.Info danji={danji} depth={depth} />
-                <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
-              </div>
+              {isShowlistingsSection && (
+                <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
+                  <DanjiDetailSection.Info danji={danji} depth={depth} />
+                  <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
+                </div>
+              )}
 
               <DanjiRealpriceContainer
                 ref={realPriceContainerRef}
                 danji={danji}
                 depth={depth}
                 isShowRpTab={isShowRpTab}
+                isShowlistingsSection={isShowlistingsSection}
                 setLoadingRp={() => {}}
                 setIsShowRpTab={setIsShowRpTab}
               />

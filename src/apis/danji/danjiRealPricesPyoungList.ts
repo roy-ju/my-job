@@ -25,8 +25,7 @@ export function useAPI_DanjiRealPricesPyoungList({
   realestateType?: number;
   buyOrRent?: number | null;
 }) {
-  console.log(pnu)
-  console.log(realestateType)
+  
   const { data, error } = useSWR<GetDanjiRealPricesPyoungListResponse>(
     pnu && realestateType
       ? [
