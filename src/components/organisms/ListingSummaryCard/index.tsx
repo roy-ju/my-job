@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import Image from 'next/image';
 import Paths from '@/constants/paths';
+import tw, { css } from 'twin.macro';
 
 export interface ListingSummaryCardProps {
   listingTitle: string;
@@ -11,6 +12,15 @@ export interface ListingSummaryCardProps {
   direction: string;
   listingImagePath?: string;
 }
+
+const informationStringWrapper = css`
+  ${tw`flex h-full text-gray-700 text-info`}
+  & > div:not(:first-of-type)::before {
+    content: ' | ';
+    margin: 0 0.25rem;
+    color: #e9ecef; // text-gray-300
+  }
+`;
 
 export default function ListingSummaryCard({
   listingTitle,
@@ -44,7 +54,7 @@ export default function ListingSummaryCard({
       <div tw="h-fit">
         <div tw="font-bold text-b1">{listingTitle}</div>
         <div tw="text-info">{address}</div>
-        <div tw="flex gap-2 text-info text-gray-700">
+        <div tw="flex gap-2 text-info text-gray-700" css={informationStringWrapper}>
           {area && <div>전용 {area}㎡</div>}
           {floorString && <div>{floorString}</div>}
           {direction && <div>{direction}</div>}

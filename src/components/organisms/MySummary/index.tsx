@@ -18,7 +18,7 @@ export default function MySummary({ nickname, profileImagePath, onClickMyDetail 
     <div>
       <button
         type="button"
-        tw="w-full py-6 px-5 flex items-center text-start border-b border-b-gray-300 hover:bg-gray-50"
+        tw="w-full py-6 px-5 flex items-center text-start  hover:bg-gray-50"
         onClick={onClickMyDetail}
       >
         <Avatar size={48} src={profileImagePath} />

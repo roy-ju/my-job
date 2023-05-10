@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import getDanjiSummary from '@/apis/map/mapDanjiSummary';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
@@ -359,7 +360,34 @@ export default function useMapLayout() {
             lng: item.long,
             price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
             // price: item.trade_price || item.deposit || 0,
+
             onClick: () => {
+              if (isPanningRef.current) return;
+
+              if (item.listing_count === 1) {
+                router.push(
+                  {
+                    pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
+                    query: {
+                      listingID: item.listing_ids,
+                    },
+                  },
+                  `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${item.listing_ids}`,
+                );
+              } else {
+                router.push(
+                  {
+                    pathname: `/${Routes.EntryMobile}/${Routes.MapListingList}`,
+                    query: {
+                      listingIDs: item.listing_ids,
+                      bounds: JSON.stringify(bounds),
+                      filter: JSON.stringify(filter),
+                    },
+                  },
+                  `/${Routes.EntryMobile}/${Routes.MapListingList}?listingIDs=${item.listing_ids}`,
+                );
+              }
+
               setPolygons([]);
               setSelectedSchoolID('');
               _map?.morph({
@@ -437,7 +465,7 @@ export default function useMapLayout() {
         }
       }
     },
-    [selectMarker, lastSearchItem],
+    [selectMarker, router],
   );
 
   /**
