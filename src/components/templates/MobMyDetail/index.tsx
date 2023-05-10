@@ -1,5 +1,7 @@
 import { Button, Loading } from '@/components/atoms';
-import { MobGlobalHeader, MyDetailForm } from '@/components/organisms';
+import { NavigationHeader } from '@/components/molecules';
+import { MyDetailForm } from '@/components/organisms';
+import { useRouter } from 'next/router';
 import { ChangeEventHandler } from 'react';
 
 interface MyDetailProps {
@@ -45,11 +47,16 @@ export default function MobMyDetail({
   onClickVerifyCi,
   onClickUpdatePrivacyRetentionType,
 }: MyDetailProps) {
+  const router = useRouter();
+
   return (
     <>
       <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
-        <MobGlobalHeader title="회원정보" />
-        <div tw="flex-1 min-h-0 overflow-y-auto mt-[3.5rem]">
+        <NavigationHeader>
+          <NavigationHeader.BackButton onClick={() => router.back()} />
+          <NavigationHeader.Title>회원정보</NavigationHeader.Title>
+        </NavigationHeader>
+        <div tw="flex-1 min-h-0 overflow-auto">
           {isLoading ? (
             <Loading tw="mt-10" />
           ) : (

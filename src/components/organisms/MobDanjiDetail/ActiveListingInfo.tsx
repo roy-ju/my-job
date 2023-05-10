@@ -16,9 +16,14 @@ export default function ActiveListingInfo({
 }) {
   const router = useRouter();
 
-  const { data: danjiListings, isLoading } = useAPI_GetDanjiListingsList({
+  const {
+    totalCount,
+    data: danjiListings,
+    isLoading,
+  } = useAPI_GetDanjiListingsList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
+    orderBy: 1,
     pageSize: 4,
   });
 
@@ -65,8 +70,8 @@ export default function ActiveListingInfo({
     <div tw="pb-8">
       <div>
         <div tw="flex mb-2 px-5">
-          <span tw="text-b1 [line-height: 1] font-bold">거래중인 매물&nbsp;</span>
-          <span tw="text-b1 text-nego [line-height: 1] font-bold">{danjiListings.length}</span>
+          <span tw="text-b1 [line-height: 1] font-bold">네고가능 매물&nbsp;</span>
+          <span tw="text-b1 text-nego [line-height: 1] font-bold">{totalCount || 0}</span>
         </div>
         <ListingItem>
           {danjiListings.slice(0, 3).map((item, index) => (

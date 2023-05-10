@@ -17,19 +17,33 @@ export default function BasicInfo({ depth, danji }: { depth: number; danji: GetD
     if (!danji?.pnu || !danji.type) return;
 
     if (router.query.listingID) {
-      router.push(Routes.DanjiRecommendation, {
-        searchParams: {
-          listingID: router.query.listingID as string,
-          p: `${danji.pnu}`,
-          rt: danji.type.toString() as string,
-        },
-      });
-    } else {
+      if (depth === 1) {
+        router.push(Routes.DanjiRecommendation, {
+          searchParams: {
+            listingID: router.query.listingID as string,
+            p: `${danji.pnu}`,
+            rt: danji.type.toString() as string,
+          },
+        });
+      } else if (depth === 2) {
+        router.replace(Routes.DanjiRecommendation, {
+          searchParams: {
+            listingID: router.query.listingID as string,
+            p: `${danji.pnu}`,
+            rt: danji.type.toString() as string,
+          },
+        });
+      }
+    } else if (depth === 1) {
       router.push(Routes.DanjiRecommendation, {
         searchParams: { p: `${danji.pnu}`, rt: danji.type.toString() as string },
       });
+    } else if (depth === 2) {
+      router.replace(Routes.DanjiRecommendation, {
+        searchParams: { p: `${danji.pnu}`, rt: danji.type.toString() as string },
+      });
     }
-  }, [danji?.pnu, danji?.type, router]);
+  }, [danji?.pnu, danji?.type, router, depth]);
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -64,7 +78,7 @@ export default function BasicInfo({ depth, danji }: { depth: number; danji: GetD
 
   return (
     <>
-      <div tw="pb-10">
+      <div tw="pb-9">
         <div tw="px-5">
           <div tw="mb-2">
             <span tw="text-h3 font-bold">{danji.name}</span>
@@ -79,12 +93,12 @@ export default function BasicInfo({ depth, danji }: { depth: number; danji: GetD
               <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
             </>
 
-            {danji.jeonyong_min === 0 && danji.jeonyong_max === 0 && (
+            {/* {danji.jeonyong_min === 0 && danji.jeonyong_max === 0 && (
               <>
                 <div tw="w-px h-2 bg-gray-300" />
                 <span tw="text-info text-gray-700">전용 -㎡`</span>
               </>
-            )}
+            )} */}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max === 0 && (
               <>
@@ -114,17 +128,17 @@ export default function BasicInfo({ depth, danji }: { depth: number; danji: GetD
             {danji.construction_start_date?.replaceAll(' ', '') && (
               <>
                 <div tw="w-px h-2 bg-gray-300" />
-                <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')}</span>
+                <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</span>
               </>
             )}
           </div>
 
           <div tw="w-full flex flex-col gap-2">
             <Button variant="secondary" size="medium" tw="w-full" onClick={handleCTA}>
-              원하는 가격의 매물 추천받기
+              네고 매물 추천받기
             </Button>
             <div tw="flex gap-1 justify-center">
-              <span tw="text-info">현재 추천 요청자수</span>
+              <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
               <span tw="text-info font-bold text-nego">{danji.suggest_count || 0}</span>
             </div>
           </div>

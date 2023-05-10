@@ -6,9 +6,10 @@ import { Loading, Separator } from '@/components/atoms';
 import { DanjiDetailSection } from '@/components/organisms';
 import tw from 'twin.macro';
 
-import { useRef, useState, MouseEvent, useEffect, useCallback } from 'react';
-import { useScroll } from '@/hooks/utils';
+import { useRef, useState, MouseEvent, useEffect, useCallback, useMemo } from 'react';
+import { useRouter, useScroll } from '@/hooks/utils';
 
+import Routes from '@/router/routes';
 import DanjiDetailHeader from './Components/DanjiDetailHeader';
 import DanjiPhotoHero from './Components/DanjiPhotoHero';
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export default function DanjiDetail({ depth, danji, isShowTab = true, handleMutateDanji }: Props) {
+  const router = useRouter(depth);
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
@@ -45,6 +47,8 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     infoSection: false,
     facilitiesSection: false,
   });
+
+  const isShowlistingsSection = useMemo(() => router?.query?.depth2 !== Routes.DanjiListings, [router.query]);
 
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0);
@@ -132,9 +136,45 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       observer.observe(realPriceSection);
     }
 
+    return () => {
+      observer.disconnect();
+    };
+  }, [listingsSection, realPriceSection]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setVisibleState((prev) => ({
+            ...prev,
+            [entry.target.id]: entry.isIntersecting,
+          }));
+        });
+      },
+      { rootMargin: '-120px 0px 0px 0px', threshold: 0.5 },
+    );
+
     if (infoSection) {
       observer.observe(infoSection);
     }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [infoSection]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setVisibleState((prev) => ({
+            ...prev,
+            [entry.target.id]: entry.isIntersecting,
+          }));
+        });
+      },
+      { rootMargin: '-120px 0px 0px 0px', threshold: 1 },
+    );
 
     if (facilitiesSection) {
       observer.observe(facilitiesSection);
@@ -143,36 +183,42 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     return () => {
       observer.disconnect();
     };
-  }, [listingsSection, realPriceSection, infoSection, facilitiesSection]);
+  }, [facilitiesSection]);
 
-  // useEffect(() => {
-  //   let i = 0;
+  useEffect(() => {
+    if (!isShowlistingsSection) {
+      setVisibleState((prev) => ({
+        ...prev,
+        listingsSection: false,
+      }));
+    }
+  }, [isShowlistingsSection]);
 
-  //   if (visibleState.listingsSection === true) {
-  //     i = 0;
-  //     setTabIndex(i);
-  //     return;
-  //   }
+  useEffect(() => {
+    let i = 0;
 
-  //   if (visibleState.realPriceSection === true) {
-  //     i = 1;
-  //     setTabIndex(i);
-  //     return;
-  //   }
+    if (visibleState.listingsSection === true) {
+      i = 0;
+      setTabIndex(i);
+      return;
+    }
 
-  //   if (visibleState.infoSection === true) {
-  //     i = 2;
-  //     setTabIndex(i);
-  //     return;
-  //   }
+    if (visibleState.realPriceSection === true) {
+      i = 1;
+      setTabIndex(i);
+      return;
+    }
 
-  //   if (visibleState.facilitiesSection === true) {
-  //     i = 3;
-  //     setTabIndex(i);
-  //   }
+    if (visibleState.infoSection === true) {
+      i = 2;
+      setTabIndex(i);
+    }
 
-  //   setTabIndex(i);
-  // }, [visibleState]);
+    if (visibleState.facilitiesSection === true) {
+      i = 3;
+      setTabIndex(i);
+    }
+  }, [visibleState]);
 
   useEffect(() => {
     if (typeof tabIndex === 'number' && danji) {
@@ -201,7 +247,10 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       <div tw="overflow-y-auto" ref={scrollContainer}>
         <DanjiPhotoHero danji={danji} depth={depth} />
         {isShowTab && (
-          <div id="negocio-danjidetail-tabs" tw="px-3 py-2 sticky bg-white [top: 56px] [z-index: 100]">
+          <div
+            id="negocio-danjidetail-tabs"
+            tw="px-3 py-2 sticky bg-white [top: 56px] [z-index: 100] border-b border-gray-300"
+          >
             <div
               tw="flex flex-row items-center overflow-x-auto gap-2"
               role="presentation"
@@ -211,19 +260,20 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               onMouseUp={onDragEnd}
               onMouseLeave={onDragEnd}
             >
-              <div
-                role="presentation"
-                tw="p-2 whitespace-nowrap cursor-pointer"
-                onClick={() => {
-                  onClickTab(0);
-                  setTabIndex(0);
-                }}
-                ref={(el) => (refs.current[0] = el)}
-              >
-                <span tw="text-b1 font-bold" css={[tabIndex === 0 ? tw`text-gray-1000` : tw`text-gray-600`]}>
-                  단지 매물
-                </span>
-              </div>
+              {isShowlistingsSection && (
+                <div
+                  role="presentation"
+                  tw="p-2 whitespace-nowrap cursor-pointer"
+                  onClick={() => {
+                    onClickTab(0);
+                  }}
+                  ref={(el) => (refs.current[0] = el)}
+                >
+                  <span tw="text-b1 font-bold" css={[tabIndex === 0 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+                    단지 매물
+                  </span>
+                </div>
+              )}
 
               {isShowRpTab && (
                 <div
@@ -231,7 +281,6 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                   tw="p-2 whitespace-nowrap cursor-pointer"
                   onClick={() => {
                     onClickTab(1);
-                    setTabIndex(1);
                   }}
                   ref={(el) => (refs.current[1] = el)}
                 >
@@ -246,7 +295,6 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                 tw="p-2 whitespace-nowrap cursor-pointer"
                 onClick={() => {
                   onClickTab(2);
-                  setTabIndex(2);
                 }}
                 ref={(el) => (refs.current[2] = el)}
               >
@@ -260,7 +308,6 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                 tw="p-2 whitespace-nowrap cursor-pointer"
                 onClick={() => {
                   onClickTab(3);
-                  setTabIndex(3);
                 }}
                 ref={(el) => (refs.current[3] = el)}
               >
@@ -273,16 +320,19 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
         )}
 
         <DanjiDetailSection>
-          <div tw="pt-6" id="listingsSection" ref={setListingsSection}>
-            <DanjiDetailSection.Info danji={danji} depth={depth} />
-            <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
-          </div>
+          {isShowlistingsSection && (
+            <div tw="pt-6" id="listingsSection" ref={setListingsSection}>
+              <DanjiDetailSection.Info danji={danji} depth={depth} />
+              <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
+            </div>
+          )}
 
           <div id="realPriceSection" ref={setRealPriceSection}>
             <DanjiRealpriceContainer
               danji={danji}
               depth={depth}
               isShowRpTab={isShowRpTab}
+              isShowlistingsSection={isShowlistingsSection}
               setLoadingRp={() => {}}
               setIsShowRpTab={setIsShowRpTab}
             />
