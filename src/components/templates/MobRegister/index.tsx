@@ -39,7 +39,7 @@ export default function MobRegister({
         <NavigationHeader.BackButton onClick={onClickBackButton} />
         <NavigationHeader.Title>회원가입</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex-1">
+      <div tw="min-h-0 flex-1 overflow-auto">
         <div>
           <MobRegisterForm.Email value={email} />
         </div>
