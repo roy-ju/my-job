@@ -13,10 +13,6 @@ interface Props {
 export default function DanjiListings({ panelWidth, depth }: Props) {
   const router = useRouter(depth);
 
-  const handleBackButton = () => {
-    router.popLast();
-  };
-
   const [dropDownValue, setDropDownValue] = useState('최신순');
 
   const handleChangeDropDown = (value: string) => {
@@ -41,7 +37,6 @@ export default function DanjiListings({ panelWidth, depth }: Props) {
         totalCount={totalCount}
         dropDownValue={dropDownValue}
         onNext={increamentPageNumber}
-        handleBackButton={handleBackButton}
         handleChangeDropDown={handleChangeDropDown}
       />
     </Panel>
