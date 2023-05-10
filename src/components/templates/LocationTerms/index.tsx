@@ -18,7 +18,7 @@ export default function LocationTerms({ html, termDate, onClickGoBack, onChangeS
         <NavigationHeader.Title>위치기반 서비스 이용약관</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="mt-7 px-5 text-gray-700 text-info">시행일자: {termDate}</div>
-      <div tw="mt-3 px-5" dangerouslySetInnerHTML={{ __html: html }} />
+      <div tw="mt-3 px-5 overflow-y-auto" dangerouslySetInnerHTML={{ __html: html }} />
       <Separator />
       <div tw="min-h-[8px] bg-gray-300 mt-10" />
       <div tw="py-7 px-5">
