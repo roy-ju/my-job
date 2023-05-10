@@ -2,14 +2,13 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiListbySigungu, useAPI_DanjiListbySigunguFirst } from '@/apis/danji/danjiListBySigungu,';
 import { useAPI_SidoList, useAPI_SigunguList } from '@/apis/danji/sidoSigunguCode';
-import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
+import { Button, InfiniteScroll, PersistentBottomBar, Separator } from '@/components/atoms';
 import { Dropdown, NavigationHeader } from '@/components/molecules';
 import { describeRealestateType, RealestateType } from '@/constants/enums';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { convertSidoName, convertSigunguName } from '@/utils/fotmat';
 import { prefixComparison } from '@/utils/prefix';
 import { customAlphabet } from 'nanoid';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { DanjiComparisonItem } from '../DanjiSelect/DanjiComparisonItem';
 import { SelectedDanjiListItem } from '../DanjiSelect/SelectedDanjiListItem';
@@ -73,8 +72,6 @@ const MobDanjiSelect = ({
   const [isLastClick, setIsLastClick] = useState(false);
   const [render, setRender] = useState(false);
 
-  const listEndRef = useRef<HTMLDivElement>(null);
-
   const nanoid = customAlphabet('1234567890abcdef', 10);
 
   const { data: sidoData } = useAPI_SidoList();
@@ -83,7 +80,7 @@ const MobDanjiSelect = ({
     sidoCode: selectedSidoCode,
   });
 
-  const { data, list, setSize } = useAPI_DanjiListbySigungu({
+  const { list, setSize } = useAPI_DanjiListbySigungu({
     pnu: danji?.pnu,
     realestateType: danji?.type ? Number(danji.type) : null,
     realestateType2: selectedRealestateTypeCode || null,
@@ -184,12 +181,8 @@ const MobDanjiSelect = ({
   );
 
   const onIntersect = useCallback(() => {
-    if (data) {
-      setSize((prev) => prev + 1);
-    }
-  }, [data, setSize]);
-
-  useInfiniteScroll(listEndRef, onIntersect);
+    setSize((prev) => prev + 1);
+  }, [setSize]);
 
   useEffect(() => {
     if (danji?.sido_name && danji?.sido_code) {
@@ -383,7 +376,7 @@ const MobDanjiSelect = ({
             </Dropdown.OptionSmall>
           </Dropdown>
         </div>
-        <>
+        <InfiniteScroll tw="pt-1 flex-1 min-h-0 overflow-auto" onNext={onIntersect}>
           {list &&
             list.length > 0 &&
             list.map((item) => (
@@ -394,8 +387,7 @@ const MobDanjiSelect = ({
                 selectedBtn={selectedFilterValue}
               />
             ))}
-          <div ref={listEndRef} style={{ minHeight: '1px' }} />
-        </>
+        </InfiniteScroll>
       </div>
 
       <PersistentBottomBar>
