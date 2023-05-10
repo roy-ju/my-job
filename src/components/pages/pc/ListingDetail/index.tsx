@@ -46,6 +46,17 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
 
   const [popup, setPopup] = useState('none');
 
+  useEffect(() => {
+    if (data?.listing?.lat && data?.listing?.long) {
+      console.log('move to the position');
+
+      console.log({
+        lat: data.listing.lat,
+        lng: data.listing.long,
+      });
+    }
+  }, [data]);
+
   const handleClickMoreItem = useCallback(
     (_: number, buttonTitle: string) => {
       if (buttonTitle === '매물관리') {
