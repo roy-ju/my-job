@@ -3,6 +3,7 @@ import { ChangeEventHandler, useCallback, useMemo, useRef } from 'react';
 import { Button } from '@/components/atoms';
 import PlusIcon from '@/assets/icons/plus.svg';
 import CloseIcon from '@/assets/icons/close.svg';
+import { toast } from 'react-toastify';
 
 interface Props {
   urls?: string[];
@@ -25,6 +26,18 @@ export default function Photos({ urls, onChange }: Props) {
 
   const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     async (e) => {
+      let validated = true;
+      Array.from(e.target.files ?? []).forEach((item) => {
+        const ext = item.name.split('.').pop();
+        if (!ext || !['png', 'jpg', 'jpeg'].includes(ext)) {
+          validated = false;
+        }
+      });
+      if (!validated) {
+        toast.error('png, jpg, jpeg 확장자만 업로드 가능합니다.');
+        return;
+      }
+
       const fileUrls = Array.from(e.target.files ?? []).map((item) => URL.createObjectURL(item));
       const newValues = [...values, ...fileUrls];
       setValues(newValues);
@@ -50,7 +63,7 @@ export default function Photos({ urls, onChange }: Props) {
         ref={inputRef}
         type="file"
         multiple
-        accept="image/png, image/jpg, image/jpeg .png .jpg .jpeg"
+        accept="image/png, image/jpg, image/jpeg"
         onChange={handleChange}
       />
       <div tw="flex flex-col gap-4">
