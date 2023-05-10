@@ -18,6 +18,7 @@ import getListingSummary from '@/apis/map/mapListingSummary';
 import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
+import { toast } from 'react-toastify';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -732,41 +733,21 @@ export default function useMapLayout() {
     }
   }, [filter.buyOrRents]);
 
-  // useEffect(() => {
-  //   if (lastSearchItem !== null && markers.length > 0) {
-  //     const searchedMarker = markers.find(
-  //       (marker) =>
-  //         marker.jibunAddress === lastSearchItem.addressName ||
-  //         marker.roadNameAddress === lastSearchItem.roadAddressName,
-  //     );
-  //     if (searchedMarker && searchedMarker.pnu) {
-  //       getDanjiSummary({
-  //         pnu: searchedMarker.pnu,
-  //         buyOrRent: mapFilter.buyOrRents,
-  //         danjiRealestateType: item.danji_realestate_type,
-  //       }).then((summary) => {
-  //         setSelectedDanjiSummary({
-  //           id: `${item.pnu}${item.danji_realestate_type}`,
-  //           name: summary?.string ?? '',
-  //           householdCount: summary?.saedae_count ?? 0,
-  //           buyListingCount: summary?.buy_listing_count ?? 0,
-  //           rentListingCount: summary?.rent_listing_count ?? 0,
-  //         });
-  //       });
-  //     }
-  //   }
-  // }, [lastSearchItem, markers]);
-
   // Map Control Handlers
 
   const morphToCurrentLocation = useCallback(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
-      const latlng = { lat: coords.latitude, lng: coords.longitude };
-      localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-      setCurrentLocation({ lat: coords.latitude, lng: coords.longitude });
-      map?.morph(latlng, DEFAULT_ZOOM);
-    });
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
+        const latlng = { lat: coords.latitude, lng: coords.longitude };
+        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+        setCurrentLocation({ lat: coords.latitude, lng: coords.longitude });
+        map?.morph(latlng, DEFAULT_ZOOM);
+      },
+      () => {
+        toast.error('위치 접근 권한을 허용해 주세요.');
+      },
+    );
   }, [map]);
 
   const zoomIn = useCallback(() => {

@@ -66,11 +66,6 @@ export default function useNotificationList(depth: number) {
       if (response === null) return;
       const url = response?.data?.url;
       nextRouter.replace(url);
-
-      //    router.replace(url);
-      // const url = new URL(window.location.toString());
-      // console.log(url.pathname + url.search);
-      // nextRouter.replace('/notifications/listingDetail?listingID=3070');
     },
     [nextRouter],
   );
