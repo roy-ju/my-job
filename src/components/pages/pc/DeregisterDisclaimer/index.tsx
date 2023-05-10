@@ -43,7 +43,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     const deregistered = await deregister(deregisterReasons);
     localStorage.removeItem(Keys.ACCESS_TOKEN);
     if (deregistered) {
-      await mutate(() => true, undefined);
+      await mutate((key) => key !== '/my/user/deregister/status');
+
       await router.popAll();
     } else {
       toast.error('Cannot deregister');
