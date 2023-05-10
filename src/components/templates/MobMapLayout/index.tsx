@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable consistent-return */
 import { ChangeEventHandler, ReactNode, useEffect, useState } from 'react';
 import {
@@ -241,7 +242,7 @@ function MobLayoutMapContainer({
       )}
 
       {selectedDanjiSummary && <MobDanjiSummary selectedDanjiSummary={selectedDanjiSummary} />}
-      {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />}
+      {/* {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />} */}
 
       <MobGlobalNavigation index={2} />
     </div>
