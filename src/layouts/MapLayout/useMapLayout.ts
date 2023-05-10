@@ -20,6 +20,7 @@ import Routes from '@/router/routes';
 import useRecentSearches from '@/hooks/services/useRecentSearches';
 import { v1 } from 'uuid';
 import { toast } from 'react-toastify';
+import { RealestateType } from '@/constants/enums';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -392,6 +393,13 @@ export default function useMapLayout() {
         } = {};
 
         danjis?.map((item) => {
+          if (
+            item.danji_realestate_type === RealestateType.Officetel &&
+            danjiMap[`${item.pnu}${RealestateType.Apartment}`]
+          ) {
+            item.long += 0.00035;
+          }
+
           danjiMap[`${item.pnu}${item.danji_realestate_type}`] = {
             id: `${item.pnu}${item.danji_realestate_type}`,
             variant,
