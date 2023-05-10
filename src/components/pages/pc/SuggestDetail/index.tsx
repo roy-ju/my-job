@@ -24,7 +24,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   const popupData = useRef(0);
 
   const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
-  const { data: recommendData, count, mutate } = useAPI_GetMySuggestRecommends(suggestID);
+  const { data: recommendData, count, mutate, increamentPageNumber } = useAPI_GetMySuggestRecommends(suggestID);
 
   const handleClickChat = useCallback(
     (id: number) => {
@@ -89,6 +89,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         onClickRecommendAccept={openAcceptRecommendPopup}
         onClickChat={handleClickChat}
         onClickNewRecommendations={handleNaviagteToSuggestRegionalForm}
+        onNextListingRecommentList={increamentPageNumber}
       />
       {popup === 'notInterested' && (
         <OverlayPresenter>
