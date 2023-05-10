@@ -1,9 +1,10 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
 import { Button } from '@/components/atoms';
+import { Dropdown } from '@/components/molecules';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -15,11 +16,18 @@ export default function ActiveListingInfo({
   danji?: GetDanjiDetailResponse;
   setLoadingListing: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [dropDownValue, setDropDownValue] = useState('최신순');
+
   const router = useRouter(depth);
 
-  const { data: danjiListings, isLoading } = useAPI_GetDanjiListingsList({
+  const {
+    data: danjiListings,
+    isLoading,
+    totalCount,
+  } = useAPI_GetDanjiListingsList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
+    orderBy: dropDownValue === '최신순' ? 1 : 2,
     pageSize: 4,
   });
 
@@ -57,14 +65,27 @@ export default function ActiveListingInfo({
   }, [isLoading, setLoadingListing]);
 
   if (!danjiListings) return null;
+
   if (danjiListings && danjiListings.length === 0) return null;
 
   return (
     <div tw="pb-8">
       <div>
-        <div tw="flex mb-2 px-5">
+        <div tw="flex mb-2 px-5 items-center">
           <span tw="text-b1 [line-height: 1.5] font-bold">네고가능 매물&nbsp;</span>
-          <span tw="text-b1 text-nego [line-height: 1.5] font-bold">{danjiListings.length}</span>
+          <span tw="text-b1 text-nego [line-height: 1.5] font-bold">{totalCount || 0}</span>
+          <Dropdown
+            size="small"
+            variant="outlined"
+            tw="min-w-0 ml-auto"
+            value={dropDownValue}
+            onChange={(v) => {
+              setDropDownValue(v);
+            }}
+          >
+            <Dropdown.Option value="최신순">최신순</Dropdown.Option>
+            <Dropdown.Option value="가격순">가격순</Dropdown.Option>
+          </Dropdown>
         </div>
         <ListingItem>
           {danjiListings.slice(0, 3).map((item, index) => (

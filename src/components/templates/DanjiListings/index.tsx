@@ -1,7 +1,7 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
 import { InfiniteScroll } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
+import { Dropdown, NavigationHeader } from '@/components/molecules';
 import { DanjiDetailSection, ListingItem } from '@/components/organisms';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -10,14 +10,20 @@ export default function DanjiListings({
   depth,
   danji,
   data,
+  totalCount,
+  dropDownValue,
   onNext,
   handleBackButton,
+  handleChangeDropDown,
 }: {
   depth: number;
   danji?: GetDanjiDetailResponse;
   data?: GetDanjiListingsResponse['list'];
+  totalCount: number;
+  dropDownValue: string;
   onNext?: () => void;
   handleBackButton?: () => void;
+  handleChangeDropDown: (value: string) => void;
 }) {
   const router = useRouter(1);
 
@@ -40,7 +46,20 @@ export default function DanjiListings({
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="flex mb-2 px-5">
           <span tw="text-b1 [line-height: 1.5] font-bold">네고가능 매물&nbsp;</span>
-          <span tw="text-b1 text-nego [line-height: 1.5] font-bold">{data?.length || 0}</span>
+          <span tw="text-b1 text-nego [line-height: 1.5] font-bold">{totalCount || 0}</span>
+
+          <Dropdown
+            size="small"
+            variant="outlined"
+            tw="min-w-0 ml-auto"
+            value={dropDownValue}
+            onChange={(v) => {
+              handleChangeDropDown(v);
+            }}
+          >
+            <Dropdown.Option value="최신순">최신순</Dropdown.Option>
+            <Dropdown.Option value="가격순">가격순</Dropdown.Option>
+          </Dropdown>
         </div>
         <InfiniteScroll tw="pt-1 flex-1 min-h-0 overflow-auto" onNext={onNext}>
           {data &&

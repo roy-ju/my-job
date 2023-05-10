@@ -2,28 +2,30 @@ import { useCallback, useMemo } from 'react';
 import useSWRInfinite from 'swr/infinite';
 
 export type DanjiListingsListItem = {
-  listing_id: number
-  listing_title: string
-  buy_or_rent: number
-  is_participating: boolean
-  trade_or_deposit_price: number
-  monthly_rent_fee: number
-  jeonyong_area: string
-  floor_description: string
-  total_floor: string
-  direction: string
-  quick_sale: boolean
-  view_count: number
-  participants_count: number
+  listing_id: number;
+  listing_title: string;
+  buy_or_rent: number;
+  is_participating: boolean;
+  trade_or_deposit_price: number;
+  monthly_rent_fee: number;
+  jeonyong_area: string;
+  floor_description: string;
+  total_floor: string;
+  direction: string;
+  quick_sale: boolean;
+  view_count: number;
+  participants_count: number;
 };
 
 export type GetDanjiListingsResponse = {
   list: DanjiListingsListItem[];
+  total_count: number;
 };
 
 function getKey(
   pnu: string | null | undefined,
   realestateType: number | null | undefined,
+  orderBy: number,
   pageSize: number,
   pageIndex: number,
   previousPageData: GetDanjiListingsResponse | null,
@@ -39,6 +41,7 @@ function getKey(
     {
       pnu,
       realestate_type: realestateType,
+      order_by: orderBy,
       page_size: pageSize,
       page_number: pageIndex + 1,
     },
@@ -50,20 +53,23 @@ function getKey(
 export function useAPI_GetDanjiListingsList({
   pnu,
   realestateType,
+  orderBy,
   pageSize,
 }: {
   pnu: string | null | undefined;
   realestateType: number | null | undefined;
+  orderBy: number;
   pageSize: number;
 }) {
   const {
     data: dataList,
+
     isLoading,
     size,
     setSize,
     mutate,
   } = useSWRInfinite<GetDanjiListingsResponse>(
-    (pageIndex, previousPageData) => getKey(pnu, realestateType, pageSize, pageIndex, previousPageData),
+    (pageIndex, previousPageData) => getKey(pnu, realestateType, orderBy, pageSize, pageIndex, previousPageData),
     null,
     {
       revalidateFirstPage: false,
@@ -85,10 +91,11 @@ export function useAPI_GetDanjiListingsList({
   }, [dataList]);
 
   return {
-    data,
     isLoading,
-    increamentPageNumber,
+    data,
+    totalCount: dataList ? (dataList[0] ? dataList[0].total_count : 0) : 0,
     size,
+    increamentPageNumber,
     setSize,
     mutate,
   };

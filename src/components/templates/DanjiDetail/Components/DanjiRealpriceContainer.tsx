@@ -18,12 +18,13 @@ type Props = {
   depth: number;
   danji?: GetDanjiDetailResponse;
   isShowRpTab: boolean;
+  isShowlistingsSection: boolean;
   setLoadingRp: Dispatch<SetStateAction<boolean>>;
   setIsShowRpTab: Dispatch<SetStateAction<boolean>>;
 };
 
 const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { depth, danji, isShowRpTab, setLoadingRp, setIsShowRpTab } = props;
+  const { depth, danji, isShowRpTab, isShowlistingsSection, setLoadingRp, setIsShowRpTab } = props;
   const [isMutate, setIsMutate] = useState(false);
 
   const [buyOrRent, setBuyOrRent] = useState<number>();
@@ -131,7 +132,7 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
 
   return (
     <div id="negocio-danjidetail-rp" ref={ref}>
-      <Separator tw="w-full [min-height: 8px]" />
+      {isShowlistingsSection && <Separator tw="w-full [min-height: 8px]" />}
       <div tw="pt-10">
         <DanjiDetailSection.RealPriceInfo
           depth={depth}
