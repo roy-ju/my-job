@@ -14,7 +14,7 @@ export default function MobRegisterSuccess({ onClickVerifyCi, onClickLeave }: Re
         본인인증하기
       </Button>
       <Button variant="outlined" size="bigger" onClick={onClickLeave}>
-        우선 네고시오를 둘러볼게요
+        둘러보기
       </Button>
     </div>
   );

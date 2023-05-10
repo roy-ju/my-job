@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface KakaoAddressAutocompleteResponseItem {
-  id?: string;
+  id: string;
   addressName: string;
   categoryName: string;
   placeName: string;

@@ -32,6 +32,8 @@ function MapWrapper({
     handleChangeMapToggleValue,
     handleChangePriceType,
     handleCloseStreetView,
+    clearRecentSearches,
+    removeRecentSearch,
     mapType,
     mapLayer,
     schoolType,
@@ -46,6 +48,7 @@ function MapWrapper({
     selectedSchoolID,
     priceType,
     streetViewEvent,
+    recentSearches,
     ...props
   } = useMapLayout();
 
@@ -70,6 +73,7 @@ function MapWrapper({
   return (
     <>
       <Layout.MapContainer
+        recentSearches={recentSearches}
         mapLayer={mapLayer}
         mapType={mapType}
         schoolType={schoolType}
@@ -98,6 +102,8 @@ function MapWrapper({
         onClickListingCreateAddress={handleClickListingCreateAddress}
         onClickAgentSite={handleClickAgentSite}
         onTogglepanelsVisibility={onTogglePanelsVisibility}
+        onClickRemoveAllRecentSearches={clearRecentSearches}
+        onClickRemoveRecentSearch={removeRecentSearch}
       >
         <Map {...props}>
           <Markers

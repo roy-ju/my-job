@@ -5,14 +5,26 @@ import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoA
 import { useControlled } from '@/hooks/utils';
 import { ChangeEvent, ChangeEventHandler, FormEventHandler, useCallback } from 'react';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
+import { Button } from '@/components/atoms';
+import CloseIcon from '@/assets/icons/close.svg';
 
 interface MapSearchTextFieldProps {
   value?: string;
+  recentSearches?: KakaoAddressAutocompleteResponseItem[];
   onChange?: (value: string) => void;
-  onSubmit?: (value: KakaoAddressAutocompleteResponseItem) => void;
+  onSubmit?: (value: KakaoAddressAutocompleteResponseItem, isFromRecentSearch: boolean) => void;
+  onClickRemoveAllRecentSearches?: () => void;
+  onClickRemoveRecentSearch?: (id: string) => void;
 }
 
-export default function MapSearchTextField({ value: valueProp, onSubmit, onChange }: MapSearchTextFieldProps) {
+export default function MapSearchTextField({
+  value: valueProp,
+  recentSearches,
+  onSubmit,
+  onChange,
+  onClickRemoveAllRecentSearches,
+  onClickRemoveRecentSearch,
+}: MapSearchTextFieldProps) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: '',
@@ -41,11 +53,65 @@ export default function MapSearchTextField({ value: valueProp, onSubmit, onChang
     (e) => {
       e.preventDefault();
       if (results && results.length > 0) {
-        onSubmit?.(results[0]);
+        onSubmit?.(results[0], false);
       }
     },
     [results, onSubmit],
   );
+
+  const renderRecentSearches = () => {
+    if (!recentSearches?.length) {
+      return (
+        <div tw="px-4 py-4">
+          <p tw="text-b2 text-gray-1000 leading-none">최근 검색 기록이 없습니다.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div tw="pt-4">
+        <div tw="flex items-center justify-between px-4">
+          <span tw="text-b2 font-bold">최근 검색</span>
+          <Button
+            size="none"
+            variant="ghost"
+            tw="underline text-gray-700 text-info"
+            onClick={onClickRemoveAllRecentSearches}
+          >
+            전체삭제
+          </Button>
+        </div>
+        <div tw="flex flex-col py-2 mt-2 w-full">
+          {recentSearches?.map((item) => (
+            <Autocomplete.Option
+              key={item.id}
+              value={item.placeName}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSubmit?.(item, true);
+              }}
+              tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
+            >
+              <div tw="flex items-center justify-between">
+                <span tw="text-b2 text-gray-1000">{item.placeName || item.roadAddressName || item.addressName}</span>
+                <span
+                  role="presentation"
+                  tw="text-gray-700"
+                  onClick={(e) => {
+                    e?.stopPropagation();
+                    onClickRemoveRecentSearch?.(item.id);
+                  }}
+                >
+                  <CloseIcon />
+                </span>
+              </div>
+              {item.placeName && <div tw="text-info text-gray-700">{item.roadAddressName || item.addressName}</div>}
+            </Autocomplete.Option>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <form onSubmit={handleSubmit} tw="shadow rounded-lg">
@@ -72,11 +138,7 @@ export default function MapSearchTextField({ value: valueProp, onSubmit, onChang
         </TextField>
         <Autocomplete.Popper>
           <div tw="flex flex-col py-2 mt-2 w-full max-h-[600px] bg-white shadow rounded-lg overflow-y-auto">
-            {value.length < 1 && results.length < 1 && (
-              <div tw="px-4 py-4">
-                <p tw="text-b2 text-gray-1000 leading-none">최근 검색 기록이 없습니다.</p>
-              </div>
-            )}
+            {value.length < 1 && results.length < 1 && renderRecentSearches()}
 
             {value.length > 0 && results.length < 1 && (
               <div tw="px-4 py-4">
@@ -89,7 +151,7 @@ export default function MapSearchTextField({ value: valueProp, onSubmit, onChang
               <Autocomplete.Option
                 key={result.id}
                 value={result.placeName}
-                onClick={() => onSubmit?.(result)}
+                onClick={() => onSubmit?.(result, false)}
                 tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
               >
                 <div tw="flex items-center justify-between">
