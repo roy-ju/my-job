@@ -6,6 +6,11 @@ export default {
   component: GlobalHambergerMenu,
 } as ComponentMeta<typeof GlobalHambergerMenu>;
 
-export const Default: ComponentStory<typeof GlobalHambergerMenu> = () => <GlobalHambergerMenu />;
+export const Default: ComponentStory<typeof GlobalHambergerMenu> = () => (
+  <div tw="w-32">
+    <h1 tw="text-center">↓ Click!</h1>
+    <GlobalHambergerMenu />
+  </div>
+);
 
 Default.args = {};
