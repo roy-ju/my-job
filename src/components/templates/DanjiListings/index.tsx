@@ -25,10 +25,11 @@ export default function DanjiListings({
   handleBackButton?: () => void;
   handleChangeDropDown: (value: string) => void;
 }) {
-  const router = useRouter(1);
+  const router = useRouter(depth);
 
   const handleClickListingDetail = (id: number) => {
-    router.replace(Routes.ListingDetail, { searchParams: { listingID: `${id}` } });
+    // console.log(id);
+    router.push(Routes.ListingDetail, { persistParams: true, searchParams: { listingID: `${id}` } });
   };
 
   if (!danji) return null;
@@ -36,7 +37,7 @@ export default function DanjiListings({
   return (
     <div tw="flex flex-col relative h-full">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={handleBackButton} />
+        {handleBackButton && <NavigationHeader.BackButton onClick={handleBackButton} />}
         <NavigationHeader.Title>단지 매물 목록</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="[min-height: 24px]" />
@@ -74,10 +75,7 @@ export default function DanjiListings({
                 item={item}
                 isLast={data.length - 1 === index}
                 onClick={() => {
-                  router.popAll();
-                  setTimeout(() => {
-                    handleClickListingDetail(item.listing_id);
-                  }, 200);
+                  handleClickListingDetail(item.listing_id);
                 }}
               />
             ))}
