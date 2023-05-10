@@ -688,6 +688,9 @@ export default function useMapLayout() {
         updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
       } else {
         toast.error('지도를 확대하여 학교마커를 확인하세요.', { toastId: 'schoolMarkerError' });
+        setSchoolMarkers([]);
+        setPolygons([]);
+        setSelectedSchoolID('');
       }
     } else if (schoolType === 'none') {
       setSchoolMarkers([]);
