@@ -126,7 +126,7 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToSuggestRegional = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/$${Routes.SuggestRegionalForm}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
   }, [router]);
 
   const openSuggestNotInterstedPopup = useCallback(() => {

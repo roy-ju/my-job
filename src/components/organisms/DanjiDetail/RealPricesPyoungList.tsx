@@ -1,10 +1,10 @@
 import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
 import { Button, Checkbox } from '@/components/atoms';
 import { BuyOrRent } from '@/constants/enums';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+// import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { cuttingDot } from '@/utils/fotmat';
-import { LayoutGroup, motion } from 'framer-motion';
-import { useMemo, useRef, useState, MouseEvent, TouchEvent } from 'react';
+// import { LayoutGroup, motion } from 'framer-motion';
+import { useMemo, useRef, useState, MouseEvent, TouchEvent, useEffect } from 'react';
 import { Wrraper } from './ButtonWrraper';
 
 export default function RealPricesPyoungList({
@@ -53,6 +53,7 @@ export default function RealPricesPyoungList({
       !onChangeSelectedJeonyongAreaMax
     )
       return;
+
     onChangeSelectedIndex(index);
     onChangeSelectedArea(value.gonggeup_pyoung.toString());
     onChangeSelectedJeonyongArea(value.min_jeonyong.toString());
@@ -123,24 +124,43 @@ export default function RealPricesPyoungList({
     return false;
   }, [buyOrRent]);
 
-  useIsomorphicLayoutEffect(() => {
+  // useIsomorphicLayoutEffect(() => {
+  //   if (isDrag) return;
+
+  //   if (typeof selectedIndex === 'number' && selectedIndex >= 0) {
+  //     const selectedElement = refs.current[selectedIndex];
+
+  //     if (scrollRef.current && selectedElement) {
+  //       const scrollContainerLeft = scrollRef.current.getBoundingClientRect().left;
+  //       const scrollContainerWidth = scrollRef.current.offsetWidth;
+  //       const selectedElementLeft = selectedElement.getBoundingClientRect().left;
+  //       const selectedElementWidth = selectedElement.offsetWidth;
+
+  //       const scrollLeft =
+  //         selectedElementLeft -
+  //         scrollContainerLeft -
+  //         scrollContainerWidth / 2 +
+  //         selectedElementWidth / 2 -
+  //         window.innerWidth / 2;
+
+  //       scrollRef.current.scrollTo({
+  //         left: scrollLeft,
+  //         behavior: 'smooth',
+  //       });
+  //     }
+  //   }
+  // }, [selectedIndex]);
+
+  useEffect(() => {
     if (typeof selectedIndex === 'number' && selectedIndex >= 0) {
       const selectedElement = refs.current[selectedIndex];
 
       if (scrollRef.current && selectedElement) {
-        const scrollContainerLeft = scrollRef.current.getBoundingClientRect().left;
-        const selectedElementLeft = selectedElement.getBoundingClientRect().left;
+        const { offsetLeft } = scrollRef.current;
+        const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
 
-        const scrollLeft =
-          selectedElementLeft -
-          scrollContainerLeft -
-          scrollRef.current.offsetWidth / 2 +
-          selectedElement.offsetWidth / 2;
-
-        scrollRef.current.scrollTo({
-          left: scrollLeft,
-          behavior: 'smooth',
-        });
+        scrollRef.current.scrollLeft =
+          childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
       }
     }
   }, [selectedIndex]);
@@ -167,46 +187,46 @@ export default function RealPricesPyoungList({
         onTouchEnd={onTouchEnd}
       >
         {danjiRealPricesPyoungList.map((item, index) => (
-          <LayoutGroup key={item.avg_jeonyong}>
-            <div tw="relative flex-1" key={item.avg_jeonyong}>
-              {item.gonggeup_pyoung.toString() === selectedArea?.toString() ? (
-                <Button
-                  ref={(element) => {
-                    refs.current[index] = element;
-                  }}
-                  variant="ghost"
-                  tw="relative z-20 [min-width: 4.375rem] h-9 font-bold text-gray-1000 whitespace-nowrap"
-                  key={item.avg_jeonyong}
-                  value={item.gonggeup_pyoung.toString()}
-                  onClick={() => {
-                    handleClick(item, index);
-                  }}
-                >
-                  {item.gonggeup_pyoung}평
-                </Button>
-              ) : (
-                <Button
-                  ref={(element) => {
-                    refs.current[index] = element;
-                  }}
-                  variant="ghost"
-                  tw="relative z-20 [min-width: 4.375rem] h-9 text-gray-700 whitespace-nowrap"
-                  key={item.avg_jeonyong}
-                  value={item.gonggeup_pyoung.toString()}
-                  onClick={() => {
-                    handleClick(item, index);
-                  }}
-                >
-                  {item.gonggeup_pyoung}평
-                </Button>
-              )}
-              {item.gonggeup_pyoung.toString() === selectedArea?.toString() && (
-                <motion.div layoutId="indicator" tw="absolute left-0 top-0 pointer-events-none z-10">
+          // <LayoutGroup key={item.avg_jeonyong}>
+          <div key={item.avg_jeonyong}>
+            {item.gonggeup_pyoung.toString() === selectedArea?.toString() ? (
+              <Button
+                ref={(element) => {
+                  refs.current[index] = element;
+                }}
+                variant="ghost"
+                tw="relative z-20 [min-width: 4.375rem] h-9 font-bold text-gray-1000 whitespace-nowrap bg-white"
+                // key={item.avg_jeonyong}
+                value={item.gonggeup_pyoung.toString()}
+                onClick={() => {
+                  handleClick(item, index);
+                }}
+              >
+                {item.gonggeup_pyoung}평
+              </Button>
+            ) : (
+              <Button
+                ref={(element) => {
+                  refs.current[index] = element;
+                }}
+                variant="ghost"
+                tw="relative z-20 [min-width: 4.375rem] h-9 text-gray-700 whitespace-nowrap"
+                // key={item.avg_jeonyong}
+                value={item.gonggeup_pyoung.toString()}
+                onClick={() => {
+                  handleClick(item, index);
+                }}
+              >
+                {item.gonggeup_pyoung}평
+              </Button>
+            )}
+            {/* {item.gonggeup_pyoung.toString() === selectedArea?.toString() && (
+                <motion.div layoutId="mob-indicator" tw="absolute left-0 top-0 pointer-events-none z-10">
                   <div tw="w-full h-full [min-width: 4.375rem] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] " />
                 </motion.div>
-              )}
-            </div>
-          </LayoutGroup>
+              )} */}
+          </div>
+          // </LayoutGroup>
         ))}
       </Wrraper>
       <div tw="flex justify-center items-center gap-2 bg-gray-100 mt-4 py-[9px] [border-radius: 0.5rem]">
