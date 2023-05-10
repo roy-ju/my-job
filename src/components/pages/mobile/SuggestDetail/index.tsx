@@ -19,7 +19,7 @@ export default memo(() => {
   const popupData = useRef(0);
 
   const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
-  const { data: recommendData, count, mutate } = useAPI_GetMySuggestRecommends(suggestID);
+  const { data: recommendData, count, mutate, increamentPageNumber } = useAPI_GetMySuggestRecommends(suggestID);
 
   const handleClickChat = useCallback(
     (id: number) => {
@@ -82,6 +82,7 @@ export default memo(() => {
         onClickNotInterested={openNotInterestedPopup}
         onClickRecommendAccept={openAcceptRecommendPopup}
         onClickChat={handleClickChat}
+        onNextListingRecommentList={increamentPageNumber}
       />
       {popup === 'notInterested' && (
         <OverlayPresenter>
