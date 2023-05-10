@@ -1,10 +1,11 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
 import { Button } from '@/components/atoms';
+import { Dropdown } from '@/components/molecules';
 
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -14,6 +15,8 @@ export default function ActiveListingInfo({
   danji?: GetDanjiDetailResponse;
   setLoadingListing: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [dropDownValue, setDropDownValue] = useState('최신순');
+
   const router = useRouter();
 
   const {
@@ -23,7 +26,7 @@ export default function ActiveListingInfo({
   } = useAPI_GetDanjiListingsList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
-    orderBy: 1,
+    orderBy: dropDownValue === '최신순' ? 1 : 2,
     pageSize: 4,
   });
 
@@ -72,6 +75,22 @@ export default function ActiveListingInfo({
         <div tw="flex mb-2 px-5">
           <span tw="text-b1 [line-height: 1] font-bold">네고가능 매물&nbsp;</span>
           <span tw="text-b1 text-nego [line-height: 1] font-bold">{totalCount || 0}</span>
+          <Dropdown
+            size="small"
+            variant="outlined"
+            tw="[width: 92px] min-w-0 ml-auto"
+            value={dropDownValue}
+            onChange={(v) => {
+              setDropDownValue(v);
+            }}
+          >
+            <Dropdown.Option tw="[width: 92px]" value="최신순">
+              최신순
+            </Dropdown.Option>
+            <Dropdown.Option tw="[width: 92px]" value="가격순">
+              가격순
+            </Dropdown.Option>
+          </Dropdown>
         </div>
         <ListingItem>
           {danjiListings.slice(0, 3).map((item, index) => (

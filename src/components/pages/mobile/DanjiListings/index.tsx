@@ -2,7 +2,8 @@ import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
 import { MobileContainer } from '@/components/atoms';
 import { MobDanjiListings } from '@/components/templates';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
+import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 export default function DanjiListings() {
   const router = useRouter();
@@ -11,10 +12,18 @@ export default function DanjiListings() {
     router.back();
   };
 
+  const [dropDownValue, setDropDownValue] = useState('최신순');
+
+  const handleChangeDropDown = (value: string) => {
+    setDropDownValue(value);
+  };
+
+  const { danji } = useDanjiDetail();
+
   const { totalCount, data, increamentPageNumber } = useAPI_GetDanjiListingsList({
     pnu: router?.query?.p ? (router.query.p as string) : undefined,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
-    orderBy: 1,
+    orderBy: dropDownValue === '최신순' ? 1 : 2,
     pageSize: 10,
   });
 
@@ -22,9 +31,12 @@ export default function DanjiListings() {
     <MobileContainer>
       <MobDanjiListings
         totalCount={totalCount}
+        danji={danji}
         data={data}
+        dropDownValue={dropDownValue}
         onNext={increamentPageNumber}
         handleBackButton={handleBackButton}
+        handleChangeDropDown={handleChangeDropDown}
       />
     </MobileContainer>
   );
