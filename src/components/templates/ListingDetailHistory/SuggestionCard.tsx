@@ -133,7 +133,6 @@ export default function SuggestionCard({
           )}
         </Table.Body>
       </StyledTable>
-      <span tw="border-t border-gray-300 absolute left-0 right-0 mt-7" />
     </>
   );
 }
