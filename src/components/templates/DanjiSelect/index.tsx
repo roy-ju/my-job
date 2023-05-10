@@ -72,6 +72,7 @@ export default function DanjiSelect({
   const [selectedRealestateTypeCode, setSelectedRealestateTypeCode] = useState<number>();
   const [comparisonList, setComparisonList] = useState<ComparisonList>([]);
   const [isLastClick, setIsLastClick] = useState(false);
+  const [render, setRender] = useState(false);
 
   const listEndRef = useRef<HTMLDivElement>(null);
 
@@ -231,7 +232,7 @@ export default function DanjiSelect({
       }));
       setComparisonList(danjiListWithColorCode);
     }
-  }, [danjiListFirstLoading, isLastClick]);
+  }, [danjiListFirstLoading, isLastClick, render]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -245,6 +246,10 @@ export default function DanjiSelect({
     }, 100);
 
     return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    setRender(true);
   }, []);
 
   if (!danji || !selectedValue) return null;

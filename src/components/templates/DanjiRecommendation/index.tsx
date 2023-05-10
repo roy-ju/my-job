@@ -325,6 +325,7 @@ export const LiveOrInvestmentField = ({
             variant="outlined"
             tw="flex-1 min-w-0"
             placeholder="날짜"
+            minDate={new Date()}
             value={moveInDate}
             onChange={(v) => onChangeMoveInDate?.(v)}
           />
@@ -349,6 +350,7 @@ export const LiveOrInvestmentField = ({
             variant="outlined"
             tw="flex-1 min-w-0"
             placeholder="날짜"
+            minDate={new Date()}
             value={remainingAmountPaymentTime}
             onChange={(v) => onChangeRemainingAmountPaymentTime?.(v)}
           />

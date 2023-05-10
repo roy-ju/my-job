@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
 import { InfiniteScroll } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
@@ -5,10 +6,12 @@ import { ListingItem } from '@/components/organisms';
 
 export default function MobDanjiListings({
   data,
+  totalCount,
   onNext,
   handleBackButton,
 }: {
   data?: GetDanjiListingsResponse['list'];
+  totalCount: number;
   onNext?: () => void;
   handleBackButton?: () => void;
 }) {
