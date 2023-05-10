@@ -28,7 +28,9 @@ export default function TypeOne({
       >
         {item.is_participating && (
           <div tw="mb-2">
-            <Chip tw="bg-green-1100 text-white">참여중</Chip>
+            <Chip tw="bg-green-1100 text-white [border-top-left-radius: 4px ] [border-top-right-radius: 0px] [border-bottom-left-radius: 0px] [border-bottom-right-radius: 4px] ">
+              제안중
+            </Chip>
           </div>
         )}
         <div tw="flex items-center">
@@ -54,21 +56,18 @@ export default function TypeOne({
           <span tw="text-info">{item.listing_title}</span>
         </div>
 
-        <div tw="flex items-center justify-between">
+        <div tw="w-full flex items-center justify-between">
           <div tw="flex items-center gap-1">
             <span tw="text-gray-700 text-info">전용 {cuttingDot(Number(item.jeonyong_area)) || '-'}㎡</span>
-
             <div tw="w-px h-2 bg-gray-300" />
-
             <span tw="text-gray-700 text-info">
               {item.floor_description.slice(0, 1) || '-'}/{item.total_floor}층
             </span>
-
             <div tw="w-px h-2 bg-gray-300" />
-
             <span tw="text-gray-700 text-info">{item.direction}</span>
           </div>
-          <div tw="flex items-center gap-3">
+
+          <div tw="flex items-center gap-3 ml-auto">
             <div tw="flex items-center gap-1">
               <View />
               <span tw="text-info text-gray-700">{item.view_count}</span>

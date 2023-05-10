@@ -3,6 +3,7 @@ import { Panel } from '@/components/atoms';
 import { DanjiListings as DanjiListingsTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import React from 'react';
+import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 interface Props {
   depth: number;
@@ -16,6 +17,8 @@ export default function DanjiListings({ panelWidth, depth }: Props) {
     router.popLast();
   };
 
+  const { danji } = useDanjiDetail(depth);
+
   const { data, increamentPageNumber } = useAPI_GetDanjiListingsList({
     pnu: router?.query?.p ? (router.query.p as string) : undefined,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
@@ -24,7 +27,13 @@ export default function DanjiListings({ panelWidth, depth }: Props) {
 
   return (
     <Panel width={panelWidth}>
-      <DanjiListingsTemplate data={data} onNext={increamentPageNumber} handleBackButton={handleBackButton} />
+      <DanjiListingsTemplate
+        depth={depth}
+        danji={danji}
+        data={data}
+        onNext={increamentPageNumber}
+        handleBackButton={handleBackButton}
+      />
     </Panel>
   );
 }
