@@ -19,6 +19,7 @@ import getListingSummary from '@/apis/map/mapListingSummary';
 import Routes from '@/router/routes';
 import useRecentSearches from '@/hooks/services/useRecentSearches';
 import { v1 } from 'uuid';
+import { toast } from 'react-toastify';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -683,7 +684,11 @@ export default function useMapLayout() {
    */
   useEffect(() => {
     if (bounds && schoolType !== 'none' && mapState?.naverMap) {
-      updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
+      if (bounds.mapLevel < 3) {
+        updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
+      } else {
+        toast.error('지도를 확대하여 학교마커를 확인하세요.', { toastId: 'schoolMarkerError' });
+      }
     } else if (schoolType === 'none') {
       setSchoolMarkers([]);
     }
