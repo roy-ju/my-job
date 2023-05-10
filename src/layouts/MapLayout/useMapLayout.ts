@@ -310,7 +310,7 @@ export default function useMapLayout() {
         if (variant === 'nego') {
           regions = regions?.filter((region) => region.listing_count !== 0);
         }
-
+        // 지역 마커
         setMarkers(
           regions?.map((item) => ({
             id: item.bubjungdong_code,
