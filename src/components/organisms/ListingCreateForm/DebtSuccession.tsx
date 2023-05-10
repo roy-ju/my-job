@@ -9,11 +9,12 @@ import useTooltip from '@/states/tooltip';
 interface DepositProps {
   deposit?: string;
   monthlyRentFee?: string;
+  isAddButtonDisabled?: boolean;
   onChangeDeposit?: (newValue: string) => void;
   onClickAdd?: () => void;
 }
 
-function Deposit({ deposit: depositProp, onChangeDeposit, onClickAdd }: DepositProps) {
+function Deposit({ deposit: depositProp, isAddButtonDisabled, onChangeDeposit, onClickAdd }: DepositProps) {
   const { openTooltip } = useTooltip();
 
   const [deposit, setDeposit] = useControlled({ controlled: depositProp, default: '' });
@@ -38,9 +39,11 @@ function Deposit({ deposit: depositProp, onChangeDeposit, onClickAdd }: DepositP
           </div>
           <div tw="text-info text-gray-700">관련된 채무가 없다면 다음을 누르세요.</div>
         </div>
-        <Button variant="outlined" size="small" onClick={onClickAdd}>
-          채무추가
-        </Button>
+        {!isAddButtonDisabled && (
+          <Button variant="outlined" size="small" onClick={onClickAdd}>
+            채무추가
+          </Button>
+        )}
       </div>
       <div tw="mt-3 flex flex-col gap-4">
         <div>

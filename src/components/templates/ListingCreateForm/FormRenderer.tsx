@@ -32,6 +32,8 @@ export default function FormRenderer({ form }: Props) {
 
   const {
     isAddInterimButtonDisabled,
+    isAddCollateralDisabled,
+    isAddDebtSuccessionDisabled,
 
     // IsOwner
     isOwner,
@@ -172,6 +174,7 @@ export default function FormRenderer({ form }: Props) {
         <div id={Forms.DebtSuccessions}>
           <div tw="px-5 py-10">
             <Form.DebtSuccession
+              isAddButtonDisabled={isAddDebtSuccessionDisabled}
               deposit={debtSuccessionDeposit}
               onChangeDeposit={onChangeDebtSuccessionDeposit}
               onClickAdd={onClickAddDebtSuccessionMisc}
@@ -195,7 +198,7 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.Collaterals}>
           <div tw="px-5 py-10">
-            <Form.Collateral onClickAdd={onClickAddCollateral} />
+            <Form.Collateral isAddButtonDisabled={isAddCollateralDisabled} onClickAdd={onClickAddCollateral} />
           </div>
           {collaterals?.map((collateral) => (
             <div key={collateral.key} tw="px-4 pb-10">

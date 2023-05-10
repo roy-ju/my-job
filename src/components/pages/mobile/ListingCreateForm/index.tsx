@@ -112,6 +112,8 @@ const ListingCreateForm = () => {
     openBackPopup,
     nextButtonDisabled,
     isAddInterimButtonDisabled,
+    isAddCollateralDisabled,
+    isAddDebtSuccessionDisabled,
 
     dong,
     ho,
@@ -151,6 +153,8 @@ const ListingCreateForm = () => {
         dong={dong ?? ''}
         ho={ho ?? ''}
         isAddInterimButtonDisabled={isAddInterimButtonDisabled}
+        isAddCollateralDisabled={isAddCollateralDisabled}
+        isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
         onClickBack={openBackPopup}
         addressLine1={addressLine1}
