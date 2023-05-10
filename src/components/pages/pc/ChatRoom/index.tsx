@@ -39,6 +39,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickReportButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
     router.replace(`${Routes.ChatRoomReport}`, {
+      persistParams: true,
       searchParams: { chatRoomID },
     });
   };
@@ -51,6 +52,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     const chatRoomID = Number(router.query.chatRoomID);
     await closeChatRoom(chatRoomID);
     await mutate('/chat/room/list');
+    if (router.query.listingID) {
+      await mutate(['/listing/detail', { listing_id: Number(router.query.listingID) }]);
+    }
     router.pop();
   };
 
