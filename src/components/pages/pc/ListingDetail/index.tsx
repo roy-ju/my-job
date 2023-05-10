@@ -49,8 +49,6 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   useEffect(() => {
     if (data?.listing?.lat && data?.listing?.long) {
-      console.log('move to the position');
-
       console.log({
         lat: data.listing.lat,
         lng: data.listing.long,
