@@ -26,9 +26,10 @@ interface Props {
   depth: number;
   listingID: number;
   panelWidth?: string;
+  ipAddress?: string;
 }
 
-export default memo(({ depth, panelWidth, listingID }: Props) => {
+export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const { redirectable } = useListingDetailRedirector(listingID, depth);
 
   const router = useRouter(depth);
@@ -239,12 +240,12 @@ export default memo(({ depth, panelWidth, listingID }: Props) => {
     if (statusData?.can_access === true) {
       viewListing({
         listing_id: listingID,
-        ip_address: '',
+        ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
         device: '',
         browser: '',
       });
     }
-  }, [listingID, statusData]);
+  }, [listingID, statusData, ipAddress]);
 
   if (data?.error_code) {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;

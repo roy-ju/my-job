@@ -27,10 +27,15 @@ Page.getLayout = function getLayout(page, pageProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const metas = await getHtmlMetas(context.query);
+  console.log(context.req.socket, context.req.headers);
+
+  const forwarded = context.req.headers['x-forwarded-for'];
+  const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
 
   return {
     props: {
       ...metas,
+      ipAddress: ip,
       query: context.query,
       route: context.query.depth2,
       depth: 2,
