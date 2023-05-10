@@ -44,7 +44,7 @@ export default function FAQ({ onClickBack }: { onClickBack?: () => void }) {
         </Dropdown>
       </div>
       <div tw="h-3 bg-gray-100 shrink-0" />
-      <div tw="py-5">
+      <div tw="py-5 overflow-y-auto">
         <FaqList list={data?.[category] ?? []} />
       </div>
     </div>
