@@ -1,9 +1,9 @@
 import { ChangeEventHandler, ReactNode } from 'react';
 import Home from '@/assets/icons/home.svg';
 import MapPin from '@/assets/icons/map_pin.svg';
-import Bidding from '@/assets/icons/bidding.svg';
 import ChatBubble from '@/assets/icons/chat_bubble.svg';
 import User from '@/assets/icons/user.svg';
+import Heart from '@/assets/icons/heart.svg';
 import {
   MapControls,
   GlobalNavigation,
@@ -35,8 +35,8 @@ function LayoutMain({ tabIndex, onChangeTab, children }: LayoutMainProps) {
         <GlobalNavigation tabIndex={tabIndex} onChangeTab={onChangeTab}>
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
           <GlobalNavigation.TabButton idx={1} text="지도" icon={<MapPin />} />
-          <GlobalNavigation.TabButton idx={2} text="나의거래" icon={<Bidding />} />
-          <GlobalNavigation.TabButton idx={3} text="문의목록" icon={<ChatBubble />} />
+          <GlobalNavigation.TabButton idx={2} text="관심 목록" icon={<Heart />} />
+          <GlobalNavigation.TabButton idx={3} text="중개사 채팅" icon={<ChatBubble />} />
           <GlobalNavigation.TabButton idx={4} text="마이페이지" icon={<User />} />
           {process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' && (
             <GlobalNavigation.TabButton idx={5} text="개발자설정" icon={<User />} />
