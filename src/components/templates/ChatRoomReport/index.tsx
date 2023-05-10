@@ -31,7 +31,7 @@ export default function CharRoomReport({
       <div tw="m-7 flex-1">
         <div tw="mb-1 text-b1  font-bold">{officeName}</div>
         <div tw="text-info mb-4 text-gray-700">
-          {listingTitle + (additionalListingCount > 0 && ` 외 ${additionalListingCount}건`)}
+          {listingTitle} {additionalListingCount > 0 && ` 외 ${additionalListingCount}건`}
         </div>
         <ChatReportTextField value={reportContent} onChangeValue={onChangeReportContent} />
       </div>

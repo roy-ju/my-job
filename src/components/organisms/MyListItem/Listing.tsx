@@ -134,8 +134,15 @@ export default function Listing({
             <LikeButton onLike={(active) => onToggleListingLike?.(listingId, active)} isFavorite={isFavorite} />
           )}
         </div>
-        <div tw="font-bold text-b1 flex gap-1.5 items-center">
-          {quickSale && <QuickSaleChip />} {BuyOrRentString[buyOrRent]} {renderPrice()}
+        <div tw="font-bold text-b1 flex gap-1.5">
+          {quickSale && (
+            <div tw="pt-[3px]">
+              <QuickSaleChip />
+            </div>
+          )}{' '}
+          <div tw="text-start">
+            <span tw="whitespace-nowrap">{BuyOrRentString[buyOrRent]}</span> <span>{renderPrice()}</span>
+          </div>
         </div>
         <div tw="text-info text-left">{listingTitle}</div>
         <div tw="flex justify-between items-center">

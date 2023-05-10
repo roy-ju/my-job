@@ -102,7 +102,7 @@ function Dropdown({
   return (
     <DropdownContext.Provider value={context}>
       <div ref={outsideRef} {...others}>
-        <TextField ref={setReferenceElement} variant={variant} size={size}>
+        <TextField ref={setReferenceElement} variant={variant} size={size} tw="relative">
           <TextField.Input
             placeholder={placeholder}
             label={label}
@@ -111,26 +111,16 @@ function Dropdown({
             readOnly
             tw="hover:cursor-pointer"
           />
-          {size === 'small' && (
-            <TextField.Trailing tw="pr-3">
-              <ChevronDown
-                style={{
-                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease-in-out',
-                }}
-              />
-            </TextField.Trailing>
-          )}
-          {size !== 'small' && (
-            <TextField.Trailing tw="pr-4">
-              <ChevronDown
-                style={{
-                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease-in-out',
-                }}
-              />
-            </TextField.Trailing>
-          )}
+          <TextField.Trailing
+            css={[tw`absolute right-0 pointer-events-none`, size === 'small' ? tw`pr-3 top-2` : tw`pr-4 top-[20px]`]}
+          >
+            <ChevronDown
+              style={{
+                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s ease-in-out',
+              }}
+            />
+          </TextField.Trailing>
         </TextField>
         <AnimatePresence>
           {isOpen && Children.count(children) > 0 && (

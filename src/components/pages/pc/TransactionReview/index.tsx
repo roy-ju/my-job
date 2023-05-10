@@ -1,5 +1,5 @@
 import { Panel } from '@/components/atoms';
-import { ChangeEvent, ChangeEventHandler, memo, useCallback, useState } from 'react';
+import { ChangeEvent, ChangeEventHandler, memo, useCallback, useEffect, useState } from 'react';
 import { TransactionReview as TransactionReviewTemplate } from '@/components/templates';
 import useAPI_GetTransactionReview from '@/apis/my/getTransactionReview';
 import { useRouter } from '@/hooks/utils';
@@ -17,15 +17,16 @@ interface Props {
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
   const { data: info, mutate: mutateInfo } = useAPI_GetTransactionReviewInfo(Number(router.query.listingContractID));
-
   const { data: reviewData } = useAPI_GetTransactionReview(Number(router.query.listingContractID), info?.hasReview);
+  const [ratingText, setRatingText] = useState('');
+  const [recommendations, setRecommendations] = useState<string[]>([]);
+  const [freeFeedback, setFreeFeedback] = useState('');
 
-  const [ratingText, setRatingText] = useState(reviewData?.ratingText ?? '');
-  const [recommendations, setRecommendations] = useState<string[]>(() => {
-    if (reviewData?.recommendations) return reviewData?.recommendations.split(',');
-    return [];
-  });
-  const [freeFeedback, setFreeFeedback] = useState(reviewData?.freeFeedback ?? '');
+  useEffect(() => {
+    if (reviewData?.ratingText) setRatingText(reviewData?.ratingText);
+    if (reviewData?.recommendations) setRecommendations(reviewData?.recommendations.split(','));
+    if (reviewData?.freeFeedback) setFreeFeedback(reviewData?.freeFeedback);
+  }, [reviewData]);
 
   const handleClickRatingText = (text: string) => () => {
     if (info?.hasReview) return;
@@ -85,9 +86,9 @@ export default memo(({ panelWidth, depth }: Props) => {
         hasReview={info?.hasReview ?? false}
         agentName={info?.agentName ?? ''}
         userNickname={info?.userNickname ?? ''}
-        ratingText={ratingText}
+        ratingText={ratingText ?? ''}
         recommendations={recommendations}
-        freeFeedback={freeFeedback}
+        freeFeedback={freeFeedback ?? ''}
         onClickRatingText={handleClickRatingText}
         onChangeRecommendations={handleChangeRecommendations}
         onChangeFreeFeedback={handleChangeFreeFeedback}
