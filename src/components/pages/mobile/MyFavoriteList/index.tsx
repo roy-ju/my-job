@@ -23,6 +23,10 @@ export default memo(() => {
     handleChangeListingSortingType,
   } = useMyFavoriteList();
 
+  const handleClickDanjiItem = (pnu: string, realestateType: number) => () => {
+    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${pnu}&rt=${realestateType}`);
+  };
+
   const handleClickListingItem = (listingId: number) => () => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingId}`);
   };
@@ -43,7 +47,7 @@ export default memo(() => {
         listingSortingType={listingSortingType}
         handleChangeListingSortingType={handleChangeListingSortingType}
         handleClickListingItem={handleClickListingItem}
-        // handleClickDanjiItem={handleClickDanjiItem}
+        handleClickDanjiItem={handleClickDanjiItem}
       />
     </MobileContainer>
   );
