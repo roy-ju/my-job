@@ -316,9 +316,10 @@ interface RouterProps {
   route: string; // url segments 에서 가장 우측에 위치한 segment
   query: ParsedUrlQuery; // 쿼리 파라미터
   depth: number; // route segment 의 depth
+  ipAddress: string;
 }
 
-function Router({ route, query, depth }: RouterProps) {
+function Router({ route, query, depth, ipAddress }: RouterProps) {
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -440,7 +441,14 @@ function Router({ route, query, depth }: RouterProps) {
     }
 
     case Routes.ListingDetail: {
-      return <ListingDetail key={query.listingID as string} listingID={Number(query.listingID)} {...props} />;
+      return (
+        <ListingDetail
+          key={query.listingID as string}
+          listingID={Number(query.listingID)}
+          ipAddress={ipAddress}
+          {...props}
+        />
+      );
     }
 
     case Routes.ChatRoom: {
