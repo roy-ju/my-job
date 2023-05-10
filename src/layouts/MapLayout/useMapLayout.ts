@@ -175,6 +175,8 @@ export default function useMapLayout() {
 
   const [isGeoLoading, setIsGeoLoading] = useState(false);
 
+  const [myMarker, setMyMarker] = useState<{ lat: number; lng: number } | null>(null);
+
   const [mapState, setMapState] = useRecoilState(recoilMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
@@ -734,6 +736,7 @@ export default function useMapLayout() {
       ({ coords }) => {
         // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
         const latlng = { lat: coords.latitude, lng: coords.longitude };
+        setMyMarker(latlng);
         localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
         mapState?.naverMap?.morph(latlng, DEFAULT_ZOOM);
         setIsGeoLoading(false);
@@ -903,6 +906,7 @@ export default function useMapLayout() {
     onZoomStart,
     // ones with business logics
     isGeoLoading,
+    myMarker,
     recentSearches,
     streetViewEvent,
     selectedDanjiSummary,

@@ -14,7 +14,7 @@ import deleteListingQna from '@/apis/listing/deleteListingQna';
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { formatNumberInKorean } from '@/utils';
 import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
@@ -65,9 +65,16 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         router.push(Routes.ListingManage, { persistParams: true });
       } else if (buttonTitle === '신고하기') {
         router.push(Routes.ListingReport, { persistParams: true });
+      } else if (buttonTitle === '중개약정확인') {
+        router.replace(Routes.ContractTerms, {
+          searchParams: {
+            listingID: router.query.listingID as string,
+            type: data?.visit_user_type === VisitUserType.SellerGeneral ? 'seller' : 'buyer',
+          },
+        });
       }
     },
-    [router],
+    [router, data?.visit_user_type],
   );
 
   const handleClickFavorite = useCallback(async () => {

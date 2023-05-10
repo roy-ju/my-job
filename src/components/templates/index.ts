@@ -80,6 +80,7 @@ export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPrice
 export { default as MapListingList } from './MapListingList';
 export { default as OpenSourceLicenses } from './OpenSourceLicenses';
 export { default as VersionInfo } from './VersionInfo';
+export { default as ContractTerms } from './ContractTerms';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

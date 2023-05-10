@@ -34,6 +34,7 @@ function MapWrapper({
     handleCloseStreetView,
     clearRecentSearches,
     removeRecentSearch,
+    myMarker,
     mapType,
     mapLayer,
     schoolType,
@@ -112,6 +113,7 @@ function MapWrapper({
             schoolMarkers={schoolMarkers}
             selectedDanjiSummary={selectedDanjiSummary}
             selectedSchoolID={selectedSchoolID}
+            myMarker={myMarker}
           />
         </Map>
       </Layout.MapContainer>
