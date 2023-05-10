@@ -1,9 +1,12 @@
-// import Image from 'next/image';
-import Paths from '@/constants/paths';
 import { Chip, Numeral } from '@/components/atoms';
 import { css } from 'twin.macro';
 import { BuyOrRent } from '@/constants/enums';
-import { BuyOrRentString, RealestateTypeChipVariant, RealestateTypeString } from '@/constants/strings';
+import {
+  BuyOrRentString,
+  DefaultListingImage,
+  RealestateTypeChipVariant,
+  RealestateTypeString,
+} from '@/constants/strings';
 import LikeButton from './LikeButton';
 import QuickSaleChip from './QuickSaleChip';
 import ListingPopularityInformation from './ListingPopularityInformation';
@@ -117,7 +120,7 @@ export default function Listing({
         <div
           tw="rounded-lg w-[92px] h-[92px] bg-no-repeat bg-center bg-cover"
           style={{
-            backgroundImage: `url('${thumbnailFullPath ?? Paths.DEFAULT_APARTMENT_IMAGE_PATH}')`,
+            backgroundImage: `url('${thumbnailFullPath ?? DefaultListingImage[realestateType]}')`,
           }}
         />
       </div>
