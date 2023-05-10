@@ -1,7 +1,6 @@
 import { MobileContainer } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
 import { memo, useState } from 'react';
-// import Routes from '@/router/routes';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
@@ -48,6 +47,27 @@ export default memo(() => {
     await mutate('/chat/room/list');
   };
 
+  const handleClickNavigateToListingDetail = (listingID: number) => () => {
+    router.replace(
+      { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`, query: { listingID: `${listingID}` } },
+      `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`,
+    );
+  };
+
+  const handleClickNavigateToListingDetailHistory = (listingID: number, biddingID: number) => () => {
+    if (biddingID) {
+      router.replace(
+        { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}`, query: { listingID: `${listingID}` } },
+        `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}?listingID=${listingID}&biddingID=${biddingID}&tab=${4}`,
+      );
+    } else {
+      router.replace(
+        { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetailPassed}`, query: { listingID: `${listingID}` } },
+        `/${Routes.EntryMobile}/${Routes.ListingDetailPassed}?listingID=${listingID}&tab=${4}`,
+      );
+    }
+  };
+
   const renderPopupBodyContents = () => {
     if (chatUserType === ChatUserType.Buyer) {
       return '채팅을 나가시면 이 중개사님과의 협의중인 모든 매물에 제안이 취소되며 협의 재개를 위해서는 다시 제안이 필요합니다. 채팅방을 나가시겠습니까?';
@@ -86,6 +106,8 @@ export default memo(() => {
         onSendMessage={handleSendMessage}
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
+        onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
+        onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
         onClickBack={() => router.back()}
       />
       {popupOpen && (
