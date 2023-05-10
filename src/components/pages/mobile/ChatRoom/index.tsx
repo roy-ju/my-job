@@ -8,6 +8,7 @@ import closeChatRoom from '@/apis/chat/closeChatRoom';
 import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
+import Routes from '@/router/routes';
 import useChatRoom from './useChatRoom';
 
 export default memo(() => {
@@ -29,10 +30,12 @@ export default memo(() => {
   const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const handleClickReportButton = () => {
-    // const chatRoomID = router.query.chatRoomID as string;
-    // router.replace(`${Routes.ChatRoomReport}`, {
-    //   searchParams: { chatRoomID },
-    // });
+    const chatRoomID = router.query.chatRoomID as string;
+
+    router.push(
+      { pathname: `/${Routes.EntryMobile}/${Routes.ChatRoomReport}`, query: { chatRoomID } },
+      `/${Routes.EntryMobile}/${Routes.ChatRoomReport}?chatRoomID=${chatRoomID}`,
+    );
   };
 
   const handleClickLeaveButton = () => {
@@ -43,7 +46,6 @@ export default memo(() => {
     const chatRoomID = Number(router.query.chatRoomID);
     await closeChatRoom(chatRoomID);
     await mutate('/chat/room/list');
-    // router.pop();
   };
 
   const renderPopupBodyContents = () => {
