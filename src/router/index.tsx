@@ -83,6 +83,10 @@ const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
 });
 const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: FallbackComponent });
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: FallbackComponent });
+const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: FallbackComponent });
 
 const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
@@ -449,6 +453,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
           {...props}
         />
       );
+    }
+
+    case Routes.ContractTerms: {
+      return <ContractTerms {...props} />;
     }
 
     case Routes.ChatRoom: {
