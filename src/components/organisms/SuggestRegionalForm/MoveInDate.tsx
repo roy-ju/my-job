@@ -1,4 +1,5 @@
 import { DatePicker, Dropdown } from '@/components/molecules';
+import { useRef } from 'react';
 
 export interface DateProps {
   moveInDate?: Date | null;
@@ -13,6 +14,8 @@ export default function MoveInDate({
   moveInDateType,
   onChangeMoveInDateType,
 }: DateProps) {
+  const minDate = useRef(new Date());
+
   return (
     <div>
       <div tw="font-bold mb-4">입주일</div>
@@ -22,6 +25,7 @@ export default function MoveInDate({
           tw="flex-1 min-w-0"
           placeholder="날짜"
           value={moveInDate}
+          minDate={minDate.current}
           onChange={(v) => onChangeMoveInDate?.(v)}
         />
         <Dropdown tw="flex-1 min-w-0" variant="outlined" value={moveInDateType} onChange={onChangeMoveInDateType}>
