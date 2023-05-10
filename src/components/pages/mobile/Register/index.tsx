@@ -63,6 +63,8 @@ export default function RegisterWrraper() {
     const checkNicknameResponse = await checkNickname(nickname);
     if (checkNicknameResponse?.error_code === 1009) {
       setNickNameErrMsg('중복된 닉네임 입니다.');
+      setIsLoading(false);
+      return;
     }
 
     let privacyRetentionType = PrivacyRetentionType.Deregister;
