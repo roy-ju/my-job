@@ -32,6 +32,7 @@ export default function ChatRoomReport({ depth, panelWidth }: Props) {
   const handleClickBackButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
     router.replace(`${Routes.ChatRoom}`, {
+      persistParams: true,
       searchParams: { chatRoomID },
     });
   };

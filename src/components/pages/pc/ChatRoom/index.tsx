@@ -39,6 +39,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickReportButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
     router.replace(`${Routes.ChatRoomReport}`, {
+      persistParams: true,
       searchParams: { chatRoomID },
     });
   };

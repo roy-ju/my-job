@@ -294,7 +294,7 @@ export default function ListingDetail({
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
             </Tabs.Tab>
-            {listingDetail?.listing.pnu && (
+            {danji && !danji.error_code && (
               <Tabs.Tab value={1}>
                 <span tw="text-b2">단지정보</span>
               </Tabs.Tab>
@@ -459,7 +459,7 @@ export default function ListingDetail({
         </div>
         <Separator />
 
-        {danji && (
+        {danji && !danji.error_code && (
           <div id="danjiSection" ref={setDanjiSection}>
             <DanjiDetailSection>
               <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>

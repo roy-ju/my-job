@@ -36,9 +36,9 @@ export default function ListingRecommendListItem({
   const listingImagePath = item?.thumbnail_full_path ?? DefaultListingImage[item?.realestate_type ?? 0];
 
   const renderStatusChip = () => {
-    if (item?.suggest_recommend_status === SuggestRecommendStatus.Sent) {
-      return <Chip tw="rounded-bl-none rounded-tr-none bg-blue-600 text-white font-bold">신규</Chip>;
-    }
+    // if (item?.suggest_recommend_status === SuggestRecommendStatus.Sent) {
+    //   return <Chip tw="rounded-bl-none rounded-tr-none bg-blue-600 text-white font-bold">신규</Chip>;
+    // }
     if (item?.suggest_recommend_status === SuggestRecommendStatus.Accepted) {
       return <Chip tw="rounded-bl-none rounded-tr-none bg-nego-600 text-white font-bold">협의중</Chip>;
     }
