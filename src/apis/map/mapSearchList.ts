@@ -122,6 +122,11 @@ export default function useAPI_MapSearchList(
   filter: Filter | null,
   listingIDs?: string,
 ) {
+
+  console.log(bounds)
+
+  console.log(filter);
+
   const {
     data: dataList,
     size,

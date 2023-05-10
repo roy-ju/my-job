@@ -24,9 +24,17 @@ export default function useMapListingList() {
     return JSON.parse(router.query.bounds as string) as MapBounds;
   }, [router.query.bounds]);
 
+  const listingIds = useMemo(() => {
+    if (!router.query.listingIDs) {
+      return undefined;
+    }
+
+    return router.query.listingIDs as string;
+  }, [router.query.listingIDs]);
+
   const mapToggleValue = Number(router.query.mapToggleValue) ?? 0;
 
-  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(mapToggleValue, bounds, filter);
+  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(mapToggleValue, bounds, filter, listingIds);
 
   return {
     data,
