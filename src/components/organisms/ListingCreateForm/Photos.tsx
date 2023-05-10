@@ -50,7 +50,7 @@ export default function Photos({ urls, onChange }: Props) {
         ref={inputRef}
         type="file"
         multiple
-        accept="image/png, image/jpg, image/jpeg"
+        accept="image/png, image/jpg, image/jpeg .png .jpg .jpeg"
         onChange={handleChange}
       />
       <div tw="flex flex-col gap-4">
