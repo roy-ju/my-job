@@ -204,7 +204,7 @@ export default function ListingDetail({
     setTabIndex(i);
   }, [visibleState]);
 
-  const isShowlistingsSection = useMemo(() => router?.query?.depth2 !== Routes.DanjiListings, [router.query]);
+  const isShowlistingsSection = useMemo(() => router.query.depth1 !== Routes.DanjiListings, [router.query]);
 
   return (
     <div tw="relative flex flex-col h-full">
