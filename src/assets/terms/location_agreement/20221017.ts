@@ -7,7 +7,6 @@ body {
   line-height: 108%;
   widows: 0;
   orphans: 0;
-  font-family: "맑은 고딕";
   font-size: 10pt;
 }
 h3, p {
