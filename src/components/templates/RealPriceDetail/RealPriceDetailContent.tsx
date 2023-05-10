@@ -24,11 +24,8 @@ export default function RealPriceDetailContent({
       </div>
       <div tw="flex flex-col gap-10 px-5 pb-14">
         <RealPriceTrendChartWrraper danji={danji} buyOrRent={buyOrRent} selectedYear={selectedYear} />
-
         <RealPriceValuesChartWrraper danji={danji} buyOrRent={buyOrRent} selectedYear={selectedYear} />
-
         <RealPriceTAndVChartWrraper danji={danji} buyOrRent={buyOrRent} selectedYear={selectedYear} />
-
         <RealPriceTradeTrendChartWrraper danji={danji} buyOrRent={buyOrRent} selectedYear={selectedYear} />
       </div>
       <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
