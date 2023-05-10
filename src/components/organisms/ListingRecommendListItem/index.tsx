@@ -1,7 +1,7 @@
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import tw from 'twin.macro';
+import tw, { css } from 'twin.macro';
 import { Button, Checkbox, Chip, Moment, Numeral } from '@/components/atoms';
 import { ButtonGroup } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
@@ -22,6 +22,14 @@ interface Props {
   onClickNotInterested?: () => void;
   onClickRecommendAccept?: () => void;
 }
+
+const informationStringWrapper = css`
+  & > span:not(:first-of-type)::before {
+    content: ' | ';
+    margin: 0 2px;
+    color: #e9ecef; // text-gray-300
+  }
+`;
 
 export default function ListingRecommendListItem({
   showCheckbox = false,
@@ -117,10 +125,11 @@ export default function ListingRecommendListItem({
               </div>
             </div>
             <div tw="text-info">{item?.listing_title}</div>
-            <div tw="text-info text-gray-700 flex items-center gap-1">
+            <div tw="text-info text-gray-700 flex items-center" css={informationStringWrapper}>
               <span>전용 {item?.jeonyong_area}㎡</span>
               <span>
-                {item?.floor_description}/{item?.total_floor}층
+                {item?.floor_description && `${item.floor_description}/`}
+                {item?.total_floor}층
               </span>
               <span>{item?.direction}</span>
             </div>
