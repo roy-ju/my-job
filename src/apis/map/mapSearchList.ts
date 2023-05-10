@@ -99,24 +99,36 @@ function getParams(mapToggleValue: number, bounds: MapBounds, filter: Filter) {
   };
 }
 
-function getKey(mapToggleValue: number, bounds: MapBounds | null, filter: Filter | null) {
+function getKey(mapToggleValue: number, bounds: MapBounds | null, filter: Filter | null, listingIDs?: string) {
   if (!bounds || !filter) return () => null;
 
   return (size: number, previousPageData: any) => {
     const previousLength = previousPageData?.list?.length ?? 0;
-    if (previousPageData && previousLength < 1) return null;
+    const totalCount = previousPageData?.count ?? 0;
+
+    if (previousPageData && previousLength <= totalCount) return null;
+
+    if (listingIDs) {
+      if (size > 1) return null;
+      return [`/map/search/list`, { page_number: size + 1, listing_ids: listingIDs }];
+    }
     return [`/map/search/list`, { page_number: size + 1, ...getParams(mapToggleValue, bounds, filter) }];
   };
 }
 
-export default function useAPI_MapSearchList(mapToggleValue: number, bounds: MapBounds | null, filter: Filter | null) {
+export default function useAPI_MapSearchList(
+  mapToggleValue: number,
+  bounds: MapBounds | null,
+  filter: Filter | null,
+  listingIDs?: string,
+) {
   const {
     data: dataList,
     size,
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<MapSearchListResponse>(getKey(mapToggleValue, bounds, filter));
+  } = useSWRInfinite<MapSearchListResponse>(getKey(mapToggleValue, bounds, filter, listingIDs));
 
   const data = useMemo(() => {
     if (!dataList) return [];

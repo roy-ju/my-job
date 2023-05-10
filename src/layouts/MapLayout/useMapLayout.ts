@@ -361,6 +361,12 @@ export default function useMapLayout() {
             price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
             onClick: () => {
               if (isPanningRef.current) return;
+              router.replace(Routes.MapListingList, {
+                searchParams: {
+                  listingIDs: item.listing_ids,
+                },
+              });
+
               setPolygons([]);
               setSelectedSchoolID('');
               _map?.morph({
