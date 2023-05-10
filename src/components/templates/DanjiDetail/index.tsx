@@ -136,20 +136,32 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       observer.observe(realPriceSection);
     }
 
-    // if (infoSection) {
-    //   observer.observe(infoSection);
-    // }
+    return () => {
+      observer.disconnect();
+    };
+  }, [listingsSection, realPriceSection]);
 
-    // if (facilitiesSection) {
-    //   observer.observe(facilitiesSection);
-    // }
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setVisibleState((prev) => ({
+            ...prev,
+            [entry.target.id]: entry.isIntersecting,
+          }));
+        });
+      },
+      { rootMargin: '-120px 0px 0px 0px', threshold: 0.5 },
+    );
+
+    if (infoSection) {
+      observer.observe(infoSection);
+    }
 
     return () => {
       observer.disconnect();
     };
-  }, [listingsSection, realPriceSection, isShowlistingsSection]);
-
-  console.log(listingsSection);
+  }, [infoSection]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -164,10 +176,6 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       { rootMargin: '-120px 0px 0px 0px', threshold: 1 },
     );
 
-    if (infoSection) {
-      observer.observe(infoSection);
-    }
-
     if (facilitiesSection) {
       observer.observe(facilitiesSection);
     }
@@ -175,9 +183,16 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     return () => {
       observer.disconnect();
     };
-  }, [infoSection, facilitiesSection, isShowlistingsSection]);
+  }, [facilitiesSection]);
 
-  console.log(visibleState);
+  useEffect(() => {
+    if (!isShowlistingsSection) {
+      setVisibleState((prev) => ({
+        ...prev,
+        listingsSection: false,
+      }));
+    }
+  }, [isShowlistingsSection]);
 
   useEffect(() => {
     let i = 0;
@@ -194,17 +209,12 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       return;
     }
 
-    if (visibleState.infoSection === true || visibleState.facilitiesSection === true) {
-      i = 3;
-      setTabIndex(i);
-    }
-
-    if (visibleState.infoSection === true || visibleState.facilitiesSection === false) {
+    if (visibleState.infoSection === true) {
       i = 2;
       setTabIndex(i);
     }
 
-    if (visibleState.infoSection === false || visibleState.facilitiesSection === true) {
+    if (visibleState.facilitiesSection === true) {
       i = 3;
       setTabIndex(i);
     }
@@ -317,17 +327,16 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
             </div>
           )}
 
-          {isShowRpTab && (
-            <div id="realPriceSection" ref={setRealPriceSection}>
-              <DanjiRealpriceContainer
-                danji={danji}
-                depth={depth}
-                isShowRpTab={isShowRpTab}
-                setLoadingRp={() => {}}
-                setIsShowRpTab={setIsShowRpTab}
-              />
-            </div>
-          )}
+          <div id="realPriceSection" ref={setRealPriceSection}>
+            <DanjiRealpriceContainer
+              danji={danji}
+              depth={depth}
+              isShowRpTab={isShowRpTab}
+              isShowlistingsSection={isShowlistingsSection}
+              setLoadingRp={() => {}}
+              setIsShowRpTab={setIsShowRpTab}
+            />
+          </div>
 
           <div id="infoSection" ref={setInfoSection}>
             <Separator tw="w-full [min-height: 8px]" />

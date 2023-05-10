@@ -11,15 +11,21 @@ export default function DanjiListings() {
     router.back();
   };
 
-  const { data, increamentPageNumber } = useAPI_GetDanjiListingsList({
+  const { totalCount, data, increamentPageNumber } = useAPI_GetDanjiListingsList({
     pnu: router?.query?.p ? (router.query.p as string) : undefined,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
+    orderBy: 1,
     pageSize: 10,
   });
 
   return (
     <MobileContainer>
-      <MobDanjiListings data={data} onNext={increamentPageNumber} handleBackButton={handleBackButton} />
+      <MobDanjiListings
+        totalCount={totalCount}
+        data={data}
+        onNext={increamentPageNumber}
+        handleBackButton={handleBackButton}
+      />
     </MobileContainer>
   );
 }
