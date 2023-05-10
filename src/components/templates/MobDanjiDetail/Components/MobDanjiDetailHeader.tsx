@@ -11,6 +11,8 @@ import { useAuth } from '@/hooks/services';
 import { toast } from 'react-toastify';
 import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
+import { useRouter } from 'next/router';
+import Routes from '@/router/routes';
 
 export default function MobDanjiDetailHeader({
   danji,
@@ -23,6 +25,8 @@ export default function MobDanjiDetailHeader({
   onClickBack: () => void;
   handleMutateDanji?: () => void;
 }) {
+  const router = useRouter();
+
   const [popup, setPopup] = useState(false);
   const [isFavorite, setIsFavorite] = useState(!!danji?.is_favorite);
 
@@ -32,7 +36,13 @@ export default function MobDanjiDetailHeader({
     if (!danji || isAuthLoading) return;
 
     if (!user) {
-      toast.error('로그인이 필요해요. (임시)', { toastId: 'toast-danji-favorite' });
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
     }
 
     if (user) {
@@ -60,7 +70,7 @@ export default function MobDanjiDetailHeader({
         }
       }
     }
-  }, [danji, isAuthLoading, user, isFavorite, handleMutateDanji]);
+  }, [danji, isAuthLoading, user, isFavorite, handleMutateDanji, router]);
 
   const handleClickShare = useCallback(() => setPopup(true), []);
 

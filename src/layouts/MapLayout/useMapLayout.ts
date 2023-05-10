@@ -20,6 +20,7 @@ import Routes from '@/router/routes';
 import useRecentSearches from '@/hooks/services/useRecentSearches';
 import { v1 } from 'uuid';
 import { toast } from 'react-toastify';
+import { RealestateType } from '@/constants/enums';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -144,7 +145,7 @@ function getMapPositionState<T>(cb: (ms: string[]) => T, defaultValue: T): T {
  * 로컬스토리지에 저장된 유저의 마지막 위도 경도를 반환하고
  * 없으면 default 값 (판교역) 을 반환한다.
  */
-function getUserLastLocation(): { lat: number; lng: number } {
+function getUserLastLocation(): { lat: number; lng: number } | null {
   if (typeof localStorage !== 'undefined') {
     const raw = localStorage.getItem(USER_LAST_LOCATION);
     if (raw) {
@@ -154,7 +155,7 @@ function getUserLastLocation(): { lat: number; lng: number } {
       }
     }
   }
-  return { lat: DEFAULT_LAT, lng: DEFAULT_LNG };
+  return null;
 }
 
 /**
@@ -171,6 +172,8 @@ export default function useMapLayout() {
     clear: clearRecentSearches,
     remove: removeRecentSearch,
   } = useRecentSearches<KakaoAddressAutocompleteResponseItem>();
+
+  const [isGeoLoading, setIsGeoLoading] = useState(false);
 
   const [mapState, setMapState] = useRecoilState(recoilMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
@@ -251,7 +254,7 @@ export default function useMapLayout() {
           lat: Number(ms[0]),
           lng: Number(ms[1]),
         }),
-        getUserLastLocation(),
+        getUserLastLocation() ?? { lat: DEFAULT_LAT, lng: DEFAULT_LNG },
       ),
     [],
   );
@@ -392,6 +395,13 @@ export default function useMapLayout() {
         } = {};
 
         danjis?.map((item) => {
+          if (
+            item.danji_realestate_type === RealestateType.Officetel &&
+            danjiMap[`${item.pnu}${RealestateType.Apartment}`]
+          ) {
+            item.long += 0.00035;
+          }
+
           danjiMap[`${item.pnu}${item.danji_realestate_type}`] = {
             id: `${item.pnu}${item.danji_realestate_type}`,
             variant,
@@ -719,12 +729,20 @@ export default function useMapLayout() {
   // Map Control Handlers
 
   const morphToCurrentLocation = useCallback(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
-      const latlng = { lat: coords.latitude, lng: coords.longitude };
-      localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-      mapState?.naverMap?.morph(latlng, DEFAULT_ZOOM);
-    });
+    setIsGeoLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
+        const latlng = { lat: coords.latitude, lng: coords.longitude };
+        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+        mapState?.naverMap?.morph(latlng, DEFAULT_ZOOM);
+        setIsGeoLoading(false);
+      },
+      () => {
+        toast.error('위치 접근 권한을 허용해 주세요.');
+        setIsGeoLoading(false);
+      },
+    );
   }, [mapState?.naverMap]);
 
   const zoomIn = useCallback(() => {
@@ -884,6 +902,7 @@ export default function useMapLayout() {
     onIdle,
     onZoomStart,
     // ones with business logics
+    isGeoLoading,
     recentSearches,
     streetViewEvent,
     selectedDanjiSummary,
