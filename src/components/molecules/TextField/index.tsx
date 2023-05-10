@@ -69,7 +69,7 @@ const StyledContainer = styled.div<{
 
 const StyledInput = styled.input(({ inSize, disabled, label, hasError }: StyledInputProps) => [
   tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
-  disabled && tw`text-gray-700 placeholder-gray-500`,
+  disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
   inSize === 'small' && tw`[height: 32px] pl-4 pr-2 py-0 text-info leading-4`,
@@ -83,7 +83,7 @@ const StyledNumericInput = styled(({ inSize, label, hasError, ...others }: Numer
   <NumericFormat {...others} />
 ))(({ inSize, disabled, label, hasError }) => [
   tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
-  disabled && tw`text-gray-700 placeholder-gray-500`,
+  disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
   inSize === 'small' && tw`[height: 32px] px-4 py-2 text-info leading-4`,
@@ -97,7 +97,7 @@ const StyledPatternInput = styled(({ inSize, label, hasError, ...others }: Patte
   <PatternFormat {...others} />
 ))(({ inSize, disabled, label, hasError }) => [
   tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
-  disabled && tw`text-gray-700 placeholder-gray-500`,
+  disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
   inSize === 'small' && tw`[height: 32px] px-4 py-2 text-info leading-4`,
@@ -110,7 +110,7 @@ const StyledTextArea = styled.textarea(
     tw`box-border flex-1 min-w-0 px-4 py-3 leading-8 placeholder-gray-700 bg-transparent resize-none text-start text-b1 text-gray-1000`,
     inSize === 'medium' && tw`leading-6 text-b2`,
 
-    disabled && tw`text-gray-700 placeholder-gray-500`,
+    disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
     hasError && tw`placeholder-red-800`,
     css`
       &::-webkit-scrollbar {
@@ -125,7 +125,7 @@ const StyledTextArea = styled.textarea(
 const StyledLabel = styled.div<{ inSize: SizeType; focused: boolean; disabled: boolean; hasError: boolean }>(
   ({ inSize, focused, disabled, hasError }) => [
     tw`absolute top-0 left-0 leading-none text-gray-700 transition-all translate-x-4 translate-y-5 pointer-events-none text-b1`,
-    disabled && tw`text-gray-600`,
+    disabled && tw`text-gray-600 opacity-100`,
     focused && tw`leading-none translate-y-3 text-info`,
     hasError && tw`text-red-800`,
     inSize === 'small' && tw`leading-none translate-x-4 translate-y-4 text-info`,
@@ -136,7 +136,7 @@ const StyledLabel = styled.div<{ inSize: SizeType; focused: boolean; disabled: b
 
 const Suffix = styled.span<{ inSize: SizeType; label?: string; disabled?: boolean }>(({ inSize, label, disabled }) => [
   tw`box-content h-4 px-4 py-5 leading-none text-b1`,
-  disabled && tw`text-gray-700`,
+  disabled && tw`text-gray-700 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   inSize === 'small' && tw`[height: 32px] px-4 py-2 leading-4 text-info`,
   inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,

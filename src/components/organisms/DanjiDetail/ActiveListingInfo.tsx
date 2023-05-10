@@ -5,6 +5,7 @@ import { Dropdown } from '@/components/molecules';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useRouter as useNextRouter } from 'next/router';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -19,6 +20,7 @@ export default function ActiveListingInfo({
   const [dropDownValue, setDropDownValue] = useState('최신순');
 
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const {
     data: danjiListings,
@@ -47,15 +49,16 @@ export default function ActiveListingInfo({
 
   const handleListingDetail = useCallback(
     (id: number) => {
-      router.replace(Routes.ListingDetail, {
-        searchParams: {
+      nextRouter.replace({
+        pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
+        query: {
           listingID: `${id}`,
-          p: danji?.pnu || `${router.query.p}` || '',
-          rt: danji?.type.toString() || (router.query.rt as string) || '',
+          p: danji?.pnu || `${nextRouter.query.p}` || '',
+          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
         },
       });
     },
-    [router, danji],
+    [nextRouter, danji],
   );
 
   useEffect(() => {
@@ -77,14 +80,18 @@ export default function ActiveListingInfo({
           <Dropdown
             size="small"
             variant="outlined"
-            tw="min-w-0 ml-auto"
+            tw="[width: 92px] min-w-0 ml-auto"
             value={dropDownValue}
             onChange={(v) => {
               setDropDownValue(v);
             }}
           >
-            <Dropdown.Option value="최신순">최신순</Dropdown.Option>
-            <Dropdown.Option value="가격순">가격순</Dropdown.Option>
+            <Dropdown.Option tw="[width: 92px]" value="최신순">
+              최신순
+            </Dropdown.Option>
+            <Dropdown.Option tw="[width: 92px]" value="가격순">
+              가격순
+            </Dropdown.Option>
           </Dropdown>
         </div>
         <ListingItem>

@@ -87,24 +87,24 @@ export default function ListingCreateResult({
           )}
           {data?.listing_status === ListingStatus.NoAddressFound && (
             <ListingCreateResultStatus.NoAddressFound
-              addressLine1={data?.listing.road_name_address ?? data?.listing.jibun_address ?? ''}
-              addressLine2={data?.full_road_name_address?.replace(data?.listing.road_name_address ?? '', '')}
+              addressLine1={data?.listing?.road_name_address ?? data?.listing?.jibun_address ?? ''}
+              addressLine2={data?.full_road_name_address?.replace(data?.listing?.road_name_address ?? '', '')}
               onClickStartOver={onClickStartOver}
               onClickUpdateAddress={onClickUpdateAddress}
             />
           )}
           {data?.listing_status === ListingStatus.Duplicated && (
             <ListingCreateResultStatus.Duplicated
-              addressLine1={data?.listing.road_name_address ?? data?.listing.jibun_address ?? ''}
-              addressLine2={data?.full_road_name_address?.replace(data?.listing.road_name_address ?? '', '')}
+              addressLine1={data?.listing?.road_name_address ?? data?.listing?.jibun_address ?? ''}
+              addressLine2={data?.full_road_name_address?.replace(data?.listing?.road_name_address ?? '', '')}
               buyOrRent={data?.listing?.buy_or_rent ?? 0}
               rentArea={data?.listing?.rent_area}
             />
           )}
           {data?.listing_status === ListingStatus.MultipleAddressesFound && (
             <ListingCreateResultStatus.MultipleAddressesFound
-              addressLine1={data?.listing.road_name_address ?? data?.listing.jibun_address ?? ''}
-              addressLine2={data?.full_road_name_address?.replace(data?.listing.road_name_address ?? '', '')}
+              addressLine1={data?.listing?.road_name_address ?? data?.listing?.jibun_address ?? ''}
+              addressLine2={data?.full_road_name_address?.replace(data?.listing?.road_name_address ?? '', '')}
               addressList={addressList}
               onClickItem={onSelectAddress}
             />

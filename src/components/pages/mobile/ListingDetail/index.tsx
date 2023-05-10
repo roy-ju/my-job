@@ -25,10 +25,13 @@ import { FullScreenMap } from '@/components/templates/MobDanjiDetail/Components/
 import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail';
 import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
 import viewListing from '@/apis/listing/viewListing';
+import { useAuth } from '@/hooks/services';
 import useListingDetailRedirector from './useListingDetailRedirector';
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 export default memo(() => {
+  const { user } = useAuth();
+
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
 
@@ -51,7 +54,7 @@ export default memo(() => {
 
   const { mapType, makeGeneralMap } = useDanjiMapTypeStore();
 
-  const { danji } = useDanjiDetail(data?.listing.pnu, data?.listing.realestate_type);
+  const { danji } = useDanjiDetail(data?.listing?.pnu, data?.listing?.realestate_type);
 
   const {
     data: qnaData,
@@ -74,6 +77,16 @@ export default memo(() => {
   );
 
   const handleClickFavorite = useCallback(async () => {
+    if (!user) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
     if (data?.listing?.id) {
       if (data.is_favorite) {
         await removeFavorite(data.listing.id);
@@ -83,7 +96,7 @@ export default memo(() => {
       }
       await mutateListing();
     }
-  }, [data, mutateListing]);
+  }, [data, mutateListing, user]);
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
@@ -181,7 +194,7 @@ export default memo(() => {
 
     const content = `[네고시오] ${data?.display_address}\n► 부동산 종류 : ${
       RealestateTypeString[data?.listing?.realestate_type ?? 0]
-    }\n► 거래종류 : ${BuyOrRentString[data?.listing.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
+    }\n► 거래종류 : ${BuyOrRentString[data?.listing?.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
       window.origin
     }/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
     navigator.clipboard.writeText(content);

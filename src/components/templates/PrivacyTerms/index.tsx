@@ -18,7 +18,7 @@ export default function PrivacyTerms({ html, termDate, onClickGoBack, onChangeSe
         <NavigationHeader.Title>개인정보 처리방침</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="mt-7 px-5 text-gray-700 text-info">시행일자: {termDate}</div>
-      <div tw="mt-3 px-5" dangerouslySetInnerHTML={{ __html: html }} />
+      <div tw="mt-3 px-5 overflow-y-auto" dangerouslySetInnerHTML={{ __html: html }} />
       <Separator />
       <div tw="min-h-[8px] bg-gray-300 mt-10" />
       <div tw="py-7 px-5">

@@ -4,6 +4,7 @@ import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
+import MyMarkerIcon from '@/assets/icons/my_location.svg';
 import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
 interface MarkersProps {
@@ -12,6 +13,7 @@ interface MarkersProps {
   schoolMarkers: CommonSchoolMarker[];
   selectedDanjiSummary: DanjiSummary | null;
   selectedSchoolID: string;
+  myMarker?: { lat: number; lng: number } | null;
 }
 
 export default function Markers({
@@ -20,6 +22,7 @@ export default function Markers({
   schoolMarkers,
   selectedDanjiSummary,
   selectedSchoolID,
+  myMarker,
 }: MarkersProps) {
   return (
     <>
@@ -110,6 +113,17 @@ export default function Markers({
           </CustomOverlay>
         </DeferredRender>
       ))}
+
+      {myMarker && mapLevel < 3 && (
+        <CustomOverlay
+          position={{
+            lat: myMarker.lat,
+            lng: myMarker.lng,
+          }}
+        >
+          <MyMarkerIcon />
+        </CustomOverlay>
+      )}
     </>
   );
 }
