@@ -62,9 +62,18 @@ export interface TermsState {
 interface TermsProps {
   state?: TermsState;
   onChangeState?: (newState: TermsState) => void;
+  onNavigateToServiceTerms?: () => void;
+  onNavigateToPrivacyTerms?: () => void;
+  onNavigateToLocationTerms?: () => void;
 }
 
-function Terms({ state: stateProp, onChangeState }: TermsProps) {
+function Terms({
+  state: stateProp,
+  onChangeState,
+  onNavigateToLocationTerms,
+  onNavigateToPrivacyTerms,
+  onNavigateToServiceTerms,
+}: TermsProps) {
   const [state, setState] = useControlled({
     controlled: stateProp,
     default: {
@@ -123,7 +132,12 @@ function Terms({ state: stateProp, onChangeState }: TermsProps) {
             checked={service}
             onChange={handleChangeState}
           />
-          <Button variant="ghost" size="none" tw="underline font-bold text-info text-gray-500">
+          <Button
+            variant="ghost"
+            size="none"
+            tw="underline font-bold text-info text-gray-500"
+            onClick={onNavigateToServiceTerms}
+          >
             보기
           </Button>
         </div>
@@ -134,7 +148,12 @@ function Terms({ state: stateProp, onChangeState }: TermsProps) {
             checked={privacy}
             onChange={handleChangeState}
           />
-          <Button variant="ghost" size="none" tw="underline font-bold text-info text-gray-500">
+          <Button
+            variant="ghost"
+            size="none"
+            tw="underline font-bold text-info text-gray-500"
+            onClick={onNavigateToPrivacyTerms}
+          >
             보기
           </Button>
         </div>
@@ -145,7 +164,12 @@ function Terms({ state: stateProp, onChangeState }: TermsProps) {
             checked={location}
             onChange={handleChangeState}
           />
-          <Button variant="ghost" size="none" tw="underline font-bold text-info text-gray-500">
+          <Button
+            variant="ghost"
+            size="none"
+            tw="underline font-bold text-info text-gray-500"
+            onClick={onNavigateToLocationTerms}
+          >
             보기
           </Button>
         </div>

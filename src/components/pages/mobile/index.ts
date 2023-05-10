@@ -59,6 +59,7 @@ export { default as ListingCreateUpdateAddress } from './ListingCreateUpdateAddr
 export { default as ListingCreateUpdateAddressDetail } from './ListingCreateUpdateAddressDetail';
 
 /** 채팅 */
+export { default as ChatRoomReport } from './ChatRoomReport';
 export { default as ChatRoomList } from './ChatRoomList';
 export { default as ChatRoom } from './ChatRoom';
 

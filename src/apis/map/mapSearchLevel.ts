@@ -108,7 +108,7 @@ export default async function mapSearch({
       room_count: filter.roomCounts,
     };
 
-    if (mapToggleValue === 0) {
+    if (mapToggleValue === 0 && filter.realestateTypeGroup === 'apt,oftl') {
       // 실거래가
       f.trade_price2_min = PRICE_STEPS[filter.priceRange[0]] === 0 ? null : PRICE_STEPS[filter.priceRange[0]];
       if (filter.priceRange[1] !== PRICE_STEPS.length - 1) {

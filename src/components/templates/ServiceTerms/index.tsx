@@ -18,9 +18,10 @@ export default function ServiceTerms({ html, termDate, onClickGoBack, onChangeSe
         <NavigationHeader.Title>서비스 이용약관</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="mt-7 px-5 text-gray-700 text-info">시행일자: {termDate}</div>
-      <div tw="mt-3 px-5" dangerouslySetInnerHTML={{ __html: html }} />
+      <div tw="mt-3 px-5 overflow-y-auto" dangerouslySetInnerHTML={{ __html: html }} />
       <Separator />
       <div tw="min-h-[8px] bg-gray-300 mt-10" />
+
       <div tw="py-7 px-5">
         <div tw="text-b1 font-bold text-gray-1000 mb-4">이전 약관 보기</div>
         <Dropdown value={termDate} variant="outlined" onChange={onChangeSelectedTerms}>

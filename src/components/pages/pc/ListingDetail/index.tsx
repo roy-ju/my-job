@@ -20,6 +20,7 @@ import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import viewListing from '@/apis/listing/viewListing';
+import { useAuth } from '@/hooks/services';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -30,6 +31,8 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
+  const { user } = useAuth();
+
   const { redirectable } = useListingDetailRedirector(listingID, depth);
 
   const router = useRouter(depth);
@@ -75,6 +78,14 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   );
 
   const handleClickFavorite = useCallback(async () => {
+    if (!user) {
+      router.replaceCurrent(Routes.Login, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}`, back: 'true' },
+      });
+      return;
+    }
+
     if (data?.listing?.id) {
       if (data.is_favorite) {
         await removeFavorite(data.listing.id);
@@ -84,7 +95,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
       }
       await mutateListing();
     }
-  }, [data, mutateListing]);
+  }, [data, mutateListing, user, router]);
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
@@ -195,7 +206,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
     const content = `[네고시오] ${data?.display_address}\n► 부동산 종류 : ${
       RealestateTypeString[data?.listing?.realestate_type ?? 0]
-    }\n► 거래종류 : ${BuyOrRentString[data?.listing.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
+    }\n► 거래종류 : ${BuyOrRentString[data?.listing?.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
       window.origin
     }/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
     navigator.clipboard.writeText(content);
