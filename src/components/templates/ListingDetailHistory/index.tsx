@@ -213,7 +213,7 @@ export default function ListingDetailHistory({
           />
         </div>
         {!isPreContractCompleted && !isContractCompleted && !isCancelled && (
-          <div tw="mt-1 py-6 px-5">
+          <div tw="mt-1 py-6 px-5 relative">
             <SuggestionCard
               isMonthlyRent={isMonthlyRent}
               biddingMonthlyRentFee={biddingMonthlyRentFee}
@@ -231,6 +231,7 @@ export default function ListingDetailHistory({
               description={description}
               etcs={etcs}
             />
+            <div tw="border-t border-gray-300 absolute left-0 right-0 mt-7" />
           </div>
         )}
         <div tw="py-7 px-5">
