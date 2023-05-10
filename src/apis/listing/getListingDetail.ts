@@ -128,7 +128,7 @@ interface BiddingsChatRoomNotCreated {
 }
 
 export interface GetListingDetailResponse {
-  listing: Listing;
+  listing: Listing | null;
   is_owner: boolean;
   chat_room_id: number;
   bidding_id: any;

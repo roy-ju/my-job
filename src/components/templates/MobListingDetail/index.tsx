@@ -66,7 +66,7 @@ export default function MobListingDetail({
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
-  const { danji } = useDanjiDetail(listingDetail?.listing.pnu, listingDetail?.listing.realestate_type);
+  const { danji } = useDanjiDetail(listingDetail?.listing?.pnu, listingDetail?.listing?.realestate_type);
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
@@ -291,7 +291,7 @@ export default function MobListingDetail({
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
             </Tabs.Tab>
-            {listingDetail?.listing.pnu && (
+            {listingDetail?.listing?.pnu && (
               <Tabs.Tab value={1}>
                 <span tw="text-b2">단지정보</span>
               </Tabs.Tab>
@@ -340,7 +340,7 @@ export default function MobListingDetail({
                 <Table.Row>
                   <Table.Head>방향</Table.Head>
                   <Table.Data>
-                    {listingDetail?.listing.direction} <span tw="text-info text-gray-700">거실기준</span>
+                    {listingDetail?.listing?.direction} <span tw="text-info text-gray-700">거실기준</span>
                   </Table.Data>
                 </Table.Row>
                 <Table.Row>
@@ -353,14 +353,14 @@ export default function MobListingDetail({
                   <Table.Row>
                     <Table.Head>방 / 욕실</Table.Head>
                     <Table.Data>
-                      {falsy(listingDetail?.listing.room_count, '-')}개 /{' '}
-                      {falsy(listingDetail?.listing.bathroom_count, '-')}개
+                      {falsy(listingDetail?.listing?.room_count, '-')}개 /{' '}
+                      {falsy(listingDetail?.listing?.bathroom_count, '-')}개
                     </Table.Data>
                   </Table.Row>
                   <Table.Row>
                     <Table.Head>해당 층 / 총 층</Table.Head>
                     <Table.Data>
-                      {falsy(listingDetail?.listing.floor_description, '-')} /{' '}
+                      {falsy(listingDetail?.listing?.floor_description, '-')} /{' '}
                       {falsy(listingDetail?.listing?.total_floor, '-')}층
                     </Table.Data>
                   </Table.Row>
@@ -392,7 +392,7 @@ export default function MobListingDetail({
               {infoSectionExpanded ? '접기' : '더보기'}
             </Button>
           </div>
-          {(listingDetail?.listing?.veranda_extended || listingDetail?.listing.veranda_remodelling) && (
+          {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling) && (
             <div>
               <Separator />
               <div tw="py-10 px-5">

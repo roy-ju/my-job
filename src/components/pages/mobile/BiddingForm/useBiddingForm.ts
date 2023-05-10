@@ -176,19 +176,19 @@ export default function useBiddingForm() {
     } else {
       handleSubmitFinal();
     }
-  }, [type, data?.listing.buy_or_rent, setNextForm, handleSubmitFinal]);
+  }, [type, data?.listing?.buy_or_rent, setNextForm, handleSubmitFinal]);
 
   const handleSubmitContractAmount = useCallback(() => {
     setNextForm(Forms.InterimAmount);
   }, [setNextForm]);
 
   const handleSubmitInterimAmount = useCallback(() => {
-    if (data?.listing.buy_or_rent === BuyOrRent.Buy) {
+    if (data?.listing?.buy_or_rent === BuyOrRent.Buy) {
       setNextForm(Forms.RemainingAmount);
     } else {
       setNextForm(Forms.MoveInDate);
     }
-  }, [setNextForm, data?.listing.buy_or_rent]);
+  }, [setNextForm, data?.listing?.buy_or_rent]);
 
   const handleSubmitRemainingAmount = useCallback(() => {
     setNextForm(Forms.Etc);
@@ -269,7 +269,7 @@ export default function useBiddingForm() {
     setNextButtonDisabled(false);
 
     const currentForm = forms[forms.length - 1];
-    const buyOrRent = data?.listing.buy_or_rent ?? 0;
+    const buyOrRent = data?.listing?.buy_or_rent ?? 0;
     if (currentForm === Forms.Price) {
       if (type === 1) {
         const priceNum = Number(price) ?? 0;
@@ -328,7 +328,7 @@ export default function useBiddingForm() {
     type,
     price,
     monthlyRentFee,
-    data?.listing.buy_or_rent,
+    data?.listing?.buy_or_rent,
     canHaveMoreContractAmount,
     contractAmount,
     canHaveMoreInterimAmount,
