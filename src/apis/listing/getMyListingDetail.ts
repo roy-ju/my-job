@@ -113,7 +113,7 @@ interface AgentSummary {
 export interface GetMyListingDetailResponse {
   listing_id: number;
   listing_status: number;
-  listing: Listing;
+  listing: Listing | null;
   trade_or_deposit_price: number;
   monthly_rent_fee: number;
   full_road_name_address: string;

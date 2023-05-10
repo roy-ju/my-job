@@ -45,13 +45,17 @@ const ListingCreateSummary = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { listingPhotoUrls, danjiPhotoUrls, isOwner, ...fields } = params;
 
-    listingPhotoUrls?.map(async (item: string) => {
-      getFileFromUrl(item, v4()).then((f) => uploadListingPhoto(listingID, f));
-    });
+    try {
+      listingPhotoUrls?.map(async (item: string) => {
+        getFileFromUrl(item, v4()).then((f) => uploadListingPhoto(listingID, f));
+      });
 
-    danjiPhotoUrls?.map(async (item: string) => {
-      getFileFromUrl(item, v4()).then((f) => updateDanjiPhoto(listingID, f));
-    });
+      danjiPhotoUrls?.map(async (item: string) => {
+        getFileFromUrl(item, v4()).then((f) => updateDanjiPhoto(listingID, f));
+      });
+    } catch (e) {
+      console.error(e);
+    }
 
     await updateListing({
       ...fields,
