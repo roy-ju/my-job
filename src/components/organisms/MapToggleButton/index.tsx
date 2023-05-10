@@ -26,7 +26,8 @@ function MapToggleButton({ value: valueProp, onChange }: Props) {
   );
 
   return (
-    <div
+    <motion.div
+      layout
       css={[
         tw`h-[3.25rem] bg-white shadow-[0px 8px 16px rgba(0, 0, 0, 0.14)] rounded-[60px] p-0.5 inline-flex items-center relative`,
       ]}
@@ -59,7 +60,7 @@ function MapToggleButton({ value: valueProp, onChange }: Props) {
           <motion.div layoutId="selection" tw="absolute top-0 left-0 bg-nego-800 w-full h-full -z-10 rounded-[60px]" />
         )}
       </Button>
-    </div>
+    </motion.div>
   );
 }
 
