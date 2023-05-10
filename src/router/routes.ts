@@ -100,6 +100,7 @@ const Routes = {
   ListingPhotoGallery: 'listingPhotoGallery',
   ListingTargetPriceUpdate: 'listingTargetPriceUpdate',
   ListingTargetPriceUpdateSummary: 'listingTargetPriceUpdateSummary',
+  ContractTerms: 'contractTerms',
 
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
