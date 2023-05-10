@@ -88,6 +88,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <LoginTemplate
+        onClickBack={
+          router.query.back === 'true' && router.query.redirect
+            ? () => {
+                nextRouter.replace(router.query.redirect as string);
+              }
+            : undefined
+        }
         onClickKakaoLogin={handleKakaoLogin}
         onClickAppleLogin={handleAppleLogin}
         onClickForgotMyAccount={handleForgotMyAccount}

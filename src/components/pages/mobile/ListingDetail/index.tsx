@@ -25,10 +25,13 @@ import { FullScreenMap } from '@/components/templates/MobDanjiDetail/Components/
 import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail';
 import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
 import viewListing from '@/apis/listing/viewListing';
+import { useAuth } from '@/hooks/services';
 import useListingDetailRedirector from './useListingDetailRedirector';
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 export default memo(() => {
+  const { user } = useAuth();
+
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
 
@@ -74,6 +77,16 @@ export default memo(() => {
   );
 
   const handleClickFavorite = useCallback(async () => {
+    if (!user) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
     if (data?.listing?.id) {
       if (data.is_favorite) {
         await removeFavorite(data.listing.id);
@@ -83,7 +96,7 @@ export default memo(() => {
       }
       await mutateListing();
     }
-  }, [data, mutateListing]);
+  }, [data, mutateListing, user]);
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
