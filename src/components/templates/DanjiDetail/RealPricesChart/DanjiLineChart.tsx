@@ -54,7 +54,6 @@ const DanjiLineChart = React.memo(
     width,
     yAxisWidth,
     lineChartHeight,
-    renderNodata,
     xScale,
     yScalePrice,
     tickValues,
@@ -68,7 +67,6 @@ const DanjiLineChart = React.memo(
     width: number;
     yAxisWidth: number;
     lineChartHeight: number;
-    renderNodata: boolean;
     xScale: ScaleTime<number, number, never>;
     yScalePrice: ScaleLinear<number, number, never>;
     tickValues: number[];
@@ -177,17 +175,17 @@ const DanjiLineChart = React.memo(
             width={width - yAxisWidth}
             left={yAxisWidth}
             scale={yScalePrice}
-            tickValues={tickValues}
+            tickValues={tickValues.filter((element, index) => tickValues.indexOf(element) === index)}
             stroke="#E1E1E1"
             strokeOpacity="0.5"
           />
         )}
 
-        {!renderNodata && (
+        {tickValues && tickValues.filter((item) => item > 0).length >= 1 && (
           <AxisLeft
             left={yAxisWidth}
             scale={yScalePrice}
-            tickValues={tickValues}
+            tickValues={tickValues.filter((element, index) => tickValues.indexOf(element) === index)}
             tickLength={8}
             tickStroke="transparent"
             strokeWidth={0}
@@ -195,7 +193,6 @@ const DanjiLineChart = React.memo(
             tickLabelProps={() => ({
               dy: '0.3em',
               fontSize: '12px',
-              // fontFamily: 'pretend',
               fontWeight: 400,
               fill: '#868E96',
               textAnchor: 'end',

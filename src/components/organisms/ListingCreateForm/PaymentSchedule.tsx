@@ -32,9 +32,11 @@ export default function PaymentSchedule({
     <div tw="flex flex-col gap-6">
       <div tw="flex justify-between">
         <div tw="text-b1 leading-none font-bold">희망 지급일정</div>
-        <Button size="small" variant="outlined" onClick={onClickAddInterim} disabled={isAddButtonDisabled}>
-          중도금 추가
-        </Button>
+        {!isAddButtonDisabled && (
+          <Button size="small" variant="outlined" onClick={onClickAddInterim}>
+            중도금 추가
+          </Button>
+        )}
       </div>
       {showCalculator && (
         <div tw="flex flex-col gap-2">

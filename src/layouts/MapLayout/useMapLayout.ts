@@ -17,6 +17,9 @@ import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import getListingSummary from '@/apis/map/mapListingSummary';
 import Routes from '@/router/routes';
+import useRecentSearches from '@/hooks/services/useRecentSearches';
+import { v1 } from 'uuid';
+import { toast } from 'react-toastify';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -161,6 +164,13 @@ export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
 
   const abortControllerRef = useRef<AbortController>();
+
+  const {
+    items: recentSearches,
+    add: addRecentSearch,
+    clear: clearRecentSearches,
+    remove: removeRecentSearch,
+  } = useRecentSearches<KakaoAddressAutocompleteResponseItem>();
 
   const [mapState, setMapState] = useRecoilState(recoilMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
@@ -352,6 +362,12 @@ export default function useMapLayout() {
             price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
             onClick: () => {
               if (isPanningRef.current) return;
+              router.replace(Routes.MapListingList, {
+                searchParams: {
+                  listingIDs: item.listing_ids,
+                },
+              });
+
               setPolygons([]);
               setSelectedSchoolID('');
               _map?.morph({
@@ -668,7 +684,14 @@ export default function useMapLayout() {
    */
   useEffect(() => {
     if (bounds && schoolType !== 'none' && mapState?.naverMap) {
-      updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
+      if (bounds.mapLevel < 3) {
+        updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
+      } else {
+        toast.error('지도를 확대하여 학교마커를 확인하세요.', { toastId: 'schoolMarkerError' });
+        setSchoolMarkers([]);
+        setPolygons([]);
+        setSelectedSchoolID('');
+      }
     } else if (schoolType === 'none') {
       setSchoolMarkers([]);
     }
@@ -753,8 +776,16 @@ export default function useMapLayout() {
   }, []);
 
   const handleMapSearch = useCallback(
-    (item: KakaoAddressAutocompleteResponseItem) => {
+    (item: KakaoAddressAutocompleteResponseItem, isFromRecentSearch: boolean) => {
       if (!mapState?.naverMap) return;
+
+      if (!isFromRecentSearch) {
+        addRecentSearch({
+          ...item,
+          id: v1(),
+        });
+      }
+
       mapState?.naverMap.morph(
         {
           lat: item.lat,
@@ -840,6 +871,7 @@ export default function useMapLayout() {
 
   return {
     // common map handlers and properties
+
     minZoom: DEFAULT_MIN_ZOOM,
     maxZoom: DEFAULT_MAX_ZOOM,
     zoom: initialZoom,
@@ -852,6 +884,7 @@ export default function useMapLayout() {
     onIdle,
     onZoomStart,
     // ones with business logics
+    recentSearches,
     streetViewEvent,
     selectedDanjiSummary,
     filter,
@@ -876,5 +909,7 @@ export default function useMapLayout() {
     handleChangeMapToggleValue,
     handleChangePriceType,
     handleCloseStreetView,
+    clearRecentSearches,
+    removeRecentSearch,
   };
 }
