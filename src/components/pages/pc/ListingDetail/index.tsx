@@ -199,7 +199,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
     const content = `[네고시오] ${data?.display_address}\n► 부동산 종류 : ${
       RealestateTypeString[data?.listing?.realestate_type ?? 0]
-    }\n► 거래종류 : ${BuyOrRentString[data?.listing.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
+    }\n► 거래종류 : ${BuyOrRentString[data?.listing?.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
       window.origin
     }/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
     navigator.clipboard.writeText(content);
