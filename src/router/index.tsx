@@ -233,7 +233,7 @@ const ServiceTerms = dynamic(() => import('@/components/pages/pc/ServiceTerms'),
   ssr: false,
   loading: FallbackComponent,
 });
-const PrivacyTerms = dynamic(() => import('@/components/pages/pc/PrivacyTerms'), {
+const PrivacyPolicy = dynamic(() => import('@/components/pages/pc/PrivacyPolicy'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -425,8 +425,8 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     case Routes.ServiceTerms: {
       return <ServiceTerms {...props} />;
     }
-    case Routes.PrivacyTerms: {
-      return <PrivacyTerms {...props} />;
+    case Routes.PrivacyPolicy: {
+      return <PrivacyPolicy {...props} />;
     }
     case Routes.LocationTerms: {
       return <LocationTerms {...props} />;

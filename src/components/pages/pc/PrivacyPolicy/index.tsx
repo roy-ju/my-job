@@ -1,6 +1,6 @@
 import { Panel } from '@/components/atoms';
 import { memo, useCallback, useState } from 'react';
-import { PrivacyTerms as PrivacyTermsTemplate } from '@/components/templates';
+import { PrivacyPolicy as PrivacyPolicyTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import HTML_20221208 from '@/assets/terms/privacy_agreement/20221208';
@@ -48,7 +48,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <PrivacyTermsTemplate
+      <PrivacyPolicyTemplate
         termDate={selectedTerms}
         html={htmlTerms}
         onClickGoBack={handleGoBack}

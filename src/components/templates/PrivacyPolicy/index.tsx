@@ -1,7 +1,7 @@
 import { Dropdown, NavigationHeader } from '@/components/molecules';
 import { Separator } from '@/components/atoms';
 
-interface PrivacyTermsProps {
+interface PrivacyPolicyProps {
   termDate: string;
   html: string;
   onClickGoBack?: () => void;
@@ -10,7 +10,7 @@ interface PrivacyTermsProps {
 
 /* eslint-disable */
 
-export default function PrivacyTerms({ html, termDate, onClickGoBack, onChangeSelectedTerms }: PrivacyTermsProps) {
+export default function PrivacyPolicy({ html, termDate, onClickGoBack, onChangeSelectedTerms }: PrivacyPolicyProps) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
