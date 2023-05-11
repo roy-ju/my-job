@@ -26,6 +26,15 @@ export const isObject = (val: any): val is object => toString.call(val) === '[ob
 export const isWindow = (val: any): val is Window =>
   typeof window !== 'undefined' && toString.call(val) === '[object Window]';
 
+export const isPdf = (val: string) => {
+  const convertedLowerName = val.toLocaleLowerCase();
+
+  if (convertedLowerName.endsWith('.pdf')) {
+    return true;
+  }
+  return false;
+};
+
 export const isMobile = (ua: string) => ua.indexOf('Mobi') > -1;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function

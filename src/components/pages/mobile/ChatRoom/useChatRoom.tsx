@@ -105,5 +105,8 @@ export default function useChatRoom(chatRoomID: number) {
     isLoading,
     handleSendMessage,
     chatUserType: data?.chat_user_type,
+
+    hasContractCompleteListings: data?.has_contract_complete_listings,
+    hasPreContractCompleteListings: data?.has_pre_contract_complete_listings,
   };
 }
