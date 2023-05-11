@@ -172,7 +172,7 @@ export default function DanjiRecommendation() {
       if (!val) return;
 
       if (selectedGonggeupPyoungList.includes(Number(val))) {
-        toast.error('이미 추가하신 평형입니다.');
+        toast.error('이미 추가하신 평형입니다.', { toastId: 'toast_already' });
       } else {
         setSelectedGonggeupPyoungList((prev) => [...prev, Number(val)]);
       }
@@ -240,7 +240,12 @@ export default function DanjiRecommendation() {
 
   /** stpe 5 Or 6 텍스트필트 이벤트 핸들러 */
   const onChangeEtcField = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
-    setEtc(e.target.value);
+    if (e.target.value.length > 200) {
+      setEtc(e.target.value.slice(0, 200));
+      toast.error('더 이상 입력할 수 없습니다.', { toastId: 'toast_already' });
+    } else {
+      setEtc(e.target.value);
+    }
   }, []);
 
   /** 거래종류 변경시 팝업 이벤트 핸들러 */
