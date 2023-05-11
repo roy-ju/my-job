@@ -23,6 +23,7 @@ export const UserDefault: ComponentStory<typeof ChatMessage> = () => (
     <ChatMessage.Bubble>
       거래등록 요청에 따라 “서방공인중개사”와의 채팅방이 개설되었습니다. ㅋㅋㅋㅋㅋ
     </ChatMessage.Bubble>
+    <ChatMessage.ReadIndicator>읽기전</ChatMessage.ReadIndicator>
     <ChatMessage.SentTime>오전 12:57</ChatMessage.SentTime>
   </ChatMessage>
 );

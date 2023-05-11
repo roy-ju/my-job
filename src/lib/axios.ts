@@ -1,6 +1,8 @@
 import { refresh } from '@/apis/user/refresh';
 import Keys from '@/constants/storage_keys';
 import instance from 'axios';
+// import Router from 'next/router';
+import { toast } from 'react-toastify';
 import { mutate } from 'swr';
 
 const axios = instance.create({
@@ -23,6 +25,13 @@ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const { config: originalRequest, response } = error;
+    if (response?.status === 500 && typeof window !== 'undefined') {
+      toast.error('문제가 발생했습니다. 잠시 뒤 다시 시도해 주세요.');
+      if (window.location.pathname !== '/') {
+        //   Router.replace(`/`);
+      }
+    }
+
     if (response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const item = localStorage.getItem(Keys.REFRESH_TOKEN);

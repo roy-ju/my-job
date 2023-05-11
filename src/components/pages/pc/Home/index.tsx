@@ -1,6 +1,9 @@
+import useAPI_GetDanjisForTheLoggedIn from '@/apis/home/getDanjisForTheLoggedIn';
+import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLoggedIn';
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
+import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import { Panel } from '@/components/atoms';
 import { Home } from '@/components/templates';
 import Paths from '@/constants/paths';
@@ -10,8 +13,11 @@ import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 
 export default memo(() => {
-  const { user } = useAuth();
   const router = useRouter(0);
+
+  const { user } = useAuth();
+
+  const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
 
   const { data: realPriceData } = useAPI_GetRecentRealPrices();
 
@@ -19,8 +25,16 @@ export default memo(() => {
 
   const { data: favoriteData } = useAPI_GetMostFavorites();
 
+  const { data: listingsForUserData } = useAPI_GetListingsForTheLoggedIn();
+
+  const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
+
   const handleClickLogin = useCallback(() => {
     router.replace(Routes.Login);
+  }, [router]);
+
+  const handleClickNotification = useCallback(() => {
+    router.replace(Routes.NotificationList);
   }, [router]);
 
   const handleClickSuggestion = useCallback(() => {}, []);
@@ -84,11 +98,15 @@ export default memo(() => {
   return (
     <Panel>
       <Home
-        loggedIn={Boolean(user)}
+        user={user}
+        unreadNotificationCount={unreadNotificationCount}
         recentRealPriceList={realPriceData?.list}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}
+        listingsForUser={listingsForUserData?.list}
+        danjisForUser={danjisForUserData?.list}
         onClickLogin={handleClickLogin}
+        onClickNotification={handleClickNotification}
         onClickSuggestion={handleClickSuggestion}
         onClickBidding={handleClickBidding}
         onClickHomeRegister={handleClickHomeRegister}

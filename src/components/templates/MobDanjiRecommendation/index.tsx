@@ -417,7 +417,7 @@ export const EtcField = ({
         <TextField.TextArea
           value={etc}
           onChange={onChangeEtcField}
-          tw="[min-height: 76px] py-[16px] px-[20px] placeholder:[line-height: 22px]"
+          tw="[min-height: 76px] [max-height: 180px] overflow-auto  py-[16px] px-[20px] placeholder:[line-height: 22px]"
           placeholder="예) 중층의 매물을 원해요.&#13;&#10;초등학교가 가까운 매물 제안해주세요."
           spellCheck="false"
         />

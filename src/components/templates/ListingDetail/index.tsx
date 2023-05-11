@@ -10,7 +10,7 @@ import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
-import { BuyOrRent, VisitUserType } from '@/constants/enums';
+import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
 import Routes from '@/router/routes';
@@ -137,6 +137,11 @@ export default function ListingDetail({
     [listingDetail?.biddings_chat_room_not_created],
   );
 
+  const etcOptions = useMemo(() => {
+    if (listingDetail?.options?.length) return listingDetail?.options?.map((item) => item.name).join(',');
+    return '';
+  }, [listingDetail?.options]);
+
   const handleTabItemClick = useCallback(
     (i: number) => {
       if (i === 0) {
@@ -247,7 +252,13 @@ export default function ListingDetail({
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <PhotoHero
           onClickViewPhotos={onNavigateToPhotoGallery}
-          itemSize={(listingDetail?.photos?.length ?? 0) + (listingDetail?.danji_photos?.length ?? 0)}
+          itemSize={
+            (listingDetail?.photos?.length ?? 0) +
+            (listingDetail?.listing?.realestate_type === RealestateType.Apartment ||
+            listingDetail?.listing?.realestate_type === RealestateType.Officetel
+              ? listingDetail?.danji_photos?.length ?? 0
+              : 0)
+          }
           photoPath={
             listingDetail?.photos?.[0]?.full_file_path ??
             DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]
@@ -414,7 +425,7 @@ export default function ListingDetail({
               {infoSectionExpanded ? '접기' : '더보기'}
             </Button>
           </div>
-          {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling) && (
+          {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling || etcOptions) && (
             <div>
               <Separator />
               <div tw="py-10 px-5">
@@ -435,6 +446,12 @@ export default function ListingDetail({
                       <Table.Row>
                         <Table.Head>올수리 여부</Table.Head>
                         <Table.Data>2년 내 올수리</Table.Data>
+                      </Table.Row>
+                    )}
+                    {etcOptions && (
+                      <Table.Row>
+                        <Table.Head>기타 옵션</Table.Head>
+                        <Table.Data>{etcOptions}</Table.Data>
                       </Table.Row>
                     )}
                   </Table.Body>
