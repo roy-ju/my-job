@@ -152,18 +152,25 @@ export const PriceField = ({
   return (
     <div tw="flex flex-col px-5 py-10 gap-4">
       <span tw="text-b1 font-bold">추천받고 싶은 매물의 가격을 알려주세요.</span>
-      <TextField variant="outlined">
-        <TextField.PriceInput label={priceLabel} value={tradeOrDepositPrice} onChange={onChangeTradeOrDepositPrice} />
-      </TextField>
+
+      <div>
+        <TextField variant="outlined">
+          <TextField.PriceInput label={priceLabel} value={tradeOrDepositPrice} onChange={onChangeTradeOrDepositPrice} />
+        </TextField>
+        {!!tradeOrDepositPrice && <TextField.PriceHelperMessage>{tradeOrDepositPrice}</TextField.PriceHelperMessage>}
+      </div>
 
       {buyOrRent === BuyOrRent.Jeonsae && (
-        <TextField variant="outlined">
-          <TextField.PriceInput
-            label={monthlyRentFee && monthlyRentFee.length !== 0 ? '월차임 가격' : '월차임 가격 입력'}
-            value={monthlyRentFee}
-            onChange={onChangeMonthlyRentFee}
-          />
-        </TextField>
+        <div>
+          <TextField variant="outlined">
+            <TextField.PriceInput
+              label={monthlyRentFee && monthlyRentFee.length !== 0 ? '월차임 가격' : '월차임 가격 입력'}
+              value={monthlyRentFee}
+              onChange={onChangeMonthlyRentFee}
+            />
+          </TextField>
+          {!!monthlyRentFee && <TextField.PriceHelperMessage>{monthlyRentFee}</TextField.PriceHelperMessage>}
+        </div>
       )}
 
       <span tw="text-info text-gray-700">
