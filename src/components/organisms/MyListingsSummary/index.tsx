@@ -23,19 +23,27 @@ export default function MyListingsSummary({
 }: MyListingsSummaryProps) {
   return (
     <div tw="bg-white px-5 pb-10 flex flex-col">
-      <div tw="text-b1 leading-none font-bold mt-5 mb-4">중개사가 추천한 매물</div>
-      <div tw="flex gap-2 items-center rounded-lg py-3 px-5 mb-6 bg-gray-100">
-        <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200">
-          <div>
-            <div tw="text-info text-gray-700">전체</div>
-            <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_sent_count ?? 0}</div>
-          </div>
-        </Button>
-        <Button onClick={onClickSuggestRegional} tw="flex-1" size="medium" variant="secondary">
-          새로운 매물 추천 받아보기
+      <div tw="text-b1 leading-none font-bold mt-5 mb-4">중개사 추천 매물 확인</div>
+      <div tw="flex items-center rounded-lg py-2 mb-6 bg-gray-100">
+        <div tw="flex w-1/2">
+          <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200">
+            <div>
+              <div tw="text-info text-gray-700">단지/지역 수</div>
+              <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_sent_count ?? 0}</div>
+            </div>
+          </Button>
+          <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200 flex-1">
+            <div>
+              <div tw="text-info text-gray-700">매물 수</div>
+              <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
+            </div>
+          </Button>
+        </div>
+        <Button onClick={onClickSuggestRegional} tw="flex-1 h-11 mx-5" variant="secondary">
+          새 매물 추천받기
         </Button>
       </div>
-      <div tw="text-b1 leading-none font-bold mb-4">나의 가격 제안 현황</div>
+      <div tw="text-b1 leading-none font-bold mb-4">나의 제안 현황</div>
       <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
         <Button
           onClick={() => onClickMyParticipatingListings?.(1)}
@@ -46,7 +54,7 @@ export default function MyListingsSummary({
           <div tw="text-info text-gray-700 leading-6">제안중</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_submitted_count ?? 0}</div>
         </Button>
-        <div tw="w-px h-5 bg-gray-300" />
+        <div tw="w-px h-11 bg-gray-300" />
         <Button
           onClick={() => onClickMyParticipatingListings?.(2)}
           size="none"
@@ -56,7 +64,7 @@ export default function MyListingsSummary({
           <div tw="text-info text-gray-700 leading-6">협의중</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_accepted_count ?? 0}</div>
         </Button>
-        <div tw="w-px h-5 bg-gray-300" />
+
         <Button
           onClick={() => onClickMyParticipatingListings?.(3)}
           size="none"
@@ -87,6 +95,7 @@ export default function MyListingsSummary({
           <div tw="text-info text-gray-700 leading-6">등록신청</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_registering_listing_count ?? 0}</div>
         </Button>
+        <div tw="w-px h-11 bg-gray-300" />
         <Button
           onClick={() => onClickMyRegisteredListings?.(2)}
           size="none"
@@ -96,7 +105,7 @@ export default function MyListingsSummary({
           <div tw="text-info text-gray-700 leading-6">거래중</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_active_listing_count ?? 0}</div>
         </Button>
-        <div tw="w-px h-5 bg-gray-300" />
+
         <Button
           onClick={() => onClickMyRegisteredListings?.(3)}
           size="none"
@@ -106,7 +115,7 @@ export default function MyListingsSummary({
           <div tw="text-info text-gray-700 leading-6">거래성사</div>
           <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_contract_complete_listing_count ?? 0}</div>
         </Button>
-        <div tw="w-px h-5 bg-gray-300" />
+
         <Button
           onClick={() => onClickMyRegisteredListings?.(4)}
           size="none"
