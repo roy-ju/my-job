@@ -28,7 +28,6 @@ export default function DanjiListings({
   const router = useRouter(depth);
 
   const handleClickListingDetail = (id: number) => {
-    // console.log(id);
     router.push(Routes.ListingDetail, { persistParams: true, searchParams: { listingID: `${id}` } });
   };
 
