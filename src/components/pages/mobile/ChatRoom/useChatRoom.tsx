@@ -1,6 +1,7 @@
 import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
 import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import { IChatMessage } from '@/components/templates/ChatRoom/ChatMessageWrapper';
+import { ChatUserType } from '@/constants/enums';
 import Keys from '@/constants/storage_keys';
 import { useLocalStorage } from '@/hooks/utils';
 import useLatest from '@/hooks/utils/useLatest';
@@ -29,6 +30,10 @@ export default function useChatRoom(chatRoomID: number) {
     return `${baseURL}/chat/ws/${chatRoomID}/${accessToken}`;
   }, [accessToken, chatRoomID]);
 
+  const handleAgentReadMessages = useCallback(() => {
+    setChatMessages((prev) => prev.map((item) => (item.agentReadTime ? item : { ...item, agentReadTime: new Date() })));
+  }, []);
+
   const { connect, sendMessage } = useWebSocket(webSocketUrl, {
     onOpen: () => {},
     onClose: () => {
@@ -39,6 +44,11 @@ export default function useChatRoom(chatRoomID: number) {
     },
     onMessage: (event) => {
       const chat = JSON.parse(event.data) as WebSocketMessage;
+
+      if (chat.chat_user_type === ChatUserType.Agent && chat.read_chat_id) {
+        handleAgentReadMessages();
+      }
+
       if (chat.chat_id && chat.message) {
         mutateListRef.current();
         setChatMessages((prev) => [
@@ -50,6 +60,7 @@ export default function useChatRoom(chatRoomID: number) {
             message: chat.message,
             chatUserType: chat.chat_user_type,
             sentTime: new Date().toISOString(),
+            agentReadTime: null,
           },
         ]);
       }
@@ -69,6 +80,7 @@ export default function useChatRoom(chatRoomID: number) {
           message: chat.message,
           chatUserType: chat.chat_user_type,
           sentTime: chat.created_time,
+          agentReadTime: chat.agent_read_time ? new Date(chat.agent_read_time) : null,
         })) ?? [],
       );
     }

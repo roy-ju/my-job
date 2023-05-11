@@ -35,6 +35,7 @@ Default.args = {
       chatUserType: index % 2 === 0 ? ChatUserType.Agent : ChatUserType.Seller,
       profileImagePath: defaultAvatar,
       sentTime: '2023-03-21T03:43:40.133Z',
+      agentReadTime: null,
     })),
 
   buyerActiveList: [
@@ -98,5 +99,6 @@ ThousandsMessages.args = {
       chatUserType: index % 2 === 0 ? ChatUserType.Agent : ChatUserType.Seller,
       profileImagePath: defaultAvatar,
       sentTime: '2023-03-21T03:43:40.133Z',
+      agentReadTime: null,
     })),
 };
