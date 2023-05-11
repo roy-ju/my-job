@@ -18,3 +18,4 @@ export { default as BottomBezel } from './BottomBezel';
 export { default as AuthRequired } from './AuthRequired';
 export { default as MobAuthRequired } from './MobAuthRequired';
 export { default as TopLoadingBar } from './TopLoadingBar';
+export { default as HorizontalScroller } from './HorizontalScroller';
