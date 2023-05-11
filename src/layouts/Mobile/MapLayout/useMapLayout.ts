@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import getDanjiSummary from '@/apis/map/mapDanjiSummary';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
@@ -375,6 +375,7 @@ export default function useMapLayout() {
                   `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${item.listing_ids}`,
                 );
               } else {
+
                 router.push(
                   {
                     pathname: `/${Routes.EntryMobile}/${Routes.MapListingList}`,
@@ -465,7 +466,7 @@ export default function useMapLayout() {
         }
       }
     },
-    [selectMarker, router],
+    [selectMarker, router, bounds, filter],
   );
 
   /**
