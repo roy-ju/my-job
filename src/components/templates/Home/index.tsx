@@ -18,6 +18,7 @@ import HoneyJarIcon from '@/assets/icons/honey_jar.svg';
 import DirectTransactionIcon from '@/assets/icons/direct_transaction.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
+import BellIcon from '@/assets/icons/bell.svg';
 import { GetRecentRealPricesResponse } from '@/apis/home/getRecentRealPrices';
 import { GetMostSuggestsResponse } from '@/apis/home/getMostSuggests';
 import { GetMostFavoritesResponse } from '@/apis/home/getMostFavorites';
@@ -27,7 +28,8 @@ import {
   RealestateTypeChipVariant,
   RealestateTypeString,
 } from '@/constants/strings';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { useScroll } from '@/hooks/utils';
 
 const StyledTable = styled.table`
   table-layout: fixed;
@@ -51,6 +53,8 @@ const StyledTable = styled.table`
 interface Props {
   loggedIn?: boolean;
 
+  unreadNotificationCount?: number;
+
   recentRealPriceList?: GetRecentRealPricesResponse['list'];
   mostSuggestList?: GetMostSuggestsResponse['list'];
   mostFavoriteList?: GetMostFavoritesResponse['list'];
@@ -70,10 +74,13 @@ interface Props {
   onClickTermsAndPolicy?: () => void;
   onClickPrivacyPolicy?: () => void;
   onClickAgentSite?: () => void;
+  onClickNotification?: () => void;
 }
 
 export default function Home({
   loggedIn,
+
+  unreadNotificationCount = 0,
 
   recentRealPriceList,
   mostSuggestList,
@@ -94,7 +101,16 @@ export default function Home({
   onClickTermsAndPolicy,
   onClickPrivacyPolicy,
   onClickAgentSite,
+  onClickNotification,
 }: Props) {
+  const [isHeaderActive, setIsHeaderActive] = useState(false);
+
+  const [scrollContainer, setScrollContainer] = useState<HTMLDivElement | null>(null);
+
+  useScroll(scrollContainer, ({ scrollY }) => {
+    setIsHeaderActive(scrollY > 0);
+  });
+
   const isDragging = useRef(false);
 
   const handleDragStart = useCallback(() => {
@@ -108,23 +124,35 @@ export default function Home({
   }, []);
 
   return (
-    <div tw="h-full overflow-y-auto overflow-x-hidden">
+    <div ref={setScrollContainer} tw="relative h-full overflow-y-auto overflow-x-hidden">
+      <div
+        tw="sticky top-0 h-14 px-5 flex items-center justify-between z-[1000] transition-colors"
+        style={{ backgroundColor: isHeaderActive ? 'white' : '#F4F6FA' }}
+      >
+        <LogoIcon tw="text-nego-1100" />
+        {!loggedIn ? (
+          <Button
+            size="none"
+            variant="ghost"
+            tw="h-6 px-2.5 rounded-lg border border-nego-1000 text-nego-1000 text-info hover:bg-nego-100"
+            onClick={onClickLogin}
+          >
+            로그인
+            <span tw="h-2 w-px bg-nego-1000 mx-1" />
+            회원가입
+          </Button>
+        ) : (
+          <button type="button" tw="relative" onClick={onClickNotification}>
+            <BellIcon />
+            {unreadNotificationCount > 0 && (
+              <span tw="absolute right-1 top-0 translate-x-1/2 text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center">
+                {unreadNotificationCount}
+              </span>
+            )}
+          </button>
+        )}
+      </div>
       <div tw="pb-10" style={{ backgroundColor: '#F4F6FA' }}>
-        <div tw="h-14 px-5 flex items-center justify-between">
-          <LogoIcon tw="text-nego-1100" />
-          {!loggedIn && (
-            <Button
-              size="none"
-              variant="ghost"
-              tw="h-6 px-2.5 rounded-lg border border-nego-1000 text-nego-1000 text-info hover:bg-nego-100"
-              onClick={onClickLogin}
-            >
-              로그인
-              <span tw="h-2 w-px bg-nego-1000 mx-1" />
-              회원가입
-            </Button>
-          )}
-        </div>
         <div tw="pt-4 px-6">
           <p tw="text-h1 font-bold mb-2">
             부동산 네고 전문가
