@@ -111,7 +111,7 @@ const ListingCreateSummary = () => {
           agentOfficeName={agent.office_name}
           agentProfileImageFullPath={agent.profile_image_full_path}
           agentName={agent.name}
-          agentCellPhone={agent.cell_phone}
+          agentOfficePhone={agent.office_phone}
           agentJibunAddress={agent.full_jibun_address}
           agentDescription={agent.description}
           agentRegistrationNumber={agent.registration_number}
