@@ -74,7 +74,7 @@ export const ChartTooltip = React.memo(
         >
           <div
             style={{ '--left': `${left}px` } as CustomProperties & React.CSSProperties}
-            tw="flex flex-row items-center bg-white [width: 20.9375rem] [min-width: 20.9375rem] [border-radius: 4px] [text-align: left] [padding: 12px 12px 12px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
+            tw="flex flex-row items-center bg-white [width: 20.9375rem] [min-width: 20.9375rem] [border-radius: 8px] [text-align: left] [padding: 8px 12px 8px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
             css={[
               checkPlatform() === 'pc'
                 ? tw`before:[left: calc(var(--left)-7.07px)]`
