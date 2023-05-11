@@ -26,6 +26,7 @@ import {
   RealestateTypeChipVariant,
   RealestateTypeString,
 } from '@/constants/strings';
+import { useCallback, useRef } from 'react';
 
 const StyledTable = styled.table`
   table-layout: fixed;
@@ -60,6 +61,8 @@ interface Props {
   onClickHomeRegister?: () => void;
   onClickAppStore?: () => void;
   onClickGooglePlay?: () => void;
+  onClickDanji?: (pnu: string, realestateType: number) => void;
+  onClickListing?: (listingID: number) => void;
 }
 
 export default function Home({
@@ -74,7 +77,21 @@ export default function Home({
   onClickBidding,
   onClickListingCreate,
   onClickHomeRegister,
+  onClickDanji,
+  onClickListing,
 }: Props) {
+  const isDragging = useRef(false);
+
+  const handleDragStart = useCallback(() => {
+    isDragging.current = true;
+  }, []);
+
+  const handleDragEnd = useCallback(() => {
+    setTimeout(() => {
+      isDragging.current = false;
+    }, 300);
+  }, []);
+
   return (
     <div tw="h-full overflow-y-auto overflow-x-hidden">
       <div tw="pb-10" style={{ backgroundColor: '#F4F6FA' }}>
@@ -149,7 +166,7 @@ export default function Home({
       <Separator tw="bg-gray-300" />
       <div tw="py-10">
         <div tw="px-5 font-bold text-h3">내 집 마련 시작은 실거래가 확인부터</div>
-        <HorizontalScroller tw="mt-4">
+        <HorizontalScroller tw="mt-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div tw="flex px-5 gap-5">
             {recentRealPriceList?.map((item) => (
               <motion.div
@@ -158,6 +175,9 @@ export default function Home({
                 }}
                 key={item.danji_id}
                 tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                onClick={() => {
+                  if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                }}
               >
                 <div tw="flex gap-1 mb-2">
                   <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
@@ -184,7 +204,7 @@ export default function Home({
         <div tw="px-5 font-bold text-h3 flex items-center gap-2">
           전국팔도 꿀단지 <HoneyJarIcon />
         </div>
-        <HorizontalScroller tw="mt-4">
+        <HorizontalScroller tw="mt-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div tw="flex px-5 gap-5">
             {mostSuggestList?.map((item) => (
               <motion.div
@@ -193,6 +213,9 @@ export default function Home({
                 }}
                 key={item.danji_id}
                 tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                onClick={() => {
+                  if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                }}
               >
                 <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
                   <div tw="flex gap-1 mb-2">
@@ -227,7 +250,7 @@ export default function Home({
       <Separator tw="bg-gray-300" />
       <div tw="py-10">
         <div tw="px-5 font-bold text-h3">고민하는 사이 거래 종료! 관심 TOP 매물</div>
-        <HorizontalScroller tw="mt-4 overflow-y-visible">
+        <HorizontalScroller tw="mt-4 overflow-y-visible" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div tw="flex px-5 gap-5 overflow-y-visible">
             {mostFavoriteList?.map((item) => (
               <motion.div
@@ -236,6 +259,9 @@ export default function Home({
                 }}
                 key={item.listing_id}
                 tw="w-[160px] hover:cursor-pointer"
+                onClick={() => {
+                  if (!isDragging.current) onClickListing?.(item.listing_id);
+                }}
               >
                 <div
                   tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"

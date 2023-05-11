@@ -36,6 +36,20 @@ export default memo(() => {
     router.replace(Routes.ListingCreateAddress);
   }, [router]);
 
+  const handleClickListing = useCallback(
+    (listingID: number) => {
+      router.replace(Routes.ListingDetail, { searchParams: { listingID: `${listingID}` } });
+    },
+    [router],
+  );
+
+  const handleClickDanji = useCallback(
+    (pnu: string, realestateType: number) => {
+      router.replace(Routes.DanjiDetail, { searchParams: { p: pnu, rt: `${realestateType}` } });
+    },
+    [router],
+  );
+
   return (
     <Panel>
       <Home
@@ -48,6 +62,8 @@ export default memo(() => {
         onClickBidding={handleClickBidding}
         onClickHomeRegister={handleClickHomeRegister}
         onClickListingCreate={handleClickListingCreate}
+        onClickListing={handleClickListing}
+        onClickDanji={handleClickDanji}
       />
     </Panel>
   );
