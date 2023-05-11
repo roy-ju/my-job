@@ -1,6 +1,7 @@
 import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import { Panel } from '@/components/atoms';
 import { PhotoGallery } from '@/components/templates';
+import { RealestateType } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
 import { memo, useMemo } from 'react';
 
@@ -14,13 +15,19 @@ export default memo(({ depth, panelWidth }: Props) => {
   const listingID = Number(router.query.listingID) ?? 0;
   const { data } = useAPI_GetListingDetail(listingID);
 
-  const paths = useMemo(
-    () => [
-      ...(data?.photos?.map((item) => item.full_file_path) ?? []),
-      ...(data?.danji_photos?.map((item) => item.full_file_path) ?? []),
-    ],
-    [data?.photos, data?.danji_photos],
-  );
+  const paths = useMemo(() => {
+    if (
+      data?.listing?.realestate_type === RealestateType.Apartment ||
+      data?.listing?.realestate_type === RealestateType.Officetel
+    ) {
+      return [
+        ...(data?.photos?.map((item) => item.full_file_path) ?? []),
+        ...(data?.danji_photos?.map((item) => item.full_file_path) ?? []),
+      ];
+    }
+
+    return [...(data?.photos?.map((item) => item.full_file_path) ?? [])];
+  }, [data?.listing?.realestate_type, data?.photos, data?.danji_photos]);
 
   return (
     <Panel width={panelWidth}>
