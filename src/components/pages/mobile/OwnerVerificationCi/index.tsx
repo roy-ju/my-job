@@ -110,7 +110,7 @@ export default function OwnerVerificationCi() {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>매물이 존재하지 않습니다</Popup.Title>
+              <Popup.Title>해당 매물등록신청이 유효하지 않습니다.</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setErrorCode(null)}>확인</Popup.ActionButton>
