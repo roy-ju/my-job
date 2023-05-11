@@ -45,6 +45,16 @@ export default function MobDanjiDetailHeader({
       return;
     }
 
+    if (!user.isVerified) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
     if (user) {
       if (!isFavorite) {
         await danjiFavoriteAdd({
