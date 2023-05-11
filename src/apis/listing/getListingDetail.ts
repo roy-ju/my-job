@@ -175,7 +175,13 @@ export interface GetListingDetailResponse {
     name: string;
     created_time: string;
   }[];
-  options: any[];
+  options:
+    | {
+        id: number;
+        name: string;
+        created_time: string;
+      }[]
+    | null;
   biddings_chat_room_created: BiddingsChatRoomNotCreated[] | null;
   biddings_chat_room_not_created: BiddingsChatRoomNotCreated[] | null;
   suggest_recommend_id: number | null;
