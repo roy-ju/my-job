@@ -169,7 +169,7 @@ export interface GetMyListingDetailResponse {
 
 export default function useAPI_MyListingDetail(listingID: number) {
   const { user, isLoading: isLoadingUser } = useAuth();
-  const { data, isLoading, mutate } = useSWR<GetMyListingDetailResponse>(
+  const { data, isLoading, mutate } = useSWR<GetMyListingDetailResponse & ErrorResponse>(
     user && listingID ? ['/my/listing/detail', { listing_id: listingID }] : null,
   );
   return { data, isLoading: isLoading || isLoadingUser, mutate };
