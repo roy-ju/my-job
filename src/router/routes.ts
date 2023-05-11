@@ -69,7 +69,7 @@ const Routes = {
   BusinessInfo: 'businessInfo',
   TermsAndPolicy: 'termsAndPolicy',
   ServiceTerms: 'serviceTerms',
-  PrivacyTerms: 'privacyTerms',
+  PrivacyPolicy: 'privacyPolicy',
   LocationTerms: 'locationTerms',
 
   // 매물등록

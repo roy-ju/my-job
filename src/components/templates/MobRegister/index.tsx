@@ -18,7 +18,7 @@ export interface RegisterProps {
   onClickNext?: () => void;
   onClickBackButton?: () => void;
   onNavigateToServiceTerms?: () => void;
-  onNavigateToPrivacyTerms?: () => void;
+  onNavigateToPrivacyPolicy?: () => void;
   onNavigateToLocationTerms?: () => void;
 }
 
@@ -36,7 +36,7 @@ export default function MobRegister({
   onClickNext,
   onClickBackButton,
   onNavigateToLocationTerms,
-  onNavigateToPrivacyTerms,
+  onNavigateToPrivacyPolicy,
   onNavigateToServiceTerms,
 }: RegisterProps) {
   return (
@@ -62,7 +62,7 @@ export default function MobRegister({
             state={terms}
             onChangeState={onChangeTerms}
             onNavigateToServiceTerms={onNavigateToServiceTerms}
-            onNavigateToPrivacyTerms={onNavigateToPrivacyTerms}
+            onNavigateToPrivacyPolicy={onNavigateToPrivacyPolicy}
             onNavigateToLocationTerms={onNavigateToLocationTerms}
           />
         </div>

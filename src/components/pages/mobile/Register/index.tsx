@@ -127,10 +127,10 @@ export default function RegisterWrraper() {
     );
   }, [router]);
 
-  const handleNavigateToPrivacyTerms = useCallback(() => {
+  const handleNavigateToPrivacyPolicy = useCallback(() => {
     router.replace(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.PrivacyTerms}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.PrivacyPolicy}`,
         query: {
           register: 'true',
           email: router.query.email as string,
@@ -138,7 +138,7 @@ export default function RegisterWrraper() {
           socialLoginType: router.query.socialLoginType as string,
         },
       },
-      `/${Routes.EntryMobile}/${Routes.PrivacyTerms}?register=true`,
+      `/${Routes.EntryMobile}/${Routes.PrivacyPolicy}?register=true`,
     );
   }, [router]);
 
@@ -178,7 +178,7 @@ export default function RegisterWrraper() {
       onClickNext={handleClickNext}
       onClickBackButton={handleClickBack}
       onNavigateToServiceTerms={handleNavigateToServiceTerms}
-      onNavigateToPrivacyTerms={handleNavigateToPrivacyTerms}
+      onNavigateToPrivacyPolicy={handleNavigateToPrivacyPolicy}
       onNavigateToLocationTerms={handleNavigateToLocationTerms}
     />
   );

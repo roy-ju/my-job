@@ -63,7 +63,7 @@ interface TermsProps {
   state?: TermsState;
   onChangeState?: (newState: TermsState) => void;
   onNavigateToServiceTerms?: () => void;
-  onNavigateToPrivacyTerms?: () => void;
+  onNavigateToPrivacyPolicy?: () => void;
   onNavigateToLocationTerms?: () => void;
 }
 
@@ -71,7 +71,7 @@ function Terms({
   state: stateProp,
   onChangeState,
   onNavigateToLocationTerms,
-  onNavigateToPrivacyTerms,
+  onNavigateToPrivacyPolicy,
   onNavigateToServiceTerms,
 }: TermsProps) {
   const [state, setState] = useControlled({
@@ -149,7 +149,7 @@ function Terms({
             onChange={handleChangeState}
           />
           <Button
-            onClick={onNavigateToPrivacyTerms}
+            onClick={onNavigateToPrivacyPolicy}
             variant="ghost"
             size="none"
             tw="underline font-bold text-info text-gray-500"
