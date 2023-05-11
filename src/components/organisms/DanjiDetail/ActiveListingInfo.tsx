@@ -86,10 +86,10 @@ export default function ActiveListingInfo({
               setDropDownValue(v);
             }}
           >
-            <Dropdown.Option tw="[width: 92px]" value="최신순">
+            <Dropdown.Option tw="[width: 92px] text-info py-0.5" value="최신순">
               최신순
             </Dropdown.Option>
-            <Dropdown.Option tw="[width: 92px]" value="가격순">
+            <Dropdown.Option tw="[width: 92px] text-info py-0.5" value="가격순">
               가격순
             </Dropdown.Option>
           </Dropdown>
