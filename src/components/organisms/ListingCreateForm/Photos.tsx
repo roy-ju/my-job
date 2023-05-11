@@ -4,6 +4,7 @@ import { Button } from '@/components/atoms';
 import PlusIcon from '@/assets/icons/plus.svg';
 import CloseIcon from '@/assets/icons/close.svg';
 import { toast } from 'react-toastify';
+import loadImage from 'blueimp-load-image';
 
 interface Props {
   urls?: string[];
@@ -27,21 +28,59 @@ export default function Photos({ urls, onChange }: Props) {
   const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     async (e) => {
       let validated = true;
+
+      const newFiles: File[] = [];
+
       Array.from(e.target.files ?? []).forEach((item) => {
         const ext = item.name.split('.').pop();
-        if (!ext || !['png', 'jpg', 'jpeg'].includes(ext)) {
+
+        if (!ext || !['PNG', 'JPEG', 'JPG', 'png', 'jpg', 'jpeg'].includes(ext)) {
           validated = false;
         }
       });
+
       if (!validated) {
         toast.error('png, jpg, jpeg 확장자만 업로드 가능합니다.');
         return;
       }
 
-      const fileUrls = Array.from(e.target.files ?? []).map((item) => URL.createObjectURL(item));
+      const processFile = async (file: File) =>
+        new Promise<void>((resolve) => {
+          loadImage(
+            file,
+            // @ts-ignore
+            (img, _) => {
+              // @ts-ignore
+              img.toBlob((blob) => {
+                const rotateFile = new File([blob], file.name, {
+                  type: file.type,
+                });
+                newFiles.push(rotateFile);
+                resolve();
+              }, file.type);
+            },
+            {
+              canvas: true,
+              meta: true,
+              orientation: true,
+            },
+          );
+        });
+
+      const filePromises = Array.from(e.target.files ?? []).map(processFile);
+
+      await Promise.all(filePromises);
+
+      const fileUrls = Array.from(newFiles ?? []).map((item) => URL.createObjectURL(item));
+
       const newValues = [...values, ...fileUrls];
+
       setValues(newValues);
       onChange?.(newValues);
+
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
     },
     [setValues, onChange, values],
   );
