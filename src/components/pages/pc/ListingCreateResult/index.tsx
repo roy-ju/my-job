@@ -4,6 +4,7 @@ import useAPI_MyListingDetail from '@/apis/listing/getMyListingDetail';
 import selectListingAddress from '@/apis/listing/selectListingAddress';
 import sendOwnerVerification from '@/apis/listing/sendOwnerVerification';
 import { Panel } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingCreateResult } from '@/components/templates';
@@ -109,6 +110,21 @@ export default memo(({ depth, panelWidth }: Props) => {
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     router.pop();
     return null;
+  }
+
+  if (data?.error_code === 2002) {
+    return (
+      <OverlayPresenter>
+        <Popup>
+          <Popup.ContentGroup tw="py-10">
+            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+          </Popup.ContentGroup>
+          <Popup.ButtonGroup>
+            <Popup.ActionButton onClick={() => router.pop({ persistParams: false })}>확인</Popup.ActionButton>
+          </Popup.ButtonGroup>
+        </Popup>
+      </OverlayPresenter>
+    );
   }
 
   return (

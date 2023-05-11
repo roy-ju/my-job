@@ -1,3 +1,4 @@
+import { Panel } from '@/components/atoms';
 import ListingDetailSection from '.';
 
 const meta = {
@@ -11,27 +12,29 @@ export const Summary = () => (
 );
 
 export const Biddings = () => (
-  <ListingDetailSection.Biddings
-    showBiddingPrice
-    biddingsChatRoomCreated={[
-      {
-        nickname: 'heloo',
-        createdTime: 'asdf',
-        price: 100000000000,
-        monthlyRentFee: 10000000000,
-        isMyBidding: false,
-      },
-    ]}
-    biddingsChatRoomNotCreated={[
-      {
-        nickname: 'heloo',
-        createdTime: 'asdf',
-        price: 100000000000,
-        monthlyRentFee: 10000000000,
-        isMyBidding: true,
-      },
-    ]}
-  />
+  <Panel>
+    <ListingDetailSection.Biddings
+      showBiddingPrice
+      biddingsChatRoomCreated={[
+        {
+          nickname: '일이삼사오육칠팔구십',
+          createdTime: 'asdf',
+          price: 100000000000,
+          monthlyRentFee: 10000000000,
+          isMyBidding: false,
+        },
+      ]}
+      biddingsChatRoomNotCreated={[
+        {
+          nickname: 'heloo',
+          createdTime: 'asdf',
+          price: 100000000000,
+          monthlyRentFee: 10000000000,
+          isMyBidding: true,
+        },
+      ]}
+    />
+  </Panel>
 );
 
 export const Conditions = () => (
