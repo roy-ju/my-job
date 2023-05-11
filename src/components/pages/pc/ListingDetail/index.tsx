@@ -285,7 +285,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
             <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.pop()}>확인</Popup.ActionButton>
+            <Popup.ActionButton onClick={() => router.pop({ persistParams: false })}>확인</Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>
