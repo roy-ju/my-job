@@ -1,3 +1,6 @@
+import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
+import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
+import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
 import { Panel } from '@/components/atoms';
 import { Home } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
@@ -8,6 +11,12 @@ import { memo, useCallback } from 'react';
 export default memo(() => {
   const { user } = useAuth();
   const router = useRouter(0);
+
+  const { data: realPriceData } = useAPI_GetRecentRealPrices();
+
+  const { data: suggestData } = useAPI_GetMostSuggests();
+
+  const { data: favoriteData } = useAPI_GetMostFavorites();
 
   const handleClickLogin = useCallback(() => {
     router.replace(Routes.Login);
@@ -31,6 +40,9 @@ export default memo(() => {
     <Panel>
       <Home
         loggedIn={Boolean(user)}
+        recentRealPriceList={realPriceData?.list}
+        mostSuggestList={suggestData?.list}
+        mostFavoriteList={favoriteData?.list}
         onClickLogin={handleClickLogin}
         onClickSuggestion={handleClickSuggestion}
         onClickBidding={handleClickBidding}
