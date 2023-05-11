@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useOutsideClick } from '@/hooks/utils';
 import { css } from 'twin.macro';
 import ChatRoomListingListItem from '@/components/organisms/ChatRoomListingListItem';
+import CloseIcon from '@/assets/icons/close_24.svg';
 
 export interface ListingCardProps {
   listingId: number;
@@ -70,7 +71,17 @@ export default function ListingList({
     >
       <div ref={outsideRef} tw="w-[312px] bg-white self-end flex-1">
         <div tw="px-5 py-4">
-          <div tw="mb-1 text-b1 font-bold">{agentName} 공인중개사</div>
+          <div tw="mb-1 flex justify-between">
+            <div tw="text-b1 font-bold">{agentName} 공인중개사</div>
+            <button
+              type="button"
+              onClick={() => {
+                setShowListingList(false);
+              }}
+            >
+              <CloseIcon />
+            </button>
+          </div>
           <div tw="text-info text-gray-700">{officeName}</div>
         </div>
         <Separator />
