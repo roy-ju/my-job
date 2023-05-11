@@ -30,7 +30,12 @@ export default function JeonsaeLoan({ value: valueProp, onChange, isJeonsae }: J
     <div>
       <div tw="text-b1 leading-none font-bold mb-3 flex items-center gap-1">
         {isJeonsae ? '전세자금 대출가능 여부' : '보증금 대출가능 여부'}
-        <Button variant="ghost" size="none" tw="pb-px" onClick={() => openTooltip('')}>
+        <Button
+          variant="ghost"
+          size="none"
+          tw="pb-px"
+          onClick={() => openTooltip(isJeonsae ? 'jeonsaeLoan' : 'depositLoan')}
+        >
           <QuestionIcon />
         </Button>
       </div>

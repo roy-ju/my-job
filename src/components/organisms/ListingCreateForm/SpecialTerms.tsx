@@ -1,8 +1,7 @@
 import { RadioGroup, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback, useEffect } from 'react';
-import QuestionIcon from '@/assets/icons/question.svg';
-import { Button, Label, Radio } from '@/components/atoms';
+import { Label, Radio } from '@/components/atoms';
 
 interface SpecialTermsProps {
   value?: string;
@@ -17,7 +16,6 @@ export default function SpecialTerms({
   hasSpecialTerms: hasSpecialTermsProp,
   onChangeHasSpecialTerms,
   onChangeValue,
-  onClickQuestion,
 }: SpecialTermsProps) {
   const [hasSpecialTerms, setHasSpecialTerms] = useControlled({
     controlled: hasSpecialTermsProp,
@@ -57,9 +55,6 @@ export default function SpecialTerms({
     <div>
       <div tw="mb-3 flex items-center gap-1">
         <div tw="text-b1 leading-none font-bold">특약조건</div>
-        <Button variant="ghost" size="none" tw="pb-px" onClick={onClickQuestion}>
-          <QuestionIcon />
-        </Button>
       </div>
       <div tw="mt-3 flex flex-col gap-4">
         <div>
