@@ -16,8 +16,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.ServiceTerms);
   }, [router]);
 
-  const handleClickPrivacyTerms = useCallback(() => {
-    router.replace(Routes.PrivacyTerms);
+  const handleClickPrivacyPolicy = useCallback(() => {
+    router.replace(Routes.PrivacyPolicy);
   }, [router]);
 
   const handleClickLocationTerms = useCallback(() => {
@@ -33,7 +33,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       <TermsAndPolicyTemplate
         onClickGoBack={handleGoBack}
         onClickServiceTerms={handleClickServiceTerms}
-        onClickPrivacyTerms={handleClickPrivacyTerms}
+        onClickPrivacyPolicy={handleClickPrivacyPolicy}
         onClickLocationTerms={handleClickLocationTerms}
       />
     </Panel>

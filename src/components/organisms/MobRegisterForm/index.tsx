@@ -63,7 +63,7 @@ interface TermsProps {
   state?: TermsState;
   onChangeState?: (newState: TermsState) => void;
   onNavigateToServiceTerms?: () => void;
-  onNavigateToPrivacyTerms?: () => void;
+  onNavigateToPrivacyPolicy?: () => void;
   onNavigateToLocationTerms?: () => void;
 }
 
@@ -71,7 +71,7 @@ function Terms({
   state: stateProp,
   onChangeState,
   onNavigateToLocationTerms,
-  onNavigateToPrivacyTerms,
+  onNavigateToPrivacyPolicy,
   onNavigateToServiceTerms,
 }: TermsProps) {
   const [state, setState] = useControlled({
@@ -152,7 +152,7 @@ function Terms({
             variant="ghost"
             size="none"
             tw="underline font-bold text-info text-gray-500"
-            onClick={onNavigateToPrivacyTerms}
+            onClick={onNavigateToPrivacyPolicy}
           >
             보기
           </Button>

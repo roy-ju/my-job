@@ -1,16 +1,16 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import HTML_20221103 from '@/assets/terms/privacy_agreement/20221103';
 import { Panel } from '@/components/atoms';
-import PrivacyTerms from '.';
+import PrivacyPolicy from '.';
 
 export default {
-  title: 'templates/PrivacyTerms',
-  component: PrivacyTerms,
-} as ComponentMeta<typeof PrivacyTerms>;
+  title: 'templates/PrivacyPolicy',
+  component: PrivacyPolicy,
+} as ComponentMeta<typeof PrivacyPolicy>;
 
-export const Default: ComponentStory<typeof PrivacyTerms> = (args) => (
+export const Default: ComponentStory<typeof PrivacyPolicy> = (args) => (
   <Panel>
-    <PrivacyTerms {...args} />
+    <PrivacyPolicy {...args} />
   </Panel>
 );
 
