@@ -125,7 +125,7 @@ export default function ListingCreateResult({
                   name={data?.agent_summary?.name}
                 />
                 <AgentCardItem.Detail
-                  cellPhone={data?.agent_summary?.cell_phone}
+                  officePhone={data?.agent_summary?.office_phone}
                   fullJibunAddress={data?.agent_summary?.address}
                   registrationNumber={data?.agent_summary?.registration_number}
                 />

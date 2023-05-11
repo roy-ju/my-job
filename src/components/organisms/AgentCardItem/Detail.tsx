@@ -1,18 +1,18 @@
 interface DetailProps {
-  cellPhone?: string;
+  officePhone?: string;
   fullJibunAddress?: string;
   registrationNumber?: string;
   description?: string;
 }
 
 export default function AgentCardItemDetail({
-  cellPhone,
+  officePhone,
   fullJibunAddress,
   registrationNumber,
   description,
 }: DetailProps) {
   const fields = [
-    { label: '전화번호', value: cellPhone },
+    { label: '전화번호', value: officePhone },
     { label: '주소', value: fullJibunAddress },
     { label: '등록번호', value: registrationNumber },
     { label: '한줄소개', value: description },
