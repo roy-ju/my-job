@@ -4,14 +4,14 @@ import { ServiceInfoList } from '@/components/organisms';
 export interface TermsAndPolicyProps {
   onClickGoBack?: () => void;
   onClickServiceTerms?: () => void;
-  onClickPrivacyTerms?: () => void;
+  onClickPrivacyPolicy?: () => void;
   onClickLocationTerms?: () => void;
 }
 
 export default function TermsAndPolicy({
   onClickGoBack,
   onClickServiceTerms,
-  onClickPrivacyTerms,
+  onClickPrivacyPolicy,
   onClickLocationTerms,
 }: TermsAndPolicyProps) {
   return (
@@ -22,7 +22,7 @@ export default function TermsAndPolicy({
       </NavigationHeader>
       <ServiceInfoList>
         <ServiceInfoList.Item onClick={onClickServiceTerms} title="서비스 이용약관" />
-        <ServiceInfoList.Item onClick={onClickPrivacyTerms} title="개인정보 처리방침" />
+        <ServiceInfoList.Item onClick={onClickPrivacyPolicy} title="개인정보 처리방침" />
         <ServiceInfoList.Item onClick={onClickLocationTerms} title="위치기반 서비스 이용약관" />
       </ServiceInfoList>
     </div>

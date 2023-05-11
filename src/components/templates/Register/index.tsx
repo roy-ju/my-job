@@ -16,7 +16,7 @@ export interface RegisterProps {
   onChangeTerms?: (newState: TermsState) => void;
   onClickNext?: () => void;
   onNavigateToServiceTerms?: () => void;
-  onNavigateToPrivacyTerms?: () => void;
+  onNavigateToPrivacyPolicy?: () => void;
   onNavigateToLocationTerms?: () => void;
 }
 
@@ -33,7 +33,7 @@ export default function Register({
   onChangeTerms,
   onClickNext,
   onNavigateToServiceTerms,
-  onNavigateToPrivacyTerms,
+  onNavigateToPrivacyPolicy,
   onNavigateToLocationTerms,
 }: RegisterProps) {
   return (
@@ -55,7 +55,7 @@ export default function Register({
           onChangeState={onChangeTerms}
           onNavigateToServiceTerms={onNavigateToServiceTerms}
           onNavigateToLocationTerms={onNavigateToLocationTerms}
-          onNavigateToPrivacyTerms={onNavigateToPrivacyTerms}
+          onNavigateToPrivacyPolicy={onNavigateToPrivacyPolicy}
         />
       </div>
       <div tw="mb-8 px-5">

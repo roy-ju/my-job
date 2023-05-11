@@ -11,8 +11,8 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ServiceTerms}`);
   }, [router]);
 
-  const handleClickPrivacyTerms = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.PrivacyTerms}`);
+  const handleClickPrivacyPolicy = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.PrivacyPolicy}`);
   }, [router]);
 
   const handleClickLocationTerms = useCallback(() => {
@@ -28,7 +28,7 @@ export default memo(() => {
       <TermsAndPolicyTemplate
         onClickGoBack={handleGoBack}
         onClickServiceTerms={handleClickServiceTerms}
-        onClickPrivacyTerms={handleClickPrivacyTerms}
+        onClickPrivacyPolicy={handleClickPrivacyPolicy}
         onClickLocationTerms={handleClickLocationTerms}
       />
     </MobileContainer>

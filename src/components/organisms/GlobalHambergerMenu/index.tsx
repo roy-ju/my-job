@@ -8,6 +8,7 @@ import GoogleStoreIcon from '@/assets/icons/google_store.svg';
 import QuestionFlagIcon from '@/assets/icons/question_flag.svg';
 import Menu from '@/assets/icons/menu.svg';
 import Routes from '@/router/routes';
+import Paths from '@/constants/paths';
 
 export default function GlobalHambergerMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +74,7 @@ export default function GlobalHambergerMenu() {
               tw="py-4 px-4 text-b2 text-left font-bold flex gap-2 text-gray-1000 leading-4 hover:bg-gray-100"
               onClick={() => {
                 setIsOpen(false);
-                window.open('https://apps.apple.com/kr/app/%EB%84%A4%EA%B3%A0%EC%8B%9C%EC%98%A4/id6444820605');
+                window.open(Paths.APP_STORE);
               }}
             >
               <AppleStoreIcon /> 앱스토어 다운로드
@@ -83,7 +84,7 @@ export default function GlobalHambergerMenu() {
               tw="py-4 px-4 text-b2 text-left flex font-bold gap-2 text-gray-1000 leading-4 hover:bg-gray-100"
               onClick={() => {
                 setIsOpen(false);
-                window.open('https://play.google.com/store/search?q=%EB%84%A4%EA%B3%A0%EC%8B%9C%EC%98%A4&c=apps&hl=ko');
+                window.open(Paths.GOOGLE_PLAY_STORE);
               }}
             >
               <GoogleStoreIcon /> 구글스토어 다운로드
