@@ -2,7 +2,6 @@ import { TextField } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback, useMemo } from 'react';
-import QuestionIcon from '@/assets/icons/question.svg';
 import CheckIcon from '@/assets/icons/check.svg';
 import { Button } from '@/components/atoms';
 
@@ -25,7 +24,6 @@ export default function Price({
   onChangePrice,
   onChangeMonthlyRentFee,
   onChangeQuickSale,
-  onClickQuestion,
 }: PriceProps) {
   const priceLabel = useMemo(() => {
     if (buyOrRent === BuyOrRent.Buy) return '매매가';
@@ -63,13 +61,8 @@ export default function Price({
 
   return (
     <div>
-      <div tw="mb-3 flex items-start">
-        <div tw="flex items-center gap-1">
-          <div tw="text-b1 leading-none font-bold">희망가</div>
-          <Button variant="ghost" size="none" tw="pb-px" onClick={onClickQuestion}>
-            <QuestionIcon />
-          </Button>
-        </div>
+      <div tw="mb-3 flex items-center">
+        <div tw="text-b1 leading-none font-bold">희망가</div>
         {buyOrRent === BuyOrRent.Buy && (
           <Button
             size="small"
