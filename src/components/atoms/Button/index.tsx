@@ -50,6 +50,7 @@ export interface ButtonProps {
   value?: string | number;
   id?: string;
   name?: string;
+  style?: React.CSSProperties;
 }
 
 const ButtonRoot = styled.button<ButtonProps>`
@@ -75,6 +76,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
     value,
     name,
     id,
+    style,
     ...others
   } = resolvedProps;
 
@@ -91,6 +93,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
       name={name}
       value={value}
       id={id}
+      style={style}
       {...others}
     >
       {isLoading && <Loading size="small" />}
