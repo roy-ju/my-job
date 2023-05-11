@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import CharacterImage from '@/../public/static/images/character.png';
 import MapSearchImage from '@/../public/static/images/map_search.png';
-import LogoIcon from '@/assets/icons/header_logo.svg';
+import LogoIcon from '@/assets/icons/home_logo.svg';
 import { Button, Chip, HorizontalScroller, Numeral, Separator } from '@/components/atoms';
 import { Accordion, Table } from '@/components/molecules';
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
@@ -135,7 +135,7 @@ export default function Home({
         tw="sticky top-0 h-14 px-5 flex items-center justify-between z-[1000] transition-colors"
         style={{ backgroundColor: isHeaderActive ? 'white' : '#F4F6FA' }}
       >
-        <LogoIcon tw="text-nego-1100" />
+        <LogoIcon />
         {!user ? (
           <Button
             size="none"

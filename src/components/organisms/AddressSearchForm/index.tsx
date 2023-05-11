@@ -49,15 +49,14 @@ export default function AddressSearchForm({ value: valueProp, onChange, onSubmit
 
   const results = useKakaoAddressAutocomplete(value);
 
-  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
-    (e) => {
-      e.preventDefault();
-      if (results && results.length > 0) {
-        onSubmit?.(results[0]);
-      }
-    },
-    [results, onSubmit],
-  );
+  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
+    e.preventDefault();
+    // 엔터키를 이용한 submit 이 사용자에게 어색한 경험을 주는듯하여 뺀다
+
+    // if (results && results.length > 0) {
+    //   onSubmit?.(results[0]);
+    // }
+  }, []);
 
   return (
     <form tw="bg-white h-full flex flex-col" onSubmit={handleSubmit}>
