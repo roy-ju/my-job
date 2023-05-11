@@ -386,7 +386,7 @@ export default function MobListingDetail({
                       {listingDetail?.listing?.administrative_fee ? (
                         <Numeral>{listingDetail?.listing?.administrative_fee}</Numeral>
                       ) : (
-                        '없음'
+                        '0 원'
                       )}
                     </Table.Data>
                   </Table.Row>
