@@ -5,7 +5,7 @@ export interface AgentCarouselItem {
   officeName: string;
   profileImageFullPath: string;
   name: string;
-  cellPhone: string;
+  officePhone: string;
   fullJibunAddress: string;
   registrationNumber: string;
   description: string;

@@ -32,6 +32,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           profileImageFullPath: item.profile_image_full_path,
           name: item.name,
           cellPhone: item.cell_phone,
+          officePhone: item.office_phone,
           fullJibunAddress: item.full_jibun_address,
           registrationNumber: item.registration_number,
           description: item.description,
