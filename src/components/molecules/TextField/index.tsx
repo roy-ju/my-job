@@ -249,6 +249,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, ...inProps }, r
         </StyledLabel>
       )}
       <StyledInput
+        autoComplete="off"
         ref={ref}
         inSize={size}
         value={value}
@@ -312,6 +313,7 @@ const NumericInput = forwardRef<
         </StyledLabel>
       )}
       <StyledNumericInput
+        autoComplete="off"
         ref={ref}
         valueIsNumericString
         inSize={size}
@@ -376,6 +378,7 @@ const PatternInput = forwardRef<
         </StyledLabel>
       )}
       <StyledPatternInput
+        autoComplete="off"
         pattern="[0-9]*"
         displayType="input"
         type="text"
@@ -519,6 +522,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Omit<TextAreaProps, 'as' | 'the
 
     return (
       <StyledTextArea
+        autoComplete="off"
         inSize={size}
         hasError={hasError}
         ref={mergeRefs([innerRef, inRef])}

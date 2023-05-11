@@ -45,6 +45,21 @@ export default function Biddings({
   biddingsChatRoomNotCreated,
 }: BiddingsProps) {
   if (!biddingsChatRoomCreated && !biddingsChatRoomNotCreated) {
+    if (showBiddingPrice) {
+      return (
+        <div>
+          <div tw="mb-3">
+            <div tw="font-bold">제안 현황</div>
+          </div>
+          <div tw="text-center text-gray-700 text-b2 py-8">
+            매수인/임차인의 가격 제안을 기다려 보세요!
+            <br />
+            원하는 가격 제안이 들어오면 중개사님과 협의해 주세요.
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div>
         <div tw="mb-3">
