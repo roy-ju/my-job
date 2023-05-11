@@ -216,7 +216,7 @@ export default function Home({
                 whileHover={{
                   scale: 1.05,
                 }}
-                key={item.danji_id}
+                key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
                 tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
                 onClick={() => {
                   if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
@@ -254,7 +254,7 @@ export default function Home({
                 whileHover={{
                   scale: 1.05,
                 }}
-                key={item.danji_id}
+                key={`mostSuggests${item.danji_id}`}
                 tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
                 onClick={() => {
                   if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
