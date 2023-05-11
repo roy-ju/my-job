@@ -83,7 +83,7 @@ export default function ChatRoom({
 
   const renderHeader = useCallback(
     () => (
-      <div tw="pt-6 pb-8 px-5" key="chatRoomAgentSummary">
+      <div tw="pt-6 pb-1 px-5" key="chatRoomAgentSummary">
         <ChatRoomAgentSummary
           agentDescription={agentDescription}
           agentName={agentName}
