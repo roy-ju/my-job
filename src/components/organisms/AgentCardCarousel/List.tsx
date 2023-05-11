@@ -14,7 +14,7 @@ export interface ListProps {
     officeName: string;
     profileImageFullPath: string;
     name: string;
-    cellPhone: string;
+    officePhone: string;
     fullJibunAddress: string;
     registrationNumber: string;
     description: string;
@@ -81,7 +81,7 @@ export default function List({ index: i, onChangeIndex, data }: ListProps) {
                 name={data[currentIndex].name}
               />
               <AgentCardItem.Detail
-                cellPhone={data[currentIndex].cellPhone}
+                officePhone={data[currentIndex].officePhone}
                 fullJibunAddress={data[currentIndex].fullJibunAddress}
                 registrationNumber={data[currentIndex].registrationNumber}
                 description={data[currentIndex].description}
