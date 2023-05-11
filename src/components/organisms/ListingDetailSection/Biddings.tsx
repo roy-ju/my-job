@@ -81,7 +81,7 @@ export default function Biddings({
                     {item.isMyBidding ? (
                       <span tw="font-bold text-nego-1000">나의 제안가</span>
                     ) : (
-                      <span>
+                      <span tw="whitespace-nowrap">
                         {item.nickname} <Chip tw="ml-1">네고중</Chip>
                       </span>
                     )}
