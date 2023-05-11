@@ -6,7 +6,7 @@ export interface ListingCreateSummaryProps {
   agentOfficeName: string;
   agentProfileImageFullPath: string;
   agentName: string;
-  agentCellPhone: string;
+  agentOfficePhone: string;
   agentJibunAddress: string;
   agentRegistrationNumber: string;
   agentDescription: string;
@@ -22,7 +22,7 @@ export default function ListingCreateSummary({
   agentOfficeName,
   agentProfileImageFullPath,
   agentName,
-  agentCellPhone,
+  agentOfficePhone,
   agentJibunAddress,
   agentDescription,
   agentRegistrationNumber,
@@ -54,7 +54,7 @@ export default function ListingCreateSummary({
                 name={agentName}
               />
               <AgentCardItem.Detail
-                cellPhone={agentCellPhone}
+                officePhone={agentOfficePhone}
                 fullJibunAddress={agentJibunAddress}
                 registrationNumber={agentRegistrationNumber}
                 description={agentDescription}
