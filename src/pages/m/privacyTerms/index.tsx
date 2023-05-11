@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from 'react';
-import { PrivacyTerms as PrivacyTermsTemplate } from '@/components/templates';
+import { PrivacyPolicy as PrivacyPolicyTemplate } from '@/components/templates';
 
 import Routes from '@/router/routes';
 import HTML_20221208 from '@/assets/terms/privacy_agreement/20221208';
@@ -47,7 +47,7 @@ export default memo(() => {
 
   return (
     <MobileContainer>
-      <PrivacyTermsTemplate
+      <PrivacyPolicyTemplate
         termDate={selectedTerms}
         html={htmlTerms}
         onClickGoBack={handleGoBack}

@@ -17,6 +17,7 @@ import GooglePlayIcon from '@/assets/icons/google_store.svg';
 import HoneyJarIcon from '@/assets/icons/honey_jar.svg';
 import DirectTransactionIcon from '@/assets/icons/direct_transaction.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import { GetRecentRealPricesResponse } from '@/apis/home/getRecentRealPrices';
 import { GetMostSuggestsResponse } from '@/apis/home/getMostSuggests';
 import { GetMostFavoritesResponse } from '@/apis/home/getMostFavorites';
@@ -59,10 +60,16 @@ interface Props {
   onClickBidding?: () => void;
   onClickListingCreate?: () => void;
   onClickHomeRegister?: () => void;
-  onClickAppStore?: () => void;
-  onClickGooglePlay?: () => void;
   onClickDanji?: (pnu: string, realestateType: number) => void;
   onClickListing?: (listingID: number) => void;
+  onClickAppStore?: () => void;
+  onClickGooglePlay?: () => void;
+  onClickInstagram?: () => void;
+  onClickYoutube?: () => void;
+  onClickNaverBlog?: () => void;
+  onClickTermsAndPolicy?: () => void;
+  onClickPrivacyPolicy?: () => void;
+  onClickAgentSite?: () => void;
 }
 
 export default function Home({
@@ -79,6 +86,14 @@ export default function Home({
   onClickHomeRegister,
   onClickDanji,
   onClickListing,
+  onClickAppStore,
+  onClickGooglePlay,
+  onClickInstagram,
+  onClickYoutube,
+  onClickNaverBlog,
+  onClickTermsAndPolicy,
+  onClickPrivacyPolicy,
+  onClickAgentSite,
 }: Props) {
   const isDragging = useRef(false);
 
@@ -272,8 +287,14 @@ export default function Home({
                   }}
                 >
                   <div tw="flex justify-end p-2">
-                    <Button size="none" variant="ghost">
-                      <HeartFilledIcon tw="text-red" />
+                    <Button
+                      size="none"
+                      variant="ghost"
+                      onClick={(e) => {
+                        e?.stopPropagation();
+                      }}
+                    >
+                      {item.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
                     </Button>
                   </div>
                 </div>
@@ -323,22 +344,22 @@ export default function Home({
         <div tw="mb-10">
           <div tw="pl-1 text-info leading-4 mb-2">앱 다운로드</div>
           <div tw="flex gap-3">
-            <Button tw="flex-1 p-0" variant="outlined" size="bigger">
+            <Button tw="flex-1 p-0" variant="outlined" size="bigger" onClick={onClickAppStore}>
               <AppleIcon tw="w-6 h-6 mr-2" />
               <span tw="whitespace-nowrap">앱스토어에서 설치</span>
             </Button>
-            <Button tw="flex-1 p-0" variant="outlined" size="bigger">
+            <Button tw="flex-1 p-0" variant="outlined" size="bigger" onClick={onClickGooglePlay}>
               <GooglePlayIcon tw="w-6 h-6 mr-2" />
               <span tw="whitespace-nowrap">구글플레이에서 설치</span>
             </Button>
           </div>
         </div>
         <div tw="flex items-center mb-2">
-          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700">
+          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700" onClick={onClickTermsAndPolicy}>
             이용약관
           </Button>
           <span tw="h-2 w-px bg-gray-300 mx-2" />
-          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700">
+          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700" onClick={onClickPrivacyPolicy}>
             개인정보처리방침
           </Button>
         </div>
@@ -393,17 +414,17 @@ export default function Home({
           <span>02-6956-0155</span>
         </div>
         <div tw="flex mt-2 items-center justify-between">
-          <Button variant="outlined" size="medium" tw="text-info">
+          <Button variant="outlined" size="medium" tw="text-info" onClick={onClickAgentSite}>
             네고시오 중개사
           </Button>
           <div tw="flex gap-3">
-            <Button size="none" variant="ghost">
+            <Button size="none" variant="ghost" onClick={onClickInstagram}>
               <InstagramIcon />
             </Button>
-            <Button size="none" variant="ghost">
+            <Button size="none" variant="ghost" onClick={onClickYoutube}>
               <YoutubeIcon />
             </Button>
-            <Button size="none" variant="ghost">
+            <Button size="none" variant="ghost" onClick={onClickNaverBlog}>
               <NaverBlogIcon />
             </Button>
           </div>

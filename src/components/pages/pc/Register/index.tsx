@@ -130,8 +130,8 @@ export default memo(({ depth, panelWidth }: Props) => {
       },
     });
   }, [router]);
-  const handleNavigateToPrivacyTerms = useCallback(() => {
-    router.replace(Routes.PrivacyTerms, {
+  const handleNavigateToPrivacyPolicy = useCallback(() => {
+    router.replace(Routes.PrivacyPolicy, {
       searchParams: {
         register: 'true',
       },
@@ -170,7 +170,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeTerms={handleChangeTerms}
         onClickNext={handleClickNext}
         onNavigateToServiceTerms={handleNavigateToServiceTerms}
-        onNavigateToPrivacyTerms={handleNavigateToPrivacyTerms}
+        onNavigateToPrivacyPolicy={handleNavigateToPrivacyPolicy}
         onNavigateToLocationTerms={handleNavigateToLocationTerms}
       />
     </Panel>
