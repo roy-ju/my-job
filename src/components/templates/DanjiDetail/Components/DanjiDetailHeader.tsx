@@ -40,6 +40,14 @@ export default function DanjiDetailHeader({
       return;
     }
 
+    if (!user.isVerified) {
+      router.replaceCurrent(Routes.VerifyCi, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}`, back: 'true' },
+      });
+      return;
+    }
+
     if (user) {
       if (!isFavorite) {
         await danjiFavoriteAdd({
