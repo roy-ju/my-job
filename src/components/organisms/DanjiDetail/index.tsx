@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import ActiveListingInfo from './ActiveListingInfo';
 import BasicInfo from './BasicInfo';
-import { DanjiHeader } from './DanjiHeader';
+import DanjiHeader from './DanjiHeader';
 import DetailInfo from './DetailInfo';
 import RealPriceInfo from './RealPriceInfo';
 import RealPricesList from './RealPricesList';
