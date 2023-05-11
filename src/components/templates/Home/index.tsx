@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import CharacterImage from '@/../public/static/images/character.png';
 import MapSearchImage from '@/../public/static/images/map_search.png';
 import LogoIcon from '@/assets/icons/header_logo.svg';
-import { Button, Separator } from '@/components/atoms';
+import { Button, Chip, HorizontalScroller, Separator } from '@/components/atoms';
 import { Accordion, Table } from '@/components/molecules';
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
 import tw, { styled } from 'twin.macro';
@@ -14,6 +14,10 @@ import DocumentIcon from '@/assets/icons/document.svg';
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import AppleIcon from '@/assets/icons/apple_store.svg';
 import GooglePlayIcon from '@/assets/icons/google_store.svg';
+import HoneyJarIcon from '@/assets/icons/honey_jar.svg';
+import DirectTransactionIcon from '@/assets/icons/direct_transaction.svg';
+import HeartFilledIcon from '@/assets/icons/heart.svg';
+import Paths from '@/constants/paths';
 
 const StyledTable = styled.table`
   table-layout: fixed;
@@ -55,7 +59,7 @@ export default function Home({
   onClickHomeRegister,
 }: Props) {
   return (
-    <div>
+    <div tw="h-full overflow-y-auto overflow-x-hidden">
       <div tw="pb-10" style={{ backgroundColor: '#F4F6FA' }}>
         <div tw="h-14 px-5 flex items-center justify-between">
           <LogoIcon tw="text-nego-1100" />
@@ -124,6 +128,155 @@ export default function Home({
             />
           </motion.button>
         </div>
+      </div>
+      <Separator tw="bg-gray-300" />
+      <div tw="py-10">
+        <div tw="px-5 font-bold text-h3">내 집 마련 시작은 실거래가 확인부터</div>
+        <HorizontalScroller tw="mt-4">
+          <div tw="flex px-5 gap-5">
+            <div tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-b-gray-200">
+              <div tw="flex gap-1 mb-2">
+                <Chip>아파트</Chip>
+                <Chip variant="gray">개포동</Chip>
+              </div>
+              <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                봇들마을9단지(금호어울림) 904동
+              </div>
+              <div tw="flex items-center text-b2 mb-1">
+                <DirectTransactionIcon tw="mr-1" />
+                <span tw="mr-3">매매</span>
+                <span tw="font-bold">8,000억</span>
+              </div>
+              <div tw="text-info text-gray-700">2025.01.13 거래</div>
+            </div>
+            <div tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-b-gray-200">
+              <div tw="flex gap-1 mb-2">
+                <Chip>아파트</Chip>
+                <Chip variant="gray">개포동</Chip>
+              </div>
+              <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                봇들마을9단지(금호어울림) 904동
+              </div>
+              <div tw="flex items-center text-b2 mb-1">
+                <span tw="mr-3">매매</span>
+                <span tw="font-bold">8,000억</span>
+              </div>
+              <div tw="text-info text-gray-700">2025.01.13 거래</div>
+            </div>
+          </div>
+        </HorizontalScroller>
+      </div>
+      <Separator tw="bg-gray-300" />
+      <div tw="py-10">
+        <div tw="px-5 font-bold text-h3 flex items-center gap-2">
+          전국팔도 꿀단지 <HoneyJarIcon />
+        </div>
+        <HorizontalScroller tw="mt-4">
+          <div tw="flex px-5 gap-5">
+            <div tw="w-[208px] rounded-lg border border-b-gray-200">
+              <div tw="px-4 pt-3 pb-2 border-b border-b-gray-300">
+                <div tw="flex gap-1 mb-2">
+                  <Chip>아파트</Chip>
+                  <Chip variant="gray">개포동</Chip>
+                </div>
+                <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                  올림픽파크 포레온
+                </div>
+                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                  <span>12,032세대</span>
+                  <span tw="h-2 w-px bg-gray-300 mx-1" />
+                  <span>총 85동</span>
+                </div>
+                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                  <span>2025.01.13 준공</span>
+                  <span tw="h-2 w-px bg-gray-300 mx-1" />
+                  <span>전용 144~155㎡</span>
+                </div>
+              </div>
+              <div tw="py-2 text-center text-info">
+                <span tw="mr-1">최근 추천 요청 건</span>
+                <span tw="font-bold text-blue-1000">659</span>
+              </div>
+            </div>
+            <div tw="w-[208px] rounded-lg border border-b-gray-200">
+              <div tw="px-4 pt-3 pb-2 border-b border-b-gray-300">
+                <div tw="flex gap-1 mb-2">
+                  <Chip>아파트</Chip>
+                  <Chip variant="gray">개포동</Chip>
+                </div>
+                <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                  올림픽파크 포레온
+                </div>
+                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                  <span>12,032세대</span>
+                  <span tw="h-2 w-px bg-gray-300 mx-1" />
+                  <span>총 85동</span>
+                </div>
+                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                  <span>2025.01.13 준공</span>
+                  <span tw="h-2 w-px bg-gray-300 mx-1" />
+                  <span>전용 144~155㎡</span>
+                </div>
+              </div>
+              <div tw="py-2 text-center text-info">
+                <span tw="mr-1">최근 추천 요청 건</span>
+                <span tw="font-bold text-blue-1000">659</span>
+              </div>
+            </div>
+          </div>
+        </HorizontalScroller>
+      </div>
+      <Separator tw="bg-gray-300" />
+      <div tw="py-10">
+        <div tw="px-5 font-bold text-h3">고민하는 사이 거래 종료! 관심 TOP 매물</div>
+        <HorizontalScroller tw="mt-4">
+          <div tw="flex px-5 gap-5">
+            <div tw="w-[160px]">
+              <div
+                tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
+                style={{
+                  backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${Paths.DEFAULT_APARTMENT_IMAGE_PATH}')`,
+                }}
+              >
+                <div tw="flex justify-end p-2">
+                  <Button size="none" variant="ghost">
+                    <HeartFilledIcon tw="text-red" />
+                  </Button>
+                </div>
+              </div>
+              <div tw="flex gap-1 mb-2">
+                <Chip>아파트</Chip>
+                <Chip variant="gray">개포동</Chip>
+              </div>
+              <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
+                보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
+              </div>
+              <div tw="font-bold text-b1">월세 8.5억/150</div>
+            </div>
+            <div tw="w-[160px]">
+              <div
+                tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
+                style={{
+                  backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${Paths.DEFAULT_APARTMENT_IMAGE_PATH}')`,
+                }}
+              >
+                <div tw="flex justify-end p-2">
+                  <Button size="none" variant="ghost">
+                    <HeartFilledIcon tw="text-red" />
+                  </Button>
+                </div>
+              </div>
+              <div tw="flex gap-1 mb-2">
+                <Chip>아파트</Chip>
+                <Chip variant="gray">개포동</Chip>
+              </div>
+              <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
+                보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
+              </div>
+              <div tw="font-bold text-b1">월세 8.5억/150</div>
+            </div>
+          </div>
+        </HorizontalScroller>
       </div>
       <Separator tw="bg-gray-300" />
       <div tw="py-10 px-5">
