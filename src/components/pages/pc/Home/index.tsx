@@ -1,3 +1,5 @@
+import useAPI_GetDanjisForTheLoggedIn from '@/apis/home/getDanjisForTheLoggedIn';
+import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLoggedIn';
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
@@ -22,6 +24,10 @@ export default memo(() => {
   const { data: suggestData } = useAPI_GetMostSuggests();
 
   const { data: favoriteData } = useAPI_GetMostFavorites();
+
+  const { data: listingsForUserData } = useAPI_GetListingsForTheLoggedIn();
+
+  const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
 
   const handleClickLogin = useCallback(() => {
     router.replace(Routes.Login);
@@ -92,11 +98,13 @@ export default memo(() => {
   return (
     <Panel>
       <Home
-        loggedIn={Boolean(user)}
+        user={user}
         unreadNotificationCount={unreadNotificationCount}
         recentRealPriceList={realPriceData?.list}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}
+        listingsForUser={listingsForUserData?.list}
+        danjisForUser={danjisForUserData?.list}
         onClickLogin={handleClickLogin}
         onClickNotification={handleClickNotification}
         onClickSuggestion={handleClickSuggestion}
