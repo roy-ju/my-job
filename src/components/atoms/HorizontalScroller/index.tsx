@@ -12,12 +12,25 @@ const Container = styled.div`
   }
 `;
 
-export default function HorizontalScroller({ children, ...props }: Omit<HTMLProps<HTMLDivElement>, 'as' | 'theme'>) {
+export default function HorizontalScroller({
+  children,
+  onDragStart,
+  onDragEnd,
+  onDrag,
+  ...props
+}: Omit<HTMLProps<HTMLDivElement>, 'as' | 'theme'>) {
   const constraintsRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <Container ref={constraintsRef} {...props}>
-      <motion.div tw="flex overflow-y-visible" drag="x" dragConstraints={constraintsRef}>
+      <motion.div
+        onDragStart={onDragStart as any}
+        onDragEnd={onDragEnd as any}
+        onDrag={onDrag as any}
+        tw="flex overflow-y-visible"
+        drag="x"
+        dragConstraints={constraintsRef}
+      >
         {children}
       </motion.div>
     </Container>
