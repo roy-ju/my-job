@@ -11,6 +11,7 @@ export interface IChatMessage {
   name: string;
   message: string;
   sentTime: string;
+  agentReadTime: Date | null;
 }
 
 const variantByType: Record<ChatUserType, 'gray' | 'nego' | 'system'> = {
@@ -52,11 +53,15 @@ export default memo(
           {shouldRenderAvatar && <ChatMessage.Avatar src={chat.profileImagePath} />}
           {shouldRenderAvatar && <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>}
           <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>
+          {variant === 'nego' && !chat.agentReadTime && <ChatMessage.ReadIndicator>읽기 전</ChatMessage.ReadIndicator>}
           {shouldRenderSentTime && <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>}
         </ChatMessage>
       </div>
     );
   },
   (prev, next) =>
-    prev.chat.id === next.chat.id && prev.prevChat?.id === next.prevChat?.id && prev.nextChat?.id === next.nextChat?.id,
+    prev.chat.id === next.chat.id &&
+    prev.prevChat?.id === next.prevChat?.id &&
+    prev.nextChat?.id === next.nextChat?.id &&
+    prev.chat.agentReadTime === next.chat.agentReadTime,
 );
