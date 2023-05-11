@@ -17,6 +17,7 @@ import GooglePlayIcon from '@/assets/icons/google_store.svg';
 import HoneyJarIcon from '@/assets/icons/honey_jar.svg';
 import DirectTransactionIcon from '@/assets/icons/direct_transaction.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import { GetRecentRealPricesResponse } from '@/apis/home/getRecentRealPrices';
 import { GetMostSuggestsResponse } from '@/apis/home/getMostSuggests';
 import { GetMostFavoritesResponse } from '@/apis/home/getMostFavorites';
@@ -26,6 +27,7 @@ import {
   RealestateTypeChipVariant,
   RealestateTypeString,
 } from '@/constants/strings';
+import { useCallback, useRef } from 'react';
 
 const StyledTable = styled.table`
   table-layout: fixed;
@@ -58,8 +60,16 @@ interface Props {
   onClickBidding?: () => void;
   onClickListingCreate?: () => void;
   onClickHomeRegister?: () => void;
+  onClickDanji?: (pnu: string, realestateType: number) => void;
+  onClickListing?: (listingID: number) => void;
   onClickAppStore?: () => void;
   onClickGooglePlay?: () => void;
+  onClickInstagram?: () => void;
+  onClickYoutube?: () => void;
+  onClickNaverBlog?: () => void;
+  onClickTermsAndPolicy?: () => void;
+  onClickPrivacyPolicy?: () => void;
+  onClickAgentSite?: () => void;
 }
 
 export default function Home({
@@ -74,7 +84,29 @@ export default function Home({
   onClickBidding,
   onClickListingCreate,
   onClickHomeRegister,
+  onClickDanji,
+  onClickListing,
+  onClickAppStore,
+  onClickGooglePlay,
+  onClickInstagram,
+  onClickYoutube,
+  onClickNaverBlog,
+  onClickTermsAndPolicy,
+  onClickPrivacyPolicy,
+  onClickAgentSite,
 }: Props) {
+  const isDragging = useRef(false);
+
+  const handleDragStart = useCallback(() => {
+    isDragging.current = true;
+  }, []);
+
+  const handleDragEnd = useCallback(() => {
+    setTimeout(() => {
+      isDragging.current = false;
+    }, 300);
+  }, []);
+
   return (
     <div tw="h-full overflow-y-auto overflow-x-hidden">
       <div tw="pb-10" style={{ backgroundColor: '#F4F6FA' }}>
@@ -149,7 +181,7 @@ export default function Home({
       <Separator tw="bg-gray-300" />
       <div tw="py-10">
         <div tw="px-5 font-bold text-h3">내 집 마련 시작은 실거래가 확인부터</div>
-        <HorizontalScroller tw="mt-4">
+        <HorizontalScroller tw="mt-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div tw="flex px-5 gap-5">
             {recentRealPriceList?.map((item) => (
               <motion.div
@@ -158,6 +190,9 @@ export default function Home({
                 }}
                 key={item.danji_id}
                 tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                onClick={() => {
+                  if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                }}
               >
                 <div tw="flex gap-1 mb-2">
                   <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
@@ -184,7 +219,7 @@ export default function Home({
         <div tw="px-5 font-bold text-h3 flex items-center gap-2">
           전국팔도 꿀단지 <HoneyJarIcon />
         </div>
-        <HorizontalScroller tw="mt-4">
+        <HorizontalScroller tw="mt-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div tw="flex px-5 gap-5">
             {mostSuggestList?.map((item) => (
               <motion.div
@@ -193,6 +228,9 @@ export default function Home({
                 }}
                 key={item.danji_id}
                 tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                onClick={() => {
+                  if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                }}
               >
                 <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
                   <div tw="flex gap-1 mb-2">
@@ -227,7 +265,7 @@ export default function Home({
       <Separator tw="bg-gray-300" />
       <div tw="py-10">
         <div tw="px-5 font-bold text-h3">고민하는 사이 거래 종료! 관심 TOP 매물</div>
-        <HorizontalScroller tw="mt-4 overflow-y-visible">
+        <HorizontalScroller tw="mt-4 overflow-y-visible" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div tw="flex px-5 gap-5 overflow-y-visible">
             {mostFavoriteList?.map((item) => (
               <motion.div
@@ -236,6 +274,9 @@ export default function Home({
                 }}
                 key={item.listing_id}
                 tw="w-[160px] hover:cursor-pointer"
+                onClick={() => {
+                  if (!isDragging.current) onClickListing?.(item.listing_id);
+                }}
               >
                 <div
                   tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
@@ -246,8 +287,14 @@ export default function Home({
                   }}
                 >
                   <div tw="flex justify-end p-2">
-                    <Button size="none" variant="ghost">
-                      <HeartFilledIcon tw="text-red" />
+                    <Button
+                      size="none"
+                      variant="ghost"
+                      onClick={(e) => {
+                        e?.stopPropagation();
+                      }}
+                    >
+                      {item.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
                     </Button>
                   </div>
                 </div>
@@ -297,22 +344,22 @@ export default function Home({
         <div tw="mb-10">
           <div tw="pl-1 text-info leading-4 mb-2">앱 다운로드</div>
           <div tw="flex gap-3">
-            <Button tw="flex-1 p-0" variant="outlined" size="bigger">
+            <Button tw="flex-1 p-0" variant="outlined" size="bigger" onClick={onClickAppStore}>
               <AppleIcon tw="w-6 h-6 mr-2" />
               <span tw="whitespace-nowrap">앱스토어에서 설치</span>
             </Button>
-            <Button tw="flex-1 p-0" variant="outlined" size="bigger">
+            <Button tw="flex-1 p-0" variant="outlined" size="bigger" onClick={onClickGooglePlay}>
               <GooglePlayIcon tw="w-6 h-6 mr-2" />
               <span tw="whitespace-nowrap">구글플레이에서 설치</span>
             </Button>
           </div>
         </div>
         <div tw="flex items-center mb-2">
-          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700">
+          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700" onClick={onClickTermsAndPolicy}>
             이용약관
           </Button>
           <span tw="h-2 w-px bg-gray-300 mx-2" />
-          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700">
+          <Button size="none" variant="ghost" tw="text-info font-bold text-gray-700" onClick={onClickPrivacyPolicy}>
             개인정보처리방침
           </Button>
         </div>
@@ -367,17 +414,17 @@ export default function Home({
           <span>02-6956-0155</span>
         </div>
         <div tw="flex mt-2 items-center justify-between">
-          <Button variant="outlined" size="medium" tw="text-info">
+          <Button variant="outlined" size="medium" tw="text-info" onClick={onClickAgentSite}>
             네고시오 중개사
           </Button>
           <div tw="flex gap-3">
-            <Button size="none" variant="ghost">
+            <Button size="none" variant="ghost" onClick={onClickInstagram}>
               <InstagramIcon />
             </Button>
-            <Button size="none" variant="ghost">
+            <Button size="none" variant="ghost" onClick={onClickYoutube}>
               <YoutubeIcon />
             </Button>
-            <Button size="none" variant="ghost">
+            <Button size="none" variant="ghost" onClick={onClickNaverBlog}>
               <NaverBlogIcon />
             </Button>
           </div>

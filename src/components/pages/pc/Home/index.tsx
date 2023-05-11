@@ -3,6 +3,7 @@ import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
 import { Panel } from '@/components/atoms';
 import { Home } from '@/components/templates';
+import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -22,9 +23,7 @@ export default memo(() => {
     router.replace(Routes.Login);
   }, [router]);
 
-  const handleClickSuggestion = useCallback(() => {
-    router.replace(Routes.SuggestRegionalForm);
-  }, [router]);
+  const handleClickSuggestion = useCallback(() => {}, []);
 
   const handleClickBidding = useCallback(() => {}, []);
 
@@ -35,6 +34,52 @@ export default memo(() => {
   const handleClickListingCreate = useCallback(() => {
     router.replace(Routes.ListingCreateAddress);
   }, [router]);
+
+  const handleClickListing = useCallback(
+    (listingID: number) => {
+      router.replace(Routes.ListingDetail, { searchParams: { listingID: `${listingID}` } });
+    },
+    [router],
+  );
+
+  const handleClickDanji = useCallback(
+    (pnu: string, realestateType: number) => {
+      router.replace(Routes.DanjiDetail, { searchParams: { p: pnu, rt: `${realestateType}` } });
+    },
+    [router],
+  );
+
+  const handleClickAppStore = useCallback(() => {
+    window.open(Paths.APP_STORE, '_blank');
+  }, []);
+
+  const handleClickGooglePlay = useCallback(() => {
+    window.open(Paths.GOOGLE_PLAY_STORE, '_blank');
+  }, []);
+
+  const handleClickInstagram = useCallback(() => {
+    window.open(Paths.INSTAGRAM, '_blank');
+  }, []);
+
+  const handleClickYoutube = useCallback(() => {
+    window.open(Paths.YOUTUBE, '_blank');
+  }, []);
+
+  const handleClickNaverBlog = useCallback(() => {
+    window.open(Paths.NAVER_BLOG, '_blank');
+  }, []);
+
+  const handleClickTermsAndPolicy = useCallback(() => {
+    router.replace(Routes.TermsAndPolicy);
+  }, [router]);
+
+  const handleClickPrivacyPolicy = useCallback(() => {
+    router.replace(Routes.PrivacyPolicy);
+  }, [router]);
+
+  const handleClickAgentSite = useCallback(() => {
+    window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
+  }, []);
 
   return (
     <Panel>
@@ -48,6 +93,16 @@ export default memo(() => {
         onClickBidding={handleClickBidding}
         onClickHomeRegister={handleClickHomeRegister}
         onClickListingCreate={handleClickListingCreate}
+        onClickListing={handleClickListing}
+        onClickDanji={handleClickDanji}
+        onClickAppStore={handleClickAppStore}
+        onClickGooglePlay={handleClickGooglePlay}
+        onClickInstagram={handleClickInstagram}
+        onClickYoutube={handleClickYoutube}
+        onClickNaverBlog={handleClickNaverBlog}
+        onClickTermsAndPolicy={handleClickTermsAndPolicy}
+        onClickPrivacyPolicy={handleClickPrivacyPolicy}
+        onClickAgentSite={handleClickAgentSite}
       />
     </Panel>
   );
