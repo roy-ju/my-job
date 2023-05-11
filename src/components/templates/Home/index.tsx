@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import CharacterImage from '@/../public/static/images/character.png';
 import MapSearchImage from '@/../public/static/images/map_search.png';
 import LogoIcon from '@/assets/icons/header_logo.svg';
-import { Button, Chip, HorizontalScroller, Separator } from '@/components/atoms';
+import { Button, Chip, HorizontalScroller, Numeral, Separator } from '@/components/atoms';
 import { Accordion, Table } from '@/components/molecules';
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
 import tw, { styled } from 'twin.macro';
@@ -17,7 +17,15 @@ import GooglePlayIcon from '@/assets/icons/google_store.svg';
 import HoneyJarIcon from '@/assets/icons/honey_jar.svg';
 import DirectTransactionIcon from '@/assets/icons/direct_transaction.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
-import Paths from '@/constants/paths';
+import { GetRecentRealPricesResponse } from '@/apis/home/getRecentRealPrices';
+import { GetMostSuggestsResponse } from '@/apis/home/getMostSuggests';
+import { GetMostFavoritesResponse } from '@/apis/home/getMostFavorites';
+import {
+  BuyOrRentString,
+  DefaultListingImage,
+  RealestateTypeChipVariant,
+  RealestateTypeString,
+} from '@/constants/strings';
 
 const StyledTable = styled.table`
   table-layout: fixed;
@@ -41,6 +49,10 @@ const StyledTable = styled.table`
 interface Props {
   loggedIn?: boolean;
 
+  recentRealPriceList?: GetRecentRealPricesResponse['list'];
+  mostSuggestList?: GetMostSuggestsResponse['list'];
+  mostFavoriteList?: GetMostFavoritesResponse['list'];
+
   onClickLogin?: () => void;
   onClickSuggestion?: () => void;
   onClickBidding?: () => void;
@@ -52,6 +64,11 @@ interface Props {
 
 export default function Home({
   loggedIn,
+
+  recentRealPriceList,
+  mostSuggestList,
+  mostFavoriteList,
+
   onClickLogin,
   onClickSuggestion,
   onClickBidding,
@@ -134,35 +151,31 @@ export default function Home({
         <div tw="px-5 font-bold text-h3">내 집 마련 시작은 실거래가 확인부터</div>
         <HorizontalScroller tw="mt-4">
           <div tw="flex px-5 gap-5">
-            <div tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-b-gray-200">
-              <div tw="flex gap-1 mb-2">
-                <Chip>아파트</Chip>
-                <Chip variant="gray">개포동</Chip>
-              </div>
-              <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                봇들마을9단지(금호어울림) 904동
-              </div>
-              <div tw="flex items-center text-b2 mb-1">
-                <DirectTransactionIcon tw="mr-1" />
-                <span tw="mr-3">매매</span>
-                <span tw="font-bold">8,000억</span>
-              </div>
-              <div tw="text-info text-gray-700">2025.01.13 거래</div>
-            </div>
-            <div tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-b-gray-200">
-              <div tw="flex gap-1 mb-2">
-                <Chip>아파트</Chip>
-                <Chip variant="gray">개포동</Chip>
-              </div>
-              <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                봇들마을9단지(금호어울림) 904동
-              </div>
-              <div tw="flex items-center text-b2 mb-1">
-                <span tw="mr-3">매매</span>
-                <span tw="font-bold">8,000억</span>
-              </div>
-              <div tw="text-info text-gray-700">2025.01.13 거래</div>
-            </div>
+            {recentRealPriceList?.map((item) => (
+              <motion.div
+                whileHover={{
+                  scale: 1.05,
+                }}
+                key={item.danji_id}
+                tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+              >
+                <div tw="flex gap-1 mb-2">
+                  <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                    {RealestateTypeString[item.realestate_type]}
+                  </Chip>
+                  <Chip variant="gray">{item.eubmyundong}</Chip>
+                </div>
+                <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
+                <div tw="flex items-center text-b2 mb-1">
+                  {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
+                  <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
+                  <Numeral koreanNumber tw="font-bold">
+                    {item.trade_or_deposit_price}
+                  </Numeral>
+                </div>
+                <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
+              </motion.div>
+            ))}
           </div>
         </HorizontalScroller>
       </div>
@@ -173,108 +186,90 @@ export default function Home({
         </div>
         <HorizontalScroller tw="mt-4">
           <div tw="flex px-5 gap-5">
-            <div tw="w-[208px] rounded-lg border border-b-gray-200">
-              <div tw="px-4 pt-3 pb-2 border-b border-b-gray-300">
-                <div tw="flex gap-1 mb-2">
-                  <Chip>아파트</Chip>
-                  <Chip variant="gray">개포동</Chip>
+            {mostSuggestList?.map((item) => (
+              <motion.div
+                whileHover={{
+                  scale: 1.05,
+                }}
+                key={item.danji_id}
+                tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+              >
+                <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
+                  <div tw="flex gap-1 mb-2">
+                    <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                      {RealestateTypeString[item.realestate_type]}
+                    </Chip>
+                    <Chip variant="gray">{item.eubmyundong}</Chip>
+                  </div>
+                  <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
+                  <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                    <span>{item.saedae_count}세대</span>
+                    <span tw="h-2 w-px bg-gray-300 mx-1" />
+                    <span>총 {item.dong_count}동</span>
+                  </div>
+                  <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                    <span>{item.date} 준공</span>
+                    <span tw="h-2 w-px bg-gray-300 mx-1" />
+                    <span>
+                      전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
+                    </span>
+                  </div>
                 </div>
-                <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                  올림픽파크 포레온
+                <div tw="py-2 text-center text-info">
+                  <span tw="mr-1">최근 추천 요청 건</span>
+                  <span tw="font-bold text-blue-1000">{item.total_suggest_count}</span>
                 </div>
-                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                  <span>12,032세대</span>
-                  <span tw="h-2 w-px bg-gray-300 mx-1" />
-                  <span>총 85동</span>
-                </div>
-                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                  <span>2025.01.13 준공</span>
-                  <span tw="h-2 w-px bg-gray-300 mx-1" />
-                  <span>전용 144~155㎡</span>
-                </div>
-              </div>
-              <div tw="py-2 text-center text-info">
-                <span tw="mr-1">최근 추천 요청 건</span>
-                <span tw="font-bold text-blue-1000">659</span>
-              </div>
-            </div>
-            <div tw="w-[208px] rounded-lg border border-b-gray-200">
-              <div tw="px-4 pt-3 pb-2 border-b border-b-gray-300">
-                <div tw="flex gap-1 mb-2">
-                  <Chip>아파트</Chip>
-                  <Chip variant="gray">개포동</Chip>
-                </div>
-                <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                  올림픽파크 포레온
-                </div>
-                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                  <span>12,032세대</span>
-                  <span tw="h-2 w-px bg-gray-300 mx-1" />
-                  <span>총 85동</span>
-                </div>
-                <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                  <span>2025.01.13 준공</span>
-                  <span tw="h-2 w-px bg-gray-300 mx-1" />
-                  <span>전용 144~155㎡</span>
-                </div>
-              </div>
-              <div tw="py-2 text-center text-info">
-                <span tw="mr-1">최근 추천 요청 건</span>
-                <span tw="font-bold text-blue-1000">659</span>
-              </div>
-            </div>
+              </motion.div>
+            ))}
           </div>
         </HorizontalScroller>
       </div>
       <Separator tw="bg-gray-300" />
       <div tw="py-10">
         <div tw="px-5 font-bold text-h3">고민하는 사이 거래 종료! 관심 TOP 매물</div>
-        <HorizontalScroller tw="mt-4">
-          <div tw="flex px-5 gap-5">
-            <div tw="w-[160px]">
-              <div
-                tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
-                style={{
-                  backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${Paths.DEFAULT_APARTMENT_IMAGE_PATH}')`,
+        <HorizontalScroller tw="mt-4 overflow-y-visible">
+          <div tw="flex px-5 gap-5 overflow-y-visible">
+            {mostFavoriteList?.map((item) => (
+              <motion.div
+                whileHover={{
+                  scale: 1.05,
                 }}
+                key={item.listing_id}
+                tw="w-[160px] hover:cursor-pointer"
               >
-                <div tw="flex justify-end p-2">
-                  <Button size="none" variant="ghost">
-                    <HeartFilledIcon tw="text-red" />
-                  </Button>
+                <div
+                  tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
+                  style={{
+                    backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
+                      item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
+                    }')`,
+                  }}
+                >
+                  <div tw="flex justify-end p-2">
+                    <Button size="none" variant="ghost">
+                      <HeartFilledIcon tw="text-red" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div tw="flex gap-1 mb-2">
-                <Chip>아파트</Chip>
-                <Chip variant="gray">개포동</Chip>
-              </div>
-              <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
-                보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
-              </div>
-              <div tw="font-bold text-b1">월세 8.5억/150</div>
-            </div>
-            <div tw="w-[160px]">
-              <div
-                tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
-                style={{
-                  backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${Paths.DEFAULT_APARTMENT_IMAGE_PATH}')`,
-                }}
-              >
-                <div tw="flex justify-end p-2">
-                  <Button size="none" variant="ghost">
-                    <HeartFilledIcon tw="text-red" />
-                  </Button>
+                <div tw="flex gap-1 mb-2">
+                  <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                    {RealestateTypeString[item.realestate_type]}
+                  </Chip>
+                  <Chip variant="gray">{item.eubmyundong}</Chip>
                 </div>
-              </div>
-              <div tw="flex gap-1 mb-2">
-                <Chip>아파트</Chip>
-                <Chip variant="gray">개포동</Chip>
-              </div>
-              <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
-                보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
-              </div>
-              <div tw="font-bold text-b1">월세 8.5억/150</div>
-            </div>
+                {/* <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
+                  보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
+                </div> */}
+                <div tw="font-bold text-b1">
+                  {BuyOrRentString[item.buy_or_rent]} <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
+                  {Boolean(item.monthly_rent_fee) && (
+                    <span>
+                      /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </HorizontalScroller>
       </div>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const Container = styled.div`
   display: flex;
-  overflow-x: hidden;
+  overflow-y: visible;
   &::-webkit-scrollbar {
     display: none;
     -ms-overflow-style: none;
@@ -17,7 +17,7 @@ export default function HorizontalScroller({ children, ...props }: Omit<HTMLProp
 
   return (
     <Container ref={constraintsRef} {...props}>
-      <motion.div tw="flex" drag="x" dragConstraints={constraintsRef}>
+      <motion.div tw="flex overflow-y-visible" drag="x" dragConstraints={constraintsRef}>
         {children}
       </motion.div>
     </Container>
