@@ -105,9 +105,9 @@ export default function Home({
 }: Props) {
   const [isHeaderActive, setIsHeaderActive] = useState(false);
 
-  const scrollContainer = useRef<HTMLDivElement | null>(null);
+  const [scrollContainer, setScrollContainer] = useState<HTMLDivElement | null>(null);
 
-  useScroll(scrollContainer.current, ({ scrollY }) => {
+  useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0);
   });
 
@@ -124,7 +124,7 @@ export default function Home({
   }, []);
 
   return (
-    <div ref={scrollContainer} tw="relative h-full overflow-y-auto overflow-x-hidden">
+    <div ref={setScrollContainer} tw="relative h-full overflow-y-auto overflow-x-hidden">
       <div
         tw="sticky top-0 h-14 px-5 flex items-center justify-between z-[1000] transition-colors"
         style={{ backgroundColor: isHeaderActive ? 'white' : '#F4F6FA' }}
