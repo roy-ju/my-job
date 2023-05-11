@@ -118,6 +118,11 @@ export default function MobListingDetail({
     [listingDetail?.biddings_chat_room_not_created],
   );
 
+  const etcOptions = useMemo(() => {
+    if (listingDetail?.options?.length) return listingDetail?.options?.map((item) => item.name).join(',');
+    return '';
+  }, [listingDetail?.options]);
+
   const handleTabItemClick = useCallback(
     (i: number) => {
       if (i === 0) {
@@ -392,7 +397,7 @@ export default function MobListingDetail({
               {infoSectionExpanded ? '접기' : '더보기'}
             </Button>
           </div>
-          {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling) && (
+          {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling || etcOptions) && (
             <div>
               <Separator />
               <div tw="py-10 px-5">
@@ -413,6 +418,12 @@ export default function MobListingDetail({
                       <Table.Row>
                         <Table.Head>올수리 여부</Table.Head>
                         <Table.Data>2년 내 올수리</Table.Data>
+                      </Table.Row>
+                    )}
+                    {etcOptions && (
+                      <Table.Row>
+                        <Table.Head>기타 옵션</Table.Head>
+                        <Table.Data>{etcOptions}</Table.Data>
                       </Table.Row>
                     )}
                   </Table.Body>
