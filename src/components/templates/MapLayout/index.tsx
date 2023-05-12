@@ -71,6 +71,11 @@ interface LayoutMapContainerProps {
   panelsVisible?: boolean;
   priceSelectDisabled?: boolean;
   recentSearches?: KakaoAddressAutocompleteResponseItem[];
+  isGeoLoading?: boolean;
+  myMarker?: {
+    lat: number;
+    lng: number;
+  } | null;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -100,9 +105,11 @@ function LayoutMapContainer({
   mapLayer,
   schoolType,
   filter,
+  isGeoLoading,
   centerAddress,
   mapToggleValue,
   listingCount,
+  myMarker,
   showClosePanelButton = false,
   panelsVisible = true,
   priceSelectDisabled = false,
@@ -186,7 +193,7 @@ function LayoutMapContainer({
             onClick={onClickSchool}
           />
         </MapControls.Group>
-        <MapControls.GPSButton onClick={onClickCurrentLocation} />
+        <MapControls.GPSButton onClick={onClickCurrentLocation} isGeoLoading={isGeoLoading} selected={!!myMarker} />
         <MapControls.Group>
           <MapControls.ZoomInButton onClick={onClickZoomIn} />
           <MapControls.ZoomOutButton onClick={onClickZoomOut} />

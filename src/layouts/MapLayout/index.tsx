@@ -50,6 +50,7 @@ function MapWrapper({
     priceType,
     streetViewEvent,
     recentSearches,
+    isGeoLoading,
     ...props
   } = useMapLayout();
 
@@ -74,8 +75,10 @@ function MapWrapper({
   return (
     <>
       <Layout.MapContainer
+        isGeoLoading={isGeoLoading}
         recentSearches={recentSearches}
         mapLayer={mapLayer}
+        myMarker={myMarker}
         mapType={mapType}
         schoolType={schoolType}
         priceType={priceType}
