@@ -496,8 +496,13 @@ export default function ListingDetail({
             <DanjiDetailSection>
               {isShowlistingsSection && (
                 <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
-                  <DanjiDetailSection.Info danji={danji} depth={depth} />
-                  <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
+                  <DanjiDetailSection.Info danji={danji} depth={depth} isListingDetail />
+                  <DanjiDetailSection.ActiveInfo
+                    danji={danji}
+                    depth={depth}
+                    isListingDetail
+                    setLoadingListing={() => {}}
+                  />
                 </div>
               )}
 
