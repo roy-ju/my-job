@@ -1,13 +1,13 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { Button } from '@/components/atoms';
+// import { Button } from '@/components/atoms';
 import { Table } from '@/components/molecules';
 import { MapCardDanji } from '@/components/templates/MobDanjiMap';
 import { describeRealestateType } from '@/constants/enums';
 import { formatUseAcceptedYear } from '@/utils/fotmat';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   if (!danji) return null;
 
@@ -47,66 +47,66 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
               {!danji.total_saedae_count && danji.total_dong_count && `${danji.total_dong_count}동`}
             </Table.Data>
           </Table.Row>
-          {open && (
-            <>
-              {danji.highest_floor && (
-                <Table.Row>
-                  <Table.Head>층 수</Table.Head>
-                  <Table.Data>최고 {danji.highest_floor}층</Table.Data>
-                </Table.Row>
-              )}
-              {danji.heat_type && (
-                <Table.Row>
-                  <Table.Head>난방</Table.Head>
-                  <Table.Data>{danji.heat_type}</Table.Data>
-                </Table.Row>
-              )}
-              {(danji.yongjuk_rate || danji.gunpae_rate) && (
-                <Table.Row>
-                  <Table.Head>용적 / 건폐율</Table.Head>
-                  {danji.yongjuk_rate && danji.gunpae_rate && (
-                    <Table.Data>
-                      용적률 {danji.yongjuk_rate}% / 건폐율 {danji.gunpae_rate}%
-                    </Table.Data>
-                  )}
-                  {danji.yongjuk_rate && !danji.gunpae_rate && <Table.Data>용적률 {danji.yongjuk_rate}</Table.Data>}
-                  {!danji.yongjuk_rate && danji.gunpae_rate && <Table.Data>건폐율 {danji.gunpae_rate}</Table.Data>}
-                </Table.Row>
-              )}
-              {danji.sigong_company && (
-                <Table.Row>
-                  <Table.Head>건설사</Table.Head>
-                  <Table.Data>{danji.sigong_company}</Table.Data>
-                </Table.Row>
-              )}
-              {danji.use_accepted_year && (
-                <Table.Row>
-                  <Table.Head>사용승인일</Table.Head>
-                  <Table.Data>{`${formatUseAcceptedYear(danji.use_accepted_year)}`}</Table.Data>
-                </Table.Row>
-              )}
-              {(danji.daeji_area || danji.architecture_area) && (
-                <Table.Row>
-                  <Table.Head>면적</Table.Head>
-                  {danji.daeji_area && danji.architecture_area && (
-                    <Table.Data>
-                      {`대지 ${Number(danji.daeji_area).toLocaleString()}㎡ /
+          {/* {open && ( */}
+          <>
+            {danji.highest_floor && (
+              <Table.Row>
+                <Table.Head>층 수</Table.Head>
+                <Table.Data>최고 {danji.highest_floor}층</Table.Data>
+              </Table.Row>
+            )}
+            {danji.heat_type && (
+              <Table.Row>
+                <Table.Head>난방</Table.Head>
+                <Table.Data>{danji.heat_type}</Table.Data>
+              </Table.Row>
+            )}
+            {(danji.yongjuk_rate || danji.gunpae_rate) && (
+              <Table.Row>
+                <Table.Head>용적 / 건폐율</Table.Head>
+                {danji.yongjuk_rate && danji.gunpae_rate && (
+                  <Table.Data>
+                    용적률 {danji.yongjuk_rate}% / 건폐율 {danji.gunpae_rate}%
+                  </Table.Data>
+                )}
+                {danji.yongjuk_rate && !danji.gunpae_rate && <Table.Data>용적률 {danji.yongjuk_rate}</Table.Data>}
+                {!danji.yongjuk_rate && danji.gunpae_rate && <Table.Data>건폐율 {danji.gunpae_rate}</Table.Data>}
+              </Table.Row>
+            )}
+            {danji.sigong_company && (
+              <Table.Row>
+                <Table.Head>건설사</Table.Head>
+                <Table.Data>{danji.sigong_company}</Table.Data>
+              </Table.Row>
+            )}
+            {danji.use_accepted_year && (
+              <Table.Row>
+                <Table.Head>사용승인일</Table.Head>
+                <Table.Data>{`${formatUseAcceptedYear(danji.use_accepted_year)}`}</Table.Data>
+              </Table.Row>
+            )}
+            {(danji.daeji_area || danji.architecture_area) && (
+              <Table.Row>
+                <Table.Head>면적</Table.Head>
+                {danji.daeji_area && danji.architecture_area && (
+                  <Table.Data>
+                    {`대지 ${Number(danji.daeji_area).toLocaleString()}㎡ /
                       건축 ${Number(danji.architecture_area).toLocaleString()}㎡`}
-                    </Table.Data>
-                  )}
-                  {danji.daeji_area && !danji.architecture_area && (
-                    <Table.Data>{`대지 ${Number(danji.daeji_area).toLocaleString()}㎡`}</Table.Data>
-                  )}
-                  {!danji.daeji_area && danji.architecture_area && (
-                    <Table.Data>{`건축 ${Number(danji.architecture_area).toLocaleString()}㎡`}</Table.Data>
-                  )}
-                </Table.Row>
-              )}
-            </>
-          )}
+                  </Table.Data>
+                )}
+                {danji.daeji_area && !danji.architecture_area && (
+                  <Table.Data>{`대지 ${Number(danji.daeji_area).toLocaleString()}㎡`}</Table.Data>
+                )}
+                {!danji.daeji_area && danji.architecture_area && (
+                  <Table.Data>{`건축 ${Number(danji.architecture_area).toLocaleString()}㎡`}</Table.Data>
+                )}
+              </Table.Row>
+            )}
+          </>
+          {/* )} */}
         </Table.Body>
       </Table>
-      <Button
+      {/* <Button
         variant="outlined"
         tw="w-full mt-5"
         onClick={() => {
@@ -114,7 +114,7 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
         }}
       >
         {open ? '접어두기' : '더보기'}
-      </Button>
+      </Button> */}
     </div>
   );
 }
