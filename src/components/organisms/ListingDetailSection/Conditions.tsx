@@ -1,8 +1,10 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-import { Moment, Numeral } from '@/components/atoms';
+import { Moment, Numeral, Button } from '@/components/atoms';
 import { Table } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
 import { BuyOrRentString, TimeTypeString } from '@/constants/strings';
+import QuestionIcon from '@/assets/icons/question.svg';
+import useTooltip from '@/states/tooltip';
 
 export interface ConditionsProps {
   listing?: GetListingDetailResponse['listing'];
@@ -11,6 +13,8 @@ export interface ConditionsProps {
 }
 
 export default function Conditions({ listing, debtSuccessions, collaterals }: ConditionsProps) {
+  const { openTooltip } = useTooltip();
+
   return (
     <div>
       <div tw="mb-3">
@@ -40,7 +44,12 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
         {Boolean(debtSuccessions?.length) && (
           <Table.Group defaultExpanded>
             <Table.GroupSummary>
-              <span tw="text-gray-1000">채무승계금액</span>
+              <div tw="flex items-center gap-1">
+                <span tw="text-gray-1000">채무승계금액</span>
+                <Button variant="ghost" size="none" onClick={() => openTooltip('listingDetailDebtSuccessions')}>
+                  <QuestionIcon />
+                </Button>
+              </div>
             </Table.GroupSummary>
             <Table.GroupDetails>
               {debtSuccessions?.map((item) => (
@@ -57,7 +66,12 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
         {Boolean(collaterals?.length) && (
           <Table.Group defaultExpanded>
             <Table.GroupSummary>
-              <span tw="text-gray-1000">선순위 담보권</span>
+              <div tw="flex items-center gap-1">
+                <span tw="text-gray-1000">선순위 담보권</span>
+                <Button variant="ghost" size="none" onClick={() => openTooltip('listingDetailCollaterals')}>
+                  <QuestionIcon />
+                </Button>
+              </div>
             </Table.GroupSummary>
             <Table.GroupDetails>
               {collaterals?.map((item) => (
@@ -73,7 +87,12 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
         )}
         <Table.Group defaultExpanded>
           <Table.GroupSummary>
-            <span tw="text-gray-1000">지급일정</span>
+            <div tw="flex items-center gap-1">
+              <span tw="text-gray-1000">지급일정</span>
+              <Button variant="ghost" size="none" onClick={() => openTooltip('paymentSchedule')}>
+                <QuestionIcon />
+              </Button>
+            </div>
           </Table.GroupSummary>
           <Table.GroupDetails>
             <Table.Row>
