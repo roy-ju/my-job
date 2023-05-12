@@ -212,161 +212,171 @@ export default function Home({
           </motion.button>
         </div>
       </div>
-      <Separator tw="bg-gray-300" />
-      <div tw="py-10">
-        <div tw="px-5 font-bold text-h3">내 집 마련 시작은 실거래가 확인부터</div>
-        <HorizontalScroller tw="mt-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-          <div tw="flex px-5 gap-5">
-            {recentRealPriceList?.map((item) => (
-              <motion.div
-                whileHover={{
-                  scale: 1.05,
-                }}
-                key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
-                tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                onClick={() => {
-                  if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                }}
-              >
-                <div tw="flex gap-1 mb-2">
-                  <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                    {RealestateTypeString[item.realestate_type]}
-                  </Chip>
-                  <Chip variant="gray">{item.eubmyundong}</Chip>
-                </div>
-                <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
-                <div tw="flex items-center text-b2 mb-1">
-                  {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
-                  <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
-                  <Numeral koreanNumber tw="font-bold">
-                    {item.trade_or_deposit_price}
-                  </Numeral>
-                </div>
-                <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
-              </motion.div>
-            ))}
+      {Boolean(recentRealPriceList?.length) && (
+        <div>
+          <Separator tw="bg-gray-300" />
+          <div tw="pt-10 pb-6">
+            <div tw="px-5 font-bold text-h3">내 집 마련 시작은 실거래가 확인부터</div>
+            <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+              <div tw="flex px-5 gap-5">
+                {recentRealPriceList?.map((item) => (
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                    }}
+                    key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
+                    tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                    onClick={() => {
+                      if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                    }}
+                  >
+                    <div tw="flex gap-1 mb-2">
+                      <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                        {RealestateTypeString[item.realestate_type]}
+                      </Chip>
+                      <Chip variant="gray">{item.eubmyundong}</Chip>
+                    </div>
+                    <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
+                    <div tw="flex items-center text-b2 mb-1">
+                      {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
+                      <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
+                      <Numeral koreanNumber tw="font-bold">
+                        {item.trade_or_deposit_price}
+                      </Numeral>
+                    </div>
+                    <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
+                  </motion.div>
+                ))}
+              </div>
+            </HorizontalScroller>
           </div>
-        </HorizontalScroller>
-      </div>
-      <Separator tw="bg-gray-300" />
-      <div tw="py-10">
-        <div tw="px-5 font-bold text-h3 flex items-center gap-2">
-          전국팔도 꿀단지 <HoneyJarIcon />
         </div>
-        <HorizontalScroller tw="mt-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-          <div tw="flex px-5 gap-5">
-            {mostSuggestList?.map((item) => (
-              <motion.div
-                whileHover={{
-                  scale: 1.05,
-                }}
-                key={`mostSuggests${item.danji_id}`}
-                tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                onClick={() => {
-                  if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                }}
-              >
-                <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
-                  <div tw="flex gap-1 mb-2">
-                    <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                      {RealestateTypeString[item.realestate_type]}
-                    </Chip>
-                    <Chip variant="gray">{item.eubmyundong}</Chip>
-                  </div>
-                  <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
-                  <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                    <span>{item.saedae_count}세대</span>
-                    <span tw="h-2 w-px bg-gray-300 mx-1" />
-                    <span>총 {item.dong_count}동</span>
-                  </div>
-                  <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                    <span>{item.date} 준공</span>
-                    <span tw="h-2 w-px bg-gray-300 mx-1" />
-                    <span>
-                      전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
-                    </span>
-                  </div>
-                </div>
-                <div tw="py-2 text-center text-info">
-                  <span tw="mr-1">최근 추천 요청 건</span>
-                  <span tw="font-bold text-blue-1000">{item.total_suggest_count}</span>
-                </div>
-              </motion.div>
-            ))}
+      )}
+      {Boolean(mostSuggestList?.length) && (
+        <div>
+          <Separator tw="bg-gray-300" />
+          <div tw="pt-10 pb-6">
+            <div tw="px-5 font-bold text-h3 flex items-center gap-2">
+              전국팔도 꿀단지 <HoneyJarIcon />
+            </div>
+            <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+              <div tw="flex px-5 gap-5">
+                {mostSuggestList?.map((item) => (
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                    }}
+                    key={`mostSuggests${item.danji_id}`}
+                    tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                    onClick={() => {
+                      if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                    }}
+                  >
+                    <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
+                      <div tw="flex gap-1 mb-2">
+                        <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                          {RealestateTypeString[item.realestate_type]}
+                        </Chip>
+                        <Chip variant="gray">{item.eubmyundong}</Chip>
+                      </div>
+                      <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                        {item.name}
+                      </div>
+                      <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                        <span>{item.saedae_count}세대</span>
+                        <span tw="h-2 w-px bg-gray-300 mx-1" />
+                        <span>총 {item.dong_count}동</span>
+                      </div>
+                      <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                        <span>{item.date} 준공</span>
+                        <span tw="h-2 w-px bg-gray-300 mx-1" />
+                        <span>
+                          전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
+                        </span>
+                      </div>
+                    </div>
+                    <div tw="py-2 text-center text-info">
+                      <span tw="mr-1">최근 추천 요청 건</span>
+                      <span tw="font-bold text-blue-1000">{item.total_suggest_count}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </HorizontalScroller>
           </div>
-        </HorizontalScroller>
-      </div>
-      <Separator tw="bg-gray-300" />
-      <div tw="py-10">
-        <div tw="px-5 font-bold text-h3">고민하는 사이 거래 종료! 관심 TOP 매물</div>
-        <HorizontalScroller tw="mt-4 overflow-y-visible" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-          <div tw="flex px-5 gap-5 overflow-y-visible">
-            {mostFavoriteList?.map((item) => (
-              <motion.div
-                whileHover={{
-                  scale: 1.05,
-                }}
-                key={item.listing_id}
-                tw="w-[160px] hover:cursor-pointer"
-                onClick={() => {
-                  if (!isDragging.current) onClickListing?.(item.listing_id);
-                }}
-              >
-                <div
-                  tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
-                  style={{
-                    backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
-                      item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
-                    }')`,
-                  }}
-                >
-                  <div tw="flex justify-end p-2">
-                    <Button
-                      size="none"
-                      variant="ghost"
-                      onClick={(e) => {
-                        e?.stopPropagation();
+        </div>
+      )}
+      {Boolean(mostFavoriteList?.length) && (
+        <div>
+          <Separator tw="bg-gray-300" />
+          <div tw="pt-10 pb-6">
+            <div tw="px-5 font-bold text-h3">고민하는 사이 거래 종료! 관심 TOP 매물</div>
+            <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+              <div tw="flex px-5 gap-5">
+                {mostFavoriteList?.map((item) => (
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                    }}
+                    key={item.listing_id}
+                    tw="w-[160px] hover:cursor-pointer"
+                    onClick={() => {
+                      if (!isDragging.current) onClickListing?.(item.listing_id);
+                    }}
+                  >
+                    <div
+                      tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
+                      style={{
+                        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
+                          item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
+                        }')`,
                       }}
                     >
-                      {item.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
-                    </Button>
-                  </div>
-                </div>
-                <div tw="flex gap-1 mb-2">
-                  <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                    {RealestateTypeString[item.realestate_type]}
-                  </Chip>
-                  <Chip variant="gray">{item.eubmyundong}</Chip>
-                </div>
-                {/* <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
-                  보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
-                </div> */}
-                <div tw="font-bold text-b1">
-                  {BuyOrRentString[item.buy_or_rent]} <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
-                  {Boolean(item.monthly_rent_fee) && (
-                    <span>
-                      /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
-                    </span>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                      <div tw="flex justify-end p-2">
+                        <Button
+                          size="none"
+                          variant="ghost"
+                          onClick={(e) => {
+                            e?.stopPropagation();
+                          }}
+                        >
+                          {item.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
+                        </Button>
+                      </div>
+                    </div>
+                    <div tw="flex gap-1 mb-2">
+                      <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                        {RealestateTypeString[item.realestate_type]}
+                      </Chip>
+                      <Chip variant="gray">{item.eubmyundong}</Chip>
+                    </div>
+                    {/* <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
+                        보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
+                      </div> */}
+                    <div tw="font-bold text-b1">
+                      {BuyOrRentString[item.buy_or_rent]} <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
+                      {Boolean(item.monthly_rent_fee) && (
+                        <span>
+                          /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
+                        </span>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </HorizontalScroller>
           </div>
-        </HorizontalScroller>
-      </div>
+        </div>
+      )}
       {user && (
         <div>
           {Boolean(listingsForUser?.length) && (
             <div>
               <Separator tw="bg-gray-300" />
-              <div tw="py-10">
+              <div tw="pt-10 pb-6">
                 <div tw="px-5 font-bold text-h3">{user?.nickname}님을 위한 새로운 매물</div>
-                <HorizontalScroller
-                  tw="mt-4 overflow-y-visible"
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
-                >
-                  <div tw="flex px-5 gap-5 overflow-y-visible">
+                <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                  <div tw="flex px-5 gap-5">
                     {listingsForUser?.map((item) => (
                       <motion.div
                         whileHover={{
@@ -430,10 +440,10 @@ export default function Home({
           {Boolean(danjisForUser?.length) && (
             <div>
               <Separator tw="bg-gray-300" />
-              <div tw="py-10">
+              <div tw="pt-10 pb-6">
                 <div tw="px-5 font-bold text-h3">여기 실거래가 얼마더라?</div>
                 <div tw="mt-1 px-5 text-b2 text-gray-700">관심 단지 또는 주소 등록한 지역의 최근 실거래가에요.</div>
-                <HorizontalScroller tw="mt-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                   <div tw="flex px-5 gap-5">
                     {danjisForUser?.map((item) => (
                       <motion.div

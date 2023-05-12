@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const Container = styled.div`
   display: flex;
-  overflow-y: visible;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
     -ms-overflow-style: none;
