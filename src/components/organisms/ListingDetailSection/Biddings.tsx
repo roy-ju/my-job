@@ -1,6 +1,8 @@
-import { Chip, Moment, Numeral } from '@/components/atoms';
+import { Chip, Moment, Numeral, Button } from '@/components/atoms';
 import { Table } from '@/components/molecules';
 import tw, { styled } from 'twin.macro';
+import useTooltip from '@/states/tooltip';
+import QuestionIcon from '@/assets/icons/question.svg';
 
 const StyledTable = styled.table`
   ${tw`w-full table-fixed text-b2`}
@@ -44,12 +46,19 @@ export default function Biddings({
   biddingsChatRoomCreated,
   biddingsChatRoomNotCreated,
 }: BiddingsProps) {
+  const { openTooltip } = useTooltip();
+
   if (!biddingsChatRoomCreated && !biddingsChatRoomNotCreated) {
     if (showBiddingPrice) {
       return (
         <div>
           <div tw="mb-3">
-            <div tw="font-bold">제안 현황</div>
+            <div tw="flex items-center gap-1">
+              <div tw="font-bold">제안 현황</div>
+              <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
+                <QuestionIcon />
+              </Button>
+            </div>
           </div>
           <div tw="text-center text-gray-700 text-b2 py-8">
             매수인/임차인의 가격 제안을 기다려 보세요!
@@ -63,7 +72,12 @@ export default function Biddings({
     return (
       <div>
         <div tw="mb-3">
-          <div tw="font-bold">제안 현황</div>
+          <div tw="flex items-center gap-1">
+            <div tw="font-bold">제안 현황</div>
+            <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
+              <QuestionIcon />
+            </Button>
+          </div>
         </div>
         <div tw="text-center text-gray-700 text-b2 py-8">
           생각해보는 금액을 제안해 보시고,
@@ -77,7 +91,12 @@ export default function Biddings({
   return (
     <div>
       <div tw="mb-3">
-        <div tw="font-bold">제안 현황</div>
+        <div tw="flex items-center gap-1">
+          <div tw="font-bold">제안 현황</div>
+          <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
+            <QuestionIcon />
+          </Button>
+        </div>
       </div>
       <div>
         <StyledTable>
