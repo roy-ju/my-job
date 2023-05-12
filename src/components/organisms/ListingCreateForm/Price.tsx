@@ -94,14 +94,14 @@ export default function Price({
           <TextField variant="outlined">
             <TextField.PriceInput label={priceLabel} value={price} onChange={handleChangePrice} />
           </TextField>
-          <TextField.PriceHelperMessage>{price}</TextField.PriceHelperMessage>
+          <TextField.PriceHelperMessage tw="mr-4">{price}</TextField.PriceHelperMessage>
         </div>
         {buyOrRent === BuyOrRent.Wolsae && (
           <div>
             <TextField variant="outlined">
               <TextField.PriceInput label="월차임" value={monthlyRentFee} onChange={handleChangeMonthlyRentFee} />
             </TextField>
-            <TextField.PriceHelperMessage>{monthlyRentFee}</TextField.PriceHelperMessage>
+            <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee}</TextField.PriceHelperMessage>
           </div>
         )}
       </div>

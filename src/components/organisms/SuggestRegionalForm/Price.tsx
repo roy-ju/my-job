@@ -22,7 +22,7 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
               <TextField variant="outlined">
                 <TextField.PriceInput label="보증금" value={price} onChange={(e) => onChangePrice?.(e.target.value)} />
               </TextField>
-              <TextField.PriceHelperMessage>{price ?? '0'}</TextField.PriceHelperMessage>
+              <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
             </div>
             <div>
               <TextField variant="outlined">
@@ -32,7 +32,7 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
                   onChange={(e) => onChangeMonthlyRentFee?.(e.target.value)}
                 />
               </TextField>
-              <TextField.PriceHelperMessage>{monthlyRentFee ?? '0'}</TextField.PriceHelperMessage>
+              <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee ?? '0'}</TextField.PriceHelperMessage>
             </div>
           </div>
         ) : (
@@ -44,7 +44,7 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
                 onChange={(e) => onChangePrice?.(e.target.value)}
               />
             </TextField>
-            <TextField.PriceHelperMessage>{price ?? '0'}</TextField.PriceHelperMessage>
+            <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
           </div>
         )}
       </div>

@@ -53,7 +53,7 @@ export default function ContractAmount({
         <TextField variant="outlined">
           <TextField.PriceInput label="계약금" value={value} onChange={handleChangePrice} isZeroAllowed />
         </TextField>
-        <TextField.PriceHelperMessage>{value}</TextField.PriceHelperMessage>
+        <TextField.PriceHelperMessage tw="mr-4">{value}</TextField.PriceHelperMessage>
       </div>
     </div>
   );

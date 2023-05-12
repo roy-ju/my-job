@@ -66,7 +66,7 @@ export default function InterimAmount({
         <TextField variant="outlined">
           <TextField.PriceInput label="중도금" value={value} onChange={handleChangePrice} />
         </TextField>
-        <TextField.PriceHelperMessage>{value}</TextField.PriceHelperMessage>
+        <TextField.PriceHelperMessage tw="mr-4">{value}</TextField.PriceHelperMessage>
       </div>
     </div>
   );
