@@ -199,11 +199,6 @@ export default function RealPricesPyoungList({
                 {item.gonggeup_pyoung}평
               </Button>
             )}
-            {item.gonggeup_pyoung.toString() === selectedArea?.toString() && (
-              <motion.div layoutId="indicator" tw="absolute left-0 top-0 pointer-events-none z-10">
-                <div tw="w-full h-full [min-width: 4.375rem] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] " />
-              </motion.div>
-            )}
           </div>
         ))}
       </Wrraper>
