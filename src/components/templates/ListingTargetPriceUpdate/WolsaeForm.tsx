@@ -17,7 +17,7 @@ export default function WolsaeForm({ price, onChangePrice, monthlyRentFee, onCha
           <TextField variant="outlined">
             <TextField.PriceInput label="전세금" value={price} onChange={(e) => onChangePrice?.(e.target.value)} />
           </TextField>
-          <TextField.PriceHelperMessage>{price ?? ''}</TextField.PriceHelperMessage>
+          <TextField.PriceHelperMessage tw="mr-4">{price ?? ''}</TextField.PriceHelperMessage>
         </div>
         <div>
           <TextField variant="outlined">
@@ -27,7 +27,7 @@ export default function WolsaeForm({ price, onChangePrice, monthlyRentFee, onCha
               onChange={(e) => onChangeMonthlyRentFee?.(e.target.value)}
             />
           </TextField>
-          <TextField.PriceHelperMessage>{monthlyRentFee ?? ''}</TextField.PriceHelperMessage>
+          <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee ?? ''}</TextField.PriceHelperMessage>
         </div>
       </div>
     </div>

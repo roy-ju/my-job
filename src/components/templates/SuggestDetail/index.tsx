@@ -30,7 +30,7 @@ export default function SuggestDetail({
   onClickNewRecommendations,
   onNextListingRecommentList,
 }: Props) {
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(1);
 
   return (
     <div tw="h-full flex flex-col">

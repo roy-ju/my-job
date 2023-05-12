@@ -157,7 +157,9 @@ export const PriceField = ({
         <TextField variant="outlined">
           <TextField.PriceInput label={priceLabel} value={tradeOrDepositPrice} onChange={onChangeTradeOrDepositPrice} />
         </TextField>
-        {!!tradeOrDepositPrice && <TextField.PriceHelperMessage>{tradeOrDepositPrice}</TextField.PriceHelperMessage>}
+        {!!tradeOrDepositPrice && (
+          <TextField.PriceHelperMessage tw="mr-4">{tradeOrDepositPrice}</TextField.PriceHelperMessage>
+        )}
       </div>
 
       {buyOrRent === BuyOrRent.Jeonsae && (
@@ -169,7 +171,7 @@ export const PriceField = ({
               onChange={onChangeMonthlyRentFee}
             />
           </TextField>
-          {!!monthlyRentFee && <TextField.PriceHelperMessage>{monthlyRentFee}</TextField.PriceHelperMessage>}
+          {!!monthlyRentFee && <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee}</TextField.PriceHelperMessage>}
         </div>
       )}
 
