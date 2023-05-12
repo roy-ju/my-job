@@ -30,7 +30,7 @@ export default function RemainingAmount({ value: valueProp, onChange }: Props) {
         <TextField variant="outlined">
           <TextField.PriceInput disabled label="잔금" value={value} onChange={handleChange} isZeroAllowed />
         </TextField>
-        <TextField.PriceHelperMessage>{value}</TextField.PriceHelperMessage>
+        <TextField.PriceHelperMessage tw="mr-4">{value}</TextField.PriceHelperMessage>
       </div>
     </div>
   );

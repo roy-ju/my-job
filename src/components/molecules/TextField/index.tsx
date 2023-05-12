@@ -575,7 +575,9 @@ function PriceHelperMessage({
 
   return (
     <HelperMessage {...props}>
-      <Numeral koreanNumber>{numberChild * 10000}</Numeral>
+      <Numeral suffix={` 원`} koreanNumber>
+        {numberChild * 10000}
+      </Numeral>
     </HelperMessage>
   );
 }
