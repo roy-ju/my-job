@@ -264,6 +264,22 @@ export default function ListingDetail({
             DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]
           }
         />
+        <div tw="sticky top-8 pt-6 z-40">
+          <Tabs value={tabIndex} onChange={handleTabItemClick}>
+            <Tabs.Tab value={0}>
+              <span tw="text-b2">거래정보</span>
+            </Tabs.Tab>
+            {danji && !danji.error_code && (
+              <Tabs.Tab value={1}>
+                <span tw="text-b2">단지정보</span>
+              </Tabs.Tab>
+            )}
+            <Tabs.Tab value={2}>
+              <span tw="text-b2">Q&A</span>
+            </Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs>
+        </div>
         <div tw="px-5 py-6">
           <ListingDetailSection.Summary
             createdTime={listingDetail?.active_status_time}
@@ -319,7 +335,7 @@ export default function ListingDetail({
           </div>
         )}
         <Separator />
-        <div tw="sticky top-8 pt-6 z-40">
+        {/* <div tw="sticky top-8 pt-6 z-40">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
@@ -334,7 +350,7 @@ export default function ListingDetail({
             </Tabs.Tab>
             <Tabs.Indicator />
           </Tabs>
-        </div>
+        </div> */}
         <div id="listingInfoSection" ref={setListingInfoSection}>
           <div tw="px-5 pt-6 pb-10">
             <ListingDetailSection.Biddings
