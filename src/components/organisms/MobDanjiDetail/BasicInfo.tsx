@@ -7,8 +7,15 @@ import { cuttingDot } from '@/utils/fotmat';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useState, useCallback, useEffect } from 'react';
+import tw from 'twin.macro';
 
-export default function BasicInfo({ danji }: { danji: GetDanjiDetailResponse }) {
+export default function BasicInfo({
+  isListingDetail = false,
+  danji,
+}: {
+  isListingDetail?: boolean;
+  danji: GetDanjiDetailResponse;
+}) {
   const router = useRouter();
   const [isRecommendationService, setIsRecommendationService] = useState(false);
 
@@ -57,7 +64,7 @@ export default function BasicInfo({ danji }: { danji: GetDanjiDetailResponse }) 
 
   return (
     <>
-      <div tw="pb-9">
+      <div css={[isListingDetail ? tw`pb-0` : tw`pb-9`]}>
         <div tw="px-5">
           <div tw="mb-2">
             <span tw="text-h3 font-bold">{danji.name}</span>
@@ -112,15 +119,17 @@ export default function BasicInfo({ danji }: { danji: GetDanjiDetailResponse }) 
             )}
           </div>
 
-          <div tw="w-full flex flex-col gap-2">
-            <Button variant="secondary" size="medium" tw="w-full" onClick={handleCTA}>
-              네고 매물 추천받기
-            </Button>
-            <div tw="flex gap-1 justify-center">
-              <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
-              <span tw="text-info font-bold text-nego">{danji.suggest_count || 0}</span>
+          {!isListingDetail && (
+            <div tw="w-full flex flex-col gap-2">
+              <Button variant="secondary" size="medium" tw="w-full" onClick={handleCTA}>
+                네고 매물 추천받기
+              </Button>
+              <div tw="flex gap-1 justify-center">
+                <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
+                <span tw="text-info font-bold text-nego">{danji.suggest_count || 0}</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       {openPopup && (

@@ -471,8 +471,8 @@ export default function MobListingDetail({
           <div id="danjiSection" ref={setDanjiSection}>
             <MobDanjiDetailSection>
               <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
-                <MobDanjiDetailSection.Info danji={danji} />
-                <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={() => {}} />
+                <MobDanjiDetailSection.Info danji={danji} isListingDetail />
+                <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={() => {}} isListingDetail />
               </div>
 
               <MobDanjiRealpriceContainer
