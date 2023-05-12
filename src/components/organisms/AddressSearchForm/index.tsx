@@ -70,6 +70,7 @@ export default function AddressSearchForm({ value: valueProp, onChange, onSubmit
             placeholder="주소 또는 단지명을 입력하세요."
             value={value}
             onChange={handleInputValueChange}
+            autoComplete="off"
           />
         </TextField>
       </div>
