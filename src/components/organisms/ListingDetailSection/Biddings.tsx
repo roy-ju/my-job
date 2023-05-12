@@ -123,7 +123,7 @@ export default function Biddings({
                   {showBiddingPrice && (
                     <Table.Data>
                       <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '-'}
+                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
                         {Boolean(item.monthlyRentFee) && (
                           <span>
                             /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>
@@ -155,7 +155,7 @@ export default function Biddings({
                   {showBiddingPrice && (
                     <Table.Data>
                       <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '-'}
+                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
                         {Boolean(item.monthlyRentFee) && (
                           <span>
                             /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>

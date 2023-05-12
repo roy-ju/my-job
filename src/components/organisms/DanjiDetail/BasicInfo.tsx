@@ -145,7 +145,7 @@ export default function BasicInfo({
 
           {!isListingDetail && (
             <div tw="w-full flex flex-col gap-2">
-              <Button variant="secondary" size="medium" tw="w-full" onClick={handleCTA}>
+              <Button variant="secondary" size="big" tw="w-full" onClick={handleCTA}>
                 네고 매물 추천받기
               </Button>
               <div tw="flex gap-1 justify-center">
