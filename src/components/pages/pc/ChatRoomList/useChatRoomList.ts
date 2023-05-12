@@ -2,6 +2,7 @@ import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { useCallback, useMemo } from 'react';
+import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 export default function useChatRoomList(depth: number) {
   const router = useRouter(depth);
@@ -28,7 +29,8 @@ export default function useChatRoomList(depth: number) {
   }, [router]);
 
   const handleClickListItem = useCallback(
-    (id: number) => {
+    async (id: number) => {
+      await updateChatMessagesRead(id);
       router.push(Routes.ChatRoom, {
         searchParams: { chatRoomID: `${id}` },
         state: {
