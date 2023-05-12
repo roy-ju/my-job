@@ -91,7 +91,12 @@ export default function Biddings({
   return (
     <div>
       <div tw="mb-3">
-        <div tw="font-bold">제안 현황</div>
+        <div tw="flex items-center gap-1">
+          <div tw="font-bold">제안 현황</div>
+          <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
+            <QuestionIcon />
+          </Button>
+        </div>
       </div>
       <div>
         <StyledTable>
