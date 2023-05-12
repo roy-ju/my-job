@@ -9,9 +9,11 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'reac
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
+  isListingDetail = false,
   danji,
   setLoadingListing,
 }: {
+  isListingDetail?: boolean;
   danji?: GetDanjiDetailResponse;
   setLoadingListing: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -68,6 +70,15 @@ export default function ActiveListingInfo({
 
   if (!danjiListings) return null;
   if (danjiListings && danjiListings.length === 0) return null;
+
+  if (isListingDetail && danjiListings.length > 0)
+    return (
+      <div tw="flex flex-col gap-3 px-5 pb-10">
+        <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
+          단지내 매물 전체보기
+        </Button>
+      </div>
+    );
 
   return (
     <div tw="pb-8">
