@@ -432,28 +432,24 @@ export default function ListingDetail({
                 <div tw="font-bold mb-3">매물 상세정보</div>
                 <Table>
                   <Table.Body>
-                    {listingDetail?.listing?.veranda_extended && (
-                      <Table.Row>
-                        <Table.Head>
-                          베란다
-                          <br />
-                          확장 여부
-                        </Table.Head>
-                        <Table.Data>확장</Table.Data>
-                      </Table.Row>
-                    )}
-                    {listingDetail?.listing?.veranda_remodelling && (
-                      <Table.Row>
-                        <Table.Head>올수리 여부</Table.Head>
-                        <Table.Data>2년 내 올수리</Table.Data>
-                      </Table.Row>
-                    )}
-                    {etcOptions && (
-                      <Table.Row>
-                        <Table.Head>기타 옵션</Table.Head>
-                        <Table.Data>{etcOptions}</Table.Data>
-                      </Table.Row>
-                    )}
+                    <Table.Row>
+                      <Table.Head>
+                        베란다
+                        <br />
+                        확장 여부
+                      </Table.Head>
+                      <Table.Data>{listingDetail?.listing?.veranda_extended ? '확장' : '해당없음'}</Table.Data>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Head>올수리 여부</Table.Head>
+                      <Table.Data>
+                        {listingDetail?.listing?.veranda_remodelling ? '2년 내 올수리' : '해당없음'}
+                      </Table.Data>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Head>기타 옵션</Table.Head>
+                      <Table.Data>{etcOptions || '해당없음'}</Table.Data>
+                    </Table.Row>
                   </Table.Body>
                 </Table>
               </div>
