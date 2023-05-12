@@ -11,6 +11,8 @@ import MinusIcon from '@/assets/icons/minus.svg';
 import GPSIcon from '@/assets/icons/gps.svg';
 import { usePopper } from 'react-popper';
 import { useOutsideClick } from '@/hooks/utils';
+import Lottie from 'react-lottie';
+import * as animationData from '@/assets/icons/json/loading.json';
 
 interface OnClickProps {
   onClick?: () => void;
@@ -18,6 +20,7 @@ interface OnClickProps {
 
 interface SelectableProps extends OnClickProps {
   selected?: boolean;
+  isGeoLoading?: boolean;
 }
 
 const ButtonText = tw.div`text-info text-gray-1000 mt-1`;
@@ -163,10 +166,37 @@ function ZoomOutButton({ onClick }: OnClickProps) {
   );
 }
 
-function GPSButton({ selected = false, onClick }: SelectableProps) {
+function GPSButton({ selected = false, onClick, isGeoLoading }: SelectableProps) {
   return (
-    <Button onClick={onClick} variant="ghost" size="none" tw="flex-col w-10 h-10 bg-white shadow hover:bg-gray-300">
-      <GPSIcon color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`} />
+    <Button
+      onClick={() => {
+        if (!isGeoLoading) {
+          onClick?.();
+        }
+      }}
+      variant="ghost"
+      size="none"
+      tw="flex-col w-10 h-10 bg-white shadow hover:bg-gray-300"
+      selected={selected}
+    >
+      {!isGeoLoading && <GPSIcon color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`} />}
+
+      {isGeoLoading && (
+        <div tw="flex items-center justify-center">
+          <Lottie
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData,
+              rendererSettings: {
+                preserveAspectRatio: 'xMidYMid slice',
+              },
+            }}
+            height={80}
+            width={80}
+          />
+        </div>
+      )}
     </Button>
   );
 }
