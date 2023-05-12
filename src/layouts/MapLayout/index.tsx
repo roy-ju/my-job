@@ -153,6 +153,10 @@ export default function MapLayout({ children }: Props) {
   const [tabIndex, setTabIndex] = useState(0);
   const [panelsVisible, setPanelsVisible] = useState(true);
 
+  const handleClickLogo = useCallback(() => {
+    router.popAll();
+  }, [router]);
+
   const handleChangeTabIndex = useCallback(
     (index: number) => {
       switch (index) {
@@ -195,7 +199,7 @@ export default function MapLayout({ children }: Props) {
   return (
     <>
       <PcGlobalStyles />
-      <Layout tabIndex={tabIndex} onChangeTab={handleChangeTabIndex}>
+      <Layout tabIndex={tabIndex} onChangeTab={handleChangeTabIndex} onClickLogo={handleClickLogo}>
         <Layout.Panels visible={panelsVisible}>{children}</Layout.Panels>
         {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서
       분리된 컴포넌트로 사용한다. */}
