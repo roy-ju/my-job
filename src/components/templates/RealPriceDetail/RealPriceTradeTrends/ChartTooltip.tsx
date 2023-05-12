@@ -55,12 +55,14 @@ export const ChartTooltip = React.memo(
       }
     }, [isLineBreak, setIsLineBreak]);
 
+    console.log(left);
+
     return (
       <div>
         <TooltipWithBounds
           top={top}
           left={left}
-          className="tooltip-container"
+          className="tooltip-container-10"
           style={{
             ...defaultStyles,
             margin: 0,
@@ -71,7 +73,7 @@ export const ChartTooltip = React.memo(
           }}
         >
           <div
-            style={{ '--left': `${left}px,`, '--width': `${width}px` } as CustomProperties & React.CSSProperties}
+            style={{ '--left': `${left}px`, '--width': `${width}px` } as CustomProperties & React.CSSProperties}
             tw="flex flex-row items-center bg-white max-w-mobile [border-radius: 8px] [text-align: left] [padding: 8px 12px 8px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
             css={[
               checkPlatform() === 'pc'
@@ -100,6 +102,7 @@ export const ChartTooltip = React.memo(
                   </span>
                 </div>
               )}
+
               {isLineBreak() ? (
                 <div tw="flex flex-col gap-1">
                   <div>
