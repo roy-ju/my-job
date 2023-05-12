@@ -38,6 +38,7 @@ export default function DanjiListings({ panelWidth, depth }: Props) {
         dropDownValue={dropDownValue}
         onNext={increamentPageNumber}
         handleChangeDropDown={handleChangeDropDown}
+        handleBackButton={() => router.popAll()}
       />
     </Panel>
   );
