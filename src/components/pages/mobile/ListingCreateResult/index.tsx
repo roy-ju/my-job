@@ -8,6 +8,7 @@ import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingCreateResult } from '@/components/templates';
 import { ListingStatus } from '@/constants/enums';
+import usePolling from '@/hooks/utils/usePolling';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -17,6 +18,8 @@ export default memo(() => {
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { data, mutate, isLoading } = useAPI_MyListingDetail(listingID);
+
+  usePolling(mutate, 5000, 5);
 
   const [isSendingSms, setIsSendingSms] = useState(false);
 
