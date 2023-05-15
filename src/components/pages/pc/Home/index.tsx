@@ -37,9 +37,13 @@ export default memo(() => {
     router.replace(Routes.NotificationList);
   }, [router]);
 
-  const handleClickSuggestion = useCallback(() => {}, []);
+  const handleClickSuggestion = useCallback(() => {
+    router.replace(Routes.SuggestRegionalForm);
+  }, [router]);
 
-  const handleClickBidding = useCallback(() => {}, []);
+  const handleClickBidding = useCallback(() => {
+    router.replace(Routes.Map);
+  }, [router]);
 
   const handleClickHomeRegister = useCallback(() => {
     router.replace(Routes.MyAddress);
