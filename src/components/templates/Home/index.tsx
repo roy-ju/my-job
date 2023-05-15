@@ -225,6 +225,7 @@ export default function Home({
           <Separator tw="bg-gray-300" />
           <div tw="pt-10 pb-6">
             <div tw="px-5 font-bold text-h3">내 집 마련 시작은 실거래가 확인부터</div>
+            <div tw="px-5 text-b2 text-gray-700 mt-1">실거래가 많이 발생한 단지에요.</div>
             <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <div tw="flex px-5 gap-5">
                 {recentRealPriceList?.map((item) => (
@@ -267,6 +268,7 @@ export default function Home({
             <div tw="px-5 font-bold text-h3 flex items-center gap-2">
               전국팔도 꿀단지 <HoneyJarIcon />
             </div>
+            <div tw="px-5 text-b2 text-gray-700 mt-1">추천 요청이 많은 단지에요.</div>
             <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <div tw="flex px-5 gap-5">
                 {mostSuggestList?.map((item) => (
@@ -319,6 +321,7 @@ export default function Home({
           <Separator tw="bg-gray-300" />
           <div tw="pt-10 pb-6">
             <div tw="px-5 font-bold text-h3">고민하는 사이 거래 종료! 관심 TOP 매물</div>
+            <div tw="px-5 text-b2 text-gray-700 mt-1">관심등록이 많은 매물이에요.</div>
             <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <div tw="flex px-5 gap-5">
                 {mostFavoriteList?.map((item) => (
@@ -396,6 +399,7 @@ export default function Home({
               <Separator tw="bg-gray-300" />
               <div tw="pt-10 pb-6">
                 <div tw="px-5 font-bold text-h3">{user?.nickname}님을 위한 새로운 매물</div>
+                <div tw="px-5 text-b2 text-gray-700 mt-1">관심 단지 또는 주소 등록한 지역의 신규 매물이에요.</div>
                 <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                   <div tw="flex px-5 gap-5">
                     {listingsForUser?.map((item) => (
@@ -463,7 +467,7 @@ export default function Home({
               <Separator tw="bg-gray-300" />
               <div tw="pt-10 pb-6">
                 <div tw="px-5 font-bold text-h3">여기 실거래가 얼마더라?</div>
-                <div tw="mt-1 px-5 text-b2 text-gray-700">관심 단지 또는 주소 등록한 지역의 최근 실거래가에요.</div>
+                <div tw="mt-1 px-5 text-b2 text-gray-700">관심 단지 또는 주소 등록한 지역의 최근 실거래가예요.</div>
                 <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                   <div tw="flex px-5 gap-5">
                     {danjisForUser?.map((item) => (
