@@ -20,7 +20,7 @@ export default function useSuggestRegionalForm(depth: number) {
   const [monthlyRentFee, setMonthlyRentFee] = useState('');
   const [minArea, setMinArea] = useState('');
   const [maxArea, setMaxArea] = useState('');
-  const [floor, setFloor] = useState<string[]>([]);
+  const [floor, setFloor] = useState<string[]>(['저층', '중층', '고층']);
   const [purpose, setPurpose] = useState('');
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
