@@ -6,6 +6,7 @@ import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -39,6 +40,8 @@ function MapWrapper() {
     selectedSchoolID,
     priceType,
     streetViewEvent,
+    popup,
+    setPopup,
     ...props
   } = useMapLayout();
 
@@ -114,6 +117,38 @@ function MapWrapper() {
           )}
         </AnimatePresence>
       </MobLayoutMapContainer>
+      {popup === 'locationPermission' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>위치 접근 권한을 허용해 주세요.</Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'locationPermissionNative' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>위치 접근 권한을 허용해 주세요.</Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  window.Android?.goToAppPermissionSettings?.();
+                  setPopup('none');
+                }}
+              >
+                허용하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </>
   );
 }

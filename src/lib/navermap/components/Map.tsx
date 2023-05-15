@@ -49,7 +49,13 @@ export default memo(
     useIsomorphicLayoutEffect(() => {
       const mapContainer = container.current;
 
-      if (!mapContainer) return () => {};
+      if (!mapContainer) {
+        return () => {};
+      }
+
+      if (window.naver.maps === null) {
+        return () => {};
+      }
 
       const naverMap = new naver.maps.Map(mapContainer, {
         center: new naver.maps.LatLng(center.lat, center.lng),
@@ -63,7 +69,9 @@ export default memo(
       setMap(naverMap);
 
       return () => {
-        naverMap.destroy();
+        if (naverMap) {
+          naverMap.destroy();
+        }
       };
     }, []);
 
