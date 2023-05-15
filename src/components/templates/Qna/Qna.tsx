@@ -16,7 +16,6 @@ export default function Qna({ placeholder, value, onChange }: IQnaProps) {
           placeholder={placeholder}
           tw="placeholder:text-b2 min-h-[74px] text-b2"
           onChange={onChange}
-          maxLength={100}
           spellCheck={false}
         />
       </TextField>
