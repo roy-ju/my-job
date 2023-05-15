@@ -270,7 +270,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
         )}
 
         <MobDanjiDetailSection>
-          <div tw="pt-6" id="listingsSection" ref={setListingsSection}>
+          <div tw="pt-7" id="listingsSection" ref={setListingsSection}>
             <MobDanjiDetailSection.Info danji={danji} />
             <MobDanjiDetailSection.ActiveInfo
               danji={danji}

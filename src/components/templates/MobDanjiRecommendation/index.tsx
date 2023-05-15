@@ -14,7 +14,7 @@ import { formatNumberInKorean } from '@/utils';
 export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailResponse; isPb?: boolean }) => (
   <div tw="flex flex-col px-5 pt-7" css={[isPb ? tw`pb-7` : tw`pb-10`]}>
     <span tw="text-b1 font-bold">{danji.name}</span>
-    <span tw="text-info [line-height: 1.25rem]">{danji.road_name_address}</span>
+    <span tw="text-info [line-height: 1.25rem]">{danji.road_name_address || danji.jibun_address}</span>
     <div tw="flex items-center gap-1" css={[isPb ? tw`mb-0` : tw`mb-4`]}>
       <>
         <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
@@ -676,7 +676,7 @@ export default function MobDanjiRecommendation({
             <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
             <div tw="flex items-center pt-[30px] px-5 gap-2">
               <Checkbox checked={checked} onChange={onChangeCheck} />
-              <span tw="text-b2 [line-height: 16px]">원하는 지역에도 매물 추천 받아 볼래요</span>
+              <span tw="text-b2 [line-height: 16px]">단지 주변 지역에도 매물 추천 받아 볼래요</span>
             </div>
           </div>
         )}
