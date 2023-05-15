@@ -29,8 +29,8 @@ export default function Description({ value, onChangeValue }: DescriptionsProps)
           <TextField.TextArea
             value={descriptions}
             onChange={handleChange}
-            tw="min-h-[72px]"
-            placeholder="내용을 입력하세요&#13;&#10;매물에 대한 문의는 중개사에게 문의하기를 이용하세요"
+            tw="min-h-[50px]"
+            placeholder="내용을 입력하세요"
             spellCheck="false"
           />
         </TextField>
