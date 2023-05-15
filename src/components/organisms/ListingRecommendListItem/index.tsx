@@ -17,6 +17,7 @@ import { Avatar } from '../ChatMessage/Avatar';
 interface Props {
   showCheckbox?: boolean;
   item?: NonNullable<GetMySuggestRecommendsResponse['list']>[0];
+  isLast?: boolean;
   onClickListing?: () => void;
   onClickChat?: () => void;
   onClickNotInterested?: () => void;
@@ -34,6 +35,7 @@ const informationStringWrapper = css`
 export default function ListingRecommendListItem({
   showCheckbox = false,
   item,
+  isLast,
   onClickListing,
   onClickChat,
   onClickNotInterested,
@@ -104,9 +106,10 @@ export default function ListingRecommendListItem({
       );
     }
   };
+  console.log(isLast);
 
   return (
-    <div tw="bg-white rounded-lg border border-gray-300 shadow">
+    <div tw="bg-white rounded-lg border border-gray-300" css={[!isLast && tw`shadow`]}>
       <div tw="flex items-center gap-2 px-4 pt-4 pb-3 border-b border-b-gray-300">
         {showCheckbox && <Checkbox />}
         <Avatar size={24} alt="alt" src={item?.agent_profile_image_url} />
