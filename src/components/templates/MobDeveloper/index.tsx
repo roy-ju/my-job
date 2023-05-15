@@ -60,7 +60,7 @@ export default function MobDeveloper({
                 toast.success(`lat: ${lat} lng: ${lng}`);
               },
               () => {
-                toast.error('failed');
+                toast.error(`failed`);
               },
             );
           }}
