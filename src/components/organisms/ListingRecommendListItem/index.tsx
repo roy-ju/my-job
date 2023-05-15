@@ -17,6 +17,7 @@ import { Avatar } from '../ChatMessage/Avatar';
 interface Props {
   showCheckbox?: boolean;
   item?: NonNullable<GetMySuggestRecommendsResponse['list']>[0];
+  isLast?: boolean;
   onClickListing?: () => void;
   onClickChat?: () => void;
   onClickNotInterested?: () => void;
@@ -34,6 +35,7 @@ const informationStringWrapper = css`
 export default function ListingRecommendListItem({
   showCheckbox = false,
   item,
+  isLast,
   onClickListing,
   onClickChat,
   onClickNotInterested,
@@ -104,9 +106,10 @@ export default function ListingRecommendListItem({
       );
     }
   };
+  console.log(isLast);
 
   return (
-    <div tw="bg-white rounded-lg border border-gray-300 shadow">
+    <div tw="bg-white rounded-lg border border-gray-300" css={[!isLast && tw`shadow`]}>
       <div tw="flex items-center gap-2 px-4 pt-4 pb-3 border-b border-b-gray-300">
         {showCheckbox && <Checkbox />}
         <Avatar size={24} alt="alt" src={item?.agent_profile_image_url} />
@@ -161,22 +164,33 @@ export default function ListingRecommendListItem({
             />
           </div>
         </button>
-        {item?.note && (
-          <button type="button" tw="text-start block" onClick={() => setExpanded((prev) => !prev)}>
-            <div tw="px-4 py-2 mb-2 flex hover:bg-gray-200">
+        {item?.note &&
+          (item.note.length > 28 ? (
+            <button type="button" tw="text-start block" onClick={() => setExpanded((prev) => !prev)}>
+              <div tw="px-4 py-2 mb-2 flex hover:bg-gray-200">
+                <motion.div
+                  tw="flex-1 text-info leading-[20px] overflow-hidden"
+                  initial={{ height: '20px' }}
+                  animate={{ height: !expanded ? '20px' : 'auto' }}
+                >
+                  {item?.note}
+                </motion.div>
+                <div tw="shrink-0 pl-1 pt-px">
+                  <ChevronDown css={[tw`text-gray-700 transition-transform`, expanded && tw`rotate-180`]} />
+                </div>
+              </div>
+            </button>
+          ) : (
+            <div tw="text-start  px-4 py-2 mb-2 flex hover:bg-gray-200">
               <motion.div
                 tw="flex-1 text-info leading-[20px] overflow-hidden"
                 initial={{ height: '20px' }}
-                animate={{ height: !expanded ? '20px' : 'auto' }}
+                animate={{ height: '20px' }}
               >
                 {item?.note}
               </motion.div>
-              <div tw="shrink-0 pl-1 pt-px">
-                <ChevronDown css={[tw`text-gray-700 transition-transform`, expanded && tw`rotate-180`]} />
-              </div>
             </div>
-          </button>
-        )}
+          ))}
       </div>
       <div tw="pt-2">{renderCtas()}</div>
     </div>
