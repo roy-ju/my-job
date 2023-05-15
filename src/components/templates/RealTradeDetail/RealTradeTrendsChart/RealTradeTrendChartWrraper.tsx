@@ -300,7 +300,7 @@ export const RealTradeTrendChartWrraper = React.memo(
     return hasChartData ? (
       <div>
         <div tw="flex flex-col [gap: 14px]">
-          <span tw="text-b2 [line-height: 1] text-gray-1000">거래지수 비교</span>
+          <span tw="text-b2 [line-height: 1] text-gray-1000">거래가격 추이</span>
           <span tw="text-info [line-height: 1] text-gray-700">*개별 거래가의 변동지수 (면적당 거래가)</span>
         </div>
         <div>
