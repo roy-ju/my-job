@@ -3,8 +3,9 @@ import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomAgentSummary, ChatRoomTextField } from '@/components/organisms';
 import useLatest from '@/hooks/utils/useLatest';
 import { StaticImageData } from 'next/image';
-import React, { useCallback, useState } from 'react';
-import { Virtuoso } from 'react-virtuoso';
+import React, { useCallback, useRef, useState } from 'react';
+import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
 import ListingList, { ListingCardProps } from './ListingList';
 
@@ -59,6 +60,8 @@ export default function ChatRoom({
   onClickNavigateToListingDetail,
   onClickNavigateToListingDetailHistory,
 }: ChatRoomProps) {
+  const containerRef = useRef<VirtuosoHandle | null>(null);
+
   const messagesRef = useLatest(chatMessages);
 
   const headerItems = [
@@ -97,6 +100,10 @@ export default function ChatRoom({
 
   const [showListingList, setShowListingList] = useState(false);
 
+  useIsomorphicLayoutEffect(() => {
+    containerRef.current?.scrollToIndex({ index: chatMessages.length - 1 });
+  }, [chatMessages]);
+
   return (
     <div tw="flex flex-col h-full relative">
       <NavigationHeader>
@@ -122,10 +129,11 @@ export default function ChatRoom({
           <Loading tw="text-center mt-10" />
         ) : (
           <Virtuoso
+            ref={containerRef}
             defaultItemHeight={38}
             style={{ height: '100%', width: '100%' }}
             atBottomThreshold={24}
-            followOutput="auto"
+            followOutput
             initialTopMostItemIndex={messagesRef.current.length - 1}
             data={chatMessages}
             itemContent={renderItem}
