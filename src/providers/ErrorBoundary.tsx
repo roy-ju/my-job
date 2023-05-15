@@ -27,7 +27,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   public componentDidUpdate(): void {
     if (this.state.hasError && window.location.pathname !== '/') {
-      window.open(window.origin, '_self');
+      // window.open(window.origin, '_self');
     }
   }
 

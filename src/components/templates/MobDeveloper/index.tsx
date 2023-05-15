@@ -1,7 +1,10 @@
+import { Button } from '@/components/atoms';
 import { Dropdown, TextField } from '@/components/molecules';
 import { MobGlobalHeader } from '@/components/organisms';
 import { useControlled } from '@/hooks/utils';
+import getCurrentPosition from '@/utils/getCurrentPosition';
 import { useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   userNickname?: string;
@@ -50,6 +53,20 @@ export default function MobDeveloper({
             </Dropdown.Option>
           ))}
         </Dropdown>
+        <Button
+          onClick={() => {
+            getCurrentPosition(
+              ({ lat, lng }) => {
+                toast.success(`lat: ${lat} lng: ${lng}`);
+              },
+              () => {
+                toast.error('failed');
+              },
+            );
+          }}
+        >
+          현재 위치 가지고 오기
+        </Button>
       </div>
     </div>
   );
