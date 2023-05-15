@@ -530,17 +530,25 @@ export default function DanjiRecommendation({
 
         {!isRenderFinalForm && (
           <div id="danji-recommend-formContainer" tw="flex-1 overflow-auto">
-            <div id="danji-recommend-default">
+            {/* <div id="danji-recommend-default">
               <BasicInfo danji={danji} />
               <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
               <GuideInfo />
               <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-            </div>
+            </div> */}
             {typeof step === 'number' && step > 0 && (
-              <div id="danji-recommend-buyOrRent">
-                <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
-                <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              </div>
+              <>
+                <div id="danji-recommend-default">
+                  <BasicInfo danji={danji} />
+                  <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+                  <GuideInfo />
+                  <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+                </div>
+                <div id="danji-recommend-buyOrRent">
+                  <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
+                  <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+                </div>
+              </>
             )}
 
             {typeof step === 'number' && step > 1 && (

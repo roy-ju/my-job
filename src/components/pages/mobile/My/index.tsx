@@ -64,7 +64,7 @@ export default function MobMy() {
   }, [router]);
 
   const handleCreateListing = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.HOG}`);
   }, [router]);
 
   const handleClickMyRegisteredListings = useCallback(

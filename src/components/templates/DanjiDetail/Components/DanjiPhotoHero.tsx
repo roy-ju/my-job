@@ -3,7 +3,7 @@ import { useAPI_GetDanjiPhotos } from '@/apis/danji/danjiPhotos';
 import { PhotoHero } from '@/components/organisms';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { DefaultListingImageLg } from '@/constants/strings';
 
 export default function DanjiPhotoHero({ danji, depth }: { danji?: GetDanjiDetailResponse; depth: number }) {
@@ -18,12 +18,14 @@ export default function DanjiPhotoHero({ danji, depth }: { danji?: GetDanjiDetai
     realestateType: danji?.type,
   });
 
+  const paths = useMemo(() => danjiPhotos?.danji_photos?.map((item) => item.full_file_path) ?? [], [danjiPhotos]);
+
   if (!danji) return null;
 
   return (
     <PhotoHero
-      itemSize={danjiPhotos?.danji_photos?.length ?? 0}
-      photoPath={danjiPhotos?.danji_photos?.[0]?.full_file_path ?? DefaultListingImageLg[danji.type]}
+      photoPaths={paths}
+      defaultPhotoPath={DefaultListingImageLg[danji.type]}
       onClickViewPhotos={handlePhotos}
     />
   );

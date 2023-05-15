@@ -55,8 +55,6 @@ export const ChartTooltip = React.memo(
       }
     }, [isLineBreak, setIsLineBreak]);
 
-    console.log(left);
-
     return (
       <div>
         <TooltipWithBounds
