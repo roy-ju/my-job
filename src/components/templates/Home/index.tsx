@@ -5,7 +5,7 @@ import LogoIcon from '@/assets/icons/home_logo.svg';
 import { Button, Chip, HorizontalScroller, Numeral, Separator } from '@/components/atoms';
 import { Accordion, Table } from '@/components/molecules';
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
-import tw, { styled } from 'twin.macro';
+import tw, { styled, css } from 'twin.macro';
 import InstagramIcon from '@/assets/icons/instagram.svg';
 import YoutubeIcon from '@/assets/icons/youtube.svg';
 import NaverBlogIcon from '@/assets/icons/naver_blog.svg';
@@ -49,6 +49,14 @@ const StyledTable = styled.table`
 
   & > table > tr:not(:first-of-type) {
     ${tw`border-none`}
+  }
+`;
+
+const informationStringWrapper = css`
+  & > div:not(:first-of-type)::before {
+    content: ' | ';
+    margin: 0 0.25rem;
+    color: #e9ecef; // text-gray-300
   }
 `;
 
@@ -360,6 +368,19 @@ export default function Home({
                           /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
                         </span>
                       )}
+                    </div>
+                    <div tw="text-info text-gray-1000">{item.listing_title}</div>
+
+                    <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
+                      {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                      {item.total_floor !== '0' && (
+                        <div>
+                          {item.floor_description
+                            ? `${item.floor_description?.[0]}/${item.total_floor}층`
+                            : `${item.total_floor}층`}
+                        </div>
+                      )}
+                      <div>{item.direction}</div>
                     </div>
                   </motion.div>
                 ))}
