@@ -27,12 +27,12 @@ export default function Price({
 }: Props) {
   const priceInputLabelText = (() => {
     if (buyOrRent === BuyOrRent.Wolsae) {
-      return '보증금 제안가';
+      return '보증금 제안가 입력';
     }
     if (buyOrRent === BuyOrRent.Jeonsae) {
-      return '전세 제안가';
+      return '전세 제안가 입력';
     }
-    return '매매 제안가';
+    return '매매 제안가 입력';
   })();
 
   return (
@@ -43,10 +43,12 @@ export default function Price({
         {buyOrRent === BuyOrRent.Wolsae ? (
           <span tw="text-nego-1000">
             <Numeral koreanNumber>{listingPrice}</Numeral> / <Numeral koreanNumber>{listingMonthlyRentFee}</Numeral>
+            {' 원'}
           </span>
         ) : (
           <span tw="text-nego-1000">
             <Numeral koreanNumber>{listingPrice}</Numeral>
+            {' 원'}
           </span>
         )}{' '}
         이에요.

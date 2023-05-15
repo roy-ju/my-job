@@ -2,7 +2,8 @@ import { Checkbox, Label } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
 import { useControlled } from '@/hooks/utils';
-import { useCallback, ChangeEventHandler } from 'react';
+import { useCallback, ChangeEventHandler, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export interface EtcProps {
   buyOrRent?: number;
@@ -48,15 +49,21 @@ export default function Etc({
     default: '',
   });
 
+  const [isToastShown, setIsToastShown] = useState(false);
+
   const handleChangeDescription = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
     (e) => {
       if (e.target.value.length > 200) {
+        if (!isToastShown) {
+          toast.error('더 이상 입력할 수 없습니다.');
+          setIsToastShown(true);
+        }
         return;
       }
       setDescription(e.target.value);
       onChangeDescription?.(e.target.value);
     },
-    [setDescription, onChangeDescription],
+    [setDescription, onChangeDescription, isToastShown],
   );
 
   const handleClickOption = useCallback(
@@ -101,7 +108,7 @@ export default function Etc({
             value={description}
             onChange={handleChangeDescription}
             tw="min-h-[72px]"
-            placeholder="내용을 입력하세요&#13;&#10;매물에 대한 문의는 중개사에게 문의하기를 이용하세요"
+            placeholder="예) 주차는 필요없어요."
             spellCheck="false"
           />
         </TextField>
