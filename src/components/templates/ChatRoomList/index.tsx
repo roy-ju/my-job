@@ -27,7 +27,6 @@ interface ChatRoomListProps {
   list: IChatRoomListItem[];
   onClickListItem?: (chatRoomID: number) => void;
   isLoading: boolean;
-  onNavigateToMap?: () => void;
 }
 
 function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
@@ -55,11 +54,11 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
   );
 }
 
-function NoData({ onNavigateToMap }: { onNavigateToMap?: () => void }) {
+function NoData() {
   return (
     <div tw="flex-1">
       <div tw="pt-12 pb-10">
-        <ChatRoomListNoData onNavigateToMap={onNavigateToMap} />
+        <ChatRoomListNoData />
       </div>
       <Separator />
       <ChatRoomGuide />
@@ -67,11 +66,11 @@ function NoData({ onNavigateToMap }: { onNavigateToMap?: () => void }) {
   );
 }
 
-export default function ChatRoomList({ list, isLoading, onClickListItem, onNavigateToMap }: ChatRoomListProps) {
+export default function ChatRoomList({ list, isLoading, onClickListItem }: ChatRoomListProps) {
   const renderList = () => {
     if (isLoading) return <Loading tw="text-center mt-10" />;
     if (list.length > 0) return <List list={list} onClickListItem={onClickListItem} />;
-    return <NoData onNavigateToMap={onNavigateToMap} />;
+    return <NoData />;
   };
 
   return (
