@@ -164,22 +164,33 @@ export default function ListingRecommendListItem({
             />
           </div>
         </button>
-        {item?.note && (
-          <button type="button" tw="text-start block" onClick={() => setExpanded((prev) => !prev)}>
-            <div tw="px-4 py-2 mb-2 flex hover:bg-gray-200">
+        {item?.note &&
+          (item.note.length > 28 ? (
+            <button type="button" tw="text-start block" onClick={() => setExpanded((prev) => !prev)}>
+              <div tw="px-4 py-2 mb-2 flex hover:bg-gray-200">
+                <motion.div
+                  tw="flex-1 text-info leading-[20px] overflow-hidden"
+                  initial={{ height: '20px' }}
+                  animate={{ height: !expanded ? '20px' : 'auto' }}
+                >
+                  {item?.note}
+                </motion.div>
+                <div tw="shrink-0 pl-1 pt-px">
+                  <ChevronDown css={[tw`text-gray-700 transition-transform`, expanded && tw`rotate-180`]} />
+                </div>
+              </div>
+            </button>
+          ) : (
+            <div tw="text-start  px-4 py-2 mb-2 flex hover:bg-gray-200">
               <motion.div
                 tw="flex-1 text-info leading-[20px] overflow-hidden"
                 initial={{ height: '20px' }}
-                animate={{ height: !expanded ? '20px' : 'auto' }}
+                animate={{ height: '20px' }}
               >
                 {item?.note}
               </motion.div>
-              <div tw="shrink-0 pl-1 pt-px">
-                <ChevronDown css={[tw`text-gray-700 transition-transform`, expanded && tw`rotate-180`]} />
-              </div>
             </div>
-          </button>
-        )}
+          ))}
       </div>
       <div tw="pt-2">{renderCtas()}</div>
     </div>
