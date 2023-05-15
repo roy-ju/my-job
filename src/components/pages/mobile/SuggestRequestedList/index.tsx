@@ -8,6 +8,7 @@ import { SuggestRequestedList } from '@/components/templates';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default memo(() => {
   const router = useRouter();
@@ -66,6 +67,7 @@ export default memo(() => {
       setPopup('none');
       await deleteSuggests(items);
       await mutate();
+      toast.success('추천 요청을 삭제했습니다.', { toastId: 'success_delete' });
     }
   }, [itemsToDelete, mutate]);
 
