@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import PcGlobalStyles from '@/styles/PcGlobalStyles';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -51,6 +52,8 @@ function MapWrapper({
     streetViewEvent,
     recentSearches,
     isGeoLoading,
+    popup,
+    setPopup,
     ...props
   } = useMapLayout();
 
@@ -144,6 +147,23 @@ function MapWrapper({
           </Layout.Overlay>
         )}
       </AnimatePresence>
+      {popup === 'locationPermission' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>간편로그인 방법 변경</Popup.Title>
+              <Popup.Body>
+                이미 다른 네고시오 계정에서 사용되고 있습니다.
+                <br />
+                해당계정을 삭제하고 간편로그인 방법 변경을 계속 진행하시겠습니까?
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </>
   );
 }
