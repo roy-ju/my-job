@@ -37,7 +37,7 @@ export default function ListingRecommendList({
             <ListingRecommendListItem
               key={item.listing_id}
               item={item}
-              isLast={recommendData.length - 1 === index}
+              isLast={recommendData.length === 1 ? true : recommendData.length - 1 === index}
               onClickListing={() => onClickListing?.(item.listing_id)}
               onClickChat={() => onClickChat?.(item?.buyer_agent_chat_room_id ?? 0)}
               onClickNotInterested={() => onClickNotInterested?.(item.suggest_recommend_id)}
