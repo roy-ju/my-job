@@ -543,11 +543,13 @@ export default function DanjiRecommendation({
                   <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
                   <GuideInfo />
                   <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-                </div>
-                <div id="danji-recommend-buyOrRent">
                   <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
                   <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
                 </div>
+                {/* <div id="danji-recommend-buyOrRent">
+                   <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
+                   <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+                 </div> */}
               </>
             )}
 
