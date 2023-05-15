@@ -1,7 +1,7 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_GetDanjiPhotos } from '@/apis/danji/danjiPhotos';
 import { PhotoHero } from '@/components/organisms';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { DefaultListingImageLg } from '@/constants/strings';
 import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 import MobDanjiPhotos from '../../MobDanjiPhotos';
@@ -20,12 +20,14 @@ export default function MobDanjiPhotoHero({ danji }: { danji?: GetDanjiDetailRes
     });
   }, [addFullScreenDialog, closeAll, danjiPhotos]);
 
+  const paths = useMemo(() => danjiPhotos?.danji_photos?.map((item) => item.full_file_path) ?? [], [danjiPhotos]);
+
   if (!danji) return null;
 
   return (
     <PhotoHero
-      itemSize={danjiPhotos?.danji_photos?.length ?? 0}
-      photoPath={danjiPhotos?.danji_photos?.[0]?.full_file_path ?? DefaultListingImageLg[danji.type]}
+      photoPaths={paths}
+      defaultPhotoPath={DefaultListingImageLg[danji.type]}
       onClickViewPhotos={handlePhotos}
     />
   );

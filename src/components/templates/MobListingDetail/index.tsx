@@ -76,6 +76,14 @@ export default function MobListingDetail({
 
   // const [infoSectionExpanded, setInfoSectionExpanded] = useState(false);
 
+  const photoPaths = useMemo(
+    () => [
+      ...(listingDetail?.photos?.map((item) => item.full_file_path) ?? []),
+      ...(listingDetail?.danji_photos?.map((item) => item.full_file_path) ?? []),
+    ],
+    [listingDetail?.photos, listingDetail?.danji_photos],
+  );
+
   const basicContainerRef = useRef<HTMLDivElement | null>(null);
   const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
   const basicDetailContainerRef = useRef<HTMLDivElement | null>(null);
@@ -230,11 +238,8 @@ export default function MobListingDetail({
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <PhotoHero
           onClickViewPhotos={onNavigateToPhotoGallery}
-          itemSize={(listingDetail?.photos?.length ?? 0) + (listingDetail?.danji_photos?.length ?? 0)}
-          photoPath={
-            listingDetail?.photos?.[0]?.full_file_path ??
-            DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]
-          }
+          defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
+          photoPaths={photoPaths}
         />
         <div tw="sticky top-8 pt-6 [z-index: 300]">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
