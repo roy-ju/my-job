@@ -72,6 +72,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         return '거래성사 매물';
       case BiddingStatus.BiddingStatusSubmitted:
         return '제안중 매물';
+      case BiddingStatus.BiddingStatusRejected:
+        return '제안중 매물';
       case BiddingStatus.BiddingStatusAccepted:
         return '협의중 매물';
       case BiddingStatus.BiddingStatusContractComplete:

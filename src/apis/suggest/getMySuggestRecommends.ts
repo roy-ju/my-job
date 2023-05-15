@@ -26,6 +26,7 @@ export interface GetMySuggestRecommendsResponse {
         trade_or_deposit_price: number;
         monthly_rent_fee: number;
         buyer_agent_chat_room_id?: number | null;
+        suggest_recommend_accepted_time: string;
       }[]
     | null;
 }
