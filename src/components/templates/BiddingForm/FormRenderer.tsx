@@ -99,7 +99,7 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.InterimAmount}>
           <Form.InterimAmount
-            listingPrice={listing?.trade_price || listing?.deposit}
+            // listingPrice={listing?.trade_price || listing?.deposit}
             listingInterimAmount={totalInterimAmount}
             value={canHaveMoreInterimAmount}
             onChange={onChangeCanHaveMoreInterimAmount}

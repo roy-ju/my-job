@@ -19,7 +19,7 @@ const prefixDanjiRecommend: string = 'danji-recommend-';
 export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const router = useRouter(depth);
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [buyOrRent, setBuyOrRent] = useState<number>();
   const [openResetPopup, setOpenResetPopup] = useState(false);
   const [tradeOrDepositPrice, setTradeOrDepositPrice] = useState('');
