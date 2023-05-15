@@ -33,10 +33,11 @@ export default function ListingRecommendList({
     <div tw="py-7 px-5">
       <InfiniteScroll onNext={onNext}>
         <div tw="flex flex-col gap-5">
-          {recommendData?.map((item) => (
+          {recommendData?.map((item, index) => (
             <ListingRecommendListItem
               key={item.listing_id}
               item={item}
+              isLast={recommendData.length - 1 === index}
               onClickListing={() => onClickListing?.(item.listing_id)}
               onClickChat={() => onClickChat?.(item?.buyer_agent_chat_room_id ?? 0)}
               onClickNotInterested={() => onClickNotInterested?.(item.suggest_recommend_id)}
