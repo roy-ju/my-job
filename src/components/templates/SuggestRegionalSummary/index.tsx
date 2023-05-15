@@ -1,7 +1,8 @@
 import { Button, Moment, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader, Table } from '@/components/molecules';
-import { TimeTypeString } from '@/constants/strings';
+import { RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
+import { useMemo } from 'react';
 import tw, { styled } from 'twin.macro';
 
 const StyledTable = styled.table`
@@ -16,6 +17,7 @@ const StyledTable = styled.table`
 
 interface Props {
   address?: string;
+  realestateTypes?: string;
   buyOrRents?: string;
   price?: number;
   monthlyRentFee?: number;
@@ -35,6 +37,7 @@ interface Props {
 
 export default function SuggestRegionalSummary({
   address,
+  realestateTypes,
   buyOrRents,
   price,
   monthlyRentFee,
@@ -51,6 +54,15 @@ export default function SuggestRegionalSummary({
   onClickBack,
   onClickNext,
 }: Props) {
+  const realestateTypesString = useMemo(
+    () =>
+      realestateTypes
+        ?.split(',')
+        .map((item) => RealestateTypeString[Number(item)])
+        .join(', '),
+    [realestateTypes],
+  );
+
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -70,6 +82,10 @@ export default function SuggestRegionalSummary({
                 <Table.Row>
                   <Table.Head>지역</Table.Head>
                   <Table.Data>{address}</Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>부동산 종류</Table.Head>
+                  <Table.Data>{realestateTypesString}</Table.Data>
                 </Table.Row>
                 <Table.Row>
                   <Table.Head>거래 종류</Table.Head>

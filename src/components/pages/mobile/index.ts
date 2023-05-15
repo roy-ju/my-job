@@ -109,3 +109,7 @@ export { default as DanjiRecommendation } from './DanjiRecommendation';
 export { default as DanjiRecommendationSuccess } from './DanjiRecommendationSuccess';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
+
+
+/** 매물등록 가이드 */
+export { default as MobHog } from './MobHog';

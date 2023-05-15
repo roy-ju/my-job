@@ -29,10 +29,6 @@ export default function useSuggestRegionalForm(depth: number) {
 
   const [description, setDescription] = useState('');
 
-  const handleChangeBubjungdong = useCallback((item: RegionItem) => {
-    setBubjungdong(item);
-  }, []);
-
   const handleChangeRealestateType = useCallback((value: number[]) => {
     setRealestateType(value);
   }, []);
@@ -171,6 +167,14 @@ export default function useSuggestRegionalForm(depth: number) {
     description,
     router,
   ]);
+
+  const handleChangeBubjungdong = useCallback(
+    (item: RegionItem) => {
+      setBubjungdong(item);
+      handleSubmitRegion();
+    },
+    [handleSubmitRegion],
+  );
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
