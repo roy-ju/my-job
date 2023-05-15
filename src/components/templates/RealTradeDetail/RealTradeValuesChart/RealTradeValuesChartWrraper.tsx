@@ -299,7 +299,7 @@ export const RealTradeValuesChartWrraper = React.memo(
     return hasChartData ? (
       <div>
         <div tw="flex flex-col [gap: 14px]">
-          <span tw="text-b2 [line-height: 1] text-gray-1000">심리지수 비교</span>
+          <span tw="text-b2 [line-height: 1] text-gray-1000">평가가격 추이</span>
           <span tw="text-info [line-height: 1] text-gray-700">
             *거래되지 않은 평형 등을 반영한 지수 (면적당 거래가)
           </span>

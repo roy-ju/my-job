@@ -1,21 +1,23 @@
 import { Button, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader, TextField } from '@/components/molecules';
-import { ChangeEventHandler, useCallback, useState } from 'react';
+import { ChangeEventHandler } from 'react';
 
 interface Props {
+  value?: string;
   isCreating?: boolean;
   onClickCreateQna?: (value: string) => void;
   onClickBack?: () => void;
+  handleChangeValue?: ChangeEventHandler<HTMLTextAreaElement>;
+  handleClickOpenPopup?: () => void;
 }
 
-export default function ListingReport({ isCreating, onClickCreateQna, onClickBack }: Props) {
-  const [value, setValue] = useState('');
-
-  const handleChangeValue = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
-    if (e.target.value.length > 200) return;
-    setValue(e.target.value);
-  }, []);
-
+export default function ListingReport({
+  value,
+  isCreating,
+  onClickBack,
+  handleChangeValue,
+  handleClickOpenPopup,
+}: Props) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
@@ -33,18 +35,18 @@ export default function ListingReport({ isCreating, onClickCreateQna, onClickBac
               spellCheck="false"
             />
           </TextField>
-          <TextField.HelperMessage>{value.length} / 200</TextField.HelperMessage>
+          <TextField.HelperMessage>{value?.length} / 200</TextField.HelperMessage>
         </div>
       </div>
       <PersistentBottomBar>
         <Button
           isLoading={isCreating}
           tw="w-full"
-          disabled={!value.length}
+          disabled={!value?.length}
           size="bigger"
-          onClick={() => onClickCreateQna?.(value)}
+          onClick={handleClickOpenPopup}
         >
-          문의하기
+          작성완료
         </Button>
       </PersistentBottomBar>
     </div>

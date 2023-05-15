@@ -8,16 +8,11 @@ interface Props {
 }
 
 export default function ChatRoomList({ depth, panelWidth }: Props) {
-  const { chatRoomList, isLoading, handleClickListItem, handleNavigateToMap } = useChatRoomList(depth);
+  const { chatRoomList, isLoading, handleClickListItem } = useChatRoomList(depth);
 
   return (
     <Panel width={panelWidth}>
-      <ChatRoomListTemplate
-        list={chatRoomList}
-        isLoading={isLoading}
-        onClickListItem={handleClickListItem}
-        onNavigateToMap={handleNavigateToMap}
-      />
+      <ChatRoomListTemplate list={chatRoomList} isLoading={isLoading} onClickListItem={handleClickListItem} />
     </Panel>
   );
 }

@@ -245,6 +245,7 @@ export default function FormRenderer({ form }: Props) {
                 onClickRemove={interim.onRemove}
               />
               <Form.Schedule
+                title="중도금 일정"
                 date={interim.date}
                 dateType={interim.dateType}
                 onChangeDate={interim.onChangeDate}
@@ -255,6 +256,7 @@ export default function FormRenderer({ form }: Props) {
           <div tw="px-5 pt-7 flex flex-col gap-4">
             <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
             <Form.Schedule
+              title="잔금 일정"
               date={remainingAmountDate}
               dateType={remainingAmountDateType}
               onChangeDate={onChangeRemainingAmountDate}

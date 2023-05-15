@@ -8,6 +8,7 @@ import { SuggestRequestedList } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import { mutate as otherMutate } from 'swr';
 
 interface Props {
@@ -76,6 +77,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       setPopup('none');
       await deleteSuggests(items);
       await mutate();
+      toast.success('추천 요청을 삭제했습니다.', { toastId: 'success_delete' });
       otherMutate('/my/dashboard/info');
     }
   }, [itemsToDelete, mutate]);
