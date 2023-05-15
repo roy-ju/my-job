@@ -744,7 +744,7 @@ export default function useMapLayout() {
         setIsGeoLoading(false);
       },
       () => {
-        setPopup('locationPermission');
+        toast.error('위치정보 접근이 허용되어있지 않습니다.');
         setIsGeoLoading(false);
       },
     );
