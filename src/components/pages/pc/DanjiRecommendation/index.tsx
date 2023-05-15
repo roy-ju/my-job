@@ -126,7 +126,11 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   /** stpe 1 거래종류 이벤트 핸들러 */
   const onChangeBuyOrRent = (val: number) => {
     if (buyOrRent) {
-      setOpenResetPopup(true);
+      if (step > 1) {
+        setOpenResetPopup(true);
+        return;
+      }
+      setBuyOrRent(val);
     } else {
       setBuyOrRent(val);
     }
@@ -257,7 +261,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   }, []);
 
   const onConfirmPopup = () => {
-    setStep(0);
+    setStep(1);
     setBuyOrRent(undefined);
 
     setMonthlyRentFee('');
