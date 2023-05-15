@@ -140,6 +140,7 @@ function MapWrapper() {
               <Popup.ActionButton
                 onClick={() => {
                   window.Android?.goToAppPermissionSettings?.();
+                  window.webkit?.messageHandlers?.goToAppPermissionSettings?.postMessage?.('goToAppPermissionSettings');
                   setPopup('none');
                 }}
               >
