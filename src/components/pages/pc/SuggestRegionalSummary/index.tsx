@@ -35,8 +35,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     await createSuggestRegional(params);
     await mutate();
 
-    setIsCreating(false);
-
     router.replace(Routes.SuggestRegionalSuccess, {
       state: {
         params: router.query.params as string,
