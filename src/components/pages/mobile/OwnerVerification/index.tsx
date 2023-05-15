@@ -26,6 +26,7 @@ export default function OwnerVerification() {
           <Template
             isLoading={!(token && loi) || isLoading}
             address={data?.full_road_name_address}
+            approverName={data?.approver_name}
             onClickVerify={handleVerify}
           />
         )}
