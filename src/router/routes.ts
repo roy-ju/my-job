@@ -51,7 +51,6 @@ const Routes = {
   NegoPoint: 'negoPoint',
 
   Qna: 'qna',
-  TransactionHistory: 'transactionHistory',
   TransactionReview: 'transactionReview',
   FAQ: 'faq',
   UpdatePhone: 'updatePhone',
@@ -83,7 +82,7 @@ const Routes = {
   ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
 
   // 모바일 매물등록 가이드 페이지
-  HOG:"hog",
+  HOG: 'hog',
 
   // 가격제안
   BiddingForm: 'biddingForm',
