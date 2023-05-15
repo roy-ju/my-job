@@ -20,10 +20,12 @@ function GlobalNavigation({
   children,
   onChangeTab,
   tabIndex: tabIndexProp,
+  onClickLogo,
 }: {
   children: ReactNode;
   onChangeTab?: (index: number) => void;
   tabIndex?: number;
+  onClickLogo?: () => void;
 }) {
   const [tabIndex, setTabIndexState] = useControlled({
     controlled: tabIndexProp,
@@ -50,9 +52,9 @@ function GlobalNavigation({
     <NavigationContext.Provider value={providerValue}>
       <div tw="w-16 h-full min-h-[36rem] bg-white flex flex-col justify-between border-r border-gray-300 shadow-[0px_8px_16px_rgba(0,0,0,0.06)]">
         <div>
-          <div tw="w-full h-[5.5rem] flex justify-center items-center py-5">
+          <button type="button" onClick={onClickLogo} tw="w-full h-[5.5rem] flex justify-center items-center py-5">
             <Logo />
-          </div>
+          </button>
           {children}
         </div>
         <GlobalHambergerMenu />
