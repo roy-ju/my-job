@@ -95,7 +95,7 @@ export default function BasicInfo({
           </div>
 
           <div tw="flex flex-col">
-            <span tw="text-info text-gray-700">{danji.jibun_address}</span>
+            <span tw="text-info text-gray-700">{danji.road_name_address || danji.jibun_address}</span>
           </div>
 
           <div tw="flex items-center gap-1 mb-4">

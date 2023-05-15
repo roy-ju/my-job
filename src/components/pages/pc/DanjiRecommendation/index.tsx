@@ -33,7 +33,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState<string>('이후');
-  const [totalFloors, setTotalFloors] = useState<number[]>([]);
+  const [totalFloors, setTotalFloors] = useState<number[]>([1, 2, 3]);
   const [etc, setEtc] = useState('');
   const [isRenderFinalForm, setIsRenderFinalForm] = useState(false);
   const [checked, setChecked] = useState(false);

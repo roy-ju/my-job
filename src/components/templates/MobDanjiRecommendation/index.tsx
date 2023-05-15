@@ -14,7 +14,7 @@ import { formatNumberInKorean } from '@/utils';
 export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailResponse; isPb?: boolean }) => (
   <div tw="flex flex-col px-5 pt-7" css={[isPb ? tw`pb-7` : tw`pb-10`]}>
     <span tw="text-b1 font-bold">{danji.name}</span>
-    <span tw="text-info [line-height: 1.25rem]">{danji.road_name_address}</span>
+    <span tw="text-info [line-height: 1.25rem]">{danji.road_name_address || danji.jibun_address}</span>
     <div tw="flex items-center gap-1" css={[isPb ? tw`mb-0` : tw`mb-4`]}>
       <>
         <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
