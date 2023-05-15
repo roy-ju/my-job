@@ -3,7 +3,9 @@ interface Android {
   cancelAllNotificationsByTag?: (tag: string) => void;
   cancelAllNotificationsByTagContains?: (tagContains: string) => void;
   goToAppPermissionSettings?: () => void;
-  askLocationPermissionIfNotGranted?: () => void;
+  getCurrentPositionPermissionState?: () => number;
+  requestCurrentPosition?: () => number;
+  requestCurrentPositionPermission?: () => void;
 }
 
 interface WebKit {
@@ -29,12 +31,10 @@ declare interface Window {
   webkit?: WebKit;
   NegocioWeb?: NegocioWeb;
 
-  getLocation?: (
+  onReceiveCurrentPosition?: (
     position: {
-      coords: {
-        latitude: number;
-        longitude: number;
-      };
+      lat: number;
+      lng: number;
     } | null,
   ) => void;
 }

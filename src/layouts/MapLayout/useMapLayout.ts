@@ -209,6 +209,8 @@ export default function useMapLayout() {
 
   const [selectedSchoolID, setSelectedSchoolID] = useState('');
 
+  const [popup, setPopup] = useState('');
+
   const [streetViewEvent, setStreetViewEvent] = useState<{
     address: string;
     latlng: naver.maps.LatLng;
@@ -742,7 +744,7 @@ export default function useMapLayout() {
         setIsGeoLoading(false);
       },
       () => {
-        toast.error('위치 접근 권한을 허용해 주세요.');
+        setPopup('locationPermission');
         setIsGeoLoading(false);
       },
     );
@@ -933,5 +935,7 @@ export default function useMapLayout() {
     handleCloseStreetView,
     clearRecentSearches,
     removeRecentSearch,
+    popup,
+    setPopup,
   };
 }
