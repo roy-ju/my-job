@@ -1,5 +1,3 @@
-import { toast } from 'react-toastify';
-
 type SuccessCallback = (position: { lat: number; lng: number }) => void;
 
 type ErrorCallback = () => void;
@@ -16,8 +14,6 @@ export default function getCurrentPosition(onSuccess: SuccessCallback, onError: 
 
   navigator.geolocation.getCurrentPosition(
     ({ coords }) => {
-      toast.info('success!');
-
       onSuccess({
         lat: coords.latitude,
         lng: coords.longitude,
