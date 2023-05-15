@@ -68,7 +68,7 @@ export default memo(() => {
   };
 
   const handleNavigateToListingCreate = () => {
-    router.replace(Routes.ListingCreateAddress);
+    router.push(Routes.HOG);
   };
 
   const handleNavigateToListingDetailPassed = (listingID: number) => () => {

@@ -50,7 +50,7 @@ export default function Home() {
   }, [router]);
 
   const handleClickListingCreate = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.HOG}`);
   }, [router]);
 
   const handleClickListing = useCallback(

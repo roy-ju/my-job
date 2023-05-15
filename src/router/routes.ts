@@ -82,6 +82,9 @@ const Routes = {
   ListingCreateUpdateAddress: 'listingCreateUpdateAddress',
   ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
 
+  // 모바일 매물등록 가이드 페이지
+  HOG:"hog",
+
   // 가격제안
   BiddingForm: 'biddingForm',
   BiddingSummary: 'biddingSummary',
