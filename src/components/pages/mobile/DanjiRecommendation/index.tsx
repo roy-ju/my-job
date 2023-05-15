@@ -123,7 +123,11 @@ export default function DanjiRecommendation() {
   /** stpe 1 거래종류 이벤트 핸들러 */
   const onChangeBuyOrRent = (val: number) => {
     if (buyOrRent) {
-      setOpenResetPopup(true);
+      if (step > 1) {
+        setOpenResetPopup(true);
+        return;
+      }
+      setBuyOrRent(val);
     } else {
       setBuyOrRent(val);
     }
@@ -254,7 +258,7 @@ export default function DanjiRecommendation() {
   }, []);
 
   const onConfirmPopup = () => {
-    setStep(0);
+    setStep(1);
     setBuyOrRent(undefined);
 
     setMonthlyRentFee('');
@@ -268,7 +272,7 @@ export default function DanjiRecommendation() {
     setRemainingAmountPaymentTime(null);
     setRemainingAmountPaymentType('이후');
 
-    setTotalFloors([]);
+    setTotalFloors([1, 2, 3]);
 
     setEtc('');
 
@@ -372,7 +376,62 @@ export default function DanjiRecommendation() {
   };
 
   const onClickBack = () => {
-    router.back();
+    if (step === 1) {
+      router.back();
+    }
+
+    if (step === 2) {
+      setStep((prev) => prev - 1);
+      setForms([`${prefixDanjiRecommend}default`]);
+    }
+
+    if (step === 3) {
+      setStep((prev) => prev - 1);
+      if (buyOrRent === BuyOrRent.Buy) {
+        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`]);
+      } else {
+        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`]);
+      }
+    }
+
+    if (step === 4) {
+      setStep((prev) => prev - 1);
+      if (buyOrRent === BuyOrRent.Buy) {
+        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`, `${prefixDanjiRecommend}area`]);
+      } else {
+        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`, `${prefixDanjiRecommend}area`]);
+      }
+    }
+
+    if (step === 5 && buyOrRent === BuyOrRent.Jeonsae) {
+      setForms([
+        `${prefixDanjiRecommend}default`,
+        `${prefixDanjiRecommend}price`,
+        `${prefixDanjiRecommend}area`,
+        `${prefixDanjiRecommend}floor`,
+      ]);
+    }
+
+    if (step === 5 && buyOrRent === BuyOrRent.Buy) {
+      setStep((prev) => prev - 1);
+      setForms([
+        `${prefixDanjiRecommend}default`,
+        `${prefixDanjiRecommend}price`,
+        `${prefixDanjiRecommend}area`,
+        `${prefixDanjiRecommend}purpose`,
+      ]);
+    }
+
+    if (step === 6 && buyOrRent === BuyOrRent.Buy) {
+      setStep((prev) => prev - 1);
+      setForms([
+        `${prefixDanjiRecommend}default`,
+        `${prefixDanjiRecommend}price`,
+        `${prefixDanjiRecommend}area`,
+        `${prefixDanjiRecommend}purpose`,
+        `${prefixDanjiRecommend}floor`,
+      ]);
+    }
   };
 
   const onClickBackFinalForm = () => {
@@ -452,7 +511,7 @@ export default function DanjiRecommendation() {
         }
       }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 0);
     }
   }, [forms, isRenderFinalForm]);
 

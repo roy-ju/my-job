@@ -34,11 +34,7 @@ interface PersistentBottomBarProps {
 }
 
 function PersistentBottomBar({ children }: PersistentBottomBarProps) {
-  return (
-    <div tw="absolute bottom-0 bg-white w-full pt-4 pb-[42px] px-5 shadow-[0px_0px_24px_rgba(0,0,0,0.08)]">
-      {children}
-    </div>
-  );
+  return <div tw="bg-white w-full pt-4 pb-[42px] px-5 shadow-[0px_0px_24px_rgba(0,0,0,0.08)]">{children}</div>;
 }
 
 export default function MobHog({
@@ -54,7 +50,7 @@ export default function MobHog({
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>매물등록 신청</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex-1 pt-7 pb-10 px-5">
+      <div tw="flex-1 pt-7 pb-10 px-5 overflow-auto">
         <div>
           <span tw="text-h2 font-bold">
             매물등록은
