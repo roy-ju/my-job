@@ -21,7 +21,7 @@ export default function useSuggestRegionalForm() {
   const [monthlyRentFee, setMonthlyRentFee] = useState('');
   const [minArea, setMinArea] = useState('');
   const [maxArea, setMaxArea] = useState('');
-  const [floor, setFloor] = useState<string[]>(["저층","중층","고층"]);
+  const [floor, setFloor] = useState<string[]>(['저층', '중층', '고층']);
   const [purpose, setPurpose] = useState('');
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
@@ -29,10 +29,6 @@ export default function useSuggestRegionalForm() {
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
 
   const [description, setDescription] = useState('');
-
-  const handleChangeBubjungdong = useCallback((item: RegionItem) => {
-    setBubjungdong(item);
-  }, []);
 
   const handleChangeRealestateType = useCallback((value: number[]) => {
     setRealestateType(value);
@@ -177,6 +173,14 @@ export default function useSuggestRegionalForm() {
     router,
   ]);
 
+  const handleChangeBubjungdong = useCallback(
+    (item: RegionItem) => {
+      setBubjungdong(item);
+      handleSubmitRegion();
+    },
+    [handleSubmitRegion],
+  );
+
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
     switch (lastForm) {
@@ -230,24 +234,25 @@ export default function useSuggestRegionalForm() {
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
+    setTimeout(() => {
+      const formContainer = document.getElementById('formContainer');
+      const formElement = document.getElementById(currentForm);
 
-    const formContainer = document.getElementById('formContainer');
-    const formElement = document.getElementById(currentForm);
+      const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
 
-    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
-
-    if (formElement) {
-      formElement.style.minHeight = `${containerHeight}px`;
-      const prevForm = forms[forms.length - 2];
-      if (prevForm) {
-        const prevFormElement = document.getElementById(prevForm);
-        if (prevFormElement) {
-          prevFormElement.style.minHeight = '';
+      if (formElement) {
+        formElement.style.minHeight = `${containerHeight}px`;
+        const prevForm = forms[forms.length - 2];
+        if (prevForm) {
+          const prevFormElement = document.getElementById(prevForm);
+          if (prevFormElement) {
+            prevFormElement.style.minHeight = '';
+          }
         }
-      }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
-    }
+        formElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 500);
   }, [forms]);
 
   // 버튼 비활성화 로직

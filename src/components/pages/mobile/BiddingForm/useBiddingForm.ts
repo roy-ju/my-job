@@ -244,24 +244,25 @@ export default function useBiddingForm() {
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
     if (currentForm === Forms.Price) return;
+    setTimeout(() => {
+      const formContainer = document.getElementById('formContainer');
+      const formElement = document.getElementById(currentForm);
 
-    const formContainer = document.getElementById('formContainer');
-    const formElement = document.getElementById(currentForm);
+      const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
 
-    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
-
-    if (formElement) {
-      formElement.style.minHeight = `${containerHeight}px`;
-      const prevForm = forms[forms.length - 2];
-      if (prevForm) {
-        const prevFormElement = document.getElementById(prevForm);
-        if (prevFormElement) {
-          prevFormElement.style.minHeight = '';
+      if (formElement) {
+        formElement.style.minHeight = `${containerHeight}px`;
+        const prevForm = forms[forms.length - 2];
+        if (prevForm) {
+          const prevFormElement = document.getElementById(prevForm);
+          if (prevFormElement) {
+            prevFormElement.style.minHeight = '';
+          }
         }
-      }
 
-      formElement.scrollIntoView({ behavior: 'smooth' });
-    }
+        formElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 500);
   }, [forms]);
 
   // 버튼 비활성화 로직
