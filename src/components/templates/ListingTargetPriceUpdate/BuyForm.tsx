@@ -20,7 +20,7 @@ export default function BuyForm({ price, onChangePrice }: Props) {
         <TextField variant="outlined">
           <TextField.PriceInput label="매매가" value={price} onChange={(e) => onChangePrice?.(e.target.value)} />
         </TextField>
-        <TextField.PriceHelperMessage>{price ?? ''}</TextField.PriceHelperMessage>
+        <TextField.PriceHelperMessage tw="mr-4">{price ?? ''}</TextField.PriceHelperMessage>
       </div>
     </div>
   );

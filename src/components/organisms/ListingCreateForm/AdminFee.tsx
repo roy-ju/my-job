@@ -52,7 +52,7 @@ export default function AdminFee({ value: valueProp, onChange }: AdminFeeProps) 
           <TextField variant="outlined">
             <TextField.PriceInput label="관리비" value={value} onChange={handleChangeValue} />
           </TextField>
-          <TextField.PriceHelperMessage>{value}</TextField.PriceHelperMessage>
+          <TextField.PriceHelperMessage tw="mr-4">{value}</TextField.PriceHelperMessage>
         </div>
       )}
     </div>

@@ -10,6 +10,7 @@ import { AddressListItem } from '@/components/organisms/ListingCreateResultStatu
 import { ListingCreateResult } from '@/components/templates';
 import { ListingStatus } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
+import usePolling from '@/hooks/utils/usePolling';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -23,6 +24,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { data, mutate, isLoading } = useAPI_MyListingDetail(listingID);
+
+  usePolling(mutate, 5000, 5);
 
   const [isSendingSms, setIsSendingSms] = useState(false);
   const [isSelectingAgent, setIsSelectingAgent] = useState(false);

@@ -22,7 +22,8 @@ function MapWrapper() {
     handleCloseStreetView,
     handleClickMapListingList,
     code,
-    currentLocation,
+    myMarker,
+    isGeoLoading,
     mapType,
     mapLayer,
     schoolType,
@@ -60,7 +61,8 @@ function MapWrapper() {
         centerAddress={centerAddress}
         mapToggleValue={mapToggleValue}
         listingCount={listingCount}
-        currentLocation={currentLocation}
+        myMarker={myMarker}
+        isGeoLoading={isGeoLoading}
         selectedDanjiSummary={selectedDanjiSummary}
         selctedListingSummary={selctedListingSummary}
         priceSelectDisabled={filter.realestateTypeGroup === 'one,two'}
@@ -80,10 +82,10 @@ function MapWrapper() {
           <Markers
             mapLevel={bounds?.mapLevel ?? 4}
             markers={markers}
+            myMarker={myMarker}
             schoolMarkers={schoolMarkers}
             selectedDanjiSummary={selectedDanjiSummary}
             selectedSchoolID={selectedSchoolID}
-            currentLocation={currentLocation}
           />
         </Map>
         <AnimatePresence>

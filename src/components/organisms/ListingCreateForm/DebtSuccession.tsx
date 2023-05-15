@@ -50,7 +50,7 @@ function Deposit({ deposit: depositProp, isAddButtonDisabled, onChangeDeposit, o
           <TextField variant="outlined">
             <TextField.PriceInput label="보증금" value={deposit} onChange={handleChangePrice} />
           </TextField>
-          <TextField.PriceHelperMessage>{deposit}</TextField.PriceHelperMessage>
+          <TextField.PriceHelperMessage tw="mr-4">{deposit}</TextField.PriceHelperMessage>
         </div>
       </div>
     </div>

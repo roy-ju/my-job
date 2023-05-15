@@ -14,7 +14,7 @@ export default function JeonsaeForm({ price, onChangePrice }: Props) {
         <TextField variant="outlined">
           <TextField.PriceInput label="전세금" value={price} onChange={(e) => onChangePrice?.(e.target.value)} />
         </TextField>
-        <TextField.PriceHelperMessage>{price ?? ''}</TextField.PriceHelperMessage>
+        <TextField.PriceHelperMessage tw="mr-4">{price ?? ''}</TextField.PriceHelperMessage>
       </div>
     </div>
   );

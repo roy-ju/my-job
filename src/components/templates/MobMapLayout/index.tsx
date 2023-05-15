@@ -32,12 +32,6 @@ interface MobLayoutMapContainerProps {
   filter?: Filter;
   centerAddress?: string[];
   listingCount?: number;
-  currentLocation:
-    | {
-        lat?: number | undefined;
-        lng?: number | undefined;
-      }
-    | undefined;
   selectedDanjiSummary: DanjiSummary | null;
   selctedListingSummary: ListingSummary | null;
   priceSelectDisabled?: boolean;
@@ -55,6 +49,11 @@ interface MobLayoutMapContainerProps {
   onClickMapListingList?: () => void;
   onClickSuggestReginoal?: () => void;
   children?: ReactNode;
+  myMarker?: {
+    lat: number;
+    lng: number;
+  } | null;
+  isGeoLoading?: boolean;
 }
 
 function MobLayoutMapContainer({
@@ -67,7 +66,8 @@ function MobLayoutMapContainer({
   centerAddress,
   mapToggleValue,
   listingCount,
-  currentLocation,
+  myMarker,
+  isGeoLoading,
   selectedDanjiSummary,
   selctedListingSummary,
   priceSelectDisabled = false,
@@ -182,8 +182,9 @@ function MobLayoutMapContainer({
             />
           </MobMapControls.Group>
           <MobMapControls.GPSButton
-            selected={!!(currentLocation?.lat && currentLocation?.lng)}
             onClick={onClickCurrentLocation}
+            isGeoLoading={isGeoLoading}
+            selected={!!myMarker}
           />
         </div>
 

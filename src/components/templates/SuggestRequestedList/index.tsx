@@ -5,6 +5,7 @@ import { SuggestRequestedListItem, SuggestRequestedListNoData } from '@/componen
 import { SuggestStatus } from '@/constants/enums';
 import { useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
+import { checkPlatform } from '@/utils/checkPlatform';
 
 const ListContainer = styled(InfiniteScroll)`
   width: 100%;
@@ -71,14 +72,18 @@ export default function SuggestRequestedList({
       <div tw="flex flex-col flex-1 min-h-0">
         {list?.length !== 0 ? (
           <div tw="flex flex-col flex-1 min-h-0">
-            {listStyle === 'default' && (
+            {checkPlatform() !== 'pc' && listStyle === 'default' && (
               <div tw="pb-5 px-5 pt-1">
                 <Button onClick={onClickSuggestRegional} tw="w-full" variant="secondary">
                   새로운 매물 추천 받아보기
                 </Button>
               </div>
             )}
-            {listStyle === 'default' && <div tw="px-5 text-end text-info">추천 계속받기</div>}
+            {listStyle === 'default' && (
+              <div tw="px-5 text-end text-info" css={[checkPlatform() === 'pc' && tw`mt-5`]}>
+                추천 계속받기
+              </div>
+            )}
             <div tw="flex flex-1 min-h-0 overflow-auto">
               <ListContainer onNext={onNext}>
                 {list?.map((item) => (

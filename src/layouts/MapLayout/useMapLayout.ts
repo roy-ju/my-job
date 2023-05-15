@@ -892,7 +892,6 @@ export default function useMapLayout() {
 
   return {
     // common map handlers and properties
-
     minZoom: DEFAULT_MIN_ZOOM,
     maxZoom: DEFAULT_MAX_ZOOM,
     zoom: initialZoom,

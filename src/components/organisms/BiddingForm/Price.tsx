@@ -69,7 +69,7 @@ export default function Price({
                 label={priceInputLabelText}
               />
             </TextField>
-            <TextField.PriceHelperMessage>{price ?? '0'}</TextField.PriceHelperMessage>
+            <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
           </div>
           {buyOrRent === BuyOrRent.Wolsae && (
             <div>
@@ -80,7 +80,7 @@ export default function Price({
                   onChange={(e) => onChangeMonthlyRentFee?.(e.target.value)}
                 />
               </TextField>
-              <TextField.PriceHelperMessage>{monthlyRentFee ?? '0'}</TextField.PriceHelperMessage>
+              <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee ?? '0'}</TextField.PriceHelperMessage>
             </div>
           )}
           <div tw="flex flex-col gap-2 text-info text-gray-700">

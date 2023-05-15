@@ -62,8 +62,8 @@ export default function ListingRecommendListItem({
           <Button onClick={onClickNotInterested} tw="flex-1 rounded-t-none bg-white text-gray-1000 hover:bg-gray-200">
             관심 없음
           </Button>
-          <Button onClick={onClickRecommendAccept} tw="flex-1 rounded-t-none">
-            네고 협의
+          <Button variant="secondary" onClick={onClickRecommendAccept} tw="flex-1 rounded-t-none">
+            네고 협의 시작하기
           </Button>
         </ButtonGroup>
       );
@@ -88,15 +88,30 @@ export default function ListingRecommendListItem({
     }
   };
 
+  const renderMoments = () => {
+    if (item?.suggest_recommend_status === SuggestRecommendStatus.Sent) {
+      return (
+        <div tw="text-info text-gray-700">
+          추천일 <Moment format="yyyy.MM.DD">{item?.created_time}</Moment>
+        </div>
+      );
+    }
+    if (item?.suggest_recommend_status === SuggestRecommendStatus.Accepted) {
+      return (
+        <div tw="text-info text-gray-700">
+          협의개시일 <Moment format="yyyy.MM.DD">{item?.suggest_recommend_accepted_time}</Moment>
+        </div>
+      );
+    }
+  };
+
   return (
     <div tw="bg-white rounded-lg border border-gray-300 shadow">
       <div tw="flex items-center gap-2 px-4 pt-4 pb-3 border-b border-b-gray-300">
         {showCheckbox && <Checkbox />}
         <Avatar size={24} alt="alt" src={item?.agent_profile_image_url} />
         <div tw="text-b2 font-bold mr-auto">{item?.agent_name} 중개사의 추천</div>
-        <div tw="text-info text-gray-700">
-          추천일 <Moment format="yyyy.MM.DD">{item?.created_time}</Moment>
-        </div>
+        {renderMoments()}
       </div>
       <div tw="flex flex-col">
         <button type="button" tw="text-start pt-3.5 pb-1.5 px-4 flex hover:bg-gray-200" onClick={onClickListing}>
