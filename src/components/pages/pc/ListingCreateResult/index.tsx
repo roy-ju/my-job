@@ -13,6 +13,7 @@ import { useRouter } from '@/hooks/utils';
 import usePolling from '@/hooks/utils/usePolling';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -130,6 +131,17 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.MyRegisteredListingList, { searchParams: { tab: '1' } });
   }, [router]);
 
+  const handleNavigateToChatRoom = useCallback(() => {
+    if (data?.seller_agent_chat_room_id) {
+      router.replace(Routes.ChatRoom, {
+        persistParams: true,
+        searchParams: { chatRoomID: data?.seller_agent_chat_room_id },
+      });
+    } else {
+      toast.error('채팅방을 찾을 수 없습니다.');
+    }
+  }, [data?.seller_agent_chat_room_id, router]);
+
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     router.pop();
     return null;
@@ -169,6 +181,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickRemoveFromListings={onClickRemoveFromListings}
         onClickSendOwnerVerification={onClickSendOwnerVerification}
         onClickMyListings={handleNavigateToMyListings}
+        onNavigateToChatRoom={handleNavigateToChatRoom}
       />
       {popup === 'agentSelection' && (
         <OverlayPresenter>

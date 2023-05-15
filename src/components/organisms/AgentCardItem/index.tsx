@@ -1,4 +1,5 @@
 import { ReactNode, useState, Children, isValidElement, cloneElement } from 'react';
+import { Separator } from '@/components/atoms';
 import AgentCardItemProfile from './Profile';
 import AgentCardItemDetail from './Detail';
 import AgentCardItemFoldButton from './Button';
@@ -28,10 +29,14 @@ function AgentCardItem({ children, defaultExpanded = false }: AgentCardItemProps
       expanded,
       onClick: () => setIsExpanded(!expanded),
     });
+
   return (
-    <div tw="rounded-[0.75rem] px-4 pt-4 pb-5">
-      {profileContents}
-      {expanded && detailContents}
+    <div tw="rounded-lg border border-gray-300 pt-4 pb-3">
+      <div tw="px-4">
+        {profileContents}
+        {expanded && detailContents}
+      </div>
+      {foldButton ? <Separator tw="bg-gray-300 h-px mt-4" /> : null}
       {foldButton}
     </div>
   );
