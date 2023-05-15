@@ -24,7 +24,6 @@ export default function getCurrentPosition(onSuccess: SuccessCallback, onError: 
       });
     },
     () => {
-      toast.info('failed');
       if (navigator.userAgent.includes('(NegocioUserApp)')) {
         const permissionState = window.Android?.getCurrentPositionPermissionState?.();
         if (permissionState === -1) {
