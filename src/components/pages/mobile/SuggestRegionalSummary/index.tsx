@@ -4,8 +4,11 @@ import { MobileContainer } from '@/components/atoms';
 import { SuggestRegionalSummary } from '@/components/templates';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import Routes from '@/router/routes';
+// import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useMemo, useState } from 'react';
+
+// const SuggestRegionalSummary = dynamic(() => import('@/components/templates/SuggestRegionalSummary'));
 
 export default memo(() => {
   const router = useRouter();
@@ -58,7 +61,7 @@ export default memo(() => {
         isNextButtonLoading={isCreating}
         address={params?.address}
         buyOrRents={params?.buy_or_rents}
-        realestateTypes={params.realestate_types}
+        realestateTypes={params?.realestate_types}
         price={params?.buy_or_rents === '1' ? params?.trade_price : params?.deposit}
         monthlyRentFee={params?.monthly_rent_fee}
         minArea={params?.pyoung_from}
