@@ -7,10 +7,12 @@ import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import useAPI_GetBiddingInfo, { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
 import Routes from '@/router/routes';
 import { TimeTypeString } from '@/constants/strings';
+import { useRouter as useNextRouter } from 'next/router';
 import makeUpdateBiddingParams from './makeUpdateBiddingParams';
 
 export default function useUpdateBiddingForm(depth: number) {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const listingID = Number(router.query.listingID) ?? 0;
   const biddingID = Number(router.query.biddingID) ?? 0;
@@ -49,6 +51,16 @@ export default function useUpdateBiddingForm(depth: number) {
 
   const initialFormsRef = useRef<string[]>([Forms.Price]);
 
+  const getBackButtonHandler = useCallback(() => {
+    if (nextRouter.query.back) {
+      return () => {
+        nextRouter.replace(nextRouter.query.back as string);
+      };
+    }
+
+    return undefined;
+  }, [nextRouter]);
+
   const handleChangeType = useCallback((value: number) => {
     setType(value);
     if (value === 2) {
@@ -56,19 +68,6 @@ export default function useUpdateBiddingForm(depth: number) {
     } else {
       setForms(initialFormsRef.current);
     }
-    // if (value === 2) {
-    //   setForms([Forms.Price]);
-    //   setPrice('');
-    //   setMonthlyRentFee('');
-    //   setCanHaveMoreContractAmount(null);
-    //   setContractAmount('');
-    //   setCanHaveMoreInterimAmount(null);
-    //   setInterimAmount('');
-    //   setCanHaveEarlierRemainingAmountDate(null);
-    //   setRemainingAmountDate(null);
-    //   setCanHaveEarlierMoveInDate(null);
-    //   setMoveInDate(null);
-    // }
   }, []);
 
   const handleChangePrice = useCallback((value: string) => {
@@ -535,5 +534,6 @@ export default function useUpdateBiddingForm(depth: number) {
     handleChangeEtcs,
     description,
     handleChangeDescription,
+    getBackButtonHandler,
   };
 }
