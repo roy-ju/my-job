@@ -58,7 +58,7 @@ export default memo(() => {
         isNextButtonLoading={isCreating}
         address={params?.address}
         buyOrRents={params?.buy_or_rents}
-        realestateTypes={params.realestate_types}
+        realestateTypes={params?.realestate_types}
         price={params?.buy_or_rents === '1' ? params?.trade_price : params?.deposit}
         monthlyRentFee={params?.monthly_rent_fee}
         minArea={params?.pyoung_from}
