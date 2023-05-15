@@ -34,7 +34,7 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
     if (ref.current) {
       setRect(ref.current.getBoundingClientRect());
     }
-  }, []);
+  }, [ref, photoPaths, defaultPhotoPath]);
 
   const animation = useAnimation();
 
@@ -64,14 +64,15 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
 
   const handleDragEnd = useCallback<NonNullable<DragHandlers['onDragEnd']>>(
     async (_, { offset }) => {
+      console.log(rect);
       if (!rect) return;
 
       const power = swipePower(offset.x, rect.width);
 
-      if (power > 40) {
+      if (power > 20) {
         await animation.start('toRight');
         paginate(-1);
-      } else if (power < -40) {
+      } else if (power < -20) {
         await animation.start('toLeft');
         paginate(1);
       }

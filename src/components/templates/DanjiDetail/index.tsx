@@ -244,7 +244,8 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
   return (
     <div tw="relative flex flex-col h-full">
       <DanjiDetailHeader danji={danji} isHeaderActive={isHeaderActive} handleMutateDanji={handleMutateDanji} />
-      <div tw="overflow-y-auto" ref={scrollContainer}>
+
+      <div tw="flex-1 min-h-0 overflow-y-auto" ref={scrollContainer}>
         <DanjiPhotoHero danji={danji} depth={depth} />
         {isShowTab && (
           <div
