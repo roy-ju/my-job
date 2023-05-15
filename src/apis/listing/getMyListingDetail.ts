@@ -108,6 +108,7 @@ interface AgentSummary {
   office_phone: string;
   registration_number: string;
   distance_from_listing: number;
+  description: string;
 }
 
 export interface GetMyListingDetailResponse {
