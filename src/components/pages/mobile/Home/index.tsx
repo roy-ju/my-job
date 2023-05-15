@@ -41,9 +41,13 @@ export default function Home() {
     router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
   }, [router]);
 
-  const handleClickSuggestion = useCallback(() => {}, []);
+  const handleClickSuggestion = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  }, [router]);
 
-  const handleClickBidding = useCallback(() => {}, []);
+  const handleClickBidding = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.Map}`);
+  }, [router]);
 
   const handleClickHomeRegister = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
