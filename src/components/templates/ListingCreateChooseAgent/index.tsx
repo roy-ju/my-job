@@ -42,7 +42,7 @@ export default function ListingCreateChooseAgent({
       )}
       <div tw="mt-10 px-5">
         <Button size="bigger" tw="w-full" onClick={onClickNext}>
-          다음
+          위 중개사로 매물등록 신청
         </Button>
       </div>
     </div>
