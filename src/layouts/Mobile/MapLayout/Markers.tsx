@@ -5,7 +5,7 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 import DeferredRender from '@/components/atoms/DeferredRender';
 import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
 import { useMemo } from 'react';
-import CurrentLocationIcon from '@/assets/icons/current_location.svg';
+import MyMarkerIcon from '@/assets/icons/my_location.svg';
 import { toast } from 'react-toastify';
 import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
@@ -15,12 +15,10 @@ interface MarkersProps {
   schoolMarkers: CommonSchoolMarker[];
   selectedDanjiSummary: DanjiSummary | null;
   selectedSchoolID: string;
-  currentLocation:
-    | {
-        lat?: number | undefined;
-        lng?: number | undefined;
-      }
-    | undefined;
+  myMarker?: {
+    lat: number;
+    lng: number;
+  } | null;
 }
 
 export default function Markers({
@@ -29,7 +27,7 @@ export default function Markers({
   schoolMarkers,
   selectedDanjiSummary,
   selectedSchoolID,
-  currentLocation,
+  myMarker,
 }: MarkersProps) {
   const shouldShowSchoolMarker = useMemo(() => {
     if (mapLevel !== 1 && schoolMarkers.length > 1) {
@@ -46,19 +44,6 @@ export default function Markers({
 
   return (
     <>
-      {currentLocation?.lat && currentLocation?.lng && (
-        <DeferredRender key="marker-location">
-          <CustomOverlay
-            position={{
-              lat: currentLocation.lat,
-              lng: currentLocation.lng,
-            }}
-          >
-            <CurrentLocationIcon />
-          </CustomOverlay>
-        </DeferredRender>
-      )}
-
       {mapLevel !== 1 &&
         markers.map((marker) => (
           <DeferredRender key={marker.id}>
@@ -130,6 +115,17 @@ export default function Markers({
             </CustomOverlay>
           </DeferredRender>
         ))}
+
+      {myMarker && mapLevel < 3 && (
+        <CustomOverlay
+          position={{
+            lat: myMarker.lat,
+            lng: myMarker.lng,
+          }}
+        >
+          <MyMarkerIcon />
+        </CustomOverlay>
+      )}
     </>
   );
 }

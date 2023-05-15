@@ -157,7 +157,9 @@ export const PriceField = ({
         <TextField variant="outlined">
           <TextField.PriceInput label={priceLabel} value={tradeOrDepositPrice} onChange={onChangeTradeOrDepositPrice} />
         </TextField>
-        {!!tradeOrDepositPrice && <TextField.PriceHelperMessage>{tradeOrDepositPrice}</TextField.PriceHelperMessage>}
+        {!!tradeOrDepositPrice && (
+          <TextField.PriceHelperMessage tw="mr-4">{tradeOrDepositPrice}</TextField.PriceHelperMessage>
+        )}
       </div>
 
       {buyOrRent === BuyOrRent.Jeonsae && (
@@ -169,7 +171,7 @@ export const PriceField = ({
               onChange={onChangeMonthlyRentFee}
             />
           </TextField>
-          {!!monthlyRentFee && <TextField.PriceHelperMessage>{monthlyRentFee}</TextField.PriceHelperMessage>}
+          {!!monthlyRentFee && <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee}</TextField.PriceHelperMessage>}
         </div>
       )}
 
@@ -677,7 +679,7 @@ export default function DanjiRecommendation({
             <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
             <div tw="flex items-center pt-[30px] px-5 gap-2">
               <Checkbox checked={checked} onChange={onChangeCheck} />
-              <span tw="text-b2 [line-height: 16px]">원하는 지역에도 매물 추천 받아 볼래요</span>
+              <span tw="text-b2 [line-height: 16px]">단지 주변 지역에도 매물 추천 받아 볼래요</span>
             </div>
           </div>
         )}

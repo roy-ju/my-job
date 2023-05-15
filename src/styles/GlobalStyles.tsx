@@ -22,6 +22,10 @@ const customStyles = css`
     overflow: hidden;
   }
 
+  body {
+    overscroll-behavior: contain;
+  }
+
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;

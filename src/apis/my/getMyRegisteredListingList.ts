@@ -48,6 +48,7 @@ export default function useAPI_GetMyRegisteredListingList(filter: number) {
   const count = dataList?.[0]?.count;
   const data = useMemo(() => {
     if (!dataList) return [];
+
     return dataList
       ?.map((item) => item.list)
       .filter((item) => Boolean(item))

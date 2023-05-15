@@ -68,7 +68,7 @@ export default function RealPriceInfoHeader({
       </div>
       {isMoreButton && (
         <div tw="mt-4">
-          <Button variant="primary" tw="w-full" onClick={() => handleCTA()}>
+          <Button variant="outlined" tw="w-full" onClick={() => handleCTA()}>
             실거래 심층분석
           </Button>
         </div>

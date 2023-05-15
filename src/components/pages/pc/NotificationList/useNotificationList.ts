@@ -94,7 +94,11 @@ export default function useNotificationList(depth: number) {
 
   useEffect(() => {
     setCheckedState({});
-  }, [isDeleting]);
+    (async () => {
+      await readNotifications();
+      mutateUnreadNotificationCount();
+    })();
+  }, [isDeleting, mutateUnreadNotificationCount]);
 
   useUnmount(async () => {
     await readNotifications();

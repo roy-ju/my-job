@@ -26,13 +26,14 @@ interface LayoutMainProps {
   children?: ReactNode;
   tabIndex?: number;
   onChangeTab?: (index: number) => void;
+  onClickLogo?: () => void;
 }
 
-function LayoutMain({ tabIndex, onChangeTab, children }: LayoutMainProps) {
+function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo }: LayoutMainProps) {
   return (
     <div tw="flex h-full w-full flex-row overflow-hidden">
       <div tw="z-30">
-        <GlobalNavigation tabIndex={tabIndex} onChangeTab={onChangeTab}>
+        <GlobalNavigation tabIndex={tabIndex} onChangeTab={onChangeTab} onClickLogo={onClickLogo}>
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
           <GlobalNavigation.TabButton idx={1} text="지도" icon={<MapPin />} />
           <GlobalNavigation.TabButton idx={2} text="관심 목록" icon={<Heart />} />
@@ -71,6 +72,11 @@ interface LayoutMapContainerProps {
   panelsVisible?: boolean;
   priceSelectDisabled?: boolean;
   recentSearches?: KakaoAddressAutocompleteResponseItem[];
+  isGeoLoading?: boolean;
+  myMarker?: {
+    lat: number;
+    lng: number;
+  } | null;
   onClickCurrentLocation?: () => void;
   onClickZoomIn?: () => void;
   onClickZoomOut?: () => void;
@@ -78,6 +84,7 @@ interface LayoutMapContainerProps {
   onClickMapLayerCadastral?: () => void;
   onClickMapLayerStreet?: () => void;
   onClickSuggestReginoal?: () => void;
+  onClickLogo?: () => void;
   onChangeMapType?: ChangeEventHandler<HTMLInputElement>;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
   onMapSearchSubmit?: (item: KakaoAddressAutocompleteResponseItem, isFromRecentSearch: boolean) => void;
@@ -100,9 +107,11 @@ function LayoutMapContainer({
   mapLayer,
   schoolType,
   filter,
+  isGeoLoading,
   centerAddress,
   mapToggleValue,
   listingCount,
+  myMarker,
   showClosePanelButton = false,
   panelsVisible = true,
   priceSelectDisabled = false,
@@ -186,7 +195,7 @@ function LayoutMapContainer({
             onClick={onClickSchool}
           />
         </MapControls.Group>
-        <MapControls.GPSButton onClick={onClickCurrentLocation} />
+        <MapControls.GPSButton onClick={onClickCurrentLocation} isGeoLoading={isGeoLoading} selected={!!myMarker} />
         <MapControls.Group>
           <MapControls.ZoomInButton onClick={onClickZoomIn} />
           <MapControls.ZoomOutButton onClick={onClickZoomOut} />

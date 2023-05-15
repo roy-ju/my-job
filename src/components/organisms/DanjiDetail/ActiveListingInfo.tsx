@@ -9,10 +9,12 @@ import { useRouter as useNextRouter } from 'next/router';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
+  isListingDetail = false,
   depth,
   danji,
   setLoadingListing,
 }: {
+  isListingDetail?: boolean;
   depth: number;
   danji?: GetDanjiDetailResponse;
   setLoadingListing: Dispatch<SetStateAction<boolean>>;
@@ -47,6 +49,20 @@ export default function ActiveListingInfo({
     }
   }, [router, danji]);
 
+  const handleListingAllTypeTwo = useCallback(() => {
+    if (router.query.listingID) {
+      router.replace(Routes.DanjiListings, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: danji?.pnu || `${router.query.p}` || '',
+          rt: danji?.type.toString() || (router.query.rt as string) || '',
+        },
+      });
+    } else {
+      router.replace(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+    }
+  }, [router, danji]);
+
   const handleListingDetail = useCallback(
     (id: number) => {
       nextRouter.replace({
@@ -70,6 +86,15 @@ export default function ActiveListingInfo({
   if (!danjiListings) return null;
 
   if (danjiListings && danjiListings.length === 0) return null;
+
+  if (isListingDetail && danjiListings.length > 0)
+    return (
+      <div tw="flex flex-col gap-3 px-5 pb-10">
+        <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAllTypeTwo}>
+          단지내 매물 전체보기
+        </Button>
+      </div>
+    );
 
   return (
     <div tw="pb-8">

@@ -1,5 +1,5 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-import { Button, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
+import { Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
 import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
 import { ListingCtaButtons, ListingDetailSection, MobDanjiDetailSection, PhotoHero } from '@/components/organisms';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
@@ -74,7 +74,7 @@ export default function MobListingDetail({
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [isTopCtaButtonsVisible, setIsTopCtaButtonsVisible] = useState(true);
 
-  const [infoSectionExpanded, setInfoSectionExpanded] = useState(false);
+  // const [infoSectionExpanded, setInfoSectionExpanded] = useState(false);
 
   const basicContainerRef = useRef<HTMLDivElement | null>(null);
   const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
@@ -236,6 +236,22 @@ export default function MobListingDetail({
             DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]
           }
         />
+        <div tw="sticky top-8 pt-6 [z-index: 300]">
+          <Tabs value={tabIndex} onChange={handleTabItemClick}>
+            <Tabs.Tab value={0}>
+              <span tw="text-b2">거래정보</span>
+            </Tabs.Tab>
+            {listingDetail?.listing?.pnu && (
+              <Tabs.Tab value={1}>
+                <span tw="text-b2">단지정보</span>
+              </Tabs.Tab>
+            )}
+            <Tabs.Tab value={2}>
+              <span tw="text-b2">Q&A</span>
+            </Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs>
+        </div>
         <div tw="px-5 py-6">
           <ListingDetailSection.Summary
             createdTime={listingDetail?.active_status_time}
@@ -291,7 +307,7 @@ export default function MobListingDetail({
           </div>
         )}
         <Separator />
-        <div tw="sticky top-8 pt-6 [z-index: 300]">
+        {/* <div tw="sticky top-8 pt-6 [z-index: 300]">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
@@ -306,11 +322,12 @@ export default function MobListingDetail({
             </Tabs.Tab>
             <Tabs.Indicator />
           </Tabs>
-        </div>
+        </div> */}
         <div id="listingInfoSection" ref={setListingInfoSection}>
           <div tw="px-5 pt-6 pb-10">
             <ListingDetailSection.Biddings
-              showBiddingPrice={listingDetail?.is_owner ?? false}
+              // showBiddingPrice={listingDetail?.is_owner ?? false}
+              showBiddingPrice
               biddingsChatRoomCreated={biddingsChatRoomCreated}
               biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
             />
@@ -353,49 +370,49 @@ export default function MobListingDetail({
                   <Table.Data>{listingDetail?.listing?.storey}</Table.Data>
                 </Table.Row>
               </Table.Body>
-              {infoSectionExpanded && (
-                <Table.Body>
+              {/* {infoSectionExpanded && ( */}
+              <Table.Body>
+                <Table.Row>
+                  <Table.Head>방 / 욕실</Table.Head>
+                  <Table.Data>
+                    {falsy(listingDetail?.listing?.room_count, '-')}개 /{' '}
+                    {falsy(listingDetail?.listing?.bathroom_count, '-')}개
+                  </Table.Data>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Head>해당 층 / 총 층</Table.Head>
+                  <Table.Data>
+                    {falsy(listingDetail?.listing?.floor_description, '-')} /{' '}
+                    {falsy(listingDetail?.listing?.total_floor, '-')}층
+                  </Table.Data>
+                </Table.Row>
+                {(listingDetail?.parking_per_saedae || listingDetail?.total_parking_count) && (
                   <Table.Row>
-                    <Table.Head>방 / 욕실</Table.Head>
+                    <Table.Head>
+                      총 주차대수 <br />/ 세대당 주차대수
+                    </Table.Head>
                     <Table.Data>
-                      {falsy(listingDetail?.listing?.room_count, '-')}개 /{' '}
-                      {falsy(listingDetail?.listing?.bathroom_count, '-')}개
+                      {falsy(listingDetail?.total_parking_count, '-')}대 /{' '}
+                      {falsy(listingDetail?.parking_per_saedae, '-')}대
                     </Table.Data>
                   </Table.Row>
-                  <Table.Row>
-                    <Table.Head>해당 층 / 총 층</Table.Head>
-                    <Table.Data>
-                      {falsy(listingDetail?.listing?.floor_description, '-')} /{' '}
-                      {falsy(listingDetail?.listing?.total_floor, '-')}층
-                    </Table.Data>
-                  </Table.Row>
-                  {(listingDetail?.parking_per_saedae || listingDetail?.total_parking_count) && (
-                    <Table.Row>
-                      <Table.Head>
-                        총 주차대수 <br />/ 세대당 주차대수
-                      </Table.Head>
-                      <Table.Data>
-                        {falsy(listingDetail?.total_parking_count, '-')}대 /{' '}
-                        {falsy(listingDetail?.parking_per_saedae, '-')}대
-                      </Table.Data>
-                    </Table.Row>
-                  )}
-                  <Table.Row>
-                    <Table.Head>고정관리비</Table.Head>
-                    <Table.Data>
-                      {listingDetail?.listing?.administrative_fee ? (
-                        <Numeral>{listingDetail?.listing?.administrative_fee}</Numeral>
-                      ) : (
-                        '0 원'
-                      )}
-                    </Table.Data>
-                  </Table.Row>
-                </Table.Body>
-              )}
+                )}
+                <Table.Row>
+                  <Table.Head>고정관리비</Table.Head>
+                  <Table.Data>
+                    {listingDetail?.listing?.administrative_fee ? (
+                      <Numeral>{listingDetail?.listing?.administrative_fee}</Numeral>
+                    ) : (
+                      '0 원'
+                    )}
+                  </Table.Data>
+                </Table.Row>
+              </Table.Body>
+              {/* )} */}
             </Table>
-            <Button variant="outlined" tw="w-full mt-3" onClick={() => setInfoSectionExpanded((prev) => !prev)}>
+            {/* <Button variant="outlined" tw="w-full mt-3" onClick={() => setInfoSectionExpanded((prev) => !prev)}>
               {infoSectionExpanded ? '접기' : '더보기'}
-            </Button>
+            </Button> */}
           </div>
           {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling || etcOptions) && (
             <div>
@@ -471,8 +488,8 @@ export default function MobListingDetail({
           <div id="danjiSection" ref={setDanjiSection}>
             <MobDanjiDetailSection>
               <div tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
-                <MobDanjiDetailSection.Info danji={danji} />
-                <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={() => {}} />
+                <MobDanjiDetailSection.Info danji={danji} isListingDetail />
+                <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={() => {}} isListingDetail />
               </div>
 
               <MobDanjiRealpriceContainer

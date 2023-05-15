@@ -151,7 +151,7 @@ export default function Home({
           <button type="button" tw="relative" onClick={onClickNotification}>
             <BellIcon />
             {unreadNotificationCount > 0 && (
-              <span tw="absolute right-1 top-0 translate-x-1/2 text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center">
+              <span tw="absolute top-0 -right-0.5  animate-bounce text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center">
                 {unreadNotificationCount}
               </span>
             )}
