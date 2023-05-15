@@ -18,7 +18,7 @@ import getListingSummary from '@/apis/map/mapListingSummary';
 import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
-import { toast } from 'react-toastify';
+import getCurrentPosition from '@/utils/getCurrentPosition';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -184,6 +184,8 @@ export default function useMapLayout() {
   const lastSearchItem = useRef<KakaoAddressAutocompleteResponseItem | null>(null);
 
   const [selectedSchoolID, setSelectedSchoolID] = useState('');
+
+  const [popup, setPopup] = useState('none');
 
   const [streetViewEvent, setStreetViewEvent] = useState<{
     address: string;
@@ -577,12 +579,21 @@ export default function useMapLayout() {
     // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
     const mapStateExists = getMapState(() => true, false);
     if (!mapStateExists && typeof navigator !== 'undefined' && typeof localStorage !== 'undefined') {
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
-        const latlng = { lat: coords.latitude, lng: coords.longitude };
-        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-        m.morph(latlng, DEFAULT_ZOOM);
-      });
+      getCurrentPosition(
+        ({ lat, lng }) => {
+          setIsGeoLoading(false);
+          const latlng = {
+            lat,
+            lng,
+          };
+          setMyMarker(latlng);
+          localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+          m?.morph(latlng, DEFAULT_ZOOM);
+        },
+        () => {
+          setIsGeoLoading(false);
+        },
+      );
     }
   }, []);
 
@@ -766,18 +777,24 @@ export default function useMapLayout() {
 
   const morphToCurrentLocation = useCallback(() => {
     setIsGeoLoading(true);
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => {
-        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
-        const latlng = { lat: coords.latitude, lng: coords.longitude };
+    getCurrentPosition(
+      ({ lat, lng }) => {
+        setIsGeoLoading(false);
+        const latlng = {
+          lat,
+          lng,
+        };
         setMyMarker(latlng);
         localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
         map?.morph(latlng, DEFAULT_ZOOM);
-        setIsGeoLoading(false);
       },
       () => {
-        toast.error('위치 접근 권한을 허용해 주세요.');
         setIsGeoLoading(false);
+        if (navigator.userAgent.includes('(NegocioUserApp)')) {
+          setPopup('locationPermissionNative');
+        } else {
+          setPopup('locationPermission');
+        }
       },
     );
   }, [map]);
@@ -915,5 +932,7 @@ export default function useMapLayout() {
     handleChangePriceType,
     handleCloseStreetView,
     handleClickMapListingList,
+    popup,
+    setPopup,
   };
 }
