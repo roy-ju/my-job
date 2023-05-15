@@ -27,6 +27,7 @@ export interface ListingCreateResultProps {
   onClickRemoveFromListings?: () => void;
   onClickSendOwnerVerification?: (name: string, phone: string) => void;
   onClickBack?: () => void;
+  onNavigateToChatRoom?: () => void;
 }
 
 export default function ListingCreateResult({
@@ -49,6 +50,7 @@ export default function ListingCreateResult({
   onClickRemoveFromListings,
   onClickSendOwnerVerification,
   onClickBack,
+  onNavigateToChatRoom,
 }: ListingCreateResultProps) {
   if (isLoading) {
     return (
@@ -123,11 +125,13 @@ export default function ListingCreateResult({
                   officeName={data?.agent_summary?.office_name ?? ''}
                   profileImageFullPath={data?.agent_summary?.profile_image_full_path}
                   name={data?.agent_summary?.name}
+                  onNavigateToChatRoom={onNavigateToChatRoom}
                 />
                 <AgentCardItem.Detail
                   officePhone={data?.agent_summary?.office_phone}
                   fullJibunAddress={data?.agent_summary?.address}
                   registrationNumber={data?.agent_summary?.registration_number}
+                  description={data?.agent_summary?.description}
                 />
                 <AgentCardItem.FoldButton />
               </AgentCardItem>
