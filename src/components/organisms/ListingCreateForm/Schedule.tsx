@@ -3,6 +3,7 @@ import { DatePicker, Dropdown, RadioGroup } from '@/components/molecules';
 import { useEffect, useState } from 'react';
 
 interface Props {
+  title?: string;
   date?: Date | null;
   dateType?: string;
   onChangeType?: (value: string) => void;
@@ -10,7 +11,7 @@ interface Props {
   onChangeDateType?: (value: string) => void;
 }
 
-export default function Schedule({ date, dateType, onChangeDate, onChangeDateType }: Props) {
+export default function Schedule({ title = '일정', date, dateType, onChangeDate, onChangeDateType }: Props) {
   const [type, setType] = useState('0');
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function Schedule({ date, dateType, onChangeDate, onChangeDateTyp
     <div>
       <div>
         <div tw="flex justify-between mb-4">
-          <div tw="text-info">일정</div>
+          <div tw="text-info">{title}</div>
         </div>
         <RadioGroup
           tw="flex gap-4 mb-4"
