@@ -24,10 +24,6 @@ export default function useChatRoomList(depth: number) {
     }));
   }, [data]);
 
-  const handleNavigateToMap = useCallback(() => {
-    router.replace(Routes.Map);
-  }, [router]);
-
   const handleClickListItem = useCallback(
     async (id: number) => {
       await updateChatMessagesRead(id);
@@ -45,6 +41,5 @@ export default function useChatRoomList(depth: number) {
     chatRoomList,
     isLoading,
     handleClickListItem,
-    handleNavigateToMap,
   };
 }
