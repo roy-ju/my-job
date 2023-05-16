@@ -8,9 +8,7 @@ export default {
   component: Label,
 } as ComponentMeta<typeof Label>;
 
-export const SingleRadio: ComponentStory<typeof Label> = (args) => (
-  <Label {...args} control={<Radio />} />
-);
+export const SingleRadio: ComponentStory<typeof Label> = (args) => <Label {...args} control={<Radio />} />;
 
 SingleRadio.args = {
   label: 'Label',
@@ -27,20 +25,17 @@ export const MultipleRadios: ComponentStory<typeof Label> = () => (
 
 export const CustomLabels: ComponentStory<typeof Label> = () => (
   <RadioGroup defaultValue={0} tw="flex gap-2">
-    <Label
-      control={<Radio />}
-      label={<span tw="text-red-500">떡볶이</span>}
-      value={0}
-    />
-    <Label
-      control={<Radio />}
-      label={<span tw="text-red-500">라면</span>}
-      value={1}
-    />
-    <Label
-      control={<Radio />}
-      label={<span tw="text-red-500">치킨</span>}
-      value={2}
-    />
+    <Label control={<Radio />} label={<span tw="text-red-500">떡볶이</span>} value={0} />
+    <Label control={<Radio />} label={<span tw="text-green-500">라면</span>} value={1} />
+    <Label control={<Radio />} label={<span tw="text-yellow-500">치킨</span>} value={2} />
   </RadioGroup>
+);
+
+export const LabelPlacement: ComponentStory<typeof Label> = () => (
+  <div tw="flex gap-10">
+    <Label control={<Radio />} label="top" labelPlacement="top" />
+    <Label control={<Radio />} label="bottom" labelPlacement="bottom" />
+    <Label control={<Radio />} label="start" labelPlacement="start" />
+    <Label control={<Radio />} label="end" labelPlacement="end" />
+  </div>
 );
