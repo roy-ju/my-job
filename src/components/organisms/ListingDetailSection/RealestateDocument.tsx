@@ -40,71 +40,83 @@ export default function RealestateDocument({ data }: Props) {
       <div tw="text-info text-gray-700 mb-4">
         등기조회 기준일 <Moment format="yyyy.MM.DD">{data?.created_time ?? ''}</Moment>
       </div>
-      <div tw="text-b2">소유자지분</div>
-      <StyledTable tw="mb-10">
-        <tbody>
-          <tr>
-            <th>순위</th>
-            <th>정보</th>
-          </tr>
-          {data?.owner_list?.map((item) => (
-            <tr key={item.number}>
-              <td>{item.number}</td>
-              <td>
-                이름: {item.owner}
-                <br />
-                (주민)등록번호: {item.registration_number}
-                <br />
-                최종지분: {item.share}
-                <br />
-                주소: {item.address}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </StyledTable>
-      <div tw="text-b2">소유자지분 제외 권리</div>
-      <StyledTable tw="mb-10">
-        <tbody>
-          <tr>
-            <th>순위</th>
-            <th>정보</th>
-          </tr>
-          {data?.debt_list1?.map((item) => (
-            <tr key={item.number}>
-              <td>{item.number}</td>
-              <td>
-                등기목적: {item.purpose}
-                <br />
-                접수: {item.application_info}
-                <br />
-                주요 등기사항: <StrikeOut str={item.description} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </StyledTable>
-      <div tw="text-b2">(근)저당권 및 전세권</div>
-      <StyledTable>
-        <tbody>
-          <tr>
-            <th>순위</th>
-            <th>정보</th>
-          </tr>
-          {data?.debt_list2?.map((item) => (
-            <tr key={item.number}>
-              <td>{item.number}</td>
-              <td>
-                등기목적: {item.purpose}
-                <br />
-                접수: {item.application_info}
-                <br />
-                주요 등기사항: <StrikeOut str={item.description} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </StyledTable>
+      {data?.owner_list && (
+        <div>
+          <div tw="text-b2">소유자지분</div>
+          <StyledTable tw="mb-10">
+            <tbody>
+              <tr>
+                <th>순위</th>
+                <th>정보</th>
+              </tr>
+              {data?.owner_list?.map((item) => (
+                <tr key={item.number}>
+                  <td>{item.number}</td>
+                  <td>
+                    이름: {item.owner}
+                    <br />
+                    (주민)등록번호: {item.registration_number}
+                    <br />
+                    최종지분: {item.share}
+                    <br />
+                    주소: {item.address}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </StyledTable>
+        </div>
+      )}
+      {data?.debt_list1 && (
+        <div>
+          <div tw="text-b2">소유자지분 제외 권리</div>
+          <StyledTable tw="mb-10">
+            <tbody>
+              <tr>
+                <th>순위</th>
+                <th>정보</th>
+              </tr>
+              {data?.debt_list1?.map((item) => (
+                <tr key={item.number}>
+                  <td>{item.number}</td>
+                  <td>
+                    등기목적: {item.purpose}
+                    <br />
+                    접수: {item.application_info}
+                    <br />
+                    주요 등기사항: <StrikeOut str={item.description} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </StyledTable>
+        </div>
+      )}
+      {data?.debt_list2 && (
+        <div>
+          <div tw="text-b2">(근)저당권 및 전세권</div>
+          <StyledTable>
+            <tbody>
+              <tr>
+                <th>순위</th>
+                <th>정보</th>
+              </tr>
+              {data?.debt_list2?.map((item) => (
+                <tr key={item.number}>
+                  <td>{item.number}</td>
+                  <td>
+                    등기목적: {item.purpose}
+                    <br />
+                    접수: {item.application_info}
+                    <br />
+                    주요 등기사항: <StrikeOut str={item.description} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </StyledTable>
+        </div>
+      )}
     </div>
   );
 }
