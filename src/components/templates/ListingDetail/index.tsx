@@ -494,7 +494,7 @@ export default function ListingDetail({
         </div>
         <Separator />
 
-        {realestateDocumentData && (
+        {realestateDocumentData && realestateDocumentData.created_time && (
           <div>
             <div tw="py-10 px-5">
               <ListingDetailSection.RealestateDocument data={realestateDocumentData} />

@@ -497,7 +497,7 @@ export default function MobListingDetail({
           <Separator />
         </div>
 
-        {realestateDocumentData && (
+        {realestateDocumentData && realestateDocumentData.created_time && (
           <div>
             <div tw="py-10 px-5">
               <ListingDetailSection.RealestateDocument data={realestateDocumentData} />

@@ -25,9 +25,7 @@ export default function AgentCardItemDetail({
           <span tw="mr-1 items-start justify-self-start min-w-[3.25rem] text-mobCaption text-gray-700  leading-5">
             {value && label}
           </span>
-          <span tw="break-all text-mobCaption leading-5 h-5 overflow-x-hidden whitespace-nowrap text-ellipsis">
-            {value}
-          </span>
+          <span tw="break-all text-mobCaption leading-5 overflow-x-hidden text-ellipsis">{value}</span>
         </div>
       ))}
     </div>
