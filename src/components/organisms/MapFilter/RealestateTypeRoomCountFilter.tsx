@@ -1,8 +1,9 @@
-import { Label, Radio } from '@/components/atoms';
+import { Button, Label, Radio } from '@/components/atoms';
 import { RadioGroup } from '@/components/molecules';
 import { RealestateType } from '@/constants/enums';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback } from 'react';
+import CheckIcon from '@/assets/icons/check.svg';
 import { RealestateTypeGroup } from './types';
 
 const optionsList = {
@@ -82,7 +83,38 @@ export default function RealestateTypeFilter({
 
   return (
     <div tw="py-5">
-      <p tw="text-b1 text-gray-1000 font-bold mb-5">유형</p>
+      <div tw="flex">
+        <p tw="text-b1 text-gray-1000 font-bold mb-5">유형</p>
+        {realestateTypeGroup === 'one,two' && (
+          <Button
+            variant="gray"
+            size="small"
+            tw="h-6 ml-auto"
+            selected={realestateTypes === `${RealestateType.Officetel}`}
+            onClick={() => {
+              if (realestateTypes === `${RealestateType.Officetel}`) {
+                handleRealestateTypesChange?.({
+                  target: {
+                    value: [
+                      RealestateType.Apartment,
+                      RealestateType.Officetel,
+                      RealestateType.Yunrip,
+                      RealestateType.Dasaedae,
+                      RealestateType.Dandok,
+                      RealestateType.Dagagoo,
+                    ].join(','),
+                  },
+                } as any);
+              } else {
+                handleRealestateTypesChange({ target: { value: `${RealestateType.Officetel}` } } as any);
+              }
+            }}
+          >
+            <CheckIcon tw="text-inherit w-4 h-4 mr-2" />
+            오피스텔만 보기
+          </Button>
+        )}
+      </div>
       <RadioGroup
         tw="flex gap-4"
         value={realestateTypeGroup === 'one,two' ? roomCounts : realestateTypes}
