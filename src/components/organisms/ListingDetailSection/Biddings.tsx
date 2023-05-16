@@ -39,14 +39,28 @@ interface BiddingsProps {
   showBiddingPrice?: boolean;
   biddingsChatRoomCreated?: BiddingItem[] | null;
   biddingsChatRoomNotCreated?: BiddingItem[] | null;
+  isMonthlyRent?: boolean;
 }
 
 export default function Biddings({
   showBiddingPrice = false,
   biddingsChatRoomCreated,
   biddingsChatRoomNotCreated,
+  isMonthlyRent = false,
 }: BiddingsProps) {
   const { openTooltip } = useTooltip();
+
+  const renderMonthlyRentFee = (fee: number) => {
+    if (!isMonthlyRent) return null;
+    if (fee === 0) return ' / 0원';
+
+    return (
+      <span>
+        {' '}
+        / <Numeral koreanNumber>{fee}</Numeral>
+      </span>
+    );
+  };
 
   if (!biddingsChatRoomCreated && !biddingsChatRoomNotCreated) {
     if (showBiddingPrice) {
@@ -124,11 +138,7 @@ export default function Biddings({
                     <Table.Data>
                       <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
                         {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
-                        {Boolean(item.monthlyRentFee) && (
-                          <span>
-                            /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>
-                          </span>
-                        )}
+                        {renderMonthlyRentFee(item.monthlyRentFee)}
                       </span>
                     </Table.Data>
                   )}
@@ -156,11 +166,7 @@ export default function Biddings({
                     <Table.Data>
                       <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
                         {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
-                        {Boolean(item.monthlyRentFee) && (
-                          <span>
-                            /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>
-                          </span>
-                        )}
+                        {renderMonthlyRentFee(item.monthlyRentFee)}
                       </span>
                     </Table.Data>
                   )}

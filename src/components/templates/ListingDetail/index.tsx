@@ -357,6 +357,7 @@ export default function ListingDetail({
               showBiddingPrice
               biddingsChatRoomCreated={biddingsChatRoomCreated}
               biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
+              isMonthlyRent={listingDetail?.listing?.buy_or_rent === BuyOrRent.Wolsae}
             />
           </div>
           <Separator />
