@@ -222,10 +222,6 @@ export default function useMapLayout() {
     setMapToggleValue(newValue);
   }, []);
 
-  const handleChangePriceType = useCallback((newValue: string) => {
-    setPriceType(newValue);
-  }, []);
-
   const handleCloseStreetView = useCallback(() => {
     setStreetViewEvent(null);
   }, []);
@@ -294,6 +290,14 @@ export default function useMapLayout() {
 
   const handleChangeFilter = useCallback(
     (value: Partial<Filter>) => {
+      if (value.buyOrRents) {
+        if (value.buyOrRents === '2,3' || value.buyOrRents === '2' || value.buyOrRents === '3') {
+          setPriceType('rent');
+        } else {
+          setPriceType('buy');
+        }
+      }
+
       setFilter((prev) => {
         const old = prev === null ? getDefaultFilterAptOftl() : prev;
         if (_.isEqual(old, { ...old, ...value })) {
@@ -307,6 +311,16 @@ export default function useMapLayout() {
     },
     [setFilter],
   );
+
+  const handleChangePriceType = useCallback((newValue: string) => {
+    if (newValue === 'buy') {
+      handleChangeFilter({ buyOrRents: '1' });
+    } else {
+      handleChangeFilter({ buyOrRents: '2,3' });
+    }
+
+    setPriceType(newValue);
+  }, []);
 
   /**
    * 지도를 줌인 시킨다. 오른쪽 지도 컨트롤버튼중 + 버튼 클릭에서 사용
@@ -797,24 +811,26 @@ export default function useMapLayout() {
   /**
    * 필터의 거래종류가 바뀔때, 가격정보표시도 바꾼다.
    */
-  useEffect(() => {
-    if (filter.buyOrRents === '2,3') {
-      setPriceType('rent');
-    } else {
-      setPriceType('buy');
-    }
-  }, [filter.buyOrRents]);
+  // useEffect(() => {
+  //   if (filter.buyOrRents === '2,3') {
+  //     setPriceType('rent');
+  //   } else {
+  //     setPriceType('buy');
+  //   }
+  // }, [filter.buyOrRents]);
 
-  /**
-   * 가격정보표시가 바뀔때 필터의 거래종류도 바꾼다.
-   */
-  useEffect(() => {
-    if (priceType === 'rent') {
-      handleChangeFilter({ buyOrRents: '2,3' });
-    } else {
-      handleChangeFilter({ buyOrRents: '1' });
-    }
-  }, [handleChangeFilter, priceType]);
+  // /**
+  //  * 가격정보표시가 바뀔때 필터의 거래종류도 바꾼다.
+  //  */
+  // useEffect(() => {
+  //   console.log(filter.realestateTypeGroup);
+
+  //   if (priceType === 'rent') {
+  //     handleChangeFilter({ buyOrRents: '2,3' });
+  //   } else {
+  //     handleChangeFilter({ buyOrRents: '1' });
+  //   }
+  // }, [handleChangeFilter, priceType, filter.realestateTypeGroup]);
 
   /**
    * 필터의 거래종류가 바뀔때 가격필터를 초기화한다
