@@ -6,6 +6,11 @@ export default {
   component: Loading,
 } as ComponentMeta<typeof Loading>;
 
-export const Default: ComponentStory<typeof Loading> = () => <Loading />;
+export const Default: ComponentStory<typeof Loading> = () => (
+  <div tw="flex flex-col gap-5">
+    <Loading size="small" />
+    <Loading size="medium" />
+  </div>
+);
 
 export const Center: ComponentStory<typeof Loading> = () => <Loading tw="text-center" />;
