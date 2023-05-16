@@ -212,7 +212,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickRemoveFromListings={onClickRemoveFromListings}
         onClickSendOwnerVerification={showSendSmsPopup}
         onClickMyListings={handleNavigateToMyListings}
-        onNavigateToChatRoom={handleNavigateToChatRoom}
+        onNavigateToChatRoom={data?.seller_agent_chat_room_id ? handleNavigateToChatRoom : undefined}
       />
       {popup === 'startOver' && (
         <OverlayPresenter>
