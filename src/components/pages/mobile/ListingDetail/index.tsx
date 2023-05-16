@@ -142,6 +142,12 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
   }, [router]);
 
+  const handleNavigateToListingDetailHistory = useCallback(() => {
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}?listingID=${listingID}&biddingID=${data?.bidding_id}`,
+    );
+  }, [router, listingID, data?.bidding_id]);
+
   const openSuggestNotInterstedPopup = useCallback(() => {
     setPopup('suggestNotInterested');
   }, []);
@@ -316,6 +322,7 @@ export default memo(() => {
               onNavigateToCreateQna={handleNavigateToCreateQna}
               onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
               onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
+              onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
               onClickBack={handleClickBack}
             />
             {popup === 'suggestNotInterested' && (

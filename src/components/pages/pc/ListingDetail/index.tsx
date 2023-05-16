@@ -149,6 +149,17 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     router.replace(Routes.SuggestRegionalForm, { persistParams: true });
   }, [router]);
 
+  const handleNavigateToListingDetailHistory = useCallback(() => {
+    router.replace(Routes.ListingDetailHistory, {
+      persistParams: true,
+      searchParams: {
+        listingID: `${listingID}`,
+        biddingID: `${data?.bidding_id}`,
+        back: `${router.asPath}`,
+      },
+    });
+  }, [router, data, listingID]);
+
   const openSuggestNotInterstedPopup = useCallback(() => {
     setPopup('suggestNotInterested');
   }, []);
@@ -305,6 +316,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         onNavigateToCreateQna={handleNavigateToCreateQna}
         onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
         onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
+        onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
       />
       {popup === 'suggestNotInterested' && (
         <OverlayPresenter>

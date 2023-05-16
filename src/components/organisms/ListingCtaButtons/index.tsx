@@ -8,6 +8,8 @@ interface CommonProps {
   onNavigateToChatRoom?: () => void;
   onNavigateToSuggestRegional?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
+  onNavigateToListingDetailHistory?: () => void;
+
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
 }
@@ -32,12 +34,24 @@ function Submitted({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonP
   );
 }
 
-function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonProps) {
+function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding, onNavigateToListingDetailHistory }: CommonProps) {
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
         제안 확인 / 수정
       </Button>
+      {onNavigateToListingDetailHistory && (
+        <div tw="flex items-center justify-center">
+          <Button
+            size="none"
+            variant="ghost"
+            tw="underline mt-4 text-gray-1000"
+            onClick={onNavigateToListingDetailHistory}
+          >
+            나의 제안 확인하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
