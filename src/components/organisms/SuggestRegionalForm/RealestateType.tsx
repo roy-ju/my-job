@@ -33,7 +33,7 @@ export default function RealestateType({ value: valueProp, onChange }: Realestat
   return (
     <div>
       <div tw="mb-4">
-        <div tw="font-bold">추천받고 싶은 매물의 부동산종류를 선택해 주세요</div>
+        <div tw="font-bold">매물의 부동산종류를 선택해 주세요. (복수선택)</div>
       </div>
       <div tw="flex flex-col gap-4">
         <div tw="flex gap-3">

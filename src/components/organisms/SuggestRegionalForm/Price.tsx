@@ -13,21 +13,25 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
   return (
     <div>
       <div tw="mb-4">
-        <div tw="font-bold">추천받고 싶은 매물의 가격을 알려주세요</div>
+        <div tw="font-bold">매물의 가격대를 알려주세요.</div>
       </div>
       <div tw="flex flex-col">
         {buyOrRent === BuyOrRent.Jeonsae ? (
           <div tw="flex flex-col gap-4">
             <div>
               <TextField variant="outlined">
-                <TextField.PriceInput label="보증금" value={price} onChange={(e) => onChangePrice?.(e.target.value)} />
+                <TextField.PriceInput
+                  label={price ? '보증금 가격' : '보증금 가격 입력'}
+                  value={price}
+                  onChange={(e) => onChangePrice?.(e.target.value)}
+                />
               </TextField>
               <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
             </div>
             <div>
               <TextField variant="outlined">
                 <TextField.PriceInput
-                  label="월차임 가격"
+                  label={monthlyRentFee ? '월차임 가격' : '월차임 가격 입력'}
                   value={monthlyRentFee}
                   onChange={(e) => onChangeMonthlyRentFee?.(e.target.value)}
                 />
@@ -39,7 +43,7 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
           <div>
             <TextField variant="outlined">
               <TextField.PriceInput
-                label={buyOrRent === BuyOrRent.Jeonsae ? '전세금' : '매매가'}
+                label={price ? '매매 가격' : '매매 가격 입력'}
                 value={price}
                 onChange={(e) => onChangePrice?.(e.target.value)}
               />
@@ -48,9 +52,9 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
           </div>
         )}
       </div>
-      <div tw="text-info text-gray-700 mt-3">
-        허위가격 입력으로 정상적인 거래진행 및 중개사님의 업무에 영향이 갈것으로 판단될 경우, 요청/요청이 삭제될 수
-        있습니다.
+      <div tw="text-info text-gray-700 mt-4">
+        희망하시는 가격을 기준으로 거래 가능한 매물을 추천해드립니다. 시세와 과도하게 차이가 나는 가격을 제시하면
+        추천받을 수 있는 매물 수가 적거나 없을 수 있습니다
       </div>
     </div>
   );
