@@ -411,7 +411,7 @@ export const EtcField = ({
 }) => (
   <div tw="w-full py-10 px-5">
     <div tw="flex flex-col">
-      <span tw="text-b1 font-bold">추가 조건이 있다면 알려주세요. (선택)</span>
+      <span tw="text-b1 font-bold">네고를 위한 추가 조건이 있다면 알려주세요. (선택)</span>
       <span tw="text-info text-gray-700">자세히 알려주실수록 거래가능성이 높아져요.</span>
     </div>
 
@@ -420,8 +420,8 @@ export const EtcField = ({
         <TextField.TextArea
           value={etc}
           onChange={onChangeEtcField}
-          tw="min-h-[76px]"
-          placeholder="예) 중층의 매물을 원해요.&#13;&#10;초등학교가 가까운 매물 제안해주세요."
+          tw="min-h-[54px]"
+          placeholder="예) 판상형을 원해요, 정남향을 원해요 "
           spellCheck="false"
         />
       </TextField>
