@@ -25,7 +25,7 @@ const UserStatusStrings: Record<
   },
   [VisitUserType.Rejected]: {
     title: '다시 제안해보세요.',
-    body: '제안한 내용으로 현재는 네고가 진행되기 어려울거 같아요. 제안을 수정해 보거나, 제안했던 내용으로 주변 지역의 다른 매물을 추천받아보세요.',
+    body: '제안한 내용으로는 바로 협의를 진행하기는 어려울 거 같아요. 집주인의 마음이 변하기를 기다릴 수도 있지만, 제안 내용을 수정해 보시기를 권고드려요.',
   },
   [VisitUserType.HasSuggestRecommend]: {
     title: '중개사님이 추천한 매물이에요.',

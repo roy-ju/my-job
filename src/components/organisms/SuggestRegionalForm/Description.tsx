@@ -26,14 +26,14 @@ export default function Description({ description: descriptionProp, onChangeDesc
 
   return (
     <div tw="border-t-gray-300">
-      <div tw="font-bold mb-1">추가 조건이 있다면 알려주세요. (선택)</div>
+      <div tw="font-bold mb-1">네고를 위한 추가 조건이 있다면 알려주세요. (선택)</div>
       <div tw="text-info text-gray-700 mb-4">자세히 알려주실수록 거래가능성이 높아져요.</div>
       <TextField variant="outlined" size="medium">
         <TextField.TextArea
           value={description}
           onChange={handleChangeDescription}
           tw="min-h-[72px]"
-          placeholder="내용을 입력하세요&#13;&#10;매물에 대한 문의는 중개사에게 문의하기를 이용하세요"
+          placeholder="예) 중층의 매물을 원해요.&#13;&#10;초등학교 가까운 매물 제안해주세요."
           spellCheck="false"
         />
       </TextField>
