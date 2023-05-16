@@ -31,7 +31,7 @@ export default function MyListingsSummary({
             <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_sent_count ?? 0}</div>
           </div>
           <div tw="flex justify-between">
-            <div tw="pl-4 text-info text-gray-700">추천받은 매물 수</div>
+            <div tw="text-info text-gray-700">추천받은 매물 수</div>
             <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
           </div>
         </Button>
