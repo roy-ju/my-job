@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import ErrorCodes from '@/constants/error_codes';
 import Routes from '@/router/routes';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { MobileContainer } from '@/components/atoms';
 
 export default function OwnerVerification() {
   const router = useRouter();
@@ -19,31 +20,31 @@ export default function OwnerVerification() {
   }, [router]);
 
   return (
-    <>
-      <div tw="w-full absolute bg-nego-1300 h-full [z-index: -1]" />
-      <div tw="w-full max-w-mobile left-0 right-0 flex flex-col h-full mx-auto bg-white fixed">
-        {!data?.error_code && (
-          <Template
-            isLoading={!(token && loi) || isLoading}
-            address={data?.full_road_name_address}
-            approverName={data?.approver_name}
-            onClickVerify={handleVerify}
-          />
-        )}
-        {data?.error_code === ErrorCodes.ALREADY_VERIFIED && <CompleteTemplate onClickHome={() => router.push('/m')} />}
-        {data?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST && (
-          <OverlayPresenter>
-            <Popup>
-              <Popup.ContentGroup>
-                <Popup.Title>해당 매물등록신청이 유효하지 않습니다.</Popup.Title>
-              </Popup.ContentGroup>
-              <Popup.ButtonGroup>
-                <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}`)}>확인</Popup.ActionButton>
-              </Popup.ButtonGroup>
-            </Popup>
-          </OverlayPresenter>
-        )}
-      </div>
-    </>
+    <MobileContainer>
+      {!data?.error_code && (
+        <Template
+          isLoading={!(token && loi) || isLoading}
+          address={data?.full_road_name_address}
+          approverName={data?.approver_name}
+          price={data?.trade_or_deposit_price}
+          monthlyRentFee={data?.monthly_rent_fee}
+          buyOrRent={data?.buy_or_rent}
+          onClickVerify={handleVerify}
+        />
+      )}
+      {data?.error_code === ErrorCodes.ALREADY_VERIFIED && <CompleteTemplate onClickHome={() => router.push('/m')} />}
+      {data?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>해당 매물등록신청이 유효하지 않습니다.</Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}`)}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+    </MobileContainer>
   );
 }
