@@ -5,6 +5,11 @@ import { NaverMapContext } from './Map';
 type Anchor = 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 interface Props {
+  isSelectedSchool?: boolean;
+  selectedDanjiPostion?: {
+    lat: number;
+    lng: number;
+  };
   position: {
     lat: number;
     lng: number;
@@ -45,7 +50,14 @@ function getOffset(width: number, height: number, anchor: Anchor) {
   };
 }
 
-export default function CustomOverlay({ position, zIndex = 10, anchor = 'center', children }: Props) {
+export default function CustomOverlay({
+  isSelectedSchool = false,
+  selectedDanjiPostion = undefined,
+  position,
+  zIndex = 10,
+  anchor = 'center',
+  children,
+}: Props) {
   const map = useContext(NaverMapContext);
   const containerRef = useRef(document.createElement('div'));
   const overlayViewRef = useRef(new naver.maps.OverlayView());
@@ -92,13 +104,22 @@ export default function CustomOverlay({ position, zIndex = 10, anchor = 'center'
       container.style.position = 'absolute';
       container.style.left = `${x}px`;
       container.style.top = `${y}px`;
+
+      if (isSelectedSchool) {
+        if (selectedDanjiPostion?.lat === position.lat && selectedDanjiPostion?.lng === position.lng) {
+          console.log('hi');
+          container.style.display = 'block';
+        } else {
+          container.style.display = 'none';
+        }
+      }
     };
 
     return () => {
       overlayView.setMap(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchor]);
+  }, [anchor, selectedDanjiPostion]);
 
   useEffect(() => {
     const overlayView = overlayViewRef.current;

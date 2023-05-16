@@ -5,6 +5,7 @@ import { Button } from '@/components/atoms';
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
 import { SchoolType } from '@/constants/enums';
+import useDanjiInteraction from '@/states/danjiButton';
 
 import checkStudentCount from '@/utils/checkStudentCount';
 import getDistance from '@/utils/getDistance';
@@ -12,7 +13,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import NoDataTypeOne from './NoData';
 
 export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
-  const [hakgudoActive, setHakgudoActive] = useState(false);
+  const danjiInteractionStore = useDanjiInteraction({ danjiData: danji });
 
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
 
@@ -36,11 +37,6 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const onChangeSelectedSchoolType = useCallback((val: number) => {
     setSelectedSchoolType(val);
   }, []);
-
-  const handleClickHakgudo = useCallback(() => {
-    const val = !hakgudoActive;
-    setHakgudoActive(val);
-  }, [hakgudoActive]);
 
   useEffect(() => {
     if (listElementarySchools.length > 0) {
@@ -66,9 +62,20 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     <div tw="w-full pt-10 pb-10 px-5 [min-height: 400px]">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">학군</span>
-        {/* <Button size="small" variant="outlined" selected={hakgudoActive} onClick={handleClickHakgudo}>
+        <Button
+          size="small"
+          variant="outlined"
+          selected={danjiInteractionStore.isSchoolOn}
+          onClick={() => {
+            if (danjiInteractionStore.isSchoolOn) {
+              danjiInteractionStore.makeSchoolOff();
+            } else {
+              danjiInteractionStore.makeSchoolOn();
+            }
+          }}
+        >
           학구도
-        </Button> */}
+        </Button>
       </div>
       <SchoolTabs variant="contained" value={selectedSchoolType} tw="mt-2" onChange={onChangeSelectedSchoolType}>
         <SchoolTabs.Tab value={SchoolType.ElementarySchool}>초등학교</SchoolTabs.Tab>

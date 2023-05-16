@@ -1,6 +1,9 @@
 import { DanjiMarker, ListingMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 
+import { schoolAroundState } from '@/states/danjiButton';
+import { useRecoilValue } from 'recoil';
+
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
@@ -24,6 +27,10 @@ export default function Markers({
   selectedSchoolID,
   myMarker,
 }: MarkersProps) {
+  const value = useRecoilValue(schoolAroundState);
+
+  console.log(value.schoolMarkers);
+
   return (
     <>
       {mapLevel !== 1 &&
@@ -54,6 +61,10 @@ export default function Markers({
                 lat: marker.lat,
                 lng: marker.lng,
               }}
+              isSelectedSchool={value.school}
+              selectedDanjiPostion={
+                value.danjiData ? { lat: value.danjiData.lat, lng: value.danjiData.long } : undefined
+              }
             >
               {marker.pyoung ? (
                 <DanjiMarker
@@ -79,40 +90,51 @@ export default function Markers({
                   price={marker.price ?? 0}
                   count={marker.listingCount ?? 0}
                   onClick={marker.onClick}
-                >
-                  {/* {selectedDanjiSummary?.id === marker.id && (
-                    <ListingMarker.Popper
-                      name={selectedDanjiSummary?.name ?? ''}
-                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
-                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
-                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
-                    />
-                  )} */}
-                </ListingMarker>
+                />
               )}
             </CustomOverlay>
           </DeferredRender>
         ))}
 
-      {schoolMarkers?.map((marker) => (
-        <DeferredRender key={marker.id}>
-          <CustomOverlay
-            zIndex={selectedSchoolID === marker.id ? 100 : 9}
-            anchor="bottom-left"
-            position={{
-              lat: marker.lat,
-              lng: marker.lng,
-            }}
-          >
-            <SchoolMarker
-              selected={selectedSchoolID === marker.id}
-              onClick={marker.onClick}
-              name={marker.name}
-              type={marker.type}
-            />
-          </CustomOverlay>
-        </DeferredRender>
-      ))}
+      {value.school
+        ? value.schoolMarkers?.map((marker) => (
+            <DeferredRender key={marker.id}>
+              <CustomOverlay
+                zIndex={selectedSchoolID === marker.id ? 100 : 9}
+                anchor="bottom-left"
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+              >
+                <SchoolMarker
+                  selected={selectedSchoolID === marker.id}
+                  onClick={marker.onClick}
+                  name={marker.name}
+                  type={marker.type}
+                />
+              </CustomOverlay>
+            </DeferredRender>
+          ))
+        : schoolMarkers?.map((marker) => (
+            <DeferredRender key={marker.id}>
+              <CustomOverlay
+                zIndex={selectedSchoolID === marker.id ? 100 : 9}
+                anchor="bottom-left"
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+              >
+                <SchoolMarker
+                  selected={selectedSchoolID === marker.id}
+                  onClick={marker.onClick}
+                  name={marker.name}
+                  type={marker.type}
+                />
+              </CustomOverlay>
+            </DeferredRender>
+          ))}
 
       {myMarker && mapLevel < 3 && (
         <CustomOverlay
