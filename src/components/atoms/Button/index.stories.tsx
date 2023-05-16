@@ -41,6 +41,7 @@ export const IconButton = () => (
 
 export const Size = () => (
   <div tw="flex gap-1">
+    <Button size="none">None</Button>
     <Button size="small">Small</Button>
     <Button size="medium">Medium</Button>
     <Button size="big">Big</Button>
@@ -91,5 +92,8 @@ export const CustomButton = () => (
   <div tw="flex gap-1">
     <Button tw="bg-red-200">Custom Button</Button>
     <Button tw="w-40 h-20 border-4 rounded-full shadow-2xl border-nego-400">Custom Button</Button>
+    <Button tw="px-6 py-4 font-bold uppercase tracking-wide bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-full focus:outline-none transform hover:-translate-y-1 hover:scale-110 transition-all duration-300">
+      Custom Button
+    </Button>
   </div>
 );
