@@ -189,9 +189,12 @@ export default function BiddingForm({
         </div>
       </FormContext.Provider>
       <PersistentBottomBar>
-        <Button disabled={nextButtonDisabled} onClick={onClickNext} tw="w-full" size="bigger">
-          다음
-        </Button>
+        <div>
+          <Button disabled={nextButtonDisabled} onClick={onClickNext} tw="w-full" size="bigger">
+            다음
+          </Button>
+          <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
+        </div>
       </PersistentBottomBar>
     </div>
   );
