@@ -15,14 +15,15 @@ import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 
 export default memo(() => {
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data, mutate, isLoading } = useAPI_MyListingDetail(listingID);
+  const { data, mutate: mutateMyListingDetail, isLoading } = useAPI_MyListingDetail(listingID);
 
-  usePolling(mutate, 5000, 5);
+  usePolling(mutateMyListingDetail, 5000, 5);
 
   const [isSendingSms, setIsSendingSms] = useState(false);
 
@@ -73,17 +74,17 @@ export default memo(() => {
           realestate_unique_number: realestateUniqueNumber,
           address: address.full_road_name_address,
         });
-        mutate();
+        mutateMyListingDetail();
       }
     },
-    [mutate, listingID, data?.address_list],
+    [mutateMyListingDetail, listingID, data?.address_list],
   );
 
   const handleSelectAgent = useCallback(async () => {
     if (popupData.current) {
       setIsSelectingAgent(true);
       const res = await assignAgent({ listing_id: listingID, user_selected_agent_id: popupData.current?.id });
-      mutate();
+      mutateMyListingDetail();
       if (res?.error_code) {
         setPopup('agentSelectionFail');
       } else {
@@ -91,7 +92,7 @@ export default memo(() => {
       }
       setIsSelectingAgent(false);
     }
-  }, [listingID, mutate]);
+  }, [listingID, mutateMyListingDetail]);
 
   const showAgentSelectionPopup = useCallback(
     async (index: number) => {
@@ -130,12 +131,12 @@ export default memo(() => {
       } else if (res?.error_code === ErrorCodes.SMS_COUNT_REACHED_LIMIT) {
         setPopup('smsCountReachedLimit');
       } else if (!res?.error_code) {
-        await mutate();
+        await mutateMyListingDetail();
       }
 
       setIsSendingSms(false);
     }
-  }, [listingID, mutate]);
+  }, [listingID, mutateMyListingDetail]);
 
   const handleNavigateToMyListings = useCallback(() => {
     router.replace({
@@ -155,6 +156,22 @@ export default memo(() => {
     }
   }, [router, data?.seller_agent_chat_room_id]);
 
+  const showStartOverPopup = useCallback(() => {
+    setPopup('startOver');
+  }, []);
+
+  const handleClickStartOver = useCallback(async () => {
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`,
+    });
+
+    await deleteMyListing(listingID);
+    mutate((key) => {
+      if (typeof key === 'object' && key?.[0] === '/my/listings/registered') return true;
+      return false;
+    });
+  }, [router, listingID]);
+
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     return null;
   }
@@ -172,11 +189,7 @@ export default memo(() => {
         ownerPhone={data?.listing?.owner_phone}
         address={data?.listing?.road_name_address ?? data?.listing?.jibun_address}
         addressDetail={data?.listing?.address_detail}
-        onClickStartOver={() =>
-          router.replace({
-            pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`,
-          })
-        }
+        onClickStartOver={showStartOverPopup}
         onClickUpdateAddress={() =>
           router.replace(
             {
@@ -195,6 +208,24 @@ export default memo(() => {
         onClickMyListings={handleNavigateToMyListings}
         onNavigateToChatRoom={handleNavigateToChatRoom}
       />
+      {popup === 'startOver' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>새로운 매물등록신청 시작</Popup.Title>
+              <Popup.Body>
+                기존 입력 내용은 삭제되며 복구되지 않습니다. 매물등록신청을 처음부터 다시 진행하시겠습니까?
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>돌아가기</Popup.CancelButton>
+              <Popup.ActionButton isLoading={isSelectingAgent} onClick={handleClickStartOver}>
+                매물등록신청 다시하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
       {popup === 'sendSms' && (
         <OverlayPresenter>
           <Popup>
