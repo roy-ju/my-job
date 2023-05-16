@@ -32,7 +32,7 @@ export default function Floor({ value: valueProp, onChange }: FloorProps) {
   return (
     <div>
       <div tw="mb-4">
-        <div tw="font-bold">관심있는 층수를 선택해 주세요</div>
+        <div tw="font-bold">관심있는 층수를 선택해 주세요. (복수선택)</div>
       </div>
       <div tw="flex flex-col gap-4">
         <div tw="flex gap-3">
