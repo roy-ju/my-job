@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import getDanjiSummary from '@/apis/map/mapDanjiSummary';
-import getHakgudo from '@/apis/map/mapHakgudos';
 import getSchools from '@/apis/map/mapSchools';
 import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
 import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
@@ -15,12 +13,13 @@ import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState }
 import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import getListingSummary from '@/apis/map/mapListingSummary';
 import Routes from '@/router/routes';
 import useRecentSearches from '@/hooks/services/useRecentSearches';
 import { v1 } from 'uuid';
 import { toast } from 'react-toastify';
 import { RealestateType } from '@/constants/enums';
+import getHakgudo from '@/apis/map/mapHakgudos';
+import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -37,8 +36,14 @@ export interface DanjiSummary {
   rentListingCount: number;
 }
 
-export interface CommonMapMarker {
+export interface CommonMarker {
   id: string;
+  lat: number;
+  lng: number;
+  onClick?: () => void;
+}
+
+export interface ListingDanjiMarker extends CommonMarker {
   variant: 'blue' | 'nego';
   bubjungdongCode?: string;
   bubjungdongName?: string;
@@ -54,18 +59,11 @@ export interface CommonMapMarker {
   tradePrice?: number;
   deposit?: number;
   listingCount: number;
-  lat: number;
-  lng: number;
-  onClick?: () => void;
 }
 
-export interface CommonSchoolMarker {
-  id: string;
+export interface SchoolMarker extends CommonMarker {
   type: string;
-  lat: number;
-  lng: number;
   name: string;
-  onClick?: () => void;
 }
 
 export interface MapBounds {
@@ -197,17 +195,15 @@ export default function useMapLayout() {
 
   const [listingCount, setListingCount] = useState(0);
 
-  const [markers, setMarkers] = useState<CommonMapMarker[]>([]);
+  const [markers, setMarkers] = useState<ListingDanjiMarker[]>([]);
 
-  const [schoolMarkers, setSchoolMarkers] = useState<CommonSchoolMarker[]>([]);
+  const [schoolMarkers, setSchoolMarkers] = useState<SchoolMarker[]>([]);
 
   const [polygons, setPolygons] = useState<naver.maps.Polygon[]>([]);
 
-  const [selectedDanjiSummary, setSelectedDanjiSummary] = useState<DanjiSummary | null>(null);
+  const [selectedMarker, setSelectedMarker] = useState<CommonMarker | null>(null);
 
   const lastSearchItem = useRef<KakaoAddressAutocompleteResponseItem | null>(null);
-
-  const [selectedSchoolID, setSelectedSchoolID] = useState('');
 
   const [popup, setPopup] = useState('');
 
@@ -220,6 +216,8 @@ export default function useMapLayout() {
 
   const isPanningRef = useRef(false);
 
+  const { data: danjiSummary } = useDanjiSummary(selectedMarker as ListingDanjiMarker);
+
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
   }, []);
@@ -231,534 +229,6 @@ export default function useMapLayout() {
   const handleCloseStreetView = useCallback(() => {
     setStreetViewEvent(null);
   }, []);
-
-  /**
-   * 지도 중심좌표를 reverse geocoding 한다.
-   */
-  const handleCenterAddressChange = useCallback(async (_map: NaverMap) => {
-    const center = _map.getCenter() as NaverLatLng;
-    const response = await coordToRegion(center.x, center.y);
-    if (response && response.documents?.length > 0) {
-      const region = response.documents.filter((item) => item.region_type === 'B')[0];
-      if (region) {
-        setCenterAddress([region.region_1depth_name, region.region_2depth_name, region.region_3depth_name]);
-      }
-    }
-  }, []);
-
-  /**
-   * 지도의 초기값들을 설정한다.
-   */
-  const initialZoom = useMemo(() => getMapPositionState((ms) => Number(ms[2]), DEFAULT_ZOOM), []);
-
-  const initialCenter = useMemo(
-    () =>
-      getMapPositionState(
-        (ms) => ({
-          lat: Number(ms[0]),
-          lng: Number(ms[1]),
-        }),
-        getUserLastLocation() ?? { lat: DEFAULT_LAT, lng: DEFAULT_LNG },
-      ),
-    [],
-  );
-
-  /**
-   * 단지/매물을 선택한다. (선택이란, 단지마커 애니메이션을 활성화하고 마커위에 단지요약정보를 보여준다.)
-   */
-  const selectMarker = useCallback(
-    async ({ pnu, realestateType, listingIds }: { pnu?: string; realestateType?: number; listingIds?: string }) => {
-      if (listingIds) {
-        const listingId = listingIds.split(',')[0];
-        if (listingId) {
-          const summary = await getListingSummary({ listingId: Number(listingId) });
-          if (summary) {
-            setSelectedDanjiSummary({
-              id: listingIds,
-              name: summary.listing_title,
-              householdCount: 0,
-              buyListingCount: 0,
-              rentListingCount: 0,
-            });
-          }
-        }
-      } else if (pnu && realestateType) {
-        const summary = await getDanjiSummary({
-          pnu,
-          buyOrRent: '1,2,3',
-          danjiRealestateType: realestateType,
-        });
-        if (summary) {
-          setSelectedDanjiSummary({
-            id: `${pnu}${realestateType}`,
-            name: summary?.string ?? '',
-            householdCount: summary?.saedae_count ?? 0,
-            buyListingCount: summary?.buy_listing_count ?? 0,
-            rentListingCount: summary?.rent_listing_count ?? 0,
-          });
-        }
-      }
-    },
-    [],
-  );
-
-  /**
-   * 지도위의 마커를 그린다.
-   */
-  const updateMarkers = useCallback(
-    async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
-      abortControllerRef.current?.abort();
-      abortControllerRef.current = new AbortController();
-      const res = await mapSearch({
-        level: mapBounds.mapLevel,
-        bounds: mapBounds,
-        filter: mapFilter,
-        mapToggleValue: toggleValue,
-        priceType: priceTypeValue,
-        abortController: abortControllerRef.current,
-      });
-
-      setListingCount(res?.listing_count ?? 0);
-
-      const variant = mapFilter.realestateTypeGroup !== 'apt,oftl' || toggleValue === 1 ? 'nego' : 'blue';
-
-      if (res && mapBounds.mapLevel !== 1) {
-        let regions = (res as MapSearchResponse).results;
-        if (variant === 'nego') {
-          regions = regions?.filter((region) => region.listing_count !== 0);
-        }
-        // 지역 마커
-        setMarkers(
-          regions?.map((item) => ({
-            id: item.bubjungdong_code,
-            variant,
-            bubjungdongCode: item.bubjungdong_code,
-            bubjungdongName: item.bubjungdong_name,
-            danjiCount: item.danji_count,
-            listingCount: item.listing_count,
-            lat: item.lat,
-            lng: item.long,
-            onClick: () => {
-              if (isPanningRef.current) return;
-              setPolygons([]);
-              setSelectedSchoolID('');
-              _map?.morph(
-                {
-                  lat: item.lat,
-                  lng: item.long,
-                },
-                _map.getZoom() + 2,
-              );
-            },
-          })) ?? [],
-        );
-      } else if (res && mapBounds.mapLevel === 1) {
-        // 매물 마커
-        const listings = (res as MapSearchLevelOneResponse).listing_list ?? [];
-        const listingMap: {
-          [key: string]: CommonMapMarker;
-        } = {};
-
-        listings?.map((item) => {
-          listingMap[`${item.listing_ids}`] = {
-            id: item.listing_ids,
-            variant,
-            listingCount: item.listing_count,
-            lat: item.lat,
-            lng: item.long,
-            price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
-            onClick: () => {
-              if (isPanningRef.current) return;
-              router.replace(Routes.MapListingList, {
-                searchParams: {
-                  listingIDs: item.listing_ids,
-                },
-              });
-
-              setPolygons([]);
-              setSelectedSchoolID('');
-              _map?.morph({
-                lat: item.lat,
-                lng: item.long,
-              });
-              selectMarker({
-                listingIds: item.listing_ids,
-              });
-            },
-          };
-        });
-
-        // 단지 마커
-        let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
-        if (variant === 'nego') {
-          danjis = danjis?.filter((danji) => danji.listing_count !== 0);
-        }
-
-        const danjiMap: {
-          [key: string]: CommonMapMarker;
-        } = {};
-
-        danjis?.map((item) => {
-          if (
-            item.danji_realestate_type === RealestateType.Officetel &&
-            danjiMap[`${item.pnu}${RealestateType.Apartment}`]
-          ) {
-            item.long += 0.00035;
-          }
-
-          danjiMap[`${item.pnu}${item.danji_realestate_type}`] = {
-            id: `${item.pnu}${item.danji_realestate_type}`,
-            variant,
-            pnu: item.pnu,
-            danjiRealestateType: item.danji_realestate_type,
-            pyoung: item.pyoung,
-            price: item.price,
-            jibunAddress: item.jibun_address,
-            roadNameAddress: item.road_name_address,
-            listingCount: item.listing_count,
-            lat: item.lat,
-            lng: item.long,
-            onClick: () => {
-              if (isPanningRef.current) return;
-
-              // 단지 상세로 보내는 Router
-              router.replace(Routes.DanjiDetail, {
-                searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
-              });
-
-              setPolygons([]);
-              setSelectedSchoolID('');
-              _map?.morph({
-                lat: item.lat,
-                lng: item.long,
-              });
-              selectMarker({
-                pnu: item.pnu,
-                realestateType: item.danji_realestate_type,
-              });
-            },
-          };
-        });
-
-        // 맵의 주소검색 결과에 마커가 포함되어있으면, 마커를 선택한다.
-        if (lastSearchItem.current) {
-          const searchedDanji = danjis?.find(
-            ({ jibun_address, road_name_address }) =>
-              lastSearchItem.current?.roadAddressName === road_name_address ||
-              lastSearchItem.current?.addressName === jibun_address,
-          );
-          if (searchedDanji) {
-            _map?.morph({
-              lat: searchedDanji.lat,
-              lng: searchedDanji.long,
-            });
-            selectMarker({
-              pnu: searchedDanji.pnu,
-              realestateType: searchedDanji.danji_realestate_type,
-            });
-            router.replace(Routes.DanjiDetail, {
-              searchParams: { p: searchedDanji.pnu, rt: searchedDanji.danji_realestate_type.toString() },
-            });
-          }
-          lastSearchItem.current = null;
-        }
-
-        if (listings.length > 0) {
-          setMarkers(Object.values(listingMap));
-        } else {
-          setMarkers(Object.values(danjiMap));
-        }
-      }
-    },
-    [selectMarker, lastSearchItem, router],
-  );
-
-  const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
-
-  /**
-   * 학교 마커를 그린다.
-   */
-  const updateSchoolMarkers = useCallback(
-    async (_map: NaverMap, mapBounds: MapBounds, st: string) => {
-      const schoolTypes = st === 'elementary' ? '1' : st === 'middle' ? '2' : '3';
-
-      const res = await getSchools({ schoolTypes, bounds: mapBounds });
-      setSchoolMarkers(
-        res?.list?.map((item) => ({
-          id: item.school_id,
-          lat: item.lat,
-          lng: item.long,
-          name: schoolType === '2' ? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
-          type: st,
-          onClick: async () => {
-            if (isPanningRef.current) return;
-            const hakgudoRes = await getHakgudo(item.school_id);
-            setPolygons(
-              hakgudoRes?.list?.map((p: any) => {
-                const paths = JSON.parse(p.polygons as string)?.coordinates[0][0];
-                const poly = new naver.maps.Polygon({
-                  map: _map,
-                  paths: paths.map((v: [number, number]) => new naver.maps.LatLng(v[1], v[0])),
-                  fillColor: '#FF6D41',
-                  fillOpacity: 0.15,
-                  strokeColor: '#F34829',
-                  strokeOpacity: 1,
-                  strokeWeight: 2,
-                });
-                return poly;
-              }) ?? [],
-            );
-            setSelectedSchoolID(item.school_id);
-            _map.morph({
-              lat: item.lat,
-              lng: item.long,
-            });
-          },
-        })) ?? [],
-      );
-    },
-    [schoolType],
-  );
-
-  /**
-   * 지도 코너 좌표값을 업데이트 한다.
-   */
-  const updateBounds = useCallback((m: NaverMap) => {
-    setBounds(getBounds(m));
-  }, []);
-
-  /**
-   * 맵 생성시 호출된다. map.isReady === false
-   */
-  const onCreate = useCallback(
-    (m: NaverMap) => {
-      if (typeof window !== 'undefined') {
-        window.NaverMap = m;
-      }
-
-      setMapState({
-        naverMap: m,
-      });
-      handleCenterAddressChange(m);
-      updateBounds(m);
-    },
-    [setMapState, handleCenterAddressChange, updateBounds],
-  );
-
-  /**
-   * 맵이 초기화 될때 호출된다. map.isReady === true
-   */
-  const onInit = useCallback((m: NaverMap) => {
-    // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
-    const mapStateExists = getMapPositionState(() => true, false);
-    if (!mapStateExists && typeof navigator !== 'undefined' && typeof localStorage !== 'undefined') {
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
-        const latlng = { lat: coords.latitude, lng: coords.longitude };
-        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-        m.morph(latlng, DEFAULT_ZOOM);
-      });
-    }
-  }, []);
-
-  /**
-   * 사용자가 지도에서 마우스 왼쪽 버튼을 클릭하면 이벤트가 발생한다.
-   * 단, 오버레이(지도마커)를 클릭했을 때는 이벤트가 발생하지 않는다.
-   */
-  const onMapClick = useCallback(
-    async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
-      // router.popAll();
-      setSelectedSchoolID('');
-      setSelectedDanjiSummary(null);
-      setPolygons([]);
-
-      if (mapLayer === 'street') {
-        const response = await coordToRegion(e.latlng.lng(), e.latlng.lat());
-        if (response && response.documents?.length > 0) {
-          const region = response.documents.filter((item) => item.region_type === 'B')[0];
-          setStreetViewEvent({
-            address: `${region.region_1depth_name} ${region.region_2depth_name} ${region.region_3depth_name}`,
-            latlng: e.latlng,
-          });
-        }
-      }
-    },
-    [router, mapLayer],
-  );
-
-  /**
-   * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
-   */
-  const onIdle = useMemo(
-    () =>
-      _.debounce(
-        (_map: NaverMap) => {
-          setTimeout(() => {
-            isPanningRef.current = false;
-          }, 100);
-          // query 파라미터에 현재 지도위치 정보를 넣어서,
-          // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
-          setMapPositionState(_map);
-          // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
-          handleCenterAddressChange(_map);
-
-          // 지도 코너 좌표값을 업데이트 한다.
-          updateBounds(_map);
-        },
-        300,
-        { leading: true, trailing: true },
-      ),
-    [handleCenterAddressChange, updateBounds],
-  );
-
-  /**
-   *  지도가 움직일때 발생한다.
-   */
-  const onBoundsChanged = useCallback(() => {
-    isPanningRef.current = true;
-  }, []);
-
-  /**
-   * 줌 효과가 시작될때, 이벤트가 발생한다.
-   */
-  const onZoomStart = useCallback((_map: NaverMap) => {
-    setMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
-      }
-      return prev;
-    });
-    setSchoolMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
-      }
-      return prev;
-    });
-    setSelectedDanjiSummary(null);
-  }, []);
-
-  /**
-   * depth 가 열리고 닫힘에 따라, 지도 사이즈가 재조정이 필요할때 호출된다.
-   * route 의 변화에 따라서 지도를 resize 해도 되지만, 그렇게 되면
-   * 뻑뻑하게 reisze 돼서, resizeObserver 로 매 프레임마다 resize 를 해준다.
-   */
-  useEffect(() => {
-    const mapElement = document.getElementById('map-container');
-    const resizeObserver = new ResizeObserver(() => {
-      if (typeof window !== 'undefined') {
-        window.NaverMap?.autoResize();
-      }
-    });
-
-    if (mapElement) {
-      resizeObserver.observe(mapElement);
-      return () => {
-        resizeObserver.unobserve(mapElement);
-      };
-    }
-    return () => {};
-  }, []);
-
-  /**
-   * 맵 레이어 핸들링
-   */
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof naver === 'undefined') {
-      return;
-    }
-    if (!mapState?.naverMap) {
-      return;
-    }
-
-    if (mapLayer === 'none') {
-      mapLayerRef.current?.setMap(null);
-      mapLayerRef.current = null;
-    } else if (mapLayer === 'cadastral') {
-      mapLayerRef.current?.setMap(null);
-      mapLayerRef.current = new naver.maps.CadastralLayer();
-      mapLayerRef.current.setMap(mapState.naverMap);
-    } else if (mapLayer === 'street') {
-      mapLayerRef.current?.setMap(null);
-      mapLayerRef.current = new naver.maps.StreetLayer();
-      mapLayerRef.current.setMap(mapState.naverMap);
-    }
-  }, [mapState?.naverMap, mapLayer]);
-
-  /**
-   * 맵이 이동할때마다, 마커를 그린다.
-   */
-  useEffect(() => {
-    if (bounds && mapState?.naverMap) {
-      deferredUpdateMarkers(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
-    }
-  }, [mapState?.naverMap, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
-
-  /**
-   * 학교가 활성화되어있으면, 맵이 이동할때마다 학교 마커를 그린다.
-   */
-  useEffect(() => {
-    if (bounds && schoolType !== 'none' && mapState?.naverMap) {
-      if (bounds.mapLevel < 3) {
-        updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
-      } else {
-        toast.error('지도를 확대하여 학교마커를 확인하세요.', { toastId: 'schoolMarkerError' });
-        setSchoolMarkers([]);
-        setPolygons([]);
-        setSelectedSchoolID('');
-      }
-    } else if (schoolType === 'none') {
-      setSchoolMarkers([]);
-    }
-  }, [mapState?.naverMap, bounds, schoolType, updateSchoolMarkers]);
-
-  /**
-   * 학교필터가 변경될때, 맵에 그려져있는 학구도 폴리곤을 없앤다.
-   */
-  useEffect(() => {
-    setPolygons([]);
-  }, [schoolType]);
-
-  /**
-   * 폴리곤을 그린다.
-   */
-  useIsomorphicLayoutEffect(
-    () => () => {
-      polygons.forEach((v: naver.maps.Polygon) => {
-        v.setMap(null);
-      });
-    },
-    [polygons],
-  );
-
-  // Map Control Handlers
-
-  const morphToCurrentLocation = useCallback(() => {
-    setIsGeoLoading(true);
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => {
-        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
-        const latlng = { lat: coords.latitude, lng: coords.longitude };
-        setMyMarker(latlng);
-        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
-        mapState?.naverMap?.morph(latlng, DEFAULT_ZOOM);
-        setIsGeoLoading(false);
-      },
-      () => {
-        toast.error('위치정보 접근이 허용되어있지 않습니다.');
-        setIsGeoLoading(false);
-      },
-    );
-  }, [mapState?.naverMap]);
-
-  const zoomIn = useCallback(() => {
-    if (!mapState?.naverMap) return;
-    mapState?.naverMap.zoomBy(1, undefined, true);
-  }, [mapState?.naverMap]);
-
-  const zoomOut = useCallback(() => {
-    if (!mapState?.naverMap) return;
-    mapState?.naverMap.zoomBy(-1, undefined, true);
-  }, [mapState?.naverMap]);
 
   const handleChangeMapType = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (event) => {
@@ -839,6 +309,514 @@ export default function useMapLayout() {
   );
 
   /**
+   * 지도를 줌인 시킨다. 오른쪽 지도 컨트롤버튼중 + 버튼 클릭에서 사용
+   */
+  const zoomIn = useCallback(() => {
+    if (!mapState?.naverMap) return;
+    mapState?.naverMap.zoomBy(1, undefined, true);
+  }, [mapState?.naverMap]);
+
+  /**
+   * 지도를 줌아웃 시킨다. 오른쪽 지도 컨트롤버튼중 - 버튼 클릭에서 사용
+   */
+  const zoomOut = useCallback(() => {
+    if (!mapState?.naverMap) return;
+    mapState?.naverMap.zoomBy(-1, undefined, true);
+  }, [mapState?.naverMap]);
+
+  /**
+   * 지도 중심좌표를 reverse geocoding 한다.
+   */
+  const handleCenterAddressChange = useCallback(async (_map: NaverMap) => {
+    const center = _map.getCenter() as NaverLatLng;
+    const response = await coordToRegion(center.x, center.y);
+    if (response && response.documents?.length > 0) {
+      const region = response.documents.filter((item) => item.region_type === 'B')[0];
+      if (region) {
+        setCenterAddress([region.region_1depth_name, region.region_2depth_name, region.region_3depth_name]);
+      }
+    }
+  }, []);
+
+  /**
+   * 지도의 초기값들을 설정한다.
+   */
+  const initialZoom = useMemo(() => getMapPositionState((ms) => Number(ms[2]), DEFAULT_ZOOM), []);
+
+  const initialCenter = useMemo(
+    () =>
+      getMapPositionState(
+        (ms) => ({
+          lat: Number(ms[0]),
+          lng: Number(ms[1]),
+        }),
+        getUserLastLocation() ?? { lat: DEFAULT_LAT, lng: DEFAULT_LNG },
+      ),
+    [],
+  );
+
+  /**
+   * 학구도 폴리곤을 그린다.
+   */
+  const renderHakgudoPolygon = useCallback(async (m: NaverMap, schoolID: string) => {
+    const hakgudoRes = await getHakgudo(schoolID);
+    setPolygons(
+      hakgudoRes?.list?.map((p: any) => {
+        const paths = JSON.parse(p.polygons as string)?.coordinates[0][0];
+        const poly = new naver.maps.Polygon({
+          map: m,
+          paths: paths.map((v: [number, number]) => new naver.maps.LatLng(v[1], v[0])),
+          fillColor: '#FF6D41',
+          fillOpacity: 0.15,
+          strokeColor: '#F34829',
+          strokeOpacity: 1,
+          strokeWeight: 2,
+        });
+        return poly;
+      }) ?? [],
+    );
+  }, []);
+
+  /**
+   * 지도위의 마커를 그린다.
+   */
+  const updateMarkers = useCallback(
+    async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+      const res = await mapSearch({
+        level: mapBounds.mapLevel,
+        bounds: mapBounds,
+        filter: mapFilter,
+        mapToggleValue: toggleValue,
+        priceType: priceTypeValue,
+        abortController: abortControllerRef.current,
+      });
+
+      setListingCount(res?.listing_count ?? 0);
+
+      const variant = mapFilter.realestateTypeGroup !== 'apt,oftl' || toggleValue === 1 ? 'nego' : 'blue';
+
+      if (res && mapBounds.mapLevel !== 1) {
+        let regions = (res as MapSearchResponse).results;
+        if (variant === 'nego') {
+          regions = regions?.filter((region) => region.listing_count !== 0);
+        }
+        // 지역 마커
+        setMarkers(
+          regions?.map((item) => ({
+            id: `regionMarker:${item.bubjungdong_code}`,
+            variant,
+            bubjungdongCode: item.bubjungdong_code,
+            bubjungdongName: item.bubjungdong_name,
+            danjiCount: item.danji_count,
+            listingCount: item.listing_count,
+            lat: item.lat,
+            lng: item.long,
+            onClick(this) {
+              if (isPanningRef.current) return;
+
+              setPolygons([]);
+
+              setSelectedMarker(this);
+
+              // _map?.morph(
+              //   {
+              //     lat: item.lat,
+              //     lng: item.long,
+              //   },
+              //   _map.getZoom() + 2,
+              // );
+            },
+          })) ?? [],
+        );
+      } else if (res && mapBounds.mapLevel === 1) {
+        // 매물 마커
+        const listings = (res as MapSearchLevelOneResponse).listing_list ?? [];
+        const listingMap: {
+          [key: string]: ListingDanjiMarker;
+        } = {};
+
+        listings?.forEach((item) => {
+          const markerID = `listingMarker:${item.listing_ids}`;
+
+          listingMap[markerID] = {
+            id: markerID,
+            variant,
+            listingCount: item.listing_count,
+            lat: item.lat,
+            lng: item.long,
+            price: priceTypeValue === 'buy' ? item.trade_price : item.deposit,
+            // 매물 마커 클릭 이벤트
+            onClick(this) {
+              if (isPanningRef.current) return;
+
+              router.replace(Routes.MapListingList, {
+                searchParams: {
+                  listingIDs: item.listing_ids,
+                },
+              });
+
+              setPolygons([]);
+              setSelectedMarker(this);
+
+              // setSelectedMarkerID(markerID);
+              // setSelectedMarker(this);
+
+              // _map?.morph({
+              //   lat: item.lat,
+              //   lng: item.long,
+              // });
+            },
+          };
+        });
+
+        // 단지 마커
+        let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
+        if (variant === 'nego') {
+          danjis = danjis?.filter((danji) => danji.listing_count !== 0);
+        }
+
+        const danjiMap: {
+          [key: string]: ListingDanjiMarker;
+        } = {};
+
+        danjis?.forEach((item) => {
+          const markerID = `danjiMarker:${item.pnu}${item.danji_realestate_type}`;
+
+          // 중복좌표는 살짝 옮긴다.
+          if (
+            item.danji_realestate_type === RealestateType.Officetel &&
+            danjiMap[`danjiMarker:${item.pnu}${RealestateType.Apartment}`]
+          ) {
+            item.long += 0.00035;
+          }
+
+          danjiMap[markerID] = {
+            id: markerID,
+            variant,
+            pnu: item.pnu,
+            danjiRealestateType: item.danji_realestate_type,
+            pyoung: item.pyoung,
+            price: item.price,
+            jibunAddress: item.jibun_address,
+            roadNameAddress: item.road_name_address,
+            listingCount: item.listing_count,
+            lat: item.lat,
+            lng: item.long,
+            // 단지마커 클릭이벤트
+            onClick(this) {
+              if (isPanningRef.current) return;
+
+              // 단지 상세로 보내는 Router
+              router.replace(Routes.DanjiDetail, {
+                searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
+              });
+
+              setPolygons([]);
+              setSelectedMarker(this);
+            },
+          };
+        });
+
+        // 맵의 주소검색 결과에 마커가 포함되어있으면, 마커를 선택한다.
+        if (lastSearchItem.current) {
+          const searchedDanji = Object.values(danjiMap)?.find(
+            ({ jibunAddress, roadNameAddress }) =>
+              lastSearchItem.current?.roadAddressName === roadNameAddress ||
+              lastSearchItem.current?.addressName === jibunAddress,
+          );
+          if (searchedDanji) {
+            setSelectedMarker(searchedDanji);
+
+            router.replace(Routes.DanjiDetail, {
+              searchParams: { p: searchedDanji.pnu as string, rt: `${searchedDanji.danjiRealestateType}` },
+            });
+          }
+          lastSearchItem.current = null;
+        }
+
+        if (listings.length > 0) {
+          setMarkers(Object.values(listingMap));
+        } else {
+          setMarkers(Object.values(danjiMap));
+        }
+      }
+    },
+    [lastSearchItem, router],
+  );
+
+  const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
+
+  /**
+   * 학교 마커를 그린다.
+   */
+  const updateSchoolMarkers = useCallback(
+    async (_map: NaverMap, mapBounds: MapBounds, st: string) => {
+      const schoolTypes = st === 'elementary' ? '1' : st === 'middle' ? '2' : '3';
+
+      const res = await getSchools({ schoolTypes, bounds: mapBounds });
+      setSchoolMarkers(
+        res?.list?.map((item) => {
+          const markerID = `schoolMarker:${item.school_id}`;
+          return {
+            id: markerID,
+            lat: item.lat,
+            lng: item.long,
+            name: schoolType === '2' ? item.school_name.replace('학교', '') : item.school_name.replace('등학교', ''),
+            type: st,
+            onClick(this) {
+              if (isPanningRef.current) return;
+              setSelectedMarker(this);
+            },
+          };
+        }) ?? [],
+      );
+    },
+    [schoolType],
+  );
+
+  /**
+   * 지도 코너 좌표값을 업데이트 한다.
+   */
+  const updateBounds = useCallback((m: NaverMap) => {
+    setBounds(getBounds(m));
+  }, []);
+
+  /**
+   * 맵 생성시 호출된다. map.isReady === false
+   */
+  const onCreate = useCallback(
+    (m: NaverMap) => {
+      if (typeof window !== 'undefined') {
+        window.NaverMap = m;
+      }
+
+      setMapState({
+        naverMap: m,
+      });
+      handleCenterAddressChange(m);
+      updateBounds(m);
+    },
+    [setMapState, handleCenterAddressChange, updateBounds],
+  );
+
+  /**
+   * 맵이 초기화 될때 호출된다. map.isReady === true
+   */
+  const onInit = useCallback((m: NaverMap) => {
+    // ms 가 쿼리에 없으면 지도를 유저의 현재위치로 이동시킨다.
+    const mapStateExists = getMapPositionState(() => true, false);
+    if (!mapStateExists && typeof navigator !== 'undefined' && typeof localStorage !== 'undefined') {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
+        const latlng = { lat: coords.latitude, lng: coords.longitude };
+        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+        m.morph(latlng, DEFAULT_ZOOM);
+      });
+    }
+  }, []);
+
+  /**
+   * 사용자가 지도에서 마우스 왼쪽 버튼을 클릭하면 이벤트가 발생한다.
+   * 단, 오버레이(지도마커)를 클릭했을 때는 이벤트가 발생하지 않는다.
+   */
+  const onMapClick = useCallback(
+    async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
+      setPolygons([]);
+      setSelectedMarker(null);
+
+      if (mapLayer === 'street') {
+        const response = await coordToRegion(e.latlng.lng(), e.latlng.lat());
+        if (response && response.documents?.length > 0) {
+          const region = response.documents.filter((item) => item.region_type === 'B')[0];
+          setStreetViewEvent({
+            address: `${region.region_1depth_name} ${region.region_2depth_name} ${region.region_3depth_name}`,
+            latlng: e.latlng,
+          });
+        }
+      }
+    },
+    [router, mapLayer],
+  );
+
+  /**
+   * 지도의 움직임이 종료되면(유휴 상태) 이벤트가 발생한다.
+   */
+  const onIdle = useMemo(
+    () =>
+      _.debounce(
+        (_map: NaverMap) => {
+          setTimeout(() => {
+            isPanningRef.current = false;
+          }, 100);
+          // query 파라미터에 현재 지도위치 정보를 넣어서,
+          // 새로고침이 될때도 이전 위치로 로드할 수 있도록 한다.
+          setMapPositionState(_map);
+          // 지도 중심좌표를 가지고 와서 reverse geocoding 해서 주소를 가지고 온다.
+          handleCenterAddressChange(_map);
+
+          // 지도 코너 좌표값을 업데이트 한다.
+          updateBounds(_map);
+        },
+        300,
+        { leading: true, trailing: true },
+      ),
+    [handleCenterAddressChange, updateBounds],
+  );
+
+  /**
+   *  지도가 움직일때 발생한다.
+   */
+  const onBoundsChanged = useCallback(() => {
+    isPanningRef.current = true;
+  }, []);
+
+  /**
+   * 줌 효과가 시작될때, 이벤트가 발생한다.
+   */
+  const onZoomStart = useCallback((_map: NaverMap) => {
+    setMarkers((prev) => {
+      if (prev.length > 0) {
+        return [];
+      }
+      return prev;
+    });
+    setSchoolMarkers((prev) => {
+      if (prev.length > 0) {
+        return [];
+      }
+      return prev;
+    });
+    // setSelectedDanjiSummary(null);
+  }, []);
+
+  /**
+   * depth 가 열리고 닫힘에 따라, 지도 사이즈가 재조정이 필요할때 호출된다.
+   * route 의 변화에 따라서 지도를 resize 해도 되지만, 그렇게 되면
+   * 뻑뻑하게 reisze 돼서, resizeObserver 로 매 프레임마다 resize 를 해준다.
+   */
+  useEffect(() => {
+    const mapElement = document.getElementById('map-container');
+    const resizeObserver = new ResizeObserver(() => {
+      if (typeof window !== 'undefined') {
+        window.NaverMap?.autoResize();
+      }
+    });
+
+    if (mapElement) {
+      resizeObserver.observe(mapElement);
+      return () => {
+        resizeObserver.unobserve(mapElement);
+      };
+    }
+    return () => {};
+  }, []);
+
+  /**
+   * 맵 레이어 핸들링
+   */
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof naver === 'undefined') {
+      return;
+    }
+    if (!mapState?.naverMap) {
+      return;
+    }
+
+    if (mapLayer === 'none') {
+      mapLayerRef.current?.setMap(null);
+      mapLayerRef.current = null;
+    } else if (mapLayer === 'cadastral') {
+      mapLayerRef.current?.setMap(null);
+      mapLayerRef.current = new naver.maps.CadastralLayer();
+      mapLayerRef.current.setMap(mapState.naverMap);
+    } else if (mapLayer === 'street') {
+      mapLayerRef.current?.setMap(null);
+      mapLayerRef.current = new naver.maps.StreetLayer();
+      mapLayerRef.current.setMap(mapState.naverMap);
+    }
+  }, [mapState?.naverMap, mapLayer]);
+
+  /**
+   * 단지/매물/학교 마커들이 선택될때 실행된다.
+   */
+  useEffect(() => {
+    if (!mapState.naverMap || !selectedMarker) return;
+
+    const splittedMarkerID = selectedMarker.id.split(':');
+    const markerKey = splittedMarkerID.pop();
+    const markerType = splittedMarkerID.pop();
+    const _map = mapState.naverMap;
+
+    switch (markerType) {
+      case 'regionMarker':
+        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, _map.getZoom() + 2);
+        break;
+      case 'danjiMarker':
+        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+        break;
+      case 'listingMarker':
+        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+        break;
+      case 'schoolMarker':
+        if (markerKey) renderHakgudoPolygon(_map, markerKey);
+        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+        break;
+      default:
+        break;
+    }
+  }, [mapState.naverMap, selectedMarker]);
+
+  /**
+   * 맵이 이동할때마다, 마커를 그린다.
+   */
+  useEffect(() => {
+    if (bounds && mapState?.naverMap) {
+      deferredUpdateMarkers(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
+    }
+  }, [mapState?.naverMap, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
+
+  /**
+   * 학교가 활성화되어있으면, 맵이 이동할때마다 학교 마커를 그린다.
+   */
+  useEffect(() => {
+    if (bounds && schoolType !== 'none' && mapState?.naverMap) {
+      if (bounds.mapLevel < 3) {
+        updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
+      } else {
+        toast.error('지도를 확대하여 학교마커를 확인하세요.', { toastId: 'schoolMarkerError' });
+        setSchoolMarkers([]);
+        setPolygons([]);
+        // setSelectedMarkerID('');
+        setSelectedMarker(null);
+      }
+    } else if (schoolType === 'none') {
+      setSchoolMarkers([]);
+    }
+  }, [mapState?.naverMap, bounds, schoolType, updateSchoolMarkers]);
+
+  /**
+   * 폴리곤을 그린다.
+   */
+  useIsomorphicLayoutEffect(
+    () => () => {
+      polygons.forEach((v: naver.maps.Polygon) => {
+        v.setMap(null);
+      });
+    },
+    [polygons],
+  );
+
+  /**
+   * 학교필터가 변경될때, 맵에 그려져있는 학구도 폴리곤을 없앤다.
+   */
+  useEffect(() => {
+    setPolygons([]);
+    setSelectedMarker(null);
+  }, [schoolType]);
+
+  /**
    * 필터의 거래종류가 바뀔때, 가격정보표시도 바꾼다.
    */
   useEffect(() => {
@@ -872,7 +850,27 @@ export default function useMapLayout() {
     });
   }, [filter.buyOrRents, handleChangeFilter]);
 
-  // dispatch negocio map events
+  // Map Control Handlers
+
+  const morphToCurrentLocation = useCallback(() => {
+    setIsGeoLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
+        const latlng = { lat: coords.latitude, lng: coords.longitude };
+        setMyMarker(latlng);
+        localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+        mapState?.naverMap?.morph(latlng, DEFAULT_ZOOM);
+        setIsGeoLoading(false);
+      },
+      () => {
+        toast.error('위치정보 접근이 허용되어있지 않습니다.');
+        setIsGeoLoading(false);
+      },
+    );
+  }, [mapState?.naverMap]);
+
+  // dispatch negocio map events, not being used at the moment.
 
   useEffect(() => {
     Object.values(window.Negocio.mapEventListeners.bounds).forEach((cb) => {
@@ -910,7 +908,7 @@ export default function useMapLayout() {
     myMarker,
     recentSearches,
     streetViewEvent,
-    selectedDanjiSummary,
+    // selectedDanjiSummary,
     filter,
     listingCount,
     markers,
@@ -921,7 +919,6 @@ export default function useMapLayout() {
     priceType,
     schoolType,
     mapToggleValue,
-    selectedSchoolID,
     morphToCurrentLocation,
     zoomIn,
     zoomOut,
@@ -937,5 +934,7 @@ export default function useMapLayout() {
     removeRecentSearch,
     popup,
     setPopup,
+    selectedMarker,
+    danjiSummary,
   };
 }

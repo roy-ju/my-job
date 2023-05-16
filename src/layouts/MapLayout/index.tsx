@@ -46,14 +46,14 @@ function MapWrapper({
     schoolMarkers,
     mapToggleValue,
     listingCount,
-    selectedDanjiSummary,
-    selectedSchoolID,
     priceType,
     streetViewEvent,
     recentSearches,
     isGeoLoading,
     popup,
     setPopup,
+    selectedMarker,
+    danjiSummary,
     ...props
   } = useMapLayout();
 
@@ -117,9 +117,9 @@ function MapWrapper({
             mapLevel={bounds?.mapLevel ?? 4}
             markers={markers}
             schoolMarkers={schoolMarkers}
-            selectedDanjiSummary={selectedDanjiSummary}
-            selectedSchoolID={selectedSchoolID}
             myMarker={myMarker}
+            selectedMarker={selectedMarker}
+            danjiSummary={danjiSummary}
           />
         </Map>
       </Layout.MapContainer>

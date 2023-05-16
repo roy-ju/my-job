@@ -1,4 +1,5 @@
 import axios from '@/lib/axios';
+import useSWR from 'swr';
 
 export interface GetDanjiSummaryResponse {
   buy_listing_count: number;
@@ -32,4 +33,17 @@ export default async function getDanjiSummary({
   } catch (e) {
     return null;
   }
+}
+
+export function useDanjiSummary(req: { pnu?: string; danjiRealestateType?: number } | undefined | null) {
+  const { data, isLoading } = useSWR<GetDanjiSummaryResponse>(
+    req?.pnu && req?.danjiRealestateType
+      ? ['/map/danji/summary', { pnu: req.pnu, danji_realestate_type: req.danjiRealestateType, buy_or_rent: '1,2,3' }]
+      : null,
+  );
+
+  return {
+    data,
+    isLoading,
+  };
 }
