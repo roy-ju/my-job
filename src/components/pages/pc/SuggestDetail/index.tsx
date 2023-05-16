@@ -94,8 +94,8 @@ export default memo(({ panelWidth, depth }: Props) => {
       {popup === 'notInterested' && (
         <OverlayPresenter>
           <Popup>
-            <Popup.ContentGroup tw="py-10">
-              <Popup.Title>
+            <Popup.ContentGroup tw="py-6">
+              <Popup.Title tw="text-b2 text-center">
                 관심없음으로 표시한 매물은
                 <br />
                 추천받은 목록에서 삭제됩니다.
@@ -113,11 +113,11 @@ export default memo(({ panelWidth, depth }: Props) => {
       {popup === 'acceptRecommend' && (
         <OverlayPresenter>
           <Popup>
-            <Popup.ContentGroup tw="py-10">
-              <Popup.Title>
-                중개사님과의 채팅방이 개설됩니다.
+            <Popup.ContentGroup tw="py-6">
+              <Popup.Title tw="text-b2 text-center">
+                매물에 대한 추가 협의는 채팅으로 진행할 수 있습니
                 <br />
-                채팅방을 나가시면 네고 협의가 중단되니 유의해 주세요.
+                다. 이를 위한 중개사님과의 채팅방이 개설됩니다.
               </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
