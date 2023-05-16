@@ -42,7 +42,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
 
-  useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
+  const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
 
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
 
@@ -325,6 +325,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         qnaList={qnaData}
         isLoading={isLoading || isLoadingStatus}
         hasMoreQnas={hasMoreQnas}
+        realestateDocumentData={realestateDocumentData}
         onClickShare={handleClickShare}
         onClickMoreItem={handleClickMoreItem}
         onClickFavorite={handleClickFavorite}
