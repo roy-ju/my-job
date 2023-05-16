@@ -26,6 +26,7 @@ import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/
 import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
 import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
+import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 import useListingDetailRedirector from './useListingDetailRedirector';
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
@@ -38,7 +39,11 @@ export default memo(() => {
   const { redirectable } = useListingDetailRedirector(listingID);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
+
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+
+  const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
+
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
 
   const {
@@ -308,6 +313,7 @@ export default memo(() => {
               qnaList={qnaData}
               isLoading={isLoading || isLoadingStatus}
               hasMoreQnas={hasMoreQnas}
+              realestateDocumentData={realestateDocumentData}
               onClickShare={handleClickShare}
               onClickMoreItem={handleClickMoreItem}
               onClickFavorite={handleClickFavorite}

@@ -14,6 +14,7 @@ import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
 import Routes from '@/router/routes';
+import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
 import UserStatusStrings from './strings';
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
@@ -22,6 +23,8 @@ export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
+
+  realestateDocumentData?: GetRealestateDocumentResponse;
 
   isLoadingQna?: boolean;
   isLoading?: boolean;
@@ -50,6 +53,7 @@ export default function ListingDetail({
   listingDetail,
   qnaList,
   hasMoreQnas,
+  realestateDocumentData,
   onClickMoreItem,
   onClickFavorite,
   onClickLoadMoreQna,
@@ -489,6 +493,15 @@ export default function ListingDetail({
           )}
         </div>
         <Separator />
+
+        {realestateDocumentData && (
+          <div>
+            <div tw="py-10 px-5">
+              <ListingDetailSection.RealestateDocument data={realestateDocumentData} />
+            </div>
+            <Separator />
+          </div>
+        )}
 
         {danji && !danji.error_code && (
           <div id="danjiSection" ref={setDanjiSection}>

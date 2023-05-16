@@ -13,6 +13,7 @@ import falsy from '@/utils/falsy';
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
+import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
 import UserStatusStrings from './strings';
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
 
@@ -24,6 +25,8 @@ export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
+
+  realestateDocumentData?: GetRealestateDocumentResponse;
 
   isLoadingQna?: boolean;
   isLoading?: boolean;
@@ -52,6 +55,7 @@ export default function MobListingDetail({
   listingDetail,
   qnaList,
   hasMoreQnas,
+  realestateDocumentData,
   onClickMoreItem,
   onClickFavorite,
   onClickLoadMoreQna,
@@ -492,6 +496,15 @@ export default function MobListingDetail({
           )}
           <Separator />
         </div>
+
+        {realestateDocumentData && (
+          <div>
+            <div tw="py-10 px-5">
+              <ListingDetailSection.RealestateDocument data={realestateDocumentData} />
+            </div>
+            <Separator />
+          </div>
+        )}
 
         {danji && (
           <div id="danjiSection" ref={setDanjiSection}>
