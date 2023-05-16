@@ -4,6 +4,7 @@ import Conditions from './Conditions';
 import Agent from './Agent';
 import Qna from './Qna';
 import Faq from './Faq';
+import RealestateDocument from './RealestateDocument';
 
 const ListingDetailSection = {
   Summary,
@@ -12,6 +13,7 @@ const ListingDetailSection = {
   Agent,
   Qna,
   Faq,
+  RealestateDocument,
 };
 
 export default ListingDetailSection;
