@@ -184,8 +184,6 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     };
   }, [activeCategory, danji]);
 
-  console.log(update);
-
   if (!danji) return null;
 
   return (
