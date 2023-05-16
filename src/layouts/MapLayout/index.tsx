@@ -211,8 +211,17 @@ export default function MapLayout({ children }: Props) {
     setPanelsVisible(true);
     if (router.pathname === '/') {
       setTabIndex(0);
-    }
-    if (router.pathname === '/map') {
+    } else if (router.pathname === '/map') {
+      setTabIndex(1);
+    } else if (router.query.depth1 === 'myFavoriteList') {
+      setTabIndex(2);
+    } else if (router.query.depth1 === 'chatRoomList') {
+      setTabIndex(3);
+    } else if (router.query.depth1 === 'my') {
+      setTabIndex(4);
+    } else if (router.query.depth1 === 'developer') {
+      setTabIndex(5);
+    } else {
       setTabIndex(1);
     }
   }, [router]);
