@@ -40,6 +40,13 @@ function getFilterTypeProps(filterType: FilterType, filter: Filter): [string, bo
     if (filter.realestateTypes === [RealestateType.Dandok, RealestateType.Dagagoo].join(',')) {
       return ['단독 / 다가구', true];
     }
+
+    if (filter.realestateTypeGroup === 'one,two') {
+      if (filter.roomCounts === '1') return ['원룸', true];
+      if (filter.roomCounts === '2') return ['투룸', true];
+      return ['유형', false];
+    }
+
     if (realestateTypes.length > 1) return ['유형', false];
     return [RealestateTypeString[Number(realestateTypes[0])], true];
   }

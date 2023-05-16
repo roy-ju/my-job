@@ -67,14 +67,14 @@ export default function FormRenderer({ form }: Props) {
     case Forms.Region:
       return (
         <div id={Forms.Region}>
-          <div tw="py-7 px-5">
-            <SuggestRegionalForm.Region region={region} onClickOpenRegionList={onClickOpenRegionList} />
-          </div>
-          <Separator />
-          <div tw="pt-7 pb-10 px-5 flex items-center justify-center font-bold">
+          <div tw="pt-7 pb-10 px-5 flex items-center justify-center font-bold [letter-spacing: -0.25px]">
             최소 10명의 중개사에게 발송됩니다.
             <br />
             매물추천받기 서비스는 현재 수도권에서만 가능합니다.
+          </div>
+          <Separator />
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.Region region={region} onClickOpenRegionList={onClickOpenRegionList} />
           </div>
         </div>
       );
@@ -82,20 +82,23 @@ export default function FormRenderer({ form }: Props) {
     case Forms.RealestateType:
       return (
         <div id={Forms.RealestateType}>
-          <div tw="py-10 px-5">
+          <div tw="pt-10 pb-7 px-5">
             <SuggestRegionalForm.RealestateType value={realestateType} onChange={onChangeRealestateType} />
           </div>
-        </div>
-      );
-
-    case Forms.BuyOrRent:
-      return (
-        <div id={Forms.BuyOrRent}>
-          <div tw="py-10 px-5">
+          <div tw="pt-7 pb-10 px-5 border-t border-gray-300">
             <SuggestRegionalForm.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
           </div>
         </div>
       );
+
+    // case Forms.BuyOrRent:
+    //   return (
+    //     <div id={Forms.BuyOrRent}>
+    //       <div tw="py-10 px-5">
+    //         <SuggestRegionalForm.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
+    //       </div>
+    //     </div>
+    //   );
 
     case Forms.Price:
       return (
@@ -168,7 +171,11 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.Description}>
           <div tw="py-10 px-5">
-            <SuggestRegionalForm.Description description={description} onChangeDescription={onChangeDescription} />
+            <SuggestRegionalForm.Description
+              description={description}
+              onChangeDescription={onChangeDescription}
+              buyOrRent={buyOrRent}
+            />
           </div>
         </div>
       );

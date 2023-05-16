@@ -14,6 +14,7 @@ import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
 import Routes from '@/router/routes';
+import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
 import UserStatusStrings from './strings';
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
@@ -22,6 +23,8 @@ export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
+
+  realestateDocumentData?: GetRealestateDocumentResponse;
 
   isLoadingQna?: boolean;
   isLoading?: boolean;
@@ -38,6 +41,7 @@ export interface ListingDetailProps {
   onNavigateToChatRoom?: () => void;
   onNavigateToSuggestRegional?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
+  onNavigateToListingDetailHistory?: () => void;
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
   onClickShare?: () => void;
@@ -49,6 +53,7 @@ export default function ListingDetail({
   listingDetail,
   qnaList,
   hasMoreQnas,
+  realestateDocumentData,
   onClickMoreItem,
   onClickFavorite,
   onClickLoadMoreQna,
@@ -62,6 +67,7 @@ export default function ListingDetail({
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
   onNavigateToSuggestRegional,
+  onNavigateToListingDetailHistory,
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
@@ -327,6 +333,7 @@ export default function ListingDetail({
                     onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
                     onClickSuggestNotInterested={onClickSuggestNotInterested}
                     onNavigateToSuggestRegional={onNavigateToSuggestRegional}
+                    onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
                   />
                 </div>
               </Accordion.Details>
@@ -334,22 +341,6 @@ export default function ListingDetail({
           </div>
         )}
         <Separator />
-        {/* <div tw="sticky top-8 pt-6 z-40">
-          <Tabs value={tabIndex} onChange={handleTabItemClick}>
-            <Tabs.Tab value={0}>
-              <span tw="text-b2">거래정보</span>
-            </Tabs.Tab>
-            {danji && !danji.error_code && (
-              <Tabs.Tab value={1}>
-                <span tw="text-b2">단지정보</span>
-              </Tabs.Tab>
-            )}
-            <Tabs.Tab value={2}>
-              <span tw="text-b2">Q&A</span>
-            </Tabs.Tab>
-            <Tabs.Indicator />
-          </Tabs>
-        </div> */}
         <div id="listingInfoSection" ref={setListingInfoSection}>
           <div tw="px-5 pt-6 pb-10">
             <ListingDetailSection.Biddings
@@ -398,7 +389,6 @@ export default function ListingDetail({
                   <Table.Data>{listingDetail?.listing?.storey}</Table.Data>
                 </Table.Row>
               </Table.Body>
-              {/* {infoSectionExpanded && ( */}
               <Table.Body>
                 <Table.Row>
                   <Table.Head>방 / 욕실</Table.Head>
@@ -436,11 +426,7 @@ export default function ListingDetail({
                   </Table.Data>
                 </Table.Row>
               </Table.Body>
-              {/* )} */}
             </Table>
-            {/* <Button variant="outlined" tw="w-full mt-3" onClick={() => setInfoSectionExpanded((prev) => !prev)}>
-              {infoSectionExpanded ? '접기' : '더보기'}
-            </Button> */}
           </div>
           {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling || etcOptions) && (
             <div>
@@ -507,6 +493,15 @@ export default function ListingDetail({
           )}
         </div>
         <Separator />
+
+        {realestateDocumentData && realestateDocumentData.created_time && (
+          <div>
+            <div tw="py-10 px-5">
+              <ListingDetailSection.RealestateDocument data={realestateDocumentData} />
+            </div>
+            <Separator />
+          </div>
+        )}
 
         {danji && !danji.error_code && (
           <div id="danjiSection" ref={setDanjiSection}>

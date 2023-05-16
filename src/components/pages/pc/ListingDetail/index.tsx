@@ -14,13 +14,14 @@ import deleteListingQna from '@/apis/listing/deleteListingQna';
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 
-import { BuyOrRent, VisitUserType } from '@/constants/enums';
+import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
 import { formatNumberInKorean } from '@/utils';
 import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
+import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -38,7 +39,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const router = useRouter(depth);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
+
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+
+  const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
+
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
 
   const {
@@ -149,6 +154,17 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     router.replace(Routes.SuggestRegionalForm, { persistParams: true });
   }, [router]);
 
+  const handleNavigateToListingDetailHistory = useCallback(() => {
+    router.replace(Routes.ListingDetailHistory, {
+      persistParams: true,
+      searchParams: {
+        listingID: `${listingID}`,
+        biddingID: `${data?.bidding_id}`,
+        back: `${router.asPath}`,
+      },
+    });
+  }, [router, data, listingID]);
+
   const openSuggestNotInterstedPopup = useCallback(() => {
     setPopup('suggestNotInterested');
   }, []);
@@ -254,6 +270,24 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     }
   }, [listingID, statusData, ipAddress]);
 
+  useEffect(() => {
+    if (
+      data &&
+      data.listing?.realestate_type !== RealestateType.Apartment &&
+      data.listing?.realestate_type !== RealestateType.Officetel
+    ) {
+      if (data.listing?.lat && data.listing?.long) {
+        window.Negocio.callbacks.selectMarker({
+          id: `listingMarker:${data.listing?.id}`,
+          lat: data.listing?.lat,
+          lng: data.listing?.long,
+        });
+      } else {
+        window.Negocio.callbacks.selectMarker(null);
+      }
+    }
+  }, [data]);
+
   if (data?.error_code) {
     return <Panel width={panelWidth}>{data?.error_code}</Panel>;
   }
@@ -291,6 +325,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         qnaList={qnaData}
         isLoading={isLoading || isLoadingStatus}
         hasMoreQnas={hasMoreQnas}
+        realestateDocumentData={realestateDocumentData}
         onClickShare={handleClickShare}
         onClickMoreItem={handleClickMoreItem}
         onClickFavorite={handleClickFavorite}
@@ -305,6 +340,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         onNavigateToCreateQna={handleNavigateToCreateQna}
         onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
         onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
+        onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
       />
       {popup === 'suggestNotInterested' && (
         <OverlayPresenter>

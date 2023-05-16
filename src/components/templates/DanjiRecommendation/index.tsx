@@ -12,10 +12,10 @@ import CloseContainedBlack from '@/assets/icons/close_contained_black.svg';
 import { formatNumberInKorean } from '@/utils';
 
 export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailResponse; isPb?: boolean }) => (
-  <div tw="flex flex-col px-5 pt-7" css={[isPb ? tw`pb-7` : tw`pb-10`]}>
+  <div tw="flex flex-col px-5 pt-10" css={[isPb ? tw`pb-7` : tw`pb-10`]}>
     <span tw="text-b1 font-bold">{danji.name}</span>
     <span tw="text-info [line-height: 1.25rem]">{danji.road_name_address || danji.jibun_address}</span>
-    <div tw="flex items-center gap-1" css={[isPb ? tw`mb-0` : tw`mb-4`]}>
+    <div tw="flex items-center gap-1" css={[isPb ? tw`mb-0` : tw`mb-0`]}>
       <>
         <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
       </>
@@ -70,7 +70,7 @@ export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailRespon
 );
 
 export const GuideInfo = () => (
-  <div tw="flex flex-col px-5 gap-2 py-10">
+  <div tw="flex flex-col px-5 gap-2 pt-7 pb-10">
     <span tw="text-b1 font-bold mb-1">추천 요청시 최소 10명의 중개사에게 발송됩니다.</span>
 
     <span tw="text-info text-gray-700">매물 추천받기 서비스는 현재 수도권에서만 가능합니다.</span>
@@ -87,7 +87,7 @@ export const BuyOrRentField = ({
   onChangeBuyOrRent?: (val: number) => void;
 }) => (
   <div tw="flex flex-col px-5 py-10 gap-4">
-    <span tw="text-b1 font-bold">추천받고 싶은 매물의 거래 종류를 선택해 주세요.</span>
+    <span tw="text-b1 font-bold">매물의 거래 종류를 선택해 주세요.</span>
     <div tw="flex items-center gap-3">
       <Button
         variant="outlined"
@@ -151,7 +151,7 @@ export const PriceField = ({
 
   return (
     <div tw="flex flex-col px-5 py-10 gap-4">
-      <span tw="text-b1 font-bold">추천받고 싶은 매물의 가격을 알려주세요.</span>
+      <span tw="text-b1 font-bold">매물의 가격대를 알려주세요.</span>
 
       <div>
         <TextField variant="outlined">
@@ -176,7 +176,8 @@ export const PriceField = ({
       )}
 
       <span tw="text-info text-gray-700">
-        허위가격 입력으로 정상적인 거래진행 및 중개사님의 업무에 영향이 갈것으로 판단될 경우, 요청이 삭제될 수 있습니다.
+        희망하시는 가격을 기준으로 거래 가능한 매물을 추천해드립니다. 시세와 과도하게 차이가 나는 가격을 제시하면
+        추천받을 수 있는 매물 수가 적거나 없을 수 있습니다
       </span>
     </div>
   );
@@ -241,9 +242,9 @@ export const IntersetedPyoungField = ({
         )}
       </div>
       <div tw="flex flex-col px-5 pt-7 pb-10 gap-4">
-        <span tw="text-b1 font-bold">직접입력</span>
+        <span tw="text-b2 font-bold">직접입력</span>
         <TextField variant="outlined">
-          <TextField.NumericInput label="평수 입력" value={pyoungInputValue} onChange={onChangePyoungField} />
+          <TextField.NumericInput label="평수" value={pyoungInputValue} onChange={onChangePyoungField} />
           <TextField.Trailing tw="flex items-center">
             <Button variant="ghost" size="small" onClick={onClickPyoungDeleteIcon}>
               <CloseContained />
@@ -261,7 +262,7 @@ export const IntersetedPyoungField = ({
           </TextField.Trailing>
         </TextField>
         {selectedGonggeupPyoungList && selectedGonggeupPyoungList.length > 0 && (
-          <div tw="flex flex-wrap gap-2 mt-2 [max-width: 280px]">
+          <div tw="flex flex-wrap gap-2 [max-width: 280px]">
             {selectedGonggeupPyoungList.map((item) => (
               <Button
                 variant="outlined"
@@ -387,7 +388,7 @@ export const InterestedFloor = ({
   onClickFloorButton: (val: number) => void;
 }) => (
   <div tw="w-full py-10 px-5">
-    <span tw="text-b1 font-bold">관심있는 층수를 선택해 주세요.</span>
+    <span tw="text-b1 font-bold">관심있는 층수를 선택해 주세요. (복수선택)</span>
     <div tw="flex gap-3 items-center mt-4">
       <Button variant="outlined" tw="flex-1" selected={totalFloors.includes(1)} onClick={() => onClickFloorButton?.(1)}>
         저층
@@ -403,27 +404,39 @@ export const InterestedFloor = ({
 );
 
 export const EtcField = ({
+  type,
   etc,
   onChangeEtcField,
 }: {
+  type: number;
   etc: string;
   onChangeEtcField?: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => (
   <div tw="w-full py-10 px-5">
-    <div tw="flex flex-col">
+    <div tw="flex flex-col gap-1">
       <span tw="text-b1 font-bold">네고를 위한 추가 조건이 있다면 알려주세요. (선택)</span>
       <span tw="text-info text-gray-700">자세히 알려주실수록 거래가능성이 높아져요.</span>
     </div>
 
     <div tw="flex gap-3 items-center mt-3">
       <TextField variant="outlined" tw="w-full">
-        <TextField.TextArea
-          value={etc}
-          onChange={onChangeEtcField}
-          tw="min-h-[54px]"
-          placeholder="예) 판상형을 원해요, 정남향을 원해요 "
-          spellCheck="false"
-        />
+        {type === 1 ? (
+          <TextField.TextArea
+            value={etc}
+            onChange={onChangeEtcField}
+            tw="min-h-[76px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
+            placeholder="중층의 매물을 원해요.&#13;&#10;초등학교 가까운 매물 제안해주세요."
+            spellCheck="false"
+          />
+        ) : (
+          <TextField.TextArea
+            value={etc}
+            onChange={onChangeEtcField}
+            tw="min-h-[54px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
+            placeholder="예) 판상형을 원해요, 정남향을 원해요"
+            spellCheck="false"
+          />
+        )}
       </TextField>
     </div>
     <div tw="[text-align: right] mt-1.5">
@@ -530,54 +543,38 @@ export default function DanjiRecommendation({
 
         {!isRenderFinalForm && (
           <div id="danji-recommend-formContainer" tw="flex-1 overflow-auto">
-            {/* <div id="danji-recommend-default">
-              <BasicInfo danji={danji} />
-              <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-              <GuideInfo />
-              <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-            </div> */}
             {typeof step === 'number' && step > 0 && (
               <>
                 <div id="danji-recommend-default">
-                  <BasicInfo danji={danji} />
-                  <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
                   <GuideInfo />
                   <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-                  <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
+                  <BasicInfo danji={danji} />
+                  <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
+                  <IntersetedPyoungField
+                    danjiRealPricesPyoungList={danjiRealPricesPyoungList}
+                    selectedGonggeupPyoungList={selectedGonggeupPyoungList}
+                    pyoungInputValue={pyoungInputValue}
+                    onChangePyoungField={onChangePyoungField}
+                    onClickPyoungDeleteIcon={onClickPyoungDeleteIcon}
+                    onClickPyoungAddIcon={onClickPyoungAddIcon}
+                    onClickPyoungButton={onClickPyoungButton}
+                    onClickPyoungCloseButton={onClickPyoungCloseButton}
+                  />
                   <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
                 </div>
-                {/* <div id="danji-recommend-buyOrRent">
-                   <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
-                   <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-                 </div> */}
               </>
             )}
 
             {typeof step === 'number' && step > 1 && (
-              <div id="danji-recommend-price">
-                <PriceField
-                  buyOrRent={buyOrRent}
-                  tradeOrDepositPrice={tradeOrDepositPrice}
-                  monthlyRentFee={monthlyRentFee}
-                  onChangeTradeOrDepositPrice={onChangeTradeOrDepositPrice}
-                  onChangeMonthlyRentFee={onChangeMonthlyRentFee}
-                />
+              <div id="danji-recommend-floor">
+                <InterestedFloor totalFloors={totalFloors} onClickFloorButton={onClickFloorButton} />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
               </div>
             )}
 
             {typeof step === 'number' && step > 2 && (
-              <div id="danji-recommend-area">
-                <IntersetedPyoungField
-                  danjiRealPricesPyoungList={danjiRealPricesPyoungList}
-                  selectedGonggeupPyoungList={selectedGonggeupPyoungList}
-                  pyoungInputValue={pyoungInputValue}
-                  onChangePyoungField={onChangePyoungField}
-                  onClickPyoungDeleteIcon={onClickPyoungDeleteIcon}
-                  onClickPyoungAddIcon={onClickPyoungAddIcon}
-                  onClickPyoungButton={onClickPyoungButton}
-                  onClickPyoungCloseButton={onClickPyoungCloseButton}
-                />
+              <div id="danji-recommend-buyOrRent">
+                <BuyOrRentField buyOrRent={buyOrRent} onChangeBuyOrRent={onChangeBuyOrRent} />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
               </div>
             )}
@@ -602,28 +599,40 @@ export default function DanjiRecommendation({
             )}
 
             {typeof step === 'number' && step > 4 && buyOrRent === BuyOrRent.Buy && (
-              <div id="danji-recommend-floor">
-                <InterestedFloor totalFloors={totalFloors} onClickFloorButton={onClickFloorButton} />
+              <div id="danji-recommend-price">
+                <PriceField
+                  buyOrRent={buyOrRent}
+                  tradeOrDepositPrice={tradeOrDepositPrice}
+                  monthlyRentFee={monthlyRentFee}
+                  onChangeTradeOrDepositPrice={onChangeTradeOrDepositPrice}
+                  onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+                />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
               </div>
             )}
 
             {typeof step === 'number' && step > 5 && buyOrRent === BuyOrRent.Buy && (
               <div id="danji-recommend-etc">
-                <EtcField etc={etc} onChangeEtcField={onChangeEtcField} />
+                <EtcField etc={etc} onChangeEtcField={onChangeEtcField} type={1} />
               </div>
             )}
 
             {typeof step === 'number' && step > 3 && buyOrRent !== BuyOrRent.Buy && (
-              <div id="danji-recommend-floor">
-                <InterestedFloor totalFloors={totalFloors} onClickFloorButton={onClickFloorButton} />
+              <div id="danji-recommend-price">
+                <PriceField
+                  buyOrRent={buyOrRent}
+                  tradeOrDepositPrice={tradeOrDepositPrice}
+                  monthlyRentFee={monthlyRentFee}
+                  onChangeTradeOrDepositPrice={onChangeTradeOrDepositPrice}
+                  onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+                />
                 <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
               </div>
             )}
 
             {typeof step === 'number' && step > 4 && buyOrRent !== BuyOrRent.Buy && (
               <div id="danji-recommend-etc">
-                <EtcField etc={etc} onChangeEtcField={onChangeEtcField} />
+                <EtcField etc={etc} onChangeEtcField={onChangeEtcField} type={2} />
               </div>
             )}
           </div>
@@ -668,7 +677,6 @@ export default function DanjiRecommendation({
                     {purpose === 1 && <span>입주일&nbsp;</span>}
                     {moveInDate && <span>{moment(moveInDate).format('YYYY.MM.DD')}&nbsp;</span>}
                     {purpose === 1 && moveInDateType && <span>{moveInDateType}</span>}
-
                     {purpose === 2 && <span>투자,&nbsp;</span>}
                     {purpose === 2 && <span>잔금일&nbsp;</span>}
                     {remainingAmountPaymentTime && (
@@ -700,18 +708,21 @@ export default function DanjiRecommendation({
             </Button>
           )}
           {!isRenderFinalForm && (
-            <Button
-              tw="w-full"
-              size="bigger"
-              disabled={!isValidate}
-              onClick={() => {
-                if (onClickNext) {
-                  onClickNext(true);
-                }
-              }}
-            >
-              다음
-            </Button>
+            <div>
+              <Button
+                tw="w-full"
+                size="bigger"
+                disabled={!isValidate}
+                onClick={() => {
+                  if (onClickNext) {
+                    onClickNext(true);
+                  }
+                }}
+              >
+                다음
+              </Button>
+              <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
+            </div>
           )}
         </PersistentBottomBar>
       </div>
