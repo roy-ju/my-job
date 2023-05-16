@@ -241,7 +241,7 @@ export default function MobListingDetail({
           defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
           photoPaths={photoPaths}
         />
-        <div tw="sticky top-8 pt-6 [z-index: 300]">
+        <div tw="sticky top-12 pt-2 [z-index: 300]">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>

@@ -32,7 +32,7 @@ interface LayoutMainProps {
 function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo }: LayoutMainProps) {
   return (
     <div tw="flex h-full w-full flex-row overflow-hidden">
-      <div tw="z-30">
+      <div tw="z-50">
         <GlobalNavigation tabIndex={tabIndex} onChangeTab={onChangeTab} onClickLogo={onClickLogo}>
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
           <GlobalNavigation.TabButton idx={1} text="지도" icon={<MapPin />} />
@@ -56,7 +56,7 @@ interface LayoutPanelsProps {
 }
 
 function LayoutPanels({ visible = true, children }: LayoutPanelsProps) {
-  return <div css={[tw`z-20 flex flex-row h-full`, !visible && tw`hidden`]}>{children}</div>;
+  return <div css={[tw`z-40 flex flex-row h-full`, !visible && tw`hidden`]}>{children}</div>;
 }
 
 interface LayoutMapContainerProps {
@@ -152,7 +152,7 @@ function LayoutMapContainer({
       </div>
 
       <div tw="absolute top-5 left-0 z-10 flex">
-        {showClosePanelButton && (
+        {showClosePanelButton && panelsVisible && (
           <button
             tw="w-10 h-10 flex items-center justify-center bg-nego p-2 text-white rounded-tr-lg rounded-br-lg shadow hover:bg-nego-600"
             type="button"

@@ -5,11 +5,11 @@ import { useNegocioMapEvent } from '@/hooks/utils';
 import { MapBounds, getBounds } from '@/layouts/MapLayout/useMapLayout';
 import useMap from '@/states/map';
 import _ from 'lodash';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function useMapListingList() {
-  const router = useRouter();
+  // const router = useRouter();
 
   const { naverMap } = useMap();
 
@@ -21,7 +21,7 @@ export default function useMapListingList() {
     mapToggleValue,
     bounds,
     filter,
-    router.query.listingIDs as string,
+    // router.query.listingIDs as string,
   );
 
   // 지도 필터가 바뀔때 호출
