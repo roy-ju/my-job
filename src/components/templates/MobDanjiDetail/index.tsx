@@ -219,6 +219,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
         {isShowTab && (
           <div id="mob-negocio-danjidetail-tabs" tw="px-3 py-2 sticky bg-white [top: 56px] [z-index: 300]">
             <div
+              className="scrollbar-hide"
               tw="flex flex-row items-center overflow-x-auto gap-2"
               role="presentation"
               ref={scrollRef}

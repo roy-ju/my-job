@@ -253,6 +253,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
             tw="px-3 py-2 sticky bg-white [top: 56px] [z-index: 100] border-b border-gray-300"
           >
             <div
+              className="scrollbar-hide"
               tw="flex flex-row items-center overflow-x-auto gap-2"
               role="presentation"
               ref={scrollRef}
