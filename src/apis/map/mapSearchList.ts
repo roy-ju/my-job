@@ -116,9 +116,9 @@ function getKey(mapToggleValue: number, bounds: MapBounds | null, filter: Filter
 
   return (size: number, previousPageData: any) => {
     const previousLength = previousPageData?.list?.length ?? 0;
-    const totalCount = previousPageData?.count ?? 0;
+    // const totalCount = previousPageData?.count ?? 0;
 
-    if (previousPageData && previousLength <= totalCount) return null;
+    if (previousPageData && previousLength === 0) return null;
 
     if (listingIDs) {
       if (size > 1) return null;
