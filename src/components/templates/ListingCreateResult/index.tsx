@@ -19,6 +19,9 @@ export interface ListingCreateResultProps {
   ownerName?: string;
   ownerPhone?: string;
 
+  address?: string;
+  addressDetail?: string;
+
   onClickMyListings?: () => void;
   onClickUpdateAddress?: () => void;
   onSelectAddress?: (realestateUniqueNumber: string) => void;
@@ -41,6 +44,9 @@ export default function ListingCreateResult({
 
   ownerName,
   ownerPhone,
+
+  address,
+  addressDetail,
 
   onClickMyListings,
   onClickUpdateAddress,
@@ -72,6 +78,8 @@ export default function ListingCreateResult({
             <ListingCreateResultStatus.VerifyOwnershipNotFound
               isLoading={isSendingSms}
               onClickSend={onClickSendOwnerVerification}
+              address={address}
+              addressDetail={addressDetail}
             />
           )}
           {data?.listing_status === ListingStatus.WaitingForOwnerAgreement && (
