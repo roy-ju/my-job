@@ -5,24 +5,29 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
-import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
+import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
+import {
+  CommonMarker,
+  ListingDanjiMarker as ListingDanjiMarkerType,
+  SchoolMarker as SchoolMarkerType,
+} from './useMapLayout';
 
 interface MarkersProps {
   mapLevel: number;
-  markers: CommonMapMarker[];
-  schoolMarkers: CommonSchoolMarker[];
-  selectedDanjiSummary: DanjiSummary | null;
-  selectedSchoolID: string;
+  markers: ListingDanjiMarkerType[];
+  schoolMarkers: SchoolMarkerType[];
   myMarker?: { lat: number; lng: number } | null;
+  selectedMarker?: CommonMarker | null;
+  danjiSummary?: GetDanjiSummaryResponse;
 }
 
 export default function Markers({
   mapLevel,
   markers,
   schoolMarkers,
-  selectedDanjiSummary,
-  selectedSchoolID,
   myMarker,
+  selectedMarker,
+  danjiSummary,
 }: MarkersProps) {
   return (
     <>
@@ -35,7 +40,13 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <RegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''} onClick={marker.onClick}>
+              <RegionMarker
+                variant={marker.variant}
+                name={marker?.bubjungdongName ?? ''}
+                onClick={() => {
+                  marker.onClick?.call(marker);
+                }}
+              >
                 <RegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
                 <RegionMarker.Divider />
                 <RegionMarker.ListingCount count={marker.listingCount} />
@@ -48,7 +59,7 @@ export default function Markers({
         markers.map((marker) => (
           <DeferredRender key={marker.id}>
             <CustomOverlay
-              zIndex={selectedDanjiSummary?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
+              zIndex={selectedMarker?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
               anchor="bottom-left"
               position={{
                 lat: marker.lat,
@@ -57,38 +68,35 @@ export default function Markers({
             >
               {marker.pyoung ? (
                 <DanjiMarker
-                  selected={selectedDanjiSummary?.id === marker.id}
+                  selected={selectedMarker?.id === marker.id}
                   variant={marker.variant}
                   area={Number(marker?.pyoung ?? 0)}
                   price={marker.price ?? 0}
                   count={marker?.listingCount ?? 0}
-                  onClick={marker.onClick}
+                  onClick={() => {
+                    marker.onClick?.call(marker);
+                  }}
                 >
-                  {selectedDanjiSummary?.id === marker.id && (
-                    <DanjiMarker.Popper
-                      name={selectedDanjiSummary?.name ?? ''}
-                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
-                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
-                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
-                    />
-                  )}
+                  {selectedMarker?.id === marker.id &&
+                    danjiSummary?.pnu === marker?.pnu &&
+                    danjiSummary?.realestate_type === marker?.danjiRealestateType && (
+                      <DanjiMarker.Popper
+                        name={danjiSummary?.string ?? ''}
+                        householdCount={danjiSummary?.saedae_count ?? 0}
+                        buyListingCount={danjiSummary?.buy_listing_count ?? 0}
+                        rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                      />
+                    )}
                 </DanjiMarker>
               ) : (
                 <ListingMarker
-                  selected={selectedDanjiSummary?.id === marker.id}
+                  selected={selectedMarker?.id === marker.id}
                   price={marker.price ?? 0}
                   count={marker.listingCount ?? 0}
-                  onClick={marker.onClick}
-                >
-                  {/* {selectedDanjiSummary?.id === marker.id && (
-                    <ListingMarker.Popper
-                      name={selectedDanjiSummary?.name ?? ''}
-                      householdCount={selectedDanjiSummary?.householdCount ?? 0}
-                      buyListingCount={selectedDanjiSummary?.buyListingCount ?? 0}
-                      rentListingCount={selectedDanjiSummary?.rentListingCount ?? 0}
-                    />
-                  )} */}
-                </ListingMarker>
+                  onClick={() => {
+                    marker.onClick?.call(marker);
+                  }}
+                />
               )}
             </CustomOverlay>
           </DeferredRender>
@@ -97,7 +105,7 @@ export default function Markers({
       {schoolMarkers?.map((marker) => (
         <DeferredRender key={marker.id}>
           <CustomOverlay
-            zIndex={selectedSchoolID === marker.id ? 100 : 9}
+            zIndex={selectedMarker?.id === marker.id ? 100 : 9}
             anchor="bottom-left"
             position={{
               lat: marker.lat,
@@ -105,8 +113,10 @@ export default function Markers({
             }}
           >
             <SchoolMarker
-              selected={selectedSchoolID === marker.id}
-              onClick={marker.onClick}
+              selected={selectedMarker?.id === marker.id}
+              onClick={() => {
+                marker.onClick?.call(marker);
+              }}
               name={marker.name}
               type={marker.type}
             />

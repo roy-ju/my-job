@@ -21,6 +21,7 @@ import { SharePopup } from '@/components/organisms';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
+import useMap from '@/states/map';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -41,6 +42,8 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
 
+  const { naverMap } = useMap();
+
   const {
     data: qnaData,
     hasNext: hasMoreQnas,
@@ -51,13 +54,13 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const [popup, setPopup] = useState('none');
 
   useEffect(() => {
-    if (data?.listing?.lat && data?.listing?.long) {
-      console.log({
-        lat: data.listing.lat,
-        lng: data.listing.long,
-      });
+    const lat = data?.listing?.lat;
+    const lng = data?.listing?.long;
+
+    if (lat && lng) {
+      naverMap?.morph({ lat, lng }, 14);
     }
-  }, [data]);
+  }, [data, naverMap]);
 
   const handleClickMoreItem = useCallback(
     (_: number, buttonTitle: string) => {
