@@ -48,6 +48,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeEtcs,
     description,
     handleChangeDescription,
+    getBackButtonHandler,
   } = useUpdateBiddingForm(depth);
 
   return (
@@ -59,6 +60,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       ) : (
         <BiddingForm
           headerTitle="가격제안 수정"
+          onClickBack={getBackButtonHandler()}
           nextButtonDisabled={nextButtonDisabled}
           listing={listing}
           displayAddress={displayAddress}

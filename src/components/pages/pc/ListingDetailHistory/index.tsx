@@ -54,6 +54,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       searchParams: {
         listingID: String(data?.listing_id),
         biddingID: String(data?.bidding_id),
+        back: router.asPath,
       },
     });
   };
