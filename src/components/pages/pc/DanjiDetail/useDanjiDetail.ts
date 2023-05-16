@@ -27,6 +27,18 @@ export default function useDanjiDetail(depth: number, p?: string, rt?: number) {
     }
   }, [rt]);
 
+  useEffect(() => {
+    const lat = danji?.lat;
+    const lng = danji?.long;
+    if (lat && lng) {
+      window.Negocio.callbacks.selectMarker({
+        id: `danjiMarker:${danji.pnu}${danji.type}`,
+        lat,
+        lng,
+      });
+    }
+  }, [danji]);
+
   return useMemo(
     () => ({
       danji,
