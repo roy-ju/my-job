@@ -10,6 +10,7 @@ import { useRef, useState, MouseEvent, useEffect, useCallback, useMemo } from 'r
 import { useRouter, useScroll } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
+import { motion } from 'framer-motion';
 import DanjiDetailHeader from './Components/DanjiDetailHeader';
 import DanjiPhotoHero from './Components/DanjiPhotoHero';
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
@@ -250,11 +251,11 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
         {isShowTab && (
           <div
             id="negocio-danjidetail-tabs"
-            tw="px-3 py-2 sticky bg-white [top: 56px] [z-index: 100] border-b border-gray-300"
+            tw="pt-2 pb-0 sticky bg-white [top: 56px] [z-index: 100] border-b border-gray-300"
           >
             <div
               className="scrollbar-hide"
-              tw="flex flex-row items-center overflow-x-auto gap-2"
+              tw="flex flex-row items-center overflow-x-auto border-b border-gray-300"
               role="presentation"
               ref={scrollRef}
               onMouseDown={onDragStart}
@@ -265,57 +266,93 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               {isShowlistingsSection && (
                 <div
                   role="presentation"
-                  tw="p-2 whitespace-nowrap cursor-pointer"
+                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
                   onClick={() => {
                     onClickTab(0);
                   }}
                   ref={(el) => (refs.current[0] = el)}
                 >
-                  <span tw="text-b1 font-bold" css={[tabIndex === 0 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+                  <p
+                    tw="[text-align: center] w-full text-b2 [line-height: 17px]"
+                    css={[tabIndex === 0 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+                  >
                     단지 매물
-                  </span>
+                  </p>
+                  {tabIndex === 0 && (
+                    <motion.div
+                      layoutId="danji-tab-indicator"
+                      tw="absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000"
+                    />
+                  )}
                 </div>
               )}
 
               {isShowRpTab && (
                 <div
                   role="presentation"
-                  tw="p-2 whitespace-nowrap cursor-pointer"
+                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
                   onClick={() => {
                     onClickTab(1);
                   }}
                   ref={(el) => (refs.current[1] = el)}
                 >
-                  <span tw="text-b1 font-bold" css={[tabIndex === 1 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+                  <p
+                    tw="[text-align: center] w-full text-b2 [line-height: 17px]"
+                    css={[tabIndex === 1 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+                  >
                     단지 실거래 분석
-                  </span>
+                  </p>
+                  {tabIndex === 1 && (
+                    <motion.div
+                      layoutId="danji-tab-indicator"
+                      tw="absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000"
+                    />
+                  )}
                 </div>
               )}
 
               <div
                 role="presentation"
-                tw="p-2 whitespace-nowrap cursor-pointer"
+                tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
                 onClick={() => {
                   onClickTab(2);
                 }}
                 ref={(el) => (refs.current[2] = el)}
               >
-                <span tw="text-b1 font-bold" css={[tabIndex === 2 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+                <p
+                  tw="[text-align: center] w-full text-b2 [line-height: 17px]"
+                  css={[tabIndex === 2 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+                >
                   기본 정보
-                </span>
+                </p>
+                {tabIndex === 2 && (
+                  <motion.div
+                    layoutId="danji-tab-indicator"
+                    tw="absolute bottom-0 left-[0px] w-full h-full border-b-2 border-b-gray-1000"
+                  />
+                )}
               </div>
 
               <div
                 role="presentation"
-                tw="p-2 whitespace-nowrap cursor-pointer"
+                tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
                 onClick={() => {
                   onClickTab(3);
                 }}
                 ref={(el) => (refs.current[3] = el)}
               >
-                <span tw="text-b1 font-bold" css={[tabIndex === 3 ? tw`text-gray-1000` : tw`text-gray-600`]}>
+                <p
+                  tw="[text-align: center] w-full text-b2 [line-height: 17px]"
+                  css={[tabIndex === 3 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+                >
                   학군 및 주변 정보
-                </span>
+                </p>
+                {tabIndex === 3 && (
+                  <motion.div
+                    layoutId="danji-tab-indicator"
+                    tw="absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000"
+                  />
+                )}
               </div>
             </div>
           </div>
