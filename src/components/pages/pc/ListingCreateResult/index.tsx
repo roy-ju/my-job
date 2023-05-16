@@ -9,11 +9,13 @@ import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingCreateResult } from '@/components/templates';
 import { ListingStatus } from '@/constants/enums';
+import ErrorCodes from '@/constants/error_codes';
 import { useRouter } from '@/hooks/utils';
 import usePolling from '@/hooks/utils/usePolling';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -24,9 +26,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data, mutate, isLoading } = useAPI_MyListingDetail(listingID);
+  const { data, mutate: mutateMyListingDetail, isLoading } = useAPI_MyListingDetail(listingID);
 
-  usePolling(mutate, 5000, 5);
+  usePolling(mutateMyListingDetail, 5000, 5);
 
   const [isSendingSms, setIsSendingSms] = useState(false);
   const [isSelectingAgent, setIsSelectingAgent] = useState(false);
@@ -76,10 +78,10 @@ export default memo(({ depth, panelWidth }: Props) => {
           realestate_unique_number: realestateUniqueNumber,
           address: address.full_road_name_address,
         });
-        mutate();
+        mutateMyListingDetail();
       }
     },
-    [mutate, listingID, data?.address_list],
+    [mutateMyListingDetail, listingID, data?.address_list],
   );
 
   const showAgentSelectionPopup = useCallback(
@@ -97,7 +99,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     if (popupData.current) {
       setIsSelectingAgent(true);
       const res = await assignAgent({ listing_id: listingID, user_selected_agent_id: popupData.current?.id });
-      mutate();
+      mutateMyListingDetail();
       if (res?.error_code) {
         setPopup('agentSelectionFail');
       } else {
@@ -105,27 +107,40 @@ export default memo(({ depth, panelWidth }: Props) => {
       }
       setIsSelectingAgent(false);
     }
-  }, [listingID, mutate]);
+  }, [listingID, mutateMyListingDetail]);
 
   const onClickRemoveFromListings = useCallback(async () => {
     deleteMyListing(listingID);
     router.pop();
   }, [router, listingID]);
 
-  const onClickSendOwnerVerification = useCallback(
-    async (name: string, phone: string) => {
+  const showSendSmsPopup = useCallback((name: string, phone: string) => {
+    console.log(name, phone);
+    popupData.current = { name, phone };
+    setPopup('sendSms');
+  }, []);
+
+  const onClickSendOwnerVerification = useCallback(async () => {
+    if (popupData.current?.name && popupData.current.phone) {
+      setPopup('none');
       setIsSendingSms(true);
-      await sendOwnerVerification({
+      const res = await sendOwnerVerification({
         listing_id: listingID,
-        name,
-        phone,
+        name: popupData.current.name,
+        phone: popupData.current.phone,
       });
-      await mutate();
+
+      if (res?.error_code === ErrorCodes.UNABLE_TO_VALIDATE_OWNER) {
+        setPopup('unableToValidateTheOwner');
+      } else if (res?.error_code === ErrorCodes.SMS_COUNT_REACHED_LIMIT) {
+        setPopup('smsCountReachedLimit');
+      } else if (!res?.error_code) {
+        await mutateMyListingDetail();
+      }
 
       setIsSendingSms(false);
-    },
-    [listingID, mutate],
-  );
+    }
+  }, [listingID, mutateMyListingDetail]);
 
   const handleNavigateToMyListings = useCallback(() => {
     router.replace(Routes.MyRegisteredListingList, { searchParams: { tab: '1' } });
@@ -141,6 +156,20 @@ export default memo(({ depth, panelWidth }: Props) => {
       toast.error('채팅방을 찾을 수 없습니다.');
     }
   }, [data?.seller_agent_chat_room_id, router]);
+
+  const showStartOverPopup = useCallback(() => {
+    setPopup('startOver');
+  }, []);
+
+  const handleClickStartOver = useCallback(async () => {
+    router.replace(Routes.ListingCreateAddress, { persistParams: true });
+
+    await deleteMyListing(listingID);
+    mutate((key) => {
+      if (typeof key === 'object' && key?.[0] === '/my/listings/registered') return true;
+      return false;
+    });
+  }, [router, listingID]);
 
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     router.pop();
@@ -172,17 +201,92 @@ export default memo(({ depth, panelWidth }: Props) => {
         isSendingSms={isSendingSms}
         ownerName={data?.listing?.owner_name}
         ownerPhone={data?.listing?.owner_phone}
-        onClickStartOver={() => router.replace(Routes.ListingCreateAddress, { persistParams: true })}
+        address={data?.listing?.road_name_address ?? data?.listing?.jibun_address}
+        addressDetail={data?.listing?.address_detail}
+        onClickStartOver={showStartOverPopup}
         onClickUpdateAddress={() =>
           router.replace(Routes.ListingCreateUpdateAddress, { searchParams: { listingID: `${listingID}` } })
         }
         onSelectAddress={onSelectAddress}
         onSelectAgent={showAgentSelectionPopup}
         onClickRemoveFromListings={onClickRemoveFromListings}
-        onClickSendOwnerVerification={onClickSendOwnerVerification}
+        onClickSendOwnerVerification={showSendSmsPopup}
         onClickMyListings={handleNavigateToMyListings}
-        onNavigateToChatRoom={handleNavigateToChatRoom}
+        onNavigateToChatRoom={data?.seller_agent_chat_room_id ? handleNavigateToChatRoom : undefined}
       />
+      {popup === 'startOver' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>새로운 매물등록신청 시작</Popup.Title>
+              <Popup.Body>
+                기존 입력 내용은 삭제되며 복구되지 않습니다. 매물등록신청을 처음부터 다시 진행하시겠습니까?
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>돌아가기</Popup.CancelButton>
+              <Popup.ActionButton isLoading={isSelectingAgent} onClick={handleClickStartOver}>
+                매물등록신청 다시하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'sendSms' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>소유자 정보 확인</Popup.Title>
+              <Popup.Body>
+                아래의 정보로 소유자 동의를 위한 문자가 전송됩니다.
+                <br />
+                <br />
+                소유자 성명: {popupData.current?.name}
+                <br />
+                휴대폰 번호: {popupData.current?.phone}
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>수정하기</Popup.CancelButton>
+              <Popup.ActionButton isLoading={isSelectingAgent} onClick={onClickSendOwnerVerification}>
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'unableToValidateTheOwner' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>
+                등기부상 소유자가 아닙니다.
+                <br />
+                소유자 성명을 다시 한번 확인해 주세요.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'smsCountReachedLimit' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>
+                하루 최대 발송 한도를 초과했습니다.
+                <br />
+                내일 다시 시도해 주세요.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
       {popup === 'agentSelection' && (
         <OverlayPresenter>
           <Popup>

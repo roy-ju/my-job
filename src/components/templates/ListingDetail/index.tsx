@@ -38,6 +38,7 @@ export interface ListingDetailProps {
   onNavigateToChatRoom?: () => void;
   onNavigateToSuggestRegional?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
+  onNavigateToListingDetailHistory?: () => void;
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
   onClickShare?: () => void;
@@ -62,6 +63,7 @@ export default function ListingDetail({
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
   onNavigateToSuggestRegional,
+  onNavigateToListingDetailHistory,
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
@@ -327,6 +329,7 @@ export default function ListingDetail({
                     onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
                     onClickSuggestNotInterested={onClickSuggestNotInterested}
                     onNavigateToSuggestRegional={onNavigateToSuggestRegional}
+                    onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
                   />
                 </div>
               </Accordion.Details>

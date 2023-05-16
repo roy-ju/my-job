@@ -415,18 +415,8 @@ export default function useMapLayout() {
             lng: item.long,
             onClick(this) {
               if (isPanningRef.current) return;
-
               setPolygons([]);
-
               setSelectedMarker(this);
-
-              // _map?.morph(
-              //   {
-              //     lat: item.lat,
-              //     lng: item.long,
-              //   },
-              //   _map.getZoom() + 2,
-              // );
             },
           })) ?? [],
         );
@@ -450,23 +440,13 @@ export default function useMapLayout() {
             // 매물 마커 클릭 이벤트
             onClick(this) {
               if (isPanningRef.current) return;
-
               router.replace(Routes.MapListingList, {
                 searchParams: {
                   listingIDs: item.listing_ids,
                 },
               });
-
               setPolygons([]);
               setSelectedMarker(this);
-
-              // setSelectedMarkerID(markerID);
-              // setSelectedMarker(this);
-
-              // _map?.morph({
-              //   lat: item.lat,
-              //   lng: item.long,
-              // });
             },
           };
         });
@@ -486,8 +466,8 @@ export default function useMapLayout() {
 
           // 중복좌표는 살짝 옮긴다.
           if (
-            item.danji_realestate_type === RealestateType.Officetel &&
-            danjiMap[`danjiMarker:${item.pnu}${RealestateType.Apartment}`]
+            danjiMap[`danjiMarker:${item.pnu}${RealestateType.Apartment}`] ||
+            danjiMap[`danjiMarker:${item.pnu}${RealestateType.Officetel}`]
           ) {
             item.long += 0.00035;
           }
@@ -507,12 +487,10 @@ export default function useMapLayout() {
             // 단지마커 클릭이벤트
             onClick(this) {
               if (isPanningRef.current) return;
-
               // 단지 상세로 보내는 Router
               router.replace(Routes.DanjiDetail, {
                 searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
               });
-
               setPolygons([]);
               setSelectedMarker(this);
             },
@@ -688,7 +666,7 @@ export default function useMapLayout() {
       }
       return prev;
     });
-    // setSelectedDanjiSummary(null);
+    setSelectedMarker(null);
   }, []);
 
   /**
