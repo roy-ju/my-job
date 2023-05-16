@@ -37,7 +37,7 @@ export default function ActiveListingInfo({
 
   const handleListingAll = useCallback(() => {
     if (router.query.listingID) {
-      router.push(Routes.DanjiListings, {
+      router.replace(Routes.DanjiListings, {
         searchParams: {
           listingID: router.query.listingID as string,
           p: danji?.pnu || `${router.query.p}` || '',
@@ -45,7 +45,7 @@ export default function ActiveListingInfo({
         },
       });
     } else {
-      router.push(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+      router.replace(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
     }
   }, [router, danji]);
 
