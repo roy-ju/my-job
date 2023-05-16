@@ -9,6 +9,7 @@ import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingCreateResult } from '@/components/templates';
 import { ListingStatus } from '@/constants/enums';
+import ErrorCodes from '@/constants/error_codes';
 import usePolling from '@/hooks/utils/usePolling';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
@@ -108,20 +109,33 @@ export default memo(() => {
     // router.pop();
   }, [listingID]);
 
-  const onClickSendOwnerVerification = useCallback(
-    async (name: string, phone: string) => {
+  const showSendSmsPopup = useCallback((name: string, phone: string) => {
+    console.log(name, phone);
+    popupData.current = { name, phone };
+    setPopup('sendSms');
+  }, []);
+
+  const onClickSendOwnerVerification = useCallback(async () => {
+    if (popupData.current?.name && popupData.current.phone) {
+      setPopup('none');
       setIsSendingSms(true);
-      await sendOwnerVerification({
+      const res = await sendOwnerVerification({
         listing_id: listingID,
-        name,
-        phone,
+        name: popupData.current.name,
+        phone: popupData.current.phone,
       });
-      await mutate();
+
+      if (res?.error_code === ErrorCodes.UNABLE_TO_VALIDATE_OWNER) {
+        setPopup('unableToValidateTheOwner');
+      } else if (res?.error_code === ErrorCodes.SMS_COUNT_REACHED_LIMIT) {
+        setPopup('smsCountReachedLimit');
+      } else if (!res?.error_code) {
+        await mutate();
+      }
 
       setIsSendingSms(false);
-    },
-    [listingID, mutate],
-  );
+    }
+  }, [listingID, mutate]);
 
   const handleNavigateToMyListings = useCallback(() => {
     router.replace({
@@ -156,6 +170,8 @@ export default memo(() => {
         isSendingSms={isSendingSms}
         ownerName={data?.listing?.owner_name}
         ownerPhone={data?.listing?.owner_phone}
+        address={data?.listing?.road_name_address ?? data?.listing?.jibun_address}
+        addressDetail={data?.listing?.address_detail}
         onClickStartOver={() =>
           router.replace({
             pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`,
@@ -175,10 +191,65 @@ export default memo(() => {
         onSelectAddress={onSelectAddress}
         onSelectAgent={showAgentSelectionPopup}
         onClickRemoveFromListings={onClickRemoveFromListings}
-        onClickSendOwnerVerification={onClickSendOwnerVerification}
+        onClickSendOwnerVerification={showSendSmsPopup}
         onClickMyListings={handleNavigateToMyListings}
         onNavigateToChatRoom={handleNavigateToChatRoom}
       />
+      {popup === 'sendSms' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>소유자 정보 확인</Popup.Title>
+              <Popup.Body>
+                아래의 정보로 소유자 동의를 위한 문자가 전송됩니다.
+                <br />
+                <br />
+                소유자 성명: {popupData.current?.name}
+                <br />
+                휴대폰 번호: {popupData.current?.phone}
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>수정하기</Popup.CancelButton>
+              <Popup.ActionButton isLoading={isSelectingAgent} onClick={onClickSendOwnerVerification}>
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'unableToValidateTheOwner' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>
+                등기부상 소유자가 아닙니다.
+                <br />
+                소유자 성명을 다시 한번 확인해 주세요.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'smsCountReachedLimit' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-12">
+              <Popup.Title>
+                하루 최대 발송 한도를 초과했습니다.
+                <br />
+                내일 다시 시도해 주세요.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
       {popup === 'agentSelection' && (
         <OverlayPresenter>
           <Popup>
