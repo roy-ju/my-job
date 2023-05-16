@@ -1,14 +1,16 @@
-import { Button, Ul } from '@/components/atoms';
+import { Button, Separator } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
 import ErrorIcon from '@/assets/icons/error.svg';
 import { useCallback, useState } from 'react';
 
 interface Props {
+  address?: string;
+  addressDetail?: string;
   isLoading?: boolean;
   onClickSend?: (name: string, phone: string) => void;
 }
 
-export default function VerifyOwnershipNotFound({ isLoading, onClickSend }: Props) {
+export default function VerifyOwnershipNotFound({ address, addressDetail, isLoading, onClickSend }: Props) {
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
 
@@ -38,13 +40,16 @@ export default function VerifyOwnershipNotFound({ isLoading, onClickSend }: Prop
       <div tw="text-h2 font-bold">소유자 정보가 정확하지 않습니다.</div>
       <div tw="my-2.5 flex items-center gap-1">
         <ErrorIcon />
-        <div tw="text-info leading-4 text-red-800">입력한 주소로 등기부 조회가 되지 않습니다.</div>
+        <div tw="text-info leading-4 text-red-800">정확한 소유자 정보를 입력해 주세요.</div>
       </div>
-      <Ul tw="mb-5">
-        <li>소유자의 대리인이 매물등록 신청을 하신다면, 소유자 동의가 필요합니다. </li>
-        <li>문자 발송 후 7일 이내에 소유자가 동의하지 않으면, 매물등록이 자동 취소 됩니다.</li>
-      </Ul>
+      <p tw="mb-10 text-info text-gray-700">소유자의 대리인이 매물등록 신청을 하신다면, 소유자 동의가 필요합니다.</p>
+      <Separator tw="-mx-5 mb-10" />
+      <div tw="text-b1 font-bold mb-4">기존 입력 주소</div>
+      <div tw="text-b1 mb-1">{address}</div>
+      <div tw="text-info text-gray-700">{addressDetail}</div>
+      <Separator tw="-mx-5 h-px my-7 bg-gray-300" />
       <div tw="flex flex-col gap-3 mb-5">
+        <div tw="text-b1 font-bold mb-4">소유자 동의 전송</div>
         <TextField variant="outlined" hasError={!!nameErrMsg}>
           <TextField.Input label="소유자 성명" value={name} onChange={(e) => setName(e.target.value)} />
         </TextField>
@@ -59,6 +64,11 @@ export default function VerifyOwnershipNotFound({ isLoading, onClickSend }: Prop
           </TextField>
           {phoneErrMsg && <TextField.ErrorMessage>{phoneErrMsg}</TextField.ErrorMessage>}
         </div>
+        <p tw="text-info text-gray-700">
+          소유자 명의의 휴대폰 번호가 맞는지 다시 한번 확인해 주세요.
+          <br />
+          (본인인증 후 동의가능)
+        </p>
       </div>
       <Button
         isLoading={isLoading}
