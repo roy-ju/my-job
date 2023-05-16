@@ -21,6 +21,7 @@ import { SharePopup } from '@/components/organisms';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
+import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -38,7 +39,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const router = useRouter(depth);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
+
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+
+  useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
+
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
 
   const {

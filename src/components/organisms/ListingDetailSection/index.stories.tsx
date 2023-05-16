@@ -1,4 +1,3 @@
-import { Panel } from '@/components/atoms';
 import ListingDetailSection from '.';
 
 const meta = {
@@ -8,33 +7,45 @@ const meta = {
 export default meta;
 
 export const Summary = () => (
-  <ListingDetailSection.Summary createdTime="2023-04-19T01:26:54.676Z" viewCount={100} participatorCount={5} />
+  <ListingDetailSection.Summary
+    price={100000000}
+    buyOrRent={1}
+    listingTitle="테스트 매물 타이틀"
+    address="경기도 용인시 기흥구 구갈로 71-18"
+    createdTime="2023-04-19T01:26:54.676Z"
+    direction="남향"
+    floor="10"
+    floorDescription="고층"
+    realestateType={10}
+    jeonyongArea="100"
+    gonggeupArea="200"
+    viewCount={100}
+    participatorCount={5}
+  />
 );
 
 export const Biddings = () => (
-  <Panel>
-    <ListingDetailSection.Biddings
-      showBiddingPrice
-      biddingsChatRoomCreated={[
-        {
-          nickname: '일이삼사오육칠팔구십',
-          createdTime: 'asdf',
-          price: 100000000000,
-          monthlyRentFee: 10000000000,
-          isMyBidding: false,
-        },
-      ]}
-      biddingsChatRoomNotCreated={[
-        {
-          nickname: 'heloo',
-          createdTime: 'asdf',
-          price: 100000000000,
-          monthlyRentFee: 10000000000,
-          isMyBidding: true,
-        },
-      ]}
-    />
-  </Panel>
+  <ListingDetailSection.Biddings
+    showBiddingPrice
+    biddingsChatRoomCreated={[
+      {
+        nickname: '일이삼사오육칠팔구십',
+        createdTime: 'asdf',
+        price: 100000000000,
+        monthlyRentFee: 10000000000,
+        isMyBidding: false,
+      },
+    ]}
+    biddingsChatRoomNotCreated={[
+      {
+        nickname: 'heloo',
+        createdTime: 'asdf',
+        price: 100000000000,
+        monthlyRentFee: 10000000000,
+        isMyBidding: true,
+      },
+    ]}
+  />
 );
 
 export const Conditions = () => (
@@ -167,3 +178,5 @@ export const Qna = () => (
 );
 
 export const Faq = () => <ListingDetailSection.Faq />;
+
+export const RealestateDocument = () => <ListingDetailSection.RealestateDocument />;
