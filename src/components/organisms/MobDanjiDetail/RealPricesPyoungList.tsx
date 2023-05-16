@@ -147,10 +147,12 @@ export default function RealPricesPyoungList({
     <div tw="px-5 mt-10">
       <div tw="flex items-center justify-between mb-3">
         <span tw="text-b1 font-bold [line-height: 1.25rem] [letter-spacing: -0.4px]">평형별 실거래 내역</span>
-        <div tw="flex items-center gap-2">
-          <Checkbox onChange={onChangeChecked} checked={checked || false} />
-          <span tw="text-b2 [line-height: 16px]">직거래 제외</span>
-        </div>
+        {buyOrRent === BuyOrRent.Buy && (
+          <div tw="flex items-center gap-2">
+            <Checkbox onChange={onChangeChecked} checked={checked || false} />
+            <span tw="text-b2 [line-height: 16px]">직거래 제외</span>
+          </div>
+        )}
       </div>
       <Wrraper
         ref={scrollRef}
