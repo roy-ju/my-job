@@ -6,6 +6,9 @@ interface GetAgreementInfoResponse {
   loi: number;
   requestor_name: string;
   token: string;
+  buy_or_rent: number;
+  trade_or_deposit_price: number;
+  monthly_rent_fee: number;
 }
 
 export default function useAPI_GetAgreementInfo(loi: string, token: string) {

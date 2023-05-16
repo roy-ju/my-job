@@ -12,23 +12,23 @@ export default function Area({ minArea, onChangeMinArea, maxArea, onChangeMaxAre
   return (
     <div>
       <div tw="mb-4 flex items-center justify-between">
-        <div tw="font-bold">관심있는 평수를 선택해 주세요 (선택)</div>
+        <div tw="font-bold">관심있는 평수를 선택해 주세요. (선택)</div>
       </div>
       <div tw="flex flex-col gap-4">
-        <div tw="text-info">최소 평 수</div>
+        <div tw="text-info">최소 평수</div>
         <TextField variant="outlined">
           <TextField.PriceInput
             suffix="평"
-            label="평 수"
+            label={minArea ? '평수' : '평수 입력'}
             value={minArea}
             onChange={(e) => onChangeMinArea?.(e.target.value)}
           />
         </TextField>
-        <div tw="text-info">최대 평 수</div>
+        <div tw="text-info">최대 평수</div>
         <TextField variant="outlined">
           <TextField.PriceInput
             suffix="평"
-            label="평 수"
+            label={maxArea ? '평수' : '평수 입력'}
             value={maxArea}
             onChange={(e) => onChangeMaxArea?.(e.target.value)}
           />

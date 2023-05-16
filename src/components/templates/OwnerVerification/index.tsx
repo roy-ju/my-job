@@ -7,14 +7,20 @@ import { ChangeEventHandler, useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
 import { BuyOrRentString } from '@/constants/strings';
 import { BuyOrRent } from '@/constants/enums';
+import { useRouter } from 'next/router';
+import Routes from '@/router/routes';
 
 const StyledTable = styled.table`
   ${tw`w-full text-b2`}
   th {
     ${tw`py-1 text-gray-1000`}
+    width: unset;
+    white-space: nowrap;
   }
   td {
     ${tw`py-1 text-end`}
+    width: unset;
+    word-break: keep-all;
   }
   tr:not(:last-of-type) {
     ${tw`border-b border-b-gray-300`}
@@ -49,6 +55,8 @@ export default function OwnerVerification({
   onChangeTermsState,
   onClickVerify,
 }: OwnerVerificationProps) {
+  const router = useRouter();
+
   const [state, setState] = useControlled({
     controlled: termsState,
     default: {
@@ -91,11 +99,17 @@ export default function OwnerVerification({
     <div tw="h-full flex flex-col">
       <NavigationHeader>
         <NavigationHeader.Title>매물등록 동의</NavigationHeader.Title>
-        <NavigationHeader.Button>
+        <NavigationHeader.Button onClick={() => router.replace(`/${Routes.EntryMobile}`)}>
           <CloseIcon />
         </NavigationHeader.Button>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
+        <div
+          tw="h-[200px] bg-no-repeat bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://negocio-common.s3.ap-northeast-2.amazonaws.com/user_mobile/owner_banner.png')`,
+          }}
+        />
         <div tw="pt-7 pb-10 px-5">
           <div tw="text-b1 font-bold mb-1">매물등록 동의 정보</div>
           <StyledTable>

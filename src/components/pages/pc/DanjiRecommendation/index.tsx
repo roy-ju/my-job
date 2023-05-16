@@ -55,58 +55,86 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     if (step === 0) {
       return true;
     }
+
     if (step === 1) {
-      if (buyOrRent) {
-        return true;
-      }
-      return false;
-    }
-
-    if (step === 2) {
-      if (buyOrRent === BuyOrRent.Buy) {
-        if (Number(tradeOrDepositPrice)) {
-          return true;
-        }
-        return false;
-      }
-
-      if (buyOrRent === BuyOrRent.Jeonsae) {
-        if (Number(tradeOrDepositPrice)) {
-          return true;
-        }
-        return false;
-      }
-      return false;
-    }
-
-    if (step === 3) {
       return selectedGonggeupPyoungList.length > 0;
     }
 
-    if (step === 4 && buyOrRent === BuyOrRent.Buy) {
-      if (purpose === 1 && moveInDate && moveInDateType) {
+    if (step === 2) {
+      return selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0;
+    }
+
+    if (step === 3) {
+      if (buyOrRent && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
         return true;
       }
-      if (purpose === 2 && remainingAmountPaymentTime && remainingAmountPaymentTimeType) {
+      return false;
+    }
+
+    if (step === 4 && buyOrRent === BuyOrRent.Buy) {
+      if (
+        purpose === 1 &&
+        moveInDate &&
+        moveInDateType &&
+        buyOrRent &&
+        selectedGonggeupPyoungList.length > 0 &&
+        totalFloors.length > 0
+      ) {
+        return true;
+      }
+      if (
+        purpose === 2 &&
+        remainingAmountPaymentTime &&
+        remainingAmountPaymentTimeType &&
+        buyOrRent &&
+        selectedGonggeupPyoungList.length > 0 &&
+        totalFloors.length > 0
+      ) {
         return true;
       }
       return false;
     }
 
     if (step === 5 && buyOrRent === BuyOrRent.Buy) {
-      return totalFloors.length > 0;
-    }
-
-    if (step === 4 && buyOrRent !== BuyOrRent.Buy) {
-      return totalFloors.length > 0;
+      if (
+        Number(tradeOrDepositPrice) &&
+        (purpose === 1 || purpose === 2) &&
+        (remainingAmountPaymentTime || moveInDate) &&
+        buyOrRent &&
+        selectedGonggeupPyoungList.length > 0 &&
+        totalFloors.length > 0
+      ) {
+        return true;
+      }
+      return false;
     }
 
     if (step === 6 && buyOrRent === BuyOrRent.Buy) {
-      return true;
+      if (
+        Number(tradeOrDepositPrice) &&
+        (purpose === 1 || purpose === 2) &&
+        (remainingAmountPaymentTime || moveInDate) &&
+        selectedGonggeupPyoungList.length > 0 &&
+        totalFloors.length > 0
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    if (step === 4 && buyOrRent !== BuyOrRent.Buy) {
+      if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
+        return true;
+      }
+
+      return false;
     }
 
     if (step === 5 && buyOrRent !== BuyOrRent.Buy) {
-      return true;
+      if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
+        return true;
+      }
+      return false;
     }
 
     return false;
@@ -123,10 +151,10 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     tradeOrDepositPrice,
   ]);
 
-  /** stpe 1 거래종류 이벤트 핸들러 */
+  /** 거래종류 이벤트 핸들러 */
   const onChangeBuyOrRent = (val: number) => {
     if (buyOrRent) {
-      if (step > 1) {
+      if (step > 3) {
         setOpenResetPopup(true);
         return;
       }
@@ -136,17 +164,17 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     }
   };
 
-  /** stpe 2 돈관련 이벤트 핸들러 */
+  /** 돈관련 이벤트 핸들러 */
   const onChangeTradeOrDepositPrice = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setTradeOrDepositPrice(e.target.value);
   }, []);
 
-  /** stpe 2 돈관련 이벤트 핸들러 */
+  /** 돈관련 이벤트 핸들러 */
   const onChangeMonthlyRentFee = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setMonthlyRentFee(e.target.value);
   }, []);
 
-  /** stpe 3 평관련 이벤트 핸들러 */
+  /** 평관련 이벤트 핸들러 */
   const onClickPyoungButton = useCallback(
     (val: number) => {
       if (selectedGonggeupPyoungList.includes(val)) {
@@ -158,22 +186,22 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     [selectedGonggeupPyoungList],
   );
 
-  /** stpe 3 평관련 이벤트 핸들러 */
+  /** 평관련 이벤트 핸들러 */
   const onClickPyoungCloseButton = useCallback((val: number) => {
     setSelectedGonggeupPyoungList((prev) => prev.filter((item) => item !== val));
   }, []);
 
-  /** stpe 3 평관련 이벤트 핸들러 */
+  /** 평관련 이벤트 핸들러 */
   const onChangePyoungField = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setPyoungInputValue(e.target.value);
   }, []);
 
-  /** stpe 3 평관련 이벤트 핸들러 */
+  /** 평관련 이벤트 핸들러 */
   const onClickPyoungDeleteIcon = useCallback(() => {
     setPyoungInputValue('');
   }, []);
 
-  /** stpe 3 평관련 이벤트 핸들러 */
+  /** 평관련 이벤트 핸들러 */
   const onClickPyoungAddIcon = useCallback(
     (val: string) => {
       if (!val) return;
@@ -187,7 +215,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     [selectedGonggeupPyoungList],
   );
 
-  /** stpe 4 매매목적 관련 이벤트 핸들러 */
+  /** 매매목적 관련 이벤트 핸들러 */
   const onClickLive = useCallback(() => {
     setPurpose(1);
     setMoveInDateType('이후');
@@ -200,7 +228,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     }
   }, [remainingAmountPaymentTime, remainingAmountPaymentTimeType]);
 
-  /** stpe 4 매매목적 관련 이벤트 핸들러 */
+  /** 매매목적 관련 이벤트 핸들러 */
   const onClickInvestment = useCallback(() => {
     setPurpose(2);
     setRemainingAmountPaymentType('이후');
@@ -213,27 +241,27 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     }
   }, [moveInDate, moveInDateType]);
 
-  /** stpe 4 매매목적 관련 이벤트 핸들러 */
+  /** 매매목적 관련 이벤트 핸들러 */
   const onChangeRemainingAmountPaymentTime = (val: Date | null) => {
     setRemainingAmountPaymentTime(val);
   };
 
-  /** stpe 4 매매목적 관련 이벤트 핸들러 */
+  /** 매매목적 관련 이벤트 핸들러 */
   const onChangeMoveInDate = (val: Date | null) => {
     setMoveInDate(val);
   };
 
-  /** stpe 4 매매목적 관련 이벤트 핸들러 */
+  /** 매매목적 관련 이벤트 핸들러 */
   const onChangeMoveInDateType = (val: string) => {
     setMoveInDateType(val);
   };
 
-  /** stpe 4 매매목적 관련 이벤트 핸들러 */
+  /** 매매목적 관련 이벤트 핸들러 */
   const onChangeRemainingAmountTimeType = (val: string) => {
     setRemainingAmountPaymentType(val);
   };
 
-  /** stpe 4 Or 5 층수 이벤트 핸들러 */
+  /** 층수 이벤트 핸들러 */
   const onClickFloorButton = useCallback(
     (val: number) => {
       if (totalFloors.includes(val)) {
@@ -245,7 +273,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     [totalFloors],
   );
 
-  /** stpe 5 Or 6 텍스트필트 이벤트 핸들러 */
+  /** 텍스트필트 이벤트 핸들러 */
   const onChangeEtcField = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
     if (e.target.value.length > 200) {
       setEtc(e.target.value.slice(0, 200));
@@ -396,27 +424,35 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     if (step === 3) {
       setStep((prev) => prev - 1);
       if (buyOrRent === BuyOrRent.Buy) {
-        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`]);
+        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}floor`]);
       } else {
-        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`]);
+        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}floor`]);
       }
     }
 
     if (step === 4) {
       setStep((prev) => prev - 1);
       if (buyOrRent === BuyOrRent.Buy) {
-        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`, `${prefixDanjiRecommend}area`]);
+        setForms([
+          `${prefixDanjiRecommend}default`,
+          `${prefixDanjiRecommend}floor`,
+          `${prefixDanjiRecommend}buyOrRent`,
+        ]);
       } else {
-        setForms([`${prefixDanjiRecommend}default`, `${prefixDanjiRecommend}price`, `${prefixDanjiRecommend}area`]);
+        setForms([
+          `${prefixDanjiRecommend}default`,
+          `${prefixDanjiRecommend}floor`,
+          `${prefixDanjiRecommend}buyOrRent`,
+        ]);
       }
     }
 
     if (step === 5 && buyOrRent === BuyOrRent.Jeonsae) {
       setForms([
         `${prefixDanjiRecommend}default`,
-        `${prefixDanjiRecommend}price`,
-        `${prefixDanjiRecommend}area`,
         `${prefixDanjiRecommend}floor`,
+        `${prefixDanjiRecommend}buyOrRent`,
+        `${prefixDanjiRecommend}price`,
       ]);
     }
 
@@ -424,8 +460,8 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       setStep((prev) => prev - 1);
       setForms([
         `${prefixDanjiRecommend}default`,
-        `${prefixDanjiRecommend}price`,
-        `${prefixDanjiRecommend}area`,
+        `${prefixDanjiRecommend}floor`,
+        `${prefixDanjiRecommend}buyOrRent`,
         `${prefixDanjiRecommend}purpose`,
       ]);
     }
@@ -434,10 +470,10 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       setStep((prev) => prev - 1);
       setForms([
         `${prefixDanjiRecommend}default`,
-        `${prefixDanjiRecommend}price`,
-        `${prefixDanjiRecommend}area`,
-        `${prefixDanjiRecommend}purpose`,
         `${prefixDanjiRecommend}floor`,
+        `${prefixDanjiRecommend}buyOrRent`,
+        `${prefixDanjiRecommend}purpose`,
+        `${prefixDanjiRecommend}price`,
       ]);
     }
   };
@@ -456,29 +492,25 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   };
 
   const onClickNext = (isValid: boolean) => {
-    if (step === 0) {
-      setForms((prev) => [...prev, `${prefixDanjiRecommend}buyOrRent`]);
-    }
-
     if (step === 1) {
-      setForms((prev) => [...prev, `${prefixDanjiRecommend}price`]);
+      setForms((prev) => [...prev, `${prefixDanjiRecommend}floor`]);
     }
 
     if (step === 2) {
-      setForms((prev) => [...prev, `${prefixDanjiRecommend}area`]);
+      setForms((prev) => [...prev, `${prefixDanjiRecommend}buyOrRent`]);
     }
 
     if (step === 3) {
       if (buyOrRent === BuyOrRent.Buy) {
         setForms((prev) => [...prev, `${prefixDanjiRecommend}purpose`]);
       } else {
-        setForms((prev) => [...prev, `${prefixDanjiRecommend}floor`]);
+        setForms((prev) => [...prev, `${prefixDanjiRecommend}price`]);
       }
     }
 
     if (step === 4) {
       if (buyOrRent === BuyOrRent.Buy) {
-        setForms((prev) => [...prev, `${prefixDanjiRecommend}floor`]);
+        setForms((prev) => [...prev, `${prefixDanjiRecommend}price`]);
       } else {
         setForms((prev) => [...prev, `${prefixDanjiRecommend}etc`]);
       }
@@ -487,6 +519,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     if (step === 5 && buyOrRent === BuyOrRent.Buy) {
       setForms((prev) => [...prev, `${prefixDanjiRecommend}etc`]);
     }
+
     if (step === 5 && buyOrRent === BuyOrRent.Jeonsae) {
       setIsRenderFinalForm(true);
     }
@@ -518,7 +551,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
         }
       }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 10);
     }
   }, [forms, isRenderFinalForm]);
 
