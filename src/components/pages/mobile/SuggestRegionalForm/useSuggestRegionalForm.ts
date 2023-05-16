@@ -99,31 +99,29 @@ export default function useSuggestRegionalForm() {
   }, [setNextForm]);
 
   const handleSubmitRealestateType = useCallback(() => {
-    setNextForm(Forms.BuyOrRent);
-  }, [setNextForm]);
-
-  const handleSubmitBuyOrRent = useCallback(() => {
-    setNextForm(Forms.Price);
-  }, [setNextForm]);
-
-  const handleSubmitPrice = useCallback(() => {
     setNextForm(Forms.Area);
   }, [setNextForm]);
 
-  const handleSubmitArea = useCallback(() => {
-    if (buyOrRent === BuyOrRent.Buy) {
-      setNextForm(Forms.Purpose);
-    } else {
-      setNextForm(Forms.Floor);
-    }
-  }, [buyOrRent, setNextForm]);
+  const handleSubmitBuyOrRent = useCallback(() => {}, []);
 
-  const handleSubmitFloor = useCallback(() => {
+  const handleSubmitPrice = useCallback(() => {
     setNextForm(Forms.Description);
   }, [setNextForm]);
 
-  const handleSubmitPurpose = useCallback(() => {
+  const handleSubmitArea = useCallback(() => {
     setNextForm(Forms.Floor);
+  }, [setNextForm]);
+
+  const handleSubmitFloor = useCallback(() => {
+    if (buyOrRent === BuyOrRent.Buy) {
+      setNextForm(Forms.Purpose);
+    } else {
+      setNextForm(Forms.Price);
+    }
+  }, [buyOrRent, setNextForm]);
+
+  const handleSubmitPurpose = useCallback(() => {
+    setNextForm(Forms.Price);
   }, [setNextForm]);
 
   const handleSubmitFinal = useCallback(async () => {
@@ -267,16 +265,16 @@ export default function useSuggestRegionalForm() {
     }
 
     if (currentForm === Forms.RealestateType) {
-      if (!realestateType.length) {
+      if (!realestateType.length || !buyOrRent) {
         setNextButtonDisabled(true);
       }
     }
 
-    if (currentForm === Forms.BuyOrRent) {
-      if (!buyOrRent) {
-        setNextButtonDisabled(true);
-      }
-    }
+    // if (currentForm === Forms.BuyOrRent) {
+    //   if (!buyOrRent) {
+    //     setNextButtonDisabled(true);
+    //   }
+    // }
 
     if (currentForm === Forms.Price) {
       if (!price) {
