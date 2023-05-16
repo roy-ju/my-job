@@ -754,10 +754,10 @@ export default function useMapLayout() {
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, _map.getZoom() + 2);
         break;
       case 'danjiMarker':
-        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
         break;
       case 'listingMarker':
-        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
         break;
       case 'schoolMarker':
         if (markerKey) renderHakgudoPolygon(_map, markerKey);
@@ -889,6 +889,16 @@ export default function useMapLayout() {
       cb(mapToggleValue);
     });
   }, [mapToggleValue]);
+
+  useEffect(() => {
+    window.Negocio.callbacks.selectMarker = (marker: CommonMarker) => {
+      setSelectedMarker(marker);
+    };
+
+    return () => {
+      delete window.Negocio.callbacks.selectMarker;
+    };
+  }, [mapState.naverMap]);
 
   return {
     // common map handlers and properties
