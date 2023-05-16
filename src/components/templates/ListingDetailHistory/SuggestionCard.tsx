@@ -53,6 +53,15 @@ export default function SuggestionCard({
   remainingAmountPaymentTime,
   remainingAmountPaymentTimeType,
 }: SuggestionCardProps) {
+  const renderMonthlyRentFee = () => {
+    if (biddingMonthlyRentFee === 0) return '0원';
+    return (
+      <Numeral thousandsSeparated koreanNumber>
+        {biddingMonthlyRentFee}
+      </Numeral>
+    );
+  };
+
   return (
     <>
       <div tw="text-b1 mb-4 font-bold">나의 제안 내용</div>
@@ -67,9 +76,7 @@ export default function SuggestionCard({
                     {biddingTradeOrDepositPrice}
                   </Numeral>
                   {' / '}
-                  <Numeral thousandsSeparated koreanNumber>
-                    {biddingMonthlyRentFee}
-                  </Numeral>
+                  {renderMonthlyRentFee()}
                 </div>
               ) : (
                 <Numeral thousandsSeparated koreanNumber>

@@ -132,6 +132,15 @@ export default function ListingDetailHistory({
   remainingAmountPaymentTime,
   remainingAmountPaymentTimeType,
 }: ListingDetailHistoryProps) {
+  const renderMonthlyRentFee = (fee: number) => {
+    if (fee === 0) return '0원';
+    return (
+      <Numeral thousandsSeparated koreanNumber>
+        {fee}
+      </Numeral>
+    );
+  };
+
   const renderButton = () => {
     if (isSubmitted)
       return (
@@ -244,15 +253,13 @@ export default function ListingDetailHistory({
                   <Table.Data tw="text-right">
                     <Moment format="YYYY.MM.DD HH:mm">{item.created_time}</Moment>
                     <div>
-                      {item.bidding_monthly_rent_fee !== 0 ? (
+                      {isMonthlyRent ? (
                         <div>
                           <Numeral thousandsSeparated koreanNumber>
                             {item.bidding_trade_or_deposit_price}
                           </Numeral>
                           {' / '}
-                          <Numeral thousandsSeparated koreanNumber>
-                            {item.bidding_monthly_rent_fee}
-                          </Numeral>
+                          {renderMonthlyRentFee(item.bidding_monthly_rent_fee)}
                         </div>
                       ) : (
                         <Numeral thousandsSeparated koreanNumber>
