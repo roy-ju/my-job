@@ -104,8 +104,9 @@ export default function TransactionReviewForm({
             spellCheck={false}
             value={freeFeedback}
             onChange={onChangeFreeFeedback}
-            placeholder={hasReview ? '' : '자유롭게 작성해주세요. (선택사항)'}
+            placeholder={hasReview ? '작성한 내용이 없습니다.' : '자유롭게 작성해주세요. (선택사항)'}
             tw="min-h-[76px]"
+            css={[hasReview && tw`bg-gray-100 pointer-events-none`]}
             readOnly={hasReview}
           />
         </TextField>
