@@ -33,7 +33,7 @@ export const Biddings = () => (
   <Panel>
     <div tw="px-5 py-10">
       <ListingDetailSection.Biddings
-        showBiddingPrice
+        isOwner
         biddingsChatRoomCreated={[
           {
             nickname: '일이삼사오육칠팔구십',
