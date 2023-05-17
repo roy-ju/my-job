@@ -689,7 +689,7 @@ export default function useMapLayout() {
       }
       return prev;
     });
-    setSelectedMarker(null);
+    // setSelectedMarker(null);
   }, []);
 
   /**

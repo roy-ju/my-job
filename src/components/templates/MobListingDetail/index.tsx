@@ -14,8 +14,8 @@ import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
-import UserStatusStrings from './strings';
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
+import UserStatusStrings from '../ListingDetail/strings';
 
 const commonOptions = ['신고하기', '중개약정확인'];
 
