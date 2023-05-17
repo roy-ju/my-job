@@ -145,21 +145,21 @@ export default function ListingDetailHistory({
     if (isSubmitted)
       return (
         <Button onClick={onNavigateToUpdateBiddingForm} tw="h-10 mt-4 w-full" variant="outlined">
-          제안가 수정하기
+          제안 수정
         </Button>
       );
 
     if (isAccepted)
       return (
         <Button onClick={onNavigateToChatRoom} tw="h-10 mt-4 w-full" variant="outlined">
-          채팅 바로가기
+          중개사 채팅
         </Button>
       );
 
     if (isPreContractCompleted)
       return (
         <Button onClick={onNavigateToChatRoom} tw="h-10 mt-4 w-full" variant="outlined">
-          채팅 바로가기
+          중개사 채팅
         </Button>
       );
 
@@ -167,7 +167,7 @@ export default function ListingDetailHistory({
       return (
         <div tw="flex gap-3">
           <Button onClick={onNavigateToChatRoom} tw="h-10 mt-4 w-full" variant="outlined">
-            {buyerAgentChatRoomClosed ? '채팅 보기' : '채팅 바로가기'}
+            {buyerAgentChatRoomClosed ? '채팅 보기' : '중개사 채팅'}
           </Button>
 
           <Button onClick={onNavigateToTransactionReview} tw="h-10 mt-4 w-full">
