@@ -54,6 +54,7 @@ function MapWrapper({
     setPopup,
     selectedMarker,
     danjiSummary,
+    removeMyMarker,
     ...props
   } = useMapLayout();
 
@@ -111,6 +112,7 @@ function MapWrapper({
         onTogglepanelsVisibility={onTogglePanelsVisibility}
         onClickRemoveAllRecentSearches={clearRecentSearches}
         onClickRemoveRecentSearch={removeRecentSearch}
+        removeMyMarker={removeMyMarker}
       >
         <Map {...props}>
           <Markers
