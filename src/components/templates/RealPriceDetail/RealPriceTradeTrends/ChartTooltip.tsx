@@ -39,12 +39,14 @@ export const ChartTooltip = React.memo(
       const sigunguN = sigunguName || '';
       const sigunguP = data.sigungu_count ? data.sigungu_count : '';
 
-      const sidoN = sidoName || '';
-      const sidoP = data.sido_count ? data.sido_count : '';
+      const sidoN = sidoName === '세종특별자치시' ? '' : sidoName || '';
+      const sidoP = sidoName === '세종특별자치시' ? '' : data.sido_count ? data.sido_count : '';
 
       const result = danjiN + danjiP + sigunguN + sigunguP + sidoN + sidoP;
 
-      return result.length > 27;
+      console.log(result.length);
+
+      return result.length > 23;
     }, [danjiName, data.danji_count, data.sido_count, data.sigungu_count, sidoName, sigunguName]);
 
     useEffect(() => {
@@ -141,26 +143,28 @@ export const ChartTooltip = React.memo(
                     )}
                   </div>
 
-                  <div>
-                    {typeof data.sido_count === 'number' && (
-                      <div>
-                        <span tw="text-gray-1000 text-info [line-height: 1]">
-                          {sidoName || ''}
-                          <span
-                            style={{
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              fontWeight: 500,
-                              color: '#FF9C72',
-                              marginLeft: '4px',
-                            }}
-                          >
-                            {data.sido_count}건
+                  {sidoName === '세종특별자치시' ? null : (
+                    <div>
+                      {typeof data.sido_count === 'number' && (
+                        <div>
+                          <span tw="text-gray-1000 text-info [line-height: 1]">
+                            {sidoName || ''}
+                            <span
+                              style={{
+                                fontSize: '12px',
+                                lineHeight: 1,
+                                fontWeight: 500,
+                                color: '#FF9C72',
+                                marginLeft: '4px',
+                              }}
+                            >
+                              {data.sido_count}건
+                            </span>
                           </span>
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div tw="flex flex-row items-center">
@@ -180,7 +184,9 @@ export const ChartTooltip = React.memo(
                       </span>
                     </span>
                   )}
-                  <div tw="w-px h-2 bg-gray-300 mx-2" />
+
+                  {typeof data.sigungu_count === 'number' && <div tw="w-px h-2 bg-gray-300 mx-2" />}
+
                   {typeof data.sigungu_count === 'number' && (
                     <span tw="text-gray-1000 text-info [line-height: 1]">
                       {sigunguName || ''}
@@ -197,22 +203,27 @@ export const ChartTooltip = React.memo(
                       </span>
                     </span>
                   )}
-                  <div tw="w-px h-2 bg-gray-300 mx-2" />
-                  {typeof data.sido_count === 'number' && (
-                    <span tw="text-gray-1000 text-info [line-height: 1]">
-                      {sidoName || ''}
-                      <span
-                        style={{
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          fontWeight: 500,
-                          color: '#FF9C72',
-                          marginLeft: '4px',
-                        }}
-                      >
-                        {data.sido_count}건
-                      </span>
-                    </span>
+
+                  {sidoName === '세종특별자치시' ? null : (
+                    <>
+                      {typeof data.sido_count === 'number' && <div tw="w-px h-2 bg-gray-300 mx-2" />}
+                      {typeof data.sido_count === 'number' && (
+                        <span tw="text-gray-1000 text-info [line-height: 1]">
+                          {sidoName || ''}
+                          <span
+                            style={{
+                              fontSize: '12px',
+                              lineHeight: 1,
+                              fontWeight: 500,
+                              color: '#FF9C72',
+                              marginLeft: '4px',
+                            }}
+                          >
+                            {data.sido_count}건
+                          </span>
+                        </span>
+                      )}
+                    </>
                   )}
                 </div>
               )}

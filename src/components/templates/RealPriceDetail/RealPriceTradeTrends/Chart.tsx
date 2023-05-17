@@ -125,7 +125,7 @@ export const Chart = React.memo(
         const { x } = localPoint(e) || { x: 0 };
 
         const x0 = xScale.invert(x);
-        const index = bisectDate(sidoChartData, x0, 1);
+        const index = bisectDate(sigunguChartData, x0, 1);
 
         const cloneDanjiData = cloneDeep(danjiChartData);
         const cloneSigunguData = cloneDeep(sigunguChartData);
@@ -134,7 +134,8 @@ export const Chart = React.memo(
         const d0 = Object?.assign(cloneDanjiData[index - 1], cloneSigunguData[index - 1], cloneSidoData[index - 1]);
 
         const d1 =
-          sidoChartData[index] && Object?.assign(cloneDanjiData[index], cloneSigunguData[index], cloneSidoData[index]);
+          sigunguChartData[index] &&
+          Object?.assign(cloneDanjiData[index], cloneSigunguData[index], cloneSidoData[index]);
 
         let d = d0;
 
@@ -152,33 +153,33 @@ export const Chart = React.memo(
             });
           }
 
-          const firstIndex = sidoChartData.findIndex(
-            (item) => typeof item.sido_count === 'number' && item.sido_count >= 0,
+          const firstIndex = sigunguChartData.findIndex(
+            (item) => typeof item.sigungu_count === 'number' && item.sigungu_count >= 0,
           );
 
           const lastIndex =
-            sidoChartData.length -
-            [...sidoChartData]
+            sigunguChartData.length -
+            [...sigunguChartData]
               .reverse()
-              .findIndex((item) => typeof item.sido_count === 'number' && item.sido_count >= 0) -
+              .findIndex((item) => typeof item.sigungu_count === 'number' && item.sigungu_count >= 0) -
             1;
 
-          if (x < xScale(getDate(sidoChartData[firstIndex]))) {
-            const tooltipTopValue = getSidoCount(sidoChartData[firstIndex]);
+          if (x < xScale(getDate(sigunguChartData[firstIndex]))) {
+            const tooltipTopValue = getSigunguCount(sigunguChartData[firstIndex]);
             showTooltip({
               tooltipData: Object?.assign(
                 cloneDanjiData[firstIndex],
                 cloneSigunguData[firstIndex],
                 cloneSidoData[firstIndex],
               ) as DataProps,
-              tooltipLeft: xScale(getDate(sidoChartData[firstIndex])) + 2,
+              tooltipLeft: xScale(getDate(sigunguChartData[firstIndex])) + 2,
               tooltipTop: yScaleCount(tooltipTopValue || 0),
             });
             return;
           }
 
-          if (x > xScale(getDate(sidoChartData[lastIndex]))) {
-            const tooltipTopValue = getSidoCount(sidoChartData[lastIndex]);
+          if (x > xScale(getDate(sigunguChartData[lastIndex]))) {
+            const tooltipTopValue = getSigunguCount(sigunguChartData[lastIndex]);
 
             showTooltip({
               tooltipData: Object?.assign(
@@ -186,7 +187,7 @@ export const Chart = React.memo(
                 cloneSigunguData[lastIndex],
                 cloneSidoData[lastIndex],
               ) as DataProps,
-              tooltipLeft: xScale(getDate(sidoChartData[lastIndex])) + 2,
+              tooltipLeft: xScale(getDate(sigunguChartData[lastIndex])) + 2,
               tooltipTop: yScaleCount(tooltipTopValue || 0),
             });
             return;
@@ -199,7 +200,7 @@ export const Chart = React.memo(
             (year === moment(currentDate).format('YYYY') && month === moment(currentDate).format('M')) ||
             (year === nextMonth.format('YYYY') && month === nextMonth.format('M'))
           ) {
-            const yValue = getSidoCount(d);
+            const yValue = getSigunguCount(d);
             showTooltip({
               tooltipData: d as DataProps,
               tooltipLeft: xScale(getDate(d)) + 2,
