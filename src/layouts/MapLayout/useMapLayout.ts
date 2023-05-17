@@ -171,6 +171,8 @@ export default function useMapLayout() {
     remove: removeRecentSearch,
   } = useRecentSearches<KakaoAddressAutocompleteResponseItem>();
 
+  const markersToBeSelected = useRef<CommonMarker[]>([]);
+
   const [isGeoLoading, setIsGeoLoading] = useState(false);
 
   const [myMarker, setMyMarker] = useState<{ lat: number; lng: number } | null>(null);
@@ -834,30 +836,6 @@ export default function useMapLayout() {
   }, [schoolType]);
 
   /**
-   * 필터의 거래종류가 바뀔때, 가격정보표시도 바꾼다.
-   */
-  // useEffect(() => {
-  //   if (filter.buyOrRents === '2,3') {
-  //     setPriceType('rent');
-  //   } else {
-  //     setPriceType('buy');
-  //   }
-  // }, [filter.buyOrRents]);
-
-  // /**
-  //  * 가격정보표시가 바뀔때 필터의 거래종류도 바꾼다.
-  //  */
-  // useEffect(() => {
-  //   console.log(filter.realestateTypeGroup);
-
-  //   if (priceType === 'rent') {
-  //     handleChangeFilter({ buyOrRents: '2,3' });
-  //   } else {
-  //     handleChangeFilter({ buyOrRents: '1' });
-  //   }
-  // }, [handleChangeFilter, priceType, filter.realestateTypeGroup]);
-
-  /**
    * 필터의 거래종류가 바뀔때 가격필터를 초기화한다
    */
   useEffect(() => {
@@ -911,13 +889,31 @@ export default function useMapLayout() {
 
   useEffect(() => {
     window.Negocio.callbacks.selectMarker = (marker: CommonMarker) => {
-      setSelectedMarker(marker);
+      console.log(marker);
+
+      if (marker.lat && marker.lng) {
+        mapState.naverMap?.morph({ lat: marker.lat, lng: marker.lng }, 18);
+      }
+
+      markersToBeSelected.current.push(marker);
     };
 
     return () => {
       delete window.Negocio.callbacks.selectMarker;
     };
   }, [mapState.naverMap]);
+
+  useEffect(() => {
+    // markers to be selected 에서 마커를 찾고
+    // 찾으면 없앤다.
+    if (!markersToBeSelected.current.length) return;
+
+    const m = markers.filter((marker) => markersToBeSelected.current?.map((item) => item.id)?.includes(marker.id));
+    if (m[0]) {
+      setSelectedMarker(m[0]);
+      markersToBeSelected.current = [];
+    }
+  }, [markers]);
 
   return {
     // common map handlers and properties
