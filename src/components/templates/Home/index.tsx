@@ -372,7 +372,9 @@ export default function Home({
                         </span>
                       )}
                     </div>
-                    <div tw="text-info text-gray-1000">{item.listing_title}</div>
+                    <div tw="text-info text-gray-1000  whitespace-nowrap overflow-hidden text-ellipsis">
+                      {item.listing_title}
+                    </div>
 
                     <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
                       {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
@@ -454,6 +456,20 @@ export default function Home({
                               /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
                             </span>
                           )}
+                        </div>
+                        <div tw="text-info text-gray-1000 whitespace-nowrap overflow-hidden text-ellipsis">
+                          {item.listing_title}
+                        </div>
+                        <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
+                          {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                          {item.total_floor !== '0' && (
+                            <div>
+                              {item.floor_description
+                                ? `${item.floor_description?.[0]}/${item.total_floor}층`
+                                : `${item.total_floor}층`}
+                            </div>
+                          )}
+                          <div>{item.direction}</div>
                         </div>
                       </motion.div>
                     ))}
