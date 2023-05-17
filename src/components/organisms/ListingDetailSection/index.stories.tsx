@@ -16,12 +16,12 @@ export const Summary = () => (
         listingTitle="테스트 매물 타이틀"
         address="경기도 용인시 기흥구 구갈로 71-18"
         createdTime="2023-04-19T01:26:54.676Z"
-        direction="남향"
-        floor="10"
+        direction="남향dkdkdkdkdkdk"
+        floor="1000000000000"
         floorDescription="고층"
         realestateType={10}
-        jeonyongArea="100"
-        gonggeupArea="200"
+        jeonyongArea="1000000000"
+        gonggeupArea="10000000001000000000"
         viewCount={100}
         participatorCount={5}
       />
