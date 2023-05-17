@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       ...metas,
-      ipAddress: ip,
+      ipAddress: ip ?? null,
       query: context.query,
       route: context.query.depth1,
       depth: 1,

@@ -14,7 +14,7 @@ import deleteListingQna from '@/apis/listing/deleteListingQna';
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 
-import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
+import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { formatNumberInKorean } from '@/utils';
 import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
@@ -271,18 +271,12 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   }, [listingID, statusData, ipAddress]);
 
   useEffect(() => {
-    if (
-      data &&
-      data.listing?.realestate_type !== RealestateType.Apartment &&
-      data.listing?.realestate_type !== RealestateType.Officetel
-    ) {
-      if (data.listing?.lat && data.listing?.long) {
-        window.Negocio.callbacks.selectMarker({
-          id: `listingMarker:${data.listing?.id}`,
-          lat: data.listing?.lat,
-          lng: data.listing?.long,
-        });
-      }
+    if (data && data.listing) {
+      window.Negocio.callbacks.selectMarker({
+        id: `listingMarker:${data.listing?.id}`,
+        lat: data.listing?.lat,
+        lng: data.listing?.long,
+      });
     }
   }, [data]);
 
