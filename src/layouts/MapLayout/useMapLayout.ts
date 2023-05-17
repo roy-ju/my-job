@@ -17,7 +17,6 @@ import Routes from '@/router/routes';
 import useRecentSearches from '@/hooks/services/useRecentSearches';
 import { v1 } from 'uuid';
 import { toast } from 'react-toastify';
-import { RealestateType } from '@/constants/enums';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
 
@@ -437,6 +436,44 @@ export default function useMapLayout() {
           })) ?? [],
         );
       } else if (res && mapBounds.mapLevel === 1) {
+        // 단지 마커
+        let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
+        if (variant === 'nego') {
+          danjis = danjis?.filter((danji) => danji.listing_count !== 0);
+        }
+
+        const danjiMap: {
+          [key: string]: ListingDanjiMarker;
+        } = {};
+
+        danjis?.forEach((item) => {
+          const markerID = `danjiMarker:${item.pnu}${item.danji_realestate_type}`;
+
+          danjiMap[markerID] = {
+            id: markerID,
+            variant,
+            pnu: item.pnu,
+            danjiRealestateType: item.danji_realestate_type,
+            pyoung: item.pyoung,
+            price: item.price,
+            jibunAddress: item.jibun_address,
+            roadNameAddress: item.road_name_address,
+            listingCount: item.listing_count,
+            lat: item.lat,
+            lng: item.long,
+            // 단지마커 클릭이벤트
+            onClick(this) {
+              if (isPanningRef.current) return;
+              // 단지 상세로 보내는 Router
+              router.replace(Routes.DanjiDetail, {
+                searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
+              });
+              setPolygons([]);
+              setSelectedMarker(this);
+            },
+          };
+        });
+
         // 매물 마커
         const listings = (res as MapSearchLevelOneResponse).listing_list ?? [];
         const listingMap: {
@@ -476,52 +513,6 @@ export default function useMapLayout() {
           };
         });
 
-        // 단지 마커
-        let danjis = (res as MapSearchLevelOneResponse).danji_list ?? [];
-        if (variant === 'nego') {
-          danjis = danjis?.filter((danji) => danji.listing_count !== 0);
-        }
-
-        const danjiMap: {
-          [key: string]: ListingDanjiMarker;
-        } = {};
-
-        danjis?.forEach((item) => {
-          const markerID = `danjiMarker:${item.pnu}${item.danji_realestate_type}`;
-
-          // 중복좌표는 살짝 옮긴다.
-          if (
-            danjiMap[`danjiMarker:${item.pnu}${RealestateType.Apartment}`] ||
-            danjiMap[`danjiMarker:${item.pnu}${RealestateType.Officetel}`]
-          ) {
-            item.long += 0.00035;
-          }
-
-          danjiMap[markerID] = {
-            id: markerID,
-            variant,
-            pnu: item.pnu,
-            danjiRealestateType: item.danji_realestate_type,
-            pyoung: item.pyoung,
-            price: item.price,
-            jibunAddress: item.jibun_address,
-            roadNameAddress: item.road_name_address,
-            listingCount: item.listing_count,
-            lat: item.lat,
-            lng: item.long,
-            // 단지마커 클릭이벤트
-            onClick(this) {
-              if (isPanningRef.current) return;
-              // 단지 상세로 보내는 Router
-              router.replace(Routes.DanjiDetail, {
-                searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
-              });
-              setPolygons([]);
-              setSelectedMarker(this);
-            },
-          };
-        });
-
         // 맵의 주소검색 결과에 마커가 포함되어있으면, 마커를 선택한다.
         if (lastSearchItem.current) {
           const searchedDanji = Object.values(danjiMap)?.find(
@@ -539,11 +530,20 @@ export default function useMapLayout() {
           lastSearchItem.current = null;
         }
 
-        if (listings.length > 0) {
-          setMarkers(Object.values(listingMap));
-        } else {
-          setMarkers(Object.values(danjiMap));
-        }
+        // 오버랩되는 중복 마커 겹침 처리 로직
+        const memory = new Set<string>();
+        const _markers = [...Object.values(danjiMap), ...Object.values(listingMap)];
+
+        _markers.forEach((marker) => {
+          const key = `${marker.lat.toFixed(4)},${marker.lng.toFixed(4)}`;
+          if (memory.has(key)) {
+            marker.lng += 0.00035;
+          } else {
+            memory.add(key);
+          }
+        });
+
+        setMarkers(_markers);
       }
     },
     [lastSearchItem, router],
@@ -889,8 +889,6 @@ export default function useMapLayout() {
 
   useEffect(() => {
     window.Negocio.callbacks.selectMarker = (marker: CommonMarker) => {
-      console.log(marker);
-
       if (marker.lat && marker.lng) {
         mapState.naverMap?.morph({ lat: marker.lat, lng: marker.lng }, 18);
       }
