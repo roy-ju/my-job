@@ -236,7 +236,7 @@ export default function useMapLayout() {
           mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.NORMAL);
           break;
         case 'satellite':
-          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.HYBRID);
           break;
         case 'terrain':
           mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.TERRAIN);

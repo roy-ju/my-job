@@ -64,7 +64,6 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
 
   const handleDragEnd = useCallback<NonNullable<DragHandlers['onDragEnd']>>(
     async (_, { offset }) => {
-      console.log(rect);
       if (!rect) return;
 
       const power = swipePower(offset.x, rect.width);
