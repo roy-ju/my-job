@@ -3,6 +3,7 @@ import { Button, Moment, Numeral } from '@/components/atoms';
 import { NavigationHeader, Table } from '@/components/molecules';
 import { ListingDetailPassedItem } from '@/components/organisms';
 import tw, { styled } from 'twin.macro';
+import { BiddingStatus } from '@/constants/enums';
 import StatusCard from './StatusCard';
 import SuggestionCard from './SuggestionCard';
 import PriceCard from './PriceCard';
@@ -88,6 +89,7 @@ export default function ListingDetailHistory({
   isAccepted,
   isCancelled,
   buyerAgentChatRoomClosed,
+  biddingStatus,
 
   headerTitle,
   hasReview,
@@ -143,7 +145,7 @@ export default function ListingDetailHistory({
 
   const renderButton = () => {
     if (isSubmitted)
-      return (
+      return biddingStatus === BiddingStatus.BiddingStatusRejected ? null : (
         <Button onClick={onNavigateToUpdateBiddingForm} tw="h-10 mt-4 w-full" variant="outlined">
           제안 수정
         </Button>
