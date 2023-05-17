@@ -80,6 +80,10 @@ export default function RealPriceInfoCurrent({
 
   const sigunguSidoName = useMemo(() => {
     if (danji) {
+      if (danji.sido_name === '세종특별자치시') {
+        return `${danji?.sigungu_name || ''}`;
+      }
+
       return `${danji?.sido_name || ''} ${danji?.sigungu_name || ''}`;
     }
     return '';
@@ -135,14 +139,15 @@ export default function RealPriceInfoCurrent({
             </span>
           </div>
         )}
-        {danji?.sido_name && (
-          <div tw="flex items-center gap-1.5">
-            <SidoIcon />
-            <span tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
-              {danji.sido_name}
-            </span>
-          </div>
-        )}
+        {danji?.sido_name &&
+          (danji.sido_name === '세종특별자치시' ? null : (
+            <div tw="flex items-center gap-1.5">
+              <SidoIcon />
+              <span tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+                {danji.sido_name}
+              </span>
+            </div>
+          ))}
       </div>
     </div>
   );
