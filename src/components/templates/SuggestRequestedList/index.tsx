@@ -101,7 +101,7 @@ export default function SuggestRequestedList({
           </div>
         ) : (
           <div tw="py-7">
-            <SuggestRequestedListNoData />
+            <SuggestRequestedListNoData onClick={onClickSuggestRegional} />
           </div>
         )}
       </div>

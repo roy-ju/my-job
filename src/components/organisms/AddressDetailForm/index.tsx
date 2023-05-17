@@ -49,8 +49,8 @@ export default function AddressDetailForm({
           </TextField>
         </div>
         <Ul>
-          <li>신축 및 재건축으로 등기부가 조회되지 않는 주택의 경우, 매물등록을 할 수 없습니다.</li>
-          <li>해당 정보가 없다면 비워두시고 진행하셔도 됩니다.</li>
+          <li>신축/재건축으로 등기부 조회가 불가한 주택은 등록할 수 없습니다.</li>
+          <li>상세 주소 정보가 없다면 비워두고, 다음 버튼을 눌러주세요.</li>
           {errorMessage && <li tw="text-red-800">{errorMessage}</li>}
         </Ul>
       </div>
