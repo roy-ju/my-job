@@ -133,7 +133,7 @@ export const Chart = React.memo(
         const { x } = localPoint(e) || { x: 0 };
 
         const x0 = xScale.invert(x);
-        const index = bisectDate(sidoChartData, x0, 1);
+        const index = bisectDate(sigunguChartData, x0, 1);
 
         const cloneDanjiData = cloneDeep(danjiChartData);
         const cloneSigunguData = cloneDeep(sigunguChartData);
@@ -145,7 +145,8 @@ export const Chart = React.memo(
             : undefined;
 
         const d1 =
-          sidoChartData[index] && Object?.assign(cloneDanjiData[index], cloneSigunguData[index], cloneSidoData[index]);
+          sigunguChartData[index] &&
+          Object?.assign(cloneDanjiData[index], cloneSigunguData[index], cloneSidoData[index]);
 
         let d = d0;
 
@@ -156,6 +157,7 @@ export const Chart = React.memo(
         if (d) {
           if (isTouchDevice()) {
             const yValue = getDanjiPrice(d) || getSigunguPrice(d) || getSidoPrice(d);
+
             showTooltip({
               tooltipData: d as DataProps,
               tooltipLeft: xScale(getDate(d)) + 2,
@@ -163,14 +165,14 @@ export const Chart = React.memo(
             });
           }
 
-          const firstIndex = sidoChartData.findIndex((item) => item.sido_price && item.sido_price > 0);
+          const firstIndex = sigunguChartData.findIndex((item) => item.sigungu_price && item.sigungu_price > 0);
 
           const lastIndex =
-            sidoChartData.length -
-            [...sidoChartData].reverse().findIndex((item) => item.sido_price && item.sido_price > 0) -
+            sigunguChartData.length -
+            [...sigunguChartData].reverse().findIndex((item) => item.sigungu_price && item.sigungu_price > 0) -
             1;
-          if (x < xScale(getDate(sidoChartData[firstIndex]))) {
-            const tooltipTopValue = getSidoPrice(sidoChartData[firstIndex]);
+          if (x < xScale(getDate(sigunguChartData[firstIndex]))) {
+            const tooltipTopValue = getSigunguPrice(sigunguChartData[firstIndex]);
 
             showTooltip({
               tooltipData: Object?.assign(
@@ -178,13 +180,13 @@ export const Chart = React.memo(
                 cloneSigunguData[firstIndex],
                 cloneSidoData[firstIndex],
               ) as DataProps,
-              tooltipLeft: xScale(getDate(sidoChartData[firstIndex])) + 2,
+              tooltipLeft: xScale(getDate(sigunguChartData[firstIndex])) + 2,
               tooltipTop: yScalePrice(tooltipTopValue || 0),
             });
             return;
           }
-          if (x > xScale(getDate(sidoChartData[lastIndex]))) {
-            const tooltipTopValue = getSidoPrice(sidoChartData[lastIndex]);
+          if (x > xScale(getDate(sigunguChartData[lastIndex]))) {
+            const tooltipTopValue = getSigunguPrice(sigunguChartData[lastIndex]);
 
             showTooltip({
               tooltipData: Object?.assign(
@@ -192,7 +194,7 @@ export const Chart = React.memo(
                 cloneSigunguData[lastIndex],
                 cloneSidoData[lastIndex],
               ) as DataProps,
-              tooltipLeft: xScale(getDate(sidoChartData[lastIndex])) + 2,
+              tooltipLeft: xScale(getDate(sigunguChartData[lastIndex])) + 2,
               tooltipTop: yScalePrice(tooltipTopValue || 0),
             });
             return;
@@ -205,7 +207,7 @@ export const Chart = React.memo(
             (year === moment(currentDate).format('YYYY') && month === moment(currentDate).format('M')) ||
             (year === nextMonth.format('YYYY') && month === nextMonth.format('M'))
           ) {
-            const yValue = getSidoPrice(d);
+            const yValue = getSigunguPrice(d);
             showTooltip({
               tooltipData: d as DataProps,
               tooltipLeft: xScale(getDate(d)) + 2,
@@ -354,7 +356,7 @@ export const Chart = React.memo(
           {sidoLineChartComponent}
           {sigunguLineChartComponent}
           {danjiLineChartComponent}
-          {tooltipData && tooltipData?.sido_price && tooltipData.sido_price > 0 && (
+          {tooltipData && tooltipData?.sigungu_price && tooltipData.sigungu_price > 0 && (
             <g>
               <Line
                 from={{

@@ -43,8 +43,13 @@ export const ChartTooltip = React.memo(
       const sigunguN = sigunguName || '';
       const sigunguP = data.sigungu_price ? formatNumberInKorean(Math.floor(data.sigungu_price / 10000) * 10000) : '';
 
-      const sidoN = sidoName || '';
-      const sidoP = data.sido_price ? formatNumberInKorean(Math.floor(data.sido_price / 10000) * 10000) : '';
+      const sidoN = sidoName === '세종특별자치시' ? '' : sidoName || '';
+      const sidoP =
+        sidoName === '세종특별자치시'
+          ? ''
+          : data.sido_price
+          ? formatNumberInKorean(Math.floor(data.sido_price / 10000) * 10000)
+          : '';
 
       const result = danjiN + danjiP + sigunguN + sigunguP + sidoN + sidoP;
 
@@ -183,7 +188,8 @@ export const ChartTooltip = React.memo(
                       </span>
                     </span>
                   )}
-                  <div tw="w-px h-2 bg-gray-300 mx-2" />
+
+                  {!!data.sigungu_price && <div tw="w-px h-2 bg-gray-300 mx-2" />}
                   {!!data.sigungu_price && (
                     <span tw="text-gray-1000 text-info [line-height: 1]">
                       {sigunguName || ''}
@@ -200,7 +206,8 @@ export const ChartTooltip = React.memo(
                       </span>
                     </span>
                   )}
-                  <div tw="w-px h-2 bg-gray-300 mx-2" />
+
+                  {!!data.sido_price && <div tw="w-px h-2 bg-gray-300 mx-2" />}
                   {!!data.sido_price && (
                     <span tw="text-gray-1000 text-info [line-height: 1]">
                       {sidoName || ''}
