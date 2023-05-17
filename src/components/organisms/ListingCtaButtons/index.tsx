@@ -32,7 +32,7 @@ function Submitted({
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
-        제안 확인 / 수정
+        제안 수정
       </Button>
       {onNavigateToListingDetailHistory && (
         <div tw="flex items-center justify-center">
@@ -54,7 +54,7 @@ function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding, onNavigate
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
-        제안 확인 / 수정
+        제안 수정
       </Button>
       {onNavigateToListingDetailHistory && (
         <div tw="flex items-center justify-center">
