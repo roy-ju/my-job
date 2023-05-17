@@ -170,7 +170,9 @@ export default function SuggestRegionalForm({
           <Button disabled={nextButtonDisabled} tw="w-full" size="bigger" onClick={onClickNext}>
             다음
           </Button>
-          <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
+          {forms && forms.length > 1 && (
+            <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
+          )}
         </div>
       </PersistentBottomBar>
     </div>
