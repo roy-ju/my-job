@@ -180,9 +180,10 @@ export default function FormRenderer({ form }: Props) {
               onClickAdd={onClickAddDebtSuccessionMisc}
             />
           </div>
-          {debtSuccessionMiscs?.map((debtSuccession) => (
+          {debtSuccessionMiscs?.map((debtSuccession, index) => (
             <div key={debtSuccession.key} tw="px-5 py-7 border-t border-t-gray-300">
               <Form.DebtSuccession.Miscellaneous
+                index={index}
                 name={debtSuccession.name}
                 price={debtSuccession.price}
                 onChangeName={debtSuccession.onChangeName}
@@ -200,9 +201,10 @@ export default function FormRenderer({ form }: Props) {
           <div tw="px-5 py-10">
             <Form.Collateral isAddButtonDisabled={isAddCollateralDisabled} onClickAdd={onClickAddCollateral} />
           </div>
-          {collaterals?.map((collateral) => (
+          {collaterals?.map((collateral, index) => (
             <div key={collateral.key} tw="px-4 pb-10">
               <Form.Collateral.Item
+                index={index}
                 name={collateral.name}
                 price={collateral.price}
                 onChangeName={collateral.onChangeName}
@@ -235,9 +237,10 @@ export default function FormRenderer({ form }: Props) {
               onChangeNegotiable={onChangeContractAmountNegotiable}
             />
           </div>
-          {interims?.map((interim) => (
+          {interims?.map((interim, index) => (
             <div key={interim.key} tw="px-5 py-7 flex flex-col gap-4 border-b border-b-gray-300">
               <Form.InterimAmount
+                index={index}
                 price={interim.price}
                 negotiable={interim.negotiable}
                 onChangePrice={interim.onChangePrice}

@@ -58,6 +58,7 @@ function Deposit({ deposit: depositProp, isAddButtonDisabled, onChangeDeposit, o
 }
 
 interface MiscellaneousProps {
+  index?: number;
   name?: string;
   price?: string;
   onChangeName?: (value: string) => void;
@@ -65,14 +66,14 @@ interface MiscellaneousProps {
   onClickRemove?: () => void;
 }
 
-function Miscellaneous({ name, price, onChangeName, onChangePrice, onClickRemove }: MiscellaneousProps) {
+function Miscellaneous({ index, name, price, onChangeName, onChangePrice, onClickRemove }: MiscellaneousProps) {
   return (
     <div>
       <div tw="flex items-center gap-1">
         <Button variant="ghost" size="none" onClick={onClickRemove}>
           <RemoveIcon />
         </Button>
-        <div tw="text-info">기타채무</div>
+        <div tw="text-info">기타채무 {(index ?? 0) + 1}</div>
       </div>
       <div tw="flex flex-col gap-4 mt-4">
         <TextField variant="outlined">
