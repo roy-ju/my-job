@@ -51,7 +51,6 @@ export function getDefaultFilterOneRoomTwoRoom(): Filter {
   return {
     realestateTypeGroup: 'one,two',
     realestateTypes: [
-      RealestateType.Apartment,
       RealestateType.Officetel,
       RealestateType.Yunrip,
       RealestateType.Dasaedae,

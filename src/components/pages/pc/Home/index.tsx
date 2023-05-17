@@ -50,7 +50,11 @@ export default memo(() => {
   }, [router]);
 
   const handleClickListingCreate = useCallback(() => {
-    router.replace(Routes.ListingCreateAddress);
+    router.replace(Routes.ListingCreateAddress, {
+      searchParams: {
+        origin: router.asPath,
+      },
+    });
   }, [router]);
 
   const handleClickListing = useCallback(
