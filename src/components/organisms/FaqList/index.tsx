@@ -21,11 +21,11 @@ export default function FaqList({
     <Conatiner>
       {list?.map((item) => (
         <Accordion key={item.q}>
-          <Accordion.Summary tw="px-5 py-2">
+          <Accordion.Summary tw="px-5 py-4 flex gap-4">
             <p tw="text-b2 text-start font-semibold text-gray-1000">{item.q}</p>
           </Accordion.Summary>
           <Accordion.Details>
-            <p tw="px-5 text-info break-words py-2 whitespace-pre-wrap">{item.a}</p>
+            <p tw="px-5 text-info break-words py-4 whitespace-pre-wrap">{item.a}</p>
           </Accordion.Details>
         </Accordion>
       ))}
