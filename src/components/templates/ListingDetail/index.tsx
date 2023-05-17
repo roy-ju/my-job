@@ -416,10 +416,15 @@ export default function ListingDetail({
                   </Table.Row>
                 )}
                 <Table.Row>
-                  <Table.Head>고정관리비</Table.Head>
+                  <Table.Head>관리비</Table.Head>
                   <Table.Data>
                     {listingDetail?.listing?.administrative_fee ? (
-                      <Numeral>{listingDetail?.listing?.administrative_fee}</Numeral>
+                      <>
+                        <Numeral koreanNumber thousandsSeparated>
+                          {listingDetail?.listing?.administrative_fee}
+                        </Numeral>{' '}
+                        원
+                      </>
                     ) : (
                       '0 원'
                     )}
