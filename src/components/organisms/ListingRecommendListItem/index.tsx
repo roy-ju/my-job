@@ -106,7 +106,6 @@ export default function ListingRecommendListItem({
       );
     }
   };
-  console.log(isLast);
 
   return (
     <div tw="bg-white rounded-lg border border-gray-300" css={[!isLast && tw`shadow`]}>
