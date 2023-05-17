@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '@/components/organisms/MapFilter/PriceFilter';
 import { Filter } from '@/components/organisms/MapFilter/types';
 import { MapBounds } from '@/layouts/Mobile/MapLayout/useMapLayout';
@@ -118,13 +119,18 @@ function getKey(mapToggleValue: number, bounds: MapBounds | null, filter: Filter
     const previousLength = previousPageData?.list?.length ?? 0;
     // const totalCount = previousPageData?.count ?? 0;
 
-    // if (previousPageData && previousLength <= totalCount) return null;
-    if (previousPageData && previousLength === 0) return null;
+    if (previousPageData && previousLength === 0) {
+      return null;
+    }
 
     if (listingIDs) {
-      if (size > 1) return null;
+      if (size > 0) {
+        return null;
+      }
+
       return [`/map/search/list`, { page_number: size + 1, listing_ids: listingIDs }];
     }
+
     return [`/map/search/list`, { page_number: size + 1, ...getParams(mapToggleValue, bounds, filter) }];
   };
 }
@@ -145,6 +151,7 @@ export default function useAPI_MapSearchList(
 
   const data = useMemo(() => {
     if (!dataList) return [];
+
     return dataList
       ?.map((item) => item.list)
       .filter((item) => Boolean(item))
