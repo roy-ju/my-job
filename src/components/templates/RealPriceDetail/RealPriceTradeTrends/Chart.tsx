@@ -271,7 +271,7 @@ export const Chart = React.memo(
       <div
         style={{
           position: 'relative',
-          marginTop: tooltipData ? (isLineBreak ? '120px' : '80px') : '12px',
+          marginTop: tooltipData ? (isLineBreak ? '100px' : '100px') : '12px',
         }}
       >
         <svg width={width} height={lineChartHeight}>
