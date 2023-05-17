@@ -49,7 +49,7 @@ export default function useMyDetail(depth: number) {
   }, [logout, router]);
 
   const handleUpdateAddress = useCallback(() => {
-    router.replace(Routes.MyAddress);
+    router.replace(Routes.MyAddress, { state: { origin: router.asPath as string } });
   }, [router]);
 
   const handleUpdatePhone = useCallback(() => {
