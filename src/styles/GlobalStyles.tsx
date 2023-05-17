@@ -26,9 +26,9 @@ const customStyles = css`
     overscroll-behavior: contain;
   }
 
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+  /* .scrollbar-hide::-webkit-scrollbar { */
+  /* display: none; */
+  /* } */
 
   ::-webkit-scrollbar {
     width: 4px;
