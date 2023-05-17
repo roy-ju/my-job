@@ -42,6 +42,7 @@ function MapWrapper() {
     streetViewEvent,
     popup,
     setPopup,
+    removeMyMarker,
     ...props
   } = useMapLayout();
 
@@ -80,6 +81,7 @@ function MapWrapper() {
         onChangePriceType={handleChangePriceType}
         onClickMapListingList={handleClickMapListingList}
         onClickSuggestReginoal={handleClickSuggestRegional}
+        removeMyMarker={removeMyMarker}
       >
         <Map {...props}>
           <Markers
