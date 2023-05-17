@@ -767,6 +767,18 @@ export default function useMapLayout() {
     if (bounds && mapState?.naverMap) {
       deferredUpdateMarkers(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
     }
+
+    const prevZoom = mapState?.naverMap?.getZoom() ?? 0;
+
+    return () => {
+      // 줌 아웃 될때, 선택된 마커를 해제한다.
+
+      const currentZoom = mapState?.naverMap?.getZoom() ?? 0;
+
+      if (prevZoom > currentZoom) {
+        setSelectedMarker(null);
+      }
+    };
   }, [mapState?.naverMap, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
 
   /**
