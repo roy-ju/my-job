@@ -6,6 +6,7 @@ import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback } from 'react';
 
 interface Props {
+  index?: number;
   price?: string;
   negotiable?: boolean;
   onChangePrice?: (value: string) => void;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function InterimAmount({
+  index,
   price: priceProp,
   negotiable: negotiableProp,
   onChangePrice,
@@ -51,7 +53,7 @@ export default function InterimAmount({
             <Button variant="ghost" size="none" onClick={onClickRemove}>
               <RemoveIcon />
             </Button>
-            <div tw="text-info">중도금</div>
+            <div tw="text-info">중도금 {(index ?? 0) + 1}</div>
           </div>
           <Button
             size="small"
