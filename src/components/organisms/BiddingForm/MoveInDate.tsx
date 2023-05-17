@@ -42,7 +42,7 @@ export default function MoveInDate({
             selected={value === true}
             onClick={() => handleChange?.(true)}
           >
-            가능
+            네
           </Button>
           <Button
             size="bigger"
@@ -51,7 +51,7 @@ export default function MoveInDate({
             selected={value === false}
             onClick={() => handleChange?.(false)}
           >
-            불가능
+            아니요
           </Button>
         </div>
       </div>
