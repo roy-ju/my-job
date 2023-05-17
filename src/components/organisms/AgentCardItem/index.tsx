@@ -31,7 +31,7 @@ function AgentCardItem({ children, defaultExpanded = false }: AgentCardItemProps
     });
 
   return (
-    <div tw="rounded-lg border border-gray-300 pt-4 pb-3">
+    <div tw="rounded-lg border border-gray-300 pt-4 pb-3 min-h-[214px]">
       <div tw="px-4">
         {profileContents}
         {expanded && detailContents}
