@@ -3,6 +3,7 @@ import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomGuide, ChatRoomListItem, ChatRoomListNoData } from '@/components/organisms';
 import { StaticImageData } from 'next/image';
 import tw, { styled } from 'twin.macro';
+import { ChatUserType } from '@/constants/enums';
 
 const ListContainer = styled.div`
   ${tw`max-h-full min-h-0 overflow-y-auto`}
@@ -13,6 +14,7 @@ const ListContainer = styled.div`
 
 interface IChatRoomListItem {
   id: number;
+  chatRoomType: number;
   profileImagePath: string | StaticImageData;
   officeName: string;
   listingTitle: string;
@@ -39,6 +41,7 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
             onClick={() => {
               onClickListItem?.(item.id);
             }}
+            isSeller={item.chatRoomType === ChatUserType.Seller}
             officeName={item.officeName}
             lastMessage={item.lastMessage}
             listingTitle={item.listingTitle}
@@ -46,7 +49,6 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
             additionalListingCount={item.additionalListingCount}
             unreadMessageCount={item.unreadMessageCount}
             profileImagePath={item.profileImagePath}
-            active={item.active}
           />
         ))}
       </ListContainer>
@@ -76,7 +78,7 @@ export default function ChatRoomList({ list, isLoading, onClickListItem }: ChatR
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.Title>{list.length > 0 ? '채팅' : '문의목록'}</NavigationHeader.Title>
+        <NavigationHeader.Title>중개사 채팅</NavigationHeader.Title>
       </NavigationHeader>
       {renderList()}
     </div>
