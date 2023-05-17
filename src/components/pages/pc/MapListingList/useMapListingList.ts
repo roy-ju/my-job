@@ -5,11 +5,11 @@ import { useNegocioMapEvent } from '@/hooks/utils';
 import { MapBounds, getBounds } from '@/layouts/MapLayout/useMapLayout';
 import useMap from '@/states/map';
 import _ from 'lodash';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function useMapListingList() {
-  // const router = useRouter();
+  const router = useRouter();
 
   const { naverMap } = useMap();
 
@@ -17,12 +17,9 @@ export default function useMapListingList() {
   const [bounds, setBounds] = useState<MapBounds | null>(null);
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
-  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(
-    mapToggleValue,
-    bounds,
-    filter,
-    // router.query.listingIDs as string,
-  );
+  const [listingIds, setListingIds] = useState<string>();
+
+  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(mapToggleValue, bounds, filter, listingIds);
 
   // 지도 필터가 바뀔때 호출
   const onFilterChange = useCallback((f: Filter) => {
@@ -31,6 +28,7 @@ export default function useMapListingList() {
 
   // 지도 위치가 바뀔때 호출
   const onBoundsChange = useCallback((b: MapBounds) => {
+    setListingIds(undefined)
     setBounds(b);
   }, []);
 
@@ -44,6 +42,12 @@ export default function useMapListingList() {
       setBounds(getBounds(naverMap));
     }
   }, [naverMap]);
+
+  useEffect(() => {
+    if (router.query.listingIDs) {
+      setListingIds(router.query.listingIDs as string);
+    }
+  }, [router.query.listingIDs]);
 
   // 필터의 초기값을 설정 한다.
   useEffect(() => {
