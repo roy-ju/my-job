@@ -25,7 +25,7 @@ function ListItem({ item, onClickDelete }: ListItemProps) {
             </Button>
           )}
         </div>
-        <div tw="text-b2">{item?.message}</div>
+        <div tw="text-b2 break-all">{item?.message}</div>
         <div tw="flex items-center gap-2 text-info text-gray-700">
           <div>{item?.user_nickname}</div>
           <div>
