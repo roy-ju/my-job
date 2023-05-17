@@ -12,6 +12,7 @@ export default function ReapTradeDetailHeader({
   onChangeBuyOrRent,
   onChangeSelectedYear,
   onClickBackButton,
+  onClickSelectPage,
 }: {
   danji?: GetDanjiDetailResponse;
   buyOrRent?: number;
@@ -19,6 +20,7 @@ export default function ReapTradeDetailHeader({
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
   onClickBackButton?: () => void;
+  onClickSelectPage?: () => void;
 }) {
   if (!danji) return null;
 
@@ -30,7 +32,7 @@ export default function ReapTradeDetailHeader({
       </NavigationHeader>
       <div tw="flex items-center justify-between mb-2 px-5">
         <span tw="text-b1 [line-height: 1] font-bold">{danji.name}</span>
-        <Button variant="outlined" size="small" selected>
+        <Button variant="outlined" size="small" selected onClick={onClickSelectPage}>
           VS 타단지와 비교
         </Button>
       </div>

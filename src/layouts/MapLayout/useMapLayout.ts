@@ -236,7 +236,7 @@ export default function useMapLayout() {
           mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.NORMAL);
           break;
         case 'satellite':
-          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+          mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.HYBRID);
           break;
         case 'terrain':
           mapState?.naverMap.setMapTypeId(naver.maps.MapTypeId.TERRAIN);
@@ -673,6 +673,10 @@ export default function useMapLayout() {
     isPanningRef.current = true;
   }, []);
 
+  const removeMyMarker = () => {
+    setMyMarker(null);
+  };
+
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
    */
@@ -957,6 +961,7 @@ export default function useMapLayout() {
     handleCloseStreetView,
     clearRecentSearches,
     removeRecentSearch,
+    removeMyMarker,
     popup,
     setPopup,
     selectedMarker,

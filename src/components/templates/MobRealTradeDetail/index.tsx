@@ -74,6 +74,21 @@ export default function MobRealTradeDetail() {
     }
   };
 
+  const onClickSelectPage = () => {
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiSelect}`,
+        query: {
+          p: `${router.query.p}`,
+          rt: router.query.rt as string,
+          bor: buyOrRent?.toString() || '',
+          sl: selectedYear?.toString() || '',
+        },
+      },
+      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?p=${router.query.p}&rt=${router.query.rt}`,
+    );
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (localStorage.getItem(prefixComparison)) {
@@ -108,6 +123,7 @@ export default function MobRealTradeDetail() {
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}
         onClickBackButton={handleClickBackButton}
+        onClickSelectPage={onClickSelectPage}
       />
       <div tw="overflow-y-auto">
         <div tw="w-full relative bg-white py-3 pb-0 px-5 gap-1">
