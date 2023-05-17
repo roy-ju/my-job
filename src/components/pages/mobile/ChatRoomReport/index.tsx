@@ -3,6 +3,7 @@ import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates
 import { useCallback, useState } from 'react';
 import createReportChatRoom from '@/apis/chat/createReportChatRoom';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import useChatRoom from '../ChatRoom/useChatRoom';
 
 export default function ChatRoomReport() {
@@ -19,7 +20,13 @@ export default function ChatRoomReport() {
       chat_room_id: Number(router.query.chatRoomID),
       message: reportContent,
     });
-    router.back();
+
+    setTimeout(() => {
+      toast.success('신고되었습니다.', { toastId: 'reportSuccess' });
+      setTimeout(() => {
+        router.back();
+      }, 50);
+    }, 50);
   };
 
   const handleClickBackButton = () => {
