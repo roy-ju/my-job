@@ -26,10 +26,6 @@ const customStyles = css`
     overscroll-behavior: contain;
   }
 
-  /* .scrollbar-hide::-webkit-scrollbar { */
-  /* display: none; */
-  /* } */
-
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
