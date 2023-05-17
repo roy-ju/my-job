@@ -1077,8 +1077,8 @@ export default function useListingCreateForm() {
       setVerandaRemodelling(parsed.veranda_remodelling);
     }
 
-    if (parsed.extra_options) {
-      setExtraOptions(parsed.extra_options);
+    if (parsed.options) {
+      setExtraOptions(parsed.options);
     }
 
     if (parsed.jeonsae_loan !== undefined) {

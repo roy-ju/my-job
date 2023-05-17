@@ -19,6 +19,10 @@ export default function OwnerVerification() {
     router.push(`/${Routes.EntryMobile}/ov/ci?t=${router.query.t}&loi=${router.query.loi}`);
   }, [router]);
 
+  const handleNavigateToPrivacyPolicy = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.PrivacyPolicy}`);
+  }, [router]);
+
   return (
     <MobileContainer>
       {!data?.error_code && (
@@ -30,6 +34,7 @@ export default function OwnerVerification() {
           monthlyRentFee={data?.monthly_rent_fee}
           buyOrRent={data?.buy_or_rent}
           onClickVerify={handleVerify}
+          onClickPrivacyPolicy={handleNavigateToPrivacyPolicy}
         />
       )}
       {data?.error_code === ErrorCodes.ALREADY_VERIFIED && <CompleteTemplate onClickHome={() => router.push('/m')} />}
