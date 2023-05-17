@@ -44,8 +44,6 @@ export const ChartTooltip = React.memo(
 
       const result = danjiN + danjiP + sigunguN + sigunguP + sidoN + sidoP;
 
-      console.log(result.length);
-
       return result.length > 23;
     }, [danjiName, data.danji_count, data.sido_count, data.sigungu_count, sidoName, sigunguName]);
 
