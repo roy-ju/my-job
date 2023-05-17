@@ -454,11 +454,20 @@ export default function useMapLayout() {
             // 매물 마커 클릭 이벤트
             onClick(this) {
               if (isPanningRef.current) return;
-              router.replace(Routes.MapListingList, {
-                searchParams: {
-                  listingIDs: item.listing_ids,
-                },
-              });
+
+              if (item.listing_count === 1) {
+                router.replace(Routes.ListingDetail, {
+                  searchParams: {
+                    listingID: item.listing_ids,
+                  },
+                });
+              } else {
+                router.replace(Routes.MapListingList, {
+                  searchParams: {
+                    listingIDs: item.listing_ids,
+                  },
+                });
+              }
               setPolygons([]);
               setSelectedMarker(this);
             },
@@ -680,7 +689,7 @@ export default function useMapLayout() {
       }
       return prev;
     });
-    setSelectedMarker(null);
+    // setSelectedMarker(null);
   }, []);
 
   /**
