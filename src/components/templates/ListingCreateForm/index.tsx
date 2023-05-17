@@ -19,6 +19,9 @@ export interface ListingCreateFormProps extends IFormContext {
 }
 
 export default function ListingCreateForm({
+  hasDebtSuccession,
+  onChangeHasDebtSuccession,
+
   isAddInterimButtonDisabled,
   isAddCollateralDisabled,
   isAddDebtSuccessionDisabled,
@@ -128,6 +131,9 @@ export default function ListingCreateForm({
 }: ListingCreateFormProps) {
   const context = useMemo(
     () => ({
+      hasDebtSuccession,
+      onChangeHasDebtSuccession,
+
       isAddInterimButtonDisabled,
       isAddCollateralDisabled,
       isAddDebtSuccessionDisabled,
@@ -224,6 +230,9 @@ export default function ListingCreateForm({
       ho,
     }),
     [
+      hasDebtSuccession,
+      onChangeHasDebtSuccession,
+
       isAddInterimButtonDisabled,
       isAddCollateralDisabled,
       isAddDebtSuccessionDisabled,
