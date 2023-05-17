@@ -344,8 +344,7 @@ export default function ListingDetail({
         <div id="listingInfoSection" ref={setListingInfoSection}>
           <div tw="px-5 pt-6 pb-10">
             <ListingDetailSection.Biddings
-              // showBiddingPrice={listingDetail?.is_owner ?? false}
-              showBiddingPrice
+              isOwner={listingDetail?.is_owner ?? false}
               biddingsChatRoomCreated={biddingsChatRoomCreated}
               biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
               isMonthlyRent={listingDetail?.listing?.buy_or_rent === BuyOrRent.Wolsae}
