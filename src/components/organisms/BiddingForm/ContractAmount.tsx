@@ -55,7 +55,7 @@ export default function ContractAmount({
             selected={value === true}
             onClick={() => handleChange?.(true)}
           >
-            가능
+            네
           </Button>
           <Button
             size="bigger"
@@ -64,7 +64,7 @@ export default function ContractAmount({
             selected={value === false}
             onClick={() => handleChange?.(false)}
           >
-            불가능
+            아니요
           </Button>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function ContractAmount({
           <div tw="font-bold">총 넣을 수 있는 계약금을 적어주세요.</div>
           <div>
             <TextField variant="outlined">
-              <TextField.PriceInput label="예) 15%, 2억 2,000만 원" value={amount} onChange={handleChangeAmount} />
+              <TextField.PriceInput label="계약금" value={amount} onChange={handleChangeAmount} />
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{amount}</TextField.PriceHelperMessage>
           </div>
