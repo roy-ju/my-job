@@ -1,12 +1,12 @@
-import { Avatar } from '@/components/atoms';
+import { Avatar, Chip } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { StaticImageData } from 'next/image';
 import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
 
 interface ChatRoomListItemProps {
-  active: boolean;
   profileImagePath: string | StaticImageData;
   officeName: string;
+  isSeller: boolean;
   lastMessage: string;
   lastMessageTime: string;
   listingTitle: string;
@@ -16,8 +16,8 @@ interface ChatRoomListItemProps {
 }
 
 export default function ChatRoomListItem({
-  active = true,
   profileImagePath,
+  isSeller,
   officeName,
   lastMessage,
   listingTitle,
@@ -34,7 +34,7 @@ export default function ChatRoomListItem({
         onClick={onClick}
       >
         <div tw="flex flex-1 min-w-0">
-          <Avatar alt="중개사 프로필 사진" src={profileImagePath || defaultAvatar} active={active} />
+          <Avatar alt="중개사 프로필 사진" src={profileImagePath || defaultAvatar} />
           <div tw="min-w-0 flex flex-col flex-1 ml-2">
             <div tw="flex items-center justify-between mb-[5px] gap-1">
               <div tw="text-b2 text-gray-1000 font-bold overflow-hidden whitespace-nowrap text-ellipsis">
@@ -46,6 +46,7 @@ export default function ChatRoomListItem({
               </div>
             </div>
             <div tw="text-info leading-3.5 text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis mb-[3px] mr-8">
+              {isSeller && <Chip>등록</Chip>}{' '}
               {listingTitle + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}
             </div>
             <div tw="flex justify-between">
