@@ -282,8 +282,6 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
           lat: data.listing?.lat,
           lng: data.listing?.long,
         });
-      } else {
-        window.Negocio.callbacks.selectMarker(null);
       }
     }
   }, [data]);
