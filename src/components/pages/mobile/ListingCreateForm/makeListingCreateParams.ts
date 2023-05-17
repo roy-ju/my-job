@@ -134,7 +134,7 @@ export default function makeListingCreateParams(args: Args) {
 
     veranda_extended: args.verandaExtended,
     veranda_remodelling: args.verandaRemodelling,
-    extra_options: args.extraOptions,
+    options: args.extraOptions,
 
     trade_price: args.buyOrRent === BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     quick_sale: args.quickSale,
