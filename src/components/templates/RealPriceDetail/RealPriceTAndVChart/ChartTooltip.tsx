@@ -52,25 +52,25 @@ export const ChartTooltip = React.memo(({ width, left = 0, top, data = {} }: Pro
           checkPlatform() === 'pc'
             ? tw`before:[left: calc(var(--left)-6px)]`
             : tw`before:[left: calc(var(--left)-5.5px)]`,
-          tw`[border-color: #FF542D] [border-width: 1px] border-solid before:[border-bottom-color: #FF542D] before:[border-bottom-width: 1px] before:[border-right-color: #FF542D]  before:[border-right-width: 1px] before:border-solid `,
+          tw`[border-color: #4C6EF5] [border-width: 1px] border-solid before:[border-bottom-color: #4C6EF5] before:[border-bottom-width: 1px] before:[border-right-color: #4C6EF5]  before:[border-right-width: 1px] before:border-solid `,
           tw`[width: var(--width)]`,
         ]}
       >
         <div>
           {data.date && (
-            <div tw="mb-1.5">
-              <span tw="text-gray-1000 text-info [line-height: 1] [text-align: left]">
+            <div>
+              <span tw="text-gray-1000 text-info [text-align: left]">
                 {moment(data.date).format('YYYY.MM')}
                 <span
                   style={{
                     fontSize: '12px',
                     fontWeight: 400,
-                    lineHeight: '14px',
+                    lineHeight: '20px',
                     color: '#868E96',
-                    marginLeft: '1px',
+                    marginLeft: '4px',
                   }}
                 >
-                  거래지수 / 평가가격 교차분석
+                  거래지수 / 평가가격 평균
                 </span>
               </span>
             </div>
@@ -78,12 +78,12 @@ export const ChartTooltip = React.memo(({ width, left = 0, top, data = {} }: Pro
 
           <div tw="flex flex-row items-center">
             {!!data.danji_price && (
-              <span tw="text-gray-1000 text-info [line-height: 1]">
+              <span tw="text-gray-1000 text-info">
                 거래가격
                 <span
                   style={{
                     fontSize: '12px',
-                    lineHeight: 1,
+                    lineHeight: '20px',
                     fontWeight: 500,
                     color: '#FF542D',
                     marginLeft: '4px',
@@ -93,22 +93,25 @@ export const ChartTooltip = React.memo(({ width, left = 0, top, data = {} }: Pro
                 </span>
               </span>
             )}
-            <div tw="w-px h-2 bg-gray-300 mx-2" />
+
             {!!data.value_price && (
-              <span tw="text-gray-1000 text-info [line-height: 1]">
-                평가가격
-                <span
-                  style={{
-                    fontSize: '12px',
-                    lineHeight: 1,
-                    fontWeight: 500,
-                    color: '#4C6EF5',
-                    marginLeft: '4px',
-                  }}
-                >
-                  {formatNumberInKorean(Math.floor(data.value_price / 10000) * 10000)}
+              <>
+                <div tw="w-px h-2 bg-gray-300 mx-2" />
+                <span tw="text-gray-1000 text-info">
+                  평가가격
+                  <span
+                    style={{
+                      fontSize: '12px',
+                      lineHeight: '20px',
+                      fontWeight: 500,
+                      color: '#4C6EF5',
+                      marginLeft: '4px',
+                    }}
+                  >
+                    {formatNumberInKorean(Math.floor(data.value_price / 10000) * 10000)}
+                  </span>
                 </span>
-              </span>
+              </>
             )}
           </div>
         </div>

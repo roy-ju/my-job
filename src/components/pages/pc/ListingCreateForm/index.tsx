@@ -119,6 +119,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
+
+    hasDebtSuccession,
+    handleChangeHasDebtSuccession,
   } = useListingCreateForm(depth);
 
   const { list: listingOptions } = useAPI_GetOptionList();
@@ -218,6 +221,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeHasMoveInDate={handleChangeHasMoveInDate}
         hasSpecialTerms={hasSpecialTerms}
         onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
+        hasDebtSuccession={hasDebtSuccession}
+        onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
       />
       {isCoachVisible && !hasBeenVisible.current && (
         <motion.div

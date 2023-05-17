@@ -42,6 +42,7 @@ export interface OwnerVerificationProps {
   termsState?: TermsState;
   onChangeTermsState?: (newState: TermsState) => void;
   onClickVerify?: () => void;
+  onClickPrivacyPolicy?: () => void;
 }
 
 export default function OwnerVerification({
@@ -54,6 +55,7 @@ export default function OwnerVerification({
   termsState,
   onChangeTermsState,
   onClickVerify,
+  onClickPrivacyPolicy,
 }: OwnerVerificationProps) {
   const router = useRouter();
 
@@ -192,7 +194,12 @@ export default function OwnerVerification({
                   checked={privacy}
                   onChange={handleChangeState}
                 />
-                <Button variant="ghost" size="none" tw="underline font-bold text-info text-gray-500">
+                <Button
+                  variant="ghost"
+                  size="none"
+                  tw="underline font-bold text-info text-gray-500"
+                  onClick={onClickPrivacyPolicy}
+                >
                   보기
                 </Button>
               </div>

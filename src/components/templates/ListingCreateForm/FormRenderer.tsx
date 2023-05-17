@@ -31,6 +31,9 @@ export default function FormRenderer({ form }: Props) {
     (!!window.Android?.goToAppPermissionSettings || !!window.webkit?.messageHandlers?.goToAppPermissionSettings);
 
   const {
+    hasDebtSuccession,
+    onChangeHasDebtSuccession,
+
     isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
@@ -174,8 +177,10 @@ export default function FormRenderer({ form }: Props) {
         <div id={Forms.DebtSuccessions}>
           <div tw="px-5 py-10">
             <Form.DebtSuccession
+              hasDebtSuccession={hasDebtSuccession}
               isAddButtonDisabled={isAddDebtSuccessionDisabled}
               deposit={debtSuccessionDeposit}
+              onChangeHasDebtSuccession={onChangeHasDebtSuccession}
               onChangeDeposit={onChangeDebtSuccessionDeposit}
               onClickAdd={onClickAddDebtSuccessionMisc}
             />
