@@ -33,6 +33,23 @@ import { useScroll } from '@/hooks/utils';
 import { GetListingsForTheLoggedIn } from '@/apis/home/getListingsForTheLoggedIn';
 import { GetDanjisForTheLoggedIn } from '@/apis/home/getDanjisForTheLoggedIn';
 
+function FavoriteButton({ defaultSelected }: { defaultSelected: boolean }) {
+  const [selected, setSelected] = useState(defaultSelected);
+
+  return (
+    <Button
+      size="none"
+      variant="ghost"
+      onClick={(e) => {
+        e?.stopPropagation();
+        setSelected((prev) => !prev);
+      }}
+    >
+      {selected ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
+    </Button>
+  );
+}
+
 const StyledTable = styled.table`
   table-layout: fixed;
   td,
@@ -344,15 +361,7 @@ export default function Home({
                       }}
                     >
                       <div tw="flex justify-end p-2">
-                        <Button
-                          size="none"
-                          variant="ghost"
-                          onClick={(e) => {
-                            e?.stopPropagation();
-                          }}
-                        >
-                          {item.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
-                        </Button>
+                        <FavoriteButton defaultSelected={item.is_favorite} />
                       </div>
                     </div>
                     <div tw="flex gap-1 mb-2">
@@ -424,19 +433,7 @@ export default function Home({
                           }}
                         >
                           <div tw="flex justify-end p-2">
-                            <Button
-                              size="none"
-                              variant="ghost"
-                              onClick={(e) => {
-                                e?.stopPropagation();
-                              }}
-                            >
-                              {item.is_favorite ? (
-                                <HeartFilledIcon tw="text-red" />
-                              ) : (
-                                <HeartOutlinedIcon tw="text-white" />
-                              )}
-                            </Button>
+                            <FavoriteButton defaultSelected={item.is_favorite} />
                           </div>
                         </div>
                         <div tw="flex gap-1 mb-2">
