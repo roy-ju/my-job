@@ -12,6 +12,7 @@ import { ListingStatus } from '@/constants/enums';
 import ErrorCodes from '@/constants/error_codes';
 import usePolling from '@/hooks/utils/usePolling';
 import Routes from '@/router/routes';
+import formatPhoneNumber from '@/utils/formatPhoneNumber';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -237,7 +238,7 @@ export default memo(() => {
                 <br />
                 소유자 성명: {popupData.current?.name}
                 <br />
-                휴대폰 번호: {popupData.current?.phone}
+                휴대폰 번호: {formatPhoneNumber(popupData.current?.phone ?? '')}
               </Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>

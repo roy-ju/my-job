@@ -25,7 +25,7 @@ export default function OwnerVerification() {
         <Template
           isLoading={!(token && loi) || isLoading}
           address={data?.full_road_name_address}
-          approverName={data?.approver_name}
+          requestorName={data?.requestor_name}
           price={data?.trade_or_deposit_price}
           monthlyRentFee={data?.monthly_rent_fee}
           buyOrRent={data?.buy_or_rent}
