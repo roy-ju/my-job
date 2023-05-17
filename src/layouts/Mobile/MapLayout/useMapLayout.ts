@@ -654,6 +654,11 @@ export default function useMapLayout() {
     isPanningRef.current = true;
   }, []);
 
+   const removeMyMarker = () => {
+     setMyMarker(null);
+   };
+
+
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
    */
@@ -934,5 +939,6 @@ export default function useMapLayout() {
     handleClickMapListingList,
     popup,
     setPopup,
+    removeMyMarker,
   };
 }

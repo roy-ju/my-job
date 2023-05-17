@@ -133,7 +133,12 @@ export default function ListingCreateResult({
                   officeName={data?.agent_summary?.office_name ?? ''}
                   profileImageFullPath={data?.agent_summary?.profile_image_full_path}
                   name={data?.agent_summary?.name}
-                  onNavigateToChatRoom={onNavigateToChatRoom}
+                  onNavigateToChatRoom={
+                    data?.listing_status === ListingStatus.WaitingForAgentCompletion &&
+                    data?.seller_agent_chat_room_id !== null
+                      ? onNavigateToChatRoom
+                      : undefined
+                  }
                 />
                 <AgentCardItem.Detail
                   officePhone={data?.agent_summary?.office_phone}

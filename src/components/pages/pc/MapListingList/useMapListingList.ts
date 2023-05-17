@@ -28,7 +28,7 @@ export default function useMapListingList() {
 
   // 지도 위치가 바뀔때 호출
   const onBoundsChange = useCallback((b: MapBounds) => {
-    setListingIds(undefined)
+    setListingIds(undefined);
     setBounds(b);
   }, []);
 
