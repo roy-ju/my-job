@@ -222,7 +222,7 @@ export default function MobListingDetail({
     <div tw="relative flex flex-col h-full">
       <NavigationHeader
         css={[
-          tw`absolute top-0 left-0 [z-index: 300] w-full text-white transition-colors bg-transparent`,
+          tw`absolute top-0 left-0 z-50 w-full text-white transition-colors bg-transparent`,
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
@@ -248,7 +248,7 @@ export default function MobListingDetail({
           defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
           photoPaths={photoPaths}
         />
-        <div tw="sticky top-12 pt-2 [z-index: 300]">
+        <div tw="sticky top-12 pt-2 z-40">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
