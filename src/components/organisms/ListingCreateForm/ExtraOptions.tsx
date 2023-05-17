@@ -38,7 +38,7 @@ export default function ExtraOptions({
 
   return (
     <div>
-      <div tw="text-b1 leading-none font-bold">매물 옵션</div>
+      <div tw="text-b1 leading-none font-bold">추가 옵션</div>
       <div tw="mt-3 text-info text-gray-700">- 복수선택 가능합니다.</div>
       <div tw="mt-4 grid grid-cols-3  gap-4">
         {listingOptions?.map(({ name, id }) => (
