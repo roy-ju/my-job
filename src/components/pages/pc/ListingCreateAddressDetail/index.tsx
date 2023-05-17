@@ -111,18 +111,39 @@ export default memo(({ depth, panelWidth }: Props) => {
         addressData: router.query.addressData as string,
         dong: dong && `${dong}동`,
         ho: ho && `${ho}호`,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
       },
     });
   }, [router, dong, ho, addressData, addressLine1, addressLine2]);
 
   const handleBack = useCallback(() => {
-    router.replace(Routes.ListingCreateAddress);
+    router.replace(Routes.ListingCreateAddress, {
+      state: {
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
+      },
+    });
   }, [router]);
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
     if (!inAddressData) {
-      router.replace(Routes.ListingCreateAddress);
+      router.replace(Routes.ListingCreateAddress, {
+        state: {
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
+        },
+      });
     } else {
       const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
       setAddressData(parsed);
