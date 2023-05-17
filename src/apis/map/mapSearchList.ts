@@ -148,7 +148,9 @@ export default function useAPI_MapSearchList(
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<MapSearchListResponse>(getKey(mapToggleValue, bounds, filter, listingIDs));
+  } = useSWRInfinite<MapSearchListResponse>(getKey(mapToggleValue, bounds, filter, listingIDs), null, {
+    revalidateFirstPage: false,
+  });
 
   const data = useMemo(() => {
     if (!dataList) return [];
