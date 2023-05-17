@@ -98,6 +98,7 @@ interface LayoutMapContainerProps {
   onTogglepanelsVisibility?: () => void;
   onClickRemoveAllRecentSearches?: () => void;
   onClickRemoveRecentSearch?: (id: string) => void;
+  removeMyMarker?: () => void;
   children?: ReactNode;
 }
 
@@ -136,6 +137,7 @@ function LayoutMapContainer({
   onTogglepanelsVisibility,
   onClickRemoveAllRecentSearches,
   onClickRemoveRecentSearch,
+  removeMyMarker,
   children,
 }: LayoutMapContainerProps) {
   return (
@@ -195,7 +197,11 @@ function LayoutMapContainer({
             onClick={onClickSchool}
           />
         </MapControls.Group>
-        <MapControls.GPSButton onClick={onClickCurrentLocation} isGeoLoading={isGeoLoading} selected={!!myMarker} />
+        <MapControls.GPSButton
+          onClick={myMarker ? removeMyMarker : onClickCurrentLocation}
+          isGeoLoading={isGeoLoading}
+          selected={!!myMarker}
+        />
         <MapControls.Group>
           <MapControls.ZoomInButton onClick={onClickZoomIn} />
           <MapControls.ZoomOutButton onClick={onClickZoomOut} />
