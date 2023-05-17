@@ -32,8 +32,16 @@ import { useCallback, useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import { GetListingsForTheLoggedIn } from '@/apis/home/getListingsForTheLoggedIn';
 import { GetDanjisForTheLoggedIn } from '@/apis/home/getDanjisForTheLoggedIn';
+import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+import { addFavorite } from '@/apis/listing/addListingFavroite';
 
-function FavoriteButton({ defaultSelected }: { defaultSelected: boolean }) {
+function FavoriteButton({
+  defaultSelected,
+  onToggle,
+}: {
+  defaultSelected: boolean;
+  onToggle?: (value: boolean) => void;
+}) {
   const [selected, setSelected] = useState(defaultSelected);
 
   return (
@@ -42,7 +50,8 @@ function FavoriteButton({ defaultSelected }: { defaultSelected: boolean }) {
       variant="ghost"
       onClick={(e) => {
         e?.stopPropagation();
-        setSelected((prev) => !prev);
+        onToggle?.(!selected);
+        setSelected(!selected);
       }}
     >
       {selected ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
@@ -361,7 +370,12 @@ export default function Home({
                       }}
                     >
                       <div tw="flex justify-end p-2">
-                        <FavoriteButton defaultSelected={item.is_favorite} />
+                        <FavoriteButton
+                          defaultSelected={item.is_favorite}
+                          onToggle={(selected) =>
+                            !selected ? removeFavorite(item.listing_id) : addFavorite(item.listing_id)
+                          }
+                        />
                       </div>
                     </div>
                     <div tw="flex gap-1 mb-2">
@@ -433,7 +447,12 @@ export default function Home({
                           }}
                         >
                           <div tw="flex justify-end p-2">
-                            <FavoriteButton defaultSelected={item.is_favorite} />
+                            <FavoriteButton
+                              defaultSelected={item.is_favorite}
+                              onToggle={(selected) =>
+                                !selected ? removeFavorite(item.listing_id) : addFavorite(item.listing_id)
+                              }
+                            />
                           </div>
                         </div>
                         <div tw="flex gap-1 mb-2">
