@@ -13,7 +13,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const { user } = useAuth();
+  const { user, mutate: mutateUser } = useAuth();
 
   const [serviceNotification, setServiceNotification] = useState<boolean | undefined>(false);
   const [chatPushNotification, setChatPushNotification] = useState<boolean | undefined>(false);
@@ -41,11 +41,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     setChatPushNotification(checked);
   }, []);
 
-  const handleChangeMarketing = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
-    const { checked } = e.target;
-    await updateNotificationConfig('marketing', checked);
-    setMarketingNotification(checked);
-  }, []);
+  const handleChangeMarketing = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    async (e) => {
+      const { checked } = e.target;
+      await updateNotificationConfig('marketing', checked);
+      await mutateUser(false);
+      setMarketingNotification(checked);
+    },
+    [mutateUser],
+  );
 
   return (
     <Panel width={panelWidth}>
