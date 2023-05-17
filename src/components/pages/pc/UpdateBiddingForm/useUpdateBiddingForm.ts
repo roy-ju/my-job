@@ -79,6 +79,9 @@ export default function useUpdateBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveMoreContractAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setContractAmount('');
+    }
     setCanHaveMoreContractAmount(value);
   }, []);
 
@@ -87,6 +90,9 @@ export default function useUpdateBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveMoreInterimAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setInterimAmount('');
+    }
     setCanHaveMoreInterimAmount(value);
   }, []);
 
@@ -95,6 +101,9 @@ export default function useUpdateBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveEarlierRemainingAmountDate = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setRemainingAmountDate(null);
+    }
     setCanHaveEarlierRemainingAmountDate(value);
   }, []);
 
@@ -318,7 +327,7 @@ export default function useUpdateBiddingForm(depth: number) {
     }
 
     if (currentForm === Forms.RemainingAmount) {
-      if (canHaveEarlierRemainingAmountDate === null) {
+      if (canHaveEarlierRemainingAmountDate === null && data?.listing?.remaining_amount_payment_time) {
         setNextButtonDisabled(true);
       }
       if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
@@ -326,20 +335,21 @@ export default function useUpdateBiddingForm(depth: number) {
       }
     }
 
-    if (currentForm === Forms.MoveInDate) {
-      if (canHaveEarlierMoveInDate === null) {
-        setNextButtonDisabled(true);
-      }
-      if (canHaveEarlierMoveInDate === true && moveInDate === null) {
-        setNextButtonDisabled(true);
-      }
-    }
+    // if (currentForm === Forms.MoveInDate) {
+    //   if (canHaveEarlierMoveInDate === null) {
+    //     setNextButtonDisabled(true);
+    //   }
+    //   if (canHaveEarlierMoveInDate === true && moveInDate === null) {
+    //     setNextButtonDisabled(true);
+    //   }
+    // }
   }, [
     forms,
     type,
     price,
     monthlyRentFee,
     data?.listing?.buy_or_rent,
+    data?.listing?.remaining_amount_payment_time,
     canHaveMoreContractAmount,
     contractAmount,
     canHaveMoreInterimAmount,

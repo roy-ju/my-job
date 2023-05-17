@@ -68,6 +68,9 @@ export default function useBiddingForm() {
   }, []);
 
   const handleChangeCanHaveMoreContractAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setContractAmount('');
+    }
     setCanHaveMoreContractAmount(value);
   }, []);
 
@@ -76,6 +79,9 @@ export default function useBiddingForm() {
   }, []);
 
   const handleChangeCanHaveMoreInterimAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setInterimAmount('');
+    }
     setCanHaveMoreInterimAmount(value);
   }, []);
 
@@ -84,6 +90,9 @@ export default function useBiddingForm() {
   }, []);
 
   const handleChangeCanHaveEarlierRemainingAmountDate = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setRemainingAmountDate(null);
+    }
     setCanHaveEarlierRemainingAmountDate(value);
   }, []);
 
@@ -308,7 +317,7 @@ export default function useBiddingForm() {
     }
 
     if (currentForm === Forms.RemainingAmount) {
-      if (canHaveEarlierRemainingAmountDate === null) {
+      if (canHaveEarlierRemainingAmountDate === null && data?.listing?.remaining_amount_payment_time) {
         setNextButtonDisabled(true);
       }
       if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
@@ -316,20 +325,21 @@ export default function useBiddingForm() {
       }
     }
 
-    if (currentForm === Forms.MoveInDate) {
-      if (canHaveEarlierMoveInDate === null) {
-        setNextButtonDisabled(true);
-      }
-      if (canHaveEarlierMoveInDate === true && moveInDate === null) {
-        setNextButtonDisabled(true);
-      }
-    }
+    // if (currentForm === Forms.MoveInDate) {
+    //   if (canHaveEarlierMoveInDate === null) {
+    //     setNextButtonDisabled(true);
+    //   }
+    //   if (canHaveEarlierMoveInDate === true && moveInDate === null) {
+    //     setNextButtonDisabled(true);
+    //   }
+    // }
   }, [
     forms,
     type,
     price,
     monthlyRentFee,
     data?.listing?.buy_or_rent,
+    data?.listing?.remaining_amount_payment_time,
     canHaveMoreContractAmount,
     contractAmount,
     canHaveMoreInterimAmount,
@@ -388,7 +398,7 @@ export default function useBiddingForm() {
       setCanHaveEarlierMoveInDate(biddingParams.can_have_earlier_move_in_date);
     }
     if (biddingParams.move_in_date) {
-      setRemainingAmountDate(new Date(biddingParams.move_in_date));
+      setMoveInDate(new Date(biddingParams.move_in_date));
     }
     if (biddingParams.move_in_date_type) {
       setMoveInDateType(TimeTypeString[biddingParams.move_in_date_type]);
