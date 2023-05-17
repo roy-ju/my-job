@@ -74,6 +74,9 @@ export default function useUpdateBiddingForm() {
   }, []);
 
   const handleChangeCanHaveMoreContractAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setContractAmount('');
+    }
     setCanHaveMoreContractAmount(value);
   }, []);
 
@@ -82,6 +85,9 @@ export default function useUpdateBiddingForm() {
   }, []);
 
   const handleChangeCanHaveMoreInterimAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setInterimAmount('');
+    }
     setCanHaveMoreInterimAmount(value);
   }, []);
 
@@ -90,6 +96,9 @@ export default function useUpdateBiddingForm() {
   }, []);
 
   const handleChangeCanHaveEarlierRemainingAmountDate = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setRemainingAmountDate(null);
+    }
     setCanHaveEarlierRemainingAmountDate(value);
   }, []);
 
