@@ -364,7 +364,17 @@ export default function useListingCreateForm(depth: number) {
 
     router.replace(Routes.ListingCreateChooseAgent, {
       searchParams: { listingID: router.query.listingID as string },
-      state: { params: encoded, addressLine1, addressLine2, addressData: router.query.addressData as string },
+      state: {
+        params: encoded,
+        addressLine1,
+        addressLine2,
+        addressData: router.query.addressData as string,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
+      },
     });
   }, [
     router,
@@ -413,6 +423,11 @@ export default function useListingCreateForm(depth: number) {
     router.replace(Routes.ListingCreateAddressDetail, {
       state: {
         addressData: router.query.addressData as string,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
       },
     });
   }, [router]);

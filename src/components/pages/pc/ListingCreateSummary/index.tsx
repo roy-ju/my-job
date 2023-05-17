@@ -82,6 +82,11 @@ export default memo(({ depth, panelWidth }: Props) => {
         addressLine1: router.query.addressLine1 as string,
         addressLine2: router.query.addressLine2 as string,
         addressData: router.query.addressData as string,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
       },
     });
   }, [router]);
@@ -128,7 +133,16 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setPopup(false);
-                  router.replace(Routes.ListingDetail, { searchParams: { listingID: `${listingID}` } });
+                  router.replace(Routes.ListingDetail, {
+                    searchParams: { listingID: `${listingID}` },
+                    state: {
+                      ...(router.query.origin
+                        ? {
+                            origin: router.query.origin as string,
+                          }
+                        : {}),
+                    },
+                  });
                 }}
               >
                 확인

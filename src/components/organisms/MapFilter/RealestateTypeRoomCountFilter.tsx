@@ -96,7 +96,6 @@ export default function RealestateTypeFilter({
                 handleRealestateTypesChange?.({
                   target: {
                     value: [
-                      RealestateType.Apartment,
                       RealestateType.Officetel,
                       RealestateType.Yunrip,
                       RealestateType.Dasaedae,

@@ -21,6 +21,11 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.MyAddressDetail, {
       state: {
         addressData: router.query.addressData as string,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
       },
     });
   }, [router]);
@@ -28,7 +33,15 @@ export default memo(({ depth, panelWidth }: Props) => {
   const verify = useCallback(async () => {
     const { addressData: inAddressData, dong, ho } = router.query;
     if (!inAddressData) {
-      router.replace(Routes.MyAddress);
+      router.replace(Routes.MyAddress, {
+        state: {
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
+        },
+      });
       return;
     }
 
@@ -52,6 +65,11 @@ export default memo(({ depth, panelWidth }: Props) => {
         state: {
           addressData: router.query.addressData as string,
           errorCode: `${res.error_code}`,
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
         },
       });
       return;
@@ -84,6 +102,11 @@ export default memo(({ depth, panelWidth }: Props) => {
         state: {
           addressData: router.query.addressData as string,
           errorCode: '10000',
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
         },
       });
     }
