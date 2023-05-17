@@ -123,6 +123,7 @@ function getKey(mapToggleValue: number, bounds: MapBounds | null, filter: Filter
       return null;
     }
 
+    // listing ids 가 있을때는 무한스크롤/페이지네이션 없음
     if (listingIDs) {
       if (size > 0) {
         return null;
