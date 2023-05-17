@@ -35,7 +35,7 @@ export interface TermsState {
 export interface OwnerVerificationProps {
   isLoading?: boolean;
   address?: string;
-  approverName?: string;
+  requestorName?: string;
   buyOrRent?: number;
   price?: number;
   monthlyRentFee?: number;
@@ -47,7 +47,7 @@ export interface OwnerVerificationProps {
 export default function OwnerVerification({
   isLoading,
   address,
-  approverName,
+  requestorName,
   buyOrRent,
   price,
   monthlyRentFee,
@@ -124,7 +124,7 @@ export default function OwnerVerification({
               </Table.Row>
               <Table.Row>
                 <Table.Head>등록 요청자</Table.Head>
-                <Table.Data>{approverName}</Table.Data>
+                <Table.Data>{requestorName}</Table.Data>
               </Table.Row>
               <Table.Row>
                 <Table.Head>거래 유형</Table.Head>

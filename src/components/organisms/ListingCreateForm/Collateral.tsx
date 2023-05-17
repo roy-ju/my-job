@@ -36,6 +36,7 @@ function Container({ onClickAdd, isAddButtonDisabled }: ContainerProps) {
 }
 
 interface ItemProps {
+  index?: number;
   name?: string;
   price?: string;
   onChangeName?: (value: string) => void;
@@ -43,14 +44,14 @@ interface ItemProps {
   onClickRemove?: () => void;
 }
 
-function Item({ name, price, onChangeName, onChangePrice, onClickRemove }: ItemProps) {
+function Item({ index = 0, name, price, onChangeName, onChangePrice, onClickRemove }: ItemProps) {
   return (
     <div>
       <div tw="flex items-center gap-1">
         <Button variant="ghost" size="none" onClick={onClickRemove}>
           <RemoveIcon />
         </Button>
-        <div tw="text-info">항목</div>
+        <div tw="text-info">항목 {index + 1}</div>
       </div>
       <div tw="flex flex-col gap-4 mt-4">
         <TextField variant="outlined">
