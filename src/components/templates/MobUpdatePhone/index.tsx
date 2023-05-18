@@ -70,7 +70,12 @@ export default function MobUpdatePhone({
         </div>
         <div tw="flex flex-col gap-3">
           <TextField variant="outlined">
-            <TextField.Input label="휴대폰번호" value={phone} onChange={handleChangePhone} />
+            <TextField.PatternInput
+              format="###-####-####"
+              label="휴대폰번호"
+              value={phone}
+              onChange={handleChangePhone}
+            />
             <TextField.Trailing>
               <Button disabled={phone.length < 1} size="small" onClick={onClickSend}>
                 {sent ? '재발송' : '발송'}
