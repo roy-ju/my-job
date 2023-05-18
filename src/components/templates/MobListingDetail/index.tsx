@@ -17,10 +17,6 @@ import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocum
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
 import UserStatusStrings from '../ListingDetail/strings';
 
-const commonOptions = ['신고하기', '중개약정확인'];
-
-const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
-
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
@@ -108,6 +104,24 @@ export default function MobListingDetail({
   });
 
   const [isShowRpTab, setIsShowRpTab] = useState(false);
+
+  const isListingRegisteredBeforeMarch22nd2023 = useMemo(() => {
+    const targetDate = new Date('2023-03-22T00:00:00+09:00');
+    const dateTimeString = listingDetail?.listing?.created_time;
+
+    if (!dateTimeString) {
+      return false;
+    }
+
+    const dateTime = new Date(dateTimeString);
+    return dateTime < targetDate;
+  }, [listingDetail?.listing?.created_time]);
+
+  const commonOptions = isListingRegisteredBeforeMarch22nd2023 ? ['신고하기', '중개약정확인'] : ['신고하기'];
+
+  const sellerOptions = isListingRegisteredBeforeMarch22nd2023
+    ? ['신고하기', '매물관리', '중개약정확인']
+    : ['신고하기', '매물관리'];
 
   const biddingsChatRoomCreated = useMemo(
     () =>
@@ -222,7 +236,7 @@ export default function MobListingDetail({
     <div tw="relative flex flex-col h-full">
       <NavigationHeader
         css={[
-          tw`absolute top-0 left-0 z-50 w-full text-white transition-colors bg-transparent`,
+          tw`absolute top-0 left-0 w-full text-white transition-colors bg-transparent z-[110]`,
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
@@ -248,7 +262,7 @@ export default function MobListingDetail({
           defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
           photoPaths={photoPaths}
         />
-        <div tw="sticky top-12 pt-2 z-40">
+        <div tw="sticky top-12 pt-2 z-[109]">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
