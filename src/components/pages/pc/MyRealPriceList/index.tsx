@@ -3,13 +3,16 @@ import { Panel } from '@/components/atoms';
 import { MyRealPriceList } from '@/components/templates';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { useAuth } from '@/hooks/services';
+import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth }: Props) => {
+export default memo(({ depth, panelWidth }: Props) => {
+  const router = useRouter(depth);
   const [buyOrRent, setBuyOrRent] = useState(0);
   const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(buyOrRent);
   const { user } = useAuth();
@@ -24,6 +27,8 @@ export default memo(({ panelWidth }: Props) => {
         area: item?.jeonyong_area,
         buyOrRent: item?.buy_or_rent,
         dealType: item?.deal_type,
+        pnu: item?.pnu,
+        realestateType: item?.realestate_type,
       })),
     [data],
   );
@@ -53,6 +58,14 @@ export default memo(({ panelWidth }: Props) => {
         onChangeBuyOrRent={handleChangeBuyOrRent}
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
+        onClickItem={(pnu, realestateType) =>
+          router.push(Routes.DanjiDetail, {
+            searchParams: {
+              p: pnu,
+              rt: `${realestateType}`,
+            },
+          })
+        }
       />
     </Panel>
   );

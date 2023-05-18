@@ -4,9 +4,7 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
-import { useMemo } from 'react';
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
-import { toast } from 'react-toastify';
 import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
 interface MarkersProps {
@@ -29,19 +27,6 @@ export default function Markers({
   selectedSchoolID,
   myMarker,
 }: MarkersProps) {
-  const shouldShowSchoolMarker = useMemo(() => {
-    if (mapLevel !== 1 && schoolMarkers.length > 1) {
-      toast.error('지도를 확대하여 학교마커를 확인하세요.', { toastId: 'toast-error-school' });
-      return false;
-    }
-
-    if (mapLevel === 1 && schoolMarkers.length > 1) {
-      return true;
-    }
-
-    return false;
-  }, [mapLevel, schoolMarkers]);
-
   return (
     <>
       {mapLevel !== 1 &&
@@ -94,27 +79,25 @@ export default function Markers({
           </DeferredRender>
         ))}
 
-      {(mapLevel ?? 4) < 3 &&
-        shouldShowSchoolMarker &&
-        schoolMarkers?.map((marker) => (
-          <DeferredRender key={marker.id}>
-            <CustomOverlay
-              zIndex={selectedSchoolID === marker.id ? 100 : 9}
-              anchor="bottom-left"
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-            >
-              <MobSchoolMarker
-                selected={selectedSchoolID === marker.id}
-                onClick={marker.onClick}
-                name={marker.name}
-                type={marker.type}
-              />
-            </CustomOverlay>
-          </DeferredRender>
-        ))}
+      {schoolMarkers?.map((marker) => (
+        <DeferredRender key={marker.id}>
+          <CustomOverlay
+            zIndex={selectedSchoolID === marker.id ? 100 : 9}
+            anchor="bottom-left"
+            position={{
+              lat: marker.lat,
+              lng: marker.lng,
+            }}
+          >
+            <MobSchoolMarker
+              selected={selectedSchoolID === marker.id}
+              onClick={marker.onClick}
+              name={marker.name}
+              type={marker.type}
+            />
+          </CustomOverlay>
+        </DeferredRender>
+      ))}
 
       {myMarker && mapLevel < 3 && (
         <CustomOverlay

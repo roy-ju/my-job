@@ -86,6 +86,7 @@ export default function ListingList({
           </div>
           <div tw="text-info text-gray-700">{officeName}</div>
         </div>
+
         <Separator />
         <div
           css={ListingListDivider}

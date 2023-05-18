@@ -12,9 +12,7 @@ import { NaverMapV1 } from '@/lib/navermapV1';
 import { MobSchoolMarker } from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import getHakgudo from '@/apis/map/mapHakgudos';
-import dynamic from 'next/dynamic';
-
-const CustomOverlayDanji = dynamic(() => import('./CustomOverlayDanji'), { ssr: false });
+import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
 
 type GetSchoolResponse = {
   school_name: string;
@@ -311,7 +309,7 @@ export default function DanjiSchoolMapCard({
           }}
           style={{ width: '100%', height: '100%' }}
         >
-          <CustomOverlayDanji
+          <CustomOverlayV1
             key={`${lat}${lng}`}
             position={{
               lat: +lat,
@@ -320,27 +318,25 @@ export default function DanjiSchoolMapCard({
             tw="z-[50]"
           >
             <MapMarkerSearchItem />
-          </CustomOverlayDanji>
+          </CustomOverlayV1>
           {list.length > 0 &&
-            list.map((item, index) => {
-              console.log(item);
-              return (
-                <CustomOverlayDanji
-                  key={`${item.school_id}${item.school_type}${item.lat}${item.long}`}
-                  position={{
-                    lat: +item.lat,
-                    lng: +item.long,
-                  }}
-                  tw="z-[50]"
-                >
-                  <MobSchoolMarker
-                    type={convertSchoolType(item.school_type)}
-                    name={convertSchoolName(item.school_type, item.school_name)}
-                    onClick={() => onClickSchoolMarker(item, index)}
-                  />
-                </CustomOverlayDanji>
-              );
-            })}
+            list.map((item, index) => (
+              <CustomOverlayV1
+                anchor="bottom-left"
+                key={`${item.school_id}${item.school_type}${item.lat}${item.long}`}
+                position={{
+                  lat: +item.lat,
+                  lng: +item.long,
+                }}
+                tw="z-[50]"
+              >
+                <MobSchoolMarker
+                  type={convertSchoolType(item.school_type)}
+                  name={convertSchoolName(item.school_type, item.school_name)}
+                  onClick={() => onClickSchoolMarker(item, index)}
+                />
+              </CustomOverlayV1>
+            ))}
         </NaverMapV1>
       </div>
       <Stack

@@ -10,6 +10,7 @@ export interface MyRealPriceListItemProps {
   area: string;
   buyOrRent: number;
   dealType: string;
+  onClick?: () => void;
 }
 
 export default function MyRealPriceListItem({
@@ -20,10 +21,15 @@ export default function MyRealPriceListItem({
   area,
   buyOrRent,
   dealType,
+  onClick,
 }: MyRealPriceListItemProps) {
   return (
     <div tw="bg-white">
-      <button type="button" tw="text-start w-full flex flex-col items-stretch p-5 hover:bg-gray-50 transition-colors">
+      <button
+        type="button"
+        tw="text-start w-full flex flex-col items-stretch p-5 hover:bg-gray-50 transition-colors"
+        onClick={onClick}
+      >
         <div tw="flex items-center justify-between mb-2">
           <div tw="text-b2 leading-none">{danjiName}</div>
           <div tw="text-b2 leading-none text-nego-1000">
