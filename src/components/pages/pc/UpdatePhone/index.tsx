@@ -59,9 +59,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     [codeVerified],
   );
 
-  const handleChangeCode = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    setCode(e.target.value);
-  }, []);
+  const handleChangeCode = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      if (errorCode === ErrorCodes.PHONE_VERIFICATION_NUMBER_NOT_MATCH) {
+        setErrorCode(null);
+      }
+      setCode(e.target.value);
+    },
+    [errorCode],
+  );
 
   const handleClickSend = useCallback(async () => {
     setVerificationTimeLeft(VALID_TIME_OF_VERIFICATION);
@@ -125,7 +131,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         sent={sent}
         minutes={leftVerificationMinutes}
         seconds={leftVerificationSeconds}
-        codeErrorMessage={errorMessage}
+        codeErrorMessage={errorCode !== null ? errorMessage : ''}
         codeVerified={codeVerified}
         onChangePhone={handleChangePhone}
         onChangeCode={handleChangeCode}
