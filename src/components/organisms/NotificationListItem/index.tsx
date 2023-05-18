@@ -13,6 +13,7 @@ interface NotificationListItemProps {
   unread: boolean;
   checkbox: boolean;
   checked?: boolean;
+  isCurrentTabAll?: boolean;
   onClick?: () => void;
   onChange?: (checked: boolean) => void;
 }
@@ -27,6 +28,7 @@ export default function NotificationListItem({
   createdTime,
   checkbox,
   checked: checkedProp,
+  isCurrentTabAll,
   onClick,
   onChange,
 }: NotificationListItemProps) {
@@ -83,7 +85,7 @@ export default function NotificationListItem({
         <div tw="flex flex-col py-5">
           <div tw="flex items-center">
             <div tw="flex gap-1">
-              <Chip variant="gray">{typeString}</Chip>
+              {isCurrentTabAll && <Chip variant="gray">{typeString}</Chip>}
               {Boolean(category) && <Chip variant={setChip.color}>{setChip.label}</Chip>}
             </div>
             <div tw="flex items-center ml-auto gap-2">

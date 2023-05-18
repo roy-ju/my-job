@@ -33,7 +33,6 @@ export default function ListingDetailPassedItem({
   floor,
   direction,
   listingImagePath,
-
   onClick,
 }: IListingDetailPassedItem) {
   const floorString = useMemo(() => {
@@ -49,7 +48,7 @@ export default function ListingDetailPassedItem({
 
   return (
     <div tw="flex w-full justify-between">
-      <div tw="flex gap-3 items-center">
+      <div tw="w-full flex gap-3 items-center">
         <Image
           src={listingImagePath || Paths.DEFAULT_APARTMENT_IMAGE_PATH}
           alt=""
@@ -57,8 +56,15 @@ export default function ListingDetailPassedItem({
           height={64}
           tw="rounded-lg"
         />
-        <div tw="overflow-hidden">
-          <div tw="font-bold text-b1 truncate">{listingTitle}</div>
+        <div tw="w-full overflow-hidden">
+          <div tw="w-full flex  gap-3 justify-between">
+            <div className="iphone-se-mobile-listingTitle" tw="font-bold text-b1 truncate">
+              {listingTitle}
+            </div>
+            <Button onClick={onClick} variant="outlined" tw="h-8 shrink-0">
+              매물 상세
+            </Button>
+          </div>
           <div tw="text-info text-left truncate">{address}</div>
           <div css={informationStringWrapper}>
             {area && <div tw="whitespace-nowrap">전용 {area}㎡</div>}
@@ -67,9 +73,9 @@ export default function ListingDetailPassedItem({
           </div>
         </div>
       </div>
-      <Button onClick={onClick} variant="outlined" tw="h-8 shrink-0">
+      {/* <Button onClick={onClick} variant="outlined" tw="h-8 px-4 shrink-0">
         매물 상세
-      </Button>
+      </Button> */}
     </div>
   );
 }
