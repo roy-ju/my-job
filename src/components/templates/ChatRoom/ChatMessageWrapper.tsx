@@ -60,7 +60,7 @@ export default memo(
     return (
       <div tw="px-5" style={{ paddingBottom: extraPaddingBottom }}>
         {shouldRenderDate && (
-          <div tw="my-7 text-center text-info leading-3">
+          <div tw="py-7 text-center text-info leading-3">
             <Moment format="yyyy년 MM월 DD일">{chat.sentTime}</Moment>
           </div>
         )}
