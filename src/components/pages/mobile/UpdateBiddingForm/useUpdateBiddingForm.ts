@@ -350,19 +350,19 @@ export default function useUpdateBiddingForm() {
     }
 
     if (currentForm === Forms.RemainingAmount) {
-      if (canHaveEarlierRemainingAmountDate === null) {
+      if (canHaveEarlierRemainingAmountDate === null && data?.listing?.remaining_amount_payment_time) {
         setNextButtonDisabled(true);
       }
       if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
         setNextButtonDisabled(true);
       }
+      if (!data?.listing?.remaining_amount_payment_time && remainingAmountDate === null) {
+        setNextButtonDisabled(true);
+      }
     }
 
     if (currentForm === Forms.MoveInDate) {
-      if (canHaveEarlierMoveInDate === null) {
-        setNextButtonDisabled(true);
-      }
-      if (canHaveEarlierMoveInDate === true && moveInDate === null) {
+      if (moveInDate === null) {
         setNextButtonDisabled(true);
       }
     }
@@ -372,6 +372,7 @@ export default function useUpdateBiddingForm() {
     price,
     monthlyRentFee,
     data?.listing?.buy_or_rent,
+    data?.listing?.remaining_amount_payment_time,
     canHaveMoreContractAmount,
     contractAmount,
     canHaveMoreInterimAmount,
