@@ -83,28 +83,28 @@ export default function BasicInfo({
 
             {danji.total_dong_count && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">총 {danji.total_dong_count}동</span>
               </>
             )}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max === 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{`전용 ${cuttingDot(danji.jeonyong_min)}㎡`}</span>
               </>
             )}
 
             {danji.jeonyong_min === 0 && danji.jeonyong_max > 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{`전용 ${cuttingDot(danji.jeonyong_max)}㎡`}</span>
               </>
             )}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max > 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">
                   {cuttingDot(danji.jeonyong_min) === cuttingDot(danji?.jeonyong_max)
                     ? `전용 ${cuttingDot(danji?.jeonyong_min)}㎡`
@@ -115,7 +115,7 @@ export default function BasicInfo({
 
             {danji?.construction_start_date?.replaceAll(' ', '') && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</span>
               </>
             )}
