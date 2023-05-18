@@ -89,6 +89,24 @@ export default function RealTradeDetail({ depth }: { depth: number }) {
     }
   };
 
+  const onClickSelectPage = () => {
+    if (router.query.listingID) {
+      router.replace(Routes.DanjiSelect, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          p: `${router.query.p}`,
+          rt: router.query.rt as string,
+        },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    } else {
+      router.replace(Routes.DanjiSelect, {
+        searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+        state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
+      });
+    }
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (localStorage.getItem(prefixComparison)) {
@@ -123,6 +141,7 @@ export default function RealTradeDetail({ depth }: { depth: number }) {
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}
         onClickBackButton={handleClickBackButton}
+        onClickSelectPage={onClickSelectPage}
       />
       <div tw="overflow-y-auto">
         <div tw="w-full relative bg-white py-3 pb-0 px-5 gap-1">

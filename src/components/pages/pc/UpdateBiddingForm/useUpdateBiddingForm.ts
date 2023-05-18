@@ -7,10 +7,13 @@ import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import useAPI_GetBiddingInfo, { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
 import Routes from '@/router/routes';
 import { TimeTypeString } from '@/constants/strings';
+import { useRouter as useNextRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import makeUpdateBiddingParams from './makeUpdateBiddingParams';
 
 export default function useUpdateBiddingForm(depth: number) {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const listingID = Number(router.query.listingID) ?? 0;
   const biddingID = Number(router.query.biddingID) ?? 0;
@@ -49,6 +52,16 @@ export default function useUpdateBiddingForm(depth: number) {
 
   const initialFormsRef = useRef<string[]>([Forms.Price]);
 
+  const getBackButtonHandler = useCallback(() => {
+    if (nextRouter.query.back) {
+      return () => {
+        nextRouter.replace(nextRouter.query.back as string);
+      };
+    }
+
+    return undefined;
+  }, [nextRouter]);
+
   const handleChangeType = useCallback((value: number) => {
     setType(value);
     if (value === 2) {
@@ -56,19 +69,6 @@ export default function useUpdateBiddingForm(depth: number) {
     } else {
       setForms(initialFormsRef.current);
     }
-    // if (value === 2) {
-    //   setForms([Forms.Price]);
-    //   setPrice('');
-    //   setMonthlyRentFee('');
-    //   setCanHaveMoreContractAmount(null);
-    //   setContractAmount('');
-    //   setCanHaveMoreInterimAmount(null);
-    //   setInterimAmount('');
-    //   setCanHaveEarlierRemainingAmountDate(null);
-    //   setRemainingAmountDate(null);
-    //   setCanHaveEarlierMoveInDate(null);
-    //   setMoveInDate(null);
-    // }
   }, []);
 
   const handleChangePrice = useCallback((value: string) => {
@@ -80,6 +80,9 @@ export default function useUpdateBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveMoreContractAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setContractAmount('');
+    }
     setCanHaveMoreContractAmount(value);
   }, []);
 
@@ -88,6 +91,9 @@ export default function useUpdateBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveMoreInterimAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setInterimAmount('');
+    }
     setCanHaveMoreInterimAmount(value);
   }, []);
 
@@ -96,6 +102,9 @@ export default function useUpdateBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveEarlierRemainingAmountDate = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setRemainingAmountDate(null);
+    }
     setCanHaveEarlierRemainingAmountDate(value);
   }, []);
 
@@ -132,6 +141,29 @@ export default function useUpdateBiddingForm(depth: number) {
   }, []);
 
   const handleSubmitFinal = useCallback(() => {
+    // 한번더 최종 벨리데이션을 한다.
+
+    if (canHaveMoreContractAmount === true && contractAmount === '') {
+      const form = document.getElementById(Forms.ContractAmount);
+      toast.error('계약금을 입력해주세요.');
+      form?.scrollIntoView();
+      return;
+    }
+
+    if (canHaveMoreInterimAmount === true && interimAmount === '') {
+      const form = document.getElementById(Forms.InterimAmount);
+      toast.error('중도금을 입력해주세요.');
+      form?.scrollIntoView();
+      return;
+    }
+
+    if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
+      const form = document.getElementById(Forms.RemainingAmount);
+      toast.error('잔금날짜를 입력해주세요.');
+      form?.scrollIntoView();
+      return;
+    }
+
     const reqParams = makeUpdateBiddingParams({
       acceptingTargetPrice: type === 2,
       price,
@@ -319,19 +351,19 @@ export default function useUpdateBiddingForm(depth: number) {
     }
 
     if (currentForm === Forms.RemainingAmount) {
-      if (canHaveEarlierRemainingAmountDate === null) {
+      if (canHaveEarlierRemainingAmountDate === null && data?.listing?.remaining_amount_payment_time) {
         setNextButtonDisabled(true);
       }
       if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
         setNextButtonDisabled(true);
       }
+      if (!data?.listing?.remaining_amount_payment_time && remainingAmountDate === null) {
+        setNextButtonDisabled(true);
+      }
     }
 
     if (currentForm === Forms.MoveInDate) {
-      if (canHaveEarlierMoveInDate === null) {
-        setNextButtonDisabled(true);
-      }
-      if (canHaveEarlierMoveInDate === true && moveInDate === null) {
+      if (moveInDate === null) {
         setNextButtonDisabled(true);
       }
     }
@@ -341,6 +373,7 @@ export default function useUpdateBiddingForm(depth: number) {
     price,
     monthlyRentFee,
     data?.listing?.buy_or_rent,
+    data?.listing?.remaining_amount_payment_time,
     canHaveMoreContractAmount,
     contractAmount,
     canHaveMoreInterimAmount,
@@ -535,5 +568,6 @@ export default function useUpdateBiddingForm(depth: number) {
     handleChangeEtcs,
     description,
     handleChangeDescription,
+    getBackButtonHandler,
   };
 }

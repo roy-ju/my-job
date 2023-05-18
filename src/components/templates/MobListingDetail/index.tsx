@@ -13,17 +13,16 @@ import falsy from '@/utils/falsy';
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
-import UserStatusStrings from './strings';
+import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
-
-const commonOptions = ['신고하기', '중개약정확인'];
-
-const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
+import UserStatusStrings from '../ListingDetail/strings';
 
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
+
+  realestateDocumentData?: GetRealestateDocumentResponse;
 
   isLoadingQna?: boolean;
   isLoading?: boolean;
@@ -40,6 +39,8 @@ export interface ListingDetailProps {
   onNavigateToChatRoom?: () => void;
   onNavigateToSuggestRegional?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
+  onNavigateToListingDetailHistory?: () => void;
+
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
   onClickShare?: () => void;
@@ -50,6 +51,7 @@ export default function MobListingDetail({
   listingDetail,
   qnaList,
   hasMoreQnas,
+  realestateDocumentData,
   onClickMoreItem,
   onClickFavorite,
   onClickLoadMoreQna,
@@ -63,6 +65,7 @@ export default function MobListingDetail({
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
   onNavigateToSuggestRegional,
+  onNavigateToListingDetailHistory,
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
@@ -101,6 +104,24 @@ export default function MobListingDetail({
   });
 
   const [isShowRpTab, setIsShowRpTab] = useState(false);
+
+  const isListingRegisteredBeforeMarch22nd2023 = useMemo(() => {
+    const targetDate = new Date('2023-03-22T00:00:00+09:00');
+    const dateTimeString = listingDetail?.listing?.created_time;
+
+    if (!dateTimeString) {
+      return false;
+    }
+
+    const dateTime = new Date(dateTimeString);
+    return dateTime < targetDate;
+  }, [listingDetail?.listing?.created_time]);
+
+  const commonOptions = isListingRegisteredBeforeMarch22nd2023 ? ['신고하기', '중개약정확인'] : ['신고하기'];
+
+  const sellerOptions = isListingRegisteredBeforeMarch22nd2023
+    ? ['신고하기', '매물관리', '중개약정확인']
+    : ['신고하기', '매물관리'];
 
   const biddingsChatRoomCreated = useMemo(
     () =>
@@ -215,7 +236,7 @@ export default function MobListingDetail({
     <div tw="relative flex flex-col h-full">
       <NavigationHeader
         css={[
-          tw`absolute top-0 left-0 [z-index: 300] w-full text-white transition-colors bg-transparent`,
+          tw`absolute top-0 left-0 w-full text-white transition-colors bg-transparent z-[110]`,
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
@@ -241,7 +262,7 @@ export default function MobListingDetail({
           defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
           photoPaths={photoPaths}
         />
-        <div tw="sticky top-8 pt-6 [z-index: 300]">
+        <div tw="sticky top-12 pt-2 z-[109]">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
@@ -305,6 +326,7 @@ export default function MobListingDetail({
                     onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
                     onClickSuggestNotInterested={onClickSuggestNotInterested}
                     onNavigateToSuggestRegional={onNavigateToSuggestRegional}
+                    onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
                   />
                 </div>
               </Accordion.Details>
@@ -331,8 +353,7 @@ export default function MobListingDetail({
         <div id="listingInfoSection" ref={setListingInfoSection}>
           <div tw="px-5 pt-6 pb-10">
             <ListingDetailSection.Biddings
-              // showBiddingPrice={listingDetail?.is_owner ?? false}
-              showBiddingPrice
+              isOwner={listingDetail?.is_owner ?? false}
               biddingsChatRoomCreated={biddingsChatRoomCreated}
               biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
             />
@@ -488,6 +509,15 @@ export default function MobListingDetail({
           )}
           <Separator />
         </div>
+
+        {realestateDocumentData && realestateDocumentData.created_time && (
+          <div>
+            <div tw="py-10 px-5">
+              <ListingDetailSection.RealestateDocument data={realestateDocumentData} />
+            </div>
+            <Separator />
+          </div>
+        )}
 
         {danji && (
           <div id="danjiSection" ref={setDanjiSection}>

@@ -72,6 +72,7 @@
     "recoil": "^0.7.6",
     "requestidlecallback-polyfill": "^1.0.2",
     "swr": "^2.1.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "typescript": "4.9.4",
     "uuid": "^9.0.0"
   },

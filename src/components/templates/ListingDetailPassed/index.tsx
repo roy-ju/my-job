@@ -55,7 +55,7 @@ export default function ListingDetailPassed({
     return (
       <>
         <Button onClick={onNavigateToChatRoom} tw="h-10 w-full" variant="outlined">
-          {sellerAgentChatRoomClosed ? '채팅 보기' : '채팅 바로가기'}
+          {sellerAgentChatRoomClosed ? '채팅 보기' : '중개사 채팅'}
         </Button>
         <Button onClick={onNavigateToTransactionReview} tw="h-10 w-full" variant="primary">
           {hasReview ? '거래후기 보기' : '거래후기 남기기'}

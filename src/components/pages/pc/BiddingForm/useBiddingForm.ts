@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent } from '@/constants/enums';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import { TimeTypeString } from '@/constants/strings';
+import { toast } from 'react-toastify';
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 
 export default function useBiddingForm(depth: number) {
@@ -67,6 +68,9 @@ export default function useBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveMoreContractAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setContractAmount('');
+    }
     setCanHaveMoreContractAmount(value);
   }, []);
 
@@ -75,6 +79,9 @@ export default function useBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveMoreInterimAmount = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setInterimAmount('');
+    }
     setCanHaveMoreInterimAmount(value);
   }, []);
 
@@ -83,6 +90,9 @@ export default function useBiddingForm(depth: number) {
   }, []);
 
   const handleChangeCanHaveEarlierRemainingAmountDate = useCallback((value: boolean | null) => {
+    if (value === false) {
+      setRemainingAmountDate(null);
+    }
     setCanHaveEarlierRemainingAmountDate(value);
   }, []);
 
@@ -119,6 +129,29 @@ export default function useBiddingForm(depth: number) {
   }, []);
 
   const handleSubmitFinal = useCallback(() => {
+    // 한번더 최종 벨리데이션을 한다.
+
+    if (canHaveMoreContractAmount === true && contractAmount === '') {
+      const form = document.getElementById(Forms.ContractAmount);
+      toast.error('계약금을 입력해주세요.');
+      form?.scrollIntoView();
+      return;
+    }
+
+    if (canHaveMoreInterimAmount === true && interimAmount === '') {
+      const form = document.getElementById(Forms.InterimAmount);
+      toast.error('중도금을 입력해주세요.');
+      form?.scrollIntoView();
+      return;
+    }
+
+    if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
+      const form = document.getElementById(Forms.RemainingAmount);
+      toast.error('잔금날짜를 입력해주세요.');
+      form?.scrollIntoView();
+      return;
+    }
+
     const params = makeCreateBiddingParams({
       acceptingTargetPrice: type === 2,
       price,
@@ -257,7 +290,6 @@ export default function useBiddingForm(depth: number) {
           prevFormElement.style.minHeight = '';
         }
       }
-
       formElement.scrollIntoView({ behavior: 'smooth' });
     }
   }, [forms]);
@@ -305,19 +337,19 @@ export default function useBiddingForm(depth: number) {
     }
 
     if (currentForm === Forms.RemainingAmount) {
-      if (canHaveEarlierRemainingAmountDate === null) {
+      if (canHaveEarlierRemainingAmountDate === null && data?.listing?.remaining_amount_payment_time) {
         setNextButtonDisabled(true);
       }
       if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
         setNextButtonDisabled(true);
       }
+      if (!data?.listing?.remaining_amount_payment_time && remainingAmountDate === null) {
+        setNextButtonDisabled(true);
+      }
     }
 
     if (currentForm === Forms.MoveInDate) {
-      if (canHaveEarlierMoveInDate === null) {
-        setNextButtonDisabled(true);
-      }
-      if (canHaveEarlierMoveInDate === true && moveInDate === null) {
+      if (moveInDate === null) {
         setNextButtonDisabled(true);
       }
     }
@@ -327,6 +359,7 @@ export default function useBiddingForm(depth: number) {
     price,
     monthlyRentFee,
     data?.listing?.buy_or_rent,
+    data?.listing?.remaining_amount_payment_time,
     canHaveMoreContractAmount,
     contractAmount,
     canHaveMoreInterimAmount,
@@ -385,7 +418,7 @@ export default function useBiddingForm(depth: number) {
       setCanHaveEarlierMoveInDate(biddingParams.can_have_earlier_move_in_date);
     }
     if (biddingParams.move_in_date) {
-      setRemainingAmountDate(new Date(biddingParams.move_in_date));
+      setMoveInDate(new Date(biddingParams.move_in_date));
     }
     if (biddingParams.move_in_date_type) {
       setMoveInDateType(TimeTypeString[biddingParams.move_in_date_type]);

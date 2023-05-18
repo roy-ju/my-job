@@ -12,6 +12,7 @@ export default function useChatRoomList(depth: number) {
     if (!data || !data.list) return [];
     return data.list.map((item) => ({
       id: item.chat_room_id,
+      chatRoomType: item.chat_room_type,
       profileImagePath: item.agent_profile_image_full_path,
       officeName: item.agent_office_name,
       listingTitle: item.listing_title,

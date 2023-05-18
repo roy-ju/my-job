@@ -107,26 +107,30 @@ export default function Summary({
         {address}
       </div>
       <div tw="h-[96px] flex">
-        <div tw="flex-1 flex flex-col justify-center items-center gap-1">
+        <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
           <AptIcon />
           <div tw="text-info leading-5">{RealestateTypeString[realestateType]}</div>
         </div>
-        <div tw="flex-1 flex flex-col justify-center items-center gap-1">
+        <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
           <RulerIcon />
-          <div tw="text-info leading-5 whitespace-nowrap">
+          <div tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
             {gonggeupArea}㎡/{jeonyongArea}㎡
           </div>
         </div>
         {floorString && (
-          <div tw="flex-1 flex flex-col justify-center items-center gap-1">
+          <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
             <HeightIcon />
-            <div tw="text-info leading-5">{floorString}</div>
+            <div tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
+              {floorString}
+            </div>
           </div>
         )}
         {direction && (
-          <div tw="flex-1 flex flex-col justify-center items-center gap-1">
+          <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
             <DirectionIcon />
-            <div tw="text-info leading-5">{direction}</div>
+            <div tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
+              {direction}
+            </div>
           </div>
         )}
       </div>

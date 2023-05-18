@@ -21,7 +21,7 @@ export default function useSuggestRegionalForm() {
   const [monthlyRentFee, setMonthlyRentFee] = useState('');
   const [minArea, setMinArea] = useState('');
   const [maxArea, setMaxArea] = useState('');
-  const [floor, setFloor] = useState<string[]>(["저층","중층","고층"]);
+  const [floor, setFloor] = useState<string[]>(['저층', '중층', '고층']);
   const [purpose, setPurpose] = useState('');
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
@@ -29,10 +29,6 @@ export default function useSuggestRegionalForm() {
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
 
   const [description, setDescription] = useState('');
-
-  const handleChangeBubjungdong = useCallback((item: RegionItem) => {
-    setBubjungdong(item);
-  }, []);
 
   const handleChangeRealestateType = useCallback((value: number[]) => {
     setRealestateType(value);
@@ -103,31 +99,29 @@ export default function useSuggestRegionalForm() {
   }, [setNextForm]);
 
   const handleSubmitRealestateType = useCallback(() => {
-    setNextForm(Forms.BuyOrRent);
-  }, [setNextForm]);
-
-  const handleSubmitBuyOrRent = useCallback(() => {
-    setNextForm(Forms.Price);
-  }, [setNextForm]);
-
-  const handleSubmitPrice = useCallback(() => {
     setNextForm(Forms.Area);
   }, [setNextForm]);
 
-  const handleSubmitArea = useCallback(() => {
-    if (buyOrRent === BuyOrRent.Buy) {
-      setNextForm(Forms.Purpose);
-    } else {
-      setNextForm(Forms.Floor);
-    }
-  }, [buyOrRent, setNextForm]);
+  const handleSubmitBuyOrRent = useCallback(() => {}, []);
 
-  const handleSubmitFloor = useCallback(() => {
+  const handleSubmitPrice = useCallback(() => {
     setNextForm(Forms.Description);
   }, [setNextForm]);
 
-  const handleSubmitPurpose = useCallback(() => {
+  const handleSubmitArea = useCallback(() => {
     setNextForm(Forms.Floor);
+  }, [setNextForm]);
+
+  const handleSubmitFloor = useCallback(() => {
+    if (buyOrRent === BuyOrRent.Buy) {
+      setNextForm(Forms.Purpose);
+    } else {
+      setNextForm(Forms.Price);
+    }
+  }, [buyOrRent, setNextForm]);
+
+  const handleSubmitPurpose = useCallback(() => {
+    setNextForm(Forms.Price);
   }, [setNextForm]);
 
   const handleSubmitFinal = useCallback(async () => {
@@ -176,6 +170,14 @@ export default function useSuggestRegionalForm() {
     description,
     router,
   ]);
+
+  const handleChangeBubjungdong = useCallback(
+    (item: RegionItem) => {
+      setBubjungdong(item);
+      handleSubmitRegion();
+    },
+    [handleSubmitRegion],
+  );
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
@@ -230,24 +232,25 @@ export default function useSuggestRegionalForm() {
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
+    setTimeout(() => {
+      const formContainer = document.getElementById('formContainer');
+      const formElement = document.getElementById(currentForm);
 
-    const formContainer = document.getElementById('formContainer');
-    const formElement = document.getElementById(currentForm);
+      const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
 
-    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
-
-    if (formElement) {
-      formElement.style.minHeight = `${containerHeight}px`;
-      const prevForm = forms[forms.length - 2];
-      if (prevForm) {
-        const prevFormElement = document.getElementById(prevForm);
-        if (prevFormElement) {
-          prevFormElement.style.minHeight = '';
+      if (formElement) {
+        formElement.style.minHeight = `${containerHeight}px`;
+        const prevForm = forms[forms.length - 2];
+        if (prevForm) {
+          const prevFormElement = document.getElementById(prevForm);
+          if (prevFormElement) {
+            prevFormElement.style.minHeight = '';
+          }
         }
-      }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
-    }
+        formElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 500);
   }, [forms]);
 
   // 버튼 비활성화 로직
@@ -262,16 +265,16 @@ export default function useSuggestRegionalForm() {
     }
 
     if (currentForm === Forms.RealestateType) {
-      if (!realestateType.length) {
+      if (!realestateType.length || !buyOrRent) {
         setNextButtonDisabled(true);
       }
     }
 
-    if (currentForm === Forms.BuyOrRent) {
-      if (!buyOrRent) {
-        setNextButtonDisabled(true);
-      }
-    }
+    // if (currentForm === Forms.BuyOrRent) {
+    //   if (!buyOrRent) {
+    //     setNextButtonDisabled(true);
+    //   }
+    // }
 
     if (currentForm === Forms.Price) {
       if (!price) {

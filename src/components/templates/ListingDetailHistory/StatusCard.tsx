@@ -22,6 +22,14 @@ export default function StatusCard({
   contractBiddingTradeOrDepositPrice,
   contractDate,
 }: StatusCardProps) {
+  const renderMonthlyRentFee = (fee: number) => {
+    if (fee === 0) return '0원';
+    return (
+      <Numeral thousandsSeparated koreanNumber>
+        {fee}
+      </Numeral>
+    );
+  };
   return (
     <div tw="py-6 px-5 bg-gray-100 text-gray-1000">
       <div tw="mb-4 text-b1 font-bold">진행 상황</div>
@@ -40,9 +48,7 @@ export default function StatusCard({
                     {contractBiddingTradeOrDepositPrice}
                   </Numeral>
                   {' / '}
-                  <Numeral thousandsSeparated koreanNumber>
-                    {contractBiddingMonthlyRentFee}
-                  </Numeral>
+                  {renderMonthlyRentFee(contractBiddingMonthlyRentFee)}
                 </div>
               ) : (
                 <Numeral thousandsSeparated koreanNumber>

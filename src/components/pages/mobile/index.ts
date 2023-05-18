@@ -17,7 +17,6 @@ export { default as BusinessInfoWrraper } from './My/BusinessInfoWrraper';
 export { default as QnaWrraper } from './My/QnaWrraper';
 export { default as RealPriceListWrraper } from './My/RealPriceListWrraper';
 export { default as ServiceInfoWrraper } from './My/ServiceInfoWrraper';
-export { default as TransactionHistoryWrraper } from './My/TransactionHistoryWrraper';
 export { default as DeregisterWrraper } from './My/DeregisterWrraper';
 export { default as DeregisterDisclaimerWrraper } from './My/DeregisterDisclaimerWrraper';
 export { default as NegoPointWrraper } from './My/NegoPointWrraper';
@@ -109,7 +108,6 @@ export { default as DanjiRecommendation } from './DanjiRecommendation';
 export { default as DanjiRecommendationSuccess } from './DanjiRecommendationSuccess';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
-
 
 /** 매물등록 가이드 */
 export { default as MobHog } from './MobHog';

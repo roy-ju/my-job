@@ -28,8 +28,11 @@ export default function TypeOne({
       >
         {item.is_participating && (
           <div tw="mb-2">
-            <Chip tw="bg-green-1100 text-white [border-top-left-radius: 4px ] [border-top-right-radius: 0px] [border-bottom-left-radius: 0px] [border-bottom-right-radius: 4px] ">
-              제안중
+            <Chip
+              css={[item.label_text === '협의중' ? tw`bg-nego-600` : tw`bg-green-1100`]}
+              tw="text-white [border-top-left-radius: 4px ] [border-top-right-radius: 0px] [border-bottom-left-radius: 0px] [border-bottom-right-radius: 4px]"
+            >
+              {item.label_text}
             </Chip>
           </div>
         )}

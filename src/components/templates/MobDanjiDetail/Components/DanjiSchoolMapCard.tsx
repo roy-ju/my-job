@@ -12,9 +12,7 @@ import { NaverMapV1 } from '@/lib/navermapV1';
 import { MobSchoolMarker } from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import getHakgudo from '@/apis/map/mapHakgudos';
-import dynamic from 'next/dynamic';
-
-const CustomOverlayDanji = dynamic(() => import('./CustomOverlayDanji'), { ssr: false });
+import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
 
 type GetSchoolResponse = {
   school_name: string;
@@ -105,7 +103,7 @@ export default function DanjiSchoolMapCard({
           strokeColor: '#F34829',
           strokeOpacity: 1,
           strokeWeight: 2,
-          zIndex: 100000,
+          zIndex: 0,
         });
         polygonsArr.push(poly);
       });
@@ -265,6 +263,20 @@ export default function DanjiSchoolMapCard({
     return '-';
   };
 
+  const convertSchoolType = (type: string) => {
+    if (type === '초등학교') return 'elementary';
+    if (type === '중학교') return 'middle';
+    if (type === '고등학교') return 'high';
+    return '';
+  };
+
+  const convertSchoolName = (type: string, name: string) => {
+    if (type === '초등학교') return name.replace('등학교', '');
+    if (type === '중학교') return name.replace('학교', '');
+    if (type === '고등학교') return name.replace('등학교', '');
+    return '';
+  };
+
   useEffect(() => {
     if (map && schoolRef) {
       const header = document.getElementById('negocio-header');
@@ -297,30 +309,33 @@ export default function DanjiSchoolMapCard({
           }}
           style={{ width: '100%', height: '100%' }}
         >
-          <CustomOverlayDanji
+          <CustomOverlayV1
             key={`${lat}${lng}`}
             position={{
               lat: +lat,
               lng: +lng,
             }}
+            tw="z-[50]"
           >
-            <MapMarkerSearchItem style={{ position: 'relative', zIndex: 140 }} />
-          </CustomOverlayDanji>
+            <MapMarkerSearchItem />
+          </CustomOverlayV1>
           {list.length > 0 &&
             list.map((item, index) => (
-              <CustomOverlayDanji
+              <CustomOverlayV1
+                anchor="bottom-left"
                 key={`${item.school_id}${item.school_type}${item.lat}${item.long}`}
                 position={{
                   lat: +item.lat,
                   lng: +item.long,
                 }}
+                tw="z-[50]"
               >
                 <MobSchoolMarker
-                  type={item.school_type}
-                  name={item.school_name}
+                  type={convertSchoolType(item.school_type)}
+                  name={convertSchoolName(item.school_type, item.school_name)}
                   onClick={() => onClickSchoolMarker(item, index)}
                 />
-              </CustomOverlayDanji>
+              </CustomOverlayV1>
             ))}
         </NaverMapV1>
       </div>
@@ -373,12 +388,12 @@ export default function DanjiSchoolMapCard({
             // <Skeleton height="13.6rem" />
           )}
           {!isLoading && list && list.length === 0 && schoolType && (
-            <Typography tw="min-w-full [min-height: 136px] text-b2 [line-height: 20px] text-gray-300 [text-align: center]">
+            <Typography tw="min-w-full [min-height: 136px] [max-height: 136px] text-b2 [line-height: 20px] text-gray-300 [text-align: center]">
               주변에 학교가 없습니다.
             </Typography>
           )}
           {!isLoading && !schoolType && (
-            <Typography tw="min-w-full [min-height: 136px] text-b2 [line-height: 20px] text-gray-300 [text-align: center]">
+            <Typography tw="min-w-full [min-height: 136px] [max-height: 136px] text-b2 [line-height: 20px] text-gray-300 [text-align: center]">
               학교타입을 선택해 주세요.
             </Typography>
           )}

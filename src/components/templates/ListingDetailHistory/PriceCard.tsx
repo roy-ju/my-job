@@ -15,6 +15,15 @@ export default function PriceCard({
   biddingMonthlyRentFee,
   biddingTradeOrDepositPrice,
 }: PriceCardProps) {
+  const renderMonthlyRentFee = (fee: number) => {
+    if (fee === 0) return '0원';
+    return (
+      <Numeral thousandsSeparated koreanNumber>
+        {fee}
+      </Numeral>
+    );
+  };
+
   return (
     <div tw="pt-4 flex justify-evenly">
       <div tw="text-center">
@@ -25,9 +34,7 @@ export default function PriceCard({
               {tradeOrDepositPrice}
             </Numeral>
             {' / '}
-            <Numeral thousandsSeparated koreanNumber>
-              {monthlyRentFee}
-            </Numeral>
+            {renderMonthlyRentFee(monthlyRentFee)}
           </div>
         ) : (
           <Numeral thousandsSeparated koreanNumber>
@@ -44,9 +51,7 @@ export default function PriceCard({
               {biddingTradeOrDepositPrice}
             </Numeral>
             {' / '}
-            <Numeral thousandsSeparated koreanNumber>
-              {biddingMonthlyRentFee}
-            </Numeral>
+            {renderMonthlyRentFee(biddingMonthlyRentFee)}
           </div>
         ) : (
           <Numeral thousandsSeparated koreanNumber>

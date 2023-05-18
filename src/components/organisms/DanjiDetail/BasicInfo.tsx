@@ -9,19 +9,33 @@ import { cuttingDot } from '@/utils/fotmat';
 import moment from 'moment';
 import React, { useState, useCallback, useEffect } from 'react';
 import tw from 'twin.macro';
+import { useRouter as useNextRouter } from 'next/router';
 
 export default function BasicInfo({
+  isShowDanjiListings = false,
   isListingDetail = false,
   depth,
   danji,
 }: {
+  isShowDanjiListings?: boolean;
   isListingDetail?: boolean;
   depth: number;
   danji: GetDanjiDetailResponse;
 }) {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const [isRecommendationService, setIsRecommendationService] = useState(false);
+
+  const handleDanjiDetail = useCallback(() => {
+    nextRouter.replace({
+      pathname: `/${Routes.DanjiDetail}`,
+      query: {
+        p: danji?.pnu || `${nextRouter.query.p}` || '',
+        rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+      },
+    });
+  }, [nextRouter, danji]);
 
   const handleRecommendation = useCallback(() => {
     if (!danji?.pnu || !danji.type) return;
@@ -90,8 +104,13 @@ export default function BasicInfo({
     <>
       <div css={[isListingDetail ? tw`pb-0` : tw`pb-9`]}>
         <div tw="px-5">
-          <div tw="mb-2">
+          <div tw="flex flex-row items-center justify-between mb-2">
             <span tw="text-h3 font-bold">{danji.name}</span>
+            {isShowDanjiListings && (
+              <Button variant="outlined" size="small" onClick={handleDanjiDetail}>
+                단지 정보 보기
+              </Button>
+            )}
           </div>
 
           <div tw="flex flex-col">
@@ -99,34 +118,36 @@ export default function BasicInfo({
           </div>
 
           <div tw="flex items-center gap-1 mb-4">
-            <>
-              <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
-            </>
-
-            {/* {danji.jeonyong_min === 0 && danji.jeonyong_max === 0 && (
+            {danji.total_saedae_count && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
-                <span tw="text-info text-gray-700">전용 -㎡`</span>
+                <span tw="text-info text-gray-700">{danji.total_saedae_count}세대</span>
               </>
-            )} */}
+            )}
+
+            {danji.total_dong_count && (
+              <>
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
+                <span tw="text-info text-gray-700">총 {danji.total_dong_count}동</span>
+              </>
+            )}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max === 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{`전용 ${cuttingDot(danji.jeonyong_min)}㎡`}</span>
               </>
             )}
 
             {danji.jeonyong_min === 0 && danji.jeonyong_max > 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{`전용 ${cuttingDot(danji.jeonyong_max)}㎡`}</span>
               </>
             )}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max > 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">
                   {cuttingDot(danji.jeonyong_min) === cuttingDot(danji?.jeonyong_max)
                     ? `전용 ${cuttingDot(danji?.jeonyong_min)}㎡`
@@ -137,7 +158,7 @@ export default function BasicInfo({
 
             {danji.construction_start_date?.replaceAll(' ', '') && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</span>
               </>
             )}
@@ -148,10 +169,12 @@ export default function BasicInfo({
               <Button variant="secondary" size="big" tw="w-full" onClick={handleCTA}>
                 이 단지 매물 추천받기
               </Button>
-              <div tw="flex gap-1 justify-center">
-                <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
-                <span tw="text-info font-bold text-nego">{danji.suggest_count || 0}</span>
-              </div>
+              {!!danji.suggest_count && (
+                <div tw="flex gap-1 justify-center">
+                  <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
+                  <span tw="text-info font-bold text-nego">{danji.suggest_count}</span>
+                </div>
+              )}
             </div>
           )}
         </div>

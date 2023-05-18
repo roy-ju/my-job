@@ -123,6 +123,41 @@ export enum SuggestRecommendStatus {
   Cancelled = 4,
 }
 
+export enum NotificationLinkType {
+  ServiceHome = 1,
+  ListingRegister = 2, // 매물등록
+  ListingDetail = 3, // 매물상세
+  ChatList = 4, // 채팅메인
+  ChatRoom = 5, // 특정채팅방
+  MyRegisterd = 6, // 나의거래 - 등록한거래
+  MyParticipated = 7, // 나의거래 - 참여한거래
+  MyProfile = 8, // 마이페이지 - 회원정보(닉네임, 본인인증, 간편 로그인, 연락처, 탈퇴, 로그아웃)
+  MyPrivacyPolicy = 9, // 마이페이지 - 기타정보공개 - 약관 및 정책 - 개인정보 처리방침
+  MyTerms = 10, // 마이페이지 - 약관 및 정책 - 서비스 이용약관
+  MyNegoMoney = 11, // 마이페이지 - 네고머니
+  MyVisitSchedules = 12, // 마이페이지 - 방문일정
+  MyServiceQna = 13, // 마이페이지 - 서비스문의
+  MyReport = 14, // 신고내역
+  MyReportDetail = 15, // 신고상세페이지
+  VisitSurvey = 16, // 방문예약 서베이 페이지
+  MyParticipatingTradesPast = 17, // 마이페이지 - 거래참여 이력 - 지난 거래
+  MyParticipatingTrades = 18, // 마이페이지 - 거래참여 이력
+  ListingRegisterCompleted = 19, // 매물등록완료페이지
+  PhoneUpdate = 20, // 휴대폰번호 변경 페이지
+  PenaltyPayment = 21, // 위약금납부 (listing_contract_id 가 chat_room_id column 에 있음)
+  RegisterMyHomeNoticePage = 22, // 집주인 이벤트 공지사항 페이지
+  OpinionHistory = 23, // 마이페이지 - 오피니언 이력 페이지
+  OpinionResultComplete = 24, // 마이페이지 - 오피니언 이력 완료 탭
+  ListingDetailQna = 25, // 매물상세 - Qna 탭.
+  OpinionResultCancelled = 26, // 마이페이지 - 오피니언 이력 - 취소 탭
+  MyTempListingDetail = 27, // 나의거래 등록전 매물 상세 페이지
+  MyRealPrice = 28, // 마이페이지 - 관심실거래가
+  SuggestRegional = 29, // 지역매물 추천 페이지
+  SuggestList = 30, // 추천매물 페이지
+  MyRegisteredPastDetail = 31, // 등록한 매물 이력
+  SuggestRecommendList = 32, // 마이페이지 -> 요청리스트 -> 요청의 추천매물 페이지
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:

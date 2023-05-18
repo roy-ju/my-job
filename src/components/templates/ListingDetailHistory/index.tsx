@@ -3,6 +3,7 @@ import { Button, Moment, Numeral } from '@/components/atoms';
 import { NavigationHeader, Table } from '@/components/molecules';
 import { ListingDetailPassedItem } from '@/components/organisms';
 import tw, { styled } from 'twin.macro';
+import { BiddingStatus } from '@/constants/enums';
 import StatusCard from './StatusCard';
 import SuggestionCard from './SuggestionCard';
 import PriceCard from './PriceCard';
@@ -88,6 +89,7 @@ export default function ListingDetailHistory({
   isAccepted,
   isCancelled,
   buyerAgentChatRoomClosed,
+  biddingStatus,
 
   headerTitle,
   hasReview,
@@ -132,25 +134,34 @@ export default function ListingDetailHistory({
   remainingAmountPaymentTime,
   remainingAmountPaymentTimeType,
 }: ListingDetailHistoryProps) {
+  const renderMonthlyRentFee = (fee: number) => {
+    if (fee === 0) return '0원';
+    return (
+      <Numeral thousandsSeparated koreanNumber>
+        {fee}
+      </Numeral>
+    );
+  };
+
   const renderButton = () => {
     if (isSubmitted)
-      return (
+      return biddingStatus === BiddingStatus.BiddingStatusRejected ? null : (
         <Button onClick={onNavigateToUpdateBiddingForm} tw="h-10 mt-4 w-full" variant="outlined">
-          제안가 수정하기
+          제안 수정
         </Button>
       );
 
     if (isAccepted)
       return (
         <Button onClick={onNavigateToChatRoom} tw="h-10 mt-4 w-full" variant="outlined">
-          채팅 바로가기
+          중개사 채팅
         </Button>
       );
 
     if (isPreContractCompleted)
       return (
         <Button onClick={onNavigateToChatRoom} tw="h-10 mt-4 w-full" variant="outlined">
-          채팅 바로가기
+          중개사 채팅
         </Button>
       );
 
@@ -158,7 +169,7 @@ export default function ListingDetailHistory({
       return (
         <div tw="flex gap-3">
           <Button onClick={onNavigateToChatRoom} tw="h-10 mt-4 w-full" variant="outlined">
-            {buyerAgentChatRoomClosed ? '채팅 보기' : '채팅 바로가기'}
+            {buyerAgentChatRoomClosed ? '채팅 보기' : '중개사 채팅'}
           </Button>
 
           <Button onClick={onNavigateToTransactionReview} tw="h-10 mt-4 w-full">
@@ -244,15 +255,13 @@ export default function ListingDetailHistory({
                   <Table.Data tw="text-right">
                     <Moment format="YYYY.MM.DD HH:mm">{item.created_time}</Moment>
                     <div>
-                      {item.bidding_monthly_rent_fee !== 0 ? (
+                      {isMonthlyRent ? (
                         <div>
                           <Numeral thousandsSeparated koreanNumber>
                             {item.bidding_trade_or_deposit_price}
                           </Numeral>
                           {' / '}
-                          <Numeral thousandsSeparated koreanNumber>
-                            {item.bidding_monthly_rent_fee}
-                          </Numeral>
+                          {renderMonthlyRentFee(item.bidding_monthly_rent_fee)}
                         </div>
                       ) : (
                         <Numeral thousandsSeparated koreanNumber>

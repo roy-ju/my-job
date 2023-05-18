@@ -73,8 +73,10 @@ export interface IFormContext {
   onChangeRemainingAmountDateType?: (value: string) => void;
 
   // 채무승계
+  hasDebtSuccession?: string;
   debtSuccessionDeposit?: string;
   debtSuccessionMiscs?: DebtSuccessionType[];
+  onChangeHasDebtSuccession?: (value: string) => void;
   onChangeDebtSuccessionDeposit?: (value: string) => void;
   onClickAddDebtSuccessionMisc?: () => void;
 

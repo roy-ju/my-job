@@ -119,7 +119,17 @@ export default memo(() => {
         onClickLeaveButton={handleClickLeaveButton}
         onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
         onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
-        onClickBack={() => router.back()}
+        onClickBack={() => {
+          if (typeof window !== 'undefined') {
+            const canGoBack = window.history.length > 1;
+
+            if (canGoBack) {
+              router.back();
+            } else {
+              router.replace('/');
+            }
+          }
+        }}
       />
       {popupOpen && (
         <OverlayPresenter>

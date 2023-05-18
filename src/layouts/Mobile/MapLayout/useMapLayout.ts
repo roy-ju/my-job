@@ -461,11 +461,20 @@ export default function useMapLayout() {
           lastSearchItem.current = null;
         }
 
-        if (listings.length > 0) {
-          setMarkers(Object.values(listingMap));
-        } else {
-          setMarkers(Object.values(danjiMap));
-        }
+        // 오버랩되는 중복 마커 겹침 처리 로직
+        const memory = new Set<string>();
+        const _markers = [...Object.values(danjiMap), ...Object.values(listingMap)];
+
+        _markers.forEach((marker) => {
+          const key = `${marker.lat.toFixed(4)},${marker.lng.toFixed(4)}`;
+          if (memory.has(key)) {
+            marker.lng += 0.00035;
+          } else {
+            memory.add(key);
+          }
+        });
+
+        setMarkers(_markers);
       }
     },
     [selectMarker, router, bounds, filter],
@@ -654,6 +663,10 @@ export default function useMapLayout() {
     isPanningRef.current = true;
   }, []);
 
+  const removeMyMarker = () => {
+    setMyMarker(null);
+  };
+
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
    */
@@ -819,7 +832,7 @@ export default function useMapLayout() {
           map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
           break;
         case 'satellite':
-          map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+          map.setMapTypeId(naver.maps.MapTypeId.HYBRID);
           break;
         case 'terrain':
           map.setMapTypeId(naver.maps.MapTypeId.TERRAIN);
@@ -934,5 +947,6 @@ export default function useMapLayout() {
     handleClickMapListingList,
     popup,
     setPopup,
+    removeMyMarker,
   };
 }

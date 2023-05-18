@@ -1,9 +1,13 @@
+import { useRouter as useNextRouter } from 'next/router';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { ListingCreateAddress } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState, useRef } from 'react';
+import { OverlayPresenter } from '@/components/molecules';
+import ListingCreateGuidePopup from '@/components/organisms/ListingCreateGuidePopup';
+import useOutsideClick from '@/hooks/utils/useOutsideClick';
 
 interface Props {
   depth: number;
@@ -12,22 +16,48 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
+
+  const outsideRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
       router.replace(Routes.ListingCreateAddressDetail, {
         state: {
           addressData: JSON.stringify(value),
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
         },
       });
     },
     [router],
   );
 
+  const handleClickBack = useCallback(() => {
+    if (nextRouter.query.origin) {
+      nextRouter.replace(nextRouter.query.origin as string);
+    }
+  }, [nextRouter]);
+
+  useOutsideClick({ ref: outsideRef, handler: () => setIsPopupOpen(false) });
+
   return (
     <AuthRequired ciRequired depth={depth}>
       <Panel width={panelWidth}>
-        <ListingCreateAddress onSubmit={handleSubmit} />
+        <ListingCreateAddress onSubmit={handleSubmit} onClickBack={router.query.origin ? handleClickBack : undefined} />
+        {isPopupOpen && (
+          <OverlayPresenter>
+            <ListingCreateGuidePopup
+              ref={outsideRef}
+              isPopupOpen={isPopupOpen}
+              onClickClosePopup={() => setIsPopupOpen(false)}
+            />
+          </OverlayPresenter>
+        )}
       </Panel>
     </AuthRequired>
   );

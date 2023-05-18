@@ -15,6 +15,7 @@ export type DanjiListingsListItem = {
   quick_sale: boolean;
   view_count: number;
   participants_count: number;
+  label_text: string;
 };
 
 export type GetDanjiListingsResponse = {

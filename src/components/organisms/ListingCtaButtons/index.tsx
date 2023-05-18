@@ -8,6 +8,8 @@ interface CommonProps {
   onNavigateToChatRoom?: () => void;
   onNavigateToSuggestRegional?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
+  onNavigateToListingDetailHistory?: () => void;
+
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
 }
@@ -22,22 +24,50 @@ function BuyerGeneral({ buttonSize = 'bigger', onNavigateToParticipateBidding }:
   );
 }
 
-function Submitted({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonProps) {
+function Submitted({
+  buttonSize = 'bigger',
+  onNavigateToUpdateBidding,
+  onNavigateToListingDetailHistory,
+}: CommonProps) {
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
-        제안 확인 / 수정
+        제안 수정
       </Button>
+      {onNavigateToListingDetailHistory && (
+        <div tw="flex items-center justify-center">
+          <Button
+            size="none"
+            variant="ghost"
+            tw="underline mt-4 text-gray-1000"
+            onClick={onNavigateToListingDetailHistory}
+          >
+            나의 제안 확인하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
-function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding }: CommonProps) {
+function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding, onNavigateToListingDetailHistory }: CommonProps) {
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToUpdateBidding}>
-        제안 확인 / 수정
+        제안 수정
       </Button>
+      {onNavigateToListingDetailHistory && (
+        <div tw="flex items-center justify-center">
+          <Button
+            size="none"
+            variant="ghost"
+            tw="underline mt-4 text-gray-1000"
+            onClick={onNavigateToListingDetailHistory}
+          >
+            나의 제안 확인하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
@@ -53,7 +83,7 @@ function HasSuggested({
         관심없음
       </Button>
       <Button tw="w-full" size={buttonSize} onClick={onClickSuggestAcceptRecommend}>
-        네고 협의
+        네고 협의 시작하기
       </Button>
     </div>
   );
@@ -69,32 +99,76 @@ function HasRejectedSuggest({ buttonSize = 'bigger' }: CommonProps) {
   );
 }
 
-function Accepted({ buttonSize = 'bigger', onNavigateToChatRoom }: CommonProps) {
+function Accepted({ buttonSize = 'bigger', onNavigateToChatRoom, onNavigateToListingDetailHistory }: CommonProps) {
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToChatRoom}>
         중개사 채팅
       </Button>
+      {onNavigateToListingDetailHistory && (
+        <div tw="flex items-center justify-center">
+          <Button
+            size="none"
+            variant="ghost"
+            tw="underline mt-4 text-gray-1000"
+            onClick={onNavigateToListingDetailHistory}
+          >
+            나의 제안 확인하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
-function PreContractSelf({ buttonSize = 'bigger', onNavigateToChatRoom }: CommonProps) {
+function PreContractSelf({
+  buttonSize = 'bigger',
+  onNavigateToChatRoom,
+  onNavigateToListingDetailHistory,
+}: CommonProps) {
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToChatRoom}>
         중개사 채팅
       </Button>
+      {onNavigateToListingDetailHistory && (
+        <div tw="flex items-center justify-center">
+          <Button
+            size="none"
+            variant="ghost"
+            tw="underline mt-4 text-gray-1000"
+            onClick={onNavigateToListingDetailHistory}
+          >
+            나의 제안 확인하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
-function PreContractOthers({ buttonSize = 'bigger', onNavigateToSuggestRegional }: CommonProps) {
+function PreContractOthers({
+  buttonSize = 'bigger',
+  onNavigateToSuggestRegional,
+  onNavigateToListingDetailHistory,
+}: CommonProps) {
   return (
     <div>
       <Button tw="w-full" size={buttonSize} onClick={onNavigateToSuggestRegional}>
         다른 매물 추천받기
       </Button>
+      {onNavigateToListingDetailHistory && (
+        <div tw="flex items-center justify-center">
+          <Button
+            size="none"
+            variant="ghost"
+            tw="underline mt-4 text-gray-1000"
+            onClick={onNavigateToListingDetailHistory}
+          >
+            나의 제안 확인하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

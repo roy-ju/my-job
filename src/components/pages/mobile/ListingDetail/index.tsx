@@ -15,7 +15,7 @@ import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { useRouter } from 'next/router';
 import { SharePopup } from '@/components/organisms';
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import formatNumberInKorean from '@/utils/formatNumberInKorean';
 import Paths from '@/constants/paths';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
@@ -26,6 +26,7 @@ import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/
 import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
 import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
+import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 import useListingDetailRedirector from './useListingDetailRedirector';
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
@@ -38,7 +39,11 @@ export default memo(() => {
   const { redirectable } = useListingDetailRedirector(listingID);
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
+
   const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+
+  const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
+
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
 
   const {
@@ -71,6 +76,19 @@ export default memo(() => {
         router.push(`/${Routes.EntryMobile}/${Routes.ListingManage}?listingID=${router.query.listingID}`);
       } else if (buttonTitle === '신고하기') {
         router.push(`/${Routes.EntryMobile}/${Routes.ListingReport}?listingID=${router.query.listingID}`);
+      } else if (buttonTitle === '중개약정확인') {
+        router.push(
+          {
+            pathname: `/${Routes.EntryMobile}/${Routes.ContractTerms}?listingID=${router.query.listingID}`,
+            query: {
+              listingID: router.query.listingID as string,
+              type: data?.visit_user_type === VisitUserType.SellerGeneral ? 'seller' : 'buyer',
+            },
+          },
+          `/${Routes.EntryMobile}/${Routes.ContractTerms}?listingID=${router.query.listingID}&type=${
+            data?.visit_user_type === VisitUserType.SellerGeneral ? 'seller' : 'buyer'
+          }`,
+        );
       }
     },
     [router],
@@ -142,6 +160,12 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
   }, [router]);
 
+  const handleNavigateToListingDetailHistory = useCallback(() => {
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}?listingID=${listingID}&biddingID=${data?.bidding_id}`,
+    );
+  }, [router, listingID, data?.bidding_id]);
+
   const openSuggestNotInterstedPopup = useCallback(() => {
     setPopup('suggestNotInterested');
   }, []);
@@ -175,7 +199,15 @@ export default memo(() => {
   }, [data?.suggest_recommend_id, mutateListing]);
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
+    }
   }, [router]);
 
   const handleClickShare = useCallback(() => {
@@ -282,7 +314,11 @@ export default memo(() => {
       <OverlayPresenter>
         <Popup>
           <Popup.ContentGroup tw="py-10">
-            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+            <Popup.Title>
+              거래가 종료되어
+              <br />
+              매물 상세 정보를 확인할 수 없습니다.
+            </Popup.Title>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
             <Popup.ActionButton onClick={() => router.back()}>확인</Popup.ActionButton>
@@ -302,6 +338,7 @@ export default memo(() => {
               qnaList={qnaData}
               isLoading={isLoading || isLoadingStatus}
               hasMoreQnas={hasMoreQnas}
+              realestateDocumentData={realestateDocumentData}
               onClickShare={handleClickShare}
               onClickMoreItem={handleClickMoreItem}
               onClickFavorite={handleClickFavorite}
@@ -316,6 +353,7 @@ export default memo(() => {
               onNavigateToCreateQna={handleNavigateToCreateQna}
               onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
               onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
+              onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
               onClickBack={handleClickBack}
             />
             {popup === 'suggestNotInterested' && (
