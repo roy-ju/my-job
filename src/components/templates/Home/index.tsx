@@ -32,6 +32,32 @@ import { useCallback, useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import { GetListingsForTheLoggedIn } from '@/apis/home/getListingsForTheLoggedIn';
 import { GetDanjisForTheLoggedIn } from '@/apis/home/getDanjisForTheLoggedIn';
+import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+import { addFavorite } from '@/apis/listing/addListingFavroite';
+
+function FavoriteButton({
+  defaultSelected,
+  onToggle,
+}: {
+  defaultSelected: boolean;
+  onToggle?: (value: boolean) => void;
+}) {
+  const [selected, setSelected] = useState(defaultSelected);
+
+  return (
+    <Button
+      size="none"
+      variant="ghost"
+      onClick={(e) => {
+        e?.stopPropagation();
+        onToggle?.(!selected);
+        setSelected(!selected);
+      }}
+    >
+      {selected ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
+    </Button>
+  );
+}
 
 const StyledTable = styled.table`
   table-layout: fixed;
@@ -344,15 +370,12 @@ export default function Home({
                       }}
                     >
                       <div tw="flex justify-end p-2">
-                        <Button
-                          size="none"
-                          variant="ghost"
-                          onClick={(e) => {
-                            e?.stopPropagation();
-                          }}
-                        >
-                          {item.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-white" />}
-                        </Button>
+                        <FavoriteButton
+                          defaultSelected={item.is_favorite}
+                          onToggle={(selected) =>
+                            !selected ? removeFavorite(item.listing_id) : addFavorite(item.listing_id)
+                          }
+                        />
                       </div>
                     </div>
                     <div tw="flex gap-1 mb-2">
@@ -372,7 +395,9 @@ export default function Home({
                         </span>
                       )}
                     </div>
-                    <div tw="text-info text-gray-1000">{item.listing_title}</div>
+                    <div tw="text-info text-gray-1000  whitespace-nowrap overflow-hidden text-ellipsis">
+                      {item.listing_title}
+                    </div>
 
                     <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
                       {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
@@ -422,19 +447,12 @@ export default function Home({
                           }}
                         >
                           <div tw="flex justify-end p-2">
-                            <Button
-                              size="none"
-                              variant="ghost"
-                              onClick={(e) => {
-                                e?.stopPropagation();
-                              }}
-                            >
-                              {item.is_favorite ? (
-                                <HeartFilledIcon tw="text-red" />
-                              ) : (
-                                <HeartOutlinedIcon tw="text-white" />
-                              )}
-                            </Button>
+                            <FavoriteButton
+                              defaultSelected={item.is_favorite}
+                              onToggle={(selected) =>
+                                !selected ? removeFavorite(item.listing_id) : addFavorite(item.listing_id)
+                              }
+                            />
                           </div>
                         </div>
                         <div tw="flex gap-1 mb-2">
@@ -454,6 +472,20 @@ export default function Home({
                               /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
                             </span>
                           )}
+                        </div>
+                        <div tw="text-info text-gray-1000 whitespace-nowrap overflow-hidden text-ellipsis">
+                          {item.listing_title}
+                        </div>
+                        <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
+                          {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                          {item.total_floor !== '0' && (
+                            <div>
+                              {item.floor_description
+                                ? `${item.floor_description?.[0]}/${item.total_floor}층`
+                                : `${item.total_floor}층`}
+                            </div>
+                          )}
+                          <div>{item.direction}</div>
                         </div>
                       </motion.div>
                     ))}

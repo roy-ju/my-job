@@ -1,5 +1,6 @@
 import { ReactNode, useState, Children, isValidElement, cloneElement } from 'react';
 import { Separator } from '@/components/atoms';
+import tw from 'twin.macro';
 import AgentCardItemProfile from './Profile';
 import AgentCardItemDetail from './Detail';
 import AgentCardItemFoldButton from './Button';
@@ -31,8 +32,8 @@ function AgentCardItem({ children, defaultExpanded = false }: AgentCardItemProps
     });
 
   return (
-    <div tw="rounded-lg border border-gray-300 pt-4 pb-3 h-[234px]">
-      <div tw="px-4">
+    <div tw="flex flex-col rounded-lg border border-gray-300 pt-4 pb-3 h-[234px]" css={[!expanded && tw`h-auto`]}>
+      <div tw="px-4 flex-1 min-h-0">
         {profileContents}
         {expanded && detailContents}
       </div>

@@ -115,6 +115,9 @@ const ListingCreateForm = () => {
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
+    hasDebtSuccession,
+    handleChangeHasDebtSuccession,
+
     dong,
     ho,
   } = useListingCreateForm();
@@ -232,6 +235,8 @@ const ListingCreateForm = () => {
         onChangeHasMoveInDate={handleChangeHasMoveInDate}
         hasSpecialTerms={hasSpecialTerms}
         onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
+        hasDebtSuccession={hasDebtSuccession}
+        onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
       />
       {isCoachVisible && !hasBeenVisible.current && (
         <motion.div
