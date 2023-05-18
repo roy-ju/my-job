@@ -1,10 +1,11 @@
 import { Separator } from '@/components/atoms';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useOutsideClick } from '@/hooks/utils';
 import { css } from 'twin.macro';
 import ChatRoomListingListItem from '@/components/organisms/ChatRoomListingListItem';
 import CloseIcon from '@/assets/icons/close_24.svg';
+import { checkPlatform } from '@/utils/checkPlatform';
 
 export interface ListingCardProps {
   listingId: number;
@@ -57,12 +58,21 @@ export default function ListingList({
   onClickNavigateToListingDetail,
   onClickNavigateToListingDetailHistory,
 }: Props) {
+  const [render, setRender] = useState(false);
   const outsideRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick({
     ref: outsideRef,
     handler: () => setShowListingList(false),
   });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setRender(true);
+    }
+  }, []);
+
+  if (!render) return null;
 
   return (
     <motion.div
@@ -90,10 +100,14 @@ export default function ListingList({
         <Separator />
         <div
           css={ListingListDivider}
-          tw="py-4  overflow-y-auto"
-          style={{
-            height: `calc(100vh - ${HEADER_AND_SEPERATOR_HEIGHT}px)`,
-          }}
+          tw="py-4 overflow-y-auto"
+          style={
+            checkPlatform() === 'mobile'
+              ? { height: `calc(100vh - ${HEADER_AND_SEPERATOR_HEIGHT}px)`, paddingBottom: '120px' }
+              : {
+                  height: `calc(100vh - ${HEADER_AND_SEPERATOR_HEIGHT}px)`,
+                }
+          }
         >
           {buyerContractList?.length > 0 && (
             <div>
