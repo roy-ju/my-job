@@ -83,7 +83,7 @@ function HasSuggested({
         관심없음
       </Button>
       <Button tw="w-full" size={buttonSize} onClick={onClickSuggestAcceptRecommend}>
-        네고 협의
+        네고 협의 시작하기
       </Button>
     </div>
   );

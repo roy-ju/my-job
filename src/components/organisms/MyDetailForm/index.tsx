@@ -11,6 +11,7 @@ interface UpdatetableTextFieldProps {
   disabled?: boolean;
   buttonDisabled?: boolean;
   readOnly?: boolean;
+  type?: 'text' | 'phone';
   onClickUpdate?: () => void;
   onChange?: ChangeEventHandler<HTMLInputElement>;
 }
@@ -21,12 +22,25 @@ function UpdatableTextField({
   disabled = false,
   buttonDisabled = false,
   readOnly = false,
+  type = 'text',
   onClickUpdate,
   onChange,
 }: UpdatetableTextFieldProps) {
   return (
     <TextField variant="outlined">
-      <TextField.Input onChange={onChange} value={value} label={label} disabled={disabled} readOnly={readOnly} />
+      {type === 'text' && (
+        <TextField.Input onChange={onChange} value={value} label={label} disabled={disabled} readOnly={readOnly} />
+      )}
+      {type === 'phone' && (
+        <TextField.PatternInput
+          format="###-####-####"
+          onChange={onChange}
+          value={value}
+          label={label}
+          disabled={disabled}
+          readOnly={readOnly}
+        />
+      )}
       <TextField.Trailing>
         <Button disabled={buttonDisabled} size="small" variant="gray" onClick={onClickUpdate}>
           변경
@@ -175,7 +189,7 @@ function IdentityInfo({ name, phone, onClickUpdate, onClickVerifyCi }: IdentityI
             본인인증하기
           </Button>
         )}
-        {phone && <UpdatableTextField label="휴대폰 번호" value={phone} onClickUpdate={onClickUpdate} />}
+        {phone && <UpdatableTextField type="phone" label="휴대폰 번호" value={phone} onClickUpdate={onClickUpdate} />}
         {name && !phone && (
           <Button variant="outlined" onClick={onClickUpdate}>
             휴대폰 번호 등록하기

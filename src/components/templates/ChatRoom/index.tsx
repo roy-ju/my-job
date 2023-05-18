@@ -101,7 +101,7 @@ export default function ChatRoom({
   const [showListingList, setShowListingList] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
-    containerRef.current?.scrollToIndex({ index: chatMessages.length - 1 });
+    // containerRef.current?.scrollToIndex({ index: chatMessages.length - 1 });
   }, [chatMessages]);
 
   return (
@@ -130,10 +130,9 @@ export default function ChatRoom({
         ) : (
           <Virtuoso
             ref={containerRef}
-            defaultItemHeight={38}
+            // defaultItemHeight={38}
             style={{ height: '100%', width: '100%' }}
-            atBottomThreshold={24}
-            followOutput
+            followOutput={() => true}
             initialTopMostItemIndex={messagesRef.current.length - 1}
             data={chatMessages}
             itemContent={renderItem}
