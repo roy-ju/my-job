@@ -3,6 +3,7 @@ import { NavigationHeader, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback } from 'react';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
+import tw from 'twin.macro';
 
 export interface UpdatePhoneProps {
   phone?: string;
@@ -10,7 +11,6 @@ export interface UpdatePhoneProps {
   sent?: boolean;
   minutes?: number;
   seconds?: number;
-  isVerificationTimeExpired?: boolean;
   codeVerified?: boolean;
   codeErrorMessage?: string;
   onChangePhone?: ChangeEventHandler<HTMLInputElement>;
@@ -27,7 +27,6 @@ export default function UpdatePhone({
   code: codeProp,
   minutes = 0,
   seconds = 0,
-  isVerificationTimeExpired = false,
   codeVerified = false,
   codeErrorMessage,
   onChangePhone,
@@ -63,6 +62,14 @@ export default function UpdatePhone({
     [setCode, onChangeCode],
   );
 
+  const renderRequestVerificationButtonText = () => {
+    if (!codeVerified && phone.length > 0) {
+      if (sent) return '재발송';
+      return '인증';
+    }
+    return '변경';
+  };
+
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
@@ -75,7 +82,7 @@ export default function UpdatePhone({
           <br />
           휴대폰번호를 입력해 주세요.
         </div>
-        <div tw="flex flex-col gap-3">
+        <div tw="flex flex-col gap-3" css={[codeVerified && tw`gap-0`]}>
           <TextField variant="outlined">
             <TextField.PatternInput
               format="###-####-####"
@@ -83,7 +90,7 @@ export default function UpdatePhone({
               value={phone}
               onChange={handleChangePhone}
             />
-            {phone.length > 1 && (
+            {!codeVerified && phone.length > 1 && (
               <TextField.Trailing>
                 <button onClick={onClickRemovePhoneValue} type="button" tw="flex items-center w-4 h-4">
                   <DeleteAllIcon />
@@ -91,33 +98,31 @@ export default function UpdatePhone({
               </TextField.Trailing>
             )}
             <TextField.Trailing>
-              <Button disabled={phone.length < 1} size="small" onClick={onClickSend}>
-                {sent ? '재발송' : '발송'}
+              <Button disabled={codeVerified || phone.length < 1} size="small" onClick={onClickSend}>
+                {renderRequestVerificationButtonText()}
               </Button>
             </TextField.Trailing>
           </TextField>
           {sent && (
             <div>
-              <TextField variant="outlined" hasError={Boolean(codeErrorMessage)}>
-                <TextField.Input label="인증번호" value={code} onChange={handleChangeCode} />
-
-                {sent && (
+              {!codeVerified && (
+                <TextField variant="outlined" hasError={Boolean(codeErrorMessage)}>
+                  <TextField.Input label="인증번호" value={code} onChange={handleChangeCode} />
+                  {sent && (
+                    <TextField.Trailing>
+                      <span tw="text-info text-red-800">
+                        {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                      </span>
+                    </TextField.Trailing>
+                  )}
                   <TextField.Trailing>
-                    <span tw="text-info text-red-800">
-                      {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-                    </span>
+                    <Button disabled={code.length < 1} size="small" onClick={onClickVerifyCode}>
+                      확인
+                    </Button>
                   </TextField.Trailing>
-                )}
-                <TextField.Trailing>
-                  <Button disabled={code.length < 1} size="small" onClick={onClickVerifyCode}>
-                    확인
-                  </Button>
-                </TextField.Trailing>
-              </TextField>
-              {codeErrorMessage && !codeVerified && <TextField.ErrorMessage>{codeErrorMessage}</TextField.ErrorMessage>}
-              {!codeVerified && sent && isVerificationTimeExpired && (
-                <TextField.ErrorMessage>인증번호 유효시간이 초과되었습니다.</TextField.ErrorMessage>
+                </TextField>
               )}
+              {codeErrorMessage && !codeVerified && <TextField.ErrorMessage>{codeErrorMessage}</TextField.ErrorMessage>}
               {codeVerified && <TextField.SuccessMessage>인증되었습니다</TextField.SuccessMessage>}
             </div>
           )}
@@ -125,7 +130,7 @@ export default function UpdatePhone({
       </div>
       <PersistentBottomBar>
         <Button disabled={!codeVerified} size="bigger" variant="secondary" tw="w-full" onClick={onClickNext}>
-          다음
+          등록 완료
         </Button>
       </PersistentBottomBar>
     </div>
