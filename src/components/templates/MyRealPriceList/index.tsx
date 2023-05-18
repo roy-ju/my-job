@@ -12,6 +12,8 @@ export interface IMyRealPriceListItem {
   area: string;
   buyOrRent: number;
   dealType: string;
+  realestateType: number;
+  pnu: string;
 }
 
 export interface MyRealPriceListProps {
@@ -21,6 +23,7 @@ export interface MyRealPriceListProps {
   isLoading?: boolean;
   onNext?: () => void;
   onChangeBuyOrRent?: (newValue: number) => void;
+  onClickItem?: (pnu: string, realestateType: number) => void;
   nickname?: string;
 }
 
@@ -30,6 +33,7 @@ export default function MyRealPriceList({
   list,
   buyOrRent,
   onChangeBuyOrRent,
+  onClickItem,
   onNext,
   nickname,
 }: MyRealPriceListProps) {
@@ -75,6 +79,7 @@ export default function MyRealPriceList({
                   area={item.area}
                   buyOrRent={item.buyOrRent}
                   dealType={item.dealType}
+                  onClick={() => onClickItem?.(item.pnu, item.realestateType)}
                 />
               ))}
             </InfiniteScroll>
