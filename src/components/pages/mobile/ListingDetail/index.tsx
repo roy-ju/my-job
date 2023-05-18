@@ -199,7 +199,16 @@ export default memo(() => {
   }, [data?.suggest_recommend_id, mutateListing]);
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const navigationIndex = window.history.state?.idx;
+      const canGoBack = navigationIndex !== 0;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
+    }
   }, [router]);
 
   const handleClickShare = useCallback(() => {

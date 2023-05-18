@@ -116,7 +116,11 @@ export default function UpdatePhone({
                     </TextField.Trailing>
                   )}
                   <TextField.Trailing>
-                    <Button disabled={code.length < 1} size="small" onClick={onClickVerifyCode}>
+                    <Button
+                      disabled={Boolean(codeErrorMessage) || code.length < 1}
+                      size="small"
+                      onClick={onClickVerifyCode}
+                    >
                       확인
                     </Button>
                   </TextField.Trailing>
