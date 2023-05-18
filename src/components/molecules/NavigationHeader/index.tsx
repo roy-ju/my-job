@@ -43,7 +43,7 @@ function MoreButton({ iconColor = 'dark', items, onClickItem }: MoreButtonProps)
         {iconColor === 'dark' && <TripleDotsIcon />}
       </button>
       {isOpen && (
-        <div ref={setPopperElement} style={styles.popper} {...attributes.popper} tw="z-50">
+        <div ref={setPopperElement} style={styles.popper} {...attributes.popper} tw="z-[110]">
           <div ref={outsideRef} tw="bg-white rounded-lg py-1 flex flex-col shadow">
             {items.map((item, index) => (
               <button

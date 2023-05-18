@@ -118,27 +118,36 @@ export default function BasicInfo({
           </div>
 
           <div tw="flex items-center gap-1 mb-4">
-            <>
-              <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
-            </>
+            {danji.total_saedae_count && (
+              <>
+                <span tw="text-info text-gray-700">{danji.total_saedae_count}세대</span>
+              </>
+            )}
+
+            {danji.total_dong_count && (
+              <>
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
+                <span tw="text-info text-gray-700">총 {danji.total_dong_count}동</span>
+              </>
+            )}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max === 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{`전용 ${cuttingDot(danji.jeonyong_min)}㎡`}</span>
               </>
             )}
 
             {danji.jeonyong_min === 0 && danji.jeonyong_max > 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{`전용 ${cuttingDot(danji.jeonyong_max)}㎡`}</span>
               </>
             )}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max > 0 && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">
                   {cuttingDot(danji.jeonyong_min) === cuttingDot(danji?.jeonyong_max)
                     ? `전용 ${cuttingDot(danji?.jeonyong_min)}㎡`
@@ -149,7 +158,7 @@ export default function BasicInfo({
 
             {danji.construction_start_date?.replaceAll(' ', '') && (
               <>
-                <div tw="w-px h-2 bg-gray-300" />
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</span>
               </>
             )}
@@ -160,10 +169,12 @@ export default function BasicInfo({
               <Button variant="secondary" size="big" tw="w-full" onClick={handleCTA}>
                 이 단지 매물 추천받기
               </Button>
-              <div tw="flex gap-1 justify-center">
-                <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
-                <span tw="text-info font-bold text-nego">{danji.suggest_count || 0}</span>
-              </div>
+              {!!danji.suggest_count && (
+                <div tw="flex gap-1 justify-center">
+                  <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
+                  <span tw="text-info font-bold text-nego">{danji.suggest_count}</span>
+                </div>
+              )}
             </div>
           )}
         </div>
