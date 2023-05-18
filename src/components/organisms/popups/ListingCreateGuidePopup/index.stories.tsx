@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import ListingCreateGuidePopup from '.';
 
 export default {
-  title: 'organisms/ListingCreateGuidePopup',
+  title: 'organisms/popups/ListingCreateGuidePopup',
   component: ListingCreateGuidePopup,
 } as ComponentMeta<typeof ListingCreateGuidePopup>;
 

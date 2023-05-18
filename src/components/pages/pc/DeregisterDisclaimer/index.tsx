@@ -42,6 +42,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
     const deregistered = await deregister(deregisterReasons);
     localStorage.removeItem(Keys.ACCESS_TOKEN);
+    localStorage.removeItem(Keys.REFRESH_TOKEN);
     if (deregistered) {
       await mutate((key) => key !== '/my/user/deregister/status');
 

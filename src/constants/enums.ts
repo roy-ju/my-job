@@ -158,6 +158,11 @@ export enum NotificationLinkType {
   SuggestRecommendList = 32, // 마이페이지 -> 요청리스트 -> 요청의 추천매물 페이지
 }
 
+export enum NiceVerificationType {
+  Phone = 1,
+  IPin = 2,
+}
+
 export function describeRealestateType(type: RealestateType | undefined | null) {
   switch (type) {
     case RealestateType.Apartment:

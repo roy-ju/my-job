@@ -6,8 +6,9 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useState, useRef } from 'react';
 import { OverlayPresenter } from '@/components/molecules';
-import ListingCreateGuidePopup from '@/components/organisms/ListingCreateGuidePopup';
+
 import useOutsideClick from '@/hooks/utils/useOutsideClick';
+import { ListingCreateGuidePopup } from '@/components/organisms';
 
 interface Props {
   depth: number;

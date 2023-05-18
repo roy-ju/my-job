@@ -100,6 +100,16 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, []);
 
   const handleClickNext = useCallback(() => {
+    if (router.query.trigger === 'iPin') {
+      router.replace(Routes.VerifyCiSuccess, {
+        searchParams: { redirect: (router.query.redirect as string) ?? '' },
+      });
+    } else {
+      router.replace(Routes.MyDetail);
+    }
+  }, [router]);
+
+  const handleClickBack = useCallback(() => {
     router.replace(Routes.MyDetail);
   }, [router]);
 
@@ -138,6 +148,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickSend={handleClickSend}
         onClickVerifyCode={handleClickVerifyCode}
         onClickNext={handleClickNext}
+        onClickBack={handleClickBack}
         onClickRemovePhoneValue={handleClickRemovePhoneValue}
       />
     </Panel>
