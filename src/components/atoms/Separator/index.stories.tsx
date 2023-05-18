@@ -9,8 +9,15 @@ export default {
 
 export const Default: ComponentStory<typeof Separator> = () => (
   <Panel>
-    <h2>Section</h2>
-    <Separator />
-    <h2>Section</h2>
+    <main>
+      <h1>some page</h1>
+      <section>
+        <h2>section1</h2>
+      </section>
+      <Separator />
+      <section>
+        <h2>section2</h2>
+      </section>
+    </main>
   </Panel>
 );
