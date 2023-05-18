@@ -43,6 +43,8 @@ const ListingListDivider = css`
   }
 `;
 
+const HEADER_AND_SEPERATOR_HEIGHT = 92;
+
 export default function ListingList({
   setShowListingList,
   sellerList,
@@ -86,8 +88,13 @@ export default function ListingList({
         </div>
 
         <Separator />
-
-        <div css={ListingListDivider} tw="py-4 flex-1 overflow-auto">
+        <div
+          css={ListingListDivider}
+          tw="py-4  overflow-y-auto"
+          style={{
+            height: `calc(100vh - ${HEADER_AND_SEPERATOR_HEIGHT}px)`,
+          }}
+        >
           {buyerContractList?.length > 0 && (
             <div>
               {buyerContractList?.map((args, i) => (
