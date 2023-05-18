@@ -167,7 +167,9 @@ export default function Biddings({
                     </span>
                   </Table.Data>
                   <Table.Data>
-                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>-</span>
+                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                      {item.createdTime ? <Moment format="calendar">{item.createdTime}</Moment> : '-'}
+                    </span>
                   </Table.Data>
                 </Table.Row>
               ))}
