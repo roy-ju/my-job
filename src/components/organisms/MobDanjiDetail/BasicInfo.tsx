@@ -75,16 +75,18 @@ export default function BasicInfo({
           </div>
 
           <div tw="flex items-center gap-1 mb-4">
-            <>
-              <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
-            </>
+            {danji.total_saedae_count && (
+              <>
+                <span tw="text-info text-gray-700">{danji.total_saedae_count}세대</span>
+              </>
+            )}
 
-            {/* {danji.jeonyong_min === 0 && danji.jeonyong_max === 0 && (
+            {danji.total_dong_count && (
               <>
                 <div tw="w-px h-2 bg-gray-300" />
-                <span tw="text-info text-gray-700">전용 -㎡`</span>
+                <span tw="text-info text-gray-700">총 {danji.total_dong_count}동</span>
               </>
-            )} */}
+            )}
 
             {danji.jeonyong_min > 0 && danji.jeonyong_max === 0 && (
               <>
