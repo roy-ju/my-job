@@ -1,3 +1,4 @@
+import { NiceVerificationType } from '@/constants/enums';
 import useUnmount from '@/hooks/utils/useUnmount';
 import openPopupWindow from '@/utils/openPopupWindow';
 import { useCallback, useMemo } from 'react';
@@ -14,9 +15,9 @@ type VerificationType = 'phone' | 'ipin';
 
 export default function useNiceId() {
   const request = useCallback((type: VerificationType, callback?: (res: NiceResponse) => void) => {
-    let typeInteger = 1;
+    let typeInteger = NiceVerificationType.Phone;
     if (type === 'ipin') {
-      typeInteger = 2;
+      typeInteger = NiceVerificationType.IPin;
     }
 
     window.Negocio.callbacks.niceResponse = (arg: NiceResponse) => {
