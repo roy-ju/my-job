@@ -17,10 +17,6 @@ import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocum
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
 import UserStatusStrings from '../ListingDetail/strings';
 
-const commonOptions = ['신고하기', '중개약정확인'];
-
-const sellerOptions = ['신고하기', '매물관리', '중개약정확인'];
-
 export interface ListingDetailProps {
   listingDetail?: GetListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
@@ -108,6 +104,24 @@ export default function MobListingDetail({
   });
 
   const [isShowRpTab, setIsShowRpTab] = useState(false);
+
+  const isListingRegisteredBeforeMarch22nd2023 = useMemo(() => {
+    const targetDate = new Date('2023-03-22T00:00:00+09:00');
+    const dateTimeString = listingDetail?.listing?.created_time;
+
+    if (!dateTimeString) {
+      return false;
+    }
+
+    const dateTime = new Date(dateTimeString);
+    return dateTime < targetDate;
+  }, [listingDetail?.listing?.created_time]);
+
+  const commonOptions = isListingRegisteredBeforeMarch22nd2023 ? ['신고하기', '중개약정확인'] : ['신고하기'];
+
+  const sellerOptions = isListingRegisteredBeforeMarch22nd2023
+    ? ['신고하기', '매물관리', '중개약정확인']
+    : ['신고하기', '매물관리'];
 
   const biddingsChatRoomCreated = useMemo(
     () =>
