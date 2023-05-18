@@ -248,16 +248,6 @@ export default function DanjiAroundMapCard({
           );
         })}
 
-      <CustomOverlayDanji
-        key={`${danji.lat}${danji.long}`}
-        position={{
-          lat: +danji.lat,
-          lng: +danji.long,
-        }}
-      >
-        {!isNewMarker && <MapMarkerSearchItem style={{ position: 'relative', zIndex: 140 }} />}
-      </CustomOverlayDanji>
-
       {isCircle && (
         <CustomOverlayDanji
           key={`${danji.long}${danji.lat}`}
@@ -280,6 +270,16 @@ export default function DanjiAroundMapCard({
           /> */}
         </CustomOverlayDanji>
       )}
+
+      <CustomOverlayDanji
+        key={`${danji.lat}${danji.long}`}
+        position={{
+          lat: +danji.lat,
+          lng: +danji.long,
+        }}
+      >
+        {!isNewMarker && <MapMarkerSearchItem style={{ position: 'relative', zIndex: 100000000 }} />}
+      </CustomOverlayDanji>
     </NaverMapV1>
   );
 }

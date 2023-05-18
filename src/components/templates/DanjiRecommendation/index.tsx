@@ -16,9 +16,11 @@ export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailRespon
     <span tw="text-b1 font-bold">{danji.name}</span>
     <span tw="text-info [line-height: 1.25rem]">{danji.road_name_address || danji.jibun_address}</span>
     <div tw="flex items-center gap-1" css={[isPb ? tw`mb-0` : tw`mb-0`]}>
-      <>
-        <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
-      </>
+      {danji.total_saedae_count && (
+        <>
+          <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
+        </>
+      )}
 
       {danji.total_dong_count && (
         <>
@@ -31,13 +33,6 @@ export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailRespon
         <>
           <div tw="w-px h-2 bg-gray-300 mx-1" />
           <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</span>
-        </>
-      )}
-
-      {danji.jeonyong_min === 0 && danji.jeonyong_max === 0 && (
-        <>
-          <div tw="w-px h-2 bg-gray-300 mx-1" />
-          <span tw="text-info text-gray-700">전용 -㎡`</span>
         </>
       )}
 
@@ -63,6 +58,13 @@ export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailRespon
               ? `전용 ${cuttingDot(danji?.jeonyong_min)}㎡`
               : `전용 ${cuttingDot(danji?.jeonyong_min)}㎡ ~ ${cuttingDot(danji?.jeonyong_max)}㎡`}
           </span>
+        </>
+      )}
+
+      {danji.construction_start_date?.replaceAll(' ', '') && (
+        <>
+          <div tw="w-px h-2 bg-gray-300" />
+          <span tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</span>
         </>
       )}
     </div>
