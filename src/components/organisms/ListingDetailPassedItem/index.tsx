@@ -61,9 +61,9 @@ export default function ListingDetailPassedItem({
           <div tw="font-bold text-b1 truncate">{listingTitle}</div>
           <div tw="text-info text-left truncate">{address}</div>
           <div css={informationStringWrapper}>
-            {area && <div>전용 {area}㎡</div>}
-            {floorString && <div>{floorString}</div>}
-            {direction && <div>{direction}</div>}
+            {area && <div tw="whitespace-nowrap">전용 {area}㎡</div>}
+            {floorString && <div tw="whitespace-nowrap">{floorString}</div>}
+            {direction && <div tw="whitespace-nowrap">{direction}</div>}
           </div>
         </div>
       </div>
