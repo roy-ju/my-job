@@ -19,15 +19,9 @@ export default memo(() => {
   };
 
   const handleNavigateToTransactionReview = () => {
-    // router.replace(Routes.TransactionReview, {
-    //   persistParams: true,
-    //   searchParams: {
-    //     listingContractID: String(data?.listing_contract_id),
-    //   },
-    //   state: {
-    //     hasReview: String(data?.has_review),
-    //   },
-    // });
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.TransactionReview}?listingContractID=${data?.listing_contract_id}&hasReview=${data?.has_review}`,
+    );
   };
 
   const handleNavigateToBack = () => {
