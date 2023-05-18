@@ -65,7 +65,7 @@ export default function MobGlobalNavigation({ index }: { index?: number }) {
         <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]" onClick={() => onClickButton(Routes.My)}>
           <UserIcon css={index === 4 ? buttonStyles.selected : buttonStyles.default} />
           <span css={[tw`text-gray-700 text-mobCaption`, index === 4 ? buttonStyles.selected : buttonStyles.default]}>
-            My 네고
+            마이페이지
           </span>
         </Button>
       </div>
