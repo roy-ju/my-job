@@ -169,10 +169,12 @@ export default function BasicInfo({
               <Button variant="secondary" size="big" tw="w-full" onClick={handleCTA}>
                 이 단지 매물 추천받기
               </Button>
-              <div tw="flex gap-1 justify-center">
-                <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
-                <span tw="text-info font-bold text-nego">{danji.suggest_count || 0}</span>
-              </div>
+              {!!danji.suggest_count && (
+                <div tw="flex gap-1 justify-center">
+                  <span tw="text-info">이 단지에서 매물 찾는 사람 수</span>
+                  <span tw="text-info font-bold text-nego">{danji.suggest_count}</span>
+                </div>
+              )}
             </div>
           )}
         </div>
