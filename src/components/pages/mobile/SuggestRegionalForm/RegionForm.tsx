@@ -29,25 +29,30 @@ export default function RegionForm({ onClickClose, onSubmit }: RegionFormProps) 
           name: convertSidoName(item.name),
           code: item.code,
         }))
-        .filter((item) => ['서울', '경기', '인천'].includes(item.name)),
+        .filter((item) => ['서울', '경기', '인천'].includes(item.name))
+        .sort((a, b) => (a.name < b.name ? -1 : 0)),
     [sidoData],
   );
 
   const sigunguList = useMemo(
     () =>
-      sigunguData?.list?.map((item) => ({
-        name: convertSigunguName(item.name),
-        code: item.code,
-      })),
+      sigunguData?.list
+        ?.map((item) => ({
+          name: convertSigunguName(item.name),
+          code: item.code,
+        }))
+        .sort((a, b) => (a.name < b.name ? -1 : 0)),
     [sigunguData],
   );
 
   const eubmyeondongList = useMemo(
     () =>
-      eubmyeondongData?.list?.map((item) => ({
-        name: item.name,
-        code: item.code,
-      })),
+      eubmyeondongData?.list
+        ?.map((item) => ({
+          name: item.name,
+          code: item.code,
+        }))
+        .sort((a, b) => (a.name < b.name ? -1 : 0)),
     [eubmyeondongData],
   );
 
