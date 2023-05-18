@@ -29,7 +29,7 @@ function MobSchoolMarker({
     <button type="button" onClick={onClick} tw="animate-scale will-change-transform [text-rendering: optimizeSpeed]">
       <div
         css={[
-          tw`min-w-[77px] w-fit flex items-center h-8 bg-white rounded-[26px] relative shadow-[7px 7px 7px rgba(0, 0, 0, 0.1)]`,
+          tw`z-[10000] min-w-[77px] w-fit flex items-center h-8 bg-white rounded-[26px] relative shadow-[7px 7px 7px rgba(0, 0, 0, 0.1)]`,
           selected && tw`animate-bounce`,
         ]}
       >
