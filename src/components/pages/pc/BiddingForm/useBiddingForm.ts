@@ -343,16 +343,16 @@ export default function useBiddingForm(depth: number) {
       if (canHaveEarlierRemainingAmountDate === true && remainingAmountDate === null) {
         setNextButtonDisabled(true);
       }
+      if (!data?.listing?.remaining_amount_payment_time && remainingAmountDate === null) {
+        setNextButtonDisabled(true);
+      }
     }
 
-    // if (currentForm === Forms.MoveInDate) {
-    //   if (canHaveEarlierMoveInDate === null) {
-    //     setNextButtonDisabled(true);
-    //   }
-    //   if (canHaveEarlierMoveInDate === true && moveInDate === null) {
-    //     setNextButtonDisabled(true);
-    //   }
-    // }
+    if (currentForm === Forms.MoveInDate) {
+      if (moveInDate === null) {
+        setNextButtonDisabled(true);
+      }
+    }
   }, [
     forms,
     type,
