@@ -15,7 +15,7 @@ import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { useRouter } from 'next/router';
 import { SharePopup } from '@/components/organisms';
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import formatNumberInKorean from '@/utils/formatNumberInKorean';
 import Paths from '@/constants/paths';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
@@ -76,6 +76,19 @@ export default memo(() => {
         router.push(`/${Routes.EntryMobile}/${Routes.ListingManage}?listingID=${router.query.listingID}`);
       } else if (buttonTitle === '신고하기') {
         router.push(`/${Routes.EntryMobile}/${Routes.ListingReport}?listingID=${router.query.listingID}`);
+      } else if (buttonTitle === '중개약정확인') {
+        router.push(
+          {
+            pathname: `/${Routes.EntryMobile}/${Routes.ContractTerms}?listingID=${router.query.listingID}`,
+            query: {
+              listingID: router.query.listingID as string,
+              type: data?.visit_user_type === VisitUserType.SellerGeneral ? 'seller' : 'buyer',
+            },
+          },
+          `/${Routes.EntryMobile}/${Routes.ContractTerms}?listingID=${router.query.listingID}&type=${
+            data?.visit_user_type === VisitUserType.SellerGeneral ? 'seller' : 'buyer'
+          }`,
+        );
       }
     },
     [router],
@@ -293,7 +306,11 @@ export default memo(() => {
       <OverlayPresenter>
         <Popup>
           <Popup.ContentGroup tw="py-10">
-            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+            <Popup.Title>
+              거래가 종료되어
+              <br />
+              매물 상세 정보를 확인할 수 없습니다.
+            </Popup.Title>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
             <Popup.ActionButton onClick={() => router.back()}>확인</Popup.ActionButton>

@@ -299,7 +299,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
       <OverlayPresenter>
         <Popup>
           <Popup.ContentGroup tw="py-10">
-            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+            <Popup.Title>
+              거래가 종료되어
+              <br />
+              매물 상세 정보를 확인할 수 없습니다.
+            </Popup.Title>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
             <Popup.ActionButton onClick={() => router.pop({ persistParams: false })}>확인</Popup.ActionButton>
