@@ -46,8 +46,8 @@ const Wrapper = styled(motion.div)({
   // bottom: 0,
   left: 'auto',
   right: 'auto',
-  borderTopLeftRadius: '2rem',
-  borderTopRightRadius: '2rem',
+  borderTopLeftRadius: '20px',
+  borderTopRightRadius: '20px',
   background: 'white',
   transition: 'transform 300ms ease-out' /* 바텀시트 애니메이션 속도 */,
   margin: 'auto',
@@ -177,10 +177,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
 
       return {
         borderBottom: '1px solid  #E4E4EF',
-        paddingTop: '16px',
-        paddingBottom: '16px',
-        paddingLeft: '8px',
-        paddingRight: '8px',
+        paddingTop: '8px',
+        paddingBottom: '8px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
         cursor: 'pointer',
       };
     }
@@ -426,8 +426,8 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
               display: 'flex',
               alignItems: 'center',
               columnGap: '8px',
-              paddingTop: '1.6rem',
-              paddingBottom: '1.6rem',
+              paddingTop: '16px',
+              paddingBottom: '16px',
               overflowX: 'scroll',
               zIndex: 130,
               WebkitOverflowScrolling: 'touch',
@@ -458,12 +458,15 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
             (nodata ? (
               <p
                 tw="text-gray-700 text-b2 [line-height: 20px]"
-                style={{ minHeight: '105px', zIndex: 131, textAlign: 'center' }}
+                style={{ minHeight: '105px', maxHeight: '105px', zIndex: 131, textAlign: 'center' }}
               >
                 다른 주변 정보를 확인해 보세요.
               </p>
             ) : (
-              <p tw="text-gray-700 text-b2 [line-height: 20px]" style={{ minWidth: '100%', minHeight: '105px' }} />
+              <p
+                tw="text-gray-700 text-b2 [line-height: 20px]"
+                style={{ minWidth: '100%', minHeight: '105px', maxHeight: '105px' }}
+              />
             ))}
           {catergoryList && catergoryList.length > 0 && (
             <div

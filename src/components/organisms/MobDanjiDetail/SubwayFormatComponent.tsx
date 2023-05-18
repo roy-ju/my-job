@@ -62,7 +62,7 @@ const IconStyleNormal = {
 export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGroupName: string }) => {
   if (categoryGroupName && categoryGroupName.includes('수도권1호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULONE style={IconStyleNormal} />
       </div>
     );
@@ -70,7 +70,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권2호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULTWO style={IconStyleNormal} />
       </div>
     );
@@ -78,7 +78,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권3호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULTHREE style={IconStyleNormal} />
       </div>
     );
@@ -86,7 +86,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권4호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULFOUR style={IconStyleNormal} />
       </div>
     );
@@ -94,7 +94,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권5호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULFIVE style={IconStyleNormal} />
       </div>
     );
@@ -102,7 +102,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권6호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULSIX style={IconStyleNormal} />
       </div>
     );
@@ -110,7 +110,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권7호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULSEVEN style={IconStyleNormal} />
       </div>
     );
@@ -118,7 +118,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권8호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULEIGHT style={IconStyleNormal} />
       </div>
     );
@@ -126,7 +126,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수도권9호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOULNINE style={IconStyleNormal} />
       </div>
     );
@@ -134,7 +134,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('우이신설')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <WOOI style={IconStyleNormal} />
       </div>
     );
@@ -142,7 +142,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('신림선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SINRIM style={IconStyleNormal} />
       </div>
     );
@@ -150,7 +150,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('동북')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DONGBOOK style={IconStyleNormal} />
       </div>
     );
@@ -158,7 +158,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('위례신사')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <WERAESINSA style={IconStyleNormal} />
       </div>
     );
@@ -166,7 +166,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('위례')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <WERAE style={IconStyleNormal} />
       </div>
     );
@@ -174,7 +174,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('인천1호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <INCHEONONE style={IconStyleNormal} />
       </div>
     );
@@ -186,7 +186,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('경의중앙선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GYEONGEUIJOONGANG style={IconStyleNormal} />
       </div>
     );
@@ -194,7 +194,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('경춘선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GYEONGCHOON style={IconStyleNormal} />
       </div>
     );
@@ -202,7 +202,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('수인분당선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SOOINBOONDANG style={IconStyleNormal} />
       </div>
     );
@@ -210,7 +210,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('경강선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GYEONGANG style={IconStyleNormal} />
       </div>
     );
@@ -218,7 +218,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('서해선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SEOHAE style={IconStyleNormal} />
       </div>
     );
@@ -226,7 +226,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('공항직통')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GONGHANGDIRECT style={IconStyleNormal} />
       </div>
     );
@@ -234,7 +234,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('공항철도')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GONGHANG style={IconStyleNormal} />
       </div>
     );
@@ -242,7 +242,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('신분당선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SHINBOONDANG style={IconStyleNormal} />
       </div>
     );
@@ -250,7 +250,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('신안산선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <SHINANSAN style={IconStyleNormal} />
       </div>
     );
@@ -258,7 +258,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('gtx_a')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GTXA style={IconStyleNormal} />
       </div>
     );
@@ -266,7 +266,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('gtx_b')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GTXB style={IconStyleNormal} />
       </div>
     );
@@ -274,7 +274,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('gtx_c')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GTXC style={IconStyleNormal} />
       </div>
     );
@@ -282,7 +282,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('의정부경전철')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <EUIJUNGBOO style={IconStyleNormal} />
       </div>
     );
@@ -290,7 +290,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('용인')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <YONGIN style={IconStyleNormal} />
       </div>
     );
@@ -298,7 +298,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('김포')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GIMPO style={IconStyleNormal} />
       </div>
     );
@@ -306,7 +306,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('자기부상')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <JAGIBOOSANG style={IconStyleNormal} />
       </div>
     );
@@ -315,7 +315,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
   // 부산
   if (categoryGroupName && categoryGroupName.includes('부산1호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANONE style={IconStyleNormal} />
       </div>
     );
@@ -323,7 +323,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('부산2호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANTWO style={IconStyleNormal} />
       </div>
     );
@@ -331,7 +331,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('부산3호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANTHREE style={IconStyleNormal} />
       </div>
     );
@@ -339,7 +339,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('부산4호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANFOUR style={IconStyleNormal} />
       </div>
     );
@@ -347,7 +347,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('사상하단선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANSASANG style={IconStyleNormal} />
       </div>
     );
@@ -355,7 +355,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('김해')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANGIMHAE style={IconStyleNormal} />
       </div>
     );
@@ -363,7 +363,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('동해')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANDONGHAE style={IconStyleNormal} />
       </div>
     );
@@ -371,7 +371,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('경전')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANGYEONGJEON style={IconStyleNormal} />
       </div>
     );
@@ -379,7 +379,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('양산')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANYANGSAN style={IconStyleNormal} />
       </div>
     );
@@ -387,7 +387,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('오륙도')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <BUSANORYUKDO style={IconStyleNormal} />
       </div>
     );
@@ -396,7 +396,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
   // 대구
   if (categoryGroupName && categoryGroupName.includes('대구1호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEGUONE style={IconStyleNormal} />
       </div>
     );
@@ -404,7 +404,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('대구2호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEGUTWO style={IconStyleNormal} />
       </div>
     );
@@ -412,7 +412,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('대구3호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEGUTHREE style={IconStyleNormal} />
       </div>
     );
@@ -420,14 +420,14 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('대구엑스코')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEGUEXCO style={IconStyleNormal} />
       </div>
     );
   }
   if (categoryGroupName && categoryGroupName.includes('대구광역')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEGUGWANGYEOK style={IconStyleNormal} />
       </div>
     );
@@ -436,7 +436,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
   // 광주
   if (categoryGroupName && categoryGroupName.includes('광주1호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GWANGJUONE style={IconStyleNormal} />
       </div>
     );
@@ -444,7 +444,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('광주2호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <GWANGJUTWO style={IconStyleNormal} />
       </div>
     );
@@ -453,7 +453,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
   // 대전
   if (categoryGroupName && categoryGroupName.includes('대전1호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEJEONONE style={IconStyleNormal} />
       </div>
     );
@@ -461,7 +461,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('대전2호선')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEJEONTWO style={IconStyleNormal} />
       </div>
     );
@@ -469,7 +469,7 @@ export const convertNumberToStringSubway = ({ categoryGroupName }: { categoryGro
 
   if (categoryGroupName && categoryGroupName.includes('충청광역')) {
     return (
-      <div style={{ height: '2rem' }}>
+      <div>
         <DAEJEONGWANGYEOK style={IconStyleNormal} />
       </div>
     );

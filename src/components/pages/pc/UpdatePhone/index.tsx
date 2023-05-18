@@ -7,6 +7,7 @@ import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { ChangeEventHandler, memo, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
+import ErrorCodes from '@/constants/error_codes';
 
 interface Props {
   depth: number;
@@ -40,15 +41,23 @@ export default memo(({ depth, panelWidth }: Props) => {
   const leftVerificationSeconds = verificationTimeLeft % 60;
 
   const errorMessage = useMemo(() => {
-    if (errorCode === 1021) {
-      return '인증번호가 일치하지 않습니다.';
+    if (sent && verificationTimeLeft === 0) {
+      setErrorCode(null);
+      return '인증번호 유효시간이 초과되었습니다.';
+    }
+    if (errorCode === ErrorCodes.PHONE_VERIFICATION_NUMBER_NOT_MATCH) {
+      return '일치하지 않는 인증번호입니다.';
     }
     return '';
-  }, [errorCode]);
+  }, [errorCode, verificationTimeLeft, sent]);
 
-  const handleChangePhone = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    setPhone(e.target.value);
-  }, []);
+  const handleChangePhone = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      if (codeVerified) return;
+      setPhone(e.target.value);
+    },
+    [codeVerified],
+  );
 
   const handleChangeCode = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setCode(e.target.value);
@@ -57,6 +66,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickSend = useCallback(async () => {
     setVerificationTimeLeft(VALID_TIME_OF_VERIFICATION);
     setSent(true);
+    setErrorCode(null);
+    setCode('');
     const res = await sendPhoneVerificationCode(phone);
     if (res?.data?.error_code) {
       setErrorCode(res?.data?.error_code);
@@ -86,7 +97,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.MyDetail);
   }, [router]);
 
-  if (errorCode === 1019) {
+  if (errorCode === ErrorCodes.MAX_SMS_ATTEMPS_REACHED) {
     return (
       <OverlayPresenter>
         <Popup>
@@ -112,7 +123,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         phone={phone}
         code={code}
         sent={sent}
-        isVerificationTimeExpired={verificationTimeLeft === 0}
         minutes={leftVerificationMinutes}
         seconds={leftVerificationSeconds}
         codeErrorMessage={errorMessage}
