@@ -81,7 +81,7 @@ export default function ListingList({
       animate={{ opacity: 1, x: 0, backgroundColor: 'rgba(0,0,0,0.6)' }}
       transition={{ duration: 0.3 }}
     >
-      <div ref={outsideRef} tw="w-[312px] bg-white self-end flex-1">
+      <div ref={outsideRef} tw="w-[82%] bg-white self-end flex-1">
         <div tw="px-5 py-4">
           <div tw="mb-1 flex justify-between">
             <div tw="text-b1 font-bold">{agentName} 공인중개사</div>
