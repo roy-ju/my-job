@@ -1,6 +1,6 @@
 import CharacterImage from '@/../public/static/images/character_mirror.png';
 import CloseIcon from '@/assets/icons/close_24.svg';
-import { HTMLProps, useCallback } from 'react';
+import { HTMLProps } from 'react';
 import Image from 'next/image';
 import { useControlled } from '@/hooks/utils';
 
@@ -23,30 +23,33 @@ function OListItem({ contents, order, ...others }: IOListItem) {
   );
 }
 
-export default function ListingCreateGuidePopup({
-  onClickPopup,
-  isPopupOpen: isPopupOpenProp,
-}: {
-  onClickPopup?: (value: boolean) => void;
+interface ListingCreateGuidePopupProps extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'as'> {
+  ref?: React.Ref<HTMLDivElement>;
+  onClickClosePopup?: () => void;
   isPopupOpen?: boolean;
-}) {
-  const [isPopupOpen, setIsPopupOpen] = useControlled({ controlled: isPopupOpenProp, default: true });
+}
 
-  const handleClickPopup = useCallback(
-    (value: boolean) => {
-      setIsPopupOpen(value);
-      onClickPopup?.(value);
-    },
-    [setIsPopupOpen, onClickPopup],
-  );
+export default function ListingCreateGuidePopup({
+  onClickClosePopup,
+  isPopupOpen: isPopupOpenProp,
+  ...others
+}: ListingCreateGuidePopupProps) {
+  const [isPopupOpen, setIsPopupOpen] = useControlled({ controlled: isPopupOpenProp, default: true });
 
   if (!isPopupOpen) return null;
 
   return (
-    <div tw="bg-white rounded-lg [box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.1)]">
+    <div tw="bg-white rounded-lg [box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.1)]" {...others}>
       <div tw="px-5 flex py-4 relative justify-center">
         <div tw="text-gray-1000 font-bold text-b1">매물등록신청</div>
-        <button type="button" tw="absolute right-5" onClick={() => handleClickPopup}>
+        <button
+          type="button"
+          tw="absolute right-5"
+          onClick={() => {
+            onClickClosePopup?.();
+            setIsPopupOpen(false);
+          }}
+        >
           <CloseIcon />
         </button>
       </div>
