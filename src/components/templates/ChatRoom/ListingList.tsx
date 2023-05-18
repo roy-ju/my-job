@@ -84,8 +84,10 @@ export default function ListingList({
           </div>
           <div tw="text-info text-gray-700">{officeName}</div>
         </div>
+
         <Separator />
-        <div css={ListingListDivider} tw="py-4">
+
+        <div css={ListingListDivider} tw="py-4 flex-1 overflow-auto">
           {buyerContractList?.length > 0 && (
             <div>
               {buyerContractList?.map((args, i) => (
