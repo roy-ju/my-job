@@ -427,7 +427,7 @@ export const EtcField = ({
             value={etc}
             onChange={onChangeEtcField}
             tw="min-h-[76px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
-            placeholder="중층의 매물을 원해요.&#13;&#10;초등학교 가까운 매물 제안해주세요."
+            placeholder="예) 판상형을 원해요, 정남향을 원해요"
             spellCheck="false"
           />
         ) : (
