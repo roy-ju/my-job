@@ -18,6 +18,7 @@ export interface UpdatePhoneProps {
   onClickSend?: () => void;
   onClickVerifyCode?: () => void;
   onClickNext?: () => void;
+  onClickBack?: () => void;
   onClickRemovePhoneValue?: () => void;
 }
 
@@ -32,6 +33,7 @@ export default function UpdatePhone({
   onChangePhone,
   onChangeCode,
   onClickNext,
+  onClickBack,
   onClickSend,
   onClickVerifyCode,
   onClickRemovePhoneValue,
@@ -73,10 +75,10 @@ export default function UpdatePhone({
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickNext} />
+        <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>휴대폰 번호 변경</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="p-5 flex-1 min-h-0">
+      <div tw="p-5 flex-1 min-h-0 overflow-auto">
         <div tw="text-h2 font-bold mb-6">
           중요 알림을 받으실
           <br />

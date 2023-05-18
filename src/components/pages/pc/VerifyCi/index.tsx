@@ -3,6 +3,7 @@ import { Panel } from '@/components/atoms';
 import { OverlayPresenter } from '@/components/molecules';
 import { VerifyCiPopup } from '@/components/organisms';
 import { VerifyCi } from '@/components/templates';
+import { NiceVerificationType } from '@/constants/enums';
 import ErrorCodes from '@/constants/error_codes';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
@@ -38,7 +39,20 @@ export default memo(({ depth, panelWidth }: Props) => {
 
       if (!updateCiRes?.error_code) {
         mutateUser(false);
-        router.replace(Routes.VerifyCiSuccess, { searchParams: { redirect: (router.query.redirect as string) ?? '' } });
+
+        // 아이핀으로 본인인증 한 경우에는, 휴대폰번호 입력 플로우 까지 완료해야 본인인증 성공 페이지로 보낸다.
+        if (Number(res.type) === NiceVerificationType.IPin) {
+          router.replace(Routes.UpdatePhone, {
+            searchParams: {
+              redirect: (router.query.redirect as string) ?? '',
+              trigger: 'iPin',
+            },
+          });
+        } else {
+          router.replace(Routes.VerifyCiSuccess, {
+            searchParams: { redirect: (router.query.redirect as string) ?? '' },
+          });
+        }
       }
     },
     [router, mutateUser],

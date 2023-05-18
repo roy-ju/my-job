@@ -49,6 +49,7 @@ export default function useAuth() {
     }
 
     localStorage.removeItem(Keys.ACCESS_TOKEN);
+    localStorage.removeItem(Keys.REFRESH_TOKEN);
 
     mutate(() => true, undefined);
   }, []);
