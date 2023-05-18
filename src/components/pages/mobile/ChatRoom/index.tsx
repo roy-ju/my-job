@@ -121,8 +121,7 @@ export default memo(() => {
         onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
         onClickBack={() => {
           if (typeof window !== 'undefined') {
-            const navigationIndex = window.history.state?.idx;
-            const canGoBack = navigationIndex !== 0;
+            const canGoBack = window.history.length > 1;
 
             if (canGoBack) {
               router.back();
