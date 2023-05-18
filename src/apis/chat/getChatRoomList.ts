@@ -5,6 +5,7 @@ export interface GetChatRoomListResponse {
   list:
     | {
         chat_room_id: number;
+        chat_room_type: number;
         agent_profile_image_full_path: string;
         agent_office_name: string;
         listing_title: string;

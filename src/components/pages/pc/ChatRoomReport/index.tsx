@@ -5,6 +5,7 @@ import { useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
 import createReportChatRoom from '@/apis/chat/createReportChatRoom';
 import Routes from '@/router/routes';
+import { toast } from 'react-toastify';
 import useChatRoom from '../ChatRoom/useChatRoom';
 
 interface Props {
@@ -26,6 +27,14 @@ export default function ChatRoomReport({ depth, panelWidth }: Props) {
       chat_room_id: Number(router.query.chatRoomID),
       message: reportContent,
     });
+
+    setTimeout(() => {
+      toast.success('신고되었습니다.', { toastId: 'reportSuccess' });
+      setTimeout(() => {
+        router.pop();
+      }, 50);
+    }, 50);
+
     router.pop();
   };
 

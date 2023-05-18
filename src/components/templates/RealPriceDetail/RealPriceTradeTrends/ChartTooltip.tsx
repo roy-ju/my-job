@@ -39,12 +39,12 @@ export const ChartTooltip = React.memo(
       const sigunguN = sigunguName || '';
       const sigunguP = data.sigungu_count ? data.sigungu_count : '';
 
-      const sidoN = sidoName || '';
-      const sidoP = data.sido_count ? data.sido_count : '';
+      const sidoN = sidoName === '세종특별자치시' ? '' : sidoName || '';
+      const sidoP = sidoName === '세종특별자치시' ? '' : data.sido_count ? data.sido_count : '';
 
       const result = danjiN + danjiP + sigunguN + sigunguP + sidoN + sidoP;
 
-      return result.length > 27;
+      return result.length > 23;
     }, [danjiName, data.danji_count, data.sido_count, data.sigungu_count, sidoName, sigunguName]);
 
     useEffect(() => {
@@ -83,94 +83,30 @@ export const ChartTooltip = React.memo(
           >
             <div>
               {data.date && (
-                <div tw="mb-1.5">
-                  <span tw="text-gray-1000 text-info [line-height: 1] [text-align: left]">
-                    {moment(data.date).format('YYYY.MM')}
-                    <span
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 400,
-                        lineHeight: '14px',
-                        color: '#868E96',
-                        marginLeft: '1px',
-                      }}
-                    >
-                      거래가격 평균
-                    </span>
-                  </span>
+                <div tw="flex flex-row items-center gap-1">
+                  <p tw="text-gray-1000 text-info [text-align: left]">{moment(data.date).format('YYYY.MM')}</p>
+                  <p
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: 400,
+                      lineHeight: '20px',
+                      color: '#868E96',
+                    }}
+                  >
+                    1,000세대당 거래량
+                  </p>
                 </div>
               )}
 
-              {isLineBreak() ? (
-                <div tw="flex flex-col gap-1">
+              <div tw="flex flex-col">
+                {typeof data.danji_count === 'number' && (
                   <div>
-                    {typeof data.danji_count === 'number' && (
-                      <span tw="text-gray-1000 text-info [line-height: 1]">
-                        {danjiName || ''}
-                        <span
-                          style={{
-                            fontSize: '12px',
-                            lineHeight: 1,
-                            fontWeight: 500,
-                            color: '#FF542D',
-                            marginLeft: '4px',
-                          }}
-                        >
-                          {data.danji_count}건
-                        </span>
-                      </span>
-                    )}
-                  </div>
-
-                  <div>
-                    {typeof data.sigungu_count === 'number' && (
-                      <span tw="text-gray-1000 text-info [line-height: 1]">
-                        {sigunguName || ''}
-                        <span
-                          style={{
-                            fontSize: '12px',
-                            lineHeight: 1,
-                            fontWeight: 500,
-                            color: '#E9AC11',
-                            marginLeft: '4px',
-                          }}
-                        >
-                          {data.sigungu_count}건
-                        </span>
-                      </span>
-                    )}
-                  </div>
-
-                  <div>
-                    {typeof data.sido_count === 'number' && (
-                      <div>
-                        <span tw="text-gray-1000 text-info [line-height: 1]">
-                          {sidoName || ''}
-                          <span
-                            style={{
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              fontWeight: 500,
-                              color: '#FF9C72',
-                              marginLeft: '4px',
-                            }}
-                          >
-                            {data.sido_count}건
-                          </span>
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div tw="flex flex-row items-center">
-                  {typeof data.danji_count === 'number' && (
-                    <span tw="text-gray-1000 text-info [line-height: 1]">
+                    <span tw="text-gray-1000 text-info">
                       {danjiName || ''}
                       <span
                         style={{
                           fontSize: '12px',
-                          lineHeight: 1,
+                          lineHeight: '20px',
                           fontWeight: 500,
                           color: '#FF542D',
                           marginLeft: '4px',
@@ -179,15 +115,17 @@ export const ChartTooltip = React.memo(
                         {data.danji_count}건
                       </span>
                     </span>
-                  )}
-                  <div tw="w-px h-2 bg-gray-300 mx-2" />
+                  </div>
+                )}
+
+                <div tw="flex flex-row items-center">
                   {typeof data.sigungu_count === 'number' && (
-                    <span tw="text-gray-1000 text-info [line-height: 1]">
+                    <span tw="text-gray-1000 text-info">
                       {sigunguName || ''}
                       <span
                         style={{
                           fontSize: '12px',
-                          lineHeight: 1,
+                          lineHeight: '20px',
                           fontWeight: 500,
                           color: '#E9AC11',
                           marginLeft: '4px',
@@ -197,25 +135,30 @@ export const ChartTooltip = React.memo(
                       </span>
                     </span>
                   )}
-                  <div tw="w-px h-2 bg-gray-300 mx-2" />
-                  {typeof data.sido_count === 'number' && (
-                    <span tw="text-gray-1000 text-info [line-height: 1]">
-                      {sidoName || ''}
-                      <span
-                        style={{
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          fontWeight: 500,
-                          color: '#FF9C72',
-                          marginLeft: '4px',
-                        }}
-                      >
-                        {data.sido_count}건
-                      </span>
-                    </span>
-                  )}
+
+                  {sidoName === '세종특별자치시'
+                    ? null
+                    : typeof data.sido_count === 'number' && (
+                        <>
+                          <div tw="w-px h-2 bg-gray-300 mx-2" />
+                          <span tw="text-gray-1000 text-info">
+                            {sidoName || ''}
+                            <span
+                              style={{
+                                fontSize: '12px',
+                                lineHeight: '20px',
+                                fontWeight: 500,
+                                color: '#FF9C72',
+                                marginLeft: '4px',
+                              }}
+                            >
+                              {data.sido_count}건
+                            </span>
+                          </span>
+                        </>
+                      )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </TooltipWithBounds>

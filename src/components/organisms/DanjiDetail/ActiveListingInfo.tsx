@@ -37,20 +37,6 @@ export default function ActiveListingInfo({
 
   const handleListingAll = useCallback(() => {
     if (router.query.listingID) {
-      router.push(Routes.DanjiListings, {
-        searchParams: {
-          listingID: router.query.listingID as string,
-          p: danji?.pnu || `${router.query.p}` || '',
-          rt: danji?.type.toString() || (router.query.rt as string) || '',
-        },
-      });
-    } else {
-      router.push(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
-    }
-  }, [router, danji]);
-
-  const handleListingAllTypeTwo = useCallback(() => {
-    if (router.query.listingID) {
       router.replace(Routes.DanjiListings, {
         searchParams: {
           listingID: router.query.listingID as string,
@@ -62,6 +48,38 @@ export default function ActiveListingInfo({
       router.replace(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
     }
   }, [router, danji]);
+
+  const handleListingAllTypeTwo = useCallback(() => {
+    if (router.query.listingID) {
+      nextRouter.replace({
+        pathname: `/${Routes.DanjiListings}`,
+        query: {
+          // listingID: `${id}`,
+          p: danji?.pnu || `${nextRouter.query.p}` || '',
+          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+        },
+      });
+
+      // router.replace(Routes.DanjiListings, {
+      //   searchParams: {
+      //     listingID: router.query.listingID as string,
+      //     p: danji?.pnu || `${router.query.p}` || '',
+      //     rt: danji?.type.toString() || (router.query.rt as string) || '',
+      //   },
+      // });
+    } else {
+      nextRouter.replace({
+        pathname: `/${Routes.DanjiListings}`,
+        query: {
+          // listingID: `${id}`,
+          p: danji?.pnu || `${nextRouter.query.p}` || '',
+          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+        },
+      });
+
+      // router.replace(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+    }
+  }, [router.query.listingID, nextRouter, danji?.pnu, danji?.type]);
 
   const handleListingDetail = useCallback(
     (id: number) => {
@@ -91,7 +109,7 @@ export default function ActiveListingInfo({
     return (
       <div tw="flex flex-col gap-3 px-5 pb-10">
         <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAllTypeTwo}>
-          단지내 매물 전체보기
+          단지내 매물 전체보기&nbsp;{!!totalCount && <span tw="font-bold">{totalCount}</span>}
         </Button>
       </div>
     );

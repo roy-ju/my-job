@@ -2,6 +2,7 @@ import useAPI_GetMyRealPriceList from '@/apis/my/getMyRealPriceList';
 import { MobileContainer } from '@/components/atoms';
 import { MobMyRealPriceList } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
+import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useState, useMemo, useCallback } from 'react';
 
@@ -21,6 +22,8 @@ export default function RealPriceListWrraper() {
         area: item?.jeonyong_area,
         buyOrRent: item?.buy_or_rent,
         dealType: item?.deal_type,
+        pnu: item?.pnu,
+        realestateType: item?.realestate_type,
       })),
     [data],
   );
@@ -51,6 +54,9 @@ export default function RealPriceListWrraper() {
         onClickBack={() => router.back()}
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
+        onClickItem={(pnu, realestateType) => {
+          router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${pnu}&rt=${realestateType}`);
+        }}
       />
     </MobileContainer>
   );

@@ -54,6 +54,7 @@ interface MobLayoutMapContainerProps {
     lng: number;
   } | null;
   isGeoLoading?: boolean;
+  removeMyMarker?: () => void;
 }
 
 function MobLayoutMapContainer({
@@ -83,6 +84,7 @@ function MobLayoutMapContainer({
   onClickMapListingList,
   onClickSuggestReginoal,
   children,
+  removeMyMarker,
 }: MobLayoutMapContainerProps) {
   const { addFullScreenDialog } = useFullScreenDialogStore();
 
@@ -182,7 +184,7 @@ function MobLayoutMapContainer({
             />
           </MobMapControls.Group>
           <MobMapControls.GPSButton
-            onClick={onClickCurrentLocation}
+            onClick={myMarker ? removeMyMarker : onClickCurrentLocation}
             isGeoLoading={isGeoLoading}
             selected={!!myMarker}
           />

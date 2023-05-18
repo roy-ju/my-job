@@ -24,22 +24,19 @@ export default function MyListingsSummary({
   return (
     <div tw="bg-white px-5 pb-10 flex flex-col">
       <div tw="text-b1 leading-none font-bold mt-5 mb-4">중개사 추천 매물 확인</div>
-      <div tw="flex items-center rounded-lg py-2 mb-6 bg-gray-100">
-        <div tw="flex w-1/2">
-          <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200">
-            <div>
-              <div tw="text-info text-gray-700">단지/지역 수</div>
-              <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_sent_count ?? 0}</div>
-            </div>
-          </Button>
-          <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200 flex-1">
-            <div>
-              <div tw="text-info text-gray-700">매물 수</div>
-              <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
-            </div>
-          </Button>
-        </div>
-        <Button onClick={onClickSuggestRegional} tw="flex-1 h-11 mx-5" variant="secondary">
+      <div tw="flex gap-3 items-center rounded-lg py-2 mb-6 bg-gray-100">
+        <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200 block flex-1 ml-1">
+          <div tw="flex justify-between">
+            <div tw="text-info text-gray-1000">단지/지역 수</div>
+            <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_sent_count ?? 0}</div>
+          </div>
+          <div tw="flex justify-between">
+            <div tw="text-info text-gray-700">추천받은 매물 수</div>
+            <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
+          </div>
+        </Button>
+
+        <Button onClick={onClickSuggestRegional} tw="w-[132px] h-11 mr-5" variant="secondary">
           새 매물 추천받기
         </Button>
       </div>

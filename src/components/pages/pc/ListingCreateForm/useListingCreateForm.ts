@@ -7,7 +7,7 @@ import Routes from '@/router/routes';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 import _ from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 import makeListingCreateParams from './makeListingCreateParams';
@@ -22,6 +22,8 @@ export default function useListingCreateForm(depth: number) {
   const [isAddInterimButtonDisabled, setIsAddInterimButtonDisabled] = useState(false);
   const [isAddCollateralDisabled, setIsAddCollateralDisabled] = useState(false);
   const [isAddDebtSuccessionDisabled, setIsAddDebtSuccessionDisabled] = useState(false);
+
+  const autoScrollEnabled = useRef(true);
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   // 화면에 띄워진 팝업
@@ -94,6 +96,9 @@ export default function useListingCreateForm(depth: number) {
   const [listingPhotoUrls, setListingPhotoUrls] = useState<string[]>([]);
   // 단지사진
   const [danjiPhotoUrls, setDanjiPhotoUrls] = useState<string[]>([]);
+  // 채무승계 여부
+  const [hasDebtSuccession, setHasDebtSuccession] = useState('0');
+
   // 화면에 표현할 주소1
   const addressLine1 = router.query.addressLine1 as string;
   // 화면에 표현할 주소2
@@ -124,6 +129,7 @@ export default function useListingCreateForm(depth: number) {
   }, []);
 
   const resetDebtSuccessions = useCallback(() => {
+    setHasDebtSuccession('0');
     setDebtSuccessionDeposit('');
     setDebtSuccessionMiscs([]);
   }, []);
@@ -313,10 +319,46 @@ export default function useListingCreateForm(depth: number) {
       paymentForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
+
     if (remainingAmount === '' || Number(remainingAmount) < 0) {
       setErrPopup('입력하신 금액은 실제 지급 총액을 넘을 수 없습니다.');
       const paymentForm = document.getElementById(Forms.PaymentSchedules);
       paymentForm?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    // 채무승계 보증금이 있는데, 기존 임대차 계약 종료일을 입력 안한경우
+    if (debtSuccessionDeposit !== '' && !rentEndDate) {
+      setErrPopup('기존 임대차 계약 종료일을 입력해주세요.');
+      // 자, 이제 이 경우에는 기존 임대차 계약 종료일 을 입력 받아야된다.
+
+      // 아마 입력했을지도 모르는 입주가능시기 필드들을 초기화 해주고,
+      setMoveInDate(null);
+      setHasMoveInDate('0');
+
+      // 입주가능시기를 기존임대차계약 종료일 필드로 바꿔버린다.
+      setForms((prev) => prev.map((item) => (item === Forms.MoveInDate ? Forms.RentEndDate : item)));
+
+      autoScrollEnabled.current = false;
+
+      const debtSuccessionForm = document.getElementById(Forms.DebtSuccessions);
+      debtSuccessionForm?.scrollIntoView({ behavior: 'smooth' });
+
+      return;
+    }
+
+    // 채무승계보증금이 없는데, 기존 임대차 계약 종료일 값이 있는 경우
+    if (debtSuccessionDeposit === '' && rentEndDate) {
+      setErrPopup('입주가능시기를 확인해주세요.');
+      // 이 경우에는 입주가능시기를 입력받아야한다.
+      setRentEndDate(null);
+      setForms((prev) => prev.map((item) => (item === Forms.RentEndDate ? Forms.MoveInDate : item)));
+
+      autoScrollEnabled.current = false;
+
+      const debtSuccessionForm = document.getElementById(Forms.DebtSuccessions);
+      debtSuccessionForm?.scrollIntoView({ behavior: 'smooth' });
+
       return;
     }
 
@@ -364,7 +406,17 @@ export default function useListingCreateForm(depth: number) {
 
     router.replace(Routes.ListingCreateChooseAgent, {
       searchParams: { listingID: router.query.listingID as string },
-      state: { params: encoded, addressLine1, addressLine2, addressData: router.query.addressData as string },
+      state: {
+        params: encoded,
+        addressLine1,
+        addressLine2,
+        addressData: router.query.addressData as string,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
+      },
     });
   }, [
     router,
@@ -413,6 +465,11 @@ export default function useListingCreateForm(depth: number) {
     router.replace(Routes.ListingCreateAddressDetail, {
       state: {
         addressData: router.query.addressData as string,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
       },
     });
   }, [router]);
@@ -819,6 +876,16 @@ export default function useListingCreateForm(depth: number) {
     setDanjiPhotoUrls(values);
   }, []);
 
+  const handleChangeHasDebtSuccession = useCallback((value: string) => {
+    if (value === '0') {
+      // 없음 선택시
+      setDebtSuccessionDeposit('');
+      setDebtSuccessionMiscs([]);
+    }
+
+    setHasDebtSuccession(value);
+  }, []);
+
   // 잔금 계산
   useEffect(() => {
     const p = convertPriceInputToNumber(price);
@@ -851,7 +918,11 @@ export default function useListingCreateForm(depth: number) {
         }
       }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+      if (autoScrollEnabled.current) {
+        setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+      } else {
+        autoScrollEnabled.current = true;
+      }
     }
   }, [forms]);
 
@@ -1066,8 +1137,8 @@ export default function useListingCreateForm(depth: number) {
       setVerandaRemodelling(parsed.veranda_remodelling);
     }
 
-    if (parsed.extra_options) {
-      setExtraOptions(parsed.extra_options);
+    if (parsed.options) {
+      setExtraOptions(parsed.options);
     }
 
     if (parsed.jeonsae_loan !== undefined) {
@@ -1130,7 +1201,7 @@ export default function useListingCreateForm(depth: number) {
       });
     }
 
-    if (parsed.debt_successions) {
+    if (parsed.debt_successions?.length) {
       if (parsed.debt_successions[0]?.name === '보증금') {
         setDebtSuccessionDeposit(convertNumberToPriceInput(parsed.debt_successions[0].amount));
       }
@@ -1145,9 +1216,10 @@ export default function useListingCreateForm(depth: number) {
           onRemove: handleRemoveDebtSuccessionMisc(k),
         });
       });
+      setHasDebtSuccession('1');
     }
 
-    if (parsed.collaterals) {
+    if (parsed.collaterals?.length) {
       parsed.collaterals.forEach((item: { amount: number; name: string }) => {
         const k = uuidv4();
         defaultCollaterals.push({
@@ -1297,6 +1369,9 @@ export default function useListingCreateForm(depth: number) {
 
     hasSpecialTerms,
     handleChangeHasSpecialTerms: setHasSpecialTerms,
+
+    hasDebtSuccession,
+    handleChangeHasDebtSuccession,
 
     dong,
     ho,

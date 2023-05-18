@@ -36,20 +36,34 @@ interface BiddingItem {
 }
 
 interface BiddingsProps {
-  showBiddingPrice?: boolean;
+  isOwner?: boolean;
   biddingsChatRoomCreated?: BiddingItem[] | null;
   biddingsChatRoomNotCreated?: BiddingItem[] | null;
+  isMonthlyRent?: boolean;
 }
 
 export default function Biddings({
-  showBiddingPrice = false,
+  isOwner = false,
   biddingsChatRoomCreated,
   biddingsChatRoomNotCreated,
+  isMonthlyRent = false,
 }: BiddingsProps) {
   const { openTooltip } = useTooltip();
 
+  const renderMonthlyRentFee = (fee: number) => {
+    if (!isMonthlyRent) return null;
+    if (fee === 0) return ' / 0원';
+
+    return (
+      <span>
+        {' '}
+        / <Numeral koreanNumber>{fee}</Numeral>
+      </span>
+    );
+  };
+
   if (!biddingsChatRoomCreated && !biddingsChatRoomNotCreated) {
-    if (showBiddingPrice) {
+    if (isOwner) {
       return (
         <div>
           <div tw="mb-3">
@@ -103,7 +117,7 @@ export default function Biddings({
           <Table.Body aria-label="biddingHeader">
             <Table.Row>
               <Table.Head>제안자</Table.Head>
-              {showBiddingPrice && <Table.Data>제안금액</Table.Data>}
+              <Table.Data>제안금액</Table.Data>
               <Table.Data>제안시간</Table.Data>
             </Table.Row>
           </Table.Body>
@@ -120,18 +134,12 @@ export default function Biddings({
                       </span>
                     )}
                   </Table.Head>
-                  {showBiddingPrice && (
-                    <Table.Data>
-                      <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
-                        {Boolean(item.monthlyRentFee) && (
-                          <span>
-                            /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>
-                          </span>
-                        )}
-                      </span>
-                    </Table.Data>
-                  )}
+                  <Table.Data>
+                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                      {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
+                      {renderMonthlyRentFee(item.monthlyRentFee)}
+                    </span>
+                  </Table.Data>
                   <Table.Data>
                     <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
                       {item.createdTime ? <Moment format="calendar">{item.createdTime}</Moment> : '-'}
@@ -152,20 +160,16 @@ export default function Biddings({
                       <span>{item.nickname}</span>
                     )}
                   </Table.Head>
-                  {showBiddingPrice && (
-                    <Table.Data>
-                      <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                        {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
-                        {Boolean(item.monthlyRentFee) && (
-                          <span>
-                            /<Numeral koreanNumber>{item.monthlyRentFee}</Numeral>
-                          </span>
-                        )}
-                      </span>
-                    </Table.Data>
-                  )}
                   <Table.Data>
-                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>-</span>
+                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                      {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
+                      {renderMonthlyRentFee(item.monthlyRentFee)}
+                    </span>
+                  </Table.Data>
+                  <Table.Data>
+                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                      {item.createdTime ? <Moment format="calendar">{item.createdTime}</Moment> : '-'}
+                    </span>
                   </Table.Data>
                 </Table.Row>
               ))}

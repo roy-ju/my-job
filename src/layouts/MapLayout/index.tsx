@@ -46,14 +46,15 @@ function MapWrapper({
     schoolMarkers,
     mapToggleValue,
     listingCount,
-    selectedDanjiSummary,
-    selectedSchoolID,
     priceType,
     streetViewEvent,
     recentSearches,
     isGeoLoading,
     popup,
     setPopup,
+    selectedMarker,
+    danjiSummary,
+    removeMyMarker,
     ...props
   } = useMapLayout();
 
@@ -111,15 +112,16 @@ function MapWrapper({
         onTogglepanelsVisibility={onTogglePanelsVisibility}
         onClickRemoveAllRecentSearches={clearRecentSearches}
         onClickRemoveRecentSearch={removeRecentSearch}
+        removeMyMarker={removeMyMarker}
       >
         <Map {...props}>
           <Markers
             mapLevel={bounds?.mapLevel ?? 4}
             markers={markers}
             schoolMarkers={schoolMarkers}
-            selectedDanjiSummary={selectedDanjiSummary}
-            selectedSchoolID={selectedSchoolID}
             myMarker={myMarker}
+            selectedMarker={selectedMarker}
+            danjiSummary={danjiSummary}
           />
         </Map>
       </Layout.MapContainer>
@@ -211,8 +213,17 @@ export default function MapLayout({ children }: Props) {
     setPanelsVisible(true);
     if (router.pathname === '/') {
       setTabIndex(0);
-    }
-    if (router.pathname === '/map') {
+    } else if (router.pathname === '/map') {
+      setTabIndex(1);
+    } else if (router.query.depth1 === 'myFavoriteList') {
+      setTabIndex(2);
+    } else if (router.query.depth1 === 'chatRoomList') {
+      setTabIndex(3);
+    } else if (router.query.depth1 === 'my') {
+      setTabIndex(4);
+    } else if (router.query.depth1 === 'developer') {
+      setTabIndex(5);
+    } else {
       setTabIndex(1);
     }
   }, [router]);

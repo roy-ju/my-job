@@ -16,7 +16,7 @@ Default.args = {
   lastMessageTime: '2023-04-17T05:21:42.607Z',
   unreadMessageCount: 0,
   profileImagePath: defaultAvatar,
-  active: false,
+  isSeller: true,
 };
 
 export const Example: ComponentStory<typeof ChatRoomListItem> = (args) => <ChatRoomListItem {...args} />;
@@ -30,5 +30,5 @@ Example.args = {
   lastMessageTime: '2023-04-12T21:28:41+09:00',
   unreadMessageCount: 100,
   profileImagePath: defaultAvatar,
-  active: true,
+  isSeller: false,
 };

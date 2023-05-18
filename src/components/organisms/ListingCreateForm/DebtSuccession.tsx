@@ -1,23 +1,34 @@
-import { TextField } from '@/components/molecules';
+import { RadioGroup, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEvent, ChangeEventHandler, useCallback } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
-import { Button } from '@/components/atoms';
+import { Button, Label, Radio } from '@/components/atoms';
 import RemoveIcon from '@/assets/icons/remove.svg';
 import useTooltip from '@/states/tooltip';
 
 interface DepositProps {
   deposit?: string;
+  hasDebtSuccession?: string;
   monthlyRentFee?: string;
   isAddButtonDisabled?: boolean;
   onChangeDeposit?: (newValue: string) => void;
+  onChangeHasDebtSuccession?: (newValue: string) => void;
   onClickAdd?: () => void;
 }
 
-function Deposit({ deposit: depositProp, isAddButtonDisabled, onChangeDeposit, onClickAdd }: DepositProps) {
+function Deposit({
+  deposit: depositProp,
+  hasDebtSuccession: hasDebtSuccessionProp,
+  isAddButtonDisabled,
+  onChangeDeposit,
+  onChangeHasDebtSuccession,
+  onClickAdd,
+}: DepositProps) {
   const { openTooltip } = useTooltip();
 
   const [deposit, setDeposit] = useControlled({ controlled: depositProp, default: '' });
+
+  const [hasDebtSuccession, setHasDebtSuccession] = useControlled({ controlled: hasDebtSuccessionProp, default: '0' });
 
   const handleChangePrice = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -25,6 +36,14 @@ function Deposit({ deposit: depositProp, isAddButtonDisabled, onChangeDeposit, o
       onChangeDeposit?.(e.target.value);
     },
     [setDeposit, onChangeDeposit],
+  );
+
+  const handleChangeHasDebtSuccession = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      setHasDebtSuccession(e.target.value);
+      onChangeHasDebtSuccession?.(e.target.value);
+    },
+    [setHasDebtSuccession, onChangeHasDebtSuccession],
   );
 
   return (
@@ -37,27 +56,38 @@ function Deposit({ deposit: depositProp, isAddButtonDisabled, onChangeDeposit, o
               <QuestionIcon />
             </Button>
           </div>
-          <div tw="text-info text-gray-700">관련된 채무가 없다면 다음을 누르세요.</div>
+          <div tw="text-info text-gray-700">
+            계약 시의 채무승계 금액을 입력해 주세요.
+            <br />
+            잔금일 전 말소 예정인 경우 입력이 필요하지 않습니다.
+          </div>
         </div>
-        {!isAddButtonDisabled && (
+        {!isAddButtonDisabled && hasDebtSuccession === '1' && (
           <Button variant="outlined" size="small" onClick={onClickAdd}>
             채무추가
           </Button>
         )}
       </div>
-      <div tw="mt-3 flex flex-col gap-4">
-        <div>
-          <TextField variant="outlined">
-            <TextField.PriceInput label="보증금" value={deposit} onChange={handleChangePrice} />
-          </TextField>
-          <TextField.PriceHelperMessage tw="mr-4">{deposit}</TextField.PriceHelperMessage>
+      <RadioGroup tw="flex gap-4 mt-3" value={hasDebtSuccession} onChange={handleChangeHasDebtSuccession}>
+        <Label control={<Radio />} value="0" label="없음" />
+        <Label control={<Radio />} value="1" label="있음" />
+      </RadioGroup>
+      {hasDebtSuccession === '1' && (
+        <div tw="mt-3 flex flex-col gap-4">
+          <div>
+            <TextField variant="outlined">
+              <TextField.PriceInput label="보증금" value={deposit} onChange={handleChangePrice} />
+            </TextField>
+            <TextField.PriceHelperMessage tw="mr-4">{deposit}</TextField.PriceHelperMessage>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
 interface MiscellaneousProps {
+  index?: number;
   name?: string;
   price?: string;
   onChangeName?: (value: string) => void;
@@ -65,14 +95,14 @@ interface MiscellaneousProps {
   onClickRemove?: () => void;
 }
 
-function Miscellaneous({ name, price, onChangeName, onChangePrice, onClickRemove }: MiscellaneousProps) {
+function Miscellaneous({ index, name, price, onChangeName, onChangePrice, onClickRemove }: MiscellaneousProps) {
   return (
     <div>
       <div tw="flex items-center gap-1">
         <Button variant="ghost" size="none" onClick={onClickRemove}>
           <RemoveIcon />
         </Button>
-        <div tw="text-info">기타채무</div>
+        <div tw="text-info">기타채무 {(index ?? 0) + 1}</div>
       </div>
       <div tw="flex flex-col gap-4 mt-4">
         <TextField variant="outlined">

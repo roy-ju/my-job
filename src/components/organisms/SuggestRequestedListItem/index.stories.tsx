@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import SuggestRequestedListItem from '.';
 
 export default {
-  title: 'SuggestRequestedListItem',
+  title: 'organisms/SuggestRequestedListItem',
   component: SuggestRequestedListItem,
 } as ComponentMeta<typeof SuggestRequestedListItem>;
 

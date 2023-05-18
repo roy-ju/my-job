@@ -132,20 +132,7 @@ const ListingCreateSummary = () => {
               <Popup.ActionButton
                 onClick={() => {
                   setPopup(false);
-                  router.replace(
-                    {
-                      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}`,
-                      query: {
-                        listingID: router.query.listingID as string,
-                        agentID: `${agentID}`,
-                        params: router.query.params as string,
-                        addressLine1: router.query.addressLine1 as string,
-                        addressLine2: router.query.addressLine2 as string,
-                        addressData: router.query.addressData as string,
-                      },
-                    },
-                    `/${Routes.EntryMobile}/${Routes.ListingCreateResult}?listingID=${router.query.listingID}`,
-                  );
+                  router.replace(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
                 }}
               >
                 확인

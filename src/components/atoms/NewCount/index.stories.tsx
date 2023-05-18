@@ -6,8 +6,11 @@ export default {
   component: NewCount,
 } as ComponentMeta<typeof NewCount>;
 
-export const Default: ComponentStory<typeof NewCount> = (args) => <NewCount {...args} />;
-
-Default.args = {
-  value: 1,
-};
+export const Default: ComponentStory<typeof NewCount> = () => (
+  <div tw="flex gap-2">
+    <NewCount value={1} />
+    <NewCount value={99} />
+    <NewCount value={100} />
+    <NewCount value={1000} />
+  </div>
+);

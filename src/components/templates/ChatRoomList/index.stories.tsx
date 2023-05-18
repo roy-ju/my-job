@@ -15,6 +15,7 @@ const mock = [
     unreadMessageCount: 1,
     profileImagePath: defaultAvatar,
     active: true,
+    chatRoomType: 1,
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const mock = [
     unreadMessageCount: 0,
     profileImagePath: defaultAvatar,
     active: true,
+    chatRoomType: 2,
   },
   {
     id: 3,
@@ -38,6 +40,7 @@ const mock = [
     unreadMessageCount: 0,
     profileImagePath: defaultAvatar,
     active: true,
+    chatRoomType: 2,
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ const mock = [
     unreadMessageCount: 100,
     profileImagePath: defaultAvatar,
     active: true,
+    chatRoomType: 2,
   },
   {
     id: 5,
@@ -61,6 +65,7 @@ const mock = [
     unreadMessageCount: 100,
     profileImagePath: defaultAvatar,
     active: true,
+    chatRoomType: 1,
   },
   {
     id: 6,
@@ -73,6 +78,7 @@ const mock = [
     unreadMessageCount: 100,
     profileImagePath: defaultAvatar,
     active: true,
+    chatRoomType: 1,
   },
 ];
 

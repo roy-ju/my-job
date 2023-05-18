@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button } from '@/components/atoms';
 import { convertedArr, getAverageDistance } from '@/hooks/utils/aroundInfo';
@@ -35,7 +36,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   // const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
   const [isMoreClick, setIsMoreClick] = useState(false);
   const [sliceNum, setSliceNum] = useState(3);
-  // const [update, setUpdate] = useState(false);
+  const [update, setUpdate] = useState(false);
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({
     SW8: true,
@@ -79,7 +80,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
       return convertedArr([...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance)));
 
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
-  }, [activeCategory.SW8, catergoryList]);
+  }, [activeCategory, update]);
 
   // const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [markers]);
 
@@ -168,7 +169,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           p: 0,
         });
 
-        // setUpdate(true);
+        setUpdate(true);
       }
     }
 
@@ -179,14 +180,14 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     });
 
     return () => {
-      // setUpdate(false);
+      setUpdate(false);
     };
   }, [activeCategory, danji]);
 
   if (!danji) return null;
 
   return (
-    <div tw="w-full pt-10 pb-10 px-5 [min-height: 408px]">
+    <div tw="w-full pt-10 pb-10 px-5 [min-height: 600px]">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">교통 및 주변정보</span>
         {/* <Button

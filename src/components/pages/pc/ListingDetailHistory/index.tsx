@@ -2,6 +2,7 @@ import { Panel } from '@/components/atoms';
 import { memo } from 'react';
 import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
 import Routes from '@/router/routes';
 import { BiddingStatus } from '@/constants/enums';
@@ -13,6 +14,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
   const chatRoomRouter = useRouter(1);
   const { data } = useAPI_GetMyParticipatedListingDetail(
     Number(router.query.listingID),
@@ -21,7 +23,6 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleNavigateToChatRoom = () => {
     if (!data?.buyer_agent_chat_room_id) return;
-
     chatRoomRouter.replace(Routes.ChatRoom, {
       searchParams: {
         chatRoomID: String(data?.buyer_agent_chat_room_id),
@@ -42,11 +43,15 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   const handleNavigateToBack = () => {
-    router.replace(Routes.MyParticipatingListings, {
-      searchParams: {
-        tab: router.query.tab as string,
-      },
-    });
+    if (router.query.back) {
+      nextRouter.replace(router.query.back as string);
+    } else {
+      router.replace(Routes.MyParticipatingListings, {
+        searchParams: {
+          tab: router.query.tab as string,
+        },
+      });
+    }
   };
 
   const handleNavigateToUpdateBiddingForm = () => {
@@ -54,6 +59,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       searchParams: {
         listingID: String(data?.listing_id),
         biddingID: String(data?.bidding_id),
+        back: router.asPath,
       },
     });
   };

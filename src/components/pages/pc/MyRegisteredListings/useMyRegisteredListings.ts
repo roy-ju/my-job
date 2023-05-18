@@ -2,6 +2,7 @@ import useAPI_GetMyRegisteredListingList from '@/apis/my/getMyRegisteredListingL
 import { useState } from 'react';
 import deleteMyListing from '@/apis/my/deleteMyListing';
 import { mutate } from 'swr';
+import { toast } from 'react-toastify';
 
 export default function useMyRegisteredListings() {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
@@ -52,6 +53,7 @@ export default function useMyRegisteredListings() {
     await myRegisteringListingMutate();
     await mutate('/my/dashboard/info');
 
+    toast.success('매물을 삭제했습니다.', { toastId: 'successDelete' });
     setIsDeleteActive(false);
     setIsPopupActive(false);
   };
@@ -100,6 +102,7 @@ export default function useMyRegisteredListings() {
 
     isDeleteActive,
     isPopupActive,
+
     handleDeleteListingList,
     handleActiveDelete,
     handleCancelDelete,

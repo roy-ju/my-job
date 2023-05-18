@@ -152,10 +152,7 @@ const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/Deregis
   ssr: false,
   loading: FallbackComponent,
 });
-const TransactionHistory = dynamic(() => import('@/components/pages/pc/TransactionHistory'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+
 const TransactionReview = dynamic(() => import('@/components/pages/pc/TransactionReview'), {
   ssr: false,
   loading: FallbackComponent,
@@ -388,10 +385,6 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.NoticeDetail: {
       return <NoticeDetail {...props} />;
-    }
-
-    case Routes.TransactionHistory: {
-      return <TransactionHistory {...props} />;
     }
 
     case Routes.TransactionReview: {

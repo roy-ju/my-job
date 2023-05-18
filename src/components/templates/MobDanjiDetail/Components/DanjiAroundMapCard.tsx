@@ -182,6 +182,7 @@ export default function DanjiAroundMapCard({
                   lng: Number(item.x),
                 }}
                 isMarker
+                tw="z-[150]"
               >
                 <Box
                   onClick={
@@ -224,6 +225,7 @@ export default function DanjiAroundMapCard({
                 lat: Number(item.y[0]),
                 lng: Number(item.x[0]),
               }}
+              tw="z-[150]"
             >
               <Box
                 onClick={
@@ -248,16 +250,6 @@ export default function DanjiAroundMapCard({
           );
         })}
 
-      <CustomOverlayDanji
-        key={`${danji.lat}${danji.long}`}
-        position={{
-          lat: +danji.lat,
-          lng: +danji.long,
-        }}
-      >
-        {!isNewMarker && <MapMarkerSearchItem style={{ position: 'relative', zIndex: 140 }} />}
-      </CustomOverlayDanji>
-
       {isCircle && (
         <CustomOverlayDanji
           key={`${danji.long}${danji.lat}`}
@@ -280,6 +272,17 @@ export default function DanjiAroundMapCard({
           /> */}
         </CustomOverlayDanji>
       )}
+
+      <CustomOverlayDanji
+        key={`${danji.lat}${danji.long}`}
+        position={{
+          lat: +danji.lat,
+          lng: +danji.long,
+        }}
+        tw="z-[150]"
+      >
+        {!isNewMarker && <MapMarkerSearchItem />}
+      </CustomOverlayDanji>
     </NaverMapV1>
   );
 }

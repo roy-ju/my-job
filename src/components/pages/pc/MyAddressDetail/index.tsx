@@ -49,18 +49,39 @@ export default memo(({ depth, panelWidth }: Props) => {
         addressData: router.query.addressData as string,
         dong,
         ho,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
       },
     });
   }, [router, dong, ho]);
 
   const handleBack = useCallback(() => {
-    router.replace(Routes.MyAddress);
+    router.replace(Routes.MyAddress, {
+      state: {
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
+      },
+    });
   }, [router]);
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
     if (!inAddressData) {
-      router.replace(Routes.MyAddress);
+      router.replace(Routes.MyAddress, {
+        state: {
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
+        },
+      });
     } else {
       const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
       setAddressData(parsed);

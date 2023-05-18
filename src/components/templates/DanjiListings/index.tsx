@@ -41,7 +41,7 @@ export default function DanjiListings({
       </NavigationHeader>
       <div tw="[min-height: 24px]" />
       <DanjiDetailSection>
-        <DanjiDetailSection.Info danji={danji} depth={depth} />
+        <DanjiDetailSection.Info danji={danji} depth={depth} isShowDanjiListings />
       </DanjiDetailSection>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="flex mb-2 px-5">
