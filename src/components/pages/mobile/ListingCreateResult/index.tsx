@@ -31,6 +31,7 @@ export default memo(() => {
   const [isSelectingAgent, setIsSelectingAgent] = useState(false);
 
   const [popup, setPopup] = useState('none');
+  const [open, setOpen] = useState(false);
 
   const popupData = useRef<any>();
 
@@ -61,10 +62,10 @@ export default memo(() => {
   );
 
   useEffect(() => {
-    // if (!listingID) {
-    //   router.pop();
-    // }
-  }, [router, listingID]);
+    if (data?.error_code === 2002) {
+      setOpen(true);
+    }
+  }, [data?.error_code]);
 
   const onSelectAddress = useCallback(
     async (realestateUniqueNumber: string) => {
@@ -173,8 +174,25 @@ export default memo(() => {
     });
   }, [router, listingID]);
 
+  if (!listingID) return null;
+
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     return null;
+  }
+
+  if (data?.error_code === 2002) {
+    return open ? (
+      <OverlayPresenter>
+        <Popup>
+          <Popup.ContentGroup tw="py-10">
+            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+          </Popup.ContentGroup>
+          <Popup.ButtonGroup>
+            <Popup.ActionButton onClick={() => router.back()}>확인</Popup.ActionButton>
+          </Popup.ButtonGroup>
+        </Popup>
+      </OverlayPresenter>
+    ) : null;
   }
 
   return (
