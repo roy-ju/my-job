@@ -426,7 +426,7 @@ export const EtcField = ({
           <TextField.TextArea
             value={etc}
             onChange={onChangeEtcField}
-            tw="min-h-[76px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
+            tw="min-h-[54px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
             placeholder="예) 판상형을 원해요, 정남향을 원해요"
             spellCheck="false"
           />
