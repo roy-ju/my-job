@@ -42,7 +42,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const errorMessage = useMemo(() => {
     if (sent && verificationTimeLeft === 0) {
-      setErrorCode(null);
+      setErrorCode(ErrorCodes.PHONE_VERIFICATION_NUMBER_EXPIRED);
       return '인증번호 유효시간이 초과되었습니다.';
     }
     if (errorCode === ErrorCodes.PHONE_VERIFICATION_NUMBER_NOT_MATCH) {
