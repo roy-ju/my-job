@@ -98,7 +98,7 @@ export default function CustomOverlayDanji({
         center: { lat: centerDanji.lat, lng: centerDanji.lng },
         radius: 1000,
         fillColor: '#FF2C40',
-        fillOpacity: 0.2,
+        fillOpacity: 0.1,
         strokeColor: '#FF000B',
         strokeWeight: 0.5,
         zIndex: 0,
