@@ -105,6 +105,18 @@ export default function useChatRoom(chatRoomID: number) {
     [sendMessage, data?.chat_user_type],
   );
 
+  useEffect(() => {
+    const lastChat = chatMessages[chatMessages.length - 1];
+    if (lastChat && data?.chat_user_type) {
+      sendMessage(
+        JSON.stringify({
+          chat_user_type: data?.chat_user_type,
+          read_chat_id: lastChat.id,
+        }),
+      );
+    }
+  }, [chatMessages, data, sendMessage]);
+
   return {
     isTextFieldDisabled: textFieldDisabled,
     agentProfileImagePath: data?.agent_profile_image_full_path,
