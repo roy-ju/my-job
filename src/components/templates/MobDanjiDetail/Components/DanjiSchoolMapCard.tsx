@@ -105,7 +105,7 @@ export default function DanjiSchoolMapCard({
           strokeColor: '#F34829',
           strokeOpacity: 1,
           strokeWeight: 2,
-          zIndex: 100000,
+          zIndex: 0,
         });
         polygonsArr.push(poly);
       });
@@ -317,8 +317,9 @@ export default function DanjiSchoolMapCard({
               lat: +lat,
               lng: +lng,
             }}
+            tw="z-[50]"
           >
-            <MapMarkerSearchItem style={{ position: 'relative', zIndex: 140 }} />
+            <MapMarkerSearchItem />
           </CustomOverlayDanji>
           {list.length > 0 &&
             list.map((item, index) => {
@@ -330,6 +331,7 @@ export default function DanjiSchoolMapCard({
                     lat: +item.lat,
                     lng: +item.long,
                   }}
+                  tw="z-[50]"
                 >
                   <MobSchoolMarker
                     type={convertSchoolType(item.school_type)}
