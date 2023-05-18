@@ -35,6 +35,7 @@ export default function DeregisterDisclaimerWrraper() {
     }
     const deregistered = await deregister(deregisterReasons);
     localStorage.removeItem(Keys.ACCESS_TOKEN);
+    localStorage.removeItem(Keys.REFRESH_TOKEN);
     if (deregistered) {
       await mutate(() => true, undefined);
       router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
