@@ -76,7 +76,7 @@ export default function ListingDetailPassedItem({
           </div>
         </div>
       </div>
-      <Button onClick={onClick} variant="outlined" tw="h-8 px-3">
+      <Button onClick={onClick} variant="outlined" tw="h-8 px-3 shrink-0">
         매물 상세
       </Button>
     </div>
