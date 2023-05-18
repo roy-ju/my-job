@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Paths from '@/constants/paths';
 import tw, { css } from 'twin.macro';
@@ -33,9 +33,10 @@ export default function ListingDetailPassedItem({
   floor,
   direction,
   listingImagePath,
-
   onClick,
 }: IListingDetailPassedItem) {
+  const [render, setRender] = useState(false);
+
   const floorString = useMemo(() => {
     const arr: string[] = [];
     if (floorDescription) {
@@ -46,6 +47,14 @@ export default function ListingDetailPassedItem({
     }
     return arr.join('/');
   }, [floorDescription, floor]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setRender(true);
+    }
+  }, []);
+
+  if (!render) return null;
 
   return (
     <div tw="flex w-full justify-between">
@@ -67,7 +76,7 @@ export default function ListingDetailPassedItem({
           </div>
         </div>
       </div>
-      <Button onClick={onClick} variant="outlined" tw="h-8 shrink-0">
+      <Button onClick={onClick} variant="outlined" tw="h-8 px-3">
         매물 상세
       </Button>
     </div>
