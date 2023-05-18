@@ -47,7 +47,7 @@ export default function Description({
           <TextField.TextArea
             value={description}
             onChange={handleChangeDescription}
-            tw="min-h-[54px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
+            tw="min-h-[76px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
             placeholder="예) 중층의 매물을 원해요.&#13;&#10;초등학교 가까운 매물 제안해주세요."
             spellCheck="false"
           />
