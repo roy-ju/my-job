@@ -79,6 +79,7 @@ export default function NotificationList({
             type={item.type}
             category={item.category}
             message={item.message}
+            isCurrentTabAll={tabIndex === 0}
             listingTitle={item.listingTitle}
             createdTime={item.createdTime}
             unread={item.unread}
