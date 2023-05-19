@@ -9,7 +9,11 @@ import { useState, useMemo, useCallback } from 'react';
 export default function RealPriceListWrraper() {
   const router = useRouter();
   const [buyOrRent, setBuyOrRent] = useState(0);
-  const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(buyOrRent);
+  const [sortBy, setSortBy] = useState('업데이트 순');
+  const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(
+    buyOrRent,
+    sortBy === '업데이트 순' ? 1 : 2,
+  );
   const { user } = useAuth();
 
   const list = useMemo(
@@ -42,13 +46,18 @@ export default function RealPriceListWrraper() {
     [setSize],
   );
 
+  const handleChangeSortBy = useCallback((value: string) => {
+    setSortBy(value);
+  }, []);
+
   return (
     <MobileContainer>
       <MobMyRealPriceList
         nickname={user?.nickname}
         isLoading={isLoading}
-        key={buyOrRent}
         list={list}
+        sortBy={sortBy}
+        onChagneSortBy={handleChangeSortBy}
         buyOrRent={buyOrRent}
         onChangeBuyOrRent={handleChangeBuyOrRent}
         onClickBack={() => router.back()}
