@@ -7,6 +7,7 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import PcGlobalStyles from '@/styles/PcGlobalStyles';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -174,6 +175,7 @@ export default function MapLayout({ children }: Props) {
   const router = useRouter(0);
   const [tabIndex, setTabIndex] = useState(0);
   const [panelsVisible, setPanelsVisible] = useState(true);
+  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
 
   const handleClickLogo = useCallback(() => {
     router.popAll();
@@ -233,7 +235,12 @@ export default function MapLayout({ children }: Props) {
   return (
     <>
       <PcGlobalStyles />
-      <Layout tabIndex={tabIndex} onChangeTab={handleChangeTabIndex} onClickLogo={handleClickLogo}>
+      <Layout
+        tabIndex={tabIndex}
+        onChangeTab={handleChangeTabIndex}
+        onClickLogo={handleClickLogo}
+        unreadChatCount={unreadChatCount}
+      >
         <Layout.Panels visible={panelsVisible}>{children}</Layout.Panels>
         {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서
       분리된 컴포넌트로 사용한다. */}
