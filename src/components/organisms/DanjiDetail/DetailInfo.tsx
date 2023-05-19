@@ -7,6 +7,8 @@ import { formatUseAcceptedYear } from '@/utils/fotmat';
 export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   if (!danji) return null;
 
+  console.log(danji);
+
   return (
     <div tw="px-5 pt-10 pb-10">
       <span tw="font-bold text-b1 [line-height: 1]">단지 기본정보</span>
@@ -77,7 +79,7 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
               <Table.Data>{`${formatUseAcceptedYear(danji.use_accepted_year)}`}</Table.Data>
             </Table.Row>
           )}
-          {(danji.daeji_area || danji.architecture_area) && (
+          {(danji.daeji_area || Number(danji.architecture_area)) > 0 && (
             <Table.Row>
               <Table.Head>면적</Table.Head>
               {danji.daeji_area && danji.architecture_area && (
