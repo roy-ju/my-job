@@ -193,8 +193,6 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
   const handleResetFilter = useCallback(() => {
     let defaultFilter = null;
 
-    console.log('handleResetFilter');
-
     if (filter.realestateTypeGroup === 'apt,oftl') {
       defaultFilter = getDefaultFilterAptOftl();
     } else if (filter.realestateTypeGroup === 'villa,dandok') {

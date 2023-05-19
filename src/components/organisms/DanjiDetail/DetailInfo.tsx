@@ -7,8 +7,6 @@ import { formatUseAcceptedYear } from '@/utils/fotmat';
 export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   if (!danji) return null;
 
-  console.log(danji);
-
   return (
     <div tw="px-5 pt-10 pb-10">
       <span tw="font-bold text-b1 [line-height: 1]">단지 기본정보</span>

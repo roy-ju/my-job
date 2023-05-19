@@ -176,6 +176,8 @@ export default function useMapLayout() {
 
   const [myMarker, setMyMarker] = useState<{ lat: number; lng: number } | null>(null);
 
+  const [searchResultMarker, setSearchResultMarker] = useState<{ lat: number; lng: number } | null>(null);
+
   const [mapState, setMapState] = useRecoilState(recoilMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
@@ -298,6 +300,8 @@ export default function useMapLayout() {
           setPriceType('buy');
         }
       }
+
+      setSearchResultMarker(null);
 
       setFilter((prev) => {
         const old = prev === null ? getDefaultFilterAptOftl() : prev;
@@ -513,23 +517,6 @@ export default function useMapLayout() {
           };
         });
 
-        // 맵의 주소검색 결과에 마커가 포함되어있으면, 마커를 선택한다.
-        if (lastSearchItem.current) {
-          const searchedDanji = Object.values(danjiMap)?.find(
-            ({ jibunAddress, roadNameAddress }) =>
-              lastSearchItem.current?.roadAddressName === roadNameAddress ||
-              lastSearchItem.current?.addressName === jibunAddress,
-          );
-          if (searchedDanji) {
-            setSelectedMarker(searchedDanji);
-
-            router.replace(Routes.DanjiDetail, {
-              searchParams: { p: searchedDanji.pnu as string, rt: `${searchedDanji.danjiRealestateType}` },
-            });
-          }
-          lastSearchItem.current = null;
-        }
-
         // 오버랩되는 중복 마커 겹침 처리 로직
         const memory = new Set<string>();
         const _markers = [...Object.values(danjiMap), ...Object.values(listingMap)];
@@ -542,13 +529,11 @@ export default function useMapLayout() {
             memory.add(key);
           }
         });
-
         setMarkers(_markers);
       }
     },
     [lastSearchItem, router],
   );
-
   const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
 
   /**
@@ -792,6 +777,7 @@ export default function useMapLayout() {
 
       if (prevZoom > currentZoom) {
         setSelectedMarker(null);
+        setSearchResultMarker(null);
       }
     };
   }, [mapState?.naverMap, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
@@ -902,14 +888,40 @@ export default function useMapLayout() {
   }, [mapState.naverMap]);
 
   useEffect(() => {
-    // markers to be selected 에서 마커를 찾고
-    // 찾으면 없앤다.
-    if (!markersToBeSelected.current.length) return;
-
-    const m = markers.filter((marker) => markersToBeSelected.current?.map((item) => item.id)?.includes(marker.id));
-    if (m[0]) {
-      setSelectedMarker(m[0]);
-      markersToBeSelected.current = [];
+    // 맵의 주소검색 결과에 마커가 포함되어있으면, 마커를 선택한다.
+    if (lastSearchItem.current) {
+      const searchedDanji = markers?.find(
+        ({ jibunAddress, roadNameAddress }) =>
+          lastSearchItem.current?.roadAddressName === roadNameAddress ||
+          lastSearchItem.current?.addressName === jibunAddress,
+      );
+      if (searchedDanji) {
+        setSearchResultMarker(null);
+        setSelectedMarker(searchedDanji);
+        router.replace(Routes.DanjiDetail, {
+          searchParams: { p: searchedDanji.pnu as string, rt: `${searchedDanji.danjiRealestateType}` },
+        });
+        lastSearchItem.current = null;
+      } else {
+        setSearchResultMarker({
+          lat: lastSearchItem.current.lat,
+          lng: lastSearchItem.current.lng,
+        });
+      }
+    }
+    // markers to be selected 에서 마커를 찾는다.
+    if (markersToBeSelected.current.length) {
+      const m = markers.filter((marker) => markersToBeSelected.current?.map((item) => item.id)?.includes(marker.id));
+      if (m[0]) {
+        setSearchResultMarker(null);
+        setSelectedMarker(m[0]);
+        markersToBeSelected.current = [];
+      } else {
+        setSearchResultMarker({
+          lat: markersToBeSelected.current[0].lat,
+          lng: markersToBeSelected.current[0].lng,
+        });
+      }
     }
   }, [markers]);
 
@@ -960,5 +972,6 @@ export default function useMapLayout() {
     setPopup,
     selectedMarker,
     danjiSummary,
+    searchResultMarker,
   };
 }

@@ -5,6 +5,7 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
+import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
 import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
 import {
   CommonMarker,
@@ -17,6 +18,7 @@ interface MarkersProps {
   markers: ListingDanjiMarkerType[];
   schoolMarkers: SchoolMarkerType[];
   myMarker?: { lat: number; lng: number } | null;
+  searchResultMarker?: { lat: number; lng: number } | null;
   selectedMarker?: CommonMarker | null;
   danjiSummary?: GetDanjiSummaryResponse;
 }
@@ -26,6 +28,7 @@ export default function Markers({
   markers,
   schoolMarkers,
   myMarker,
+  searchResultMarker,
   selectedMarker,
   danjiSummary,
 }: MarkersProps) {
@@ -132,6 +135,16 @@ export default function Markers({
           }}
         >
           <MyMarkerIcon />
+        </CustomOverlay>
+      )}
+      {searchResultMarker && mapLevel < 3 && (
+        <CustomOverlay
+          position={{
+            lat: searchResultMarker.lat,
+            lng: searchResultMarker.lng,
+          }}
+        >
+          <SearchResultMarkerIcon tw="w-10 h-10" />
         </CustomOverlay>
       )}
     </>

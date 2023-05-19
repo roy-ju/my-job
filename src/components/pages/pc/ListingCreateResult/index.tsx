@@ -116,7 +116,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router, listingID]);
 
   const showSendSmsPopup = useCallback((name: string, phone: string) => {
-    console.log(name, phone);
     popupData.current = { name, phone };
     setPopup('sendSms');
   }, []);
