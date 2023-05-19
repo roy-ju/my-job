@@ -83,6 +83,7 @@ export default memo(() => {
         onClickRecommendAccept={openAcceptRecommendPopup}
         onClickChat={handleClickChat}
         onNextListingRecommentList={increamentPageNumber}
+        onClickNewRecommendations={() => router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`)}
       />
       {popup === 'notInterested' && (
         <OverlayPresenter>

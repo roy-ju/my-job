@@ -113,7 +113,6 @@ export default memo(() => {
   }, [listingID]);
 
   const showSendSmsPopup = useCallback((name: string, phone: string) => {
-    console.log(name, phone);
     popupData.current = { name, phone };
     setPopup('sendSms');
   }, []);
