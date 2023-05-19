@@ -632,10 +632,7 @@ export default function Home({
               </StyledTable>
             </Accordion.Details>
           </Accordion>
-          <div tw="mt-2 text-b2 font-bold">
-            <span tw="mr-2">고객센터</span>
-            <span>02-6956-0155</span>
-          </div>
+
           <div tw="flex mt-2 items-center justify-between">
             <Button variant="outlined" size="medium" tw="text-info" onClick={onClickAgentSite}>
               네고시오 중개사
