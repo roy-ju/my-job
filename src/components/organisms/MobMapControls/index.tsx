@@ -55,9 +55,16 @@ function MapButton({ selected = false, value, onChange, onClick }: MapButtonProp
 
   return (
     <>
-      <Button ref={setReferenceElement} onClick={handleButtonClick} tw="flex-col w-10 h-14 hover:bg-gray-300">
-        <NaverMapPin color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`} />
-        <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>지도</ButtonText>
+      <Button
+        ref={setReferenceElement}
+        onClick={handleButtonClick}
+        tw="flex-col w-10 h-14 hover:bg-gray-300"
+        style={{ backgroundColor: selected ? theme`colors.nego.800` : 'white' }}
+      >
+        <NaverMapPin color={selected ? 'white' : theme`colors.gray.1000`} />
+        <ButtonText tw="font-bold text-gray-1000" css={[selected && tw`text-white`]}>
+          지도
+        </ButtonText>
       </Button>
       {isOpen && (
         <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
@@ -80,18 +87,30 @@ function MapButton({ selected = false, value, onChange, onClick }: MapButtonProp
 
 function StreetViewButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} tw="flex-col w-10 h-14 hover:bg-gray-300">
-      <MapPinRoad color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`} />
-      <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>로드</ButtonText>
+    <Button
+      onClick={onClick}
+      tw="flex-col w-10 h-14 hover:bg-gray-300"
+      style={{ backgroundColor: selected ? theme`colors.nego.800` : 'white' }}
+    >
+      <MapPinRoad color={selected ? 'white' : theme`colors.gray.1000`} />
+      <ButtonText tw="font-bold text-gray-1000" css={[selected && tw`text-white`]}>
+        로드
+      </ButtonText>
     </Button>
   );
 }
 
 function CadastralButton({ selected = false, onClick }: SelectableProps) {
   return (
-    <Button onClick={onClick} tw="flex-col w-10 h-14 hover:bg-gray-300">
-      <StackIcon color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`} />
-      <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>지적</ButtonText>
+    <Button
+      onClick={onClick}
+      tw="flex-col w-10 h-14 hover:bg-gray-300"
+      style={{ backgroundColor: selected ? theme`colors.nego.800` : 'white' }}
+    >
+      <StackIcon color={selected ? 'white' : theme`colors.gray.1000`} />
+      <ButtonText tw="font-bold text-gray-1000" css={[selected && tw`text-white`]}>
+        지적
+      </ButtonText>
     </Button>
   );
 }
@@ -126,9 +145,16 @@ function SchoolButton({ selected = false, value, onChange, onClick }: SchoolButt
 
   return (
     <>
-      <Button ref={setReferenceElement} onClick={handleButtonClick} tw="flex-col w-10 h-14 hover:bg-gray-300">
-        <SchoolIcon color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`} />
-        <ButtonText css={[selected && tw`font-bold text-nego-1000`]}>학교</ButtonText>
+      <Button
+        ref={setReferenceElement}
+        onClick={handleButtonClick}
+        tw="flex-col w-10 h-14 hover:bg-gray-300"
+        style={{ backgroundColor: selected ? theme`colors.nego.800` : 'white' }}
+      >
+        <SchoolIcon color={selected ? 'white' : theme`colors.gray.1000`} />
+        <ButtonText tw="font-bold text-gray-1000" css={[selected && tw`text-white`]}>
+          학교
+        </ButtonText>
       </Button>
       {isOpen && (
         <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
@@ -181,8 +207,11 @@ function GPSButton({ selected = false, onClick, isGeoLoading }: SelectableProps)
       size="none"
       tw="flex-col w-10 h-10 bg-white shadow hover:bg-gray-300"
       selected={selected}
+      style={{
+        backgroundColor: selected ? theme`colors.nego.800` : 'white',
+      }}
     >
-      {!isGeoLoading && <GPSIcon color={selected ? theme`colors.nego.1000` : theme`colors.gray.800`} />}
+      {!isGeoLoading && <GPSIcon color={selected ? 'white' : theme`colors.gray.1000`} />}
 
       {isGeoLoading && (
         <div tw="flex items-center justify-center">
