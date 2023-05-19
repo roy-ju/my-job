@@ -19,6 +19,7 @@ import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import getCurrentPosition from '@/utils/getCurrentPosition';
+import { toast } from 'react-toastify';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -750,7 +751,13 @@ export default function useMapLayout() {
    */
   useEffect(() => {
     if (bounds && schoolType !== 'none' && map) {
-      updateSchoolMarkers(map, bounds, schoolType);
+      if (bounds.mapLevel < 3) {
+        updateSchoolMarkers(map, bounds, schoolType);
+      } else {
+        toast.error('지도를 확대하여 학교마커를 확인하세요.', { toastId: 'schoolMarkerError' });
+        setSchoolMarkers([]);
+        setPolygons([]);
+      }
     } else if (schoolType === 'none') {
       setSchoolMarkers([]);
     }
