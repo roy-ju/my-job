@@ -29,7 +29,7 @@ function ListItem({ item, onClickDelete }: ListItemProps) {
         <div tw="flex items-center gap-2 text-info text-gray-700">
           <div>{item?.user_nickname}</div>
           <div>
-            <Moment format="calendar">{item?.created_time}</Moment>
+            <Moment format="relative">{item?.created_time}</Moment>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@ function ListItem({ item, onClickDelete }: ListItemProps) {
           <div tw="flex items-center gap-2 text-info text-gray-700">
             <div>중개사 답변</div>
             <div>
-              <Moment format="calendar">{item?.agent_response_time}</Moment>
+              <Moment format="relative">{item?.agent_response_time}</Moment>
             </div>
           </div>
         </div>
