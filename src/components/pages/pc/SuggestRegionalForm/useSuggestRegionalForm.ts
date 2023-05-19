@@ -4,6 +4,7 @@ import { BuyOrRent } from '@/constants/enums';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
 import Routes from '@/router/routes';
+import { toast } from 'react-toastify';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
 export default function useSuggestRegionalForm(depth: number) {
@@ -125,6 +126,42 @@ export default function useSuggestRegionalForm(depth: number) {
 
   const handleSubmitFinal = useCallback(async () => {
     if (!bubjungdong) return;
+
+    // region
+    if (!bubjungdong) {
+      const form = document.getElementById(Forms.Region);
+      form?.scrollIntoView();
+      toast.error('어느 지역을 추천받고 싶은지 선택해주세요.');
+      return;
+    }
+    // realestate type
+    if (!realestateType) {
+      const form = document.getElementById(Forms.RealestateType);
+      form?.scrollIntoView();
+      toast.error('매물의 부동산 종류를 선택해주세요');
+      return;
+    }
+    // buy or rent
+    if (!buyOrRent) {
+      const form = document.getElementById(Forms.RealestateType);
+      form?.scrollIntoView();
+      toast.error('매물의 거래 종류를 선택해 주세요.');
+      return;
+    }
+    // price
+    if (!price) {
+      const form = document.getElementById(Forms.Price);
+      form?.scrollIntoView();
+      toast.error('매물의 가격대를 입력해주세요.');
+      return;
+    }
+    // floor
+    if (!floor.length) {
+      const form = document.getElementById(Forms.Floor);
+      form?.scrollIntoView();
+      toast.error('관심있는 층수를 선택해 주세요.');
+      return;
+    }
 
     const params = makeSuggestRegionalParams({
       bubjungdong,
