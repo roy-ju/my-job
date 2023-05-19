@@ -282,7 +282,7 @@ const MobDanjiSelect = ({
               }}
             >
               {sidoData.list.map((item) => (
-                <Dropdown.OptionSmall tw="min-w-0 w-[73px]" key={item.name} value={item.name}>
+                <Dropdown.OptionSmall tw="min-w-0" key={item.name} value={item.name}>
                   {convertSidoName(item.name)}
                 </Dropdown.OptionSmall>
               ))}
@@ -301,7 +301,7 @@ const MobDanjiSelect = ({
               }}
             >
               {sigunguData.list.map((item) => (
-                <Dropdown.OptionSmall key={item.name} value={item.name} tw="min-w-0 w-[126px]">
+                <Dropdown.OptionSmall key={item.name} value={item.name} tw="min-w-0">
                   {convertSigunguName(item.name)}
                 </Dropdown.OptionSmall>
               ))}
@@ -321,10 +321,10 @@ const MobDanjiSelect = ({
               }
             }}
           >
-            <Dropdown.OptionSmall tw="min-w-0 w-[100px]" key="apt" value="아파트">
+            <Dropdown.OptionSmall tw="min-w-0" key="apt" value="아파트">
               아파트
             </Dropdown.OptionSmall>
-            <Dropdown.OptionSmall tw="min-w-0 w-[100px]" key="officetel" value="오피스텔">
+            <Dropdown.OptionSmall tw="min-w-0" key="officetel" value="오피스텔">
               오피스텔
             </Dropdown.OptionSmall>
           </Dropdown>
