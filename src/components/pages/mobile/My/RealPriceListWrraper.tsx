@@ -1,3 +1,4 @@
+import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
 import useAPI_GetMyRealPriceList from '@/apis/my/getMyRealPriceList';
 import { MobileContainer } from '@/components/atoms';
 import { MobMyRealPriceList } from '@/components/templates';
@@ -15,6 +16,7 @@ export default function RealPriceListWrraper() {
     sortBy === '업데이트 순' ? 1 : 2,
   );
   const { user } = useAuth();
+  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
 
   const list = useMemo(
     () =>
@@ -56,6 +58,7 @@ export default function RealPriceListWrraper() {
         nickname={user?.nickname}
         isLoading={isLoading}
         list={list}
+        unreadChatCount={unreadChatCount}
         sortBy={sortBy}
         onChagneSortBy={handleChangeSortBy}
         buyOrRent={buyOrRent}

@@ -26,6 +26,7 @@ interface MobLayoutMapContainerProps {
   code?: string;
   mapType?: string;
   priceType?: string;
+  unreadChatCount?: number;
   mapLayer?: string;
   mapToggleValue?: number;
   schoolType?: string;
@@ -64,6 +65,7 @@ function MobLayoutMapContainer({
   mapLayer,
   schoolType,
   filter,
+  unreadChatCount,
   centerAddress,
   mapToggleValue,
   listingCount,
@@ -219,7 +221,7 @@ function MobLayoutMapContainer({
       {selectedDanjiSummary && <MobDanjiSummary selectedDanjiSummary={selectedDanjiSummary} />}
       {/* {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />} */}
 
-      <MobGlobalNavigation index={2} />
+      <MobGlobalNavigation index={2} unreadChatCount={unreadChatCount} />
     </div>
   );
 }
