@@ -271,6 +271,8 @@ export default function useMapLayout() {
     (item: KakaoAddressAutocompleteResponseItem, isFromRecentSearch: boolean) => {
       if (!mapState?.naverMap) return;
 
+      setSelectedMarker(null);
+
       if (!isFromRecentSearch) {
         addRecentSearch({
           ...item,
@@ -613,6 +615,9 @@ export default function useMapLayout() {
     async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
       setPolygons([]);
       setSelectedMarker(null);
+      setSearchResultMarker(null);
+      lastSearchItem.current = null;
+      markersToBeSelected.current = [];
 
       if (mapLayer === 'street') {
         const response = await coordToRegion(e.latlng.lng(), e.latlng.lat());
@@ -767,19 +772,6 @@ export default function useMapLayout() {
     if (bounds && mapState?.naverMap) {
       deferredUpdateMarkers(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
     }
-
-    const prevZoom = mapState?.naverMap?.getZoom() ?? 0;
-
-    return () => {
-      // 줌 아웃 될때, 선택된 마커를 해제한다.
-
-      const currentZoom = mapState?.naverMap?.getZoom() ?? 0;
-
-      if (prevZoom > currentZoom) {
-        setSelectedMarker(null);
-        setSearchResultMarker(null);
-      }
-    };
   }, [mapState?.naverMap, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
 
   /**
