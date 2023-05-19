@@ -189,7 +189,9 @@ function IdentityInfo({ name, phone, onClickUpdate, onClickVerifyCi }: IdentityI
             본인인증하기
           </Button>
         )}
-        {phone && <UpdatableTextField type="phone" label="휴대폰 번호" value={phone} onClickUpdate={onClickUpdate} />}
+        {phone && (
+          <UpdatableTextField readOnly type="phone" label="휴대폰 번호" value={phone} onClickUpdate={onClickUpdate} />
+        )}
         {name && !phone && (
           <Button variant="outlined" onClick={onClickUpdate}>
             휴대폰 번호 등록하기
