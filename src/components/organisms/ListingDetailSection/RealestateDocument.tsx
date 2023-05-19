@@ -50,7 +50,7 @@ export default function RealestateDocument({ data }: Props) {
                 <th>정보</th>
               </tr>
               {data?.owner_list?.map((item) => (
-                <tr key={item.number}>
+                <tr key={item.number + item.owner}>
                   <td>{item.number}</td>
                   <td>
                     이름: {item.owner}
@@ -77,7 +77,7 @@ export default function RealestateDocument({ data }: Props) {
                 <th>정보</th>
               </tr>
               {data?.debt_list1?.map((item) => (
-                <tr key={item.number}>
+                <tr key={item.number + item.purpose}>
                   <td>{item.number}</td>
                   <td>
                     등기목적: {item.purpose}
@@ -102,7 +102,7 @@ export default function RealestateDocument({ data }: Props) {
                 <th>정보</th>
               </tr>
               {data?.debt_list2?.map((item) => (
-                <tr key={item.number}>
+                <tr key={item.number + item.purpose}>
                   <td>{item.number}</td>
                   <td>
                     등기목적: {item.purpose}
