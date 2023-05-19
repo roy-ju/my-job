@@ -40,7 +40,7 @@ function QnaListItemUser({
       <div tw="text-b2 my-2 break-all line-clamp-2" css={[expanded && tw`line-clamp-none`]}>
         {userMessage}
       </div>
-      <Moment tw="text-info text-gray-700" format="calendar">
+      <Moment tw="text-info text-gray-700" format="relative">
         {createdTime}
       </Moment>
     </button>
@@ -68,7 +68,7 @@ function QnaListItemAdmin({
       </div>
       <div tw="text-info text-gray-700">
         네고시오 운영팀 |{' '}
-        <Moment tw="text-info text-gray-700" format="calendar">
+        <Moment tw="text-info text-gray-700" format="relative">
           {responseTime}
         </Moment>
       </div>
