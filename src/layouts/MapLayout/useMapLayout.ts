@@ -519,11 +519,11 @@ export default function useMapLayout() {
           };
         });
 
-        // 오버랩되는 중복 마커 겹침 처리 로직
         const memory = new Set<string>();
         const _markers = [...Object.values(danjiMap), ...Object.values(listingMap)];
 
         _markers.forEach((marker) => {
+          // 오버랩되는 중복 마커 겹침 처리 로직
           const key = `${marker.lat.toFixed(4)},${marker.lng.toFixed(4)}`;
           if (memory.has(key)) {
             marker.lng += 0.00035;
@@ -531,6 +531,7 @@ export default function useMapLayout() {
             memory.add(key);
           }
         });
+
         setMarkers(_markers);
       }
     },
@@ -899,6 +900,7 @@ export default function useMapLayout() {
           lat: lastSearchItem.current.lat,
           lng: lastSearchItem.current.lng,
         });
+        lastSearchItem.current = null;
       }
     }
     // markers to be selected 에서 마커를 찾는다.
@@ -913,9 +915,21 @@ export default function useMapLayout() {
           lat: markersToBeSelected.current[0].lat,
           lng: markersToBeSelected.current[0].lng,
         });
+        markersToBeSelected.current = [];
       }
     }
   }, [markers]);
+
+  useEffect(() => {
+    if (searchResultMarker && markers.length) {
+      markers.forEach((marker) => {
+        if (marker.lat === searchResultMarker.lat && marker.lng === searchResultMarker.lng) {
+          setSearchResultMarker(null);
+          setSelectedMarker(marker);
+        }
+      });
+    }
+  }, [markers, searchResultMarker]);
 
   return {
     // common map handlers and properties
