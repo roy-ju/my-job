@@ -9,6 +9,7 @@ import Routes from '@/router/routes';
 import { TimeTypeString } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import cancelBidding from '@/apis/bidding/cancelBidding';
 import makeUpdateBiddingParams from './makeUpdateBiddingParams';
 
 export default function useUpdateBiddingForm() {
@@ -48,6 +49,7 @@ export default function useUpdateBiddingForm() {
   const [etcs, setEtcs] = useState<string[]>([]);
   const [description, setDescription] = useState('');
   const [forms, setForms] = useState<string[]>([Forms.Price]);
+  const [popup, setPopup] = useState('none');
 
   const handleChangeType = useCallback((value: number) => {
     setType(value);
@@ -207,6 +209,13 @@ export default function useUpdateBiddingForm() {
     etcs,
     description,
   ]);
+
+  const handleCancelBidding = useCallback(async () => {
+    if (listingID && biddingID) {
+      await cancelBidding(listingID, biddingID);
+    }
+    router.back();
+  }, [router, listingID, biddingID]);
 
   const handleSubmitPrice = useCallback(() => {
     if (type === 1) {
@@ -549,5 +558,8 @@ export default function useUpdateBiddingForm() {
     handleChangeEtcs,
     description,
     handleChangeDescription,
+    handleCancelBidding,
+    popup,
+    setPopup,
   };
 }
