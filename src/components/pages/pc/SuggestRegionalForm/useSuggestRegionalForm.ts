@@ -169,9 +169,12 @@ export default function useSuggestRegionalForm(depth: number) {
   const handleChangeBubjungdong = useCallback(
     (item: RegionItem) => {
       setBubjungdong(item);
-      handleSubmitRegion();
+      const currentForm = forms[forms.length - 1];
+      if (currentForm === Forms.Region) {
+        handleSubmitRegion();
+      }
     },
-    [handleSubmitRegion],
+    [handleSubmitRegion, forms],
   );
 
   const handleClickNext = useCallback(() => {
