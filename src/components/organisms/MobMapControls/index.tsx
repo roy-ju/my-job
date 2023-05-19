@@ -135,7 +135,10 @@ function SchoolButton({ selected = false, value, onChange, onClick }: SchoolButt
           <div ref={outsideRef}>
             <RadioGroup
               value={value}
-              onChange={onChange}
+              onChange={(e) => {
+                setIsOpen(false);
+                onChange?.(e);
+              }}
               tw="w-[119px] flex flex-col bg-white mr-2 rounded-lg shadow gap-4 p-4"
             >
               <Label control={<Radio />} value="none" label="선택 해제" />
