@@ -86,7 +86,7 @@ export default function SuggestRequestedListItem({
           <div tw="flex justify-between">
             <div tw="text-info text-gray-700">
               <span tw="mr-1">요청일:</span>
-              <Moment format="calendar">{item?.created_time}</Moment>
+              <Moment format="relative">{item?.created_time}</Moment>
             </div>
             <div tw="text-info text-gray-700">추천받은 매물수 {item?.suggest_recommended_count ?? 0}</div>
           </div>

@@ -142,7 +142,7 @@ export default function Biddings({
                   </Table.Data>
                   <Table.Data>
                     <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                      {item.createdTime ? <Moment format="calendar">{item.createdTime}</Moment> : '-'}
+                      {item.createdTime ? <Moment format="relative">{item.createdTime}</Moment> : '-'}
                     </span>
                   </Table.Data>
                 </Table.Row>
@@ -168,7 +168,7 @@ export default function Biddings({
                   </Table.Data>
                   <Table.Data>
                     <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                      {item.createdTime ? <Moment format="calendar">{item.createdTime}</Moment> : '-'}
+                      {item.createdTime ? <Moment format="relative">{item.createdTime}</Moment> : '-'}
                     </span>
                   </Table.Data>
                 </Table.Row>
