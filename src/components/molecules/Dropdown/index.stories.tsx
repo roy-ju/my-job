@@ -45,3 +45,31 @@ export const ManyItems: ComponentStory<typeof Dropdown> = (args) => (
       ))}
   </Dropdown>
 );
+
+export const LongValue: ComponentStory<typeof Dropdown> = () => (
+  <div tw="flex flex-col gap-4">
+    <Dropdown
+      label="가격타입"
+      value="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, doloremque eius eveniet, dolorem labore nulla dicta quaerat excepturi asperiores rerum vel inventore, repudiandae consequatur quae. Temporibus incidunt reprehenderit asperiores iste?"
+    >
+      <Dropdown.Option value="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, doloremque eius eveniet, dolorem labore nulla dicta quaerat excepturi asperiores rerum vel inventore, repudiandae consequatur quae. Temporibus incidunt reprehenderit asperiores iste?">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, doloremque eius eveniet, dolorem labore
+        nulla dicta quaerat excepturi asperiores rerum vel inventore, repudiandae consequatur quae. Temporibus incidunt
+        reprehenderit asperiores iste?
+      </Dropdown.Option>
+      <Dropdown.Option value="전월세가격">전월세가격</Dropdown.Option>
+    </Dropdown>
+    <Dropdown
+      size="small"
+      placeholder="가격타입"
+      value="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, doloremque eius eveniet, dolorem labore nulla dicta quaerat excepturi asperiores rerum vel inventore, repudiandae consequatur quae. Temporibus incidunt reprehenderit asperiores iste?"
+    >
+      <Dropdown.Option value="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, doloremque eius eveniet, dolorem labore nulla dicta quaerat excepturi asperiores rerum vel inventore, repudiandae consequatur quae. Temporibus incidunt reprehenderit asperiores iste?">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, doloremque eius eveniet, dolorem labore
+        nulla dicta quaerat excepturi asperiores rerum vel inventore, repudiandae consequatur quae. Temporibus incidunt
+        reprehenderit asperiores iste?
+      </Dropdown.Option>
+      <Dropdown.Option value="전월세가격">전월세가격</Dropdown.Option>
+    </Dropdown>
+  </div>
+);
