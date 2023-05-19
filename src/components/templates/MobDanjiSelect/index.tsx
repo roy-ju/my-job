@@ -312,7 +312,14 @@ const MobDanjiSelect = ({
             size="small"
             variant="outlined"
             value={selectedRealestateType}
-            onChange={(e) => setSelectedRealestateType(e)}
+            onChange={(e) => {
+              setSelectedRealestateType(e);
+              if (e === '아파트') {
+                setSelectedRealestateTypeCode(RealestateType.Apartment);
+              } else if (e === '오피스텔') {
+                setSelectedRealestateTypeCode(RealestateType.Officetel);
+              }
+            }}
           >
             <Dropdown.OptionSmall tw="min-w-0 w-[100px]" key="apt" value="아파트">
               아파트
