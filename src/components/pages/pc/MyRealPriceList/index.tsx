@@ -13,8 +13,16 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
   const [buyOrRent, setBuyOrRent] = useState(0);
-  const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(buyOrRent);
+
+  const [sortBy, setSortBy] = useState('업데이트 순');
+
+  const { updatedTime, data, isLoading, setSize, increamentPageNumber } = useAPI_GetMyRealPriceList(
+    buyOrRent,
+    sortBy === '업데이트 순' ? 1 : 2,
+  );
+
   const { user } = useAuth();
 
   const list = useMemo(
@@ -47,12 +55,17 @@ export default memo(({ depth, panelWidth }: Props) => {
     [setSize],
   );
 
+  const handleChangeSortBy = useCallback((value: string) => {
+    setSortBy(value);
+  }, []);
+
   return (
     <Panel width={panelWidth}>
       <MyRealPriceList
         isLoading={isLoading}
-        // key={buyOrRent}
         list={list}
+        sortBy={sortBy}
+        onChagneSortBy={handleChangeSortBy}
         nickname={user?.nickname ?? ''}
         buyOrRent={buyOrRent}
         onChangeBuyOrRent={handleChangeBuyOrRent}

@@ -23,14 +23,14 @@ export interface GetNotificationListResponse {
   updated_time: string;
 }
 
-function getKey(buyOrRent: number) {
+function getKey(buyOrRent: number, sortBy: number) {
   return (size: number, previousPageData: GetNotificationListResponse) => {
     if (size > 0 && (previousPageData === null || previousPageData.list.length < 1)) return null;
-    return ['my/realprice/list', { page_number: size + 1, buy_or_rent: buyOrRent, sort_by: 1 }];
+    return ['my/realprice/list', { page_number: size + 1, buy_or_rent: buyOrRent, sort_by: sortBy }];
   };
 }
 
-export default function useAPI_GetMyRealPriceList(buyOrRent: number) {
+export default function useAPI_GetMyRealPriceList(buyOrRent: number, sortBy: number) {
   const { user } = useAuth();
   const {
     data: dataList,
@@ -38,7 +38,7 @@ export default function useAPI_GetMyRealPriceList(buyOrRent: number) {
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<GetNotificationListResponse>(user ? getKey(buyOrRent) : () => null);
+  } = useSWRInfinite<GetNotificationListResponse>(user ? getKey(buyOrRent, sortBy) : () => null);
 
   const data = useMemo(() => {
     if (!dataList) return [];
