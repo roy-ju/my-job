@@ -6,9 +6,11 @@ import { DeregisterDisclaimer as DeregisterDisclaimerTemplate } from '@/componen
 import Keys from '@/constants/storage_keys';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { mutate } from 'swr';
+import { DeregisterDisclaimerPopup } from '@/components/organisms';
+import { OverlayPresenter } from '@/components/molecules';
 
 interface Props {
   depth: number;
@@ -17,8 +19,8 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-
   const { data } = useAPI_GetDeregisterStatus();
+  const [status, setStatus] = useState<'none' | 'confirm' | 'success'>('none');
 
   let deregisterReasons = router.query.deregisterReasons as string;
 
@@ -52,13 +54,43 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [router, deregisterReasons]);
 
+  const handleStatusChange = useCallback(() => {
+    switch (status) {
+      case 'none':
+        setStatus('confirm');
+        break;
+      case 'confirm':
+        setStatus('success');
+        break;
+      case 'success':
+        handleDeregister();
+        break;
+      default:
+        throw Error('Invalid status');
+    }
+  }, [status, handleDeregister]);
+
+  const handleClickCancel = useCallback(() => {
+    setStatus('none');
+  }, []);
+
   return (
     <Panel width={panelWidth}>
       <DeregisterDisclaimerTemplate
         onClickBack={handleClickBackButton}
-        onClickDeregister={handleDeregister}
+        onClickDeregister={handleStatusChange}
         canDeregister={data?.can_deregister ?? false}
       />
+      {status === 'confirm' && (
+        <OverlayPresenter>
+          <DeregisterDisclaimerPopup.Confirm onClickCancel={handleClickCancel} onClickDeregister={handleStatusChange} />
+        </OverlayPresenter>
+      )}
+      {status === 'success' && (
+        <OverlayPresenter>
+          <DeregisterDisclaimerPopup.Success onClickNavigateToHome={handleStatusChange} />
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });
