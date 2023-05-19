@@ -30,9 +30,6 @@ export default function useChatRoomList(depth: number) {
       await updateChatMessagesRead(id);
       router.push(Routes.ChatRoom, {
         searchParams: { chatRoomID: `${id}` },
-        state: {
-          name: 'Jihyo',
-        },
       });
     },
     [router],

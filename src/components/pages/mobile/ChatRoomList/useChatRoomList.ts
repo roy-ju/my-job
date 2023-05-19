@@ -2,10 +2,14 @@ import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
+import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 export default function useChatRoomList() {
   const router = useRouter();
-  const { data, isLoading } = useAPI_ChatRoomList();
+  /* pulling 안되고 있음 */
+  const { data, isLoading } = useAPI_ChatRoomList({
+    refreshInterval: 5000,
+  });
 
   const chatRoomList = useMemo(() => {
     if (!data || !data.list) return [];
@@ -25,7 +29,8 @@ export default function useChatRoomList() {
   }, [data]);
 
   const handleClickListItem = useCallback(
-    (id: number) => {
+    async (id: number) => {
+      await updateChatMessagesRead(id);
       router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${id}`);
     },
     [router],
