@@ -10,7 +10,7 @@ import { getMetersByZoom } from '@/lib/navermap/utils';
 import { mapState as recoilMapState } from '@/states/map';
 import _ from 'lodash';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import Routes from '@/router/routes';
@@ -19,6 +19,7 @@ import { v1 } from 'uuid';
 import { toast } from 'react-toastify';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
+import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -161,6 +162,10 @@ function getUserLastLocation(): { lat: number; lng: number } | null {
 export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
 
+  const interactionState = useRecoilValue(schoolAroundState);
+
+  const interactionAction = useDanjiInteraction({ danjiData: undefined });
+
   const abortControllerRef = useRef<AbortController>();
 
   const {
@@ -171,6 +176,8 @@ export default function useMapLayout() {
   } = useRecentSearches<KakaoAddressAutocompleteResponseItem>();
 
   const markersToBeSelected = useRef<CommonMarker[]>([]);
+
+  const interactionMarkersToBeSelected = useRef<CommonMarker[]>([]);
 
   const [isGeoLoading, setIsGeoLoading] = useState(false);
 
@@ -205,6 +212,8 @@ export default function useMapLayout() {
   const [polygons, setPolygons] = useState<naver.maps.Polygon[]>([]);
 
   const [selectedMarker, setSelectedMarker] = useState<CommonMarker | null>(null);
+
+  const [interactionSelectedMarker, setSelectedInteractionMarker] = useState<CommonMarker | null>(null);
 
   const lastSearchItem = useRef<KakaoAddressAutocompleteResponseItem | null>(null);
 
@@ -401,10 +410,16 @@ export default function useMapLayout() {
   /**
    * 지도위의 마커를 그린다.
    */
+
+  console.log(interactionSelectedMarker);
+
   const updateMarkers = useCallback(
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
+      if (interactionSelectedMarker) return;
+
       abortControllerRef.current?.abort();
       abortControllerRef.current = new AbortController();
+
       const res = await mapSearch({
         level: mapBounds.mapLevel,
         bounds: mapBounds,
@@ -535,18 +550,41 @@ export default function useMapLayout() {
         setMarkers(_markers);
       }
     },
-    [lastSearchItem, router],
+    [lastSearchItem, router, interactionSelectedMarker],
   );
   const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
 
   /**
    * 학교 마커를 그린다.
    */
+
   const updateSchoolMarkers = useCallback(
     async (_map: NaverMap, mapBounds: MapBounds, st: string) => {
+      if (interactionState.schoolMarkers && interactionState.schoolMarkers.length > 0) {
+        setSchoolMarkers(
+          interactionState.schoolMarkers.map((item) => {
+            const markerID = `schoolMarker:${item.id}`;
+            return {
+              id: markerID,
+              lat: item.lat,
+              lng: item.lng,
+              name: item.name,
+              type: item.type,
+              onClick(this) {
+                if (isPanningRef.current) return;
+                setSelectedMarker(this);
+                interactionAction.makeSelectedSchoolMarker(this);
+              },
+            };
+          }) ?? [],
+        );
+        return;
+      }
+
       const schoolTypes = st === 'elementary' ? '1' : st === 'middle' ? '2' : '3';
 
       const res = await getSchools({ schoolTypes, bounds: mapBounds });
+
       setSchoolMarkers(
         res?.list?.map((item) => {
           const markerID = `schoolMarker:${item.school_id}`;
@@ -564,7 +602,7 @@ export default function useMapLayout() {
         }) ?? [],
       );
     },
-    [schoolType],
+    [schoolType, interactionState.schoolMarkers],
   );
 
   /**
@@ -617,8 +655,11 @@ export default function useMapLayout() {
       setPolygons([]);
       setSelectedMarker(null);
       setSearchResultMarker(null);
+      interactionAction.makeSchoolOff();
+      setSelectedInteractionMarker(null);
       lastSearchItem.current = null;
       markersToBeSelected.current = [];
+      interactionMarkersToBeSelected.current = [];
 
       if (mapLayer === 'street') {
         const response = await coordToRegion(e.latlng.lng(), e.latlng.lat());
@@ -760,11 +801,28 @@ export default function useMapLayout() {
       case 'schoolMarker':
         if (markerKey) renderHakgudoPolygon(_map, markerKey);
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+
         break;
       default:
         break;
     }
   }, [mapState.naverMap, selectedMarker]);
+
+  useEffect(() => {
+    if (!isPanningRef) return;
+
+    if (!interactionState?.selectedSchool?.id) {
+      setSelectedMarker(null);
+      setPolygons([]);
+      return;
+    }
+
+    if (interactionState?.selectedSchool?.id && schoolMarkers.length > 0) {
+      const selectedSchool = schoolMarkers.filter((item) => item.id === interactionState?.selectedSchool?.id);
+      setSelectedMarker(selectedSchool[0]);
+      interactionAction.makeSelectedSchoolMarker(selectedSchool[0]);
+    }
+  }, [interactionState?.selectedSchool?.id]);
 
   /**
    * 맵이 이동할때마다, 마커를 그린다.
@@ -779,6 +837,11 @@ export default function useMapLayout() {
    * 학교가 활성화되어있으면, 맵이 이동할때마다 학교 마커를 그린다.
    */
   useEffect(() => {
+    if (bounds && mapState?.naverMap && interactionState.school) {
+      updateSchoolMarkers(mapState?.naverMap, bounds, 'none');
+      return;
+    }
+
     if (bounds && schoolType !== 'none' && mapState?.naverMap) {
       if (bounds.mapLevel < 3) {
         updateSchoolMarkers(mapState?.naverMap, bounds, schoolType);
@@ -792,7 +855,7 @@ export default function useMapLayout() {
     } else if (schoolType === 'none') {
       setSchoolMarkers([]);
     }
-  }, [mapState?.naverMap, bounds, schoolType, updateSchoolMarkers]);
+  }, [mapState?.naverMap, bounds, schoolType, updateSchoolMarkers, interactionState.schoolMarkers]);
 
   /**
    * 폴리곤을 그린다.
@@ -810,8 +873,10 @@ export default function useMapLayout() {
    * 학교필터가 변경될때, 맵에 그려져있는 학구도 폴리곤을 없앤다.
    */
   useEffect(() => {
-    setPolygons([]);
-    setSelectedMarker(null);
+    if (!interactionState.school) {
+      setPolygons([]);
+      setSelectedMarker(null);
+    }
   }, [schoolType]);
 
   /**
@@ -931,6 +996,38 @@ export default function useMapLayout() {
     }
   }, [markers, searchResultMarker]);
 
+  useEffect(() => {
+    window.Negocio.callbacks.selectSchoolInteraction = (marker: CommonMarker) => {
+      if (marker.lat && marker.lng) {
+        mapState.naverMap?.morph({ lat: marker.lat, lng: marker.lng }, 16);
+      }
+
+      interactionMarkersToBeSelected.current.push(marker);
+    };
+
+    return () => {
+      delete window.Negocio.callbacks.selectSchoolInteraction;
+    };
+  }, [mapState.naverMap]);
+
+  useEffect(() => {
+    if (interactionState?.school && interactionState?.danjiData && interactionMarkersToBeSelected.current) {
+      const m = markers.filter(
+        (item) => item.lat === interactionState?.danjiData?.lat && item.lng === interactionState?.danjiData?.long,
+      );
+      if (m[0]) {
+        setSelectedInteractionMarker(m[0]);
+        interactionMarkersToBeSelected.current = [];
+      }
+    }
+  }, [interactionState?.school, interactionState?.danjiData, markers]);
+
+  useEffect(() => {
+    if (!interactionState.school) {
+      setSelectedInteractionMarker(null);
+    }
+  }, [interactionState.school]);
+
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -977,6 +1074,7 @@ export default function useMapLayout() {
     popup,
     setPopup,
     selectedMarker,
+    interactionSelectedMarker,
     danjiSummary,
     searchResultMarker,
   };
