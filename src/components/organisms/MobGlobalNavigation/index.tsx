@@ -3,12 +3,18 @@ import HeartIcon from '@/assets/icons/heart.svg';
 import MapIcon from '@/assets/icons/mob_map_pin.svg';
 import ChatIcon from '@/assets/icons/mob_chat.svg';
 import UserIcon from '@/assets/icons/user.svg';
-import { Button } from '@/components/atoms';
+import { Button, NewCount } from '@/components/atoms';
 import { useRouter } from 'next/router';
 import tw from 'twin.macro';
 import Routes from '@/router/routes';
 
-export default function MobGlobalNavigation({ index }: { index?: number }) {
+export default function MobGlobalNavigation({
+  index,
+  unreadChatCount = 0,
+}: {
+  index?: number;
+  unreadChatCount?: number;
+}) {
   const router = useRouter();
 
   const onClickButton = (path: string) => {
@@ -57,7 +63,12 @@ export default function MobGlobalNavigation({ index }: { index?: number }) {
           tw="flex-col px-0 h-auto flex-1 gap-[5px]"
           onClick={() => onClickButton(Routes.ChatRoomList)}
         >
-          <ChatIcon css={index === 3 ? buttonStyles.selected : buttonStyles.default} />
+          <div tw="relative">
+            <ChatIcon css={index === 3 ? buttonStyles.selected : buttonStyles.default} />
+            {unreadChatCount > 0 && (
+              <NewCount value="N" tw="font-bold absolute top-0 right-0 translate-x-1/2 -translate-y-1/2" />
+            )}
+          </div>
           <span css={[tw`text-gray-700 text-mobCaption`, index === 3 ? buttonStyles.selected : buttonStyles.default]}>
             중개사 채팅
           </span>

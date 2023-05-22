@@ -4,6 +4,7 @@ import { MyFavoriteList as MyFavoriteListTemplate } from '@/components/templates
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { MobGlobalNavigation } from '@/components/organisms';
+import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
 import useMyFavoriteList from './useMyFavoriteList';
 
 export default memo(() => {
@@ -23,6 +24,8 @@ export default memo(() => {
     handleChangeListingSortingType,
   } = useMyFavoriteList();
 
+  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
+
   const handleClickDanjiItem = (pnu: string, realestateType: number) => () => {
     router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${pnu}&rt=${realestateType}`);
   };
@@ -32,7 +35,7 @@ export default memo(() => {
   };
 
   return (
-    <MobileContainer bottomNav={<MobGlobalNavigation index={1} />}>
+    <MobileContainer bottomNav={<MobGlobalNavigation index={1} unreadChatCount={unreadChatCount} />}>
       <MyFavoriteListTemplate
         danjiList={danjiList ?? []}
         listingList={listingList ?? []}

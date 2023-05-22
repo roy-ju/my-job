@@ -7,12 +7,10 @@ interface Response {
   chat_room_id: number;
 }
 
-export default function useAPI_GetUnreadChatCount() {
+export default function useAPI_GetUnreadChatCount(config?: {}) {
   const { user } = useAuth();
 
-  const { data, mutate } = useSWR<Response>(user ? '/chat/unread/total' : null, authFetcher, {
-    refreshInterval: 5000,
-  });
+  const { data, mutate } = useSWR<Response>(user ? '/chat/unread/total' : null, authFetcher, config);
   return {
     count: data?.total_unread_count ?? 0,
     chat_room_id: data?.chat_room_id ?? 0,
