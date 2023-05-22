@@ -27,6 +27,7 @@ export interface MyRealPriceListProps {
   onClickItem?: (pnu: string, realestateType: number) => void;
   nickname?: string;
   sortBy?: string;
+  unreadChatCount?: number;
   onChagneSortBy?: (value: string) => void;
 }
 
@@ -41,6 +42,7 @@ export default function MobMyRealPriceList({
   onNext,
   nickname,
   sortBy,
+  unreadChatCount,
   onChagneSortBy,
 }: MyRealPriceListProps) {
   return (
@@ -109,7 +111,7 @@ export default function MobMyRealPriceList({
         )}
       </div>
       <div tw="w-full max-w-mobile fixed bottom-0 left-auto right-auto">
-        <MobGlobalNavigation index={4} />
+        <MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />
       </div>
     </div>
   );

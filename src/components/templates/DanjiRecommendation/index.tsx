@@ -211,10 +211,7 @@ export const IntersetedPyoungField = ({
           {isShowDanjiRealPricesPyoungList ? '관심있는 평수를 선택해 주세요.' : '관심있는 평수를 입력해 주세요.'}
         </span>
       </div>
-      <div
-        tw="flex flex-col pt-4 px-5 gap-4"
-        css={[isShowDanjiRealPricesPyoungList && tw`[border-bottom: 1px solid #E9ECEF]`]}
-      >
+      <div tw="flex flex-col pt-4 px-5 gap-4">
         {danjiRealPricesPyoungList && isShowDanjiRealPricesPyoungList && (
           <div tw="flex flex-wrap gap-2 pb-7 [max-width: 280px]">
             {danjiRealPricesPyoungList.map((item) => (
@@ -237,9 +234,13 @@ export const IntersetedPyoungField = ({
         )}
       </div>
       <div tw="flex flex-col px-5 pt-7 pb-10 gap-4">
-        <span tw="text-b2 font-bold">직접입력</span>
+        <span tw="text-b2">직접입력</span>
         <TextField variant="outlined">
-          <TextField.NumericInput label="평수" value={pyoungInputValue} onChange={onChangePyoungField} />
+          <TextField.NumericInput
+            label={pyoungInputValue ? '평 수' : '평수 입력'}
+            value={pyoungInputValue}
+            onChange={onChangePyoungField}
+          />
           <TextField.Trailing tw="flex items-center">
             <Button variant="ghost" size="small" onClick={onClickPyoungDeleteIcon}>
               <CloseContained />
@@ -252,7 +253,7 @@ export const IntersetedPyoungField = ({
                 }
               }}
             >
-              추가
+              확인
             </Button>
           </TextField.Trailing>
         </TextField>
