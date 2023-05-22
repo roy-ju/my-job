@@ -16,7 +16,6 @@ export interface GetBiddingInfoResponse {
   can_have_earlier_remaining_amount_payment_time: boolean | null;
   remaining_amount_payment_time: string | null;
   remaining_amount_payment_time_type: number;
-  can_have_earlier_move_in_date: boolean | null;
   move_in_date: string | null;
   move_in_date_type: number;
   etcs: string | null;

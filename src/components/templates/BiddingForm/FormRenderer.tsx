@@ -46,7 +46,6 @@ export default function FormRenderer({ form }: Props) {
     onChangeRemainingAmountDateType,
 
     canHaveEarilerMoveInDate,
-    onChangeCanHaveEarilerMoveInDate,
     moveInDate,
     moveInDateType,
     onChangeMoveInDate,
@@ -127,7 +126,6 @@ export default function FormRenderer({ form }: Props) {
         <div id={Forms.MoveInDate}>
           <Form.MoveInDate
             value={canHaveEarilerMoveInDate}
-            onChange={onChangeCanHaveEarilerMoveInDate}
             date={moveInDate}
             dateType={moveInDateType}
             onChangeDate={onChangeMoveInDate}

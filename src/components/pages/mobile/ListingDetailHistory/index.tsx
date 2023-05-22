@@ -100,7 +100,6 @@ export default memo(() => {
         totalFloor={data?.total_floor ?? ''}
         tradeOrDepositPrice={data?.trade_or_deposit_price ?? 0}
         list={data?.list ?? []}
-        canHaveEarlierMoveInDate={data?.can_have_earlier_move_in_date ?? false}
         canHaveEarlierRemainingAmountPaymentTime={data?.can_have_earlier_remaining_amount_payment_time ?? false}
         canHaveMoreContractAmount={data?.can_have_more_contract_amount ?? false}
         canHaveMoreInterimAmount={data?.can_have_more_interim_amount ?? false}

@@ -35,8 +35,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeRemainingAmountDate,
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
-    canHaveEarlierMoveInDate,
-    handleChangeCanHaveEarlierMoveInDate,
     moveInDate,
     handleChangeMoveInDate,
     moveInDateType,
@@ -76,8 +74,6 @@ export default memo(({ depth, panelWidth }: Props) => {
           onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
           remainingAmountDateType={remainingAmountDateType}
           onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
-          canHaveEarilerMoveInDate={canHaveEarlierMoveInDate}
-          onChangeCanHaveEarilerMoveInDate={handleChangeCanHaveEarlierMoveInDate}
           moveInDate={moveInDate}
           onChangeMoveInDate={handleChangeMoveInDate}
           moveInDateType={moveInDateType}

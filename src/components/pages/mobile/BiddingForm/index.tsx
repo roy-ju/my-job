@@ -33,8 +33,6 @@ export default memo(() => {
     handleChangeRemainingAmountDate,
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
-    canHaveEarlierMoveInDate,
-    handleChangeCanHaveEarlierMoveInDate,
     moveInDate,
     handleChangeMoveInDate,
     moveInDateType,
@@ -74,8 +72,6 @@ export default memo(() => {
           onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
           remainingAmountDateType={remainingAmountDateType}
           onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
-          canHaveEarilerMoveInDate={canHaveEarlierMoveInDate}
-          onChangeCanHaveEarilerMoveInDate={handleChangeCanHaveEarlierMoveInDate}
           moveInDate={moveInDate}
           onChangeMoveInDate={handleChangeMoveInDate}
           moveInDateType={moveInDateType}

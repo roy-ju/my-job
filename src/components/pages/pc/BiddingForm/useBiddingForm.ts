@@ -35,7 +35,6 @@ export default function useBiddingForm(depth: number) {
   const [canHaveEarlierRemainingAmountDate, setCanHaveEarlierRemainingAmountDate] = useState<boolean | null>(null);
   const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
-  const [canHaveEarlierMoveInDate, setCanHaveEarlierMoveInDate] = useState<boolean | null>(null);
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
   const [etcs, setEtcs] = useState<string[]>([]);
@@ -54,7 +53,6 @@ export default function useBiddingForm(depth: number) {
       setInterimAmount('');
       setCanHaveEarlierRemainingAmountDate(null);
       setRemainingAmountDate(null);
-      setCanHaveEarlierMoveInDate(null);
       setMoveInDate(null);
     }
   }, []);
@@ -102,10 +100,6 @@ export default function useBiddingForm(depth: number) {
 
   const handleChangeRemainingAmountDateType = useCallback((value: string) => {
     setRemainingAmountDateType(value);
-  }, []);
-
-  const handleChangeCanHaveEarlierMoveInDate = useCallback((value: boolean | null) => {
-    setCanHaveEarlierMoveInDate(value);
   }, []);
 
   const handleChangeMoveInDate = useCallback((value: Date | null) => {
@@ -163,7 +157,6 @@ export default function useBiddingForm(depth: number) {
       canHaveEarlierRemainingAmountDate,
       remainingAmountDate,
       remainingAmountDateType,
-      canHaveEarlierMoveInDate,
       moveInDate,
       moveInDateType,
       etcs,
@@ -190,7 +183,6 @@ export default function useBiddingForm(depth: number) {
     canHaveEarlierRemainingAmountDate,
     remainingAmountDate,
     remainingAmountDateType,
-    canHaveEarlierMoveInDate,
     moveInDate,
     moveInDateType,
     etcs,
@@ -366,7 +358,6 @@ export default function useBiddingForm(depth: number) {
     interimAmount,
     canHaveEarlierRemainingAmountDate,
     remainingAmountDate,
-    canHaveEarlierMoveInDate,
     moveInDate,
   ]);
 
@@ -414,9 +405,7 @@ export default function useBiddingForm(depth: number) {
     if (biddingParams.remaining_amount_payment_time_type) {
       setRemainingAmountDateType(TimeTypeString[biddingParams.remaining_amount_payment_time_type]);
     }
-    if (biddingParams.can_have_earlier_move_in_date !== null) {
-      setCanHaveEarlierMoveInDate(biddingParams.can_have_earlier_move_in_date);
-    }
+
     if (biddingParams.move_in_date) {
       setMoveInDate(new Date(biddingParams.move_in_date));
     }
@@ -457,8 +446,6 @@ export default function useBiddingForm(depth: number) {
     handleChangeRemainingAmountDate,
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
-    canHaveEarlierMoveInDate,
-    handleChangeCanHaveEarlierMoveInDate,
     moveInDate,
     handleChangeMoveInDate,
     moveInDateType,

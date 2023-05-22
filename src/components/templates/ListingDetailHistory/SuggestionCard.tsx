@@ -9,7 +9,6 @@ interface SuggestionCardProps {
   biddingMonthlyRentFee: number;
   biddingTradeOrDepositPrice: number;
 
-  canHaveEarlierMoveInDate: boolean;
   canHaveEarlierRemainingAmountPaymentTime: boolean;
   canHaveMoreContractAmount: boolean;
   canHaveMoreInterimAmount: boolean;
@@ -39,7 +38,6 @@ export default function SuggestionCard({
   biddingMonthlyRentFee,
   biddingTradeOrDepositPrice,
 
-  canHaveEarlierMoveInDate,
   canHaveEarlierRemainingAmountPaymentTime,
   canHaveMoreContractAmount,
   canHaveMoreInterimAmount,
@@ -109,7 +107,7 @@ export default function SuggestionCard({
               </Table.Data>
             </Table.Row>
           )}
-          {canHaveEarlierMoveInDate && (
+          {moveInDate && (
             <Table.Row tw="flex justify-between">
               <Table.Head tw="self-start min-w-fit">입주가능시기</Table.Head>
               <Table.Data>
