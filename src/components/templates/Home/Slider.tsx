@@ -8,6 +8,8 @@ export interface SliderProps {
   length?: number;
 }
 
+const DEFAULT_TRANSITION_DURATION = 150;
+
 export default function Slider({ children, slideWidth = 380, panelWidth = 380, length = 0 }: SliderProps) {
   const [sliderIndex, setSliderIndex] = useState(0);
   const [isLastSlide, setIsLastSlide] = useState(false);
@@ -20,7 +22,7 @@ export default function Slider({ children, slideWidth = 380, panelWidth = 380, l
 
   useLayoutEffect(() => {
     if (sliderRef.current === null) return;
-    sliderRef.current.style.transitionDuration = '150ms';
+    sliderRef.current.style.transitionDuration = `${DEFAULT_TRANSITION_DURATION}ms`;
     if (!isLastSlide) {
       return;
     }
@@ -28,7 +30,7 @@ export default function Slider({ children, slideWidth = 380, panelWidth = 380, l
 
     function lastSlideHandler() {
       return new Promise((resolve) => {
-        timer = window.setTimeout(resolve, 150);
+        timer = window.setTimeout(resolve, DEFAULT_TRANSITION_DURATION);
       });
     }
     lastSlideHandler().then(() => {
