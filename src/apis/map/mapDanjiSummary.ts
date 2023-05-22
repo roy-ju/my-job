@@ -19,10 +19,12 @@ export default async function getDanjiSummary({
   buyOrRent,
   danjiRealestateType,
 }: {
-  pnu: string;
+  pnu?: string;
   buyOrRent: string;
-  danjiRealestateType: number;
+  danjiRealestateType?: number;
 }) {
+  if (!pnu || !danjiRealestateType) return;
+
   try {
     const { data } = await axios.post('/map/danji/summary', {
       pnu,

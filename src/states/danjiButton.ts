@@ -1,23 +1,40 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import getDanjiSchoolsMarker from '@/apis/map/danjiMapSchools';
-import { CommonSchoolMarker } from '@/layouts/MapLayout/useMapLayout';
 import { atom, useRecoilState } from 'recoil';
 import { v1 } from 'uuid';
 import useMap from './map';
+
+interface CommonMarker {
+  id: string;
+  lat: number;
+  lng: number;
+  onClick?: () => void;
+}
+
+interface SchoolMarker extends CommonMarker {
+  type: string;
+  name: string;
+}
+
+interface SelectedSchool {
+  id?: string;
+}
 
 export const schoolAroundState = atom<{
   school: boolean;
   around: boolean;
   danjiData?: GetDanjiDetailResponse;
-  selectedSchool?: {};
-  schoolMarkers: CommonSchoolMarker[];
+  selectedSchool?: SelectedSchool;
+  selectedSchoolMarker?: SchoolMarker;
+  schoolMarkers: SchoolMarker[];
 }>({
   key: `negocio_danji_interaction_map/${v1()}`,
   default: {
     school: false,
     around: false,
     danjiData: undefined,
+    selectedSchoolMarker: undefined,
     schoolMarkers: [],
   },
   dangerouslyAllowMutability: true,
@@ -33,7 +50,13 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
     setState((prev) => ({ ...prev, danjiData }));
 
     if (danjiData) {
-      map.naverMap?.morph({ lat: danjiData.lat, lng: danjiData.long }, 16);
+      window.Negocio.callbacks.selectSchoolInteraction({
+        id: `danjiMarker:${danjiData.pnu}${danjiData.type}`,
+        lat: danjiData.lat,
+        lng: danjiData.long,
+      });
+
+      // map.naverMap?.morph({ lat: danjiData.lat, lng: danjiData.long }, 16);
 
       const elementrySchoolRes = await getDanjiSchoolsMarker({
         pnu: danjiData?.pnu,
@@ -89,7 +112,7 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
         setState((prev) => {
           const high = highSchoolRes.list.map((item) => ({
             id: item.school_id,
-            name: item.school_name.replace('학교', ''),
+            name: item.school_name.replace('등학교', ''),
             lat: item.lat,
             lng: item.long,
             type: 'high',
@@ -108,6 +131,8 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       ...prev,
       school: false,
       schoolMarkers: [],
+      selectedSchool: {},
+      selectedSchoolMarker: undefined,
       danjiData: undefined,
     }));
   };
@@ -131,7 +156,25 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       around: false,
       danjiData: undefined,
       schoolMarkers: [],
+      selectedSchool: {},
+      selectedSchoolMarker: undefined,
     });
+  };
+
+  const makeSelectedSchool = (id: string) => {
+    setState((prev) => ({ ...prev, selectedSchool: { id } }));
+  };
+
+  const makeSelectedSchoolDefault = () => {
+    setState((prev) => ({ ...prev, selectedSchool: {} }));
+  };
+
+  const makeSelectedSchoolMarker = (value: SchoolMarker) => {
+    setState((prev) => ({ ...prev, selectedSchoolMarker: value }));
+  };
+
+  const makeSelectedSchoolMarkerDefault = () => {
+    setState((prev) => ({ ...prev, selectedSchoolMarker: undefined }));
   };
 
   return {
@@ -144,5 +187,9 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
     makeAroundOn,
     makeAroundOff,
     makeDataReset,
+    makeSelectedSchool,
+    makeSelectedSchoolDefault,
+    makeSelectedSchoolMarker,
+    makeSelectedSchoolMarkerDefault,
   };
 }

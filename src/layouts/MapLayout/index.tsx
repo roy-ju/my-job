@@ -57,6 +57,7 @@ function MapWrapper({
     danjiSummary,
     removeMyMarker,
     searchResultMarker,
+    interactionSelectedMarker,
     ...props
   } = useMapLayout();
 
@@ -124,6 +125,7 @@ function MapWrapper({
             myMarker={myMarker}
             searchResultMarker={searchResultMarker}
             selectedMarker={selectedMarker}
+            interactionSelectedMarker={interactionSelectedMarker}
             danjiSummary={danjiSummary}
           />
         </Map>

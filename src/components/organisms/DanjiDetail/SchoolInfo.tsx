@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiSchools } from '@/apis/danji/danjiSchools';
@@ -5,15 +7,20 @@ import { Button } from '@/components/atoms';
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
 import { SchoolType } from '@/constants/enums';
-import useDanjiInteraction from '@/states/danjiButton';
+import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
 
 import checkStudentCount from '@/utils/checkStudentCount';
 import getDistance from '@/utils/getDistance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import tw from 'twin.macro';
 import NoDataTypeOne from './NoData';
 
 export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
-  const danjiInteractionStore = useDanjiInteraction({ danjiData: danji });
+  const interactionStore = useDanjiInteraction({ danjiData: danji });
+  const interactionState = useRecoilValue(schoolAroundState);
+
+  const [selectedIndex, setSelctedIndex] = useState<number>();
 
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
 
@@ -56,6 +63,35 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     setSelectedSchoolType(SchoolType.ElementarySchool);
   }, [listElementarySchools.length, listHighSchools.length, listMiddleSchools.length]);
 
+  useEffect(() => {
+    if (interactionState.selectedSchoolMarker) {
+      if (interactionState.selectedSchoolMarker.type === 'elementary') {
+        setSelectedSchoolType(SchoolType.ElementarySchool);
+      }
+      if (interactionState.selectedSchoolMarker.type === 'middle') {
+        setSelectedSchoolType(SchoolType.MiddleSchool);
+      }
+      if (interactionState.selectedSchoolMarker.type === 'high') {
+        setSelectedSchoolType(SchoolType.HighSchool);
+      }
+    }
+  }, [interactionState.selectedSchoolMarker]);
+
+  useEffect(() => {
+    if (schoolList && schoolList.length > 0 && interactionState.selectedSchoolMarker) {
+      const index = schoolList.findIndex(
+        (item) => interactionState?.selectedSchoolMarker?.id === `schoolMarker:${item.school_id}`,
+      );
+      setSelctedIndex(index);
+    }
+  }, [interactionState.selectedSchoolMarker, schoolList]);
+
+  useEffect(() => {
+    if (typeof selectedIndex === 'number' && selectedIndex > 2) {
+      setIsClickMore(true);
+    }
+  }, [selectedIndex]);
+
   if (!danji || !selectedSchoolType) return null;
 
   return (
@@ -65,12 +101,12 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         <Button
           size="small"
           variant="outlined"
-          selected={danjiInteractionStore.isSchoolOn}
+          selected={interactionStore.isSchoolOn}
           onClick={() => {
-            if (danjiInteractionStore.isSchoolOn) {
-              danjiInteractionStore.makeSchoolOff();
+            if (interactionState.school) {
+              interactionStore.makeSchoolOff();
             } else {
-              danjiInteractionStore.makeSchoolOn();
+              interactionStore.makeSchoolOn();
             }
           }}
         >
@@ -83,11 +119,13 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         <SchoolTabs.Tab value={SchoolType.HighSchool}>고등학교</SchoolTabs.Tab>
         <SchoolTabs.Indicator />
       </SchoolTabs>
+
       {!danjiSchoolsIsLoading && schoolList && schoolList.length === 0 && (
         <div tw="mt-11">
           <NoDataTypeOne message="주변에 학교가 없습니다." />
         </div>
       )}
+
       {!danjiSchoolsIsLoading && schoolList && schoolList.length > 0 && (
         <div tw="mt-4">
           <div tw="flex py-2.5 [border-top: 1px solid #E9ECEF] [border-bottom: 1px solid #E9ECEF]">
@@ -97,7 +135,19 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
             <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">거리</div>
           </div>
           {schoolList.slice(0, isClickMore ? schoolList.length : 3).map((item) => (
-            <div key={item.school_id} tw="flex py-2.5 [border-bottom: 1px solid #F4F6FA]">
+            <div
+              key={item.school_id}
+              tw="flex py-2.5 [border-bottom: 1px solid #F4F6FA]"
+              css={[
+                interactionState.school && tw`cursor-pointer`,
+                interactionState?.selectedSchoolMarker?.id === `schoolMarker:${item.school_id}` && tw`bg-[#F3F0FF]`,
+              ]}
+              onClick={() => {
+                if (interactionState.school) {
+                  interactionStore.makeSelectedSchool(`schoolMarker:${item.school_id}`);
+                }
+              }}
+            >
               <div tw="w-[9.125rem] [font-size: 14px] [line-height: 1.6]">{item.name || '-'}</div>
               <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">{item.found_type || '-'}</div>
               <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">
