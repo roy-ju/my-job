@@ -8,6 +8,7 @@ import Routes from '@/router/routes';
 import { ChangeEventHandler, memo, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import ErrorCodes from '@/constants/error_codes';
+import { mutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -86,6 +87,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickVerifyCode = useCallback(async () => {
     const res = await updatePhone(phone, code);
+    await mutate('/user/info/get');
     if (res?.error_code) {
       setErrorCode(res?.error_code);
       setCodeVerified(false);
@@ -100,6 +102,16 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, []);
 
   const handleClickNext = useCallback(() => {
+    if (router.query.trigger === 'iPin') {
+      router.replace(Routes.VerifyCiSuccess, {
+        searchParams: { redirect: (router.query.redirect as string) ?? '' },
+      });
+    } else {
+      router.replace(Routes.MyDetail);
+    }
+  }, [router]);
+
+  const handleClickBack = useCallback(() => {
     router.replace(Routes.MyDetail);
   }, [router]);
 
@@ -138,6 +150,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickSend={handleClickSend}
         onClickVerifyCode={handleClickVerifyCode}
         onClickNext={handleClickNext}
+        onClickBack={handleClickBack}
         onClickRemovePhoneValue={handleClickRemovePhoneValue}
       />
     </Panel>

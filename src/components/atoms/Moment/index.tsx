@@ -3,6 +3,8 @@ import 'moment/locale/ko';
 
 import React, { HTMLProps } from 'react';
 
+const DAY_IN_MINUTE = 1440;
+
 /**
  * 날짜문자열을 포맷해서 보여주는 컴포넌트
  */
@@ -13,24 +15,30 @@ interface Props extends HTMLProps<HTMLSpanElement> {
 }
 
 export default React.memo(({ format, children, ...spanProps }: Props) => {
-  const formattedDate = moment(children);
+  const date = moment(children);
+  const diffMinutesFromNow = moment().diff(date, 'minutes');
 
-  let contents = formattedDate.locale('ko').format(format);
+  let contents = '';
 
   if (format === 'calendar') {
-    contents = formattedDate.locale('ko').calendar();
-  }
-  if (format === 'message') {
-    const now = moment();
-    const diffMinutes = now.diff(formattedDate, 'minutes');
-
-    if (diffMinutes < 1) contents = '조금 전';
-    else if (diffMinutes < 1440) {
-      // 24시간 = 1440분
-      contents = formattedDate.locale('ko').format('a hh:mm');
+    contents = date.locale('ko').calendar();
+  } else if (format === 'relative') {
+    if (diffMinutesFromNow < 1) {
+      contents = '조금 전';
+    } else if (diffMinutesFromNow < DAY_IN_MINUTE) {
+      contents = date.fromNow();
     } else {
-      contents = formattedDate.locale('ko').format('YYYY.MM.DD');
+      contents = date.format('YYYY.MM.DD');
     }
+  } else if (format === 'message') {
+    if (diffMinutesFromNow < 1) contents = '조금 전';
+    else if (diffMinutesFromNow < DAY_IN_MINUTE) {
+      contents = date.locale('ko').format('a hh:mm');
+    } else {
+      contents = date.locale('ko').format('YYYY.MM.DD');
+    }
+  } else {
+    contents = date.locale('ko').format(format);
   }
 
   return <span {...spanProps}>{contents}</span>;

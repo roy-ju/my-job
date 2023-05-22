@@ -75,10 +75,10 @@ function Dropdown({
         phase: 'beforeWrite' as ModifierPhases,
         requires: ['computeStyles'],
         fn({ state }: any) {
-          state.styles.popper.minWidth = `${state.rects.reference.width}px`;
+          state.styles.popper.width = `${state.rects.reference.width}px`;
         },
         effect({ state }: any) {
-          state.elements.popper.style.minWidth = `${state.elements.reference.offsetWidth}px`;
+          state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
         },
       },
     ],
@@ -109,7 +109,7 @@ function Dropdown({
             value={value}
             onClick={handleInputClick}
             readOnly
-            tw="hover:cursor-pointer"
+            css={[tw`hover:cursor-pointer`, size === 'small' ? tw`pr-7` : tw`pr-8`]}
           />
           <TextField.Trailing
             css={[tw`absolute right-0 pointer-events-none`, size === 'small' ? tw`pr-3 top-2` : tw`pr-4 top-[20px]`]}
@@ -154,8 +154,8 @@ function Option({ value, children, ...others }: OptionProps) {
 
   return (
     <OptionItem type="button" {...others} onClick={() => onChange(value)}>
-      <div>{children}</div>
-      {value === currentValue && <SelectedIcon />}
+      <div tw="pr-2">{children}</div>
+      {value === currentValue && <SelectedIcon tw="shrink-0" />}
     </OptionItem>
   );
 }
@@ -166,7 +166,7 @@ function OptionSmall({ value, children, ...others }: OptionProps) {
   return (
     <OptionSmallItem type="button" {...others} onClick={() => onChange(value)}>
       <div>{children}</div>
-      {value === currentValue && <SelectedIcon />}
+      {value === currentValue && <SelectedIcon tw="shrink-0" />}
     </OptionSmallItem>
   );
 }

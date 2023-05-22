@@ -18,6 +18,7 @@ import AppConfig from '@/config';
 import NegocioProvider from '@/providers/NegocioProvider';
 import TooltipProvider from '@/providers/TooltipProvider';
 import ErrorBoundary from '@/providers/ErrorBoundary';
+import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -42,6 +43,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   usePageLoading();
   useNativeAppEventListeners();
+  useAPI_GetUnreadChatCount({
+    refreshInterval: 5000,
+  });
 
   return (
     <>

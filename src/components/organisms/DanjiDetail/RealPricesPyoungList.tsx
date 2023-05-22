@@ -4,6 +4,7 @@ import { BuyOrRent } from '@/constants/enums';
 import { cuttingDot } from '@/utils/fotmat';
 import { motion } from 'framer-motion';
 import { useMemo, useRef, useState, MouseEvent, TouchEvent, useEffect } from 'react';
+import tw from 'twin.macro';
 import { Wrraper } from './ButtonWrraper';
 
 export default function RealPricesPyoungList({
@@ -166,39 +167,31 @@ export default function RealPricesPyoungList({
       >
         {danjiRealPricesPyoungList.map((item, index) => (
           <div key={item.avg_jeonyong}>
-            {item.gonggeup_pyoung.toString() === selectedArea?.toString() ? (
-              <Button
-                ref={(element) => {
-                  refs.current[index] = element;
-                }}
-                variant="ghost"
-                tw="relative z-20 [min-width: 4.375rem] h-9 font-bold text-gray-1000 whitespace-nowrap shadow-[0px_6px_12px_rgba(0,0,0,0.08)]"
-                value={item.gonggeup_pyoung.toString()}
-                onClick={() => {
-                  handleClick(item, index);
-                }}
-              >
+            <Button
+              ref={(element) => {
+                refs.current[index] = element;
+              }}
+              variant="ghost"
+              tw="relative z-20 [min-width: 4.375rem] h-9 text-gray-700 whitespace-nowrap"
+              value={item.gonggeup_pyoung.toString()}
+              onClick={() => {
+                handleClick(item, index);
+              }}
+            >
+              {item.gonggeup_pyoung.toString() === selectedArea?.toString() && (
                 <motion.div layoutId="danji-indicator" tw="absolute top-0 left-0 pointer-events-none z-10">
-                  <div tw="w-full h-full [min-width: 4.375rem] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center">
-                    {item.gonggeup_pyoung}평
-                  </div>
+                  <div tw="w-full h-full [min-width: 4.375rem] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center" />
                 </motion.div>
-              </Button>
-            ) : (
-              <Button
-                ref={(element) => {
-                  refs.current[index] = element;
-                }}
-                variant="ghost"
-                tw="relative z-20 [min-width: 4.375rem] h-9 text-gray-700 whitespace-nowrap"
-                value={item.gonggeup_pyoung.toString()}
-                onClick={() => {
-                  handleClick(item, index);
-                }}
+              )}
+              <span
+                css={[
+                  tw`absolute top-0 left-0 z-20 [min-width: 4.375rem] [min-height: 36px] flex items-center justify-center`,
+                  item.gonggeup_pyoung.toString() === selectedArea?.toString() && tw`font-bold text-gray-1000`,
+                ]}
               >
                 {item.gonggeup_pyoung}평
-              </Button>
-            )}
+              </span>
+            </Button>
           </div>
         ))}
       </Wrraper>

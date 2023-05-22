@@ -197,6 +197,8 @@ export default function MapFilter({ filter: filterProp, onChangeFilter }: MapFil
       defaultFilter = getDefaultFilterAptOftl();
     } else if (filter.realestateTypeGroup === 'villa,dandok') {
       defaultFilter = getDefaultFilterVillaDandok();
+    } else if (filter.realestateTypeGroup === 'one,two') {
+      defaultFilter = getDefaultFilterOneRoomTwoRoom();
     }
     if (defaultFilter !== null) {
       setFilterState(defaultFilter);

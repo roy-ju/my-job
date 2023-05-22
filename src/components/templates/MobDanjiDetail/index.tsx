@@ -37,7 +37,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
   const [isHeaderActive, setIsHeaderActive] = useState(false);
 
   // const [loadingListing, setLoadingListing] = useState(true);
-  // const [loadingRp, setLoadingRp] = useState(true);
+  const [loadingRp, setLoadingRp] = useState(true);
   // const [loadingSchool, setLoadingSchool] = useState(true);
 
   const [listingsSection, setListingsSection] = useState<HTMLDivElement | null>(null);
@@ -97,28 +97,28 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
     (index: number) => {
       if (index === 0) {
         scrollContainer.current?.scrollBy({
-          top: (listingsSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (listingsSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
 
       if (index === 1) {
         scrollContainer.current?.scrollBy({
-          top: (realPriceSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (realPriceSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
 
       if (index === 2) {
         scrollContainer.current?.scrollBy({
-          top: (infoSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (infoSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
 
       if (index === 3) {
         scrollContainer.current?.scrollBy({
-          top: (facilitiesSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (facilitiesSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
@@ -136,7 +136,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
           }));
         });
       },
-      { rootMargin: '-120px 0px 0px 0px', threshold: 0.2 },
+      { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
     );
 
     if (listingsSection) {
@@ -158,7 +158,51 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
     return () => {
       observer.disconnect();
     };
-  }, [listingsSection, realPriceSection, infoSection, facilitiesSection]);
+  }, [facilitiesSection, infoSection, listingsSection, realPriceSection]);
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         setVisibleState((prev) => ({
+  //           ...prev,
+  //           [entry.target.id]: entry.isIntersecting,
+  //         }));
+  //       });
+  //     },
+  //     { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
+  //   );
+
+  //   if (infoSection) {
+  //     observer.observe(infoSection);
+  //   }
+
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, [infoSection]);
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         setVisibleState((prev) => ({
+  //           ...prev,
+  //           [entry.target.id]: entry.isIntersecting,
+  //         }));
+  //       });
+  //     },
+  //     { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
+  //   );
+
+  //   if (facilitiesSection) {
+  //     observer.observe(facilitiesSection);
+  //   }
+
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, [facilitiesSection]);
 
   useEffect(() => {
     let i = 0;
@@ -166,19 +210,13 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
     if (visibleState.listingsSection === true) {
       i = 0;
       setTabIndex(i);
-    }
-
-    if (visibleState.realPriceSection === true) {
+    } else if (visibleState.realPriceSection === true) {
       i = 1;
       setTabIndex(i);
-    }
-
-    if (visibleState.infoSection === true) {
+    } else if (visibleState.infoSection === true) {
       i = 2;
       setTabIndex(i);
-    }
-
-    if (visibleState.facilitiesSection === true) {
+    } else if (visibleState.facilitiesSection === true) {
       i = 3;
       setTabIndex(i);
     }
@@ -215,13 +253,13 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
           handleMutateDanji={handleMutateDanji}
         />
       </div>
-      <div tw="overflow-y-auto" ref={scrollContainer}>
+      <div tw="flex-1 min-h-0 overflow-y-auto" ref={scrollContainer}>
         <MobDanjiPhotoHero danji={danji} />
-        {isShowTab && (
-          <div id="mob-negocio-danjidetail-tabs" tw="px-3 py-2 sticky bg-white [top: 56px] [z-index: 300]">
+        {isShowTab && !loadingRp && (
+          <div id="mob-negocio-danjidetail-tabs" tw="px-3 pt-2 pb-0 sticky bg-white [top: 56px] [z-index: 300]">
             <div
               className="scrollbar-hide"
-              tw="flex flex-row items-center overflow-x-auto border-b border-gray-300"
+              tw="flex flex-row items-center overflow-x-auto"
               role="presentation"
               ref={scrollRef}
               onMouseDown={onDragStart}
@@ -325,8 +363,8 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
               ref={realPriceContainerRef}
               danji={danji}
               isShowRpTab={isShowRpTab}
-              // setLoadingRp={setLoadingRp}
-              setLoadingRp={() => {}}
+              setLoadingRp={setLoadingRp}
+              // setLoadingRp={() => {}}
               setIsShowRpTab={setIsShowRpTab}
             />
           </div>

@@ -68,7 +68,7 @@ const StyledContainer = styled.div<{
 ]);
 
 const StyledInput = styled.input(({ inSize, disabled, label, hasError }: StyledInputProps) => [
-  tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
+  tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000 text-ellipsis`,
   disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
@@ -82,7 +82,7 @@ const StyledInput = styled.input(({ inSize, disabled, label, hasError }: StyledI
 const StyledNumericInput = styled(({ inSize, label, hasError, ...others }: NumericFormatProps & StyledInputProps) => (
   <NumericFormat {...others} />
 ))(({ inSize, disabled, label, hasError }) => [
-  tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
+  tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000 text-ellipsis`,
   disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
@@ -96,7 +96,7 @@ const StyledNumericInput = styled(({ inSize, label, hasError, ...others }: Numer
 const StyledPatternInput = styled(({ inSize, label, hasError, ...others }: PatternFormatProps & StyledInputProps) => (
   <PatternFormat {...others} />
 ))(({ inSize, disabled, label, hasError }) => [
-  tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000`,
+  tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000 text-ellipsis`,
   disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,

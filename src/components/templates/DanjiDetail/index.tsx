@@ -34,6 +34,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
   const [facilitiesSection, setFacilitiesSection] = useState<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
+  const [loadingRp, setLoadingRp] = useState(true);
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -41,6 +42,8 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
   const [startX, setStartX] = useState<number>();
 
   const [isShowRpTab, setIsShowRpTab] = useState(false);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const [bottomReached, setBottomReached] = useState(false);
 
   const [visibleState, setVisibleState] = useState<Record<string, boolean>>({
     listingsSection: true,
@@ -87,28 +90,28 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     (index: number) => {
       if (index === 0) {
         scrollContainer.current?.scrollBy({
-          top: (listingsSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (listingsSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
 
       if (index === 1) {
         scrollContainer.current?.scrollBy({
-          top: (realPriceSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (realPriceSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
 
       if (index === 2) {
         scrollContainer.current?.scrollBy({
-          top: (infoSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (infoSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
 
       if (index === 3) {
         scrollContainer.current?.scrollBy({
-          top: (facilitiesSection?.getBoundingClientRect()?.top ?? 0) - 116,
+          top: (facilitiesSection?.getBoundingClientRect()?.top ?? 0) - 103,
           behavior: 'smooth',
         });
       }
@@ -126,7 +129,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           }));
         });
       },
-      { rootMargin: '-120px 0px 0px 0px', threshold: 0.2 },
+      { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
     );
 
     if (listingsSection) {
@@ -137,45 +140,9 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       observer.observe(realPriceSection);
     }
 
-    return () => {
-      observer.disconnect();
-    };
-  }, [listingsSection, realPriceSection]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setVisibleState((prev) => ({
-            ...prev,
-            [entry.target.id]: entry.isIntersecting,
-          }));
-        });
-      },
-      { rootMargin: '-120px 0px 0px 0px', threshold: 0.5 },
-    );
-
     if (infoSection) {
       observer.observe(infoSection);
     }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [infoSection]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setVisibleState((prev) => ({
-            ...prev,
-            [entry.target.id]: entry.isIntersecting,
-          }));
-        });
-      },
-      { rootMargin: '-120px 0px 0px 0px', threshold: 1 },
-    );
 
     if (facilitiesSection) {
       observer.observe(facilitiesSection);
@@ -184,7 +151,33 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     return () => {
       observer.disconnect();
     };
-  }, [facilitiesSection]);
+  }, [facilitiesSection, infoSection, listingsSection, realPriceSection]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((item) => {
+          const targetID = item.target.id;
+          const idPrefix = 'negocio-danjidetail-';
+
+          const { isIntersecting } = item;
+
+          if (targetID === `${idPrefix}bottom`) {
+            setBottomReached(isIntersecting);
+          }
+        });
+      },
+      { rootMargin: '0px 0px 0px 0px', threshold: 0.1 },
+    );
+
+    if (bottomRef.current) {
+      observer.observe(bottomRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [loadingRp]);
 
   useEffect(() => {
     if (!isShowlistingsSection) {
@@ -195,31 +188,125 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     }
   }, [isShowlistingsSection]);
 
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         setVisibleState((prev) => ({
+  //           ...prev,
+  //           [entry.target.id]: entry.isIntersecting,
+  //         }));
+  //       });
+  //     },
+  //     { rootMargin: '-120px 0px 0px 0px', threshold: 0.2 },
+  //   );
+
+  //   if (listingsSection) {
+  //     observer.observe(listingsSection);
+  //   }
+
+  //   if (realPriceSection) {
+  //     observer.observe(realPriceSection);
+  //   }
+
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, [listingsSection, realPriceSection]);
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         setVisibleState((prev) => ({
+  //           ...prev,
+  //           [entry.target.id]: entry.isIntersecting,
+  //         }));
+  //       });
+  //     },
+  //     { rootMargin: '-120px 0px 0px 0px', threshold: 0.5 },
+  //   );
+
+  //   if (infoSection) {
+  //     observer.observe(infoSection);
+  //   }
+
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, [infoSection]);
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         setVisibleState((prev) => ({
+  //           ...prev,
+  //           [entry.target.id]: entry.isIntersecting,
+  //         }));
+  //       });
+  //     },
+  //     { rootMargin: '-120px 0px 0px 0px', threshold: 1 },
+  //   );
+
+  //   if (facilitiesSection) {
+  //     observer.observe(facilitiesSection);
+  //   }
+
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, [facilitiesSection]);
+
+  // useEffect(() => {
+  //   let i = 0;
+
+  //   if (visibleState.listingsSection === true) {
+  //     i = 0;
+  //     setTabIndex(i);
+  //     return;
+  //   }
+
+  //   if (visibleState.realPriceSection === true) {
+  //     i = 1;
+  //     setTabIndex(i);
+  //     return;
+  //   }
+
+  //   if (visibleState.infoSection === true) {
+  //     i = 2;
+  //     setTabIndex(i);
+  //   }
+
+  //   if (visibleState.facilitiesSection === true) {
+  //     i = 3;
+  //     setTabIndex(i);
+  //   }
+  // }, [visibleState]);
+
   useEffect(() => {
     let i = 0;
+
+    if (bottomReached) {
+      i = 3;
+      setTabIndex(i);
+      return;
+    }
 
     if (visibleState.listingsSection === true) {
       i = 0;
       setTabIndex(i);
-      return;
-    }
-
-    if (visibleState.realPriceSection === true) {
+    } else if (visibleState.realPriceSection === true) {
       i = 1;
       setTabIndex(i);
-      return;
-    }
-
-    if (visibleState.infoSection === true) {
+    } else if (visibleState.infoSection === true) {
       i = 2;
       setTabIndex(i);
-    }
-
-    if (visibleState.facilitiesSection === true) {
+    } else if (visibleState.facilitiesSection === true) {
       i = 3;
       setTabIndex(i);
     }
-  }, [visibleState]);
+  }, [bottomReached, visibleState]);
 
   useEffect(() => {
     if (typeof tabIndex === 'number' && danji) {
@@ -248,14 +335,14 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
 
       <div tw="flex-1 min-h-0 overflow-y-auto" ref={scrollContainer}>
         <DanjiPhotoHero danji={danji} depth={depth} />
-        {isShowTab && (
+        {isShowTab && !loadingRp && (
           <div
             id="negocio-danjidetail-tabs"
             tw="pt-2 pb-0 sticky bg-white [top: 56px] [z-index: 100] border-b border-gray-300"
           >
             <div
               className="scrollbar-hide"
-              tw="flex flex-row items-center overflow-x-auto border-b border-gray-300"
+              tw="flex flex-row items-center overflow-x-auto"
               role="presentation"
               ref={scrollRef}
               onMouseDown={onDragStart}
@@ -372,7 +459,8 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               depth={depth}
               isShowRpTab={isShowRpTab}
               isShowlistingsSection={isShowlistingsSection}
-              setLoadingRp={() => {}}
+              // setLoadingRp={() => {}}
+              setLoadingRp={setLoadingRp}
               setIsShowRpTab={setIsShowRpTab}
             />
           </div>
@@ -389,7 +477,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
             <DanjiDetailSection.AroundInfo danji={danji} />
           </div>
         </DanjiDetailSection>
-        <div id="negocio-danjidetail-bottom" style={{ height: '10px' }} />
+        <div id="negocio-danjidetail-bottom" ref={bottomRef} style={{ height: '10px' }} />
       </div>
     </div>
   );
