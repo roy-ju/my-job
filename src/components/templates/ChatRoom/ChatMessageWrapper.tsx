@@ -68,7 +68,9 @@ export default memo(
           {shouldRenderAvatar && <ChatMessage.Avatar src={chat.profileImagePath} />}
           {shouldRenderAvatar && <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>}
           <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>
-          {variant === 'nego' && !chat.agentReadTime && <ChatMessage.ReadIndicator>읽기 전</ChatMessage.ReadIndicator>}
+          {variant === 'nego' && !chat.agentReadTime && shouldRenderSentTime && (
+            <ChatMessage.ReadIndicator>읽기 전</ChatMessage.ReadIndicator>
+          )}
           {shouldRenderSentTime && <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>}
         </ChatMessage>
       </div>
