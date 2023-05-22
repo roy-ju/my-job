@@ -1,1 +1,2 @@
-export { default as loginWithApple } from './login';
+export { loginWithApple } from './login';
+export { initializeAppleAuth } from './login';
