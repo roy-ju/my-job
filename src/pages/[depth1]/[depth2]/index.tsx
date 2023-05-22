@@ -31,6 +31,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const forwarded = context.req.headers['x-forwarded-for'];
   const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
 
+  const userAgent = context.req.headers['user-agent'];
+  if (userAgent && userAgent.indexOf('Mobi') > -1) {
+    // 모바일이라면
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       ...metas,

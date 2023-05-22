@@ -8,7 +8,7 @@ import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
 import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 
-import { Home as HomeTemplate } from '@/components/templates';
+import { MobHome as HomeTemplate } from '@/components/templates';
 import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 
