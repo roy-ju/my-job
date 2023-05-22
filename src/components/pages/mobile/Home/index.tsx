@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
+import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
 
 export default function Home() {
   const router = useRouter();
@@ -32,6 +33,8 @@ export default function Home() {
   const { data: listingsForUserData } = useAPI_GetListingsForTheLoggedIn();
 
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
+
+  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
 
   const handleClickLogin = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
@@ -113,7 +116,7 @@ export default function Home() {
   }, []);
 
   return (
-    <MobileContainer bottomNav={<MobGlobalNavigation index={0} />}>
+    <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
         user={user}
         unreadNotificationCount={unreadNotificationCount}
