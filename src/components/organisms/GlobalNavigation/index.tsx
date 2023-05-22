@@ -2,6 +2,7 @@ import { createContext, ReactNode, useCallback, useContext, useMemo } from 'reac
 import tw from 'twin.macro';
 import Logo from '@/assets/icons/logo.svg';
 import { useControlled } from '@/hooks/utils';
+import { NewCount } from '@/components/atoms';
 import GlobalHambergerMenu from '../GlobalHambergerMenu';
 
 interface NavigationContextType {
@@ -71,7 +72,17 @@ function useNavigationContext() {
   return context;
 }
 
-function TabButton({ text, idx, icon }: { text: string; idx: number; icon: any }) {
+function TabButton({
+  text,
+  idx,
+  icon,
+  unreadChatCount = 0,
+}: {
+  text: string;
+  idx: number;
+  icon: any;
+  unreadChatCount?: number;
+}) {
   const { selectedTab, changeTab } = useNavigationContext();
 
   function handleTabButton() {
@@ -87,7 +98,12 @@ function TabButton({ text, idx, icon }: { text: string; idx: number; icon: any }
       ]}
       onClick={handleTabButton}
     >
-      <div css={[tw`transition-colors`, selectedTab === idx ? tw`text-nego-700` : tw`text-gray-600`]}>{icon}</div>
+      <div css={[tw`relative transition-colors`, selectedTab === idx ? tw`text-nego-700` : tw`text-gray-600`]}>
+        {icon}{' '}
+        {text === '중개사 채팅' && unreadChatCount > 0 && (
+          <NewCount value="N" tw="font-bold absolute top-0 right-0 translate-x-1/2 -translate-y-1/2" />
+        )}
+      </div>
       <span css={[tw`transition-colors text-info`, selectedTab === idx ? tw`text-nego-1000` : tw`text-gray-1000`]}>
         {text}
       </span>

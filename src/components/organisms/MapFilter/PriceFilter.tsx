@@ -37,23 +37,11 @@ export const RENT_STEPS = [
   ..._.range(2500000, 4500000, 500000),
 ];
 
-const priceLabels = [
-  '0',
-  f(PRICE_STEPS[Math.floor(PRICE_STEPS.length / 2)]),
-  '무제한',
-];
+const priceLabels = ['0', f(PRICE_STEPS[Math.floor(PRICE_STEPS.length / 2)]), '무제한'];
 
-const depositLabels = [
-  '0',
-  f(DEPOSIT_STEPS[Math.floor(DEPOSIT_STEPS.length / 2)]),
-  '무제한',
-];
+const depositLabels = ['0', f(DEPOSIT_STEPS[Math.floor(DEPOSIT_STEPS.length / 2)]), '무제한'];
 
-const rentLabels = [
-  '0',
-  f(RENT_STEPS[Math.floor(RENT_STEPS.length / 2)]),
-  '무제한',
-];
+const rentLabels = ['0', f(RENT_STEPS[Math.floor(RENT_STEPS.length / 2)]), '무제한'];
 
 function PriceLabel({ steps, range }: { steps: number[]; range: number[] }) {
   const label = useMemo(() => {
@@ -155,7 +143,7 @@ export default function PriceFilter({
             />
           </div>
         )}
-        {jeonsaeEnabled && (
+        {(jeonsaeEnabled || wolsaeEnabled) && (
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">보증금 (전 / 월세)</span>

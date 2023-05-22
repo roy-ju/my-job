@@ -24,9 +24,11 @@ function getRangeLabel(steps: number[], range: number[], short = false) {
       if (item === steps.length - 1) {
         return '';
       }
+      if (item === 0) {
+        return '';
+      }
       return f(steps[item], short);
     })
-    .filter((item) => item !== '0')
     .join('~');
 }
 

@@ -7,6 +7,7 @@ import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -48,6 +49,8 @@ function MapWrapper() {
 
   const router = useRouter();
 
+  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
+
   const handleClickSuggestRegional = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
   }, [router]);
@@ -62,6 +65,7 @@ function MapWrapper() {
         schoolType={schoolType}
         priceType={priceType}
         filter={filter}
+        unreadChatCount={unreadChatCount}
         centerAddress={centerAddress}
         mapToggleValue={mapToggleValue}
         listingCount={listingCount}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { InfiniteScroll, Loading, Moment } from '@/components/atoms';
-import { NavigationHeader, Tabs, Information } from '@/components/molecules';
+import { NavigationHeader, Tabs, Information, Dropdown } from '@/components/molecules';
 import { MyRealPriceListItem } from '@/components/organisms';
 import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 
@@ -25,6 +25,8 @@ export interface MyRealPriceListProps {
   onChangeBuyOrRent?: (newValue: number) => void;
   onClickItem?: (pnu: string, realestateType: number) => void;
   nickname?: string;
+  sortBy?: string;
+  onChagneSortBy?: (value: string) => void;
 }
 
 export default function MyRealPriceList({
@@ -36,6 +38,8 @@ export default function MyRealPriceList({
   onClickItem,
   onNext,
   nickname,
+  sortBy,
+  onChagneSortBy,
 }: MyRealPriceListProps) {
   return (
     <div tw="h-full flex flex-col">
@@ -56,6 +60,14 @@ export default function MyRealPriceList({
           <Tabs.Tab value={2}>전월세</Tabs.Tab>
           <Tabs.Indicator />
         </Tabs>
+        <div tw="py-4 flex justify-end">
+          <div tw="w-[110px]">
+            <Dropdown size="small" value={sortBy} onChange={onChagneSortBy}>
+              <Dropdown.Option value="업데이트 순">업데이트 순</Dropdown.Option>
+              <Dropdown.Option value="거래일 순">거래일 순</Dropdown.Option>
+            </Dropdown>
+          </div>
+        </div>
         {!isLoading && !updatedTime && (
           <div tw="my-24">
             <Information>

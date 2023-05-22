@@ -17,8 +17,8 @@ export interface GetChatRoomListResponse {
     | null;
 }
 
-export default function useAPI_ChatRoomList() {
+export default function useAPI_ChatRoomList(config?: {}) {
   const { user, isLoading: isLoadingUser } = useAuth();
-  const { data, isLoading, mutate } = useSWR<GetChatRoomListResponse>(user ? '/chat/room/list' : null);
+  const { data, isLoading, mutate } = useSWR<GetChatRoomListResponse>(user ? '/chat/room/list' : null, config);
   return { data, isLoading: isLoading || isLoadingUser, mutate };
 }

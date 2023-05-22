@@ -1,6 +1,6 @@
 import React from 'react';
 import { InfiniteScroll, Loading, Moment } from '@/components/atoms';
-import { Tabs, Information, NavigationHeader } from '@/components/molecules';
+import { Tabs, Information, NavigationHeader, Dropdown } from '@/components/molecules';
 import { MobGlobalNavigation, MyRealPriceListItem } from '@/components/organisms';
 import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 
@@ -26,6 +26,9 @@ export interface MyRealPriceListProps {
   onClickBack?: () => void;
   onClickItem?: (pnu: string, realestateType: number) => void;
   nickname?: string;
+  sortBy?: string;
+  unreadChatCount?: number;
+  onChagneSortBy?: (value: string) => void;
 }
 
 export default function MobMyRealPriceList({
@@ -38,6 +41,9 @@ export default function MobMyRealPriceList({
   onClickItem,
   onNext,
   nickname,
+  sortBy,
+  unreadChatCount,
+  onChagneSortBy,
 }: MyRealPriceListProps) {
   return (
     <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
@@ -51,19 +57,23 @@ export default function MobMyRealPriceList({
           나의 관심 매물, 관심 단지 혹은 나의 주소지 주변 실거래 현황입니다.
         </div>
 
-        {updatedTime && (
-          <>
-            <div tw="mb-4 text-info text-gray-700">
-              최근 업데이트: <Moment format="YYYY.MM.DD">{updatedTime}</Moment>
-            </div>
-            <Tabs variant="contained" value={buyOrRent} onChange={onChangeBuyOrRent}>
-              <Tabs.Tab value={0}>전체</Tabs.Tab>
-              <Tabs.Tab value={1}>매매</Tabs.Tab>
-              <Tabs.Tab value={2}>전월세</Tabs.Tab>
-              <Tabs.Indicator />
-            </Tabs>
-          </>
-        )}
+        <div tw="mb-4 text-info text-gray-700">
+          최근 업데이트: {updatedTime ? <Moment format="YYYY.MM.DD">{updatedTime}</Moment> : '없음'}
+        </div>
+        <Tabs variant="contained" value={buyOrRent} onChange={onChangeBuyOrRent}>
+          <Tabs.Tab value={0}>전체</Tabs.Tab>
+          <Tabs.Tab value={1}>매매</Tabs.Tab>
+          <Tabs.Tab value={2}>전월세</Tabs.Tab>
+          <Tabs.Indicator />
+        </Tabs>
+        <div tw="py-4 flex justify-end">
+          <div tw="w-[110px]">
+            <Dropdown size="small" value={sortBy} onChange={onChagneSortBy}>
+              <Dropdown.Option value="업데이트 순">업데이트 순</Dropdown.Option>
+              <Dropdown.Option value="거래일 순">거래일 순</Dropdown.Option>
+            </Dropdown>
+          </div>
+        </div>
 
         {!isLoading && !updatedTime && (
           <div tw="my-24">
@@ -101,7 +111,7 @@ export default function MobMyRealPriceList({
         )}
       </div>
       <div tw="w-full max-w-mobile fixed bottom-0 left-auto right-auto">
-        <MobGlobalNavigation index={4} />
+        <MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />
       </div>
     </div>
   );

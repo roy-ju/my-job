@@ -77,7 +77,7 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
               <Table.Data>{`${formatUseAcceptedYear(danji.use_accepted_year)}`}</Table.Data>
             </Table.Row>
           )}
-          {(danji.daeji_area || danji.architecture_area) && (
+          {(danji.daeji_area || Number(danji.architecture_area) > 0) && (
             <Table.Row>
               <Table.Head>면적</Table.Head>
               {danji.daeji_area && danji.architecture_area && (

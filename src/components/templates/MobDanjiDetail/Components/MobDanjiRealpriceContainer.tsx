@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { Separator } from '@/components/atoms';
@@ -102,7 +103,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
     if (danjiRealPricesPyoungListLoading === false) {
       setLoadingRp(false);
     }
-  }, [danjiRealPricesPyoungListLoading, setLoadingRp]);
+  }, [danjiRealPricesPyoungListLoading]);
 
   useEffect(() => {
     if (danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0) {

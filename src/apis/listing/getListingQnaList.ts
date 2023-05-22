@@ -51,7 +51,9 @@ export default function useAPI_GetListingQnaList(listingID: number) {
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<GetListingQnaListResponse>(listingID === 0 ? () => null : getKey(listingID));
+  } = useSWRInfinite<GetListingQnaListResponse>(listingID === 0 ? () => null : getKey(listingID), null, {
+    revalidateOnFocus: false,
+  });
 
   const data = useMemo(() => {
     if (!dataList) return [];

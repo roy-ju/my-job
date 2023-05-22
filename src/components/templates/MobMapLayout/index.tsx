@@ -26,6 +26,7 @@ interface MobLayoutMapContainerProps {
   code?: string;
   mapType?: string;
   priceType?: string;
+  unreadChatCount?: number;
   mapLayer?: string;
   mapToggleValue?: number;
   schoolType?: string;
@@ -64,6 +65,7 @@ function MobLayoutMapContainer({
   mapLayer,
   schoolType,
   filter,
+  unreadChatCount,
   centerAddress,
   mapToggleValue,
   listingCount,
@@ -147,20 +149,6 @@ function MobLayoutMapContainer({
           </div>
         )}
 
-        {filter?.realestateTypeGroup !== 'apt,oftl' && (
-          <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
-            <div tw="w-fit pointer-events-auto">
-              <Button
-                size="medium"
-                tw="whitespace-nowrap font-bold rounded-4xl bg-nego-800"
-                onClick={onClickMapListingList}
-              >
-                이 지역 매물 {listingCount ?? 0}
-              </Button>
-            </div>
-          </div>
-        )}
-
         <div tw="absolute right-4 top-3 z-20">
           <MobMapPriceSelect
             filter={filter}
@@ -171,7 +159,7 @@ function MobLayoutMapContainer({
           />
         </div>
 
-        <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-10">
+        <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-[120]">
           <MobMapControls.Group>
             <MobMapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
             <MobMapControls.StreetViewButton selected={mapLayer === 'street'} onClick={onClickMapLayerStreet} />
@@ -190,39 +178,25 @@ function MobLayoutMapContainer({
           />
         </div>
 
-        <div tw="w-full max-w-mobile inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10">
+        <div tw="w-full max-w-mobile inline-flex absolute left-0 right-0 bottom-6 px-4 z-10 gap-3">
           <MobMapPositionBar
             sido={convertSidoName(centerAddress?.[0])}
             sigungu={centerAddress?.[1]}
             eubmyundong={centerAddress?.[2]}
             onClick={openFullSearchArea}
           />
-          {isRenderGuideOverlay && (
-            <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl text-info pointer-events-none">
-              매물 추천받기
-            </Button>
-          )}
-        </div>
+          <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl" onClick={onClickMapListingList}>
+            이 지역 매물 {listingCount ?? 0}
+          </Button>
 
-        <div tw="w-full max-w-mobile inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10">
-          <MobMapPositionBar
-            sido={convertSidoName(centerAddress?.[0])}
-            sigungu={centerAddress?.[1]}
-            eubmyundong={centerAddress?.[2]}
-            onClick={openFullSearchArea}
-          />
-
-          <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl text-info" onClick={onClickSuggestReginoal}>
+          <Button variant="outlined" size="medium" tw="ml-auto whitespace-nowrap" onClick={onClickSuggestReginoal}>
             매물 추천받기
           </Button>
         </div>
 
         {isRenderGuideOverlay && (
           <div tw="w-full max-w-mobile inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10 [z-index: 9000]">
-            <Button
-              size="medium"
-              tw="absolute right-[1rem] bottom-0 whitespace-nowrap font-bold rounded-4xl text-info pointer-events-none"
-            >
+            <Button variant="outlined" size="medium" tw="ml-auto whitespace-nowrap pointer-events-none">
               매물 추천받기
             </Button>
             <span tw="pointer-events-none absolute right-[1rem] bottom-[-2rem] text-info [line-height: 1rem] text-white">
@@ -247,7 +221,7 @@ function MobLayoutMapContainer({
       {selectedDanjiSummary && <MobDanjiSummary selectedDanjiSummary={selectedDanjiSummary} />}
       {/* {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />} */}
 
-      <MobGlobalNavigation index={2} />
+      <MobGlobalNavigation index={2} unreadChatCount={unreadChatCount} />
     </div>
   );
 }

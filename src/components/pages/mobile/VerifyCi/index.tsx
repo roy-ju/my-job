@@ -2,6 +2,7 @@ import { updateCi } from '@/apis/user/updateCi';
 import { OverlayPresenter } from '@/components/molecules';
 import { VerifyCiPopup } from '@/components/organisms';
 import { MobVerifyCi } from '@/components/templates';
+import { NiceVerificationType } from '@/constants/enums';
 import ErrorCodes from '@/constants/error_codes';
 import { useAuth } from '@/hooks/services';
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
@@ -32,12 +33,22 @@ export default function VerifyCiWrraper() {
 
       if (!updateCiRes?.error_code) {
         mutateUser(false);
-        router.replace({
-          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCiSuccess}`,
-          query: {
-            redirect: router.query.redirect ?? '',
-          },
-        });
+        if (Number(res.type) === NiceVerificationType.IPin) {
+          router.replace({
+            pathname: `/${Routes.EntryMobile}/${Routes.UpdatePhone}`,
+            query: {
+              redirect: router.query.redirect ?? '',
+              trigger: 'iPin',
+            },
+          });
+        } else {
+          router.replace({
+            pathname: `/${Routes.EntryMobile}/${Routes.VerifyCiSuccess}`,
+            query: {
+              redirect: router.query.redirect ?? '',
+            },
+          });
+        }
       }
     },
     [router, mutateUser],
