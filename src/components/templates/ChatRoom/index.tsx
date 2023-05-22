@@ -130,7 +130,7 @@ export default function ChatRoom({
         ) : (
           <Virtuoso
             ref={containerRef}
-            // defaultItemHeight={38}
+            defaultItemHeight={50}
             style={{ height: '100%', width: '100%' }}
             followOutput={() => true}
             initialTopMostItemIndex={messagesRef.current.length - 1}
