@@ -208,8 +208,10 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
       if (selectedGonggeupPyoungList.includes(Number(val))) {
         toast.error('이미 추가하신 평형입니다.', { toastId: 'toast_already' });
+        setPyoungInputValue('');
       } else {
         setSelectedGonggeupPyoungList((prev) => [...prev, Number(val)]);
+        setPyoungInputValue('');
       }
     },
     [selectedGonggeupPyoungList],
