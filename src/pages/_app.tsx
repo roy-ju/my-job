@@ -18,6 +18,7 @@ import AppConfig from '@/config';
 import NegocioProvider from '@/providers/NegocioProvider';
 import TooltipProvider from '@/providers/TooltipProvider';
 import ErrorBoundary from '@/providers/ErrorBoundary';
+import { initializeAppleAuth } from '@/lib/apple';
 import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
@@ -59,7 +60,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         crossOrigin="anonymous"
         onLoad={initializeKakaoSDK}
       />
-      <Script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" />
+      <Script
+        src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
+        onLoad={initializeAppleAuth}
+      />
       <CacheProvider value={cache}>
         <GlobalStyles />
         <RecoilRoot>

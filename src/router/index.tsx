@@ -143,7 +143,7 @@ const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomRepor
   loading: FallbackComponent,
 });
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: FallbackComponent });
-const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { loading: FallbackComponent });
+const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { ssr: false, loading: FallbackComponent });
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
   ssr: false,
   loading: FallbackComponent,
