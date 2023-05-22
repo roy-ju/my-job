@@ -10,6 +10,7 @@ interface Props extends IFormContext {
   forms?: string[];
   displayAddress?: string;
   nextButtonDisabled?: boolean;
+  onClickCancelBidding?: () => void;
   onClickNext?: () => void;
   onClickBack?: () => void;
 }
@@ -63,6 +64,7 @@ export default function BiddingForm({
   onChangeDescription,
 
   onClickBack,
+  onClickCancelBidding,
 }: Props) {
   const context = useMemo(
     () => ({
@@ -161,6 +163,11 @@ export default function BiddingForm({
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>{headerTitle}</NavigationHeader.Title>
+        {onClickCancelBidding && (
+          <NavigationHeader.Button onClick={onClickCancelBidding} tw="text-info underline">
+            제안취소
+          </NavigationHeader.Button>
+        )}
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">
