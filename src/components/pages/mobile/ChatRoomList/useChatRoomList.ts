@@ -6,7 +6,7 @@ import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 export default function useChatRoomList() {
   const router = useRouter();
-  /* pulling 안되고 있음 */
+
   const { data, isLoading } = useAPI_ChatRoomList({
     refreshInterval: 5000,
   });
