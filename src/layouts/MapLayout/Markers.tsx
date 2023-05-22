@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DanjiMarker, ListingMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 
-// import { useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
@@ -9,6 +10,7 @@ import DeferredRender from '@/components/atoms/DeferredRender';
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
 import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
 import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
+import { schoolAroundState } from '@/states/danjiButton';
 import {
   CommonMarker,
   ListingDanjiMarker as ListingDanjiMarkerType,
@@ -23,6 +25,7 @@ interface MarkersProps {
   searchResultMarker?: { lat: number; lng: number } | null;
   selectedMarker?: CommonMarker | null;
   danjiSummary?: GetDanjiSummaryResponse;
+  interactionSelectedMarker?: any;
 }
 
 export default function Markers({
@@ -33,8 +36,73 @@ export default function Markers({
   searchResultMarker,
   selectedMarker,
   danjiSummary,
+  interactionSelectedMarker,
 }: MarkersProps) {
-  // const value = useRecoilValue(schoolAroundState);
+  const { school } = useRecoilValue(schoolAroundState);
+
+  if (school) {
+    return (
+      <>
+        {schoolMarkers?.map((marker) => (
+          <DeferredRender key={marker.id}>
+            <CustomOverlay
+              zIndex={selectedMarker?.id === marker.id ? 100 : 9}
+              anchor="bottom-left"
+              position={{
+                lat: marker.lat,
+                lng: marker.lng,
+              }}
+            >
+              <SchoolMarker
+                selected={selectedMarker?.id === marker.id}
+                onClick={() => {
+                  marker.onClick?.call(marker);
+                }}
+                name={marker.name}
+                type={marker.type}
+              />
+            </CustomOverlay>
+          </DeferredRender>
+        ))}
+
+        {interactionSelectedMarker && interactionSelectedMarker?.lat && interactionSelectedMarker?.lng && (
+          <DeferredRender key={interactionSelectedMarker?.id}>
+            <CustomOverlay
+              zIndex={100}
+              anchor="bottom-left"
+              position={{
+                lat: interactionSelectedMarker.lat,
+                lng: interactionSelectedMarker.lng,
+              }}
+            >
+              {interactionSelectedMarker?.pyoung && (
+                <DanjiMarker
+                  selected
+                  variant="blue"
+                  area={Number(interactionSelectedMarker?.pyoung ?? 0)}
+                  price={interactionSelectedMarker?.price ?? 0}
+                  count={interactionSelectedMarker?.listingCount ?? 0}
+                  onClick={() => {
+                    interactionSelectedMarker.onClick?.call(interactionSelectedMarker);
+                  }}
+                >
+                  {danjiSummary?.pnu === interactionSelectedMarker?.pnu &&
+                    danjiSummary?.realestate_type === interactionSelectedMarker?.danjiRealestateType && (
+                      <DanjiMarker.Popper
+                        name={danjiSummary?.string ?? ''}
+                        householdCount={danjiSummary?.saedae_count ?? 0}
+                        buyListingCount={danjiSummary?.buy_listing_count ?? 0}
+                        rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                      />
+                    )}
+                </DanjiMarker>
+              )}
+            </CustomOverlay>
+          </DeferredRender>
+        )}
+      </>
+    );
+  }
 
   return (
     <>
@@ -72,10 +140,6 @@ export default function Markers({
                 lat: marker.lat,
                 lng: marker.lng,
               }}
-              // isSelectedSchool={value.school}
-              // selectedDanjiPostion={
-              //   value.danjiData ? { lat: value.danjiData.lat, lng: value.danjiData.long } : undefined
-              // }
             >
               {marker.pyoung ? (
                 <DanjiMarker
@@ -145,6 +209,7 @@ export default function Markers({
           <MyMarkerIcon />
         </CustomOverlay>
       )}
+
       {searchResultMarker && mapLevel < 3 && (
         <CustomOverlay
           position={{
