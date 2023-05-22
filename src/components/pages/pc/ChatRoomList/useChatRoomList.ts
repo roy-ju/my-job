@@ -6,7 +6,9 @@ import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 export default function useChatRoomList(depth: number) {
   const router = useRouter(depth);
-  const { data, isLoading } = useAPI_ChatRoomList();
+  const { data, isLoading } = useAPI_ChatRoomList({
+    refreshInterval: 5000,
+  });
 
   const chatRoomList = useMemo(() => {
     if (!data || !data.list) return [];
