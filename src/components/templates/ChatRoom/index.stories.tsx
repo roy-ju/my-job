@@ -3,6 +3,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { Panel } from '@/components/atoms';
 import Paths from '@/constants/paths';
+import getRandomString from '@/utils/getRandomString';
 import ChatRoom from '.';
 
 export default {
@@ -90,12 +91,12 @@ ThousandsMessages.args = {
   agentDescription:
     '이곳은네고시오공인중개사의자기소개가보여지는곳입니다 이곳은네이곳은네고시오공인중개사의자기소개가보여',
   agentProfileImagePath: defaultAvatar,
-  chatMessages: Array(1000)
+  chatMessages: Array(100)
     .fill(0)
     .map((_, index) => ({
       id: index,
       name: '네고시오',
-      message: '협의 내용입니다.',
+      message: getRandomString(10, 100),
       chatUserType: index % 2 === 0 ? ChatUserType.Agent : ChatUserType.Seller,
       profileImagePath: defaultAvatar,
       sentTime: '2023-03-21T03:43:40.133Z',
