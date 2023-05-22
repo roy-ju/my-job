@@ -411,8 +411,6 @@ export default function useMapLayout() {
    * 지도위의 마커를 그린다.
    */
 
-  console.log(interactionSelectedMarker);
-
   const updateMarkers = useCallback(
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
       if (interactionSelectedMarker) return;
