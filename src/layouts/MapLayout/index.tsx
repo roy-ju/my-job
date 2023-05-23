@@ -58,6 +58,7 @@ function MapWrapper({
     removeMyMarker,
     searchResultMarker,
     interactionSelectedMarker,
+    aroundMarkers,
     ...props
   } = useMapLayout();
 
@@ -127,6 +128,7 @@ function MapWrapper({
             selectedMarker={selectedMarker}
             interactionSelectedMarker={interactionSelectedMarker}
             danjiSummary={danjiSummary}
+            aroundMarkers={aroundMarkers}
           />
         </Map>
       </Layout.MapContainer>
