@@ -1,15 +1,19 @@
 import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import Routes from '@/router/routes';
+// import useSyncronizer from '@/states/syncronizer';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
-import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 export default function useChatRoomList() {
   const router = useRouter();
 
-  const { data, isLoading } = useAPI_ChatRoomList({
-    refreshInterval: 5000,
-  });
+  const { data, isLoading } = useAPI_ChatRoomList();
+
+  // const { unreadChatCount } = useSyncronizer();
+
+  // useEffect(() => {
+  //   if (unreadChatCount) mutate();
+  // }, [unreadChatCount, mutate]);
 
   const chatRoomList = useMemo(() => {
     if (!data || !data.list) return [];
@@ -30,7 +34,6 @@ export default function useChatRoomList() {
 
   const handleClickListItem = useCallback(
     async (id: number) => {
-      await updateChatMessagesRead(id);
       router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${id}`);
     },
     [router],
