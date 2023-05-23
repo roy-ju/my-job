@@ -7,10 +7,11 @@ import { DanjiDetailSection } from '@/components/organisms';
 import tw from 'twin.macro';
 
 import { useRef, useState, MouseEvent, useEffect, useCallback, useMemo } from 'react';
-import { useRouter, useScroll } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
 import { motion } from 'framer-motion';
+import useDanjiInteraction from '@/states/danjiButton';
 import DanjiDetailHeader from './Components/DanjiDetailHeader';
 import DanjiPhotoHero from './Components/DanjiPhotoHero';
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
@@ -23,6 +24,8 @@ interface Props {
 }
 
 export default function DanjiDetail({ depth, danji, isShowTab = true, handleMutateDanji }: Props) {
+  const interactStore = useDanjiInteraction({ danjiData: danji });
+
   const router = useRouter(depth);
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -188,101 +191,12 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     }
   }, [isShowlistingsSection]);
 
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         setVisibleState((prev) => ({
-  //           ...prev,
-  //           [entry.target.id]: entry.isIntersecting,
-  //         }));
-  //       });
-  //     },
-  //     { rootMargin: '-120px 0px 0px 0px', threshold: 0.2 },
-  //   );
-
-  //   if (listingsSection) {
-  //     observer.observe(listingsSection);
-  //   }
-
-  //   if (realPriceSection) {
-  //     observer.observe(realPriceSection);
-  //   }
-
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, [listingsSection, realPriceSection]);
-
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         setVisibleState((prev) => ({
-  //           ...prev,
-  //           [entry.target.id]: entry.isIntersecting,
-  //         }));
-  //       });
-  //     },
-  //     { rootMargin: '-120px 0px 0px 0px', threshold: 0.5 },
-  //   );
-
-  //   if (infoSection) {
-  //     observer.observe(infoSection);
-  //   }
-
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, [infoSection]);
-
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         setVisibleState((prev) => ({
-  //           ...prev,
-  //           [entry.target.id]: entry.isIntersecting,
-  //         }));
-  //       });
-  //     },
-  //     { rootMargin: '-120px 0px 0px 0px', threshold: 1 },
-  //   );
-
-  //   if (facilitiesSection) {
-  //     observer.observe(facilitiesSection);
-  //   }
-
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, [facilitiesSection]);
-
-  // useEffect(() => {
-  //   let i = 0;
-
-  //   if (visibleState.listingsSection === true) {
-  //     i = 0;
-  //     setTabIndex(i);
-  //     return;
-  //   }
-
-  //   if (visibleState.realPriceSection === true) {
-  //     i = 1;
-  //     setTabIndex(i);
-  //     return;
-  //   }
-
-  //   if (visibleState.infoSection === true) {
-  //     i = 2;
-  //     setTabIndex(i);
-  //   }
-
-  //   if (visibleState.facilitiesSection === true) {
-  //     i = 3;
-  //     setTabIndex(i);
-  //   }
-  // }, [visibleState]);
+  useIsomorphicLayoutEffect(
+    () => () => {
+      interactStore.makeDataReset();
+    },
+    [],
+  );
 
   useEffect(() => {
     let i = 0;
