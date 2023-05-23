@@ -1,11 +1,15 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button } from '@/components/atoms';
-import { convertedArr, getAverageDistance } from '@/hooks/utils/aroundInfo';
+import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
+import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
 import { cloneDeep } from 'lodash';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import tw from 'twin.macro';
 import NoDataTypeOne from './NoData';
 import ConvertArrayToSubwayComponent from './SubwayFormatComponent';
@@ -31,9 +35,13 @@ const buttonList: { id: keyof BtnState; korTitle: string }[] = [
 export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
+  const listRefs = useRef<any>([]);
+
+  const interactionState = useRecoilValue(schoolAroundState);
+  const interactionStore = useDanjiInteraction({ danjiData: danji });
 
   const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);
-  // const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
+  const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
   const [isMoreClick, setIsMoreClick] = useState(false);
   const [sliceNum, setSliceNum] = useState(3);
   const [update, setUpdate] = useState(false);
@@ -42,8 +50,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     SW8: true,
   });
 
+  const [selectedIndex, setSelctedIndex] = useState<number>();
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();
 
@@ -82,18 +90,22 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
   }, [activeCategory, update]);
 
-  // const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [markers]);
+  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [update]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
     setSliceNum(3);
     setIsMoreClick(false);
+    setSelctedIndex(undefined);
+
+    interactionStore.makeCategory(id as string);
+    interactionStore.makeSelectedAroundMarkerDefault();
 
     if (id === Object.keys(activeCategory)[0]) return;
 
     setActiveCategory(() => ({ [id]: true }));
     setCategoryList([]);
-    // setMarkers([]);
+    setMarkers([]);
   };
 
   useEffect(() => {
@@ -105,6 +117,18 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
       scrollRef.current.scrollLeft = childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
     }
   }, [activeIndex]);
+
+  useEffect(() => {
+    if (convertedMarker) {
+      interactionStore.makeAroundMarker(convertedMarker);
+    }
+  }, [activeCategory, update]);
+
+  // useEffect(() => {
+  //   if (listRefs && typeof selectedIndex === 'number') {
+  //     listRefs.current[selectedIndex].scrollIntoView(true);
+  //   }
+  // }, [selectedIndex, convertedCategory, listRefs]);
 
   useEffect(() => {
     let page = 1;
@@ -123,7 +147,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
       if (response && response.documents.length === 0) {
         setCategoryList([]);
-        // setMarkers([]);
+        setMarkers([]);
         setNodata(true);
         return;
       }
@@ -131,7 +155,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
       if (response && response?.documents) {
         setNodata(false);
         const copiedResData = cloneDeep(response.documents);
-        // const copiedResMarkerData = cloneDeep(response.documents);
+        const copiedResMarkerData = cloneDeep(response.documents);
 
         const convertedResData = copiedResData.map((item) => {
           if (item.category_group_code === KakaoMapCategoryCode.SUBWAY) {
@@ -151,7 +175,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         });
 
         setCategoryList((prev) => [...prev, ...convertedResData]);
-        // setMarkers((prev) => [...prev, ...copiedResMarkerData]);
+        setMarkers((prev) => [...prev, ...copiedResMarkerData]);
       }
 
       if (response && !response?.meta.is_end) {
@@ -184,22 +208,80 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     };
   }, [activeCategory, danji]);
 
+  const convertPlaceName = ({ category, name }: { category?: string; name?: string }) => {
+    if (!name) return '';
+
+    if (category === KakaoMapCategoryCode.SUBWAY) {
+      const index = name.indexOf('역');
+      return name.slice(0, index + 1);
+    }
+
+    return name;
+  };
+
+  useEffect(() => {
+    if (convertedCategory && convertedCategory.length > 0 && interactionState.selectedAroundMarker) {
+      const index = convertedCategory.findIndex(
+        (item) =>
+          item.address_name === interactionState?.selectedAroundMarker?.addressName ||
+          `aroundMarker:${item.id}` === interactionState?.selectedAroundMarker?.id,
+      );
+
+      if (index === -1) {
+        const anotherIndex = convertedCategory.findIndex(
+          (item) =>
+            convertPlaceName({ category: item.category_group_code, name: item.place_name }) ===
+            convertPlaceName({
+              category: interactionState.selectedAroundMarker?.type,
+              name:
+                typeof interactionState.selectedAroundMarker?.place === 'string'
+                  ? interactionState.selectedAroundMarker?.place
+                  : interactionState?.selectedAroundMarker?.place
+                  ? interactionState?.selectedAroundMarker?.place[0]
+                  : '',
+            }),
+        );
+
+        setSelctedIndex(anotherIndex);
+        if (anotherIndex > 2) {
+          setSliceNum(convertedCategory.length);
+        }
+      } else {
+        setSelctedIndex(index);
+        if (index > 2) {
+          setSliceNum(convertedCategory.length);
+        }
+      }
+    }
+  }, [interactionState.selectedAroundMarker, convertedCategory]);
+
+  useEffect(() => {
+    if (typeof selectedIndex === 'number' && selectedIndex > 2) {
+      setIsMoreClick(true);
+    }
+  }, [selectedIndex]);
+
   if (!danji) return null;
 
   return (
     <div tw="w-full pt-10 pb-10 px-5 [min-height: 600px]">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">교통 및 주변정보</span>
-        {/* <Button
+        <Button
           size="small"
           variant="outlined"
-          selected={!!buttonState?.around}
+          selected={interactionState.around}
           onClick={() => {
-            handleAroundButton();
+            if (interactionState.around) {
+              interactionStore.makeAroundOff();
+            } else {
+              interactionStore.makeAroundOn();
+              interactionStore.makeAroundMarker(convertedMarker);
+            }
           }}
         >
-          정보보기
-        </Button> */}
+          지도에서 보기
+        </Button>
       </div>
       <div
         role="presentation"
@@ -242,13 +324,34 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           {convertedCategory.slice(0, sliceNum).map((item, index) => (
             <div
               tw="flex items-center"
+              ref={(element) => {
+                listRefs.current[index] = element;
+              }}
               css={[
                 index === 0
                   ? tw`[border-top: 1px solid #F4F6FA] [border-bottom: 1px solid #F4F6FA] px-4 py-2`
                   : tw`[border-bottom: 1px solid #F4F6FA] px-4 py-2`,
+                (item.address_name === interactionState.selectedAroundMarker?.addressName ||
+                  convertPlaceName({ category: item.category_group_code, name: item.place_name }) ===
+                    convertPlaceName({
+                      category: interactionState.selectedAroundMarker?.type,
+                      name:
+                        typeof interactionState.selectedAroundMarker?.place === 'string'
+                          ? interactionState.selectedAroundMarker?.place
+                          : interactionState?.selectedAroundMarker?.place
+                          ? interactionState?.selectedAroundMarker?.place[0]
+                          : '',
+                    })) &&
+                  tw`bg-[#F3F0FF]`,
+                interactionState.around && tw`cursor-pointer`,
               ]}
               id={item.id}
               key={item.id}
+              onClick={() => {
+                if (interactionState.around) {
+                  interactionStore.makeSelectedAround(`aroundMarker:${item.id}`, item.address_name);
+                }
+              }}
             >
               {activeCategory.SW8 && (
                 <ConvertArrayToSubwayComponent
