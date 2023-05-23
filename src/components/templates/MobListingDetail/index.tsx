@@ -424,7 +424,7 @@ export default function MobListingDetail({
                   </Table.Row>
                 )}
                 <Table.Row>
-                  <Table.Head>고정관리비</Table.Head>
+                  <Table.Head>관리비</Table.Head>
                   <Table.Data>
                     {listingDetail?.listing?.administrative_fee ? (
                       <Numeral>{listingDetail?.listing?.administrative_fee}</Numeral>
