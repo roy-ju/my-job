@@ -30,7 +30,6 @@ export interface IFormContext {
   onChangeRemainingAmountDateType?: (value: string) => void;
 
   canHaveEarilerMoveInDate?: boolean | null;
-  onChangeCanHaveEarilerMoveInDate?: (value: boolean | null) => void;
   moveInDate?: Date | null;
   moveInDateType?: string;
   onChangeMoveInDate?: (value: Date | null) => void;

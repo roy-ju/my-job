@@ -15,7 +15,6 @@ export default async function updateBidding(req: any) {
         can_have_earlier_remaining_amount_payment_time: null,
         remaining_amount_payment_time: null,
         remaining_amount_payment_time_type: null,
-        can_have_earlier_move_in_date: null,
         move_in_date: null,
         move_in_date_type: null,
 

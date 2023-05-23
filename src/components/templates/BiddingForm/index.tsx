@@ -51,7 +51,6 @@ export default function BiddingForm({
   onChangeRemainingAmountDateType,
 
   canHaveEarilerMoveInDate,
-  onChangeCanHaveEarilerMoveInDate,
   moveInDate,
   moveInDateType,
   onChangeMoveInDate,
@@ -96,7 +95,6 @@ export default function BiddingForm({
       onChangeRemainingAmountDateType,
 
       canHaveEarilerMoveInDate,
-      onChangeCanHaveEarilerMoveInDate,
       moveInDate,
       moveInDateType,
       onChangeMoveInDate,
@@ -137,7 +135,6 @@ export default function BiddingForm({
       onChangeRemainingAmountDateType,
 
       canHaveEarilerMoveInDate,
-      onChangeCanHaveEarilerMoveInDate,
       moveInDate,
       moveInDateType,
       onChangeMoveInDate,
