@@ -82,7 +82,9 @@ export default function AddressSearchForm({ value: valueProp, onChange, onSubmit
             type="button"
             key={result.id}
             value={result.placeName}
-            onClick={() => onSubmit?.(result)}
+            onClick={() => {
+              onSubmit?.(result);
+            }}
             tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
           >
             <div tw="flex items-center justify-between">
