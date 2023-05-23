@@ -90,7 +90,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
   }, [activeCategory, update]);
 
-  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [markers]);
+  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [update]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);

@@ -427,7 +427,7 @@ export default function useMapLayout() {
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
       if (interactionSelectedMarker) return;
 
-      console.log("hi")
+
 
       abortControllerRef.current?.abort();
       abortControllerRef.current = new AbortController();
@@ -935,6 +935,8 @@ export default function useMapLayout() {
           item.id === interactionState?.selectedAround?.id ||
           item.addressName === interactionState?.selectedAround?.addressName,
       );
+
+
       setSelectedMarker(selectedAround[0]);
       interactionAction.makeSelectedAroundMarker(selectedAround[0]);
     }
@@ -1175,7 +1177,6 @@ export default function useMapLayout() {
 
   useEffect(() => {
     if (!interactionState.school && !interactionState.around) {
-      console.log("hi")
       setSelectedInteractionMarker(null);
     }
   }, [interactionState.school, interactionState.around]);
