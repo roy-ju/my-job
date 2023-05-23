@@ -1,3 +1,5 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
 import getSchools from '@/apis/map/mapSchools';
 import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
@@ -64,6 +66,14 @@ export interface ListingDanjiMarker extends CommonMarker {
 export interface SchoolMarker extends CommonMarker {
   type: string;
   name: string;
+}
+
+export interface AroundMarker extends CommonMarker {
+  type: string;
+  place?: string | string[];
+  duplicatedCount?: number;
+  distance?: string;
+  addressName?: string;
 }
 
 export interface MapBounds {
@@ -208,8 +218,10 @@ export default function useMapLayout() {
   const [markers, setMarkers] = useState<ListingDanjiMarker[]>([]);
 
   const [schoolMarkers, setSchoolMarkers] = useState<SchoolMarker[]>([]);
+  const [aroundMarkers, setAroundMarkers] = useState<AroundMarker[]>([]);
 
   const [polygons, setPolygons] = useState<naver.maps.Polygon[]>([]);
+  const [circle, setCircle] = useState<naver.maps.Circle>();
 
   const [selectedMarker, setSelectedMarker] = useState<CommonMarker | null>(null);
 
@@ -604,6 +616,65 @@ export default function useMapLayout() {
   );
 
   /**
+   * 주변정보 마커를 그린다.
+   */
+  const updateAroundMarkers = useCallback(
+    async (_map: NaverMap) => {
+      if (interactionState.around && interactionState.aroundMarkers && interactionState.aroundMarkers.length > 0) {
+        setAroundMarkers(
+          interactionState.aroundMarkers.map((item) => {
+            const markerID = `aroundMarker:${item.id}`;
+
+            if (typeof item.distance === 'string' && typeof item.place_name === 'string') {
+              return {
+                id: markerID,
+                lat: Number(item.y),
+                lng: Number(item.x),
+                place: item.place_name,
+                type: item.category_group_code,
+                addressName: item.address_name,
+                onClick(this) {
+                  if (isPanningRef.current) return;
+                  setSelectedMarker(this);
+                  interactionAction.makeSelectedAroundMarker(this);
+                },
+              };
+            }
+
+            // @ts-ignore
+            const array = item.place_name.map((place) => ({
+              placeName: place,
+            }));
+
+            // @ts-ignore
+            item.distance.forEach(
+              (item: string, index: number) => (array[index].distance = item),
+              // @ts-ignore
+            );
+
+            return {
+              id: markerID,
+              lat: Number(item.y[0]),
+              lng: Number(item.x[0]),
+              type: item.category_group_code,
+              place: item.place_name,
+              addressName: item.address_name,
+              duplicatedCount: item.x.length,
+
+              onClick(this) {
+                if (isPanningRef.current) return;
+                setSelectedMarker(this);
+                interactionAction.makeSelectedAroundMarker(this);
+              },
+            };
+          }) ?? [],
+        );
+      }
+    },
+    [interactionState.around, interactionState.aroundMarkers],
+  );
+
+  /**
    * 지도 코너 좌표값을 업데이트 한다.
    */
   const updateBounds = useCallback((m: NaverMap) => {
@@ -651,13 +722,27 @@ export default function useMapLayout() {
   const onMapClick = useCallback(
     async (_map: NaverMap, e: { latlng: naver.maps.LatLng }) => {
       setPolygons([]);
+
       setSelectedMarker(null);
       setSearchResultMarker(null);
+
       interactionAction.makeSchoolOff();
+      interactionAction.makeAroundOff();
+      interactionAction.makeAroundMarkerDefault();
+      interactionAction.makeSelectedAroundMarkerDefault();
+      interactionAction.makeSelectedSchoolMarkerDefault();
+
       setSelectedInteractionMarker(null);
       lastSearchItem.current = null;
       markersToBeSelected.current = [];
       interactionMarkersToBeSelected.current = [];
+
+      setTimeout(() => {
+        circle?.onRemove();
+        setTimeout(() => {
+          setCircle(undefined);
+        }, 0);
+      }, 0);
 
       if (mapLayer === 'street') {
         const response = await coordToRegion(e.latlng.lng(), e.latlng.lat());
@@ -670,7 +755,7 @@ export default function useMapLayout() {
         }
       }
     },
-    [router, mapLayer],
+    [router, mapLayer, circle],
   );
 
   /**
@@ -790,17 +875,24 @@ export default function useMapLayout() {
       case 'regionMarker':
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, _map.getZoom() + 2);
         break;
+
       case 'danjiMarker':
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
         break;
+
       case 'listingMarker':
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
         break;
+
       case 'schoolMarker':
         if (markerKey) renderHakgudoPolygon(_map, markerKey);
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
-
         break;
+
+      case 'aroundMarker':
+        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+        break;
+
       default:
         break;
     }
@@ -821,6 +913,30 @@ export default function useMapLayout() {
       interactionAction.makeSelectedSchoolMarker(selectedSchool[0]);
     }
   }, [interactionState?.selectedSchool?.id]);
+
+  useEffect(() => {
+    if (!isPanningRef) return;
+
+    if (!interactionState?.selectedAround?.id || !interactionState?.selectedAround?.addressName) {
+      setSelectedMarker(null);
+      setPolygons([]);
+      return;
+    }
+
+    if (
+      interactionState?.selectedAround?.id &&
+      interactionState?.selectedAround?.addressName &&
+      aroundMarkers.length > 0
+    ) {
+      const selectedAround = aroundMarkers.filter(
+        (item) =>
+          item.id === interactionState?.selectedAround?.id ||
+          item.addressName === interactionState?.selectedAround?.addressName,
+      );
+      setSelectedMarker(selectedAround[0]);
+      interactionAction.makeSelectedAroundMarker(selectedAround[0]);
+    }
+  }, [interactionState?.selectedAround?.id, interactionState?.selectedAround?.addressName, aroundMarkers]);
 
   /**
    * 맵이 이동할때마다, 마커를 그린다.
@@ -856,6 +972,10 @@ export default function useMapLayout() {
   }, [mapState?.naverMap, bounds, schoolType, updateSchoolMarkers, interactionState.schoolMarkers]);
 
   /**
+   * 주변정보 활성화되어있으면, 주변정보 마커를 그린다.
+   */
+
+  /**
    * 폴리곤을 그린다.
    */
   useIsomorphicLayoutEffect(
@@ -875,7 +995,26 @@ export default function useMapLayout() {
       setPolygons([]);
       setSelectedMarker(null);
     }
-  }, [schoolType]);
+  }, [schoolType, interactionState.school]);
+
+  useEffect(() => {
+    console.log("hi")
+    interactionAction.makeSelectedAroundMarkerDefault();
+  }, [interactionState.activeCategory]);
+
+  /**
+   * 주변정보 활성화되어있으면, 주변정보 마커를 그린다.
+   */
+
+  useEffect(() => {
+    if (mapState?.naverMap && interactionState.around) {
+      updateAroundMarkers(mapState?.naverMap);
+    } else {
+      setAroundMarkers([]);
+      setSelectedMarker(null);
+      interactionAction.makeSelectedAroundMarkerDefault();
+    }
+  }, [mapState?.naverMap, updateAroundMarkers, interactionState.around]);
 
   /**
    * 필터의 거래종류가 바뀔때 가격필터를 초기화한다
@@ -1003,13 +1142,26 @@ export default function useMapLayout() {
       interactionMarkersToBeSelected.current.push(marker);
     };
 
+    window.Negocio.callbacks.selectAroundInteraction = (marker: CommonMarker) => {
+      if (marker.lat && marker.lng) {
+        mapState.naverMap?.morph({ lat: marker.lat, lng: marker.lng }, 16);
+      }
+
+      interactionMarkersToBeSelected.current.push(marker);
+    };
+
     return () => {
       delete window.Negocio.callbacks.selectSchoolInteraction;
+      delete window.Negocio.callbacks.selectAroundInteraction;
     };
   }, [mapState.naverMap]);
 
   useEffect(() => {
-    if (interactionState?.school && interactionState?.danjiData && interactionMarkersToBeSelected.current) {
+    if (
+      (interactionState?.school || interactionState?.around) &&
+      interactionState?.danjiData &&
+      interactionMarkersToBeSelected.current
+    ) {
       const m = markers.filter(
         (item) => item.lat === interactionState?.danjiData?.lat && item.lng === interactionState?.danjiData?.long,
       );
@@ -1018,13 +1170,59 @@ export default function useMapLayout() {
         interactionMarkersToBeSelected.current = [];
       }
     }
-  }, [interactionState?.school, interactionState?.danjiData, markers]);
+  }, [interactionState?.school, interactionState?.around, interactionState?.danjiData, markers]);
 
   useEffect(() => {
-    if (!interactionState.school) {
+    if (!interactionState.school && !interactionState.around) {
       setSelectedInteractionMarker(null);
     }
-  }, [interactionState.school]);
+  }, [interactionState.school, interactionState.around]);
+
+  const renderCircle = useCallback(
+    (m: NaverMap, interSelectedMarker: CommonMarker | null) => {
+      if (!mapState.naverMap || !interSelectedMarker) return;
+
+      if (circle) return;
+
+      if (interSelectedMarker) {
+        const circlePoly = new naver.maps.Circle({
+          map: m,
+          center: { lat: interSelectedMarker.lat, lng: interSelectedMarker.lng },
+          radius: 1000,
+          fillColor: '#4c6EF5',
+          fillOpacity: 0.1,
+          strokeColor: '#364FC7',
+          strokeWeight: 0.5,
+        });
+
+        setCircle(circlePoly);
+
+        return circlePoly;
+      }
+    },
+    [interactionState.around, circle],
+  );
+
+  useEffect(() => {
+    if (circle && !interactionState.around) {
+      setTimeout(() => {
+        circle.onRemove();
+        setTimeout(() => {
+          setCircle(undefined);
+        }, 0);
+      }, 0);
+    }
+  }, [interactionState.around, circle]);
+
+  useEffect(() => {
+    if (!mapState.naverMap) return;
+
+    if (interactionState.around && interactionSelectedMarker) {
+      const _map = mapState.naverMap;
+
+      renderCircle(_map, interactionSelectedMarker);
+    }
+  }, [interactionState.around, mapState.naverMap, interactionSelectedMarker]);
 
   return {
     // common map handlers and properties
@@ -1075,5 +1273,6 @@ export default function useMapLayout() {
     interactionSelectedMarker,
     danjiSummary,
     searchResultMarker,
+    aroundMarkers,
   };
 }

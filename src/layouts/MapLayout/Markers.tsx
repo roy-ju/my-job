@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-return-assign */
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { DanjiMarker, ListingMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
@@ -11,16 +14,21 @@ import MyMarkerIcon from '@/assets/icons/my_location.svg';
 import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
 import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
 import { schoolAroundState } from '@/states/danjiButton';
+import { styled } from 'twin.macro';
+import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import {
+  AroundMarker as AroundMarkerType,
   CommonMarker,
   ListingDanjiMarker as ListingDanjiMarkerType,
   SchoolMarker as SchoolMarkerType,
 } from './useMapLayout';
+import AroundMarker from './AroundMarker';
 
 interface MarkersProps {
   mapLevel: number;
   markers: ListingDanjiMarkerType[];
   schoolMarkers: SchoolMarkerType[];
+  aroundMarkers: AroundMarkerType[];
   myMarker?: { lat: number; lng: number } | null;
   searchResultMarker?: { lat: number; lng: number } | null;
   selectedMarker?: CommonMarker | null;
@@ -32,21 +40,73 @@ export default function Markers({
   mapLevel,
   markers,
   schoolMarkers,
+  aroundMarkers,
   myMarker,
   searchResultMarker,
   selectedMarker,
   danjiSummary,
   interactionSelectedMarker,
 }: MarkersProps) {
-  const { school } = useRecoilValue(schoolAroundState);
+  const { school, around, selectedAroundMarker, selectedSchoolMarker } = useRecoilValue(schoolAroundState);
 
-  if (school) {
+  if (school || around) {
     return (
       <>
+        {aroundMarkers.length > 0 &&
+          aroundMarkers.map((item) => {
+            if (typeof item.distance === 'string' && typeof item.place === 'string') {
+              return (
+                <DeferredRender key={item.id}>
+                  <CustomOverlay
+                    key={item.id}
+                    position={{
+                      lat: item.lat,
+                      lng: item.lng,
+                    }}
+                    zIndex={selectedAroundMarker?.id === item.id ? 100 : 9}
+                    anchor="bottom-left"
+                  >
+                    <AroundMarker
+                      type={item.type}
+                      place={item.place}
+                      onClick={() => {
+                        item.onClick?.call(item);
+                      }}
+                      selected={selectedAroundMarker?.id === item.id}
+                    />
+                  </CustomOverlay>
+                </DeferredRender>
+              );
+            }
+
+            return (
+              <DeferredRender key={item.id}>
+                <CustomOverlay
+                  position={{
+                    lat: item.lat,
+                    lng: item.lng,
+                  }}
+                  zIndex={selectedAroundMarker?.id === item.id ? 100 : 9}
+                  anchor="bottom-left"
+                >
+                  <AroundMarker
+                    type={item.type}
+                    duplicatedCount={item.duplicatedCount}
+                    place={item.place}
+                    onClick={() => {
+                      item.onClick?.call(item);
+                    }}
+                    selected={selectedAroundMarker?.id === item.id}
+                  />
+                </CustomOverlay>
+              </DeferredRender>
+            );
+          })}
+
         {schoolMarkers?.map((marker) => (
           <DeferredRender key={marker.id}>
             <CustomOverlay
-              zIndex={selectedMarker?.id === marker.id ? 100 : 9}
+              zIndex={selectedSchoolMarker?.id === marker.id ? 100 : 9}
               anchor="bottom-left"
               position={{
                 lat: marker.lat,
@@ -54,7 +114,7 @@ export default function Markers({
               }}
             >
               <SchoolMarker
-                selected={selectedMarker?.id === marker.id}
+                selected={selectedSchoolMarker?.id === marker.id}
                 onClick={() => {
                   marker.onClick?.call(marker);
                 }}
