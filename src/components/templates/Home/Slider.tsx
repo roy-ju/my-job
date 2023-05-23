@@ -1,5 +1,6 @@
 import ArrowIcon from '@/assets/icons/chevron_left_24.svg';
 import React, { useLayoutEffect, useRef, useState } from 'react';
+import { styled } from 'twin.macro';
 
 export interface SliderProps {
   children?: React.ReactNode;
@@ -8,9 +9,21 @@ export interface SliderProps {
   length?: number;
 }
 
+const Container = styled.div`
+  display: flex;
+  position: relative;
+  overflow-x: hidden;
+  width: 380px
+  &::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+`;
+
 const DEFAULT_TRANSITION_DURATION = 150;
 
-export default function Slider({ children, slideWidth = 380, panelWidth = 380, length = 0 }: SliderProps) {
+export default function Slider({ children, slideWidth = 380, length = 0 }: SliderProps) {
   const [sliderIndex, setSliderIndex] = useState(0);
   const [isLastSlide, setIsLastSlide] = useState(false);
   const [clickedButton, setClickedButton] = useState<'left' | 'right'>();
@@ -86,7 +99,7 @@ export default function Slider({ children, slideWidth = 380, panelWidth = 380, l
   };
 
   return (
-    <div tw="relative flex" style={{ width: panelWidth }}>
+    <Container>
       <div
         ref={sliderRef}
         tw="shrink-0 transition-transform"
@@ -114,6 +127,6 @@ export default function Slider({ children, slideWidth = 380, panelWidth = 380, l
           </button>
         </>
       )}
-    </div>
+    </Container>
   );
 }
