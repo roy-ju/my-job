@@ -221,7 +221,7 @@ function MobLayoutMapContainer({
       {selectedDanjiSummary && <MobDanjiSummary selectedDanjiSummary={selectedDanjiSummary} />}
       {/* {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />} */}
 
-      <MobGlobalNavigation index={2} unreadChatCount={unreadChatCount} />
+      <MobGlobalNavigation index={2} />
     </div>
   );
 }

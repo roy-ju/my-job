@@ -1,4 +1,3 @@
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
@@ -7,16 +6,18 @@ import { My as MyTemplate } from '@/components/templates';
 import { MobileContainer } from '@/components/atoms';
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { MobGlobalNavigation } from '@/components/organisms';
-import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
+import useSyncronizer from '@/states/syncronizer';
+import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 
 export default function MobMy() {
   const router = useRouter();
 
   const { user, isLoading } = useAuth();
-  const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
-  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
+  const { unreadChatCount } = useSyncronizer();
+
+  const { count } = useAPI_GetUnreadNotificationCount();
 
   const handleClickLogin = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
@@ -129,7 +130,7 @@ export default function MobMy() {
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
       <MyTemplate
-        unreadNotificationCount={unreadNotificationCount}
+        unreadNotificationCount={count}
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}

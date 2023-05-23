@@ -40,6 +40,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       }
       onError.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Closed);
+      console.error('Websocket Error', event);
     };
 
     webSocket.onopen = (event) => {
@@ -48,6 +49,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       }
       onOpen.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Open);
+      console.log('Websocket connection opened', event);
     };
 
     webSocket.onmessage = (event) => {
@@ -63,6 +65,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       }
       onClose.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Closed);
+      console.log('Websocket connection closed', event);
     };
 
     webSocketRef.current = webSocket;

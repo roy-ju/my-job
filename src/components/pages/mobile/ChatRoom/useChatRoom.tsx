@@ -1,12 +1,15 @@
 import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
 import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
+import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 import { IChatMessage } from '@/components/templates/ChatRoom/ChatMessageWrapper';
 import { ChatUserType } from '@/constants/enums';
 import Keys from '@/constants/storage_keys';
 import { useLocalStorage } from '@/hooks/utils';
 import useLatest from '@/hooks/utils/useLatest';
-import useWebSocket from '@/hooks/utils/useWebSocket';
+import usePageVisibility from '@/hooks/utils/usePageVisibility';
+import useWebSocket, { WebSocketReadyState } from '@/hooks/utils/useWebSocket';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { mutate } from 'swr';
 
 interface WebSocketMessage {
   message: string;
@@ -16,6 +19,8 @@ interface WebSocketMessage {
 }
 
 export default function useChatRoom(chatRoomID: number) {
+  const pageVisible = usePageVisibility();
+
   const [isLoading, setIsLoading] = useState(true);
   const { data } = useAPI_ChatRoomDetail(chatRoomID);
   const [accessToken] = useLocalStorage(Keys.ACCESS_TOKEN, '');
@@ -34,8 +39,10 @@ export default function useChatRoom(chatRoomID: number) {
     setChatMessages((prev) => prev.map((item) => (item.agentReadTime ? item : { ...item, agentReadTime: new Date() })));
   }, []);
 
-  const { connect, sendMessage } = useWebSocket(webSocketUrl, {
-    onOpen: () => {},
+  const { connect, disconnect, sendMessage, readyState } = useWebSocket(webSocketUrl, {
+    onOpen: () => {
+      setTextFieldDisabled(false);
+    },
     onClose: () => {
       setTextFieldDisabled(true);
     },
@@ -87,10 +94,11 @@ export default function useChatRoom(chatRoomID: number) {
   }, [data]);
 
   useEffect(() => {
-    if (webSocketUrl !== '') {
+    if (pageVisible && webSocketUrl !== '') {
       connect();
     }
-  }, [connect, webSocketUrl]);
+    return () => disconnect();
+  }, [connect, webSocketUrl, pageVisible, disconnect]);
 
   const handleSendMessage = useCallback(
     (message: string) => {
@@ -104,6 +112,21 @@ export default function useChatRoom(chatRoomID: number) {
     },
     [sendMessage, data?.chat_user_type],
   );
+
+  useEffect(() => {
+    const lastChat = chatMessages[chatMessages.length - 1];
+    if (lastChat && data?.chat_user_type && readyState === WebSocketReadyState.Open) {
+      updateChatMessagesRead(chatRoomID).then(() => mutate('/chat/room/list'));
+      sendMessage(
+        JSON.stringify({
+          chat_user_type: data?.chat_user_type,
+          read_chat_id: lastChat.id,
+        }),
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatRoomID, chatMessages.length, data?.chat_user_type, sendMessage, readyState]);
 
   return {
     isTextFieldDisabled: textFieldDisabled,
