@@ -100,6 +100,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
     interactionStore.makeCategory(id as string);
     interactionStore.makeSelectedAroundMarkerDefault();
+    interactionStore.makeSelectedAroundDefault();
 
     if (id === Object.keys(activeCategory)[0]) return;
 
@@ -124,11 +125,20 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     }
   }, [activeCategory, update]);
 
-  // useEffect(() => {
-  //   if (listRefs && typeof selectedIndex === 'number') {
-  //     listRefs.current[selectedIndex].scrollIntoView(true);
-  //   }
-  // }, [selectedIndex, convertedCategory, listRefs]);
+  useEffect(() => {
+    const scrollContainer = document.getElementById('scroll-container');
+
+    if (listRefs?.current && typeof selectedIndex === 'number' && scrollContainer) {
+      console.log(selectedIndex);
+      // listRefs?.current[selectedIndex]?.scrollIntoView({ behavior: 'smooth', block: 'middle', inline: 'nearest' });
+      const height = listRefs?.current[selectedIndex]?.getBoundingClientRect().top ?? 0;
+
+      scrollContainer.scrollBy({
+        top: height - 450,
+        behavior: 'smooth',
+      });
+    }
+  }, [selectedIndex, convertedCategory, listRefs?.current]);
 
   useEffect(() => {
     let page = 1;
