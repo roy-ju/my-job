@@ -15,8 +15,9 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const { user, isLoading } = useAuth();
-  const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
+
+  const { count } = useAPI_GetUnreadNotificationCount();
 
   const handleClickLogin = useCallback(() => {
     router.push(Routes.Login);
@@ -95,10 +96,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <MyTemplate
-        unreadNotificationCount={unreadNotificationCount}
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        unreadNotificationCount={count}
         dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}

@@ -6,7 +6,6 @@ import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLogge
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 
 import { MobHome as HomeTemplate } from '@/components/templates';
 import Paths from '@/constants/paths';
@@ -15,14 +14,13 @@ import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
-import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
+import useSyncronizer from '@/states/syncronizer';
+import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 
 export default function Home() {
   const router = useRouter();
 
   const { user } = useAuth();
-
-  const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
 
   const { data: realPriceData } = useAPI_GetRecentRealPrices();
 
@@ -34,7 +32,9 @@ export default function Home() {
 
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
 
-  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
+  const { count } = useAPI_GetUnreadNotificationCount();
+
+  const { unreadChatCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
@@ -119,7 +119,7 @@ export default function Home() {
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
         user={user}
-        unreadNotificationCount={unreadNotificationCount}
+        unreadNotificationCount={count}
         recentRealPriceList={realPriceData?.list}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}
