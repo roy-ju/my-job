@@ -63,6 +63,7 @@ export default function ChatRoom({
   const messagesRef = useLatest(chatMessages);
   const sizeMap = useRef<Record<number, number>>({});
   const [adjusted, setAdjusted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const [list, setList] = useState<VariableSizeList<any> | null>(null);
 
@@ -108,19 +109,22 @@ export default function ChatRoom({
 
   const getItemSize = useCallback((index: number) => {
     console.log(sizeMap.current[index]);
-    return sizeMap.current[index] ?? 10;
+    return sizeMap.current[index] ?? 0;
   }, []);
 
   const [showListingList, setShowListingList] = useState(false);
 
   useEffect(() => {
     list?.resetAfterIndex(0);
-    setTimeout(() => setAdjusted(true), 300);
+    setTimeout(() => setAdjusted(true), 500);
   }, [list]);
 
   useEffect(() => {
-    list?.scrollToItem(chatMessages.length - 1, 'end');
-  }, [list, chatMessages]);
+    if (adjusted) {
+      list?.scrollToItem(chatMessages.length - 1, 'start');
+      setScrolled(true);
+    }
+  }, [list, chatMessages, adjusted]);
 
   return (
     <div tw="flex flex-col h-full relative">
@@ -142,27 +146,28 @@ export default function ChatRoom({
         <div> {title + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}</div>
         <div tw="shrink-0 mt-1 self-start  underline text-info text-gray-1000">더보기</div>
       </button>
-      <div tw="flex-1 min-h-0 overflow-y-hidden border-t border-gray-300">
+      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden border-t border-gray-300">
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (
-          <AutoSizer>
-            {({ width, height }) => (
-              <List
-                ref={setList}
-                height={height ?? 0}
-                width={width ?? 0}
-                itemCount={chatMessages.length}
-                itemSize={getItemSize}
-                onItemsRendered={({ overscanStartIndex }) => {
-                  list?.resetAfterIndex(overscanStartIndex);
-                }}
-                style={{ opacity: adjusted ? 1 : 0 }}
-              >
-                {renderRow}
-              </List>
-            )}
-          </AutoSizer>
+          <div tw="flex-1 min-h-0" style={{ opacity: scrolled ? 1 : 0 }}>
+            <AutoSizer>
+              {({ width, height }) => (
+                <List
+                  ref={setList}
+                  height={height ?? 0}
+                  width={width ?? 0}
+                  itemCount={chatMessages.length}
+                  itemSize={getItemSize}
+                  onItemsRendered={({ overscanStartIndex }) => {
+                    list?.resetAfterIndex(overscanStartIndex);
+                  }}
+                >
+                  {renderRow}
+                </List>
+              )}
+            </AutoSizer>
+          </div>
         )}
       </div>
       <div tw="px-5 pt-4 pb-10">
