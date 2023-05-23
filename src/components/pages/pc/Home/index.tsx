@@ -17,8 +17,6 @@ export default memo(() => {
 
   const { user } = useAuth();
 
-  const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
-
   const { data: realPriceData } = useAPI_GetRecentRealPrices();
 
   const { data: suggestData } = useAPI_GetMostSuggests();
@@ -28,6 +26,8 @@ export default memo(() => {
   const { data: listingsForUserData } = useAPI_GetListingsForTheLoggedIn();
 
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
+
+  const { count } = useAPI_GetUnreadNotificationCount();
 
   const handleClickLogin = useCallback(() => {
     router.replace(Routes.Login);
@@ -107,7 +107,7 @@ export default memo(() => {
     <Panel>
       <Home
         user={user}
-        unreadNotificationCount={unreadNotificationCount}
+        unreadNotificationCount={count}
         recentRealPriceList={realPriceData?.list}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}
