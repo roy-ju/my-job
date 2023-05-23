@@ -107,10 +107,12 @@ export default function ChatRoom({
     [messagesRef, agentDescription, agentName, agentProfileImagePath, officeName],
   );
 
-  const getItemSize = useCallback((index: number) => {
-    console.log(sizeMap.current[index]);
-    return sizeMap.current[index] ?? 0;
-  }, []);
+  const getItemSize = useCallback(
+    (index: number) =>
+      // console.log(sizeMap.current[index]);
+      sizeMap.current[index] ?? 0,
+    [],
+  );
 
   const [showListingList, setShowListingList] = useState(false);
 
