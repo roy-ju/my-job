@@ -998,7 +998,6 @@ export default function useMapLayout() {
   }, [schoolType, interactionState.school]);
 
   useEffect(() => {
-    console.log("hi")
     interactionAction.makeSelectedAroundMarkerDefault();
   }, [interactionState.activeCategory]);
 
