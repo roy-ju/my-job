@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import getDanjiSchoolsMarker from '@/apis/map/danjiMapSchools';
+
 import { atom, useRecoilState } from 'recoil';
 import { v1 } from 'uuid';
-import useMap from './map';
 
 interface CommonMarker {
   id: string;
@@ -21,29 +21,62 @@ interface SelectedSchool {
   id?: string;
 }
 
+interface SelectedAround {
+  id?: string;
+  addressName?: string;
+}
+
+interface AroundMarker extends CommonMarker {
+  type: string;
+  place?: string | string[];
+  duplicatedCount?: number;
+  distance?: string;
+  addressName?: string;
+}
+
+interface AroundMarkers {
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  category_name: string;
+  distance: string;
+  place_name: string;
+  x: string;
+  y: string;
+  id: string;
+  phone: string;
+  road_address_name: string;
+  place_url: string;
+}
+
 export const schoolAroundState = atom<{
+  activeCategory: string;
   school: boolean;
   around: boolean;
   danjiData?: GetDanjiDetailResponse;
   selectedSchool?: SelectedSchool;
+  selectedAround?: SelectedAround;
   selectedSchoolMarker?: SchoolMarker;
+  selectedAroundMarker?: AroundMarker;
   schoolMarkers: SchoolMarker[];
+  aroundMarkers: AroundMarkers[];
 }>({
   key: `negocio_danji_interaction_map/${v1()}`,
   default: {
+    activeCategory: 'SW8',
     school: false,
     around: false,
     danjiData: undefined,
     selectedSchoolMarker: undefined,
+    selectedAroundMarker: undefined,
     schoolMarkers: [],
+    aroundMarkers: [],
   },
   dangerouslyAllowMutability: true,
 });
 
 export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanjiDetailResponse }) {
   const [state, setState] = useRecoilState(schoolAroundState);
-
-  const map = useMap();
 
   const makeSchoolOn = async () => {
     setState((prev) => ({ ...prev, school: true }));
@@ -133,7 +166,7 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       schoolMarkers: [],
       selectedSchool: {},
       selectedSchoolMarker: undefined,
-      danjiData: undefined,
+      // danjiData: undefined,
     }));
   };
 
@@ -142,22 +175,33 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
     setState((prev) => ({ ...prev, danjiData }));
 
     if (danjiData) {
-      map.naverMap?.morph({ lat: danjiData.lat, lng: danjiData.long }, 16);
+      window.Negocio.callbacks.selectAroundInteraction({
+        id: `danjiMarker:${danjiData.pnu}${danjiData.type}`,
+        lat: danjiData.lat,
+        lng: danjiData.long,
+      });
     }
   };
 
   const makeAroundOff = () => {
-    setState((prev) => ({ ...prev, around: false }));
+    setState((prev) => ({ ...prev, around: false, selectedAroundMarker: undefined }));
+  };
+
+  const makeCategory = (val: string) => {
+    setState((prev) => ({ ...prev, activeCategory: val }));
   };
 
   const makeDataReset = () => {
     setState({
+      activeCategory: 'SW8',
       school: false,
       around: false,
       danjiData: undefined,
       schoolMarkers: [],
+      aroundMarkers: [],
       selectedSchool: {},
       selectedSchoolMarker: undefined,
+      selectedAroundMarker: undefined,
     });
   };
 
@@ -177,19 +221,51 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
     setState((prev) => ({ ...prev, selectedSchoolMarker: undefined }));
   };
 
+  const makeSelectedAround = (id: string, ad: string) => {
+    setState((prev) => ({ ...prev, selectedAround: { id, addressName: ad } }));
+  };
+
+  const makeSelectedAroundDefault = () => {
+    setState((prev) => ({ ...prev, selectedAround: {} }));
+  };
+
+  const makeSelectedAroundMarker = (value: AroundMarker) => {
+    setState((prev) => ({ ...prev, selectedAroundMarker: value }));
+  };
+
+  const makeSelectedAroundMarkerDefault = () => {
+    setState((prev) => ({ ...prev, selectedAroundMarker: undefined }));
+  };
+
+  const makeAroundMarker = (value: AroundMarkers[]) => {
+    setState((prev) => ({ ...prev, aroundMarkers: value }));
+  };
+
+  const makeAroundMarkerDefault = () => {
+    setState((prev) => ({ ...prev, aroundMarkers: [] }));
+  };
+
   return {
     isSchoolOn: state.school,
     isAroundOn: state.around,
     schoolMarkers: state.schoolMarkers,
     danji: state.danjiData,
+    activeCategory: state.activeCategory,
     makeSchoolOn,
     makeSchoolOff,
     makeAroundOn,
     makeAroundOff,
+    makeCategory,
     makeDataReset,
     makeSelectedSchool,
     makeSelectedSchoolDefault,
     makeSelectedSchoolMarker,
     makeSelectedSchoolMarkerDefault,
+    makeSelectedAround,
+    makeSelectedAroundDefault,
+    makeSelectedAroundMarker,
+    makeSelectedAroundMarkerDefault,
+    makeAroundMarker,
+    makeAroundMarkerDefault,
   };
 }
