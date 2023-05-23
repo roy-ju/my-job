@@ -442,72 +442,76 @@ export default function Home({
                 <div tw="pt-10 pb-6">
                   <div tw="px-5 font-bold text-h3">{user?.nickname}님을 위한 새로운 매물</div>
                   <div tw="px-5 text-b2 text-gray-700 mt-1">관심 단지 또는 주소 등록한 지역의 신규 매물이에요.</div>
-                  <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-                    <div tw="flex px-5 gap-5">
-                      {listingsForUser?.map((item) => (
-                        <motion.div
-                          whileHover={{
-                            scale: 1.05,
-                          }}
-                          key={item.listing_id}
-                          tw="w-[160px] hover:cursor-pointer"
-                          onClick={() => {
-                            if (!isDragging.current) onClickListing?.(item.listing_id);
-                          }}
-                        >
-                          <div
-                            tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
-                            style={{
-                              backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
-                                item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
-                              }')`,
-                            }}
-                          >
-                            <div tw="flex justify-end p-2">
-                              <FavoriteButton
-                                defaultSelected={item.is_favorite}
-                                onToggle={(selected) =>
-                                  !selected ? removeFavorite(item.listing_id) : addFavorite(item.listing_id)
-                                }
-                              />
-                            </div>
-                          </div>
-                          <div tw="flex gap-1 mb-2">
-                            <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                              {RealestateTypeString[item.realestate_type]}
-                            </Chip>
-                            <Chip variant="gray">{item.eubmyundong}</Chip>
-                          </div>
-                          {/* <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
-                            보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
-                          </div> */}
-                          <div tw="font-bold text-b1">
-                            {BuyOrRentString[item.buy_or_rent]}{' '}
-                            <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
-                            {Boolean(item.monthly_rent_fee) && (
-                              <span>
-                                /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
-                              </span>
-                            )}
-                          </div>
-                          <div tw="text-info text-gray-1000 whitespace-nowrap overflow-hidden text-ellipsis">
-                            {item.listing_title}
-                          </div>
-                          <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-                            {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
-                            {item.total_floor !== '0' && (
-                              <div>
-                                {item.floor_description
-                                  ? `${item.floor_description?.[0]}/${item.total_floor}층`
-                                  : `${item.total_floor}층`}
+                  <Slider slideWidth={176} length={listingsForUser?.length}>
+                    <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                      <div tw="flex px-5 gap-5">
+                        {Array.from({ length: 3 }, () =>
+                          listingsForUser?.map((item) => (
+                            <motion.div
+                              whileHover={{
+                                scale: 1.05,
+                              }}
+                              key={item.listing_id}
+                              tw="w-[160px] hover:cursor-pointer"
+                              onClick={() => {
+                                if (!isDragging.current) onClickListing?.(item.listing_id);
+                              }}
+                            >
+                              <div
+                                tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
+                                style={{
+                                  backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
+                                    item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
+                                  }')`,
+                                }}
+                              >
+                                <div tw="flex justify-end p-2">
+                                  <FavoriteButton
+                                    defaultSelected={item.is_favorite}
+                                    onToggle={(selected) =>
+                                      !selected ? removeFavorite(item.listing_id) : addFavorite(item.listing_id)
+                                    }
+                                  />
+                                </div>
                               </div>
-                            )}
-                            <div>{item.direction}</div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </HorizontalScroller>
+                              <div tw="flex gap-1 mb-2">
+                                <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                                  {RealestateTypeString[item.realestate_type]}
+                                </Chip>
+                                <Chip variant="gray">{item.eubmyundong}</Chip>
+                              </div>
+                              {/* <div tw="text-info mb-2 h-10 overflow-hidden text-ellipsis">
+                              보증금 월차임 둘다 조절 가능 / 각종 대출 가능 / 반려동물 가능 / 주차가능
+                            </div> */}
+                              <div tw="font-bold text-b1">
+                                {BuyOrRentString[item.buy_or_rent]}{' '}
+                                <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
+                                {Boolean(item.monthly_rent_fee) && (
+                                  <span>
+                                    /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
+                                  </span>
+                                )}
+                              </div>
+                              <div tw="text-info text-gray-1000 whitespace-nowrap overflow-hidden text-ellipsis">
+                                {item.listing_title}
+                              </div>
+                              <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
+                                {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                                {item.total_floor !== '0' && (
+                                  <div>
+                                    {item.floor_description
+                                      ? `${item.floor_description?.[0]}/${item.total_floor}층`
+                                      : `${item.total_floor}층`}
+                                  </div>
+                                )}
+                                <div>{item.direction}</div>
+                              </div>
+                            </motion.div>
+                          )),
+                        )}
+                      </div>
+                    </HorizontalScroller>
+                  </Slider>
                 </div>
               </div>
             )}
@@ -517,40 +521,44 @@ export default function Home({
                 <div tw="pt-10 pb-6">
                   <div tw="px-5 font-bold text-h3">여기 실거래가 얼마더라?</div>
                   <div tw="mt-1 px-5 text-b2 text-gray-700">관심 단지 또는 주소 등록한 지역의 최근 실거래가예요.</div>
-                  <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-                    <div tw="flex px-5 gap-5">
-                      {danjisForUser?.map((item) => (
-                        <motion.div
-                          whileHover={{
-                            scale: 1.05,
-                          }}
-                          key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
-                          tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                          onClick={() => {
-                            if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                          }}
-                        >
-                          <div tw="flex gap-1 mb-2">
-                            <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                              {RealestateTypeString[item.realestate_type]}
-                            </Chip>
-                            <Chip variant="gray">{item.eubmyundong}</Chip>
-                          </div>
-                          <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                            {item.name}
-                          </div>
-                          <div tw="flex items-center text-b2 mb-1">
-                            {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
-                            <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
-                            <Numeral koreanNumber tw="font-bold">
-                              {item.trade_or_deposit_price}
-                            </Numeral>
-                          </div>
-                          <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </HorizontalScroller>
+                  <Slider slideWidth={224} length={danjisForUser?.length}>
+                    <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                      <div tw="flex px-5 gap-5">
+                        {Array.from({ length: 3 }, () =>
+                          danjisForUser?.map((item) => (
+                            <motion.div
+                              whileHover={{
+                                scale: 1.05,
+                              }}
+                              key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
+                              tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                              onClick={() => {
+                                if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                              }}
+                            >
+                              <div tw="flex gap-1 mb-2">
+                                <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                                  {RealestateTypeString[item.realestate_type]}
+                                </Chip>
+                                <Chip variant="gray">{item.eubmyundong}</Chip>
+                              </div>
+                              <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                                {item.name}
+                              </div>
+                              <div tw="flex items-center text-b2 mb-1">
+                                {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
+                                <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
+                                <Numeral koreanNumber tw="font-bold">
+                                  {item.trade_or_deposit_price}
+                                </Numeral>
+                              </div>
+                              <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
+                            </motion.div>
+                          )),
+                        )}
+                      </div>
+                    </HorizontalScroller>
+                  </Slider>
                 </div>
               </div>
             )}

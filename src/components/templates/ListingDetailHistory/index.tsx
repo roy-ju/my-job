@@ -54,7 +54,6 @@ interface ListingDetailHistoryProps {
   tradeOrDepositPrice: number;
   list: listItemType[];
 
-  canHaveEarlierMoveInDate: boolean;
   canHaveEarlierRemainingAmountPaymentTime: boolean;
   canHaveMoreContractAmount: boolean;
   canHaveMoreInterimAmount: boolean;
@@ -121,7 +120,6 @@ export default function ListingDetailHistory({
   tradeOrDepositPrice,
   list,
 
-  canHaveEarlierMoveInDate,
   canHaveEarlierRemainingAmountPaymentTime,
   canHaveMoreContractAmount,
   canHaveMoreInterimAmount,
@@ -229,7 +227,6 @@ export default function ListingDetailHistory({
               isMonthlyRent={isMonthlyRent}
               biddingMonthlyRentFee={biddingMonthlyRentFee}
               biddingTradeOrDepositPrice={biddingTradeOrDepositPrice}
-              canHaveEarlierMoveInDate={canHaveEarlierMoveInDate}
               canHaveEarlierRemainingAmountPaymentTime={canHaveEarlierRemainingAmountPaymentTime}
               canHaveMoreContractAmount={canHaveMoreContractAmount}
               canHaveMoreInterimAmount={canHaveMoreInterimAmount}

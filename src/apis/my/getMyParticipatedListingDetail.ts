@@ -15,7 +15,6 @@ export interface GetMyParticipatedListingDetailResponse {
   buy_or_rent: number;
   buyer_agent_chat_room_id: number;
   buyer_agent_chat_room_closed: boolean;
-  can_have_earlier_move_in_date: boolean;
   can_have_earlier_remaining_amount_payment_time: boolean;
   can_have_more_contract_amount: boolean;
   can_have_more_interim_amount: boolean;

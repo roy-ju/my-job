@@ -11,7 +11,6 @@ interface Args {
   canHaveEarlierRemainingAmountDate: boolean | null;
   remainingAmountDate: Date | null;
   remainingAmountDateType: string;
-  canHaveEarlierMoveInDate: boolean | null;
   moveInDate: Date | null;
   moveInDateType: string;
   etcs: string[];
@@ -45,7 +44,6 @@ export default function makeCreateBiddingParams(args: Args) {
     can_have_earlier_remaining_amount_payment_time: args.canHaveEarlierRemainingAmountDate,
     remaining_amount_payment_time: args.remainingAmountDate?.toISOString(), // 잔금 지급일
     remaining_amount_payment_time_type: getDateType(args.remainingAmountDateType), // 잔금 지급일 이전/이후 1: 이전 2: 이후
-    can_have_earlier_move_in_date: args.canHaveEarlierMoveInDate,
     move_in_date: args.moveInDate?.toISOString(),
     move_in_date_type: getDateType(args.moveInDateType),
 
