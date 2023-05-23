@@ -21,7 +21,6 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const interactionState = useRecoilValue(schoolAroundState);
 
   const [selectedIndex, setSelctedIndex] = useState<number>();
-
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
 
   const [isClickMore, setIsClickMore] = useState<boolean>(false);

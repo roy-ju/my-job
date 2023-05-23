@@ -15,6 +15,7 @@ import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
 import Routes from '@/router/routes';
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
+import useDanjiInteraction from '@/states/danjiButton';
 import UserStatusStrings from './strings';
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
@@ -74,6 +75,8 @@ export default function ListingDetail({
   const router = useRouter(depth);
 
   const { danji } = useDanjiDetail(depth, listingDetail?.listing?.pnu, listingDetail?.listing?.realestate_type);
+
+  const interactStore = useDanjiInteraction({ danjiData: danji });
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
@@ -238,6 +241,13 @@ export default function ListingDetail({
   }, [visibleState]);
 
   const isShowlistingsSection = useMemo(() => router.query.depth1 !== Routes.DanjiListings, [router.query]);
+
+  useIsomorphicLayoutEffect(
+    () => () => {
+      interactStore.makeDataReset();
+    },
+    [],
+  );
 
   return (
     <div tw="relative flex flex-col h-full">

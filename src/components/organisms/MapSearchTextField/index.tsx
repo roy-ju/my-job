@@ -7,6 +7,7 @@ import { ChangeEvent, ChangeEventHandler, FormEventHandler, useCallback } from '
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 import { Button } from '@/components/atoms';
 import CloseIcon from '@/assets/icons/close.svg';
+import useDanjiInteraction from '@/states/danjiButton';
 
 interface MapSearchTextFieldProps {
   value?: string;
@@ -25,6 +26,7 @@ export default function MapSearchTextField({
   onClickRemoveAllRecentSearches,
   onClickRemoveRecentSearch,
 }: MapSearchTextFieldProps) {
+  const interactionStore = useDanjiInteraction({ danjiData: undefined });
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: '',
@@ -89,6 +91,7 @@ export default function MapSearchTextField({
               onClick={(e) => {
                 e.stopPropagation();
                 onSubmit?.(item, true);
+                interactionStore.makeDataReset();
               }}
               tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
             >
@@ -151,7 +154,10 @@ export default function MapSearchTextField({
               <Autocomplete.Option
                 key={result.id}
                 value={result.placeName}
-                onClick={() => onSubmit?.(result, false)}
+                onClick={() => {
+                  onSubmit?.(result, false);
+                  interactionStore.makeDataReset();
+                }}
                 tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
               >
                 <div tw="flex items-center justify-between">
