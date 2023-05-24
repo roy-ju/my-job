@@ -330,7 +330,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         ))}
 
       {catergoryList && catergoryList.length > 0 && (
-        <div tw="min-h-[9.5625rem] mt-4">
+        <div tw="mt-4">
           {convertedCategory.slice(0, sliceNum).map((item, index) => (
             <div
               tw="flex items-center"

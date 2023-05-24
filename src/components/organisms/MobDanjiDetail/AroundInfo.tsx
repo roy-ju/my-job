@@ -193,7 +193,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   if (!danji) return null;
 
   return (
-    <div tw="w-full pt-10 pb-10 px-5 [min-height: 600px]">
+    <div tw="w-full pt-10 pb-10 px-5">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">교통 및 주변정보</span>
         <Button
@@ -249,7 +249,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         ))}
 
       {catergoryList && catergoryList.length > 0 && (
-        <div tw="min-h-[9.5625rem] mt-4">
+        <div tw="mt-4">
           {convertedCategory.slice(0, sliceNum).map((item, index) => (
             <div
               tw="flex items-center"
