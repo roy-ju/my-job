@@ -33,6 +33,9 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Set robots.txt
+        run: rm -rf ./public/robots_prod.txt
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
