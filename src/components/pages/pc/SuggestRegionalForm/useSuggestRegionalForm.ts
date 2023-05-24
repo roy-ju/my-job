@@ -5,6 +5,7 @@ import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
 import Routes from '@/router/routes';
 import { toast } from 'react-toastify';
+import { searchAddress } from '@/lib/kakao/search_address';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
 export default function useSuggestRegionalForm(depth: number) {
@@ -29,6 +30,8 @@ export default function useSuggestRegionalForm(depth: number) {
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
 
   const [description, setDescription] = useState('');
+
+  const [isPrefillingBubjungdong, setIsPrefillingBubjungdong] = useState(true);
 
   const handleChangeRealestateType = useCallback((value: number[]) => {
     setRealestateType(value);
@@ -264,6 +267,25 @@ export default function useSuggestRegionalForm(depth: number) {
     handleSubmitFinal,
   ]);
 
+  // 법정동 프리필 로직
+  useIsomorphicLayoutEffect(() => {
+    if (typeof router.query.address === 'string') {
+      setIsPrefillingBubjungdong(true);
+      searchAddress(router.query.address).then((data) => {
+        const bCode = data?.documents?.[0].address?.b_code;
+        if (bCode) {
+          setBubjungdong({
+            name: router.query.address as string,
+            code: bCode,
+          });
+          setIsPrefillingBubjungdong(false);
+        }
+      });
+    } else {
+      setIsPrefillingBubjungdong(false);
+    }
+  }, [router.query.address]);
+
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
@@ -388,5 +410,7 @@ export default function useSuggestRegionalForm(depth: number) {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+
+    isPrefillingBubjungdong,
   };
 }

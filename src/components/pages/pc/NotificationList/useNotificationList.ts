@@ -7,7 +7,6 @@ import { useRouter as useNextRouter } from 'next/router';
 import useUnmount from '@/hooks/utils/useUnmount';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { mutate } from 'swr';
 import useSyncronizer from '@/states/syncronizer';
 
 // import { useRouter as useNextRouter } from 'next/router';
