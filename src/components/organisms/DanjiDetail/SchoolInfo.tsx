@@ -94,7 +94,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   if (!danji || !selectedSchoolType) return null;
 
   return (
-    <div tw="w-full pt-10 pb-10 px-5 [min-height: 400px]">
+    <div tw="w-full pt-10 pb-10 px-5">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">학군</span>
         <Button

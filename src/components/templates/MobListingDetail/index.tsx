@@ -414,9 +414,7 @@ export default function MobListingDetail({
                 </Table.Row>
                 {(listingDetail?.parking_per_saedae || listingDetail?.total_parking_count) && (
                   <Table.Row>
-                    <Table.Head>
-                      총 주차대수 <br />/ 세대당 주차대수
-                    </Table.Head>
+                    <Table.Head>총 / 세대당 주차대수</Table.Head>
                     <Table.Data>
                       {falsy(listingDetail?.total_parking_count, '-')}대 /{' '}
                       {falsy(listingDetail?.parking_per_saedae, '-')}대
