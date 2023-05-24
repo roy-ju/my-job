@@ -1,10 +1,11 @@
 import { NavigationHeader } from '@/components/molecules';
-import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
+import { Button, Loading, PersistentBottomBar, Separator } from '@/components/atoms';
 import { useMemo } from 'react';
 import FormRenderer from './FormRenderer';
 import FormContext, { IFormContext } from './FormContext';
 
 interface Props extends IFormContext {
+  isPrefillingBubjungdong?: boolean;
   forms?: string[];
   nextButtonDisabled?: boolean;
   onClickNext?: () => void;
@@ -12,6 +13,7 @@ interface Props extends IFormContext {
 }
 
 export default function SuggestRegionalForm({
+  isPrefillingBubjungdong = false,
   forms,
   onClickNext,
   onClickOpenRegionList,
@@ -148,6 +150,14 @@ export default function SuggestRegionalForm({
       onChangeDescription,
     ],
   );
+
+  if (isPrefillingBubjungdong) {
+    return (
+      <div tw="py-20">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div tw="flex flex-col h-full">
