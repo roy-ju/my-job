@@ -65,6 +65,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     };
     window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
       router.replace(Routes.Register, {
+        persistParams: true,
         searchParams: {
           redirect: redirect ?? '',
         },
