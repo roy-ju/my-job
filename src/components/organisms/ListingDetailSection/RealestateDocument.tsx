@@ -76,9 +76,9 @@ export default function RealestateDocument({ data }: Props) {
           </StyledTable>
         </div>
       )}
-      {data?.debt_list1 && (
-        <div>
-          <div tw="text-b2">소유자지분 제외 권리</div>
+      <div>
+        <div tw="text-b2">소유자지분 제외 권리</div>
+        {data?.debt_list1 ? (
           <StyledTable tw="mb-10">
             <tbody>
               <tr>
@@ -99,11 +99,13 @@ export default function RealestateDocument({ data }: Props) {
               ))}
             </tbody>
           </StyledTable>
-        </div>
-      )}
-      {data?.debt_list2 && (
-        <div>
-          <div tw="text-b2">(근)저당권 및 전세권</div>
+        ) : (
+          <div tw="mb-10 text-info text-gray-700">기록사항이 없습니다.</div>
+        )}
+      </div>
+      <div>
+        <div tw="text-b2">(근)저당권 및 전세권</div>
+        {data?.debt_list2 ? (
           <StyledTable>
             <tbody>
               <tr>
@@ -124,8 +126,10 @@ export default function RealestateDocument({ data }: Props) {
               ))}
             </tbody>
           </StyledTable>
-        </div>
-      )}
+        ) : (
+          <div tw="text-info text-gray-700">기록사항이 없습니다.</div>
+        )}
+      </div>
     </div>
   );
 }
