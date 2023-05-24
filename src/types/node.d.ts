@@ -8,6 +8,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL: string;
     NEXT_PUBLIC_APP_ENVIRONMENT: string;
     NEXT_PUBLIC_GA_TRACKING_ID: string;
+    NEXT_PUBLIC_GTM_ID: string;
     KAKAO_CLIENT_SECRET: string;
   }
 }
