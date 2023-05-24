@@ -12,6 +12,8 @@ env:
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket-test.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: test
   NEGOCIO_AGENT_CLIENT_URL: https://agent-test.negocio.kr/
+  GA_TRACKING_ID: G-X5831H4W14
+
 jobs:
   deploy:
     name: Deploy
@@ -46,6 +48,7 @@ jobs:
           NEXT_PUBLIC_APP_ENVIRONMENT=${{ env.NEGOCIO_APP_ENVIRONMENT }} \n \
           KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \n \
           NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL=${{ env.NEGOCIO_AGENT_CLIENT_URL }} \n \
+          NEXT_PUBLIC_GA_TRACKING_ID=${{ env.GA_TRACKING_ID }} \n \
           " > .env
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
