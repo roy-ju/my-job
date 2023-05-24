@@ -700,7 +700,7 @@ export default function DanjiRecommendation({
         <PersistentBottomBar>
           {isRenderFinalForm && (
             <Button tw="w-full" size="bigger" onClick={handleCTA}>
-              입력 완료
+              추천 받기
             </Button>
           )}
           {!isRenderFinalForm && (
