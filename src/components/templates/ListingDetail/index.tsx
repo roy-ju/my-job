@@ -230,6 +230,8 @@ export default function ListingDetail({
   useEffect(() => {
     const sectionName = Object.keys(visibleState).reduce((a, b) => (visibleState[a] > visibleState[b] ? a : b));
 
+    if (visibleState[sectionName] === 0) return;
+
     if (sectionName === 'listingInfoSection') {
       setTabIndex(0);
     } else if (sectionName === 'danjiSection') {
