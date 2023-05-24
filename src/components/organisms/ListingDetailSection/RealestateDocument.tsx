@@ -100,7 +100,7 @@ export default function RealestateDocument({ data }: Props) {
             </tbody>
           </StyledTable>
         ) : (
-          <div tw="mb-10 text-info text-gray-700">기록사항이 없습니다.</div>
+          <div tw="mb-10 text-info text-gray-700">기록사항 없음</div>
         )}
       </div>
       <div>
@@ -127,7 +127,7 @@ export default function RealestateDocument({ data }: Props) {
             </tbody>
           </StyledTable>
         ) : (
-          <div tw="text-info text-gray-700">기록사항이 없습니다.</div>
+          <div tw="text-info text-gray-700">기록사항 없음</div>
         )}
       </div>
     </div>
