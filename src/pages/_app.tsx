@@ -51,7 +51,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      console.log('url', url);
       gtag.pageview(url);
     };
     router.events.on('routeChangeComplete', handleRouteChange);
