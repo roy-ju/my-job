@@ -201,11 +201,14 @@ export default function ListingDetail({
   }, [userStatusAccordion]);
 
   useIsomorphicLayoutEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        setVisibleState((prev) => ({ ...prev, [entry.target.id]: entry.isIntersecting }));
-      });
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setVisibleState((prev) => ({ ...prev, [entry.target.id]: entry.isIntersecting }));
+        });
+      },
+      { threshold: [0, 1], rootMargin: '96px 0px 88px 0px' },
+    );
 
     if (listingInfoSection) {
       observer.observe(listingInfoSection);
@@ -415,9 +418,7 @@ export default function ListingDetail({
                 </Table.Row>
                 {(listingDetail?.parking_per_saedae || listingDetail?.total_parking_count) && (
                   <Table.Row>
-                    <Table.Head>
-                      총 주차대수 <br />/ 세대당 주차대수
-                    </Table.Head>
+                    <Table.Head>총 / 세대당 주차대수</Table.Head>
                     <Table.Data>
                       {falsy(listingDetail?.total_parking_count, '-')}대 /{' '}
                       {falsy(listingDetail?.parking_per_saedae, '-')}대

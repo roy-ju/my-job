@@ -15,7 +15,6 @@ import Routes from '@/router/routes';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import useSyncronizer from '@/states/syncronizer';
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 
 export default function Home() {
   const router = useRouter();
@@ -32,7 +31,7 @@ export default function Home() {
 
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
 
-  const { count } = useAPI_GetUnreadNotificationCount();
+  const { unreadNotificationCount } = useSyncronizer();
 
   const { unreadChatCount } = useSyncronizer();
 
@@ -119,7 +118,7 @@ export default function Home() {
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
         user={user}
-        unreadNotificationCount={count}
+        unreadNotificationCount={unreadNotificationCount}
         recentRealPriceList={realPriceData?.list}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}

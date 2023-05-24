@@ -7,7 +7,6 @@ import { MobileContainer } from '@/components/atoms';
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { MobGlobalNavigation } from '@/components/organisms';
 import useSyncronizer from '@/states/syncronizer';
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 
 export default function MobMy() {
   const router = useRouter();
@@ -17,7 +16,7 @@ export default function MobMy() {
 
   const { unreadChatCount } = useSyncronizer();
 
-  const { count } = useAPI_GetUnreadNotificationCount();
+  const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
@@ -130,7 +129,7 @@ export default function MobMy() {
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
       <MyTemplate
-        unreadNotificationCount={count}
+        unreadNotificationCount={unreadNotificationCount}
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}

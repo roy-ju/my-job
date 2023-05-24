@@ -43,6 +43,9 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
             mutate('/chat/room/list');
             setUnreadChatCount(0);
             break;
+          case 'new_notification':
+            setUnreadNotificationCount(Number(data.value) ?? 0);
+            break;
           default:
             break;
         }
@@ -67,11 +70,11 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
         }
       });
 
-      // axios.post('/notification/unread/total').then(({ data }) => {
-      //   if (data.total_unread_count) {
-      //     setUnreadNotificationCount(data.total_unread_count);
-      //   }
-      // });
+      axios.post('/notification/unread/total').then(({ data }) => {
+        if (data.total_unread_count) {
+          setUnreadNotificationCount(data.total_unread_count);
+        }
+      });
     }
   }, [user, setUnreadChatCount, setUnreadNotificationCount, pageVisible]);
 
