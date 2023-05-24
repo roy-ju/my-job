@@ -273,7 +273,7 @@ export default function ListingDetail({
           />
         </div>
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
+      <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer} id="scroll-container">
         <PhotoHero
           onClickViewPhotos={onNavigateToPhotoGallery}
           defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
