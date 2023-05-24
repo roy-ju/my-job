@@ -10,7 +10,7 @@ import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
-import { BuyOrRent, VisitUserType } from '@/constants/enums';
+import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
@@ -79,13 +79,19 @@ export default function MobListingDetail({
 
   // const [infoSectionExpanded, setInfoSectionExpanded] = useState(false);
 
-  const photoPaths = useMemo(
-    () => [
-      ...(listingDetail?.photos?.map((item) => item.full_file_path) ?? []),
-      ...(listingDetail?.danji_photos?.map((item) => item.full_file_path) ?? []),
-    ],
-    [listingDetail?.photos, listingDetail?.danji_photos],
-  );
+  const photoPaths = useMemo(() => {
+    if (
+      listingDetail?.listing?.realestate_type === RealestateType.Apartment ||
+      listingDetail?.listing?.realestate_type === RealestateType.Officetel
+    ) {
+      return [
+        ...(listingDetail?.photos?.map((item) => item.full_file_path) ?? []),
+        ...(listingDetail?.danji_photos?.map((item) => item.full_file_path) ?? []),
+      ];
+    }
+
+    return [...(listingDetail?.photos?.map((item) => item.full_file_path) ?? [])];
+  }, [listingDetail?.listing?.realestate_type, listingDetail?.photos, listingDetail?.danji_photos]);
 
   const basicContainerRef = useRef<HTMLDivElement | null>(null);
   const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
