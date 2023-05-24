@@ -44,7 +44,8 @@
     "camelcase": "off",
     "no-console": ["warn", { "allow": ["warn", "error", "log"] }],
     "no-underscore-dangle": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "react/no-danger": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }
