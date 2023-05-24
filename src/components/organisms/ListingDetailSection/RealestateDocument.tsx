@@ -1,7 +1,9 @@
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
-import { Moment } from '@/components/atoms';
+import { Button, Moment } from '@/components/atoms';
 import { memo } from 'react';
+import QuestionIcon from '@/assets/icons/question.svg';
 import tw, { styled } from 'twin.macro';
+import useTooltip from '@/states/tooltip';
 
 const StyledTable = styled.table`
   width: 100%;
@@ -34,9 +36,16 @@ const StrikeOut = memo(({ str }: { str: string }) => {
 });
 
 export default function RealestateDocument({ data }: Props) {
+  const { openTooltip } = useTooltip();
+
   return (
     <div>
-      <div tw="text-b1 font-bold">등기상 권리관계</div>
+      <div tw="flex items-center gap-1">
+        <div tw="text-b1 font-bold">등기상 권리관계</div>
+        <Button variant="ghost" size="none" tw="pb-0.5" onClick={() => openTooltip('realestateDocument')}>
+          <QuestionIcon />
+        </Button>
+      </div>
       <div tw="text-info text-gray-700 mb-4">
         등기조회 기준일 <Moment format="yyyy.MM.DD">{data?.created_time ?? ''}</Moment>
       </div>
