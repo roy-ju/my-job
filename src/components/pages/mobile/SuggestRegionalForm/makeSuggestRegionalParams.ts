@@ -39,7 +39,7 @@ export default function makeSuggestRegionalParams(args: Args) {
     deposit: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     monthly_rent_fee: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.monthlyRentFee) : 0,
     pyoung_from: args.minArea,
-    pyoung_to: args.maxArea,
+    pyoung_to: args.minArea === args.maxArea ? undefined : args.maxArea,
     purpose: args.purpose,
     remaining_amount_payment_time: args.purpose === '투자' ? args.remainingAmountDate?.toISOString() : null,
     remaining_amount_payment_time_type: args.purpose === '투자' ? getDateType(args.remainingAmountDateType) : null,
