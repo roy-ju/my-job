@@ -129,7 +129,6 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     const scrollContainer = document.getElementById('scroll-container');
 
     if (listRefs?.current && typeof selectedIndex === 'number' && scrollContainer) {
-      console.log(selectedIndex);
       // listRefs?.current[selectedIndex]?.scrollIntoView({ behavior: 'smooth', block: 'middle', inline: 'nearest' });
       const height = listRefs?.current[selectedIndex]?.getBoundingClientRect().top ?? 0;
 
