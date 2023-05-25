@@ -3,13 +3,13 @@ import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLogge
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import { Panel } from '@/components/atoms';
 import { Home } from '@/components/templates';
 import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback } from 'react';
 
 export default memo(() => {
@@ -27,7 +27,7 @@ export default memo(() => {
 
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
 
-  const { count } = useAPI_GetUnreadNotificationCount();
+  const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
     router.replace(Routes.Login);
@@ -107,7 +107,7 @@ export default memo(() => {
     <Panel>
       <Home
         user={user}
-        unreadNotificationCount={count}
+        unreadNotificationCount={unreadNotificationCount}
         recentRealPriceList={realPriceData?.list}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}

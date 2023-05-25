@@ -7,7 +7,7 @@ import { useRouter as useNextRouter } from 'next/router';
 import useUnmount from '@/hooks/utils/useUnmount';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { mutate } from 'swr';
+import useSyncronizer from '@/states/syncronizer';
 
 // import { useRouter as useNextRouter } from 'next/router';
 
@@ -18,6 +18,7 @@ export default function useNotificationList(depth: number) {
   const [tabIndex, setTabIndex] = useState(0);
 
   const { data, isLoading, increamentPageNumber, mutate: mutateList } = useAPI_GetNotificationList();
+  const { setUnreadNotificationCount } = useSyncronizer();
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [checkedState, setCheckedState] = useState<Record<number, boolean>>({});
@@ -95,13 +96,13 @@ export default function useNotificationList(depth: number) {
     setCheckedState({});
     (async () => {
       await readNotifications();
-      mutate('/notification/unread/total');
+      setUnreadNotificationCount(0);
     })();
-  }, [isDeleting]);
+  }, [isDeleting, setUnreadNotificationCount]);
 
   useUnmount(async () => {
     await readNotifications();
-    mutate('/notification/unread/total');
+    setUnreadNotificationCount(0);
   });
 
   return {

@@ -16,7 +16,12 @@ export default function Region({ region, onClickOpenRegionList }: RegionProps) {
       {region && (
         <div tw="flex flex-row items-center justify-between">
           <div tw="font-bold">선택한 지역: {region}</div>{' '}
-          <Button variant="primary" size="small" onClick={onClickOpenRegionList} tw="max-w-[96px] min-h-[36px]">
+          <Button
+            variant="primary"
+            size="small"
+            onClick={onClickOpenRegionList}
+            tw="max-w-[96px] min-h-[36px] shrink-0"
+          >
             지역 재선택
           </Button>
         </div>

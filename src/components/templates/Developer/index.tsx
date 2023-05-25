@@ -1,6 +1,8 @@
+import { Button } from '@/components/atoms';
 import { Dropdown, NavigationHeader, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { useCallback } from 'react';
+import * as gtag from '@/lib/gtag';
 
 interface Props {
   userNickname?: string;
@@ -51,6 +53,18 @@ export default function Developer({
             </Dropdown.Option>
           ))}
         </Dropdown>
+        <Button
+          onClick={() =>
+            gtag.event({
+              action: 'custom_test_event',
+              category: 'test category',
+              label: 'test label',
+              value: 'test value',
+            })
+          }
+        >
+          Fire a ga event
+        </Button>
       </div>
     </div>
   );
