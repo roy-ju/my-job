@@ -56,7 +56,7 @@ function MobMapToggleButton({ value: valueProp, onChange }: Props) {
               value === 1 && tw`text-white`,
             ]}
           >
-            호가
+            매물
           </span>
         )}
         {value === 1 && (
