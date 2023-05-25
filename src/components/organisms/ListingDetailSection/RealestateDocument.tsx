@@ -1,7 +1,9 @@
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
-import { Moment } from '@/components/atoms';
+import { Button, Moment } from '@/components/atoms';
 import { memo } from 'react';
+import QuestionIcon from '@/assets/icons/question.svg';
 import tw, { styled } from 'twin.macro';
+import useTooltip from '@/states/tooltip';
 
 const StyledTable = styled.table`
   width: 100%;
@@ -34,9 +36,16 @@ const StrikeOut = memo(({ str }: { str: string }) => {
 });
 
 export default function RealestateDocument({ data }: Props) {
+  const { openTooltip } = useTooltip();
+
   return (
     <div>
-      <div tw="text-b1 font-bold">등기상 권리관계</div>
+      <div tw="flex items-center gap-1">
+        <div tw="text-b1 font-bold">등기상 권리관계</div>
+        <Button variant="ghost" size="none" tw="pb-0.5" onClick={() => openTooltip('realestateDocument')}>
+          <QuestionIcon />
+        </Button>
+      </div>
       <div tw="text-info text-gray-700 mb-4">
         등기조회 기준일 <Moment format="yyyy.MM.DD">{data?.created_time ?? ''}</Moment>
       </div>
@@ -67,9 +76,9 @@ export default function RealestateDocument({ data }: Props) {
           </StyledTable>
         </div>
       )}
-      {data?.debt_list1 && (
-        <div>
-          <div tw="text-b2">소유자지분 제외 권리</div>
+      <div>
+        <div tw="text-b2">소유자지분 제외 권리</div>
+        {data?.debt_list1 ? (
           <StyledTable tw="mb-10">
             <tbody>
               <tr>
@@ -90,11 +99,13 @@ export default function RealestateDocument({ data }: Props) {
               ))}
             </tbody>
           </StyledTable>
-        </div>
-      )}
-      {data?.debt_list2 && (
-        <div>
-          <div tw="text-b2">(근)저당권 및 전세권</div>
+        ) : (
+          <div tw="mb-10 text-info text-gray-700">기록사항 없음</div>
+        )}
+      </div>
+      <div>
+        <div tw="text-b2">(근)저당권 및 전세권</div>
+        {data?.debt_list2 ? (
           <StyledTable>
             <tbody>
               <tr>
@@ -115,8 +126,10 @@ export default function RealestateDocument({ data }: Props) {
               ))}
             </tbody>
           </StyledTable>
-        </div>
-      )}
+        ) : (
+          <div tw="text-info text-gray-700">기록사항 없음</div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import deleteNotifications from '@/apis/notification/deleteNotifications';
 import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
 import getNotificationUrl from '@/apis/notification/getNotificationUrl';
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import readNotifications from '@/apis/notification/readNotifications';
 import useUnmount from '@/hooks/utils/useUnmount';
 import Routes from '@/router/routes';
+import useSyncronizer from '@/states/syncronizer';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -13,9 +13,9 @@ export default function useNotificationList() {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
 
-  const { mutate: mutateUnreadNotificationCount } = useAPI_GetUnreadNotificationCount();
+  const { data, isLoading, increamentPageNumber, mutate: mutateList } = useAPI_GetNotificationList();
 
-  const { data, isLoading, increamentPageNumber, mutate } = useAPI_GetNotificationList();
+  const { setUnreadNotificationCount } = useSyncronizer();
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [checkedState, setCheckedState] = useState<Record<number, boolean>>({});
@@ -82,8 +82,8 @@ export default function useNotificationList() {
     }
     setIsDeleteLoading(false);
     setIsDeleting(false);
-    mutate();
-  }, [checkedState, mutate]);
+    mutateList();
+  }, [checkedState, mutateList]);
 
   const filteredNotificationsByTabIndex = useMemo(() => {
     if (tabIndex === 0) return notifications;
@@ -96,7 +96,7 @@ export default function useNotificationList() {
 
   useUnmount(async () => {
     await readNotifications();
-    mutateUnreadNotificationCount();
+    setUnreadNotificationCount(0);
   });
 
   return {

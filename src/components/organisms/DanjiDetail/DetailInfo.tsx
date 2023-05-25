@@ -77,28 +77,21 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
               <Table.Data>{`${formatUseAcceptedYear(danji.use_accepted_year)}`}</Table.Data>
             </Table.Row>
           )}
-          {(danji.daeji_area || Number(danji.architecture_area) > 0) && (
+          {Number(danji.daeji_area) > 0 && (
             <Table.Row>
-              <Table.Head>면적</Table.Head>
-              {danji.daeji_area && danji.architecture_area && (
-                <Table.Data>
-                  {`대지 ${Number(danji.daeji_area).toLocaleString()}㎡ /
-                      건축 ${Number(danji.architecture_area).toLocaleString()}㎡`}
-                </Table.Data>
-              )}
-              {danji.daeji_area && !danji.architecture_area && (
-                <Table.Data>{`대지 ${Number(danji.daeji_area).toLocaleString()}㎡`}</Table.Data>
-              )}
-              {!danji.daeji_area && danji.architecture_area && (
-                <Table.Data>{`건축 ${Number(danji.architecture_area).toLocaleString()}㎡`}</Table.Data>
-              )}
+              <Table.Head>대지면적</Table.Head>
+              <Table.Data>{`${Number(danji.daeji_area).toLocaleString()}㎡`}</Table.Data>
+            </Table.Row>
+          )}
+          {Number(danji.architecture_area) > 0 && (
+            <Table.Row>
+              <Table.Head>건축면적</Table.Head>
+              <Table.Data>{`${Number(danji.architecture_area).toLocaleString()}㎡`}</Table.Data>
             </Table.Row>
           )}
           {(danji?.parking_per_saedae || danji?.total_parking_count) && (
             <Table.Row>
-              <Table.Head>
-                총 주차대수 <br />/ 세대당 주차대수
-              </Table.Head>
+              <Table.Head>총 / 세대당 주차대수</Table.Head>
               <Table.Data>
                 {falsy(danji?.total_parking_count, '-')}대 / {falsy(danji?.parking_per_saedae, '-')}대
               </Table.Data>

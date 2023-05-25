@@ -105,7 +105,19 @@ export default function SuggestRegionalSummary({
                     )}
                   </Table.Data>
                 </Table.Row>
-                {maxArea && (
+                {minArea && !maxArea && (
+                  <Table.Row>
+                    <Table.Head>관심있는 평수</Table.Head>
+                    <Table.Data>{minArea}평</Table.Data>
+                  </Table.Row>
+                )}
+                {maxArea && !minArea && (
+                  <Table.Row>
+                    <Table.Head>관심있는 평수</Table.Head>
+                    <Table.Data>{maxArea}평</Table.Data>
+                  </Table.Row>
+                )}
+                {minArea && maxArea && (
                   <Table.Row>
                     <Table.Head>관심있는 평수</Table.Head>
                     <Table.Data>
@@ -113,6 +125,7 @@ export default function SuggestRegionalSummary({
                     </Table.Data>
                   </Table.Row>
                 )}
+
                 {buyOrRents === '1' && (
                   <Table.Row>
                     <Table.Head>매매거래 목적</Table.Head>
@@ -152,7 +165,7 @@ export default function SuggestRegionalSummary({
       </div>
       <PersistentBottomBar>
         <Button tw="w-full" size="bigger" onClick={onClickNext} isLoading={isNextButtonLoading}>
-          확인
+          추천 받기
         </Button>
       </PersistentBottomBar>
     </div>

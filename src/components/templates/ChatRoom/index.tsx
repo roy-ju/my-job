@@ -62,7 +62,6 @@ export default function ChatRoom({
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
   const sizeMap = useRef<Record<number, number>>({});
-  const [adjusted, setAdjusted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const [list, setList] = useState<VariableSizeList<any> | null>(null);
@@ -107,24 +106,18 @@ export default function ChatRoom({
     [messagesRef, agentDescription, agentName, agentProfileImagePath, officeName],
   );
 
-  const getItemSize = useCallback((index: number) => {
-    console.log(sizeMap.current[index]);
-    return sizeMap.current[index] ?? 0;
-  }, []);
+  const getItemSize = useCallback((index: number) => sizeMap.current[index] ?? 0, []);
 
   const [showListingList, setShowListingList] = useState(false);
 
   useEffect(() => {
     list?.resetAfterIndex(0);
-    setTimeout(() => setAdjusted(true), 500);
-  }, [list]);
-
-  useEffect(() => {
-    if (adjusted) {
+    list?.scrollToItem(chatMessages.length - 1, 'start');
+    setTimeout(() => {
       list?.scrollToItem(chatMessages.length - 1, 'start');
       setScrolled(true);
-    }
-  }, [list, chatMessages, adjusted]);
+    }, 300);
+  }, [list, chatMessages.length]);
 
   return (
     <div tw="flex flex-col h-full relative">

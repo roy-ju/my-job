@@ -99,6 +99,7 @@ const MobDanjiSelect = ({
   const onClickCTA = () => {
     if ((comparisonList && comparisonList.length === 0) || !comparisonList) {
       localStorage.removeItem(prefixComparison);
+
       setTimeout(() => {
         handleClickBackButton();
       }, 100);

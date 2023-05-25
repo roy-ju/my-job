@@ -22,6 +22,7 @@ import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
 import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
+import ErrorCodes from '@/constants/error_codes';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -299,11 +300,15 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
       <OverlayPresenter>
         <Popup>
           <Popup.ContentGroup tw="py-10">
-            <Popup.Title>
-              거래가 종료되어
-              <br />
-              매물 상세 정보를 확인할 수 없습니다.
-            </Popup.Title>
+            {statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST ? (
+              <Popup.Title tw="[text-align: center]">유효하지 않은 페이지 입니다.</Popup.Title>
+            ) : (
+              <Popup.Title tw="[text-align: center]">
+                거래가 종료되어
+                <br />
+                매물 상세 정보를 확인할 수 없습니다.
+              </Popup.Title>
+            )}
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
             <Popup.ActionButton onClick={() => router.pop({ persistParams: false })}>확인</Popup.ActionButton>

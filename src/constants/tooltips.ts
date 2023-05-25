@@ -7,8 +7,8 @@ export type TooltipType =
   | 'listingDetailDebtSuccessions'
   | 'listingDetailCollaterals'
   | 'biddingParticipatingStatus'
-  | 'paymentSchedule';
-
+  | 'paymentSchedule'
+  | 'realestateDocument';
 const Tooltips: Record<
   TooltipType,
   {
@@ -51,6 +51,10 @@ const Tooltips: Record<
   paymentSchedule: {
     title: '지급일정',
     body: '집주인이 희망하는 지급 일정으로 상세 일정은 중개사님을 통해 협의할 수 있습니다.',
+  },
+  realestateDocument: {
+    title: '등기상 권리관계',
+    body: '등기소에서 제공하는 등기사항 요약정보로 등기부상 말소되지 않은 사항입니다.',
   },
 };
 

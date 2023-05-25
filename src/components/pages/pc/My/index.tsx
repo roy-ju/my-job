@@ -1,10 +1,10 @@
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import { Panel } from '@/components/atoms';
 import { My as MyTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback } from 'react';
 
 interface Props {
@@ -15,8 +15,9 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const { user, isLoading } = useAuth();
-  const { count: unreadNotificationCount } = useAPI_GetUnreadNotificationCount();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
+
+  const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
     router.push(Routes.Login);
@@ -95,10 +96,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <MyTemplate
-        unreadNotificationCount={unreadNotificationCount}
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        unreadNotificationCount={unreadNotificationCount}
         dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}
