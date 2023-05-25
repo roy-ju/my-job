@@ -274,8 +274,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   if (!danji) return null;
 
   return (
-    <div tw="w-full pt-10 pb-10 px-5">
-      <div tw="flex w-full justify-between items-center mb-2">
+    <div tw="w-full pt-10 pb-10 px-5 [min-height: 384px]">
+      <div tw="flex w-full justify-between items-center">
         <span tw="font-bold text-b1 [line-height: 1]">교통 및 주변정보</span>
         <Button
           size="small"
@@ -339,8 +339,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               }}
               css={[
                 index === 0
-                  ? tw`[border-top: 1px solid #F4F6FA] [border-bottom: 1px solid #F4F6FA] px-4 py-2`
-                  : tw`[border-bottom: 1px solid #F4F6FA] px-4 py-2`,
+                  ? tw`[border-top: 1px solid #F4F6FA] [border-bottom: 1px solid #F4F6FA] px-4 py-[3px]`
+                  : tw`[border-bottom: 1px solid #F4F6FA] px-4 py-[3.5px]`,
                 (item.address_name === interactionState.selectedAroundMarker?.addressName ||
                   convertPlaceName({ category: item.category_group_code, name: item.place_name }) ===
                     convertPlaceName({
@@ -376,8 +376,9 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           {convertedCategory.length > 3 &&
             (!isMoreClick ? (
               <Button
+                size="medium"
                 variant="outlined"
-                tw="w-full mt-4"
+                tw="w-full mt-5"
                 onClick={() => {
                   setIsMoreClick(true);
                   setSliceNum(convertedCategory.length);
@@ -387,8 +388,9 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               </Button>
             ) : (
               <Button
+                size="medium"
                 variant="outlined"
-                tw="w-full mt-4"
+                tw="w-full mt-5"
                 onClick={() => {
                   setIsMoreClick(false);
                   setSliceNum(3);
