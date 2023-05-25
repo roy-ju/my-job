@@ -152,7 +152,7 @@ export default function SuggestRegionalSummary({
       </div>
       <PersistentBottomBar>
         <Button tw="w-full" size="bigger" onClick={onClickNext} isLoading={isNextButtonLoading}>
-          확인
+          추천 받기
         </Button>
       </PersistentBottomBar>
     </div>

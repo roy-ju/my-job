@@ -65,8 +65,16 @@ function MapWrapper({
   const { depth, popLast, replace } = useRouter(0);
 
   const handleClickSuggestRegional = useCallback(() => {
-    replace(Routes.SuggestRegionalForm);
-  }, [replace]);
+    if (centerAddress.join('') !== '') {
+      replace(Routes.SuggestRegionalForm, {
+        searchParams: {
+          address: centerAddress.join(' '),
+        },
+      });
+    } else {
+      replace(Routes.SuggestRegionalForm);
+    }
+  }, [centerAddress, replace]);
 
   const handleClickMapListingList = useCallback(() => {
     replace(Routes.MapListingList);

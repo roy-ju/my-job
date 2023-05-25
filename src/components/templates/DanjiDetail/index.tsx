@@ -132,7 +132,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           }));
         });
       },
-      { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
+      { threshold: 0.1 },
     );
 
     if (listingsSection) {
