@@ -186,7 +186,7 @@ function MobLayoutMapContainer({
             onClick={openFullSearchArea}
           />
           <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl" onClick={onClickMapListingList}>
-            이 지역 매물 {listingCount ?? 0}
+            매물 {listingCount ?? 0}
           </Button>
 
           <Button variant="outlined" size="medium" tw="ml-auto whitespace-nowrap" onClick={onClickSuggestReginoal}>
