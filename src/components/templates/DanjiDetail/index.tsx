@@ -132,7 +132,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           }));
         });
       },
-      { threshold: 0.1 },
+      { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
     );
 
     if (listingsSection) {
@@ -210,7 +210,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     if (visibleState.listingsSection === true) {
       i = 0;
       setTabIndex(i);
-    } else if (visibleState.realPriceSection === true) {
+    } else if (visibleState.realPriceSection === true && isShowRpTab) {
       i = 1;
       setTabIndex(i);
     } else if (visibleState.infoSection === true) {
@@ -220,7 +220,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       i = 3;
       setTabIndex(i);
     }
-  }, [bottomReached, visibleState]);
+  }, [bottomReached, visibleState, isShowRpTab]);
 
   useEffect(() => {
     if (typeof tabIndex === 'number' && danji) {
