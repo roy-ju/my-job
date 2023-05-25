@@ -7,7 +7,7 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import PcGlobalStyles from '@/styles/PcGlobalStyles';
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import useAPI_GetUnreadChatCount from '@/apis/chat/getUnreadNotificationCount';
+import useSyncronizer from '@/states/syncronizer';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -58,14 +58,23 @@ function MapWrapper({
     removeMyMarker,
     searchResultMarker,
     interactionSelectedMarker,
+    aroundMarkers,
     ...props
   } = useMapLayout();
 
   const { depth, popLast, replace } = useRouter(0);
 
   const handleClickSuggestRegional = useCallback(() => {
-    replace(Routes.SuggestRegionalForm);
-  }, [replace]);
+    if (centerAddress.join('') !== '') {
+      replace(Routes.SuggestRegionalForm, {
+        searchParams: {
+          address: centerAddress.join(' '),
+        },
+      });
+    } else {
+      replace(Routes.SuggestRegionalForm);
+    }
+  }, [centerAddress, replace]);
 
   const handleClickMapListingList = useCallback(() => {
     replace(Routes.MapListingList);
@@ -127,6 +136,7 @@ function MapWrapper({
             selectedMarker={selectedMarker}
             interactionSelectedMarker={interactionSelectedMarker}
             danjiSummary={danjiSummary}
+            aroundMarkers={aroundMarkers}
           />
         </Map>
       </Layout.MapContainer>
@@ -179,7 +189,6 @@ export default function MapLayout({ children }: Props) {
   const router = useRouter(0);
   const [tabIndex, setTabIndex] = useState(0);
   const [panelsVisible, setPanelsVisible] = useState(true);
-  const { count: unreadChatCount } = useAPI_GetUnreadChatCount();
 
   const handleClickLogo = useCallback(() => {
     router.popAll();
@@ -236,14 +245,16 @@ export default function MapLayout({ children }: Props) {
 
   const togglePanelsVisibility = useCallback(() => setPanelsVisible((prev) => !prev), []);
 
+  const { unreadChatCount } = useSyncronizer();
+
   return (
     <>
       <PcGlobalStyles />
       <Layout
+        unreadChatCount={unreadChatCount}
         tabIndex={tabIndex}
         onChangeTab={handleChangeTabIndex}
         onClickLogo={handleClickLogo}
-        unreadChatCount={unreadChatCount}
       >
         <Layout.Panels visible={panelsVisible}>{children}</Layout.Panels>
         {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서

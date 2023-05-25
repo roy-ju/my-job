@@ -22,8 +22,20 @@ export default function DanjiSelect() {
   });
 
   const handleClickBackButton = useCallback(() => {
-    router.back();
-  }, [router]);
+    router.replace(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,
+        query: {
+          listingID: router.query.listingID as string,
+          p: `${router.query.p}`,
+          rt: router.query.rt as string,
+          bor: buyOrRent?.toString() || '',
+          sl: selectedYear?.toString() || '',
+        },
+      },
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?p=${router.query.p}&rt=${router.query.rt as string}`,
+    );
+  }, [buyOrRent, router, selectedYear]);
 
   useEffect(() => {
     if (router?.query?.bor) {

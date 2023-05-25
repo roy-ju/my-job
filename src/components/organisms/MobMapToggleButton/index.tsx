@@ -40,7 +40,7 @@ function MobMapToggleButton({ value: valueProp, onChange }: Props) {
               value === 0 && tw`text-white`,
             ]}
           >
-            단지 실거래
+            실거래
           </span>
         )}
         {value === 0 && (
@@ -56,7 +56,7 @@ function MobMapToggleButton({ value: valueProp, onChange }: Props) {
               value === 1 && tw`text-white`,
             ]}
           >
-            매물 호가
+            매물
           </span>
         )}
         {value === 1 && (

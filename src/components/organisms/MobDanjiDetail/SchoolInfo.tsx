@@ -72,7 +72,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   if (!danji || !selectedSchoolType) return null;
 
   return (
-    <div tw="w-full pt-10 pb-10 px-5 [min-height: 400px]">
+    <div tw="w-full pt-10 pb-10 px-5 [min-height: 396px]">
       <div tw="flex w-full justify-between items-center mb-2">
         <span tw="font-bold text-b1 [line-height: 1]">학군</span>
         <Button size="small" variant="outlined" onClick={handleClickHakgudo}>
@@ -91,21 +91,23 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         </div>
       )}
       {!danjiSchoolsIsLoading && schoolList && schoolList.length > 0 && (
-        <div tw="mt-4">
-          <div tw="flex py-2.5 [border-top: 1px solid #E9ECEF] [border-bottom: 1px solid #E9ECEF]">
-            <div tw="w-[9.125rem] [font-size: 14px] [line-height: 1.6]">학교명</div>
-            <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">기관</div>
-            <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">학급당</div>
-            <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">거리</div>
+        <div tw="mt-6">
+          <div tw="flex pb-2 [border-bottom: 1px solid #E9ECEF]">
+            <div tw="w-[9.125rem] [font-size: 14px] [line-height: 22px]">학교명</div>
+            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">기관</div>
+            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">학급당</div>
+            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">거리</div>
           </div>
           {schoolList.slice(0, isClickMore ? schoolList.length : 3).map((item) => (
-            <div key={item.school_id} tw="flex py-2.5 [border-bottom: 1px solid #F4F6FA]">
-              <div tw="w-[9.125rem] [font-size: 14px] [line-height: 1.6]">{item.name || '-'}</div>
-              <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">{item.found_type || '-'}</div>
-              <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">
+            <div key={item.school_id} tw="flex py-2 [border-bottom: 1px solid #F4F6FA]">
+              <div tw="w-[9.125rem] [font-size: 14px] [line-height: 22px]">{item.name || '-'}</div>
+              <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">
+                {item.found_type || '-'}
+              </div>
+              <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">
                 {checkStudentCount(item.students_per_teacher_count)}
               </div>
-              <div tw="w-[4rem] [font-size: 14px] [line-height: 1.6] [text-align: right]">
+              <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">
                 {getDistance(item.distance_in_km)}
               </div>
             </div>
@@ -115,11 +117,11 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
       {schoolList && schoolList.length > 3 ? (
         !isClickMore ? (
-          <Button variant="outlined" tw="mt-3 w-full" onClick={() => setIsClickMore(true)}>
+          <Button size="medium" variant="outlined" tw="mt-5 w-full" onClick={() => setIsClickMore(true)}>
             더보기
           </Button>
         ) : (
-          <Button variant="outlined" tw="mt-3 w-full" onClick={() => setIsClickMore(false)}>
+          <Button size="medium" variant="outlined" tw="mt-5 w-full" onClick={() => setIsClickMore(false)}>
             접기
           </Button>
         )

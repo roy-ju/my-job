@@ -10,11 +10,12 @@ import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 import tw from 'twin.macro';
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 import falsy from '@/utils/falsy';
-import { BuyOrRent, VisitUserType } from '@/constants/enums';
+import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
 import Routes from '@/router/routes';
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
+import useDanjiInteraction from '@/states/danjiButton';
 import UserStatusStrings from './strings';
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
@@ -75,6 +76,8 @@ export default function ListingDetail({
 
   const { danji } = useDanjiDetail(depth, listingDetail?.listing?.pnu, listingDetail?.listing?.realestate_type);
 
+  const interactStore = useDanjiInteraction({ danjiData: danji });
+
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
 
@@ -83,13 +86,19 @@ export default function ListingDetail({
 
   // const [infoSectionExpanded, setInfoSectionExpanded] = useState(false);
 
-  const photoPaths = useMemo(
-    () => [
-      ...(listingDetail?.photos?.map((item) => item.full_file_path) ?? []),
-      ...(listingDetail?.danji_photos?.map((item) => item.full_file_path) ?? []),
-    ],
-    [listingDetail?.photos, listingDetail?.danji_photos],
-  );
+  const photoPaths = useMemo(() => {
+    if (
+      listingDetail?.listing?.realestate_type === RealestateType.Apartment ||
+      listingDetail?.listing?.realestate_type === RealestateType.Officetel
+    ) {
+      return [
+        ...(listingDetail?.photos?.map((item) => item.full_file_path) ?? []),
+        ...(listingDetail?.danji_photos?.map((item) => item.full_file_path) ?? []),
+      ];
+    }
+
+    return [...(listingDetail?.photos?.map((item) => item.full_file_path) ?? [])];
+  }, [listingDetail?.listing?.realestate_type, listingDetail?.photos, listingDetail?.danji_photos]);
 
   const basicContainerRef = useRef<HTMLDivElement | null>(null);
   const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
@@ -101,10 +110,10 @@ export default function ListingDetail({
   const [qnaSection, setQnaSection] = useState<HTMLDivElement | null>(null);
 
   const [tabIndex, setTabIndex] = useState(0);
-  const [visibleState, setVisibleState] = useState<Record<string, boolean>>({
-    listingInfoSection: true,
-    danjiSection: false,
-    qnaSection: false,
+  const [visibleState, setVisibleState] = useState<Record<string, number>>({
+    listingInfoSection: 0,
+    danjiSection: 0,
+    qnaSection: 0,
   });
 
   const [isShowRpTab, setIsShowRpTab] = useState(false);
@@ -198,11 +207,14 @@ export default function ListingDetail({
   }, [userStatusAccordion]);
 
   useIsomorphicLayoutEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        setVisibleState((prev) => ({ ...prev, [entry.target.id]: entry.isIntersecting }));
-      });
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setVisibleState((prev) => ({ ...prev, [entry.target.id]: entry.intersectionRatio }));
+        });
+      },
+      { rootMargin: '96px 0px 100px 0px', threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] },
+    );
 
     if (listingInfoSection) {
       observer.observe(listingInfoSection);
@@ -222,22 +234,27 @@ export default function ListingDetail({
   }, [listingInfoSection, danjiSection, qnaSection]);
 
   useEffect(() => {
-    let i = 0;
+    const sectionName = Object.keys(visibleState).reduce((a, b) => (visibleState[a] > visibleState[b] ? a : b));
 
-    if (visibleState.listingInfoSection === true) {
-      i = 0;
-    }
-    if (visibleState.danjiSection === true) {
-      i = 1;
-    }
-    if (visibleState.qnaSection === true) {
-      i = 2;
-    }
+    if (visibleState[sectionName] === 0) return;
 
-    setTabIndex(i);
+    if (sectionName === 'listingInfoSection') {
+      setTabIndex(0);
+    } else if (sectionName === 'danjiSection') {
+      setTabIndex(1);
+    } else if (sectionName === 'qnaSection') {
+      setTabIndex(2);
+    }
   }, [visibleState]);
 
   const isShowlistingsSection = useMemo(() => router.query.depth1 !== Routes.DanjiListings, [router.query]);
+
+  useIsomorphicLayoutEffect(
+    () => () => {
+      interactStore.makeDataReset();
+    },
+    [],
+  );
 
   return (
     <div tw="relative flex flex-col h-full">
@@ -263,7 +280,7 @@ export default function ListingDetail({
           />
         </div>
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
+      <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer} id="scroll-container">
         <PhotoHero
           onClickViewPhotos={onNavigateToPhotoGallery}
           defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
@@ -405,9 +422,7 @@ export default function ListingDetail({
                 </Table.Row>
                 {(listingDetail?.parking_per_saedae || listingDetail?.total_parking_count) && (
                   <Table.Row>
-                    <Table.Head>
-                      총 주차대수 <br />/ 세대당 주차대수
-                    </Table.Head>
+                    <Table.Head>총 / 세대당 주차대수</Table.Head>
                     <Table.Data>
                       {falsy(listingDetail?.total_parking_count, '-')}대 /{' '}
                       {falsy(listingDetail?.parking_per_saedae, '-')}대
@@ -495,17 +510,16 @@ export default function ListingDetail({
               </div>
             </div>
           )}
+          {realestateDocumentData && realestateDocumentData.created_time && (
+            <div>
+              <Separator />
+              <div tw="py-10 px-5">
+                <ListingDetailSection.RealestateDocument data={realestateDocumentData} />
+              </div>
+            </div>
+          )}
         </div>
         <Separator />
-
-        {realestateDocumentData && realestateDocumentData.created_time && (
-          <div>
-            <div tw="py-10 px-5">
-              <ListingDetailSection.RealestateDocument data={realestateDocumentData} />
-            </div>
-            <Separator />
-          </div>
-        )}
 
         {danji && !danji.error_code && (
           <div id="danjiSection" ref={setDanjiSection}>

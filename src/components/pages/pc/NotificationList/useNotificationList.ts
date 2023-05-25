@@ -1,6 +1,5 @@
 import deleteNotifications from '@/apis/notification/deleteNotifications';
 import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
-import useAPI_GetUnreadNotificationCount from '@/apis/notification/getUnreadNotificationCount';
 import readNotifications from '@/apis/notification/readNotifications';
 import getNotificationUrl from '@/apis/notification/getNotificationUrl';
 import { useRouter } from '@/hooks/utils';
@@ -8,6 +7,7 @@ import { useRouter as useNextRouter } from 'next/router';
 import useUnmount from '@/hooks/utils/useUnmount';
 import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import useSyncronizer from '@/states/syncronizer';
 
 // import { useRouter as useNextRouter } from 'next/router';
 
@@ -17,8 +17,8 @@ export default function useNotificationList(depth: number) {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
 
-  const { mutate: mutateUnreadNotificationCount } = useAPI_GetUnreadNotificationCount();
-  const { data, isLoading, increamentPageNumber, mutate } = useAPI_GetNotificationList();
+  const { data, isLoading, increamentPageNumber, mutate: mutateList } = useAPI_GetNotificationList();
+  const { setUnreadNotificationCount } = useSyncronizer();
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [checkedState, setCheckedState] = useState<Record<number, boolean>>({});
@@ -84,8 +84,8 @@ export default function useNotificationList(depth: number) {
     }
     setIsDeleteLoading(false);
     setIsDeleting(false);
-    mutate();
-  }, [checkedState, mutate]);
+    mutateList();
+  }, [checkedState, mutateList]);
 
   const filteredNotificationsByTabIndex = useMemo(() => {
     if (tabIndex === 0) return notifications;
@@ -96,13 +96,13 @@ export default function useNotificationList(depth: number) {
     setCheckedState({});
     (async () => {
       await readNotifications();
-      mutateUnreadNotificationCount();
+      setUnreadNotificationCount(0);
     })();
-  }, [isDeleting, mutateUnreadNotificationCount]);
+  }, [isDeleting, setUnreadNotificationCount]);
 
   useUnmount(async () => {
     await readNotifications();
-    mutateUnreadNotificationCount();
+    setUnreadNotificationCount(0);
   });
 
   return {
