@@ -1,14 +1,22 @@
 import React from 'react';
+import tw from 'twin.macro';
+import LandingFooter from '../LandingFooter';
 import LandingHeader from '../LandingHeader';
-import Detail from './Detail';
-import Main from './Main';
+import SectionTwo from './RecommendationSectionTwo';
+import SectionOne from './RecommendationSectionOne';
+
+const Layout = tw.div`absolute inset-0 overflow-auto`;
+const Main = tw.main``;
 
 export default function Recommendation() {
   return (
-    <div>
+    <Layout>
       <LandingHeader />
-      <Main />
-      <Detail />
-    </div>
+      <Main>
+        <SectionOne />
+        <SectionTwo />
+      </Main>
+      <LandingFooter />
+    </Layout>
   );
 }
