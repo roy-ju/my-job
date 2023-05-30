@@ -7,6 +7,7 @@ import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import * as gtag from '@/lib/gtag';
+import { searchAddress } from '@/lib/kakao/search_address';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
 export default function useSuggestRegionalForm() {
@@ -322,6 +323,21 @@ export default function useSuggestRegionalForm() {
     handleSubmitPurpose,
     handleSubmitFinal,
   ]);
+
+  // 법정동 프리필 로직
+  useIsomorphicLayoutEffect(() => {
+    if (typeof router.query.address === 'string') {
+      searchAddress(router.query.address).then((data) => {
+        const bCode = data?.documents?.[0].address?.b_code;
+        if (bCode) {
+          setBubjungdong({
+            name: router.query.address as string,
+            code: bCode,
+          });
+        }
+      });
+    }
+  }, [router.query.address]);
 
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
