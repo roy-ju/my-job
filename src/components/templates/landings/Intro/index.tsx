@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import tw from 'twin.macro';
 import LandingFooter from '../LandingFooter';
 import LandingHeader from '../LandingHeader';
@@ -15,6 +15,7 @@ const Layout = tw.div`absolute inset-0 overflow-auto`;
 const Main = tw.main``;
 
 export default function Intro() {
+  const conatinerRef = useRef<HTMLDivElement | null>(null);
   const [isMobileSize, setIsMobileSize] = useState(false);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Intro() {
   }, []);
 
   return (
-    <Layout>
+    <Layout ref={conatinerRef}>
       <LandingHeader />
       <Main>
         <SectionOne isMobileSize={isMobileSize} />
@@ -37,7 +38,7 @@ export default function Intro() {
         <SectionThree />
         <SectionFour />
         <SectionFive isMobileSize={isMobileSize} />
-        <SectionSix />
+        <SectionSix scrollContainerRef={conatinerRef} />
         <SectionSeven />
         <SectionEight />
       </Main>
