@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import * as gtag from '@/lib/gtag';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
 export default function useSuggestRegionalForm() {
@@ -84,6 +85,13 @@ export default function useSuggestRegionalForm() {
   }, []);
 
   const handleOpenRegionList = useCallback(() => {
+    gtag.event({
+      action: 'suggest_regional_choose_region_click',
+      category: 'button_click',
+      label: '지역선택 버튼',
+      value: '',
+    });
+
     setIsRegionListOpen(true);
   }, []);
 
@@ -96,24 +104,59 @@ export default function useSuggestRegionalForm() {
   }, []);
 
   const handleSubmitRegion = useCallback(() => {
+    gtag.event({
+      action: 'suggest_regional_region_submit',
+      category: 'button_click',
+      label: '지역선택 선택완료 버튼',
+      value: '',
+    });
+
     setNextForm(Forms.RealestateType);
   }, [setNextForm]);
 
   const handleSubmitRealestateType = useCallback(() => {
+    gtag.event({
+      action: 'suggest_regional_realestate_type_submit',
+      category: 'button_click',
+      label: '부동산종류 및 거래종류 선택후 다음 버튼',
+      value: '',
+    });
+
     setNextForm(Forms.Area);
   }, [setNextForm]);
 
   const handleSubmitBuyOrRent = useCallback(() => {}, []);
 
   const handleSubmitPrice = useCallback(() => {
+    gtag.event({
+      action: 'suggest_regional_price_submit',
+      category: 'button_click',
+      label: '가격대 입력후 다음버튼',
+      value: '',
+    });
+
     setNextForm(Forms.Description);
   }, [setNextForm]);
 
   const handleSubmitArea = useCallback(() => {
+    gtag.event({
+      action: 'suggest_regional_area_submit',
+      category: 'button_click',
+      label: '관심있는 평수 선택후 다음버튼',
+      value: '',
+    });
+
     setNextForm(Forms.Floor);
   }, [setNextForm]);
 
   const handleSubmitFloor = useCallback(() => {
+    gtag.event({
+      action: 'suggest_regional_floor_submit',
+      category: 'button_click',
+      label: '관심있는 층수 선택후 다음버튼',
+      value: '',
+    });
+
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.Purpose);
     } else {
@@ -122,6 +165,13 @@ export default function useSuggestRegionalForm() {
   }, [buyOrRent, setNextForm]);
 
   const handleSubmitPurpose = useCallback(() => {
+    gtag.event({
+      action: 'suggest_regional_trade_purpose_submit',
+      category: 'button_click',
+      label: '매매거래 목적 및 입주/잔급일 선택후 다음버튼',
+      value: '',
+    });
+
     setNextForm(Forms.Price);
   }, [setNextForm]);
 
@@ -179,6 +229,13 @@ export default function useSuggestRegionalForm() {
       remainingAmountDate,
       remainingAmountDateType,
       description,
+    });
+
+    gtag.event({
+      action: 'suggest_regional_final_submit',
+      category: 'button_click',
+      label: '지역매물 추천요청 확인버튼',
+      value: '',
     });
 
     router.replace({
