@@ -74,26 +74,28 @@ export default function MobDanjiSummary({ selectedDanjiSummary }: { selectedDanj
           {selectedDanjiSummary?.saedaeCount.toLocaleString() || '-'}세대
         </span>
       </div>
-      <div tw="flex items-center gap-2 mt-2 mb-5">
-        <Chip tw="text-yellow-1000 bg-yellow">최근 실거래</Chip>
-        <span tw="text-info [line-height: 1rem] text-gray-700">
-          {`거래일 ${selectedDanjiSummary?.latestDealDate}` || '-'}
-        </span>
-      </div>
-      {(!!selectedDanjiSummary.buyPrice || !!selectedDanjiSummary.rentPrice) && (
-        <div tw="flex flex-col gap-2 mt-2">
-          {!!selectedDanjiSummary?.buyPrice && (
-            <div tw="flex items-center">
-              <span tw="text-b2 [margin-right: 3.75rem]">매매</span>
-              <span tw="text-b2 font-bold">{formatNumberInKorean(selectedDanjiSummary?.buyPrice || 0)}</span>
-            </div>
-          )}
-          {!!selectedDanjiSummary?.rentPrice && (
-            <div>
-              <span tw="text-b2 [margin-right: 3rem]">전월세</span>
-              <span tw="text-b2 font-bold">{formatNumberInKorean(selectedDanjiSummary?.rentPrice || 0)}</span>
-            </div>
-          )}
+
+      {!!selectedDanjiSummary.buyPrice && selectedDanjiSummary?.latestDealDateBuy && (
+        <div tw="flex items-center mt-2">
+          <span tw="text-b2 [width:36px] mr-2">매매</span>
+          <span tw="text-b2 font-bold">{formatNumberInKorean(selectedDanjiSummary?.buyPrice || 0)}</span>
+          <div tw="ml-auto">
+            <span tw="text-info [line-height: 1rem] text-gray-700">
+              {`거래일 ${selectedDanjiSummary.latestDealDateBuy}` || '-'}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {!!selectedDanjiSummary?.rentPrice && selectedDanjiSummary?.latestDealDateRent && (
+        <div tw="flex items-center">
+          <span tw="text-b2 [width:36px] mr-2">전월세</span>
+          <span tw="text-b2 font-bold">{formatNumberInKorean(selectedDanjiSummary?.rentPrice || 0)}</span>
+          <div tw="ml-auto">
+            <span tw="text-info [line-height: 1rem] text-gray-700">
+              {`거래일 ${selectedDanjiSummary?.latestDealDateRent}` || '-'}
+            </span>
+          </div>
         </div>
       )}
     </div>
