@@ -8,8 +8,6 @@ import { Home } from '@/components/templates';
 import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
-import { coordToRegion } from '@/lib/kakao';
-import { NaverLatLng } from '@/lib/navermap/types';
 import Routes from '@/router/routes';
 import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback } from 'react';
