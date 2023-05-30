@@ -1,5 +1,9 @@
-import React from 'react';
-import PhoneImage from '@/../public/static/images/landing/intro_phone1.png';
+import React, { useRef, useState, useEffect } from 'react';
+import PhoneImage from '@/../public/static/images/landing/intro_phone6.png';
+import PopupImage1 from '@/../public/static/images/landing/intro_popup1.png';
+import PopupImage2 from '@/../public/static/images/landing/intro_popup2.png';
+import PopupImage3 from '@/../public/static/images/landing/intro_popup3.png';
+
 import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
@@ -15,6 +19,36 @@ const StyledP = styled.p`
 `;
 
 export default function IntroSectionTwo() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [carouselItemIndex, setCarouselItemIndex] = useState(0);
+  const carouselItemWidth = 220;
+  const carouselItemGap = 16;
+  const animationDuration = 500;
+  const carouselX = -carouselItemIndex * (carouselItemWidth + carouselItemGap);
+
+  useEffect(() => {
+    const max = 3;
+
+    const intervalId = setInterval(() => {
+      setCarouselItemIndex((prev) => {
+        if (prev < max) {
+          return prev + 1;
+        }
+        return prev;
+      });
+    }, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (carouselItemIndex === 3) {
+      setTimeout(() => setCarouselItemIndex(0), animationDuration);
+    }
+  }, [carouselItemIndex]);
+
   return (
     <section tw="pt-[60px] md:py-[120px] md:px-10 xl:px-20 md:flex md:justify-between">
       <div tw="flex flex-col text-center md:text-left gap-7 md:gap-[60px] mb-10 md:mb-0">
@@ -48,8 +82,51 @@ export default function IntroSectionTwo() {
           <StyledP>채팅을 통한 추가 협의/방문예약</StyledP>
         </div>
       </div>
-      <div tw="h-[232px] md:h-auto overflow-hidden">
+      <div tw="mx-auto md:ml-auto md:mr-0 h-[232px] w-[320px] md:h-auto  relative overflow-hidden" ref={containerRef}>
         <Image tw="mx-auto" alt="" width={320} height={620} src={PhoneImage} />
+        <div
+          tw="absolute top-[60px] md:[top: 170px] flex gap-4 left-[50px]"
+          style={{
+            transform: `translateX(calc(${carouselX}px - ${carouselItemWidth}px - ${carouselItemGap}px))`,
+            transition: carouselItemIndex === 0 ? '' : `transform ${animationDuration}ms ease-in-out`,
+          }}
+        >
+          <Image
+            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+            width={220}
+            height={152}
+            alt=""
+            src={PopupImage3}
+          />
+          <Image
+            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+            width={220}
+            height={152}
+            alt=""
+            src={PopupImage1}
+          />
+          <Image
+            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+            width={220}
+            height={152}
+            alt=""
+            src={PopupImage2}
+          />
+          <Image
+            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+            width={220}
+            height={152}
+            alt=""
+            src={PopupImage3}
+          />
+          <Image
+            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+            width={220}
+            height={152}
+            alt=""
+            src={PopupImage1}
+          />
+        </div>
       </div>
     </section>
   );

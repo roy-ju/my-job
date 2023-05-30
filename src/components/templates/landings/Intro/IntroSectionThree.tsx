@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PhoneImage from '@/../public/static/images/landing/intro_phone2.png';
-import MypageImage from '@/../public/static/images/landing/intro_mypage.png';
 import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
+import MypageImage from '@/../public/static/images/landing/intro_mypage.png';
+import MypageImage2 from '@/../public/static/images/landing/intro_mypage2.png';
+import { motion } from 'framer-motion';
 
 const StyledP = styled.p`
   ${tw`text-sm md:text-2xl md:leading-10 leading-[22px] text-gray-900`}
@@ -15,9 +17,87 @@ const StyledP = styled.p`
   }
 `;
 
-export default function IntroSectionThree() {
+export default function IntroSectionThree({ recommend }: { recommend?: boolean }) {
+  const [slideStatus, setSlideStatus] = useState('');
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!slideStatus) {
+        setSlideStatus('prev');
+        return;
+      }
+      setSlideStatus(slideStatus === 'prev' ? 'next' : 'prev');
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [slideStatus]);
+
+  const slide1 = (
+    <>
+      <motion.div tw="shrink-0">
+        <Image
+          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
+          alt=""
+          width={320}
+          height={257}
+          src={MypageImage}
+        />
+      </motion.div>
+      <motion.div tw="shrink-0">
+        <Image
+          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
+          alt=""
+          width={320}
+          height={257}
+          src={MypageImage2}
+        />
+      </motion.div>
+      <motion.div tw="shrink-0">
+        <Image
+          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
+          alt=""
+          width={320}
+          height={257}
+          src={MypageImage}
+        />
+      </motion.div>
+    </>
+  );
+  const slide2 = (
+    <>
+      <motion.div tw="shrink-0">
+        <Image
+          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
+          alt=""
+          width={320}
+          height={257}
+          src={MypageImage2}
+        />
+      </motion.div>
+      <motion.div tw="shrink-0">
+        <Image
+          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
+          alt=""
+          width={320}
+          height={257}
+          src={MypageImage}
+        />
+      </motion.div>
+      <motion.div tw="shrink-0">
+        <Image
+          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
+          alt=""
+          width={320}
+          height={257}
+          src={MypageImage2}
+        />
+      </motion.div>
+    </>
+  );
+
   return (
-    <section tw="relative px-5 py-[60px] bg-nego-100  text-center md:text-left md:px-10 md:py-[120px] xl:px-20 md:flex md:flex-col md:flex-wrap md:[height: 1157px]">
+    <section
+      css={recommend ? tw`bg-white` : tw`bg-nego-100`}
+      tw="relative px-5 py-[60px]  text-center md:text-left md:px-10 md:py-[120px] xl:px-20 md:flex md:flex-col md:flex-wrap md:[height: 1157px] overflow-hidden"
+    >
       <div tw="mb-7 md:order-1 md:mb-[60px]">
         <p tw="font-bold text-base md:text-2xl md:leading-[34px] leading-6 text-nego-800 mb-2 md:mb-3">
           #중개사 #매물추천받기
@@ -55,7 +135,7 @@ export default function IntroSectionThree() {
         </div>
       </div>
       <div tw="md:order-4 md:ml-auto">
-        <Image tw="mx-auto" alt="" width={320} height={257} src={MypageImage} />
+        <div tw="flex gap-4  mx-auto w-[320px] h-[257px]">{slideStatus === 'next' ? slide2 : slide1}</div>
       </div>
     </section>
   );
