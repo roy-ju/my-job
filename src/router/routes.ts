@@ -26,6 +26,7 @@ const Routes = {
   My: 'my',
   Map: 'map',
   MapListingList: 'mapListingList',
+  Maintenance: 'maintenance',
 
   MyAddress: 'myAddress',
   MyAddressDetail: 'myAddressDetail',
