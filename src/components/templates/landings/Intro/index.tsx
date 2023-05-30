@@ -36,7 +36,7 @@ export default function Intro() {
         <SectionTwo />
         <SectionThree />
         <SectionFour />
-        <SectionFive />
+        <SectionFive isMobileSize={isMobileSize} />
         <SectionSix />
         <SectionSeven />
         <SectionEight />
