@@ -38,7 +38,7 @@ export default function IntroSectionFive({ isMobileSize }: { isMobileSize: boole
   }, [carouselItemIndex]);
 
   return (
-    <section tw="bg-nego-100 py-[60px] md:pt-[120px] md:pb-0 md:px-10 xl:px-20  px-5">
+    <section tw="bg-nego-100 py-[60px] md:pt-[120px] md:pb-0 md:px-10 xl:px-20  px-5 ">
       <div tw="mb-10 md:h-[705px] md:flex md:flex-col md:flex-wrap md:mb-0">
         <div tw="mb-10 md:order-1 md:mb-[120px]">
           <p tw="font-bold text-base md:text-2xl md:leading-[34px] leading-6 text-nego-800 mb-2 md:mb-3">
@@ -70,9 +70,9 @@ export default function IntroSectionFive({ isMobileSize }: { isMobileSize: boole
           </p>
         </div>
       </div>
-      <div className="carousel" tw="md:-translate-y-[calc(50% - 30px)]" ref={constraintsRef}>
+      <div className="carousel" tw="md:-translate-y-[calc(50% - 30px)] overflow-x-hidden" ref={constraintsRef}>
         <div
-          tw="w-fit flex"
+          tw="w-fit flex "
           style={{
             columnGap: carouselItemGap,
             transform: `translateX(calc(${carouselX}px - ${carouselItemWidth}px - ${carouselItemGap}px))`,

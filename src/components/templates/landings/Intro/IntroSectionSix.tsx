@@ -40,7 +40,7 @@ export default function IntroSectionSix({
   return (
     <section
       ref={targetRef}
-      tw=" px-5 py-[60px] md:py-[120px] md:px-10 xl:px-20 md:flex md:justify-between md:items-center relative"
+      tw=" px-5 py-[60px] md:py-[120px] md:px-10 xl:px-20 md:flex md:justify-between md:items-center relative max-w-[1280px] xl:mx-auto"
     >
       <div tw="mb-10 md:mb-0 md:self-start md:w-1/2">
         <p tw="text-nego-800 font-bold text-base leading-6 mb-2 md:mb-3 md:text-2xl md:leading-[34px]">
