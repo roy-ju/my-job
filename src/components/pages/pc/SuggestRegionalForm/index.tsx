@@ -1,4 +1,4 @@
-import { AuthRequired, Panel } from '@/components/atoms';
+import { Panel } from '@/components/atoms';
 import { SuggestRegionalForm } from '@/components/templates';
 import { memo } from 'react';
 import { OverlayPresenter } from '@/components/molecules';
@@ -63,42 +63,41 @@ export default memo(({ panelWidth, depth }: Props) => {
   } = useSuggestRegionalForm(depth);
 
   return (
-    <AuthRequired ciRequired depth={depth}>
-      <Panel width={panelWidth}>
-        <SuggestRegionalForm
-          forms={forms}
-          nextButtonDisabled={nextButtonDisabled}
-          onClickNext={handleClickNext}
-          onClickOpenRegionList={handleOpenRegionList}
-          region={bubjungdong?.name}
-          realestateType={realestateType}
-          buyOrRent={buyOrRent}
-          onChangeBuyOrRent={handleChangeBuyOrRent}
-          onChangeRealestateType={handleChangeRealestateType}
-          price={price}
-          onChangePrice={handleChangePrice}
-          monthlyRentFee={monthlyRentFee}
-          onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-          minArea={minArea}
-          onChangeMinArea={handleChangeMinArea}
-          maxArea={maxArea}
-          onChangeMaxArea={handleChangeMaxArea}
-          floor={floor}
-          onChangeFloor={handleChangeFloor}
-          purpose={purpose}
-          onChangePurpose={handleChangePurpose}
-          description={description}
-          onChangeDescription={handleChangeDescription}
-          moveInDate={moveInDate}
-          onChangeMoveInDate={handleChangeMoveInDate}
-          moveInDateType={moveInDateType}
-          onChangeMoveInDateType={handleChangeMoveInDateType}
-          remainingAmountDate={remainingAmountDate}
-          onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
-          remainingAmountDateType={remainingAmountDateType}
-          onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
-        />
-      </Panel>
+    // <AuthRequired ciRequired depth={depth}>
+    <Panel width={panelWidth}>
+      <SuggestRegionalForm
+        forms={forms}
+        nextButtonDisabled={nextButtonDisabled}
+        onClickNext={handleClickNext}
+        onClickOpenRegionList={handleOpenRegionList}
+        region={bubjungdong?.name}
+        realestateType={realestateType}
+        buyOrRent={buyOrRent}
+        onChangeBuyOrRent={handleChangeBuyOrRent}
+        onChangeRealestateType={handleChangeRealestateType}
+        price={price}
+        onChangePrice={handleChangePrice}
+        monthlyRentFee={monthlyRentFee}
+        onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+        minArea={minArea}
+        onChangeMinArea={handleChangeMinArea}
+        maxArea={maxArea}
+        onChangeMaxArea={handleChangeMaxArea}
+        floor={floor}
+        onChangeFloor={handleChangeFloor}
+        purpose={purpose}
+        onChangePurpose={handleChangePurpose}
+        description={description}
+        onChangeDescription={handleChangeDescription}
+        moveInDate={moveInDate}
+        onChangeMoveInDate={handleChangeMoveInDate}
+        moveInDateType={moveInDateType}
+        onChangeMoveInDateType={handleChangeMoveInDateType}
+        remainingAmountDate={remainingAmountDate}
+        onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
+        remainingAmountDateType={remainingAmountDateType}
+        onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
+      />
       {isRegionListOpen && (
         <OverlayPresenter>
           <div tw="bg-white w-[380px] h-[600px] rounded-lg shadow">
@@ -112,6 +111,7 @@ export default memo(({ panelWidth, depth }: Props) => {
           </div>
         </OverlayPresenter>
       )}
-    </AuthRequired>
+    </Panel>
+    // </AuthRequired>
   );
 });

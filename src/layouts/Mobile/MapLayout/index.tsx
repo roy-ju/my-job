@@ -49,8 +49,17 @@ function MapWrapper() {
   const router = useRouter();
 
   const handleClickSuggestRegional = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
-  }, [router]);
+    if (centerAddress.join('') !== '') {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
+        query: {
+          address: centerAddress.join(' '),
+        },
+      });
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+    }
+  }, [router, centerAddress]);
 
   return (
     <>

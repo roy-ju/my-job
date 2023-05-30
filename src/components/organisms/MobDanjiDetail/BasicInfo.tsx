@@ -10,14 +10,26 @@ import React, { useState, useCallback, useEffect } from 'react';
 import tw from 'twin.macro';
 
 export default function BasicInfo({
+  isShowDanjiListings = false,
   isListingDetail = false,
   danji,
 }: {
+  isShowDanjiListings?: boolean;
   isListingDetail?: boolean;
   danji: GetDanjiDetailResponse;
 }) {
   const router = useRouter();
   const [isRecommendationService, setIsRecommendationService] = useState(false);
+
+  const handleDanjiDetail = useCallback(() => {
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
+      query: {
+        p: danji?.pnu || `${router.query.p}` || '',
+        rt: danji?.type.toString() || (router.query.rt as string) || '',
+      },
+    });
+  }, [router, danji]);
 
   const handleRecommendation = useCallback(() => {
     if (!danji?.pnu || !danji.type) return;
@@ -66,8 +78,13 @@ export default function BasicInfo({
     <>
       <div css={[isListingDetail ? tw`pb-0` : tw`pb-9`]}>
         <div tw="px-5">
-          <div tw="mb-2">
+          <div tw="flex flex-row items-center justify-between mb-2">
             <span tw="text-h3 font-bold">{danji.name}</span>
+            {isShowDanjiListings && (
+              <Button variant="outlined" size="small" onClick={handleDanjiDetail}>
+                단지 정보 보기
+              </Button>
+            )}
           </div>
 
           <div tw="flex flex-col">
