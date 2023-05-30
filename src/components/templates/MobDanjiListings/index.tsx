@@ -40,7 +40,7 @@ export default function MobDanjiListings({
       </NavigationHeader>
       <div tw="[min-height: 24px]" />
       <MobDanjiDetailSection>
-        <MobDanjiDetailSection.Info danji={danji} />
+        <MobDanjiDetailSection.Info danji={danji} isShowDanjiListings />
       </MobDanjiDetailSection>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="flex mb-2 px-5">
