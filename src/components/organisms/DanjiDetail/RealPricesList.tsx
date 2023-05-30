@@ -2,11 +2,10 @@ import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
 import { customAlphabet } from 'nanoid';
 import TradeIcon from '@/assets/icons/trade.svg';
 import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 import { formatNumberInKorean } from '@/utils';
 import { minDigits } from '@/utils/fotmat';
-import { Button } from '@/components/atoms';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { Button, InfiniteScroll } from '@/components/atoms';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
 import { useRouter } from '@/hooks/utils';
@@ -98,8 +97,6 @@ export default function RealPricesList({
 
   const nanoid = customAlphabet('1234567890abcedfg', 10);
 
-  const listEndRef = useRef<HTMLDivElement>(null);
-
   const describeBuyOrRentUtil = (mrf: number, bor: number) => {
     if (mrf > 0) return '월세';
     return describeBuyOrRent(bor);
@@ -133,14 +130,6 @@ export default function RealPricesList({
     selectedIndex,
     list: danjiRealPricesPyoungList,
   });
-
-  const onIntersect = useCallback(() => {
-    if (realPricesList && realPricesList) {
-      setSize((prev) => prev + 1);
-    }
-  }, [realPricesList, setSize]);
-
-  useInfiniteScroll(listEndRef, onIntersect);
 
   const handleRealPriceList = useCallback(() => {
     if (buyOrRent) {
@@ -220,6 +209,10 @@ export default function RealPricesList({
     selectedYear,
   ]);
 
+  const onIntersect = useCallback(() => {
+    setSize((prev) => prev + 1);
+  }, [setSize]);
+
   return (
     <div tw="mt-5 px-5 pb-10">
       <div tw="w-full">
@@ -231,10 +224,10 @@ export default function RealPricesList({
             <div tw="w-[9.625rem] py-2 text-b2 font-normal [text-align: right]">실거래가</div>
           </div>
         </div>
-        <div>
-          {realPricesList && realPricesList.length > 0 ? (
-            <>
-              {(isMorePage ? realPricesList : realPricesList.slice(0, 8)).map((item) => (
+
+        <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={onIntersect}>
+          {realPricesList && realPricesList.length > 0
+            ? (isMorePage ? realPricesList : realPricesList.slice(0, 8)).map((item) => (
                 <div
                   key={nanoid()}
                   tw="flex flex-row items-center [padding: 8px 0px 8px 0px] [border-bottom: 1px solid #F4F6FA]"
@@ -261,11 +254,9 @@ export default function RealPricesList({
                     width="9.625rem"
                   />
                 </div>
-              ))}
-              {isMorePage && <div ref={listEndRef} style={{ minHeight: '1px', maxHeight: '1px' }} />}
-            </>
-          ) : null}
-        </div>
+              ))
+            : null}
+        </InfiniteScroll>
       </div>
       {isMorePage
         ? null
