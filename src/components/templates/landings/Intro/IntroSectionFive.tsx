@@ -1,9 +1,42 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Phone1 from '@/../public/static/images/landing/intro_phone3.png';
 import Phone2 from '@/../public/static/images/landing/intro_phone4.png';
 
 export default function IntroSectionFive({ isMobileSize }: { isMobileSize: boolean }) {
+  const constraintsRef = useRef<HTMLDivElement | null>(null);
+  const carouselItemWidth = isMobileSize ? 320 : 540;
+  const carouselItemGap = isMobileSize ? 0 : 72;
+
+  const [carouselItemIndex, setCarouselItemIndex] = useState(0);
+
+  const carouselX = -carouselItemIndex * (carouselItemWidth + carouselItemGap);
+
+  const animationDuration = 500;
+
+  useEffect(() => {
+    const max = 3;
+
+    const intervalId = setInterval(() => {
+      setCarouselItemIndex((prev) => {
+        if (prev < max) {
+          return prev + 1;
+        }
+        return prev;
+      });
+    }, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (carouselItemIndex === 3) {
+      setTimeout(() => setCarouselItemIndex(0), animationDuration);
+    }
+  }, [carouselItemIndex]);
+
   return (
     <section tw="bg-nego-100 py-[60px] md:pt-[120px] md:pb-0 md:px-10 xl:px-20  px-5">
       <div tw="mb-10 md:h-[705px] md:flex md:flex-col md:flex-wrap md:mb-0">
@@ -37,18 +70,132 @@ export default function IntroSectionFive({ isMobileSize }: { isMobileSize: boole
           </p>
         </div>
       </div>
-      <div className="carousel" tw="-translate-y-[calc(50% - 30px)]">
+      <div className="carousel" tw="md:-translate-y-[calc(50% - 30px)]" ref={constraintsRef}>
         <div
-          className="item"
-          tw="p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          tw="w-fit flex"
+          style={{
+            columnGap: carouselItemGap,
+            transform: `translateX(calc(${carouselX}px - ${carouselItemWidth}px - ${carouselItemGap}px))`,
+            transition: carouselItemIndex === 0 ? '' : `transform ${animationDuration}ms ease-in-out`,
+          }}
         >
-          <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">Dofe***@naver.com l 2022-06-10</p>
-          <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
-          <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
-            다른 서비스는 <span tw="font-medium">같은 매물이 여러개 올라와</span> 있어서 혼란스러운데 네고시오에서는{' '}
-            <span tw="font-medium">바로 집주인이랑 가격 결정</span>을 하니
-            <span tw="font-medium">이곳저곳 볼 필요가 없어요.</span>
-          </p>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">Dofe***@naver.com l 2022-06-10</p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              다른 서비스는 <span tw="font-medium">같은 매물이 여러개 올라와</span> 있어서 혼란스러운데 네고시오에서는{' '}
+              <span tw="font-medium">바로 집주인이랑 가격 결정</span>을 하니
+              <span tw="font-medium">이곳저곳 볼 필요가 없어요.</span>
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">
+              rock******@gmail.com l 2022-08-09
+            </p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              예전엔 <span tw="font-medium">광고에 낚이고, 중개비도 직접 합의</span>보느라
+              <br />
+              이사준비도 제대로 못했었는데, 네고시오에서 <span tw="font-medium">내 뜻대로 주도적으로 거래</span>할 수
+              있어서 좋아요!
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">kjin****@nate.com l 2022-10-05</p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              어차피 현시세와 내가 원하는 가격은 어느정도 정해져 있잖아요. 내가{' '}
+              <span tw="font-medium">직접 집주인에게 원하는 가격을</span>
+              <span tw="font-medium">제시</span>할 수 있는건 정말 큰 이점인 것 같아요.
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">Dofe***@naver.com l 2022-06-10</p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              다른 서비스는 <span tw="font-medium">같은 매물이 여러개 올라와</span> 있어서 혼란스러운데 네고시오에서는{' '}
+              <span tw="font-medium">바로 집주인이랑 가격 결정</span>을 하니
+              <span tw="font-medium">이곳저곳 볼 필요가 없어요.</span>
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">
+              rock******@gmail.com l 2022-08-09
+            </p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              예전엔 <span tw="font-medium">광고에 낚이고, 중개비도 직접 합의</span>보느라
+              <br />
+              이사준비도 제대로 못했었는데, 네고시오에서 <span tw="font-medium">내 뜻대로 주도적으로 거래</span>할 수
+              있어서 좋아요!
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">kjin****@nate.com l 2022-10-05</p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              어차피 현시세와 내가 원하는 가격은 어느정도 정해져 있잖아요. 내가{' '}
+              <span tw="font-medium">직접 집주인에게 원하는 가격을</span>
+              <span tw="font-medium">제시</span>할 수 있는건 정말 큰 이점인 것 같아요.
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">Dofe***@naver.com l 2022-06-10</p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              다른 서비스는 <span tw="font-medium">같은 매물이 여러개 올라와</span> 있어서 혼란스러운데 네고시오에서는{' '}
+              <span tw="font-medium">바로 집주인이랑 가격 결정</span>을 하니
+              <span tw="font-medium">이곳저곳 볼 필요가 없어요.</span>
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">
+              rock******@gmail.com l 2022-08-09
+            </p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              예전엔 <span tw="font-medium">광고에 낚이고, 중개비도 직접 합의</span>보느라
+              <br />
+              이사준비도 제대로 못했었는데, 네고시오에서 <span tw="font-medium">내 뜻대로 주도적으로 거래</span>할 수
+              있어서 좋아요!
+            </p>
+          </div>
+          <div
+            className="item"
+            tw="mx-auto p-5 md:p-10 w-[320px] md:w-[540px] [border-radius: 92px] [background: rgba(243, 240, 255, 0.8)] [backdrop-filter: blur(2px)]"
+          >
+            <p tw="text-sm md:text-base md:leading-6 leading-[22px] text-nego-1000">kjin****@nate.com l 2022-10-05</p>
+            <div role="presentation" tw="my-4 h-[1px] [background-color:  #5F3DC4] scale-y-50" />
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] font-light text-nego-1000">
+              어차피 현시세와 내가 원하는 가격은 어느정도 정해져 있잖아요. 내가{' '}
+              <span tw="font-medium">직접 집주인에게 원하는 가격을</span>
+              <span tw="font-medium">제시</span>할 수 있는건 정말 큰 이점인 것 같아요.
+            </p>
+          </div>
         </div>
       </div>
     </section>
