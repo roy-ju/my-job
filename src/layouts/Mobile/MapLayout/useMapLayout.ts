@@ -36,7 +36,8 @@ export interface DanjiSummary {
   rentListingCount: number;
   realestateType: number;
   buyPrice: number;
-  latestDealDate?: string;
+  latestDealDateBuy?: string;
+  latestDealDateRent?: string;
   pnu?: string;
   rentPrice: number;
   saedaeCount: number;
@@ -287,7 +288,8 @@ export default function useMapLayout() {
             realestateType: summary?.realestate_type ?? 0,
             buyPrice: summary?.buy_price ?? 0,
             rentPrice: summary?.rent_price ?? 0,
-            latestDealDate: summary?.latest_deal_date,
+            latestDealDateBuy: summary?.latest_deal_date_buy,
+            latestDealDateRent: summary?.latest_deal_date_rent,
             pnu: summary?.pnu,
             saedaeCount: summary?.saedae_count ?? 0,
             string: summary?.string,
