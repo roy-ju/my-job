@@ -1,6 +1,6 @@
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
-import { MobileContainer } from '@/components/atoms';
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { SuggestRegionalSummary } from '@/components/templates';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -54,26 +54,28 @@ export default memo(() => {
   }, [params, router]);
 
   return (
-    <MobileContainer>
-      <SuggestRegionalSummary
-        onClickBack={handleClickBack}
-        onClickNext={handleClickNext}
-        isNextButtonLoading={isCreating}
-        address={params?.address}
-        buyOrRents={params?.buy_or_rents}
-        realestateTypes={params?.realestate_types}
-        price={params?.buy_or_rents === '1' ? params?.trade_price : params?.deposit}
-        monthlyRentFee={params?.monthly_rent_fee}
-        minArea={params?.pyoung_from}
-        maxArea={params?.pyoung_to}
-        purpose={params?.purpose}
-        floor={params?.floors}
-        description={params?.note}
-        remainingAmountPaymentTime={params?.remaining_amount_payment_time}
-        remainingAmountPaymentTimeType={params?.remaining_amount_payment_time_type}
-        moveInDate={params?.move_in_date}
-        moveInDateType={params?.move_in_date_type}
-      />
-    </MobileContainer>
+    <MobAuthRequired ciRequired>
+      <MobileContainer>
+        <SuggestRegionalSummary
+          onClickBack={handleClickBack}
+          onClickNext={handleClickNext}
+          isNextButtonLoading={isCreating}
+          address={params?.address}
+          buyOrRents={params?.buy_or_rents}
+          realestateTypes={params?.realestate_types}
+          price={params?.buy_or_rents === '1' ? params?.trade_price : params?.deposit}
+          monthlyRentFee={params?.monthly_rent_fee}
+          minArea={params?.pyoung_from}
+          maxArea={params?.pyoung_to}
+          purpose={params?.purpose}
+          floor={params?.floors}
+          description={params?.note}
+          remainingAmountPaymentTime={params?.remaining_amount_payment_time}
+          remainingAmountPaymentTimeType={params?.remaining_amount_payment_time_type}
+          moveInDate={params?.move_in_date}
+          moveInDateType={params?.move_in_date_type}
+        />
+      </MobileContainer>
+    </MobAuthRequired>
   );
 });

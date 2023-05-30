@@ -184,7 +184,7 @@ export default function useSuggestRegionalForm(depth: number) {
     });
 
     router.replace(Routes.SuggestRegionalSummary, {
-      state: {
+      searchParams: {
         params: JSON.stringify(params),
       },
     });

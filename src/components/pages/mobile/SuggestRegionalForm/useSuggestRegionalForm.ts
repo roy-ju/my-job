@@ -181,15 +181,12 @@ export default function useSuggestRegionalForm() {
       description,
     });
 
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalSummary}`,
-        query: {
-          params: JSON.stringify(params),
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalSummary}`,
+      query: {
+        params: JSON.stringify(params),
       },
-      `/${Routes.EntryMobile}/${Routes.SuggestRegionalSummary}`,
-    );
+    });
   }, [
     bubjungdong,
     realestateType,

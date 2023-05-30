@@ -1,4 +1,4 @@
-import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+import { MobileContainer } from '@/components/atoms';
 import { SuggestRegionalForm } from '@/components/templates';
 import { memo, useCallback } from 'react';
 import { OverlayPresenter } from '@/components/molecules';
@@ -66,43 +66,41 @@ export default memo(() => {
   }, [router]);
 
   return (
-    <MobAuthRequired ciRequired>
-      <MobileContainer>
-        <SuggestRegionalForm
-          onClickBack={handleClickBack}
-          forms={forms}
-          nextButtonDisabled={nextButtonDisabled}
-          onClickNext={handleClickNext}
-          onClickOpenRegionList={handleOpenRegionList}
-          region={bubjungdong?.name}
-          realestateType={realestateType}
-          buyOrRent={buyOrRent}
-          onChangeBuyOrRent={handleChangeBuyOrRent}
-          onChangeRealestateType={handleChangeRealestateType}
-          price={price}
-          onChangePrice={handleChangePrice}
-          monthlyRentFee={monthlyRentFee}
-          onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-          minArea={minArea}
-          onChangeMinArea={handleChangeMinArea}
-          maxArea={maxArea}
-          onChangeMaxArea={handleChangeMaxArea}
-          floor={floor}
-          onChangeFloor={handleChangeFloor}
-          purpose={purpose}
-          onChangePurpose={handleChangePurpose}
-          description={description}
-          onChangeDescription={handleChangeDescription}
-          moveInDate={moveInDate}
-          onChangeMoveInDate={handleChangeMoveInDate}
-          moveInDateType={moveInDateType}
-          onChangeMoveInDateType={handleChangeMoveInDateType}
-          remainingAmountDate={remainingAmountDate}
-          onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
-          remainingAmountDateType={remainingAmountDateType}
-          onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
-        />
-      </MobileContainer>
+    <MobileContainer>
+      <SuggestRegionalForm
+        onClickBack={handleClickBack}
+        forms={forms}
+        nextButtonDisabled={nextButtonDisabled}
+        onClickNext={handleClickNext}
+        onClickOpenRegionList={handleOpenRegionList}
+        region={bubjungdong?.name}
+        realestateType={realestateType}
+        buyOrRent={buyOrRent}
+        onChangeBuyOrRent={handleChangeBuyOrRent}
+        onChangeRealestateType={handleChangeRealestateType}
+        price={price}
+        onChangePrice={handleChangePrice}
+        monthlyRentFee={monthlyRentFee}
+        onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+        minArea={minArea}
+        onChangeMinArea={handleChangeMinArea}
+        maxArea={maxArea}
+        onChangeMaxArea={handleChangeMaxArea}
+        floor={floor}
+        onChangeFloor={handleChangeFloor}
+        purpose={purpose}
+        onChangePurpose={handleChangePurpose}
+        description={description}
+        onChangeDescription={handleChangeDescription}
+        moveInDate={moveInDate}
+        onChangeMoveInDate={handleChangeMoveInDate}
+        moveInDateType={moveInDateType}
+        onChangeMoveInDateType={handleChangeMoveInDateType}
+        remainingAmountDate={remainingAmountDate}
+        onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
+        remainingAmountDateType={remainingAmountDateType}
+        onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
+      />
       {isRegionListOpen && (
         <OverlayPresenter>
           <div tw="bg-white w-[90vw] h-[90vh] max-w-[380px] max-h-[600px] rounded-lg shadow">
@@ -116,6 +114,6 @@ export default memo(() => {
           </div>
         </OverlayPresenter>
       )}
-    </MobAuthRequired>
+    </MobileContainer>
   );
 });
