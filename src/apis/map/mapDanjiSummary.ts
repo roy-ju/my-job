@@ -10,7 +10,8 @@ export interface GetDanjiSummaryResponse {
   realestate_type: number;
   string: string;
   saedae_count: number;
-  latest_deal_date?: string;
+  latest_deal_date_buy: string;
+  latest_deal_date_rent: string;
   use_accepted_year?: string;
 }
 
