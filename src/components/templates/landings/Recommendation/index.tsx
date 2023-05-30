@@ -2,7 +2,7 @@ import React from 'react';
 import tw from 'twin.macro';
 import LandingFooter from '../LandingFooter';
 import LandingHeader from '../LandingHeader';
-import SectionTwo from './RecommendationSectionTwo';
+import SectionTwo from '../Intro/IntroSectionThree';
 import SectionOne from './RecommendationSectionOne';
 
 const Layout = tw.div`absolute inset-0 overflow-auto`;
@@ -14,7 +14,7 @@ export default function Recommendation() {
       <LandingHeader />
       <Main>
         <SectionOne />
-        <SectionTwo />
+        <SectionTwo recommend />
       </Main>
       <LandingFooter />
     </Layout>
