@@ -42,7 +42,7 @@ export default function IntroSectionEight() {
         </a>
       </div>
       <h1 tw="font-bold text-lg leading-[32px] text-gray-800 md:text-4xl md:leading-[52px]">
-        네고시오는 대한민국 최대 신용정보회사
+        네고시오는 대한민국 최대 신용평가회사
         <br />
         NICE평가정보와 함께 합니다.
       </h1>

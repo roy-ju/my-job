@@ -50,7 +50,7 @@ export default function IntroSectionTwo() {
   }, [carouselItemIndex]);
 
   return (
-    <section tw="pt-[60px] md:py-[120px] md:px-10 xl:px-20 md:flex md:justify-between">
+    <section tw="pt-[60px] md:py-[120px] md:px-10 xl:px-20 md:flex md:justify-between max-w-[1280px] xl:mx-auto">
       <div tw="flex flex-col text-center md:text-left gap-7 md:gap-[60px] mb-10 md:mb-0">
         <div>
           <p tw="font-bold text-base md:text-2xl md:leading-[34px] leading-6 text-nego-800 mb-2 md:mb-3">
