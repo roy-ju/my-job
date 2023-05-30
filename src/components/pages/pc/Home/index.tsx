@@ -8,8 +8,6 @@ import { Home } from '@/components/templates';
 import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
-import { coordToRegion } from '@/lib/kakao';
-import { NaverLatLng } from '@/lib/navermap/types';
 import Routes from '@/router/routes';
 import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback } from 'react';
@@ -40,22 +38,7 @@ export default memo(() => {
   }, [router]);
 
   const handleClickSuggestion = useCallback(async () => {
-    if (!window.NaverMap) {
-      router.replace(Routes.SuggestRegionalForm);
-      return;
-    }
-    const center = window.NaverMap.getCenter() as NaverLatLng;
-    const response = await coordToRegion(center.x, center.y);
-    if (response && response.documents?.length > 0) {
-      const region = response.documents.filter((item) => item.region_type === 'B')[0];
-      if (region) {
-        router.replace(Routes.SuggestRegionalForm, {
-          searchParams: {
-            address: `${region.region_1depth_name} ${region.region_2depth_name} ${region.region_3depth_name}`,
-          },
-        });
-      }
-    }
+    router.replace(Routes.SuggestRegionalForm);
   }, [router]);
 
   const handleClickBidding = useCallback(() => {

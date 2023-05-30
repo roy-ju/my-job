@@ -67,7 +67,7 @@ export default function FormRenderer({ form }: Props) {
     case Forms.Region:
       return (
         <div id={Forms.Region}>
-          <div tw="pt-7 pb-10 px-5 flex items-center justify-center font-bold [letter-spacing: -0.25px]">
+          <div tw="pt-7 pb-10 px-5 flex items-center font-bold [letter-spacing: -0.25px]">
             최소 10명의 중개사에게 발송됩니다.
             <br />
             매물추천받기 서비스는 현재 수도권에서만 가능합니다.
