@@ -65,12 +65,13 @@ export default function Slider({ children, slideWidth = 380, length = 0 }: Slide
 
   /* set position in first-render */
   useLayoutEffect(() => {
+    if (length === 1) return;
     if (sliderRef.current === null) return;
     if (!clickedButton) {
       sliderRef.current.style.transitionDuration = '0ms';
       setSliderIndex(startIndex);
     }
-  }, [startIndex, clickedButton]);
+  }, [startIndex, clickedButton, length]);
 
   /* slide handler */
   const handleClickSlideToPrev = () => {
