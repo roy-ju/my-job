@@ -29,7 +29,7 @@ import {
   RealestateTypeChipVariant,
   RealestateTypeString,
 } from '@/constants/strings';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import { GetListingsForTheLoggedIn } from '@/apis/home/getListingsForTheLoggedIn';
 import { GetDanjisForTheLoggedIn } from '@/apis/home/getDanjisForTheLoggedIn';
