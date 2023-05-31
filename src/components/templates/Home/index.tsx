@@ -20,7 +20,7 @@ import DirectTransactionIcon from '@/assets/icons/direct_transaction.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import BellIcon from '@/assets/icons/bell.svg';
-import { GetRecentRealPricesResponse } from '@/apis/home/getRecentRealPrices';
+import { GetMostTradeCountResponse } from '@/apis/home/getMostTradeCount';
 import { GetMostSuggestsResponse } from '@/apis/home/getMostSuggests';
 import { GetMostFavoritesResponse } from '@/apis/home/getMostFavorites';
 import {
@@ -125,13 +125,14 @@ interface Props {
   unreadNotificationCount?: number;
   activeListingCount?: number;
   suggestAssignedAgentCount?: number;
-  recentRealPriceList?: GetRecentRealPricesResponse['list'];
+  tradeCountList?: GetMostTradeCountResponse['list'];
   mostSuggestList?: GetMostSuggestsResponse['list'];
   mostFavoriteList?: GetMostFavoritesResponse['list'];
   listingsForUser?: GetListingsForTheLoggedIn['list'];
   danjisForUser?: GetDanjisForTheLoggedIn['list'];
   hasAddress?: boolean;
   hasFavoriteDanji?: boolean;
+  regionName?: string;
 
   onClickLogin?: () => void;
   onClickSuggestion?: () => void;
@@ -162,13 +163,14 @@ export default function Home({
   suggestAssignedAgentCount = 0,
   unreadNotificationCount = 0,
 
-  recentRealPriceList,
+  tradeCountList,
   mostSuggestList,
   mostFavoriteList,
   listingsForUser,
   danjisForUser,
   hasAddress,
   hasFavoriteDanji,
+  regionName,
 
   onClickLogin,
   onClickSuggestion,
@@ -462,7 +464,7 @@ export default function Home({
                               {item.trade_or_deposit_price}
                             </Numeral>
                           </div>
-                          <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
+                          <div tw="text-info text-gray-700">{item.deal_date} 신고</div>
                         </motion.div>
                       ))}
                     </Carousel>
@@ -616,11 +618,11 @@ export default function Home({
             </div>
           </div>
         )}
-        {Boolean(recentRealPriceList?.length) && (
+        {Boolean(tradeCountList?.length) && (
           <div>
             <Separator tw="bg-gray-300" />
             <div tw="pt-10 pb-6">
-              <div tw="px-5 font-bold text-h3">성남시 분당구 월간 거래량 TOP</div>
+              <div tw="px-5 font-bold text-h3">{regionName || ''} 월간 거래량 TOP</div>
               <div tw="px-5 text-b2 text-gray-700 mt-1">
                 최신 관심단지나 우리집 주소 등록 기준으로 지역이 선정됩니다.
               </div>
@@ -634,12 +636,12 @@ export default function Home({
                   renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
                   renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
                 >
-                  {recentRealPriceList?.map((item) => (
+                  {tradeCountList?.map((item) => (
                     <motion.div
                       whileHover={{
                         scale: 1.05,
                       }}
-                      key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
+                      key={`recentRealPrice${item.danji_id}${item.pnu}${item.realestate_type}`}
                       tw="w-[208px] px-5 pt-3 pb-3 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
                       onClick={() => {
                         if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
@@ -654,14 +656,6 @@ export default function Home({
                       <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
                         {item.name}
                       </div>
-                      {/* <div tw="flex items-center text-b2 mb-1">
-                        {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
-                        <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
-                        <Numeral koreanNumber tw="font-bold">
-                          {item.trade_or_deposit_price}
-                        </Numeral>
-                      </div> */}
-                      {/* <div tw="text-info text-gray-700">{item.deal_date} 거래</div> */}
 
                       <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
                         {item.saedae_count && <span>{item.saedae_count}세대</span>}
@@ -678,17 +672,16 @@ export default function Home({
                         )}
                       </div>
                       <div tw="mt-2">
-                        {typeof item.total_count === 'number' && (
-                          <div tw="flex items-center">
-                            <p tw="text-b2 min-w-[36px]">전체</p>
-                            <p tw="text-b2 font-bold">{item.total_count} 건</p>
-                          </div>
-                        )}
+                        <div tw="flex items-center">
+                          <p tw="text-b2 min-w-[36px]">전체</p>
+                          <p tw="text-b2 font-bold">{(item.trade_count || 0) + (item.rent_count || 0)} 건</p>
+                        </div>
+
                         <div tw="flex items-center gap-2 mt-0.5">
-                          {typeof item.buy_count === 'number' && (
-                            <div tw="flex items-center flex-1 justify-between">
+                          {typeof item.trade_count === 'number' && (
+                            <div tw="flex items-center flex-1">
                               <p tw="text-b2 min-w-[36px]">매매</p>
-                              <p tw="text-b2 whitespace-nowrap">{item.buy_count} 건</p>
+                              <p tw="text-b2 whitespace-nowrap">{item.trade_count} 건</p>
                             </div>
                           )}
 
