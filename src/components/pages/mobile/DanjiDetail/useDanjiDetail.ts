@@ -10,7 +10,7 @@ export default function useDanjiDetail(p?: string, rt?: number) {
   const [listingDetailPnu, setListingDetailPnu] = useState<string>();
   const [listingDetailRt, setListingDetailRt] = useState<number>();
 
-  const { danji, mutate } = useAPI_GetDanjiDetail({
+  const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
     pnu: listingDetailPnu || (router?.query?.p as string),
     realestateType: listingDetailRt || (router?.query?.rt ? Number(router.query.rt) : undefined),
   });
@@ -31,7 +31,8 @@ export default function useDanjiDetail(p?: string, rt?: number) {
     () => ({
       danji,
       mutate,
+      isLoading,
     }),
-    [danji, mutate],
+    [danji, mutate, isLoading],
   );
 }

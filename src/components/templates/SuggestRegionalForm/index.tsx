@@ -175,16 +175,18 @@ export default function SuggestRegionalForm({
           ))}
         </div>
       </FormContext.Provider>
-      <PersistentBottomBar>
-        <div>
-          <Button disabled={nextButtonDisabled} tw="w-full" size="bigger" onClick={onClickNext}>
-            다음
-          </Button>
-          {forms && forms.length > 1 && (
-            <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
-          )}
-        </div>
-      </PersistentBottomBar>
+      {!(forms?.length === 1 && forms?.[0] === 'region' && !region) && (
+        <PersistentBottomBar>
+          <div>
+            <Button disabled={nextButtonDisabled} tw="w-full" size="bigger" onClick={onClickNext}>
+              다음
+            </Button>
+            {forms && forms.length > 1 && (
+              <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
+            )}
+          </div>
+        </PersistentBottomBar>
+      )}
     </div>
   );
 }
