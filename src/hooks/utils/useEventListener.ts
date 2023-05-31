@@ -1,44 +1,79 @@
-import { RefObject, useEffect, useRef } from 'react';
-import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
+/* eslint-disable no-redeclare */
+import { useEffect, useRef } from 'react';
+import { isClient, isString, noop } from '@/utils/is';
+import { unRef } from '@/utils/unRef';
+import { _window } from './ssr_config';
 
-export default function useEventListener<
-  KW extends keyof WindowEventMap,
-  KH extends keyof HTMLElementEventMap,
-  KM extends keyof MediaQueryListEventMap,
-  T extends HTMLElement | MediaQueryList | void = void,
->(
-  eventName: KW | KH | KM,
-  handler: (
-    event:
-      | WindowEventMap[KW]
-      | HTMLElementEventMap[KH]
-      | MediaQueryListEventMap[KM]
-      | Event,
-  ) => void,
-  element?: RefObject<T>,
-  options?: boolean | AddEventListenerOptions,
-) {
-  // Create a ref that stores handler
-  const savedHandler = useRef(handler);
+// interface InferEventTarget<Events> {
+//   addEventListener(event: Events, fn?: any, options?: any): any;
+//   removeEventListener(event: Events, fn?: any, options?: any): any;
+// }
 
-  useIsomorphicLayoutEffect(() => {
-    savedHandler.current = handler;
-  }, [handler]);
+export type WindowEventName = keyof WindowEventMap;
+export type DocumentEventName = keyof DocumentEventMap;
+
+export type GeneralEventListener<E = Event> = {
+  (evt: E): void;
+};
+
+// export function useEventListener<E extends keyof WindowEventMap>(
+//   event: E,
+//   listener: (this: Window, ev: WindowEventMap[E]) => any,
+//   options?: boolean | AddEventListenerOptions,
+// ): Fn;
+
+// export function useEventListener<E extends keyof WindowEventMap>(
+//   target: Window,
+//   event: E,
+//   listener: (this: Window, ev: WindowEventMap[E]) => any,
+//   options?: boolean | AddEventListenerOptions,
+// ): Fn;
+
+// export function useEventListener<E extends keyof DocumentEventMap>(
+//   target: Document,
+//   event: E,
+//   listener: (this: Document, ev: DocumentEventMap[E]) => any,
+//   options?: boolean | AddEventListenerOptions,
+// ): Fn;
+
+// export function useEventListener<Names extends string, EventType = Event>(
+//   target: InferEventTarget<Names>,
+//   event: Names,
+//   listener: GeneralEventListener<EventType>,
+//   options?: boolean | AddEventListenerOptions,
+// ): Fn;
+
+export default function useEventListener(...args: any[]) {
+  let target: MaybeRef<EventTarget | null | undefined> = _window;
+  let event: string;
+  let listener: EventListener;
+  let options: boolean | AddEventListenerOptions;
+
+  if (isString(args[0])) {
+    [event, listener, options] = args;
+  } else {
+    [target, event, listener, options] = args;
+  }
+
+  const savedListener = useRef<EventListener>(listener);
+  const cleanup = useRef(noop);
 
   useEffect(() => {
-    // Define the listening target
-    const targetElement: T | Window = element?.current ?? window;
+    savedListener.current = listener;
+  }, [listener]);
 
-    if (!(targetElement && targetElement.addEventListener)) return () => {};
+  useEffect(() => {
+    const el = unRef(target);
 
-    // Create event listener that calls handler function stored in ref
-    const listener: typeof handler = (event) => savedHandler.current(event);
+    if (!isClient || !el) return;
 
-    targetElement.addEventListener(eventName, listener, options);
-
-    // Remove event listener on cleanup
-    return () => {
-      targetElement.removeEventListener(eventName, listener, options);
+    el.addEventListener(event, savedListener.current, options);
+    cleanup.current = () => {
+      el.removeEventListener(event, savedListener.current, options);
     };
-  }, [eventName, element, options]);
+
+    return cleanup.current;
+  }, [event, target, options]);
+
+  return cleanup.current;
 }

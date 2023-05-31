@@ -1,7 +1,9 @@
-import globals from '@/styles/globals';
+import React from 'react';
+import { CacheProvider } from '@emotion/react';
+import GlobalStyles from '../src/styles/GlobalStyles';
+import PcGlobalStyles from '../src/styles/PcGlobalStyles';
 import createCache from '@emotion/cache';
-import { CacheProvider, Global } from '@emotion/react';
-import { GlobalStyles } from 'twin.macro';
+import { RecoilRoot } from 'recoil';
 
 const cache = createCache({ prepend: true, key: 'twin' });
 
@@ -10,6 +12,10 @@ export const parameters = {
   backgrounds: {
     default: 'light',
     values: [
+      {
+        name: 'white',
+        value: '#FFFFFF',
+      },
       {
         name: 'light',
         value: '#F4F6FA',
@@ -26,9 +32,11 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <CacheProvider value={cache}>
+      <RecoilRoot>
+        <Story />
+      </RecoilRoot>
       <GlobalStyles />
-      <Global styles={globals} />
-      <Story />
+      <PcGlobalStyles />
     </CacheProvider>
   ),
 ];

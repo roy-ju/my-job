@@ -35,7 +35,17 @@
     "react/jsx-no-useless-fragment": "off",
     "no-param-reassign": "off",
     "prefer-destructuring": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "react/destructuring-assignment": "off",
+    "react/no-this-in-sfc": "off",
+    "react/no-unused-prop-types": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
+    "camelcase": "off",
+    "no-console": ["warn", { "allow": ["warn", "error", "log"] }],
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "react/no-danger": "off"
   },
   "ignorePatterns": ["*.config.js", "**/*.d.ts"]
 }

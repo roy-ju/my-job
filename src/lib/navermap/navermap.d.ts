@@ -23,10 +23,7 @@ declare namespace naver.maps {
   type ArrayOfCoords = Point[] | LatLng[];
   type ArrayOfBounds = PointBounds[] | LatLngBounds[];
   type ArrayOfBoundsLiteral = PointBoundsLiteral[] | LatLngBoundsLiteral[];
-  type forEachOverlayCallback = (
-    overlay: Marker | Polyline | Polygon,
-    index: number,
-  ) => void;
+  type forEachOverlayCallback = (overlay: Marker | Polyline | Polygon, index: number) => void;
   type GeoJSON = any;
   type GPX = any;
   type KML = any;
@@ -91,14 +88,8 @@ declare namespace naver.maps {
     getDestinationCoord(fromCoord: Coord, angle: number, meter: number): Coord;
     getDistance(coord1: Coord, coord2: Coord): number;
     getProjectionName(): number;
-    scaleDown(
-      operand: number | Point | Size,
-      zoom: number,
-    ): number | Point | Size;
-    scaleUp(
-      operand: number | Point | Size,
-      zoom: number,
-    ): number | Point | Size;
+    scaleDown(operand: number | Point | Size, zoom: number): number | Point | Size;
+    scaleUp(operand: number | Point | Size, zoom: number): number | Point | Size;
   }
   interface MapOptions {
     background?: string | undefined;
@@ -301,12 +292,7 @@ declare namespace naver.maps {
   interface MapDataProvider {
     title: string;
     link?: string | undefined;
-    bounds?:
-      | Bounds
-      | BoundsLiteral
-      | ArrayOfBounds
-      | ArrayOfBoundsLiteral
-      | undefined;
+    bounds?: Bounds | BoundsLiteral | ArrayOfBounds | ArrayOfBoundsLiteral | undefined;
   }
   interface MapType {
     maxZoom: number;
@@ -446,21 +432,22 @@ declare namespace naver.maps {
     zIndex?: number | undefined;
   }
   interface PanoramaOptions {
-    size: Size | SizeLiteral;
-    panoId: string;
-    position: LatLng | LatLngLiteral;
+    size?: Size | SizeLiteral;
+    panoId?: string;
+    position?: LatLng | LatLngLiteral;
     pov: PanoramaPov;
-    visible: boolean;
-    minScale: number;
-    maxScale: number;
-    minZoom: number;
-    maxZoom: number;
-    logoControl: boolean;
-    logoControlOptions: LogoControlOptions;
-    zoomControl: boolean;
-    zoomControlOptions: ZoomControlOptions;
-    aroundControl: boolean;
-    aroundControlOptions: AroundControlOptions;
+    visible?: boolean;
+    minScale?: number;
+    maxScale?: number;
+    minZoom?: number;
+    maxZoom?: number;
+    logoControl?: boolean;
+    logoControlOptions?: LogoControlOptions;
+    zoomControl?: boolean;
+    zoomControlOptions?: ZoomControlOptions;
+    aroundControl?: boolean;
+    aroundControlOptions?: AroundControlOptions;
+    flightSpot?: boolean;
   }
   interface PanoramaPov {
     pan: number;
@@ -689,10 +676,7 @@ declare namespace naver.maps {
   class PointBounds {
     constructor(minPoint: Point, maxPoint: Point);
 
-    static bounds(
-      point: Coord | PointLiteral,
-      pointN: Coord | PointLiteral,
-    ): PointBounds;
+    static bounds(point: Coord | PointLiteral, pointN: Coord | PointLiteral): PointBounds;
 
     clone(): PointBounds;
 
@@ -744,10 +728,7 @@ declare namespace naver.maps {
   class LatLngBounds extends PointBounds {
     constructor(sw: LatLng, ne: LatLng);
 
-    static bounds(
-      latlng: Coord | LatLngLiteral,
-      latlngN: Coord | LatLngLiteral,
-    ): LatLngBounds;
+    static bounds(latlng: Coord | LatLngLiteral, latlngN: Coord | LatLngLiteral): LatLngBounds;
 
     clone(): LatLngBounds;
 
@@ -825,24 +806,13 @@ declare namespace naver.maps {
 
     autoResize(): void;
 
-    morph(
-      coord: Coord | CoordLiteral,
-      zoom?: number,
-      transitionOptions?: TransitionOptions,
-    ): void;
+    morph(coord: Coord | CoordLiteral, zoom?: number, transitionOptions?: TransitionOptions): void;
 
     panBy(offset: Point | PointLiteral): void;
 
-    panTo(
-      coord: Coord | CoordLiteral,
-      transitionOptions: TransitionOptions,
-    ): void;
+    panTo(coord: Coord | CoordLiteral, transitionOptions: TransitionOptions): void;
 
-    panToBounds(
-      bounds: Bounds | BoundsLiteral,
-      transitionOptions: TransitionOptions,
-      margin?: Margin,
-    ): void;
+    panToBounds(bounds: Bounds | BoundsLiteral, transitionOptions: TransitionOptions, margin?: Margin): void;
 
     refresh(noEffect?: boolean): void;
 
@@ -862,11 +832,7 @@ declare namespace naver.maps {
 
     updateBy(coord: Coord | CoordLiteral, zoom: number): void;
 
-    zoomBy(
-      deltaZoom: number,
-      zoomOrigin?: Coord | CoordLiteral,
-      effect?: boolean,
-    ): void;
+    zoomBy(deltaZoom: number, zoomOrigin?: Coord | CoordLiteral, effect?: boolean): void;
   }
   // Map.Tile
   class Tile extends KVO {
@@ -1026,9 +992,7 @@ declare namespace naver.maps {
     function getMapTypes(opts?: NaverImageMapTypeOptions): MapTypeRegistry;
     function getNormalLabelLayer(opts?: NaverImageMapTypeOptions): ImageMapType;
     function getNormalMap(opts?: NaverImageMapTypeOptions): ImageMapType;
-    function getSatelliteLabelLayer(
-      opts?: NaverImageMapTypeOptions,
-    ): ImageMapType;
+    function getSatelliteLabelLayer(opts?: NaverImageMapTypeOptions): ImageMapType;
     function getSatelliteMap(opts?: NaverImageMapTypeOptions): ImageMapType;
     function getStreetLayer(opts?: NaverImageMapTypeOptions): ImageMapType;
     function getTerrainMap(opts?: NaverImageMapTypeOptions): ImageMapType;
@@ -1073,11 +1037,7 @@ declare namespace naver.maps {
   }
   // Layer
   class Layer extends KVO {
-    constructor(
-      name: string,
-      MapTypeRegistry: MapTypeRegistry,
-      options: LayerOptions,
-    );
+    constructor(name: string, MapTypeRegistry: MapTypeRegistry, options: LayerOptions);
 
     getLayerType(): MapType;
 
@@ -1280,11 +1240,7 @@ declare namespace naver.maps {
     setZIndex(zIndex: number): void;
   }
   class GroundOverlay extends OverlayView {
-    constructor(
-      url: string,
-      bounds: Bounds | BoundsLiteral,
-      options?: GroundOverlayOptions,
-    );
+    constructor(url: string, bounds: Bounds | BoundsLiteral, options?: GroundOverlayOptions);
 
     getBounds(): Bounds;
 
@@ -1401,9 +1357,7 @@ declare namespace naver.maps {
 
     setOptions(options: PolygonOptions): void;
 
-    setPath(
-      path: ArrayOfCoords | KVOArrayOfCoords | ArrayOfCoordsLiteral,
-    ): void;
+    setPath(path: ArrayOfCoords | KVOArrayOfCoords | ArrayOfCoordsLiteral): void;
 
     setPaths(paths: ArrayOfCoords[] | ArrayOfCoordsLiteral): void; // TODO. KVOArray.<KVOArrayOfCoords>
 
@@ -1442,9 +1396,7 @@ declare namespace naver.maps {
 
     setOptions(options: PolylineOptions): void;
 
-    setPath(
-      path: ArrayOfCoords | KVOArrayOfCoords | ArrayOfCoordsLiteral,
-    ): void;
+    setPath(path: ArrayOfCoords | KVOArrayOfCoords | ArrayOfCoordsLiteral): void;
 
     setStyles(key: string, value: any): void;
 
@@ -1495,10 +1447,7 @@ declare namespace naver.maps {
     fromCoordToPov(coord: LatLng): PanoramaPov;
   }
   class Panorama extends KVO {
-    constructor(
-      panoramaDiv: string | HTMLElement,
-      panoramaOptions: PanoramaOptions,
-    );
+    constructor(panoramaDiv: string | HTMLElement, panoramaOptions: PanoramaOptions);
 
     getLocation(): PanoramaLocation;
 
@@ -1552,11 +1501,10 @@ declare namespace naver.maps {
   }
   class FlightSpot extends KVO {
     constructor();
-
     getMap(): Map | null;
-
     setMap(map: Map | null): void;
   }
+
   class AroundControl extends CustomControl {
     constructor(aroundControlOptions: AroundControlOptions);
   }
@@ -1590,10 +1538,7 @@ declare namespace naver.maps {
     interface DrawingOverlay {
       id: string;
       name: string;
-      setEditable: (
-        editable: boolean,
-        controlPointOptions?: controlPointOptions,
-      ) => void;
+      setEditable: (editable: boolean, controlPointOptions?: controlPointOptions) => void;
     }
     enum DrawingStyle {
       HORIZONTAL = 0,
@@ -1621,16 +1566,9 @@ declare namespace naver.maps {
     class DrawingManager extends KVO {
       constructor(options?: DrawingOptions);
 
-      addDrawing(
-        overlay: DrawingOverlay,
-        drawingMode: DrawingMode,
-        id?: string,
-      ): void;
+      addDrawing(overlay: DrawingOverlay, drawingMode: DrawingMode, id?: string): void;
 
-      addListener(
-        eventName: DrawingEvent,
-        listener: (overlay: DrawingOverlay) => void,
-      ): MapEventListener;
+      addListener(eventName: DrawingEvent, listener: (overlay: DrawingOverlay) => void): MapEventListener;
 
       destroy(): void;
 
@@ -1683,11 +1621,7 @@ declare namespace naver.maps {
     class DotMap extends KVO {
       constructor(dotMapOptions?: DotMapOptions);
 
-      addDrawing(
-        overlay: drawing.DrawingOverlay,
-        drawingMode: drawing.DrawingMode,
-        id?: string,
-      ): void;
+      addDrawing(overlay: drawing.DrawingOverlay, drawingMode: drawing.DrawingMode, id?: string): void;
 
       addListener(
         eventName: drawing.DrawingEvent,
@@ -1835,41 +1769,16 @@ declare namespace naver.maps {
 
   function Event(): void;
   namespace Event {
-    function addDOMListener(
-      element: HTMLElement,
-      eventName: string,
-      listener: (event: any) => any,
-    ): void;
-    function addListener(
-      target: any,
-      eventName: string,
-      listener: (event: any) => any,
-    ): MapEventListener;
+    function addDOMListener(element: HTMLElement, eventName: string, listener: (event: any) => any): void;
+    function addListener(target: any, eventName: string, listener: (event: any) => any): MapEventListener;
     function clearInstanceListeners(target: any): void;
     function clearListeners(target: any, fromEventName: string): void;
-    function forward(
-      source: any,
-      fromEventName: string,
-      target: any,
-      toEventName: string,
-    ): MapEventListener;
+    function forward(source: any, fromEventName: string, target: any, toEventName: string): MapEventListener;
     function hasListener(target: any, eventName: string): boolean;
-    function once(
-      target: any,
-      eventName: string,
-      listener: (event: any) => any,
-    ): MapEventListener;
-    function removeDOMListener(
-      element: HTMLElement,
-      eventName: string,
-      listener: (event: any) => any,
-    ): void;
-    function removeDOMListener(
-      listeners: DOMEventListener | DOMEventListener[],
-    ): void;
-    function removeListener(
-      listeners: MapEventListener | MapEventListener[],
-    ): void;
+    function once(target: any, eventName: string, listener: (event: any) => any): MapEventListener;
+    function removeDOMListener(element: HTMLElement, eventName: string, listener: (event: any) => any): void;
+    function removeDOMListener(listeners: DOMEventListener | DOMEventListener[]): void;
+    function removeListener(listeners: MapEventListener | MapEventListener[]): void;
     function resumeDispatch(target: any, eventName: string): void;
     function stopDispatch(target: any, eventName: string): void;
     function trigger(target: any, eventName: string, eventObject?: any): void;
@@ -1883,11 +1792,7 @@ declare namespace naver.maps {
     function fromLatLngToPoint(latlng: LatLng): Point;
     function fromPointToCoord(point: Point): LatLng;
     function fromPointToLatLng(point: Point): LatLng;
-    function getDestinationCoord(
-      fromLatLng: LatLng,
-      angle: number,
-      meter: number,
-    ): LatLng;
+    function getDestinationCoord(fromLatLng: LatLng, angle: number, meter: number): LatLng;
     function getDistance(latlng1: LatLng, latlng2: LatLng): number;
   }
 
@@ -1905,11 +1810,7 @@ declare namespace naver.maps {
     function fromUTMKToCoord(utmk: Point): LatLng;
     function fromUTMKToLatLng(utmk: Point): LatLng;
     function fromUTMKToPoint(utmk: Point): Point;
-    function getDestinationCoord(
-      fromLatLng: LatLng,
-      angle: number,
-      meter: number,
-    ): LatLng;
+    function getDestinationCoord(fromLatLng: LatLng, angle: number, meter: number): LatLng;
     function getDistance(latlng1: LatLng, latlng2: LatLng): number;
   }
 

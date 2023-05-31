@@ -9,13 +9,6 @@ export function initializeKakaoSDK() {
   }
 }
 
-export function loginWithKakao(returnURL: string) {
-  if (isKakaoSDKLoaded()) {
-    Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3000/callback/kakaoLogin',
-      state: JSON.stringify({
-        returnURL,
-      }),
-    });
-  }
-}
+export { default as loginWithKakao } from './login';
+export { default as searchKeyword } from './search_keyword';
+export { default as coordToRegion } from './coord_to_region';
