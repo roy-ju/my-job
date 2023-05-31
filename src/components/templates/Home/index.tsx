@@ -731,7 +731,7 @@ export default function Home({
                   </Table.Row>
                   <Table.Row>
                     <Table.Head>개인정보 관리 책임자</Table.Head>
-                    <Table.Data>Lee Sam</Table.Data>
+                    <Table.Data>SAM LEE</Table.Data>
                   </Table.Row>
                   <Table.Row>
                     <Table.Head>사업자 등록번호</Table.Head>
@@ -739,18 +739,18 @@ export default function Home({
                   </Table.Row>
                   <Table.Row>
                     <Table.Head>통신판매업 신고번호</Table.Head>
-                    <Table.Data>2021-서울강남-04487 호</Table.Data>
+                    <Table.Data>2021-서울강남-04487호</Table.Data>
                   </Table.Row>
                   <Table.Row>
                     <Table.Head>주소</Table.Head>
-                    <Table.Data>서울 강남구 선릉로94번길 11, 4층 (삼성동, 삼성2빌딩)</Table.Data>
+                    <Table.Data>서울시 강남구 선릉로94길 11, 4층(삼성동, 삼성2빌딩) (주)네고시오</Table.Data>
                   </Table.Row>
                   <Table.Row>
                     <Table.Head>이메일</Table.Head>
                     <Table.Data>info@negocio.co.kr</Table.Data>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Head>전화</Table.Head>
+                    <Table.Head>고객센터</Table.Head>
                     <Table.Data>02-6956-0155</Table.Data>
                   </Table.Row>
                 </Table.Body>
