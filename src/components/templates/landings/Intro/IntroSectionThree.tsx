@@ -50,15 +50,6 @@ export default function IntroSectionThree({ recommend }: { recommend?: boolean }
           src={MypageImage2}
         />
       </motion.div>
-      <motion.div tw="shrink-0">
-        <Image
-          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
-          alt=""
-          width={320}
-          height={257}
-          src={MypageImage}
-        />
-      </motion.div>
     </>
   );
   const slide2 = (
@@ -81,21 +72,12 @@ export default function IntroSectionThree({ recommend }: { recommend?: boolean }
           src={MypageImage}
         />
       </motion.div>
-      <motion.div tw="shrink-0">
-        <Image
-          tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
-          alt=""
-          width={320}
-          height={257}
-          src={MypageImage2}
-        />
-      </motion.div>
     </>
   );
 
   return (
-    <div css={recommend ? tw`bg-white` : tw`bg-nego-100`}>
-      <section tw="max-w-[1280px] xl:mx-auto relative px-5 py-[60px]  text-center md:text-left md:px-10 md:py-[120px] xl:px-20 md:flex md:flex-col md:flex-wrap md:[height: 1157px] overflow-hidden">
+    <div css={recommend ? tw`bg-white` : tw`bg-nego-100`} tw="overflow-hidden">
+      <section tw="max-w-[1280px] xl:mx-auto relative px-5 py-[60px]  text-center md:text-left md:px-10 md:py-[120px] xl:px-20 md:flex md:flex-col md:flex-wrap md:[height: 1157px] ">
         <div tw="mb-7 md:order-1 md:mb-[60px]">
           <p tw="font-bold text-base md:text-2xl md:leading-[34px] leading-6 text-nego-800 mb-2 md:mb-3">
             #중개사 #매물추천받기
