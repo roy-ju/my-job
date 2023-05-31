@@ -14,6 +14,7 @@ export interface GetRecentRealPricesResponse {
           trade_or_deposit_price: number;
           monthly_rent_fee: number;
           deal_date: string;
+          count: number;
         },
       ]
     | null;

@@ -13,7 +13,8 @@ const Container = styled.div`
   display: flex;
   position: relative;
   overflow-x: hidden;
-  width: 380px
+  width: 380px;
+
   &::-webkit-scrollbar {
     display: none;
     -ms-overflow-style: none;
@@ -30,6 +31,8 @@ export default function Slider({ children, slideWidth = 380, length = 0 }: Slide
 
   const startIndex = length;
   const lastIndex = length + length - 1;
+
+  console.log(lastIndex);
 
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -112,14 +115,14 @@ export default function Slider({ children, slideWidth = 380, length = 0 }: Slide
       {length > 1 && (
         <>
           <button
-            tw="shadow bg-white py-1 px-2 absolute border border-l-0 rounded-r-full border-gray-300 left-0 top-1/2 -translate-y-1/2 transition-all hover:bg-gray-100 hover:scale-105"
+            tw="shadow bg-white py-1 pl-[5px] pr-[6px] absolute border border-l-0 rounded-r-full border-gray-300 left-0 top-1/2 -translate-y-1/2 transition-all hover:bg-gray-100 hover:scale-105"
             type="button"
             onClick={handleClickSlideToPrev}
           >
             <ArrowIcon />
           </button>
           <button
-            tw="shadow bg-white py-1 px-2 absolute right-0 border border-r-0 rounded-l-full top-1/2  border-gray-300 -translate-y-1/2 transition-all hover:bg-gray-100 hover:scale-105"
+            tw="shadow bg-white py-1 pl-[6px] pr-[5px] absolute right-0 border border-r-0 rounded-l-full top-1/2  border-gray-300 -translate-y-1/2 transition-all hover:bg-gray-100 hover:scale-105"
             type="button"
             onClick={handleClickSlideToNext}
           >
