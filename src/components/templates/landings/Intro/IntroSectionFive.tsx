@@ -38,38 +38,40 @@ export default function IntroSectionFive({ isMobileSize }: { isMobileSize: boole
   }, [carouselItemIndex]);
 
   return (
-    <section tw="bg-nego-100 py-[60px] md:pt-[120px] md:pb-0 md:px-10 xl:px-20  px-5 ">
-      <div tw="mb-10 md:h-[705px] md:flex md:flex-col md:flex-wrap md:mb-0">
-        <div tw="mb-10 md:order-1 md:mb-[120px]">
-          <p tw="font-bold text-base md:text-2xl md:leading-[34px] leading-6 text-nego-800 mb-2 md:mb-3">
-            #네고매물 #실매물
-          </p>
-          <h1 tw="font-bold text-2xl leading-[34px] text-gray-900 mb-4 md:mb-10 md:text-[44px] md:leading-[64px]">
-            실시간 제안중인 <br />
-            &apos;중복&apos;없는 &apos;진짜&apos; 매물
-          </h1>
-          <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] text-gray-900">
-            허위매물/중복매물 걱정없이
-            <br />
-            가격비교하고, 제안해보세요.
-          </p>
+    <div tw="bg-nego-100 py-[60px] md:pt-[120px]">
+      <section tw="max-w-[1280px] xl:mx-auto  md:pb-0 md:px-10 xl:px-20  px-5 ">
+        <div tw="mb-10 md:h-[705px] md:flex md:flex-col md:flex-wrap md:mb-0">
+          <div tw="mb-10 md:order-1 md:mb-[120px]">
+            <p tw="font-bold text-base md:text-2xl md:leading-[34px] leading-6 text-nego-800 mb-2 md:mb-3">
+              #네고매물 #실매물
+            </p>
+            <h1 tw="font-bold text-2xl leading-[34px] text-gray-900 mb-4 md:mb-10 md:text-[44px] md:leading-[64px]">
+              실시간 제안중인 <br />
+              &apos;중복&apos;없는 &apos;진짜&apos; 매물
+            </h1>
+            <p tw="text-sm md:text-2xl md:leading-10 leading-[22px] text-gray-900">
+              허위매물/중복매물 걱정없이
+              <br />
+              가격비교하고, 제안해보세요.
+            </p>
+          </div>
+          <div tw="mb-[60px] md:order-3">
+            {isMobileSize ? (
+              <Image width={340} height={520} alt="" src={Phone1} />
+            ) : (
+              <Image height={705} tw="ml-auto" alt="" src={Phone2} />
+            )}
+          </div>
+          <div tw="md:order-2">
+            <p tw="text-gray-900 font-bold text-2xl md:text-4xl md:leading-[52px] leading-[34px] mb-4 md:mb-10">
+              네고시오만의 1매물 1등록 정책
+            </p>
+            <p tw="text-sm leading-[22px] md:text-2xl md:leading-10 text-gray-900">
+              같은 매물을 다른 곳에서 가격 비교할 필요가 없어요
+            </p>
+          </div>
         </div>
-        <div tw="mb-[60px] md:order-3">
-          {isMobileSize ? (
-            <Image width={340} height={520} alt="" src={Phone1} />
-          ) : (
-            <Image height={705} tw="ml-auto" alt="" src={Phone2} />
-          )}
-        </div>
-        <div tw="md:order-2">
-          <p tw="text-gray-900 font-bold text-2xl md:text-4xl md:leading-[52px] leading-[34px] mb-4 md:mb-10">
-            네고시오만의 1매물 1등록 정책
-          </p>
-          <p tw="text-sm leading-[22px] md:text-2xl md:leading-10 text-gray-900">
-            같은 매물을 다른 곳에서 가격 비교할 필요가 없어요
-          </p>
-        </div>
-      </div>
+      </section>
       <div className="carousel" tw="md:-translate-y-[calc(50% - 30px)] overflow-x-hidden" ref={constraintsRef}>
         <div
           tw="w-fit flex "
@@ -198,6 +200,6 @@ export default function IntroSectionFive({ isMobileSize }: { isMobileSize: boole
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
