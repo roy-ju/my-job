@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default memo(({ panelWidth, depth }: Props) => {
-  const { danji, mutate } = useDanjiDetail(depth);
+  const { danji, mutate, isLoading } = useDanjiDetail(depth);
 
   const nextRouter = useNextRouter();
 
@@ -19,7 +19,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     mutate();
   };
 
-  if (danji?.error_code || !danji) {
+  if (!isLoading && (danji?.error_code || !danji)) {
     return (
       <OverlayPresenter>
         <Popup>
