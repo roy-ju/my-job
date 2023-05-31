@@ -72,7 +72,7 @@ export default function SectionOne({ isMobileSize }: { isMobileSize: boolean }) 
     <section>
       <div tw="relative" style={{ height: isMobileSize ? '382px' : '745px' }}>
         <div>
-          <Image alt="" placeholder="blur" fill src={BigBannerImage} />
+          <Image sizes="1920px" priority alt="" placeholder="blur" fill src={BigBannerImage} />
         </div>
         <div
           style={{
@@ -88,7 +88,6 @@ export default function SectionOne({ isMobileSize }: { isMobileSize: boolean }) 
                 <Image
                   width={708}
                   height={116}
-                  priority
                   alt="네고가 필요한 순간 부동산 가격협상 플랫폼 네고시오"
                   src={BigTitleImage}
                 />
