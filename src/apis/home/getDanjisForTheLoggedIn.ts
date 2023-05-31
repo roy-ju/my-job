@@ -1,6 +1,8 @@
 import useSWR from 'swr';
 
 export interface GetDanjisForTheLoggedIn {
+  has_favorite_danji: boolean;
+  has_address: boolean;
   list:
     | [
         {

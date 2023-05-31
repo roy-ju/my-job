@@ -140,6 +140,8 @@ export default function Home() {
         mostFavoriteList={favoriteData?.list}
         listingsForUser={listingsForUserData?.list}
         danjisForUser={danjisForUserData?.list}
+        hasAddress={danjisForUserData?.has_address}
+        hasFavoriteDanji={danjisForUserData?.has_favorite_danji}
         activeListingCount={homeDashboardData?.active_listing_count}
         suggestAssignedAgentCount={homeDashboardData?.suggest_assigned_agent_count}
         onClickLogin={handleClickLogin}
