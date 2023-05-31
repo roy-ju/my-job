@@ -33,7 +33,6 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
     onClose: () => {},
     onMessage: (e) => {
       const data = JSON.parse(e.data);
-      console.log(data);
       if (data && data.key) {
         switch (data.key) {
           case 'new_chat':
