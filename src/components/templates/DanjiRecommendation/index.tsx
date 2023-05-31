@@ -65,12 +65,13 @@ export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailRespon
 );
 
 export const GuideInfo = () => (
-  <div tw="flex flex-col px-5 gap-2 pt-7 pb-10">
-    <span tw="text-b1 font-bold mb-1">추천 요청시 최소 10명의 중개사에게 발송됩니다.</span>
-
-    <span tw="text-info text-gray-700">매물 추천받기 서비스는 현재 수도권에서만 가능합니다.</span>
-
-    <span tw="text-info text-gray-700">간단한 내용만 입력하시면 원하는 매물이 있을 경우 알려드릴 수 있습니다.</span>
+  <div tw="px-5 pt-7 pb-10 text-b1 font-bold">
+    최소 10명의 중개사님에게 추천 요청이 발송됩니다.
+    <br />
+    <br />
+    일일이 발품 팔지 않고 숨겨진 매물을 찾고,
+    <br />
+    중개사님의 제안을 비교해서 협의 여부를 선택해 보세요.
   </div>
 );
 
