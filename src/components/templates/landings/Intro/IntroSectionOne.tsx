@@ -2,7 +2,6 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import TitleImage from '@/../public/static/images/landing/intro_title.png';
 import BigTitleImage from '@/../public/static/images/landing/intro_title_big_white.png';
-import BannerImage from '@/../public/static/images/landing/intro_banner.png';
 import BigBannerImage from '@/../public/static/images/landing/intro_banner_big3.png';
 import AppleIcon from '@/assets/icons/apple_store.svg';
 import GooglePlayIcon from '@/assets/icons/google_store.svg';
@@ -71,15 +70,10 @@ export default function SectionOne({ isMobileSize }: { isMobileSize: boolean }) 
 
   return (
     <section>
-      <div
-        tw="relative"
-        style={{
-          height: isMobileSize ? '382px' : '745px',
-          backgroundImage: isMobileSize ? `url(${BannerImage.src})` : `url(${BigBannerImage.src})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-        }}
-      >
+      <div tw="relative" style={{ height: isMobileSize ? '382px' : '745px' }}>
+        <div>
+          <Image sizes="1920px" priority alt="" placeholder="blur" fill src={BigBannerImage} />
+        </div>
         <div
           style={{
             position: 'absolute',
