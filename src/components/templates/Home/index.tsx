@@ -674,7 +674,9 @@ export default function Home({
                       <div tw="mt-2">
                         <div tw="flex items-center">
                           <p tw="text-b2 min-w-[36px]">전체</p>
-                          <p tw="text-b2 font-bold">{(item.trade_count || 0) + (item.rent_count || 0)} 건</p>
+                          <p tw="text-b2 font-bold text-blue-1000">
+                            {(item.trade_count || 0) + (item.rent_count || 0)} 건
+                          </p>
                         </div>
 
                         <div tw="flex items-center gap-2 mt-0.5">
