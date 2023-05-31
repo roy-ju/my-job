@@ -1,37 +1,24 @@
-import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
 import tw from 'twin.macro';
+import { motion } from 'framer-motion';
 
-type Props = {
+interface Props {
   width?: string;
-  animationDuration?: number;
+  zIndex?: number;
   children?: ReactNode;
-};
+}
 
-export default function Panel({
-  width = '375px',
-  animationDuration = 0.3,
-  children,
-}: Props) {
+export default function Panel({ width = '380px', zIndex = 1, children }: Props) {
   return (
     <motion.div
-      initial={{ width: '0px' }}
-      animate={{ width }}
-      exit={{ width: '0px' }}
-      transition={{
-        type: 'tween',
-        duration: animationDuration,
-      }}
-      tw="h-full overflow-x-hidden bg-white shadow-2xl"
+      initial={{ x: '-100px', opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ type: 'spring', damping: 30, stiffness: 200 }}
+      layout
+      tw="h-full bg-white shadow"
+      style={{ width, zIndex }}
     >
-      <div
-        css={[
-          tw`w-full h-full p-2 overflow-x-hidden overflow-y-auto`,
-          { width },
-        ]}
-      >
-        {children}
-      </div>
+      <div css={[tw`relative w-full h-full overflow-y-auto`, { width }]}>{children}</div>
     </motion.div>
   );
 }

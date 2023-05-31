@@ -1,0 +1,79 @@
+name: Test Build
+on: workflow_dispatch
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REGISTRY: 430360552021.dkr.ecr.ap-northeast-2.amazonaws.com
+  ECR_REPOSITORY: test-user-pc
+  CONTAINER_NAME: test-user-pc
+  TASK_DEFINITION_FAMILY: test-user-pc
+  ECS_SERVICE_NAME: test-user-pc
+  ECS_CLUSTER_NAME: negocio-client-test
+  NEGOCIO_REST_API_BASE_URL: https://api-test.negocio.kr
+  NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket-test.negocio.kr
+  NEGOCIO_APP_ENVIRONMENT: test
+  NEGOCIO_AGENT_CLIENT_URL: https://agent-test.negocio.kr/
+  GA_TRACKING_ID: G-X5831H4W14
+  GTM_ID: GTM-MQPT86G
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Set robots.txt
+        run: rm -rf ./public/robots_prod.txt
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          echo -e " \
+          NEXT_PUBLIC_NCP_CLIENT_ID=${{ secrets.NCP_CLIENT_ID }} \n \
+          NEXT_PUBLIC_KAKAO_JS_KEY=${{ secrets.KAKAO_JS_KEY }} \n \
+          NEXT_PUBLIC_KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }} \n \
+          NEXT_PUBLIC_NEGOCIO_REST_API_BASE_URL=${{ env.NEGOCIO_REST_API_BASE_URL }} \n \
+          NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL=${{ env.NEGOCIO_WEBSOCKET_BASE_URL }} \n \
+          NEXT_PUBLIC_APP_ENVIRONMENT=${{ env.NEGOCIO_APP_ENVIRONMENT }} \n \
+          KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \n \
+          NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL=${{ env.NEGOCIO_AGENT_CLIENT_URL }} \n \
+          NEXT_PUBLIC_GA_TRACKING_ID=${{ env.GA_TRACKING_ID }} \n \
+          NEXT_PUBLIC_GTM_ID=${{ env.GTM_ID }} \n \
+          " > .env
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_FAMILY }} --query taskDefinition > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE_NAME }}
+          cluster: ${{ env.ECS_CLUSTER_NAME }}
+          wait-for-service-stability: true

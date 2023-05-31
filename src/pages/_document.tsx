@@ -1,14 +1,7 @@
 /* eslint-disable react/no-danger */
-import { initializeKakaoSDK } from '@/lib/kakao';
+import AppConfig from '@/config';
 import { extractCritical } from '@emotion/server';
-import Document, {
-  DocumentContext,
-  DocumentInitialProps,
-  Head,
-  Html,
-  Main,
-  NextScript,
-} from 'next/document';
+import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document';
 import Script from 'next/script';
 
 type NewDocumentInitialProps = DocumentInitialProps & {
@@ -17,19 +10,14 @@ type NewDocumentInitialProps = DocumentInitialProps & {
 };
 
 class CustomDocument extends Document<NewDocumentInitialProps> {
-  static async getInitialProps(
-    ctx: DocumentContext,
-  ): Promise<DocumentInitialProps> {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
     const critical = extractCritical(initialProps.html);
     initialProps.html = critical.html;
     initialProps.styles = (
       <>
         {initialProps.styles}
-        <style
-          data-emotion-css={critical.ids.join(' ')}
-          dangerouslySetInnerHTML={{ __html: critical.css }}
-        />
+        <style data-emotion-css={critical.ids.join(' ')} dangerouslySetInnerHTML={{ __html: critical.css }} />
       </>
     );
 
@@ -38,12 +26,9 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang={AppConfig.locale}>
         <Head>
-          <style
-            data-emotion-css={this.props?.ids?.join(' ')}
-            dangerouslySetInnerHTML={{ __html: this.props.css }}
-          />
+          <style data-emotion-css={this.props?.ids?.join(' ')} dangerouslySetInnerHTML={{ __html: this.props.css }} />
           <link
             rel="stylesheet"
             as="style"
@@ -51,14 +36,8 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
             href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css"
           />
           <Script
-            src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-            integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
-            crossOrigin="anonymous"
-            onLoad={initializeKakaoSDK}
-          />
-          <Script
             strategy="beforeInteractive"
-            src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder`}
+            src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder,panorama`}
           />
         </Head>
         <body>

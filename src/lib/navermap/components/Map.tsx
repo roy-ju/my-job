@@ -3,9 +3,7 @@ import { createContext, memo, ReactNode, useRef, useState } from 'react';
 import useNaverMapEvent from '../hooks/useNaverEvent';
 import { NaverLatLngBounds, NaverMap } from '../types';
 
-export const NaverMapContext = createContext<NaverMap>(
-  undefined as unknown as NaverMap,
-);
+export const NaverMapContext = createContext<NaverMap>(undefined as unknown as NaverMap);
 
 export type MapProps = {
   id?: string;
@@ -13,12 +11,16 @@ export type MapProps = {
   zoom: number;
   minZoom?: number;
   maxZoom?: number;
+  mapType?: string;
   onInit?: (map: NaverMap) => void;
   onCreate?: (map: NaverMap) => void;
   onBoundsChanged?: (map: NaverMap, bounds: NaverLatLngBounds) => void;
   onZoomChanged?: (map: NaverMap, zoom: number) => void;
+  onZooming?: (map: NaverMap, zoom: number) => void;
+  onZoomStart?: (map: NaverMap, zoom: number) => void;
+  onPanning?: (map: NaverMap) => void;
   onIdle?: (map: NaverMap) => void;
-  onClick?: (map: NaverMap) => void;
+  onClick?: (map: NaverMap, ...args: any[]) => void;
   children?: ReactNode;
 };
 
@@ -29,10 +31,14 @@ export default memo(
     zoom,
     minZoom,
     maxZoom,
+    mapType,
     onInit,
     onCreate,
     onBoundsChanged,
     onZoomChanged,
+    onZooming,
+    onZoomStart,
+    onPanning,
     onIdle,
     onClick,
     children,
@@ -43,19 +49,29 @@ export default memo(
     useIsomorphicLayoutEffect(() => {
       const mapContainer = container.current;
 
-      if (!mapContainer) return () => {};
+      if (!mapContainer) {
+        return () => {};
+      }
+
+      if (window.naver.maps === null) {
+        return () => {};
+      }
 
       const naverMap = new naver.maps.Map(mapContainer, {
         center: new naver.maps.LatLng(center.lat, center.lng),
         zoom,
         minZoom: 8 || minZoom,
         maxZoom: 19 || maxZoom,
+        mapTypeId: mapType ?? naver.maps.MapTypeId.NORMAL,
+        disableKineticPan: false,
       });
 
       setMap(naverMap);
 
       return () => {
-        naverMap.destroy();
+        if (naverMap) {
+          naverMap.destroy();
+        }
       };
     }, []);
 
@@ -80,24 +96,24 @@ export default memo(
       map.setZoom(zoom);
     }, [map, zoom]);
 
+    useIsomorphicLayoutEffect(() => {
+      if (!map || !mapType) return;
+      map.setMapTypeId(mapType);
+    }, [map, mapType]);
+
+    useNaverMapEvent(map, 'zooming', onZooming);
     useNaverMapEvent(map, 'bounds_changed', onBoundsChanged);
     useNaverMapEvent(map, 'zoom_changed', onZoomChanged);
     useNaverMapEvent(map, 'idle', onIdle);
     useNaverMapEvent(map, 'click', onClick);
     useNaverMapEvent(map, 'init', onInit);
+    useNaverMapEvent(map, 'zoomstart', onZoomStart);
+    useNaverMapEvent(map, 'panning', onPanning);
 
     return (
       <>
-        <div
-          tw="h-full w-full"
-          id={id || 'negocio-naver-map'}
-          ref={container}
-        />
-        {map && (
-          <NaverMapContext.Provider value={map}>
-            {children}
-          </NaverMapContext.Provider>
-        )}
+        <div tw="h-full w-full" id={id || 'negocio-naver-map'} ref={container} />
+        {map && <NaverMapContext.Provider value={map}>{children}</NaverMapContext.Provider>}
       </>
     );
   },
