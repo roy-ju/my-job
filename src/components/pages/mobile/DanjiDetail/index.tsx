@@ -21,7 +21,7 @@ const DanjiSchoolDetail = dynamic(() => import('@/components/templates/MobDanjiD
 
 const DanjiDetail = () => {
   const router = useRouter();
-  const { danji, mutate } = useDanjiDetail();
+  const { danji, mutate, isLoading } = useDanjiDetail();
 
   const {
     danjiAroundData,
@@ -52,7 +52,7 @@ const DanjiDetail = () => {
     [],
   );
 
-  if (danji?.error_code || !danji) {
+  if (!isLoading && (danji?.error_code || !danji)) {
     return (
       <OverlayPresenter>
         <Popup>
