@@ -5,9 +5,9 @@ import useAPI_GetDanjisForTheLoggedIn from '@/apis/home/getDanjisForTheLoggedIn'
 import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLoggedIn';
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
-import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
+import useAPI_GetMostTradeCount from '@/apis/home/getMostTradeCount';
 
-import { MobHome as HomeTemplate } from '@/components/templates';
+import { Home as HomeTemplate } from '@/components/templates';
 import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 
@@ -22,7 +22,7 @@ export default function Home() {
 
   const { user } = useAuth();
 
-  const { data: realPriceData } = useAPI_GetRecentRealPrices();
+  const { data: tradeCoundData } = useAPI_GetMostTradeCount();
 
   const { data: suggestData } = useAPI_GetMostSuggests();
 
@@ -132,13 +132,17 @@ export default function Home() {
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
+        carouselType="mobile"
         user={user}
         unreadNotificationCount={unreadNotificationCount}
-        recentRealPriceList={realPriceData?.list}
+        tradeCountList={tradeCoundData?.list}
+        regionName={tradeCoundData?.region_name}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}
         listingsForUser={listingsForUserData?.list}
         danjisForUser={danjisForUserData?.list}
+        hasAddress={danjisForUserData?.has_address}
+        hasFavoriteDanji={danjisForUserData?.has_favorite_danji}
         activeListingCount={homeDashboardData?.active_listing_count}
         suggestAssignedAgentCount={homeDashboardData?.suggest_assigned_agent_count}
         onClickLogin={handleClickLogin}

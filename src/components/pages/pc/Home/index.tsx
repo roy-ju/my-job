@@ -3,7 +3,8 @@ import useAPI_GetHomeDashboardInfo from '@/apis/home/getDashboard';
 import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLoggedIn';
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
-import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
+import useAPI_GetMostTradeCount from '@/apis/home/getMostTradeCount';
+
 import { Panel } from '@/components/atoms';
 import { Home } from '@/components/templates';
 import Paths from '@/constants/paths';
@@ -21,7 +22,7 @@ export default memo(() => {
 
   const { user } = useAuth();
 
-  const { data: realPriceData } = useAPI_GetRecentRealPrices();
+  const { data: tradeCoundData } = useAPI_GetMostTradeCount();
 
   const { data: suggestData } = useAPI_GetMostSuggests();
 
@@ -126,13 +127,17 @@ export default memo(() => {
   return (
     <Panel>
       <Home
+        carouselType="pc"
         user={user}
         unreadNotificationCount={unreadNotificationCount}
-        recentRealPriceList={realPriceData?.list}
+        tradeCountList={tradeCoundData?.list}
+        regionName={tradeCoundData?.region_name}
         mostSuggestList={suggestData?.list}
         mostFavoriteList={favoriteData?.list}
         listingsForUser={listingsForUserData?.list}
         danjisForUser={danjisForUserData?.list}
+        hasAddress={danjisForUserData?.has_address}
+        hasFavoriteDanji={danjisForUserData?.has_favorite_danji}
         activeListingCount={homeDashboardData?.active_listing_count}
         suggestAssignedAgentCount={homeDashboardData?.suggest_assigned_agent_count}
         onClickLogin={handleClickLogin}

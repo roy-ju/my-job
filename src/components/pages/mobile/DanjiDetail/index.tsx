@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { MobileContainer } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MobDanjiDetail } from '@/components/templates';
 import { FullScreenMap } from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
+import Routes from '@/router/routes';
 import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import useDanjiDetail from './useDanjiDetail';
 
@@ -17,6 +20,7 @@ const DanjiSchoolDetail = dynamic(() => import('@/components/templates/MobDanjiD
 });
 
 const DanjiDetail = () => {
+  const router = useRouter();
   const { danji, mutate } = useDanjiDetail();
 
   const {
@@ -49,6 +53,21 @@ const DanjiDetail = () => {
   );
 
   if (!danji) return null;
+
+  if (danji?.error_code) {
+    return (
+      <OverlayPresenter>
+        <Popup>
+          <Popup.ContentGroup tw="py-10">
+            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+          </Popup.ContentGroup>
+          <Popup.ButtonGroup>
+            <Popup.ActionButton onClick={() => router.replace(`/${Routes.EntryMobile}`)}>확인</Popup.ActionButton>
+          </Popup.ButtonGroup>
+        </Popup>
+      </OverlayPresenter>
+    );
+  }
 
   return (
     <>

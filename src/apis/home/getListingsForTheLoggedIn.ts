@@ -27,8 +27,6 @@ export interface GetListingsForTheLoggedIn {
 export default function useAPI_GetListingsForTheLoggedIn() {
   const { data, isLoading, mutate } = useSWR<GetListingsForTheLoggedIn>('/home/listings/loggedin');
 
-  console.log(data)
-
   return {
     data,
     isLoading,

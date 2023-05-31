@@ -28,7 +28,7 @@ export default function Region({ region, onClickOpenRegionList }: RegionProps) {
       )}
 
       {!region && (
-        <Button tw="w-full" variant="outlined" size="bigger" onClick={onClickOpenRegionList}>
+        <Button tw="w-full" variant="primary" size="big" onClick={onClickOpenRegionList}>
           지역 선택
         </Button>
       )}
