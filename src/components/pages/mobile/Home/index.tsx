@@ -7,7 +7,7 @@ import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetRecentRealPrices from '@/apis/home/getRecentRealPrices';
 
-import { MobHome as HomeTemplate } from '@/components/templates';
+import { Home as HomeTemplate } from '@/components/templates';
 import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 
@@ -117,6 +117,7 @@ export default function Home() {
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
+        carouselType="mobile"
         user={user}
         unreadNotificationCount={unreadNotificationCount}
         recentRealPriceList={realPriceData?.list}

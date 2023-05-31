@@ -106,6 +106,7 @@ export default memo(() => {
   return (
     <Panel>
       <Home
+        carouselType="pc"
         user={user}
         unreadNotificationCount={unreadNotificationCount}
         recentRealPriceList={realPriceData?.list}
