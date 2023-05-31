@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
 import { styled } from 'twin.macro';
 import { unRef } from '@/utils/unRef';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
@@ -59,8 +59,7 @@ export default function Carousel({
 }: Props) {
   const constraintsRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-
-  const [x, setX] = useState(0);
+  const animationControls = useAnimationControls();
 
   const [firstItemInterecting, setFirstItemIntersecting] = useState(true);
 
@@ -83,8 +82,10 @@ export default function Carousel({
 
     const translateX = (index - 1) * -(itemWidth + gap);
 
-    setX(Math.min(0, translateX));
-  }, [gap]);
+    console.log('left', translateX, currentX, index);
+
+    animationControls.start({ x: Math.min(0, translateX) });
+  }, [gap, animationControls]);
 
   const handleClickRight = useCallback(() => {
     const track = unRef(trackRef);
@@ -107,8 +108,10 @@ export default function Carousel({
 
     const constraintsWidth = constraints.getBoundingClientRect().width;
 
-    setX(Math.max(translateX, constraintsWidth - trackWidth));
-  }, [gap]);
+    console.log('right', translateX, constraintsWidth - trackWidth, currentX, index);
+
+    animationControls.start({ x: Math.max(translateX, constraintsWidth - trackWidth) });
+  }, [gap, animationControls]);
 
   useIsomorphicLayoutEffect(() => {
     const observer = new IntersectionObserver(
@@ -152,7 +155,7 @@ export default function Carousel({
           ref={trackRef}
           dragConstraints={constraintsRef}
           drag="x"
-          animate={{ x }}
+          animate={animationControls}
           transition={{
             x: { type: 'spring', mass: 0.5, stiffness: 500, damping: 50 },
           }}
