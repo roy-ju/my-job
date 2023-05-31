@@ -87,7 +87,7 @@ export default function SectionOne({ isMobileSize }: { isMobileSize: boolean }) 
             backgroundColor: '#090B2066',
           }}
         />
-        <div tw="md:flex md:flex-col md:gap-10 absolute top-[274px] left-0 right-0 justify-center md:top-0 md:bottom-0 md:left-10 xl:left-20">
+        <div tw="max-w-[1280px] xl:mx-auto md:flex md:flex-col md:gap-10 absolute top-[274px] left-0 right-0 justify-center md:top-0 md:bottom-0 md:left-10 xl:left-20">
           {!isMobileSize && (
             <>
               <h1>
@@ -98,7 +98,7 @@ export default function SectionOne({ isMobileSize }: { isMobileSize: boolean }) 
                   src={BigTitleImage}
                 />
               </h1>
-              <p tw="text-base leading-6 [letter-spacing: -0.25px] text-gray-900 mb-7 md:text-2xl md:leading-9 md:text-white">
+              <p tw=" text-base leading-6 [letter-spacing: -0.25px] text-gray-900 mb-7 md:text-2xl md:leading-9 md:text-white">
                 내 집을 구해야 할 때, 내 집을 내놓을 때에도
                 <br /> 거래를 잘 하고 싶다면, 협상은 필수입니다.
                 <br /> 마음 졸이며 협상하지 말고 온라인에서 네고하세요.
@@ -128,10 +128,10 @@ export default function SectionOne({ isMobileSize }: { isMobileSize: boolean }) 
         </div>
       </div>
       <div tw="relative pb-[60px] md:pb-[100px] bg-nego-100 flex flex-col justify-items-start">
-        <div tw=" absolute left-0 right-0 -top-7 h-7 md:h-[50px] md:-top-[50px] rounded-t-[32px] md:rounded-t-[44px] bg-nego-100 md:left-10 md:right-10 xl:left-20 xl:right-20">
+        <div tw="max-w-[1200px] absolute left-0 right-0 -top-7 h-7 md:h-[50px] md:-top-[50px] rounded-t-[32px] md:rounded-t-[44px] bg-nego-100 md:left-10 md:right-10 xl:left-0 xl:right-0 xl:mx-auto">
           {!isMobileSize && (
             <Link
-              tw="block text-center py-4 text-2xl mx-5 mt-4 leading-[34px] [box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.14)]  border [border-color: #5661D1] [color: #5661D1] rounded-[44px] font-bold hover:opacity-70 transition-opacity"
+              tw=" block text-center py-4 text-2xl mx-5 mt-4 leading-[34px] [box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.14)]  border [border-color: #5661D1] [color: #5661D1] rounded-[44px] font-bold hover:opacity-70 transition-opacity"
               href="/"
             >
               네고시오 홈 바로가기
