@@ -14,7 +14,7 @@ env:
   NEGOCIO_REST_API_BASE_URL: https://api.negocio.kr
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: prod
-  NEGOCIO_AGENT_CLIENT_URL: https://agent.negocio.kr/
+  NEGOCIO_AGENT_CLIENT_URL: https://agent.negocio.co.kr/
   GA_TRACKING_ID: G-B08P6Y5VNB
   GTM_ID: GTM-MQPT86G
 jobs:
