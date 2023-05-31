@@ -3,6 +3,12 @@ import { NextFetchEvent, NextRequest, NextResponse, userAgent } from 'next/serve
 const exemptions = ['m', 'auth', 'callback', 'nice'];
 
 export function middleware(request: NextRequest, _: NextFetchEvent) {
+  const host = request.headers.get('host');
+
+  if (host === 'negocio.co.kr') {
+    return NextResponse.redirect(`${request.nextUrl.protocol}//www.negocio.co.kr${request.nextUrl.pathname}`, 301);
+  }
+
   const { ua } = userAgent(request);
 
   // Redirect IE user
