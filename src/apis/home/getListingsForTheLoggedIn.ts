@@ -18,6 +18,7 @@ export interface GetListingsForTheLoggedIn {
           monthly_rent_fee: number;
           eubmyundong: string;
           is_favorite: boolean;
+          favorite_count: number;
         },
       ]
     | null;
@@ -25,6 +26,8 @@ export interface GetListingsForTheLoggedIn {
 
 export default function useAPI_GetListingsForTheLoggedIn() {
   const { data, isLoading, mutate } = useSWR<GetListingsForTheLoggedIn>('/home/listings/loggedin');
+
+  console.log(data)
 
   return {
     data,

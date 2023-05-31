@@ -1,4 +1,5 @@
 import useAPI_GetDanjisForTheLoggedIn from '@/apis/home/getDanjisForTheLoggedIn';
+import useAPI_GetHomeDashboardInfo from '@/apis/home/getDashboard';
 import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLoggedIn';
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
@@ -9,11 +10,14 @@ import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import useMap from '@/states/map';
 import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback } from 'react';
 
 export default memo(() => {
   const router = useRouter(0);
+
+  const map = useMap();
 
   const { user } = useAuth();
 
@@ -21,11 +25,13 @@ export default memo(() => {
 
   const { data: suggestData } = useAPI_GetMostSuggests();
 
-  const { data: favoriteData } = useAPI_GetMostFavorites();
+  const { data: favoriteData, mutate } = useAPI_GetMostFavorites();
 
-  const { data: listingsForUserData } = useAPI_GetListingsForTheLoggedIn();
+  const { data: listingsForUserData, mutate: listingsForUserMutate } = useAPI_GetListingsForTheLoggedIn();
 
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
+
+  const { data: homeDashboardData } = useAPI_GetHomeDashboardInfo();
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -42,8 +48,10 @@ export default memo(() => {
   }, [router]);
 
   const handleClickBidding = useCallback(() => {
-    router.replace(Routes.Map);
-  }, [router]);
+    router.replace(Routes.MapListingList);
+    map.naverMap?.setZoom(13, true);
+    window.Negocio.callbacks.selectListingHomeButton();
+  }, [map.naverMap, router]);
 
   const handleClickHomeRegister = useCallback(() => {
     router.replace(Routes.MyAddress);
@@ -70,6 +78,14 @@ export default memo(() => {
     },
     [router],
   );
+
+  const favoriteMutate = useCallback(() => {
+    mutate();
+  }, [mutate]);
+
+  const favoritelistingsForUserMutate = useCallback(() => {
+    listingsForUserMutate();
+  }, [listingsForUserMutate]);
 
   const handleClickAppStore = useCallback(() => {
     window.open(Paths.APP_STORE, '_blank');
@@ -103,6 +119,10 @@ export default memo(() => {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
 
+  const handleClickGuide = useCallback(() => {
+    window.open(`${window.location.origin}/${Routes.Intro}`, '_blank');
+  }, []);
+
   return (
     <Panel>
       <Home
@@ -113,6 +133,8 @@ export default memo(() => {
         mostFavoriteList={favoriteData?.list}
         listingsForUser={listingsForUserData?.list}
         danjisForUser={danjisForUserData?.list}
+        activeListingCount={homeDashboardData?.active_listing_count}
+        suggestAssignedAgentCount={homeDashboardData?.suggest_assigned_agent_count}
         onClickLogin={handleClickLogin}
         onClickNotification={handleClickNotification}
         onClickSuggestion={handleClickSuggestion}
@@ -129,6 +151,9 @@ export default memo(() => {
         onClickTermsAndPolicy={handleClickTermsAndPolicy}
         onClickPrivacyPolicy={handleClickPrivacyPolicy}
         onClickAgentSite={handleClickAgentSite}
+        onClickGuide={handleClickGuide}
+        onMutate={favoriteMutate}
+        onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
       />
     </Panel>
   );

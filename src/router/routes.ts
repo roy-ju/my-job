@@ -121,6 +121,7 @@ const Routes = {
   VersionInfo: 'versionInfo',
 
   EntryMobile: 'm',
+  Intro:"intro"
 };
 
 export default Routes;

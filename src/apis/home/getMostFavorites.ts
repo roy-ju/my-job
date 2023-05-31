@@ -4,20 +4,21 @@ export interface GetMostFavoritesResponse {
   list:
     | [
         {
-          listing_id: number;
-          thumbnail_full_path?: string;
-          listing_title: string;
-          realestate_type: number;
-          jeonyong_area: string;
-          floor_description: string;
-          total_floor: string;
-          direction: string;
           buy_or_rent: number;
-          quick_sale?: boolean;
-          trade_or_deposit_price: number;
-          monthly_rent_fee: number;
+          direction: string;
           eubmyundong: string;
+          favorite_count: number;
+          floor_description: string;
           is_favorite: boolean;
+          jeonyong_area: string;
+          listing_id: number;
+          listing_title: string;
+          monthly_rent_fee: number;
+          quick_sale?: boolean;
+          realestate_type: number;
+          thumbnail_full_path?: string;
+          total_floor: string;
+          trade_or_deposit_price: number;
         },
       ]
     | null;
