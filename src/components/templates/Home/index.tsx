@@ -629,8 +629,7 @@ export default function Home({
               <div tw="my-4">
                 <Carousel
                   gap={16}
-                  tw="p-4 -m-4"
-                  trackStyle={{ paddingLeft: '20px', paddingRight: '20px' }}
+                  trackStyle={{ paddingLeft: '16px', paddingRight: '20px' }}
                   onDragStart={handleDragStart}
                   onDragEnd={handleDragEnd}
                   renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
