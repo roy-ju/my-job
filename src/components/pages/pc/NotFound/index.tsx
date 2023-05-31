@@ -1,4 +1,3 @@
-import { Panel } from '@/components/atoms';
 import { memo } from 'react';
 
 interface Props {
@@ -6,8 +5,4 @@ interface Props {
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth }: Props) => (
-  <Panel width={panelWidth}>
-    <div />
-  </Panel>
-));
+export default memo((_: Props) => <div aria-label="notFound" />);
