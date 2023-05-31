@@ -153,6 +153,9 @@ export default function Carousel({
           dragConstraints={constraintsRef}
           drag="x"
           animate={{ x }}
+          transition={{
+            x: { type: 'spring', mass: 0.5, stiffness: 500, damping: 50 },
+          }}
           style={{
             ...trackStyle,
             columnGap: `${gap}px`,
