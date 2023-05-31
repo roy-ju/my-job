@@ -302,7 +302,7 @@ export default function Home({
                   <Slider slideWidth={176} length={listingsForUser?.length}>
                     <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                       <div tw="flex px-5 gap-5">
-                        {Array.from({ length: 3 }, () =>
+                        {Array.from({ length: Number(listingsForUser?.length) > 1 ? 3 : 1 }, () =>
                           listingsForUser?.map((item) => (
                             <motion.div
                               whileHover={{
@@ -384,7 +384,7 @@ export default function Home({
                   <Slider slideWidth={224} length={danjisForUser?.length}>
                     <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                       <div tw="flex px-5 gap-5">
-                        {Array.from({ length: 3 }, () =>
+                        {Array.from({ length: Number(danjisForUser?.length) > 1 ? 3 : 1 }, () =>
                           danjisForUser?.map((item) => (
                             <motion.div
                               whileHover={{
@@ -435,7 +435,7 @@ export default function Home({
               <Slider slideWidth={228} length={mostSuggestList?.length}>
                 <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                   <div tw="flex px-5 gap-5">
-                    {Array.from({ length: 3 }, () =>
+                    {Array.from({ length: Number(mostSuggestList?.length) > 1 ? 3 : 1 }, () =>
                       mostSuggestList?.map((item) => (
                         <motion.div
                           whileHover={{
@@ -492,7 +492,7 @@ export default function Home({
               <Slider slideWidth={180} length={mostFavoriteList?.length}>
                 <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                   <div tw="flex px-5 gap-5">
-                    {Array.from({ length: 3 }, () =>
+                    {Array.from({ length: Number(mostFavoriteList?.length) > 1 ? 3 : 1 }, () =>
                       mostFavoriteList?.map((item) => (
                         <motion.div
                           whileHover={{
@@ -576,7 +576,7 @@ export default function Home({
               <Slider slideWidth={228} length={recentRealPriceList?.length}>
                 <HorizontalScroller tw="py-4" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                   <div tw="flex px-5 gap-5">
-                    {Array.from({ length: 3 }, () =>
+                    {Array.from({ length: Number(recentRealPriceList?.length) > 1 ? 3 : 1 }, () =>
                       recentRealPriceList?.map((item) => (
                         <motion.div
                           whileHover={{

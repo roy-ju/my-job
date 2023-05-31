@@ -68,9 +68,12 @@ export default function FormRenderer({ form }: Props) {
       return (
         <div id={Forms.Region}>
           <div tw="pt-7 pb-10 px-5 flex items-center font-bold [letter-spacing: -0.25px]">
-            최소 10명의 중개사에게 발송됩니다.
+            최소 10명의 중개사님에게 추천 요청이 발송됩니다.
             <br />
-            매물추천받기 서비스는 현재 수도권에서만 가능합니다.
+            <br />
+            일일이 발품 팔지 않고 숨겨진 매물을 찾고,
+            <br />
+            중개사님의 제안을 비교해서 협의 여부를 선택해 보세요.
           </div>
           <Separator />
           <div tw="py-10 px-5">
