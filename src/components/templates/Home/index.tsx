@@ -41,7 +41,7 @@ function renderLeftButton(props: any) {
     <button
       type="button"
       {...props}
-      tw="absolute top-1/2 left-4 -translate-y-1/2 bg-white z-10 px-1.5 py-1 rounded-r-[32px] border-r border-b border-t border-gray-300"
+      tw="absolute top-1/2 left-0 -translate-y-1/2 bg-white z-10 px-1.5 py-1 rounded-r-[32px] border-r border-b border-t border-gray-300"
       style={{
         boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.14)',
       }}
@@ -56,7 +56,7 @@ function renderRightButton(props: any) {
     <button
       type="button"
       {...props}
-      tw="absolute top-1/2 right-4 -translate-y-1/2 bg-white z-10 px-1.5 py-1 rounded-l-[32px] border-l border-b border-t border-gray-300"
+      tw="absolute top-1/2 right-0 -translate-y-1/2 bg-white z-10 px-1.5 py-1 rounded-l-[32px] border-l border-b border-t border-gray-300"
       style={{
         boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.14)',
       }}
@@ -332,83 +332,80 @@ export default function Home({
                 <div tw="pt-10 pb-6">
                   <div tw="px-5 font-bold text-h3">{user?.nickname}님을 위한 새로운 매물</div>
                   <div tw="px-5 text-b2 text-gray-700 mt-1">관심 단지 또는 주소 등록한 지역의 신규 매물이에요.</div>
-                  <div tw="my-4">
-                    <Carousel
-                      gap={16}
-                      tw="p-4 -m-4"
-                      trackStyle={{ paddingLeft: '20px', paddingRight: '20px' }}
-                      onDragStart={handleDragStart}
-                      onDragEnd={handleDragEnd}
-                      renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
-                      renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
-                    >
-                      {listingsForUser?.map((item) => (
-                        <motion.div
-                          whileHover={{
-                            scale: 1.05,
+                  <Carousel
+                    gap={16}
+                    trackStyle={{ padding: '16px 20px' }}
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                    renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
+                    renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
+                  >
+                    {listingsForUser?.map((item) => (
+                      <motion.div
+                        whileHover={{
+                          scale: 1.05,
+                        }}
+                        key={item.listing_id}
+                        tw="w-[160px] hover:cursor-pointer"
+                        onClick={() => {
+                          if (!isDragging.current) onClickListing?.(item.listing_id);
+                        }}
+                      >
+                        <div
+                          tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
+                          style={{
+                            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
+                              item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
+                            }')`,
                           }}
-                          key={item.listing_id}
-                          tw="w-[160px] hover:cursor-pointer"
-                          onClick={() => {
-                            if (!isDragging.current) onClickListing?.(item.listing_id);
-                          }}
-                        >
-                          <div
-                            tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
-                            style={{
-                              backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
-                                item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
-                              }')`,
+                        />
+                        <div tw="flex gap-1 mb-2">
+                          <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                            {RealestateTypeString[item.realestate_type]}
+                          </Chip>
+                          <Chip variant="gray">{item.eubmyundong}</Chip>
+                        </div>
+                        <div tw="font-bold text-b1">
+                          {BuyOrRentString[item.buy_or_rent]}{' '}
+                          <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
+                          {Boolean(item.monthly_rent_fee) && (
+                            <span>
+                              /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
+                            </span>
+                          )}
+                        </div>
+                        <div tw="text-info text-gray-1000 whitespace-nowrap overflow-hidden text-ellipsis">
+                          {item.listing_title}
+                        </div>
+                        <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
+                          {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                          {item.total_floor !== '0' && (
+                            <div>
+                              {item.floor_description
+                                ? `${item.floor_description?.[0]}/${item.total_floor}층`
+                                : `${item.total_floor}층`}
+                            </div>
+                          )}
+                          <div>{item.direction}</div>
+                        </div>
+                        <div tw="flex flex-row gap-1 justify-start items-center pl-0 mt-1">
+                          <FavoriteButton
+                            defaultSelected={item.is_favorite}
+                            onToggle={async (selected) => {
+                              if (!selected) {
+                                await removeFavorite(item.listing_id);
+                                onFavoritelistingsForUserMutate?.();
+                              } else {
+                                await addFavorite(item.listing_id);
+                                onFavoritelistingsForUserMutate?.();
+                              }
                             }}
                           />
-                          <div tw="flex gap-1 mb-2">
-                            <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                              {RealestateTypeString[item.realestate_type]}
-                            </Chip>
-                            <Chip variant="gray">{item.eubmyundong}</Chip>
-                          </div>
-                          <div tw="font-bold text-b1">
-                            {BuyOrRentString[item.buy_or_rent]}{' '}
-                            <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
-                            {Boolean(item.monthly_rent_fee) && (
-                              <span>
-                                /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
-                              </span>
-                            )}
-                          </div>
-                          <div tw="text-info text-gray-1000 whitespace-nowrap overflow-hidden text-ellipsis">
-                            {item.listing_title}
-                          </div>
-                          <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-                            {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
-                            {item.total_floor !== '0' && (
-                              <div>
-                                {item.floor_description
-                                  ? `${item.floor_description?.[0]}/${item.total_floor}층`
-                                  : `${item.total_floor}층`}
-                              </div>
-                            )}
-                            <div>{item.direction}</div>
-                          </div>
-                          <div tw="flex flex-row gap-1 justify-start items-center pl-0 mt-1">
-                            <FavoriteButton
-                              defaultSelected={item.is_favorite}
-                              onToggle={async (selected) => {
-                                if (!selected) {
-                                  await removeFavorite(item.listing_id);
-                                  onFavoritelistingsForUserMutate?.();
-                                } else {
-                                  await addFavorite(item.listing_id);
-                                  onFavoritelistingsForUserMutate?.();
-                                }
-                              }}
-                            />
-                            <span tw="text-info text-gray-700">{item.favorite_count || 0}</span>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </Carousel>
-                  </div>
+                          <span tw="text-info text-gray-700">{item.favorite_count || 0}</span>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </Carousel>
                 </div>
               </div>
             )}
@@ -418,48 +415,45 @@ export default function Home({
                 <div tw="pt-10 pb-6">
                   <div tw="px-5 font-bold text-h3">{user?.nickname}님을 위한 최근 실거래가</div>
                   <div tw="mt-1 px-5 text-b2 text-gray-700">관심 단지 또는 주소 등록한 지역의 최근 실거래가예요.</div>
-                  <div tw="my-4">
-                    <Carousel
-                      gap={16}
-                      tw="p-4 -m-4"
-                      trackStyle={{ paddingLeft: '20px', paddingRight: '20px' }}
-                      onDragStart={handleDragStart}
-                      onDragEnd={handleDragEnd}
-                      renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
-                      renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
-                    >
-                      {danjisForUser?.map((item) => (
-                        <motion.div
-                          whileHover={{
-                            scale: 1.05,
-                          }}
-                          key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
-                          tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                          onClick={() => {
-                            if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                          }}
-                        >
-                          <div tw="flex gap-1 mb-2">
-                            <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                              {RealestateTypeString[item.realestate_type]}
-                            </Chip>
-                            <Chip variant="gray">{item.eubmyundong}</Chip>
-                          </div>
-                          <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                            {item.name}
-                          </div>
-                          <div tw="flex items-center text-b2 mb-1">
-                            {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
-                            <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
-                            <Numeral koreanNumber tw="font-bold">
-                              {item.trade_or_deposit_price}
-                            </Numeral>
-                          </div>
-                          <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
-                        </motion.div>
-                      ))}
-                    </Carousel>
-                  </div>
+                  <Carousel
+                    gap={16}
+                    trackStyle={{ padding: '16px 20px' }}
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                    renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
+                    renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
+                  >
+                    {danjisForUser?.map((item) => (
+                      <motion.div
+                        whileHover={{
+                          scale: 1.05,
+                        }}
+                        key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
+                        tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                        onClick={() => {
+                          if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                        }}
+                      >
+                        <div tw="flex gap-1 mb-2">
+                          <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                            {RealestateTypeString[item.realestate_type]}
+                          </Chip>
+                          <Chip variant="gray">{item.eubmyundong}</Chip>
+                        </div>
+                        <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                          {item.name}
+                        </div>
+                        <div tw="flex items-center text-b2 mb-1">
+                          {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
+                          <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
+                          <Numeral koreanNumber tw="font-bold">
+                            {item.trade_or_deposit_price}
+                          </Numeral>
+                        </div>
+                        <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
+                      </motion.div>
+                    ))}
+                  </Carousel>
                 </div>
               </div>
             )}
@@ -473,176 +467,26 @@ export default function Home({
                 추천 요청 많은 단지 <HoneyJarIcon />
               </div>
               <div tw="px-5 text-b2 text-gray-700 mt-1">중개사님에게 추천 요청이 많은 매물이에요.</div>
-              <div tw="my-4">
-                <Carousel
-                  gap={16}
-                  tw="p-4 -m-4"
-                  trackStyle={{ paddingLeft: '20px', paddingRight: '20px' }}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
-                  renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
-                  renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
-                >
-                  {mostSuggestList?.map((item) => (
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                      }}
-                      key={`mostSuggests${item.danji_id}`}
-                      tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                      onClick={() => {
-                        if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                      }}
-                    >
-                      <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
-                        <div tw="flex gap-1 mb-2">
-                          <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                            {RealestateTypeString[item.realestate_type]}
-                          </Chip>
-                          <Chip variant="gray">{item.eubmyundong}</Chip>
-                        </div>
-                        <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                          {item.name}
-                        </div>
-                        <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                          <span>{item.saedae_count}세대</span>
-                          <span tw="h-2 w-px bg-gray-300 mx-1" />
-                          <span>총 {item.dong_count}동</span>
-                        </div>
-                        <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                          <span>{item.date} 준공</span>
-                          <span tw="h-2 w-px bg-gray-300 mx-1" />
-                          <span>
-                            전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
-                          </span>
-                        </div>
-                      </div>
-                      <div tw="py-2 text-center text-info">
-                        <span tw="mr-1">최근 추천 요청 건</span>
-                        <span tw="font-bold text-blue-1000">{item.total_suggest_count}</span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </Carousel>
-              </div>
-            </div>
-          </div>
-        )}
-        {Boolean(mostFavoriteList?.length) && (
-          <div>
-            <Separator tw="bg-gray-300" />
-            <div tw="pt-10 pb-6">
-              <div tw="px-5 font-bold text-h3">관심 등록 많은 매물</div>
-              <div tw="px-5 text-b2 text-gray-700 mt-1">네고시오만의 매물정보를 확인해 보세요.</div>
-              <div tw="my-4">
-                <Carousel
-                  gap={16}
-                  tw="p-4 -m-4"
-                  trackStyle={{ paddingLeft: '20px', paddingRight: '20px' }}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
-                  renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
-                  renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
-                >
-                  {mostFavoriteList?.map((item) => (
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                      }}
-                      key={item.listing_id}
-                      tw="w-[160px] hover:cursor-pointer"
-                      onClick={() => {
-                        if (!isDragging.current) onClickListing?.(item.listing_id);
-                      }}
-                    >
-                      <div
-                        tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
-                        style={{
-                          backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
-                            item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
-                          }')`,
-                        }}
-                      />
-                      <div tw="flex gap-1 mb-2">
-                        <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                          {RealestateTypeString[item.realestate_type]}
-                        </Chip>
-                        <Chip variant="gray">{item.eubmyundong}</Chip>
-                      </div>
-                      <div tw="font-bold text-b1">
-                        {BuyOrRentString[item.buy_or_rent]}{' '}
-                        <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
-                        {Boolean(item.monthly_rent_fee) && (
-                          <span>
-                            /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
-                          </span>
-                        )}
-                      </div>
-                      <div tw="text-info text-gray-1000  whitespace-nowrap overflow-hidden text-ellipsis">
-                        {item.listing_title}
-                      </div>
-
-                      <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-                        {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
-                        {item.total_floor !== '0' && (
-                          <div>
-                            {item.floor_description
-                              ? `${item.floor_description?.[0]}/${item.total_floor}층`
-                              : `${item.total_floor}층`}
-                          </div>
-                        )}
-                        <div>{item.direction}</div>
-                      </div>
-
-                      <div tw="flex flex-row gap-1 justify-start items-center pl-0 mt-1">
-                        <FavoriteButton
-                          defaultSelected={item.is_favorite}
-                          onToggle={async (selected) => {
-                            if (!selected) {
-                              await removeFavorite(item.listing_id);
-                              onMutate?.();
-                            } else {
-                              await addFavorite(item.listing_id);
-                              onMutate?.();
-                            }
-                          }}
-                        />
-                        <span tw="text-info text-gray-700">{item.favorite_count || 0}</span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </Carousel>
-              </div>
-            </div>
-          </div>
-        )}
-        {Boolean(recentRealPriceList?.length) && (
-          <div>
-            <Separator tw="bg-gray-300" />
-            <div tw="pt-10 pb-6">
-              <div tw="px-5 font-bold text-h3">실거래가 변동 TOP 단지</div>
-              <div tw="px-5 text-b2 text-gray-700 mt-1">1주간 실거래가의 변동률이 가장 큰 단지를 확인해 보세요.</div>
-              <div tw="my-4">
-                <Carousel
-                  gap={16}
-                  tw="p-4 -m-4"
-                  trackStyle={{ paddingLeft: '20px', paddingRight: '20px' }}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
-                  renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
-                  renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
-                >
-                  {recentRealPriceList?.map((item) => (
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                      }}
-                      key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
-                      tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                      onClick={() => {
-                        if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                      }}
-                    >
+              <Carousel
+                gap={16}
+                trackStyle={{ padding: '16px 20px' }}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
+                renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
+              >
+                {mostSuggestList?.map((item) => (
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                    }}
+                    key={`mostSuggests${item.danji_id}`}
+                    tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                    onClick={() => {
+                      if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                    }}
+                  >
+                    <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
                       <div tw="flex gap-1 mb-2">
                         <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
                           {RealestateTypeString[item.realestate_type]}
@@ -652,18 +496,156 @@ export default function Home({
                       <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
                         {item.name}
                       </div>
-                      <div tw="flex items-center text-b2 mb-1">
-                        {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
-                        <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
-                        <Numeral koreanNumber tw="font-bold">
-                          {item.trade_or_deposit_price}
-                        </Numeral>
+                      <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                        <span>{item.saedae_count}세대</span>
+                        <span tw="h-2 w-px bg-gray-300 mx-1" />
+                        <span>총 {item.dong_count}동</span>
                       </div>
-                      <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
-                    </motion.div>
-                  ))}
-                </Carousel>
-              </div>
+                      <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                        <span>{item.date} 준공</span>
+                        <span tw="h-2 w-px bg-gray-300 mx-1" />
+                        <span>
+                          전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
+                        </span>
+                      </div>
+                    </div>
+                    <div tw="py-2 text-center text-info">
+                      <span tw="mr-1">최근 추천 요청 건</span>
+                      <span tw="font-bold text-blue-1000">{item.total_suggest_count}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </Carousel>
+            </div>
+          </div>
+        )}
+        {Boolean(mostFavoriteList?.length) && (
+          <div>
+            <Separator tw="bg-gray-300" />
+            <div tw="pt-10 pb-6">
+              <div tw="px-5 font-bold text-h3">관심 등록 많은 매물</div>
+              <div tw="px-5 text-b2 text-gray-700 mt-1">네고시오만의 매물정보를 확인해 보세요.</div>
+              <Carousel
+                gap={16}
+                trackStyle={{ padding: '16px 20px' }}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
+                renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
+              >
+                {mostFavoriteList?.map((item) => (
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                    }}
+                    key={item.listing_id}
+                    tw="w-[160px] hover:cursor-pointer"
+                    onClick={() => {
+                      if (!isDragging.current) onClickListing?.(item.listing_id);
+                    }}
+                  >
+                    <div
+                      tw="w-full h-[120px] rounded-[12px] bg-center bg-cover bg-no-repeat mb-3"
+                      style={{
+                        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('${
+                          item.thumbnail_full_path ?? DefaultListingImage[item.realestate_type]
+                        }')`,
+                      }}
+                    />
+                    <div tw="flex gap-1 mb-2">
+                      <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                        {RealestateTypeString[item.realestate_type]}
+                      </Chip>
+                      <Chip variant="gray">{item.eubmyundong}</Chip>
+                    </div>
+                    <div tw="font-bold text-b1">
+                      {BuyOrRentString[item.buy_or_rent]} <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
+                      {Boolean(item.monthly_rent_fee) && (
+                        <span>
+                          /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
+                        </span>
+                      )}
+                    </div>
+                    <div tw="text-info text-gray-1000  whitespace-nowrap overflow-hidden text-ellipsis">
+                      {item.listing_title}
+                    </div>
+
+                    <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
+                      {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                      {item.total_floor !== '0' && (
+                        <div>
+                          {item.floor_description
+                            ? `${item.floor_description?.[0]}/${item.total_floor}층`
+                            : `${item.total_floor}층`}
+                        </div>
+                      )}
+                      <div>{item.direction}</div>
+                    </div>
+
+                    <div tw="flex flex-row gap-1 justify-start items-center pl-0 mt-1">
+                      <FavoriteButton
+                        defaultSelected={item.is_favorite}
+                        onToggle={async (selected) => {
+                          if (!selected) {
+                            await removeFavorite(item.listing_id);
+                            onMutate?.();
+                          } else {
+                            await addFavorite(item.listing_id);
+                            onMutate?.();
+                          }
+                        }}
+                      />
+                      <span tw="text-info text-gray-700">{item.favorite_count || 0}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </Carousel>
+            </div>
+          </div>
+        )}
+        {Boolean(recentRealPriceList?.length) && (
+          <div>
+            <Separator tw="bg-gray-300" />
+            <div tw="pt-10 pb-6">
+              <div tw="px-5 font-bold text-h3">실거래가 변동 TOP 단지</div>
+              <div tw="px-5 text-b2 text-gray-700 mt-1">1주간 실거래가의 변동률이 가장 큰 단지를 확인해 보세요.</div>
+              <Carousel
+                gap={16}
+                trackStyle={{ padding: '16px 20px' }}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
+                renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
+              >
+                {recentRealPriceList?.map((item) => (
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                    }}
+                    key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
+                    tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                    onClick={() => {
+                      if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                    }}
+                  >
+                    <div tw="flex gap-1 mb-2">
+                      <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                        {RealestateTypeString[item.realestate_type]}
+                      </Chip>
+                      <Chip variant="gray">{item.eubmyundong}</Chip>
+                    </div>
+                    <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
+                    <div tw="flex items-center text-b2 mb-1">
+                      {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
+                      <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
+                      <Numeral koreanNumber tw="font-bold">
+                        {item.trade_or_deposit_price}
+                      </Numeral>
+                    </div>
+                    <div tw="text-info text-gray-700">{item.deal_date} 거래</div>
+                  </motion.div>
+                ))}
+              </Carousel>
             </div>
           </div>
         )}
