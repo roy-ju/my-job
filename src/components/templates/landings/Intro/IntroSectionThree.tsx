@@ -48,11 +48,9 @@ export default function IntroSectionThree({ recommend }: { recommend?: boolean }
     }
   }, [translateDuration, currentSlideIndex]);
 
-  console.log(currentSlideIndex);
-
   const slide1 = (
     <>
-      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden">
+      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden [box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)]">
         <Image
           tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
           alt=""
@@ -61,7 +59,7 @@ export default function IntroSectionThree({ recommend }: { recommend?: boolean }
           src={MypageImage}
         />
       </motion.div>
-      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden">
+      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden [box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)]">
         <Image
           tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
           alt=""
@@ -71,7 +69,7 @@ export default function IntroSectionThree({ recommend }: { recommend?: boolean }
         />
       </motion.div>
 
-      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden">
+      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden [box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)]">
         <Image
           tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
           alt=""
@@ -81,7 +79,7 @@ export default function IntroSectionThree({ recommend }: { recommend?: boolean }
         />
       </motion.div>
 
-      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden">
+      <motion.div tw="shrink-0 [border-radius: 32px] overflow-hidden [box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)]">
         <Image
           tw="[box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)] [border-radius: 32px] h-full"
           alt=""
@@ -133,9 +131,9 @@ export default function IntroSectionThree({ recommend }: { recommend?: boolean }
           </div>
         </div>
         <div tw="md:order-4 overflow-hidden flex">
-          <div tw="mx-auto w-[320px] md:w-[360px] xl:w-[400px] h-[257px] overflow-hidden md:ml-auto md:mr-0">
+          <div tw="mx-auto w-[320px] md:w-[360px] xl:w-[400px] h-[257px] overflow-hidden md:ml-auto md:mr-0 rounded-l-[32px] [box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.15)]">
             <div
-              tw="flex gap-4"
+              tw="flex gap-4  "
               style={{
                 transform: `translateX(calc(${carouselX}px))`,
                 transition: currentSlideIndex === 0 ? '' : `transform ${translateDuration}ms ease-in-out`,
