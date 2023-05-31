@@ -82,8 +82,6 @@ export default function Carousel({
 
     const translateX = (index - 1) * -(itemWidth + gap);
 
-    console.log('left', translateX, currentX, index);
-
     animationControls.start({ x: Math.min(0, translateX) });
   }, [gap, animationControls]);
 
@@ -107,8 +105,6 @@ export default function Carousel({
     const translateX = (index + 1) * -(itemWidth + gap);
 
     const constraintsWidth = constraints.getBoundingClientRect().width;
-
-    console.log('right', translateX, constraintsWidth - trackWidth, currentX, index);
 
     animationControls.start({ x: Math.max(translateX, constraintsWidth - trackWidth) });
   }, [gap, animationControls]);
