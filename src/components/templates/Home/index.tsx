@@ -427,48 +427,45 @@ export default function Home({
                       ? '주소 등록 단지 및 주변 단지의 최근 실거래가예요.'
                       : ''}
                   </div>
-                  <div tw="my-4">
-                    <Carousel
-                      gap={16}
-                      tw="p-4 -m-4"
-                      trackStyle={{ paddingLeft: '20px', paddingRight: '20px' }}
-                      onDragStart={handleDragStart}
-                      onDragEnd={handleDragEnd}
-                      renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
-                      renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
-                    >
-                      {danjisForUser?.map((item) => (
-                        <motion.div
-                          whileHover={{
-                            scale: 1.05,
-                          }}
-                          key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
-                          tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                          onClick={() => {
-                            if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                          }}
-                        >
-                          <div tw="flex gap-1 mb-2">
-                            <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                              {RealestateTypeString[item.realestate_type]}
-                            </Chip>
-                            <Chip variant="gray">{item.eubmyundong}</Chip>
-                          </div>
-                          <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                            {item.name}
-                          </div>
-                          <div tw="flex items-center text-b2 mb-1">
-                            {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
-                            <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
-                            <Numeral koreanNumber tw="font-bold">
-                              {item.trade_or_deposit_price}
-                            </Numeral>
-                          </div>
-                          <div tw="text-info text-gray-700">{item.deal_date} 신고</div>
-                        </motion.div>
-                      ))}
-                    </Carousel>
-                  </div>
+                  <Carousel
+                    gap={16}
+                    trackStyle={{ padding: '16px 20px' }}
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                    renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
+                    renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
+                  >
+                    {danjisForUser?.map((item) => (
+                      <motion.div
+                        whileHover={{
+                          scale: 1.05,
+                        }}
+                        key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
+                        tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                        onClick={() => {
+                          if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                        }}
+                      >
+                        <div tw="flex gap-1 mb-2">
+                          <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                            {RealestateTypeString[item.realestate_type]}
+                          </Chip>
+                          <Chip variant="gray">{item.eubmyundong}</Chip>
+                        </div>
+                        <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                          {item.name}
+                        </div>
+                        <div tw="flex items-center text-b2 mb-1">
+                          {item.is_direct_deal && <DirectTransactionIcon tw="mr-1" />}
+                          <span tw="mr-3">{BuyOrRentString[item.buy_or_rent]}</span>
+                          <Numeral koreanNumber tw="font-bold">
+                            {item.trade_or_deposit_price}
+                          </Numeral>
+                        </div>
+                        <div tw="text-info text-gray-700">{item.deal_date} 신고</div>
+                      </motion.div>
+                    ))}
+                  </Carousel>
                 </div>
               </div>
             )}
@@ -626,78 +623,74 @@ export default function Home({
               <div tw="px-5 text-b2 text-gray-700 mt-1">
                 최신 관심단지나 우리집 주소 등록 기준으로 지역이 선정됩니다.
               </div>
-              <div tw="my-4">
-                <Carousel
-                  gap={16}
-                  trackStyle={{ paddingLeft: '16px', paddingRight: '20px' }}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
-                  renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
-                  renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
-                >
-                  {tradeCountList?.map((item) => (
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                      }}
-                      key={`recentRealPrice${item.danji_id}${item.pnu}${item.realestate_type}`}
-                      tw="w-[208px] px-5 pt-3 pb-3 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
-                      onClick={() => {
-                        if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
-                      }}
-                    >
-                      <div tw="flex gap-1 mb-2">
-                        <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
-                          {RealestateTypeString[item.realestate_type]}
-                        </Chip>
-                        <Chip variant="gray">{item.eubmyundong}</Chip>
-                      </div>
-                      <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                        {item.name}
+              <Carousel
+                gap={16}
+                trackStyle={{ padding: '16px 20px' }}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                renderLeftButton={carouselType === 'pc' ? renderLeftButton : undefined}
+                renderRightButton={carouselType === 'pc' ? renderRightButton : undefined}
+              >
+                {tradeCountList?.map((item) => (
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                    }}
+                    key={`recentRealPrice${item.danji_id}${item.pnu}${item.realestate_type}`}
+                    tw="w-[208px] px-5 pt-3 pb-3 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                    onClick={() => {
+                      if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                    }}
+                  >
+                    <div tw="flex gap-1 mb-2">
+                      <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+                        {RealestateTypeString[item.realestate_type]}
+                      </Chip>
+                      <Chip variant="gray">{item.eubmyundong}</Chip>
+                    </div>
+                    <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
+
+                    <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                      {item.saedae_count && <span>{item.saedae_count}세대</span>}
+                      {item.saedae_count && item.dong_count && <span tw="h-2 w-px bg-gray-300 mx-1" />}
+                      {item.dong_count && <span>총 {item.dong_count}동</span>}
+                    </div>
+                    <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
+                      {item.date && <span>{item.date} 준공</span>}
+                      {item.date && item.jeonyong_max && item.jeonyong_min && <span tw="h-2 w-px bg-gray-300 mx-1" />}
+                      {item.jeonyong_min && item.jeonyong_max && (
+                        <span>
+                          전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
+                        </span>
+                      )}
+                    </div>
+                    <div tw="mt-2">
+                      <div tw="flex items-center">
+                        <p tw="text-b2 min-w-[36px]">전체</p>
+                        <p tw="text-b2 font-bold text-blue-1000">
+                          {(item.trade_count || 0) + (item.rent_count || 0)} 건
+                        </p>
                       </div>
 
-                      <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                        {item.saedae_count && <span>{item.saedae_count}세대</span>}
-                        {item.saedae_count && item.dong_count && <span tw="h-2 w-px bg-gray-300 mx-1" />}
-                        {item.dong_count && <span>총 {item.dong_count}동</span>}
-                      </div>
-                      <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                        {item.date && <span>{item.date} 준공</span>}
-                        {item.date && item.jeonyong_max && item.jeonyong_min && <span tw="h-2 w-px bg-gray-300 mx-1" />}
-                        {item.jeonyong_min && item.jeonyong_max && (
-                          <span>
-                            전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
-                          </span>
+                      <div tw="flex items-center gap-2 mt-0.5">
+                        {typeof item.trade_count === 'number' && (
+                          <div tw="flex items-center flex-1">
+                            <p tw="text-b2 min-w-[36px]">매매</p>
+                            <p tw="text-b2 whitespace-nowrap">{item.trade_count} 건</p>
+                          </div>
+                        )}
+
+                        {typeof item.rent_count === 'number' && (
+                          <div tw="flex items-center flex-1 justify-between">
+                            <p tw="text-b2 min-w-[36px]">전월세</p>
+                            <p tw="text-b2 whitespace-nowrap">{item.rent_count} 건</p>
+                          </div>
                         )}
                       </div>
-                      <div tw="mt-2">
-                        <div tw="flex items-center">
-                          <p tw="text-b2 min-w-[36px]">전체</p>
-                          <p tw="text-b2 font-bold text-blue-1000">
-                            {(item.trade_count || 0) + (item.rent_count || 0)} 건
-                          </p>
-                        </div>
-
-                        <div tw="flex items-center gap-2 mt-0.5">
-                          {typeof item.trade_count === 'number' && (
-                            <div tw="flex items-center flex-1">
-                              <p tw="text-b2 min-w-[36px]">매매</p>
-                              <p tw="text-b2 whitespace-nowrap">{item.trade_count} 건</p>
-                            </div>
-                          )}
-
-                          {typeof item.rent_count === 'number' && (
-                            <div tw="flex items-center flex-1 justify-between">
-                              <p tw="text-b2 min-w-[36px]">전월세</p>
-                              <p tw="text-b2 whitespace-nowrap">{item.rent_count} 건</p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </Carousel>
-              </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </Carousel>
             </div>
           </div>
         )}
