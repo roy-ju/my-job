@@ -15,6 +15,7 @@ import Routes from '@/router/routes';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import useSyncronizer from '@/states/syncronizer';
+import useAPI_GetHomeDashboardInfo from '@/apis/home/getDashboard';
 
 export default function Home() {
   const router = useRouter();
@@ -25,11 +26,13 @@ export default function Home() {
 
   const { data: suggestData } = useAPI_GetMostSuggests();
 
-  const { data: favoriteData } = useAPI_GetMostFavorites();
+  const { data: favoriteData, mutate } = useAPI_GetMostFavorites();
 
-  const { data: listingsForUserData } = useAPI_GetListingsForTheLoggedIn();
+  const { data: listingsForUserData, mutate: listingsForUserMutate } = useAPI_GetListingsForTheLoggedIn();
 
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
+
+  const { data: homeDashboardData } = useAPI_GetHomeDashboardInfo();
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -82,6 +85,14 @@ export default function Home() {
     [router],
   );
 
+  const favoriteMutate = useCallback(() => {
+    mutate();
+  }, [mutate]);
+
+  const favoritelistingsForUserMutate = useCallback(() => {
+    listingsForUserMutate();
+  }, [listingsForUserMutate]);
+
   const handleClickAppStore = useCallback(() => {
     window.open(Paths.APP_STORE, '_blank');
   }, []);
@@ -114,6 +125,10 @@ export default function Home() {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
 
+  const handleClickGuide = useCallback(() => {
+    window.open(`${window.location.origin}/${Routes.EntryMobile}/${Routes.Intro}`, '_blank');
+  }, []);
+
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
@@ -124,6 +139,8 @@ export default function Home() {
         mostFavoriteList={favoriteData?.list}
         listingsForUser={listingsForUserData?.list}
         danjisForUser={danjisForUserData?.list}
+        activeListingCount={homeDashboardData?.active_listing_count}
+        suggestAssignedAgentCount={homeDashboardData?.suggest_assigned_agent_count}
         onClickLogin={handleClickLogin}
         onClickNotification={handleClickNotification}
         onClickSuggestion={handleClickSuggestion}
@@ -140,6 +157,9 @@ export default function Home() {
         onClickTermsAndPolicy={handleClickTermsAndPolicy}
         onClickPrivacyPolicy={handleClickPrivacyPolicy}
         onClickAgentSite={handleClickAgentSite}
+        onClickGuide={handleClickGuide}
+        onMutate={favoriteMutate}
+        onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
       />
     </MobileContainer>
   );

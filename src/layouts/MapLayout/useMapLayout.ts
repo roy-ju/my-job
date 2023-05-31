@@ -238,6 +238,8 @@ export default function useMapLayout() {
 
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
+  console.log(mapToggleValue);
+
   const isPanningRef = useRef(false);
 
   const { data: danjiSummary } = useDanjiSummary(selectedMarker as ListingDanjiMarker);
@@ -426,8 +428,6 @@ export default function useMapLayout() {
   const updateMarkers = useCallback(
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
       if (interactionSelectedMarker) return;
-
-
 
       abortControllerRef.current?.abort();
       abortControllerRef.current = new AbortController();
@@ -936,7 +936,6 @@ export default function useMapLayout() {
           item.addressName === interactionState?.selectedAround?.addressName,
       );
 
-
       setSelectedMarker(selectedAround[0]);
       interactionAction.makeSelectedAroundMarker(selectedAround[0]);
     }
@@ -1156,6 +1155,18 @@ export default function useMapLayout() {
     return () => {
       delete window.Negocio.callbacks.selectSchoolInteraction;
       delete window.Negocio.callbacks.selectAroundInteraction;
+    };
+  }, [mapState.naverMap]);
+
+  useEffect(() => {
+    window.Negocio.callbacks.selectListingHomeButton = () => {
+      if (mapToggleValue === 0) {
+        setMapToggleValue(1);
+      }
+    };
+
+    return () => {
+      delete window.Negocio.callbacks.selectListingHomeButton;
     };
   }, [mapState.naverMap]);
 
