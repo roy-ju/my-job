@@ -114,11 +114,11 @@ export default function Carousel({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target.id === 'firstItem') {
+          if (entry.target.ariaLabel === 'firstItem') {
             setFirstItemIntersecting(entry.isIntersecting);
           }
 
-          if (entry.target.id === 'lastItem') {
+          if (entry.target.ariaLabel === 'lastItem') {
             setLastItemIntersecting(entry.isIntersecting);
           }
         });
@@ -132,16 +132,16 @@ export default function Carousel({
     const lastChild = track?.children[(track?.children.length ?? 0) - 1];
 
     if (firstChild) {
-      firstChild.id = 'firstItem';
+      firstChild.ariaLabel = 'firstItem';
       observer.observe(firstChild);
     }
     if (lastChild) {
-      lastChild.id = 'lastItem';
+      lastChild.ariaLabel = 'lastItem';
       observer.observe(lastChild);
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [children]);
 
   return (
     <Container {...others}>
