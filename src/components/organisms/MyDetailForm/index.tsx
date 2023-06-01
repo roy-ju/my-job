@@ -2,7 +2,7 @@ import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
 import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
-import { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler } from 'react';
 import { NICKNAME_REGEX } from '@/constants/regex';
 
 interface UpdatetableTextFieldProps {
