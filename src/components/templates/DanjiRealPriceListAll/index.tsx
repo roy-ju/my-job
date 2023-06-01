@@ -132,8 +132,6 @@ export default function DanjiRealPriceListAll({
     }
   }, [checkedBoolean]);
 
-  console.log(realpricesChartData);
-
   useEffect(() => {
     if (selectedArea && selectedJeonyongAreaMax && selectedJeonyongArea) return;
 

@@ -71,11 +71,14 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeBuyOrRent={handleChangeBuyOrRent}
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
-        onClickItem={(pnu, realestateType) =>
+        onClickItem={(pnu, realestateType, bor) =>
           router.push(Routes.DanjiDetail, {
             searchParams: {
               p: pnu,
               rt: `${realestateType}`,
+            },
+            state: {
+              bor: bor.toString(),
             },
           })
         }

@@ -79,6 +79,7 @@ export default function RemainingAmount({
               tw="flex-1 min-w-0"
               placeholder="날짜"
               value={date}
+              minDate={new Date()}
               onChange={(v) => onChangeDate?.(v)}
             />
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
