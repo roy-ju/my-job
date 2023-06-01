@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PhoneImage from '@/../public/static/images/landing/intro_phone6.png';
 import PopupImage1 from '@/../public/static/images/landing/intro_popup1.png';
 import PopupImage2 from '@/../public/static/images/landing/intro_popup2.png';
@@ -19,7 +19,6 @@ const StyledP = styled.p`
 `;
 
 export default function IntroSectionTwo() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [carouselItemIndex, setCarouselItemIndex] = useState(0);
   const carouselItemWidth = 220;
   const carouselItemGap = 16;
@@ -45,7 +44,7 @@ export default function IntroSectionTwo() {
 
   useEffect(() => {
     if (carouselItemIndex === 3) {
-      setTimeout(() => setCarouselItemIndex(0), animationDuration);
+      setTimeout(() => setCarouselItemIndex(0), 500);
     }
   }, [carouselItemIndex]);
 
@@ -82,50 +81,70 @@ export default function IntroSectionTwo() {
           <StyledP>채팅을 통한 추가 협의/방문예약</StyledP>
         </div>
       </div>
-      <div tw="mx-auto md:ml-auto md:mr-0 h-[232px] w-[320px] md:h-auto  relative overflow-hidden" ref={containerRef}>
+      <div tw="mx-auto md:ml-auto md:mr-0 h-[232px] w-[320px] md:h-auto  relative overflow-hidden">
         <Image tw="mx-auto" alt="" width={320} height={620} src={PhoneImage} />
-        <div
-          tw="absolute top-[60px] md:[top: 170px] flex gap-4 left-[50px]"
-          style={{
-            transform: `translateX(calc(${carouselX}px - ${carouselItemWidth}px - ${carouselItemGap}px))`,
-            transition: carouselItemIndex === 0 ? '' : `transform ${animationDuration}ms ease-in-out`,
-          }}
-        >
-          <Image
-            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
-            width={220}
-            height={152}
-            alt=""
-            src={PopupImage3}
-          />
-          <Image
-            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
-            width={220}
-            height={152}
-            alt=""
-            src={PopupImage1}
-          />
-          <Image
-            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
-            width={220}
-            height={152}
-            alt=""
-            src={PopupImage2}
-          />
-          <Image
-            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
-            width={220}
-            height={152}
-            alt=""
-            src={PopupImage3}
-          />
-          <Image
-            tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
-            width={220}
-            height={152}
-            alt=""
-            src={PopupImage1}
-          />
+        <div tw="absolute top-[60px] md:[top: 170px] flex gap-4">
+          <div tw="relative">
+            <div
+              tw="flex gap-4 justify-center"
+              style={{
+                transform: `translateX(${carouselX}px)`,
+                transition: carouselItemIndex === 0 ? '' : `transform ${animationDuration}ms ease-in-out`,
+              }}
+            >
+              <Image
+                tw="mx-auto  [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+                width={220}
+                height={152}
+                alt=""
+                src={PopupImage1}
+              />
+              <Image
+                tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+                width={220}
+                height={152}
+                alt=""
+                src={PopupImage2}
+              />
+              <Image
+                tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+                width={220}
+                height={152}
+                alt=""
+                src={PopupImage3}
+              />
+
+              <Image
+                tw="mx-auto  [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+                width={220}
+                height={152}
+                alt=""
+                src={PopupImage1}
+              />
+
+              <Image
+                tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+                width={220}
+                height={152}
+                alt=""
+                src={PopupImage2}
+              />
+              <Image
+                tw="mx-auto [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+                width={220}
+                height={152}
+                alt=""
+                src={PopupImage3}
+              />
+              <Image
+                tw="mx-auto  [box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.32)] [border-radius: 20px]"
+                width={220}
+                height={152}
+                alt=""
+                src={PopupImage1}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
