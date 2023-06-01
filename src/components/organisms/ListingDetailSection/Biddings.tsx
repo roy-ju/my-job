@@ -132,7 +132,7 @@ export default function Biddings({
             <Table.Row>
               <Table.Head>제안자</Table.Head>
               <Table.Data>제안금액</Table.Data>
-              <Table.Data>제안시간</Table.Data>
+              <Table.Data>제안일시</Table.Data>
             </Table.Row>
           </Table.Body>
           {biddingsChatRoomCreated && (
