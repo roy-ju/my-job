@@ -213,6 +213,9 @@ export default function RealPricesList({
     setSize((prev) => prev + 1);
   }, [setSize]);
 
+  if (!realPricesList) return null;
+  if (realPricesList && realPricesList.length === 0) return null;
+
   return (
     <div tw="mt-5 px-5 pb-10">
       <div tw="w-full">
