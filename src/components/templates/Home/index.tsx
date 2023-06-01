@@ -637,7 +637,7 @@ export default function Home({
                       scale: 1.05,
                     }}
                     key={`recentRealPrice${item.danji_id}${item.pnu}${item.realestate_type}`}
-                    tw="w-[208px] px-5 pt-3 pb-3 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
+                    tw="w-[208px] px-5 pt-3 pb-3 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer overflow-hidden"
                     onClick={() => {
                       if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
                     }}
