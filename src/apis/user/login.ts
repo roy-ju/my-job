@@ -12,7 +12,7 @@ interface LoginRequest {
   email?: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse extends ErrorResponse {
   new_registration: boolean;
   phone_verified: boolean;
   over_nineteen: boolean;
