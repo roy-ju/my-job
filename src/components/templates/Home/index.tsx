@@ -35,6 +35,7 @@ import { GetListingsForTheLoggedIn } from '@/apis/home/getListingsForTheLoggedIn
 import { GetDanjisForTheLoggedIn } from '@/apis/home/getDanjisForTheLoggedIn';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { addFavorite } from '@/apis/listing/addListingFavroite';
+import { BuyOrRent } from '@/constants/enums';
 
 function renderLeftButton(props: any) {
   return (
@@ -461,6 +462,14 @@ export default function Home({
                           <Numeral koreanNumber tw="font-bold">
                             {item.trade_or_deposit_price}
                           </Numeral>
+                          {item.buy_or_rent === BuyOrRent.Wolsae && item.monthly_rent_fee > 0 && (
+                            <>
+                              <span>&nbsp;/&nbsp;</span>
+                              <Numeral koreanNumber tw="font-bold">
+                                {item.monthly_rent_fee}
+                              </Numeral>
+                            </>
+                          )}
                         </div>
                         <div tw="text-info text-gray-700">{item.deal_date} 신고</div>
                       </motion.div>
