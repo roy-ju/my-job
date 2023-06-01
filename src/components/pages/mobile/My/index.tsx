@@ -150,7 +150,7 @@ export default function MobMy() {
         onClickSuggestRegional={handleSuggestRegional}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
-        onClickDeveloper={handleDeveloper}
+        onClickDeveloper={process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? handleDeveloper : undefined}
       />
     </MobileContainer>
   );
