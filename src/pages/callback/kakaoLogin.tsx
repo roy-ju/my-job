@@ -1,25 +1,31 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
 import login from '@/apis/user/login';
 import { SocialLoginType } from '@/constants/enums';
 import updateEmail from '@/apis/user/updateEmail';
+import { Button, Loading } from '@/components/atoms';
+import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 
 const Page: NextPage = () => {
   const router = useRouter();
 
+  const [hasOpener, setHasOpener] = useState(true);
+
   const handleLogin = useCallback(async (code: string) => {
+    // 카카오에서 전달받은 코드로 카카오 엑세스 토큰을 가지고 온다.
     const kakaoAccessTokenResponse = await getKakaoAccessToken({
       code,
       redirectUri: `${window.location.origin}${window.location.pathname}`,
     });
 
     if (!kakaoAccessTokenResponse) {
+      window.close();
       return false;
     }
 
-    const loginResponse = await login({
+    const detail = await login({
       browser: '',
       device: '',
       ipAddress: '',
@@ -27,23 +33,13 @@ const Page: NextPage = () => {
       token: kakaoAccessTokenResponse.accessToken,
     });
 
-    if (!loginResponse) {
-      return false;
-    }
+    const payload: NegocioLoginResponseEventPayload = {
+      ...detail,
+      snsToken: kakaoAccessTokenResponse.accessToken,
+      socialLoginType: SocialLoginType.Kakao,
+    };
 
-    if (loginResponse.access_token) {
-      window.opener?.Negocio.callbacks?.loginSuccess?.(loginResponse.access_token, loginResponse.refresh_token);
-    } else if (loginResponse.new_registration) {
-      window.opener?.Negocio.callbacks?.newRegister?.(
-        loginResponse.email,
-        kakaoAccessTokenResponse.accessToken,
-        SocialLoginType.Kakao,
-      );
-    } else {
-      window.opener?.Negocio.callbacks?.loginFail?.();
-    }
-
-    window.close();
+    window.opener?.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
 
     return true;
   }, []);
@@ -58,9 +54,9 @@ const Page: NextPage = () => {
       return false;
     }
 
-    const updateEmailRes = await updateEmail(kakaoAccessTokenResponse.accessToken, SocialLoginType.Kakao);
-    window.opener?.Negocio?.callbacks?.updateToKakao?.(updateEmailRes);
-    window.close();
+    const detail = await updateEmail(kakaoAccessTokenResponse.accessToken, SocialLoginType.Kakao);
+
+    window.opener?.dispatchEvent(new CustomEvent(Events.NEGOCIO_UPDATE_EMAIL_RESPONSE_EVENT, { detail }));
 
     return true;
   }, []);
@@ -68,16 +64,32 @@ const Page: NextPage = () => {
   useEffect(() => {
     const { code, state: queryState } = router.query;
 
-    if (typeof code === 'string') {
+    if (!window.opener) {
+      // opener 가 없는경우
+      setHasOpener(false);
+    } else if (typeof code === 'string') {
       if (queryState === 'update') {
-        handleEmailUpdate(code);
+        handleEmailUpdate(code).then(() => window.close());
       } else {
-        handleLogin(code);
+        handleLogin(code).then(() => window.close());
       }
     }
   }, [handleLogin, handleEmailUpdate, router]);
 
-  return <div />;
+  return (
+    <div tw="w-full h-full flex items-center justify-center">
+      {!hasOpener ? (
+        <div tw="flex flex-col items-center justify-center">
+          <div tw="text-h2 font-medium mb-4 text-center">비정상적인 접근입니다.</div>
+          <Button variant="secondary" size="bigger" onClick={() => window.close()}>
+            돌아가기
+          </Button>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </div>
+  );
 };
 
 export default Page;

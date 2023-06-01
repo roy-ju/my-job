@@ -9,6 +9,7 @@ import { loginWithApple } from '@/lib/apple';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 
 interface Props {
   depth: number;
@@ -29,7 +30,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     if (res && !res.error) {
       const idToken = res.authorization.id_token;
 
-      const loginResponse = await login({
+      const detail = await login({
         browser: '',
         device: '',
         ipAddress: '',
@@ -37,13 +38,13 @@ export default memo(({ depth, panelWidth }: Props) => {
         token: idToken,
       });
 
-      if (loginResponse?.access_token) {
-        window.Negocio.callbacks.loginSuccess?.(loginResponse.access_token, loginResponse.refresh_token);
-      } else if (loginResponse?.new_registration) {
-        window.Negocio.callbacks.newRegister?.(loginResponse?.email, idToken, SocialLoginType.Apple);
-      } else {
-        toast.error('로그인에 실패하였습니다.');
-      }
+      const payload: NegocioLoginResponseEventPayload = {
+        ...detail,
+        snsToken: idToken,
+        socialLoginType: SocialLoginType.Apple,
+      };
+
+      window.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
     }
   }, []);
 
@@ -55,30 +56,38 @@ export default memo(({ depth, panelWidth }: Props) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const redirect = urlSearchParams.get('redirect');
 
-    window.Negocio.callbacks.loginSuccess = async (accessToken: string, refreshToken: string) => {
-      await handleLogin(accessToken, refreshToken);
-      if (redirect) {
-        nextRouter.replace(redirect);
+    const handleLoginResponse: EventListenerOrEventListenerObject = async (event) => {
+      const detail = (event as CustomEvent).detail as NegocioLoginResponseEventPayload;
+
+      if (detail?.access_token && detail?.refresh_token) {
+        await handleLogin(detail.access_token, detail.refresh_token);
+        if (redirect) {
+          nextRouter.replace(redirect);
+        } else {
+          router.pop();
+        }
+      } else if (detail?.new_registration && detail.email && detail.snsToken && detail.socialLoginType) {
+        router.replace(Routes.Register, {
+          persistParams: true,
+          searchParams: {
+            redirect: redirect ?? '',
+          },
+          state: {
+            email: detail.email,
+            token: detail.snsToken,
+            socialLoginType: `${detail.socialLoginType}`,
+            redirect: redirect ?? '',
+          },
+        });
       } else {
-        router.pop();
+        toast.error(`문제가 발생했습니다. 잠시 뒤 다시 시도해 주세요. error_code: ${detail?.error_code}`);
       }
     };
-    window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
-      router.replace(Routes.Register, {
-        persistParams: true,
-        searchParams: {
-          redirect: redirect ?? '',
-        },
-        state: { email, token, socialLoginType: `${socialLoginType}` },
-      });
-    };
-    window.Negocio.callbacks.loginFail = () => {
-      toast.error('로그인에 실패하였습니다.');
-    };
+
+    window.addEventListener(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, handleLoginResponse);
+
     return () => {
-      delete window.Negocio.callbacks.loginSuccess;
-      delete window.Negocio.callbacks.newRegister;
-      delete window.Negocio.callbacks.loginFail;
+      window.removeEventListener(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, handleLoginResponse);
     };
   }, [router, handleLogin, nextRouter]);
 
