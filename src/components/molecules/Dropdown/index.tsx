@@ -133,7 +133,7 @@ function Dropdown({
                 transition={{ duration: 0.2 }}
               >
                 <OptionsContainer>
-                  <div tw="max-h-[400px] overflow-y-auto">{children}</div>
+                  <div tw="max-h-[400px] overflow-y-auto overflow-x-hidden">{children}</div>
                 </OptionsContainer>
               </motion.div>
             </div>
