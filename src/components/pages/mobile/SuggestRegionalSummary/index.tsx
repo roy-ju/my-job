@@ -8,12 +8,14 @@ import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useMemo, useState } from 'react';
 import * as gtag from '@/lib/gtag';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 
 // const SuggestRegionalSummary = dynamic(() => import('@/components/templates/SuggestRegionalSummary'));
 
 export default memo(() => {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
 
   const { mutate } = useAPI_GetDashboardInfo();
 
@@ -25,8 +27,8 @@ export default memo(() => {
   }, [router.query.params]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
-  }, [router]);
+    setOpenPopup(true);
+  }, []);
 
   const handleClickNext = useCallback(async () => {
     setIsCreating(true);
@@ -93,6 +95,28 @@ export default memo(() => {
           moveInDateType={params?.move_in_date_type}
         />
       </MobileContainer>
+      {openPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>추천받기를 종료하시겠습니까?</Popup.Title>
+              <Popup.Body>
+                추천받기를 종료하시면 입력하신 내용이 모두 삭제됩니다.
+                <br />
+                입력한 내용을 확인 또는 수정하시려면 화면을 위로 이동해 주세요.
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenPopup(false)}>닫기</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`)}
+              >
+                추천받기 종료
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </MobAuthRequired>
   );
 });
