@@ -1,3 +1,4 @@
+import React from 'react';
 import { Chip, Moment, Numeral, Button } from '@/components/atoms';
 import { Table } from '@/components/molecules';
 import tw, { styled } from 'twin.macro';
