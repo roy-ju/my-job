@@ -79,7 +79,7 @@ export default function ListingList({
       tw="flex flex-1 flex-col items-center justify-center absolute left-0 w-full min-h-full z-50"
       initial={{ opacity: 0, x: '100%', backgroundColor: 'rgba(0,0,0,0)' }}
       animate={{ opacity: 1, x: 0, backgroundColor: 'rgba(0,0,0,0.6)' }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.3, backgroundColor: { delay: 0.3 } }}
     >
       <div ref={outsideRef} tw="w-[82%] bg-white self-end flex-1">
         <div tw="px-5 py-4">
