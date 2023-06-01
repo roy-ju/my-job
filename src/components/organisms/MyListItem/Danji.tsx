@@ -114,7 +114,11 @@ export default function Danji({
             )}
             {dongCount > 0 && <div tw="shrink-0 text-info text-gray-700">총 {dongCount}동</div>}
             {year && <div tw="shrink-0 text-info text-gray-700">{`${year}.${month}.${day} 준공`}</div>}
-            {jeonyongMin && <div tw="shrink-0 text-info text-gray-700">{`전용 ${jeonyongMin}-${jeonyongMax}㎡`}</div>}
+            {jeonyongMin && (
+              <div tw="shrink-0 text-info text-gray-700">{`전용 ${Number(jeonyongMin).toFixed(0)}-${Number(
+                jeonyongMax,
+              ).toFixed(0)}㎡`}</div>
+            )}
           </div>
         </div>
         <div tw="shrink-0 self-start">

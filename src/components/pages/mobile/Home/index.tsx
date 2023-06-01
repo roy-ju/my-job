@@ -51,7 +51,10 @@ export default function Home() {
   }, [router]);
 
   const handleClickBidding = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.Map}`);
+    router.push(
+      { pathname: `/${Routes.EntryMobile}/${Routes.Map}`, query: { listing: 'listingBtn' } },
+      `/${Routes.EntryMobile}/${Routes.Map}`,
+    );
   }, [router]);
 
   const handleClickHomeRegister = useCallback(() => {

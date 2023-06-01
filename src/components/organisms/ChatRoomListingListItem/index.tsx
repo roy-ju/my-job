@@ -117,7 +117,7 @@ export default function ChatRoomListingListItem({
             <p tw="text-info text-gray-700">매물정보는 등록이 완료되면 노출됩니다.</p>
           ) : (
             <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-              {jeonyongArea && <div>{`전용 ${jeonyongArea}㎡`}</div>}
+              {jeonyongArea && <div>{`전용 ${Number(jeonyongArea).toFixed(0)}㎡`}</div>}
               <div>{floorDescription ? `${floorDescription?.[0]}/${totalFloor}층` : `${totalFloor}층`}</div>
               <div>{direction}</div>
             </div>
