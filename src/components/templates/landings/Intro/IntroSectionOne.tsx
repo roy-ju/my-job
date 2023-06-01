@@ -71,8 +71,15 @@ export default function SectionOne({ isMobileSize }: { isMobileSize: boolean }) 
   return (
     <section>
       <div tw="relative" style={{ height: isMobileSize ? '382px' : '745px' }}>
-        <div>
-          <Image sizes="1920px" priority alt="" placeholder="blur" fill src={BigBannerImage} />
+        <div tw="absolute inset-0">
+          <Image
+            tw="[object-fit: cover] w-full h-full"
+            width={1920}
+            priority
+            alt=""
+            placeholder="blur"
+            src={BigBannerImage}
+          />
         </div>
         <div
           style={{
