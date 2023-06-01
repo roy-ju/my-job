@@ -6,7 +6,10 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   const host = request.headers.get('host');
 
   if (host === 'negocio.co.kr') {
-    return NextResponse.redirect(`${request.nextUrl.protocol}//www.negocio.co.kr${request.nextUrl.pathname}`, 301);
+    return NextResponse.redirect(
+      `${request.nextUrl.protocol}//www.negocio.co.kr${request.nextUrl.pathname}${request.nextUrl.search}`,
+      301,
+    );
   }
 
   const { ua } = userAgent(request);
