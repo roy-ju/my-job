@@ -3,6 +3,7 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { NavigationHeader } from '@/components/molecules';
 import { MobDanjiDetailSection } from '@/components/organisms';
+import DanjiChartNodata from '@/components/organisms/MobDanjiDetail/DanjiChartNodata';
 import RealPriceInfoHeader from '@/components/organisms/MobDanjiDetail/RealPriceInfoHeader';
 import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
 import { BuyOrRent, Year } from '@/constants/enums';
@@ -101,7 +102,7 @@ export default function MobDanjiRealPriceListAll({
     realestateType: danji?.type,
   });
 
-  const { realpricesChartData, xAxis } = useDanjiRealPricesChart({
+  const { realpricesChartData, xAxis, realData } = useDanjiRealPricesChart({
     danji,
     buyOrRent,
     selectedYear,
@@ -201,21 +202,27 @@ export default function MobDanjiRealPriceListAll({
           onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
         />
 
-        <div tw="px-5">
-          <ParentSize>
-            {({ width }) => (
-              <DanjiRealPriceChart
-                width={width}
-                xAxis={xAxis}
-                buyOrRent={buyOrRent}
-                selectedYear={selectedYear}
-                selectedIndex={selectedIndex}
-                realpricesChartData={realpricesChartData}
-                checked={checkedBoolean}
-              />
-            )}
-          </ParentSize>
-        </div>
+        {realData && realData.length > 0 ? (
+          <div tw="px-5">
+            <ParentSize>
+              {({ width }) => (
+                <DanjiRealPriceChart
+                  width={width}
+                  xAxis={xAxis}
+                  buyOrRent={buyOrRent}
+                  selectedYear={selectedYear}
+                  selectedIndex={selectedIndex}
+                  realpricesChartData={realpricesChartData}
+                  checked={checkedBoolean}
+                />
+              )}
+            </ParentSize>
+          </div>
+        ) : (
+          <div tw="px-5 py-5">
+            <DanjiChartNodata />
+          </div>
+        )}
         <MobDanjiDetailSection.RealPricesList
           danji={danji}
           isMorePage

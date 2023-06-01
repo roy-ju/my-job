@@ -498,6 +498,9 @@ export default function useMapLayout() {
               // 단지 상세로 보내는 Router
               router.replace(Routes.DanjiDetail, {
                 searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
+                state: {
+                  bor: filter.buyOrRents,
+                },
               });
               setPolygons([]);
               setSelectedMarker(this);
@@ -560,8 +563,9 @@ export default function useMapLayout() {
         setMarkers(_markers);
       }
     },
-    [lastSearchItem, router, interactionSelectedMarker],
+    [lastSearchItem, router, interactionSelectedMarker,filter],
   );
+  
   const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
 
   /**
@@ -1095,6 +1099,9 @@ export default function useMapLayout() {
         setSelectedMarker(searchedDanji);
         router.replace(Routes.DanjiDetail, {
           searchParams: { p: searchedDanji.pnu as string, rt: `${searchedDanji.danjiRealestateType}` },
+          state: {
+            bor: filter.buyOrRents,
+          },
         });
         lastSearchItem.current = null;
       } else {

@@ -58,11 +58,11 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
               <Table.Head>용적 / 건폐율</Table.Head>
               {danji.yongjuk_rate && danji.gunpae_rate && (
                 <Table.Data>
-                  용적률 {danji.yongjuk_rate}% / 건폐율 {danji.gunpae_rate}%
+                  {danji.yongjuk_rate}% / {danji.gunpae_rate}%
                 </Table.Data>
               )}
-              {danji.yongjuk_rate && !danji.gunpae_rate && <Table.Data>용적률 {danji.yongjuk_rate}</Table.Data>}
-              {!danji.yongjuk_rate && danji.gunpae_rate && <Table.Data>건폐율 {danji.gunpae_rate}</Table.Data>}
+              {danji.yongjuk_rate && !danji.gunpae_rate && <Table.Data>{danji.yongjuk_rate}%</Table.Data>}
+              {!danji.yongjuk_rate && danji.gunpae_rate && <Table.Data>{danji.gunpae_rate}%</Table.Data>}
             </Table.Row>
           )}
           {danji.sigong_company && (

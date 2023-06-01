@@ -147,7 +147,7 @@ export default function Listing({
         <div tw="text-info text-left">{listingTitle}</div>
         <div tw="flex justify-between items-center">
           <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-            {jeonyongArea && <div>{`전용 ${jeonyongArea}㎡`}</div>}
+            {jeonyongArea && <div>{`전용 ${Number(jeonyongArea).toFixed(0)}㎡`}</div>}
             <div>{floorDescription ? `${floorDescription?.[0]}/${totalFloor}층` : `${totalFloor}층`}</div>
             <div>{direction}</div>
           </div>

@@ -9,7 +9,8 @@ import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatu
 import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
 import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
 import { ParentSize } from '@visx/responsive';
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { DanjiRealPriceChart } from '../../DanjiDetail/DanjiRealPriceChart';
 import DanjiStatusChartWrraper from '../../DanjiDetail/DanjiStatusChartWrraper';
 import DanjiStatusJeonsaeChartWrraper from '../../DanjiDetail/DanjiStatusJeonsaeChartWrraper';
@@ -25,6 +26,7 @@ type Props = {
 const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { danji, isShowRpTab, setLoadingRp, setIsShowRpTab } = props;
   const [isMutate, setIsMutate] = useState(false);
+  const router = useRouter();
 
   const [buyOrRent, setBuyOrRent] = useState<number>();
   const [selectedYear, setSelectedYear] = useState<number>(Year.Three);
@@ -122,6 +124,28 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
       setBuyOrRent(danjiRealPricesData?.buy_or_rent);
     }
   }, [danjiRealPricesData?.buy_or_rent, danjiRealPricesPyoungList, danjiRealPricesPyoungListLoading, setIsShowRpTab]);
+
+  useLayoutEffect(() => {
+    if (router?.query?.bor === BuyOrRent.Buy.toString()) {
+      setBuyOrRent(1);
+      setIsMutate(true);
+    }
+
+    if (router?.query?.bor === '2,3') {
+      setBuyOrRent(2);
+      setIsMutate(true);
+    }
+
+    if (router?.query?.bor === BuyOrRent.Jeonsae.toString()) {
+      setBuyOrRent(2);
+      setIsMutate(true);
+    }
+
+    if (router?.query?.bor === BuyOrRent.Wolsae.toString()) {
+      setBuyOrRent(2);
+      setIsMutate(true);
+    }
+  }, [router.query, danji]);
 
   if (!danji) return null;
 

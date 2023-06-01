@@ -8,10 +8,17 @@ import { DanjiSummary } from '@/layouts/Mobile/MapLayout/useMapLayout';
 import { useRouter } from 'next/router';
 import { styled } from 'twin.macro';
 import Routes from '@/router/routes';
+import { Filter } from '../MobMapFilter/types';
 
 const StyledDiv = styled.div``;
 
-export default function MobDanjiSummary({ selectedDanjiSummary }: { selectedDanjiSummary: DanjiSummary }) {
+export default function MobDanjiSummary({
+  selectedDanjiSummary,
+  filter,
+}: {
+  selectedDanjiSummary: DanjiSummary;
+  filter?: Filter;
+}) {
   const router = useRouter();
 
   const handleDanjiDetail = () => {
@@ -21,6 +28,7 @@ export default function MobDanjiSummary({ selectedDanjiSummary }: { selectedDanj
         query: {
           p: selectedDanjiSummary.pnu,
           rt: selectedDanjiSummary.realestateType,
+          bor: filter?.buyOrRents || '',
         },
       },
       `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${selectedDanjiSummary.pnu}&rt=${selectedDanjiSummary.realestateType}`,

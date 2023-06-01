@@ -142,6 +142,16 @@ export default function RealPricesPyoungList({
     }
   }, [selectedIndex]);
 
+  const selectedPyoung = useMemo(() => {
+    if (danjiRealPricesPyoungList) {
+      const pyoung = danjiRealPricesPyoungList.find(
+        (ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString(),
+      )?.gonggeup_pyoung;
+      return typeof pyoung === 'number' ? (pyoung * 3.3058).toFixed(0) : '-';
+    }
+    return '-';
+  }, [danjiRealPricesPyoungList, selectedArea]);
+
   if (!danjiRealPricesPyoungList) return null;
 
   return danjiRealPricesPyoungList?.length > 0 ? (
@@ -197,10 +207,7 @@ export default function RealPricesPyoungList({
       </Wrraper>
       <div tw="flex justify-center items-center gap-2 bg-gray-100 mt-4 py-[9px] [border-radius: 0.5rem]">
         <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
-          {`공급 ${
-            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
-              ?.gonggeup_pyoung || '-'
-          }평`}
+          {`공급 ${selectedPyoung}㎡`}
         </span>
         <div tw="w-px h-2 bg-gray-300" />
         <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">

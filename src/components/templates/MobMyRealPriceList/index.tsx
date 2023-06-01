@@ -24,7 +24,7 @@ export interface MyRealPriceListProps {
   onNext?: () => void;
   onChangeBuyOrRent?: (newValue: number) => void;
   onClickBack?: () => void;
-  onClickItem?: (pnu: string, realestateType: number) => void;
+  onClickItem?: (pnu: string, realestateType: number, bor: number) => void;
   nickname?: string;
   sortBy?: string;
   unreadChatCount?: number;
@@ -100,7 +100,7 @@ export default function MobMyRealPriceList({
                   area={item.area}
                   buyOrRent={item.buyOrRent}
                   dealType={item.dealType}
-                  onClick={() => onClickItem?.(item.pnu, item.realestateType)}
+                  onClick={() => onClickItem?.(item.pnu, item.realestateType, item.buyOrRent)}
                 />
               ))}
           </InfiniteScroll>
