@@ -8,6 +8,7 @@ import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiR
 import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatusChart';
 import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
 import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { ParentSize } from '@visx/responsive';
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { DanjiRealPriceChart } from '../DanjiRealPriceChart';
@@ -26,7 +27,9 @@ type Props = {
 
 const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { depth, danji, isShowRpTab, isShowlistingsSection, setLoadingRp, setIsShowRpTab } = props;
-  const [isMutate, setIsMutate] = useState(false);
+  const [isMutate, setIsMutate] = useState<boolean>(false);
+
+  const router = useRouter(depth);
 
   const [buyOrRent, setBuyOrRent] = useState<number>();
   const [selectedYear, setSelectedYear] = useState<number>(Year.Three);
@@ -43,7 +46,7 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
   } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
-    buyOrRent: isMutate ? buyOrRent : null,
+    buyOrRent: typeof isMutate === 'boolean' ? buyOrRent : null,
   });
 
   const onChangeBuyOrRent = useCallback((value: number) => {
@@ -124,6 +127,28 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
       setBuyOrRent(danjiRealPricesData?.buy_or_rent);
     }
   }, [danjiRealPricesData?.buy_or_rent, danjiRealPricesPyoungList, danjiRealPricesPyoungListLoading, setIsShowRpTab]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (router?.query?.bor === BuyOrRent.Buy.toString()) {
+      setBuyOrRent(1);
+      setIsMutate(true);
+    }
+
+    if (router?.query?.bor === '2,3') {
+      setBuyOrRent(2);
+      setIsMutate(true);
+    }
+
+    if (router?.query?.bor === BuyOrRent.Jeonsae.toString()) {
+      setBuyOrRent(2);
+      setIsMutate(true);
+    }
+
+    if (router?.query?.bor === BuyOrRent.Wolsae.toString()) {
+      setBuyOrRent(2);
+      setIsMutate(true);
+    }
+  }, [router.query, danji]);
 
   if (!danji) return null;
 
