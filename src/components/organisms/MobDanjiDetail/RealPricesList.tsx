@@ -213,10 +213,10 @@ export default function RealPricesList({
       <div tw="w-full">
         <div>
           <div tw="flex [border-bottom: 1px solid #E9ECEF] [border-top: 1px solid #E9ECEF]">
-            <div tw="w-full min-w-[4.375rem] py-2 text-b2 font-normal [text-align: left]">계약일</div>
-            <div tw="w-full min-w-[3.5rem] py-2 text-b2 font-normal [text-align: right]">거래</div>
-            <div tw="w-full min-w-[3.5rem] py-2 text-b2 font-normal [text-align: right]">층수</div>
-            <div tw="w-full min-w-[9.625rem] py-2 text-b2 font-normal [text-align: right]">실거래가</div>
+            <div tw="w-full min-w-[4.375rem] py-2 text-b2 font-normal [text-align: left] text-gray-700">계약일</div>
+            <div tw="w-full min-w-[3.5rem] py-2 text-b2 font-normal [text-align: right] text-gray-700">거래</div>
+            <div tw="w-full min-w-[3.5rem] py-2 text-b2 font-normal [text-align: right] text-gray-700">층수</div>
+            <div tw="w-full min-w-[9.625rem] py-2 text-b2 font-normal [text-align: right] text-gray-700">실거래가</div>
           </div>
         </div>
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={onIntersect}>
