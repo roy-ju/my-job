@@ -1,7 +1,7 @@
 import { Button, Moment } from '@/components/atoms';
 import { DatePicker, Dropdown } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import tw from 'twin.macro';
 
 export interface RemainingAmountProps {
@@ -26,7 +26,7 @@ export default function RemainingAmount({
   onChangeDateType,
 }: RemainingAmountProps) {
   const [value, setValue] = useControlled({ controlled: valueProp, default: null });
-
+  const minDate = useRef(new Date());
   const handleChange = useCallback(
     (v: boolean) => {
       setValue(v);
@@ -79,7 +79,7 @@ export default function RemainingAmount({
               tw="flex-1 min-w-0"
               placeholder="날짜"
               value={date}
-              minDate={new Date()}
+              minDate={minDate.current}
               onChange={(v) => onChangeDate?.(v)}
             />
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
