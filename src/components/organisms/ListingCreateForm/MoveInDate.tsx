@@ -1,7 +1,7 @@
 import { Label, Radio } from '@/components/atoms';
 import { DatePicker, Dropdown, RadioGroup } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 interface Props {
   date?: Date | null;
@@ -20,6 +20,7 @@ export default function MoveInDate({
   onChangeDateType,
   onChangeHasDate,
 }: Props) {
+  const minDate = useRef(new Date());
   const [type, setType] = useControlled({
     controlled: hasDate,
     default: '0',
@@ -67,7 +68,7 @@ export default function MoveInDate({
               placeholder="날짜"
               value={date}
               onChange={(value) => onChangeDate?.(value)}
-              minDate={new Date()}
+              minDate={minDate.current}
             />
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
               <Dropdown.Option value="이전">이전</Dropdown.Option>
