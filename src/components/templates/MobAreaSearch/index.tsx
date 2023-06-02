@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Separator } from '@/components/atoms';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -108,23 +109,29 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
     setScreenSize();
   }, []);
 
-  // useEffect(() => {
-  //   if (selectedRefOne && scrollConainerRefOne?.current) {
-  //     selectedRefOne.current?.scrollIntoView();
-  //   }
-  // }, [selectedRefOne, scrollConainerRefOne]);
+  useEffect(() => {
+    if (selectedRefOne?.current && scrollConainerRefOne?.current) {
+      selectedRefOne.current?.scrollIntoView();
+      // const selectedRefOneTop = selectedRefOne.current?.getBoundingClientRect();
+      // scrollConainerRefThree.current?.scrollBy({ top: selectedRefOneTop.top - 300 });
+    }
+  }, [selectedRefOne?.current, scrollConainerRefOne]);
 
-  // useEffect(() => {
-  //   if (selectedRefTwo && scrollConainerRefTwo?.current) {
-  //     selectedRefTwo.current?.scrollIntoView();
-  //   }
-  // }, [selectedRefTwo, scrollConainerRefTwo]);
+  useEffect(() => {
+    if (selectedRefTwo?.current && scrollConainerRefTwo?.current) {
+      selectedRefTwo.current?.scrollIntoView();
+      // const selectedRefTwoTop = selectedRefTwo.current?.getBoundingClientRect();
+      // scrollConainerRefThree.current?.scrollBy({ top: selectedRefTwoTop.top });
+    }
+  }, [selectedRefTwo?.current, scrollConainerRefTwo]);
 
-  // useEffect(() => {
-  //   if (selectedRefThree && scrollConainerRefThree?.current) {
-  //     selectedRefThree.current?.scrollIntoView();
-  //   }
-  // }, [selectedRefThree, scrollConainerRefThree]);
+  useEffect(() => {
+    if (selectedRefThree?.current && scrollConainerRefThree?.current) {
+      selectedRefThree?.current.scrollIntoView();
+      // const selectedRefThreeTop = selectedRefThree.current?.getBoundingClientRect();
+      // scrollConainerRefThree.current?.scrollBy({ top: selectedRefThreeTop.top - 300 });
+    }
+  }, [selectedRefThree?.current, scrollConainerRefThree]);
 
   return (
     <div tw="w-[100%] max-w-mobile mx-auto z-[1000] bg-white">
