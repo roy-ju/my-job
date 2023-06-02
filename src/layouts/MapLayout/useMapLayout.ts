@@ -193,6 +193,9 @@ export default function useMapLayout() {
 
   const [myMarker, setMyMarker] = useState<{ lat: number; lng: number } | null>(null);
 
+  // 법정동 코드
+  const [code, setCode] = useState<string>('');
+
   const [searchResultMarker, setSearchResultMarker] = useState<{ lat: number; lng: number } | null>(null);
 
   const [mapState, setMapState] = useRecoilState(recoilMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
@@ -375,6 +378,7 @@ export default function useMapLayout() {
     if (response && response.documents?.length > 0) {
       const region = response.documents.filter((item) => item.region_type === 'B')[0];
       if (region) {
+        setCode(region.code);
         setCenterAddress([region.region_1depth_name, region.region_2depth_name, region.region_3depth_name]);
       }
     }
@@ -563,9 +567,9 @@ export default function useMapLayout() {
         setMarkers(_markers);
       }
     },
-    [lastSearchItem, router, interactionSelectedMarker,filter],
+    [lastSearchItem, router, interactionSelectedMarker, filter],
   );
-  
+
   const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
 
   /**
@@ -1250,6 +1254,7 @@ export default function useMapLayout() {
     zoom: initialZoom,
     center: initialCenter,
     centerAddress,
+    bubjungdongCode: code,
     onInit,
     onCreate,
     onClick: onMapClick,
