@@ -8,6 +8,7 @@ import Routes from '@/router/routes';
 import PcGlobalStyles from '@/styles/PcGlobalStyles';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import useSyncronizer from '@/states/syncronizer';
+import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -59,12 +60,22 @@ function MapWrapper({
     searchResultMarker,
     interactionSelectedMarker,
     aroundMarkers,
+    bubjungdongCode,
     ...props
   } = useMapLayout();
 
   const { depth, popLast, replace } = useRouter(0);
 
-  const handleClickSuggestRegional = useCallback(() => {
+  const [openPopup, setOpenPopup] = useState(false);
+
+  const handleClickSuggestRegional = useCallback(async () => {
+    const response = await danjiSuggestEligibilityCheck(bubjungdongCode);
+
+    if (response && !response.eligible) {
+      setOpenPopup(true);
+      return;
+    }
+
     if (centerAddress.join('') !== '') {
       replace(Routes.SuggestRegionalForm, {
         searchParams: {
@@ -74,7 +85,7 @@ function MapWrapper({
     } else {
       replace(Routes.SuggestRegionalForm);
     }
-  }, [centerAddress, replace]);
+  }, [centerAddress, replace, bubjungdongCode]);
 
   const handleClickMapListingList = useCallback(() => {
     replace(Routes.MapListingList);
@@ -87,6 +98,8 @@ function MapWrapper({
   const handleClickAgentSite = useCallback(() => {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
+
+  console.log(bubjungdongCode);
 
   return (
     <>
@@ -177,6 +190,22 @@ function MapWrapper({
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {openPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                해당 지역은 서비스 준비중입니다.
+                <br />
+                경기, 서울, 인천 지역에서 시도해 주세요.
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setOpenPopup(false)}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

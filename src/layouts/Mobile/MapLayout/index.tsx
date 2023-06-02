@@ -5,8 +5,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -48,7 +49,18 @@ function MapWrapper() {
 
   const router = useRouter();
 
-  const handleClickSuggestRegional = useCallback(() => {
+  const [openPopup, setOpenPopup] = useState(false);
+
+  const handleClickSuggestRegional = useCallback(async () => {
+    if (!code) return;
+
+    const response = await danjiSuggestEligibilityCheck(code);
+
+    if (response && !response.eligible) {
+      setOpenPopup(true);
+      return;
+    }
+
     if (centerAddress.join('') !== '') {
       router.push({
         pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
@@ -59,7 +71,7 @@ function MapWrapper() {
     } else {
       router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
     }
-  }, [router, centerAddress]);
+  }, [router, centerAddress, code]);
 
   return (
     <>
@@ -157,6 +169,22 @@ function MapWrapper() {
               >
                 허용하기
               </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {openPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                해당 지역은 서비스 준비중입니다.
+                <br />
+                경기, 서울, 인천 지역에서 시도해 주세요.
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => setOpenPopup(false)}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
