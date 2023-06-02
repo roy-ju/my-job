@@ -51,15 +51,11 @@ export default function MapSearchTextField({
 
   const results = useKakaoAddressAutocomplete(value);
 
-  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
-    (e) => {
-      e.preventDefault();
-      if (results && results.length > 0) {
-        onSubmit?.(results[0], false);
-      }
-    },
-    [results, onSubmit],
-  );
+  const handleSubmit = useCallback(() => {
+    if (results && results.length > 0) {
+      onSubmit?.(results[0], false);
+    }
+  }, [results, onSubmit]);
 
   const renderRecentSearches = () => {
     if (!recentSearches?.length) {
@@ -117,7 +113,7 @@ export default function MapSearchTextField({
   };
 
   return (
-    <form onSubmit={handleSubmit} tw="shadow rounded-lg">
+    <div tw="shadow rounded-lg">
       <Autocomplete value={value} onChange={handleInputValueChange}>
         <TextField>
           <TextField.Input placeholder="주소 또는 단지명을 입력하세요" />
@@ -132,7 +128,8 @@ export default function MapSearchTextField({
               </button>
             )}
             <button
-              type="submit"
+              type="button"
+              onClick={handleSubmit}
               tw="inline-flex items-center justify-center w-9 h-9 bg-nego rounded-lg hover:bg-nego-600 transition-colors"
             >
               <SearchIcon color="#fff" />
@@ -174,6 +171,6 @@ export default function MapSearchTextField({
           </div>
         </Autocomplete.Popper>
       </Autocomplete>
-    </form>
+    </div>
   );
 }
