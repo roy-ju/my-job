@@ -3,7 +3,7 @@ import { Autocomplete, TextField } from '@/components/molecules';
 import { useKakaoAddressAutocomplete } from '@/hooks/services';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { useControlled } from '@/hooks/utils';
-import { ChangeEvent, ChangeEventHandler, FormEventHandler, useCallback } from 'react';
+import { ChangeEvent, ChangeEventHandler, useCallback } from 'react';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 import { Button } from '@/components/atoms';
 import CloseIcon from '@/assets/icons/close.svg';
