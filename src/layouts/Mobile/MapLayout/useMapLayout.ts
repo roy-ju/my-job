@@ -228,8 +228,6 @@ export default function useMapLayout() {
     }
   }, []);
 
-  console.log(code)
-
   /**
    * 지도의 초기값들을 설정한다.
    */
