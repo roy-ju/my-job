@@ -32,14 +32,23 @@ export default function useSuggestRegionalForm() {
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
 
   const [description, setDescription] = useState('');
+  
+  const [openResetPopup, setOpenResetPopup] = useState(false);
 
   const handleChangeRealestateType = useCallback((value: number[]) => {
     setRealestateType(value);
   }, []);
 
-  const handleChangeBuyOrRent = useCallback((value: number) => {
-    setBuyOrRent(value);
-  }, []);
+  const handleChangeBuyOrRent = useCallback(
+    (value: number) => {
+      if (forms.length > 2 && buyOrRent) {
+        setOpenResetPopup(true);
+        return;
+      }
+      setBuyOrRent(value);
+    },
+    [buyOrRent, forms.length],
+  );
 
   const handleChangePrice = useCallback((value: string) => {
     setPrice(value);
@@ -175,6 +184,28 @@ export default function useSuggestRegionalForm() {
 
     setNextForm(Forms.Price);
   }, [setNextForm]);
+
+    const onClosePopup = useCallback(() => {
+      setOpenResetPopup(false);
+    }, []);
+
+    const onConfirmPopup = useCallback(() => {
+      setForms([Forms.Region, Forms.RealestateType]);
+      setRealestateType([]);
+      setBuyOrRent(0);
+      setPrice('');
+      setMonthlyRentFee('');
+      setMinArea('');
+      setMaxArea('');
+      setFloor(['저층', '중층', '고층']);
+      setPurpose('');
+      setMoveInDate(null);
+      setRemainingAmountDate(null);
+      setMoveInDateType('이전');
+      setRemainingAmountDateType('이전');
+      setDescription('');
+      setOpenResetPopup(false);
+    }, []);
 
   const handleSubmitFinal = useCallback(async () => {
     if (!bubjungdong) return;
@@ -464,5 +495,8 @@ export default function useSuggestRegionalForm() {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+    openResetPopup,
+    onClosePopup,
+    onConfirmPopup,
   };
 }

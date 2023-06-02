@@ -59,6 +59,9 @@ export default memo(() => {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+    openResetPopup,
+    onClosePopup,
+    onConfirmPopup,
   } = useSuggestRegionalForm();
 
   const [openPopup, setOpenPopUp] = useState(false);
@@ -136,6 +139,21 @@ export default memo(() => {
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setOpenPopUp(false)}>닫기</Popup.CancelButton>
               <Popup.ActionButton onClick={() => router.back()}>추천받기 종료</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {openResetPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6">
+              <Popup.Title>
+                거래 종류를 변경하시면 처음부터 다시 입력하셔야 합니다. 거래 종류를 변경하시겠습니까?
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={onClosePopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={onConfirmPopup}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
