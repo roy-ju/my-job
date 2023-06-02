@@ -99,8 +99,6 @@ function MapWrapper({
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
 
-  console.log(bubjungdongCode);
-
   return (
     <>
       <Layout.MapContainer

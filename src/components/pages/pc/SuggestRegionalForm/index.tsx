@@ -1,7 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { SuggestRegionalForm } from '@/components/templates';
 import { memo } from 'react';
-import { OverlayPresenter } from '@/components/molecules';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import useSuggestRegionalForm from './useSuggestRegionalForm';
 import RegionForm from './RegionForm';
 
@@ -60,6 +60,9 @@ export default memo(({ panelWidth, depth }: Props) => {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+    openResetPopup,
+    onClosePopup,
+    onConfirmPopup,
   } = useSuggestRegionalForm(depth);
 
   return (
@@ -109,6 +112,21 @@ export default memo(({ panelWidth, depth }: Props) => {
               }}
             />
           </div>
+        </OverlayPresenter>
+      )}
+      {openResetPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6">
+              <Popup.Title>
+                거래 종류를 변경하시면 처음부터 다시 입력하셔야 합니다. 거래 종류를 변경하시겠습니까?
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={onClosePopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={onConfirmPopup}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
         </OverlayPresenter>
       )}
     </Panel>
