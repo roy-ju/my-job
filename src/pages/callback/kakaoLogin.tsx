@@ -7,6 +7,7 @@ import { SocialLoginType } from '@/constants/enums';
 import updateEmail from '@/apis/user/updateEmail';
 import { Button, Loading } from '@/components/atoms';
 import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
+import * as gtag from '@/lib/gtag';
 
 const Page: NextPage = () => {
   const router = useRouter();
@@ -66,6 +67,7 @@ const Page: NextPage = () => {
 
     if (!window.opener) {
       // opener 가 없는경우
+      gtag.event({ action: 'login_window_no_opener', category: 'err', label: '', value: '' });
       setHasOpener(false);
     } else if (typeof code === 'string') {
       if (queryState === 'update') {
