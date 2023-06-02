@@ -157,7 +157,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   /** 거래종류 이벤트 핸들러 */
   const onChangeBuyOrRent = (val: number) => {
     if (buyOrRent) {
-      if (step > 3) {
+      if (step >= 3) {
         setOpenResetPopup(true);
         return;
       }
