@@ -27,6 +27,7 @@ export default function useAuth() {
             marketingDisagreementDate: data.marketing_disagreement_date,
             privacyRetentionType: data.privacy_retention_type,
             isVerified: data.is_verified,
+            hasAddress: data.has_address,
           }
         : null,
     [data],

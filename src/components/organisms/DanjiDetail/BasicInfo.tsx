@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
-import { Button } from '@/components/atoms';
+import { Button, Chip } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -10,6 +10,8 @@ import moment from 'moment';
 import React, { useState, useCallback, useEffect } from 'react';
 import tw from 'twin.macro';
 import { useRouter as useNextRouter } from 'next/router';
+import { describeRealestateType } from '@/constants/enums';
+import { RealestateTypeChipVariant } from '@/constants/strings';
 
 export default function BasicInfo({
   isShowDanjiListings = false,
@@ -113,7 +115,8 @@ export default function BasicInfo({
             )}
           </div>
 
-          <div tw="flex flex-col">
+          <div tw="flex flex-row items-center gap-1 mb-1">
+            <Chip variant={RealestateTypeChipVariant[danji?.type]}>{describeRealestateType(danji?.type)}</Chip>
             <span tw="text-info text-gray-700">{danji.road_name_address || danji.jibun_address}</span>
           </div>
 
