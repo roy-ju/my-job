@@ -55,7 +55,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
     if (code) {
       setSidoCode(code.slice(0, 2));
       setSigunguCode(code.slice(0, 5));
-      setEubmyeondongCode(code.slice(0, 10));
+      setEubmyeondongCode(`${code.slice(0, 8)}00`);
     }
   }, [code]);
 
