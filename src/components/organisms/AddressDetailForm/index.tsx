@@ -1,6 +1,6 @@
 import { Button, Ul } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
-import { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler } from 'react';
 
 export interface AddressDetailFormProps {
   addressLine1: string;

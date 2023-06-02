@@ -5,7 +5,7 @@ import { DatePicker, Dropdown, NavigationHeader, OverlayPresenter, Popup, TextFi
 import { BuyOrRent } from '@/constants/enums';
 import { cuttingDot } from '@/utils/fotmat';
 import moment from 'moment';
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import tw from 'twin.macro';
 import CloseContained from '@/assets/icons/close_contained.svg';
 import CloseContainedBlack from '@/assets/icons/close_contained_black.svg';
@@ -308,74 +308,77 @@ export const LiveOrInvestmentField = ({
   onChangeMoveInDate?: (val: Date | null) => void;
   onChangeMoveInDateType?: (val: string) => void;
   onChangeRemainingAmountTimeType?: (val: string) => void;
-}) => (
-  <div tw="w-full py-10">
-    <div tw="px-5">
-      <span tw="text-b1 font-bold">매매 거래의 목적은 무엇인가요?</span>
-    </div>
-    <div
-      tw="w-full flex items-center gap-3 pt-4 px-5"
-      css={[purpose ? tw`pb-7 [border-bottom: 1px solid #E9ECEF ]` : tw`pb-10`]}
-    >
-      <Button variant="outlined" onClick={onClickLive} tw="flex-1" size="bigger" selected={purpose === 1}>
-        실거주
-      </Button>
-      <Button variant="outlined" onClick={onClickInvestment} tw="flex-1" size="bigger" selected={purpose === 2}>
-        투자
-      </Button>
-    </div>
-    {purpose === 1 && (
-      <div tw="pt-7 px-5">
-        <span tw="text-b1 font-bold">입주일</span>
-        <div tw="flex items-center mt-4 gap-3">
-          <DatePicker
-            variant="outlined"
-            tw="flex-1 min-w-0"
-            placeholder="날짜"
-            minDate={new Date()}
-            value={moveInDate}
-            onChange={(v) => onChangeMoveInDate?.(v)}
-          />
-          <Dropdown
-            tw="flex-1 min-w-0"
-            value={moveInDateType}
-            variant="outlined"
-            onChange={(v) => onChangeMoveInDateType?.(v)}
-          >
-            <Dropdown.Option value="이전">이전</Dropdown.Option>
-            <Dropdown.Option value="이후">이후</Dropdown.Option>
-            <Dropdown.Option value="당일">당일</Dropdown.Option>
-          </Dropdown>
-        </div>
+}) => {
+  const minDate = useRef(new Date());
+  return (
+    <div tw="w-full py-10">
+      <div tw="px-5">
+        <span tw="text-b1 font-bold">매매 거래의 목적은 무엇인가요?</span>
       </div>
-    )}
-    {purpose === 2 && (
-      <div tw="pt-7 px-5">
-        <span tw="text-b1 font-bold">잔금일</span>
-        <div tw="flex items-center mt-4 gap-3">
-          <DatePicker
-            variant="outlined"
-            tw="flex-1 min-w-0"
-            placeholder="날짜"
-            minDate={new Date()}
-            value={remainingAmountPaymentTime}
-            onChange={(v) => onChangeRemainingAmountPaymentTime?.(v)}
-          />
-          <Dropdown
-            tw="flex-1 min-w-0"
-            value={remainingAmountPaymentTimeType}
-            variant="outlined"
-            onChange={(v) => onChangeRemainingAmountTimeType?.(v)}
-          >
-            <Dropdown.Option value="이전">이전</Dropdown.Option>
-            <Dropdown.Option value="이후">이후</Dropdown.Option>
-            <Dropdown.Option value="당일">당일</Dropdown.Option>
-          </Dropdown>
-        </div>
+      <div
+        tw="w-full flex items-center gap-3 pt-4 px-5"
+        css={[purpose ? tw`pb-7 [border-bottom: 1px solid #E9ECEF ]` : tw`pb-10`]}
+      >
+        <Button variant="outlined" onClick={onClickLive} tw="flex-1" size="bigger" selected={purpose === 1}>
+          실거주
+        </Button>
+        <Button variant="outlined" onClick={onClickInvestment} tw="flex-1" size="bigger" selected={purpose === 2}>
+          투자
+        </Button>
       </div>
-    )}
-  </div>
-);
+      {purpose === 1 && (
+        <div tw="pt-7 px-5">
+          <span tw="text-b1 font-bold">입주일</span>
+          <div tw="flex items-center mt-4 gap-3">
+            <DatePicker
+              variant="outlined"
+              tw="flex-1 min-w-0"
+              placeholder="날짜"
+              minDate={minDate.current}
+              value={moveInDate}
+              onChange={(v) => onChangeMoveInDate?.(v)}
+            />
+            <Dropdown
+              tw="flex-1 min-w-0"
+              value={moveInDateType}
+              variant="outlined"
+              onChange={(v) => onChangeMoveInDateType?.(v)}
+            >
+              <Dropdown.Option value="이전">이전</Dropdown.Option>
+              <Dropdown.Option value="이후">이후</Dropdown.Option>
+              <Dropdown.Option value="당일">당일</Dropdown.Option>
+            </Dropdown>
+          </div>
+        </div>
+      )}
+      {purpose === 2 && (
+        <div tw="pt-7 px-5">
+          <span tw="text-b1 font-bold">잔금일</span>
+          <div tw="flex items-center mt-4 gap-3">
+            <DatePicker
+              variant="outlined"
+              tw="flex-1 min-w-0"
+              placeholder="날짜"
+              minDate={minDate.current}
+              value={remainingAmountPaymentTime}
+              onChange={(v) => onChangeRemainingAmountPaymentTime?.(v)}
+            />
+            <Dropdown
+              tw="flex-1 min-w-0"
+              value={remainingAmountPaymentTimeType}
+              variant="outlined"
+              onChange={(v) => onChangeRemainingAmountTimeType?.(v)}
+            >
+              <Dropdown.Option value="이전">이전</Dropdown.Option>
+              <Dropdown.Option value="이후">이후</Dropdown.Option>
+              <Dropdown.Option value="당일">당일</Dropdown.Option>
+            </Dropdown>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const InterestedFloor = ({
   totalFloors,
