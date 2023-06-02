@@ -1,5 +1,5 @@
 import { Button, Separator } from '@/components/atoms';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Close from '@/assets/icons/close_24.svg';
 import { useMapSidoList } from '@/apis/map/mapSidoList';
@@ -10,11 +10,20 @@ import { useMapSigunguList } from '@/apis/map/mapSigunguList';
 import { useMapEubmyeondongList } from '@/apis/map/mapEubmyeondong';
 import { useRecoilState } from 'recoil';
 import { mobileMapState } from '@/states/mob/mobileMap';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 
 export default function MobAreaSearch({ centerAddress, code }: { centerAddress?: string[]; code?: string }) {
   const [sido, setSido] = useState('');
   const [sigungu, setSigungu] = useState('');
   const [eubmyeondong, setEubmyeondong] = useState('');
+
+  const selectedRefOne = useRef<HTMLButtonElement | null>(null);
+  const selectedRefTwo = useRef<HTMLButtonElement | null>(null);
+  const selectedRefThree = useRef<HTMLButtonElement | null>(null);
+
+  const scrollConainerRefOne = useRef<HTMLDivElement | null>(null);
+  const scrollConainerRefTwo = useRef<HTMLDivElement | null>(null);
+  const scrollConainerRefThree = useRef<HTMLDivElement | null>(null);
 
   const [sidoCode, setSidoCode] = useState('');
   const [sigunguCode, setSigunguCode] = useState('');
@@ -56,15 +65,6 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
   }, [center]);
 
   useEffect(() => {
-    if (eubmyeondongCode && eubmyeondongData?.list) {
-      const result = eubmyeondongData.list.filter((item) => item.code === eubmyeondongCode);
-      if (result && result.length >= 1) {
-        setCenterPoint({ lat: result[0].lat, lng: result[0].long });
-      }
-    }
-  }, [eubmyeondongCode, eubmyeondongData]);
-
-  useEffect(() => {
     if (center?.[1]) {
       setSigungu(convertSigunguName(center?.[1]));
     }
@@ -75,6 +75,16 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
       setEubmyeondong(center?.[2]);
     }
   }, [center]);
+
+  useEffect(() => {
+    if (eubmyeondongCode && eubmyeondongData?.list) {
+      const result = eubmyeondongData.list.filter((item) => item.code === eubmyeondongCode);
+
+      if (result && result.length >= 1) {
+        setCenterPoint({ lat: result[0].lat, lng: result[0].long });
+      }
+    }
+  }, [eubmyeondongCode, eubmyeondongData]);
 
   useEffect(() => {
     if (!sigunguCode && sigunguData?.list?.[0].code && sigunguData?.list?.[0].name) {
@@ -88,12 +98,46 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
     }
   }, [sigunguCode, eubmyeondongCode, sidoData, sigunguData, eubmyeondongData]);
 
+  function setScreenSize() {
+    const vh = window.innerHeight * 0.01;
+
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+
+  useIsomorphicLayoutEffect(() => {
+    setScreenSize();
+  }, []);
+
+  // useEffect(() => {
+  //   if (selectedRefOne && scrollConainerRefOne?.current) {
+  //     selectedRefOne.current?.scrollIntoView();
+  //   }
+  // }, [selectedRefOne, scrollConainerRefOne]);
+
+  // useEffect(() => {
+  //   if (selectedRefTwo && scrollConainerRefTwo?.current) {
+  //     selectedRefTwo.current?.scrollIntoView();
+  //   }
+  // }, [selectedRefTwo, scrollConainerRefTwo]);
+
+  // useEffect(() => {
+  //   if (selectedRefThree && scrollConainerRefThree?.current) {
+  //     selectedRefThree.current?.scrollIntoView();
+  //   }
+  // }, [selectedRefThree, scrollConainerRefThree]);
+
   return (
     <div tw="w-[100%] max-w-mobile mx-auto z-[1000] bg-white">
       <div tw="w-[100%] max-w-mobile fixed left-auto right-auto top-0 gap-3 bg-white z-[910]">
         <div tw="flex items-center justify-between py-4 px-5 [border-bottom-width: 1px] border-b-gray-300">
           <span tw="font-bold [font-size: 1rem] [line-height: 1.5rem]">지역 검색</span>
-          <Button variant="ghost" tw="px-0 py-0 h-0" onClick={closeAll}>
+          <Button
+            variant="ghost"
+            tw="px-0 py-0 h-0"
+            onClick={() => {
+              closeAll();
+            }}
+          >
             <Close />
           </Button>
         </div>
@@ -107,24 +151,22 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
         <div tw="w-[100%] min-h-[0.75rem]" />
       </div>
 
-      <div tw="mt-[8rem] flex flex-1 z-[900] overflow-y-hidden h-[calc(100vh - 7.875rem - 5.75rem)]">
-        <div tw="flex flex-col flex-1 overflow-y-auto">
+      <div tw="mt-[128px] mb-[92px] flex flex-1 z-[900] overflow-y-hidden min-h-0 h-[calc(var(--100vh) - 128px - 92px)]">
+        <div ref={scrollConainerRefOne} tw="flex flex-col flex-1 overflow-y-auto">
           {sidoData?.list?.map((item) => {
             if (item.code === sidoCode) {
               return (
                 <Button
                   variant="primary"
-                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] hover:bg-gray-200"
+                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] max-h-[2.5rem] hover:bg-gray-200"
                   key={item.code}
                   id={item.code}
                   name={convertSidoName(item.name)}
+                  ref={selectedRefOne}
                   onClick={(e) => {
                     if (e) {
                       setSidoCode(e.currentTarget.id);
                       setSido(e.currentTarget.name);
-
-                      setSigunguCode('');
-                      setEubmyeondongCode('');
                     }
                   }}
                 >
@@ -135,7 +177,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
             return (
               <Button
                 variant="primary"
-                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-200 hover:rounded-none hover:text-gray-1000 min-h-[2.5rem]"
+                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-200 hover:rounded-none hover:text-gray-1000 min-h-[2.5rem] max-h-[2.5rem]"
                 key={item.code}
                 id={item.code}
                 name={convertSidoName(item.name)}
@@ -143,7 +185,6 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
                   if (e) {
                     setSidoCode(e.currentTarget.id);
                     setSido(e.currentTarget.name);
-
                     setSigunguCode('');
                     setEubmyeondongCode('');
                   }
@@ -155,22 +196,24 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
           })}
         </div>
 
-        <div tw="flex flex-col flex-1 [border-right-width: 1px] border-r-gray-300 [border-left-width: 1px] border-l-gray-300 overflow-y-auto">
+        <div
+          ref={scrollConainerRefTwo}
+          tw="flex flex-col flex-1 [border-right-width: 1px] border-r-gray-300 [border-left-width: 1px] border-l-gray-300 overflow-y-auto"
+        >
           {sigunguData?.list?.map((item) => {
             if (item.code === sigunguCode) {
               return (
                 <Button
                   variant="primary"
-                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] hover:bg-gray-200"
+                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] max-h-[2.5rem] hover:bg-gray-200"
                   key={item.code}
                   id={item.code}
                   name={convertSigunguName(item.name)}
+                  ref={selectedRefTwo}
                   onClick={(e) => {
                     if (e) {
                       setSigunguCode(e?.currentTarget.id);
                       setSigungu(convertSigunguName(e.currentTarget.name));
-
-                      setEubmyeondongCode('');
                     }
                   }}
                 >
@@ -181,7 +224,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
             return (
               <Button
                 variant="primary"
-                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-200 hover:rounded-none hover:text-gray-1000 min-h-[2.5rem]"
+                tw="bg-white text-gray-1000 rounded-none hover:bg-gray-200 hover:rounded-none hover:text-gray-1000 min-h-[2.5rem] max-h-[2.5rem]"
                 key={item.code}
                 id={item.code}
                 name={convertSigunguName(item.name)}
@@ -189,7 +232,6 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
                   if (e) {
                     setSigunguCode(e?.currentTarget.id);
                     setSigungu(convertSigunguName(e.currentTarget.name));
-
                     setEubmyeondongCode('');
                   }
                 }}
@@ -200,16 +242,17 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
           })}
         </div>
 
-        <div tw="flex flex-col flex-1 overflow-y-auto">
+        <div ref={scrollConainerRefThree} tw="flex flex-col flex-1 overflow-y-auto">
           {eubmyeondongData?.list?.map((item) => {
             if (item.code === eubmyeondongCode) {
               return (
                 <Button
                   variant="primary"
-                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] hover:bg-gray-200"
+                  tw="bg-gray-200 font-bold text-gray-1000 rounded-none hover:rounded-none min-h-[2.5rem] max-h-[2.5rem] hover:bg-gray-200"
                   key={item.code}
                   id={item.code}
                   name={item.name}
+                  ref={selectedRefThree}
                   onClick={(e) => {
                     if (e) {
                       setEubmyeondongCode(e.currentTarget.id);
