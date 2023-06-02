@@ -12,13 +12,16 @@ import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
 
 import Routes from '@/router/routes';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import useSyncronizer from '@/states/syncronizer';
 import useAPI_GetHomeDashboardInfo from '@/apis/home/getDashboard';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 
 export default function Home() {
   const router = useRouter();
+
+  const [openPopup, setOpenPopup] = useState(false);
 
   const { user } = useAuth();
 
@@ -58,8 +61,12 @@ export default function Home() {
   }, [router]);
 
   const handleClickHomeRegister = useCallback(() => {
+    if (user?.hasAddress) {
+      setOpenPopup(true);
+      return;
+    }
     router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
-  }, [router]);
+  }, [router, user?.hasAddress]);
 
   const handleClickListingCreate = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.HOG}`);
@@ -168,6 +175,25 @@ export default function Home() {
         onMutate={favoriteMutate}
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
       />
+      {openPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6">
+              <Popup.SubTitle tw="text-center">
+                이미 등록된 주소가 있습니다.
+                <br />
+                주소변경은 마이페이지에서 가능합니다.
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenPopup(false)}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}/${Routes.My}`)}>
+                마이페이지 이동
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </MobileContainer>
   );
 }

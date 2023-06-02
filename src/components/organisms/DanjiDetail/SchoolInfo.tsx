@@ -128,10 +128,10 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
       {!danjiSchoolsIsLoading && schoolList && schoolList.length > 0 && (
         <div tw="mt-6">
           <div tw="flex pb-2 [border-bottom: 1px solid #E9ECEF]">
-            <div tw="w-[9.125rem] [font-size: 14px] [line-height: 22px]">학교명</div>
-            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">기관</div>
-            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">학급당</div>
-            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">거리</div>
+            <div tw="w-[9.125rem] [font-size: 14px] [line-height: 22px] text-gray-700">학교명</div>
+            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right] text-gray-700">기관</div>
+            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right] text-gray-700">학급당</div>
+            <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right] text-gray-700">거리</div>
           </div>
           {schoolList.slice(0, isClickMore ? schoolList.length : 3).map((item) => (
             <div
