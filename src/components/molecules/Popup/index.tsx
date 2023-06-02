@@ -11,6 +11,8 @@ interface PopupProps {
 
 const PopupTitle = tw.strong`font-bold text-h3`;
 
+const PopupSubTitle = tw.strong`font-bold text-b2`;
+
 const PopupBody = tw.p`text-gray-700 text-info`;
 
 const PopupContentGroup = tw.div`px-5 py-6 flex flex-col gap-4 bg-white rounded-t-lg`;
@@ -33,6 +35,7 @@ function PopupMain({ children }: PopupProps) {
 
 const Popup = Object.assign(PopupMain, {
   Title: PopupTitle,
+  SubTitle: PopupSubTitle,
   Body: PopupBody,
   ContentGroup: PopupContentGroup,
   ButtonGroup: PopupButtonGroup,

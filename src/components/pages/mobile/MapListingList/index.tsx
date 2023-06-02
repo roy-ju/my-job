@@ -11,7 +11,7 @@ import useMapListingList from './useMapListingList';
 export default memo(() => {
   const router = useRouter();
 
-  const { data, isLoading, increamentPageNumber } = useMapListingList();
+  const { data, isLoading, increamentPageNumber, mutate } = useMapListingList();
 
   const onClickListing = useCallback(
     (id: number) => {
@@ -20,15 +20,20 @@ export default memo(() => {
     [router],
   );
 
-  const onToggleFav = useCallback((id: number, active: boolean) => {
-    if (active) {
-      addFavorite(id);
-      toast.success('관심을 설정했습니다.');
-    } else {
-      removeFavorite(id);
-      toast.success('관심을 해제했습니다.');
-    }
-  }, []);
+  const onToggleFav = useCallback(
+    async (id: number, active: boolean) => {
+      if (active) {
+        toast.success('관심을 설정했습니다.');
+        await addFavorite(id);
+        mutate();
+      } else {
+        toast.success('관심을 해제했습니다.');
+        await removeFavorite(id);
+        mutate();
+      }
+    },
+    [mutate],
+  );
 
   return (
     <MobileContainer>

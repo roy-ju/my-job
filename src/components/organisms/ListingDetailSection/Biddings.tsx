@@ -1,3 +1,4 @@
+import React from 'react';
 import { Chip, Moment, Numeral, Button } from '@/components/atoms';
 import { Table } from '@/components/molecules';
 import tw, { styled } from 'twin.macro';
@@ -18,12 +19,25 @@ const StyledTable = styled.table`
   }
   th,
   td {
-    width: 50%;
+    width: 30%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     ${tw`text-gray-1000`}
   }
 
   td {
     text-align: end;
+  }
+
+  td:not(:last-of-type) {
+    width: 50%;
+    max-width: 50%;
+  }
+
+  th {
+    width: 30%;
+    max-width: 30%;
   }
 `;
 
@@ -52,6 +66,7 @@ export default function Biddings({
 
   const renderMonthlyRentFee = (fee: number) => {
     if (!isMonthlyRent) return null;
+
     if (fee === 0) return ' / 0원';
 
     return (
@@ -118,7 +133,7 @@ export default function Biddings({
             <Table.Row>
               <Table.Head>제안자</Table.Head>
               <Table.Data>제안금액</Table.Data>
-              <Table.Data>제안시간</Table.Data>
+              <Table.Data>제안일시</Table.Data>
             </Table.Row>
           </Table.Body>
           {biddingsChatRoomCreated && (
@@ -135,9 +150,15 @@ export default function Biddings({
                     )}
                   </Table.Head>
                   <Table.Data>
-                    <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                      {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
-                      {renderMonthlyRentFee(item.monthlyRentFee)}
+                    <span tw="whitespace-nowrap" css={item.isMyBidding && tw`font-bold text-nego-1000`}>
+                      {item.price ? (
+                        <>
+                          <Numeral koreanNumber>{item.price}</Numeral>
+                          {renderMonthlyRentFee(item.monthlyRentFee)}
+                        </>
+                      ) : (
+                        '비공개'
+                      )}
                     </span>
                   </Table.Data>
                   <Table.Data>
@@ -162,8 +183,14 @@ export default function Biddings({
                   </Table.Head>
                   <Table.Data>
                     <span css={item.isMyBidding && tw`font-bold text-nego-1000`}>
-                      {item.price ? <Numeral koreanNumber>{item.price}</Numeral> : '비공개'}
-                      {renderMonthlyRentFee(item.monthlyRentFee)}
+                      {item.price ? (
+                        <>
+                          <Numeral koreanNumber>{item.price}</Numeral>
+                          {renderMonthlyRentFee(item.monthlyRentFee)}
+                        </>
+                      ) : (
+                        '비공개'
+                      )}
                     </span>
                   </Table.Data>
                   <Table.Data>

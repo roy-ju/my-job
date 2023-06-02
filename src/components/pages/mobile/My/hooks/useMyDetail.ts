@@ -10,6 +10,7 @@ import { SocialLoginType } from '@/constants/enums';
 import checkNickname from '@/apis/user/checkNickname';
 import { useRouter } from 'next/router';
 import { updatePrivacyRetention } from '@/apis/my/updatePrivacyRetention';
+import Events from '@/constants/events';
 
 type UpdateEmailPopupType = 'none' | 'duplicated_ci' | 'duplicated_email' | 'success';
 
@@ -119,12 +120,25 @@ export default function useMyDetail() {
   }, []);
 
   const handleClickUpdateToKakao = useCallback(() => {
-    window.Negocio.callbacks.updateToKakao = (response: ErrorResponse | null) => {
-      handleUpdateEmailResponse(response);
-    };
+    // window.Negocio.callbacks.updateToKakao = (response: ErrorResponse | null) => {
+    //   handleUpdateEmailResponse(response);
+    // };
 
     window.open(`${window.location.origin}/auth/kakao?type=update`, '_blank');
     setEmailPopup(false);
+  }, []);
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const detail = (event as CustomEvent).detail as ErrorResponse | null;
+      handleUpdateEmailResponse(detail);
+    };
+
+    window.addEventListener(Events.NEGOCIO_UPDATE_EMAIL_RESPONSE_EVENT, handler);
+
+    return () => {
+      window.removeEventListener(Events.NEGOCIO_UPDATE_EMAIL_RESPONSE_EVENT, handler);
+    };
   }, [handleUpdateEmailResponse]);
 
   const handleClickUpdateToApple = useCallback(async () => {

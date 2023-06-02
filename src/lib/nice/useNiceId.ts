@@ -23,6 +23,7 @@ export default function useNiceId() {
     window.Negocio.callbacks.niceResponse = (arg: NiceResponse) => {
       callback?.(arg);
     };
+
     openPopupWindow({
       url: `/nice/id?type=${typeInteger}`,
       title: '본인인증',

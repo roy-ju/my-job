@@ -74,6 +74,21 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickNext = useCallback(async () => {
     setNickNameErrMsg('');
     setIsLoading(true);
+
+    if (!NICKNAME_REGEX.noSpecialStringRegex.test(nickname)) {
+      setNickNameErrMsg('공백, 특수문자, 이모티콘 등은 사용할 수 없습니다.');
+      setIsLoading(false);
+      return;
+    }
+    if (!NICKNAME_REGEX.length.test(nickname)) {
+      setNickNameErrMsg('닉네임은 3~20글자 이어야 합니다.');
+      setIsLoading(false);
+      return;
+    }
+    if (NICKNAME_REGEX.general.test(nickname)) {
+      setNickNameErrMsg('');
+    }
+
     const checkNicknameResponse = await checkNickname(nickname);
     if (checkNicknameResponse?.error_code === 1009) {
       setNickNameErrMsg('중복된 닉네임 입니다.');

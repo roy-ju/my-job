@@ -1,4 +1,5 @@
 import { DatePicker, Dropdown } from '@/components/molecules';
+import { useRef } from 'react';
 
 export interface MoveInDateProps {
   value?: boolean | null;
@@ -10,12 +11,13 @@ export interface MoveInDateProps {
 }
 
 export default function MoveInDate({ date, onChangeDate, dateType, onChangeDateType }: MoveInDateProps) {
+  const minDate = useRef(new Date());
   return (
     <div tw="flex flex-col gap-4 py-7 px-5">
       <div tw="font-bold">입주가 가능한 가장 빠른 날을 선택해주세요.</div>
       <div tw="flex gap-3">
         <DatePicker
-          minDate={new Date()}
+          minDate={minDate.current}
           variant="outlined"
           tw="flex-1 min-w-0"
           placeholder="날짜"

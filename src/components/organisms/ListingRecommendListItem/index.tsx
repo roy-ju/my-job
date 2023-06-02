@@ -143,7 +143,7 @@ export default function ListingRecommendListItem({
             </div>
             <div tw="text-info">{item?.listing_title}</div>
             <div tw="text-info text-gray-700 flex items-center" css={informationStringWrapper}>
-              <span>전용 {item?.jeonyong_area}㎡</span>
+              <span>전용 {item?.jeonyong_area ? Number(item.jeonyong_area).toFixed(0) : '-'}㎡</span>
               <span>
                 {item?.floor_description && `${item.floor_description}/`}
                 {item?.total_floor}층

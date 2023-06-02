@@ -48,17 +48,17 @@ export default function MyFavoriteList({
   const renderDropdown = () => (
     <Dropdown
       size="small"
-      tw="mt-5 ml-5 [width: 92px]"
+      tw="mt-5 ml-5 [width: 92px] "
       onChange={handleChangeListingSortingType}
       value={listingSortingType}
     >
-      <Dropdown.Option tw="py-0.5 text-info [width: 92px]" value="등록일순">
+      <Dropdown.Option tw="py-0.5 whitespace-pre text-info [width: 92px]" value="등록일순">
         등록일순
       </Dropdown.Option>
-      <Dropdown.Option tw="py-0.5 text-info [width: 92px]" value="조회순">
+      <Dropdown.Option tw="py-0.5 whitespace-pre text-info [width: 92px]" value="조회순">
         조회순
       </Dropdown.Option>
-      <Dropdown.Option tw="py-0.5 text-info [width: 92px]" value="참여자순">
+      <Dropdown.Option tw="py-0.5 whitespace-pre text-info [width: 92px]" value="참여자순">
         참여자순
       </Dropdown.Option>
     </Dropdown>

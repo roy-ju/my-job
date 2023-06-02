@@ -3,12 +3,13 @@ import { loginWithApple } from '@/lib/apple';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { SocialLoginType } from '@/constants/enums';
-import { toast } from 'react-toastify';
 import login from '@/apis/user/login';
 import Routes from '@/router/routes';
 import { MobileContainer } from '@/components/atoms';
 import { Login as LoginTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
+import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
+import { toast } from 'react-toastify';
 
 export default function LoginWrraper() {
   const { login: handleLogin } = useAuth();
@@ -24,7 +25,7 @@ export default function LoginWrraper() {
     if (res && !res.error) {
       const idToken = res.authorization.id_token;
 
-      const loginResponse = await login({
+      const detail = await login({
         browser: '',
         device: '',
         ipAddress: '',
@@ -32,13 +33,13 @@ export default function LoginWrraper() {
         token: idToken,
       });
 
-      if (loginResponse?.access_token) {
-        window.Negocio.callbacks.loginSuccess?.(loginResponse.access_token, loginResponse.refresh_token);
-      } else if (loginResponse?.new_registration) {
-        window.Negocio.callbacks.newRegister?.(loginResponse?.email, idToken, SocialLoginType.Apple);
-      } else {
-        toast.error('로그인에 실패하였습니다.');
-      }
+      const payload: NegocioLoginResponseEventPayload = {
+        ...detail,
+        snsToken: idToken,
+        socialLoginType: SocialLoginType.Apple,
+      };
+
+      window.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
     }
   }, []);
 
@@ -47,31 +48,39 @@ export default function LoginWrraper() {
   }, [router]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlSearchParams = new URLSearchParams(window.location.search);
-      const redirect = urlSearchParams.get('redirect');
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const redirect = urlSearchParams.get('redirect');
 
-      window.Negocio.callbacks.loginSuccess = async (accessToken: string, refreshToken: string) => {
-        await handleLogin(accessToken, refreshToken);
+    const handleLoginResponse: EventListenerOrEventListenerObject = async (event) => {
+      const detail = (event as CustomEvent).detail as NegocioLoginResponseEventPayload;
+
+      if (detail?.access_token && detail?.refresh_token) {
+        await handleLogin(detail.access_token, detail.refresh_token);
         if (redirect) {
           router.replace(redirect);
         } else {
           router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
         }
-      };
-
-      window.Negocio.callbacks.newRegister = (email: string, token: string, socialLoginType: number) => {
+      } else if (detail?.new_registration && detail.email && detail.snsToken && detail.socialLoginType) {
         router.replace({
           pathname: `/${Routes.EntryMobile}/${Routes.Register}`,
-          query: { email, token, socialLoginType: `${socialLoginType}`, redirect: redirect ?? '' },
+          query: {
+            email: detail.email,
+            token: detail.snsToken,
+            socialLoginType: `${detail.socialLoginType}`,
+            redirect: redirect ?? '',
+          },
         });
-      };
+      } else {
+        toast.error(`문제가 발생했습니다. 잠시 뒤 다시 시도해 주세요. error_code: ${detail?.error_code}`);
+      }
+    };
 
-      return () => {
-        delete window.Negocio.callbacks.loginSuccess;
-        delete window.Negocio.callbacks.newRegister;
-      };
-    }
+    window.addEventListener(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, handleLoginResponse);
+
+    return () => {
+      window.removeEventListener(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, handleLoginResponse);
+    };
   }, [router, handleLogin]);
 
   return (

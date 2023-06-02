@@ -1,7 +1,7 @@
 import { MobileContainer } from '@/components/atoms';
 import { SuggestRegionalForm } from '@/components/templates';
-import { memo, useCallback } from 'react';
-import { OverlayPresenter } from '@/components/molecules';
+import { memo, useCallback, useState } from 'react';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useRouter } from 'next/router';
 // import Routes from '@/router/routes';
 import useSuggestRegionalForm from './useSuggestRegionalForm';
@@ -59,11 +59,22 @@ export default memo(() => {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+    openResetPopup,
+    onClosePopup,
+    onConfirmPopup,
   } = useSuggestRegionalForm();
 
+  const [openPopup, setOpenPopUp] = useState(false);
+
   const handleClickBack = useCallback(() => {
-    router.back();
-  }, [router]);
+    if (forms.length === 1) {
+      router.back();
+    }
+
+    if (forms.length > 1) {
+      setOpenPopUp(true);
+    }
+  }, [router, forms]);
 
   return (
     <MobileContainer>
@@ -112,6 +123,39 @@ export default memo(() => {
               }}
             />
           </div>
+        </OverlayPresenter>
+      )}
+      {openPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>추천받기를 종료하시겠습니까?</Popup.Title>
+              <Popup.Body>
+                추천받기를 종료하시면 입력하신 내용이 모두 삭제됩니다.
+                <br />
+                입력한 내용을 확인 또는 수정하시려면 화면을 위로 이동해 주세요.
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenPopUp(false)}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={() => router.back()}>추천받기 종료</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {openResetPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6">
+              <Popup.Title>
+                거래 종류를 변경하시면 처음부터 다시 입력하셔야 합니다. 거래 종류를 변경하시겠습니까?
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={onClosePopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={onConfirmPopup}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
         </OverlayPresenter>
       )}
     </MobileContainer>

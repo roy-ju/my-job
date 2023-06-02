@@ -13,17 +13,19 @@ export const Summary = () => (
       <ListingDetailSection.Summary
         price={100000000}
         buyOrRent={1}
-        listingTitle="테스트 매물 타이틀"
+        listingTitle="도곡렉슬아파트 140동"
         address="경기도 용인시 기흥구 구갈로 71-18"
         createdTime="2023-04-19T01:26:54.676Z"
-        direction="남향dkdkdkdkdkdk"
-        floor="1000000000000"
+        direction="남"
+        floor="12"
         floorDescription="고층"
         realestateType={10}
-        jeonyongArea="1000000000"
-        gonggeupArea="10000000001000000000"
+        jeonyongArea="65"
+        gonggeupArea="70"
         viewCount={100}
         participatorCount={5}
+        quickSale
+        tags={['신축급', '주차가능', '융자금 없는']}
       />
     </div>
   </Panel>
@@ -37,7 +39,14 @@ export const Biddings = () => (
         biddingsChatRoomCreated={[
           {
             nickname: '일이삼사오육칠팔구십',
-            createdTime: 'asdf',
+            createdTime: '2023-06-01T15:44:25+09:00',
+            price: 0,
+            monthlyRentFee: 0,
+            isMyBidding: false,
+          },
+          {
+            nickname: '초이스',
+            createdTime: new Date().toISOString(),
             price: 100000000000,
             monthlyRentFee: 10000000000,
             isMyBidding: false,
@@ -46,7 +55,7 @@ export const Biddings = () => (
         biddingsChatRoomNotCreated={[
           {
             nickname: 'heloo',
-            createdTime: 'asdf',
+            createdTime: '2023-05-01T15:44:25+09:00',
             price: 100000000000,
             monthlyRentFee: 10000000000,
             isMyBidding: true,

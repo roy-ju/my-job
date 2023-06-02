@@ -3,6 +3,7 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { NavigationHeader } from '@/components/molecules';
 import { DanjiDetailSection } from '@/components/organisms';
+import DanjiChartNodata from '@/components/organisms/DanjiDetail/DanjiChartNodata';
 import RealPriceInfoHeader from '@/components/organisms/DanjiDetail/RealPriceInfoHeader';
 import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
 import { BuyOrRent, Year } from '@/constants/enums';
@@ -103,7 +104,7 @@ export default function DanjiRealPriceListAll({
     realestateType: danji?.type,
   });
 
-  const { realpricesChartData, xAxis } = useDanjiRealPricesChart({
+  const { realpricesChartData, xAxis, realData } = useDanjiRealPricesChart({
     danji,
     buyOrRent,
     selectedYear,
@@ -204,21 +205,27 @@ export default function DanjiRealPriceListAll({
           onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
         />
 
-        <div tw="px-5">
-          <ParentSize>
-            {({ width }) => (
-              <DanjiRealPriceChart
-                width={width}
-                xAxis={xAxis}
-                buyOrRent={buyOrRent}
-                selectedYear={selectedYear}
-                selectedIndex={selectedIndex}
-                realpricesChartData={realpricesChartData}
-                checked={checkedBoolean}
-              />
-            )}
-          </ParentSize>
-        </div>
+        {realData && realData.length > 0 ? (
+          <div tw="px-5">
+            <ParentSize>
+              {({ width }) => (
+                <DanjiRealPriceChart
+                  width={width}
+                  xAxis={xAxis}
+                  buyOrRent={buyOrRent}
+                  selectedYear={selectedYear}
+                  selectedIndex={selectedIndex}
+                  realpricesChartData={realpricesChartData}
+                  checked={checkedBoolean}
+                />
+              )}
+            </ParentSize>
+          </div>
+        ) : (
+          <div tw="px-5 py-5">
+            <DanjiChartNodata />
+          </div>
+        )}
         <DanjiDetailSection.RealPricesList
           depth={depth}
           danji={danji}

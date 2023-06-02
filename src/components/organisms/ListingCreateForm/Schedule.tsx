@@ -1,6 +1,6 @@
 import { Label, Radio } from '@/components/atoms';
 import { DatePicker, Dropdown, RadioGroup } from '@/components/molecules';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   title?: string;
@@ -13,6 +13,7 @@ interface Props {
 
 export default function Schedule({ title = '일정', date, dateType, onChangeDate, onChangeDateType }: Props) {
   const [type, setType] = useState('0');
+  const minDate = useRef(new Date());
 
   useEffect(() => {
     if (date && type === '0') {
@@ -48,7 +49,7 @@ export default function Schedule({ title = '일정', date, dateType, onChangeDat
               placeholder="날짜"
               value={date}
               onChange={(value) => onChangeDate?.(value)}
-              minDate={new Date()}
+              minDate={minDate.current}
             />
             <Dropdown tw="flex-1 min-w-0" variant="outlined" value={dateType} onChange={onChangeDateType}>
               <Dropdown.Option value="이전">이전</Dropdown.Option>

@@ -1,4 +1,5 @@
 import { DatePicker } from '@/components/molecules';
+import { useRef } from 'react';
 
 interface Props {
   date?: Date | null;
@@ -6,6 +7,7 @@ interface Props {
 }
 
 export default function RentEndDate({ date, onChangeDate }: Props) {
+  const minDate = useRef(new Date());
   return (
     <div>
       <div>
@@ -14,7 +16,7 @@ export default function RentEndDate({ date, onChangeDate }: Props) {
         </div>
         <div tw="flex">
           <DatePicker
-            minDate={new Date()}
+            minDate={minDate.current}
             variant="outlined"
             tw="flex-1 min-w-0"
             placeholder="날짜 선택"
