@@ -34,11 +34,17 @@ export default function useMapListingList() {
 
   const mapToggleValue = Number(router.query.mapToggleValue) ?? 0;
 
-  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(mapToggleValue, bounds, filter, listingIds);
+  const { data, isLoading, increamentPageNumber, mutate } = useAPI_MapSearchList(
+    mapToggleValue,
+    bounds,
+    filter,
+    listingIds,
+  );
 
   return {
     data,
     isLoading,
     increamentPageNumber,
+    mutate,
   };
 }

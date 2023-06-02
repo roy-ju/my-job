@@ -364,6 +364,7 @@ export default function MobListingDetail({
               isOwner={listingDetail?.is_owner ?? false}
               biddingsChatRoomCreated={biddingsChatRoomCreated}
               biddingsChatRoomNotCreated={biddingsChatRoomNotCreated}
+              isMonthlyRent={listingDetail?.listing?.buy_or_rent === BuyOrRent.Wolsae}
             />
           </div>
           <Separator />

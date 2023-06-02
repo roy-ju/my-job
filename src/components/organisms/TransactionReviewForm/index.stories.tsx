@@ -8,4 +8,7 @@ export default {
 
 export const Default: ComponentStory<typeof TransactionReviewForm> = (args) => <TransactionReviewForm {...args} />;
 
-Default.args = {};
+Default.args = {
+  agentName: '제이',
+  userNickname: '숀',
+};

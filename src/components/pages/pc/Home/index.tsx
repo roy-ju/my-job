@@ -6,6 +6,7 @@ import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetMostTradeCount from '@/apis/home/getMostTradeCount';
 
 import { Panel } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { Home } from '@/components/templates';
 import Paths from '@/constants/paths';
 import { useAuth } from '@/hooks/services';
@@ -13,10 +14,12 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import useMap from '@/states/map';
 import useSyncronizer from '@/states/syncronizer';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 export default memo(() => {
   const router = useRouter(0);
+
+  const [openPopup, setOpenPopup] = useState(false);
 
   const map = useMap();
 
@@ -55,8 +58,12 @@ export default memo(() => {
   }, [map.naverMap, router]);
 
   const handleClickHomeRegister = useCallback(() => {
+    if (user?.hasAddress) {
+      setOpenPopup(true);
+      return;
+    }
     router.replace(Routes.MyAddress);
-  }, [router]);
+  }, [router, user?.hasAddress]);
 
   const handleClickListingCreate = useCallback(() => {
     router.replace(Routes.ListingCreateAddress, {
@@ -160,6 +167,23 @@ export default memo(() => {
         onMutate={favoriteMutate}
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
       />
+      {openPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6">
+              <Popup.SubTitle tw="text-center">
+                이미 등록된 주소가 있습니다.
+                <br />
+                주소변경은 마이페이지에서 가능합니다.
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenPopup(false)}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={() => router.replace(`/${Routes.My}`)}>마이페이지 이동</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });

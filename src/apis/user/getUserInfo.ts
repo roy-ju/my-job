@@ -29,6 +29,7 @@ export interface GetUserInfoResponse {
   nego_money: number;
   nego_point: number;
   has_pin: boolean;
+  has_address: boolean;
   pin_locked: boolean;
   phone_verification_done: boolean;
   withdraw_account_exists: boolean;

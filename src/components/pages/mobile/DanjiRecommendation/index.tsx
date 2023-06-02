@@ -2,6 +2,7 @@ import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
 import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MobDanjiRecommendation } from '@/components/templates';
 
 import { BuyOrRent } from '@/constants/enums';
@@ -15,6 +16,8 @@ const prefixDanjiRecommend: string = 'danji-recommend-';
 
 export default function DanjiRecommendation() {
   const router = useRouter();
+
+  const [openPopup, setOpenPopup] = useState(false);
 
   const [step, setStep] = useState(1);
   const [buyOrRent, setBuyOrRent] = useState<number>();
@@ -151,7 +154,7 @@ export default function DanjiRecommendation() {
   /** 거래종류 이벤트 핸들러 */
   const onChangeBuyOrRent = (val: number) => {
     if (buyOrRent) {
-      if (step > 3) {
+      if (step >= 3) {
         setOpenResetPopup(true);
         return;
       }
@@ -408,6 +411,7 @@ export default function DanjiRecommendation() {
   const onClickBack = () => {
     if (step === 1) {
       router.back();
+      setOpenPopup(true);
     }
 
     if (step === 2) {
@@ -442,6 +446,7 @@ export default function DanjiRecommendation() {
     }
 
     if (step === 5 && buyOrRent === BuyOrRent.Jeonsae) {
+      setStep((prev) => prev - 1);
       setForms([
         `${prefixDanjiRecommend}default`,
         `${prefixDanjiRecommend}floor`,
@@ -599,6 +604,24 @@ export default function DanjiRecommendation() {
           handleCTA={handleCTA}
         />
       </MobileContainer>
+      {openPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>추천받기를 종료하시겠습니까?</Popup.Title>
+              <Popup.Body>
+                추천받기를 종료하시면 입력하신 내용이 모두 삭제됩니다.
+                <br />
+                입력한 내용을 확인 또는 수정하시려면 화면을 위로 이동해 주세요.
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenPopup(false)}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={() => router.back()}>추천받기 종료</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </MobAuthRequired>
   );
 }

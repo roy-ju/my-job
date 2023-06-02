@@ -70,7 +70,7 @@ export default function ContractAmount({
       </div>
       {value && (
         <div tw="flex flex-col gap-4 py-7 px-5 border-t border-t-gray-300">
-          <div tw="font-bold">총 넣을 수 있는 계약금을 적어주세요.</div>
+          <div tw="font-bold">총 지급할 수 있는 계약금을 적어주세요.</div>
           <div>
             <TextField variant="outlined">
               <TextField.PriceInput label="계약금" value={amount} onChange={handleChangeAmount} />
