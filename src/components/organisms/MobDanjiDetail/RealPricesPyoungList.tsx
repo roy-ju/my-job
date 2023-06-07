@@ -147,8 +147,10 @@ export default function RealPricesPyoungList({
       const pyoung = danjiRealPricesPyoungList.find(
         (ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString(),
       )?.gonggeup_pyoung;
-      return typeof pyoung === 'number' ? (pyoung * 3.3058).toFixed(0) : '-';
+
+      return typeof pyoung === 'number' ? (pyoung === 0 ? 1 : (pyoung * 3.3058).toFixed(0)) : '-';
     }
+
     return '-';
   }, [danjiRealPricesPyoungList, selectedArea]);
 
@@ -199,7 +201,7 @@ export default function RealPricesPyoungList({
                   item.gonggeup_pyoung.toString() === selectedArea?.toString() && tw`font-bold text-gray-1000`,
                 ]}
               >
-                {item.gonggeup_pyoung}평
+                {item.gonggeup_pyoung === 0 ? '1' : item.gonggeup_pyoung}평
               </span>
             </Button>
           </div>
