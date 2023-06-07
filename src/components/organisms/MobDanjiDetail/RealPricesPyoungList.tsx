@@ -148,7 +148,7 @@ export default function RealPricesPyoungList({
         (ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString(),
       )?.gonggeup_pyoung;
 
-      return typeof pyoung === 'number' ? (pyoung === 0 ? 1 : (pyoung * 3.3058).toFixed(0)) : '-';
+      return typeof pyoung === 'number' ? (pyoung === 0 ? (1 * 3.3058).toFixed(0) : (pyoung * 3.3058).toFixed(0)) : '-';
     }
 
     return '-';
