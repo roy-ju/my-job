@@ -25,7 +25,8 @@ type Props = {
 
 const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { danji, isShowRpTab, setLoadingRp, setIsShowRpTab } = props;
-  const [isMutate, setIsMutate] = useState(false);
+  const [isMutate, setIsMutate] = useState<boolean>();
+
   const router = useRouter();
 
   const [buyOrRent, setBuyOrRent] = useState<number>();
@@ -43,12 +44,11 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
   } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
-    buyOrRent: isMutate ? buyOrRent : null,
+    buyOrRent: isMutate ? buyOrRent || null : undefined,
   });
 
   const onChangeBuyOrRent = useCallback((value: number) => {
     setBuyOrRent(value);
-    setIsMutate(true);
   }, []);
 
   const onChangeChecked = useCallback(() => {
@@ -77,7 +77,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
 
   const { listDanji, danjiChartData, sigunguChartData, sidoChartData, xAxis } = useDanjiStatusChart({
     danji,
-    buyOrRent,
+    buyOrRent: danjiRealPricesData?.buy_or_rent,
     selectedYear,
   });
 
@@ -88,13 +88,13 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
     sidoChartData: jeonsaeSidoChartData,
   } = useDanjiStatusChartJeonsae({
     danji,
-    buyOrRent: buyOrRent === BuyOrRent.Jeonsae ? buyOrRent : undefined,
+    buyOrRent: buyOrRent === BuyOrRent.Jeonsae ? danjiRealPricesData?.buy_or_rent : undefined,
     selectedYear,
   });
 
   const { realpricesChartData, realData } = useDanjiRealPricesChart({
     danji,
-    buyOrRent,
+    buyOrRent: danjiRealPricesData?.buy_or_rent,
     selectedYear,
     selectedIndex,
     directDealExcluded: checked || false,
@@ -120,8 +120,6 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
       setSelectedJeonyongAreaMax(danjiRealPricesPyoungList[index]?.max_jeonyong.toString());
 
       setSelectedIndex(index);
-
-      setBuyOrRent(danjiRealPricesData?.buy_or_rent);
     }
   }, [danjiRealPricesData?.buy_or_rent, danjiRealPricesPyoungList, danjiRealPricesPyoungListLoading, setIsShowRpTab]);
 
@@ -129,27 +127,35 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
     if (router?.query?.bor === BuyOrRent.Buy.toString()) {
       setBuyOrRent(1);
       setIsMutate(true);
+      return;
     }
 
     if (router?.query?.bor === '2,3') {
       setBuyOrRent(2);
       setIsMutate(true);
+      return;
     }
 
     if (router?.query?.bor === BuyOrRent.Jeonsae.toString()) {
       setBuyOrRent(2);
       setIsMutate(true);
+      return;
     }
 
     if (router?.query?.bor === BuyOrRent.Wolsae.toString()) {
       setBuyOrRent(2);
+      setIsMutate(true);
+      return;
+    }
+
+    if (!router?.query?.bor) {
       setIsMutate(true);
     }
   }, [router.query, danji]);
 
   if (!danji) return null;
 
-  if (!buyOrRent) return null;
+  if (!danjiRealPricesData?.buy_or_rent) return null;
 
   if (!isShowRpTab) return null;
 
@@ -159,7 +165,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
       <div tw="pt-10">
         <MobDanjiDetailSection.RealPriceInfo
           danji={danji}
-          buyOrRent={buyOrRent}
+          buyOrRent={buyOrRent || danjiRealPricesData?.buy_or_rent}
           selectedYear={selectedYear}
           onChangeBuyOrRent={onChangeBuyOrRent}
           onChangeSelectedYear={onChangeSelectedYear}
@@ -241,7 +247,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
       {danjiRealPricesPyoungList && danjiRealPricesPyoungList.length > 0 && (
         <>
           <MobDanjiDetailSection.RealPricesPyoungList
-            buyOrRent={buyOrRent}
+            buyOrRent={buyOrRent || danjiRealPricesData?.buy_or_rent}
             danjiRealPricesPyoungList={danjiRealPricesPyoungList}
             selectedArea={selectedArea}
             selectedIndex={selectedIndex}
@@ -260,7 +266,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
                   <DanjiRealPriceChart
                     width={width}
                     xAxis={xAxis}
-                    buyOrRent={buyOrRent}
+                    buyOrRent={buyOrRent || danjiRealPricesData?.buy_or_rent}
                     selectedYear={selectedYear}
                     selectedIndex={selectedIndex}
                     realpricesChartData={realpricesChartData}
