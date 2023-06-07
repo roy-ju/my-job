@@ -206,7 +206,7 @@ export default function RealPricesPyoungList({
         ))}
       </Wrraper>
       <div tw="flex justify-center items-center gap-2 bg-gray-100 mt-4 py-[9px] [border-radius: 0.5rem]">
-        <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
+        <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px] whitespace-nowrap">
           {`공급 ${selectedPyoung}㎡`}
         </span>
         <div tw="w-px h-2 bg-gray-300" />
@@ -232,7 +232,7 @@ export default function RealPricesPyoungList({
               )}㎡`}
         </span>
         <div tw="w-px h-2 bg-gray-300" />
-        <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
+        <span tw="text-info text-gray-700 whitespace-nowrap [line-height: 0.875rem] [letter-spacing: -0.4px]">
           {`${
             danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
               ?.saedae_count || '-'
