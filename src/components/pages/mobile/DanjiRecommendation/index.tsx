@@ -36,7 +36,6 @@ export default function DanjiRecommendation() {
   const [totalFloors, setTotalFloors] = useState<number[]>([1, 2, 3]);
   const [etc, setEtc] = useState('');
   const [isRenderFinalForm, setIsRenderFinalForm] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   const [forms, setForms] = useState<string[]>([`${prefixDanjiRecommend}default`]);
 
@@ -314,10 +313,6 @@ export default function DanjiRecommendation() {
     setOpenResetPopup(false);
   };
 
-  const onChangeCheck = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    setChecked(e.target.checked);
-  }, []);
-
   const handleCTA = async () => {
     const convertedTimeType = (val: string) => {
       if (val === '이전') return 1;
@@ -357,7 +352,7 @@ export default function DanjiRecommendation() {
         floors: totalFloors.map((item) => describeFloorType(item)).join(','),
 
         note: etc,
-        add_to_regional_suggest: checked,
+        add_to_regional_suggest: false,
       });
 
       if (!res?.error_code) {
@@ -393,7 +388,7 @@ export default function DanjiRecommendation() {
         floors: totalFloors.map((item) => describeFloorType(item)).join(','),
 
         note: etc,
-        add_to_regional_suggest: checked,
+        add_to_regional_suggest: false,
       });
 
       if (!res?.error_code) {
@@ -479,7 +474,6 @@ export default function DanjiRecommendation() {
 
   const onClickBackFinalForm = () => {
     setIsRenderFinalForm(false);
-    setChecked(false);
 
     if (step === 6 && buyOrRent === BuyOrRent.Jeonsae) {
       setStep(5);
@@ -599,8 +593,6 @@ export default function DanjiRecommendation() {
           onClickNext={onClickNext}
           onClickBack={onClickBack}
           onClickBackFinalForm={onClickBackFinalForm}
-          checked={checked}
-          onChangeCheck={onChangeCheck}
           handleCTA={handleCTA}
         />
       </MobileContainer>
