@@ -1,6 +1,6 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
-import { Button, Checkbox, PersistentBottomBar, Separator } from '@/components/atoms';
+import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
 import { DatePicker, Dropdown, NavigationHeader, OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
 import { cuttingDot } from '@/utils/fotmat';
@@ -464,7 +464,6 @@ export default function DanjiRecommendation({
   etc,
   openResetPopup,
   isRenderFinalForm,
-  checked,
   onChangeBuyOrRent,
   onChangeTradeOrDepositPrice,
   onChangeMonthlyRentFee,
@@ -486,7 +485,6 @@ export default function DanjiRecommendation({
   onClickNext,
   onClickBack,
   onClickBackFinalForm,
-  onChangeCheck,
   handleCTA,
 }: {
   danji: GetDanjiDetailResponse;
@@ -528,8 +526,6 @@ export default function DanjiRecommendation({
   onClickNext?: (val: boolean) => void;
   onClickBack?: () => void;
   onClickBackFinalForm?: () => void;
-  checked: boolean;
-  onChangeCheck: React.ChangeEventHandler<HTMLInputElement>;
   handleCTA: () => void;
 }) {
   return (
@@ -695,10 +691,7 @@ export default function DanjiRecommendation({
             </div>
 
             <Separator tw="w-full [min-height: 8px] h-2 bg-gray-300" />
-            <div tw="flex items-center pt-[30px] px-5 gap-2">
-              <Checkbox checked={checked} onChange={onChangeCheck} />
-              <span tw="text-b2 [line-height: 16px]">단지 주변 지역에도 매물 추천 받아 볼래요</span>
-            </div>
+            <div tw="flex items-center pt-[30px] px-5 gap-2" />
           </div>
         )}
         <PersistentBottomBar>
