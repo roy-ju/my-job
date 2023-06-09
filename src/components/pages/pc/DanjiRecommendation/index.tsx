@@ -50,7 +50,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
-    buyOrRent,
+    buyOrRent: buyOrRent || null,
   });
 
   const isValidate = useMemo(() => {
