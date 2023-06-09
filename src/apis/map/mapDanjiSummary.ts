@@ -43,6 +43,11 @@ export function useDanjiSummary(req: { pnu?: string; danjiRealestateType?: numbe
     req?.pnu && req?.danjiRealestateType
       ? ['/map/danji/summary', { pnu: req.pnu, danji_realestate_type: req.danjiRealestateType, buy_or_rent: '1,2,3' }]
       : null,
+    null,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+    },
   );
 
   return {

@@ -39,7 +39,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const [totalFloors, setTotalFloors] = useState<number[]>([1, 2, 3]);
   const [etc, setEtc] = useState('');
   const [isRenderFinalForm, setIsRenderFinalForm] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   const [forms, setForms] = useState<string[]>([`${prefixDanjiRecommend}default`]);
 
@@ -51,7 +50,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
-    buyOrRent,
+    buyOrRent: buyOrRent || null,
   });
 
   const isValidate = useMemo(() => {
@@ -318,10 +317,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     setOpenResetPopup(false);
   };
 
-  const onChangeCheck = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    setChecked(e.target.checked);
-  }, []);
-
   const handleCTA = async () => {
     const convertedTimeType = (val: string) => {
       if (val === '이전') return 1;
@@ -361,7 +356,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
         floors: totalFloors.map((item) => describeFloorType(item)).join(','),
 
         note: etc,
-        add_to_regional_suggest: checked,
+        add_to_regional_suggest: false,
       });
 
       if (!res?.error_code) {
@@ -399,7 +394,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
         floors: totalFloors.map((item) => describeFloorType(item)).join(','),
 
         note: etc,
-        add_to_regional_suggest: checked,
+        add_to_regional_suggest: false,
       });
 
       if (!res?.error_code) {
@@ -486,7 +481,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
   const onClickBackFinalForm = () => {
     setIsRenderFinalForm(false);
-    setChecked(false);
 
     if (step === 6 && buyOrRent === BuyOrRent.Jeonsae) {
       setStep(5);
@@ -606,8 +600,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
           onClickNext={onClickNext}
           onClickBack={onClickBack}
           onClickBackFinalForm={onClickBackFinalForm}
-          checked={checked}
-          onChangeCheck={onChangeCheck}
           handleCTA={handleCTA}
         />
       </Panel>
