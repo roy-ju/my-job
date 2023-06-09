@@ -465,7 +465,7 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiDetail {...props} />;
     }
 
     case Routes.DanjiRecommendation: {

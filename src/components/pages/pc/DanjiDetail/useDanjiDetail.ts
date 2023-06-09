@@ -32,6 +32,9 @@ export default function useDanjiDetail(depth: number, p?: string, rt?: number) {
     const lat = danji?.lat;
     const lng = danji?.long;
     if (lat && lng) {
+      const isListingDetailOpen = window.location.pathname.includes('listingDetail');
+      if (isListingDetailOpen) return;
+
       window.Negocio.callbacks.selectMarker({
         id: `danjiMarker:${danji.pnu}${danji.type}`,
         lat,

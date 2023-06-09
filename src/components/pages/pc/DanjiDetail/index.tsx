@@ -19,32 +19,29 @@ export default memo(({ panelWidth, depth }: Props) => {
     mutate();
   };
 
-  if (!danji) return null;
-
-  if (danji?.error_code) {
-    return (
-      <OverlayPresenter>
-        <Popup>
-          <Popup.ContentGroup tw="py-10">
-            <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
-          </Popup.ContentGroup>
-          <Popup.ButtonGroup>
-            <Popup.ActionButton
-              onClick={() => {
-                nextRouter.replace('/', undefined, { shallow: true });
-              }}
-            >
-              확인
-            </Popup.ActionButton>
-          </Popup.ButtonGroup>
-        </Popup>
-      </OverlayPresenter>
-    );
-  }
-
   return (
     <Panel width={panelWidth}>
-      <DanjiDetail depth={depth} danji={danji} isShowTab handleMutateDanji={handleMutateDanji} />
+      {danji && !danji.error_code && (
+        <DanjiDetail depth={depth} danji={danji} isShowTab handleMutateDanji={handleMutateDanji} />
+      )}
+      {danji && danji.error_code && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-10">
+              <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton
+                onClick={() => {
+                  nextRouter.replace('/', undefined, { shallow: true });
+                }}
+              >
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });
