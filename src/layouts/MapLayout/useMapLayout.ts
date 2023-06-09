@@ -728,7 +728,9 @@ export default function useMapLayout() {
         const latlng = { lat: coords.latitude, lng: coords.longitude };
         localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
         // console.log('morphing');
-        m.morph(latlng, DEFAULT_ZOOM);
+        if (['/', '/map'].includes(window.location.pathname)) {
+          m.morph(latlng, DEFAULT_ZOOM);
+        }
       });
     }
   }, []);
