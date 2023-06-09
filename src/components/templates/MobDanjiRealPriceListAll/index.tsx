@@ -100,6 +100,7 @@ export default function MobDanjiRealPriceListAll({
   } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
+    buyOrRent: null,
   });
 
   const { realpricesChartData, xAxis, realData } = useDanjiRealPricesChart({

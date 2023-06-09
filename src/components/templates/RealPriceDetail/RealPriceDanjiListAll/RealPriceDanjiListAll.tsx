@@ -42,7 +42,7 @@ export default function RealPriceDanjiListAll({
   const { isLoading: pyoungLoading, data } = useAPI_DanjiRealPricesPyoungList({
     pnu: danji?.pnu,
     realestateType: danji?.type,
-    buyOrRent,
+    buyOrRent: buyOrRent || null,
   });
 
   const { isLoading, list, isShowMoreButton, setSize } = useAPI_ThisDanjiRecentlyRealPricesListAll({

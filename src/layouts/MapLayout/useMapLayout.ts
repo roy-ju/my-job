@@ -22,6 +22,7 @@ import { toast } from 'react-toastify';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
 import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
+import useLatest from '@/hooks/utils/useLatest';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -304,6 +305,7 @@ export default function useMapLayout() {
         });
       }
 
+      // console.log('morphing');
       mapState?.naverMap.morph(
         {
           lat: item.lat,
@@ -427,7 +429,7 @@ export default function useMapLayout() {
    * 지도위의 마커를 그린다.
    */
 
-  const updateMarkers = useCallback(
+  const updateMarkers = useLatest(
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
       if (interactionSelectedMarker) return;
 
@@ -466,6 +468,7 @@ export default function useMapLayout() {
             onClick(this) {
               if (isPanningRef.current) return;
               setPolygons([]);
+
               setSelectedMarker(this);
             },
           })) ?? [],
@@ -507,6 +510,7 @@ export default function useMapLayout() {
                 },
               });
               setPolygons([]);
+
               setSelectedMarker(this);
             },
           };
@@ -546,6 +550,7 @@ export default function useMapLayout() {
                 });
               }
               setPolygons([]);
+
               setSelectedMarker(this);
             },
           };
@@ -567,10 +572,9 @@ export default function useMapLayout() {
         setMarkers(_markers);
       }
     },
-    [lastSearchItem, router, interactionSelectedMarker, filter],
   );
 
-  const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
+  // const deferredUpdateMarkers = useMemo(() => _.debounce(updateMarkers, 100), [updateMarkers]);
 
   /**
    * 학교 마커를 그린다.
@@ -590,6 +594,7 @@ export default function useMapLayout() {
               type: item.type,
               onClick(this) {
                 if (isPanningRef.current) return;
+
                 setSelectedMarker(this);
                 interactionAction.makeSelectedSchoolMarker(this);
               },
@@ -614,6 +619,7 @@ export default function useMapLayout() {
             type: st,
             onClick(this) {
               if (isPanningRef.current) return;
+
               setSelectedMarker(this);
             },
           };
@@ -643,6 +649,7 @@ export default function useMapLayout() {
                 addressName: item.address_name,
                 onClick(this) {
                   if (isPanningRef.current) return;
+
                   setSelectedMarker(this);
                   interactionAction.makeSelectedAroundMarker(this);
                 },
@@ -671,6 +678,7 @@ export default function useMapLayout() {
 
               onClick(this) {
                 if (isPanningRef.current) return;
+
                 setSelectedMarker(this);
                 interactionAction.makeSelectedAroundMarker(this);
               },
@@ -686,6 +694,7 @@ export default function useMapLayout() {
    * 지도 코너 좌표값을 업데이트 한다.
    */
   const updateBounds = useCallback((m: NaverMap) => {
+    // console.log(getBounds(m));
     setBounds(getBounds(m));
   }, []);
 
@@ -718,6 +727,7 @@ export default function useMapLayout() {
         // 이 좌표를 로컬스토리지에 저장해서, 나중에 지도 로드할때 초기 위치로 설정한다.
         const latlng = { lat: coords.latitude, lng: coords.longitude };
         localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+        // console.log('morphing');
         m.morph(latlng, DEFAULT_ZOOM);
       });
     }
@@ -773,6 +783,7 @@ export default function useMapLayout() {
     () =>
       _.debounce(
         (_map: NaverMap) => {
+          // console.log('hello');
           setTimeout(() => {
             isPanningRef.current = false;
           }, 100);
@@ -818,7 +829,8 @@ export default function useMapLayout() {
       }
       return prev;
     });
-    // setSelectedMarker(null);
+    //
+    setSelectedMarker(null);
   }, []);
 
   /**
@@ -881,23 +893,27 @@ export default function useMapLayout() {
 
     switch (markerType) {
       case 'regionMarker':
+        // console.log('morphing');
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, _map.getZoom() + 2);
         break;
 
       case 'danjiMarker':
-        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
+        // _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
         break;
 
       case 'listingMarker':
-        _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
+        // console.log('morphing');
+        // _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng }, 18);
         break;
 
       case 'schoolMarker':
         if (markerKey) renderHakgudoPolygon(_map, markerKey);
+        // console.log('morphing');
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
         break;
 
       case 'aroundMarker':
+        // console.log('morphing');
         _map.morph({ lat: selectedMarker.lat, lng: selectedMarker.lng });
         break;
 
@@ -917,6 +933,7 @@ export default function useMapLayout() {
 
     if (interactionState?.selectedSchool?.id && schoolMarkers.length > 0) {
       const selectedSchool = schoolMarkers.filter((item) => item.id === interactionState?.selectedSchool?.id);
+
       setSelectedMarker(selectedSchool[0]);
       interactionAction.makeSelectedSchoolMarker(selectedSchool[0]);
     }
@@ -926,7 +943,7 @@ export default function useMapLayout() {
     if (!isPanningRef) return;
 
     if (!interactionState?.selectedAround?.id || !interactionState?.selectedAround?.addressName) {
-      setSelectedMarker(null);
+      // setSelectedMarker(null);
       setPolygons([]);
       return;
     }
@@ -952,9 +969,10 @@ export default function useMapLayout() {
    */
   useEffect(() => {
     if (bounds && mapState?.naverMap) {
-      deferredUpdateMarkers(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
+      // deferredUpdateMarkers(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
+      updateMarkers.current(mapState?.naverMap, bounds, filter, mapToggleValue, priceType);
     }
-  }, [mapState?.naverMap, bounds, deferredUpdateMarkers, filter, mapToggleValue, priceType]);
+  }, [mapState?.naverMap, bounds, filter, mapToggleValue, priceType]);
 
   /**
    * 학교가 활성화되어있으면, 맵이 이동할때마다 학교 마커를 그린다.
@@ -973,6 +991,7 @@ export default function useMapLayout() {
         setSchoolMarkers([]);
         setPolygons([]);
         // setSelectedMarkerID('');
+
         setSelectedMarker(null);
       }
     } else if (schoolType === 'none') {
@@ -1002,6 +1021,7 @@ export default function useMapLayout() {
   useEffect(() => {
     if (!interactionState.school) {
       setPolygons([]);
+
       setSelectedMarker(null);
     }
   }, [schoolType, interactionState.school]);
@@ -1019,7 +1039,8 @@ export default function useMapLayout() {
       updateAroundMarkers(mapState?.naverMap);
     } else {
       setAroundMarkers([]);
-      setSelectedMarker(null);
+
+      // setSelectedMarker(null);
       interactionAction.makeSelectedAroundMarkerDefault();
     }
   }, [mapState?.naverMap, updateAroundMarkers, interactionState.around]);
@@ -1046,6 +1067,7 @@ export default function useMapLayout() {
         const latlng = { lat: coords.latitude, lng: coords.longitude };
         setMyMarker(latlng);
         localStorage.setItem(USER_LAST_LOCATION, JSON.stringify(latlng));
+        // console.log('morphing');
         mapState?.naverMap?.morph(latlng, DEFAULT_ZOOM);
         setIsGeoLoading(false);
       },
@@ -1079,6 +1101,7 @@ export default function useMapLayout() {
   useEffect(() => {
     window.Negocio.callbacks.selectMarker = (marker: CommonMarker) => {
       if (marker.lat && marker.lng) {
+        // console.log('morphing');
         mapState.naverMap?.morph({ lat: marker.lat, lng: marker.lng }, 18);
       }
 
@@ -1100,6 +1123,7 @@ export default function useMapLayout() {
       );
       if (searchedDanji) {
         setSearchResultMarker(null);
+
         setSelectedMarker(searchedDanji);
         router.replace(Routes.DanjiDetail, {
           searchParams: { p: searchedDanji.pnu as string, rt: `${searchedDanji.danjiRealestateType}` },
@@ -1121,6 +1145,7 @@ export default function useMapLayout() {
       const m = markers.filter((marker) => markersToBeSelected.current?.map((item) => item.id)?.includes(marker.id));
       if (m[0]) {
         setSearchResultMarker(null);
+
         setSelectedMarker(m[0]);
         markersToBeSelected.current = [];
       } else {
@@ -1138,6 +1163,7 @@ export default function useMapLayout() {
       markers.forEach((marker) => {
         if (marker.lat === searchResultMarker.lat && marker.lng === searchResultMarker.lng) {
           setSearchResultMarker(null);
+
           setSelectedMarker(marker);
         }
       });
@@ -1147,6 +1173,7 @@ export default function useMapLayout() {
   useEffect(() => {
     window.Negocio.callbacks.selectSchoolInteraction = (marker: CommonMarker) => {
       if (marker.lat && marker.lng) {
+        // console.log('morphing');
         mapState.naverMap?.morph({ lat: marker.lat, lng: marker.lng }, 16);
       }
 
@@ -1155,6 +1182,7 @@ export default function useMapLayout() {
 
     window.Negocio.callbacks.selectAroundInteraction = (marker: CommonMarker) => {
       if (marker.lat && marker.lng) {
+        // console.log('morphing');
         mapState.naverMap?.morph({ lat: marker.lat, lng: marker.lng }, 16);
       }
 
