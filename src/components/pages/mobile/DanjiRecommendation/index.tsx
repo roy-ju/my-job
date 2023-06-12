@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
@@ -96,7 +97,7 @@ export default function DanjiRecommendation() {
 
     if (step === 5 && buyOrRent === BuyOrRent.Buy) {
       if (
-        Number(tradeOrDepositPrice) &&
+        // Number(tradeOrDepositPrice) &&
         (purpose === 1 || purpose === 2) &&
         (remainingAmountPaymentTime || moveInDate) &&
         buyOrRent &&
@@ -110,7 +111,7 @@ export default function DanjiRecommendation() {
 
     if (step === 6 && buyOrRent === BuyOrRent.Buy) {
       if (
-        Number(tradeOrDepositPrice) &&
+        // Number(tradeOrDepositPrice) &&
         (purpose === 1 || purpose === 2) &&
         (remainingAmountPaymentTime || moveInDate) &&
         selectedGonggeupPyoungList.length > 0 &&
@@ -122,7 +123,10 @@ export default function DanjiRecommendation() {
     }
 
     if (step === 4 && buyOrRent !== BuyOrRent.Buy) {
-      if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
+      // if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
+      //   return true;
+      // }
+      if (selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
         return true;
       }
 
@@ -130,9 +134,14 @@ export default function DanjiRecommendation() {
     }
 
     if (step === 5 && buyOrRent !== BuyOrRent.Buy) {
-      if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
+      // if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
+      //   return true;
+      // }
+
+      if (selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
         return true;
       }
+
       return false;
     }
 
@@ -335,7 +344,7 @@ export default function DanjiRecommendation() {
 
         buy_or_rents: '1',
 
-        trade_price: Number(tradeOrDepositPrice) * 10000,
+        trade_price: tradeOrDepositPrice ? Number(tradeOrDepositPrice) * 10000 : 0,
         deposit: 0,
         monthly_rent_fee: 0,
 
@@ -373,7 +382,7 @@ export default function DanjiRecommendation() {
         buy_or_rents: '2,3',
 
         trade_price: 0,
-        deposit: Number(tradeOrDepositPrice) * 10000,
+        deposit: tradeOrDepositPrice ? Number(tradeOrDepositPrice) * 10000 : 0,
         monthly_rent_fee: monthlyRentFee ? Number(monthlyRentFee) * 10000 : 0,
 
         pyoungs: selectedGonggeupPyoungList.join(','),
