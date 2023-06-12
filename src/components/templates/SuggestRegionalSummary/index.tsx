@@ -94,13 +94,19 @@ export default function SuggestRegionalSummary({
                 <Table.Row>
                   <Table.Head>가격</Table.Head>
                   <Table.Data>
-                    {monthlyRentFee ? (
-                      <span>
-                        <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
-                      </span>
+                    {monthlyRentFee === 0 && price === 0 ? (
+                      <span>급매물 전체</span>
                     ) : (
                       <span>
-                        <Numeral koreanNumber>{price}</Numeral>
+                        {monthlyRentFee ? (
+                          <span>
+                            <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
+                          </span>
+                        ) : (
+                          <span>
+                            <Numeral koreanNumber>{price}</Numeral>
+                          </span>
+                        )}
                       </span>
                     )}
                   </Table.Data>

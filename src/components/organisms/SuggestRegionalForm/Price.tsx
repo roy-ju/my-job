@@ -13,7 +13,7 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
   return (
     <div>
       <div tw="mb-4">
-        <div tw="font-bold">매물의 가격대를 알려주세요.</div>
+        <div tw="font-bold">매물의 가격대를 알려주세요. (선택)</div>
       </div>
       <div tw="flex flex-col">
         {buyOrRent === BuyOrRent.Jeonsae ? (
