@@ -78,14 +78,20 @@ export default function RequestDetail({ suggestData }: RequestDetailProps) {
             <Table.Row>
               <Table.Head>가격</Table.Head>
               <Table.Data>
-                {suggestData?.monthly_rent_fee ? (
-                  <span>
-                    <Numeral koreanNumber>{suggestData?.trade_or_deposit_price}</Numeral> /{' '}
-                    <Numeral koreanNumber>{suggestData?.monthly_rent_fee}</Numeral>
-                  </span>
+                {suggestData?.monthly_rent_fee === 0 && suggestData?.trade_or_deposit_price === 0 ? (
+                  <span>급매물 전체</span>
                 ) : (
                   <span>
-                    <Numeral koreanNumber>{suggestData?.trade_or_deposit_price}</Numeral>
+                    {suggestData?.monthly_rent_fee ? (
+                      <span>
+                        <Numeral koreanNumber>{suggestData?.trade_or_deposit_price}</Numeral> /{' '}
+                        <Numeral koreanNumber>{suggestData?.monthly_rent_fee}</Numeral>
+                      </span>
+                    ) : (
+                      <span>
+                        <Numeral koreanNumber>{suggestData?.trade_or_deposit_price}</Numeral>
+                      </span>
+                    )}
                   </span>
                 )}
               </Table.Data>
