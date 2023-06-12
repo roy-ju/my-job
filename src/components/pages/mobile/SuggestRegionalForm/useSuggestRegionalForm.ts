@@ -32,7 +32,7 @@ export default function useSuggestRegionalForm() {
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
 
   const [description, setDescription] = useState('');
-  
+
   const [openResetPopup, setOpenResetPopup] = useState(false);
 
   const handleChangeRealestateType = useCallback((value: number[]) => {
@@ -185,27 +185,27 @@ export default function useSuggestRegionalForm() {
     setNextForm(Forms.Price);
   }, [setNextForm]);
 
-    const onClosePopup = useCallback(() => {
-      setOpenResetPopup(false);
-    }, []);
+  const onClosePopup = useCallback(() => {
+    setOpenResetPopup(false);
+  }, []);
 
-    const onConfirmPopup = useCallback(() => {
-      setForms([Forms.Region, Forms.RealestateType]);
-      setRealestateType([]);
-      setBuyOrRent(0);
-      setPrice('');
-      setMonthlyRentFee('');
-      setMinArea('');
-      setMaxArea('');
-      setFloor(['저층', '중층', '고층']);
-      setPurpose('');
-      setMoveInDate(null);
-      setRemainingAmountDate(null);
-      setMoveInDateType('이전');
-      setRemainingAmountDateType('이전');
-      setDescription('');
-      setOpenResetPopup(false);
-    }, []);
+  const onConfirmPopup = useCallback(() => {
+    setForms([Forms.Region, Forms.RealestateType]);
+    setRealestateType([]);
+    setBuyOrRent(0);
+    setPrice('');
+    setMonthlyRentFee('');
+    setMinArea('');
+    setMaxArea('');
+    setFloor(['저층', '중층', '고층']);
+    setPurpose('');
+    setMoveInDate(null);
+    setRemainingAmountDate(null);
+    setMoveInDateType('이전');
+    setRemainingAmountDateType('이전');
+    setDescription('');
+    setOpenResetPopup(false);
+  }, []);
 
   const handleSubmitFinal = useCallback(async () => {
     if (!bubjungdong) return;
@@ -231,13 +231,13 @@ export default function useSuggestRegionalForm() {
       toast.error('매물의 거래 종류를 선택해 주세요.');
       return;
     }
-    // price
-    if (!price) {
-      const form = document.getElementById(Forms.Price);
-      form?.scrollIntoView();
-      toast.error('매물의 가격대를 입력해주세요.');
-      return;
-    }
+    // // price
+    // if (!price) {
+    //   const form = document.getElementById(Forms.Price);
+    //   form?.scrollIntoView();
+    //   toast.error('매물의 가격대를 입력해주세요.');
+    //   return;
+    // }
     // floor
     if (!floor.length) {
       const form = document.getElementById(Forms.Floor);
@@ -417,11 +417,11 @@ export default function useSuggestRegionalForm() {
     //   }
     // }
 
-    if (currentForm === Forms.Price) {
-      if (!price) {
-        setNextButtonDisabled(true);
-      }
-    }
+    // if (currentForm === Forms.Price) {
+    //   if (!price) {
+    //     setNextButtonDisabled(true);
+    //   }
+    // }
 
     if (currentForm === Forms.Floor) {
       if (!floor.length) {
