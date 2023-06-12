@@ -146,7 +146,7 @@ export const PriceField = ({
 
   return (
     <div tw="flex flex-col px-5 py-10 gap-4">
-      <span tw="text-b1 font-bold">매물의 가격대를 알려주세요.</span>
+      <span tw="text-b1 font-bold">매물의 가격대를 알려주세요. (선택)</span>
       <div>
         <TextField variant="outlined">
           <TextField.PriceInput label={priceLabel} value={tradeOrDepositPrice} onChange={onChangeTradeOrDepositPrice} />
@@ -645,10 +645,14 @@ export default function MobDanjiRecommendation({
               <div tw="text-b2 flex justify-between mb-2">
                 <span>가격</span>
                 {buyOrRent === BuyOrRent.Buy && (
-                  <span>{formatNumberInKorean(Number(tradeOrDepositPrice) * 10000)}</span>
+                  <span>
+                    {tradeOrDepositPrice ? formatNumberInKorean(Number(tradeOrDepositPrice) * 10000) : '급매물 전체'}
+                  </span>
                 )}
                 {buyOrRent === BuyOrRent.Jeonsae &&
-                  (monthlyRentFee ? (
+                  (!tradeOrDepositPrice && !monthlyRentFee ? (
+                    '급매물 전체'
+                  ) : monthlyRentFee ? (
                     <span>
                       {formatNumberInKorean(Number(tradeOrDepositPrice) * 10000)}&nbsp;/&nbsp;
                       {formatNumberInKorean(Number(monthlyRentFee) * 10000)}
