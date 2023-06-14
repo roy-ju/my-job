@@ -4,6 +4,8 @@ import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLogge
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetMostTradeCount from '@/apis/home/getMostTradeCount';
+import { addFavorite } from '@/apis/listing/addListingFavroite';
+import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 
 import { Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
@@ -131,6 +133,32 @@ export default memo(() => {
     window.open(`${window.location.origin}/${Routes.Intro}`, '_blank');
   }, []);
 
+  const handleClickFavoriteButton = async (selected: boolean, listingId: number) => {
+    if (!user) {
+      router.push(Routes.Login, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}`, back: 'true' },
+      });
+      return;
+    }
+
+    if (!user.isVerified) {
+      router.push(Routes.VerifyCi, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}`, back: 'true' },
+      });
+      return;
+    }
+
+    if (!selected) {
+      await removeFavorite(listingId);
+      favoriteMutate?.();
+    } else {
+      await addFavorite(listingId);
+      favoriteMutate?.();
+    }
+  };
+
   return (
     <Panel>
       <Home
@@ -164,8 +192,8 @@ export default memo(() => {
         onClickPrivacyPolicy={handleClickPrivacyPolicy}
         onClickAgentSite={handleClickAgentSite}
         onClickGuide={handleClickGuide}
-        onMutate={favoriteMutate}
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
+        onClickFavoriteButton={handleClickFavoriteButton}
       />
       {openPopup && (
         <OverlayPresenter>

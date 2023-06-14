@@ -17,6 +17,8 @@ import { useRouter } from 'next/router';
 import useSyncronizer from '@/states/syncronizer';
 import useAPI_GetHomeDashboardInfo from '@/apis/home/getDashboard';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+import { addFavorite } from '@/apis/listing/addListingFavroite';
 
 export default function Home() {
   const router = useRouter();
@@ -139,6 +141,36 @@ export default function Home() {
     window.open(`${window.location.origin}/${Routes.EntryMobile}/${Routes.Intro}`, '_blank');
   }, []);
 
+  const handleClickFavoriteButton = async (selected: boolean, listingId: number) => {
+    if (!user) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
+    if (!user.isVerified) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
+    if (!selected) {
+      await removeFavorite(listingId);
+      favoriteMutate?.();
+    } else {
+      await addFavorite(listingId);
+      favoriteMutate?.();
+    }
+  };
+
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
@@ -172,8 +204,8 @@ export default function Home() {
         onClickPrivacyPolicy={handleClickPrivacyPolicy}
         onClickAgentSite={handleClickAgentSite}
         onClickGuide={handleClickGuide}
-        onMutate={favoriteMutate}
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
+        onClickFavoriteButton={handleClickFavoriteButton}
       />
       {openPopup && (
         <OverlayPresenter>

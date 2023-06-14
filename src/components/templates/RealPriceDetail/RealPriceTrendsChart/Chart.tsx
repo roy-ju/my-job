@@ -374,7 +374,7 @@ export const Chart = React.memo(
           )}
           <Bar
             key="year-transparent"
-            width={width - yAxisWidth}
+            width={width - yAxisWidth <= 0 ? 0 : width - yAxisWidth}
             x={yAxisWidth}
             y={0}
             height={lineChartHeight}

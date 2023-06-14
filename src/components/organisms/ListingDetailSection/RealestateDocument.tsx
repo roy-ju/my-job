@@ -59,7 +59,7 @@ export default function RealestateDocument({ data }: Props) {
                 <th>정보</th>
               </tr>
               {data?.owner_list?.map((item) => (
-                <tr key={item.number + item.owner}>
+                <tr key={item.number + item.owner + item.registration_number + item.address}>
                   <td>{item.number}</td>
                   <td>
                     이름: {item.owner}
