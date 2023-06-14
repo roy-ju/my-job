@@ -14,8 +14,17 @@ export default memo(() => {
   const { data, isLoading, increamentPageNumber, mutate } = useMapListingList();
 
   const onClickListing = useCallback(
-    (id: number) => {
-      router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`);
+    (id: number, buyOrRent: number) => {
+      router.push(
+        {
+          pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
+          query: {
+            listingID: `${id}`,
+            bor: `${buyOrRent}`,
+          },
+        },
+        `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
+      );
     },
     [router],
   );
