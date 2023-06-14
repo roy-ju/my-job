@@ -26,8 +26,14 @@ export default function MobDanjiListings({
 }) {
   const router = useRouter();
 
-  const handleClickListingDetail = (id: number) => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`);
+  const handleClickListingDetail = (id: number, buyOrRent: number) => {
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
+        query: { listingID: `${id}`, bor: `${buyOrRent}` },
+      },
+      `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
+    );
   };
 
   if (!danji) return null;
@@ -36,7 +42,7 @@ export default function MobDanjiListings({
     <div tw="w-full max-w-mobile flex flex-col relative h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={handleBackButton} />
-        <NavigationHeader.Title>단지 매물 목록</NavigationHeader.Title>
+        <NavigationHeader.Title>단지 매물 목록gg</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="[min-height: 24px]" />
       <MobDanjiDetailSection>
@@ -73,7 +79,7 @@ export default function MobDanjiListings({
                 item={item}
                 isLast={data.length - 1 === index}
                 onClick={() => {
-                  handleClickListingDetail(item.listing_id);
+                  handleClickListingDetail(item.listing_id, item.buy_or_rent);
                 }}
               />
             ))}

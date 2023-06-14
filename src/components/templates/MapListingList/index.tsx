@@ -28,7 +28,7 @@ const Divider = tw.div`border-b border-gray-300 mx-5`;
 interface Props {
   isLoading?: boolean;
   data?: MapSearchListResponse['list'];
-  onClickListing?: (id: number) => void;
+  onClickListing?: (id: number, buyOrRent: number) => void;
   onToggleFavorite?: (id: number, active: boolean) => void;
   onClickBack?: () => void;
   onNext?: () => void;
@@ -86,8 +86,8 @@ export default function MapListingList({
                       floorDescription={item.floor_description}
                       direction={item.direction}
                       statusText=""
-                      onClickListingItem={(id) => () => {
-                        onClickListing?.(id);
+                      onClickListingItem={(id, bor) => () => {
+                        onClickListing?.(id, bor);
                       }}
                       onToggleListingLike={onToggleFavorite}
                     />

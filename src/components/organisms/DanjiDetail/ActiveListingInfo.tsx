@@ -82,15 +82,21 @@ export default function ActiveListingInfo({
   }, [router.query.listingID, nextRouter, danji?.pnu, danji?.type]);
 
   const handleListingDetail = useCallback(
-    (id: number) => {
-      nextRouter.replace({
-        pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
-        query: {
-          listingID: `${id}`,
-          p: danji?.pnu || `${nextRouter.query.p}` || '',
-          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+    (id: number, buyOrRent: number) => {
+      nextRouter.replace(
+        {
+          pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
+          query: {
+            listingID: `${id}`,
+            p: danji?.pnu || `${nextRouter.query.p}` || '',
+            rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+            bor: `${buyOrRent}`,
+          },
         },
-      });
+        `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingId=${id}&p=${
+          danji?.pnu || `${nextRouter.query.p}` || ''
+        }&rt=${danji?.type.toString() || (nextRouter.query.rt as string) || ''}`,
+      );
     },
     [nextRouter, danji],
   );
@@ -143,7 +149,7 @@ export default function ActiveListingInfo({
               key={item.listing_id}
               item={item}
               isLast={danjiListings.length - 1 === index}
-              onClick={() => handleListingDetail(item.listing_id)}
+              onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
             />
           ))}
         </ListingItem>

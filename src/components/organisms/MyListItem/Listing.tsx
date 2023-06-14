@@ -36,7 +36,7 @@ export interface IMyListingListItem {
 
 export interface ListingProps extends IMyListingListItem {
   onToggleListingLike?: (listingId: number, isListingFavorite: boolean) => void;
-  onClickListingItem?: (listingId: number) => () => void;
+  onClickListingItem?: (listingId: number, buyOrRent: number) => () => void;
   onNavigateToListingDetailHistory?: (listingId: number, biddingId: number) => () => void;
   biddingId?: number;
   showPopularityInformation?: boolean;
@@ -112,7 +112,9 @@ export default function Listing({
       type="button"
       tw="flex gap-3 items-center w-full hover:bg-gray-100 px-5 py-5"
       onClick={
-        isOnClickToNavigate ? onNavigateToListingDetailHistory?.(listingId, biddingId) : onClickListingItem?.(listingId)
+        isOnClickToNavigate
+          ? onNavigateToListingDetailHistory?.(listingId, biddingId)
+          : onClickListingItem?.(listingId, buyOrRent)
       }
     >
       <div tw="relative">

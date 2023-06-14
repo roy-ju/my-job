@@ -46,7 +46,7 @@ export default function ActiveListingInfo({
   }, [danji?.pnu, danji?.type, router]);
 
   const handleListingDetail = useCallback(
-    (id: number) => {
+    (id: number, buyOrRent: number) => {
       router.push(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
@@ -54,6 +54,7 @@ export default function ActiveListingInfo({
             listingID: `${id}`,
             p: router.query.p ? `${router.query.p}` : danji?.pnu || '',
             rt: router.query.rt ? (router.query.rt as string) : danji?.type?.toString() || '',
+            bor: `${buyOrRent}`,
           },
         },
         `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
@@ -109,7 +110,7 @@ export default function ActiveListingInfo({
               key={item.listing_id}
               item={item}
               isLast={danjiListings.length - 1 === index}
-              onClick={() => handleListingDetail(item.listing_id)}
+              onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
             />
           ))}
         </ListingItem>

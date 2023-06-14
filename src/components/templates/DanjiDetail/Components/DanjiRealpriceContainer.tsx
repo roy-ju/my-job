@@ -177,7 +177,7 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
       <div tw="px-5 mt-10">
         <div tw="mb-3">
           <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
-            면적당 거래가 ({describeJeonsaeWolsaeSame(buyOrRent)} / ㎡)
+            면적당 거래가 ({describeJeonsaeWolsaeSame(buyOrRent || danjiRealPricesData?.buy_or_rent)} / ㎡)
           </span>
         </div>
         {((listDanji && listDanji.length === 0) || !listDanji) && <DanjiChartNodata />}
@@ -226,7 +226,7 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
       <div tw="px-5 mt-10">
         <div tw="mb-3">
           <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">
-            총 거래량 ({describeJeonsaeWolsaeSame(buyOrRent)})
+            총 거래량 ({describeJeonsaeWolsaeSame(buyOrRent || danjiRealPricesData?.buy_or_rent)})
           </span>
         </div>
 

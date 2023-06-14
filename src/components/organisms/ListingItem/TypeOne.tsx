@@ -14,7 +14,7 @@ export default function TypeOne({
 }: {
   item?: DanjiListingsListItem;
   isLast?: boolean;
-  onClick?: (id: number) => void;
+  onClick?: (id: number, buyOrRent: number) => void;
 }) {
   if (!item) return null;
 
@@ -24,7 +24,7 @@ export default function TypeOne({
         type="button"
         tw="flex flex-col py-5"
         css={[tw`w-full`, !isLast && tw`[border-bottom: 1px solid #E9ECEF]`]}
-        onClick={() => onClick?.(item.listing_id)}
+        onClick={() => onClick?.(item.listing_id, item.buy_or_rent)}
       >
         {item.is_participating && (
           <div tw="mb-2">
