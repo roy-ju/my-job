@@ -27,8 +27,14 @@ export default function DanjiListings({
 }) {
   const router = useRouter(depth);
 
-  const handleClickListingDetail = (id: number) => {
-    router.push(Routes.ListingDetail, { persistParams: true, searchParams: { listingID: `${id}` } });
+  const handleClickListingDetail = (id: number, buyOrRent: number) => {
+    router.push(Routes.ListingDetail, {
+      persistParams: true,
+      searchParams: { listingID: `${id}` },
+      state: {
+        bor: `${buyOrRent}`,
+      },
+    });
   };
 
   if (!danji) return null;
@@ -74,7 +80,7 @@ export default function DanjiListings({
                 item={item}
                 isLast={data.length - 1 === index}
                 onClick={() => {
-                  handleClickListingDetail(item.listing_id);
+                  handleClickListingDetail(item.listing_id, item.buy_or_rent);
                 }}
               />
             ))}

@@ -19,8 +19,14 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { data, isLoading, increamentPageNumber } = useMapListingList();
 
   const onClickListing = useCallback(
-    (id: number) => {
-      router.push(Routes.ListingDetail, { persistParams: true, searchParams: { listingID: `${id}` } });
+    (id: number, buyOrRent: number) => {
+      router.push(Routes.ListingDetail, {
+        persistParams: true,
+        searchParams: { listingID: `${id}` },
+        state: {
+          bor: `${buyOrRent}`,
+        },
+      });
     },
     [router],
   );
