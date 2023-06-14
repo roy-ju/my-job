@@ -1,6 +1,6 @@
 import createListingQna from '@/apis/listing/createListingQna';
 import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Panel } from '@/components/atoms';
 
 import { ListingQnaCreateForm } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
@@ -36,6 +36,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     toast.success('문의가 등록되었습니다.');
     router.pop();
   }, [router, mutate, value]);
+
   const handleChangeValue = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
     (e) => {
       if (e.target.value.length > 200) {
@@ -49,38 +50,42 @@ export default memo(({ depth, panelWidth }: Props) => {
     },
     [isToastShown],
   );
+
   const handleClickOpenPopup = () => {
     setIsPopupOpen(true);
   };
+
   const handleClickClosePopup = () => {
     setIsPopupOpen(false);
   };
 
   return (
-    <Panel width={panelWidth}>
-      <ListingQnaCreateForm
-        value={value}
-        isCreating={isCreating}
-        onClickCreateQna={handleCreateQna}
-        handleChangeValue={handleChangeValue}
-        handleClickOpenPopup={handleClickOpenPopup}
-      />
-      {isPopupOpen && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.Title>
-                작성하신 내용은 수정할 수 없습니다.
-                <br />위 내용으로 문의하시겠습니까?
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={handleClickClosePopup}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleCreateQna}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-    </Panel>
+    <AuthRequired depth={depth} ciRequired>
+      <Panel width={panelWidth}>
+        <ListingQnaCreateForm
+          value={value}
+          isCreating={isCreating}
+          onClickCreateQna={handleCreateQna}
+          handleChangeValue={handleChangeValue}
+          handleClickOpenPopup={handleClickOpenPopup}
+        />
+        {isPopupOpen && (
+          <OverlayPresenter>
+            <Popup>
+              <Popup.ContentGroup tw="py-12">
+                <Popup.Title>
+                  작성하신 내용은 수정할 수 없습니다.
+                  <br />위 내용으로 문의하시겠습니까?
+                </Popup.Title>
+              </Popup.ContentGroup>
+              <Popup.ButtonGroup>
+                <Popup.CancelButton onClick={handleClickClosePopup}>취소</Popup.CancelButton>
+                <Popup.ActionButton onClick={handleCreateQna}>확인</Popup.ActionButton>
+              </Popup.ButtonGroup>
+            </Popup>
+          </OverlayPresenter>
+        )}
+      </Panel>
+    </AuthRequired>
   );
 });
