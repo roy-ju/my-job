@@ -166,7 +166,7 @@ export const Chart = React.memo(
 
           const nextMonth = moment(x0).add(1, 'month').startOf('month');
           const [year, month] = moment(getDate(d)).format('YYYY-M').split('-');
-          const currentDate = moment(x0).format('YYYY-M');
+          const currentDate = moment(x0).format('YYYY-MM');
           if (
             (year === moment(currentDate).format('YYYY') && month === moment(currentDate).format('M')) ||
             (year === nextMonth.format('YYYY') && month === nextMonth.format('M'))
@@ -320,7 +320,7 @@ export const Chart = React.memo(
           )}
           <Bar
             key="cross-year-transparent"
-            width={width - yAxisWidth}
+            width={width - yAxisWidth <= 0 ? 0 : width - yAxisWidth}
             x={yAxisWidth}
             y={0}
             height={lineChartHeight}

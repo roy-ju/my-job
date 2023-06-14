@@ -3,6 +3,7 @@ import { Button, Checkbox } from '@/components/atoms';
 import { BuyOrRent } from '@/constants/enums';
 import { cuttingDot } from '@/utils/fotmat';
 import { motion } from 'framer-motion';
+
 import { useMemo, useRef, useState, MouseEvent, TouchEvent, useEffect } from 'react';
 import tw from 'twin.macro';
 import { Wrraper } from './ButtonWrraper';
@@ -178,7 +179,7 @@ export default function RealPricesPyoungList({
         onTouchEnd={onTouchEnd}
       >
         {danjiRealPricesPyoungList.map((item, index) => (
-          <div key={item.avg_jeonyong}>
+          <div key={item.gonggeup_pyoung}>
             <Button
               ref={(element) => {
                 refs.current[index] = element;

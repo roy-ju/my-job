@@ -206,7 +206,7 @@ const DanjiLineChart = React.memo(
             {LineChartComponent}
             <Bar
               key="buy-top-transparent"
-              width={width - yAxisWidth}
+              width={width - yAxisWidth <= 0 ? 0 : width - yAxisWidth}
               x={yAxisWidth}
               y={0}
               height={lineChartHeight}
@@ -224,7 +224,7 @@ const DanjiLineChart = React.memo(
             {LineChartComponent}
             <Bar
               key="jeonsae-top-transparent"
-              width={width - yAxisWidth}
+              width={width - yAxisWidth <= 0 ? 0 : width - yAxisWidth}
               x={yAxisWidth}
               y={0}
               height={lineChartHeight}

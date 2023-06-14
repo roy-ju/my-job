@@ -63,6 +63,7 @@ const DanjiBarChart = React.memo(
     handleTooltip: (e: React.TouchEvent<SVGRectElement> | React.MouseEvent<SVGRectElement>) => void;
   }) => {
     const nanoid = customAlphabet('1234567890abcdef', 10);
+
     return (
       <svg width={width} height={barChartHeight}>
         <line
@@ -75,7 +76,7 @@ const DanjiBarChart = React.memo(
             strokeWidth: 1,
           }}
         />
-        <rect x={yAxisWidth} y={0} fill="transparent" width={width} height={barChartHeight} />
+        <rect x={yAxisWidth} y={0} width={width} height={barChartHeight} fill="transparent" />
         <GridRows
           width={width - yAxisWidth}
           left={yAxisWidth}
@@ -98,7 +99,6 @@ const DanjiBarChart = React.memo(
             tickLabelProps={() => ({
               dy: '0.3em',
               fontSize: '12px',
-              // fontFamily: 'pretend',
               fontWeight: 400,
               fill: '#868E96',
               textAnchor: 'end',
@@ -126,13 +126,6 @@ const DanjiBarChart = React.memo(
                     width={barWidth}
                     height={barHeight}
                     fill="#7950F2"
-                    // fill={
-                    //   tooltipData
-                    //     ? tooltipData.date === item.date
-                    //       ? theme.palette.buy.main
-                    //       : '#767676'
-                    //     : '#767676'
-                    // }
                   />
                 );
               })}
@@ -158,13 +151,6 @@ const DanjiBarChart = React.memo(
                     width={barWidth}
                     height={barHeight}
                     fill="#FF542D"
-                    // fill={
-                    //   tooltipData
-                    //     ? tooltipData.date === item.date
-                    //       ? theme.palette.jeonsae.main
-                    //       : '#767676'
-                    //     : '#767676'
-                    // }
                   />
                 );
               })}
@@ -177,7 +163,7 @@ const DanjiBarChart = React.memo(
             <>
               <Bar
                 key="jeonsae-bottom-transparent"
-                width={width - yAxisWidth}
+                width={width - yAxisWidth <= 0 ? 0 : width - yAxisWidth}
                 x={yAxisWidth}
                 y={0}
                 height={barChartHeight}
@@ -195,7 +181,7 @@ const DanjiBarChart = React.memo(
             <>
               <Bar
                 key="buy-bottom-transparent"
-                width={width - yAxisWidth}
+                width={width - yAxisWidth <= 0 ? 0 : width - yAxisWidth}
                 x={yAxisWidth}
                 y={0}
                 height={barChartHeight}

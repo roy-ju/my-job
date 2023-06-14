@@ -121,7 +121,7 @@ const informationStringWrapper = css`
 interface Props {
   carouselType?: 'pc' | 'mobile';
 
-  user?: { nickname: string } | null;
+  user?: { nickname: string; isVerified: boolean } | null;
 
   unreadNotificationCount?: number;
   activeListingCount?: number;
@@ -152,8 +152,9 @@ interface Props {
   onClickAgentSite?: () => void;
   onClickNotification?: () => void;
   onClickGuide?: () => void;
-  onMutate?: () => void;
+
   onFavoritelistingsForUserMutate?: () => void;
+  onClickFavoriteButton?: (selected: boolean, listingId: number) => Promise<void>;
 }
 
 export default function Home({
@@ -190,8 +191,9 @@ export default function Home({
   onClickAgentSite,
   onClickNotification,
   onClickGuide,
-  onMutate,
+
   onFavoritelistingsForUserMutate,
+  onClickFavoriteButton,
 }: Props) {
   const [isHeaderActive, setIsHeaderActive] = useState(false);
 
@@ -606,15 +608,7 @@ export default function Home({
                     <div tw="flex flex-row gap-1 justify-start items-center pl-0 mt-1">
                       <FavoriteButton
                         defaultSelected={item.is_favorite}
-                        onToggle={async (selected) => {
-                          if (!selected) {
-                            await removeFavorite(item.listing_id);
-                            onMutate?.();
-                          } else {
-                            await addFavorite(item.listing_id);
-                            onMutate?.();
-                          }
-                        }}
+                        onToggle={(selected) => onClickFavoriteButton?.(selected, item.listing_id)}
                       />
                       <span tw="text-info text-gray-700">{item.favorite_count || 0}</span>
                     </div>
