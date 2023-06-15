@@ -30,7 +30,7 @@ interface Props {
 
 const StrikeOut = memo(({ str }: { str: string }) => {
   // Regular expression to match words enclosed in "&" symbols
-  const regex = /&([^&]+)&/g;
+  const regex = /&([^&]*)&/g;
 
   // Replace matched words with wrapped tags
   const output = str.replace(regex, '<strike>$1</strike>');
