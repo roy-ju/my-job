@@ -35,7 +35,7 @@ export default memo(() => {
       const response = await getUserAppVersion(userUsedVersion, platformInt);
 
       if (response?.is_latest === false) {
-        setMessage(`최신버전이 아닙니다.\n(최신 버전 : ${response.latest_version_name})`);
+        setMessage(`최신버전이 아닙니다.\n(최신버전 : ${response.latest_version_name})`);
         return;
       }
 
