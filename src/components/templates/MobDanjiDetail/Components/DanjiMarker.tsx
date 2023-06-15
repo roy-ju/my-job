@@ -1,9 +1,15 @@
-import BankMarker from '@/assets/icons/mobMapIcons/bank.svg';
-import ConvienceMarker from '@/assets/icons/mobMapIcons/convience.svg';
-import HospitalMarker from '@/assets/icons/mobMapIcons/hospital.svg';
-import InstituteMarker from '@/assets/icons/mobMapIcons/institute.svg';
-import MartMarker from '@/assets/icons/mobMapIcons/mart.svg';
-import SubwayMarker from '@/assets/icons/mobMapIcons/subway.svg';
+// import BankMarker from '@/assets/icons/mobMapIcons/bank.svg';
+// import ConvienceMarker from '@/assets/icons/mobMapIcons/convience.svg';
+// import HospitalMarker from '@/assets/icons/mobMapIcons/hospital.svg';
+// import InstituteMarker from '@/assets/icons/mobMapIcons/institute.svg';
+// import MartMarker from '@/assets/icons/mobMapIcons/mart.svg';
+// import SubwayMarker from '@/assets/icons/mobMapIcons/subway.svg';
+import BankMarker from '@/assets/icons/pcMapIcons/bank.svg';
+import ConvienceMarker from '@/assets/icons/pcMapIcons/convience.svg';
+import HospitalMarker from '@/assets/icons/pcMapIcons/hospital.svg';
+import InstituteMarker from '@/assets/icons/pcMapIcons/institute.svg';
+import MartMarker from '@/assets/icons/pcMapIcons/mart.svg';
+import SubwayMarker from '@/assets/icons/pcMapIcons/subway.svg';
 import styled from '@emotion/styled';
 
 const iconStyle = {
