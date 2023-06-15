@@ -9,7 +9,7 @@ interface Props {
 
 function MapPositionBar({ sido, sigungu, eubmyundong }: Props) {
   return (
-    <div tw="inline-flex bg-white rounded-[30px] shadow-[0px 8px 16px rgba(0, 0, 0, 0.14)] items-center">
+    <div tw="inline-flex bg-white rounded-[30px] shadow-[0px 8px 16px rgba(0, 0, 0, 0.14)] items-center pointer-events-none">
       <Button variant="outlined" size="medium" tw="whitespace-nowrap rounded-[30px] border-white">
         {sido}
       </Button>
