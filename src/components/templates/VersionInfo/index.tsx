@@ -23,7 +23,7 @@ export default function VersionInfo({ message, userUsedVersion, onClickBack }: P
           />
           <div tw="text-h3 font-bold">네고시오</div>
           <div tw="text-b2 text-gray-700">{userUsedVersion}</div>
-          <div tw="text-b2 mt-7">{message}</div>
+          <div tw="text-b2 mt-7 whitespace-pre-wrap">{message}</div>
         </div>
       </div>
     </div>

@@ -24,6 +24,7 @@ export default memo(() => {
 
   useIsomorphicLayoutEffect(() => {
     const value = checkPlatformInt();
+
     if (value === PlatformType.Android || value === PlatformType.IOS) {
       setPlatformInt(value);
     }
@@ -32,15 +33,21 @@ export default memo(() => {
   useIsomorphicLayoutEffect(() => {
     async function getUserAppV() {
       const response = await getUserAppVersion(userUsedVersion, platformInt);
-      if (response) {
-        setMessage('최신버전이 아닙니다.');
+
+      if (response?.is_latest === false) {
+        setMessage(`최신버전이 아닙니다.\n(최신 버전 : ${response.latest_version_name})`);
+        return;
+      }
+
+      if (response?.is_latest === true) {
+        setMessage('최신버전 입니다.');
       }
     }
 
     if (userUsedVersion && platformInt > 0) {
       getUserAppV();
     } else {
-      setMessage('최신버전 입니다.');
+      setMessage('');
     }
   }, [userUsedVersion, platformInt]);
 
