@@ -1,11 +1,12 @@
 import { NavigationHeader } from '@/components/molecules';
 
 interface Props {
+  message: string;
   userUsedVersion: string;
   onClickBack?: () => void;
 }
 
-export default function VersionInfo({ userUsedVersion, onClickBack }: Props) {
+export default function VersionInfo({ message, userUsedVersion, onClickBack }: Props) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -22,7 +23,7 @@ export default function VersionInfo({ userUsedVersion, onClickBack }: Props) {
           />
           <div tw="text-h3 font-bold">네고시오</div>
           <div tw="text-b2 text-gray-700">{userUsedVersion}</div>
-          <div tw="text-b2 mt-7">최신 버전 입니다.</div>
+          <div tw="text-b2 mt-7">{message}</div>
         </div>
       </div>
     </div>
