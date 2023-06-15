@@ -22,6 +22,7 @@ import { initializeAppleAuth } from '@/lib/apple';
 
 import * as gtag from '@/lib/gtag';
 import { useRouter } from 'next/router';
+import AppVersionChecker from '@/providers/AppVersionChecker';
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -116,6 +117,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             </ErrorBoundary>
             <ToastContainer platform={platform} />
             <TooltipProvider />
+            <AppVersionChecker />
           </SWRConfig>
         </RecoilRoot>
       </CacheProvider>
