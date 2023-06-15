@@ -33,14 +33,14 @@ export default memo(() => {
     async function getUserAppV() {
       const response = await getUserAppVersion(userUsedVersion, platformInt);
       if (response) {
-        setMessage('최신버젼이 아닙니다.');
+        setMessage('최신버전이 아닙니다.');
       }
     }
 
     if (userUsedVersion && platformInt > 0) {
       getUserAppV();
     } else {
-      setMessage('최신버젼입니다.');
+      setMessage('최신버전 입니다.');
     }
   }, [userUsedVersion, platformInt]);
 
