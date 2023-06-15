@@ -29,10 +29,14 @@ interface Props {
 }
 
 const StrikeOut = memo(({ str }: { str: string }) => {
-  const resultString = str.replace(/&/g, '<strike>').replace(/&/g, '</strike>');
+  // Regular expression to match words enclosed in "&" symbols
+  const regex = /&([^&]*)&/g;
+
+  // Replace matched words with wrapped tags
+  const output = str.replace(regex, '<strike>$1</strike>');
 
   // eslint-disable-next-line react/no-danger
-  return <span dangerouslySetInnerHTML={{ __html: resultString }} />;
+  return <span dangerouslySetInnerHTML={{ __html: output }} />;
 });
 
 export default function RealestateDocument({ data }: Props) {
