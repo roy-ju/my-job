@@ -9,7 +9,9 @@ const Events = {
   SessionStorageChange: 'negocio_native_event_session_storage_change',
 };
 
-const GOOGLE_PLAY_STORE = 'https://play.google.com/store/apps/details?id=kr.co.negocio.production';
+const GOOGLE_PLAY_STORE =
+  'https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=kr.co.negocio.production&ddl=1&pcampaignid=web_ddl_1';
+
 const APP_STORE = 'https://itunes.apple.com/app/id/6444820605';
 
 export default function AppVersionChecker() {
