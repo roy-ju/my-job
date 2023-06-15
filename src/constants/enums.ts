@@ -3,6 +3,11 @@ export enum SocialLoginType {
   Apple = 2,
 }
 
+export enum PlatformType {
+  Android = 1,
+  IOS = 2,
+}
+
 export enum RealestateType {
   Apartment = 10,
   Officetel = 20,
