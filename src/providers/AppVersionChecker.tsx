@@ -4,6 +4,7 @@ import Keys from '@/constants/storage_keys';
 import usePageVisibility from '@/hooks/utils/usePageVisibility';
 import { checkPlatformInt } from '@/utils/checkPlatformInt';
 import { useCallback, useEffect, useState } from 'react';
+// import { toast } from 'react-toastify';
 
 const Events = {
   SessionStorageChange: 'negocio_native_event_session_storage_change',
@@ -32,6 +33,7 @@ export default function AppVersionChecker() {
 
   useEffect(() => {
     const onChangeSessionStorage = () => {
+      // toast.success(`${localStorage.getItem(Keys.APP_VERSION)}`);
       setAppVersion(localStorage.getItem(Keys.APP_VERSION) ?? '');
     };
 
@@ -43,12 +45,12 @@ export default function AppVersionChecker() {
   }, []);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     const platformInt = checkPlatformInt();
 
-    const av = localStorage.getItem(Keys.APP_VERSION) ?? '';
-
-    if (platformInt && av) {
-      getUserAppVersion(av, platformInt).then((data) => {
+    if (platformInt && appVersion) {
+      getUserAppVersion(appVersion, platformInt).then((data) => {
         if (data?.stale === true) {
           setIsStale(true);
         } else {
