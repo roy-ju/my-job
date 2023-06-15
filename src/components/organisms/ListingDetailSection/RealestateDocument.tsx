@@ -33,7 +33,6 @@ const StrikeOut = memo(({ str }: { str: string }) => {
   const regex = /&([^&]+)&/g;
 
   // Replace matched words with wrapped tags
-
   const output = str.replace(regex, '<strike>$1</strike>');
 
   // eslint-disable-next-line react/no-danger
