@@ -4,10 +4,15 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRecentlyRealPricesListAll } from '@/apis/danji/danjiRecentlyList';
 import { Button } from '@/components/atoms';
 import { BuyOrRent, describeJeonsaeWolsaeSame } from '@/constants/enums';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import Routes from '@/router/routes';
+
 import { formatNumberInKorean } from '@/utils';
+import { checkPlatform } from '@/utils/checkPlatform';
 import { cuttingDot, minDigits } from '@/utils/fotmat';
 import { customAlphabet } from 'nanoid';
-import { useCallback } from 'react';
+import { useRouter } from 'next/router';
+import { useCallback, useState } from 'react';
 
 const ListItemComponent = ({
   title,
@@ -24,9 +29,9 @@ const ListItemComponent = ({
   date: string;
   onClickItem: () => void;
 }) => (
-  <div tw="py-3 [border-bottom: 1px solid #E4E4EF]" onClick={onClickItem}>
+  <div tw="py-3 px-5 [border-bottom: 1px solid #E4E4EF] hover:bg-gray-300 cursor-pointer" onClick={onClickItem}>
     <div tw="flex flex-row items-center justify-between mb-1.5">
-      <span tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+      <span tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap [text-decoration: underline]">
         {title}
       </span>
       <span tw="text-b2 [line-height: 1] text-nego [text-align: center]">{price}</span>
@@ -42,6 +47,10 @@ const ListItemComponent = ({
 );
 
 export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanjiDetailResponse; buyOrRent?: number }) {
+  const nextRouter = useRouter();
+
+  const [platform, setPlatForm] = useState<string>('');
+
   const nanoId = customAlphabet('1234567890abcdefgh');
 
   const { list, isShowMoreButton, setSize } = useAPI_DanjiRecentlyRealPricesListAll({
@@ -68,9 +77,30 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
     return '-';
   }, []);
 
+  useIsomorphicLayoutEffect(() => {
+    if (checkPlatform() === 'pc') {
+      setPlatForm('pc');
+    }
+    if (checkPlatform() === 'mobile') {
+      setPlatForm('mobile');
+    }
+  }, []);
+
+  const onClickItem = useCallback(
+    (pnu: string, rt: number) => {
+      if (platform === 'pc') {
+        nextRouter.push(`/${Routes.DanjiDetail}?p=${pnu}&rt=${rt}`);
+      }
+      if (platform === 'mobile') {
+        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${pnu}&rt=${rt}`);
+      }
+    },
+    [nextRouter, platform],
+  );
+
   return (
-    <div tw="py-10 px-5">
-      <div tw="mb-5">
+    <div tw="py-10">
+      <div tw="mb-5 px-5">
         <span tw="font-bold text-b1 [line-height: 19px]">
           {danji?.sido_name} {danji?.sigungu_name} 최근 실거래 리스트 ({describeJeonsaeWolsaeSame(buyOrRent)})
         </span>
@@ -79,7 +109,7 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
         list.length > 0 &&
         list.map((item) => (
           <ListItemComponent
-            onClickItem={() => {}}
+            onClickItem={() => onClickItem(item.pnu, item.realestate_type)}
             key={nanoId()}
             title={item.name}
             saedaeCount={item.saedae_count ? `${Number(item.saedae_count).toLocaleString()} 세대` : '- 세대'}
@@ -89,7 +119,7 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
           />
         ))}
       {isShowMoreButton && (
-        <div>
+        <div tw="px-5">
           <Button
             variant="outlined"
             tw="mt-4 w-full"
