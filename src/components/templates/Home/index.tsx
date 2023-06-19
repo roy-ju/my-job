@@ -30,12 +30,14 @@ import {
   RealestateTypeString,
 } from '@/constants/strings';
 import { useCallback, useRef, useState } from 'react';
-import { useScroll } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import { GetListingsForTheLoggedIn } from '@/apis/home/getListingsForTheLoggedIn';
 import { GetDanjisForTheLoggedIn } from '@/apis/home/getDanjisForTheLoggedIn';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import { BuyOrRent } from '@/constants/enums';
+import { checkPlatform } from '@/utils/checkPlatform';
+import Routes from '@/router/routes';
 
 function renderLeftButton(props: any) {
   return (
@@ -111,7 +113,7 @@ const StyledTable = styled.table`
 `;
 
 const informationStringWrapper = css`
-  & > div:not(:first-of-type)::before {
+  & > p:not(:first-of-type)::before {
     content: ' | ';
     margin: 0 0.25rem;
     color: #e9ecef; // text-gray-300
@@ -199,6 +201,8 @@ export default function Home({
 
   const [scrollContainer, setScrollContainer] = useState<HTMLDivElement | null>(null);
 
+  const [mobileOrPc, setMobileOrPc] = useState<string>('');
+
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0);
   });
@@ -213,6 +217,14 @@ export default function Home({
     setTimeout(() => {
       isDragging.current = false;
     }, 300);
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    if (checkPlatform() === 'pc') {
+      setMobileOrPc('pc');
+    } else if (checkPlatform() === 'mobile') {
+      setMobileOrPc('mobile');
+    }
   }, []);
 
   return (
@@ -247,11 +259,11 @@ export default function Home({
       <div ref={setScrollContainer} tw="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
         <div tw="pb-10" style={{ backgroundColor: '#F4F6FA' }}>
           <div tw="pt-4 px-6">
-            <p tw="text-h1 font-bold mb-2">
+            <h1 tw="text-h1 font-bold mb-2">
               추천받고.︎ 비교하고. 네고하고.︎
               <br />
               네고시오
-            </p>
+            </h1>
             <div tw="flex flex-row items-center gap-2">
               <div tw="flex flex-row items-center gap-1">
                 <p tw="text-b2">추천대기 중인 중개사</p>
@@ -270,17 +282,28 @@ export default function Home({
                 scale: 1.05,
               }}
               type="button"
+              name="suggestRegionalForm"
               tw="relative text-start flex-1 rounded-lg h-[160px] min-w-[166px] px-2 shadow"
               style={{
                 backgroundImage: `linear-gradient(90deg, #7B68EF -31.1%, #5E48E8 100%)`,
               }}
               onClick={onClickSuggestion}
             >
-              <p tw="absolute text-h3 leading-[26px] font-semibold text-white top-4 left-4">
-                숨은 네고 매물
-                <br />
-                추천받기
-              </p>
+              <a
+                href={
+                  mobileOrPc === 'pc'
+                    ? `/${Routes.SuggestRegionalForm}`
+                    : `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`
+                }
+                target="_self"
+                tw="absolute text-h3 leading-[26px] font-semibold text-white top-4 left-4"
+              >
+                <h2>
+                  숨은 네고 매물
+                  <br />
+                  추천받기
+                </h2>
+              </a>
               <div
                 tw="w-full h-full bg-[length:88px_88px] bg-right-bottom bg-no-repeat"
                 style={{ backgroundImage: `url('${CharacterImage.src}')` }}
@@ -292,17 +315,24 @@ export default function Home({
                   scale: 1.05,
                 }}
                 type="button"
+                name="map"
                 tw="relative text-start flex-1 rounded-lg h-[76px] px-2 pr-3 py-4 shadow"
                 style={{
                   background: 'linear-gradient(90deg, #5C7CFA -31.1%, #3B5BDB 100%)',
                 }}
                 onClick={onClickBidding}
               >
-                <p tw="absolute text-b2 font-bold text-white top-4 left-3">
-                  지도에서
-                  <br />
-                  매물 검색
-                </p>
+                <a
+                  href={mobileOrPc === 'pc' ? `/${Routes.Map}` : `/${Routes.EntryMobile}/${Routes.Map}`}
+                  target="_self"
+                  tw="absolute text-b2 font-bold text-white top-4 left-3"
+                >
+                  <h2>
+                    지도에서
+                    <br />
+                    매물 검색
+                  </h2>
+                </a>
                 <div
                   tw="w-full h-full bg-[length:36px_36px] bg-right bg-no-repeat"
                   style={{ backgroundImage: `url('${HomeSearchImage.src}')` }}
@@ -314,17 +344,25 @@ export default function Home({
                   scale: 1.05,
                 }}
                 type="button"
+                name="intro"
                 tw="relative text-start flex-1 rounded-lg h-[76px] px-2 pr-3 py-4 [border: 1px dashed #7950F2]"
                 style={{
                   background: 'transparent',
                 }}
                 onClick={onClickGuide}
               >
-                <p tw="absolute text-b2 font-bold text-nego top-4 left-3">
-                  네고시오가
-                  <br />
-                  궁금하다면?
-                </p>
+                <a
+                  href={mobileOrPc === 'pc' ? `/${Routes.Intro}` : `/${Routes.EntryMobile}/${Routes.Intro}`}
+                  target="_blank"
+                  tw="absolute text-b2 font-bold text-nego top-4 left-3"
+                  rel="noreferrer"
+                >
+                  <h2>
+                    네고시오가
+                    <br />
+                    궁금하다면?
+                  </h2>
+                </a>
                 <div
                   tw="w-full h-full bg-[length:36px_36px] bg-right bg-no-repeat"
                   style={{ backgroundImage: `url('${HomeBookImage.src}')` }}
@@ -387,15 +425,15 @@ export default function Home({
                           {item.listing_title}
                         </div>
                         <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-                          {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                          {item.jeonyong_area && <p>{`전용 ${item.jeonyong_area}㎡`}</p>}
                           {item.total_floor !== '0' && (
-                            <div>
+                            <p>
                               {item.floor_description
                                 ? `${item.floor_description?.[0]}/${item.total_floor}층`
                                 : `${item.total_floor}층`}
-                            </div>
+                            </p>
                           )}
-                          <div>{item.direction}</div>
+                          <p>{item.direction}</p>
                         </div>
                         <div tw="flex flex-row gap-1 justify-start items-center pl-0 mt-1">
                           <FavoriteButton
@@ -487,9 +525,11 @@ export default function Home({
             <Separator tw="bg-gray-300" />
             <div tw="pt-10 pb-6">
               <div tw="px-5 font-bold text-h3 flex items-center gap-2">
-                추천 요청 많은 단지 <HoneyJarIcon />
+                <h2>추천 요청 많은 단지</h2> <HoneyJarIcon />
               </div>
-              <div tw="px-5 text-b2 text-gray-700 mt-1">중개사님에게 추천 요청이 많은 매물이에요.</div>
+              <div tw="px-5 text-b2 text-gray-700 mt-1">
+                <p>중개사님에게 추천 요청이 많은 매물이에요.</p>
+              </div>
               <Carousel
                 gap={16}
                 trackStyle={{ padding: '16px 20px' }}
@@ -517,24 +557,33 @@ export default function Home({
                         <Chip variant="gray">{item.eubmyundong}</Chip>
                       </div>
                       <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
-                        {item.name}
+                        <a
+                          href={
+                            mobileOrPc === 'pc'
+                              ? `/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
+                              : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
+                          }
+                          target="_self"
+                        >
+                          <h1>{item.name}</h1>
+                        </a>
                       </div>
                       <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                        <span>{item.saedae_count}세대</span>
-                        <span tw="h-2 w-px bg-gray-300 mx-1" />
-                        <span>총 {item.dong_count}동</span>
+                        <p>{item.saedae_count}세대</p>
+                        <p tw="h-2 w-px bg-gray-300 mx-1" />
+                        <p>총 {item.dong_count}동</p>
                       </div>
                       <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                        <span>{item.date} 준공</span>
-                        <span tw="h-2 w-px bg-gray-300 mx-1" />
-                        <span>
+                        <p>{item.date} 준공</p>
+                        <p tw="h-2 w-px bg-gray-300 mx-1" />
+                        <p>
                           전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
-                        </span>
+                        </p>
                       </div>
                     </div>
                     <div tw="py-2 text-center text-info">
-                      <span tw="mr-1">최근 추천 요청 건</span>
-                      <span tw="font-bold text-blue-1000">{item.total_suggest_count}</span>
+                      <p tw="mr-1 [display: inline]">최근 추천 요청 건</p>
+                      <p tw="font-bold text-blue-1000 [display: inline]">{item.total_suggest_count}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -546,8 +595,12 @@ export default function Home({
           <div>
             <Separator tw="bg-gray-300" />
             <div tw="pt-10 pb-6">
-              <div tw="px-5 font-bold text-h3">관심 등록 많은 매물</div>
-              <div tw="px-5 text-b2 text-gray-700 mt-1">네고시오만의 매물정보를 확인해 보세요.</div>
+              <div tw="px-5 font-bold text-h3">
+                <h2>관심 등록 많은 매물</h2>
+              </div>
+              <div tw="px-5 text-b2 text-gray-700 mt-1">
+                <p>네고시오만의 매물정보를 확인해 보세요.</p>
+              </div>
               <Carousel
                 gap={16}
                 trackStyle={{ padding: '16px 20px' }}
@@ -581,28 +634,37 @@ export default function Home({
                       </Chip>
                       <Chip variant="gray">{item.eubmyundong}</Chip>
                     </div>
-                    <div tw="font-bold text-b1">
+                    <h1 tw="font-bold text-b1">
                       {BuyOrRentString[item.buy_or_rent]} <Numeral koreanNumber>{item.trade_or_deposit_price}</Numeral>
                       {Boolean(item.monthly_rent_fee) && (
                         <span>
                           /<Numeral koreanNumber>{item.monthly_rent_fee}</Numeral>
                         </span>
                       )}
-                    </div>
+                    </h1>
                     <div tw="text-info text-gray-1000  whitespace-nowrap overflow-hidden text-ellipsis">
-                      {item.listing_title}
+                      <a
+                        href={
+                          mobileOrPc === 'pc'
+                            ? `/${Routes.ListingDetail}?listingID=${item.listing_id}`
+                            : `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${item.listing_id}`
+                        }
+                        target="_self"
+                      >
+                        <h1>{item.listing_title}</h1>
+                      </a>
                     </div>
 
                     <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-                      {item.jeonyong_area && <div>{`전용 ${item.jeonyong_area}㎡`}</div>}
+                      {item.jeonyong_area && <p>{`전용 ${item.jeonyong_area}㎡`}</p>}
                       {item.total_floor !== '0' && (
-                        <div>
+                        <p>
                           {item.floor_description
                             ? `${item.floor_description?.[0]}/${item.total_floor}층`
                             : `${item.total_floor}층`}
-                        </div>
+                        </p>
                       )}
-                      <div>{item.direction}</div>
+                      <p>{item.direction}</p>
                     </div>
 
                     <div tw="flex flex-row gap-1 justify-start items-center pl-0 mt-1">
@@ -610,7 +672,7 @@ export default function Home({
                         defaultSelected={item.is_favorite}
                         onToggle={(selected) => onClickFavoriteButton?.(selected, item.listing_id)}
                       />
-                      <span tw="text-info text-gray-700">{item.favorite_count || 0}</span>
+                      <p tw="text-info text-gray-700">{item.favorite_count || 0}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -622,10 +684,8 @@ export default function Home({
           <div>
             <Separator tw="bg-gray-300" />
             <div tw="pt-10 pb-6">
-              <div tw="px-5 font-bold text-h3">{regionName || ''} 월간 거래량 TOP</div>
-              <div tw="px-5 text-b2 text-gray-700 mt-1">
-                최신 관심단지나 우리집 주소 등록 기준으로 지역이 선정됩니다.
-              </div>
+              <h2 tw="px-5 font-bold text-h3">{regionName || ''} 월간 거래량 TOP</h2>
+              <p tw="px-5 text-b2 text-gray-700 mt-1">최신 관심단지나 우리집 주소 등록 기준으로 지역이 선정됩니다.</p>
               <Carousel
                 gap={16}
                 trackStyle={{ padding: '16px 20px' }}
@@ -651,20 +711,31 @@ export default function Home({
                       </Chip>
                       <Chip variant="gray">{item.eubmyundong}</Chip>
                     </div>
-                    <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">{item.name}</div>
+                    <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
+                      <a
+                        href={
+                          mobileOrPc === 'pc'
+                            ? `/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
+                            : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
+                        }
+                        target="_self"
+                      >
+                        <h1>{item.name}</h1>
+                      </a>
+                    </div>
 
                     <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                      {item.saedae_count && <span>{item.saedae_count}세대</span>}
+                      {item.saedae_count && <p>{item.saedae_count}세대</p>}
                       {item.saedae_count && item.dong_count && <span tw="h-2 w-px bg-gray-300 mx-1" />}
-                      {item.dong_count && <span>총 {item.dong_count}동</span>}
+                      {item.dong_count && <p>총 {item.dong_count}동</p>}
                     </div>
                     <div tw="flex items-center text-info text-gray-700 whitespace-nowrap">
-                      {item.date && <span>{item.date} 준공</span>}
+                      {item.date && <p>{item.date} 준공</p>}
                       {item.date && item.jeonyong_max && item.jeonyong_min && <span tw="h-2 w-px bg-gray-300 mx-1" />}
                       {item.jeonyong_min && item.jeonyong_max && (
-                        <span>
+                        <p>
                           전용 {item.jeonyong_min}~{item.jeonyong_max}㎡
-                        </span>
+                        </p>
                       )}
                     </div>
                     <div tw="mt-2">
@@ -701,12 +772,19 @@ export default function Home({
         <Separator tw="bg-gray-300" />
         <div tw="py-10 px-5">
           <div tw="mb-6">
-            <div tw="pl-1 text-info leading-4 mb-2">우리집 서비스</div>
+            <div tw="pl-1 text-info leading-4 mb-2">
+              <p>우리집 서비스</p>
+            </div>
             <div tw="flex gap-3">
               <Button tw="flex-1" variant="outlined" size="bigger" onClick={onClickHomeRegister}>
                 <div tw="flex items-center w-full gap-2">
                   <HouseIcon />
-                  <span tw="whitespace-nowrap">집주소 등록</span>
+                  <a
+                    href={mobileOrPc === 'pc' ? `/${Routes.MyAddress}` : `/${Routes.EntryMobile}/${Routes.MyAddress}`}
+                    target="_self"
+                  >
+                    <h2 tw="whitespace-nowrap">집주소 등록</h2>
+                  </a>
                   <ChevronLeftIcon tw="text-gray-700 w-4 h-4 ml-auto rotate-180" />
                 </div>
               </Button>
