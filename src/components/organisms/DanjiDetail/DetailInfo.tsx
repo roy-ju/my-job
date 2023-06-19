@@ -9,7 +9,7 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
   return (
     <div tw="px-5 pt-10 pb-10">
-      <span tw="font-bold text-b1 [line-height: 1]">단지 기본정보</span>
+      <h2 tw="font-bold text-b1">단지 기본정보</h2>
       <Table>
         <Table.Body>
           <Table.Row>

@@ -114,7 +114,13 @@ export default function ActiveListingInfo({
   if (isListingDetail && danjiListings.length > 0)
     return (
       <div tw="flex flex-col gap-3 px-5 pb-10">
-        <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAllTypeTwo}>
+        <Button
+          variant="outlined"
+          size="medium"
+          tw="w-full"
+          onClick={handleListingAllTypeTwo}
+          name="allDanjiListingsShow"
+        >
           단지내 매물 전체보기&nbsp;{!!totalCount && <span tw="font-bold">{totalCount}</span>}
         </Button>
       </div>

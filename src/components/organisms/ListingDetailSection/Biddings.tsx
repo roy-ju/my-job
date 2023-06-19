@@ -102,16 +102,20 @@ export default function Biddings({
       <div>
         <div tw="mb-3">
           <div tw="flex items-center gap-1">
-            <div tw="font-bold">제안 현황</div>
+            <div tw="font-bold">
+              <h2>제안 현황</h2>
+            </div>
             <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
               <QuestionIcon />
             </Button>
           </div>
         </div>
         <div tw="text-center text-gray-700 text-b2 py-8">
-          생각해보는 금액을 제안해 보시고,
-          <br />
-          네고의 기회를 잡아보세요!
+          <h4>
+            생각해보는 금액을 제안해 보시고,
+            <br />
+            네고의 기회를 잡아보세요!
+          </h4>
         </div>
       </div>
     );
@@ -121,7 +125,9 @@ export default function Biddings({
     <div>
       <div tw="mb-3">
         <div tw="flex items-center gap-1">
-          <div tw="font-bold">제안 현황</div>
+          <div tw="font-bold">
+            <h2>제안 현황</h2>
+          </div>
           <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
             <QuestionIcon />
           </Button>
