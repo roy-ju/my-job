@@ -160,7 +160,7 @@ export default function RealPricesPyoungList({
   return danjiRealPricesPyoungList?.length > 0 ? (
     <div tw="px-5 mt-10">
       <div tw="flex items-center justify-between mb-3">
-        <span tw="text-b1 font-bold [line-height: 1.25rem] [letter-spacing: -0.4px]">평형별 실거래 내역</span>
+        <h2 tw="text-b1 font-bold [letter-spacing: -0.4px]">평형별 실거래 내역</h2>
         {buyOrRent === BuyOrRent.Buy && (
           <div tw="flex items-center gap-2">
             <Checkbox onChange={onChangeChecked} checked={checked || false} />

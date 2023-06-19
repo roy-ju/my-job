@@ -265,7 +265,9 @@ export default function ListingDetail({
         ]}
       >
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title tw="text-inherit">{listingDetail?.listing?.listing_title}</NavigationHeader.Title>
+        <NavigationHeader.Title tw="text-inherit">
+          <h1>{listingDetail?.listing?.listing_title}</h1>
+        </NavigationHeader.Title>
         <div tw="flex gap-4">
           <NavigationHeader.Button onClick={onClickShare}>
             <ShareIcon tw="text-inherit" />
@@ -289,15 +291,15 @@ export default function ListingDetail({
         <div tw="sticky top-12 pt-2 z-40">
           <Tabs value={tabIndex} onChange={handleTabItemClick}>
             <Tabs.Tab value={0}>
-              <span tw="text-b2">거래정보</span>
+              <h2 tw="text-b2">거래정보</h2>
             </Tabs.Tab>
             {danji && !danji.error_code && (
               <Tabs.Tab value={1}>
-                <span tw="text-b2">단지정보</span>
+                <h2 tw="text-b2">단지정보</h2>
               </Tabs.Tab>
             )}
             <Tabs.Tab value={2}>
-              <span tw="text-b2">Q&A</span>
+              <h2 tw="text-b2">Q&A</h2>
             </Tabs.Tab>
             <Tabs.Indicator />
           </Tabs>
@@ -328,10 +330,10 @@ export default function ListingDetail({
             <Separator />
             <Accordion defaultExpanded>
               <Accordion.Summary tw="h-14 px-5 font-bold">
-                {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.title}
+                <h2>{UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.title}</h2>
               </Accordion.Summary>
               <Accordion.Details tw="pt-1 pb-6 px-5 text-b2 text-gray-700 whitespace-pre-wrap">
-                {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.body}
+                <p>{UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.body}</p>
                 {listingDetail?.bidding_reject_reason && (
                   <div tw="mt-5">
                     <span tw="text-nego-1000">중개사님 추가답변</span>
@@ -377,7 +379,9 @@ export default function ListingDetail({
           </div>
           <Separator />
           <div tw="py-10 px-5">
-            <div tw="font-bold mb-3">매물 기본정보</div>
+            <div tw="font-bold mb-3">
+              <h2>매물 기본정보</h2>
+            </div>
             <Table>
               <Table.Body>
                 <Table.Row>
@@ -451,7 +455,9 @@ export default function ListingDetail({
             <div>
               <Separator />
               <div tw="py-10 px-5">
-                <div tw="font-bold mb-3">매물 상세정보</div>
+                <div tw="font-bold mb-3">
+                  <h2>매물 상세정보</h2>
+                </div>
                 <Table>
                   <Table.Body>
                     <Table.Row>
@@ -481,7 +487,9 @@ export default function ListingDetail({
             <div>
               <Separator />
               <div tw="py-10 px-5">
-                <div tw="font-bold mb-3">관련 규제 정보</div>
+                <div tw="font-bold mb-3">
+                  <h2>관련 규제 정보</h2>
+                </div>
                 <Table>
                   <Table.Body>
                     <Table.Row>
@@ -505,7 +513,9 @@ export default function ListingDetail({
             <div>
               <Separator />
               <div tw="py-10 px-5">
-                <div tw="font-bold mb-3">특이사항</div>
+                <div tw="font-bold mb-3">
+                  <h5>특이사항</h5>
+                </div>
                 <div tw="whitespace-pre-wrap break-all text-b2">{listingDetail?.listing?.description}</div>
               </div>
             </div>

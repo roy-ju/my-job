@@ -67,70 +67,83 @@ export default function Summary({
     <div>
       <div tw="flex text-b2 leading-5 text-gray-700 mb-2">
         <div tw="mr-auto">
-          등록일 <Moment format="yyyy.MM.DD">{createdTime}</Moment>
+          <p>
+            등록일 <Moment format="yyyy.MM.DD">{createdTime}</Moment>
+          </p>
         </div>
         <div tw="flex gap-3">
           <div tw="flex items-center gap-1">
             <EyeIcon tw="w-4 h-4" />
-            <div>조회수 {viewCount}</div>
+            <div>
+              <p>조회수 {viewCount}</p>
+            </div>
           </div>
           <div tw="flex items-center gap-1">
             <UserIcon tw="w-4 h-4" />
-            <div>참여수 {participatorCount}</div>
+            <div>
+              <p>참여수 {participatorCount}</p>
+            </div>
           </div>
         </div>
       </div>
-      <div tw="text-b2 text-gray-700">{listingTitle}</div>
+      <div tw="text-b2 text-gray-700">
+        <h1>{listingTitle}</h1>
+      </div>
       <div tw="flex items-center gap-1 mb-2">
         <div tw="text-2xl font-bold [letter-spacing: -0.25px]">
-          {BuyOrRentString[buyOrRent]}{' '}
-          {buyOrRent === BuyOrRent.Wolsae ? (
-            <span>
-              <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
-            </span>
-          ) : (
-            <span>
-              <Numeral koreanNumber>{price}</Numeral>
-            </span>
-          )}
+          <h2>
+            {BuyOrRentString[buyOrRent]}{' '}
+            {buyOrRent === BuyOrRent.Wolsae ? (
+              <span>
+                <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
+              </span>
+            ) : (
+              <span>
+                <Numeral koreanNumber>{price}</Numeral>
+              </span>
+            )}
+          </h2>
         </div>
         {quickSale && <Chip variant="red">급매</Chip>}
         {/* <TooltipIcon /> */}
       </div>
       {quickSale && Boolean(quickSaleComparative) && (
         <div tw="text-b2">
-          최근 실거래 대비 <span tw="text-blue-1000">{quickSaleComparative}</span>
+          <p tw="[display: inline]">
+            최근 실거래 대비 <span tw="text-blue-1000 [display: inline]">{quickSaleComparative}</span>
+          </p>
         </div>
       )}
+
       <div tw="py-2 px-3 bg-gray-100 rounded-lg text-b2 leading-5 flex gap-2 items-center mt-4">
         <MapPinIcon tw="w-4 h-4 text-gray-600" />
-        {address}
+        <h2>{address}</h2>
       </div>
       <div tw="h-[96px] flex">
         <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
           <AptIcon />
-          <div tw="text-info leading-5">{RealestateTypeString[realestateType]}</div>
+          <p tw="text-info leading-5">{RealestateTypeString[realestateType]}</p>
         </div>
         <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
           <RulerIcon />
-          <div tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
+          <p tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
             {gonggeupArea}㎡/{jeonyongArea}㎡
-          </div>
+          </p>
         </div>
         {floorString && (
           <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
             <HeightIcon />
-            <div tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
+            <p tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
               {floorString}
-            </div>
+            </p>
           </div>
         )}
         {direction && (
           <div tw="flex-1 flex flex-col justify-center items-center gap-1 min-w-0">
             <DirectionIcon />
-            <div tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
+            <p tw="text-info leading-5 w-full whitespace-nowrap overflow-hidden text-ellipsis text-center">
               {direction}
-            </div>
+            </p>
           </div>
         )}
       </div>

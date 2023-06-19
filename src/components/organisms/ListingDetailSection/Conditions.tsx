@@ -18,7 +18,9 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
   return (
     <div>
       <div tw="mb-3">
-        <div tw="font-bold">거래조건</div>
+        <div tw="font-bold">
+          <h2>거래조건</h2>
+        </div>
       </div>
       <Table>
         <Table.Body>

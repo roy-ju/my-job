@@ -23,7 +23,7 @@ export default function RealPriceInfo({
   return (
     <div tw="px-5">
       <div tw="mb-4">
-        <span tw="text-b1 [line-height: 1] [letter-spacing: -0.4px] font-bold">단지 실거래 분석</span>
+        <h2 tw="text-b1 [line-height: 1] [letter-spacing: -0.4px] font-bold">단지 실거래 분석</h2>
       </div>
       <RealPriceInfoHeader
         pnu={danji.pnu}
