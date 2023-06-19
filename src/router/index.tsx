@@ -9,6 +9,7 @@ import { ParsedUrlQuery } from 'querystring';
 import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
 import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
 import Head from 'next/head';
+import AppConfig from '@/config';
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -651,16 +652,35 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 interface MetaInsertedProps extends RouterProps {
   title?: string;
   description?: string;
+  keyWords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogSiteName?: string;
+  ogType?: string;
   ogImagePath?: string;
 }
 
-export default function MetaInserted({ title, description, ogImagePath, ...props }: MetaInsertedProps) {
+export default function MetaInserted({
+  title,
+  description,
+  keyWords,
+  ogTitle,
+  ogDescription,
+  ogSiteName,
+  ogType,
+  ogImagePath,
+  ...props
+}: MetaInsertedProps) {
   return (
     <>
       <Head>
-        {title && <meta property="og:title" content={title} />}
+        {title && <title>{`${title} | ${AppConfig.title}`}</title>}
         {description && <meta name="description" content={description} />}
-        {description && <meta property="og:description" content={description} />}
+        {keyWords && <meta property="keywords" content={keyWords} />}
+        {ogTitle && <meta property="og:title" content={`${ogTitle} | ${AppConfig.title}`} />}
+        {ogDescription && <meta property="og:description" content={ogDescription} />}
+        {ogSiteName && <meta property="og:site_name" content={ogSiteName} />}
+        {ogType && <meta property="og:type" content={ogType} />}
         {ogImagePath && <meta property="og:image" content={ogImagePath} />}
       </Head>
       <Router {...props} />
