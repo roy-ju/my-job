@@ -196,14 +196,14 @@ export default function RealPricesPyoungList({
                   <div tw="w-full h-full [min-width: 4.375rem] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center" />
                 </motion.div>
               )}
-              <span
+              <p
                 css={[
                   tw`absolute top-0 left-0 z-20 [min-width: 4.375rem] [min-height: 36px] flex items-center justify-center`,
                   item.gonggeup_pyoung.toString() === selectedArea?.toString() && tw`font-bold text-gray-1000`,
                 ]}
               >
                 {item.gonggeup_pyoung === 0 ? '1' : item.gonggeup_pyoung}평
-              </span>
+              </p>
             </Button>
           </div>
         ))}
