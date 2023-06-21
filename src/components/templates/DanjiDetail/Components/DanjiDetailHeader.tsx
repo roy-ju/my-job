@@ -133,7 +133,9 @@ export default function DanjiDetailHeader({
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
-        <NavigationHeader.Title tw="text-inherit">{danji.name}</NavigationHeader.Title>
+        <NavigationHeader.Title tw="text-inherit">
+          <h1>{danji.name}</h1>
+        </NavigationHeader.Title>
         <div tw="flex gap-4">
           <NavigationHeader.Button onClick={handleClickShare}>
             <ShareIcon tw="text-inherit" />

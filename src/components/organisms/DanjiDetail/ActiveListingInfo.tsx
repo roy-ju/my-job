@@ -130,7 +130,7 @@ export default function ActiveListingInfo({
     <div tw="pb-8">
       <div>
         <div tw="flex mb-2 px-5 items-center">
-          <span tw="text-b1 [line-height: 1.5] font-bold">네고가능 매물&nbsp;</span>
+          <h2 tw="text-b1 [line-height: 1.5] font-bold">네고가능 매물&nbsp;</h2>
           <span tw="text-b1 text-nego [line-height: 1.5] font-bold">{totalCount || 0}</span>
           <Dropdown
             size="small"

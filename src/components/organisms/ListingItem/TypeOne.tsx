@@ -56,18 +56,18 @@ export default function TypeOne({
           )}
         </div>
         <div>
-          <span tw="text-info">{item.listing_title}</span>
+          <h1 tw="text-info">{item.listing_title}</h1>
         </div>
 
         <div tw="w-full flex items-center justify-between">
           <div tw="flex items-center gap-1">
-            <span tw="text-gray-700 text-info">전용 {cuttingDot(Number(item.jeonyong_area)) || '-'}㎡</span>
+            <p tw="text-gray-700 text-info">전용 {cuttingDot(Number(item.jeonyong_area)) || '-'}㎡</p>
             <div tw="w-px h-2 bg-gray-300" />
-            <span tw="text-gray-700 text-info">
+            <p tw="text-gray-700 text-info">
               {item.floor_description.slice(0, 1) || '-'}/{item.total_floor}층
-            </span>
+            </p>
             <div tw="w-px h-2 bg-gray-300" />
-            <span tw="text-gray-700 text-info">{item.direction}</span>
+            <p tw="text-gray-700 text-info">{item.direction}</p>
           </div>
 
           <div tw="flex items-center gap-3 ml-auto">
