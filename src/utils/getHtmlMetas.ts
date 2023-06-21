@@ -83,7 +83,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       const convertedDescription =
         `'${roadAddress || ''} ${
           data?.name
-        }'단지, 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '';
+        }', 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '';
 
       return {
         title: convertedTitle ?? '',

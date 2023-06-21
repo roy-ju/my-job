@@ -12,12 +12,18 @@ export default function Agent({ agent }: Props) {
 
   return (
     <div>
-      <div tw="font-bold mb-3">중개사 정보</div>
+      <div tw="font-bold mb-3">
+        <h2>중개사 정보</h2>
+      </div>
       <div tw="flex items-center gap-2">
         <Avatar src={agent?.profile_image_full_path} />
         <div>
-          <div tw="font-bold">{agent?.office_name}</div>
-          <div tw="text-info text-gray-700">공인중개사 {agent?.name}</div>
+          <div tw="font-bold">
+            <p>{agent?.office_name}</p>
+          </div>
+          <div tw="text-info text-gray-700">
+            <p>공인중개사 {agent?.name}</p>
+          </div>
         </div>
       </div>
       {agentInfoExpanded && (

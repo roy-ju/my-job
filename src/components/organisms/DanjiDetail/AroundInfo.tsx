@@ -275,7 +275,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   return (
     <div tw="w-full pt-10 pb-10 px-5 [min-height: 384px]">
       <div tw="flex w-full justify-between items-center">
-        <span tw="font-bold text-b1 [line-height: 1]">교통 및 주변정보</span>
+        <h2 tw="font-bold text-b1">교통 및 주변정보</h2>
         <Button
           size="small"
           variant="outlined"

@@ -96,7 +96,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   return (
     <div tw="w-full pt-10 pb-10 px-5 [min-height: 396px]">
       <div tw="flex w-full justify-between items-center mb-2">
-        <span tw="font-bold text-b1 [line-height: 1]">학군</span>
+        <h2 tw="font-bold text-b1">학군</h2>
         <Button
           size="small"
           variant="outlined"
