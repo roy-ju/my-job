@@ -18,6 +18,12 @@ const Page: NextPageWithLayout = () => (
       <meta property="og:title" content={AppConfig.title} />
       <meta property="og:description" content={AppConfig.description} />
       <meta property="og:image" content={AppConfig.ogImagePath} />
+      <link
+        rel="canonical"
+        href={
+          process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? 'https://test.negocio.kr' : 'https://www.negocio.co.kr'
+        }
+      />
     </Head>
     <Home />
   </>

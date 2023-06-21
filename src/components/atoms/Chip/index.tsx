@@ -17,7 +17,7 @@ const colors = {
   outlined: tw`text-gray-900 bg-white border border-gray-300`,
 };
 
-export default styled.span<Props>(({ variant = 'nego' }) => [
+export default styled.h4<Props>(({ variant = 'nego' }) => [
   tw`h-5 px-1.5 text-info leading-3.5 inline-flex items-center rounded whitespace-nowrap`,
   colors[variant],
 ]);

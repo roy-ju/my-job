@@ -114,7 +114,13 @@ export default function ActiveListingInfo({
   if (isListingDetail && danjiListings.length > 0)
     return (
       <div tw="flex flex-col gap-3 px-5 pb-10">
-        <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAllTypeTwo}>
+        <Button
+          variant="outlined"
+          size="medium"
+          tw="w-full"
+          onClick={handleListingAllTypeTwo}
+          name="allDanjiListingsShow"
+        >
           단지내 매물 전체보기&nbsp;{!!totalCount && <span tw="font-bold">{totalCount}</span>}
         </Button>
       </div>
@@ -124,7 +130,7 @@ export default function ActiveListingInfo({
     <div tw="pb-8">
       <div>
         <div tw="flex mb-2 px-5 items-center">
-          <span tw="text-b1 [line-height: 1.5] font-bold">네고가능 매물&nbsp;</span>
+          <h2 tw="text-b1 [line-height: 1.5] font-bold">네고가능 매물&nbsp;</h2>
           <span tw="text-b1 text-nego [line-height: 1.5] font-bold">{totalCount || 0}</span>
           <Dropdown
             size="small"

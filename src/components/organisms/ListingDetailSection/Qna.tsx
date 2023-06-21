@@ -80,9 +80,11 @@ export default function Qna({
   return (
     <div>
       <div tw="flex justify-between">
-        <div tw="font-bold">매물문의</div>
+        <div tw="font-bold">
+          <h2>매물문의</h2>
+        </div>
         {!isOwner && (
-          <Button variant="outlined" size="small" onClick={onClickCreateQna}>
+          <Button variant="outlined" size="small" onClick={onClickCreateQna} name="listingDetailQna">
             문의하기
           </Button>
         )}

@@ -93,32 +93,32 @@ export default function RealPriceInfoCurrent({
 
   return (
     <div tw="mt-6">
-      <span tw="text-b1 [line-height: 1] font-bold">실거래 종합 현황</span>
+      <h2 tw="text-b1 font-bold">실거래 종합 현황</h2>
       <div tw="flex items-center justify-between mt-6 py-[1.125rem] [border-radius: 0.5rem] px-4 bg-gray-100">
         <div tw="flex items-center gap-2">
           {buyOrRent === BuyOrRent.Buy && <BuyIcon />}
           {buyOrRent === BuyOrRent.Jeonsae && <JeonsaeIcon />}
 
-          <span tw="text-b2 [line-height: 1.25rem]">
+          <h3 tw="text-b2 [line-height: 1.25rem]">
             {buyOrRent === BuyOrRent.Buy && '매매회전율(연)'}
             {buyOrRent === BuyOrRent.Jeonsae && '평균 전세가율'}
-          </span>
+          </h3>
         </div>
 
         <div tw="flex flex-col gap-2">
-          <span tw="font-bold text-b1 [line-height: 1] [text-align: right]">
+          <p tw="font-bold text-b1 [line-height: 1] [text-align: right]">
             {buyOrRent === BuyOrRent.Buy && tradeTurnRate}
             {buyOrRent === BuyOrRent.Jeonsae && jeonsaeRate}
-          </span>
+          </p>
           {buyOrRent === BuyOrRent.Buy && (
-            <span tw="text-info text-gray-700 [line-height: 1] [text-align: right]">
+            <p tw="text-info text-gray-700 [line-height: 1] [text-align: right]">
               {sigunguSidoName} 평균 {tradeTurnRateSigungu}
-            </span>
+            </p>
           )}
           {buyOrRent === BuyOrRent.Jeonsae && (
-            <span tw="text-info text-gray-700 [line-height: 1] [text-align: right]">
+            <p tw="text-info text-gray-700 [line-height: 1] [text-align: right]">
               {sigunguSidoName} 평균 {jeonsaeRateSigungu}
-            </span>
+            </p>
           )}
         </div>
       </div>
@@ -126,26 +126,26 @@ export default function RealPriceInfoCurrent({
         {danji?.name && (
           <div tw="flex items-center gap-1.5">
             <DanjiIcon />
-            <span tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+            <p tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
               {danji.name}
-            </span>
+            </p>
           </div>
         )}
         {danji?.sigungu_name && (
           <div tw="flex items-center gap-1.5">
             <SigunguIcon />
-            <span tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+            <p tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
               {danji.sigungu_name}
-            </span>
+            </p>
           </div>
         )}
         {danji?.sido_name &&
           (danji.sido_name === '세종특별자치시' ? null : (
             <div tw="flex items-center gap-1.5">
               <SidoIcon />
-              <span tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+              <p tw="[max-width: 4.5rem] text-info text-gray-700 [line-height: 0.875rem] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
                 {danji.sido_name}
-              </span>
+              </p>
             </div>
           ))}
       </div>

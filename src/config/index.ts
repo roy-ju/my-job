@@ -8,6 +8,7 @@ const AppConfig = {
   description: '네고가 쉬워지는 부동산 가격 협상 플랫폼, 네고시오',
   locale: 'ko',
   ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_1,
+
 };
 
 export default AppConfig;
