@@ -785,7 +785,6 @@ export default function useMapLayout() {
     () =>
       _.debounce(
         (_map: NaverMap) => {
-          // console.log('hello');
           setTimeout(() => {
             isPanningRef.current = false;
           }, 100);

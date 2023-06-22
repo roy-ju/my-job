@@ -1,6 +1,7 @@
 /* eslint-disable no-octal-escape */
 
 import { checkPlatform } from '@/utils/checkPlatform';
+import { round } from '@/utils/fotmat';
 import { defaultStyles, TooltipWithBounds } from '@visx/tooltip';
 import moment from 'moment';
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
@@ -112,7 +113,7 @@ export const ChartTooltip = React.memo(
                           marginLeft: '4px',
                         }}
                       >
-                        {data.danji_count}건
+                        {round(data.danji_count,1)==="0.0"? 0:round(data.danji_count,1)}
                       </span>
                     </span>
                   </div>
@@ -131,7 +132,7 @@ export const ChartTooltip = React.memo(
                           marginLeft: '4px',
                         }}
                       >
-                        {data.sigungu_count}건
+                        {round(data.sigungu_count,1)==="0.0"? 0:round(data.sigungu_count,1)}
                       </span>
                     </span>
                   )}
@@ -152,7 +153,7 @@ export const ChartTooltip = React.memo(
                                 marginLeft: '4px',
                               }}
                             >
-                              {data.sido_count}건
+                              {round(data.sido_count,1)==="0.0"? 0:round(data.sido_count,1)}
                             </span>
                           </span>
                         </>

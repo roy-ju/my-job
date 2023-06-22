@@ -269,7 +269,7 @@ export const Chart = React.memo(
             tickStroke="transparent"
             strokeWidth={0}
             numTicks={4}
-            tickFormat={(count) => `${count}건`}
+            tickFormat={(count) => `${count}`}
             tickLabelProps={() => ({
               dy: '0.3em',
               fontSize: '12px',
