@@ -64,3 +64,28 @@ export function formatUseAcceptedYear(value: string) {
 
   return value;
 }
+
+export function ceiling(n:number, pos:number) {
+	const digits = 10**pos;
+
+	const num = Math.ceil(n * digits) / digits;
+
+	return num.toFixed(pos);
+}
+
+
+export function round(n:number, pos:number) {
+	const digits = 10**pos;
+
+	let sign = 1;
+	if (n < 0) {
+		sign = -1;
+	}
+
+	// 음수이면 양수처리후 반올림 한 후 다시 음수처리
+	n *= sign;
+	let num = Math.round(n * digits) / digits;
+	num *= sign;
+
+	return num.toFixed(pos);
+}
