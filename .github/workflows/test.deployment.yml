@@ -40,6 +40,9 @@ jobs:
       - name: Set sitemap.xml
         run: rm -rf ./public/sitemap_prod.xml
 
+      - name: Set sitemap2.xml
+        run: rm -rf ./public/sitemap2.xml
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
