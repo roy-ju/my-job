@@ -79,9 +79,9 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       });
 
       const roadAddress = data?.road_name_address ?? data?.jibun_address ?? '';
-      const convertedTitle = `${roadAddress} ${data.name}'시세, 실거래가, 단지, 매물, 주변 정보`;
+      const convertedTitle = `${roadAddress} ${data.name}시세, 실거래가, 단지, 매물, 주변 정보`;
       const convertedDescription =
-        `'${roadAddress || ''} ${
+        `${roadAddress || ''} ${
           data?.name
         }, 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '';
 
