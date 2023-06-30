@@ -40,8 +40,26 @@ jobs:
       - name: Set sitemap.xml
         run: rm -rf ./public/sitemap_prod.xml
 
-      - name: Set sitemap2.xml
-        run: rm -rf ./public/sitemap2.xml
+      - name: Set sitemap_base.xml
+        run: rm -rf ./public/sitemap_base.xml
+
+      - name: Set sitemap_danji_1.xml
+        run: rm -rf ./public/sitemap_danji_1.xml
+
+      - name: Set sitemap_danji_2.xml
+        run: rm -rf ./public/sitemap_danji_2.xml
+
+      - name: Set sitemap_danji_3.xml
+        run: rm -rf ./public/sitemap_danji_3.xml
+
+      - name: Set sitemap_danji_4.xml
+        run: rm -rf ./public/sitemap_danji_4.xml
+
+      - name: Set sitemap_danji_5.xml
+        run: rm -rf ./public/sitemap_danji_5.xml
+
+      - name: Set sitemap_danji_6.xml
+        run: rm -rf ./public/sitemap_danji_6.xml
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
