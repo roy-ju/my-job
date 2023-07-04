@@ -10,10 +10,12 @@ import Participants from '@/assets/icons/participants.svg';
 export default function TypeOne({
   item,
   isLast = false,
+  anchorURL,
   onClick,
 }: {
   item?: DanjiListingsListItem;
   isLast?: boolean;
+  anchorURL?: string;
   onClick?: (id: number, buyOrRent: number) => void;
 }) {
   if (!item) return null;
@@ -56,7 +58,13 @@ export default function TypeOne({
           )}
         </div>
         <div>
-          <h1 tw="text-info">{item.listing_title}</h1>
+          {anchorURL ? (
+            <a href={anchorURL}>
+              <h1 tw="text-info">{item.listing_title}</h1>
+            </a>
+          ) : (
+            <h1 tw="text-info">{item.listing_title}</h1>
+          )}
         </div>
 
         <div tw="w-full flex items-center justify-between">

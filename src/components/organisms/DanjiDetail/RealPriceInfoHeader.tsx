@@ -67,9 +67,15 @@ export default function RealPriceInfoHeader({
         </Tabs>
       </div>
       {isMoreButton && (
-        <div tw="mt-4">
+        <div tw="mt-4 relative">
           <Button variant="outlined" tw="w-full" onClick={() => handleCTA()}>
-            실거래 심층분석
+            <a
+              href={`/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?p=${
+                router.query.p ? `${router.query.p}` : pnu || ''
+              }&rt=${router.query.rt ? (router.query.rt as string) : type?.toString() || ''}`}
+            >
+              실거래 심층분석
+            </a>
           </Button>
         </div>
       )}
