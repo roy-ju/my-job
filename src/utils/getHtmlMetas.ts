@@ -41,15 +41,13 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
         `${data?.display_address || ''} ${data?.listing?.listing_title}시세, 실거래가, 호가, 매물, 주변 정보` || '';
 
       if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
-        convertedDescription = `${data?.display_address || ''} ${
-          data?.listing?.listing_title
-        } / ${formatNumberInKorean(data?.trade_or_deposit_price)}/${formatNumberInKorean(
+        convertedDescription = `${data?.display_address || ''} ${data?.listing?.listing_title} / ${formatNumberInKorean(
+          data?.trade_or_deposit_price,
+        )}/${formatNumberInKorean(
           data?.monthly_rent_fee,
         )}의 매물 기본정보, 실거래가/시세, 호가, 매매/전세/월세/원룸/투룸 매물, 주변학군/생활/교통 정보를 보여드립니다.`;
       } else {
-        convertedDescription = `${data?.display_address || ''} ${
-          data?.listing?.listing_title
-        } / ${formatNumberInKorean(
+        convertedDescription = `${data?.display_address || ''} ${data?.listing?.listing_title} / ${formatNumberInKorean(
           data?.trade_or_deposit_price,
         )}의 매물 기본정보, 실거래가/시세, 호가, 매매/전세/월세/원룸/투룸 매물, 주변 학군/생활/교통 정보를 보여드립니다.`;
       }
@@ -57,7 +55,13 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       return {
         ogTitle: data?.listing?.listing_title ?? '',
         ogDescription: description ?? '',
-        title: convertedTitle ?? '',
+        title: convertedTitle
+          ? `${convertedTitle} | ${
+              process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+                ? '(TEST) 부동산 가격협상 앱 네고시오'
+                : '부동산 가격협상 앱 네고시오'
+            }`
+          : '',
         description: convertedDescription ?? '',
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
         ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
@@ -86,7 +90,13 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
         }, 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '';
 
       return {
-        title: convertedTitle ?? '',
+        title: convertedTitle
+          ? `${convertedTitle} | ${
+              process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+                ? '(TEST) 부동산 가격협상 앱 네고시오'
+                : '부동산 가격협상 앱 네고시오'
+            }`
+          : '',
         description: convertedDescription ?? '',
         ogTitle: data?.name ?? '',
         ogDescription: data?.road_name_address ?? data?.jibun_address ?? '',

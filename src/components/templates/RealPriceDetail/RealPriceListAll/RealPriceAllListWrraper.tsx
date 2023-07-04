@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 const ListItemComponent = ({
+  anchorURL,
   title,
   saedaeCount,
   price,
@@ -22,6 +23,7 @@ const ListItemComponent = ({
   date,
   onClickItem,
 }: {
+  anchorURL?: string;
   title: string;
   saedaeCount: string;
   price: string;
@@ -31,9 +33,18 @@ const ListItemComponent = ({
 }) => (
   <div tw="py-3 px-5 [border-bottom: 1px solid #E4E4EF] hover:bg-gray-300 cursor-pointer" onClick={onClickItem}>
     <div tw="flex flex-row items-center justify-between mb-1.5">
-      <span tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap [text-decoration: underline]">
-        {title}
-      </span>
+      {anchorURL ? (
+        <a
+          href={anchorURL}
+          tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap [text-decoration: underline]"
+        >
+          {title}
+        </a>
+      ) : (
+        <span tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap [text-decoration: underline]">
+          {title}
+        </span>
+      )}
       <span tw="text-b2 [line-height: 1] text-nego [text-align: center]">{price}</span>
     </div>
     <div tw="flex flex-row items-center">
@@ -116,6 +127,9 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
             price={priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}
             area={`전용 ${cuttingDot(item.jeonyong_area)}㎡`}
             date={`${item.year}.${minDigits(+item.month, 2)}.${minDigits(+item.day, 2)}`}
+            anchorURL={
+              platform === 'pc' ? `/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}` : undefined
+            }
           />
         ))}
       {isShowMoreButton && (
