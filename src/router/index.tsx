@@ -85,7 +85,10 @@ const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   loading: FallbackComponent,
 });
 const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: FallbackComponent });
-const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), { loading: FallbackComponent });
+const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'), {
   ssr: false,
   loading: FallbackComponent,
@@ -687,7 +690,7 @@ export default function MetaInserted({
   return (
     <>
       <Head>
-        {title && <title>{`${title} | ${AppConfig.title}`}</title>}
+        {title && <title>{`${title}`}</title>}
         {description && <meta name="description" content={description} />}
         {keyWords && <meta property="keywords" content={keyWords} />}
         {ogTitle && <meta property="og:title" content={`${ogTitle} | ${AppConfig.title}`} />}

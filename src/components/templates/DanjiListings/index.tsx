@@ -82,6 +82,9 @@ export default function DanjiListings({
                 onClick={() => {
                   handleClickListingDetail(item.listing_id, item.buy_or_rent);
                 }}
+                anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&p=${
+                  danji?.pnu || ''
+                }&rt=${danji?.type.toString() || ''}`}
               />
             ))}
         </InfiniteScroll>
