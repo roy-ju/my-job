@@ -3,8 +3,16 @@ import { Table } from '@/components/molecules';
 import { describeRealestateType } from '@/constants/enums';
 import falsy from '@/utils/falsy';
 import { formatUseAcceptedYear } from '@/utils/fotmat';
+import { useMemo } from 'react';
 
 export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
+  const isShowTableRow = useMemo(() => {
+    if (!danji?.total_dong_count && (!danji?.total_saedae_count || danji.total_saedae_count === '0')) {
+      return false;
+    }
+    return true;
+  }, [danji]);
+
   if (!danji) return null;
 
   return (
@@ -26,20 +34,35 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
               {describeRealestateType(danji.type)} <span tw="text-info text-gray-700">{danji.hall_type}</span>
             </Table.Data>
           </Table.Row>
-          <Table.Row>
-            <Table.Head>
-              {danji.total_saedae_count && danji.total_dong_count && '세대 / 동수'}
-              {danji.total_saedae_count && !danji.total_dong_count && '세대'}
-              {!danji.total_saedae_count && danji.total_dong_count && '동수'}
-            </Table.Head>
-            <Table.Data>
-              {danji.total_saedae_count &&
-                danji.total_dong_count &&
-                `${danji.total_saedae_count}세대 / ${danji.total_dong_count}동`}
-              {danji.total_saedae_count && !danji.total_dong_count && `${danji.total_saedae_count}세대`}
-              {!danji.total_saedae_count && danji.total_dong_count && `${danji.total_dong_count}동`}
-            </Table.Data>
-          </Table.Row>
+          {isShowTableRow && (
+            <Table.Row>
+              <Table.Head>
+                {danji.total_saedae_count &&
+                  danji.total_saedae_count !== '0' &&
+                  danji.total_dong_count &&
+                  '세대 / 동수'}
+
+                {danji.total_saedae_count && danji.total_saedae_count !== '0' && !danji.total_dong_count && '세대'}
+
+                {(!danji.total_saedae_count || danji.total_saedae_count === '0') && danji.total_dong_count && '동수'}
+              </Table.Head>
+              <Table.Data>
+                {danji.total_saedae_count &&
+                  danji.total_saedae_count !== '0' &&
+                  danji.total_dong_count &&
+                  `${danji.total_saedae_count}세대 / ${danji.total_dong_count}동`}
+
+                {danji.total_saedae_count &&
+                  danji.total_saedae_count !== '0' &&
+                  !danji.total_dong_count &&
+                  `${danji.total_saedae_count}세대`}
+
+                {(!danji.total_saedae_count || danji.total_saedae_count === '0') &&
+                  danji.total_dong_count &&
+                  `${danji.total_dong_count}동`}
+              </Table.Data>
+            </Table.Row>
+          )}
 
           {danji.highest_floor && (
             <Table.Row>
