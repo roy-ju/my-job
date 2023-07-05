@@ -16,7 +16,7 @@ export const BasicInfo = ({ danji, isPb = false }: { danji: GetDanjiDetailRespon
     <span tw="text-b1 font-bold">{danji.name}</span>
     <span tw="text-info [line-height: 1.25rem]">{danji.road_name_address || danji.jibun_address}</span>
     <div tw="flex items-center gap-1" css={[isPb ? tw`mb-0` : tw`mb-0`]}>
-      {danji.total_saedae_count && (
+      {danji.total_saedae_count && danji.total_saedae_count !== '0' && (
         <>
           <span tw="text-info text-gray-700">{danji.total_saedae_count || '-'}세대</span>
         </>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { GetDanjiPhotosResponse } from '@/apis/danji/danjiPhotos';
 import { NavigationHeader } from '@/components/molecules';
 import React, { useState } from 'react';
@@ -16,9 +17,19 @@ const Popup = ({ filePath, handleClose }: { filePath: string; handleClose: () =>
           exit={{ scale: 0, opacity: 0 }}
         >
           <div
-            tw="w-[780px] max-h-[960px] h-[85vh] bg-white rounded-lg"
-            style={{ backgroundImage: `url('${filePath}')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
+            tw="w-[780px] max-h-[960px] h-[0] bg-white rounded-lg relative overflow-hidden [padding-top: 66.64%]"
+            style={{
+              backgroundImage: `url('${filePath}')`,
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+            }}
           />
+
+          {/* <div
+            tw="w-[780px] max-h-[960px] h-[0] bg-white rounded-lg"
+            style={{ backgroundImage: `url('${filePath}')`, backgroundRepeat: 'no-repeat', backgroundSize: 'fill' }}
+          /> */}
         </motion.div>
       </OutsideClick>
     </MapLayout.Overlay>

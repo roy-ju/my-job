@@ -121,7 +121,7 @@ export default function BasicInfo({
           </div>
 
           <div tw="flex items-center gap-1 mb-4">
-            {danji.total_saedae_count && (
+            {danji.total_saedae_count && danji.total_saedae_count !== '0' && (
               <>
                 <p tw="text-info text-gray-700">{danji.total_saedae_count}세대</p>
               </>
