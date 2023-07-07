@@ -15,19 +15,19 @@ export interface GetLawQnaDetailResponse {
     | {
         id: number;
         title: string;
-      }[]
+      }
     | null;
   next:
     | {
         id: number;
         title: string;
-      }[]
+      }
     | null;
 }
 
-export default function useAPI_GetLawQnaDetail(id: number) {
+export default function useAPI_GetLawQnaDetail(id?: number) {
   const { data, isLoading, mutate } = useSWR<GetLawQnaDetailResponse & ErrorResponse>(
-    id !== 0 ? ['/lawqna/get', { law_qna_id: id }] : null,
+    id ? ['/lawqna/get', { law_qna_id: id }] : null,
   );
 
   return { data, isLoading, mutate };

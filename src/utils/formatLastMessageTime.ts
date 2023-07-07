@@ -14,3 +14,31 @@ export function formatLastMessageTime(LastMessageTime: string): string {
   }
   return messageTime.format('YYYY.MM.DD'); // YYYY.MM.DD 형태
 }
+
+
+
+
+export function formatCreatedTime(time: string): string {
+  const now = moment();
+  const createTime = moment(time);
+  const diffMinutes = now.diff(createTime, 'minutes');
+
+  const diffHours = now.diff(createTime, 'hours');
+
+  if (diffMinutes < 1) {
+    return '조금 전';
+  }
+
+  if (diffMinutes < 60) {
+    
+    return `${diffMinutes}분 전`
+  }
+
+
+
+  if (diffMinutes < 1440) {
+    // 24시간 = 1440분
+    return `${diffHours}시간 전` 
+  }
+  return createTime.format('YYYY.MM.DD'); // YYYY.MM.DD 형태
+}

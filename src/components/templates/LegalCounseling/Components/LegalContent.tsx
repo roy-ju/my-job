@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import { styled } from 'twin.macro';
 import Eye from '@/assets/icons/eye.svg';
@@ -15,6 +17,7 @@ interface LegalContentProp {
   createdTime?: string;
   isLike?: boolean;
   onClickLike?: (liked?: boolean, qnaId?: number) => Promise<void>;
+  onClickQnaDetail?: (id?: number) => void;
 }
 
 const StyledBox = styled.div`
@@ -38,6 +41,7 @@ export function LegalContent({
   createdTime,
   isLike,
   onClickLike,
+  onClickQnaDetail,
 }: LegalContentProp) {
   return (
     <div tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF]">
@@ -53,7 +57,13 @@ export function LegalContent({
         </StyledBox>
       )}
 
-      <div tw="mt-2">
+      <div
+        tw="mt-2 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClickQnaDetail?.(qnaId);
+        }}
+      >
         {mainText && (
           <h2
             tw="text-b2 font-bold [letter-spacing: -0.25px] mb-2"
@@ -95,7 +105,14 @@ export function LegalContent({
 
         <div tw="flex items-center gap-1">
           {isLike ? (
-            <Button variant="ghost" tw="[padding: 0]" onClick={() => onClickLike?.(isLike, qnaId)}>
+            <Button
+              variant="ghost"
+              tw="[padding: 0]"
+              onClick={(e) => {
+                e?.preventDefault();
+                onClickLike?.(isLike, qnaId);
+              }}
+            >
               <ThumbRed />
             </Button>
           ) : (

@@ -18,6 +18,7 @@ export default function LeagalCounseling({
   onNext,
   onClickLike,
   onClickSearchPage,
+  onClickQnaDetail,
 }: {
   qnaLawData: ILawQnaListItem[];
   onClickBack?: () => void;
@@ -25,6 +26,7 @@ export default function LeagalCounseling({
   onNext?: () => void;
   onClickLike?: (like?: boolean, qnaId?: number) => Promise<void>;
   onClickSearchPage?: () => void;
+  onClickQnaDetail?: (id?: number) => void;
 }) {
   const nextRouter = useNextRouter();
 
@@ -66,6 +68,7 @@ export default function LeagalCounseling({
                   isLike={!!item.liked}
                   createdTime="4일 전"
                   onClickLike={onClickLike}
+                  onClickQnaDetail={onClickQnaDetail}
                 />
               ))}
             </InfiniteScroll>

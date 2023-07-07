@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { useRouter as useNextRouter } from 'next/router';
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
 import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 import { Panel } from '@/components/atoms';
 import { LegalCounseling } from '@/components/templates';
@@ -39,7 +40,11 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace('');
   };
 
-  const handleQnaDetail = () => {};
+  const handleQnaDetail = (id?: number) => {
+    if (typeof id !== 'number') return;
+
+    router.push(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
+  };
 
   const handleClickSearchPage = () => {
     router.push(Routes.LawQnaSearch);
@@ -77,6 +82,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickHome={handleClickHome}
         onClickLike={handleClickLike}
         onClickSearchPage={handleClickSearchPage}
+        onClickQnaDetail={handleQnaDetail}
       />
     </Panel>
   );
