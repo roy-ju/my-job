@@ -125,6 +125,10 @@ export default memo(() => {
     router.replace(Routes.PrivacyPolicy);
   }, [router]);
 
+  const handleClickCounseling = useCallback(() => {
+    router.replace(Routes.LawQna);
+  }, [router]);
+
   const handleClickAgentSite = useCallback(() => {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
@@ -158,10 +162,6 @@ export default memo(() => {
       favoriteMutate?.();
     }
   };
-
-  // mapListingList
-  // intro
-  // suggestRegionalForm
 
   return (
     <Panel>
@@ -198,6 +198,7 @@ export default memo(() => {
         onClickGuide={handleClickGuide}
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
         onClickFavoriteButton={handleClickFavoriteButton}
+        onClickCounseling={handleClickCounseling}
       />
       {openPopup && (
         <OverlayPresenter>

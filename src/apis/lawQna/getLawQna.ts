@@ -1,0 +1,59 @@
+import { useCallback, useMemo } from 'react';
+import useSWRInfinite from 'swr/infinite';
+
+export interface ILawQnaListItem {
+  id: number;
+  status_text: string;
+  title: string;
+  user_message: string;
+  view_count: number;
+  like_count: number;
+  mine: boolean;
+  liked: boolean;
+  created_time: string;
+}
+
+export interface GetLawQnaListResponse {
+  list: ILawQnaListItem[];
+}
+
+function getKey(searchQuery: string | null) {
+  return (size: number, previousPageData: GetLawQnaListResponse) => {
+    if (size > 0 && (previousPageData === null || previousPageData?.list?.length < 1)) return null;
+
+    return ['/lawqna/list', { page_number: size + 1, page_size: 10, search_query: searchQuery }];
+  };
+}
+
+export default function useAPI_GetLawQna(searchQuery: string | null) {
+  const {
+    data: dataList,
+    size,
+    setSize,
+    isLoading,
+    mutate,
+  } = useSWRInfinite<GetLawQnaListResponse>(getKey(searchQuery), null, {
+    revalidateOnFocus: false,
+  });
+
+  const data = useMemo(() => {
+    if (!dataList) return [];
+
+    return dataList
+      ?.map((item) => item.list)
+      .filter((item) => Boolean(item))
+      .flat();
+  }, [dataList]);
+
+  const incrementalPageNumber = useCallback(() => {
+    setSize((prev) => prev + 1);
+  }, [setSize]);
+
+  return {
+    data,
+    pageNumber: size,
+    isLoading,
+    incrementalPageNumber,
+    mutate,
+  };
+}
