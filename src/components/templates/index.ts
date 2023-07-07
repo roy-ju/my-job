@@ -80,6 +80,9 @@ export { default as MapListingList } from './MapListingList';
 export { default as OpenSourceLicenses } from './OpenSourceLicenses';
 export { default as VersionInfo } from './VersionInfo';
 export { default as ContractTerms } from './ContractTerms';
+export { default as LegalCounseling } from './LegalCounseling';
+export { default as LegalCounselingSearch } from './LegalCounselingSearch';
+export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';
