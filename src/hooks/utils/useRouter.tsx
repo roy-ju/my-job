@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { useRouter as useNextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
@@ -53,35 +54,53 @@ export default function useRouter(depth: number) {
   /**
    * 가장 오른쪽에 열려 있는 depth 를 닫는다.
    */
-  const popLast = useCallback(() => {
-    const segments = router.asPath
-      .split('?')[0]
-      .split('/')
-      .filter((seg) => seg !== '');
 
-    segments.pop();
+  const popLast = useCallback(
+    (isDeleteQuery?: boolean | undefined) => {
+      const segments = router.asPath
+        .split('?')[0]
+        .split('/')
+        .filter((seg) => seg !== '');
 
-    for (let i = 1; i < 6; i += 1) {
-      delete router.query[`depth${i}`];
-    }
+      segments.pop();
 
-    delete router.query.params;
-    delete router.query.redirect;
+      for (let i = 1; i < 6; i += 1) {
+        delete router.query[`depth${i}`];
+      }
 
-    const query: Record<string, string> = {
-      ...(router.query as Record<string, string>),
-      // ...options?.searchParams,
-    };
+      delete router.query.params;
+      delete router.query.redirect;
 
-    let path = '/';
+      const query: Record<string, string> = {
+        ...(router.query as Record<string, string>),
+        // ...options?.searchParams,
+      };
 
-    segments.forEach((value, index) => {
-      path += `[depth${index + 1}]/`;
-      query[`depth${index + 1}`] = value;
-    });
+      let path = '/';
 
-    return router.replace({ pathname: path, query });
-  }, [router]);
+      segments.forEach((value, index) => {
+        path += `[depth${index + 1}]/`;
+        query[`depth${index + 1}`] = value;
+      });
+
+      const anotherQuery: any = {};
+
+      if (isDeleteQuery && query && query.hasOwnProperty('depth1')) {
+        anotherQuery.depth1 = query.depth1;
+      }
+
+      if (isDeleteQuery && query && query.hasOwnProperty('depth2')) {
+        anotherQuery.depth2 = query.depth2;
+      }
+
+      if (isDeleteQuery) {
+        return router.replace({ pathname: path, query: anotherQuery });
+      }
+
+      return router.replace({ pathname: path, query });
+    },
+    [router],
+  );
 
   /**
    * 오른쪽에 열려있는 모든 depth 를 유지한체 현재의 depth 를 새로운 depth 로 대체한다.

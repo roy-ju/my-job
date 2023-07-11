@@ -53,11 +53,11 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
     if (response === null) {
       toast.success('게시물이 삭제되었습니다.', { toastId: 'toast_delete' });
       mutateQnaData();
-      router.popLast();
+      router.popLast(true);
     } else if (response?.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setText('삭제');
       setOpenErrPopup(true);
-      router.popLast();
+      router.popLast(true);
     }
   }, [mutateQnaData, qnaID, router]);
 
@@ -204,7 +204,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
             </Popup.SmallTitle>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.popLast()}>확인</Popup.ActionButton>
+            <Popup.ActionButton onClick={() => router.popLast(true)}>확인</Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>
