@@ -46,8 +46,8 @@ const Routes = {
   LawQna: 'lawQna',
   LawQnaSearch: 'lawQnaSearch',
   LawQnaDetail: 'lawQnaDetail',
-  LawQnaCreate: 'Create',
-  LawQnaUpdate: 'Update',
+  LawQnaCreate: 'lawQnaCreate',
+  LawQnaUpdate: 'lawQnaUpdate',
 
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',

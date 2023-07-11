@@ -14,7 +14,7 @@ const StyledBox = styled.div``;
 export function Banner({ handleClickCounseling }: { handleClickCounseling?: () => void }) {
   return (
     <StyledBox
-      tw="[border-radius: 12px] min-h-[118px] [max-width: 340px] mx-auto relative p-5 cursor-pointer"
+      tw="[border-radius: 12px] min-h-[118px] [min-width: 340px] mx-auto relative p-5 cursor-pointer"
       style={{
         backgroundImage: `url('${BannerImage.src}')`,
         backgroundRepeat: 'no-repeat',
@@ -46,7 +46,7 @@ export function Banner({ handleClickCounseling }: { handleClickCounseling?: () =
 export function LegalPageBanner({ handleClickHome }: { handleClickHome?: () => void }) {
   return (
     <StyledBox
-      tw="[border-radius: 12px] min-h-[110px] [max-width: 340px] mx-auto relative p-5 cursor-pointer"
+      tw="[border-radius: 12px] min-h-[110px] [min-width: 340px] mx-auto relative p-5 cursor-pointer"
       onClick={handleClickHome}
       style={{
         backgroundImage: `url('${BannerImage2.src}')`,

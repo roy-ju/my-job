@@ -3,11 +3,13 @@ import { NavigationHeader, TextField } from '@/components/molecules';
 import React, { useEffect, useState } from 'react';
 
 export default function LegalCounselingWriting({
+  isLoading,
   preTitle,
   preContent,
   onClickBack,
   onClickConfirm,
 }: {
+  isLoading?: boolean;
   preTitle?: string;
   preContent?: string;
   onClickBack?: () => void;
@@ -49,7 +51,7 @@ export default function LegalCounselingWriting({
               value={contentValue}
               onChange={(e) => setContentValue(e.currentTarget.value as string)}
               placeholder="부동산 법률의 궁금한 내용을 입력해 주세요."
-              tw="min-h-[98px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
+              tw="min-h-[98px] max-h-[280px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
               spellCheck="false"
             />
           </TextField>
@@ -65,6 +67,7 @@ export default function LegalCounselingWriting({
           size="bigger"
           onClick={() => onClickConfirm?.(titleValue, contentValue)}
           disabled={!titleValue || !contentValue}
+          isLoading={isLoading}
         >
           완료
         </Button>

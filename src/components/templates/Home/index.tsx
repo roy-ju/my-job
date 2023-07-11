@@ -404,8 +404,8 @@ export default function Home({
         </div>
 
         <div>
-          <Separator />
-          <div tw="py-10">
+          <Separator tw="bg-gray-300" />
+          <div tw="py-10 px-5">
             <Banner handleClickCounseling={onClickCounseling} />
           </div>
         </div>

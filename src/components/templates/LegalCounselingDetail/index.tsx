@@ -28,6 +28,7 @@ export interface LegalCounselingDetailProps {
   onClickPopupClose?: () => void;
   onClickErrPopupClose?: () => void;
   onClickUpdate?: () => void;
+  onClickSharePopup?: () => void;
 }
 
 interface MoreButtonProps {
@@ -91,6 +92,7 @@ export default function LegalCounselingDetail({
   onClickPopupClose,
   onClickErrPopupClose,
   onClickUpdate,
+  onClickSharePopup,
 }: LegalCounselingDetailProps) {
   const headerItems = [
     { label: '수정', onClick: onClickUpdate },
@@ -112,7 +114,8 @@ export default function LegalCounselingDetail({
         <div tw="flex-1 min-h-0 pt-7">
           <div tw="px-5 pb-10">
             <h1 tw="text-b2 font-bold">
-              {lawQnaDetailData.admin_message && <span tw="text-nego">Q.</span>} {lawQnaDetailData.title}
+              <span tw="text-nego">Q. </span>
+              {lawQnaDetailData.title}
             </h1>
 
             <div tw="flex items-center mt-2">
@@ -195,7 +198,7 @@ export default function LegalCounselingDetail({
         <div tw="w-full py-6 flex items-center justify-center">
           <Button
             variant="ghost"
-            tw="flex gap-2 h-6 p-0"
+            tw="flex gap-2 h-6 p-0 flex-1"
             onClick={() => {
               onClickLike?.(lawQnaDetailData.liked, lawQnaDetailData.id);
             }}
@@ -207,8 +210,8 @@ export default function LegalCounselingDetail({
               <p tw="text-b2 text-gray-700">도움돼요 {lawQnaDetailData.like_count}</p>
             )}
           </Button>
-          <div tw="[min-width: 1px] [max-width: 1px] [min-height: 12px] bg-gray-300 mx-4" />
-          <Button variant="ghost" tw="flex gap-2 h-6 p-0">
+          <div tw="[min-width: 1px] [max-width: 1px] [min-height: 12px] bg-gray-300" />
+          <Button variant="ghost" tw="flex gap-2 h-6 p-0 flex-1" onClick={onClickSharePopup}>
             <ShareIcon />
             <p tw="text-b2 text-gray-700">공유하기</p>
           </Button>

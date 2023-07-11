@@ -47,6 +47,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.LawQnaCreate);
   };
 
+  const handleClickAllPage = () => {
+    router.replace(`${Routes.LawQna}`);
+  };
+
   const handleClickLike = useCallback(
     async (liked?: boolean, qnaId?: number) => {
       if (!user) {
@@ -81,6 +85,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickSearchPage={handleClickSearchPage}
         onClickQnaDetail={handleQnaDetail}
         onClickWritingPage={handleClickWritingPage}
+        onClickAllPage={handleClickAllPage}
       />
     </Panel>
   );
