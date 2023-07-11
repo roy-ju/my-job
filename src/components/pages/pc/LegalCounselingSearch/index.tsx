@@ -1,21 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// import { useRouter as useNextRouter } from 'next/router';
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 import { Panel } from '@/components/atoms';
-
 import LegalCounselingSearch from '@/components/templates/LegalCounselingSearch';
-import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
-
-// import { useRouter } from '@/hooks/utils';
-
 import Routes from '@/router/routes';
-import { useRouter as useNextRouter } from 'next/router';
-
-// import { useRouter as useNextRouter } from 'next/router';
-
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 
 interface Props {
   depth: number;
@@ -25,28 +12,19 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
-  const nextRouter = useNextRouter();
-
-  const handleClickBack = () => {
-    nextRouter.back();
-  };
+  const routerFirst = useRouter(0);
 
   const onSummit = (value: string) => {
     if (!value) {
-      nextRouter.push(`/${Routes.LawQna}`);
+      router.popLast();
     } else {
-      nextRouter.push({
-        pathname: `/${Routes.LawQna}`,
-        query: {
-          search: value,
-        },
-      });
+      routerFirst.replace(Routes.LawQna, { searchParams: { search: value } });
     }
   };
 
   return (
     <Panel width={panelWidth}>
-      <LegalCounselingSearch onClickBack={handleClickBack} onSubmit={onSummit} />
+      <LegalCounselingSearch onSubmit={onSummit} />
     </Panel>
   );
 });

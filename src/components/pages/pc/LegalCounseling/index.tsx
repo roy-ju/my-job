@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// import { useRouter as useNextRouter } from 'next/router';
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 import { Panel } from '@/components/atoms';

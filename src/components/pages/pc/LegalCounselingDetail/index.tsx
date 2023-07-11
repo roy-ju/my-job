@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
 import { lawQnaDelete } from '@/apis/lawQna/lawQnaCrud';
@@ -14,7 +13,6 @@ import Routes from '@/router/routes';
 import { getBrowser, getDevice } from '@/utils/misc';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useRouter as useNextRouter } from 'next/router';
 
 interface Props {
   depth: number;
@@ -31,7 +29,6 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const [text, setText] = useState('');
 
   const router = useRouter(depth);
-  const nextRouter = useNextRouter();
 
   const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.search ? (router.query.search as string) : null);
 
@@ -42,7 +39,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const handleClickDetail = (id?: number) => {
     if (!id) return;
 
-    router.push(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
+    router.replace(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
   };
 
   const handleClickDelete = useCallback(async () => {

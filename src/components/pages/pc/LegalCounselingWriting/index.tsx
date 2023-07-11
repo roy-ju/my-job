@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// import { useRouter as useNextRouter } from 'next/router';
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import { lawQnaCreate } from '@/apis/lawQna/lawQnaCrud';
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Panel } from '@/components/atoms';
 import { LegalCounselingWriting } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 
@@ -32,8 +30,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   return (
-    <Panel width={panelWidth}>
-      <LegalCounselingWriting onClickConfirm={handleClickConfirm} />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        <LegalCounselingWriting onClickConfirm={handleClickConfirm} />
+      </Panel>
+    </AuthRequired>
   );
 });

@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// import { useRouter as useNextRouter } from 'next/router';
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import { lawQnaUpdate } from '@/apis/lawQna/lawQnaCrud';
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { LegalCounselingWriting } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
@@ -56,12 +54,14 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
     );
 
   return (
-    <Panel width={panelWidth}>
-      <LegalCounselingWriting
-        onClickConfirm={handleClickConfirm}
-        preTitle={router?.query?.title as string}
-        preContent={router?.query?.content as string}
-      />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        <LegalCounselingWriting
+          onClickConfirm={handleClickConfirm}
+          preTitle={router?.query?.title as string}
+          preContent={router?.query?.content as string}
+        />
+      </Panel>
+    </AuthRequired>
   );
 });
