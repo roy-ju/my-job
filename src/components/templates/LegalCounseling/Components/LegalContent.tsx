@@ -16,6 +16,7 @@ interface LegalContentProp {
   viewCount?: number;
   createdTime?: string;
   isLike?: boolean;
+  isMine?: boolean;
   onClickLike?: (liked?: boolean, qnaId?: number) => Promise<void>;
   onClickQnaDetail?: (id?: number) => void;
 }
@@ -40,22 +41,31 @@ export function LegalContent({
   viewCount,
   createdTime,
   isLike,
+  isMine,
   onClickLike,
   onClickQnaDetail,
 }: LegalContentProp) {
   return (
     <div tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF]">
-      {status === '답변 완료' && (
-        <StyledBox tw="bg-nego">
-          <span tw="text-info font-semibold text-white">{status}</span>
-        </StyledBox>
-      )}
+      <div tw="flex gap-2 items-center">
+        {status === '답변 완료' && (
+          <StyledBox tw="bg-nego">
+            <span tw="text-info font-semibold text-white">{status}</span>
+          </StyledBox>
+        )}
 
-      {status === '답변 대기' && (
-        <StyledBox tw="bg-gray-600">
-          <span tw="text-info font-semibold text-white">{status}</span>
-        </StyledBox>
-      )}
+        {status === '답변 대기' && (
+          <StyledBox tw="bg-gray-600">
+            <span tw="text-info font-semibold text-white">{status}</span>
+          </StyledBox>
+        )}
+
+        {isMine && (
+          <StyledBox tw="bg-nego">
+            <span tw="text-info font-semibold text-white">내가 쓴글</span>
+          </StyledBox>
+        )}
+      </div>
 
       <div
         tw="mt-2 cursor-pointer"

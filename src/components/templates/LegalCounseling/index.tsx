@@ -72,6 +72,7 @@ export default function LegalCounseling({
               {qnaLawData.map((item) => (
                 <LegalContent
                   key={item.id}
+                  isMine={item.mine}
                   qnaId={item.id}
                   status={item.status_text}
                   mainText={item.title}
