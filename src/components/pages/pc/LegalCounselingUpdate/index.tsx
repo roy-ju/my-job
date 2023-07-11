@@ -34,14 +34,14 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
     if (response === null) {
       toast.success('수정이 완료되었습니다.');
       mutate();
-      router.popLast();
+      router.popLast(true);
     } else if (response.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setError(true);
     }
   };
 
   const handleClickErrPopup = () => {
-    router.popLast();
+    router.popLast(true);
   };
 
   if (!qnaID || error)

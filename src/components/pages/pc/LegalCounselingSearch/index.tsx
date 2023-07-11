@@ -16,7 +16,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const onSummit = (value: string) => {
     if (!value) {
-      router.popLast();
+      router.popLast(true);
     } else {
       routerFirst.replace(Routes.LawQna, { searchParams: { search: value } });
     }

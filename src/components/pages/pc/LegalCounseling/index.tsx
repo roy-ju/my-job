@@ -25,10 +25,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     incrementalPageNumber,
   } = useAPI_GetLawQna(router?.query?.search ? (router.query.search as string) : null);
 
-  const handleClickBack = () => {
-    router.replace('');
-  };
-
   const handleClickHome = () => {
     router.replace('');
   };
@@ -79,7 +75,6 @@ export default memo(({ depth, panelWidth }: Props) => {
       <LegalCounseling
         qnaLawData={qnaLawData}
         onNext={incrementalPageNumber}
-        onClickBack={handleClickBack}
         onClickHome={handleClickHome}
         onClickLike={handleClickLike}
         onClickSearchPage={handleClickSearchPage}
