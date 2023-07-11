@@ -3,35 +3,29 @@ import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
 import { lawQnaDelete } from '@/apis/lawQna/lawQnaCrud';
 import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 import lawQnaView from '@/apis/lawQna/lawQnaView';
-import { Panel } from '@/components/atoms';
+import { MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SharePopup } from '@/components/organisms';
 import { LegalCounselingDetail } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
 import { useAuth } from '@/hooks/services';
-import { useRouter } from '@/hooks/utils';
+
 import Routes from '@/router/routes';
-import { getBrowser, getDevice } from '@/utils/misc';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { getDevice, getBrowser } from '@/utils/misc';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-interface Props {
-  depth: number;
-  panelWidth: string;
-  qnaID?: number;
-  ipAddress?: string;
-}
-
-export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
+function LawQnaDetail() {
   const { user } = useAuth();
+
+  const router = useRouter();
+  const qnaID = router?.query?.qnaID;
 
   const [openPopup, setOpenPopup] = useState(false);
   const [openSharePopup, setOpenSharePopup] = useState(false);
   const [openErrPopup, setOpenErrPopup] = useState(false);
-
   const [text, setText] = useState('');
-
-  const router = useRouter(depth);
 
   const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.search ? (router.query.search as string) : null);
 
@@ -42,7 +36,11 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const handleClickDetail = (id?: number) => {
     if (!id) return;
 
-    router.replace(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
+    router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}`);
+  };
+
+  const handleClickBack = () => {
+    router.back();
   };
 
   const handleClickDelete = useCallback(async () => {
@@ -53,11 +51,13 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
     if (response === null) {
       toast.success('게시물이 삭제되었습니다.', { toastId: 'toast_delete' });
       mutateQnaData();
-      router.popLast();
+      router.back();
     } else if (response?.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setText('삭제');
       setOpenErrPopup(true);
-      router.popLast();
+      setTimeout(() => {
+        router.back();
+      }, 3000);
     }
   }, [mutateQnaData, qnaID, router]);
 
@@ -78,16 +78,19 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
     if (lawQnaDetailData?.admin_message) {
       setText('수정');
       setOpenErrPopup(true);
-      return;
     }
 
-    router.replace(Routes.LawQnaUpdate, {
-      searchParams: { qnaID: `${qnaID}` },
-      state: {
-        title: lawQnaDetailData?.title || '',
-        content: lawQnaDetailData?.user_message || '',
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}`,
+        query: {
+          qnaID: `${qnaID}`,
+          title: lawQnaDetailData?.title || '',
+          content: lawQnaDetailData?.user_message || '',
+        },
       },
-    });
+      `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}?qnaID=${qnaID}`,
+    );
   };
 
   const handleClickErrPopupClose = () => {
@@ -98,14 +101,18 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const handleClickLike = useCallback(
     async (liked?: boolean, qnaId?: number) => {
       if (!user) {
-        router.replaceCurrent(Routes.Login, {
-          persistParams: true,
-          searchParams: { redirect: `${router.asPath}`, back: 'true' },
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+          query: {
+            redirect: router.asPath,
+          },
         });
         return;
       }
 
-      if (typeof liked !== 'boolean' || typeof qnaId !== 'number') return;
+      if (typeof liked !== 'boolean' || typeof qnaId !== 'number') {
+        return;
+      }
 
       if (liked) {
         await lawQnaDislike({ law_qna_id: qnaId });
@@ -178,17 +185,17 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   useEffect(() => {
     async function view(id: number) {
       await lawQnaView({
-        ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
-        law_qna_id: id,
+        ip_address: '',
         device: getDevice(),
         browser: getBrowser(),
+        law_qna_id: id,
       });
     }
 
     if (lawQnaDetailData && typeof window !== 'undefined') {
       view(lawQnaDetailData.id);
     }
-  }, [ipAddress, lawQnaDetailData]);
+  }, [lawQnaDetailData]);
 
   if (!qnaID) return null;
 
@@ -204,7 +211,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
             </Popup.SmallTitle>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.popLast()}>확인</Popup.ActionButton>
+            <Popup.ActionButton onClick={() => router.back()}>확인</Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>
@@ -212,32 +219,33 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   }
 
   return (
-    <>
-      <Panel width={panelWidth}>
-        <LegalCounselingDetail
-          openPopup={openPopup}
-          openErrPopup={openErrPopup}
-          lawQnaDetailData={lawQnaDetailData}
-          errorTitle={text}
-          onClickDetail={handleClickDetail}
-          onClickLike={handleClickLike}
-          onClickDelete={handleClickDelete}
-          onClickPopupOpen={handleClickPopupOpen}
-          onClickPopupClose={handleClickPopupClose}
-          onClickErrPopupClose={handleClickErrPopupClose}
-          onClickUpdate={handleClickUpdate}
-          onClickSharePopup={() => setOpenSharePopup(true)}
-        />
-        {openSharePopup && (
-          <OverlayPresenter>
-            <SharePopup
-              onClickOutside={() => setOpenSharePopup(false)}
-              onClickShareViaKakao={handleShareViaKakao}
-              onClickCopyUrl={handleCopyUrl}
-            />
-          </OverlayPresenter>
-        )}
-      </Panel>
-    </>
+    <MobileContainer>
+      <LegalCounselingDetail
+        openPopup={openPopup}
+        openErrPopup={openErrPopup}
+        lawQnaDetailData={lawQnaDetailData}
+        errorTitle={text}
+        onClickDetail={handleClickDetail}
+        onClickLike={handleClickLike}
+        onClickDelete={handleClickDelete}
+        onClickPopupOpen={handleClickPopupOpen}
+        onClickPopupClose={handleClickPopupClose}
+        onClickErrPopupClose={handleClickErrPopupClose}
+        onClickUpdate={handleClickUpdate}
+        onClickBack={handleClickBack}
+        onClickSharePopup={() => setOpenSharePopup(true)}
+      />
+      {openSharePopup && (
+        <OverlayPresenter>
+          <SharePopup
+            onClickOutside={() => setOpenSharePopup(false)}
+            onClickShareViaKakao={handleShareViaKakao}
+            onClickCopyUrl={handleCopyUrl}
+          />
+        </OverlayPresenter>
+      )}
+    </MobileContainer>
   );
-});
+}
+
+export default LawQnaDetail;

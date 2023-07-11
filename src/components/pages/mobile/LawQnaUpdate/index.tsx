@@ -1,22 +1,20 @@
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import { lawQnaUpdate } from '@/apis/lawQna/lawQnaCrud';
-import { AuthRequired, Panel } from '@/components/atoms';
+
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { LegalCounselingWriting } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
-import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
 
-import { memo, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-interface Props {
-  depth: number;
-  panelWidth: string;
-  qnaID: number;
-}
+function LawQnaUpdate() {
+  const router = useRouter();
 
-export default memo(({ depth, panelWidth, qnaID }: Props) => {
-  const router = useRouter(depth);
+  const qnaID = router?.query?.qnaID;
 
   const { mutate } = useAPI_GetLawQna(null);
 
@@ -29,19 +27,19 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
 
     setIsLoading(true);
 
-    const response = await lawQnaUpdate({ law_qna_id: qnaID, title: text, user_message: message });
+    const response = await lawQnaUpdate({ law_qna_id: Number(qnaID), title: text, user_message: message });
 
     if (response === null) {
       toast.success('수정이 완료되었습니다.');
       mutate();
-      router.popLast();
+      router.back();
     } else if (response.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setError(true);
     }
   };
 
   const handleClickErrPopup = () => {
-    router.popLast();
+    router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}`);
   };
 
   if (!qnaID || error)
@@ -63,15 +61,18 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
     );
 
   return (
-    <AuthRequired depth={depth}>
-      <Panel width={panelWidth}>
+    <MobAuthRequired>
+      <MobileContainer>
         <LegalCounselingWriting
+          onClickBack={() => router.back()}
           onClickConfirm={handleClickConfirm}
           preTitle={router?.query?.title as string}
           preContent={router?.query?.content as string}
           isLoading={isLoading}
         />
-      </Panel>
-    </AuthRequired>
+      </MobileContainer>
+    </MobAuthRequired>
   );
-});
+}
+
+export default LawQnaUpdate;

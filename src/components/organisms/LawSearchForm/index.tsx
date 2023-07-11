@@ -104,14 +104,14 @@ export default function LawSearchForm({ value: valueProp, onChange, onSubmit, on
 
                 onSubmit?.(e.currentTarget.value);
               }}
-              tw="p-4 gap-2 min-h-[0px] hover:bg-gray-200 text-start transition-colors"
+              tw="p-4 px-5 gap-2 min-h-[0px] hover:bg-gray-200 text-start transition-colors"
             >
               <div tw="flex items-center justify-between">
                 <span tw="text-b2 [line-height: 16px] text-gray-1000">{result.query.search}</span>
 
                 <Button
                   variant="ghost"
-                  tw="p-0 pl-3 min-h-0 h-0"
+                  tw="min-h-0 h-0 p-0 pl-3"
                   onClick={(e) => {
                     e?.stopPropagation();
                     setRecentSearches((prev) => prev.filter((p) => p.id !== result.id));

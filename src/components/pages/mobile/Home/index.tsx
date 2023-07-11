@@ -171,6 +171,10 @@ export default function Home() {
     }
   };
 
+  const handleClickCounseling = useCallback(() => {
+    router.push(`${Routes.EntryMobile}/${Routes.LawQna}`);
+  }, [router]);
+
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <HomeTemplate
@@ -206,6 +210,7 @@ export default function Home() {
         onClickGuide={handleClickGuide}
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
         onClickFavoriteButton={handleClickFavoriteButton}
+        onClickCounseling={handleClickCounseling}
       />
       {openPopup && (
         <OverlayPresenter>

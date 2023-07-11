@@ -4,11 +4,11 @@ import SearchBlackIcon from '@/assets/icons/search_black_24px.svg';
 import { ILawQnaListItem } from '@/apis/lawQna/getLawQna';
 import { Button, InfiniteScroll } from '@/components/atoms';
 import Plus16 from '@/assets/icons/plus_16px.svg';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
-import Routes from '@/router/routes';
 import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { getDevice } from '@/utils/misc';
 import { LegalPageBanner } from '../Home/Components/Banner';
 import { LegalContent } from './Components/LegalContent';
 
@@ -21,6 +21,7 @@ export default function LegalCounseling({
   onClickSearchPage,
   onClickQnaDetail,
   onClickWritingPage,
+  onClickAllPage,
 }: {
   qnaLawData: ILawQnaListItem[];
   onClickBack?: () => void;
@@ -30,16 +31,25 @@ export default function LegalCounseling({
   onClickSearchPage?: () => void;
   onClickQnaDetail?: (id?: number) => void;
   onClickWritingPage?: () => void;
+  onClickAllPage?: () => void;
 }) {
   const nextRouter = useNextRouter();
 
   const [isButtonChange, setIsButtonChange] = useState(false);
+
+  const [isMobile, setIsMobile] = useState(false);
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsButtonChange(scrollY > 0);
   });
+
+  useLayoutEffect(() => {
+    if (getDevice() === 'Mobile') {
+      setIsMobile(true);
+    }
+  }, []);
 
   return (
     <div tw="flex flex-col h-full">
@@ -52,7 +62,7 @@ export default function LegalCounseling({
       </NavigationHeader>
 
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
-        <div tw="px-5 bg-white pt-7">
+        <div tw="bg-white px-5 pt-7">
           <LegalPageBanner handleClickHome={onClickHome} />
         </div>
 
@@ -84,14 +94,7 @@ export default function LegalCounseling({
                   {`'${nextRouter.query.search}' 에 대한 검색결과`}
                   <br />가 없습니다.
                 </p>
-                <Button
-                  variant="secondary"
-                  size="small"
-                  tw="mx-auto"
-                  onClick={() => {
-                    nextRouter.replace(`/${Routes.LawQna}`);
-                  }}
-                >
+                <Button variant="secondary" size="small" tw="mx-auto" onClick={onClickAllPage}>
                   전체보기
                 </Button>
               </>
@@ -105,12 +108,31 @@ export default function LegalCounseling({
         </div>
 
         {isButtonChange ? (
+          isMobile ? (
+            <Button
+              variant="secondary"
+              onClick={() => onClickWritingPage?.()}
+              tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [right: 16px] p-0"
+            >
+              <Plus16 />
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              onClick={() => onClickWritingPage?.()}
+              tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [left: 400px] p-0"
+            >
+              <Plus16 />
+            </Button>
+          )
+        ) : isMobile ? (
           <Button
             variant="secondary"
             onClick={() => onClickWritingPage?.()}
-            tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [left: 400px] p-0"
+            tw="[max-width: 90px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [right: 16px]"
           >
             <Plus16 />
+            <span tw="[min-width: 41px] text-b1 font-bold [letter-spacing: -0.25px]">글쓰기</span>
           </Button>
         ) : (
           <Button
