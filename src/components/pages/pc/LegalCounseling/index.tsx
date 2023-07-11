@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { useRouter as useNextRouter } from 'next/router';
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
 import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 import { Panel } from '@/components/atoms';
 import { LegalCounseling } from '@/components/templates';
@@ -9,8 +8,6 @@ import { useAuth } from '@/hooks/services';
 
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-
-import { useRouter as useNextRouter } from 'next/router';
 
 import { memo, useCallback } from 'react';
 
@@ -23,8 +20,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { user } = useAuth();
 
   const router = useRouter(depth);
-
-  const nextRouter = useNextRouter();
 
   const {
     data: qnaLawData,
@@ -48,6 +43,10 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickSearchPage = () => {
     router.push(Routes.LawQnaSearch);
+  };
+
+  const handleClickWritingPage = () => {
+    router.push(Routes.LawQnaCreate);
   };
 
   const handleClickLike = useCallback(
@@ -83,6 +82,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickLike={handleClickLike}
         onClickSearchPage={handleClickSearchPage}
         onClickQnaDetail={handleQnaDetail}
+        onClickWritingPage={handleClickWritingPage}
       />
     </Panel>
   );

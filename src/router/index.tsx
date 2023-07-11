@@ -332,6 +332,16 @@ const LegalCounselingDetail = dynamic(() => import('@/components/pages/pc/LegalC
   loading: FallbackComponent,
 });
 
+const LegalCounselingWriting = dynamic(() => import('@/components/pages/pc/LegalCounselingWriting'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalCounselingUpdate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const DEFAULT_PANEL_WIDTH = '380px';
 
 interface RouterProps {
@@ -409,6 +419,14 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
           {...props}
         />
       );
+    }
+
+    case Routes.LawQnaCreate: {
+      return <LegalCounselingWriting {...props} />;
+    }
+
+    case Routes.LawQnaUpdate: {
+      return <LegalCounselingUpdate key={query.qnaID as string} qnaID={Number(query.qnaID)} {...props} />;
     }
 
     case Routes.NotificationList: {

@@ -83,6 +83,7 @@ export { default as ContractTerms } from './ContractTerms';
 export { default as LegalCounseling } from './LegalCounseling';
 export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';
+export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

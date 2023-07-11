@@ -46,7 +46,7 @@ export function LegalContent({
   return (
     <div tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF]">
       {status === '답변 완료' && (
-        <StyledBox tw="bg-blue">
+        <StyledBox tw="bg-nego">
           <span tw="text-info font-semibold text-white">{status}</span>
         </StyledBox>
       )}
@@ -75,6 +75,7 @@ export function LegalContent({
               WebkitBoxOrient: 'vertical',
             }}
           >
+            <span tw="text-nego">Q. </span>
             {mainText}
           </h2>
         )}

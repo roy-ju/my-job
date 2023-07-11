@@ -8,10 +8,11 @@ import { useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
+import { formatCreatedTime } from '@/utils/formatLastMessageTime';
 import { LegalPageBanner } from '../Home/Components/Banner';
 import { LegalContent } from './Components/LegalContent';
 
-export default function LeagalCounseling({
+export default function LegalCounseling({
   qnaLawData,
   onClickBack,
   onClickHome,
@@ -19,6 +20,7 @@ export default function LeagalCounseling({
   onClickLike,
   onClickSearchPage,
   onClickQnaDetail,
+  onClickWritingPage,
 }: {
   qnaLawData: ILawQnaListItem[];
   onClickBack?: () => void;
@@ -27,6 +29,7 @@ export default function LeagalCounseling({
   onClickLike?: (like?: boolean, qnaId?: number) => Promise<void>;
   onClickSearchPage?: () => void;
   onClickQnaDetail?: (id?: number) => void;
+  onClickWritingPage?: () => void;
 }) {
   const nextRouter = useNextRouter();
 
@@ -66,7 +69,7 @@ export default function LeagalCounseling({
                   likeCount={item.like_count}
                   viewCount={item.view_count}
                   isLike={!!item.liked}
-                  createdTime="4일 전"
+                  createdTime={formatCreatedTime(item.created_time)}
                   onClickLike={onClickLike}
                   onClickQnaDetail={onClickQnaDetail}
                 />
@@ -104,6 +107,7 @@ export default function LeagalCounseling({
         {isButtonChange ? (
           <Button
             variant="secondary"
+            onClick={() => onClickWritingPage?.()}
             tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [left: 400px] p-0"
           >
             <Plus16 />
@@ -111,6 +115,7 @@ export default function LeagalCounseling({
         ) : (
           <Button
             variant="secondary"
+            onClick={() => onClickWritingPage?.()}
             tw="[max-width: 90px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [left: 340px]"
           >
             <Plus16 />

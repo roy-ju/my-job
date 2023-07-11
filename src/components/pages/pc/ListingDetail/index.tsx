@@ -362,6 +362,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
           </Popup>
         </OverlayPresenter>
       )}
+
       {popup === 'suggestAcceptRecommend' && (
         <OverlayPresenter>
           <Popup>
@@ -381,6 +382,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
           </Popup>
         </OverlayPresenter>
       )}
+
       {popup === 'share' && (
         <OverlayPresenter>
           <SharePopup

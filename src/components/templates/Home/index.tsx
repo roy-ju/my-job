@@ -29,7 +29,7 @@ import {
   RealestateTypeChipVariant,
   RealestateTypeString,
 } from '@/constants/strings';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
 import { GetListingsForTheLoggedIn } from '@/apis/home/getListingsForTheLoggedIn';
 import { GetDanjisForTheLoggedIn } from '@/apis/home/getDanjisForTheLoggedIn';
@@ -230,33 +230,33 @@ export default function Home({
     }
   }, []);
 
-  const whereSectionTop = useMemo(() => {
-    if (listingsForUser?.length) {
-      return 1;
-    }
+  // const whereSectionTop = useMemo(() => {
+  //   if (listingsForUser?.length) {
+  //     return 1;
+  //   }
 
-    if (danjisForUser?.length) {
-      return 2;
-    }
+  //   if (danjisForUser?.length) {
+  //     return 2;
+  //   }
 
-    if (mostSuggestList?.length) {
-      return 3;
-    }
+  //   if (mostSuggestList?.length) {
+  //     return 3;
+  //   }
 
-    if (mostFavoriteList?.length) {
-      return 4;
-    }
+  //   if (mostFavoriteList?.length) {
+  //     return 4;
+  //   }
 
-    if (tradeCountList?.length) {
-      return 5;
-    }
-  }, [
-    danjisForUser?.length,
-    listingsForUser?.length,
-    mostFavoriteList?.length,
-    mostSuggestList?.length,
-    tradeCountList?.length,
-  ]);
+  //   if (tradeCountList?.length) {
+  //     return 5;
+  //   }
+  // }, [
+  //   danjisForUser?.length,
+  //   listingsForUser?.length,
+  //   mostFavoriteList?.length,
+  //   mostSuggestList?.length,
+  //   tradeCountList?.length,
+  // ]);
 
   return (
     <div tw="h-full flex flex-col">
@@ -403,13 +403,19 @@ export default function Home({
           </div>
         </div>
 
+        <div>
+          <Separator />
+          <div tw="py-10">
+            <Banner handleClickCounseling={onClickCounseling} />
+          </div>
+        </div>
+
         {user && (
           <div>
             {Boolean(listingsForUser?.length) && (
               <div>
                 <Separator tw="bg-gray-300" />
                 <div tw="pt-10 pb-6">
-                  {whereSectionTop === 1 && <Banner handleClickCounseling={onClickCounseling} />}
                   <div tw="px-5 font-bold text-h3">{user?.nickname}님을 위한 새로운 매물</div>
                   <div tw="px-5 text-b2 text-gray-700 mt-1">관심 단지 또는 주소 등록한 지역의 신규 매물이에요.</div>
                   <Carousel
@@ -494,7 +500,6 @@ export default function Home({
               <div>
                 <Separator tw="bg-gray-300" />
                 <div tw="pt-10 pb-6">
-                  {whereSectionTop === 2 && <Banner handleClickCounseling={onClickCounseling} />}
                   <div tw="px-5 font-bold text-h3">{user?.nickname}님을 위한 최근 실거래가</div>
                   <div tw="mt-1 px-5 text-b2 text-gray-700">
                     {hasFavoriteDanji
@@ -560,7 +565,6 @@ export default function Home({
           <div>
             <Separator tw="bg-gray-300" />
             <div tw="pt-10 pb-6">
-              {whereSectionTop === 3 && <Banner handleClickCounseling={onClickCounseling} />}
               <div tw="px-5 font-bold text-h3 flex items-center gap-2">
                 <h2>추천 요청 많은 단지</h2> <HoneyJarIcon />
               </div>
@@ -632,7 +636,6 @@ export default function Home({
           <div>
             <Separator tw="bg-gray-300" />
             <div tw="pt-10 pb-6">
-              {whereSectionTop === 4 && <Banner handleClickCounseling={onClickCounseling} />}
               <div tw="px-5 font-bold text-h3">
                 <h2>관심 등록 많은 매물</h2>
               </div>
@@ -723,7 +726,6 @@ export default function Home({
           <div>
             <Separator tw="bg-gray-300" />
             <div tw="pt-10 pb-6">
-              {whereSectionTop === 5 && <Banner handleClickCounseling={onClickCounseling} />}
               <h2 tw="px-5 font-bold text-h3">{regionName || ''} 월간 거래량 TOP</h2>
               <p tw="px-5 text-b2 text-gray-700 mt-1">최신 관심단지나 우리집 주소 등록 기준으로 지역이 선정됩니다.</p>
               <Carousel
