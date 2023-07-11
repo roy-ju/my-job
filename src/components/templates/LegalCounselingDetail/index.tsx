@@ -133,7 +133,7 @@ export default function LegalCounselingDetail({
             </div>
 
             {lawQnaDetailData.admin_message && (
-              <div tw="px-5 py-4 mt-2 [background-color: #F8F9FA] [border-radius: 8px]">
+              <div tw="px-5 py-4 mt-7 [background-color: #F8F9FA] [border-radius: 8px]">
                 <div tw="mb-2 flex items-center">
                   <Image
                     tw="rounded-full w-6 h-6 object-cover aspect-square bg-gray-400"
@@ -154,32 +154,11 @@ export default function LegalCounselingDetail({
                 </p>
               </div>
             )}
-
-            <div tw="w-full pt-4 flex items-center justify-center">
-              <Button
-                variant="ghost"
-                tw="flex gap-2 h-6 p-0"
-                onClick={() => {
-                  onClickLike?.(lawQnaDetailData.liked, lawQnaDetailData.id);
-                }}
-              >
-                {lawQnaDetailData.liked ? <ThumbRedIcon /> : <ThumbIcon />}
-                {lawQnaDetailData.liked ? (
-                  <p tw="text-b2 text-nego">도움돼요 {lawQnaDetailData.like_count}</p>
-                ) : (
-                  <p tw="text-b2 text-gray-700">도움돼요 {lawQnaDetailData.like_count}</p>
-                )}
-              </Button>
-              <div tw="[min-width: 1px] [max-width: 1px] [min-height: 12px] bg-gray-300 mx-4" />
-              <Button variant="ghost" tw="flex gap-2 h-6 p-0">
-                <ShareIcon />
-                <p tw="text-b2 text-gray-700">공유하기</p>
-              </Button>
-            </div>
           </div>
+        </div>
 
+        <div>
           <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
-
           {lawQnaDetailData.prev?.id && (
             <ButtomWrraper
               onClick={() => {
@@ -210,6 +189,29 @@ export default function LegalCounselingDetail({
               </span>
             </ButtomWrraper>
           )}
+          <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
+        </div>
+
+        <div tw="w-full py-6 flex items-center justify-center">
+          <Button
+            variant="ghost"
+            tw="flex gap-2 h-6 p-0"
+            onClick={() => {
+              onClickLike?.(lawQnaDetailData.liked, lawQnaDetailData.id);
+            }}
+          >
+            {lawQnaDetailData.liked ? <ThumbRedIcon /> : <ThumbIcon />}
+            {lawQnaDetailData.liked ? (
+              <p tw="text-b2 text-nego">도움돼요 {lawQnaDetailData.like_count}</p>
+            ) : (
+              <p tw="text-b2 text-gray-700">도움돼요 {lawQnaDetailData.like_count}</p>
+            )}
+          </Button>
+          <div tw="[min-width: 1px] [max-width: 1px] [min-height: 12px] bg-gray-300 mx-4" />
+          <Button variant="ghost" tw="flex gap-2 h-6 p-0">
+            <ShareIcon />
+            <p tw="text-b2 text-gray-700">공유하기</p>
+          </Button>
         </div>
       </div>
 

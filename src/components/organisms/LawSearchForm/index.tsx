@@ -111,7 +111,7 @@ export default function LawSearchForm({ value: valueProp, onChange, onSubmit, on
 
                 <Button
                   variant="ghost"
-                  tw="p-0 min-h-0 h-0"
+                  tw="p-0 pl-3 min-h-0 h-0"
                   onClick={(e) => {
                     e?.stopPropagation();
                     setRecentSearches((prev) => prev.filter((p) => p.id !== result.id));
