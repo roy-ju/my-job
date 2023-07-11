@@ -34,6 +34,7 @@ export default function useAPI_GetLawQna(searchQuery: string | null) {
     mutate,
   } = useSWRInfinite<GetLawQnaListResponse>(getKey(searchQuery), null, {
     revalidateOnFocus: false,
+    revalidateFirstPage: false,
   });
 
   const data = useMemo(() => {
