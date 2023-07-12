@@ -46,7 +46,7 @@ export function LegalContent({
   onClickQnaDetail,
 }: LegalContentProp) {
   return (
-    <div tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF]">
+    <div tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF] hover:bg-gray-50">
       <div tw="flex gap-2 items-center">
         {status === '답변 완료' && (
           <StyledBox tw="bg-nego">

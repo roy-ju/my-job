@@ -151,7 +151,7 @@ export default function LegalCounselingDetail({
                   </p>
                 </div>
 
-                <p tw="text-b2 text-gray-700 [text-align: justify]">
+                <p tw="text-b2 text-gray-700 [text-align: justify] whitespace-pre-line">
                   <span tw="text-nego font-bold">A. </span>
                   {lawQnaDetailData.admin_message}
                 </p>
@@ -170,7 +170,7 @@ export default function LegalCounselingDetail({
               style={
                 lawQnaDetailData.prev?.id && lawQnaDetailData.next?.id ? { borderBottom: '1px solid #E9ECEF' } : {}
               }
-              tw="flex gap-3 items-center px-5 py-4 cursor-pointer"
+              tw="flex gap-3 items-center px-5 py-4 cursor-pointer hover:bg-gray-50"
             >
               <span tw="text-info text-gray-700">이전</span>
               <span tw="text-info [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
@@ -184,7 +184,7 @@ export default function LegalCounselingDetail({
               onClick={() => {
                 onClickDetail?.(lawQnaDetailData.next?.id);
               }}
-              tw="flex gap-3 items-center px-5 py-4 cursor-pointer"
+              tw="flex gap-3 items-center px-5 py-4 cursor-pointer hover:bg-gray-50"
             >
               <span tw="text-info text-gray-700">다음</span>
               <span tw="text-info [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
@@ -195,10 +195,10 @@ export default function LegalCounselingDetail({
           <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
         </div>
 
-        <div tw="w-full py-6 flex items-center justify-center">
+        <div tw="w-full py-4 flex items-center justify-center">
           <Button
             variant="ghost"
-            tw="flex gap-2 h-6 p-0 flex-1"
+            tw="flex gap-2 h-10 flex-1 hover:bg-gray-50"
             onClick={() => {
               onClickLike?.(lawQnaDetailData.liked, lawQnaDetailData.id);
             }}
@@ -210,8 +210,10 @@ export default function LegalCounselingDetail({
               <p tw="text-b2 text-gray-700">도움돼요 {lawQnaDetailData.like_count}</p>
             )}
           </Button>
+
           <div tw="[min-width: 1px] [max-width: 1px] [min-height: 12px] bg-gray-300" />
-          <Button variant="ghost" tw="flex gap-2 h-6 p-0 flex-1" onClick={onClickSharePopup}>
+
+          <Button variant="ghost" tw="flex gap-2 h-10 flex-1 hover:bg-gray-50" onClick={onClickSharePopup}>
             <ShareIcon />
             <p tw="text-b2 text-gray-700">공유하기</p>
           </Button>

@@ -139,19 +139,19 @@ export default function LegalCounseling({
           <Button
             variant="secondary"
             onClick={() => onClickWritingPage?.()}
-            tw="[max-width: 90px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [right: 16px]"
+            tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [right: 16px]"
           >
             <Plus16 />
-            <span tw="[min-width: 41px] text-b1 font-bold [letter-spacing: -0.25px]">글쓰기</span>
+            <span tw="[min-width: 55px] text-b1 font-bold [letter-spacing: -0.25px]">질문하기</span>
           </Button>
         ) : (
           <Button
             variant="secondary"
             onClick={() => onClickWritingPage?.()}
-            tw="[max-width: 90px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [left: 340px]"
+            tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [left: 326px]"
           >
             <Plus16 />
-            <span tw="[min-width: 41px] text-b1 font-bold [letter-spacing: -0.25px]">글쓰기</span>
+            <span tw="[min-width: 55px] text-b1 font-bold [letter-spacing: -0.25px]">질문하기</span>
           </Button>
         )}
       </div>
