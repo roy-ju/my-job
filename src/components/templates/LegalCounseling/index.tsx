@@ -53,13 +53,22 @@ export default function LegalCounseling({
 
   return (
     <div tw="flex flex-col h-full">
-      <NavigationHeader>
-        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} title="서비스 홈" />}
-        <NavigationHeader.Title>부동산 법률 상담</NavigationHeader.Title>
-        <Button variant="ghost" tw="p-0" onClick={onClickSearchPage}>
-          <SearchBlackIcon />
-        </Button>
-      </NavigationHeader>
+      {onClickBack ? (
+        <NavigationHeader tw="relative">
+          <NavigationHeader.BackButton onClick={onClickBack} title="서비스 홈" />
+          <NavigationHeader.Title tw="absolute [left: 38%] text-center">부동산 법률 상담</NavigationHeader.Title>
+          <Button variant="ghost" tw="absolute right-4 p-0" onClick={onClickSearchPage}>
+            <SearchBlackIcon />
+          </Button>
+        </NavigationHeader>
+      ) : (
+        <NavigationHeader>
+          <NavigationHeader.Title tw="text-center">부동산 법률 상담</NavigationHeader.Title>
+          <Button variant="ghost" tw="p-0" onClick={onClickSearchPage}>
+            <SearchBlackIcon />
+          </Button>
+        </NavigationHeader>
+      )}
 
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <div tw="bg-white px-5 pt-7">

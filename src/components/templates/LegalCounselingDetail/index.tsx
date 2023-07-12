@@ -115,7 +115,7 @@ export default function LegalCounselingDetail({
           <div tw="px-5 pb-10">
             <h1 tw="text-b2 font-bold">
               <span tw="text-nego">Q. </span>
-              {lawQnaDetailData.title}
+              {lawQnaDetailData?.title}
             </h1>
 
             <div tw="flex items-center mt-2">
