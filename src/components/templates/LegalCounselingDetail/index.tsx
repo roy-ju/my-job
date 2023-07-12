@@ -111,7 +111,8 @@ export default function LegalCounselingDetail({
           {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
           <NavigationHeader.Title>부동산 법률 상담</NavigationHeader.Title>
         </NavigationHeader>
-        <div tw="flex-1 min-h-0 pt-7">
+
+        <div tw="flex-1 min-h-0 pt-7 overflow-auto">
           <div tw="px-5 pb-10">
             <h1 tw="text-b2 font-bold">
               <span tw="text-nego">Q. </span>
@@ -145,7 +146,7 @@ export default function LegalCounselingDetail({
                     width={24}
                     alt=""
                   />
-                  <p tw="ml-3 text-b2 font-bold">우성남 변호사님 답변</p>
+                  <p tw="ml-3 text-b2 font-bold">우성남 변호사 답변</p>
                   <p tw="text-gray-700 text-info ml-auto [letter-spacing: -0.4px]">
                     {formatCreatedTime(lawQnaDetailData.admin_updated_time)}
                   </p>

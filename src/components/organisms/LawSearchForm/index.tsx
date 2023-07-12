@@ -96,7 +96,7 @@ export default function LawSearchForm({ value: valueProp, onChange, onSubmit, on
 
       <div tw="flex-1 flex flex-col min-h-0 overflow-y-auto">
         <div tw="px-5 pb-2 flex items-center">
-          <p tw="text-b2 [line-height: 1] [letter-spacing: -0.4px] font-bold">최근 검색</p>
+          <p tw="text-b2 [line-height: 1] [letter-spacing: -0.4px] font-bold whitespace-nowrap">최근 검색</p>
           <Button variant="ghost" tw="ml-auto p-0 h-0" onClick={handleClearRecentSearches}>
             <p tw="text-info text-gray-700 [line-height: 1] [letter-spacing: -0.4px] [text-decoration: underline]">
               전체삭제

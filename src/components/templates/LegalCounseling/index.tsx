@@ -1,10 +1,11 @@
 import { NavigationHeader } from '@/components/molecules';
 
-import SearchBlackIcon from '@/assets/icons/search_black_24px.svg';
+// import SearchBlackIcon from '@/assets/icons/search_black_24px.svg';
+import SearchBlackIcon from '@/assets/icons/search.svg';
 import { ILawQnaListItem } from '@/apis/lawQna/getLawQna';
 import { Button, InfiniteScroll } from '@/components/atoms';
 import Plus16 from '@/assets/icons/plus_16px.svg';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
 import { formatCreatedTime } from '@/utils/formatLastMessageTime';
@@ -35,6 +36,8 @@ export default function LegalCounseling({
 }) {
   const nextRouter = useNextRouter();
 
+  const [render, setRender] = useState(false);
+
   const [isButtonChange, setIsButtonChange] = useState(false);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -51,6 +54,14 @@ export default function LegalCounseling({
     }
   }, []);
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setRender(true);
+    }, 600);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <div tw="flex flex-col h-full">
       {onClickBack ? (
@@ -65,7 +76,7 @@ export default function LegalCounseling({
         <NavigationHeader>
           <NavigationHeader.Title>부동산 법률 상담</NavigationHeader.Title>
           <Button variant="ghost" tw="p-0" onClick={onClickSearchPage}>
-            <SearchBlackIcon />
+            <SearchBlackIcon style={{ width: '24px', height: '24px', color: '#343A40' }} />
           </Button>
         </NavigationHeader>
       )}
@@ -101,8 +112,7 @@ export default function LegalCounseling({
             (nextRouter?.query?.search ? (
               <>
                 <p tw="text-info mt-5 [padding-top: 115px] [padding-bottom: 16px] px-5 text-center text-gray-700 [min-height: 0]">
-                  {`'${nextRouter.query.search}' 에 대한 검색결과`}
-                  <br />가 없습니다.
+                  {`'${nextRouter.query.search}' 에 대한 검색결과 가 없습니다.`}
                 </p>
                 <Button variant="secondary" size="small" tw="mx-auto" onClick={onClickAllPage}>
                   전체보기
@@ -117,43 +127,45 @@ export default function LegalCounseling({
             ))}
         </div>
 
-        {isButtonChange ? (
-          isMobile ? (
+        {render ? (
+          isButtonChange ? (
+            isMobile ? (
+              <Button
+                variant="secondary"
+                onClick={() => onClickWritingPage?.()}
+                tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [right: 16px] p-0"
+              >
+                <Plus16 />
+              </Button>
+            ) : (
+              <Button
+                variant="secondary"
+                onClick={() => onClickWritingPage?.()}
+                tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [left: 400px] p-0"
+              >
+                <Plus16 />
+              </Button>
+            )
+          ) : isMobile ? (
             <Button
               variant="secondary"
               onClick={() => onClickWritingPage?.()}
-              tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [right: 16px] p-0"
+              tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [right: 16px]"
             >
               <Plus16 />
+              <span tw="[min-width: 55px] text-b1 font-bold [letter-spacing: -0.25px]">질문하기</span>
             </Button>
           ) : (
             <Button
               variant="secondary"
               onClick={() => onClickWritingPage?.()}
-              tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [left: 400px] p-0"
+              tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [left: 326px]"
             >
               <Plus16 />
+              <span tw="[min-width: 55px] text-b1 font-bold [letter-spacing: -0.25px]">질문하기</span>
             </Button>
           )
-        ) : isMobile ? (
-          <Button
-            variant="secondary"
-            onClick={() => onClickWritingPage?.()}
-            tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [right: 16px]"
-          >
-            <Plus16 />
-            <span tw="[min-width: 55px] text-b1 font-bold [letter-spacing: -0.25px]">질문하기</span>
-          </Button>
-        ) : (
-          <Button
-            variant="secondary"
-            onClick={() => onClickWritingPage?.()}
-            tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [left: 326px]"
-          >
-            <Plus16 />
-            <span tw="[min-width: 55px] text-b1 font-bold [letter-spacing: -0.25px]">질문하기</span>
-          </Button>
-        )}
+        ) : null}
       </div>
     </div>
   );
