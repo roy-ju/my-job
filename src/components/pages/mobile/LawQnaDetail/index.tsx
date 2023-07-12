@@ -143,7 +143,7 @@ function LawQnaDetail() {
       installTalk: true,
       content: {
         title: '네고시오 부동산 법률 상담게시판',
-        description: `Q.${lawQnaDetailData.title}`,
+        description: `Q.${lawQnaDetailData?.title}`,
         imageUrl: Paths.LAWQNA,
         link: {
           mobileWebUrl: link,

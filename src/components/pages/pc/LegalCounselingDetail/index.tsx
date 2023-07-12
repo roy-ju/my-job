@@ -136,7 +136,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
       installTalk: true,
       content: {
         title: '네고시오 부동산 법률 상담게시판',
-        description: `Q.${lawQnaDetailData.title}`,
+        description: `Q.${lawQnaDetailData?.title}`,
         imageUrl: Paths.LAWQNA,
         link: {
           mobileWebUrl: link,
@@ -157,7 +157,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
     });
 
     setOpenSharePopup(false);
-  }, [lawQnaDetailData.title, qnaID]);
+  }, [lawQnaDetailData?.title, qnaID]);
 
   useEffect(() => {
     async function view(id: number) {
