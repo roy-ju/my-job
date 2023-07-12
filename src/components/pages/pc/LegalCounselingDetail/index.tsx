@@ -190,7 +190,14 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
             </Popup.SmallTitle>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.popLast(true)}>확인</Popup.ActionButton>
+            <Popup.ActionButton
+              onClick={() => {
+                mutateQnaData();
+                router.popLast(true);
+              }}
+            >
+              확인
+            </Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>

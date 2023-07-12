@@ -39,6 +39,7 @@ function LawQnaUpdate() {
   };
 
   const handleClickErrPopup = () => {
+    mutate();
     router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}`);
   };
 

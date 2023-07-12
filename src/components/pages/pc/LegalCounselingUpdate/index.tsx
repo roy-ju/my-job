@@ -41,6 +41,7 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
   };
 
   const handleClickErrPopup = () => {
+    mutate();
     router.popLast(true);
   };
 

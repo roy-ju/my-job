@@ -197,7 +197,14 @@ function LawQnaDetail() {
             </Popup.SmallTitle>
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.back()}>확인</Popup.ActionButton>
+            <Popup.ActionButton
+              onClick={() => {
+                router.back();
+                mutateQnaData();
+              }}
+            >
+              확인
+            </Popup.ActionButton>
           </Popup.ButtonGroup>
         </Popup>
       </OverlayPresenter>
