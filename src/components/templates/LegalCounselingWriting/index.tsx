@@ -72,7 +72,7 @@ export default function LegalCounselingWriting({
           </TextField>
         </div>
         <div tw="text-right">
-          <span tw="text-info">{contentValue.length} / 200</span>
+          <span tw="text-info">{contentValue.length} / 500</span>
         </div>
       </div>
       <PersistentBottomBar>

@@ -46,7 +46,13 @@ export function LegalContent({
   onClickQnaDetail,
 }: LegalContentProp) {
   return (
-    <div tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF] hover:bg-gray-50">
+    <div
+      tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF] hover:bg-gray-50"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClickQnaDetail?.(qnaId);
+      }}
+    >
       <div tw="flex gap-2 items-center">
         {status === '답변 완료' && (
           <StyledBox tw="bg-nego">
@@ -67,13 +73,7 @@ export function LegalContent({
         )}
       </div>
 
-      <div
-        tw="mt-2 cursor-pointer"
-        onClick={(e) => {
-          e.stopPropagation();
-          onClickQnaDetail?.(qnaId);
-        }}
-      >
+      <div tw="mt-2 cursor-pointer">
         {mainText && (
           <h2
             tw="text-b2 font-bold [letter-spacing: -0.25px] mb-2"
@@ -121,13 +121,22 @@ export function LegalContent({
               tw="[padding: 0]"
               onClick={(e) => {
                 e?.preventDefault();
+                e?.stopPropagation();
                 onClickLike?.(isLike, qnaId);
               }}
             >
               <ThumbRed />
             </Button>
           ) : (
-            <Button variant="ghost" tw="[padding: 0]" onClick={() => onClickLike?.(isLike, qnaId)}>
+            <Button
+              variant="ghost"
+              tw="[padding: 0]"
+              onClick={(e) => {
+                e?.preventDefault();
+                e?.stopPropagation();
+                onClickLike?.(isLike, qnaId);
+              }}
+            >
               <Thumb />
             </Button>
           )}
