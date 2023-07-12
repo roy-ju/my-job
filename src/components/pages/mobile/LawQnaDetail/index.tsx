@@ -174,12 +174,14 @@ function LawQnaDetail() {
         browser: getBrowser(),
         law_qna_id: id,
       });
+
+      mutateQnaData();
     }
 
     if (lawQnaDetailData && typeof window !== 'undefined') {
       view(lawQnaDetailData.id);
     }
-  }, [lawQnaDetailData]);
+  }, [lawQnaDetailData, mutateQnaData]);
 
   if (!qnaID) return null;
 

@@ -255,6 +255,16 @@ export default function MapLayout({ children }: Props) {
     setPanelsVisible(true);
     if (router.pathname === '/') {
       setTabIndex(0);
+    } else if (router.query.depth1 === 'lawQna') {
+      setTabIndex(0);
+    } else if (router.query.depth1 === 'lawQnaSearch') {
+      setTabIndex(0);
+    } else if (router.query.depth1 === 'lawQnaDetail') {
+      setTabIndex(0);
+    } else if (router.query.depth1 === 'lawQnaCreate') {
+      setTabIndex(0);
+    } else if (router.query.depth1 === 'lawQnaUpdate') {
+      setTabIndex(0);
     } else if (router.pathname === '/map') {
       setTabIndex(1);
     } else if (router.query.depth1 === 'myFavoriteList') {

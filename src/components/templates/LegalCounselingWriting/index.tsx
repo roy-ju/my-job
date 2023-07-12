@@ -1,6 +1,7 @@
 import { Button, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader, TextField } from '@/components/molecules';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function LegalCounselingWriting({
   isLoading,
@@ -41,7 +42,14 @@ export default function LegalCounselingWriting({
           <TextField variant="outlined">
             <TextField.Input
               value={titleValue}
-              onChange={(e) => setTitleValue(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 50) {
+                  setTitleValue(e.target.value);
+                } else if (e.target.value.length > 50) {
+                  toast.error('더 이상 입력할 수 없습니다.', { toastId: 'error_max_length' });
+                  setTitleValue(e.target.value.slice(0, 50));
+                }
+              }}
               placeholder="제목을 입력해 주세요."
             />
           </TextField>
@@ -49,7 +57,14 @@ export default function LegalCounselingWriting({
           <TextField variant="outlined">
             <TextField.TextArea
               value={contentValue}
-              onChange={(e) => setContentValue(e.currentTarget.value as string)}
+              onChange={(e) => {
+                if (e.currentTarget.value.length <= 500) {
+                  setContentValue(e.currentTarget.value as string);
+                } else if (e.currentTarget.value.length > 500) {
+                  toast.error('더 이상 입력할 수 없습니다.', { toastId: 'error_max_length' });
+                  setContentValue(e.currentTarget.value.slice(0, 500) as string);
+                }
+              }}
               placeholder="부동산 법률의 궁금한 내용을 입력해 주세요."
               tw="min-h-[98px] max-h-[280px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
               spellCheck="false"
