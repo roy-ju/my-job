@@ -62,7 +62,7 @@ export function LegalContent({
 
         {isMine && (
           <StyledBox tw="bg-nego">
-            <span tw="text-info font-semibold text-white">내가 쓴글</span>
+            <span tw="text-info font-semibold text-white">내가쓴글</span>
           </StyledBox>
         )}
       </div>
