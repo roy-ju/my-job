@@ -199,8 +199,8 @@ function LawQnaDetail() {
           <Popup.ButtonGroup>
             <Popup.ActionButton
               onClick={() => {
-                router.back();
                 mutateQnaData();
+                router.back();
               }}
             >
               확인
