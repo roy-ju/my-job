@@ -2,6 +2,7 @@ import { TextField } from '@/components/molecules';
 import SearchIcon from '@/assets/icons/search.svg';
 import { Button } from '@/components/atoms';
 import { ChangeEventHandler, FormEventHandler, useCallback, useState } from 'react';
+import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 
 import { useControlled } from '@/hooks/utils';
 import storage from '@/storage/recentLawQnaSearch';
@@ -77,6 +78,19 @@ export default function LawSearchForm({ value: valueProp, onChange, onSubmit, on
             onChange={handleInputValueChange}
             autoComplete="off"
           />
+          {value && (
+            <TextField.Trailing tw="w-5 h-5 mr-4">
+              <button
+                onClick={() => {
+                  setValueState('');
+                }}
+                type="button"
+                tw="inline-flex items-center justify-center w-5 h-5"
+              >
+                <DeleteAllIcon />
+              </button>
+            </TextField.Trailing>
+          )}
         </TextField>
       </div>
 
@@ -125,8 +139,8 @@ export default function LawSearchForm({ value: valueProp, onChange, onSubmit, on
           ))}
 
         {(!recentSearches || (recentSearches && recentSearches.length === 0)) && (
-          <div tw="px-4 py-10">
-            <p tw="mb-2 text-b1 text-gray-1000 leading-none text-center">최근 검색어가 없습니다.</p>
+          <div tw="px-5 py-5">
+            <p tw="mb-2 text-b2 text-gray-1000 leading-none text-left">최근 검색어가 없습니다.</p>
           </div>
         )}
       </div>

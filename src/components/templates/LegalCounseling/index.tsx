@@ -54,7 +54,7 @@ export default function LegalCounseling({
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} title="서비스 홈" />}
         <NavigationHeader.Title>부동산 법률 상담</NavigationHeader.Title>
         <Button variant="ghost" tw="p-0" onClick={onClickSearchPage}>
           <SearchBlackIcon />
@@ -91,7 +91,7 @@ export default function LegalCounseling({
           {(!qnaLawData || qnaLawData.length === 0) &&
             (nextRouter?.query?.search ? (
               <>
-                <p tw="text-b1 mt-5 [padding-top: 107px] [padding-bottom: 16px] px-5 text-center [min-height: 0]">
+                <p tw="text-info mt-5 [padding-top: 115px] [padding-bottom: 16px] px-5 text-center text-gray-700 [min-height: 0]">
                   {`'${nextRouter.query.search}' 에 대한 검색결과`}
                   <br />가 없습니다.
                 </p>
@@ -100,7 +100,7 @@ export default function LegalCounseling({
                 </Button>
               </>
             ) : (
-              <p tw="text-b1 mt-5 [padding-top: 107px] [padding-bottom: 107px] px-5 text-center [min-height: 262px]">
+              <p tw="text-info mt-5 [padding-top: 115px] [padding-bottom: 107px] px-5 text-center text-gray-700 [min-height: 262px]">
                 부동산 거래중 궁금한 내용을 작성하시면,
                 <br />
                 변호사가 직접 답변해 드려요.
