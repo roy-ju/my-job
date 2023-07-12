@@ -164,7 +164,7 @@ function LawQnaDetail() {
     });
 
     setOpenSharePopup(false);
-  }, [lawQnaDetailData.title, qnaID]);
+  }, [lawQnaDetailData?.title, qnaID]);
 
   useEffect(() => {
     async function view(id: number) {
