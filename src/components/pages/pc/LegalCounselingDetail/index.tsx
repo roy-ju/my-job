@@ -14,6 +14,7 @@ import Routes from '@/router/routes';
 import { getBrowser, getDevice } from '@/utils/misc';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Paths from '@/constants/paths';
 
 interface Props {
   depth: number;
@@ -121,59 +122,42 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   );
 
   const handleCopyUrl = useCallback(() => {
-    // let priceText = '';
-    // if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
-    //   priceText = `${formatNumberInKorean(data?.trade_or_deposit_price)}/${formatNumberInKorean(
-    //     data?.monthly_rent_fee,
-    //   )}`;
-    // } else {
-    //   priceText = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}`;
-    // }
-    // const content = `[네고시오] ${data?.display_address}\n► 부동산 종류 : ${
-    //   RealestateTypeString[data?.listing?.realestate_type ?? 0]
-    // }\n► 거래종류 : ${BuyOrRentString[data?.listing?.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
-    //   window.origin
-    // }/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
-    // navigator.clipboard.writeText(content);
-    // setOpenSharePopup(false);
-    // toast.success('복사되었습니다.');
-  }, []);
+    const content = `[네고시오] 부동산 법률 상담 게시판\n\n부동산 거래 플랫폼 네고시오에서 변호사가 직접\n법률 상담에 답변해 드려요.\n\n${window.origin}/${Routes.LawQnaDetail}?qnaID=${qnaID}`;
+    navigator.clipboard.writeText(content);
+    setOpenSharePopup(false);
+    toast.success('복사되었습니다.');
+  }, [qnaID]);
 
   const handleShareViaKakao = useCallback(() => {
-    // const link = `${window.origin}/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
-    // let description = data?.display_address;
-    // if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
-    //   description = `${formatNumberInKorean(data?.trade_or_deposit_price)}/${formatNumberInKorean(
-    //     data?.monthly_rent_fee,
-    //   )}, ${data?.display_address}`;
-    // } else {
-    //   description = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}, ${data?.display_address}`;
-    // }
-    // window.Kakao.Share.sendDefault({
-    //   objectType: 'feed',
-    //   installTalk: true,
-    //   content: {
-    //     title: data?.listing?.listing_title ?? '',
-    //     description,
-    //     imageUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
-    //     link: {
-    //       mobileWebUrl: link,
-    //       webUrl: link,
-    //     },
-    //     imageWidth: 1200,
-    //     imageHeight: 630,
-    //   },
-    //   buttons: [
-    //     {
-    //       title: '자세히보기',
-    //       link: {
-    //         mobileWebUrl: link,
-    //         webUrl: link,
-    //       },
-    //     },
-    //   ],
-    // });
-  }, []);
+    const link = `${window.origin}/${Routes.LawQnaDetail}?qnaID=${qnaID}`;
+
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      installTalk: true,
+      content: {
+        title: '네고시오 부동산 법률 상담게시판',
+        description: `Q.${lawQnaDetailData.title}`,
+        imageUrl: Paths.LAWQNA,
+        link: {
+          mobileWebUrl: link,
+          webUrl: link,
+        },
+        imageWidth: 1200,
+        imageHeight: 630,
+      },
+      buttons: [
+        {
+          title: '자세히보기',
+          link: {
+            mobileWebUrl: link,
+            webUrl: link,
+          },
+        },
+      ],
+    });
+
+    setOpenSharePopup(false);
+  }, [lawQnaDetailData.title, qnaID]);
 
   useEffect(() => {
     async function view(id: number) {

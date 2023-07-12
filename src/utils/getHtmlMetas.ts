@@ -112,5 +112,41 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
     }
   }
 
+  if (targetRoute === Routes.LawQnaDetail) {
+    try {
+      const { data: lawQnaDetail } = await axios.post('/lawqna/get', { law_qna_id: Number(query.qnaID) });
+
+      return {
+        title: AppConfig.title,
+        description: `Q.${lawQnaDetail?.title}`,
+        ogTitle: '네고시오 부동산 법률 상담 게시판',
+        ogDescription: `Q.${lawQnaDetail?.title}`,
+        ogImagePath: Paths.LAWQNA,
+        ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+        ogType: 'website',
+        keyWords: `부동산 법률 상담, ${
+          process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
+        }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
+      };
+    } catch (e) {
+      return defaultMeta;
+    }
+  }
+
+  if (targetRoute === Routes.LawQna) {
+    return {
+      title: AppConfig.title,
+      description: '실제 변호사에게 답변을 받을 수 있는 부동산 상담',
+      ogTitle: '네고시오 부동산 법률 상담 게시판',
+      ogDescription: '실제 변호사에게 답변을 받을 수 있는 부동산 상담',
+      ogImagePath: Paths.LAWQNA,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      keyWords: `부동산 법률 상담, ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
+      }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
+    };
+  }
+
   return defaultMeta;
 }

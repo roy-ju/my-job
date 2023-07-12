@@ -68,7 +68,7 @@ export default function LegalCounseling({
 
         <div tw="bg-white">
           {qnaLawData && qnaLawData.length > 0 && (
-            <InfiniteScroll onNext={onNext}>
+            <InfiniteScroll onNext={qnaLawData.length >= 10 ? onNext : undefined}>
               {qnaLawData.map((item) => (
                 <LegalContent
                   key={item.id}

@@ -19,7 +19,12 @@ export interface GetLawQnaListResponse {
 
 function getKey(searchQuery: string | null) {
   return (size: number, previousPageData: GetLawQnaListResponse) => {
-    if (size > 0 && (previousPageData === null || previousPageData?.list?.length < 1)) return null;
+    if (
+      size > 0 &&
+      (previousPageData === null || previousPageData?.list?.length < 1 || !previousPageData?.list?.length)
+    ) {
+      return null;
+    }
 
     return ['/lawqna/list', { page_number: size + 1, page_size: 10, search_query: searchQuery }];
   };
