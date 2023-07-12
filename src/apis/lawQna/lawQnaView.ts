@@ -9,7 +9,7 @@ export default async function lawQnaView(req: {
   browser: string;
 }): Promise<LawQnaViewResponse | null> {
   try {
-    const { data } = await axios.post('/listing/view', req);
+    const { data } = await axios.post('/lawqna/view', req);
     return data;
   } catch (e) {
     return null;

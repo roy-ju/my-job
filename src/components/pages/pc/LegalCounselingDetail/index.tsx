@@ -167,12 +167,14 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
         device: getDevice(),
         browser: getBrowser(),
       });
+
+      mutateQnaData();
     }
 
     if (lawQnaDetailData && typeof window !== 'undefined') {
       view(lawQnaDetailData.id);
     }
-  }, [ipAddress, lawQnaDetailData]);
+  }, [ipAddress, lawQnaDetailData, mutateQnaData]);
 
   if (!qnaID) return null;
 

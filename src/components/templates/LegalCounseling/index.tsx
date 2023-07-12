@@ -63,7 +63,7 @@ export default function LegalCounseling({
         </NavigationHeader>
       ) : (
         <NavigationHeader>
-          <NavigationHeader.Title tw="text-center">부동산 법률 상담</NavigationHeader.Title>
+          <NavigationHeader.Title>부동산 법률 상담</NavigationHeader.Title>
           <Button variant="ghost" tw="p-0" onClick={onClickSearchPage}>
             <SearchBlackIcon />
           </Button>
