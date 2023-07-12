@@ -24,6 +24,8 @@ const Paths = {
   INSTAGRAM: 'https://www.instagram.com/negocio.app',
   YOUTUBE: 'https://youtu.be/DRaGUpMo_bo',
   NAVER_BLOG: 'https://blog.naver.com/negocio21',
+
+  LAWQNA: 'https://negocio-common.s3.ap-northeast-2.amazonaws.com/law_og_720.png',
 };
 
 export default Paths;
