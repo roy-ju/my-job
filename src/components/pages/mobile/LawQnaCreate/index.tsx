@@ -3,6 +3,7 @@ import { lawQnaCreate } from '@/apis/lawQna/lawQnaCrud';
 
 import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { LegalCounselingWriting } from '@/components/templates';
+import Routes from '@/router/routes';
 
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -25,7 +26,7 @@ function LawQnaCreate() {
     if (response === null) {
       toast.success('등록이 완료되었습니다.', { toastId: 'success' });
       mutate();
-      router.back();
+      router.replace(`/${Routes.LawQna}`);
     }
   };
 

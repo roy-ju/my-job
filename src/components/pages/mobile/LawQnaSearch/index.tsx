@@ -9,7 +9,7 @@ function LawQnaSearch() {
   const router = useRouter();
 
   const handleClickBack = () => {
-    router.back();
+    router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}`);
   };
 
   const onSummit = (value: string) => {

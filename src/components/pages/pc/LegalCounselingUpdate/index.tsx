@@ -40,9 +40,9 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
       mutate();
 
       if (router?.query?.q) {
-        nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
+        nextRouter.replace(`/${Routes.LawQna}/${Routes.LawQnaDetail}?qnaID=${qnaID}&q=${router.query.q as string}`);
       } else {
-        nextRouter.replace(`/${Routes.LawQna}`);
+        nextRouter.replace(`/${Routes.LawQna}/${Routes.LawQnaDetail}?qnaID=${qnaID}`);
       }
     } else if (response.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setError(true);

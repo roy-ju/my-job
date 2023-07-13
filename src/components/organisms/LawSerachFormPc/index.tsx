@@ -55,6 +55,7 @@ export default function LawSearchFormPc({
 
       if (value) {
         storage.addRecentSearch({ query: { search: value } });
+
         setRecentSearches((prev) => [
           { id: nanoid(), createdTime: new Date().toISOString(), query: { search: value } },
           ...prev,

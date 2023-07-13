@@ -9,6 +9,7 @@ import storage from '@/storage/recentLawQnaSearch';
 import Close from '@/assets/icons/close.svg';
 
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
+import { useRouter } from 'next/router';
 
 function BackButton({ onClick }: { onClick?: () => void }) {
   return (
@@ -26,13 +27,15 @@ export interface LawSearchFormProps {
 }
 
 export default function LawSearchForm({ value: valueProp, onChange, onSubmit, onClickBack }: LawSearchFormProps) {
+  const router = useRouter();
+
   const [recentSearches, setRecentSearches] = useState(
     storage.getRecentSearches().sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime()),
   );
 
   const [value, setValueState] = useControlled({
     controlled: valueProp,
-    default: '',
+    default: router?.query?.q ? (router.query.q as string) : '',
   });
 
   const handleInputValueChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -42,8 +45,6 @@ export default function LawSearchForm({ value: valueProp, onChange, onSubmit, on
     },
     [onChange, setValueState],
   );
-
-  // const results = useKakaoAddressAutocomplete(value);
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
@@ -112,10 +113,6 @@ export default function LawSearchForm({ value: valueProp, onChange, onSubmit, on
               key={result.id}
               value={result.query.search}
               onClick={(e) => {
-                if (value) {
-                  storage.addRecentSearch({ query: { search: value } });
-                }
-
                 onSubmit?.(e.currentTarget.value);
               }}
               tw="p-4 px-5 gap-2 min-h-[0px] hover:bg-gray-200 text-start transition-colors"

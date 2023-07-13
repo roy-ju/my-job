@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'twin.macro';
 import Eye from '@/assets/icons/eye.svg';
 import Thumb from '@/assets/icons/thumb.svg';
 import ThumbRed from '@/assets/icons/thumb_red.svg';
 import { Button } from '@/components/atoms';
 import { useRouter } from 'next/router';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { getDevice } from '@/utils/misc';
 
 interface LegalContentProp {
   qnaId?: number;
@@ -48,6 +50,18 @@ export function LegalContent({
 }: LegalContentProp) {
   const router = useRouter();
 
+  const [platform, setPlatform] = useState('');
+
+  useIsomorphicLayoutEffect(() => {
+    if (getDevice() === 'Mobile') {
+      setPlatform('Mobile');
+    } else if (getDevice() === 'PC') {
+      setPlatform('PC');
+    }
+  }, []);
+
+  if (!platform) return null;
+
   return (
     <div
       tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF] hover:bg-gray-50 cursor-pointer"
@@ -77,14 +91,30 @@ export function LegalContent({
       </div>
 
       <div tw="mt-2 cursor-pointer">
-        {mainText && (
-          <a
-            href={
-              router?.query?.q
-                ? `/lawQna/lawQnaDetail?qnaID=${qnaId}&q=${router.query.q as string}`
-                : `/lawQna/lawQnaDetail?qnaID=${qnaId}`
-            }
-          >
+        {mainText &&
+          (platform === 'PC' ? (
+            <a
+              href={
+                router?.query?.q
+                  ? `/lawQna/lawQnaDetail?qnaID=${qnaId}&q=${router.query.q as string}`
+                  : `/lawQna/lawQnaDetail?qnaID=${qnaId}`
+              }
+            >
+              <h2
+                tw="text-b2 font-bold [letter-spacing: -0.25px] mb-2"
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                }}
+              >
+                <span tw="text-nego">Q. </span>
+                {mainText}
+              </h2>
+            </a>
+          ) : (
             <h2
               tw="text-b2 font-bold [letter-spacing: -0.25px] mb-2"
               style={{
@@ -98,8 +128,7 @@ export function LegalContent({
               <span tw="text-nego">Q. </span>
               {mainText}
             </h2>
-          </a>
-        )}
+          ))}
 
         {subText && (
           <h4

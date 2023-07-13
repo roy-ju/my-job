@@ -28,7 +28,7 @@ function LawQnaDetail() {
   const [openErrPopup, setOpenErrPopup] = useState(false);
   const [text, setText] = useState('');
 
-  const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.search ? (router.query.search as string) : null);
+  const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
 
   const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useAPI_GetLawQnaDetail(
     router?.query?.qnaID ? Number(router?.query?.qnaID) : undefined,
@@ -37,11 +37,19 @@ function LawQnaDetail() {
   const handleClickDetail = (id?: number) => {
     if (!id) return;
 
-    router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}`);
+    if (router?.query?.q) {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}&q=${router.query.q as string}`);
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}`);
+    }
   };
 
   const handleClickBack = () => {
-    router.back();
+    if (typeof window !== 'undefined' && window?.history?.length > 1) {
+      router.back();
+    } else {
+      router.replace(`/${Routes.LawQna}`);
+    }
   };
 
   const handleClickDelete = useCallback(async () => {
@@ -52,12 +60,22 @@ function LawQnaDetail() {
     if (response === null) {
       toast.success('게시물이 삭제되었습니다.', { toastId: 'toast_delete' });
       mutateQnaData();
-      router.back();
+
+      if (typeof window !== 'undefined' && window?.history?.length > 1) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.LawQna}`);
+      }
     } else if (response?.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setText('삭제');
       setOpenErrPopup(true);
+
       setTimeout(() => {
-        router.back();
+        if (typeof window !== 'undefined' && window?.history?.length > 1) {
+          router.back();
+        } else {
+          router.replace(`/${Routes.LawQna}`);
+        }
       }, 3000);
     }
   }, [mutateQnaData, qnaID, router]);
@@ -81,17 +99,32 @@ function LawQnaDetail() {
       setOpenErrPopup(true);
     }
 
-    router.push(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}`,
-        query: {
-          qnaID: `${qnaID}`,
-          title: lawQnaDetailData?.title || '',
-          content: lawQnaDetailData?.user_message || '',
+    if (router?.query?.q) {
+      router.push(
+        {
+          pathname: `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}`,
+          query: {
+            qnaID: `${qnaID}`,
+            title: lawQnaDetailData?.title || '',
+            content: lawQnaDetailData?.user_message || '',
+            q: router.query.q as string,
+          },
         },
-      },
-      `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}?qnaID=${qnaID}`,
-    );
+        `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}?qnaID=${qnaID}&q=${router.query.q}`,
+      );
+    } else {
+      router.push(
+        {
+          pathname: `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}`,
+          query: {
+            qnaID: `${qnaID}`,
+            title: lawQnaDetailData?.title || '',
+            content: lawQnaDetailData?.user_message || '',
+          },
+        },
+        `/${Routes.EntryMobile}/${Routes.LawQnaUpdate}?qnaID=${qnaID}`,
+      );
+    }
   };
 
   const handleClickErrPopupClose = () => {
