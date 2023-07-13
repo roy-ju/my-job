@@ -19,6 +19,7 @@ import useAPI_GetHomeDashboardInfo from '@/apis/home/getDashboard';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { addFavorite } from '@/apis/listing/addListingFavroite';
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 
 export default function Home() {
   const router = useRouter();
@@ -38,6 +39,8 @@ export default function Home() {
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
 
   const { data: homeDashboardData } = useAPI_GetHomeDashboardInfo();
+
+  const { data: qnaLawData } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null, 4);
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -61,6 +64,13 @@ export default function Home() {
       `/${Routes.EntryMobile}/${Routes.Map}`,
     );
   }, [router]);
+
+  const handleClickLawQna = useCallback(
+    (id?: number) => {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}`);
+    },
+    [router],
+  );
 
   const handleClickHomeRegister = useCallback(() => {
     if (user?.hasAddress) {
@@ -172,7 +182,7 @@ export default function Home() {
   };
 
   const handleClickCounseling = useCallback(() => {
-    router.push(`${Routes.EntryMobile}/${Routes.LawQna}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.LawQna}`);
   }, [router]);
 
   return (
@@ -191,6 +201,7 @@ export default function Home() {
         hasFavoriteDanji={danjisForUserData?.has_favorite_danji}
         activeListingCount={homeDashboardData?.active_listing_count}
         suggestAssignedAgentCount={homeDashboardData?.suggest_assigned_agent_count}
+        qnaLawData={qnaLawData}
         onClickLogin={handleClickLogin}
         onClickNotification={handleClickNotification}
         onClickSuggestion={handleClickSuggestion}
@@ -211,6 +222,7 @@ export default function Home() {
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
         onClickFavoriteButton={handleClickFavoriteButton}
         onClickCounseling={handleClickCounseling}
+        onClickLawQna={handleClickLawQna}
       />
       {openPopup && (
         <OverlayPresenter>

@@ -17,7 +17,7 @@ export interface GetLawQnaListResponse {
   list: ILawQnaListItem[];
 }
 
-function getKey(searchQuery: string | null) {
+function getKey(searchQuery: string | null, pageSize?: number | undefined) {
   return (size: number, previousPageData: GetLawQnaListResponse) => {
     if (
       size > 0 &&
@@ -26,18 +26,18 @@ function getKey(searchQuery: string | null) {
       return null;
     }
 
-    return ['/lawqna/list', { page_number: size + 1, page_size: 10, search_query: searchQuery }];
+    return ['/lawqna/list', { page_number: size + 1, page_size: pageSize || 10, search_query: searchQuery }];
   };
 }
 
-export default function useAPI_GetLawQna(searchQuery: string | null) {
+export default function useAPI_GetLawQna(searchQuery: string | null, pageSize?: number | undefined) {
   const {
     data: dataList,
     size,
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<GetLawQnaListResponse>(getKey(searchQuery), null, {
+  } = useSWRInfinite<GetLawQnaListResponse>(getKey(searchQuery, pageSize), null, {
     revalidateOnFocus: false,
     revalidateFirstPage: false,
   });

@@ -4,6 +4,7 @@ import useAPI_GetListingsForTheLoggedIn from '@/apis/home/getListingsForTheLogge
 import useAPI_GetMostFavorites from '@/apis/home/getMostFavorites';
 import useAPI_GetMostSuggests from '@/apis/home/getMostSuggests';
 import useAPI_GetMostTradeCount from '@/apis/home/getMostTradeCount';
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 
@@ -38,6 +39,8 @@ export default memo(() => {
   const { data: danjisForUserData } = useAPI_GetDanjisForTheLoggedIn();
 
   const { data: homeDashboardData } = useAPI_GetHomeDashboardInfo();
+
+  const { data: qnaLawData } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null, 4);
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -74,6 +77,13 @@ export default memo(() => {
       },
     });
   }, [router]);
+
+  const handleClickLawQna = useCallback(
+    (id?: number) => {
+      router.replace(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
+    },
+    [router],
+  );
 
   const handleClickListing = useCallback(
     (listingID: number) => {
@@ -179,6 +189,7 @@ export default memo(() => {
         hasFavoriteDanji={danjisForUserData?.has_favorite_danji}
         activeListingCount={homeDashboardData?.active_listing_count}
         suggestAssignedAgentCount={homeDashboardData?.suggest_assigned_agent_count}
+        qnaLawData={qnaLawData}
         onClickLogin={handleClickLogin}
         onClickNotification={handleClickNotification}
         onClickSuggestion={handleClickSuggestion}
@@ -199,6 +210,7 @@ export default memo(() => {
         onFavoritelistingsForUserMutate={favoritelistingsForUserMutate}
         onClickFavoriteButton={handleClickFavoriteButton}
         onClickCounseling={handleClickCounseling}
+        onClickLawQna={handleClickLawQna}
       />
       {openPopup && (
         <OverlayPresenter>
