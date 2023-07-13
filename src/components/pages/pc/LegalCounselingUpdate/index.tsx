@@ -5,6 +5,8 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { LegalCounselingWriting } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
 import { useRouter } from '@/hooks/utils';
+import Routes from '@/router/routes';
+import { useRouter as useNextRouter } from 'next/router';
 
 import { memo, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -18,7 +20,9 @@ interface Props {
 export default memo(({ depth, panelWidth, qnaID }: Props) => {
   const router = useRouter(depth);
 
-  const { mutate } = useAPI_GetLawQna(null);
+  const nextRouter = useNextRouter();
+
+  const { mutate } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +38,12 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
     if (response === null) {
       toast.success('수정이 완료되었습니다.');
       mutate();
-      router.popLast(true);
+
+      if (router?.query?.q) {
+        nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
+      } else {
+        nextRouter.replace(`/${Routes.LawQna}`);
+      }
     } else if (response.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setError(true);
     }
@@ -42,7 +51,12 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
 
   const handleClickErrPopup = () => {
     mutate();
-    router.popLast(true);
+
+    if (router?.query?.q) {
+      nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
+    } else {
+      nextRouter.replace(`/${Routes.LawQna}`);
+    }
   };
 
   if (!qnaID || error)

@@ -19,7 +19,7 @@ function LawQnaSearch() {
     }
 
     if (value) {
-      router.push(`/${Routes.EntryMobile}/${Routes.LawQna}?search=${value}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQna}?q=${value}`);
     }
   };
 

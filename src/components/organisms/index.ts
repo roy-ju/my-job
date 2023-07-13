@@ -58,6 +58,7 @@ export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
 export { default as FaqList } from './FaqList';
 export { default as SharePopup } from './SharePopup';
 export { default as LawSearchForm } from './LawSearchForm';
+export { default as LawSerachFormPc } from './LawSerachFormPc';
 
 // 모바일 전용
 export { default as MobDanjiSummary } from './MobDanjiSummary';

@@ -15,7 +15,7 @@ function LawQna() {
     data: qnaLawData,
     mutate: mutateQnaData,
     incrementalPageNumber,
-  } = useAPI_GetLawQna(router?.query?.search ? (router.query.search as string) : null);
+  } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
 
   const handleClickBack = () => {
     router.back();
@@ -30,7 +30,11 @@ function LawQna() {
   };
 
   const handleClickSearchPage = () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.LawQnaSearch}`);
+    if (router?.query?.q) {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaSearch}?q=${router.query.q as string}`);
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaSearch}`);
+    }
   };
 
   const handleClickWritingPage = () => {

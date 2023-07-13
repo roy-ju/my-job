@@ -55,52 +55,35 @@ export default function useRouter(depth: number) {
    * 가장 오른쪽에 열려 있는 depth 를 닫는다.
    */
 
-  const popLast = useCallback(
-    (isDeleteQuery?: boolean | undefined) => {
-      const segments = router.asPath
-        .split('?')[0]
-        .split('/')
-        .filter((seg) => seg !== '');
+  const popLast = useCallback(() => {
+    const segments = router.asPath
+      .split('?')[0]
+      .split('/')
+      .filter((seg) => seg !== '');
 
-      segments.pop();
+    segments.pop();
 
-      for (let i = 1; i < 6; i += 1) {
-        delete router.query[`depth${i}`];
-      }
+    for (let i = 1; i < 6; i += 1) {
+      delete router.query[`depth${i}`];
+    }
 
-      delete router.query.params;
-      delete router.query.redirect;
+    delete router.query.params;
+    delete router.query.redirect;
 
-      const query: Record<string, string> = {
-        ...(router.query as Record<string, string>),
-        // ...options?.searchParams,
-      };
+    const query: Record<string, string> = {
+      ...(router.query as Record<string, string>),
+      // ...options?.searchParams,
+    };
 
-      let path = '/';
+    let path = '/';
 
-      segments.forEach((value, index) => {
-        path += `[depth${index + 1}]/`;
-        query[`depth${index + 1}`] = value;
-      });
+    segments.forEach((value, index) => {
+      path += `[depth${index + 1}]/`;
+      query[`depth${index + 1}`] = value;
+    });
 
-      const anotherQuery: any = {};
-
-      if (isDeleteQuery && query && query.hasOwnProperty('depth1')) {
-        anotherQuery.depth1 = query.depth1;
-      }
-
-      if (isDeleteQuery && query && query.hasOwnProperty('depth2')) {
-        anotherQuery.depth2 = query.depth2;
-      }
-
-      if (isDeleteQuery) {
-        return router.replace({ pathname: path, query: anotherQuery });
-      }
-
-      return router.replace({ pathname: path, query });
-    },
-    [router],
-  );
+    return router.replace({ pathname: path, query });
+  }, [router]);
 
   /**
    * 오른쪽에 열려있는 모든 depth 를 유지한체 현재의 depth 를 새로운 depth 로 대체한다.

@@ -10,6 +10,7 @@ import { LegalCounselingDetail } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { getBrowser, getDevice } from '@/utils/misc';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -33,8 +34,9 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const [text, setText] = useState('');
 
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
-  const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.search ? (router.query.search as string) : null);
+  const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
 
   const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useAPI_GetLawQnaDetail(
     router?.query?.qnaID ? Number(router?.query?.qnaID) : undefined,
@@ -43,7 +45,9 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const handleClickDetail = (id?: number) => {
     if (!id) return;
 
-    router.replace(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
+    router.replace(Routes.LawQnaDetail, {
+      searchParams: router?.query?.q ? { qnaID: `${id}`, q: router.query.q as string } : { qnaID: `${id}` },
+    });
   };
 
   const handleClickDelete = useCallback(async () => {
@@ -53,14 +57,27 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
 
     if (response === null) {
       toast.success('게시물이 삭제되었습니다.', { toastId: 'toast_delete' });
-      mutateQnaData();
-      router.popLast(true);
+
+      await mutateQnaData();
+
+      if (router?.query?.q) {
+        nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
+      } else {
+        nextRouter.replace(`/${Routes.LawQna}`);
+      }
     } else if (response?.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setText('삭제');
       setOpenErrPopup(true);
-      router.popLast(true);
+
+      await mutateQnaData();
+
+      if (router?.query?.q) {
+        nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
+      } else {
+        nextRouter.replace(`/${Routes.LawQna}`);
+      }
     }
-  }, [mutateQnaData, qnaID, router]);
+  }, [mutateQnaData, qnaID, nextRouter, router]);
 
   const handleClickPopupOpen = () => {
     if (lawQnaDetailData?.admin_message) {
@@ -83,7 +100,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
     }
 
     router.replace(Routes.LawQnaUpdate, {
-      searchParams: { qnaID: `${qnaID}` },
+      searchParams: router?.query?.q ? { qnaID: `${qnaID}`, q: router.query.q as string } : { qnaID: `${qnaID}` },
       state: {
         title: lawQnaDetailData?.title || '',
         content: lawQnaDetailData?.user_message || '',
@@ -193,7 +210,11 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
             <Popup.ActionButton
               onClick={() => {
                 mutateQnaData();
-                router.popLast(true);
+                if (router?.query?.q) {
+                  nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
+                } else {
+                  nextRouter.replace(`/${Routes.LawQna}`);
+                }
               }}
             >
               확인

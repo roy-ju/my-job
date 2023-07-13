@@ -6,6 +6,7 @@ import Eye from '@/assets/icons/eye.svg';
 import Thumb from '@/assets/icons/thumb.svg';
 import ThumbRed from '@/assets/icons/thumb_red.svg';
 import { Button } from '@/components/atoms';
+import { useRouter } from 'next/router';
 
 interface LegalContentProp {
   qnaId?: number;
@@ -45,9 +46,11 @@ export function LegalContent({
   onClickLike,
   onClickQnaDetail,
 }: LegalContentProp) {
+  const router = useRouter();
+
   return (
     <div
-      tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF] hover:bg-gray-50"
+      tw="px-5 py-4 [border-bottom: 1px solid #E9ECEF] hover:bg-gray-50 cursor-pointer"
       onClick={(e) => {
         e.stopPropagation();
         onClickQnaDetail?.(qnaId);
@@ -75,19 +78,27 @@ export function LegalContent({
 
       <div tw="mt-2 cursor-pointer">
         {mainText && (
-          <h2
-            tw="text-b2 font-bold [letter-spacing: -0.25px] mb-2"
-            style={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-            }}
+          <a
+            href={
+              router?.query?.q
+                ? `/lawQna/lawQnaDetail?qnaID=${qnaId}&q=${router.query.q as string}`
+                : `/lawQna/lawQnaDetail?qnaID=${qnaId}`
+            }
           >
-            <span tw="text-nego">Q. </span>
-            {mainText}
-          </h2>
+            <h2
+              tw="text-b2 font-bold [letter-spacing: -0.25px] mb-2"
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+              }}
+            >
+              <span tw="text-nego">Q. </span>
+              {mainText}
+            </h2>
+          </a>
         )}
 
         {subText && (
@@ -114,29 +125,20 @@ export function LegalContent({
           )}
         </div>
 
-        <div tw="flex items-center gap-1">
+        <div
+          tw="flex items-center gap-1"
+          onClick={(e) => {
+            e?.preventDefault();
+            e?.stopPropagation();
+            onClickLike?.(isLike, qnaId);
+          }}
+        >
           {isLike ? (
-            <Button
-              variant="ghost"
-              tw="[padding: 0]"
-              onClick={(e) => {
-                e?.preventDefault();
-                e?.stopPropagation();
-                onClickLike?.(isLike, qnaId);
-              }}
-            >
+            <Button variant="ghost" tw="[padding: 0]">
               <ThumbRed />
             </Button>
           ) : (
-            <Button
-              variant="ghost"
-              tw="[padding: 0]"
-              onClick={(e) => {
-                e?.preventDefault();
-                e?.stopPropagation();
-                onClickLike?.(isLike, qnaId);
-              }}
-            >
+            <Button variant="ghost" tw="[padding: 0]">
               <Thumb />
             </Button>
           )}
