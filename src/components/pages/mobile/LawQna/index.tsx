@@ -18,7 +18,7 @@ function LawQna() {
   } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
 
   const handleClickBack = () => {
-    router.back();
+    router.replace(`/${Routes.EntryMobile}`);
   };
 
   const handleClickAllPage = () => {
@@ -38,13 +38,21 @@ function LawQna() {
   };
 
   const handleClickWritingPage = () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.LawQnaCreate}`);
+    if (router?.query?.q) {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaCreate}?q=${router.query.q as string}`);
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaCreate}`);
+    }
   };
 
   const handleQnaDetail = (id?: number) => {
     if (typeof id !== 'number') return;
 
-    router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}`);
+    if (router?.query?.q) {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}&q=${router?.query?.q as string}`);
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaDetail}?qnaID=${id}`);
+    }
   };
 
   const handleClickLike = useCallback(

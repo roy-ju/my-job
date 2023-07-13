@@ -40,7 +40,12 @@ function LawQnaUpdate() {
 
   const handleClickErrPopup = () => {
     mutate();
-    router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}`);
+
+    if (router?.query?.q) {
+      router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}?q=${router.query.q as string}`);
+    } else {
+      router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}`);
+    }
   };
 
   if (!qnaID || error)
