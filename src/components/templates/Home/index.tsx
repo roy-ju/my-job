@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { motion } from 'framer-motion';
 import CharacterImage from '@/../public/static/images/character.png';
 import HomeSearchImage from '@/../public/static/images/home_search.png';
@@ -38,6 +40,7 @@ import { addFavorite } from '@/apis/listing/addListingFavroite';
 import { BuyOrRent } from '@/constants/enums';
 import { checkPlatform } from '@/utils/checkPlatform';
 import Routes from '@/router/routes';
+import { GetLawQnaListResponse } from '@/apis/lawQna/getLawQna';
 import { Banner } from './Components/Banner';
 
 function renderLeftButton(props: any) {
@@ -134,6 +137,7 @@ interface Props {
   mostFavoriteList?: GetMostFavoritesResponse['list'];
   listingsForUser?: GetListingsForTheLoggedIn['list'];
   danjisForUser?: GetDanjisForTheLoggedIn['list'];
+  qnaLawData?: GetLawQnaListResponse['list'];
   hasAddress?: boolean;
   hasFavoriteDanji?: boolean;
   regionName?: string;
@@ -157,6 +161,7 @@ interface Props {
   onClickGuide?: () => void;
   onClickCounseling?: () => void;
 
+  onClickLawQna?: (id?: number) => void;
   onFavoritelistingsForUserMutate?: () => void;
   onClickFavoriteButton?: (selected: boolean, listingId: number) => Promise<void>;
 }
@@ -174,6 +179,7 @@ export default function Home({
   mostFavoriteList,
   listingsForUser,
   danjisForUser,
+  qnaLawData,
   hasAddress,
   hasFavoriteDanji,
   regionName,
@@ -197,6 +203,7 @@ export default function Home({
   onClickGuide,
   onClickCounseling,
 
+  onClickLawQna,
   onFavoritelistingsForUserMutate,
   onClickFavoriteButton,
 }: Props) {
@@ -405,8 +412,29 @@ export default function Home({
 
         <div>
           <Separator tw="bg-gray-300" />
-          <div tw="py-10 px-5">
-            <Banner handleClickCounseling={onClickCounseling} />
+
+          <div tw="py-10">
+            <div tw="px-5">
+              <h2 tw="text-h3 font-bold mb-1">부동산 법률상담</h2>
+              <p tw="text-b2 mb-4 text-gray-700">안전한 부동산 거래를 위해 변호사가 상담해 드려요.</p>
+              <Banner handleClickCounseling={onClickCounseling} />
+            </div>
+
+            {qnaLawData && qnaLawData.length > 0
+              ? qnaLawData.map((item, index) => (
+                  <div
+                    tw="py-4 px-5 hover:bg-gray-200 cursor-pointer"
+                    key={item.id}
+                    onClick={() => onClickLawQna?.(item.id)}
+                    style={qnaLawData.length === index + 1 ? {} : { borderBottom: '1px solid #E9ECEF' }}
+                  >
+                    <h1 tw="text-b2 [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+                      <span tw="font-bold text-nego-1000">Q. </span>
+                      {item.title}
+                    </h1>
+                  </div>
+                ))
+              : null}
           </div>
         </div>
 
