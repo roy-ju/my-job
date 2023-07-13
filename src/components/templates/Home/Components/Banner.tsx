@@ -16,7 +16,7 @@ export function Banner({ handleClickCounseling }: { handleClickCounseling?: () =
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      tw="[border-radius: 12px] min-h-[88px] [min-width: 340px] mx-auto relative p-5 cursor-pointer py-4"
+      tw="[border-radius: 12px] min-h-[88px] [min-width: 340px] mx-auto relative p-5 py-4"
       style={{
         backgroundImage: `url('${BannerImage.src}')`,
         backgroundRepeat: 'no-repeat',
@@ -44,7 +44,7 @@ export function Banner({ handleClickCounseling }: { handleClickCounseling?: () =
 export function LegalPageBanner({ handleClickHome }: { handleClickHome?: () => void }) {
   return (
     <StyledBox
-      tw="[border-radius: 12px] min-h-[140px] [min-width: 340px] mx-auto relative p-5 cursor-pointer"
+      tw="[border-radius: 12px] min-h-[140px] [min-width: 340px] mx-auto relative p-5"
       style={{
         backgroundImage: `url('${BannerImage2.src}')`,
         backgroundRepeat: 'no-repeat',
