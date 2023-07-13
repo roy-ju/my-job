@@ -233,7 +233,12 @@ function LawQnaDetail() {
             <Popup.ActionButton
               onClick={() => {
                 mutateQnaData();
-                router.back();
+
+                if (typeof window !== 'undefined' && window?.history?.length > 1) {
+                  router.back();
+                } else {
+                  router.replace(`/${Routes.LawQna}`);
+                }
               }}
             >
               확인
