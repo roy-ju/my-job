@@ -23,7 +23,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     data: qnaLawData,
     mutate: mutateQnaData,
     incrementalPageNumber,
-  } = useAPI_GetLawQna(router?.query?.search ? (router.query.search as string) : null);
+  } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
 
   const handleClickHome = () => {
     router.replace('');
@@ -32,19 +32,29 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleQnaDetail = (id?: number) => {
     if (typeof id !== 'number') return;
 
-    router.push(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
+    router.push(Routes.LawQnaDetail, {
+      searchParams: router?.query?.q ? { qnaID: `${id}`, q: router?.query?.q as string } : { qnaID: `${id}` },
+    });
   };
 
   const handleClickSearchPage = () => {
-    router.push(Routes.LawQnaSearch);
+    if (router?.query?.q) {
+      router.push(`/${Routes.LawQnaSearch}`, {
+        searchParams: { q: router.query.q as string },
+      });
+    } else {
+      router.push(Routes.LawQnaSearch);
+    }
   };
 
   const handleClickWritingPage = () => {
-    router.push(Routes.LawQnaCreate);
+    router.push(Routes.LawQnaCreate, {
+      searchParams: router?.query?.q ? { q: router.query.q as string } : undefined,
+    });
   };
 
   const handleClickAllPage = () => {
-    router.replace(`${Routes.LawQna}`);
+    router.replaceCurrent(`${Routes.LawQna}`);
   };
 
   const handleClickLike = useCallback(
