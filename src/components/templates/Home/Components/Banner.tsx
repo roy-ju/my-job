@@ -31,10 +31,7 @@ export function Banner({ handleClickCounseling }: { handleClickCounseling?: () =
         </a>
       </h1>
 
-      <Button
-        variant="primary"
-        tw="absolute bottom-4 w-[118px] h-[24px] px-3 [font-size: 10px] [line-height: 12px] [border-radius: 14px] font-medium whitespace-nowrap"
-      >
+      <Button tw="absolute bottom-4 w-[118px] h-[24px] px-3 [font-size: 10px] [line-height: 12px] [border-radius: 14px] font-medium whitespace-nowrap bg-blue hover:bg-blue">
         상담 게시판 바로가기 <ChevronRight />
       </Button>
     </motion.div>
