@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { NavigationHeader } from '@/components/molecules';
 
-// import SearchBlackIcon from '@/assets/icons/search_black_24px.svg';
 import SearchBlackIcon from '@/assets/icons/search.svg';
 import { ILawQnaListItem } from '@/apis/lawQna/getLawQna';
 import { Button, InfiniteScroll } from '@/components/atoms';
@@ -10,6 +12,7 @@ import { useScroll } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
 import { formatCreatedTime } from '@/utils/formatLastMessageTime';
 import { getDevice } from '@/utils/misc';
+import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 import { LegalPageBanner } from '../Home/Components/Banner';
 import { LegalContent } from './Components/LegalContent';
 
@@ -66,17 +69,55 @@ export default function LegalCounseling({
     <div tw="flex flex-col h-full">
       {onClickBack ? (
         <NavigationHeader tw="relative">
-          <NavigationHeader.BackButton onClick={onClickBack} title="서비스 홈" />
-          <NavigationHeader.Title tw="absolute [left: 38%] text-center">부동산 법률 상담</NavigationHeader.Title>
-          <Button variant="ghost" tw="absolute right-4 p-0" onClick={onClickSearchPage}>
-            <SearchBlackIcon />
-          </Button>
+          {nextRouter?.query?.q ? (
+            <>
+              <NavigationHeader.BackButton onClick={onClickBack} />
+              <NavigationHeader.Title tw="text-center">
+                <div
+                  tw="flex items-center p-4 [line-height: 16px] [border: 1px solid #E9ECEF] [border-radius: 8px] [min-width: 308px]"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onClickSearchPage?.();
+                  }}
+                >
+                  <SearchBlackIcon style={{ marginRight: '8px' }} />
+                  <span tw="font-normal [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+                    {nextRouter.query.q as string}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    tw="ml-auto p-0 pl-2 [height: 16px]"
+                    onClick={(e) => {
+                      e?.preventDefault();
+                      e?.stopPropagation();
+                      onClickAllPage?.();
+                    }}
+                  >
+                    <DeleteAllIcon />
+                  </Button>
+                </div>
+              </NavigationHeader.Title>
+            </>
+          ) : (
+            <>
+              <NavigationHeader.BackButton onClick={onClickBack} title="서비스 홈" />
+              <NavigationHeader.Title tw="absolute [left: 38%] text-center">부동산 법률 상담</NavigationHeader.Title>
+              <Button variant="ghost" tw="absolute right-4 p-0" onClick={onClickSearchPage}>
+                <SearchBlackIcon />
+              </Button>
+            </>
+          )}
         </NavigationHeader>
       ) : (
         <NavigationHeader>
           <NavigationHeader.Title>부동산 법률 상담</NavigationHeader.Title>
           <Button variant="ghost" tw="p-0" onClick={onClickSearchPage}>
-            <SearchBlackIcon style={{ width: '24px', height: '24px', color: '#343A40' }} />
+            {nextRouter?.query?.q ? (
+              <SearchBlackIcon style={{ width: '24px', height: '24px', color: '#7048E8' }} />
+            ) : (
+              <SearchBlackIcon style={{ width: '24px', height: '24px', color: '#343A40' }} />
+            )}
           </Button>
         </NavigationHeader>
       )}
@@ -112,7 +153,7 @@ export default function LegalCounseling({
             (nextRouter?.query?.q ? (
               <>
                 <p tw="text-info mt-5 [padding-top: 115px] [padding-bottom: 16px] px-5 text-center text-gray-700 [min-height: 0]">
-                  <span tw="text-nego-1000 font-bold">{`'${nextRouter.query.q}'`}</span> 에 대한 검색결과가 없습니다.
+                  <span tw="text-nego-800 font-bold">{`'${nextRouter.query.q}'`}</span> 에 대한 검색결과가 없습니다.
                 </p>
                 <Button variant="secondary" size="small" tw="mx-auto" onClick={onClickAllPage}>
                   전체보기
