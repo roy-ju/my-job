@@ -1,7 +1,7 @@
 import axios from '@/lib/axios';
 
 interface addMyFavoriteDanjiRequest {
-  pnu: string;
+  danji_id: number;
   realestate_type: number;
 }
 

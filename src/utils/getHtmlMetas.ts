@@ -78,7 +78,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
   if (targetRoute === Routes.DanjiDetail) {
     try {
       const { data } = await axios.post('/danji/get/v2', {
-        pnu: query.p,
+        danji_id: query?.danjiID,
         realestate_type: Number(query.rt),
       });
 

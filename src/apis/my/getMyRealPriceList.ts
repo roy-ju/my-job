@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import useSWRInfinite from 'swr/infinite';
 
 interface RealPriceListItem {
-  pnu: string;
+  danji_id: number;
   realestate_type: number;
   danji_name: string;
   price: number;

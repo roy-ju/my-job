@@ -84,7 +84,7 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
 
     if (danjiData) {
       window.Negocio.callbacks.selectSchoolInteraction({
-        id: `danjiMarker:${danjiData.pnu}${danjiData.type}`,
+        id: `danjiMarker:${danjiData.danji_id}${danjiData.type}`,
         lat: danjiData.lat,
         lng: danjiData.long,
       });
@@ -92,7 +92,7 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       // map.naverMap?.morph({ lat: danjiData.lat, lng: danjiData.long }, 16);
 
       const elementrySchoolRes = await getDanjiSchoolsMarker({
-        pnu: danjiData?.pnu,
+        danjiId: danjiData?.danji_id,
         realestateType: danjiData?.type,
         schoolTypes: '1',
       });
@@ -114,7 +114,7 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       }
 
       const middleSchoolRes = await getDanjiSchoolsMarker({
-        pnu: danjiData?.pnu,
+        danjiId: danjiData?.danji_id,
         realestateType: danjiData?.type,
         schoolTypes: '2',
       });
@@ -136,7 +136,7 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       }
 
       const highSchoolRes = await getDanjiSchoolsMarker({
-        pnu: danjiData?.pnu,
+        danjiId: danjiData?.danji_id,
         realestateType: danjiData?.type,
         schoolTypes: '3',
       });
@@ -176,7 +176,7 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
 
     if (danjiData) {
       window.Negocio.callbacks.selectAroundInteraction({
-        id: `danjiMarker:${danjiData.pnu}${danjiData.type}`,
+        id: `danjiMarker:${danjiData.danji_id}${danjiData.type}`,
         lat: danjiData.lat,
         lng: danjiData.long,
       });

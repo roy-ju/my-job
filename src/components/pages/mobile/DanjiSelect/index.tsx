@@ -17,7 +17,7 @@ export default function DanjiSelect() {
   const [selectedYear, setSelectedYear] = useState<number>();
 
   const { danji } = useAPI_GetDanjiDetail({
-    pnu: router?.query?.p as string,
+    danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : null,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 
@@ -27,13 +27,15 @@ export default function DanjiSelect() {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,
         query: {
           listingID: router.query.listingID as string,
-          p: `${router.query.p}`,
+          danjiID: `${router.query.danjiID}`,
           rt: router.query.rt as string,
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?p=${router.query.p}&rt=${router.query.rt as string}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?danjiID=${router.query.danjiID}&rt=${
+        router.query.rt as string
+      }`,
     );
   }, [buyOrRent, router, selectedYear]);
 
@@ -52,13 +54,13 @@ export default function DanjiSelect() {
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealTradeDetail}`,
         query: {
-          p: `${router.query.p}`,
+          danjiID: `${router.query.danjiID}`,
           rt: router.query.rt as string,
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRealTradeDetail}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealTradeDetail}?danjiID=${router.query.danjiID}&rt=${router.query.rt}`,
     );
   }, [buyOrRent, router, selectedYear]);
 

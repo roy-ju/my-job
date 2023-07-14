@@ -14,7 +14,7 @@ export type DanjiRealPriceChartResponse = {
 
 export function useAPI_DanjiRealPriceChart({
   directDealExcluded,
-  pnu,
+  danjiId,
   realestateType,
   buyOrRent,
   year,
@@ -22,7 +22,7 @@ export function useAPI_DanjiRealPriceChart({
   list,
 }: {
   directDealExcluded: boolean;
-  pnu?: string;
+  danjiId?: number;
   realestateType?: number | null;
   buyOrRent?: number;
   year?: number;
@@ -41,7 +41,7 @@ export function useAPI_DanjiRealPriceChart({
     | null;
 }) {
   const { data, error } = useSWR<DanjiRealPriceChartResponse>(
-    pnu &&
+    danjiId &&
       realestateType &&
       buyOrRent &&
       year &&
@@ -53,7 +53,7 @@ export function useAPI_DanjiRealPriceChart({
       ? [
           '/danji/realprices/chart',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,

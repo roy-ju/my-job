@@ -22,7 +22,7 @@ export type DanjiRealPricesListAllResponse = {
 
 function getKey(
   data: any,
-  pnu: string | null | undefined,
+  danjiId: number | null | undefined,
   pageIndex: number,
   realestateType: number | null | undefined,
   previousPageData: DanjiRealPricesListAllResponse | null,
@@ -31,7 +31,7 @@ function getKey(
 ) {
   const pageSize = 8;
 
-  if (!pnu || !realestateType || !buyOrRent) return null;
+  if (!danjiId || !realestateType || !buyOrRent) return null;
   if (!data) return null;
 
   if (previousPageData && !previousPageData?.list?.length) return null;
@@ -42,7 +42,7 @@ function getKey(
     '/danji/realprices/list/all',
     {
       ...data,
-      pnu,
+      danji_id:danjiId,
       realestate_type: realestateType,
       direct_deal_excluded: buyOrRent === BuyOrRent.Buy ? directDealExcluded : false,
       page_number: pageIndex + 1,
@@ -52,20 +52,20 @@ function getKey(
 
 export function useAPI_ThisDanjiRecentlyRealPricesListAll({
   res,
-  pnu,
+  danjiId,
   realestateType,
   buyOrRent,
   directDealExcluded,
 }: {
   res: any;
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   buyOrRent?: number;
   directDealExcluded: boolean;
 }) {
   const { data, error, size, setSize, mutate } = useSWRInfinite<DanjiRealPricesListAllResponse>(
     (pageIndex, previousPageData) =>
-      getKey(res, pnu, pageIndex, realestateType, previousPageData, buyOrRent, directDealExcluded),
+      getKey(res, danjiId, pageIndex, realestateType, previousPageData, buyOrRent, directDealExcluded),
     null,
     {
       revalidateFirstPage: false,

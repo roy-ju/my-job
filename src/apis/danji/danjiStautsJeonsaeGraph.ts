@@ -19,22 +19,22 @@ export type GetDanjiJeonsaeGraphResponse = {
 } & ErrorResponse;
 
 export function useAPI_DanjiJeonsaeGraph({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<GetDanjiJeonsaeGraphResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/jeonsaerate',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,
@@ -55,22 +55,22 @@ export function useAPI_DanjiJeonsaeGraph({
 }
 
 export function useAPI_DanjiJeonsaeSidoGraph({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<GetDanjiJeonsaeGraphResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/jeonsaerate/sido',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,

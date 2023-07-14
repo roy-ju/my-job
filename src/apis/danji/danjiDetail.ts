@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 
 export type GetDanjiDetailResponse = {
-  pnu: string;
+  danji_id: number;
   type: number;
   name: string;
   bubjungdong_code: string;
@@ -41,14 +41,16 @@ export type GetDanjiDetailResponse = {
 } & ErrorResponse;
 
 export function useAPI_GetDanjiDetail({
-  pnu,
+  danjiId,
   realestateType,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
 }) {
   const { data, error, mutate } = useSWR<GetDanjiDetailResponse>(
-    pnu && realestateType ? ['/danji/get/v2', { pnu, realestate_type: Number(realestateType) }] : null,
+    danjiId && realestateType
+      ? ['/danji/get/v2', { danji_id: danjiId, realestate_type: Number(realestateType) }]
+      : null,
     null,
     {
       revalidateIfStale: false,
@@ -59,7 +61,7 @@ export function useAPI_GetDanjiDetail({
 
   return {
     danji: data,
-    isLoading: pnu && realestateType ? !data && !error : false,
+    isLoading: danjiId && realestateType ? !data && !error : false,
     mutate,
     error,
   };

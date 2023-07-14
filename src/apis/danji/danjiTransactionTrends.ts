@@ -18,22 +18,22 @@ export type DanjiTransactionTrendsResponse = {
 } & ErrorResponse;
 
 export function useAPI_DanjiTransactionTrends({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: string | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<DanjiTransactionTrendsResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/tradepriceindex',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,
@@ -48,28 +48,28 @@ export function useAPI_DanjiTransactionTrends({
     listDanji: data?.list_danji,
     listSigungu: data?.list_sigungu,
     listSido: data?.list_sido,
-    isLoading: !pnu || !realestateType ? false : !data && !error,
+    isLoading: !danjiId || !realestateType ? false : !data && !error,
     error,
   };
 }
 
 export function useAPI_DanjiTransactionSidoTrends({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<DanjiTransactionTrendsResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/tradepriceindex/sido',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,
@@ -84,7 +84,7 @@ export function useAPI_DanjiTransactionSidoTrends({
     listDanji: data?.list_danji,
     listSigungu: data?.list_sigungu,
     listSido: data?.list_sido,
-    isLoading: !pnu || !realestateType ? false : !data && !error,
+    isLoading: !danjiId || !realestateType ? false : !data && !error,
     error,
   };
 }

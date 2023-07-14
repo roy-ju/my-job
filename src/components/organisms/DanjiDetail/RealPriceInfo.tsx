@@ -26,7 +26,7 @@ export default function RealPriceInfo({
         <h2 tw="text-b1 [line-height: 1] [letter-spacing: -0.4px] font-bold">단지 실거래 분석</h2>
       </div>
       <RealPriceInfoHeader
-        pnu={danji.pnu}
+        danjiId={danji.danji_id}
         type={danji.type}
         depth={depth}
         buyOrRent={buyOrRent}

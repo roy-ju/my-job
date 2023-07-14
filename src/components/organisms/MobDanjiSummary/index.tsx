@@ -26,12 +26,12 @@ export default function MobDanjiSummary({
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
         query: {
-          p: selectedDanjiSummary.pnu,
+          danjiID: selectedDanjiSummary.danjiID,
           rt: selectedDanjiSummary.realestateType,
           bor: filter?.buyOrRents || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${selectedDanjiSummary.pnu}&rt=${selectedDanjiSummary.realestateType}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${selectedDanjiSummary.danjiID}&rt=${selectedDanjiSummary.realestateType}`,
     );
   };
 
