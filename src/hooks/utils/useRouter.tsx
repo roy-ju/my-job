@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { useRouter as useNextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
@@ -53,6 +54,7 @@ export default function useRouter(depth: number) {
   /**
    * 가장 오른쪽에 열려 있는 depth 를 닫는다.
    */
+
   const popLast = useCallback(() => {
     const segments = router.asPath
       .split('?')[0]

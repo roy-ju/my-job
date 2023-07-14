@@ -7,10 +7,11 @@ import { useOutsideClick } from '@/hooks/utils';
 
 const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shrink-0`;
 
-function BackButton({ onClick }: { onClick?: () => void }) {
+function BackButton({ onClick, title }: { onClick?: () => void; title?: string }) {
   return (
-    <button type="button" onClick={onClick} tw="h-full pr-3">
+    <button type="button" onClick={onClick} tw="h-full pr-3 flex items-center">
       <ChevronLeftIcon tw="text-inherit" />
+      <span tw="font-bold [margin-top: 1px]">{title && title}</span>
     </button>
   );
 }
