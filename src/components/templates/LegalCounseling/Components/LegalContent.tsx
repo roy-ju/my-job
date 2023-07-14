@@ -110,8 +110,19 @@ export function LegalContent({
                   WebkitBoxOrient: 'vertical',
                 }}
               >
-                <span tw="text-nego">Q. </span>
-                {mainText}
+                {router?.query?.q ? (
+                  <>
+                    <span tw="text-nego">Q. </span>
+                    {mainText.split(router?.query?.q as string)[0]}
+                    <span tw="text-nego-1000">{router?.query?.q as string}</span>
+                    {mainText.split(router?.query?.q as string)[1]}
+                  </>
+                ) : (
+                  <>
+                    <span tw="text-nego">Q. </span>
+                    {mainText}
+                  </>
+                )}
               </h2>
             </a>
           ) : (
@@ -125,8 +136,19 @@ export function LegalContent({
                 WebkitBoxOrient: 'vertical',
               }}
             >
-              <span tw="text-nego">Q. </span>
-              {mainText}
+              {router?.query?.q ? (
+                <>
+                  <span tw="text-nego">Q. </span>
+                  {mainText.split(router?.query?.q as string)[0]}
+                  <span tw="text-nego-1000">{router?.query?.q as string}</span>
+                  {mainText.split(router?.query?.q as string)[1]}
+                </>
+              ) : (
+                <>
+                  <span tw="text-nego">Q. </span>
+                  {mainText}
+                </>
+              )}
             </h2>
           ))}
 
