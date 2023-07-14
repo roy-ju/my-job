@@ -9,6 +9,8 @@ interface PopupProps {
 
 /* Text Components */
 
+const PopupTitleSmall = tw.strong`font-bold text-b2`;
+
 const PopupTitle = tw.strong`font-bold text-h3`;
 
 const PopupSubTitle = tw.strong`font-bold text-b2`;
@@ -34,6 +36,7 @@ function PopupMain({ children }: PopupProps) {
 }
 
 const Popup = Object.assign(PopupMain, {
+  SmallTitle: PopupTitleSmall,
   Title: PopupTitle,
   SubTitle: PopupSubTitle,
   Body: PopupBody,

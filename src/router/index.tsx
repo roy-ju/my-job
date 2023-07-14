@@ -317,6 +317,31 @@ const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages
   loading: FallbackComponent,
 });
 
+const LegalCounseling = dynamic(() => import('@/components/pages/pc/LegalCounseling'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const LegalCounselingSearch = dynamic(() => import('@/components/pages/pc/LegalCounselingSearch'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const LegalCounselingDetail = dynamic(() => import('@/components/pages/pc/LegalCounselingDetail'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const LegalCounselingWriting = dynamic(() => import('@/components/pages/pc/LegalCounselingWriting'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalCounselingUpdate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const DEFAULT_PANEL_WIDTH = '380px';
 
 interface RouterProps {
@@ -375,6 +400,33 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.ListingDetailHistory: {
       return <ListingDetailHistory {...props} />;
+    }
+
+    case Routes.LawQna: {
+      return <LegalCounseling {...props} />;
+    }
+
+    case Routes.LawQnaSearch: {
+      return <LegalCounselingSearch {...props} />;
+    }
+
+    case Routes.LawQnaDetail: {
+      return (
+        <LegalCounselingDetail
+          key={query.qnaID as string}
+          qnaID={Number(query.qnaID)}
+          ipAddress={ipAddress}
+          {...props}
+        />
+      );
+    }
+
+    case Routes.LawQnaCreate: {
+      return <LegalCounselingWriting {...props} />;
+    }
+
+    case Routes.LawQnaUpdate: {
+      return <LegalCounselingUpdate key={query.qnaID as string} qnaID={Number(query.qnaID)} {...props} />;
     }
 
     case Routes.NotificationList: {

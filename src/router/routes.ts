@@ -43,6 +43,12 @@ const Routes = {
   ListingDetailPassed: 'listingDetailPassed',
   ListingDetailHistory: 'listingDetailHistory',
 
+  LawQna: 'lawQna',
+  LawQnaSearch: 'lawQnaSearch',
+  LawQnaDetail: 'lawQnaDetail',
+  LawQnaCreate: 'lawQnaCreate',
+  LawQnaUpdate: 'lawQnaUpdate',
+
   NotificationList: 'notifications',
   NotificationSettings: 'notificationSettings',
   NoticeList: 'noticeList',
@@ -121,7 +127,7 @@ const Routes = {
   VersionInfo: 'versionInfo',
 
   EntryMobile: 'm',
-  Intro:"intro"
+  Intro: 'intro',
 };
 
 export default Routes;

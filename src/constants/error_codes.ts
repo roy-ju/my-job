@@ -75,6 +75,9 @@ const ErrorCodes = {
   // 3000~
   DANJI_NOT_FOUND: 3000, // 단지정보를 가지고올수없음
 
+  // 4000~
+  NOTEXIST_LAWQNA: 4004, // 게시물이 없을때 
+
   // 5000~
   NEGOPOINT_UNABLE_TO_CONVERT: 5000, // 네고포인트를 네고머니로 전환할 수 없음
   NEGOPOINT_LACK_OF_BALANCE: 5001, // 현재 보유 네고포인트가 부족함

@@ -479,7 +479,7 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
             필터 초기화
           </Button>
           <Button variant="primary" size="bigger" tw="flex-[2.5]" onClick={handleSummitFilters}>
-            선택왼료
+            선택완료
           </Button>
         </div>
       )}
