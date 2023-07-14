@@ -112,7 +112,7 @@ export default function LegalCounseling({
             (nextRouter?.query?.q ? (
               <>
                 <p tw="text-info mt-5 [padding-top: 115px] [padding-bottom: 16px] px-5 text-center text-gray-700 [min-height: 0]">
-                  {`'${nextRouter.query.q}' 에 대한 검색결과가 없습니다.`}
+                  <span tw="text-nego-1000 font-bold">{`'${nextRouter.query.q}'`}</span> 에 대한 검색결과가 없습니다.
                 </p>
                 <Button variant="secondary" size="small" tw="mx-auto" onClick={onClickAllPage}>
                   전체보기
