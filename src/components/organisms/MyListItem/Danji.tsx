@@ -5,7 +5,6 @@ import LikeButton from './LikeButton';
 
 export interface IMyDanjiListItem {
   danjiId: number;
-  pnu: string;
   realestateType: number;
   eubmyundong: string;
   danjiName: string;
@@ -32,14 +31,14 @@ const informationStringWrapper = css`
 `;
 
 interface DanjiProps extends IMyDanjiListItem {
-  onToggleDanjiLike?: (pnu: string, realestateType: number, isDanjiFavorite: boolean) => void;
-  onClickDanjiItem?: (pnu: string, realestateType: number) => () => void;
+  onToggleDanjiLike?: (danjiID: number, realestateType: number, isDanjiFavorite: boolean) => void;
+  onClickDanjiItem?: (danjiID: number, realestateType: number) => () => void;
 }
 
 export default function Danji({
   onToggleDanjiLike,
   onClickDanjiItem,
-  pnu,
+  danjiId,
   realestateType,
   eubmyundong,
   danjiName,
@@ -98,7 +97,7 @@ export default function Danji({
     <button
       type="button"
       tw="border-gray-300 block border w-full rounded-lg"
-      onClick={onClickDanjiItem?.(pnu, realestateType)}
+      onClick={onClickDanjiItem?.(danjiId, realestateType)}
     >
       <div tw="justify-between flex px-4 pt-[1.125rem] pb-4">
         <div tw="text-left">
@@ -122,7 +121,7 @@ export default function Danji({
           </div>
         </div>
         <div tw="shrink-0 self-start">
-          <LikeButton onLike={() => onToggleDanjiLike?.(pnu, realestateType, isFavorite)} isFavorite={isFavorite} />
+          <LikeButton onLike={() => onToggleDanjiLike?.(danjiId, realestateType, isFavorite)} isFavorite={isFavorite} />
         </div>
       </div>
       <div tw="border-t border-gray-300  px-4 py-1.5 flex" css={informationStringWrapper}>

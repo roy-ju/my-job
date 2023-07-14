@@ -41,12 +41,12 @@ export default function DanjiRecommendation() {
   const [forms, setForms] = useState<string[]>([`${prefixDanjiRecommend}default`]);
 
   const { danji } = useAPI_GetDanjiDetail({
-    pnu: router?.query?.p as string,
+    danjiId: router?.query?.danjiID ? Number(router?.query?.danjiID) : null,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
-    pnu: danji?.pnu,
+    danjiId: router?.query?.danjiID ? Number(router?.query?.danjiID) : undefined,
     realestateType: danji?.type,
     buyOrRent: buyOrRent || null,
   });
@@ -97,7 +97,6 @@ export default function DanjiRecommendation() {
 
     if (step === 5 && buyOrRent === BuyOrRent.Buy) {
       if (
-        // Number(tradeOrDepositPrice) &&
         (purpose === 1 || purpose === 2) &&
         (remainingAmountPaymentTime || moveInDate) &&
         buyOrRent &&
@@ -111,7 +110,6 @@ export default function DanjiRecommendation() {
 
     if (step === 6 && buyOrRent === BuyOrRent.Buy) {
       if (
-        // Number(tradeOrDepositPrice) &&
         (purpose === 1 || purpose === 2) &&
         (remainingAmountPaymentTime || moveInDate) &&
         selectedGonggeupPyoungList.length > 0 &&
@@ -123,9 +121,6 @@ export default function DanjiRecommendation() {
     }
 
     if (step === 4 && buyOrRent !== BuyOrRent.Buy) {
-      // if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
-      //   return true;
-      // }
       if (selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
         return true;
       }
@@ -134,10 +129,6 @@ export default function DanjiRecommendation() {
     }
 
     if (step === 5 && buyOrRent !== BuyOrRent.Buy) {
-      // if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
-      //   return true;
-      // }
-
       if (selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
         return true;
       }
@@ -339,7 +330,7 @@ export default function DanjiRecommendation() {
 
     if (buyOrRent === BuyOrRent.Buy) {
       const res = await danjiRecommendationFinal({
-        pnu: danji.pnu,
+        danji_id: danji.danji_id,
         realestate_type: danji.type,
 
         buy_or_rents: '1',
@@ -368,15 +359,17 @@ export default function DanjiRecommendation() {
         router.replace(
           {
             pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}`,
-            query: { p: danji.pnu, rt: danji.type.toString() },
+            query: { danjiID: danji.danji_id, rt: danji.type.toString() },
           },
-          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?p=${danji.pnu}&rt=${danji.type.toString()}`,
+          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?danjiID=${
+            danji.danji_id
+          }&rt=${danji.type.toString()}`,
         );
       }
     }
     if (buyOrRent === BuyOrRent.Jeonsae) {
       const res = await danjiRecommendationFinal({
-        pnu: danji.pnu,
+        danji_id: danji.danji_id,
         realestate_type: danji.type,
 
         buy_or_rents: '2,3',
@@ -404,9 +397,11 @@ export default function DanjiRecommendation() {
         router.replace(
           {
             pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}`,
-            query: { p: danji.pnu, rt: danji.type.toString() },
+            query: { danjiID: danji.danji_id, rt: danji.type.toString() },
           },
-          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?p=${danji.pnu}&rt=${danji.type.toString()}`,
+          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?danjiID=${
+            danji.danji_id
+          }&rt=${danji.type.toString()}`,
         );
       }
     }

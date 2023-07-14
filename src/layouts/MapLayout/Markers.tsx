@@ -14,8 +14,7 @@ import MyMarkerIcon from '@/assets/icons/my_location.svg';
 import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
 import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
 import { schoolAroundState } from '@/states/danjiButton';
-import { styled } from 'twin.macro';
-import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
+
 import {
   AroundMarker as AroundMarkerType,
   CommonMarker,
@@ -146,7 +145,7 @@ export default function Markers({
                     interactionSelectedMarker.onClick?.call(interactionSelectedMarker);
                   }}
                 >
-                  {danjiSummary?.pnu === interactionSelectedMarker?.pnu &&
+                  {danjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
                     danjiSummary?.realestate_type === interactionSelectedMarker?.danjiRealestateType && (
                       <DanjiMarker.Popper
                         name={danjiSummary?.string ?? ''}
@@ -213,7 +212,7 @@ export default function Markers({
                   }}
                 >
                   {selectedMarker?.id === marker.id &&
-                    danjiSummary?.pnu === marker?.pnu &&
+                    danjiSummary?.danji_id === marker?.danjiID &&
                     danjiSummary?.realestate_type === marker?.danjiRealestateType && (
                       <DanjiMarker.Popper
                         name={danjiSummary?.string ?? ''}

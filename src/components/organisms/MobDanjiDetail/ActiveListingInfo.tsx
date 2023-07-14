@@ -26,7 +26,7 @@ export default function ActiveListingInfo({
     data: danjiListings,
     isLoading,
   } = useAPI_GetDanjiListingsList({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     orderBy: dropDownValue === '최신순' ? 1 : 2,
     pageSize: 4,
@@ -37,13 +37,13 @@ export default function ActiveListingInfo({
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiListings}`,
         query: {
-          p: router.query.p ? `${router.query.p}` : danji?.pnu || '',
+          danjiID: router.query.danjiID ? `${router.query.danjiID}` : `${danji?.danji_id}` || '',
           rt: router.query.rt ? (router.query.rt as string) : danji?.type?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiListings}?p=${danji?.pnu}&rt=${danji?.type}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiListings}?danjiID=${danji?.danji_id}&rt=${danji?.type}`,
     );
-  }, [danji?.pnu, danji?.type, router]);
+  }, [danji?.danji_id, danji?.type, router]);
 
   const handleListingDetail = useCallback(
     (id: number, buyOrRent: number) => {
@@ -52,7 +52,7 @@ export default function ActiveListingInfo({
           pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
           query: {
             listingID: `${id}`,
-            p: router.query.p ? `${router.query.p}` : danji?.pnu || '',
+            danjiID: router.query.danjiID ? `${router.query.danjiID}` : `${danji?.danji_id}` || '',
             rt: router.query.rt ? (router.query.rt as string) : danji?.type?.toString() || '',
             bor: `${buyOrRent}`,
           },

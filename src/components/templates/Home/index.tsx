@@ -147,7 +147,7 @@ interface Props {
   onClickBidding?: () => void;
   onClickListingCreate?: () => void;
   onClickHomeRegister?: () => void;
-  onClickDanji?: (pnu: string, realestateType: number) => void;
+  onClickDanji?: (danjiID: number, realestateType: number) => void;
   onClickListing?: (listingID: number) => void;
   onClickAppStore?: () => void;
   onClickGooglePlay?: () => void;
@@ -552,7 +552,7 @@ export default function Home({
                         key={`recentRealPrice${item.danji_id}${item.trade_or_deposit_price}`}
                         tw="w-[208px] px-5 pt-3 pb-2.5 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
                         onClick={() => {
-                          if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                          if (!isDragging.current) onClickDanji?.(item.danji_id, item.realestate_type);
                         }}
                       >
                         <div tw="flex gap-1 mb-2">
@@ -615,7 +615,7 @@ export default function Home({
                     key={`mostSuggests${item.danji_id}`}
                     tw="w-[208px] rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer"
                     onClick={() => {
-                      if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                      if (!isDragging.current) onClickDanji?.(item.danji_id, item.realestate_type);
                     }}
                   >
                     <div tw="px-4 pt-3 pb-2 border-b border-b-gray-200">
@@ -629,8 +629,8 @@ export default function Home({
                         <a
                           href={
                             mobileOrPc === 'pc'
-                              ? `/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
-                              : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
+                              ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
+                              : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
                           }
                           target="_self"
                         >
@@ -769,10 +769,10 @@ export default function Home({
                     whileHover={{
                       scale: 1.05,
                     }}
-                    key={`recentRealPrice${item.danji_id}${item.pnu}${item.realestate_type}`}
+                    key={`recentRealPrice${item.danji_id}${item.danji_id}${item.realestate_type}`}
                     tw="w-[208px] px-5 pt-3 pb-3 rounded-lg border border-gray-200 hover:border-gray-1000 hover:cursor-pointer overflow-hidden"
                     onClick={() => {
-                      if (!isDragging.current) onClickDanji?.(item.pnu, item.realestate_type);
+                      if (!isDragging.current) onClickDanji?.(item.danji_id, item.realestate_type);
                     }}
                   >
                     <div tw="flex gap-1 mb-2">
@@ -785,8 +785,8 @@ export default function Home({
                       <a
                         href={
                           mobileOrPc === 'pc'
-                            ? `/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
-                            : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}`
+                            ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
+                            : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
                         }
                         target="_self"
                       >

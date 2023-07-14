@@ -12,7 +12,7 @@ type ListItem = {
   buy_or_rent: number;
   floor: string;
   trade_type: string;
-  pnu: string;
+  danji_id: number;
   realestate_type: number;
 };
 
@@ -23,7 +23,7 @@ export type DanjiRecentlyRealPricesAllResponse = {
 };
 
 function getKey(
-  pnu: string | null | undefined,
+  danjiId: number | null | undefined,
   pageIndex: number,
   realestateType: number | null,
   previousPageData: DanjiRecentlyRealPricesAllResponse | null,
@@ -31,7 +31,7 @@ function getKey(
 ) {
   const pageSize = 5;
 
-  if (!pnu || !realestateType || !buyOrRent) return null;
+  if (!danjiId || !realestateType || !buyOrRent) return null;
 
   if (previousPageData && !previousPageData?.list?.length) return null;
 
@@ -40,7 +40,7 @@ function getKey(
   return [
     '/danji/realprices/list/sigungu',
     {
-      pnu,
+      danji_id: danjiId,
       realestate_type: realestateType,
       buy_or_rent: buyOrRent,
       page_number: pageIndex + 1,
@@ -50,16 +50,16 @@ function getKey(
 }
 
 export function useAPI_DanjiRecentlyRealPricesListAll({
-  pnu,
+  danjiId,
   realestateType,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType: number | null;
   buyOrRent?: number;
 }) {
   const { data, error, size, setSize, mutate } = useSWRInfinite<DanjiRecentlyRealPricesAllResponse>(
-    (pageIndex, previousPageData) => getKey(pnu, pageIndex, realestateType, previousPageData, buyOrRent),
+    (pageIndex, previousPageData) => getKey(danjiId, pageIndex, realestateType, previousPageData, buyOrRent),
     null,
     {
       revalidateFirstPage: false,

@@ -15,7 +15,7 @@ export interface MyFavoriteListProps {
   listingFavoriteCount: number;
   danjiFavoriteCount: number;
   onToggleListingLike?: (listingId: number, isListingFavorite: boolean) => void;
-  onToggleDanjiLike?: (pnu: string, realestateType: number, isDanjiFavorite: boolean) => void;
+  onToggleDanjiLike?: (danjiID: number, realestateType: number, isDanjiFavorite: boolean) => void;
   onListingNext?: () => void;
   onDanjiNext?: () => void;
   listingSortingType?: string;

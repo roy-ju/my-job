@@ -24,14 +24,14 @@ export type GetDanjiListingsResponse = {
 };
 
 function getKey(
-  pnu: string | null | undefined,
+  danjiId: number | null | undefined,
   realestateType: number | null | undefined,
   orderBy: number,
   pageSize: number,
   pageIndex: number,
   previousPageData: GetDanjiListingsResponse | null,
 ) {
-  if (!pnu || !realestateType) return null;
+  if (!danjiId || !realestateType) return null;
 
   if (previousPageData && !previousPageData?.list?.length) return null;
 
@@ -40,7 +40,7 @@ function getKey(
   return [
     '/danji/listings/list/v2',
     {
-      pnu,
+      danji_id: danjiId,
       realestate_type: realestateType,
       order_by: orderBy,
       page_size: pageSize,
@@ -52,12 +52,12 @@ function getKey(
 }
 
 export function useAPI_GetDanjiListingsList({
-  pnu,
+  danjiId,
   realestateType,
   orderBy,
   pageSize,
 }: {
-  pnu: string | null | undefined;
+  danjiId: number | null | undefined;
   realestateType: number | null | undefined;
   orderBy: number;
   pageSize: number;
@@ -70,7 +70,7 @@ export function useAPI_GetDanjiListingsList({
     setSize,
     mutate,
   } = useSWRInfinite<GetDanjiListingsResponse>(
-    (pageIndex, previousPageData) => getKey(pnu, realestateType, orderBy, pageSize, pageIndex, previousPageData),
+    (pageIndex, previousPageData) => getKey(danjiId, realestateType, orderBy, pageSize, pageIndex, previousPageData),
     null,
     {
       revalidateFirstPage: false,
