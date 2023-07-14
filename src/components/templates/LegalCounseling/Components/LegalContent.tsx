@@ -140,7 +140,7 @@ export function LegalContent({
                 <>
                   <span tw="text-nego">Q. </span>
                   {mainText.split(router?.query?.q as string)[0]}
-                  <span tw="text-nego-1000">{router?.query?.q as string}</span>
+                  <span tw="text-nego-800">{router?.query?.q as string}</span>
                   {mainText.split(router?.query?.q as string)[1]}
                 </>
               ) : (
