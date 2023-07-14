@@ -161,6 +161,7 @@ export function LegalContent({
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
+              whiteSpace: 'pre-line',
             }}
           >
             {subText}
