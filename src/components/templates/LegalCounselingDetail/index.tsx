@@ -1,8 +1,9 @@
+/* eslint-disable react/self-closing-comp */
 import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
 import { GetLawQnaDetailResponse } from '@/apis/lawQna/getLawQnaDetail';
 import { formatCreatedTime } from '@/utils/formatLastMessageTime';
 import { useOutsideClick } from '@/hooks/utils';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useMemo } from 'react';
 import { usePopper } from 'react-popper';
 import TripleDotsIcon from '@/assets/icons/triple_dots_gray.svg';
 import Image from 'next/image';
@@ -102,6 +103,14 @@ export default function LegalCounselingDetail({
     },
   ];
 
+  const convertedHTMLString = useMemo(() => {
+    const result = lawQnaDetailData?.admin_message;
+
+    if (!result) return;
+
+    return ` ${`${result.slice(0, 3)}<span id="lawQnaAnswer">A.&nbsp;</span>${result.slice(3, result?.length)}`}`;
+  }, [lawQnaDetailData?.admin_message]);
+
   if (!lawQnaDetailData) return null;
 
   return (
@@ -133,7 +142,9 @@ export default function LegalCounselingDetail({
             </div>
 
             <div tw="mt-2">
-              <p tw="text-info text-gray-700 [text-align: justify]">{lawQnaDetailData.user_message}</p>
+              <p tw="text-b2 text-gray-700 [text-align: justify] whitespace-pre-line">
+                {lawQnaDetailData.user_message}
+              </p>
             </div>
 
             {lawQnaDetailData.admin_message && (
@@ -152,9 +163,14 @@ export default function LegalCounselingDetail({
                   </p>
                 </div>
 
-                <p tw="text-b2 text-gray-700 [text-align: justify] whitespace-pre-line">
-                  <span tw="text-nego font-bold">A. </span>
-                  {lawQnaDetailData.admin_message}
+                <p tw="text-b2 [text-align: justify] whitespace-pre-line">
+                  {convertedHTMLString && (
+                    <div
+                      tw="text-b2"
+                      className="lawQnaWrraper"
+                      dangerouslySetInnerHTML={{ __html: convertedHTMLString }}
+                    />
+                  )}
                 </p>
               </div>
             )}
@@ -173,8 +189,8 @@ export default function LegalCounselingDetail({
               }
               tw="flex gap-3 items-center px-5 py-4 cursor-pointer hover:bg-gray-50"
             >
-              <span tw="text-info text-gray-700">이전</span>
-              <span tw="text-info [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+              <span tw="text-b2 text-gray-700">이전</span>
+              <span tw="text-b2 [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
                 {lawQnaDetailData.prev.title}
               </span>
             </ButtomWrraper>
@@ -187,8 +203,8 @@ export default function LegalCounselingDetail({
               }}
               tw="flex gap-3 items-center px-5 py-4 cursor-pointer hover:bg-gray-50"
             >
-              <span tw="text-info text-gray-700">다음</span>
-              <span tw="text-info [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+              <span tw="text-b2 text-gray-700">다음</span>
+              <span tw="text-b2 [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
                 {lawQnaDetailData.next.title}
               </span>
             </ButtomWrraper>

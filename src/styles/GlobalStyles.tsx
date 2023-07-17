@@ -49,6 +49,23 @@ const customStyles = css`
     border-left: none;
     border-right: none;
   }
+
+  #lawQnaAnswer {
+    color: #7048e8;
+    font-weight: 700;
+    display: inline-block;
+  }
+
+  .lawQnaWrraper {
+    ol {
+      list-style: decimal;
+      padding-left: 30px;
+    }
+    ul {
+      list-style: disc;
+      padding-left: 30px;
+    }
+  }
 `;
 
 export default function GlobalStyles() {
