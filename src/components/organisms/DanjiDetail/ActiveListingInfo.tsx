@@ -83,7 +83,7 @@ export default function ActiveListingInfo({
             bor: `${buyOrRent}`,
           },
         },
-        `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&p=${
+        `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&danjiID=${
           danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
         }&rt=${danji?.type.toString() || (nextRouter.query.rt as string) || ''}`,
       );
@@ -146,7 +146,7 @@ export default function ActiveListingInfo({
               item={item}
               isLast={danjiListings.length - 1 === index}
               onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
-              anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&p=${
+              anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&danjiID=${
                 danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
               }&rt=${danji?.type.toString() || (nextRouter.query.rt as string) || ''}`}
             />

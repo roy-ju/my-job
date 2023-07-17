@@ -89,8 +89,6 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
         lng: danjiData.long,
       });
 
-      // map.naverMap?.morph({ lat: danjiData.lat, lng: danjiData.long }, 16);
-
       const elementrySchoolRes = await getDanjiSchoolsMarker({
         danjiId: danjiData?.danji_id,
         realestateType: danjiData?.type,
