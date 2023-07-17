@@ -98,7 +98,7 @@ export default function MobDanjiRealPriceListAll({
     isLoading: realPricesPyoungListLoading,
     data,
   } = useAPI_DanjiRealPricesPyoungList({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent: null,
   });
@@ -180,7 +180,7 @@ export default function MobDanjiRealPriceListAll({
       </NavigationHeader>
       <div tw="px-5">
         <RealPriceInfoHeader
-          pnu={danji.pnu}
+          danjiId={danji.danji_id}
           rt={danji.type}
           buyOrRent={buyOrRent}
           selectedYear={selectedYear}

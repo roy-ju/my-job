@@ -47,7 +47,7 @@ export default function useDanjiRealPricesChart({
 }) {
   const { data: graphData, isLoading } = useAPI_DanjiRealPriceChart({
     directDealExcluded,
-    pnu: danji?.pnu,
+    danjiId:danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,

@@ -131,7 +131,7 @@ export function useAPI_DanjiListbySigunguFirst({
 
   return {
     data,
-    list: data?.list ? data.list.map((item) => ({ name: item.name, danjiId: item.danji_id, rt: item.realestate_type })) : [],
+    list: data?.list ? data.list.map((item) => ({ name: item.name, danjiID: item.danji_id, rt: item.realestate_type })) : [],
     isLoading: !sigunguCode ? false : !data && !error,
     error,
     mutate,

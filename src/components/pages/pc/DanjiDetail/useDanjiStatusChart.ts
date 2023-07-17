@@ -32,14 +32,14 @@ export default function useDanjiStatusChart({
     listSigungu,
     isLoading: statusLoading,
   } = useAPI_DanjiStatusGraph({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,
   });
 
   const { listSido, isLoading: statusSidoLoading } = useAPI_DanjiStatusSidoGraph({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,

@@ -17,7 +17,7 @@ export default function DanjiPhotos({ depth, panelWidth }: Props) {
   };
 
   const { danjiPhotos } = useAPI_GetDanjiPhotos({
-    pnu: router?.query?.p ? (router.query.p as string) : undefined,
+    danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 

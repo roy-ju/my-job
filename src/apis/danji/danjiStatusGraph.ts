@@ -26,7 +26,7 @@ export function useAPI_DanjiStatusGraph({
   year,
   buyOrRent,
 }: {
-  danjiId?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;

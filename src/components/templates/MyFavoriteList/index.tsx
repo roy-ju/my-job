@@ -21,7 +21,7 @@ export interface MyFavoriteListProps {
   listingSortingType?: string;
   handleChangeListingSortingType?: (sortingType: string) => void;
   handleClickListingItem?: (listingId: number) => () => void;
-  handleClickDanjiItem?: (pnu: string, realestateType: number) => () => void;
+  handleClickDanjiItem?: (danjiID: number, realestateType: number) => () => void;
 }
 
 export default function MyFavoriteList({
