@@ -32,14 +32,14 @@ export const RealPriceTradeTrendChartWrraper = React.memo(
     selectedYear?: number;
   }) => {
     const { listDanji, listSigungu } = useAPI_DanjiChartTransactionCount({
-      pnu: danji?.pnu,
+      danjiId: danji?.danji_id,
       realestateType: Number(danji?.type),
       buyOrRent,
       year: selectedYear,
     });
 
     const { listSido } = useAPI_DanjiChartSidoTransactionCount({
-      pnu: danji?.pnu,
+      danjiId: danji?.danji_id,
       realestateType: Number(danji?.type),
       buyOrRent,
       year: selectedYear,

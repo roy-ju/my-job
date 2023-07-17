@@ -16,11 +16,11 @@ import { SelectedDanjiListItem } from './SelectedDanjiListItem';
 type ComparisonList = {
   colorCode: string;
   name: string;
-  pnu: string;
+  danjiID: number;
   rt: number;
 }[];
 
-type ListItemDanji = { name: string; pnu: string; rt: number };
+type ListItemDanji = { name: string; danjiID: number; rt: number };
 
 function convertValueToString(val: string) {
   if (val === '최근 거래일순') {
@@ -82,7 +82,7 @@ export default function DanjiSelect({
   });
 
   const { list, setSize } = useAPI_DanjiListbySigungu({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type ? Number(danji.type) : null,
     realestateType2: selectedRealestateTypeCode || null,
     sigunguCode: selectedSigunguCode,
@@ -91,7 +91,7 @@ export default function DanjiSelect({
 
   const { list: danjiList, isLoading: danjiListFirstLoading } = useAPI_DanjiListbySigunguFirst({
     isNotFetch: isLastClick,
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type ? Number(danji.type) : null,
     realestateType2: selectedRealestateTypeCode || null,
     sigunguCode: selectedSigunguCode,
@@ -122,7 +122,7 @@ export default function DanjiSelect({
       return;
     }
 
-    if (comparisonList.findIndex((ele) => ele.pnu === item.pnu) >= 0) {
+    if (comparisonList.findIndex((ele) => ele.danjiID === item.danjiID) >= 0) {
       toast.error('이미 선택된 항목입니다.', { toastId: 'toastErrorAlreadySelected5' });
       return;
     }
@@ -143,7 +143,7 @@ export default function DanjiSelect({
         {
           colorCode: filteredArr[0],
           name: item.name,
-          pnu: item.pnu,
+          danjiID: item.danjiID,
           rt: item.rt,
         },
       ];
@@ -170,11 +170,11 @@ export default function DanjiSelect({
         if (localStorage.getItem(prefixComparison)) {
           localStorage.setItem(
             prefixComparison,
-            JSON.stringify([...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu)),
+            JSON.stringify([...prev].filter((ele: ListItemDanji) => ele.danjiID !== item.danjiID)),
           );
         }
 
-        return [...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu);
+        return [...prev].filter((ele: ListItemDanji) => ele.danjiID !== item.danjiID);
       });
     }
   };
@@ -342,7 +342,7 @@ export default function DanjiSelect({
                 item={item}
                 title={item.name}
                 index={item.colorCode}
-                key={item.pnu}
+                key={item.danjiID}
                 removeDanji={removeDanji}
                 listLength={comparisonList?.length || 0}
               />
@@ -388,7 +388,7 @@ export default function DanjiSelect({
             list.map((item) => (
               <DanjiComparisonItem
                 item={item}
-                key={`${item.pnu}${item.realestate_type}${item.name}${nanoid()}`}
+                key={`${item.danji_id}${item.realestate_type}${item.name}${nanoid()}`}
                 onClickDanjiItem={onClickDanjiItem}
                 selectedBtn={selectedFilterValue}
               />

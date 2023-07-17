@@ -13,7 +13,7 @@ export interface IMyRealPriceListItem {
   buyOrRent: number;
   dealType: string;
   realestateType: number;
-  pnu: string;
+  danjiID: number;
 }
 
 export interface MyRealPriceListProps {
@@ -23,7 +23,7 @@ export interface MyRealPriceListProps {
   isLoading?: boolean;
   onNext?: () => void;
   onChangeBuyOrRent?: (newValue: number) => void;
-  onClickItem?: (pnu: string, realestateType: number, buyOrRent: number) => void;
+  onClickItem?: (danjiID: number, realestateType: number, buyOrRent: number) => void;
   nickname?: string;
   sortBy?: string;
   onChagneSortBy?: (value: string) => void;
@@ -91,7 +91,7 @@ export default function MyRealPriceList({
                   area={item.area}
                   buyOrRent={item.buyOrRent}
                   dealType={item.dealType}
-                  onClick={() => onClickItem?.(item.pnu, item.realestateType, item.buyOrRent)}
+                  onClick={() => onClickItem?.(item.danjiID, item.realestateType, item.buyOrRent)}
                 />
               ))}
             </InfiniteScroll>

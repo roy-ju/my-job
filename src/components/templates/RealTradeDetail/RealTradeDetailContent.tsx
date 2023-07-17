@@ -10,7 +10,7 @@ import { RealTradeValuesChartWrraper } from './RealTradeValuesChart/RealTradeVal
 type ComparisonList = {
   colorCode: string;
   name: string;
-  pnu: string;
+  danjiID: number;
   rt: number;
 }[];
 

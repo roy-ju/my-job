@@ -10,7 +10,7 @@ export default function MobDanjiPhotoHero({ danji }: { danji?: GetDanjiDetailRes
   const { addFullScreenDialog, closeAll } = useFullScreenDialogStore();
 
   const { danjiPhotos } = useAPI_GetDanjiPhotos({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
   });
 

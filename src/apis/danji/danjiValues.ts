@@ -23,7 +23,7 @@ export function useAPI_DanjiValues({
   year,
   buyOrRent,
 }: {
-  danjiId?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;

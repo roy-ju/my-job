@@ -52,12 +52,12 @@ const BottomSheetContent = styled(Stack)({
 export default function DanjiSchoolMapCard({
   lng,
   lat,
-  pnu,
+  danjiID,
   rt,
 }: {
   lng?: number;
   lat?: number;
-  pnu?: string;
+  danjiID?: number;
   rt?: number;
 }) {
   const schoolRef = useRef<HTMLDivElement>(null);
@@ -74,7 +74,7 @@ export default function DanjiSchoolMapCard({
 
   const { list, isLoading } = useAPI_DanjiMapSchools({
     schoolTypes: Number(schoolType) ? Number(schoolType).toString() : undefined,
-    pnu: pnu || undefined,
+    danjiId: danjiID || undefined,
     realestateType: rt || undefined,
   });
 
@@ -157,19 +157,16 @@ export default function DanjiSchoolMapCard({
     if (!schoolType) {
       setSchoolType(parmas.toString());
       if (parmas === SchoolType.ElementarySchool) {
-        // map?.setZoom(15);
         if (map && lat && lng) {
           map.morph({ lat: +lat, lng: +lng }, 15);
         }
       }
       if (parmas === SchoolType.MiddleSchool) {
-        // map?.setZoom(14);
         if (map && lat && lng) {
           map.morph({ lat: +lat, lng: +lng }, 14);
         }
       }
       if (parmas === SchoolType.HighSchool) {
-        // map?.setZoom(13);
         if (map && lat && lng) {
           map.morph({ lat: +lat, lng: +lng }, 13);
         }
@@ -180,23 +177,19 @@ export default function DanjiSchoolMapCard({
       if (schoolType.includes(parmas.toString())) {
         setSchoolType(schoolTypeArr.filter((ele) => ele !== parmas.toString()).join());
       } else {
-        // setSchoolType(schoolTypeArr.concat(parmas.toString()).join());
         setSchoolType(parmas.toString());
 
         if (parmas === SchoolType.ElementarySchool) {
-          // map?.setZoom(15);
           if (map && lat && lng) {
             map.morph({ lat: +lat, lng: +lng }, 15);
           }
         }
         if (parmas === SchoolType.MiddleSchool) {
-          // map?.setZoom(14);
           if (map && lat && lng) {
             map.morph({ lat: +lat, lng: +lng }, 14);
           }
         }
         if (parmas === SchoolType.HighSchool) {
-          // map?.setZoom(13);
           if (map && lat && lng) {
             map.morph({ lat: +lat, lng: +lng }, 13);
           }
@@ -383,10 +376,7 @@ export default function DanjiSchoolMapCard({
           </Button>
         </Stack>
         <BottomSheetContent tw="[margin-bottom: 43px]">
-          {isLoading && (
-            <div style={{ minHeight: '136px', maxHeight: '136px' }} />
-            // <Skeleton height="13.6rem" />
-          )}
+          {isLoading && <div style={{ minHeight: '136px', maxHeight: '136px' }} />}
           {!isLoading && list && list.length === 0 && schoolType && (
             <Typography tw="min-w-full [min-height: 136px] [max-height: 136px] text-b2 [line-height: 20px] text-gray-300 [text-align: center]">
               주변에 학교가 없습니다.

@@ -43,7 +43,7 @@ export default function DanjiSchoolDetail({
           <CloseIcon />
         </Button>
       </NavigationHeader>
-      <DanjiSchoolMapCard lng={lng} lat={lat} pnu={pnu} rt={rt} />
+      <DanjiSchoolMapCard lng={lng} lat={lat} danjiID={danjiID} rt={rt} />
     </div>
   );
 }

@@ -69,15 +69,13 @@ export default function MobListingDetail({
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
-  const { danji } = useDanjiDetail(listingDetail?.listing?.pnu, listingDetail?.listing?.realestate_type);
+  const { danji } = useDanjiDetail(listingDetail?.listing?.danji_id, listingDetail?.listing?.realestate_type);
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [isTopCtaButtonsVisible, setIsTopCtaButtonsVisible] = useState(true);
-
-  // const [infoSectionExpanded, setInfoSectionExpanded] = useState(false);
 
   const photoPaths = useMemo(() => {
     if (
@@ -275,7 +273,7 @@ export default function MobListingDetail({
             <Tabs.Tab value={0}>
               <span tw="text-b2">거래정보</span>
             </Tabs.Tab>
-            {listingDetail?.listing?.pnu && (
+            {!!listingDetail?.listing?.danji_id && (
               <Tabs.Tab value={1}>
                 <span tw="text-b2">단지정보</span>
               </Tabs.Tab>
@@ -342,22 +340,6 @@ export default function MobListingDetail({
           </div>
         )}
         <Separator />
-        {/* <div tw="sticky top-8 pt-6 [z-index: 300]">
-          <Tabs value={tabIndex} onChange={handleTabItemClick}>
-            <Tabs.Tab value={0}>
-              <span tw="text-b2">거래정보</span>
-            </Tabs.Tab>
-            {listingDetail?.listing?.pnu && (
-              <Tabs.Tab value={1}>
-                <span tw="text-b2">단지정보</span>
-              </Tabs.Tab>
-            )}
-            <Tabs.Tab value={2}>
-              <span tw="text-b2">Q&A</span>
-            </Tabs.Tab>
-            <Tabs.Indicator />
-          </Tabs>
-        </div> */}
         <div id="listingInfoSection" ref={setListingInfoSection}>
           <div tw="px-5 pt-6 pb-10">
             <ListingDetailSection.Biddings
@@ -405,7 +387,6 @@ export default function MobListingDetail({
                   <Table.Data>{listingDetail?.listing?.storey}</Table.Data>
                 </Table.Row>
               </Table.Body>
-              {/* {infoSectionExpanded && ( */}
               <Table.Body>
                 <Table.Row>
                   <Table.Head>방 / 욕실</Table.Head>
@@ -441,11 +422,7 @@ export default function MobListingDetail({
                   </Table.Data>
                 </Table.Row>
               </Table.Body>
-              {/* )} */}
             </Table>
-            {/* <Button variant="outlined" tw="w-full mt-3" onClick={() => setInfoSectionExpanded((prev) => !prev)}>
-              {infoSectionExpanded ? '접기' : '더보기'}
-            </Button> */}
           </div>
           {(listingDetail?.listing?.veranda_extended || listingDetail?.listing?.veranda_remodelling || etcOptions) && (
             <div>

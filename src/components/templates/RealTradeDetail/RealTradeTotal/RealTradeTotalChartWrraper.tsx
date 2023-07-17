@@ -9,7 +9,7 @@ import { Chart } from './Chart';
 type ComparisonList = {
   colorCode: string;
   name: string;
-  pnu: string;
+  danjiID: number;
   rt: number;
 }[];
 
@@ -39,15 +39,15 @@ export const RealTradeTotalChartWrraper = React.memo(
     selectedYear?: number;
   }) => {
     const { listDanji: defaultDanji, isLoading: defaultLoading } = useAPI_DanjiChartTransactionCount({
-      pnu: danji?.pnu,
+      danjiId: danji?.danji_id,
       realestateType: Number(danji?.type),
       buyOrRent,
       year: selectedYear,
     });
 
     const { listDanji: firstDanji, isLoading: firstDanjiLoading } = useAPI_DanjiChartTransactionCount({
-      pnu: comparisonList
-        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#20C764')]?.pnu || undefined
+      danjiId: comparisonList
+        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#20C764')]?.danjiID || undefined
         : undefined,
       realestateType: comparisonList
         ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#20C764')]?.rt || undefined
@@ -57,8 +57,8 @@ export const RealTradeTotalChartWrraper = React.memo(
     });
 
     const { listDanji: secondDanji, isLoading: secondDanjiLoading } = useAPI_DanjiChartTransactionCount({
-      pnu: comparisonList
-        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#EA2323')]?.pnu || undefined
+      danjiId: comparisonList
+        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#EA2323')]?.danjiID || undefined
         : undefined,
       realestateType: comparisonList
         ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#EA2323')]?.rt || undefined
@@ -68,8 +68,8 @@ export const RealTradeTotalChartWrraper = React.memo(
     });
 
     const { listDanji: thirdDanji, isLoading: thirdDanjiLoading } = useAPI_DanjiChartTransactionCount({
-      pnu: comparisonList
-        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#FFCD4E')]?.pnu || undefined
+      danjiId: comparisonList
+        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#FFCD4E')]?.danjiID || undefined
         : undefined,
       realestateType: comparisonList
         ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#FFCD4E')]?.rt || undefined
@@ -79,8 +79,8 @@ export const RealTradeTotalChartWrraper = React.memo(
     });
 
     const { listDanji: fourthDanji, isLoading: fourthDanjiLoading } = useAPI_DanjiChartTransactionCount({
-      pnu: comparisonList
-        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#4C6EF5')]?.pnu || undefined
+      danjiId: comparisonList
+        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#4C6EF5')]?.danjiID || undefined
         : undefined,
       realestateType: comparisonList
         ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#4C6EF5')]?.rt || undefined
@@ -90,8 +90,8 @@ export const RealTradeTotalChartWrraper = React.memo(
     });
 
     const { listDanji: fifthDanji, isLoading: fifthDanjiLoading } = useAPI_DanjiChartTransactionCount({
-      pnu: comparisonList
-        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#7048E8')]?.pnu || undefined
+      danjiId: comparisonList
+        ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#7048E8')]?.danjiID || undefined
         : undefined,
       realestateType: comparisonList
         ? comparisonList[comparisonList.findIndex((ele) => ele.colorCode === '#7048E8')]?.rt || undefined

@@ -10,7 +10,7 @@ const StyledTableBodyListingTypography = tw.span`font-normal [font-size: 0.875re
 
 type ListItem = {
   name: string;
-  pnu: string;
+  danji_id: number;
   realestate_type: number;
   saedae_count: number;
   year: number;
@@ -19,7 +19,8 @@ type ListItem = {
   price: number;
   distance: number;
 };
-type ListItemDanji = { name: string; pnu: string; rt: number };
+
+type ListItemDanji = { name: string; danjiID: number; rt: number };
 
 export function DanjiComparisonItem({
   item,
@@ -45,7 +46,7 @@ export function DanjiComparisonItem({
   return (
     <Wrraper
       onClick={() => {
-        const convertedItem = { ...item, rt: item.realestate_type };
+        const convertedItem = { ...item, rt: item.realestate_type, danjiID: item.danji_id };
         onClickDanjiItem(convertedItem);
       }}
       tw="flex flex-row items-center [border-bottom: 1px solid #F8F9FA] py-4 gap-1 cursor-pointer"
