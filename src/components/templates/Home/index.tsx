@@ -428,10 +428,21 @@ export default function Home({
                     onClick={() => onClickLawQna?.(item.id)}
                     style={qnaLawData.length === index + 1 ? {} : { borderBottom: '1px solid #E9ECEF' }}
                   >
-                    <h1 tw="text-b2 [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
-                      <span tw="font-bold text-nego-1000">Q. </span>
-                      {item.title}
-                    </h1>
+                    {mobileOrPc === 'mobile' && (
+                      <h1 tw="text-b2 [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+                        <span tw="font-bold text-nego-1000">Q. </span>
+                        {item.title}
+                      </h1>
+                    )}
+
+                    {mobileOrPc === 'pc' && (
+                      <h1 tw="text-b2 [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+                        <a href={`/${Routes.LawQnaDetail}?qnaID=${item.id}`} tw="font-bold text-nego-1000">
+                          Q.{' '}
+                        </a>
+                        {item.title}
+                      </h1>
+                    )}
                   </div>
                 ))
               : null}
