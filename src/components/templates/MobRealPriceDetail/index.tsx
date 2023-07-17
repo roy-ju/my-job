@@ -28,7 +28,7 @@ export default function MobRealPriceDetail() {
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiSelect}`,
         query: {
-          p: `${router.query.p}`,
+          danjiID: `${router.query.danjiID}`,
           rt: router.query.rt as string,
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',

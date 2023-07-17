@@ -70,6 +70,10 @@ export default function RealPriceInfoHeader({
         <div tw="mt-4 relative">
           <Button variant="outlined" tw="w-full" onClick={() => handleCTA()}>
             <a
+              onClick={(e) => {
+                e.preventDefault();
+                handleCTA();
+              }}
               href={`/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?danjiID=${
                 router?.query?.danjiID ? `${router?.query?.danjiID}` : danjiId || ''
               }&rt=${router.query.rt ? (router.query.rt as string) : type?.toString() || ''}`}

@@ -52,7 +52,7 @@ export default function MobRealTradeDetail() {
             {
               pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,
               query: {
-                p: `${router.query.p}`,
+                danjiID: `${router.query.danjiID}`,
                 rt: router.query.rt as string,
                 bor: buyOrRent?.toString() || '',
                 sl: selectedYear?.toString() || '',
@@ -79,7 +79,7 @@ export default function MobRealTradeDetail() {
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiSelect}`,
         query: {
-          p: `${router.query.p}`,
+          danjiID: `${router.query.danjiID}`,
           rt: router.query.rt as string,
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',

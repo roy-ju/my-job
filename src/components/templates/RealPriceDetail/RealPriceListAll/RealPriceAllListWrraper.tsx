@@ -35,6 +35,10 @@ const ListItemComponent = ({
     <div tw="flex flex-row items-center justify-between mb-1.5">
       {anchorURL ? (
         <a
+          onClick={(e) => {
+            e.preventDefault();
+            onClickItem?.();
+          }}
           href={anchorURL}
           tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap [text-decoration: underline]"
         >

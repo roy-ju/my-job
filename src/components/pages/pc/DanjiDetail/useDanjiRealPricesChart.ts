@@ -47,7 +47,7 @@ export default function useDanjiRealPricesChart({
 }) {
   const { data: graphData, isLoading } = useAPI_DanjiRealPriceChart({
     directDealExcluded,
-    danjiId:danji?.danji_id,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,
@@ -56,7 +56,7 @@ export default function useDanjiRealPricesChart({
   });
 
   const { data: xAxisData } = useXAxisDate(selectedYear);
-  const xAxis = xAxisData.slice(1);
+  const xAxis = xAxisData.slice(1, xAxisData.length - 1);
 
   const data = useMemo(() => {
     const dataMap: { [date: string]: Partial<ChartData[0]> } = {};

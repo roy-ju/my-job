@@ -328,6 +328,10 @@ export default function Home({
               onClick={onClickSuggestion}
             >
               <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  onClickSuggestion?.();
+                }}
                 href={
                   mobileOrPc === 'pc'
                     ? `/${Routes.SuggestRegionalForm}`
@@ -361,6 +365,10 @@ export default function Home({
                 onClick={onClickBidding}
               >
                 <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onClickBidding?.();
+                  }}
                   href={mobileOrPc === 'pc' ? `/${Routes.Map}` : `/${Routes.EntryMobile}/${Routes.Map}`}
                   target="_self"
                   tw="absolute text-b2 font-bold text-white top-4 left-3"
@@ -390,6 +398,10 @@ export default function Home({
                 onClick={onClickGuide}
               >
                 <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onClickGuide?.();
+                  }}
                   href={mobileOrPc === 'pc' ? `/${Routes.Intro}` : `/${Routes.EntryMobile}/${Routes.Intro}`}
                   target="_blank"
                   tw="absolute text-b2 font-bold text-nego top-4 left-3"
@@ -437,7 +449,14 @@ export default function Home({
 
                     {mobileOrPc === 'pc' && (
                       <h1 tw="text-b2 [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
-                        <a href={`/${Routes.LawQnaDetail}?qnaID=${item.id}`} tw="font-bold text-nego-1000">
+                        <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onClickLawQna?.(item.id);
+                          }}
+                          href={`/${Routes.LawQnaDetail}?qnaID=${item.id}`}
+                          tw="font-bold text-nego-1000"
+                        >
                           Q.{' '}
                         </a>
                         {item.title}
@@ -638,6 +657,10 @@ export default function Home({
                       </div>
                       <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
                         <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onClickDanji?.(item.danji_id, item.realestate_type);
+                          }}
                           href={
                             mobileOrPc === 'pc'
                               ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
@@ -724,6 +747,10 @@ export default function Home({
                     </h1>
                     <div tw="text-info text-gray-1000  whitespace-nowrap overflow-hidden text-ellipsis">
                       <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onClickListing?.(item.listing_id);
+                        }}
                         href={
                           mobileOrPc === 'pc'
                             ? `/${Routes.ListingDetail}?listingID=${item.listing_id}`
@@ -794,6 +821,10 @@ export default function Home({
                     </div>
                     <div tw="whitespace-nowrap overflow-x-hidden text-ellipsis text-b1 font-bold mb-1">
                       <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onClickDanji?.(item.danji_id, item.realestate_type);
+                        }}
                         href={
                           mobileOrPc === 'pc'
                             ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
@@ -861,6 +892,10 @@ export default function Home({
                 <div tw="flex items-center w-full gap-2">
                   <HouseIcon />
                   <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onClickHomeRegister?.();
+                    }}
                     href={mobileOrPc === 'pc' ? `/${Routes.MyAddress}` : `/${Routes.EntryMobile}/${Routes.MyAddress}`}
                     target="_self"
                   >

@@ -31,7 +31,7 @@ export default function MobDanjiSummary({
           bor: filter?.buyOrRents || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${selectedDanjiSummary.danjiID}&rt=${selectedDanjiSummary.realestateType}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${selectedDanjiSummary.danjiID}&rt=${selectedDanjiSummary.realestateType}`,
     );
   };
 

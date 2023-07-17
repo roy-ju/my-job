@@ -175,6 +175,8 @@ export default function useMapLayout() {
 
   const interactionState = useRecoilValue(schoolAroundState);
 
+  console.log(interactionState)
+
   const interactionAction = useDanjiInteraction({ danjiData: undefined });
 
   const abortControllerRef = useRef<AbortController>();
@@ -485,12 +487,12 @@ export default function useMapLayout() {
         } = {};
 
         danjis?.forEach((item) => {
-          const markerID = `danjiMarker:${item.danj_id}${item.danji_realestate_type}`;
+          const markerID = `danjiMarker:${item.danji_id}${item.danji_realestate_type}`;
 
           danjiMap[markerID] = {
             id: markerID,
             variant,
-            danjiID: item.danj_id,
+            danjiID: item.danji_id,
             danjiRealestateType: item.danji_realestate_type,
             pyoung: item.pyoung,
             price: item.price,
@@ -504,7 +506,7 @@ export default function useMapLayout() {
               if (isPanningRef.current) return;
               // 단지 상세로 보내는 Router
               router.replace(Routes.DanjiDetail, {
-                searchParams: { danjiID: `${item.danj_id}`, rt: item.danji_realestate_type.toString() },
+                searchParams: { danjiID: `${item.danji_id}`, rt: item.danji_realestate_type.toString() },
                 state: {
                   bor: filter.buyOrRents,
                 },
