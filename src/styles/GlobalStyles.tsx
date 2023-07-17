@@ -55,6 +55,17 @@ const customStyles = css`
     font-weight: 700;
     display: inline-block;
   }
+
+  .lawQnaWrraper {
+    ol {
+      list-style: decimal;
+      padding-left: 30px;
+    }
+    ul {
+      list-style: disc;
+      padding-left: 30px;
+    }
+  }
 `;
 
 export default function GlobalStyles() {

@@ -142,7 +142,7 @@ export default function LegalCounselingDetail({
             </div>
 
             <div tw="mt-2">
-              <p tw="text-info text-gray-700 [text-align: justify] whitespace-pre-line">
+              <p tw="text-b2 text-gray-700 [text-align: justify] whitespace-pre-line">
                 {lawQnaDetailData.user_message}
               </p>
             </div>
@@ -163,9 +163,13 @@ export default function LegalCounselingDetail({
                   </p>
                 </div>
 
-                <p tw="text-b2 text-gray-700 [text-align: justify] whitespace-pre-line">
+                <p tw="text-b2 [text-align: justify] whitespace-pre-line">
                   {convertedHTMLString && (
-                    <div tw="text-b2" dangerouslySetInnerHTML={{ __html: convertedHTMLString }} />
+                    <div
+                      tw="text-b2"
+                      className="lawQnaWrraper"
+                      dangerouslySetInnerHTML={{ __html: convertedHTMLString }}
+                    />
                   )}
                 </p>
               </div>
@@ -185,8 +189,8 @@ export default function LegalCounselingDetail({
               }
               tw="flex gap-3 items-center px-5 py-4 cursor-pointer hover:bg-gray-50"
             >
-              <span tw="text-info text-gray-700">이전</span>
-              <span tw="text-info [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+              <span tw="text-b2 text-gray-700">이전</span>
+              <span tw="text-b2 [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
                 {lawQnaDetailData.prev.title}
               </span>
             </ButtomWrraper>
@@ -199,8 +203,8 @@ export default function LegalCounselingDetail({
               }}
               tw="flex gap-3 items-center px-5 py-4 cursor-pointer hover:bg-gray-50"
             >
-              <span tw="text-info text-gray-700">다음</span>
-              <span tw="text-info [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+              <span tw="text-b2 text-gray-700">다음</span>
+              <span tw="text-b2 [max-width: 300px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
                 {lawQnaDetailData.next.title}
               </span>
             </ButtomWrraper>
