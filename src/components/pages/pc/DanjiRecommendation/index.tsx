@@ -369,7 +369,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
           });
         } else {
           router.replace(Routes.DanjiRecommendationSuccess, {
-            searchParams: { danjiID: danji.danji_id.toString(), rmrrt: danji.type.toString() },
+            searchParams: { danjiID: danji.danji_id.toString(), rt: danji.type.toString() },
           });
         }
       }

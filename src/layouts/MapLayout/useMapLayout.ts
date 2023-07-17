@@ -175,8 +175,6 @@ export default function useMapLayout() {
 
   const interactionState = useRecoilValue(schoolAroundState);
 
-  console.log(interactionState)
-
   const interactionAction = useDanjiInteraction({ danjiData: undefined });
 
   const abortControllerRef = useRef<AbortController>();
