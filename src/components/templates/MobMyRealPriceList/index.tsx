@@ -12,7 +12,7 @@ export interface IMyRealPriceListItem {
   area: string;
   buyOrRent: number;
   dealType: string;
-  danjiID: string;
+  danjiID: number;
   realestateType: number;
 }
 
