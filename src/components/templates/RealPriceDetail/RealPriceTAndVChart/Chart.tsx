@@ -76,8 +76,6 @@ export const Chart = React.memo(
   }) => {
     const { tooltipData, tooltipLeft, showTooltip, hideTooltip } = useTooltip<DataProps>();
 
-    console.log(trandsactionData, valuesData);
-
     const xScale = useMemo(
       () =>
         scaleTime({
