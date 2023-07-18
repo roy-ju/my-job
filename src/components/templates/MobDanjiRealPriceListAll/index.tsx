@@ -181,7 +181,6 @@ export default function MobDanjiRealPriceListAll({
       <div tw="px-5">
         <RealPriceInfoHeader
           danjiId={danji.danji_id}
-          rt={danji.type}
           buyOrRent={buyOrRent}
           selectedYear={selectedYear}
           onChangeBuyOrRent={onChangeBuyOrRent}

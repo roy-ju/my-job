@@ -84,7 +84,7 @@ export default function DanjiListings({
                 }}
                 anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&danjiID=${
                   danji?.danji_id || ''
-                }&rt=${danji?.type.toString() || ''}`}
+                }`}
               />
             ))}
         </InfiniteScroll>

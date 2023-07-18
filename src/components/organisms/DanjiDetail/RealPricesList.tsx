@@ -185,14 +185,12 @@ export default function RealPricesList({
         searchParams: {
           listingID: router.query.listingID as string,
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID as string}` || '',
-          rt: danji?.type.toString() || (router.query.rt as string) || '',
         },
       });
     } else {
       router.push(Routes.DanjiRealPriceList, {
         searchParams: {
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID as string}` || '',
-          rt: danji?.type.toString() || (router.query.rt as string) || '',
         },
       });
     }

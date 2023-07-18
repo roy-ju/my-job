@@ -60,7 +60,7 @@ export default memo(() => {
 
   const { mapType, makeGeneralMap } = useDanjiMapTypeStore();
 
-  const { danji } = useDanjiDetail(data?.listing?.danji_id, data?.listing?.realestate_type);
+  const { danji } = useDanjiDetail(data?.listing?.danji_id);
 
   const {
     data: qnaData,

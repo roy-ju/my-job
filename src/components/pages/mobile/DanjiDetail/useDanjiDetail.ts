@@ -4,15 +4,13 @@ import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 
-export default function useDanjiDetail(danjiID?: number, rt?: number) {
+export default function useDanjiDetail(danjiID?: number) {
   const router = useRouter();
 
   const [listingDetailDanjiID, setListingDetailDanjiID] = useState<number>();
-  const [listingDetailRt, setListingDetailRt] = useState<number>();
 
   const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
     danjiId: Number(listingDetailDanjiID || router?.query?.danjiID),
-    realestateType: listingDetailRt || (router?.query?.rt ? Number(router.query.rt) : undefined),
   });
 
   useEffect(() => {
@@ -20,12 +18,6 @@ export default function useDanjiDetail(danjiID?: number, rt?: number) {
       setListingDetailDanjiID(danjiID);
     }
   }, [danjiID]);
-
-  useEffect(() => {
-    if (rt) {
-      setListingDetailRt(rt);
-    }
-  }, [rt]);
 
   return useMemo(
     () => ({

@@ -38,22 +38,20 @@ export default function ActiveListingInfo({
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiListings}`,
         query: {
           danjiID: router.query.danjiID ? `${router.query.danjiID}` : `${danji?.danji_id}` || '',
-          rt: router.query.rt ? (router.query.rt as string) : danji?.type?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiListings}?danjiID=${danji?.danji_id}&rt=${danji?.type}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiListings}?danjiID=${danji?.danji_id}`,
     );
-  }, [danji?.danji_id, danji?.type, router]);
+  }, [danji?.danji_id, router]);
 
   const handleListingDetail = useCallback(
     (id: number, buyOrRent: number) => {
       router.push(
         {
-          pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
           query: {
             listingID: `${id}`,
             danjiID: router.query.danjiID ? `${router.query.danjiID}` : `${danji?.danji_id}` || '',
-            rt: router.query.rt ? (router.query.rt as string) : danji?.type?.toString() || '',
             bor: `${buyOrRent}`,
           },
         },

@@ -504,7 +504,7 @@ export default function useMapLayout() {
               if (isPanningRef.current) return;
               // 단지 상세로 보내는 Router
               router.replace(Routes.DanjiDetail, {
-                searchParams: { danjiID: `${item.danji_id}`, rt: item.danji_realestate_type.toString() },
+                searchParams: { danjiID: `${item.danji_id}` },
                 state: {
                   bor: filter.buyOrRents,
                 },

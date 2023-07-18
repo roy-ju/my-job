@@ -66,17 +66,16 @@ export default function RealPriceListWrraper() {
         onClickBack={() => router.back()}
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
-        onClickItem={(danjiID, realestateType, bor) => {
+        onClickItem={(danjiID, bor) => {
           router.push(
             {
               pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
               query: {
                 bor: bor.toString(),
                 danjiID,
-                rt: realestateType,
               },
             },
-            `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}&rt=${realestateType}`,
+            `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`,
           );
         }}
       />

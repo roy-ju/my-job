@@ -42,7 +42,6 @@ export default function DanjiRecommendation() {
 
   const { danji } = useAPI_GetDanjiDetail({
     danjiId: router?.query?.danjiID ? Number(router?.query?.danjiID) : null,
-    realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
@@ -359,11 +358,9 @@ export default function DanjiRecommendation() {
         router.replace(
           {
             pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}`,
-            query: { danjiID: danji.danji_id, rt: danji.type.toString() },
+            query: { danjiID: danji.danji_id },
           },
-          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?danjiID=${
-            danji.danji_id
-          }&rt=${danji.type.toString()}`,
+          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?danjiID=${danji.danji_id}`,
         );
       }
     }
@@ -397,11 +394,9 @@ export default function DanjiRecommendation() {
         router.replace(
           {
             pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}`,
-            query: { danjiID: danji.danji_id, rt: danji.type.toString() },
+            query: { danjiID: danji.danji_id },
           },
-          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?danjiID=${
-            danji.danji_id
-          }&rt=${danji.type.toString()}`,
+          `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSuccess}?danjiID=${danji.danji_id}`,
         );
       }
     }

@@ -26,8 +26,8 @@ export default memo(() => {
 
   const { unreadChatCount } = useSyncronizer();
 
-  const handleClickDanjiItem = (danjiID: number, realestateType: number) => () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}&rt=${realestateType}`);
+  const handleClickDanjiItem = (danjiID: number) => () => {
+    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
   };
 
   const handleClickListingItem = (listingId: number) => () => {

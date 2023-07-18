@@ -7,7 +7,6 @@ import Routes from '@/router/routes';
 
 export default function RealPriceInfoHeader({
   danjiId,
-  type,
   depth,
   buyOrRent,
   selectedYear,
@@ -16,7 +15,6 @@ export default function RealPriceInfoHeader({
   onChangeSelectedYear,
 }: {
   danjiId?: number;
-  type?: number;
   depth: number;
   buyOrRent?: number;
   selectedYear?: number;
@@ -32,7 +30,6 @@ export default function RealPriceInfoHeader({
         searchParams: {
           listingID: router.query.listingID as string,
           danjiID: router?.query?.danjiID ? `${router?.query?.danjiID}` : `${danjiId}` || '',
-          rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
         },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
@@ -40,7 +37,6 @@ export default function RealPriceInfoHeader({
       router.push(Routes.DanjiRealPriceDetail, {
         searchParams: {
           danjiID: router?.query?.danjiID ? `${router?.query?.danjiID}` : `${danjiId}` || '',
-          rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
         },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
@@ -76,7 +72,7 @@ export default function RealPriceInfoHeader({
               }}
               href={`/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?danjiID=${
                 router?.query?.danjiID ? `${router?.query?.danjiID}` : danjiId || ''
-              }&rt=${router.query.rt ? (router.query.rt as string) : type?.toString() || ''}`}
+              }`}
             >
               실거래 심층분석
             </a>

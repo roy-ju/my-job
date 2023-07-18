@@ -12,7 +12,6 @@ export default function MobRealPriceDetail() {
 
   const { danji } = useAPI_GetDanjiDetail({
     danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
-    realestateType: router.query.rt ? Number(router.query.rt) : undefined,
   });
 
   const onChangeBuyOrRent = useCallback((value: number) => {
@@ -29,12 +28,11 @@ export default function MobRealPriceDetail() {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiSelect}`,
         query: {
           danjiID: `${router.query.danjiID}`,
-          rt: router.query.rt as string,
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?danjiID=${router.query.danjiID}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?danjiID=${router.query.danjiID}`,
     );
   };
 

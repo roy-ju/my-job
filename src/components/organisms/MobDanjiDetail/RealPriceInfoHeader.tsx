@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 
 export default function RealPriceInfoHeader({
   danjiId,
-  rt,
   buyOrRent,
   selectedYear,
   isMoreButton = true,
@@ -16,7 +15,6 @@ export default function RealPriceInfoHeader({
   onChangeSelectedYear,
 }: {
   danjiId?: number;
-  rt?: number;
   buyOrRent?: number;
   selectedYear?: number;
   isMoreButton?: boolean;
@@ -31,12 +29,11 @@ export default function RealPriceInfoHeader({
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,
         query: {
           danjiID: `${danjiId}` || `${router.query.danjiID}` || '',
-          rt: rt?.toString() || (router.query.rt as string) || '',
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?danjiID=${router.query.danjiID}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?danjiID=${router.query.danjiID}`,
     );
   };
 

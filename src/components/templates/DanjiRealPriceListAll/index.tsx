@@ -183,7 +183,6 @@ export default function DanjiRealPriceListAll({
       <div tw="px-5">
         <RealPriceInfoHeader
           danjiId={danji.danji_id}
-          type={danji.type}
           depth={depth}
           buyOrRent={buyOrRent}
           selectedYear={selectedYear}
