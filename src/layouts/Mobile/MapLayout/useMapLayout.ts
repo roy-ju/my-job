@@ -425,10 +425,10 @@ export default function useMapLayout() {
         } = {};
 
         danjis?.map((item) => {
-          danjiMap[`${item.danj_id}${item.danji_realestate_type}`] = {
-            id: `${item.danj_id}${item.danji_realestate_type}`,
+          danjiMap[`${item.danji_id}${item.danji_realestate_type}`] = {
+            id: `${item.danji_id}${item.danji_realestate_type}`,
             variant,
-            danjiID: item.danj_id,
+            danjiID: item.danji_id,
             danjiRealestateType: item.danji_realestate_type,
             pyoung: item.pyoung,
             price: item.price,
@@ -445,7 +445,7 @@ export default function useMapLayout() {
                 lng: item.long,
               });
               selectMarker({
-                danjiID: item.danj_id,
+                danjiID: item.danji_id,
                 realestateType: item.danji_realestate_type,
               });
             },
@@ -465,7 +465,7 @@ export default function useMapLayout() {
               lng: searchedDanji.long,
             });
             selectMarker({
-              danjiID: searchedDanji.danj_id,
+              danjiID: searchedDanji.danji_id,
               realestateType: searchedDanji.danji_realestate_type,
             });
           }
