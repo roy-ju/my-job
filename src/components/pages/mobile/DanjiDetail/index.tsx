@@ -91,7 +91,7 @@ const DanjiDetail = () => {
 
       {isTrueSchool && (
         <MobileContainer>
-          <DanjiSchoolDetail lat={danji?.lat} lng={danji?.long} rt={danji?.type} pnu={danji?.pnu} />
+          <DanjiSchoolDetail lat={danji?.lat} lng={danji?.long} rt={danji?.type} danjiID={danji?.danji_id} />
         </MobileContainer>
       )}
     </>

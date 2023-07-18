@@ -4,7 +4,6 @@ import useSWRInfinite from 'swr/infinite';
 
 export interface IFavoriteDanjiListItem {
   danji_id: number;
-  pnu: string;
   realestate_type: number;
   eubmyundong: string;
   danji_name: string;

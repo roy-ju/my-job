@@ -44,7 +44,7 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
     list: danjiRealPricesPyoungList,
     isLoading: danjiRealPricesPyoungListLoading,
   } = useAPI_DanjiRealPricesPyoungList({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent: isMutate ? buyOrRent || null : undefined,
   });

@@ -52,18 +52,18 @@ export type GetDanjiSchoolsResponse = {
 } & ErrorResponse;
 
 export function useAPI_DanjiSchools({
-  pnu,
+  danjiId,
   realestateType,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
 }) {
   const { data, error, mutate } = useSWR<GetDanjiSchoolsResponse>(
-    pnu && realestateType
+    danjiId && realestateType
       ? [
           '/danji/schools',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
           },
         ]

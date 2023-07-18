@@ -15,13 +15,13 @@ export interface MyFavoriteListProps {
   listingFavoriteCount: number;
   danjiFavoriteCount: number;
   onToggleListingLike?: (listingId: number, isListingFavorite: boolean) => void;
-  onToggleDanjiLike?: (pnu: string, realestateType: number, isDanjiFavorite: boolean) => void;
+  onToggleDanjiLike?: (danjiID: number, realestateType: number, isDanjiFavorite: boolean) => void;
   onListingNext?: () => void;
   onDanjiNext?: () => void;
   listingSortingType?: string;
   handleChangeListingSortingType?: (sortingType: string) => void;
   handleClickListingItem?: (listingId: number) => () => void;
-  handleClickDanjiItem?: (pnu: string, realestateType: number) => () => void;
+  handleClickDanjiItem?: (danjiID: number, realestateType: number) => () => void;
 }
 
 export default function MyFavoriteList({

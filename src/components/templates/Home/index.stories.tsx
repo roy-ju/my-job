@@ -18,7 +18,6 @@ Default.args = {
     {
       total_suggest_count: 1,
       danji_id: 19513,
-      pnu: '1144010300101710000',
       realestate_type: 20,
       eubmyundong: '신공덕동',
       name: '마포케이씨씨웰츠타워',

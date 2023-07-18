@@ -30,7 +30,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     listElementarySchools,
     listMiddleSchools,
     listHighSchools,
-  } = useAPI_DanjiSchools({ pnu: danji?.pnu, realestateType: danji?.type });
+  } = useAPI_DanjiSchools({ danjiId: danji?.danji_id, realestateType: danji?.type });
 
   const schoolList = useMemo(() => {
     if (!danjiSchoolsIsLoading) {

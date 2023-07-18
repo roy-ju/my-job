@@ -99,6 +99,10 @@ export function LegalContent({
                   ? `/lawQna/lawQnaDetail?qnaID=${qnaId}&q=${router.query.q as string}`
                   : `/lawQna/lawQnaDetail?qnaID=${qnaId}`
               }
+              onClick={(e) => {
+                e.preventDefault();
+                onClickQnaDetail?.(qnaId);
+              }}
             >
               <h2
                 tw="text-b2 font-bold [letter-spacing: -0.25px] mb-2"

@@ -17,20 +17,20 @@ export type GetDanjiRealPricesPyoungListResponse = {
 };
 
 export function useAPI_DanjiRealPricesPyoungList({
-  pnu,
+  danjiId,
   realestateType,
   buyOrRent,
 }: {
-  pnu?: string;
+  danjiId?: number;
   realestateType?: number;
   buyOrRent?: number | null;
 }) {
   const { data, error } = useSWR<GetDanjiRealPricesPyoungListResponse>(
-    pnu && realestateType && typeof buyOrRent !== 'undefined'
+    danjiId && realestateType && typeof buyOrRent !== 'undefined'
       ? [
           '/danji/realprices/pyoung/list',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
           },

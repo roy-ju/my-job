@@ -11,7 +11,7 @@ export default function MobRealPriceDetail() {
   const [selectedYear, setSelectedYear] = useState<number>();
 
   const { danji } = useAPI_GetDanjiDetail({
-    pnu: router.query.p ? (router.query.p as string) : undefined,
+    danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     realestateType: router.query.rt ? Number(router.query.rt) : undefined,
   });
 
@@ -28,13 +28,13 @@ export default function MobRealPriceDetail() {
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiSelect}`,
         query: {
-          p: `${router.query.p}`,
+          danjiID: `${router.query.danjiID}`,
           rt: router.query.rt as string,
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?danjiID=${router.query.danjiID}&rt=${router.query.rt}`,
     );
   };
 

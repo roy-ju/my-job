@@ -29,13 +29,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     () =>
       data.map((item) => ({
         danjiName: item?.danji_name,
+        danjiID: item?.danji_id,
         price: item?.price,
         monthlyRentFee: item?.monthly_rent_fee,
         createdTime: `${item?.deal_year}.${item?.deal_month}.${item?.deal_day}`,
         area: item?.jeonyong_area,
         buyOrRent: item?.buy_or_rent,
         dealType: item?.deal_type,
-        pnu: item?.pnu,
         realestateType: item?.realestate_type,
       })),
     [data],
@@ -71,10 +71,10 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeBuyOrRent={handleChangeBuyOrRent}
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
-        onClickItem={(pnu, realestateType, bor) =>
+        onClickItem={(danjiID, realestateType, bor) =>
           router.push(Routes.DanjiDetail, {
             searchParams: {
-              p: pnu,
+              danjiID: `${danjiID}`,
               rt: `${realestateType}`,
             },
             state: {
