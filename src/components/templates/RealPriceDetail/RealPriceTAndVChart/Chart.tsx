@@ -1,6 +1,5 @@
 import { MonthStartDate } from '@/components/pages/pc/DanjiDetail/useXAxisDate';
 import React, { useMemo, useCallback, useEffect } from 'react';
-
 import { AxisLeft } from '@visx/axis';
 import { localPoint } from '@visx/event';
 import { GridRows } from '@visx/grid';
@@ -76,6 +75,8 @@ export const Chart = React.memo(
     bor?: number;
   }) => {
     const { tooltipData, tooltipLeft, showTooltip, hideTooltip } = useTooltip<DataProps>();
+
+    console.log(trandsactionData, valuesData);
 
     const xScale = useMemo(
       () =>
@@ -209,11 +210,11 @@ export const Chart = React.memo(
       return (
         <LinePath
           stroke="#4C6EF5"
-          strokeDasharray={4}
+          strokeDasharray={6}
           strokeWidth={2}
           data={memoizedData}
           x={(d) => xScale(getDate(d)) ?? 0}
-          y={(d) => yScalePrice(getValuePrice(d) as number)}
+          y={(d) => yScalePrice((getValuePrice(d) as number) * 0.998)}
         />
       );
     }, [valuesData, xScale, yScalePrice]);
