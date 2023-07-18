@@ -48,7 +48,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   });
 
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
-    danjiId: danji.danji_id,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent: buyOrRent || null,
   });
