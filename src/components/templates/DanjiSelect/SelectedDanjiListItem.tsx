@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-
 import tw from 'twin.macro';
 import ComparisonZero from '@/assets/icons/selected_danji_one.svg';
 import ComparisonOne from '@/assets/icons/selected_danji_two.svg';
@@ -8,10 +7,8 @@ import ComparisonThree from '@/assets/icons/selected_danji_four.svg';
 import ComparisonFour from '@/assets/icons/selected_danji_five.svg';
 import ComparisonFive from '@/assets/icons/selected_danji_six.svg';
 import { Button } from '@/components/atoms';
-// import { ReactComponent as ComparisonClose } from '@/assets/icons/comparison_close.svg';
-// import { Button, Select } from '@/components';
 
-type ListItemDanji = { name: string; pnu: string; rt: number };
+type ListItemDanji = { name: string; danjiID: number; rt: number };
 
 const Wrraper = tw.div``;
 

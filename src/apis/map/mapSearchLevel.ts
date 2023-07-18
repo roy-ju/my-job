@@ -18,7 +18,7 @@ export interface MapSearchLevelOneResponse {
   listing_count: number;
   danji_list:
     | {
-        pnu: string;
+        danji_id: number;
         danji_realestate_type: number;
         pyoung: string;
         price: number;

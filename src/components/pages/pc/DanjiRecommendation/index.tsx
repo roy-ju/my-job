@@ -44,12 +44,12 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
   const [forms, setForms] = useState<string[]>([`${prefixDanjiRecommend}default`]);
 
   const { danji } = useAPI_GetDanjiDetail({
-    pnu: router?.query?.p as string,
+    danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : null,
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
-    pnu: danji?.pnu,
+    danjiId: danji.danji_id,
     realestateType: danji?.type,
     buyOrRent: buyOrRent || null,
   });
@@ -100,7 +100,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
     if (step === 5 && buyOrRent === BuyOrRent.Buy) {
       if (
-        // Number(tradeOrDepositPrice) &&
         (purpose === 1 || purpose === 2) &&
         (remainingAmountPaymentTime || moveInDate) &&
         buyOrRent &&
@@ -114,7 +113,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
     if (step === 6 && buyOrRent === BuyOrRent.Buy) {
       if (
-        // Number(tradeOrDepositPrice) &&
         (purpose === 1 || purpose === 2) &&
         (remainingAmountPaymentTime || moveInDate) &&
         selectedGonggeupPyoungList.length > 0 &&
@@ -126,9 +124,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     }
 
     if (step === 4 && buyOrRent !== BuyOrRent.Buy) {
-      // if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
-      //   return true;
-      // }
       if (selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
         return true;
       }
@@ -137,9 +132,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     }
 
     if (step === 5 && buyOrRent !== BuyOrRent.Buy) {
-      // if (Number(tradeOrDepositPrice) && selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
-      //   return true;
-      // }
       if (selectedGonggeupPyoungList.length > 0 && totalFloors.length > 0) {
         return true;
       }
@@ -341,7 +333,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
     if (buyOrRent === BuyOrRent.Buy) {
       const res = await danjiRecommendationFinal({
-        pnu: danji.pnu,
+        danji_id: danji.danji_id,
         realestate_type: danji.type,
 
         buy_or_rents: '1',
@@ -369,18 +361,22 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       if (!res?.error_code) {
         if (router.query.listingID) {
           router.replace(Routes.DanjiRecommendationSuccess, {
-            searchParams: { listingID: router.query.listingID as string, p: danji.pnu, rt: danji.type.toString() },
+            searchParams: {
+              listingID: router.query.listingID as string,
+              danjiID: danji.danji_id.toString(),
+              rt: danji.type.toString(),
+            },
           });
         } else {
           router.replace(Routes.DanjiRecommendationSuccess, {
-            searchParams: { p: danji.pnu, rt: danji.type.toString() },
+            searchParams: { danjiID: danji.danji_id.toString(), rt: danji.type.toString() },
           });
         }
       }
     }
     if (buyOrRent === BuyOrRent.Jeonsae) {
       const res = await danjiRecommendationFinal({
-        pnu: danji.pnu,
+        danji_id: danji.danji_id,
         realestate_type: danji.type,
 
         buy_or_rents: '2,3',
@@ -407,11 +403,15 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
       if (!res?.error_code) {
         if (router.query.listingID) {
           router.replace(Routes.DanjiRecommendationSuccess, {
-            searchParams: { listingID: router.query.listingID as string, p: danji.pnu, rt: danji.type.toString() },
+            searchParams: {
+              listingID: router.query.listingID as string,
+              danjiID: danji.danji_id.toString(),
+              rt: danji.type.toString(),
+            },
           });
         } else {
           router.replace(Routes.DanjiRecommendationSuccess, {
-            searchParams: { p: danji.pnu, rt: danji.type.toString() },
+            searchParams: { danjiID: danji.danji_id.toString(), rt: danji.type.toString() },
           });
         }
       }

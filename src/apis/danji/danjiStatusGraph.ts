@@ -21,22 +21,22 @@ export type GetDanjiStatsGraphResponse = {
 } & ErrorResponse;
 
 export function useAPI_DanjiStatusGraph({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<GetDanjiStatsGraphResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/pricerpersqmeter',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,
@@ -57,22 +57,22 @@ export function useAPI_DanjiStatusGraph({
 }
 
 export function useAPI_DanjiStatusSidoGraph({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<GetDanjiStatsGraphResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/pricerpersqmeter/sido',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,

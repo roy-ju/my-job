@@ -55,11 +55,11 @@ export default function useMyFavoriteList() {
   }, []);
 
   const handleToggleDanjiLike = useCallback(
-    async (pnu: string, realestateType: number, isDanjiFavorite: boolean) => {
+    async (danjiID: number, realestateType: number, isDanjiFavorite: boolean) => {
       if (isDanjiFavorite) {
-        await deleteMyFavoriteDanji({ pnu, realestate_type: realestateType });
+        await deleteMyFavoriteDanji({ danji_id: danjiID, realestate_type: realestateType });
       } else {
-        await addMyFavoriteDanji({ pnu, realestate_type: realestateType });
+        await addMyFavoriteDanji({ danji_id: danjiID, realestate_type: realestateType });
       }
       danjiMutate();
     },
@@ -70,7 +70,6 @@ export default function useMyFavoriteList() {
     () =>
       danjis.map((item) => ({
         danjiId: item.danji_id,
-        pnu: item.pnu,
         realestateType: item.realestate_type,
         eubmyundong: item.eubmyundong,
         danjiName: item.danji_name,

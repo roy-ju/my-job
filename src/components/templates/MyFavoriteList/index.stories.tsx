@@ -84,7 +84,6 @@ Default.args = {
   danjiList: [
     {
       danjiId: 3,
-      pnu: '4113510900107380000',
       realestateType: 10,
       eubmyundong: '삼평동',
       danjiName: '봇들마을7단지',
@@ -103,7 +102,6 @@ Default.args = {
     },
     {
       danjiId: 3,
-      pnu: '4113510900107380000',
       realestateType: 10,
       eubmyundong: '삼평동',
       danjiName: '봇들마을7단지',
@@ -122,7 +120,6 @@ Default.args = {
     },
     {
       danjiId: 3,
-      pnu: '4113510900107380000',
       realestateType: 10,
       eubmyundong: '삼평동',
       danjiName: '봇들마을7단지',

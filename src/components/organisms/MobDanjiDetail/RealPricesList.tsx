@@ -123,7 +123,7 @@ export default function RealPricesList({
   }, []);
 
   const { list: realPricesList, setSize } = useAPI_DanjiRealPricesList({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type ? Number(danji.type) : null,
     buyOrRent,
     year: selectedYear || 3,
@@ -185,9 +185,9 @@ export default function RealPricesList({
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}`,
-        query: { p: `${router.query.p}`, rt: router.query.rt as string },
+        query: { danjiID: `${router.query.danjiID}`, rt: router.query.rt as string },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?danjiID=${router.query.danjiID}&rt=${router.query.rt}`,
     );
   }, [
     buyOrRent,

@@ -32,21 +32,21 @@ export const RealPriceTAndVChartWrraper = React.memo(
     selectedYear?: number;
   }) => {
     const { listDanji } = useAPI_DanjiTransactionTrends({
-      pnu: danji?.pnu,
+      danjiId: danji?.danji_id,
       realestateType: Number(danji?.type),
       buyOrRent,
       year: selectedYear,
     });
 
     const { listDanji: valueListDanji } = useAPI_DanjiValues({
-      pnu: danji?.pnu,
+      danjiId: danji?.danji_id,
       realestateType: Number(danji?.type),
       buyOrRent,
       year: selectedYear,
     });
 
     const { data: xAxisData } = useXAxisDate(selectedYear || 3);
-    const xAxis = xAxisData.slice(1);
+    const xAxis = xAxisData.slice(1, xAxisData.length - 1);
 
     const trandsactionData = useMemo(() => {
       const dataMap: { [date: string]: Partial<ChartData[0]> } = {};

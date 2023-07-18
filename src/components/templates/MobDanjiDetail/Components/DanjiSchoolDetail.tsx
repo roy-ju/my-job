@@ -9,12 +9,12 @@ import DanjiSchoolMapCard from './DanjiSchoolMapCard';
 export default function DanjiSchoolDetail({
   lng,
   lat,
-  pnu,
+  danjiID,
   rt,
 }: {
   lng?: number;
   lat?: number;
-  pnu?: string;
+  danjiID?: number;
   rt?: number;
 }) {
   const { makeFalseSchool } = useDanjiMapButtonStore();
@@ -43,7 +43,7 @@ export default function DanjiSchoolDetail({
           <CloseIcon />
         </Button>
       </NavigationHeader>
-      <DanjiSchoolMapCard lng={lng} lat={lat} pnu={pnu} rt={rt} />
+      <DanjiSchoolMapCard lng={lng} lat={lat} danjiID={danjiID} rt={rt} />
     </div>
   );
 }

@@ -11,7 +11,7 @@ const mockData: IMyRealPriceListItem[] = [
     buyOrRent: 1,
     dealType: '직거래',
     realestateType: 10,
-    pnu: '1234',
+    danjiID: 1234,
   },
   {
     danjiName: '기흥더샵프라임뷰',
@@ -22,7 +22,7 @@ const mockData: IMyRealPriceListItem[] = [
     buyOrRent: 3,
     dealType: '',
     realestateType: 10,
-    pnu: '1234',
+    danjiID: 1234,
   },
 ];
 

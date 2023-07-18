@@ -40,14 +40,14 @@ export default function RealPriceDanjiListAll({
   const nanoid = customAlphabet('1234567890abcdefghijk', 10);
 
   const { isLoading: pyoungLoading, data } = useAPI_DanjiRealPricesPyoungList({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent: buyOrRent || null,
   });
 
   const { isLoading, list, isShowMoreButton, setSize } = useAPI_ThisDanjiRecentlyRealPricesListAll({
     res: data,
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     directDealExcluded: checked,

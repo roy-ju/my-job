@@ -59,7 +59,13 @@ export default function TypeOne({
         </div>
         <div>
           {anchorURL ? (
-            <a href={anchorURL}>
+            <a
+              href={anchorURL}
+              onClick={(e) => {
+                e.preventDefault();
+                onClick?.(item.listing_id, item.buy_or_rent);
+              }}
+            >
               <h1 tw="text-info">{item.listing_title}</h1>
             </a>
           ) : (

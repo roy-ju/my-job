@@ -13,7 +13,7 @@ export default function DanjiRealPriceList({ panelWidth, depth }: Props) {
   const router = useRouter(depth);
 
   const { danji } = useAPI_GetDanjiDetail({
-    pnu: router?.query?.p as string,
+    danjiId: Number(router?.query?.danjiID),
     realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 

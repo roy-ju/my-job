@@ -18,6 +18,7 @@ Default.args = {
     listing: {
       id: 1550,
       user_id: null,
+      danji_id: 3,
       agent_id: 14,
       assigned_agent_id: 14,
       trade_id: 'T2212010006',
@@ -28,7 +29,6 @@ Default.args = {
       owner_name: '',
       owner_phone: '',
       realestate_unique_number: '',
-      pnu: '4113510900107380000',
       bubjungdong_code: '4113510900',
       road_name_address: '',
       jibun_address: '',
@@ -140,7 +140,7 @@ Default.args = {
       {
         id: 2598,
         listing_id: 3062,
-        pnu: null,
+        danji_id: 3,
         token: null,
         document_type: 2,
         full_file_path: 'https://negocio-listing-photos.s3.ap-northeast-2.amazonaws.com/2023-4/3062Wl3eQZkDpS6gE5Go',
@@ -151,7 +151,7 @@ Default.args = {
       {
         id: 2599,
         listing_id: 3062,
-        pnu: null,
+        danji_id: 3,
         token: null,
         document_type: 2,
         full_file_path: 'https://negocio-listing-photos.s3.ap-northeast-2.amazonaws.com/2023-4/3062dm17RskAeLtqaL3u',

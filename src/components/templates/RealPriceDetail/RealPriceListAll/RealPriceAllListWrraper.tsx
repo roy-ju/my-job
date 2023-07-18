@@ -35,6 +35,10 @@ const ListItemComponent = ({
     <div tw="flex flex-row items-center justify-between mb-1.5">
       {anchorURL ? (
         <a
+          onClick={(e) => {
+            e.preventDefault();
+            onClickItem?.();
+          }}
           href={anchorURL}
           tw="text-b2 [line-height: 1] max-w-[265px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap [text-decoration: underline]"
         >
@@ -65,7 +69,7 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
   const nanoId = customAlphabet('1234567890abcdefgh');
 
   const { list, isShowMoreButton, setSize } = useAPI_DanjiRecentlyRealPricesListAll({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type ? danji.type : null,
     buyOrRent,
   });
@@ -98,12 +102,12 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
   }, []);
 
   const onClickItem = useCallback(
-    (pnu: string, rt: number) => {
+    (danjiID: number, rt: number) => {
       if (platform === 'pc') {
-        nextRouter.push(`/${Routes.DanjiDetail}?p=${pnu}&rt=${rt}`);
+        nextRouter.push(`/${Routes.DanjiDetail}?danjiID=${danjiID}&rt=${rt}`);
       }
       if (platform === 'mobile') {
-        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${pnu}&rt=${rt}`);
+        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}&rt=${rt}`);
       }
     },
     [nextRouter, platform],
@@ -120,7 +124,7 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
         list.length > 0 &&
         list.map((item) => (
           <ListItemComponent
-            onClickItem={() => onClickItem(item.pnu, item.realestate_type)}
+            onClickItem={() => onClickItem(item.danji_id, item.realestate_type)}
             key={nanoId()}
             title={item.name}
             saedaeCount={item.saedae_count ? `${Number(item.saedae_count).toLocaleString()} 세대` : '- 세대'}
@@ -128,7 +132,9 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
             area={`전용 ${cuttingDot(item.jeonyong_area)}㎡`}
             date={`${item.year}.${minDigits(+item.month, 2)}.${minDigits(+item.day, 2)}`}
             anchorURL={
-              platform === 'pc' ? `/${Routes.DanjiDetail}?p=${item.pnu}&rt=${item.realestate_type}` : undefined
+              platform === 'pc'
+                ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
+                : undefined
             }
           />
         ))}
