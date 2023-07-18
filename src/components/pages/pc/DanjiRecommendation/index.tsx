@@ -45,7 +45,6 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
 
   const { danji } = useAPI_GetDanjiDetail({
     danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : null,
-    realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 
   const { list: danjiRealPricesPyoungList } = useAPI_DanjiRealPricesPyoungList({
@@ -364,12 +363,11 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
             searchParams: {
               listingID: router.query.listingID as string,
               danjiID: danji.danji_id.toString(),
-              rt: danji.type.toString(),
             },
           });
         } else {
           router.replace(Routes.DanjiRecommendationSuccess, {
-            searchParams: { danjiID: danji.danji_id.toString(), rt: danji.type.toString() },
+            searchParams: { danjiID: danji.danji_id.toString() },
           });
         }
       }
@@ -406,12 +404,11 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
             searchParams: {
               listingID: router.query.listingID as string,
               danjiID: danji.danji_id.toString(),
-              rt: danji.type.toString(),
             },
           });
         } else {
           router.replace(Routes.DanjiRecommendationSuccess, {
-            searchParams: { danjiID: danji.danji_id.toString(), rt: danji.type.toString() },
+            searchParams: { danjiID: danji.danji_id.toString() },
           });
         }
       }

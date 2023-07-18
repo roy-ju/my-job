@@ -3,6 +3,7 @@ import { Button, Checkbox } from '@/components/atoms';
 import { BuyOrRent } from '@/constants/enums';
 import { cuttingDot } from '@/utils/fotmat';
 import { motion } from 'framer-motion';
+import { customAlphabet } from 'nanoid';
 
 import { useMemo, useRef, useState, MouseEvent, TouchEvent, useEffect } from 'react';
 import tw from 'twin.macro';
@@ -31,6 +32,8 @@ export default function RealPricesPyoungList({
   onChangeSelectedJeonyongArea?: (valul: string) => void;
   onChangeSelectedJeonyongAreaMax?: (value: string) => void;
 }) {
+  const nanoid = customAlphabet('0123456789abcdefg');
+
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
 
@@ -192,7 +195,10 @@ export default function RealPricesPyoungList({
               }}
             >
               {item.gonggeup_pyoung.toString() === selectedArea?.toString() && (
-                <motion.div layoutId="danji-indicator" tw="absolute top-0 left-0 pointer-events-none z-10">
+                <motion.div
+                  layoutId={`danji-indicator-${nanoid()}`}
+                  tw="absolute top-0 left-0 pointer-events-none z-10"
+                >
                   <div tw="w-full h-full [min-width: 4.375rem] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center" />
                 </motion.div>
               )}

@@ -5,15 +5,13 @@ import { useRouter } from '@/hooks/utils';
 import { ListingDanjiMarker } from '@/layouts/MapLayout/useMapLayout';
 import { useEffect, useMemo, useState } from 'react';
 
-export default function useDanjiDetail(depth: number, danjiID?: number, rt?: number) {
+export default function useDanjiDetail(depth: number, danjiID?: number) {
   const router = useRouter(depth);
 
   const [listingDetailDanjiID, setListingDetailDanjiID] = useState<number>();
-  const [listingDetailRt, setListingDetailRt] = useState<number>();
 
   const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
     danjiId: listingDetailDanjiID || Number(router?.query?.danjiID),
-    realestateType: listingDetailRt || (router?.query?.rt ? Number(router.query.rt) : undefined),
   });
 
   useEffect(() => {
@@ -23,18 +21,12 @@ export default function useDanjiDetail(depth: number, danjiID?: number, rt?: num
   }, [danjiID]);
 
   useEffect(() => {
-    if (rt) {
-      setListingDetailRt(rt);
-    }
-  }, [rt]);
-
-  useEffect(() => {
     const lat = danji?.lat;
     const lng = danji?.long;
-    
+
     if (lat && lng) {
       const isListingDetailOpen = window.location.pathname.includes('listingDetail');
-    
+
       if (isListingDetailOpen) return;
 
       window.Negocio.callbacks.selectMarker({

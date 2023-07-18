@@ -28,7 +28,6 @@ export default function BasicInfo({
       pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
       query: {
         danjiID: `${danji?.danji_id}` || `${router.query.danjiID}` || '',
-        rt: danji?.type.toString() || (router.query.rt as string) || '',
       },
     });
   }, [router, danji]);
@@ -39,9 +38,9 @@ export default function BasicInfo({
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
-        query: { danjiID: danji?.danji_id, rt: danji.type.toString() as string },
+        query: { danjiID: danji?.danji_id },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danji.danji_id}&rt=${danji.type}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danji.danji_id}`,
     );
   }, [danji?.danji_id, danji.type, router]);
 

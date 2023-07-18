@@ -34,7 +34,6 @@ export default function BasicInfo({
       pathname: `/${Routes.DanjiDetail}`,
       query: {
         danjiID: danji?.danji_id || `${nextRouter?.query?.danjiID}` || '',
-        rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
       },
     });
   }, [nextRouter, danji]);
@@ -48,7 +47,6 @@ export default function BasicInfo({
           searchParams: {
             listingID: router.query.listingID as string,
             danjiID: `${danji.danji_id}`,
-            rt: danji.type.toString() as string,
           },
         });
       } else if (depth === 2) {
@@ -56,17 +54,16 @@ export default function BasicInfo({
           searchParams: {
             listingID: router.query.listingID as string,
             danjiID: `${danji.danji_id}`,
-            rt: danji.type.toString() as string,
           },
         });
       }
     } else if (depth === 1) {
       router.push(Routes.DanjiRecommendation, {
-        searchParams: { danjiID: `${danji?.danji_id}`, rt: danji.type.toString() as string },
+        searchParams: { danjiID: `${danji?.danji_id}` },
       });
     } else if (depth === 2) {
       router.replace(Routes.DanjiRecommendation, {
-        searchParams: { danjiID: `${danji?.danji_id}`, rt: danji.type.toString() as string },
+        searchParams: { danjiID: `${danji?.danji_id}` },
       });
     }
   }, [danji.danji_id, danji.type, router, depth]);

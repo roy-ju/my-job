@@ -42,7 +42,7 @@ export default function MobDanjiListings({
     <div tw="w-full max-w-mobile flex flex-col relative h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={handleBackButton} />
-        <NavigationHeader.Title>단지 매물 목록gg</NavigationHeader.Title>
+        <NavigationHeader.Title>단지 매물 목록</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="[min-height: 24px]" />
       <MobDanjiDetailSection>

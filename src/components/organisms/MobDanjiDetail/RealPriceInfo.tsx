@@ -25,7 +25,6 @@ export default function RealPriceInfo({
       </div>
       <RealPriceInfoHeader
         danjiId={danji.danji_id}
-        rt={danji.type}
         buyOrRent={buyOrRent}
         selectedYear={selectedYear}
         onChangeBuyOrRent={onChangeBuyOrRent}

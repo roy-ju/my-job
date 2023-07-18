@@ -41,12 +41,11 @@ export default function ActiveListingInfo({
         searchParams: {
           listingID: router.query.listingID as string,
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          rt: danji?.type.toString() || (router.query.rt as string) || '',
         },
       });
     } else {
       router.replace(Routes.DanjiListings, {
-        searchParams: { danjiID: `${router?.query?.danjiID}`, rt: router.query.rt as string },
+        searchParams: { danjiID: `${router?.query?.danjiID}` },
       });
     }
   }, [router, danji]);
@@ -57,7 +56,6 @@ export default function ActiveListingInfo({
         pathname: `/${Routes.DanjiListings}`,
         query: {
           danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
-          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
         },
       });
     } else {
@@ -65,11 +63,10 @@ export default function ActiveListingInfo({
         pathname: `/${Routes.DanjiListings}`,
         query: {
           danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
-          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
         },
       });
     }
-  }, [router.query.listingID, nextRouter, danji?.danji_id, danji?.type]);
+  }, [router.query.listingID, nextRouter, danji?.danji_id]);
 
   const handleListingDetail = useCallback(
     (id: number, buyOrRent: number) => {
@@ -79,13 +76,12 @@ export default function ActiveListingInfo({
           query: {
             listingID: `${id}`,
             danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
-            rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
             bor: `${buyOrRent}`,
           },
         },
         `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&danjiID=${
           danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
-        }&rt=${danji?.type.toString() || (nextRouter.query.rt as string) || ''}`,
+        }`,
       );
     },
     [nextRouter, danji],
@@ -148,7 +144,7 @@ export default function ActiveListingInfo({
               onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
               anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&danjiID=${
                 danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
-              }&rt=${danji?.type.toString() || (nextRouter.query.rt as string) || ''}`}
+              }`}
             />
           ))}
         </ListingItem>

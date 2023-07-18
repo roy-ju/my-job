@@ -14,7 +14,6 @@ export default function DanjiRealPriceList({ panelWidth, depth }: Props) {
 
   const { danji } = useAPI_GetDanjiDetail({
     danjiId: Number(router?.query?.danjiID),
-    realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 
   const onClickBackButton = () => {

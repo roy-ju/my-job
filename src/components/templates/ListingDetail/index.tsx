@@ -74,7 +74,7 @@ export default function ListingDetail({
 }: ListingDetailProps) {
   const router = useRouter(depth);
 
-  const { danji } = useDanjiDetail(depth, listingDetail?.listing?.danji_id, listingDetail?.listing?.realestate_type);
+  const { danji } = useDanjiDetail(depth, listingDetail?.listing?.danji_id);
 
   const interactStore = useDanjiInteraction({ danjiData: danji });
 

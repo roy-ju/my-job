@@ -18,7 +18,6 @@ export default function DanjiSelect({ depth, panelWidth }: Props) {
 
   const { danji } = useAPI_GetDanjiDetail({
     danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
-    realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
   });
 
   const handleClickBackButton = useCallback(() => {
@@ -27,13 +26,12 @@ export default function DanjiSelect({ depth, panelWidth }: Props) {
         searchParams: {
           listingID: router.query.listingID as string,
           danjiID: router.query.danjiID as string,
-          rt: router.query.rt as string,
         },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
     } else {
       router.replace(Routes.DanjiRealPriceDetail, {
-        searchParams: { danjiID: `${router.query.danjiID}`, rt: router.query.rt as string },
+        searchParams: { danjiID: `${router.query.danjiID}` },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
     }
@@ -55,13 +53,12 @@ export default function DanjiSelect({ depth, panelWidth }: Props) {
         searchParams: {
           listingID: router.query.listingID as string,
           danjiID: router.query.danjiID as string,
-          rt: router.query.rt as string,
         },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
     } else {
       router.replace(Routes.DanjiRealTradeDetail, {
-        searchParams: { danjiID: `${router.query.danjiID}`, rt: router.query.rt as string },
+        searchParams: { danjiID: `${router.query.danjiID}` },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
     }

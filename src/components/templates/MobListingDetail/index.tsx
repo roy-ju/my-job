@@ -69,7 +69,7 @@ export default function MobListingDetail({
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
-  const { danji } = useDanjiDetail(listingDetail?.listing?.danji_id, listingDetail?.listing?.realestate_type);
+  const { danji } = useDanjiDetail(listingDetail?.listing?.danji_id);
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);

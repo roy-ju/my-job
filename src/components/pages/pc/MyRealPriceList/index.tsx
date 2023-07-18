@@ -75,7 +75,6 @@ export default memo(({ depth, panelWidth }: Props) => {
           router.push(Routes.DanjiDetail, {
             searchParams: {
               danjiID: `${danjiID}`,
-              rt: `${realestateType}`,
             },
             state: {
               bor: bor.toString(),

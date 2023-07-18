@@ -102,12 +102,12 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
   }, []);
 
   const onClickItem = useCallback(
-    (danjiID: number, rt: number) => {
+    (danjiID: number) => {
       if (platform === 'pc') {
-        nextRouter.push(`/${Routes.DanjiDetail}?danjiID=${danjiID}&rt=${rt}`);
+        nextRouter.push(`/${Routes.DanjiDetail}?danjiID=${danjiID}`);
       }
       if (platform === 'mobile') {
-        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}&rt=${rt}`);
+        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
       }
     },
     [nextRouter, platform],
@@ -124,18 +124,14 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
         list.length > 0 &&
         list.map((item) => (
           <ListItemComponent
-            onClickItem={() => onClickItem(item.danji_id, item.realestate_type)}
+            onClickItem={() => onClickItem(item.danji_id)}
             key={nanoId()}
             title={item.name}
             saedaeCount={item.saedae_count ? `${Number(item.saedae_count).toLocaleString()} 세대` : '- 세대'}
             price={priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}
             area={`전용 ${cuttingDot(item.jeonyong_area)}㎡`}
             date={`${item.year}.${minDigits(+item.month, 2)}.${minDigits(+item.day, 2)}`}
-            anchorURL={
-              platform === 'pc'
-                ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}&rt=${item.realestate_type}`
-                : undefined
-            }
+            anchorURL={platform === 'pc' ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}` : undefined}
           />
         ))}
       {isShowMoreButton && (

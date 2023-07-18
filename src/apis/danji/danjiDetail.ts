@@ -40,17 +40,9 @@ export type GetDanjiDetailResponse = {
   suggest_count: number;
 } & ErrorResponse;
 
-export function useAPI_GetDanjiDetail({
-  danjiId,
-  realestateType,
-}: {
-  danjiId?: number | null;
-  realestateType?: number | null;
-}) {
+export function useAPI_GetDanjiDetail({ danjiId }: { danjiId?: number | null }) {
   const { data, error, mutate } = useSWR<GetDanjiDetailResponse>(
-    danjiId && realestateType
-      ? ['/danji/get/v2', { danji_id: danjiId, realestate_type: Number(realestateType) }]
-      : null,
+    danjiId ? ['/danji/get/v2', { danji_id: danjiId }] : null,
     null,
     {
       revalidateIfStale: false,
@@ -61,7 +53,7 @@ export function useAPI_GetDanjiDetail({
 
   return {
     danji: data,
-    isLoading: danjiId && realestateType ? !data && !error : false,
+    isLoading: danjiId ? !data && !error : false,
     mutate,
     error,
   };
