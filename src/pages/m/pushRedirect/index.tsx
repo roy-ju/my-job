@@ -9,10 +9,8 @@ const Page: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const { data } = router.query;
-
-    if (typeof data === 'string') {
-      const url = data;
+    if (typeof window !== 'undefined') {
+      const url = window.location.href;
       router.replace(url);
     } else {
       router.replace(`/${Routes.EntryMobile}`);
