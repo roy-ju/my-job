@@ -35,11 +35,13 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
   const [selectedYear, setSelectedYear] = useState<number>(Year.Three);
   const [selectedArea, setSelectedArea] = useState<string>();
   const [selectedJeonyongArea, setSelectedJeonyongArea] = useState<string>();
+  const [selectedJeonyongAreaMin, setSelectedJeonyongAreaMin] = useState<string>();
   const [selectedJeonyongAreaMax, setSelectedJeonyongAreaMax] = useState<string>();
   const [selectedIndex, setSelectedIndex] = useState<number>();
   const [checked, setChecked] = useState<boolean>(false);
 
   const {
+    hasJyb,
     data: danjiRealPricesData,
     list: danjiRealPricesPyoungList,
     isLoading: danjiRealPricesPyoungListLoading,
@@ -57,8 +59,8 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
     setChecked((prev) => !prev);
   }, []);
 
-  const onChangeSelectedYear = useCallback((value: number) => {
-    setSelectedYear(value);
+  const onChangeSelectedYear = useCallback((val: number) => {
+    setSelectedYear(val);
   }, []);
 
   const onChangeSelectedArea = useCallback((val: string) => {
@@ -67,6 +69,10 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
 
   const onChangeSelectedJeonyongArea = useCallback((val: string) => {
     setSelectedJeonyongArea(val);
+  }, []);
+
+  const onChangeSelectedJeonyongAreaMin = useCallback((val: string) => {
+    setSelectedJeonyongAreaMin(val);
   }, []);
 
   const onChangeSelectedJeonyongAreaMax = useCallback((val: string) => {
@@ -117,7 +123,9 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
 
       setSelectedArea(danjiRealPricesPyoungList[index]?.gonggeup_pyoung.toString());
 
-      setSelectedJeonyongArea(danjiRealPricesPyoungList[index]?.min_jeonyong.toString());
+      setSelectedJeonyongArea(danjiRealPricesPyoungList[index]?.avg_jeonyong.toString());
+
+      setSelectedJeonyongAreaMin(danjiRealPricesPyoungList[index]?.min_jeonyong.toString());
 
       setSelectedJeonyongAreaMax(danjiRealPricesPyoungList[index]?.max_jeonyong.toString());
 
@@ -253,12 +261,15 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
             buyOrRent={buyOrRent || danjiRealPricesData?.buy_or_rent}
             danjiRealPricesPyoungList={danjiRealPricesPyoungList}
             selectedArea={selectedArea}
+            selectedJeonyongArea={selectedJeonyongArea}
             selectedIndex={selectedIndex}
             checked={checked}
+            hasJyb={hasJyb}
             onChangeChecked={onChangeChecked}
             onChangeSelectedIndex={onChangeSelectedIndex}
             onChangeSelectedArea={onChangeSelectedArea}
             onChangeSelectedJeonyongArea={onChangeSelectedJeonyongArea}
+            onChangeSelectedJeonyongAreaMin={onChangeSelectedJeonyongAreaMin}
             onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
           />
 
@@ -292,6 +303,7 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
             selectedGonggeup={selectedArea}
             selectedYear={selectedYear}
             selectedArea={selectedJeonyongArea}
+            selectedAreaMin={selectedJeonyongAreaMin}
             selectedAreaMax={selectedJeonyongAreaMax}
             checked={checked}
             selectedIndex={selectedIndex}

@@ -32,9 +32,14 @@ export default function MobDanjiRealPriceListAll({
 
   const [selectedArea, setSelectedArea] = useSessionStorage('d-gr', sessionStorage.getItem('d-gr')?.toString() || '');
 
+  const [selectedJeonyongAreaMin, setSelectedJeonyongAreaMin] = useSessionStorage(
+    'd-jr-min',
+    sessionStorage.getItem('d-jr-min')?.toString() || '',
+  );
+
   const [selectedJeonyongAreaMax, setSelectedJeonyongAreaMax] = useSessionStorage(
-    'd-jr-m',
-    sessionStorage.getItem('d-jr-m')?.toString() || '',
+    'd-jr-max',
+    sessionStorage.getItem('d-jr-max')?.toString() || '',
   );
 
   const [selectedJeonyongArea, setSelectedJeonyongArea] = useSessionStorage(
@@ -79,6 +84,13 @@ export default function MobDanjiRealPriceListAll({
     [setSelectedJeonyongArea],
   );
 
+  const onChangeSelectedJeonyongAreaMin = useCallback(
+    (val: string) => {
+      setSelectedJeonyongAreaMin(val);
+    },
+    [setSelectedJeonyongAreaMin],
+  );
+
   const onChangeSelectedJeonyongAreaMax = useCallback(
     (val: string) => {
       setSelectedJeonyongAreaMax(val);
@@ -94,9 +106,10 @@ export default function MobDanjiRealPriceListAll({
   );
 
   const {
+    data,
+    hasJyb,
     list: realPricesPyoungList,
     isLoading: realPricesPyoungListLoading,
-    data,
   } = useAPI_DanjiRealPricesPyoungList({
     danjiId: danji?.danji_id,
     realestateType: danji?.type,
@@ -139,6 +152,11 @@ export default function MobDanjiRealPriceListAll({
       if (realPricesPyoungList[index]?.gonggeup_pyoung) {
         setSelectedArea(realPricesPyoungList[index].gonggeup_pyoung.toString());
       }
+
+      if (realPricesPyoungList[index]?.avg_jeonyong) {
+        setSelectedJeonyongArea(realPricesPyoungList[index].avg_jeonyong.toString());
+      }
+
       if (realPricesPyoungList[index]?.min_jeonyong) {
         setSelectedJeonyongArea(realPricesPyoungList[index].min_jeonyong.toString());
       }
@@ -148,6 +166,7 @@ export default function MobDanjiRealPriceListAll({
       }
 
       setSelectedIndex(index);
+
       setBuyOrRent(data?.buy_or_rent || BuyOrRent.Buy);
     }
   }, [realPricesPyoungListLoading]);
@@ -156,13 +175,15 @@ export default function MobDanjiRealPriceListAll({
     () => () => {
       if (typeof window !== 'undefined') {
         sessionStorage.removeItem('d-ch');
-        sessionStorage.removeItem('d-jr-m');
-        sessionStorage.removeItem('d-jr-s');
         sessionStorage.removeItem('d-sl-i');
         sessionStorage.removeItem('d-gr');
         sessionStorage.removeItem('d-br');
         sessionStorage.removeItem('d-yr');
         sessionStorage.removeItem('d-py-l');
+        sessionStorage.removeItem('d-jr-m');
+        sessionStorage.removeItem('d-jr-min');
+        sessionStorage.removeItem('d-jr-max');
+        sessionStorage.removeItem('d-jr-s');
       }
     },
     [],
@@ -193,12 +214,15 @@ export default function MobDanjiRealPriceListAll({
           buyOrRent={buyOrRent}
           danjiRealPricesPyoungList={realPricesPyoungList}
           selectedArea={selectedArea}
+          selectedJeonyongArea={selectedJeonyongArea}
           selectedIndex={selectedIndex}
           checked={checkedBoolean}
+          hasJyb={hasJyb}
           onChangeChecked={onChangeChecked}
           onChangeSelectedIndex={onChangeSelectedIndex}
           onChangeSelectedArea={onChangeSelectedArea}
           onChangeSelectedJeonyongArea={onChangeSelectedJeonyongArea}
+          onChangeSelectedJeonyongAreaMin={onChangeSelectedJeonyongAreaMin}
           onChangeSelectedJeonyongAreaMax={onChangeSelectedJeonyongAreaMax}
         />
 
@@ -230,6 +254,7 @@ export default function MobDanjiRealPriceListAll({
           selectedGonggeup={selectedArea}
           selectedYear={selectedYear}
           selectedArea={selectedJeonyongArea}
+          selectedAreaMin={selectedJeonyongAreaMin}
           selectedAreaMax={selectedJeonyongAreaMax}
           checked={checkedBoolean}
           selectedIndex={selectedIndex}

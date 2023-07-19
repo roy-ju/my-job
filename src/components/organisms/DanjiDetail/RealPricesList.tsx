@@ -76,6 +76,7 @@ export default function RealPricesList({
   selectedYear,
   selectedGonggeup,
   selectedArea,
+  selectedAreaMin,
   selectedAreaMax,
   checked,
   selectedIndex,
@@ -88,6 +89,7 @@ export default function RealPricesList({
   selectedYear?: number;
   selectedGonggeup?: string;
   selectedArea?: string;
+  selectedAreaMin?: string;
   selectedAreaMax?: string;
   checked: boolean;
   selectedIndex?: number;
@@ -156,10 +158,16 @@ export default function RealPricesList({
       sessionStorage.removeItem('d-jr-s');
     }
 
-    if (selectedAreaMax) {
-      sessionStorage.setItem('d-jr-m', selectedAreaMax.toString());
+    if (selectedAreaMin) {
+      sessionStorage.setItem('d-jr-min', selectedAreaMin.toString());
     } else if (!selectedAreaMax) {
-      sessionStorage.removeItem('d-jr-m');
+      sessionStorage.removeItem('d-jr-min');
+    }
+
+    if (selectedAreaMax) {
+      sessionStorage.setItem('d-jr-max', selectedAreaMax.toString());
+    } else if (!selectedAreaMax) {
+      sessionStorage.removeItem('d-jr-max');
     }
 
     if (typeof selectedIndex === 'number') {
@@ -201,6 +209,7 @@ export default function RealPricesList({
     danjiRealPricesPyoungList,
     router,
     selectedArea,
+    selectedAreaMin,
     selectedAreaMax,
     selectedGonggeup,
     selectedIndex,
