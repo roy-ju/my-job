@@ -24,28 +24,28 @@ export default function RealPriceInfoCurrent({
 }) {
   const { data: danjiTradeTurnRateData } = useAPI_DanjiTradeTurnrate({
     buyOrRent,
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     year: selectedYear,
   });
 
   const { data: danjiTradeTurnRateSigunguData } = useAPI_DanjiTradeTurnrateSigungu({
     buyOrRent,
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     year: selectedYear,
   });
 
   const { data: danjiJeonsaeRateRateData } = useAPI_DanjiJeonsaerate({
     buyOrRent,
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     year: selectedYear,
   });
 
   const { data: danjiJeonsaeRateSigunguData } = useAPI_DanjiJeonsaerateSigungu({
     buyOrRent,
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     year: selectedYear,
   });

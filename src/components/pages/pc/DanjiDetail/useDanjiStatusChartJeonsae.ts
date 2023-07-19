@@ -27,57 +27,57 @@ export default function useDanjiStatusChartJeonsae({
     listSigungu,
     isLoading: statusLoading,
   } = useAPI_DanjiJeonsaeGraph({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,
   });
 
   const { listSido, isLoading: statusSidoLoading } = useAPI_DanjiJeonsaeSidoGraph({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,
   });
 
   const { data: xAxisData } = useXAxisDate(selectedYear);
-  const xAxis = xAxisData.slice(1);
+  const xAxis = xAxisData.slice(1, xAxisData.length - 1);
 
-const danjiChartData = useMemo(() => {
-  const dataMap: { [date: string]: Partial<ChartData[0]> } = {};
+  const danjiChartData = useMemo(() => {
+    const dataMap: { [date: string]: Partial<ChartData[0]> } = {};
 
-  const danjiList = listDanji || [];
+    const danjiList = listDanji || [];
 
-  danjiList.forEach((item) => {
-    dataMap[item.date] = {
-      ...dataMap[item.date],
-      danji_jeonsae_rate: item.jeonsae_rate,
-    };
-  });
-
-  xAxis.forEach(({ date }) => {
-    const month = moment(date).format('YYYY-M');
-    if (!dataMap[month]) {
-      const lastMonth = moment(month, 'YYYY-M').subtract(1, 'month').format('YYYY-M');
-      const lastData = dataMap[lastMonth];
-      dataMap[month] = {
-        danji_jeonsae_rate: lastData?.danji_jeonsae_rate || 0,
-        isManipulate: true,
+    danjiList.forEach((item) => {
+      dataMap[item.date] = {
+        ...dataMap[item.date],
+        danji_jeonsae_rate: item.jeonsae_rate,
       };
-    }
-  });
+    });
 
-  const list = Object.entries(dataMap).map(([key, value]) => ({
-    ...value,
-    date: moment(key, 'YYYY-M').startOf('month').toDate(),
-  }));
+    xAxis.forEach(({ date }) => {
+      const month = moment(date).format('YYYY-M');
+      if (!dataMap[month]) {
+        const lastMonth = moment(month, 'YYYY-M').subtract(1, 'month').format('YYYY-M');
+        const lastData = dataMap[lastMonth];
+        dataMap[month] = {
+          danji_jeonsae_rate: lastData?.danji_jeonsae_rate || 0,
+          isManipulate: true,
+        };
+      }
+    });
 
-  const filteredList = list.filter(({ date }) =>
-    moment(date).isBetween(moment(xAxis[0].date), moment(xAxis[xAxis.length - 1].date), 'month', '[]'),
-  );
+    const list = Object.entries(dataMap).map(([key, value]) => ({
+      ...value,
+      date: moment(key, 'YYYY-M').startOf('month').toDate(),
+    }));
 
-  return filteredList.sort((a, b) => a.date.getTime() - b.date.getTime());
-}, [listDanji, selectedYear]);
+    const filteredList = list.filter(({ date }) =>
+      moment(date).isBetween(moment(xAxis[0].date), moment(xAxis[xAxis.length - 1].date), 'month', '[]'),
+    );
+
+    return filteredList.sort((a, b) => a.date.getTime() - b.date.getTime());
+  }, [listDanji, selectedYear]);
 
   const sigunguChartData = useMemo(() => {
     const dataMap: { [date: string]: Partial<ChartData[0]> } = {};

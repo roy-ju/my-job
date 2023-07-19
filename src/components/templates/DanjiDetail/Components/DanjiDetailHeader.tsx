@@ -51,8 +51,7 @@ export default function DanjiDetailHeader({
     if (user) {
       if (!isFavorite) {
         await danjiFavoriteAdd({
-          pnu: danji.pnu,
-          realestate_type: danji.type,
+          danji_id: danji.danji_id,
         });
         toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
         setIsFavorite(true);
@@ -62,8 +61,7 @@ export default function DanjiDetailHeader({
         }
       } else {
         await danjiFavoriteRemove({
-          pnu: danji.pnu,
-          realestate_type: danji.type,
+          danji_id: danji.danji_id,
         });
         toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
         setIsFavorite(false);
@@ -80,7 +78,7 @@ export default function DanjiDetailHeader({
   const handleShareViaKakao = useCallback(() => {
     if (!danji) return;
 
-    const link = `${window.origin}/danjiDetail?p=${danji.pnu}&rt=${danji.type}`;
+    const link = `${window.origin}/danjiDetail?danjiID=${danji.danji_id}`;
 
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
@@ -115,7 +113,7 @@ export default function DanjiDetailHeader({
 
     const content = `[네고시오] ${danji?.name}\n► ${danji?.road_name_address ?? danji?.jibun_address}\n\n${
       window.origin
-    }/danjiDetail?p=${danji.pnu}&rt=${danji.type}`;
+    }/danjiDetail?danjiID=${danji.danji_id}`;
 
     navigator.clipboard.writeText(content);
     toast.success('복사되었습니다.');

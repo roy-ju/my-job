@@ -10,11 +10,13 @@ export default function DanjiPhotoHero({ danji, depth }: { danji?: GetDanjiDetai
   const router = useRouter(depth);
 
   const handlePhotos = useCallback(() => {
-    router.push(Routes.DanjiPhotos, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+    router.push(Routes.DanjiPhotos, {
+      searchParams: { danjiID: `${router.query.danjiID}` },
+    });
   }, [router]);
 
   const { danjiPhotos } = useAPI_GetDanjiPhotos({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
   });
 

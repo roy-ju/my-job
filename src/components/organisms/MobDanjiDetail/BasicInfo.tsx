@@ -27,23 +27,22 @@ export default function BasicInfo({
     router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
       query: {
-        p: danji?.pnu || `${router.query.p}` || '',
-        rt: danji?.type.toString() || (router.query.rt as string) || '',
+        danjiID: `${danji?.danji_id}` || `${router.query.danjiID}` || '',
       },
     });
   }, [router, danji]);
 
   const handleRecommendation = useCallback(() => {
-    if (!danji?.pnu || !danji.type) return;
+    if (!danji?.danji_id || !danji.type) return;
 
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
-        query: { p: danji.pnu, rt: danji.type.toString() as string },
+        query: { danjiID: danji?.danji_id },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?p=${danji.pnu}&rt=${danji.type}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danji.danji_id}`,
     );
-  }, [danji?.pnu, danji?.type, router]);
+  }, [danji?.danji_id, danji.type, router]);
 
   const [openPopup, setOpenPopup] = useState(false);
 

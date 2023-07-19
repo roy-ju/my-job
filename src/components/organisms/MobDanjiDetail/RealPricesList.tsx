@@ -79,6 +79,7 @@ export default function RealPricesList({
   selectedYear,
   selectedGonggeup,
   selectedArea,
+  selectedAreaMin,
   selectedAreaMax,
   checked,
   selectedIndex,
@@ -90,6 +91,7 @@ export default function RealPricesList({
   selectedYear?: number;
   selectedGonggeup?: string;
   selectedArea?: string;
+  selectedAreaMin?: string;
   selectedAreaMax?: string;
   checked: boolean;
   selectedIndex?: number;
@@ -123,7 +125,7 @@ export default function RealPricesList({
   }, []);
 
   const { list: realPricesList, setSize } = useAPI_DanjiRealPricesList({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type ? Number(danji.type) : null,
     buyOrRent,
     year: selectedYear || 3,
@@ -158,10 +160,16 @@ export default function RealPricesList({
       sessionStorage.removeItem('d-jr-s');
     }
 
-    if (selectedAreaMax) {
-      sessionStorage.setItem('d-jr-m', selectedAreaMax.toString());
+    if (selectedAreaMin) {
+      sessionStorage.setItem('d-jr-min', selectedAreaMin.toString());
     } else if (!selectedAreaMax) {
-      sessionStorage.removeItem('d-jr-m');
+      sessionStorage.removeItem('d-jr-min');
+    }
+
+    if (selectedAreaMax) {
+      sessionStorage.setItem('d-jr-max', selectedAreaMax.toString());
+    } else if (!selectedAreaMax) {
+      sessionStorage.removeItem('d-jr-max');
     }
 
     if (typeof selectedIndex === 'number') {
@@ -185,9 +193,9 @@ export default function RealPricesList({
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}`,
-        query: { p: `${router.query.p}`, rt: router.query.rt as string },
+        query: { danjiID: `${router.query.danjiID}` },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?danjiID=${router.query.danjiID}`,
     );
   }, [
     buyOrRent,
@@ -195,6 +203,7 @@ export default function RealPricesList({
     danjiRealPricesPyoungList,
     router,
     selectedArea,
+    selectedAreaMin,
     selectedAreaMax,
     selectedGonggeup,
     selectedIndex,

@@ -13,8 +13,7 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
   const [selectedYear, setSelectedYear] = useState<number>();
 
   const { danji } = useAPI_GetDanjiDetail({
-    pnu: router.query.p ? (router.query.p as string) : undefined,
-    realestateType: router.query.rt ? Number(router.query.rt) : undefined,
+    danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
   });
 
   const onChangeBuyOrRent = useCallback((value: number) => {
@@ -30,14 +29,13 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
       router.replace(Routes.DanjiSelect, {
         searchParams: {
           listingID: router.query.listingID as string,
-          p: `${router.query.p}`,
-          rt: router.query.rt as string,
+          danjiID: `${router.query.danjiID}`,
         },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
     } else {
       router.replace(Routes.DanjiSelect, {
-        searchParams: { p: `${router.query.p}`, rt: router.query.rt as string },
+        searchParams: { danjiID: `${router.query.danjiID}` },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
     }

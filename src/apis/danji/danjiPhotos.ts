@@ -6,7 +6,7 @@ export type GetDanjiPhotosResponse = {
         {
           id: number;
           listing_id: string;
-          pnu: string;
+          danji_id: number;
           token: string;
           document_type: number;
           full_file_path: string;
@@ -18,18 +18,18 @@ export type GetDanjiPhotosResponse = {
 } & ErrorResponse;
 
 export function useAPI_GetDanjiPhotos({
-  pnu,
+  danjiId,
   realestateType,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
 }) {
   const { data, error, mutate } = useSWR<GetDanjiPhotosResponse>(
-    pnu && realestateType
+    danjiId && realestateType
       ? [
           '/danji/photos',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
           },
         ]
@@ -40,7 +40,7 @@ export function useAPI_GetDanjiPhotos({
 
   return {
     danjiPhotos: data,
-    isLoading: pnu && realestateType ? !data && !error : false,
+    isLoading: danjiId && realestateType ? !data && !error : false,
     error,
     mutate,
   };

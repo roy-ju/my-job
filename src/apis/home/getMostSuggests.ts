@@ -6,7 +6,6 @@ export interface GetMostSuggestsResponse {
         {
           total_suggest_count: number;
           danji_id: number;
-          pnu: string;
           realestate_type: number;
           eubmyundong: string;
           name: string;

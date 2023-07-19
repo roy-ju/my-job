@@ -1,24 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<url>
-<loc>https://test.negocio.kr/suggestRegionalForm</loc>
-<lastmod>2023-06-09</lastmod>
-</url>
-<url>
-<loc>https://test.negocio.kr/map</loc>
-<lastmod>2023-06-09</lastmod>
-</url>
-<url>
-<loc>https://test.negocio.kr/listingCreateAddress</loc>
-<lastmod>2023-06-09</lastmod>
-</url>
-<url>
-<loc>https://test.negocio.kr/intro</loc>
-<lastmod>2023-06-09</lastmod>
-</url>
-
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<sitemap>
+		<loc>https://www.negocio.co.kr/sitemap_base.xml</loc>
+		<lastmod>2023-07-19T10:16:17+01:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>https://www.negocio.co.kr/sitemap_danji_1.xml</loc>
+		<lastmod>2023-07-19T10:16:17+01:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>https://www.negocio.co.kr/sitemap_danji_2.xml</loc>
+		<lastmod>2023-07-19T10:16:17+01:00</lastmod>
+	</sitemap>
+  <sitemap>
+		<loc>https://www.negocio.co.kr/sitemap_danji_3.xml</loc>
+		<lastmod>2023-07-19T10:16:17+01:00</lastmod>
+	</sitemap>
+  <sitemap>
+		<loc>https://www.negocio.co.kr/sitemap_danji_4.xml</loc>
+		<lastmod>2023-07-19T10:16:17+01:00</lastmod>
+	</sitemap>
+  <sitemap>
+		<loc>https://www.negocio.co.kr/sitemap_danji_5.xml</loc>
+		<lastmod>2023-07-19T10:16:17+01:00</lastmod>
+  </sitemap>  
+</sitemapindex>

@@ -12,11 +12,11 @@ const RealTradeDetailContent = dynamic(() => import('../RealTradeDetail/RealTrad
 type ComparisonList = {
   colorCode: string;
   name: string;
-  pnu: string;
+  danjiID: number;
   rt: number;
 }[];
 
-type ListItemDanji = { name: string; pnu: string; rt: number };
+type ListItemDanji = { name: string; danjiID: number; rt: number };
 
 export default function MobRealTradeDetail() {
   const router = useRouter();
@@ -26,8 +26,7 @@ export default function MobRealTradeDetail() {
   const [comparisonList, setComparisonList] = useState<ComparisonList>([]);
 
   const { danji } = useAPI_GetDanjiDetail({
-    pnu: router.query.p ? (router.query.p as string) : undefined,
-    realestateType: router.query.rt ? Number(router.query.rt) : undefined,
+    danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
   });
 
   const onChangeBuyOrRent = useCallback((value: number) => {
@@ -52,13 +51,12 @@ export default function MobRealTradeDetail() {
             {
               pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,
               query: {
-                p: `${router.query.p}`,
-                rt: router.query.rt as string,
+                danjiID: `${router.query.danjiID}`,
                 bor: buyOrRent?.toString() || '',
                 sl: selectedYear?.toString() || '',
               },
             },
-            `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?p=${router.query.p}&rt=${router.query.rt}`,
+            `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?danjiID=${router.query.danjiID}`,
           );
 
           return [];
@@ -66,10 +64,10 @@ export default function MobRealTradeDetail() {
 
         localStorage.setItem(
           prefixComparison,
-          JSON.stringify([...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu)),
+          JSON.stringify([...prev].filter((ele: ListItemDanji) => ele.danjiID !== item.danjiID)),
         );
 
-        return [...prev].filter((ele: ListItemDanji) => ele.pnu !== item.pnu);
+        return [...prev].filter((ele: ListItemDanji) => ele.danjiID !== item.danjiID);
       });
     }
   };
@@ -79,13 +77,12 @@ export default function MobRealTradeDetail() {
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiSelect}`,
         query: {
-          p: `${router.query.p}`,
-          rt: router.query.rt as string,
+          danjiID: `${router.query.danjiID}`,
           bor: buyOrRent?.toString() || '',
           sl: selectedYear?.toString() || '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?p=${router.query.p}&rt=${router.query.rt}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiSelect}?danjiID=${router.query.danjiID}`,
     );
   };
 
@@ -140,7 +137,7 @@ export default function MobRealTradeDetail() {
                 item={item}
                 title={item.name}
                 index={item.colorCode}
-                key={item.pnu}
+                key={item.danjiID}
                 removeDanji={removeDanji}
                 listLength={comparisonList?.length || 0}
               />

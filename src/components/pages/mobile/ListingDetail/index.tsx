@@ -60,7 +60,7 @@ export default memo(() => {
 
   const { mapType, makeGeneralMap } = useDanjiMapTypeStore();
 
-  const { danji } = useDanjiDetail(data?.listing?.pnu, data?.listing?.realestate_type);
+  const { danji } = useDanjiDetail(data?.listing?.danji_id);
 
   const {
     data: qnaData,
@@ -426,7 +426,7 @@ export default memo(() => {
 
       {isTrueSchool && (
         <MobileContainer>
-          <DanjiSchoolDetail lat={danji?.lat} lng={danji?.long} rt={danji?.type} pnu={danji?.pnu} />
+          <DanjiSchoolDetail lat={danji?.lat} lng={danji?.long} rt={danji?.type} danjiID={danji?.danji_id} />
         </MobileContainer>
       )}
     </>

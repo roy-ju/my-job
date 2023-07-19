@@ -32,21 +32,21 @@ export default function useDanjiStatusChart({
     listSigungu,
     isLoading: statusLoading,
   } = useAPI_DanjiStatusGraph({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,
   });
 
   const { listSido, isLoading: statusSidoLoading } = useAPI_DanjiStatusSidoGraph({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     buyOrRent,
     year: selectedYear,
   });
 
   const { data: xAxisData } = useXAxisDate(selectedYear);
-  const xAxis = xAxisData.slice(1);
+  const xAxis = xAxisData.slice(1, xAxisData.length - 1);
 
   const sigunguChartData = useMemo(() => {
     const dataMap: { [date: string]: Partial<ChartData[0]> } = {};

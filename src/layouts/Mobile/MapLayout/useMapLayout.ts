@@ -38,7 +38,7 @@ export interface DanjiSummary {
   buyPrice: number;
   latestDealDateBuy?: string;
   latestDealDateRent?: string;
-  pnu?: string;
+  danjiID?: number;
   rentPrice: number;
   saedaeCount: number;
   string?: string;
@@ -66,7 +66,7 @@ export interface CommonMapMarker {
   bubjungdongCode?: string;
   bubjungdongName?: string;
   danjiCount?: number;
-  pnu?: string;
+  danjiID?: number;
   danjiRealestateType?: number;
   pyoung?: string;
   price?: number;
@@ -250,7 +250,15 @@ export default function useMapLayout() {
    */
 
   const selectMarker = useCallback(
-    async ({ pnu, realestateType, listingIds }: { pnu?: string; realestateType?: number; listingIds?: string }) => {
+    async ({
+      danjiID,
+      realestateType,
+      listingIds,
+    }: {
+      danjiID?: number;
+      realestateType?: number;
+      listingIds?: string;
+    }) => {
       if (listingIds) {
         const listingId = listingIds.split(',')[0];
         if (listingId) {
@@ -272,15 +280,15 @@ export default function useMapLayout() {
             });
           }
         }
-      } else if (pnu && realestateType) {
+      } else if (danjiID && realestateType) {
         const summary = await getDanjiSummary({
-          pnu,
+          danjiId: danjiID,
           buyOrRent: '1,2,3',
           danjiRealestateType: realestateType,
         });
         if (summary) {
           setSelectedDanjiSummary({
-            id: `${pnu}${realestateType}`,
+            id: `${danjiID}${realestateType}`,
             name: summary?.string ?? '',
             householdCount: summary?.saedae_count ?? 0,
             buyListingCount: summary?.buy_listing_count ?? 0,
@@ -290,7 +298,7 @@ export default function useMapLayout() {
             rentPrice: summary?.rent_price ?? 0,
             latestDealDateBuy: summary?.latest_deal_date_buy,
             latestDealDateRent: summary?.latest_deal_date_rent,
-            pnu: summary?.pnu,
+            danjiID: summary?.danji_id,
             saedaeCount: summary?.saedae_count ?? 0,
             string: summary?.string,
             useAcceptedYear: summary?.use_accepted_year,
@@ -417,10 +425,10 @@ export default function useMapLayout() {
         } = {};
 
         danjis?.map((item) => {
-          danjiMap[`${item.pnu}${item.danji_realestate_type}`] = {
-            id: `${item.pnu}${item.danji_realestate_type}`,
+          danjiMap[`${item.danji_id}${item.danji_realestate_type}`] = {
+            id: `${item.danji_id}${item.danji_realestate_type}`,
             variant,
-            pnu: item.pnu,
+            danjiID: item.danji_id,
             danjiRealestateType: item.danji_realestate_type,
             pyoung: item.pyoung,
             price: item.price,
@@ -437,7 +445,7 @@ export default function useMapLayout() {
                 lng: item.long,
               });
               selectMarker({
-                pnu: item.pnu,
+                danjiID: item.danji_id,
                 realestateType: item.danji_realestate_type,
               });
             },
@@ -457,7 +465,7 @@ export default function useMapLayout() {
               lng: searchedDanji.long,
             });
             selectMarker({
-              pnu: searchedDanji.pnu,
+              danjiID: searchedDanji.danji_id,
               realestateType: searchedDanji.danji_realestate_type,
             });
           }
