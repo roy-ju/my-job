@@ -40,6 +40,8 @@ export function useAPI_DanjiRealPriceChart({
     | []
     | null;
 }) {
+
+  
   const { data, error } = useSWR<DanjiRealPriceChartResponse>(
     danjiId &&
       realestateType &&
