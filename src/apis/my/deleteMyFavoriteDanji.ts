@@ -1,7 +1,7 @@
 import axios from '@/lib/axios';
 
 interface deleteMyFavoriteDanjiRequest {
-  pnu: string;
+  danji_id: number;
   realestate_type: number;
 }
 

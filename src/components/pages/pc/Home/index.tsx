@@ -93,8 +93,8 @@ export default memo(() => {
   );
 
   const handleClickDanji = useCallback(
-    (pnu: string, realestateType: number) => {
-      router.replace(Routes.DanjiDetail, { searchParams: { p: pnu, rt: `${realestateType}` } });
+    (danjiID: number) => {
+      router.replace(Routes.DanjiDetail, { searchParams: { danjiID: `${danjiID}` } });
     },
     [router],
   );

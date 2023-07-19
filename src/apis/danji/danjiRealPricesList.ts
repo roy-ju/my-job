@@ -20,7 +20,7 @@ export type DanjiRealPricesListResponse = {
 };
 
 function getKey(
-  pnu: string | null | undefined,
+  danjiId: number | null | undefined,
   pageIndex: number,
   realestateType: number | null,
   previousPageData: DanjiRealPricesListResponse | null,
@@ -45,7 +45,7 @@ function getKey(
   const pageSize = ps;
 
   if (
-    !pnu ||
+    !danjiId ||
     !realestateType ||
     !buyOrRent ||
     !list ||
@@ -61,7 +61,7 @@ function getKey(
   return [
     '/danji/realprices/list',
     {
-      pnu,
+      danji_id: danjiId,
       realestate_type: realestateType,
       buy_or_rent: buyOrRent,
       year,
@@ -75,7 +75,7 @@ function getKey(
 }
 
 export function useAPI_DanjiRealPricesList({
-  pnu,
+  danjiId,
   realestateType,
   buyOrRent,
   year,
@@ -84,7 +84,7 @@ export function useAPI_DanjiRealPricesList({
   ps,
   selectedIndex,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType: number | null;
   buyOrRent?: number;
   year: number;
@@ -107,7 +107,7 @@ export function useAPI_DanjiRealPricesList({
   const { data, error, size, setSize, mutate } = useSWRInfinite<DanjiRealPricesListResponse>(
     (pageIndex, previousPageData) =>
       getKey(
-        pnu,
+        danjiId,
         pageIndex,
         realestateType,
         previousPageData,

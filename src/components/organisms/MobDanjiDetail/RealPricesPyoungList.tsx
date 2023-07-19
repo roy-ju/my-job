@@ -4,6 +4,7 @@ import { BuyOrRent } from '@/constants/enums';
 
 import { cuttingDot } from '@/utils/fotmat';
 import { motion } from 'framer-motion';
+import { customAlphabet } from 'nanoid';
 
 import { useMemo, useRef, useState, MouseEvent, TouchEvent, useEffect } from 'react';
 import tw from 'twin.macro';
@@ -13,25 +14,32 @@ export default function RealPricesPyoungList({
   buyOrRent,
   danjiRealPricesPyoungList,
   selectedArea,
+  selectedJeonyongArea,
   selectedIndex,
   checked,
+  hasJyb,
   onChangeChecked,
   onChangeSelectedIndex,
   onChangeSelectedArea,
   onChangeSelectedJeonyongArea,
+  onChangeSelectedJeonyongAreaMin,
   onChangeSelectedJeonyongAreaMax,
 }: {
   buyOrRent?: number;
   danjiRealPricesPyoungList?: GetDanjiRealPricesPyoungListResponse['list'];
   selectedArea?: string;
+  selectedJeonyongArea?: string;
   selectedIndex?: number;
   checked?: boolean;
+  hasJyb?: boolean;
   onChangeChecked?: () => void;
   onChangeSelectedIndex?: (value: number) => void;
   onChangeSelectedArea?: (value: string) => void;
   onChangeSelectedJeonyongArea?: (valul: string) => void;
+  onChangeSelectedJeonyongAreaMin?: (value: string) => void;
   onChangeSelectedJeonyongAreaMax?: (value: string) => void;
 }) {
+  const nanoId = customAlphabet('0123456789abcdefghij');
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
 
@@ -52,12 +60,14 @@ export default function RealPricesPyoungList({
       !onChangeSelectedIndex ||
       !onChangeSelectedArea ||
       !onChangeSelectedJeonyongArea ||
-      !onChangeSelectedJeonyongAreaMax
+      !onChangeSelectedJeonyongAreaMax ||
+      !onChangeSelectedJeonyongAreaMin
     )
       return;
     onChangeSelectedIndex(index);
     onChangeSelectedArea(value.gonggeup_pyoung.toString());
-    onChangeSelectedJeonyongArea(value.min_jeonyong.toString());
+    onChangeSelectedJeonyongArea(value.avg_jeonyong.toString());
+    onChangeSelectedJeonyongAreaMin(value.min_jeonyong.toString());
     onChangeSelectedJeonyongAreaMax(value.max_jeonyong.toString());
   };
 
@@ -144,7 +154,8 @@ export default function RealPricesPyoungList({
   }, [selectedIndex]);
 
   const selectedPyoung = useMemo(() => {
-    if (danjiRealPricesPyoungList) {
+    // 전유부 존재할때
+    if (hasJyb && danjiRealPricesPyoungList) {
       const pyoung = danjiRealPricesPyoungList.find(
         (ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString(),
       )?.gonggeup_pyoung;
@@ -153,7 +164,7 @@ export default function RealPricesPyoungList({
     }
 
     return '-';
-  }, [danjiRealPricesPyoungList, selectedArea]);
+  }, [danjiRealPricesPyoungList, hasJyb, selectedArea]);
 
   if (!danjiRealPricesPyoungList) return null;
 
@@ -161,6 +172,7 @@ export default function RealPricesPyoungList({
     <div tw="px-5 mt-10">
       <div tw="flex items-center justify-between mb-3">
         <span tw="text-b1 font-bold [line-height: 1.25rem] [letter-spacing: -0.4px]">평형별 실거래 내역</span>
+
         {buyOrRent === BuyOrRent.Buy && (
           <div tw="flex items-center gap-2">
             <Checkbox onChange={onChangeChecked} checked={checked || false} />
@@ -168,6 +180,7 @@ export default function RealPricesPyoungList({
           </div>
         )}
       </div>
+
       <Wrraper
         ref={scrollRef}
         onMouseDown={onDragStart}
@@ -178,71 +191,146 @@ export default function RealPricesPyoungList({
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        {danjiRealPricesPyoungList.map((item, index) => (
-          <div key={item.gonggeup_pyoung}>
-            <Button
-              ref={(element) => {
-                refs.current[index] = element;
-              }}
-              variant="ghost"
-              tw="relative z-20 [min-width: 4.375rem] h-9 text-gray-700 whitespace-nowrap"
-              value={item.gonggeup_pyoung.toString()}
-              onClick={() => {
-                handleClick(item, index);
-              }}
-            >
-              {item.gonggeup_pyoung.toString() === selectedArea?.toString() && (
-                <motion.div layoutId="danji-indicator" tw="absolute top-0 left-0 pointer-events-none z-10">
-                  <div tw="w-full h-full [min-width: 4.375rem] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center" />
-                </motion.div>
-              )}
-              <span
-                css={[
-                  tw`absolute top-0 left-0 z-20 [min-width: 4.375rem] [min-height: 36px] flex items-center justify-center`,
-                  item.gonggeup_pyoung.toString() === selectedArea?.toString() && tw`font-bold text-gray-1000`,
-                ]}
+        {danjiRealPricesPyoungList.map((item, index) => {
+          if (!hasJyb) {
+            return (
+              <div key={item.avg_jeonyong}>
+                <Button
+                  ref={(element) => {
+                    refs.current[index] = element;
+                  }}
+                  variant="ghost"
+                  tw="relative z-20 [min-width: 90px] h-9 text-gray-700 whitespace-nowrap"
+                  value={item.avg_jeonyong.toString()}
+                  onClick={() => {
+                    handleClick(item, index);
+                  }}
+                >
+                  {item.avg_jeonyong.toString() === selectedJeonyongArea?.toString() && (
+                    <motion.div
+                      layoutId={`danji-indicator-${nanoId()}`}
+                      tw="absolute top-0 left-0 pointer-events-none z-10"
+                    >
+                      <div tw="w-full h-full [min-width: 90px] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center" />
+                    </motion.div>
+                  )}
+                  <span
+                    css={[
+                      tw`absolute top-0 left-0 z-20 [min-width: 90px] [min-height: 36px] flex items-center justify-center`,
+                      item.avg_jeonyong.toString() === selectedJeonyongArea?.toString() && tw`font-bold text-gray-1000`,
+                    ]}
+                  >
+                    전용 {item.avg_jeonyong}㎡
+                  </span>
+                </Button>
+              </div>
+            );
+          }
+          return (
+            <div key={item.gonggeup_pyoung}>
+              <Button
+                ref={(element) => {
+                  refs.current[index] = element;
+                }}
+                variant="ghost"
+                tw="relative z-20 [min-width: 95px] h-9 text-gray-700 whitespace-nowrap"
+                value={item.gonggeup_pyoung.toString()}
+                onClick={() => {
+                  handleClick(item, index);
+                }}
               >
-                {item.gonggeup_pyoung === 0 ? '1' : item.gonggeup_pyoung}평
-              </span>
-            </Button>
-          </div>
-        ))}
+                {item.gonggeup_pyoung.toString() === selectedArea?.toString() && (
+                  <motion.div
+                    layoutId={`danji-indicator-${nanoId()}`}
+                    tw="absolute top-0 left-0 pointer-events-none z-10"
+                  >
+                    <div tw="w-full h-full [min-width: 95px] [min-height: 36px] bg-white rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center" />
+                  </motion.div>
+                )}
+                <span
+                  css={[
+                    tw`absolute top-0 left-0 z-20 [min-width: 95px] [min-height: 36px] flex items-center justify-center`,
+                    item.gonggeup_pyoung.toString() === selectedArea?.toString() && tw`font-bold text-gray-1000`,
+                  ]}
+                >
+                  공급 {item.gonggeup_pyoung === 0 ? '1' : item.gonggeup_pyoung}평
+                </span>
+              </Button>
+            </div>
+          );
+        })}
       </Wrraper>
-      <div tw="flex justify-center items-center gap-2 bg-gray-100 mt-4 py-[9px] [border-radius: 0.5rem]">
-        <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px] whitespace-nowrap">
-          {`공급 ${selectedPyoung}㎡`}
-        </span>
-        <div tw="w-px h-2 bg-gray-300" />
-        <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
-          {cuttingDot(
-            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
-              ?.min_jeonyong,
-          ) ===
-          cuttingDot(
-            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
-              ?.max_jeonyong,
-          )
-            ? `전용 ${cuttingDot(
-                danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
-                  ?.min_jeonyong,
-              )}㎡`
-            : `전용 ${cuttingDot(
-                danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
-                  ?.min_jeonyong,
-              )}㎡ ~ ${cuttingDot(
-                danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
-                  ?.max_jeonyong,
-              )}㎡`}
-        </span>
-        <div tw="w-px h-2 bg-gray-300" />
-        <span tw="text-info text-gray-700 whitespace-nowrap [line-height: 0.875rem] [letter-spacing: -0.4px]">
-          {`${
-            danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
-              ?.saedae_count || '-'
-          }세대
+
+      {hasJyb && (
+        <div tw="flex justify-center items-center gap-2 bg-gray-100 mt-4 py-[9px] [border-radius: 0.5rem]">
+          <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px] whitespace-nowrap">
+            {`공급 ${selectedPyoung}㎡`}
+          </span>
+          <div tw="w-px h-2 bg-gray-300" />
+          <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
+            {cuttingDot(
+              danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                ?.min_jeonyong,
+            ) ===
+            cuttingDot(
+              danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                ?.max_jeonyong,
+            )
+              ? `전용 ${cuttingDot(
+                  danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                    ?.min_jeonyong,
+                )}㎡`
+              : `전용 ${cuttingDot(
+                  danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                    ?.min_jeonyong,
+                )}㎡ ~ ${cuttingDot(
+                  danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                    ?.max_jeonyong,
+                )}㎡`}
+          </span>
+          <div tw="w-px h-2 bg-gray-300" />
+          <span tw="text-info text-gray-700 whitespace-nowrap [line-height: 0.875rem] [letter-spacing: -0.4px]">
+            {`${
+              danjiRealPricesPyoungList.find((ele) => selectedArea?.toString() === ele.gonggeup_pyoung.toString())
+                ?.saedae_count || '-'
+            }세대
             `}
-        </span>
-      </div>
+          </span>
+        </div>
+      )}
+
+      {!hasJyb && (
+        <div tw="flex justify-center items-center gap-2 bg-gray-100 mt-4 py-[9px] [border-radius: 0.5rem]">
+          <span tw="text-info text-gray-700 [line-height: 0.875rem] [letter-spacing: -0.4px]">
+            {cuttingDot(
+              danjiRealPricesPyoungList.find((ele) => selectedJeonyongArea?.toString() === ele.avg_jeonyong.toString())
+                ?.min_jeonyong,
+            ) ===
+            cuttingDot(
+              danjiRealPricesPyoungList.find((ele) => selectedJeonyongArea?.toString() === ele.avg_jeonyong.toString())
+                ?.max_jeonyong,
+            )
+              ? `전용 ${cuttingDot(
+                  danjiRealPricesPyoungList.find(
+                    (ele) => selectedJeonyongArea?.toString() === ele.avg_jeonyong.toString(),
+                  )?.min_jeonyong,
+                )}㎡`
+              : `전용 ${cuttingDot(
+                  danjiRealPricesPyoungList.find(
+                    (ele) => selectedJeonyongArea?.toString() === ele.avg_jeonyong.toString(),
+                  )?.min_jeonyong,
+                )}㎡ ~ ${cuttingDot(
+                  danjiRealPricesPyoungList.find(
+                    (ele) => selectedJeonyongArea?.toString() === ele.avg_jeonyong.toString(),
+                  )?.max_jeonyong,
+                )}㎡`}
+          </span>
+          <div tw="w-px h-2 bg-gray-300" />
+          <span tw="text-info text-gray-700 whitespace-nowrap [line-height: 0.875rem] [letter-spacing: -0.4px]">
+            - 세대
+          </span>
+        </div>
+      )}
 
       {isShowWolsaeText && (
         <span tw="mt-3 text-gray-700 [font-size: 10px] [line-height: 1]">월세는 환산보증금으로 표시됩니다.</span>

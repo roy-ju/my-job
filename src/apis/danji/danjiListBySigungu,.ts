@@ -6,7 +6,7 @@ import { prefixComparison } from '../../utils/prefix';
 
 type ListItem = {
   name: string;
-  pnu: string;
+  danji_id: number;
   realestate_type: number;
   saedae_count: number;
   year: number;
@@ -21,7 +21,7 @@ export type DanjiListbySigunguResponse = {
 } & ErrorResponse;
 
 function getKey(
-  pnu: string | null | undefined,
+  danjiId: number | null | undefined,
   sigunguCode: string | null | undefined,
   realestateType: number | null | undefined,
   realestateType2: number | null | undefined,
@@ -31,7 +31,7 @@ function getKey(
 ) {
   const pageSize = 10;
 
-  if (!pnu || !sigunguCode || !realestateType || !realestateType2) return null;
+  if (!danjiId || !sigunguCode || !realestateType || !realestateType2) return null;
 
   if (previousPageData && !previousPageData.list?.length) {
     return null;
@@ -44,7 +44,7 @@ function getKey(
     {
       page_number: pageIndex + 1,
       page_size: pageSize,
-      pnu,
+      danji_id: danjiId,
       sigungu_code: sigunguCode,
       realestate_type: realestateType,
       realestate_type2: realestateType2,
@@ -54,13 +54,13 @@ function getKey(
 }
 
 export function useAPI_DanjiListbySigungu({
-  pnu,
+  danjiId,
   sigunguCode,
   realestateType,
   realestateType2,
   filter,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   sigunguCode?: string | null;
   realestateType?: number | null;
   realestateType2?: number | null;
@@ -68,7 +68,7 @@ export function useAPI_DanjiListbySigungu({
 }) {
   const { data, error, size, setSize, mutate } = useSWRInfinite<DanjiListbySigunguResponse>(
     (pageIndex, previousPageData) =>
-      getKey(pnu, sigunguCode, realestateType, realestateType2, filter, pageIndex, previousPageData),
+      getKey(danjiId, sigunguCode, realestateType, realestateType2, filter, pageIndex, previousPageData),
     null,
     {
       revalidateFirstPage: false,
@@ -92,29 +92,29 @@ export function useAPI_DanjiListbySigungu({
 
 export function useAPI_DanjiListbySigunguFirst({
   isNotFetch = false,
-  pnu,
+  danjiId,
   sigunguCode,
   realestateType,
   realestateType2,
 }: {
   isNotFetch?: boolean;
-  pnu?: string | null;
+  danjiId?: number | null;
   sigunguCode?: string | null;
   realestateType?: number | null;
   realestateType2?: number | null;
 }) {
-  const { data, error, mutate, } = useSWR<DanjiListbySigunguResponse>(
+  const { data, error, mutate } = useSWR<DanjiListbySigunguResponse>(
     isNotFetch
       ? null
       : localStorage.getItem(prefixComparison)
       ? null
-      : pnu && sigunguCode && realestateType && realestateType2
+      : danjiId && sigunguCode && realestateType && realestateType2
       ? [
           '/danji/list/bysigungu',
           {
             page_number: 1,
             page_size: 5,
-            pnu,
+            danji_id: danjiId,
             sigungu_code: sigunguCode,
             realestate_type: realestateType,
             realestate_type2: realestateType2,
@@ -131,7 +131,7 @@ export function useAPI_DanjiListbySigunguFirst({
 
   return {
     data,
-    list: data?.list ? data.list.map((item) => ({ name: item.name, pnu: item.pnu, rt: item.realestate_type })) : [],
+    list: data?.list ? data.list.map((item) => ({ name: item.name, danjiID: item.danji_id, rt: item.realestate_type })) : [],
     isLoading: !sigunguCode ? false : !data && !error,
     error,
     mutate,

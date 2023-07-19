@@ -12,19 +12,19 @@ export type GetDanjiMapSchools = {
 };
 
 export default async function getDanjiSchoolsMarker({
-  pnu,
+  danjiId,
   realestateType,
   schoolTypes,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   schoolTypes?: string | null;
 }) {
-  if (!pnu || !schoolTypes || !realestateType) return null;
+  if (!danjiId || !schoolTypes || !realestateType) return null;
 
   try {
     const { data } = await axios.post('/danji/map/schools', {
-      pnu,
+      danji_id: danjiId,
       realestate_type: Number(realestateType),
       school_types: schoolTypes,
     });

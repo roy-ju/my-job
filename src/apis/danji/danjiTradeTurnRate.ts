@@ -19,21 +19,21 @@ export type GetDanjiJeonsaerateSigunguResponse = {
 
 export function useAPI_DanjiTradeTurnrate({
   buyOrRent,
-  pnu,
+  danjiId,
   realestateType,
   year,
 }: {
   buyOrRent?: number;
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiTradeTurnrateResponse>(
-    buyOrRent === BuyOrRent.Buy && pnu && realestateType && year
+    buyOrRent === BuyOrRent.Buy && danjiId && realestateType && year
       ? [
           '/danji/stats/tradeturnrate',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             year,
           },
@@ -52,21 +52,21 @@ export function useAPI_DanjiTradeTurnrate({
 
 export function useAPI_DanjiTradeTurnrateSigungu({
   buyOrRent,
-  pnu,
+  danjiId,
   realestateType,
   year,
 }: {
   buyOrRent?: number;
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiTradeTurnrateSigunguResponse>(
-    buyOrRent === BuyOrRent.Buy && pnu && realestateType && year
+    buyOrRent === BuyOrRent.Buy && danjiId && realestateType && year
       ? [
           '/danji/stats/tradeturnrate/sigungu',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             year,
           },
@@ -85,21 +85,21 @@ export function useAPI_DanjiTradeTurnrateSigungu({
 
 export function useAPI_DanjiJeonsaerate({
   buyOrRent,
-  pnu,
+  danjiId,
   realestateType,
   year,
 }: {
   buyOrRent?: number;
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiJeonsaerateResponse>(
-    buyOrRent === BuyOrRent.Jeonsae && pnu && realestateType && year
+    buyOrRent === BuyOrRent.Jeonsae && danjiId && realestateType && year
       ? [
           '/danji/stats/jeonsaerate',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             year,
           },
@@ -118,21 +118,21 @@ export function useAPI_DanjiJeonsaerate({
 
 export function useAPI_DanjiJeonsaerateSigungu({
   buyOrRent,
-  pnu,
+  danjiId,
   realestateType,
   year,
 }: {
   buyOrRent?: number;
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
 }) {
   const { data, error } = useSWR<GetDanjiJeonsaerateSigunguResponse>(
-    buyOrRent === BuyOrRent.Jeonsae && pnu && realestateType && year
+    buyOrRent === BuyOrRent.Jeonsae && danjiId && realestateType && year
       ? [
           '/danji/stats/jeonsaerate/sigungu',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             year,
           },

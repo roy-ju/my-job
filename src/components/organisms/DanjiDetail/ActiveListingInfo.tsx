@@ -29,7 +29,7 @@ export default function ActiveListingInfo({
     isLoading,
     totalCount,
   } = useAPI_GetDanjiListingsList({
-    pnu: danji?.pnu,
+    danjiId: danji?.danji_id,
     realestateType: danji?.type,
     orderBy: dropDownValue === '최신순' ? 1 : 2,
     pageSize: 4,
@@ -40,12 +40,13 @@ export default function ActiveListingInfo({
       router.replace(Routes.DanjiListings, {
         searchParams: {
           listingID: router.query.listingID as string,
-          p: danji?.pnu || `${router.query.p}` || '',
-          rt: danji?.type.toString() || (router.query.rt as string) || '',
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
         },
       });
     } else {
-      router.replace(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
+      router.replace(Routes.DanjiListings, {
+        searchParams: { danjiID: `${router?.query?.danjiID}` },
+      });
     }
   }, [router, danji]);
 
@@ -54,32 +55,18 @@ export default function ActiveListingInfo({
       nextRouter.replace({
         pathname: `/${Routes.DanjiListings}`,
         query: {
-          // listingID: `${id}`,
-          p: danji?.pnu || `${nextRouter.query.p}` || '',
-          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
         },
       });
-
-      // router.replace(Routes.DanjiListings, {
-      //   searchParams: {
-      //     listingID: router.query.listingID as string,
-      //     p: danji?.pnu || `${router.query.p}` || '',
-      //     rt: danji?.type.toString() || (router.query.rt as string) || '',
-      //   },
-      // });
     } else {
       nextRouter.replace({
         pathname: `/${Routes.DanjiListings}`,
         query: {
-          // listingID: `${id}`,
-          p: danji?.pnu || `${nextRouter.query.p}` || '',
-          rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
         },
       });
-
-      // router.replace(Routes.DanjiListings, { searchParams: { p: `${router.query.p}`, rt: router.query.rt as string } });
     }
-  }, [router.query.listingID, nextRouter, danji?.pnu, danji?.type]);
+  }, [router.query.listingID, nextRouter, danji?.danji_id]);
 
   const handleListingDetail = useCallback(
     (id: number, buyOrRent: number) => {
@@ -88,14 +75,13 @@ export default function ActiveListingInfo({
           pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
           query: {
             listingID: `${id}`,
-            p: danji?.pnu || `${nextRouter.query.p}` || '',
-            rt: danji?.type.toString() || (nextRouter.query.rt as string) || '',
+            danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
             bor: `${buyOrRent}`,
           },
         },
-        `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&p=${
-          danji?.pnu || `${nextRouter.query.p}` || ''
-        }&rt=${danji?.type.toString() || (nextRouter.query.rt as string) || ''}`,
+        `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&danjiID=${
+          danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
+        }`,
       );
     },
     [nextRouter, danji],
@@ -156,9 +142,9 @@ export default function ActiveListingInfo({
               item={item}
               isLast={danjiListings.length - 1 === index}
               onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
-              anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&p=${
-                danji?.pnu || `${nextRouter.query.p}` || ''
-              }&rt=${danji?.type.toString() || (nextRouter.query.rt as string) || ''}`}
+              anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&danjiID=${
+                danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
+              }`}
             />
           ))}
         </ListingItem>

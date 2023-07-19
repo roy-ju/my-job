@@ -13,7 +13,7 @@ interface Listing {
   owner_name: string;
   owner_phone: string;
   realestate_unique_number: string;
-  pnu: string;
+  danji_id: number;
   bubjungdong_code: string;
   road_name_address: string;
   jibun_address: string;
@@ -148,7 +148,7 @@ export interface GetListingDetailResponse {
     | {
         id: number;
         listing_id: number;
-        pnu: any;
+        danji_id: number;
         token: any;
         document_type: number;
         full_file_path: string;
@@ -160,7 +160,7 @@ export interface GetListingDetailResponse {
     | {
         id: number;
         listing_id: number;
-        pnu: any;
+        danji_id: number;
         token: any;
         document_type: number;
         full_file_path: string;

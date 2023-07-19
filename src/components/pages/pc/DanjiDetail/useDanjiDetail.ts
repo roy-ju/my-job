@@ -5,42 +5,36 @@ import { useRouter } from '@/hooks/utils';
 import { ListingDanjiMarker } from '@/layouts/MapLayout/useMapLayout';
 import { useEffect, useMemo, useState } from 'react';
 
-export default function useDanjiDetail(depth: number, p?: string, rt?: number) {
+export default function useDanjiDetail(depth: number, danjiID?: number) {
   const router = useRouter(depth);
 
-  const [listingDetailPnu, setListingDetailPnu] = useState<string>();
-  const [listingDetailRt, setListingDetailRt] = useState<number>();
+  const [listingDetailDanjiID, setListingDetailDanjiID] = useState<number>();
 
   const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
-    pnu: listingDetailPnu || (router?.query?.p as string),
-    realestateType: listingDetailRt || (router?.query?.rt ? Number(router.query.rt) : undefined),
+    danjiId: listingDetailDanjiID || Number(router?.query?.danjiID),
   });
 
   useEffect(() => {
-    if (p) {
-      setListingDetailPnu(p);
+    if (danjiID) {
+      setListingDetailDanjiID(danjiID);
     }
-  }, [p]);
-
-  useEffect(() => {
-    if (rt) {
-      setListingDetailRt(rt);
-    }
-  }, [rt]);
+  }, [danjiID]);
 
   useEffect(() => {
     const lat = danji?.lat;
     const lng = danji?.long;
+
     if (lat && lng) {
       const isListingDetailOpen = window.location.pathname.includes('listingDetail');
+
       if (isListingDetailOpen) return;
 
       window.Negocio.callbacks.selectMarker({
-        id: `danjiMarker:${danji.pnu}${danji.type}`,
+        id: `danjiMarker:${danji.danji_id}${danji.type}`,
         lat,
         lng,
         danjiRealestateType: danji.type,
-        pnu: danji.pnu,
+        danjiID: danji.danji_id,
       } as ListingDanjiMarker);
     }
   }, [danji]);

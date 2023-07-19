@@ -83,7 +83,7 @@ export const Conditions = () => (
           owner_name: '',
           owner_phone: '',
           realestate_unique_number: '',
-          pnu: '4113510900107380000',
+          danji_id: 3000,
           bubjungdong_code: '4113510900',
           road_name_address: '',
           jibun_address: '',

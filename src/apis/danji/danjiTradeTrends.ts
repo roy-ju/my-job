@@ -18,22 +18,22 @@ export type DanjiChartTransactionCountResponse = {
 } & ErrorResponse;
 
 export function useAPI_DanjiChartTransactionCount({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<DanjiChartTransactionCountResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/tradecountper1000',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,
@@ -48,28 +48,28 @@ export function useAPI_DanjiChartTransactionCount({
     listDanji: data?.list_danji,
     listSigungu: data?.list_sigungu,
     listSido: data?.list_sido,
-    isLoading: !pnu || !realestateType ? false : !data && !error,
+    isLoading: !danjiId || !realestateType ? false : !data && !error,
     error,
   };
 }
 
 export function useAPI_DanjiChartSidoTransactionCount({
-  pnu,
+  danjiId,
   realestateType,
   year,
   buyOrRent,
 }: {
-  pnu?: string | null;
+  danjiId?: number | null;
   realestateType?: number | null;
   year?: number;
   buyOrRent?: number;
 }) {
   const { data, error } = useSWR<DanjiChartTransactionCountResponse>(
-    pnu && realestateType && year && buyOrRent
+    danjiId && realestateType && year && buyOrRent
       ? [
           '/danji/stats/graph/tradecountper1000/sido',
           {
-            pnu,
+            danji_id: danjiId,
             realestate_type: Number(realestateType),
             buy_or_rent: buyOrRent,
             year,
@@ -84,7 +84,7 @@ export function useAPI_DanjiChartSidoTransactionCount({
     listDanji: data?.list_danji,
     listSigungu: data?.list_sigungu,
     listSido: data?.list_sido,
-    isLoading: !pnu || !realestateType ? false : !data && !error,
+    isLoading: !danjiId || !realestateType ? false : !data && !error,
     error,
   };
 }

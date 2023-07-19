@@ -6,8 +6,7 @@ import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 
 export default function RealPriceInfoHeader({
-  pnu,
-  type,
+  danjiId,
   depth,
   buyOrRent,
   selectedYear,
@@ -15,8 +14,7 @@ export default function RealPriceInfoHeader({
   onChangeBuyOrRent,
   onChangeSelectedYear,
 }: {
-  pnu?: string;
-  type?: number;
+  danjiId?: number;
   depth: number;
   buyOrRent?: number;
   selectedYear?: number;
@@ -31,16 +29,14 @@ export default function RealPriceInfoHeader({
       router.push(Routes.DanjiRealPriceDetail, {
         searchParams: {
           listingID: router.query.listingID as string,
-          p: router.query.p ? `${router.query.p}` : pnu || '',
-          rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
+          danjiID: router?.query?.danjiID ? `${router?.query?.danjiID}` : `${danjiId}` || '',
         },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
     } else {
       router.push(Routes.DanjiRealPriceDetail, {
         searchParams: {
-          p: router.query.p ? `${router.query.p}` : pnu || '',
-          rt: router.query.rt ? (router.query.rt as string) : type?.toString() || '',
+          danjiID: router?.query?.danjiID ? `${router?.query?.danjiID}` : `${danjiId}` || '',
         },
         state: { bor: buyOrRent?.toString() || '', sl: selectedYear?.toString() || '' },
       });
@@ -70,9 +66,13 @@ export default function RealPriceInfoHeader({
         <div tw="mt-4 relative">
           <Button variant="outlined" tw="w-full" onClick={() => handleCTA()}>
             <a
-              href={`/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?p=${
-                router.query.p ? `${router.query.p}` : pnu || ''
-              }&rt=${router.query.rt ? (router.query.rt as string) : type?.toString() || ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleCTA();
+              }}
+              href={`/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?danjiID=${
+                router?.query?.danjiID ? `${router?.query?.danjiID}` : danjiId || ''
+              }`}
             >
               실거래 심층분석
             </a>

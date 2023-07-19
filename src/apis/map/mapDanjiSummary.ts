@@ -6,7 +6,7 @@ export interface GetDanjiSummaryResponse {
   rent_listing_count?: number;
   buy_price: number;
   rent_price?: number;
-  pnu: string;
+  danji_id: number;
   realestate_type: number;
   string: string;
   saedae_count: number;
@@ -16,19 +16,19 @@ export interface GetDanjiSummaryResponse {
 }
 
 export default async function getDanjiSummary({
-  pnu,
+  danjiId,
   buyOrRent,
   danjiRealestateType,
 }: {
-  pnu?: string;
+  danjiId?: number;
   buyOrRent: string;
   danjiRealestateType?: number;
 }) {
-  if (!pnu || !danjiRealestateType) return;
+  if (!danjiId || !danjiRealestateType) return;
 
   try {
     const { data } = await axios.post('/map/danji/summary', {
-      pnu,
+      danji_id: danjiId,
       buy_or_rent: buyOrRent,
       danji_realestate_type: danjiRealestateType,
     });
@@ -38,10 +38,13 @@ export default async function getDanjiSummary({
   }
 }
 
-export function useDanjiSummary(req: { pnu?: string; danjiRealestateType?: number } | undefined | null) {
+export function useDanjiSummary(req: { danjId?: number; danjiRealestateType?: number } | undefined | null) {
   const { data, isLoading } = useSWR<GetDanjiSummaryResponse>(
-    req?.pnu && req?.danjiRealestateType
-      ? ['/map/danji/summary', { pnu: req.pnu, danji_realestate_type: req.danjiRealestateType, buy_or_rent: '1,2,3' }]
+    req?.danjId && req?.danjiRealestateType
+      ? [
+          '/map/danji/summary',
+          { danji_id: req.danjId, danji_realestate_type: req.danjiRealestateType, buy_or_rent: '1,2,3' },
+        ]
       : null,
     null,
     {

@@ -27,11 +27,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeListingSortingType,
   } = useMyFavoriteList();
 
-  const handleClickDanjiItem = (pnu: string, realestateType: number) => () => {
+  const handleClickDanjiItem = (danjiID: number) => () => {
     router.push(Routes.DanjiDetail, {
       searchParams: {
-        p: `${pnu}`,
-        rt: `${realestateType}`,
+        danjiID: `${danjiID}`,
       },
     });
   };

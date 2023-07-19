@@ -28,7 +28,7 @@ export default function RealPriceListWrraper() {
         area: item?.jeonyong_area,
         buyOrRent: item?.buy_or_rent,
         dealType: item?.deal_type,
-        pnu: item?.pnu,
+        danjiID: item?.danji_id,
         realestateType: item?.realestate_type,
       })),
     [data],
@@ -66,17 +66,16 @@ export default function RealPriceListWrraper() {
         onClickBack={() => router.back()}
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
-        onClickItem={(pnu, realestateType, bor) => {
+        onClickItem={(danjiID, bor) => {
           router.push(
             {
               pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
               query: {
                 bor: bor.toString(),
-                p: pnu,
-                rt: realestateType,
+                danjiID,
               },
             },
-            `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${pnu}&rt=${realestateType}`,
+            `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`,
           );
         }}
       />

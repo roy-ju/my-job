@@ -39,12 +39,12 @@ type DataProps = {
 
 export type RealPriceChartProps = {
   width: number;
-  pnu?: string;
   buyOrRent: number;
   checked: boolean;
   selectedYear: number;
   selectedIndex?: number;
   realPricesPyoungList: GetDanjiRealPricesPyoungListResponse['list'] | [];
+  danjiID?: number;
   rt?: number;
 };
 

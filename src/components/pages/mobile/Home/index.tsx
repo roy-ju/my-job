@@ -95,13 +95,13 @@ export default function Home() {
   );
 
   const handleClickDanji = useCallback(
-    (pnu: string, realestateType: number) => {
+    (danjiID: number) => {
       router.push(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
-          query: { p: pnu, rt: `${realestateType}` },
+          query: { danjiID },
         },
-        `/${Routes.EntryMobile}/${Routes.DanjiDetail}?p=${pnu}&rt=${realestateType}`,
+        `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`,
       );
     },
     [router],

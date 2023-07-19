@@ -26,7 +26,14 @@ export function Banner({ handleClickCounseling }: { handleClickCounseling?: () =
       onClick={handleClickCounseling}
     >
       <h1 tw="text-b2 [line-height: 16.8px] [letter-spacing: -0.4px] text-gray-300 font-bold mb-2">
-        <a href={`/${Routes.LawQna}`} tw="pointer-events-none">
+        <a
+          onClick={(e) => {
+            e.preventDefault();
+            handleClickCounseling?.();
+          }}
+          href={`/${Routes.LawQna}`}
+          tw="pointer-events-none"
+        >
           부동산 법률 무료 상담 Q&A
         </a>
       </h1>

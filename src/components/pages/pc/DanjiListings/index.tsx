@@ -22,8 +22,8 @@ export default function DanjiListings({ panelWidth, depth }: Props) {
   const { danji } = useDanjiDetail(depth);
 
   const { data, increamentPageNumber, totalCount } = useAPI_GetDanjiListingsList({
-    pnu: router?.query?.p ? (router.query.p as string) : undefined,
-    realestateType: router?.query?.rt ? Number(router.query.rt) : undefined,
+    danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
+    realestateType: danji?.type,
     orderBy: dropDownValue === '최신순' ? 1 : 2,
     pageSize: 10,
   });

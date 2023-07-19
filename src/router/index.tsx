@@ -523,39 +523,39 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiDetail key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiRecommendation: {
-      return <DanjiRecommendation key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiRecommendationSuccess: {
-      return <DanjiRecommendationSuccess key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiRecommendationSuccess key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiPhotos: {
-      return <DanjiPhotos key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiPhotos key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiRealPriceDetail: {
-      return <DanjiRealPriceDetail key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiRealPriceDetail key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiRealTradeDetail: {
-      return <DanjiRealTradeDetail key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiRealTradeDetail key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiSelect: {
-      return <DanjiSelect key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiSelect key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiListings: {
-      return <DanjiListings key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiListings key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiRealPriceList: {
-      return <DanjiRealPriceListAll key={`${query.p}-${query.rt}`} {...props} />;
+      return <DanjiRealPriceListAll key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.UpdatePhone: {

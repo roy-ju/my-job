@@ -51,7 +51,7 @@ export interface ListingDanjiMarker extends CommonMarker {
   bubjungdongCode?: string;
   bubjungdongName?: string;
   danjiCount?: number;
-  pnu?: string;
+  danjiID?: number;
   danjiRealestateType?: number;
   pyoung?: string;
   price?: number;
@@ -485,12 +485,12 @@ export default function useMapLayout() {
         } = {};
 
         danjis?.forEach((item) => {
-          const markerID = `danjiMarker:${item.pnu}${item.danji_realestate_type}`;
+          const markerID = `danjiMarker:${item.danji_id}${item.danji_realestate_type}`;
 
           danjiMap[markerID] = {
             id: markerID,
             variant,
-            pnu: item.pnu,
+            danjiID: item.danji_id,
             danjiRealestateType: item.danji_realestate_type,
             pyoung: item.pyoung,
             price: item.price,
@@ -504,7 +504,7 @@ export default function useMapLayout() {
               if (isPanningRef.current) return;
               // 단지 상세로 보내는 Router
               router.replace(Routes.DanjiDetail, {
-                searchParams: { p: item.pnu, rt: item.danji_realestate_type.toString() },
+                searchParams: { danjiID: `${item.danji_id}` },
                 state: {
                   bor: filter.buyOrRents,
                 },
@@ -1127,7 +1127,7 @@ export default function useMapLayout() {
 
         setSelectedMarker(searchedDanji);
         router.replace(Routes.DanjiDetail, {
-          searchParams: { p: searchedDanji.pnu as string, rt: `${searchedDanji.danjiRealestateType}` },
+          searchParams: { danjiID: `${searchedDanji.danjiID}`, rt: `${searchedDanji.danjiRealestateType}` },
           state: {
             bor: filter.buyOrRents,
           },
