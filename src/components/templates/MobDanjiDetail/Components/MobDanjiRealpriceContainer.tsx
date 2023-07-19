@@ -83,7 +83,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
 
   const { listDanji, danjiChartData, sigunguChartData, sidoChartData, xAxis } = useDanjiStatusChart({
     danji,
-    buyOrRent: danjiRealPricesData?.buy_or_rent,
+    buyOrRent: buyOrRent || danjiRealPricesData?.buy_or_rent,
     selectedYear,
   });
 
@@ -94,13 +94,18 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
     sidoChartData: jeonsaeSidoChartData,
   } = useDanjiStatusChartJeonsae({
     danji,
-    buyOrRent: buyOrRent === BuyOrRent.Jeonsae ? danjiRealPricesData?.buy_or_rent : undefined,
+    buyOrRent:
+      danjiRealPricesData?.buy_or_rent === BuyOrRent.Jeonsae
+        ? BuyOrRent.Jeonsae
+        : buyOrRent === BuyOrRent.Jeonsae
+        ? BuyOrRent.Jeonsae
+        : undefined,
     selectedYear,
   });
 
   const { realpricesChartData, realData } = useDanjiRealPricesChart({
     danji,
-    buyOrRent: danjiRealPricesData?.buy_or_rent,
+    buyOrRent: buyOrRent || danjiRealPricesData?.buy_or_rent,
     selectedYear,
     selectedIndex,
     directDealExcluded: checked || false,
@@ -162,8 +167,6 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
   }, [router.query, danji]);
 
   if (!danji) return null;
-
-  if (!danjiRealPricesData?.buy_or_rent) return null;
 
   if (!isShowRpTab) return null;
 
