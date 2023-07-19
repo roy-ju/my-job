@@ -14,6 +14,7 @@ export type GetDanjiRealPricesPyoungListResponse = {
         },
       ]
     | null;
+  has_jyb: boolean;
 };
 
 export function useAPI_DanjiRealPricesPyoungList({
@@ -45,6 +46,7 @@ export function useAPI_DanjiRealPricesPyoungList({
   return {
     data,
     list: data?.list,
+    hasJyb: data?.has_jyb,
     error,
     isLoading: !data ? true : data.list && false,
   };
