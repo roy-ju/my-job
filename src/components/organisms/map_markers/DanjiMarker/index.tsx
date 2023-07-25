@@ -34,6 +34,7 @@ const DanjiMarker = React.memo(({ selected = false, variant, area, price, count 
             <Numeral
               css={[tw`text-[10px] leading-[10px] whitespace-nowrap`, { color: variants[variant].textColor }]}
               suffix="평"
+              falsy="-평"
             >
               {area}
             </Numeral>
