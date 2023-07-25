@@ -2,7 +2,7 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { DanjiMarker, ListingMarker, RegionMarker } from '@/components/organisms';
+import { DanjiMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 
 import { useRecoilValue } from 'recoil';
@@ -200,38 +200,27 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              {marker.pyoung ? (
-                <DanjiMarker
-                  selected={selectedMarker?.id === marker.id}
-                  variant={marker.variant}
-                  area={Number(marker?.pyoung ?? 0)}
-                  price={marker.price ?? 0}
-                  count={marker?.listingCount ?? 0}
-                  onClick={() => {
-                    marker.onClick?.call(marker);
-                  }}
-                >
-                  {selectedMarker?.id === marker.id &&
-                    danjiSummary?.danji_id === marker?.danjiID &&
-                    danjiSummary?.realestate_type === marker?.danjiRealestateType && (
-                      <DanjiMarker.Popper
-                        name={danjiSummary?.string ?? ''}
-                        householdCount={danjiSummary?.saedae_count ?? 0}
-                        buyListingCount={danjiSummary?.buy_listing_count ?? 0}
-                        rentListingCount={danjiSummary?.rent_listing_count ?? 0}
-                      />
-                    )}
-                </DanjiMarker>
-              ) : (
-                <ListingMarker
-                  selected={selectedMarker?.id === marker.id}
-                  price={marker.price ?? 0}
-                  count={marker.listingCount ?? 0}
-                  onClick={() => {
-                    marker.onClick?.call(marker);
-                  }}
-                />
-              )}
+              <DanjiMarker
+                selected={selectedMarker?.id === marker.id}
+                variant={marker.variant}
+                area={Number(marker?.pyoung ?? 0)}
+                price={marker.price ?? 0}
+                count={marker?.listingCount ?? 0}
+                onClick={() => {
+                  marker.onClick?.call(marker);
+                }}
+              >
+                {selectedMarker?.id === marker.id &&
+                  danjiSummary?.danji_id === marker?.danjiID &&
+                  danjiSummary?.realestate_type === marker?.danjiRealestateType && (
+                    <DanjiMarker.Popper
+                      name={danjiSummary?.string ?? ''}
+                      householdCount={danjiSummary?.saedae_count ?? 0}
+                      buyListingCount={danjiSummary?.buy_listing_count ?? 0}
+                      rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                    />
+                  )}
+              </DanjiMarker>
             </CustomOverlay>
           </DeferredRender>
         ))}
