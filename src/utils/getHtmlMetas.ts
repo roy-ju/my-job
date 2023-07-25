@@ -116,7 +116,11 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       const { data: lawQnaDetail } = await axios.post('/lawqna/get', { law_qna_id: Number(query.qnaID) });
 
       return {
-        title: AppConfig.title,
+        title: `네고시오 부동산 법률 상담 게시판 | ${
+          process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+            ? '(TEST) 부동산 가격협상 앱 네고시오'
+            : '부동산 가격협상 앱 네고시오'
+        }`,
         description: `Q.${lawQnaDetail?.title}`,
         ogTitle: '네고시오 부동산 법률 상담 게시판',
         ogDescription: `Q.${lawQnaDetail?.title}`,
@@ -134,7 +138,11 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   if (targetRoute === Routes.LawQna) {
     return {
-      title: AppConfig.title,
+      title: `네고시오 부동산 법률 상담 게시판 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
       description: '실제 변호사에게 답변을 받을 수 있는 부동산 상담',
       ogTitle: '네고시오 부동산 법률 상담 게시판',
       ogDescription: '실제 변호사에게 답변을 받을 수 있는 부동산 상담',
