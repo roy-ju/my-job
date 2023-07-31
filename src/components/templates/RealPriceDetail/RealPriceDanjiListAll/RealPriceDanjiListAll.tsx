@@ -117,7 +117,7 @@ export default function RealPriceDanjiListAll({
                 <span tw="text-b2">{`${item.floor}층` || '-'}</span>
               </div>
 
-              {item.pyoung && (
+              {!!item.pyoung && (
                 <div tw="min-w-[56px] w-full [text-align: right]">
                   <span tw="text-b2">{`${item.pyoung}평`}</span>
                 </div>
