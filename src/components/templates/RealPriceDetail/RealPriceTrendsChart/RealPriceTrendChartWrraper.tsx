@@ -49,7 +49,7 @@ export const RealPriceTrendChartWrraper = React.memo(
     });
 
     const { data: xAxisData } = useXAxisDate(selectedYear || 3);
-    const xAxis = xAxisData.slice(1, xAxisData.length - 1);
+    const xAxis = xAxisData.slice(1);
 
     const sigunguChartData = useMemo(() => {
       const dataMap: { [date: string]: Partial<ChartData[0]> } = {};
@@ -193,7 +193,9 @@ export const RealPriceTrendChartWrraper = React.memo(
             ))}
         </div>
         <div>
-          {listDanji && listDanji.length > 0 && (
+          {((listDanji && listDanji.length > 0) ||
+            (listSido && listSido.length > 0) ||
+            (listSigungu && listSigungu.length > 0)) && (
             <ParentSize>
               {({ width }) => (
                 <Chart

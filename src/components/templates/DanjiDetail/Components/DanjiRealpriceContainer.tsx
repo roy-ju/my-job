@@ -83,14 +83,17 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
     setSelectedIndex(val);
   }, []);
 
-  const { listDanji, danjiChartData, sigunguChartData, sidoChartData, xAxis } = useDanjiStatusChart({
-    danji,
-    buyOrRent: buyOrRent || danjiRealPricesData?.buy_or_rent,
-    selectedYear,
-  });
+  const { listDanji, listSido, listSigungu, danjiChartData, sigunguChartData, sidoChartData, xAxis } =
+    useDanjiStatusChart({
+      danji,
+      buyOrRent: buyOrRent || danjiRealPricesData?.buy_or_rent,
+      selectedYear,
+    });
 
   const {
     listDanji: jeonsaeListDanji,
+    listSido: jeonsaeListSido,
+    listSigungu: jeonsaeListSigungu,
     danjiChartData: jeonsaeDanjiChartData,
     sigunguChartData: jeonsaeSigunguChartData,
     sidoChartData: jeonsaeSidoChartData,
@@ -191,15 +194,18 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
             면적당 거래가 ({describeJeonsaeWolsaeSame(buyOrRent || danjiRealPricesData?.buy_or_rent)} / ㎡)
           </span>
         </div>
-        {((listDanji && listDanji.length === 0) || !listDanji) && <DanjiChartNodata />}
+        {((listDanji && listDanji.length === 0) || !listDanji) &&
+          ((listSido && listSido.length === 0) || !listSido) &&
+          ((listSigungu && listSigungu.length === 0) || !listSigungu) && <DanjiChartNodata />}
 
-        {listDanji && listDanji.length > 0 && (
+        {((listDanji && listDanji.length > 0) ||
+          (listSido && listSido.length > 0) ||
+          (listSigungu && listSigungu.length > 0)) && (
           <ParentSize>
             {({ width }) => (
               <DanjiStatusChartWrraper
                 width={width}
                 xAxis={xAxis}
-                listDanji={listDanji}
                 danjiChartData={danjiChartData}
                 sigunguChartData={sigunguChartData}
                 sidoChartData={sidoChartData}
@@ -215,15 +221,18 @@ const DanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((props, 
             <span tw="text-b2 [line-height: 1.0625rem] [letter-spacing: -0.4px]">평균 전세가율</span>
           </div>
 
-          {((jeonsaeListDanji && jeonsaeListDanji.length === 0) || !jeonsaeListDanji) && <DanjiChartNodata />}
+          {((jeonsaeListDanji && jeonsaeListDanji.length === 0) || !jeonsaeListDanji) &&
+            ((jeonsaeListSido && jeonsaeListSido.length === 0) || !jeonsaeListSido) &&
+            ((jeonsaeListSigungu && jeonsaeListSigungu.length === 0) || !jeonsaeListSigungu) && <DanjiChartNodata />}
 
-          {jeonsaeListDanji && jeonsaeListDanji.length > 0 && (
+          {((jeonsaeListDanji && jeonsaeListDanji.length > 0) ||
+            (jeonsaeListSido && jeonsaeListSido.length > 0) ||
+            (jeonsaeListSigungu && jeonsaeListSigungu.length > 0)) && (
             <ParentSize>
               {({ width }) => (
                 <DanjiStatusJeonsaeChartWrraper
                   width={width}
                   xAxis={xAxis}
-                  listDanji={jeonsaeListDanji}
                   danjiChartData={jeonsaeDanjiChartData}
                   sigunguChartData={jeonsaeSigunguChartData}
                   sidoChartData={jeonsaeSidoChartData}
