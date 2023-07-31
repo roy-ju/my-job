@@ -46,7 +46,7 @@ export const RealPriceTAndVChartWrraper = React.memo(
     });
 
     const { data: xAxisData } = useXAxisDate(selectedYear || 3);
-    const xAxis = xAxisData.slice(1, xAxisData.length - 1);
+    const xAxis = xAxisData.slice(1);
 
     const trandsactionData = useMemo(() => {
       const dataMap: { [date: string]: Partial<ChartData[0]> } = {};

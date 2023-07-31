@@ -41,7 +41,7 @@ export default function useDanjiStatusChartJeonsae({
   });
 
   const { data: xAxisData } = useXAxisDate(selectedYear);
-  const xAxis = xAxisData.slice(1, xAxisData.length - 1);
+  const xAxis = xAxisData.slice(1);
 
   const danjiChartData = useMemo(() => {
     const dataMap: { [date: string]: Partial<ChartData[0]> } = {};
