@@ -12,6 +12,7 @@ type ListItem = {
   floor: string;
   trade_type: string;
   pyoung: number;
+  jeonyong_area?: string;
 };
 
 export type DanjiRealPricesListAllResponse = {
@@ -42,7 +43,7 @@ function getKey(
     '/danji/realprices/list/all',
     {
       ...data,
-      danji_id:danjiId,
+      danji_id: danjiId,
       realestate_type: realestateType,
       direct_deal_excluded: buyOrRent === BuyOrRent.Buy ? directDealExcluded : false,
       page_number: pageIndex + 1,

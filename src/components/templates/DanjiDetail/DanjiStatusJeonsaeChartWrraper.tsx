@@ -22,11 +22,6 @@ type ChartData = {
   isManipulate?: boolean;
 }[];
 
-type JeonsaeListDanji = {
-  date: string;
-  jeonsae_rate: number;
-}[];
-
 function getDate(d: ChartData[0]) {
   return new Date(d.date).valueOf();
 }
@@ -46,7 +41,6 @@ const DanjiStatusJeonsaeChartWrraper = React.memo(
   ({
     width = 0,
     xAxis,
-    listDanji,
     danjiChartData,
     sigunguChartData,
     sidoChartData,
@@ -54,7 +48,6 @@ const DanjiStatusJeonsaeChartWrraper = React.memo(
   }: {
     width?: number;
     xAxis: MonthStartDate[];
-    listDanji: JeonsaeListDanji;
     danjiChartData: ChartData;
     sigunguChartData: ChartData;
     sidoChartData: ChartData;
@@ -117,91 +110,89 @@ const DanjiStatusJeonsaeChartWrraper = React.memo(
 
     return (
       <div>
-        {listDanji && listDanji.length > 0 && (
-          <div style={{ position: 'relative' }}>
-            <svg width={width} height={lineChartHeight}>
-              <line
-                x1={yAxisWidth - 1.5}
-                x2={width}
-                y1={lineChartHeight}
-                y2={lineChartHeight}
-                style={{ stroke: '#C2C2C2', strokeWidth: 2 }}
-              />
-              <line
-                x1={yAxisWidth - 1}
-                x2={yAxisWidth - 1}
-                y1={0}
-                y2={lineChartHeight}
-                style={{ stroke: '#C2C2C2', strokeWidth: 1 }}
-              />
+        <div style={{ position: 'relative' }}>
+          <svg width={width} height={lineChartHeight}>
+            <line
+              x1={yAxisWidth - 1.5}
+              x2={width}
+              y1={lineChartHeight}
+              y2={lineChartHeight}
+              style={{ stroke: '#C2C2C2', strokeWidth: 2 }}
+            />
+            <line
+              x1={yAxisWidth - 1}
+              x2={yAxisWidth - 1}
+              y1={0}
+              y2={lineChartHeight}
+              style={{ stroke: '#C2C2C2', strokeWidth: 1 }}
+            />
 
-              <GridRows
-                width={width - yAxisWidth}
-                left={yAxisWidth}
-                scale={yScaleJensaerate}
-                numTicks={4}
-                stroke="#E1E1E1"
-                strokeOpacity="0.5"
-              />
+            <GridRows
+              width={width - yAxisWidth}
+              left={yAxisWidth}
+              scale={yScaleJensaerate}
+              numTicks={4}
+              stroke="#E1E1E1"
+              strokeOpacity="0.5"
+            />
 
-              <AxisLeft
-                left={yAxisWidth}
-                scale={yScaleJensaerate}
-                tickLength={8}
-                tickStroke="transparent"
-                strokeWidth={0}
-                numTicks={4}
-                tickFormat={(v) => `${`${v.toString()}%`}`}
-                tickLabelProps={() => ({
-                  dy: '0.3em',
-                  fontSize: '12px',
-                  // fontFamily: 'pretend',
-                  fontWeight: 400,
-                  fill: '#868E96',
-                  textAnchor: 'end',
-                })}
-              />
+            <AxisLeft
+              left={yAxisWidth}
+              scale={yScaleJensaerate}
+              tickLength={8}
+              tickStroke="transparent"
+              strokeWidth={0}
+              numTicks={4}
+              tickFormat={(v) => `${`${v.toString()}%`}`}
+              tickLabelProps={() => ({
+                dy: '0.3em',
+                fontSize: '12px',
+                // fontFamily: 'pretend',
+                fontWeight: 400,
+                fill: '#868E96',
+                textAnchor: 'end',
+              })}
+            />
 
-              <LinePath
-                stroke="#FFCD4E"
-                strokeDasharray={4}
-                strokeWidth={2}
-                data={sigunguChartData.filter((d) => d.sigungu_jeonsae_rate && d.sigungu_jeonsae_rate > 0)}
-                x={(d) => xScale(getDate(d)) ?? 0}
-                y={(d) => yScaleJensaerate(getSigunguJeonsaeRate(d) as number)}
-              />
+            <LinePath
+              stroke="#FFCD4E"
+              strokeDasharray={4}
+              strokeWidth={2}
+              data={sigunguChartData.filter((d) => d.sigungu_jeonsae_rate && d.sigungu_jeonsae_rate > 0)}
+              x={(d) => xScale(getDate(d)) ?? 0}
+              y={(d) => yScaleJensaerate(getSigunguJeonsaeRate(d) as number)}
+            />
 
-              <LinePath
-                stroke="#FFB798"
-                strokeDasharray={4}
-                strokeWidth={2}
-                data={sidoChartData.filter((d) => d.sido_jeonsae_rate && d.sido_jeonsae_rate > 0)}
-                x={(d) => xScale(getDate(d)) ?? 0}
-                y={(d) => yScaleJensaerate(getSidoJeonsaeRate(d) as number)}
-              />
+            <LinePath
+              stroke="#FFB798"
+              strokeDasharray={4}
+              strokeWidth={2}
+              data={sidoChartData.filter((d) => d.sido_jeonsae_rate && d.sido_jeonsae_rate > 0)}
+              x={(d) => xScale(getDate(d)) ?? 0}
+              y={(d) => yScaleJensaerate(getSidoJeonsaeRate(d) as number)}
+            />
 
-              <LinePath
-                stroke="#FF542D"
-                strokeWidth={2}
-                data={danjiChartData.filter((d) => d.danji_jeonsae_rate && d.danji_jeonsae_rate > 0)}
-                x={(d) => xScale(getDate(d)) ?? 0}
-                y={(d) => yScaleJensaerate(getDanjiJeonsaeRate(d) as number)}
-              />
+            <LinePath
+              stroke="#FF542D"
+              strokeWidth={2}
+              data={danjiChartData.filter((d) => d.danji_jeonsae_rate && d.danji_jeonsae_rate > 0)}
+              x={(d) => xScale(getDate(d)) ?? 0}
+              y={(d) => yScaleJensaerate(getDanjiJeonsaeRate(d) as number)}
+            />
 
-              {danjiCircles}
-            </svg>
+            {danjiCircles}
+          </svg>
 
-            <div style={{ position: 'absolute', bottom: -20 }}>
-              <DanjiChartAxisBottom
-                width={width}
-                paddingLeft={paddingLeft}
-                xScale={xScale}
-                selectedYear={selectedYear}
-                xAxis={xAxis}
-              />
-            </div>
+          <div style={{ position: 'absolute', bottom: -20 }}>
+            <DanjiChartAxisBottom
+              width={width}
+              paddingLeft={paddingLeft}
+              xScale={xScale}
+              selectedYear={selectedYear}
+              xAxis={xAxis}
+            />
           </div>
-        )}
+        </div>
       </div>
     );
   },

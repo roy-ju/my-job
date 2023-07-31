@@ -28,12 +28,6 @@ type ChartData = {
   date: Date;
 }[];
 
-type ListDanji = {
-  date: string;
-  price: number;
-  count: number;
-}[];
-
 function getDate(d: ChartData[0]) {
   return new Date(d.date).valueOf();
 }
@@ -54,7 +48,6 @@ const DanjiStatusChartWrraper = React.memo(
   ({
     width = 0,
     xAxis,
-    listDanji,
     danjiChartData,
     sigunguChartData,
     sidoChartData,
@@ -62,7 +55,6 @@ const DanjiStatusChartWrraper = React.memo(
   }: {
     width?: number;
     xAxis: MonthStartDate[];
-    listDanji: ListDanji;
     danjiChartData: ChartData;
     sigunguChartData: ChartData;
     sidoChartData: ChartData;
@@ -149,96 +141,94 @@ const DanjiStatusChartWrraper = React.memo(
 
     return (
       <div>
-        {listDanji && listDanji.length > 0 && (
-          <div style={{ position: 'relative' }}>
-            <svg width={width} height={lineChartHeight}>
-              <line
-                x1={yAxisWidth - 1.5}
-                x2={width}
-                y1={lineChartHeight}
-                y2={lineChartHeight}
-                style={{ stroke: '#C2C2C2', strokeWidth: 2 }}
-              />
-              <line
-                x1={yAxisWidth - 1}
-                x2={yAxisWidth - 1}
-                y1={0}
-                y2={lineChartHeight}
-                style={{ stroke: '#C2C2C2', strokeWidth: 1 }}
-              />
+        <div style={{ position: 'relative' }}>
+          <svg width={width} height={lineChartHeight}>
+            <line
+              x1={yAxisWidth - 1.5}
+              x2={width}
+              y1={lineChartHeight}
+              y2={lineChartHeight}
+              style={{ stroke: '#C2C2C2', strokeWidth: 2 }}
+            />
+            <line
+              x1={yAxisWidth - 1}
+              x2={yAxisWidth - 1}
+              y1={0}
+              y2={lineChartHeight}
+              style={{ stroke: '#C2C2C2', strokeWidth: 1 }}
+            />
 
-              <GridRows
-                width={width - yAxisWidth}
-                left={yAxisWidth}
-                scale={yScalePrice}
-                tickValues={tickValues}
-                stroke="#E1E1E1"
-                strokeOpacity="0.5"
-              />
+            <GridRows
+              width={width - yAxisWidth}
+              left={yAxisWidth}
+              scale={yScalePrice}
+              tickValues={tickValues}
+              stroke="#E1E1E1"
+              strokeOpacity="0.5"
+            />
 
-              <AxisLeft
-                left={yAxisWidth}
-                scale={yScalePrice}
-                tickLength={8}
-                tickStroke="transparent"
-                strokeWidth={0}
-                tickValues={tickValues}
-                tickFormat={(price) => {
-                  if (price < 10000000) {
-                    return formatNumberInKorean(toNumber(price));
-                  }
-                  return `${(toNumber(price) / 100000000).toFixed(2)}억`;
-                }}
-                tickLabelProps={() => ({
-                  dy: '0.3em',
-                  fontSize: '12px',
-                  // fontFamily: 'pretend',
-                  fontWeight: 400,
-                  fill: '#868E96',
-                  textAnchor: 'end',
-                })}
-              />
+            <AxisLeft
+              left={yAxisWidth}
+              scale={yScalePrice}
+              tickLength={8}
+              tickStroke="transparent"
+              strokeWidth={0}
+              tickValues={tickValues}
+              tickFormat={(price) => {
+                if (price < 10000000) {
+                  return formatNumberInKorean(toNumber(price));
+                }
+                return `${(toNumber(price) / 100000000).toFixed(2)}억`;
+              }}
+              tickLabelProps={() => ({
+                dy: '0.3em',
+                fontSize: '12px',
+                // fontFamily: 'pretend',
+                fontWeight: 400,
+                fill: '#868E96',
+                textAnchor: 'end',
+              })}
+            />
 
-              <LinePath
-                stroke="#FFCD4E"
-                strokeDasharray={4}
-                strokeWidth={2}
-                data={sigunguChartData.filter((d) => d.sigungu_price && d.sigungu_price > 0)}
-                x={(d) => xScale(getDate(d)) ?? 0}
-                y={(d) => yScalePrice(getSigunguPrice(d) as number)}
-              />
+            <LinePath
+              stroke="#FFCD4E"
+              strokeDasharray={4}
+              strokeWidth={2}
+              data={sigunguChartData.filter((d) => d.sigungu_price && d.sigungu_price > 0)}
+              x={(d) => xScale(getDate(d)) ?? 0}
+              y={(d) => yScalePrice(getSigunguPrice(d) as number)}
+            />
 
-              <LinePath
-                stroke="#FFB798"
-                strokeDasharray={4}
-                strokeWidth={2}
-                data={sidoChartData.filter((d) => d.sido_price && d.sido_price > 0)}
-                x={(d) => xScale(getDate(d)) ?? 0}
-                y={(d) => yScalePrice(getSidoPrice(d) as number)}
-              />
+            <LinePath
+              stroke="#FFB798"
+              strokeDasharray={4}
+              strokeWidth={2}
+              data={sidoChartData.filter((d) => d.sido_price && d.sido_price > 0)}
+              x={(d) => xScale(getDate(d)) ?? 0}
+              y={(d) => yScalePrice(getSidoPrice(d) as number)}
+            />
 
-              <LinePath
-                stroke="#FF542D"
-                strokeWidth={2}
-                data={danjiChartData.filter((d) => d.danji_price && d.danji_price > 0)}
-                x={(d) => xScale(getDate(d)) ?? 0}
-                y={(d) => yScalePrice(getDanjiPrice(d) as number)}
-              />
+            <LinePath
+              stroke="#FF542D"
+              strokeWidth={2}
+              data={danjiChartData.filter((d) => d.danji_price && d.danji_price > 0)}
+              x={(d) => xScale(getDate(d)) ?? 0}
+              y={(d) => yScalePrice(getDanjiPrice(d) as number)}
+            />
 
-              {danjiCircles}
-            </svg>
+            {danjiCircles}
+          </svg>
 
-            <div style={{ position: 'absolute', bottom: -20 }}>
-              <DanjiChartAxisBottom
-                width={width}
-                paddingLeft={paddingLeft}
-                xScale={xScale}
-                selectedYear={selectedYear}
-                xAxis={xAxis}
-              />
-            </div>
+          <div style={{ position: 'absolute', bottom: -20 }}>
+            <DanjiChartAxisBottom
+              width={width}
+              paddingLeft={paddingLeft}
+              xScale={xScale}
+              selectedYear={selectedYear}
+              xAxis={xAxis}
+            />
           </div>
-        )}
+        </div>
       </div>
     );
   },
