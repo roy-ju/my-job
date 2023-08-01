@@ -9,6 +9,7 @@ import useLatest from '@/hooks/utils/useLatest';
 import usePageVisibility from '@/hooks/utils/usePageVisibility';
 import useWebSocket, { WebSocketReadyState } from '@/hooks/utils/useWebSocket';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import { mutate } from 'swr';
 
 interface WebSocketMessage {
@@ -25,6 +26,7 @@ export default function useChatRoom(chatRoomID: number) {
   const { data } = useAPI_ChatRoomDetail(chatRoomID);
   const [accessToken] = useLocalStorage(Keys.ACCESS_TOKEN, '');
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
+  const [photosUrls, setPhotosUrls] = useState<string[]>([]);
   const [textFieldDisabled, setTextFieldDisabled] = useState(false);
   const { mutate: mutateChatRoomList } = useAPI_ChatRoomList();
   const mutateListRef = useLatest(mutateChatRoomList);
@@ -73,6 +75,15 @@ export default function useChatRoom(chatRoomID: number) {
       }
     },
   });
+
+  const handleChangePhotoUrls = useCallback((values: string[]) => {
+    if (values.length > 6) {
+      toast.error('6개까지 추가 가능합니다.');
+      return;
+    }
+
+    setPhotosUrls(values);
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -137,8 +148,12 @@ export default function useChatRoom(chatRoomID: number) {
     agentDescription: data?.agent_description,
     additionalListingCount: data?.additional_listing_count,
     chatMessages,
+    photosUrls,
     isLoading,
+
     handleSendMessage,
+    handleChangePhotoUrls,
+
     chatUserType: data?.chat_user_type,
 
     hasContractCompleteListings: data?.has_contract_complete_listings,

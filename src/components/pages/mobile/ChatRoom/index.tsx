@@ -22,10 +22,11 @@ export default memo(() => {
     agentProfileImagePath,
     isLoading,
     isTextFieldDisabled,
+    photosUrls,
+    handleChangePhotoUrls,
     handleSendMessage,
     additionalListingCount,
     chatUserType,
-
     hasContractCompleteListings,
     hasPreContractCompleteListings,
   } = useChatRoom(Number(router.query.chatRoomID));
@@ -113,8 +114,10 @@ export default memo(() => {
         isLoading={isLoading}
         chatUserType={chatUserType ?? 0}
         chatMessages={chatMessages}
+        photosUrls={photosUrls}
         textFieldDisabled={isTextFieldDisabled}
         onSendMessage={handleSendMessage}
+        onChangePhotosUrls={handleChangePhotoUrls}
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
         onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
