@@ -12,6 +12,7 @@ env:
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket-test.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: test
   NEGOCIO_AGENT_CLIENT_URL: https://agent-test.negocio.kr/
+  NEGOCIO_CHAT_PHOTO: https://negocio-chat-photos.s3.ap-northeast-2.amazonaws.com
   NAVER_SITE_VERIFICATION: 06f93a7407b9c3b68099b33bf28b4c70ec8bb8ba
   GA_TRACKING_ID: G-X5831H4W14
   GTM_ID: GTM-MQPT86G

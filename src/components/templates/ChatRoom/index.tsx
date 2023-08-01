@@ -20,8 +20,11 @@ interface ChatRoomProps {
   chatMessages: IChatMessage[];
   chatUserType: number;
   textFieldDisabled?: boolean;
+  photosUrls?: string[];
+
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
+  onChangePhotosUrls?: (url: string[]) => void;
 
   onClickReportButton?: () => void;
   onClickLeaveButton?: () => void;
@@ -48,6 +51,9 @@ export default function ChatRoom({
   additionalListingCount,
   inputRef,
   onSendMessage,
+
+  photosUrls,
+  onChangePhotosUrls,
 
   onClickReportButton,
   onClickLeaveButton,
@@ -139,7 +145,7 @@ export default function ChatRoom({
         <div> {title + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}</div>
         <div tw="shrink-0 mt-1 self-start  underline text-info text-gray-1000">더보기</div>
       </button>
-      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden border-t border-gray-300">
+      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden border-t border-gray-300 bg-gray-100">
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (
@@ -164,8 +170,15 @@ export default function ChatRoom({
         )}
       </div>
       <div tw="px-5 pt-4 pb-10">
-        <ChatRoomTextField disabled={textFieldDisabled} inputRef={inputRef} onSendMessage={onSendMessage} />
+        <ChatRoomTextField
+          disabled={textFieldDisabled}
+          inputRef={inputRef}
+          onSendMessage={onSendMessage}
+          photosUrls={photosUrls}
+          onChangePhotosUrls={onChangePhotosUrls}
+        />
       </div>
+
       {showListingList && (
         <ListingList
           sellerList={sellerList}
