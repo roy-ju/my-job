@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-return-assign */
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react-hooks/exhaustive-deps */
 import { DanjiMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 
@@ -145,11 +141,13 @@ export default function Markers({
                     interactionSelectedMarker.onClick?.call(interactionSelectedMarker);
                   }}
                 >
-                  {danjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
-                    danjiSummary?.realestate_type === interactionSelectedMarker?.danjiRealestateType && (
+                  {danjiSummary &&
+                    danjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
+                    danjiSummary?.realestate_type === interactionSelectedMarker?.danjiRealestateType &&
+                    !!danjiSummary?.saedae_count && (
                       <DanjiMarker.Popper
                         name={danjiSummary?.string ?? ''}
-                        householdCount={danjiSummary?.saedae_count ?? 0}
+                        householdCount={danjiSummary?.saedae_count}
                         buyListingCount={danjiSummary?.buy_listing_count ?? 0}
                         rentListingCount={danjiSummary?.rent_listing_count ?? 0}
                       />
@@ -210,12 +208,14 @@ export default function Markers({
                   marker.onClick?.call(marker);
                 }}
               >
-                {selectedMarker?.id === marker.id &&
+                {danjiSummary &&
                   danjiSummary?.danji_id === marker?.danjiID &&
-                  danjiSummary?.realestate_type === marker?.danjiRealestateType && (
+                  danjiSummary?.realestate_type === marker?.danjiRealestateType &&
+                  danjiSummary?.saedae_count &&
+                  selectedMarker?.id === marker.id && (
                     <DanjiMarker.Popper
                       name={danjiSummary?.string ?? ''}
-                      householdCount={danjiSummary?.saedae_count ?? 0}
+                      householdCount={danjiSummary.saedae_count}
                       buyListingCount={danjiSummary?.buy_listing_count ?? 0}
                       rentListingCount={danjiSummary?.rent_listing_count ?? 0}
                     />

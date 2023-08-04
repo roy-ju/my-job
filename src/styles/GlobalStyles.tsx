@@ -56,6 +56,17 @@ const customStyles = css`
     display: inline-block;
   }
 
+  .negocioChatWrraper {
+    img {
+      width: 100%;
+      height: 100%;
+      max-width: 112px;
+      min-height: 134.4px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  }
+
   .lawQnaWrraper {
     ol {
       list-style: decimal;
