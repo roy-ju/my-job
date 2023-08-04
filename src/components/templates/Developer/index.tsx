@@ -56,7 +56,12 @@ export default function Developer({
         </Dropdown>
         {localStorage.getItem(Keys.ACCESS_TOKEN) && (
           <TextField variant="outlined">
-            <TextField.TextArea disabled label="액세스 토큰" value={localStorage.getItem(Keys.ACCESS_TOKEN) ?? ''} />
+            <TextField.TextArea
+              tw="break-all"
+              disabled
+              label="액세스 토큰"
+              value={localStorage.getItem(Keys.ACCESS_TOKEN) ?? ''}
+            />
           </TextField>
         )}
         <Button
