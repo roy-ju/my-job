@@ -10,10 +10,21 @@ import Routes from '@/router/routes';
 import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
+import ErrorCodes from '@/constants/error_codes';
 
 interface Props {
   depth: number;
   panelWidth?: string;
+}
+
+interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
+  error_code: number;
+  error_message: string;
+  fields: {
+    email: string;
+    inactive_time: Date;
+    social_login_type: number;
+  };
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
@@ -57,7 +68,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     const redirect = urlSearchParams.get('redirect');
 
     const handleLoginResponse: EventListenerOrEventListenerObject = async (event) => {
-      const detail = (event as CustomEvent).detail as NegocioLoginResponseEventPayload;
+      const detail = (event as CustomEvent).detail as LoginCustomEventDetail;
 
       if (detail?.access_token && detail?.refresh_token) {
         await handleLogin(detail.access_token, detail.refresh_token);
@@ -77,6 +88,14 @@ export default memo(({ depth, panelWidth }: Props) => {
             token: detail.snsToken,
             socialLoginType: `${detail.socialLoginType}`,
             redirect: redirect ?? '',
+          },
+        });
+      } else if (detail?.error_code === ErrorCodes.USER_IS_INACTIVE) {
+        router.push(Routes.Reactivate, {
+          state: {
+            email: detail?.fields?.email,
+            inactive_time: `${detail?.fields?.inactive_time}`,
+            social_login_type: `${detail?.socialLoginType}`,
           },
         });
       } else {

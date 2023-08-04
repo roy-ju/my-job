@@ -6,10 +6,16 @@ import ChatMessageContext from './ChatMessageContext';
 import { SenderName, SenderNameType } from './SenderName';
 import { SentTime, SentTimeType } from './SentTime';
 import { ReadIndicator, ReadIndicatorType } from './ReadIndicator';
+import { Photo, PhotoType } from './Photo';
 
 function getBubble(children: ReactNode) {
   const childrenArray = Children.toArray(children);
   return childrenArray.filter((child) => isValidElement(child) && child.type === BubbleType);
+}
+
+function getPhoto(children: ReactNode) {
+  const childrenArray = Children.toArray(children);
+  return childrenArray.filter((child) => isValidElement(child) && child.type === PhotoType);
 }
 
 function getSentTime(children: ReactNode) {
@@ -47,6 +53,7 @@ function Container({ variant, children }: ContainerProps) {
   const senderName = getSenderName(children);
   const avatar = getAvatar(children);
   const readIndicator = getReadIndicator(children);
+  const photo = getPhoto(children);
 
   return (
     <ChatMessageContext.Provider value={context}>
@@ -61,6 +68,7 @@ function Container({ variant, children }: ContainerProps) {
               variant === 'system' && tw`justify-center`,
             ]}
           >
+            {photo && <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{photo}</div>}
             <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{bubble}</div>
             {variant !== 'system' && (
               <div css={[tw`flex flex-col w-12 shrink-0`, variant === 'nego' && tw`text-end`]}>
@@ -75,4 +83,4 @@ function Container({ variant, children }: ContainerProps) {
   );
 }
 
-export default Object.assign(Container, { Avatar, Bubble, SentTime, SenderName, ReadIndicator });
+export default Object.assign(Container, { Avatar, Bubble, Photo, SentTime, SenderName, ReadIndicator });
