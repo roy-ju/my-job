@@ -22,6 +22,7 @@ const Routes = {
   DeregisterDisclaimer: 'deregisterDisclaimer',
   Developer: 'developer',
   Login: 'login',
+  Reactivate: 'reactivate',
 
   My: 'my',
   Map: 'map',

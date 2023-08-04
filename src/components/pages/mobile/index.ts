@@ -36,6 +36,8 @@ export { default as VersionInfo } from './VersionInfo';
 export { default as BusinessInfo } from './BusinessInfo';
 export { default as TermsAndPolicy } from './TermsAndPolicy';
 
+export { default as ReactivateWrapper } from './My/ReactivateWrapper';
+
 /** 회원가입 */
 export { default as RegisterWrraper } from './Register';
 export { default as SuccessWrraper } from './Register/SuccessWrraper';

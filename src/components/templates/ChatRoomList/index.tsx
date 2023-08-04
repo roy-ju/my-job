@@ -35,22 +35,42 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
   return (
     <div tw="flex-1 min-h-0">
       <ListContainer>
-        {list.map((item) => (
-          <ChatRoomListItem
-            key={item.id}
-            onClick={() => {
-              onClickListItem?.(item.id);
-            }}
-            isSeller={item.chatRoomType === ChatUserType.Seller}
-            officeName={item.officeName}
-            lastMessage={item.lastMessage}
-            listingTitle={item.listingTitle}
-            lastMessageTime={item.lastMessageTime}
-            additionalListingCount={item.additionalListingCount}
-            unreadMessageCount={item.unreadMessageCount}
-            profileImagePath={item.profileImagePath}
-          />
-        ))}
+        {list.map((item) => {
+          if (item.lastMessage.includes(process.env.NEXT_PUBLIC_NEGOCIO_CHAT_PHOTO)) {
+            return (
+              <ChatRoomListItem
+                key={item.id}
+                onClick={() => {
+                  onClickListItem?.(item.id);
+                }}
+                isSeller={item.chatRoomType === ChatUserType.Seller}
+                officeName={item.officeName}
+                lastMessage="사진"
+                listingTitle={item.listingTitle}
+                lastMessageTime={item.lastMessageTime}
+                additionalListingCount={item.additionalListingCount}
+                unreadMessageCount={item.unreadMessageCount}
+                profileImagePath={item.profileImagePath}
+              />
+            );
+          }
+          return (
+            <ChatRoomListItem
+              key={item.id}
+              onClick={() => {
+                onClickListItem?.(item.id);
+              }}
+              isSeller={item.chatRoomType === ChatUserType.Seller}
+              officeName={item.officeName}
+              lastMessage={item.lastMessage}
+              listingTitle={item.listingTitle}
+              lastMessageTime={item.lastMessageTime}
+              additionalListingCount={item.additionalListingCount}
+              unreadMessageCount={item.unreadMessageCount}
+              profileImagePath={item.profileImagePath}
+            />
+          );
+        })}
       </ListContainer>
     </div>
   );
