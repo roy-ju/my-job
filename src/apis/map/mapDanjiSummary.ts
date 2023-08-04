@@ -38,12 +38,12 @@ export default async function getDanjiSummary({
   }
 }
 
-export function useDanjiSummary(req: { danjId?: number; danjiRealestateType?: number } | undefined | null) {
+export function useDanjiSummary(req: { danjiID?: number; danjiRealestateType?: number } | undefined | null) {
   const { data, isLoading } = useSWR<GetDanjiSummaryResponse>(
-    req?.danjId && req?.danjiRealestateType
+    req?.danjiID && req?.danjiRealestateType
       ? [
           '/map/danji/summary',
-          { danji_id: req.danjId, danji_realestate_type: req.danjiRealestateType, buy_or_rent: '1,2,3' },
+          { danji_id: req.danjiID, danji_realestate_type: req.danjiRealestateType, buy_or_rent: '1,2,3' },
         ]
       : null,
     null,

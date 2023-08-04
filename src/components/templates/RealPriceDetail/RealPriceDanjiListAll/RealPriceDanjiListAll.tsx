@@ -116,9 +116,19 @@ export default function RealPriceDanjiListAll({
               <div tw="min-w-[56px] w-full [text-align: right]">
                 <span tw="text-b2">{`${item.floor}층` || '-'}</span>
               </div>
-              <div tw="min-w-[56px] w-full [text-align: right]">
-                <span tw="text-b2">{`${item.pyoung}평` || '-'}</span>
-              </div>
+
+              {!!item.pyoung && (
+                <div tw="min-w-[56px] w-full [text-align: right]">
+                  <span tw="text-b2">{`${item.pyoung}평`}</span>
+                </div>
+              )}
+
+              {!item.pyoung && item.jeonyong_area && (
+                <div tw="min-w-[56px] w-full [text-align: right]">
+                  <span tw="text-b2">{`${item.jeonyong_area}㎡`}</span>
+                </div>
+              )}
+
               <div tw="flex items-center min-w-[103px] w-full [text-align: right]">
                 {item.buy_or_rent === BuyOrRent.Buy && item.trade_type === '직거래' && (
                   <TradeIcon

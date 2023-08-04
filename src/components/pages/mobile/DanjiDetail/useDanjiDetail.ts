@@ -14,7 +14,7 @@ export default function useDanjiDetail(danjiID?: number) {
   });
 
   useEffect(() => {
-    if (danji) {
+    if (danjiID) {
       setListingDetailDanjiID(danjiID);
     }
   }, [danjiID]);
