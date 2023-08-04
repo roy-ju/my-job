@@ -85,6 +85,10 @@ const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   loading: FallbackComponent,
 });
 const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: FallbackComponent });
+const Reactivate = dynamic(() => import('@/components/pages/pc/Reactivate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), {
   ssr: false,
   loading: FallbackComponent,
@@ -493,6 +497,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.Login: {
       return <Login {...props} />;
+    }
+
+    case Routes.Reactivate: {
+      return <Reactivate {...props} />;
     }
 
     case Routes.ListingDetail: {
