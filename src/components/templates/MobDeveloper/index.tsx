@@ -5,7 +5,6 @@ import { useControlled } from '@/hooks/utils';
 import getCurrentPosition from '@/utils/getCurrentPosition';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
-import Keys from '@/constants/storage_keys';
 
 interface Props {
   userNickname?: string;
@@ -54,11 +53,6 @@ export default function MobDeveloper({
             </Dropdown.Option>
           ))}
         </Dropdown>
-        {localStorage.getItem(Keys.ACCESS_TOKEN) && (
-          <TextField variant="outlined">
-            <TextField.TextArea disabled label="액세스 토큰" value={localStorage.getItem(Keys.ACCESS_TOKEN) ?? ''} />
-          </TextField>
-        )}
         <Button
           onClick={() => {
             getCurrentPosition(
