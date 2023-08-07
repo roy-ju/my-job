@@ -59,8 +59,8 @@ const DanjiStatusJeonsaeChartWrraper = React.memo(
       () =>
         scaleTime({
           domain: [
-            new Date(xAxis[0].date.getFullYear(), xAxis[0].date.getMonth()),
-            new Date(xAxis[xAxis.length - 1].date.getFullYear(), xAxis[xAxis.length - 1].date.getMonth()),
+            new Date(xAxis[0].date.getFullYear(), xAxis[0].date.getMonth() - 1),
+            new Date(xAxis[xAxis.length - 1].date.getFullYear(), xAxis[xAxis.length - 1].date.getMonth() - 1),
           ],
 
           range: [yAxisWidth + paddingLeft, width - paddingRight],
