@@ -24,7 +24,6 @@ const useXAxisDate = (selectedYear: number) => {
   const currentYear = currentDate.getFullYear(); // 현재 년도
 
   const currentMonth = currentDate.getMonth() + 1; // 현재 월
-  // const currentMonth = currentDate.getMonth(); // 현재 월바로 전
 
   const yearAgoStart = new Date(currentYear - selectedYear, currentMonth - 1, 1); // 1년 전 시작 날짜
 
