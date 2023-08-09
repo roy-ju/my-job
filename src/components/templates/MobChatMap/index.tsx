@@ -32,7 +32,8 @@ function hasAddition(addition: any) {
 }
 
 export default function MobChatMap() {
-  const { makeShowChat, makeShowLatLng, makeURL } = useChatButtonStore();
+  const { makeShowChat, makeShowLatLng, makeURL, makeAddressAPI, makeBuildingName, makeURLAnother } =
+    useChatButtonStore();
 
   const [map, setMap] = useState<naver.maps.Map | null>(null);
 
@@ -161,9 +162,24 @@ export default function MobChatMap() {
 
         const item = response.v2?.addresses[0]?.addressElements?.filter((ele) => ele.types[0] === 'LAND_NUMBER');
 
+        const buildingItem = response.v2?.addresses[0]?.addressElements?.filter(
+          (ele) => ele.types[0] === 'BUILDING_NAME',
+        );
+
+        const addressItem = response.v2?.addresses[0]?.jibunAddress || response.v2?.addresses[0]?.roadAddress;
+
+        if (buildingItem[0].longName || buildingItem[0].shortName) {
+          makeBuildingName(buildingItem[0].longName || buildingItem[0].shortName);
+        }
+
+        if (addressItem) {
+          makeAddressAPI(addressItem);
+        }
+
         const jibun = item[0].longName || item[0].shortName;
 
         let mapUrl = '';
+        let mapUrl2 = '';
 
         if (val4) {
           mapUrl = `https://map.naver.com/v5/entry/address/${lng},${lat},${val1}%20${val2}%20${val3}%20${val4}%20${jibun},jibun?c=19,0,0,0,dh`;
@@ -171,7 +187,14 @@ export default function MobChatMap() {
           mapUrl = `https://map.naver.com/v5/entry/address/${lng},${lat},${val1}%20${val2}%20${val3}%20${jibun},jibun?c=19,0,0,0,dh`;
         }
 
+        if (val4) {
+          mapUrl2 = `https://map.naver.com/v5/directions/-/${lng},${lat},${val1}%20${val2}%20${val3}%20${val4}%20${jibun},,ADDRESS_POI/-/transit?c=19,0,0,0,dh`;
+        } else {
+          mapUrl2 = `https://map.naver.com/v5/directions/-/${lng},${lat},${val1}%20${val2}%20${val3}%20${jibun},,ADDRESS_POI/-/transit?c=19,0,0,0,dh`;
+        }
+
         makeURL(mapUrl);
+        makeURLAnother(mapUrl2);
       },
     );
   }
@@ -248,8 +271,11 @@ export default function MobChatMap() {
           tw="p-0"
           onClick={() => {
             makeURL(undefined);
+            makeURLAnother(undefined);
             makeShowLatLng(undefined, undefined);
             makeShowChat();
+            makeAddressAPI('');
+            makeBuildingName('');
           }}
         >
           <CloseIcon />
