@@ -11,6 +11,7 @@ import { NaverMapV1 } from '@/lib/navermapV1';
 import { toast } from 'react-toastify';
 import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
 import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+import DeferredRender from '@/components/atoms/DeferredRender';
 
 const DEFAULT_LAT = 37.3945005; // 판교역
 const DEFAULT_LNG = 127.1109415;
@@ -295,14 +296,20 @@ export default function MobChatMap() {
           }}
         >
           {lat && lng && (
-            <CustomOverlayV1
-              position={{
-                lat,
-                lng,
-              }}
-            >
-              <MapMarkerSearchItem style={{ width: '48px', height: '48px' }} />
-            </CustomOverlayV1>
+            <DeferredRender>
+              <CustomOverlayV1
+                position={{
+                  lat,
+                  lng,
+                }}
+              >
+                <div tw="animate-bounce">
+                  <MapMarkerSearchItem style={{ width: '48px', height: '48px' }} />
+                  <div tw="absolute [bottom: -2px] left-1/2 bg-nego-300 [min-width: 24px] [min-height: 12px] [border-radius: 50%] [z-index: -1] -translate-x-1/2 [box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.14)]" />
+                  <div tw="absolute [bottom: 1px] left-1/2 bg-white [min-width: 12px] [min-height: 6px] [border-radius: 50%] [z-index: -1] -translate-x-1/2" />
+                </div>
+              </CustomOverlayV1>
+            </DeferredRender>
           )}
         </NaverMapV1>
         <div tw="w-full absolute bottom-0 px-5 py-10">
