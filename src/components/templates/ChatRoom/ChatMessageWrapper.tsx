@@ -4,7 +4,7 @@ import { ChatUserType } from '@/constants/enums';
 import { StaticImageData } from 'next/image';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
-import { Moment } from '@/components/atoms';
+import { Button, Moment } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useIsomorphicLayoutEffect, useOutsideClick } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
@@ -78,6 +78,36 @@ export default memo(
         return false;
       }
       return true;
+    }, [chat?.message]);
+
+    const isChatRelatedMap = useMemo(() => {
+      if (chat?.message?.includes(process.env.NEXT_PUBLIC_NAVER_MAP_URL)) {
+        return true;
+      }
+      return false;
+    }, [chat?.message]);
+
+    const extractLatitudeLongitudeFromURL = (url: string) => {
+      const pattern = /\/(\d+\.\d+),(\d+\.\d+),/;
+      const match = url.match(pattern);
+
+      if (match) {
+        const latitude = parseFloat(match[1]);
+        const longitude = parseFloat(match[2]);
+        return { latitude, longitude };
+      }
+      return null;
+    };
+
+    const imgSrcUrl = useMemo(() => {
+      if (chat?.message) {
+        const result = extractLatitudeLongitudeFromURL(chat?.message);
+        if (result) {
+          const { latitude, longitude } = result;
+
+          return `https://simg.pstatic.net/static.map/v2/map/staticmap.bin?caller=og_map&scale=1&w=256&h=256&crs=EPSG:4326&center=${latitude},${longitude}&level=15&format=jpg&markers=type:d%7Csize:mid%7Cpos:${latitude}%20${longitude}`;
+        }
+      }
     }, [chat?.message]);
 
     useOutsideClick({
@@ -169,7 +199,29 @@ export default memo(
                   />
                 </ChatMessage.Photo>
               ))}
-            {isChatMessage && <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>}
+            {isChatMessage && !isChatRelatedMap && <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>}
+
+            {isChatMessage && isChatRelatedMap && (
+              <ChatMessage.LinkTag>
+                {imgSrcUrl && <img alt="" src={imgSrcUrl} style={{ maxWidth: '100%' }} />}
+
+                <Button
+                  size="medium"
+                  tw="w-full mt-2 [border-top-left-radius: 0] [border-top-right-radius: 0]"
+                  variant="primary"
+                >
+                  <a
+                    type="button"
+                    href={chat.message}
+                    target="_blank"
+                    rel="noreferrer"
+                    tw="w-full text-center rounded-lg [border-top-left-radius: 0] [border-top-right-radius: 0]"
+                  >
+                    장소 보기
+                  </a>
+                </Button>
+              </ChatMessage.LinkTag>
+            )}
 
             {variant === 'nego' && !chat.agentReadTime && shouldRenderSentTime && (
               <ChatMessage.ReadIndicator>읽기 전</ChatMessage.ReadIndicator>

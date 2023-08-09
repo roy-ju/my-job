@@ -45,7 +45,26 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
                 }}
                 isSeller={item.chatRoomType === ChatUserType.Seller}
                 officeName={item.officeName}
-                lastMessage="사진"
+                lastMessage="(사진)"
+                listingTitle={item.listingTitle}
+                lastMessageTime={item.lastMessageTime}
+                additionalListingCount={item.additionalListingCount}
+                unreadMessageCount={item.unreadMessageCount}
+                profileImagePath={item.profileImagePath}
+              />
+            );
+          }
+
+          if (item.lastMessage.includes(process.env.NEXT_PUBLIC_NAVER_MAP_URL)) {
+            return (
+              <ChatRoomListItem
+                key={item.id}
+                onClick={() => {
+                  onClickListItem?.(item.id);
+                }}
+                isSeller={item.chatRoomType === ChatUserType.Seller}
+                officeName={item.officeName}
+                lastMessage="(장소공유)"
                 listingTitle={item.listingTitle}
                 lastMessageTime={item.lastMessageTime}
                 additionalListingCount={item.additionalListingCount}

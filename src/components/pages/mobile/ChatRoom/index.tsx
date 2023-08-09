@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { MobileContainer } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
@@ -8,11 +9,19 @@ import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
+import { useChatButtonStore } from '@/states/mob/chatButtonStore';
+import dynamic from 'next/dynamic';
 import useChatRoom from './useChatRoom';
+
+const MobChatMapTemplate = dynamic(() => import('@/components/templates/MobChatMap'), {
+  ssr: false,
+});
 
 export default memo(() => {
   const router = useRouter();
+
   const [popupOpen, setPopupOpen] = useState(false);
+
   const {
     listingTitle,
     agentName,
@@ -30,6 +39,9 @@ export default memo(() => {
     hasContractCompleteListings,
     hasPreContractCompleteListings,
   } = useChatRoom(Number(router.query.chatRoomID));
+
+  const { isShowMap, naverMapURL, makeShowChat, makeShowLatLng, makeURL } = useChatButtonStore();
+
   const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const handleClickReportButton = () => {
@@ -99,41 +111,64 @@ export default memo(() => {
     return <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>;
   };
 
+  useEffect(
+    () => () => {
+      makeShowChat();
+      makeURL('');
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (!isShowMap && naverMapURL) {
+      handleSendMessage(`${naverMapURL}`);
+
+      setTimeout(() => {
+        makeShowLatLng(undefined, undefined);
+      }, 200);
+    }
+  }, [isShowMap, naverMapURL]);
+
   return (
     <MobileContainer>
-      <ChatRoom
-        sellerList={sellerList}
-        buyerContractList={buyerContractList}
-        buyerActiveList={buyerActiveList}
-        title={listingTitle ?? ''}
-        agentName={agentName ?? ''}
-        officeName={agentOfficeName ?? ''}
-        agentDescription={agentDescription ?? ''}
-        agentProfileImagePath={agentProfileImagePath ?? ''}
-        additionalListingCount={additionalListingCount ?? 0}
-        isLoading={isLoading}
-        chatUserType={chatUserType ?? 0}
-        chatMessages={chatMessages}
-        photosUrls={photosUrls}
-        textFieldDisabled={isTextFieldDisabled}
-        onSendMessage={handleSendMessage}
-        onChangePhotosUrls={handleChangePhotoUrls}
-        onClickReportButton={handleClickReportButton}
-        onClickLeaveButton={handleClickLeaveButton}
-        onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
-        onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
-        onClickBack={() => {
-          if (typeof window !== 'undefined') {
-            const canGoBack = window.history.length > 1;
+      {isShowMap ? (
+        <MobChatMapTemplate />
+      ) : (
+        <ChatRoom
+          sellerList={sellerList}
+          buyerContractList={buyerContractList}
+          buyerActiveList={buyerActiveList}
+          title={listingTitle ?? ''}
+          agentName={agentName ?? ''}
+          officeName={agentOfficeName ?? ''}
+          agentDescription={agentDescription ?? ''}
+          agentProfileImagePath={agentProfileImagePath ?? ''}
+          additionalListingCount={additionalListingCount ?? 0}
+          isLoading={isLoading}
+          chatUserType={chatUserType ?? 0}
+          chatMessages={chatMessages}
+          photosUrls={photosUrls}
+          textFieldDisabled={isTextFieldDisabled}
+          onSendMessage={handleSendMessage}
+          onChangePhotosUrls={handleChangePhotoUrls}
+          onClickReportButton={handleClickReportButton}
+          onClickLeaveButton={handleClickLeaveButton}
+          onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
+          onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
+          onClickBack={() => {
+            if (typeof window !== 'undefined') {
+              const canGoBack = window.history.length > 1;
 
-            if (canGoBack) {
-              router.back();
-            } else {
-              router.replace('/');
+              if (canGoBack) {
+                router.back();
+              } else {
+                router.replace('/');
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      )}
+
       {popupOpen && (
         <OverlayPresenter>
           <Popup>
