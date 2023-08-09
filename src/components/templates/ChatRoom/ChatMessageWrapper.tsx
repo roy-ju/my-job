@@ -102,6 +102,7 @@ export default memo(
     const imgSrcUrl = useMemo(() => {
       if (chat?.message) {
         const result = extractLatitudeLongitudeFromURL(chat?.message);
+
         if (result) {
           const { latitude, longitude } = result;
 
@@ -109,6 +110,42 @@ export default memo(
         }
       }
     }, [chat?.message]);
+
+    const addressName = useMemo(() => {
+      if (chat?.message && isChatRelatedMap && chat.message.includes('aName')) {
+        const obj = JSON.parse(chat.message);
+        return obj?.aName || '';
+      }
+    }, [chat.message, isChatRelatedMap]);
+
+    const buildingName = useMemo(() => {
+      if (chat?.message && isChatRelatedMap && chat.message.includes('bName')) {
+        const obj = JSON.parse(chat.message);
+        return obj?.bName || '';
+      }
+    }, [chat.message, isChatRelatedMap]);
+
+    const directNaverMapURL = useMemo(() => {
+      if (chat?.message && isChatRelatedMap) {
+        if (chat.message[0] === '{' && chat.message[chat.message.length - 1] === '}') {
+          const obj = JSON?.parse(chat.message);
+          return obj.naverMapURL;
+        }
+
+        return chat?.message || '';
+      }
+    }, [chat.message, isChatRelatedMap]);
+
+    const directNaverMapURLAnother = useMemo(() => {
+      if (chat?.message && isChatRelatedMap) {
+        if (chat.message[0] === '{' && chat.message[chat.message.length - 1] === '}') {
+          const obj = JSON?.parse(chat.message);
+          return obj.naverMapAnother;
+        }
+
+        return chat?.message || '';
+      }
+    }, [chat.message, isChatRelatedMap]);
 
     useOutsideClick({
       ref: outsideRef,
@@ -200,26 +237,47 @@ export default memo(
                 </ChatMessage.Photo>
               ))}
             {isChatMessage && !isChatRelatedMap && <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>}
-
             {isChatMessage && isChatRelatedMap && (
               <ChatMessage.LinkTag>
-                {imgSrcUrl && <img alt="" src={imgSrcUrl} style={{ maxWidth: '100%' }} />}
+                {imgSrcUrl && (
+                  <img
+                    alt=""
+                    src={imgSrcUrl}
+                    style={{ width: '200px', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
+                  />
+                )}
 
-                <Button
-                  size="medium"
-                  tw="w-full mt-2 [border-top-left-radius: 0] [border-top-right-radius: 0]"
-                  variant="primary"
-                >
-                  <a
-                    type="button"
-                    href={chat.message}
-                    target="_blank"
-                    rel="noreferrer"
-                    tw="w-full text-center rounded-lg [border-top-left-radius: 0] [border-top-right-radius: 0]"
-                  >
-                    장소 보기
-                  </a>
-                </Button>
+                {(buildingName || addressName) && (
+                  <div tw="bg-white px-2 pt-2">
+                    {buildingName && <p tw="text-info text-gray-1000">{buildingName}</p>}
+                    {addressName && <p tw="text-info text-gray-700">{addressName}</p>}
+                  </div>
+                )}
+
+                <div tw="flex items-center gap-2 [max-width: 200px] px-2 pb-2 bg-white [border-bottom-left-radius: 8px] [border-bottom-right-radius: 8px]">
+                  <Button size="small" tw="w-full mt-2 rounded flex-1 px-1.5" variant="gray">
+                    <a
+                      type="button"
+                      href={directNaverMapURL}
+                      target="_blank"
+                      rel="noreferrer"
+                      tw="w-full text-center rounded-lg px-1.5"
+                    >
+                      장소 바로가기
+                    </a>
+                  </Button>
+                  <Button size="small" tw="w-full mt-2 rounded flex-1 px-1.5" variant="gray">
+                    <a
+                      type="button"
+                      href={directNaverMapURLAnother}
+                      target="_blank"
+                      rel="noreferrer"
+                      tw="w-full text-center rounded-lg "
+                    >
+                      길찾기
+                    </a>
+                  </Button>
+                </div>
               </ChatMessage.LinkTag>
             )}
 
@@ -230,6 +288,7 @@ export default memo(
             {shouldRenderSentTime && <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>}
           </ChatMessage>
         </div>
+
         {openPopupFullImage && imgUrl && (
           <OverlayPresenter>
             <div ref={outsideRef}>

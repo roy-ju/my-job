@@ -40,7 +40,19 @@ export default memo(() => {
     hasPreContractCompleteListings,
   } = useChatRoom(Number(router.query.chatRoomID));
 
-  const { isShowMap, naverMapURL, makeShowChat, makeShowLatLng, makeURL } = useChatButtonStore();
+  const {
+    isShowMap,
+    naverMapURL,
+    naverMapAnother,
+    makeShowChat,
+    makeShowLatLng,
+    makeURL,
+    makeURLAnother,
+    makeAddressAPI,
+    makeBuildingName,
+    aName,
+    bName,
+  } = useChatButtonStore();
 
   const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
@@ -115,16 +127,32 @@ export default memo(() => {
     () => () => {
       makeShowChat();
       makeURL('');
+      makeURLAnother('');
+      makeAddressAPI('');
+      makeBuildingName('');
     },
     [],
   );
 
   useEffect(() => {
     if (!isShowMap && naverMapURL) {
-      handleSendMessage(`${naverMapURL}`);
+      const objectMessage = {
+        naverMapURL,
+        naverMapAnother,
+        aName,
+        bName,
+      };
+
+      const objectMessageToString = JSON.stringify(objectMessage);
+
+      handleSendMessage(`${objectMessageToString}`);
 
       setTimeout(() => {
         makeShowLatLng(undefined, undefined);
+        makeAddressAPI('');
+        makeBuildingName('');
+        makeURL('');
+        makeURLAnother('');
       }, 200);
     }
   }, [isShowMap, naverMapURL]);

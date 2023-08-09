@@ -4,8 +4,11 @@ import { v1 } from 'uuid';
 type ChatButtonStore = {
   isShowMap: boolean;
   naverMapURL: string;
+  naverMapURLAnother: string;
   lat?: number;
   lng?: number;
+  buildingName: string;
+  address: string;
 };
 
 export const chatButtonStore = atom<ChatButtonStore>({
@@ -13,8 +16,11 @@ export const chatButtonStore = atom<ChatButtonStore>({
   default: {
     isShowMap: false,
     naverMapURL: '',
+    naverMapURLAnother:"",
     lat: undefined,
     lng: undefined,
+    buildingName:"",
+    address:"",
   },
   dangerouslyAllowMutability: true,
 });
@@ -38,14 +44,33 @@ export function useChatButtonStore() {
     setState((prev) => ({ ...prev, naverMapURL: val || '' }));
   };
 
+  const makeURLAnother = (val?: string) => {
+    setState((prev) => ({ ...prev, naverMapURLAnother: val || '' }));
+  };
+
+   const makeAddressAPI = (val?: string) => {
+    setState((prev) => ({ ...prev, address: val || '' }));
+  };
+
+  const makeBuildingName = (val?: string) => {
+    setState((prev) => ({ ...prev, buildingName: val || '' }));
+  };
+
+
   return {
     isShowMap: state.isShowMap,
     lat: state.lat,
     lng: state.lng,
     naverMapURL: state.naverMapURL,
+    naverMapAnother:state.naverMapURLAnother,
+    aName:state.address,
+    bName:state.buildingName,
     makeURL,
+    makeURLAnother,
     makeShowMap,
     makeShowChat,
     makeShowLatLng,
+    makeAddressAPI,
+    makeBuildingName,
   };
 }
