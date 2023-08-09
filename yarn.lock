@@ -3417,6 +3417,13 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-5.1.2.tgz#07508b45797cb81ec3f273011b054cd0755eddca"
   integrity sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==
 
+"@types/navermaps@^3.6.5":
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/@types/navermaps/-/navermaps-3.6.5.tgz#15ab1f4f6fbfe0453fa68e22a539fbdba08b0cf2"
+  integrity sha512-qY+QPdy6pEK70rDIlwMDCyUnKLbzKPXInCSu0Yj/jv/enQGCUowSZiTiRxDKVWLSzs5eCDwLJY56qjJXTVvM8g==
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/node-fetch@^2.5.7":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.2.tgz#d1a9c5fd049d9415dce61571557104dec3ec81da"
