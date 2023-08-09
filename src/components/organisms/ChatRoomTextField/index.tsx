@@ -354,7 +354,7 @@ export default function ChatRoomTextField({
       )}
 
       <div tw="px-5" css={[!openEmojis && tw`pt-4`]}>
-        {platForm === 'pc' && (
+        {platForm === 'mobile' && (
           <div tw="flex flex-row items-center gap-1 mb-2">
             <input
               tw="opacity-0 absolute left-0 right-0 pointer-events-none"
