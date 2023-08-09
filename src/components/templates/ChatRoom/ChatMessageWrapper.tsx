@@ -248,7 +248,7 @@ export default memo(
                 )}
 
                 {(buildingName || addressName) && (
-                  <div tw="bg-white px-2 pt-2">
+                  <div tw="bg-white px-2 pt-2 [max-width: 200px]">
                     {buildingName && <p tw="text-info text-gray-1000">{buildingName}</p>}
                     {addressName && <p tw="text-info text-gray-700">{addressName}</p>}
                   </div>
