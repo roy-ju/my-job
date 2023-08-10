@@ -138,6 +138,8 @@ export default function ChatRoomTextField({
     inputPhotoRef.current?.click();
   }, []);
 
+  console.log(inputPhotoRef);
+
   const handleChangePhotos = useCallback<ChangeEventHandler<HTMLInputElement>>(
     async (e) => {
       let validated = true;
@@ -445,6 +447,14 @@ export default function ChatRoomTextField({
 
         {platForm === 'pc' && (
           <div tw="flex flex-row items-center gap-1 mt-2">
+            <input
+              tw="opacity-0 absolute left-0 right-0 pointer-events-none"
+              ref={inputPhotoRef}
+              type="file"
+              multiple
+              accept="image/png, image/jpg, image/jpeg"
+              onChange={handleChangePhotos}
+            />
             <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
               {disabled ? (
                 <Container tw="bg-gray-400">
