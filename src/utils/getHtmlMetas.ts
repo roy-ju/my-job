@@ -18,13 +18,13 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   if (targetRoute === Routes.DanjiRecommendation || targetRoute === Routes.DanjiRecommendationSuccess) {
     return {
-      title: `단지추천 | ${
+      title: `단지 추천받기 | ${
         process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
           ? '(TEST) 부동산 가격협상 앱 네고시오'
           : '부동산 가격협상 앱 네고시오'
       }`,
       description: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
-      ogTitle: '단지추천',
+      ogTitle: '단지 추천받기',
       ogDescription: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
@@ -44,13 +44,13 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
     targetRoute === Routes.SuggestRequestedList
   ) {
     return {
-      title: `매물추천 | ${
+      title: `매물 추천받기 | ${
         process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
           ? '(TEST) 부동산 가격협상 앱 네고시오'
           : '부동산 가격협상 앱 네고시오'
       }`,
       description: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
-      ogTitle: '매물추천',
+      ogTitle: '매물 추천받기',
       ogDescription: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
