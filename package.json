@@ -28,6 +28,7 @@
     "@types/d3": "^7.4.0",
     "@types/d3-array": "^3.0.4",
     "@types/d3-path": "^3.0.0",
+    "@types/navermaps": "^3.6.5",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",

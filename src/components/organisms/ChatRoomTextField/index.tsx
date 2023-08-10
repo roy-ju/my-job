@@ -1,8 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-return-assign */
 import { OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import ChatInputSubmitIcon from '@/assets/icons/chat_input_submit.svg';
 
 import tw, { styled, theme } from 'twin.macro';
-import { ChangeEventHandler, KeyboardEventHandler, useCallback, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  KeyboardEventHandler,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  MouseEvent,
+  useEffect,
+} from 'react';
 import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
 import { Button, Loading } from '@/components/atoms';
@@ -13,6 +24,15 @@ import CloseIcon from '@/assets/icons/close.svg';
 import getFileFromUrl from '@/utils/getFileFromUrl';
 import uploadPhotos from '@/apis/chat/uploadPhotos';
 import { v4 } from 'uuid';
+
+import OutsideClick from '@/components/atoms/OutsideClick';
+import { motion } from 'framer-motion';
+import { customAlphabet } from 'nanoid';
+import { useChatButtonStore } from '@/states/mob/chatButtonStore';
+import EmojiCollection from '../ChatEmojis';
+import { emojisCategory } from '../ChatEmojis/emojiCategory';
+
+const ScrollContainer = styled.div``;
 
 const Container = styled.div`
   display: flex;
@@ -38,6 +58,8 @@ export default function ChatRoomTextField({
   onSendMessage,
   onChangePhotosUrls,
 }: Props) {
+  const { makeShowMap } = useChatButtonStore();
+
   const defaultUrls = useMemo(() => [], []);
 
   const [values, setValues] = useControlled({
@@ -46,19 +68,27 @@ export default function ChatRoomTextField({
   });
 
   const inputPhotoRef = useRef<HTMLInputElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const refs = useRef<any>([]);
 
   const [platForm, setPlatForm] = useState('');
-
+  const [openEmojis, setOpenEmojis] = useState(false);
   const [value, setValue] = useState('');
-
   const [focused, setFocused] = useState(false);
-
   const [openPopup, setOpenPopup] = useState(false);
-
   const [photoSending, setPhotoSending] = useState(false);
+  const [selectedType, setSelectedType] = useState(0);
+
+  const [isDrag, setIsDrag] = useState<boolean>(false);
+  const [startX, setStartX] = useState<number>();
+  const nanoid = customAlphabet('0123456789abcdefghijklmn');
 
   const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
     setValue(e.target.value);
+  }, []);
+
+  const handleChangeIcon = useCallback((val: string) => {
+    setValue((prev) => prev + val);
   }, []);
 
   const handleFocus = useCallback(() => {
@@ -159,7 +189,6 @@ export default function ChatRoomTextField({
       const newValues = [...values, ...fileUrls];
 
       setValues(newValues);
-
       onChangePhotosUrls?.(newValues);
 
       if (inputPhotoRef.current) {
@@ -172,7 +201,7 @@ export default function ChatRoomTextField({
         setOpenPopup(true);
       }
     },
-    [setValues, onChangePhotosUrls, values, inputPhotoRef],
+    [setValues, onChangePhotosUrls, values],
   );
 
   const handleDeleteByIndex = useCallback(
@@ -232,10 +261,101 @@ export default function ChatRoomTextField({
     }
   }, [values, setValues, onSendMessage, onChangePhotosUrls]);
 
+  const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
+    if (!scrollRef.current) return;
+
+    e.preventDefault();
+    setIsDrag(true);
+    setStartX(e.pageX + scrollRef.current.scrollLeft);
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const onDragMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!isDrag) return;
+
+    if (isDrag && scrollRef.current && startX) {
+      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+
+      scrollRef.current.scrollLeft = startX - e.pageX;
+
+      if (scrollLeft === 0) {
+        setStartX(e.pageX);
+      } else if (scrollWidth <= clientWidth + scrollLeft) {
+        setStartX(e.pageX + scrollLeft);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (typeof selectedType === 'number') {
+      const selectedElement = refs.current[selectedType];
+
+      if (scrollRef.current && selectedElement) {
+        const { offsetLeft } = scrollRef.current;
+        const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
+
+        const scrollLeft = childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
+
+        scrollRef.current.scrollTo({
+          left: scrollLeft,
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, [selectedType]);
+
   return (
     <>
-      <div>
-        {platForm === 'mobile' && !disabled && (
+      {/* {openEmojis && !disabled && (
+        <OutsideClick
+          onOutsideClick={() => {
+            setOpenEmojis(false);
+            setSelectedType(0);
+          }}
+          radiusType={1}
+        >
+          <ScrollContainer
+            className="scrollbar-hide"
+            ref={scrollRef}
+            tw="flex flex-row items-center px-2 py-3 gap-3 overflow-x-auto bg-gray-400 [border-top-left-radius: 8px] [border-top-right-radius: 8px]"
+            onMouseDown={onDragStart}
+            onMouseMove={onDragMove}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+          >
+            {emojisCategory.map((ele, index) => (
+              <div key={ele.name} ref={(el) => (refs.current[index] = el)}>
+                <Button
+                  variant="outlined"
+                  tw="relative whitespace-nowrap h-6 hover:border-gray-600"
+                  onClick={() => {
+                    setSelectedType(ele.type);
+                  }}
+                  selected={selectedType === ele.type}
+                >
+                  {selectedType === ele.type && (
+                    <motion.div
+                      layoutId={`chat-negocio-${nanoid()}`}
+                      tw="absolute top-0 left-0 pointer-events-none z-10"
+                    >
+                      <div tw="w-full h-full [min-height: 24px] bg-gray-200 rounded-lg shadow-[0px_6px_12px_rgba(0,0,0,0.08)] flex justify-center items-center" />
+                    </motion.div>
+                  )}
+                  <p tw="absolute top-0 left-0 z-20 text-info" />
+                  {ele.name}
+                </Button>
+              </div>
+            ))}
+          </ScrollContainer>
+          <EmojiCollection selectedType={selectedType} handleChangeIcon={handleChangeIcon} />
+        </OutsideClick>
+      )} */}
+
+      <div tw="px-5" css={[!openEmojis && tw`pt-4`]}>
+        {/* {platForm === 'mobile' && (
           <div tw="flex flex-row items-center gap-1 mb-2">
             <input
               tw="opacity-0 absolute left-0 right-0 pointer-events-none"
@@ -245,28 +365,60 @@ export default function ChatRoomTextField({
               accept="image/png, image/jpg, image/jpeg"
               onChange={handleChangePhotos}
             />
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser}>
-              <Container tw="bg-red-700 hover:bg-red-300">
-                <PlusIcon color="white" width="16" height="16" />
-              </Container>
+
+            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
+              {disabled ? (
+                <Container tw="bg-gray-400">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              ) : (
+                <Container tw="bg-red-700 hover:bg-red-300">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              )}
             </Button>
 
-            <Button variant="ghost" tw="px-1.5 h-8">
-              <Container tw="bg-yellow-700 hover:bg-yellow-300">
-                <PlusIcon color="white" width="16" height="16" />
-              </Container>
+            <Button
+              variant="ghost"
+              tw="px-1.5 h-8"
+              disabled={disabled}
+              onClick={() => {
+                if (!openEmojis) {
+                  setOpenEmojis(true);
+                }
+              }}
+            >
+              {disabled ? (
+                <Container tw="bg-gray-400">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              ) : (
+                <Container tw="bg-yellow-700 hover:bg-yellow-300">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              )}
             </Button>
 
-            <Button variant="ghost" tw="px-1.5 h-8">
-              <Container tw="bg-green-700 hover:bg-green-300">
-                <PlusIcon color="white" width="16" height="16" />
-              </Container>
+            <Button variant="ghost" tw="px-1.5 h-8" onClick={makeShowMap} disabled={disabled}>
+              {disabled ? (
+                <Container tw="bg-gray-400">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              ) : (
+                <Container tw="bg-green-700 hover:bg-green-300">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              )}
             </Button>
           </div>
-        )}
+        )} */}
         <TextField
           tw="w-full"
-          css={[tw`border items-end rounded-[20px]`, focused ? tw`border-gray-1000` : tw`border-gray-300`]}
+          css={[
+            tw`border items-end rounded-[20px]`,
+            focused ? tw`border-gray-1000` : tw`border-gray-300`,
+            openEmojis && tw`mt-4`,
+          ]}
         >
           <TextField.TextArea
             disabled={disabled}
@@ -291,38 +443,45 @@ export default function ChatRoomTextField({
           </TextField.Trailing>
         </TextField>
 
-        {platForm === 'pc' && !disabled && (
+        {/* {platForm === 'pc' && (
           <div tw="flex flex-row items-center gap-1 mt-2">
-            <input
-              tw="opacity-0 absolute left-0 right-0 pointer-events-none"
-              ref={inputPhotoRef}
-              type="file"
-              multiple
-              accept="image/png, image/jpg, image/jpeg"
-              onChange={handleChangePhotos}
-            />
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser}>
-              <Container tw="bg-red-700 hover:bg-red-300">
-                <PlusIcon color="white" width="16" height="16" />
-              </Container>
+            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
+              {disabled ? (
+                <Container tw="bg-gray-400">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              ) : (
+                <Container tw="bg-red-700 hover:bg-red-300">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              )}
             </Button>
 
-            <Button variant="ghost" tw="px-1.5 h-8">
-              <Container tw="bg-yellow-700 hover:bg-yellow-300">
-                <PlusIcon color="white" width="16" height="16" />
-              </Container>
-            </Button>
-
-            <Button variant="ghost" tw="px-1.5 h-8">
-              <Container tw="bg-green-700 hover:bg-green-300">
-                <PlusIcon color="white" width="16" height="16" />
-              </Container>
+            <Button
+              variant="ghost"
+              tw="px-1.5 h-8"
+              disabled={disabled}
+              onClick={() => {
+                if (!openEmojis) {
+                  setOpenEmojis(true);
+                }
+              }}
+            >
+              {disabled ? (
+                <Container tw="bg-gray-400">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              ) : (
+                <Container tw="bg-yellow-700 hover:bg-yellow-300">
+                  <PlusIcon color="white" width="16" height="16" />
+                </Container>
+              )}
             </Button>
           </div>
-        )}
+        )} */}
       </div>
 
-      {openPopup && values.length > 0 && (
+      {/* {openPopup && values.length > 0 && (
         <OverlayPresenter>
           <Popup>
             {!photoSending && (
@@ -370,7 +529,7 @@ export default function ChatRoomTextField({
             )}
           </Popup>
         </OverlayPresenter>
-      )}
+      )} */}
     </>
   );
 }
