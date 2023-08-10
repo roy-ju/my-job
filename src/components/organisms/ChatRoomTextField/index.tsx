@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 import { OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import ChatInputSubmitIcon from '@/assets/icons/chat_input_submit.svg';
@@ -308,7 +309,7 @@ export default function ChatRoomTextField({
 
   return (
     <>
-      {openEmojis && !disabled && (
+      {/* {openEmojis && !disabled && (
         <OutsideClick
           onOutsideClick={() => {
             setOpenEmojis(false);
@@ -351,10 +352,10 @@ export default function ChatRoomTextField({
           </ScrollContainer>
           <EmojiCollection selectedType={selectedType} handleChangeIcon={handleChangeIcon} />
         </OutsideClick>
-      )}
+      )} */}
 
       <div tw="px-5" css={[!openEmojis && tw`pt-4`]}>
-        {platForm === 'mobile' && (
+        {/* {platForm === 'mobile' && (
           <div tw="flex flex-row items-center gap-1 mb-2">
             <input
               tw="opacity-0 absolute left-0 right-0 pointer-events-none"
@@ -410,7 +411,7 @@ export default function ChatRoomTextField({
               )}
             </Button>
           </div>
-        )}
+        )} */}
         <TextField
           tw="w-full"
           css={[
@@ -442,7 +443,7 @@ export default function ChatRoomTextField({
           </TextField.Trailing>
         </TextField>
 
-        {platForm === 'pc' && (
+        {/* {platForm === 'pc' && (
           <div tw="flex flex-row items-center gap-1 mt-2">
             <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
               {disabled ? (
@@ -477,10 +478,10 @@ export default function ChatRoomTextField({
               )}
             </Button>
           </div>
-        )}
+        )} */}
       </div>
 
-      {openPopup && values.length > 0 && (
+      {/* {openPopup && values.length > 0 && (
         <OverlayPresenter>
           <Popup>
             {!photoSending && (
@@ -528,7 +529,7 @@ export default function ChatRoomTextField({
             )}
           </Popup>
         </OverlayPresenter>
-      )}
+      )} */}
     </>
   );
 }
