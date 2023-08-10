@@ -169,7 +169,7 @@ export default function ChatRoom({
           </div>
         )}
       </div>
-      <div tw="px-5 pt-4 pb-10">
+      <div tw="pb-10">
         <ChatRoomTextField
           disabled={textFieldDisabled}
           inputRef={inputRef}
