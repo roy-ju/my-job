@@ -89,11 +89,8 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
         )}
         <Table.Group defaultExpanded>
           <Table.GroupSummary>
-            <div tw="flex items-center gap-1">
-              <span tw="text-gray-1000">지급일정</span>
-              <Button variant="ghost" size="none" onClick={() => openTooltip('paymentSchedule')}>
-                <QuestionIcon />
-              </Button>
+            <div tw="flex">
+              <span tw="text-gray-1000">가격조건</span>
             </div>
           </Table.GroupSummary>
           <Table.GroupDetails>
@@ -110,13 +107,6 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                 <Table.Data>
                   <Numeral koreanNumber>{listing?.interim_amount1}</Numeral>
                   {!listing?.interim_amount_negotiable1 && <span tw="ml-1 text-info text-gray-700">*협의불가</span>}
-                  {listing?.interim_amount_payment_time1 && (
-                    <span tw="text-info text-gray-700">
-                      <br />
-                      지급일: <Moment format="yyyy.MM.DD">{listing?.interim_amount_payment_time1}</Moment>{' '}
-                      {TimeTypeString[listing?.interim_amount_payment_time1_type ?? 1]}
-                    </span>
-                  )}
                 </Table.Data>
               </Table.Row>
             )}
@@ -126,13 +116,6 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                 <Table.Data>
                   <Numeral koreanNumber>{listing?.interim_amount2}</Numeral>
                   {!listing?.interim_amount_negotiable2 && <span tw="ml-1 text-info text-gray-700">*협의불가</span>}
-                  {listing?.interim_amount_payment_time2 && (
-                    <span tw="text-info text-gray-700">
-                      <br />
-                      지급일: <Moment format="yyyy.MM.DD">{listing?.interim_amount_payment_time2}</Moment>{' '}
-                      {TimeTypeString[listing?.interim_amount_payment_time2_type ?? 1]}
-                    </span>
-                  )}
                 </Table.Data>
               </Table.Row>
             )}
@@ -142,13 +125,6 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
                 <Table.Data>
                   <Numeral koreanNumber>{listing?.interim_amount3}</Numeral>
                   {!listing?.interim_amount_negotiable3 && <span tw="ml-1 text-info text-gray-700">*협의불가</span>}
-                  {listing?.interim_amount_payment_time3 && (
-                    <span tw="text-info text-gray-700">
-                      <br />
-                      지급일: <Moment format="yyyy.MM.DD">{listing?.interim_amount_payment_time3}</Moment>{' '}
-                      {TimeTypeString[listing?.interim_amount_payment_time3_type ?? 1]}
-                    </span>
-                  )}
                 </Table.Data>
               </Table.Row>
             )}
@@ -156,13 +132,6 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
               <Table.Head>잔금</Table.Head>
               <Table.Data>
                 <Numeral koreanNumber>{listing?.remaining_amount}</Numeral>
-                {listing?.remaining_amount_payment_time && (
-                  <span tw="text-info text-gray-700">
-                    <br />
-                    지급일: <Moment format="yyyy.MM.DD">{listing?.remaining_amount_payment_time}</Moment>{' '}
-                    {TimeTypeString[listing?.remaining_amount_payment_time_type ?? 1]}
-                  </span>
-                )}
               </Table.Data>
             </Table.Row>
           </Table.GroupDetails>
