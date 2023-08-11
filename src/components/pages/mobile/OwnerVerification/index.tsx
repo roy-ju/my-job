@@ -41,7 +41,7 @@ export default function OwnerVerification() {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>해당 매물등록신청이 유효하지 않습니다.</Popup.Title>
+              <Popup.Title>해당 매물 등록 신청은 종료되었어요.</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}`)}>확인</Popup.ActionButton>
