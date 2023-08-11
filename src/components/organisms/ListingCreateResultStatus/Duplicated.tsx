@@ -1,4 +1,3 @@
-import { Ul } from '@/components/atoms';
 import { BuyOrRentString } from '@/constants/strings';
 
 interface Props {
@@ -11,11 +10,8 @@ interface Props {
 export default function Duplicated({ addressLine1, addressLine2, buyOrRent, rentArea }: Props) {
   return (
     <div tw="px-5">
-      <div tw="text-h2 font-bold">이미 등록된 매물주소입니다.</div>
-      <Ul tw="mt-2 mb-5">
-        <li>등록 신청이 완료된 매물주소, 등록 준비 상태인 매물주소는 추가 등록 신청 을 할 수 없습니다.</li>
-        <li>네고시오는 매물 하나당 한번만 등록할 수 있습니다. (1 매물, 1 등록)</li>
-      </Ul>
+      <div tw="text-h2 font-bold">이미 등록된 매물이에요.</div>
+      <div tw="mt-2 mb-5 leading-5 text-gray-700 text-info">동일한 주소의 매물은 한 번에 1개만 등록될 수 있어요.</div>
       <div tw="mb-5">
         <div tw="text-b1 leading-none font-bold mb-3">기존 입력 주소</div>
         <div tw="text-b1">{addressLine1}</div>
