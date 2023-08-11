@@ -152,6 +152,7 @@ function Miscellaneous({ index, name, price, onChangeName, onChangePrice, onClic
             </TextField.Trailing>
           )}
         </TextField>
+        {price && <TextField.PriceHelperMessage tw="mr-4">{price}</TextField.PriceHelperMessage>}
       </div>
     </div>
   );
