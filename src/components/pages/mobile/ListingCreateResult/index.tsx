@@ -161,6 +161,10 @@ export default memo(() => {
     setPopup('startOver');
   }, []);
 
+  const showDeleteListingPopup = useCallback(() => {
+    setPopup('deleteListing');
+  }, []);
+
   const handleClickStartOver = useCallback(async () => {
     router.replace({
       pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`,
@@ -221,7 +225,7 @@ export default memo(() => {
         }
         onSelectAddress={onSelectAddress}
         onSelectAgent={showAgentSelectionPopup}
-        onClickRemoveFromListings={onClickRemoveFromListings}
+        onClickRemoveFromListings={showDeleteListingPopup}
         onClickSendOwnerVerification={showSendSmsPopup}
         onClickMyListings={handleNavigateToMyListings}
         onNavigateToChatRoom={data?.seller_agent_chat_room_id ? handleNavigateToChatRoom : undefined}
@@ -230,15 +234,17 @@ export default memo(() => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>새로운 매물등록신청 시작</Popup.Title>
+              <Popup.Title>새로운 매물 등록 신청 시작</Popup.Title>
               <Popup.Body>
-                기존 입력 내용은 삭제되며 복구되지 않습니다. 매물등록신청을 처음부터 다시 진행하시겠습니까?
+                기존 입력 내용은 삭제되며 복구 되지 않아요.
+                <br />
+                매물 등록 신청을 처음부터 다시 진행하시겠어요?
               </Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>돌아가기</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isSelectingAgent} onClick={handleClickStartOver}>
-                매물등록신청 다시하기
+              <Popup.CancelButton onClick={() => setPopup('none')}>닫기</Popup.CancelButton>
+              <Popup.ActionButton tw="whitespace-pre" isLoading={isSelectingAgent} onClick={handleClickStartOver}>
+                매물 등록 신청 다시하기
               </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
@@ -250,7 +256,7 @@ export default memo(() => {
             <Popup.ContentGroup>
               <Popup.Title>소유자 정보 확인</Popup.Title>
               <Popup.Body>
-                아래의 정보로 소유자 동의를 위한 문자가 전송됩니다.
+                다음 정보로 소유자 동의 요청 문자를 전송할게요.
                 <br />
                 <br />
                 소유자 성명: {popupData.current?.name}
@@ -288,7 +294,7 @@ export default memo(() => {
           <Popup>
             <Popup.ContentGroup tw="py-12">
               <Popup.Title>
-                하루 최대 발송 한도를 초과했습니다.
+                하루 최대 발송 횟수 5회를 초과했어요.
                 <br />
                 내일 다시 시도해 주세요.
               </Popup.Title>
@@ -340,6 +346,23 @@ export default memo(() => {
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+      {popup === 'deleteListing' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title tw="text-center">
+                매물등록을 더 이상 진행할 수 없어요.
+                <br />
+                해당 매물 정보를 삭제할까요?
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={onClickRemoveFromListings}>삭제</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

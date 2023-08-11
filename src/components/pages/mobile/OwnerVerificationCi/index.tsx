@@ -16,10 +16,9 @@ export default function OwnerVerificationCi() {
   const [errorCode, setErrorCode] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const token = router.query.t as string;
   const loi = router.query.loi as string;
 
-  const { mutate, isLoading: isLoadingAgreementInfo } = useAPI_GetAgreementInfo(loi, token);
+  const { mutate, isLoading: isLoadingAgreementInfo } = useAPI_GetAgreementInfo(loi);
 
   const handleNiceResponse = useCallback(
     async (res: NiceResponse) => {
@@ -31,7 +30,6 @@ export default function OwnerVerificationCi() {
         token_version_id: res.tokenVersionId,
         type: Number(res.type),
         loi: Number(loi),
-        token,
       });
 
       if (ciRes?.error_code) {
@@ -45,7 +43,7 @@ export default function OwnerVerificationCi() {
         router.back();
       }
     },
-    [router, token, loi, mutate],
+    [router, loi, mutate],
   );
 
   const handleVerifyPhone = useCallback(() => {
@@ -56,7 +54,7 @@ export default function OwnerVerificationCi() {
     request('ipin', handleNiceResponse);
   }, [handleNiceResponse, request]);
 
-  if (isLoadingAgreementInfo || !token || !loi || isLoading) {
+  if (isLoadingAgreementInfo || !loi || isLoading) {
     return (
       <div tw="py-20">
         <Loading />
@@ -86,7 +84,7 @@ export default function OwnerVerificationCi() {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>이미 인증되었습니다.</Popup.Title>
+              <Popup.Title>이미 다른 소유자가 매물 등록에 동의했어요.</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setErrorCode(null)}>확인</Popup.ActionButton>
@@ -98,7 +96,7 @@ export default function OwnerVerificationCi() {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>매물소유자 명의로 본인인증이 필요합니다.</Popup.Title>
+              <Popup.Title>등기부상 소유자의 본인인증이 필요해요.</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setErrorCode(null)}>확인</Popup.ActionButton>
@@ -110,7 +108,7 @@ export default function OwnerVerificationCi() {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>해당 매물등록신청이 유효하지 않습니다.</Popup.Title>
+              <Popup.Title>해당 매물 등록 신청은 종료되었어요.</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setErrorCode(null)}>확인</Popup.ActionButton>

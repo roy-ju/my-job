@@ -37,12 +37,12 @@ export default function VerifyOwnershipNotFound({ address, addressDetail, isLoad
 
   return (
     <div tw="px-5">
-      <div tw="text-h2 font-bold">소유자 정보가 정확하지 않습니다.</div>
+      <div tw="text-h2 font-bold">소유자 정보를 확인해 주세요.</div>
       <div tw="my-2.5 flex items-center gap-1">
         <ErrorIcon />
-        <div tw="text-info leading-4 text-red-800">정확한 소유자 정보를 입력해 주세요.</div>
+        <div tw="text-info leading-4 text-red-800">소유자 정보가 등기부의 소유자와 일치하지 않아요.</div>
       </div>
-      <p tw="mb-10 text-info text-gray-700">소유자의 대리인이 매물등록 신청을 하신다면, 소유자 동의가 필요합니다.</p>
+      <p tw="mb-10 text-info text-gray-700">매물을 등록하기 위해서는 소유자 동의가 필요해요.</p>
       <Separator tw="-mx-5 mb-10" />
       <div tw="text-b1 font-bold mb-4">기존 입력 주소</div>
       <div tw="text-b1 mb-1">{address}</div>

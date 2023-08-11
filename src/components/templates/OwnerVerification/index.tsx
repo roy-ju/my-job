@@ -158,12 +158,6 @@ export default function OwnerVerification({
         </div>
         <Separator />
         <div tw="py-10 px-5">
-          <div tw="mb-4">
-            <div tw="text-b1 font-bold mb-1">매물등록 신청 동의</div>
-            <div tw="text-info text-gray-700">
-              네고시오에 매물 등록을 동의하시면 아래 체크박스를 선택하시고 본인인증 및 동의 버튼을 눌러주세요.
-            </div>
-          </div>
           <div tw="rounded-lg shadow">
             <div tw="p-5 border-b border-b-gray-200">
               <div tw="flex items-center justify-between">

@@ -10,13 +10,12 @@ import { MobileContainer } from '@/components/atoms';
 export default function OwnerVerification() {
   const router = useRouter();
 
-  const token = router.query.t as string;
   const loi = router.query.loi as string;
 
-  const { data, isLoading } = useAPI_GetAgreementInfo(loi, token);
+  const { data, isLoading } = useAPI_GetAgreementInfo(loi);
 
   const handleVerify = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/ov/ci?t=${router.query.t}&loi=${router.query.loi}`);
+    router.push(`/${Routes.EntryMobile}/ov/ci?loi=${router.query.loi}`);
   }, [router]);
 
   const handleNavigateToPrivacyPolicy = useCallback(() => {
@@ -27,7 +26,7 @@ export default function OwnerVerification() {
     <MobileContainer>
       {!data?.error_code && (
         <Template
-          isLoading={!(token && loi) || isLoading}
+          isLoading={!loi || isLoading}
           address={data?.full_road_name_address}
           requestorName={data?.requestor_name}
           price={data?.trade_or_deposit_price}
@@ -42,7 +41,7 @@ export default function OwnerVerification() {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>해당 매물등록신청이 유효하지 않습니다.</Popup.Title>
+              <Popup.Title>해당 매물 등록 신청은 종료되었어요.</Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}`)}>확인</Popup.ActionButton>

@@ -1,4 +1,4 @@
-import { Button, Ul } from '@/components/atoms';
+import { Button } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
 import React, { ChangeEventHandler } from 'react';
 
@@ -48,11 +48,13 @@ export default function AddressDetailForm({
             <TextField.Input label="호수" value={ho} onChange={onChangeHo} />
           </TextField>
         </div>
-        <Ul>
-          <li>신축/재건축으로 등기부 조회가 불가한 주택은 등록할 수 없습니다.</li>
-          <li>상세 주소 정보가 없다면 비워두고, 다음 버튼을 눌러주세요.</li>
-          {errorMessage && <li tw="text-red-800">{errorMessage}</li>}
-        </Ul>
+        <div>
+          <div tw="leading-5 text-gray-700 text-info">
+            신축/재건축으로 등기부가 조회되지 않는 주택은 등록할 수 없어요.
+          </div>
+          <div tw="leading-5 text-gray-700 text-info">상세 주소 정보가 없다면 비워두고 다음 버튼을 눌러주세요.</div>
+          {errorMessage && <div tw="text-red-800 leading-5 text-info">{errorMessage}</div>}
+        </div>
       </div>
     </>
   );
