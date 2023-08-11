@@ -17,8 +17,8 @@ export default function OwnerVerificationComplete({ onClickHome }: Props) {
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="pt-7 pb-10 px-5">
-          <div tw="text-b1 font-bold mb-1">매믈등록 신청에 대해 동의하셨습니다.</div>
-          <div tw="text-info text-gray-700">중개사 확인 후 매물을 등록할 예정입니다.</div>
+          <div tw="text-b1 font-bold mb-1">매물 등록에 동의가 완료되었어요.</div>
+          <div tw="text-info text-gray-700">등기부의 정보를 확인하고 매물이 등록돼요.</div>
         </div>
         <Separator />
       </div>
