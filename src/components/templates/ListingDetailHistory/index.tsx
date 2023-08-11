@@ -120,17 +120,10 @@ export default function ListingDetailHistory({
   tradeOrDepositPrice,
   list,
 
-  canHaveEarlierRemainingAmountPaymentTime,
-  canHaveMoreContractAmount,
-  canHaveMoreInterimAmount,
-  contractAmount,
-  interimAmount,
   moveInDate,
   moveInDateType,
   description,
   etcs,
-  remainingAmountPaymentTime,
-  remainingAmountPaymentTimeType,
 }: ListingDetailHistoryProps) {
   const renderMonthlyRentFee = (fee: number) => {
     if (fee === 0) return '0원';
@@ -227,13 +220,6 @@ export default function ListingDetailHistory({
               isMonthlyRent={isMonthlyRent}
               biddingMonthlyRentFee={biddingMonthlyRentFee}
               biddingTradeOrDepositPrice={biddingTradeOrDepositPrice}
-              canHaveEarlierRemainingAmountPaymentTime={canHaveEarlierRemainingAmountPaymentTime}
-              canHaveMoreContractAmount={canHaveMoreContractAmount}
-              canHaveMoreInterimAmount={canHaveMoreInterimAmount}
-              remainingAmountPaymentTime={remainingAmountPaymentTime}
-              remainingAmountPaymentTimeType={remainingAmountPaymentTimeType}
-              contractAmount={contractAmount}
-              interimAmount={interimAmount}
               moveInDate={moveInDate}
               moveInDateType={moveInDateType}
               description={description}
