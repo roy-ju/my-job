@@ -53,7 +53,7 @@ export default function useListingCreateForm(depth: number) {
   const [contractAmountNegotiable, setContractAmountNegotiable] = useState(true);
   // 잔금
   const [remainingAmount, setRemainingAmount] = useState('');
-
+  // 중도금
   const [interims, setInterims] = useState<InterimType[]>([]);
   // 채무승계 보증금
   const [debtSuccessionDeposit, setDebtSuccessionDeposit] = useState('');
@@ -303,7 +303,7 @@ export default function useListingCreateForm(depth: number) {
     }
 
     if (buyOrRent === BuyOrRent.Wolsae && monthlyRentFee === '') {
-      setErrPopup('월세를 입력해주세요');
+      setErrPopup('월차임을 입력해주세요');
       return;
     }
 
@@ -1259,13 +1259,6 @@ export default function useListingCreateForm(depth: number) {
     if (typeof params !== 'string') return;
     const parsed = JSON.parse(params);
 
-    // const convertDateType = (value: number) => {
-    //   if (value === 1) return '이전';
-    //   if (value === 2) return '이후';
-    //   if (value === 3) return '당일';
-    //   return '이전';
-    // };
-
     if (!parsed.isOwner) {
       setIsOwner(false);
       setOwnerName(parsed.owner_name ?? '');
@@ -1349,6 +1342,7 @@ export default function useListingCreateForm(depth: number) {
     if (parsed.special_terms) {
       setSpecialTerms(parsed.special_terms);
     }
+   
     if (parsed.veranda_extended) {
       setVerandaExtended(parsed.veranda_extended);
     }
