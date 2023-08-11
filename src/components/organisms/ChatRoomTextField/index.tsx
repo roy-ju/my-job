@@ -138,8 +138,6 @@ export default function ChatRoomTextField({
     inputPhotoRef.current?.click();
   }, []);
 
-  console.log(inputPhotoRef);
-
   const handleChangePhotos = useCallback<ChangeEventHandler<HTMLInputElement>>(
     async (e) => {
       let validated = true;
