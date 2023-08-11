@@ -3,6 +3,7 @@ import { Button, Separator } from '@/components/atoms';
 import { ListingCreateForm as Form } from '@/components/organisms';
 import { BuyOrRent } from '@/constants/enums';
 import { useContext } from 'react';
+import tw from 'twin.macro';
 import FormContext from './FormContext';
 
 export const Forms = {
@@ -60,15 +61,13 @@ export default function FormRenderer({ form }: Props) {
     contractAmount,
     contractAmountNegotiable,
     remainingAmount,
-    remainingAmountDate,
-    remainingAmountDateType,
+
     interims,
     onChangeContractAmount,
     onChangeContractAmountNegotiable,
     onChangeRemainingAmount,
     onClickAddInterim,
-    onChangeRemainingAmountDate,
-    onChangeRemainingAmountDateType,
+
     // 채무승계
     debtSuccessionDeposit,
     debtSuccessionMiscs,
@@ -147,6 +146,8 @@ export default function FormRenderer({ form }: Props) {
                 phone={ownerPhone}
                 onChangeName={(e) => onChangeOwnerName?.(e.target.value)}
                 onChangePhone={(e) => onChangeOwnerPhone?.(e.target.value)}
+                onClickNameDeleteIcon={() => onChangeOwnerName?.('')}
+                onClickPhoneDeleteIcon={() => onChangeOwnerPhone?.('')}
               />
             </div>
           )}
@@ -175,7 +176,7 @@ export default function FormRenderer({ form }: Props) {
     case Forms.DebtSuccessions:
       return (
         <div id={Forms.DebtSuccessions}>
-          <div tw="px-5 py-10">
+          <div tw="px-5 pt-7 pb-3">
             <Form.DebtSuccession
               hasDebtSuccession={hasDebtSuccession}
               isAddButtonDisabled={isAddDebtSuccessionDisabled}
@@ -185,8 +186,15 @@ export default function FormRenderer({ form }: Props) {
               onClickAdd={onClickAddDebtSuccessionMisc}
             />
           </div>
+
+          {hasDebtSuccession === '1' && (
+            <div tw="px-5 pt-7 pb-3">
+              <Form.RentEndDate date={rentEndDate} onChangeDate={onChangeRentEndDate} />
+            </div>
+          )}
+
           {debtSuccessionMiscs?.map((debtSuccession, index) => (
-            <div key={debtSuccession.key} tw="px-5 py-7 border-t border-t-gray-300">
+            <div key={debtSuccession.key} tw="px-5 py-7 border-t-0">
               <Form.DebtSuccession.Miscellaneous
                 index={index}
                 name={debtSuccession.name}
@@ -197,6 +205,18 @@ export default function FormRenderer({ form }: Props) {
               />
             </div>
           ))}
+
+          <div tw="px-5 pt-7 pb-10" css={[debtSuccessionMiscs && debtSuccessionMiscs.length > 0 && tw`pt-5`]}>
+            <Form.MoveInDate
+              disabled={!!rentEndDate}
+              date={moveInDate}
+              dateType={moveInDateType}
+              hasDate={hasMoveInDate}
+              onChangeDate={onChangeMoveInDate}
+              onChangeDateType={onChangeMoveInDateType}
+              onChangeHasDate={onChangeHasMoveInDate}
+            />
+          </div>
         </div>
       );
 
@@ -252,24 +272,10 @@ export default function FormRenderer({ form }: Props) {
                 onChangeNegotiable={interim.onChangeNegotiable}
                 onClickRemove={interim.onRemove}
               />
-              <Form.Schedule
-                title="중도금 일정"
-                date={interim.date}
-                dateType={interim.dateType}
-                onChangeDate={interim.onChangeDate}
-                onChangeDateType={interim.onChangeDateType}
-              />
             </div>
           ))}
           <div tw="px-5 pt-7 flex flex-col gap-4">
             <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
-            <Form.Schedule
-              title="잔금 일정"
-              date={remainingAmountDate}
-              dateType={remainingAmountDateType}
-              onChangeDate={onChangeRemainingAmountDate}
-              onChangeDateType={onChangeRemainingAmountDateType}
-            />
           </div>
         </div>
       );

@@ -4,6 +4,7 @@ import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback, useMemo } from 'react';
 import CheckIcon from '@/assets/icons/check.svg';
 import { Button } from '@/components/atoms';
+import CloseContained from '@/assets/icons/close_contained.svg';
 
 interface PriceProps {
   buyOrRent: number;
@@ -25,12 +26,6 @@ export default function Price({
   onChangeMonthlyRentFee,
   onChangeQuickSale,
 }: PriceProps) {
-  const priceLabel = useMemo(() => {
-    if (buyOrRent === BuyOrRent.Buy) return '매매가';
-    if (buyOrRent === BuyOrRent.Jeonsae) return '전세가';
-    return '보증금';
-  }, [buyOrRent]);
-
   const [price, setPrice] = useControlled({ controlled: priceProp, default: '' });
   const [monthlyRentFee, setMonthlyRentFee] = useControlled({ controlled: monthlyRentFeeProp, default: '' });
   const [quickSale, setQuickSale] = useControlled({ controlled: quickSaleProp, default: false });
@@ -51,6 +46,16 @@ export default function Price({
     [setMonthlyRentFee, onChangeMonthlyRentFee],
   );
 
+  const handleDeletePrice = useCallback(() => {
+    setPrice('');
+    onChangePrice?.('');
+  }, [setPrice, onChangePrice]);
+
+  const handleDeleteMonthlyRentFee = useCallback(() => {
+    setMonthlyRentFee('');
+    onChangeMonthlyRentFee?.('');
+  }, [setMonthlyRentFee, onChangeMonthlyRentFee]);
+
   const handleChangeQuickSale = useCallback(
     (value: boolean) => {
       setQuickSale(value);
@@ -58,6 +63,14 @@ export default function Price({
     },
     [setQuickSale, onChangeQuickSale],
   );
+
+  const priceLabel: string = useMemo(() => {
+    if (buyOrRent === BuyOrRent.Buy) return price ? '매매가' : '매매가 입력';
+    if (buyOrRent === BuyOrRent.Jeonsae) return price ? '전세금' : '전세금 입력';
+    return price ? '보증금' : '보증금 입력';
+  }, [buyOrRent, price]);
+
+  const priceLabelMonthlyRentFee: string = useMemo(() => (price ? '월차임' : '월차임 입력'), [price]);
 
   return (
     <div>
@@ -91,15 +104,29 @@ export default function Price({
       </div>
       <div tw="mt-3 flex flex-col gap-4">
         <div>
-          <TextField variant="outlined">
+          <TextField variant="outlined" tw="relative">
             <TextField.PriceInput label={priceLabel} value={price} onChange={handleChangePrice} />
+            {price && (
+              <TextField.Trailing tw="absolute right-12 bottom-3 cursor-pointer" onClick={handleDeletePrice}>
+                <CloseContained />
+              </TextField.Trailing>
+            )}
           </TextField>
           <TextField.PriceHelperMessage tw="mr-4">{price}</TextField.PriceHelperMessage>
         </div>
         {buyOrRent === BuyOrRent.Wolsae && (
           <div>
             <TextField variant="outlined">
-              <TextField.PriceInput label="월차임" value={monthlyRentFee} onChange={handleChangeMonthlyRentFee} />
+              <TextField.PriceInput
+                label={priceLabelMonthlyRentFee}
+                value={monthlyRentFee}
+                onChange={handleChangeMonthlyRentFee}
+              />
+              {monthlyRentFee && (
+                <TextField.Trailing tw="absolute right-12 bottom-3 cursor-pointer" onClick={handleDeleteMonthlyRentFee}>
+                  <CloseContained />
+                </TextField.Trailing>
+              )}
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee}</TextField.PriceHelperMessage>
           </div>

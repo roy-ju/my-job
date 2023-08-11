@@ -10,6 +10,7 @@ import _ from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
+import { regPhone } from '@/utils/regex';
 import makeListingCreateParams from './makeListingCreateParams';
 
 type PopupType = 'none' | 'buyOrRentChagne' | 'back';
@@ -40,6 +41,8 @@ export default function useListingCreateForm(depth: number) {
   const [ownerPhone, setOwnerPhone] = useState('');
   // 거래 유형 매매/전세/월세
   const [buyOrRent, setBuyOrRent] = useState(0);
+  // 거래 유형 매매/전세/월세
+  const [changingBuyOrRent, setChangingBuyOrRent] = useState<number>();
   // 가격 매매가/전세가
   const [price, setPrice] = useState('');
   // 월세
@@ -50,9 +53,7 @@ export default function useListingCreateForm(depth: number) {
   const [contractAmountNegotiable, setContractAmountNegotiable] = useState(true);
   // 잔금
   const [remainingAmount, setRemainingAmount] = useState('');
-  const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
-  const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
-  // 중도금
+
   const [interims, setInterims] = useState<InterimType[]>([]);
   // 채무승계 보증금
   const [debtSuccessionDeposit, setDebtSuccessionDeposit] = useState('');
@@ -65,7 +66,7 @@ export default function useListingCreateForm(depth: number) {
   const [hasSpecialTerms, setHasSpecialTerms] = useState('0');
   // 입주가능시기
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
-  const [moveInDateType, setMoveInDateType] = useState('이전');
+  const [moveInDateType, setMoveInDateType] = useState('이후');
   const [hasMoveInDate, setHasMoveInDate] = useState('0'); // '0' 없음 , '1' 있음
   // 임대할 부분
   const [rentArea, setRentArea] = useState('');
@@ -119,6 +120,7 @@ export default function useListingCreateForm(depth: number) {
   const resetPrice = useCallback(() => {
     setPrice('');
     setMonthlyRentFee('');
+    setQuickSale(false);
   }, []);
 
   const resetPaymentSchedules = useCallback(() => {
@@ -132,6 +134,52 @@ export default function useListingCreateForm(depth: number) {
     setHasDebtSuccession('0');
     setDebtSuccessionDeposit('');
     setDebtSuccessionMiscs([]);
+    setRentEndDate(null);
+  }, []);
+
+  const resetMoveInDate = useCallback(() => {
+    setHasMoveInDate('0');
+    setMoveInDate(null);
+    setMoveInDateType('이후');
+  }, []);
+
+  const resetCollaterals = useCallback(() => {
+    setCollaterals([]);
+  }, []);
+
+  const resetSpecialTerms = useCallback(() => {
+    setHasSpecialTerms('0');
+    setSpecialTerms('');
+  }, []);
+
+  const resetListingOptions = useCallback(() => {
+    setVerandaExtended(false);
+    setVerandaRemodelling(false);
+  }, []);
+
+  const resetExtraOptions = useCallback(() => {
+    setExtraOptions([]);
+  }, []);
+
+  const resetDescription = useCallback(() => {
+    setDescription('');
+  }, []);
+
+  const resetRentArea = useCallback(() => {
+    setHasRentArea('0');
+    setRentArea('');
+  }, []);
+
+  const resetRentTerm = useCallback(() => {
+    setRentTermYear('2년');
+    setRentTermMonth('0개월');
+    setRentTermNegotiable(true);
+  }, []);
+
+  const resetJeonsaeLoan = useCallback(() => {
+    setJeonsaeLoan(false);
+    setRentTermMonth('0개월');
+    setRentTermNegotiable(true);
   }, []);
 
   // formName 이후에 있는 팝업들을 다 지운다.
@@ -141,16 +189,61 @@ export default function useListingCreateForm(depth: number) {
 
       forms.slice(index, forms.length).forEach((form) => {
         if (form === Forms.BuyOrRent) {
-          resetBuyOrRent();
+          if (changingBuyOrRent) {
+            setBuyOrRent(changingBuyOrRent);
+          } else {
+            resetBuyOrRent();
+          }
         }
+
         if (form === Forms.Price) {
           resetPrice();
         }
+
+        if (form === Forms.DebtSuccessions) {
+          resetDebtSuccessions();
+          resetMoveInDate();
+        }
+
         if (form === Forms.PaymentSchedules) {
           resetPaymentSchedules();
         }
-        if (form === Forms.DebtSuccessions) {
-          resetDebtSuccessions();
+
+        if (form === Forms.Collaterals) {
+          resetCollaterals();
+        }
+
+        if (form === Forms.SpecialTerms) {
+          resetSpecialTerms();
+        }
+
+        if (form === Forms.MoveInDate) {
+          resetMoveInDate();
+        }
+
+        if (form === Forms.RentArea) {
+          resetRentArea();
+        }
+
+        if (form === Forms.RentTerm) {
+          resetRentTerm();
+        }
+
+        if (form === Forms.JeonsaeLoan) {
+          resetJeonsaeLoan();
+        }
+
+        if (form === Forms.Optionals) {
+          resetListingOptions();
+          resetExtraOptions();
+          resetDescription();
+        }
+
+        if (listingPhotoUrls) {
+          setListingPhotoUrls([]);
+        }
+        if (danjiPhotoUrls) {
+          setDanjiPhotoUrls([]);
         }
       });
 
@@ -158,7 +251,25 @@ export default function useListingCreateForm(depth: number) {
       newForms.splice(index + 1, newForms.length - index);
       setForms(newForms);
     },
-    [forms, resetBuyOrRent, resetPrice, resetPaymentSchedules, resetDebtSuccessions],
+    [
+      forms,
+      listingPhotoUrls,
+      danjiPhotoUrls,
+      changingBuyOrRent,
+      resetBuyOrRent,
+      resetPrice,
+      resetDebtSuccessions,
+      resetMoveInDate,
+      resetPaymentSchedules,
+      resetCollaterals,
+      resetSpecialTerms,
+      resetRentArea,
+      resetRentTerm,
+      resetJeonsaeLoan,
+      resetListingOptions,
+      resetExtraOptions,
+      resetDescription,
+    ],
   );
 
   // 아래 Callback들은 Input Validations 과 다음에는 어떤 필드가 올지 결정하는 핸들러들
@@ -209,12 +320,8 @@ export default function useListingCreateForm(depth: number) {
 
   // 채무승계 submit
   const handleSubmitDebtSuccessions = useCallback(() => {
-    if (debtSuccessionDeposit) {
-      setNextForm(Forms.RentEndDate);
-    } else {
-      setNextForm(Forms.MoveInDate);
-    }
-  }, [debtSuccessionDeposit, setNextForm]);
+    setNextForm(Forms.PaymentSchedules);
+  }, [setNextForm]);
 
   // 임대할 부분 submit
   const handleSubmitRentArea = useCallback(() => {
@@ -252,19 +359,12 @@ export default function useListingCreateForm(depth: number) {
       return;
     }
 
-    if (remainingAmountDate && rentEndDate) {
-      if (remainingAmountDate.getTime() >= rentEndDate.getTime()) {
-        setErrPopup('잔금날짜는 기존 임대차 계약 종료일 이전이어야 합니다.');
-        return;
-      }
-    }
-
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.SpecialTerms);
     } else {
       setNextForm(Forms.Collaterals);
     }
-  }, [contractAmount, remainingAmount, remainingAmountDate, rentEndDate, buyOrRent, setNextForm]);
+  }, [contractAmount, remainingAmount, buyOrRent, setNextForm]);
 
   //  선순위 담보권 submit
   const handleSubmitCollaterals = useCallback(() => {
@@ -284,30 +384,39 @@ export default function useListingCreateForm(depth: number) {
   // 모든 필드 다 입력후 최종적으로 다음 버튼 눌렀을때 handler
   const handleSubmitFinal = useCallback(() => {
     // 한번더 최종 밸리데이션
-    if (!isOwner && (!ownerName || !ownerPhone)) {
+    if (!isOwner && (!ownerName || !ownerPhone || !regPhone.test(ownerPhone))) {
       setErrPopup('소유자 성명과 휴대폰 번호를 입력해주세요.');
+
       const isOwnerForm = document.getElementById(Forms.IsOwner);
+
       isOwnerForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
     if (buyOrRent === 0) {
       setErrPopup('거래종류를 선택해주세요.');
+
       const buyOrRentForm = document.getElementById(Forms.BuyOrRent);
+
       buyOrRentForm?.scrollIntoView({ behavior: 'smooth' });
     }
 
     if (price === '') {
-      if (buyOrRent === BuyOrRent.Buy) setErrPopup('희망가를 입력해주세요.');
+      if (buyOrRent === BuyOrRent.Buy) setErrPopup('매매가를 입력해주세요.');
+
       if (buyOrRent === BuyOrRent.Jeonsae) setErrPopup('전세금을 입력해주세요.');
+
       if (buyOrRent === BuyOrRent.Wolsae) setErrPopup('보증금을 입력해주세요.');
+
       const priceForm = document.getElementById(Forms.Price);
+
       priceForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
     if (buyOrRent === BuyOrRent.Wolsae && monthlyRentFee === '') {
-      setErrPopup('월세를 입력해주세요');
+      setErrPopup('월차임을 입력해주세요');
+
       const priceForm = document.getElementById(Forms.Price);
       priceForm?.scrollIntoView({ behavior: 'smooth' });
       return;
@@ -315,29 +424,45 @@ export default function useListingCreateForm(depth: number) {
 
     if (contractAmount === '') {
       setErrPopup('계약금을 입력해주세요');
+
       const paymentForm = document.getElementById(Forms.PaymentSchedules);
+
       paymentForm?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
     if (remainingAmount === '' || Number(remainingAmount) < 0) {
       setErrPopup('입력하신 금액은 실제 지급 총액을 넘을 수 없습니다.');
+
       const paymentForm = document.getElementById(Forms.PaymentSchedules);
+
       paymentForm?.scrollIntoView({ behavior: 'smooth' });
       return;
+    }
+
+    if (interims.length > 0) {
+      const falsies = interims.map((item) => item.price).filter((value) => value === '');
+      if (falsies.length > 0) {
+        setErrPopup('중도금을 입력해 주세요.');
+
+        autoScrollEnabled.current = false;
+
+        const paymentForm = document.getElementById(Forms.PaymentSchedules);
+        paymentForm?.scrollIntoView({ behavior: 'smooth' });
+
+        return;
+      }
     }
 
     // 채무승계 보증금이 있는데, 기존 임대차 계약 종료일을 입력 안한경우
     if (debtSuccessionDeposit !== '' && !rentEndDate) {
       setErrPopup('기존 임대차 계약 종료일을 입력해주세요.');
+
       // 자, 이제 이 경우에는 기존 임대차 계약 종료일 을 입력 받아야된다.
-
       // 아마 입력했을지도 모르는 입주가능시기 필드들을 초기화 해주고,
-      setMoveInDate(null);
       setHasMoveInDate('0');
-
-      // 입주가능시기를 기존임대차계약 종료일 필드로 바꿔버린다.
-      setForms((prev) => prev.map((item) => (item === Forms.MoveInDate ? Forms.RentEndDate : item)));
+      setMoveInDate(null);
+      setMoveInDateType('이전');
 
       autoScrollEnabled.current = false;
 
@@ -349,15 +474,79 @@ export default function useListingCreateForm(depth: number) {
 
     // 채무승계보증금이 없는데, 기존 임대차 계약 종료일 값이 있는 경우
     if (debtSuccessionDeposit === '' && rentEndDate) {
-      setErrPopup('입주가능시기를 확인해주세요.');
-      // 이 경우에는 입주가능시기를 입력받아야한다.
-      setRentEndDate(null);
-      setForms((prev) => prev.map((item) => (item === Forms.RentEndDate ? Forms.MoveInDate : item)));
+      setErrPopup('채무승계 금액을 입력해주세요.');
 
       autoScrollEnabled.current = false;
 
       const debtSuccessionForm = document.getElementById(Forms.DebtSuccessions);
       debtSuccessionForm?.scrollIntoView({ behavior: 'smooth' });
+
+      return;
+    }
+
+    if (debtSuccessionMiscs.length > 0) {
+      const falsies = debtSuccessionMiscs
+        .map((item) => ({ name: item.name, price: item.price }))
+        .filter((value) => value.name === '' || value.price === '');
+
+      if (falsies.length > 0) {
+        setErrPopup('기타 채무를 입력해주세요.');
+
+        autoScrollEnabled.current = false;
+
+        const debtSuccessionForm = document.getElementById(Forms.DebtSuccessions);
+        debtSuccessionForm?.scrollIntoView({ behavior: 'smooth' });
+
+        return;
+      }
+    }
+
+    if (buyOrRent !== BuyOrRent.Buy && hasMoveInDate === '1' && !moveInDate) {
+      setErrPopup('입주가능 시기를 선택해 주세요.');
+
+      autoScrollEnabled.current = false;
+
+      const moveInDateForm = document.getElementById(Forms.MoveInDate);
+      moveInDateForm?.scrollIntoView({ behavior: 'smooth' });
+
+      return;
+    }
+
+    if (hasRentArea === '1' && !rentArea) {
+      setErrPopup('임대할 부분을 입력해주세요.');
+
+      autoScrollEnabled.current = false;
+
+      const rentAreaForm = document.getElementById(Forms.RentArea);
+      rentAreaForm?.scrollIntoView({ behavior: 'smooth' });
+
+      return;
+    }
+
+    if (collaterals.length > 0) {
+      const falsies = collaterals
+        .map((item) => ({ name: item.name, price: item.price }))
+        .filter((value) => value.name === '' || value.price === '');
+
+      if (falsies.length > 0) {
+        setErrPopup('선순위 담보권을 입력해 주세요.');
+
+        autoScrollEnabled.current = false;
+
+        const CollateralsForm = document.getElementById(Forms.Collaterals);
+        CollateralsForm?.scrollIntoView({ behavior: 'smooth' });
+
+        return;
+      }
+    }
+
+    if (hasSpecialTerms === '1' && !specialTerms) {
+      setErrPopup('특약조건을 입력해 주세요.');
+
+      autoScrollEnabled.current = false;
+
+      const specialTermsForm = document.getElementById(Forms.SpecialTerms);
+      specialTermsForm?.scrollIntoView({ behavior: 'smooth' });
 
       return;
     }
@@ -372,8 +561,6 @@ export default function useListingCreateForm(depth: number) {
       contractAmount,
       contractAmountNegotiable,
       remainingAmount,
-      remainingAmountDate,
-      remainingAmountDateType,
       interims,
       debtSuccessionDeposit,
       debtSuccessionMiscs,
@@ -419,8 +606,6 @@ export default function useListingCreateForm(depth: number) {
       },
     });
   }, [
-    router,
-    user,
     isOwner,
     ownerName,
     ownerPhone,
@@ -428,33 +613,36 @@ export default function useListingCreateForm(depth: number) {
     price,
     monthlyRentFee,
     contractAmount,
-    contractAmountNegotiable,
     remainingAmount,
-    remainingAmountDate,
-    remainingAmountDateType,
-    interims,
     debtSuccessionDeposit,
-    debtSuccessionMiscs,
+    rentEndDate,
+    hasMoveInDate,
     moveInDate,
-    moveInDateType,
+    hasRentArea,
     rentArea,
+    hasSpecialTerms,
+    specialTerms,
+    contractAmountNegotiable,
+    interims,
+    debtSuccessionMiscs,
+    jeonsaeLoan,
+    moveInDateType,
     rentTermYear,
     rentTermMonth,
     rentTermNegotiable,
-    specialTerms,
     collaterals,
     quickSale,
-    jeonsaeLoan,
     adminFee,
     description,
-    rentEndDate,
     listingPhotoUrls,
     danjiPhotoUrls,
-    addressLine1,
-    addressLine2,
-    extraOptions,
     verandaExtended,
     verandaRemodelling,
+    extraOptions,
+    user,
+    router,
+    addressLine1,
+    addressLine2,
   ]);
 
   const openBackPopup = useCallback(() => {
@@ -561,14 +749,20 @@ export default function useListingCreateForm(depth: number) {
 
   const handleChangeBuyOrRent = useCallback(
     (value: number) => {
+      if (buyOrRent === value) {
+        return;
+      }
+
       const currentForm = forms[forms.length - 1];
+
       if (currentForm !== Forms.BuyOrRent) {
         setPopup('buyOrRentChagne');
+        setChangingBuyOrRent(value);
       } else {
         setBuyOrRent(value);
       }
     },
-    [forms],
+    [buyOrRent, forms],
   );
 
   const handleChangePrice = useCallback((value: string) => {
@@ -605,34 +799,6 @@ export default function useListingCreateForm(depth: number) {
     [],
   );
 
-  const handleChangeInterimDate = useCallback(
-    (key: string) => (value: Date | null) => {
-      setInterims((prev) => {
-        const updated = [...prev];
-        const interim = prev.find((item) => item.key === key);
-        if (interim) {
-          interim.date = value;
-        }
-        return updated;
-      });
-    },
-    [],
-  );
-
-  const handleChangeInterimDateType = useCallback(
-    (key: string) => (value: string) => {
-      setInterims((prev) => {
-        const updated = [...prev];
-        const interim = prev.find((item) => item.key === key);
-        if (interim) {
-          interim.dateType = value;
-        }
-        return updated;
-      });
-    },
-    [],
-  );
-
   const handleChangeInterimNegotiable = useCallback(
     (key: string) => (value: boolean) => {
       setInterims((prev) => {
@@ -661,21 +827,12 @@ export default function useListingCreateForm(depth: number) {
 
     const newInterims = [...interims];
     const key = uuidv4();
-    newInterims.push({ price: '', date: null, dateType: '이전', negotiable: true, key });
+    newInterims.push({ price: '', negotiable: true, key });
     newInterims[newInterims.length - 1].onRemove = handleRemoveInterim(key);
     newInterims[newInterims.length - 1].onChangePrice = handleChangeInterimPrice(key);
-    newInterims[newInterims.length - 1].onChangeDate = handleChangeInterimDate(key);
-    newInterims[newInterims.length - 1].onChangeDateType = handleChangeInterimDateType(key);
     newInterims[newInterims.length - 1].onChangeNegotiable = handleChangeInterimNegotiable(key);
     setInterims(newInterims);
-  }, [
-    interims,
-    handleRemoveInterim,
-    handleChangeInterimPrice,
-    handleChangeInterimNegotiable,
-    handleChangeInterimDate,
-    handleChangeInterimDateType,
-  ]);
+  }, [interims, handleRemoveInterim, handleChangeInterimPrice, handleChangeInterimNegotiable]);
 
   const handleChangeDebtSuccessionDeposit = useCallback((value: string) => {
     setDebtSuccessionDeposit(value);
@@ -818,14 +975,6 @@ export default function useListingCreateForm(depth: number) {
     setMoveInDateType(value);
   }, []);
 
-  const handleChangeRemainingAmountDate = useCallback((value: Date | null) => {
-    setRemainingAmountDate(value);
-  }, []);
-
-  const handleChangeRemainingAmountDateType = useCallback((value: string) => {
-    setRemainingAmountDateType(value);
-  }, []);
-
   const handleChangeRentArea = useCallback((value: string) => {
     setRentArea(value);
   }, []);
@@ -855,7 +1004,12 @@ export default function useListingCreateForm(depth: number) {
   }, []);
 
   const handleChangeRentEndDate = useCallback((value: Date | null) => {
+    // 임대차 계약 종료일이 존재한다면 입주가능시기를 임대차 계약종료일과 똑같은 날짜로 지정해준다.
     setRentEndDate(value);
+
+    setHasMoveInDate('1');
+    setMoveInDate(value);
+    setMoveInDateType('이후');
   }, []);
 
   const handleChangeListingPhotoUrls = useCallback((values: string[]) => {
@@ -876,15 +1030,34 @@ export default function useListingCreateForm(depth: number) {
     setDanjiPhotoUrls(values);
   }, []);
 
-  const handleChangeHasDebtSuccession = useCallback((value: string) => {
-    if (value === '0') {
-      // 없음 선택시
-      setDebtSuccessionDeposit('');
-      setDebtSuccessionMiscs([]);
-    }
+  const handleChangeHasDebtSuccession = useCallback(
+    (value: string) => {
+      if (value === '0') {
+        // 없음 선택시
+        setDebtSuccessionDeposit('');
+        setDebtSuccessionMiscs([]);
+      }
 
-    setHasDebtSuccession(value);
-  }, []);
+      if (rentEndDate) {
+        setRentEndDate(null);
+      }
+
+      if (hasMoveInDate) {
+        setHasMoveInDate('0');
+      }
+
+      if (moveInDate) {
+        setMoveInDate(null);
+      }
+
+      if (moveInDateType) {
+        setMoveInDateType('이후');
+      }
+
+      setHasDebtSuccession(value);
+    },
+    [hasMoveInDate, moveInDate, moveInDateType, rentEndDate],
+  );
 
   // 잔금 계산
   useEffect(() => {
@@ -929,9 +1102,11 @@ export default function useListingCreateForm(depth: number) {
   // 버튼 비활성화 로직
   useEffect(() => {
     setNextButtonDisabled(false);
+
     const currentForm = forms[forms.length - 1];
+
     if (currentForm === Forms.IsOwner) {
-      if (!isOwner && (!ownerName || ownerPhone.length !== 11)) {
+      if (!isOwner && (!ownerName || ownerPhone.length !== 11 || !regPhone.test(ownerPhone))) {
         setNextButtonDisabled(true);
       }
     }
@@ -949,6 +1124,43 @@ export default function useListingCreateForm(depth: number) {
 
       if (buyOrRent === BuyOrRent.Wolsae && !monthlyRentFee) {
         setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.DebtSuccessions) {
+      const falsies = debtSuccessionMiscs
+        .map((item) => ({ name: item.name, price: item.price }))
+        .filter((value) => value.name === '' || value.price === '');
+
+      if (falsies.length > 0) {
+        setNextButtonDisabled(true);
+      }
+
+      if (hasDebtSuccession === '1') {
+        // 보증금도 없고 기존 임대차 계약 종료일도 없는데 기태채무까지 없으면 비활성화
+        if (!debtSuccessionDeposit && !rentEndDate) {
+          setNextButtonDisabled(true);
+          return;
+        }
+
+        // 보증금이 있는데 기존 임대차 계약 종료일이 없으면 비활성화
+        if (debtSuccessionDeposit && !rentEndDate) {
+          setNextButtonDisabled(true);
+          return;
+        }
+
+        // 보증금이 없는데 기존 임대차 계약 종료일이 없으면 비활성화
+        if (!debtSuccessionDeposit && rentEndDate) {
+          setNextButtonDisabled(true);
+          return;
+        }
+      }
+
+      if (hasMoveInDate === '1') {
+        if (!moveInDate) {
+          setNextButtonDisabled(true);
+          return;
+        }
       }
     }
 
@@ -974,8 +1186,19 @@ export default function useListingCreateForm(depth: number) {
       if (!contractAmount) {
         setNextButtonDisabled(true);
       }
+
       if (interims.length > 0) {
         const falsies = interims.map((item) => item.price).filter((value) => value === '');
+        if (falsies.length > 0) setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Collaterals) {
+      if (collaterals.length > 0) {
+        const falsies = collaterals
+          .map((item) => ({ name: item.name, price: item.price }))
+          .filter((value) => value.name === '' || value.price === '');
+
         if (falsies.length > 0) setNextButtonDisabled(true);
       }
     }
@@ -1002,11 +1225,16 @@ export default function useListingCreateForm(depth: number) {
     moveInDate,
     rentArea,
     hasRentArea,
+    hasDebtSuccession,
+    debtSuccessionMiscs,
+    debtSuccessionDeposit,
+    collaterals,
   ]);
 
   // 팝업 콜백들
 
   const closePopup = useCallback(() => {
+    setChangingBuyOrRent(undefined);
     setPopup('none');
   }, []);
 
@@ -1016,6 +1244,7 @@ export default function useListingCreateForm(depth: number) {
 
   const handleConfirmChangeBuyOrRent = useCallback(() => {
     setPopup('none');
+
     resetForms(Forms.BuyOrRent);
   }, [resetForms]);
 
@@ -1030,12 +1259,12 @@ export default function useListingCreateForm(depth: number) {
     if (typeof params !== 'string') return;
     const parsed = JSON.parse(params);
 
-    const convertDateType = (value: number) => {
-      if (value === 1) return '이전';
-      if (value === 2) return '이후';
-      if (value === 3) return '당일';
-      return '이전';
-    };
+    // const convertDateType = (value: number) => {
+    //   if (value === 1) return '이전';
+    //   if (value === 2) return '이후';
+    //   if (value === 3) return '당일';
+    //   return '이전';
+    // };
 
     if (!parsed.isOwner) {
       setIsOwner(false);
@@ -1049,7 +1278,6 @@ export default function useListingCreateForm(depth: number) {
         Forms.BuyOrRent,
         Forms.Price,
         Forms.DebtSuccessions,
-        parsed.debt_successions?.[0]?.amount ? Forms.RentEndDate : Forms.MoveInDate,
         Forms.PaymentSchedules,
         Forms.SpecialTerms,
         Forms.Optionals,
@@ -1114,14 +1342,6 @@ export default function useListingCreateForm(depth: number) {
       setContractAmountNegotiable(parsed.contract_amount_negotiable);
     }
 
-    if (parsed.remaining_amount_payment_time) {
-      setRemainingAmountDate(new Date(parsed.remaining_amount_payment_time));
-    }
-
-    if (parsed.remaining_amount_payment_time_type) {
-      setRemainingAmountDateType(convertDateType(parsed.remaining_amount_payment_time_type));
-    }
-
     if (parsed.quick_sale !== undefined) {
       setQuickSale(parsed.quick_sale);
     }
@@ -1159,12 +1379,10 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount1),
         negotiable: Boolean(parsed.interim_amount_negotiable1),
-        date: parsed.interim_amount_payment_time1 ? new Date(parsed.interim_amount_payment_time1) : null,
-        dateType: convertDateType(parsed.interim_amount_payment_time1_type),
+
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
-        onChangeDate: handleChangeInterimDate(k),
-        onChangeDateType: handleChangeInterimDateType(k),
+
         onRemove: handleRemoveInterim(k),
       });
     }
@@ -1175,12 +1393,10 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount2),
         negotiable: Boolean(parsed.interim_amount_negotiable2),
-        date: parsed.interim_amount_payment_time2 ? new Date(parsed.interim_amount_payment_time2) : null,
-        dateType: convertDateType(parsed.interim_amount_payment_time2_type),
+
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
-        onChangeDate: handleChangeInterimDate(k),
-        onChangeDateType: handleChangeInterimDateType(k),
+
         onRemove: handleRemoveInterim(k),
       });
     }
@@ -1191,12 +1407,10 @@ export default function useListingCreateForm(depth: number) {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount3),
         negotiable: Boolean(parsed.interim_amount_negotiable3),
-        date: parsed.interim_amount_payment_time3 ? new Date(parsed.interim_amount_payment_time3) : null,
-        dateType: convertDateType(parsed.interim_amount_payment_time3_type),
+
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
-        onChangeDate: handleChangeInterimDate(k),
-        onChangeDateType: handleChangeInterimDateType(k),
+
         onRemove: handleRemoveInterim(k),
       });
     }
@@ -1325,11 +1539,6 @@ export default function useListingCreateForm(depth: number) {
     handleAddCollaterals,
     handleChangeMoveInDate,
     handleChangeMoveInDateType,
-
-    remainingAmountDate,
-    remainingAmountDateType,
-    handleChangeRemainingAmountDate,
-    handleChangeRemainingAmountDateType,
 
     rentArea,
     hasRentArea,

@@ -252,19 +252,12 @@ export default function useListingCreateForm() {
       return;
     }
 
-    if (remainingAmountDate && rentEndDate) {
-      if (remainingAmountDate.getTime() >= rentEndDate.getTime()) {
-        setErrPopup('잔금날짜는 기존 임대차 계약 종료일 이전이어야 합니다.');
-        return;
-      }
-    }
-
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.SpecialTerms);
     } else {
       setNextForm(Forms.Collaterals);
     }
-  }, [contractAmount, remainingAmount, remainingAmountDate, rentEndDate, buyOrRent, setNextForm]);
+  }, [contractAmount, remainingAmount, buyOrRent, setNextForm]);
 
   //  선순위 담보권 submit
   const handleSubmitCollaterals = useCallback(() => {
@@ -605,34 +598,6 @@ export default function useListingCreateForm() {
     [],
   );
 
-  const handleChangeInterimDate = useCallback(
-    (key: string) => (value: Date | null) => {
-      setInterims((prev) => {
-        const updated = [...prev];
-        const interim = prev.find((item) => item.key === key);
-        if (interim) {
-          interim.date = value;
-        }
-        return updated;
-      });
-    },
-    [],
-  );
-
-  const handleChangeInterimDateType = useCallback(
-    (key: string) => (value: string) => {
-      setInterims((prev) => {
-        const updated = [...prev];
-        const interim = prev.find((item) => item.key === key);
-        if (interim) {
-          interim.dateType = value;
-        }
-        return updated;
-      });
-    },
-    [],
-  );
-
   const handleChangeInterimNegotiable = useCallback(
     (key: string) => (value: boolean) => {
       setInterims((prev) => {
@@ -661,21 +626,12 @@ export default function useListingCreateForm() {
 
     const newInterims = [...interims];
     const key = uuidv4();
-    newInterims.push({ price: '', date: null, dateType: '이전', negotiable: true, key });
+    newInterims.push({ price: '', negotiable: true, key });
     newInterims[newInterims.length - 1].onRemove = handleRemoveInterim(key);
     newInterims[newInterims.length - 1].onChangePrice = handleChangeInterimPrice(key);
-    newInterims[newInterims.length - 1].onChangeDate = handleChangeInterimDate(key);
-    newInterims[newInterims.length - 1].onChangeDateType = handleChangeInterimDateType(key);
     newInterims[newInterims.length - 1].onChangeNegotiable = handleChangeInterimNegotiable(key);
     setInterims(newInterims);
-  }, [
-    interims,
-    handleRemoveInterim,
-    handleChangeInterimPrice,
-    handleChangeInterimNegotiable,
-    handleChangeInterimDate,
-    handleChangeInterimDateType,
-  ]);
+  }, [interims, handleRemoveInterim, handleChangeInterimPrice, handleChangeInterimNegotiable]);
 
   const handleChangeDebtSuccessionDeposit = useCallback((value: string) => {
     setDebtSuccessionDeposit(value);
@@ -1155,12 +1111,10 @@ export default function useListingCreateForm() {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount1),
         negotiable: Boolean(parsed.interim_amount_negotiable1),
-        date: parsed.interim_amount_payment_time1 ? new Date(parsed.interim_amount_payment_time1) : null,
-        dateType: convertDateType(parsed.interim_amount_payment_time1_type),
+
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
-        onChangeDate: handleChangeInterimDate(k),
-        onChangeDateType: handleChangeInterimDateType(k),
+
         onRemove: handleRemoveInterim(k),
       });
     }
@@ -1171,12 +1125,10 @@ export default function useListingCreateForm() {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount2),
         negotiable: Boolean(parsed.interim_amount_negotiable2),
-        date: parsed.interim_amount_payment_time2 ? new Date(parsed.interim_amount_payment_time2) : null,
-        dateType: convertDateType(parsed.interim_amount_payment_time2_type),
+
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
-        onChangeDate: handleChangeInterimDate(k),
-        onChangeDateType: handleChangeInterimDateType(k),
+
         onRemove: handleRemoveInterim(k),
       });
     }
@@ -1187,12 +1139,10 @@ export default function useListingCreateForm() {
         key: k,
         price: convertNumberToPriceInput(parsed.interim_amount3),
         negotiable: Boolean(parsed.interim_amount_negotiable3),
-        date: parsed.interim_amount_payment_time3 ? new Date(parsed.interim_amount_payment_time3) : null,
-        dateType: convertDateType(parsed.interim_amount_payment_time3_type),
+
         onChangePrice: handleChangeInterimPrice(k),
         onChangeNegotiable: handleChangeInterimNegotiable(k),
-        onChangeDate: handleChangeInterimDate(k),
-        onChangeDateType: handleChangeInterimDateType(k),
+
         onRemove: handleRemoveInterim(k),
       });
     }

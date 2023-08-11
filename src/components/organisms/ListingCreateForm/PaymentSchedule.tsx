@@ -31,7 +31,7 @@ export default function PaymentSchedule({
   return (
     <div tw="flex flex-col gap-6">
       <div tw="flex justify-between">
-        <div tw="text-b1 leading-none font-bold">희망 지급일정</div>
+        <div tw="text-b1 leading-none font-bold">가격조건</div>
         {!isAddButtonDisabled && (
           <Button size="small" variant="outlined" onClick={onClickAddInterim}>
             중도금 추가

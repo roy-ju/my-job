@@ -60,11 +60,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangeMoveInDateType,
     handleChangeMoveInDate,
 
-    remainingAmountDate,
-    remainingAmountDateType,
-    handleChangeRemainingAmountDate,
-    handleChangeRemainingAmountDateType,
-
     rentArea,
     hasRentArea,
     handleChangeRentArea,
@@ -189,10 +184,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickAddCollateral={handleAddCollaterals}
         onChangeMoveInDate={handleChangeMoveInDate}
         onChangeMoveInDateType={handleChangeMoveInDateType}
-        remainingAmountDate={remainingAmountDate}
-        remainingAmountDateType={remainingAmountDateType}
-        onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
-        onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
         rentArea={rentArea}
         hasRentArea={hasRentArea}
         onChangeRentArea={handleChangeRentArea}
