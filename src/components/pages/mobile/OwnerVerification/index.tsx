@@ -10,13 +10,12 @@ import { MobileContainer } from '@/components/atoms';
 export default function OwnerVerification() {
   const router = useRouter();
 
-  const token = router.query.t as string;
   const loi = router.query.loi as string;
 
-  const { data, isLoading } = useAPI_GetAgreementInfo(loi, token);
+  const { data, isLoading } = useAPI_GetAgreementInfo(loi);
 
   const handleVerify = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/ov/ci?t=${router.query.t}&loi=${router.query.loi}`);
+    router.push(`/${Routes.EntryMobile}/ov/ci?loi=${router.query.loi}`);
   }, [router]);
 
   const handleNavigateToPrivacyPolicy = useCallback(() => {
@@ -27,7 +26,7 @@ export default function OwnerVerification() {
     <MobileContainer>
       {!data?.error_code && (
         <Template
-          isLoading={!(token && loi) || isLoading}
+          isLoading={!loi || isLoading}
           address={data?.full_road_name_address}
           requestorName={data?.requestor_name}
           price={data?.trade_or_deposit_price}
