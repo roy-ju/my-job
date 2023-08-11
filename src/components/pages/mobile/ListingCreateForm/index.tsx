@@ -14,6 +14,9 @@ const ListingCreateForm = () => {
   const router = useRouter();
 
   const {
+    dong,
+    ho,
+
     addressLine1,
     addressLine2,
     popup,
@@ -55,11 +58,6 @@ const ListingCreateForm = () => {
     handleAddCollaterals,
     handleChangeMoveInDateType,
     handleChangeMoveInDate,
-
-    remainingAmountDate,
-    remainingAmountDateType,
-    handleChangeRemainingAmountDate,
-    handleChangeRemainingAmountDateType,
 
     rentArea,
     hasRentArea,
@@ -111,15 +109,13 @@ const ListingCreateForm = () => {
     handleClickBack,
     openBackPopup,
     nextButtonDisabled,
+
     isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
     hasDebtSuccession,
     handleChangeHasDebtSuccession,
-
-    dong,
-    ho,
   } = useListingCreateForm();
 
   const { list: listingOptions } = useAPI_GetOptionList();
@@ -203,10 +199,6 @@ const ListingCreateForm = () => {
         onClickAddCollateral={handleAddCollaterals}
         onChangeMoveInDate={handleChangeMoveInDate}
         onChangeMoveInDateType={handleChangeMoveInDateType}
-        remainingAmountDate={remainingAmountDate}
-        remainingAmountDateType={remainingAmountDateType}
-        onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
-        onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
         rentArea={rentArea}
         hasRentArea={hasRentArea}
         onChangeRentArea={handleChangeRentArea}
