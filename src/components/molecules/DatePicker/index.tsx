@@ -100,6 +100,7 @@ export default function DatePicker({
   hasError,
   minDate,
   maxDate,
+  disabled,
   ...others
 }: DatePickerProps) {
   const [value, setValue] = useControlled<Date | null>({
@@ -135,6 +136,7 @@ export default function DatePicker({
         renderCustomHeader={Header}
         showPopperArrow={false}
         tw="cursor-pointer"
+        disabled={disabled}
       />
     </StyleOverride>
   );

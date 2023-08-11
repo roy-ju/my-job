@@ -46,8 +46,7 @@ export default function ListingCreateForm({
   contractAmount,
   contractAmountNegotiable,
   remainingAmount,
-  remainingAmountDate,
-  remainingAmountDateType,
+
   interims,
 
   debtSuccessionDeposit,
@@ -82,9 +81,9 @@ export default function ListingCreateForm({
 
   onChangeContractAmount,
   onChangeContractAmountNegotiable,
+
   onChangeRemainingAmount,
-  onChangeRemainingAmountDate,
-  onChangeRemainingAmountDateType,
+
   onClickAddInterim,
 
   onChangeDebtSuccessionDeposit,
@@ -191,11 +190,6 @@ export default function ListingCreateForm({
       onChangeSpecialTerms,
       onChangeHasSpecialTerms,
 
-      remainingAmountDate,
-      remainingAmountDateType,
-      onChangeRemainingAmountDate,
-      onChangeRemainingAmountDateType,
-
       rentArea,
       hasRentArea,
       onChangeRentArea,
@@ -284,11 +278,6 @@ export default function ListingCreateForm({
       onChangeMoveInDate,
       onChangeSpecialTerms,
       onChangeMoveInDateType,
-
-      remainingAmountDate,
-      remainingAmountDateType,
-      onChangeRemainingAmountDate,
-      onChangeRemainingAmountDateType,
 
       rentArea,
       hasRentArea,

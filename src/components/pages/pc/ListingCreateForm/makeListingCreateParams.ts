@@ -12,8 +12,7 @@ interface Args {
   contractAmount: string;
   contractAmountNegotiable: boolean;
   remainingAmount: string;
-  remainingAmountDate: Date | null;
-  remainingAmountDateType: string;
+
   interims: InterimType[];
 
   debtSuccessionDeposit: string;
@@ -79,12 +78,6 @@ export default function makeListingCreateParams(args: Args) {
       .map((item) => ({ name: item.name, amount: convertPriceInputToNumber(item.price) })),
   );
 
-  args.interims = args.interims.sort((a, b) => {
-    const d1 = a.date ?? new Date();
-    const d2 = b.date ?? new Date();
-    return d1.getTime() >= d2.getTime() ? 1 : -1;
-  });
-
   const params: Record<string, unknown> = {
     negotiation_or_auction: 1,
     administrative_fee: convertPriceInputToNumber(args.adminFee),
@@ -98,18 +91,12 @@ export default function makeListingCreateParams(args: Args) {
 
     interim_amount1: convertPriceInputToNumber(args.interims[0]?.price),
     interim_amount_negotiable1: args.interims[0]?.negotiable, // true: 중도금 협의가능 false: 중도금 협의불가
-    interim_amount_payment_time1: args.interims[0]?.date?.toISOString(), // 중도금 지급일
-    interim_amount_payment_time1_type: getDateType(args.interims[0]?.dateType), // 중도금 지급일 이전/이후 1: 이전 2: 이후
 
     interim_amount2: convertPriceInputToNumber(args.interims[1]?.price), // 상동
     interim_amount_negotiable2: args.interims[1]?.negotiable,
-    interim_amount_payment_time2: args.interims[1]?.date?.toISOString(),
-    interim_amount_payment_time2_type: getDateType(args.interims[1]?.dateType),
 
     interim_amount3: convertPriceInputToNumber(args.interims[2]?.price), // 상동
     interim_amount_negotiable3: args.interims[2]?.negotiable,
-    interim_amount_payment_time3: args.interims[2]?.date?.toISOString(),
-    interim_amount_payment_time3_type: getDateType(args.interims[2]?.dateType),
 
     jeonsae_loan: args.jeonsaeLoan,
 
@@ -122,8 +109,6 @@ export default function makeListingCreateParams(args: Args) {
     owner_phone: args.ownerPhone,
 
     remaining_amount: convertPriceInputToNumber(args.remainingAmount),
-    remaining_amount_payment_time: args.remainingAmountDate?.toISOString(), // 잔금 지급일
-    remaining_amount_payment_time_type: getDateType(args.remainingAmountDateType), // 잔금 지급일 이전/이후 1: 이전 2: 이후
 
     rent_area: args.rentArea,
     rent_contract_term_year: Number(args.rentTermYear.replace('년', '')) ?? 0,
