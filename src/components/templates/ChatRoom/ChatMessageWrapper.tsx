@@ -116,14 +116,14 @@ export default memo(
         const obj = JSON.parse(chat.message);
         return obj?.aName || '';
       }
-    }, [chat.message, isChatRelatedMap]);
+    }, [chat?.message, isChatRelatedMap]);
 
     const buildingName = useMemo(() => {
       if (chat?.message && isChatRelatedMap && chat.message.includes('bName')) {
         const obj = JSON.parse(chat.message);
         return obj?.bName || '';
       }
-    }, [chat.message, isChatRelatedMap]);
+    }, [chat?.message, isChatRelatedMap]);
 
     const directNaverMapURL = useMemo(() => {
       if (chat?.message && isChatRelatedMap) {
@@ -134,7 +134,7 @@ export default memo(
 
         return chat?.message || '';
       }
-    }, [chat.message, isChatRelatedMap]);
+    }, [chat?.message, isChatRelatedMap]);
 
     const directNaverMapURLAnother = useMemo(() => {
       if (chat?.message && isChatRelatedMap) {
@@ -145,7 +145,7 @@ export default memo(
 
         return chat?.message || '';
       }
-    }, [chat.message, isChatRelatedMap]);
+    }, [chat?.message, isChatRelatedMap]);
 
     useOutsideClick({
       ref: outsideRef,
