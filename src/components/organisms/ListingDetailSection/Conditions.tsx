@@ -47,7 +47,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
         <Table.Group defaultExpanded>
           <Table.GroupSummary>
             <div tw="flex items-center gap-1">
-              <span tw="text-gray-1000">가격조건</span>
+              <span tw="text-gray-1000">거래조건</span>
               {/* <Button variant="ghost" size="none" onClick={() => openTooltip('paymentSchedule')}>
                 <QuestionIcon />
               </Button> */}

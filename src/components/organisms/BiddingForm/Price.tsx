@@ -27,8 +27,9 @@ export default function Price({
 }: Props) {
   const priceInputLabelText = (() => {
     if (buyOrRent === BuyOrRent.Wolsae) {
-      return '보증금';
+      return price ? '보증금' : '보증금 입력';
     }
+
     if (buyOrRent === BuyOrRent.Jeonsae) {
       return price ? '전세 제안가' : '전세 제안가 입력';
     }
@@ -36,7 +37,7 @@ export default function Price({
   })();
 
   return (
-    <div tw="py-7 px-5">
+    <div tw="py-10 px-5">
       <div tw="font-bold">
         현재 집주인 희망가는
         <br />
@@ -77,7 +78,7 @@ export default function Price({
             <div>
               <TextField variant="outlined">
                 <TextField.PriceInput
-                  label="월차임"
+                  label={monthlyRentFee ? '월차임' : '월차임 입력'}
                   value={monthlyRentFee}
                   onChange={(e) => onChangeMonthlyRentFee?.(e.target.value)}
                 />
