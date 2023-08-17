@@ -378,7 +378,7 @@ export default function ChatRoomTextField({
               )}
             </Button>
 
-            <Button
+            {/* <Button
               variant="ghost"
               tw="px-1.5 h-8"
               disabled={disabled}
@@ -397,9 +397,9 @@ export default function ChatRoomTextField({
                   <PlusIcon color="white" width="16" height="16" />
                 </Container>
               )}
-            </Button>
+            </Button> */}
 
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={makeShowMap} disabled={disabled}>
+            {/* <Button variant="ghost" tw="px-1.5 h-8" onClick={makeShowMap} disabled={disabled}>
               {disabled ? (
                 <Container tw="bg-gray-400">
                   <PlusIcon color="white" width="16" height="16" />
@@ -409,7 +409,7 @@ export default function ChatRoomTextField({
                   <PlusIcon color="white" width="16" height="16" />
                 </Container>
               )}
-            </Button>
+            </Button> */}
           </div>
         )}
         <TextField
@@ -465,7 +465,7 @@ export default function ChatRoomTextField({
               )}
             </Button>
 
-            <Button
+            {/* <Button
               variant="ghost"
               tw="px-1.5 h-8"
               disabled={disabled}
@@ -484,7 +484,7 @@ export default function ChatRoomTextField({
                   <PlusIcon color="white" width="16" height="16" />
                 </Container>
               )}
-            </Button>
+            </Button> */}
           </div>
         )}
       </div>
