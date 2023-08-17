@@ -166,9 +166,7 @@ export default function BasicInfo({
             {danji?.use_accepted_year?.replaceAll(' ', '') && (
               <>
                 <div tw="w-px h-2 bg-gray-300 mx-1" />
-                <span tw="text-info text-gray-700">
-                  사용승인일 {moment(danji.use_accepted_year).format('YYYY.MM.DD')}
-                </span>
+                <span tw="text-info text-gray-700">{moment(danji.use_accepted_year).format('YYYY.MM.DD')}</span>
               </>
             )}
           </div>
