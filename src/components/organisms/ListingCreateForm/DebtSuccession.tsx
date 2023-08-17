@@ -68,11 +68,6 @@ function Deposit({
             계약 완료 전 말소 예정인 내용은 입력하지 않아도 돼요.
           </div>
         </div>
-        {!isAddButtonDisabled && (
-          <Button variant="outlined" size="small" onClick={onClickAdd}>
-            채무추가
-          </Button>
-        )}
       </div>
       <RadioGroup tw="flex gap-4 mt-3" value={hasDebtSuccession} onChange={handleChangeHasDebtSuccession}>
         <Label control={<Radio />} value="0" label="없음" />
@@ -94,6 +89,11 @@ function Deposit({
               )}
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{deposit}</TextField.PriceHelperMessage>
+          </div>
+          <div tw="pt-6 w-full">
+            <Button variant="outlined" size="bigger" onClick={onClickAdd} disabled={isAddButtonDisabled} tw="w-full">
+              채무추가
+            </Button>
           </div>
         </div>
       )}
