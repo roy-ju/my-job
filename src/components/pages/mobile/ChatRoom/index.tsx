@@ -10,12 +10,12 @@ import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { useChatButtonStore } from '@/states/mob/chatButtonStore';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import useChatRoom from './useChatRoom';
 
-const MobChatMapTemplate = dynamic(() => import('@/components/templates/MobChatMap'), {
-  ssr: false,
-});
+// const MobChatMapTemplate = dynamic(() => import('@/components/templates/MobChatMap'), {
+//   ssr: false,
+// });
 
 export default memo(() => {
   const router = useRouter();
@@ -159,43 +159,45 @@ export default memo(() => {
 
   return (
     <MobileContainer>
-      {isShowMap ? (
+      {/* {isShowMap ? (
         <MobChatMapTemplate />
       ) : (
-        <ChatRoom
-          sellerList={sellerList}
-          buyerContractList={buyerContractList}
-          buyerActiveList={buyerActiveList}
-          title={listingTitle ?? ''}
-          agentName={agentName ?? ''}
-          officeName={agentOfficeName ?? ''}
-          agentDescription={agentDescription ?? ''}
-          agentProfileImagePath={agentProfileImagePath ?? ''}
-          additionalListingCount={additionalListingCount ?? 0}
-          isLoading={isLoading}
-          chatUserType={chatUserType ?? 0}
-          chatMessages={chatMessages}
-          photosUrls={photosUrls}
-          textFieldDisabled={isTextFieldDisabled}
-          onSendMessage={handleSendMessage}
-          onChangePhotosUrls={handleChangePhotoUrls}
-          onClickReportButton={handleClickReportButton}
-          onClickLeaveButton={handleClickLeaveButton}
-          onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
-          onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
-          onClickBack={() => {
-            if (typeof window !== 'undefined') {
-              const canGoBack = window.history.length > 1;
+       <ChatRoom>
+      )} */}
 
-              if (canGoBack) {
-                router.back();
-              } else {
-                router.replace('/');
-              }
+      <ChatRoom
+        sellerList={sellerList}
+        buyerContractList={buyerContractList}
+        buyerActiveList={buyerActiveList}
+        title={listingTitle ?? ''}
+        agentName={agentName ?? ''}
+        officeName={agentOfficeName ?? ''}
+        agentDescription={agentDescription ?? ''}
+        agentProfileImagePath={agentProfileImagePath ?? ''}
+        additionalListingCount={additionalListingCount ?? 0}
+        isLoading={isLoading}
+        chatUserType={chatUserType ?? 0}
+        chatMessages={chatMessages}
+        photosUrls={photosUrls}
+        textFieldDisabled={isTextFieldDisabled}
+        onSendMessage={handleSendMessage}
+        onChangePhotosUrls={handleChangePhotoUrls}
+        onClickReportButton={handleClickReportButton}
+        onClickLeaveButton={handleClickLeaveButton}
+        onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
+        onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
+        onClickBack={() => {
+          if (typeof window !== 'undefined') {
+            const canGoBack = window.history.length > 1;
+
+            if (canGoBack) {
+              router.back();
+            } else {
+              router.replace('/');
             }
-          }}
-        />
-      )}
+          }
+        }}
+      />
 
       {popupOpen && (
         <OverlayPresenter>

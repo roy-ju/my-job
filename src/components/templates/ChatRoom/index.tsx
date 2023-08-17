@@ -71,6 +71,7 @@ export default function ChatRoom({
   const [scrolled, setScrolled] = useState(false);
 
   const [list, setList] = useState<VariableSizeList<any> | null>(null);
+  const [showListingList, setShowListingList] = useState(false);
 
   const headerItems = [
     { label: '신고하기', onClick: onClickReportButton },
@@ -91,7 +92,9 @@ export default function ChatRoom({
         <div key={chat.id} style={style}>
           <div
             ref={(el) => {
-              if (el) sizeMap.current[index] = el?.getBoundingClientRect().height;
+              if (el) {
+                sizeMap.current[index] = el?.getBoundingClientRect().height;
+              }
             }}
           >
             {index === 0 && (
@@ -104,6 +107,7 @@ export default function ChatRoom({
                 />
               </div>
             )}
+
             <ChatMessageWrapper chat={chat} prevChat={prevChat} nextChat={nextChat} />
           </div>
         </div>
@@ -114,15 +118,15 @@ export default function ChatRoom({
 
   const getItemSize = useCallback((index: number) => sizeMap.current[index] ?? 0, []);
 
-  const [showListingList, setShowListingList] = useState(false);
-
   useEffect(() => {
     list?.resetAfterIndex(0);
+
     list?.scrollToItem(chatMessages.length - 1, 'start');
+
     setTimeout(() => {
       list?.scrollToItem(chatMessages.length - 1, 'start');
       setScrolled(true);
-    }, 300);
+    }, 100);
   }, [list, chatMessages.length]);
 
   return (
