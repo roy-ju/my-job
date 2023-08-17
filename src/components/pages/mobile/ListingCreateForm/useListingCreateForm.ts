@@ -1128,29 +1128,61 @@ export default function useListingCreateForm() {
     }
 
     if (currentForm === Forms.DebtSuccessions) {
-      const falsies = debtSuccessionMiscs
-        .map((item) => ({ name: item.name, price: item.price }))
-        .filter((value) => value.name === '' || value.price === '');
-
-      if (falsies.length > 0) {
-        setNextButtonDisabled(true);
-      }
-
       if (hasDebtSuccession === '1') {
-        // 보증금도 없고 기존 임대차 계약 종료일도 없는데 기태채무까지 없으면 비활성화
-        if (!debtSuccessionDeposit && !rentEndDate) {
+        const falsies = debtSuccessionMiscs
+          .map((item) => ({ name: item.name, price: item.price }))
+          .filter((value) => value.name === '' || value.price === '');
+
+        const truies = debtSuccessionMiscs
+          .map((item) => ({ name: item.name, price: item.price }))
+          .filter((value) => value.name && value.price);
+
+        if (debtSuccessionDeposit && rentEndDate && debtSuccessionMiscs.length === 0) {
+          setNextButtonDisabled(false);
+          return;
+        }
+
+        if (
+          !debtSuccessionDeposit &&
+          !rentEndDate &&
+          truies.length > 0 &&
+          truies.length === debtSuccessionMiscs.length
+        ) {
+          setNextButtonDisabled(false);
+          return;
+        }
+
+        if (debtSuccessionDeposit && rentEndDate && truies.length > 0 && truies.length === debtSuccessionMiscs.length) {
+          setNextButtonDisabled(false);
+          return;
+        }
+
+        if (debtSuccessionDeposit && rentEndDate && falsies.length > 0) {
           setNextButtonDisabled(true);
           return;
         }
 
-        // 보증금이 있는데 기존 임대차 계약 종료일이 없으면 비활성화
-        if (debtSuccessionDeposit && !rentEndDate) {
+        if (debtSuccessionDeposit && !rentEndDate && (debtSuccessionMiscs.length === 0 || falsies.length > 0)) {
           setNextButtonDisabled(true);
           return;
         }
 
-        // 보증금이 없는데 기존 임대차 계약 종료일이 없으면 비활성화
-        if (!debtSuccessionDeposit && rentEndDate) {
+        if (debtSuccessionDeposit && !rentEndDate && truies.length > 0) {
+          setNextButtonDisabled(true);
+          return;
+        }
+
+        if (!debtSuccessionDeposit && rentEndDate && truies.length > 0) {
+          setNextButtonDisabled(true);
+          return;
+        }
+
+        if (!debtSuccessionDeposit && rentEndDate && (debtSuccessionMiscs.length === 0 || falsies.length > 0)) {
+          setNextButtonDisabled(true);
+          return;
+        }
+
+        if (!debtSuccessionDeposit && !rentEndDate && (debtSuccessionMiscs.length === 0 || falsies.length > 0)) {
           setNextButtonDisabled(true);
           return;
         }
