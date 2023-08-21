@@ -70,7 +70,6 @@ export default function ChatRoomTextField({
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  // const [photoSending, setPhotoSending] = useState(false);
   const [selectedType, setSelectedType] = useState(0);
 
   const [isDrag, setIsDrag] = useState<boolean>(false);
