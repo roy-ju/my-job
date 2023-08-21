@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 import { OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import ChatInputSubmitIcon from '@/assets/icons/chat_input_submit.svg';
@@ -28,20 +27,11 @@ import { v4 } from 'uuid';
 import OutsideClick from '@/components/atoms/OutsideClick';
 import { motion } from 'framer-motion';
 import { customAlphabet } from 'nanoid';
-import { useChatButtonStore } from '@/states/mob/chatButtonStore';
+// import { useChatButtonStore } from '@/states/mob/chatButtonStore';
 import EmojiCollection from '../ChatEmojis';
 import { emojisCategory } from '../ChatEmojis/emojiCategory';
 
 const ScrollContainer = styled.div``;
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 8px;
-`;
 
 interface Props {
   disabled?: boolean;
@@ -58,7 +48,7 @@ export default function ChatRoomTextField({
   onSendMessage,
   onChangePhotosUrls,
 }: Props) {
-  const { makeShowMap } = useChatButtonStore();
+  // const { makeShowMap } = useChatButtonStore();
 
   const defaultUrls = useMemo(() => [], []);
 
