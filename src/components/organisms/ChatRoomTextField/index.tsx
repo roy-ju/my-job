@@ -2,6 +2,7 @@
 /* eslint-disable no-return-assign */
 import { OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import ChatInputSubmitIcon from '@/assets/icons/chat_input_submit.svg';
+import PhotoIcon from '@/assets/icons/photo.svg';
 
 import tw, { styled, theme } from 'twin.macro';
 import {
@@ -17,7 +18,6 @@ import {
 import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
 import { Button, Loading } from '@/components/atoms';
-import PlusIcon from '@/assets/icons/plus.svg';
 import { toast } from 'react-toastify';
 import loadImage from 'blueimp-load-image';
 import CloseIcon from '@/assets/icons/close.svg';
@@ -355,30 +355,9 @@ export default function ChatRoomTextField({
       )}
 
       <div tw="px-5" css={[!openEmojis && tw`pt-4`]}>
-        {platForm === 'mobile' && (
+        {/* 
           <div tw="flex flex-row items-center gap-1 mb-2">
-            <input
-              tw="opacity-0 absolute left-0 right-0 pointer-events-none"
-              ref={inputPhotoRef}
-              type="file"
-              multiple
-              accept="image/png, image/jpg, image/jpeg"
-              onChange={handleChangePhotos}
-            />
-
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-red-700 hover:bg-red-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
-            </Button>
-
-            {/* <Button
+            <Button
               variant="ghost"
               tw="px-1.5 h-8"
               disabled={disabled}
@@ -397,9 +376,9 @@ export default function ChatRoomTextField({
                   <PlusIcon color="white" width="16" height="16" />
                 </Container>
               )}
-            </Button> */}
+            </Button>
 
-            {/* <Button variant="ghost" tw="px-1.5 h-8" onClick={makeShowMap} disabled={disabled}>
+            <Button variant="ghost" tw="px-1.5 h-8" onClick={makeShowMap} disabled={disabled}>
               {disabled ? (
                 <Container tw="bg-gray-400">
                   <PlusIcon color="white" width="16" height="16" />
@@ -409,84 +388,55 @@ export default function ChatRoomTextField({
                   <PlusIcon color="white" width="16" height="16" />
                 </Container>
               )}
-            </Button> */}
-          </div>
-        )}
-        <TextField
-          tw="w-full"
-          css={[
-            tw`border items-end rounded-[20px]`,
-            focused ? tw`border-gray-1000` : tw`border-gray-300`,
-            openEmojis && tw`mt-4`,
-          ]}
-        >
-          <TextField.TextArea
-            disabled={disabled}
-            value={value}
-            ref={inputRef}
-            placeholder={disabled ? '메시지를 입력할 수 없어요' : '메시지를 입력하세요'}
-            tw="text-b2 leading-4 py-3 max-h-[106px] min-h-[40px]"
-            onBlur={handleBlur}
-            onFocus={handleFocus}
-            onChange={handleChange}
-            onKeyDown={platForm === 'mobile' ? handleKeyDownMobile : handleKeyDown}
-          />
-          <TextField.Trailing tw="mb-2">
-            <button
-              disabled={value.length < 1}
-              type="button"
-              onClick={handleSendMessage}
-              tw="w-full h-full flex items-center justify-center"
-            >
-              <ChatInputSubmitIcon color={value.length > 0 ? theme`colors.gray.1000` : theme`colors.gray.400`} />
-            </button>
-          </TextField.Trailing>
-        </TextField>
-
-        {platForm === 'pc' && (
-          <div tw="flex flex-row items-center gap-1 mt-2">
-            <input
-              tw="opacity-0 absolute left-0 right-0 pointer-events-none"
-              ref={inputPhotoRef}
-              type="file"
-              multiple
-              accept="image/png, image/jpg, image/jpeg"
-              onChange={handleChangePhotos}
-            />
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-red-700 hover:bg-red-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
             </Button>
-
-            {/* <Button
-              variant="ghost"
-              tw="px-1.5 h-8"
-              disabled={disabled}
-              onClick={() => {
-                if (!openEmojis) {
-                  setOpenEmojis(true);
-                }
-              }}
-            >
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-yellow-700 hover:bg-yellow-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
-            </Button> */}
           </div>
-        )}
+         */}
+
+        <div tw="flex items-center gap-4">
+          <input
+            tw="opacity-0 absolute left-0 right-0 pointer-events-none"
+            ref={inputPhotoRef}
+            type="file"
+            multiple
+            accept="image/png, image/jpg, image/jpeg"
+            onChange={handleChangePhotos}
+          />
+          {!disabled && (
+            <Button variant="ghost" tw="p-0 h-fit" onClick={openFileChooser}>
+              <PhotoIcon />
+            </Button>
+          )}
+          <TextField
+            tw="w-full"
+            css={[
+              tw`border items-end rounded-[20px]`,
+              focused ? tw`border-gray-1000` : tw`border-gray-300`,
+              openEmojis && tw`mt-4`,
+            ]}
+          >
+            <TextField.TextArea
+              disabled={disabled}
+              value={value}
+              ref={inputRef}
+              placeholder={disabled ? '메시지를 입력할 수 없어요' : '메시지를 입력하세요'}
+              tw="text-b2 leading-4 py-3 max-h-[106px] min-h-[40px]"
+              onBlur={handleBlur}
+              onFocus={handleFocus}
+              onChange={handleChange}
+              onKeyDown={platForm === 'mobile' ? handleKeyDownMobile : handleKeyDown}
+            />
+            <TextField.Trailing tw="mb-2">
+              <button
+                disabled={value.length < 1}
+                type="button"
+                onClick={handleSendMessage}
+                tw="w-full h-full flex items-center justify-center"
+              >
+                <ChatInputSubmitIcon color={value.length > 0 ? theme`colors.gray.1000` : theme`colors.gray.400`} />
+              </button>
+            </TextField.Trailing>
+          </TextField>
+        </div>
       </div>
 
       {openPopup && values.length > 0 && (
@@ -494,7 +444,7 @@ export default function ChatRoomTextField({
           <Popup>
             {!photoSending && (
               <Popup.ContentGroup tw="[text-align: center]">
-                <Popup.SmallTitle>{values?.length || 0}장의 사진을 전송하시겠습니까?</Popup.SmallTitle>
+                <Popup.SmallTitle>{values?.length || 0}장의 사진을 전송하시겠어요?</Popup.SmallTitle>
                 <div>
                   {(values?.length ?? 0) > 0 && (
                     <div tw="flex min-w-0 flex-wrap gap-3.5">
