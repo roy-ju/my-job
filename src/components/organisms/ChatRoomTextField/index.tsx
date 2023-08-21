@@ -449,7 +449,7 @@ export default function ChatRoomTextField({
                           onClick={() => handleDeleteByIndex(index)}
                           variant="ghost"
                           size="none"
-                          tw="w-5 h-5 bg-white absolute top-2 right-2 rounded-lg hover:bg-gray-400"
+                          tw="w-5 h-5 bg-white absolute top-2 right-2 [border-radius: 6px] hover:bg-gray-400"
                         >
                           <CloseIcon />
                         </Button>
