@@ -20,10 +20,8 @@ interface DepositProps {
 function Deposit({
   deposit: depositProp,
   hasDebtSuccession: hasDebtSuccessionProp,
-  isAddButtonDisabled,
   onChangeDeposit,
   onChangeHasDebtSuccession,
-  onClickAdd,
 }: DepositProps) {
   const { openTooltip } = useTooltip();
 
@@ -89,11 +87,6 @@ function Deposit({
               )}
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{deposit}</TextField.PriceHelperMessage>
-          </div>
-          <div tw="pt-6 w-full">
-            <Button variant="outlined" size="bigger" onClick={onClickAdd} disabled={isAddButtonDisabled} tw="w-full">
-              채무추가
-            </Button>
           </div>
         </div>
       )}
