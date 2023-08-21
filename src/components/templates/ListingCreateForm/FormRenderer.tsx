@@ -193,6 +193,20 @@ export default function FormRenderer({ form }: Props) {
             </div>
           )}
 
+          {hasDebtSuccession === '1' && (
+            <div tw="pt-7 w-full px-5">
+              <Button
+                variant="outlined"
+                size="bigger"
+                onClick={onClickAddDebtSuccessionMisc}
+                disabled={isAddDebtSuccessionDisabled}
+                tw="w-full"
+              >
+                기타 채무 추가
+              </Button>
+            </div>
+          )}
+
           {debtSuccessionMiscs?.map((debtSuccession, index) => (
             <div key={debtSuccession.key} tw="px-5 py-7 border-t-0">
               <Form.DebtSuccession.Miscellaneous
