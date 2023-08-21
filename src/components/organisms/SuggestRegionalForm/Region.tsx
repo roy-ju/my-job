@@ -33,7 +33,7 @@ export default function Region({ region, onClickOpenRegionList }: RegionProps) {
         </Button>
       )}
       <div tw="text-info text-gray-700 mt-4">
-        특정 단지의 매물만 추천받기 원하시면 지도에서 특정단지 선택하신 후 추천받기하실 수 도 있습니다.
+        특정 단지의 매물만 추천받기를 원하시면 지도에서 단지를 선택하신 후 추천받기를 하실 수도 있습니다.
       </div>
     </div>
   );
