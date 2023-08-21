@@ -436,11 +436,11 @@ export default function ChatRoomTextField({
               <Popup.SmallTitle>{values?.length || 0}장의 사진을 전송하시겠어요?</Popup.SmallTitle>
               <div>
                 {(values?.length ?? 0) > 0 && (
-                  <div tw="flex min-w-0 flex-wrap gap-3.5">
+                  <div tw="flex min-w-0 flex-wrap gap-2">
                     {values.map((item, index) => (
                       <div
                         key={item}
-                        tw="relative w-[30%] h-24 bg-gray-100 rounded-lg bg-no-repeat bg-center bg-cover"
+                        tw="relative w-[31.4%] h-24 bg-gray-100 rounded-lg bg-no-repeat bg-center bg-cover"
                         style={{
                           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${item}')`,
                         }}
@@ -461,8 +461,8 @@ export default function ChatRoomTextField({
             </Popup.ContentGroup>
 
             <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={onClickSendPhotos}>전송하기</Popup.ActionButton>
-              <Popup.CancelButton onClick={handleClosePopup}>취소</Popup.CancelButton>
+              <Popup.CancelButton onClick={handleClosePopup}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={onClickSendPhotos}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
