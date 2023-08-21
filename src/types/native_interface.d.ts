@@ -30,6 +30,7 @@ declare interface Window {
   Android?: Android;
   webkit?: WebKit;
   NegocioWeb?: NegocioWeb;
+  trends?: any;
 
   onReceiveCurrentPosition?: (
     position: {

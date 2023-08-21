@@ -103,6 +103,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="naver-site-verification" content={`${process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION}`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Head>
+      {/* Google Trends API */}
+      {/* <Script
+        strategy="afterInteractive"
+        type="text/javascript"
+        src="https://ssl.gstatic.com/trends_nrtr/3349_RC01/embed_loader.js"
+      /> */}
+
       {/* Google Tag */}
       <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`} />
       <Script id="gtag-init" strategy="afterInteractive">
