@@ -4,7 +4,7 @@ import { ChatUserType } from '@/constants/enums';
 import { StaticImageData } from 'next/image';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
-import { Button, Moment } from '@/components/atoms';
+import { Button, Loading, Moment } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useIsomorphicLayoutEffect, useOutsideClick } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
@@ -19,6 +19,7 @@ export interface IChatMessage {
   message: string;
   sentTime: string;
   agentReadTime: Date | null;
+  photoLoading?: boolean;
 }
 
 const variantByType: Record<ChatUserType, 'gray' | 'nego' | 'system'> = {
@@ -87,6 +88,13 @@ export default memo(
       }
       return false;
     }, [chat?.message]);
+
+    const isChatPhotoLoading = useMemo(() => {
+      if (chat?.photoLoading) {
+        return true;
+      }
+      return false;
+    }, [chat?.photoLoading]);
 
     const extractLatitudeLongitudeFromURL = (url: string) => {
       const pattern = /\/(\d+\.\d+),(\d+\.\d+),/;
@@ -213,16 +221,31 @@ export default memo(
             transition={{ duration: 0.3 }}
           >
             <div tw="px-5" style={{ paddingBottom: extraPaddingBottom }}>
-              {shouldRenderDate && (
+              {shouldRenderDate && !isChatPhotoLoading && (
                 <div tw="py-7 text-center text-info leading-3">
                   <Moment format="yyyy년 MM월 DD일">{chat.sentTime}</Moment>
                 </div>
               )}
 
               <ChatMessage variant={variant}>
-                {shouldRenderAvatar && <ChatMessage.Avatar src={chat.profileImagePath} />}
-                {shouldRenderAvatar && <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>}
+                {shouldRenderAvatar && !isChatPhotoLoading && <ChatMessage.Avatar src={chat.profileImagePath} />}
+
+                {shouldRenderAvatar && !isChatPhotoLoading && (
+                  <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>
+                )}
+
+                {isChatMessage && isChatPhotoLoading && (
+                  <ChatMessage.LoadingPhoto>
+                    <div tw="flex items-center justify-center [height: 134.4px]">
+                      <div tw="px-4 py-2 bg-gray-100 rounded-lg">
+                        <Loading />
+                      </div>
+                    </div>
+                  </ChatMessage.LoadingPhoto>
+                )}
+
                 {!isChatMessage &&
+                  !isChatPhotoLoading &&
                   (imgError ? (
                     <ChatMessage.Photo>
                       <div tw="[width: 112px] [height: 134.4px] bg-gray-800 [border-radius: 8px] flex items-center justify-center px-2">
@@ -244,8 +267,12 @@ export default memo(
                       />
                     </ChatMessage.Photo>
                   ))}
-                {isChatMessage && !isChatRelatedMap && <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>}
-                {isChatMessage && isChatRelatedMap && (
+
+                {isChatMessage && !isChatRelatedMap && !isChatPhotoLoading && (
+                  <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>
+                )}
+
+                {isChatMessage && isChatRelatedMap && !isChatPhotoLoading && (
                   <ChatMessage.LinkTag>
                     {imgSrcUrl && (
                       <img
@@ -289,11 +316,13 @@ export default memo(
                   </ChatMessage.LinkTag>
                 )}
 
-                {variant === 'nego' && !chat.agentReadTime && shouldRenderSentTime && (
+                {variant === 'nego' && !chat.agentReadTime && shouldRenderSentTime && !isChatPhotoLoading && (
                   <ChatMessage.ReadIndicator>읽기 전</ChatMessage.ReadIndicator>
                 )}
 
-                {shouldRenderSentTime && <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>}
+                {shouldRenderSentTime && !isChatPhotoLoading && (
+                  <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>
+                )}
               </ChatMessage>
             </div>
           </motion.div>

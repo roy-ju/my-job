@@ -13,10 +13,12 @@ import {
   useState,
   MouseEvent,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
-import { Button, Loading } from '@/components/atoms';
+import { Button } from '@/components/atoms';
 import { toast } from 'react-toastify';
 import loadImage from 'blueimp-load-image';
 import CloseIcon from '@/assets/icons/close.svg';
@@ -39,11 +41,13 @@ interface Props {
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
   onChangePhotosUrls?: (url: string[]) => void;
+  setPhotoSending?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ChatRoomTextField({
   disabled = false,
   photosUrls,
+  setPhotoSending,
   inputRef,
   onSendMessage,
   onChangePhotosUrls,
@@ -66,7 +70,7 @@ export default function ChatRoomTextField({
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [photoSending, setPhotoSending] = useState(false);
+  // const [photoSending, setPhotoSending] = useState(false);
   const [selectedType, setSelectedType] = useState(0);
 
   const [isDrag, setIsDrag] = useState<boolean>(false);
@@ -215,7 +219,8 @@ export default function ChatRoomTextField({
   }, [onChangePhotosUrls, setValues]);
 
   const onClickSendPhotos = useCallback(async () => {
-    setPhotoSending(true);
+    setOpenPopup(false);
+    setPhotoSending?.(true);
 
     try {
       const uploadPromises = values.map(async (item) => {
@@ -239,17 +244,13 @@ export default function ChatRoomTextField({
 
       setValues([]);
       onChangePhotosUrls?.([]);
-
-      setPhotoSending(false);
-      setOpenPopup(false);
+      setPhotoSending?.(false);
     } catch (e) {
       setValues([]);
       onChangePhotosUrls?.([]);
-
-      setPhotoSending(false);
-      setOpenPopup(false);
+      setPhotoSending?.(false);
     }
-  }, [values, setValues, onSendMessage, onChangePhotosUrls]);
+  }, [values, setValues, setPhotoSending, onChangePhotosUrls, onSendMessage]);
 
   const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return;
@@ -432,49 +433,38 @@ export default function ChatRoomTextField({
       {openPopup && values.length > 0 && (
         <OverlayPresenter>
           <Popup>
-            {!photoSending && (
-              <Popup.ContentGroup tw="[text-align: center]">
-                <Popup.SmallTitle>{values?.length || 0}장의 사진을 전송하시겠어요?</Popup.SmallTitle>
-                <div>
-                  {(values?.length ?? 0) > 0 && (
-                    <div tw="flex min-w-0 flex-wrap gap-3.5">
-                      {values.map((item, index) => (
-                        <div
-                          key={item}
-                          tw="relative w-[30%] h-24 bg-gray-100 rounded-lg bg-no-repeat bg-center bg-cover"
-                          style={{
-                            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${item}')`,
-                          }}
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SmallTitle>{values?.length || 0}장의 사진을 전송하시겠어요?</Popup.SmallTitle>
+              <div>
+                {(values?.length ?? 0) > 0 && (
+                  <div tw="flex min-w-0 flex-wrap gap-3.5">
+                    {values.map((item, index) => (
+                      <div
+                        key={item}
+                        tw="relative w-[30%] h-24 bg-gray-100 rounded-lg bg-no-repeat bg-center bg-cover"
+                        style={{
+                          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${item}')`,
+                        }}
+                      >
+                        <Button
+                          onClick={() => handleDeleteByIndex(index)}
+                          variant="ghost"
+                          size="none"
+                          tw="w-5 h-5 bg-white absolute top-2 right-2 rounded-lg hover:bg-gray-400"
                         >
-                          <Button
-                            onClick={() => handleDeleteByIndex(index)}
-                            variant="ghost"
-                            size="none"
-                            tw="w-5 h-5 bg-white absolute top-2 right-2 rounded-lg hover:bg-gray-400"
-                          >
-                            <CloseIcon />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </Popup.ContentGroup>
-            )}
+                          <CloseIcon />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Popup.ContentGroup>
 
-            {photoSending && (
-              <Popup.ContentGroup tw="[text-align: center]">
-                <Popup.SmallTitle>전송중</Popup.SmallTitle>
-                <Loading />
-              </Popup.ContentGroup>
-            )}
-
-            {!photoSending && (
-              <Popup.ButtonGroup>
-                <Popup.ActionButton onClick={onClickSendPhotos}>전송하기</Popup.ActionButton>
-                <Popup.CancelButton onClick={handleClosePopup}>취소</Popup.CancelButton>
-              </Popup.ButtonGroup>
-            )}
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={onClickSendPhotos}>전송하기</Popup.ActionButton>
+              <Popup.CancelButton onClick={handleClosePopup}>취소</Popup.CancelButton>
+            </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
       )}
