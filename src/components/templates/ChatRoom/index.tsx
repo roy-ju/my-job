@@ -3,7 +3,7 @@ import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomAgentSummary, ChatRoomTextField } from '@/components/organisms';
 import useLatest from '@/hooks/utils/useLatest';
 import { StaticImageData } from 'next/image';
-import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList as List, VariableSizeList } from 'react-window';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
@@ -21,6 +21,8 @@ interface ChatRoomProps {
   chatUserType: number;
   textFieldDisabled?: boolean;
   photosUrls?: string[];
+
+  setPhotoSending?: Dispatch<SetStateAction<boolean>>;
 
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
@@ -55,6 +57,8 @@ export default function ChatRoom({
   photosUrls,
   onChangePhotosUrls,
 
+  setPhotoSending,
+
   onClickReportButton,
   onClickLeaveButton,
   onClickBack,
@@ -67,6 +71,7 @@ export default function ChatRoom({
   onClickNavigateToListingDetailHistory,
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
+
   const sizeMap = useRef<Record<number, number>>({});
   const [scrolled, setScrolled] = useState(false);
 
@@ -149,7 +154,7 @@ export default function ChatRoom({
         <div> {title + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}</div>
         <div tw="shrink-0 mt-1 self-start  underline text-info text-gray-1000">더보기</div>
       </button>
-      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden border-t border-gray-300 bg-gray-100">
+      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden border-t border-gray-300 bg-white">
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (
@@ -180,6 +185,7 @@ export default function ChatRoom({
           onSendMessage={onSendMessage}
           photosUrls={photosUrls}
           onChangePhotosUrls={onChangePhotosUrls}
+          setPhotoSending={setPhotoSending}
         />
       </div>
 
