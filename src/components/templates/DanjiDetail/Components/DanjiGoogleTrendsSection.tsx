@@ -1,8 +1,6 @@
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 
 function DanjiGoogleTrendsSection({ keyword }: { keyword?: string }) {
-  console.log(window);
-
   useIsomorphicLayoutEffect(() => {
     function gtrendsQueries() {
       if (!keyword) return;
