@@ -7,7 +7,6 @@ import Routes from '@/router/routes';
 // import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useMemo, useState } from 'react';
-import * as gtag from '@/lib/gtag';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
 // const SuggestRegionalSummary = dynamic(() => import('@/components/templates/SuggestRegionalSummary'));
@@ -39,13 +38,6 @@ export default memo(() => {
 
     setIsCreating(false);
 
-    gtag.event({
-      action: 'suggest_regional_request_submit',
-      category: 'button_click',
-      label: '지역매물추천 요청 완료 확인 버튼',
-      value: '',
-    });
-
     router.replace(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalSuccess}`,
@@ -57,14 +49,7 @@ export default memo(() => {
     );
   }, [router, params, mutate]);
 
-  const handleAccessDenied = useCallback(() => {
-    gtag.event({
-      action: 'suggest_regional_redirect_to_login',
-      category: 'button_click',
-      label: '지역매물추천에서 회원가입or로그인',
-      value: '',
-    });
-  }, []);
+  const handleAccessDenied = useCallback(() => {}, []);
 
   useIsomorphicLayoutEffect(() => {
     if (!params) {
