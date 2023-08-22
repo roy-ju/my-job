@@ -496,7 +496,7 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     }
 
     case Routes.Login: {
-      return <Login {...props} />;
+      return <Login ipAddress={ipAddress} {...props} />;
     }
 
     case Routes.Reactivate: {
