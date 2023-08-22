@@ -112,6 +112,9 @@ const Routes = {
   ListingTargetPriceUpdateSummary: 'listingTargetPriceUpdateSummary',
   ContractTerms: 'contractTerms',
 
+  // 매물 구해요 (지역 / 단지)
+  RecommendationForm: 'recommendationForm',
+
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
   SuggestRegionalSummary: 'suggestRegionalSummary',

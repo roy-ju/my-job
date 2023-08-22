@@ -346,6 +346,11 @@ const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalC
   loading: FallbackComponent,
 });
 
+const RecommendationForm = dynamic(() => import('@/components/pages/pc/RecommendationForm'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const DEFAULT_PANEL_WIDTH = '380px';
 
 interface RouterProps {
@@ -501,6 +506,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.Reactivate: {
       return <Reactivate {...props} />;
+    }
+
+    case Routes.RecommendationForm: {
+      return <RecommendationForm {...props} />;
     }
 
     case Routes.ListingDetail: {
