@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 import { OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import ChatInputSubmitIcon from '@/assets/icons/chat_input_submit.svg';
-import PhotoIcon from '@/assets/icons/photo.svg';
+// import PhotoIcon from '@/assets/icons/photo.svg';
 
 import tw, { styled, theme } from 'twin.macro';
 import {
@@ -383,19 +384,19 @@ export default function ChatRoomTextField({
          */}
 
         <div tw="flex items-center gap-4">
-          <input
+          {/* <input
             tw="opacity-0 absolute left-0 right-0 pointer-events-none"
             ref={inputPhotoRef}
             type="file"
             multiple
             accept="image/png, image/jpg, image/jpeg"
             onChange={handleChangePhotos}
-          />
-          {!disabled && (
+          /> */}
+          {/* {!disabled && (
             <Button variant="ghost" tw="p-0 h-fit" onClick={openFileChooser}>
               <PhotoIcon />
             </Button>
-          )}
+          )} */}
           <TextField
             tw="w-full"
             css={[
@@ -429,7 +430,7 @@ export default function ChatRoomTextField({
         </div>
       </div>
 
-      {openPopup && values.length > 0 && (
+      {/* {openPopup && values.length > 0 && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
@@ -466,7 +467,7 @@ export default function ChatRoomTextField({
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
-      )}
+      )} */}
     </>
   );
 }
