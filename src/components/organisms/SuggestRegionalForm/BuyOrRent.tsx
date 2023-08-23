@@ -1,16 +1,32 @@
-import { Button } from '@/components/atoms';
+import { Button, Label, Checkbox } from '@/components/atoms';
 import { BuyOrRent as BuyOrRentType } from '@/constants/enums';
+import { TextField } from '@/components/molecules';
 
 export interface BuyOrRentProps {
   value?: number;
   onChange?: (value: number) => void;
+  price?: string;
+  monthlyRentFee?: string;
+  onChangePrice?: (value: string) => void;
+  onChangeMonthlyRentFee?: (value: string) => void;
+  negotiable?: boolean;
+  onChangeNegotiable?: (value: boolean) => void;
 }
 
-export default function BuyOrRent({ value, onChange }: BuyOrRentProps) {
+export default function BuyOrRent({
+  value,
+  onChange,
+  price,
+  monthlyRentFee,
+  onChangeMonthlyRentFee,
+  onChangePrice,
+  negotiable,
+  onChangeNegotiable,
+}: BuyOrRentProps) {
   return (
     <div>
       <div tw="mb-4">
-        <div tw="font-bold">매물의 거래 종류를 선택해 주세요.</div>
+        <div tw="font-bold">거래 종류 및 금액을 입력해 주세요.</div>
       </div>
       <div tw="flex flex-col gap-4">
         <div tw="flex gap-3">
@@ -34,6 +50,57 @@ export default function BuyOrRent({ value, onChange }: BuyOrRentProps) {
           </Button>
         </div>
       </div>
+      <div tw="flex flex-col mt-7">
+        {value === BuyOrRentType.Jeonsae && (
+          <div tw="flex flex-col gap-4">
+            <div>
+              <TextField variant="outlined">
+                <TextField.PriceInput
+                  label={price ? '보증금' : '보증금 입력'}
+                  value={price}
+                  onChange={(e) => onChangePrice?.(e.target.value)}
+                />
+              </TextField>
+              <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
+            </div>
+            <div>
+              <TextField variant="outlined">
+                <TextField.PriceInput
+                  label={monthlyRentFee ? '월차임' : '월차임 입력'}
+                  value={monthlyRentFee}
+                  onChange={(e) => onChangeMonthlyRentFee?.(e.target.value)}
+                />
+              </TextField>
+              <TextField.PriceHelperMessage tw="mr-4">{monthlyRentFee ?? '0'}</TextField.PriceHelperMessage>
+            </div>
+          </div>
+        )}{' '}
+        {value === BuyOrRentType.Buy && (
+          <div>
+            <TextField variant="outlined">
+              <TextField.PriceInput
+                label={price ? '매매가' : '매매가 입력'}
+                value={price}
+                onChange={(e) => onChangePrice?.(e.target.value)}
+              />
+            </TextField>
+            <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
+          </div>
+        )}
+      </div>
+      {!!value && (
+        <>
+          <div tw="mt-4">
+            <Label
+              checked={negotiable}
+              onChange={(e) => onChangeNegotiable?.(e.target.checked)}
+              label="금액 협의 가능해요."
+              control={<Checkbox name="negotiable" />}
+            />
+          </div>
+          <div tw="text-info text-gray-700 mt-4">터무니 없는 금액의 요청은 추후 삭제될 수도 있어요.</div>
+        </>
+      )}
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function MoveInDate({
 
   return (
     <div>
-      <div tw="font-bold mb-4">입주일</div>
+      <div tw="font-bold mb-4">언제 입주하시기를 원하시나요?</div>
       <div tw="flex gap-3">
         <DatePicker
           variant="outlined"

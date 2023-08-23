@@ -30,8 +30,14 @@ export default function SuggestRegionalForm({
   price,
   onChangePrice,
 
+  investAmount,
+  onChangeInvestAmount,
+
   monthlyRentFee,
   onChangeMonthlyRentFee,
+
+  negotiable,
+  onChangeNegotiable,
 
   minArea,
   onChangeMinArea,
@@ -76,8 +82,14 @@ export default function SuggestRegionalForm({
       price,
       onChangePrice,
 
+      investAmount,
+      onChangeInvestAmount,
+
       monthlyRentFee,
       onChangeMonthlyRentFee,
+
+      negotiable,
+      onChangeNegotiable,
 
       minArea,
       onChangeMinArea,
@@ -119,8 +131,14 @@ export default function SuggestRegionalForm({
       price,
       onChangePrice,
 
+      investAmount,
+      onChangeInvestAmount,
+
       monthlyRentFee,
       onChangeMonthlyRentFee,
+
+      negotiable,
+      onChangeNegotiable,
 
       minArea,
       onChangeMinArea,
@@ -163,7 +181,7 @@ export default function SuggestRegionalForm({
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title>지역 매물 추천받기</NavigationHeader.Title>
+        <NavigationHeader.Title>매물 구해요</NavigationHeader.Title>
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">

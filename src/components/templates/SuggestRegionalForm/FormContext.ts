@@ -13,8 +13,14 @@ export interface IFormContext {
   price?: string;
   onChangePrice?: (value: string) => void;
 
+  investAmount?: string;
+  onChangeInvestAmount?: (value: string) => void;
+
   monthlyRentFee?: string;
   onChangeMonthlyRentFee?: (value: string) => void;
+
+  negotiable?: boolean;
+  onChangeNegotiable?: (value: boolean) => void;
 
   minArea?: string;
   onChangeMinArea?: (value: string) => void;
