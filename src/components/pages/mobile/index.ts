@@ -120,3 +120,6 @@ export { default as LawQnaDetail } from './LawQnaDetail';
 export { default as LawQnaSearch } from './LawQnaSearch';
 export { default as LawQnaCreate } from './LawQnaCreate';
 export { default as LawQnaUpdate } from './LawQnaUpdate';
+
+/** 구해요  */
+export { default as RecommendationForm } from './RecommendationForm';
