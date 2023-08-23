@@ -1,11 +1,23 @@
 import { NavigationHeader } from '@/components/molecules';
 import { Button, Separator } from '@/components/atoms';
 
-export default function RecommendationForm() {
+interface Props {
+  selectedButton: 'region' | 'danji' | 'none';
+  handleOpenRegionList: () => void;
+  handleOpenDanjiList: () => void;
+  onClickBack?: () => void;
+}
+
+export default function RecommendationForm({
+  selectedButton,
+  handleOpenRegionList,
+  handleOpenDanjiList,
+  onClickBack,
+}: Props) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={() => {}} />
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>매물 구해요</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1">
@@ -21,10 +33,20 @@ export default function RecommendationForm() {
           </div>
           <div tw="flex flex-col gap-4">
             <div tw="flex gap-3">
-              <Button size="bigger" variant="outlined" tw="flex-1" selected={false} onClick={() => {}}>
+              <Button
+                size="bigger"
+                variant={selectedButton === 'region' ? 'primary' : 'gray'}
+                tw="flex-1"
+                onClick={handleOpenRegionList}
+              >
                 지역
               </Button>
-              <Button size="bigger" variant="outlined" tw="flex-1" selected onClick={() => {}}>
+              <Button
+                size="bigger"
+                variant={selectedButton === 'danji' ? 'primary' : 'gray'}
+                tw="flex-1"
+                onClick={handleOpenDanjiList}
+              >
                 단지
               </Button>
             </div>

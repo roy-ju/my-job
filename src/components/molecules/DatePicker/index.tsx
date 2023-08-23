@@ -129,7 +129,7 @@ export default function DatePicker({
         disabledKeyboardNavigation
         formatWeekDay={(day) => weekDays[day as unknown as string]}
         placeholderText={placeholder}
-        dateFormat="yyyy-MM-dd"
+        dateFormat="yyyy.MM.dd"
         selected={value}
         onChange={handleChangeValue}
         customInput={customInput}

@@ -34,14 +34,17 @@ export default memo(({ panelWidth, depth }: Props) => {
     monthlyRentFee,
     handleChangeMonthlyRentFee,
 
+    investAmount,
+    handleChangeInvestAmount,
+
+    negotiable,
+    handleChangeNegotiable,
+
     minArea,
     handleChangeMinArea,
 
     maxArea,
     handleChangeMaxArea,
-
-    floor,
-    handleChangeFloor,
 
     purpose,
     handleChangePurpose,
@@ -80,14 +83,16 @@ export default memo(({ panelWidth, depth }: Props) => {
         onChangeRealestateType={handleChangeRealestateType}
         price={price}
         onChangePrice={handleChangePrice}
+        investAmount={investAmount}
+        onChangeInvestAmount={handleChangeInvestAmount}
         monthlyRentFee={monthlyRentFee}
         onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+        negotiable={negotiable}
+        onChangeNegotiable={handleChangeNegotiable}
         minArea={minArea}
         onChangeMinArea={handleChangeMinArea}
         maxArea={maxArea}
         onChangeMaxArea={handleChangeMaxArea}
-        floor={floor}
-        onChangeFloor={handleChangeFloor}
         purpose={purpose}
         onChangePurpose={handleChangePurpose}
         description={description}

@@ -8,7 +8,7 @@ export interface MyListingsSummaryProps {
   onClickCreateListing?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
-  onClickSuggestRegional?: () => void;
+  onClickRecommendationForm?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickReceivedSuggests?: () => void;
 }
@@ -18,7 +18,7 @@ export default function MyListingsSummary({
   onClickCreateListing,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
-  onClickSuggestRegional,
+  onClickRecommendationForm,
   onClickRequestedSuggests,
 }: MyListingsSummaryProps) {
   return (
@@ -36,7 +36,7 @@ export default function MyListingsSummary({
           </div>
         </Button>
 
-        <Button onClick={onClickSuggestRegional} tw="w-[132px] h-11 mr-5" variant="secondary">
+        <Button onClick={onClickRecommendationForm} tw="w-[132px] h-11 mr-5" variant="secondary">
           새 매물 추천받기
         </Button>
       </div>

@@ -12,6 +12,7 @@ export const Forms = {
   Floor: 'floor',
   Purpose: 'purpose',
   Description: 'description',
+  MoveInDate: 'moveInDate',
 };
 
 interface Props {
@@ -35,6 +36,12 @@ export default function FormRenderer({ form }: Props) {
     monthlyRentFee,
     onChangeMonthlyRentFee,
 
+    negotiable,
+    onChangeNegotiable,
+
+    investAmount,
+    onChangeInvestAmount,
+
     minArea,
     onChangeMinArea,
 
@@ -52,12 +59,6 @@ export default function FormRenderer({ form }: Props) {
 
     moveInDateType,
     onChangeMoveInDateType,
-
-    remainingAmountDate,
-    onChangeRemainingAmountDate,
-
-    remainingAmountDateType,
-    onChangeRemainingAmountDateType,
 
     description,
     onChangeDescription,
@@ -85,20 +86,34 @@ export default function FormRenderer({ form }: Props) {
           <div tw="pt-10 pb-7 px-5">
             <SuggestRegionalForm.RealestateType value={realestateType} onChange={onChangeRealestateType} />
           </div>
-          <div tw="pt-7 pb-10 px-5 border-t border-gray-300">
-            <SuggestRegionalForm.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
+          <div tw="pt-7 pb-10 px-5">
+            <SuggestRegionalForm.BuyOrRent
+              value={buyOrRent}
+              onChange={onChangeBuyOrRent}
+              price={price}
+              onChangePrice={onChangePrice}
+              monthlyRentFee={monthlyRentFee}
+              onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+              negotiable={negotiable}
+              onChangeNegotiable={onChangeNegotiable}
+            />
           </div>
         </div>
       );
 
-    // case Forms.BuyOrRent:
-    //   return (
-    //     <div id={Forms.BuyOrRent}>
-    //       <div tw="py-10 px-5">
-    //         <SuggestRegionalForm.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
-    //       </div>
-    //     </div>
-    //   );
+    case Forms.MoveInDate:
+      return (
+        <div id={Forms.MoveInDate}>
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.MoveInDate
+              moveInDate={moveInDate}
+              onChangeMoveInDate={onChangeMoveInDate}
+              moveInDateType={moveInDateType}
+              onChangeMoveInDateType={onChangeMoveInDateType}
+            />
+          </div>
+        </div>
+      );
 
     case Forms.Price:
       return (
@@ -145,13 +160,11 @@ export default function FormRenderer({ form }: Props) {
             <SuggestRegionalForm.Purpose value={purpose} onChange={onChangePurpose} />
           </div>
           {purpose && (
-            <div tw="pt-7 mt-7 px-5 border-t border-t-gray-300">
+            <div tw="mt-7 px-5">
               {purpose === '투자' && (
-                <SuggestRegionalForm.RemainingAmountDate
-                  remainingAmountDate={remainingAmountDate}
-                  onChangeRemainingAmountDate={onChangeRemainingAmountDate}
-                  remainingAmountDateType={remainingAmountDateType}
-                  onChangeRemainingAmountDateType={onChangeRemainingAmountDateType}
+                <SuggestRegionalForm.InvestAmount
+                  investAmount={investAmount}
+                  onChangeInvestAmount={onChangeInvestAmount}
                 />
               )}
               {purpose === '실거주' && (
@@ -184,3 +197,13 @@ export default function FormRenderer({ form }: Props) {
       return null;
   }
 }
+
+/* 
+<SuggestRegionalForm.RemainingAmountDate
+                  remainingAmountDate={remainingAmountDate}
+                  onChangeRemainingAmountDate={onChangeRemainingAmountDate}
+                  remainingAmountDateType={remainingAmountDateType}
+                  onChangeRemainingAmountDateType={onChangeRemainingAmountDateType}
+                />
+
+*/

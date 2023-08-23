@@ -6,6 +6,7 @@ import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 
 interface Props {
   depth: number;
@@ -45,11 +46,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     await createSuggestRegional(params);
     await mutate();
 
-    router.replace(Routes.SuggestRegionalSuccess, {
-      state: {
-        params: router.query.params as string,
-      },
-    });
+    router.replace(`${Routes.My}/${Routes.SuggestRequestedList}`);
   }, [router, params, mutate]);
 
   const handleAccessDenied = useCallback(() => {}, []);
@@ -67,18 +64,20 @@ export default memo(({ depth, panelWidth }: Props) => {
           isNextButtonLoading={isCreating}
           address={params?.address}
           buyOrRents={params?.buy_or_rents}
-          realestateTypes={params?.realestate_types}
-          price={params?.buy_or_rents === '1' ? params?.trade_price : params?.deposit}
+          realestateTypes={(params?.realestate_types as string)
+            ?.split(',')
+            .filter((type) => type !== `${RealestateType.Yunrip}`)
+            .join(',')}
+          price={params?.buy_or_rents === `${BuyOrRent.Buy}` ? params?.trade_price : params?.deposit}
           monthlyRentFee={params?.monthly_rent_fee}
           minArea={params?.pyoung_from}
           maxArea={params?.pyoung_to}
           purpose={params?.purpose}
-          floor={params?.floors}
           description={params?.note}
-          remainingAmountPaymentTime={params?.remaining_amount_payment_time}
-          remainingAmountPaymentTimeType={params?.remaining_amount_payment_time_type}
           moveInDate={params?.move_in_date}
           moveInDateType={params?.move_in_date_type}
+          investAmount={params?.invest_amount}
+          negotiable={params?.negotiable}
         />
       </Panel>
       <>
