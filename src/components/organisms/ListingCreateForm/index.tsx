@@ -20,6 +20,7 @@ import MoveInDate from './MoveInDate';
 import RentTerm from './RentTerm';
 import Photos from './Photos';
 import RentEndDate from './RentEndDate';
+import NegocioCalculator from './NegocioCalculator';
 
 const ListingCreateForm = {
   BuyOrRent,
@@ -44,6 +45,7 @@ const ListingCreateForm = {
   RentTerm,
   RentEndDate,
   Photos,
+  NegocioCalculator,
 };
 
 export default ListingCreateForm;

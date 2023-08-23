@@ -28,10 +28,10 @@ const ListingCreateForm = () => {
     buyOrRent,
     price,
     monthlyRentFee,
-    contractAmount,
-    contractAmountNegotiable,
-    remainingAmount,
-    interims,
+    // contractAmount,
+    // contractAmountNegotiable,
+    // remainingAmount,
+    // interims,
     debtSuccessionDeposit,
     debtSuccessionMiscs,
     collaterals,
@@ -48,10 +48,10 @@ const ListingCreateForm = () => {
     handleConfirmChangeBuyOrRent,
     handleChangePrice,
     handleChangeMonthlyRentFee,
-    handleAddInterim,
-    handleChangeContractAmount,
-    handleChangeContractAmountNegotiable,
-    handleChangeRemainingAmount,
+    // handleAddInterim,
+    // handleChangeContractAmount,
+    // handleChangeContractAmountNegotiable,
+    // handleChangeRemainingAmount,
     handleChangeDebtSuccessionDeposit,
     handleAddDebtSuccessionMisc,
     handleChangeSpecialTerms,
@@ -110,7 +110,7 @@ const ListingCreateForm = () => {
     openBackPopup,
     nextButtonDisabled,
 
-    isAddInterimButtonDisabled,
+    // isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
@@ -151,7 +151,7 @@ const ListingCreateForm = () => {
       <ListingCreateFormTemplate
         dong={dong ?? ''}
         ho={ho ?? ''}
-        isAddInterimButtonDisabled={isAddInterimButtonDisabled}
+        // isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         isAddCollateralDisabled={isAddCollateralDisabled}
         isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
@@ -165,10 +165,10 @@ const ListingCreateForm = () => {
         buyOrRent={buyOrRent}
         price={price}
         monthlyRentFee={monthlyRentFee}
-        contractAmount={contractAmount}
-        contractAmountNegotiable={contractAmountNegotiable}
-        remainingAmount={remainingAmount}
-        interims={interims}
+        // contractAmount={contractAmount}
+        // contractAmountNegotiable={contractAmountNegotiable}
+        // remainingAmount={remainingAmount}
+        // interims={interims}
         debtSuccessionDeposit={debtSuccessionDeposit}
         debtSuccessionMiscs={debtSuccessionMiscs}
         collaterals={collaterals}
@@ -189,10 +189,10 @@ const ListingCreateForm = () => {
         onChangeBuyOrRent={handleChangeBuyOrRent}
         onChangePrice={handleChangePrice}
         onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-        onClickAddInterim={handleAddInterim}
-        onChangeContractAmount={handleChangeContractAmount}
-        onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
-        onChangeRemainingAmount={handleChangeRemainingAmount}
+        // onClickAddInterim={handleAddInterim}
+        // onChangeContractAmount={handleChangeContractAmount}
+        // onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
+        // onChangeRemainingAmount={handleChangeRemainingAmount}
         onChangeDebtSuccessionDeposit={handleChangeDebtSuccessionDeposit}
         onClickAddDebtSuccessionMisc={handleAddDebtSuccessionMisc}
         onChangeSpecialTerms={handleChangeSpecialTerms}
