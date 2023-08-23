@@ -22,7 +22,7 @@ export default function ListingCreateForm({
   hasDebtSuccession,
   onChangeHasDebtSuccession,
 
-  isAddInterimButtonDisabled,
+  // isAddInterimButtonDisabled,
   isAddCollateralDisabled,
   isAddDebtSuccessionDisabled,
 
@@ -43,11 +43,11 @@ export default function ListingCreateForm({
   monthlyRentFee,
   quickSale,
 
-  contractAmount,
-  contractAmountNegotiable,
-  remainingAmount,
+  // contractAmount,
+  // contractAmountNegotiable,
+  // remainingAmount,
 
-  interims,
+  // interims,
 
   debtSuccessionDeposit,
   debtSuccessionMiscs,
@@ -79,12 +79,12 @@ export default function ListingCreateForm({
   onChangeQuickSale,
   onClickNext,
 
-  onChangeContractAmount,
-  onChangeContractAmountNegotiable,
+  // onChangeContractAmount,
+  // onChangeContractAmountNegotiable,
 
-  onChangeRemainingAmount,
+  // onChangeRemainingAmount,
 
-  onClickAddInterim,
+  // onClickAddInterim,
 
   onChangeDebtSuccessionDeposit,
   onClickAddDebtSuccessionMisc,
@@ -133,7 +133,7 @@ export default function ListingCreateForm({
       hasDebtSuccession,
       onChangeHasDebtSuccession,
 
-      isAddInterimButtonDisabled,
+      // isAddInterimButtonDisabled,
       isAddCollateralDisabled,
       isAddDebtSuccessionDisabled,
 
@@ -144,10 +144,10 @@ export default function ListingCreateForm({
       price,
       monthlyRentFee,
       quickSale,
-      contractAmount,
-      contractAmountNegotiable,
-      remainingAmount,
-      interims,
+      // contractAmount,
+      // contractAmountNegotiable,
+      // remainingAmount,
+      // interims,
 
       debtSuccessionDeposit,
       debtSuccessionMiscs,
@@ -179,10 +179,10 @@ export default function ListingCreateForm({
       onChangePrice,
       onChangeMonthlyRentFee,
       onChangeQuickSale,
-      onChangeContractAmount,
-      onChangeContractAmountNegotiable,
-      onChangeRemainingAmount,
-      onClickAddInterim,
+      // onChangeContractAmount,
+      // onChangeContractAmountNegotiable,
+      // onChangeRemainingAmount,
+      // onClickAddInterim,
       onChangeDebtSuccessionDeposit,
       onClickAddDebtSuccessionMisc,
       onClickAddCollateral,
@@ -227,7 +227,7 @@ export default function ListingCreateForm({
       hasDebtSuccession,
       onChangeHasDebtSuccession,
 
-      isAddInterimButtonDisabled,
+      // isAddInterimButtonDisabled,
       isAddCollateralDisabled,
       isAddDebtSuccessionDisabled,
 
@@ -238,10 +238,10 @@ export default function ListingCreateForm({
       price,
       monthlyRentFee,
       quickSale,
-      contractAmount,
-      contractAmountNegotiable,
-      remainingAmount,
-      interims,
+      // contractAmount,
+      // contractAmountNegotiable,
+      // remainingAmount,
+      // interims,
 
       debtSuccessionDeposit,
       debtSuccessionMiscs,
@@ -267,10 +267,10 @@ export default function ListingCreateForm({
       onChangePrice,
       onChangeMonthlyRentFee,
       onChangeQuickSale,
-      onChangeContractAmount,
-      onChangeContractAmountNegotiable,
-      onChangeRemainingAmount,
-      onClickAddInterim,
+      // onChangeContractAmount,
+      // onChangeContractAmountNegotiable,
+      // onChangeRemainingAmount,
+      // onClickAddInterim,
       onChangeDebtSuccessionDeposit,
       onClickAddDebtSuccessionMisc,
       onClickAddCollateral,

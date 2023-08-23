@@ -44,13 +44,13 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
           </Table.Row>
         </Table.Body>
 
-        <Table.Group defaultExpanded>
+        {/* <Table.Group defaultExpanded>
           <Table.GroupSummary>
             <div tw="flex items-center gap-1">
               <span tw="text-gray-1000">거래조건</span>
-              {/* <Button variant="ghost" size="none" onClick={() => openTooltip('paymentSchedule')}>
+              <Button variant="ghost" size="none" onClick={() => openTooltip('paymentSchedule')}>
                 <QuestionIcon />
-              </Button> */}
+              </Button>
             </div>
           </Table.GroupSummary>
           <Table.GroupDetails>
@@ -95,7 +95,7 @@ export default function Conditions({ listing, debtSuccessions, collaterals }: Co
               </Table.Data>
             </Table.Row>
           </Table.GroupDetails>
-        </Table.Group>
+        </Table.Group> */}
 
         {Boolean(debtSuccessions?.length) && (
           <Table.Group defaultExpanded>

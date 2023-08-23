@@ -1,4 +1,4 @@
-import { CollateralType, DebtSuccessionType, InterimType } from '@/components/templates/ListingCreateForm/FormContext';
+import { CollateralType, DebtSuccessionType } from '@/components/templates/ListingCreateForm/FormContext';
 import { BuyOrRent } from '@/constants/enums';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
@@ -9,11 +9,13 @@ interface Args {
   buyOrRent: number;
   price: string;
   monthlyRentFee: string;
-  contractAmount: string;
-  contractAmountNegotiable: boolean;
-  remainingAmount: string;
 
-  interims: InterimType[];
+  // contractAmount: string;
+  // contractAmountNegotiable: boolean;
+
+  // remainingAmount: string;
+
+  // interims: InterimType[];
 
   debtSuccessionDeposit: string;
   debtSuccessionMiscs: DebtSuccessionType[];
@@ -82,21 +84,23 @@ export default function makeListingCreateParams(args: Args) {
     negotiation_or_auction: 1,
     administrative_fee: convertPriceInputToNumber(args.adminFee),
     buy_or_rent: args.buyOrRent,
-    contract_amount: convertPriceInputToNumber(args.contractAmount),
-    contract_amount_negotiable: args.contractAmountNegotiable,
+
+    // contract_amount: convertPriceInputToNumber(args.contractAmount),
+    // contract_amount_negotiable: args.contractAmountNegotiable,
+
     collaterals,
     debt_successions: debtSuccessions,
     deposit: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     description: args.description,
 
-    interim_amount1: convertPriceInputToNumber(args.interims[0]?.price),
-    interim_amount_negotiable1: args.interims[0]?.negotiable, // true: 중도금 협의가능 false: 중도금 협의불가
+    // interim_amount1: convertPriceInputToNumber(args.interims[0]?.price),
+    // interim_amount_negotiable1: args.interims[0]?.negotiable, // true: 중도금 협의가능 false: 중도금 협의불가
 
-    interim_amount2: convertPriceInputToNumber(args.interims[1]?.price), // 상동
-    interim_amount_negotiable2: args.interims[1]?.negotiable,
+    // interim_amount2: convertPriceInputToNumber(args.interims[1]?.price), // 상동
+    // interim_amount_negotiable2: args.interims[1]?.negotiable,
 
-    interim_amount3: convertPriceInputToNumber(args.interims[2]?.price), // 상동
-    interim_amount_negotiable3: args.interims[2]?.negotiable,
+    // interim_amount3: convertPriceInputToNumber(args.interims[2]?.price), // 상동
+    // interim_amount_negotiable3: args.interims[2]?.negotiable,
 
     jeonsae_loan: args.jeonsaeLoan,
 
@@ -108,7 +112,7 @@ export default function makeListingCreateParams(args: Args) {
     owner_name: args.ownerName,
     owner_phone: args.ownerPhone,
 
-    remaining_amount: convertPriceInputToNumber(args.remainingAmount),
+    // remaining_amount: convertPriceInputToNumber(args.remainingAmount),
 
     rent_area: args.rentArea,
     rent_contract_term_year: Number(args.rentTermYear.replace('년', '')) ?? 0,
