@@ -193,7 +193,7 @@ export default function BiddingSummary({
 
                     {Boolean(noteString) && (
                       <Table.Row>
-                        <Table.Head>추가 제안 내용</Table.Head>
+                        <Table.Head tw="whitespace-nowrap">추가 제안 내용</Table.Head>
                         <Table.Data>
                           <p tw="whitespace-pre-wrap">{noteString}</p>
                         </Table.Data>
