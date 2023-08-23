@@ -12,7 +12,7 @@ export default function RentEndDate({ date, onChangeDate }: Props) {
     <div>
       <div>
         <div tw="flex justify-between mb-4">
-          <div tw="text-b1 leading-none font-bold">기존 임대차 계약</div>
+          <div tw="text-b1 leading-none font-bold">기존 임대차계약 종료일</div>
         </div>
         <div tw="flex">
           <DatePicker

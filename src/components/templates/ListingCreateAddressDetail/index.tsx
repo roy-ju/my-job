@@ -14,6 +14,7 @@ export interface ListingCreateAddressDetailProps {
   onChangeHo?: ChangeEventHandler<HTMLInputElement>;
   onSubmit?: () => void;
   onSearchAnotherAddress?: () => void;
+  update?: boolean;
 }
 
 export default function ListingCreateAddressDetail({
@@ -27,12 +28,13 @@ export default function ListingCreateAddressDetail({
   onChangeHo,
   onSubmit,
   onSearchAnotherAddress,
+  update,
 }: ListingCreateAddressDetailProps) {
   return (
     <div tw="h-full flex flex-col relative">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onSearchAnotherAddress} />
-        <NavigationHeader.Title>매물등록 신청</NavigationHeader.Title>
+        <NavigationHeader.Title>{update ? '주소 재입력' : '매물등록 신청'}</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         <AddressDetailForm

@@ -18,10 +18,6 @@ interface Props extends IFormContext {
 export default function BiddingForm({
   headerTitle = '가격제안',
 
-  forms,
-  nextButtonDisabled,
-  onClickNext,
-
   listing,
   displayAddress,
 
@@ -29,31 +25,15 @@ export default function BiddingForm({
   onChangeType,
 
   price,
-  monthlyRentFee,
   onChangePrice,
+
+  monthlyRentFee,
   onChangeMonthlyRentFee,
 
-  canHaveMoreContractAmount,
-  onChangeCanHaveMoreContractAmount,
-  contractAmount,
-  onChangeContractAmount,
-
-  canHaveMoreInterimAmount,
-  onChangeCanHaveMoreInterimAmount,
-  interimAmount,
-  onChangeInterimAmount,
-
-  canHaveEarilerRemainingAmountDate,
-  onChangeCanHaveEarilerRemainingAmountDate,
-  remainingAmountDate,
-  remainingAmountDateType,
-  onChangeRemainingAmountDate,
-  onChangeRemainingAmountDateType,
-
-  canHaveEarilerMoveInDate,
   moveInDate,
-  moveInDateType,
   onChangeMoveInDate,
+
+  moveInDateType,
   onChangeMoveInDateType,
 
   etcs,
@@ -64,6 +44,9 @@ export default function BiddingForm({
 
   onClickBack,
   onClickCancelBidding,
+
+  nextButtonDisabled,
+  onClickNext,
 }: Props) {
   const context = useMemo(
     () => ({
@@ -73,31 +56,15 @@ export default function BiddingForm({
       onChangeType,
 
       price,
-      monthlyRentFee,
       onChangePrice,
+
+      monthlyRentFee,
       onChangeMonthlyRentFee,
 
-      canHaveMoreContractAmount,
-      onChangeCanHaveMoreContractAmount,
-      contractAmount,
-      onChangeContractAmount,
-
-      canHaveMoreInterimAmount,
-      onChangeCanHaveMoreInterimAmount,
-      interimAmount,
-      onChangeInterimAmount,
-
-      canHaveEarilerRemainingAmountDate,
-      onChangeCanHaveEarilerRemainingAmountDate,
-      remainingAmountDate,
-      remainingAmountDateType,
-      onChangeRemainingAmountDate,
-      onChangeRemainingAmountDateType,
-
-      canHaveEarilerMoveInDate,
       moveInDate,
-      moveInDateType,
       onChangeMoveInDate,
+
+      moveInDateType,
       onChangeMoveInDateType,
 
       etcs,
@@ -108,42 +75,19 @@ export default function BiddingForm({
     }),
     [
       listing,
-
       type,
-      onChangeType,
-
       price,
       monthlyRentFee,
-      onChangePrice,
-      onChangeMonthlyRentFee,
-
-      canHaveMoreContractAmount,
-      onChangeCanHaveMoreContractAmount,
-      contractAmount,
-      onChangeContractAmount,
-
-      canHaveMoreInterimAmount,
-      onChangeCanHaveMoreInterimAmount,
-      interimAmount,
-      onChangeInterimAmount,
-
-      canHaveEarilerRemainingAmountDate,
-      onChangeCanHaveEarilerRemainingAmountDate,
-      remainingAmountDate,
-      remainingAmountDateType,
-      onChangeRemainingAmountDate,
-      onChangeRemainingAmountDateType,
-
-      canHaveEarilerMoveInDate,
       moveInDate,
       moveInDateType,
+      etcs,
+      description,
+      onChangeType,
+      onChangePrice,
+      onChangeMonthlyRentFee,
       onChangeMoveInDate,
       onChangeMoveInDateType,
-
-      etcs,
       onChangeEtcs,
-
-      description,
       onChangeDescription,
     ],
   );
@@ -168,7 +112,7 @@ export default function BiddingForm({
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">
-          <div tw="px-5 py-7">
+          <div tw="px-5 pb-10 pt-7">
             <ListingSummaryCard
               listingTitle={listing?.listing_title ?? ''}
               address={displayAddress ?? ''}
@@ -179,17 +123,7 @@ export default function BiddingForm({
             />
           </div>
           <Separator />
-
-          {forms?.map((form, index) => (
-            <div key={form}>
-              <FormRenderer form={form} />
-              {forms.length !== index + 1 && (
-                <div tw="py-3">
-                  <Separator />
-                </div>
-              )}
-            </div>
-          ))}
+          <FormRenderer />
         </div>
       </FormContext.Provider>
       <PersistentBottomBar>
@@ -197,9 +131,7 @@ export default function BiddingForm({
           <Button disabled={nextButtonDisabled} onClick={onClickNext} tw="w-full" size="bigger">
             다음
           </Button>
-          {forms && forms.length > 1 && (
-            <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
-          )}
+          <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
         </div>
       </PersistentBottomBar>
     </div>

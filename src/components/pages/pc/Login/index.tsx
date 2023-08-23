@@ -11,10 +11,12 @@ import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 import ErrorCodes from '@/constants/error_codes';
+import { isMobile } from '@/utils/is';
 
 interface Props {
   depth: number;
   panelWidth?: string;
+  ipAddress?: string;
 }
 
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
@@ -27,7 +29,7 @@ interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
   };
 }
 
-export default memo(({ depth, panelWidth }: Props) => {
+export default memo(({ depth, panelWidth, ipAddress }: Props) => {
   const { login: handleLogin } = useAuth();
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
@@ -42,9 +44,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       const idToken = res.authorization.id_token;
 
       const detail = await login({
-        browser: '',
-        device: '',
-        ipAddress: '',
+        browser: navigator.userAgent,
+        device: isMobile(navigator.userAgent) ? 'MOBILE' : 'PC',
+        ipAddress,
         socialLoginType: SocialLoginType.Apple,
         token: idToken,
       });
@@ -57,7 +59,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
       window.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
     }
-  }, []);
+  }, [ipAddress]);
 
   const handleForgotMyAccount = useCallback(() => {
     router.replace(Routes.FindAccount);

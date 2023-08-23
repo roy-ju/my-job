@@ -8,6 +8,7 @@ import { SentTime, SentTimeType } from './SentTime';
 import { ReadIndicator, ReadIndicatorType } from './ReadIndicator';
 import { Photo, PhotoType } from './Photo';
 import { LinkTag, LinkType } from './LinkTag';
+import { LoadingPhoto, LoadingPhotoType } from './LoadingPhoto';
 
 function getBubble(children: ReactNode) {
   const childrenArray = Children.toArray(children);
@@ -22,6 +23,11 @@ function getLinkTag(children: ReactNode) {
 function getPhoto(children: ReactNode) {
   const childrenArray = Children.toArray(children);
   return childrenArray.filter((child) => isValidElement(child) && child.type === PhotoType);
+}
+
+function getLoadingPhoto(children: ReactNode) {
+  const childrenArray = Children.toArray(children);
+  return childrenArray.filter((child) => isValidElement(child) && child.type === LoadingPhotoType);
 }
 
 function getSentTime(children: ReactNode) {
@@ -60,6 +66,7 @@ function Container({ variant, children }: ContainerProps) {
   const avatar = getAvatar(children);
   const readIndicator = getReadIndicator(children);
   const photo = getPhoto(children);
+  const loadingPhoto = getLoadingPhoto(children);
   const link = getLinkTag(children);
 
   return (
@@ -76,6 +83,10 @@ function Container({ variant, children }: ContainerProps) {
             ]}
           >
             {photo && <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{photo}</div>}
+
+            {loadingPhoto && (
+              <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{loadingPhoto}</div>
+            )}
 
             <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{bubble}</div>
 
@@ -94,4 +105,13 @@ function Container({ variant, children }: ContainerProps) {
   );
 }
 
-export default Object.assign(Container, { Avatar, Bubble, Photo, LinkTag, SentTime, SenderName, ReadIndicator });
+export default Object.assign(Container, {
+  Avatar,
+  Bubble,
+  Photo,
+  LoadingPhoto,
+  LinkTag,
+  SentTime,
+  SenderName,
+  ReadIndicator,
+});

@@ -3,6 +3,7 @@ import { Button, Separator } from '@/components/atoms';
 import { ListingCreateForm as Form } from '@/components/organisms';
 import { BuyOrRent } from '@/constants/enums';
 import { useContext } from 'react';
+import tw from 'twin.macro';
 import FormContext from './FormContext';
 
 export const Forms = {
@@ -11,7 +12,7 @@ export const Forms = {
   Price: 'price',
   DebtSuccessions: 'debtSuccessions',
   Collaterals: 'collaterals',
-  PaymentSchedules: 'paymentSchedule',
+  // PaymentSchedules: 'paymentSchedule',
   SpecialTerms: 'specialTerms',
   Optionals: 'optionals',
   MoveInDate: 'moveInDate',
@@ -34,7 +35,7 @@ export default function FormRenderer({ form }: Props) {
     hasDebtSuccession,
     onChangeHasDebtSuccession,
 
-    isAddInterimButtonDisabled,
+    // isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
@@ -56,19 +57,18 @@ export default function FormRenderer({ form }: Props) {
     onChangePrice,
     onChangeMonthlyRentFee,
     onChangeQuickSale,
+
     // 희망 지급일정
-    contractAmount,
-    contractAmountNegotiable,
-    remainingAmount,
-    remainingAmountDate,
-    remainingAmountDateType,
-    interims,
-    onChangeContractAmount,
-    onChangeContractAmountNegotiable,
-    onChangeRemainingAmount,
-    onClickAddInterim,
-    onChangeRemainingAmountDate,
-    onChangeRemainingAmountDateType,
+    // contractAmount,
+    // contractAmountNegotiable,
+    // remainingAmount,
+
+    // interims,
+    // onChangeContractAmount,
+    // onChangeContractAmountNegotiable,
+    // onChangeRemainingAmount,
+    // onClickAddInterim,
+
     // 채무승계
     debtSuccessionDeposit,
     debtSuccessionMiscs,
@@ -147,6 +147,8 @@ export default function FormRenderer({ form }: Props) {
                 phone={ownerPhone}
                 onChangeName={(e) => onChangeOwnerName?.(e.target.value)}
                 onChangePhone={(e) => onChangeOwnerPhone?.(e.target.value)}
+                onClickNameDeleteIcon={() => onChangeOwnerName?.('')}
+                onClickPhoneDeleteIcon={() => onChangeOwnerPhone?.('')}
               />
             </div>
           )}
@@ -175,7 +177,7 @@ export default function FormRenderer({ form }: Props) {
     case Forms.DebtSuccessions:
       return (
         <div id={Forms.DebtSuccessions}>
-          <div tw="px-5 py-10">
+          <div tw="px-5 pt-7 pb-3">
             <Form.DebtSuccession
               hasDebtSuccession={hasDebtSuccession}
               isAddButtonDisabled={isAddDebtSuccessionDisabled}
@@ -185,8 +187,29 @@ export default function FormRenderer({ form }: Props) {
               onClickAdd={onClickAddDebtSuccessionMisc}
             />
           </div>
+
+          {hasDebtSuccession === '1' && (
+            <div tw="px-5 pt-7 pb-3">
+              <Form.RentEndDate date={rentEndDate} onChangeDate={onChangeRentEndDate} />
+            </div>
+          )}
+
+          {hasDebtSuccession === '1' && (
+            <div tw="pt-7 w-full px-5">
+              <Button
+                variant="outlined"
+                size="bigger"
+                onClick={onClickAddDebtSuccessionMisc}
+                disabled={isAddDebtSuccessionDisabled}
+                tw="w-full"
+              >
+                기타 채무 추가
+              </Button>
+            </div>
+          )}
+
           {debtSuccessionMiscs?.map((debtSuccession, index) => (
-            <div key={debtSuccession.key} tw="px-5 py-7 border-t border-t-gray-300">
+            <div key={debtSuccession.key} tw="px-5 py-7 border-t-0">
               <Form.DebtSuccession.Miscellaneous
                 index={index}
                 name={debtSuccession.name}
@@ -197,6 +220,26 @@ export default function FormRenderer({ form }: Props) {
               />
             </div>
           ))}
+
+          <div tw="px-5 pt-7 pb-10" css={[debtSuccessionMiscs && debtSuccessionMiscs.length > 0 && tw`pt-5`]}>
+            <Form.MoveInDate
+              disabled={!!rentEndDate}
+              date={moveInDate}
+              dateType={moveInDateType}
+              hasDate={hasMoveInDate}
+              onChangeDate={onChangeMoveInDate}
+              onChangeDateType={onChangeMoveInDateType}
+              onChangeHasDate={onChangeHasMoveInDate}
+            />
+          </div>
+
+          <div tw="px-5 pb-10">
+            <Form.NegocioCalculator
+              price={price}
+              debtSuccessionDeposit={debtSuccessionDeposit}
+              debtSuccessionMiscs={debtSuccessionMiscs}
+            />
+          </div>
         </div>
       );
 
@@ -221,58 +264,45 @@ export default function FormRenderer({ form }: Props) {
         </div>
       );
 
-    case Forms.PaymentSchedules:
-      return (
-        <div id={Forms.PaymentSchedules} tw="py-10">
-          <div tw="pb-7 px-5">
-            <Form.PaymentSchedule
-              isAddButtonDisabled={isAddInterimButtonDisabled}
-              price={price}
-              debtSuccessionDeposit={debtSuccessionDeposit}
-              debtSuccessionMiscs={debtSuccessionMiscs}
-              showCalculator={buyOrRent === BuyOrRent.Buy}
-              onClickAddInterim={onClickAddInterim}
-            />
-          </div>
-          <div tw="px-5 pb-7 border-b border-b-gray-300">
-            <Form.ContractAmount
-              price={contractAmount}
-              negotiable={contractAmountNegotiable}
-              onChangePrice={onChangeContractAmount}
-              onChangeNegotiable={onChangeContractAmountNegotiable}
-            />
-          </div>
-          {interims?.map((interim, index) => (
-            <div key={interim.key} tw="px-5 py-7 flex flex-col gap-4 border-b border-b-gray-300">
-              <Form.InterimAmount
-                index={index}
-                price={interim.price}
-                negotiable={interim.negotiable}
-                onChangePrice={interim.onChangePrice}
-                onChangeNegotiable={interim.onChangeNegotiable}
-                onClickRemove={interim.onRemove}
-              />
-              <Form.Schedule
-                title="중도금 일정"
-                date={interim.date}
-                dateType={interim.dateType}
-                onChangeDate={interim.onChangeDate}
-                onChangeDateType={interim.onChangeDateType}
-              />
-            </div>
-          ))}
-          <div tw="px-5 pt-7 flex flex-col gap-4">
-            <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
-            <Form.Schedule
-              title="잔금 일정"
-              date={remainingAmountDate}
-              dateType={remainingAmountDateType}
-              onChangeDate={onChangeRemainingAmountDate}
-              onChangeDateType={onChangeRemainingAmountDateType}
-            />
-          </div>
-        </div>
-      );
+    // case Forms.PaymentSchedules:
+    //   return (
+    //     <div id={Forms.PaymentSchedules} tw="py-10">
+    //       <div tw="pb-7 px-5">
+    //         <Form.PaymentSchedule
+    //           isAddButtonDisabled={isAddInterimButtonDisabled}
+    //           price={price}
+    //           debtSuccessionDeposit={debtSuccessionDeposit}
+    //           debtSuccessionMiscs={debtSuccessionMiscs}
+    //           showCalculator={buyOrRent === BuyOrRent.Buy}
+    //           onClickAddInterim={onClickAddInterim}
+    //         />
+    //       </div>
+    //       <div tw="px-5 pb-7 border-b border-b-gray-300">
+    //         <Form.ContractAmount
+    //           price={contractAmount}
+    //           negotiable={contractAmountNegotiable}
+    //           onChangePrice={onChangeContractAmount}
+    //           onChangeNegotiable={onChangeContractAmountNegotiable}
+    //         />
+    //       </div>
+    //       {interims?.map((interim, index) => (
+    //         <div key={interim.key} tw="px-5 py-7 flex flex-col gap-4 border-b border-b-gray-300">
+    //           <Form.InterimAmount
+    //             index={index}
+    //             price={interim.price}
+    //             negotiable={interim.negotiable}
+    //             onChangePrice={interim.onChangePrice}
+    //             onChangeNegotiable={interim.onChangeNegotiable}
+    //             onClickRemove={interim.onRemove}
+    //           />
+    //         </div>
+    //       ))}
+    //       <div tw="px-5 pt-7 flex flex-col gap-4">
+    //         <Form.RemainingAmount value={remainingAmount} onChange={onChangeRemainingAmount} />
+    //       </div>
+    //     </div>
+    //   );
+
     case Forms.SpecialTerms:
       return (
         <div id={Forms.SpecialTerms} tw="px-5 py-10">

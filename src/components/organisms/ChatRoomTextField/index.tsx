@@ -2,6 +2,7 @@
 /* eslint-disable no-return-assign */
 import { OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import ChatInputSubmitIcon from '@/assets/icons/chat_input_submit.svg';
+// import PhotoIcon from '@/assets/icons/photo.svg';
 
 import tw, { styled, theme } from 'twin.macro';
 import {
@@ -13,11 +14,12 @@ import {
   useState,
   MouseEvent,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
-import { Button, Loading } from '@/components/atoms';
-import PlusIcon from '@/assets/icons/plus.svg';
+import { Button } from '@/components/atoms';
 import { toast } from 'react-toastify';
 import loadImage from 'blueimp-load-image';
 import CloseIcon from '@/assets/icons/close.svg';
@@ -28,20 +30,11 @@ import { v4 } from 'uuid';
 import OutsideClick from '@/components/atoms/OutsideClick';
 import { motion } from 'framer-motion';
 import { customAlphabet } from 'nanoid';
-import { useChatButtonStore } from '@/states/mob/chatButtonStore';
+// import { useChatButtonStore } from '@/states/mob/chatButtonStore';
 import EmojiCollection from '../ChatEmojis';
 import { emojisCategory } from '../ChatEmojis/emojiCategory';
 
 const ScrollContainer = styled.div``;
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 8px;
-`;
 
 interface Props {
   disabled?: boolean;
@@ -49,16 +42,18 @@ interface Props {
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
   onChangePhotosUrls?: (url: string[]) => void;
+  setPhotoSending?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ChatRoomTextField({
   disabled = false,
   photosUrls,
+  setPhotoSending,
   inputRef,
   onSendMessage,
   onChangePhotosUrls,
 }: Props) {
-  const { makeShowMap } = useChatButtonStore();
+  // const { makeShowMap } = useChatButtonStore();
 
   const defaultUrls = useMemo(() => [], []);
 
@@ -76,7 +71,6 @@ export default function ChatRoomTextField({
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [photoSending, setPhotoSending] = useState(false);
   const [selectedType, setSelectedType] = useState(0);
 
   const [isDrag, setIsDrag] = useState<boolean>(false);
@@ -225,7 +219,8 @@ export default function ChatRoomTextField({
   }, [onChangePhotosUrls, setValues]);
 
   const onClickSendPhotos = useCallback(async () => {
-    setPhotoSending(true);
+    setOpenPopup(false);
+    setPhotoSending?.(true);
 
     try {
       const uploadPromises = values.map(async (item) => {
@@ -249,17 +244,13 @@ export default function ChatRoomTextField({
 
       setValues([]);
       onChangePhotosUrls?.([]);
-
-      setPhotoSending(false);
-      setOpenPopup(false);
+      setPhotoSending?.(false);
     } catch (e) {
       setValues([]);
       onChangePhotosUrls?.([]);
-
-      setPhotoSending(false);
-      setOpenPopup(false);
+      setPhotoSending?.(false);
     }
-  }, [values, setValues, onSendMessage, onChangePhotosUrls]);
+  }, [values, setValues, setPhotoSending, onChangePhotosUrls, onSendMessage]);
 
   const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return;
@@ -309,7 +300,7 @@ export default function ChatRoomTextField({
 
   return (
     <>
-      {/* {openEmojis && !disabled && (
+      {openEmojis && !disabled && (
         <OutsideClick
           onOutsideClick={() => {
             setOpenEmojis(false);
@@ -352,32 +343,11 @@ export default function ChatRoomTextField({
           </ScrollContainer>
           <EmojiCollection selectedType={selectedType} handleChangeIcon={handleChangeIcon} />
         </OutsideClick>
-      )} */}
+      )}
 
       <div tw="px-5" css={[!openEmojis && tw`pt-4`]}>
-        {/* {platForm === 'mobile' && (
+        {/* 
           <div tw="flex flex-row items-center gap-1 mb-2">
-            <input
-              tw="opacity-0 absolute left-0 right-0 pointer-events-none"
-              ref={inputPhotoRef}
-              type="file"
-              multiple
-              accept="image/png, image/jpg, image/jpeg"
-              onChange={handleChangePhotos}
-            />
-
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-red-700 hover:bg-red-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
-            </Button>
-
             <Button
               variant="ghost"
               tw="px-1.5 h-8"
@@ -411,122 +381,90 @@ export default function ChatRoomTextField({
               )}
             </Button>
           </div>
-        )} */}
-        <TextField
-          tw="w-full"
-          css={[
-            tw`border items-end rounded-[20px]`,
-            focused ? tw`border-gray-1000` : tw`border-gray-300`,
-            openEmojis && tw`mt-4`,
-          ]}
-        >
-          <TextField.TextArea
-            disabled={disabled}
-            value={value}
-            ref={inputRef}
-            placeholder={disabled ? '메시지를 입력할 수 없어요' : '메시지를 입력하세요'}
-            tw="text-b2 leading-4 py-3 max-h-[106px] min-h-[40px]"
-            onBlur={handleBlur}
-            onFocus={handleFocus}
-            onChange={handleChange}
-            onKeyDown={platForm === 'mobile' ? handleKeyDownMobile : handleKeyDown}
-          />
-          <TextField.Trailing tw="mb-2">
-            <button
-              disabled={value.length < 1}
-              type="button"
-              onClick={handleSendMessage}
-              tw="w-full h-full flex items-center justify-center"
-            >
-              <ChatInputSubmitIcon color={value.length > 0 ? theme`colors.gray.1000` : theme`colors.gray.400`} />
-            </button>
-          </TextField.Trailing>
-        </TextField>
+         */}
 
-        {/* {platForm === 'pc' && (
-          <div tw="flex flex-row items-center gap-1 mt-2">
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={openFileChooser} disabled={disabled}>
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-red-700 hover:bg-red-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
+        <div tw="flex items-center gap-4">
+          {/* <input
+            tw="opacity-0 absolute left-0 right-0 pointer-events-none"
+            ref={inputPhotoRef}
+            type="file"
+            multiple
+            accept="image/png, image/jpg, image/jpeg"
+            onChange={handleChangePhotos}
+          /> */}
+          {/* {!disabled && (
+            <Button variant="ghost" tw="p-0 h-fit" onClick={openFileChooser}>
+              <PhotoIcon />
             </Button>
-
-            <Button
-              variant="ghost"
-              tw="px-1.5 h-8"
+          )} */}
+          <TextField
+            tw="w-full"
+            css={[
+              tw`border items-end rounded-[20px]`,
+              focused ? tw`border-gray-1000` : tw`border-gray-300`,
+              openEmojis && tw`mt-4`,
+            ]}
+          >
+            <TextField.TextArea
               disabled={disabled}
-              onClick={() => {
-                if (!openEmojis) {
-                  setOpenEmojis(true);
-                }
-              }}
-            >
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-yellow-700 hover:bg-yellow-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
-            </Button>
-          </div>
-        )} */}
+              value={value}
+              ref={inputRef}
+              placeholder={disabled ? '메시지를 입력할 수 없어요' : '메시지를 입력하세요'}
+              tw="text-b2 leading-4 py-3 max-h-[106px] min-h-[40px]"
+              onBlur={handleBlur}
+              onFocus={handleFocus}
+              onChange={handleChange}
+              onKeyDown={platForm === 'mobile' ? handleKeyDownMobile : handleKeyDown}
+            />
+            <TextField.Trailing tw="mb-2">
+              <button
+                disabled={value.length < 1}
+                type="button"
+                onClick={handleSendMessage}
+                tw="w-full h-full flex items-center justify-center"
+              >
+                <ChatInputSubmitIcon color={value.length > 0 ? theme`colors.gray.1000` : theme`colors.gray.400`} />
+              </button>
+            </TextField.Trailing>
+          </TextField>
+        </div>
       </div>
 
       {/* {openPopup && values.length > 0 && (
         <OverlayPresenter>
           <Popup>
-            {!photoSending && (
-              <Popup.ContentGroup tw="[text-align: center]">
-                <Popup.SmallTitle>{values?.length || 0}장의 사진을 전송하시겠습니까?</Popup.SmallTitle>
-                <div>
-                  {(values?.length ?? 0) > 0 && (
-                    <div tw="flex min-w-0 flex-wrap gap-3.5">
-                      {values.map((item, index) => (
-                        <div
-                          key={item}
-                          tw="relative w-[30%] h-24 bg-gray-100 rounded-lg bg-no-repeat bg-center bg-cover"
-                          style={{
-                            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${item}')`,
-                          }}
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SmallTitle>{values?.length || 0}장의 사진을 전송하시겠어요?</Popup.SmallTitle>
+              <div>
+                {(values?.length ?? 0) > 0 && (
+                  <div tw="flex min-w-0 flex-wrap gap-2">
+                    {values.map((item, index) => (
+                      <div
+                        key={item}
+                        tw="relative w-[31.4%] h-24 bg-gray-100 rounded-lg bg-no-repeat bg-center bg-cover"
+                        style={{
+                          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${item}')`,
+                        }}
+                      >
+                        <Button
+                          onClick={() => handleDeleteByIndex(index)}
+                          variant="ghost"
+                          size="none"
+                          tw="w-5 h-5 bg-white absolute top-2 right-2 [border-radius: 6px] hover:bg-gray-400"
                         >
-                          <Button
-                            onClick={() => handleDeleteByIndex(index)}
-                            variant="ghost"
-                            size="none"
-                            tw="w-5 h-5 bg-white absolute top-2 right-2 rounded-lg hover:bg-gray-400"
-                          >
-                            <CloseIcon />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </Popup.ContentGroup>
-            )}
+                          <CloseIcon />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Popup.ContentGroup>
 
-            {photoSending && (
-              <Popup.ContentGroup tw="[text-align: center]">
-                <Popup.SmallTitle>전송중</Popup.SmallTitle>
-                <Loading />
-              </Popup.ContentGroup>
-            )}
-
-            {!photoSending && (
-              <Popup.ButtonGroup>
-                <Popup.ActionButton onClick={onClickSendPhotos}>전송하기</Popup.ActionButton>
-                <Popup.CancelButton onClick={handleClosePopup}>취소</Popup.CancelButton>
-              </Popup.ButtonGroup>
-            )}
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={handleClosePopup}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={onClickSendPhotos}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
       )} */}

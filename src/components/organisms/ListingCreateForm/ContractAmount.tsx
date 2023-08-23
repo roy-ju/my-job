@@ -3,6 +3,7 @@ import CheckIcon from '@/assets/icons/check.svg';
 import { TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback } from 'react';
+import CloseContained from '@/assets/icons/close_contained.svg';
 
 interface Props {
   price?: string;
@@ -40,6 +41,11 @@ export default function ContractAmount({
     [setNegotiable, onChangeNegotiable],
   );
 
+  const handleDeletePrice = useCallback(() => {
+    setValue('');
+    onChangePrice?.('');
+  }, [setValue, onChangePrice]);
+
   return (
     <div>
       <div tw="flex justify-between mb-4">
@@ -51,7 +57,17 @@ export default function ContractAmount({
       </div>
       <div>
         <TextField variant="outlined">
-          <TextField.PriceInput label="계약금" value={value} onChange={handleChangePrice} isZeroAllowed />
+          <TextField.PriceInput
+            label={value ? '계약금' : '계약금 입력'}
+            value={value}
+            onChange={handleChangePrice}
+            isZeroAllowed
+          />
+          {value && (
+            <TextField.Trailing tw="absolute right-12 bottom-3 cursor-pointer" onClick={handleDeletePrice}>
+              <CloseContained />
+            </TextField.Trailing>
+          )}
         </TextField>
         <TextField.PriceHelperMessage tw="mr-4">{value}</TextField.PriceHelperMessage>
       </div>

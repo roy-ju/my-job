@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { MobileContainer } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
@@ -10,17 +10,22 @@ import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { useChatButtonStore } from '@/states/mob/chatButtonStore';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
+import { customAlphabet } from 'nanoid';
 import useChatRoom from './useChatRoom';
 
-const MobChatMapTemplate = dynamic(() => import('@/components/templates/MobChatMap'), {
-  ssr: false,
-});
+// const MobChatMapTemplate = dynamic(() => import('@/components/templates/MobChatMap'), {
+//   ssr: false,
+// });
 
 export default memo(() => {
   const router = useRouter();
 
   const [popupOpen, setPopupOpen] = useState(false);
+
+  const nanoID = customAlphabet('123456789');
+
+  const [photoSending, setPhotoSending] = useState(false);
 
   const {
     listingTitle,
@@ -123,6 +128,24 @@ export default memo(() => {
     return <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>;
   };
 
+  const convertedChatMessages = useMemo(() => {
+    if (photoSending && photosUrls.length > 0) {
+      const list = photosUrls.map(() => ({
+        id: Number(nanoID()),
+        name: '',
+        profileImagePath: '',
+        message: '',
+        chatUserType: 1,
+        sentTime: '',
+        agentReadTime: null,
+        photoLoading: true,
+      }));
+      return chatMessages.concat([...list]);
+    }
+
+    return chatMessages;
+  }, [photoSending, photosUrls, chatMessages, nanoID]);
+
   useEffect(
     () => () => {
       makeShowChat();
@@ -159,43 +182,46 @@ export default memo(() => {
 
   return (
     <MobileContainer>
-      {isShowMap ? (
+      {/* {isShowMap ? (
         <MobChatMapTemplate />
       ) : (
-        <ChatRoom
-          sellerList={sellerList}
-          buyerContractList={buyerContractList}
-          buyerActiveList={buyerActiveList}
-          title={listingTitle ?? ''}
-          agentName={agentName ?? ''}
-          officeName={agentOfficeName ?? ''}
-          agentDescription={agentDescription ?? ''}
-          agentProfileImagePath={agentProfileImagePath ?? ''}
-          additionalListingCount={additionalListingCount ?? 0}
-          isLoading={isLoading}
-          chatUserType={chatUserType ?? 0}
-          chatMessages={chatMessages}
-          photosUrls={photosUrls}
-          textFieldDisabled={isTextFieldDisabled}
-          onSendMessage={handleSendMessage}
-          onChangePhotosUrls={handleChangePhotoUrls}
-          onClickReportButton={handleClickReportButton}
-          onClickLeaveButton={handleClickLeaveButton}
-          onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
-          onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
-          onClickBack={() => {
-            if (typeof window !== 'undefined') {
-              const canGoBack = window.history.length > 1;
+       <ChatRoom>
+      )} */}
 
-              if (canGoBack) {
-                router.back();
-              } else {
-                router.replace('/');
-              }
+      <ChatRoom
+        sellerList={sellerList}
+        buyerContractList={buyerContractList}
+        buyerActiveList={buyerActiveList}
+        title={listingTitle ?? ''}
+        agentName={agentName ?? ''}
+        officeName={agentOfficeName ?? ''}
+        agentDescription={agentDescription ?? ''}
+        agentProfileImagePath={agentProfileImagePath ?? ''}
+        additionalListingCount={additionalListingCount ?? 0}
+        isLoading={isLoading}
+        chatUserType={chatUserType ?? 0}
+        chatMessages={convertedChatMessages}
+        photosUrls={photosUrls}
+        textFieldDisabled={isTextFieldDisabled}
+        onSendMessage={handleSendMessage}
+        onChangePhotosUrls={handleChangePhotoUrls}
+        onClickReportButton={handleClickReportButton}
+        onClickLeaveButton={handleClickLeaveButton}
+        onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
+        onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
+        onClickBack={() => {
+          if (typeof window !== 'undefined') {
+            const canGoBack = window.history.length > 1;
+
+            if (canGoBack) {
+              router.back();
+            } else {
+              router.replace('/');
             }
-          }}
-        />
-      )}
+          }
+        }}
+        setPhotoSending={setPhotoSending}
+      />
 
       {popupOpen && (
         <OverlayPresenter>

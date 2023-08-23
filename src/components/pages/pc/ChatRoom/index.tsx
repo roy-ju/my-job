@@ -1,13 +1,14 @@
 import { Panel } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import Routes from '@/router/routes';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
 import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import { mutate } from 'swr';
+import { customAlphabet } from 'nanoid';
 import useChatRoom from './useChatRoom';
 
 interface Props {
@@ -36,6 +37,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     hasPreContractCompleteListings,
   } = useChatRoom(Number(router.query.chatRoomID));
   const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
+
+  const nanoID = customAlphabet('123456789');
+
+  const [photoSending, setPhotoSending] = useState(false);
 
   const handleClickReportButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
@@ -103,6 +108,24 @@ export default memo(({ depth, panelWidth }: Props) => {
     return <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>;
   };
 
+  const convertedChatMessages = useMemo(() => {
+    if (photoSending && photosUrls.length > 0) {
+      const list = photosUrls.map(() => ({
+        id: Number(nanoID()),
+        name: '',
+        profileImagePath: '',
+        message: '',
+        chatUserType: 1,
+        sentTime: '',
+        agentReadTime: null,
+        photoLoading: true,
+      }));
+      return chatMessages.concat([...list]);
+    }
+
+    return chatMessages;
+  }, [photoSending, photosUrls, chatMessages, nanoID]);
+
   return (
     <Panel width={panelWidth}>
       <ChatRoom
@@ -117,7 +140,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         additionalListingCount={additionalListingCount ?? 0}
         isLoading={isLoading}
         chatUserType={chatUserType ?? 0}
-        chatMessages={chatMessages}
+        chatMessages={convertedChatMessages}
         photosUrls={photosUrls}
         textFieldDisabled={isTextFieldDisabled}
         onSendMessage={handleSendMessage}
@@ -126,6 +149,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickLeaveButton={handleClickLeaveButton}
         onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
         onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
+        setPhotoSending={setPhotoSending}
       />
       {popupOpen && (
         <OverlayPresenter>

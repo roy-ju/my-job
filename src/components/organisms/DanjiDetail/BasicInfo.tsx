@@ -156,10 +156,17 @@ export default function BasicInfo({
               </>
             )}
 
-            {danji.construction_start_date?.replaceAll(' ', '') && (
+            {/* {danji.construction_start_date?.replaceAll(' ', '') && (
               <>
                 <div tw="w-px h-2 bg-gray-300 mx-1" />
                 <p tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</p>
+              </>
+            )} */}
+
+            {danji?.use_accepted_year?.replaceAll(' ', '') && (
+              <>
+                <div tw="w-px h-2 bg-gray-300 mx-1" />
+                <span tw="text-info text-gray-700">{moment(danji.use_accepted_year).format('YYYY.MM.DD')}</span>
               </>
             )}
           </div>

@@ -1,22 +1,11 @@
 import { BiddingForm as Form } from '@/components/organisms';
 import { useContext, useMemo } from 'react';
 import _ from 'lodash';
+import { BuyOrRent } from '@/constants/enums';
+import { Separator } from '@/components/atoms';
 import FormContext from './FormContext';
 
-export const Forms = {
-  Price: 'price',
-  ContractAmount: 'contractAmount',
-  InterimAmount: 'interimAmount',
-  RemainingAmount: 'remainingAmount',
-  MoveInDate: 'moveInDate',
-  Etc: 'etc',
-};
-
-interface Props {
-  form: string;
-}
-
-export default function FormRenderer({ form }: Props) {
+export default function FormRenderer() {
   const {
     listing,
 
@@ -24,31 +13,15 @@ export default function FormRenderer({ form }: Props) {
     onChangeType,
 
     price,
-    monthlyRentFee,
     onChangePrice,
+
+    monthlyRentFee,
     onChangeMonthlyRentFee,
 
-    canHaveMoreContractAmount,
-    onChangeCanHaveMoreContractAmount,
-    contractAmount,
-    onChangeContractAmount,
-
-    canHaveMoreInterimAmount,
-    onChangeCanHaveMoreInterimAmount,
-    interimAmount,
-    onChangeInterimAmount,
-
-    canHaveEarilerRemainingAmountDate,
-    onChangeCanHaveEarilerRemainingAmountDate,
-    remainingAmountDate,
-    remainingAmountDateType,
-    onChangeRemainingAmountDate,
-    onChangeRemainingAmountDateType,
-
-    canHaveEarilerMoveInDate,
     moveInDate,
-    moveInDateType,
     onChangeMoveInDate,
+
+    moveInDateType,
     onChangeMoveInDateType,
 
     etcs,
@@ -58,84 +31,49 @@ export default function FormRenderer({ form }: Props) {
     onChangeDescription,
   } = useContext(FormContext);
 
-  const totalInterimAmount = useMemo(
-    () =>
-      _.sum([listing?.interim_amount1, listing?.interim_amount2, listing?.interim_amount3]?.map((item) => item ?? 0)),
-    [listing?.interim_amount1, listing?.interim_amount2, listing?.interim_amount3],
-  );
+  const formType = useMemo(() => {
+    if (listing?.buy_or_rent === BuyOrRent.Buy) return BuyOrRent.Buy;
 
-  switch (form) {
-    case Forms.Price:
-      return (
-        <div id={Forms.Price}>
-          <Form.Price
-            listingMonthlyRentFee={listing?.monthly_rent_fee}
-            listingPrice={listing?.trade_price || listing?.deposit}
-            buyOrRent={listing?.buy_or_rent}
-            tabValue={type}
-            onChangeTabValue={onChangeType}
-            price={price}
-            monthlyRentFee={monthlyRentFee}
-            onChangePrice={onChangePrice}
-            onChangeMonthlyRentFee={onChangeMonthlyRentFee}
-          />
-        </div>
-      );
-    case Forms.ContractAmount:
-      return (
-        <div id={Forms.ContractAmount}>
-          <Form.ContractAmount
-            listingPrice={listing?.trade_price || listing?.deposit}
-            listingContractAmount={listing?.contract_amount}
-            value={canHaveMoreContractAmount}
-            onChange={onChangeCanHaveMoreContractAmount}
-            amount={contractAmount}
-            onChangeAmount={onChangeContractAmount}
-          />
-        </div>
-      );
-    case Forms.InterimAmount:
-      return (
-        <div id={Forms.InterimAmount}>
-          <Form.InterimAmount
-            // listingPrice={listing?.trade_price || listing?.deposit}
-            listingInterimAmount={totalInterimAmount}
-            value={canHaveMoreInterimAmount}
-            onChange={onChangeCanHaveMoreInterimAmount}
-            amount={interimAmount}
-            onChangeAmount={onChangeInterimAmount}
-          />
-        </div>
-      );
-    case Forms.RemainingAmount:
-      return (
-        <div id={Forms.RemainingAmount}>
-          <Form.RemainingAmount
-            listingRemainingAmountDate={listing?.remaining_amount_payment_time}
-            value={canHaveEarilerRemainingAmountDate}
-            onChange={onChangeCanHaveEarilerRemainingAmountDate}
-            date={remainingAmountDate}
-            dateType={remainingAmountDateType}
-            onChangeDate={onChangeRemainingAmountDate}
-            onChangeDateType={onChangeRemainingAmountDateType}
-          />
-        </div>
-      );
-    case Forms.MoveInDate:
-      return (
-        <div id={Forms.MoveInDate}>
+    if (listing?.buy_or_rent === BuyOrRent.Jeonsae) return BuyOrRent.Jeonsae;
+
+    if (listing?.buy_or_rent === BuyOrRent.Wolsae) return BuyOrRent.Wolsae;
+
+    return null;
+  }, [listing]);
+
+  if (!formType) return null;
+
+  return (
+    <>
+      <div>
+        <Form.Price
+          listingMonthlyRentFee={listing?.monthly_rent_fee}
+          listingPrice={listing?.trade_price || listing?.deposit}
+          buyOrRent={listing?.buy_or_rent}
+          tabValue={type}
+          onChangeTabValue={onChangeType}
+          price={price}
+          monthlyRentFee={monthlyRentFee}
+          onChangePrice={onChangePrice}
+          onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+        />
+      </div>
+
+      {(formType === BuyOrRent.Jeonsae || formType === BuyOrRent.Wolsae) && type === 1 && (
+        <div>
+          <Separator />
           <Form.MoveInDate
-            value={canHaveEarilerMoveInDate}
             date={moveInDate}
             dateType={moveInDateType}
             onChangeDate={onChangeMoveInDate}
             onChangeDateType={onChangeMoveInDateType}
           />
         </div>
-      );
-    case Forms.Etc:
-      return (
-        <div id={Forms.Etc}>
+      )}
+
+      {type === 1 && (
+        <div>
+          <Separator />
           <Form.Etc
             buyOrRent={listing?.buy_or_rent}
             etcs={etcs}
@@ -144,9 +82,7 @@ export default function FormRenderer({ form }: Props) {
             onChangeEtcs={onChangeEtcs}
           />
         </div>
-      );
-
-    default:
-      return null;
-  }
+      )}
+    </>
+  );
 }

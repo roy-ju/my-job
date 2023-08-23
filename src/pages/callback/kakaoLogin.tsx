@@ -8,42 +8,58 @@ import updateEmail from '@/apis/user/updateEmail';
 import { Button, Loading } from '@/components/atoms';
 import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 import * as gtag from '@/lib/gtag';
+import { isMobile } from '@/utils/is';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-const Page: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const forwarded = context.req.headers['x-forwarded-for'];
+  const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
+
+  return {
+    props: {
+      ipAddress: ip ?? null,
+    },
+  };
+};
+
+const Page: NextPage = ({ ipAddress }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
 
   const [hasOpener, setHasOpener] = useState(true);
 
-  const handleLogin = useCallback(async (code: string) => {
-    // 카카오에서 전달받은 코드로 카카오 엑세스 토큰을 가지고 온다.
-    const kakaoAccessTokenResponse = await getKakaoAccessToken({
-      code,
-      redirectUri: `${window.location.origin}${window.location.pathname}`,
-    });
+  const handleLogin = useCallback(
+    async (code: string) => {
+      // 카카오에서 전달받은 코드로 카카오 엑세스 토큰을 가지고 온다.
+      const kakaoAccessTokenResponse = await getKakaoAccessToken({
+        code,
+        redirectUri: `${window.location.origin}${window.location.pathname}`,
+      });
 
-    if (!kakaoAccessTokenResponse) {
-      window.close();
-      return false;
-    }
+      if (!kakaoAccessTokenResponse) {
+        window.close();
+        return false;
+      }
 
-    const detail = await login({
-      browser: '',
-      device: '',
-      ipAddress: '',
-      socialLoginType: SocialLoginType.Kakao,
-      token: kakaoAccessTokenResponse.accessToken,
-    });
+      const detail = await login({
+        browser: navigator.userAgent,
+        device: isMobile(navigator.userAgent) ? 'MOBILE' : 'PC',
+        ipAddress: ipAddress ?? null,
+        socialLoginType: SocialLoginType.Kakao,
+        token: kakaoAccessTokenResponse.accessToken,
+      });
 
-    const payload: NegocioLoginResponseEventPayload = {
-      ...detail,
-      snsToken: kakaoAccessTokenResponse.accessToken,
-      socialLoginType: SocialLoginType.Kakao,
-    };
+      const payload: NegocioLoginResponseEventPayload = {
+        ...detail,
+        snsToken: kakaoAccessTokenResponse.accessToken,
+        socialLoginType: SocialLoginType.Kakao,
+      };
 
-    window.opener?.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
+      window.opener?.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
 
-    return true;
-  }, []);
+      return true;
+    },
+    [ipAddress],
+  );
 
   const handleEmailUpdate = useCallback(async (code: string) => {
     const kakaoAccessTokenResponse = await getKakaoAccessToken({
