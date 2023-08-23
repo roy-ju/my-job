@@ -8,6 +8,7 @@ import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { RealestateType, BuyOrRent } from '@/constants/enums';
 
 // const SuggestRegionalSummary = dynamic(() => import('@/components/templates/SuggestRegionalSummary'));
 
@@ -66,18 +67,20 @@ export default memo(() => {
           isNextButtonLoading={isCreating}
           address={params?.address}
           buyOrRents={params?.buy_or_rents}
-          realestateTypes={params?.realestate_types}
-          price={params?.buy_or_rents === '1' ? params?.trade_price : params?.deposit}
+          realestateTypes={(params?.realestate_types as string)
+            ?.split(',')
+            .filter((type) => type !== `${RealestateType.Yunrip}`)
+            .join(',')}
+          price={params?.buy_or_rents === `${BuyOrRent.Buy}` ? params?.trade_price : params?.deposit}
           monthlyRentFee={params?.monthly_rent_fee}
           minArea={params?.pyoung_from}
           maxArea={params?.pyoung_to}
           purpose={params?.purpose}
-          floor={params?.floors}
           description={params?.note}
-          remainingAmountPaymentTime={params?.remaining_amount_payment_time}
-          remainingAmountPaymentTimeType={params?.remaining_amount_payment_time_type}
           moveInDate={params?.move_in_date}
           moveInDateType={params?.move_in_date_type}
+          investAmount={params?.invest_amount}
+          negotiable={params?.negotiable}
         />
       </MobileContainer>
       {openPopup && (
