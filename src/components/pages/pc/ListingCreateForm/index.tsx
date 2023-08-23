@@ -29,10 +29,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     buyOrRent,
     price,
     monthlyRentFee,
-    contractAmount,
-    contractAmountNegotiable,
-    remainingAmount,
-    interims,
+    // contractAmount,
+    // contractAmountNegotiable,
+    // remainingAmount,
+    // interims,
     debtSuccessionDeposit,
     debtSuccessionMiscs,
     collaterals,
@@ -49,21 +49,16 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleConfirmChangeBuyOrRent,
     handleChangePrice,
     handleChangeMonthlyRentFee,
-    handleAddInterim,
-    handleChangeContractAmount,
-    handleChangeContractAmountNegotiable,
-    handleChangeRemainingAmount,
+    // handleAddInterim,
+    // handleChangeContractAmount,
+    // handleChangeContractAmountNegotiable,
+    // handleChangeRemainingAmount,
     handleChangeDebtSuccessionDeposit,
     handleAddDebtSuccessionMisc,
     handleChangeSpecialTerms,
     handleAddCollaterals,
     handleChangeMoveInDateType,
     handleChangeMoveInDate,
-
-    remainingAmountDate,
-    remainingAmountDateType,
-    handleChangeRemainingAmountDate,
-    handleChangeRemainingAmountDateType,
 
     rentArea,
     hasRentArea,
@@ -116,7 +111,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     openBackPopup,
     nextButtonDisabled,
 
-    isAddInterimButtonDisabled,
+    // isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
@@ -141,7 +136,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       <ListingCreateForm
         dong={dong ?? ''}
         ho={ho ?? ''}
-        isAddInterimButtonDisabled={isAddInterimButtonDisabled}
+        // isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         isAddCollateralDisabled={isAddCollateralDisabled}
         isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
@@ -155,10 +150,10 @@ export default memo(({ depth, panelWidth }: Props) => {
         buyOrRent={buyOrRent}
         price={price}
         monthlyRentFee={monthlyRentFee}
-        contractAmount={contractAmount}
-        contractAmountNegotiable={contractAmountNegotiable}
-        remainingAmount={remainingAmount}
-        interims={interims}
+        // contractAmount={contractAmount}
+        // contractAmountNegotiable={contractAmountNegotiable}
+        // remainingAmount={remainingAmount}
+        // interims={interims}
         debtSuccessionDeposit={debtSuccessionDeposit}
         debtSuccessionMiscs={debtSuccessionMiscs}
         collaterals={collaterals}
@@ -179,20 +174,16 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeBuyOrRent={handleChangeBuyOrRent}
         onChangePrice={handleChangePrice}
         onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-        onClickAddInterim={handleAddInterim}
-        onChangeContractAmount={handleChangeContractAmount}
-        onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
-        onChangeRemainingAmount={handleChangeRemainingAmount}
+        // onClickAddInterim={handleAddInterim}
+        // onChangeContractAmount={handleChangeContractAmount}
+        // onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
+        // onChangeRemainingAmount={handleChangeRemainingAmount}
         onChangeDebtSuccessionDeposit={handleChangeDebtSuccessionDeposit}
         onClickAddDebtSuccessionMisc={handleAddDebtSuccessionMisc}
         onChangeSpecialTerms={handleChangeSpecialTerms}
         onClickAddCollateral={handleAddCollaterals}
         onChangeMoveInDate={handleChangeMoveInDate}
         onChangeMoveInDateType={handleChangeMoveInDateType}
-        remainingAmountDate={remainingAmountDate}
-        remainingAmountDateType={remainingAmountDateType}
-        onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
-        onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
         rentArea={rentArea}
         hasRentArea={hasRentArea}
         onChangeRentArea={handleChangeRentArea}

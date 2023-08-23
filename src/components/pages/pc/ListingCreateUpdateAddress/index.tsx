@@ -28,13 +28,19 @@ export default memo(({ depth, panelWidth }: Props) => {
     [router, listingID],
   );
 
+  const onClickBack = useCallback(() => {
+    router.replaceCurrent(Routes.ListingCreateResult, {
+      persistParams: true,
+    });
+  }, [router]);
+
   useEffect(() => {
     if (!listingID) router.pop();
   }, [router, listingID]);
 
   return (
     <Panel width={panelWidth}>
-      <ListingCreateAddress onSubmit={handleSubmit} />
+      <ListingCreateAddress update onClickBack={onClickBack} onSubmit={handleSubmit} />
     </Panel>
   );
 });

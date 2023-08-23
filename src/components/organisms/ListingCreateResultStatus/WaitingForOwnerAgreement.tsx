@@ -38,20 +38,16 @@ export default function WaitingForOwnerAgreement({ ownerName, ownerPhone, isLoad
 
   return (
     <div tw="px-5">
-      <div tw="text-h2 font-bold">소유자 동의가 필요합니다.</div>
-      <p tw="mt-2 mb-5 text-info text-gray-700">
-        동의 요청을 진행할 소유자 명의의 휴대폰으로만 매물등록에 대한 동의를 진행할 수 있습니다.
-      </p>
+      <div tw="text-h2 font-bold">소유자의 동의를 기다리고 있어요.</div>
+      <p tw="mt-2 mb-5 text-info text-gray-700">매물 등록을 위해서는 소유자 동의가 필요해요.</p>
       <Separator tw="-mx-5 mb-10" />
       <div tw="mb-7">
         <div tw="text-b1 font-bold mb-4">소유자 동의 전송</div>
         <div tw="text-b1 ">
-          <span tw="text-nego-800 font-bold">
-            {ownerName} {ownerPhoneNum}
-          </span>{' '}
-          번호로
+          소유자 <span tw="text-nego-800 font-bold">{`${ownerName}(${ownerPhoneNum})`}</span>
+          님의
           <br />
-          문자가 전송되었습니다.
+          매물 등록 동의를 기다리고 있어요.
         </div>
         <div tw="text-info leading-6 text-gray-700">공동명의의 소유자에게도 동의 요청을 발송할 수 있습니다.</div>
       </div>

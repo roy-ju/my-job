@@ -8,31 +8,15 @@ export interface IFormContext {
   onChangeType?: (value: number) => void;
 
   price?: string;
-  monthlyRentFee?: string;
   onChangePrice?: (value: string) => void;
+
+  monthlyRentFee?: string;
   onChangeMonthlyRentFee?: (value: string) => void;
 
-  canHaveMoreContractAmount?: boolean | null;
-  onChangeCanHaveMoreContractAmount?: (value: boolean | null) => void;
-  contractAmount?: string;
-  onChangeContractAmount?: (value: string) => void;
-
-  canHaveMoreInterimAmount?: boolean | null;
-  onChangeCanHaveMoreInterimAmount?: (value: boolean | null) => void;
-  interimAmount?: string;
-  onChangeInterimAmount?: (value: string) => void;
-
-  canHaveEarilerRemainingAmountDate?: boolean | null;
-  onChangeCanHaveEarilerRemainingAmountDate?: (value: boolean | null) => void;
-  remainingAmountDate?: Date | null;
-  remainingAmountDateType?: string;
-  onChangeRemainingAmountDate?: (value: Date | null) => void;
-  onChangeRemainingAmountDateType?: (value: string) => void;
-
-  canHaveEarilerMoveInDate?: boolean | null;
   moveInDate?: Date | null;
-  moveInDateType?: string;
   onChangeMoveInDate?: (value: Date | null) => void;
+
+  moveInDateType?: string;
   onChangeMoveInDateType?: (value: string) => void;
 
   etcs?: string[];

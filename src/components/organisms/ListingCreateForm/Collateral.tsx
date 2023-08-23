@@ -4,6 +4,7 @@ import QuestionIcon from '@/assets/icons/question.svg';
 import RemoveIcon from '@/assets/icons/remove.svg';
 import { TextField } from '@/components/molecules';
 import useTooltip from '@/states/tooltip';
+import CloseContained from '@/assets/icons/close_contained.svg';
 
 interface ContainerProps {
   onClickAdd?: () => void;
@@ -56,17 +57,27 @@ function Item({ index = 0, name, price, onChangeName, onChangePrice, onClickRemo
       <div tw="flex flex-col gap-4 mt-4">
         <TextField variant="outlined">
           <TextField.Input
-            label="채무내용"
+            label={name ? '채무내용' : '채무내용을 입력하세요.'}
             value={name}
             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeName?.(e.target.value)}
           />
+          {name && (
+            <TextField.Trailing tw="absolute right-1.5 bottom-3 cursor-pointer" onClick={() => onChangeName?.('')}>
+              <CloseContained />
+            </TextField.Trailing>
+          )}
         </TextField>
         <TextField variant="outlined">
           <TextField.PriceInput
-            label="금액"
+            label={price ? '금액' : '금액 입력'}
             value={price}
             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangePrice?.(e.target.value)}
           />
+          {price && (
+            <TextField.Trailing tw="absolute right-12 bottom-3 cursor-pointer" onClick={() => onChangePrice?.('')}>
+              <CloseContained />
+            </TextField.Trailing>
+          )}
         </TextField>
       </div>
     </div>

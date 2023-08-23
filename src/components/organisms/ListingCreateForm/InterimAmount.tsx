@@ -4,6 +4,7 @@ import { TextField } from '@/components/molecules';
 import RemoveIcon from '@/assets/icons/remove.svg';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback } from 'react';
+import CloseContained from '@/assets/icons/close_contained.svg';
 
 interface Props {
   index?: number;
@@ -45,6 +46,11 @@ export default function InterimAmount({
     [setNegotiable, onChangeNegotiable],
   );
 
+  const handleDeletePrice = useCallback(() => {
+    setValue('');
+    onChangePrice?.('');
+  }, [setValue, onChangePrice]);
+
   return (
     <div>
       <div>
@@ -66,7 +72,16 @@ export default function InterimAmount({
           </Button>
         </div>
         <TextField variant="outlined">
-          <TextField.PriceInput label="중도금" value={value} onChange={handleChangePrice} />
+          <TextField.PriceInput
+            label={value ? `중도금 ${(index || 0) + 1}` : `중도금 ${(index || 0) + 1}입력`}
+            value={value}
+            onChange={handleChangePrice}
+          />
+          {value && (
+            <TextField.Trailing tw="absolute right-12 bottom-3 cursor-pointer" onClick={handleDeletePrice}>
+              <CloseContained />
+            </TextField.Trailing>
+          )}
         </TextField>
         <TextField.PriceHelperMessage tw="mr-4">{value}</TextField.PriceHelperMessage>
       </div>

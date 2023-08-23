@@ -24,6 +24,7 @@ interface DropdownProps extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value'
   value?: string;
   onChange?: (value: string) => void;
   children?: ReactNode;
+  disabled?: boolean;
 }
 
 function Dropdown({
@@ -34,6 +35,7 @@ function Dropdown({
   value: valueProp,
   onChange,
   children,
+  disabled,
   ...others
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,6 +111,7 @@ function Dropdown({
             value={value}
             onClick={handleInputClick}
             readOnly
+            disabled={disabled}
             css={[tw`hover:cursor-pointer`, size === 'small' ? tw`pr-7` : tw`pr-8`]}
           />
           <TextField.Trailing

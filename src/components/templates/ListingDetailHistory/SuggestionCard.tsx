@@ -9,18 +9,10 @@ interface SuggestionCardProps {
   biddingMonthlyRentFee: number;
   biddingTradeOrDepositPrice: number;
 
-  canHaveEarlierRemainingAmountPaymentTime: boolean;
-  canHaveMoreContractAmount: boolean;
-  canHaveMoreInterimAmount: boolean;
-  contractAmount: number;
-  interimAmount: number;
   moveInDate: string;
   moveInDateType: number;
   description: string;
   etcs: string;
-
-  remainingAmountPaymentTime: string;
-  remainingAmountPaymentTimeType: number;
 }
 
 const StyledTable = styled.table`
@@ -38,18 +30,10 @@ export default function SuggestionCard({
   biddingMonthlyRentFee,
   biddingTradeOrDepositPrice,
 
-  canHaveEarlierRemainingAmountPaymentTime,
-  canHaveMoreContractAmount,
-  canHaveMoreInterimAmount,
-  contractAmount,
-  interimAmount,
   moveInDate,
   moveInDateType,
   description,
   etcs,
-
-  remainingAmountPaymentTime,
-  remainingAmountPaymentTimeType,
 }: SuggestionCardProps) {
   const renderMonthlyRentFee = () => {
     if (biddingMonthlyRentFee === 0) return '0원';
@@ -83,30 +67,7 @@ export default function SuggestionCard({
               )}
             </Table.Data>
           </Table.Row>
-          {canHaveMoreInterimAmount && (
-            <Table.Row tw="flex justify-between">
-              <Table.Head tw="self-start">중도금</Table.Head>
-              <Table.Data>
-                최대{' '}
-                <Numeral thousandsSeparated koreanNumber>
-                  {interimAmount}
-                </Numeral>{' '}
-                원까지 지급 가능
-              </Table.Data>
-            </Table.Row>
-          )}
-          {canHaveMoreContractAmount && (
-            <Table.Row tw="flex justify-between">
-              <Table.Head tw="self-start">중도금</Table.Head>
-              <Table.Data>
-                최대{' '}
-                <Numeral thousandsSeparated koreanNumber>
-                  {contractAmount}
-                </Numeral>{' '}
-                원까지 지급 가능
-              </Table.Data>
-            </Table.Row>
-          )}
+
           {moveInDate && (
             <Table.Row tw="flex justify-between">
               <Table.Head tw="self-start min-w-fit">입주가능시기</Table.Head>
@@ -115,15 +76,7 @@ export default function SuggestionCard({
               </Table.Data>
             </Table.Row>
           )}
-          {canHaveEarlierRemainingAmountPaymentTime && (
-            <Table.Row tw="flex justify-between">
-              <Table.Head tw="self-start">잔금</Table.Head>
-              <Table.Data>
-                잔금 지급 가능한 날: <Moment format="YYYY년 MM월 DD일">{remainingAmountPaymentTime}</Moment>{' '}
-                {TimeTypeString[remainingAmountPaymentTimeType]}
-              </Table.Data>
-            </Table.Row>
-          )}
+
           {etcs && (
             <Table.Row tw="flex justify-between">
               <Table.Head tw="self-start">추가 조건</Table.Head>

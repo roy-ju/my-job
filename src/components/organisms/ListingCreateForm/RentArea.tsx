@@ -4,6 +4,7 @@ import { ChangeEventHandler, useCallback, useEffect } from 'react';
 import QuestionIcon from '@/assets/icons/question.svg';
 import { Button, Label, Radio } from '@/components/atoms';
 import useTooltip from '@/states/tooltip';
+import CloseContained from '@/assets/icons/close_contained.svg';
 
 interface RentAreaProps {
   value?: string;
@@ -79,6 +80,17 @@ export default function RentArea({
                 disabled={hasRentArea === '0'}
                 placeholder="ex) 101호, 전용 15m²"
               />
+              {rentArea && (
+                <TextField.Trailing
+                  tw="absolute right-1.5 bottom-4 cursor-pointer"
+                  onClick={() => {
+                    setRentArea('');
+                    onChangeValue?.('');
+                  }}
+                >
+                  <CloseContained />
+                </TextField.Trailing>
+              )}
             </TextField>
           </div>
         )}

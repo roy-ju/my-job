@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/services';
 import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 import { toast } from 'react-toastify';
 import ErrorCodes from '@/constants/error_codes';
+import { isMobile } from '@/utils/is';
 
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
   error_code: number;
@@ -22,7 +23,7 @@ interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
   };
 }
 
-export default function LoginWrraper() {
+export default function LoginWrraper({ ipAddress }: { ipAddress: string }) {
   const { login: handleLogin } = useAuth();
 
   const router = useRouter();
@@ -37,9 +38,9 @@ export default function LoginWrraper() {
       const idToken = res.authorization.id_token;
 
       const detail = await login({
-        browser: '',
-        device: '',
-        ipAddress: '',
+        browser: navigator.userAgent,
+        device: isMobile(navigator.userAgent) ? 'MOBILE' : 'PC',
+        ipAddress,
         socialLoginType: SocialLoginType.Apple,
         token: idToken,
       });
@@ -52,7 +53,7 @@ export default function LoginWrraper() {
 
       window.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
     }
-  }, []);
+  }, [ipAddress]);
 
   const handleForgotMyAccount = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.FindAccount}`);

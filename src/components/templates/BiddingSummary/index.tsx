@@ -24,12 +24,10 @@ interface Props {
 
   price?: number;
   monthlyRentFee?: number;
-  contractAmount?: number;
-  interimAmount?: number;
-  remainingAmountDate?: string;
-  remainingAmountDateType?: number;
+
   moveInDate?: string;
   moveInDateType?: number;
+
   etcs?: string;
   description?: string;
 
@@ -69,17 +67,15 @@ export default function BiddingSummary({
   listingMonthlyRentFee = 0,
   price = 0,
   monthlyRentFee = 0,
-  contractAmount = 0,
-  interimAmount = 0,
-  remainingAmountDate,
-  remainingAmountDateType = 1,
+
   moveInDate,
   moveInDateType = 1,
+
   etcs,
   description,
+
   acceptingTargetPrice = false,
   isCreatingBidding,
-
   buttonText = '완료',
 
   onClickBack,
@@ -185,43 +181,19 @@ export default function BiddingSummary({
                         </Table.Data>
                       </Table.Row>
                     )}
-                    {Boolean(contractAmount) && (
-                      <Table.Row>
-                        <Table.Head>계약금</Table.Head>
-                        <Table.Data>
-                          최대 <Numeral koreanNumber>{contractAmount}</Numeral> 원까지 지급 가능
-                        </Table.Data>
-                      </Table.Row>
-                    )}
-                    {Boolean(interimAmount) && (
-                      <Table.Row>
-                        <Table.Head>중도금</Table.Head>
-                        <Table.Data>
-                          최대 <Numeral koreanNumber>{interimAmount}</Numeral> 원까지 지급 가능
-                        </Table.Data>
-                      </Table.Row>
-                    )}
-                    {Boolean(remainingAmountDate) && (
-                      <Table.Row>
-                        <Table.Head>잔금</Table.Head>
-                        <Table.Data>
-                          잔금 지급 가능한 날: <Moment format="yyyy년 MM월 DD일">{remainingAmountDate}</Moment>{' '}
-                          {getDateTypeString(remainingAmountDateType)}
-                        </Table.Data>
-                      </Table.Row>
-                    )}
+
                     {Boolean(moveInDate) && (
                       <Table.Row>
-                        <Table.Head>빠른입주</Table.Head>
+                        <Table.Head>입주 가능일</Table.Head>
                         <Table.Data>
-                          입주 가능한 날: <Moment format="yyyy년 MM월 DD일">{moveInDate}</Moment>{' '}
-                          {getDateTypeString(moveInDateType)}
+                          <Moment format="yyyy년 MM월 DD일">{moveInDate}</Moment> {getDateTypeString(moveInDateType)}
                         </Table.Data>
                       </Table.Row>
                     )}
+
                     {Boolean(noteString) && (
                       <Table.Row>
-                        <Table.Head>추가 조건</Table.Head>
+                        <Table.Head tw="whitespace-nowrap">추가 제안 내용</Table.Head>
                         <Table.Data>
                           <p tw="whitespace-pre-wrap">{noteString}</p>
                         </Table.Data>

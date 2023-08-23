@@ -1,8 +1,22 @@
 import { NextPageWithLayout } from '@/pages/_app';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 import LoginWrapper from '@/components/pages/mobile/My/LoginWrraper';
 
-const Page: NextPageWithLayout = () => <LoginWrapper />;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const forwarded = context.req.headers['x-forwarded-for'];
+  const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
+
+  return {
+    props: {
+      ipAddress: ip ?? null,
+    },
+  };
+};
+
+const Page: NextPageWithLayout = ({ ipAddress }: InferGetServerSidePropsType<typeof getServerSideProps>) => (
+  <LoginWrapper ipAddress={ipAddress} />
+);
 
 Page.getLayout = function getLayout(page) {
   return (

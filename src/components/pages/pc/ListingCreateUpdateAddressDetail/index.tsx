@@ -66,7 +66,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
 
     if (!dupRes?.can_create) {
-      setPopup('중복된 매물이 등록되어있습니다.');
+      setPopup('이미 등록된 매물이 있습니다.');
       setIsLoading(false);
       return;
     }
@@ -101,7 +101,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
 
     if (res?.error_code === ErrorCodes.DUPLICATED_LISTING) {
-      setPopup('중복된 매물이 등록되어있습니다.');
+      setPopup('이미 등록된 매물이 있습니다.');
       setIsLoading(false);
       return;
     }
@@ -121,8 +121,12 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router, dong, ho, addressData, listingID]);
 
   const handleBack = useCallback(() => {
-    router.pop();
-  }, [router]);
+    router.replaceCurrent(Routes.ListingCreateUpdateAddress, {
+      searchParams: {
+        listingID: `${listingID}`,
+      },
+    });
+  }, [router, listingID]);
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
@@ -155,12 +159,14 @@ export default memo(({ depth, panelWidth }: Props) => {
         onSubmit={handleSubmit}
         onSearchAnotherAddress={handleBack}
         isLoading={isLoading}
+        update={window.location.href.includes(Routes.ListingCreateUpdateAddressDetail)}
       />
       {popup && (
         <OverlayPresenter>
           <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.Title>{popup}</Popup.Title>
+            <Popup.ContentGroup>
+              <Popup.Title tw="text-center">{popup}</Popup.Title>
+              <Popup.Body>상세 주소를 다시 한번 확인해 주세요.</Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setPopup('')}>확인</Popup.ActionButton>
