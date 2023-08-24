@@ -4,6 +4,7 @@ import { RecommendationForm as RecommendationFormTemplate } from '@/components/t
 import { OverlayPresenter } from '@/components/molecules';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { DanjiList } from '@/components/organisms';
 import RegionForm from '../SuggestRegionalForm/RegionForm';
 
 interface Props {
@@ -12,17 +13,13 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const [isRegionListOpen, setIsRegionListOpen] = useState(false);
-  // const [isDanjiListOpen, setIsDanjiListOpen] = useState(false);
   const [selectedButton, setSelectedButton] = useState<'region' | 'danji' | 'none'>('none');
   const router = useRouter(depth);
 
   const handleOpenRegionList = () => {
-    setIsRegionListOpen(true);
     setSelectedButton('region');
   };
-  const handleCloseRegionList = () => {
-    setIsRegionListOpen(false);
+  const handleCloseModal = () => {
     setSelectedButton('none');
   };
 
@@ -44,13 +41,13 @@ export default memo(({ depth, panelWidth }: Props) => {
             : undefined
         }
       />
-      {isRegionListOpen && (
+      {selectedButton === 'region' && (
         <OverlayPresenter>
           <div tw="bg-white w-[380px] h-[600px] rounded-lg shadow">
             <RegionForm
-              onClickClose={handleCloseRegionList}
+              onClickClose={handleCloseModal}
               onSubmit={(item) => {
-                handleCloseRegionList();
+                handleCloseModal();
 
                 router.replace(Routes.SuggestRegionalForm, {
                   searchParams: {
@@ -59,6 +56,26 @@ export default memo(({ depth, panelWidth }: Props) => {
                 });
               }}
             />
+          </div>
+        </OverlayPresenter>
+      )}
+      {selectedButton === 'danji' && (
+        <OverlayPresenter>
+          <div tw="bg-white w-[380px] h-[600px] rounded-lg shadow">
+            <DanjiList tw="h-full">
+              <DanjiList.Header onClickClose={handleCloseModal} />
+              <DanjiList.AddressSearchForm
+                onSubmit={(danjiID) => {
+                  handleCloseModal();
+
+                  router.replace(Routes.DanjiRecommendation, {
+                    searchParams: {
+                      danjiID: `${danjiID}`,
+                    },
+                  });
+                }}
+              />
+            </DanjiList>
           </div>
         </OverlayPresenter>
       )}
