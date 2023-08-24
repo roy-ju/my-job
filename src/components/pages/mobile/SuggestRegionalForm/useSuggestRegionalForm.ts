@@ -125,7 +125,7 @@ export default function useSuggestRegionalForm() {
   const handleSubmitBuyOrRent = useCallback(() => {}, []);
 
   const handleSubmitMoveInDate = useCallback(() => {
-    setNextForm(Forms.Area);
+    setNextForm(Forms.Option);
   }, [setNextForm]);
 
   const handleSubmitPrice = useCallback(() => {
@@ -137,7 +137,7 @@ export default function useSuggestRegionalForm() {
   }, [setNextForm]);
 
   const handleSubmitPurpose = useCallback(() => {
-    setNextForm(Forms.Area);
+    setNextForm(Forms.Option);
   }, [setNextForm]);
 
   const onClosePopup = useCallback(() => {
@@ -314,8 +314,11 @@ export default function useSuggestRegionalForm() {
         handleSubmitPurpose();
         break;
 
-      case Forms.Description:
+      case Forms.Option:
         handleSubmitFinal();
+        break;
+
+      case Forms.Description:
         break;
 
       default:
