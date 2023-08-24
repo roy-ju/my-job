@@ -69,7 +69,6 @@ export default memo(({ panelWidth, depth }: Props) => {
   } = useSuggestRegionalForm(depth);
 
   return (
-    // <AuthRequired ciRequired depth={depth}>
     <Panel width={panelWidth}>
       <SuggestRegionalForm
         forms={forms}
@@ -135,6 +134,5 @@ export default memo(({ panelWidth, depth }: Props) => {
         </OverlayPresenter>
       )}
     </Panel>
-    // </AuthRequired>
   );
 });

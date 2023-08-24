@@ -13,6 +13,7 @@ export const Forms = {
   Purpose: 'purpose',
   Description: 'description',
   MoveInDate: 'moveInDate',
+  Option: 'option',
 };
 
 interface Props {
@@ -47,9 +48,6 @@ export default function FormRenderer({ form }: Props) {
 
     maxArea,
     onChangeMaxArea,
-
-    floor,
-    onChangeFloor,
 
     purpose,
     onChangePurpose,
@@ -130,29 +128,6 @@ export default function FormRenderer({ form }: Props) {
         </div>
       );
 
-    case Forms.Area:
-      return (
-        <div id={Forms.Area}>
-          <div tw="py-10 px-5">
-            <SuggestRegionalForm.Area
-              minArea={minArea}
-              onChangeMinArea={onChangeMinArea}
-              maxArea={maxArea}
-              onChangeMaxArea={onChangeMaxArea}
-            />
-          </div>
-        </div>
-      );
-
-    case Forms.Floor:
-      return (
-        <div id={Forms.Floor}>
-          <div tw="py-10 px-5">
-            <SuggestRegionalForm.Floor value={floor} onChange={onChangeFloor} />
-          </div>
-        </div>
-      );
-
     case Forms.Purpose:
       return (
         <div tw="py-10" id={Forms.Purpose}>
@@ -180,9 +155,17 @@ export default function FormRenderer({ form }: Props) {
         </div>
       );
 
-    case Forms.Description:
+    case Forms.Option:
       return (
-        <div id={Forms.Description}>
+        <div id={Forms.Option}>
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.Area
+              minArea={minArea}
+              onChangeMinArea={onChangeMinArea}
+              maxArea={maxArea}
+              onChangeMaxArea={onChangeMaxArea}
+            />
+          </div>
           <div tw="py-10 px-5">
             <SuggestRegionalForm.Description
               description={description}
@@ -197,13 +180,3 @@ export default function FormRenderer({ form }: Props) {
       return null;
   }
 }
-
-/* 
-<SuggestRegionalForm.RemainingAmountDate
-                  remainingAmountDate={remainingAmountDate}
-                  onChangeRemainingAmountDate={onChangeRemainingAmountDate}
-                  remainingAmountDateType={remainingAmountDateType}
-                  onChangeRemainingAmountDateType={onChangeRemainingAmountDateType}
-                />
-
-*/
