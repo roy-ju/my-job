@@ -40,10 +40,11 @@ export default function useSuggestRegionalForm() {
 
   const handleChangeBuyOrRent = useCallback(
     (value: number) => {
-      if (forms.length > 1 && buyOrRent) {
+      if (forms.length > 2 && buyOrRent) {
         setOpenResetPopup(true);
         return;
       }
+      setPrice('');
       setBuyOrRent(value);
     },
     [buyOrRent, forms.length],
