@@ -60,6 +60,7 @@ export { default as SharePopup } from './SharePopup';
 export { default as LawSearchForm } from './LawSearchForm';
 export { default as LawSerachFormPc } from './LawSerachFormPc';
 export { default as DanjiList } from './DanjiList';
+export { default as DanjiRecommendationForm } from './DanjiRecommendationForm';
 
 // 모바일 전용
 export { default as MobDanjiSummary } from './MobDanjiSummary';
