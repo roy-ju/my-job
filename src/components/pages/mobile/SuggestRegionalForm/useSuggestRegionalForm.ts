@@ -169,34 +169,34 @@ export default function useSuggestRegionalForm() {
     // region
     if (!bubjungdong) {
       const form = document.getElementById(Forms.Region);
-      form?.scrollIntoView();
+      form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('어느 지역을 추천받고 싶은지 선택해주세요.');
       return;
     }
     // realestate type
-    if (!realestateType) {
+    if (!realestateType.length) {
       const form = document.getElementById(Forms.RealestateType);
-      form?.scrollIntoView();
+      form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('매물의 부동산 종류를 선택해주세요');
       return;
     }
     // buy or rent
     if (!buyOrRent) {
       const form = document.getElementById(Forms.RealestateType);
-      form?.scrollIntoView();
+      form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('매물의 거래 종류를 선택해 주세요.');
       return;
     }
     if (buyOrRent === BuyOrRent.Buy && !price) {
       const form = document.getElementById(Forms.RealestateType);
-      form?.scrollIntoView();
+      form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('매매가를 입력해 주세요.');
       return;
     }
 
     if (buyOrRent !== BuyOrRent.Buy && !monthlyRentFee && !price) {
       const form = document.getElementById(Forms.RealestateType);
-      form?.scrollIntoView();
+      form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('보증금 또는 월차임을 입력해 주세요.');
       return;
     }
@@ -205,7 +205,7 @@ export default function useSuggestRegionalForm() {
     if (minArea && maxArea) {
       if (Number(minArea) > Number(maxArea)) {
         const form = document.getElementById(Forms.Area);
-        form?.scrollIntoView();
+        form?.scrollIntoView({ behavior: 'smooth' });
         toast.error('최소 면적이 최대 면적보다 큽니다.');
         return;
       }
@@ -214,7 +214,7 @@ export default function useSuggestRegionalForm() {
     // purpose
     if (purpose === '투자' && !investAmount) {
       const form = document.getElementById(Forms.Purpose);
-      form?.scrollIntoView();
+      form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('투자 예산을 입력해주세요.');
       return;
     }
@@ -222,13 +222,13 @@ export default function useSuggestRegionalForm() {
     if (purpose !== '투자' && !moveInDate) {
       if (buyOrRent === BuyOrRent.Buy) {
         const form = document.getElementById(Forms.RealestateType);
-        form?.scrollIntoView();
+        form?.scrollIntoView({ behavior: 'smooth' });
         toast.error('입주 희망일을 입력해주세요.');
         return;
       }
 
       const form = document.getElementById(Forms.MoveInDate);
-      form?.scrollIntoView();
+      form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('입주 희망일을 입력해주세요.');
       return;
     }
