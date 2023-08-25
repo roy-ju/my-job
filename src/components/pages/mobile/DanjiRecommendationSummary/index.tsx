@@ -1,21 +1,17 @@
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
-import { AuthRequired, Panel } from '@/components/atoms';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
 import { DanjiRecommendationSummary as DanjiRecommendationSummaryTemplate } from '@/components/templates';
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
-
-export default function DanjiRecommendationSummary({ panelWidth, depth }: Props) {
-  const router = useRouter(depth);
+export default memo(() => {
+  const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const [popup, setPopup] = useState(false);
 
@@ -33,7 +29,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
   }, []);
 
   const handleClickPopupCTA = useCallback(() => {
-    router.replace(Routes.DanjiRecommendation);
+    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`);
   }, [router]);
 
   const handleClickClosePopupCTA = useCallback(() => {
@@ -52,18 +48,20 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     await mutate();
     toast.success('구해요 글이 등록되었습니다.');
 
-    router.replace(`${Routes.My}/${Routes.SuggestRequestedList}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
   }, [router, params, mutate]);
 
   const handleAccessDenied = useCallback(() => {}, []);
 
   useIsomorphicLayoutEffect(() => {
-    if (!params) router.pop();
+    if (!params) {
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+    }
   }, [params, router]);
 
   return (
-    <AuthRequired ciRequired depth={depth} onAccessDenied={handleAccessDenied}>
-      <Panel width={panelWidth}>
+    <MobAuthRequired ciRequired onAccessDenied={handleAccessDenied}>
+      <MobileContainer>
         <DanjiRecommendationSummaryTemplate
           onClickBack={handleClickBack}
           onClickNext={handleClickNext}
@@ -81,27 +79,25 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
           negotiable={params?.negotiable}
           quickSale={params?.quick_sale}
         />
-      </Panel>
-      <>
-        {popup && (
-          <OverlayPresenter>
-            <Popup>
-              <Popup.ContentGroup>
-                <Popup.Title>추천받기를 종료하시겠습니까?</Popup.Title>
-                <Popup.Body>
-                  추천받기를 종료하시면 입력하신 내용이 모두 삭제됩니다.
-                  <br />
-                  입력한 내용을 확인 또는 수정하시려면 화면을 위로 이동해 주세요.
-                </Popup.Body>
-              </Popup.ContentGroup>
-              <Popup.ButtonGroup>
-                <Popup.CancelButton onClick={handleClickClosePopupCTA}>닫기</Popup.CancelButton>
-                <Popup.ActionButton onClick={handleClickPopupCTA}>추천받기 종료</Popup.ActionButton>
-              </Popup.ButtonGroup>
-            </Popup>
-          </OverlayPresenter>
-        )}
-      </>
-    </AuthRequired>
+      </MobileContainer>
+      {popup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.Title>추천받기를 종료하시겠습니까?</Popup.Title>
+              <Popup.Body>
+                추천받기를 종료하시면 입력하신 내용이 모두 삭제됩니다.
+                <br />
+                입력한 내용을 확인 또는 수정하시려면 화면을 위로 이동해 주세요.
+              </Popup.Body>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={handleClickClosePopupCTA}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleClickPopupCTA}>추천받기 종료</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+    </MobAuthRequired>
   );
-}
+});

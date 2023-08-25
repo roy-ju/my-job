@@ -3,8 +3,8 @@ import { memo, useState } from 'react';
 import { RecommendationForm as RecommendationFormTemplate } from '@/components/templates';
 import { OverlayPresenter } from '@/components/molecules';
 import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { DanjiList } from '@/components/organisms';
+import Routes from '@/router/routes';
 import RegionForm from '../SuggestRegionalForm/RegionForm';
 
 interface Props {
@@ -38,7 +38,9 @@ export default memo(({ depth, panelWidth }: Props) => {
             ? () => {
                 router.replace(router.query.redirect as string);
               }
-            : undefined
+            : () => {
+                router.replace('/');
+              }
         }
       />
       {selectedButton === 'region' && (
@@ -52,6 +54,8 @@ export default memo(({ depth, panelWidth }: Props) => {
                 router.replace(Routes.SuggestRegionalForm, {
                   searchParams: {
                     address: item.name,
+                    redirect: `${router.asPath}`,
+                    back: 'true',
                   },
                 });
               }}
@@ -71,6 +75,8 @@ export default memo(({ depth, panelWidth }: Props) => {
                   router.replace(Routes.DanjiRecommendation, {
                     searchParams: {
                       danjiID: `${danjiID}`,
+                      redirect: `${router.asPath}`,
+                      back: 'true',
                     },
                   });
                 }}
