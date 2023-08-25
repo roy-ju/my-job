@@ -49,6 +49,7 @@ export default function DanjiRecommendationForm({
   onClickPyoungAddIcon,
   onClickPyoungButton,
   onClickPyoungCloseButton,
+  emptyTextFields,
 }: Props) {
   const context = useMemo(
     () => ({
@@ -88,6 +89,8 @@ export default function DanjiRecommendationForm({
       onClickPyoungAddIcon,
       onClickPyoungButton,
       onClickPyoungCloseButton,
+
+      emptyTextFields,
     }),
     [
       forms,
@@ -126,6 +129,8 @@ export default function DanjiRecommendationForm({
       onClickPyoungAddIcon,
       onClickPyoungButton,
       onClickPyoungCloseButton,
+
+      emptyTextFields,
     ],
   );
 

@@ -22,12 +22,8 @@ interface Props {
 
 export default function FormRenderer({ form }: Props) {
   const {
-    forms,
-    nextButtonDisabled,
-    onClickNext,
     danji,
     onClickOpenDanjiList,
-    danjiID,
     buyOrRent,
     onChangeBuyOrRent,
     price,
@@ -41,7 +37,6 @@ export default function FormRenderer({ form }: Props) {
     negotiable,
     onChangeNegotiable,
     pyoungList,
-    onChangePyoungList,
     purpose,
     onChangePurpose,
     moveInDate,
@@ -58,6 +53,7 @@ export default function FormRenderer({ form }: Props) {
     onClickPyoungAddIcon,
     onClickPyoungButton,
     onClickPyoungCloseButton,
+    emptyTextFields,
   } = useContext(FormContext);
 
   switch (form) {
@@ -91,6 +87,7 @@ export default function FormRenderer({ form }: Props) {
               onChangeQuickSale={onChangeQuickSale}
               negotiable={negotiable}
               onChangeNegotiable={onChangeNegotiable}
+              hasError={emptyTextFields?.price}
             />
           </div>
         </div>
@@ -108,6 +105,7 @@ export default function FormRenderer({ form }: Props) {
                 <DanjiRecommendationForm.InvestAmount
                   investAmount={investAmount}
                   onChangeInvestAmount={onChangeInvestAmount}
+                  hasError={emptyTextFields?.investAmount}
                 />
               )}
               {purpose === '실거주' && (

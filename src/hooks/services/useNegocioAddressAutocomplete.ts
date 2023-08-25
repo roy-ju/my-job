@@ -16,8 +16,6 @@ export default function useNegocioAddressAutocomplete(query: string) {
       }
       const list = await searchDanji({ query: q, page_number: pageNumber });
 
-      console.log(list);
-
       setResults([...results, ...list]);
     }, 300),
     [pageNumber],

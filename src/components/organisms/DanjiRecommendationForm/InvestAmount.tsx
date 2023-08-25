@@ -4,9 +4,10 @@ export interface InvestAmountProps {
   buyOrRent?: number;
   investAmount?: string;
   onChangeInvestAmount?: (value: string) => void;
+  hasError?:boolean
 }
 
-export default function InvestAmount({ investAmount, onChangeInvestAmount }: InvestAmountProps) {
+export default function InvestAmount({ investAmount, onChangeInvestAmount,hasError }: InvestAmountProps) {
   return (
     <div>
       <div tw="mb-4">
@@ -15,7 +16,7 @@ export default function InvestAmount({ investAmount, onChangeInvestAmount }: Inv
       </div>
       <div tw="flex flex-col">
         <div>
-          <TextField variant="outlined">
+          <TextField variant="outlined" hasError={hasError}>
             <TextField.PriceInput
               label={investAmount ? '투자 예산' : '투자 예산 입력'}
               value={investAmount}
@@ -23,6 +24,7 @@ export default function InvestAmount({ investAmount, onChangeInvestAmount }: Inv
             />
           </TextField>
           <TextField.PriceHelperMessage tw="mr-4">{investAmount ?? '0'}</TextField.PriceHelperMessage>
+          {hasError && <TextField.ErrorMessage>투자 예산을 입력해주세요.</TextField.ErrorMessage>}
         </div>
       </div>
     </div>
