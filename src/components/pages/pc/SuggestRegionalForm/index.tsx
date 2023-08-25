@@ -18,6 +18,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     handleClickNext,
     handleOpenRegionList,
     handleCloseRegionList,
+    handleClickBack,
 
     bubjungdong,
     handleChangeBubjungdong,
@@ -75,6 +76,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         nextButtonDisabled={nextButtonDisabled}
         onClickNext={handleClickNext}
         onClickOpenRegionList={handleOpenRegionList}
+        onClickBack={handleClickBack()}
         region={bubjungdong?.name}
         realestateType={realestateType}
         buyOrRent={buyOrRent}

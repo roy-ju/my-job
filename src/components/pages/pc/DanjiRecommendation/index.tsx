@@ -60,6 +60,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     handleCloseDanjiList,
 
     handleClickNext,
+    handleClickBack,
     onClosePopup,
     onConfirmPopup,
 
@@ -79,6 +80,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
         forms={forms}
         nextButtonDisabled={nextButtonDisabled}
         onClickNext={handleClickNext}
+        onClickBack={handleClickBack()}
         danji={danji}
         danjiID={Number(danjiID) ?? undefined}
         buyOrRent={buyOrRent}

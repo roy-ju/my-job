@@ -7,6 +7,7 @@ import Routes from '@/router/routes';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -45,6 +46,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     delete params?.address;
     await createSuggestRegional(params);
     await mutate();
+    toast.success('구해요 글이 등록되었습니다.');
 
     router.replace(`${Routes.My}/${Routes.SuggestRequestedList}`);
   }, [router, params, mutate]);

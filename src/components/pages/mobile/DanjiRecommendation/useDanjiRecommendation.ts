@@ -1,43 +1,45 @@
-import { RegionItem } from '@/components/organisms/RegionList';
-import { Forms } from '@/components/templates/SuggestRegionalForm/FormRenderer';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { useState, useCallback } from 'react';
+import { Forms } from '@/components/templates/DanjiRecommendation/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
-import { useCallback, useState } from 'react';
-import Routes from '@/router/routes';
 import { toast } from 'react-toastify';
-import { searchAddress } from '@/lib/kakao/search_address';
+import Routes from '@/router/routes';
+import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
+import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
+import { useRouter } from 'next/router';
+import makeRecommendDanjiParams from './makeRecommendDanjiParams';
 
-import makeSuggestRegionalParams from './makeSuggestRegionalParams';
+export default function useDanjiRecommendation() {
+  const router = useRouter();
 
-export default function useSuggestRegionalForm(depth: number) {
-  const router = useRouter(depth);
-
-  const [forms, setForms] = useState<string[]>([Forms.Region]);
-  const [isRegionListOpen, setIsRegionListOpen] = useState(false);
+  const [forms, setForms] = useState<string[]>([Forms.Danji]);
+  const [isDanjiListOpen, setIsDanjiListOpen] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
-
-  const [bubjungdong, setBubjungdong] = useState<RegionItem | null>(null);
-  const [realestateType, setRealestateType] = useState<number[]>([]);
+  const [danjiID, setDanjiID] = useState<string | null>(router?.query?.danjiID as string);
   const [buyOrRent, setBuyOrRent] = useState(0);
   const [price, setPrice] = useState('');
   const [monthlyRentFee, setMonthlyRentFee] = useState('');
+  const [quickSale, setQuickSale] = useState('0');
   const [investAmount, setInvestAmount] = useState('');
   const [negotiable, setNegotiable] = useState(true);
-  const [minArea, setMinArea] = useState('');
-  const [maxArea, setMaxArea] = useState('');
+  const [pyoungInputValue, setPyoungInputValue] = useState('');
+  const [pyoungList, setPyoungList] = useState<number[]>([]);
   const [purpose, setPurpose] = useState('');
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
-  const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
-  const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
   const [description, setDescription] = useState('');
 
-  const [isPrefillingBubjungdong, setIsPrefillingBubjungdong] = useState(true);
   const [openResetPopup, setOpenResetPopup] = useState(false);
 
-  const handleChangeRealestateType = useCallback((value: number[]) => {
-    setRealestateType(value);
-  }, []);
+  const { danji } = useAPI_GetDanjiDetail({
+    danjiId: Number(danjiID) || null,
+  });
+
+  const { list: danjiRealPricesPyoungList, hasJyb } = useAPI_DanjiRealPricesPyoungList({
+    danjiId: danji?.danji_id,
+    realestateType: danji?.type,
+    buyOrRent: buyOrRent || null,
+  });
 
   const handleChangeBuyOrRent = useCallback(
     (value: number) => {
@@ -59,6 +61,10 @@ export default function useSuggestRegionalForm(depth: number) {
     setMonthlyRentFee(value);
   }, []);
 
+  const handleChangeQuickSale = useCallback((value: string) => {
+    setQuickSale(value);
+  }, []);
+
   const handleChangeInvestAmount = useCallback((value: string) => {
     setInvestAmount(value);
   }, []);
@@ -67,12 +73,46 @@ export default function useSuggestRegionalForm(depth: number) {
     setNegotiable(value);
   }, []);
 
-  const handleChangeMinArea = useCallback((value: string) => {
-    setMinArea(value);
+  const handleChangePyoungInputValue = useCallback((value: string) => {
+    setPyoungInputValue(value);
   }, []);
 
-  const handleChangeMaxArea = useCallback((value: string) => {
-    setMaxArea(value);
+  const handleClickPyoungDeleteIcon = useCallback(() => {
+    setPyoungInputValue('');
+  }, []);
+
+  const handleClickPyoungAddIcon = useCallback(
+    (value: string) => {
+      if (!value) return;
+
+      if (pyoungList.includes(Number(value))) {
+        toast.error('이미 추가하신 평형입니다.', { toastId: 'toast_already' });
+        setPyoungInputValue('');
+      } else {
+        setPyoungList((prev) => [...prev, Number(value)]);
+        setPyoungInputValue('');
+      }
+    },
+    [pyoungList],
+  );
+
+  const handleClickPyoungButton = useCallback(
+    (value: number) => {
+      if (pyoungList.includes(value)) {
+        setPyoungList((prev) => prev.filter((item) => item !== value));
+      } else {
+        setPyoungList((prev) => [...prev, value]);
+      }
+    },
+    [pyoungList],
+  );
+
+  const handleClickPyoungCloseButton = useCallback((value: number) => {
+    setPyoungList((prev) => prev.filter((item) => item !== value));
+  }, []);
+
+  const handleChangePyoungList = useCallback((value: number[]) => {
+    setPyoungList(value);
   }, []);
 
   const handleChangePurpose = useCallback((value: string) => {
@@ -91,31 +131,23 @@ export default function useSuggestRegionalForm(depth: number) {
     setMoveInDateType(value);
   }, []);
 
-  const handleChangeRemainingAmountDate = useCallback((value: Date | null) => {
-    setRemainingAmountDate(value);
+  const handleOpenDanjiList = useCallback(() => {
+    setIsDanjiListOpen(true);
   }, []);
 
-  const handleChangeRemainingAmountDateType = useCallback((value: string) => {
-    setRemainingAmountDateType(value);
-  }, []);
-
-  const handleOpenRegionList = useCallback(() => {
-    setIsRegionListOpen(true);
-  }, []);
-
-  const handleCloseRegionList = useCallback(() => {
-    setIsRegionListOpen(false);
+  const handleCloseDanjiList = useCallback(() => {
+    setIsDanjiListOpen(false);
   }, []);
 
   const setNextForm = useCallback((...formNames: string[]) => {
     setForms((prev) => [...prev, ...formNames]);
   }, []);
 
-  const handleSubmitRegion = useCallback(() => {
-    setNextForm(Forms.RealestateType);
+  const handleSubmitDanji = useCallback(() => {
+    setNextForm(Forms.BuyOrRent);
   }, [setNextForm]);
 
-  const handleSubmitRealestateType = useCallback(() => {
+  const handleSubmitBuyOrRent = useCallback(() => {
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.Purpose);
       return;
@@ -123,18 +155,8 @@ export default function useSuggestRegionalForm(depth: number) {
     setNextForm(Forms.MoveInDate);
   }, [setNextForm, buyOrRent]);
 
-  const handleSubmitBuyOrRent = useCallback(() => {}, []);
-
   const handleSubmitMoveInDate = useCallback(() => {
     setNextForm(Forms.Option);
-  }, [setNextForm]);
-
-  const handleSubmitPrice = useCallback(() => {
-    setNextForm(Forms.Description);
-  }, [setNextForm]);
-
-  const handleSubmitArea = useCallback(() => {
-    setNextForm(Forms.Description);
   }, [setNextForm]);
 
   const handleSubmitPurpose = useCallback(() => {
@@ -146,58 +168,47 @@ export default function useSuggestRegionalForm(depth: number) {
   }, []);
 
   const onConfirmPopup = useCallback(() => {
-    setForms([Forms.Region, Forms.RealestateType]);
-    setRealestateType([]);
+    setForms([Forms.Danji, Forms.BuyOrRent]);
     setBuyOrRent(0);
     setPrice('');
     setMonthlyRentFee('');
+    setQuickSale('');
     setInvestAmount('');
     setNegotiable(true);
-    setMinArea('');
-    setMaxArea('');
+    setPyoungList([]);
     setPurpose('');
     setMoveInDate(null);
-    setRemainingAmountDate(null);
     setMoveInDateType('이전');
-    setRemainingAmountDateType('이전');
     setDescription('');
     setOpenResetPopup(false);
   }, []);
 
   const handleSubmitFinal = useCallback(async () => {
-    if (!bubjungdong) return;
+    // danji
+    if (!danjiID) {
+      const form = document.getElementById(Forms.Danji);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('어느 단지를 추천받고 싶은지 선택해주세요.');
+      return;
+    }
 
-    // region
-    if (!bubjungdong) {
-      const form = document.getElementById(Forms.Region);
-      form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('어느 지역을 추천받고 싶은지 선택해주세요.');
-      return;
-    }
-    // realestate type
-    if (!realestateType.length) {
-      const form = document.getElementById(Forms.RealestateType);
-      form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('매물의 부동산 종류를 선택해주세요');
-      return;
-    }
     // buy or rent
     if (!buyOrRent) {
-      const form = document.getElementById(Forms.RealestateType);
+      const form = document.getElementById(Forms.BuyOrRent);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('매물의 거래 종류를 선택해 주세요.');
       return;
     }
 
-    if (buyOrRent === BuyOrRent.Buy && !price) {
-      const form = document.getElementById(Forms.RealestateType);
+    if (buyOrRent === BuyOrRent.Buy && quickSale === '0' && !price) {
+      const form = document.getElementById(Forms.BuyOrRent);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('매매가를 입력해 주세요.');
       return;
     }
 
     if (buyOrRent !== BuyOrRent.Buy && !monthlyRentFee && !price) {
-      const form = document.getElementById(Forms.RealestateType);
+      const form = document.getElementById(Forms.BuyOrRent);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('보증금 또는 월차임을 입력해 주세요.');
       return;
@@ -205,13 +216,11 @@ export default function useSuggestRegionalForm(depth: number) {
 
     // area
 
-    if (minArea && maxArea) {
-      if (Number(minArea) > Number(maxArea)) {
-        const form = document.getElementById(Forms.Area);
-        form?.scrollIntoView({ behavior: 'smooth' });
-        toast.error('최소 면적이 최대 면적보다 큽니다.');
-        return;
-      }
+    if (!pyoungList.length) {
+      const form = document.getElementById(Forms.Area);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('평수를 선택해 주세요.');
+      return;
     }
 
     // purpose
@@ -225,7 +234,7 @@ export default function useSuggestRegionalForm(depth: number) {
     // move in date
     if (purpose !== '투자' && !moveInDate) {
       if (buyOrRent === BuyOrRent.Buy) {
-        const form = document.getElementById(Forms.RealestateType);
+        const form = document.getElementById(Forms.Purpose);
         form?.scrollIntoView({ behavior: 'smooth' });
         toast.error('입주 희망일을 입력해주세요.');
         return;
@@ -237,133 +246,90 @@ export default function useSuggestRegionalForm(depth: number) {
       return;
     }
 
-    const params = makeSuggestRegionalParams({
-      bubjungdong,
-      realestateType,
+    const params = makeRecommendDanjiParams({
+      danjiID,
+      name: danji.name,
       buyOrRent,
       price,
-      investAmount,
       monthlyRentFee,
+      quickSale,
+      investAmount,
       negotiable,
-      minArea,
-      maxArea,
+      pyoungList,
       purpose,
       moveInDate,
       moveInDateType,
       description,
     });
 
-    router.replace(Routes.SuggestRegionalSummary, {
-      searchParams: {
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSummary}`,
+      query: {
+        danjiID,
         params: JSON.stringify(params),
       },
     });
   }, [
-    bubjungdong,
-    realestateType,
+    danjiID,
     buyOrRent,
     price,
     monthlyRentFee,
     investAmount,
-    negotiable,
-    minArea,
-    maxArea,
     purpose,
     moveInDate,
+    pyoungList,
+    router,
+    danji,
     moveInDateType,
     description,
-    router,
+    negotiable,
+    quickSale,
   ]);
 
-  const handleChangeBubjungdong = useCallback(
-    (item: RegionItem) => {
-      setBubjungdong(item);
+  const handleChangeDanjiID = useCallback(
+    (value: string) => {
+      setDanjiID(value);
       const currentForm = forms[forms.length - 1];
-      if (currentForm === Forms.Region) {
-        handleSubmitRegion();
+      if (currentForm === Forms.Danji) {
+        handleSubmitDanji();
       }
     },
-    [handleSubmitRegion, forms],
+    [handleSubmitDanji, forms],
   );
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
     switch (lastForm) {
-      case Forms.Region:
-        handleSubmitRegion();
-        break;
-
-      case Forms.RealestateType:
-        handleSubmitRealestateType();
+      case Forms.Danji:
+        handleSubmitDanji();
         break;
 
       case Forms.BuyOrRent:
         handleSubmitBuyOrRent();
         break;
 
-      case Forms.Price:
-        handleSubmitPrice();
-        break;
-
-      case Forms.Area:
-        handleSubmitArea();
+      case Forms.Purpose:
+        handleSubmitPurpose();
         break;
 
       case Forms.MoveInDate:
         handleSubmitMoveInDate();
         break;
-
-      case Forms.Purpose:
-        handleSubmitPurpose();
-        break;
-
       case Forms.Option:
         handleSubmitFinal();
-        break;
-
-      case Forms.Description:
         break;
 
       default:
         break;
     }
-  }, [
-    forms,
-    handleSubmitRegion,
-    handleSubmitRealestateType,
-    handleSubmitBuyOrRent,
-    handleSubmitPrice,
-    handleSubmitMoveInDate,
-    handleSubmitArea,
-    handleSubmitPurpose,
-    handleSubmitFinal,
-  ]);
+  }, [forms, handleSubmitDanji, handleSubmitBuyOrRent, handleSubmitPurpose, handleSubmitMoveInDate, handleSubmitFinal]);
 
-  const handleClickBack = useCallback(() => {
-    if (router.query.back === 'true' && router.query.redirect)
-      return () => {
-        router.replace(router.query.redirect as string);
-      };
-  }, [router]);
-
-  // 법정동 프리필 로직
+  // 단지 id 프리필 로직
   useIsomorphicLayoutEffect(() => {
-    if (typeof router.query.address === 'string') {
-      setIsPrefillingBubjungdong(true);
-      searchAddress(router.query.address).then((data) => {
-        const bCode = data?.documents?.[0].address?.b_code;
-        if (bCode) {
-          setBubjungdong({
-            name: router.query.address as string,
-            code: bCode,
-          });
-          setIsPrefillingBubjungdong(false);
-        }
-      });
-    } else {
-      setIsPrefillingBubjungdong(false);
+    if (typeof router.query.danjiID === 'string') {
+      setDanjiID(router.query.danjiID);
     }
-  }, [router.query.address]);
+  }, [router.query.danjiID]);
 
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
@@ -393,29 +359,23 @@ export default function useSuggestRegionalForm(depth: number) {
     setNextButtonDisabled(false);
     const currentForm = forms[forms.length - 1];
 
-    if (currentForm === Forms.Region) {
-      if (!bubjungdong) {
+    if (currentForm === Forms.Danji) {
+      if (!danjiID) {
         setNextButtonDisabled(true);
       }
     }
 
-    if (currentForm === Forms.RealestateType) {
-      if (!realestateType.length || !buyOrRent) {
+    if (currentForm === Forms.BuyOrRent) {
+      if (!buyOrRent) {
         setNextButtonDisabled(true);
       }
     }
 
-    // if (currentForm === Forms.BuyOrRent) {
-    //   if (!buyOrRent) {
-    //     setNextButtonDisabled(true);
-    //   }
-    // }
-
-    // if (currentForm === Forms.Price) {
-    //   if (!price) {
-    //     setNextButtonDisabled(true);
-    //   }
-    // }
+    if (currentForm === Forms.Area) {
+      if (!pyoungList.length) {
+        setNextButtonDisabled(true);
+      }
+    }
 
     if (currentForm === Forms.Purpose) {
       if (!purpose) {
@@ -432,22 +392,17 @@ export default function useSuggestRegionalForm(depth: number) {
         }
       }
     }
-  }, [forms, bubjungdong, realestateType, buyOrRent, price, purpose, remainingAmountDate, moveInDate, investAmount]);
+  }, [forms, danjiID, buyOrRent, investAmount, purpose, moveInDate, pyoungList]);
 
   return {
     forms,
-    isRegionListOpen,
+    isDanjiListOpen,
     nextButtonDisabled,
-    handleClickNext,
-    handleOpenRegionList,
-    handleCloseRegionList,
-    handleClickBack,
 
-    bubjungdong,
-    handleChangeBubjungdong,
+    danji: danji?.name,
 
-    realestateType,
-    handleChangeRealestateType,
+    danjiID,
+    handleChangeDanjiID,
 
     buyOrRent,
     handleChangeBuyOrRent,
@@ -458,39 +413,50 @@ export default function useSuggestRegionalForm(depth: number) {
     monthlyRentFee,
     handleChangeMonthlyRentFee,
 
+    quickSale,
+    handleChangeQuickSale,
+
     investAmount,
     handleChangeInvestAmount,
 
     negotiable,
     handleChangeNegotiable,
 
-    minArea,
-    handleChangeMinArea,
-
-    maxArea,
-    handleChangeMaxArea,
+    pyoungList,
+    handleChangePyoungList,
 
     purpose,
     handleChangePurpose,
 
+    moveInDate,
+    moveInDateType,
+    handleChangeMoveInDate,
+    handleChangeMoveInDateType,
+
     description,
     handleChangeDescription,
 
-    moveInDate,
-    handleChangeMoveInDate,
-
-    moveInDateType,
-    handleChangeMoveInDateType,
-
-    remainingAmountDate,
-    handleChangeRemainingAmountDate,
-
-    remainingAmountDateType,
-    handleChangeRemainingAmountDateType,
-
-    isPrefillingBubjungdong,
     openResetPopup,
+
+    handleOpenDanjiList,
+    handleCloseDanjiList,
+    handleSubmitDanji,
+    handleSubmitBuyOrRent,
+    handleSubmitMoveInDate,
+    handleSubmitPurpose,
+    handleSubmitFinal,
+
+    handleClickNext,
     onClosePopup,
     onConfirmPopup,
+
+    danjiRealPricesPyoungList: hasJyb === false ? undefined : danjiRealPricesPyoungList,
+
+    pyoungInputValue,
+    handleChangePyoungInputValue,
+    handleClickPyoungDeleteIcon,
+    handleClickPyoungAddIcon,
+    handleClickPyoungButton,
+    handleClickPyoungCloseButton,
   };
 }

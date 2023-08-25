@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { RealestateType, BuyOrRent } from '@/constants/enums';
+import { toast } from 'react-toastify';
 
 // const SuggestRegionalSummary = dynamic(() => import('@/components/templates/SuggestRegionalSummary'));
 
@@ -36,18 +37,11 @@ export default memo(() => {
     delete params?.address;
     await createSuggestRegional(params);
     await mutate();
+    toast.success('구해요 글이 등록되었습니다.');
 
     setIsCreating(false);
 
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalSuccess}`,
-        query: {
-          params: router.query.params,
-        },
-      },
-      `/${Routes.EntryMobile}/${Routes.SuggestRegionalSuccess}`,
-    );
+    router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
   }, [router, params, mutate]);
 
   const handleAccessDenied = useCallback(() => {}, []);

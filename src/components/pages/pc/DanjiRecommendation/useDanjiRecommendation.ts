@@ -322,6 +322,13 @@ export default function useDanjiRecommendationForm(depth: number) {
     }
   }, [forms, handleSubmitDanji, handleSubmitBuyOrRent, handleSubmitPurpose, handleSubmitMoveInDate, handleSubmitFinal]);
 
+  const handleClickBack = useCallback(() => {
+    if (router.query.back === 'true' && router.query.redirect)
+      return () => {
+        router.replace(router.query.redirect as string);
+      };
+  }, [router]);
+
   // 단지 id 프리필 로직
   useIsomorphicLayoutEffect(() => {
     if (typeof router.query.danjiID === 'string') {
@@ -445,6 +452,7 @@ export default function useDanjiRecommendationForm(depth: number) {
     handleSubmitFinal,
 
     handleClickNext,
+    handleClickBack,
     onClosePopup,
     onConfirmPopup,
 
