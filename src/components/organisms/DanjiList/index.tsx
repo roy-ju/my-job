@@ -1,7 +1,7 @@
 import { NavigationHeader, TextField } from '@/components/molecules';
 import CloseIcon from '@/assets/icons/close_24.svg';
 import tw from 'twin.macro';
-import { Separator } from '@/components/atoms';
+import { Separator, InfiniteScroll } from '@/components/atoms';
 import SearchIcon from '@/assets/icons/search.svg';
 import { ChangeEventHandler, FormEventHandler, useCallback } from 'react';
 import { useControlled } from '@/hooks/utils';
@@ -48,7 +48,7 @@ function AddressSearchForm({ value: valueProp, onChange, onSubmit }: AddressSear
     [onChange, setValueState],
   );
 
-  const results = useNegocioAddressAutocomplete(value);
+  const { results, handleChangePage } = useNegocioAddressAutocomplete(value);
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
     e.preventDefault();
@@ -71,9 +71,13 @@ function AddressSearchForm({ value: valueProp, onChange, onSubmit }: AddressSear
         </TextField>
       </div>
       <Separator />
-      <div tw="flex-1 flex flex-col min-h-0 overflow-y-auto">
+      <InfiniteScroll
+        tw="flex-1 flex flex-col min-h-0 overflow-y-auto"
+        onNext={results.length >= 10 ? handleChangePage : undefined}
+      >
         {!results?.length && <Guide />}
-        {results.map((result) => (
+
+        {results?.map((result) => (
           <button
             type="button"
             key={result.danji_id}
@@ -89,7 +93,7 @@ function AddressSearchForm({ value: valueProp, onChange, onSubmit }: AddressSear
             {result.name && <div tw="text-info text-gray-700">{result.address}</div>}
           </button>
         ))}
-      </div>
+      </InfiniteScroll>
     </form>
   );
 }

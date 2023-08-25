@@ -11,18 +11,23 @@ export default function useNegocioAddressAutocomplete(query: string) {
     _.debounce(async (q: string) => {
       if (!q) {
         setResults([]);
+        setPageNumber(1);
         return;
       }
-      const { page_number, list } = await searchDanji({ query: q, page_number: 1 });
-      setResults(list);
-      setPageNumber(page_number);
+      const { list } = await searchDanji({ query: q, page_number: pageNumber });
+
+      setResults([...results, ...list]);
     }, 300),
-    [],
+    [pageNumber],
   );
+
+  const handleChangePage = useCallback(() => {
+    setPageNumber((prev) => prev + 1);
+  }, []);
 
   useEffect(() => {
     search(query);
   }, [query, search]);
 
-  return results ?? [];
+  return { results: results ?? [], handleChangePage };
 }
