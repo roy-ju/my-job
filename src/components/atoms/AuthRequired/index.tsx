@@ -11,6 +11,7 @@ interface Props {
   ciRequired?: boolean;
   children?: ReactNode;
   onAccessDenied?: () => void;
+  redirect?: string;
 }
 
 export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDenied, children }: Props) {

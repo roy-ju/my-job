@@ -16,6 +16,11 @@ export interface BuyOrRentProps {
   onChangeQuickSale?: (value: string) => void;
 }
 
+enum QuickSaleType {
+  Price = '0',
+  QuickSale = '1',
+}
+
 export default function BuyOrRent({
   value,
   onChange,
@@ -40,7 +45,11 @@ export default function BuyOrRent({
             variant="outlined"
             tw="flex-1"
             selected={value === BuyOrRentType.Buy}
-            onClick={() => onChange?.(BuyOrRentType.Buy)}
+            onClick={() => {
+              onChange?.(BuyOrRentType.Buy);
+              onChangeMonthlyRentFee?.('');
+              onChangeNegotiable?.(true);
+            }}
           >
             매매
           </Button>
@@ -49,7 +58,10 @@ export default function BuyOrRent({
             variant="outlined"
             tw="flex-1"
             selected={value === BuyOrRentType.Jeonsae}
-            onClick={() => onChange?.(BuyOrRentType.Jeonsae)}
+            onClick={() => {
+              onChange?.(BuyOrRentType.Jeonsae);
+              onChangeNegotiable?.(true);
+            }}
           >
             전월세
           </Button>
@@ -82,7 +94,14 @@ export default function BuyOrRent({
         )}{' '}
         {value === BuyOrRentType.Buy && (
           <div>
-            <RadioGroup tw="flex gap-4 mb-4" value={quickSale} onChange={(e) => onChangeQuickSale?.(e.target.value)}>
+            <RadioGroup
+              tw="flex gap-4 mb-4"
+              value={quickSale}
+              onChange={(e) => {
+                onChangeQuickSale?.(e.target.value);
+                onChangePrice?.('');
+              }}
+            >
               <Label control={<Radio />} value="0" label="금액 입력" />
               <Label control={<Radio />} value="1" label="급매물 제안받을래요." />
             </RadioGroup>
@@ -92,6 +111,7 @@ export default function BuyOrRent({
                 label={price ? '매매가' : '매매가 입력'}
                 value={price}
                 onChange={(e) => onChangePrice?.(e.target.value)}
+                disabled={quickSale === QuickSaleType.QuickSale}
               />
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
@@ -108,28 +128,11 @@ export default function BuyOrRent({
               control={<Checkbox name="negotiable" />}
             />
           </div>
-          <div tw="text-info text-gray-700 mt-4">터무니 없는 금액의 요청은 추후 삭제될 수도 있어요.</div>
+          {quickSale !== QuickSaleType.QuickSale && (
+            <div tw="text-info text-gray-700 mt-4">터무니 없는 금액의 요청은 추후 삭제될 수도 있어요.</div>
+          )}
         </>
       )}
     </div>
   );
 }
-
-/*
-  <div>
-      <div tw="mb-3 flex items-center gap-1">
-        <div tw="text-b1 leading-none font-bold">임대할 부분</div>
-
-      </div>
-      <div tw="mt-3 flex flex-col gap-4">
-        <div>
-          <RadioGroup tw="flex gap-4" value={hasRentArea} onChange={(e) => handleChangeHasRentArea(e.target.value)}>
-            <Label control={<Radio />} value="0" label="전체" />
-            <Label control={<Radio />} value="1" label="부분" />
-          </RadioGroup>
-        </div>
-       
-      </div>
-    </div>
-
-*/

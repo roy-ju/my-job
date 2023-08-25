@@ -55,7 +55,7 @@ function AddressSearchForm({ value: valueProp, onChange, onSubmit }: AddressSear
   }, []);
 
   return (
-    <form tw="bg-white h-full flex flex-col" onSubmit={handleSubmit}>
+    <form tw="bg-white h-full flex flex-col rounded-b-[8px] overflow-hidden" onSubmit={handleSubmit}>
       <div tw="px-5 pt-6 pb-10">
         <div tw="leading-none font-bold mb-4">단지 검색</div>
         <TextField variant="outlined" size="medium">

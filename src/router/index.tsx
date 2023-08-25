@@ -109,6 +109,11 @@ const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRec
   ssr: false,
 });
 
+const DanjiRecommendationSummary = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSummary'), {
+  loading: FallbackComponent,
+  ssr: false,
+});
+
 const DanjiRecommendationSuccess = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSuccess'), {
   loading: FallbackComponent,
   ssr: false,
@@ -545,6 +550,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.DanjiRecommendation: {
       return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
+    }
+
+    case Routes.DanjiRecommendationSummary: {
+      return <DanjiRecommendationSummary key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiRecommendationSuccess: {

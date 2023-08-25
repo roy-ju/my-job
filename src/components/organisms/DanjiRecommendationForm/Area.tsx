@@ -7,9 +7,9 @@ import CloseContainedBlack from '@/assets/icons/close_contained_black.svg';
 
 interface AreaProps {
   danjiRealPricesPyoungList?: GetDanjiRealPricesPyoungListResponse['list'];
-  selectedGonggeupPyoungList: number[];
-  pyoungInputValue: string;
-  onChangePyoungField?: React.ChangeEventHandler<HTMLInputElement>;
+  selectedGonggeupPyoungList?: number[];
+  pyoungInputValue?: string;
+  onChangePyoungField?: (val: string) => void;
   onClickPyoungDeleteIcon?: () => void;
   onClickPyoungAddIcon?: (val: string) => void;
   onClickPyoungButton?: (val: number) => void;
@@ -35,12 +35,12 @@ export default function Area({
 
   return (
     <>
-      <div tw="px-5 pt-10">
+      <div>
         <span tw="text-b1 font-bold">
-          {isShowDanjiRealPricesPyoungList ? '관심있는 평수를 선택해 주세요.' : '관심있는 평수를 입력해 주세요.'}
+          {isShowDanjiRealPricesPyoungList ? '원하는 평형을 모두 선택해 주세요.' : '원하는 평형을 입력해 주세요.'}
         </span>
       </div>
-      <div tw="flex flex-col pt-4 px-5 gap-4">
+      <div tw="flex flex-col pt-4 gap-4">
         {danjiRealPricesPyoungList && isShowDanjiRealPricesPyoungList && (
           <div tw="flex flex-wrap gap-2 pb-7 [max-width: 280px]">
             {danjiRealPricesPyoungList.map((item) => (
@@ -54,7 +54,7 @@ export default function Area({
                     onClickPyoungButton(item.gonggeup_pyoung);
                   }
                 }}
-                selected={selectedGonggeupPyoungList.includes(item.gonggeup_pyoung)}
+                selected={selectedGonggeupPyoungList?.includes(item.gonggeup_pyoung)}
               >
                 {item.gonggeup_pyoung}평
               </Button>
@@ -62,29 +62,33 @@ export default function Area({
           </div>
         )}
       </div>
-      <div tw="flex flex-col px-5 pt-7 pb-10 gap-4">
+      <div tw="flex flex-col gap-4">
         <span tw="text-b2">직접입력</span>
         <TextField variant="outlined">
           <TextField.NumericInput
             label={pyoungInputValue ? '평 수' : '평수 입력'}
             value={pyoungInputValue}
-            onChange={onChangePyoungField}
+            onChange={(e) => {
+              onChangePyoungField?.(e.target.value);
+            }}
           />
-          <TextField.Trailing tw="flex items-center">
-            <Button variant="ghost" size="small" onClick={onClickPyoungDeleteIcon}>
-              <CloseContained />
-            </Button>
-            <Button
-              size="small"
-              onClick={() => {
-                if (onClickPyoungAddIcon) {
-                  onClickPyoungAddIcon(pyoungInputValue);
-                }
-              }}
-            >
-              확인
-            </Button>
-          </TextField.Trailing>
+          {pyoungInputValue && (
+            <TextField.Trailing tw="flex items-center">
+              <Button variant="ghost" size="small" onClick={onClickPyoungDeleteIcon}>
+                <CloseContained />
+              </Button>
+              <Button
+                size="small"
+                onClick={() => {
+                  if (onClickPyoungAddIcon) {
+                    onClickPyoungAddIcon(pyoungInputValue ?? '');
+                  }
+                }}
+              >
+                확인
+              </Button>
+            </TextField.Trailing>
+          )}
         </TextField>
         {selectedGonggeupPyoungList && selectedGonggeupPyoungList.length > 0 && (
           <div tw="flex flex-wrap gap-2 [max-width: 280px]">

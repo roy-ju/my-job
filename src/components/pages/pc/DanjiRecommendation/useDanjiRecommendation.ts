@@ -1,0 +1,460 @@
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { useState, useCallback } from 'react';
+import { Forms } from '@/components/templates/DanjiRecommendation/FormRenderer';
+import { BuyOrRent } from '@/constants/enums';
+import { toast } from 'react-toastify';
+import Routes from '@/router/routes';
+import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
+import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
+import makeRecommendDanjiParams from './makeRecommendDanjiParams';
+
+export default function useDanjiRecommendationForm(depth: number) {
+  const router = useRouter(depth);
+
+  const [forms, setForms] = useState<string[]>([Forms.Danji]);
+  const [isDanjiListOpen, setIsDanjiListOpen] = useState(false);
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+  const [danjiID, setDanjiID] = useState<string | null>(router?.query?.danjiID as string);
+  const [buyOrRent, setBuyOrRent] = useState(0);
+  const [price, setPrice] = useState('');
+  const [monthlyRentFee, setMonthlyRentFee] = useState('');
+  const [quickSale, setQuickSale] = useState('0');
+  const [investAmount, setInvestAmount] = useState('');
+  const [negotiable, setNegotiable] = useState(true);
+  const [pyoungInputValue, setPyoungInputValue] = useState('');
+  const [pyoungList, setPyoungList] = useState<number[]>([]);
+  const [purpose, setPurpose] = useState('');
+  const [moveInDate, setMoveInDate] = useState<Date | null>(null);
+  const [moveInDateType, setMoveInDateType] = useState('이전');
+  const [description, setDescription] = useState('');
+
+  const [openResetPopup, setOpenResetPopup] = useState(false);
+
+  const { danji } = useAPI_GetDanjiDetail({
+    danjiId: Number(danjiID) || null,
+  });
+
+  const { list: danjiRealPricesPyoungList, hasJyb } = useAPI_DanjiRealPricesPyoungList({
+    danjiId: danji?.danji_id,
+    realestateType: danji?.type,
+    buyOrRent: buyOrRent || null,
+  });
+
+  const handleChangeBuyOrRent = useCallback(
+    (value: number) => {
+      if (forms.length > 2 && buyOrRent) {
+        setOpenResetPopup(true);
+        return;
+      }
+      setPrice('');
+      setBuyOrRent(value);
+    },
+    [buyOrRent, forms.length],
+  );
+
+  const handleChangePrice = useCallback((value: string) => {
+    setPrice(value);
+  }, []);
+
+  const handleChangeMonthlyRentFee = useCallback((value: string) => {
+    setMonthlyRentFee(value);
+  }, []);
+
+  const handleChangeQuickSale = useCallback((value: string) => {
+    setQuickSale(value);
+  }, []);
+
+  const handleChangeInvestAmount = useCallback((value: string) => {
+    setInvestAmount(value);
+  }, []);
+
+  const handleChangeNegotiable = useCallback((value: boolean) => {
+    setNegotiable(value);
+  }, []);
+
+  const handleChangePyoungInputValue = useCallback((value: string) => {
+    setPyoungInputValue(value);
+  }, []);
+
+  const handleClickPyoungDeleteIcon = useCallback(() => {
+    setPyoungInputValue('');
+  }, []);
+
+  const handleClickPyoungAddIcon = useCallback(
+    (value: string) => {
+      if (!value) return;
+
+      if (pyoungList.includes(Number(value))) {
+        toast.error('이미 추가하신 평형입니다.', { toastId: 'toast_already' });
+        setPyoungInputValue('');
+      } else {
+        setPyoungList((prev) => [...prev, Number(value)]);
+        setPyoungInputValue('');
+      }
+    },
+    [pyoungList],
+  );
+
+  const handleClickPyoungButton = useCallback(
+    (value: number) => {
+      if (pyoungList.includes(value)) {
+        setPyoungList((prev) => prev.filter((item) => item !== value));
+      } else {
+        setPyoungList((prev) => [...prev, value]);
+      }
+    },
+    [pyoungList],
+  );
+
+  const handleClickPyoungCloseButton = useCallback((value: number) => {
+    setPyoungList((prev) => prev.filter((item) => item !== value));
+  }, []);
+
+  const handleChangePyoungList = useCallback((value: number[]) => {
+    setPyoungList(value);
+  }, []);
+
+  const handleChangePurpose = useCallback((value: string) => {
+    setPurpose(value);
+  }, []);
+
+  const handleChangeDescription = useCallback((value: string) => {
+    setDescription(value);
+  }, []);
+
+  const handleChangeMoveInDate = useCallback((value: Date | null) => {
+    setMoveInDate(value);
+  }, []);
+
+  const handleChangeMoveInDateType = useCallback((value: string) => {
+    setMoveInDateType(value);
+  }, []);
+
+  const handleOpenDanjiList = useCallback(() => {
+    setIsDanjiListOpen(true);
+  }, []);
+
+  const handleCloseDanjiList = useCallback(() => {
+    setIsDanjiListOpen(false);
+  }, []);
+
+  const setNextForm = useCallback((...formNames: string[]) => {
+    setForms((prev) => [...prev, ...formNames]);
+  }, []);
+
+  const handleSubmitDanji = useCallback(() => {
+    setNextForm(Forms.BuyOrRent);
+  }, [setNextForm]);
+
+  const handleSubmitBuyOrRent = useCallback(() => {
+    if (buyOrRent === BuyOrRent.Buy) {
+      setNextForm(Forms.Purpose);
+      return;
+    }
+    setNextForm(Forms.MoveInDate);
+  }, [setNextForm, buyOrRent]);
+
+  const handleSubmitMoveInDate = useCallback(() => {
+    setNextForm(Forms.Option);
+  }, [setNextForm]);
+
+  const handleSubmitPurpose = useCallback(() => {
+    setNextForm(Forms.Option);
+  }, [setNextForm]);
+
+  const onClosePopup = useCallback(() => {
+    setOpenResetPopup(false);
+  }, []);
+
+  const onConfirmPopup = useCallback(() => {
+    setForms([Forms.Danji, Forms.BuyOrRent]);
+    setBuyOrRent(0);
+    setPrice('');
+    setMonthlyRentFee('');
+    setQuickSale('');
+    setInvestAmount('');
+    setNegotiable(true);
+    setPyoungList([]);
+    setPurpose('');
+    setMoveInDate(null);
+    setMoveInDateType('이전');
+    setDescription('');
+    setOpenResetPopup(false);
+  }, []);
+
+  const handleSubmitFinal = useCallback(async () => {
+    // danji
+    if (!danjiID) {
+      const form = document.getElementById(Forms.Danji);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('어느 단지를 추천받고 싶은지 선택해주세요.');
+      return;
+    }
+
+    // buy or rent
+    if (!buyOrRent) {
+      const form = document.getElementById(Forms.BuyOrRent);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('매물의 거래 종류를 선택해 주세요.');
+      return;
+    }
+
+    if (buyOrRent === BuyOrRent.Buy && quickSale === '0' && !price) {
+      const form = document.getElementById(Forms.BuyOrRent);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('매매가를 입력해 주세요.');
+      return;
+    }
+
+    if (buyOrRent !== BuyOrRent.Buy && !monthlyRentFee && !price) {
+      const form = document.getElementById(Forms.BuyOrRent);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('보증금 또는 월차임을 입력해 주세요.');
+      return;
+    }
+
+    // area
+
+    if (!pyoungList.length) {
+      const form = document.getElementById(Forms.Area);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('평수를 선택해 주세요.');
+      return;
+    }
+
+    // purpose
+    if (purpose === '투자' && !investAmount) {
+      const form = document.getElementById(Forms.Purpose);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('투자 예산을 입력해주세요.');
+      return;
+    }
+
+    // move in date
+    if (purpose !== '투자' && !moveInDate) {
+      if (buyOrRent === BuyOrRent.Buy) {
+        const form = document.getElementById(Forms.Purpose);
+        form?.scrollIntoView({ behavior: 'smooth' });
+        toast.error('입주 희망일을 입력해주세요.');
+        return;
+      }
+
+      const form = document.getElementById(Forms.MoveInDate);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('입주 희망일을 입력해주세요.');
+      return;
+    }
+
+    const params = makeRecommendDanjiParams({
+      danjiID,
+      name: danji.name,
+      buyOrRent,
+      price,
+      monthlyRentFee,
+      quickSale,
+      investAmount,
+      negotiable,
+      pyoungList,
+      purpose,
+      moveInDate,
+      moveInDateType,
+      description,
+    });
+
+    router.replace(Routes.DanjiRecommendationSummary, {
+      searchParams: {
+        danjiID,
+        params: JSON.stringify(params),
+      },
+    });
+  }, [
+    danjiID,
+    buyOrRent,
+    price,
+    monthlyRentFee,
+    investAmount,
+    purpose,
+    moveInDate,
+    pyoungList,
+    router,
+    danji,
+    moveInDateType,
+    description,
+    negotiable,
+    quickSale,
+  ]);
+
+  const handleChangeDanjiID = useCallback(
+    (value: string) => {
+      setDanjiID(value);
+      const currentForm = forms[forms.length - 1];
+      if (currentForm === Forms.Danji) {
+        handleSubmitDanji();
+      }
+    },
+    [handleSubmitDanji, forms],
+  );
+
+  const handleClickNext = useCallback(() => {
+    const lastForm = forms[forms.length - 1];
+    switch (lastForm) {
+      case Forms.Danji:
+        handleSubmitDanji();
+        break;
+
+      case Forms.BuyOrRent:
+        handleSubmitBuyOrRent();
+        break;
+
+      case Forms.Purpose:
+        handleSubmitPurpose();
+        break;
+
+      case Forms.MoveInDate:
+        handleSubmitMoveInDate();
+        break;
+      case Forms.Option:
+        handleSubmitFinal();
+        break;
+
+      default:
+        break;
+    }
+  }, [forms, handleSubmitDanji, handleSubmitBuyOrRent, handleSubmitPurpose, handleSubmitMoveInDate, handleSubmitFinal]);
+
+  // 단지 id 프리필 로직
+  useIsomorphicLayoutEffect(() => {
+    if (typeof router.query.danjiID === 'string') {
+      setDanjiID(router.query.danjiID);
+    }
+  }, [router.query.danjiID]);
+
+  // 필드 자동스크롤 로직
+  useIsomorphicLayoutEffect(() => {
+    const currentForm = forms[forms.length - 1];
+
+    const formContainer = document.getElementById('formContainer');
+    const formElement = document.getElementById(currentForm);
+
+    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
+
+    if (formElement) {
+      formElement.style.minHeight = `${containerHeight}px`;
+      const prevForm = forms[forms.length - 2];
+      if (prevForm) {
+        const prevFormElement = document.getElementById(prevForm);
+        if (prevFormElement) {
+          prevFormElement.style.minHeight = '';
+        }
+      }
+
+      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+    }
+  }, [forms]);
+
+  // 버튼 비활성화 로직
+  useIsomorphicLayoutEffect(() => {
+    setNextButtonDisabled(false);
+    const currentForm = forms[forms.length - 1];
+
+    if (currentForm === Forms.Danji) {
+      if (!danjiID) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.BuyOrRent) {
+      if (!buyOrRent) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Area) {
+      if (!pyoungList.length) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Purpose) {
+      if (!purpose) {
+        setNextButtonDisabled(true);
+      }
+
+      if (purpose === '투자') {
+        if (investAmount === '') {
+          setNextButtonDisabled(true);
+        }
+      } else if (purpose === '실거주') {
+        if (!moveInDate) {
+          setNextButtonDisabled(true);
+        }
+      }
+    }
+  }, [forms, danjiID, buyOrRent, investAmount, purpose, moveInDate, pyoungList]);
+
+  return {
+    forms,
+    isDanjiListOpen,
+    nextButtonDisabled,
+
+    danji: danji?.name,
+
+    danjiID,
+    handleChangeDanjiID,
+
+    buyOrRent,
+    handleChangeBuyOrRent,
+
+    price,
+    handleChangePrice,
+
+    monthlyRentFee,
+    handleChangeMonthlyRentFee,
+
+    quickSale,
+    handleChangeQuickSale,
+
+    investAmount,
+    handleChangeInvestAmount,
+
+    negotiable,
+    handleChangeNegotiable,
+
+    pyoungList,
+    handleChangePyoungList,
+
+    purpose,
+    handleChangePurpose,
+
+    moveInDate,
+    moveInDateType,
+    handleChangeMoveInDate,
+    handleChangeMoveInDateType,
+
+    description,
+    handleChangeDescription,
+
+    openResetPopup,
+
+    handleOpenDanjiList,
+    handleCloseDanjiList,
+    handleSubmitDanji,
+    handleSubmitBuyOrRent,
+    handleSubmitMoveInDate,
+    handleSubmitPurpose,
+    handleSubmitFinal,
+
+    handleClickNext,
+    onClosePopup,
+    onConfirmPopup,
+
+    danjiRealPricesPyoungList: hasJyb === false ? undefined : danjiRealPricesPyoungList,
+
+    pyoungInputValue,
+    handleChangePyoungInputValue,
+    handleClickPyoungDeleteIcon,
+    handleClickPyoungAddIcon,
+    handleClickPyoungButton,
+    handleClickPyoungCloseButton,
+  };
+}
