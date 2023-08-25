@@ -53,6 +53,8 @@ export interface IFormContext {
   onClickPyoungAddIcon?: (value: string) => void;
   onClickPyoungButton?: (value: number) => void;
   onClickPyoungCloseButton?: (value: number) => void;
+
+  emptyTextFields?: Record<string, boolean>;
 }
 
 const FormContext = createContext<IFormContext>({});

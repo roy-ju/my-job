@@ -24,7 +24,7 @@ export default async function searchDanji({ page_number, query }: SearchDanjiReq
       page_number,
       query,
     });
-    return data;
+    return data?.list ?? [];
   } catch (e) {
     throw new Error('단지 검색에 실패했습니다.');
   }

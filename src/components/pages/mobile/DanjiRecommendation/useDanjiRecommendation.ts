@@ -31,6 +31,11 @@ export default function useDanjiRecommendation() {
 
   const [openResetPopup, setOpenResetPopup] = useState(false);
 
+  const [emptyTextFields, setEmptyTextFields] = useState({
+    price: false,
+    investAmount: false,
+  });
+
   const { danji } = useAPI_GetDanjiDetail({
     danjiId: Number(danjiID) || null,
   });
@@ -53,9 +58,13 @@ export default function useDanjiRecommendation() {
     [buyOrRent, forms.length],
   );
 
-  const handleChangePrice = useCallback((value: string) => {
-    setPrice(value);
-  }, []);
+  const handleChangePrice = useCallback(
+    (value: string) => {
+      setEmptyTextFields({ ...emptyTextFields, price: false });
+      setPrice(value);
+    },
+    [emptyTextFields],
+  );
 
   const handleChangeMonthlyRentFee = useCallback((value: string) => {
     setMonthlyRentFee(value);
@@ -65,9 +74,13 @@ export default function useDanjiRecommendation() {
     setQuickSale(value);
   }, []);
 
-  const handleChangeInvestAmount = useCallback((value: string) => {
-    setInvestAmount(value);
-  }, []);
+  const handleChangeInvestAmount = useCallback(
+    (value: string) => {
+      setEmptyTextFields({ ...emptyTextFields, investAmount: false });
+      setInvestAmount(value);
+    },
+    [emptyTextFields],
+  );
 
   const handleChangeNegotiable = useCallback((value: boolean) => {
     setNegotiable(value);
@@ -181,6 +194,10 @@ export default function useDanjiRecommendation() {
     setMoveInDateType('이전');
     setDescription('');
     setOpenResetPopup(false);
+    setEmptyTextFields({
+      price: false,
+      investAmount: false,
+    });
   }, []);
 
   const handleSubmitFinal = useCallback(async () => {
@@ -203,14 +220,15 @@ export default function useDanjiRecommendation() {
     if (buyOrRent === BuyOrRent.Buy && quickSale === '0' && !price) {
       const form = document.getElementById(Forms.BuyOrRent);
       form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('매매가를 입력해 주세요.');
+      setEmptyTextFields({ ...emptyTextFields, price: true });
       return;
     }
 
-    if (buyOrRent !== BuyOrRent.Buy && !monthlyRentFee && !price) {
-      const form = document.getElementById(Forms.BuyOrRent);
+    // purpose
+    if (purpose === '투자' && !investAmount) {
+      const form = document.getElementById(Forms.Purpose);
       form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('보증금 또는 월차임을 입력해 주세요.');
+      setEmptyTextFields({ ...emptyTextFields, investAmount: true });
       return;
     }
 
@@ -220,14 +238,6 @@ export default function useDanjiRecommendation() {
       const form = document.getElementById(Forms.Area);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('평수를 선택해 주세요.');
-      return;
-    }
-
-    // purpose
-    if (purpose === '투자' && !investAmount) {
-      const form = document.getElementById(Forms.Purpose);
-      form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('투자 예산을 입력해주세요.');
       return;
     }
 
@@ -284,6 +294,7 @@ export default function useDanjiRecommendation() {
     description,
     negotiable,
     quickSale,
+    emptyTextFields,
   ]);
 
   const handleChangeDanjiID = useCallback(
@@ -458,5 +469,7 @@ export default function useDanjiRecommendation() {
     handleClickPyoungAddIcon,
     handleClickPyoungButton,
     handleClickPyoungCloseButton,
+
+    emptyTextFields,
   };
 }
