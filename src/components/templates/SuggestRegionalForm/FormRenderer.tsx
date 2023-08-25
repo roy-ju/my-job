@@ -60,6 +60,8 @@ export default function FormRenderer({ form }: Props) {
 
     description,
     onChangeDescription,
+
+    emptyTextFields,
   } = useContext(FormContext);
 
   switch (form) {
@@ -94,6 +96,7 @@ export default function FormRenderer({ form }: Props) {
               onChangeMonthlyRentFee={onChangeMonthlyRentFee}
               negotiable={negotiable}
               onChangeNegotiable={onChangeNegotiable}
+              hasError={emptyTextFields?.price}
             />
           </div>
         </div>
@@ -140,6 +143,7 @@ export default function FormRenderer({ form }: Props) {
                 <SuggestRegionalForm.InvestAmount
                   investAmount={investAmount}
                   onChangeInvestAmount={onChangeInvestAmount}
+                  hasError={emptyTextFields?.investAmount}
                 />
               )}
               {purpose === '실거주' && (

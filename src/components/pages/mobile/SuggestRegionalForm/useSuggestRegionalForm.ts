@@ -34,6 +34,11 @@ export default function useSuggestRegionalForm() {
 
   const [openResetPopup, setOpenResetPopup] = useState(false);
 
+  const [emptyTextFields, setEmptyTextFields] = useState({
+    price: false,
+    investAmount: false,
+  });
+
   const handleChangeRealestateType = useCallback((value: number[]) => {
     setRealestateType(value);
   }, []);
@@ -50,17 +55,25 @@ export default function useSuggestRegionalForm() {
     [buyOrRent, forms.length],
   );
 
-  const handleChangePrice = useCallback((value: string) => {
-    setPrice(value);
-  }, []);
+  const handleChangePrice = useCallback(
+    (value: string) => {
+      setEmptyTextFields({ ...emptyTextFields, price: false });
+      setPrice(value);
+    },
+    [emptyTextFields],
+  );
 
   const handleChangeMonthlyRentFee = useCallback((value: string) => {
     setMonthlyRentFee(value);
   }, []);
 
-  const handleChangeInvestAmount = useCallback((value: string) => {
-    setInvestAmount(value);
-  }, []);
+  const handleChangeInvestAmount = useCallback(
+    (value: string) => {
+      setEmptyTextFields({ ...emptyTextFields, investAmount: false });
+      setInvestAmount(value);
+    },
+    [emptyTextFields],
+  );
 
   const handleChangeNegotiable = useCallback((value: boolean) => {
     setNegotiable(value);
@@ -161,6 +174,10 @@ export default function useSuggestRegionalForm() {
     setRemainingAmountDateType('이전');
     setDescription('');
     setOpenResetPopup(false);
+    setEmptyTextFields({
+      price: false,
+      investAmount: false,
+    });
   }, []);
 
   const handleSubmitFinal = useCallback(async () => {
@@ -190,14 +207,14 @@ export default function useSuggestRegionalForm() {
     if (buyOrRent === BuyOrRent.Buy && !price) {
       const form = document.getElementById(Forms.RealestateType);
       form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('매매가를 입력해 주세요.');
+      setEmptyTextFields({ ...emptyTextFields, price: true });
       return;
     }
 
     if (buyOrRent !== BuyOrRent.Buy && !monthlyRentFee && !price) {
       const form = document.getElementById(Forms.RealestateType);
       form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('보증금 또는 월차임을 입력해 주세요.');
+      setEmptyTextFields({ ...emptyTextFields, price: true });
       return;
     }
 
@@ -215,7 +232,7 @@ export default function useSuggestRegionalForm() {
     if (purpose === '투자' && !investAmount) {
       const form = document.getElementById(Forms.Purpose);
       form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('투자 예산을 입력해주세요.');
+      setEmptyTextFields({ ...emptyTextFields, investAmount: true });
       return;
     }
     // move in date
@@ -270,6 +287,7 @@ export default function useSuggestRegionalForm() {
     moveInDateType,
     description,
     router,
+    emptyTextFields,
   ]);
 
   const handleChangeBubjungdong = useCallback(
@@ -477,5 +495,7 @@ export default function useSuggestRegionalForm() {
     openResetPopup,
     onClosePopup,
     onConfirmPopup,
+
+    emptyTextFields,
   };
 }

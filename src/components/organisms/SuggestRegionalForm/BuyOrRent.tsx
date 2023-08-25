@@ -11,6 +11,7 @@ export interface BuyOrRentProps {
   onChangeMonthlyRentFee?: (value: string) => void;
   negotiable?: boolean;
   onChangeNegotiable?: (value: boolean) => void;
+  hasError?: boolean;
 }
 
 export default function BuyOrRent({
@@ -22,6 +23,7 @@ export default function BuyOrRent({
   onChangePrice,
   negotiable,
   onChangeNegotiable,
+  hasError,
 }: BuyOrRentProps) {
   return (
     <div>
@@ -54,7 +56,7 @@ export default function BuyOrRent({
         {value === BuyOrRentType.Jeonsae && (
           <div tw="flex flex-col gap-4">
             <div>
-              <TextField variant="outlined">
+              <TextField variant="outlined" hasError={hasError}>
                 <TextField.PriceInput
                   label={price ? '보증금' : '보증금 입력'}
                   value={price}
@@ -62,6 +64,7 @@ export default function BuyOrRent({
                 />
               </TextField>
               <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
+              {hasError && <TextField.ErrorMessage>보증금을 입력해 주세요.</TextField.ErrorMessage>}
             </div>
             <div>
               <TextField variant="outlined">
@@ -77,7 +80,7 @@ export default function BuyOrRent({
         )}{' '}
         {value === BuyOrRentType.Buy && (
           <div>
-            <TextField variant="outlined">
+            <TextField variant="outlined" hasError={hasError}>
               <TextField.PriceInput
                 label={price ? '매매가' : '매매가 입력'}
                 value={price}
@@ -85,6 +88,7 @@ export default function BuyOrRent({
               />
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
+            {hasError && <TextField.ErrorMessage>매매가를 입력해 주세요.</TextField.ErrorMessage>}
           </div>
         )}
       </div>

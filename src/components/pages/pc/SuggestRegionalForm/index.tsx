@@ -67,6 +67,8 @@ export default memo(({ panelWidth, depth }: Props) => {
     openResetPopup,
     onClosePopup,
     onConfirmPopup,
+
+    emptyTextFields,
   } = useSuggestRegionalForm(depth);
 
   return (
@@ -106,6 +108,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
         remainingAmountDateType={remainingAmountDateType}
         onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
+        emptyTextFields={emptyTextFields}
       />
       {isRegionListOpen && (
         <OverlayPresenter>

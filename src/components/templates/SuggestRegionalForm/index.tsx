@@ -67,6 +67,8 @@ export default function SuggestRegionalForm({
   onChangeDescription,
 
   onClickBack,
+
+  emptyTextFields,
 }: Props) {
   const context = useMemo(
     () => ({
@@ -117,6 +119,8 @@ export default function SuggestRegionalForm({
 
       description,
       onChangeDescription,
+
+      emptyTextFields,
     }),
     [
       onClickOpenRegionList,
@@ -166,6 +170,8 @@ export default function SuggestRegionalForm({
 
       description,
       onChangeDescription,
+
+      emptyTextFields,
     ],
   );
 

@@ -48,6 +48,8 @@ export interface IFormContext {
 
   description?: string;
   onChangeDescription?: (value: string) => void;
+
+  emptyTextFields?: Record<string, boolean>;
 }
 
 const FormContext = createContext<IFormContext>({});
