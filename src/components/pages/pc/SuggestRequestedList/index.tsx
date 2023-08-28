@@ -29,8 +29,8 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const [listStyle, setListStyle] = useState<'default' | 'delete'>('default');
 
-  const handleClickSuggestRegional = useCallback(() => {
-    router.replace(Routes.SuggestRegionalForm);
+  const handleClickRecommendationForm = useCallback(() => {
+    router.replace(Routes.RecommendationForm);
   }, [router]);
 
   const handleClickSuggestItem = useCallback(
@@ -116,7 +116,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       <SuggestRequestedList
         listStyle={listStyle}
         list={data}
-        onClickSuggestRegional={handleClickSuggestRegional}
+        onClickRecommendationForm={handleClickRecommendationForm}
         onClickSuggestItem={handleClickSuggestItem}
         onClickDelete={handleClickDelete}
         onChangeListStyle={handleChangeListStyle}

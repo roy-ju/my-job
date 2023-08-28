@@ -23,8 +23,8 @@ export default memo(() => {
 
   const [listStyle, setListStyle] = useState<'default' | 'delete'>('default');
 
-  const handleClickSuggestRegional = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  const handleClickRecommendationForm = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
   }, [router]);
 
   const handleClickSuggestItem = useCallback(
@@ -110,7 +110,7 @@ export default memo(() => {
         onClickBack={handleClickBack}
         listStyle={listStyle}
         list={data}
-        onClickSuggestRegional={handleClickSuggestRegional}
+        onClickRecommendationForm={handleClickRecommendationForm}
         onClickSuggestItem={handleClickSuggestItem}
         onClickDelete={handleClickDelete}
         onChangeListStyle={handleChangeListStyle}
