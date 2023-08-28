@@ -1,5 +1,5 @@
 import { GetMySuggestListResponse } from '@/apis/suggest/getMySuggestList';
-import { Checkbox, Chip, Moment, Switch } from '@/components/atoms';
+import { Checkbox, Chip, Moment } from '@/components/atoms';
 import { RealestateType } from '@/constants/enums';
 import { RealestateTypeString } from '@/constants/strings';
 import { ChangeEventHandler, MouseEventHandler, useCallback, useMemo } from 'react';
@@ -15,21 +15,13 @@ const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'bl
 
 interface Props {
   item?: NonNullable<GetMySuggestListResponse['list']>[0];
-  inputType?: 'checkbox' | 'switch' | 'none';
+  inputType?: 'checkbox' | 'none';
   checked?: boolean;
-  defaultChecked?: boolean;
   onChange?: (value: boolean) => void;
   onClick?: () => void;
 }
 
-export default function SuggestRequestedListItem({
-  item,
-  inputType = 'switch',
-  checked,
-  defaultChecked,
-  onChange,
-  onClick,
-}: Props) {
+export default function SuggestRequestedListItem({ item, inputType = 'none', checked, onChange, onClick }: Props) {
   const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       onChange?.(e.target.checked);
@@ -73,14 +65,6 @@ export default function SuggestRequestedListItem({
                 </Chip>
               ))}
             </div>
-            {inputType === 'switch' && (
-              <Switch
-                defaultChecked={defaultChecked}
-                checked={checked}
-                onChange={handleInputChange}
-                onClick={stopPropgation}
-              />
-            )}
           </div>
           <div tw="text-b1 font-bold my-1.5">{item?.title}</div>
           <div tw="flex justify-between">
