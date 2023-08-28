@@ -73,15 +73,10 @@ export default function SuggestRequestedList({
         {list?.length !== 0 ? (
           <div tw="flex flex-col flex-1 min-h-0">
             {checkPlatform() !== 'pc' && listStyle === 'default' && (
-              <div tw="pb-5 px-5 pt-1">
+              <div tw="p-5">
                 <Button onClick={onClickRecommendationForm} tw="w-full" variant="secondary">
                   새로운 매물 추천 받아보기
                 </Button>
-              </div>
-            )}
-            {listStyle === 'default' && (
-              <div tw="px-5 text-end text-info" css={[checkPlatform() === 'pc' && tw`mt-5`]}>
-                추천 계속받기
               </div>
             )}
             <div tw="flex flex-1 min-h-0 overflow-auto">
@@ -92,7 +87,7 @@ export default function SuggestRequestedList({
                     item={item}
                     onChange={handleListItemCheckedStateChange(item.suggest_id)}
                     onClick={() => onClickSuggestItem?.(item.suggest_id)}
-                    inputType={listStyle === 'delete' ? 'checkbox' : 'switch'}
+                    inputType={listStyle === 'delete' ? 'checkbox' : 'none'}
                     checked={listStyle === 'default' ? item.status === SuggestStatus.Active : undefined}
                   />
                 ))}
