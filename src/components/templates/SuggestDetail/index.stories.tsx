@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Panel } from '@/components/atoms';
 import SuggestDetail from '.';
