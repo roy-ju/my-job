@@ -38,7 +38,7 @@ const mock = {
 
 export const Default: ComponentStory<typeof SuggestDetail> = () => (
   <Panel>
-    <SuggestDetail suggestData={mock} />
+    <SuggestDetail />
   </Panel>
 );
 
