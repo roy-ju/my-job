@@ -4,7 +4,6 @@ import { ListingRecommendListItem, SuggestReceivedListNoData } from '@/component
 
 interface Props {
   recommendData?: GetMySuggestRecommendsResponse['list'];
-  onClickListing?: (id: number) => void;
   onClickChat?: (id: number) => void;
   onClickNotInterested?: (id: number) => void;
   onClickRecommendAccept?: (id: number) => void;
@@ -14,7 +13,6 @@ interface Props {
 
 export default function ListingRecommendList({
   recommendData,
-  onClickListing,
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
@@ -32,13 +30,11 @@ export default function ListingRecommendList({
   return (
     <div tw="py-7 px-5">
       <InfiniteScroll onNext={onNext}>
-        <div tw="flex flex-col gap-5">
-          {recommendData?.map((item, index) => (
+        <div tw="flex flex-col gap-7">
+          {recommendData?.map((item) => (
             <ListingRecommendListItem
-              key={item.listing_id}
+              key={item.suggest_recommend_id}
               item={item}
-              isLast={recommendData.length === 1 ? true : recommendData.length - 1 === index}
-              onClickListing={() => onClickListing?.(item.listing_id)}
               onClickChat={() => onClickChat?.(item?.buyer_agent_chat_room_id ?? 0)}
               onClickNotInterested={() => onClickNotInterested?.(item.suggest_recommend_id)}
               onClickRecommendAccept={() => onClickRecommendAccept?.(item.suggest_recommend_id)}
