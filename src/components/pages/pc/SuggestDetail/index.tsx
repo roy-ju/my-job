@@ -44,6 +44,22 @@ export default memo(({ panelWidth, depth }: Props) => {
     [router],
   );
 
+  const handleClickDanjiDetail = useCallback(() => {
+    router.replace(Routes.DanjiDetail, {
+      searchParams: {
+        danjiID: `${data?.danji_id}`,
+      },
+    });
+  }, [data, router]);
+
+  const handleClickSuggestUpdate = useCallback(() => {
+    router.replace(Routes.SuggestUpdate, {
+      searchParams: {
+        suggestID: `${data?.suggest_id}`,
+      },
+    });
+  }, [data, router]);
+
   useEffect(() => {
     setSuggestChecked(suggestStatus === SuggestStatus.Active);
   }, [suggestStatus]);
@@ -121,6 +137,8 @@ export default memo(({ panelWidth, depth }: Props) => {
         onClickNotInterested={handleNotInterested}
         onClickRecommendAccept={handleRecommendAccept}
         onClickChat={handleClickChat}
+        onClickSuggestUpdate={handleClickSuggestUpdate}
+        onClickDanjiDetail={handleClickDanjiDetail}
         onClickNewRecommendations={handleNaviagteToRecommendationForm}
         onNextListingRecommentList={increamentPageNumber}
         onChangeSuggestChecked={handleChangeSuggestChecked}
