@@ -36,7 +36,6 @@ export default function SuggestReceivedList({
   onChangeTabIndex,
   // onChangeListStyle,
   // onClickDelete,
-  onClickListing,
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
@@ -60,7 +59,6 @@ export default function SuggestReceivedList({
       <ListingRecommendList
         recommendData={recommendsData}
         onClickChat={onClickChat}
-        onClickListing={onClickListing}
         onClickNotInterested={onClickNotInterested}
         onClickRecommendAccept={onClickRecommendAccept}
       />
