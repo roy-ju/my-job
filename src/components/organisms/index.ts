@@ -49,6 +49,7 @@ export { default as BiddingForm } from './BiddingForm';
 export { default as ListingSummaryCard } from './ListingSummaryCard';
 export { default as PhotoHero } from './PhotoHero';
 export { default as ListingDetailSection } from './ListingDetailSection';
+export { default as SuggestDetailListItem } from './SuggestDetailListItem';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRequestedListNoData } from './SuggestRequestedListNoData';
 export { default as SuggestReceivedListNoData } from './SuggestReceivedListNoData';
