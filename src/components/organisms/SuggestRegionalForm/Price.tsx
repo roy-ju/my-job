@@ -7,9 +7,17 @@ export interface PriceProps {
   monthlyRentFee?: string;
   onChangePrice?: (value: string) => void;
   onChangeMonthlyRentFee?: (value: string) => void;
+  hasError?: boolean;
 }
 
-export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice, onChangeMonthlyRentFee }: PriceProps) {
+export default function Price({
+  buyOrRent,
+  price,
+  monthlyRentFee,
+  onChangePrice,
+  onChangeMonthlyRentFee,
+  hasError,
+}: PriceProps) {
   return (
     <div>
       <div tw="mb-4">
@@ -27,6 +35,7 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
                 />
               </TextField>
               <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
+              {hasError && <TextField.ErrorMessage>보증금을 입력해 주세요.</TextField.ErrorMessage>}
             </div>
             <div>
               <TextField variant="outlined">
@@ -49,6 +58,7 @@ export default function Price({ buyOrRent, price, monthlyRentFee, onChangePrice,
               />
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{price ?? '0'}</TextField.PriceHelperMessage>
+            {hasError && <TextField.ErrorMessage>매매가를 입력해 주세요..</TextField.ErrorMessage>}
           </div>
         )}
       </div>

@@ -53,7 +53,12 @@ export default memo(() => {
   }, [router]);
 
   const handleClickSuggestion = useCallback(async () => {
-    router.replace(Routes.SuggestRegionalForm);
+    router.replace(Routes.RecommendationForm, {
+      searchParams: {
+        redirect: `${router.asPath}`,
+        back: 'true',
+      },
+    });
   }, [router]);
 
   const handleClickBidding = useCallback(() => {

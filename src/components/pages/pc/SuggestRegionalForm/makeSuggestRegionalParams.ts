@@ -8,14 +8,13 @@ interface Args {
   buyOrRent: number;
   price: string;
   monthlyRentFee: string;
+  investAmount: string;
+  negotiable: boolean;
   minArea: string;
   maxArea: string;
-  floor: string[];
   purpose: string;
   moveInDate: Date | null;
   moveInDateType: string;
-  remainingAmountDate: Date | null;
-  remainingAmountDateType: string;
   description: string;
 }
 
@@ -35,17 +34,16 @@ export default function makeSuggestRegionalParams(args: Args) {
     bubjungdong_code: args.bubjungdong.code,
     realestate_types: `${args.realestateType}`,
     buy_or_rents: args.buyOrRent === BuyOrRent.Buy ? '1' : '2,3',
+    invest_amount: args.buyOrRent === BuyOrRent.Buy ? convertPriceInputToNumber(args.investAmount) : 0,
     trade_price: args.buyOrRent === BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     deposit: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     monthly_rent_fee: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.monthlyRentFee) : 0,
+    negotiable: args.negotiable,
     pyoung_from: args.minArea,
     pyoung_to: args.minArea === args.maxArea ? undefined : args.maxArea,
     purpose: args.purpose,
-    remaining_amount_payment_time: args.purpose === '투자' ? args.remainingAmountDate?.toISOString() : null,
-    remaining_amount_payment_time_type: args.purpose === '투자' ? getDateType(args.remainingAmountDateType) : null,
-    move_in_date: args.purpose === '실거주' ? args.moveInDate?.toISOString() : null,
-    move_in_date_type: args.purpose === '실거주' ? getDateType(args.moveInDateType) : null,
-    floors: `${args.floor}`,
+    move_in_date: args.purpose === '투자' ? null : args.moveInDate?.toISOString(),
+    move_in_date_type: args.purpose === '투자' ? null : getDateType(args.moveInDateType),
     note: args.description,
   };
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);

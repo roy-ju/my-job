@@ -334,8 +334,8 @@ export default function Home({
                 }}
                 href={
                   mobileOrPc === 'pc'
-                    ? `/${Routes.SuggestRegionalForm}`
-                    : `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`
+                    ? `/${Routes.RecommendationForm}`
+                    : `/${Routes.EntryMobile}/${Routes.RecommendationForm}`
                 }
                 target="_self"
                 tw="absolute text-h3 leading-[26px] font-semibold text-white top-4 left-4"
