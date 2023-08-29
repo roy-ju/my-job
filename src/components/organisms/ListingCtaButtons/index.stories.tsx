@@ -12,4 +12,4 @@ export const Submitted = () => <ListingCtaButtons.Submitted />;
 
 export const Rejected = () => <ListingCtaButtons.Rejected />;
 
-export const HasSuggested = () => <ListingCtaButtons.HasSuggested />;
+// export const HasSuggested = () => <ListingCtaButtons.HasSuggested />;
