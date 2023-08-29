@@ -20,6 +20,7 @@ export default function useAuth() {
             nickname: data.nickname,
             email: data.email,
             phone: data.phone,
+            profileImageUrl: data.profile_image_url,
             serviceNotification: data.service_notification,
             chatPushNotification: data.chat_push_notification,
             marketingNotification: !data.marketing_disagreement_date,
