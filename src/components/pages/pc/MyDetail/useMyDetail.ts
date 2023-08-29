@@ -12,6 +12,7 @@ import { SocialLoginType, PrivacyRetentionType } from '@/constants/enums';
 import checkNickname from '@/apis/user/checkNickname';
 import { PrivacyRetentionTypeString } from '@/constants/strings';
 import Events from '@/constants/events';
+import uploadProfileImage from '@/apis/my/uploadProfileImage';
 
 type UpdateEmailPopupType = 'none' | 'duplicated_ci' | 'duplicated_email' | 'success';
 
@@ -27,6 +28,8 @@ export default function useMyDetail(depth: number) {
 
   const [nickname, setNickname] = useState('');
   const [privacyRetentionValue, setPrivacyRetentionValue] = useState('');
+
+  const [profileImageUrl, setProfileImageUrl] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -64,6 +67,14 @@ export default function useMyDetail(depth: number) {
   const handleClickUpdateEmail = useCallback(() => {
     setEmailPopup(true);
   }, []);
+
+  const handleUploadProfileImage = useCallback(
+    async (file: File) => {
+      await uploadProfileImage(user?.id as number, file);
+      await mutateUser(false);
+    },
+    [user?.id, mutateUser],
+  );
 
   const handleClickCancelUpdateEmail = useCallback(() => {
     setEmailPopup(false);
@@ -173,10 +184,17 @@ export default function useMyDetail(depth: number) {
     }
   }, [user?.nickname]);
 
+  useEffect(() => {
+    if (user?.profileImageUrl) {
+      setProfileImageUrl(user?.profileImageUrl);
+    }
+  }, [user?.profileImageUrl]);
+
   return useMemo(
     () => ({
       ...user,
       isLoading: isUserLoading || isUserAddressLoading,
+      profileImageUrl,
       updateNicknameButtonDisabled,
       nickname,
       nicknamePopup,
@@ -195,6 +213,7 @@ export default function useMyDetail(depth: number) {
       updateNickname,
       cancelUpdateNickname,
       handleChangeNickname,
+      handleUploadProfileImage,
       handleClickUpdateEmail,
       handleClickCancelUpdateEmail,
       handleClickUpdateToKakao,
@@ -209,6 +228,7 @@ export default function useMyDetail(depth: number) {
       nicknamePopup,
       emailPopup,
       user,
+      profileImageUrl,
       privacyRetentionValue,
       userAddressData,
       isUserAddressLoading,
@@ -222,6 +242,7 @@ export default function useMyDetail(depth: number) {
       updateNickname,
       cancelUpdateNickname,
       handleChangeNickname,
+      handleUploadProfileImage,
       handleClickUpdateEmail,
       handleClickCancelUpdateEmail,
       handleClickUpdateToKakao,
