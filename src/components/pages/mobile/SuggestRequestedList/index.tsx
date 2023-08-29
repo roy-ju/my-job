@@ -1,19 +1,15 @@
 import { deleteSuggests } from '@/apis/suggest/deleteSuggests';
 import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
-import { resumeSuggest } from '@/apis/suggest/resumeSuggest';
-import { stopSuggest } from '@/apis/suggest/stopSuggest';
 import { Loading, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestRequestedList } from '@/components/templates';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { memo, useCallback, useRef, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default memo(() => {
   const router = useRouter();
-
-  const popupDataRef = useRef(0);
 
   const [popup, setPopup] = useState('none');
 
@@ -23,8 +19,8 @@ export default memo(() => {
 
   const [listStyle, setListStyle] = useState<'default' | 'delete'>('default');
 
-  const handleClickSuggestRegional = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  const handleClickRecommendationForm = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
   }, [router]);
 
   const handleClickSuggestItem = useCallback(
@@ -43,22 +39,6 @@ export default memo(() => {
     setPopup('delete');
   }, []);
 
-  const handleStopSuggest = useCallback(async () => {
-    if (popupDataRef.current) {
-      await stopSuggest(popupDataRef.current);
-      mutate();
-      setPopup('none');
-    }
-  }, [mutate]);
-
-  const handleResumeSuggest = useCallback(async () => {
-    if (popupDataRef.current) {
-      await resumeSuggest(popupDataRef.current);
-      mutate();
-      setPopup('none');
-    }
-  }, [mutate]);
-
   const handleDeleteConfirm = useCallback(async () => {
     const items = Object.entries(itemsToDelete)
       .filter(([_, checked]) => checked)
@@ -73,14 +53,7 @@ export default memo(() => {
 
   const handleChangeSuggestChecked = useCallback(
     (id: number, checked: boolean) => {
-      if (listStyle === 'default') {
-        popupDataRef.current = id;
-        if (!checked) {
-          setPopup('suggestStop');
-        } else {
-          setPopup('suggestResume');
-        }
-      } else {
+      if (listStyle === 'delete') {
         setItemsToDelete((prev) => ({
           ...prev,
           [id]: checked,
@@ -110,7 +83,7 @@ export default memo(() => {
         onClickBack={handleClickBack}
         listStyle={listStyle}
         list={data}
-        onClickSuggestRegional={handleClickSuggestRegional}
+        onClickRecommendationForm={handleClickRecommendationForm}
         onClickSuggestItem={handleClickSuggestItem}
         onClickDelete={handleClickDelete}
         onChangeListStyle={handleChangeListStyle}
@@ -130,40 +103,6 @@ export default memo(() => {
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
               <Popup.ActionButton onClick={handleDeleteConfirm}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-      {popup === 'suggestStop' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">
-                선택한 요청의 매물 추천을
-                <br />
-                그만 받으시겠습니까?
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleStopSuggest}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-      {popup === 'suggestResume' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="gap-5 py-12">
-              <Popup.Title tw="text-center">
-                선택한 요청의 매물 추천을
-                <br />
-                다시 받으시겠습니까?
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleResumeSuggest}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

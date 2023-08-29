@@ -8,7 +8,7 @@ export interface MyListingsSummaryProps {
   onClickCreateListing?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
-  onClickSuggestRegional?: () => void;
+  onClickRecommendationForm?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickReceivedSuggests?: () => void;
 }
@@ -18,7 +18,7 @@ export default function MyListingsSummary({
   onClickCreateListing,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
-  onClickSuggestRegional,
+  onClickRecommendationForm,
   onClickRequestedSuggests,
 }: MyListingsSummaryProps) {
   return (
@@ -26,17 +26,17 @@ export default function MyListingsSummary({
       <div tw="text-b1 leading-none font-bold mt-5 mb-4">중개사 추천 매물 확인</div>
       <div tw="flex gap-3 items-center rounded-lg py-2 mb-6 bg-gray-100">
         <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200 block flex-1 ml-1">
-          <div tw="flex justify-between">
+          <div tw="flex justify-between items-center">
             <div tw="text-info text-gray-1000">단지/지역 수</div>
             <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_sent_count ?? 0}</div>
           </div>
-          <div tw="flex justify-between">
+          <div tw="flex justify-between items-center">
             <div tw="text-info text-gray-700">추천받은 매물 수</div>
             <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
           </div>
         </Button>
 
-        <Button onClick={onClickSuggestRegional} tw="w-[132px] h-11 mr-5" variant="secondary">
+        <Button onClick={onClickRecommendationForm} tw="w-[132px] h-11 mr-5" variant="secondary">
           새 매물 추천받기
         </Button>
       </div>

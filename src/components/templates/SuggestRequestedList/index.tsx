@@ -17,7 +17,7 @@ const ListContainer = styled(InfiniteScroll)`
 interface Props {
   list?: GetMySuggestListResponse['list'];
   listStyle?: 'default' | 'delete';
-  onClickSuggestRegional?: () => void;
+  onClickRecommendationForm?: () => void;
   onClickDelete?: () => void;
   onChangeListStyle?: (style: 'default' | 'delete') => void;
   onChangeSuggestChecked?: (id: number, checked: boolean) => void;
@@ -29,7 +29,7 @@ interface Props {
 export default function SuggestRequestedList({
   list,
   listStyle = 'default',
-  onClickSuggestRegional,
+  onClickRecommendationForm,
   onClickDelete,
   onChangeListStyle,
   onChangeSuggestChecked,
@@ -48,7 +48,7 @@ export default function SuggestRequestedList({
     <div tw="h-full flex flex-col">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title>나의 추천 요청</NavigationHeader.Title>
+        <NavigationHeader.Title>중개사가 추천한 매물</NavigationHeader.Title>
         {Boolean(list?.length) && (
           <div>
             {listStyle === 'default' && (
@@ -73,15 +73,10 @@ export default function SuggestRequestedList({
         {list?.length !== 0 ? (
           <div tw="flex flex-col flex-1 min-h-0">
             {checkPlatform() !== 'pc' && listStyle === 'default' && (
-              <div tw="pb-5 px-5 pt-1">
-                <Button onClick={onClickSuggestRegional} tw="w-full" variant="secondary">
+              <div tw="p-5">
+                <Button onClick={onClickRecommendationForm} tw="w-full" variant="secondary">
                   새로운 매물 추천 받아보기
                 </Button>
-              </div>
-            )}
-            {listStyle === 'default' && (
-              <div tw="px-5 text-end text-info" css={[checkPlatform() === 'pc' && tw`mt-5`]}>
-                추천 계속받기
               </div>
             )}
             <div tw="flex flex-1 min-h-0 overflow-auto">
@@ -92,7 +87,7 @@ export default function SuggestRequestedList({
                     item={item}
                     onChange={handleListItemCheckedStateChange(item.suggest_id)}
                     onClick={() => onClickSuggestItem?.(item.suggest_id)}
-                    inputType={listStyle === 'delete' ? 'checkbox' : 'switch'}
+                    inputType={listStyle === 'delete' ? 'checkbox' : 'none'}
                     checked={listStyle === 'default' ? item.status === SuggestStatus.Active : undefined}
                   />
                 ))}
@@ -101,7 +96,7 @@ export default function SuggestRequestedList({
           </div>
         ) : (
           <div tw="py-7">
-            <SuggestRequestedListNoData onClick={onClickSuggestRegional} />
+            <SuggestRequestedListNoData onClick={onClickRecommendationForm} />
           </div>
         )}
       </div>
