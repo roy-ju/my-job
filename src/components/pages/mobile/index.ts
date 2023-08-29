@@ -108,6 +108,7 @@ export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiListings } from './DanjiListings';
 export { default as DanjiRecommendation } from './DanjiRecommendation';
 export { default as DanjiRecommendationSuccess } from './DanjiRecommendationSuccess';
+export { default as DanjiRecommendationSummary } from './DanjiRecommendationSummary';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 
@@ -120,3 +121,6 @@ export { default as LawQnaDetail } from './LawQnaDetail';
 export { default as LawQnaSearch } from './LawQnaSearch';
 export { default as LawQnaCreate } from './LawQnaCreate';
 export { default as LawQnaUpdate } from './LawQnaUpdate';
+
+/** 구해요  */
+export { default as RecommendationForm } from './RecommendationForm';

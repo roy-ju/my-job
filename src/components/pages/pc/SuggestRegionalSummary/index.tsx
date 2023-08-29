@@ -5,8 +5,9 @@ import { SuggestRegionalSummary } from '@/components/templates';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useMemo, useState } from 'react';
-import * as gtag from '@/lib/gtag';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -45,29 +46,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     delete params?.address;
     await createSuggestRegional(params);
     await mutate();
+    toast.success('구해요 글이 등록되었습니다.');
 
-    gtag.event({
-      action: 'suggest_regional_request_submit',
-      category: 'button_click',
-      label: '지역매물추천 요청 완료 확인 버튼',
-      value: '',
-    });
-
-    router.replace(Routes.SuggestRegionalSuccess, {
-      state: {
-        params: router.query.params as string,
-      },
-    });
+    router.replace(`${Routes.My}/${Routes.SuggestRequestedList}`);
   }, [router, params, mutate]);
 
-  const handleAccessDenied = useCallback(() => {
-    gtag.event({
-      action: 'suggest_regional_redirect_to_login',
-      category: 'button_click',
-      label: '지역매물추천에서 회원가입or로그인',
-      value: '',
-    });
-  }, []);
+  const handleAccessDenied = useCallback(() => {}, []);
 
   useIsomorphicLayoutEffect(() => {
     if (!params) router.pop();
@@ -82,18 +66,20 @@ export default memo(({ depth, panelWidth }: Props) => {
           isNextButtonLoading={isCreating}
           address={params?.address}
           buyOrRents={params?.buy_or_rents}
-          realestateTypes={params?.realestate_types}
-          price={params?.buy_or_rents === '1' ? params?.trade_price : params?.deposit}
+          realestateTypes={(params?.realestate_types as string)
+            ?.split(',')
+            .filter((type) => type !== `${RealestateType.Yunrip}`)
+            .join(',')}
+          price={params?.buy_or_rents === `${BuyOrRent.Buy}` ? params?.trade_price : params?.deposit}
           monthlyRentFee={params?.monthly_rent_fee}
           minArea={params?.pyoung_from}
           maxArea={params?.pyoung_to}
           purpose={params?.purpose}
-          floor={params?.floors}
           description={params?.note}
-          remainingAmountPaymentTime={params?.remaining_amount_payment_time}
-          remainingAmountPaymentTimeType={params?.remaining_amount_payment_time_type}
           moveInDate={params?.move_in_date}
           moveInDateType={params?.move_in_date_type}
+          investAmount={params?.invest_amount}
+          negotiable={params?.negotiable}
         />
       </Panel>
       <>

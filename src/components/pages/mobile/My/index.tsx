@@ -88,8 +88,8 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestReceivedList}`);
   }, [router]);
 
-  const handleSuggestRegional = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  const handleRecommendationForm = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
   }, [router]);
 
   const handleRequestedSuggests = useCallback(() => {
@@ -147,7 +147,7 @@ export default function MobMy() {
         onClickCreateListing={handleCreateListing}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        onClickSuggestRegional={handleSuggestRegional}
+        onClickRecommendationForm={handleRecommendationForm}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickDeveloper={process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? handleDeveloper : undefined}
