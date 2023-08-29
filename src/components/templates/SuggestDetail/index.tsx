@@ -12,6 +12,8 @@ interface Props {
   suggestChecked?: boolean;
   onClickBack?: () => void;
   onClickChat?: (id: number) => void;
+  onClickSuggestUpdate?: () => void;
+  onClickDanjiDetail?: () => void;
   onClickNotInterested?: (id: number) => void;
   onClickRecommendAccept?: (id: number) => void;
   onClickNewRecommendations?: () => void;
@@ -25,6 +27,8 @@ export default function SuggestDetail({
   suggestData,
   onClickBack,
   onClickChat,
+  onClickSuggestUpdate,
+  onClickDanjiDetail,
   onClickNotInterested,
   onClickRecommendAccept,
   onClickNewRecommendations,
@@ -40,7 +44,11 @@ export default function SuggestDetail({
       </NavigationHeader>
       <div tw="h-px bg-gray-300" />
       <div tw="px-5 pt-7 pb-10">
-        <SuggestDetailListItem suggestData={suggestData} />
+        <SuggestDetailListItem
+          suggestData={suggestData}
+          onClickSuggestUpdate={onClickSuggestUpdate}
+          onClickDanjiDetail={onClickDanjiDetail}
+        />
       </div>
       <Separator tw="bg-gray-300 h-2" />
       <div tw="pt-10 px-5 flex justify-between items-center">

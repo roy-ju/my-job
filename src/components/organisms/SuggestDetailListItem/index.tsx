@@ -9,7 +9,7 @@ import tw from 'twin.macro';
 interface SuggestDetailListItemProps {
   suggestData?: GetMySuggestDetailResponse | null;
   onClickDanjiDetail?: () => void;
-  onClickSuggestEdit?: () => void;
+  onClickSuggestUpdate?: () => void;
 }
 
 function PriceText({
@@ -39,7 +39,7 @@ function NegotiableChip() {
 export default function SuggestDetailListItem({
   suggestData,
   onClickDanjiDetail,
-  onClickSuggestEdit,
+  onClickSuggestUpdate,
 }: SuggestDetailListItemProps) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -135,7 +135,7 @@ export default function SuggestDetailListItem({
           </div>
         </button>
       )}
-      <Button variant="outlined" tw="w-full" onClick={onClickSuggestEdit}>
+      <Button variant="outlined" tw="w-full" onClick={onClickSuggestUpdate}>
         요청 수정
       </Button>
     </div>

@@ -38,6 +38,14 @@ export default memo(() => {
     setSuggestChecked(suggestStatus === SuggestStatus.Active);
   }, [suggestStatus]);
 
+  const handleClickDanjiDetail = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${data?.danji_id}`);
+  }, [data, router]);
+
+  const handleClickSuggestUpdate = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestUpdate}?suggestID=${data?.suggest_id}`);
+  }, [data, router]);
+
   const handleNotInterested = useCallback(
     async (suggestRecommendId: number) => {
       await notIntersted(suggestRecommendId);
@@ -102,6 +110,8 @@ export default memo(() => {
         onClickNotInterested={handleNotInterested}
         onClickRecommendAccept={handleRecommendAccept}
         onClickChat={handleClickChat}
+        onClickSuggestUpdate={handleClickSuggestUpdate}
+        onClickDanjiDetail={handleClickDanjiDetail}
         onNextListingRecommentList={increamentPageNumber}
         onClickNewRecommendations={() => router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`)}
         onChangeSuggestChecked={handleChangeSuggestChecked}
