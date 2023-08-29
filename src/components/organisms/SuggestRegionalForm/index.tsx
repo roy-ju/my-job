@@ -8,6 +8,7 @@ import Description from './Description';
 import Purpose from './Purpose';
 import MoveInDate from './MoveInDate';
 import RemainingAmountDate from './RemainingAmountDate';
+import InvestAmount from './InvestAmount';
 
 const SuggestRegionalForm = {
   Region,
@@ -20,6 +21,7 @@ const SuggestRegionalForm = {
   Description,
   MoveInDate,
   RemainingAmountDate,
+  InvestAmount,
 };
 
 export default SuggestRegionalForm;
