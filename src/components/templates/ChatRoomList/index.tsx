@@ -21,7 +21,6 @@ interface IChatRoomListItem {
   unreadMessageCount: number;
   lastMessage: string;
   lastMessageTime: string;
-  additionalListingCount: number;
   active: boolean;
 }
 
@@ -48,7 +47,6 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
                 lastMessage="(사진)"
                 listingTitle={item.listingTitle}
                 lastMessageTime={item.lastMessageTime}
-                additionalListingCount={item.additionalListingCount}
                 unreadMessageCount={item.unreadMessageCount}
                 profileImagePath={item.profileImagePath}
               />
@@ -67,7 +65,6 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
                 lastMessage="(장소공유)"
                 listingTitle={item.listingTitle}
                 lastMessageTime={item.lastMessageTime}
-                additionalListingCount={item.additionalListingCount}
                 unreadMessageCount={item.unreadMessageCount}
                 profileImagePath={item.profileImagePath}
               />
@@ -84,7 +81,6 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
               lastMessage={item.lastMessage}
               listingTitle={item.listingTitle}
               lastMessageTime={item.lastMessageTime}
-              additionalListingCount={item.additionalListingCount}
               unreadMessageCount={item.unreadMessageCount}
               profileImagePath={item.profileImagePath}
             />

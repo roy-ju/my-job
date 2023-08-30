@@ -64,8 +64,8 @@ export default function useChatRoom(chatRoomID: number) {
           ...prev,
           {
             id: chat.chat_id,
-            name: `공인중개사 ${data?.agent_name}`,
-            profileImagePath: data?.agent_profile_image_full_path,
+            name: `공인중개사 ${data?.other_name}`,
+            profileImagePath: data?.other_profile_image_full_path,
             message: chat.message,
             chatUserType: chat.chat_user_type,
             sentTime: new Date().toISOString(),
@@ -93,12 +93,12 @@ export default function useChatRoom(chatRoomID: number) {
       setChatMessages(
         data?.list?.map((chat) => ({
           id: chat.id,
-          name: `공인중개사 ${data?.agent_name}`,
-          profileImagePath: data?.agent_profile_image_full_path,
+          name: `공인중개사 ${data?.other_name}`,
+          profileImagePath: data?.other_profile_image_full_path,
           message: chat.message,
           chatUserType: chat.chat_user_type,
           sentTime: chat.created_time,
-          agentReadTime: chat.agent_read_time ? new Date(chat.agent_read_time) : null,
+          agentReadTime: chat.user2_read_time ? new Date(chat.user2_read_time) : null,
         })) ?? [],
       );
     }
@@ -141,12 +141,10 @@ export default function useChatRoom(chatRoomID: number) {
 
   return {
     isTextFieldDisabled: textFieldDisabled,
-    agentProfileImagePath: data?.agent_profile_image_full_path,
-    listingTitle: data?.listing_title,
-    agentName: data?.agent_name,
-    agentOfficeName: data?.agent_office_name,
-    agentDescription: data?.agent_description,
-    additionalListingCount: data?.additional_listing_count,
+    agentProfileImagePath: data?.other_profile_image_full_path,
+    listingTitle: data?.title,
+    agentName: data?.other_name,
+
     chatMessages,
     photosUrls,
     isLoading,
@@ -155,8 +153,5 @@ export default function useChatRoom(chatRoomID: number) {
     handleChangePhotoUrls,
 
     chatUserType: data?.chat_user_type,
-
-    hasContractCompleteListings: data?.has_contract_complete_listings,
-    hasPreContractCompleteListings: data?.has_pre_contract_complete_listings,
   };
 }

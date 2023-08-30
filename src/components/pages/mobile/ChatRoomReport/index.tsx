@@ -8,7 +8,7 @@ import useChatRoom from '../ChatRoom/useChatRoom';
 
 export default function ChatRoomReport() {
   const router = useRouter();
-  const { listingTitle, agentOfficeName, additionalListingCount } = useChatRoom(Number(router.query.chatRoomID));
+  const { listingTitle } = useChatRoom(Number(router.query.chatRoomID));
   const [reportContent, setReportContent] = useState('');
 
   const handleChangeReportContent = useCallback((value: string) => {
@@ -37,8 +37,8 @@ export default function ChatRoomReport() {
     <MobileContainer>
       <ChatRoomReportTemplate
         listingTitle={listingTitle ?? ''}
-        officeName={agentOfficeName ?? ''}
-        additionalListingCount={additionalListingCount ?? 0}
+        officeName=""
+        additionalListingCount={0}
         reportContent={reportContent}
         onChangeReportContent={handleChangeReportContent}
         onClickReportButton={handleClickReportButton}

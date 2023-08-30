@@ -20,13 +20,12 @@ export default function useChatRoomList() {
     return data.list.map((item) => ({
       id: item.chat_room_id,
       chatRoomType: item.chat_room_type,
-      profileImagePath: item.agent_profile_image_full_path,
-      officeName: item.agent_office_name,
-      listingTitle: item.listing_title,
+      profileImagePath: item.other_profile_image_full_path,
+      officeName: item.other_name,
+      listingTitle: item.title,
       unreadMessageCount: item.unread_message_count,
       lastMessage: item.latest_message,
       lastMessageTime: item.latest_message_time,
-      additionalListingCount: item.additional_listing_count,
 
       active: true,
     }));

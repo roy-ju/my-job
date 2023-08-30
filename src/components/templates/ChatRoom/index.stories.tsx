@@ -21,12 +21,8 @@ Default.args = {
   isLoading: false,
   textFieldDisabled: true,
   title: '공개용 주소 최대 22자 모두 노출 가능',
-  officeName: '네고시오 공인중개사사무소',
   agentName: '김네고',
-  agentDescription:
-    '이곳은네고시오공인중개사의자기소개가보여지는곳입니다 이곳은네이곳은네고시오공인중개사의자기소개가보여',
   agentProfileImagePath: defaultAvatar,
-  additionalListingCount: 2,
   chatMessages: Array(3)
     .fill(0)
     .map((_, index) => ({
@@ -86,10 +82,7 @@ ThousandsMessages.args = {
   isLoading: false,
   textFieldDisabled: true,
   title: '공개용 주소 최대 22자 모두 노출 가능',
-  officeName: '네고시오 공인중개사사무소',
   agentName: '김네고',
-  agentDescription:
-    '이곳은네고시오공인중개사의자기소개가보여지는곳입니다 이곳은네이곳은네고시오공인중개사의자기소개가보여',
   agentProfileImagePath: defaultAvatar,
   chatMessages: Array(100)
     .fill(0)
