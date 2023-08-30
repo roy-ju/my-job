@@ -15,7 +15,7 @@ interface Props {
 
 export default function ChatRoomReport({ depth, panelWidth }: Props) {
   const router = useRouter(depth);
-  const { listingTitle, agentOfficeName, additionalListingCount } = useChatRoom(Number(router.query.chatRoomID));
+  const { listingTitle } = useChatRoom(Number(router.query.chatRoomID));
   const [reportContent, setReportContent] = useState('');
 
   const handleChangeReportContent = useCallback((value: string) => {
@@ -50,8 +50,8 @@ export default function ChatRoomReport({ depth, panelWidth }: Props) {
     <Panel width={panelWidth}>
       <ChatRoomReportTemplate
         listingTitle={listingTitle ?? ''}
-        officeName={agentOfficeName ?? ''}
-        additionalListingCount={additionalListingCount ?? 0}
+        officeName=""
+        additionalListingCount={0}
         reportContent={reportContent}
         onChangeReportContent={handleChangeReportContent}
         onClickReportButton={handleClickReportButton}

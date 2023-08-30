@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomAgentSummary, ChatRoomTextField } from '@/components/organisms';
@@ -12,10 +13,9 @@ import ListingList, { ListingCardProps } from './ListingList';
 interface ChatRoomProps {
   title: string;
   agentName: string;
-  officeName: string;
-  agentDescription: string;
+
   agentProfileImagePath: string | StaticImageData;
-  additionalListingCount: number;
+
   isLoading: boolean;
   chatMessages: IChatMessage[];
   chatUserType: number;
@@ -46,11 +46,10 @@ export default function ChatRoom({
   chatUserType,
   chatMessages,
   textFieldDisabled = false,
-  agentDescription,
+
   agentName,
   agentProfileImagePath,
-  officeName,
-  additionalListingCount,
+
   inputRef,
   onSendMessage,
 
@@ -76,7 +75,7 @@ export default function ChatRoom({
   const [scrolled, setScrolled] = useState(false);
 
   const [list, setList] = useState<VariableSizeList<any> | null>(null);
-  const [showListingList, setShowListingList] = useState(false);
+  // const [showListingList, setShowListingList] = useState(false);
 
   const headerItems = [
     { label: '신고하기', onClick: onClickReportButton },
@@ -104,12 +103,7 @@ export default function ChatRoom({
           >
             {index === 0 && (
               <div tw="pt-6 pb-1 px-5" key="chatRoomAgentSummary">
-                <ChatRoomAgentSummary
-                  agentDescription={agentDescription}
-                  agentName={agentName}
-                  agentProfileImagePath={agentProfileImagePath}
-                  officeName={officeName}
-                />
+                <ChatRoomAgentSummary agentName={agentName} agentProfileImagePath={agentProfileImagePath} />
               </div>
             )}
 
@@ -118,7 +112,7 @@ export default function ChatRoom({
         </div>
       );
     },
-    [messagesRef, agentDescription, agentName, agentProfileImagePath, officeName],
+    [messagesRef, agentName, agentProfileImagePath],
   );
 
   const getItemSize = useCallback((index: number) => sizeMap.current[index] ?? 0, []);
@@ -138,22 +132,23 @@ export default function ChatRoom({
     <div tw="flex flex-col h-full relative">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title tw="text-b1">{officeName}</NavigationHeader.Title>
+        <NavigationHeader.Title tw="text-b1">{agentName}</NavigationHeader.Title>
         <NavigationHeader.MoreButton
           onClickItem={(index) => headerItems[index]?.onClick?.()}
           items={headerItems.map((item) => item.label)}
         />
       </NavigationHeader>
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           setShowListingList(true);
         }}
         tw="flex p-4 border-t border-gray-300  justify-between cursor-pointer"
       >
-        <div> {title + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}</div>
+        <div> {title}</div>
         <div tw="shrink-0 mt-1 self-start  underline text-info text-gray-1000">더보기</div>
-      </button>
+      </button> */}
+      <div tw="p-4 border-t border-gray-300">{title}</div>
       <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden border-t border-gray-300 bg-white">
         {isLoading ? (
           <Loading tw="text-center mt-10" />
@@ -189,7 +184,7 @@ export default function ChatRoom({
         />
       </div>
 
-      {showListingList && (
+      {/* {showListingList && (
         <ListingList
           sellerList={sellerList}
           buyerContractList={buyerContractList}
@@ -197,11 +192,11 @@ export default function ChatRoom({
           setShowListingList={setShowListingList}
           chatUserType={chatUserType}
           agentName={agentName}
-          officeName={officeName}
+          officeName=""
           onClickNavigateToListingDetail={onClickNavigateToListingDetail}
           onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
         />
-      )}
+      )} */}
     </div>
   );
 }

@@ -10,7 +10,6 @@ interface ChatRoomListItemProps {
   lastMessage: string;
   lastMessageTime: string;
   listingTitle: string;
-  additionalListingCount: number;
   unreadMessageCount: number;
   onClick?: () => void;
 }
@@ -21,7 +20,6 @@ export default function ChatRoomListItem({
   officeName,
   lastMessage,
   listingTitle,
-  additionalListingCount,
   lastMessageTime,
   unreadMessageCount,
   onClick,
@@ -47,7 +45,8 @@ export default function ChatRoomListItem({
             </div>
             <div tw="text-info leading-3.5 text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis mb-[3px] mr-8">
               {isSeller && <Chip>등록</Chip>}{' '}
-              {listingTitle + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}
+              {/* {listingTitle + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')} */}
+              {listingTitle}
             </div>
             <div tw="flex justify-between">
               <div tw="text-b2 max-h-11 mb-1 overflow-hidden text-ellipsis whitespace-pre-wrap [word-wrap: break-word] [display: -webkit-box] [-webkit-line-clamp: 2] [-webkit-box-orient: vertical]">

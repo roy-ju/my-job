@@ -2,7 +2,7 @@
 /* eslint-disable no-return-assign */
 import { OverlayPresenter, Popup, TextField } from '@/components/molecules';
 import ChatInputSubmitIcon from '@/assets/icons/chat_input_submit.svg';
-// import PhotoIcon from '@/assets/icons/photo.svg';
+import PhotoIcon from '@/assets/icons/photo.svg';
 
 import tw, { styled, theme } from 'twin.macro';
 import {
@@ -346,57 +346,55 @@ export default function ChatRoomTextField({
       )}
 
       <div tw="px-5" css={[!openEmojis && tw`pt-4`]}>
-        {/* 
-          <div tw="flex flex-row items-center gap-1 mb-2">
-            <Button
-              variant="ghost"
-              tw="px-1.5 h-8"
-              disabled={disabled}
-              onClick={() => {
-                if (!openEmojis) {
-                  setOpenEmojis(true);
-                }
-              }}
-            >
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-yellow-700 hover:bg-yellow-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
-            </Button>
+        {/* <div tw="flex flex-row items-center gap-1 mb-2">
+          <Button
+            variant="ghost"
+            tw="px-1.5 h-8"
+            disabled={disabled}
+            onClick={() => {
+              if (!openEmojis) {
+                setOpenEmojis(true);
+              }
+            }}
+          >
+            {disabled ? (
+              <Container tw="bg-gray-400">
+                <PlusIcon color="white" width="16" height="16" />
+              </Container>
+            ) : (
+              <Container tw="bg-yellow-700 hover:bg-yellow-300">
+                <PlusIcon color="white" width="16" height="16" />
+              </Container>
+            )}
+          </Button>
 
-            <Button variant="ghost" tw="px-1.5 h-8" onClick={makeShowMap} disabled={disabled}>
-              {disabled ? (
-                <Container tw="bg-gray-400">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              ) : (
-                <Container tw="bg-green-700 hover:bg-green-300">
-                  <PlusIcon color="white" width="16" height="16" />
-                </Container>
-              )}
-            </Button>
-          </div>
-         */}
+          <Button variant="ghost" tw="px-1.5 h-8" onClick={makeShowMap} disabled={disabled}>
+            {disabled ? (
+              <Container tw="bg-gray-400">
+                <PlusIcon color="white" width="16" height="16" />
+              </Container>
+            ) : (
+              <Container tw="bg-green-700 hover:bg-green-300">
+                <PlusIcon color="white" width="16" height="16" />
+              </Container>
+            )}
+          </Button>
+        </div> */}
 
         <div tw="flex items-center gap-4">
-          {/* <input
+          <input
             tw="opacity-0 absolute left-0 right-0 pointer-events-none"
             ref={inputPhotoRef}
             type="file"
             multiple
             accept="image/png, image/jpg, image/jpeg"
             onChange={handleChangePhotos}
-          /> */}
-          {/* {!disabled && (
+          />
+          {!disabled && (
             <Button variant="ghost" tw="p-0 h-fit" onClick={openFileChooser}>
               <PhotoIcon />
             </Button>
-          )} */}
+          )}
           <TextField
             tw="w-full"
             css={[
@@ -430,7 +428,7 @@ export default function ChatRoomTextField({
         </div>
       </div>
 
-      {/* {openPopup && values.length > 0 && (
+      {openPopup && values.length > 0 && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
@@ -467,7 +465,7 @@ export default function ChatRoomTextField({
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
-      )} */}
+      )}
     </>
   );
 }

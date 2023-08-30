@@ -26,7 +26,6 @@ Example.args = {
   lastMessage:
     '최근 메세지가 들어갑니다 최근 메세지가 2줄 최금 네세지가 들어갑니다. 최근 메세지가 들어갑니다. 최근 메세지가 들어갑니다.  최근 메세지가 들어갑니다.  최근 메세지가 들어갑니다.',
   listingTitle: '도곡한라비발디프라펠리스 101동',
-  additionalListingCount: 2,
   lastMessageTime: '2023-04-12T21:28:41+09:00',
   unreadMessageCount: 100,
   profileImagePath: defaultAvatar,

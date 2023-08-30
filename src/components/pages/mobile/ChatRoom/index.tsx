@@ -30,8 +30,6 @@ export default memo(() => {
   const {
     listingTitle,
     agentName,
-    agentDescription,
-    agentOfficeName,
     chatMessages,
     agentProfileImagePath,
     isLoading,
@@ -39,10 +37,7 @@ export default memo(() => {
     photosUrls,
     handleChangePhotoUrls,
     handleSendMessage,
-    additionalListingCount,
     chatUserType,
-    hasContractCompleteListings,
-    hasPreContractCompleteListings,
   } = useChatRoom(Number(router.query.chatRoomID));
 
   const {
@@ -103,12 +98,6 @@ export default memo(() => {
   };
 
   const renderPopupBodyContents = () => {
-    if (hasPreContractCompleteListings) {
-      return '가계약금 입금한 매물이 있어 채팅방을 나갈 수 없습니다.';
-    }
-    if (hasContractCompleteListings) {
-      return `계약체결 1주일이 경과되지 않아 채팅방을 나갈 수 없습니다.`;
-    }
     if (chatUserType === ChatUserType.Seller) {
       return '등록된 매물의 담당 중개사님과의 채팅종료는 매물등록 취소나 거래성사되어야만 가능합니다.';
     }
@@ -117,7 +106,7 @@ export default memo(() => {
   };
 
   const renderPopupButton = () => {
-    if (chatUserType === ChatUserType.Buyer && !hasPreContractCompleteListings && !hasContractCompleteListings) {
+    if (chatUserType === ChatUserType.Buyer) {
       return (
         <>
           <Popup.CancelButton>돌아가기</Popup.CancelButton>
@@ -194,10 +183,7 @@ export default memo(() => {
         buyerActiveList={buyerActiveList}
         title={listingTitle ?? ''}
         agentName={agentName ?? ''}
-        officeName={agentOfficeName ?? ''}
-        agentDescription={agentDescription ?? ''}
         agentProfileImagePath={agentProfileImagePath ?? ''}
-        additionalListingCount={additionalListingCount ?? 0}
         isLoading={isLoading}
         chatUserType={chatUserType ?? 0}
         chatMessages={convertedChatMessages}
