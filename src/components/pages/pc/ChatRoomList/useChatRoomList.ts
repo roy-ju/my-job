@@ -6,7 +6,7 @@ import { useCallback, useMemo } from 'react';
 
 export default function useChatRoomList(depth: number) {
   const router = useRouter(depth);
-  const { data, isLoading } = useAPI_ChatRoomList();
+  const { data, isLoading, mutate } = useAPI_ChatRoomList();
 
   // const { unreadChatCount } = useSyncronizer();
 
@@ -16,6 +16,7 @@ export default function useChatRoomList(depth: number) {
 
   const chatRoomList = useMemo(() => {
     if (!data || !data.list) return [];
+
     return data.list.map((item) => ({
       id: item.chat_room_id,
       chatRoomType: item.chat_room_type,
@@ -35,8 +36,10 @@ export default function useChatRoomList(depth: number) {
       router.push(Routes.ChatRoom, {
         searchParams: { chatRoomID: `${id}` },
       });
+
+      mutate();
     },
-    [router],
+    [router, mutate],
   );
 
   return {

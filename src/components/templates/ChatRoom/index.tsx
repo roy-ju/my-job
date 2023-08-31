@@ -8,7 +8,6 @@ import React, { CSSProperties, Dispatch, SetStateAction, useCallback, useEffect,
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList as List, VariableSizeList } from 'react-window';
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
-import ListingList, { ListingCardProps } from './ListingList';
 
 interface ChatRoomProps {
   title: string;
@@ -31,10 +30,6 @@ interface ChatRoomProps {
   onClickReportButton?: () => void;
   onClickLeaveButton?: () => void;
   onClickBack?: () => void;
-
-  sellerList: ListingCardProps[];
-  buyerContractList: ListingCardProps[];
-  buyerActiveList: ListingCardProps[];
 
   onClickNavigateToListingDetail?: (listingID: number) => () => void;
   onClickNavigateToListingDetailHistory?: (listingID: number, biddingID: number) => () => void;
@@ -62,10 +57,6 @@ export default function ChatRoom({
   onClickLeaveButton,
   onClickBack,
 
-  sellerList,
-  buyerContractList,
-  buyerActiveList,
-
   onClickNavigateToListingDetail,
   onClickNavigateToListingDetailHistory,
 }: ChatRoomProps) {
@@ -75,7 +66,6 @@ export default function ChatRoom({
   const [scrolled, setScrolled] = useState(false);
 
   const [list, setList] = useState<VariableSizeList<any> | null>(null);
-  // const [showListingList, setShowListingList] = useState(false);
 
   const headerItems = [
     { label: '신고하기', onClick: onClickReportButton },
@@ -183,20 +173,6 @@ export default function ChatRoom({
           setPhotoSending={setPhotoSending}
         />
       </div>
-
-      {/* {showListingList && (
-        <ListingList
-          sellerList={sellerList}
-          buyerContractList={buyerContractList}
-          buyerActiveList={buyerActiveList}
-          setShowListingList={setShowListingList}
-          chatUserType={chatUserType}
-          agentName={agentName}
-          officeName=""
-          onClickNavigateToListingDetail={onClickNavigateToListingDetail}
-          onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
-        />
-      )} */}
     </div>
   );
 }

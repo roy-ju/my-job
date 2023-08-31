@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Panel, Loading } from '@/components/atoms';
 import { memo } from 'react';
 import { SuggestUpdate as SuggestUpdateTemplate } from '@/components/templates';
@@ -14,8 +15,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   const suggestID = Number(router.query.suggestID) ?? 0;
 
   const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
-
-  console.log(data);
 
   /*
   {

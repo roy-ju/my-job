@@ -1,4 +1,5 @@
 import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
+import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 import { IChatMessage } from '@/components/templates/ChatRoom/ChatMessageWrapper';
 import { ChatUserType } from '@/constants/enums';
@@ -25,6 +26,8 @@ export default function useChatRoom(chatRoomID: number) {
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
   const [photosUrls, setPhotosUrls] = useState<string[]>([]);
   const [textFieldDisabled, setTextFieldDisabled] = useState(false);
+
+  const { mutate: mutateChatRoomList } = useAPI_ChatRoomList();
 
   const webSocketUrl = useMemo(() => {
     if (!chatRoomID || !accessToken) return '';
@@ -120,8 +123,9 @@ export default function useChatRoom(chatRoomID: number) {
 
   useEffect(() => {
     const lastChat = chatMessages[chatMessages.length - 1];
+
     if (lastChat && data?.chat_user_type && readyState === WebSocketReadyState.Open) {
-      updateChatMessagesRead(chatRoomID);
+      updateChatMessagesRead(chatRoomID).then(() => mutateChatRoomList());
       sendMessage(
         JSON.stringify({
           chat_user_type: data?.chat_user_type,

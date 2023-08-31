@@ -5,7 +5,6 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
-import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
@@ -53,8 +52,6 @@ export default memo(() => {
     aName,
     bName,
   } = useChatButtonStore();
-
-  const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const handleClickReportButton = () => {
     const chatRoomID = router.query.chatRoomID as string;
@@ -178,9 +175,6 @@ export default memo(() => {
       )} */}
 
       <ChatRoom
-        sellerList={sellerList}
-        buyerContractList={buyerContractList}
-        buyerActiveList={buyerActiveList}
         title={listingTitle ?? ''}
         agentName={agentName ?? ''}
         agentProfileImagePath={agentProfileImagePath ?? ''}
