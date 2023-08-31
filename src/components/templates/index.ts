@@ -71,6 +71,7 @@ export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
 export { default as SuggestReceivedList } from './SuggestReceivedList';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
+export { default as SuggestUpdate } from './SuggestUpdate';
 export { default as SuggestDetail } from './SuggestDetail';
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
