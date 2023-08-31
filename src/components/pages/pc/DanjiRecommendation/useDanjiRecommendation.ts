@@ -385,10 +385,24 @@ export default function useDanjiRecommendationForm(depth: number) {
       if (!buyOrRent) {
         setNextButtonDisabled(true);
       }
+
+      if (buyOrRent === BuyOrRent.Buy && quickSale === '0' && !price) {
+        setNextButtonDisabled(true);
+      }
+
+      if (buyOrRent !== BuyOrRent.Buy && !price) {
+        setNextButtonDisabled(true);
+      }
     }
 
     if (currentForm === Forms.Area) {
       if (!pyoungList.length) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.MoveInDate) {
+      if (!moveInDate) {
         setNextButtonDisabled(true);
       }
     }
@@ -408,7 +422,7 @@ export default function useDanjiRecommendationForm(depth: number) {
         }
       }
     }
-  }, [forms, danjiID, buyOrRent, investAmount, purpose, moveInDate, pyoungList]);
+  }, [forms, danjiID, buyOrRent, investAmount, purpose, moveInDate, pyoungList, price, quickSale]);
 
   return {
     forms,
