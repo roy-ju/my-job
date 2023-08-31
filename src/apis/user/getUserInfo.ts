@@ -6,6 +6,7 @@ export interface GetUserInfoResponse {
   email: string;
   is_verified: boolean;
   nickname: string;
+  profile_image_url: string;
   over_nineteen: boolean;
   social_login_type: number;
   status: number;

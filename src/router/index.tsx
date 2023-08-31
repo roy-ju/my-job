@@ -313,6 +313,11 @@ const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'
   ssr: false,
   loading: FallbackComponent,
 });
+const SuggestUpdate = dynamic(() => import('@/components/pages/pc/SuggestUpdate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingPhotoGallery'), {
   ssr: false,
   loading: FallbackComponent,
@@ -702,6 +707,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.SuggestDetail: {
       return <SuggestDetail {...props} />;
+    }
+
+    case Routes.SuggestUpdate: {
+      return <SuggestUpdate {...props} />;
     }
 
     case Routes.ListingPhotoGallery: {

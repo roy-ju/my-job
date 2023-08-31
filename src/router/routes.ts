@@ -113,9 +113,6 @@ const Routes = {
   ListingTargetPriceUpdateSummary: 'listingTargetPriceUpdateSummary',
   ContractTerms: 'contractTerms',
 
-  // 매물 구해요 (지역 / 단지)
-  RecommendationForm: 'recommendationForm',
-
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
   SuggestRegionalSummary: 'suggestRegionalSummary',
@@ -125,6 +122,12 @@ const Routes = {
   SuggestRequestedList: 'suggestRequestedList',
   SuggestReceivedList: 'suggestReceivedList',
   SuggestDetail: 'suggestDetail',
+
+  // 매물 구해요 (지역 / 단지)
+  RecommendationForm: 'recommendationForm',
+
+  // 구해요 요청 수정
+  SuggestUpdate: 'suggestUpdate',
 
   // 오픈소스라이선스
   OpenSourceLicenses: 'openSourceLicenses',
