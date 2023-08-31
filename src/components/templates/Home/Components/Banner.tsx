@@ -12,10 +12,16 @@ import { motion } from 'framer-motion';
 
 const StyledBox = styled.div``;
 
-export function Banner({ handleClickCounseling }: { handleClickCounseling?: () => void }) {
+export function Banner({
+  handleClickCounseling,
+  mobileOrPc,
+}: {
+  handleClickCounseling?: () => void;
+  mobileOrPc: string;
+}) {
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: mobileOrPc === 'pc' ? 1.05 : 'none' }}
       tw="[border-radius: 12px] min-h-[88px] [min-width: 340px] mx-auto relative p-5 py-4"
       style={{
         backgroundImage: `url('${BannerImage.src}')`,

@@ -10,6 +10,7 @@ export const Default: ComponentStory<typeof ListingRecommendListItem> = (args) =
   <ListingRecommendListItem {...args} />
 );
 
+/*
 Default.args = {
   item: {
     agent_profile_image_url: '',
@@ -35,3 +36,4 @@ Default.args = {
     suggest_recommend_accepted_time: '',
   },
 };
+*/

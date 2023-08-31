@@ -50,6 +50,7 @@ export default function useSuggestRegionalForm() {
         return;
       }
       setPrice('');
+      setMonthlyRentFee('');
       setBuyOrRent(value);
     },
     [buyOrRent, forms.length],
@@ -405,7 +406,7 @@ export default function useSuggestRegionalForm() {
     }
 
     if (currentForm === Forms.RealestateType) {
-      if (!realestateType.length || !buyOrRent) {
+      if (!realestateType.length || !buyOrRent || price) {
         setNextButtonDisabled(true);
       }
     }
@@ -421,6 +422,11 @@ export default function useSuggestRegionalForm() {
     //     setNextButtonDisabled(true);
     //   }
     // }
+    if (currentForm === Forms.MoveInDate) {
+      if (!moveInDate) {
+        setNextButtonDisabled(true);
+      }
+    }
 
     if (currentForm === Forms.Purpose) {
       if (!purpose) {

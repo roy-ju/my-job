@@ -12,6 +12,7 @@ export default function DetailWrraper() {
     email,
     name,
     phone,
+    profileImageUrl,
     roadNameAddress,
     addressDetail,
     ownershipVerified,
@@ -29,6 +30,7 @@ export default function DetailWrraper() {
     cancelUpdateNickname,
     handleChangeNickname,
     handleClickUpdateEmail,
+    handleUploadProfileImage,
     handleClickCancelUpdateEmail,
     handleClickUpdateToApple,
     handleClickUpdateToKakao,
@@ -53,6 +55,7 @@ export default function DetailWrraper() {
         email={email ?? ''}
         name={name ?? ''}
         phone={phone ?? ''}
+        profileImageUrl={profileImageUrl ?? ''}
         address={roadNameAddress ?? ''}
         addressDetail={addressDetail ?? ''}
         addressVerified={ownershipVerified ?? false}
@@ -65,6 +68,7 @@ export default function DetailWrraper() {
         onClickUpdatePhone={handleUpdatePhone}
         onClickUpdateNickname={handleClickUpdateNickname}
         onClickUpdateEmail={handleClickUpdateEmail}
+        onClickUpdateProfileImage={handleUploadProfileImage}
         onClickUpdatePrivacyRetentionType={handleChangePrivacyRetentionType}
         onClickVerifyCi={handleNavigateToVerifyCi}
       />
