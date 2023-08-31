@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NavigationHeader } from '@/components/molecules';
 import React from 'react';
 import { DanjiOrRegionalType } from '@/constants/enums';
