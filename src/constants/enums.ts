@@ -126,6 +126,7 @@ export enum SuggestRecommendStatus {
   Accepted = 2,
   NotInterested = 3,
   Cancelled = 4,
+  Completed = 5, // 중개사가 CTA 버튼을 통해 거래성사
 }
 
 export enum NotificationLinkType {
@@ -166,6 +167,11 @@ export enum NotificationLinkType {
 export enum NiceVerificationType {
   Phone = 1,
   IPin = 2,
+}
+
+export enum DanjiOrRegionalType {
+  Danji = 1,
+  Regional = 2,
 }
 
 export function describeRealestateType(type: RealestateType | undefined | null) {

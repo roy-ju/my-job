@@ -9,6 +9,7 @@ interface MyDetailProps {
   email: string;
   name: string;
   phone: string;
+  profileImageUrl: string;
   address: string;
   addressDetail: string;
   addressVerified: boolean;
@@ -21,6 +22,7 @@ interface MyDetailProps {
   onClickUpdatePhone: () => void;
   onClickUpdateNickname: () => void;
   onClickUpdateEmail: () => void;
+  onClickUpdateProfileImage: (file: File) => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
   onClickUpdatePrivacyRetentionType: (value: string) => void;
@@ -31,6 +33,7 @@ export default function MobMyDetail({
   email,
   name,
   phone,
+  profileImageUrl,
   address,
   addressDetail,
   addressVerified,
@@ -43,6 +46,7 @@ export default function MobMyDetail({
   onClickUpdatePhone,
   onClickUpdateNickname,
   onClickUpdateEmail,
+  onClickUpdateProfileImage,
   onChangeNickname,
   onClickVerifyCi,
   onClickUpdatePrivacyRetentionType,
@@ -84,6 +88,8 @@ export default function MobMyDetail({
                 verified={addressVerified}
                 onClickUpdateAddress={onClickUpdateAddress}
               />
+              <MyDetailForm.Separator />
+              <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
               <MyDetailForm.Separator />
               <MyDetailForm.PrivacyRetentionInfo
                 value={privacyRetentionType}
