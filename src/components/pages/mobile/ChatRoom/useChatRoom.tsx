@@ -126,6 +126,7 @@ export default function useChatRoom(chatRoomID: number) {
 
   useEffect(() => {
     const lastChat = chatMessages[chatMessages.length - 1];
+
     if (lastChat && data?.chat_user_type && readyState === WebSocketReadyState.Open) {
       updateChatMessagesRead(chatRoomID).then(() => mutate('/chat/room/list'));
       sendMessage(
