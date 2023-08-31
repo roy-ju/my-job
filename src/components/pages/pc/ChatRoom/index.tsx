@@ -6,7 +6,6 @@ import Routes from '@/router/routes';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ChatUserType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
-import useAPI_GetChatListingList from '@/apis/chat/getChatListingList';
 import { mutate } from 'swr';
 import { customAlphabet } from 'nanoid';
 import useChatRoom from './useChatRoom';
@@ -31,7 +30,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleChangePhotoUrls,
     chatUserType,
   } = useChatRoom(Number(router.query.chatRoomID));
-  const { sellerList, buyerContractList, buyerActiveList } = useAPI_GetChatListingList(Number(router.query.chatRoomID));
 
   const nanoID = customAlphabet('123456789');
 
@@ -118,9 +116,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ChatRoom
-        sellerList={sellerList}
-        buyerContractList={buyerContractList}
-        buyerActiveList={buyerActiveList}
         title={listingTitle ?? ''}
         agentName={agentName ?? ''}
         agentProfileImagePath={agentProfileImagePath ?? ''}

@@ -8,7 +8,6 @@ import { Button, Loading, Moment } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useIsomorphicLayoutEffect, useOutsideClick } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
-import { AnimatePresence, motion } from 'framer-motion';
 import tw from 'twin.macro';
 
 export interface IChatMessage {
@@ -213,120 +212,109 @@ export default memo(
 
     return (
       <>
-        <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            exit={{ opacity: 0, scaleY: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div tw="px-5" style={{ paddingBottom: extraPaddingBottom }}>
-              {shouldRenderDate && !isChatPhotoLoading && (
-                <div tw="py-7 text-center text-info leading-3">
-                  <Moment format="yyyy년 MM월 DD일">{chat.sentTime}</Moment>
-                </div>
-              )}
-
-              <ChatMessage variant={variant}>
-                {shouldRenderAvatar && !isChatPhotoLoading && <ChatMessage.Avatar src={chat.profileImagePath} />}
-
-                {shouldRenderAvatar && !isChatPhotoLoading && (
-                  <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>
-                )}
-
-                {isChatMessage && isChatPhotoLoading && (
-                  <ChatMessage.LoadingPhoto>
-                    <div tw="flex items-center justify-center [height: 134.4px]">
-                      <div tw="px-4 py-2 bg-gray-100 rounded-lg">
-                        <Loading />
-                      </div>
-                    </div>
-                  </ChatMessage.LoadingPhoto>
-                )}
-
-                {!isChatMessage &&
-                  !isChatPhotoLoading &&
-                  (imgError ? (
-                    <ChatMessage.Photo>
-                      <div tw="[width: 112px] [height: 134.4px] bg-gray-800 [border-radius: 8px] flex items-center justify-center px-2">
-                        <p tw="text-white font-bold text-justify">
-                          삭제되었거나
-                          <br />
-                          존재하지 않는
-                          <br />
-                          이미지 입니다.
-                        </p>
-                      </div>
-                    </ChatMessage.Photo>
-                  ) : (
-                    <ChatMessage.Photo>
-                      <div
-                        className="negocioChatWrraper"
-                        dangerouslySetInnerHTML={{ __html: chat.message }}
-                        ref={photoWrraperRef}
-                      />
-                    </ChatMessage.Photo>
-                  ))}
-
-                {isChatMessage && !isChatRelatedMap && !isChatPhotoLoading && (
-                  <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>
-                )}
-
-                {isChatMessage && isChatRelatedMap && !isChatPhotoLoading && (
-                  <ChatMessage.LinkTag>
-                    {imgSrcUrl && (
-                      <img
-                        alt=""
-                        src={imgSrcUrl}
-                        style={{ width: '200px', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
-                      />
-                    )}
-
-                    {(buildingName || addressName) && (
-                      <div tw="bg-white px-2 pt-2 [max-width: 200px]">
-                        {buildingName && <p tw="text-info text-gray-1000">{buildingName}</p>}
-                        {addressName && <p tw="text-info text-gray-700">{addressName}</p>}
-                      </div>
-                    )}
-
-                    <div tw="flex items-center gap-2 [max-width: 200px] px-2 pb-2 bg-white [border-bottom-left-radius: 8px] [border-bottom-right-radius: 8px]">
-                      <Button size="small" tw="w-full mt-2 rounded flex-1 px-1.5" variant="gray">
-                        <a
-                          type="button"
-                          href={directNaverMapURL}
-                          target="_blank"
-                          rel="noreferrer"
-                          tw="w-full text-center rounded-lg px-1.5"
-                        >
-                          장소 바로가기
-                        </a>
-                      </Button>
-                      <Button size="small" tw="w-full mt-2 rounded flex-1 px-1.5" variant="gray">
-                        <a
-                          type="button"
-                          href={directNaverMapURLAnother}
-                          target="_blank"
-                          rel="noreferrer"
-                          tw="w-full text-center rounded-lg "
-                        >
-                          길찾기
-                        </a>
-                      </Button>
-                    </div>
-                  </ChatMessage.LinkTag>
-                )}
-
-                {variant === 'nego' && !chat.agentReadTime && shouldRenderSentTime && !isChatPhotoLoading && (
-                  <ChatMessage.ReadIndicator>읽기 전</ChatMessage.ReadIndicator>
-                )}
-
-                {shouldRenderSentTime && !isChatPhotoLoading && (
-                  <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>
-                )}
-              </ChatMessage>
+        <div tw="px-5" style={{ paddingBottom: extraPaddingBottom }}>
+          {shouldRenderDate && !isChatPhotoLoading && (
+            <div tw="py-7 text-center text-info leading-3">
+              <Moment format="yyyy년 MM월 DD일">{chat.sentTime}</Moment>
             </div>
-          </motion.div>
-        </AnimatePresence>
+          )}
+
+          <ChatMessage variant={variant}>
+            {shouldRenderAvatar && !isChatPhotoLoading && <ChatMessage.Avatar src={chat.profileImagePath} />}
+
+            {shouldRenderAvatar && !isChatPhotoLoading && <ChatMessage.SenderName>{chat.name}</ChatMessage.SenderName>}
+
+            {isChatMessage && isChatPhotoLoading && (
+              <ChatMessage.LoadingPhoto>
+                <div tw="flex items-center justify-center [height: 134.4px]">
+                  <div tw="px-4 py-2 bg-gray-100 rounded-lg">
+                    <Loading />
+                  </div>
+                </div>
+              </ChatMessage.LoadingPhoto>
+            )}
+
+            {!isChatMessage &&
+              !isChatPhotoLoading &&
+              (imgError ? (
+                <ChatMessage.Photo>
+                  <div tw="[width: 112px] [height: 134.4px] bg-gray-800 [border-radius: 8px] flex items-center justify-center px-2">
+                    <p tw="text-white font-bold text-justify">
+                      삭제되었거나
+                      <br />
+                      존재하지 않는
+                      <br />
+                      이미지 입니다.
+                    </p>
+                  </div>
+                </ChatMessage.Photo>
+              ) : (
+                <ChatMessage.Photo>
+                  <div
+                    className="negocioChatWrraper"
+                    dangerouslySetInnerHTML={{ __html: chat.message }}
+                    ref={photoWrraperRef}
+                  />
+                </ChatMessage.Photo>
+              ))}
+
+            {isChatMessage && !isChatRelatedMap && !isChatPhotoLoading && (
+              <ChatMessage.Bubble>{chat.message}</ChatMessage.Bubble>
+            )}
+
+            {isChatMessage && isChatRelatedMap && !isChatPhotoLoading && (
+              <ChatMessage.LinkTag>
+                {imgSrcUrl && (
+                  <img
+                    alt=""
+                    src={imgSrcUrl}
+                    style={{ width: '200px', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
+                  />
+                )}
+
+                {(buildingName || addressName) && (
+                  <div tw="bg-white px-2 pt-2 [max-width: 200px]">
+                    {buildingName && <p tw="text-info text-gray-1000">{buildingName}</p>}
+                    {addressName && <p tw="text-info text-gray-700">{addressName}</p>}
+                  </div>
+                )}
+
+                <div tw="flex items-center gap-2 [max-width: 200px] px-2 pb-2 bg-white [border-bottom-left-radius: 8px] [border-bottom-right-radius: 8px]">
+                  <Button size="small" tw="w-full mt-2 rounded flex-1 px-1.5" variant="gray">
+                    <a
+                      type="button"
+                      href={directNaverMapURL}
+                      target="_blank"
+                      rel="noreferrer"
+                      tw="w-full text-center rounded-lg px-1.5"
+                    >
+                      장소 바로가기
+                    </a>
+                  </Button>
+                  <Button size="small" tw="w-full mt-2 rounded flex-1 px-1.5" variant="gray">
+                    <a
+                      type="button"
+                      href={directNaverMapURLAnother}
+                      target="_blank"
+                      rel="noreferrer"
+                      tw="w-full text-center rounded-lg "
+                    >
+                      길찾기
+                    </a>
+                  </Button>
+                </div>
+              </ChatMessage.LinkTag>
+            )}
+
+            {variant === 'nego' && !chat.agentReadTime && shouldRenderSentTime && !isChatPhotoLoading && (
+              <ChatMessage.ReadIndicator>읽기 전</ChatMessage.ReadIndicator>
+            )}
+
+            {shouldRenderSentTime && !isChatPhotoLoading && (
+              <ChatMessage.SentTime format="LT">{chat.sentTime}</ChatMessage.SentTime>
+            )}
+          </ChatMessage>
+        </div>
 
         {openPopupFullImage && imgUrl && (
           <OverlayPresenter>
