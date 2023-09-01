@@ -51,8 +51,8 @@ export default function ChatRoomListItem({
           <Avatar size={44} alt="중개사 프로필 사진" src={profileImagePath || defaultAvatar} />
           <div tw="min-w-0 flex flex-col flex-1 ml-3">
             <div tw="flex items-center justify-between mb-[5px] gap-1">
-              <div tw="overflow-hidden whitespace-nowrap text-ellipsis flex items-center gap-1">
-                {renderChatTag()} <span tw="font-bold text-b2 text-gray-1000">{title}</span>
+              <div tw="overflow-hidden  flex items-center gap-1 line-clamp-1">
+                {renderChatTag()} <span tw=" font-bold text-b2 text-gray-1000">{title}</span>
               </div>
               <div tw="shrink-0 text-info leading-5 text-gray-700 self-end">
                 {formatLastMessageTime(lastMessageTime)}
