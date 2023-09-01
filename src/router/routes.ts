@@ -126,6 +126,9 @@ const Routes = {
   // 매물 구해요 (지역 / 단지)
   RecommendationForm: 'recommendationForm',
 
+  // 매물 내놓기
+  SuggestMyListing: 'suggestMyListing',
+
   // 구해요 요청 수정
   SuggestUpdate: 'suggestUpdate',
 

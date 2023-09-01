@@ -3,6 +3,8 @@ import { authFetcher } from '@/lib/swr';
 import useSWR from 'swr';
 
 export interface GetMySuggestDetailResponse {
+  user_nickname: string;
+  user_profile_image_url: string;
   suggest_id: number;
   danji_id: number | null;
   request_number: string;
@@ -32,7 +34,7 @@ export default function useAPI_GetMySuggestDetail(suggestID: number) {
   const { data, isLoading } = useSWR<GetMySuggestDetailResponse | null>(
     user && suggestID
       ? [
-          '/my/suggest/detail',
+          '/suggest/detail',
           {
             suggest_id: suggestID,
           },
