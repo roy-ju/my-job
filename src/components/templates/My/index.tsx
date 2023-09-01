@@ -3,13 +3,13 @@ import { NavigationHeader } from '@/components/molecules';
 import BellIcon from '@/assets/icons/bell.svg';
 import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
-import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
 interface Props {
   isLoading?: boolean;
   loggedIn?: boolean;
   nickname?: string;
+  profileImageUrl?: string;
   unreadNotificationCount?: number;
   dashboardInfo?: GetDashboardInfoResponse | null;
   onClickLogin?: () => void;
@@ -35,6 +35,7 @@ export default function My({
   isLoading,
   loggedIn,
   nickname,
+  profileImageUrl,
   unreadNotificationCount = 0,
   dashboardInfo,
   onClickLogin,
@@ -81,7 +82,7 @@ export default function My({
         {!isLoading && loggedIn && (
           <>
             <MySummary
-              profileImagePath={defaultAvatar}
+              profileImagePath={profileImageUrl}
               nickname={nickname}
               onClickMyDetail={onClickMyDetail}
               onClickCoupons={onClickCoupons}
