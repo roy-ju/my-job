@@ -317,7 +317,10 @@ const SuggestUpdate = dynamic(() => import('@/components/pages/pc/SuggestUpdate'
   ssr: false,
   loading: FallbackComponent,
 });
-
+const SuggestMyListing = dynamic(() => import('@/components/pages/pc/SuggestMyListing'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingPhotoGallery'), {
   ssr: false,
   loading: FallbackComponent,
@@ -330,32 +333,26 @@ const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounseling = dynamic(() => import('@/components/pages/pc/LegalCounseling'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingSearch = dynamic(() => import('@/components/pages/pc/LegalCounselingSearch'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingDetail = dynamic(() => import('@/components/pages/pc/LegalCounselingDetail'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingWriting = dynamic(() => import('@/components/pages/pc/LegalCounselingWriting'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalCounselingUpdate'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const RecommendationForm = dynamic(() => import('@/components/pages/pc/RecommendationForm'), {
   ssr: false,
   loading: FallbackComponent,
@@ -711,6 +708,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.SuggestUpdate: {
       return <SuggestUpdate {...props} />;
+    }
+
+    case Routes.SuggestMyListing: {
+      return <SuggestMyListing {...props} />;
     }
 
     case Routes.ListingPhotoGallery: {

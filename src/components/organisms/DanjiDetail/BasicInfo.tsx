@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { Button, Chip } from '@/components/atoms';
@@ -155,13 +154,6 @@ export default function BasicInfo({
                 </p>
               </>
             )}
-
-            {/* {danji.construction_start_date?.replaceAll(' ', '') && (
-              <>
-                <div tw="w-px h-2 bg-gray-300 mx-1" />
-                <p tw="text-info text-gray-700">{moment(danji.construction_start_date).format('YYYY.MM')} 준공</p>
-              </>
-            )} */}
 
             {danji?.use_accepted_year?.replaceAll(' ', '') && (
               <>

@@ -124,3 +124,6 @@ export { default as LawQnaUpdate } from './LawQnaUpdate';
 
 /** 구해요  */
 export { default as RecommendationForm } from './RecommendationForm';
+
+/** 매물추천하기  */
+export { default as SuggestMyListing } from './SuggestMyListing';

@@ -66,6 +66,7 @@ export { default as MyFavoriteList } from './MyFavoriteList';
 export { default as MyRegisteredListings } from './MyRegisteredListings';
 export { default as ListingDetailPassed } from './ListingDetailPassed';
 export { default as ListingDetailHistory } from './ListingDetailHistory';
+
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
@@ -73,6 +74,8 @@ export { default as SuggestReceivedList } from './SuggestReceivedList';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestUpdate } from './SuggestUpdate';
 export { default as SuggestDetail } from './SuggestDetail';
+export { default as SuggestMyListing } from './SuggestMyListing';
+
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
