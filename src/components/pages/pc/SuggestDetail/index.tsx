@@ -1,5 +1,5 @@
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
-import useAPI_GetMySuggestDetail from '@/apis/suggest/getMySuggestDetail';
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import useAPI_GetMySuggestRecommends from '@/apis/suggest/getMySuggestRecommends';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { Loading, Panel } from '@/components/atoms';
@@ -22,7 +22,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const suggestID = Number(router.query.suggestID) ?? 0;
 
-  const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
+  const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
   const {
     data: recommendData,
     count,

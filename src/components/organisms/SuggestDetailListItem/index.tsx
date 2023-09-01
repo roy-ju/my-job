@@ -1,13 +1,13 @@
 import { Button, Chip, Moment, Numeral } from '@/components/atoms';
 import React, { useMemo, useState } from 'react';
-import { GetMySuggestDetailResponse } from '@/apis/suggest/getMySuggestDetail';
+import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { DanjiOrRegionalType, RealestateType, BuyOrRent } from '@/constants/enums';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import tw from 'twin.macro';
 
 interface SuggestDetailListItemProps {
-  suggestData?: GetMySuggestDetailResponse | null;
+  suggestData?: GetSuggestDetailResponse | null;
   onClickDanjiDetail?: () => void;
   onClickSuggestUpdate?: () => void;
 }

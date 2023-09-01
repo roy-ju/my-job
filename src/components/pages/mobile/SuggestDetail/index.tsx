@@ -1,5 +1,4 @@
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
-import useAPI_GetMySuggestDetail from '@/apis/suggest/getMySuggestDetail';
 import useAPI_GetMySuggestRecommends from '@/apis/suggest/getMySuggestRecommends';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { Loading, MobileContainer } from '@/components/atoms';
@@ -11,12 +10,13 @@ import { resumeSuggest } from '@/apis/suggest/resumeSuggest';
 import { stopSuggest } from '@/apis/suggest/stopSuggest';
 import { SuggestStatus } from '@/constants/enums';
 import { toast } from 'react-toastify';
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 
 export default memo(() => {
   const router = useRouter();
   const suggestID = Number(router.query.suggestID) ?? 0;
 
-  const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
+  const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
   const {
     data: recommendData,
     count,
