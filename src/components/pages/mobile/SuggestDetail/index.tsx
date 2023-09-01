@@ -3,7 +3,7 @@ import { Loading, MobileContainer } from '@/components/atoms';
 import { SuggestDetail } from '@/components/templates';
 
 import { useRouter } from 'next/router';
-import { memo } from 'react';
+import { memo, useMemo, useCallback } from 'react';
 
 export default memo(() => {
   const router = useRouter();
@@ -12,9 +12,15 @@ export default memo(() => {
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
-  const handleClickBack = () => {
+  const disabledCTA = useMemo(() => false, []);
+
+  const isExistMySuggested = useMemo(() => false, []);
+
+  const handleClickBack = useCallback(() => {
     router.back();
-  };
+  }, [router]);
+
+  const handleClickCTA = useCallback(() => {}, []);
 
   if (isLoading) {
     return (
@@ -30,7 +36,13 @@ export default memo(() => {
 
   return (
     <MobileContainer>
-      <SuggestDetail data={data} onClickBack={handleClickBack} />
+      <SuggestDetail
+        data={data}
+        isExistMySuggested={isExistMySuggested}
+        disabledCTA={disabledCTA}
+        onClickCTA={handleClickCTA}
+        onClickBack={handleClickBack}
+      />
     </MobileContainer>
   );
 });

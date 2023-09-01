@@ -5,10 +5,25 @@ import { SuggestDetailListItem } from '@/components/organisms';
 
 type Props = {
   data?: GetSuggestDetailResponse;
+
+  isExistMySuggested?: boolean;
+
+  disabledCTA?: boolean;
+  onClickCTA?: () => void;
+
   onClickBack?: () => void;
 };
 
-export default function SuggestDetail({ data, onClickBack }: Props) {
+export default function SuggestDetail({
+  data,
+
+  isExistMySuggested,
+
+  disabledCTA,
+  onClickCTA,
+
+  onClickBack,
+}: Props) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
@@ -17,12 +32,16 @@ export default function SuggestDetail({ data, onClickBack }: Props) {
       </NavigationHeader>
 
       <div tw="flex-1 px-5 pt-7">
-        <SuggestDetailListItem data={data} />
+        <SuggestDetailListItem>
+          <SuggestDetailListItem.UserInfo data={data} />
+          <SuggestDetailListItem.ListingInfo data={data} />
+          {isExistMySuggested && <SuggestDetailListItem.MySuggestedListings />}
+        </SuggestDetailListItem>
       </div>
 
       <PersistentBottomBar>
         <div tw="w-full [padding-bottom: 26px]">
-          <Button size="bigger" tw="w-full">
+          <Button size="bigger" tw="w-full" disabled={!!disabledCTA} onClick={onClickCTA}>
             내 매물 추천하기
           </Button>
         </div>
