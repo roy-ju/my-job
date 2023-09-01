@@ -5,13 +5,18 @@ import useSyncronizer from '@/states/syncronizer';
 import useChatRoomList from './useChatRoomList';
 
 export default function ChatRoomList() {
-  const { chatRoomList, isLoading, handleClickListItem } = useChatRoomList();
+  const { chatRoomList, isLoading, handleClickListItem, handleClickRecommendationForm } = useChatRoomList();
 
   const { unreadChatCount } = useSyncronizer();
 
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={3} unreadChatCount={unreadChatCount} />}>
-      <ChatRoomListTemplate list={chatRoomList} isLoading={isLoading} onClickListItem={handleClickListItem} />
+      <ChatRoomListTemplate
+        list={chatRoomList}
+        isLoading={isLoading}
+        onClickListItem={handleClickListItem}
+        onClickRecommendationForm={handleClickRecommendationForm}
+      />
     </MobileContainer>
   );
 }
