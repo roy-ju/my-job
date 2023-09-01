@@ -10,24 +10,24 @@ export default {
 export const Default: ComponentStory<typeof ChatRoomListItem> = (args) => <ChatRoomListItem {...args} />;
 
 Default.args = {
-  officeName: 'officeName',
+  name: 'name',
   lastMessage: 'lastMessage',
-  listingTitle: 'listingTitle',
+  title: 'title',
   lastMessageTime: '2023-04-17T05:21:42.607Z',
   unreadMessageCount: 0,
   profileImagePath: defaultAvatar,
-  isSeller: true,
+  typeTag: '중개사',
 };
 
 export const Example: ComponentStory<typeof ChatRoomListItem> = (args) => <ChatRoomListItem {...args} />;
 
 Example.args = {
-  officeName: '김네고 공인중개사',
+  name: '김네고 공인중개사',
   lastMessage:
     '최근 메세지가 들어갑니다 최근 메세지가 2줄 최금 네세지가 들어갑니다. 최근 메세지가 들어갑니다. 최근 메세지가 들어갑니다.  최근 메세지가 들어갑니다.  최근 메세지가 들어갑니다.',
-  listingTitle: '도곡한라비발디프라펠리스 101동',
+  title: '도곡한라비발디프라펠리스 101동',
   lastMessageTime: '2023-04-12T21:28:41+09:00',
   unreadMessageCount: 100,
   profileImagePath: defaultAvatar,
-  isSeller: false,
+  typeTag: '구해요',
 };
