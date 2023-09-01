@@ -2,7 +2,7 @@ import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { NavigationHeader } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { Separator, Switch } from '@/components/atoms';
-import { SuggestDetailListItem } from '@/components/organisms';
+import { MySuggestDetailListItem } from '@/components/organisms';
 import ListingRecommendList from './ListingRecommendList';
 
 interface Props {
@@ -39,12 +39,12 @@ export default function MySuggestDetail({
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickBack} />
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>구해요 상세</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="h-px bg-gray-300" />
       <div tw="px-5 pt-7 pb-10">
-        <SuggestDetailListItem
+        <MySuggestDetailListItem
           suggestData={suggestData}
           onClickSuggestUpdate={onClickSuggestUpdate}
           onClickDanjiDetail={onClickDanjiDetail}

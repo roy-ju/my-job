@@ -132,6 +132,9 @@ const Routes = {
   // 구해요 요청 수정
   SuggestUpdate: 'suggestUpdate',
 
+  // 구해요 상세
+  SuggestDetail: 'suggestDetail',
+
   // 오픈소스라이선스
   OpenSourceLicenses: 'openSourceLicenses',
   // 버전정보
