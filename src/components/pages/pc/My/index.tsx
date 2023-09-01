@@ -118,6 +118,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        profileImageUrl={user?.profileImageUrl}
         unreadNotificationCount={unreadNotificationCount}
         dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
