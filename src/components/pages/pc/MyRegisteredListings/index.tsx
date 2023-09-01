@@ -71,6 +71,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   ]);
 
   const handleClickListingItem = (listingId: number) => () => {
+    if (isDeleteActive) return;
     router.push(Routes.ListingDetail, {
       persistParams: true,
       searchParams: {
