@@ -8,8 +8,8 @@ export interface GetMySuggestRecommendsResponse {
   list:
     | {
         suggest_recommend_id: number;
-        agent_profile_image_url: string;
-        agent_name: string;
+        other_profile_image_url: string;
+        other_name: string;
         created_time: string;
         suggest_recommend_status: number;
         with_address: true;
@@ -22,7 +22,7 @@ export interface GetMySuggestRecommendsResponse {
         direction: string;
         buy_or_rent: number;
         note: string;
-        buyer_agent_chat_room_id?: number | null;
+        chat_room_id?: number | null;
       }[]
     | null;
 }

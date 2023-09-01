@@ -100,7 +100,7 @@ function TabButton({
     >
       <div css={[tw`relative transition-colors`, selectedTab === idx ? tw`text-nego-700` : tw`text-gray-600`]}>
         {icon}{' '}
-        {text === '중개사 채팅' && unreadChatCount > 0 && (
+        {text === '채팅' && unreadChatCount > 0 && (
           <NewCount value="N" tw="font-bold absolute top-0 right-0 translate-x-1/2 -translate-y-1/2" />
         )}
       </div>

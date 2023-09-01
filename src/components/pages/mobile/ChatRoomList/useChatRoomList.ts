@@ -20,9 +20,10 @@ export default function useChatRoomList() {
     return data.list.map((item) => ({
       id: item.chat_room_id,
       chatRoomType: item.chat_room_type,
+      typeTag: item.type_tag,
       profileImagePath: item.other_profile_image_full_path,
-      officeName: item.other_name,
-      listingTitle: item.title,
+      name: item.other_name,
+      title: item.title,
       unreadMessageCount: item.unread_message_count,
       lastMessage: item.latest_message,
       lastMessageTime: item.latest_message_time,
@@ -38,9 +39,14 @@ export default function useChatRoomList() {
     [router],
   );
 
+  const handleClickRecommendationForm = useCallback(() => {
+    router.push(Routes.RecommendationForm);
+  }, [router]);
+
   return {
     chatRoomList,
     isLoading,
     handleClickListItem,
+    handleClickRecommendationForm,
   };
 }

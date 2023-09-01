@@ -35,7 +35,7 @@ export default function ListingRecommendList({
             <ListingRecommendListItem
               key={item.suggest_recommend_id}
               item={item}
-              onClickChat={() => onClickChat?.(item?.buyer_agent_chat_room_id ?? 0)}
+              onClickChat={() => onClickChat?.(item?.chat_room_id ?? 0)}
               onClickNotInterested={() => onClickNotInterested?.(item.suggest_recommend_id)}
               onClickRecommendAccept={() => onClickRecommendAccept?.(item.suggest_recommend_id)}
             />
