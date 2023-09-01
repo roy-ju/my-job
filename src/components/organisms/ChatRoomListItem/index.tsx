@@ -48,7 +48,7 @@ export default function ChatRoomListItem({
         onClick={onClick}
       >
         <div tw="flex flex-1 min-w-0">
-          <Avatar size={44} alt="중개사 프로필 사진" src={profileImagePath || defaultAvatar} />
+          <Avatar size={44} alt={`${name} 프로필 사진`} src={profileImagePath || defaultAvatar} />
           <div tw="min-w-0 flex flex-col flex-1 ml-3">
             <div tw="flex items-center justify-between mb-[5px] gap-1">
               <div tw="overflow-hidden  flex items-center gap-1 line-clamp-1">
