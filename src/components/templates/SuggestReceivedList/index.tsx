@@ -2,7 +2,7 @@ import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecom
 import { NavigationHeader, Tabs } from '@/components/molecules';
 import { SuggestReceivedListNoData } from '@/components/organisms';
 import { Loading } from '@/components/atoms';
-import ListingRecommendList from '../SuggestDetail/ListingRecommendList';
+import ListingRecommendList from '../MySuggestDetail/ListingRecommendList';
 
 interface Props {
   listStyle?: 'none' | 'delete';

@@ -1,19 +1,25 @@
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import useAPI_GetMySuggestRecommends from '@/apis/suggest/getMySuggestRecommends';
 import { notIntersted } from '@/apis/suggest/notInterested';
-import { Loading, MobileContainer } from '@/components/atoms';
-import { SuggestDetail } from '@/components/templates';
+import { Loading, Panel } from '@/components/atoms';
+import { MySuggestDetail } from '@/components/templates';
+import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
-import { memo, useCallback, useState, useEffect } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { resumeSuggest } from '@/apis/suggest/resumeSuggest';
 import { stopSuggest } from '@/apis/suggest/stopSuggest';
 import { SuggestStatus } from '@/constants/enums';
 import { toast } from 'react-toastify';
-import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 
-export default memo(() => {
-  const router = useRouter();
+interface Props {
+  depth: number;
+  panelWidth?: string;
+}
+
+export default memo(({ panelWidth, depth }: Props) => {
+  const router = useRouter(depth);
+
   const suggestID = Number(router.query.suggestID) ?? 0;
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
@@ -29,22 +35,43 @@ export default memo(() => {
 
   const handleClickChat = useCallback(
     (id: number) => {
-      router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${id}`);
+      router.replace(Routes.ChatRoom, {
+        searchParams: {
+          chatRoomID: `${id}`,
+        },
+      });
     },
     [router],
   );
+
+  const handleClickDanjiDetail = useCallback(() => {
+    router.replace(Routes.DanjiDetail, {
+      searchParams: {
+        danjiID: `${data?.danji_id}`,
+      },
+    });
+  }, [data, router]);
+
+  const handleClickSuggestUpdate = useCallback(() => {
+    router.replace(Routes.SuggestUpdate, {
+      searchParams: {
+        suggestID: `${data?.suggest_id}`,
+      },
+    });
+  }, [data, router]);
 
   useEffect(() => {
     setSuggestChecked(suggestStatus === SuggestStatus.Active);
   }, [suggestStatus]);
 
-  const handleClickDanjiDetail = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${data?.danji_id}`);
-  }, [data, router]);
-
-  const handleClickSuggestUpdate = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestUpdate}?suggestID=${data?.suggest_id}`);
-  }, [data, router]);
+  const handleNaviagteToRecommendationForm = useCallback(() => {
+    router.replace(Routes.RecommendationForm, {
+      searchParams: {
+        redirect: `${Routes.SuggestRequestedList}`,
+        back: 'true',
+      },
+    });
+  }, [router]);
 
   const handleNotInterested = useCallback(
     async (suggestRecommendId: number) => {
@@ -91,31 +118,31 @@ export default memo(() => {
 
   if (isLoading) {
     return (
-      <MobileContainer>
+      <Panel width={panelWidth}>
         <div tw="py-20">
           <Loading />
         </div>
-      </MobileContainer>
+      </Panel>
     );
   }
 
   return (
-    <MobileContainer>
-      <SuggestDetail
+    <Panel width={panelWidth}>
+      <MySuggestDetail
         recommendCount={count}
         recommendData={recommendData}
-        suggestData={data}
         suggestChecked={suggestChecked}
-        onClickBack={() => router.back()}
+        suggestData={data}
+        onClickBack={() => router.replace(Routes.SuggestRequestedList)}
         onClickNotInterested={handleNotInterested}
         onClickRecommendAccept={handleRecommendAccept}
         onClickChat={handleClickChat}
         onClickSuggestUpdate={handleClickSuggestUpdate}
         onClickDanjiDetail={handleClickDanjiDetail}
+        onClickNewRecommendations={handleNaviagteToRecommendationForm}
         onNextListingRecommentList={increamentPageNumber}
-        onClickNewRecommendations={() => router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`)}
         onChangeSuggestChecked={handleChangeSuggestChecked}
       />
-    </MobileContainer>
+    </Panel>
   );
 });

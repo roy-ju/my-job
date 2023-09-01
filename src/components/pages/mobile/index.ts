@@ -74,7 +74,7 @@ export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
-export { default as SuggestDetail } from './SuggestDetail';
+export { default as MySuggestDetail } from './MySuggestDetail';
 
 /** 매물 상세 */
 export { default as ListingDetail } from './ListingDetail';

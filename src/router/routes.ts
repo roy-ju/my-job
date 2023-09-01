@@ -41,6 +41,7 @@ const Routes = {
   MyRegisteredListingList: 'myRegisteredListings',
 
   MyParticipatingListings: 'myParticipatingListings',
+  MySuggestDetail: 'mySuggestDetail',
 
   ListingDetailPassed: 'listingDetailPassed',
   ListingDetailHistory: 'listingDetailHistory',
@@ -121,7 +122,6 @@ const Routes = {
   // 나의 추천요청 / 추천받은매물
   SuggestRequestedList: 'suggestRequestedList',
   SuggestReceivedList: 'suggestReceivedList',
-  SuggestDetail: 'suggestDetail',
 
   // 매물 구해요 (지역 / 단지)
   RecommendationForm: 'recommendationForm',
