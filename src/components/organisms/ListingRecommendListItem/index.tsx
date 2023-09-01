@@ -72,8 +72,8 @@ export default function ListingRecommendListItem({
   return (
     <div tw=" rounded-lg border border-gray-300">
       <div tw="flex items-center gap-2 px-4 pt-4 pb-3 ">
-        <Avatar size={24} alt="alt" src={item?.agent_profile_image_url} />
-        <div tw="text-b2 font-bold mr-auto">{item?.agent_name} 중개사의 추천</div>
+        <Avatar size={24} alt="alt" src={item?.other_profile_image_url} />
+        <div tw="text-b2 font-bold mr-auto">{item?.other_name} 중개사의 추천</div>
         {renderMoments()}
       </div>
       <div tw="border-b mx-4 border-b-gray-300" />

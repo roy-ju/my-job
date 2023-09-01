@@ -133,6 +133,7 @@ export default function MobMy() {
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        profileImageUrl={user?.profileImageUrl}
         dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}

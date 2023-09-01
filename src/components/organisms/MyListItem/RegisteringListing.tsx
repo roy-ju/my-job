@@ -42,11 +42,10 @@ export default function RegisteringListing({
 
   return (
     <button
-      disabled={isDeleteActive}
       type="button"
       onClick={onClickListingItem?.(listingId)}
       tw="flex gap-3 w-full py-5 px-5"
-      css={[!isDeleteActive && tw`hover:bg-gray-100`]}
+      css={[!isDeleteActive ? tw`hover:bg-gray-100` : tw`cursor-default`]}
     >
       <div tw="flex gap-3 items-center w-full">
         <div tw="flex gap-3">

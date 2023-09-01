@@ -16,6 +16,7 @@ export default function useMyRegisteredListings() {
     mutate: myRegisteringListingMutate,
     isLoading: myRegisteringListingIsLoading,
   } = useAPI_GetMyRegisteredListingList(1);
+
   const {
     count: myActiveListingCount,
     data: myActiveListingData,
@@ -40,6 +41,7 @@ export default function useMyRegisteredListings() {
 
   const handleChangeCheckbox = (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
+
     if (checked) {
       setCheckedListingIdList([...checkedListingIdList, listingId]);
     } else {
@@ -68,6 +70,8 @@ export default function useMyRegisteredListings() {
   };
 
   const handleOpenPopup = () => {
+    if (!checkedListingIdList.length) return;
+
     setIsPopupActive(true);
   };
 

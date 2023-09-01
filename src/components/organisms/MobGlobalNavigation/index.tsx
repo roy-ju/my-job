@@ -70,7 +70,7 @@ export default function MobGlobalNavigation({
             )}
           </div>
           <span css={[tw`text-gray-700 text-mobCaption`, index === 3 ? buttonStyles.selected : buttonStyles.default]}>
-            중개사 채팅
+            채팅
           </span>
         </Button>
         <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]" onClick={() => onClickButton(Routes.My)}>
