@@ -1,4 +1,4 @@
-import { GetMySuggestDetailResponse } from '@/apis/suggest/getMySuggestDetail';
+import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { NavigationHeader } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { Separator, Switch } from '@/components/atoms';
@@ -7,7 +7,7 @@ import ListingRecommendList from './ListingRecommendList';
 
 interface Props {
   recommendCount?: number;
-  suggestData?: GetMySuggestDetailResponse | null;
+  suggestData?: GetSuggestDetailResponse | null;
   recommendData?: GetMySuggestRecommendsResponse['list'];
   suggestChecked?: boolean;
   onClickBack?: () => void;
