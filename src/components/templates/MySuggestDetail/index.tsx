@@ -21,7 +21,7 @@ interface Props {
   onChangeSuggestChecked?: (checked: boolean) => void;
 }
 
-export default function SuggestDetail({
+export default function MySuggestDetail({
   recommendData,
   recommendCount = 0,
   suggestData,

@@ -73,7 +73,7 @@ export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
 export { default as SuggestReceivedList } from './SuggestReceivedList';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestUpdate } from './SuggestUpdate';
-export { default as SuggestDetail } from './SuggestDetail';
+export { default as MySuggestDetail } from './MySuggestDetail';
 export { default as SuggestMyListing } from './SuggestMyListing';
 
 export { default as ListingManage } from './ListingManage';

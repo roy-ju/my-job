@@ -31,7 +31,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const handleClickSuggestItem = useCallback(
     (id: number) => {
-      router.replace(Routes.SuggestDetail, {
+      router.replace(Routes.MySuggestDetail, {
         searchParams: {
           suggestID: `${id}`,
         },
