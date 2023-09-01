@@ -29,7 +29,7 @@ export interface GetSuggestDetailResponse {
   created_time: string;
 }
 
-export default function useAPI_GetSuggestDetail(suggestID: number) {
+export default function useAPI_GetSuggestDetail(suggestID: number | undefined | null) {
   const { user } = useAuth();
   const { data, isLoading } = useSWR<GetSuggestDetailResponse | null>(
     user && suggestID

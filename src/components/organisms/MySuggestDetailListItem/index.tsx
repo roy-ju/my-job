@@ -1,16 +1,15 @@
-import { Avatar, Chip, Moment, Numeral } from '@/components/atoms';
+import { Button, Chip, Moment, Numeral } from '@/components/atoms';
 import React, { useMemo, useState } from 'react';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { DanjiOrRegionalType, RealestateType, BuyOrRent } from '@/constants/enums';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
-import tw, { styled } from 'twin.macro';
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import tw from 'twin.macro';
 
-const Wrraper = styled('div')``;
-
-interface SuggestDetailListItemProps {
-  data?: GetSuggestDetailResponse | null;
+interface MySuggestDetailListItemProps {
+  suggestData?: GetSuggestDetailResponse | null;
+  onClickDanjiDetail?: () => void;
+  onClickSuggestUpdate?: () => void;
 }
 
 function PriceText({
@@ -37,37 +36,31 @@ function NegotiableChip() {
   return <div tw="text-white rounded-tl rounded-br text-info font-semibold bg-orange-700 px-1.5 h-5">협의가능</div>;
 }
 
-export default function SuggestDetailListItem({ data }: SuggestDetailListItemProps) {
+export default function MySuggestDetailListItem({
+  suggestData,
+  onClickDanjiDetail,
+  onClickSuggestUpdate,
+}: MySuggestDetailListItemProps) {
   const [showDetails, setShowDetails] = useState(false);
 
   const realestateTypes = useMemo(
     () =>
       Array.from(
         new Set(
-          data?.realestate_types
+          suggestData?.realestate_types
             ?.split(',')
             .map((d) => Number(d))
             .map((d) => (d === RealestateType.Yunrip ? RealestateType.Dasaedae : d)) ?? [],
         ),
       ),
-    [data?.realestate_types],
+    [suggestData?.realestate_types],
   );
 
-  const buyOrRentText = Number(data?.buy_or_rents) === BuyOrRent.Buy ? '매매' : '전월세';
+  const buyOrRentText = Number(suggestData?.buy_or_rents) === BuyOrRent.Buy ? '매매' : '전월세';
 
   return (
     <div>
-      <Wrraper tw="flex items-center gap-1 mb-4 w-full">
-        {data?.user_profile_image_url && <Avatar size={24} src={data?.user_profile_image_url} alt="" />}
-        {data?.user_nickname && <span tw="text-gray-700 text-info [letter-spacing: -0.4px]">{data.user_nickname}</span>}
-        {data?.created_time && (
-          <span tw="ml-auto text-gray-700 text-info [letter-spacing: -0.4px]">
-            {formatCreatedTime(data.created_time)}
-          </span>
-        )}
-      </Wrraper>
-
-      <Wrraper tw="block mb-3 w-full">
+      <div tw="block  mb-4 w-full">
         <div tw="mb-1 flex justify-between items-center">
           <div tw="flex items-center gap-1.5">
             {realestateTypes.map((type) => (
@@ -76,56 +69,60 @@ export default function SuggestDetailListItem({ data }: SuggestDetailListItemPro
               </Chip>
             ))}
 
-            {data?.danji_or_regional === DanjiOrRegionalType.Danji ? (
-              <span tw="text-gray-1000 text-info line-clamp-1">{data.request_target_text}</span>
+            {suggestData?.danji_or_regional === DanjiOrRegionalType.Danji ? (
+              <span tw="text-gray-1000 text-info line-clamp-1">{suggestData.request_target_text}</span>
             ) : (
-              <span tw="text-gray-1000 text-info line-clamp-1">{data?.request_target_text.split(' ').at(-1)}</span>
+              <Chip variant="gray">{suggestData?.request_target_text.split(' ').at(-1)}</Chip>
             )}
           </div>
+          {suggestData?.danji_or_regional === DanjiOrRegionalType.Danji && (
+            <button
+              type="button"
+              onClick={() => {
+                onClickDanjiDetail?.();
+              }}
+            >
+              <ChevronDown style={{ transform: 'rotate(270deg)' }} />
+            </button>
+          )}
         </div>
-
         <div tw="text-left">
           <div tw="flex items-center mb-1">
             <div tw="text-b1 font-bold text-gray-1000 mr-1">
-              {buyOrRentText}&nbsp;
+              {buyOrRentText}{' '}
               <PriceText
-                tradeOrDepositPrice={data?.trade_or_deposit_price ?? 0}
-                monthlyRentFee={data?.monthly_rent_fee ?? 0}
-                quickSale={data?.quick_sale ?? false}
+                tradeOrDepositPrice={suggestData?.trade_or_deposit_price ?? 0}
+                monthlyRentFee={suggestData?.monthly_rent_fee ?? 0}
+                quickSale={suggestData?.quick_sale ?? false}
               />
             </div>
-            {data?.negotiable && <NegotiableChip />}
+            {suggestData?.negotiable && <NegotiableChip />}
           </div>
-
-          {data?.pyoung_text && <div tw="text-gray-700 text-info">평형 {data?.pyoung_text}</div>}
-
-          {data?.move_in_date && (
+          {suggestData?.pyoung_text && <div tw="text-gray-700 text-info">평형 {suggestData?.pyoung_text}</div>}
+          {suggestData?.move_in_date && (
             <div tw="text-gray-700 text-info">
-              입주가능일 <Moment format="YY.MM.DD">{data?.move_in_date}</Moment>{' '}
-              {TimeTypeString[data.move_in_date_type]}
+              입주가능일 <Moment format="YY.MM.DD">{suggestData?.move_in_date}</Moment>{' '}
+              {TimeTypeString[suggestData.move_in_date_type]}
             </div>
           )}
-
-          {data?.purpose === '투자' && (
+          {suggestData?.purpose === '투자' && (
             <div tw="text-gray-700 text-info">
-              투자예산 <Numeral koreanNumber>{data?.invest_amount}</Numeral>
+              투자예산 <Numeral koreanNumber>{suggestData?.invest_amount}</Numeral>
             </div>
           )}
         </div>
-      </Wrraper>
-
-      {data?.note && (
+      </div>
+      {suggestData?.note && (
         <button
           tw="flex justify-between gap-4 mb-5 w-full"
           type="button"
           onClick={() => {
-            setShowDetails((prev) => !prev);
+            setShowDetails(!showDetails);
           }}
         >
           <p tw="break-all text-left text-gray-1000 text-info flex-1" css={[showDetails === false && tw`line-clamp-1`]}>
-            {data?.note}
+            {suggestData?.note}
           </p>
-
           <div>
             <ChevronDown
               role="presentation"
@@ -138,6 +135,9 @@ export default function SuggestDetailListItem({ data }: SuggestDetailListItemPro
           </div>
         </button>
       )}
+      <Button variant="outlined" tw="w-full" onClick={onClickSuggestUpdate}>
+        요청 수정
+      </Button>
     </div>
   );
 }
