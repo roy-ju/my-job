@@ -84,7 +84,7 @@ export default function SuggestListingForm({
         <NavigationHeader.Title>매물 추천하기</NavigationHeader.Title>
       </NavigationHeader>
 
-      <div tw="mt-7">
+      <div tw="mt-7 flex-1 min-h-0 overflow-auto">
         <SuggestListingFormOrganisms>
           <SuggestListingFormOrganisms.Info data={data} />
           <Separator tw="bg-gray-300" />
