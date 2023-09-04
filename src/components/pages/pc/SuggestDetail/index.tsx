@@ -1,5 +1,5 @@
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
-import { Loading, Panel } from '@/components/atoms';
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { SuggestDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 
@@ -19,30 +19,26 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const disabledCTA = useMemo(() => false, []);
 
-  const isExistMySuggested = useMemo(() => false, []);
+  const isExistMySuggested = useMemo(() => true, []);
 
   const handleClickCTA = useCallback(() => {}, []);
 
-  if (isLoading) {
-    return (
-      <Panel width={panelWidth}>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </Panel>
-    );
-  }
-
-  if (!data) return null;
-
   return (
-    <Panel width={panelWidth}>
-      <SuggestDetail
-        data={data}
-        isExistMySuggested={isExistMySuggested}
-        disabledCTA={disabledCTA}
-        onClickCTA={handleClickCTA}
-      />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : data ? (
+          <SuggestDetail
+            data={data}
+            isExistMySuggested={isExistMySuggested}
+            disabledCTA={disabledCTA}
+            onClickCTA={handleClickCTA}
+          />
+        ) : null}
+      </Panel>
+    </AuthRequired>
   );
 });
