@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 
 const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-function MySuggestedListingItem() {
+function SuggestedListingItem() {
   const [open, setOpen] = useState(false);
 
   const handlePopup = useCallback((val: boolean) => {
@@ -51,7 +51,7 @@ function MySuggestedListingItem() {
   );
 }
 
-export default function MySuggestedListings() {
+export default function SuggestedListings() {
   const [showDetails, setShowDetails] = useState(true);
 
   return (
@@ -75,7 +75,7 @@ export default function MySuggestedListings() {
           />
         </div>
       </button>
-      {showDetails && arr.map((item) => <MySuggestedListingItem key={item} />)}
+      {showDetails && arr.map((item) => <SuggestedListingItem key={item} />)}
     </>
   );
 }
