@@ -64,7 +64,7 @@ export default function useChatRoom(chatRoomID: number) {
           ...prev,
           {
             id: chat.chat_id,
-            name: `공인중개사 ${data?.other_name}`,
+            name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
             profileImagePath: data?.other_profile_image_full_path,
             message: chat.message,
             chatUserType: chat.chat_user_type,
@@ -93,7 +93,7 @@ export default function useChatRoom(chatRoomID: number) {
       setChatMessages(
         data?.list?.map((chat) => ({
           id: chat.id,
-          name: `공인중개사 ${data?.other_name}`,
+          name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
           profileImagePath: data?.other_profile_image_full_path,
           message: chat.message,
           chatUserType: chat.chat_user_type,
