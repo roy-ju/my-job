@@ -36,7 +36,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
   }
 
   if (
-    targetRoute === Routes.SuggestDetail ||
+    targetRoute === Routes.MySuggestDetail ||
     targetRoute === Routes.SuggestReceivedList ||
     targetRoute === Routes.SuggestRegionalForm ||
     targetRoute === Routes.SuggestRegionalSuccess ||
