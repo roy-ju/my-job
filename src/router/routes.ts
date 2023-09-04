@@ -41,6 +41,7 @@ const Routes = {
   MyRegisteredListingList: 'myRegisteredListings',
 
   MyParticipatingListings: 'myParticipatingListings',
+  MySuggestDetail: 'mySuggestDetail',
 
   ListingDetailPassed: 'listingDetailPassed',
   ListingDetailHistory: 'listingDetailHistory',
@@ -121,13 +122,18 @@ const Routes = {
   // 나의 추천요청 / 추천받은매물
   SuggestRequestedList: 'suggestRequestedList',
   SuggestReceivedList: 'suggestReceivedList',
-  SuggestDetail: 'suggestDetail',
 
   // 매물 구해요 (지역 / 단지)
   RecommendationForm: 'recommendationForm',
 
+  // 매물 내놓기
+  SuggestMyListing: 'suggestMyListing',
+
   // 구해요 요청 수정
   SuggestUpdate: 'suggestUpdate',
+
+  // 구해요 상세
+  SuggestDetail: 'suggestDetail',
 
   // 오픈소스라이선스
   OpenSourceLicenses: 'openSourceLicenses',

@@ -25,7 +25,7 @@ export default memo(() => {
 
   const handleClickSuggestItem = useCallback(
     (id: number) => {
-      router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?suggestID=${id}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?suggestID=${id}`);
     },
     [router],
   );

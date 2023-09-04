@@ -76,6 +76,8 @@ export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
 export { default as SuggestDetail } from './SuggestDetail';
 
+export { default as MySuggestDetail } from './MySuggestDetail';
+
 /** 매물 상세 */
 export { default as ListingDetail } from './ListingDetail';
 export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
@@ -124,3 +126,6 @@ export { default as LawQnaUpdate } from './LawQnaUpdate';
 
 /** 구해요  */
 export { default as RecommendationForm } from './RecommendationForm';
+
+/** 매물추천하기  */
+export { default as SuggestMyListing } from './SuggestMyListing';

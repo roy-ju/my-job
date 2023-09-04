@@ -1,16 +1,9 @@
-import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
-import useAPI_GetMySuggestDetail from '@/apis/suggest/getMySuggestDetail';
-import useAPI_GetMySuggestRecommends from '@/apis/suggest/getMySuggestRecommends';
-import { notIntersted } from '@/apis/suggest/notInterested';
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import { Loading, Panel } from '@/components/atoms';
 import { SuggestDetail } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { memo, useCallback, useEffect, useState } from 'react';
-import { resumeSuggest } from '@/apis/suggest/resumeSuggest';
-import { stopSuggest } from '@/apis/suggest/stopSuggest';
-import { SuggestStatus } from '@/constants/enums';
-import { toast } from 'react-toastify';
+
+import { memo, useCallback, useMemo } from 'react';
 
 interface Props {
   depth: number;
@@ -20,101 +13,15 @@ interface Props {
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
 
-  const suggestID = Number(router.query.suggestID) ?? 0;
+  const suggestID = router?.query?.suggestID ? Number(router.query.suggestID) : undefined;
 
-  const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
-  const {
-    data: recommendData,
-    count,
-    mutate,
-    increamentPageNumber,
-    suggestStatus,
-  } = useAPI_GetMySuggestRecommends(suggestID);
+  const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
-  const [suggestChecked, setSuggestChecked] = useState(false);
+  const disabledCTA = useMemo(() => false, []);
 
-  const handleClickChat = useCallback(
-    (id: number) => {
-      router.replace(Routes.ChatRoom, {
-        searchParams: {
-          chatRoomID: `${id}`,
-        },
-      });
-    },
-    [router],
-  );
+  const isExistMySuggested = useMemo(() => false, []);
 
-  const handleClickDanjiDetail = useCallback(() => {
-    router.replace(Routes.DanjiDetail, {
-      searchParams: {
-        danjiID: `${data?.danji_id}`,
-      },
-    });
-  }, [data, router]);
-
-  const handleClickSuggestUpdate = useCallback(() => {
-    router.replace(Routes.SuggestUpdate, {
-      searchParams: {
-        suggestID: `${data?.suggest_id}`,
-      },
-    });
-  }, [data, router]);
-
-  useEffect(() => {
-    setSuggestChecked(suggestStatus === SuggestStatus.Active);
-  }, [suggestStatus]);
-
-  const handleNaviagteToRecommendationForm = useCallback(() => {
-    router.replace(Routes.RecommendationForm, {
-      searchParams: {
-        redirect: `${Routes.SuggestRequestedList}`,
-        back: 'true',
-      },
-    });
-  }, [router]);
-
-  const handleNotInterested = useCallback(
-    async (suggestRecommendId: number) => {
-      await notIntersted(suggestRecommendId);
-      await mutate();
-      toast.success('추천받은 매물을 삭제했습니다.');
-    },
-    [mutate],
-  );
-
-  const handleRecommendAccept = useCallback(
-    async (suggestRecommendId: number) => {
-      await acceptRecommend(suggestRecommendId);
-      await mutate();
-    },
-    [mutate],
-  );
-
-  const handleStopSuggest = useCallback(async () => {
-    if (data?.suggest_id) {
-      await stopSuggest(data?.suggest_id);
-      mutate();
-    }
-  }, [mutate, data]);
-
-  const handleResumeSuggest = useCallback(async () => {
-    if (data?.suggest_id) {
-      await resumeSuggest(data?.suggest_id);
-      mutate();
-    }
-  }, [mutate, data]);
-
-  const handleChangeSuggestChecked = useCallback(
-    async (checked: boolean) => {
-      if (checked) {
-        await handleResumeSuggest();
-      } else {
-        await handleStopSuggest();
-      }
-      setSuggestChecked(checked);
-    },
-    [handleStopSuggest, handleResumeSuggest],
-  );
+  const handleClickCTA = useCallback(() => {}, []);
 
   if (isLoading) {
     return (
@@ -126,22 +33,15 @@ export default memo(({ panelWidth, depth }: Props) => {
     );
   }
 
+  if (!data) return null;
+
   return (
     <Panel width={panelWidth}>
       <SuggestDetail
-        recommendCount={count}
-        recommendData={recommendData}
-        suggestChecked={suggestChecked}
-        suggestData={data}
-        onClickBack={() => router.replace(Routes.SuggestRequestedList)}
-        onClickNotInterested={handleNotInterested}
-        onClickRecommendAccept={handleRecommendAccept}
-        onClickChat={handleClickChat}
-        onClickSuggestUpdate={handleClickSuggestUpdate}
-        onClickDanjiDetail={handleClickDanjiDetail}
-        onClickNewRecommendations={handleNaviagteToRecommendationForm}
-        onNextListingRecommentList={increamentPageNumber}
-        onChangeSuggestChecked={handleChangeSuggestChecked}
+        data={data}
+        isExistMySuggested={isExistMySuggested}
+        disabledCTA={disabledCTA}
+        onClickCTA={handleClickCTA}
       />
     </Panel>
   );

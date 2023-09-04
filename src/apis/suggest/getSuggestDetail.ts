@@ -2,7 +2,9 @@ import { useAuth } from '@/hooks/services';
 import { authFetcher } from '@/lib/swr';
 import useSWR from 'swr';
 
-export interface GetMySuggestDetailResponse {
+export interface GetSuggestDetailResponse {
+  user_nickname: string;
+  user_profile_image_url: string;
   suggest_id: number;
   danji_id: number | null;
   request_number: string;
@@ -27,12 +29,12 @@ export interface GetMySuggestDetailResponse {
   created_time: string;
 }
 
-export default function useAPI_GetMySuggestDetail(suggestID: number) {
+export default function useAPI_GetSuggestDetail(suggestID: number | undefined | null) {
   const { user } = useAuth();
-  const { data, isLoading } = useSWR<GetMySuggestDetailResponse | null>(
+  const { data, isLoading } = useSWR<GetSuggestDetailResponse | null>(
     user && suggestID
       ? [
-          '/my/suggest/detail',
+          '/suggest/detail',
           {
             suggest_id: suggestID,
           },
