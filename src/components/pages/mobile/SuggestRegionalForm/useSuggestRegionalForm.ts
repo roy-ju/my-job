@@ -406,7 +406,7 @@ export default function useSuggestRegionalForm() {
     }
 
     if (currentForm === Forms.RealestateType) {
-      if (!realestateType.length || !buyOrRent || price) {
+      if (!realestateType.length || !buyOrRent || !price) {
         setNextButtonDisabled(true);
       }
     }
