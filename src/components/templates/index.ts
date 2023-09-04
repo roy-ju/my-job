@@ -74,7 +74,7 @@ export { default as SuggestReceivedList } from './SuggestReceivedList';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestDetail } from './SuggestDetail';
 export { default as SuggestUpdate } from './SuggestUpdate';
-export { default as SuggestMyListing } from './SuggestMyListing';
+export { default as SuggestListingForm } from './SuggestListingForm';
 
 export { default as MySuggestDetail } from './MySuggestDetail';
 

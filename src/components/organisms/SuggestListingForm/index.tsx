@@ -7,11 +7,11 @@ interface Props {
   children: ReactNode;
 }
 
-function SuggestMyListing({ children }: Props) {
+function SuggestListingForm({ children }: Props) {
   return <>{children}</>;
 }
 
-export default Object.assign(SuggestMyListing, {
+export default Object.assign(SuggestListingForm, {
   Info: BasicInfo,
   Guide: GuideInfo,
   Form: SuggestForm,

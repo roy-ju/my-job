@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { AuthRequired, Panel } from '@/components/atoms';
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { memo, useState, useCallback, useEffect, useMemo } from 'react';
-import { SuggestMyListing as SuggestMyListingTemplate } from '@/components/templates';
+import { SuggestListingForm } from '@/components/templates';
 import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
 import { BuyOrRent } from '@/constants/enums';
 import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
 import { toast } from 'react-toastify';
 import { useRouter } from '@/hooks/utils';
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 
 interface Props {
   depth: number;
@@ -14,9 +14,13 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
+  const router = useRouter(depth);
+
   const { data } = useAPI_GetUserAddress();
 
-  const router = useRouter(depth);
+  const suggestID = router?.query?.suggestID ? Number(router.query.suggestID) : undefined;
+
+  const { data: suggestData, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
   const [address, setAddress] = useState<string>('');
 
@@ -32,9 +36,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const [meterArea, setMeterArea] = useState<string>('');
 
-  const [direction, setDirection] = useState('');
+  const [direction, setDirection] = useState<string>('');
 
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState<string>('');
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleChangeAddress = useCallback((val: string) => {
     setAddress(val);
@@ -98,21 +104,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     return false;
   }, [address, buyOrRent, description, monthlyRentFee, tradePrice]);
 
-  const reqPrice = useMemo(() => {
-    if (buyOrRent === BuyOrRent.Buy) {
-      return tradePrice ? Number(tradePrice) * 10000 : 0;
-    }
-
-    if (buyOrRent === BuyOrRent.Jeonsae || buyOrRent === BuyOrRent.Wolsae) {
-      return tradePrice ? Number(tradePrice) * 10000 : 0;
-    }
-  }, [buyOrRent, tradePrice]);
-
   const handleCTA = useCallback(async () => {
-    if (!address || !buyOrRent || !description) return;
+    if (!address || !buyOrRent || !description || !suggestID) return;
+
+    setLoading(true);
 
     const res = await createSuggestRecommend({
-      suggest_id: 0,
+      suggest_id: suggestID,
 
       address_text: address,
 
@@ -139,11 +137,15 @@ export default memo(({ depth, panelWidth }: Props) => {
       note: description,
     });
 
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
     if (!res) {
       toast.success('매물 추천이 완료되었습니다.', { toastId: 'suggestRecommendSuccess' });
       router.replace('/');
     }
-  }, [address, buyOrRent, description, direction, floor, monthlyRentFee, pyoungArea, router, tradePrice]);
+  }, [address, buyOrRent, description, direction, floor, monthlyRentFee, pyoungArea, router, suggestID, tradePrice]);
 
   useEffect(() => {
     if (data?.road_name_address) {
@@ -154,27 +156,36 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <AuthRequired depth={depth} ciRequired>
       <Panel width={panelWidth}>
-        <SuggestMyListingTemplate
-          address={address}
-          onChangeAddress={handleChangeAddress}
-          buyOrRent={buyOrRent}
-          onChangeBuyOrRent={handleChangeBuyOrRent}
-          tradePrice={tradePrice}
-          onChangePrice={handleChangePrice}
-          monthlyRentFee={monthlyRentFee}
-          onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-          floor={floor}
-          onChangeFloor={handleChangeFloor}
-          pyoungArea={pyoungArea}
-          onChangePyoungArea={handleChangePyoungArea}
-          meterArea={meterArea}
-          onChangeMeterArea={handleChangeMeterArea}
-          direction={direction}
-          onChangeDirection={handleChangeDirection}
-          description={description}
-          onChangeDescription={handleChangeDescription}
-          disabledCTA={disabledCTA}
-        />
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : suggestData ? (
+          <SuggestListingForm
+            data={suggestData}
+            address={address}
+            onChangeAddress={handleChangeAddress}
+            buyOrRent={buyOrRent}
+            onChangeBuyOrRent={handleChangeBuyOrRent}
+            tradePrice={tradePrice}
+            onChangePrice={handleChangePrice}
+            monthlyRentFee={monthlyRentFee}
+            onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+            floor={floor}
+            onChangeFloor={handleChangeFloor}
+            pyoungArea={pyoungArea}
+            onChangePyoungArea={handleChangePyoungArea}
+            meterArea={meterArea}
+            onChangeMeterArea={handleChangeMeterArea}
+            direction={direction}
+            onChangeDirection={handleChangeDirection}
+            description={description}
+            onChangeDescription={handleChangeDescription}
+            loading={loading}
+            disabledCTA={disabledCTA}
+            handleCTA={handleCTA}
+          />
+        ) : null}
       </Panel>
     </AuthRequired>
   );

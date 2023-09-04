@@ -1,5 +1,5 @@
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
-import { Loading, MobileContainer } from '@/components/atoms';
+import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { SuggestDetail } from '@/components/templates';
 
 import { useRouter } from 'next/router';
@@ -22,27 +22,23 @@ export default memo(() => {
 
   const handleClickCTA = useCallback(() => {}, []);
 
-  if (isLoading) {
-    return (
-      <MobileContainer>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </MobileContainer>
-    );
-  }
-
-  if (!data) return null;
-
   return (
-    <MobileContainer>
-      <SuggestDetail
-        data={data}
-        isExistMySuggested={isExistMySuggested}
-        disabledCTA={disabledCTA}
-        onClickCTA={handleClickCTA}
-        onClickBack={handleClickBack}
-      />
-    </MobileContainer>
+    <MobAuthRequired>
+      <MobileContainer>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : data ? (
+          <SuggestDetail
+            data={data}
+            isExistMySuggested={isExistMySuggested}
+            disabledCTA={disabledCTA}
+            onClickCTA={handleClickCTA}
+            onClickBack={handleClickBack}
+          />
+        ) : null}
+      </MobileContainer>
+    </MobAuthRequired>
   );
 });

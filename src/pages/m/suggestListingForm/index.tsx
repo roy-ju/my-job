@@ -1,7 +1,7 @@
-import { SuggestMyListing } from '@/components/pages/mobile';
+import { SuggestListingForm } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPageWithLayout = () => <SuggestMyListing />;
+const Page: NextPageWithLayout = () => <SuggestListingForm />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

@@ -127,7 +127,7 @@ const Routes = {
   RecommendationForm: 'recommendationForm',
 
   // 매물 내놓기
-  SuggestMyListing: 'suggestMyListing',
+  SuggestListingForm: 'suggestListingForm',
 
   // 구해요 요청 수정
   SuggestUpdate: 'suggestUpdate',

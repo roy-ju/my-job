@@ -31,13 +31,29 @@ export default function SuggestDetail({
         <NavigationHeader.Title>구해요 상세</NavigationHeader.Title>
       </NavigationHeader>
 
-      <div tw="flex-1 px-5 pt-7">
-        <SuggestDetailListItem>
-          <SuggestDetailListItem.UserInfo data={data} />
-          <SuggestDetailListItem.ListingInfo data={data} />
-          {isExistMySuggested && <SuggestDetailListItem.MySuggestedListings />}
-        </SuggestDetailListItem>
-      </div>
+      {isExistMySuggested ? (
+        <>
+          <div tw="px-5 pt-7">
+            <SuggestDetailListItem>
+              <SuggestDetailListItem.UserInfo data={data} />
+              <SuggestDetailListItem.ListingInfo data={data} />
+            </SuggestDetailListItem>
+          </div>
+
+          <div tw="flex-1 min-h-0 overflow-auto">
+            <SuggestDetailListItem>
+              {isExistMySuggested && <SuggestDetailListItem.MySuggestedListings />}
+            </SuggestDetailListItem>
+          </div>
+        </>
+      ) : (
+        <div tw="flex-1 px-5 pt-7 overflow-auto">
+          <SuggestDetailListItem>
+            <SuggestDetailListItem.UserInfo data={data} />
+            <SuggestDetailListItem.ListingInfo data={data} />
+          </SuggestDetailListItem>
+        </div>
+      )}
 
       <PersistentBottomBar>
         <div tw="w-full [padding-bottom: 26px]">

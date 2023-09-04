@@ -89,6 +89,6 @@ export { default as MobMyNegoMoney } from './MobMyNegoMoney';
 
 export { default as MobDanjiDetailSection } from './MobDanjiDetail';
 
-export { default as SuggestMyListingOrganisms } from './SuggestMyListing';
+export { default as SuggestListingFormOrganisms } from './SuggestListingForm';
 
 export * from './popups';
