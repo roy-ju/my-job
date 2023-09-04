@@ -35,6 +35,13 @@ export enum ChatUserType {
   System = 4,
 }
 
+export enum ChatRoomType {
+  BuyerAgentBidding = 1, // 매수인이 가격을 제안하고 중개사가 수락했을 경우
+  SellerAgentListingRegister = 2, // 매도인이 배정 매물을 등록하고 중개사를 assign한 경우
+  BuyerSellerSuggestRecommendation = 3, // 매수인이 매도인 추천 매물을 선택했을 경우
+  BuyerAgentSuggestRecommendation = 4, // 매수인이 중개사의 추천 매물을 선택했을 경우
+}
+
 export enum NegotiationOrAuction {
   Negotiation = 1,
   Auction = 2,
