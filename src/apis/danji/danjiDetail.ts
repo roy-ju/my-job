@@ -42,7 +42,7 @@ export type GetDanjiDetailResponse = {
 
 export function useAPI_GetDanjiDetail({ danjiId }: { danjiId?: number | null }) {
   const { data, error, mutate } = useSWR<GetDanjiDetailResponse>(
-    danjiId ? ['/danji/get/v2', { danji_id: danjiId }] : null,
+    danjiId ? ['/danji/detail', { danji_id: danjiId }] : null,
     null,
     {
       revalidateIfStale: false,

@@ -100,7 +100,7 @@ export default function BasicInfo({
 
   return (
     <>
-      <div css={[isListingDetail ? tw`pb-0` : tw`pb-9`]}>
+      <div css={[isListingDetail ? tw`pb-0` : tw`pb-10`]}>
         <div tw="px-5">
           <div tw="flex flex-row items-center justify-between mb-2">
             <h1 tw="text-h3 font-bold">{danji.name}</h1>

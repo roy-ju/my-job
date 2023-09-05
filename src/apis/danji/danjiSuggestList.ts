@@ -1,37 +1,48 @@
 import { useCallback, useMemo } from 'react';
 import useSWRInfinite from 'swr/infinite';
 
-export type DanjiListingsListItem = {
-  listing_id: number;
-  listing_title: string;
-  buy_or_rent: number;
-  is_participating: boolean;
+export type DanjiSuggestListItem = {
+  my_suggest: boolean;
+  iam_recommending: boolean;
+  suggest_id: number;
+  suggest_status: number;
+  user_nickname: string;
+  user_profile_image_url: string;
+  danji_id: number;
+  request_number: string;
+  danji_or_regional: number;
+  request_target_text: string;
+  realestate_types: string;
+  buy_or_rents: string;
   trade_or_deposit_price: number;
   monthly_rent_fee: number;
-  jeonyong_area: string;
-  floor_description: string;
-  total_floor: string;
-  direction: string;
+  pyoung_text: string;
+  pyoungs: string;
+  pyoung_from: string;
+  pyoung_to: string;
+  purpose: string;
+  invest_amount: number;
   quick_sale: boolean;
-  view_count: number;
-  participants_count: number;
-  label_text: string;
+  negotiable: boolean;
+  move_in_date: null | string; 
+  move_in_date_type: null | number;
+  note: string;
+  updated_time: string;
+  created_time: string;
 };
 
-export type GetDanjiListingsResponse = {
-  list: DanjiListingsListItem[];
+export type GetDanjiSuggestListResponse = {
+  list: DanjiSuggestListItem[];
   total_count: number;
 };
 
 function getKey(
   danjiId: number | null | undefined,
-  realestateType: number | null | undefined,
-  orderBy: number,
   pageSize: number,
   pageIndex: number,
-  previousPageData: GetDanjiListingsResponse | null,
+  previousPageData: GetDanjiSuggestListResponse | null,
 ) {
-  if (!danjiId || !realestateType) return null;
+  if (!danjiId) return null;
 
   if (previousPageData && !previousPageData?.list?.length) return null;
 
@@ -41,8 +52,6 @@ function getKey(
     '/danji/listings/list',
     {
       danji_id: danjiId,
-      realestate_type: realestateType,
-      order_by: orderBy,
       page_size: pageSize,
       page_number: pageIndex + 1,
     },
@@ -51,15 +60,11 @@ function getKey(
   ];
 }
 
-export function useAPI_GetDanjiListingsList({
+export function useAPI_GetDanjiSuggestList({
   danjiId,
-  realestateType,
-  orderBy,
   pageSize,
 }: {
   danjiId: number | null | undefined;
-  realestateType: number | null | undefined;
-  orderBy: number;
   pageSize: number;
 }) {
   const {
@@ -68,8 +73,8 @@ export function useAPI_GetDanjiListingsList({
     size,
     setSize,
     mutate,
-  } = useSWRInfinite<GetDanjiListingsResponse>(
-    (pageIndex, previousPageData) => getKey(danjiId, realestateType, orderBy, pageSize, pageIndex, previousPageData),
+  } = useSWRInfinite<GetDanjiSuggestListResponse>(
+    (pageIndex, previousPageData) => getKey(danjiId, pageSize, pageIndex, previousPageData),
     null,
     {
       revalidateFirstPage: false,

@@ -6,6 +6,7 @@ export interface GetSuggestDetailResponse {
   user_nickname: string;
   user_profile_image_url: string;
   suggest_id: number;
+  suggest_status: number
   danji_id: number | null;
   request_number: string;
   danji_or_regional: number;

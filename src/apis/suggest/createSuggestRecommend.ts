@@ -4,7 +4,7 @@ type SuggestRecommendRes = null | ErrorResponse;
 
 type SuggetRecommendReq = {
   suggest_id: number;
-  address_text: string;
+  address_free_text: string;
   buy_or_rent: number;
 
   trade_price?: number;

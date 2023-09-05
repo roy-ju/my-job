@@ -45,6 +45,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleSubmit = useCallback(() => {
     router.replace(Routes.MyAddressVerifying, {
+      searchParams: router?.query?.redirect ? { redirect: router.query.redirect as string } : undefined,
       state: {
         addressData: router.query.addressData as string,
         dong,
