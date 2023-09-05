@@ -112,7 +112,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     const res = await createSuggestRecommend({
       suggest_id: suggestID,
 
-      address_text: address,
+      address_free_text: address,
 
       buy_or_rent: buyOrRent,
 

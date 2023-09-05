@@ -18,7 +18,11 @@ function SuggestedListingItem() {
       <div tw="not-last-of-type:[border-bottom: 1px solid #E9ECEF] py-5">
         <div tw="flex items-center justify-between mb-1.5">
           <Chip>대기중</Chip>
-          <Button variant="ghost" tw="h-4 pr-0 text-info" onClick={() => handlePopup(true)}>
+          <Button
+            variant="ghost"
+            tw="[text-decoration-line: underline] h-4 pr-0 text-info"
+            onClick={() => handlePopup(true)}
+          >
             취소
           </Button>
         </div>

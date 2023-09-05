@@ -50,6 +50,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           });
         } else {
           router.replace(Routes.VerifyCiSuccess, {
+            persistParams: true,
             searchParams: { redirect: (router.query.redirect as string) ?? '' },
           });
         }

@@ -363,7 +363,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           {isShowlistingsSection && (
             <div tw="pt-7" id="listingsSection" ref={setListingsSection}>
               <DanjiDetailSection.Info danji={danji} depth={depth} />
-              <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
+              <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} />
             </div>
           )}
 
@@ -373,7 +373,6 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               depth={depth}
               isShowRpTab={isShowRpTab}
               isShowlistingsSection={isShowlistingsSection}
-              // setLoadingRp={() => {}}
               setLoadingRp={setLoadingRp}
               setIsShowRpTab={setIsShowRpTab}
             />

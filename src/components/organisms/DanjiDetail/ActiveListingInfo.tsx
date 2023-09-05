@@ -1,37 +1,38 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
 import { Button } from '@/components/atoms';
-import { Dropdown } from '@/components/molecules';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter as useNextRouter } from 'next/router';
+import NewTabs from '@/components/molecules/Tabs/NewTabs';
+import tw from 'twin.macro';
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
   isListingDetail = false,
   depth,
   danji,
-  setLoadingListing,
 }: {
   isListingDetail?: boolean;
   depth: number;
   danji?: GetDanjiDetailResponse;
-  setLoadingListing: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [dropDownValue, setDropDownValue] = useState('최신순');
+  const [tab, setTab] = useState(1);
 
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
 
-  const {
-    data: danjiListings,
-    isLoading,
-    totalCount,
-  } = useAPI_GetDanjiListingsList({
+  const { data: danjiListings, totalCount } = useAPI_GetDanjiListingsList({
     danjiId: danji?.danji_id,
     realestateType: danji?.type,
-    orderBy: dropDownValue === '최신순' ? 1 : 2,
+    orderBy: 1,
+    pageSize: 4,
+  });
+
+  const { data: suggestListings, totalCount: suggestTotalCount } = useAPI_GetDanjiSuggestList({
+    danjiId: danji?.danji_id,
     pageSize: 4,
   });
 
@@ -45,6 +46,21 @@ export default function ActiveListingInfo({
       });
     } else {
       router.replace(Routes.DanjiListings, {
+        searchParams: { danjiID: `${router?.query?.danjiID}` },
+      });
+    }
+  }, [router, danji]);
+
+  const handleSuggestListAll = useCallback(() => {
+    if (router.query.listingID) {
+      router.replace(Routes.DanjiSuggestListings, {
+        searchParams: {
+          listingID: router.query.listingID as string,
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+        },
+      });
+    } else {
+      router.replace(Routes.DanjiSuggestListings, {
         searchParams: { danjiID: `${router?.query?.danjiID}` },
       });
     }
@@ -87,12 +103,6 @@ export default function ActiveListingInfo({
     [nextRouter, danji],
   );
 
-  useEffect(() => {
-    if (isLoading === false) {
-      setLoadingListing(false);
-    }
-  }, [isLoading, setLoadingListing]);
-
   if (!danjiListings) return null;
 
   if (danjiListings && danjiListings.length === 0) return null;
@@ -114,48 +124,76 @@ export default function ActiveListingInfo({
 
   return (
     <div tw="pb-8">
-      <div>
-        <div tw="flex mb-2 px-5 items-center">
-          <h2 tw="text-b1 [line-height: 1.5] font-bold">네고가능 매물&nbsp;</h2>
-          <span tw="text-b1 text-nego [line-height: 1.5] font-bold">{totalCount || 0}</span>
-          <Dropdown
-            size="small"
-            variant="outlined"
-            tw="[width: 92px] min-w-0 ml-auto"
-            value={dropDownValue}
-            onChange={(v) => {
-              setDropDownValue(v);
-            }}
-          >
-            <Dropdown.Option tw="[width: 92px] text-info py-0.5" value="최신순">
-              최신순
-            </Dropdown.Option>
-            <Dropdown.Option tw="[width: 92px] text-info py-0.5" value="가격순">
-              가격순
-            </Dropdown.Option>
-          </Dropdown>
-        </div>
-        <ListingItem>
-          {danjiListings.slice(0, 3).map((item, index) => (
-            <ListingItem.TypeOne
-              key={item.listing_id}
-              item={item}
-              isLast={danjiListings.length - 1 === index}
-              onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
-              anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&danjiID=${
-                danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
-              }`}
-            />
-          ))}
-        </ListingItem>
+      <NewTabs variant="contained" value={tab} onChange={(v) => setTab(v)}>
+        <NewTabs.Tab value={1}>
+          <span tw="text-b2 leading-4">
+            구해요 <span css={[tab === 1 && tw`text-nego-1000`]}>{suggestTotalCount || 0}</span>
+          </span>
+        </NewTabs.Tab>
+        <NewTabs.Tab value={2}>
+          <span tw="text-b2 leading-4">
+            매물 <span css={[tab === 2 && tw`text-nego-1000`]}>{totalCount || 0}</span>
+          </span>
+        </NewTabs.Tab>
+        <NewTabs.Indicator />
+      </NewTabs>
 
-        {danjiListings.length > 3 && (
-          <div tw="flex flex-col gap-3 pt-3 px-5">
-            <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
+      <div>
+        <div tw="flex pt-7 mb-2 px-5 items-center justify-between">
+          {tab === 1 ? (
+            <h2 tw="text-info text-gray-700">
+              중개사와 집주인의 연락을
+              <br />
+              기다리고 있는 요청이에요.
+            </h2>
+          ) : (
+            <h2 tw="text-info text-gray-700">
+              매수인, 임차인의 가격 제안을
+              <br />
+              기다리고 있는 매물이에요.
+            </h2>
+          )}
+
+          {tab === 1 ? (
+            <Button variant="outlined" tw="h-9" onClick={handleSuggestListAll}>
+              구해요 전체보기
+            </Button>
+          ) : (
+            <Button variant="outlined" tw="h-9" onClick={handleListingAll}>
               매물 전체보기
             </Button>
-          </div>
-        )}
+          )}
+        </div>
+
+        <ListingItem>
+          {tab === 1 &&
+            suggestListings.slice(0, 3).map((item, index) => (
+              <ListingItem.TypeTwo
+                key={item.suggest_id}
+                item={item}
+                isLast={danjiListings.length - 1 === index}
+                // onClick={() => handleListingDetail(1, 1)}
+                // anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&danjiID=${
+                //   danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
+                // }`}
+              />
+            ))}
+
+          {tab === 2 &&
+            danjiListings
+              .slice(0, 3)
+              .map((item, index) => (
+                <ListingItem.TypeOne
+                  key={item.listing_id}
+                  item={item}
+                  isLast={danjiListings.length - 1 === index}
+                  onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
+                  anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${item.listing_id}&danjiID=${
+                    danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
+                  }`}
+                />
+              ))}
+        </ListingItem>
       </div>
     </div>
   );

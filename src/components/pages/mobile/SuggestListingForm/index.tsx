@@ -108,7 +108,7 @@ export default memo(() => {
     const res = await createSuggestRecommend({
       suggest_id: 44,
 
-      address_text: address,
+      address_free_text: address,
 
       buy_or_rent: buyOrRent,
 

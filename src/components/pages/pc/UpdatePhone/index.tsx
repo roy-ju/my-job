@@ -104,6 +104,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickNext = useCallback(() => {
     if (router.query.trigger === 'iPin') {
       router.replace(Routes.VerifyCiSuccess, {
+        persistParams: true,
         searchParams: { redirect: (router.query.redirect as string) ?? '' },
       });
     } else {
