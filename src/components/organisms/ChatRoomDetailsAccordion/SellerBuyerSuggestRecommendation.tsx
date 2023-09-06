@@ -49,8 +49,10 @@ export default function SellerBuyerSuggestRecommendation({
   const isSuggestRecommendOptionsExist =
     suggestRecommendItem?.jeonyong_areas || suggestRecommendItem?.floor || suggestRecommendItem?.direction;
 
-  const suggestPrice =
-    suggestItem && suggestItem?.monthly_rent_fee > 0 ? (
+  const suggestPrice = (() => {
+    if (suggestItem?.quick_sale) return '(급매 구해요)';
+
+    return suggestItem && suggestItem?.monthly_rent_fee > 0 ? (
       <span>
         <Numeral koreanNumber>{suggestItem?.trade_or_deposit_price}</Numeral>
         {' / '}
@@ -59,6 +61,7 @@ export default function SellerBuyerSuggestRecommendation({
     ) : (
       <Numeral koreanNumber>{suggestItem?.trade_or_deposit_price}</Numeral>
     );
+  })();
 
   const suggestRecommendPrice =
     suggestRecommendItem?.buy_or_rent === BuyOrRent.Wolsae ? (
