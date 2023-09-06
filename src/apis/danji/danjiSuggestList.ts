@@ -49,7 +49,7 @@ function getKey(
   if (previousPageData && (previousPageData.list?.length || 0) < pageSize) return null;
 
   return [
-    '/danji/listings/list',
+    '/danji/suggest/list',
     {
       danji_id: danjiId,
       page_size: pageSize,

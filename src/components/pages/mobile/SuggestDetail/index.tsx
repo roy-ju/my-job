@@ -1,3 +1,4 @@
+import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
 import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
@@ -25,13 +26,15 @@ export default memo(() => {
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
+  const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
+
   const disabledCTA = useMemo(() => {
     if (data?.suggest_status === SuggestStatus.Active) return false;
 
     return true;
   }, [data?.suggest_status]);
 
-  const isExistMySuggested = useMemo(() => false, []);
+  const isExistMySuggested = useMemo(() => myRecommendedList?.list?.length !== 0, [myRecommendedList?.list?.length]);
 
   const handleClickBack = useCallback(() => {
     router.back();
@@ -57,16 +60,9 @@ export default memo(() => {
     });
   }, [router]);
 
-  const handleConfirmPopupCTA = useCallback(
-    (type: string) => {
-      if (type === 'registeredAddress') {
-        router.push(`/${Routes.EntryMobile}/${Routes.SuggestListingForm}?suggestID=${suggestID}`);
-      } else if (type === 'newAddress') {
-        router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}?suggestID=${suggestID}`);
-      }
-    },
-    [router, suggestID],
-  );
+  const handleMutate = () => {
+    mutate();
+  };
 
   return (
     <MobAuthRequired>
@@ -78,10 +74,12 @@ export default memo(() => {
         ) : data ? (
           <SuggestDetail
             data={data}
+            myRecommendedList={myRecommendedList?.list}
             isExistMySuggested={isExistMySuggested}
             disabledCTA={disabledCTA}
             onClickCTA={handleClickCTA}
             onClickBack={handleClickBack}
+            onMutate={handleMutate}
           />
         ) : null}
       </MobileContainer>

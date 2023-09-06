@@ -1,9 +1,13 @@
+import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
-import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
-import { AuthRequired, Loading, Panel } from '@/components/atoms';
+import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
+import { SuggestStatus } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -15,60 +19,81 @@ interface Props {
 
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
+
+  const { data: userData } = useAPI_GetUserInfo();
 
   const [addressApplyPopup, setAddressApplyPopup] = useState(false);
-
-  const [confirmPopup, setConfirmPopup] = useState(false);
 
   const suggestID = useMemo(
     () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
     [router.query.suggestID],
   );
 
-  const { data: userAddressData } = useAPI_GetUserAddress();
-
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
-  const disabledCTA = useMemo(() => false, []);
+  const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
 
-  const isExistMySuggested = useMemo(() => true, []);
+  const disabledCTA = useMemo(() => {
+    if (data?.suggest_status === SuggestStatus.Active) return false;
 
-  const handleClickCTA = useCallback(() => {
+    return true;
+  }, [data?.suggest_status]);
+
+  const isExistMySuggested = useMemo(() => !!myRecommendedList?.list?.length, [myRecommendedList?.list?.length]);
+
+  const handleClickCTA = useCallback(async () => {
     if (!suggestID) return;
 
-    if (!userAddressData?.road_name_address) {
-      setAddressApplyPopup(true);
+    if (!userData) {
+      router.replace(Routes.Login, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}` },
+      });
+
       return;
     }
 
-    setConfirmPopup(true);
+    if (!userData.is_verified) {
+      router.replace(Routes.VerifyCi, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}` },
+      });
+      return;
+    }
 
-    // router.replace(Routes.SuggestListingForm, { searchParams: { suggestID: `${suggestID}` } });
-  }, [suggestID, userAddressData?.road_name_address]);
+    if (data?.danji_id) {
+      const response = await suggestRecommendEligibility({ danji_id: data.danji_id });
 
-  const handleAddressApplyPopupCTA = useCallback(() => {
-    router.replace(Routes.MyAddress, {
-      persistParams: true,
-      searchParams: { redirect: `${router.asPath}`, back: 'true' },
-    });
-  }, [router]);
+      if (response && !response?.is_eligible) {
+        setAddressApplyPopup(true);
+        return;
+      }
 
-  const handleConfirmPopupCTA = useCallback(
-    (type: string) => {
-      if (type === 'registeredAddress') {
-        router.replace(Routes.SuggestListingForm, { searchParams: { suggestID: `${suggestID}` } });
-      } else if (type === 'newAddress') {
-        router.replace(Routes.MyAddress, {
-          persistParams: true,
-          searchParams: { redirect: `${router.asPath}`, back: 'true' },
+      if (response && response?.is_eligible) {
+        router.replace(Routes.SuggestListingForm, {
+          searchParams: data?.danji_id
+            ? { danjiID: `${data.danji_id}`, suggestID: `${suggestID}` }
+            : { suggestID: `${suggestID}` },
         });
       }
-    },
-    [router, suggestID],
-  );
+    }
+  }, [data?.danji_id, router, suggestID, userData]);
+
+  const handleAddressApplyPopupCTA = useCallback(() => {
+    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}`);
+  }, [nextRouter]);
+
+  const handleMutate = () => {
+    mutate();
+  };
+
+  const closePopup = () => {
+    setAddressApplyPopup(false);
+  };
 
   return (
-    <AuthRequired depth={depth}>
+    <>
       <Panel width={panelWidth}>
         {isLoading ? (
           <div tw="py-20">
@@ -77,9 +102,11 @@ export default memo(({ panelWidth, depth }: Props) => {
         ) : data ? (
           <SuggestDetail
             data={data}
+            myRecommendedList={myRecommendedList?.list}
             isExistMySuggested={isExistMySuggested}
             disabledCTA={disabledCTA}
             onClickCTA={handleClickCTA}
+            onMutate={handleMutate}
           />
         ) : null}
       </Panel>
@@ -89,36 +116,20 @@ export default memo(({ panelWidth, depth }: Props) => {
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
               <Popup.SmallTitle>
-                매물을 추천하시려면 우리집 등록이 필요합니다.
+                매물을 추천하시려면
+                <br />
+                해당 단지에 소유자 인증이 필요합니다.
                 <br />
                 우리집 등록으로 이동하시겠습니까?
               </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setAddressApplyPopup(false)}>닫기</Popup.CancelButton>
+              <Popup.CancelButton onClick={closePopup}>닫기</Popup.CancelButton>
               <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>우리집 등록하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
       )}
-
-      {confirmPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SmallTitle>
-                매물 추천
-                <br />
-                우리집 등록으로 이동하시겠습니까?
-              </Popup.SmallTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              {/* <Popup.CancelButton onClick={() => setAddressApplyPopup(false)}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleConfirmPopupCTA}>우리집 등록하기</Popup.ActionButton> */}
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-    </AuthRequired>
+    </>
   );
 });

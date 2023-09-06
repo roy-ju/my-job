@@ -1,43 +1,141 @@
+import { cancelRecommend } from '@/apis/suggest/cancelRecommend';
+import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedList';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
-import { Button, Chip } from '@/components/atoms';
+import { Button, Chip, Numeral } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { describeBuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
+import { isNumber } from 'lodash';
 
 import React, { useCallback, useState } from 'react';
+import tw from 'twin.macro';
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+type Props = {
+  list?: GetMyRecommendedListResponse['list'];
+  onMutate?: () => void;
+};
 
-function SuggestedListingItem() {
+type Item = {
+  item: {
+    suggest_recommend_id: number;
+    suggest_recommend_status: number;
+    with_address: boolean;
+    address_free_text: string;
+    trade_or_deposit_price: number;
+    monthly_rent_fee: number;
+    jeonyong_areas: string;
+    floor: string;
+    direction: string;
+    buy_or_rent: number;
+    note: string;
+  };
+  onMutate?: () => void;
+};
+
+function PriceText({ tradeOrDepositPrice, monthlyRentFee }: { tradeOrDepositPrice: number; monthlyRentFee: number }) {
+  if (!tradeOrDepositPrice && !monthlyRentFee) return null;
+
+  if (monthlyRentFee) {
+    return (
+      <>
+        <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral>{monthlyRentFee}</Numeral>
+      </>
+    );
+  }
+  return <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>;
+}
+
+function SuggestedListingItem({ item, onMutate }: Item) {
+  const [showDetails, setShowDetails] = useState(true);
+
   const [open, setOpen] = useState(false);
 
   const handlePopup = useCallback((val: boolean) => {
     setOpen(val);
   }, []);
 
+  const handleCancel = useCallback(
+    async (id: number) => {
+      await cancelRecommend(id);
+      await onMutate?.();
+      handlePopup(false);
+    },
+    [handlePopup, onMutate],
+  );
+
   return (
     <>
       <div tw="not-last-of-type:[border-bottom: 1px solid #E9ECEF] py-5">
         <div tw="flex items-center justify-between mb-1.5">
-          <Chip>대기중</Chip>
-          <Button
-            variant="ghost"
-            tw="[text-decoration-line: underline] h-4 pr-0 text-info"
-            onClick={() => handlePopup(true)}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Sent && <Chip variant="gray">대기중</Chip>}
+
+          {item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
+
+          {item.suggest_recommend_status === SuggestRecommendStatus.Completed && <Chip variant="red">거래성사</Chip>}
+
+          {item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
+            <Button
+              variant="ghost"
+              tw="[text-decoration-line: underline] h-4 pr-0 text-info"
+              onClick={() => handlePopup(true)}
+            >
+              취소
+            </Button>
+          )}
+        </div>
+
+        <div tw="text-b1 font-bold">
+          {describeBuyOrRent(item.buy_or_rent)}&nbsp;
+          <PriceText tradeOrDepositPrice={item.trade_or_deposit_price} monthlyRentFee={item.monthly_rent_fee} />
+        </div>
+
+        {item.address_free_text && <p tw="text-info">{item.address_free_text}</p>}
+
+        <div tw="flex items-center gap-1">
+          {item.jeonyong_areas && <span tw="text-info text-gray-700">전용 {item.jeonyong_areas}㎡</span>}
+
+          {item.floor && (
+            <>
+              <div tw="[height: 8px] [width: 1px] bg-gray-300" />
+              <span tw="text-info text-gray-700">{isNumber(Number(item.floor)) ? `${item.floor}층` : item.floor}</span>
+            </>
+          )}
+
+          {item.direction && (
+            <>
+              <div tw="[height: 8px] [width: 1px] bg-gray-300" />
+              <span tw="text-info text-gray-700">{item.direction}</span>
+            </>
+          )}
+        </div>
+
+        {item?.note && (
+          <button
+            tw="flex justify-between gap-4 w-full mt-3"
+            type="button"
+            onClick={() => {
+              setShowDetails((prev) => !prev);
+            }}
           >
-            취소
-          </Button>
-        </div>
-
-        <p tw="text-b1 font-bold">월세 99억 9,9999만 9,999만</p>
-        <p tw="text-info">간편주소</p>
-
-        <div tw="flex items-center">
-          <span tw="text-info text-gray-700">전용 44㎡</span>
-          <div tw="[height: 8px] [width: 1px] bg-gray-300" />
-          <span tw="text-info text-gray-700">저/20층</span>
-          <div tw="[height: 8px] [width: 1px] bg-gray-300" />
-          <span tw="text-info text-gray-700">남향</span>
-        </div>
+            <p
+              tw="break-all text-left text-gray-1000 text-info flex-1"
+              css={[showDetails === false && tw`line-clamp-1`]}
+            >
+              {item.note}
+            </p>
+            <div>
+              <ChevronDown
+                role="presentation"
+                style={{
+                  transform: showDetails ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease-in-out',
+                  alignSelf: 'top',
+                }}
+              />
+            </div>
+          </button>
+        )}
       </div>
+
       {open && (
         <OverlayPresenter>
           <Popup>
@@ -46,7 +144,7 @@ function SuggestedListingItem() {
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => handlePopup(false)}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={() => handlePopup(false)}>추천 취소</Popup.ActionButton>
+              <Popup.ActionButton onClick={() => handleCancel(item.suggest_recommend_id)}>추천 취소</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -55,7 +153,7 @@ function SuggestedListingItem() {
   );
 }
 
-export default function SuggestedListings() {
+export default function SuggestedListings({ list, onMutate }: Props) {
   const [showDetails, setShowDetails] = useState(true);
 
   return (
@@ -79,7 +177,8 @@ export default function SuggestedListings() {
           />
         </div>
       </button>
-      {showDetails && arr.map((item) => <SuggestedListingItem key={item} />)}
+      {showDetails &&
+        list?.map((item) => <SuggestedListingItem key={item.suggest_recommend_id} item={item} onMutate={onMutate} />)}
     </>
   );
 }

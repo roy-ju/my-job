@@ -117,6 +117,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
         onClickOpenDanjiList={handleOpenDanjiList}
         emptyTextFields={emptyTextFields}
       />
+
       {isDanjiListOpen && (
         <OverlayPresenter>
           <div tw="bg-white w-[380px] h-[600px] rounded-lg shadow">
@@ -132,6 +133,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
           </div>
         </OverlayPresenter>
       )}
+
       {openResetPopup && (
         <OverlayPresenter>
           <Popup>

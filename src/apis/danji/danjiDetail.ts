@@ -41,6 +41,7 @@ export type GetDanjiDetailResponse = {
 } & ErrorResponse;
 
 export function useAPI_GetDanjiDetail({ danjiId }: { danjiId?: number | null }) {
+
   const { data, error, mutate } = useSWR<GetDanjiDetailResponse>(
     danjiId ? ['/danji/detail', { danji_id: danjiId }] : null,
     null,

@@ -25,6 +25,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
       router.replace(Routes.ListingCreateAddressDetail, {
+        searchParams: router?.query?.redirect ? { redirect: router.query.redirect as string } : {},
         state: {
           addressData: JSON.stringify(value),
           ...(router.query.origin

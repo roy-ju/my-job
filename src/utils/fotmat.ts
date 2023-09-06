@@ -28,6 +28,40 @@ export function convertSigunguName(v: string | undefined | null) {
   return v;
 }
 
+export function convertRangeText({
+  unit,
+  dashStyle,
+  bracket,
+  v1,
+  v2,
+}: {
+  unit: string;
+  dashStyle: string;
+  bracket: boolean;
+  v1?: string | number;
+  v2?: string | number;
+}) {
+  if (v1 && !v2) {
+    return bracket ? `[${v1}]${unit}` : `${v1}${unit}`;
+  }
+
+  if (!v1 && v2) {
+    return bracket ? `[${v2}]${unit}` : `${v2}${unit}`;
+  }
+
+  if (v1 && v2) {
+    return v1 === v2
+      ? bracket
+        ? `[${v1}${unit}]`
+        : `${v1}${unit}`
+      : bracket
+      ? `[${v1}${unit}${dashStyle}${v2}${unit}]`
+      : `${v1}${unit}${dashStyle}${v2}${unit}`;
+  }
+
+  return '';
+}
+
 export function cuttingDot(target: number | undefined) {
   if (!target) return '-';
 

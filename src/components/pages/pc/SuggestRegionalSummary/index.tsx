@@ -3,6 +3,7 @@ import createSuggestRegional from '@/apis/suggest/createSuggestRegional';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { SuggestRegionalSummary } from '@/components/templates';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
+  const nextRouter = useNextRouter();
   const router = useRouter(depth);
   const [isCreating, setIsCreating] = useState(false);
   const [popup, setPopup] = useState(false);
@@ -48,8 +50,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     await mutate();
     toast.success('구해요 글이 등록되었습니다.');
 
-    router.replace(`${Routes.My}/${Routes.SuggestRequestedList}`);
-  }, [router, params, mutate]);
+    nextRouter.replace(`/${Routes.My}/${Routes.SuggestRequestedList}`);
+  }, [nextRouter, params, mutate]);
 
   const handleAccessDenied = useCallback(() => {}, []);
 

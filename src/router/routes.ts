@@ -10,7 +10,6 @@ const Routes = {
 
   DanjiDetail: 'danjiDetail',
   DanjiListings: 'danjiListings',
-  DanjiSuggestListings: 'danjiSuggestListings',
   DanjiPhotos: 'danjiPhotos',
   DanjiRecommendation: 'danjiRecommendation',
   DanjiRecommendationSummary: 'danjiRecommendationSummary',
@@ -135,6 +134,9 @@ const Routes = {
 
   // 구해요 상세
   SuggestDetail: 'suggestDetail',
+
+  // 구해요 목록
+  SuggestListings: 'suggestListings',
 
   // 오픈소스라이선스
   OpenSourceLicenses: 'openSourceLicenses',

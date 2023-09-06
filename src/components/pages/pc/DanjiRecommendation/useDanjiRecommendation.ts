@@ -273,6 +273,7 @@ export default function useDanjiRecommendationForm(depth: number) {
 
     router.replace(Routes.DanjiRecommendationSummary, {
       searchParams: {
+        redirect: router?.query?.redirect ? (router?.query?.redirect as string) : '',
         danjiID,
         params: JSON.stringify(params),
       },
