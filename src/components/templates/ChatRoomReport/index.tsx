@@ -3,9 +3,8 @@ import { Button, PersistentBottomBar } from '@/components/atoms';
 import ChatReportTextField from './ChatReportTextField';
 
 interface CharRoomReportProps {
-  officeName: string;
+  targetName: string;
   listingTitle: string;
-  additionalListingCount: number;
 
   reportContent?: string;
   onChangeReportContent?: (value: string) => void;
@@ -14,9 +13,9 @@ interface CharRoomReportProps {
 }
 
 export default function CharRoomReport({
-  officeName,
+  targetName,
   listingTitle,
-  additionalListingCount,
+
   reportContent,
   onChangeReportContent,
   onClickReportButton,
@@ -29,10 +28,8 @@ export default function CharRoomReport({
         <NavigationHeader.Title tw="text-b1">신고하기</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="m-7 flex-1">
-        <div tw="mb-1 text-b1  font-bold">{officeName}</div>
-        <div tw="text-info mb-4 text-gray-700">
-          {listingTitle} {additionalListingCount > 0 && ` 외 ${additionalListingCount}건`}
-        </div>
+        <div tw="mb-1 text-b1  font-bold">{targetName}</div>
+        <div tw="text-info mb-4 text-gray-700">{listingTitle}</div>
         <ChatReportTextField value={reportContent} onChangeValue={onChangeReportContent} />
       </div>
       <PersistentBottomBar>
