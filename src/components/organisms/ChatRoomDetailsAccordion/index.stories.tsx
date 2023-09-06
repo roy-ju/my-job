@@ -1,3 +1,4 @@
+import { Panel } from '@/components/atoms';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import ChatRoomDetailsAccordion from '.';
 
@@ -7,19 +8,30 @@ export default {
 } as ComponentMeta<typeof ChatRoomDetailsAccordion>;
 
 export const Default: ComponentStory<typeof ChatRoomDetailsAccordion> = (args) => (
-  <ChatRoomDetailsAccordion {...args}>
-    <div tw="flex flex-col gap-4">
-      <p>매수인채팅 - 중개사 가격제안</p>
-      <ChatRoomDetailsAccordion.BuyerAgentBidding />
-      <p>매수인채팅 - 중개사, 집주인 매물추천</p>
-      <ChatRoomDetailsAccordion.BuyerAgentSuggestRecommendation />
-      <ChatRoomDetailsAccordion.BuyerSellerSuggestRecommendation />
-      <p>매도인채팅 - 중개사 매물등록</p>
-      <ChatRoomDetailsAccordion.SellerAgentListingRegister />
-      <p>매도인채팅 - 매수인 매물추천</p>
-      <ChatRoomDetailsAccordion.SellerBuyerSuggestRecommendation />
-    </div>
-  </ChatRoomDetailsAccordion>
+  <Panel>
+    <ChatRoomDetailsAccordion {...args}>
+      <div tw="flex flex-col gap-4 py-5">
+        <div>
+          <p tw="px-5">매수인채팅 - 중개사 가격제안</p>
+          <ChatRoomDetailsAccordion.BuyerAgentBidding />
+        </div>
+        <div>
+          <p tw="px-5">매수인채팅 - 중개사, 집주인 매물추천</p>
+          <ChatRoomDetailsAccordion.BuyerAgentSuggestRecommendation />
+
+          <ChatRoomDetailsAccordion.BuyerSellerSuggestRecommendation />
+        </div>
+        <div>
+          <p tw="px-5">매도인채팅 - 중개사 매물등록</p>
+          <ChatRoomDetailsAccordion.SellerAgentListingRegister />
+        </div>
+        <div>
+          <p tw="px-5">매도인채팅 - 매수인 매물추천</p>
+          <ChatRoomDetailsAccordion.SellerBuyerSuggestRecommendation />
+        </div>
+      </div>
+    </ChatRoomDetailsAccordion>
+  </Panel>
 );
 
 Default.args = {

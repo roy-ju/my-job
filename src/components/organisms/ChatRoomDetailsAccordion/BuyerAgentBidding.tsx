@@ -97,9 +97,12 @@ export default function BuyerAgentBidding({ expanded: expnadedProps, onChange, d
             {listingDetails}
             <div tw="border-t border-gray-300 pb-5">
               <div tw="text-info mt-2 mb-4">나의 제안가: {biddingPrice}</div>
-              <div>
+              <div tw="flex gap-2">
+                <Button tw="w-full h-9" variant="outlined" onClick={handleClose}>
+                  접어두기
+                </Button>
                 <Button
-                  tw="w-full mb-4 h-9"
+                  tw="w-full h-9"
                   onClick={() => {
                     if (listingItem?.listing_id && biddingItem?.bidding_id) {
                       onClickNavigateToListingDetailHistory?.(listingItem?.listing_id, biddingItem?.bidding_id)();
@@ -108,9 +111,6 @@ export default function BuyerAgentBidding({ expanded: expnadedProps, onChange, d
                 >
                   상세 내용 보러가기
                 </Button>
-                <button onClick={handleClose} type="button" tw="block mx-auto underline text-info leading-4">
-                  접기
-                </button>
               </div>
             </div>
           </motion.div>

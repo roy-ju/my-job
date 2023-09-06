@@ -81,6 +81,8 @@ export default function SellerBuyerSuggestRecommendation({
     </div>
   );
 
+  const isContractCompleted = suggestRecommendItem?.suggest_recommend_status === SuggestRecommendStatus.Completed;
+
   return (
     <div tw="bg-white px-5 border-t border-b border-gray-300" css={expanded && tw`rounded-b-[20px]`}>
       <div tw="flex justify-between py-4">
@@ -141,20 +143,21 @@ export default function SellerBuyerSuggestRecommendation({
                 {isSuggestRecommendOptionsExist && suggestRecommendDetails}
                 <div>{suggestRecommendItem?.note}</div>
               </div>
-              <div>
-                {suggestRecommendItem?.suggest_recommend_status === SuggestRecommendStatus.Completed ? (
-                  <div tw="flex items-center">
-                    <CheckCircleIcon tw="shrink-0" />
-                    <span tw="text-info pl-1 text-nego-1000">거래가 성사되었습니다.</span>
-                  </div>
-                ) : (
-                  <Button tw="w-full mb-4 h-9" onClick={onClickContractCtaButton}>
+              {isContractCompleted && (
+                <div tw="flex items-center mb-4">
+                  <CheckCircleIcon tw="shrink-0" />
+                  <span tw="text-info pl-1 text-nego-1000">거래가 성사되었습니다.</span>
+                </div>
+              )}
+              <div tw="flex gap-2">
+                <Button tw="w-full h-9" variant="outlined" onClick={handleClose}>
+                  접어두기
+                </Button>
+                {!isContractCompleted && (
+                  <Button tw="w-full h-9" onClick={onClickContractCtaButton}>
                     거래성사
                   </Button>
                 )}
-                <button onClick={handleClose} type="button" tw="block mx-auto underline text-info leading-4">
-                  접기
-                </button>
               </div>
             </div>
           </motion.div>
