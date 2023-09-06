@@ -2,41 +2,50 @@
 import { MobileContainer } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
 import { memo, useEffect, useMemo, useState } from 'react';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { ChatUserType } from '@/constants/enums';
+import { OverlayPresenter } from '@/components/molecules';
+import { ChatRoomPopup } from '@/components/organisms';
+import { ChatRoomType } from '@/constants/enums';
 import closeChatRoom from '@/apis/chat/closeChatRoom';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { useChatButtonStore } from '@/states/mob/chatButtonStore';
-// import dynamic from 'next/dynamic';
 import { customAlphabet } from 'nanoid';
+import { completeRecommend } from '@/apis/suggest/completeRecommend';
+import { toast } from 'react-toastify';
+import checkChatRoom from '@/apis/chat/checkChatRoom';
 import useChatRoom from './useChatRoom';
-
-// const MobChatMapTemplate = dynamic(() => import('@/components/templates/MobChatMap'), {
-//   ssr: false,
-// });
 
 export default memo(() => {
   const router = useRouter();
+  const [closePopupStatus, setClosePopupStatus] = useState<number | undefined>(undefined);
+  const [chatRoomIsClosing, setChatRoomIsClosing] = useState(false);
+  const [showContractCtaPopup, setShowContractCtaPopup] = useState(false);
 
-  const [popupOpen, setPopupOpen] = useState(false);
+  //  const [popupOpen, setPopupOpen] = useState(false);
 
   const nanoID = customAlphabet('123456789');
 
   const [photoSending, setPhotoSending] = useState(false);
 
   const {
-    listingTitle,
-    agentName,
+    title,
+    otherName,
     chatMessages,
-    agentProfileImagePath,
+    otherProfileImagePath,
     isLoading,
     isTextFieldDisabled,
     photosUrls,
     handleChangePhotoUrls,
     handleSendMessage,
     chatUserType,
+    chatRoomType,
+    listingItem,
+    biddingItem,
+    suggestItem,
+    suggestRecommendItem,
+
+    mutate: mutateChatRoomDetail,
   } = useChatRoom(Number(router.query.chatRoomID));
 
   const {
@@ -62,56 +71,46 @@ export default memo(() => {
     );
   };
 
-  const handleClickLeaveButton = () => {
-    setPopupOpen(true);
+  //  const handleClickLeaveButton = () => {
+  //    setPopupOpen(true);
+  //  };
+
+  const handleClickLeaveButton = async () => {
+    if (!router.query.chatRoomID) return;
+    const { case: closeCase, error_code } = await checkChatRoom(Number(router.query.chatRoomID as string));
+    if (error_code === 2027) {
+      toast.error('채팅방을 나갈 수 없습니다.');
+    }
+
+    setClosePopupStatus(closeCase);
+  };
+
+  const handleClickContractCtaButton = () => {
+    setShowContractCtaPopup(true);
   };
 
   const handleCloseChatRoom = async () => {
     const chatRoomID = Number(router.query.chatRoomID);
     await closeChatRoom(chatRoomID);
+    setChatRoomIsClosing(true);
     await mutate('/chat/room/list');
     router.replace(`/${Routes.EntryMobile}/${Routes.ChatRoomList}`);
   };
 
   const handleClickNavigateToListingDetail = (listingID: number) => () => {
-    router.replace(
-      { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`, query: { listingID: `${listingID}` } },
-      `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`,
-    );
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
+  };
+
+  const handleClickNavigateToListingCreateResult = (listingID: number) => () => {
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateResult}?listingID=${listingID}`);
   };
 
   const handleClickNavigateToListingDetailHistory = (listingID: number, biddingID: number) => () => {
-    if (biddingID) {
-      router.replace(
-        { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}`, query: { listingID: `${listingID}` } },
-        `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}?listingID=${listingID}&biddingID=${biddingID}&tab=${4}`,
-      );
-    } else {
-      router.replace(
-        { pathname: `/${Routes.EntryMobile}/${Routes.ListingDetailPassed}`, query: { listingID: `${listingID}` } },
-        `/${Routes.EntryMobile}/${Routes.ListingDetailPassed}?listingID=${listingID}&tab=${4}`,
+    if (biddingID && listingID) {
+      router.push(
+        `/${Routes.EntryMobile}/${Routes.ListingDetailHistory}?listingID=${listingID}&biddingID=${biddingID}`,
       );
     }
-  };
-
-  const renderPopupBodyContents = () => {
-    if (chatUserType === ChatUserType.Seller) {
-      return '등록된 매물의 담당 중개사님과의 채팅종료는 매물등록 취소나 거래성사되어야만 가능합니다.';
-    }
-
-    return '채팅을 나가시면 이 중개사님과의 협의중인 모든 매물에 제안이 취소되며 협의 재개를 위해서는 다시 제안이 필요합니다. 채팅방을 나가시겠습니까?';
-  };
-
-  const renderPopupButton = () => {
-    if (chatUserType === ChatUserType.Buyer) {
-      return (
-        <>
-          <Popup.CancelButton>돌아가기</Popup.CancelButton>
-          <Popup.ActionButton onClick={handleCloseChatRoom}>채팅방 나가기</Popup.ActionButton>
-        </>
-      );
-    }
-    return <Popup.ActionButton onClick={() => setPopupOpen(false)}>확인</Popup.ActionButton>;
   };
 
   const convertedChatMessages = useMemo(() => {
@@ -175,11 +174,16 @@ export default memo(() => {
       )} */}
 
       <ChatRoom
-        title={listingTitle ?? ''}
-        agentName={agentName ?? ''}
-        agentProfileImagePath={agentProfileImagePath ?? ''}
+        title={title ?? ''}
+        otherName={otherName ?? ''}
+        otherProfileImagePath={otherProfileImagePath ?? ''}
         isLoading={isLoading}
         chatUserType={chatUserType ?? 0}
+        chatRoomType={chatRoomType ?? 0}
+        listingItem={listingItem}
+        biddingItem={biddingItem}
+        suggestItem={suggestItem}
+        suggestRecommendItem={suggestRecommendItem}
         chatMessages={convertedChatMessages}
         photosUrls={photosUrls}
         textFieldDisabled={isTextFieldDisabled}
@@ -187,7 +191,9 @@ export default memo(() => {
         onChangePhotosUrls={handleChangePhotoUrls}
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
+        onClickContractCtaButton={handleClickContractCtaButton}
         onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
+        onClickNavigateToListingCreateResult={handleClickNavigateToListingCreateResult}
         onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
         onClickBack={() => {
           if (typeof window !== 'undefined') {
@@ -203,15 +209,66 @@ export default memo(() => {
         setPhotoSending={setPhotoSending}
       />
 
-      {popupOpen && (
+      {showContractCtaPopup && (
         <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.Title>채팅방 나가기</Popup.Title>
-              <Popup.Body>{renderPopupBodyContents()}</Popup.Body>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>{renderPopupButton()}</Popup.ButtonGroup>
-          </Popup>
+          <ChatRoomPopup.ContractComplete
+            name={chatRoomType === ChatRoomType.BuyerAgentSuggestRecommendation ? `${otherName} 중개사` : otherName}
+            onClickClose={() => {
+              setShowContractCtaPopup(false);
+            }}
+            onClickContractComplete={async () => {
+              if (!suggestRecommendItem?.suggest_recommend_id) return;
+              await completeRecommend(suggestRecommendItem?.suggest_recommend_id ?? 0);
+              await mutateChatRoomDetail();
+              setShowContractCtaPopup(false);
+            }}
+          />
+        </OverlayPresenter>
+      )}
+      {closePopupStatus === 1 && (
+        <OverlayPresenter>
+          <ChatRoomPopup.CloseCase1 onClickClose={() => setClosePopupStatus(undefined)} />
+        </OverlayPresenter>
+      )}
+      {closePopupStatus === 2 && (
+        <OverlayPresenter>
+          <ChatRoomPopup.CloseCase2
+            onLeaveChatRoom={handleCloseChatRoom}
+            onClickClose={() => setClosePopupStatus(undefined)}
+            isLoading={chatRoomIsClosing}
+          />
+        </OverlayPresenter>
+      )}
+      {closePopupStatus === 3 && (
+        <OverlayPresenter>
+          <ChatRoomPopup.CloseCase3
+            onLeaveChatRoom={handleCloseChatRoom}
+            onClickClose={() => setClosePopupStatus(undefined)}
+            isLoading={chatRoomIsClosing}
+          />
+        </OverlayPresenter>
+      )}
+      {closePopupStatus === 4 && (
+        <OverlayPresenter>
+          <ChatRoomPopup.CloseCase4 onClickClose={() => setClosePopupStatus(undefined)} />
+        </OverlayPresenter>
+      )}
+      {closePopupStatus === 5 && (
+        <OverlayPresenter>
+          <ChatRoomPopup.CloseCase5
+            onLeaveChatRoom={handleCloseChatRoom}
+            onClickClose={() => setClosePopupStatus(undefined)}
+            isLoading={chatRoomIsClosing}
+          />
+        </OverlayPresenter>
+      )}
+      {closePopupStatus === 6 && (
+        <OverlayPresenter>
+          <ChatRoomPopup.CloseCase6
+            onLeaveChatRoom={handleCloseChatRoom}
+            onClickClose={() => setClosePopupStatus(undefined)}
+            isLoading={chatRoomIsClosing}
+          />
         </OverlayPresenter>
       )}
     </MobileContainer>
