@@ -127,13 +127,16 @@ const Routes = {
   RecommendationForm: 'recommendationForm',
 
   // 매물 내놓기
-  SuggestMyListing: 'suggestMyListing',
+  SuggestListingForm: 'suggestListingForm',
 
   // 구해요 요청 수정
   SuggestUpdate: 'suggestUpdate',
 
   // 구해요 상세
   SuggestDetail: 'suggestDetail',
+
+  // 구해요 목록
+  SuggestListings: 'suggestListings',
 
   // 오픈소스라이선스
   OpenSourceLicenses: 'openSourceLicenses',

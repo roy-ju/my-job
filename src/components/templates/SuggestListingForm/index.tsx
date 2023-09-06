@@ -1,9 +1,12 @@
+import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { SuggestMyListingOrganisms } from '@/components/organisms';
+import { SuggestListingFormOrganisms } from '@/components/organisms';
 import React from 'react';
 
 interface Props {
+  data?: GetSuggestDetailResponse;
+
   address?: string;
   onChangeAddress?: (val: string) => void;
 
@@ -32,10 +35,15 @@ interface Props {
   onChangeDescription?: (val: string) => void;
 
   onClickBack?: () => void;
+
+  loading?: boolean;
   disabledCTA?: boolean;
+  handleCTA?: () => Promise<void>;
 }
 
-export default function SuggestMyListing({
+export default function SuggestListingForm({
+  data,
+
   address,
   onChangeAddress,
 
@@ -63,8 +71,11 @@ export default function SuggestMyListing({
   description,
   onChangeDescription,
 
-  disabledCTA,
   onClickBack,
+
+  loading,
+  disabledCTA,
+  handleCTA,
 }: Props) {
   return (
     <div tw="h-full flex flex-col">
@@ -73,13 +84,13 @@ export default function SuggestMyListing({
         <NavigationHeader.Title>매물 추천하기</NavigationHeader.Title>
       </NavigationHeader>
 
-      <div tw="mt-7">
-        <SuggestMyListingOrganisms>
-          <SuggestMyListingOrganisms.Info />
+      <div tw="mt-7 flex-1 min-h-0 overflow-auto">
+        <SuggestListingFormOrganisms>
+          <SuggestListingFormOrganisms.Info data={data} />
           <Separator tw="bg-gray-300" />
-          <SuggestMyListingOrganisms.Guide />
+          <SuggestListingFormOrganisms.Guide />
           <Separator tw="bg-gray-300" />
-          <SuggestMyListingOrganisms.Form
+          <SuggestListingFormOrganisms.Form
             address={address}
             onChangeAddress={onChangeAddress}
             buyOrRent={buyOrRent}
@@ -99,12 +110,12 @@ export default function SuggestMyListing({
             description={description}
             onChangeDescription={onChangeDescription}
           />
-        </SuggestMyListingOrganisms>
+        </SuggestListingFormOrganisms>
       </div>
 
       <PersistentBottomBar>
         <div tw="[padding-bottom: 26px]">
-          <Button size="bigger" tw="w-full" disabled={disabledCTA}>
+          <Button size="bigger" tw="w-full" disabled={disabledCTA} onClick={handleCTA} isLoading={loading}>
             추천하기
           </Button>
         </div>

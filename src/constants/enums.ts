@@ -133,7 +133,7 @@ export enum SuggestRecommendStatus {
   Accepted = 2,
   NotInterested = 3,
   Cancelled = 4,
-  Completed = 5, // 매수인, 매도인, 중개사가 CTA 버튼을 통해 거래성사
+  Completed = 5,
 }
 
 export enum NotificationLinkType {

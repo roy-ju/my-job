@@ -52,9 +52,12 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickBack = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
-      searchParams: {
-        listingID: router.query.listingID as string,
-      },
+      searchParams: router?.query?.redirect
+        ? {
+            redirect: router.query.redirect as string,
+            listingID: router.query.listingID as string,
+          }
+        : { listingID: router.query.listingID as string },
       state: {
         params: router.query.params as string,
         addressLine1: router.query.addressLine1 as string,
@@ -72,10 +75,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickNext = useCallback(() => {
     const agentId = agents[index]?.id;
     router.replace(Routes.ListingCreateSummary, {
-      searchParams: {
-        listingID: router.query.listingID as string,
-        agentID: `${agentId}`,
-      },
+      searchParams: router?.query?.redirect
+        ? {
+            redirect: router.query.redirect as string,
+            listingID: router.query.listingID as string,
+            agentID: `${agentId}`,
+          }
+        : { listingID: router.query.listingID as string, agentID: `${agentId}` },
       state: {
         params: router.query.params as string,
         addressLine1: router.query.addressLine1 as string,

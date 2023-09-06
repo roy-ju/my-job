@@ -2,7 +2,7 @@
 /* eslint-disable no-return-assign */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
-import { Loading, Separator } from '@/components/atoms';
+import { Loading, Separator, Button } from '@/components/atoms';
 import { DanjiDetailSection } from '@/components/organisms';
 import tw from 'twin.macro';
 
@@ -12,6 +12,7 @@ import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { motion } from 'framer-motion';
 import useDanjiInteraction from '@/states/danjiButton';
+
 import DanjiDetailHeader from './Components/DanjiDetailHeader';
 import DanjiPhotoHero from './Components/DanjiPhotoHero';
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
@@ -363,7 +364,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           {isShowlistingsSection && (
             <div tw="pt-7" id="listingsSection" ref={setListingsSection}>
               <DanjiDetailSection.Info danji={danji} depth={depth} />
-              <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
+              <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} />
             </div>
           )}
 
@@ -373,7 +374,6 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               depth={depth}
               isShowRpTab={isShowRpTab}
               isShowlistingsSection={isShowlistingsSection}
-              // setLoadingRp={() => {}}
               setLoadingRp={setLoadingRp}
               setIsShowRpTab={setIsShowRpTab}
             />
