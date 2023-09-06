@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
@@ -190,14 +191,14 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
 
   const { data: user } = useAPI_GetUserInfo();
 
-  const handleClickButton = useCallback(() => {
-    if (!user) {
-      setTempPopup(true);
-      return;
-    }
+  // const handleClickButton = useCallback(() => {
+  //   if (!user) {
+  //     setTempPopup(true);
+  //     return;
+  //   }
 
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?suggestID=44`);
-  }, [router, user]);
+  //   router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?suggestID=44`);
+  // }, [router, user]);
 
   const handleClickTempPopup = useCallback(
     async (val?: string) => {

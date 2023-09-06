@@ -9,8 +9,14 @@ export default function useDanjiDetail(depth: number, danjiID?: number) {
 
   const [listingDetailDanjiID, setListingDetailDanjiID] = useState<number>();
 
+  const id = useMemo(() => {
+    if (router?.query?.danjiID) {
+      return Number(router.query.danjiID);
+    }
+  }, [router]);
+
   const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
-    danjiId: listingDetailDanjiID || router.query.danjiID ? Number(router.query.danjiID) : undefined,
+    danjiId: listingDetailDanjiID || id,
   });
 
   useEffect(() => {

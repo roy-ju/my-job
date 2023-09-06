@@ -102,9 +102,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     setIsLoading(false);
 
     router.replace(Routes.ListingCreateForm, {
-      searchParams: {
-        listingID: `${createRes.listing_id}`,
-      },
+      searchParams: router?.query?.redirect
+        ? {
+            redirect: router.query.redirect as string,
+            listingID: `${createRes.listing_id}`,
+          }
+        : { listingID: `${createRes.listing_id}` },
       state: {
         addressLine1,
         addressLine2,
@@ -122,6 +125,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleBack = useCallback(() => {
     router.replace(Routes.ListingCreateAddress, {
+      searchParams: router?.query?.redirect
+        ? {
+            redirect: router.query.redirect as string,
+          }
+        : {},
       state: {
         ...(router.query.origin
           ? {
@@ -134,6 +142,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
+
     if (!inAddressData) {
       router.replace(Routes.ListingCreateAddress, {
         state: {

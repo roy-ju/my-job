@@ -2,7 +2,7 @@
 /* eslint-disable no-return-assign */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
-import { Loading, Separator } from '@/components/atoms';
+import { Loading, Separator, Button } from '@/components/atoms';
 import { DanjiDetailSection } from '@/components/organisms';
 import tw from 'twin.macro';
 
@@ -12,6 +12,7 @@ import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { motion } from 'framer-motion';
 import useDanjiInteraction from '@/states/danjiButton';
+
 import DanjiDetailHeader from './Components/DanjiDetailHeader';
 import DanjiPhotoHero from './Components/DanjiPhotoHero';
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';

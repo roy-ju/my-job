@@ -1,101 +1,128 @@
-import { Chip } from '@/components/atoms';
-import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
-import { formatNumberInKorean } from '@/utils';
-import { cuttingDot } from '@/utils/fotmat';
+import { Avatar, Chip, Numeral } from '@/components/atoms';
+import { SuggestRecommendStatus } from '@/constants/enums';
+import { convertRangeText } from '@/utils/fotmat';
 import tw from 'twin.macro';
-import View from '@/assets/icons/view.svg';
-import Participants from '@/assets/icons/participants.svg';
+import ArrowRight from '@/assets/icons/arrow_right_16.svg';
 import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
+
+import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+
+function PriceText({
+  tradeOrDepositPrice,
+  monthlyRentFee,
+  quickSale,
+}: {
+  tradeOrDepositPrice: number;
+  monthlyRentFee: number;
+  quickSale: boolean;
+}) {
+  if (quickSale) return <span>급매 구해요</span>;
+
+  if (!tradeOrDepositPrice && !monthlyRentFee) return <span>급매 구해요</span>;
+
+  if (monthlyRentFee) {
+    return (
+      <>
+        <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral>{monthlyRentFee}</Numeral>
+      </>
+    );
+  }
+  return <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>;
+}
 
 export default function TypeTwo({
   item,
-  isLast = false,
   anchorURL,
   onClick,
 }: {
   item?: DanjiSuggestListItem;
-  isLast?: boolean;
   anchorURL?: string;
-  onClick?: (id: number, buyOrRent: number) => void;
+  onClick?: (id: number) => void;
 }) {
   if (!item) return null;
 
+  const ChipText = {
+    MySuggest: '내가 쓴글',
+    IamRecommending: '우리집 추천중',
+    Completed: '거래성사',
+  };
+
   return (
-    <div tw="hover:bg-gray-200 px-5">
-      {/* <button
-        type="button"
-        tw="flex flex-col py-5"
-        css={[tw`w-full`, !isLast && tw`[border-bottom: 1px solid #E9ECEF]`]}
-        onClick={() => onClick?.(item.listing_id, item.buy_or_rent)}
-      >
-        {item.is_participating && (
-          <div tw="mb-2">
-            <Chip
-              css={[item.label_text === '협의중' ? tw`bg-nego-600` : tw`bg-green-1100`]}
-              tw="text-white [border-top-left-radius: 4px ] [border-top-right-radius: 0px] [border-bottom-left-radius: 0px] [border-bottom-right-radius: 4px]"
-            >
-              {item.label_text}
-            </Chip>
-          </div>
+    <button
+      type="button"
+      tw="flex flex-col p-4 border border-gray-300 rounded-lg hover:bg-gray-200"
+      css={[tw`w-full`]}
+      onClick={() => onClick?.(item.suggest_id)}
+    >
+      <div tw="w-full flex items-center gap-1">
+        <Avatar src={item.user_profile_image_url} alt="프로필" size={24} />
+        <span tw="text-info text-gray-700 [letter-spacing: -0.4px]">{item.user_nickname}</span>
+
+        {item.my_suggest && <Chip variant="nego">{ChipText.MySuggest}</Chip>}
+        {item.iam_recommending && (
+          <Chip variant="yellow" tw="text-red-1100">
+            {ChipText.IamRecommending}
+          </Chip>
         )}
-        <div tw="flex items-center">
-          {item.quick_sale && (
-            <div tw="relative w-4 h-4 bg-red-700 [border-radius: 50%] mr-1">
-              <span tw="absolute [top: 50%] [left: 50%] -translate-x-1/2 -translate-y-1/2 [font-size: 11px] [line-height: 1] font-bold text-b1  text-red-50">
-                급
-              </span>
-            </div>
-          )}
-          <span tw="font-bold text-b1">{describeBuyOrRent(item.buy_or_rent)}&nbsp;</span>
-          {item.buy_or_rent !== BuyOrRent.Wolsae ? (
-            <span tw="font-bold text-b1">{formatNumberInKorean(item.trade_or_deposit_price)}</span>
-          ) : (
-            <>
-              <span tw="font-bold text-b1">
-                {formatNumberInKorean(item.trade_or_deposit_price)} / {formatNumberInKorean(item.monthly_rent_fee)}
-              </span>
-            </>
-          )}
-        </div>
-        <div>
-          {anchorURL ? (
-            <a
-              href={anchorURL}
-              onClick={(e) => {
-                e.preventDefault();
-                onClick?.(item.listing_id, item.buy_or_rent);
-              }}
-            >
-              <h1 tw="text-info">{item.listing_title}</h1>
-            </a>
-          ) : (
-            <h1 tw="text-info">{item.listing_title}</h1>
-          )}
-        </div>
+        {item.suggest_status === SuggestRecommendStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>}
 
-        <div tw="w-full flex items-center justify-between">
-          <div tw="flex items-center gap-1">
-            <p tw="text-gray-700 text-info">전용 {cuttingDot(Number(item.jeonyong_area)) || '-'}㎡</p>
-            <div tw="w-px h-2 bg-gray-300" />
-            <p tw="text-gray-700 text-info">
-              {item.floor_description.slice(0, 1) || '-'}/{item.total_floor}층
-            </p>
-            <div tw="w-px h-2 bg-gray-300" />
-            <p tw="text-gray-700 text-info">{item.direction}</p>
-          </div>
+        {item.my_suggest || item.iam_recommending ? (
+          <button type="button" tw="flex items-center text-info leading-4 ml-auto">
+            상세보기
+            <ArrowRight />
+          </button>
+        ) : (
+          <button type="button" tw="flex items-center text-info leading-4 ml-auto">
+            추천하러 가기
+            <ArrowRight />
+          </button>
+        )}
+      </div>
+      <div tw="font-bold pt-2 pb-1">
+        {anchorURL ? (
+          <a
+            href={anchorURL}
+            onClick={(e) => {
+              e.preventDefault();
+              onClick?.(item.suggest_id);
+            }}
+          >
+            <h1 tw="text-b1 [display: inline]">{item.buy_or_rents === '1' ? '매매' : '전월세'} </h1>
+            <PriceText
+              tradeOrDepositPrice={item.trade_or_deposit_price}
+              monthlyRentFee={item.monthly_rent_fee}
+              quickSale={item.quick_sale}
+            />
+          </a>
+        ) : (
+          <>
+            <h1 tw="text-b1 [display: inline]">{item.buy_or_rents === '1' ? '매매' : '전월세'} </h1>
+            <PriceText
+              tradeOrDepositPrice={item.trade_or_deposit_price}
+              monthlyRentFee={item.monthly_rent_fee}
+              quickSale={item.quick_sale}
+            />
+          </>
+        )}
+      </div>
 
-          <div tw="flex items-center gap-3 ml-auto">
-            <div tw="flex items-center gap-1">
-              <View />
-              <span tw="text-info text-gray-700">{item.view_count}</span>
-            </div>
-            <div tw="flex items-center gap-1">
-              <Participants />
-              <span tw="text-info text-gray-700">{item.participants_count}</span>
-            </div>
-          </div>
+      <div tw="w-full flex">
+        <div tw="flex items-center gap-1 break-all line-clamp-1 text-gray-700 text-b2">
+          {convertRangeText({
+            unit: '평',
+            dashStyle: '~',
+            bracket: true,
+            v1: item.pyoung_from,
+            v2: item.pyoung_to,
+          })}
+
+          {` ${item.note}` || ''}
         </div>
-      </button> */}
-    </div>
+      </div>
+
+      <div tw="mt-1">
+        <p tw="text-gray-700 [letter-spacing: -0.4px] text-info">{formatCreatedTime(item.created_time)}</p>
+      </div>
+    </button>
   );
 }

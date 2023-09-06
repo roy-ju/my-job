@@ -24,6 +24,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       {danji && !danji.error_code && (
         <DanjiDetail depth={depth} danji={danji} isShowTab handleMutateDanji={handleMutateDanji} />
       )}
+
       {danji && danji.error_code && (
         <OverlayPresenter>
           <Popup>

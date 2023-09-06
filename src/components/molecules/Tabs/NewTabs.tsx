@@ -40,14 +40,19 @@ function Indicator({ children }: { children?: ReactNode }) {
   const { variant, value } = useContext(NewTabsContext);
 
   return (
-    <div
-      css={[
-        newIndicatorStyles[variant],
-        value === 1 ? tw`[border-right: 1px solid #E9ECEF]` : tw`[border-left: 1px solid #E9ECEF]`,
-      ]}
-    >
-      {children}
-    </div>
+    <>
+      <div
+        tw="w-full bg-red"
+        css={[
+          newIndicatorStyles[variant],
+          value === 1
+            ? tw`[border-right: 1px solid #E9ECEF] [border-top-left-radius: 0]`
+            : tw`[border-left: 1px solid #E9ECEF] [border-top-right-radius: 0]`,
+        ]}
+      >
+        {children}
+      </div>
+    </>
   );
 }
 

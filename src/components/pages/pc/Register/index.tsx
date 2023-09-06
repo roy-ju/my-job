@@ -135,8 +135,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [router]);
 
-  console.log(router);
-
   const handleNavigateToServiceTerms = useCallback(() => {
     router.replace(Routes.ServiceTerms, {
       searchParams: {

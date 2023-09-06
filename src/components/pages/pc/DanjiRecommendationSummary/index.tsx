@@ -1,6 +1,7 @@
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 import React, { useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function DanjiRecommendationSummary({ panelWidth, depth }: Props) {
+  const nextRouter = useNextRouter();
   const router = useRouter(depth);
   const [isCreating, setIsCreating] = useState(false);
   const [popup, setPopup] = useState(false);
@@ -49,11 +51,18 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
       danji_id: Number(params.danji_id),
       pyoungs: params.pyoungs.join(','),
     });
+
     await mutate();
+
     toast.success('구해요 글이 등록되었습니다.');
 
-    router.replace(`${Routes.My}/${Routes.SuggestRequestedList}`);
-  }, [router, params, mutate]);
+    if (nextRouter?.query?.redirect) {
+      nextRouter.replace(nextRouter.query.redirect as string);
+      return;
+    }
+
+    nextRouter.replace(`/${Routes.My}/${Routes.SuggestRequestedList}`);
+  }, [params, mutate, nextRouter]);
 
   const handleAccessDenied = useCallback(() => {}, []);
 

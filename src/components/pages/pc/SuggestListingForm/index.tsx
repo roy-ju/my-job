@@ -7,6 +7,8 @@ import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
 import { toast } from 'react-toastify';
 import { useRouter } from '@/hooks/utils';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;
@@ -18,7 +20,20 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const { data } = useAPI_GetUserAddress();
 
-  const suggestID = router?.query?.suggestID ? Number(router.query.suggestID) : undefined;
+  const suggestID = useMemo(
+    () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
+    [router?.query?.suggestID],
+  );
+
+  const danjiID = useMemo(
+    () => (router?.query?.danjiID ? Number(router.query.danjiID) : undefined),
+    [router?.query?.danjiID],
+  );
+
+  const { mutate } = useAPI_GetDanjiSuggestList({
+    danjiId: danjiID,
+    pageSize: 10,
+  });
 
   const { data: suggestData, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
@@ -143,9 +158,27 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     if (!res) {
       toast.success('매물 추천이 완료되었습니다.', { toastId: 'suggestRecommendSuccess' });
-      router.replace('/');
+      mutate();
+      router.replace(Routes.SuggestDetail, {
+        searchParams: danjiID
+          ? { suggestID: suggestID.toString(), danjiID: danjiID.toString() }
+          : { suggestID: suggestID.toString() },
+      });
     }
-  }, [address, buyOrRent, description, direction, floor, monthlyRentFee, pyoungArea, router, suggestID, tradePrice]);
+  }, [
+    address,
+    buyOrRent,
+    danjiID,
+    description,
+    direction,
+    floor,
+    monthlyRentFee,
+    mutate,
+    pyoungArea,
+    router,
+    suggestID,
+    tradePrice,
+  ]);
 
   useEffect(() => {
     if (data?.road_name_address) {
