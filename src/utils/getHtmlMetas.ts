@@ -332,7 +332,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   if (targetRoute === Routes.DanjiDetail) {
     try {
-      const { data } = await axios.post('/danji/get/v2', {
+      const { data } = await axios.post('/danji/detail', {
         danji_id: Number(query?.danjiID),
       });
 

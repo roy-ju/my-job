@@ -128,4 +128,4 @@ export { default as LawQnaUpdate } from './LawQnaUpdate';
 export { default as RecommendationForm } from './RecommendationForm';
 
 /** 매물추천하기  */
-export { default as SuggestMyListing } from './SuggestMyListing';
+export { default as SuggestListingForm } from './SuggestListingForm';

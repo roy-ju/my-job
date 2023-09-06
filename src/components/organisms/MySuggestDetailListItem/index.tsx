@@ -25,7 +25,7 @@ function PriceText({
   if (monthlyRentFee) {
     return (
       <>
-        buy <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral>{monthlyRentFee}</Numeral>
+        <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral>{monthlyRentFee}</Numeral>
       </>
     );
   }
