@@ -99,7 +99,10 @@ export default function SellerBuyerSuggestRecommendation({
               {listingDetails}
             </div>
 
-            <div tw="pb-5">
+            <div tw="pb-5 flex gap-2">
+              <Button tw="w-full h-9" variant="outlined" onClick={handleClose}>
+                접어두기
+              </Button>
               <Button
                 tw="w-full mb-4 h-9"
                 onClick={() => {
@@ -110,9 +113,6 @@ export default function SellerBuyerSuggestRecommendation({
               >
                 매물정보 보러가기
               </Button>
-              <button onClick={handleClose} type="button" tw="block mx-auto underline text-info leading-4">
-                접기
-              </button>
             </div>
           </motion.div>
         )}
