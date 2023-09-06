@@ -122,7 +122,7 @@ export default function SellerBuyerSuggestRecommendation({
             )}
 
             <div tw="border-t border-gray-300 pb-5">
-              <div tw="flex items-center gap-1  py-4">
+              <div tw="flex items-center gap-1  py-4 line-clamp-1">
                 <Chip variant="outlined">나의 추천사항</Chip>{' '}
                 <span tw="text-b1">
                   {suggestRecommendItem?.with_address ? (
