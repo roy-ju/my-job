@@ -1,23 +1,46 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  IChatRoomDetailBiddingItem,
+  IChatRoomDetailListingItem,
+  IChatRoomDetailSuggestRecommendItem,
+  IChatRoomDetailSuggestItem,
+} from '@/apis/chat/getChatRoomDetail';
 import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { ChatRoomAgentSummary, ChatRoomTextField } from '@/components/organisms';
+import { ChatRoomTextField } from '@/components/organisms';
 import useLatest from '@/hooks/utils/useLatest';
 import { StaticImageData } from 'next/image';
-import React, { CSSProperties, Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  CSSProperties,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList as List, VariableSizeList } from 'react-window';
+import ChatRoomDetailsAccordionRenderer from './ChatRoomDetailsAccordionRenderer';
+
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
 
 interface ChatRoomProps {
   title: string;
-  agentName: string;
+  otherName: string;
 
-  agentProfileImagePath: string | StaticImageData;
+  otherProfileImagePath: string | StaticImageData;
 
   isLoading: boolean;
   chatMessages: IChatMessage[];
   chatUserType: number;
+  chatRoomType: number;
+  listingItem?: IChatRoomDetailListingItem;
+  biddingItem?: IChatRoomDetailBiddingItem;
+  suggestItem?: IChatRoomDetailSuggestItem;
+  suggestRecommendItem?: IChatRoomDetailSuggestRecommendItem;
+
   textFieldDisabled?: boolean;
   photosUrls?: string[];
 
@@ -30,20 +53,28 @@ interface ChatRoomProps {
   onClickReportButton?: () => void;
   onClickLeaveButton?: () => void;
   onClickBack?: () => void;
+  onClickContractCtaButton?: () => void;
 
   onClickNavigateToListingDetail?: (listingID: number) => () => void;
+  onClickNavigateToListingCreateResult?: (listingID: number) => () => void;
   onClickNavigateToListingDetailHistory?: (listingID: number, biddingID: number) => () => void;
 }
 
 export default function ChatRoom({
   isLoading,
-  title, // listingTitle
+  title,
   chatUserType,
+  chatRoomType,
+  listingItem,
+  biddingItem,
+  suggestItem,
+  suggestRecommendItem,
+
   chatMessages,
   textFieldDisabled = false,
 
-  agentName,
-  agentProfileImagePath,
+  otherName,
+  otherProfileImagePath,
 
   inputRef,
   onSendMessage,
@@ -56,8 +87,10 @@ export default function ChatRoom({
   onClickReportButton,
   onClickLeaveButton,
   onClickBack,
+  onClickContractCtaButton,
 
   onClickNavigateToListingDetail,
+  onClickNavigateToListingCreateResult,
   onClickNavigateToListingDetailHistory,
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
@@ -91,18 +124,12 @@ export default function ChatRoom({
               }
             }}
           >
-            {index === 0 && (
-              <div tw="pt-6 pb-1 px-5" key="chatRoomAgentSummary">
-                <ChatRoomAgentSummary agentName={agentName} agentProfileImagePath={agentProfileImagePath} />
-              </div>
-            )}
-
-            <ChatMessageWrapper chat={chat} prevChat={prevChat} nextChat={nextChat} />
+            <ChatMessageWrapper chat={chat} prevChat={prevChat} nextChat={nextChat} chatRoomUserType={chatUserType} />
           </div>
         </div>
       );
     },
-    [messagesRef, agentName, agentProfileImagePath],
+    [messagesRef, chatUserType],
   );
 
   const getItemSize = useCallback((index: number) => sizeMap.current[index] ?? 0, []);
@@ -122,24 +149,25 @@ export default function ChatRoom({
     <div tw="flex flex-col h-full relative">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title tw="text-b1">{agentName}</NavigationHeader.Title>
+        <NavigationHeader.Title tw="text-b1">{title}</NavigationHeader.Title>
         <NavigationHeader.MoreButton
           onClickItem={(index) => headerItems[index]?.onClick?.()}
           items={headerItems.map((item) => item.label)}
         />
       </NavigationHeader>
-      {/* <button
-        type="button"
-        onClick={() => {
-          setShowListingList(true);
-        }}
-        tw="flex p-4 border-t border-gray-300  justify-between cursor-pointer"
-      >
-        <div> {title}</div>
-        <div tw="shrink-0 mt-1 self-start  underline text-info text-gray-1000">더보기</div>
-      </button> */}
-      <div tw="p-4 border-t border-gray-300">{title}</div>
-      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden border-t border-gray-300 bg-white">
+      <ChatRoomDetailsAccordionRenderer
+        chatUserType={chatUserType}
+        chatRoomType={chatRoomType}
+        listingItem={listingItem}
+        biddingItem={biddingItem}
+        suggestItem={suggestItem}
+        suggestRecommendItem={suggestRecommendItem}
+        onClickContractCtaButton={onClickContractCtaButton}
+        onClickNavigateToListingDetail={onClickNavigateToListingDetail}
+        onClickNavigateToListingCreateResult={onClickNavigateToListingCreateResult}
+        onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
+      />
+      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden  bg-white">
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (
