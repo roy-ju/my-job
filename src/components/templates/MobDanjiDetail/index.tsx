@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
-
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-import { Button, Loading, Separator } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
+import { Loading, Separator } from '@/components/atoms';
 import { MobDanjiDetailSection } from '@/components/organisms';
 import { useScroll } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useRef, useState, MouseEvent, useCallback, useEffect } from 'react';
@@ -187,39 +182,6 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
     }
   }, [danji, tabIndex]);
 
-  const [tempPopup, setTempPopup] = useState(false);
-
-  const { data: user } = useAPI_GetUserInfo();
-
-  // const handleClickButton = useCallback(() => {
-  //   if (!user) {
-  //     setTempPopup(true);
-  //     return;
-  //   }
-
-  //   router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?suggestID=44`);
-  // }, [router, user]);
-
-  const handleClickTempPopup = useCallback(
-    async (val?: string) => {
-      if (val === 'close') {
-        setTempPopup(false);
-        return;
-      }
-
-      if (val === 'open') {
-        setTempPopup(false);
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-          query: {
-            redirect: `/${Routes.EntryMobile}/${Routes.SuggestDetail}?danjiID=${router?.query.danjiID}&suggestID=44`,
-          },
-        });
-      }
-    },
-    [router],
-  );
-
   if (!danji)
     return (
       <div tw="py-20">
@@ -261,7 +223,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
                     tw="[text-align: center] w-full text-b2 [line-height: 17px]"
                     css={[tabIndex === 0 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
                   >
-                    단지 매물
+                    단지 거래
                   </p>
                   {tabIndex === 0 && (
                     <motion.div
@@ -336,7 +298,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
           <MobDanjiDetailSection>
             <div tw="pt-7" id="listingsSection" ref={setListingsSection}>
               <MobDanjiDetailSection.Info danji={danji} />
-              <MobDanjiDetailSection.ActiveInfo danji={danji} setLoadingListing={() => {}} />
+              <MobDanjiDetailSection.ActiveInfo danji={danji} />
             </div>
 
             <div id="realPriceSection" ref={setRealPriceSection}>
@@ -362,24 +324,6 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
           </MobDanjiDetailSection>
         </div>
       </div>
-
-      {tempPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-6">
-              <Popup.SmallTitle tw="text-center">
-                요청 내용을 확인하기 위해서는 로그인이 필요합니다.
-                <br />
-                로그인 화면으로 이동하시겠습니까?
-              </Popup.SmallTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => handleClickTempPopup('close')}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={() => handleClickTempPopup('open')}>로그인 하러가기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
     </>
   );
 }

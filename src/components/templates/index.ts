@@ -149,3 +149,4 @@ export { default as MobDanjiRecommendation } from './MobDanjiRecommendation';
 export { default as MobDanjiRecommendationSuccess } from './MobDanjiRecommendationSuccess';
 export { default as MobHog } from './MobHog';
 export { default as MobChatMap } from './MobChatMap';
+export { default as MobSuggestListings } from './MobSuggestListings';

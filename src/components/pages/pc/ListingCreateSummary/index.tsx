@@ -76,9 +76,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const onClickUpdate = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
-      searchParams: router?.query?.redirect
-        ? { redirect: router.query.redirect as string, listingID: router.query.listingID as string }
-        : { listingID: router.query.listingID as string },
+      searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
+        listingID: router.query.listingID as string,
+      },
       state: {
         params: router.query.params as string,
         addressLine1: router.query.addressLine1 as string,

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-
-import { Loading, Separator, Button } from '@/components/atoms';
+import { Loading, Separator } from '@/components/atoms';
 import { DanjiDetailSection } from '@/components/organisms';
 import tw from 'twin.macro';
 
@@ -278,7 +277,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                     tw="[text-align: center] w-full text-b2 [line-height: 17px]"
                     css={[tabIndex === 0 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
                   >
-                    단지 매물
+                    단지 거래
                   </p>
                   {tabIndex === 0 && (
                     <motion.div

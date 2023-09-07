@@ -616,12 +616,12 @@ export default function useListingCreateForm(depth: number) {
     const encoded = JSON.stringify(params);
 
     router.replace(Routes.ListingCreateChooseAgent, {
-      searchParams: router?.query?.redirect
-        ? {
-            redirect: router.query.redirect as string,
-            listingID: router.query.listingID as string,
-          }
-        : { listingID: router.query.listingID as string },
+      searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
+        listingID: router.query.listingID as string,
+      },
+
       state: {
         params: encoded,
         addressLine1,
@@ -677,11 +677,10 @@ export default function useListingCreateForm(depth: number) {
 
   const handleClickBack = useCallback(() => {
     router.replace(Routes.ListingCreateAddressDetail, {
-      searchParams: router?.query?.redirect
-        ? {
-            redirect: router.query.redirect as string,
-          }
-        : {},
+      searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
+      },
       state: {
         addressData: router.query.addressData as string,
         ...(router.query.origin

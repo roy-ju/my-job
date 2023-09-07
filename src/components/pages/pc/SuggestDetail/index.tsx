@@ -84,13 +84,13 @@ export default memo(({ panelWidth, depth }: Props) => {
     nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}`);
   }, [nextRouter]);
 
-  const handleMutate = () => {
+  const handleMutate = useCallback(() => {
     mutate();
-  };
+  }, [mutate]);
 
-  const closePopup = () => {
+  const closePopup = useCallback(() => {
     setAddressApplyPopup(false);
-  };
+  }, []);
 
   return (
     <>
