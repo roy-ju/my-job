@@ -158,7 +158,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     if (!res) {
       toast.success('매물 추천이 완료되었습니다.', { toastId: 'suggestRecommendSuccess' });
+
       mutate();
+
       router.replace(Routes.SuggestDetail, {
         searchParams: danjiID
           ? { suggestID: suggestID.toString(), danjiID: danjiID.toString() }

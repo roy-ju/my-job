@@ -47,6 +47,7 @@ export default memo(() => {
       pyoungs: params.pyoungs.join(','),
     });
     await mutate();
+
     toast.success('구해요 글이 등록되었습니다.');
 
     if (router?.query?.redirect) {

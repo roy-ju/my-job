@@ -19,6 +19,8 @@ const ListingCreateAddress = () => {
         {
           pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
           query: {
+            danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+            redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
             addressData: JSON.stringify(value),
           },
         },

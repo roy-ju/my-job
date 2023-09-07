@@ -88,18 +88,18 @@ export default function ActiveListingInfo({
       nextRouter.replace({
         pathname: `/${Routes.DanjiListings}`,
         query: {
-          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
         },
       });
     } else {
       nextRouter.replace({
         pathname: `/${Routes.DanjiListings}`,
         query: {
-          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
         },
       });
     }
-  }, [router.query.listingID, nextRouter, danji?.danji_id]);
+  }, [router.query.listingID, router.query?.danjiID, nextRouter, danji?.danji_id]);
 
   const handleListingDetail = useCallback(
     (id: number, buyOrRent: number) => {
@@ -108,16 +108,16 @@ export default function ActiveListingInfo({
           pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
           query: {
             listingID: `${id}`,
-            danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
+            danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
             bor: `${buyOrRent}`,
           },
         },
         `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&danjiID=${
-          danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''
+          danji?.danji_id || `${router?.query?.danjiID}` || ''
         }`,
       );
     },
-    [nextRouter, danji],
+    [nextRouter, danji?.danji_id, router?.query?.danjiID],
   );
 
   const handleCreateListing = useCallback(() => {
@@ -125,15 +125,15 @@ export default function ActiveListingInfo({
       {
         pathname: `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}`,
         query: {
-          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
-          redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+          redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
       `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}?danjiID=${
-        danji?.danji_id || nextRouter?.query?.danjiID || ''
+        danji?.danji_id || router?.query?.danjiID || ''
       }`,
     );
-  }, [danji?.danji_id, nextRouter]);
+  }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
 
   const handleCreateSuggest = useCallback(() => {
     nextRouter.replace(
@@ -141,15 +141,13 @@ export default function ActiveListingInfo({
         pathname: `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}`,
         query: {
           entry: 'danji',
-          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
-          redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+          redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
-      `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${
-        danji?.danji_id || nextRouter?.query?.danjiID || ''
-      }`,
+      `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
     );
-  }, [danji?.danji_id, nextRouter]);
+  }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
     if (type === 'impossibleRecommendataion') {
@@ -287,7 +285,7 @@ export default function ActiveListingInfo({
                       onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
                       anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${
                         item.listing_id
-                      }&danjiID=${danji?.danji_id || `${nextRouter?.query?.danjiID}` || ''}`}
+                      }&danjiID=${danji?.danji_id || `${router?.query?.danjiID}` || ''}`}
                     />
                   ))
               ) : (

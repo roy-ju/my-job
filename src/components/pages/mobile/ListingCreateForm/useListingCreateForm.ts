@@ -625,9 +625,13 @@ export default function useListingCreateForm() {
           addressLine1,
           addressLine2,
           addressData: router.query.addressData as string,
+          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateChooseAgent}`,
+      `/${Routes.EntryMobile}/${Routes.ListingCreateChooseAgent}?danjiID=${
+        router?.query?.danjiID ? (router.query.danjiID as string) : ''
+      }&redirect=${router?.query?.redirect ? (router.query.redirect as string) : ''}`,
     );
   }, [
     isOwner,
@@ -676,9 +680,13 @@ export default function useListingCreateForm() {
         pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
         query: {
           addressData: router.query.addressData as string,
+          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         },
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
+      `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}?danjiID=${
+        router?.query?.danjiID ? (router.query.danjiID as string) : ''
+      }&redirect=${router?.query?.redirect ? (router.query.redirect as string) : ''}`,
     );
   }, [router]);
 
