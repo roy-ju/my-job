@@ -122,7 +122,8 @@ export default function BuyOrRent({
           </div>
         )}
       </div>
-      {!!value && (
+
+      {!!value && quickSale !== QuickSaleType.QuickSale && (
         <>
           <div tw="mt-4">
             <Label
@@ -132,9 +133,7 @@ export default function BuyOrRent({
               control={<Checkbox name="negotiable" />}
             />
           </div>
-          {quickSale !== QuickSaleType.QuickSale && (
-            <div tw="text-info text-gray-700 mt-4">터무니 없는 금액의 요청은 추후 삭제될 수도 있어요.</div>
-          )}
+          <div tw="text-info text-gray-700 mt-4">터무니 없는 금액의 요청은 추후 삭제될 수도 있어요.</div>
         </>
       )}
     </div>
