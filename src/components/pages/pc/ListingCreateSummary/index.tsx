@@ -105,6 +105,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [params, listingID, agentID, router]);
 
+  console.log(router);
+
   return (
     <Panel width={panelWidth}>
       {isLoading || !agent ? (
@@ -139,6 +141,11 @@ export default memo(({ depth, panelWidth }: Props) => {
                   setPopup(false);
                   if (router?.query?.redirect) {
                     nextRouter.replace(router.query.redirect as string);
+                    return;
+                  }
+
+                  if (router?.query?.danjiID && router?.query?.depth1) {
+                    nextRouter.replace(`/${router.query.depth1}?danjiID=${router.query.danjiID}`);
                     return;
                   }
 
