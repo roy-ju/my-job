@@ -150,6 +150,7 @@ export default function Markers({
                         householdCount={danjiSummary?.saedae_count}
                         buyListingCount={danjiSummary?.buy_listing_count ?? 0}
                         rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                        onClick={() => {}}
                       />
                     )}
                 </DanjiMarker>
@@ -218,6 +219,7 @@ export default function Markers({
                       householdCount={danjiSummary.saedae_count}
                       buyListingCount={danjiSummary?.buy_listing_count ?? 0}
                       rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                      onClick={() => {}}
                     />
                   )}
               </DanjiMarker>

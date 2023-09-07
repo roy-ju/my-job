@@ -122,8 +122,8 @@ export default function DanjiListings({
       )}
 
       {data && data.length === 0 && (
-        <div tw="px-5 flex-1 min-h-0 overflow-auto">
-          <Image src={ListingNodata.src} width={380} height={308} alt="" />
+        <div tw="px-5 flex-1 min-h-0 overflow-auto flex flex-col items-center">
+          <Image src={ListingNodata.src} width={200} height={128} alt="" />
           <p tw="mt-4 mb-2 text-center text-h2 font-bold">거래를 희망하는 매물을 등록해 보세요.</p>
           <p tw="text-center text-info text-gray-700">
             매물등록만으로 중개사를 배정받고

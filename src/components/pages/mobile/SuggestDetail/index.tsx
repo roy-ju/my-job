@@ -1,7 +1,9 @@
 import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
-import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
-import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
+import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
+
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import { Loading, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
 import { SuggestStatus } from '@/constants/enums';
@@ -13,16 +15,14 @@ import { memo, useMemo, useCallback, useState } from 'react';
 export default memo(() => {
   const router = useRouter();
 
-  const [addressApplyPopup, setAddressApplyPopup] = useState(false);
+  const { data: userData } = useAPI_GetUserInfo();
 
-  const [confirmPopup, setConfirmPopup] = useState(false);
+  const [addressApplyPopup, setAddressApplyPopup] = useState(false);
 
   const suggestID = useMemo(
     () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
     [router.query.suggestID],
   );
-
-  const { data: userAddressData } = useAPI_GetUserAddress();
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
@@ -34,38 +34,77 @@ export default memo(() => {
     return true;
   }, [data?.suggest_status]);
 
-  const isExistMySuggested = useMemo(() => myRecommendedList?.list?.length !== 0, [myRecommendedList?.list?.length]);
+  const isExistMySuggested = useMemo(() => !!myRecommendedList?.list?.length, [myRecommendedList?.list?.length]);
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
+    }
   }, [router]);
 
-  const handleClickCTA = useCallback(() => {
+  const handleClickCTA = useCallback(async () => {
     if (!suggestID) return;
 
-    if (!userAddressData?.road_name_address) {
-      setAddressApplyPopup(true);
+    if (!userData) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
       return;
     }
 
-    setConfirmPopup(true);
-  }, [suggestID, userAddressData?.road_name_address]);
+    if (!userData.is_verified) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
+    if (data?.danji_id) {
+      const response = await suggestRecommendEligibility({ danji_id: data.danji_id });
+
+      if (response && !response?.is_eligible) {
+        setAddressApplyPopup(true);
+        return;
+      }
+
+      if (response && response?.is_eligible) {
+        if (data?.danji_id) {
+          router.push(
+            `/${Routes.EntryMobile}/${Routes.SuggestListingForm}?danjiID=${data.danji_id}&suggestID=${suggestID}`,
+          );
+        } else {
+          router.push(`/${Routes.EntryMobile}/${Routes.SuggestListingForm}?suggestID=${suggestID}`);
+        }
+      }
+    }
+  }, [data?.danji_id, router, suggestID, userData]);
 
   const handleAddressApplyPopupCTA = useCallback(() => {
-    router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-      query: {
-        redirect: router.asPath,
-      },
-    });
+    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
   }, [router]);
 
-  const handleMutate = () => {
+  const handleMutate = useCallback(() => {
     mutate();
-  };
+  }, [mutate]);
+
+  const closePopup = useCallback(() => {
+    setAddressApplyPopup(false);
+  }, []);
 
   return (
-    <MobAuthRequired>
+    <>
       <MobileContainer>
         {isLoading ? (
           <div tw="py-20">
@@ -102,23 +141,25 @@ export default memo(() => {
         </OverlayPresenter>
       )}
 
-      {confirmPopup && (
+      {addressApplyPopup && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.Title>
-                매물 추천
+              <Popup.SmallTitle>
+                매물을 추천하시려면
+                <br />
+                해당 단지에 소유자 인증이 필요합니다.
                 <br />
                 우리집 등록으로 이동하시겠습니까?
-              </Popup.Title>
+              </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              {/* <Popup.CancelButton onClick={() => handleConfirmPopupCTA()}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleConfirmPopupCTA()}>우리집 등록하기</Popup.ActionButton> */}
+              <Popup.CancelButton onClick={closePopup}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>우리집 등록하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
       )}
-    </MobAuthRequired>
+    </>
   );
 });

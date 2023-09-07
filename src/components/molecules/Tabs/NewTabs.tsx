@@ -93,12 +93,8 @@ function NewTabs({ variant = 'contained', value: valueProp, children, onChange }
           isValidElement(child) ? (
             <div tw="relative flex-1" key={child.key ?? child.props.value}>
               {child}
-
               {value === child.props.value && (
-                <motion.div
-                  layoutId={`newTab-${variant}-indicator`}
-                  tw="absolute left-0 top-0 z-0 w-full h-full pointer-events-none"
-                >
+                <motion.div tw="absolute left-0 top-0 z-0 w-full h-full pointer-events-none">
                   {indicatorChild}
                 </motion.div>
               )}

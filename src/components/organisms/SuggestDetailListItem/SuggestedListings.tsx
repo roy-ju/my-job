@@ -95,14 +95,14 @@ function SuggestedListingItem({ item, onMutate }: Item) {
 
           {item.floor && (
             <>
-              <div tw="[height: 8px] [width: 1px] bg-gray-300" />
+              {item.jeonyong_areas && <div tw="[height: 8px] [width: 1px] bg-gray-300" />}
               <span tw="text-info text-gray-700">{isNumber(Number(item.floor)) ? `${item.floor}층` : item.floor}</span>
             </>
           )}
 
           {item.direction && (
             <>
-              <div tw="[height: 8px] [width: 1px] bg-gray-300" />
+              {(item.floor || item.jeonyong_areas) && <div tw="[height: 8px] [width: 1px] bg-gray-300" />}
               <span tw="text-info text-gray-700">{item.direction}</span>
             </>
           )}

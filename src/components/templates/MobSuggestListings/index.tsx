@@ -3,9 +3,8 @@ import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { GetDanjiSuggestListResponse } from '@/apis/danji/danjiSuggestList';
 import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
-import { DanjiDetailSection, ListingItem } from '@/components/organisms';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
+import { ListingItem, MobDanjiDetailSection } from '@/components/organisms';
+import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -13,7 +12,6 @@ import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import Image from 'next/image';
 
 type Props = {
-  depth: number;
   danji?: GetDanjiDetailResponse;
 
   data?: GetDanjiSuggestListResponse['list'];
@@ -24,34 +22,37 @@ type Props = {
   onClickBack?: () => void;
 };
 
-export default function SuggestListings({ depth, danji, data, totalCount, onNext, onClickBack }: Props) {
-  const router = useRouter(depth);
-  const nextRouter = useNextRouter();
+export default function MobSuggestListings({ danji, data, totalCount, onNext, onClickBack }: Props) {
+  const router = useRouter();
 
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
 
   const handleSuggestDetail = useCallback(
     (id: number) => {
-      router.push(Routes.SuggestDetail, {
-        searchParams: { danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '', suggestID: `${id}` },
-      });
+      router.push(
+        `/${Routes.EntryMobile}/${Routes.SuggestDetail}?danjiID=${
+          danji?.danji_id || router?.query?.danjiID
+        }&suggestID=${id}`,
+      );
     },
     [danji?.danji_id, router],
   );
 
   const handleCreateSuggest = useCallback(() => {
-    nextRouter.replace(
+    router.replace(
       {
-        pathname: `/${Routes.DanjiRecommendation}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
         query: {
-          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
-          redirect: `/${Routes.SuggestListings}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+          redirect: `/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${
+            danji?.danji_id || router?.query?.danjiID || ''
+          }`,
         },
       },
-      `/${Routes.DanjiRecommendation}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
     );
-  }, [nextRouter, danji?.danji_id]);
+  }, [router, danji?.danji_id]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
     if (type === 'impossibleRecommendataion') {
@@ -99,9 +100,9 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
 
         <div tw="[min-height: 24px]" />
 
-        <DanjiDetailSection>
-          <DanjiDetailSection.Info danji={danji} depth={depth} isShowDanjiListings />
-        </DanjiDetailSection>
+        <MobDanjiDetailSection>
+          <MobDanjiDetailSection.Info danji={danji} isShowDanjiListings />
+        </MobDanjiDetailSection>
 
         {data && data.length > 0 && (
           <div tw="px-5 mb-4">
@@ -120,7 +121,6 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
                   key={item.suggest_id}
                   item={item}
                   onClick={() => handleSuggestDetail(item.suggest_id)}
-                  anchorURL={`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
                 />
               ))}
             </InfiniteScroll>

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
@@ -14,7 +16,20 @@ export default memo(() => {
 
   const { data } = useAPI_GetUserAddress();
 
-  const suggestID = router?.query?.suggestID ? Number(router.query.suggestID) : undefined;
+  const suggestID = useMemo(
+    () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
+    [router?.query?.suggestID],
+  );
+
+  const danjiID = useMemo(
+    () => (router?.query?.danjiID ? Number(router.query.danjiID) : undefined),
+    [router?.query?.danjiID],
+  );
+
+  const { mutate } = useAPI_GetDanjiSuggestList({
+    danjiId: danjiID,
+    pageSize: 10,
+  });
 
   const { data: suggestData, isLoading } = useAPI_GetSuggestDetail(suggestID);
 
@@ -124,7 +139,7 @@ export default memo(() => {
       monthly_rent_fee:
         buyOrRent === BuyOrRent.Wolsae ? (monthlyRentFee ? Number(monthlyRentFee) * 10000 : 0) : undefined,
 
-      floor: floor || undefined,
+      floor: floor ? `${floor}층` : undefined,
 
       jeonyong_areas: pyoungArea || undefined,
 
