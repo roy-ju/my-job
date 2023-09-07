@@ -6,14 +6,14 @@ import tw from 'twin.macro';
 import { AnimatePresence, motion } from 'framer-motion';
 import AccordionContext from './AccordionContext';
 
-interface AccordionProps {
+interface AccordionProps extends Omit<HTMLProps<HTMLDivElement>, 'onChange'> {
   expanded?: boolean;
   onChange?: (expanded: boolean) => void;
   children?: ReactNode;
   defaultExpanded?: boolean;
 }
 
-function Accordion({ expanded: expandedProp, onChange, children, defaultExpanded = false }: AccordionProps) {
+function Accordion({ expanded: expandedProp, onChange, children, defaultExpanded = false, ...others }: AccordionProps) {
   const [expanded, setExpanded] = useControlled({ controlled: expandedProp, default: defaultExpanded });
 
   const handleChange = useCallback(
@@ -28,7 +28,9 @@ function Accordion({ expanded: expandedProp, onChange, children, defaultExpanded
 
   return (
     <AccordionContext.Provider value={context}>
-      <div tw="bg-white">{children}</div>
+      <div tw="bg-white" {...others}>
+        {children}
+      </div>
     </AccordionContext.Provider>
   );
 }

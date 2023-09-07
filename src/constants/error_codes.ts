@@ -57,6 +57,7 @@ const ErrorCodes = {
   SMS_COUNT_REACHED_LIMIT: 2015, // 하루 최대 발송가능횟수 초과
   ALREADY_VERIFIED_BY_THE_OTHER_OWNER: 2020, // 다른 소유자가 매물등록을 동의했음
   CANNOT_DELETE_MY_LISTING: 2021, // 매물등록신청 삭제 불가
+  CHATROOM_CLOSE_FAILED: 2027, // 채팅방 나가기 실패
 
   // 2200~
   INVALID_BIDDING_PRICE: 2203, // 변경가능한 제안가격이 아님
@@ -76,7 +77,7 @@ const ErrorCodes = {
   DANJI_NOT_FOUND: 3000, // 단지정보를 가지고올수없음
 
   // 4000~
-  NOTEXIST_LAWQNA: 4004, // 게시물이 없을때 
+  NOTEXIST_LAWQNA: 4004, // 게시물이 없을때
 
   // 5000~
   NEGOPOINT_UNABLE_TO_CONVERT: 5000, // 네고포인트를 네고머니로 전환할 수 없음

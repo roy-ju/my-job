@@ -17,6 +17,7 @@ import formatPhoneNumber from '@/utils/formatPhoneNumber';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { mutate } from 'swr';
+import { useRouter as useNextRouter } from 'next/router';
 
 interface Props {
   depth: number;
@@ -25,6 +26,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { data, mutate: mutateMyListingDetail, isLoading } = useAPI_MyListingDetail(listingID);
@@ -171,6 +173,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   }, [router, listingID]);
 
+  const handleNavigateToBack = useCallback(() => {
+    if (router.query.back) {
+      nextRouter.replace(router.query.back as string);
+    }
+  }, [router, nextRouter]);
+
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     router.pop();
     return null;
@@ -195,6 +203,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     <Panel width={panelWidth}>
       <ListingCreateResult
         isLoading={isLoading}
+        onClickBack={router.query.back ? handleNavigateToBack : undefined}
         data={data}
         addressList={addressList}
         agents={agentList}

@@ -21,19 +21,35 @@ export interface IChatMessage {
   photoLoading?: boolean;
 }
 
+/*
 const variantByType: Record<ChatUserType, 'gray' | 'nego' | 'system'> = {
   [ChatUserType.Agent]: 'gray',
   [ChatUserType.Buyer]: 'nego',
   [ChatUserType.Seller]: 'nego',
   [ChatUserType.System]: 'system',
 };
+*/
 
 export default memo(
-  ({ chat, prevChat, nextChat }: { chat: IChatMessage; prevChat?: IChatMessage; nextChat?: IChatMessage }) => {
+  ({
+    chat,
+    prevChat,
+    nextChat,
+    chatRoomUserType,
+  }: {
+    chat: IChatMessage;
+    prevChat?: IChatMessage;
+    nextChat?: IChatMessage;
+    chatRoomUserType: ChatUserType;
+  }) => {
     const photoWrraperRef = useRef<HTMLDivElement | null>(null);
     const outsideRef = useRef<HTMLDivElement | null>(null);
 
-    const variant = useMemo(() => variantByType[chat.chatUserType] ?? 'system', [chat.chatUserType]);
+    const variant = useMemo(() => {
+      if (chat.chatUserType === chatRoomUserType) return 'nego';
+      if (chat.chatUserType !== ChatUserType.System) return 'gray';
+      return 'system';
+    }, [chat.chatUserType, chatRoomUserType]);
 
     const [imgUrl, setImgUrl] = useState('');
 
@@ -44,12 +60,12 @@ export default memo(
     const [platform, setCheckPlatform] = useState('');
 
     const shouldRenderAvatar = useMemo(() => {
-      if (chat.chatUserType === ChatUserType.Agent) {
+      if (chat.chatUserType !== chatRoomUserType && chat.chatUserType !== ChatUserType.System) {
         if (!prevChat) return true;
         if (prevChat.chatUserType !== chat.chatUserType) return true;
       }
       return false;
-    }, [chat, prevChat]);
+    }, [chat, prevChat, chatRoomUserType]);
 
     const shouldRenderSentTime = useMemo(() => {
       if (!nextChat) return true;
