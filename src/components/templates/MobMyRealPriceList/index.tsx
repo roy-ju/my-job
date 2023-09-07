@@ -69,8 +69,12 @@ export default function MobMyRealPriceList({
         <div tw="py-4 flex justify-end">
           <div tw="w-[110px]">
             <Dropdown size="small" value={sortBy} onChange={onChagneSortBy}>
-              <Dropdown.Option value="업데이트 순">업데이트 순</Dropdown.Option>
-              <Dropdown.Option value="거래일 순">거래일 순</Dropdown.Option>
+              <Dropdown.Option tw="py-0.5 whitespace-pre text-info" value="업데이트 순">
+                업데이트 순
+              </Dropdown.Option>
+              <Dropdown.Option tw="py-0.5 whitespace-pre text-info" value="거래일 순">
+                거래일 순
+              </Dropdown.Option>
             </Dropdown>
           </div>
         </div>
