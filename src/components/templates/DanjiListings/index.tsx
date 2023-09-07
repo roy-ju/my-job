@@ -47,14 +47,17 @@ export default function DanjiListings({
   const handleCreateListing = useCallback(() => {
     nextRouter.replace(
       {
-        pathname: `/${Routes.ListingCreateAddress}`,
+        pathname: `/${Routes.DanjiListings}/${Routes.ListingCreateAddress}`,
         query: {
-          redirect: `/${Routes.DanjiListings}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
+          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+          redirect: `/${Routes.DanjiListings}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
-      `/${Routes.ListingCreateAddress}`,
+      `/${Routes.DanjiListings}/${Routes.ListingCreateAddress}?danjiID=${
+        danji?.danji_id || router?.query?.danjiID || ''
+      }`,
     );
-  }, [danji?.danji_id, nextRouter]);
+  }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
 
   if (!danji) return null;
 
