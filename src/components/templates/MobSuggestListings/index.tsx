@@ -6,7 +6,7 @@ import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecule
 import { ListingItem, MobDanjiDetailSection } from '@/components/organisms';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import Image from 'next/image';
@@ -28,31 +28,22 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
 
+  const danjiID = useMemo(() => danji?.danji_id || '', [danji?.danji_id]);
+
   const handleSuggestDetail = useCallback(
     (id: number) => {
-      router.push(
-        `/${Routes.EntryMobile}/${Routes.SuggestDetail}?danjiID=${
-          danji?.danji_id || router?.query?.danjiID
-        }&suggestID=${id}`,
-      );
+      router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
     },
-    [danji?.danji_id, router],
+    [danjiID, router],
   );
 
   const handleCreateSuggest = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
-        query: {
-          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          redirect: `/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${
-            danji?.danji_id || router?.query?.danjiID || ''
-          }`,
-        },
-      },
-      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+    const redirectURL = `/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${danjiID}`;
+
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danjiID}&redirect=${redirectURL}&entry=danji`,
     );
-  }, [router, danji?.danji_id]);
+  }, [danjiID, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
     if (type === 'impossibleRecommendataion') {
