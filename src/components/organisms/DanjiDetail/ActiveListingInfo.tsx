@@ -41,7 +41,7 @@ export default function ActiveListingInfo({
 
   const { data: suggestListings, totalCount: suggestTotalCount } = useAPI_GetDanjiSuggestList({
     danjiId: danji?.danji_id,
-    pageSize: 10,
+    pageSize: 4,
   });
 
   const handleSuggestListAll = useCallback(() => {
@@ -54,7 +54,7 @@ export default function ActiveListingInfo({
       });
     } else {
       router.replace(Routes.SuggestListings, {
-        searchParams: { danjiID: `${router?.query?.danjiID}` },
+        searchParams: { danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` },
       });
     }
   }, [router, danji]);
@@ -123,27 +123,33 @@ export default function ActiveListingInfo({
   const handleCreateListing = useCallback(() => {
     nextRouter.replace(
       {
-        pathname: `/${Routes.ListingCreateAddress}`,
+        pathname: `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}`,
         query: {
+          danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
           redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
         },
       },
-      `/${Routes.ListingCreateAddress}`,
+      `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}?danjiID=${
+        danji?.danji_id || nextRouter?.query?.danjiID || ''
+      }`,
     );
   }, [danji?.danji_id, nextRouter]);
 
   const handleCreateSuggest = useCallback(() => {
     nextRouter.replace(
       {
-        pathname: `/${Routes.DanjiRecommendation}`,
+        pathname: `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}`,
         query: {
+          entry: 'danji',
           danjiID: `${danji?.danji_id}` || `${nextRouter?.query?.danjiID}` || '',
           redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
         },
       },
-      `/${Routes.DanjiRecommendation}?danjiID=${danji?.danji_id || nextRouter?.query?.danjiID || ''}`,
+      `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${
+        danji?.danji_id || nextRouter?.query?.danjiID || ''
+      }`,
     );
-  }, [nextRouter, danji?.danji_id]);
+  }, [danji?.danji_id, nextRouter]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
     if (type === 'impossibleRecommendataion') {
@@ -257,8 +263,8 @@ export default function ActiveListingInfo({
                 </div>
               ) : (
                 <>
-                  <div tw="flex flex-col px-5">
-                    <Image src={SuggestNodata.src} width={380} height={308} alt="" />
+                  <div tw="flex flex-col px-5 items-center">
+                    <Image src={SuggestNodata.src} width={200} height={128} alt="" />
                     <p tw="mt-4 mb-2 text-center text-h2 font-bold">원하는 조건의 매물을 구해보세요.</p>
                     <p tw="text-center text-info text-gray-700">
                       단지 주변 중개사에게 매물을 추천받고
@@ -285,8 +291,8 @@ export default function ActiveListingInfo({
                     />
                   ))
               ) : (
-                <div tw="px-5 flex-1 min-h-0 overflow-auto">
-                  <Image src={ListingNodata.src} width={380} height={308} alt="" />
+                <div tw="px-5 flex-1 min-h-0 flex flex-col items-center overflow-auto">
+                  <Image src={ListingNodata.src} width={200} height={128} alt="" />
                   <p tw="mt-4 mb-2 text-center text-h2 font-bold">거래를 희망하는 매물을 등록해 보세요.</p>
                   <p tw="text-center text-info text-gray-700">
                     매물등록만으로 중개사를 배정받고

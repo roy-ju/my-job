@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { MouseEventHandler, ReactNode } from 'react';
 import { Numeral } from '@/components/atoms';
 import tw from 'twin.macro';
@@ -97,11 +99,18 @@ interface PopperProps {
   buyListingCount: number;
   /** 전월세 매물수 */
   rentListingCount: number;
+
+  /** 마커 클릭 이벤트 핸들러 */
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-function Popper({ name, householdCount, buyListingCount, rentListingCount }: PopperProps) {
+function Popper({ name, householdCount, buyListingCount, rentListingCount, onClick }: PopperProps) {
   return (
-    <div tw="p-3 whitespace-nowrap bg-white flex flex-col rounded-lg border border-gray-1000 z-[100]">
+    <button
+      type="button"
+      tw="p-3 whitespace-nowrap bg-white flex flex-col rounded-lg border border-gray-1000 z-[100] cursor-default"
+      onClick={onClick}
+    >
       <span tw="text-b2 font-bold leading-4 mb-1">{name}</span>
       <div tw="flex gap-2 items-center">
         <span tw="text-gray-700 text-info leading-none">{householdCount}세대</span>
@@ -116,7 +125,7 @@ function Popper({ name, householdCount, buyListingCount, rentListingCount }: Pop
           </span>
         )}
       </div>
-    </div>
+    </button>
   );
 }
 

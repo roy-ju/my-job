@@ -129,3 +129,5 @@ export { default as RecommendationForm } from './RecommendationForm';
 
 /** 매물추천하기  */
 export { default as SuggestListingForm } from './SuggestListingForm';
+
+export { default as SuggestListings } from './SuggestListings';
