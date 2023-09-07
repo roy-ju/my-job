@@ -4,14 +4,11 @@ import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { SuggestRegionalSummary } from '@/components/templates';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import Routes from '@/router/routes';
-// import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { RealestateType, BuyOrRent } from '@/constants/enums';
 import { toast } from 'react-toastify';
-
-// const SuggestRegionalSummary = dynamic(() => import('@/components/templates/SuggestRegionalSummary'));
 
 export default memo(() => {
   const router = useRouter();
@@ -41,7 +38,7 @@ export default memo(() => {
 
     setIsCreating(false);
 
-    router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
+    router.replace(`/${Routes.EntryMobile}`);
   }, [router, params, mutate]);
 
   const handleAccessDenied = useCallback(() => {}, []);
