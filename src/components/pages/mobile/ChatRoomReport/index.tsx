@@ -4,11 +4,12 @@ import { useCallback, useState } from 'react';
 import createReportChatRoom from '@/apis/chat/createReportChatRoom';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import { ChatRoomType } from '@/constants/enums';
 import useChatRoom from '../ChatRoom/useChatRoom';
 
 export default function ChatRoomReport() {
   const router = useRouter();
-  const { listingTitle } = useChatRoom(Number(router.query.chatRoomID));
+  const { title, otherName, chatRoomType } = useChatRoom(Number(router.query.chatRoomID));
   const [reportContent, setReportContent] = useState('');
 
   const handleChangeReportContent = useCallback((value: string) => {
@@ -36,9 +37,10 @@ export default function ChatRoomReport() {
   return (
     <MobileContainer>
       <ChatRoomReportTemplate
-        listingTitle={listingTitle ?? ''}
-        officeName=""
-        additionalListingCount={0}
+        listingTitle={title ?? ''}
+        targetName={
+          chatRoomType === ChatRoomType.BuyerSellerSuggestRecommendation ? `${otherName}` : `${otherName} 공인중개사`
+        }
         reportContent={reportContent}
         onChangeReportContent={handleChangeReportContent}
         onClickReportButton={handleClickReportButton}

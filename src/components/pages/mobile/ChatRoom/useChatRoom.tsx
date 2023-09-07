@@ -10,7 +10,6 @@ import usePageVisibility from '@/hooks/utils/usePageVisibility';
 import useWebSocket, { WebSocketReadyState } from '@/hooks/utils/useWebSocket';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { mutate } from 'swr';
 
 interface WebSocketMessage {
   message: string;
@@ -23,7 +22,7 @@ export default function useChatRoom(chatRoomID: number) {
   const pageVisible = usePageVisibility();
 
   const [isLoading, setIsLoading] = useState(true);
-  const { data } = useAPI_ChatRoomDetail(chatRoomID);
+  const { data, mutate } = useAPI_ChatRoomDetail(chatRoomID);
   const [accessToken] = useLocalStorage(Keys.ACCESS_TOKEN, '');
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
   const [photosUrls, setPhotosUrls] = useState<string[]>([]);
@@ -64,7 +63,7 @@ export default function useChatRoom(chatRoomID: number) {
           ...prev,
           {
             id: chat.chat_id,
-            name: `공인중개사 ${data?.other_name}`,
+            name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
             profileImagePath: data?.other_profile_image_full_path,
             message: chat.message,
             chatUserType: chat.chat_user_type,
@@ -93,7 +92,7 @@ export default function useChatRoom(chatRoomID: number) {
       setChatMessages(
         data?.list?.map((chat) => ({
           id: chat.id,
-          name: `공인중개사 ${data?.other_name}`,
+          name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
           profileImagePath: data?.other_profile_image_full_path,
           message: chat.message,
           chatUserType: chat.chat_user_type,
@@ -128,7 +127,7 @@ export default function useChatRoom(chatRoomID: number) {
     const lastChat = chatMessages[chatMessages.length - 1];
 
     if (lastChat && data?.chat_user_type && readyState === WebSocketReadyState.Open) {
-      updateChatMessagesRead(chatRoomID).then(() => mutate('/chat/room/list'));
+      updateChatMessagesRead(chatRoomID).then(() => mutateChatRoomList());
       sendMessage(
         JSON.stringify({
           chat_user_type: data?.chat_user_type,
@@ -142,9 +141,9 @@ export default function useChatRoom(chatRoomID: number) {
 
   return {
     isTextFieldDisabled: textFieldDisabled,
-    agentProfileImagePath: data?.other_profile_image_full_path,
-    listingTitle: data?.title,
-    agentName: data?.other_name,
+    otherProfileImagePath: data?.other_profile_image_full_path,
+    title: data?.title,
+    otherName: data?.other_name,
 
     chatMessages,
     photosUrls,
@@ -154,5 +153,13 @@ export default function useChatRoom(chatRoomID: number) {
     handleChangePhotoUrls,
 
     chatUserType: data?.chat_user_type,
+    chatRoomType: data?.chat_room_type,
+
+    listingItem: data?.listing_item,
+    biddingItem: data?.bidding_item,
+    suggestItem: data?.suggest_item,
+    suggestRecommendItem: data?.suggest_recommend_item,
+
+    mutate,
   };
 }
