@@ -189,6 +189,33 @@ export default memo(() => {
   }, [router]);
 
   useEffect(() => {
+    if (data?.building_name && !data?.dong) {
+      setAddress(data.building_name);
+      return;
+    }
+
+    if (!data?.building_name && data?.dong) {
+      setAddress(data.dong);
+      return;
+    }
+
+    if (data?.building_name && data?.dong) {
+      setAddress(`${data.building_name} ${data.dong}`);
+      return;
+    }
+
+    if (!data?.building_name && !data?.dong && data?.road_name_address) {
+      setAddress(data.road_name_address);
+    }
+  }, [data?.building_name, data?.dong, data?.road_name_address]);
+
+  useEffect(() => {
+    if (data?.floor) {
+      setAddress(data.floor);
+    }
+  }, [data?.floor]);
+
+  useEffect(() => {
     if (data?.road_name_address) {
       setAddress(data.road_name_address);
     }
