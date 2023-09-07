@@ -105,8 +105,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [params, listingID, agentID, router]);
 
-  console.log(router);
-
   return (
     <Panel width={panelWidth}>
       {isLoading || !agent ? (

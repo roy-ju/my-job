@@ -60,8 +60,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     [router, mutateUser],
   );
 
-  console.log(router);
-
   const handleVerifyPhone = useCallback(() => {
     request('phone', handleNiceResponse);
   }, [handleNiceResponse, request]);
