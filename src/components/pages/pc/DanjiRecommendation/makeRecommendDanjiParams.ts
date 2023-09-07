@@ -33,7 +33,7 @@ export default function makeRecommendDanjiParams(args: Args) {
     deposit: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.price) : 0,
     monthly_rent_fee: args.buyOrRent !== BuyOrRent.Buy ? convertPriceInputToNumber(args.monthlyRentFee) : 0,
     pyoungs: args.pyoungList.sort((a, b) => a - b),
-    negotiable: args.negotiable,
+    negotiable: args.buyOrRent === BuyOrRent.Buy && Boolean(+args.quickSale) === true ? false : args.negotiable,
     purpose: args.purpose,
     move_in_date: args.purpose === '투자' ? null : args.moveInDate?.toISOString(),
     move_in_date_type: args.purpose === '투자' ? null : getDateType(args.moveInDateType),
