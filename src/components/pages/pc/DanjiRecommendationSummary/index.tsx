@@ -61,7 +61,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
       return;
     }
 
-    nextRouter.replace(`/${Routes.My}/${Routes.SuggestRequestedList}`);
+    nextRouter.replace(`/${Routes.DanjiDetail}?danjiID=${params.danji_id}`);
   }, [params, mutate, nextRouter]);
 
   const handleAccessDenied = useCallback(() => {}, []);

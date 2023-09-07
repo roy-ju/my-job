@@ -50,7 +50,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     await mutate();
     toast.success('구해요 글이 등록되었습니다.');
 
-    nextRouter.replace(`/${Routes.My}/${Routes.SuggestRequestedList}`);
+    nextRouter.replace(`/`);
   }, [nextRouter, params, mutate]);
 
   const handleAccessDenied = useCallback(() => {}, []);
