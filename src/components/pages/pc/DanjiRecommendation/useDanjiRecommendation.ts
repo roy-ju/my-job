@@ -11,7 +11,7 @@ import makeRecommendDanjiParams from './makeRecommendDanjiParams';
 export default function useDanjiRecommendationForm(depth: number) {
   const router = useRouter(depth);
 
-  const [forms, setForms] = useState<string[]>([Forms.Danji]);
+  const [forms, setForms] = useState<string[]>(router?.query?.entry === 'danji' ? [Forms.BuyOrRent] : [Forms.Danji]);
   const [isDanjiListOpen, setIsDanjiListOpen] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [danjiID, setDanjiID] = useState<string | null>(router?.query?.danjiID as string);
@@ -180,7 +180,11 @@ export default function useDanjiRecommendationForm(depth: number) {
   }, []);
 
   const onConfirmPopup = useCallback(() => {
-    setForms([Forms.Danji, Forms.BuyOrRent]);
+    if (router?.query?.entry === 'danji') {
+      setForms([Forms.BuyOrRent]);
+    } else {
+      setForms([Forms.Danji, Forms.BuyOrRent]);
+    }
     setBuyOrRent(0);
     setPrice('');
     setMonthlyRentFee('');
@@ -197,7 +201,7 @@ export default function useDanjiRecommendationForm(depth: number) {
       price: false,
       investAmount: false,
     });
-  }, []);
+  }, [router?.query?.entry]);
 
   const handleSubmitFinal = useCallback(async () => {
     // danji
@@ -273,6 +277,7 @@ export default function useDanjiRecommendationForm(depth: number) {
 
     router.replace(Routes.DanjiRecommendationSummary, {
       searchParams: {
+        entry: router?.query?.entry ? (router?.query?.entry as string) : '',
         redirect: router?.query?.redirect ? (router?.query?.redirect as string) : '',
         danjiID,
         params: JSON.stringify(params),

@@ -8,17 +8,9 @@ import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 export default function DanjiListings() {
   const router = useRouter();
 
-  const handleBackButton = () => {
-    router.back();
-  };
+  const { danji } = useDanjiDetail();
 
   const [dropDownValue, setDropDownValue] = useState('최신순');
-
-  const handleChangeDropDown = (value: string) => {
-    setDropDownValue(value);
-  };
-
-  const { danji } = useDanjiDetail();
 
   const { totalCount, data, increamentPageNumber } = useAPI_GetDanjiListingsList({
     danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
@@ -26,6 +18,22 @@ export default function DanjiListings() {
     orderBy: dropDownValue === '최신순' ? 1 : 2,
     pageSize: 10,
   });
+
+  const handleBackButton = () => {
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
+    }
+  };
+
+  const handleChangeDropDown = (value: string) => {
+    setDropDownValue(value);
+  };
 
   return (
     <MobileContainer>

@@ -40,6 +40,7 @@ export default memo(() => {
     setIsCreating(true);
 
     delete params?.address;
+
     await danjiRecommendationFinal({
       ...params,
       danji_id: Number(params.danji_id),
@@ -47,6 +48,11 @@ export default memo(() => {
     });
     await mutate();
     toast.success('구해요 글이 등록되었습니다.');
+
+    if (router?.query?.redirect) {
+      router.replace(router.query.redirect as string);
+      return;
+    }
 
     router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
   }, [router, params, mutate]);
