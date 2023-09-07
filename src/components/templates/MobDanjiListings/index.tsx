@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
 import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
@@ -6,7 +5,7 @@ import { Dropdown, NavigationHeader } from '@/components/molecules';
 import { ListingItem, MobDanjiDetailSection } from '@/components/organisms';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
@@ -30,6 +29,8 @@ export default function MobDanjiListings({
 }) {
   const router = useRouter();
 
+  const danjiID = useMemo(() => danji?.danji_id || '', [danji?.danji_id]);
+
   const handleClickListingDetail = (id: number, buyOrRent: number) => {
     router.push(
       {
@@ -41,16 +42,10 @@ export default function MobDanjiListings({
   };
 
   const handleCreateListing = useCallback(() => {
-    router.push(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`,
-        query: {
-          redirect: `/${Routes.DanjiListings}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
-        },
-      },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`,
-    );
-  }, [danji?.danji_id, router]);
+    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiListings}?danjiID=${danjiID}`;
+
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}?redirect=${redirectURL}`);
+  }, [danjiID, router]);
 
   if (!danji) return null;
 

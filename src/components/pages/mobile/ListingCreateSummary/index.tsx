@@ -132,6 +132,17 @@ const ListingCreateSummary = () => {
               <Popup.ActionButton
                 onClick={() => {
                   setPopup(false);
+
+                  if (router?.query?.redirect) {
+                    router.replace(router.query.redirect as string);
+                    return;
+                  }
+
+                  if (router?.query?.danjiID) {
+                    router.replace(`/${router?.query?.danjiID}?danjiID=${router.query.danjiID}`);
+                    return;
+                  }
+
                   router.replace(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
                 }}
               >

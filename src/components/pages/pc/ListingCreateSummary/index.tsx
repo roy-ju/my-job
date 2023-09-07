@@ -142,6 +142,11 @@ export default memo(({ depth, panelWidth }: Props) => {
                     return;
                   }
 
+                  if (router?.query?.danjiID && router?.query?.depth1) {
+                    nextRouter.replace(`/${router.query.depth1}?danjiID=${router.query.danjiID}`);
+                    return;
+                  }
+
                   router.replace(Routes.ListingDetail, {
                     searchParams: { listingID: `${listingID}` },
                     state: {

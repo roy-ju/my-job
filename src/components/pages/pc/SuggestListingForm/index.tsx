@@ -158,7 +158,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     if (!res) {
       toast.success('매물 추천이 완료되었습니다.', { toastId: 'suggestRecommendSuccess' });
+
       mutate();
+
       router.replace(Routes.SuggestDetail, {
         searchParams: danjiID
           ? { suggestID: suggestID.toString(), danjiID: danjiID.toString() }
@@ -179,6 +181,33 @@ export default memo(({ depth, panelWidth }: Props) => {
     suggestID,
     tradePrice,
   ]);
+
+  useEffect(() => {
+    if (data?.building_name && !data?.dong) {
+      setAddress(data.building_name);
+      return;
+    }
+
+    if (!data?.building_name && data?.dong) {
+      setAddress(data.dong);
+      return;
+    }
+
+    if (data?.building_name && data?.dong) {
+      setAddress(`${data.building_name} ${data.dong}`);
+      return;
+    }
+
+    if (!data?.building_name && !data?.dong && data?.road_name_address) {
+      setAddress(data.road_name_address);
+    }
+  }, [data?.building_name, data?.dong, data?.road_name_address]);
+
+  useEffect(() => {
+    if (data?.floor) {
+      setAddress(data.floor);
+    }
+  }, [data?.floor]);
 
   useEffect(() => {
     if (data?.road_name_address) {

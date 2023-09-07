@@ -73,33 +73,32 @@ export default function ActiveListingInfo({
             bor: `${buyOrRent}`,
           },
         },
-        `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
+        `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}&danjiID=${
+          danji?.danji_id || `${router?.query?.danjiID}` || ''
+        }`,
       );
     },
     [router, danji],
   );
 
   const handleCreateListing = useCallback(() => {
-    router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`,
-      query: {
-        redirect: `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
-          danji?.danji_id || router?.query?.danjiID || ''
-        }`,
-      },
-    });
+    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
+      danji?.danji_id || router?.query?.danjiID || ''
+    }`;
+
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}?redirect=${redirectURL}`);
   }, [danji?.danji_id, router]);
 
   const handleCreateSuggest = useCallback(() => {
-    router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
-      query: {
-        danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-        redirect: `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
-          danji?.danji_id || router?.query?.danjiID || ''
-        }`,
-      },
-    });
+    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
+      danji?.danji_id || router?.query?.danjiID || ''
+    }`;
+
+    router.push(
+      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${
+        danji?.danji_id || router?.query?.danjiID || ''
+      }&redirect=${redirectURL}&entry=danji`,
+    );
   }, [danji?.danji_id, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {

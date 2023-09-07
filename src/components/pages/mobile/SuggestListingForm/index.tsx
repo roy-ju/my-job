@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
@@ -121,7 +120,7 @@ export default memo(() => {
     setLoading(true);
 
     const res = await createSuggestRecommend({
-      suggest_id: 44,
+      suggest_id: suggestID,
 
       address_free_text: address,
 
@@ -154,13 +153,67 @@ export default memo(() => {
 
     if (!res) {
       toast.success('매물 추천이 완료되었습니다.', { toastId: 'suggestRecommendSuccess' });
-      router.replace(`/${Routes.EntryMobile}`);
+
+      mutate();
+
+      router.replace({
+        pathname: `/${Routes.EntryMobile}/${Routes.SuggestDetail}`,
+        query: { suggestID: suggestData?.suggest_id },
+      });
     }
-  }, [address, buyOrRent, description, direction, floor, monthlyRentFee, pyoungArea, router, suggestID, tradePrice]);
+  }, [
+    address,
+    buyOrRent,
+    description,
+    direction,
+    floor,
+    monthlyRentFee,
+    mutate,
+    pyoungArea,
+    router,
+    suggestData?.suggest_id,
+    suggestID,
+    tradePrice,
+  ]);
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
+    }
   }, [router]);
+
+  useEffect(() => {
+    if (data?.building_name && !data?.dong) {
+      setAddress(data.building_name);
+      return;
+    }
+
+    if (!data?.building_name && data?.dong) {
+      setAddress(data.dong);
+      return;
+    }
+
+    if (data?.building_name && data?.dong) {
+      setAddress(`${data.building_name} ${data.dong}`);
+      return;
+    }
+
+    if (!data?.building_name && !data?.dong && data?.road_name_address) {
+      setAddress(data.road_name_address);
+    }
+  }, [data?.building_name, data?.dong, data?.road_name_address]);
+
+  useEffect(() => {
+    if (data?.floor) {
+      setAddress(data.floor);
+    }
+  }, [data?.floor]);
 
   useEffect(() => {
     if (data?.road_name_address) {
