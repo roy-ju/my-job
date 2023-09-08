@@ -18,111 +18,139 @@ export default function MyListingsSummary({
   onClickCreateListing,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
-  onClickRecommendationForm,
   onClickRequestedSuggests,
 }: MyListingsSummaryProps) {
   return (
     <div tw="bg-white px-5 pb-10 flex flex-col">
-      <div tw="text-b1 leading-none font-bold mt-5 mb-4">중개사 추천 매물 확인</div>
-      <div tw="flex gap-3 items-center rounded-lg py-2 mb-6 bg-gray-100">
-        <Button onClick={onClickRequestedSuggests} variant="ghost" tw="hover:bg-gray-200 block flex-1 ml-1">
-          <div tw="flex justify-between items-center">
-            <div tw="text-info text-gray-1000">단지/지역 수</div>
-            <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_sent_count ?? 0}</div>
-          </div>
-          <div tw="flex justify-between items-center">
-            <div tw="text-info text-gray-700">추천받은 매물 수</div>
-            <div tw="text-b1 font-bold leading-6">{dashboardInfo?.suggest_recommend_count ?? 0}</div>
-          </div>
-        </Button>
-
-        <Button onClick={onClickRecommendationForm} tw="w-[132px] h-11 mr-5" variant="secondary">
-          새 매물 추천받기
-        </Button>
+      <div tw="text-b1 leading-none font-bold mt-4 mb-2 pl-1">구하기</div>
+      <div tw="flex flex-col gap-2 mb-6">
+        <button
+          onClick={onClickRequestedSuggests}
+          tw="rounded-lg bg-nego-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          type="button"
+        >
+          <span tw="text-info">내가 등록한 구하기</span>
+          <span tw="text-b1 font-bold">{dashboardInfo?.suggest_sent_count}</span>
+        </button>
+        <button
+          onClick={() => {}}
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          type="button"
+        >
+          <span tw="text-info">타인 구하기에 대한 나의 추천</span>
+          <span tw="text-b1 font-bold">{dashboardInfo?.suggest_recommended_count}</span>
+        </button>
       </div>
-      <div tw="text-b1 leading-none font-bold mb-4">나의 제안 현황</div>
-      <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
-        <Button
-          onClick={() => onClickMyParticipatingListings?.(1)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
-        >
-          <div tw="text-info text-gray-700 leading-6">제안중</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_submitted_count ?? 0}</div>
-        </Button>
-        <div tw="w-px h-11 bg-gray-300" />
-        <Button
-          onClick={() => onClickMyParticipatingListings?.(2)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
-        >
-          <div tw="text-info text-gray-700 leading-6">협의중</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_accepted_count ?? 0}</div>
-        </Button>
 
-        <Button
-          onClick={() => onClickMyParticipatingListings?.(3)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+      <div tw="text-b1 leading-none font-bold mb-2 pl-1">매물</div>
+      <div tw="flex flex-col gap-2 mb-6">
+        <button
+          onClick={() => {
+            const items = [
+              {
+                status: 'registering',
+                count: dashboardInfo?.my_registering_listing_count,
+                priority: 1,
+                tab: 1,
+              },
+
+              {
+                status: 'active',
+                count: dashboardInfo?.my_active_listing_count,
+                priority: 2,
+                tab: 2,
+              },
+              {
+                status: 'contractComplete',
+                count: dashboardInfo?.my_contract_complete_listing_count,
+                priority: 3,
+                tab: 3,
+              },
+              {
+                status: 'cancelled',
+                count: dashboardInfo?.my_cancelled_listing_count,
+                priority: 4,
+                tab: 4,
+              },
+            ];
+            const filteredItems = items.filter((item) => item?.count && item.count > 0);
+
+            if (!filteredItems.length) {
+              const firstPriorityItem = [...items].sort((a, b) => a.priority - b.priority)[0];
+              onClickMyRegisteredListings?.(firstPriorityItem.tab);
+            } else if (filteredItems.length === 1) {
+              const onlyOneItem = filteredItems[0];
+              onClickMyRegisteredListings?.(onlyOneItem.tab);
+            } else {
+              const firstPriorityItem = [...filteredItems].sort((a, b) => a.priority - b.priority)[0];
+              onClickMyRegisteredListings?.(firstPriorityItem.tab);
+            }
+          }}
+          tw="rounded-lg bg-nego-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          type="button"
         >
-          <div tw="text-info text-gray-700 leading-6">거래성사</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_pre_contract_complete_count ?? 0}</div>
-        </Button>
-        <Button
-          onClick={() => onClickMyParticipatingListings?.(4)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
+          <span tw="text-info">내가 등록한 매물</span>
+          <span tw="text-b1 font-bold">
+            {(dashboardInfo?.my_registering_listing_count ?? 0) +
+              (dashboardInfo?.my_active_listing_count ?? 0) +
+              (dashboardInfo?.my_contract_complete_listing_count ?? 0)}
+          </span>
+        </button>
+        <button
+          onClick={() => {
+            const items = [
+              {
+                status: 'biddingSubmitted',
+                count: dashboardInfo?.bidding_submitted_count,
+                priority: 2,
+                tab: 1,
+              },
+              {
+                status: 'biddingAccepted',
+                count: dashboardInfo?.bidding_accepted_count,
+                priority: 1,
+                tab: 2,
+              },
+
+              {
+                status: 'biddingPreContractComplete',
+                count: dashboardInfo?.bidding_pre_contract_complete_count,
+                priority: 3,
+                tab: 3,
+              },
+              {
+                status: 'biddingPast',
+                count: dashboardInfo?.bidding_past_count,
+                priority: 4,
+                tab: 4,
+              },
+            ];
+            const filteredItems = items.filter((item) => item?.count && item.count > 0);
+
+            if (!filteredItems.length) {
+              const firstPriorityItem = [...items].sort((a, b) => a.priority - b.priority)[0];
+              onClickMyParticipatingListings?.(firstPriorityItem.tab);
+            } else if (filteredItems.length === 1) {
+              const onlyOneItem = filteredItems[0];
+              onClickMyParticipatingListings?.(onlyOneItem.tab);
+            } else {
+              const firstPriorityItem = [...filteredItems].sort((a, b) => a.priority - b.priority)[0];
+              onClickMyParticipatingListings?.(firstPriorityItem.tab);
+            }
+          }}
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          type="button"
         >
-          <div tw="text-info text-gray-700 leading-6">지난거래</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.bidding_past_count ?? 0}</div>
-        </Button>
+          <span tw="text-info">타인 매물에 대한 나의 가격제안</span>
+          <span tw="text-b1 font-bold">
+            {(dashboardInfo?.bidding_submitted_count ?? 0) +
+              (dashboardInfo?.bidding_accepted_count ?? 0) +
+              (dashboardInfo?.bidding_pre_contract_complete_count ?? 0) +
+              (dashboardInfo?.bidding_past_count ?? 0)}
+          </span>
+        </button>
       </div>
-      <div tw="text-b1 leading-none font-bold mb-4">등록한 매물</div>
-      <div tw="bg-gray-100 rounded-lg h-16 mb-6 flex items-center">
-        <Button
-          onClick={() => onClickMyRegisteredListings?.(1)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
-        >
-          <div tw="text-info text-gray-700 leading-6">등록신청</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_registering_listing_count ?? 0}</div>
-        </Button>
-        <div tw="w-px h-11 bg-gray-300" />
-        <Button
-          onClick={() => onClickMyRegisteredListings?.(2)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
-        >
-          <div tw="text-info text-gray-700 leading-6">거래중</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_active_listing_count ?? 0}</div>
-        </Button>
 
-        <Button
-          onClick={() => onClickMyRegisteredListings?.(3)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
-        >
-          <div tw="text-info text-gray-700 leading-6">거래성사</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_contract_complete_listing_count ?? 0}</div>
-        </Button>
-
-        <Button
-          onClick={() => onClickMyRegisteredListings?.(4)}
-          size="none"
-          variant="ghost"
-          tw="flex-1 flex flex-col h-full hover:bg-gray-200 transition-colors"
-        >
-          <div tw="text-info text-gray-700 leading-6">지난거래</div>
-          <div tw="text-b1 font-bold leading-6">{dashboardInfo?.my_cancelled_listing_count ?? 0}</div>
-        </Button>
-      </div>
       <Button
         variant="ghost"
         tw="w-full border border-nego-800 h-[60px] hover:bg-nego-100"
@@ -131,8 +159,8 @@ export default function MyListingsSummary({
         <div tw="text-start w-full h-full flex items-center">
           <HouseIcon tw="mr-3" />
           <div tw="flex-1 flex flex-col gap-0.5">
-            <div tw="text-b2 leading-4 font-bold">매물등록 신청</div>
-            <div tw="text-info leading-4.5 text-gray-700">간편하게 등록하고 매물 거래해 보세요</div>
+            <div tw="text-b2 leading-4 font-bold">주소 등록 ・ 집주인 인증</div>
+            <div tw="text-info leading-4.5 text-gray-700">간편하게 주소등록하고, 집주인 인증받으세요.</div>
           </div>
           <ChevronLeftIcon width={16} height={16} tw="text-gray-700" style={{ transform: 'rotate(180deg)' }} />
         </div>
