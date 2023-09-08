@@ -56,11 +56,6 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
 
     toast.success('구해요 글이 등록되었습니다.');
 
-    if (nextRouter?.query?.redirect) {
-      nextRouter.replace(nextRouter.query.redirect as string);
-      return;
-    }
-
     nextRouter.replace(`/${Routes.DanjiDetail}?danjiID=${params.danji_id}`);
   }, [params, mutate, nextRouter]);
 
