@@ -497,5 +497,7 @@ export default function useDanjiRecommendationForm(depth: number) {
     handleClickPyoungCloseButton,
 
     emptyTextFields,
+
+    isEntryDanji: router?.query?.entry === 'danji',
   };
 }

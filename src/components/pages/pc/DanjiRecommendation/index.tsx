@@ -74,6 +74,8 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
     handleClickPyoungCloseButton,
 
     emptyTextFields,
+
+    isEntryDanji,
   } = useDanjiRecommendationForm(depth);
 
   return (
@@ -116,6 +118,7 @@ export default function DanjiRecommendation({ depth, panelWidth }: Props) {
         onClickPyoungCloseButton={handleClickPyoungCloseButton}
         onClickOpenDanjiList={handleOpenDanjiList}
         emptyTextFields={emptyTextFields}
+        isEntryDanji={isEntryDanji}
       />
 
       {isDanjiListOpen && (

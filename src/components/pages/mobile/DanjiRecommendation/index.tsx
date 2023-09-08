@@ -68,6 +68,8 @@ export default memo(() => {
     handleClickPyoungCloseButton,
 
     emptyTextFields,
+
+    isEntryDanji,
   } = useDanjiRecommendationForm();
 
   const router = useRouter();
@@ -124,6 +126,7 @@ export default memo(() => {
         onClickPyoungCloseButton={handleClickPyoungCloseButton}
         onClickOpenDanjiList={handleOpenDanjiList}
         emptyTextFields={emptyTextFields}
+        isEntryDanji={isEntryDanji}
       />
       {isDanjiListOpen && (
         <OverlayPresenter>

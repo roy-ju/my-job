@@ -54,6 +54,7 @@ export default function FormRenderer({ form }: Props) {
     onClickPyoungButton,
     onClickPyoungCloseButton,
     emptyTextFields,
+    isEntryDanji,
   } = useContext(FormContext);
 
   switch (form) {
@@ -75,6 +76,16 @@ export default function FormRenderer({ form }: Props) {
     case Forms.BuyOrRent:
       return (
         <div id={Forms.BuyOrRent}>
+          {isEntryDanji && (
+            <>
+              <div tw="pt-7 pb-10 px-5 flex items-center font-bold [letter-spacing: -0.25px]">
+                최소 10명의 중개사님에게 추천 요청이 발송됩니다.
+                <br />
+                간편하게 매물 추천 받고, 합의 여부를 선택해 보세요.
+              </div>
+              <Separator />
+            </>
+          )}
           <div tw="py-10 px-5">
             <DanjiRecommendationForm.BuyOrRent
               value={buyOrRent}
