@@ -489,5 +489,7 @@ export default function useDanjiRecommendation() {
     handleClickPyoungCloseButton,
 
     emptyTextFields,
+
+    isEntryDanji: router?.query?.entry === 'danji',
   };
 }

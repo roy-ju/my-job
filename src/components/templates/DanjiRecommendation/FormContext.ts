@@ -55,6 +55,8 @@ export interface IFormContext {
   onClickPyoungCloseButton?: (value: number) => void;
 
   emptyTextFields?: Record<string, boolean>;
+
+  isEntryDanji?: boolean;
 }
 
 const FormContext = createContext<IFormContext>({});
