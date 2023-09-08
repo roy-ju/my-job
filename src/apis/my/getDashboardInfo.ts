@@ -4,7 +4,7 @@ import useSWR from 'swr';
 
 export interface GetDashboardInfoResponse {
   suggest_sent_count: number;
-  suggest_recommend_count: number;
+  suggest_recommended_count: number;
   bidding_submitted_count: number;
   bidding_accepted_count: number;
   bidding_pre_contract_complete_count: number;

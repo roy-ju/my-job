@@ -104,17 +104,16 @@ export default function My({
             <LoginRequired onClickLogin={onClickLogin} />
           </div>
         )}
-        <Separator />
-        <div tw="pt-5">
-          <MyPageNavigationList>
-            {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
-            <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
-            <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
-            {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
-            <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
-            {onClickDeveloper && <MyPageNavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
-          </MyPageNavigationList>
-        </div>
+        <Separator tw="bg-gray-300" />
+
+        <MyPageNavigationList>
+          {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
+          <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
+          <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
+          {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
+          <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
+          {onClickDeveloper && <MyPageNavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
+        </MyPageNavigationList>
       </div>
     </div>
   );

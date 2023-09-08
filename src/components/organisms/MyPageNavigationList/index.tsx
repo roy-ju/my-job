@@ -3,8 +3,8 @@ import ListItem from './ListItem';
 
 const List = styled.div`
   ${tw`bg-white`}
-  & > button:not(:first-of-type) > div {
-    ${tw`border-t border-t-gray-100`}
+  & > button:not(:first-of-type) {
+    ${tw`border-t border-t-gray-300`}
   }
 `;
 
