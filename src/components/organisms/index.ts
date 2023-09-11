@@ -52,8 +52,6 @@ export { default as ListingDetailSection } from './ListingDetailSection';
 export { default as MySuggestDetailListItem } from './MySuggestDetailListItem';
 export { default as SuggestDetailListItem } from './SuggestDetailListItem';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
-export { default as SuggestRequestedListNoData } from './SuggestRequestedListNoData';
-export { default as SuggestReceivedListNoData } from './SuggestReceivedListNoData';
 export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
 export { default as ListingRecommendListItem } from './ListingRecommendListItem';
 export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
