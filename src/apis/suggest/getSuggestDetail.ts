@@ -27,6 +27,7 @@ export interface GetSuggestDetailResponse {
   updated_time: string;
   created_time: string;
   my_suggest: boolean;
+  has_active_chat_room: boolean;
 }
 
 export default function useAPI_GetSuggestDetail(suggestID: number | undefined | null) {

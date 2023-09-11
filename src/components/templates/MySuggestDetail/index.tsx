@@ -19,6 +19,8 @@ interface Props {
   onClickNewRecommendations?: () => void;
   onNextListingRecommentList?: () => void;
   onChangeSuggestChecked?: (checked: boolean) => void;
+  onClickDeleteSuggest?: () => void;
+  onClickDeleteSuggestRecommendItem?: (id: number) => void;
 }
 
 export default function MySuggestDetail({
@@ -35,6 +37,8 @@ export default function MySuggestDetail({
   onNextListingRecommentList,
   suggestChecked,
   onChangeSuggestChecked,
+  onClickDeleteSuggest,
+  onClickDeleteSuggestRecommendItem,
 }: Props) {
   return (
     <div tw="h-full flex flex-col">
@@ -43,32 +47,37 @@ export default function MySuggestDetail({
         <NavigationHeader.Title>구해요 상세</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="h-px bg-gray-300" />
-      <div tw="px-5 pt-7 pb-10">
-        <MySuggestDetailListItem
-          suggestData={suggestData}
-          onClickSuggestUpdate={onClickSuggestUpdate}
-          onClickDanjiDetail={onClickDanjiDetail}
-        />
-      </div>
-      <Separator tw="bg-gray-300 h-2" />
-      <div tw="pt-10 px-5 flex justify-between items-center">
-        <div tw="text-gray-1000 text-b1 font-bold">
-          추천 받은 매물 <span tw="text-nego-800">{recommendCount}</span>
+
+      <div tw="overflow-auto">
+        <div tw="px-5 pt-7 pb-10">
+          <MySuggestDetailListItem
+            suggestData={suggestData}
+            onClickSuggestUpdate={onClickSuggestUpdate}
+            onClickDanjiDetail={onClickDanjiDetail}
+            onClickDeleteSuggest={onClickDeleteSuggest}
+          />
         </div>
-        <div tw="flex items-center gap-2">
-          <span tw="text-gray-1000 text-b2 leading-5">추천 받기</span>{' '}
-          <Switch checked={suggestChecked} onChange={(e) => onChangeSuggestChecked?.(e.target.checked)} />
+        <Separator tw="bg-gray-300 h-2" />
+        <div tw="pt-10 px-5 flex justify-between items-center">
+          <div tw="text-gray-1000 text-b1 font-bold">
+            추천 받은 매물 <span tw="text-nego-800">{recommendCount}</span>
+          </div>
+          <div tw="flex items-center gap-2">
+            <span tw="text-gray-1000 text-b2 leading-5">추천 받기</span>{' '}
+            <Switch checked={suggestChecked} onChange={(e) => onChangeSuggestChecked?.(e.target.checked)} />
+          </div>
         </div>
-      </div>
-      <div tw="flex-1 min-h-0 overflow-auto">
-        <ListingRecommendList
-          onNext={onNextListingRecommentList}
-          recommendData={recommendData}
-          onClickChat={onClickChat}
-          onClickNotInterested={onClickNotInterested}
-          onClickRecommendAccept={onClickRecommendAccept}
-          onClickNewRecommendations={onClickNewRecommendations}
-        />
+        <div tw="flex-1 min-h-0">
+          <ListingRecommendList
+            onNext={onNextListingRecommentList}
+            recommendData={recommendData}
+            onClickChat={onClickChat}
+            onClickNotInterested={onClickNotInterested}
+            onClickRecommendAccept={onClickRecommendAccept}
+            onClickNewRecommendations={onClickNewRecommendations}
+            onClickDeleteSuggestRecommendItem={onClickDeleteSuggestRecommendItem}
+          />
+        </div>
       </div>
     </div>
   );

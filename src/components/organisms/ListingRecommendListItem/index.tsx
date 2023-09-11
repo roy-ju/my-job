@@ -6,6 +6,7 @@ import { ButtonGroup } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { SuggestRecommendStatus } from '@/constants/enums';
 import { BuyOrRentString } from '@/constants/strings';
+import ErrorIcon from '@/assets/icons/error.svg';
 import { Avatar } from '../ChatMessage/Avatar';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
   onClickChat?: () => void;
   onClickNotInterested?: () => void;
   onClickRecommendAccept?: () => void;
+  onClickDeleteSuggestRecommendItem?: () => void;
 }
 
 const informationStringWrapper = css`
@@ -31,6 +33,7 @@ export default function ListingRecommendListItem({
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
+  onClickDeleteSuggestRecommendItem,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
 
@@ -47,6 +50,10 @@ export default function ListingRecommendListItem({
         </ButtonGroup>
       );
     }
+    if (item?.suggest_recommend_status === SuggestRecommendStatus.Completed && item?.chat_room_id === null) {
+      return null;
+    }
+
     if (
       item?.suggest_recommend_status === SuggestRecommendStatus.Accepted ||
       item?.suggest_recommend_status === SuggestRecommendStatus.Completed
@@ -54,9 +61,20 @@ export default function ListingRecommendListItem({
       return (
         <ButtonGroup tw="w-full border-t border-t-gray-300">
           <Button onClick={onClickChat} tw="flex-1 rounded-t-none">
-            채팅 바로가기
+            채팅방 바로가기
           </Button>
         </ButtonGroup>
+      );
+    }
+
+    if (item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled) {
+      return (
+        <Button
+          onClick={onClickDeleteSuggestRecommendItem}
+          tw="w-full border-t border-t-gray-300  rounded-t-none bg-white text-gray-1000 hover:bg-gray-200"
+        >
+          삭제
+        </Button>
       );
     }
   };
@@ -73,7 +91,7 @@ export default function ListingRecommendListItem({
     <div tw=" rounded-lg border border-gray-300">
       <div tw="flex items-center gap-2 px-4 pt-4 pb-3 ">
         <Avatar size={24} alt="alt" src={item?.other_profile_image_url} />
-        <div tw="text-b2 font-bold mr-auto">{item?.other_name} 중개사의 추천</div>
+        <div tw="text-b2 font-bold mr-auto">{item?.other_name}의 추천</div>
         {renderMoments()}
       </div>
       <div tw="border-b mx-4 border-b-gray-300" />
@@ -102,7 +120,7 @@ export default function ListingRecommendListItem({
           )}
         </div>
       )}
-      <div tw="flex flex-1 px-4 pt-3 pb-4">
+      <div tw="flex flex-col flex-1 px-4 pt-3 pb-4">
         <button
           tw="flex justify-between gap-4 w-full"
           type="button"
@@ -124,6 +142,12 @@ export default function ListingRecommendListItem({
             />
           </div>
         </button>
+        {item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled && (
+          <div tw="flex gap-1 mt-3">
+            <ErrorIcon />
+            <span tw="text-red-800 text-info leading-4">상대방이 추천을 취소했어요.</span>
+          </div>
+        )}
       </div>
       <div>{renderCtas()}</div>
     </div>

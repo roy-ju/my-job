@@ -10,6 +10,7 @@ interface MySuggestDetailListItemProps {
   suggestData?: GetSuggestDetailResponse | null;
   onClickDanjiDetail?: () => void;
   onClickSuggestUpdate?: () => void;
+  onClickDeleteSuggest?: () => void;
 }
 
 function PriceText({
@@ -41,6 +42,7 @@ export default function MySuggestDetailListItem({
   suggestData,
   onClickDanjiDetail,
   onClickSuggestUpdate,
+  onClickDeleteSuggest,
 }: MySuggestDetailListItemProps) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -102,7 +104,7 @@ export default function MySuggestDetailListItem({
           {suggestData?.pyoung_text && <div tw="text-gray-700 text-info">평형 {suggestData?.pyoung_text}</div>}
           {suggestData?.move_in_date && (
             <div tw="text-gray-700 text-info">
-              입주가능일 <Moment format="YY.MM.DD">{suggestData?.move_in_date}</Moment>{' '}
+              입주희망일 <Moment format="YY.MM.DD">{suggestData?.move_in_date}</Moment>{' '}
               {TimeTypeString[suggestData.move_in_date_type]}
             </div>
           )}
@@ -136,9 +138,14 @@ export default function MySuggestDetailListItem({
           </div>
         </button>
       )}
-      <Button variant="outlined" tw="w-full" onClick={onClickSuggestUpdate}>
-        요청 수정
-      </Button>
+      <div tw="flex flex-col items-center  gap-4">
+        <Button variant="outlined" tw="w-full" onClick={onClickSuggestUpdate}>
+          요청 수정
+        </Button>
+        <button onClick={onClickDeleteSuggest} type="button" tw="underline text-info leading-4 text-gray-1000">
+          요청 취소
+        </button>
+      </div>
     </div>
   );
 }
