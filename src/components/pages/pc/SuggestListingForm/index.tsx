@@ -205,7 +205,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     if (data?.floor) {
-      setAddress(data.floor);
+      setFloor(data.floor);
     }
   }, [data?.floor]);
 
