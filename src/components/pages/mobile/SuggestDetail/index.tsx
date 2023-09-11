@@ -146,16 +146,14 @@ export default memo(() => {
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
               <Popup.SmallTitle>
-                매물을 추천하시려면
+                이 단지의 집주인만 매물추천이 가능합니다.
                 <br />
-                해당 단지에 소유자 인증이 필요합니다.
-                <br />
-                우리집 등록으로 이동하시겠습니까?
+                우리집 등록하고 집주인 인증하러 가시겠습니까?
               </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={closePopup}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>우리집 등록하기</Popup.ActionButton>
+              <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>집주인 인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
