@@ -1,11 +1,10 @@
-import { Dropdown, Tabs, NavigationHeader } from '@/components/molecules';
+import { Dropdown, Tabs, NavigationHeader, NoDataUI } from '@/components/molecules';
 import React, { useState } from 'react';
 import { Loading, InfiniteScroll } from '@/components/atoms';
 import { MyListItem } from '@/components/organisms';
 import type { IMyListingListItem } from '@/components/organisms/MyListItem/Listing';
 import type { IMyDanjiListItem } from '@/components/organisms/MyListItem/Danji';
 import tw from 'twin.macro';
-import NoData from './Nodata';
 
 export interface MyFavoriteListProps {
   listingList: IMyListingListItem[];
@@ -103,9 +102,21 @@ export default function MyFavoriteList({
       );
     } else {
       contents = (
-        <div tw="flex-1 flex items-center justify-center">
-          <NoData listType={activeTab === 0 ? '매물' : '단지'} />
-        </div>
+        <NoDataUI
+          title={(() => {
+            if (activeTab === 0) {
+              return '관심 매물이 없습니다.';
+            }
+            return '관심 단지가 없습니다.';
+          })()}
+          body={
+            <>
+              네고시오에서 진행되고 있는 거래를 찾아
+              <br />
+              온라인으로 바로 네고를 시작해보세요
+            </>
+          }
+        />
       );
     }
     return contents;
