@@ -80,7 +80,7 @@ export default function ListingRecommendListItem({
   };
 
   const renderMoments = () => (
-    <div tw="text-info text-gray-700">
+    <div tw="text-info text-gray-700 shrink-0 self-start">
       추천일 <Moment format="yyyy.MM.DD">{item?.created_time}</Moment>
     </div>
   );

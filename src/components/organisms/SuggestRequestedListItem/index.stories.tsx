@@ -19,5 +19,4 @@ Default.args = {
     status: 2,
     realestate_types: '10',
   },
-  checked: true,
 };
