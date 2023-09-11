@@ -126,7 +126,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
           }));
         });
       },
-      { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
+      { rootMargin: '-104px 0px -104px 0px', threshold: 0.1 },
     );
 
     if (listingsSection) {
@@ -298,7 +298,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
           <MobDanjiDetailSection>
             <div tw="pt-7" id="listingsSection" ref={setListingsSection}>
               <MobDanjiDetailSection.Info danji={danji} />
-              <MobDanjiDetailSection.ActiveInfo danji={danji} />
+              <MobDanjiDetailSection.ActiveInfo danji={danji} tabIndex={tabIndex} />
             </div>
 
             <div id="realPriceSection" ref={setRealPriceSection}>

@@ -4,6 +4,7 @@ import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 import { Button } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import NewTabs from '@/components/molecules/Tabs/NewTabs';
+import { motion } from 'framer-motion';
 
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
@@ -18,9 +19,11 @@ import ListingItem from '../ListingItem';
 export default function ActiveListingInfo({
   isListingDetail = false,
   danji,
+  tabIndex,
 }: {
   isListingDetail?: boolean;
   danji?: GetDanjiDetailResponse;
+  tabIndex?: number;
 }) {
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
@@ -258,6 +261,22 @@ export default function ActiveListingInfo({
           )}
         </div>
       </div>
+
+      {typeof tabIndex === 'number' && tabIndex >= 1 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          tw="flex items-center fixed bottom-0 [z-index: 100000] pt-4 px-5 [padding-bottom: 42px] gap-3 bg-white w-full shadow"
+        >
+          <Button tw="flex-1" onClick={handleSuggestCTA}>
+            구해요 등록
+          </Button>
+          <Button variant="outlined" tw="flex-1" onClick={handleCreateListing}>
+            매물 등록
+          </Button>
+        </motion.div>
+      )}
 
       {impossibleRecommendationPopup && (
         <OverlayPresenter>
