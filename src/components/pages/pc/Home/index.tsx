@@ -55,8 +55,7 @@ export default memo(() => {
   const handleClickSuggestion = useCallback(async () => {
     router.replace(Routes.RecommendationForm, {
       searchParams: {
-        redirect: `${router.asPath}`,
-        back: 'true',
+        back: router.asPath,
       },
     });
   }, [router]);
