@@ -1,6 +1,7 @@
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { InfiniteScroll } from '@/components/atoms';
-import { ListingRecommendListItem, SuggestReceivedListNoData } from '@/components/organisms';
+import { NoDataUI } from '@/components/molecules';
+import { ListingRecommendListItem } from '@/components/organisms';
 
 interface Props {
   recommendData?: GetMySuggestRecommendsResponse['list'];
@@ -9,6 +10,7 @@ interface Props {
   onClickRecommendAccept?: (id: number) => void;
   onClickNewRecommendations?: () => void;
   onNext?: () => void;
+  onClickDeleteSuggestRecommendItem?: (id: number) => void;
 }
 
 export default function ListingRecommendList({
@@ -16,15 +18,11 @@ export default function ListingRecommendList({
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
-  onClickNewRecommendations,
   onNext,
+  onClickDeleteSuggestRecommendItem,
 }: Props) {
   if (!recommendData?.length) {
-    return (
-      <div tw="py-7">
-        <SuggestReceivedListNoData onClick={onClickNewRecommendations} />
-      </div>
-    );
+    return <NoDataUI title="제안 받은 내용이 없습니다." body="집주인과 중개사의 제안을 기다려 주세요." />;
   }
 
   return (
@@ -38,6 +36,7 @@ export default function ListingRecommendList({
               onClickChat={() => onClickChat?.(item?.chat_room_id ?? 0)}
               onClickNotInterested={() => onClickNotInterested?.(item.suggest_recommend_id)}
               onClickRecommendAccept={() => onClickRecommendAccept?.(item.suggest_recommend_id)}
+              onClickDeleteSuggestRecommendItem={() => onClickDeleteSuggestRecommendItem?.(item.suggest_recommend_id)}
             />
           ))}
         </div>
