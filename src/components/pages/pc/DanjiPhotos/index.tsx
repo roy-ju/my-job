@@ -26,7 +26,7 @@ export default function DanjiPhotos({ depth, panelWidth }: Props) {
 
   return (
     <Panel width={panelWidth}>
-      <DanjiPhotosTemplate danjiPhotos={danjiPhotos} onClickBack={onClickBack} />
+      <DanjiPhotosTemplate danjiName={danji?.name} danjiPhotos={danjiPhotos} onClickBack={onClickBack} />
     </Panel>
   );
 }
