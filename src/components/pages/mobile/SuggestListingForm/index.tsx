@@ -211,15 +211,9 @@ export default memo(() => {
 
   useEffect(() => {
     if (data?.floor) {
-      setAddress(data.floor);
+      setFloor(data.floor);
     }
   }, [data?.floor]);
-
-  useEffect(() => {
-    if (data?.road_name_address) {
-      setAddress(data.road_name_address);
-    }
-  }, [data?.road_name_address]);
 
   return (
     <MobAuthRequired ciRequired>
