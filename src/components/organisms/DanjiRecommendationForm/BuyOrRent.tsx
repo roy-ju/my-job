@@ -133,7 +133,9 @@ export default function BuyOrRent({
               control={<Checkbox name="negotiable" />}
             />
           </div>
-          <div tw="text-info text-gray-700 mt-4">터무니 없는 금액의 요청은 추후 삭제될 수도 있어요.</div>
+          <div tw="text-info text-gray-700 mt-4">
+            실거래가를 참고하여 합리적 가격을 제시할 경우 거래가능성이 높아집니다.
+          </div>
         </>
       )}
     </div>
