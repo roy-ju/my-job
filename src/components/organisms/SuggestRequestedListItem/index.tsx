@@ -1,8 +1,8 @@
 import { GetMySuggestListResponse } from '@/apis/suggest/getMySuggestList';
-import { Checkbox, Chip, Moment } from '@/components/atoms';
+import { Chip, Moment } from '@/components/atoms';
 import { RealestateType } from '@/constants/enums';
 import { RealestateTypeString } from '@/constants/strings';
-import { ChangeEventHandler, MouseEventHandler, useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
   [RealestateType.Apartment]: 'nego',
@@ -15,24 +15,11 @@ const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'bl
 
 interface Props {
   item?: NonNullable<GetMySuggestListResponse['list']>[0];
-  inputType?: 'checkbox' | 'none';
-  checked?: boolean;
-  onChange?: (value: boolean) => void;
+
   onClick?: () => void;
 }
 
-export default function SuggestRequestedListItem({ item, inputType = 'none', checked, onChange, onClick }: Props) {
-  const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (e) => {
-      onChange?.(e.target.checked);
-    },
-    [onChange],
-  );
-
-  const stopPropgation = useCallback<MouseEventHandler<HTMLInputElement>>((e) => {
-    e.stopPropagation();
-  }, []);
-
+export default function SuggestRequestedListItem({ item, onClick }: Props) {
   const realestateTypes = useMemo(
     () =>
       Array.from(
@@ -48,16 +35,9 @@ export default function SuggestRequestedListItem({ item, inputType = 'none', che
 
   return (
     <div>
-      <button
-        type="button"
-        tw="w-full text-start px-5 hover:bg-gray-100"
-        onClick={inputType === 'checkbox' ? undefined : onClick}
-      >
+      <button type="button" tw="w-full text-start px-5 hover:bg-gray-100" onClick={onClick}>
         <div tw="py-5">
           <div tw="flex items-center gap-3">
-            {inputType === 'checkbox' && (
-              <Checkbox checked={checked} onChange={handleInputChange} onClick={stopPropgation} />
-            )}
             <div tw="flex gap-1 flex-1">
               {realestateTypes?.map((d) => (
                 <Chip key={d} variant={chipVariantByRealestateType[d]}>
