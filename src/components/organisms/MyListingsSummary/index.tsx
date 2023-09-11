@@ -5,20 +5,22 @@ import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
 export interface MyListingsSummaryProps {
   dashboardInfo?: GetDashboardInfoResponse | null;
-  onClickCreateListing?: () => void;
+  onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
   onClickRecommendationForm?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickReceivedSuggests?: () => void;
+  onClickSuggestRecommendedList?: () => void;
 }
 
 export default function MyListingsSummary({
   dashboardInfo,
-  onClickCreateListing,
+  onClickMyAddress,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
   onClickRequestedSuggests,
+  onClickSuggestRecommendedList,
 }: MyListingsSummaryProps) {
   return (
     <div tw="bg-white px-5 pb-10 flex flex-col">
@@ -33,7 +35,7 @@ export default function MyListingsSummary({
           <span tw="text-b1 font-bold">{dashboardInfo?.suggest_sent_count}</span>
         </button>
         <button
-          onClick={() => {}}
+          onClick={onClickSuggestRecommendedList}
           tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
           type="button"
         >
@@ -151,11 +153,7 @@ export default function MyListingsSummary({
         </button>
       </div>
 
-      <Button
-        variant="ghost"
-        tw="w-full border border-nego-800 h-[60px] hover:bg-nego-100"
-        onClick={onClickCreateListing}
-      >
+      <Button variant="ghost" tw="w-full border border-nego-800 h-[60px] hover:bg-nego-100" onClick={onClickMyAddress}>
         <div tw="text-start w-full h-full flex items-center">
           <HouseIcon tw="mr-3" />
           <div tw="flex-1 flex flex-col gap-0.5">

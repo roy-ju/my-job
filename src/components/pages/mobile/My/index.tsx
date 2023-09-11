@@ -66,8 +66,8 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.ServiceInfo}`);
   }, [router]);
 
-  const handleCreateListing = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.HOG}`);
+  const handleMyAddress = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
   }, [router]);
 
   const handleClickMyRegisteredListings = useCallback(
@@ -100,32 +100,6 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.Developer}`);
   }, [router]);
 
-  // return (
-  //   <>
-  //     <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
-  //     <MobMyTemplate
-  //       unreadNotificationCount={unreadNotificationCount}
-  //       isLoading={isLoading}
-  //       loggedIn={user !== null}
-  //       nickname={user?.nickname}
-  //       onClickLogin={handleClickLogin}
-  //       onClickNotificationList={handleClickNotificationList}
-  //       onClickMyDetail={handleClickMyDetail}
-  //       onClickNoticeList={handleClickNoticeList}
-  //       onClickQna={handleClickQna}
-  //       onClickMyRealPriceList={handleClickMyRealPriceList}
-  //       onClickTransactionHistory={handleClickTransactionHistory}
-  //       onClickFAQ={handleClickFAQ}
-  //       onClickNegoMoney={handleClickNegoMoney}
-  //       onClickNegoPoint={handleClickNegoPoint}
-  //       onClickCoupons={handleClickCoupons}
-  //       onClickServiceInfo={handleServiceInfo}
-  //       onClickCreateListing={handleCreateListing}
-  //       onClickDeveloper={handleDeveloper}
-  //     />
-  //   </>
-  // );
-
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
       <MyTemplate
@@ -145,7 +119,7 @@ export default function MobMy() {
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
-        onClickCreateListing={handleCreateListing}
+        onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
         onClickRecommendationForm={handleRecommendationForm}
