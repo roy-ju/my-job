@@ -5,6 +5,7 @@ import { OverlayPresenter } from '@/components/molecules';
 import { useRouter } from '@/hooks/utils';
 import { DanjiList } from '@/components/organisms';
 import Routes from '@/router/routes';
+import { useRouter as useNextRouter } from 'next/router';
 import RegionForm from '../SuggestRegionalForm/RegionForm';
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const [selectedButton, setSelectedButton] = useState<'region' | 'danji' | 'none'>('none');
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const handleOpenRegionList = () => {
     setSelectedButton('region');
@@ -34,12 +36,12 @@ export default memo(({ depth, panelWidth }: Props) => {
         handleOpenRegionList={handleOpenRegionList}
         handleOpenDanjiList={handleOpenDanjiList}
         onClickBack={
-          router.query.back === 'true' && router.query.redirect
+          router.query.back
             ? () => {
-                router.replace(router.query.redirect as string);
+                nextRouter.replace(router.query.back as string);
               }
             : () => {
-                router.replace('/');
+                nextRouter.replace('/');
               }
         }
       />
