@@ -8,7 +8,7 @@ interface Props {
   danjiOrRegional?: number;
 }
 
-export default function SuggestUpdate({ onClickBack = () => {} }: Props) {
+export default function SuggestUpdate({ onClickBack }: Props) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
