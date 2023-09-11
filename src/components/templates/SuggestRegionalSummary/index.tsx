@@ -69,7 +69,12 @@ export default function SuggestRegionalSummary({
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="py-7 px-5">
-          <div tw="font-bold">입력한 내용으로 매물추천을 받아 볼래요.</div>
+          <div tw="font-bold mb-1">입력한 내용으로 매물추천을 받아 볼래요.</div>
+          <p tw="text-gray-700 text-info">
+            등록하신 정보의 수정 및 추천된 매물의 확인은
+            <br />
+            &#39;마이페이지 &gt; 구해요 &gt; 내가 등록한 구하기&#39; 에서 가능합니다.
+          </p>
         </div>
         <Separator />
         <div tw="py-7 px-5">
