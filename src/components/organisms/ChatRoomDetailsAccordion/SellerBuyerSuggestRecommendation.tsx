@@ -117,7 +117,7 @@ export default function SellerBuyerSuggestRecommendation({
                   {suggestItem?.pyoung_text && <div>평형 {suggestItem?.pyoung_text}</div>}
                   {suggestItem?.move_in_date && (
                     <div>
-                      입주가능일 <Moment format="YY.MM.DD">{suggestItem?.move_in_date}</Moment>{' '}
+                      입주희망일 <Moment format="YY.MM.DD">{suggestItem?.move_in_date}</Moment>{' '}
                       {TimeTypeString[suggestItem?.move_in_date_type]}
                     </div>
                   )}

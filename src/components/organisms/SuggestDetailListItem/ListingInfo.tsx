@@ -91,7 +91,7 @@ export default function ListingInfo({ data }: Props) {
 
           {data?.move_in_date && (
             <div tw="text-gray-700 text-info">
-              입주가능일 <Moment format="YY.MM.DD">{data?.move_in_date}</Moment>{' '}
+              입주희망일 <Moment format="YY.MM.DD">{data?.move_in_date}</Moment>{' '}
               {TimeTypeString[data.move_in_date_type]}
             </div>
           )}

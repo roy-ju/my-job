@@ -51,6 +51,13 @@ export default function RecommendationForm({
               </Button>
             </div>
           </div>
+          <ul tw="[list-style: disc] text-gray-700 text-info [padding-inline-start: 20px] mt-4">
+            <li>
+              단지를 선택하시게 되면, 해당 단지에 &#39;구해요&#39; 목록으로 표시되고, 해당 단지 집주인도 추천이
+              가능합니다.
+            </li>
+            <li>지역을 선택하시면, 중개사에게만 표시되고, 중개사로부터만 추천받을 수 있습니다.</li>
+          </ul>
         </div>
       </div>
     </div>
