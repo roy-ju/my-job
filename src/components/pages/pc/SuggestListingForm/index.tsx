@@ -209,12 +209,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [data?.floor]);
 
-  useEffect(() => {
-    if (data?.road_name_address) {
-      setAddress(data.road_name_address);
-    }
-  }, [data?.road_name_address]);
-
   return (
     <AuthRequired depth={depth} ciRequired>
       <Panel width={panelWidth}>
