@@ -61,8 +61,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.ServiceInfo);
   }, [router]);
 
-  const handleCreateListing = useCallback(() => {
-    router.push(Routes.ListingCreateAddress);
+  const handleMyAddress = useCallback(() => {
+    router.push(Routes.MyAddress);
   }, [router]);
 
   const handleClickMyRegisteredListings = useCallback(
@@ -112,6 +112,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.SuggestRequestedList);
   }, [router]);
 
+  const handleSuggestRecommendedList = useCallback(() => {
+    router.push(Routes.SuggestRecommendedList);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -131,12 +135,13 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
-        onClickCreateListing={handleCreateListing}
+        onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
         onClickRecommendationForm={handleRecommendationForm}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
+        onClickSuggestRecommendedList={handleSuggestRecommendedList}
       />
     </Panel>
   );

@@ -22,12 +22,13 @@ interface Props {
   onClickNegoPoint?: () => void;
   onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
-  onClickCreateListing?: () => void;
+  onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
   onClickRecommendationForm?: () => void;
   onClickReceivedSuggests?: () => void;
   onClickRequestedSuggests?: () => void;
+  onClickSuggestRecommendedList?: () => void;
   onClickDeveloper?: () => void;
 }
 
@@ -48,12 +49,13 @@ export default function My({
   onClickCoupons,
   onClickNegoPoint,
   onClickServiceInfo,
-  onClickCreateListing,
+  onClickMyAddress,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
   onClickRecommendationForm,
   onClickReceivedSuggests,
   onClickRequestedSuggests,
+  onClickSuggestRecommendedList,
   onClickDeveloper,
 }: Props) {
   return (
@@ -90,12 +92,13 @@ export default function My({
             />
             <MyListingsSummary
               dashboardInfo={dashboardInfo}
-              onClickCreateListing={onClickCreateListing}
+              onClickMyAddress={onClickMyAddress}
               onClickMyRegisteredListings={onClickMyRegisteredListings}
               onClickMyParticipatingListings={onClickMyParticipatingListings}
               onClickRecommendationForm={onClickRecommendationForm}
               onClickReceivedSuggests={onClickReceivedSuggests}
               onClickRequestedSuggests={onClickRequestedSuggests}
+              onClickSuggestRecommendedList={onClickSuggestRecommendedList}
             />
           </>
         )}
