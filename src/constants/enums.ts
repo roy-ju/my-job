@@ -133,8 +133,7 @@ export enum SuggestRecommendStatus {
   Accepted = 2, // 협의시작 (채팅방 열려있는 상태)
   NotInterested = 3, // 관심없음(유저목록에서 삭제, 중개사 목록에선 대기중)
   Cancelled = 4, // 취소 함 (채팅방을 나가거나 추천자가 취소버튼을 누름)
-  Completed = 5, // 거래성사 (중개사가 CTA버튼을 통해 가능) 202308추가
-  UserDeleted = 6, // 집주인이 본인 추천을 삭제함
+  Completed = 5, // 거래성사 202308추가
 }
 
 export enum NotificationLinkType {
