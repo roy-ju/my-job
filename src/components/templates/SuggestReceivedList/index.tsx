@@ -1,6 +1,6 @@
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { NavigationHeader, Tabs } from '@/components/molecules';
-import { SuggestReceivedListNoData } from '@/components/organisms';
+// import { SuggestReceivedListNoData } from '@/components/organisms';
 import { Loading } from '@/components/atoms';
 import ListingRecommendList from '../MySuggestDetail/ListingRecommendList';
 
@@ -49,11 +49,7 @@ export default function SuggestReceivedList({
       );
     }
     if (!recommendsData?.length) {
-      return (
-        <div tw="py-7">
-          <SuggestReceivedListNoData />
-        </div>
-      );
+      return <div tw="py-7">{/*    <SuggestReceivedListNoData /> */}</div>;
     }
     return (
       <ListingRecommendList
