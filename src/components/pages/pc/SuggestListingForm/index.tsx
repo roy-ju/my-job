@@ -145,7 +145,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
       floor: floor || undefined,
 
-      jeonyong_areas: pyoungArea || undefined,
+      jeonyong_areas: meterArea || undefined,
 
       direction: direction || undefined,
 
@@ -174,9 +174,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     description,
     direction,
     floor,
+    meterArea,
     monthlyRentFee,
     mutate,
-    pyoungArea,
     router,
     suggestID,
     tradePrice,
