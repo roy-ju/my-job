@@ -140,7 +140,7 @@ export default memo(() => {
 
       floor: floor || undefined,
 
-      jeonyong_areas: pyoungArea || undefined,
+      jeonyong_areas: meterArea || undefined,
 
       direction: direction || undefined,
 
@@ -167,9 +167,9 @@ export default memo(() => {
     description,
     direction,
     floor,
+    meterArea,
     monthlyRentFee,
     mutate,
-    pyoungArea,
     router,
     suggestData?.suggest_id,
     suggestID,
