@@ -1,18 +1,20 @@
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { My as MyTemplate } from '@/components/templates';
 import { MobileContainer } from '@/components/atoms';
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { MobGlobalNavigation } from '@/components/organisms';
 import useSyncronizer from '@/states/syncronizer';
+import { Popup, OverlayPresenter } from '@/components/molecules';
 
 export default function MobMy() {
   const router = useRouter();
 
   const { user, isLoading } = useAuth();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
+  const [showMyAddressPopup, setShowMyAddressPopup] = useState(false);
 
   const { unreadChatCount } = useSyncronizer();
 
@@ -42,17 +44,9 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.MyRealPriceList}`);
   }, [router]);
 
-  // const handleClickTransactionHistory = useCallback(() => {
-  //   router.push(`my/${Routes.TransactionHistory}`);
-  // }, [router]);
-
   const handleClickFAQ = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.FAQ}`);
   }, [router]);
-
-  // const handleClickNegoMoney = useCallback(() => {
-  //   router.push(`my/${Routes.NegoMoney}`);
-  // }, [router]);
 
   const handleClickNegoPoint = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.NegoPoint}`);
@@ -67,8 +61,12 @@ export default function MobMy() {
   }, [router]);
 
   const handleMyAddress = useCallback(() => {
+    if (user?.hasAddress) {
+      setShowMyAddressPopup(true);
+      return;
+    }
     router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
-  }, [router]);
+  }, [router, user?.hasAddress]);
 
   const handleClickMyRegisteredListings = useCallback(
     (params: number) => {
@@ -132,6 +130,36 @@ export default function MobMy() {
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
         onClickDeveloper={process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? handleDeveloper : undefined}
       />
+      {showMyAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.SubTitle tw="text-center">
+                이미 등록하신 주소가 있습니다.
+                <br />
+                새로운 집주소를 등록하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton
+                onClick={() => {
+                  setShowMyAddressPopup(false);
+                }}
+              >
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+                  setShowMyAddressPopup(false);
+                }}
+              >
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </MobileContainer>
   );
 }
