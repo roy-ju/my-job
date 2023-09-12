@@ -138,7 +138,7 @@ export default memo(() => {
       monthly_rent_fee:
         buyOrRent === BuyOrRent.Wolsae ? (monthlyRentFee ? Number(monthlyRentFee) * 10000 : 0) : undefined,
 
-      floor: floor ? `${floor}층` : undefined,
+      floor: floor || undefined,
 
       jeonyong_areas: pyoungArea || undefined,
 
