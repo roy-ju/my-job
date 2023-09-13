@@ -12,6 +12,7 @@ import { ChatRoomPopup } from '@/components/organisms';
 import { completeRecommend } from '@/apis/suggest/completeRecommend';
 import checkChatRoom from '@/apis/chat/checkChatRoom';
 import { toast } from 'react-toastify';
+import { useRouter as useNextRouter } from 'next/router';
 import useChatRoom from './useChatRoom';
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
   const [closePopupStatus, setClosePopupStatus] = useState<number | undefined>(undefined);
   const [chatRoomIsClosing, setChatRoomIsClosing] = useState(false);
   const [showContractCtaPopup, setShowContractCtaPopup] = useState(false);
@@ -134,6 +136,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         textFieldDisabled={isTextFieldDisabled}
         onSendMessage={handleSendMessage}
         onChangePhotosUrls={handleChangePhotoUrls}
+        onClickBack={router.query.back ? () => nextRouter.push(router.query.back as string) : undefined}
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
         onClickContractCtaButton={handleClickContractCtaButton}
