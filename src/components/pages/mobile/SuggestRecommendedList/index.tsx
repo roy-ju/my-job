@@ -1,34 +1,25 @@
-import useAPI_GetMySuggestRecommendedList from '@/apis/suggest/getMySuggestRecommendedList';
-import { Panel, Loading } from '@/components/atoms';
+import { MobileContainer } from '@/components/atoms';
 import { SuggestRecommendedList as SuggestRecommendedListTemplate } from '@/components/templates';
+import { useRouter } from 'next/router';
 import { memo, useState, useRef } from 'react';
-import { useRouter } from '@/hooks/utils';
+import useAPI_GetMySuggestRecommendedList from '@/apis/suggest/getMySuggestRecommendedList';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { toast } from 'react-toastify';
 import Routes from '@/router/routes';
 import { deleteSuggestRecommend } from '@/apis/suggest/deleteSuggestRecommend';
 import { cancelRecommend } from '@/apis/suggest/cancelRecommend';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
-
-export default memo(({ panelWidth, depth }: Props) => {
-  const router = useRouter(depth);
+export default memo(() => {
+  const router = useRouter();
   const [showSuggestRecommendCancelPopup, setShowSuggestRecommendCancelPopup] = useState(false);
   const suggestRecommendIdToCancel = useRef<number | undefined>(undefined);
-  const {
-    data: suggestRecommendedList,
-    isLoading,
-    increamentPageNumber,
-    mutate,
-  } = useAPI_GetMySuggestRecommendedList();
+  const { data: suggestRecommendedList, increamentPageNumber, mutate } = useAPI_GetMySuggestRecommendedList();
 
   const handleClickSuggestRecommendCancel = (suggestRecommendId: number) => {
     setShowSuggestRecommendCancelPopup(true);
     suggestRecommendIdToCancel.current = suggestRecommendId;
   };
+
   const handleCancelSuggestRecommend = async () => {
     if (!suggestRecommendIdToCancel.current) return;
 
@@ -40,14 +31,11 @@ export default memo(({ panelWidth, depth }: Props) => {
   };
 
   const handleNavigateToChatRoom = (chatRoomId: number) => {
-    router.replace(Routes.ChatRoom, {
-      searchParams: { chatRoomID: `${chatRoomId}`, back: router.asPath },
-    });
+    router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${chatRoomId}`);
   };
+
   const handleNavigateToDanjiRecommendation = () => {
-    router.replace(Routes.DanjiRecommendation, {
-      searchParams: { back: router.asPath },
-    });
+    router.push(`/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`);
   };
 
   const handleDeleteSuggestRecommend = async (suggestRecommendId: number) => {
@@ -56,18 +44,8 @@ export default memo(({ panelWidth, depth }: Props) => {
     toast('요청을 삭제했습니다.');
   };
 
-  if (isLoading) {
-    return (
-      <Panel width={panelWidth}>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </Panel>
-    );
-  }
-
   return (
-    <Panel width={panelWidth}>
+    <MobileContainer>
       <SuggestRecommendedListTemplate
         suggestRecommendedList={suggestRecommendedList}
         onNextListing={increamentPageNumber}
@@ -75,6 +53,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         onNavigateToChatRoom={handleNavigateToChatRoom}
         onDeleteSuggestRecommend={handleDeleteSuggestRecommend}
         onClickSuggestRecommendCancel={handleClickSuggestRecommendCancel}
+        onClickBack={() => router.back()}
       />
       {showSuggestRecommendCancelPopup && (
         <OverlayPresenter>
@@ -89,6 +68,6 @@ export default memo(({ panelWidth, depth }: Props) => {
           </Popup>
         </OverlayPresenter>
       )}
-    </Panel>
+    </MobileContainer>
   );
 });
