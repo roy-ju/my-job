@@ -127,6 +127,9 @@ export { default as LawQnaUpdate } from './LawQnaUpdate';
 /** 구해요  */
 export { default as RecommendationForm } from './RecommendationForm';
 
+/** 타인 구하기에 대한 나의 추천 */
+export { default as SuggestRecommendedList } from './SuggestRecommendedList';
+
 /** 매물추천하기  */
 export { default as SuggestListingForm } from './SuggestListingForm';
 
