@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Routes from '@/router/routes';
 import { deleteSuggestRecommend } from '@/apis/suggest/deleteSuggestRecommend';
 import { cancelRecommend } from '@/apis/suggest/cancelRecommend';
+import { mutate as otherMutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -37,6 +38,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     await mutate();
     suggestRecommendIdToCancel.current = undefined;
     toast.success('추천을 취소했습니다.');
+    otherMutate('/my/dashboard/info');
   };
 
   const handleNavigateToChatRoom = (chatRoomId: number) => {
@@ -53,7 +55,8 @@ export default memo(({ panelWidth, depth }: Props) => {
   const handleDeleteSuggestRecommend = async (suggestRecommendId: number) => {
     await deleteSuggestRecommend(suggestRecommendId);
     await mutate();
-    toast('요청을 삭제했습니다.');
+    toast.success('요청을 삭제했습니다.');
+    otherMutate('/my/dashboard/info');
   };
 
   if (isLoading) {
