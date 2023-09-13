@@ -143,9 +143,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       monthly_rent_fee:
         buyOrRent === BuyOrRent.Wolsae ? (monthlyRentFee ? Number(monthlyRentFee) * 10000 : 0) : undefined,
 
-      floor: floor ? `${floor}층` : undefined,
+      floor: floor || undefined,
 
-      jeonyong_areas: pyoungArea || undefined,
+      jeonyong_areas: meterArea || undefined,
 
       direction: direction || undefined,
 
@@ -174,9 +174,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     description,
     direction,
     floor,
+    meterArea,
     monthlyRentFee,
     mutate,
-    pyoungArea,
     router,
     suggestID,
     tradePrice,
