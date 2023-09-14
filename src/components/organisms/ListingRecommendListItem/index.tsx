@@ -114,7 +114,7 @@ export default function ListingRecommendListItem({
               {item?.jeonyong_areas && (
                 <span>전용 {item?.jeonyong_areas ? Number(item.jeonyong_areas).toFixed(0) : '-'}㎡</span>
               )}
-              {item?.floor && <span>{item?.floor}</span>}
+              {item?.floor && <span>{item?.floor}층</span>}
               {item?.direction && <span>{item?.direction}</span>}
             </div>
           )}

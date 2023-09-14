@@ -79,7 +79,7 @@ export default function BuyerAgentSuggestRecommendation({
       {suggestRecommendItem?.jeonyong_areas && (
         <div>{`전용 ${Math.floor(+suggestRecommendItem.jeonyong_areas)}㎡`}</div>
       )}
-      {suggestRecommendItem?.floor && <div>{suggestRecommendItem.floor}</div>}
+      {suggestRecommendItem?.floor && <div>{suggestRecommendItem.floor}층</div>}
       {suggestRecommendItem?.direction && <div>{suggestRecommendItem.direction}</div>}
     </div>
   );
