@@ -142,7 +142,7 @@ export default memo(() => {
 
       jeonyong_areas: meterArea || undefined,
 
-      direction: direction || undefined,
+      direction: direction ? `${direction}향` : undefined,
 
       note: description,
     });
