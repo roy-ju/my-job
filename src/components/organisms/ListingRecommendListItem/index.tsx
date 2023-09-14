@@ -1,7 +1,7 @@
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { useState } from 'react';
 import tw, { css } from 'twin.macro';
-import { Button, Moment, Numeral } from '@/components/atoms';
+import { Button, Chip, Moment, Numeral } from '@/components/atoms';
 import { ButtonGroup } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { SuggestRecommendStatus } from '@/constants/enums';
@@ -95,17 +95,27 @@ export default function ListingRecommendListItem({
         {renderMoments()}
       </div>
       <div tw="border-b mx-4 border-b-gray-300" />
+      {!item?.with_address && item?.suggest_recommend_status === SuggestRecommendStatus.Completed && (
+        <div tw="px-4 pt-3">
+          <Chip variant="red">거래 성사</Chip>
+        </div>
+      )}
       {item?.with_address && (
         <div tw=" px-4 pt-3">
           {!!item?.trade_or_deposit_price && (
-            <div tw="text-b1 font-bold">
-              {BuyOrRentString[item?.buy_or_rent ?? 0]} <Numeral koreanNumber>{item?.trade_or_deposit_price}</Numeral>
-              {Boolean(item?.monthly_rent_fee) && (
-                <span>
-                  {' / '}
-                  <Numeral koreanNumber>{item?.monthly_rent_fee}</Numeral>
-                </span>
+            <div tw="flex gap-1 items-center">
+              {item.suggest_recommend_status === SuggestRecommendStatus.Completed && (
+                <Chip variant="red">거래 성사</Chip>
               )}
+              <div tw="text-b1 font-bold">
+                {BuyOrRentString[item?.buy_or_rent ?? 0]} <Numeral koreanNumber>{item?.trade_or_deposit_price}</Numeral>
+                {Boolean(item?.monthly_rent_fee) && (
+                  <span>
+                    {' / '}
+                    <Numeral koreanNumber>{item?.monthly_rent_fee}</Numeral>
+                  </span>
+                )}
+              </div>
             </div>
           )}
           {item?.address_free_text && <div tw="text-info">{item?.address_free_text}</div>}
