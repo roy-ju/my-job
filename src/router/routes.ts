@@ -14,6 +14,7 @@ const Routes = {
   DanjiRecommendation: 'danjiRecommendation',
   DanjiRecommendationSummary: 'danjiRecommendationSummary',
   DanjiRecommendationSuccess: 'danjiRecommendationSuccess',
+  DanjiRecommendationUpdate: 'danjiRecommendationUpdate',
   DanjiRealPriceList: 'danjiRealPriceList',
   DanjiRealPriceDetail: 'danjiRealPrice',
   DanjiRealTradeDetail: 'danjiRealTrade',
@@ -118,6 +119,7 @@ const Routes = {
   SuggestRegionalForm: 'suggestRegionalForm',
   SuggestRegionalSummary: 'suggestRegionalSummary',
   SuggestRegionalSuccess: 'suggestRegionalSuccess',
+  SuggestRegionalFormUpdate: 'suggestRegionalFormUpdate',
 
   // 나의 추천요청 / 추천받은매물
   SuggestRequestedList: 'suggestRequestedList',
@@ -131,9 +133,6 @@ const Routes = {
 
   // 매물 내놓기
   SuggestListingForm: 'suggestListingForm',
-
-  // 구해요 요청 수정
-  SuggestUpdate: 'suggestUpdate',
 
   // 구해요 상세
   SuggestDetail: 'suggestDetail',

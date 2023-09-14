@@ -119,6 +119,11 @@ const DanjiRecommendationSuccess = dynamic(() => import('@/components/pages/pc/D
   ssr: false,
 });
 
+const DanjiRecommendationUpdate = dynamic(() => import('@/components/pages/pc/DanjiRecommendationUpdate'), {
+  loading: FallbackComponent,
+  ssr: false,
+});
+
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
   loading: FallbackComponent,
   ssr: false,
@@ -301,6 +306,10 @@ const SuggestRegionalSuccess = dynamic(() => import('@/components/pages/pc/Sugge
   ssr: false,
   loading: FallbackComponent,
 });
+const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -318,10 +327,6 @@ const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListi
   loading: FallbackComponent,
 });
 const MySuggestDetail = dynamic(() => import('@/components/pages/pc/MySuggestDetail'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const SuggestUpdate = dynamic(() => import('@/components/pages/pc/SuggestUpdate'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -574,6 +579,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <DanjiRecommendationSuccess key={`${query.danjiID}`} {...props} />;
     }
 
+    case Routes.DanjiRecommendationUpdate: {
+      return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
+    }
+
     case Routes.DanjiPhotos: {
       return <DanjiPhotos key={`${query.danjiID}`} {...props} />;
     }
@@ -706,6 +715,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <SuggestRegionalSuccess {...props} />;
     }
 
+    case Routes.SuggestRegionalFormUpdate: {
+      return <SuggestRegionalFormUpdate {...props} />;
+    }
+
     case Routes.SuggestRequestedList: {
       return <SuggestRequestedList {...props} />;
     }
@@ -724,10 +737,6 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.SuggestListings: {
       return <SuggestListings key={`${query.danjiID}`} {...props} />;
-    }
-
-    case Routes.SuggestUpdate: {
-      return <SuggestUpdate {...props} />;
     }
 
     case Routes.SuggestRecommendedList: {

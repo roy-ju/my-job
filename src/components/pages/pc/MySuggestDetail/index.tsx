@@ -9,7 +9,7 @@ import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { resumeSuggest } from '@/apis/suggest/resumeSuggest';
 import { stopSuggest } from '@/apis/suggest/stopSuggest';
-import { SuggestStatus } from '@/constants/enums';
+import { SuggestStatus, DanjiOrRegionalType } from '@/constants/enums';
 import { toast } from 'react-toastify';
 import { mutate as otherMutate } from 'swr';
 import { deleteSuggest } from '@/apis/suggest/deleteSuggest';
@@ -58,9 +58,15 @@ export default memo(({ panelWidth, depth }: Props) => {
   }, [data, router]);
 
   const handleClickSuggestUpdate = useCallback(() => {
-    router.replace(Routes.SuggestUpdate, {
+    const targetRoute =
+      data?.danji_or_regional === DanjiOrRegionalType.Danji
+        ? Routes.DanjiRecommendationUpdate
+        : Routes.SuggestRegionalFormUpdate;
+
+    router.replace(targetRoute, {
       searchParams: {
         suggestID: `${data?.suggest_id}`,
+        back: router.asPath,
       },
     });
   }, [data, router]);
