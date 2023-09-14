@@ -56,6 +56,7 @@ function getKey(
       page_number: pageIndex + 1,
     },
     null,
+    { revalidateIfStale: false, revalidateOnFocus: false },
   ];
 }
 
@@ -76,7 +77,7 @@ export function useAPI_GetDanjiSuggestList({
     (pageIndex, previousPageData) => getKey(danjiId, pageSize, pageIndex, previousPageData),
     null,
     {
-      revalidateFirstPage: true,
+      revalidateFirstPage: false,
       revalidateOnMount: true,
       onSuccess: () => {},
     },
