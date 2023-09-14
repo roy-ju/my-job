@@ -24,7 +24,7 @@ export type DanjiSuggestListItem = {
   invest_amount: number;
   quick_sale: boolean;
   negotiable: boolean;
-  move_in_date: null | string; 
+  move_in_date: null | string;
   move_in_date_type: null | number;
   note: string;
   updated_time: string;
