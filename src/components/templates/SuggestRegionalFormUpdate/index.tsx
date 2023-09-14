@@ -133,7 +133,6 @@ export default function SuggestRegionalFormUpdate({
           </div>
         </div>
       </div>
-
       <PersistentBottomBar>
         <Button tw="w-full" size="bigger" onClick={onSubmitFinal} disabled={nextButtonDisabled}>
           수정 완료

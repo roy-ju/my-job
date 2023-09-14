@@ -1,24 +1,16 @@
-import { Panel, Loading } from '@/components/atoms';
-import { memo } from 'react';
+import { MobileContainer } from '@/components/atoms';
 import { DanjiRecommendationUpdate as DanjiRecommendationUpdateTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
+import { useRouter } from 'next/router';
+import { memo } from 'react';
 import { BuyOrRent } from '@/constants/enums';
-import useDanjiRecommendationFormUpdate from './useDanjiRecommendationUpdate';
+import useDanjiRecommendationUpdate from './useDanjiRecommendationUpdate';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
-
-export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
-  const nextRouter = useNextRouter();
+export default memo(() => {
+  const router = useRouter();
 
   const {
     nextButtonDisabled,
     handleSubmitFinal,
-    isLoading,
     targetText,
     buyOrRentText,
 
@@ -68,30 +60,16 @@ export default memo(({ depth, panelWidth }: Props) => {
     emptyTextFields,
 
     isEntryDanji,
-  } = useDanjiRecommendationFormUpdate(depth);
-
-  const handleClickBack = () => {
-    nextRouter.push(router.query.back as string);
-  };
-
-  if (isLoading) {
-    return (
-      <Panel width={panelWidth}>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </Panel>
-    );
-  }
+  } = useDanjiRecommendationUpdate();
 
   return (
-    <Panel width={panelWidth}>
+    <MobileContainer>
       <DanjiRecommendationUpdateTemplate
+        onClickBack={() => router.back()}
         targetText={targetText}
         buyOrRentText={buyOrRentText}
         nextButtonDisabled={nextButtonDisabled}
         onSubmitFinal={handleSubmitFinal}
-        onClickBack={handleClickBack}
         danji={danji}
         danjiID={Number(danjiID) ?? undefined}
         buyOrRent={Number(buyOrRent) || BuyOrRent.Jeonsae}
@@ -125,6 +103,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         emptyTextFields={emptyTextFields}
         isEntryDanji={isEntryDanji}
       />
-    </Panel>
+    </MobileContainer>
   );
 });

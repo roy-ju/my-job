@@ -1,12 +1,52 @@
-import { Button, PersistentBottomBar } from '@/components/atoms';
+import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
+import { DanjiRecommendationForm } from '@/components/organisms';
+import { BuyOrRent } from '@/constants/enums';
+import { IFormContext } from '../DanjiRecommendation/FormContext';
 
-interface Props {
+interface Props extends IFormContext {
+  targetText?: string;
+  buyOrRentText?: string;
+  nextButtonDisabled?: boolean;
   onClickBack?: () => void;
-  onClickNext?: () => void;
+  onSubmitFinal?: () => void;
 }
 
-export default function DanjiRecommendationUpdate({ onClickBack, onClickNext }: Props) {
+export default function DanjiRecommendationUpdate({
+  targetText,
+  buyOrRentText,
+  nextButtonDisabled,
+  onClickBack,
+  onSubmitFinal,
+  buyOrRent,
+  price,
+  onChangePrice,
+  monthlyRentFee,
+  onChangeMonthlyRentFee,
+  quickSale,
+  onChangeQuickSale,
+  investAmount,
+  onChangeInvestAmount,
+  negotiable,
+  onChangeNegotiable,
+  pyoungList,
+  purpose,
+  onChangePurpose,
+  moveInDate,
+  onChangeMoveInDate,
+  moveInDateType,
+  onChangeMoveInDateType,
+  description,
+  onChangeDescription,
+  pyoungInputValue,
+  onChangePyoungInputValue,
+  danjiRealPricesPyoungList,
+  onClickPyoungDeleteIcon,
+  onClickPyoungAddIcon,
+  onClickPyoungButton,
+  onClickPyoungCloseButton,
+  emptyTextFields,
+}: Props) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -15,13 +55,83 @@ export default function DanjiRecommendationUpdate({ onClickBack, onClickNext }: 
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="py-7 px-5">
-          <div tw="font-bold mb-1">중개사님들에게 지역 매물 추천을 요청했습니다.</div>
-          <div tw="text-info text-gray-700 mb-2">중개사님의 매물 추천을 기다려 주세요</div>
-          <div tw="text-info text-gray-700">요청 내용 확인은 마이페이지에서 할 수 있습니다.</div>
+          <div tw="font-bold text-b1 mb-1">{`구하는 지역: ${targetText}`}</div>
+          <div tw="font-bold text-b1 mb-1">{`구하는 거래 종류: ${buyOrRentText}`}</div>
+        </div>
+        <Separator tw="bg-gray-300" />
+        <div tw="py-10 px-5">
+          <DanjiRecommendationForm.Price
+            update
+            buyOrRent={buyOrRent}
+            price={price}
+            onChangePrice={onChangePrice}
+            monthlyRentFee={monthlyRentFee}
+            onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+            negotiable={negotiable}
+            onChangeNegotiable={onChangeNegotiable}
+            quickSale={quickSale}
+            onChangeQuickSale={onChangeQuickSale}
+          />
+        </div>
+        <Separator tw="bg-gray-300" />
+        {Number(buyOrRent) === BuyOrRent.Buy && (
+          <div tw="py-10">
+            <div tw="px-5">
+              <DanjiRecommendationForm.Purpose value={purpose} onChange={onChangePurpose} />
+            </div>
+            <div tw="mt-7 px-5">
+              {purpose === '실거주' ? (
+                <DanjiRecommendationForm.MoveInDate
+                  moveInDate={moveInDate}
+                  onChangeMoveInDate={onChangeMoveInDate}
+                  moveInDateType={moveInDateType}
+                  onChangeMoveInDateType={onChangeMoveInDateType}
+                />
+              ) : (
+                <DanjiRecommendationForm.InvestAmount
+                  investAmount={investAmount}
+                  onChangeInvestAmount={onChangeInvestAmount}
+                  hasError={emptyTextFields?.investAmount}
+                />
+              )}
+            </div>
+          </div>
+        )}
+        {Number(buyOrRent) !== BuyOrRent.Buy && (
+          <div tw="py-10 px-5">
+            <DanjiRecommendationForm.MoveInDate
+              moveInDate={moveInDate}
+              onChangeMoveInDate={onChangeMoveInDate}
+              moveInDateType={moveInDateType}
+              onChangeMoveInDateType={onChangeMoveInDateType}
+            />
+          </div>
+        )}
+        <Separator tw="bg-gray-300" />
+        <div>
+          <div tw="pt-10 px-5">
+            <DanjiRecommendationForm.Area
+              danjiRealPricesPyoungList={danjiRealPricesPyoungList}
+              selectedGonggeupPyoungList={pyoungList}
+              pyoungInputValue={pyoungInputValue}
+              onChangePyoungField={onChangePyoungInputValue}
+              onClickPyoungDeleteIcon={onClickPyoungDeleteIcon}
+              onClickPyoungAddIcon={onClickPyoungAddIcon}
+              onClickPyoungButton={onClickPyoungButton}
+              onClickPyoungCloseButton={onClickPyoungCloseButton}
+            />
+          </div>
+          <div tw="py-10 px-5">
+            <DanjiRecommendationForm.Description
+              description={description}
+              onChangeDescription={onChangeDescription}
+              buyOrRent={buyOrRent}
+            />
+          </div>
         </div>
       </div>
       <PersistentBottomBar>
-        <Button tw="w-full" size="bigger" onClick={onClickNext}>
+        <Button tw="w-full" size="bigger" onClick={onSubmitFinal} disabled={nextButtonDisabled}>
           확인
         </Button>
       </PersistentBottomBar>
