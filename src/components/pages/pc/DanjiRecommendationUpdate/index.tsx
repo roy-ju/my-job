@@ -1,6 +1,6 @@
 import { Panel, Loading } from '@/components/atoms';
 import { memo } from 'react';
-import { SuggestUpdate as SuggestUpdateTemplate } from '@/components/templates';
+import { DanjiRecommendationUpdate as DanjiRecommendationUpdateTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import Routes from '@/router/routes';
@@ -33,7 +33,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <SuggestUpdateTemplate onClickBack={handleClickBack} />
+      <DanjiRecommendationUpdateTemplate />
     </Panel>
   );
 });
