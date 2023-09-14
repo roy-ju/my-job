@@ -79,7 +79,7 @@ export default function BuyerAgentSuggestRecommendation({
       {suggestRecommendItem?.jeonyong_areas && (
         <div>{`전용 ${Math.floor(+suggestRecommendItem.jeonyong_areas)}㎡`}</div>
       )}
-      {suggestRecommendItem?.floor && <div>{suggestRecommendItem.floor}</div>}
+      {suggestRecommendItem?.floor && <div>{suggestRecommendItem.floor}층</div>}
       {suggestRecommendItem?.direction && <div>{suggestRecommendItem.direction}</div>}
     </div>
   );
@@ -122,7 +122,7 @@ export default function BuyerAgentSuggestRecommendation({
               <div>{suggestRecommendItem?.note}</div>
             </div>
             <div tw="border-t border-gray-300 pb-5">
-              <div tw="flex items-center gap-1  py-4 line-clamp-1">
+              <div tw="flex items-center gap-1  py-4">
                 <Chip variant="outlined" tw="[vertical-align: text-bottom]">
                   나의 요청사항
                 </Chip>{' '}
