@@ -4,7 +4,7 @@ import { SuggestListings } from '@/components/templates';
 
 import { useRouter } from '@/hooks/utils';
 
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 interface Props {
@@ -17,10 +17,22 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const { danji } = useDanjiDetail(depth);
 
-  const { data, increamentPageNumber, totalCount } = useAPI_GetDanjiSuggestList({
+  const { data, increamentPageNumber, totalCount, mutate } = useAPI_GetDanjiSuggestList({
     danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : danji?.danji_id,
     pageSize: 10,
   });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.Negocio.callbacks.createSuggest = () => {
+        mutate();
+      };
+
+      return () => {
+        delete window.Negocio.callbacks.createSuggest;
+      };
+    }
+  }, [mutate]);
 
   return (
     <>
