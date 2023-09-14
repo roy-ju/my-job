@@ -39,11 +39,7 @@ export default function ActiveListingInfo({
     pageSize: 4,
   });
 
-  const {
-    data: suggestListings,
-    totalCount: suggestTotalCount,
-    mutate,
-  } = useAPI_GetDanjiSuggestList({
+  const { data: suggestListings, totalCount: suggestTotalCount } = useAPI_GetDanjiSuggestList({
     danjiId: danji?.danji_id,
     pageSize: 4,
   });
@@ -186,18 +182,6 @@ export default function ActiveListingInfo({
       isAccessible(danji.bubjungdong_code);
     }
   }, [danji]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.Negocio.callbacks.createSuggest = () => {
-        mutate();
-      };
-
-      return () => {
-        delete window.Negocio.callbacks.createSuggest;
-      };
-    }
-  }, [mutate]);
 
   if (isListingDetail && danjiListings?.length > 0)
     return (
