@@ -69,7 +69,7 @@ export default function ListingInfo({ data }: Props) {
             {data?.danji_or_regional === DanjiOrRegionalType.Danji ? (
               <span tw="text-gray-1000 text-info line-clamp-1">{data.request_target_text}</span>
             ) : (
-              <span tw="text-gray-1000 text-info line-clamp-1">{data?.request_target_text.split(' ').at(-1)}</span>
+              <span tw="text-gray-1000 text-info line-clamp-1">{data?.request_target_text.split(' ').slice(-1)}</span>
             )}
           </div>
         </div>
