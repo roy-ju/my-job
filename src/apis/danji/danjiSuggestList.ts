@@ -24,7 +24,7 @@ export type DanjiSuggestListItem = {
   invest_amount: number;
   quick_sale: boolean;
   negotiable: boolean;
-  move_in_date: null | string; 
+  move_in_date: null | string;
   move_in_date_type: null | number;
   note: string;
   updated_time: string;
@@ -56,7 +56,6 @@ function getKey(
       page_number: pageIndex + 1,
     },
     null,
-    { revalidateIfStale: false, revalidateOnFocus: false },
   ];
 }
 
@@ -77,7 +76,7 @@ export function useAPI_GetDanjiSuggestList({
     (pageIndex, previousPageData) => getKey(danjiId, pageSize, pageIndex, previousPageData),
     null,
     {
-      revalidateFirstPage: false,
+      revalidateFirstPage: true,
       revalidateOnMount: true,
       onSuccess: () => {},
     },
