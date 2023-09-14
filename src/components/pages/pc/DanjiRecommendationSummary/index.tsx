@@ -9,6 +9,7 @@ import { BuyOrRent } from '@/constants/enums';
 import { DanjiRecommendationSummary as DanjiRecommendationSummaryTemplate } from '@/components/templates';
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
 import { toast } from 'react-toastify';
+import { mutate as otherMutate } from 'swr';
 
 interface Props {
   depth: number;
@@ -35,8 +36,12 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
   }, []);
 
   const handleClickPopupCTA = useCallback(() => {
-    router.replace(Routes.DanjiRecommendation);
-  }, [router]);
+    if (router.query.entry === 'danji') {
+      nextRouter.replace(`/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${params.danji_id}&entry=danji`);
+    } else {
+      router.replace(Routes.DanjiRecommendation);
+    }
+  }, [router, params, nextRouter]);
 
   const handleClickClosePopupCTA = useCallback(() => {
     setPopup(false);
@@ -53,6 +58,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     });
 
     await mutate();
+    await otherMutate(() => true, undefined);
 
     toast.success('구해요 글이 등록되었습니다.');
 
