@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import { DanjiMarker, RegionMarker } from '@/components/organisms';
 import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
 
@@ -27,7 +28,9 @@ interface MarkersProps {
   myMarker?: { lat: number; lng: number } | null;
   searchResultMarker?: { lat: number; lng: number } | null;
   selectedMarker?: CommonMarker | null;
+  selectedMouseOverMarker?: CommonMarker | null;
   danjiSummary?: GetDanjiSummaryResponse;
+  selectedMouseOverDanjiSummary?: GetDanjiSummaryResponse;
   interactionSelectedMarker?: any;
 }
 
@@ -39,7 +42,9 @@ export default function Markers({
   myMarker,
   searchResultMarker,
   selectedMarker,
+  selectedMouseOverMarker,
   danjiSummary,
+  selectedMouseOverDanjiSummary,
   interactionSelectedMarker,
 }: MarkersProps) {
   const { school, around, selectedAroundMarker, selectedSchoolMarker } = useRecoilValue(schoolAroundState);
@@ -140,6 +145,12 @@ export default function Markers({
                   onClick={() => {
                     interactionSelectedMarker.onClick?.call(interactionSelectedMarker);
                   }}
+                  onMouseOver={() => {
+                    interactionSelectedMarker.onMouseOver?.call(interactionSelectedMarker);
+                  }}
+                  onMouseLeave={() => {
+                    interactionSelectedMarker.onMouseLeave?.call(interactionSelectedMarker);
+                  }}
                 >
                   {danjiSummary &&
                     danjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
@@ -189,43 +200,60 @@ export default function Markers({
         ))}
 
       {mapLevel === 1 &&
-        markers.map((marker) => (
-          <DeferredRender key={marker.id}>
-            <CustomOverlay
-              zIndex={selectedMarker?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
-              anchor="bottom-left"
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-            >
-              <DanjiMarker
-                selected={selectedMarker?.id === marker.id}
-                variant={marker.variant}
-                area={Number(marker?.pyoung ?? 0)}
-                price={marker.price ?? 0}
-                count={marker?.listingCount ?? 0}
-                onClick={() => {
-                  marker.onClick?.call(marker);
+        markers.map((marker) => {
+          return (
+            <DeferredRender key={marker.id}>
+              <CustomOverlay
+                zIndex={selectedMarker?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
+                anchor="bottom-left"
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
                 }}
               >
-                {danjiSummary &&
-                  danjiSummary?.danji_id === marker?.danjiID &&
-                  danjiSummary?.realestate_type === marker?.danjiRealestateType &&
-                  danjiSummary?.saedae_count &&
-                  selectedMarker?.id === marker.id && (
-                    <DanjiMarker.Popper
-                      name={danjiSummary?.string ?? ''}
-                      householdCount={danjiSummary.saedae_count}
-                      buyListingCount={danjiSummary?.buy_listing_count ?? 0}
-                      rentListingCount={danjiSummary?.rent_listing_count ?? 0}
-                      onClick={() => {}}
-                    />
-                  )}
-              </DanjiMarker>
-            </CustomOverlay>
-          </DeferredRender>
-        ))}
+                <DanjiMarker
+                  selected={selectedMarker?.id === marker.id}
+                  variant={marker.variant}
+                  area={Number(marker?.pyoung ?? 0)}
+                  price={marker.price ?? 0}
+                  count={marker?.listingCount ?? 0}
+                  onClick={() => {
+                    marker.onClick?.call(marker);
+                  }}
+                >
+                  {danjiSummary &&
+                    danjiSummary?.danji_id === marker?.danjiID &&
+                    danjiSummary?.realestate_type === marker?.danjiRealestateType &&
+                    !!danjiSummary?.saedae_count &&
+                    selectedMarker?.id === marker.id && (
+                      <DanjiMarker.Popper
+                        name={danjiSummary?.string ?? ''}
+                        householdCount={danjiSummary.saedae_count}
+                        buyListingCount={danjiSummary?.buy_listing_count ?? 0}
+                        rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                        onClick={() => {}}
+                      />
+                    )}
+
+                  {selectedMouseOverDanjiSummary &&
+                    selectedMouseOverDanjiSummary?.danji_id === marker?.danjiID &&
+                    selectedMouseOverDanjiSummary?.realestate_type === marker?.danjiRealestateType &&
+                    !!selectedMouseOverDanjiSummary?.saedae_count &&
+                    selectedMouseOverMarker?.id === marker.id &&
+                    selectedMouseOverMarker?.id !== selectedMarker?.id && (
+                      <DanjiMarker.Popper
+                        name={selectedMouseOverDanjiSummary?.string ?? ''}
+                        householdCount={selectedMouseOverDanjiSummary.saedae_count}
+                        buyListingCount={selectedMouseOverDanjiSummary?.buy_listing_count ?? 0}
+                        rentListingCount={selectedMouseOverDanjiSummary?.rent_listing_count ?? 0}
+                        onClick={() => {}}
+                      />
+                    )}
+                </DanjiMarker>
+              </CustomOverlay>
+            </DeferredRender>
+          );
+        })}
 
       {schoolMarkers?.map((marker) => (
         <DeferredRender key={marker.id}>
