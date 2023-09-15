@@ -127,7 +127,7 @@ function Popper({ name, householdCount, buyListingCount, rentListingCount, onCli
   return (
     <button
       type="button"
-      tw="p-3 whitespace-nowrap bg-white flex flex-col rounded-lg border border-gray-1000 z-[100] cursor-default"
+      tw="p-3 whitespace-nowrap bg-white flex flex-col rounded-lg border border-gray-1000 z-[100] cursor-default animate-scale will-change-transform [text-rendering: optimizeSpeed]"
       onClick={onClick}
     >
       <span tw="text-b2 font-bold leading-4 mb-1">{name}</span>
