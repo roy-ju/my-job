@@ -7,7 +7,7 @@ import SaleIcon from '@/assets/icons/my_sale_24.svg';
 import HomeIcon from '@/assets/icons/my_home_24.svg';
 import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
 import OfferIcon from '@/assets/icons/my_offer_24.svg';
-// Save, Recommendation, Sale, Offer, My-Home
+
 export interface MyListingsSummaryProps {
   dashboardInfo?: GetDashboardInfoResponse | null;
   onClickMyAddress?: () => void;
@@ -33,7 +33,7 @@ export default function MyListingsSummary({
       <div tw="flex flex-col gap-2 mb-6">
         <button
           onClick={onClickRequestedSuggests}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
           type="button"
         >
           <div tw="flex gap-2 items-center">
@@ -48,7 +48,7 @@ export default function MyListingsSummary({
         </button>
         <button
           onClick={onClickSuggestRecommendedList}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
           type="button"
         >
           <div tw="flex gap-2 items-center">
@@ -107,7 +107,7 @@ export default function MyListingsSummary({
               onClickMyRegisteredListings?.(firstPriorityItem.tab);
             }
           }}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
           type="button"
         >
           <div tw="flex gap-2 items-center">
@@ -164,7 +164,7 @@ export default function MyListingsSummary({
               onClickMyParticipatingListings?.(firstPriorityItem.tab);
             }
           }}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
           type="button"
         >
           <div tw="flex gap-2">
@@ -183,7 +183,11 @@ export default function MyListingsSummary({
         </button>
       </div>
 
-      <Button variant="ghost" tw="w-full border border-gray-300 h-[60px]" onClick={onClickMyAddress}>
+      <Button
+        variant="ghost"
+        tw="w-full border border-gray-300 h-[60px] hover:border-gray-500"
+        onClick={onClickMyAddress}
+      >
         <div tw="text-start w-full h-full flex items-center">
           <HomeIcon tw="mr-3" />
           <div tw="flex-1 flex flex-col gap-0.5">
