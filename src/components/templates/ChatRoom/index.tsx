@@ -191,7 +191,7 @@ export default function ChatRoom({
           </div>
         )}
       </div>
-      <div tw="pb-10">
+      <div tw="pb-10 [box-shadow:  0px 0px 24px 0px #00000014;]">
         <ChatRoomTextField
           disabled={textFieldDisabled}
           inputRef={inputRef}

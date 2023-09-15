@@ -23,7 +23,7 @@ function PriceText({
   if (monthlyRentFee) {
     return (
       <>
-        <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral>{monthlyRentFee}</Numeral>
+        <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
       </>
     );
   }
@@ -73,7 +73,7 @@ export default function TypeTwo({
           </button>
         ) : (
           <button type="button" tw="flex items-center text-info leading-4 ml-auto">
-            추천하러 가기
+            상세보기
             <ArrowRight />
           </button>
         )}
