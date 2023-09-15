@@ -33,7 +33,7 @@ export default function MyListingsSummary({
       <div tw="flex flex-col gap-2 mb-6">
         <button
           onClick={onClickRequestedSuggests}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300 transition-colors"
           type="button"
         >
           <div tw="flex gap-2 items-center">
@@ -48,7 +48,7 @@ export default function MyListingsSummary({
         </button>
         <button
           onClick={onClickSuggestRecommendedList}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300 transition-colors"
           type="button"
         >
           <div tw="flex gap-2 items-center">
@@ -107,7 +107,7 @@ export default function MyListingsSummary({
               onClickMyRegisteredListings?.(firstPriorityItem.tab);
             }
           }}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300 transition-colors"
           type="button"
         >
           <div tw="flex gap-2 items-center">
@@ -164,7 +164,7 @@ export default function MyListingsSummary({
               onClickMyParticipatingListings?.(firstPriorityItem.tab);
             }
           }}
-          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300"
+          tw="rounded-lg bg-gray-100 text-gray-1000 h-12 px-5 flex justify-between items-center hover:bg-gray-300 transition-colors"
           type="button"
         >
           <div tw="flex gap-2">
@@ -185,7 +185,7 @@ export default function MyListingsSummary({
 
       <Button
         variant="ghost"
-        tw="w-full border border-gray-300 h-[60px] hover:border-gray-500"
+        tw="w-full border border-gray-300 h-[60px] hover:border-gray-500 transition-colors"
         onClick={onClickMyAddress}
       >
         <div tw="text-start w-full h-full flex items-center">

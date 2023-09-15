@@ -37,6 +37,8 @@ export const isPdf = (val: string) => {
 
 export const isMobile = (ua: string) => ua.indexOf('Mobi') > -1;
 
+export const isLocalhost = (hostname: string) => hostname === 'localhost' || hostname === '127.0.0.1';
+
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 
