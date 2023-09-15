@@ -720,7 +720,7 @@ export default function useMapLayout() {
     }
 
     return () => {};
-  }, []);
+  }, [selectedDanjiSummary]);
 
   /**
    * 맵 레이어 핸들링
