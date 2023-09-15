@@ -145,12 +145,6 @@ export default function Markers({
                   onClick={() => {
                     interactionSelectedMarker.onClick?.call(interactionSelectedMarker);
                   }}
-                  onMouseOver={() => {
-                    interactionSelectedMarker.onMouseOver?.call(interactionSelectedMarker);
-                  }}
-                  onMouseLeave={() => {
-                    interactionSelectedMarker.onMouseLeave?.call(interactionSelectedMarker);
-                  }}
                 >
                   {danjiSummary &&
                     danjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
@@ -219,6 +213,12 @@ export default function Markers({
                   count={marker?.listingCount ?? 0}
                   onClick={() => {
                     marker.onClick?.call(marker);
+                  }}
+                  onMouseOver={() => {
+                    marker.onMouseOver?.call(marker);
+                  }}
+                  onMouseLeave={() => {
+                    marker.onMouseLeave?.call(marker);
                   }}
                 >
                   {danjiSummary &&
