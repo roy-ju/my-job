@@ -5,9 +5,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
+import { MobDanjiSummary } from '@/components/organisms';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -73,6 +74,19 @@ function MapWrapper() {
     }
   }, [router, centerAddress, code]);
 
+  const [touchEvent, setTouchEvent] = useState<'none' | 'touch' | 'scroll'>('none');
+  const [render, setRender] = useState(false);
+
+  const handleTouchEvent = useCallback((val: 'none' | 'touch' | 'scroll') => {
+    setTouchEvent(val);
+  }, []);
+
+  useEffect(() => {
+    if (selectedDanjiSummary) {
+      setRender(true);
+    }
+  }, [selectedDanjiSummary]);
+
   return (
     <>
       <MobileGlobalStyles />
@@ -114,6 +128,16 @@ function MapWrapper() {
             selectedSchoolID={selectedSchoolID}
           />
         </Map>
+
+        {render && (
+          <MobDanjiSummary
+            selectedDanjiSummary={selectedDanjiSummary}
+            filter={filter}
+            touchEvent={touchEvent}
+            onTouchEvent={handleTouchEvent}
+          />
+        )}
+
         <AnimatePresence>
           {streetViewEvent && (
             <Layout.Overlay tw="flex items-center justify-center w-full h-[100vh]">
@@ -140,6 +164,7 @@ function MapWrapper() {
           )}
         </AnimatePresence>
       </MobLayoutMapContainer>
+
       {popup === 'locationPermission' && (
         <OverlayPresenter>
           <Popup>
@@ -152,6 +177,7 @@ function MapWrapper() {
           </Popup>
         </OverlayPresenter>
       )}
+
       {popup === 'locationPermissionNative' && (
         <OverlayPresenter>
           <Popup>
