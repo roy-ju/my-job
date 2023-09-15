@@ -108,9 +108,9 @@ export default function My({
           </div>
         )}
         <Separator tw="bg-gray-300" />
-
+        {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
+        {loggedIn && <Separator tw="bg-gray-300" />}
         <MyPageNavigationList>
-          {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
           <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
           <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
           {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}

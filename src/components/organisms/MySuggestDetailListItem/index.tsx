@@ -75,7 +75,7 @@ export default function MySuggestDetailListItem({
             {suggestData?.danji_or_regional === DanjiOrRegionalType.Danji ? (
               <span tw="text-gray-1000 text-info line-clamp-1">{suggestData.request_target_text}</span>
             ) : (
-              <Chip variant="gray">{suggestData?.request_target_text.split(' ').at(-1)}</Chip>
+              <Chip variant="gray">{suggestData?.request_target_text.split(' ').slice(-1)}</Chip>
             )}
           </div>
           {suggestData?.danji_or_regional === DanjiOrRegionalType.Danji && (
