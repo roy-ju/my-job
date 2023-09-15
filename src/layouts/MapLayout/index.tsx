@@ -55,7 +55,9 @@ function MapWrapper({
     popup,
     setPopup,
     selectedMarker,
+    selectedMouseOverMarker,
     danjiSummary,
+    selectedMouseOverDanjiSummary,
     removeMyMarker,
     searchResultMarker,
     interactionSelectedMarker,
@@ -145,8 +147,10 @@ function MapWrapper({
             myMarker={myMarker}
             searchResultMarker={searchResultMarker}
             selectedMarker={selectedMarker}
+            selectedMouseOverMarker={selectedMouseOverMarker}
             interactionSelectedMarker={interactionSelectedMarker}
             danjiSummary={danjiSummary}
+            selectedMouseOverDanjiSummary={selectedMouseOverDanjiSummary}
             aroundMarkers={aroundMarkers}
           />
         </Map>
