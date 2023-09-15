@@ -14,6 +14,7 @@ import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
 import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
+import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -27,6 +28,8 @@ export default function ActiveListingInfo({
 }) {
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
+
+  const { mobileNaverURL } = useAPI_GetDanjiNaver({ danjiId: danji?.danji_id });
 
   const [tab, setTab] = useState(1);
 
@@ -110,6 +113,12 @@ export default function ActiveListingInfo({
     }
   };
 
+  const handleOpenNaverRealestate = () => {
+    if (mobileNaverURL) {
+      window.open(mobileNaverURL);
+    }
+  };
+
   const handleSuggestCTA = () => {
     if (isRecommendationService) {
       setImpossibleRecommendataionPopup(false);
@@ -144,6 +153,12 @@ export default function ActiveListingInfo({
         <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
           매물 전체보기&nbsp;{!!totalCount && <span tw="font-bold">{totalCount}</span>}
         </Button>
+
+        {mobileNaverURL && (
+          <Button variant="outlined" tw="w-full" size="medium" onClick={handleOpenNaverRealestate}>
+            네이버부동산에서 매물 보러가기
+          </Button>
+        )}
       </div>
     );
 
@@ -255,9 +270,17 @@ export default function ActiveListingInfo({
           )}
 
           {tab === 2 && (
-            <Button tw="w-full" onClick={handleCreateListing} size="bigger">
-              매물 등록
-            </Button>
+            <>
+              <Button tw="w-full" onClick={handleCreateListing} size="bigger">
+                매물 등록
+              </Button>
+
+              {mobileNaverURL && (
+                <Button variant="outlined" tw="w-full mt-4" size="medium" onClick={handleOpenNaverRealestate}>
+                  네이버부동산에서 매물 보러가기
+                </Button>
+              )}
+            </>
           )}
         </div>
       </div>

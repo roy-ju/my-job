@@ -41,7 +41,7 @@ export default function TypeOne({
             </Chip>
 
             <button type="button" tw="flex items-center text-info leading-4 ml-auto">
-              상세보기
+              자세히
               <ArrowRight />
             </button>
           </div>
@@ -69,7 +69,7 @@ export default function TypeOne({
 
           {!item.is_participating && (
             <button type="button" tw="flex items-center text-info leading-4 ml-auto">
-              제안하러 가기
+              자세히
               <ArrowRight />
             </button>
           )}
