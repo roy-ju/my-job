@@ -1,5 +1,8 @@
 import { NextRouter, withRouter } from 'next/router';
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
+import { isLocalhost } from '@/utils/is';
+import logError from '@/apis/dev/logError';
+import { checkPlatform } from '@/utils/checkPlatform';
 
 interface Props {
   router: NextRouter;
@@ -33,11 +36,26 @@ class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error:', error, errorInfo);
+    const isPC = checkPlatform() === 'pc';
+
+    if (isLocalhost(window.location.hostname)) return;
+
+    logError({
+      source: isPC ? 'Negocio Web' : 'Negocio Mobile',
+      route: window.location.href,
+      message: error.message,
+    });
+
+    if (isPC) {
+      window.location.replace('/');
+    } else {
+      window.location.replace('/m');
+    }
   }
 
   public render() {
     if (this.state.hasError) {
-      return <h1>Sorry.. there was an error</h1>;
+      return null;
     }
 
     return this.props.children;

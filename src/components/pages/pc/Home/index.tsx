@@ -21,7 +21,6 @@ import { memo, useCallback, useState } from 'react';
 
 export default memo(() => {
   const router = useRouter(0);
-
   const [openPopup, setOpenPopup] = useState(false);
 
   const map = useMap();
