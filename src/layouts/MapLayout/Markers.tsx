@@ -198,7 +198,15 @@ export default function Markers({
           return (
             <DeferredRender key={marker.id}>
               <CustomOverlay
-                zIndex={selectedMarker?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
+                zIndex={
+                  selectedMarker?.id === marker.id
+                    ? 100
+                    : selectedMouseOverMarker?.id === marker.id
+                    ? 99
+                    : marker.listingCount
+                    ? 11
+                    : 10
+                }
                 anchor="bottom-left"
                 position={{
                   lat: marker.lat,
