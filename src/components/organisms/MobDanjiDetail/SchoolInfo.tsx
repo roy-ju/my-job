@@ -33,6 +33,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
   const onChangeSelectedSchoolType = useCallback((val: number) => {
     setSelectedSchoolType(val);
+    setIsClickMore(false);
   }, []);
 
   const handleClickHakgudo = useCallback(() => {
