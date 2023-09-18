@@ -15,6 +15,7 @@ import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
 import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
+import NaverLogo from '@/assets/icons/naver_logo.svg';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -156,7 +157,8 @@ export default function ActiveListingInfo({
 
         {mobileNaverURL && (
           <Button variant="outlined" tw="w-full" size="medium" onClick={handleOpenNaverRealestate}>
-            네이버부동산에서 매물 보러가기
+            <NaverLogo style={{ marginRight: '4px' }} />
+            네이버 호가 확인하기
           </Button>
         )}
       </div>
@@ -270,17 +272,16 @@ export default function ActiveListingInfo({
           )}
 
           {tab === 2 && (
-            <>
-              <Button tw="w-full" onClick={handleCreateListing} size="bigger">
-                매물 등록
-              </Button>
+            <Button tw="w-full" onClick={handleCreateListing} size="bigger">
+              매물 등록
+            </Button>
+          )}
 
-              {mobileNaverURL && (
-                <Button variant="outlined" tw="w-full mt-4" size="medium" onClick={handleOpenNaverRealestate}>
-                  네이버부동산에서 매물 보러가기
-                </Button>
-              )}
-            </>
+          {mobileNaverURL && (
+            <Button variant="outlined" tw="w-full mt-4" size="medium" onClick={handleOpenNaverRealestate}>
+              <NaverLogo style={{ marginRight: '4px' }} />
+              네이버 호가 확인하기
+            </Button>
           )}
         </div>
       </div>
