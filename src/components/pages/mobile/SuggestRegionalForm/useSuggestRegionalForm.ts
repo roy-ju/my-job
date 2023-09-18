@@ -1,12 +1,13 @@
 import { RegionItem } from '@/components/organisms/RegionList';
 import { Forms } from '@/components/templates/SuggestRegionalForm/FormRenderer';
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { searchAddress } from '@/lib/kakao/search_address';
+import { TimeTypeString } from '@/constants/strings';
 import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 
 export default function useSuggestRegionalForm() {
@@ -271,6 +272,7 @@ export default function useSuggestRegionalForm() {
       pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalSummary}`,
       query: {
         params: JSON.stringify(params),
+        forms: JSON.stringify(forms),
       },
     });
   }, [
@@ -289,6 +291,7 @@ export default function useSuggestRegionalForm() {
     description,
     router,
     emptyTextFields,
+    forms,
   ]);
 
   const handleChangeBubjungdong = useCallback(
@@ -444,6 +447,50 @@ export default function useSuggestRegionalForm() {
       }
     }
   }, [forms, bubjungdong, realestateType, buyOrRent, price, purpose, remainingAmountDate, moveInDate, investAmount]);
+
+  // 수정하기 프리필 로직
+  useIsomorphicLayoutEffect(() => {
+    if (!router.query.params) return;
+    if (!router.query.forms) return;
+
+    setForms(JSON.parse(router.query.forms as string));
+    const params: Record<string, unknown> = JSON.parse(router.query.params as string);
+
+    setRealestateType(
+      String(params.realestate_types)
+        .split(',')
+        .map((v) => +v)
+        .filter((type) => type !== RealestateType.Yunrip),
+    );
+
+    if (Number(params.buy_or_rents) === BuyOrRent.Buy) {
+      setBuyOrRent(1);
+      setPrice(params.trade_price ? String(params.trade_price)?.slice(0, -4) : '');
+      setInvestAmount(params.invest_amount ? String(params.invest_amount)?.slice(0, -4) : '');
+    } else {
+      setBuyOrRent(2);
+      setPrice(params.deposit ? String(params.deposit)?.slice(0, -4) : '');
+      setMonthlyRentFee(params.monthly_rent_fee ? String(params.monthly_rent_fee)?.slice(0, -4) : '');
+    }
+    setNegotiable(Boolean(params.negotiable));
+    setMinArea(String(params.pyoung_from ?? ''));
+    setMaxArea(String(params.pyoung_to ?? ''));
+    setPurpose(String(params.purpose ?? ''));
+
+    if (String(params.purpose) === '투자') {
+      setMoveInDate(null);
+      setMoveInDateType('이전');
+    } else {
+      setMoveInDate(new Date(String(params.move_in_date ?? '')));
+      setMoveInDateType(params.move_in_date_type ? TimeTypeString[Number(params.move_in_date_type)] : '이전');
+    }
+    setDescription(String(params.note ?? ''));
+
+    const region = document.getElementById(Forms.Region);
+    if (region) {
+      region.style.minHeight = '';
+    }
+  }, []);
 
   return {
     forms,

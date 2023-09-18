@@ -8,10 +8,13 @@ import tw, { styled } from 'twin.macro';
 const StyledTable = styled.table`
   ${tw`w-full text-b2`}
   th {
-    ${tw`py-1 text-gray-1000`}
+    ${tw`py-2 text-gray-1000 w-21`}
   }
   td {
-    ${tw`py-1 text-end`}
+    ${tw`w-auto py-2 text-left`}
+  }
+  tbody tr:not(:last-of-type) {
+    ${tw`border-b border-b-gray-300`}
   }
 `;
 
@@ -69,7 +72,7 @@ export default function SuggestRegionalSummary({
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="py-7 px-5">
-          <div tw="font-bold mb-1">입력한 내용으로 매물추천을 받아 볼래요.</div>
+          <div tw="font-bold mb-1">구하는 내용을 최종 확인해주세요.</div>
           <p tw="text-gray-700 text-info">
             등록하신 정보의 수정 및 추천된 매물의 확인은
             <br />
@@ -170,9 +173,14 @@ export default function SuggestRegionalSummary({
         </div>
       </div>
       <PersistentBottomBar>
-        <Button tw="w-full" size="bigger" onClick={onClickNext} isLoading={isNextButtonLoading}>
-          입력 완료
-        </Button>
+        <div tw="flex gap-4">
+          <Button tw="w-full" size="bigger" variant="outlined" onClick={onClickBack}>
+            뒤로가기
+          </Button>
+          <Button tw="w-full" size="bigger" onClick={onClickNext} isLoading={isNextButtonLoading}>
+            입력 완료
+          </Button>
+        </div>
       </PersistentBottomBar>
     </div>
   );
