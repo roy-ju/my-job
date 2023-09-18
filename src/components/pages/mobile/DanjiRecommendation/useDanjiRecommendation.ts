@@ -7,6 +7,7 @@ import Routes from '@/router/routes';
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { useRouter } from 'next/router';
+import { TimeTypeString } from '@/constants/strings';
 import makeRecommendDanjiParams from './makeRecommendDanjiParams';
 
 export default function useDanjiRecommendation() {
@@ -283,9 +284,11 @@ export default function useDanjiRecommendation() {
         redirect: router?.query?.redirect ? (router?.query?.redirect as string) : '',
         danjiID,
         params: JSON.stringify(params),
+        forms: JSON.stringify(forms),
       },
     });
   }, [
+    forms,
     danjiID,
     buyOrRent,
     price,
@@ -306,6 +309,7 @@ export default function useDanjiRecommendation() {
   const handleChangeDanjiID = useCallback(
     (value: string) => {
       setDanjiID(value);
+      setPyoungList([]);
       const currentForm = forms[forms.length - 1];
       if (currentForm === Forms.Danji) {
         handleSubmitDanji();
@@ -422,6 +426,46 @@ export default function useDanjiRecommendation() {
       }
     }
   }, [forms, danjiID, buyOrRent, investAmount, purpose, moveInDate, pyoungList, price, quickSale]);
+
+  // 수정하기 프리필 로직
+
+  useIsomorphicLayoutEffect(() => {
+    if (!router.query.params) return;
+    if (!router.query.forms) return;
+    setForms(JSON.parse(router.query.forms as string));
+    const params: Record<string, unknown> = JSON.parse(router.query.params as string);
+
+    setDanjiID(router.query.danjiID as string);
+
+    if (Number(params.buy_or_rents) === BuyOrRent.Buy) {
+      setBuyOrRent(1);
+      setPrice(params.trade_price ? String(params.trade_price)?.slice(0, -4) : '');
+      setInvestAmount(params.invest_amount ? String(params.invest_amount)?.slice(0, -4) : '');
+      setQuickSale(params.quick_sale ? String(+params.quick_sale) : '0');
+    } else {
+      setBuyOrRent(2);
+      setPrice(params.deposit ? String(params.deposit)?.slice(0, -4) : '');
+      setMonthlyRentFee(params.monthly_rent_fee ? String(params.monthly_rent_fee)?.slice(0, -4) : '');
+    }
+    setNegotiable(Boolean(params.negotiable));
+
+    setPyoungList((params.pyoungs as number[]) ?? []);
+    setPurpose(String(params.purpose ?? ''));
+
+    if (String(params.purpose) === '투자') {
+      setMoveInDate(null);
+      setMoveInDateType('이전');
+    } else {
+      setMoveInDate(new Date(String(params.move_in_date ?? '')));
+      setMoveInDateType(params.move_in_date_type ? TimeTypeString[Number(params.move_in_date_type)] : '이전');
+    }
+    setDescription(String(params.note ?? ''));
+
+    const formDanji = document.getElementById(Forms.Danji);
+    if (formDanji) {
+      formDanji.style.minHeight = '';
+    }
+  }, []);
 
   return {
     forms,
