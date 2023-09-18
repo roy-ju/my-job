@@ -509,6 +509,11 @@ export default function useSuggestRegionalForm(depth: number) {
     if (region) {
       region.style.minHeight = '';
     }
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('params');
+    url.searchParams.delete('forms');
+    nextRouter.replace(url.toString());
   }, []);
 
   return {
