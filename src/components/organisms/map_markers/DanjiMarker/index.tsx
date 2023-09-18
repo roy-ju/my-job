@@ -144,8 +144,9 @@ function Popper({
     >
       <span tw="text-b2 font-bold leading-4 mb-1">{name}</span>
       <div tw="flex gap-1 items-center">
-        <span tw="text-gray-700 text-info leading-none">{householdCount}세대</span>
-
+        {!!householdCount && (
+          <span tw="text-gray-700 text-info leading-none">{householdCount.toLocaleString()}세대</span>
+        )}
         {Boolean(suggestCount) && (
           <>
             <div tw="[min-height: 8px] [min-width: 1px] [background: #E9ECEF]" />
