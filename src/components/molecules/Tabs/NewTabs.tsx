@@ -88,7 +88,7 @@ function NewTabs({ variant = 'contained', value: valueProp, children, onChange }
 
   return (
     <NewTabsContext.Provider value={context}>
-      <motion.div layout layoutRoot css={[tw`flex items-center`, newTabsStyles[variant]]}>
+      <motion.div css={[tw`flex items-center`, newTabsStyles[variant]]}>
         {tabChildren?.map((child) =>
           isValidElement(child) ? (
             <div tw="relative flex-1" key={child.key ?? child.props.value}>

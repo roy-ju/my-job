@@ -320,6 +320,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
               <MobDanjiDetailSection.SchoolInfo danji={danji} />
               <Separator tw="w-full [min-height: 8px]" />
               <MobDanjiDetailSection.AroundInfo danji={danji} />
+              <div tw="[min-height: 80px] w-full" />
             </div>
           </MobDanjiDetailSection>
         </div>

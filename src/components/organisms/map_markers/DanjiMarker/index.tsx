@@ -2,6 +2,7 @@
 import React, { MouseEventHandler, ReactNode, useState } from 'react';
 import { Numeral } from '@/components/atoms';
 import tw from 'twin.macro';
+import { BuyOrRent } from '@/constants/enums';
 import MarkerTail from '../assets/marker_tail.svg';
 import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
 import variants, { VariantKey } from '../variants';
@@ -118,30 +119,58 @@ interface PopperProps {
   buyListingCount: number;
   /** 전월세 매물수 */
   rentListingCount: number;
-
+  /** 전월세 매물수 */
+  suggestCount: number;
   /** 마커 클릭 이벤트 핸들러 */
   onClick?: MouseEventHandler<HTMLButtonElement>;
+
+  mapBuyOrRent?: string;
 }
 
-function Popper({ name, householdCount, buyListingCount, rentListingCount, onClick }: PopperProps) {
+function Popper({
+  name,
+  householdCount,
+  buyListingCount,
+  rentListingCount,
+  suggestCount,
+  mapBuyOrRent,
+  onClick,
+}: PopperProps) {
   return (
     <button
       type="button"
-      tw="p-3 whitespace-nowrap bg-white flex flex-col rounded-lg border border-gray-1000 z-[100] cursor-default"
+      tw="p-3 whitespace-nowrap bg-white flex flex-col rounded-lg border border-gray-1000 z-[100] cursor-default animate-scale will-change-transform [text-rendering: optimizeSpeed]"
       onClick={onClick}
     >
       <span tw="text-b2 font-bold leading-4 mb-1">{name}</span>
-      <div tw="flex gap-2 items-center">
+      <div tw="flex gap-1 items-center">
         <span tw="text-gray-700 text-info leading-none">{householdCount}세대</span>
-        {Boolean(buyListingCount) && (
-          <span tw="text-gray-700 text-info leading-none">
-            매매 <span tw="text-gray-1000">{buyListingCount}</span>
-          </span>
+
+        {Boolean(suggestCount) && (
+          <>
+            <div tw="[min-height: 8px] [min-width: 1px] [background: #E9ECEF]" />
+            <span tw="text-gray-700 text-info leading-none">
+              구해요 <span tw="text-gray-1000">{suggestCount}</span>
+            </span>
+          </>
         )}
-        {Boolean(rentListingCount) && (
-          <span tw="text-gray-700 text-info leading-none">
-            전월세 <span tw="text-gray-1000">{rentListingCount}</span>
-          </span>
+
+        {Boolean(buyListingCount) && mapBuyOrRent === BuyOrRent.Buy.toString() && (
+          <>
+            <div tw="[min-height: 8px] [min-width: 1px] [background: #E9ECEF]" />
+            <span tw="text-gray-700 text-info leading-none">
+              매물 <span tw="text-gray-1000">{buyListingCount}</span>
+            </span>
+          </>
+        )}
+
+        {Boolean(rentListingCount) && mapBuyOrRent !== BuyOrRent.Buy.toString() && (
+          <>
+            <div tw="[min-height: 8px] [min-width: 1px] [background: #E9ECEF]" />
+            <span tw="text-gray-700 text-info leading-none">
+              매물 <span tw="text-gray-1000">{rentListingCount}</span>
+            </span>
+          </>
         )}
       </div>
     </button>
