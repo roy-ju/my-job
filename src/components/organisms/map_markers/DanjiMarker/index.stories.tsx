@@ -44,10 +44,22 @@ DanjiRealPriceWithCount.args = {
 export const DanjiMarkerWithPopper: ComponentStory<typeof DanjiMarker> = () => (
   <div tw="p-20 flex flex-col gap-20">
     <DanjiMarker variant="blue" area={10} price={100000000} count={10}>
-      <DanjiMarker.Popper name="기흥더샵프라임뷰" householdCount={1000} buyListingCount={10} rentListingCount={10} />
+      <DanjiMarker.Popper
+        name="기흥더샵프라임뷰"
+        householdCount={1000}
+        buyListingCount={10}
+        rentListingCount={10}
+        suggestCount={1}
+      />
     </DanjiMarker>
     <DanjiMarker variant="blue" area={10} price={100000000} count={0}>
-      <DanjiMarker.Popper name="기흥더샵프라임뷰" householdCount={1000} buyListingCount={10} rentListingCount={10} />
+      <DanjiMarker.Popper
+        name="기흥더샵프라임뷰"
+        householdCount={1000}
+        buyListingCount={10}
+        rentListingCount={10}
+        suggestCount={1}
+      />
     </DanjiMarker>
   </div>
 );
