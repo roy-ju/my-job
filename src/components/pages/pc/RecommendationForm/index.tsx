@@ -56,8 +56,7 @@ export default memo(({ depth, panelWidth }: Props) => {
                 router.replace(Routes.SuggestRegionalForm, {
                   searchParams: {
                     address: item.name,
-                    redirect: `${router.asPath}`,
-                    back: 'true',
+                    back: `${router.asPath}`,
                   },
                 });
               }}
