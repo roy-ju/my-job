@@ -5,6 +5,8 @@ import { styled } from 'twin.macro';
 import { formatCreatedTime } from '@/utils/formatLastMessageTime';
 import { SuggestRecommendStatus } from '@/constants/enums';
 
+import ViewIcon from '@/assets/icons/view.svg';
+
 interface Props {
   data?: GetSuggestDetailResponse | null;
 }
@@ -29,9 +31,15 @@ export default function UserInfo({ data }: Props) {
       {data?.suggest_status === SuggestRecommendStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>}
 
       {data?.created_time && (
-        <span tw="ml-auto text-gray-700 text-info [letter-spacing: -0.4px]">
-          {formatCreatedTime(data.created_time)}
-        </span>
+        <span tw="ml-3 text-gray-700 text-info [letter-spacing: -0.4px]">{formatCreatedTime(data.created_time)}</span>
+      )}
+
+      {!!data?.view_count && (
+        <div tw="flex items-center gap-1 text-info text-gray-700 ml-auto">
+          <ViewIcon />
+          <span>조회수</span>
+          <span>{data.view_count}</span>
+        </div>
       )}
     </Wrraper>
   );

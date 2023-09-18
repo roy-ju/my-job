@@ -54,8 +54,8 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
               <Moment format="relative">{item?.created_time}</Moment>
             </div>
             <div tw="text-info text-gray-700">
-              추천받은 매물수{' '}
-              <span css={[Boolean(item?.suggest_recommended_count) && tw`font-bold text-nego-1000`]}>
+              추천받은 수{' '}
+              <span css={[item?.suggest_recommended_count && tw`font-bold text-nego-1000`]} tw="font-medium">
                 {item?.suggest_recommended_count ?? 0}
               </span>
             </div>
