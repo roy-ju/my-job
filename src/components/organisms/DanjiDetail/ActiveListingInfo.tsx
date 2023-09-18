@@ -13,6 +13,8 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
+import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
+import NaverLogo from '@/assets/icons/naver_logo.svg';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -26,6 +28,8 @@ export default function ActiveListingInfo({
 }) {
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
+
+  const { pcNaverURL } = useAPI_GetDanjiNaver({ danjiId: danji?.danji_id });
 
   const [tab, setTab] = useState(1);
 
@@ -155,6 +159,12 @@ export default function ActiveListingInfo({
     }
   };
 
+  const handleOpenNaverRealestate = () => {
+    if (pcNaverURL) {
+      window.open(pcNaverURL);
+    }
+  };
+
   const handleSuggestCTA = () => {
     if (isRecommendationService) {
       setImpossibleRecommendataionPopup(false);
@@ -195,6 +205,13 @@ export default function ActiveListingInfo({
         >
           매물 전체보기&nbsp;{!!totalCount && <span tw="font-bold">{totalCount}</span>}
         </Button>
+
+        {pcNaverURL && (
+          <Button variant="outlined" tw="w-full" size="medium" onClick={handleOpenNaverRealestate}>
+            <NaverLogo style={{ marginRight: '4px' }} />
+            네이버 호가 확인하기
+          </Button>
+        )}
       </div>
     );
 
@@ -312,6 +329,13 @@ export default function ActiveListingInfo({
           {tab === 2 && (
             <Button tw="w-full" onClick={handleCreateListing} size="bigger">
               매물 등록
+            </Button>
+          )}
+
+          {pcNaverURL && (
+            <Button variant="outlined" tw="w-full mt-4" size="medium" onClick={handleOpenNaverRealestate}>
+              <NaverLogo style={{ marginRight: '4px' }} />
+              네이버 호가 확인하기
             </Button>
           )}
         </div>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable consistent-return */
-import { ChangeEventHandler, ReactNode, useEffect, useState } from 'react';
+import { ChangeEventHandler, ReactNode, useCallback, useEffect, useState } from 'react';
 import {
   MobDanjiSummary,
   MobGlobalNavigation,
@@ -64,14 +64,12 @@ function MobLayoutMapContainer({
   mapLayer,
   schoolType,
   filter,
-  unreadChatCount,
   centerAddress,
   mapToggleValue,
   listingCount,
   myMarker,
   isGeoLoading,
   selectedDanjiSummary,
-  selctedListingSummary,
   priceSelectDisabled = false,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
@@ -97,9 +95,9 @@ function MobLayoutMapContainer({
 
   const [isRenderGuideOverlay, setIsRenderGuideOverlay] = useState(false);
 
-  const disappearGuideOverlay = () => {
+  const handleGuidOverlay = useCallback(() => {
     setIsRenderGuideOverlay(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('neogico-mob-map-initial') === 'true') {
@@ -125,7 +123,7 @@ function MobLayoutMapContainer({
     <>
       <div tw="flex flex-col w-full max-w-mobile h-full overflow-y-hidden mx-auto items-center">
         <MobMapHeader />
-        {isRenderGuideOverlay && <MobGuideOverlay disappearGuideOverlay={disappearGuideOverlay} />}
+        {isRenderGuideOverlay && <MobGuideOverlay disappearGuideOverlay={handleGuidOverlay} />}
 
         <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
         <div id="map-container" tw="relative flex-1 w-full max-w-mobile">
@@ -220,8 +218,6 @@ function MobLayoutMapContainer({
           </div>
         )}
 
-        {selectedDanjiSummary && <MobDanjiSummary selectedDanjiSummary={selectedDanjiSummary} filter={filter} />}
-        {/* {selctedListingSummary && <MobListingSummary selctedListingSummary={selctedListingSummary} />} */}
         <MobGlobalNavigation index={2} />
       </div>
     </>

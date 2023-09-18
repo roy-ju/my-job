@@ -32,6 +32,7 @@ interface MarkersProps {
   danjiSummary?: GetDanjiSummaryResponse;
   selectedMouseOverDanjiSummary?: GetDanjiSummaryResponse;
   interactionSelectedMarker?: any;
+  mapBuyOrRent?: string;
 }
 
 export default function Markers({
@@ -46,6 +47,7 @@ export default function Markers({
   danjiSummary,
   selectedMouseOverDanjiSummary,
   interactionSelectedMarker,
+  mapBuyOrRent,
 }: MarkersProps) {
   const { school, around, selectedAroundMarker, selectedSchoolMarker } = useRecoilValue(schoolAroundState);
 
@@ -145,12 +147,6 @@ export default function Markers({
                   onClick={() => {
                     interactionSelectedMarker.onClick?.call(interactionSelectedMarker);
                   }}
-                  onMouseOver={() => {
-                    interactionSelectedMarker.onMouseOver?.call(interactionSelectedMarker);
-                  }}
-                  onMouseLeave={() => {
-                    interactionSelectedMarker.onMouseLeave?.call(interactionSelectedMarker);
-                  }}
                 >
                   {danjiSummary &&
                     danjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
@@ -158,10 +154,12 @@ export default function Markers({
                     !!danjiSummary?.saedae_count && (
                       <DanjiMarker.Popper
                         name={danjiSummary?.string ?? ''}
+                        suggestCount={danjiSummary.suggest_count ?? 0}
                         householdCount={danjiSummary?.saedae_count}
                         buyListingCount={danjiSummary?.buy_listing_count ?? 0}
                         rentListingCount={danjiSummary?.rent_listing_count ?? 0}
                         onClick={() => {}}
+                        mapBuyOrRent={mapBuyOrRent}
                       />
                     )}
                 </DanjiMarker>
@@ -204,7 +202,15 @@ export default function Markers({
           return (
             <DeferredRender key={marker.id}>
               <CustomOverlay
-                zIndex={selectedMarker?.id === marker.id ? 100 : marker.listingCount ? 11 : 10}
+                zIndex={
+                  selectedMarker?.id === marker.id
+                    ? 100
+                    : selectedMouseOverMarker?.id === marker.id
+                    ? 99
+                    : marker.listingCount
+                    ? 11
+                    : 10
+                }
                 anchor="bottom-left"
                 position={{
                   lat: marker.lat,
@@ -220,6 +226,12 @@ export default function Markers({
                   onClick={() => {
                     marker.onClick?.call(marker);
                   }}
+                  onMouseOver={() => {
+                    marker.onMouseOver?.call(marker);
+                  }}
+                  onMouseLeave={() => {
+                    marker.onMouseLeave?.call(marker);
+                  }}
                 >
                   {danjiSummary &&
                     danjiSummary?.danji_id === marker?.danjiID &&
@@ -229,8 +241,10 @@ export default function Markers({
                       <DanjiMarker.Popper
                         name={danjiSummary?.string ?? ''}
                         householdCount={danjiSummary.saedae_count}
+                        suggestCount={danjiSummary.suggest_count ?? 0}
                         buyListingCount={danjiSummary?.buy_listing_count ?? 0}
                         rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                        mapBuyOrRent={mapBuyOrRent}
                         onClick={() => {}}
                       />
                     )}
@@ -243,9 +257,11 @@ export default function Markers({
                     selectedMouseOverMarker?.id !== selectedMarker?.id && (
                       <DanjiMarker.Popper
                         name={selectedMouseOverDanjiSummary?.string ?? ''}
+                        suggestCount={selectedMouseOverDanjiSummary.suggest_count ?? 0}
                         householdCount={selectedMouseOverDanjiSummary.saedae_count}
                         buyListingCount={selectedMouseOverDanjiSummary?.buy_listing_count ?? 0}
                         rentListingCount={selectedMouseOverDanjiSummary?.rent_listing_count ?? 0}
+                        mapBuyOrRent={mapBuyOrRent}
                         onClick={() => {}}
                       />
                     )}
