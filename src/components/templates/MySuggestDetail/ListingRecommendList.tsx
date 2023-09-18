@@ -22,7 +22,7 @@ export default function ListingRecommendList({
   onClickDeleteSuggestRecommendItem,
 }: Props) {
   if (!recommendData?.length) {
-    return <NoDataUI title="제안 받은 내용이 없습니다." body="집주인과 중개사의 제안을 기다려 주세요." />;
+    return <NoDataUI title="추천받은 매물이 없습니다." body="집주인과 중개사의 추천을 기다려 주세요." />;
   }
 
   return (
