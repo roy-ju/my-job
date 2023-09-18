@@ -140,10 +140,10 @@ export default function MySuggestDetailListItem({
       )}
       <div tw="flex flex-col items-center  gap-4">
         <Button variant="outlined" tw="w-full" onClick={onClickSuggestUpdate}>
-          요청 수정
+          구해요 요청 수정
         </Button>
         <button onClick={onClickDeleteSuggest} type="button" tw="underline text-info leading-4 text-gray-1000">
-          요청 취소
+          구해요 요청 취소
         </button>
       </div>
     </div>
