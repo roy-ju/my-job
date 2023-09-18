@@ -1,7 +1,6 @@
 import { Avatar } from '@/components/atoms';
 import { StaticImageData } from 'next/image';
 import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
-import { theme } from 'twin.macro';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 
 interface MySummaryProps {

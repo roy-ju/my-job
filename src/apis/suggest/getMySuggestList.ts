@@ -11,6 +11,13 @@ export interface GetMySuggestListResponse {
         status: number;
         suggest_recommended_count: number;
         created_time: string;
+        danji_or_regional: number;
+        buy_or_rents: string;
+        trade_or_deposit_price: number;
+        monthly_rent_fee: number;
+        pyoung_text: string;
+        negotiable: boolean;
+        quick_sale: boolean;        
       }[]
     | null;
 }
