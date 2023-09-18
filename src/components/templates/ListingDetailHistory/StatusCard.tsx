@@ -36,12 +36,15 @@ export default function StatusCard({
       <div tw="flex flex-col gap-2">
         {(isPreContractCompleted || isContractCompleted) && (
           <>
-            <div tw="text-b2 flex justify-between">
-              <span>{isPreContractCompleted ? '거래성사일' : '체결일'}</span>
+            <div tw="text-b2 flex gap-3">
+              <span tw="min-w-[84px]">{isPreContractCompleted ? '거래성사일' : '체결일'}</span>
+
               <Moment format="YYYY.MM.DD">{contractDate}</Moment>
             </div>
-            <div tw="text-b2 flex justify-between">
-              <span>{isPreContractCompleted ? '거래성사 가격' : '체결가'}</span>
+
+            <div tw="text-b2 flex gap-3">
+              <span tw="min-w-[84px]">{isPreContractCompleted ? '거래성사 가격' : '체결가'}</span>
+
               {isMonthlyRent ? (
                 <div>
                   <Numeral thousandsSeparated koreanNumber>
@@ -58,8 +61,8 @@ export default function StatusCard({
             </div>
           </>
         )}
-        <div tw="text-b2 flex justify-between">
-          <span tw="min-w-[74px] shrink-0 self-start">상태</span>
+        <div tw="text-b2 flex gap-3">
+          <span tw="min-w-[84px] shrink-0 self-start">상태</span>
           <span tw="text-nego-800">{statusText}</span>
         </div>
       </div>
