@@ -4,9 +4,7 @@ import { AuthRequired, Panel } from '@/components/atoms';
 import { SuggestRegionalSummary } from '@/components/templates';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
-import Routes from '@/router/routes';
 import { memo, useCallback, useMemo, useState } from 'react';
-import { OverlayPresenter, Popup } from '@/components/molecules';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 import { toast } from 'react-toastify';
 
@@ -19,7 +17,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   const nextRouter = useNextRouter();
   const router = useRouter(depth);
   const [isCreating, setIsCreating] = useState(false);
-  const [popup, setPopup] = useState(false);
 
   const { mutate } = useAPI_GetDashboardInfo();
 
@@ -31,16 +28,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router.query.params]);
 
   const handleClickBack = useCallback(() => {
-    setPopup(true);
-  }, []);
-
-  const handleClickPopupCTA = useCallback(() => {
-    router.replace(Routes.SuggestRegionalForm);
-  }, [router]);
-
-  const handleClickClosePopupCTA = useCallback(() => {
-    setPopup(false);
-  }, []);
+    nextRouter.replace(`${router.query.back as string}&params=${JSON.stringify(params)}&forms=${router.query.forms}`);
+  }, [nextRouter, router, params]);
 
   const handleClickNext = useCallback(async () => {
     setIsCreating(true);
@@ -84,26 +73,6 @@ export default memo(({ depth, panelWidth }: Props) => {
           negotiable={params?.negotiable}
         />
       </Panel>
-      <>
-        {popup && (
-          <OverlayPresenter>
-            <Popup>
-              <Popup.ContentGroup>
-                <Popup.Title>추천받기를 종료하시겠습니까?</Popup.Title>
-                <Popup.Body>
-                  추천받기를 종료하시면 입력하신 내용이 모두 삭제됩니다.
-                  <br />
-                  입력한 내용을 확인 또는 수정하시려면 화면을 위로 이동해 주세요.
-                </Popup.Body>
-              </Popup.ContentGroup>
-              <Popup.ButtonGroup>
-                <Popup.CancelButton onClick={handleClickClosePopupCTA}>닫기</Popup.CancelButton>
-                <Popup.ActionButton onClick={handleClickPopupCTA}>추천받기 종료</Popup.ActionButton>
-              </Popup.ButtonGroup>
-            </Popup>
-          </OverlayPresenter>
-        )}
-      </>
     </AuthRequired>
   );
 });
