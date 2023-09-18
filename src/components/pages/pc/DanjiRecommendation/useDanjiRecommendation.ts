@@ -7,11 +7,13 @@ import Routes from '@/router/routes';
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
 import { TimeTypeString } from '@/constants/strings';
+import { useRouter as useNextRouter } from 'next/router';
 
 import makeRecommendDanjiParams from './makeRecommendDanjiParams';
 
 export default function useDanjiRecommendationForm(depth: number) {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const [forms, setForms] = useState<string[]>(router?.query?.entry === 'danji' ? [Forms.BuyOrRent] : [Forms.Danji]);
   const [isDanjiListOpen, setIsDanjiListOpen] = useState(false);
@@ -346,9 +348,9 @@ export default function useDanjiRecommendationForm(depth: number) {
   const handleClickBack = useCallback(() => {
     if (router.query.back === 'true' && router.query.redirect)
       return () => {
-        router.replace(router.query.redirect as string);
+        nextRouter.replace(router.query.redirect as string);
       };
-  }, [router]);
+  }, [nextRouter, router]);
 
   // 단지 id 프리필 로직
   useIsomorphicLayoutEffect(() => {
@@ -468,10 +470,13 @@ export default function useDanjiRecommendationForm(depth: number) {
     }
     setDescription(String(params.note ?? ''));
 
-    const formDanji = document.getElementById(Forms.Danji);
-    if (formDanji) {
-      formDanji.style.minHeight = '';
+    if (router.query.entry === 'danji') {
+      const formBuyOrRent = document.getElementById(Forms.BuyOrRent);
+      if (formBuyOrRent) formBuyOrRent.style.minHeight = '';
     }
+
+    const formDanji = document.getElementById(Forms.Danji);
+    if (formDanji) formDanji.style.minHeight = '';
   }, []);
 
   return {

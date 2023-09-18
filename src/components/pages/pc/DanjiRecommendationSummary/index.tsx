@@ -28,13 +28,18 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     }
     return null;
   }, [router.query.params]);
-
   const handleClickBack = useCallback(() => {
     if (router.query.entry === 'danji') {
       nextRouter.replace(
         `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${
           params.danji_id
         }&entry=danji&params=${JSON.stringify(params)}&forms=${router.query.forms}&redirect=${router.query.redirect}`,
+      );
+    } else if (router.query.depth1 === Routes.My) {
+      nextRouter.replace(
+        `/${Routes.My}/${Routes.DanjiRecommendation}?danjiID=${params.danji_id}&params=${JSON.stringify(
+          params,
+        )}&forms=${router.query.forms}&redirect=${router.query.redirect}&back=${true}`,
       );
     } else {
       nextRouter.replace(

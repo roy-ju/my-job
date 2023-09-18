@@ -19,6 +19,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     router.replace(Routes.RecommendationForm, {
       searchParams: {
         back: router.asPath,
+        entry: 'my',
       },
     });
   }, [router]);
