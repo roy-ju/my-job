@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Chip, Separator } from '@/components/atoms';
-import { RealestateType, describeRealestateType } from '@/constants/enums';
+import { RealestateType, describeRealestateType, BuyOrRent } from '@/constants/enums';
 import { formatNumberInKorean } from '@/utils';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -20,11 +20,13 @@ const MobDanjiSummary = React.memo(
     selectedDanjiSummary,
     filter,
     touchEvent,
+    mapBuyOrRents,
     onTouchEvent,
   }: {
     selectedDanjiSummary?: DanjiSummary | null;
     filter?: Filter;
     touchEvent?: 'none' | 'touch' | 'scroll';
+    mapBuyOrRents?: string;
     onTouchEvent?: (val: 'none' | 'touch' | 'scroll') => void;
   }) => {
     const router = useRouter();
@@ -159,26 +161,53 @@ const MobDanjiSummary = React.memo(
           </motion.div>
 
           <motion.div tw="pointer-events-auto" style={{ y }} transition={{ duration: 0.1 }}>
-            <BottomSheet.Content ref={bottomSheetContentRef}>
+            <BottomSheet.Content ref={bottomSheetContentRef} pb="20">
               <div tw="flex items-center gap-2 py-2">
-                <div>
-                  <span tw="text-info [line-height: 1rem]">매매&nbsp;&nbsp;</span>
-                  <span tw="font-bold text-info [line-height: 1rem] text-nego-1000">
-                    {selectedDanjiSummary?.buyListingCount}
-                  </span>
-                </div>
-                <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
-                <div>
-                  <span tw="text-info [line-height: 1rem]">전월세&nbsp;&nbsp;</span>
-                  <span tw="font-bold text-info [line-height: 1rem] text-green-1000">
-                    {selectedDanjiSummary?.rentListingCount}
-                  </span>
-                </div>
-                <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
+                {!!selectedDanjiSummary.suggestCount && (
+                  <div>
+                    <span tw="text-info [line-height: 1rem]">구해요&nbsp;&nbsp;</span>
+                    <span tw="font-bold text-info [line-height: 1rem] text-nego-1000">
+                      {selectedDanjiSummary.suggestCount}
+                    </span>
+                  </div>
+                )}
+
+                {mapBuyOrRents === BuyOrRent.Buy.toString() && !!selectedDanjiSummary?.buyListingCount && (
+                  <>
+                    {!!selectedDanjiSummary.suggestCount && <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />}
+                    <div>
+                      <span tw="text-info [line-height: 1rem]">매물&nbsp;&nbsp;</span>
+                      <span tw="font-bold text-info [line-height: 1rem] text-green-1000">
+                        {selectedDanjiSummary?.buyListingCount}
+                      </span>
+                    </div>
+                  </>
+                )}
+
+                {mapBuyOrRents !== BuyOrRent.Buy.toString() && !!selectedDanjiSummary?.rentListingCount && (
+                  <>
+                    {!!selectedDanjiSummary.suggestCount && <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />}
+                    <div>
+                      <span tw="text-info [line-height: 1rem]">매물&nbsp;&nbsp;</span>
+                      <span tw="font-bold text-info [line-height: 1rem] text-green-1000">
+                        {selectedDanjiSummary?.rentListingCount}
+                      </span>
+                    </div>
+                  </>
+                )}
+
+                {(!!selectedDanjiSummary.suggestCount ||
+                  (mapBuyOrRents === BuyOrRent.Buy.toString() && !!selectedDanjiSummary?.buyListingCount) ||
+                  (mapBuyOrRents !== BuyOrRent.Buy.toString() && !!selectedDanjiSummary?.rentListingCount)) && (
+                  <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
+                )}
+
                 <span tw="text-info [line-height: 1rem] text-gray-700">
                   사용승인일 {selectedDanjiSummary?.useAcceptedYear || '-'}
                 </span>
+
                 <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
+
                 <span tw="text-info [line-height: 1rem] text-gray-700">
                   {selectedDanjiSummary?.saedaeCount.toLocaleString() || '-'}세대
                 </span>
@@ -188,10 +217,8 @@ const MobDanjiSummary = React.memo(
                 <div tw="flex items-center mt-2">
                   <span tw="text-b2 [width:36px] mr-2">매매</span>
                   <span tw="text-b2 font-bold">{formatNumberInKorean(selectedDanjiSummary?.buyPrice || 0)}</span>
-                  <div tw="ml-auto">
-                    <span tw="text-info [line-height: 1rem] text-gray-700">
-                      {`거래일 ${selectedDanjiSummary.latestDealDateBuy}` || '-'}
-                    </span>
+                  <div tw="ml-auto [width: 94px] [min-width: 94px] text-info [line-height: 1rem] text-gray-700 [letter-spacing: -0.05em]">
+                    {`거래일 ${selectedDanjiSummary.latestDealDateBuy}` || '-'}
                   </div>
                 </div>
               )}
@@ -200,10 +227,8 @@ const MobDanjiSummary = React.memo(
                 <div tw="flex items-center">
                   <span tw="text-b2 [width:36px] mr-2">전월세</span>
                   <span tw="text-b2 font-bold">{formatNumberInKorean(selectedDanjiSummary?.rentPrice || 0)}</span>
-                  <div tw="ml-auto">
-                    <span tw="text-info [line-height: 1rem] text-gray-700">
-                      {`거래일 ${selectedDanjiSummary?.latestDealDateRent}` || '-'}
-                    </span>
+                  <div tw="ml-auto [width: 94px] [min-width: 94px] text-info [line-height: 1rem] text-gray-700 [letter-spacing: -0.05em]">
+                    {`거래일 ${selectedDanjiSummary.latestDealDateRent}` || '-'}
                   </div>
                 </div>
               )}

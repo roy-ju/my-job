@@ -34,6 +34,7 @@ export interface DanjiSummary {
   householdCount: number;
   buyListingCount: number;
   rentListingCount: number;
+  suggestCount: number;
   realestateType: number;
   buyPrice: number;
   latestDealDateBuy?: string;
@@ -302,6 +303,7 @@ export default function useMapLayout() {
             saedaeCount: summary?.saedae_count ?? 0,
             string: summary?.string,
             useAcceptedYear: summary?.use_accepted_year,
+            suggestCount: summary?.suggest_count ?? 0,
           });
         }
       }

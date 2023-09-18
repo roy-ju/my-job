@@ -135,6 +135,7 @@ function MapWrapper() {
             filter={filter}
             touchEvent={touchEvent}
             onTouchEvent={handleTouchEvent}
+            mapBuyOrRents={filter.buyOrRents}
           />
         )}
 

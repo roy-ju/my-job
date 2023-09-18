@@ -68,12 +68,12 @@ export default function TypeTwo({
 
         {item.my_suggest || item.iam_recommending ? (
           <button type="button" tw="flex items-center text-info leading-4 ml-auto">
-            자세히
+            상세보기
             <ArrowRight />
           </button>
         ) : (
           <button type="button" tw="flex items-center text-info leading-4 ml-auto">
-            자세히
+            상세보기
             <ArrowRight />
           </button>
         )}
