@@ -73,7 +73,7 @@ const StyledTable = styled.table`
     ${tw`text-gray-1000 w-[20%] py-1`}
   }
   td {
-    ${tw`py-1 text-end w-[80%]`}
+    ${tw`py-1 text-start w-[80%]`}
   }
   & > tbody > tr:not(:first-of-type) {
     ${tw`border-t border-gray-300`}
@@ -233,9 +233,10 @@ export default function ListingDetailHistory({
           <StyledTable>
             <Table.Body>
               {list?.map((item) => (
-                <Table.Row key={item.created_time}>
-                  <Table.Head tw="self-start whitespace-nowrap">{item.description}</Table.Head>
-                  <Table.Data tw="text-right">
+                <Table.Row key={item.created_time} tw="flex">
+                  <Table.Head tw="min-w-[84px] self-start whitespace-nowrap">{item.description}</Table.Head>
+
+                  <Table.Data tw="text-right pl-0">
                     <Moment format="YYYY.MM.DD HH:mm">{item.created_time}</Moment>
                     <div>
                       {isMonthlyRent ? (

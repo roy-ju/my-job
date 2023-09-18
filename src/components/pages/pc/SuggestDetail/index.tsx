@@ -6,18 +6,21 @@ import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
 import { SuggestStatus } from '@/constants/enums';
-import { useRouter } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 
 import { memo, useCallback, useMemo, useState } from 'react';
+import suggestView from '@/apis/suggest/suggestView';
+import { isMobile } from '@/utils/is';
 
 interface Props {
   depth: number;
   panelWidth?: string;
+  ipAddress?: string;
 }
 
-export default memo(({ panelWidth, depth }: Props) => {
+export default memo(({ panelWidth, depth, ipAddress }: Props) => {
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
 
@@ -30,7 +33,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     [router.query.suggestID],
   );
 
-  const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
+  const { data, isLoading, mutate: detailMutate } = useAPI_GetSuggestDetail(suggestID);
 
   const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
 
@@ -91,6 +94,27 @@ export default memo(({ panelWidth, depth }: Props) => {
   const closePopup = useCallback(() => {
     setAddressApplyPopup(false);
   }, []);
+
+  async function handleSuggestView() {
+    if (!data) return;
+
+    await suggestView({
+      suggest_id: data?.suggest_id,
+      ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
+      browser: navigator.userAgent,
+      device: isMobile(navigator.userAgent) ? 'MOBILE' : 'PC',
+    });
+
+    await detailMutate();
+
+    if (window?.Negocio?.callbacks?.mutateSuggestList) {
+      window.Negocio.callbacks.mutateSuggestList();
+    }
+  }
+
+  useIsomorphicLayoutEffect(() => {
+    handleSuggestView();
+  }, [handleSuggestView, data?.danji_id]);
 
   return (
     <>

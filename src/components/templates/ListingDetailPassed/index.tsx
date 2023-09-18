@@ -107,18 +107,22 @@ export default function ListingDetailPassed({
           <div tw="flex flex-col gap-2">
             {ListingStatus.ContractComplete === listingStatus && (
               <>
-                <div tw="text-b2 flex justify-between">
-                  <span>체결일</span>
+                <div tw="text-b2 flex gap-3">
+                  <span tw="min-w-[84px]">체결일</span>
+
                   <Moment format="YYYY.MM.DD">{contractCompletionDate}</Moment>
                 </div>
-                <div tw="text-b2 flex justify-between">
-                  <div>체결가</div>
+                <div tw="text-b2 flex gap-3">
+                  <div tw="min-w-[84px]">체결가</div>
+
                   <div>{renderPrice()}</div>
                 </div>
               </>
             )}
-            <div tw="text-b2 flex justify-between">
-              <span>상태</span>
+
+            <div tw="text-b2 flex gap-3">
+              <span tw="min-w-[84px]">상태</span>
+
               <span tw="text-nego-800">{statusText}</span>
             </div>
           </div>

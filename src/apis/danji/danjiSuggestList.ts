@@ -29,6 +29,7 @@ export type DanjiSuggestListItem = {
   note: string;
   updated_time: string;
   created_time: string;
+  view_count: number;
 };
 
 export type GetDanjiSuggestListResponse = {

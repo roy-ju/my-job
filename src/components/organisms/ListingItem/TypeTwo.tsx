@@ -3,6 +3,7 @@ import { SuggestRecommendStatus } from '@/constants/enums';
 import { convertRangeText } from '@/utils/fotmat';
 import tw from 'twin.macro';
 import ArrowRight from '@/assets/icons/arrow_right_16.svg';
+import ViewIcon from '@/assets/icons/view.svg';
 import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
 
 import { formatCreatedTime } from '@/utils/formatLastMessageTime';
@@ -120,8 +121,12 @@ export default function TypeTwo({
         </div>
       </div>
 
-      <div tw="mt-1">
+      <div tw="mt-1 flex items-center w-full">
         <p tw="text-gray-700 [letter-spacing: -0.4px] text-info">{formatCreatedTime(item.created_time)}</p>
+        <div tw="flex gap-1 ml-auto items-center">
+          <ViewIcon />
+          <span tw="text-gray-700 [letter-spacing: -0.25px] text-info">{item.view_count}</span>
+        </div>
       </div>
     </button>
   );

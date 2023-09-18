@@ -732,7 +732,7 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     }
 
     case Routes.SuggestDetail: {
-      return <SuggestDetail key={`${query.suggestID}`} {...props} />;
+      return <SuggestDetail key={`${query.suggestID}`} ipAddress={ipAddress} {...props} />;
     }
 
     case Routes.SuggestListings: {
