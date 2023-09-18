@@ -21,7 +21,7 @@ const StyledTable = styled.table`
     ${tw`text-gray-1000 w-[20%] py-1`}
   }
   td {
-    ${tw`py-1 text-end w-[80%]`}
+    ${tw`py-1 text-start w-[80%]`}
   }
 `;
 
@@ -49,9 +49,9 @@ export default function SuggestionCard({
       <div tw="text-b1 mb-4 font-bold">나의 제안 내용</div>
       <StyledTable>
         <Table.Body tw="text-b2 text-gray-1000 flex flex-col gap-2">
-          <Table.Row tw="flex justify-between">
-            <Table.Head tw="self-start">가격</Table.Head>
-            <Table.Data>
+          <Table.Row tw="flex">
+            <Table.Head tw="self-start min-w-[84px]">가격</Table.Head>
+            <Table.Data tw="pl-0">
               {isMonthlyRent ? (
                 <div>
                   <Numeral thousandsSeparated koreanNumber>
