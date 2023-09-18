@@ -28,10 +28,11 @@ export interface GetSuggestDetailResponse {
   created_time: string;
   my_suggest: boolean;
   has_active_chat_room: boolean;
+  view_count: number;
 }
 
 export default function useAPI_GetSuggestDetail(suggestID: number | undefined | null) {
-  const { data, isLoading } = useSWR<GetSuggestDetailResponse | null>(
+  const { data, isLoading, mutate } = useSWR<GetSuggestDetailResponse | null>(
     suggestID
       ? [
           '/suggest/detail',
@@ -45,5 +46,6 @@ export default function useAPI_GetSuggestDetail(suggestID: number | undefined | 
   return {
     data,
     isLoading,
+    mutate,
   };
 }

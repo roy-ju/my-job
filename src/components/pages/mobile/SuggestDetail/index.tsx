@@ -1,18 +1,21 @@
 import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
+import suggestView from '@/apis/suggest/suggestView';
 
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import { Loading, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
 import { SuggestStatus } from '@/constants/enums';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { isMobile } from '@/utils/is';
 
 import { useRouter } from 'next/router';
 import { memo, useMemo, useCallback, useState } from 'react';
 
-export default memo(() => {
+export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const router = useRouter();
 
   const { data: userData } = useAPI_GetUserInfo();
@@ -24,7 +27,7 @@ export default memo(() => {
     [router.query.suggestID],
   );
 
-  const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
+  const { data, isLoading, mutate: detailMutate } = useAPI_GetSuggestDetail(suggestID);
 
   const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
 
@@ -102,6 +105,23 @@ export default memo(() => {
   const closePopup = useCallback(() => {
     setAddressApplyPopup(false);
   }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    async function handleSuggestView() {
+      if (!data) return;
+
+      await suggestView({
+        suggest_id: data?.suggest_id,
+        ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
+        browser: navigator.userAgent,
+        device: isMobile(navigator.userAgent) ? 'MOBILE' : 'PC',
+      });
+
+      await detailMutate();
+    }
+
+    handleSuggestView();
+  }, [data]);
 
   return (
     <>
