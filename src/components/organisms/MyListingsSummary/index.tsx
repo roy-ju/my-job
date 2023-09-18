@@ -1,5 +1,4 @@
 import { Button } from '@/components/atoms';
-import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 import SaveIcon from '@/assets/icons/my_save_24.svg';
 import RecommendationIcon from '@/assets/icons/my_recommendation_24.svg';
@@ -194,7 +193,7 @@ export default function MyListingsSummary({
             <div tw="text-b2 leading-4 font-bold">주소 등록 ・ 집주인 인증</div>
             <div tw="text-info leading-4.5 text-gray-700">간편하게 주소등록하고, 집주인 인증받으세요.</div>
           </div>
-          <ChevronLeftIcon width={16} height={16} tw="text-gray-700" style={{ transform: 'rotate(180deg)' }} />
+          <ChevronIcon tw="mb-[2px]" />
         </div>
       </Button>
     </div>
