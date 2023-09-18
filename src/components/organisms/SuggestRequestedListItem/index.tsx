@@ -100,7 +100,7 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
             </div>
             <div tw="text-info text-gray-700">
               추천받은 수{' '}
-              <span css={[item?.suggest_recommended_count && tw`font-bold text-nego-1000`]} tw="font-medium">
+              <span tw="font-medium" css={[item?.suggest_recommended_count && tw`font-bold text-nego-1000`]}>
                 {item?.suggest_recommended_count ?? 0}
               </span>
             </div>
