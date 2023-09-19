@@ -231,7 +231,7 @@ export default function ActiveListingInfo({
 
   return (
     <>
-      <div tw="pb-5">
+      <div tw="pb-10">
         <NewTabs variant="contained" value={tab} onChange={(v) => setTab(v)}>
           <NewTabs.Tab value={1}>
             <span tw="text-b2 leading-4">
@@ -335,13 +335,13 @@ export default function ActiveListingInfo({
 
         <div tw="w-full pt-5 px-5">
           {tab === 1 && (
-            <Button tw="w-full" onClick={handleSuggestCTA} size="bigger">
+            <Button tw="w-full" onClick={handleSuggestCTA} size="big">
               구해요 등록
             </Button>
           )}
 
           {tab === 2 && (
-            <Button tw="w-full" onClick={handleCreateListing} size="bigger">
+            <Button tw="w-full" onClick={handleCreateListing} size="big">
               매물 등록
             </Button>
           )}

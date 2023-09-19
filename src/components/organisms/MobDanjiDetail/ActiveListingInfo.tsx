@@ -174,7 +174,7 @@ export default function ActiveListingInfo({
 
   return (
     <>
-      <div tw="pb-5">
+      <div tw="pb-10">
         <NewTabs variant="contained" value={tab} onChange={(v) => setTab(v)}>
           <NewTabs.Tab value={1}>
             <span tw="text-b2 leading-4">
@@ -301,11 +301,11 @@ export default function ActiveListingInfo({
           transition={{ duration: 0.2 }}
           tw="flex items-center fixed bottom-0 [z-index: 100000] pt-4 px-5 [padding-bottom: 42px] gap-3 bg-white w-full shadow"
         >
-          <Button tw="flex-1" onClick={handleSuggestCTA}>
-            구해요 등록
-          </Button>
-          <Button variant="outlined" tw="flex-1" onClick={handleCreateListing}>
+          <Button variant="outlined" tw="flex-1" onClick={handleCreateListing} size="bigger">
             매물 등록
+          </Button>
+          <Button tw="flex-1" onClick={handleSuggestCTA} size="bigger">
+            구해요 등록
           </Button>
         </motion.div>
       )}
