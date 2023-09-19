@@ -3,7 +3,6 @@ import React, { useMemo } from 'react';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { DanjiOrRegionalType, RealestateType, BuyOrRent } from '@/constants/enums';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
-import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { ExpandableText } from '@/components/molecules';
 
 interface MySuggestDetailListItemProps {
@@ -77,14 +76,15 @@ export default function MySuggestDetailListItem({
             )}
           </div>
           {suggestData?.danji_or_regional === DanjiOrRegionalType.Danji && (
-            <button
-              type="button"
+            <Button
+              variant="outlined"
+              size="small"
               onClick={() => {
                 onClickDanjiDetail?.();
               }}
             >
-              <ChevronDown style={{ transform: 'rotate(270deg)' }} />
-            </button>
+              단지 보기
+            </Button>
           )}
         </div>
         <div tw="text-left">
