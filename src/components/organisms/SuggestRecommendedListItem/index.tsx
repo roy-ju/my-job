@@ -2,10 +2,11 @@ import { GetMySuggestRecommendedListResponse } from '@/apis/suggest/getMySuggest
 import { Avatar, Chip, Moment, Numeral, Button } from '@/components/atoms';
 import { RealestateTypeChipVariant, TimeTypeString, RealestateTypeString } from '@/constants/strings';
 import { BuyOrRent, SuggestStatus, SuggestRecommendStatus } from '@/constants/enums';
-import React, { useState } from 'react';
-import ChevronDown from '@/assets/icons/chevron_down.svg';
+import React from 'react';
+
 import ErrorIcon from '@/assets/icons/error.svg';
 import tw, { css } from 'twin.macro';
+import { ExpandableText } from '@/components/molecules';
 
 interface Props {
   suggestItem: GetMySuggestRecommendedListResponse['list'][0]['suggest_item'];
@@ -57,9 +58,6 @@ export default function SuggestRecommendedListItem({
   onDeleteSuggestRecommend,
   onNavigateToChatRoom,
 }: Props) {
-  const [showSuggestNoteDetails, setShowSuggestNoteDetails] = useState(false);
-  const [showSuggestRecommendNoteDetails, setShowSuggestRecommendNoteDetails] = useState(false);
-
   const suggestBuyOrRentText = Number(suggestItem?.buy_or_rents) === BuyOrRent.Buy ? '매매' : '전월세';
   const suggestRecommendBuyOrRentText = Number(suggestItem?.buy_or_rents) === BuyOrRent.Buy ? '매매' : '전월세';
   const isSuggestRecommendOptionField =
@@ -189,32 +187,7 @@ export default function SuggestRecommendedListItem({
             </div>
           )}
         </div>
-        {suggestItem?.note && (
-          <button
-            tw="flex justify-between gap-4 w-full mt-3"
-            type="button"
-            onClick={() => {
-              setShowSuggestNoteDetails(!showSuggestNoteDetails);
-            }}
-          >
-            <p
-              tw="break-all text-left text-gray-1000 text-info flex-1"
-              css={[showSuggestNoteDetails === false && tw`line-clamp-1`]}
-            >
-              {suggestItem?.note}
-            </p>
-            <div>
-              <ChevronDown
-                role="presentation"
-                style={{
-                  transform: showSuggestNoteDetails ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease-in-out',
-                  alignSelf: 'top',
-                }}
-              />
-            </div>
-          </button>
-        )}
+        {suggestItem?.note && <ExpandableText tw="mt-3">{suggestItem?.note}</ExpandableText>}
       </Wrapper>
       <Wrapper tw="p-4 bg-gray-100 rounded-lg mt-4">
         <div tw="flex justify-between">
@@ -255,32 +228,7 @@ export default function SuggestRecommendedListItem({
             {suggestRecommendItem?.direction && <span>{suggestRecommendItem?.direction}</span>}
           </div>
         )}
-        {suggestRecommendItem?.note && (
-          <button
-            tw="flex justify-between gap-4 w-full mt-3"
-            type="button"
-            onClick={() => {
-              setShowSuggestRecommendNoteDetails(!showSuggestRecommendNoteDetails);
-            }}
-          >
-            <p
-              tw="break-all text-left text-gray-1000 text-info flex-1"
-              css={[showSuggestRecommendNoteDetails === false && tw`line-clamp-1`]}
-            >
-              {suggestRecommendItem?.note}
-            </p>
-            <div>
-              <ChevronDown
-                role="presentation"
-                style={{
-                  transform: showSuggestRecommendNoteDetails ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease-in-out',
-                  alignSelf: 'top',
-                }}
-              />
-            </div>
-          </button>
-        )}
+        {suggestRecommendItem?.note && <ExpandableText tw="mt-3">{suggestRecommendItem?.note}</ExpandableText>}
         {renderSuggestRecommendErrorMessage()}
         {renderSuggestRecommendCTA()}
       </Wrapper>

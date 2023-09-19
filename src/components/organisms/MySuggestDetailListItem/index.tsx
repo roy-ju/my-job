@@ -1,10 +1,10 @@
 import { Button, Chip, Moment, Numeral } from '@/components/atoms';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { DanjiOrRegionalType, RealestateType, BuyOrRent } from '@/constants/enums';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
-import tw from 'twin.macro';
+import { ExpandableText } from '@/components/molecules';
 
 interface MySuggestDetailListItemProps {
   suggestData?: GetSuggestDetailResponse | null;
@@ -44,8 +44,6 @@ export default function MySuggestDetailListItem({
   onClickSuggestUpdate,
   onClickDeleteSuggest,
 }: MySuggestDetailListItemProps) {
-  const [showDetails, setShowDetails] = useState(false);
-
   const realestateTypes = useMemo(
     () =>
       Array.from(
@@ -115,29 +113,7 @@ export default function MySuggestDetailListItem({
           )}
         </div>
       </div>
-      {suggestData?.note && (
-        <button
-          tw="flex justify-between gap-4 mb-5 w-full"
-          type="button"
-          onClick={() => {
-            setShowDetails(!showDetails);
-          }}
-        >
-          <p tw="break-all text-left text-gray-1000 text-info flex-1" css={[showDetails === false && tw`line-clamp-1`]}>
-            {suggestData?.note}
-          </p>
-          <div>
-            <ChevronDown
-              role="presentation"
-              style={{
-                transform: showDetails ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s ease-in-out',
-                alignSelf: 'top',
-              }}
-            />
-          </div>
-        </button>
-      )}
+      {suggestData?.note && <ExpandableText tw="mb-5">{suggestData?.note}</ExpandableText>}
       <div tw="flex flex-col items-center  gap-4">
         <Button variant="outlined" tw="w-full" onClick={onClickSuggestUpdate}>
           구해요 요청 수정

@@ -1,10 +1,11 @@
 import { Chip, Moment, Numeral } from '@/components/atoms';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
-import tw, { styled } from 'twin.macro';
+import { styled } from 'twin.macro';
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
-import ChevronDown from '@/assets/icons/chevron_down.svg';
+
+import { ExpandableText } from '@/components/molecules';
 
 interface Props {
   data?: GetSuggestDetailResponse | null;
@@ -38,8 +39,6 @@ function NegotiableChip() {
 }
 
 export default function ListingInfo({ data }: Props) {
-  const [showDetails, setShowDetails] = useState(false);
-
   const realestateTypes = useMemo(
     () =>
       Array.from(
@@ -104,35 +103,7 @@ export default function ListingInfo({ data }: Props) {
         </div>
       </Wrraper>
 
-      <Wrraper>
-        {data?.note && (
-          <button
-            tw="flex justify-between gap-4 mb-5 w-full"
-            type="button"
-            onClick={() => {
-              setShowDetails((prev) => !prev);
-            }}
-          >
-            <p
-              tw="break-all text-left text-gray-1000 text-info flex-1"
-              css={[showDetails === false && tw`line-clamp-1`]}
-            >
-              {data?.note}
-            </p>
-
-            <div>
-              <ChevronDown
-                role="presentation"
-                style={{
-                  transform: showDetails ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease-in-out',
-                  alignSelf: 'top',
-                }}
-              />
-            </div>
-          </button>
-        )}
-      </Wrraper>
+      <Wrraper>{data?.note && <ExpandableText tw="mb-5">{data?.note}</ExpandableText>}</Wrraper>
     </>
   );
 }

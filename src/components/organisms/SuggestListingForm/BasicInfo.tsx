@@ -1,12 +1,13 @@
 import { Avatar, Chip, Moment, Numeral } from '@/components/atoms';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { formatCreatedTime } from '@/utils/formatLastMessageTime';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 import tw, { styled } from 'twin.macro';
-import ChevronDown from '@/assets/icons/chevron_down.svg';
+
+import { ExpandableText } from '@/components/molecules';
 
 const Wrraper = styled('div')``;
 
@@ -36,8 +37,6 @@ function PriceText({
 }
 
 export default function BasicInfo({ data }: { data?: GetSuggestDetailResponse }) {
-  const [showDetails, setShowDetails] = useState(false);
-
   const realestateTypes = useMemo(
     () =>
       Array.from(
@@ -107,32 +106,7 @@ export default function BasicInfo({ data }: { data?: GetSuggestDetailResponse })
       )}
 
       <Wrraper tw="px-5 pb-10" css={[data?.note ? tw`pt-3` : tw`pt-0`]}>
-        {data?.note && (
-          <button
-            tw="flex justify-between gap-4 w-full"
-            type="button"
-            onClick={() => {
-              setShowDetails((prev) => !prev);
-            }}
-          >
-            <p
-              tw="break-all text-left text-gray-1000 text-info flex-1"
-              css={[showDetails === false && tw`line-clamp-1`]}
-            >
-              {data?.note}
-            </p>
-            <div>
-              <ChevronDown
-                role="presentation"
-                style={{
-                  transform: showDetails ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease-in-out',
-                  alignSelf: 'top',
-                }}
-              />
-            </div>
-          </button>
-        )}
+        {data?.note && <ExpandableText>{data?.note}</ExpandableText>}
       </Wrraper>
     </>
   );
