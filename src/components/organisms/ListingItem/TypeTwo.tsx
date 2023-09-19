@@ -57,7 +57,9 @@ export default function TypeTwo({
     >
       <div tw="w-full flex items-center gap-1">
         <Avatar src={item.user_profile_image_url} alt="프로필" size={24} />
-        <span tw="text-info text-gray-700 [letter-spacing: -0.4px]">{item.user_nickname}</span>
+        <span tw="text-info text-gray-700 [letter-spacing: -0.4px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap max-w-[150px]">
+          {item.user_nickname}
+        </span>
 
         {item.my_suggest && <Chip variant="nego">{ChipText.MySuggest}</Chip>}
         {item.iam_recommending && (
