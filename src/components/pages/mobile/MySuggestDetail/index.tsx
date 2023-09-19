@@ -176,7 +176,7 @@ export default memo(() => {
                   setShowDeletePopup(false);
                 }}
               >
-                나가기
+                돌아가기
               </Popup.CancelButton>
               <Popup.ActionButton onClick={handleDeleteConfirm}>요청취소</Popup.ActionButton>
             </Popup.ButtonGroup>
