@@ -68,12 +68,17 @@ export default function ActiveListingInfo({
   }, [router, danji]);
 
   const handleSuggestDetail = useCallback(
-    (id: number) => {
+    (id: number, mySuggest: boolean) => {
+      if (mySuggest) {
+        nextRouter.replace(`/${Routes.My}/${Routes.MySuggestDetail}?suggestID=${id}`);
+        return;
+      }
+
       router.push(Routes.SuggestDetail, {
         searchParams: { danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '', suggestID: `${id}` },
       });
     },
-    [danji?.danji_id, router],
+    [danji?.danji_id, router, nextRouter],
   );
 
   const handleListingAll = useCallback(() => {
@@ -285,7 +290,7 @@ export default function ActiveListingInfo({
                     <ListingItem.TypeTwo
                       key={item.suggest_id}
                       item={item}
-                      onClick={() => handleSuggestDetail(item.suggest_id)}
+                      onClick={() => handleSuggestDetail(item.suggest_id, item.my_suggest)}
                       anchorURL={`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
                     />
                   ))}

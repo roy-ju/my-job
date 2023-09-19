@@ -141,7 +141,7 @@ export default function ChatRoomTextField({
       Array.from(e.target.files ?? []).forEach((item) => {
         const ext = item.name.split('.').pop();
 
-        if (!ext || !['PNG', 'JPEG', 'JPG', 'png', 'jpg', 'jpeg'].includes(ext)) {
+        if (!ext || !['PNG', 'JPEG', 'JPG', 'png', 'jpg', 'jpeg'].includes(ext.toLowerCase())) {
           validated = false;
         }
       });

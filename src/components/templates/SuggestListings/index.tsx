@@ -34,12 +34,17 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   const danjiID = useMemo(() => danji?.danji_id || '', [danji?.danji_id]);
 
   const handleSuggestDetail = useCallback(
-    (id: number) => {
+    (id: number, mySuggest: boolean) => {
+      if (mySuggest) {
+        nextRouter.replace(`/${Routes.My}/${Routes.MySuggestDetail}?suggestID=${id}`);
+        return;
+      }
+
       router.push(Routes.SuggestDetail, {
         searchParams: { danjiID: `${danjiID}` || '', suggestID: `${id}` },
       });
     },
-    [danjiID, router],
+    [danjiID, router, nextRouter],
   );
 
   const handleCreateSuggest = useCallback(() => {
@@ -124,7 +129,7 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
                 <ListingItem.TypeTwo
                   key={item.suggest_id}
                   item={item}
-                  onClick={() => handleSuggestDetail(item.suggest_id)}
+                  onClick={() => handleSuggestDetail(item.suggest_id, item.my_suggest)}
                   anchorURL={`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
                 />
               ))}
