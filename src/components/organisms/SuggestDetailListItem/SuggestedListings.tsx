@@ -2,12 +2,11 @@ import { cancelRecommend } from '@/apis/suggest/cancelRecommend';
 import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedList';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { Button, Chip, Numeral } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
+import { ExpandableText, OverlayPresenter, Popup } from '@/components/molecules';
 import { describeBuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
 import { isNumber } from 'lodash';
 
 import React, { useCallback, useState } from 'react';
-import tw from 'twin.macro';
 
 type Props = {
   list?: GetMyRecommendedListResponse['list'];
@@ -45,8 +44,6 @@ function PriceText({ tradeOrDepositPrice, monthlyRentFee }: { tradeOrDepositPric
 }
 
 function SuggestedListingItem({ item, onMutate }: Item) {
-  const [showDetails, setShowDetails] = useState(true);
-
   const [open, setOpen] = useState(false);
 
   const handlePopup = useCallback((val: boolean) => {
@@ -108,32 +105,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
           )}
         </div>
 
-        {item?.note && (
-          <button
-            tw="flex justify-between gap-4 w-full mt-3"
-            type="button"
-            onClick={() => {
-              setShowDetails((prev) => !prev);
-            }}
-          >
-            <p
-              tw="break-all text-left text-gray-1000 text-info flex-1"
-              css={[showDetails === false && tw`line-clamp-1`]}
-            >
-              {item.note}
-            </p>
-            <div>
-              <ChevronDown
-                role="presentation"
-                style={{
-                  transform: showDetails ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease-in-out',
-                  alignSelf: 'top',
-                }}
-              />
-            </div>
-          </button>
-        )}
+        {item?.note && <ExpandableText tw="mt-3">{item.note}</ExpandableText>}
       </div>
 
       {open && (

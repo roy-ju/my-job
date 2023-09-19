@@ -1,8 +1,6 @@
-import ChevronDown from '@/assets/icons/chevron_down.svg';
-import { useState } from 'react';
-import tw, { css } from 'twin.macro';
+import { css } from 'twin.macro';
 import { Button, Chip, Moment, Numeral } from '@/components/atoms';
-import { ButtonGroup } from '@/components/molecules';
+import { ButtonGroup, ExpandableText } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { SuggestRecommendStatus } from '@/constants/enums';
 import { BuyOrRentString } from '@/constants/strings';
@@ -35,8 +33,6 @@ export default function ListingRecommendListItem({
   onClickRecommendAccept,
   onClickDeleteSuggestRecommendItem,
 }: Props) {
-  const [expanded, setExpanded] = useState(false);
-
   const renderCtas = () => {
     if (item?.suggest_recommend_status === SuggestRecommendStatus.Sent) {
       return (
@@ -131,27 +127,7 @@ export default function ListingRecommendListItem({
         </div>
       )}
       <div tw="flex flex-col flex-1 px-4 pt-3 pb-4">
-        <button
-          tw="flex justify-between gap-4 w-full"
-          type="button"
-          onClick={() => {
-            setExpanded(!expanded);
-          }}
-        >
-          <p tw="break-all text-left text-gray-1000 text-info flex-1" css={[expanded === false && tw`line-clamp-1`]}>
-            {item?.note}
-          </p>
-          <div>
-            <ChevronDown
-              role="presentation"
-              style={{
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s ease-in-out',
-                alignSelf: 'top',
-              }}
-            />
-          </div>
-        </button>
+        <ExpandableText>{item?.note}</ExpandableText>
         {item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled && (
           <div tw="flex gap-1 mt-3">
             <ErrorIcon />
