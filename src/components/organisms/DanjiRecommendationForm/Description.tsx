@@ -1,7 +1,6 @@
 import { TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { useCallback, ChangeEventHandler } from 'react';
-import { BuyOrRent } from '@/constants/enums';
 
 export interface DescriptionProps {
   description?: string;
@@ -9,11 +8,7 @@ export interface DescriptionProps {
   buyOrRent?: number;
 }
 
-export default function Description({
-  description: descriptionProp,
-  onChangeDescription,
-  buyOrRent,
-}: DescriptionProps) {
+export default function Description({ description: descriptionProp, onChangeDescription }: DescriptionProps) {
   const [description, setDescription] = useControlled({
     controlled: descriptionProp,
     default: '',
@@ -39,11 +34,7 @@ export default function Description({
           value={description}
           onChange={handleChangeDescription}
           tw="min-h-[98px] placeholder:[font-size: 14px] placeholder:[line-height: 22px] py-4"
-          placeholder={
-            buyOrRent === BuyOrRent.Buy
-              ? '원하는 층, 방향, 대금지급 조건 및 네고를 위해 제시할 내용 등도 상세하게 적어주세요.'
-              : '원하는 학군, 전철역에서 거리, 세대수, 방향,  층수, 주차 등 희망조건을 상세하게 적어주세요.'
-          }
+          placeholder="원하는 층, 방향, 대금지급 조건 및 네고를 위해 제시할 내용 등도 상세하게 적어주세요."
           spellCheck="false"
         />
       </TextField>
