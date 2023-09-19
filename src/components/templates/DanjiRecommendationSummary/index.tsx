@@ -8,7 +8,7 @@ import tw, { styled } from 'twin.macro';
 const StyledTable = styled.table`
   ${tw`w-full text-b2`}
   th {
-    ${tw`py-2 text-gray-1000 w-21`}
+    ${tw`py-2 text-gray-700 w-21`}
   }
   td {
     ${tw`w-auto py-2 text-left`}
