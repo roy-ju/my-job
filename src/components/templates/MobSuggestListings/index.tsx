@@ -31,7 +31,12 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
   const danjiID = useMemo(() => danji?.danji_id || '', [danji?.danji_id]);
 
   const handleSuggestDetail = useCallback(
-    (id: number) => {
+    (id: number, mySuggest: boolean) => {
+      if (mySuggest) {
+        router.push(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
+        return;
+      }
+
       router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
     },
     [danjiID, router],
@@ -111,7 +116,7 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
                 <ListingItem.TypeTwo
                   key={item.suggest_id}
                   item={item}
-                  onClick={() => handleSuggestDetail(item.suggest_id)}
+                  onClick={() => handleSuggestDetail(item.suggest_id, item.my_suggest)}
                 />
               ))}
             </InfiniteScroll>
