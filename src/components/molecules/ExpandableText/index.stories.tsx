@@ -13,6 +13,17 @@ export const Default: ComponentStory<typeof ExpandableText> = (args) => (
   </Panel>
 );
 
+export const OverflowText: ComponentStory<typeof ExpandableText> = (args) => (
+  <Panel>
+    <ExpandableText {...args} />
+  </Panel>
+);
+
 Default.args = {
   children: 'test를 해보겠습니다',
+};
+
+OverflowText.args = {
+  children:
+    'test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다test를 해보겠습니다',
 };
