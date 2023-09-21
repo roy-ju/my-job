@@ -89,16 +89,16 @@ export default function ListingInfo({ data }: Props) {
           <Table>
             <Table.Body>
               {data?.pyoung_text && (
-                <Table.Row>
-                  <Table.Head>찾는 평형</Table.Head>
-                  <Table.Data>{data?.pyoung_text}</Table.Data>
+                <Table.Row tw="flex ">
+                  <Table.Head tw="max-w-[84px] mr-1">찾는 평형</Table.Head>
+                  <Table.Data tw="w-full">{data?.pyoung_text}</Table.Data>
                 </Table.Row>
               )}
 
               {data?.move_in_date && (
-                <Table.Row>
-                  <Table.Head>입주희망일</Table.Head>
-                  <Table.Data>
+                <Table.Row tw="flex ">
+                  <Table.Head tw="max-w-[84px] mr-1">입주희망일</Table.Head>
+                  <Table.Data tw="w-full">
                     <Moment format="YY년 MM월 DD일">{data?.move_in_date}</Moment>{' '}
                     {TimeTypeString[data.move_in_date_type]}
                   </Table.Data>
@@ -106,18 +106,18 @@ export default function ListingInfo({ data }: Props) {
               )}
 
               {data?.purpose === '투자' && (
-                <Table.Row>
-                  <Table.Head>투자예산</Table.Head>
-                  <Table.Data>
+                <Table.Row tw="flex ">
+                  <Table.Head tw="max-w-[84px] mr-1">투자예산</Table.Head>
+                  <Table.Data tw="w-full">
                     <Numeral koreanNumber>{data?.invest_amount}</Numeral>
                   </Table.Data>
                 </Table.Row>
               )}
 
               {data?.note && (
-                <Table.Row>
-                  <Table.Head>요청사항</Table.Head>
-                  <Table.Data>{data?.note}</Table.Data>
+                <Table.Row tw="flex ">
+                  <Table.Head tw="max-w-[84px] mr-1">요청사항</Table.Head>
+                  <Table.Data tw="w-full">{data?.note}</Table.Data>
                 </Table.Row>
               )}
             </Table.Body>
