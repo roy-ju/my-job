@@ -104,7 +104,7 @@ const MobDanjiSummary = React.memo(
             drag="y"
             dragControls={controls}
             dragElastic={0.2}
-            dragConstraints={{ top: 0, bottom: (bottomSheetContentHeight || 0) + 24 }}
+            dragConstraints={{ top: 0, bottom: (bottomSheetContentHeight || 0) + 60 }}
             style={{ y }}
             dragPropagation
             tw="pointer-events-auto"
