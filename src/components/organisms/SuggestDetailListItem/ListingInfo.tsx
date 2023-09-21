@@ -5,7 +5,7 @@ import { styled } from 'twin.macro';
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 
-import { ExpandableText } from '@/components/molecules';
+import { Table } from '@/components/molecules';
 
 interface Props {
   data?: GetSuggestDetailResponse | null;
@@ -57,7 +57,7 @@ export default function ListingInfo({ data }: Props) {
   return (
     <>
       <Wrraper tw="block mb-3 w-full">
-        <div tw="mb-1 flex justify-between items-center">
+        <div tw="mb-4 flex justify-between items-center">
           <div tw="flex items-center gap-1.5">
             {realestateTypes.map((type) => (
               <Chip key={type} variant={RealestateTypeChipVariant[type]}>
@@ -86,24 +86,44 @@ export default function ListingInfo({ data }: Props) {
             {data?.negotiable && <NegotiableChip />}
           </div>
 
-          {data?.pyoung_text && <div tw="text-gray-700 text-info">평형 {data?.pyoung_text}</div>}
+          <Table>
+            <Table.Body>
+              {data?.pyoung_text && (
+                <Table.Row>
+                  <Table.Head>찾는 평형</Table.Head>
+                  <Table.Data>{data?.pyoung_text}</Table.Data>
+                </Table.Row>
+              )}
 
-          {data?.move_in_date && (
-            <div tw="text-gray-700 text-info">
-              입주희망일 <Moment format="YY.MM.DD">{data?.move_in_date}</Moment>{' '}
-              {TimeTypeString[data.move_in_date_type]}
-            </div>
-          )}
+              {data?.move_in_date && (
+                <Table.Row>
+                  <Table.Head>입주희망일</Table.Head>
+                  <Table.Data>
+                    <Moment format="YY년 MM월 DD일">{data?.move_in_date}</Moment>{' '}
+                    {TimeTypeString[data.move_in_date_type]}
+                  </Table.Data>
+                </Table.Row>
+              )}
 
-          {data?.purpose === '투자' && (
-            <div tw="text-gray-700 text-info">
-              투자예산 <Numeral koreanNumber>{data?.invest_amount}</Numeral>
-            </div>
-          )}
+              {data?.purpose === '투자' && (
+                <Table.Row>
+                  <Table.Head>투자예산</Table.Head>
+                  <Table.Data>
+                    <Numeral koreanNumber>{data?.invest_amount}</Numeral>
+                  </Table.Data>
+                </Table.Row>
+              )}
+
+              {data?.note && (
+                <Table.Row>
+                  <Table.Head>요청사항</Table.Head>
+                  <Table.Data>{data?.note}</Table.Data>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table>
         </div>
       </Wrraper>
-
-      <Wrraper>{data?.note && <ExpandableText tw="mb-5">{data?.note}</ExpandableText>}</Wrraper>
     </>
   );
 }
