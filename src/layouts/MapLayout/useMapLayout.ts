@@ -223,6 +223,8 @@ export default function useMapLayout() {
 
   const [markers, setMarkers] = useState<ListingDanjiMarker[]>([]);
 
+  console.log(markers);
+
   const [schoolMarkers, setSchoolMarkers] = useState<SchoolMarker[]>([]);
   const [aroundMarkers, setAroundMarkers] = useState<AroundMarker[]>([]);
 
@@ -828,22 +830,28 @@ export default function useMapLayout() {
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
    */
-  const onZoomStart = useCallback((_map: NaverMap) => {
-    setMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
+  const onZoomStart = useCallback(
+    (_map: NaverMap) => {
+      setMarkers((prev) => {
+        if (prev.length > 0) {
+          return [];
+        }
+        return prev;
+      });
+
+      setSchoolMarkers((prev) => {
+        if (prev.length > 0) {
+          return [];
+        }
+        return prev;
+      });
+
+      if (!router?.query?.danjiID) {
+        setSelectedMarker(null);
       }
-      return prev;
-    });
-    setSchoolMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
-      }
-      return prev;
-    });
-    //
-    setSelectedMarker(null);
-  }, []);
+    },
+    [router?.query?.danjiID],
+  );
 
   /**
    * depth 가 열리고 닫힘에 따라, 지도 사이즈가 재조정이 필요할때 호출된다.
