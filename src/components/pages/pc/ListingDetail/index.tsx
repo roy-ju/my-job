@@ -23,6 +23,7 @@ import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
 import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 import ErrorCodes from '@/constants/error_codes';
+import { useRouter as useNextRouter } from 'next/router';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -38,6 +39,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const { redirectable } = useListingDetailRedirector(listingID, depth);
 
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
 
@@ -260,6 +262,12 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     });
   }, [data]);
 
+  const handleNavigateToBack = useCallback(() => {
+    if (router.query.back) {
+      nextRouter.replace(router.query.back as string);
+    }
+  }, [router, nextRouter]);
+
   useEffect(() => {
     if (statusData?.can_access === true) {
       viewListing({
@@ -327,6 +335,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         isLoading={isLoading || isLoadingStatus}
         hasMoreQnas={hasMoreQnas}
         realestateDocumentData={realestateDocumentData}
+        onClickBack={router.query.back ? handleNavigateToBack : undefined}
         onClickShare={handleClickShare}
         onClickMoreItem={handleClickMoreItem}
         onClickFavorite={handleClickFavorite}

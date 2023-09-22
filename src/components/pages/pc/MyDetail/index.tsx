@@ -17,6 +17,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     email,
     name,
     phone,
+    profileImageUrl,
     privacyRetentionValue,
     roadNameAddress,
     addressDetail,
@@ -34,6 +35,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     cancelUpdateNickname,
     handleChangeNickname,
     handleClickUpdateEmail,
+    handleUploadProfileImage,
     handleClickCancelUpdateEmail,
     handleClickUpdateToApple,
     handleClickUpdateToKakao,
@@ -51,6 +53,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           email={email ?? ''}
           name={name ?? ''}
           phone={phone ?? ''}
+          profileImageUrl={profileImageUrl ?? ''}
           address={roadNameAddress ?? ''}
           addressDetail={addressDetail ?? ''}
           addressVerified={ownershipVerified ?? false}
@@ -63,6 +66,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           onClickUpdatePhone={handleUpdatePhone}
           onClickUpdateNickname={handleClickUpdateNickname}
           onClickUpdateEmail={handleClickUpdateEmail}
+          onClickUpdateProfileImage={handleUploadProfileImage}
           onClickUpdatePrivacyRetentionType={handleChangeUpdatePrivacyRetentionType}
           onClickVerifyCi={handleNavigateToVerifyCi}
         />

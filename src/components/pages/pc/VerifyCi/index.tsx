@@ -43,6 +43,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         // 아이핀으로 본인인증 한 경우에는, 휴대폰번호 입력 플로우 까지 완료해야 본인인증 성공 페이지로 보낸다.
         if (Number(res.type) === NiceVerificationType.IPin) {
           router.replace(Routes.UpdatePhone, {
+            persistParams: true,
             searchParams: {
               redirect: (router.query.redirect as string) ?? '',
               trigger: 'iPin',
@@ -50,6 +51,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           });
         } else {
           router.replace(Routes.VerifyCiSuccess, {
+            persistParams: true,
             searchParams: { redirect: (router.query.redirect as string) ?? '' },
           });
         }

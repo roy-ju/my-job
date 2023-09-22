@@ -1,8 +1,8 @@
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { NavigationHeader, Tabs } from '@/components/molecules';
-import { SuggestReceivedListNoData } from '@/components/organisms';
+// import { SuggestReceivedListNoData } from '@/components/organisms';
 import { Loading } from '@/components/atoms';
-import ListingRecommendList from '../SuggestDetail/ListingRecommendList';
+import ListingRecommendList from '../MySuggestDetail/ListingRecommendList';
 
 interface Props {
   listStyle?: 'none' | 'delete';
@@ -36,7 +36,6 @@ export default function SuggestReceivedList({
   onChangeTabIndex,
   // onChangeListStyle,
   // onClickDelete,
-  onClickListing,
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
@@ -50,17 +49,12 @@ export default function SuggestReceivedList({
       );
     }
     if (!recommendsData?.length) {
-      return (
-        <div tw="py-7">
-          <SuggestReceivedListNoData />
-        </div>
-      );
+      return <div tw="py-7">{/*    <SuggestReceivedListNoData /> */}</div>;
     }
     return (
       <ListingRecommendList
         recommendData={recommendsData}
         onClickChat={onClickChat}
-        onClickListing={onClickListing}
         onClickNotInterested={onClickNotInterested}
         onClickRecommendAccept={onClickRecommendAccept}
       />

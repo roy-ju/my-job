@@ -12,7 +12,9 @@ const Routes = {
   DanjiListings: 'danjiListings',
   DanjiPhotos: 'danjiPhotos',
   DanjiRecommendation: 'danjiRecommendation',
+  DanjiRecommendationSummary: 'danjiRecommendationSummary',
   DanjiRecommendationSuccess: 'danjiRecommendationSuccess',
+  DanjiRecommendationUpdate: 'danjiRecommendationUpdate',
   DanjiRealPriceList: 'danjiRealPriceList',
   DanjiRealPriceDetail: 'danjiRealPrice',
   DanjiRealTradeDetail: 'danjiRealTrade',
@@ -40,6 +42,7 @@ const Routes = {
   MyRegisteredListingList: 'myRegisteredListings',
 
   MyParticipatingListings: 'myParticipatingListings',
+  MySuggestDetail: 'mySuggestDetail',
 
   ListingDetailPassed: 'listingDetailPassed',
   ListingDetailHistory: 'listingDetailHistory',
@@ -116,11 +119,26 @@ const Routes = {
   SuggestRegionalForm: 'suggestRegionalForm',
   SuggestRegionalSummary: 'suggestRegionalSummary',
   SuggestRegionalSuccess: 'suggestRegionalSuccess',
+  SuggestRegionalFormUpdate: 'suggestRegionalFormUpdate',
 
   // 나의 추천요청 / 추천받은매물
   SuggestRequestedList: 'suggestRequestedList',
   SuggestReceivedList: 'suggestReceivedList',
+
+  // 나의 추천
+  SuggestRecommendedList: 'suggestRecommendedList',
+
+  // 매물 구해요 (지역 / 단지)
+  RecommendationForm: 'recommendationForm',
+
+  // 매물 내놓기
+  SuggestListingForm: 'suggestListingForm',
+
+  // 구해요 상세
   SuggestDetail: 'suggestDetail',
+
+  // 구해요 목록
+  SuggestListings: 'suggestListings',
 
   // 오픈소스라이선스
   OpenSourceLicenses: 'openSourceLicenses',

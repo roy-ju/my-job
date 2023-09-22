@@ -101,6 +101,8 @@ const ListingCreateAddressDetail = () => {
       {
         pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
         query: {
+          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
           listingID: `${createRes.listing_id}`,
           addressLine1,
           addressLine2,
@@ -109,12 +111,19 @@ const ListingCreateAddressDetail = () => {
           ho: ho && `${ho}호`,
         },
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateForm}?listingID=${createRes.listing_id}`,
+      `/${Routes.EntryMobile}/${Routes.ListingCreateForm}?listingID=${createRes.listing_id}?danjiID=${
+        router?.query?.danjiID ? (router.query.danjiID as string) : ''
+      }&redirect=${router?.query?.redirect ? (router.query.redirect as string) : ''}`,
     );
   }, [router, dong, ho, addressData, addressLine1, addressLine2]);
 
   const handleBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`, {
+      query: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
+      },
+    });
   }, [router]);
 
   useEffect(() => {

@@ -13,12 +13,20 @@ import { minDigits } from '@/utils/fotmat';
 import DanjiChartNodata from '@/components/organisms/DanjiDetail/DanjiChartNodata';
 
 const CharTableHeaderList = [
-  { title: '계약일', width: '67px', textAlign: 'left' },
+  { title: '계약일', width: '56px', textAlign: 'left' },
   { title: '거래', width: '48px', textAlign: 'right' },
   { title: '층수', width: '56px', textAlign: 'right' },
   { title: '평형', width: '56px', textAlign: 'right' },
-  { title: '실거래가', width: '103px', textAlign: 'right' },
+  { title: '실거래가', width: '114px', textAlign: 'right' },
 ];
+
+function CancelLabel() {
+  return (
+    <div tw="[display: inline] [min-width: 27px] [max-width: 27px] h-4 text-white py-0.5 px-1 bg-gray-700 [font-size: 11px] [line-height: 12px] font-bold rounded-2xl mr-1 whitespace-nowrap">
+      취소
+    </div>
+  );
+}
 
 const StyledTableTypography = tw.span`text-b2 [letter-spacing: -0.4px] text-gray-1000`;
 
@@ -94,7 +102,7 @@ export default function RealPriceDanjiListAll({
         <>
           {list.map((item) => (
             <div key={nanoid()} tw="flex [border-bottom: 1px solid #F8F9FA] py-2">
-              <div tw="min-w-[67px] w-full [text-align: left]">
+              <div tw="min-w-[56px] w-full [text-align: left]">
                 <span tw="text-b2">
                   {`${(item.year && item.year.slice(2, 4)) || ''}.${minDigits(+item.month, 2)}.${minDigits(
                     +item.day,
@@ -129,8 +137,8 @@ export default function RealPriceDanjiListAll({
                 </div>
               )}
 
-              <div tw="flex items-center min-w-[103px] w-full [text-align: right]">
-                {item.buy_or_rent === BuyOrRent.Buy && item.trade_type === '직거래' && (
+              <div tw="flex items-center min-w-[114px] w-full [text-align: right]">
+                {!item.cancel_deal_day && item.buy_or_rent === BuyOrRent.Buy && item.trade_type === '직거래' && (
                   <TradeIcon
                     style={{
                       marginRight: '0.4rem',
@@ -138,14 +146,22 @@ export default function RealPriceDanjiListAll({
                     }}
                   />
                 )}
+
                 {item.buy_or_rent === BuyOrRent.Buy ? (
                   item.trade_type === '직거래' ? (
-                    <span tw="text-b2">{priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}</span>
+                    <span tw="text-b2">
+                      {item.cancel_deal_day && <CancelLabel />}
+                      {priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}
+                    </span>
                   ) : (
-                    <span tw="text-b2 w-full">{priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}</span>
+                    <span tw="text-b2 w-full">
+                      {item.cancel_deal_day && <CancelLabel />}
+                      {priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}
+                    </span>
                   )
                 ) : (
                   <span tw="text-b2 w-full whitespace-pre-wrap">
+                    {item.cancel_deal_day && <CancelLabel />}
                     {priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}
                   </span>
                 )}

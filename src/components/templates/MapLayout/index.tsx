@@ -38,12 +38,7 @@ function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo, unreadChatCo
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
           <GlobalNavigation.TabButton idx={1} text="지도" icon={<MapPin />} />
           <GlobalNavigation.TabButton idx={2} text="관심 목록" icon={<Heart />} />
-          <GlobalNavigation.TabButton
-            idx={3}
-            text="중개사 채팅"
-            icon={<ChatBubble />}
-            unreadChatCount={unreadChatCount}
-          />
+          <GlobalNavigation.TabButton idx={3} text="채팅" icon={<ChatBubble />} unreadChatCount={unreadChatCount} />
           <GlobalNavigation.TabButton idx={4} text="마이페이지" icon={<User />} />
           {process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' && (
             <GlobalNavigation.TabButton idx={5} text="개발자설정" icon={<User />} />

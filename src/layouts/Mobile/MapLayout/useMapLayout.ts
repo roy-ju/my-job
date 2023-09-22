@@ -34,6 +34,7 @@ export interface DanjiSummary {
   householdCount: number;
   buyListingCount: number;
   rentListingCount: number;
+  suggestCount: number;
   realestateType: number;
   buyPrice: number;
   latestDealDateBuy?: string;
@@ -302,6 +303,7 @@ export default function useMapLayout() {
             saedaeCount: summary?.saedae_count ?? 0,
             string: summary?.string,
             useAcceptedYear: summary?.use_accepted_year,
+            suggestCount: summary?.suggest_count ?? 0,
           });
         }
       }
@@ -681,21 +683,28 @@ export default function useMapLayout() {
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
    */
-  const onZoomStart = useCallback((_map: NaverMap) => {
-    setMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
+  const onZoomStart = useCallback(
+    (_map: NaverMap) => {
+      setMarkers((prev) => {
+        if (prev.length > 0) {
+          return [];
+        }
+        return prev;
+      });
+
+      setSchoolMarkers((prev) => {
+        if (prev.length > 0) {
+          return [];
+        }
+        return prev;
+      });
+
+      if (bounds?.mapLevel && bounds.mapLevel > 1) {
+        setSelectedDanjiSummary(null);
       }
-      return prev;
-    });
-    setSchoolMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
-      }
-      return prev;
-    });
-    setSelectedDanjiSummary(null);
-  }, []);
+    },
+    [bounds?.mapLevel],
+  );
 
   /**
    * depth 가 열리고 닫힘에 따라, 지도 사이즈가 재조정이 필요할때 호출된다.
@@ -720,7 +729,7 @@ export default function useMapLayout() {
     }
 
     return () => {};
-  }, []);
+  }, [selectedDanjiSummary]);
 
   /**
    * 맵 레이어 핸들링

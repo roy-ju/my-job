@@ -6,14 +6,17 @@ import { cuttingDot } from '@/utils/fotmat';
 import tw from 'twin.macro';
 import View from '@/assets/icons/view.svg';
 import Participants from '@/assets/icons/participants.svg';
+import ArrowRight from '@/assets/icons/arrow_right_16.svg';
 
 export default function TypeOne({
   item,
+  isFirst = false,
   isLast = false,
   anchorURL,
   onClick,
 }: {
   item?: DanjiListingsListItem;
+  isFirst?: boolean;
   isLast?: boolean;
   anchorURL?: string;
   onClick?: (id: number, buyOrRent: number) => void;
@@ -21,24 +24,30 @@ export default function TypeOne({
   if (!item) return null;
 
   return (
-    <div tw="hover:bg-gray-200 px-5">
+    <div tw="hover:bg-gray-200 px-5" css={[!isLast && tw`[border-bottom: 1px solid #E9ECEF]`]}>
       <button
         type="button"
-        tw="flex flex-col py-5"
-        css={[tw`w-full`, !isLast && tw`[border-bottom: 1px solid #E9ECEF]`]}
+        tw="flex flex-col py-7 relative"
+        css={[tw`w-full`, isFirst && tw`pt-4`]}
         onClick={() => onClick?.(item.listing_id, item.buy_or_rent)}
       >
         {item.is_participating && (
-          <div tw="mb-2">
+          <div tw="flex items-center w-full mb-2">
             <Chip
               css={[item.label_text === '협의중' ? tw`bg-nego-600` : tw`bg-green-1100`]}
               tw="text-white [border-top-left-radius: 4px ] [border-top-right-radius: 0px] [border-bottom-left-radius: 0px] [border-bottom-right-radius: 4px]"
             >
               {item.label_text}
             </Chip>
+
+            <button type="button" tw="flex items-center text-info leading-4 ml-auto">
+              상세보기
+              <ArrowRight />
+            </button>
           </div>
         )}
-        <div tw="flex items-center">
+
+        <div tw="flex items-center w-full">
           {item.quick_sale && (
             <div tw="relative w-4 h-4 bg-red-700 [border-radius: 50%] mr-1">
               <span tw="absolute [top: 50%] [left: 50%] -translate-x-1/2 -translate-y-1/2 [font-size: 11px] [line-height: 1] font-bold text-b1  text-red-50">
@@ -47,6 +56,7 @@ export default function TypeOne({
             </div>
           )}
           <span tw="font-bold text-b1">{describeBuyOrRent(item.buy_or_rent)}&nbsp;</span>
+
           {item.buy_or_rent !== BuyOrRent.Wolsae ? (
             <span tw="font-bold text-b1">{formatNumberInKorean(item.trade_or_deposit_price)}</span>
           ) : (
@@ -56,7 +66,15 @@ export default function TypeOne({
               </span>
             </>
           )}
+
+          {!item.is_participating && (
+            <button type="button" tw="flex items-center text-info leading-4 ml-auto">
+              상세보기
+              <ArrowRight />
+            </button>
+          )}
         </div>
+
         <div>
           {anchorURL ? (
             <a

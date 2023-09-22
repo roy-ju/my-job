@@ -1,134 +1,157 @@
-import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
-import useAPI_GetMySuggestDetail from '@/apis/suggest/getMySuggestDetail';
-import useAPI_GetMySuggestRecommends from '@/apis/suggest/getMySuggestRecommends';
-import { notIntersted } from '@/apis/suggest/notInterested';
+import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
+import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
+import { SuggestStatus } from '@/constants/enums';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
-import { memo, useCallback, useRef, useState } from 'react';
+
+import { memo, useCallback, useMemo, useState } from 'react';
+import suggestView from '@/apis/suggest/suggestView';
+import { isMobile } from '@/utils/is';
 
 interface Props {
   depth: number;
   panelWidth?: string;
+  ipAddress?: string;
 }
 
-export default memo(({ panelWidth, depth }: Props) => {
+export default memo(({ panelWidth, depth, ipAddress }: Props) => {
   const router = useRouter(depth);
-  const suggestID = Number(router.query.suggestID) ?? 0;
+  const nextRouter = useNextRouter();
 
-  const [popup, setPopup] = useState('none');
-  const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
+  const { data: userData } = useAPI_GetUserInfo();
 
-  const popupData = useRef(0);
+  const [addressApplyPopup, setAddressApplyPopup] = useState(false);
 
-  const { data, isLoading } = useAPI_GetMySuggestDetail(suggestID);
-  const { data: recommendData, count, mutate, increamentPageNumber } = useAPI_GetMySuggestRecommends(suggestID);
-
-  const handleClickChat = useCallback(
-    (id: number) => {
-      router.replace(Routes.ChatRoom, {
-        searchParams: {
-          chatRoomID: `${id}`,
-        },
-      });
-    },
-    [router],
+  const suggestID = useMemo(
+    () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
+    [router.query.suggestID],
   );
 
-  const handleNaviagteToSuggestRegionalForm = useCallback(() => {
-    router.replace(Routes.SuggestRegionalForm);
-  }, [router]);
+  const { data, isLoading, mutate: detailMutate } = useAPI_GetSuggestDetail(suggestID);
 
-  const openNotInterestedPopup = useCallback((id: number) => {
-    popupData.current = id;
-    setPopup('notInterested');
-  }, []);
+  const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
 
-  const openAcceptRecommendPopup = useCallback((id: number) => {
-    popupData.current = id;
-    setPopup('acceptRecommend');
-  }, []);
+  const disabledCTA = useMemo(() => {
+    if (data?.suggest_status === SuggestStatus.Active) return false;
 
-  const handleNotInterested = useCallback(async () => {
-    setIsPopupButtonLoading(true);
-    await notIntersted(popupData.current);
-    await mutate();
-    setIsPopupButtonLoading(false);
-    setPopup('none');
+    return true;
+  }, [data?.suggest_status]);
+
+  const isExistMySuggested = useMemo(() => !!myRecommendedList?.list?.length, [myRecommendedList?.list?.length]);
+
+  const handleClickCTA = useCallback(async () => {
+    if (!suggestID) return;
+
+    if (!userData) {
+      router.replace(Routes.Login, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}` },
+      });
+
+      return;
+    }
+
+    if (!userData.is_verified) {
+      router.replace(Routes.VerifyCi, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}` },
+      });
+      return;
+    }
+
+    if (data?.danji_id) {
+      const response = await suggestRecommendEligibility({ danji_id: data.danji_id });
+
+      if (response && !response?.is_eligible) {
+        setAddressApplyPopup(true);
+        return;
+      }
+
+      if (response && response?.is_eligible) {
+        router.replace(Routes.SuggestListingForm, {
+          searchParams: data?.danji_id
+            ? { danjiID: `${data.danji_id}`, suggestID: `${suggestID}` }
+            : { suggestID: `${suggestID}` },
+        });
+      }
+    }
+  }, [data?.danji_id, router, suggestID, userData]);
+
+  const handleAddressApplyPopupCTA = useCallback(() => {
+    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}`);
+  }, [nextRouter]);
+
+  const handleMutate = useCallback(() => {
+    mutate();
   }, [mutate]);
 
-  const handleRecommendAccept = useCallback(async () => {
-    setIsPopupButtonLoading(true);
-    await acceptRecommend(popupData.current);
-    await mutate();
-    setIsPopupButtonLoading(false);
-    setPopup('none');
-  }, [mutate]);
+  const closePopup = useCallback(() => {
+    setAddressApplyPopup(false);
+  }, []);
 
-  if (isLoading) {
-    return (
-      <Panel width={panelWidth}>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </Panel>
-    );
+  async function handleSuggestView() {
+    if (!data) return;
+
+    await suggestView({
+      suggest_id: data?.suggest_id,
+      ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
+      browser: navigator.userAgent,
+      device: isMobile(navigator.userAgent) ? 'MOBILE' : 'PC',
+    });
+
+    await detailMutate();
+
+    if (window?.Negocio?.callbacks?.mutateSuggestList) {
+      window.Negocio.callbacks.mutateSuggestList();
+    }
   }
 
+  useIsomorphicLayoutEffect(() => {
+    handleSuggestView();
+  }, [handleSuggestView, data?.danji_id]);
+
   return (
-    <Panel width={panelWidth}>
-      <SuggestDetail
-        recommendCount={count}
-        recommendData={recommendData}
-        suggestData={data}
-        onClickBack={() => router.replace(Routes.SuggestRequestedList)}
-        onClickListing={(id) => router.replace(Routes.ListingDetail, { searchParams: { listingID: `${id}` } })}
-        onClickNotInterested={openNotInterestedPopup}
-        onClickRecommendAccept={openAcceptRecommendPopup}
-        onClickChat={handleClickChat}
-        onClickNewRecommendations={handleNaviagteToSuggestRegionalForm}
-        onNextListingRecommentList={increamentPageNumber}
-      />
-      {popup === 'notInterested' && (
+    <>
+      <Panel width={panelWidth}>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : data ? (
+          <SuggestDetail
+            data={data}
+            myRecommendedList={myRecommendedList?.list}
+            isExistMySuggested={isExistMySuggested}
+            disabledCTA={disabledCTA}
+            onClickCTA={handleClickCTA}
+            onMutate={handleMutate}
+          />
+        ) : null}
+      </Panel>
+
+      {addressApplyPopup && (
         <OverlayPresenter>
           <Popup>
-            <Popup.ContentGroup tw="py-6">
-              <Popup.Title tw="text-b2 text-center">
-                관심없음으로 표시한 매물은
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SmallTitle>
+                이 단지의 집주인만 매물추천이 가능합니다.
                 <br />
-                추천받은 목록에서 삭제됩니다.
-              </Popup.Title>
+                우리집 등록하고 집주인 인증하러 가시겠습니까?
+              </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleNotInterested}>
-                확인
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={closePopup}>닫기</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>집주인 인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
       )}
-      {popup === 'acceptRecommend' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-6">
-              <Popup.Title tw="text-b2 text-center">
-                매물에 대한 추가 협의는 채팅으로 진행할 수 있습니
-                <br />
-                다. 이를 위한 중개사님과의 채팅방이 개설됩니다.
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleRecommendAccept}>
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-    </Panel>
+    </>
   );
 });

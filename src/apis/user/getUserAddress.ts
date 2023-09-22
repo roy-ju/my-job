@@ -5,6 +5,11 @@ import useSWR from 'swr';
 export interface GetUserAddressResponse {
   road_name_address: string;
   address_detail: string;
+
+  building_name: string | null;
+  dong: string | null;
+  floor: string | null;
+
   ownership_verified: boolean;
   ownership_verification_count: number;
   ownership_marketing_agreement_time: string;

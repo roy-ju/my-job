@@ -1,18 +1,20 @@
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { My as MyTemplate } from '@/components/templates';
 import { MobileContainer } from '@/components/atoms';
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { MobGlobalNavigation } from '@/components/organisms';
 import useSyncronizer from '@/states/syncronizer';
+import { Popup, OverlayPresenter } from '@/components/molecules';
 
 export default function MobMy() {
   const router = useRouter();
 
   const { user, isLoading } = useAuth();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
+  const [showMyAddressPopup, setShowMyAddressPopup] = useState(false);
 
   const { unreadChatCount } = useSyncronizer();
 
@@ -42,17 +44,9 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.MyRealPriceList}`);
   }, [router]);
 
-  // const handleClickTransactionHistory = useCallback(() => {
-  //   router.push(`my/${Routes.TransactionHistory}`);
-  // }, [router]);
-
   const handleClickFAQ = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.FAQ}`);
   }, [router]);
-
-  // const handleClickNegoMoney = useCallback(() => {
-  //   router.push(`my/${Routes.NegoMoney}`);
-  // }, [router]);
 
   const handleClickNegoPoint = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.NegoPoint}`);
@@ -66,9 +60,13 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.ServiceInfo}`);
   }, [router]);
 
-  const handleCreateListing = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.HOG}`);
-  }, [router]);
+  const handleMyAddress = useCallback(() => {
+    if (user?.hasAddress) {
+      setShowMyAddressPopup(true);
+      return;
+    }
+    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+  }, [router, user?.hasAddress]);
 
   const handleClickMyRegisteredListings = useCallback(
     (params: number) => {
@@ -88,43 +86,21 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestReceivedList}`);
   }, [router]);
 
-  const handleSuggestRegional = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  const handleRecommendationForm = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
   }, [router]);
 
   const handleRequestedSuggests = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
   }, [router]);
 
+  const handleSuggestRecommendedList = useCallback(() => {
+    router.push(Routes.SuggestRecommendedList);
+  }, [router]);
+
   const handleDeveloper = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.Developer}`);
   }, [router]);
-
-  // return (
-  //   <>
-  //     <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
-  //     <MobMyTemplate
-  //       unreadNotificationCount={unreadNotificationCount}
-  //       isLoading={isLoading}
-  //       loggedIn={user !== null}
-  //       nickname={user?.nickname}
-  //       onClickLogin={handleClickLogin}
-  //       onClickNotificationList={handleClickNotificationList}
-  //       onClickMyDetail={handleClickMyDetail}
-  //       onClickNoticeList={handleClickNoticeList}
-  //       onClickQna={handleClickQna}
-  //       onClickMyRealPriceList={handleClickMyRealPriceList}
-  //       onClickTransactionHistory={handleClickTransactionHistory}
-  //       onClickFAQ={handleClickFAQ}
-  //       onClickNegoMoney={handleClickNegoMoney}
-  //       onClickNegoPoint={handleClickNegoPoint}
-  //       onClickCoupons={handleClickCoupons}
-  //       onClickServiceInfo={handleServiceInfo}
-  //       onClickCreateListing={handleCreateListing}
-  //       onClickDeveloper={handleDeveloper}
-  //     />
-  //   </>
-  // );
 
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
@@ -133,6 +109,7 @@ export default function MobMy() {
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        profileImageUrl={user?.profileImageUrl}
         dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}
@@ -144,14 +121,45 @@ export default function MobMy() {
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
-        onClickCreateListing={handleCreateListing}
+        onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        onClickSuggestRegional={handleSuggestRegional}
+        onClickRecommendationForm={handleRecommendationForm}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
+        onClickSuggestRecommendedList={handleSuggestRecommendedList}
         onClickDeveloper={process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? handleDeveloper : undefined}
       />
+      {showMyAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.SubTitle tw="text-center">
+                이미 등록하신 주소가 있습니다.
+                <br />
+                새로운 집주소를 등록하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton
+                onClick={() => {
+                  setShowMyAddressPopup(false);
+                }}
+              >
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+                  setShowMyAddressPopup(false);
+                }}
+              >
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </MobileContainer>
   );
 }

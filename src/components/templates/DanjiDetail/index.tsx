@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-
 import { Loading, Separator } from '@/components/atoms';
 import { DanjiDetailSection } from '@/components/organisms';
 import tw from 'twin.macro';
@@ -12,6 +11,7 @@ import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { motion } from 'framer-motion';
 import useDanjiInteraction from '@/states/danjiButton';
+
 import DanjiDetailHeader from './Components/DanjiDetailHeader';
 import DanjiPhotoHero from './Components/DanjiPhotoHero';
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
@@ -277,7 +277,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                     tw="[text-align: center] w-full text-b2 [line-height: 17px]"
                     css={[tabIndex === 0 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
                   >
-                    단지 매물
+                    단지 거래
                   </p>
                   {tabIndex === 0 && (
                     <motion.div
@@ -363,7 +363,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           {isShowlistingsSection && (
             <div tw="pt-7" id="listingsSection" ref={setListingsSection}>
               <DanjiDetailSection.Info danji={danji} depth={depth} />
-              <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} setLoadingListing={() => {}} />
+              <DanjiDetailSection.ActiveInfo danji={danji} depth={depth} />
             </div>
           )}
 
@@ -373,7 +373,6 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               depth={depth}
               isShowRpTab={isShowRpTab}
               isShowlistingsSection={isShowlistingsSection}
-              // setLoadingRp={() => {}}
               setLoadingRp={setLoadingRp}
               setIsShowRpTab={setIsShowRpTab}
             />

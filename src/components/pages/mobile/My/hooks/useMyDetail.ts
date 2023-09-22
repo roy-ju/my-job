@@ -11,6 +11,7 @@ import checkNickname from '@/apis/user/checkNickname';
 import { useRouter } from 'next/router';
 import { updatePrivacyRetention } from '@/apis/my/updatePrivacyRetention';
 import Events from '@/constants/events';
+import uploadProfileImage from '@/apis/my/uploadProfileImage';
 
 type UpdateEmailPopupType = 'none' | 'duplicated_ci' | 'duplicated_email' | 'success';
 
@@ -26,6 +27,8 @@ export default function useMyDetail() {
 
   const [privacyRetentionType, setPrivacyRetentionType] = useState<string>('');
   const [nickname, setNickname] = useState('');
+
+  const [profileImageUrl, setProfileImageUrl] = useState('');
 
   const updateNicknameButtonDisabled = useMemo(() => {
     if (nickname.length === 0) {
@@ -98,6 +101,14 @@ export default function useMyDetail() {
   const handleClickUpdateEmail = useCallback(() => {
     setEmailPopup(true);
   }, []);
+
+  const handleUploadProfileImage = useCallback(
+    async (file: File) => {
+      await uploadProfileImage(user?.id as number, file);
+      await mutateUser(false);
+    },
+    [user?.id, mutateUser],
+  );
 
   const handleClickCancelUpdateEmail = useCallback(() => {
     setEmailPopup(false);
@@ -185,6 +196,12 @@ export default function useMyDetail() {
   }, [user?.nickname]);
 
   useEffect(() => {
+    if (user?.profileImageUrl) {
+      setProfileImageUrl(user?.profileImageUrl);
+    }
+  }, [user?.profileImageUrl]);
+
+  useEffect(() => {
     if (user?.privacyRetentionType) {
       let stringVal: string = '';
 
@@ -210,6 +227,7 @@ export default function useMyDetail() {
     () => ({
       ...user,
       isLoading: isUserLoading || isUserAddressLoading,
+      profileImageUrl,
       updateNicknameButtonDisabled,
       nickname,
       nicknamePopup,
@@ -229,6 +247,7 @@ export default function useMyDetail() {
       cancelUpdateNickname,
       handleChangeNickname,
       handleClickUpdateEmail,
+      handleUploadProfileImage,
       handleClickCancelUpdateEmail,
       handleClickUpdateToKakao,
       handleClickUpdateToApple,
@@ -242,6 +261,7 @@ export default function useMyDetail() {
       nicknamePopup,
       emailPopup,
       user,
+      profileImageUrl,
       userAddressData,
       isUserAddressLoading,
       isUserLoading,
@@ -256,6 +276,7 @@ export default function useMyDetail() {
       cancelUpdateNickname,
       handleChangeNickname,
       handleClickUpdateEmail,
+      handleUploadProfileImage,
       handleClickCancelUpdateEmail,
       handleClickUpdateToKakao,
       handleClickUpdateToApple,

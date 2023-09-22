@@ -21,7 +21,6 @@ import { memo, useCallback, useState } from 'react';
 
 export default memo(() => {
   const router = useRouter(0);
-
   const [openPopup, setOpenPopup] = useState(false);
 
   const map = useMap();
@@ -53,7 +52,11 @@ export default memo(() => {
   }, [router]);
 
   const handleClickSuggestion = useCallback(async () => {
-    router.replace(Routes.SuggestRegionalForm);
+    router.replace(Routes.RecommendationForm, {
+      searchParams: {
+        back: router.asPath,
+      },
+    });
   }, [router]);
 
   const handleClickBidding = useCallback(() => {

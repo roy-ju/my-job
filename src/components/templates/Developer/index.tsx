@@ -4,6 +4,7 @@ import { useControlled } from '@/hooks/utils';
 import { useCallback } from 'react';
 import * as gtag from '@/lib/gtag';
 import Keys from '@/constants/storage_keys';
+import CopyIcon from '@/assets/icons/copy.svg';
 
 interface Props {
   userNickname?: string;
@@ -11,6 +12,7 @@ interface Props {
   jwtOwner?: string;
   jwtOwners?: string[];
   onChangeJwtOwner?: (newValue: string) => void;
+  onClickClipboardCopy?: (text: string) => void;
 }
 
 export default function Developer({
@@ -19,6 +21,7 @@ export default function Developer({
   jwtOwner: jwtOwnerProp,
   jwtOwners,
   onChangeJwtOwner,
+  onClickClipboardCopy,
 }: Props) {
   const [jwtOwner, setJwtOwner] = useControlled({
     controlled: jwtOwnerProp,
@@ -32,6 +35,8 @@ export default function Developer({
     },
     [setJwtOwner, onChangeJwtOwner],
   );
+
+  const token = localStorage.getItem(Keys.ACCESS_TOKEN)?.slice(1, -1) ?? '';
 
   return (
     <div>
@@ -54,15 +59,21 @@ export default function Developer({
             </Dropdown.Option>
           ))}
         </Dropdown>
-        {localStorage.getItem(Keys.ACCESS_TOKEN) && (
-          <TextField variant="outlined">
-            <TextField.TextArea
-              tw="break-all"
-              disabled
-              label="액세스 토큰"
-              value={localStorage.getItem(Keys.ACCESS_TOKEN) ?? ''}
-            />
-          </TextField>
+        {token && (
+          <div tw="relative">
+            <button
+              onClick={() => {
+                onClickClipboardCopy?.(token);
+              }}
+              type="button"
+              tw="block ml-auto w-6 h-6 hover:bg-gray-50 rounded-md"
+            >
+              <CopyIcon tw="w-6 h-6" />
+            </button>
+            <TextField variant="outlined">
+              <TextField.TextArea tw="break-all" disabled label="액세스 토큰" value={token ?? ''} />
+            </TextField>
+          </div>
         )}
         <Button
           onClick={() =>

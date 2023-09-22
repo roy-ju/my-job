@@ -3,13 +3,13 @@ import { NavigationHeader } from '@/components/molecules';
 import BellIcon from '@/assets/icons/bell.svg';
 import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
-import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
 interface Props {
   isLoading?: boolean;
   loggedIn?: boolean;
   nickname?: string;
+  profileImageUrl?: string;
   unreadNotificationCount?: number;
   dashboardInfo?: GetDashboardInfoResponse | null;
   onClickLogin?: () => void;
@@ -22,12 +22,13 @@ interface Props {
   onClickNegoPoint?: () => void;
   onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
-  onClickCreateListing?: () => void;
+  onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
-  onClickSuggestRegional?: () => void;
+  onClickRecommendationForm?: () => void;
   onClickReceivedSuggests?: () => void;
   onClickRequestedSuggests?: () => void;
+  onClickSuggestRecommendedList?: () => void;
   onClickDeveloper?: () => void;
 }
 
@@ -35,6 +36,7 @@ export default function My({
   isLoading,
   loggedIn,
   nickname,
+  profileImageUrl,
   unreadNotificationCount = 0,
   dashboardInfo,
   onClickLogin,
@@ -47,12 +49,13 @@ export default function My({
   onClickCoupons,
   onClickNegoPoint,
   onClickServiceInfo,
-  onClickCreateListing,
+  onClickMyAddress,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
-  onClickSuggestRegional,
+  onClickRecommendationForm,
   onClickReceivedSuggests,
   onClickRequestedSuggests,
+  onClickSuggestRecommendedList,
   onClickDeveloper,
 }: Props) {
   return (
@@ -81,7 +84,7 @@ export default function My({
         {!isLoading && loggedIn && (
           <>
             <MySummary
-              profileImagePath={defaultAvatar}
+              profileImagePath={profileImageUrl}
               nickname={nickname}
               onClickMyDetail={onClickMyDetail}
               onClickCoupons={onClickCoupons}
@@ -89,12 +92,13 @@ export default function My({
             />
             <MyListingsSummary
               dashboardInfo={dashboardInfo}
-              onClickCreateListing={onClickCreateListing}
+              onClickMyAddress={onClickMyAddress}
               onClickMyRegisteredListings={onClickMyRegisteredListings}
               onClickMyParticipatingListings={onClickMyParticipatingListings}
-              onClickSuggestRegional={onClickSuggestRegional}
+              onClickRecommendationForm={onClickRecommendationForm}
               onClickReceivedSuggests={onClickReceivedSuggests}
               onClickRequestedSuggests={onClickRequestedSuggests}
+              onClickSuggestRecommendedList={onClickSuggestRecommendedList}
             />
           </>
         )}
@@ -103,17 +107,16 @@ export default function My({
             <LoginRequired onClickLogin={onClickLogin} />
           </div>
         )}
-        <Separator />
-        <div tw="pt-5">
-          <MyPageNavigationList>
-            {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
-            <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
-            <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
-            {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
-            <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
-            {onClickDeveloper && <MyPageNavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
-          </MyPageNavigationList>
-        </div>
+        <Separator tw="bg-gray-300" />
+        {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
+        {loggedIn && <Separator tw="bg-gray-300" />}
+        <MyPageNavigationList>
+          <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
+          <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
+          {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
+          <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
+          {onClickDeveloper && <MyPageNavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
+        </MyPageNavigationList>
       </div>
     </div>
   );

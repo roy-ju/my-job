@@ -4,6 +4,7 @@ import useSWR from 'swr';
 export interface GetDanjiSummaryResponse {
   buy_listing_count: number;
   rent_listing_count?: number;
+  suggest_count?:number
   buy_price: number;
   rent_price?: number;
   danji_id: number;

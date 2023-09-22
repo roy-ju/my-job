@@ -11,8 +11,18 @@ import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPric
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 
+function CancelLabel() {
+  return (
+    <div tw="[display: inline] [min-width: 27px] [max-width: 27px] h-4 text-white py-0.5 px-1 bg-gray-700 [font-size: 11px] [line-height: 12px] font-bold rounded-2xl mr-1 whitespace-nowrap">
+      취소
+    </div>
+  );
+}
+
 function ChartTableBody({
   title,
+  isCancel = false,
+  isLabel = false,
   isIcon = false,
   isLeft = false,
   width,
@@ -21,6 +31,8 @@ function ChartTableBody({
   monthlyRentFee,
 }: {
   title: string;
+  isCancel?: boolean;
+  isLabel?: boolean;
   isIcon?: boolean;
   isLeft?: boolean;
   width: string;
@@ -52,20 +64,30 @@ function ChartTableBody({
         textAlign: 'right',
       }}
     >
-      <TradeIcon
-        style={{
-          marginRight: '0.4rem',
-          marginLeft: 'auto',
-        }}
-      />
-      <span tw="text-b2 font-normal">{title}</span>
+      {isLabel ? (
+        <CancelLabel />
+      ) : (
+        <TradeIcon
+          style={{
+            marginRight: '0.4rem',
+            marginLeft: 'auto',
+          }}
+        />
+      )}
+      <span tw="text-b2 font-normal" style={isCancel ? { color: '#ADB5BD' } : {}}>
+        {title}
+      </span>
     </div>
   ) : (
     <div
       tw="flex flex-row [text-align: right]"
       style={{ width: '100%', minWidth: width, textAlign: isLeft ? 'left' : 'right' }}
     >
-      <span tw="w-full text-b2 font-normal" style={{ color: isSpecialColor ? getColor() : '#212529' }}>
+      <span
+        tw="w-full text-b2 font-normal"
+        style={{ color: isCancel ? '#ADB5BD' : isSpecialColor ? getColor() : '#212529' }}
+      >
+        {isLabel && <CancelLabel />}
         {title}
       </span>
     </div>
@@ -242,6 +264,7 @@ export default function RealPricesList({
                     )}`}
                     isLeft
                     width="4.375rem"
+                    isCancel={!!item.cancel_deal_day}
                   />
                   <ChartTableBody
                     title={describeBuyOrRentUtil(item.monthly_rent_fee, item.buy_or_rent)}
@@ -249,12 +272,15 @@ export default function RealPricesList({
                     isSpecialColor
                     buyOrRent={item.buy_or_rent}
                     monthlyRentFee={item.monthly_rent_fee}
+                    isCancel={!!item.cancel_deal_day}
                   />
-                  <ChartTableBody title={`${item.floor}층` || '-'} width="3.5rem" />
+                  <ChartTableBody title={`${item.floor}층` || '-'} width="3.5rem" isCancel={!!item.cancel_deal_day} />
                   <ChartTableBody
                     isIcon={item.trade_type === '직거래'}
                     title={priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}
                     width="9.625rem"
+                    isCancel={!!item.cancel_deal_day}
+                    isLabel={!!item.cancel_deal_day}
                   />
                 </div>
               ))

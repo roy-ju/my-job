@@ -109,7 +109,17 @@ const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRec
   ssr: false,
 });
 
+const DanjiRecommendationSummary = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSummary'), {
+  loading: FallbackComponent,
+  ssr: false,
+});
+
 const DanjiRecommendationSuccess = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSuccess'), {
+  loading: FallbackComponent,
+  ssr: false,
+});
+
+const DanjiRecommendationUpdate = dynamic(() => import('@/components/pages/pc/DanjiRecommendationUpdate'), {
   loading: FallbackComponent,
   ssr: false,
 });
@@ -296,6 +306,10 @@ const SuggestRegionalSuccess = dynamic(() => import('@/components/pages/pc/Sugge
   ssr: false,
   loading: FallbackComponent,
 });
+const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -305,6 +319,22 @@ const SuggestReceivedList = dynamic(() => import('@/components/pages/pc/SuggestR
   loading: FallbackComponent,
 });
 const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListings'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const MySuggestDetail = dynamic(() => import('@/components/pages/pc/MySuggestDetail'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const SuggestRecommendedList = dynamic(() => import('@/components/pages/pc/SuggestRecommendedList'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const SuggestListingForm = dynamic(() => import('@/components/pages/pc/SuggestListingForm'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -320,28 +350,27 @@ const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounseling = dynamic(() => import('@/components/pages/pc/LegalCounseling'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingSearch = dynamic(() => import('@/components/pages/pc/LegalCounselingSearch'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingDetail = dynamic(() => import('@/components/pages/pc/LegalCounselingDetail'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingWriting = dynamic(() => import('@/components/pages/pc/LegalCounselingWriting'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalCounselingUpdate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const RecommendationForm = dynamic(() => import('@/components/pages/pc/RecommendationForm'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -503,6 +532,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <Reactivate {...props} />;
     }
 
+    case Routes.RecommendationForm: {
+      return <RecommendationForm {...props} />;
+    }
+
     case Routes.ListingDetail: {
       return (
         <ListingDetail
@@ -531,15 +564,23 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail key={`${query.danjiID}`} {...props} />;
+      return <DanjiDetail key={`${query.danjiID as string}`} {...props} />;
     }
 
     case Routes.DanjiRecommendation: {
       return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
     }
 
+    case Routes.DanjiRecommendationSummary: {
+      return <DanjiRecommendationSummary key={`${query.danjiID}`} {...props} />;
+    }
+
     case Routes.DanjiRecommendationSuccess: {
       return <DanjiRecommendationSuccess key={`${query.danjiID}`} {...props} />;
+    }
+
+    case Routes.DanjiRecommendationUpdate: {
+      return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
     }
 
     case Routes.DanjiPhotos: {
@@ -674,6 +715,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <SuggestRegionalSuccess {...props} />;
     }
 
+    case Routes.SuggestRegionalFormUpdate: {
+      return <SuggestRegionalFormUpdate {...props} />;
+    }
+
     case Routes.SuggestRequestedList: {
       return <SuggestRequestedList {...props} />;
     }
@@ -682,8 +727,24 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <SuggestReceivedList {...props} />;
     }
 
+    case Routes.MySuggestDetail: {
+      return <MySuggestDetail key={`${query.suggestID}`} {...props} />;
+    }
+
     case Routes.SuggestDetail: {
-      return <SuggestDetail {...props} />;
+      return <SuggestDetail key={`${query.suggestID}`} ipAddress={ipAddress} {...props} />;
+    }
+
+    case Routes.SuggestListings: {
+      return <SuggestListings key={`${query.danjiID}`} {...props} />;
+    }
+
+    case Routes.SuggestRecommendedList: {
+      return <SuggestRecommendedList {...props} />;
+    }
+
+    case Routes.SuggestListingForm: {
+      return <SuggestListingForm key={`${query.suggestID}`} {...props} />;
     }
 
     case Routes.ListingPhotoGallery: {

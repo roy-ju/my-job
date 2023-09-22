@@ -53,6 +53,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickBack = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         listingID: router.query.listingID as string,
       },
       state: {
@@ -73,6 +75,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     const agentId = agents[index]?.id;
     router.replace(Routes.ListingCreateSummary, {
       searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         listingID: router.query.listingID as string,
         agentID: `${agentId}`,
       },

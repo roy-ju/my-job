@@ -8,10 +8,13 @@ import tw, { styled } from 'twin.macro';
 const StyledTable = styled.table`
   ${tw`w-full text-b2`}
   th {
-    ${tw`py-1 text-gray-1000`}
+    ${tw`py-2 text-gray-700 w-21`}
   }
   td {
-    ${tw`py-1 text-end`}
+    ${tw`w-auto py-2 text-left`}
+  }
+  tbody tr:not(:last-of-type) {
+    ${tw`border-b border-b-gray-300`}
   }
 `;
 
@@ -24,12 +27,11 @@ interface Props {
   minArea?: string;
   maxArea?: string;
   purpose?: string;
-  floor?: string;
   description?: string;
-  remainingAmountPaymentTime?: string;
-  remainingAmountPaymentTimeType?: number;
   moveInDate?: string;
   moveInDateType?: number;
+  investAmount?: number;
+  negotiable?: boolean;
   isNextButtonLoading?: boolean;
   onClickBack?: () => void;
   onClickNext?: () => void;
@@ -44,12 +46,11 @@ export default function SuggestRegionalSummary({
   minArea,
   maxArea,
   purpose,
-  floor,
   description,
-  remainingAmountPaymentTime,
-  remainingAmountPaymentTimeType,
   moveInDate,
   moveInDateType,
+  investAmount,
+  negotiable,
   isNextButtonLoading,
   onClickBack,
   onClickNext,
@@ -67,21 +68,26 @@ export default function SuggestRegionalSummary({
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
-        <NavigationHeader.Title>지역 매물 추천받기</NavigationHeader.Title>
+        <NavigationHeader.Title>매물 구해요</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 min-h-0 overflow-auto">
         <div tw="py-7 px-5">
-          <div tw="font-bold">입력한 내용으로 매물추천을 받아 볼래요.</div>
+          <div tw="font-bold mb-1">구하는 내용을 최종 확인해주세요.</div>
+          <p tw="text-gray-700 text-info">
+            등록하신 정보의 수정 및 추천된 매물의 확인은
+            <br />
+            &#39;마이페이지 &gt; 구해요 &gt; 내가 등록한 구하기&#39; 에서 가능합니다.
+          </p>
         </div>
         <Separator />
         <div tw="py-7 px-5">
-          <div tw="font-bold mb-4">원하는 매물</div>
+          <div tw="font-bold mb-4">구하는 내용</div>
           <div>
             <StyledTable>
               <Table.Body>
                 <Table.Row>
-                  <Table.Head>지역</Table.Head>
-                  <Table.Data>{address}</Table.Data>
+                  <Table.Head>구하는 위치</Table.Head>
+                  <Table.Data>{address?.split(' ').slice(1).join(' ')}</Table.Data>
                 </Table.Row>
                 <Table.Row>
                   <Table.Head>부동산 종류</Table.Head>
@@ -94,72 +100,69 @@ export default function SuggestRegionalSummary({
                 <Table.Row>
                   <Table.Head>가격</Table.Head>
                   <Table.Data>
-                    {monthlyRentFee === 0 && price === 0 ? (
-                      <span>급매물 전체</span>
-                    ) : (
-                      <span>
-                        {monthlyRentFee ? (
-                          <span>
-                            <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
-                          </span>
-                        ) : (
-                          <span>
-                            <Numeral koreanNumber>{price}</Numeral>
-                          </span>
-                        )}
-                      </span>
-                    )}
+                    <span>
+                      {monthlyRentFee ? (
+                        <span>
+                          <Numeral koreanNumber>{price}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>{' '}
+                          {negotiable && '(금액 협의 가능)'}
+                        </span>
+                      ) : (
+                        <span>
+                          <Numeral koreanNumber>{price}</Numeral> {negotiable && '(금액 협의 가능)'}
+                        </span>
+                      )}
+                    </span>
                   </Table.Data>
                 </Table.Row>
+                {buyOrRents === '1' && (
+                  <Table.Row>
+                    <Table.Head>매매목적</Table.Head>
+                    <Table.Data>{purpose}</Table.Data>
+                  </Table.Row>
+                )}
+                {buyOrRents === '1' && purpose === '투자' && (
+                  <Table.Row>
+                    <Table.Head>투자 예산</Table.Head>
+                    <Table.Data>
+                      <Numeral koreanNumber>{investAmount}</Numeral>
+                    </Table.Data>
+                  </Table.Row>
+                )}
+                {moveInDate && (
+                  <Table.Row>
+                    <Table.Head>입주 가능 시기</Table.Head>
+                    <Table.Data>
+                      {moveInDate && (
+                        <span>
+                          <Moment format="yyyy.MM.DD">{moveInDate}</Moment>
+                        </span>
+                      )}{' '}
+                      {moveInDateType && <span>{TimeTypeString[moveInDateType]}</span>}
+                    </Table.Data>
+                  </Table.Row>
+                )}
+
                 {minArea && !maxArea && (
                   <Table.Row>
-                    <Table.Head>관심있는 평수</Table.Head>
-                    <Table.Data>{minArea}평</Table.Data>
+                    <Table.Head>구하는 평형</Table.Head>
+                    <Table.Data>{minArea}평 이상</Table.Data>
                   </Table.Row>
                 )}
                 {maxArea && !minArea && (
                   <Table.Row>
-                    <Table.Head>관심있는 평수</Table.Head>
-                    <Table.Data>{maxArea}평</Table.Data>
+                    <Table.Head>구하는 평형</Table.Head>
+                    <Table.Data>{maxArea}평 이하</Table.Data>
                   </Table.Row>
                 )}
                 {minArea && maxArea && (
                   <Table.Row>
-                    <Table.Head>관심있는 평수</Table.Head>
+                    <Table.Head>구하는 평형</Table.Head>
                     <Table.Data>
                       {minArea}평 ~ {maxArea}평
                     </Table.Data>
                   </Table.Row>
                 )}
 
-                {buyOrRents === '1' && (
-                  <Table.Row>
-                    <Table.Head>매매거래 목적</Table.Head>
-                    <Table.Data>
-                      <span>{purpose}</span>
-                      <span> </span>
-                      {remainingAmountPaymentTime && (
-                        <span>
-                          잔금일:
-                          <Moment format="yyyy.MM.DD">{remainingAmountPaymentTime}</Moment>
-                        </span>
-                      )}
-                      {moveInDate && (
-                        <span>
-                          입주일:
-                          <Moment format="yyyy.MM.DD">{moveInDate}</Moment>
-                        </span>
-                      )}
-                      <span> </span>
-                      {remainingAmountPaymentTimeType && <span>{TimeTypeString[remainingAmountPaymentTimeType]}</span>}
-                      {moveInDateType && <span>{TimeTypeString[moveInDateType]}</span>}
-                    </Table.Data>
-                  </Table.Row>
-                )}
-                <Table.Row>
-                  <Table.Head>관심있는 층 수</Table.Head>
-                  <Table.Data>{floor}</Table.Data>
-                </Table.Row>
                 <Table.Row>
                   <Table.Head>추가 조건</Table.Head>
                   <Table.Data>{falsy(description, '없음')}</Table.Data>
@@ -170,9 +173,14 @@ export default function SuggestRegionalSummary({
         </div>
       </div>
       <PersistentBottomBar>
-        <Button tw="w-full" size="bigger" onClick={onClickNext} isLoading={isNextButtonLoading}>
-          추천 받기
-        </Button>
+        <div tw="flex gap-4">
+          <Button tw="w-full" size="bigger" variant="outlined" onClick={onClickBack}>
+            뒤로가기
+          </Button>
+          <Button tw="w-full" size="bigger" onClick={onClickNext} isLoading={isNextButtonLoading}>
+            입력 완료
+          </Button>
+        </div>
       </PersistentBottomBar>
     </div>
   );

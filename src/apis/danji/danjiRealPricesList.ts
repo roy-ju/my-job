@@ -11,6 +11,7 @@ export type DanjiRealPricesListItem = {
   monthly_rent_fee: number;
   floor: string;
   trade_type: string;
+  cancel_deal_day: string;
 };
 
 export type DanjiRealPricesListResponse = {

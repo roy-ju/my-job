@@ -18,6 +18,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     handleClickNext,
     handleOpenRegionList,
     handleCloseRegionList,
+    handleClickBack,
 
     bubjungdong,
     handleChangeBubjungdong,
@@ -34,14 +35,17 @@ export default memo(({ panelWidth, depth }: Props) => {
     monthlyRentFee,
     handleChangeMonthlyRentFee,
 
+    investAmount,
+    handleChangeInvestAmount,
+
+    negotiable,
+    handleChangeNegotiable,
+
     minArea,
     handleChangeMinArea,
 
     maxArea,
     handleChangeMaxArea,
-
-    floor,
-    handleChangeFloor,
 
     purpose,
     handleChangePurpose,
@@ -63,16 +67,18 @@ export default memo(({ panelWidth, depth }: Props) => {
     openResetPopup,
     onClosePopup,
     onConfirmPopup,
+
+    emptyTextFields,
   } = useSuggestRegionalForm(depth);
 
   return (
-    // <AuthRequired ciRequired depth={depth}>
     <Panel width={panelWidth}>
       <SuggestRegionalForm
         forms={forms}
         nextButtonDisabled={nextButtonDisabled}
         onClickNext={handleClickNext}
         onClickOpenRegionList={handleOpenRegionList}
+        onClickBack={handleClickBack()}
         region={bubjungdong?.name}
         realestateType={realestateType}
         buyOrRent={buyOrRent}
@@ -80,14 +86,16 @@ export default memo(({ panelWidth, depth }: Props) => {
         onChangeRealestateType={handleChangeRealestateType}
         price={price}
         onChangePrice={handleChangePrice}
+        investAmount={investAmount}
+        onChangeInvestAmount={handleChangeInvestAmount}
         monthlyRentFee={monthlyRentFee}
         onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+        negotiable={negotiable}
+        onChangeNegotiable={handleChangeNegotiable}
         minArea={minArea}
         onChangeMinArea={handleChangeMinArea}
         maxArea={maxArea}
         onChangeMaxArea={handleChangeMaxArea}
-        floor={floor}
-        onChangeFloor={handleChangeFloor}
         purpose={purpose}
         onChangePurpose={handleChangePurpose}
         description={description}
@@ -100,6 +108,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
         remainingAmountDateType={remainingAmountDateType}
         onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
+        emptyTextFields={emptyTextFields}
       />
       {isRegionListOpen && (
         <OverlayPresenter>
@@ -130,6 +139,5 @@ export default memo(({ panelWidth, depth }: Props) => {
         </OverlayPresenter>
       )}
     </Panel>
-    // </AuthRequired>
   );
 });

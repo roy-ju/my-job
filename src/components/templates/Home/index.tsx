@@ -317,7 +317,7 @@ export default function Home({
           <div tw="flex gap-2 px-5 mt-4">
             <motion.button
               whileHover={{
-                scale: 1.05,
+                scale: mobileOrPc === 'pc' ? 1.05 : 'none',
               }}
               type="button"
               name="suggestRegionalForm"
@@ -334,8 +334,8 @@ export default function Home({
                 }}
                 href={
                   mobileOrPc === 'pc'
-                    ? `/${Routes.SuggestRegionalForm}`
-                    : `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`
+                    ? `/${Routes.RecommendationForm}`
+                    : `/${Routes.EntryMobile}/${Routes.RecommendationForm}`
                 }
                 target="_self"
                 tw="absolute text-h3 leading-[26px] font-semibold text-white top-4 left-4"
@@ -354,7 +354,7 @@ export default function Home({
             <div tw="flex flex-col gap-2 flex-1 min-w-[166px]">
               <motion.button
                 whileHover={{
-                  scale: 1.05,
+                  scale: mobileOrPc === 'pc' ? 1.05 : 'none',
                 }}
                 type="button"
                 name="map"
@@ -387,7 +387,7 @@ export default function Home({
 
               <motion.button
                 whileHover={{
-                  scale: 1.05,
+                  scale: mobileOrPc === 'pc' ? 1.05 : 'none',
                 }}
                 type="button"
                 name="intro"
@@ -429,7 +429,7 @@ export default function Home({
             <div tw="px-5">
               <h2 tw="text-h3 font-bold mb-1">부동산 법률상담</h2>
               <p tw="text-b2 mb-4 text-gray-700">안전한 부동산 거래를 위해 변호사가 상담해 드려요.</p>
-              <Banner handleClickCounseling={onClickCounseling} />
+              <Banner mobileOrPc={mobileOrPc} handleClickCounseling={onClickCounseling} />
             </div>
 
             {qnaLawData && qnaLawData.length > 0

@@ -3,6 +3,7 @@ import { InfiniteScroll, Loading, Moment } from '@/components/atoms';
 import { NavigationHeader, Tabs, Information, Dropdown } from '@/components/molecules';
 import { MyRealPriceListItem } from '@/components/organisms';
 import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
+import { v4 } from 'uuid';
 
 export interface IMyRealPriceListItem {
   danjiName: string;
@@ -63,8 +64,12 @@ export default function MyRealPriceList({
         <div tw="py-4 flex justify-end">
           <div tw="w-[110px]">
             <Dropdown size="small" value={sortBy} onChange={onChagneSortBy}>
-              <Dropdown.Option value="업데이트 순">업데이트 순</Dropdown.Option>
-              <Dropdown.Option value="거래일 순">거래일 순</Dropdown.Option>
+              <Dropdown.Option tw="py-0.5 whitespace-pre text-info" value="업데이트 순">
+                업데이트 순
+              </Dropdown.Option>
+              <Dropdown.Option tw="py-0.5 whitespace-pre text-info" value="거래일 순">
+                거래일 순
+              </Dropdown.Option>
             </Dropdown>
           </div>
         </div>
@@ -83,7 +88,7 @@ export default function MyRealPriceList({
             <InfiniteScroll tw="flex-1 min-h-0 overflow-y-scroll -mx-5" onNext={onNext}>
               {list.map((item) => (
                 <MyRealPriceListItem
-                  key={item.danjiName + item.area + item.price}
+                  key={v4() + item.danjiName + item.area + item.price}
                   danjiName={item.danjiName}
                   price={item.price}
                   monthlyRentFee={item.monthlyRentFee}

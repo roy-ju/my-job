@@ -14,6 +14,7 @@ type ListItem = {
   trade_type: string;
   danji_id: number;
   realestate_type: number;
+  cancel_deal_day: string;
 };
 
 export type DanjiRecentlyRealPricesAllResponse = {

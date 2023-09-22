@@ -44,6 +44,8 @@ export interface CommonMarker {
   lat: number;
   lng: number;
   onClick?: () => void;
+  onMouseOver?: () => void;
+  onMouseLeave?: () => void;
 }
 
 export interface ListingDanjiMarker extends CommonMarker {
@@ -228,7 +230,7 @@ export default function useMapLayout() {
   const [circle, setCircle] = useState<naver.maps.Circle>();
 
   const [selectedMarker, setSelectedMarker] = useState<CommonMarker | null>(null);
-
+  const [selectedMouseOverMarker, setSelectedMouseOverMarker] = useState<CommonMarker | null>(null);
   const [interactionSelectedMarker, setSelectedInteractionMarker] = useState<CommonMarker | null>(null);
 
   const lastSearchItem = useRef<KakaoAddressAutocompleteResponseItem | null>(null);
@@ -245,6 +247,7 @@ export default function useMapLayout() {
   const isPanningRef = useRef(false);
 
   const { data: danjiSummary } = useDanjiSummary(selectedMarker as ListingDanjiMarker);
+  const { data: selectedMouseOverDanjiSummary } = useDanjiSummary(selectedMouseOverMarker as ListingDanjiMarker);
 
   const handleChangeMapToggleValue = useCallback((newValue: number) => {
     setMapToggleValue(newValue);
@@ -502,6 +505,7 @@ export default function useMapLayout() {
             // 단지마커 클릭이벤트
             onClick(this) {
               if (isPanningRef.current) return;
+
               // 단지 상세로 보내는 Router
               router.replace(Routes.DanjiDetail, {
                 searchParams: { danjiID: `${item.danji_id}` },
@@ -510,8 +514,15 @@ export default function useMapLayout() {
                 },
               });
               setPolygons([]);
-
               setSelectedMarker(this);
+            },
+
+            onMouseOver(this) {
+              setSelectedMouseOverMarker(this);
+            },
+
+            onMouseLeave(this) {
+              setSelectedMouseOverMarker(null);
             },
           };
         });
@@ -817,22 +828,28 @@ export default function useMapLayout() {
   /**
    * 줌 효과가 시작될때, 이벤트가 발생한다.
    */
-  const onZoomStart = useCallback((_map: NaverMap) => {
-    setMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
+  const onZoomStart = useCallback(
+    (_map: NaverMap) => {
+      setMarkers((prev) => {
+        if (prev.length > 0) {
+          return [];
+        }
+        return prev;
+      });
+
+      setSchoolMarkers((prev) => {
+        if (prev.length > 0) {
+          return [];
+        }
+        return prev;
+      });
+
+      if (!router?.query?.danjiID) {
+        setSelectedMarker(null);
       }
-      return prev;
-    });
-    setSchoolMarkers((prev) => {
-      if (prev.length > 0) {
-        return [];
-      }
-      return prev;
-    });
-    //
-    setSelectedMarker(null);
-  }, []);
+    },
+    [router?.query?.danjiID],
+  );
 
   /**
    * depth 가 열리고 닫힘에 따라, 지도 사이즈가 재조정이 필요할때 호출된다.
@@ -1146,7 +1163,6 @@ export default function useMapLayout() {
       const m = markers.filter((marker) => markersToBeSelected.current?.map((item) => item.id)?.includes(marker.id));
       if (m[0]) {
         setSearchResultMarker(null);
-
         setSelectedMarker(m[0]);
         markersToBeSelected.current = [];
       } else {
@@ -1323,8 +1339,10 @@ export default function useMapLayout() {
     popup,
     setPopup,
     selectedMarker,
+    selectedMouseOverMarker,
     interactionSelectedMarker,
     danjiSummary,
+    selectedMouseOverDanjiSummary,
     searchResultMarker,
     aroundMarkers,
   };
