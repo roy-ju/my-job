@@ -47,7 +47,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const [update, setUpdate] = useState(false);
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({
-    SW8: true,
+    HP8: true,
   });
 
   const [selectedIndex, setSelctedIndex] = useState<number>();
@@ -357,9 +357,14 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               id={item.id}
               key={item.id}
               onClick={() => {
-                if (interactionState.around) {
-                  interactionStore.makeSelectedAround(`aroundMarker:${item.id}`, item.address_name);
+                if (!interactionState.around) {
+                  interactionStore.makeAroundOn();
+                  interactionStore.makeAroundMarker(convertedMarker);
                 }
+
+                setTimeout(() => {
+                  interactionStore.makeSelectedAround(`aroundMarker:${item.id}`, item.address_name);
+                }, 200);
               }}
             >
               {activeCategory.SW8 && (
