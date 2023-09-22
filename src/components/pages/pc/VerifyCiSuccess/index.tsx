@@ -16,6 +16,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleLeave = useCallback(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const redirect = urlSearchParams.get('redirect');
+
     if (redirect) {
       nextRouter.replace(redirect);
     } else {

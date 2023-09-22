@@ -11,7 +11,6 @@ export function convertSidoName(v: string | undefined | null) {
   return v.slice(0, 2);
 }
 
-
 export function convertSigunguName(v: string | undefined | null) {
   if (!v) return '-';
 
@@ -27,6 +26,40 @@ export function convertSigunguName(v: string | undefined | null) {
   if (v === '광주광역시 남구') return '남구';
 
   return v;
+}
+
+export function convertRangeText({
+  unit,
+  dashStyle,
+  bracket,
+  v1,
+  v2,
+}: {
+  unit: string;
+  dashStyle: string;
+  bracket: boolean;
+  v1?: string | number;
+  v2?: string | number;
+}) {
+  if (v1 && !v2) {
+    return bracket ? `[${v1}]${unit}` : `${v1}${unit}`;
+  }
+
+  if (!v1 && v2) {
+    return bracket ? `[${v2}]${unit}` : `${v2}${unit}`;
+  }
+
+  if (v1 && v2) {
+    return v1 === v2
+      ? bracket
+        ? `[${v1}${unit}]`
+        : `${v1}${unit}`
+      : bracket
+      ? `[${v1}${unit}${dashStyle}${v2}${unit}]`
+      : `${v1}${unit}${dashStyle}${v2}${unit}`;
+  }
+
+  return '';
 }
 
 export function cuttingDot(target: number | undefined) {
@@ -65,27 +98,38 @@ export function formatUseAcceptedYear(value: string) {
   return value;
 }
 
-export function ceiling(n:number, pos:number) {
-	const digits = 10**pos;
+export function ceiling(n: number, pos: number) {
+  const digits = 10 ** pos;
 
-	const num = Math.ceil(n * digits) / digits;
+  const num = Math.ceil(n * digits) / digits;
 
-	return num.toFixed(pos);
+  return num.toFixed(pos);
 }
 
+export function round(n: number, pos: number) {
+  const digits = 10 ** pos;
 
-export function round(n:number, pos:number) {
-	const digits = 10**pos;
+  let sign = 1;
+  if (n < 0) {
+    sign = -1;
+  }
 
-	let sign = 1;
-	if (n < 0) {
-		sign = -1;
-	}
+  // 음수이면 양수처리후 반올림 한 후 다시 음수처리
+  n *= sign;
+  let num = Math.round(n * digits) / digits;
+  num *= sign;
 
-	// 음수이면 양수처리후 반올림 한 후 다시 음수처리
-	n *= sign;
-	let num = Math.round(n * digits) / digits;
-	num *= sign;
+  return num.toFixed(pos);
+}
 
-	return num.toFixed(pos);
+export function convertArea({ type, value }: { type: string; value: string }) {
+  if (type === 'meterToPyoung') {
+    return value ? (parseFloat(value) / 3.3058).toFixed(0).toString() : '';
+  }
+
+  if (type === 'pyoungToMeter') {
+    return value ? (parseFloat(value) * 3.3058).toFixed(2).toString() : '';
+  }
+
+  return '';
 }

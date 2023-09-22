@@ -28,7 +28,7 @@ interface Props {
   onClickNegoPoint?: () => void;
   onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
-  onClickCreateListing?: () => void;
+  onClickMyAddress?: () => void;
   onClickDeveloper?: () => void;
 }
 
@@ -49,7 +49,7 @@ export default function MobMy({
   onClickCoupons,
   onClickNegoPoint,
   onClickServiceInfo,
-  onClickCreateListing,
+  onClickMyAddress,
   onClickDeveloper,
 }: Props) {
   return (
@@ -86,7 +86,7 @@ export default function MobMy({
               onClickNegoMoney={onClickNegoMoney}
             />
             <Separator />
-            <MyListingsSummary onClickCreateListing={onClickCreateListing} />
+            <MyListingsSummary onClickMyAddress={onClickMyAddress} />
           </>
         )}
         {!isLoading && !loggedIn && (

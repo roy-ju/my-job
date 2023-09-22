@@ -2,8 +2,10 @@ import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
 import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler, useId } from 'react';
 import { NICKNAME_REGEX } from '@/constants/regex';
+import Image, { StaticImageData } from 'next/image';
+import { toast } from 'react-toastify';
 
 interface UpdatetableTextFieldProps {
   label: string;
@@ -236,6 +238,51 @@ function AddressInfo({ address, addressDetail, verified = false, onClickUpdateAd
   );
 }
 
+interface ProfileImageProps {
+  profileImageUrl: string | StaticImageData;
+  onClickUpdate?: (file: File) => void;
+}
+
+function ProfileImage({ profileImageUrl, onClickUpdate }: ProfileImageProps) {
+  const id = useId();
+  return (
+    <div tw="px-5">
+      <div tw="flex items-center justify-between mb-4">
+        <div tw="text-b1 leading-4 font-bold">프로필 이미지 변경</div>
+      </div>
+      <Image
+        src={profileImageUrl}
+        alt="프로필 사진"
+        width={120}
+        height={120}
+        tw="mx-auto rounded [object-fit: cover] mb-5 w-[120px] h-[120px] object-cover"
+      />
+      <label
+        htmlFor={`${id}-file`}
+        tw="flex items-center justify-center rounded-lg transition-colors text-white bg-nego-800 hover:bg-nego-600 disabled:bg-nego-300 disabled:text-white px-4 h-[3rem] text-b2 leading-4 cursor-pointer"
+      >
+        프로필 이미지 등록하기
+        <input
+          type="file"
+          name="file"
+          id={`${id}-file`}
+          style={{ display: 'none' }}
+          onChange={(e) => {
+            if (!e.target.files) return;
+            const selectedFile = e.target.files?.[0];
+            const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+            if (!allowedTypes.includes(selectedFile?.type)) {
+              toast.error('png, jpg, jpeg 확장자만 업로드 가능합니다.');
+              return;
+            }
+            onClickUpdate?.(e.target.files[0]);
+          }}
+        />
+      </label>
+    </div>
+  );
+}
+
 interface PrivacyRetentionInfoProps {
   value?: string;
   onChange?: (value: string) => void;
@@ -267,4 +314,11 @@ const Separator = tw(BaseSeparator)`my-10`;
 
 const Container = tw.div``;
 
-export default Object.assign(Container, { LoginInfo, IdentityInfo, AddressInfo, PrivacyRetentionInfo, Separator });
+export default Object.assign(Container, {
+  LoginInfo,
+  IdentityInfo,
+  AddressInfo,
+  PrivacyRetentionInfo,
+  Separator,
+  ProfileImage,
+});

@@ -120,7 +120,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
 
     setIsLoading(false);
+
     router.replace(Routes.RegisterSuccess, {
+      persistParams: true,
       searchParams: {
         redirect: (router.query.redirect as string) ?? '',
       },

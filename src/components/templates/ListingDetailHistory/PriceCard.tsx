@@ -30,14 +30,14 @@ export default function PriceCard({
         <div tw="text-gray-700 text-info">집주인 희망가</div>
         {isMonthlyRent ? (
           <div>
-            <Numeral thousandsSeparated koreanNumber>
+            <Numeral thousandsSeparated koreanNumber tw="font-bold">
               {tradeOrDepositPrice}
             </Numeral>
             {' / '}
             {renderMonthlyRentFee(monthlyRentFee)}
           </div>
         ) : (
-          <Numeral thousandsSeparated koreanNumber>
+          <Numeral thousandsSeparated koreanNumber tw="font-bold">
             {tradeOrDepositPrice}
           </Numeral>
         )}
@@ -47,14 +47,14 @@ export default function PriceCard({
         <div tw="text-gray-700 text-info">나의 제안가</div>
         {isMonthlyRent ? (
           <div>
-            <Numeral thousandsSeparated koreanNumber>
+            <Numeral thousandsSeparated koreanNumber tw="text-nego-800 font-bold">
               {biddingTradeOrDepositPrice}
             </Numeral>
             {' / '}
             {renderMonthlyRentFee(biddingMonthlyRentFee)}
           </div>
         ) : (
-          <Numeral thousandsSeparated koreanNumber>
+          <Numeral thousandsSeparated koreanNumber tw="text-nego-800 font-bold">
             {biddingTradeOrDepositPrice}
           </Numeral>
         )}

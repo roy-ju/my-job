@@ -13,6 +13,7 @@ type ListItem = {
   trade_type: string;
   pyoung: number;
   jeonyong_area?: string;
+  cancel_deal_day: string;
 };
 
 export type DanjiRealPricesListAllResponse = {

@@ -74,7 +74,10 @@ export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
+export { default as SuggestRegionalFormUpdate } from './SuggestRegionalFormUpdate';
 export { default as SuggestDetail } from './SuggestDetail';
+
+export { default as MySuggestDetail } from './MySuggestDetail';
 
 /** 매물 상세 */
 export { default as ListingDetail } from './ListingDetail';
@@ -108,6 +111,8 @@ export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiListings } from './DanjiListings';
 export { default as DanjiRecommendation } from './DanjiRecommendation';
 export { default as DanjiRecommendationSuccess } from './DanjiRecommendationSuccess';
+export { default as DanjiRecommendationSummary } from './DanjiRecommendationSummary';
+export { default as DanjiRecommendationUpdate } from './DanjiRecommendationUpdate';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 
@@ -120,3 +125,14 @@ export { default as LawQnaDetail } from './LawQnaDetail';
 export { default as LawQnaSearch } from './LawQnaSearch';
 export { default as LawQnaCreate } from './LawQnaCreate';
 export { default as LawQnaUpdate } from './LawQnaUpdate';
+
+/** 구해요  */
+export { default as RecommendationForm } from './RecommendationForm';
+
+/** 타인 구하기에 대한 나의 추천 */
+export { default as SuggestRecommendedList } from './SuggestRecommendedList';
+
+/** 매물추천하기  */
+export { default as SuggestListingForm } from './SuggestListingForm';
+
+export { default as SuggestListings } from './SuggestListings';

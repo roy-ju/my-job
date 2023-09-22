@@ -1,33 +1,33 @@
-import { Loading, Separator } from '@/components/atoms';
+import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { ChatRoomGuide, ChatRoomListItem, ChatRoomListNoData } from '@/components/organisms';
+import { ChatRoomListItem, ChatRoomListNoData } from '@/components/organisms';
 import { StaticImageData } from 'next/image';
 import tw, { styled } from 'twin.macro';
-import { ChatUserType } from '@/constants/enums';
 
 const ListContainer = styled.div`
   ${tw`max-h-full min-h-0 overflow-y-auto`}
-  & > div {
-    ${tw`border-b border-gray-100`}
+  & > div:not(:last-child) {
+    ${tw`border-b border-gray-300`}
   }
 `;
 
 interface IChatRoomListItem {
   id: number;
   chatRoomType: number;
+  typeTag: string;
   profileImagePath: string | StaticImageData;
-  officeName: string;
-  listingTitle: string;
+  name: string;
+  title: string;
   unreadMessageCount: number;
   lastMessage: string;
   lastMessageTime: string;
-  additionalListingCount: number;
   active: boolean;
 }
 
 interface ChatRoomListProps {
   list: IChatRoomListItem[];
   onClickListItem?: (chatRoomID: number) => void;
+  onClickRecommendationForm?: () => void;
   isLoading: boolean;
 }
 
@@ -43,12 +43,11 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
                 onClick={() => {
                   onClickListItem?.(item.id);
                 }}
-                isSeller={item.chatRoomType === ChatUserType.Seller}
-                officeName={item.officeName}
+                typeTag={item.typeTag}
+                name={item.name}
                 lastMessage="(사진)"
-                listingTitle={item.listingTitle}
+                title={item.title}
                 lastMessageTime={item.lastMessageTime}
-                additionalListingCount={item.additionalListingCount}
                 unreadMessageCount={item.unreadMessageCount}
                 profileImagePath={item.profileImagePath}
               />
@@ -62,12 +61,11 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
                 onClick={() => {
                   onClickListItem?.(item.id);
                 }}
-                isSeller={item.chatRoomType === ChatUserType.Seller}
-                officeName={item.officeName}
+                typeTag={item.typeTag}
+                name={item.name}
                 lastMessage="(장소공유)"
-                listingTitle={item.listingTitle}
+                title={item.title}
                 lastMessageTime={item.lastMessageTime}
-                additionalListingCount={item.additionalListingCount}
                 unreadMessageCount={item.unreadMessageCount}
                 profileImagePath={item.profileImagePath}
               />
@@ -79,12 +77,11 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
               onClick={() => {
                 onClickListItem?.(item.id);
               }}
-              isSeller={item.chatRoomType === ChatUserType.Seller}
-              officeName={item.officeName}
+              typeTag={item.typeTag}
+              name={item.name}
               lastMessage={item.lastMessage}
-              listingTitle={item.listingTitle}
+              title={item.title}
               lastMessageTime={item.lastMessageTime}
-              additionalListingCount={item.additionalListingCount}
               unreadMessageCount={item.unreadMessageCount}
               profileImagePath={item.profileImagePath}
             />
@@ -95,29 +92,32 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
   );
 }
 
-function NoData() {
+function NoData({ onClickRecommendationForm }: { onClickRecommendationForm?: () => void }) {
   return (
     <div tw="flex-1">
       <div tw="pt-12 pb-10">
-        <ChatRoomListNoData />
+        <ChatRoomListNoData onClickRecommendationForm={onClickRecommendationForm} />
       </div>
-      <Separator />
-      <ChatRoomGuide />
     </div>
   );
 }
 
-export default function ChatRoomList({ list, isLoading, onClickListItem }: ChatRoomListProps) {
+export default function ChatRoomList({
+  list,
+  isLoading,
+  onClickListItem,
+  onClickRecommendationForm,
+}: ChatRoomListProps) {
   const renderList = () => {
     if (isLoading) return <Loading tw="text-center mt-10" />;
     if (list.length > 0) return <List list={list} onClickListItem={onClickListItem} />;
-    return <NoData />;
+    return <NoData onClickRecommendationForm={onClickRecommendationForm} />;
   };
 
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.Title>중개사 채팅</NavigationHeader.Title>
+        <NavigationHeader.Title>채팅</NavigationHeader.Title>
       </NavigationHeader>
       {renderList()}
     </div>

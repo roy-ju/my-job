@@ -12,6 +12,8 @@ export const Forms = {
   Floor: 'floor',
   Purpose: 'purpose',
   Description: 'description',
+  MoveInDate: 'moveInDate',
+  Option: 'option',
 };
 
 interface Props {
@@ -35,14 +37,17 @@ export default function FormRenderer({ form }: Props) {
     monthlyRentFee,
     onChangeMonthlyRentFee,
 
+    negotiable,
+    onChangeNegotiable,
+
+    investAmount,
+    onChangeInvestAmount,
+
     minArea,
     onChangeMinArea,
 
     maxArea,
     onChangeMaxArea,
-
-    floor,
-    onChangeFloor,
 
     purpose,
     onChangePurpose,
@@ -53,14 +58,10 @@ export default function FormRenderer({ form }: Props) {
     moveInDateType,
     onChangeMoveInDateType,
 
-    remainingAmountDate,
-    onChangeRemainingAmountDate,
-
-    remainingAmountDateType,
-    onChangeRemainingAmountDateType,
-
     description,
     onChangeDescription,
+
+    emptyTextFields,
   } = useContext(FormContext);
 
   switch (form) {
@@ -70,10 +71,7 @@ export default function FormRenderer({ form }: Props) {
           <div tw="pt-7 pb-10 px-5 flex items-center font-bold [letter-spacing: -0.25px]">
             최소 10명의 중개사님에게 추천 요청이 발송됩니다.
             <br />
-            <br />
-            일일이 발품 팔지 않고 숨겨진 매물을 찾고,
-            <br />
-            중개사님의 제안을 비교해서 협의 여부를 선택해 보세요.
+            간편하게 매물 추천 받고, 합의 여부를 선택해 보세요.
           </div>
           <Separator />
           <div tw="py-10 px-5">
@@ -88,20 +86,35 @@ export default function FormRenderer({ form }: Props) {
           <div tw="pt-10 pb-7 px-5">
             <SuggestRegionalForm.RealestateType value={realestateType} onChange={onChangeRealestateType} />
           </div>
-          <div tw="pt-7 pb-10 px-5 border-t border-gray-300">
-            <SuggestRegionalForm.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
+          <div tw="pt-7 pb-10 px-5">
+            <SuggestRegionalForm.BuyOrRent
+              value={buyOrRent}
+              onChange={onChangeBuyOrRent}
+              price={price}
+              onChangePrice={onChangePrice}
+              monthlyRentFee={monthlyRentFee}
+              onChangeMonthlyRentFee={onChangeMonthlyRentFee}
+              negotiable={negotiable}
+              onChangeNegotiable={onChangeNegotiable}
+              hasError={emptyTextFields?.price}
+            />
           </div>
         </div>
       );
 
-    // case Forms.BuyOrRent:
-    //   return (
-    //     <div id={Forms.BuyOrRent}>
-    //       <div tw="py-10 px-5">
-    //         <SuggestRegionalForm.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
-    //       </div>
-    //     </div>
-    //   );
+    case Forms.MoveInDate:
+      return (
+        <div id={Forms.MoveInDate}>
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.MoveInDate
+              moveInDate={moveInDate}
+              onChangeMoveInDate={onChangeMoveInDate}
+              moveInDateType={moveInDateType}
+              onChangeMoveInDateType={onChangeMoveInDateType}
+            />
+          </div>
+        </div>
+      );
 
     case Forms.Price:
       return (
@@ -118,29 +131,6 @@ export default function FormRenderer({ form }: Props) {
         </div>
       );
 
-    case Forms.Area:
-      return (
-        <div id={Forms.Area}>
-          <div tw="py-10 px-5">
-            <SuggestRegionalForm.Area
-              minArea={minArea}
-              onChangeMinArea={onChangeMinArea}
-              maxArea={maxArea}
-              onChangeMaxArea={onChangeMaxArea}
-            />
-          </div>
-        </div>
-      );
-
-    case Forms.Floor:
-      return (
-        <div id={Forms.Floor}>
-          <div tw="py-10 px-5">
-            <SuggestRegionalForm.Floor value={floor} onChange={onChangeFloor} />
-          </div>
-        </div>
-      );
-
     case Forms.Purpose:
       return (
         <div tw="py-10" id={Forms.Purpose}>
@@ -148,13 +138,12 @@ export default function FormRenderer({ form }: Props) {
             <SuggestRegionalForm.Purpose value={purpose} onChange={onChangePurpose} />
           </div>
           {purpose && (
-            <div tw="pt-7 mt-7 px-5 border-t border-t-gray-300">
+            <div tw="mt-7 px-5">
               {purpose === '투자' && (
-                <SuggestRegionalForm.RemainingAmountDate
-                  remainingAmountDate={remainingAmountDate}
-                  onChangeRemainingAmountDate={onChangeRemainingAmountDate}
-                  remainingAmountDateType={remainingAmountDateType}
-                  onChangeRemainingAmountDateType={onChangeRemainingAmountDateType}
+                <SuggestRegionalForm.InvestAmount
+                  investAmount={investAmount}
+                  onChangeInvestAmount={onChangeInvestAmount}
+                  hasError={emptyTextFields?.investAmount}
                 />
               )}
               {purpose === '실거주' && (
@@ -170,9 +159,17 @@ export default function FormRenderer({ form }: Props) {
         </div>
       );
 
-    case Forms.Description:
+    case Forms.Option:
       return (
-        <div id={Forms.Description}>
+        <div id={Forms.Option}>
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.Area
+              minArea={minArea}
+              onChangeMinArea={onChangeMinArea}
+              maxArea={maxArea}
+              onChangeMaxArea={onChangeMaxArea}
+            />
+          </div>
           <div tw="py-10 px-5">
             <SuggestRegionalForm.Description
               description={description}

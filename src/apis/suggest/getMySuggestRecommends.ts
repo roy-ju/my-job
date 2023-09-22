@@ -4,29 +4,25 @@ import useSWRInfinite from 'swr/infinite';
 
 export interface GetMySuggestRecommendsResponse {
   count: number;
+  suggest_status: number;
   list:
     | {
-        agent_profile_image_url: string;
-        agent_name: string;
+        suggest_recommend_id: number;
+        other_profile_image_url: string;
+        other_name: string;
         created_time: string;
         suggest_recommend_status: number;
-        realestate_type: number;
-        eubmyundong: string;
-        listing_id: number;
-        suggest_recommend_id: number;
-        thumbnail_full_path: any;
-        quick_sale: boolean;
-        listing_title: string;
-        jeonyong_area: string;
+        with_address: true;
+        address_free_text: string;
+        trade_or_deposit_price: number;
+        monthly_rent_fee: number;
+        jeonyong_areas: string;
         floor_description: string;
-        total_floor: string;
+        floor: string;
         direction: string;
         buy_or_rent: number;
         note: string;
-        trade_or_deposit_price: number;
-        monthly_rent_fee: number;
-        buyer_agent_chat_room_id?: number | null;
-        suggest_recommend_accepted_time: string;
+        chat_room_id?: number | null;
       }[]
     | null;
 }
@@ -69,5 +65,6 @@ export default function useAPI_GetMySuggestRecommends(suggestID: number | null, 
     isLoading,
     increamentPageNumber,
     mutate,
+    suggestStatus: dataList?.[0]?.suggest_status ?? 0,
   };
 }

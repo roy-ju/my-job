@@ -72,22 +72,22 @@ function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding, onNavigate
   );
 }
 
-function HasSuggested({
-  buttonSize = 'bigger',
-  onClickSuggestNotInterested,
-  onClickSuggestAcceptRecommend,
-}: CommonProps) {
-  return (
-    <div tw="flex items-center gap-3">
-      <Button variant="outlined" tw="w-full" size={buttonSize} onClick={onClickSuggestNotInterested}>
-        관심없음
-      </Button>
-      <Button tw="w-full" size={buttonSize} onClick={onClickSuggestAcceptRecommend}>
-        네고 협의 시작하기
-      </Button>
-    </div>
-  );
-}
+// function HasSuggested({
+//   buttonSize = 'bigger',
+//   onClickSuggestNotInterested,
+//   onClickSuggestAcceptRecommend,
+// }: CommonProps) {
+//   return (
+//     <div tw="flex items-center gap-3">
+//       <Button variant="outlined" tw="w-full" size={buttonSize} onClick={onClickSuggestNotInterested}>
+//         관심없음
+//       </Button>
+//       <Button tw="w-full" size={buttonSize} onClick={onClickSuggestAcceptRecommend}>
+//         네고 협의 시작하기
+//       </Button>
+//     </div>
+//   );
+// }
 
 function HasRejectedSuggest({ buttonSize = 'bigger' }: CommonProps) {
   return (
@@ -201,7 +201,7 @@ function Wrapper({ visitUserType, ...props }: { visitUserType: number } & Common
     return <BuyerGeneral {...props} />;
   if (visitUserType === VisitUserType.Submitted) return <Submitted {...props} />;
   if (visitUserType === VisitUserType.Rejected) return <Rejected {...props} />;
-  if (visitUserType === VisitUserType.HasSuggestRecommend) return <HasSuggested {...props} />;
+  // if (visitUserType === VisitUserType.HasSuggestRecommend) return <HasSuggested {...props} />;
   if (visitUserType === VisitUserType.Accepted) return <Accepted {...props} />;
   if (visitUserType === VisitUserType.PreContractSelf) return <PreContractSelf {...props} />;
   if (visitUserType === VisitUserType.PreContractOthers) return <PreContractOthers {...props} />;
@@ -215,7 +215,7 @@ export default Object.assign(Wrapper, {
   BuyerGeneral,
   Submitted,
   Rejected,
-  HasSuggested,
+  // HasSuggested,
   HasRejectedSuggest,
   Accepted,
   PreContractSelf,

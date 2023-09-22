@@ -14,9 +14,17 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
 
+  const navigateToVerifyCi = useCallback(() => {
+    router.replace(Routes.VerifyCi, {
+      persistParams: true,
+      searchParams: { redirect: (router.query.redirect as string) ?? '' },
+    });
+  }, [router]);
+
   const handleLeave = useCallback(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const redirect = urlSearchParams.get('redirect');
+
     if (redirect) {
       nextRouter.replace(redirect);
     } else {
@@ -24,13 +32,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [nextRouter, router]);
 
-  const navigateToVerifyCi = useCallback(() => {
-    router.replace(Routes.VerifyCi, { searchParams: { redirect: (router.query.redirect as string) ?? '' } });
-  }, [router]);
-
   return (
     <Panel width={panelWidth}>
-      <RegisterSuccess onClickLeave={handleLeave} onClickVerifyCi={navigateToVerifyCi} />
+      <RegisterSuccess onClickVerifyCi={navigateToVerifyCi} onClickLeave={handleLeave} />
     </Panel>
   );
 });

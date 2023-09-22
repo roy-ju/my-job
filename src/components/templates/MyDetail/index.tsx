@@ -8,6 +8,7 @@ interface MyDetailProps {
   email: string;
   name: string;
   phone: string;
+  profileImageUrl: string;
   address: string;
   addressDetail: string;
   addressVerified: boolean;
@@ -20,6 +21,7 @@ interface MyDetailProps {
   onClickUpdatePhone: () => void;
   onClickUpdateNickname: () => void;
   onClickUpdateEmail: () => void;
+  onClickUpdateProfileImage: (file: File) => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
   onClickUpdatePrivacyRetentionType?: (newValue: string) => void;
@@ -30,6 +32,7 @@ export default function MyDetail({
   email,
   name,
   phone,
+  profileImageUrl,
   address,
   addressDetail,
   addressVerified,
@@ -42,6 +45,7 @@ export default function MyDetail({
   onClickUpdatePhone,
   onClickUpdateNickname,
   onClickUpdateEmail,
+  onClickUpdateProfileImage,
   onClickUpdatePrivacyRetentionType,
   onChangeNickname,
   onClickVerifyCi,
@@ -79,6 +83,8 @@ export default function MyDetail({
               verified={addressVerified}
               onClickUpdateAddress={onClickUpdateAddress}
             />
+            <MyDetailForm.Separator />
+            <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
             <MyDetailForm.Separator />
             <MyDetailForm.PrivacyRetentionInfo
               value={privacyRetentionType}

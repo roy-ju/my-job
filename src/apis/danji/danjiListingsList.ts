@@ -38,7 +38,7 @@ function getKey(
   if (previousPageData && (previousPageData.list?.length || 0) < pageSize) return null;
 
   return [
-    '/danji/listings/list/v2',
+    '/danji/listings/list',
     {
       danji_id: danjiId,
       realestate_type: realestateType,
@@ -64,7 +64,6 @@ export function useAPI_GetDanjiListingsList({
 }) {
   const {
     data: dataList,
-
     isLoading,
     size,
     setSize,

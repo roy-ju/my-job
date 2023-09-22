@@ -4,6 +4,7 @@ import { Developer as DeveloperTemplate } from '@/components/templates';
 import Keys from '@/constants/storage_keys';
 import { useAuth } from '@/hooks/services';
 import { memo, useCallback, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -30,6 +31,11 @@ export default memo(({ panelWidth }: Props) => {
     [jwtList, mutateUser],
   );
 
+  const handleClipboardCopy = useCallback(async (text: string) => {
+    await window.navigator.clipboard.writeText(text);
+    toast.success('클립보드에 복사되었습니다.');
+  }, []);
+
   return (
     <Panel width={panelWidth}>
       <DeveloperTemplate
@@ -38,6 +44,7 @@ export default memo(({ panelWidth }: Props) => {
         jwtOwner={jwtOwner}
         onChangeJwtOwner={handleChangeJwtOwner}
         jwtOwners={jwtOwners}
+        onClickClipboardCopy={handleClipboardCopy}
       />
     </Panel>
   );

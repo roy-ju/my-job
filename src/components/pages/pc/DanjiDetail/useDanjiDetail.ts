@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import { useRouter } from '@/hooks/utils';
@@ -10,15 +9,21 @@ export default function useDanjiDetail(depth: number, danjiID?: number) {
 
   const [listingDetailDanjiID, setListingDetailDanjiID] = useState<number>();
 
+  const id = useMemo(() => {
+    if (router?.query?.danjiID) {
+      return Number(router.query.danjiID);
+    }
+  }, [router]);
+
   const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
-    danjiId: listingDetailDanjiID || Number(router?.query?.danjiID),
+    danjiId: listingDetailDanjiID || id,
   });
 
   useEffect(() => {
     if (danjiID) {
       setListingDetailDanjiID(danjiID);
     }
-  }, [danjiID]);
+  }, [danjiID, router]);
 
   useEffect(() => {
     const lat = danji?.lat;
@@ -45,6 +50,7 @@ export default function useDanjiDetail(depth: number, danjiID?: number) {
       mutate,
       isLoading,
     }),
-    [danji, mutate, isLoading],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [danji, mutate, isLoading, router],
   );
 }

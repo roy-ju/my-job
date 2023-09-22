@@ -7,7 +7,8 @@ import { coordToRegion } from '@/lib/kakao';
 import { NaverLatLng } from '@/lib/navermap/types';
 import Routes from '@/router/routes';
 import useSyncronizer from '@/states/syncronizer';
-import { memo, useCallback } from 'react';
+import { useState, memo, useCallback } from 'react';
+import { Popup, OverlayPresenter } from '@/components/molecules';
 
 interface Props {
   depth: number;
@@ -18,6 +19,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const { user, isLoading } = useAuth();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
+  const [showMyAddressPopup, setShowMyAddressPopup] = useState(false);
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -61,9 +63,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.ServiceInfo);
   }, [router]);
 
-  const handleCreateListing = useCallback(() => {
-    router.push(Routes.ListingCreateAddress);
-  }, [router]);
+  const handleMyAddress = useCallback(() => {
+    if (user?.hasAddress) {
+      setShowMyAddressPopup(true);
+      return;
+    }
+    router.push(Routes.MyAddress);
+  }, [router, user?.hasAddress]);
 
   const handleClickMyRegisteredListings = useCallback(
     (params: number) => {
@@ -83,9 +89,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     [router],
   );
 
-  const handleSuggestRegional = useCallback(async () => {
+  const handleRecommendationForm = useCallback(async () => {
     if (!window.NaverMap) {
-      router.replace(Routes.SuggestRegionalForm);
+      router.replace(Routes.RecommendationForm);
       return;
     }
     const center = window.NaverMap.getCenter() as NaverLatLng;
@@ -93,9 +99,11 @@ export default memo(({ depth, panelWidth }: Props) => {
     if (response && response.documents?.length > 0) {
       const region = response.documents.filter((item) => item.region_type === 'B')[0];
       if (region) {
-        router.replace(Routes.SuggestRegionalForm, {
+        router.replace(Routes.RecommendationForm, {
           searchParams: {
             address: `${region.region_1depth_name} ${region.region_2depth_name} ${region.region_3depth_name}`,
+            redirect: `${router.asPath}`,
+            back: 'true',
           },
         });
       }
@@ -110,12 +118,17 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.SuggestRequestedList);
   }, [router]);
 
+  const handleSuggestRecommendedList = useCallback(() => {
+    router.push(Routes.SuggestRecommendedList);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
+        profileImageUrl={user?.profileImageUrl}
         unreadNotificationCount={unreadNotificationCount}
         dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
@@ -128,13 +141,44 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickNegoPoint={handleClickNegoPoint}
         onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
-        onClickCreateListing={handleCreateListing}
+        onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        onClickSuggestRegional={handleSuggestRegional}
+        onClickRecommendationForm={handleRecommendationForm}
         onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
+        onClickSuggestRecommendedList={handleSuggestRecommendedList}
       />
+      {showMyAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.SubTitle tw="text-center">
+                이미 등록하신 주소가 있습니다.
+                <br />
+                새로운 집주소를 등록하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton
+                onClick={() => {
+                  setShowMyAddressPopup(false);
+                }}
+              >
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  router.push(Routes.MyAddress);
+                  setShowMyAddressPopup(false);
+                }}
+              >
+                확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });

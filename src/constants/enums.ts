@@ -35,6 +35,13 @@ export enum ChatUserType {
   System = 4,
 }
 
+export enum ChatRoomType {
+  BuyerAgentBidding = 1, // 매수인이 가격을 제안하고 중개사가 수락했을 경우
+  SellerAgentListingRegister = 2, // 매도인이 배정 매물을 등록하고 중개사를 assign한 경우
+  BuyerSellerSuggestRecommendation = 3, // 매수인이 매도인 추천 매물을 선택했을 경우
+  BuyerAgentSuggestRecommendation = 4, // 매수인이 중개사의 추천 매물을 선택했을 경우
+}
+
 export enum NegotiationOrAuction {
   Negotiation = 1,
   Auction = 2,
@@ -122,10 +129,11 @@ export enum SuggestStatus {
 }
 
 export enum SuggestRecommendStatus {
-  Sent = 1,
-  Accepted = 2,
-  NotInterested = 3,
-  Cancelled = 4,
+  Sent = 1, // 추천생성
+  Accepted = 2, // 협의시작 (채팅방 열려있는 상태)
+  NotInterested = 3, // 관심없음(유저목록에서 삭제, 중개사 목록에선 대기중)
+  Cancelled = 4, // 취소 함 (채팅방을 나가거나 추천자가 취소버튼을 누름)
+  Completed = 5, // 거래성사 202308추가
 }
 
 export enum NotificationLinkType {
@@ -166,6 +174,11 @@ export enum NotificationLinkType {
 export enum NiceVerificationType {
   Phone = 1,
   IPin = 2,
+}
+
+export enum DanjiOrRegionalType {
+  Danji = 1,
+  Regional = 2,
 }
 
 export function describeRealestateType(type: RealestateType | undefined | null) {

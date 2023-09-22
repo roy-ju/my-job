@@ -1,67 +1,67 @@
-import { GetMySuggestDetailResponse } from '@/apis/suggest/getMySuggestDetail';
-import { NavigationHeader, Tabs } from '@/components/molecules';
-import { useState } from 'react';
-import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
-import RequestDetail from './RequestDetail';
-import ListingRecommendList from './ListingRecommendList';
+import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedList';
+import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
+import { Button, PersistentBottomBar } from '@/components/atoms';
+import { NavigationHeader } from '@/components/molecules';
+import { SuggestDetailListItem } from '@/components/organisms';
+import tw from 'twin.macro';
 
-interface Props {
-  recommendCount?: number;
-  suggestData?: GetMySuggestDetailResponse | null;
-  recommendData?: GetMySuggestRecommendsResponse['list'];
+type Props = {
+  data?: GetSuggestDetailResponse;
+
+  myRecommendedList?: GetMyRecommendedListResponse['list'];
+
+  isExistMySuggested?: boolean;
+
+  disabledCTA?: boolean;
+  onClickCTA?: () => void;
+
   onClickBack?: () => void;
-  onClickListing?: (id: number) => void;
-  onClickChat?: (id: number) => void;
-  onClickNotInterested?: (id: number) => void;
-  onClickRecommendAccept?: (id: number) => void;
-  onClickNewRecommendations?: () => void;
-  onNextListingRecommentList?: () => void;
-}
+
+  onMutate?: () => void;
+};
 
 export default function SuggestDetail({
-  recommendData,
-  recommendCount = 0,
-  suggestData,
-  onClickBack,
-  onClickListing,
-  onClickChat,
-  onClickNotInterested,
-  onClickRecommendAccept,
-  onClickNewRecommendations,
-  onNextListingRecommentList,
-}: Props) {
-  const [tabIndex, setTabIndex] = useState(1);
+  data,
 
+  myRecommendedList,
+  isExistMySuggested,
+
+  disabledCTA,
+  onClickCTA,
+
+  onClickBack,
+
+  onMutate,
+}: Props) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={onClickBack} />
-        <NavigationHeader.Title>{suggestData?.request_target_text}</NavigationHeader.Title>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
+        <NavigationHeader.Title>구해요 상세</NavigationHeader.Title>
       </NavigationHeader>
-      <Tabs value={tabIndex} onChange={(i) => setTabIndex(i)}>
-        <Tabs.Tab value={0}>
-          <span tw="text-b2">요청 내용</span>
-        </Tabs.Tab>
-        <Tabs.Tab value={1}>
-          <span tw="text-b2">추천 받은 매물</span>
-          <span tw="text-b2 font-bold ml-1.5">{recommendCount}</span>
-        </Tabs.Tab>
-        <Tabs.Indicator />
-      </Tabs>
-      <div tw="flex-1 min-h-0 overflow-auto">
-        {tabIndex === 0 && <RequestDetail suggestData={suggestData} />}
-        {tabIndex === 1 && (
-          <ListingRecommendList
-            onNext={onNextListingRecommentList}
-            recommendData={recommendData}
-            onClickListing={onClickListing}
-            onClickChat={onClickChat}
-            onClickNotInterested={onClickNotInterested}
-            onClickRecommendAccept={onClickRecommendAccept}
-            onClickNewRecommendations={onClickNewRecommendations}
-          />
-        )}
+
+      <div tw="px-5 pt-7 flex-1 overflow-auto">
+        <SuggestDetailListItem>
+          <SuggestDetailListItem.UserInfo data={data} />
+          <SuggestDetailListItem.ListingInfo data={data} />
+          {isExistMySuggested && (
+            <SuggestDetailListItem.SuggestedListings list={myRecommendedList} onMutate={onMutate} />
+          )}
+        </SuggestDetailListItem>
       </div>
+
+      {!data?.my_suggest && (
+        <PersistentBottomBar>
+          <div tw="w-full" css={[disabledCTA ? tw`[padding-bottom: 4px]` : tw`[padding-bottom: 26px]`]}>
+            <Button size="bigger" tw="w-full" disabled={!!disabledCTA} onClick={onClickCTA}>
+              내 매물 추천하기
+            </Button>
+            {disabledCTA && (
+              <p tw="[padding-top: 7px] text-info text-center leading-4">지금은 요청자가 요청을 중단했어요.</p>
+            )}
+          </div>
+        </PersistentBottomBar>
+      )}
     </div>
   );
 }

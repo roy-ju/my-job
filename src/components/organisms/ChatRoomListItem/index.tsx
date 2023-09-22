@@ -5,27 +5,41 @@ import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
 
 interface ChatRoomListItemProps {
   profileImagePath: string | StaticImageData;
-  officeName: string;
-  isSeller: boolean;
+  name: string;
+  typeTag: string;
   lastMessage: string;
   lastMessageTime: string;
-  listingTitle: string;
-  additionalListingCount: number;
+  title: string;
   unreadMessageCount: number;
   onClick?: () => void;
 }
 
 export default function ChatRoomListItem({
   profileImagePath,
-  isSeller,
-  officeName,
+  typeTag,
+  name,
   lastMessage,
-  listingTitle,
-  additionalListingCount,
+  title,
   lastMessageTime,
   unreadMessageCount,
   onClick,
 }: ChatRoomListItemProps) {
+  const renderChatTag = () => {
+    switch (typeTag) {
+      case '구해요':
+        return <Chip variant="yellowOrange">{typeTag}</Chip>;
+
+      case '중개사':
+        return <Chip variant="blue">{typeTag}</Chip>;
+
+      case '집주인':
+        return <Chip variant="nego">{typeTag}</Chip>;
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div>
       <button
@@ -34,20 +48,19 @@ export default function ChatRoomListItem({
         onClick={onClick}
       >
         <div tw="flex flex-1 min-w-0">
-          <Avatar alt="중개사 프로필 사진" src={profileImagePath || defaultAvatar} />
-          <div tw="min-w-0 flex flex-col flex-1 ml-2">
+          <Avatar size={44} alt={`${name} 프로필 사진`} src={profileImagePath || defaultAvatar} />
+          <div tw="min-w-0 flex flex-col flex-1 ml-3">
             <div tw="flex items-center justify-between mb-[5px] gap-1">
-              <div tw="text-b2 text-gray-1000 font-bold overflow-hidden whitespace-nowrap text-ellipsis">
-                {officeName}
+              <div tw="overflow-hidden  flex items-center gap-1 line-clamp-1">
+                {renderChatTag()} <span tw=" font-bold text-b2 text-gray-1000">{title}</span>
               </div>
               <div tw="shrink-0 text-info leading-5 text-gray-700 self-end">
                 {formatLastMessageTime(lastMessageTime)}
                 {/* <Moment format="calendar">{lastMessageTime}</Moment> */}
               </div>
             </div>
-            <div tw="text-info leading-3.5 text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis mb-[3px] mr-8">
-              {isSeller && <Chip>등록</Chip>}{' '}
-              {listingTitle + (additionalListingCount > 0 ? ` 외 ${additionalListingCount}건` : '')}
+            <div tw="text-info leading-3.5 text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis mb-[5px] mr-8">
+              {name}
             </div>
             <div tw="flex justify-between">
               <div tw="text-b2 max-h-11 mb-1 overflow-hidden text-ellipsis whitespace-pre-wrap [word-wrap: break-word] [display: -webkit-box] [-webkit-line-clamp: 2] [-webkit-box-orient: vertical]">

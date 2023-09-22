@@ -10,7 +10,6 @@ import usePageVisibility from '@/hooks/utils/usePageVisibility';
 import useWebSocket, { WebSocketReadyState } from '@/hooks/utils/useWebSocket';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { mutate } from 'swr';
 
 interface WebSocketMessage {
   message: string;
@@ -23,7 +22,7 @@ export default function useChatRoom(chatRoomID: number) {
   const pageVisible = usePageVisibility();
 
   const [isLoading, setIsLoading] = useState(true);
-  const { data } = useAPI_ChatRoomDetail(chatRoomID);
+  const { data, mutate } = useAPI_ChatRoomDetail(chatRoomID);
   const [accessToken] = useLocalStorage(Keys.ACCESS_TOKEN, '');
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
   const [photosUrls, setPhotosUrls] = useState<string[]>([]);
@@ -64,8 +63,8 @@ export default function useChatRoom(chatRoomID: number) {
           ...prev,
           {
             id: chat.chat_id,
-            name: `공인중개사 ${data?.agent_name}`,
-            profileImagePath: data?.agent_profile_image_full_path,
+            name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
+            profileImagePath: data?.other_profile_image_full_path,
             message: chat.message,
             chatUserType: chat.chat_user_type,
             sentTime: new Date().toISOString(),
@@ -93,12 +92,12 @@ export default function useChatRoom(chatRoomID: number) {
       setChatMessages(
         data?.list?.map((chat) => ({
           id: chat.id,
-          name: `공인중개사 ${data?.agent_name}`,
-          profileImagePath: data?.agent_profile_image_full_path,
+          name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
+          profileImagePath: data?.other_profile_image_full_path,
           message: chat.message,
           chatUserType: chat.chat_user_type,
           sentTime: chat.created_time,
-          agentReadTime: chat.agent_read_time ? new Date(chat.agent_read_time) : null,
+          agentReadTime: chat.user2_read_time ? new Date(chat.user2_read_time) : null,
         })) ?? [],
       );
     }
@@ -126,8 +125,9 @@ export default function useChatRoom(chatRoomID: number) {
 
   useEffect(() => {
     const lastChat = chatMessages[chatMessages.length - 1];
+
     if (lastChat && data?.chat_user_type && readyState === WebSocketReadyState.Open) {
-      updateChatMessagesRead(chatRoomID).then(() => mutate('/chat/room/list'));
+      updateChatMessagesRead(chatRoomID).then(() => mutateChatRoomList());
       sendMessage(
         JSON.stringify({
           chat_user_type: data?.chat_user_type,
@@ -141,12 +141,10 @@ export default function useChatRoom(chatRoomID: number) {
 
   return {
     isTextFieldDisabled: textFieldDisabled,
-    agentProfileImagePath: data?.agent_profile_image_full_path,
-    listingTitle: data?.listing_title,
-    agentName: data?.agent_name,
-    agentOfficeName: data?.agent_office_name,
-    agentDescription: data?.agent_description,
-    additionalListingCount: data?.additional_listing_count,
+    otherProfileImagePath: data?.other_profile_image_full_path,
+    title: data?.title,
+    otherName: data?.other_name,
+
     chatMessages,
     photosUrls,
     isLoading,
@@ -155,8 +153,13 @@ export default function useChatRoom(chatRoomID: number) {
     handleChangePhotoUrls,
 
     chatUserType: data?.chat_user_type,
+    chatRoomType: data?.chat_room_type,
 
-    hasContractCompleteListings: data?.has_contract_complete_listings,
-    hasPreContractCompleteListings: data?.has_pre_contract_complete_listings,
+    listingItem: data?.listing_item,
+    biddingItem: data?.bidding_item,
+    suggestItem: data?.suggest_item,
+    suggestRecommendItem: data?.suggest_recommend_item,
+
+    mutate,
   };
 }

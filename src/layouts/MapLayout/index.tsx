@@ -55,7 +55,9 @@ function MapWrapper({
     popup,
     setPopup,
     selectedMarker,
+    selectedMouseOverMarker,
     danjiSummary,
+    selectedMouseOverDanjiSummary,
     removeMyMarker,
     searchResultMarker,
     interactionSelectedMarker,
@@ -145,9 +147,12 @@ function MapWrapper({
             myMarker={myMarker}
             searchResultMarker={searchResultMarker}
             selectedMarker={selectedMarker}
+            selectedMouseOverMarker={selectedMouseOverMarker}
             interactionSelectedMarker={interactionSelectedMarker}
             danjiSummary={danjiSummary}
+            selectedMouseOverDanjiSummary={selectedMouseOverDanjiSummary}
             aroundMarkers={aroundMarkers}
+            mapBuyOrRent={filter?.buyOrRents}
           />
         </Map>
       </Layout.MapContainer>
@@ -175,6 +180,7 @@ function MapWrapper({
           </Layout.Overlay>
         )}
       </AnimatePresence>
+
       {popup === 'locationPermission' && (
         <OverlayPresenter>
           <Popup>
@@ -192,6 +198,7 @@ function MapWrapper({
           </Popup>
         </OverlayPresenter>
       )}
+
       {openPopup && (
         <OverlayPresenter>
           <Popup>

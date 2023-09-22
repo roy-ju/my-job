@@ -6,6 +6,7 @@ import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateSummary } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 import getFileFromUrl from '@/utils/getFileFromUrl';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -18,6 +19,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
   const listingID = Number(router.query.listingID) ?? 0;
   const agentID = Number(router.query.agentID) ?? 0;
   const [agent, setAgent] = useState<GetAgentListResponse['agent_list'][0] | null>(null);
@@ -75,6 +77,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const onClickUpdate = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         listingID: router.query.listingID as string,
       },
       state: {
@@ -133,6 +137,16 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setPopup(false);
+                  if (router?.query?.redirect) {
+                    nextRouter.replace(router.query.redirect as string);
+                    return;
+                  }
+
+                  if (router?.query?.danjiID && router?.query?.depth1) {
+                    nextRouter.replace(`/${router.query.depth1}?danjiID=${router.query.danjiID}`);
+                    return;
+                  }
+
                   router.replace(Routes.ListingDetail, {
                     searchParams: { listingID: `${listingID}` },
                     state: {

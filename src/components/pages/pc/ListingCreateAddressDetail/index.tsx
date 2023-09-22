@@ -103,6 +103,8 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         listingID: `${createRes.listing_id}`,
       },
       state: {
@@ -122,6 +124,10 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleBack = useCallback(() => {
     router.replace(Routes.ListingCreateAddress, {
+      searchParams: {
+        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
+      },
       state: {
         ...(router.query.origin
           ? {
@@ -134,6 +140,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
+
     if (!inAddressData) {
       router.replace(Routes.ListingCreateAddress, {
         state: {
