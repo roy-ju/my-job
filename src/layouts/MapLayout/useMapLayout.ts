@@ -223,8 +223,6 @@ export default function useMapLayout() {
 
   const [markers, setMarkers] = useState<ListingDanjiMarker[]>([]);
 
-  console.log(markers);
-
   const [schoolMarkers, setSchoolMarkers] = useState<SchoolMarker[]>([]);
   const [aroundMarkers, setAroundMarkers] = useState<AroundMarker[]>([]);
 

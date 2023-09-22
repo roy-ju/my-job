@@ -36,7 +36,9 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   const handleSuggestDetail = useCallback(
     (id: number, mySuggest: boolean) => {
       if (mySuggest) {
-        nextRouter.replace(`/${Routes.My}/${Routes.MySuggestDetail}?suggestID=${id}`);
+        router.push(Routes.MySuggestDetail, {
+          searchParams: { suggestID: `${id}`, danjiID: `${danjiID}` || '' },
+        });
         return;
       }
 
@@ -44,7 +46,7 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
         searchParams: { danjiID: `${danjiID}` || '', suggestID: `${id}` },
       });
     },
-    [danjiID, router, nextRouter],
+    [danjiID, router],
   );
 
   const handleCreateSuggest = useCallback(() => {
