@@ -169,12 +169,12 @@ export default memo(({ panelWidth, depth }: Props) => {
         recommendData={recommendData}
         suggestChecked={suggestChecked}
         suggestData={data}
-        onClickBack={handleClickBack}
+        onClickBack={router.query.entry === 'my' ? handleClickBack : undefined}
         onClickNotInterested={handleNotInterested}
         onClickRecommendAccept={handleRecommendAccept}
         onClickChat={handleClickChat}
         onClickSuggestUpdate={handleClickSuggestUpdate}
-        onClickDanjiDetail={handleClickDanjiDetail}
+        onClickDanjiDetail={router.query.entry === 'my' ? handleClickDanjiDetail : undefined}
         onClickNewRecommendations={handleNaviagteToRecommendationForm}
         onNextListingRecommentList={increamentPageNumber}
         onChangeSuggestChecked={handleChangeSuggestChecked}

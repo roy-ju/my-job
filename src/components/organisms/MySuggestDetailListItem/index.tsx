@@ -75,7 +75,7 @@ export default function MySuggestDetailListItem({
               <Chip variant="gray">{suggestData?.request_target_text.split(' ').slice(-1)}</Chip>
             )}
           </div>
-          {suggestData?.danji_or_regional === DanjiOrRegionalType.Danji && (
+          {suggestData?.danji_or_regional === DanjiOrRegionalType.Danji && onClickDanjiDetail && (
             <Button
               variant="outlined"
               size="small"

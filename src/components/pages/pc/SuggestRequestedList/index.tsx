@@ -29,6 +29,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       router.replace(Routes.MySuggestDetail, {
         searchParams: {
           suggestID: `${id}`,
+          entry: 'my',
         },
       });
     },

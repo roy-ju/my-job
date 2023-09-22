@@ -70,7 +70,9 @@ export default function ActiveListingInfo({
   const handleSuggestDetail = useCallback(
     (id: number, mySuggest: boolean) => {
       if (mySuggest) {
-        nextRouter.replace(`/${Routes.My}/${Routes.MySuggestDetail}?suggestID=${id}`);
+        router.push(Routes.MySuggestDetail, {
+          searchParams: { suggestID: `${id}`, danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '' },
+        });
         return;
       }
 
@@ -78,7 +80,7 @@ export default function ActiveListingInfo({
         searchParams: { danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '', suggestID: `${id}` },
       });
     },
-    [danji?.danji_id, router, nextRouter],
+    [danji?.danji_id, router],
   );
 
   const handleListingAll = useCallback(() => {
