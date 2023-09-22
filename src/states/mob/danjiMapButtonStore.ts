@@ -31,7 +31,7 @@ export const danjiMapButtonStore = atom<DanjiMapButtonStore>({
     isShowRoad: true,
     isShowMap: true,
     danjiAroundData: undefined,
-    danjiAroundDetailDefault: 'SW8',
+    danjiAroundDetailDefault: 'HP8',
   },
   dangerouslyAllowMutability: true,
 });
