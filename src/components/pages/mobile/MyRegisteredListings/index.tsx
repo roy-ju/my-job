@@ -64,6 +64,7 @@ export default memo(() => {
   ]);
 
   const handleClickListingItem = (listingID: number) => () => {
+    if (isDeleteActive) return;
     router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   };
 
