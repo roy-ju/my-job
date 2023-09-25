@@ -150,7 +150,8 @@ export function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse }) {
                     lng: danji.long,
                   }}
                 >
-                  <MapMarkerSearchItem />
+                  <MapMarkerSearchItem style={{ width: '32px', height: '32px', opacity: 0.9 }} tw="animate-bounce" />
+                  <div tw="w-8 h-[11px] absolute bottom-0 bg-nego-1000 opacity-20 [border-radius: 50%]" />
                 </CustomOverlayV1>
               </NaverMapV1>
             )}

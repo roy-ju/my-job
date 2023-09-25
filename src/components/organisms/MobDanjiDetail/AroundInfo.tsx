@@ -9,7 +9,7 @@ import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 import { cloneDeep } from 'lodash';
 import dynamic from 'next/dynamic';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
-import tw from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 import NoDataTypeOne from './NoData';
 import ConvertArrayToSubwayComponent from './SubwayFormatComponent';
 
@@ -36,6 +36,8 @@ const buttonList: { id: keyof BtnState; korTitle: string }[] = [
   { id: 'PO3', korTitle: '관공서' },
 ];
 
+const Div = styled.div``;
+
 export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
@@ -46,9 +48,10 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const [update, setUpdate] = useState(false);
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({
-    SW8: true,
+    HP8: true,
   });
-  const { makeTrueAround, makeBindDanji } = useDanjiMapButtonStore();
+  const { makeTrueAround, makeBindDanji, makeDanjiAroundDetailDefault, makeDanjiAroundAddress, makeDanjiAroundLatLng } =
+    useDanjiMapButtonStore();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();
@@ -100,6 +103,20 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     setActiveCategory(() => ({ [id]: true }));
     setCategoryList([]);
     setMarkers([]);
+  };
+
+  const handleClickBtn = async (address?: string, lat?: string, lng?: string) => {
+    await makeTrueAround();
+    makeBindDanji(danji);
+    makeDanjiAroundDetailDefault(Object.keys(activeCategory)[0] as keyof BtnState);
+
+    if (address) {
+      makeDanjiAroundAddress(address);
+    }
+
+    if (lat && lng) {
+      makeDanjiAroundLatLng(lat, lng);
+    }
   };
 
   useEffect(() => {
@@ -196,14 +213,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     <div tw="w-full pt-10 pb-10 px-5 [min-height: 590px]">
       <div tw="flex w-full justify-between items-center">
         <span tw="font-bold text-b1 [line-height: 1]">교통 및 주변정보</span>
-        <Button
-          size="small"
-          variant="outlined"
-          onClick={() => {
-            makeTrueAround();
-            makeBindDanji(danji);
-          }}
-        >
+        <Button size="small" variant="outlined" onClick={() => handleClickBtn()}>
           지도에서 보기
         </Button>
       </div>
@@ -251,7 +261,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
       {catergoryList && catergoryList.length > 0 && (
         <div tw="mt-4">
           {convertedCategory.slice(0, sliceNum).map((item, index) => (
-            <div
+            <Div
               tw="flex items-center"
               css={[
                 index === 0
@@ -260,6 +270,13 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               ]}
               id={item.id}
               key={item.id}
+              onClick={() => {
+                if (typeof item.x === 'string' && typeof item.x === 'string') {
+                  handleClickBtn(item.address_name, item.x, item.y);
+                } else {
+                  handleClickBtn(item.address_name, item.x[0], item.y[0]);
+                }
+              }}
             >
               {activeCategory.SW8 && (
                 <ConvertArrayToSubwayComponent
@@ -269,7 +286,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               )}
               <span tw="ml-2 text-b2">{item.place_name}</span>
               <span tw="text-b2 ml-auto text-gray-1000">{getAverageDistance(item.distance)}m</span>
-            </div>
+            </Div>
           ))}
           {convertedCategory.length > 3 &&
             (!isMoreClick ? (
