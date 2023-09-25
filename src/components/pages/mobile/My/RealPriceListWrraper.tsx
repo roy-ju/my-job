@@ -47,6 +47,17 @@ export default function RealPriceListWrraper() {
     },
     [setSize],
   );
+  const handleClickBack = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/my');
+      }
+    }
+  }, [router]);
 
   const handleChangeSortBy = useCallback((value: string) => {
     setSortBy(value);
@@ -63,7 +74,7 @@ export default function RealPriceListWrraper() {
         onChagneSortBy={handleChangeSortBy}
         buyOrRent={buyOrRent}
         onChangeBuyOrRent={handleChangeBuyOrRent}
-        onClickBack={() => router.back()}
+        onClickBack={handleClickBack}
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
         onClickItem={(danjiID, bor) => {
