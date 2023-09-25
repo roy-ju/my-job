@@ -58,6 +58,7 @@ function MapWrapper({
     selectedMouseOverMarker,
     danjiSummary,
     interactionSelectedDanjiSummary,
+    interactionStateDanjiSummary,
     selectedMouseOverDanjiSummary,
     removeMyMarker,
     searchResultMarker,
@@ -153,6 +154,7 @@ function MapWrapper({
             interactionSelectedMarker={interactionSelectedMarker}
             danjiSummary={danjiSummary}
             interactionSelectedDanjiSummary={interactionSelectedDanjiSummary}
+            interactionStateDanjiSummary={interactionStateDanjiSummary}
             selectedMouseOverDanjiSummary={selectedMouseOverDanjiSummary}
             aroundMarkers={aroundMarkers}
             mapBuyOrRent={filter?.buyOrRents}
