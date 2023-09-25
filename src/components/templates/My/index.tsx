@@ -5,6 +5,33 @@ import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } fro
 import { Loading, Separator } from '@/components/atoms';
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
+interface Props {
+  isLoading?: boolean;
+  loggedIn?: boolean;
+  nickname?: string;
+  profileImageUrl?: string;
+  unreadNotificationCount?: number;
+  dashboardInfo?: GetDashboardInfoResponse | null;
+  onClickLogin?: () => void;
+  onClickNotificationList?: () => void;
+  onClickMyDetail?: () => void;
+  onClickNoticeList?: () => void;
+  onClickQna?: () => void;
+  onClickMyRealPriceList?: () => void;
+  onClickFAQ?: () => void;
+  onClickNegoPoint?: () => void;
+  onClickCoupons?: () => void;
+  onClickServiceInfo?: () => void;
+  onClickMyAddress?: () => void;
+  onClickMyRegisteredListings?: (params: number) => void;
+  onClickMyParticipatingListings?: (params: number) => void;
+  onClickRecommendationForm?: () => void;
+  onClickReceivedSuggests?: () => void;
+  onClickRequestedSuggests?: () => void;
+  onClickSuggestRecommendedList?: () => void;
+  onClickDeveloper?: () => void;
+}
+
 function Test() {
   /* eslint-disable */
   const coldStart =
@@ -83,33 +110,6 @@ function Test() {
       </li>
     </ul>
   );
-}
-
-interface Props {
-  isLoading?: boolean;
-  loggedIn?: boolean;
-  nickname?: string;
-  profileImageUrl?: string;
-  unreadNotificationCount?: number;
-  dashboardInfo?: GetDashboardInfoResponse | null;
-  onClickLogin?: () => void;
-  onClickNotificationList?: () => void;
-  onClickMyDetail?: () => void;
-  onClickNoticeList?: () => void;
-  onClickQna?: () => void;
-  onClickMyRealPriceList?: () => void;
-  onClickFAQ?: () => void;
-  onClickNegoPoint?: () => void;
-  onClickCoupons?: () => void;
-  onClickServiceInfo?: () => void;
-  onClickMyAddress?: () => void;
-  onClickMyRegisteredListings?: (params: number) => void;
-  onClickMyParticipatingListings?: (params: number) => void;
-  onClickRecommendationForm?: () => void;
-  onClickReceivedSuggests?: () => void;
-  onClickRequestedSuggests?: () => void;
-  onClickSuggestRecommendedList?: () => void;
-  onClickDeveloper?: () => void;
 }
 
 export default function My({
