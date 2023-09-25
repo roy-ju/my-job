@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -11,6 +12,7 @@ import { NaverMapV1 } from '@/lib/navermapV1';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import dynamic from 'next/dynamic';
+
 import {
   DanjiBankMarker,
   DanjiConvienceMarker,
@@ -47,6 +49,8 @@ export default function DanjiAroundMapCard({
   isEventMarker = false,
   isNewMarker = false,
   getPlaceName,
+  danjiAroundLat,
+  danjiAroundLng,
   danji,
   setM,
   handleAddressName,
@@ -58,6 +62,8 @@ export default function DanjiAroundMapCard({
   isCircle?: boolean;
   isEventMarker?: boolean;
   isNewMarker?: boolean;
+  danjiAroundLat?: string;
+  danjiAroundLng?: string;
   getPlaceName?: (name: string | { placeName: string; distance: string }[]) => void;
   setM?: Dispatch<React.SetStateAction<naver.maps.Map | null | undefined>>;
   handleAddressName?: (val: string) => void;
@@ -67,6 +73,8 @@ export default function DanjiAroundMapCard({
 
   const minZoom = useMemo(() => getZoomByMeters(20000), []);
   const maxZoom = useMemo(() => getZoomByMeters(20), []);
+
+  const [zoomLevel, setZoomLevel] = useState<number>();
 
   const onCreate = useCallback(
     (m: naver.maps.Map) => {
@@ -153,7 +161,12 @@ export default function DanjiAroundMapCard({
   useEffect(() => {
     if (aroundList && addressName) {
       const firstIndex = aroundList.findIndex((item) => item.address_name === addressName);
+
       setSelectedIndex(firstIndex);
+
+      if (danjiAroundLat && danjiAroundLng) {
+        map?.morph({ lat: Number(danjiAroundLat), lng: Number(danjiAroundLng) }, 17);
+      }
     }
   }, [addressName, aroundList]);
 
@@ -170,6 +183,9 @@ export default function DanjiAroundMapCard({
         height: defaultMapSize,
         flex: 1,
       }}
+      onZoomChanged={(m) => {
+        setZoomLevel(m.getZoom());
+      }}
     >
       {aroundList.length > 0 &&
         aroundList.map((item, index) => {
@@ -182,26 +198,38 @@ export default function DanjiAroundMapCard({
                   lng: Number(item.x),
                 }}
                 isMarker
-                tw="z-[150]"
+                tw="animate-scale will-change-transform [text-rendering: optimizeSpeed]"
+                zIndex={handleAddressName ? (item.address_name === addressName ? 150 : 140) : 140}
               >
                 <Box
                   onClick={
                     handleAddressName
                       ? () => {
                           handleAddressName(item.address_name);
+                          if (typeof item.x === 'string' && typeof item.x === 'string') {
+                            map?.morph({ lng: Number(item.x), lat: Number(item.y) }, 17);
+                          } else {
+                            map?.morph({ lng: Number(item.x[0]), lat: Number(item.y[0]) }, 17);
+                          }
                           setSelectedIndex(index);
                         }
                       : () => {}
                   }
+                  tw="flex"
                   css={
                     handleAddressName
-                      ? selectedIndex === index
-                        ? [tw`relative [z-index: 160] animate-bounce`]
-                        : [tw`relative [z-index: 150]`]
-                      : [tw`relative [z-index: 150]`]
+                      ? item.address_name === addressName
+                        ? [tw`relative [z-index: 150] animate-bounce`]
+                        : [tw`relative [z-index: 140]`]
+                      : [tw`relative [z-index: 140]`]
                   }
                 >
                   {renderMarker(item.category_group_code, item.place_name, 0, item.distance)}
+                  {zoomLevel && zoomLevel >= 17 && (
+                    <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+                      <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
+                    </div>
+                  )}
                 </Box>
               </CustomOverlayDanji>
             );
@@ -225,26 +253,51 @@ export default function DanjiAroundMapCard({
                 lat: Number(item.y[0]),
                 lng: Number(item.x[0]),
               }}
-              tw="z-[150]"
+              tw="cursor-default animate-scale will-change-transform [text-rendering: optimizeSpeed]"
+              zIndex={handleAddressName ? (item.address_name === addressName ? 150 : 140) : 140}
             >
               <Box
                 onClick={
                   handleAddressName
                     ? () => {
                         handleAddressName(item.address_name);
+                        if (typeof item.x === 'string' && typeof item.x === 'string') {
+                          map?.morph({ lng: Number(item.x), lat: Number(item.y) }, 17);
+                        } else {
+                          map?.morph({ lng: Number(item.x[0]), lat: Number(item.y[0]) }, 17);
+                        }
+
                         setSelectedIndex(index);
                       }
                     : () => {}
                 }
                 css={
                   handleAddressName
-                    ? selectedIndex === index
-                      ? [tw`relative [z-index: 160] animate-bounce`]
-                      : [tw`relative [z-index: 150]`]
-                    : [tw`relative [z-index: 150]`]
+                    ? item.address_name === addressName
+                      ? [tw`relative [z-index: 150] animate-bounce`]
+                      : [tw`relative [z-index: 140]`]
+                    : [tw`relative [z-index: 140]`]
                 }
+                tw="flex"
               >
                 {renderMarker(item.category_group_code, array, item.x.length)}
+                {item.category_group_code === KakaoMapCategoryCode.SUBWAY
+                  ? zoomLevel &&
+                    zoomLevel >= 17 && (
+                      <div tw="bg-white absolute rounded-[26px] h-[27px] left-[0px] pl-8">
+                        <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
+                          {item.place_name[0]}
+                        </span>
+                      </div>
+                    )
+                  : zoomLevel &&
+                    zoomLevel >= 17 && (
+                      <div tw="bg-white absolute rounded-[26px] h-[27px] left-[0px] bottom-[23px] pl-8">
+                        <span tw="text-info font-bold pr-3 whitespace-nowrap text-gray-1000">
+                          {item.place_name[0]} 외 {item.place_name.length - 1} 곳
+                        </span>
+                      </div>
+                    )}
               </Box>
             </CustomOverlayDanji>
           );
@@ -281,7 +334,10 @@ export default function DanjiAroundMapCard({
         }}
         tw="z-[150]"
       >
-        {!isNewMarker && <MapMarkerSearchItem />}
+        {!isNewMarker && (
+          <MapMarkerSearchItem style={{ width: '32px', height: '32px', opacity: 0.9 }} tw="animate-bounce" />
+        )}
+        {!isNewMarker && <div tw="w-8 h-[11px] absolute bottom-0 bg-nego-1000 opacity-20 [border-radius: 50%]" />}
       </CustomOverlayDanji>
     </NaverMapV1>
   );

@@ -12,6 +12,7 @@ import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
 import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
 import { schoolAroundState } from '@/states/danjiButton';
 
+import { useRouter as useNextRouter } from 'next/router';
 import {
   AroundMarker as AroundMarkerType,
   CommonMarker,
@@ -30,6 +31,8 @@ interface MarkersProps {
   selectedMarker?: CommonMarker | null;
   selectedMouseOverMarker?: CommonMarker | null;
   danjiSummary?: GetDanjiSummaryResponse;
+  interactionSelectedDanjiSummary?: GetDanjiSummaryResponse;
+  interactionStateDanjiSummary?: GetDanjiSummaryResponse;
   selectedMouseOverDanjiSummary?: GetDanjiSummaryResponse;
   interactionSelectedMarker?: any;
   mapBuyOrRent?: string;
@@ -45,10 +48,14 @@ export default function Markers({
   selectedMarker,
   selectedMouseOverMarker,
   danjiSummary,
+  interactionSelectedDanjiSummary,
+  interactionStateDanjiSummary,
   selectedMouseOverDanjiSummary,
   interactionSelectedMarker,
   mapBuyOrRent,
 }: MarkersProps) {
+  const router = useNextRouter();
+
   const { school, around, selectedAroundMarker, selectedSchoolMarker } = useRecoilValue(schoolAroundState);
 
   if (school || around) {
@@ -148,16 +155,16 @@ export default function Markers({
                     interactionSelectedMarker.onClick?.call(interactionSelectedMarker);
                   }}
                 >
-                  {danjiSummary &&
-                    danjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
-                    danjiSummary?.realestate_type === interactionSelectedMarker?.danjiRealestateType &&
-                    !!danjiSummary?.saedae_count && (
+                  {interactionSelectedDanjiSummary?.danji_id === interactionSelectedMarker?.danjiID &&
+                    interactionSelectedDanjiSummary?.realestate_type ===
+                      interactionSelectedMarker?.danjiRealestateType &&
+                    !!interactionSelectedDanjiSummary?.saedae_count && (
                       <DanjiMarker.Popper
-                        name={danjiSummary?.string ?? ''}
-                        suggestCount={danjiSummary.suggest_count ?? 0}
-                        householdCount={danjiSummary?.saedae_count}
-                        buyListingCount={danjiSummary?.buy_listing_count ?? 0}
-                        rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                        name={interactionSelectedDanjiSummary?.string ?? ''}
+                        suggestCount={interactionSelectedDanjiSummary.suggest_count ?? 0}
+                        householdCount={interactionSelectedDanjiSummary?.saedae_count}
+                        buyListingCount={interactionSelectedDanjiSummary?.buy_listing_count ?? 0}
+                        rentListingCount={interactionSelectedDanjiSummary?.rent_listing_count ?? 0}
                         onClick={() => {}}
                         mapBuyOrRent={mapBuyOrRent}
                       />
@@ -207,6 +214,9 @@ export default function Markers({
                     ? 100
                     : selectedMouseOverMarker?.id === marker.id
                     ? 99
+                    : `danjiMarker:${interactionStateDanjiSummary?.danji_id}${interactionStateDanjiSummary?.realestate_type}` ===
+                      marker.id
+                    ? 99
                     : marker.listingCount
                     ? 11
                     : 10
@@ -218,7 +228,7 @@ export default function Markers({
                 }}
               >
                 <DanjiMarker
-                  selected={selectedMarker?.id === marker.id}
+                  selected={selectedMarker?.id === marker.id || marker.danjiID === Number(router?.query?.danjiID)}
                   variant={marker.variant}
                   area={Number(marker?.pyoung ?? 0)}
                   price={marker.price ?? 0}
@@ -233,21 +243,34 @@ export default function Markers({
                     marker.onMouseLeave?.call(marker);
                   }}
                 >
-                  {danjiSummary &&
-                    danjiSummary?.danji_id === marker?.danjiID &&
-                    danjiSummary?.realestate_type === marker?.danjiRealestateType &&
-                    !!danjiSummary?.saedae_count &&
-                    selectedMarker?.id === marker.id && (
-                      <DanjiMarker.Popper
-                        name={danjiSummary?.string ?? ''}
-                        householdCount={danjiSummary.saedae_count}
-                        suggestCount={danjiSummary.suggest_count ?? 0}
-                        buyListingCount={danjiSummary?.buy_listing_count ?? 0}
-                        rentListingCount={danjiSummary?.rent_listing_count ?? 0}
-                        mapBuyOrRent={mapBuyOrRent}
-                        onClick={() => {}}
-                      />
-                    )}
+                  {danjiSummary
+                    ? danjiSummary?.danji_id === marker?.danjiID &&
+                      danjiSummary?.realestate_type === marker?.danjiRealestateType &&
+                      !!danjiSummary?.saedae_count &&
+                      selectedMarker?.id === marker.id && (
+                        <DanjiMarker.Popper
+                          name={danjiSummary?.string ?? ''}
+                          householdCount={danjiSummary.saedae_count}
+                          suggestCount={danjiSummary.suggest_count ?? 0}
+                          buyListingCount={danjiSummary?.buy_listing_count ?? 0}
+                          rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                          mapBuyOrRent={mapBuyOrRent}
+                          onClick={() => {}}
+                        />
+                      )
+                    : interactionStateDanjiSummary?.danji_id === marker?.danjiID &&
+                      interactionStateDanjiSummary?.realestate_type === marker?.danjiRealestateType &&
+                      !!interactionStateDanjiSummary?.saedae_count && (
+                        <DanjiMarker.Popper
+                          name={interactionStateDanjiSummary?.string ?? ''}
+                          householdCount={interactionStateDanjiSummary.saedae_count}
+                          suggestCount={interactionStateDanjiSummary.suggest_count ?? 0}
+                          buyListingCount={interactionStateDanjiSummary?.buy_listing_count ?? 0}
+                          rentListingCount={interactionStateDanjiSummary?.rent_listing_count ?? 0}
+                          mapBuyOrRent={mapBuyOrRent}
+                          onClick={() => {}}
+                        />
+                      )}
 
                   {selectedMouseOverDanjiSummary &&
                     selectedMouseOverDanjiSummary?.danji_id === marker?.danjiID &&

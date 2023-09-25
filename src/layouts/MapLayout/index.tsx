@@ -57,12 +57,15 @@ function MapWrapper({
     selectedMarker,
     selectedMouseOverMarker,
     danjiSummary,
+    interactionSelectedDanjiSummary,
+    interactionStateDanjiSummary,
     selectedMouseOverDanjiSummary,
     removeMyMarker,
     searchResultMarker,
     interactionSelectedMarker,
     aroundMarkers,
     bubjungdongCode,
+
     ...props
   } = useMapLayout();
 
@@ -150,6 +153,8 @@ function MapWrapper({
             selectedMouseOverMarker={selectedMouseOverMarker}
             interactionSelectedMarker={interactionSelectedMarker}
             danjiSummary={danjiSummary}
+            interactionSelectedDanjiSummary={interactionSelectedDanjiSummary}
+            interactionStateDanjiSummary={interactionStateDanjiSummary}
             selectedMouseOverDanjiSummary={selectedMouseOverDanjiSummary}
             aroundMarkers={aroundMarkers}
             mapBuyOrRent={filter?.buyOrRents}

@@ -70,7 +70,17 @@ const BottomSheetContent = styled('div')({
 const Stack = styled('div')({});
 
 export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailResponse }) {
-  const { makeFalseAround, makeBindDanji, danjiAroundDetailDefault } = useDanjiMapButtonStore();
+  const {
+    makeFalseAround,
+    makeBindDanji,
+    danjiAroundDetailDefault,
+    makeDanjiAroundDetailDefault,
+    danjiAddress,
+    danjiAroundLat,
+    danjiAroundLng,
+    makeDanjiAroundAddress,
+    makeDanjiAroundLatLng,
+  } = useDanjiMapButtonStore();
 
   const [map, setMap] = useState<naver.maps.Map | null | undefined>(null);
 
@@ -140,6 +150,9 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     setActiveCategory(() => ({ [id]: true }));
     setCategoryList([]);
     setMarkers([]);
+
+    setAddressName('');
+    makeDanjiAroundAddress('');
   };
 
   const handleAddressName = (val: string) => {
@@ -220,22 +233,37 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
   };
 
   useEffect(() => {
-    if (listRefs && typeof tableIndex === 'number') {
+    if (danjiAddress) {
+      setAddressName(danjiAddress);
+      setIsClick(true);
+    }
+  }, [danjiAddress]);
+
+  useEffect(() => {
+    if (listRefs?.current && typeof tableIndex === 'number') {
       if (tableIndex >= 0) {
         listRefs.current[tableIndex].scrollIntoView(true);
+        return;
       }
-
-      return;
     }
 
-    if (isClick && listRefs && addressName && typeof tableIndex !== 'number') {
+    if (isClick && listRefs && addressName) {
       const firstIndex = convertedCategory.findIndex((item) => item.address_name === addressName);
 
       if (firstIndex >= 0) {
         listRefs.current[firstIndex].scrollIntoView(true);
       }
     }
-  }, [isClick, listRefs, addressName, tableIndex]);
+  }, [isClick, listRefs?.current, addressName, tableIndex]);
+
+  useEffect(() => {
+    if (addressName && listRefs?.current) {
+      const firstIndex = convertedCategory.findIndex((item) => item.address_name === addressName);
+      if (firstIndex >= 0) {
+        listRefs.current[firstIndex].scrollIntoView(true);
+      }
+    }
+  }, [addressName, listRefs?.current, convertedCategory]);
 
   useEffect(() => {
     let page = 1;
@@ -318,12 +346,14 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     () => () => {
       makeFalseAround();
       makeBindDanji(undefined);
+      makeDanjiAroundDetailDefault('HP8');
     },
     [],
   );
 
   useEffect(() => {
     setActiveCategory({ [danjiAroundDetailDefault]: true });
+
     if (danjiAroundDetailDefault === 'SW8') {
       setActiveIndex(0);
     }
@@ -371,11 +401,16 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     }
   }, [map, sheet]);
 
-  useEffect(() => {
-    setAddressName('');
-    setIsClick(false);
-    setTableIndex(undefined);
-  }, [activeCategory]);
+  useEffect(
+    () => () => {
+      setAddressName('');
+      setIsClick(false);
+      setTableIndex(undefined);
+      makeDanjiAroundAddress('');
+      makeDanjiAroundLatLng(undefined, undefined);
+    },
+    [],
+  );
 
   return (
     <div tw="flex flex-col w-full max-w-mobile h-full">
@@ -402,6 +437,8 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
           setM={setMap}
           handleAddressName={handleAddressName}
           defaultMapSize="100%"
+          danjiAroundLat={danjiAroundLat}
+          danjiAroundLng={danjiAroundLng}
         />
       </div>
 
@@ -493,6 +530,12 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
                   onClick={() => {
                     setAddressName(item.address_name);
                     setTableIndex(index);
+
+                    if (typeof item.x === 'string' && typeof item.x === 'string') {
+                      map?.morph({ lng: Number(item.x), lat: Number(item.y) }, 17);
+                    } else {
+                      map?.morph({ lng: Number(item.x[0]), lat: Number(item.y[0]) }, 17);
+                    }
                   }}
                 >
                   {activeCategory.SW8 && (

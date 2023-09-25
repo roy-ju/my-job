@@ -33,12 +33,6 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
       }
       return NextResponse.redirect(`${request.nextUrl.origin}/m`);
     }
-
-    if (exemptions.includes(firstSegment) && segments.length > 3) {
-      const lastSegment = segments[segments.length - 1];
-
-      return NextResponse.redirect(`${request.nextUrl.origin}/m/${lastSegment}${request.nextUrl.search}`);
-    }
   } else {
     const segments = request.nextUrl.pathname.split('/');
 

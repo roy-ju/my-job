@@ -22,6 +22,8 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
   const [selectedIndex, setSelctedIndex] = useState<number>();
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
+  const [disabled, setDiasbled] = useState<boolean>(false);
+  const [processingMap, setProcessingMap] = useState<boolean>(false);
 
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
 
@@ -45,13 +47,52 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     setIsClickMore(false);
   }, []);
 
-  useEffect(() => {
-    if (listElementarySchools.length > 0) {
-      setSelectedSchoolType(SchoolType.ElementarySchool);
-      return;
+  const handleSchoolClick = useCallback(async () => {
+    if (disabled) return;
+
+    setDiasbled(true);
+
+    try {
+      if (interactionState.school) {
+        interactionStore.makeSchoolOff();
+      } else {
+        await interactionStore.makeSchoolOn();
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
+
+    setDiasbled(false);
+  }, [disabled, interactionState.school, interactionStore]);
+
+  const handleSchoolItem = async (id: string) => {
+    if (processingMap) return;
+
+    setProcessingMap(true);
+
+    try {
+      if (!interactionState.school) {
+        await interactionStore.makeSchoolOn(() =>
+          setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200),
+        );
+      } else {
+        setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    setProcessingMap(false);
+  };
+
+  useEffect(() => {
     if (listMiddleSchools.length > 0) {
       setSelectedSchoolType(SchoolType.MiddleSchool);
+      return;
+    }
+
+    if (listElementarySchools.length > 0) {
+      setSelectedSchoolType(SchoolType.ElementarySchool);
       return;
     }
 
@@ -102,13 +143,8 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
           size="small"
           variant="outlined"
           selected={interactionStore.isSchoolOn}
-          onClick={() => {
-            if (interactionState.school) {
-              interactionStore.makeSchoolOff();
-            } else {
-              interactionStore.makeSchoolOn();
-            }
-          }}
+          disabled={disabled}
+          onClick={handleSchoolClick}
         >
           학구도
         </Button>
@@ -137,16 +173,11 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
           {schoolList.slice(0, isClickMore ? schoolList.length : 3).map((item) => (
             <div
               key={item.school_id}
-              tw="flex py-2 [border-bottom: 1px solid #F4F6FA]"
+              tw="flex py-2 [border-bottom: 1px solid #F4F6FA] cursor-pointer"
               css={[
-                interactionState.school && tw`cursor-pointer`,
                 interactionState?.selectedSchoolMarker?.id === `schoolMarker:${item.school_id}` && tw`bg-[#F3F0FF]`,
               ]}
-              onClick={() => {
-                if (interactionState.school) {
-                  interactionStore.makeSelectedSchool(`schoolMarker:${item.school_id}`);
-                }
-              }}
+              onClick={() => handleSchoolItem(item.school_id)}
             >
               <div tw="w-[9.125rem] [font-size: 14px] [line-height: 22px]">{item.name || '-'}</div>
               <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">
