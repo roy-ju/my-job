@@ -23,7 +23,7 @@ export default memo(() => {
   }, [router.query.params]);
 
   const handleClickBack = useCallback(() => {
-    router.push(
+    router.replace(
       `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}?address=${params.address}&params=${JSON.stringify(
         params,
       )}&forms=${router.query.forms}`,
