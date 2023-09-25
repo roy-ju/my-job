@@ -111,12 +111,12 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       schoolResults.forEach((schoolRes, index) => {
         if (schoolRes?.list) {
           const schools = schoolRes.list.map((item) => ({
-              id: item.school_id,
-              name: item.school_type === '중학교' ? item.school_name : item.school_name.replace('등학교', ''),
-              lat: item.lat,
-              lng: item.long,
-              type: schoolTypes[index].name,
-            }));
+            id: item.school_id,
+            name: item.school_type === '중학교' ? item.school_name : item.school_name.replace('등학교', ''),
+            lat: item.lat,
+            lng: item.long,
+            type: schoolTypes[index].name,
+          }));
 
           newSchoolMarkers.push(...schools);
         }
@@ -128,8 +128,6 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
         danjiData,
         schoolMarkers: [...prev.schoolMarkers, ...newSchoolMarkers],
       }));
-
-console.log(newSchoolMarkers)
 
       callback?.();
 

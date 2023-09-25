@@ -246,7 +246,17 @@ export default function useMapLayout() {
 
   const isPanningRef = useRef(false);
 
-  const { data: danjiSummary } = useDanjiSummary(selectedMarker as ListingDanjiMarker);
+  const { data: danjiSummary } = useDanjiSummary(
+    (selectedMarker as ListingDanjiMarker) || {
+      danjiID: interactionState?.danjiData?.danji_id,
+      danjiRealestateType: interactionState?.danjiData?.type,
+    },
+  );
+
+  const { data: interactionStateDanjiSummary } = useDanjiSummary({
+    danjiID: interactionState?.danjiData?.danji_id,
+    danjiRealestateType: interactionState?.danjiData?.type,
+  });
 
   const { data: interactionSelectedDanjiSummary } = useDanjiSummary(interactionSelectedMarker as ListingDanjiMarker);
 
@@ -438,8 +448,6 @@ export default function useMapLayout() {
 
   const updateMarkers = useLatest(
     async (_map: NaverMap, mapBounds: MapBounds, mapFilter: Filter, toggleValue: number, priceTypeValue: string) => {
-      if (interactionSelectedMarker) return;
-
       abortControllerRef.current?.abort();
       abortControllerRef.current = new AbortController();
 
@@ -760,7 +768,6 @@ export default function useMapLayout() {
       // setSelectedMarker(null);
 
       setSearchResultMarker(null);
-
       interactionAction.makeSchoolOff();
       interactionAction.makeAroundOff();
       interactionAction.makeAroundMarkerDefault();
@@ -1030,8 +1037,6 @@ export default function useMapLayout() {
     [polygons],
   );
 
-
-
   /**
    * 학교필터가 변경될때, 맵에 그려져있는 학구도 폴리곤을 없앤다.
    */
@@ -1283,11 +1288,6 @@ export default function useMapLayout() {
     }
   }, [interactionState.around, mapState.naverMap, interactionSelectedMarker]);
 
-  // console.log(schoolMarkers)
-  // console.log(selectedMarker);
-  // console.log(interactionSelectedMarker);
-  // console.log(interactionState);
-
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -1338,6 +1338,7 @@ export default function useMapLayout() {
     selectedMouseOverMarker,
     interactionSelectedMarker,
     interactionSelectedDanjiSummary,
+    interactionStateDanjiSummary,
     danjiSummary,
     selectedMouseOverDanjiSummary,
     searchResultMarker,

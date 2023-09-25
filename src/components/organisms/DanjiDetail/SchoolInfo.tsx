@@ -72,17 +72,12 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
 
     try {
       if (!interactionState.school) {
-        await interactionStore.makeSchoolOn(() => {
-          console.log('hi');
-          interactionStore.makeSelectedSchool(`schoolMarker:${id}`);
-        });
-
-        // setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200);
+        await interactionStore.makeSchoolOn(() =>
+          setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200),
+        );
       } else {
         setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200);
       }
-
-      // interactionStore.makeSelectedSchool(`schoolMarker:${id}`);
     } catch (error) {
       console.error('Error:', error);
     }

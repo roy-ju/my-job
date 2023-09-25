@@ -32,6 +32,7 @@ interface MarkersProps {
   selectedMouseOverMarker?: CommonMarker | null;
   danjiSummary?: GetDanjiSummaryResponse;
   interactionSelectedDanjiSummary?: GetDanjiSummaryResponse;
+  interactionStateDanjiSummary?: GetDanjiSummaryResponse;
   selectedMouseOverDanjiSummary?: GetDanjiSummaryResponse;
   interactionSelectedMarker?: any;
   mapBuyOrRent?: string;
@@ -47,8 +48,9 @@ export default function Markers({
   selectedMarker,
   selectedMouseOverMarker,
   danjiSummary,
-  selectedMouseOverDanjiSummary,
   interactionSelectedDanjiSummary,
+  interactionStateDanjiSummary,
+  selectedMouseOverDanjiSummary,
   interactionSelectedMarker,
   mapBuyOrRent,
 }: MarkersProps) {
@@ -212,6 +214,9 @@ export default function Markers({
                     ? 100
                     : selectedMouseOverMarker?.id === marker.id
                     ? 99
+                    : `danjiMarker:${interactionStateDanjiSummary?.danji_id}${interactionStateDanjiSummary?.realestate_type}` ===
+                      marker.id
+                    ? 99
                     : marker.listingCount
                     ? 11
                     : 10
@@ -238,21 +243,34 @@ export default function Markers({
                     marker.onMouseLeave?.call(marker);
                   }}
                 >
-                  {danjiSummary &&
-                    danjiSummary?.danji_id === marker?.danjiID &&
-                    danjiSummary?.realestate_type === marker?.danjiRealestateType &&
-                    !!danjiSummary?.saedae_count &&
-                    selectedMarker?.id === marker.id && (
-                      <DanjiMarker.Popper
-                        name={danjiSummary?.string ?? ''}
-                        householdCount={danjiSummary.saedae_count}
-                        suggestCount={danjiSummary.suggest_count ?? 0}
-                        buyListingCount={danjiSummary?.buy_listing_count ?? 0}
-                        rentListingCount={danjiSummary?.rent_listing_count ?? 0}
-                        mapBuyOrRent={mapBuyOrRent}
-                        onClick={() => {}}
-                      />
-                    )}
+                  {danjiSummary
+                    ? danjiSummary?.danji_id === marker?.danjiID &&
+                      danjiSummary?.realestate_type === marker?.danjiRealestateType &&
+                      !!danjiSummary?.saedae_count &&
+                      selectedMarker?.id === marker.id && (
+                        <DanjiMarker.Popper
+                          name={danjiSummary?.string ?? ''}
+                          householdCount={danjiSummary.saedae_count}
+                          suggestCount={danjiSummary.suggest_count ?? 0}
+                          buyListingCount={danjiSummary?.buy_listing_count ?? 0}
+                          rentListingCount={danjiSummary?.rent_listing_count ?? 0}
+                          mapBuyOrRent={mapBuyOrRent}
+                          onClick={() => {}}
+                        />
+                      )
+                    : interactionStateDanjiSummary?.danji_id === marker?.danjiID &&
+                      interactionStateDanjiSummary?.realestate_type === marker?.danjiRealestateType &&
+                      !!interactionStateDanjiSummary?.saedae_count && (
+                        <DanjiMarker.Popper
+                          name={interactionStateDanjiSummary?.string ?? ''}
+                          householdCount={interactionStateDanjiSummary.saedae_count}
+                          suggestCount={interactionStateDanjiSummary.suggest_count ?? 0}
+                          buyListingCount={interactionStateDanjiSummary?.buy_listing_count ?? 0}
+                          rentListingCount={interactionStateDanjiSummary?.rent_listing_count ?? 0}
+                          mapBuyOrRent={mapBuyOrRent}
+                          onClick={() => {}}
+                        />
+                      )}
 
                   {selectedMouseOverDanjiSummary &&
                     selectedMouseOverDanjiSummary?.danji_id === marker?.danjiID &&
@@ -276,7 +294,7 @@ export default function Markers({
           );
         })}
 
-      {/* {schoolMarkers?.map((marker) => (
+      {schoolMarkers?.map((marker) => (
         <DeferredRender key={marker.id}>
           <CustomOverlay
             zIndex={selectedMarker?.id === marker.id ? 100 : 9}
@@ -296,7 +314,7 @@ export default function Markers({
             />
           </CustomOverlay>
         </DeferredRender>
-      ))} */}
+      ))}
 
       {myMarker && mapLevel < 3 && (
         <CustomOverlay

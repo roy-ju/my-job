@@ -34,13 +34,15 @@ export default function useDanjiDetail(depth: number, danjiID?: number) {
 
       if (isListingDetailOpen) return;
 
-      window.Negocio.callbacks.selectMarker({
-        id: `danjiMarker:${danji.danji_id}${danji.type}`,
-        lat,
-        lng,
-        danjiRealestateType: danji.type,
-        danjiID: danji.danji_id,
-      } as ListingDanjiMarker);
+      if (window?.Negocio?.callbacks?.selectMarker) {
+        window.Negocio.callbacks.selectMarker({
+          id: `danjiMarker:${danji.danji_id}${danji.type}`,
+          lat,
+          lng,
+          danjiRealestateType: danji.type,
+          danjiID: danji.danji_id,
+        } as ListingDanjiMarker);
+      }
     }
   }, [danji]);
 

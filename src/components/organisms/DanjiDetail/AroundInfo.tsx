@@ -332,7 +332,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         <div tw="mt-4">
           {convertedCategory.slice(0, sliceNum).map((item, index) => (
             <div
-              tw="flex items-center"
+              tw="flex items-center cursor-pointer"
               ref={(element) => {
                 listRefs.current[index] = element;
               }}
@@ -374,7 +374,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                 />
               )}
               <span tw="ml-2 text-b2 py-[5px]">{item.place_name}</span>
-              <span tw="text-b2 ml-auto text-gray-500 py-[5px]">{getAverageDistance(item.distance)}m</span>
+              <span tw="text-b2 ml-auto py-[5px]">{getAverageDistance(item.distance)}m</span>
             </div>
           ))}
           {convertedCategory.length > 3 &&
