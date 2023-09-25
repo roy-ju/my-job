@@ -47,7 +47,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const [update, setUpdate] = useState(false);
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({
-    SW8: true,
+    HP8: true,
   });
 
   const [selectedIndex, setSelctedIndex] = useState<number>();
@@ -332,7 +332,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
         <div tw="mt-4">
           {convertedCategory.slice(0, sliceNum).map((item, index) => (
             <div
-              tw="flex items-center"
+              tw="flex items-center cursor-pointer"
               ref={(element) => {
                 listRefs.current[index] = element;
               }}
@@ -357,9 +357,14 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               id={item.id}
               key={item.id}
               onClick={() => {
-                if (interactionState.around) {
-                  interactionStore.makeSelectedAround(`aroundMarker:${item.id}`, item.address_name);
+                if (!interactionState.around) {
+                  interactionStore.makeAroundOn();
+                  interactionStore.makeAroundMarker(convertedMarker);
                 }
+
+                setTimeout(() => {
+                  interactionStore.makeSelectedAround(`aroundMarker:${item.id}`, item.address_name);
+                }, 200);
               }}
             >
               {activeCategory.SW8 && (
@@ -369,7 +374,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                 />
               )}
               <span tw="ml-2 text-b2 py-[5px]">{item.place_name}</span>
-              <span tw="text-b2 ml-auto text-gray-500 py-[5px]">{getAverageDistance(item.distance)}m</span>
+              <span tw="text-b2 ml-auto py-[5px]">{getAverageDistance(item.distance)}m</span>
             </div>
           ))}
           {convertedCategory.length > 3 &&

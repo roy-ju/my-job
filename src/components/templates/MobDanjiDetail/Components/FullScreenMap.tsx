@@ -155,7 +155,7 @@ export function FullScreenMap({ type, danji }: { type: string; danji?: GetDanjiD
   return (
     <div tw="flex flex-col w-full max-w-mobile h-full">
       <NavigationHeader>
-        <NavigationHeader.Title>{danji.name}</NavigationHeader.Title>
+        <NavigationHeader.Title>{danji.name}gg</NavigationHeader.Title>
         <Button variant="ghost" tw="p-0" onClick={() => mapButtonStore.makeFalse()}>
           <CloseIcon />
         </Button>
@@ -184,7 +184,8 @@ export function FullScreenMap({ type, danji }: { type: string; danji?: GetDanjiD
                 lng: danji.long,
               }}
             >
-              <MapMarkerSearchItem />
+              <MapMarkerSearchItem style={{ width: '32px', height: '32px', opacity: 0.9 }} tw="animate-bounce" />
+              <div tw="w-8 h-[11px] absolute bottom-0 bg-nego-1000 opacity-20 [border-radius: 50%]" />
             </CustomOverlayV1>
           </NaverMapV1>
         )}
