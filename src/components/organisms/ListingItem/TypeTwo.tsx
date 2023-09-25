@@ -109,17 +109,18 @@ export default function TypeTwo({
         )}
       </div>
 
-      <div tw="w-full flex">
-        <div tw="flex items-center gap-1 break-all line-clamp-1 text-gray-700 text-b2">
-          {convertRangeText({
-            unit: '평',
-            dashStyle: '~',
-            bracket: true,
-            v1: item.pyoung_from,
-            v2: item.pyoung_to,
-          })}
-
-          {` ${item.note}` || ''}
+      <div tw="flex w-full">
+        <div tw="flex items-center gap-1  text-gray-700 text-b2">
+          <div tw="shrink-0">
+            {convertRangeText({
+              unit: '평',
+              dashStyle: '~',
+              bracket: true,
+              v1: item.pyoung_from,
+              v2: item.pyoung_to,
+            })}
+          </div>
+          <div tw="break-all line-clamp-1"> {` ${item.note}` || ''}</div>
         </div>
       </div>
 
