@@ -20,6 +20,11 @@ type DanjiMapButtonStore = {
 
   danjiAroundData: GetDanjiDetailResponse | undefined;
   danjiAroundDetailDefault: keyof BtnState;
+
+  danjiSchoolID?: string;
+  danjiAddress?: string;
+  danjiAroundLat?: string;
+  danjiAroundLng?: string;
 };
 
 export const danjiMapButtonStore = atom<DanjiMapButtonStore>({
@@ -32,6 +37,11 @@ export const danjiMapButtonStore = atom<DanjiMapButtonStore>({
     isShowMap: true,
     danjiAroundData: undefined,
     danjiAroundDetailDefault: 'HP8',
+
+    danjiSchoolID: '',
+    danjiAddress: '',
+    danjiAroundLat: '',
+    danjiAroundLng: '',
   },
   dangerouslyAllowMutability: true,
 });
@@ -80,8 +90,20 @@ export function useDanjiMapButtonStore() {
     setState((prev) => ({ ...prev, danjiAroundData: danji }));
   };
 
+  const makeDanjiSchoolID = (schoolID: string | undefined) => {
+    setState((prev) => ({ ...prev, danjiSchoolID: schoolID }));
+  };
+
   const makeDanjiAroundDetailDefault = (val: keyof BtnState) => {
     setState((prev) => ({ ...prev, danjiAroundDetailDefault: val }));
+  };
+
+  const makeDanjiAroundAddress = (val: string | undefined) => {
+    setState((prev) => ({ ...prev, danjiAddress: val }));
+  };
+
+  const makeDanjiAroundLatLng = (lng: string | undefined, lat: string | undefined) => {
+    setState((prev) => ({ ...prev, danjiAroundLng: lng, danjiAroundLat: lat }));
   };
 
   return {
@@ -92,6 +114,10 @@ export function useDanjiMapButtonStore() {
     isShowMap: state.isShowMap,
     danjiAroundData: state.danjiAroundData,
     danjiAroundDetailDefault: state.danjiAroundDetailDefault,
+    danjiSchoolID: state.danjiSchoolID,
+    danjiAddress: state.danjiAddress,
+    danjiAroundLat: state.danjiAroundLat,
+    danjiAroundLng: state.danjiAroundLng,
     makeTrue,
     makeFalse,
     makeTrueSchool,
@@ -104,5 +130,8 @@ export function useDanjiMapButtonStore() {
     makeHideRoadButton,
     makeBindDanji,
     makeDanjiAroundDetailDefault,
+    makeDanjiSchoolID,
+    makeDanjiAroundAddress,
+    makeDanjiAroundLatLng,
   };
 }

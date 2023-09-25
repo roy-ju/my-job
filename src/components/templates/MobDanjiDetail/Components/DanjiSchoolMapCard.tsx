@@ -13,6 +13,8 @@ import { MobSchoolMarker } from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+import DeferredRender from '@/components/atoms/DeferredRender';
 
 type GetSchoolResponse = {
   school_name: string;
@@ -66,6 +68,8 @@ export default function DanjiSchoolMapCard({
   const [map, setMap] = useState<naver.maps.Map | null>(null);
   const [polygon, setPolygon] = useState<naver.maps.Polygon[]>([]); // 학구도 폴리곤
   const [selectedSchoolId, setSelectedSchoolId] = useState<string>();
+
+  const { danjiSchoolID, makeDanjiSchoolID } = useDanjiMapButtonStore();
 
   const [schoolType, setSchoolType] = useSessionStorage(
     'danji-selected-school',
@@ -285,6 +289,40 @@ export default function DanjiSchoolMapCard({
     }
   }, [map, schoolRef]);
 
+  useEffect(() => {
+    async function init() {
+      if (danjiSchoolID && map) {
+        await setSelectedSchoolId(danjiSchoolID);
+        setTimeout(() => renderPolygon(map, danjiSchoolID), 300);
+
+        if (listRefs?.current) {
+          const index = list.findIndex((ele) => ele.school_id === danjiSchoolID);
+          const initialSchool = list.find((ele) => ele.school_id === danjiSchoolID);
+
+          setTimeout(() => listRefs.current[index].scrollIntoView(true), 300);
+
+          if (index && initialSchool) {
+            map.panTo(new naver.maps.LatLng(initialSchool?.lat, initialSchool?.long), {
+              easing: 'easeOutCubic',
+              duration: 500,
+            });
+          }
+        }
+      }
+    }
+
+    init();
+  }, [danjiSchoolID, map, listRefs?.current]);
+
+  useEffect(
+    () => () => {
+      makeDanjiSchoolID(undefined);
+      setSelectedSchoolId(undefined);
+      removePolygon();
+    },
+    [],
+  );
+
   if (!lat || !lng) return null;
 
   return (
@@ -302,34 +340,42 @@ export default function DanjiSchoolMapCard({
           }}
           style={{ width: '100%', height: '100%' }}
         >
-          <CustomOverlayV1
-            key={`${lat}${lng}`}
-            position={{
-              lat: +lat,
-              lng: +lng,
-            }}
-            tw="z-[50]"
-          >
-            <MapMarkerSearchItem />
-          </CustomOverlayV1>
           {list.length > 0 &&
             list.map((item, index) => (
-              <CustomOverlayV1
-                anchor="bottom-left"
-                key={`${item.school_id}${item.school_type}${item.lat}${item.long}`}
-                position={{
-                  lat: +item.lat,
-                  lng: +item.long,
-                }}
-                tw="z-[50]"
-              >
-                <MobSchoolMarker
-                  type={convertSchoolType(item.school_type)}
-                  name={convertSchoolName(item.school_type, item.school_name)}
-                  onClick={() => onClickSchoolMarker(item, index)}
-                />
-              </CustomOverlayV1>
+              <DeferredRender key={`${item.school_id}${item.school_type}${item.lat}${item.long}`}>
+                <CustomOverlayV1
+                  key={`${item.school_id}${item.school_type}${item.lat}${item.long}`}
+                  anchor="bottom-left"
+                  position={{
+                    lat: +item.lat,
+                    lng: +item.long,
+                  }}
+                  zIndex={item.school_id === selectedSchoolId ? 40 : 20}
+                >
+                  <MobSchoolMarker
+                    type={convertSchoolType(item.school_type)}
+                    name={convertSchoolName(item.school_type, item.school_name)}
+                    onClick={() => onClickSchoolMarker(item, index)}
+                    selected={item.school_id === selectedSchoolId}
+                  />
+                </CustomOverlayV1>
+              </DeferredRender>
             ))}
+
+          <DeferredRender key={`${lat}${lng}`}>
+            <CustomOverlayV1
+              key="map-marker"
+              position={{
+                lat: +lat,
+                lng: +lng,
+              }}
+              tw="relative"
+              zIndex={30}
+            >
+              <MapMarkerSearchItem style={{ width: '32px', height: '32px', opacity: 0.9 }} tw="animate-bounce" />
+              <div tw="w-8 h-[11px] absolute bottom-0 bg-nego-1000 opacity-20 [border-radius: 50%]" />
+            </CustomOverlayV1>
+          </DeferredRender>
         </NaverMapV1>
       </div>
       <Stack

@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 export type CustomOverlayDanjiProps = {
   id?: string;
   className?: string;
+  zIndex?: number;
   position: {
     lat: number;
     lng: number;
@@ -71,6 +72,7 @@ export default function CustomOverlayDanji({
   position,
   children,
   centerDanji,
+  zIndex,
 }: CustomOverlayDanjiProps) {
   const map = useContext(NaverMapContext);
   const container = useRef(document.createElement('div'));
@@ -145,6 +147,12 @@ export default function CustomOverlayDanji({
   useEffect(() => {
     if (className) container.current.className = className;
   }, [className]);
+
+  useEffect(() => {
+    if (container?.current) {
+      container.current.style.zIndex = `${zIndex}`;
+    }
+  }, [zIndex]);
 
   return ReactDOM.createPortal(children, container.current);
 }
