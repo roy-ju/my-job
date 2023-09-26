@@ -290,6 +290,9 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               interactionStore.makeAroundOff();
               interactionStore.makeDanjiAroundPlaceName('');
             } else {
+              interactionStore.makeSchoolOff();
+              interactionStore.makeSelectedSchoolMarkerDefault();
+
               interactionStore.makeAroundOn();
               interactionStore.makeAroundMarker(convertedMarker);
             }
@@ -367,6 +370,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                 if (!interactionState.around) {
                   interactionStore.makeAroundOn();
                   interactionStore.makeAroundMarker(convertedMarker);
+                  interactionStore.makeSchoolOff();
+                  interactionStore.makeSelectedSchoolMarkerDefault();
                 }
 
                 interactionStore.makeDanjiAroundPlaceName(item.place_name);
