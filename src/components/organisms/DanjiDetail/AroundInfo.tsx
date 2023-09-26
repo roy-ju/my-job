@@ -90,7 +90,12 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
   }, [activeCategory, update]);
 
-  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [update]);
+  const convertedMarker = useMemo(() => {
+    if (activeCategory.SW8) {
+      return markers;
+    }
+    return convertedArrForMarker([...markers]);
+  }, [update, activeCategory]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
@@ -283,6 +288,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
           onClick={() => {
             if (interactionState.around) {
               interactionStore.makeAroundOff();
+              interactionStore.makeDanjiAroundPlaceName('');
             } else {
               interactionStore.makeAroundOn();
               interactionStore.makeAroundMarker(convertedMarker);
@@ -340,18 +346,19 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                 index === 0
                   ? tw`[border-top: 1px solid #F4F6FA] [border-bottom: 1px solid #F4F6FA] px-4 py-[3px]`
                   : tw`[border-bottom: 1px solid #F4F6FA] px-4 py-[3.5px]`,
-                (item.address_name === interactionState.selectedAroundMarker?.addressName ||
-                  convertPlaceName({ category: item.category_group_code, name: item.place_name }) ===
-                    convertPlaceName({
-                      category: interactionState.selectedAroundMarker?.type,
-                      name:
-                        typeof interactionState.selectedAroundMarker?.place === 'string'
-                          ? interactionState.selectedAroundMarker?.place
-                          : interactionState?.selectedAroundMarker?.place
-                          ? interactionState?.selectedAroundMarker?.place[0]
-                          : '',
-                    })) &&
-                  tw`bg-[#F3F0FF]`,
+                (interactionState.danjiAroundPlaceName
+                  ? item.place_name === interactionState.danjiAroundPlaceName
+                  : item.address_name === interactionState.selectedAroundMarker?.addressName ||
+                    convertPlaceName({ category: item.category_group_code, name: item.place_name }) ===
+                      convertPlaceName({
+                        category: interactionState.selectedAroundMarker?.type,
+                        name:
+                          typeof interactionState.selectedAroundMarker?.place === 'string'
+                            ? interactionState.selectedAroundMarker?.place
+                            : interactionState?.selectedAroundMarker?.place
+                            ? interactionState?.selectedAroundMarker?.place[0]
+                            : '',
+                      })) && tw`bg-[#F3F0FF]`,
                 interactionState.around && tw`cursor-pointer`,
               ]}
               id={item.id}
@@ -361,6 +368,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                   interactionStore.makeAroundOn();
                   interactionStore.makeAroundMarker(convertedMarker);
                 }
+
+                interactionStore.makeDanjiAroundPlaceName(item.place_name);
 
                 setTimeout(() => {
                   interactionStore.makeSelectedAround(`aroundMarker:${item.id}`, item.address_name);

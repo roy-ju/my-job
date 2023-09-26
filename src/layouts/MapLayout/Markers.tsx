@@ -10,7 +10,7 @@ import DeferredRender from '@/components/atoms/DeferredRender';
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
 import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
 import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
-import { schoolAroundState } from '@/states/danjiButton';
+import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
 
 import { useRouter as useNextRouter } from 'next/router';
 import {
@@ -56,7 +56,10 @@ export default function Markers({
 }: MarkersProps) {
   const router = useNextRouter();
 
-  const { school, around, selectedAroundMarker, selectedSchoolMarker } = useRecoilValue(schoolAroundState);
+  const { school, around, selectedAroundMarker, selectedSchoolMarker, danjiAroundPlaceName, activeCategory } =
+    useRecoilValue(schoolAroundState);
+
+  const interactionAction = useDanjiInteraction({ danjiData: undefined });
 
   if (school || around) {
     return (
@@ -80,8 +83,15 @@ export default function Markers({
                       place={item.place}
                       onClick={() => {
                         item.onClick?.call(item);
+                        interactionAction.makeDanjiAroundPlaceName('');
                       }}
-                      selected={selectedAroundMarker?.id === item.id}
+                      selected={
+                        activeCategory === 'SW8'
+                          ? typeof item.place === 'string' && danjiAroundPlaceName
+                            ? danjiAroundPlaceName === item?.place?.split(' ')[0]
+                            : selectedAroundMarker?.id === item.id
+                          : selectedAroundMarker?.id === item.id
+                      }
                     />
                   </CustomOverlay>
                 </DeferredRender>
@@ -104,8 +114,15 @@ export default function Markers({
                     place={item.place}
                     onClick={() => {
                       item.onClick?.call(item);
+                      interactionAction.makeDanjiAroundPlaceName('');
                     }}
-                    selected={selectedAroundMarker?.id === item.id}
+                    selected={
+                      activeCategory === 'SW8'
+                        ? typeof item.place === 'string' && danjiAroundPlaceName
+                          ? danjiAroundPlaceName === item?.place?.split(' ')[0]
+                          : selectedAroundMarker?.id === item.id
+                        : selectedAroundMarker?.id === item.id
+                    }
                   />
                 </CustomOverlay>
               </DeferredRender>
