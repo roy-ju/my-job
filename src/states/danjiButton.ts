@@ -61,6 +61,7 @@ export const schoolAroundState = atom<{
   selectedAroundMarker?: AroundMarker;
   schoolMarkers: SchoolMarker[];
   aroundMarkers: AroundMarkers[];
+  danjiAroundPlaceName?: string;
 }>({
   key: `negocio_danji_interaction_map/${v1()}`,
   default: {
@@ -72,6 +73,7 @@ export const schoolAroundState = atom<{
     selectedAroundMarker: undefined,
     schoolMarkers: [],
     aroundMarkers: [],
+    danjiAroundPlaceName: undefined,
   },
   dangerouslyAllowMutability: true,
 });
@@ -130,80 +132,6 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
       }));
 
       callback?.();
-
-      // if (danjiData) {
-      //   window.Negocio.callbacks.selectSchoolInteraction({
-      //     id: `danjiMarker:${danjiData.danji_id}${danjiData.type}`,
-      //     lat: danjiData.lat,
-      //     lng: danjiData.long,
-      //   });
-
-      //   const elementrySchoolRes = await getDanjiSchoolsMarker({
-      //     danjiId: danjiData?.danji_id,
-      //     realestateType: danjiData?.type,
-      //     schoolTypes: '1',
-      //   });
-
-      //   if (elementrySchoolRes?.list) {
-      //     setState((prev) => {
-      //       const ele = elementrySchoolRes.list.map((item) => ({
-      //         id: item.school_id,
-      //         name: item.school_name.replace('등학교', ''),
-      //         lat: item.lat,
-      //         lng: item.long,
-      //         type: 'elementary',
-      //       }));
-      //       return {
-      //         ...prev,
-      //         schoolMarkers: [...prev.schoolMarkers, ...ele],
-      //       };
-      //     });
-      //   }
-
-      //   const middleSchoolRes = await getDanjiSchoolsMarker({
-      //     danjiId: danjiData?.danji_id,
-      //     realestateType: danjiData?.type,
-      //     schoolTypes: '2',
-      //   });
-
-      //   if (middleSchoolRes?.list) {
-      //     setState((prev) => {
-      //       const middle = middleSchoolRes.list.map((item) => ({
-      //         id: item.school_id,
-      //         name: item.school_name,
-      //         lat: item.lat,
-      //         lng: item.long,
-      //         type: 'middle',
-      //       }));
-      //       return {
-      //         ...prev,
-      //         schoolMarkers: [...prev.schoolMarkers, ...middle],
-      //       };
-      //     });
-      //   }
-
-      //   const highSchoolRes = await getDanjiSchoolsMarker({
-      //     danjiId: danjiData?.danji_id,
-      //     realestateType: danjiData?.type,
-      //     schoolTypes: '3',
-      //   });
-
-      //   if (highSchoolRes?.list) {
-      //     setState((prev) => {
-      //       const high = highSchoolRes.list.map((item) => ({
-      //         id: item.school_id,
-      //         name: item.school_name.replace('등학교', ''),
-      //         lat: item.lat,
-      //         lng: item.long,
-      //         type: 'high',
-      //       }));
-      //       return {
-      //         ...prev,
-      //         schoolMarkers: [...prev.schoolMarkers, ...high],
-      //       };
-      //     });
-      //   }
-      // }
     }
   };
 
@@ -292,12 +220,17 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
     setState((prev) => ({ ...prev, aroundMarkers: [] }));
   };
 
+  const makeDanjiAroundPlaceName = (val?: string) => {
+    setState((prev) => ({ ...prev, danjiAroundPlaceName: val }));
+  };
+
   return {
     isSchoolOn: state.school,
     isAroundOn: state.around,
     schoolMarkers: state.schoolMarkers,
     danji: state.danjiData,
     activeCategory: state.activeCategory,
+    danjiAroundPlaceName: state.danjiAroundPlaceName,
     makeSchoolOn,
     makeSchoolOff,
     makeAroundOn,
@@ -314,5 +247,6 @@ export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanj
     makeSelectedAroundMarkerDefault,
     makeAroundMarker,
     makeAroundMarkerDefault,
+    makeDanjiAroundPlaceName,
   };
 }

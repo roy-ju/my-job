@@ -773,6 +773,7 @@ export default function useMapLayout() {
       interactionAction.makeAroundMarkerDefault();
       interactionAction.makeSelectedAroundMarkerDefault();
       interactionAction.makeSelectedSchoolMarkerDefault();
+      interactionAction.makeDanjiAroundPlaceName('');
 
       setSelectedInteractionMarker(null);
       lastSearchItem.current = null;
