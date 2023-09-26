@@ -1,8 +1,5 @@
 name: Production Build
-on:
-  release:
-    types: [published]
-  workflow_dispatch:
+on: workflow_dispatch
 env:
   AWS_REGION: ap-northeast-2
   ECR_REGISTRY: 430360552021.dkr.ecr.ap-northeast-2.amazonaws.com
