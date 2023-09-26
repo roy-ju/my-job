@@ -1,8 +1,6 @@
 name: Test Build
-on:
-  release:
-    types: [published]
-  workflow_dispatch:
+on: workflow_dispatch
+
 env:
   AWS_REGION: ap-northeast-2
   ECR_REGISTRY: 430360552021.dkr.ecr.ap-northeast-2.amazonaws.com
@@ -70,7 +68,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: tag_${{github.ref_name}}-actor_${{github.actor}}-sha_${{github.sha}}-id_${{github.run_id}}
+          IMAGE_TAG: actor_${{github.actor}}-sha_${{github.sha}}-id_${{github.run_id}}
         run: |
           echo -e " \
           NEXT_PUBLIC_NCP_CLIENT_ID=${{ secrets.NCP_CLIENT_ID }} \n \
