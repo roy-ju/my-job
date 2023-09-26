@@ -51,6 +51,7 @@ export default function AddressDetailWrraper() {
 
   const getErrorMessage = () => {
     if (router.query.errorCode === '1036') return undefined;
+    if (router.query.errorCode === '2005') return '상세주소가 정확하지 않습니다. 확인 후 다시 시도해 주세요.';
     if (router.query.errorCode === '10000') return '상세주소가 정확하지 않습니다. 확인 후 다시 시도해 주세요.';
     if (router.query.errorCode) return '인터넷 등기소에서 응답을 받을 수 없습니다. 잠시 후 다시 시도해주세요.';
     return undefined;

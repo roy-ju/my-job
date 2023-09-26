@@ -29,11 +29,13 @@ export default function AddressVerifyingWrraper() {
 
     const addressData = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
     let addressDetail = '';
+
     if (dong) {
-      addressDetail += `${dong}동 `;
+      addressDetail += `${(dong as string).replaceAll('동', '')}동`;
     }
+
     if (ho) {
-      addressDetail += `${ho}호`;
+      addressDetail += `${(ho as string).replaceAll('호', '')}호`;
     }
 
     const res = await verifyAddress({
@@ -53,7 +55,8 @@ export default function AddressVerifyingWrraper() {
 
     if (res?.address_list?.length === 1) {
       const verifiedAddress = res.address_list[0];
-      const res2 = await searchAddress(verifiedAddress.full_road_name_address);
+      const res2 = await searchAddress(addressData.roadAddressName);
+
       if (res2 && res2?.documents[0].address?.b_code) {
         await verifyOwnership({
           realestate_unique_number: verifiedAddress.realestate_unique_number,
