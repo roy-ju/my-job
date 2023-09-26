@@ -1289,6 +1289,8 @@ export default function useMapLayout() {
     }
   }, [interactionState.around, mapState.naverMap, interactionSelectedMarker]);
 
+  
+
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -1344,5 +1346,6 @@ export default function useMapLayout() {
     selectedMouseOverDanjiSummary,
     searchResultMarker,
     aroundMarkers,
+    
   };
 }

@@ -65,7 +65,6 @@ function MapWrapper({
     interactionSelectedMarker,
     aroundMarkers,
     bubjungdongCode,
-
     ...props
   } = useMapLayout();
 

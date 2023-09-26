@@ -57,6 +57,10 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         interactionStore.makeSchoolOff();
       } else {
         await interactionStore.makeSchoolOn();
+        interactionStore.makeAroundOff();
+        interactionStore.makeAroundMarkerDefault();
+        interactionStore.makeSelectedAroundDefault();
+        interactionStore.makeDanjiAroundPlaceName('');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -75,6 +79,11 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         await interactionStore.makeSchoolOn(() =>
           setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200),
         );
+
+        interactionStore.makeAroundOff();
+        interactionStore.makeAroundMarkerDefault();
+        interactionStore.makeSelectedAroundDefault();
+        interactionStore.makeDanjiAroundPlaceName('');
       } else {
         setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200);
       }
