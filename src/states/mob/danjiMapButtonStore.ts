@@ -23,6 +23,7 @@ type DanjiMapButtonStore = {
 
   danjiSchoolID?: string;
   danjiAddress?: string;
+  danjiPlace?: string;
   danjiAroundLat?: string;
   danjiAroundLng?: string;
 };
@@ -42,6 +43,7 @@ export const danjiMapButtonStore = atom<DanjiMapButtonStore>({
     danjiAddress: '',
     danjiAroundLat: '',
     danjiAroundLng: '',
+    danjiPlace: '',
   },
   dangerouslyAllowMutability: true,
 });
@@ -102,6 +104,10 @@ export function useDanjiMapButtonStore() {
     setState((prev) => ({ ...prev, danjiAddress: val }));
   };
 
+  const makeDanjiAroundPlace = (val: string | undefined) => {
+    setState((prev) => ({ ...prev, danjiPlace: val }));
+  };
+
   const makeDanjiAroundLatLng = (lng: string | undefined, lat: string | undefined) => {
     setState((prev) => ({ ...prev, danjiAroundLng: lng, danjiAroundLat: lat }));
   };
@@ -116,6 +122,7 @@ export function useDanjiMapButtonStore() {
     danjiAroundDetailDefault: state.danjiAroundDetailDefault,
     danjiSchoolID: state.danjiSchoolID,
     danjiAddress: state.danjiAddress,
+    danjiPlace: state.danjiPlace,
     danjiAroundLat: state.danjiAroundLat,
     danjiAroundLng: state.danjiAroundLng,
     makeTrue,
@@ -133,5 +140,6 @@ export function useDanjiMapButtonStore() {
     makeDanjiSchoolID,
     makeDanjiAroundAddress,
     makeDanjiAroundLatLng,
+    makeDanjiAroundPlace,
   };
 }

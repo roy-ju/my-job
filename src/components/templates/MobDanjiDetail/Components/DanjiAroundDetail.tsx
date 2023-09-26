@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
 
 import { motion } from 'framer-motion';
 import { cloneDeep } from 'lodash';
@@ -91,9 +90,11 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     danjiAroundDetailDefault,
     makeDanjiAroundDetailDefault,
     danjiAddress,
+    danjiPlace,
     danjiAroundLat,
     danjiAroundLng,
     makeDanjiAroundAddress,
+    makeDanjiAroundPlace,
     makeDanjiAroundLatLng,
   } = useDanjiMapButtonStore();
 
@@ -144,6 +145,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({});
   const [addressName, setAddressName] = useState<string>('');
+  const [placeName, setPlaceName] = useState<string>('');
   const [tableIndex, setTableIndex] = useState<number>();
   const [isClick, setIsClick] = useState<boolean>(false);
 
@@ -154,7 +156,12 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
   }, [update, activeCategory]);
 
-  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [update]);
+  const convertedMarker = useMemo(() => {
+    if (activeCategory.SW8) {
+      return markers;
+    }
+    return convertedArrForMarker([...markers]);
+  }, [update, activeCategory]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
@@ -167,7 +174,9 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
 
     setTableIndex(undefined);
     setAddressName('');
+    setPlaceName('');
     makeDanjiAroundAddress('');
+    makeDanjiAroundPlace('');
   };
 
   const handleAddressName = (val: string) => {
@@ -176,7 +185,11 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     setIsClick(true);
   };
 
-  const getStylingFuction = (adName: string, index: number) => {
+  const handlePlaceName = (val: string) => {
+    setPlaceName(val);
+  };
+
+  const getStylingFuction = (plName: string, adName: string, index: number) => {
     if (typeof tableIndex === 'number') {
       if (index === 0 && index === tableIndex) {
         return {
@@ -195,6 +208,13 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
 
       return {
         ...commonStyle,
+      };
+    }
+
+    if (placeName === plName && typeof tableIndex !== 'number') {
+      return {
+        ...commonStyle,
+        background: '#F1EEFF',
       };
     }
 
@@ -218,37 +238,37 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
   };
 
   useEffect(() => {
-    if (danjiAddress) {
+    if (danjiAddress && danjiPlace) {
       setAddressName(danjiAddress);
+      setPlaceName(danjiPlace);
       setIsClick(true);
     }
-  }, [danjiAddress]);
+  }, [danjiAddress, danjiPlace]);
 
   useEffect(() => {
     if (listRefs?.current && typeof tableIndex === 'number') {
       if (tableIndex >= 0) {
         listRefs.current[tableIndex].scrollIntoView(true);
-        return;
-      }
-    }
-
-    if (isClick && listRefs && addressName) {
-      const firstIndex = convertedCategory.findIndex((item) => item.address_name === addressName);
-
-      if (firstIndex >= 0) {
-        listRefs.current[firstIndex].scrollIntoView(true);
       }
     }
   }, [isClick, listRefs?.current, addressName, tableIndex]);
 
   useEffect(() => {
+    if (placeName && listRefs?.current) {
+      const firstIndex = convertedCategory.findIndex((item) => item.place_name === placeName);
+      if (firstIndex >= 0) {
+        listRefs.current[firstIndex].scrollIntoView(true);
+        return;
+      }
+    }
+
     if (addressName && listRefs?.current) {
       const firstIndex = convertedCategory.findIndex((item) => item.address_name === addressName);
       if (firstIndex >= 0) {
         listRefs.current[firstIndex].scrollIntoView(true);
       }
     }
-  }, [addressName, listRefs?.current, convertedCategory]);
+  }, [addressName, placeName, listRefs?.current, convertedCategory]);
 
   useEffect(() => {
     let page = 1;
@@ -327,15 +347,6 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     };
   }, [activeCategory, danji]);
 
-  useEffect(
-    () => () => {
-      makeFalseAround();
-      makeBindDanji(undefined);
-      makeDanjiAroundDetailDefault('HP8');
-    },
-    [],
-  );
-
   useEffect(() => {
     setActiveCategory({ [danjiAroundDetailDefault]: true });
 
@@ -388,10 +399,15 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
 
   useEffect(
     () => () => {
-      setAddressName('');
+      makeFalseAround();
+      makeBindDanji(undefined);
+      makeDanjiAroundDetailDefault('HP8');
       setIsClick(false);
       setTableIndex(undefined);
+      setAddressName('');
+      setPlaceName('');
       makeDanjiAroundAddress('');
+      makeDanjiAroundPlace('');
       makeDanjiAroundLatLng(undefined, undefined);
     },
     [],
@@ -415,12 +431,15 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
 
       <div tw="relative flex-1 w-full max-w-mobile">
         <DanjiAroundMapCard
+          activeIndex={activeIndex}
           aroundList={convertedMarker}
           addressName={addressName}
           isCircle
           danji={danji}
           setM={setMap}
           handleAddressName={handleAddressName}
+          handlePlaceName={handlePlaceName}
+          placeName={placeName}
           defaultMapSize="100%"
           danjiAroundLat={danjiAroundLat}
           danjiAroundLng={danjiAroundLng}
@@ -502,7 +521,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
               {convertedCategory.map((item, index) => (
                 <Stack
                   style={{
-                    ...getStylingFuction(item.address_name, index),
+                    ...getStylingFuction(item.place_name, item.address_name, index),
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -513,7 +532,9 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
                     listRefs.current[index] = element;
                   }}
                   onClick={() => {
+                    console.log(item);
                     setAddressName(item.address_name);
+                    setPlaceName(item.place_name);
                     setTableIndex(index);
 
                     if (typeof item.x === 'string' && typeof item.x === 'string') {
