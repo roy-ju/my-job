@@ -34,18 +34,18 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
       return NextResponse.redirect(`${request.nextUrl.origin}/m`);
     }
   } else {
-    const segments = request.nextUrl.pathname.split('/');
+    // const segments = request.nextUrl.pathname.split('/');
 
-    const firstSegment = segments[1];
+    // const firstSegment = segments[1];
 
-    if (firstSegment === 'm') {
-      const lastSegment = segments[segments.length - 1];
+    // if (firstSegment === 'm') {
+    //   const lastSegment = segments[segments.length - 1];
 
-      if (lastSegment !== 'm') {
-        return NextResponse.redirect(`${request.nextUrl.origin}/${lastSegment}${request.nextUrl.search}`);
-      }
-      return NextResponse.redirect(`${request.nextUrl.origin}`);
-    }
+    //   if (lastSegment !== 'm') {
+    //     return NextResponse.redirect(`${request.nextUrl.origin}/${lastSegment}${request.nextUrl.search}`);
+    //   }
+    //   return NextResponse.redirect(`${request.nextUrl.origin}`);
+    // }
   }
 
   return NextResponse.next();

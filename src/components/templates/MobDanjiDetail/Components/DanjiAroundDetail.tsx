@@ -4,19 +4,26 @@
 import { motion } from 'framer-motion';
 import { cloneDeep } from 'lodash';
 import { useEffect, useMemo, useRef, useState, MouseEvent } from 'react';
-
 import { NavigationHeader } from '@/components/molecules';
 import CloseIcon from '@/assets/icons/close_18.svg';
 import { Button } from '@/components/atoms';
 import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
-
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
-import styled from '@emotion/styled';
 import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
+import { styled } from 'twin.macro';
 import DanjiAroundMapCard from './DanjiAroundMapCard';
+
+const commonStyle = {
+  paddingTop: '8px',
+  paddingBottom: '8px',
+  paddingLeft: '16px',
+  paddingRight: '16px',
+  cursor: 'pointer',
+  borderBottom: '1px solid #E4E4EF',
+};
 
 type BtnState = {
   SW8?: boolean;
@@ -27,7 +34,17 @@ type BtnState = {
   PO3?: boolean;
 };
 
-const ButtonsWrraper = styled('div')({});
+const ButtonsWrraper = styled.div`
+  display: 'flex';
+  align-items: 'center';
+  column-gap: '8px';
+  padding-top: 16px;
+  padding-bottom: 16px;
+  overflow-x: scroll;
+  z-index: 130;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 1px;
+`;
 
 const buttonList: { id: keyof BtnState; korTitle: string }[] = [
   { id: 'SW8', korTitle: '지하철' },
@@ -41,9 +58,7 @@ const buttonList: { id: keyof BtnState; korTitle: string }[] = [
 const Wrapper = styled(motion.div)({
   display: 'flex',
   flexDirection: 'column',
-  // position: 'fixed',
   zIndex: 1,
-  // bottom: 0,
   left: 'auto',
   right: 'auto',
   borderTopLeftRadius: '20px',
@@ -125,7 +140,6 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
 
   const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);
   const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
-
   const [update, setUpdate] = useState(false);
   const [nodata, setNodata] = useState<boolean>();
   const [activeCategory, setActiveCategory] = useState<BtnState>({});
@@ -151,6 +165,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     setCategoryList([]);
     setMarkers([]);
 
+    setTableIndex(undefined);
     setAddressName('');
     makeDanjiAroundAddress('');
   };
@@ -165,70 +180,40 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     if (typeof tableIndex === 'number') {
       if (index === 0 && index === tableIndex) {
         return {
+          ...commonStyle,
           background: '#F1EEFF',
-          borderTop: '1px solid  #E4E4EF',
-          borderBottom: '1px solid  #E4E4EF',
-          paddingTop: '8px',
-          paddingBottom: '8px',
-          paddingLeft: '16px',
-          paddingRight: '16px',
-          cursor: 'pointer',
+          borderTop: '1px solid #E4E4EF',
         };
       }
 
       if (index !== 0 && index === tableIndex) {
         return {
+          ...commonStyle,
           background: '#F1EEFF',
-          borderBottom: '1px solid  #E4E4EF',
-          paddingTop: '8px',
-          paddingBottom: '8px',
-          paddingLeft: '16px',
-          paddingRight: '16px',
-          cursor: 'pointer',
         };
       }
 
       return {
-        borderBottom: '1px solid  #E4E4EF',
-        paddingTop: '8px',
-        paddingBottom: '8px',
-        paddingLeft: '16px',
-        paddingRight: '16px',
-        cursor: 'pointer',
+        ...commonStyle,
       };
     }
 
     if (addressName === adName && typeof tableIndex !== 'number') {
       return {
+        ...commonStyle,
         background: '#F1EEFF',
-        borderBottom: '1px solid  #E4E4EF',
-        paddingTop: '8px',
-        paddingBottom: '8px',
-        paddingLeft: '16px',
-        paddingRight: '16px',
-        cursor: 'pointer',
       };
     }
 
     if (index === 0) {
       return {
-        borderTop: '1px solid  #E4E4EF',
-        borderBottom: '1px solid  #E4E4EF',
-        paddingTop: '8px',
-        paddingBottom: '8px',
-        paddingLeft: '16px',
-        paddingRight: '16px',
-        cursor: 'pointer',
+        ...commonStyle,
+        borderTop: '1px solid #E4E4EF',
       };
     }
 
     return {
-      borderBottom: '1px solid  #E4E4EF',
-      paddingTop: '8px',
-      paddingBottom: '8px',
-      paddingLeft: '16px',
-      paddingRight: '16px',
-      cursor: 'pointer',
+      ...commonStyle,
     };
   };
 
