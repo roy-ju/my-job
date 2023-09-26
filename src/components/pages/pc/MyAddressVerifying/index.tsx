@@ -48,11 +48,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     const addressData = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
     let addressDetail = '';
 
-    if (dong) {
+    if (dong && ho) {
+      addressDetail += `${(dong as string).replaceAll('동', '')}동 ${(ho as string).replaceAll('호', '')}호`;
+    }
+
+    if (dong && !ho) {
       addressDetail += `${(dong as string).replaceAll('동', '')}동`;
     }
 
-    if (ho) {
+    if (!dong && ho) {
       addressDetail += `${(ho as string).replaceAll('호', '')}호`;
     }
 
