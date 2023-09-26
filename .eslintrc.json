@@ -47,5 +47,5 @@
     "consistent-return": "off",
     "react/no-danger": "off"
   },
-  "ignorePatterns": ["*.config.js", "**/*.d.ts"]
+  "ignorePatterns": ["*.config.js", "**/*.d.ts", "src/utils/MarkerClustering.js"]
 }
