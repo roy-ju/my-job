@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-return-assign */
 
@@ -42,6 +40,7 @@ type AroundListType = {
 const Box = styled.div``;
 
 export default function DanjiAroundMapCard({
+  activeIndex,
   aroundList,
   addressName,
   defaultMapSize = '190px',
@@ -54,7 +53,10 @@ export default function DanjiAroundMapCard({
   danji,
   setM,
   handleAddressName,
+  handlePlaceName,
+  placeName,
 }: {
+  activeIndex?: number;
   aroundList: AroundListType;
   addressName: string;
   danji?: GetDanjiDetailResponse;
@@ -67,9 +69,10 @@ export default function DanjiAroundMapCard({
   getPlaceName?: (name: string | { placeName: string; distance: string }[]) => void;
   setM?: Dispatch<React.SetStateAction<naver.maps.Map | null | undefined>>;
   handleAddressName?: (val: string) => void;
+  handlePlaceName?: (val: string) => void;
+  placeName?: string;
 }) {
   const [map, setMap] = useState<naver.maps.Map | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>();
 
   const minZoom = useMemo(() => getZoomByMeters(20000), []);
   const maxZoom = useMemo(() => getZoomByMeters(20), []);
@@ -155,20 +158,12 @@ export default function DanjiAroundMapCard({
   }, [map]);
 
   useEffect(() => {
-    setSelectedIndex(null);
-  }, [aroundList]);
-
-  useEffect(() => {
-    if (aroundList && addressName) {
-      const firstIndex = aroundList.findIndex((item) => item.address_name === addressName);
-
-      setSelectedIndex(firstIndex);
-
-      if (danjiAroundLat && danjiAroundLng) {
-        map?.morph({ lat: Number(danjiAroundLat), lng: Number(danjiAroundLng) }, 17);
-      }
+    if (danjiAroundLat && danjiAroundLng) {
+      map?.morph({ lat: Number(danjiAroundLat), lng: Number(danjiAroundLng) }, 17);
     }
-  }, [addressName, aroundList]);
+  }, [danjiAroundLat, danjiAroundLng]);
+
+  console.log(aroundList);
 
   if (!danji) return null;
 
@@ -188,7 +183,7 @@ export default function DanjiAroundMapCard({
       }}
     >
       {aroundList.length > 0 &&
-        aroundList.map((item, index) => {
+        aroundList.map((item) => {
           if (typeof item.distance === 'string' && typeof item.place_name === 'string') {
             return (
               <CustomOverlayDanji
@@ -206,18 +201,24 @@ export default function DanjiAroundMapCard({
                     handleAddressName
                       ? () => {
                           handleAddressName(item.address_name);
+
                           if (typeof item.x === 'string' && typeof item.x === 'string') {
                             map?.morph({ lng: Number(item.x), lat: Number(item.y) }, 17);
                           } else {
                             map?.morph({ lng: Number(item.x[0]), lat: Number(item.y[0]) }, 17);
                           }
-                          setSelectedIndex(index);
+
+                          handlePlaceName?.('');
                         }
                       : () => {}
                   }
                   tw="flex"
                   css={
-                    handleAddressName
+                    activeIndex === 0
+                      ? item.place_name.split(' ')[0] === placeName
+                        ? [tw`relative [z-index: 150] animate-bounce`]
+                        : [tw`relative [z-index: 140]`]
+                      : handleAddressName
                       ? item.address_name === addressName
                         ? [tw`relative [z-index: 150] animate-bounce`]
                         : [tw`relative [z-index: 140]`]
@@ -225,11 +226,32 @@ export default function DanjiAroundMapCard({
                   }
                 >
                   {renderMarker(item.category_group_code, item.place_name, 0, item.distance)}
-                  {zoomLevel && zoomLevel >= 17 && (
-                    <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
-                      <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
-                    </div>
-                  )}
+
+                  {activeIndex === 0
+                    ? placeName &&
+                      item.place_name.split(' ')[0] === placeName && (
+                        <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+                          <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
+                        </div>
+                      )
+                    : placeName
+                    ? item.place_name === placeName && (
+                        <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+                          <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
+                        </div>
+                      )
+                    : addressName
+                    ? item.address_name === addressName && (
+                        <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+                          <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
+                        </div>
+                      )
+                    : zoomLevel &&
+                      zoomLevel >= 17 && (
+                        <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+                          <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
+                        </div>
+                      )}
                 </Box>
               </CustomOverlayDanji>
             );
@@ -267,7 +289,7 @@ export default function DanjiAroundMapCard({
                           map?.morph({ lng: Number(item.x[0]), lat: Number(item.y[0]) }, 17);
                         }
 
-                        setSelectedIndex(index);
+                        handlePlaceName?.('');
                       }
                     : () => {}
                 }
@@ -281,23 +303,37 @@ export default function DanjiAroundMapCard({
                 tw="flex"
               >
                 {renderMarker(item.category_group_code, array, item.x.length)}
-                {item.category_group_code === KakaoMapCategoryCode.SUBWAY
-                  ? zoomLevel &&
-                    zoomLevel >= 17 && (
-                      <div tw="bg-white absolute rounded-[26px] h-[27px] left-[0px] pl-8">
-                        <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
-                          {item.place_name[0]}
-                        </span>
-                      </div>
-                    )
-                  : zoomLevel &&
-                    zoomLevel >= 17 && (
-                      <div tw="bg-white absolute rounded-[26px] h-[27px] left-[0px] bottom-[23px] pl-8">
-                        <span tw="text-info font-bold pr-3 whitespace-nowrap text-gray-1000">
-                          {item.place_name[0]} 외 {item.place_name.length - 1} 곳
-                        </span>
-                      </div>
-                    )}
+
+                {activeIndex === 0 ? (
+                  <div />
+                ) : placeName ? (
+                  item.place_name.includes(placeName) && (
+                    <div tw="bg-white absolute rounded-[26px] h-[28px] bottom-[23px] left-[0px] pl-8">
+                      <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{placeName}</span>
+                    </div>
+                  )
+                ) : addressName ? (
+                  item.address_name === addressName && (
+                    <div tw="bg-white absolute rounded-[26px] h-[28px] bottom-[23px] left-[0px] pl-8">
+                      <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
+                        {item.category_group_code === KakaoMapCategoryCode.SUBWAY
+                          ? `${item.place_name[0]}`
+                          : `${item.place_name[0]} 외 ${item.place_name.length - 1} 곳`}
+                      </span>
+                    </div>
+                  )
+                ) : (
+                  zoomLevel &&
+                  zoomLevel >= 17 && (
+                    <div tw="bg-white absolute rounded-[26px] h-[28px] bottom-[23px] left-[0px] pl-8">
+                      <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
+                        {item.category_group_code === KakaoMapCategoryCode.SUBWAY
+                          ? `${item.place_name[0]}`
+                          : `${item.place_name[0]} 외 ${item.place_name.length - 1} 곳`}
+                      </span>
+                    </div>
+                  )
+                )}
               </Box>
             </CustomOverlayDanji>
           );
@@ -315,14 +351,7 @@ export default function DanjiAroundMapCard({
             lng: +danji.long,
           }}
         >
-          {/* <Stack
-            sx={{
-              minWidth: '1rem',
-              minHeight: '1rem',
-              background: theme.palette.error.main,
-              borderRadius: '50%',
-            }}
-          /> */}
+          {/* <Stack /> */}
         </CustomOverlayDanji>
       )}
 
