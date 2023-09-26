@@ -50,8 +50,14 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const [activeCategory, setActiveCategory] = useState<BtnState>({
     HP8: true,
   });
-  const { makeTrueAround, makeBindDanji, makeDanjiAroundDetailDefault, makeDanjiAroundAddress, makeDanjiAroundLatLng } =
-    useDanjiMapButtonStore();
+  const {
+    makeTrueAround,
+    makeBindDanji,
+    makeDanjiAroundDetailDefault,
+    makeDanjiAroundAddress,
+    makeDanjiAroundLatLng,
+    makeDanjiAroundPlace,
+  } = useDanjiMapButtonStore();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();
@@ -91,7 +97,12 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
   }, [activeCategory, update]);
 
-  const convertedMarker = useMemo(() => convertedArrForMarker([...markers]), [update]);
+  const convertedMarker = useMemo(() => {
+    if (activeCategory.SW8) {
+      return markers;
+    }
+    return convertedArrForMarker([...markers]);
+  }, [update, activeCategory]);
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
@@ -105,13 +116,17 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     setMarkers([]);
   };
 
-  const handleClickBtn = async (address?: string, lat?: string, lng?: string) => {
+  const handleClickBtn = async (address?: string, placeName?: string, lat?: string, lng?: string) => {
     await makeTrueAround();
     makeBindDanji(danji);
     makeDanjiAroundDetailDefault(Object.keys(activeCategory)[0] as keyof BtnState);
 
     if (address) {
       makeDanjiAroundAddress(address);
+    }
+
+    if (placeName) {
+      makeDanjiAroundPlace(placeName);
     }
 
     if (lat && lng) {
@@ -207,6 +222,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     };
   }, [activeCategory, danji]);
 
+  console.log(convertedCategory);
+
   if (!danji) return null;
 
   return (
@@ -272,9 +289,9 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               key={item.id}
               onClick={() => {
                 if (typeof item.x === 'string' && typeof item.x === 'string') {
-                  handleClickBtn(item.address_name, item.x, item.y);
+                  handleClickBtn(item.address_name, item.place_name, item.x, item.y);
                 } else {
-                  handleClickBtn(item.address_name, item.x[0], item.y[0]);
+                  handleClickBtn(item.address_name, item.place_name, item.x[0], item.y[0]);
                 }
               }}
             >
