@@ -10,14 +10,24 @@ import { getDefaultFilterAptOftl } from '../MobMapFilter';
 
 const SelectButton = styled.button`
   ${tw`inline-flex items-center justify-between w-[105px] h-10 px-3 bg-white rounded-lg shadow transition-colors`}
-  &:hover {
+
+  /* &:hover {
+    ${tw`bg-gray-300`}
+  } */
+
+  @media (hover: hover) {
     ${tw`bg-gray-300`}
   }
 `;
 
 const SelectItem = styled.button`
   ${tw`flex items-center justify-between w-full h-10 px-3 transition-colors bg-white text-gray-1000`}
-  &:hover {
+
+  /* &:hover {
+    ${tw`bg-gray-300`}
+  } */
+
+  @media (hover: hover) {
     ${tw`bg-gray-300`}
   }
 `;
@@ -48,6 +58,7 @@ export default function MobMapPriceSelect({
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'bottom',
+
     modifiers: [
       {
         name: 'offset',
@@ -110,8 +121,10 @@ export default function MobMapPriceSelect({
         type="button"
         disabled={disabled}
         ref={setReferenceElement}
-        onClick={() => setIsOpen((prev) => !prev)}
-        css={disabled && tw`w-fit`}
+        onClick={() => {
+          setIsOpen((prev) => !prev);
+        }}
+        css={[disabled && tw`w-fit`]}
       >
         <span tw="text-b2 font-bold text-gray-1000">{value === 'buy' ? '매매 가격' : '전월세 금액'}</span>
         {!disabled && (
@@ -126,9 +139,9 @@ export default function MobMapPriceSelect({
       </SelectButton>
       {isOpen && (
         <div
-          tw="w-[105px] shadow rounded-lg bg-white flex flex-col py-2"
+          tw="w-[105px] shadow rounded-lg bg-white flex flex-col py-2 [z-index: 1000] relative"
           ref={setPopperElement}
-          style={styles.popper}
+          style={{ zIndex: 10000, ...styles.popper }}
           {...attributes.popper}
         >
           <SelectItem
