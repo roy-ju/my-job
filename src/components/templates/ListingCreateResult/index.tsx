@@ -48,7 +48,6 @@ export default function ListingCreateResult({
   address,
   addressDetail,
 
-  onClickMyListings,
   onClickUpdateAddress,
   onSelectAddress,
   onSelectAgent,
@@ -160,17 +159,14 @@ export default function ListingCreateResult({
           />
         </div>
       </div>
-      <PersistentBottomBar>
-        {data?.listing_status !== ListingStatus.Duplicated ? (
-          <Button size="bigger" tw="w-full" onClick={onClickMyListings}>
-            나의 거래 목록
-          </Button>
-        ) : (
+
+      {data?.listing_status === ListingStatus.Duplicated && (
+        <PersistentBottomBar>
           <Button size="bigger" tw="w-full" onClick={onClickRemoveFromListings}>
             목록에서 삭제
           </Button>
-        )}
-      </PersistentBottomBar>
+        </PersistentBottomBar>
+      )}
     </div>
   );
 }
