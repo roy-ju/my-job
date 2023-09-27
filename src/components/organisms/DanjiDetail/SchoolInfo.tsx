@@ -20,6 +20,8 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const interactionStore = useDanjiInteraction({ danjiData: danji });
   const interactionState = useRecoilValue(schoolAroundState);
 
+  const [selectedSchoolID, setSelectedSchoolID] = useState<string>();
+
   const [selectedIndex, setSelctedIndex] = useState<number>();
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
   const [disabled, setDiasbled] = useState<boolean>(false);
@@ -43,6 +45,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   }, [danjiSchoolsIsLoading, selectedSchoolType, listElementarySchools, listMiddleSchools, listHighSchools]);
 
   const onChangeSelectedSchoolType = useCallback((val: number) => {
+    setSelectedSchoolID('');
     setSelectedSchoolType(val);
     setIsClickMore(false);
   }, []);
@@ -50,6 +53,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const handleSchoolClick = useCallback(async () => {
     if (disabled) return;
 
+    setSelectedSchoolID('');
     setDiasbled(true);
 
     try {
@@ -142,6 +146,12 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
     }
   }, [selectedIndex]);
 
+  useEffect(() => {
+    if (!interactionState.school) {
+      setSelectedSchoolID('');
+    }
+  }, [interactionState.school]);
+
   if (!danji || !selectedSchoolType) return null;
 
   return (
@@ -183,10 +193,11 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
             <div
               key={item.school_id}
               tw="flex py-2 [border-bottom: 1px solid #F4F6FA] cursor-pointer"
-              css={[
-                interactionState?.selectedSchoolMarker?.id === `schoolMarker:${item.school_id}` && tw`bg-[#F3F0FF]`,
-              ]}
-              onClick={() => handleSchoolItem(item.school_id)}
+              css={[selectedSchoolID === item.school_id && tw`bg-[#F3F0FF]`]}
+              onClick={() => {
+                setSelectedSchoolID(item.school_id);
+                handleSchoolItem(item.school_id);
+              }}
             >
               <div tw="w-[9.125rem] [font-size: 14px] [line-height: 22px]">{item.name || '-'}</div>
               <div tw="w-[4rem] [font-size: 14px] [line-height: 22px] [text-align: right]">
