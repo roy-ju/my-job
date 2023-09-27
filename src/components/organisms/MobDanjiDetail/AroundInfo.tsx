@@ -222,8 +222,6 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     };
   }, [activeCategory, danji]);
 
-  console.log(convertedCategory);
-
   if (!danji) return null;
 
   return (
