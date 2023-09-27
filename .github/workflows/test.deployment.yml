@@ -108,3 +108,9 @@ jobs:
           service: ${{ env.ECS_SERVICE_NAME }}
           cluster: ${{ env.ECS_CLUSTER_NAME }}
           wait-for-service-stability: false
+
+      - name: Wait for Docker image conversion
+        run: sleep 30
+
+      - name: Initial user request blocker
+        run: curl -X GET https://www.negocio.co.kr/
