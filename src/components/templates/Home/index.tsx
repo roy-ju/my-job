@@ -745,7 +745,7 @@ export default function Home({
                         </span>
                       )}
                     </h1>
-                    <div tw="text-info text-gray-1000  whitespace-nowrap overflow-hidden text-ellipsis">
+                    <div tw="text-info text-gray-1000 line-clamp-1">
                       <a
                         onClick={(e) => {
                           e.preventDefault();
@@ -758,12 +758,12 @@ export default function Home({
                         }
                         target="_self"
                       >
-                        <h1>{item.listing_title}</h1>
+                        <h1 tw="">{item.listing_title}</h1>
                       </a>
                     </div>
 
                     <div tw="flex text-info text-gray-700" css={informationStringWrapper}>
-                      {item.jeonyong_area && <p>{`전용 ${item.jeonyong_area}㎡`}</p>}
+                      {item.jeonyong_area && <p>{`전용 ${Math.floor(Number(item.jeonyong_area))}㎡`}</p>}
                       {item.total_floor !== '0' && (
                         <p>
                           {item.floor_description
