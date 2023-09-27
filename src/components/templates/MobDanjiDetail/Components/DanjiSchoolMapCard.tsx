@@ -293,13 +293,13 @@ export default function DanjiSchoolMapCard({
     async function init() {
       if (danjiSchoolID && map) {
         await setSelectedSchoolId(danjiSchoolID);
-        setTimeout(() => renderPolygon(map, danjiSchoolID), 300);
+        setTimeout(() => renderPolygon(map, danjiSchoolID), 500);
 
         if (listRefs?.current) {
           const index = list.findIndex((ele) => ele.school_id === danjiSchoolID);
           const initialSchool = list.find((ele) => ele.school_id === danjiSchoolID);
 
-          setTimeout(() => listRefs.current[index].scrollIntoView(true), 300);
+          setTimeout(() => listRefs.current[index].scrollIntoView(true), 500);
 
           if (index && initialSchool) {
             map.panTo(new naver.maps.LatLng(initialSchool?.lat, initialSchool?.long), {

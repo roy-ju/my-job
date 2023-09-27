@@ -37,6 +37,21 @@ type AroundListType = {
   place_url: string;
 }[];
 
+type Item = {
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  category_name: string;
+  distance: string;
+  place_name: string | string[];
+  x: string | string[];
+  y: string | string[];
+  id: string;
+  phone: string;
+  road_address_name: string;
+  place_url: string;
+};
+
 const Box = styled.div``;
 
 export default function DanjiAroundMapCard({
@@ -54,6 +69,8 @@ export default function DanjiAroundMapCard({
   setM,
   handleAddressName,
   handlePlaceName,
+  handleSelectedSubwayMarker,
+  selectedSubwayMarker,
   placeName,
 }: {
   activeIndex?: number;
@@ -70,7 +87,9 @@ export default function DanjiAroundMapCard({
   setM?: Dispatch<React.SetStateAction<naver.maps.Map | null | undefined>>;
   handleAddressName?: (val: string) => void;
   handlePlaceName?: (val: string) => void;
+  handleSelectedSubwayMarker?: (val?: string) => void;
   placeName?: string;
+  selectedSubwayMarker?: string;
 }) {
   const [map, setMap] = useState<naver.maps.Map | null>(null);
 
@@ -163,7 +182,92 @@ export default function DanjiAroundMapCard({
     }
   }, [danjiAroundLat, danjiAroundLng]);
 
-  console.log(aroundList);
+  const selectedStatus = useCallback(
+    (item: Item) => {
+      if (selectedSubwayMarker) {
+        if (selectedSubwayMarker === item.id) return true;
+
+        return false;
+      }
+
+      if (placeName) {
+        if (typeof item.place_name === 'string' && placeName === item.place_name.split(' ')[0]) return true;
+
+        return false;
+      }
+
+      if (addressName) {
+        if (addressName && item.address_name) return true;
+
+        return false;
+      }
+
+      return false;
+    },
+    [placeName, addressName, selectedSubwayMarker],
+  );
+
+  const selectedUI = useCallback(
+    (item: Item) => {
+      if (typeof item.place_name !== 'string') return null;
+
+      if (selectedSubwayMarker) {
+        if (selectedSubwayMarker === item.id)
+          return (
+            <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+              <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
+                {item.place_name.split(' ')[0]}
+              </span>
+            </div>
+          );
+
+        return null;
+      }
+
+      if (placeName) {
+        if (item.place_name.split(' ')[0] === placeName) {
+          return (
+            <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+              <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{placeName}</span>
+            </div>
+          );
+        }
+
+        return null;
+      }
+
+      if (addressName) {
+        if (addressName && item.address_name) {
+          return (
+            <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+              <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
+                {item.place_name.split(' ')[0]}
+              </span>
+            </div>
+          );
+        }
+
+        return null;
+      }
+
+      if (zoomLevel) {
+        if (zoomLevel >= 17) {
+          return (
+            <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
+              <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
+                {item.place_name.split(' ')[0]}
+              </span>
+            </div>
+          );
+        }
+
+        return null;
+      }
+
+      return null;
+    },
+    [placeName, addressName, selectedSubwayMarker, zoomLevel],
+  );
 
   if (!danji) return null;
 
@@ -208,14 +312,23 @@ export default function DanjiAroundMapCard({
                             map?.morph({ lng: Number(item.x[0]), lat: Number(item.y[0]) }, 17);
                           }
 
-                          handlePlaceName?.('');
+                          if (item.category_group_code === 'SW8') {
+                            handleSelectedSubwayMarker?.(item.id);
+
+                            if (typeof item.place_name === 'string') {
+                              handlePlaceName?.(item.place_name.split(' ')[0]);
+                            }
+                          } else {
+                            handleSelectedSubwayMarker?.('');
+                            handlePlaceName?.('');
+                          }
                         }
                       : () => {}
                   }
                   tw="flex"
                   css={
                     activeIndex === 0
-                      ? item.place_name.split(' ')[0] === placeName
+                      ? selectedStatus(item)
                         ? [tw`relative [z-index: 150] animate-bounce`]
                         : [tw`relative [z-index: 140]`]
                       : handleAddressName
@@ -228,12 +341,7 @@ export default function DanjiAroundMapCard({
                   {renderMarker(item.category_group_code, item.place_name, 0, item.distance)}
 
                   {activeIndex === 0
-                    ? placeName &&
-                      item.place_name.split(' ')[0] === placeName && (
-                        <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
-                          <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
-                        </div>
-                      )
+                    ? selectedUI(item)
                     : placeName
                     ? item.place_name === placeName && (
                         <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
@@ -249,7 +357,9 @@ export default function DanjiAroundMapCard({
                     : zoomLevel &&
                       zoomLevel >= 17 && (
                         <div tw="bg-white absolute rounded-[26px] h-[28px] left-[0px] pl-8">
-                          <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">{item.place_name}</span>
+                          <span tw="text-info font-bold  pr-3 whitespace-nowrap text-gray-1000">
+                            {item.category_group_code === 'SW8' ? item.place_name.split(' ')[0] : item.place_name}
+                          </span>
                         </div>
                       )}
                 </Box>

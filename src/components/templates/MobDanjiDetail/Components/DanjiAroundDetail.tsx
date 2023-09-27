@@ -148,6 +148,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
   const [placeName, setPlaceName] = useState<string>('');
   const [tableIndex, setTableIndex] = useState<number>();
   const [isClick, setIsClick] = useState<boolean>(false);
+  const [selectedSubwayMarker, setSelectedSubwayMarker] = useState<string>();
 
   const convertedCategory = useMemo(() => {
     if (activeCategory.SW8)
@@ -171,10 +172,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     setActiveCategory(() => ({ [id]: true }));
     setCategoryList([]);
     setMarkers([]);
-
     setTableIndex(undefined);
     setAddressName('');
     setPlaceName('');
+    setSelectedSubwayMarker('');
     makeDanjiAroundAddress('');
     makeDanjiAroundPlace('');
   };
@@ -187,6 +188,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
 
   const handlePlaceName = (val: string) => {
     setPlaceName(val);
+  };
+
+  const handleSelectedSubwayMarker = (val?: string) => {
+    setSelectedSubwayMarker(val);
   };
 
   const getStylingFuction = (plName: string, adName: string, index: number) => {
@@ -409,6 +414,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
       makeDanjiAroundAddress('');
       makeDanjiAroundPlace('');
       makeDanjiAroundLatLng(undefined, undefined);
+      setSelectedSubwayMarker('');
     },
     [],
   );
@@ -439,6 +445,8 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
           setM={setMap}
           handleAddressName={handleAddressName}
           handlePlaceName={handlePlaceName}
+          handleSelectedSubwayMarker={handleSelectedSubwayMarker}
+          selectedSubwayMarker={selectedSubwayMarker}
           placeName={placeName}
           defaultMapSize="100%"
           danjiAroundLat={danjiAroundLat}
@@ -532,10 +540,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
                     listRefs.current[index] = element;
                   }}
                   onClick={() => {
-                    console.log(item);
                     setAddressName(item.address_name);
                     setPlaceName(item.place_name);
                     setTableIndex(index);
+                    handleSelectedSubwayMarker('');
 
                     if (typeof item.x === 'string' && typeof item.x === 'string') {
                       map?.morph({ lng: Number(item.x), lat: Number(item.y) }, 17);
