@@ -125,7 +125,11 @@ const DanjiBarChart = React.memo(
                     y={barY}
                     width={barWidth}
                     height={barHeight}
-                    fill="#7950F2"
+                    fill={
+                      !!item.buy_count && !!tooltipData?.buy_count && item.buy_price === tooltipData?.buy_price
+                        ? '#7950F2'
+                        : '#bbb'
+                    }
                   />
                 );
               })}
@@ -150,7 +154,13 @@ const DanjiBarChart = React.memo(
                     y={barY}
                     width={barWidth}
                     height={barHeight}
-                    fill="#FF542D"
+                    fill={
+                      !!item.jeonsae_count &&
+                      !!tooltipData?.jeonsae_count &&
+                      item.jeonsae_price === tooltipData?.jeonsae_price
+                        ? '#FF542D'
+                        : '#bbb'
+                    }
                   />
                 );
               })}
