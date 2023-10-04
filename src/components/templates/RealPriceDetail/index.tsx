@@ -9,6 +9,7 @@ const RealPriceDetailContent = dynamic(() => import('./RealPriceDetailContent'),
 
 export default function RealPriceDetail({ depth }: { depth: number }) {
   const router = useRouter(depth);
+  console.log('hi');
   const [buyOrRent, setBuyOrRent] = useState<number>();
   const [selectedYear, setSelectedYear] = useState<number>();
 

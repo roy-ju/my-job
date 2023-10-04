@@ -70,7 +70,7 @@ export default function RealPriceInfoHeader({
                 e.preventDefault();
                 handleCTA();
               }}
-              href={`/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?danjiID=${
+              href={`/${Routes.DanjiDetailUpdated}/${Routes.DanjiRealPriceDetail}?danjiID=${
                 router?.query?.danjiID ? `${router?.query?.danjiID}` : danjiId || ''
               }`}
             >

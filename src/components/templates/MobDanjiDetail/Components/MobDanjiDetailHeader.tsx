@@ -85,7 +85,7 @@ export default function MobDanjiDetailHeader({
   const handleShareViaKakao = useCallback(() => {
     if (!danji) return;
 
-    const link = `${window.origin}/danjiDetail?danjiID=${danji.danji_id}`;
+    const link = `${window.origin}/${Routes.DanjiDetailUpdated}/${danji.danji_id}`;
 
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
@@ -120,7 +120,7 @@ export default function MobDanjiDetailHeader({
 
     const content = `[네고시오] ${danji?.name}\n► ${danji?.road_name_address ?? danji?.jibun_address}\n\n${
       window.origin
-    }/danjiDetail?danjiID=${danji.danji_id}`;
+    }/${Routes.DanjiDetailUpdated}/${danji.danji_id}`;
 
     navigator.clipboard.writeText(content);
     toast.success('복사되었습니다.');

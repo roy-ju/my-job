@@ -23,7 +23,7 @@ export default function BasicInfo({
 
   const handleDanjiDetail = useCallback(() => {
     nextRouter.replace({
-      pathname: `/${Routes.DanjiDetail}`,
+      pathname: `/${Routes.DanjiDetailUpdated}`,
       query: {
         danjiID: danji?.danji_id || `${nextRouter?.query?.danjiID}` || '',
       },
