@@ -43,7 +43,7 @@ export default memo(() => {
   }, [suggestStatus]);
 
   const handleClickDanjiDetail = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${data?.danji_id}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${data?.danji_id}`);
   }, [data, router]);
 
   const handleClickSuggestUpdate = useCallback(() => {

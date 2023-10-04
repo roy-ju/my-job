@@ -96,13 +96,9 @@ export default function Home() {
 
   const handleClickDanji = useCallback(
     (danjiID: number) => {
-      router.push(
-        {
-          pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
-          query: { danjiID },
-        },
-        `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`,
-      );
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${danjiID}`,
+      });
     },
     [router],
   );

@@ -138,13 +138,13 @@ export default function ActiveListingInfo({
   const handleCreateListing = useCallback(() => {
     nextRouter.replace(
       {
-        pathname: `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}`,
+        pathname: `/${Routes.DanjiDetailUpdated}/${Routes.ListingCreateAddress}`,
         query: {
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+          redirect: `/${Routes.DanjiDetailUpdated}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
-      `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}?danjiID=${
+      `/${Routes.DanjiDetailUpdated}/${Routes.ListingCreateAddress}?danjiID=${
         danji?.danji_id || router?.query?.danjiID || ''
       }`,
     );
@@ -153,14 +153,16 @@ export default function ActiveListingInfo({
   const handleCreateSuggest = useCallback(() => {
     nextRouter.replace(
       {
-        pathname: `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}`,
+        pathname: `/${Routes.DanjiDetailUpdated}/${Routes.DanjiRecommendation}`,
         query: {
           entry: 'danji',
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+          redirect: `/${Routes.DanjiDetailUpdated}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
-      `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+      `/${Routes.DanjiDetailUpdated}/${Routes.DanjiRecommendation}?danjiID=${
+        danji?.danji_id || router?.query?.danjiID || ''
+      }`,
     );
   }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
 
@@ -293,7 +295,7 @@ export default function ActiveListingInfo({
                       key={item.suggest_id}
                       item={item}
                       onClick={() => handleSuggestDetail(item.suggest_id, item.my_suggest)}
-                      anchorURL={`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
+                      anchorURL={`/${Routes.DanjiDetailUpdated}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
                     />
                   ))}
                 </div>

@@ -80,13 +80,12 @@ export default function RealPriceListWrraper() {
         onClickItem={(danjiID, bor) => {
           router.push(
             {
-              pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
+              pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${danjiID}`,
               query: {
                 bor: bor.toString(),
-                danjiID,
               },
             },
-            `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`,
+            `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${danjiID}`,
           );
         }}
       />

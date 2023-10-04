@@ -132,7 +132,7 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
                   key={item.suggest_id}
                   item={item}
                   onClick={() => handleSuggestDetail(item.suggest_id, item.my_suggest)}
-                  anchorURL={`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
+                  anchorURL={`/${Routes.DanjiDetailUpdated}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
                 />
               ))}
             </InfiniteScroll>

@@ -21,11 +21,12 @@ export default function BasicInfo({
   const router = useRouter();
 
   const handleDanjiDetail = useCallback(() => {
+    const danjiID = `${danji?.danji_id}` || `${router.query.danjiID}` || '';
+
+    if (!danjiID) return;
+
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
-      query: {
-        danjiID: `${danji?.danji_id}` || `${router.query.danjiID}` || '',
-      },
+      pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${danjiID}`,
     });
   }, [router, danji]);
 

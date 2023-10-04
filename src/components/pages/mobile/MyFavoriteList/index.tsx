@@ -27,7 +27,7 @@ export default memo(() => {
   const { unreadChatCount } = useSyncronizer();
 
   const handleClickDanjiItem = (danjiID: number) => () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${danjiID}`);
   };
 
   const handleClickListingItem = (listingId: number) => () => {

@@ -9,6 +9,8 @@ const Routes = {
   ChatRoomReport: 'chatRoomReport',
 
   DanjiDetail: 'danjiDetail',
+  DanjiDetailUpdated: 'danji',
+
   DanjiListings: 'danjiListings',
   DanjiPhotos: 'danjiPhotos',
   DanjiRecommendation: 'danjiRecommendation',
@@ -43,9 +45,6 @@ const Routes = {
 
   MyParticipatingListings: 'myParticipatingListings',
   MySuggestDetail: 'mySuggestDetail',
-
-  ListingDetailPassed: 'listingDetailPassed',
-  ListingDetailHistory: 'listingDetailHistory',
 
   LawQna: 'lawQna',
   LawQnaSearch: 'lawQnaSearch',
@@ -107,6 +106,13 @@ const Routes = {
 
   // 매물상세
   ListingDetail: 'listingDetail',
+  ListingDetailPassed: 'listingDetailPassed',
+  ListingDetailHistory: 'listingDetailHistory',
+  
+  ListingDetailUpdated: 'listing',
+  ListingDetailPassedUpdated: 'listingPassed',
+  ListingDetailHistoryUpdated: 'listingHistory',
+
   ListingQnaCreateForm: 'listingQnaCreate',
   ListingManage: 'listingManage',
   ListingReport: 'listingReport',

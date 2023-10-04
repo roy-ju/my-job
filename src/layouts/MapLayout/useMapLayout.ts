@@ -519,7 +519,7 @@ export default function useMapLayout() {
               if (isPanningRef.current) return;
 
               // 단지 상세로 보내는 Router
-              router.replace(Routes.DanjiDetail, {
+              router.replace(Routes.DanjiDetailUpdated, {
                 searchParams: { danjiID: `${item.danji_id}` },
                 state: {
                   bor: filter.buyOrRents,
@@ -1142,7 +1142,7 @@ export default function useMapLayout() {
         setSearchResultMarker(null);
 
         setSelectedMarker(searchedDanji);
-        router.replace(Routes.DanjiDetail, {
+        router.replace(Routes.DanjiDetailUpdated, {
           searchParams: { danjiID: `${searchedDanji.danjiID}`, rt: `${searchedDanji.danjiRealestateType}` },
           state: {
             bor: filter.buyOrRents,
@@ -1289,8 +1289,6 @@ export default function useMapLayout() {
     }
   }, [interactionState.around, mapState.naverMap, interactionSelectedMarker]);
 
-  
-
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -1346,6 +1344,5 @@ export default function useMapLayout() {
     selectedMouseOverDanjiSummary,
     searchResultMarker,
     aroundMarkers,
-    
   };
 }
