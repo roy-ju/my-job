@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>		
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-	<loc>https://www.negocio.co.kr/</loc>
-	<lastmod>2023-08-10</lastmod>
+	<loc>https://www.negocio.co.kr/m</loc>
+	<lastmod>2023-10-05</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://www.negocio.co.kr/map</loc>
-	<lastmod>2023-08-10</lastmod>
+	<loc>https://www.negocio.co.kr/m/map</loc>
+	<lastmod>2023-10-05</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://www.negocio.co.kr/intro</loc>
-	<lastmod>2023-08-10</lastmod>
+	<loc>https://www.negocio.co.kr/m/intro</loc>
+	<lastmod>2023-10-05</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://www.negocio.co.kr/recommendation</loc>
-	<lastmod>2023-08-10</lastmod>
+	<loc>https://www.negocio.co.kr/m/recommendation</loc>
+	<lastmod>2023-10-05</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://www.negocio.co.kr/lawQna</loc>
-	<lastmod>2023-08-10</lastmod>
+	<loc>https://www.negocio.co.kr/m/lawQna</loc>
+	<lastmod>2023-10-05</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://www.negocio.co.kr/login</loc>
-	<lastmod>2023-08-10</lastmod>
+	<loc>https://www.negocio.co.kr/m/chatRoomList</loc>
+	<lastmod>2023-10-05</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://www.negocio.co.kr/m/login</loc>
+	<lastmod>2023-10-05</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://www.negocio.co.kr/m/my</loc>
+	<lastmod>2023-10-05</lastmod>
 	<priority>1.0</priority>
 </url>
 </urlset>
