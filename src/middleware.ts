@@ -1,5 +1,4 @@
 import { NextFetchEvent, NextRequest, NextResponse, userAgent } from 'next/server';
-import Routes from './router/routes';
 import { detectRobot } from './utils/regex';
 
 const exemptions = ['m', 'auth', 'callback', 'nice'];
@@ -21,7 +20,7 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     return NextResponse.rewrite(new URL('/html/ie-not-supported.html', request.url));
   }
 
-  if (detectRobot(ua)) {
+  if (!detectRobot(ua)) {
     return;
   }
 
@@ -41,16 +40,14 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     }
   } else {
     const segments = request.nextUrl.pathname.split('/');
+
     const firstSegment = segments[1];
 
     if (firstSegment === 'm') {
       const lastSegment = segments[segments.length - 1];
-      const lastString = segments[segments.length - 2];
 
       if (lastSegment !== 'm') {
-        return Number(lastSegment) > 0&&lastString===Routes.DanjiDetailUpdated
-          ? NextResponse.redirect(`${request.nextUrl.origin}/${lastString}/${lastSegment}${request.nextUrl.search}`)
-          : NextResponse.redirect(`${request.nextUrl.origin}/${lastSegment}${request.nextUrl.search}`);
+        return NextResponse.redirect(`${request.nextUrl.origin}/${lastSegment}${request.nextUrl.search}`);
       }
       return NextResponse.redirect(`${request.nextUrl.origin}`);
     }
