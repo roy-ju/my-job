@@ -1,5 +1,4 @@
 import { NextFetchEvent, NextRequest, NextResponse, userAgent } from 'next/server';
-import { detectRobot } from './utils/regex';
 
 const exemptions = ['m', 'auth', 'callback', 'nice'];
 
@@ -18,10 +17,6 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   // Redirect IE user
   if (/MSIE|Trident/.test(ua)) {
     return NextResponse.rewrite(new URL('/html/ie-not-supported.html', request.url));
-  }
-
-  if (!detectRobot(ua)) {
-    return;
   }
 
   // Redirect Mobile user

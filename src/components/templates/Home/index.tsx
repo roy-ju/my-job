@@ -663,8 +663,8 @@ export default function Home({
                           }}
                           href={
                             mobileOrPc === 'pc'
-                              ? `/${Routes.DanjiDetailUpdated}?danjiID=${item.danji_id}`
-                              : `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${item.danji_id}`
+                              ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}`
+                              : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${item.danji_id}`
                           }
                           target="_self"
                         >
@@ -827,8 +827,8 @@ export default function Home({
                         }}
                         href={
                           mobileOrPc === 'pc'
-                            ? `/${Routes.DanjiDetailUpdated}?danjiID=${item.danji_id}`
-                            : `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${item.danji_id}`
+                            ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}`
+                            : `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${item.danji_id}`
                         }
                         target="_self"
                       >

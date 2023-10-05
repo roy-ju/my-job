@@ -28,7 +28,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   } = useMyFavoriteList();
 
   const handleClickDanjiItem = (danjiID: number) => () => {
-    router.push(Routes.DanjiDetailUpdated, {
+    router.push(Routes.DanjiDetail, {
       searchParams: {
         danjiID: `${danjiID}`,
       },
