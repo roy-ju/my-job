@@ -42,8 +42,8 @@ jobs:
       - name: Set robots.txt
         run: mv ./public/robots_prod.txt ./public/robots.txt && rm -rf ./public/robots_prod.txt
 
-      - name: Set sitemap.xml
-        run: mv ./public/sitemap_prod.xml ./public/sitemap.xml && rm -rf ./public/sitemap_prod.xml
+      # - name: Set sitemap.xml
+      #   run: mv ./public/sitemap_prod.xml ./public/sitemap.xml && rm -rf ./public/sitemap_prod.xml
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
