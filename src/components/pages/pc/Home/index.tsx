@@ -97,7 +97,7 @@ export default memo(() => {
 
   const handleClickDanji = useCallback(
     (danjiID: number) => {
-      router.replace(Routes.DanjiDetailUpdated, { searchParams: { danjiID: `${danjiID}` } });
+      router.replace(`${Routes.DanjiDetailUpdated}/${danjiID}`, { state: { danjiID: `${danjiID}` } });
     },
     [router],
   );

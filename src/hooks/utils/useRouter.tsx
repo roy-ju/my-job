@@ -1,4 +1,5 @@
 /* eslint-disable no-prototype-builtins */
+import Routes from '@/router/routes';
 import { useRouter as useNextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
@@ -46,6 +47,13 @@ export default function useRouter(depth: number) {
         query[`depth${index + 1}`] = value;
       });
 
+      if (query?.depth1 === Routes.DanjiDetailUpdated && !query?.depth2 && query?.danjiID) {
+        return router.replace(
+          { pathname: `/${Routes.DanjiDetailUpdated}/${query?.danjiID}`, query },
+          `/${Routes.DanjiDetailUpdated}/${query?.danjiID}`,
+        );
+      }
+
       return router.replace({ pathname: path, query });
     },
     [router, depth],
@@ -81,6 +89,13 @@ export default function useRouter(depth: number) {
       path += `[depth${index + 1}]/`;
       query[`depth${index + 1}`] = value;
     });
+
+    if (query?.depth1 === Routes.DanjiDetailUpdated && !query?.depth2 && query?.danjiID) {
+      return router.replace(
+        { pathname: `/${Routes.DanjiDetailUpdated}/${query?.danjiID}`, query },
+        `/${Routes.DanjiDetailUpdated}/${query?.danjiID}`,
+      );
+    }
 
     return router.replace({ pathname: path, query });
   }, [router]);
@@ -298,6 +313,22 @@ export default function useRouter(depth: number) {
     [router, depth],
   );
 
+  const initialQuery = useMemo(() => {
+    if (
+      router?.query?.depth1 === Routes.DanjiDetailUpdated &&
+      router?.query?.depth2 &&
+      Number(router.query.depth2) > 0
+    ) {
+      return {
+        ...router.query,
+        depth1: Routes.DanjiDetailUpdated,
+        depth2: router.query.depth2,
+        danjiID: router.query.depth2,
+      };
+    }
+    return router.query;
+  }, [router]);
+
   return useMemo(
     () => ({
       depth: router.query.depth2 ? 2 : router.query.depth1 ? 1 : 0,
@@ -307,11 +338,23 @@ export default function useRouter(depth: number) {
       popAll,
       replace,
       replaceCurrent,
-      query: router.query,
+      query: initialQuery,
       asPath: router.asPath,
       pathname: router.pathname,
       isReady: router.isReady,
     }),
-    [push, replaceCurrent, pop, popAll, popLast, replace, router.query, router.asPath, router.pathname, router.isReady],
+    [
+      push,
+      replaceCurrent,
+      pop,
+      popAll,
+      popLast,
+      replace,
+      router.query,
+      router.asPath,
+      router.pathname,
+      router.isReady,
+      initialQuery,
+    ],
   );
 }

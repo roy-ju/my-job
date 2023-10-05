@@ -22,12 +22,30 @@ export default function BasicInfo({
   const nextRouter = useNextRouter();
 
   const handleDanjiDetail = useCallback(() => {
-    nextRouter.replace({
-      pathname: `/${Routes.DanjiDetailUpdated}`,
-      query: {
-        danjiID: danji?.danji_id || `${nextRouter?.query?.danjiID}` || '',
-      },
-    });
+    if (danji?.danji_id) {
+      nextRouter.replace(
+        {
+          pathname: `/${Routes.DanjiDetailUpdated}/${danji.danji_id}`,
+          query: {
+            danjiID: danji?.danji_id,
+          },
+        },
+        `/${Routes.DanjiDetailUpdated}/${danji.danji_id}`,
+      );
+      return;
+    }
+
+    if (nextRouter?.query?.danjiID) {
+      nextRouter.replace(
+        {
+          pathname: `/${Routes.DanjiDetailUpdated}/${nextRouter.query.danjiID}`,
+          query: {
+            danjiID: `${nextRouter.query.danjiID}`,
+          },
+        },
+        `/${Routes.DanjiDetailUpdated}/${nextRouter.query.danjiID}`,
+      );
+    }
   }, [nextRouter, danji]);
 
   if (!danji) return null;
