@@ -50,8 +50,10 @@ export default memo(({ panelWidth, depth }: Props) => {
   );
 
   const handleClickDanjiDetail = useCallback(() => {
-    router.replace(`${Routes.DanjiDetailUpdated}/${data?.danji_id}`, {
-      state: { danjiID: `${data?.danji_id}` },
+    router.replace(Routes.DanjiDetailUpdated, {
+      searchParams: {
+        danjiID: `${data?.danji_id}`,
+      },
     });
   }, [data, router]);
 

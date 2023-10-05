@@ -7,6 +7,7 @@ interface Props {
 }
 
 export default function RealPrice({ depth, panelWidth }: Props) {
+  console.log('hi');
   return (
     <Panel width={panelWidth}>
       <RealTradeDetail depth={depth} />
