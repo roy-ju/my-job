@@ -22,12 +22,10 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   // Redirect Mobile user
   if (ua.indexOf('Mobi') > -1) {
     const segments = request.nextUrl.pathname.split('/');
-
     const firstSegment = segments[1];
 
     if (!exemptions.includes(firstSegment)) {
       const lastSegment = segments[segments.length - 1];
-
       if (lastSegment) {
         return NextResponse.redirect(`${request.nextUrl.origin}/m/${lastSegment}${request.nextUrl.search}`);
       }
@@ -35,7 +33,6 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     }
   } else {
     const segments = request.nextUrl.pathname.split('/');
-
     const firstSegment = segments[1];
 
     if (firstSegment === 'm') {
