@@ -104,10 +104,10 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
   const onClickItem = useCallback(
     (danjiID: number) => {
       if (platform === 'pc') {
-        nextRouter.push(`/${Routes.DanjiDetailUpdated}?danjiID=${danjiID}`);
+        nextRouter.push(`/${Routes.DanjiDetail}?danjiID=${danjiID}`);
       }
       if (platform === 'mobile') {
-        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${danjiID}`);
+        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
       }
     },
     [nextRouter, platform],
@@ -131,11 +131,7 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
             price={priceUtil(item.price, item.monthly_rent_fee, item.buy_or_rent)}
             area={`전용 ${cuttingDot(item.jeonyong_area)}㎡`}
             date={`${item.year}.${minDigits(+item.month, 2)}.${minDigits(+item.day, 2)}`}
-            anchorURL={
-              platform === 'pc'
-                ? `/${Routes.DanjiDetailUpdated}?danjiID=${item.danji_id}`
-                : `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${item.danji_id}`
-            }
+            anchorURL={platform === 'pc' ? `/${Routes.DanjiDetail}?danjiID=${item.danji_id}` : undefined}
           />
         ))}
       {isShowMoreButton && (

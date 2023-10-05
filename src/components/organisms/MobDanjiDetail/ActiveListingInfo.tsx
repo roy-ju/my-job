@@ -102,7 +102,7 @@ export default function ActiveListingInfo({
   );
 
   const handleCreateListing = useCallback(() => {
-    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${
+    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
       danji?.danji_id || router?.query?.danjiID || ''
     }`;
 
@@ -110,7 +110,7 @@ export default function ActiveListingInfo({
   }, [danji?.danji_id, router]);
 
   const handleCreateSuggest = useCallback(() => {
-    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${
+    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
       danji?.danji_id || router?.query?.danjiID || ''
     }`;
 
@@ -167,7 +167,7 @@ export default function ActiveListingInfo({
 
   if (isListingDetail && danjiListings?.length > 0)
     return (
-      <div tw="flex flex-col gap-3 px-5 pb-10 mt-4">
+      <div tw="flex flex-col gap-3 px-5 pb-10">
         <Button variant="outlined" size="medium" tw="w-full" onClick={handleListingAll}>
           매물 전체보기&nbsp;{!!totalCount && <span tw="font-bold">{totalCount}</span>}
         </Button>

@@ -31,7 +31,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
   const handleClickBack = useCallback(() => {
     if (router.query.entry === 'danji') {
       nextRouter.replace(
-        `/${Routes.DanjiDetailUpdated}/${Routes.DanjiRecommendation}?danjiID=${
+        `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${
           params.danji_id
         }&entry=danji&params=${JSON.stringify(params)}&forms=${router.query.forms}&redirect=${router.query.redirect}`,
       );
@@ -65,7 +65,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
 
     toast.success('구해요 글이 등록되었습니다.');
 
-    nextRouter.replace(`/${Routes.DanjiDetailUpdated}?danjiID=${params.danji_id}`);
+    nextRouter.replace(`/${Routes.DanjiDetail}?danjiID=${params.danji_id}`);
   }, [params, mutate, nextRouter]);
 
   const handleAccessDenied = useCallback(() => {}, []);

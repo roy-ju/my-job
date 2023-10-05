@@ -427,6 +427,14 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <MyParticipatingListings {...props} />;
     }
 
+    case Routes.ListingDetailPassed: {
+      return <ListingDetailPassed {...props} />;
+    }
+
+    case Routes.ListingDetailHistory: {
+      return <ListingDetailHistory {...props} />;
+    }
+
     case Routes.LawQna: {
       return <LegalCounseling {...props} />;
     }
@@ -501,11 +509,9 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     case Routes.ServiceTerms: {
       return <ServiceTerms {...props} />;
     }
-
     case Routes.PrivacyPolicy: {
       return <PrivacyPolicy {...props} />;
     }
-
     case Routes.LocationTerms: {
       return <LocationTerms {...props} />;
     }
@@ -541,14 +547,6 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       );
     }
 
-    case Routes.ListingDetailPassed: {
-      return <ListingDetailPassed {...props} />;
-    }
-
-    case Routes.ListingDetailHistory: {
-      return <ListingDetailHistory {...props} />;
-    }
-
     case Routes.ContractTerms: {
       return <ContractTerms {...props} />;
     }
@@ -566,10 +564,6 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail key={`${query.danjiID as string}`} {...props} />;
-    }
-
-    case Routes.DanjiDetailUpdated: {
       return <DanjiDetail key={`${query.danjiID as string}`} {...props} />;
     }
 

@@ -57,12 +57,14 @@ const MobDanjiSummary = React.memo(
     const handleDanjiDetail = () => {
       router.push(
         {
-          pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${selectedDanjiSummary?.danjiID}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
           query: {
+            danjiID: selectedDanjiSummary?.danjiID,
+
             bor: filter?.buyOrRents || '',
           },
         },
-        `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${selectedDanjiSummary?.danjiID}`,
+        `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${selectedDanjiSummary?.danjiID}`,
       );
     };
 

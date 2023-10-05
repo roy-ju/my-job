@@ -50,7 +50,7 @@ export default memo(() => {
       return;
     }
 
-    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${params?.danji_id}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${params?.danji_id}`);
   }, [router, params, mutate]);
 
   const handleAccessDenied = useCallback(() => {}, []);
