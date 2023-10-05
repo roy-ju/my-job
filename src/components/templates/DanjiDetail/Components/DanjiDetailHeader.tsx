@@ -78,7 +78,7 @@ export default function DanjiDetailHeader({
   const handleShareViaKakao = useCallback(() => {
     if (!danji) return;
 
-    const link = `${window.origin}/${Routes.DanjiDetailUpdated}/${danji.danji_id}`;
+    const link = `${window.origin}/${Routes.DanjiDetailUpdated}?danjiID=${danji.danji_id}`;
 
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
@@ -113,7 +113,7 @@ export default function DanjiDetailHeader({
 
     const content = `[네고시오] ${danji?.name}\n► ${danji?.road_name_address ?? danji?.jibun_address}\n\n${
       window.origin
-    }/${Routes.DanjiDetailUpdated}/${danji.danji_id}`;
+    }/${Routes.DanjiDetailUpdated}?danjiID=${danji.danji_id}`;
 
     navigator.clipboard.writeText(content);
     toast.success('복사되었습니다.');

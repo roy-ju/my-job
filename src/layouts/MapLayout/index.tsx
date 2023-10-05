@@ -1,7 +1,7 @@
 import OutsideClick from '@/components/atoms/OutsideClick';
 import { MapLayout as Layout, MapStreetView } from '@/components/templates';
 import { Map } from '@/lib/navermap';
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -68,7 +68,7 @@ function MapWrapper({
     ...props
   } = useMapLayout();
 
-  const { depth, popLast, replace, query } = useRouter(0);
+  const { depth, popLast, replace } = useRouter(0);
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -103,22 +103,6 @@ function MapWrapper({
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
 
-  const showClosePanel = useMemo(() => {
-    if (
-      query?.depth1 &&
-      query?.depth1 === Routes.DanjiDetailUpdated &&
-      query?.depth2 &&
-      Number(query.depth2) > 0 &&
-      query.danjiID
-    ) {
-      return false;
-    }
-
-    if (depth > 1) {
-      return true;
-    }
-  }, [query, depth]);
-
   return (
     <>
       <Layout.MapContainer
@@ -134,7 +118,7 @@ function MapWrapper({
         centerAddress={centerAddress}
         mapToggleValue={mapToggleValue}
         listingCount={listingCount}
-        showClosePanelButton={showClosePanel}
+        showClosePanelButton={depth > 1}
         panelsVisible={panelsVisible}
         onClickCurrentLocation={morphToCurrentLocation}
         onClickZoomIn={zoomIn}
