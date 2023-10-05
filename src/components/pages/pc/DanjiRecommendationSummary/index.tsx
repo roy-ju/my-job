@@ -65,7 +65,13 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
 
     toast.success('구해요 글이 등록되었습니다.');
 
-    nextRouter.replace(`/${Routes.DanjiDetailUpdated}?danjiID=${params.danji_id}`);
+    nextRouter.replace(
+      {
+        pathname: `/${Routes.DanjiDetailUpdated}/${params.danji_id}`,
+        query: { danjiID: params.danji_id },
+      },
+      `/${Routes.DanjiDetailUpdated}/${params.danji_id}`,
+    );
   }, [params, mutate, nextRouter]);
 
   const handleAccessDenied = useCallback(() => {}, []);

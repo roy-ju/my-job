@@ -141,7 +141,7 @@ export default function ActiveListingInfo({
         pathname: `/${Routes.DanjiDetailUpdated}/${Routes.ListingCreateAddress}`,
         query: {
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          redirect: `/${Routes.DanjiDetailUpdated}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+          redirect: `/${Routes.DanjiDetailUpdated}/${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
       `/${Routes.DanjiDetailUpdated}/${Routes.ListingCreateAddress}?danjiID=${
@@ -157,7 +157,7 @@ export default function ActiveListingInfo({
         query: {
           entry: 'danji',
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          redirect: `/${Routes.DanjiDetailUpdated}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+          redirect: `/${Routes.DanjiDetailUpdated}/${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
       `/${Routes.DanjiDetailUpdated}/${Routes.DanjiRecommendation}?danjiID=${

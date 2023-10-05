@@ -104,7 +104,7 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
   const onClickItem = useCallback(
     (danjiID: number) => {
       if (platform === 'pc') {
-        nextRouter.push(`/${Routes.DanjiDetailUpdated}?danjiID=${danjiID}`);
+        nextRouter.push(`/${Routes.DanjiDetailUpdated}/${danjiID}`);
       }
       if (platform === 'mobile') {
         nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${danjiID}`);
@@ -133,7 +133,7 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
             date={`${item.year}.${minDigits(+item.month, 2)}.${minDigits(+item.day, 2)}`}
             anchorURL={
               platform === 'pc'
-                ? `/${Routes.DanjiDetailUpdated}?danjiID=${item.danji_id}`
+                ? `/${Routes.DanjiDetailUpdated}/${item.danji_id}`
                 : `/${Routes.EntryMobile}/${Routes.DanjiDetailUpdated}/${item.danji_id}`
             }
           />

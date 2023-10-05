@@ -72,11 +72,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         onNext={handleNextpage}
         updatedTime={updatedTime ?? ''}
         onClickItem={(danjiID, realestateType, bor) =>
-          router.push(Routes.DanjiDetailUpdated, {
-            searchParams: {
-              danjiID: `${danjiID}`,
-            },
+          router.push(`${Routes.DanjiDetailUpdated}/${danjiID}`, {
             state: {
+              danjiID: `${danjiID}`,
               bor: bor.toString(),
             },
           })
