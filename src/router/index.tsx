@@ -10,8 +10,6 @@ import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdat
 import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
 import Head from 'next/head';
 import AppConfig from '@/config';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import { useState } from 'react';
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -797,17 +795,6 @@ export default function MetaInserted({
   ogImagePath,
   ...props
 }: MetaInsertedProps) {
-  const [path, setPath] = useState('');
-  const [query, setQuery] = useState('');
-
-  const baseURL =
-    process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? 'https://test.negocio.kr' : 'https://www.negocio.co.kr';
-
-  useIsomorphicLayoutEffect(() => {
-    setPath(window.location.pathname);
-    setQuery(window.location.search);
-  }, []);
-
   return (
     <>
       <Head>
@@ -819,7 +806,6 @@ export default function MetaInserted({
         {ogSiteName && <meta property="og:site_name" content={ogSiteName} />}
         {ogType && <meta property="og:type" content={ogType} />}
         {ogImagePath && <meta property="og:image" content={ogImagePath} />}
-        <link rel="canonical" href={`${baseURL}${path}${query || ''}`} />
       </Head>
       <Router {...props} />
     </>
