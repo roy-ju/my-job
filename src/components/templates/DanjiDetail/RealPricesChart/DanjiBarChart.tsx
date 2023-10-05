@@ -126,7 +126,10 @@ const DanjiBarChart = React.memo(
                     width={barWidth}
                     height={barHeight}
                     fill={
-                      !!item.buy_count && !!tooltipData?.buy_count && item.buy_price === tooltipData?.buy_price
+                      !!item.buy_count &&
+                      !!tooltipData?.buy_count &&
+                      item.buy_price === tooltipData?.buy_price &&
+                      item.date === tooltipData?.date
                         ? '#7950F2'
                         : '#bbb'
                     }
@@ -155,9 +158,11 @@ const DanjiBarChart = React.memo(
                     width={barWidth}
                     height={barHeight}
                     fill={
+                      // tooltipData
                       !!item.jeonsae_count &&
                       !!tooltipData?.jeonsae_count &&
-                      item.jeonsae_price === tooltipData?.jeonsae_price
+                      item.jeonsae_price === tooltipData?.jeonsae_price &&
+                      item.date === tooltipData?.date
                         ? '#FF542D'
                         : '#bbb'
                     }
