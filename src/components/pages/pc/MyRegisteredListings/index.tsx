@@ -104,8 +104,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     [setTab, router],
   );
 
-  console.log(isLoading);
-
   return (
     <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
