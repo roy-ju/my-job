@@ -1,4 +1,4 @@
-import { Panel } from '@/components/atoms';
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -57,10 +57,10 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     const isPromiseFullfilled =
-      !myRegisteringListingIsLoading &&
-      !myActiveListingIsLoading &&
-      !myContractCompleteListingIsLoading &&
-      !myCancelledListingIsLoading;
+      myRegisteringListingIsLoading &&
+      myActiveListingIsLoading &&
+      myContractCompleteListingIsLoading &&
+      myCancelledListingIsLoading;
 
     setIsLoading(isPromiseFullfilled);
   }, [
@@ -104,40 +104,46 @@ export default memo(({ depth, panelWidth }: Props) => {
     [setTab, router],
   );
 
-  if (!isLoading) {
-    return <Panel width={panelWidth} />;
-  }
+  console.log(isLoading);
 
   return (
-    <Panel width={panelWidth}>
-      <MyRegisteredListingsTemplate
-        tab={tab}
-        onChangeListingTab={handleChangeListingTab}
-        onClickListingItem={handleClickListingItem}
-        onClickNavigateToListingCreate={handleNavigateToListingCreate}
-        onClickNavigateToListingDetailPassed={handleNavigateToListingDetailPassed}
-        isDeleteActive={isDeleteActive}
-        isPopupActive={isPopupActive}
-        checkedListingIdList={checkedListingIdList}
-        onChangeCheckbox={handleChangeCheckbox}
-        onDeleteListingList={handleDeleteListingList}
-        onActiveDelete={handleActiveDelete}
-        onCancelDelete={handleCancelDelete}
-        onOpenPopup={handleOpenPopup}
-        onClosePopup={handleClosePopup}
-        myRegisteringListingCount={myRegisteringListingCount ?? 0}
-        myRegisteringListingData={myRegisteringListingData ?? []}
-        myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
-        myActiveListingCount={myActiveListingCount ?? 0}
-        myActiveListingData={myActiveListingData ?? []}
-        myActiveListingIncrementalPageNumber={myActiveListingIncrementalPageNumber}
-        myContractCompleteListingCount={myContractCompleteListingCount ?? 0}
-        myContractCompleteListingData={myContractCompleteListingData ?? []}
-        myContractCompleteListingIncrementalPageNumber={myContractCompleteListingIncrementalPageNumber}
-        myCancelledListingCount={myCancelledListingCount ?? 0}
-        myCancelledListingData={myCancelledListingData ?? []}
-        myCancelledListingIncrementalPageNumber={myCancelledListingIncrementalPageNumber}
-      />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : (
+          <MyRegisteredListingsTemplate
+            tab={tab}
+            onChangeListingTab={handleChangeListingTab}
+            onClickListingItem={handleClickListingItem}
+            onClickNavigateToListingCreate={handleNavigateToListingCreate}
+            onClickNavigateToListingDetailPassed={handleNavigateToListingDetailPassed}
+            isDeleteActive={isDeleteActive}
+            isPopupActive={isPopupActive}
+            checkedListingIdList={checkedListingIdList}
+            onChangeCheckbox={handleChangeCheckbox}
+            onDeleteListingList={handleDeleteListingList}
+            onActiveDelete={handleActiveDelete}
+            onCancelDelete={handleCancelDelete}
+            onOpenPopup={handleOpenPopup}
+            onClosePopup={handleClosePopup}
+            myRegisteringListingCount={myRegisteringListingCount ?? 0}
+            myRegisteringListingData={myRegisteringListingData ?? []}
+            myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
+            myActiveListingCount={myActiveListingCount ?? 0}
+            myActiveListingData={myActiveListingData ?? []}
+            myActiveListingIncrementalPageNumber={myActiveListingIncrementalPageNumber}
+            myContractCompleteListingCount={myContractCompleteListingCount ?? 0}
+            myContractCompleteListingData={myContractCompleteListingData ?? []}
+            myContractCompleteListingIncrementalPageNumber={myContractCompleteListingIncrementalPageNumber}
+            myCancelledListingCount={myCancelledListingCount ?? 0}
+            myCancelledListingData={myCancelledListingData ?? []}
+            myCancelledListingIncrementalPageNumber={myCancelledListingIncrementalPageNumber}
+          />
+        )}
+      </Panel>
+    </AuthRequired>
   );
 });

@@ -64,10 +64,10 @@ export default function useMyParticipatingListings() {
   };
 
   const isLoading =
-    !biddingStatus.accepted.isLoading &&
-    !biddingStatus.past.isLoading &&
-    !biddingStatus.preContractCompleted.isLoading &&
-    !biddingStatus.submitted.isLoading;
+    biddingStatus.accepted.isLoading &&
+    biddingStatus.past.isLoading &&
+    biddingStatus.preContractCompleted.isLoading &&
+    biddingStatus.submitted.isLoading;
 
   return { biddingStatus, isLoading };
 }

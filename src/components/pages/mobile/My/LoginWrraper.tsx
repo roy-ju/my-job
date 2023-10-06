@@ -107,13 +107,25 @@ export default function LoginWrraper({ ipAddress }: { ipAddress: string }) {
     };
   }, [router, handleLogin]);
 
+  const handleClickBack = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
+    }
+  }, [router]);
+
   return (
     <MobileContainer>
       <LoginTemplate
         onClickKakaoLogin={handleKakaoLogin}
         onClickAppleLogin={handleAppleLogin}
         onClickForgotMyAccount={handleForgotMyAccount}
-        onClickBack={() => router.back()}
+        onClickBack={handleClickBack}
       />
     </MobileContainer>
   );

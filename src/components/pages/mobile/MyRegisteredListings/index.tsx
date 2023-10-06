@@ -1,4 +1,4 @@
-import { Loading, MobileContainer } from '@/components/atoms';
+import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/components/templates';
 import { memo, useCallback, useEffect, useState } from 'react';
 import Routes from '@/router/routes';
@@ -50,10 +50,10 @@ export default memo(() => {
 
   useEffect(() => {
     const isPromiseFullfilled =
-      !myRegisteringListingIsLoading &&
-      !myActiveListingIsLoading &&
-      !myContractCompleteListingIsLoading &&
-      !myCancelledListingIsLoading;
+      myRegisteringListingIsLoading &&
+      myActiveListingIsLoading &&
+      myContractCompleteListingIsLoading &&
+      myCancelledListingIsLoading;
 
     setIsLoading(isPromiseFullfilled);
   }, [
@@ -84,50 +84,56 @@ export default memo(() => {
   );
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      }
+    }
   }, [router]);
 
-  if (!isLoading) {
-    return (
-      <MobileContainer>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </MobileContainer>
-    );
-  }
-
   return (
-    <MobileContainer>
-      <MyRegisteredListingsTemplate
-        tab={tab}
-        onClickBack={handleClickBack}
-        onChangeListingTab={handleChangeListingTab}
-        onClickListingItem={handleClickListingItem}
-        onClickNavigateToListingCreate={handleNavigateToListingCreate}
-        onClickNavigateToListingDetailPassed={handleNavigateToListingDetailPassed}
-        isDeleteActive={isDeleteActive}
-        isPopupActive={isPopupActive}
-        checkedListingIdList={checkedListingIdList}
-        onChangeCheckbox={handleChangeCheckbox}
-        onDeleteListingList={handleDeleteListingList}
-        onActiveDelete={handleActiveDelete}
-        onCancelDelete={handleCancelDelete}
-        onOpenPopup={handleOpenPopup}
-        onClosePopup={handleClosePopup}
-        myRegisteringListingCount={myRegisteringListingCount ?? 0}
-        myRegisteringListingData={myRegisteringListingData ?? []}
-        myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
-        myActiveListingCount={myActiveListingCount ?? 0}
-        myActiveListingData={myActiveListingData ?? []}
-        myActiveListingIncrementalPageNumber={myActiveListingIncrementalPageNumber}
-        myContractCompleteListingCount={myContractCompleteListingCount ?? 0}
-        myContractCompleteListingData={myContractCompleteListingData ?? []}
-        myContractCompleteListingIncrementalPageNumber={myContractCompleteListingIncrementalPageNumber}
-        myCancelledListingCount={myCancelledListingCount ?? 0}
-        myCancelledListingData={myCancelledListingData ?? []}
-        myCancelledListingIncrementalPageNumber={myCancelledListingIncrementalPageNumber}
-      />
-    </MobileContainer>
+    <MobAuthRequired>
+      <MobileContainer>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : (
+          <MyRegisteredListingsTemplate
+            tab={tab}
+            onClickBack={handleClickBack}
+            onChangeListingTab={handleChangeListingTab}
+            onClickListingItem={handleClickListingItem}
+            onClickNavigateToListingCreate={handleNavigateToListingCreate}
+            onClickNavigateToListingDetailPassed={handleNavigateToListingDetailPassed}
+            isDeleteActive={isDeleteActive}
+            isPopupActive={isPopupActive}
+            checkedListingIdList={checkedListingIdList}
+            onChangeCheckbox={handleChangeCheckbox}
+            onDeleteListingList={handleDeleteListingList}
+            onActiveDelete={handleActiveDelete}
+            onCancelDelete={handleCancelDelete}
+            onOpenPopup={handleOpenPopup}
+            onClosePopup={handleClosePopup}
+            myRegisteringListingCount={myRegisteringListingCount ?? 0}
+            myRegisteringListingData={myRegisteringListingData ?? []}
+            myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
+            myActiveListingCount={myActiveListingCount ?? 0}
+            myActiveListingData={myActiveListingData ?? []}
+            myActiveListingIncrementalPageNumber={myActiveListingIncrementalPageNumber}
+            myContractCompleteListingCount={myContractCompleteListingCount ?? 0}
+            myContractCompleteListingData={myContractCompleteListingData ?? []}
+            myContractCompleteListingIncrementalPageNumber={myContractCompleteListingIncrementalPageNumber}
+            myCancelledListingCount={myCancelledListingCount ?? 0}
+            myCancelledListingData={myCancelledListingData ?? []}
+            myCancelledListingIncrementalPageNumber={myCancelledListingIncrementalPageNumber}
+          />
+        )}
+      </MobileContainer>
+    </MobAuthRequired>
   );
 });

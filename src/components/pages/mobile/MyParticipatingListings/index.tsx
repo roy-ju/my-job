@@ -1,4 +1,4 @@
-import { Loading, MobileContainer } from '@/components/atoms';
+import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { memo, useState, useEffect, useCallback } from 'react';
 import { MyParticipatingListings as MyParticipatingListingsTemplate } from '@/components/templates';
 import { useRouter } from 'next/router';
@@ -32,29 +32,35 @@ export default memo(() => {
   };
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      }
+    }
   }, [router]);
 
-  if (!isLoading) {
-    return (
-      <MobileContainer>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </MobileContainer>
-    );
-  }
-
   return (
-    <MobileContainer>
-      <MyParticipatingListingsTemplate
-        tab={tab}
-        onChangeListingTab={handleChangeListingTab}
-        onClickListingItem={handleClickListingItem}
-        onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
-        onClickBack={handleClickBack}
-        biddingStatus={biddingStatus}
-      />
-    </MobileContainer>
+    <MobAuthRequired>
+      <MobileContainer>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : (
+          <MyParticipatingListingsTemplate
+            tab={tab}
+            onChangeListingTab={handleChangeListingTab}
+            onClickListingItem={handleClickListingItem}
+            onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
+            onClickBack={handleClickBack}
+            biddingStatus={biddingStatus}
+          />
+        )}
+      </MobileContainer>
+    </MobAuthRequired>
   );
 });
