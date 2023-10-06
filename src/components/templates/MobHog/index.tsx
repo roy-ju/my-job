@@ -7,7 +7,7 @@ import CharacterImage from '@/../public/static/images/character_mirror.png';
 import Image from 'next/image';
 
 const GuideStepList = [
-  '주소를 검색해 주세요.',
+  '주소를 확인해 주세요.',
   '거래정보(가격 등)를 입력해 주세요.',
   '매물 정보를 입력해 주세요.',
   '중개사를 선택해 주세요.',
