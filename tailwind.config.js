@@ -4,11 +4,13 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   future: { hoverOnlyWhenSupported: true },
+
   theme: {
     extend: {
       fontFamily: {
         sans: ['Pretendard', ...defaultTheme.fontFamily.sans],
       },
+
       fontSize: {
         h1: [
           '1.5rem',
