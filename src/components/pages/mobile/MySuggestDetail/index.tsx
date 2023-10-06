@@ -141,8 +141,6 @@ export default memo(() => {
     router.replace('/');
   };
 
-  console.log(showInactivePopup);
-
   return (
     <MobAuthRequired>
       <MobileContainer>
