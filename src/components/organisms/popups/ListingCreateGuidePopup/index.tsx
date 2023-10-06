@@ -57,7 +57,7 @@ export default function ListingCreateGuidePopup({
         <div tw="[margin-bottom: 70px]">
           <div tw="font-bold text-h2 text-center mb-5">매물등록은 아래와 같은 순서로 진행됩니다.</div>
           <ol tw="grid grid-cols-2 gap-2">
-            <OListItem contents="주소를 검색해 주세요." order={1} />
+            <OListItem contents="주소를 확인해 주세요." order={1} />
             <OListItem contents="거래정보(가격 등)를 입력해 주세요." order={2} />
             <OListItem contents="매물 정보를 입력해 주세요." order={3} />
             <OListItem contents="중개사를 선택해 주세요." order={4} />
