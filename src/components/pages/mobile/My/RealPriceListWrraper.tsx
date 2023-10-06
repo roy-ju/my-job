@@ -54,7 +54,7 @@ export default function RealPriceListWrraper() {
       if (canGoBack) {
         router.back();
       } else {
-        router.replace('/my');
+        router.replace(`${Routes.EntryMobile}/${Routes.My}`);
       }
     }
   }, [router]);

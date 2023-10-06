@@ -35,7 +35,7 @@ function getKey(suggestID: number | null, filter?: number) {
   };
 }
 
-export default function useAPI_GetMySuggestRecommends(suggestID: number | null, filter?: number) {
+export default function useAPI_GetMySuggestRecommends(suggestID: number | null, filter?: number, mySuggest?: boolean) {
   const { user } = useAuth();
   const {
     data: dataList,
@@ -44,7 +44,7 @@ export default function useAPI_GetMySuggestRecommends(suggestID: number | null, 
     isLoading,
     mutate,
   } = useSWRInfinite<GetMySuggestRecommendsResponse>(
-    user && (suggestID || filter) ? getKey(suggestID, filter) : () => null,
+    user && mySuggest && (suggestID || filter) ? getKey(suggestID, filter) : () => null,
   );
   const data = useMemo(() => {
     if (!dataList) return [];

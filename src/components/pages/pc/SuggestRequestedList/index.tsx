@@ -1,5 +1,5 @@
 import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
-import { Loading, Panel } from '@/components/atoms';
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { SuggestRequestedList } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
@@ -36,24 +36,22 @@ export default memo(({ panelWidth, depth }: Props) => {
     [router],
   );
 
-  if (isLoading) {
-    return (
-      <Panel width={panelWidth}>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </Panel>
-    );
-  }
-
   return (
-    <Panel width={panelWidth}>
-      <SuggestRequestedList
-        list={data}
-        onClickRecommendationForm={handleClickRecommendationForm}
-        onClickSuggestItem={handleClickSuggestItem}
-        onNext={increamentPageNumber}
-      />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : (
+          <SuggestRequestedList
+            list={data}
+            onClickRecommendationForm={handleClickRecommendationForm}
+            onClickSuggestItem={handleClickSuggestItem}
+            onNext={increamentPageNumber}
+          />
+        )}
+      </Panel>
+    </AuthRequired>
   );
 });

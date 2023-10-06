@@ -1,5 +1,5 @@
 import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
-import { Loading, MobileContainer } from '@/components/atoms';
+import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 
 import { SuggestRequestedList } from '@/components/templates';
 import Routes from '@/router/routes';
@@ -23,28 +23,34 @@ export default memo(() => {
   );
 
   const handleClickBack = useCallback(() => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      }
+    }
   }, [router]);
 
-  if (isLoading) {
-    return (
-      <MobileContainer>
-        <div tw="py-20">
-          <Loading />
-        </div>
-      </MobileContainer>
-    );
-  }
-
   return (
-    <MobileContainer>
-      <SuggestRequestedList
-        onClickBack={handleClickBack}
-        list={data}
-        onClickRecommendationForm={handleClickRecommendationForm}
-        onClickSuggestItem={handleClickSuggestItem}
-        onNext={increamentPageNumber}
-      />
-    </MobileContainer>
+    <MobAuthRequired>
+      <MobileContainer>
+        {isLoading ? (
+          <div tw="py-20">
+            <Loading />
+          </div>
+        ) : (
+          <SuggestRequestedList
+            onClickBack={handleClickBack}
+            list={data}
+            onClickRecommendationForm={handleClickRecommendationForm}
+            onClickSuggestItem={handleClickSuggestItem}
+            onNext={increamentPageNumber}
+          />
+        )}
+      </MobileContainer>
+    </MobAuthRequired>
   );
 });
