@@ -23,6 +23,7 @@ import { initializeAppleAuth } from '@/lib/apple';
 import * as gtag from '@/lib/gtag';
 import { useRouter } from 'next/router';
 import AppVersionChecker from '@/providers/AppVersionChecker';
+import 'public/fonts/pretendard.css';
 
 const schema = {
   '@context': 'https://schema.org',
