@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
@@ -120,7 +119,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </Script>
 
       {/* Google Tag Manager */}
-      {/* <Script id="gtm-init" strategy="afterInteractive">
+      <Script id="gtm-init" strategy="afterInteractive">
         {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -128,7 +127,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','${gtag.GTM_ID}');
         `}
-      </Script> */}
+      </Script>
 
       {/* Kakao SDK */}
       <Script
