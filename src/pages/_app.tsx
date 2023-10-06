@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import type { NextPage } from 'next';
@@ -20,7 +21,7 @@ import TooltipProvider from '@/providers/TooltipProvider';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import { initializeAppleAuth } from '@/lib/apple';
 
-import * as gtag from '@/lib/gtag';
+// import * as gtag from '@/lib/gtag';
 import { useRouter } from 'next/router';
 import AppVersionChecker from '@/providers/AppVersionChecker';
 
@@ -87,7 +88,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      gtag.pageview(url);
+      // gtag.pageview(url);
     };
     router.events.on('routeChangeComplete', handleRouteChange);
     return () => {
@@ -103,16 +104,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="naver-site-verification" content={`${process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION}`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Head>
-      {/* Google Trends API */}
-      {/* <Script
-        strategy="afterInteractive"
-        type="text/javascript"
-        src="https://ssl.gstatic.com/trends_nrtr/3349_RC01/embed_loader.js"
-      /> */}
 
       {/* Google Tag */}
-      <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`} />
-      <Script id="gtag-init" strategy="afterInteractive">
+      {/* <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`} /> */}
+      {/* <Script id="gtag-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -122,10 +117,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             page_path: window.location.pathname,
           });
         `}
-      </Script>
+      </Script> */}
 
       {/* Google Tag Manager */}
-      <Script id="gtm-init" strategy="afterInteractive">
+      {/* <Script id="gtm-init" strategy="afterInteractive">
         {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -133,7 +128,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','${gtag.GTM_ID}');
         `}
-      </Script>
+      </Script> */}
 
       {/* Kakao SDK */}
       <Script
