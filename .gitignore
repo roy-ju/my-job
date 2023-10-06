@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+/scripts/.dynamic-sitemap-test.js
+/shells/generate-sitemap.sh
+
 # testing
 /coverage
 
