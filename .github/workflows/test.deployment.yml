@@ -65,7 +65,7 @@ jobs:
         run: rm -rf ./public/sitemap_danji_6.xml
 
       - name: Generated DynamicSitemaps
-        run: sh shells/generate-sitemaps.sh
+        run: sh ./shells/generate-sitemaps.sh
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
