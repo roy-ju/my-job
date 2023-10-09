@@ -1,9 +1,7 @@
 /* eslint-disable no-plusplus */
 const fs = require('fs');
 
-// const APIURL = 'https://api-test.negocio.kr/danji/ids';
-
-const APIURL = `${process.env.NEGOCIO_REST_API_BASE_URL}/danji/ids`;
+const APIURL = 'https://api-test.negocio.kr/danji/ids';
 
 const mobileBaseURL = 'https://www.negocio.co.kr/m';
 const webBaseURL = 'https://www.negocio.co.kr';
