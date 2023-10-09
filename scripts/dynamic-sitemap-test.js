@@ -1,12 +1,11 @@
 /* eslint-disable no-plusplus */
 const fs = require('fs');
 
-// const APIURL = 'https://api-test.negocio.kr/danji/ids';
-
 const APIURL = `${process.env.NEGOCIO_REST_API_BASE_URL}/danji/ids`;
+const baseURL = `${process.env.NEGOCIO_BASE_URL}`;
 
-const mobileBaseURL = 'https://www.negocio.co.kr/m';
-const webBaseURL = 'https://www.negocio.co.kr';
+const mobileBaseURL = `${baseURL}/m`;
+const webBaseURL = baseURL;
 const xmlnsURL = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 
 const headerXmlVersion = '<?xml version="1.0" encoding="UTF-8"?>';

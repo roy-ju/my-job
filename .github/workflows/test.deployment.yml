@@ -9,6 +9,7 @@ env:
   TASK_DEFINITION_FAMILY: test-user-pc
   ECS_SERVICE_NAME: test-user-pc
   ECS_CLUSTER_NAME: negocio-client-test
+  NEGOCIO_BASE_URL: https://test.negocio.kr
   NEGOCIO_REST_API_BASE_URL: https://api-test.negocio.kr
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket-test.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: test
@@ -41,7 +42,7 @@ jobs:
         run: rm -rf ./public/robots_prod.txt
 
       - name: Set sitemap.xml
-        run: rm -rf ./public/sitemap_prod.xml
+        run: rm -rf ./public/sitemap.xml
 
       - name: Set sitemap_base.xml
         run: rm -rf ./public/sitemap_base.xml
@@ -60,9 +61,6 @@ jobs:
 
       - name: Set sitemap_danji_5.xml
         run: rm -rf ./public/sitemap_danji_5.xml
-
-      - name: Set sitemap_danji_6.xml
-        run: rm -rf ./public/sitemap_danji_6.xml
 
       - name: Generated DynamicSitemaps
         run: sh ./shells/generate-sitemaps.sh
