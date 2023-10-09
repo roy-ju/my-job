@@ -31,6 +31,8 @@ const SitemapURLToBeCreated = {
 
 const priorityValue = '1.0';
 
+const itemsPerPage = 10000;
+
 function formatDate({ isIsoString, date }) {
   if (isIsoString) {
     return date.toISOString();
@@ -88,7 +90,6 @@ const makeDynamicSitemaps = async () => {
     .then((res) => res.json())
     .then((data) => {
       const list = data.list;
-      const itemsPerPage = 10000;
       const totalPages = Math.ceil(list.length / itemsPerPage);
 
       for (let i = 1; i <= totalPages; i++) {
