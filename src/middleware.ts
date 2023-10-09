@@ -1,4 +1,5 @@
 import { NextFetchEvent, NextRequest, NextResponse, userAgent } from 'next/server';
+import { detectRobot } from './utils/regex';
 
 const exemptions = ['m', 'auth', 'callback', 'nice'];
 
@@ -14,8 +15,12 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
 
   const { ua } = userAgent(request);
 
-  // Redirect IE user
+  if (detectRobot(ua)) {
+    return;
+  }
+
   if (/MSIE|Trident/.test(ua)) {
+    // Redirect IE user
     return NextResponse.rewrite(new URL('/html/ie-not-supported.html', request.url));
   }
 

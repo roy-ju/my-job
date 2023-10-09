@@ -1,6 +1,10 @@
 /* eslint-disable no-plusplus */
 const fs = require('fs');
 
+// 로컬에서 테스트를 하기 위한 용도이다.
+// APIURL = 'https://api-test.negocio.kr/danji/ids';
+// baseURL = 'https://test.negocio.kr';
+
 const APIURL = `${process.env.NEGOCIO_REST_API_BASE_URL}/danji/ids`;
 const baseURL = `${process.env.NEGOCIO_BASE_URL}`;
 
