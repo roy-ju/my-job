@@ -103,7 +103,7 @@ const makeDynamicSitemaps = async () => {
           .slice(startIndex, endIndex)
           .map(
             (value) =>
-              `<url><loc>${mobileBaseURL}/${Routes.DANJIDETAIL}?danjiID=${value}</loc><lastmod>2023-10-05</lastmod></url>`,
+              `<url><loc>${mobileBaseURL}/${Routes.DANJIDETAIL}?danjiID=${value}</loc><lastmod>${lastmodValue}</lastmod></url>`,
           )
           .join('');
 
