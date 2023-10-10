@@ -13,7 +13,6 @@ const Routes = {
   DanjiPhotos: 'danjiPhotos',
   DanjiRecommendation: 'danjiRecommendation',
   DanjiRecommendationSummary: 'danjiRecommendationSummary',
-  DanjiRecommendationSuccess: 'danjiRecommendationSuccess',
   DanjiRecommendationUpdate: 'danjiRecommendationUpdate',
   DanjiRealPriceList: 'danjiRealPriceList',
   DanjiRealPriceDetail: 'danjiRealPrice',

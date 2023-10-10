@@ -16,7 +16,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   const targetRoute = query.depth2 ?? query.depth1;
 
-  if (targetRoute === Routes.DanjiRecommendation || targetRoute === Routes.DanjiRecommendationSuccess) {
+  if (targetRoute === Routes.DanjiRecommendation) {
     return {
       title: `단지 추천받기 | ${
         process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
