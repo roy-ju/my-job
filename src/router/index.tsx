@@ -295,10 +295,6 @@ const SuggestRegionalSummary = dynamic(() => import('@/components/pages/pc/Sugge
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestRegionalSuccess = dynamic(() => import('@/components/pages/pc/SuggestRegionalSuccess'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
 const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
   ssr: false,
   loading: FallbackComponent,
@@ -694,10 +690,6 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.SuggestRegionalSummary: {
       return <SuggestRegionalSummary {...props} />;
-    }
-
-    case Routes.SuggestRegionalSuccess: {
-      return <SuggestRegionalSuccess {...props} />;
     }
 
     case Routes.SuggestRegionalFormUpdate: {

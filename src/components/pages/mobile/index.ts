@@ -72,7 +72,6 @@ export { default as MyParticipatingListings } from './MyParticipatingListings';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
-export { default as SuggestRegionalSuccess } from './SuggestRegionalSuccess';
 export { default as SuggestRegionalFormUpdate } from './SuggestRegionalFormUpdate';
 export { default as SuggestDetail } from './SuggestDetail';
 
