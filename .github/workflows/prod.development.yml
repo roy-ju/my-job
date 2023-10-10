@@ -11,6 +11,7 @@ env:
   TASK_DEFINITION_FAMILY: production-user-client
   ECS_SERVICE_NAME: production-user-client
   ECS_CLUSTER_NAME: negocio-client-production
+  NEGOCIO_BASE_URL: https://www.negocio.co.kr/
   NEGOCIO_REST_API_BASE_URL: https://api.negocio.kr
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: prod
@@ -41,6 +42,9 @@ jobs:
 
       - name: Set robots.txt
         run: mv ./public/robots_prod.txt ./public/robots.txt && rm -rf ./public/robots_prod.txt
+
+      - name: Generated DynamicSitemaps
+        run: sh ./shells/generate-sitemaps.sh
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
