@@ -2,6 +2,6 @@ cd scripts
 
 echo "making sitemaps"
 
-node ./dynamic-sitemap-test.js
+node ./dynamic-sitemap.js
 
 echo "success sitemaps"
