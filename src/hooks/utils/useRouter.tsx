@@ -21,7 +21,7 @@ export default function useRouter(depth: number) {
    * 현재 depth 기준으로 호출된 depth 포함 오른쪽에 열려있는 모든 depth 들을 닫는다.
    */
   const pop = useCallback(
-    (options?: NavigationOptions) => {
+    (options?: NavigationOptions, isPushHistroyStack = false) => {
       let segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -46,6 +46,10 @@ export default function useRouter(depth: number) {
         query[`depth${index + 1}`] = value;
       });
 
+      if (isPushHistroyStack) {
+        return router.push({ pathname: path, query });
+      }
+
       return router.replace({ pathname: path, query });
     },
     [router, depth],
@@ -55,41 +59,48 @@ export default function useRouter(depth: number) {
    * 가장 오른쪽에 열려 있는 depth 를 닫는다.
    */
 
-  const popLast = useCallback(() => {
-    const segments = router.asPath
-      .split('?')[0]
-      .split('/')
-      .filter((seg) => seg !== '');
+  const popLast = useCallback(
+    (isPushHistroyStack = false) => {
+      const segments = router.asPath
+        .split('?')[0]
+        .split('/')
+        .filter((seg) => seg !== '');
 
-    segments.pop();
+      segments.pop();
 
-    for (let i = 1; i < 6; i += 1) {
-      delete router.query[`depth${i}`];
-    }
+      for (let i = 1; i < 6; i += 1) {
+        delete router.query[`depth${i}`];
+      }
 
-    delete router.query.params;
-    delete router.query.redirect;
+      delete router.query.params;
+      delete router.query.redirect;
 
-    const query: Record<string, string> = {
-      ...(router.query as Record<string, string>),
-      // ...options?.searchParams,
-    };
+      const query: Record<string, string> = {
+        ...(router.query as Record<string, string>),
+        // ...options?.searchParams,
+      };
 
-    let path = '/';
+      let path = '/';
 
-    segments.forEach((value, index) => {
-      path += `[depth${index + 1}]/`;
-      query[`depth${index + 1}`] = value;
-    });
+      segments.forEach((value, index) => {
+        path += `[depth${index + 1}]/`;
+        query[`depth${index + 1}`] = value;
+      });
 
-    return router.replace({ pathname: path, query });
-  }, [router]);
+      if (isPushHistroyStack) {
+        return router.push({ pathname: path, query });
+      }
+
+      return router.replace({ pathname: path, query });
+    },
+    [router],
+  );
 
   /**
    * 오른쪽에 열려있는 모든 depth 를 유지한체 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replaceCurrent = useCallback(
-    (pathname: string, options?: NavigationOptions) => {
+    (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
       const segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -135,6 +146,10 @@ export default function useRouter(depth: number) {
           asPath += `?${searchParams}`;
         }
 
+        if (isPushHistroyStack) {
+          return router.push({ pathname: path, query }, asPath);
+        }
+
         return router.replace({ pathname: path, query }, asPath);
       }
     },
@@ -145,7 +160,7 @@ export default function useRouter(depth: number) {
    * 오른쪽에 열려있는 모든 depth 들을 닫고 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replace = useCallback(
-    (pathname: string, options?: NavigationOptions) => {
+    (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
       let segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -198,6 +213,9 @@ export default function useRouter(depth: number) {
         asPath += `?${searchParams}`;
       }
 
+      if (isPushHistroyStack) {
+        return router.push({ pathname: path, query }, asPath);
+      }
       return router.replace({ pathname: path, query }, asPath);
     },
     [router, depth],
@@ -206,21 +224,28 @@ export default function useRouter(depth: number) {
   /**
    * 모든 depth 들을 닫는다.
    */
-  const popAll = useCallback(() => {
-    if (router.pathname === '/') {
-      return new Promise<boolean>((resolve) => {
-        resolve(false);
-      });
-    }
+  const popAll = useCallback(
+    (isPushHistroyStack = false) => {
+      if (router.pathname === '/') {
+        return new Promise<boolean>((resolve) => {
+          resolve(false);
+        });
+      }
 
-    for (let i = 1; i < 6; i += 1) {
-      delete router.query[`depth${i}`];
-    }
+      for (let i = 1; i < 6; i += 1) {
+        delete router.query[`depth${i}`];
+      }
 
-    // const query = { ...router.query };
+      // const query = { ...router.query };
 
-    return router.replace({ pathname: '/', query: {} });
-  }, [router]);
+      if (isPushHistroyStack) {
+        return router.push({ pathname: '/', query: {} });
+      }
+
+      return router.replace({ pathname: '/', query: {} });
+    },
+    [router],
+  );
 
   /**
    * 현재 열려있는 패널의 바로 좌측에 새로운 패널을 추가한다.
@@ -231,7 +256,7 @@ export default function useRouter(depth: number) {
    * 기존에 있는 2 depth 를 그 새로운 depth 로 대체한다.
    */
   const push = useCallback(
-    (pathname: string, options?: NavigationOptions) => {
+    (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
       const segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -291,6 +316,10 @@ export default function useRouter(depth: number) {
       if (options?.searchParams) {
         const searchParams = new URLSearchParams(options.searchParams);
         asPath += `?${searchParams}`;
+      }
+
+      if (isPushHistroyStack) {
+        return router.push({ pathname: path, query }, asPath);
       }
 
       return router.replace({ pathname: path, query }, asPath);
