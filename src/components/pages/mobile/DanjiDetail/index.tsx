@@ -38,17 +38,10 @@ const DanjiDetail = () => {
 
   const { mapType, makeGeneralMap, makePanoInitialize } = useDanjiMapTypeStore();
 
-  const roadAddress = useMemo(() => danji?.road_name_address ?? danji?.jibun_address ?? '', [danji]);
-  const convertedTitle = useMemo(
-    () => `${roadAddress} ${danji?.name}시세, 실거래가, 단지, 매물, 주변 정보`,
-    [danji, roadAddress],
-  );
+  const convertedTitle = useMemo(() => `'${danji?.name}'시세, 실거래가, 단지, 매물, 주변 정보`, [danji]);
   const convertedDescription = useMemo(
-    () =>
-      `${roadAddress || ''} ${
-        danji?.name
-      }, 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '',
-    [danji, roadAddress],
+    () => `'${danji?.name}', 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '',
+    [danji],
   );
 
   const handleMutateDanji = () => {
@@ -87,17 +80,13 @@ const DanjiDetail = () => {
   return (
     <>
       <Head>
-        <title>{`${convertedTitle} | ${
-          process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-            ? '(TEST) 부동산 가격협상 앱 네고시오'
-            : '부동산 가격협상 앱 네고시오'
-        }`}</title>
+        <title>{convertedTitle || ''}</title>
         <meta name="description" content={convertedDescription} />
         <meta
           property="keywords"
-          content={`${danji?.name || ''}, ${
-            process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
-          }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`}
+          content={`'${
+            danji?.name || ''
+          }', 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`}
         />
         <meta property="og:title" content={`${danji?.name || ''}`} />
         <meta property="og:description" content={danji?.road_name_address ?? danji?.jibun_address ?? ''} />

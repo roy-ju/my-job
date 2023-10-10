@@ -765,6 +765,7 @@ interface MetaInsertedProps extends RouterProps {
   ogSiteName?: string;
   ogType?: string;
   ogImagePath?: string;
+  ogTitleOnly?: boolean;
 }
 
 export default function MetaInserted({
@@ -776,6 +777,7 @@ export default function MetaInserted({
   ogSiteName,
   ogType,
   ogImagePath,
+  ogTitleOnly,
   ...props
 }: MetaInsertedProps) {
   return (
@@ -784,7 +786,9 @@ export default function MetaInserted({
         {title && <title>{`${title}`}</title>}
         {description && <meta name="description" content={description} />}
         {keyWords && <meta property="keywords" content={keyWords} />}
-        {ogTitle && <meta property="og:title" content={`${ogTitle} | ${AppConfig.title}`} />}
+        {ogTitle && (
+          <meta property="og:title" content={ogTitleOnly ? `${ogTitle}` : `${ogTitle} | ${AppConfig.title}`} />
+        )}
         {ogDescription && <meta property="og:description" content={ogDescription} />}
         {ogSiteName && <meta property="og:site_name" content={ogSiteName} />}
         {ogType && <meta property="og:type" content={ogType} />}

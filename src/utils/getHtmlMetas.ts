@@ -335,30 +335,22 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
         danji_id: Number(query?.danjiID),
       });
 
-      const roadAddress = data?.road_name_address ?? data?.jibun_address ?? '';
-      const convertedTitle = `${roadAddress} ${data.name}시세, 실거래가, 단지, 매물, 주변 정보`;
+      const convertedTitle = `'${data.name}'시세, 실거래가, 단지, 매물, 주변 정보`;
       const convertedDescription =
-        `${roadAddress || ''} ${
-          data?.name
-        }, 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '';
+        `'${data?.name}', 단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.` || '';
 
       return {
-        title: convertedTitle
-          ? `${convertedTitle} | ${
-              process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-                ? '(TEST) 부동산 가격협상 앱 네고시오'
-                : '부동산 가격협상 앱 네고시오'
-            }`
-          : '',
+        title: convertedTitle ? `${convertedTitle}` : '',
         description: convertedDescription ?? '',
         ogTitle: data?.name ?? '',
         ogDescription: data?.road_name_address ?? data?.jibun_address ?? '',
         ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
         ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
         ogType: 'website',
-        keyWords: `${data?.name || ''}, ${
-          process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
-        }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
+        ogTitleOnly: true,
+        keyWords: `'${
+          data?.name || ''
+        }', 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
       };
     } catch (e) {
       return defaultMeta;
