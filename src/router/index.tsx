@@ -312,10 +312,6 @@ const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/Suggest
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestReceivedList = dynamic(() => import('@/components/pages/pc/SuggestReceivedList'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
 const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'), {
   ssr: false,
   loading: FallbackComponent,
@@ -719,10 +715,6 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.SuggestRequestedList: {
       return <SuggestRequestedList {...props} />;
-    }
-
-    case Routes.SuggestReceivedList: {
-      return <SuggestReceivedList {...props} />;
     }
 
     case Routes.MySuggestDetail: {

@@ -123,7 +123,6 @@ const Routes = {
 
   // 나의 추천요청 / 추천받은매물
   SuggestRequestedList: 'suggestRequestedList',
-  SuggestReceivedList: 'suggestReceivedList',
 
   // 나의 추천
   SuggestRecommendedList: 'suggestRecommendedList',

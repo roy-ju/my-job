@@ -110,10 +110,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [router]);
 
-  const handleReceivedSuggests = useCallback(() => {
-    router.push(Routes.SuggestReceivedList);
-  }, [router]);
-
   const handleRequestedSuggests = useCallback(() => {
     router.push(Routes.SuggestRequestedList);
   }, [router]);
@@ -145,7 +141,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
         onClickRecommendationForm={handleRecommendationForm}
-        onClickReceivedSuggests={handleReceivedSuggests}
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
       />
