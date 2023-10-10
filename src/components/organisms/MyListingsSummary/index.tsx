@@ -14,7 +14,6 @@ export interface MyListingsSummaryProps {
   onClickMyParticipatingListings?: (params: number) => void;
   onClickRecommendationForm?: () => void;
   onClickRequestedSuggests?: () => void;
-  onClickReceivedSuggests?: () => void;
   onClickSuggestRecommendedList?: () => void;
 }
 
