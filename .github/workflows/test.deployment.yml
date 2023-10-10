@@ -41,9 +41,6 @@ jobs:
       - name: Set robots.txt
         run: rm -rf ./public/robots_prod.txt
 
-      - name: Generated DynamicSitemaps
-        run: sh ./shells/generate-sitemaps.sh
-
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:

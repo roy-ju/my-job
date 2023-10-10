@@ -11,7 +11,7 @@ env:
   TASK_DEFINITION_FAMILY: production-user-client
   ECS_SERVICE_NAME: production-user-client
   ECS_CLUSTER_NAME: negocio-client-production
-  NEGOCIO_BASE_URL: https://www.negocio.co.kr/
+  NEGOCIO_BASE_URL: https://www.negocio.co.kr
   NEGOCIO_REST_API_BASE_URL: https://api.negocio.kr
   NEGOCIO_WEBSOCKET_BASE_URL: wss://websocket.negocio.kr
   NEGOCIO_APP_ENVIRONMENT: prod
