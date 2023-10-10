@@ -109,7 +109,6 @@ export { default as DanjiRealRriceListAll } from './DanjiRealRriceListAll';
 export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiListings } from './DanjiListings';
 export { default as DanjiRecommendation } from './DanjiRecommendation';
-export { default as DanjiRecommendationSuccess } from './DanjiRecommendationSuccess';
 export { default as DanjiRecommendationSummary } from './DanjiRecommendationSummary';
 export { default as DanjiRecommendationUpdate } from './DanjiRecommendationUpdate';
 export { default as RealPriceDetail } from './RealPriceDetail';
