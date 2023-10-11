@@ -1,13 +1,14 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button, Chip } from '@/components/atoms';
 import Routes from '@/router/routes';
-import { cuttingDot } from '@/utils/fotmat';
+import { cuttingDot, formatDate } from '@/utils/fotmat';
 import moment from 'moment';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import tw from 'twin.macro';
 import { useRouter as useNextRouter } from 'next/router';
 import { describeRealestateType } from '@/constants/enums';
 import { RealestateTypeChipVariant } from '@/constants/strings';
+import { formatNumberInKorean } from '@/utils';
 
 export default function BasicInfo({
   isShowDanjiListings = false,
@@ -29,6 +30,55 @@ export default function BasicInfo({
       },
     });
   }, [nextRouter, danji]);
+
+  const recentlyBuyPriceExist = useMemo(() => {
+    const year = danji?.latest_buy_year;
+    const month = danji?.latest_buy_month;
+    const day = danji?.latest_buy_day;
+    const price = danji?.latest_buy_price;
+
+    if (!!year && !!month && !!day && !!price) {
+      return {
+        exist: true,
+        price: formatNumberInKorean(price),
+        day: formatDate({
+          format: '.',
+          sliceYear: true,
+          year,
+          month,
+          day,
+        }),
+      };
+    }
+    return { exist: false, price: '', day: '' };
+  }, [danji]);
+
+  const recentlyJeonwolsaePrice = useMemo(() => {
+    const year = danji?.latest_rent_year;
+    const month = danji?.latest_rent_month;
+    const day = danji?.latest_rent_day;
+    const price = danji?.latest_rent_deposit;
+    const monthlyRentFee = danji?.latest_rent_monthly_rent_fee;
+
+    if (!!year && !!month && !!day && !!price) {
+      const isExistWolase = !!monthlyRentFee;
+
+      return {
+        exist: true,
+        price: isExistWolase
+          ? `${formatNumberInKorean(price)}/${formatNumberInKorean(monthlyRentFee)}`
+          : formatNumberInKorean(price),
+        day: formatDate({
+          format: '.',
+          sliceYear: true,
+          year,
+          month,
+          day,
+        }),
+      };
+    }
+    return { exist: false, price: '', day: '' };
+  }, [danji]);
 
   if (!danji) return null;
 
@@ -96,6 +146,24 @@ export default function BasicInfo({
               </>
             )}
           </div>
+
+          {recentlyBuyPriceExist.exist && (
+            <div tw="mt-1">
+              <p tw="text-info text-gray-700">
+                매매<span tw="text-gray-800 font-bold mx-1">{recentlyBuyPriceExist.price}</span>(
+                {recentlyBuyPriceExist.day} 실거래)
+              </p>
+            </div>
+          )}
+
+          {recentlyJeonwolsaePrice.exist && (
+            <div tw="mt-1">
+              <p tw="text-info text-gray-700">
+                전월세<span tw="text-gray-800 font-bold mx-1">{recentlyJeonwolsaePrice.price}</span>(
+                {recentlyJeonwolsaePrice.day} 실거래)
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </>
