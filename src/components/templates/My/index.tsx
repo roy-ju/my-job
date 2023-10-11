@@ -13,6 +13,8 @@ interface Props {
   unreadNotificationCount?: number;
   dashboardInfo?: GetDashboardInfoResponse | null;
   tab?: number;
+  isVerifyHomeOwner?: boolean;
+  isWaitingAgreementHomeOwner?: boolean;
   onClickLogin?: () => void;
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
@@ -41,6 +43,8 @@ export default function My({
   unreadNotificationCount = 0,
   dashboardInfo,
   tab,
+  isVerifyHomeOwner,
+  isWaitingAgreementHomeOwner,
   onClickLogin,
   onClickNotificationList,
   onClickMyDetail,
@@ -103,6 +107,8 @@ export default function My({
               onClickRequestedSuggests={onClickRequestedSuggests}
               onClickSuggestRecommendedList={onClickSuggestRecommendedList}
               tab={tab}
+              isVerifyHomeOwner={isVerifyHomeOwner}
+              isWaitingAgreementHomeOwner={isWaitingAgreementHomeOwner}
               onClickTab={onClickTab}
             />
           </>

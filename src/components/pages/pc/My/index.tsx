@@ -144,6 +144,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
         tab={tab}
+        isVerifyHomeOwner={user?.hasAddress}
+        isWaitingAgreementHomeOwner
         onClickTab={handleTab}
       />
     </Panel>
