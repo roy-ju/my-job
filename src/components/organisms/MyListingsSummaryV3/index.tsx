@@ -1,19 +1,16 @@
-import { Button } from '@/components/atoms';
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
-import SaveIcon from '@/assets/icons/my_save_24.svg';
-import RecommendationIcon from '@/assets/icons/my_recommendation_24.svg';
-import SaleIcon from '@/assets/icons/my_sale_24.svg';
-import HomeIcon from '@/assets/icons/my_home_24.svg';
-import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
-import OfferIcon from '@/assets/icons/my_offer_24.svg';
 import NewTabs from '@/components/molecules/Tabs/NewTabs';
-import tw from 'twin.macro';
 import { countFormat } from '@/utils/fotmat';
 import { useCallback, useMemo } from 'react';
+import ErrorIcon from '@/assets/icons/error_12.svg';
+import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
+import { CTAButtons, NeedHomeVerify } from './components';
 
 export interface MyListingsSummaryV3Props {
   dashboardInfo?: GetDashboardInfoResponse | null;
   tab?: number;
+  isVerifyHomeOwner?: boolean;
+  isWaitingAgreementHomeOwner?: boolean;
   onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
@@ -26,6 +23,8 @@ export interface MyListingsSummaryV3Props {
 export default function MyListingsSummaryV3({
   dashboardInfo,
   tab,
+  isVerifyHomeOwner,
+  isWaitingAgreementHomeOwner,
   onClickMyAddress,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
@@ -33,7 +32,7 @@ export default function MyListingsSummaryV3({
   onClickSuggestRecommendedList,
   onClickTab,
 }: MyListingsSummaryV3Props) {
-  const items = useMemo(
+  const myParticipatingItems = useMemo(
     () => [
       {
         status: 'biddingSubmitted',
@@ -64,20 +63,36 @@ export default function MyListingsSummaryV3({
     [dashboardInfo],
   );
 
-  const onClickMyParticipatingListingsCTA = useCallback(() => {
-    const filteredItems = items.filter((item) => item?.count && item.count > 0);
+  const myRegisterdItems = useMemo(
+    () => [
+      {
+        status: 'registering',
+        count: dashboardInfo?.my_registering_listing_count,
+        priority: 1,
+        tab: 1,
+      },
 
-    if (!filteredItems.length) {
-      const firstPriorityItem = [...items].sort((a, b) => a.priority - b.priority)[0];
-      onClickMyParticipatingListings?.(firstPriorityItem.tab);
-    } else if (filteredItems.length === 1) {
-      const onlyOneItem = filteredItems[0];
-      onClickMyParticipatingListings?.(onlyOneItem.tab);
-    } else {
-      const firstPriorityItem = [...filteredItems].sort((a, b) => a.priority - b.priority)[0];
-      onClickMyParticipatingListings?.(firstPriorityItem.tab);
-    }
-  }, [items, onClickMyParticipatingListings]);
+      {
+        status: 'active',
+        count: dashboardInfo?.my_active_listing_count,
+        priority: 2,
+        tab: 2,
+      },
+      {
+        status: 'contractComplete',
+        count: dashboardInfo?.my_contract_complete_listing_count,
+        priority: 3,
+        tab: 3,
+      },
+      {
+        status: 'cancelled',
+        count: dashboardInfo?.my_cancelled_listing_count,
+        priority: 4,
+        tab: 4,
+      },
+    ],
+    [dashboardInfo],
+  );
 
   const totalCountParticipatingTrading = useMemo(
     () =>
@@ -87,6 +102,44 @@ export default function MyListingsSummaryV3({
       countFormat({ value: dashboardInfo?.bidding_past_count }),
     [dashboardInfo],
   );
+
+  const totalCountMyRegisteredListings = useMemo(
+    () =>
+      countFormat({ value: dashboardInfo?.my_registering_listing_count }) +
+      countFormat({ value: dashboardInfo?.my_active_listing_count }) +
+      countFormat({ value: dashboardInfo?.my_contract_complete_listing_count }),
+    [dashboardInfo],
+  );
+
+  const onClickMyParticipatingListingsCTA = useCallback(() => {
+    const filteredItems = myParticipatingItems.filter((item) => item?.count && item.count > 0);
+
+    if (!filteredItems.length) {
+      const firstPriorityItem = [...myParticipatingItems].sort((a, b) => a.priority - b.priority)[0];
+      onClickMyParticipatingListings?.(firstPriorityItem.tab);
+    } else if (filteredItems.length === 1) {
+      const onlyOneItem = filteredItems[0];
+      onClickMyParticipatingListings?.(onlyOneItem.tab);
+    } else {
+      const firstPriorityItem = [...filteredItems].sort((a, b) => a.priority - b.priority)[0];
+      onClickMyParticipatingListings?.(firstPriorityItem.tab);
+    }
+  }, [myParticipatingItems, onClickMyParticipatingListings]);
+
+  const onClickMyRegisterdListingsCTA = useCallback(() => {
+    const filteredItems = myRegisterdItems.filter((item) => item?.count && item.count > 0);
+
+    if (!filteredItems.length) {
+      const firstPriorityItem = [...myRegisterdItems].sort((a, b) => a.priority - b.priority)[0];
+      onClickMyRegisteredListings?.(firstPriorityItem.tab);
+    } else if (filteredItems.length === 1) {
+      const onlyOneItem = filteredItems[0];
+      onClickMyRegisteredListings?.(onlyOneItem.tab);
+    } else {
+      const firstPriorityItem = [...filteredItems].sort((a, b) => a.priority - b.priority)[0];
+      onClickMyRegisteredListings?.(firstPriorityItem.tab);
+    }
+  }, [myRegisterdItems, onClickMyRegisteredListings]);
 
   return (
     <div tw="bg-white flex flex-col">
@@ -102,101 +155,50 @@ export default function MyListingsSummaryV3({
 
       <div tw="pt-6 pb-10 px-5 w-full flex flex-col gap-3">
         {tab === 1 && (
-          <button
-            tw="w-full rounded-lg bg-gray-100 text-gray-1000 h-[66px] px-5 py-3 justify-between hover:bg-gray-200 transition-colors flex items-center"
-            type="button"
-            onClick={onClickRequestedSuggests}
-          >
-            <div tw="flex flex-col gap-1">
-              <div tw="flex gap-2 items-center">
-                <SaveIcon />
-                <span tw="text-b2 text-gray-1000">구하기 게시 내역</span>
-              </div>
-
-              <div tw="flex gap-2 items-center">
-                <span tw="text-info text-gray-700">구하기 게시하고, 매물을 추천받아요.</span>
-              </div>
-            </div>
-
-            <div tw="flex gap-1 items-center">
-              <span tw="text-b1 font-bold text-nego-1000 min-w-[12px] text-center">
-                {countFormat({ value: dashboardInfo?.suggest_sent_count })}
-              </span>
-              <ChevronIcon tw="mb-[2px]" />
-            </div>
-          </button>
+          <CTAButtons
+            type="requestedSuggests"
+            onClickRequestedSuggestsCTA={onClickRequestedSuggests}
+            count={countFormat({ value: dashboardInfo?.suggest_sent_count })}
+          />
         )}
 
         {tab === 1 && (
-          <button
-            tw="w-full rounded-lg bg-gray-100 text-gray-1000 h-[66px] px-5 py-3 justify-between hover:bg-gray-200 transition-colors flex items-center"
-            type="button"
-            onClick={onClickMyParticipatingListingsCTA}
-          >
-            <div tw="flex flex-col gap-1">
-              <div tw="flex gap-2 items-center">
-                <OfferIcon />
-                <span tw="text-b2 text-gray-1000">가격 제안 내역</span>
-              </div>
+          <CTAButtons
+            type="myParticipatingListings"
+            onClickMyParticipatingListingsCTA={onClickMyParticipatingListingsCTA}
+            count={totalCountParticipatingTrading}
+          />
+        )}
 
-              <div tw="flex gap-2 items-center">
-                <span tw="text-info text-gray-700">등록된 매물에 원하는 가격을 제안해요.</span>
-              </div>
-            </div>
+        {tab === 2 && !isVerifyHomeOwner && (
+          <>
+            <div tw="min-h-[4px]" />
+            <NeedHomeVerify onClickCTA={onClickMyAddress} />
+          </>
+        )}
 
-            <div tw="flex gap-1 items-center">
-              <span tw="text-b1 font-bold text-nego-1000 min-w-[12px] text-center">
-                {totalCountParticipatingTrading}
-              </span>
-              <ChevronIcon tw="mb-[2px]" />
-            </div>
+        {tab === 2 && isVerifyHomeOwner && (
+          <button type="button" tw="flex items-center gap-1 ml-auto text-gray-800 hover:text-gray-1000">
+            {isWaitingAgreementHomeOwner && <ErrorIcon />}
+            <span tw="text-info">우리집 정보</span>
+            <ChevronIcon />
           </button>
         )}
 
-        {tab === 2 && (
-          <button
-            tw="w-full rounded-lg bg-gray-100 text-gray-1000 h-[66px] px-5 py-3 justify-between hover:bg-gray-200 transition-colors flex items-center"
-            type="button"
-          >
-            <div tw="flex flex-col gap-1">
-              <div tw="flex gap-2 items-center">
-                <SaveIcon />
-                <span tw="text-b2 text-gray-1000">매물 등록 내역</span>
-              </div>
-
-              <div tw="flex gap-2 items-center">
-                <span tw="text-info text-gray-700">우리집을 매물로 등록해서 가격제안 받아요.</span>
-              </div>
-            </div>
-
-            <div tw="flex gap-1 items-center">
-              <span tw="text-b1 font-bold text-nego-1000 min-w-[12px] text-center">0</span>
-              <ChevronIcon tw="mb-[2px]" />
-            </div>
-          </button>
+        {tab === 2 && isVerifyHomeOwner && (
+          <CTAButtons
+            type="myRegisterdListings"
+            onClickMyParticipatingListingsCTA={onClickMyRegisterdListingsCTA}
+            count={totalCountMyRegisteredListings}
+          />
         )}
 
-        {tab === 2 && (
-          <button
-            tw="w-full rounded-lg bg-gray-100 text-gray-1000 h-[66px] px-5 py-3 justify-between hover:bg-gray-200 transition-colors flex items-center"
-            type="button"
-          >
-            <div tw="flex flex-col gap-1">
-              <div tw="flex gap-2 items-center">
-                <OfferIcon />
-                <span tw="text-b2 text-gray-1000">우리집 추천 내역</span>
-              </div>
-
-              <div tw="flex gap-2 items-center">
-                <span tw="text-info text-gray-700">집을 구하는 사람에게 우리집을 추천해 거래를 제안해요.</span>
-              </div>
-            </div>
-
-            <div tw="flex gap-1 items-center">
-              <span tw="text-b1 font-bold text-nego-1000 min-w-[12px] text-center">0</span>
-              <ChevronIcon tw="mb-[2px]" />
-            </div>
-          </button>
+        {tab === 2 && isVerifyHomeOwner && (
+          <CTAButtons
+            type="suggestRecommendedList"
+            onClickSuggestRecommendedListCTA={onClickSuggestRecommendedList}
+            count={countFormat({ value: dashboardInfo?.suggest_recommended_count })}
+          />
         )}
       </div>
     </div>
