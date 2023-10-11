@@ -34,6 +34,8 @@ const Routes = {
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
 
+  MyRegisteredHome: 'myRegisteredHome',
+
   MyRealPriceList: 'myRealPriceList',
   MyDetail: 'myDetail',
 

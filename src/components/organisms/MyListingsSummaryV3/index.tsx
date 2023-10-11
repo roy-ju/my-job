@@ -9,8 +9,8 @@ import { CTAButtons, NeedHomeVerify } from './components';
 export interface MyListingsSummaryV3Props {
   dashboardInfo?: GetDashboardInfoResponse | null;
   tab?: number;
-  isVerifyHomeOwner?: boolean;
-  isWaitingAgreementHomeOwner?: boolean;
+  hasAddress?: boolean;
+  hasNotVerifiedAddress?: boolean;
   onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
@@ -23,8 +23,8 @@ export interface MyListingsSummaryV3Props {
 export default function MyListingsSummaryV3({
   dashboardInfo,
   tab,
-  isVerifyHomeOwner,
-  isWaitingAgreementHomeOwner,
+  hasAddress,
+  hasNotVerifiedAddress,
   onClickMyAddress,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
@@ -170,22 +170,22 @@ export default function MyListingsSummaryV3({
           />
         )}
 
-        {tab === 2 && !isVerifyHomeOwner && (
+        {tab === 2 && !hasAddress && (
           <>
             <div tw="min-h-[4px]" />
             <NeedHomeVerify onClickCTA={onClickMyAddress} />
           </>
         )}
 
-        {tab === 2 && isVerifyHomeOwner && (
+        {tab === 2 && hasAddress && (
           <button type="button" tw="flex items-center gap-1 ml-auto text-gray-800 hover:text-gray-1000">
-            {isWaitingAgreementHomeOwner && <ErrorIcon />}
+            {hasNotVerifiedAddress && <ErrorIcon />}
             <span tw="text-info">우리집 정보</span>
             <ChevronIcon />
           </button>
         )}
 
-        {tab === 2 && isVerifyHomeOwner && (
+        {tab === 2 && hasAddress && (
           <CTAButtons
             type="myRegisterdListings"
             onClickMyParticipatingListingsCTA={onClickMyRegisterdListingsCTA}
@@ -193,7 +193,7 @@ export default function MyListingsSummaryV3({
           />
         )}
 
-        {tab === 2 && isVerifyHomeOwner && (
+        {tab === 2 && hasAddress && (
           <CTAButtons
             type="suggestRecommendedList"
             onClickSuggestRecommendedListCTA={onClickSuggestRecommendedList}
