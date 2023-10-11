@@ -38,6 +38,17 @@ export type GetDanjiDetailResponse = {
   jeonyong_min: number;
   jeonyong_max: number;
   suggest_count: number;
+
+  latest_buy_year: string;
+  latest_buy_month: string;
+  latest_buy_day: string;
+  latest_buy_price: number;
+
+  latest_rent_day: string;
+  latest_rent_deposit: number;
+  latest_rent_month: string;
+  latest_rent_monthly_rent_fee: number;
+  latest_rent_year: string;
 } & ErrorResponse;
 
 export function useAPI_GetDanjiDetail({ danjiId }: { danjiId?: number | null }) {

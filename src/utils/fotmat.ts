@@ -82,6 +82,30 @@ export function minDigits(num: number, digits: number) {
   });
 }
 
+export function formatDate({
+  format,
+  sliceYear,
+  year,
+  month,
+  day,
+}: {
+  format: string;
+  sliceYear: boolean;
+  year: string | undefined;
+  month: string | undefined;
+  day: string | undefined;
+}) {
+  if (!year || !month || !day) {
+    return '';
+  }
+
+  const resultYear = sliceYear ? year.slice(2, year.length) : year;
+  const resultMonth = Number(month) > 9 ? month : `0${month}`;
+  const resultDay = Number(day) > 9 ? day : `0${day}`;
+
+  return `${resultYear}${format}${resultMonth}${format}${resultDay}${format}`;
+}
+
 export function formatUseAcceptedYear(value: string) {
   if (value.length === 4) {
     return `${value}년`;
