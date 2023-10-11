@@ -82,6 +82,13 @@ export function minDigits(num: number, digits: number) {
   });
 }
 
+export function countFormat({ value }: { value: number | undefined | null }) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return 0;
+}
+
 export function formatDate({
   format,
   sliceYear,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationHeader } from '@/components/molecules';
 import BellIcon from '@/assets/icons/bell.svg';
-import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } from '@/components/organisms';
+import { LoginRequired, MyListingsSummaryV3, MyPageNavigationList, MySummary } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
@@ -12,6 +12,7 @@ interface Props {
   profileImageUrl?: string;
   unreadNotificationCount?: number;
   dashboardInfo?: GetDashboardInfoResponse | null;
+  tab?: number;
   onClickLogin?: () => void;
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
@@ -29,6 +30,7 @@ interface Props {
   onClickRequestedSuggests?: () => void;
   onClickSuggestRecommendedList?: () => void;
   onClickDeveloper?: () => void;
+  onClickTab?: (val: 1 | 2) => void;
 }
 
 export default function My({
@@ -38,6 +40,7 @@ export default function My({
   profileImageUrl,
   unreadNotificationCount = 0,
   dashboardInfo,
+  tab,
   onClickLogin,
   onClickNotificationList,
   onClickMyDetail,
@@ -55,6 +58,7 @@ export default function My({
   onClickRequestedSuggests,
   onClickSuggestRecommendedList,
   onClickDeveloper,
+  onClickTab,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -79,6 +83,7 @@ export default function My({
             <Loading />
           </div>
         )}
+
         {!isLoading && loggedIn && (
           <>
             <MySummary
@@ -88,7 +93,8 @@ export default function My({
               onClickCoupons={onClickCoupons}
               onClickNegoPoint={onClickNegoPoint}
             />
-            <MyListingsSummary
+
+            <MyListingsSummaryV3
               dashboardInfo={dashboardInfo}
               onClickMyAddress={onClickMyAddress}
               onClickMyRegisteredListings={onClickMyRegisteredListings}
@@ -96,17 +102,23 @@ export default function My({
               onClickRecommendationForm={onClickRecommendationForm}
               onClickRequestedSuggests={onClickRequestedSuggests}
               onClickSuggestRecommendedList={onClickSuggestRecommendedList}
+              tab={tab}
+              onClickTab={onClickTab}
             />
           </>
         )}
+
         {!isLoading && !loggedIn && (
           <div tw="mt-5 mb-14">
             <LoginRequired onClickLogin={onClickLogin} />
           </div>
         )}
         <Separator tw="bg-gray-300" />
+
         {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
+
         {loggedIn && <Separator tw="bg-gray-300" />}
+
         <MyPageNavigationList>
           <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
           <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
