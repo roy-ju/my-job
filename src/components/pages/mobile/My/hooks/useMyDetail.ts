@@ -1,4 +1,4 @@
-import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
+// import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
@@ -19,7 +19,7 @@ export default function useMyDetail() {
   const router = useRouter();
 
   const { user, logout, mutate: mutateUser, isLoading: isUserLoading } = useAuth();
-  const { data: userAddressData, isLoading: isUserAddressLoading } = useAPI_GetUserAddress();
+  // const { data: userAddressData, isLoading: isUserAddressLoading } = useAPI_GetUserAddress();
 
   const [nicknamePopup, setNicknamePopup] = useState(false);
   const [emailPopup, setEmailPopup] = useState(false);
@@ -86,9 +86,9 @@ export default function useMyDetail() {
     }, 200);
   }, [logout, router]);
 
-  const handleUpdateAddress = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
-  }, [router]);
+  // const handleUpdateAddress = useCallback(() => {
+  //   router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+  // }, [router]);
 
   const handleUpdatePhone = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.UpdatePhone}`);
@@ -226,21 +226,22 @@ export default function useMyDetail() {
   return useMemo(
     () => ({
       ...user,
-      isLoading: isUserLoading || isUserAddressLoading,
+      // isLoading: isUserLoading || isUserAddressLoading,
+      isLoading: isUserLoading,
       profileImageUrl,
       updateNicknameButtonDisabled,
       nickname,
       nicknamePopup,
       emailPopup,
-      addressDetail: userAddressData?.address_detail,
-      roadNameAddress: userAddressData?.road_name_address,
-      ownershipVerified: userAddressData?.ownership_verified,
-      isUserAddressLoading,
+      // addressDetail: userAddressData?.address_detail,
+      // roadNameAddress: userAddressData?.road_name_address,
+      // ownershipVerified: userAddressData?.ownership_verified,
+      // isUserAddressLoading,
       updateEmailPopup,
       privacyRetentionType,
       handleClickDeregister,
       handleLogout,
-      handleUpdateAddress,
+      // handleUpdateAddress,
       handleUpdatePhone,
       handleClickUpdateNickname,
       updateNickname,
@@ -262,14 +263,14 @@ export default function useMyDetail() {
       emailPopup,
       user,
       profileImageUrl,
-      userAddressData,
-      isUserAddressLoading,
+      // userAddressData,
+      // isUserAddressLoading,
       isUserLoading,
       updateEmailPopup,
       privacyRetentionType,
       handleClickDeregister,
       handleLogout,
-      handleUpdateAddress,
+      // handleUpdateAddress,
       handleUpdatePhone,
       handleClickUpdateNickname,
       updateNickname,

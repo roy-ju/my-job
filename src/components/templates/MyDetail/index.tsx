@@ -9,15 +9,15 @@ interface MyDetailProps {
   name: string;
   phone: string;
   profileImageUrl: string;
-  address: string;
-  addressDetail: string;
-  addressVerified: boolean;
+  // address: string;
+  // addressDetail: string;
+  // addressVerified: boolean;
   privacyRetentionType: string;
   updateNicknameButtonDisabled: boolean;
   isLoading: boolean;
   onClickDeregister: () => void;
   onClickLogout: () => void;
-  onClickUpdateAddress: () => void;
+  // onClickUpdateAddress: () => void;
   onClickUpdatePhone: () => void;
   onClickUpdateNickname: () => void;
   onClickUpdateEmail: () => void;
@@ -33,15 +33,15 @@ export default function MyDetail({
   name,
   phone,
   profileImageUrl,
-  address,
-  addressDetail,
-  addressVerified,
+  // address,
+  // addressDetail,
+  // addressVerified,
   privacyRetentionType,
   updateNicknameButtonDisabled,
   isLoading,
   onClickDeregister,
   onClickLogout,
-  onClickUpdateAddress,
+  // onClickUpdateAddress,
   onClickUpdatePhone,
   onClickUpdateNickname,
   onClickUpdateEmail,
@@ -76,13 +76,13 @@ export default function MyDetail({
               onClickUpdate={onClickUpdatePhone}
               onClickVerifyCi={onClickVerifyCi}
             />
-            <MyDetailForm.Separator />
-            <MyDetailForm.AddressInfo
+            {/* <MyDetailForm.Separator /> */}
+            {/* <MyDetailForm.AddressInfo
               address={address}
               addressDetail={addressDetail}
               verified={addressVerified}
               onClickUpdateAddress={onClickUpdateAddress}
-            />
+            /> */}
             <MyDetailForm.Separator />
             <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
             <MyDetailForm.Separator />
