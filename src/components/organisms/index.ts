@@ -28,7 +28,6 @@ export { default as LoginForm } from './LoginForm';
 export { default as AddressSearchForm } from './AddressSearchForm';
 export { default as MyRealPriceListItem } from './MyRealPriceListItem';
 export { default as MyNegoPoint } from './MyNegoPoint';
-export { default as MyListingsSummary } from './MyListingsSummary';
 export { default as MyCouponListItem } from './MyCouponListItem';
 export { default as QnaListitem } from './QnaListItem';
 export { default as TransactionHistoryDetail } from './TransactionHistoryDetail';
@@ -89,5 +88,8 @@ export { default as MobMyNegoMoney } from './MobMyNegoMoney';
 export { default as MobDanjiDetailSection } from './MobDanjiDetail';
 
 export { default as SuggestListingFormOrganisms } from './SuggestListingForm';
+
+export { default as MyListingsSummary } from './MyListingsSummary'; // 추후 삭제해야함
+export { default as MyListingsSummaryV3 } from './MyListingsSummaryV3';
 
 export * from './popups';

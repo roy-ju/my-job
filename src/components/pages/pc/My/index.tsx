@@ -7,8 +7,7 @@ import { coordToRegion } from '@/lib/kakao';
 import { NaverLatLng } from '@/lib/navermap/types';
 import Routes from '@/router/routes';
 import useSyncronizer from '@/states/syncronizer';
-import { useState, memo, useCallback } from 'react';
-import { Popup, OverlayPresenter } from '@/components/molecules';
+import { memo, useCallback, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -19,7 +18,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const { user, isLoading } = useAuth();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
-  const [showMyAddressPopup, setShowMyAddressPopup] = useState(false);
+
+  const [tab, setTab] = useState(1);
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -64,12 +64,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   const handleMyAddress = useCallback(() => {
-    if (user?.hasAddress) {
-      setShowMyAddressPopup(true);
-      return;
-    }
     router.push(Routes.MyAddress);
-  }, [router, user?.hasAddress]);
+  }, [router]);
 
   const handleClickMyRegisteredListings = useCallback(
     (params: number) => {
@@ -118,6 +114,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.push(Routes.SuggestRecommendedList);
   }, [router]);
 
+  const handleTab = useCallback((val: 1 | 2) => {
+    setTab(val);
+  }, []);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -143,37 +143,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickRecommendationForm={handleRecommendationForm}
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
+        tab={tab}
+        onClickTab={handleTab}
       />
-      {showMyAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.SubTitle tw="text-center">
-                이미 등록하신 주소가 있습니다.
-                <br />
-                새로운 집주소를 등록하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton
-                onClick={() => {
-                  setShowMyAddressPopup(false);
-                }}
-              >
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  router.push(Routes.MyAddress);
-                  setShowMyAddressPopup(false);
-                }}
-              >
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
     </Panel>
   );
 });
