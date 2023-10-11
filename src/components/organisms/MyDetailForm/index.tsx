@@ -1,7 +1,7 @@
 import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
 import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
-import SelectedIcon from '@/assets/icons/selected.svg';
+// import SelectedIcon from '@/assets/icons/selected.svg';
 import React, { ChangeEventHandler, useId } from 'react';
 import { NICKNAME_REGEX } from '@/constants/regex';
 import Image, { StaticImageData } from 'next/image';
@@ -98,29 +98,29 @@ function UpdatableNicknameTextField({
   );
 }
 
-interface HomeOwnerProps {
-  verified: boolean;
-}
+// interface HomeOwnerProps {
+//   verified: boolean;
+// }
 
-function HomeOwner({ verified }: HomeOwnerProps) {
-  return (
-    <div
-      css={[
-        tw`flex items-center gap-2 px-6 py-3 rounded-lg`,
-        verified ? tw`bg-nego-100 text-nego-1000` : tw`text-gray-700 bg-gray-200`,
-      ]}
-    >
-      <div
-        css={[tw`flex items-center justify-center w-6 h-6 rounded-full`, verified ? tw`bg-nego-800` : tw`bg-gray-500`]}
-      >
-        <SelectedIcon tw="text-white" />
-      </div>
-      <div tw="leading-6 text-b2 pt-px font-bold">
-        {verified ? '집주인으로 인증되었습니다.' : '집주인으로 확인되지 않았습니다.'}
-      </div>
-    </div>
-  );
-}
+// function HomeOwner({ verified }: HomeOwnerProps) {
+//   return (
+//     <div
+//       css={[
+//         tw`flex items-center gap-2 px-6 py-3 rounded-lg`,
+//         verified ? tw`bg-nego-100 text-nego-1000` : tw`text-gray-700 bg-gray-200`,
+//       ]}
+//     >
+//       <div
+//         css={[tw`flex items-center justify-center w-6 h-6 rounded-full`, verified ? tw`bg-nego-800` : tw`bg-gray-500`]}
+//       >
+//         <SelectedIcon tw="text-white" />
+//       </div>
+//       <div tw="leading-6 text-b2 pt-px font-bold">
+//         {verified ? '집주인으로 인증되었습니다.' : '집주인으로 확인되지 않았습니다.'}
+//       </div>
+//     </div>
+//   );
+// }
 
 interface LoginInfoProps {
   nickname?: string;
@@ -204,39 +204,39 @@ function IdentityInfo({ name, phone, onClickUpdate, onClickVerifyCi }: IdentityI
   );
 }
 
-interface AddressInfoProps {
-  address?: string;
-  addressDetail?: string;
-  verified?: boolean;
-  onClickUpdateAddress?: () => void;
-}
+// interface AddressInfoProps {
+//   address?: string;
+//   addressDetail?: string;
+//   verified?: boolean;
+//   onClickUpdateAddress?: () => void;
+// }
 
-function AddressInfo({ address, addressDetail, verified = false, onClickUpdateAddress }: AddressInfoProps) {
-  return (
-    <div tw="px-5">
-      <div tw="flex items-center justify-between mb-3">
-        <div tw="text-b1 leading-4 font-bold">주소 정보</div>
-      </div>
-      <Ul tw="text-info text-gray-700 mb-4">
-        <li>거주 또는 소유하신 부동산의 주소를 입력해 주세요.</li>
-        <li>등록하신 주소지의 단지 및 주변 지역에 대한 신규 매물 및 실거래가 정보를 알려드립니다.</li>
-      </Ul>
-      {address ? (
-        <div tw="flex flex-col gap-3">
-          <TextField variant="outlined">
-            <TextField.Input label="주소" value={address} readOnly />
-          </TextField>
-          <UpdatableTextField label="상세 주소" value={addressDetail} onClickUpdate={onClickUpdateAddress} />
-          <HomeOwner verified={verified} />
-        </div>
-      ) : (
-        <Button onClick={onClickUpdateAddress} tw="w-full font-bold" variant="secondary">
-          주소 등록하기
-        </Button>
-      )}
-    </div>
-  );
-}
+// function AddressInfo({ address, addressDetail, verified = false, onClickUpdateAddress }: AddressInfoProps) {
+//   return (
+//     <div tw="px-5">
+//       <div tw="flex items-center justify-between mb-3">
+//         <div tw="text-b1 leading-4 font-bold">주소 정보</div>
+//       </div>
+//       <Ul tw="text-info text-gray-700 mb-4">
+//         <li>거주 또는 소유하신 부동산의 주소를 입력해 주세요.</li>
+//         <li>등록하신 주소지의 단지 및 주변 지역에 대한 신규 매물 및 실거래가 정보를 알려드립니다.</li>
+//       </Ul>
+//       {address ? (
+//         <div tw="flex flex-col gap-3">
+//           <TextField variant="outlined">
+//             <TextField.Input label="주소" value={address} readOnly />
+//           </TextField>
+//           <UpdatableTextField label="상세 주소" value={addressDetail} onClickUpdate={onClickUpdateAddress} />
+//           <HomeOwner verified={verified} />
+//         </div>
+//       ) : (
+//         <Button onClick={onClickUpdateAddress} tw="w-full font-bold" variant="secondary">
+//           주소 등록하기
+//         </Button>
+//       )}
+//     </div>
+//   );
+// }
 
 interface ProfileImageProps {
   profileImageUrl: string | StaticImageData;
@@ -317,7 +317,7 @@ const Container = tw.div``;
 export default Object.assign(Container, {
   LoginInfo,
   IdentityInfo,
-  AddressInfo,
+  // AddressInfo,
   PrivacyRetentionInfo,
   Separator,
   ProfileImage,
