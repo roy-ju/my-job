@@ -110,6 +110,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onSubmit={handleSubmit}
         onSearchAnotherAddress={handleBack}
       />
+
       {router.query.errorCode === '1036' && popupOpen && (
         <OverlayPresenter>
           <Popup>

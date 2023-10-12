@@ -33,6 +33,7 @@ interface Props {
   onClickSuggestRecommendedList?: () => void;
   onClickDeveloper?: () => void;
   onClickTab?: (val: 1 | 2) => void;
+  onClickMyRegisteredHomes?: () => void;
 }
 
 export default function My({
@@ -63,6 +64,7 @@ export default function My({
   onClickSuggestRecommendedList,
   onClickDeveloper,
   onClickTab,
+  onClickMyRegisteredHomes,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -110,6 +112,7 @@ export default function My({
               hasAddress={hasAddress}
               hasNotVerifiedAddress={hasNotVerifiedAddress}
               onClickTab={onClickTab}
+              onClickMyRegisteredHomes={onClickMyRegisteredHomes}
             />
           </>
         )}

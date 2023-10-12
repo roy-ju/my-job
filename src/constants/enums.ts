@@ -80,6 +80,19 @@ export enum SchoolType {
   HighSchool = 3,
 }
 
+export enum MyAddressStatus {
+  WaitingForOwnerAgreement = 16,
+  Active = 20,
+}
+
+export enum MyVerifyStatus {
+  None = 1,
+  Ing = 2,
+  OwnerIng = 3,
+  Completed = 4,
+  Success = 5,
+}
+
 export enum ListingStatus {
   VerifyAddress = 10, // 등기부 주소 조회 서비스 요청중 (실패시 계속 같은 Status 유지) check
   NoAddressFound = 11, // 주소확인 불가 check

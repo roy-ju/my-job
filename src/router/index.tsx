@@ -30,6 +30,14 @@ const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/pc/MyA
   ssr: false,
   loading: FallbackComponent,
 });
+const MyAddressVerifyResult = dynamic(() => import('@/components/pages/pc/MyAddressVerifyResult'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const MyAddressAgreement = dynamic(() => import('@/components/pages/pc/MyAddressAgreement'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: FallbackComponent });
 const MyRealPriceList = dynamic(() => import('@/components/pages/pc/MyRealPriceList'), {
   ssr: false,
@@ -44,6 +52,11 @@ const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegis
   loading: FallbackComponent,
 });
 const MyParticipatingListings = dynamic(() => import('@/components/pages/pc/MyParticipatingListings'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const MyRegisteredHomes = dynamic(() => import('@/components/pages/pc/MyRegisteredHomes'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -396,6 +409,14 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <MyAddressDetailVerifying {...props} />;
     }
 
+    case Routes.MyAddressVerifyResult: {
+      return <MyAddressVerifyResult {...props} />;
+    }
+
+    case Routes.MyAddressAgreement: {
+      return <MyAddressAgreement {...props} />;
+    }
+
     case Routes.MyRealPriceList: {
       return <MyRealPriceList {...props} />;
     }
@@ -410,6 +431,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.MyParticipatingListings: {
       return <MyParticipatingListings {...props} />;
+    }
+
+    case Routes.MyRegisteredHomes: {
+      return <MyRegisteredHomes {...props} />;
     }
 
     case Routes.ListingDetailPassed: {
