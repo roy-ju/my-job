@@ -5,10 +5,10 @@ export default async function completeAgreement(params: {
   integrity_value: string;
   kie: string;
   loi: number;
-
+  token: string;
   token_version_id: string;
   type: number;
 }): Promise<ErrorResponse | null> {
-  const { data } = await axios.post('/listing/agreement/complete', params);
+  const { data } = await axios.post('/my/agreement/complete', params);
   return data;
 }

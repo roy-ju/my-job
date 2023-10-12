@@ -1,12 +1,10 @@
 import { NavigationHeader, Table } from '@/components/molecules';
 import CloseIcon from '@/assets/icons/close_24.svg';
 import ExclamationMark from '@/assets/icons/exclamation_mark_outlined.svg';
-import { Button, Checkbox, Label, Loading, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
+import { Button, Checkbox, Label, Loading, PersistentBottomBar, Separator } from '@/components/atoms';
 import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
-import { BuyOrRentString } from '@/constants/strings';
-import { BuyOrRent } from '@/constants/enums';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 
@@ -36,10 +34,8 @@ export interface OwnerVerificationProps {
   isLoading?: boolean;
   address?: string;
   requestorName?: string;
-  buyOrRent?: number;
-  price?: number;
-  monthlyRentFee?: number;
   termsState?: TermsState;
+  statusText?: string;
   onChangeTermsState?: (newState: TermsState) => void;
   onClickVerify?: () => void;
   onClickPrivacyPolicy?: () => void;
@@ -49,10 +45,8 @@ export default function OwnerVerification({
   isLoading,
   address,
   requestorName,
-  buyOrRent,
-  price,
-  monthlyRentFee,
   termsState,
+  statusText,
   onChangeTermsState,
   onClickVerify,
   onClickPrivacyPolicy,
@@ -100,7 +94,7 @@ export default function OwnerVerification({
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
-        <NavigationHeader.Title>매물등록 동의</NavigationHeader.Title>
+        <NavigationHeader.Title>네고시오 거래위임 동의</NavigationHeader.Title>
         <NavigationHeader.Button onClick={() => router.replace(`/${Routes.EntryMobile}`)}>
           <CloseIcon />
         </NavigationHeader.Button>
@@ -113,7 +107,7 @@ export default function OwnerVerification({
           }}
         />
         <div tw="pt-7 pb-10 px-5">
-          <div tw="text-b1 font-bold mb-1">매물등록 동의 정보</div>
+          <div tw="text-b1 font-bold mb-1">네고시오 거래위임 동의 정보</div>
           <StyledTable>
             <Table.Body>
               <Table.Row>
@@ -128,84 +122,82 @@ export default function OwnerVerification({
                 <Table.Head>등록 요청자</Table.Head>
                 <Table.Data>{requestorName}</Table.Data>
               </Table.Row>
-              <Table.Row>
-                <Table.Head>거래 유형</Table.Head>
-                <Table.Data>{BuyOrRentString[buyOrRent ?? 0]}</Table.Data>
-              </Table.Row>
-              <Table.Row>
-                <Table.Head>거래 가격</Table.Head>
-                <Table.Data>
-                  {buyOrRent === BuyOrRent.Buy && (
-                    <span>
-                      매매가: <Numeral koreanNumber>{price ?? 0}</Numeral>
-                    </span>
-                  )}
-                  {buyOrRent === BuyOrRent.Jeonsae && (
-                    <span>
-                      전세가: <Numeral koreanNumber>{price ?? 0}</Numeral>
-                    </span>
-                  )}
-                  {buyOrRent === BuyOrRent.Wolsae && (
-                    <span>
-                      보증금: <Numeral koreanNumber>{price ?? 0}</Numeral>
-                      월차임: <Numeral koreanNumber>{monthlyRentFee ?? 0}</Numeral>
-                    </span>
-                  )}
-                </Table.Data>
-              </Table.Row>
             </Table.Body>
           </StyledTable>
         </div>
+
         <Separator />
-        <div tw="py-10 px-5">
-          <div tw="rounded-lg shadow">
-            <div tw="p-5 border-b border-b-gray-200">
-              <div tw="flex items-center justify-between">
+
+        {statusText && (
+          <div tw="py-10 px-5">
+            <p tw="text-center text-info text-gray-700">{statusText}</p>
+          </div>
+        )}
+
+        {!statusText && (
+          <div tw="py-10 px-5">
+            <div tw="mb-6">
+              <p tw="text-center text-gray-700 text-info">
+                거래위임 동의 시,
+                <br />
+                위 거래 대리인이 해당 주소지의 매물을 네고시오 서비스를
+                <br />
+                통하여 가격 및 거래조건의 협의에 대한 권한을 위임합니다.
+                <br />
+                (실제 계약체결을 위임하는 것은 아닙니다.)
+              </p>
+            </div>
+            <div tw="rounded-lg shadow">
+              <div tw="p-5 border-b border-b-gray-200">
+                <div tw="flex items-center justify-between">
+                  <Label
+                    control={<Checkbox name="all" />}
+                    label="전체 동의"
+                    tw="font-bold"
+                    checked={all}
+                    onChange={handleChangeState}
+                  />
+                  <div tw="flex items-center gap-1">
+                    <ExclamationMark />
+                    <div tw="text-info text-gray-700">필수 선택 항목입니다.</div>
+                  </div>
+                </div>
+              </div>
+              <div tw="flex flex-col gap-4 p-5">
                 <Label
-                  control={<Checkbox name="all" />}
-                  label="전체 동의"
-                  tw="font-bold"
-                  checked={all}
+                  control={<Checkbox name="listingCreate" />}
+                  label="거래위임에 동의합니다."
+                  checked={listingCreate}
                   onChange={handleChangeState}
                 />
-                <div tw="flex items-center gap-1">
-                  <ExclamationMark />
-                  <div tw="text-info text-gray-700">필수 선택 항목입니다.</div>
+                <div tw="flex items-center justify-between">
+                  <Label
+                    control={<Checkbox name="privacy" />}
+                    label="개인정보 수집 동의"
+                    checked={privacy}
+                    onChange={handleChangeState}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="none"
+                    tw="underline text-info text-gray-1000"
+                    onClick={onClickPrivacyPolicy}
+                  >
+                    보기
+                  </Button>
                 </div>
               </div>
             </div>
-            <div tw="flex flex-col gap-4 p-5">
-              <Label
-                control={<Checkbox name="listingCreate" />}
-                label="매물등록신청에 동의합니다."
-                checked={listingCreate}
-                onChange={handleChangeState}
-              />
-              <div tw="flex items-center justify-between">
-                <Label
-                  control={<Checkbox name="privacy" />}
-                  label="개인정보 수집 동의"
-                  checked={privacy}
-                  onChange={handleChangeState}
-                />
-                <Button
-                  variant="ghost"
-                  size="none"
-                  tw="underline font-bold text-info text-gray-500"
-                  onClick={onClickPrivacyPolicy}
-                >
-                  보기
-                </Button>
-              </div>
-            </div>
           </div>
-        </div>
+        )}
       </div>
-      <PersistentBottomBar>
-        <Button variant="secondary" disabled={!all} size="bigger" tw="w-full" onClick={onClickVerify}>
-          본인인증 및 동의
-        </Button>
-      </PersistentBottomBar>
+      {!statusText && (
+        <PersistentBottomBar>
+          <Button variant="secondary" disabled={!all} size="bigger" tw="w-full" onClick={onClickVerify}>
+            본인인증 및 동의
+          </Button>
+        </PersistentBottomBar>
+      )}
     </div>
   );
 }
