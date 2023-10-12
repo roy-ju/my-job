@@ -45,8 +45,6 @@ export default function OwnerVerificationCi() {
     [token, loi, mutate, router],
   );
 
-  console.log(loi);
-
   const handleVerifyPhone = useCallback(() => {
     request('phone', handleNiceResponse);
   }, [handleNiceResponse, request]);
