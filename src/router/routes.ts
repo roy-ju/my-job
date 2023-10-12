@@ -33,8 +33,10 @@ const Routes = {
   MyAddress: 'myAddress',
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
+  MyAddressVerifyResult: 'myAddressVerifyResult',
+  MyAddressAgreement: 'myAddressAgreement',
 
-  MyRegisteredHome: 'myRegisteredHome',
+  MyRegisteredHomes: 'myRegisteredHomes',
 
   MyRealPriceList: 'myRealPriceList',
   MyDetail: 'myDetail',

@@ -28,6 +28,8 @@ export { default as Reactivate } from './Reactivate';
 export { default as MyAddress } from './MyAddress';
 export { default as MyAddressDetail } from './MyAddressDetail';
 export { default as MyAddressVerifying } from './MyAddressVerifying';
+export { default as MyAddressVerifyResult } from './MyAddressVerifyResult';
+export { default as MyAddressAgreement } from './MyAddressAgreement';
 export { default as Qna } from './Qna';
 export { default as UpdatePhone } from './UpdatePhone';
 export { default as DeregisterDisclaimer } from './DeregisterDisclaimer';
@@ -93,6 +95,7 @@ export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 export { default as RecommendationForm } from './RecommendationForm';
+export { default as MyRegisteredHomes } from './MyRegisteredHomes';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

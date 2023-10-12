@@ -118,6 +118,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     setTab(val);
   }, []);
 
+  const handleClickMyRegisteredHomes = useCallback(() => {
+    router.push(Routes.MyRegisteredHomes);
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <MyTemplate
@@ -147,6 +151,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         hasAddress={user?.hasAddress}
         hasNotVerifiedAddress={user?.hasNotVerifiedAddress}
         onClickTab={handleTab}
+        onClickMyRegisteredHomes={handleClickMyRegisteredHomes}
       />
     </Panel>
   );

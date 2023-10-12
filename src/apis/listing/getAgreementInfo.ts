@@ -15,7 +15,7 @@ export default function useAPI_GetAgreementInfo(loi: string) {
   const { data, isLoading, mutate } = useSWR<GetAgreementInfoResponse & ErrorResponse>(
     loi
       ? [
-          '/listing/agreement/info',
+          '/my/agreement/info',
           {
             loi: Number(loi),
           },

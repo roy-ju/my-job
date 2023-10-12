@@ -18,6 +18,7 @@ export interface MyListingsSummaryV3Props {
   onClickRequestedSuggests?: () => void;
   onClickSuggestRecommendedList?: () => void;
   onClickTab?: (val: 1 | 2) => void;
+  onClickMyRegisteredHomes?: () => void;
 }
 
 export default function MyListingsSummaryV3({
@@ -31,6 +32,7 @@ export default function MyListingsSummaryV3({
   onClickRequestedSuggests,
   onClickSuggestRecommendedList,
   onClickTab,
+  onClickMyRegisteredHomes,
 }: MyListingsSummaryV3Props) {
   const myParticipatingItems = useMemo(
     () => [
@@ -137,6 +139,7 @@ export default function MyListingsSummaryV3({
       onClickMyRegisteredListings?.(onlyOneItem.tab);
     } else {
       const firstPriorityItem = [...filteredItems].sort((a, b) => a.priority - b.priority)[0];
+
       onClickMyRegisteredListings?.(firstPriorityItem.tab);
     }
   }, [myRegisterdItems, onClickMyRegisteredListings]);
@@ -178,7 +181,11 @@ export default function MyListingsSummaryV3({
         )}
 
         {tab === 2 && hasAddress && (
-          <button type="button" tw="flex items-center gap-1 ml-auto text-gray-800 hover:text-gray-1000">
+          <button
+            type="button"
+            onClick={onClickMyRegisteredHomes}
+            tw="flex items-center gap-1 ml-auto text-gray-800 hover:text-gray-1000"
+          >
             {hasNotVerifiedAddress && <ErrorIcon />}
             <span tw="text-info">우리집 정보</span>
             <ChevronIcon />
@@ -188,7 +195,7 @@ export default function MyListingsSummaryV3({
         {tab === 2 && hasAddress && (
           <CTAButtons
             type="myRegisterdListings"
-            onClickMyParticipatingListingsCTA={onClickMyRegisterdListingsCTA}
+            onClickMyRegisterdListingsCTA={onClickMyRegisterdListingsCTA}
             count={totalCountMyRegisteredListings}
           />
         )}
