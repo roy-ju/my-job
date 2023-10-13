@@ -28,7 +28,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { mutate } = useAuth();
 
   const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
-
   const [verifyingSeconds, setVerifyingSeconds] = useState<number>(30);
   const [verifyCompletedSeconds, setVerifyCompletedSeconds] = useState<number>(2);
 
@@ -168,7 +167,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
           setTimeout(() => {
             mutate();
-            toast.success('주소가 성공적으로 변경되었습니다');
+            toast.success('우리집 등록이 완료 되었습니다!');
             router.replace(Routes.MyRegisteredHomes);
           }, 1500);
 
@@ -194,17 +193,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         }
       }
     } else {
-      router.replace(Routes.MyAddressDetail, {
-        state: {
-          addressData: router.query.addressData as string,
-          errorCode: '10000',
-          ...(router.query.origin
-            ? {
-                origin: router.query.origin as string,
-              }
-            : {}),
-        },
-      });
+      router.replace(Routes.My);
     }
   }, [router]);
 

@@ -62,7 +62,22 @@ export default function MyAddressAgreement({
     default: '',
   });
 
+  const title = useMemo(() => {
+    if (roadNameAddress) {
+      return roadNameAddress;
+    }
+
+    if (addressData?.roadAddressName) {
+      return addressData.roadAddressName;
+    }
+
+    return '';
+  }, [roadNameAddress, addressData]);
+
   const subTitle = useMemo(() => {
+    if (addressDetail) {
+      return `${addressDetail}`;
+    }
     if (addressData?.placeName && dong && ho) {
       return `${addressData.placeName} ${dong}동 ${ho}호`;
     }
@@ -92,22 +107,18 @@ export default function MyAddressAgreement({
     }
 
     return '';
-  }, [addressData, dong, ho]);
+  }, [addressData, dong, ho, addressDetail]);
 
   return (
     <div tw="h-full flex flex-col relative">
       <NavigationHeader>
-        {onClickBack && <NavigationHeader.BackButton />}
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>우리집 등록</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="py-10 px-5">
         <p tw="text-b1 font-bold [line-height: 16px] mb-3">등록 신청 주소</p>
-        {addressData?.roadAddressName && (
-          <p tw="text-b1 font-medium [line-height: 20px]">{addressData.roadAddressName}</p>
-        )}
+        {title && <p tw="text-b1 font-medium [line-height: 20px]">{title}</p>}
         {subTitle && <p tw="text-info text-gray-700 [line-height: 20px]">{subTitle}</p>}
-        {roadNameAddress && <p tw="text-b1 font-medium [line-height: 20px]">{roadNameAddress}</p>}
-        {addressDetail && <p tw="text-info text-gray-700 [line-height: 20px]">{addressDetail}</p>}
       </div>
       <Separator />
       <div tw="flex-1 min-h-0 overflow-auto px-5 pt-8 pb-8">

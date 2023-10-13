@@ -75,9 +75,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.MyAddress);
   }, [router]);
 
-  const handleClickHome = () => {
+  const handleClickHome = useCallback(() => {
     router.replace(Routes.My);
-  };
+  }, [router]);
 
   useEffect(() => {
     if (typeof user?.hasAddress === 'boolean' && user?.hasAddress === false) {

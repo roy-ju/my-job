@@ -7,6 +7,7 @@ import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 import completeAgreement from '@/apis/listing/completeAgreement';
 import useAPI_GetAgreementInfo from '@/apis/listing/getAgreementInfo';
 import { Loading } from '@/components/atoms';
+import Routes from '@/router/routes';
 
 export default function OwnerVerificationCi() {
   const router = useRouter();
@@ -67,7 +68,7 @@ export default function OwnerVerificationCi() {
       <div tw="w-full max-w-mobile left-0 right-0 flex flex-col h-full mx-auto bg-white fixed">
         <NavigationHeader>
           <NavigationHeader.Title>본인인증 및 동의</NavigationHeader.Title>
-          <NavigationHeader.Button>
+          <NavigationHeader.Button onClick={() => router.replace(`/${Routes.EntryMobile}`)}>
             <CloseIcon />
           </NavigationHeader.Button>
         </NavigationHeader>
