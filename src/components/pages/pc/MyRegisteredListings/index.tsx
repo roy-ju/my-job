@@ -3,6 +3,9 @@ import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/componen
 import { useRouter } from '@/hooks/utils';
 import { memo, useCallback, useEffect, useState } from 'react';
 import Routes from '@/router/routes';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { useAuth } from '@/hooks/services';
 import useMyRegisteredListings from './useMyRegisteredListings';
 
 interface Props {
@@ -12,6 +15,8 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+  const { user } = useAuth();
+
   const {
     myRegisteringListingCount,
     myRegisteringListingData,
@@ -47,6 +52,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [tab, setTab] = useState(Number(router.query.tab ?? 1));
   const [isLoading, setIsLoading] = useState(false);
 
+  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
+
   useEffect(() => {
     if (router.query.tab) {
       setTab(Number(router.query.tab));
@@ -81,7 +88,12 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   const handleNavigateToListingCreate = () => {
-    router.replace(Routes.ListingCreateAddress);
+    if (user?.hasAddress) {
+      router.replace(Routes.ListingCreateAddress);
+      return;
+    }
+
+    setOpenVerificationAddressPopup(true);
   };
 
   const handleNavigateToListingDetailPassed = (listingId: number) => () => {
@@ -142,6 +154,31 @@ export default memo(({ depth, panelWidth }: Props) => {
           />
         )}
       </Panel>
+
+      {openVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                매물등록을 위해서는 집주인 인증이 필요합니다.
+                <br />
+                우리집을 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenVerificationAddressPopup(false);
+                  router.replace(Routes.MyAddress, { state: { origin: router.asPath } });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </AuthRequired>
   );
 });
