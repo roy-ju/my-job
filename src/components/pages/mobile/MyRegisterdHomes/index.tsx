@@ -42,7 +42,7 @@ export default memo(() => {
     await deleteMyAddress({ user_address_id: userAddressInfo.id });
 
     if (list?.length === 1) {
-      await router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      await router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
       await authMutate();
     }
 
@@ -63,6 +63,7 @@ export default memo(() => {
             resend: 'true',
             roadNameAddress: roadNameAddress || '',
             addressDetail: addressDetail || '',
+            origin: router.asPath,
           },
         },
         `/${Routes.EntryMobile}/${Routes.MyAddressAgreement}`,
@@ -72,28 +73,27 @@ export default memo(() => {
   );
 
   const handleClickAddMyAddress = useCallback(() => {
-    router.replace(Routes.MyAddress);
+    router.push(
+      { pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`, query: { origin: router.asPath } },
+      `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+    );
   }, [router]);
 
-  const handleClickHome = useCallback(() => {
-    router.replace(Routes.My);
+  const handleClickMy = useCallback(() => {
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
   }, [router]);
 
   const handleClickBack = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      const canGoBack = window.history.length > 1;
-
-      if (canGoBack) {
-        router.back();
-      } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
-      }
-    }
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
   }, [router]);
 
   useEffect(() => {
-    if (typeof user?.hasAddress === 'boolean' && user?.hasAddress === false) {
-      setShowInActivePopup(true);
+    if (user) {
+      const { hasAddress, hasNotVerifiedAddress } = user;
+
+      if (hasAddress === false && hasNotVerifiedAddress === false) {
+        setShowInActivePopup(true);
+      }
     }
   }, [user, isLoading]);
 
@@ -106,7 +106,7 @@ export default memo(() => {
               <Loading />
             </div>
           ) : (
-            user?.hasAddress && (
+            (user?.hasAddress || user?.hasNotVerifiedAddress) && (
               <MyRegisteredHomes
                 list={list}
                 onClickBack={handleClickBack}
@@ -129,7 +129,7 @@ export default memo(() => {
                 </Popup.SubTitle>
               </Popup.ContentGroup>
               <Popup.ButtonGroup>
-                <Popup.ActionButton onClick={handleClickHome}>마이페이지로 돌아가기</Popup.ActionButton>
+                <Popup.ActionButton onClick={handleClickMy}>마이페이지로 돌아가기</Popup.ActionButton>
               </Popup.ButtonGroup>
             </Popup>
           </OverlayPresenter>

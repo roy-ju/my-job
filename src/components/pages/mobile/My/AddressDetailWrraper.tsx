@@ -39,24 +39,34 @@ export default function AddressDetailWrraper() {
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.MyAddressVerifying}`,
-        query: { addressData: router.query.addressData as string, dong, ho },
+        query: router?.query?.origin
+          ? { addressData: router.query.addressData as string, dong, ho, origin: router?.query?.origin }
+          : { addressData: router.query.addressData as string, dong, ho },
       },
       `/${Routes.EntryMobile}/${Routes.MyAddressVerifying}`,
     );
   }, [router, dong, ho]);
 
-  const handleSearchAnotherAddress = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+  const handleClickBack = useCallback(() => {
+    router.replace(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+        query: router?.query?.origin ? { origin: router?.query?.origin } : undefined,
+      },
+      `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+    );
   }, [router]);
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
+
     if (!inAddressData) {
       router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
-    } else {
-      const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
-      setAddressData(parsed);
+      return;
     }
+
+    const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
+    setAddressData(parsed);
   }, [router]);
 
   return (
@@ -65,11 +75,11 @@ export default function AddressDetailWrraper() {
       addressLine2={addressLine2}
       dong={dong}
       ho={ho}
-      onClickBack={handleSearchAnotherAddress}
+      onClickBack={handleClickBack}
       onChangeDong={handleChangeDong}
       onChangeHo={handleChangeHo}
       onSubmit={handleSubmit}
-      onSearchAnotherAddress={handleSearchAnotherAddress}
+      onSearchAnotherAddress={handleClickBack}
     />
   );
 }

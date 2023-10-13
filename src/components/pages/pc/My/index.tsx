@@ -1,5 +1,5 @@
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
-import { Panel } from '@/components/atoms';
+import { Loading, Panel } from '@/components/atoms';
 import { My as MyTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
@@ -7,7 +7,7 @@ import { coordToRegion } from '@/lib/kakao';
 import { NaverLatLng } from '@/lib/navermap/types';
 import Routes from '@/router/routes';
 import useSyncronizer from '@/states/syncronizer';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -19,7 +19,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { user, isLoading } = useAuth();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState<number>();
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -121,6 +121,29 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickMyRegisteredHomes = useCallback(() => {
     router.push(Routes.MyRegisteredHomes);
   }, [router]);
+
+  useEffect(() => {
+    if (router?.query?.tab === '1') {
+      setTab(1);
+      return;
+    }
+
+    if (router?.query?.tab === '2') {
+      setTab(2);
+      return;
+    }
+
+    setTab(1);
+  }, [router?.query?.tab]);
+
+  if (!tab)
+    return (
+      <Panel>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </Panel>
+    );
 
   return (
     <Panel width={panelWidth}>

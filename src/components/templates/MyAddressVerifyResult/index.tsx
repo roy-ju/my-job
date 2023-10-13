@@ -90,7 +90,7 @@ export default function MyAddressVerifyResult({
 
       <div tw="px-5 py-10 flex flex-col gap-3">
         <div tw="flex items-center gap-1">
-          <Error12 tw="w-4 h-4" />
+          {(errorCode || (addressList && addressList.length > 1)) && <Error12 tw="w-4 h-4" />}
 
           {errorCode === INACCURATE_ADDRESS_DETAIL.toString() && (
             <span tw="text-info text-red-800">입력한 주소로 등기부 조회가 되지 않습니다.</span>

@@ -23,6 +23,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
   const { user, isLoading, mutate: authMutate } = useAuth();
+
   const { list, mutate } = useAPI_GetMyAddressList();
 
   const [showInActivePopup, setShowInActivePopup] = useState(false);
@@ -80,8 +81,12 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   useEffect(() => {
-    if (typeof user?.hasAddress === 'boolean' && user?.hasAddress === false) {
-      setShowInActivePopup(true);
+    if (user) {
+      const { hasAddress, hasNotVerifiedAddress } = user;
+
+      if (hasAddress === false && hasNotVerifiedAddress === false) {
+        setShowInActivePopup(true);
+      }
     }
   }, [user, isLoading]);
 
@@ -93,7 +98,7 @@ export default memo(({ depth, panelWidth }: Props) => {
             <Loading />
           </div>
         ) : (
-          user?.hasAddress && (
+          (user?.hasAddress || user?.hasNotVerifiedAddress) && (
             <MyRegisteredHomes
               list={list}
               onClickSendSMS={handleClickSendSMS}

@@ -1,9 +1,9 @@
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { My as MyTemplate } from '@/components/templates';
-import { MobileContainer } from '@/components/atoms';
+import { Loading, MobileContainer } from '@/components/atoms';
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { MobGlobalNavigation } from '@/components/organisms';
 import useSyncronizer from '@/states/syncronizer';
@@ -100,6 +100,29 @@ export default function MobMy() {
   const handleDeveloper = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.Developer}`);
   }, [router]);
+
+  useEffect(() => {
+    if (router?.query?.tab === '1') {
+      setTab(1);
+      return;
+    }
+
+    if (router?.query?.tab === '2') {
+      setTab(2);
+      return;
+    }
+
+    setTab(1);
+  }, [router?.query?.tab]);
+
+  if (!tab)
+    return (
+      <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </MobileContainer>
+    );
 
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
