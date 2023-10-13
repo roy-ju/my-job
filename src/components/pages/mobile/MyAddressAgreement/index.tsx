@@ -56,7 +56,7 @@ export default memo(() => {
   const handleShowPopup = useCallback(() => setShowConfirmPopup(true), []);
 
   const handleClickHome = () => {
-    router.replace('/');
+    router.replace(`/${Routes.EntryMobile}`);
   };
 
   const handleClickCTA = useCallback(async () => {
@@ -76,7 +76,12 @@ export default memo(() => {
       setShowSendCountReachedPopup(true);
     } else if (response === null) {
       toast.success('문자를 전송했습니다.');
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+
+      if (router?.query?.origin && typeof router.query.origin === 'string') {
+        router.replace(router.query.origin);
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+      }
     }
   }, [name, phone, router]);
 
@@ -108,7 +113,11 @@ export default memo(() => {
   }, [router]);
 
   const handleClickBack = () => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+    if (router?.query?.origin && typeof router.query.origin === 'string') {
+      router.replace(router.query.origin);
+    } else {
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+    }
   };
 
   return (
@@ -203,7 +212,7 @@ export default memo(() => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
-                  router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+                  router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
                 }}
               >
                 확인

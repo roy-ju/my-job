@@ -9,15 +9,11 @@ export default function AddressWrraper() {
   const router = useRouter();
 
   const handleClickBack = () => {
-    if (typeof window !== 'undefined') {
-      const canGoBack = window.history.length > 1;
-
-      if (canGoBack) {
-        router.back();
-      } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
-      }
+    if (router?.query?.origin && typeof router?.query?.origin === 'string') {
+      router.replace(router.query.origin);
+      return;
     }
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
   };
 
   const handleSubmit = useCallback(
@@ -25,7 +21,9 @@ export default function AddressWrraper() {
       router.push(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
-          query: { addressData: JSON.stringify(value) },
+          query: router?.query?.origin
+            ? { addressData: JSON.stringify(value), origin: router.query.origin as string }
+            : { addressData: JSON.stringify(value) },
         },
         `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
       );

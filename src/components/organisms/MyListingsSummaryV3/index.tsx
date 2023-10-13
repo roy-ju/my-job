@@ -173,14 +173,14 @@ export default function MyListingsSummaryV3({
           />
         )}
 
-        {tab === 2 && !hasAddress && (
+        {tab === 2 && !hasAddress && !hasNotVerifiedAddress && (
           <>
             <div tw="min-h-[4px]" />
             <NeedHomeVerify onClickCTA={onClickMyAddress} />
           </>
         )}
 
-        {tab === 2 && hasAddress && (
+        {tab === 2 && (hasAddress || hasNotVerifiedAddress) && (
           <button
             type="button"
             onClick={onClickMyRegisteredHomes}
@@ -192,7 +192,7 @@ export default function MyListingsSummaryV3({
           </button>
         )}
 
-        {tab === 2 && hasAddress && (
+        {tab === 2 && (hasAddress || hasNotVerifiedAddress) && (
           <CTAButtons
             type="myRegisterdListings"
             onClickMyRegisterdListingsCTA={onClickMyRegisterdListingsCTA}
@@ -200,7 +200,7 @@ export default function MyListingsSummaryV3({
           />
         )}
 
-        {tab === 2 && hasAddress && (
+        {tab === 2 && (hasAddress || hasNotVerifiedAddress) && (
           <CTAButtons
             type="suggestRecommendedList"
             onClickSuggestRecommendedListCTA={onClickSuggestRecommendedList}

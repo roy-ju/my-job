@@ -17,7 +17,9 @@ export interface GetMyAddressListResponse {
 export default function useAPI_GetMyAddressList() {
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR<GetMyAddressListResponse>(user?.hasAddress ? [`/my/address/list`] : null);
+  const { data, isLoading, mutate } = useSWR<GetMyAddressListResponse>(
+    (user?.hasAddress || user?.hasNotVerifiedAddress) ? [`/my/address/list`] : null,
+  );
 
   return { list: data?.list, isLoading, mutate };
 }
