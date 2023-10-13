@@ -45,7 +45,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [errorCode, setErrorCode] = useState<string>();
   const [selectedItemID, setSelectedItemID] = useState<string>();
 
-  const [popup, setPopup] = useState<'alreadyExistAddress' | ''>('');
+  const [popup, setPopup] = useState<'alreadyExistAddress' | 'invalidAccess' | ''>('');
 
   const [dong, setDong] = useState<string>('');
   const [ho, setHo] = useState<string>('');
@@ -64,11 +64,11 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, []);
 
   const handleGoMyPage = useCallback(() => {
-    nextRouter.replace(`/${Routes.My}`);
+    nextRouter.replace(`/${Routes.My}?tab=2`);
   }, [nextRouter]);
 
   const handleGoMyAddress = useCallback(() => {
-    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}`);
+    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}?tab=2`);
   }, [nextRouter]);
 
   const handleClickMultipleItem = useCallback(
@@ -82,10 +82,18 @@ export default memo(({ depth, panelWidth }: Props) => {
     [selectedItemID],
   );
 
-  const handleClosePopup = useCallback(() => {
-    setPopup('');
-    nextRouter.replace(`/${Routes.My}`);
-  }, [nextRouter]);
+  const handleClosePopup = useCallback(
+    (value: 'alreadyExistAddress' | 'invalidAccess') => {
+      setPopup('');
+
+      if (value === 'alreadyExistAddress') {
+        nextRouter.replace(`/${Routes.My}/${Routes.MyRegisteredHomes}?tab=2`);
+      } else if (value === 'invalidAccess') {
+        nextRouter.replace(`/`);
+      }
+    },
+    [nextRouter],
+  );
 
   const handleClickMultipleItemCTA = useCallback(
     async (id?: string) => {
@@ -136,17 +144,20 @@ export default memo(({ depth, panelWidth }: Props) => {
           if (response?.verified === true) {
             await setVerifyStatus(MyVerifyStatus.Success);
 
+            setErrorCode('');
+
             setTimeout(() => {
               mutate();
               toast.success('우리집 등록이 완료 되었습니다!');
               router.replace(Routes.MyRegisteredHomes);
-            }, 1500);
+            }, 1000);
 
             return;
           }
 
           if (response?.verified === false) {
-            mutate();
+            await mutate();
+
             setErrorCode('');
 
             router.replace(Routes.MyAddressAgreement, {
@@ -172,7 +183,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     if (!router?.query?.addressData) {
-      router.replace(Routes.MyAddress);
+      setPopup('invalidAccess');
       return;
     }
 
@@ -232,6 +243,21 @@ export default memo(({ depth, panelWidth }: Props) => {
         <MyAddressVerifying verifyStatus={verifyStatus} verifyCompletedSeconds={verifyCompletedSeconds} />
       )}
 
+      {popup === 'invalidAccess' && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6">
+              <Popup.SubTitle tw="text-center">유효하지 않은 접근입니다.</Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={() => handleClosePopup('invalidAccess')}>
+                네고시오 홈으로 돌아가기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
       {popup === 'alreadyExistAddress' && (
         <OverlayPresenter>
           <Popup>
@@ -243,7 +269,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={handleClosePopup}>확인</Popup.ActionButton>
+              <Popup.ActionButton onClick={() => handleClosePopup('alreadyExistAddress')}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
