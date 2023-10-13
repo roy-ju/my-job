@@ -7,14 +7,13 @@ import { MobileContainer } from '@/components/atoms';
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { MobGlobalNavigation } from '@/components/organisms';
 import useSyncronizer from '@/states/syncronizer';
-import { Popup, OverlayPresenter } from '@/components/molecules';
 
 export default function MobMy() {
   const router = useRouter();
-
-  const { user, isLoading } = useAuth();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
-  const [showMyAddressPopup, setShowMyAddressPopup] = useState(false);
+  const { user, isLoading } = useAuth();
+
+  const [tab, setTab] = useState(1);
 
   const { unreadChatCount } = useSyncronizer();
 
@@ -61,12 +60,8 @@ export default function MobMy() {
   }, [router]);
 
   const handleMyAddress = useCallback(() => {
-    if (user?.hasAddress) {
-      setShowMyAddressPopup(true);
-      return;
-    }
     router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
-  }, [router, user?.hasAddress]);
+  }, [router]);
 
   const handleClickMyRegisteredListings = useCallback(
     (params: number) => {
@@ -91,7 +86,15 @@ export default function MobMy() {
   }, [router]);
 
   const handleSuggestRecommendedList = useCallback(() => {
-    router.push(Routes.SuggestRecommendedList);
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`);
+  }, [router]);
+
+  const handleTab = useCallback((val: 1 | 2) => {
+    setTab(val);
+  }, []);
+
+  const handleClickMyRegisteredHomes = useCallback(() => {
+    router.push(Routes.MyRegisteredHomes);
   }, [router]);
 
   const handleDeveloper = useCallback(() => {
@@ -101,11 +104,11 @@ export default function MobMy() {
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
       <MyTemplate
-        unreadNotificationCount={unreadNotificationCount}
         isLoading={isLoading}
         loggedIn={user !== null}
         nickname={user?.nickname}
         profileImageUrl={user?.profileImageUrl}
+        unreadNotificationCount={unreadNotificationCount}
         dashboardInfo={dashboardData}
         onClickLogin={handleClickLogin}
         onClickNotificationList={handleClickNotificationList}
@@ -123,38 +126,13 @@ export default function MobMy() {
         onClickRecommendationForm={handleRecommendationForm}
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
+        hasAddress={user?.hasAddress}
+        hasNotVerifiedAddress={user?.hasNotVerifiedAddress}
+        onClickTab={handleTab}
+        onClickMyRegisteredHomes={handleClickMyRegisteredHomes}
         onClickDeveloper={process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? handleDeveloper : undefined}
+        tab={tab}
       />
-      {showMyAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.SubTitle tw="text-center">
-                이미 등록하신 주소가 있습니다.
-                <br />
-                새로운 집주소를 등록하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton
-                onClick={() => {
-                  setShowMyAddressPopup(false);
-                }}
-              >
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
-                  setShowMyAddressPopup(false);
-                }}
-              >
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
     </MobileContainer>
   );
 }

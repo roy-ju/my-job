@@ -26,6 +26,9 @@ export { default as UpdatePhoneWrraper } from './My/UpdatePhoneWrraper';
 export { default as AddressWrraper } from './My/AddressWrraper';
 export { default as AddressDetailWrrpaer } from './My/AddressDetailWrraper';
 export { default as AddressVerifyingWrraper } from './My/AddressVerifyingWrraper';
+export { default as MyRegisterdHomes } from './MyRegisterdHomes';
+export { default as MyAddressVerfiyResult } from './MyAddressVerfiyResult';
+export { default as MyAddressAgreement } from './MyAddressAgreement';
 export { default as NotificationSettingsWrraper } from './My/NotificationSettingsWrraper';
 export { default as NotificationWrraper } from './My/NotificationWrraper';
 export { default as FindAccountWrraper } from './My/FindAccountWrraper';
@@ -133,3 +136,4 @@ export { default as SuggestRecommendedList } from './SuggestRecommendedList';
 export { default as SuggestListingForm } from './SuggestListingForm';
 
 export { default as SuggestListings } from './SuggestListings';
+

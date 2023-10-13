@@ -1,20 +1,13 @@
+import { memo, useState, useEffect, ChangeEventHandler, useCallback } from 'react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 import addressAgreementPhone from '@/apis/my/addressAgreementPhone';
-import { AuthRequired, Panel } from '@/components/atoms';
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MyAddressAgreement } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
-import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { autoHyphenPhone } from '@/utils/autoHypenPhone';
-import { useRouter as useNextRouter } from 'next/router';
-
-import { memo, useState, useEffect, ChangeEventHandler, useCallback } from 'react';
-import { toast } from 'react-toastify';
-
-interface Props {
-  depth: number;
-  panelWidth: string;
-}
 
 type AddressData = {
   addressName?: string;
@@ -26,9 +19,8 @@ type AddressData = {
   roadAddressName?: string;
 };
 
-export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
-  const nextRouter = useNextRouter();
+export default memo(() => {
+  const router = useRouter();
 
   const [showInactivePopup, setShowInactivePopup] = useState(false);
 
@@ -61,11 +53,11 @@ export default memo(({ depth, panelWidth }: Props) => {
     setPhone('');
   }, []);
 
-  const handleClickHome = () => {
-    nextRouter.replace('/');
-  };
-
   const handleShowPopup = useCallback(() => setShowConfirmPopup(true), []);
+
+  const handleClickHome = () => {
+    router.replace('/');
+  };
 
   const handleClickCTA = useCallback(async () => {
     if (!router?.query?.userAddressID) return;
@@ -84,10 +76,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       setShowSendCountReachedPopup(true);
     } else if (response === null) {
       toast.success('문자를 전송했습니다.');
-
-      nextRouter.replace(`/${Routes.My}`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
     }
-  }, [name, phone, router?.query?.userAddressID, nextRouter]);
+  }, [name, phone, router]);
 
   useEffect(() => {
     if (!router?.query?.userAddressID) {
@@ -116,11 +107,16 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [router]);
 
+  const handleClickBack = () => {
+    router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+  };
+
   return (
-    <AuthRequired depth={depth} ciRequired>
-      <Panel width={panelWidth}>
+    <MobAuthRequired ciRequired>
+      <MobileContainer>
         {!showInactivePopup && (
           <MyAddressAgreement
+            onClickBack={handleClickBack}
             addressData={addressData}
             roadNameAddress={(router?.query?.roadNameAddress as string) || ''}
             addressDetail={(router?.query?.addressDetail as string) || ''}
@@ -136,7 +132,7 @@ export default memo(({ depth, panelWidth }: Props) => {
             onClickCTA={handleShowPopup}
           />
         )}
-      </Panel>
+      </MobileContainer>
 
       {showInactivePopup && (
         <OverlayPresenter>
@@ -207,7 +203,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
-                  nextRouter.replace(`${Routes.My}`);
+                  router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
                 }}
               >
                 확인
@@ -216,6 +212,6 @@ export default memo(({ depth, panelWidth }: Props) => {
           </Popup>
         </OverlayPresenter>
       )}
-    </AuthRequired>
+    </MobAuthRequired>
   );
 });

@@ -84,7 +84,7 @@ export default function MyAddressVerifyResult({
   return (
     <div tw="h-full flex flex-col relative">
       <NavigationHeader>
-        {onClickBack && <NavigationHeader.BackButton />}
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>우리집 등록</NavigationHeader.Title>
       </NavigationHeader>
 
@@ -170,9 +170,9 @@ export default function MyAddressVerifyResult({
             <p tw="text-b1 font-bold">기존 입력 주소</p>
             <div tw="flex flex-col">
               {addressData?.roadAddressName && <p tw="text-b1 font-medium">{addressData.roadAddressName}</p>}
-              {addressData?.placeName && (
+              {subTitle && (
                 <>
-                  <span tw="text-info text-gray-700 [line-height: 20px]">{addressData.placeName}</span>
+                  <span tw="text-info text-gray-700 [line-height: 20px]">{subTitle}</span>
                 </>
               )}
             </div>

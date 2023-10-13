@@ -1,3 +1,4 @@
+import { MobAuthRequired } from '@/components/atoms';
 import { MobMyAddress } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import Routes from '@/router/routes';
@@ -8,18 +9,33 @@ export default function AddressWrraper() {
   const router = useRouter();
 
   const handleClickBack = () => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      }
+    }
   };
 
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
-      router.replace({
-        pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
-        query: { addressData: JSON.stringify(value) },
-      });
+      router.push(
+        {
+          pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
+          query: { addressData: JSON.stringify(value) },
+        },
+        `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
+      );
     },
     [router],
   );
 
-  return <MobMyAddress onClickBack={handleClickBack} onSubmit={handleSubmit} />;
+  return (
+    <MobAuthRequired ciRequired>
+      <MobMyAddress onClickBack={handleClickBack} onSubmit={handleSubmit} />
+    </MobAuthRequired>
+  );
 }
