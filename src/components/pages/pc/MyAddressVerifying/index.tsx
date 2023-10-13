@@ -169,7 +169,7 @@ export default memo(({ depth, panelWidth }: Props) => {
             mutate();
             toast.success('우리집 등록이 완료 되었습니다!');
             router.replace(Routes.MyRegisteredHomes);
-          }, 1500);
+          }, 1000);
 
           return;
         }

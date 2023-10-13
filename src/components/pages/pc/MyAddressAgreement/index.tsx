@@ -4,9 +4,9 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MyAddressAgreement } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 import { autoHyphenPhone } from '@/utils/autoHypenPhone';
-import { useRouter as useNextRouter } from 'next/router';
 
 import { memo, useState, useEffect, ChangeEventHandler, useCallback } from 'react';
 import { toast } from 'react-toastify';
@@ -84,10 +84,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       setShowSendCountReachedPopup(true);
     } else if (response === null) {
       toast.success('문자를 전송했습니다.');
-
-      nextRouter.replace(`/${Routes.My}`);
+      router.replace(Routes.MyRegisteredHomes);
     }
-  }, [name, phone, router?.query?.userAddressID, nextRouter]);
+  }, [name, phone, router]);
 
   useEffect(() => {
     if (!router?.query?.userAddressID) {
@@ -207,7 +206,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
-                  nextRouter.replace(`${Routes.My}`);
+                  nextRouter.replace(`/${Routes.My}?tab=2`);
                 }}
               >
                 확인
