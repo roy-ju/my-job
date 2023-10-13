@@ -84,9 +84,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       setShowSendCountReachedPopup(true);
     } else if (response === null) {
       toast.success('문자를 전송했습니다.');
-      router.replace(Routes.MyRegisteredHomes);
+      nextRouter.replace(`/${Routes.My}?default=2`);
     }
-  }, [name, phone, router]);
+  }, [name, nextRouter, phone, router.query.userAddressID]);
 
   useEffect(() => {
     if (!router?.query?.userAddressID) {

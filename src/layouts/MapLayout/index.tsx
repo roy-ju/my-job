@@ -9,6 +9,7 @@ import PcGlobalStyles from '@/styles/PcGlobalStyles';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import useSyncronizer from '@/states/syncronizer';
 import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
+import { useAuth } from '@/hooks/services';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -68,9 +69,13 @@ function MapWrapper({
     ...props
   } = useMapLayout();
 
+  const { user } = useAuth();
+
   const { depth, popLast, replace } = useRouter(0);
 
   const [openPopup, setOpenPopup] = useState(false);
+
+  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
 
   const handleClickSuggestRegional = useCallback(async () => {
     const response = await danjiSuggestEligibilityCheck(bubjungdongCode);
@@ -96,8 +101,13 @@ function MapWrapper({
   }, [replace]);
 
   const handleClickListingCreateAddress = useCallback(() => {
-    replace(Routes.ListingCreateAddress);
-  }, [replace]);
+    if (user?.hasAddress) {
+      replace(Routes.ListingCreateAddress);
+      return;
+    }
+
+    setOpenVerificationAddressPopup(true);
+  }, [replace, user]);
 
   const handleClickAgentSite = useCallback(() => {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
@@ -215,6 +225,31 @@ function MapWrapper({
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setOpenPopup(false)}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                매물등록을 위해서는 집주인 인증이 필요합니다.
+                <br />
+                우리집을 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenVerificationAddressPopup(false);
+                  replace(Routes.MyAddress, { state: { origin: '/' } });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

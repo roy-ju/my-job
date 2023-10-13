@@ -168,7 +168,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           setTimeout(() => {
             mutate();
             toast.success('우리집 등록이 완료 되었습니다!');
-            router.replace(Routes.MyRegisteredHomes);
+            nextRouter.replace(`/${Routes.My}?default=2`);
           }, 1000);
 
           return;
