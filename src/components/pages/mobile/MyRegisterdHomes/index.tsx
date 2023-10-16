@@ -42,7 +42,7 @@ export default memo(() => {
     await deleteMyAddress({ user_address_id: userAddressInfo.id });
 
     if (list?.length === 1) {
-      await router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+      await router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
       await authMutate();
     }
 
@@ -80,11 +80,11 @@ export default memo(() => {
   }, [router]);
 
   const handleClickMy = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
   useEffect(() => {

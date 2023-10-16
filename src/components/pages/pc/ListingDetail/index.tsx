@@ -309,13 +309,13 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         <Popup>
           <Popup.ContentGroup tw="py-10">
             {statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST ? (
-              <Popup.Title tw="[text-align: center]">유효하지 않은 페이지 입니다.</Popup.Title>
+              <Popup.SmallTitle tw="[text-align: center]">유효하지 않은 페이지 입니다.</Popup.SmallTitle>
             ) : (
-              <Popup.Title tw="[text-align: center]">
+              <Popup.SmallTitle tw="[text-align: center]">
                 거래가 종료되어
                 <br />
                 매물 상세 정보를 확인할 수 없습니다.
-              </Popup.Title>
+              </Popup.SmallTitle>
             )}
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
@@ -356,11 +356,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-6">
-              <Popup.Title tw="text-b2 text-center">
+              <Popup.SmallTitle tw="text-b2 text-center">
                 관심없음으로 표시한 매물은
                 <br />
                 추천받은 목록에서 삭제됩니다.
-              </Popup.Title>
+              </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
@@ -376,11 +376,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-6">
-              <Popup.Title tw="text-b2 text-center">
+              <Popup.SmallTitle tw="text-b2 text-center">
                 매물에 대한 추가 협의는 채팅으로 진행할 수 있습니
                 <br />
                 다. 이를 위한 중개사님과의 채팅방이 개설됩니다.
-              </Popup.Title>
+              </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>

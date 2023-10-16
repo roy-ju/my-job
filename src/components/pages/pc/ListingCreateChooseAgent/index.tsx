@@ -13,7 +13,8 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const listingID = Number(router.query.listingID) ?? 0;
+
+  const userAddressID = Number(router.query.userAddressID) ?? 0;
   const [index, setIndex] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -22,8 +23,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const fetchAgentList = useCallback(async () => {
     setIsLoading(true);
-    const res = await getAgentList({ listing_id: listingID });
+
+    const res = await getAgentList({ user_address_id: userAddressID });
+
     setIsLoading(false);
+
     if (res && res.agent_list) {
       setAgents(
         res.agent_list.map((item) => ({
@@ -39,7 +43,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         })),
       );
     }
-  }, [listingID]);
+  }, [userAddressID]);
 
   useEffect(() => {
     fetchAgentList();
@@ -55,13 +59,10 @@ export default memo(({ depth, panelWidth }: Props) => {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
         redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        listingID: router.query.listingID as string,
+        userAddressID: router?.query?.userAddressID as string,
       },
       state: {
         params: router.query.params as string,
-        addressLine1: router.query.addressLine1 as string,
-        addressLine2: router.query.addressLine2 as string,
-        addressData: router.query.addressData as string,
         ...(router.query.origin
           ? {
               origin: router.query.origin as string,
@@ -77,14 +78,11 @@ export default memo(({ depth, panelWidth }: Props) => {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
         redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        listingID: router.query.listingID as string,
+        userAddressID: router?.query?.userAddressID as string,
         agentID: `${agentId}`,
       },
       state: {
         params: router.query.params as string,
-        addressLine1: router.query.addressLine1 as string,
-        addressLine2: router.query.addressLine2 as string,
-        addressData: router.query.addressData as string,
         ...(router.query.origin
           ? {
               origin: router.query.origin as string,

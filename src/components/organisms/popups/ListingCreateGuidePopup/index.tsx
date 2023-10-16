@@ -89,11 +89,6 @@ export default function ListingCreateGuidePopup({
                 css={[index + 1 === GuideStepList.length && tw`col-span-2`]}
               />
             ))}
-            {/* <OListItem contents="주소를 확인해 주세요." order={1} />
-            <OListItem contents="거래정보(가격 등)를 입력해 주세요." order={2} />
-            <OListItem contents="매물 정보를 입력해 주세요." order={3} />
-            <OListItem contents="중개사를 선택해 주세요." order={4} />
-            <OListItem contents="선택한 중개사가 매물 등록을 완료해요." order={5} tw="col-span-2" /> */}
           </ol>
         </div>
         <div>

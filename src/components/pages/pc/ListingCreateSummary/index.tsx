@@ -1,6 +1,5 @@
 import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
 import updateDanjiPhoto from '@/apis/listing/updateDanjiPhoto';
-import updateListing from '@/apis/listing/updateListing';
 import uploadListingPhoto from '@/apis/listing/updateListingPhoto';
 import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
@@ -11,6 +10,8 @@ import Routes from '@/router/routes';
 import getFileFromUrl from '@/utils/getFileFromUrl';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 } from 'uuid';
+import createListing from '@/apis/listing/createListing';
+import ErrorCodes from '@/constants/error_codes';
 
 interface Props {
   depth: number;
@@ -20,12 +21,14 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
-  const listingID = Number(router.query.listingID) ?? 0;
+  const userAddressID = Number(router.query.userAddressID) ?? 0;
   const agentID = Number(router.query.agentID) ?? 0;
   const [agent, setAgent] = useState<GetAgentListResponse['agent_list'][0] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [listingID, setListingID] = useState<number>();
   const [poppup, setPopup] = useState(false);
+  const [errorPopup, setErrorPopup] = useState(false);
 
   const params = useMemo(() => {
     if (typeof router.query.params === 'string') {
@@ -35,57 +38,102 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router.query.params]);
 
   const fetchAgentList = useCallback(async () => {
-    if (!agentID || !listingID) return;
+    if (!agentID || !userAddressID) return;
     setIsLoading(true);
-    const res = await getAgentList({ listing_id: listingID });
+    const res = await getAgentList({ user_address_id: userAddressID });
     if (res && res.agent_list) {
       const a = res.agent_list.filter((item) => item.id === agentID)[0];
       setAgent(a ?? null);
     }
     setIsLoading(false);
-  }, [listingID, agentID]);
+  }, [userAddressID, agentID]);
 
   const onClickCreate = useCallback(async () => {
     setIsCreating(true);
-    // isOwner 는 스킵..
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { listingPhotoUrls, danjiPhotoUrls, isOwner, ...fields } = params;
+    const { listingPhotoUrls, danjiPhotoUrls, ...fields } = params;
 
-    try {
-      listingPhotoUrls?.map(async (item: string) => {
-        getFileFromUrl(item, v4()).then((f) => uploadListingPhoto(listingID, f));
-      });
-
-      danjiPhotoUrls?.map(async (item: string) => {
-        getFileFromUrl(item, v4()).then((f) => updateDanjiPhoto(listingID, f));
-      });
-    } catch (e) {
-      console.error(e);
-    }
-
-    await updateListing({
+    const response = await createListing({
       ...fields,
-      listing_id: listingID,
+      user_address_id: userAddressID,
       user_selected_agent_id: agentID,
     });
 
-    setIsCreating(false);
+    if (response?.listing_id) {
+      setListingID(response.listing_id);
+
+      try {
+        listingPhotoUrls?.map(async (item: string) => {
+          getFileFromUrl(item, v4()).then((f) => uploadListingPhoto(response.listing_id, f));
+        });
+
+        danjiPhotoUrls?.map(async (item: string) => {
+          getFileFromUrl(item, v4()).then((f) => updateDanjiPhoto(response.listing_id, f));
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      setIsCreating(false);
+    }
+
+    if (response?.error_code === ErrorCodes.DUPLICATED_LISTING) {
+      setErrorPopup(true);
+    }
 
     setPopup(true);
-  }, [params, listingID, agentID]);
+  }, [params, userAddressID, agentID]);
 
   const onClickUpdate = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
         redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        listingID: router.query.listingID as string,
+        userAddressID: router?.query?.userAddressID as string,
       },
       state: {
         params: router.query.params as string,
-        addressLine1: router.query.addressLine1 as string,
-        addressLine2: router.query.addressLine2 as string,
-        addressData: router.query.addressData as string,
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
+      },
+    });
+  }, [router]);
+
+  const handlePopup = useCallback(() => {
+    setPopup(false);
+    if (router?.query?.redirect) {
+      nextRouter.replace(router.query.redirect as string);
+      return;
+    }
+
+    if (router?.query?.danjiID && router?.query?.depth1) {
+      nextRouter.replace(`/${router.query.depth1}?danjiID=${router.query.danjiID}`);
+      return;
+    }
+
+    if (listingID) {
+      router.replace(Routes.ListingDetail, {
+        searchParams: { listingID: `${listingID}` },
+        state: {
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
+        },
+      });
+    }
+  }, [listingID, nextRouter, router]);
+
+  const handleErrorPopup = useCallback(() => {
+    setErrorPopup(false);
+
+    router.replace(Routes.MyRegisteredListingList, {
+      searchParams: { tab: '2', default: '2' },
+      state: {
         ...(router.query.origin
           ? {
               origin: router.query.origin as string,
@@ -100,10 +148,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [fetchAgentList]);
 
   useEffect(() => {
-    if (params === null || !listingID || !agentID) {
+    if (params === null || !userAddressID || !agentID) {
       router.pop();
     }
-  }, [params, listingID, agentID, router]);
+  }, [params, userAddressID, agentID, router]);
 
   return (
     <Panel width={panelWidth}>
@@ -126,41 +174,29 @@ export default memo(({ depth, panelWidth }: Props) => {
           isLoading={isCreating}
         />
       )}
+
       {poppup && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>수고하셨습니다!</Popup.Title>
+              <Popup.SmallTitle>수고하셨습니다!</Popup.SmallTitle>
               <Popup.Body>주소 및 소유자 확인후 중개사 배정이 완료됩니다.</Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.ActionButton
-                onClick={() => {
-                  setPopup(false);
-                  if (router?.query?.redirect) {
-                    nextRouter.replace(router.query.redirect as string);
-                    return;
-                  }
+              <Popup.ActionButton onClick={handlePopup}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
 
-                  if (router?.query?.danjiID && router?.query?.depth1) {
-                    nextRouter.replace(`/${router.query.depth1}?danjiID=${router.query.danjiID}`);
-                    return;
-                  }
-
-                  router.replace(Routes.ListingDetail, {
-                    searchParams: { listingID: `${listingID}` },
-                    state: {
-                      ...(router.query.origin
-                        ? {
-                            origin: router.query.origin as string,
-                          }
-                        : {}),
-                    },
-                  });
-                }}
-              >
-                확인
-              </Popup.ActionButton>
+      {errorPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup>
+              <Popup.SmallTitle>이미 매물등록신청이 완료된 주소지입니다.</Popup.SmallTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={handleErrorPopup}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

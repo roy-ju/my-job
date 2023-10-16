@@ -57,8 +57,6 @@ export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
 export { default as ListingCreateSummary } from './ListingCreateSummary';
 export { default as ListingCreateResult } from './ListingCreateResult';
-export { default as ListingCreateUpdateAddress } from './ListingCreateUpdateAddress';
-export { default as ListingCreateUpdateAddressDetail } from './ListingCreateUpdateAddressDetail';
 
 /** 채팅 */
 export { default as ChatRoomReport } from './ChatRoomReport';
@@ -134,4 +132,3 @@ export { default as SuggestRecommendedList } from './SuggestRecommendedList';
 export { default as SuggestListingForm } from './SuggestListingForm';
 
 export { default as SuggestListings } from './SuggestListings';
-

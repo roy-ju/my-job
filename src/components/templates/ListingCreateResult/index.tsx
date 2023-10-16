@@ -1,59 +1,24 @@
 import { GetMyListingDetailResponse } from '@/apis/listing/getMyListingDetail';
-import { Button, Loading, PersistentBottomBar, Separator } from '@/components/atoms';
+import { Loading, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { AgentCardItem, ListingCreateResultStatus, ListingDetailSection } from '@/components/organisms';
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
-import { AddressListItem } from '@/components/organisms/ListingCreateResultStatus/MultipleAddressesFound';
 import { ListingStatus } from '@/constants/enums';
 
 export interface ListingCreateResultProps {
   isLoading: boolean;
-
   data?: GetMyListingDetailResponse;
-
-  addressList?: AddressListItem[];
   agents?: AgentCarouselItem[];
-
-  isSendingSms?: boolean;
-
-  ownerName?: string;
-  ownerPhone?: string;
-
-  address?: string;
-  addressDetail?: string;
-
-  onClickMyListings?: () => void;
-  onClickUpdateAddress?: () => void;
-  onSelectAddress?: (realestateUniqueNumber: string) => void;
   onSelectAgent?: (index: number) => void;
-  onClickStartOver?: () => void;
-  onClickRemoveFromListings?: () => void;
-  onClickSendOwnerVerification?: (name: string, phone: string) => void;
   onClickBack?: () => void;
   onNavigateToChatRoom?: () => void;
 }
 
 export default function ListingCreateResult({
   isLoading,
-
   data,
-
-  addressList,
   agents,
-  isSendingSms,
-
-  ownerName,
-  ownerPhone,
-
-  address,
-  addressDetail,
-
-  onClickUpdateAddress,
-  onSelectAddress,
   onSelectAgent,
-  onClickStartOver,
-  onClickRemoveFromListings,
-  onClickSendOwnerVerification,
   onClickBack,
   onNavigateToChatRoom,
 }: ListingCreateResultProps) {
@@ -73,51 +38,10 @@ export default function ListingCreateResult({
       </NavigationHeader>
       <div tw="flex-1 pb-10 min-h-0 overflow-y-auto overflow-x-hidden">
         <div tw="pt-6 pb-10">
-          {data?.listing_status === ListingStatus.VerifyOwnershipNotFound && (
-            <ListingCreateResultStatus.VerifyOwnershipNotFound
-              isLoading={isSendingSms}
-              onClickSend={onClickSendOwnerVerification}
-              address={address}
-              addressDetail={addressDetail}
-            />
-          )}
-          {data?.listing_status === ListingStatus.WaitingForOwnerAgreement && (
-            <ListingCreateResultStatus.WaitingForOwnerAgreement
-              ownerName={ownerName}
-              ownerPhone={ownerPhone}
-              isLoading={isSendingSms}
-              onClickSend={onClickSendOwnerVerification}
-            />
-          )}
-          {(data?.listing_status === ListingStatus.VerifyAddress ||
-            data?.listing_status === ListingStatus.VerifyOwnership) && <ListingCreateResultStatus.VerifyingAddress />}
           {data?.listing_status === ListingStatus.WaitingForAgentCompletion && (
             <ListingCreateResultStatus.WaitingForAgentCompletion />
           )}
-          {data?.listing_status === ListingStatus.NoAddressFound && (
-            <ListingCreateResultStatus.NoAddressFound
-              addressLine1={data?.listing?.road_name_address ?? data?.listing?.jibun_address ?? ''}
-              addressLine2={data?.full_road_name_address?.replace(data?.listing?.road_name_address ?? '', '')}
-              onClickStartOver={onClickStartOver}
-              onClickUpdateAddress={onClickUpdateAddress}
-            />
-          )}
-          {data?.listing_status === ListingStatus.Duplicated && (
-            <ListingCreateResultStatus.Duplicated
-              addressLine1={data?.listing?.road_name_address ?? data?.listing?.jibun_address ?? ''}
-              addressLine2={data?.full_road_name_address?.replace(data?.listing?.road_name_address ?? '', '')}
-              buyOrRent={data?.listing?.buy_or_rent ?? 0}
-              rentArea={data?.listing?.rent_area}
-            />
-          )}
-          {data?.listing_status === ListingStatus.MultipleAddressesFound && (
-            <ListingCreateResultStatus.MultipleAddressesFound
-              addressLine1={data?.listing?.road_name_address ?? data?.listing?.jibun_address ?? ''}
-              addressLine2={data?.full_road_name_address?.replace(data?.listing?.road_name_address ?? '', '')}
-              addressList={addressList}
-              onClickItem={onSelectAddress}
-            />
-          )}
+
           {data?.listing_status === ListingStatus.AgentSelection && agents && (
             <ListingCreateResultStatus.AgentSelection agents={agents} onClickNext={onSelectAgent} />
           )}
@@ -159,14 +83,6 @@ export default function ListingCreateResult({
           />
         </div>
       </div>
-
-      {data?.listing_status === ListingStatus.Duplicated && (
-        <PersistentBottomBar>
-          <Button size="bigger" tw="w-full" onClick={onClickRemoveFromListings}>
-            목록에서 삭제
-          </Button>
-        </PersistentBottomBar>
-      )}
     </div>
   );
 }

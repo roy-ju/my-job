@@ -1,4 +1,3 @@
-import assignAgent from '@/apis/listing/assignAgent';
 import deleteMyListing from '@/apis/listing/deleteMyListing';
 import useAPI_MyListingDetail from '@/apis/listing/getMyListingDetail';
 import selectListingAddress from '@/apis/listing/selectListingAddress';
@@ -83,18 +82,18 @@ export default memo(() => {
   );
 
   const handleSelectAgent = useCallback(async () => {
-    if (popupData.current) {
-      setIsSelectingAgent(true);
-      const res = await assignAgent({ listing_id: listingID, user_selected_agent_id: popupData.current?.id });
-      mutateMyListingDetail();
-      if (res?.error_code) {
-        setPopup('agentSelectionFail');
-      } else {
-        setPopup('agentSelectionSuccess');
-      }
-      setIsSelectingAgent(false);
-    }
-  }, [listingID, mutateMyListingDetail]);
+    // if (popupData.current) {
+    //   setIsSelectingAgent(true);
+    //   const res = await assignAgent({ listing_id: listingID, user_selected_agent_id: popupData.current?.id });
+    //   mutateMyListingDetail();
+    //   if (res?.error_code) {
+    //     setPopup('agentSelectionFail');
+    //   } else {
+    //     setPopup('agentSelectionSuccess');
+    //   }
+    //   setIsSelectingAgent(false);
+    // }
+  }, []);
 
   const showAgentSelectionPopup = useCallback(
     async (index: number) => {

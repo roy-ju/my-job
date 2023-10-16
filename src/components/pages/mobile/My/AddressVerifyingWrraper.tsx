@@ -164,7 +164,7 @@ export default function AddressVerifyingWrraper() {
             if (router?.query?.origin && typeof router.query.origin === 'string') {
               router.replace(router.query.origin);
             } else {
-              router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+              router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
             }
           }, 1000);
 
@@ -202,7 +202,7 @@ export default function AddressVerifyingWrraper() {
         return;
       }
 
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
   }, [router]);
 
@@ -214,7 +214,7 @@ export default function AddressVerifyingWrraper() {
       return;
     }
 
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
   useEffect(() => {

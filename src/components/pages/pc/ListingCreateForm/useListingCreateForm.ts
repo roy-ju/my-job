@@ -1,7 +1,6 @@
 import { CollateralType, DebtSuccessionType } from '@/components/templates/ListingCreateForm/FormContext';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { BuyOrRent } from '@/constants/enums';
-import { useAuth } from '@/hooks/services';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
@@ -10,15 +9,12 @@ import _ from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
-import { regPhone } from '@/utils/regex';
 import makeListingCreateParams from './makeListingCreateParams';
 
 type PopupType = 'none' | 'buyOrRentChagne' | 'back';
 
 export default function useListingCreateForm(depth: number) {
   const router = useRouter(depth);
-
-  const { user } = useAuth();
 
   // const [isAddInterimButtonDisabled, setIsAddInterimButtonDisabled] = useState(false);
   const [isAddCollateralDisabled, setIsAddCollateralDisabled] = useState(false);
@@ -27,24 +23,25 @@ export default function useListingCreateForm(depth: number) {
   const autoScrollEnabled = useRef(true);
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
+
   // 화면에 띄워진 팝업
   const [popup, setPopup] = useState<PopupType>('none');
+
   // 벨리데이션 에러 팝업
   const [errPopup, setErrPopup] = useState('');
+
   // 현재 화면에 그려진 입력필드들
-  const [forms, setForms] = useState<string[]>([Forms.IsOwner]);
-  // 소유자 본인인지 아닌지
-  const [isOwner, setIsOwner] = useState(true);
-  // 소유자 성명
-  const [ownerName, setOwnerName] = useState('');
-  // 소유자 휴대폰번호
-  const [ownerPhone, setOwnerPhone] = useState('');
+  const [forms, setForms] = useState<string[]>([Forms.BuyOrRent]);
+
   // 거래 유형 매매/전세/월세
   const [buyOrRent, setBuyOrRent] = useState(0);
+
   // 거래 유형 매매/전세/월세
   const [changingBuyOrRent, setChangingBuyOrRent] = useState<number>();
+
   // 가격 매매가/전세가
   const [price, setPrice] = useState('');
+
   // 월세
   const [monthlyRentFee, setMonthlyRentFee] = useState('');
 
@@ -62,57 +59,75 @@ export default function useListingCreateForm(depth: number) {
 
   // 채무승계 보증금
   const [debtSuccessionDeposit, setDebtSuccessionDeposit] = useState('');
+
   // 채무승계 기타
   const [debtSuccessionMiscs, setDebtSuccessionMiscs] = useState<DebtSuccessionType[]>([]);
+
   // 선순위 담보권
   const [collaterals, setCollaterals] = useState<CollateralType[]>([]);
+
   // 특약사항
   const [specialTerms, setSpecialTerms] = useState('');
+
+  // 특약사항
   const [hasSpecialTerms, setHasSpecialTerms] = useState('0');
+
   // 입주가능시기
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
+
+  // 입주가능시기
   const [moveInDateType, setMoveInDateType] = useState('이후');
+
+  // 입주가능시기
   const [hasMoveInDate, setHasMoveInDate] = useState('0'); // '0' 없음 , '1' 있음
+
   // 임대할 부분
   const [rentArea, setRentArea] = useState('');
+
+  // 임대할 부분
   const [hasRentArea, setHasRentArea] = useState('0');
+
   // 임대기간 년
   const [rentTermYear, setRentTermYear] = useState('2년');
+
   // 임대기간 월
   const [rentTermMonth, setRentTermMonth] = useState('0개월');
+
   // 임대기간 네고가능
   const [rentTermNegotiable, setRentTermNegotiable] = useState(true);
+
   // 전세자금대출
   const [jeonsaeLoan, setJeonsaeLoan] = useState(true);
+
   // 급매
   const [quickSale, setQuickSale] = useState(false);
+
   // 베란다 확장
   const [verandaExtended, setVerandaExtended] = useState(false);
+
   // 2년 내 올수리
   const [verandaRemodelling, setVerandaRemodelling] = useState(false);
+
   // 추가 옵션
   const [extraOptions, setExtraOptions] = useState<number[]>([]);
+
   // 고정관리비
   const [adminFee, setAdminFee] = useState('');
+
   // 매물설명
   const [description, setDescription] = useState('');
+
   // 임대차계약 종료일
   const [rentEndDate, setRentEndDate] = useState<Date | null>(null);
+
   // 매물사진
   const [listingPhotoUrls, setListingPhotoUrls] = useState<string[]>([]);
+
   // 단지사진
   const [danjiPhotoUrls, setDanjiPhotoUrls] = useState<string[]>([]);
+
   // 채무승계 여부
   const [hasDebtSuccession, setHasDebtSuccession] = useState('0');
-
-  // 화면에 표현할 주소1
-  const addressLine1 = router.query.addressLine1 as string;
-  // 화면에 표현할 주소2
-  const addressLine2 = router.query.addressLine2 as string;
-  // 화면에 표시할 동
-  const dong = router.query.dong as string;
-  // 화면에 표시할 호
-  const ho = router.query.ho as string;
 
   const setNextForm = useCallback((...formNames: string[]) => {
     setForms((prev) => [...prev, ...formNames]);
@@ -278,15 +293,6 @@ export default function useListingCreateForm(depth: number) {
 
   // 아래 Callback들은 Input Validations 과 다음에는 어떤 필드가 올지 결정하는 핸들러들
 
-  // 소유자 본인 submit
-  const handleSubmitIsOwner = useCallback(() => {
-    if (!isOwner && (!ownerName || !ownerPhone)) {
-      setErrPopup('소유자 성명과 휴대폰 번호를 입력해주세요.');
-      return;
-    }
-    setNextForm(Forms.BuyOrRent);
-  }, [isOwner, ownerPhone, ownerName, setNextForm]);
-
   // 거래유형 submit
   const handleSubmitBuyOrRent = useCallback(() => {
     if (buyOrRent === 0) {
@@ -391,14 +397,6 @@ export default function useListingCreateForm(depth: number) {
   // 모든 필드 다 입력후 최종적으로 다음 버튼 눌렀을때 handler
   const handleSubmitFinal = useCallback(() => {
     // 한번더 최종 밸리데이션
-    if (!isOwner && (!ownerName || !ownerPhone || !regPhone.test(ownerPhone))) {
-      setErrPopup('소유자 성명과 휴대폰 번호를 입력해주세요.');
-
-      const isOwnerForm = document.getElementById(Forms.IsOwner);
-
-      isOwnerForm?.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
 
     if (buyOrRent === 0) {
       setErrPopup('거래종류를 선택해주세요.');
@@ -576,9 +574,6 @@ export default function useListingCreateForm(depth: number) {
     }
 
     const params = makeListingCreateParams({
-      isOwner,
-      ownerName,
-      ownerPhone,
       buyOrRent,
       price,
       monthlyRentFee,
@@ -608,25 +603,17 @@ export default function useListingCreateForm(depth: number) {
       extraOptions,
     });
 
-    if (isOwner && user) {
-      params.owner_name = user.name;
-      params.owner_phone = user.phone;
-    }
-
     const encoded = JSON.stringify(params);
 
     router.replace(Routes.ListingCreateChooseAgent, {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
         redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        listingID: router.query.listingID as string,
+        userAddressID: router?.query?.userAddressID as string,
       },
 
       state: {
         params: encoded,
-        addressLine1,
-        addressLine2,
-        addressData: router.query.addressData as string,
         ...(router.query.origin
           ? {
               origin: router.query.origin as string,
@@ -635,9 +622,6 @@ export default function useListingCreateForm(depth: number) {
       },
     });
   }, [
-    isOwner,
-    ownerName,
-    ownerPhone,
     buyOrRent,
     price,
     monthlyRentFee,
@@ -665,10 +649,7 @@ export default function useListingCreateForm(depth: number) {
     verandaExtended,
     verandaRemodelling,
     extraOptions,
-    user,
     router,
-    addressLine1,
-    addressLine2,
   ]);
 
   const openBackPopup = useCallback(() => {
@@ -687,9 +668,6 @@ export default function useListingCreateForm(depth: number) {
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
     switch (lastForm) {
-      case Forms.IsOwner:
-        handleSubmitIsOwner();
-        break;
       case Forms.BuyOrRent:
         handleSubmitBuyOrRent();
         break;
@@ -731,7 +709,7 @@ export default function useListingCreateForm(depth: number) {
     }
   }, [
     forms,
-    handleSubmitIsOwner,
+
     handleSubmitBuyOrRent,
     handleSubmitPrice,
     // handleSubmitPaymentSchedules,
@@ -750,23 +728,6 @@ export default function useListingCreateForm(depth: number) {
 
   const handleChangeQuickSale = useCallback((value: boolean) => {
     setQuickSale(value);
-  }, []);
-
-  const handleChangeIsOwner = useCallback((value: boolean) => {
-    if (value) {
-      setOwnerName('');
-      setOwnerPhone('');
-    }
-
-    setIsOwner(value);
-  }, []);
-
-  const handleChangeOwnerName = useCallback((value: string) => {
-    setOwnerName(value);
-  }, []);
-
-  const handleChangeOwnerPhone = useCallback((value: string) => {
-    setOwnerPhone(value);
   }, []);
 
   const handleChangeBuyOrRent = useCallback(
@@ -1097,7 +1058,6 @@ export default function useListingCreateForm(depth: number) {
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
-    if (currentForm === Forms.IsOwner) return;
     const formContainer = document.getElementById('formContainer');
     const formElement = document.getElementById(currentForm);
 
@@ -1126,12 +1086,6 @@ export default function useListingCreateForm(depth: number) {
     setNextButtonDisabled(false);
 
     const currentForm = forms[forms.length - 1];
-
-    if (currentForm === Forms.IsOwner) {
-      if (!isOwner && (!ownerName || ownerPhone.length !== 11 || !regPhone.test(ownerPhone))) {
-        setNextButtonDisabled(true);
-      }
-    }
 
     if (currentForm === Forms.BuyOrRent) {
       if (!buyOrRent) {
@@ -1264,9 +1218,6 @@ export default function useListingCreateForm(depth: number) {
     }
   }, [
     forms,
-    isOwner,
-    ownerName,
-    ownerPhone,
     buyOrRent,
     price,
     monthlyRentFee,
@@ -1310,15 +1261,8 @@ export default function useListingCreateForm(depth: number) {
     if (typeof params !== 'string') return;
     const parsed = JSON.parse(params);
 
-    if (!parsed.isOwner) {
-      setIsOwner(false);
-      setOwnerName(parsed.owner_name ?? '');
-      setOwnerPhone(parsed.owner_phone ?? '');
-    }
-
     if (parsed.buy_or_rent === BuyOrRent.Buy) {
       setForms([
-        Forms.IsOwner,
         Forms.BuyOrRent,
         Forms.Price,
         Forms.DebtSuccessions,
@@ -1328,7 +1272,6 @@ export default function useListingCreateForm(depth: number) {
       ]);
     } else {
       setForms([
-        Forms.IsOwner,
         Forms.BuyOrRent,
         Forms.Price,
         Forms.RentArea,
@@ -1531,70 +1474,72 @@ export default function useListingCreateForm(depth: number) {
     isAddDebtSuccessionDisabled,
 
     nextButtonDisabled,
-
+    handleClickNext,
     handleClickBack,
-    openBackPopup,
-
-    addressLine1,
-    addressLine2,
 
     forms,
-    isOwner,
-    ownerName,
-    ownerPhone,
+
     buyOrRent,
+    handleChangeBuyOrRent,
+
     price,
+    handleChangePrice,
+
     monthlyRentFee,
+    handleChangeMonthlyRentFee,
 
     // contractAmount,
+    // handleChangeContractAmount,
+
     // contractAmountNegotiable,
+    // handleChangeContractAmountNegotiable,
+
     // remainingAmount,
+    // handleChangeRemainingAmount,
+
     // interims,
+    // handleAddInterim,
 
     debtSuccessionDeposit,
+    handleChangeDebtSuccessionDeposit,
+
     debtSuccessionMiscs,
+    handleAddDebtSuccessionMisc,
+
     collaterals,
+    handleAddCollaterals,
 
     specialTerms,
+    handleChangeSpecialTerms,
 
     moveInDate,
+    handleChangeMoveInDate,
+
     moveInDateType,
+    handleChangeMoveInDateType,
+
     verandaExtended,
-    verandaRemodelling,
     handleChangeVerandaExtended,
+
+    verandaRemodelling,
     handleChangeVerandaRemodelling,
 
     extraOptions,
     handleChangeExtraOptions,
 
-    handleChangeIsOwner,
-    handleChangeOwnerName,
-    handleChangeOwnerPhone,
-    handleChangeBuyOrRent,
-    handleClickNext,
-    handleChangePrice,
-    handleChangeMonthlyRentFee,
-    // handleChangeContractAmount,
-    // handleChangeContractAmountNegotiable,
-    // handleChangeRemainingAmount,
-    // handleAddInterim,
-    handleChangeDebtSuccessionDeposit,
-    handleAddDebtSuccessionMisc,
-    handleChangeSpecialTerms,
-    handleAddCollaterals,
-    handleChangeMoveInDate,
-    handleChangeMoveInDateType,
-
     rentArea,
-    hasRentArea,
     handleChangeRentArea,
+
+    hasRentArea,
     handleChangeHasRentArea: setHasRentArea,
 
-    rentTermMonth,
     rentTermYear,
-    rentTermNegotiable,
-    handleChangeRentTermMonth,
     handleChangeRentTermYear,
+
+    rentTermMonth,
+    handleChangeRentTermMonth,
+
+    rentTermNegotiable,
     handleChangeRentTermNegotiable,
 
     quickSale,
@@ -1627,14 +1572,14 @@ export default function useListingCreateForm(depth: number) {
     hasDebtSuccession,
     handleChangeHasDebtSuccession,
 
-    dong,
-    ho,
-
     // Popup actions
     popup,
-    errPopup,
     closePopup,
+
+    errPopup,
     closeErrPopup,
+
+    openBackPopup,
     handleConfirmChangeBuyOrRent,
   };
 }

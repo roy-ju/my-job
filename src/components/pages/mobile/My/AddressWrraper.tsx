@@ -13,7 +13,7 @@ export default function AddressWrraper() {
       router.replace(router.query.origin);
       return;
     }
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   };
 
   const handleSubmit = useCallback(

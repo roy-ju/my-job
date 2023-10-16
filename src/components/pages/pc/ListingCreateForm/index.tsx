@@ -6,6 +6,7 @@ import useAPI_GetOptionList from '@/apis/listing/getOptionList';
 import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { motion } from 'framer-motion';
+import { useRouter } from '@/hooks/utils';
 import useListingCreateForm from './useListingCreateForm';
 
 interface Props {
@@ -15,69 +16,77 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const {
-    dong,
-    ho,
+    // isAddInterimButtonDisabled,
+    isAddCollateralDisabled,
+    isAddDebtSuccessionDisabled,
 
-    addressLine1,
-    addressLine2,
-    popup,
-    errPopup,
-    forms,
-    isOwner,
-    ownerName,
-    ownerPhone,
-    buyOrRent,
-    price,
-    monthlyRentFee,
-    // contractAmount,
-    // contractAmountNegotiable,
-    // remainingAmount,
-    // interims,
-    debtSuccessionDeposit,
-    debtSuccessionMiscs,
-    collaterals,
-    specialTerms,
-    moveInDate,
-    moveInDateType,
-    handleChangeIsOwner,
-    handleChangeOwnerName,
-    handleChangeOwnerPhone,
-    handleChangeBuyOrRent,
+    nextButtonDisabled,
     handleClickNext,
-    closePopup,
-    closeErrPopup,
-    handleConfirmChangeBuyOrRent,
+    handleClickBack,
+
+    forms,
+
+    buyOrRent,
+    handleChangeBuyOrRent,
+
+    price,
     handleChangePrice,
+
+    monthlyRentFee,
     handleChangeMonthlyRentFee,
-    // handleAddInterim,
-    // handleChangeContractAmount,
-    // handleChangeContractAmountNegotiable,
-    // handleChangeRemainingAmount,
+
+    debtSuccessionDeposit,
     handleChangeDebtSuccessionDeposit,
+
+    debtSuccessionMiscs,
     handleAddDebtSuccessionMisc,
-    handleChangeSpecialTerms,
+
+    collaterals,
     handleAddCollaterals,
-    handleChangeMoveInDateType,
+
+    specialTerms,
+    handleChangeSpecialTerms,
+
+    moveInDate,
     handleChangeMoveInDate,
 
-    rentArea,
-    hasRentArea,
-    handleChangeRentArea,
-    handleChangeHasRentArea,
+    moveInDateType,
+    handleChangeMoveInDateType,
+
+    // contractAmount,
+    // handleChangeContractAmount,
+
+    // contractAmountNegotiable,
+    // handleChangeContractAmountNegotiable,
+
+    // remainingAmount,
+    // handleChangeRemainingAmount,
+
+    // interims,
+    // handleAddInterim,
 
     verandaExtended,
-    verandaRemodelling,
     handleChangeVerandaExtended,
+
+    verandaRemodelling,
     handleChangeVerandaRemodelling,
+
+    rentArea,
+    handleChangeRentArea,
+
+    hasRentArea,
+    handleChangeHasRentArea,
 
     extraOptions,
     handleChangeExtraOptions,
 
-    rentTermMonth,
     rentTermYear,
-    rentTermNegotiable,
-    handleChangeRentTermMonth,
     handleChangeRentTermYear,
+
+    rentTermMonth,
+    handleChangeRentTermMonth,
+
+    rentTermNegotiable,
     handleChangeRentTermNegotiable,
 
     quickSale,
@@ -107,17 +116,20 @@ export default memo(({ depth, panelWidth }: Props) => {
     hasSpecialTerms,
     handleChangeHasSpecialTerms,
 
-    handleClickBack,
-    openBackPopup,
-    nextButtonDisabled,
-
-    // isAddInterimButtonDisabled,
-    isAddCollateralDisabled,
-    isAddDebtSuccessionDisabled,
-
     hasDebtSuccession,
     handleChangeHasDebtSuccession,
+
+    popup,
+    closePopup,
+
+    errPopup,
+    closeErrPopup,
+
+    openBackPopup,
+    handleConfirmChangeBuyOrRent,
   } = useListingCreateForm(depth);
+
+  const router = useRouter(depth);
 
   const { list: listingOptions } = useAPI_GetOptionList();
 
@@ -131,71 +143,68 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [forms]);
 
+  if (!router?.query?.userAddressID) return null;
+
   return (
     <Panel width={panelWidth}>
       <ListingCreateForm
-        dong={dong ?? ''}
-        ho={ho ?? ''}
         // isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         isAddCollateralDisabled={isAddCollateralDisabled}
         isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
-        onClickBack={openBackPopup}
-        addressLine1={addressLine1}
-        addressLine2={addressLine2}
+        onClickNext={handleClickNext}
         forms={forms}
-        isOwner={isOwner}
-        ownerName={ownerName}
-        ownerPhone={ownerPhone}
         buyOrRent={buyOrRent}
+        onChangeBuyOrRent={handleChangeBuyOrRent}
         price={price}
+        onChangePrice={handleChangePrice}
         monthlyRentFee={monthlyRentFee}
+        onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+        quickSale={quickSale}
+        onChangeQuickSale={handleChangeQuickSale}
         // contractAmount={contractAmount}
+        // onChangeContractAmount={handleChangeContractAmount}
         // contractAmountNegotiable={contractAmountNegotiable}
+        // onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
         // remainingAmount={remainingAmount}
+        // onChangeRemainingAmount={handleChangeRemainingAmount}
         // interims={interims}
+        // onClickAddInterim={handleAddInterim}
+        hasDebtSuccession={hasDebtSuccession}
+        onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
         debtSuccessionDeposit={debtSuccessionDeposit}
+        onChangeDebtSuccessionDeposit={handleChangeDebtSuccessionDeposit}
         debtSuccessionMiscs={debtSuccessionMiscs}
+        onClickAddDebtSuccessionMisc={handleAddDebtSuccessionMisc}
         collaterals={collaterals}
+        onClickAddCollateral={handleAddCollaterals}
         specialTerms={specialTerms}
+        onChangeSpecialTerms={handleChangeSpecialTerms}
+        hasSpecialTerms={hasSpecialTerms}
+        onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
+        hasMoveInDate={hasMoveInDate}
+        onChangeHasMoveInDate={handleChangeHasMoveInDate}
+        moveInDate={moveInDate}
+        onChangeMoveInDate={handleChangeMoveInDate}
+        moveInDateType={moveInDateType}
+        onChangeMoveInDateType={handleChangeMoveInDateType}
         verandaExtended={verandaExtended}
-        verandaRemodelling={verandaRemodelling}
         onChangeVerandaExtended={handleChangeVerandaExtended}
+        verandaRemodelling={verandaRemodelling}
         onChangeVerandaRemodelling={handleChangeVerandaRemodelling}
         extraOptions={extraOptions}
         onChangeExtraOptions={handleChangeExtraOptions}
         listingOptions={listingOptions}
-        moveInDate={moveInDate}
-        moveInDateType={moveInDateType}
-        onClickNext={handleClickNext}
-        onChangeIsOwner={handleChangeIsOwner}
-        onChangeOwnerName={handleChangeOwnerName}
-        onChangeOwnerPhone={handleChangeOwnerPhone}
-        onChangeBuyOrRent={handleChangeBuyOrRent}
-        onChangePrice={handleChangePrice}
-        onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-        // onClickAddInterim={handleAddInterim}
-        // onChangeContractAmount={handleChangeContractAmount}
-        // onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
-        // onChangeRemainingAmount={handleChangeRemainingAmount}
-        onChangeDebtSuccessionDeposit={handleChangeDebtSuccessionDeposit}
-        onClickAddDebtSuccessionMisc={handleAddDebtSuccessionMisc}
-        onChangeSpecialTerms={handleChangeSpecialTerms}
-        onClickAddCollateral={handleAddCollaterals}
-        onChangeMoveInDate={handleChangeMoveInDate}
-        onChangeMoveInDateType={handleChangeMoveInDateType}
-        rentArea={rentArea}
         hasRentArea={hasRentArea}
-        onChangeRentArea={handleChangeRentArea}
         onChangeHasRentArea={handleChangeHasRentArea}
+        rentArea={rentArea}
+        onChangeRentArea={handleChangeRentArea}
         rentTermYear={rentTermYear}
-        rentTermMonth={rentTermMonth}
-        rentTermNegotiable={rentTermNegotiable}
         onChangeRentTermYear={handleChangeRentTermYear}
+        rentTermMonth={rentTermMonth}
         onChangeRentTermMonth={handleChangeRentTermMonth}
+        rentTermNegotiable={rentTermNegotiable}
         onChangeRentTermNegotiable={handleChangeRentTermNegotiable}
-        quickSale={quickSale}
-        onChangeQuickSale={handleChangeQuickSale}
         jeonsaeLoan={jeonsaeLoan}
         onChangeJeonsaeLoan={handleChangeJeonsaeLoan}
         adminFee={adminFee}
@@ -208,12 +217,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeDescription={handleChangeDescription}
         rentEndDate={rentEndDate}
         onChangeRentEndDate={handleChangeRentEndDate}
-        hasMoveInDate={hasMoveInDate}
-        onChangeHasMoveInDate={handleChangeHasMoveInDate}
-        hasSpecialTerms={hasSpecialTerms}
-        onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
-        hasDebtSuccession={hasDebtSuccession}
-        onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
+        onClickBack={openBackPopup}
       />
 
       {isCoachVisible && !hasBeenVisible.current && (
