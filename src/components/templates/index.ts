@@ -52,8 +52,6 @@ export { default as RealTradeDetail } from './RealTradeDetail';
 export { default as VerifyCi } from './VerifyCi';
 export { default as VerifyCiSuccess } from './VerifyCiSuccess';
 export { default as FindAccount } from './FindAccount';
-export { default as ListingCreateAddress } from './ListingCreateAddress';
-export { default as ListingCreateAddressDetail } from './ListingCreateAddressDetail';
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
 export { default as ListingCreateSummary } from './ListingCreateSummary';
@@ -135,7 +133,6 @@ export { default as MobNotificationSettings } from './MobNotificationSettings';
 export { default as MobFindAccount } from './MobFindAccount';
 
 export { default as MobListingDetail } from './MobListingDetail';
-export { default as MobListingCreateAddress } from './MobListingCreateAddress';
 
 export { default as MobDanjiDetail } from './MobDanjiDetail';
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';
