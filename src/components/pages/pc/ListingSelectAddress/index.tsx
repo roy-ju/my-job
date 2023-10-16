@@ -1,14 +1,13 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { ListingSelectAddress } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
-import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useAuth } from '@/hooks/services';
+import { ListingCreateGuidePopup } from '@/components/organisms';
 
 interface Props {
   depth: number;
@@ -17,15 +16,15 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const nextRouter = useNextRouter();
+
+  const outsideRef = useRef<HTMLDivElement | null>(null);
 
   const { user, isLoading: userIsLoading } = useAuth();
 
   const { list, isLoading } = useAPI_GetMyAddressList(true);
-
-  const [showInActivePopup, setShowInActivePopup] = useState(false);
-
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
+  const [showInActivePopup, setShowInActivePopup] = useState(false);
 
   const handleClickItem = useCallback(
     (id: number) => {
@@ -50,9 +49,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   }, [router, selectedUserAddressID]);
 
-  const handleClickHome = () => {
-    nextRouter.replace('/');
-  };
+  const handleClickHome = useCallback(() => {
+    router.popAll();
+  }, [router]);
+
+  const handleClosePopup = useCallback(() => {
+    setIsPopupOpen(false);
+  }, []);
 
   const handleClickAddMyAddress = () => {
     router.replace(Routes.MyAddress);
@@ -81,6 +84,12 @@ export default memo(({ depth, panelWidth }: Props) => {
               onClickAddMyAddress={handleClickAddMyAddress}
             />
           ))}
+
+        {!showInActivePopup && isPopupOpen && (
+          <OverlayPresenter>
+            <ListingCreateGuidePopup ref={outsideRef} isPopupOpen={isPopupOpen} onClickClosePopup={handleClosePopup} />
+          </OverlayPresenter>
+        )}
       </Panel>
 
       {showInActivePopup && (

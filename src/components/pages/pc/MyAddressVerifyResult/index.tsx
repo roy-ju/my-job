@@ -64,11 +64,11 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, []);
 
   const handleGoMyPage = useCallback(() => {
-    nextRouter.replace(`/${Routes.My}?tab=2`);
+    nextRouter.replace(`/${Routes.My}?default=2`);
   }, [nextRouter]);
 
   const handleGoMyAddress = useCallback(() => {
-    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}?tab=2`);
+    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}?default=2`);
   }, [nextRouter]);
 
   const handleClickMultipleItem = useCallback(

@@ -80,7 +80,7 @@ export default memo(() => {
       if (router?.query?.origin && typeof router.query.origin === 'string') {
         router.replace(router.query.origin);
       } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
       }
     }
   }, [name, phone, router]);
@@ -116,7 +116,7 @@ export default memo(() => {
     if (router?.query?.origin && typeof router.query.origin === 'string') {
       router.replace(router.query.origin);
     } else {
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
   };
 
@@ -212,7 +212,7 @@ export default memo(() => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
-                  router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+                  router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
                 }}
               >
                 확인

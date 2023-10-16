@@ -7,106 +7,98 @@ import FormRenderer from './FormRenderer';
 export interface ListingCreateFormProps extends IFormContext {
   nextButtonDisabled?: boolean;
 
-  addressLine1: string;
-  addressLine2: string;
-
-  dong: string;
-  ho: string;
-
   forms?: string[];
+
   onClickNext?: () => void;
   onClickBack?: () => void;
 }
 
 export default function ListingCreateForm({
-  hasDebtSuccession,
-  onChangeHasDebtSuccession,
-
   // isAddInterimButtonDisabled,
   isAddCollateralDisabled,
   isAddDebtSuccessionDisabled,
 
   nextButtonDisabled,
-
-  addressLine1,
-  addressLine2,
-
-  dong,
-  ho,
+  onClickNext,
 
   forms,
-  isOwner,
-  ownerName,
-  ownerPhone,
+
   buyOrRent,
+  onChangeBuyOrRent,
+
   price,
+  onChangePrice,
+
   monthlyRentFee,
+  onChangeMonthlyRentFee,
+
   quickSale,
+  onChangeQuickSale,
 
   // contractAmount,
+  // onChangeContractAmount,
+
   // contractAmountNegotiable,
+  // onChangeContractAmountNegotiable,
+
   // remainingAmount,
+  // onChangeRemainingAmount,
 
   // interims,
+  // onClickAddInterim,
+
+  hasDebtSuccession,
+  onChangeHasDebtSuccession,
 
   debtSuccessionDeposit,
+  onChangeDebtSuccessionDeposit,
+
   debtSuccessionMiscs,
+  onClickAddDebtSuccessionMisc,
 
   collaterals,
+  onClickAddCollateral,
 
-  moveInDate,
-  moveInDateType,
+  specialTerms,
+  onChangeSpecialTerms,
+
+  hasSpecialTerms,
+  onChangeHasSpecialTerms,
+
   hasMoveInDate,
   onChangeHasMoveInDate,
-  specialTerms,
-  hasSpecialTerms,
+
+  moveInDate,
+  onChangeMoveInDate,
+
+  moveInDateType,
+  onChangeMoveInDateType,
 
   verandaExtended,
-  verandaRemodelling,
   onChangeVerandaExtended,
+
+  verandaRemodelling,
   onChangeVerandaRemodelling,
 
   extraOptions,
   onChangeExtraOptions,
+
   listingOptions,
 
-  onChangeIsOwner,
-  onChangeOwnerName,
-  onChangeOwnerPhone,
-  onChangeBuyOrRent,
-  onChangePrice,
-  onChangeMonthlyRentFee,
-  onChangeQuickSale,
-  onClickNext,
-
-  // onChangeContractAmount,
-  // onChangeContractAmountNegotiable,
-
-  // onChangeRemainingAmount,
-
-  // onClickAddInterim,
-
-  onChangeDebtSuccessionDeposit,
-  onClickAddDebtSuccessionMisc,
-
-  onClickAddCollateral,
-
-  onChangeMoveInDate,
-  onChangeMoveInDateType,
-  onChangeSpecialTerms,
-  onChangeHasSpecialTerms,
-
-  rentArea,
   hasRentArea,
-  onChangeRentArea,
   onChangeHasRentArea,
 
+  rentArea,
+  onChangeRentArea,
+
   rentTermYear,
-  rentTermMonth,
-  rentTermNegotiable,
   onChangeRentTermMonth,
-  onChangeRentTermNegotiable,
+
+  rentTermMonth,
   onChangeRentTermYear,
+
+  rentTermNegotiable,
+  onChangeRentTermNegotiable,
 
   jeonsaeLoan,
   onChangeJeonsaeLoan,
@@ -130,77 +122,91 @@ export default function ListingCreateForm({
 }: ListingCreateFormProps) {
   const context = useMemo(
     () => ({
-      hasDebtSuccession,
-      onChangeHasDebtSuccession,
-
       // isAddInterimButtonDisabled,
       isAddCollateralDisabled,
       isAddDebtSuccessionDisabled,
 
-      isOwner,
-      ownerName,
-      ownerPhone,
+      nextButtonDisabled,
+      onClickNext,
+
+      forms,
+
       buyOrRent,
+      onChangeBuyOrRent,
+
       price,
+      onChangePrice,
+
       monthlyRentFee,
+      onChangeMonthlyRentFee,
+
       quickSale,
+      onChangeQuickSale,
+
       // contractAmount,
+      // onChangeContractAmount,
+
       // contractAmountNegotiable,
+      // onChangeContractAmountNegotiable,
+
       // remainingAmount,
+      // onChangeRemainingAmount,
+
       // interims,
+      // onClickAddInterim,
+
+      hasDebtSuccession,
+      onChangeHasDebtSuccession,
 
       debtSuccessionDeposit,
-      debtSuccessionMiscs,
-      collaterals,
+      onChangeDebtSuccessionDeposit,
 
-      moveInDate,
-      moveInDateType,
-      hasMoveInDate,
-      onChangeMoveInDate,
-      onChangeMoveInDateType,
-      onChangeHasMoveInDate,
+      debtSuccessionMiscs,
+      onClickAddDebtSuccessionMisc,
+
+      collaterals,
+      onClickAddCollateral,
 
       specialTerms,
+      onChangeSpecialTerms,
+
       hasSpecialTerms,
+      onChangeHasSpecialTerms,
+
+      hasMoveInDate,
+      onChangeHasMoveInDate,
+
+      moveInDate,
+      onChangeMoveInDate,
+
+      moveInDateType,
+      onChangeMoveInDateType,
 
       verandaExtended,
-      verandaRemodelling,
       onChangeVerandaExtended,
+
+      verandaRemodelling,
       onChangeVerandaRemodelling,
 
       extraOptions,
       onChangeExtraOptions,
+
       listingOptions,
 
-      onChangeIsOwner,
-      onChangeOwnerName,
-      onChangeOwnerPhone,
-      onChangeBuyOrRent,
-      onChangePrice,
-      onChangeMonthlyRentFee,
-      onChangeQuickSale,
-      // onChangeContractAmount,
-      // onChangeContractAmountNegotiable,
-      // onChangeRemainingAmount,
-      // onClickAddInterim,
-      onChangeDebtSuccessionDeposit,
-      onClickAddDebtSuccessionMisc,
-      onClickAddCollateral,
-
-      onChangeSpecialTerms,
-      onChangeHasSpecialTerms,
-
-      rentArea,
       hasRentArea,
-      onChangeRentArea,
       onChangeHasRentArea,
 
+      rentArea,
+      onChangeRentArea,
+
       rentTermYear,
-      rentTermMonth,
-      rentTermNegotiable,
       onChangeRentTermMonth,
-      onChangeRentTermNegotiable,
+
+      rentTermMonth,
       onChangeRentTermYear,
+
+      rentTermNegotiable,
+      onChangeRentTermNegotiable,
 
       jeonsaeLoan,
       onChangeJeonsaeLoan,
@@ -220,103 +226,70 @@ export default function ListingCreateForm({
       rentEndDate,
       onChangeRentEndDate,
 
-      dong,
-      ho,
+      onClickBack,
     }),
     [
-      hasDebtSuccession,
-      onChangeHasDebtSuccession,
-
-      // isAddInterimButtonDisabled,
-      isAddCollateralDisabled,
-      isAddDebtSuccessionDisabled,
-
-      isOwner,
-      ownerName,
-      ownerPhone,
+      adminFee,
       buyOrRent,
-      price,
-      monthlyRentFee,
-      quickSale,
-      // contractAmount,
-      // contractAmountNegotiable,
-      // remainingAmount,
-      // interims,
-
+      collaterals,
+      danjiPhotoUrls,
       debtSuccessionDeposit,
       debtSuccessionMiscs,
-      collaterals,
-
+      description,
+      extraOptions,
+      forms,
+      hasDebtSuccession,
+      hasMoveInDate,
+      hasRentArea,
+      hasSpecialTerms,
+      isAddCollateralDisabled,
+      isAddDebtSuccessionDisabled,
+      jeonsaeLoan,
+      listingOptions,
+      listingPhotoUrls,
+      monthlyRentFee,
       moveInDate,
       moveInDateType,
-      specialTerms,
-
-      verandaExtended,
-      verandaRemodelling,
-      onChangeVerandaExtended,
-      onChangeVerandaRemodelling,
-
-      extraOptions,
-      onChangeExtraOptions,
-      listingOptions,
-
-      onChangeIsOwner,
-      onChangeOwnerName,
-      onChangeOwnerPhone,
+      nextButtonDisabled,
+      onChangeAdminFee,
       onChangeBuyOrRent,
-      onChangePrice,
-      onChangeMonthlyRentFee,
-      onChangeQuickSale,
-      // onChangeContractAmount,
-      // onChangeContractAmountNegotiable,
-      // onChangeRemainingAmount,
-      // onClickAddInterim,
+      onChangeDanjiPhotoUrls,
       onChangeDebtSuccessionDeposit,
-      onClickAddDebtSuccessionMisc,
-      onClickAddCollateral,
-
-      onChangeMoveInDate,
-      onChangeSpecialTerms,
-      onChangeMoveInDateType,
-
-      rentArea,
-      hasRentArea,
-      onChangeRentArea,
+      onChangeDescription,
+      onChangeExtraOptions,
+      onChangeHasDebtSuccession,
+      onChangeHasMoveInDate,
       onChangeHasRentArea,
-
-      rentTermYear,
-      rentTermMonth,
-      rentTermNegotiable,
+      onChangeHasSpecialTerms,
+      onChangeJeonsaeLoan,
+      onChangeListingPhotoUrls,
+      onChangeMonthlyRentFee,
+      onChangeMoveInDate,
+      onChangeMoveInDateType,
+      onChangePrice,
+      onChangeQuickSale,
+      onChangeRentArea,
+      onChangeRentEndDate,
       onChangeRentTermMonth,
       onChangeRentTermNegotiable,
       onChangeRentTermYear,
-
-      jeonsaeLoan,
-      onChangeJeonsaeLoan,
-
-      adminFee,
-      onChangeAdminFee,
-
-      listingPhotoUrls,
-      onChangeListingPhotoUrls,
-
-      danjiPhotoUrls,
-      onChangeDanjiPhotoUrls,
-
-      description,
-      onChangeDescription,
-
+      onChangeSpecialTerms,
+      onChangeVerandaExtended,
+      onChangeVerandaRemodelling,
+      onClickAddCollateral,
+      onClickAddDebtSuccessionMisc,
+      onClickBack,
+      onClickNext,
+      price,
+      quickSale,
+      rentArea,
       rentEndDate,
-      onChangeRentEndDate,
-
-      hasMoveInDate,
-      onChangeHasMoveInDate,
-
-      hasSpecialTerms,
-      onChangeHasSpecialTerms,
-
-      dong,
-      ho,
+      rentTermMonth,
+      rentTermNegotiable,
+      rentTermYear,
+      specialTerms,
+      verandaExtended,
+      verandaRemodelling,
     ],
   );
 
@@ -328,19 +301,6 @@ export default function ListingCreateForm({
       </NavigationHeader>
       <FormContext.Provider value={context}>
         <div id="formContainer" tw="flex-1 min-h-0 overflow-auto">
-          {addressLine1 && addressLine2 && (
-            <div>
-              <div tw="px-5 pt-6 pb-10">
-                <div tw="text-b1 leading-none font-bold mb-3">매물 주소</div>
-                <div tw="text-b1">{addressLine1}</div>
-                <div tw="text-info text-gray-700">
-                  {addressLine2} {dong} {ho}
-                </div>
-              </div>
-              <Separator />
-            </div>
-          )}
-
           {forms?.map((form, index) => (
             <div key={form}>
               <FormRenderer form={form} />

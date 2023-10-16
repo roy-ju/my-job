@@ -206,7 +206,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
-                  nextRouter.replace(`/${Routes.My}?tab=2`);
+                  nextRouter.replace(`/${Routes.My}?default=2`);
                 }}
               >
                 확인

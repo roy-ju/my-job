@@ -86,15 +86,11 @@ const Routes = {
   LocationTerms: 'locationTerms',
 
   // 매물등록
-  // ListingCreateAddress: 'listingCreateAddress',
   ListingSelectAddress: 'listingSelectAddress',
-  // ListingCreateAddressDetail: 'listingCreateAddressDetail',
   ListingCreateForm: 'listingCreateForm',
   ListingCreateChooseAgent: 'listingCreateChooseAgent',
   ListingCreateSummary: 'listingCreateSummary',
   ListingCreateResult: 'listingCreateResult',
-  ListingCreateUpdateAddress: 'listingCreateUpdateAddress',
-  ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
 
   // 모바일 매물등록 가이드 페이지
   HOG: 'hog',

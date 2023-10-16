@@ -6,8 +6,6 @@
 import { Panel } from '@/components/atoms';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
-import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
-import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
 import Head from 'next/head';
 import AppConfig from '@/config';
 import Routes from './routes';
@@ -223,7 +221,6 @@ const ListingSelectAddress = dynamic(() => import('@/components/pages/pc/Listing
   ssr: false,
   loading: FallbackComponent,
 });
-
 const ListingCreateForm = dynamic(() => import('@/components/pages/pc/ListingCreateForm'), {
   ssr: false,
   loading: FallbackComponent,
@@ -655,14 +652,6 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.ListingCreateResult: {
       return <ListingCreateResult {...props} />;
-    }
-
-    case Routes.ListingCreateUpdateAddress: {
-      return <ListingCreateUpdateAddress {...props} />;
-    }
-
-    case Routes.ListingCreateUpdateAddressDetail: {
-      return <ListingCreateUpdateAddressDetail {...props} />;
     }
 
     case Routes.BiddingForm: {

@@ -102,18 +102,18 @@ export default function MobMy() {
   }, [router]);
 
   useEffect(() => {
-    if (router?.query?.tab === '1') {
+    if (router?.query?.default === '1') {
       setTab(1);
       return;
     }
 
-    if (router?.query?.tab === '2') {
+    if (router?.query?.default === '2') {
       setTab(2);
       return;
     }
 
     setTab(1);
-  }, [router?.query?.tab]);
+  }, [router?.query?.default]);
 
   if (!tab)
     return (

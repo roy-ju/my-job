@@ -56,7 +56,7 @@ export default memo(() => {
   }, []);
 
   const handleGoMyPage = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
   const handleGoMyAddress = useCallback(() => {
@@ -89,7 +89,7 @@ export default memo(() => {
           router.replace(router.query.origin);
           return;
         }
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
       } else if (value === 'invalidAccess') {
         router.replace(`/${Routes.EntryMobile}`);
       }
@@ -155,7 +155,7 @@ export default memo(() => {
               if (router?.query?.origin && typeof router.query.origin === 'string') {
                 router.replace(router.query.origin);
               } else {
-                router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+                router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
               }
             }, 1000);
 
@@ -206,7 +206,7 @@ export default memo(() => {
         return;
       }
 
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}?tab=2`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
       return;
     }
 

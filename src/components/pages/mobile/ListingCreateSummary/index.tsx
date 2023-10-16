@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
 import updateDanjiPhoto from '@/apis/listing/updateDanjiPhoto';
-import updateListing from '@/apis/listing/updateListing';
 import uploadListingPhoto from '@/apis/listing/updateListingPhoto';
 import { Loading, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
@@ -57,11 +56,11 @@ const ListingCreateSummary = () => {
       console.error(e);
     }
 
-    await updateListing({
-      ...fields,
-      listing_id: listingID,
-      user_selected_agent_id: agentID,
-    });
+    // await updateListing({
+    //   ...fields,
+    //   listing_id: listingID,
+    //   user_selected_agent_id: agentID,
+    // });
 
     setIsCreating(false);
 
