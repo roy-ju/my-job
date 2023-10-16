@@ -676,18 +676,10 @@ export default function useListingCreateForm(depth: number) {
   }, []);
 
   const handleClickBack = useCallback(() => {
-    router.replace(Routes.ListingCreateAddressDetail, {
+    router.replace(Routes.ListingSelectAddress, {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
         redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-      },
-      state: {
-        addressData: router.query.addressData as string,
-        ...(router.query.origin
-          ? {
-              origin: router.query.origin as string,
-            }
-          : {}),
       },
     });
   }, [router]);
@@ -1309,8 +1301,7 @@ export default function useListingCreateForm(depth: number) {
   }, [resetForms]);
 
   useIsomorphicLayoutEffect(() => {
-    if (!router.query.listingID) router.pop();
-    if (!router.query.addressLine1) router.pop();
+    if (!router.query.userAddressID) router.pop();
   }, [router]);
 
   // 수정하기로 왔을때, parmas 에서 값을 꺼내와서 초기값으로 설정한다.

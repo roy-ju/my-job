@@ -5,6 +5,7 @@ import { MyRegisteredHomesListItem } from '@/components/organisms';
 import { MyAddressStatus } from '@/constants/enums';
 import tw from 'twin.macro';
 import PlusIcon from '@/assets/icons/plus_gray_16.svg';
+import { makeAddressDetail } from '@/utils/fotmat';
 
 interface MyRegisteredHomesProps {
   list?: MyAddressListListItem[] | null;
@@ -12,38 +13,6 @@ interface MyRegisteredHomesProps {
   onClickSendSMS?: (id: number, roadNameAddress?: string, addressDetail?: string) => void;
   onClickDeleteIcon?: (id?: number | undefined, address?: string | undefined) => void;
   onClickAddMyAddress?: () => void;
-}
-
-function makeAddressDetail({ danjiName, dong, ho }: { danjiName: string; dong: string; ho: string }) {
-  if (danjiName && dong && ho) {
-    return `${danjiName} ${dong.replaceAll('동', '')}동 ${ho.replaceAll('호', '')}호`;
-  }
-
-  if (danjiName && dong && !ho) {
-    return `${danjiName} ${dong.replaceAll('동', '')}동`;
-  }
-
-  if (danjiName && !dong && ho) {
-    return `${danjiName} ${ho.replaceAll('호', '')}호`;
-  }
-
-  if (danjiName && !dong && !ho) {
-    return `${danjiName}`;
-  }
-
-  if (!danjiName && dong && ho) {
-    return `${dong.replaceAll('동', '')}동 ${ho.replaceAll('호', '')}호`;
-  }
-
-  if (!danjiName && dong && !ho) {
-    return `${dong.replaceAll('동', '')}동`;
-  }
-
-  if (!danjiName && !dong && ho) {
-    return `${ho.replaceAll('호', '')}호`;
-  }
-
-  return '';
 }
 
 export default function MyRegisteredHomes({

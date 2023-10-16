@@ -11,6 +11,39 @@ export function convertSidoName(v: string | undefined | null) {
   return v.slice(0, 2);
 }
 
+export function makeAddressDetail({ danjiName, dong, ho }: { danjiName: string; dong: string; ho: string }) {
+  if (danjiName && dong && ho) {
+    return `${danjiName} ${dong.replaceAll('동', '')}동 ${ho.replaceAll('호', '')}호`;
+  }
+
+  if (danjiName && dong && !ho) {
+    return `${danjiName} ${dong.replaceAll('동', '')}동`;
+  }
+
+  if (danjiName && !dong && ho) {
+    return `${danjiName} ${ho.replaceAll('호', '')}호`;
+  }
+
+  if (danjiName && !dong && !ho) {
+    return `${danjiName}`;
+  }
+
+  if (!danjiName && dong && ho) {
+    return `${dong.replaceAll('동', '')}동 ${ho.replaceAll('호', '')}호`;
+  }
+
+  if (!danjiName && dong && !ho) {
+    return `${dong.replaceAll('동', '')}동`;
+  }
+
+  if (!danjiName && !dong && ho) {
+    return `${ho.replaceAll('호', '')}호`;
+  }
+
+  return '';
+}
+
+
 export function convertSigunguName(v: string | undefined | null) {
   if (!v) return '-';
 

@@ -1,4 +1,3 @@
-import { useRouter as useNextRouter } from 'next/router';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { MyAddress } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
@@ -13,7 +12,6 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const nextRouter = useNextRouter();
 
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
@@ -33,15 +31,15 @@ export default memo(({ depth, panelWidth }: Props) => {
   );
 
   const handleClickBack = useCallback(() => {
-    if (nextRouter.query.origin) {
-      nextRouter.replace(nextRouter.query.origin as string);
+    if (router?.query?.origin && typeof router.query.origin === 'string') {
+      router.replace(router.query.origin, { state: { origin: router.query.origin } });
       return;
     }
 
-    if (nextRouter.query.redirect) {
-      nextRouter.replace(nextRouter.query.redirect as string);
+    if (router?.query?.redirect && typeof router.query.redirect === 'string') {
+      router.replace(router.query.redirect, { state: { redirect: router.query.redirect } });
     }
-  }, [nextRouter]);
+  }, [router]);
 
   return (
     <AuthRequired ciRequired depth={depth}>

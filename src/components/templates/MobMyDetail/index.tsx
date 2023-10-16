@@ -10,15 +10,11 @@ interface MyDetailProps {
   name: string;
   phone: string;
   profileImageUrl: string;
-  // address: string;
-  // addressDetail: string;
-  // addressVerified: boolean;
   updateNicknameButtonDisabled: boolean;
   isLoading: boolean;
   privacyRetentionType: string;
   onClickDeregister: () => void;
   onClickLogout: () => void;
-  // onClickUpdateAddress: () => void;
   onClickUpdatePhone: () => void;
   onClickUpdateNickname: () => void;
   onClickUpdateEmail: () => void;
@@ -34,15 +30,11 @@ export default function MobMyDetail({
   name,
   phone,
   profileImageUrl,
-  // address,
-  // addressDetail,
-  // addressVerified,
   updateNicknameButtonDisabled,
   isLoading,
   privacyRetentionType,
   onClickDeregister,
   onClickLogout,
-  // onClickUpdateAddress,
   onClickUpdatePhone,
   onClickUpdateNickname,
   onClickUpdateEmail,
@@ -81,13 +73,6 @@ export default function MobMyDetail({
                 onClickUpdate={onClickUpdatePhone}
                 onClickVerifyCi={onClickVerifyCi}
               />
-              {/* <MyDetailForm.Separator /> */}
-              {/* <MyDetailForm.AddressInfo
-                address={address}
-                addressDetail={addressDetail}
-                verified={addressVerified}
-                onClickUpdateAddress={onClickUpdateAddress}
-              /> */}
               <MyDetailForm.Separator />
               <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
               <MyDetailForm.Separator />

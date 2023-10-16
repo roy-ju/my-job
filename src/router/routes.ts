@@ -87,7 +87,7 @@ const Routes = {
 
   // 매물등록
   // ListingCreateAddress: 'listingCreateAddress',
-  ListingCreateAddress: 'listingSelectAddress',
+  ListingSelectAddress: 'listingSelectAddress',
   // ListingCreateAddressDetail: 'listingCreateAddressDetail',
   ListingCreateForm: 'listingCreateForm',
   ListingCreateChooseAgent: 'listingCreateChooseAgent',

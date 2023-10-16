@@ -13,7 +13,6 @@ import InstagramIcon from '@/assets/icons/instagram.svg';
 import YoutubeIcon from '@/assets/icons/youtube.svg';
 import NaverBlogIcon from '@/assets/icons/naver_blog.svg';
 import HouseIcon from '@/assets/icons/house.svg';
-import DocumentIcon from '@/assets/icons/document.svg';
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 import AppleIcon from '@/assets/icons/apple_store.svg';
 import GooglePlayIcon from '@/assets/icons/google_store.svg';
@@ -141,11 +140,9 @@ interface Props {
   hasAddress?: boolean;
   hasFavoriteDanji?: boolean;
   regionName?: string;
-
   onClickLogin?: () => void;
   onClickSuggestion?: () => void;
   onClickBidding?: () => void;
-  onClickListingCreate?: () => void;
   onClickHomeRegister?: () => void;
   onClickDanji?: (danjiID: number) => void;
   onClickListing?: (listingID: number) => void;
@@ -183,11 +180,9 @@ export default function Home({
   hasAddress,
   hasFavoriteDanji,
   regionName,
-
   onClickLogin,
   onClickSuggestion,
   onClickBidding,
-  onClickListingCreate,
   onClickHomeRegister,
   onClickDanji,
   onClickListing,
@@ -880,8 +875,8 @@ export default function Home({
             </div>
           </div>
         )}
-
         <Separator tw="bg-gray-300" />
+
         <div tw="py-10 px-5">
           <div tw="mb-6">
             <div tw="pl-1 text-info leading-4 mb-2">
@@ -901,13 +896,6 @@ export default function Home({
                   >
                     <h2 tw="whitespace-nowrap">집주소 등록</h2>
                   </a>
-                  <ChevronLeftIcon tw="text-gray-700 w-4 h-4 ml-auto rotate-180" />
-                </div>
-              </Button>
-              <Button tw="flex-1 [display: none]" variant="outlined" size="bigger" onClick={onClickListingCreate}>
-                <div tw="flex items-center w-full gap-2">
-                  <DocumentIcon />
-                  <span tw="whitespace-nowrap">매물등록 신청</span>
                   <ChevronLeftIcon tw="text-gray-700 w-4 h-4 ml-auto rotate-180" />
                 </div>
               </Button>

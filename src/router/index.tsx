@@ -219,11 +219,7 @@ const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingCreateAddress = dynamic(() => import('@/components/pages/pc/ListingCreateAddress'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const ListingCreateAddressDetail = dynamic(() => import('@/components/pages/pc/ListingCreateAddressDetail'), {
+const ListingSelectAddress = dynamic(() => import('@/components/pages/pc/ListingSelectAddress'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -641,16 +637,12 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
       return <FindAccount {...props} />;
     }
 
-    case Routes.ListingCreateAddress: {
-      return <ListingCreateAddress {...props} />;
-    }
-
-    case Routes.ListingCreateAddressDetail: {
-      return <ListingCreateAddressDetail {...props} />;
-    }
-
     case Routes.ListingCreateForm: {
       return <ListingCreateForm {...props} />;
+    }
+
+    case Routes.ListingSelectAddress: {
+      return <ListingSelectAddress {...props} />;
     }
 
     case Routes.ListingCreateChooseAgent: {

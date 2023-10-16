@@ -1,42 +1,48 @@
-import { MobAuthRequired, MobileContainer } from '@/components/atoms';
-import { MobListingCreateAddress } from '@/components/templates';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+// import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+// import { MobListingCreateAddress } from '@/components/templates';
+// import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+// import Routes from '@/router/routes';
+// import { useRouter } from 'next/router';
+// import { useCallback } from 'react';
 
-const ListingCreateAddress = () => {
-  const router = useRouter();
+// const ListingCreateAddress = () => {
+//   const router = useRouter();
 
-  const handleClickBack = () => {
-    router.back();
-  };
+//   const handleClickBack = () => {
+//     router.back();
+//   };
 
-  const handleSubmit = useCallback(
-    (value: KakaoAddressAutocompleteResponseItem) => {
-      router.replace(
-        {
-          pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
-          query: {
-            danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-            redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-            addressData: JSON.stringify(value),
-          },
-        },
-        `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
-      );
-    },
-    [router],
-  );
+//   const handleSubmit = useCallback(
+//     (value: KakaoAddressAutocompleteResponseItem) => {
+//       router.replace(
+//         {
+//           pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
+//           query: {
+//             danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
+//             redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
+//             addressData: JSON.stringify(value),
+//           },
+//         },
+//         `/${Routes.EntryMobile}/${Routes.ListingCreateAddressDetail}`,
+//       );
+//     },
+//     [router],
+//   );
 
-  return (
-    <MobAuthRequired ciRequired>
-      <MobileContainer>
-        <MobListingCreateAddress onSubmit={handleSubmit} onClickBack={handleClickBack} />
-      </MobileContainer>
-    </MobAuthRequired>
-  );
-};
+//   return (
+//     <MobAuthRequired ciRequired>
+//       <MobileContainer>
+//         <MobListingCreateAddress onSubmit={handleSubmit} onClickBack={handleClickBack} />
+//       </MobileContainer>
+//     </MobAuthRequired>
+//   );
+// };
 
-export default ListingCreateAddress;
+// export default ListingCreateAddress;
+
+function Index() {
+  return null;
+}
+
+export default Index;

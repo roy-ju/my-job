@@ -12,7 +12,7 @@ export default function MobHog() {
   }, [router]);
 
   const onClickListingCreate = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`);
   }, [router]);
 
   return (
