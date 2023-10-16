@@ -157,7 +157,6 @@ interface Props {
   onClickNotification?: () => void;
   onClickGuide?: () => void;
   onClickCounseling?: () => void;
-
   onClickLawQna?: (id?: number) => void;
   onFavoritelistingsForUserMutate?: () => void;
   onClickFavoriteButton?: (selected: boolean, listingId: number) => Promise<void>;
@@ -165,12 +164,10 @@ interface Props {
 
 export default function Home({
   carouselType,
-
   user,
   activeListingCount = 0,
   suggestAssignedAgentCount = 0,
   unreadNotificationCount = 0,
-
   tradeCountList,
   mostSuggestList,
   mostFavoriteList,
@@ -197,7 +194,6 @@ export default function Home({
   onClickNotification,
   onClickGuide,
   onClickCounseling,
-
   onClickLawQna,
   onFavoritelistingsForUserMutate,
   onClickFavoriteButton,
@@ -231,34 +227,6 @@ export default function Home({
       setMobileOrPc('mobile');
     }
   }, []);
-
-  // const whereSectionTop = useMemo(() => {
-  //   if (listingsForUser?.length) {
-  //     return 1;
-  //   }
-
-  //   if (danjisForUser?.length) {
-  //     return 2;
-  //   }
-
-  //   if (mostSuggestList?.length) {
-  //     return 3;
-  //   }
-
-  //   if (mostFavoriteList?.length) {
-  //     return 4;
-  //   }
-
-  //   if (tradeCountList?.length) {
-  //     return 5;
-  //   }
-  // }, [
-  //   danjisForUser?.length,
-  //   listingsForUser?.length,
-  //   mostFavoriteList?.length,
-  //   mostSuggestList?.length,
-  //   tradeCountList?.length,
-  // ]);
 
   return (
     <div tw="h-full flex flex-col">

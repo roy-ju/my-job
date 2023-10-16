@@ -204,12 +204,9 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
   }
 
   if (
-    targetRoute === Routes.ListingCreateAddress ||
-    targetRoute === Routes.ListingCreateAddressDetail ||
     targetRoute === Routes.ListingCreateForm ||
     targetRoute === Routes.ListingCreateSummary ||
-    targetRoute === Routes.ListingCreateUpdateAddress ||
-    targetRoute === Routes.ListingCreateUpdateAddressDetail ||
+    targetRoute === Routes.ListingSelectAddress ||
     targetRoute === Routes.ListingCreateSummary ||
     targetRoute === Routes.ListingCreateResult
   ) {

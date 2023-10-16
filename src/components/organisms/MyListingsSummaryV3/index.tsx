@@ -14,7 +14,6 @@ export interface MyListingsSummaryV3Props {
   onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
-  onClickRecommendationForm?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickSuggestRecommendedList?: () => void;
   onClickTab?: (val: 1 | 2) => void;

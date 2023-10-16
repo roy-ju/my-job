@@ -9,9 +9,7 @@ interface Args {
 
   // contractAmount: string;
   // contractAmountNegotiable: boolean;
-
   // remainingAmount: string;
-
   // interims: InterimType[];
 
   debtSuccessionDeposit: string;

@@ -35,17 +35,32 @@ export default memo(({ depth, panelWidth }: Props) => {
     monthlyRentFee,
     handleChangeMonthlyRentFee,
 
+    quickSale,
+    handleChangeQuickSale,
+
+    hasDebtSuccession,
+    handleChangeHasDebtSuccession,
+
     debtSuccessionDeposit,
     handleChangeDebtSuccessionDeposit,
 
     debtSuccessionMiscs,
     handleAddDebtSuccessionMisc,
 
+    rentEndDate,
+    handleChangeRentEndDate,
+
     collaterals,
     handleAddCollaterals,
 
+    hasSpecialTerms,
+    handleChangeHasSpecialTerms,
+
     specialTerms,
     handleChangeSpecialTerms,
+
+    hasMoveInDate,
+    handleChangeHasMoveInDate,
 
     moveInDate,
     handleChangeMoveInDate,
@@ -65,17 +80,17 @@ export default memo(({ depth, panelWidth }: Props) => {
     // interims,
     // handleAddInterim,
 
+    hasRentArea,
+    handleChangeHasRentArea,
+
+    rentArea,
+    handleChangeRentArea,
+
     verandaExtended,
     handleChangeVerandaExtended,
 
     verandaRemodelling,
     handleChangeVerandaRemodelling,
-
-    rentArea,
-    handleChangeRentArea,
-
-    hasRentArea,
-    handleChangeHasRentArea,
 
     extraOptions,
     handleChangeExtraOptions,
@@ -88,9 +103,6 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     rentTermNegotiable,
     handleChangeRentTermNegotiable,
-
-    quickSale,
-    handleChangeQuickSale,
 
     jeonsaeLoan,
     handleChangeJeonsaeLoan,
@@ -106,18 +118,6 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     description,
     handleChangeDescription,
-
-    rentEndDate,
-    handleChangeRentEndDate,
-
-    hasMoveInDate,
-    handleChangeHasMoveInDate,
-
-    hasSpecialTerms,
-    handleChangeHasSpecialTerms,
-
-    hasDebtSuccession,
-    handleChangeHasDebtSuccession,
 
     popup,
     closePopup,
@@ -142,6 +142,12 @@ export default memo(({ depth, panelWidth }: Props) => {
       setIsCoachVisible(true);
     }
   }, [forms]);
+
+  useEffect(() => {
+    if (!router?.query?.userAddressID) {
+      router.pop();
+    }
+  }, [router]);
 
   if (!router?.query?.userAddressID) return null;
 
@@ -176,12 +182,14 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeDebtSuccessionDeposit={handleChangeDebtSuccessionDeposit}
         debtSuccessionMiscs={debtSuccessionMiscs}
         onClickAddDebtSuccessionMisc={handleAddDebtSuccessionMisc}
+        rentEndDate={rentEndDate}
+        onChangeRentEndDate={handleChangeRentEndDate}
         collaterals={collaterals}
         onClickAddCollateral={handleAddCollaterals}
-        specialTerms={specialTerms}
-        onChangeSpecialTerms={handleChangeSpecialTerms}
         hasSpecialTerms={hasSpecialTerms}
         onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
+        specialTerms={specialTerms}
+        onChangeSpecialTerms={handleChangeSpecialTerms}
         hasMoveInDate={hasMoveInDate}
         onChangeHasMoveInDate={handleChangeHasMoveInDate}
         moveInDate={moveInDate}
@@ -215,8 +223,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeDanjiPhotoUrls={handleChangeDanjiPhotoUrls}
         description={description}
         onChangeDescription={handleChangeDescription}
-        rentEndDate={rentEndDate}
-        onChangeRentEndDate={handleChangeRentEndDate}
         onClickBack={openBackPopup}
       />
 
@@ -260,11 +266,11 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-12">
-              <Popup.Title>
+              <Popup.SmallTitle>
                 정말 뒤로 돌아가시겠습니까?
                 <br />
                 입력하신 정보가 저장되지 않습니다.
-              </Popup.Title>
+              </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
@@ -278,7 +284,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-12">
-              <Popup.Title>입력하신 값들이 초기화 됩니다.</Popup.Title>
+              <Popup.SmallTitle>입력하신 값들이 초기화 됩니다.</Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
@@ -292,7 +298,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-12">
-              <Popup.Title>{errPopup}</Popup.Title>
+              <Popup.SmallTitle>{errPopup}</Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={closeErrPopup}>닫기</Popup.ActionButton>

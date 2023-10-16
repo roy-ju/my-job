@@ -136,10 +136,6 @@ export { default as MobFindAccount } from './MobFindAccount';
 
 export { default as MobListingDetail } from './MobListingDetail';
 export { default as MobListingCreateAddress } from './MobListingCreateAddress';
-export { default as MobListingCreateAddressDetail } from './MobListingCreateAddressDetail';
-export { default as MobListingCreateForm } from './MobListingCreateForm';
-export { default as MobListingCreateChooseAgent } from './MobListingCreateChooseAgent';
-export { default as MobListingCreateSummary } from './MobListingCreateSummary';
 
 export { default as MobDanjiDetail } from './MobDanjiDetail';
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';

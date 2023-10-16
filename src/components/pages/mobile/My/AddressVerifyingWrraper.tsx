@@ -47,6 +47,11 @@ export default function AddressVerifyingWrraper() {
       return;
     }
 
+    if (res?.error_code === ErrorCodes.ALREADY_REGISTERED_ADDRESS) {
+      setPopup('alreadyExistAddress');
+      return;
+    }
+
     if (
       res?.error_code === ErrorCodes.SYSTEM_ERROR_OUTERAPI ||
       res?.error_code === ErrorCodes.INACCURATE_ADDRESS_DETAIL

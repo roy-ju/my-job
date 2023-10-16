@@ -709,7 +709,6 @@ export default function useListingCreateForm(depth: number) {
     }
   }, [
     forms,
-
     handleSubmitBuyOrRent,
     handleSubmitPrice,
     // handleSubmitPaymentSchedules,
@@ -1500,17 +1499,29 @@ export default function useListingCreateForm(depth: number) {
     // interims,
     // handleAddInterim,
 
+    hasDebtSuccession,
+    handleChangeHasDebtSuccession,
+
     debtSuccessionDeposit,
     handleChangeDebtSuccessionDeposit,
 
     debtSuccessionMiscs,
     handleAddDebtSuccessionMisc,
 
+    rentEndDate,
+    handleChangeRentEndDate,
+
     collaterals,
     handleAddCollaterals,
 
+    hasSpecialTerms,
+    handleChangeHasSpecialTerms: setHasSpecialTerms,
+
     specialTerms,
     handleChangeSpecialTerms,
+
+    hasMoveInDate,
+    handleChangeHasMoveInDate: setHasMoveInDate,
 
     moveInDate,
     handleChangeMoveInDate,
@@ -1559,18 +1570,6 @@ export default function useListingCreateForm(depth: number) {
 
     description,
     handleChangeDescription,
-
-    rentEndDate,
-    handleChangeRentEndDate,
-
-    hasMoveInDate,
-    handleChangeHasMoveInDate: setHasMoveInDate,
-
-    hasSpecialTerms,
-    handleChangeHasSpecialTerms: setHasSpecialTerms,
-
-    hasDebtSuccession,
-    handleChangeHasDebtSuccession,
 
     // Popup actions
     popup,

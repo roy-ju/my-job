@@ -21,12 +21,15 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
+
   const userAddressID = Number(router.query.userAddressID) ?? 0;
   const agentID = Number(router.query.agentID) ?? 0;
+
   const [agent, setAgent] = useState<GetAgentListResponse['agent_list'][0] | null>(null);
+  const [listingID, setListingID] = useState<number>();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
-  const [listingID, setListingID] = useState<number>();
   const [poppup, setPopup] = useState(false);
   const [errorPopup, setErrorPopup] = useState(false);
 
@@ -39,12 +42,15 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const fetchAgentList = useCallback(async () => {
     if (!agentID || !userAddressID) return;
+
     setIsLoading(true);
+
     const res = await getAgentList({ user_address_id: userAddressID });
     if (res && res.agent_list) {
       const a = res.agent_list.filter((item) => item.id === agentID)[0];
       setAgent(a ?? null);
     }
+
     setIsLoading(false);
   }, [userAddressID, agentID]);
 
@@ -74,6 +80,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       } catch (e) {
         console.error(e);
       }
+
       setIsCreating(false);
     }
 
@@ -88,8 +95,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         userAddressID: router?.query?.userAddressID as string,
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
       },
       state: {
         params: router.query.params as string,
@@ -104,6 +111,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handlePopup = useCallback(() => {
     setPopup(false);
+
     if (router?.query?.redirect) {
       nextRouter.replace(router.query.redirect as string);
       return;
@@ -132,7 +140,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     setErrorPopup(false);
 
     router.replace(Routes.MyRegisteredListingList, {
-      searchParams: { tab: '2', default: '2' },
       state: {
         ...(router.query.origin
           ? {

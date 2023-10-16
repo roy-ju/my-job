@@ -3,8 +3,6 @@ import { Loading, Panel } from '@/components/atoms';
 import { My as MyTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
-import { coordToRegion } from '@/lib/kakao';
-import { NaverLatLng } from '@/lib/navermap/types';
 import Routes from '@/router/routes';
 import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -85,27 +83,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     [router],
   );
 
-  const handleRecommendationForm = useCallback(async () => {
-    if (!window.NaverMap) {
-      router.replace(Routes.RecommendationForm);
-      return;
-    }
-    const center = window.NaverMap.getCenter() as NaverLatLng;
-    const response = await coordToRegion(center.x, center.y);
-    if (response && response.documents?.length > 0) {
-      const region = response.documents.filter((item) => item.region_type === 'B')[0];
-      if (region) {
-        router.replace(Routes.RecommendationForm, {
-          searchParams: {
-            address: `${region.region_1depth_name} ${region.region_2depth_name} ${region.region_3depth_name}`,
-            redirect: `${router.asPath}`,
-            back: 'true',
-          },
-        });
-      }
-    }
-  }, [router]);
-
   const handleRequestedSuggests = useCallback(() => {
     router.push(Routes.SuggestRequestedList);
   }, [router]);
@@ -167,7 +144,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        onClickRecommendationForm={handleRecommendationForm}
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
         tab={tab}
