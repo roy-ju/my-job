@@ -10,6 +10,7 @@ import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter as useNextRouter } from 'next/router';
+import assignAgent from '@/apis/listing/assignAgent';
 
 interface Props {
   depth: number;
@@ -19,6 +20,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
+
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { data, mutate: mutateMyListingDetail, isLoading } = useAPI_MyListingDetail(listingID);
@@ -47,12 +49,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     [data?.agent_list],
   );
 
-  useEffect(() => {
-    if (!listingID) {
-      router.pop();
-    }
-  }, [router, listingID]);
-
   const showAgentSelectionPopup = useCallback(
     async (index: number) => {
       const agent = data?.agent_list?.[index];
@@ -67,16 +63,19 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleSelectAgent = useCallback(async () => {
     if (popupData.current) {
       setIsSelectingAgent(true);
-      // const res = await assignAgent({ listing_id: listingID, user_selected_agent_id: popupData.current?.id });
-      // mutateMyListingDetail();
-      // if (res?.error_code) {
-      //   setPopup('agentSelectionFail');
-      // } else {
-      //   setPopup('agentSelectionSuccess');
-      // }
+      const res = await assignAgent({ listing_id: listingID, user_selected_agent_id: popupData.current?.id });
+
+      await mutateMyListingDetail();
+
+      if (res?.error_code) {
+        setPopup('agentSelectionFail');
+      } else {
+        setPopup('agentSelectionSuccess');
+      }
+
       setIsSelectingAgent(false);
     }
-  }, []);
+  }, [listingID, mutateMyListingDetail]);
 
   const handleNavigateToChatRoom = useCallback(() => {
     if (data?.seller_agent_chat_room_id) {
@@ -94,6 +93,12 @@ export default memo(({ depth, panelWidth }: Props) => {
       nextRouter.replace(router.query.back as string);
     }
   }, [router, nextRouter]);
+
+  useEffect(() => {
+    if (!listingID) {
+      router.pop();
+    }
+  }, [router, listingID]);
 
   if ((data?.listing_status ?? 0) >= ListingStatus.Active) {
     router.pop();
@@ -130,7 +135,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>선택한 중개사 확인</Popup.Title>
+              <Popup.SmallTitle tw="text-center">선택한 중개사 확인</Popup.SmallTitle>
               <Popup.Body>{popupData.current?.name} 공인중개사님에게 매물등록을 신청하시겠습니까?</Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
@@ -147,7 +152,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>수고하셨습니다!</Popup.Title>
+              <Popup.SmallTitle tw="text-center">수고하셨습니다!</Popup.SmallTitle>
               <Popup.Body>중개사님과 채팅으로 매물등록 협의를 진행해 주세요.</Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
@@ -161,7 +166,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>중개사 선택 불가</Popup.Title>
+              <Popup.SmallTitle>중개사 선택 불가</Popup.SmallTitle>
               <Popup.Body>
                 선택하신 중개사의 사정으로 해당 중개사를 선택할 수 없습니다. 다른 중개사를 선택하여 매물등록 신청을
                 완료해 주세요.

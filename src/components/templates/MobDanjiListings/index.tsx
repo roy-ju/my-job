@@ -44,7 +44,7 @@ export default function MobDanjiListings({
   const handleCreateListing = useCallback(() => {
     const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiListings}?danjiID=${danjiID}`;
 
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}?redirect=${redirectURL}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingSelectAddress}?redirect=${redirectURL}`);
   }, [danjiID, router]);
 
   if (!danji) return null;

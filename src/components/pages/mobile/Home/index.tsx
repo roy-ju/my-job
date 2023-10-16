@@ -77,7 +77,7 @@ export default function Home() {
       setOpenPopup(true);
       return;
     }
-    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`, query: { origin: router.asPath as string } });
   }, [router, user?.hasAddress]);
 
   const handleClickListing = useCallback(
@@ -232,7 +232,7 @@ export default function Home() {
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setOpenPopup(false)}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={() => router.push(`/${Routes.My}?default=2`)}>
+              <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}/${Routes.My}?default=2`)}>
                 마이페이지 이동
               </Popup.ActionButton>
             </Popup.ButtonGroup>

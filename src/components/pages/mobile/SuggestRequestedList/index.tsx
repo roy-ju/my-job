@@ -27,9 +27,9 @@ export default memo(() => {
       const canGoBack = window.history.length > 1;
 
       if (canGoBack) {
-        router.back();
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
       } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
       }
     }
   }, [router]);

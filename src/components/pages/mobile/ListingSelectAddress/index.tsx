@@ -1,27 +1,18 @@
-import { AuthRequired, Loading, Panel } from '@/components/atoms';
-import { ListingSelectAddress } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { ListingSelectAddress } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
-import { ListingCreateGuidePopup } from '@/components/organisms';
+import Routes from '@/router/routes';
+import { useRouter } from 'next/router';
+import { memo, useCallback, useState, useEffect } from 'react';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
-
-export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
-
-  const outsideRef = useRef<HTMLDivElement | null>(null);
+export default memo(() => {
+  const router = useRouter();
 
   const { user, isLoading: userIsLoading } = useAuth();
 
   const { list, isLoading } = useAPI_GetMyAddressList(true);
-  const [isPopupOpen, setIsPopupOpen] = useState(true);
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
   const [showInActivePopup, setShowInActivePopup] = useState(false);
 
@@ -39,8 +30,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleNext = useCallback(() => {
     if (!selectedUserAddressID) return;
 
-    router.replace(Routes.ListingCreateForm, {
-      searchParams: {
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
+      query: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
         redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         userAddressID: `${selectedUserAddressID}`,
@@ -49,15 +41,11 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router, selectedUserAddressID]);
 
   const handleClickHome = useCallback(() => {
-    router.popAll();
+    router.push(`/${Routes.EntryMobile}`);
   }, [router]);
 
-  const handleClosePopup = useCallback(() => {
-    setIsPopupOpen(false);
-  }, []);
-
   const handleClickAddMyAddress = () => {
-    router.replace(Routes.MyAddress);
+    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
   };
 
   useEffect(() => {
@@ -67,8 +55,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [user, userIsLoading]);
 
   return (
-    <AuthRequired ciRequired>
-      <Panel width={panelWidth}>
+    <MobAuthRequired ciRequired>
+      <MobileContainer>
         {!showInActivePopup &&
           (isLoading ? (
             <div tw="py-20">
@@ -84,29 +72,23 @@ export default memo(({ depth, panelWidth }: Props) => {
             />
           ))}
 
-        {!showInActivePopup && isPopupOpen && (
+        {showInActivePopup && (
           <OverlayPresenter>
-            <ListingCreateGuidePopup ref={outsideRef} isPopupOpen={isPopupOpen} onClickClosePopup={handleClosePopup} />
+            <Popup>
+              <Popup.ContentGroup tw="py-6">
+                <Popup.SubTitle tw="text-center">
+                  현재 로그인 계정으로는
+                  <br />
+                  접근이 불가능한 페이지입니다.
+                </Popup.SubTitle>
+              </Popup.ContentGroup>
+              <Popup.ButtonGroup>
+                <Popup.ActionButton onClick={handleClickHome}>네고시오 홈으로 돌아가기</Popup.ActionButton>
+              </Popup.ButtonGroup>
+            </Popup>
           </OverlayPresenter>
         )}
-      </Panel>
-
-      {showInActivePopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-6">
-              <Popup.SubTitle tw="text-center">
-                현재 로그인 계정으로는
-                <br />
-                접근이 불가능한 페이지입니다.
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={handleClickHome}>네고시오 홈으로 돌아가기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-    </AuthRequired>
+      </MobileContainer>
+    </MobAuthRequired>
   );
 });

@@ -28,7 +28,6 @@ interface Props {
   onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
-  onClickRecommendationForm?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickSuggestRecommendedList?: () => void;
   onClickDeveloper?: () => void;
@@ -59,7 +58,6 @@ export default function My({
   onClickMyAddress,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
-  onClickRecommendationForm,
   onClickRequestedSuggests,
   onClickSuggestRecommendedList,
   onClickDeveloper,
@@ -105,7 +103,6 @@ export default function My({
               onClickMyAddress={onClickMyAddress}
               onClickMyRegisteredListings={onClickMyRegisteredListings}
               onClickMyParticipatingListings={onClickMyParticipatingListings}
-              onClickRecommendationForm={onClickRecommendationForm}
               onClickRequestedSuggests={onClickRequestedSuggests}
               onClickSuggestRecommendedList={onClickSuggestRecommendedList}
               tab={tab}

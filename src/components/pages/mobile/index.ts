@@ -53,6 +53,7 @@ export { default as VerifyCiSuccessWrraper } from './VerifyCiSuccess';
 export { default as OwnerVerification } from './OwnerVerification';
 
 /** 매물등록 */
+export { default as ListingSelectAddress } from './ListingSelectAddress';
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
 export { default as ListingCreateSummary } from './ListingCreateSummary';

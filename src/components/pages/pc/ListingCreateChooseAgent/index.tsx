@@ -15,6 +15,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
   const userAddressID = Number(router.query.userAddressID) ?? 0;
+
   const [index, setIndex] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -45,15 +46,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [userAddressID]);
 
-  useEffect(() => {
-    fetchAgentList();
-  }, [fetchAgentList]);
-
-  useEffect(() => {
-    const { params } = router.query;
-    if (!params) router.pop();
-  }, [router]);
-
   const handleClickBack = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
@@ -74,12 +66,13 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickNext = useCallback(() => {
     const agentId = agents[index]?.id;
+
     router.replace(Routes.ListingCreateSummary, {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         userAddressID: router?.query?.userAddressID as string,
         agentID: `${agentId}`,
+        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
       },
       state: {
         params: router.query.params as string,
@@ -91,6 +84,21 @@ export default memo(({ depth, panelWidth }: Props) => {
       },
     });
   }, [agents, index, router]);
+
+  useEffect(() => {
+    fetchAgentList();
+  }, [fetchAgentList]);
+
+  useEffect(() => {
+    const { params } = router.query;
+
+    if (userAddressID) {
+      router.pop();
+      return;
+    }
+
+    if (!params) router.pop();
+  }, [router, userAddressID]);
 
   return (
     <Panel width={panelWidth}>

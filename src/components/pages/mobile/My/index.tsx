@@ -63,30 +63,26 @@ export default function MobMy() {
     router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
   }, [router]);
 
-  const handleClickMyRegisteredListings = useCallback(
-    (params: number) => {
-      router.push(`/${Routes.EntryMobile}/${Routes.MyRegisteredListingList}?tab=${params}`);
-    },
-    [router],
-  );
+  const handleRequestedSuggests = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}?default=1`);
+  }, [router]);
 
   const handleClickMyParticipatingListings = useCallback(
     (params: number) => {
-      router.push(`/${Routes.EntryMobile}/${Routes.MyParticipatingListings}?tab=${params}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.MyParticipatingListings}?tab=${params}&default=1`);
     },
     [router],
   );
 
-  const handleRecommendationForm = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
-  }, [router]);
-
-  const handleRequestedSuggests = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
-  }, [router]);
+  const handleClickMyRegisteredListings = useCallback(
+    (params: number) => {
+      router.push(`/${Routes.EntryMobile}/${Routes.MyRegisteredListingList}?tab=${params}&default=2`);
+    },
+    [router],
+  );
 
   const handleSuggestRecommendedList = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}?default=2`);
   }, [router]);
 
   const handleTab = useCallback((val: 1 | 2) => {
@@ -146,7 +142,6 @@ export default function MobMy() {
         onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        onClickRecommendationForm={handleRecommendationForm}
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
         hasAddress={user?.hasAddress}
