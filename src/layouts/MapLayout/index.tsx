@@ -102,7 +102,7 @@ function MapWrapper({
 
   const handleClickListingCreateAddress = useCallback(() => {
     if (user?.hasAddress) {
-      replace(Routes.ListingCreateAddress);
+      replace(Routes.ListingSelectAddress);
       return;
     }
 
@@ -245,7 +245,7 @@ function MapWrapper({
               <Popup.ActionButton
                 onClick={() => {
                   setOpenVerificationAddressPopup(false);
-                  replace(Routes.MyAddress, { state: { origin: '/' } });
+                  replace(Routes.MyAddress);
                 }}
               >
                 인증하기

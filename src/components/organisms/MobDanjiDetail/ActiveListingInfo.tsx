@@ -106,7 +106,7 @@ export default function ActiveListingInfo({
       danji?.danji_id || router?.query?.danjiID || ''
     }`;
 
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}?redirect=${redirectURL}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingSelectAddress}?redirect=${redirectURL}`);
   }, [danji?.danji_id, router]);
 
   const handleCreateSuggest = useCallback(() => {

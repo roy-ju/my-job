@@ -215,6 +215,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         hasDebtSuccession={hasDebtSuccession}
         onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
       />
+
       {isCoachVisible && !hasBeenVisible.current && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -250,6 +251,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           </div>
         </motion.div>
       )}
+
       {popup === 'back' && (
         <OverlayPresenter>
           <Popup>
@@ -267,6 +269,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           </Popup>
         </OverlayPresenter>
       )}
+
       {popup === 'buyOrRentChagne' && (
         <OverlayPresenter>
           <Popup>
@@ -280,6 +283,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           </Popup>
         </OverlayPresenter>
       )}
+
       {errPopup !== '' && (
         <OverlayPresenter>
           <Popup>

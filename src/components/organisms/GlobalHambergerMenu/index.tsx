@@ -54,7 +54,7 @@ export default function GlobalHambergerMenu() {
               tw="py-4 text-left flex gap-2 font-bold px-4 text-b2 text-gray-1000 leading-4 hover:bg-gray-100"
               onClick={() => {
                 setIsOpen(false);
-                router.replace(Routes.ListingCreateAddress);
+                router.replace(Routes.ListingSelectAddress);
               }}
             >
               <HouseGreenCheckIcon /> 집 내놓기

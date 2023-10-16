@@ -138,13 +138,13 @@ export default function ActiveListingInfo({
   const handleCreateListing = useCallback(() => {
     nextRouter.replace(
       {
-        pathname: `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}`,
+        pathname: `/${Routes.DanjiDetail}/${Routes.ListingSelectAddress}`,
         query: {
           danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
           redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
         },
       },
-      `/${Routes.DanjiDetail}/${Routes.ListingCreateAddress}?danjiID=${
+      `/${Routes.DanjiDetail}/${Routes.ListingSelectAddress}?danjiID=${
         danji?.danji_id || router?.query?.danjiID || ''
       }`,
     );

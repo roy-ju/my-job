@@ -19,16 +19,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     phone,
     profileImageUrl,
     privacyRetentionValue,
-    // roadNameAddress,
-    // addressDetail,
-    // ownershipVerified,
     nicknamePopup,
     emailPopup,
     updateNicknameButtonDisabled,
     updateEmailPopup,
     handleClickDeregister,
     handleLogout,
-    // handleUpdateAddress,
     handleUpdatePhone,
     handleClickUpdateNickname,
     updateNickname,
@@ -54,15 +50,11 @@ export default memo(({ depth, panelWidth }: Props) => {
           name={name ?? ''}
           phone={phone ?? ''}
           profileImageUrl={profileImageUrl ?? ''}
-          // address={roadNameAddress ?? ''}
-          // addressDetail={addressDetail ?? ''}
-          // addressVerified={ownershipVerified ?? false}
           privacyRetentionType={privacyRetentionValue ?? ''}
           updateNicknameButtonDisabled={updateNicknameButtonDisabled}
           onChangeNickname={handleChangeNickname}
           onClickDeregister={handleClickDeregister}
           onClickLogout={handleLogout}
-          // onClickUpdateAddress={handleUpdateAddress}
           onClickUpdatePhone={handleUpdatePhone}
           onClickUpdateNickname={handleClickUpdateNickname}
           onClickUpdateEmail={handleClickUpdateEmail}

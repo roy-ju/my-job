@@ -89,7 +89,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleNavigateToListingCreate = () => {
     if (user?.hasAddress) {
-      router.replace(Routes.ListingCreateAddress);
+      router.replace(Routes.ListingSelectAddress);
       return;
     }
 
@@ -170,7 +170,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setOpenVerificationAddressPopup(false);
-                  router.replace(Routes.MyAddress, { state: { origin: router.asPath } });
+                  router.replace(Routes.MyAddress);
                 }}
               >
                 인증하기
