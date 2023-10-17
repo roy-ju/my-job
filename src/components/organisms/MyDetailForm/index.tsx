@@ -211,9 +211,9 @@ function ProfileImage({ profileImageUrl, onClickUpdate }: ProfileImageProps) {
           onChange={(e) => {
             if (!e.target.files) return;
             const selectedFile = e.target.files?.[0];
-            const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+            const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/jfif'];
             if (!allowedTypes.includes(selectedFile?.type)) {
-              toast.error('png, jpg, jpeg 확장자만 업로드 가능합니다.');
+              toast.error('png, jpg, jpeg, jfif 확장자만 업로드 가능합니다.');
               return;
             }
             onClickUpdate?.(e.target.files[0]);
