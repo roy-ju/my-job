@@ -77,11 +77,12 @@ export default memo(() => {
     } else if (response === null) {
       toast.success('문자를 전송했습니다.');
 
-      if (router?.query?.origin && typeof router.query.origin === 'string') {
-        router.replace(router.query.origin);
-      } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+      if (router?.query?.origin) {
+        router.replace(router.query.origin as string);
+        return;
       }
+
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
   }, [name, phone, router]);
 
@@ -113,8 +114,8 @@ export default memo(() => {
   }, [router]);
 
   const handleClickBack = () => {
-    if (router?.query?.origin && typeof router.query.origin === 'string') {
-      router.replace(router.query.origin);
+    if (router?.query?.origin) {
+      router.replace(router.query.origin as string);
     } else {
       router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
@@ -212,6 +213,12 @@ export default memo(() => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
+
+                  if (router?.query?.origin) {
+                    router.replace(router.query.origin as string);
+                    return;
+                  }
+
                   router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
                 }}
               >

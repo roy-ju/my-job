@@ -5,7 +5,7 @@ import useAPI_GetOptionList from '@/apis/listing/getOptionList';
 import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 import { motion } from 'framer-motion';
-import { MobileContainer } from '@/components/atoms';
+import { Loading, MobileContainer } from '@/components/atoms';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import useListingCreateForm from './useListingCreateForm';
@@ -145,7 +145,15 @@ const ListingCreateForm = () => {
     }
   }, [router]);
 
-  if (!router?.query?.userAddressID) return null;
+  if (!router?.query?.userAddressID) {
+    return (
+      <MobileContainer>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </MobileContainer>
+    );
+  }
 
   return (
     <MobileContainer>

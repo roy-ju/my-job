@@ -82,6 +82,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
+
     if (!inAddressData) {
       router.replace(Routes.MyAddress, {
         searchParams: {
@@ -95,10 +96,12 @@ export default memo(({ depth, panelWidth }: Props) => {
             : {}),
         },
       });
-    } else {
-      const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
-      setAddressData(parsed);
+      return;
     }
+
+    const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
+
+    setAddressData(parsed);
   }, [router]);
 
   return (

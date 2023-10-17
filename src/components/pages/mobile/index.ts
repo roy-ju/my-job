@@ -113,9 +113,6 @@ export { default as DanjiRecommendationUpdate } from './DanjiRecommendationUpdat
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 
-/** 매물등록 가이드 */
-export { default as MobHog } from './MobHog';
-
 /** 법률 게시판 */
 export { default as LawQna } from './LawQna';
 export { default as LawQnaDetail } from './LawQnaDetail';

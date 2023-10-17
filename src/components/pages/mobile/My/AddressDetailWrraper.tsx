@@ -36,36 +36,40 @@ export default function AddressDetailWrraper() {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    router.push(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.MyAddressVerifying}`,
-        query: router?.query?.origin
-          ? { addressData: router.query.addressData as string, dong, ho, origin: router?.query?.origin }
-          : { addressData: router.query.addressData as string, dong, ho },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddressVerifying}`,
+      query: {
+        ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
+        ...(dong ? { dong: dong as string } : {}),
+        ...(ho ? { ho: ho as string } : {}),
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.MyAddressVerifying}`,
-    );
+    });
   }, [router, dong, ho]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-        query: router?.query?.origin ? { origin: router?.query?.origin } : undefined,
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      query: {
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-    );
+    });
   }, [router]);
 
   useEffect(() => {
     const { addressData: inAddressData } = router.query;
 
     if (!inAddressData) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+      router.replace({
+        pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      });
       return;
     }
 
     const parsed = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
+
     setAddressData(parsed);
   }, [router]);
 

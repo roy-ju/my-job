@@ -44,36 +44,30 @@ const ListingCreateChooseAgent = () => {
   }, [userAddressID]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
-        query: {
-          params: router.query.params as string,
-          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-          userAddressID: router?.query?.userAddressID as string,
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
+      query: {
+        params: router.query.params as string,
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateForm}?userAddressID=${router?.query?.userAddressID as string}`,
-    );
+    });
   }, [router]);
 
   const handleClickNext = useCallback(() => {
     const agentId = agents[index]?.id;
 
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}`,
-        query: {
-          params: router.query.params as string,
-          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-          userAddressID: router?.query?.userAddressID as string,
-          agentID: `${agentId}`,
-          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}`,
+      query: {
+        params: router.query.params as string,
+        agentID: `${agentId}`,
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}?userAddressID=${router?.query?.userAddressID as string}`,
-    );
+    });
   }, [agents, index, router]);
 
   useEffect(() => {
@@ -81,12 +75,12 @@ const ListingCreateChooseAgent = () => {
   }, [fetchAgentList]);
 
   useEffect(() => {
-    if (!router.query.userAddressID || !router.query.params) {
+    if (!router?.query?.userAddressID || !router?.query?.params) {
       router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
   }, [router]);
 
-  if (!router.query.userAddressID || !router.query.params) {
+  if (!router?.query?.userAddressID || !router?.query?.params) {
     return (
       <MobileContainer>
         <div tw="py-20">

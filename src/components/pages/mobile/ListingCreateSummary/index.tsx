@@ -80,6 +80,8 @@ const ListingCreateSummary = () => {
 
     if (response?.error_code === ErrorCodes.DUPLICATED_LISTING) {
       setErrorPopup(true);
+
+      return;
     }
 
     setPopup(true);
@@ -102,23 +104,13 @@ const ListingCreateSummary = () => {
   const handlePopup = useCallback(() => {
     setPopup(false);
 
-    if (router?.query?.redirect) {
-      router.replace(router.query.redirect as string);
-      return;
-    }
-
-    if (router?.query?.danjiID) {
-      router.replace(`/${router?.query?.danjiID}?danjiID=${router.query.danjiID}`);
-      return;
-    }
-
     router.replace(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   }, [listingID, router]);
 
   const handleErrorPopup = useCallback(() => {
     setErrorPopup(false);
 
-    router.replace(`/${Routes.EntryMobile}/${Routes.MyRegisteredListingList}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.MyRegisteredListingList}?tab=1`);
   }, [router]);
 
   useEffect(() => {
@@ -157,7 +149,7 @@ const ListingCreateSummary = () => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.SmallTitle>수고하셨습니다!</Popup.SmallTitle>
+              <Popup.Title>수고하셨습니다!</Popup.Title>
               <Popup.Body>주소 및 소유자 확인후 중개사 배정이 완료됩니다.</Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>

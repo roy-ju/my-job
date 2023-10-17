@@ -8,28 +8,31 @@ import { useCallback } from 'react';
 export default function AddressWrraper() {
   const router = useRouter();
 
-  const handleClickBack = () => {
-    if (router?.query?.origin && typeof router?.query?.origin === 'string') {
-      router.replace(router.query.origin);
-      return;
-    }
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
-  };
-
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
       router.push(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
-          query: router?.query?.origin
-            ? { addressData: JSON.stringify(value), origin: router.query.origin as string }
-            : { addressData: JSON.stringify(value) },
+          query: {
+            ...{ addressData: JSON.stringify(value) },
+            ...(router?.query?.origin ? { origin: router?.query?.origin as string } : {}),
+            ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID as string } : {}),
+          },
         },
         `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
       );
     },
     [router],
   );
+
+  const handleClickBack = () => {
+    if (router?.query?.origin) {
+      router.replace(router.query.origin as string);
+      return;
+    }
+
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+  };
 
   return (
     <MobAuthRequired ciRequired>
