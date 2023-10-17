@@ -34,13 +34,13 @@ export default function Photos({ urls, onChange }: Props) {
       Array.from(e.target.files ?? []).forEach((item) => {
         const ext = item.name.split('.').pop();
 
-        if (!ext || !['PNG', 'JPEG', 'JPG', 'png', 'jpg', 'jpeg'].includes(ext)) {
+        if (!ext || !['PNG', 'JPEG', 'JPG', 'JFIF', 'png', 'jpg', 'jpeg', 'jfif'].includes(ext)) {
           validated = false;
         }
       });
 
       if (!validated) {
-        toast.error('png, jpg, jpeg 확장자만 업로드 가능합니다.');
+        toast.error('png, jpg, jpeg, jfif 확장자만 업로드 가능합니다.');
         return;
       }
 
@@ -102,7 +102,7 @@ export default function Photos({ urls, onChange }: Props) {
         ref={inputRef}
         type="file"
         multiple
-        accept="image/png, image/jpg, image/jpeg"
+        accept="image/png, image/jpg, image/jpeg, image/jfif"
         onChange={handleChange}
       />
       <div tw="flex flex-col gap-4">
