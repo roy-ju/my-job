@@ -84,9 +84,14 @@ export default memo(({ depth, panelWidth }: Props) => {
       setShowSendCountReachedPopup(true);
     } else if (response === null) {
       toast.success('문자를 전송했습니다.');
-      nextRouter.replace(`/${Routes.My}?default=2`);
+
+      if (router?.query?.danjiID) {
+        router.pop();
+      } else {
+        nextRouter.replace(`/${Routes.My}?default=2`);
+      }
     }
-  }, [name, nextRouter, phone, router.query.userAddressID]);
+  }, [name, nextRouter, phone, router]);
 
   useEffect(() => {
     if (!router?.query?.userAddressID) {
@@ -206,7 +211,11 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
-                  nextRouter.replace(`/${Routes.My}?default=2`);
+                  if (router?.query?.danjiID) {
+                    router.pop();
+                  } else {
+                    nextRouter.replace(`/${Routes.My}?default=2`);
+                  }
                 }}
               >
                 확인

@@ -19,7 +19,7 @@ export default memo(() => {
   const router = useRouter();
 
   const { user, isLoading, mutate: authMutate } = useAuth();
-  const { list, mutate } = useAPI_GetMyAddressList();
+  const { list, mutate } = useAPI_GetMyAddressList({ activeOnly: false, danjiID: null, isFetch: true });
 
   const [showInActivePopup, setShowInActivePopup] = useState(false);
   const [showDeleteConfirmPopup, setShowDeleteConfirmPopup] = useState(false);

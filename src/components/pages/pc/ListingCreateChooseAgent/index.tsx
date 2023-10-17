@@ -92,7 +92,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   useEffect(() => {
     const { params } = router.query;
 
-    if (userAddressID) {
+    if (!userAddressID) {
       router.pop();
       return;
     }

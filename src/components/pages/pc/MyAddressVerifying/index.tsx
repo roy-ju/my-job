@@ -35,6 +35,12 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClosePopup = useCallback(() => {
     setPopup('');
+
+    if (router?.query?.danjiID) {
+      router.pop();
+      return;
+    }
+
     nextRouter.replace(`/${Routes.My}`);
   }, []);
 
@@ -43,6 +49,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     if (!inAddressData) {
       router.replace(Routes.MyAddress, {
+        searchParams: {
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        },
         state: {
           ...(router.query.origin
             ? {
@@ -81,6 +90,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       res?.error_code === ErrorCodes.INACCURATE_ADDRESS_DETAIL
     ) {
       router.replace(Routes.MyAddressVerifyResult, {
+        searchParams: {
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        },
         state: {
           addressData: router.query.addressData as string,
           errorCode: `${res.error_code}`,
@@ -99,6 +111,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     if (res?.address_list?.length && res.address_list.length > 1) {
       router.replace(Routes.MyAddressVerifyResult, {
+        searchParams: {
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        },
         state: {
           addressData: router.query.addressData as string,
           addressList: encodeURIComponent(JSON.stringify(res.address_list)),
@@ -146,6 +161,9 @@ export default memo(({ depth, panelWidth }: Props) => {
           response?.error_code === ErrorCodes.SYSTEM_ERROR_OUTERAPI2
         ) {
           router.replace(Routes.MyAddressVerifyResult, {
+            searchParams: {
+              ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+            },
             state: {
               addressData: router.query.addressData as string,
               errorCode: `${ErrorCodes.SYSTEM_ERROR_OUTERAPI}`,
@@ -168,7 +186,14 @@ export default memo(({ depth, panelWidth }: Props) => {
           setTimeout(() => {
             mutate();
             toast.success('우리집 등록이 완료 되었습니다!');
-            nextRouter.replace(`/${Routes.My}?default=2`);
+
+            if (router?.query?.danjiID) {
+              router.replace(Routes.ListingSelectAddress, {
+                searchParams: { danjiID: router.query.danjID as string },
+              });
+            } else {
+              nextRouter.replace(`/${Routes.My}?default=2`);
+            }
           }, 1000);
 
           return;
@@ -178,6 +203,9 @@ export default memo(({ depth, panelWidth }: Props) => {
           mutate();
 
           router.replace(Routes.MyAddressAgreement, {
+            searchParams: {
+              ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+            },
             state: {
               addressData: router.query.addressData as string,
               userAddressID: `${response?.user_address_id}`,

@@ -40,7 +40,7 @@ export default memo(() => {
   };
 
   const handleNavigateToDanjiRecommendation = () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.Map}`);
   };
 
   const handleDeleteSuggestRecommend = async (suggestRecommendId: number) => {

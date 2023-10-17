@@ -106,6 +106,7 @@ export default function MyListingsSummaryV3({
 
   const totalCountMyRegisteredListings = useMemo(
     () =>
+      countFormat({ value: dashboardInfo?.my_cancelled_listing_count }) +
       countFormat({ value: dashboardInfo?.my_registering_listing_count }) +
       countFormat({ value: dashboardInfo?.my_active_listing_count }) +
       countFormat({ value: dashboardInfo?.my_contract_complete_listing_count }),
@@ -143,6 +144,47 @@ export default function MyListingsSummaryV3({
     }
   }, [myRegisterdItems, onClickMyRegisteredListings]);
 
+  const renderIcon = useCallback(() => {
+    if (tab === 2 && (hasAddress || hasNotVerifiedAddress)) {
+      return (
+        <button
+          type="button"
+          onClick={onClickMyRegisteredHomes}
+          tw="flex items-center gap-1 ml-auto text-gray-800 hover:text-gray-1000"
+        >
+          {hasNotVerifiedAddress && <ErrorIcon />}
+          <span tw="text-info">우리집 정보</span>
+          <ChevronIcon />
+        </button>
+      );
+    }
+
+    if (
+      tab === 2 &&
+      (totalCountMyRegisteredListings > 0 || countFormat({ value: dashboardInfo?.suggest_recommended_count }) > 0)
+    ) {
+      return (
+        <button
+          type="button"
+          onClick={onClickMyAddress}
+          tw="flex items-center gap-1 ml-auto text-gray-800 hover:text-gray-1000"
+        >
+          <ErrorIcon />
+          <span tw="text-info">우리집 인증하기</span>
+          <ChevronIcon />
+        </button>
+      );
+    }
+  }, [
+    dashboardInfo?.suggest_recommended_count,
+    hasAddress,
+    hasNotVerifiedAddress,
+    onClickMyAddress,
+    onClickMyRegisteredHomes,
+    tab,
+    totalCountMyRegisteredListings,
+  ]);
+
   return (
     <div tw="bg-white flex flex-col">
       <NewTabs variant="contained" value={tab} onChange={(v) => onClickTab?.(v as 1 | 2)}>
@@ -172,40 +214,42 @@ export default function MyListingsSummaryV3({
           />
         )}
 
-        {tab === 2 && !hasAddress && !hasNotVerifiedAddress && (
-          <>
-            <div tw="min-h-[4px]" />
-            <NeedHomeVerify onClickCTA={onClickMyAddress} />
-          </>
-        )}
+        {tab === 2 &&
+          !hasAddress &&
+          !hasNotVerifiedAddress &&
+          totalCountMyRegisteredListings === 0 &&
+          countFormat({ value: dashboardInfo?.suggest_recommended_count }) === 0 && (
+            <>
+              <div tw="min-h-[4px]" />
+              <NeedHomeVerify onClickCTA={onClickMyAddress} />
+            </>
+          )}
 
-        {tab === 2 && (hasAddress || hasNotVerifiedAddress) && (
-          <button
-            type="button"
-            onClick={onClickMyRegisteredHomes}
-            tw="flex items-center gap-1 ml-auto text-gray-800 hover:text-gray-1000"
-          >
-            {hasNotVerifiedAddress && <ErrorIcon />}
-            <span tw="text-info">우리집 정보</span>
-            <ChevronIcon />
-          </button>
-        )}
+        {renderIcon()}
 
-        {tab === 2 && (hasAddress || hasNotVerifiedAddress) && (
-          <CTAButtons
-            type="myRegisterdListings"
-            onClickMyRegisterdListingsCTA={onClickMyRegisterdListingsCTA}
-            count={totalCountMyRegisteredListings}
-          />
-        )}
+        {tab === 2 &&
+          (hasAddress ||
+            hasNotVerifiedAddress ||
+            totalCountMyRegisteredListings > 0 ||
+            countFormat({ value: dashboardInfo?.suggest_recommended_count }) > 0) && (
+            <CTAButtons
+              type="myRegisterdListings"
+              onClickMyRegisterdListingsCTA={onClickMyRegisterdListingsCTA}
+              count={totalCountMyRegisteredListings}
+            />
+          )}
 
-        {tab === 2 && (hasAddress || hasNotVerifiedAddress) && (
-          <CTAButtons
-            type="suggestRecommendedList"
-            onClickSuggestRecommendedListCTA={onClickSuggestRecommendedList}
-            count={countFormat({ value: dashboardInfo?.suggest_recommended_count })}
-          />
-        )}
+        {tab === 2 &&
+          (hasAddress ||
+            hasNotVerifiedAddress ||
+            totalCountMyRegisteredListings > 0 ||
+            countFormat({ value: dashboardInfo?.suggest_recommended_count })) && (
+            <CTAButtons
+              type="suggestRecommendedList"
+              onClickSuggestRecommendedListCTA={onClickSuggestRecommendedList}
+              count={countFormat({ value: dashboardInfo?.suggest_recommended_count })}
+            />
+          )}
       </div>
     </div>
   );
