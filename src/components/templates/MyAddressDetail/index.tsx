@@ -42,7 +42,7 @@ export default function MyAddressDetail({
         />
       </div>
       <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">
-        <Button variant="secondary" size="bigger" tw="w-full" onClick={onSubmit}>
+        <Button variant="secondary" size="bigger" tw="w-full mb-[26px]" onClick={onSubmit}>
           주소 등록하기
         </Button>
       </div>

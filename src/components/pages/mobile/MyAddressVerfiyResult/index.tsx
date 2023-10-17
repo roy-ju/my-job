@@ -55,18 +55,41 @@ export default memo(() => {
     setVerifyCompletedSeconds(2);
   }, []);
 
-  const handleGoMyPage = useCallback(() => {
+  const handleClosePopup = useCallback(
+    (value: 'alreadyExistAddress' | 'invalidAccess') => {
+      setPopup('');
+
+      if (value === 'invalidAccess') {
+        router.replace(`/${Routes.EntryMobile}`);
+      } else if (value === 'alreadyExistAddress') {
+        if (router?.query?.origin) {
+          router.replace(router.query.origin as string);
+          return;
+        }
+
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+      }
+    },
+    [router],
+  );
+
+  const handleClickSystemErrorCTA = useCallback(() => {
+    if (router?.query?.origin) {
+      router.replace(router.query.origin as string);
+      return;
+    }
+
     router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
-  const handleGoMyAddress = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-        query: router?.query?.origin ? { origin: router?.query?.origin } : undefined,
+  const handleClickInaccurateAddressDetailCTA = useCallback(() => {
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      query: {
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-    );
+    });
   }, [router]);
 
   const handleClickMultipleItem = useCallback(
@@ -78,23 +101,6 @@ export default memo(() => {
       setSelectedItemID(id);
     },
     [selectedItemID],
-  );
-
-  const handleClosePopup = useCallback(
-    (value: 'alreadyExistAddress' | 'invalidAccess') => {
-      setPopup('');
-
-      if (value === 'alreadyExistAddress') {
-        if (router?.query?.origin && typeof router.query.origin === 'string') {
-          router.replace(router.query.origin);
-          return;
-        }
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
-      } else if (value === 'invalidAccess') {
-        router.replace(`/${Routes.EntryMobile}`);
-      }
-    },
-    [router],
   );
 
   const handleClickMultipleItemCTA = useCallback(
@@ -152,8 +158,23 @@ export default memo(() => {
               mutate();
               toast.success('우리집 등록이 완료 되었습니다!');
 
-              if (router?.query?.origin && typeof router.query.origin === 'string') {
-                router.replace(router.query.origin);
+              if (
+                router?.query?.danjiID &&
+                router?.query?.origin &&
+                (router.query.origin.includes(Routes.DanjiDetail) || router.query.origin.includes(Routes.DanjiListings))
+              ) {
+                router.replace({
+                  pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+                  query: {
+                    ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+                    ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                  },
+                });
+                return;
+              }
+
+              if (router?.query?.origin) {
+                router.replace(router.query.origin as string);
               } else {
                 router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
               }
@@ -167,28 +188,18 @@ export default memo(() => {
 
             setErrorCode('');
 
-            router.replace(
-              {
-                pathname: `/${Routes.EntryMobile}/${Routes.MyAddressAgreement}`,
-                query: router?.query?.origin
-                  ? {
-                      addressData: router.query.addressData as string,
-                      addressDetail: selectedAddress.address_detail,
-                      userAddressID: `${response?.user_address_id}`,
-                      dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                      ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                      origin: router.query.origin,
-                    }
-                  : {
-                      addressData: router.query.addressData as string,
-                      addressDetail: selectedAddress.address_detail,
-                      userAddressID: `${response?.user_address_id}`,
-                      dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                      ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                    },
+            router.replace({
+              pathname: `/${Routes.EntryMobile}/${Routes.MyAddressAgreement}`,
+              query: {
+                ...(router?.query?.origin ? { danjiID: router.query.origin as string } : {}),
+                ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
+                ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
+                ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
+                addressDetail: selectedAddress.address_detail,
+                userAddressID: `${response?.user_address_id}`,
               },
-              `/${Routes.EntryMobile}/${Routes.MyAddressAgreement}`,
-            );
+            });
           }
         }
       }
@@ -197,44 +208,13 @@ export default memo(() => {
   );
 
   const handleClickBack = useCallback(() => {
-    if (
-      errorCode === ErrorCodes.SYSTEM_ERROR_OUTERAPI.toString() ||
-      errorCode === ErrorCodes.SYSTEM_ERROR_OUTERAPI2.toString()
-    ) {
-      if (router?.query?.origin && typeof router.query.origin === 'string') {
-        router.replace(router.query.origin);
-        return;
-      }
-
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+    if (router?.query?.origin) {
+      router.replace(router.query.origin as string);
       return;
     }
 
-    if (errorCode === ErrorCodes.INACCURATE_ADDRESS_DETAIL.toString()) {
-      router.replace(
-        {
-          pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-          query: router?.query?.origin ? { origin: router.query.origin } : undefined,
-        },
-        `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-      );
-      return;
-    }
-
-    if (addressList && addressList.length > 1) {
-      router.replace(
-        {
-          pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
-          query: router?.query?.origin
-            ? { addressData: JSON.stringify(addressData), origin: router.query.origin }
-            : {
-                addressData: JSON.stringify(addressData),
-              },
-        },
-        `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
-      );
-    }
-  }, [addressList, errorCode, router, addressData]);
+    router.back();
+  }, [router]);
 
   useEffect(() => {
     if (!router?.query?.addressData) {
@@ -288,8 +268,8 @@ export default memo(() => {
           ho={ho}
           errorCode={errorCode}
           selectedItemID={selectedItemID}
-          onClickSystemErrorCTA={handleGoMyPage}
-          onClickInaccurateAddressDetailCTA={handleGoMyAddress}
+          onClickSystemErrorCTA={handleClickSystemErrorCTA}
+          onClickInaccurateAddressDetailCTA={handleClickInaccurateAddressDetailCTA}
           onClickMultipleItem={handleClickMultipleItem}
           onClickMultipleItemCTA={handleClickMultipleItemCTA}
         />

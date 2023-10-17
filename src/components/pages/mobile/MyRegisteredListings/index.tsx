@@ -83,7 +83,14 @@ export default memo(() => {
 
   const handleNavigateToListingCreate = () => {
     if (user && user?.hasAddress) {
-      router.push(`/${Routes.EntryMobile}/${Routes.HOG}`);
+      const origin = router.asPath;
+
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+        query: {
+          origin,
+        },
+      });
       return;
     }
     setPopup(true);
@@ -157,6 +164,7 @@ export default memo(() => {
           )}
         </MobileContainer>
       </MobAuthRequired>
+
       {popup && (
         <OverlayPresenter>
           <Popup>

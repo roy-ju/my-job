@@ -5,7 +5,6 @@ import { Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { ListingCreateSummary } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 import getFileFromUrl from '@/utils/getFileFromUrl';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -20,7 +19,6 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const nextRouter = useNextRouter();
 
   const userAddressID = Number(router.query.userAddressID) ?? 0;
   const agentID = Number(router.query.agentID) ?? 0;
@@ -86,6 +84,8 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     if (response?.error_code === ErrorCodes.DUPLICATED_LISTING) {
       setErrorPopup(true);
+
+      return;
     }
 
     setPopup(true);
@@ -112,19 +112,16 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handlePopup = useCallback(() => {
     setPopup(false);
 
-    if (router?.query?.redirect) {
-      nextRouter.replace(router.query.redirect as string);
-      return;
-    }
-
-    if (router?.query?.danjiID && router?.query?.depth1) {
-      nextRouter.replace(`/${router.query.depth1}?danjiID=${router.query.danjiID}`);
-      return;
-    }
-
     if (listingID) {
       router.replace(Routes.ListingDetail, {
-        searchParams: { listingID: `${listingID}` },
+        searchParams: {
+          listingID: `${listingID}`,
+          ...(router.query.danjiID
+            ? {
+                danjiID: router.query.danjiID as string,
+              }
+            : {}),
+        },
         state: {
           ...(router.query.origin
             ? {
@@ -134,12 +131,20 @@ export default memo(({ depth, panelWidth }: Props) => {
         },
       });
     }
-  }, [listingID, nextRouter, router]);
+  }, [listingID, router]);
 
   const handleErrorPopup = useCallback(() => {
     setErrorPopup(false);
 
     router.replace(Routes.MyRegisteredListingList, {
+      searchParams: {
+        ...(router.query.danjiID
+          ? {
+              danjiID: router.query.danjiID as string,
+            }
+          : {}),
+        tab: '1',
+      },
       state: {
         ...(router.query.origin
           ? {

@@ -28,7 +28,12 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [showNoListingsPopup, setShowNoListingsPopup] = useState(false);
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
-  const { list } = useAPI_GetMyAddressList({ activeOnly: true, danjiID: undefined, isFetch });
+
+  const { list } = useAPI_GetMyAddressList({
+    activeOnly: true,
+    danjiID: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
+    isFetch,
+  });
 
   const handleClickItem = useCallback(
     (id: number) => {

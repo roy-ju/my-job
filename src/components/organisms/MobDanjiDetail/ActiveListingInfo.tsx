@@ -102,11 +102,15 @@ export default function ActiveListingInfo({
   );
 
   const handleCreateListing = useCallback(() => {
-    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
-      danji?.danji_id || router?.query?.danjiID || ''
-    }`;
+    const origin = router.asPath;
 
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingSelectAddress}?redirect=${redirectURL}`);
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+      query: {
+        danjiID: `${danji?.danji_id}`,
+        origin,
+      },
+    });
   }, [danji?.danji_id, router]);
 
   const handleCreateSuggest = useCallback(() => {

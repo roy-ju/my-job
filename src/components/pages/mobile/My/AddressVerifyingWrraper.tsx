@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 
 export default function AddressVerifyingWrraper() {
   const router = useRouter();
+
   const { mutate } = useAuth();
 
   const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
@@ -23,11 +24,24 @@ export default function AddressVerifyingWrraper() {
 
   const [popup, setPopup] = useState<'alreadyExistAddress' | 'verifiedCountReachedLimit' | ''>('');
 
+  const handleClosePopup = useCallback(() => {
+    setPopup('');
+
+    if (router?.query?.origin && typeof router.query.origin === 'string') {
+      router.replace(router.query.origin);
+      return;
+    }
+
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+  }, [router]);
+
   const verify = useCallback(async () => {
     const { addressData: inAddressData, dong, ho } = router.query;
 
     if (!inAddressData) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+      router.replace({
+        pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      });
       return;
     }
 
@@ -59,20 +73,14 @@ export default function AddressVerifyingWrraper() {
       router.replace(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.MyAddressVerifyResult}`,
-          query: router?.query?.origin
-            ? {
-                addressData: router.query.addressData as string,
-                errorCode: `${res.error_code}`,
-                dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                origin: router.query.origin,
-              }
-            : {
-                addressData: router.query.addressData as string,
-                errorCode: `${res.error_code}`,
-                dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-              },
+          query: {
+            ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+            ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+            ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
+            ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
+            ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
+            errorCode: `${res.error_code}`,
+          },
         },
         `/${Routes.EntryMobile}/${Routes.MyAddressVerifyResult}`,
       );
@@ -84,20 +92,14 @@ export default function AddressVerifyingWrraper() {
       router.replace(
         {
           pathname: `/${Routes.EntryMobile}/${Routes.MyAddressVerifyResult}`,
-          query: router?.query?.origin
-            ? {
-                addressData: router.query.addressData as string,
-                addressList: encodeURIComponent(JSON.stringify(res.address_list)),
-                dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                origin: router.query.origin,
-              }
-            : {
-                addressData: router.query.addressData as string,
-                errorCode: `${res.error_code}`,
-                dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-              },
+          query: {
+            ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+            ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+            ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
+            ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
+            ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
+            addressList: encodeURIComponent(JSON.stringify(res.address_list)),
+          },
         },
         `/${Routes.EntryMobile}/${Routes.MyAddressVerifyResult}`,
       );
@@ -138,20 +140,14 @@ export default function AddressVerifyingWrraper() {
           router.replace(
             {
               pathname: `/${Routes.EntryMobile}/${Routes.MyAddressVerifyResult}`,
-              query: router?.query?.origin
-                ? {
-                    addressData: router.query.addressData as string,
-                    errorCode: `${ErrorCodes.SYSTEM_ERROR_OUTERAPI}`,
-                    dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                    ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                    origin: router.query.origin,
-                  }
-                : {
-                    addressData: router.query.addressData as string,
-                    errorCode: `${ErrorCodes.SYSTEM_ERROR_OUTERAPI}`,
-                    dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                    ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                  },
+              query: {
+                ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+                ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
+                ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
+                ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
+                errorCode: `${ErrorCodes.SYSTEM_ERROR_OUTERAPI}`,
+              },
             },
             `/${Routes.EntryMobile}/${Routes.MyAddressVerifyResult}`,
           );
@@ -166,8 +162,23 @@ export default function AddressVerifyingWrraper() {
             mutate();
             toast.success('우리집 등록이 완료 되었습니다!');
 
-            if (router?.query?.origin && typeof router.query.origin === 'string') {
-              router.replace(router.query.origin);
+            if (
+              router?.query?.danjiID &&
+              router?.query?.origin &&
+              (router.query.origin.includes(Routes.DanjiDetail) || router.query.origin.includes(Routes.DanjiListings))
+            ) {
+              router.replace({
+                pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+                query: {
+                  ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+                  ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                },
+              });
+              return;
+            }
+
+            if (router?.query?.origin) {
+              router.replace(router.query.origin as string);
             } else {
               router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
             }
@@ -179,47 +190,22 @@ export default function AddressVerifyingWrraper() {
         if (response?.verified === false) {
           await mutate();
 
-          router.replace(
-            {
-              pathname: `/${Routes.EntryMobile}/${Routes.MyAddressAgreement}`,
-              query: router?.query?.origin
-                ? {
-                    addressData: router.query.addressData as string,
-                    userAddressID: `${response?.user_address_id}`,
-                    dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                    ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                    origin: router.query.origin,
-                  }
-                : {
-                    addressData: router.query.addressData as string,
-                    userAddressID: `${response?.user_address_id}`,
-                    dong: dong ? `${(dong as string).replaceAll('동', '')}` : '',
-                    ho: ho ? `${(ho as string).replaceAll('호', '')}` : '',
-                  },
+          router.replace({
+            pathname: `/${Routes.EntryMobile}/${Routes.MyAddressAgreement}`,
+            query: {
+              ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+              ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+              ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
+              ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
+              ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
+              userAddressID: `${response?.user_address_id}`,
             },
-            `/${Routes.EntryMobile}/${Routes.MyAddressAgreement}`,
-          );
+          });
         }
       }
     } else {
-      if (router?.query?.origin && typeof router.query.origin === 'string') {
-        router.replace(router.query.origin);
-        return;
-      }
-
       router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
-  }, [router]);
-
-  const handleClosePopup = useCallback(() => {
-    setPopup('');
-
-    if (router?.query?.origin && typeof router.query.origin === 'string') {
-      router.replace(router.query.origin);
-      return;
-    }
-
-    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
   useEffect(() => {

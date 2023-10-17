@@ -166,7 +166,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
               if (router?.query?.danjiID) {
                 router.replace(Routes.ListingSelectAddress, {
-                  searchParams: { danjiID: router.query.danjID as string },
+                  searchParams: { danjiID: router.query.danjiID as string },
                 });
               } else {
                 nextRouter.replace(`/${Routes.My}?default=2`);

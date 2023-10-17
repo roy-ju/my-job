@@ -606,22 +606,15 @@ export default function useListingCreateForm() {
 
     const encoded = JSON.stringify(params);
 
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateChooseAgent}`,
-        query: {
-          params: encoded,
-          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-          userAddressID: router?.query?.userAddressID as string,
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateChooseAgent}`,
+      query: {
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        params: encoded,
+        userAddressID: router?.query?.userAddressID as string,
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateChooseAgent}?danjiID=${
-        router?.query?.danjiID ? (router.query.danjiID as string) : ''
-      }&userAddressID=${router?.query?.userAddressID as string}&redirect=${
-        router?.query?.redirect ? (router.query.redirect as string) : ''
-      }`,
-    );
+    });
   }, [
     buyOrRent,
     price,
@@ -658,18 +651,13 @@ export default function useListingCreateForm() {
   }, []);
 
   const handleClickBack = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
-        query: {
-          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+      query: {
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}?danjiID=${
-        router?.query?.danjiID ? (router.query.danjiID as string) : ''
-      }&redirect=${router?.query?.redirect ? (router.query.redirect as string) : ''}`,
-    );
+    });
   }, [router]);
 
   const handleClickNext = useCallback(() => {
@@ -1579,10 +1567,10 @@ export default function useListingCreateForm() {
     // Popup actions
     popup,
     closePopup,
-    
+
     errPopup,
     closeErrPopup,
-    
+
     openBackPopup,
     handleConfirmChangeBuyOrRent,
   };
