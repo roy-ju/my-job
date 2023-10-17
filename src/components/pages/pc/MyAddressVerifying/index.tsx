@@ -181,12 +181,11 @@ export default memo(({ depth, panelWidth }: Props) => {
         }
 
         if (response?.verified === true) {
-          await setVerifyStatus(MyVerifyStatus.Success);
+          setVerifyStatus(MyVerifyStatus.Success);
+          mutate();
+          toast.success('우리집 등록이 완료 되었습니다!');
 
           setTimeout(() => {
-            mutate();
-            toast.success('우리집 등록이 완료 되었습니다!');
-
             if (router?.query?.danjiID) {
               router.replace(Routes.ListingSelectAddress, {
                 searchParams: { danjiID: router.query.danjiID as string },
