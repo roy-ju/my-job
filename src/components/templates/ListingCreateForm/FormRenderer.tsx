@@ -143,6 +143,7 @@ export default function FormRenderer({ form }: Props) {
           <Form.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
         </div>
       );
+
     case Forms.Price:
       return (
         <div id={Forms.Price} tw="px-5 py-10">

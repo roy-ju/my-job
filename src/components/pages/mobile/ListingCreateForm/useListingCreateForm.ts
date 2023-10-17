@@ -1053,6 +1053,8 @@ export default function useListingCreateForm() {
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
 
+    if (currentForm === Forms.BuyOrRent) return;
+
     setTimeout(() => {
       const formContainer = document.getElementById('formContainer');
       const formElement = document.getElementById(currentForm);
@@ -1062,6 +1064,7 @@ export default function useListingCreateForm() {
       if (formElement) {
         formElement.style.minHeight = `${containerHeight}px`;
         const prevForm = forms[forms.length - 2];
+        
         if (prevForm) {
           const prevFormElement = document.getElementById(prevForm);
           if (prevFormElement) {

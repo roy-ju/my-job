@@ -134,10 +134,11 @@ const ListingCreateForm = () => {
 
   useEffect(() => {
     const currentForm = forms[forms.length - 1];
-    if (currentForm === Forms.BuyOrRent) {
+
+    if (currentForm === Forms.BuyOrRent && !router?.query?.isBack) {
       setIsCoachVisible(true);
     }
-  }, [forms]);
+  }, [forms, router]);
 
   useEffect(() => {
     if (!router.query.userAddressID) {

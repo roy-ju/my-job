@@ -54,6 +54,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         userAddressID: router?.query?.userAddressID as string,
       },
       state: {
+        isBack: 'true',
         params: router.query.params as string,
         ...(router.query.origin
           ? {
