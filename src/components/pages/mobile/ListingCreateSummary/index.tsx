@@ -88,17 +88,16 @@ const ListingCreateSummary = () => {
   }, [params, userAddressID, agentID]);
 
   const onClickUpdate = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
-        query: {
-          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-          userAddressID: router?.query?.userAddressID as string,
-          params: router.query.params as string,
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
+      query: {
+        params: router.query.params as string,
+        isBack: 'true',
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateForm}?userAddressID=${router?.query?.userAddressID as string}`,
-    );
+    });
   }, [router]);
 
   const handlePopup = useCallback(() => {

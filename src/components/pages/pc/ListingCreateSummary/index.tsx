@@ -99,6 +99,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
       },
       state: {
+        isBack: 'true',
         params: router.query.params as string,
         ...(router.query.origin
           ? {

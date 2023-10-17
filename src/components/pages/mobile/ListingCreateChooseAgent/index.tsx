@@ -51,6 +51,7 @@ const ListingCreateChooseAgent = () => {
         ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
         ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
         ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
+        isBack: 'true',
       },
     });
   }, [router]);
