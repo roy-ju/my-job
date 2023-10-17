@@ -76,14 +76,14 @@ export default memo(() => {
     setShowGuidePopup(false);
   }, []);
 
-  const handleCloseNoDanjiOwnerPopup = useCallback(() => {
+  const handleCloseNoDanjiOwnerPopup = useCallback(async () => {
+    await handleClickBack();
     setShowNoDanjiOwnerPopup(false);
-    handleClickBack();
   }, [handleClickBack]);
 
-  const handleCloseNoListingsPopup = useCallback(() => {
+  const handleCloseNoListingsPopup = useCallback(async () => {
+    await handleClickBack();
     setShowNoListingsPopup(false);
-    handleClickBack();
   }, [handleClickBack]);
 
   const handleClickAddMyAddress = useCallback(() => {
@@ -106,7 +106,7 @@ export default memo(() => {
       }
 
       if (res?.has_user_address === true && res?.can_create_listing === false) {
-        setShowNoDanjiOwnerPopup(true);
+        setShowNoListingsPopup(true);
         return;
       }
 
