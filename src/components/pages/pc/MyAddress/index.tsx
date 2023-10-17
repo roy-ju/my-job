@@ -16,7 +16,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
       router.replace(Routes.MyAddressDetail, {
-        searchParams: router?.query?.redirect ? { redirect: router.query.redirect as string } : undefined,
+        searchParams: {
+          ...(router?.query?.redirect ? { redirect: router.query.redirect as string } : {}),
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        },
         state: {
           addressData: JSON.stringify(value),
           ...(router.query.origin
@@ -25,6 +28,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               }
             : {}),
         },
+        persistParams: true,
       });
     },
     [router],
@@ -32,12 +36,18 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickBack = useCallback(() => {
     if (router?.query?.origin && typeof router.query.origin === 'string') {
-      router.replace(router.query.origin, { state: { origin: router.query.origin } });
+      router.replace(router.query.origin, {
+        searchParams: router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {},
+        state: { origin: router.query.origin },
+      });
       return;
     }
 
     if (router?.query?.redirect && typeof router.query.redirect === 'string') {
-      router.replace(router.query.redirect, { state: { redirect: router.query.redirect } });
+      router.replace(router.query.redirect, {
+        searchParams: router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {},
+        state: { redirect: router.query.redirect },
+      });
     }
   }, [router]);
 

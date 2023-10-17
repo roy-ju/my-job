@@ -47,7 +47,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     });
   };
   const handleNavigateToDanjiRecommendation = () => {
-    router.replace(Routes.DanjiRecommendation, {
+    router.replace(Routes.Map, {
       searchParams: { back: router.asPath },
     });
   };

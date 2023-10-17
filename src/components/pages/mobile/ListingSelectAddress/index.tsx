@@ -12,7 +12,9 @@ export default memo(() => {
 
   const { user, isLoading: userIsLoading } = useAuth();
 
-  const { list, isLoading } = useAPI_GetMyAddressList(true);
+  const [isFetch, setIsFetch] = useState<boolean>(false);
+
+  const { list, isLoading } = useAPI_GetMyAddressList({ activeOnly: true, danjiID: undefined, isFetch });
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
   const [showInActivePopup, setShowInActivePopup] = useState(false);
 
@@ -44,9 +46,21 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}`);
   }, [router]);
 
-  const handleClickAddMyAddress = () => {
+  const handleClickAddMyAddress = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
-  };
+  }, [router]);
+
+  const handleClickBack = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
+    }
+  }, [router]);
 
   useEffect(() => {
     if (!userIsLoading && user && user?.hasAddress === false) {
@@ -65,6 +79,7 @@ export default memo(() => {
           ) : (
             <ListingSelectAddress
               list={list}
+              onClickBack={handleClickBack}
               selectedUserAddressID={selectedUserAddressID}
               onClickNext={handleNext}
               onClickItem={handleClickItem}

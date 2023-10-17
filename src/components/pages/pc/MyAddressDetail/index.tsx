@@ -43,7 +43,10 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleSubmit = useCallback(() => {
     router.replace(Routes.MyAddressVerifying, {
-      searchParams: router?.query?.redirect ? { redirect: router.query.redirect as string } : undefined,
+      searchParams: {
+        ...(router?.query?.redirect ? { redirect: router.query.redirect as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+      },
       state: {
         addressData: router.query.addressData as string,
         dong,
@@ -59,7 +62,15 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleBack = useCallback(() => {
     router.replace(Routes.MyAddress, {
+      searchParams: {
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+      },
       state: {
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
         ...(router.query.origin
           ? {
               origin: router.query.origin as string,
@@ -73,6 +84,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     const { addressData: inAddressData } = router.query;
     if (!inAddressData) {
       router.replace(Routes.MyAddress, {
+        searchParams: {
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        },
         state: {
           ...(router.query.origin
             ? {

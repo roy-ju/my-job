@@ -14,12 +14,18 @@ export interface GetMyAddressListResponse {
   list: MyAddressListListItem[] | null;
 }
 
-export default function useAPI_GetMyAddressList(activeOnly = false) {
+export type Req = {
+  activeOnly?: boolean;
+  danjiID?: number | null;
+  isFetch?: boolean;
+};
+
+export default function useAPI_GetMyAddressList({ activeOnly = false, danjiID = null, isFetch }: Req) {
   const { user } = useAuth();
 
   const { data, isLoading, mutate } = useSWR<GetMyAddressListResponse>(
-    user?.hasAddress || user?.hasNotVerifiedAddress
-      ? [`/my/address/list`, { acitve_only: activeOnly || undefined }]
+    (user?.hasAddress || user?.hasNotVerifiedAddress) && isFetch
+      ? [`/my/address/list`, { active_only: activeOnly || undefined, danji_id: danjiID || undefined }]
       : null,
   );
 

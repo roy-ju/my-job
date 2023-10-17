@@ -107,7 +107,6 @@ export { default as MobReactivate } from './MobReactivate';
 export { default as MobRegister } from './MobRegister';
 export { default as MobRegisterSuccess } from './MobRegisterSuccess';
 export { default as MobUpdatePhone } from './MobUpdatePhone';
-export { default as MobMy } from './MobMy';
 export { default as MobMyDetail } from './MobMyDetail';
 export { default as MobMyAddress } from './MobMyAddress';
 export { default as MobMyAddressDetail } from './MobMyAddressDetail';

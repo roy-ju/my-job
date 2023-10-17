@@ -64,12 +64,22 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, []);
 
   const handleGoMyPage = useCallback(() => {
-    nextRouter.replace(`/${Routes.My}?default=2`);
-  }, [nextRouter]);
+    if (router?.query?.danjiID) {
+      router.pop();
+    } else {
+      nextRouter.replace(`/${Routes.My}?default=2`);
+    }
+  }, [nextRouter, router]);
 
   const handleGoMyAddress = useCallback(() => {
-    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}?default=2`);
-  }, [nextRouter]);
+    if (router?.query?.danjiID) {
+      router.replace(Routes.MyAddress, {
+        searchParams: { danjiID: router.query.danjiID as string },
+      });
+    } else {
+      nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}?default=2`);
+    }
+  }, [nextRouter, router]);
 
   const handleClickMultipleItem = useCallback(
     (id?: string) => {
@@ -87,12 +97,16 @@ export default memo(({ depth, panelWidth }: Props) => {
       setPopup('');
 
       if (value === 'alreadyExistAddress') {
-        nextRouter.replace(`/${Routes.My}/${Routes.MyRegisteredHomes}?tab=2`);
+        if (router?.query?.danjiID) {
+          router.pop();
+        } else {
+          nextRouter.replace(`/${Routes.My}/${Routes.MyRegisteredHomes}?tab=2`);
+        }
       } else if (value === 'invalidAccess') {
         nextRouter.replace(`/`);
       }
     },
-    [nextRouter],
+    [nextRouter, router],
   );
 
   const handleClickMultipleItemCTA = useCallback(
@@ -149,7 +163,14 @@ export default memo(({ depth, panelWidth }: Props) => {
             setTimeout(() => {
               mutate();
               toast.success('우리집 등록이 완료 되었습니다!');
-              nextRouter.replace(`/${Routes.My}?default=2`);
+
+              if (router?.query?.danjiID) {
+                router.replace(Routes.ListingSelectAddress, {
+                  searchParams: { danjiID: router.query.danjID as string },
+                });
+              } else {
+                nextRouter.replace(`/${Routes.My}?default=2`);
+              }
             }, 1000);
 
             return;
@@ -161,6 +182,9 @@ export default memo(({ depth, panelWidth }: Props) => {
             setErrorCode('');
 
             router.replace(Routes.MyAddressAgreement, {
+              searchParams: {
+                ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+              },
               state: {
                 addressData: router.query.addressData as string,
                 addressDetail: selectedAddress.address_detail,
