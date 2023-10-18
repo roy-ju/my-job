@@ -5,7 +5,8 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import Routes from '@/router/routes';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { useAuth } from '@/hooks/services';
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 import useMyRegisteredListings from './useMyRegisteredListings';
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const { user } = useAuth();
+  const { data: userData } = useAPI_GetUserInfo();
 
   const {
     myRegisteringListingCount,
@@ -53,6 +54,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
+  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
   useEffect(() => {
     if (router.query.tab) {
@@ -87,13 +89,45 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   };
 
-  const handleNavigateToListingCreate = () => {
-    if (user?.hasAddress) {
-      router.replace(Routes.ListingSelectAddress);
+  const handleNavigateToListingCreate = async () => {
+    if (!userData) {
+      router.replace(Routes.Login, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}` },
+      });
+
       return;
     }
 
-    setOpenVerificationAddressPopup(true);
+    if (!userData.is_verified) {
+      router.replace(Routes.VerifyCi, {
+        persistParams: true,
+        searchParams: { redirect: `${router.asPath}` },
+      });
+      return;
+    }
+
+    if (!userData?.has_address) {
+      setOpenVerificationAddressPopup(true);
+      return;
+    }
+
+    if (userData?.has_address) {
+      const res = await listingEligibilityCheck({ danji_id: null });
+
+      if (res && !res?.is_eligible) {
+        setOpenNeedMoreVerificationAddressPopup(true);
+        return;
+      }
+
+      if (res && res?.is_eligible) {
+        router.replace(Routes.ListingSelectAddress, {
+          searchParams: {
+            origin: router.asPath,
+          },
+        });
+      }
+    }
   };
 
   const handleNavigateToListingDetailPassed = (listingId: number) => () => {
@@ -170,6 +204,33 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setOpenVerificationAddressPopup(false);
+                  router.replace(Routes.MyAddress, { searchParams: { origin: router.asPath } });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openNeedMoreVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                추가로 매물등록이 가능한 우리집 정보가 없습니다.
+                <br />
+                우리집을 추가 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenNeedMoreVerificationAddressPopup(false);
                   router.replace(Routes.MyAddress, { searchParams: { origin: router.asPath } });
                 }}
               >

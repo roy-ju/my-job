@@ -96,7 +96,6 @@ export default memo(({ depth, panelWidth }: Props) => {
       searchParams: {
         danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
         userAddressID: router?.query?.userAddressID as string,
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
       },
       state: {
         isBack: 'true',

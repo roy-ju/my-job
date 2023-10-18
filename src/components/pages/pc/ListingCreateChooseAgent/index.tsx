@@ -49,9 +49,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickBack = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
-        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        userAddressID: router?.query?.userAddressID as string,
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
       },
       state: {
         isBack: 'true',
@@ -70,10 +69,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     router.replace(Routes.ListingCreateSummary, {
       searchParams: {
-        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        userAddressID: router?.query?.userAddressID as string,
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
         agentID: `${agentId}`,
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
       },
       state: {
         params: router.query.params as string,

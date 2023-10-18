@@ -1,4 +1,3 @@
-import danjiUserAddressCheck from '@/apis/danji/danjiUserAddressCheck';
 import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
@@ -16,8 +15,6 @@ export default memo(() => {
   const [showGuidePopup, setShowGuidePopup] = useState(false);
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
   const [showInActivePopup, setShowInActivePopup] = useState(false);
-  const [showNoDanjiOwnerPopup, setShowNoDanjiOwnerPopup] = useState(false);
-  const [showNoListingsPopup, setShowNoListingsPopup] = useState(false);
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
@@ -25,6 +22,7 @@ export default memo(() => {
     activeOnly: true,
     danjiID: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     isFetch,
+    exclude_duplicated_listing: true,
   });
 
   const handleClickItem = useCallback(
@@ -76,16 +74,6 @@ export default memo(() => {
     setShowGuidePopup(false);
   }, []);
 
-  const handleCloseNoDanjiOwnerPopup = useCallback(async () => {
-    await handleClickBack();
-    setShowNoDanjiOwnerPopup(false);
-  }, [handleClickBack]);
-
-  const handleCloseNoListingsPopup = useCallback(async () => {
-    await handleClickBack();
-    setShowNoListingsPopup(false);
-  }, [handleClickBack]);
-
   const handleClickAddMyAddress = useCallback(() => {
     router.replace({
       pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
@@ -97,46 +85,26 @@ export default memo(() => {
   }, [router]);
 
   useEffect(() => {
-    async function checkEligibleDanjiListingOwner(danjiID: number) {
-      const res = await danjiUserAddressCheck({ danji_id: danjiID });
-
-      if (res?.has_user_address === false) {
-        setShowNoDanjiOwnerPopup(true);
-        return;
-      }
-
-      if (res?.has_user_address === true && res?.can_create_listing === false) {
-        setShowNoListingsPopup(true);
-        return;
-      }
-
-      setIsFetch(true);
-      setShowGuidePopup(true);
-    }
-
-    if (!router?.query?.danjiID && user && user?.hasAddress === false) {
+    if (user && !user.hasAddress) {
       setShowInActivePopup(true);
       return;
     }
 
-    if (!router?.query?.danjiID && user && user?.hasAddress === true) {
-      setIsFetch(true);
-      setShowGuidePopup(true);
-      return;
-    }
-
-    if (router?.query?.danjiID && user) {
-      const di = Number(router.query.danjiID);
-
-      checkEligibleDanjiListingOwner(di);
-    }
+    setIsFetch(true);
   }, [user, router]);
+
+  useEffect(() => {
+    if (list && list?.length > 0) {
+      setShowGuidePopup(true);
+    }
+  }, [list]);
+
   return (
     <MobAuthRequired ciRequired>
       <MobileContainer>
         {showGuidePopup && <MobHog onClickBack={handleClickBack} onClickListingCreate={handleCloseGuidePopup} />}
 
-        {!showInActivePopup && !showNoDanjiOwnerPopup && !showNoListingsPopup && !showGuidePopup && (
+        {!showInActivePopup && !showGuidePopup && (
           <SelectAddressTemplate
             type="listing"
             list={list}
@@ -160,42 +128,6 @@ export default memo(() => {
               </Popup.ContentGroup>
               <Popup.ButtonGroup>
                 <Popup.ActionButton onClick={handleClickHome}>네고시오 홈으로 돌아가기</Popup.ActionButton>
-              </Popup.ButtonGroup>
-            </Popup>
-          </OverlayPresenter>
-        )}
-
-        {showNoDanjiOwnerPopup && (
-          <OverlayPresenter>
-            <Popup>
-              <Popup.ContentGroup tw="py-6">
-                <Popup.SubTitle tw="text-center">
-                  이 단지의 집주인만 매물등록이 가능합니다.
-                  <br />
-                  우리집을 인증하시겠습니까?
-                </Popup.SubTitle>
-              </Popup.ContentGroup>
-              <Popup.ButtonGroup>
-                <Popup.CancelButton onClick={handleCloseNoDanjiOwnerPopup}>취소</Popup.CancelButton>
-                <Popup.ActionButton onClick={handleClickAddMyAddress}>인증하기</Popup.ActionButton>
-              </Popup.ButtonGroup>
-            </Popup>
-          </OverlayPresenter>
-        )}
-
-        {showNoListingsPopup && (
-          <OverlayPresenter>
-            <Popup>
-              <Popup.ContentGroup tw="py-6">
-                <Popup.SubTitle tw="text-center">
-                  추가로 매물등록이 가능한 우리집 정보가 없습니다.
-                  <br />
-                  우리집을 추가 인증하시겠습니까?
-                </Popup.SubTitle>
-              </Popup.ContentGroup>
-              <Popup.ButtonGroup>
-                <Popup.CancelButton onClick={handleCloseNoListingsPopup}>취소</Popup.CancelButton>
-                <Popup.ActionButton onClick={handleClickAddMyAddress}>인증하기</Popup.ActionButton>
               </Popup.ButtonGroup>
             </Popup>
           </OverlayPresenter>
