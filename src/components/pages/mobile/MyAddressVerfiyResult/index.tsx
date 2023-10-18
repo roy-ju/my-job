@@ -62,11 +62,6 @@ export default memo(() => {
       if (value === 'invalidAccess') {
         router.replace(`/${Routes.EntryMobile}`);
       } else if (value === 'alreadyExistAddress') {
-        if (router?.query?.origin) {
-          router.replace(router.query.origin as string);
-          return;
-        }
-
         router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
       }
     },
@@ -88,6 +83,7 @@ export default memo(() => {
       query: {
         ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
         ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}),
       },
     });
   }, [router]);
@@ -208,12 +204,7 @@ export default memo(() => {
   );
 
   const handleClickBack = useCallback(() => {
-    if (router?.query?.origin) {
-      router.replace(router.query.origin as string);
-      return;
-    }
-
-    router.back();
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
   useEffect(() => {

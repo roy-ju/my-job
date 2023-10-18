@@ -44,6 +44,7 @@ export default function AddressDetailWrraper() {
         ...(ho ? { ho: ho as string } : {}),
         ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
         ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}),
       },
     });
   }, [router, dong, ho]);
@@ -54,6 +55,7 @@ export default function AddressDetailWrraper() {
       query: {
         ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
         ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}),
       },
     });
   }, [router]);

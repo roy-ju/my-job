@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import getAgentList from '@/apis/listing/getAgentList';
-
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { ListingCreateChooseAgent as ListingCreateChooseAgentTemplate } from '@/components/templates';
 import { useRouter } from 'next/router';

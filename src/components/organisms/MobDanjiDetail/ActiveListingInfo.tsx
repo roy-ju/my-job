@@ -147,6 +147,7 @@ export default function ActiveListingInfo({
           pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
           query: {
             origin: router.asPath,
+            ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
           },
         });
       }
@@ -397,6 +398,7 @@ export default function ActiveListingInfo({
                     pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
                     query: {
                       origin: router.asPath,
+                      ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
                     },
                   });
                 }}
@@ -429,6 +431,7 @@ export default function ActiveListingInfo({
                     pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
                     query: {
                       origin: router.asPath,
+                      ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
                     },
                   });
                 }}

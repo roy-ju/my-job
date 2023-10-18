@@ -98,7 +98,10 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
   }, [data?.danji_id, router, suggestID, userData]);
 
   const handleAddressApplyPopupCTA = useCallback(() => {
-    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`, query: { origin: router.asPath } });
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      query: { origin: router.asPath, ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}) },
+    });
   }, [router]);
 
   const handleMutate = useCallback(() => {

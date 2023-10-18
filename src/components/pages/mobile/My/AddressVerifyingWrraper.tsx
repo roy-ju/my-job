@@ -27,11 +27,6 @@ export default function AddressVerifyingWrraper() {
   const handleClosePopup = useCallback(() => {
     setPopup('');
 
-    if (router?.query?.origin && typeof router.query.origin === 'string') {
-      router.replace(router.query.origin);
-      return;
-    }
-
     router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   }, [router]);
 
@@ -76,6 +71,7 @@ export default function AddressVerifyingWrraper() {
           query: {
             ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
             ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+            ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}),
             ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
             ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
             ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
@@ -95,6 +91,7 @@ export default function AddressVerifyingWrraper() {
           query: {
             ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
             ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+            ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}),
             ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
             ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
             ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
@@ -143,6 +140,7 @@ export default function AddressVerifyingWrraper() {
               query: {
                 ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
                 ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}),
                 ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
                 ...(dong ? { dong: `${(dong as string).replaceAll('동', '')}` } : {}),
                 ...(ho ? { ho: `${(ho as string).replaceAll('호', '')}` } : {}),
@@ -162,26 +160,7 @@ export default function AddressVerifyingWrraper() {
             mutate();
             toast.success('우리집 등록이 완료 되었습니다!');
 
-            if (
-              router?.query?.danjiID &&
-              router?.query?.origin &&
-              (router.query.origin.includes(Routes.DanjiDetail) || router.query.origin.includes(Routes.DanjiListings))
-            ) {
-              router.replace({
-                pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
-                query: {
-                  ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
-                  ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
-                },
-              });
-              return;
-            }
-
-            if (router?.query?.origin) {
-              router.replace(router.query.origin as string);
-            } else {
-              router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
-            }
+            router.replace(`/${Routes.EntryMobile}/${Routes.MyRegisteredHomes}`);
           }, 1000);
 
           return;

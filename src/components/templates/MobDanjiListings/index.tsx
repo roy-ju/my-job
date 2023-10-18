@@ -85,6 +85,7 @@ export default function MobDanjiListings({
           pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
           query: {
             origin: router.asPath,
+            ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
           },
         });
       }

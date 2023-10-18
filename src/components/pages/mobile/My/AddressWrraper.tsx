@@ -17,6 +17,7 @@ export default function AddressWrraper() {
             ...{ addressData: JSON.stringify(value) },
             ...(router?.query?.origin ? { origin: router?.query?.origin as string } : {}),
             ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID as string } : {}),
+            ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}),
           },
         },
         `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
