@@ -7,7 +7,6 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
 import { SuggestStatus } from '@/constants/enums';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -22,20 +21,19 @@ interface Props {
 
 export default memo(({ panelWidth, depth, ipAddress }: Props) => {
   const router = useRouter(depth);
-  const nextRouter = useNextRouter();
-
-  const { data: userData } = useAPI_GetUserInfo();
-
-  const [addressApplyPopup, setAddressApplyPopup] = useState(false);
 
   const suggestID = useMemo(
     () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
     [router.query.suggestID],
   );
 
+  const { data: userData } = useAPI_GetUserInfo();
+
   const { data, isLoading, mutate: detailMutate } = useAPI_GetSuggestDetail(suggestID);
 
   const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
+
+  const [needVerifyAddressPopup, setNeedVerifyAddressPopup] = useState(false);
 
   const disabledCTA = useMemo(() => {
     if (data?.suggest_status === SuggestStatus.Active) return false;
@@ -66,33 +64,40 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
     }
 
     if (data?.danji_id) {
-      const response = await suggestRecommendEligibility({ danji_id: data.danji_id });
+      const res = await suggestRecommendEligibility({ danji_id: data.danji_id });
 
-      if (response && !response?.is_eligible) {
-        setAddressApplyPopup(true);
+      if (res && !res?.is_eligible) {
+        setNeedVerifyAddressPopup(true);
         return;
       }
 
-      if (response && response?.is_eligible) {
-        router.replace(Routes.SuggestListingForm, {
-          searchParams: data?.danji_id
-            ? { danjiID: `${data.danji_id}`, suggestID: `${suggestID}` }
-            : { suggestID: `${suggestID}` },
+      if (res && res?.is_eligible) {
+        router.replace(Routes.SuggestSelectAddress, {
+          searchParams: {
+            origin: router.asPath,
+            suggestID: `${suggestID}`,
+            ...(data.danji_id ? { danjiID: `${data.danji_id}` } : {}),
+          },
         });
       }
     }
   }, [data?.danji_id, router, suggestID, userData]);
 
-  const handleAddressApplyPopupCTA = useCallback(() => {
-    nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}`);
-  }, [nextRouter]);
-
   const handleMutate = useCallback(() => {
     mutate();
   }, [mutate]);
 
-  const closePopup = useCallback(() => {
-    setAddressApplyPopup(false);
+  const needVerifyAddressPopupCTA = useCallback(() => {
+    router.replace(Routes.MyAddress, {
+      searchParams: {
+        suggestID: `${suggestID}`,
+        ...(data?.danji_id ? { danjiID: `${data.danji_id}` } : {}),
+      },
+    });
+  }, [data, router, suggestID]);
+
+  const closeNeedVerifyAddressPopup = useCallback(() => {
+    setNeedVerifyAddressPopup(false);
   }, []);
 
   async function handleSuggestView() {
@@ -133,25 +138,25 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
             onMutate={handleMutate}
           />
         ) : null}
-      </Panel>
 
-      {addressApplyPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SmallTitle>
-                이 단지의 집주인만 매물추천이 가능합니다.
-                <br />
-                우리집 등록하고 집주인 인증하러 가시겠습니까?
-              </Popup.SmallTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={closePopup}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>집주인 인증하기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+        {needVerifyAddressPopup && (
+          <OverlayPresenter>
+            <Popup>
+              <Popup.ContentGroup tw="[text-align: center]">
+                <Popup.SmallTitle>
+                  이 단지의 집주인만 매물추천이 가능합니다.
+                  <br />
+                  우리집 등록하고 집주인 인증하러 가시겠습니까?
+                </Popup.SmallTitle>
+              </Popup.ContentGroup>
+              <Popup.ButtonGroup>
+                <Popup.CancelButton onClick={closeNeedVerifyAddressPopup}>닫기</Popup.CancelButton>
+                <Popup.ActionButton onClick={needVerifyAddressPopupCTA}>집주인 인증하기</Popup.ActionButton>
+              </Popup.ButtonGroup>
+            </Popup>
+          </OverlayPresenter>
+        )}
+      </Panel>
     </>
   );
 });

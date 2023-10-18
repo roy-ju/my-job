@@ -11,7 +11,6 @@ const DirectionList = ['동', '서', '남', '북', '남동', '남서', '북서',
 
 interface Props {
   address?: string;
-  onChangeAddress?: (val: string) => void;
 
   buyOrRent?: number;
   onChangeBuyOrRent?: (val: number | undefined) => void;
@@ -39,8 +38,7 @@ interface Props {
 }
 
 export default function SuggestForm({
-  address: addressProp,
-  onChangeAddress,
+  address,
 
   buyOrRent,
   onChangeBuyOrRent,
@@ -66,11 +64,6 @@ export default function SuggestForm({
   description: descriptionProp,
   onChangeDescription,
 }: Props) {
-  const [address, setAddress] = useControlled({
-    controlled: addressProp,
-    default: '',
-  });
-
   const [tradePrice, setTradePrice] = useControlled({
     controlled: tradePriceProp,
     default: '',
@@ -116,25 +109,7 @@ export default function SuggestForm({
       <h2 tw="mb-1 text-info text-gray-700">단지의 경우 상세한 주소는 동까지만 공개해주시는 것이 좋아요.</h2>
 
       <TextField variant="outlined" tw="mt-4">
-        <TextField.Input
-          label="매물 주소"
-          value={address || ''}
-          onChange={(e) => {
-            setAddress(e.target.value as string);
-            onChangeAddress?.(e.target.value as string);
-          }}
-        />
-        {address && (
-          <TextField.Trailing
-            tw="absolute right-1.5 bottom-3 cursor-pointer"
-            onClick={() => {
-              setAddress('');
-              onChangeAddress?.('');
-            }}
-          >
-            <CloseContained />
-          </TextField.Trailing>
-        )}
+        <TextField.Input label="매물 주소" readOnly value={address || ''} disabled />
       </TextField>
 
       <div tw="mt-10">

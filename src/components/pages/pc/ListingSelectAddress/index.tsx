@@ -51,9 +51,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
-        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
         userAddressID: `${selectedUserAddressID}`,
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.redirect ? { danjiID: router.query.redirect as string } : {}),
       },
     });
   }, [router, selectedUserAddressID]);
@@ -78,7 +78,9 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickAddMyAddress = () => {
     router.replace(Routes.MyAddress, {
-      searchParams: router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {},
+      searchParams: {
+        ...(router?.query?.danjiID ? { origin: router.asPath, danjiID: router.query.danjiID as string } : {}),
+      },
     });
   };
 
@@ -100,17 +102,20 @@ export default memo(({ depth, panelWidth }: Props) => {
       setShowGuidePopup(true);
     }
 
-    if (!router?.query?.danjiID && user && user?.hasAddress === false) {
+    // 유저는 존재하는데 집주소 등록된게 없으면 직접적으로 url을 쳐서 들어온 케이스
+    if (user && !router?.query?.danjiID && user?.hasAddress === false) {
       setShowInActivePopup(true);
       return;
     }
 
-    if (!router?.query?.danjiID && user && user?.hasAddress === true) {
+    // 유저는 존재하는데 집주소 등록된게 있고 단지 ID가 없을때 단지를 통해 들어온 케이스가 아닐때
+    if (user && !router?.query?.danjiID && user?.hasAddress === true) {
       setIsFetch(true);
       setShowGuidePopup(true);
       return;
     }
 
+    // 유저는 존재하는데 집주소 등록된게 있고 단지 ID가 있을때 단지를 통해 들어온 케이스 일떄
     if (router?.query?.danjiID && user) {
       const di = Number(router.query.danjiID);
 
