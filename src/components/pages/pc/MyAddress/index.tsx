@@ -19,6 +19,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         searchParams: {
           ...(router?.query?.redirect ? { redirect: router.query.redirect as string } : {}),
           ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+          ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
         },
         state: {
           addressData: JSON.stringify(value),

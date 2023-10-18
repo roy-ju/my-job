@@ -10,6 +10,7 @@ import { cloneDeep } from 'lodash';
 import dynamic from 'next/dynamic';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
 import tw, { styled } from 'twin.macro';
+import { v4 as uuid4 } from 'uuid';
 import NoDataTypeOne from './NoData';
 import ConvertArrayToSubwayComponent from './SubwayFormatComponent';
 
@@ -284,7 +285,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                   : tw`[border-bottom: 1px solid #F4F6FA] px-4 py-[8.5px]`,
               ]}
               id={item.id}
-              key={item.id}
+              key={`${item.id}-${uuid4()}`}
               onClick={() => {
                 if (typeof item.x === 'string' && typeof item.x === 'string') {
                   handleClickBtn(item.address_name, item.place_name, item.x, item.y);

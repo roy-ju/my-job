@@ -3,6 +3,8 @@ import axios from '@/lib/axios';
 type SuggestRecommendRes = null | ErrorResponse;
 
 type SuggetRecommendReq = {
+  user_address_id: number;
+  
   suggest_id: number;
   address_free_text: string;
   buy_or_rent: number;

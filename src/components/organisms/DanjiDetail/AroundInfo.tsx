@@ -11,6 +11,7 @@ import { cloneDeep } from 'lodash';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import tw from 'twin.macro';
+import { v4 as uuid4 } from 'uuid';
 import NoDataTypeOne from './NoData';
 import ConvertArrayToSubwayComponent from './SubwayFormatComponent';
 
@@ -365,7 +366,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
                 interactionState.around && tw`cursor-pointer`,
               ]}
               id={item.id}
-              key={item.id}
+              key={`${item.id}-${uuid4()}`}
               onClick={() => {
                 if (!interactionState.around) {
                   interactionStore.makeAroundOn();

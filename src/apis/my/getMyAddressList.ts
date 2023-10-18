@@ -8,6 +8,7 @@ export type MyAddressListListItem = {
   danji_name: string;
   dong: string;
   ho: string;
+  floor?: string | null;
 };
 
 export interface GetMyAddressListResponse {

@@ -325,6 +325,10 @@ const SuggestRecommendedList = dynamic(() => import('@/components/pages/pc/Sugge
   ssr: false,
   loading: FallbackComponent,
 });
+const SuggestSelectAddress = dynamic(() => import('@/components/pages/pc/SuggestSelectAddress'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const SuggestListingForm = dynamic(() => import('@/components/pages/pc/SuggestListingForm'), {
   ssr: false,
   loading: FallbackComponent,
@@ -512,9 +516,11 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     case Routes.ServiceTerms: {
       return <ServiceTerms {...props} />;
     }
+
     case Routes.PrivacyPolicy: {
       return <PrivacyPolicy {...props} />;
     }
+
     case Routes.LocationTerms: {
       return <LocationTerms {...props} />;
     }
@@ -708,6 +714,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.MySuggestDetail: {
       return <MySuggestDetail key={`${query.suggestID}`} {...props} />;
+    }
+
+    case Routes.SuggestSelectAddress: {
+      return <SuggestSelectAddress key={`${query.suggestID}`} {...props} />;
     }
 
     case Routes.SuggestDetail: {
