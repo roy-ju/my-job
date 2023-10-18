@@ -148,8 +148,8 @@ const ListingCreateSummary = () => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>
-              <Popup.Title>수고하셨습니다!</Popup.Title>
-              <Popup.Body>주소 및 소유자 확인후 중개사 배정이 완료됩니다.</Popup.Body>
+              <Popup.SubTitle tw="text-center">매물등록 신청이 완료되었습니다.</Popup.SubTitle>
+              <Popup.Body>중개사 매물등록 완료후 거래가 개시될 예정입니다.</Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={handlePopup}>확인</Popup.ActionButton>
