@@ -70,7 +70,7 @@ export default memo(() => {
       setOpenPopup(true);
       return;
     }
-    router.replace(Routes.MyAddress);
+    router.replace(Routes.MyAddress, { searchParams: { origin: router.asPath } });
   }, [router, user?.hasAddress]);
 
   const handleClickLawQna = useCallback(

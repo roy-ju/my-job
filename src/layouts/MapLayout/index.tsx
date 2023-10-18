@@ -71,7 +71,7 @@ function MapWrapper({
 
   const { user } = useAuth();
 
-  const { depth, popLast, replace } = useRouter(0);
+  const { depth, popLast, replace, asPath } = useRouter(0);
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -245,7 +245,7 @@ function MapWrapper({
               <Popup.ActionButton
                 onClick={() => {
                   setOpenVerificationAddressPopup(false);
-                  replace(Routes.MyAddress);
+                  replace(Routes.MyAddress, { searchParams: { origin: asPath } });
                 }}
               >
                 인증하기

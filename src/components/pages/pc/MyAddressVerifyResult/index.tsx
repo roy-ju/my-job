@@ -63,23 +63,29 @@ export default memo(({ depth, panelWidth }: Props) => {
     setVerifyCompletedSeconds(2);
   }, []);
 
-  const handleGoMyPage = useCallback(() => {
-    if (router?.query?.danjiID) {
+  const handleClickSystemErrorCTA = useCallback(() => {
+    if (router?.query?.danjiID || router?.query?.suggestID) {
       router.pop();
     } else {
       nextRouter.replace(`/${Routes.My}?default=2`);
     }
   }, [nextRouter, router]);
 
-  const handleGoMyAddress = useCallback(() => {
-    if (router?.query?.danjiID) {
-      router.replace(Routes.MyAddress, {
-        searchParams: { danjiID: router.query.danjiID as string },
-      });
-    } else {
-      nextRouter.replace(`/${Routes.My}/${Routes.MyAddress}?default=2`);
-    }
-  }, [nextRouter, router]);
+  const handleClickInaccurateAddressDetailCTA = useCallback(() => {
+    router.replace(Routes.MyAddress, {
+      searchParams: {
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+      },
+      state: {
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
+      },
+    });
+  }, [router]);
 
   const handleClickMultipleItem = useCallback(
     (id?: string) => {
@@ -97,11 +103,19 @@ export default memo(({ depth, panelWidth }: Props) => {
       setPopup('');
 
       if (value === 'alreadyExistAddress') {
-        if (router?.query?.danjiID) {
-          router.pop();
-        } else {
-          nextRouter.replace(`/${Routes.My}/${Routes.MyRegisteredHomes}?tab=2`);
-        }
+        router.replace(Routes.MyRegisteredHomes, {
+          searchParams: {
+            ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+            ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+          },
+          state: {
+            ...(router.query.origin
+              ? {
+                  origin: router.query.origin as string,
+                }
+              : {}),
+          },
+        });
       } else if (value === 'invalidAccess') {
         nextRouter.replace(`/`);
       }
@@ -157,20 +171,24 @@ export default memo(({ depth, panelWidth }: Props) => {
 
           if (response?.verified === true) {
             await setVerifyStatus(MyVerifyStatus.Success);
-
             setErrorCode('');
-
             setTimeout(() => {
               mutate();
               toast.success('우리집 등록이 완료 되었습니다!');
 
-              if (router?.query?.danjiID) {
-                router.replace(Routes.ListingSelectAddress, {
-                  searchParams: { danjiID: router.query.danjiID as string },
-                });
-              } else {
-                nextRouter.replace(`/${Routes.My}?default=2`);
-              }
+              router.replace(Routes.MyRegisteredHomes, {
+                searchParams: {
+                  ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                  ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+                },
+                state: {
+                  ...(router.query.origin
+                    ? {
+                        origin: router.query.origin as string,
+                      }
+                    : {}),
+                },
+              });
             }, 1000);
 
             return;
@@ -184,6 +202,7 @@ export default memo(({ depth, panelWidth }: Props) => {
             router.replace(Routes.MyAddressAgreement, {
               searchParams: {
                 ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
               },
               state: {
                 addressData: router.query.addressData as string,
@@ -202,7 +221,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         }
       }
     },
-    [addressList, addressData, reset, mutate, router, dong, ho, nextRouter],
+    [addressList, addressData, reset, mutate, router, dong, ho],
   );
 
   useEffect(() => {
@@ -256,8 +275,8 @@ export default memo(({ depth, panelWidth }: Props) => {
           ho={ho}
           errorCode={errorCode}
           selectedItemID={selectedItemID}
-          onClickSystemErrorCTA={handleGoMyPage}
-          onClickInaccurateAddressDetailCTA={handleGoMyAddress}
+          onClickSystemErrorCTA={handleClickSystemErrorCTA}
+          onClickInaccurateAddressDetailCTA={handleClickInaccurateAddressDetailCTA}
           onClickMultipleItem={handleClickMultipleItem}
           onClickMultipleItemCTA={handleClickMultipleItemCTA}
         />
