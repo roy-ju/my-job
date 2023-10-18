@@ -2,7 +2,7 @@ import danjiUserAddressCheck from '@/apis/danji/danjiUserAddressCheck';
 import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingSelectAddress, MobHog } from '@/components/templates';
+import { MobHog, SelectAddressTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
@@ -137,7 +137,8 @@ export default memo(() => {
         {showGuidePopup && <MobHog onClickBack={handleClickBack} onClickListingCreate={handleCloseGuidePopup} />}
 
         {!showInActivePopup && !showNoDanjiOwnerPopup && !showNoListingsPopup && !showGuidePopup && (
-          <ListingSelectAddress
+          <SelectAddressTemplate
+            type="listing"
             list={list}
             onClickBack={handleClickBack}
             selectedUserAddressID={selectedUserAddressID}

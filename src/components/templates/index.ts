@@ -94,7 +94,7 @@ export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 export { default as RecommendationForm } from './RecommendationForm';
 export { default as MyRegisteredHomes } from './MyRegisteredHomes';
-export { default as ListingSelectAddress } from './ListingSelectAddress';
+export { default as SelectAddressTemplate } from './SelectAddressTemplate';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

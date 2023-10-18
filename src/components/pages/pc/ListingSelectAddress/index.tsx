@@ -1,5 +1,5 @@
 import { AuthRequired, Panel } from '@/components/atoms';
-import { ListingSelectAddress } from '@/components/templates';
+import { SelectAddressTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
@@ -122,7 +122,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     <AuthRequired ciRequired>
       <Panel width={panelWidth}>
         {!showInActivePopup && !showNoDanjiOwnerPopup && !showNoListingsPopup && (
-          <ListingSelectAddress
+          <SelectAddressTemplate
+            type="listing"
             list={list}
             selectedUserAddressID={selectedUserAddressID}
             onClickNext={handleNext}

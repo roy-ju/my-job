@@ -131,6 +131,7 @@ const Routes = {
 
   // 매물 내놓기
   SuggestListingForm: 'suggestListingForm',
+  SuggestSelectAddress: 'suggestSelectAddress',
 
   // 구해요 상세
   SuggestDetail: 'suggestDetail',
