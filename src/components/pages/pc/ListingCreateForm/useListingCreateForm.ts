@@ -607,11 +607,9 @@ export default function useListingCreateForm(depth: number) {
 
     router.replace(Routes.ListingCreateChooseAgent, {
       searchParams: {
-        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        userAddressID: router?.query?.userAddressID as string,
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
       },
-
       state: {
         params: encoded,
         ...(router.query.origin
@@ -659,8 +657,14 @@ export default function useListingCreateForm(depth: number) {
   const handleClickBack = useCallback(() => {
     router.replace(Routes.ListingSelectAddress, {
       searchParams: {
-        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+      },
+      state: {
+        ...(router.query.origin
+          ? {
+              origin: router.query.origin as string,
+            }
+          : {}),
       },
     });
   }, [router]);

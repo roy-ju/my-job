@@ -4,7 +4,8 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { useAuth } from '@/hooks/services';
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 import useMyRegisteredListings from './useMyRegisteredListings';
 
 export default memo(() => {
@@ -43,9 +44,11 @@ export default memo(() => {
   } = useMyRegisteredListings();
   const [tab, setTab] = useState(Number(router.query.tab));
   const [isLoading, setIsLoading] = useState(false);
-  const [popup, setPopup] = useState(false);
 
-  const { user } = useAuth();
+  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
+  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
+
+  const { data: userData } = useAPI_GetUserInfo();
 
   useEffect(() => {
     if (router.query.tab) {
@@ -73,27 +76,49 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   };
 
-  const handleRegisterMyHome = useCallback(() => {
-    setPopup(false);
-    router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-      query: { origin: router?.asPath as string },
-    });
-  }, [router]);
-
-  const handleNavigateToListingCreate = () => {
-    if (user && user?.hasAddress) {
-      const origin = router.asPath;
-
+  const handleNavigateToListingCreate = async () => {
+    if (!userData) {
       router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
         query: {
-          origin,
+          redirect: router.asPath,
         },
       });
       return;
     }
-    setPopup(true);
+
+    if (!userData.is_verified) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
+    if (!userData?.has_address) {
+      setOpenVerificationAddressPopup(true);
+      return;
+    }
+
+    if (userData?.has_address) {
+      const res = await listingEligibilityCheck({ danji_id: null });
+
+      if (res && !res?.is_eligible) {
+        setOpenNeedMoreVerificationAddressPopup(true);
+        return;
+      }
+
+      if (res && res?.is_eligible) {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+          query: {
+            origin: router.asPath,
+          },
+        });
+      }
+    }
   };
 
   const handleNavigateToListingDetailPassed = (listingID: number) => () => {
@@ -106,10 +131,6 @@ export default memo(() => {
     },
     [setTab],
   );
-
-  const handleCloseErrorPopup = () => {
-    setPopup(false);
-  };
 
   const handleClickBack = useCallback(() => {
     if (typeof window !== 'undefined') {
@@ -165,19 +186,63 @@ export default memo(() => {
         </MobileContainer>
       </MobAuthRequired>
 
-      {popup && (
+      {openVerificationAddressPopup && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle tw="text-center">
+              <Popup.SubTitle>
+                이 단지의 집주인만 매물등록이 가능합니다.
+                <br />
+                우리집을 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenVerificationAddressPopup(false);
+                  router.push({
+                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+                    query: {
+                      origin: router.asPath,
+                    },
+                  });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openNeedMoreVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
                 추가로 매물등록이 가능한 우리집 정보가 없습니다.
                 <br />
                 우리집을 추가 인증하시겠습니까?
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={handleCloseErrorPopup}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleRegisterMyHome}>인증하기</Popup.ActionButton>
+              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenNeedMoreVerificationAddressPopup(false);
+                  router.push({
+                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+                    query: {
+                      origin: router.asPath,
+                    },
+                  });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

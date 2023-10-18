@@ -19,14 +19,23 @@ export type Req = {
   activeOnly?: boolean;
   danjiID?: number | null;
   isFetch?: boolean;
+  exclude_duplicated_listing?: boolean;
 };
 
-export default function useAPI_GetMyAddressList({ activeOnly = false, danjiID = null, isFetch }: Req) {
+export default function useAPI_GetMyAddressList({
+  activeOnly = false,
+  danjiID = null,
+  isFetch,
+  exclude_duplicated_listing = false,
+}: Req) {
   const { user } = useAuth();
 
   const { data, isLoading, mutate } = useSWR<GetMyAddressListResponse>(
     (user?.hasAddress || user?.hasNotVerifiedAddress) && isFetch
-      ? [`/my/address/list`, { active_only: activeOnly || undefined, danji_id: danjiID || undefined }]
+      ? [
+          `/my/address/list`,
+          { active_only: activeOnly || undefined, danji_id: danjiID || undefined, exclude_duplicated_listing },
+        ]
       : null,
   );
 
