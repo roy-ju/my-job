@@ -82,7 +82,7 @@ export default memo(() => {
         return;
       }
 
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.MyRegisteredHomes}`);
     }
   }, [name, phone, router]);
 
@@ -114,11 +114,7 @@ export default memo(() => {
   }, [router]);
 
   const handleClickBack = () => {
-    if (router?.query?.origin) {
-      router.replace(router.query.origin as string);
-    } else {
-      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
-    }
+    router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
   };
 
   return (
