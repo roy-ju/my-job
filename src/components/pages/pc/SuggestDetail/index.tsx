@@ -90,6 +90,7 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
   const needVerifyAddressPopupCTA = useCallback(() => {
     router.replace(Routes.MyAddress, {
       searchParams: {
+        origin: router.asPath,
         suggestID: `${suggestID}`,
         ...(data?.danji_id ? { danjiID: `${data.danji_id}` } : {}),
       },

@@ -62,7 +62,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   const handleMyAddress = useCallback(() => {
-    router.push(Routes.MyAddress);
+    router.push(Routes.MyAddress, { searchParams: { origin: router.asPath } });
   }, [router]);
 
   const handleClickMyRegisteredListings = useCallback(

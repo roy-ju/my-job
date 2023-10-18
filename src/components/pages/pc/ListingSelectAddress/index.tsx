@@ -79,6 +79,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickAddMyAddress = () => {
     router.replace(Routes.MyAddress, {
       searchParams: {
+        origin: router.asPath,
         ...(router?.query?.danjiID ? { origin: router.asPath, danjiID: router.query.danjiID as string } : {}),
       },
     });

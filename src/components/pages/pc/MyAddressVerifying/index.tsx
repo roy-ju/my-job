@@ -51,6 +51,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       router.replace(Routes.MyAddress, {
         searchParams: {
           ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+          ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
         },
         state: {
           ...(router.query.origin
@@ -92,6 +93,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       router.replace(Routes.MyAddressVerifyResult, {
         searchParams: {
           ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+          ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
         },
         state: {
           addressData: router.query.addressData as string,
@@ -113,6 +115,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       router.replace(Routes.MyAddressVerifyResult, {
         searchParams: {
           ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+          ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
         },
         state: {
           addressData: router.query.addressData as string,
@@ -163,6 +166,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           router.replace(Routes.MyAddressVerifyResult, {
             searchParams: {
               ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+              ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
             },
             state: {
               addressData: router.query.addressData as string,
@@ -186,13 +190,19 @@ export default memo(({ depth, panelWidth }: Props) => {
           toast.success('우리집 등록이 완료 되었습니다!');
 
           setTimeout(() => {
-            if (router?.query?.danjiID) {
-              router.replace(Routes.ListingSelectAddress, {
-                searchParams: { danjiID: router.query.danjiID as string },
-              });
-            } else {
-              nextRouter.replace(`/${Routes.My}?default=2`);
-            }
+            router.replace(Routes.MyRegisteredHomes, {
+              searchParams: {
+                ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+                ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+              },
+              state: {
+                ...(router.query.origin
+                  ? {
+                      origin: router.query.origin as string,
+                    }
+                  : {}),
+              },
+            });
           }, 1000);
 
           return;
@@ -204,6 +214,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           router.replace(Routes.MyAddressAgreement, {
             searchParams: {
               ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+              ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
             },
             state: {
               addressData: router.query.addressData as string,

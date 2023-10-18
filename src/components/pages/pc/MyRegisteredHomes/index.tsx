@@ -73,7 +73,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   );
 
   const handleClickAddMyAddress = useCallback(() => {
-    router.replace(Routes.MyAddress);
+    router.replace(Routes.MyAddress, {
+      searchParams: {
+        origin: router.asPath,
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+      },
+    });
   }, [router]);
 
   const handleClickHome = useCallback(() => {

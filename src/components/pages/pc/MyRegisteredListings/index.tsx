@@ -170,7 +170,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setOpenVerificationAddressPopup(false);
-                  router.replace(Routes.MyAddress);
+                  router.replace(Routes.MyAddress, { searchParams: { origin: router.asPath } });
                 }}
               >
                 인증하기

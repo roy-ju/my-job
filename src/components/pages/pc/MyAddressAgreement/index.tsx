@@ -85,13 +85,21 @@ export default memo(({ depth, panelWidth }: Props) => {
     } else if (response === null) {
       toast.success('문자를 전송했습니다.');
 
-      if (router?.query?.danjiID) {
-        router.pop();
-      } else {
-        nextRouter.replace(`/${Routes.My}?default=2`);
-      }
+      router.replace(Routes.MyRegisteredHomes, {
+        searchParams: {
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+          ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+        },
+        state: {
+          ...(router.query.origin
+            ? {
+                origin: router.query.origin as string,
+              }
+            : {}),
+        },
+      });
     }
-  }, [name, nextRouter, phone, router]);
+  }, [name, phone, router]);
 
   useEffect(() => {
     if (!router?.query?.userAddressID) {
@@ -211,7 +219,7 @@ export default memo(({ depth, panelWidth }: Props) => {
               <Popup.ActionButton
                 onClick={() => {
                   setShowSendCountReachedPopup(false);
-                  if (router?.query?.danjiID) {
+                  if (router?.query?.danjiID || router?.query?.suggestID) {
                     router.pop();
                   } else {
                     nextRouter.replace(`/${Routes.My}?default=2`);
