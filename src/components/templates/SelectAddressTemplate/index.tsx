@@ -3,7 +3,8 @@ import { Button, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { makeAddressDetail } from '@/utils/fotmat';
 
-export interface ListingSelectAddressProps {
+export interface SelectAddressTemplateProps {
+  type?: 'suggest' | 'listing';
   list?: MyAddressListListItem[] | null;
   selectedUserAddressID?: number;
   onClickBack?: () => void;
@@ -12,14 +13,15 @@ export interface ListingSelectAddressProps {
   onClickAddMyAddress?: () => void;
 }
 
-export default function ListingSelectAddress({
+export default function SelectAddressTemplate({
+  type,
   list,
   selectedUserAddressID,
   onClickBack,
   onClickNext,
   onClickItem,
   onClickAddMyAddress,
-}: ListingSelectAddressProps) {
+}: SelectAddressTemplateProps) {
   return (
     <div tw="h-full flex flex-col relative">
       <NavigationHeader>
@@ -27,11 +29,21 @@ export default function ListingSelectAddress({
         <NavigationHeader.Title>매물등록 신청</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="px-5 pt-6">
-        <p tw="text-h2 font-bold [letter-spacing: -0.4px]">
-          아래의 주소지로
-          <br />
-          매물 등록을 신청하시겠습니까?
-        </p>
+        {type === 'listing' && (
+          <p tw="text-h2 font-bold [letter-spacing: -0.4px]">
+            아래의 주소지로
+            <br />
+            매물 등록을 신청하시겠습니까?
+          </p>
+        )}
+
+        {type === 'suggest' && (
+          <p tw="text-h2 font-bold [letter-spacing: -0.4px]">
+            아래의 주소지로
+            <br />
+            매물 추천을 신청하시겠습니까?
+          </p>
+        )}
       </div>
       <div tw="flex-1 min-h-0 px-5 overflow-auto">
         <div tw="flex flex-col gap-4 py-8 pb-6">
@@ -52,7 +64,6 @@ export default function ListingSelectAddress({
             </Button>
           ))}
         </div>
-        {/* <AddressSearchForm onSubmit={onSubmit} /> */}
       </div>
       <div tw="flex flex-col gap-2 pb-6 px-5">
         <p tw="text-info text-gray-700">{`다른 주소지로 매물 등록을 원하신다면, 마이페이지 > 우리집 내놓기에서 우리집 주소를 등록해주세요.`}</p>
@@ -67,7 +78,7 @@ export default function ListingSelectAddress({
       </div>
       <PersistentBottomBar>
         <Button tw="w-full" size="bigger" disabled={!selectedUserAddressID} onClick={() => onClickNext?.()}>
-          확인
+          다음
         </Button>
       </PersistentBottomBar>
     </div>
