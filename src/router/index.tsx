@@ -305,6 +305,11 @@ const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/Su
   ssr: false,
   loading: FallbackComponent,
 });
+
+const RecommendGuide = dynamic(() => import('@/components/pages/pc/RecommendGuide'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -622,6 +627,10 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
 
     case Routes.Register: {
       return <Register {...props} />;
+    }
+
+    case Routes.RecommendGuide: {
+      return <RecommendGuide {...props} />;
     }
 
     case Routes.RegisterSuccess: {

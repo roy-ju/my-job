@@ -243,7 +243,7 @@ export default function MyListingsSummaryV3({
           (hasAddress ||
             hasNotVerifiedAddress ||
             totalCountMyRegisteredListings > 0 ||
-            countFormat({ value: dashboardInfo?.suggest_recommended_count })) && (
+            countFormat({ value: dashboardInfo?.suggest_recommended_count }) > 0) && (
             <CTAButtons
               type="suggestRecommendedList"
               onClickSuggestRecommendedListCTA={onClickSuggestRecommendedList}
