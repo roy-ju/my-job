@@ -87,6 +87,7 @@ module.exports = {
           1000: '#212529',
           1100: '#E6E8ED',
           1200: '#9DA2AC',
+          1300: '#F0F0F6',
         },
         nego: {
           DEFAULT: '#7048E8',

@@ -26,7 +26,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
-  const { list } = useAPI_GetMyAddressList({
+  const { isLoading, list } = useAPI_GetMyAddressList({
     activeOnly: true,
     danjiID: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     isFetch,
@@ -91,6 +91,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [list]);
 
+  useEffect(() => {
+    if (isFetch && !isLoading && ((list && list.length === 0) || !list)) {
+      setShowInActivePopup(true);
+    }
+  }, [isFetch, isLoading, list]);
+
   return (
     <AuthRequired ciRequired>
       <Panel width={panelWidth}>
@@ -120,11 +126,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-6">
-              <Popup.SubTitle tw="text-center">
-                현재 로그인 계정으로는
-                <br />
-                접근이 불가능한 페이지입니다.
-              </Popup.SubTitle>
+              <Popup.SubTitle tw="text-center">유효하지 않은 페이지입니다.</Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={handleClickHome}>네고시오 홈으로 돌아가기</Popup.ActionButton>
