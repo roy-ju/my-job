@@ -133,6 +133,8 @@ const Routes = {
   SuggestListingForm: 'suggestListingForm',
   SuggestSelectAddress: 'suggestSelectAddress',
 
+  RecommendGuide: 'recommendGuide',
+  
   // 구해요 상세
   SuggestDetail: 'suggestDetail',
 

@@ -1,4 +1,4 @@
-export const SuggestGuideMent = [
+export const RecommendGuideMent = [
   {
     head: '중개사들의 숨은 매물 추천',
     paragraph: '중개사들이 보유하고 있는 숨은 매물을 추천 받을 수 있어요.',
@@ -17,10 +17,10 @@ export const SuggestGuideMent = [
   },
 ];
 
-export const SuggestInfoment: string =
+export const RecommendInfoment: string =
   '* 전화 인터뷰는 필수사항으로 인터뷰 진행 후 네고시오 전담매니저가 고객님을 대신하여 조건에 맞는 매물을 찾아드립니다.';
 
-export const SuggestFAQ = [
+export const RecommendFAQ = [
   {
     head: '인터뷰는 어떻게 진행되나요?',
     paragraph: [

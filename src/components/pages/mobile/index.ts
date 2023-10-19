@@ -68,6 +68,8 @@ export { default as ChatRoom } from './ChatRoom';
 export { default as MyRegisteredListings } from './MyRegisteredListings';
 export { default as MyParticipatingListings } from './MyParticipatingListings';
 
+export { default as RecommendGuide } from './RecommendGuide';
+
 /** 지역 추천 */
 export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestRegionalForm } from './SuggestRegionalForm';
@@ -131,3 +133,4 @@ export { default as SuggestSelectAddress } from './SuggestSelectAddress';
 export { default as SuggestListingForm } from './SuggestListingForm';
 
 export { default as SuggestListings } from './SuggestListings';
+
