@@ -18,7 +18,7 @@ export default memo(() => {
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
-  const { list } = useAPI_GetMyAddressList({
+  const { list, isLoading } = useAPI_GetMyAddressList({
     activeOnly: true,
     danjiID: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     isFetch,
@@ -39,7 +39,7 @@ export default memo(() => {
   const handleNext = useCallback(() => {
     if (!selectedUserAddressID) return;
 
-    router.push({
+    router.replace({
       pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
       query: {
         ...(router?.query?.origin ? { origin: router?.query?.origin } : {}),
@@ -94,6 +94,12 @@ export default memo(() => {
   }, [user, router]);
 
   useEffect(() => {
+    if (isFetch && !isLoading && ((list && list.length === 0) || !list)) {
+      setShowInActivePopup(true);
+    }
+  }, [isFetch, isLoading, list]);
+
+  useEffect(() => {
     if (list && list?.length > 0) {
       setShowGuidePopup(true);
     }
@@ -120,11 +126,7 @@ export default memo(() => {
           <OverlayPresenter>
             <Popup>
               <Popup.ContentGroup tw="py-6">
-                <Popup.SubTitle tw="text-center">
-                  현재 로그인 계정으로는
-                  <br />
-                  접근이 불가능한 페이지입니다.
-                </Popup.SubTitle>
+                <Popup.SubTitle tw="text-center">유효하지 않은 페이지입니다.</Popup.SubTitle>
               </Popup.ContentGroup>
               <Popup.ButtonGroup>
                 <Popup.ActionButton onClick={handleClickHome}>네고시오 홈으로 돌아가기</Popup.ActionButton>
