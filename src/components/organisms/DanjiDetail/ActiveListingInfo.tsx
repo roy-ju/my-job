@@ -8,7 +8,6 @@ import { useRouter as useNextRouter } from 'next/router';
 import NewTabs from '@/components/molecules/Tabs/NewTabs';
 import tw from 'twin.macro';
 import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
-import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
@@ -17,6 +16,7 @@ import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
 import NaverLogo from '@/assets/icons/naver_logo.svg';
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -191,17 +191,14 @@ export default function ActiveListingInfo({
   }, [danji?.danji_id, nextRouter, router, userData]);
 
   const handleCreateSuggest = useCallback(() => {
-    nextRouter.replace(
-      {
-        pathname: `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}`,
-        query: {
-          entry: 'danji',
-          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
-        },
+    nextRouter.replace({
+      pathname: `/${Routes.DanjiDetail}/${Routes.RecommendGuide}`,
+      query: {
+        entry: 'danji',
+        danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+        redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
       },
-      `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
-    );
+    });
   }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
@@ -230,7 +227,7 @@ export default function ActiveListingInfo({
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await danjiSuggestEligibilityCheck(code);
+      const response = await suggestEligibilityCheck(code);
 
       if (response && response.eligible) {
         setIsRecommendationService(true);

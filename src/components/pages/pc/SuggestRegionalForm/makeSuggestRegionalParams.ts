@@ -16,6 +16,7 @@ interface Args {
   moveInDate: Date | null;
   moveInDateType: string;
   description: string;
+  interviewAvailabletimes: string[];
 }
 
 function getDateType(value?: string) {
@@ -45,6 +46,7 @@ export default function makeSuggestRegionalParams(args: Args) {
     move_in_date: args.purpose === '투자' ? null : args.moveInDate?.toISOString(),
     move_in_date_type: args.purpose === '투자' ? null : getDateType(args.moveInDateType),
     note: args.description,
+    interview_available_times: args.interviewAvailabletimes.join(),
   };
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);
   return params;

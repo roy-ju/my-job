@@ -28,10 +28,17 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     }
     return null;
   }, [router.query.params]);
+
   const handleClickBack = useCallback(() => {
     if (router.query.entry === 'danji') {
       nextRouter.replace(
         `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${
+          params.danji_id
+        }&entry=danji&params=${JSON.stringify(params)}&forms=${router.query.forms}&redirect=${router.query.redirect}`,
+      );
+    } else if (router.query.entry === 'danjiSuggestListings') {
+      nextRouter.replace(
+        `/${Routes.SuggestListings}/${Routes.DanjiRecommendation}?danjiID=${
           params.danji_id
         }&entry=danji&params=${JSON.stringify(params)}&forms=${router.query.forms}&redirect=${router.query.redirect}`,
       );
@@ -54,6 +61,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     setIsCreating(true);
 
     delete params?.address;
+
     await danjiRecommendationFinal({
       ...params,
       danji_id: Number(params.danji_id),
@@ -92,6 +100,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
           moveInDateType={params?.move_in_date_type}
           investAmount={params?.invest_amount}
           negotiable={params?.negotiable}
+          interviewAvailabletimes={params?.interview_available_times}
           quickSale={params?.quick_sale}
         />
       </Panel>

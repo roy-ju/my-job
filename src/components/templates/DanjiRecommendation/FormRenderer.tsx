@@ -47,6 +47,8 @@ export default function FormRenderer({ form }: Props) {
     onChangeDescription,
     pyoungInputValue,
     onChangePyoungInputValue,
+    interviewAvailabletimes,
+    onChangeInterviewAvailabletimes,
 
     danjiRealPricesPyoungList,
     onClickPyoungDeleteIcon,
@@ -166,6 +168,13 @@ export default function FormRenderer({ form }: Props) {
               description={description}
               onChangeDescription={onChangeDescription}
               buyOrRent={buyOrRent}
+            />
+          </div>
+          <Separator />
+          <div tw="pb-10 px-5">
+            <DanjiRecommendationForm.Interview
+              interviewAvailabletimes={interviewAvailabletimes}
+              onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
             />
           </div>
         </div>

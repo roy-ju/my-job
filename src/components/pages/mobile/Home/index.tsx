@@ -55,7 +55,7 @@ export default function Home() {
   }, [router]);
 
   const handleClickSuggestion = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.RecommendGuide}`, { query: { origin: router.asPath } });
   }, [router]);
 
   const handleClickBidding = useCallback(() => {

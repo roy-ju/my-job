@@ -48,6 +48,9 @@ export default memo(() => {
     moveInDateType,
     handleChangeMoveInDateType,
 
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
+
     emptyTextFields,
 
     handleSubmitFinal,
@@ -83,6 +86,8 @@ export default memo(() => {
         onChangeMoveInDate={handleChangeMoveInDate}
         moveInDateType={moveInDateType}
         onChangeMoveInDateType={handleChangeMoveInDateType}
+        interviewAvailabletimes={interviewAvailabletimes}
+        onChangeInterviewAvailabletimes={handleChangeInterviewAvailabletimes}
         emptyTextFields={emptyTextFields}
         onSubmitFinal={handleSubmitFinal}
       />

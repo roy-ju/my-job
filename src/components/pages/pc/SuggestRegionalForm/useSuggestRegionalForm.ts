@@ -34,6 +34,7 @@ export default function useSuggestRegionalForm(depth: number) {
   const [remainingAmountDate, setRemainingAmountDate] = useState<Date | null>(null);
   const [remainingAmountDateType, setRemainingAmountDateType] = useState('이전');
   const [description, setDescription] = useState('');
+  const [interviewAvailabletimes, setInterviewAvailabletimes] = useState<string[]>([]);
 
   const [isPrefillingBubjungdong, setIsPrefillingBubjungdong] = useState(true);
   const [openResetPopup, setOpenResetPopup] = useState(false);
@@ -116,6 +117,19 @@ export default function useSuggestRegionalForm(depth: number) {
     setRemainingAmountDateType(value);
   }, []);
 
+  const handleChangeInterviewAvailabletimes = useCallback(
+    (value: string) => {
+      if (interviewAvailabletimes.includes(value)) {
+        const result = interviewAvailabletimes.filter((ele) => ele !== value);
+
+        setInterviewAvailabletimes(result);
+      } else {
+        setInterviewAvailabletimes((prev) => [...prev, value]);
+      }
+    },
+    [interviewAvailabletimes],
+  );
+
   const handleOpenRegionList = useCallback(() => {
     setIsRegionListOpen(true);
   }, []);
@@ -183,6 +197,7 @@ export default function useSuggestRegionalForm(depth: number) {
       price: false,
       investAmount: false,
     });
+    setInterviewAvailabletimes([]);
   }, []);
 
   const handleSubmitFinal = useCallback(async () => {
@@ -258,6 +273,14 @@ export default function useSuggestRegionalForm(depth: number) {
       return;
     }
 
+    // interviewAvailabletimes
+    if (interviewAvailabletimes.length === 0) {
+      const form = document.getElementById(Forms.Option);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('인터뷰 가능 시간대를 선택해 주세요.');
+      return;
+    }
+
     const params = makeSuggestRegionalParams({
       bubjungdong,
       realestateType,
@@ -272,6 +295,7 @@ export default function useSuggestRegionalForm(depth: number) {
       moveInDate,
       moveInDateType,
       description,
+      interviewAvailabletimes,
     });
 
     router.replace(Routes.SuggestRegionalSummary, {
@@ -298,6 +322,7 @@ export default function useSuggestRegionalForm(depth: number) {
     router,
     emptyTextFields,
     forms,
+    interviewAvailabletimes,
   ]);
 
   const handleChangeBubjungdong = useCallback(
@@ -465,14 +490,33 @@ export default function useSuggestRegionalForm(depth: number) {
         }
       }
     }
-  }, [forms, bubjungdong, realestateType, buyOrRent, price, purpose, remainingAmountDate, moveInDate, investAmount]);
+
+    if (currentForm === Forms.Option) {
+      if (interviewAvailabletimes.length === 0) {
+        setNextButtonDisabled(true);
+      }
+    }
+  }, [
+    forms,
+    bubjungdong,
+    realestateType,
+    buyOrRent,
+    price,
+    purpose,
+    remainingAmountDate,
+    moveInDate,
+    investAmount,
+    interviewAvailabletimes,
+  ]);
 
   // 수정하기 프리필 로직
 
   useIsomorphicLayoutEffect(() => {
     if (!router.query.params) return;
     if (!router.query.forms) return;
+
     setForms(JSON.parse(router.query.forms as string));
+
     const params: Record<string, unknown> = JSON.parse(router.query.params as string);
 
     setRealestateType(
@@ -491,9 +535,13 @@ export default function useSuggestRegionalForm(depth: number) {
       setPrice(params.deposit ? String(params.deposit)?.slice(0, -4) : '');
       setMonthlyRentFee(params.monthly_rent_fee ? String(params.monthly_rent_fee)?.slice(0, -4) : '');
     }
+
     setNegotiable(Boolean(params.negotiable));
+
     setMinArea(String(params.pyoung_from ?? ''));
+
     setMaxArea(String(params.pyoung_to ?? ''));
+
     setPurpose(String(params.purpose ?? ''));
 
     if (String(params.purpose) === '투자') {
@@ -503,7 +551,10 @@ export default function useSuggestRegionalForm(depth: number) {
       setMoveInDate(new Date(String(params.move_in_date ?? '')));
       setMoveInDateType(params.move_in_date_type ? TimeTypeString[Number(params.move_in_date_type)] : '이전');
     }
+
     setDescription(String(params.note ?? ''));
+
+    setInterviewAvailabletimes(String(params.interview_available_times).split(',') as unknown as string[]);
 
     const region = document.getElementById(Forms.Region);
     if (region) {
@@ -569,6 +620,9 @@ export default function useSuggestRegionalForm(depth: number) {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
 
     isPrefillingBubjungdong,
     openResetPopup,

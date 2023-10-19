@@ -64,6 +64,10 @@ export default memo(({ panelWidth, depth }: Props) => {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
+
     openResetPopup,
     onClosePopup,
     onConfirmPopup,
@@ -109,7 +113,10 @@ export default memo(({ panelWidth, depth }: Props) => {
         remainingAmountDateType={remainingAmountDateType}
         onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
         emptyTextFields={emptyTextFields}
+        interviewAvailabletimes={interviewAvailabletimes}
+        onChangeInterviewAvailabletimes={handleChangeInterviewAvailabletimes}
       />
+
       {isRegionListOpen && (
         <OverlayPresenter>
           <div tw="bg-white w-[380px] h-[600px] rounded-lg shadow">
@@ -123,6 +130,7 @@ export default memo(({ panelWidth, depth }: Props) => {
           </div>
         </OverlayPresenter>
       )}
+
       {openResetPopup && (
         <OverlayPresenter>
           <Popup>
