@@ -12,9 +12,12 @@ import { useRouter } from 'next/router';
 
 export default function useSuggestRegionalFormUpdate() {
   const router = useRouter();
+
   const suggestID = Number(router.query.suggestID) ?? 0;
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
+
+  const buyOrRent = Number(data?.buy_or_rents);
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [realestateType, setRealestateType] = useState<number[]>([]);
@@ -28,7 +31,7 @@ export default function useSuggestRegionalFormUpdate() {
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
   const [description, setDescription] = useState('');
-  const buyOrRent = Number(data?.buy_or_rents);
+  const [interviewAvailabletimes, setInterviewAvailabletimes] = useState<string[]>([]);
 
   const [emptyTextFields, setEmptyTextFields] = useState({
     price: false,
@@ -94,6 +97,19 @@ export default function useSuggestRegionalFormUpdate() {
     setMoveInDateType(value);
   }, []);
 
+  const handleChangeInterviewAvailabletimes = useCallback(
+    (value: string) => {
+      if (interviewAvailabletimes.includes(value)) {
+        const result = interviewAvailabletimes.filter((ele) => ele !== value);
+
+        setInterviewAvailabletimes(result);
+      } else {
+        setInterviewAvailabletimes((prev) => [...prev, value]);
+      }
+    },
+    [interviewAvailabletimes],
+  );
+
   const handleSubmitFinal = useCallback(async () => {
     if (minArea && maxArea && Number(minArea) > Number(maxArea)) {
       toast.error('최소평수가 최대평수보다 큽니다.');
@@ -124,10 +140,13 @@ export default function useSuggestRegionalFormUpdate() {
       move_in_date: purpose === '투자' ? null : moveInDate?.toISOString(),
       move_in_date_type: purpose === '투자' ? null : getDateType(moveInDateType),
       note: description,
+      interview_available_times: interviewAvailabletimes.join(),
     };
+
     Object.keys(request).forEach((key) => (request[key] === undefined || request[key] === '') && delete request[key]);
 
     await updateSuggest(request);
+
     await mutate('/suggest/detail');
 
     toast.success('구해요 글이 수정되었습니다.');
@@ -149,6 +168,7 @@ export default function useSuggestRegionalFormUpdate() {
     description,
     data?.suggest_id,
     data?.buy_or_rents,
+    interviewAvailabletimes,
   ]);
 
   // 프리필 로직
@@ -172,18 +192,24 @@ export default function useSuggestRegionalFormUpdate() {
     setMoveInDate(data?.move_in_date ? new Date(data?.move_in_date) : null);
     setMoveInDateType(data?.move_in_date_type ? TimeTypeString[data?.move_in_date_type] : '이전');
     setDescription(data?.note ?? '');
+    setInterviewAvailabletimes(data?.interview_available_times ? data.interview_available_times.split(',') : []);
   }, [router.query.suggestID]);
 
   useIsomorphicLayoutEffect(() => {
     setNextButtonDisabled(true);
 
     if (!realestateType.length) return;
+
     if (purpose === '투자' && !investAmount) return;
+
     if (purpose !== '투자' && !moveInDate) return;
+
     if (!price) return;
 
+    if (interviewAvailabletimes.length === 0) return;
+
     setNextButtonDisabled(false);
-  }, [realestateType, purpose, investAmount, moveInDate, price]);
+  }, [realestateType, purpose, investAmount, moveInDate, price, interviewAvailabletimes]);
 
   return {
     targetText: data?.request_target_text,
@@ -226,6 +252,9 @@ export default function useSuggestRegionalFormUpdate() {
 
     moveInDateType,
     handleChangeMoveInDateType,
+
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
 
     emptyTextFields,
 

@@ -62,6 +62,9 @@ export default function FormRenderer({ form }: Props) {
     onChangeDescription,
 
     emptyTextFields,
+
+    interviewAvailabletimes,
+    onChangeInterviewAvailabletimes,
   } = useContext(FormContext);
 
   switch (form) {
@@ -175,6 +178,13 @@ export default function FormRenderer({ form }: Props) {
               description={description}
               onChangeDescription={onChangeDescription}
               buyOrRent={buyOrRent}
+            />
+          </div>
+          <Separator />
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.Interview
+              interviewAvailabletimes={interviewAvailabletimes}
+              onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
             />
           </div>
         </div>

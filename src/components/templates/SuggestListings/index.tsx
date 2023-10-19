@@ -1,5 +1,4 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { GetDanjiSuggestListResponse } from '@/apis/danji/danjiSuggestList';
 import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
@@ -11,6 +10,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import Image from 'next/image';
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 
 type Props = {
   depth: number;
@@ -50,19 +50,14 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   );
 
   const handleCreateSuggest = useCallback(() => {
-    nextRouter.replace(
-      {
-        pathname: `/${Routes.SuggestListings}/${Routes.DanjiRecommendation}`,
-        query: {
-          entry: 'danji',
-          danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-          redirect: `/${Routes.SuggestListings}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
-        },
+    nextRouter.replace({
+      pathname: `/${Routes.SuggestListings}/${Routes.RecommendGuide}`,
+      query: {
+        entry: 'danjiSuggestListings',
+        danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+        redirect: `/${Routes.SuggestListings}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
       },
-      `/${Routes.SuggestListings}/${Routes.DanjiRecommendation}?danjiID=${
-        danji?.danji_id || router?.query?.danjiID || ''
-      }`,
-    );
+    });
   }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
@@ -85,7 +80,7 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await danjiSuggestEligibilityCheck(code);
+      const response = await suggestEligibilityCheck(code);
 
       if (response && response.eligible) {
         setIsRecommendationService(true);

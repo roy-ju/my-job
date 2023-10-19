@@ -8,10 +8,10 @@ import Routes from '@/router/routes';
 import PcGlobalStyles from '@/styles/PcGlobalStyles';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import useSyncronizer from '@/states/syncronizer';
-import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -82,7 +82,7 @@ function MapWrapper({
   const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
   const handleClickSuggestRegional = useCallback(async () => {
-    const response = await danjiSuggestEligibilityCheck(bubjungdongCode);
+    const response = await suggestEligibilityCheck(bubjungdongCode);
 
     if (response && !response.eligible) {
       setOpenPopup(true);
@@ -90,13 +90,15 @@ function MapWrapper({
     }
 
     if (centerAddress.join('') !== '') {
-      replace(Routes.SuggestRegionalForm, {
+      replace(Routes.RecommendGuide, {
         searchParams: {
+          entry: 'map',
           address: centerAddress.join(' '),
+          back: '/',
         },
       });
     } else {
-      replace(Routes.SuggestRegionalForm);
+      replace(Routes.RecommendGuide, { searchParams: { entry: 'map', back: '/' } });
     }
   }, [centerAddress, replace, bubjungdongCode]);
 
@@ -253,11 +255,7 @@ function MapWrapper({
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                해당 지역은 서비스 준비중입니다.
-                <br />
-                경기, 서울, 인천 지역에서 시도해 주세요.
-              </Popup.SubTitle>
+              <Popup.SubTitle>해당 지역은 서비스 준비중입니다.</Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setOpenPopup(false)}>확인</Popup.ActionButton>

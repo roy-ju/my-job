@@ -48,6 +48,9 @@ export default function SuggestRegionalFormUpdate({
   description,
   onChangeDescription,
 
+  interviewAvailabletimes,
+  onChangeInterviewAvailabletimes,
+
   emptyTextFields,
 
   onSubmitFinal,
@@ -129,6 +132,12 @@ export default function SuggestRegionalFormUpdate({
               description={description}
               onChangeDescription={onChangeDescription}
               buyOrRent={Number(buyOrRent) || BuyOrRent.Jeonsae}
+            />
+          </div>
+          <div tw="px-5 pb-10">
+            <SuggestRegionalForm.Interview
+              interviewAvailabletimes={interviewAvailabletimes}
+              onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
             />
           </div>
         </div>

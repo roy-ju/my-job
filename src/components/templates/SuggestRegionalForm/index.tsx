@@ -63,6 +63,9 @@ export default function SuggestRegionalForm({
   remainingAmountDateType,
   onChangeRemainingAmountDateType,
 
+  interviewAvailabletimes,
+  onChangeInterviewAvailabletimes,
+
   description,
   onChangeDescription,
 
@@ -120,6 +123,9 @@ export default function SuggestRegionalForm({
       description,
       onChangeDescription,
 
+      interviewAvailabletimes,
+      onChangeInterviewAvailabletimes,
+
       emptyTextFields,
     }),
     [
@@ -170,6 +176,9 @@ export default function SuggestRegionalForm({
 
       description,
       onChangeDescription,
+
+      interviewAvailabletimes,
+      onChangeInterviewAvailabletimes,
 
       emptyTextFields,
     ],

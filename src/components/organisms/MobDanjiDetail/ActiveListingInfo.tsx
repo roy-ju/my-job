@@ -13,11 +13,11 @@ import tw from 'twin.macro';
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
-import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
 import NaverLogo from '@/assets/icons/naver_logo.svg';
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -192,7 +192,7 @@ export default function ActiveListingInfo({
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await danjiSuggestEligibilityCheck(code);
+      const response = await suggestEligibilityCheck(code);
 
       if (response && response.eligible) {
         setIsRecommendationService(true);

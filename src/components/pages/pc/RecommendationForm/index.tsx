@@ -56,7 +56,7 @@ export default memo(({ depth, panelWidth }: Props) => {
                 router.replace(Routes.SuggestRegionalForm, {
                   searchParams: {
                     address: item.name,
-                    back: `${router.asPath}`,
+                    back: router.asPath as string,
                   },
                 });
               }}
@@ -76,7 +76,7 @@ export default memo(({ depth, panelWidth }: Props) => {
                   router.replace(Routes.DanjiRecommendation, {
                     searchParams: {
                       danjiID: `${danjiID}`,
-                      redirect: `${router.asPath}`,
+                      redirect: router.asPath as string,
                       back: 'true',
                     },
                   });

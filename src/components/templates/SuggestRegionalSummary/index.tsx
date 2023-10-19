@@ -8,7 +8,7 @@ import tw, { styled } from 'twin.macro';
 const StyledTable = styled.table`
   ${tw`w-full text-b2`}
   th {
-    ${tw`py-2 text-gray-700 w-21`}
+    ${tw`w-24 py-2 text-gray-700`}
   }
   td {
     ${tw`w-auto py-2 text-left`}
@@ -32,6 +32,7 @@ interface Props {
   moveInDateType?: number;
   investAmount?: number;
   negotiable?: boolean;
+  interviewAvailabletimes?: string;
   isNextButtonLoading?: boolean;
   onClickBack?: () => void;
   onClickNext?: () => void;
@@ -51,6 +52,7 @@ export default function SuggestRegionalSummary({
   moveInDateType,
   investAmount,
   negotiable,
+  interviewAvailabletimes,
   isNextButtonLoading,
   onClickBack,
   onClickNext,
@@ -166,6 +168,11 @@ export default function SuggestRegionalSummary({
                 <Table.Row>
                   <Table.Head>추가 조건</Table.Head>
                   <Table.Data>{falsy(description, '없음')}</Table.Data>
+                </Table.Row>
+
+                <Table.Row>
+                  <Table.Head>인터뷰 가능 시간</Table.Head>
+                  <Table.Data>{interviewAvailabletimes || ''}</Table.Data>
                 </Table.Row>
               </Table.Body>
             </StyledTable>
