@@ -39,12 +39,16 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleDeregister = useCallback(async () => {
     const fcmToken = localStorage.getItem(Keys.FCM_TOKEN);
+
     if (fcmToken) {
       await deleteFcmToken({ token: fcmToken });
     }
+
     const deregistered = await deregister(deregisterReasons);
+
     localStorage.removeItem(Keys.ACCESS_TOKEN);
     localStorage.removeItem(Keys.REFRESH_TOKEN);
+
     if (deregistered) {
       await mutate((key) => key !== '/my/user/deregister/status');
 
@@ -86,6 +90,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           <DeregisterDisclaimerPopup.Confirm onClickCancel={handleClickCancel} onClickDeregister={handleStatusChange} />
         </OverlayPresenter>
       )}
+
       {status === 'success' && (
         <OverlayPresenter>
           <DeregisterDisclaimerPopup.Success onClickNavigateToHome={handleStatusChange} />
