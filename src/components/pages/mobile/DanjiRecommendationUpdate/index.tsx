@@ -48,6 +48,9 @@ export default memo(() => {
     description,
     handleChangeDescription,
 
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
+
     danjiRealPricesPyoungList,
 
     pyoungInputValue,
@@ -95,6 +98,8 @@ export default memo(() => {
         onChangeDescription={handleChangeDescription}
         pyoungInputValue={pyoungInputValue}
         onChangePyoungInputValue={handleChangePyoungInputValue}
+        interviewAvailabletimes={interviewAvailabletimes}
+        onChangeInterviewAvailabletimes={handleChangeInterviewAvailabletimes}
         danjiRealPricesPyoungList={danjiRealPricesPyoungList}
         onClickPyoungDeleteIcon={handleClickPyoungDeleteIcon}
         onClickPyoungAddIcon={handleClickPyoungAddIcon}

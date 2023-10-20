@@ -16,6 +16,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const nextRouter = useNextRouter();
   const router = useRouter(depth);
+
   const [isCreating, setIsCreating] = useState(false);
 
   const { mutate } = useAPI_GetDashboardInfo();

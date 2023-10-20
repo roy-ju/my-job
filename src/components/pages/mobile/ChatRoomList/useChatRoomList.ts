@@ -1,6 +1,5 @@
 import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 import Routes from '@/router/routes';
-// import useSyncronizer from '@/states/syncronizer';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
@@ -8,12 +7,6 @@ export default function useChatRoomList() {
   const router = useRouter();
 
   const { data, isLoading } = useAPI_ChatRoomList();
-
-  // const { unreadChatCount } = useSyncronizer();
-
-  // useEffect(() => {
-  //   if (unreadChatCount) mutate();
-  // }, [unreadChatCount, mutate]);
 
   const chatRoomList = useMemo(() => {
     if (!data || !data.list) return [];
@@ -40,7 +33,7 @@ export default function useChatRoomList() {
   );
 
   const handleClickRecommendationForm = useCallback(() => {
-    router.push(Routes.RecommendationForm);
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.RecommendGuide}`, query: { origin: router.asPath } });
   }, [router]);
 
   return {

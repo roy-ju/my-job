@@ -50,15 +50,17 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   );
 
   const handleCreateSuggest = useCallback(() => {
+    const redirectURL = `/${Routes.SuggestListings}?danjiID=${danjiID}`;
+
     nextRouter.replace({
       pathname: `/${Routes.SuggestListings}/${Routes.RecommendGuide}`,
       query: {
         entry: 'danjiSuggestListings',
-        danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-        redirect: `/${Routes.SuggestListings}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+        ...(danjiID ? { danjiID } : {}),
+        redirect: redirectURL,
       },
     });
-  }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
+  }, [danjiID, nextRouter]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
     if (type === 'impossibleRecommendataion') {

@@ -19,7 +19,9 @@ interface Props {
 
 export default function DanjiRecommendationSummary({ panelWidth, depth }: Props) {
   const nextRouter = useNextRouter();
+
   const router = useRouter(depth);
+
   const [isCreating, setIsCreating] = useState(false);
   const [danjiID, setDanjiID] = useState<number | null>(null);
 
@@ -77,6 +79,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     });
 
     await mutate();
+
     await otherMutate(() => true, undefined);
 
     if (params.danji_id) {
