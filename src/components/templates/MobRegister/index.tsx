@@ -8,11 +8,13 @@ export interface RegisterProps {
   email?: string;
   nickname?: string;
   privacyRetention?: string;
+  funnelInfo?: string;
   terms?: TermsState;
   formValid?: boolean;
   isLoading?: boolean;
   nicknameErrorMessage?: string;
   onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
+  onChangeFunnelInfo?: ChangeEventHandler<HTMLInputElement>;
   onChangePrivacyRetention?: (value: string) => void;
   onChangeTerms?: (newState: TermsState) => void;
   onClickNext?: () => void;
@@ -26,11 +28,13 @@ export default function MobRegister({
   email = '',
   nickname,
   terms,
+  funnelInfo = '',
   privacyRetention,
   formValid = false,
   isLoading = false,
   nicknameErrorMessage,
   onChangeNickname,
+  onChangeFunnelInfo,
   onChangePrivacyRetention,
   onChangeTerms,
   onClickNext,
@@ -51,6 +55,10 @@ export default function MobRegister({
         </div>
         <div tw="my-10">
           <MobRegisterForm.Nickname value={nickname} onChange={onChangeNickname} errorMessage={nicknameErrorMessage} />
+        </div>
+        <Separator />
+        <div tw="my-10">
+          <MobRegisterForm.FunnelInfo value={funnelInfo} onChange={onChangeFunnelInfo} />
         </div>
         <Separator />
         <div tw="my-10">
