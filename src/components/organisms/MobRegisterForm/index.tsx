@@ -62,7 +62,7 @@ function FunnelInfo({ value, onChange }: FunnelInfoProps) {
           <Label control={<Radio />} value="friends" label="지인 소개" />
           <Label control={<Radio />} value="ad" label="광고" />
           <Label control={<Radio />} value="news" label="뉴스 기사" />
-          <Label control={<Radio />} value="terrain" label="기타" />
+          <Label control={<Radio />} value="etc" label="기타" />
         </RadioGroup>
       </div>
     </div>

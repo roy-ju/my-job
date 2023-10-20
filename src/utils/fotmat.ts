@@ -1,3 +1,16 @@
+export function convertSignupPass(v?: string) {
+  if (!v) return '';
+
+  if (v === 'internet') return '인터넷 검색';
+  if (v === 'sns') return 'SNS 및 블로그';
+  if (v === 'appstore') return '앱스토어';
+  if (v === 'friends') return '지인 소개';
+  if (v === 'ad') return '광고';
+  if (v === 'news') return '뉴스 기사';
+
+  return '기타';
+}
+
 export function convertSidoName(v: string | undefined | null) {
   if (!v) return '-';
 
@@ -42,7 +55,6 @@ export function makeAddressDetail({ danjiName, dong, ho }: { danjiName: string; 
 
   return '';
 }
-
 
 export function convertSigunguName(v: string | undefined | null) {
   if (!v) return '-';
@@ -197,3 +209,22 @@ export function convertArea({ type, value }: { type: string; value: string }) {
 
   return '';
 }
+
+export const makeDisabled = (idx: number, target: string, arr?: string[]) => {
+  if (arr?.length === 0) {
+    return false;
+  }
+
+  if (arr?.includes('시간대 상관 없어요')) {
+    if (idx > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  if (arr && !arr?.includes('시간대 상관 없어요') && arr.length > 0 && idx === 0) {
+    return true;
+  }
+
+  return false;
+};

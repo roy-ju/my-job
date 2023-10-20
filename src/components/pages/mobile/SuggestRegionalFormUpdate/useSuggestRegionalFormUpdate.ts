@@ -99,17 +99,24 @@ export default function useSuggestRegionalFormUpdate() {
 
   const handleChangeInterviewAvailabletimes = useCallback(
     (value: string) => {
-      if (interviewAvailabletimes.includes(value)) {
-        const result = interviewAvailabletimes.filter((ele) => ele !== value);
-
-        setInterviewAvailabletimes(result);
+      if (value === '시간대 상관 없어요') {
+        if (interviewAvailabletimes.includes(value)) {
+          const result = interviewAvailabletimes.filter((ele) => ele !== value);
+          setInterviewAvailabletimes(result);
+        } else {
+          setInterviewAvailabletimes([value]);
+        }
       } else {
-        setInterviewAvailabletimes((prev) => [...prev, value]);
+        const result = interviewAvailabletimes.includes('시간대 상관 없어요')
+          ? [value]
+          : interviewAvailabletimes.includes(value)
+          ? interviewAvailabletimes.filter((ele) => ele !== value)
+          : [...interviewAvailabletimes, value];
+        setInterviewAvailabletimes(result);
       }
     },
     [interviewAvailabletimes],
   );
-
   const handleSubmitFinal = useCallback(async () => {
     if (minArea && maxArea && Number(minArea) > Number(maxArea)) {
       toast.error('최소평수가 최대평수보다 큽니다.');
