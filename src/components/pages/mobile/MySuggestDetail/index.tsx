@@ -163,7 +163,6 @@ export default memo(() => {
                 onClickSuggestUpdate={handleClickSuggestUpdate}
                 onClickDanjiDetail={handleClickDanjiDetail}
                 onNextListingRecommentList={increamentPageNumber}
-                onClickNewRecommendations={() => router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`)}
                 onChangeSuggestChecked={handleChangeSuggestChecked}
                 onClickDeleteSuggest={handleClickDeleteSuggest}
                 onClickDeleteSuggestRecommendItem={handleDeleteSuggestRecommendItem}
