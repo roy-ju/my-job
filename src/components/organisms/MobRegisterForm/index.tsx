@@ -1,5 +1,5 @@
-import { Button, Checkbox, Label } from '@/components/atoms';
-import { TextField } from '@/components/molecules';
+import { Button, Checkbox, Label, Radio } from '@/components/atoms';
+import { RadioGroup, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { useCallback, ChangeEventHandler } from 'react';
 import tw from 'twin.macro';
@@ -37,6 +37,34 @@ function Nickname({ errorMessage, value, onChange }: NicknameProps) {
         <TextField.Input label="닉네임" value={value} onChange={onChange} />
       </TextField>
       {errorMessage && <TextField.ErrorMessage>{errorMessage}</TextField.ErrorMessage>}
+    </div>
+  );
+}
+
+interface FunnelInfoProps {
+  value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+}
+
+function FunnelInfo({ value, onChange }: FunnelInfoProps) {
+  return (
+    <div tw="px-5">
+      <div tw="flex flex-col gap-1 mb-7">
+        <div tw="text-b1 leading-4 font-bold">가입경로</div>
+        <p tw="text-info text-gray-700">네고시오를 가입하게 된 경로를 알려주세요.</p>
+      </div>
+
+      <div tw="flex flex-col gap-3">
+        <RadioGroup value={value} onChange={onChange} tw="flex flex-col bg-white gap-4">
+          <Label control={<Radio />} value="internet" label="인터넷 검색" />
+          <Label control={<Radio />} value="sns" label="SNS 및 블로그" />
+          <Label control={<Radio />} value="appstore" label="앱스토어" />
+          <Label control={<Radio />} value="friends" label="지인 소개" />
+          <Label control={<Radio />} value="ad" label="광고" />
+          <Label control={<Radio />} value="news" label="뉴스 기사" />
+          <Label control={<Radio />} value="terrain" label="기타" />
+        </RadioGroup>
+      </div>
     </div>
   );
 }
@@ -190,4 +218,4 @@ function Terms({
   );
 }
 
-export default Object.assign(Container, { Email, Nickname, PrivacyRetention, Terms });
+export default Object.assign(Container, { Email, Nickname, PrivacyRetention, Terms, FunnelInfo });

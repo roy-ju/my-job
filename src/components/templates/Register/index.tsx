@@ -6,12 +6,14 @@ import { ChangeEventHandler } from 'react';
 export interface RegisterProps {
   email?: string;
   nickname?: string;
+  funnelInfo?: string;
   privacyRetention?: string;
   terms?: TermsState;
   formValid?: boolean;
   isLoading?: boolean;
   nicknameErrorMessage?: string;
   onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
+  onChangeFunnelInfo?: ChangeEventHandler<HTMLInputElement>;
   onChangePrivacyRetention?: (value: string) => void;
   onChangeTerms?: (newState: TermsState) => void;
   onClickNext?: () => void;
@@ -24,11 +26,13 @@ export default function Register({
   email = '',
   nickname,
   terms,
+  funnelInfo = '',
   privacyRetention,
   formValid = false,
   isLoading = false,
   nicknameErrorMessage,
   onChangeNickname,
+  onChangeFunnelInfo,
   onChangePrivacyRetention,
   onChangeTerms,
   onClickNext,
@@ -47,6 +51,10 @@ export default function Register({
       <Separator />
       <div tw="my-10">
         <RegisterForm.PrivacyRetention value={privacyRetention} onChange={onChangePrivacyRetention} />
+      </div>
+      <Separator />
+      <div tw="my-10">
+        <RegisterForm.FunnelInfo value={funnelInfo} onChange={onChangeFunnelInfo} />
       </div>
       <Separator />
       <div tw="my-10">

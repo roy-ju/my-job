@@ -18,6 +18,8 @@ export default function RegisterWrraper() {
   const [nickname, setNickname] = useState('');
   const [nicknameErrMsg, setNickNameErrMsg] = useState('');
 
+  const [funnelInfo, setFunnelInfo] = useState('');
+
   const [privacyRetention, setPrivacyRetention] = useState('탈퇴시까지');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,12 +36,13 @@ export default function RegisterWrraper() {
     () =>
       email.length > 0 &&
       nickname.length > 0 &&
+      funnelInfo.length > 0 &&
       terms.over19 &&
       terms.service &&
       terms.privacy &&
       terms.location &&
       terms.notification,
-    [email, nickname, terms],
+    [email, nickname, funnelInfo, terms],
   );
 
   const handleChangeNickname = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
@@ -55,6 +58,10 @@ export default function RegisterWrraper() {
       }
     }
     setNickname(e.target.value);
+  }, []);
+
+  const handleChangeFunnelInfo = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    setFunnelInfo(e.target.value);
   }, []);
 
   const handleChangePrivacyRetention = useCallback((value: string) => {
@@ -168,11 +175,13 @@ export default function RegisterWrraper() {
       email={email}
       nickname={nickname}
       nicknameErrorMessage={nicknameErrMsg}
+      funnelInfo={funnelInfo}
       privacyRetention={privacyRetention}
       terms={terms}
       formValid={formValid}
       isLoading={isLoading}
       onChangeNickname={handleChangeNickname}
+      onChangeFunnelInfo={handleChangeFunnelInfo}
       onChangePrivacyRetention={handleChangePrivacyRetention}
       onChangeTerms={handleChangeTerms}
       onClickNext={handleClickNext}
