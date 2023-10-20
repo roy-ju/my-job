@@ -8,6 +8,7 @@ import { NICKNAME_REGEX } from '@/constants/regex';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { convertSignupPass } from '@/utils/fotmat';
 import { ChangeEventHandler, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
@@ -120,6 +121,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       privacyRetentionType,
       socialLoginType: Number(router.query.socialLoginType),
       token: router.query.token as string,
+      signUpSource: convertSignupPass(funnelInfo),
     });
 
     if (loginResponse?.access_token) {
@@ -134,7 +136,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         redirect: (router.query.redirect as string) ?? '',
       },
     });
-  }, [email, terms, privacyRetention, nickname, router, handleLogin]);
+  }, [nickname, privacyRetention, email, terms.marketing, router, funnelInfo, handleLogin]);
 
   useEffect(() => {
     if (!router.query.email || !router.query.token || !router.query.socialLoginType) {

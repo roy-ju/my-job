@@ -6,6 +6,7 @@ import { PrivacyRetentionType } from '@/constants/enums';
 import { NICKNAME_REGEX } from '@/constants/regex';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
+import { convertSignupPass } from '@/utils/fotmat';
 import { useRouter } from 'next/router';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -103,6 +104,7 @@ export default function RegisterWrraper() {
       privacyRetentionType,
       socialLoginType: Number(router.query.socialLoginType),
       token: router.query.token as string,
+      signUpSource: convertSignupPass(funnelInfo),
     });
 
     if (loginResponse?.access_token) {
@@ -117,7 +119,7 @@ export default function RegisterWrraper() {
         redirect: router.query.redirect ?? '',
       },
     });
-  }, [email, terms, privacyRetention, nickname, router, handleLogin]);
+  }, [nickname, privacyRetention, email, terms.marketing, router, funnelInfo, handleLogin]);
 
   const handleNavigateToServiceTerms = useCallback(() => {
     router.replace(

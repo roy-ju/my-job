@@ -113,20 +113,28 @@ export default function useSuggestRegionalForm() {
   const handleChangeRemainingAmountDateType = useCallback((value: string) => {
     setRemainingAmountDateType(value);
   }, []);
-
+  
   const handleChangeInterviewAvailabletimes = useCallback(
     (value: string) => {
-      if (interviewAvailabletimes.includes(value)) {
-        const result = interviewAvailabletimes.filter((ele) => ele !== value);
-
-        setInterviewAvailabletimes(result);
+      if (value === '시간대 상관 없어요') {
+        if (interviewAvailabletimes.includes(value)) {
+          const result = interviewAvailabletimes.filter((ele) => ele !== value);
+          setInterviewAvailabletimes(result);
+        } else {
+          setInterviewAvailabletimes([value]);
+        }
       } else {
-        setInterviewAvailabletimes((prev) => [...prev, value]);
+        const result = interviewAvailabletimes.includes('시간대 상관 없어요')
+          ? [value]
+          : interviewAvailabletimes.includes(value)
+          ? interviewAvailabletimes.filter((ele) => ele !== value)
+          : [...interviewAvailabletimes, value];
+        setInterviewAvailabletimes(result);
       }
     },
     [interviewAvailabletimes],
   );
-
+  
   const handleOpenRegionList = useCallback(() => {
     setIsRegionListOpen(true);
   }, []);

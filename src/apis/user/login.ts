@@ -10,6 +10,7 @@ interface LoginRequest {
   marketing?: boolean;
   nickname?: string;
   email?: string;
+  signUpSource?: string;
 }
 
 export interface LoginResponse extends ErrorResponse {
@@ -24,6 +25,7 @@ export interface LoginResponse extends ErrorResponse {
   access_token: string;
   refresh_token: string;
   exp: number;
+  
 }
 
 export default async function login({
@@ -36,6 +38,7 @@ export default async function login({
   nickname,
   privacyRetentionType,
   marketing,
+  signUpSource,
 }: LoginRequest) {
   try {
     const { data } = await axios.post('/user/login/sns', {
@@ -50,6 +53,7 @@ export default async function login({
       nickname,
       privacy_retention_type: privacyRetentionType,
       marketing,
+      signup_source: signUpSource,
     });
     return data as LoginResponse;
   } catch (e) {
