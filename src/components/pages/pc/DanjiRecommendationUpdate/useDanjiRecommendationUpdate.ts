@@ -10,13 +10,17 @@ import { TimeTypeString } from '@/constants/strings';
 import { mutate } from 'swr';
 import updateSuggest from '@/apis/suggest/updateSuggest';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 
 export default function useDanjiRecommendationFormUpdate(depth: number) {
   const router = useRouter(depth);
   const suggestID = Number(router?.query?.suggestID) ?? 0;
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
+
   const danjiID = data?.danji_id ?? null;
+
+  const { mutate:listMutate } = useAPI_GetDanjiSuggestList({ danjiId: danjiID, pageSize: 4 });
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [price, setPrice] = useState('');
@@ -184,15 +188,19 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
 
     await mutate('/suggest/detail');
 
+    await listMutate();
+
     toast.success('구해요 글이 수정되었습니다.');
 
     router.replace(Routes.MySuggestDetail, {
       searchParams: {
-        suggestID: `${data?.suggest_id}`,
+        ...(data?.danji_id ? { danjiID: `${data?.danji_id}` } : {}),
+        ...(data?.suggest_id ? { suggestID: `${data?.suggest_id}` } : {}),
       },
     });
   }, [
     router,
+    data?.danji_id,
     data?.suggest_id,
     suggestID,
     price,
@@ -208,6 +216,7 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
     data?.buy_or_rents,
     data?.realestate_types,
     interviewAvailabletimes,
+    listMutate,
   ]);
 
   // 프리필 로직

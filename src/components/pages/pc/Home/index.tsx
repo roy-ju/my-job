@@ -57,12 +57,6 @@ export default memo(() => {
         back: router.asPath,
       },
     });
-
-    // router.replace(Routes.RecommendationForm, {
-    //   searchParams: {
-    //     back: router.asPath,
-    //   },
-    // });
   }, [router]);
 
   const handleClickBidding = useCallback(() => {

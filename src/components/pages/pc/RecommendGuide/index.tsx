@@ -47,7 +47,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     }
 
     if (entry && danjiID && redirect) {
-      if (entry === `danji${Routes.SuggestListings}}`) {
+      if (entry === `danjiSuggestListings`) {
         nextRouter.replace({
           pathname: `/${Routes.SuggestListings}/${Routes.DanjiRecommendation}`,
           query: { entry, danjiID, redirect },

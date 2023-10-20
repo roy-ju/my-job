@@ -19,6 +19,7 @@ export default function useDanjiRecommendationForm(depth: number) {
       ? [Forms.BuyOrRent]
       : [Forms.Danji],
   );
+
   const [isDanjiListOpen, setIsDanjiListOpen] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [danjiID, setDanjiID] = useState<string | null>(router?.query?.danjiID as string);
@@ -399,6 +400,7 @@ export default function useDanjiRecommendationForm(depth: number) {
     if (formElement) {
       formElement.style.minHeight = `${containerHeight}px`;
       const prevForm = forms[forms.length - 2];
+
       if (prevForm) {
         const prevFormElement = document.getElementById(prevForm);
         if (prevFormElement) {
@@ -406,7 +408,7 @@ export default function useDanjiRecommendationForm(depth: number) {
         }
       }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 100);
     }
   }, [forms]);
 
