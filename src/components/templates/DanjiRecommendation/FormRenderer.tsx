@@ -170,7 +170,6 @@ export default function FormRenderer({ form }: Props) {
               buyOrRent={buyOrRent}
             />
           </div>
-          <Separator />
           <div tw="pb-10 px-5">
             <DanjiRecommendationForm.Interview
               interviewAvailabletimes={interviewAvailabletimes}

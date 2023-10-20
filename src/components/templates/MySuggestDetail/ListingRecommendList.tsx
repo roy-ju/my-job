@@ -8,7 +8,6 @@ interface Props {
   onClickChat?: (id: number) => void;
   onClickNotInterested?: (id: number) => void;
   onClickRecommendAccept?: (id: number) => void;
-  onClickNewRecommendations?: () => void;
   onNext?: () => void;
   onClickDeleteSuggestRecommendItem?: (id: number) => void;
 }

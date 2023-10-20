@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
@@ -9,6 +10,7 @@ import { DanjiRecommendationSummary as DanjiRecommendationSummaryTemplate } from
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
 import { toast } from 'react-toastify';
 import { mutate as otherMutate } from 'swr';
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 
 interface Props {
   depth: number;
@@ -19,8 +21,14 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
   const nextRouter = useNextRouter();
   const router = useRouter(depth);
   const [isCreating, setIsCreating] = useState(false);
+  const [danjiID, setDanjiID] = useState<number | null>(null);
 
   const { mutate } = useAPI_GetDashboardInfo();
+
+  const { mutate: listMutate } = useAPI_GetDanjiSuggestList({
+    danjiId: danjiID,
+    pageSize: 10,
+  });
 
   const params = useMemo<Record<string, any>>(() => {
     if (typeof router.query.params === 'string') {
@@ -70,6 +78,10 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
 
     await mutate();
     await otherMutate(() => true, undefined);
+
+    if (params.danji_id) {
+      await setDanjiID(Number(params.danji_id));
+    }
 
     toast.success('구해요 글이 등록되었습니다.');
 

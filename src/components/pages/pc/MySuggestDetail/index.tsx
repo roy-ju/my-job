@@ -15,6 +15,7 @@ import { mutate as otherMutate } from 'swr';
 import { deleteSuggest } from '@/apis/suggest/deleteSuggest';
 import { deleteSuggestRecommend } from '@/apis/suggest/deleteSuggestRecommend';
 import { OverlayPresenter, Popup } from '@/components/molecules';
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 
 interface Props {
   depth: number;
@@ -36,6 +37,8 @@ export default memo(({ panelWidth, depth }: Props) => {
     increamentPageNumber,
     suggestStatus,
   } = useAPI_GetMySuggestRecommends(suggestID, undefined, data?.my_suggest);
+
+  const { mutate: listMutate } = useAPI_GetDanjiSuggestList({ danjiId: data?.danji_id, pageSize: 4 });
 
   const [suggestChecked, setSuggestChecked] = useState(false);
 
@@ -66,7 +69,8 @@ export default memo(({ panelWidth, depth }: Props) => {
 
     router.replace(targetRoute, {
       searchParams: {
-        suggestID: `${data?.suggest_id}`,
+        ...(data?.danji_id ? { danjiID: `${data.danji_id}` } : {}),
+        ...(data?.suggest_id ? { suggestID: `${data.suggest_id}` } : {}),
         back: router.asPath,
       },
     });
@@ -76,19 +80,11 @@ export default memo(({ panelWidth, depth }: Props) => {
     setSuggestChecked(suggestStatus === SuggestStatus.Active);
   }, [suggestStatus]);
 
-  const handleNaviagteToRecommendationForm = useCallback(() => {
-    router.replace(Routes.RecommendationForm, {
-      searchParams: {
-        redirect: `${Routes.SuggestRequestedList}`,
-        back: 'true',
-      },
-    });
-  }, [router]);
-
   const handleNotInterested = useCallback(
     async (suggestRecommendId: number) => {
       await notIntersted(suggestRecommendId);
       await mutate();
+
       toast.success('추천받은 매물을 삭제했습니다.');
     },
     [mutate],
@@ -139,11 +135,17 @@ export default memo(({ panelWidth, depth }: Props) => {
   const handleDeleteConfirm = useCallback(async () => {
     if (!suggestID) return;
     await deleteSuggest(suggestID);
+    await listMutate();
+    await otherMutate('/my/dashboard/info');
     setShowDeletePopup(false);
     toast.success('추천 요청을 삭제했습니다.', { toastId: 'success_delete' });
-    otherMutate('/my/dashboard/info');
-    handleClickBack();
-  }, [suggestID, handleClickBack]);
+
+    router.replace(Routes.SuggestRequestedList, {
+      state: {
+        ...(data?.danji_id ? { danjiID: `${data.danji_id}` } : {}),
+      },
+    });
+  }, [suggestID, listMutate, router, data?.danji_id]);
 
   const handleDeleteSuggestRecommendItem = useCallback(
     async (suggestRecommendId: number) => {
@@ -184,7 +186,6 @@ export default memo(({ panelWidth, depth }: Props) => {
                 onClickChat={handleClickChat}
                 onClickSuggestUpdate={handleClickSuggestUpdate}
                 onClickDanjiDetail={router.query.entry === 'my' ? handleClickDanjiDetail : undefined}
-                onClickNewRecommendations={handleNaviagteToRecommendationForm}
                 onNextListingRecommentList={increamentPageNumber}
                 onChangeSuggestChecked={handleChangeSuggestChecked}
                 onClickDeleteSuggest={handleClickDeleteSuggest}

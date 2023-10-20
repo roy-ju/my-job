@@ -16,7 +16,6 @@ interface Props {
   onClickDanjiDetail?: () => void;
   onClickNotInterested?: (id: number) => void;
   onClickRecommendAccept?: (id: number) => void;
-  onClickNewRecommendations?: () => void;
   onNextListingRecommentList?: () => void;
   onChangeSuggestChecked?: (checked: boolean) => void;
   onClickDeleteSuggest?: () => void;
@@ -33,7 +32,6 @@ export default function MySuggestDetail({
   onClickDanjiDetail,
   onClickNotInterested,
   onClickRecommendAccept,
-  onClickNewRecommendations,
   onNextListingRecommentList,
   suggestChecked,
   onChangeSuggestChecked,
@@ -76,7 +74,6 @@ export default function MySuggestDetail({
             onClickChat={onClickChat}
             onClickNotInterested={onClickNotInterested}
             onClickRecommendAccept={onClickRecommendAccept}
-            onClickNewRecommendations={onClickNewRecommendations}
             onClickDeleteSuggestRecommendItem={onClickDeleteSuggestRecommendItem}
           />
         </div>
