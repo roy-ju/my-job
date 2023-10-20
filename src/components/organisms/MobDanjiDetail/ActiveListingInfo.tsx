@@ -155,15 +155,21 @@ export default function ActiveListingInfo({
   }, [danji?.danji_id, router, userData]);
 
   const handleCreateSuggest = useCallback(() => {
+    const danjiID = `${danji?.danji_id}` || router?.query?.danjiID || '';
+
     const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
       danji?.danji_id || router?.query?.danjiID || ''
     }`;
 
-    router.push(
-      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${
-        danji?.danji_id || router?.query?.danjiID || ''
-      }&redirect=${redirectURL}&entry=danji`,
-    );
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
+      query: {
+        ...(danjiID ? { danjiID } : {}),
+        entry: 'danji',
+        redirect: redirectURL,
+        origin: router.asPath,
+      },
+    });
   }, [danji?.danji_id, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {

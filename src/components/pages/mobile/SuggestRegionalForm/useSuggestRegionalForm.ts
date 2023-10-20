@@ -297,6 +297,8 @@ export default function useSuggestRegionalForm() {
       query: {
         params: JSON.stringify(params),
         forms: JSON.stringify(forms),
+        ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
       },
     });
   }, [

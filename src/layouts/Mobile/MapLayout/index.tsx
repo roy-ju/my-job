@@ -66,11 +66,19 @@ function MapWrapper() {
       router.push({
         pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
         query: {
+          entry: 'map',
           address: centerAddress.join(' '),
+          origin: router.asPath,
         },
       });
     } else {
-      router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
+        query: {
+          entry: 'map',
+          origin: router.asPath,
+        },
+      });
     }
   }, [router, centerAddress, code]);
 

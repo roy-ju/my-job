@@ -191,12 +191,15 @@ export default function ActiveListingInfo({
   }, [danji?.danji_id, nextRouter, router, userData]);
 
   const handleCreateSuggest = useCallback(() => {
+    const danjiID = `${danji?.danji_id}` || router?.query?.danjiID || '';
+    const redirectURL = `/${Routes.DanjiDetail}?danjiID=${danjiID}`;
+
     nextRouter.replace({
       pathname: `/${Routes.DanjiDetail}/${Routes.RecommendGuide}`,
       query: {
         entry: 'danji',
-        danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-        redirect: `/${Routes.DanjiDetail}?danjiID=${danji?.danji_id || router?.query?.danjiID || ''}`,
+        ...(danjiID ? { danjiID } : {}),
+        redirect: redirectURL,
       },
     });
   }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
