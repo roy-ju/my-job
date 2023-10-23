@@ -1,5 +1,4 @@
 import { Label, Checkbox } from '@/components/atoms';
-import { makeDisabled } from '@/utils/fotmat';
 
 interface Props {
   interviewAvailabletimes?: string[];
@@ -22,14 +21,14 @@ export default function Inverview({ interviewAvailabletimes, onChangeInterviewAv
       </div>
 
       <div tw="flex flex-col gap-4">
-        {list.map((item, idx) => (
+        {list.map((item) => (
           <Label
             key={item}
             checked={interviewAvailabletimes?.includes(item)}
             onChange={(e) => onChangeInterviewAvailabletimes?.(e.target.value)}
             label={item}
             value={item}
-            control={<Checkbox name={item} disabled={makeDisabled(idx, list[0], interviewAvailabletimes)} />}
+            control={<Checkbox name={item} />}
           />
         ))}
       </div>

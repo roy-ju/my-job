@@ -209,22 +209,3 @@ export function convertArea({ type, value }: { type: string; value: string }) {
 
   return '';
 }
-
-export const makeDisabled = (idx: number, target: string, arr?: string[]) => {
-  if (arr?.length === 0) {
-    return false;
-  }
-
-  if (arr?.includes('시간대 상관 없어요')) {
-    if (idx > 0) {
-      return true;
-    }
-    return false;
-  }
-
-  if (arr && !arr?.includes('시간대 상관 없어요') && arr.length > 0 && idx === 0) {
-    return true;
-  }
-
-  return false;
-};
