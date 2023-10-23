@@ -403,8 +403,6 @@ export default function useSuggestRegionalForm() {
     }
   }, [forms]);
 
-  console.log(router.query);
-
   // 버튼 비활성화 로직
   useIsomorphicLayoutEffect(() => {
     setNextButtonDisabled(false);
