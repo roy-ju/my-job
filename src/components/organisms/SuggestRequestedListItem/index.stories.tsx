@@ -25,5 +25,6 @@ Default.args = {
     quick_sale: true,
     suggest_recommended_count: 0,
     created_time: '2023-09-14T15:26:29+09:00',
+    has_new: true,
   },
 };
