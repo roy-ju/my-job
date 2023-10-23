@@ -151,7 +151,7 @@ export default function useDanjiRecommendationForm(depth: number) {
   const handleChangeMoveInDateType = useCallback((value: string) => {
     setMoveInDateType(value);
   }, []);
- 
+
   const handleChangeInterviewAvailabletimes = useCallback(
     (value: string) => {
       if (value === '시간대 상관 없어요') {
@@ -416,7 +416,13 @@ export default function useDanjiRecommendationForm(depth: number) {
         }
       }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 100);
+      setTimeout(() => {
+        if (router.query.params) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+          formElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }
   }, [forms]);
 

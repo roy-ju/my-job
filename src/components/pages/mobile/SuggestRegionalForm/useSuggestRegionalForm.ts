@@ -13,7 +13,7 @@ import makeSuggestRegionalParams from './makeSuggestRegionalParams';
 export default function useSuggestRegionalForm() {
   const router = useRouter();
 
-  const [forms, setForms] = useState<string[]>([Forms.Region]);
+  const [forms, setForms] = useState<string[]>([Forms.BasicInfo]);
   const [isRegionListOpen, setIsRegionListOpen] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
@@ -113,7 +113,7 @@ export default function useSuggestRegionalForm() {
   const handleChangeRemainingAmountDateType = useCallback((value: string) => {
     setRemainingAmountDateType(value);
   }, []);
-  
+
   const handleChangeInterviewAvailabletimes = useCallback(
     (value: string) => {
       if (value === '시간대 상관 없어요') {
@@ -134,7 +134,7 @@ export default function useSuggestRegionalForm() {
     },
     [interviewAvailabletimes],
   );
-  
+
   const handleOpenRegionList = useCallback(() => {
     setIsRegionListOpen(true);
   }, []);
@@ -147,11 +147,7 @@ export default function useSuggestRegionalForm() {
     setForms((prev) => [...prev, ...formNames]);
   }, []);
 
-  const handleSubmitRegion = useCallback(() => {
-    setNextForm(Forms.RealestateType);
-  }, [setNextForm]);
-
-  const handleSubmitRealestateType = useCallback(() => {
+  const handleSubmitBasicInfo = useCallback(() => {
     if (buyOrRent === BuyOrRent.Buy) {
       setNextForm(Forms.Purpose);
       return;
@@ -159,14 +155,8 @@ export default function useSuggestRegionalForm() {
     setNextForm(Forms.MoveInDate);
   }, [setNextForm, buyOrRent]);
 
-  const handleSubmitBuyOrRent = useCallback(() => {}, []);
-
   const handleSubmitMoveInDate = useCallback(() => {
     setNextForm(Forms.Option);
-  }, [setNextForm]);
-
-  const handleSubmitPrice = useCallback(() => {
-    setNextForm(Forms.Description);
   }, [setNextForm]);
 
   const handleSubmitArea = useCallback(() => {
@@ -182,7 +172,7 @@ export default function useSuggestRegionalForm() {
   }, []);
 
   const onConfirmPopup = useCallback(() => {
-    setForms([Forms.Region, Forms.RealestateType]);
+    setForms([Forms.BasicInfo]);
     setRealestateType([]);
     setBuyOrRent(0);
     setPrice('');
@@ -210,34 +200,37 @@ export default function useSuggestRegionalForm() {
 
     // region
     if (!bubjungdong) {
-      const form = document.getElementById(Forms.Region);
+      const form = document.getElementById(Forms.BasicInfo);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('어느 지역을 추천받고 싶은지 선택해주세요.');
       return;
     }
+
     // realestate type
     if (!realestateType.length) {
-      const form = document.getElementById(Forms.RealestateType);
+      const form = document.getElementById(Forms.BasicInfo);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('매물의 부동산 종류를 선택해주세요');
       return;
     }
+
     // buy or rent
     if (!buyOrRent) {
-      const form = document.getElementById(Forms.RealestateType);
+      const form = document.getElementById(Forms.BasicInfo);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('매물의 거래 종류를 선택해 주세요.');
       return;
     }
+
     if (buyOrRent === BuyOrRent.Buy && !price) {
-      const form = document.getElementById(Forms.RealestateType);
+      const form = document.getElementById(Forms.BasicInfo);
       form?.scrollIntoView({ behavior: 'smooth' });
       setEmptyTextFields({ ...emptyTextFields, price: true });
       return;
     }
 
     if (buyOrRent !== BuyOrRent.Buy && !monthlyRentFee && !price) {
-      const form = document.getElementById(Forms.RealestateType);
+      const form = document.getElementById(Forms.BasicInfo);
       form?.scrollIntoView({ behavior: 'smooth' });
       setEmptyTextFields({ ...emptyTextFields, price: true });
       return;
@@ -263,7 +256,7 @@ export default function useSuggestRegionalForm() {
     // move in date
     if (purpose !== '투자' && !moveInDate) {
       if (buyOrRent === BuyOrRent.Buy) {
-        const form = document.getElementById(Forms.RealestateType);
+        const form = document.getElementById(Forms.BasicInfo);
         form?.scrollIntoView({ behavior: 'smooth' });
         toast.error('입주 희망일을 입력해주세요.');
         return;
@@ -329,34 +322,15 @@ export default function useSuggestRegionalForm() {
     interviewAvailabletimes,
   ]);
 
-  const handleChangeBubjungdong = useCallback(
-    (item: RegionItem) => {
-      setBubjungdong(item);
-      const currentForm = forms[forms.length - 1];
-      if (currentForm === Forms.Region) {
-        handleSubmitRegion();
-      }
-    },
-    [handleSubmitRegion, forms],
-  );
+  const handleChangeBubjungdong = useCallback((item: RegionItem) => {
+    setBubjungdong(item);
+  }, []);
 
   const handleClickNext = useCallback(() => {
     const lastForm = forms[forms.length - 1];
     switch (lastForm) {
-      case Forms.Region:
-        handleSubmitRegion();
-        break;
-
-      case Forms.RealestateType:
-        handleSubmitRealestateType();
-        break;
-
-      case Forms.BuyOrRent:
-        handleSubmitBuyOrRent();
-        break;
-
-      case Forms.Price:
-        handleSubmitPrice();
+      case Forms.BasicInfo:
+        handleSubmitBasicInfo();
         break;
 
       case Forms.Area:
@@ -381,17 +355,7 @@ export default function useSuggestRegionalForm() {
       default:
         break;
     }
-  }, [
-    forms,
-    handleSubmitRegion,
-    handleSubmitRealestateType,
-    handleSubmitBuyOrRent,
-    handleSubmitPrice,
-    handleSubmitMoveInDate,
-    handleSubmitArea,
-    handleSubmitPurpose,
-    handleSubmitFinal,
-  ]);
+  }, [forms, handleSubmitBasicInfo, handleSubmitMoveInDate, handleSubmitArea, handleSubmitPurpose, handleSubmitFinal]);
 
   // 법정동 프리필 로직
   useIsomorphicLayoutEffect(() => {
@@ -411,55 +375,47 @@ export default function useSuggestRegionalForm() {
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
-    setTimeout(() => {
-      const formContainer = document.getElementById('formContainer');
-      const formElement = document.getElementById(currentForm);
 
-      const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
+    const formContainer = document.getElementById('formContainer');
+    const formElement = document.getElementById(currentForm);
 
-      if (formElement) {
-        formElement.style.minHeight = `${containerHeight}px`;
-        const prevForm = forms[forms.length - 2];
-        if (prevForm) {
-          const prevFormElement = document.getElementById(prevForm);
-          if (prevFormElement) {
-            prevFormElement.style.minHeight = '';
-          }
+    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
+
+    if (formElement) {
+      formElement.style.minHeight = `${containerHeight}px`;
+
+      const prevForm = forms[forms.length - 2];
+
+      if (prevForm) {
+        const prevFormElement = document.getElementById(prevForm);
+        if (prevFormElement) {
+          prevFormElement.style.minHeight = '';
         }
-
-        formElement.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 500);
+
+      setTimeout(() => {
+        if (router.query.params) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+          formElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
   }, [forms]);
+
+  console.log(router.query);
 
   // 버튼 비활성화 로직
   useIsomorphicLayoutEffect(() => {
     setNextButtonDisabled(false);
     const currentForm = forms[forms.length - 1];
 
-    if (currentForm === Forms.Region) {
-      if (!bubjungdong) {
+    if (currentForm === Forms.BasicInfo) {
+      if (!bubjungdong || !realestateType.length || !buyOrRent || !price) {
         setNextButtonDisabled(true);
       }
     }
 
-    if (currentForm === Forms.RealestateType) {
-      if (!realestateType.length || !buyOrRent || !price) {
-        setNextButtonDisabled(true);
-      }
-    }
-
-    // if (currentForm === Forms.BuyOrRent) {
-    //   if (!buyOrRent) {
-    //     setNextButtonDisabled(true);
-    //   }
-    // }
-
-    // if (currentForm === Forms.Price) {
-    //   if (!price) {
-    //     setNextButtonDisabled(true);
-    //   }
-    // }
     if (currentForm === Forms.MoveInDate) {
       if (!moveInDate) {
         setNextButtonDisabled(true);
@@ -506,7 +462,7 @@ export default function useSuggestRegionalForm() {
     if (!router.query.forms) return;
 
     setForms(JSON.parse(router.query.forms as string));
-    
+
     const params: Record<string, unknown> = JSON.parse(router.query.params as string);
 
     setRealestateType(
@@ -525,13 +481,13 @@ export default function useSuggestRegionalForm() {
       setPrice(params.deposit ? String(params.deposit)?.slice(0, -4) : '');
       setMonthlyRentFee(params.monthly_rent_fee ? String(params.monthly_rent_fee)?.slice(0, -4) : '');
     }
-    
+
     setNegotiable(Boolean(params.negotiable));
-    
+
     setMinArea(String(params.pyoung_from ?? ''));
-    
+
     setMaxArea(String(params.pyoung_to ?? ''));
-    
+
     setPurpose(String(params.purpose ?? ''));
 
     if (String(params.purpose) === '투자') {
@@ -541,14 +497,14 @@ export default function useSuggestRegionalForm() {
       setMoveInDate(new Date(String(params.move_in_date ?? '')));
       setMoveInDateType(params.move_in_date_type ? TimeTypeString[Number(params.move_in_date_type)] : '이전');
     }
-    
+
     setDescription(String(params.note ?? ''));
 
     setInterviewAvailabletimes(String(params.interview_available_times).split(',') as unknown as string[]);
 
-    const region = document.getElementById(Forms.Region);
-    if (region) {
-      region.style.minHeight = '';
+    const basicInfo = document.getElementById(Forms.BasicInfo);
+    if (basicInfo) {
+      basicInfo.style.minHeight = '';
     }
   }, []);
 
