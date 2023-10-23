@@ -76,7 +76,7 @@ export default function DeregisterForm({
             tw="min-h-[160px] max-h-[160px]"
           />
         </TextField>
-        <TextField.HelperMessage tw="text-left text-gray-1000 mt-0">
+        <TextField.HelperMessage tw="text-right text-gray-1000 mt-0">
           {extraReasons?.length} / 200
         </TextField.HelperMessage>
       </div>

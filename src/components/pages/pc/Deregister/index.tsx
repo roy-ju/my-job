@@ -40,7 +40,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleChangeExtraReasons = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length > 200) {
       setExtraReasons(e.target.value.slice(0, 200));
-      toast.success('최대 200자까지 입력이 가능합니다.', { toastId: 'maxLength' });
+      toast.error('최대 200자까지 입력이 가능합니다.', { toastId: 'maxLength' });
       return;
     }
     setExtraReasons(e.target.value);
