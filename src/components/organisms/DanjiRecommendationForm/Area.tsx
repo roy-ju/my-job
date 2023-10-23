@@ -85,7 +85,7 @@ export default function Area({
                   }
                 }}
               >
-                확인
+                추가
               </Button>
             </TextField.Trailing>
           )}

@@ -405,7 +405,13 @@ export default function useDanjiRecommendation() {
         }
       }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+      setTimeout(() => {
+        if (router.query.params) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }else{
+          formElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }
   }, [forms]);
 
@@ -521,12 +527,12 @@ export default function useDanjiRecommendation() {
 
     if (router.query.entry === 'danji' || router.query.entry === 'danjiSuggestListings') {
       const formBuyOrRent = document.getElementById(Forms.BuyOrRent);
-      
+
       if (formBuyOrRent) formBuyOrRent.style.minHeight = '';
     }
 
     const formDanji = document.getElementById(Forms.Danji);
-    
+
     if (formDanji) {
       formDanji.style.minHeight = '';
     }
