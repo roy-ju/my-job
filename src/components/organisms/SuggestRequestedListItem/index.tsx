@@ -4,6 +4,7 @@ import { RealestateType, BuyOrRent } from '@/constants/enums';
 import { RealestateTypeString } from '@/constants/strings';
 import { useMemo } from 'react';
 import ChevronIcon from '@/assets/icons/my_chevron_16_black.svg';
+import NewIcon from '@/assets/icons/new.svg';
 import tw from 'twin.macro';
 
 const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
@@ -76,7 +77,6 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
               <span tw="line-clamp-1 text-gray-1000 text-info"> {item?.title}</span>
             </div>
             <div>
-              {' '}
               <ChevronIcon tw="shrink-0 mb-0.5" />
             </div>
           </div>
@@ -98,11 +98,16 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
               <span tw="mr-1">요청일:</span>
               <Moment format="relative">{item?.created_time}</Moment>
             </div>
-            <div tw="text-info text-gray-700">
-              추천받은 수{' '}
+            <div tw="flex items-center text-info text-gray-700">
+              추천받은 수
               <span tw="font-medium" css={[item?.suggest_recommended_count && tw`font-bold text-nego-1000`]}>
                 {item?.suggest_recommended_count ?? 0}
               </span>
+              {!!item?.has_new && (
+                <div tw="ml-1">
+                  <NewIcon />
+                </div>
+              )}
             </div>
           </div>
         </div>

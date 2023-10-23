@@ -17,7 +17,8 @@ export interface GetMySuggestListResponse {
         monthly_rent_fee: number;
         pyoung_text: string;
         negotiable: boolean;
-        quick_sale: boolean;        
+        quick_sale: boolean;
+        has_new: boolean;
       }[]
     | null;
 }
