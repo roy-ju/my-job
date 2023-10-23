@@ -10,7 +10,7 @@ import Plus16 from '@/assets/icons/plus_16px.svg';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useScroll } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 import { getDevice } from '@/utils/misc';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 import { LegalPageBanner } from '../Home/Components/Banner';

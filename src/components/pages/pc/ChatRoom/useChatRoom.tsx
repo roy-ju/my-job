@@ -138,7 +138,6 @@ export default function useChatRoom(chatRoomID: number) {
 
   return {
     isTextFieldDisabled: textFieldDisabled,
-    otherProfileImagePath: data?.other_profile_image_full_path,
     title: data?.title,
     otherName: data?.other_name,
 

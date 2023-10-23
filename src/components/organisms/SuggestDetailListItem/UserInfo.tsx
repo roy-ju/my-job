@@ -2,7 +2,7 @@ import { Avatar, Chip } from '@/components/atoms';
 import React from 'react';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { styled } from 'twin.macro';
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 import { SuggestRecommendStatus } from '@/constants/enums';
 
 import ViewIcon from '@/assets/icons/view.svg';

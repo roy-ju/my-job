@@ -1,7 +1,7 @@
 import { Avatar, Chip } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { StaticImageData } from 'next/image';
-import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
+import { formatLastMessageTime } from '@/utils/formatsTime';
 
 interface ChatRoomListItemProps {
   profileImagePath: string | StaticImageData;

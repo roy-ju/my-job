@@ -2,7 +2,7 @@ import { Avatar, Chip, Moment, Numeral } from '@/components/atoms';
 import React, { useMemo } from 'react';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 import tw, { styled } from 'twin.macro';

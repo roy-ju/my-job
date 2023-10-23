@@ -22,8 +22,6 @@ export default memo(() => {
   const [chatRoomIsClosing, setChatRoomIsClosing] = useState(false);
   const [showContractCtaPopup, setShowContractCtaPopup] = useState(false);
 
-  //  const [popupOpen, setPopupOpen] = useState(false);
-
   const nanoID = customAlphabet('123456789');
 
   const [photoSending, setPhotoSending] = useState(false);
@@ -32,7 +30,6 @@ export default memo(() => {
     title,
     otherName,
     chatMessages,
-    otherProfileImagePath,
     isLoading,
     isTextFieldDisabled,
     photosUrls,
@@ -175,8 +172,6 @@ export default memo(() => {
 
       <ChatRoom
         title={title ?? ''}
-        otherName={otherName ?? ''}
-        otherProfileImagePath={otherProfileImagePath ?? ''}
         isLoading={isLoading}
         chatUserType={chatUserType ?? 0}
         chatRoomType={chatRoomType ?? 0}

@@ -20,8 +20,6 @@ Default.args = {
   isLoading: false,
   textFieldDisabled: true,
   title: '공개용 주소 최대 22자 모두 노출 가능',
-  otherName: '김네고',
-  otherProfileImagePath: defaultAvatar,
   chatMessages: Array(3)
     .fill(0)
     .map((_, index) => ({
@@ -45,8 +43,6 @@ ThousandsMessages.args = {
   isLoading: false,
   textFieldDisabled: true,
   title: '공개용 주소 최대 22자 모두 노출 가능',
-  otherName: '김네고',
-  otherProfileImagePath: defaultAvatar,
   chatMessages: Array(100)
     .fill(0)
     .map((_, index) => ({
