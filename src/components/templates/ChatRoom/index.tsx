@@ -9,17 +9,7 @@ import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { ChatRoomTextField } from '@/components/organisms';
 import useLatest from '@/hooks/utils/useLatest';
-import { StaticImageData } from 'next/image';
-import React, {
-  CSSProperties,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useLayoutEffect,
-} from 'react';
+import React, { CSSProperties, Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList as List, VariableSizeList } from 'react-window';
 import ChatRoomDetailsAccordionRenderer from './ChatRoomDetailsAccordionRenderer';
@@ -28,9 +18,6 @@ import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
 
 interface ChatRoomProps {
   title: string;
-  otherName: string;
-
-  otherProfileImagePath: string | StaticImageData;
 
   isLoading: boolean;
   chatMessages: IChatMessage[];
@@ -72,9 +59,6 @@ export default function ChatRoom({
 
   chatMessages,
   textFieldDisabled = false,
-
-  otherName,
-  otherProfileImagePath,
 
   inputRef,
   onSendMessage,

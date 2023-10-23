@@ -3,12 +3,12 @@ import { ChatMessage } from '@/components/organisms';
 import { ChatUserType } from '@/constants/enums';
 import { StaticImageData } from 'next/image';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
 import { Button, Loading, Moment } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useIsomorphicLayoutEffect, useOutsideClick } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
 import tw from 'twin.macro';
+import { compareMessageTime } from '@/utils/formatsTime';
 
 export interface IChatMessage {
   id: number;
@@ -20,15 +20,6 @@ export interface IChatMessage {
   agentReadTime: Date | null;
   photoLoading?: boolean;
 }
-
-/*
-const variantByType: Record<ChatUserType, 'gray' | 'nego' | 'system'> = {
-  [ChatUserType.Agent]: 'gray',
-  [ChatUserType.Buyer]: 'nego',
-  [ChatUserType.Seller]: 'nego',
-  [ChatUserType.System]: 'system',
-};
-*/
 
 export default memo(
   ({
@@ -70,7 +61,8 @@ export default memo(
     const shouldRenderSentTime = useMemo(() => {
       if (!nextChat) return true;
       if (nextChat.chatUserType !== chat.chatUserType) return true;
-      if (formatLastMessageTime(nextChat.sentTime) !== formatLastMessageTime(chat.sentTime)) return true;
+      if (compareMessageTime(nextChat.sentTime) !== compareMessageTime(chat.sentTime)) return true;
+
       return false;
     }, [nextChat, chat]);
 

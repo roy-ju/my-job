@@ -6,7 +6,7 @@ import ArrowRight from '@/assets/icons/arrow_right_16.svg';
 import ViewIcon from '@/assets/icons/view.svg';
 import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
 
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 
 function PriceText({
   tradeOrDepositPrice,

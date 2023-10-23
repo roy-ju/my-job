@@ -30,7 +30,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     title,
     otherName,
     chatMessages,
-    otherProfileImagePath,
     isLoading,
     isTextFieldDisabled,
     photosUrls,
@@ -122,8 +121,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     <Panel width={panelWidth}>
       <ChatRoom
         title={title ?? ''}
-        otherName={otherName ?? ''}
-        otherProfileImagePath={otherProfileImagePath ?? ''}
         isLoading={isLoading}
         chatUserType={chatUserType ?? 0}
         chatRoomType={chatRoomType ?? 0}
@@ -145,17 +142,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickNavigateToListingDetailHistory={handleClickNavigateToListingDetailHistory}
         setPhotoSending={setPhotoSending}
       />
-      {/* closePopupStatus === 'open' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.Title tw="text-center">채팅방 나가기</Popup.Title>
-              <Popup.Body>{renderPopupBodyContents()}</Popup.Body>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>{renderPopupButton()}</Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      ) */}
       {showContractCtaPopup && (
         <OverlayPresenter>
           <ChatRoomPopup.ContractComplete
