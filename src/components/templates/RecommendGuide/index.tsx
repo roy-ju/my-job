@@ -86,7 +86,7 @@ function RecommendGuide({ title, onClickBack, onClickCTA }: RecommendGuideProps)
       </div>
 
       <PersistentBottomBar>
-        <Button variant="secondary" tw="w-full pb-[34px] pt-6" onClick={onClickCTA}>
+        <Button variant="secondary" size="bigger" tw="w-full mt-2 mb-[18px]" onClick={onClickCTA}>
           다음
         </Button>
       </PersistentBottomBar>
