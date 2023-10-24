@@ -82,9 +82,11 @@ function Container({ variant, children }: ContainerProps) {
               variant === 'system' && tw`justify-center`,
             ]}
           >
-            {photo && <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{photo}</div>}
+            {photo?.length > 0 && (
+              <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{photo}</div>
+            )}
 
-            {loadingPhoto && (
+            {loadingPhoto?.length > 0 && (
               <div css={[tw`flex flex-col gap-2`, variant === 'nego' && tw`items-end`]}>{loadingPhoto}</div>
             )}
 
