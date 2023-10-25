@@ -46,6 +46,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     (id: number) => {
       router.replace(Routes.ChatRoom, {
         searchParams: {
+          ...(router.query.danjiID ? { danjiID: router.query.danjiID as string } : {}),
           chatRoomID: `${id}`,
         },
       });
