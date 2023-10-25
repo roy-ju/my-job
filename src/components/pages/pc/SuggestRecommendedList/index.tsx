@@ -43,7 +43,11 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const handleNavigateToChatRoom = (chatRoomId: number) => {
     router.replace(Routes.ChatRoom, {
-      searchParams: { chatRoomID: `${chatRoomId}`, back: router.asPath },
+      searchParams: {
+        ...(router.query.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        chatRoomID: `${chatRoomId}`,
+        back: router.asPath,
+      },
     });
   };
   const handleNavigateToDanjiRecommendation = () => {
