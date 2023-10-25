@@ -77,7 +77,7 @@ export default function SuggestRecommendedListItem({
       );
     }
     if (
-      suggestItem.suggest_status === SuggestStatus.UserDeleted ||
+      suggestItem.suggest_status === SuggestStatus.Deleted ||
       suggestRecommendItem.suggest_recommend_status === SuggestRecommendStatus.Cancelled ||
       suggestRecommendItem.suggest_recommend_status === SuggestRecommendStatus.NotInterested
     )
@@ -119,7 +119,7 @@ export default function SuggestRecommendedListItem({
     }
   };
   const renderSuggestRecommendErrorMessage = () => {
-    if (suggestItem.suggest_status === SuggestStatus.UserDeleted)
+    if (suggestItem.suggest_status === SuggestStatus.Deleted)
       return (
         <div tw="flex gap-1 mt-2">
           <ErrorIcon />
