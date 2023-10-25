@@ -138,7 +138,12 @@ export enum BiddingStatus {
 export enum SuggestStatus {
   Active = 1,
   Stopped = 2,
-  UserDeleted = 3,
+  Deleted = 3,
+}
+
+export enum SuggestCancelType {
+  UserCacncelled = 1,
+  AdminCancelled = 2,
 }
 
 export enum SuggestRecommendStatus {
