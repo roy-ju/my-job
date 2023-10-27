@@ -375,8 +375,8 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
   }, [filterProp]);
 
   return (
-    <FiltersContainer tw="w-full max-w-mobile min-h-[100vh] overflow-y-hidden [z-index: 100] bg-white">
-      <div tw="w-[100%] max-w-mobile fixed top-0 left-auto right-auto [z-index: 50] bg-white">
+    <FiltersContainer tw="w-full min-h-[100vh] overflow-y-hidden [z-index: 100] bg-white">
+      <div tw="w-full fixed top-0 left-auto right-auto [z-index: 50] bg-white">
         <div tw="flex items-center justify-between py-4 px-4">
           <span tw="text-b1 [line-height: 1] font-bold">전체 필터</span>
           <Button variant="ghost" tw="px-0 py-0 h-[1.5rem]" onClick={closeAll}>
@@ -423,7 +423,7 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
         />
       </div>
 
-      <div tw="w-full max-w-mobile fixed h-[calc(100vh - 5.5rem - 10.5rem)] overflow-y-auto left-auto right-auto [z-index: 1000] bg-white mt-[10.5rem] pb-[7rem]">
+      <div tw="w-full fixed h-[calc(100vh - 5.5rem - 10.5rem)] overflow-y-auto left-auto right-auto [z-index: 1000] bg-white mt-[10.5rem] pb-[7rem]">
         <div tw="px-4">
           {isUIRealestateTypeRoomCountFilterAdded && (
             <RealestateTypeRoomCountFilter
@@ -472,7 +472,7 @@ export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: 
 
       {uiFilters.length > 0 && (
         <div
-          tw="flex gap-2 fixed bottom-0 left-auto right-auto items-center justify-between py-4 w-full max-w-mobile bg-white z-50 shadow-persistentBottomBar [z-index: 1001]"
+          tw="flex gap-2 fixed bottom-0 left-auto right-auto items-center justify-between py-4 w-full bg-white z-50 shadow-persistentBottomBar [z-index: 1001]"
           style={{ paddingLeft: '1.6rem', paddingRight: '1.6rem' }}
         >
           <Button variant="outlined" size="bigger" tw="flex-[1]" onClick={handleResetUIFilter}>

@@ -65,7 +65,6 @@ export { default as DanjiRecommendationForm } from './DanjiRecommendationForm';
 
 // 모바일 전용
 export { default as MobDanjiSummary } from './MobDanjiSummary';
-export { default as MobGlobalHeader } from './MobGlobalHeader';
 export { default as MobGlobalNavigation } from './MobGlobalNavigation';
 export { default as MobListingSummary } from './MobListingSummary';
 export { default as MobMapAllFilter } from './MobMapAllFilter';
