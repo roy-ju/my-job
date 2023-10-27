@@ -27,7 +27,7 @@ export default function MobMyAddressDetail({
   onClickBack,
 }: MobMyAddressDetailProps) {
   return (
-    <div tw="fixed top-0 right-0 left-0 w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+    <div tw="fixed top-0 right-0 left-0 w-full mx-auto h-full flex flex-col bg-white">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>우리집 등록</NavigationHeader.Title>

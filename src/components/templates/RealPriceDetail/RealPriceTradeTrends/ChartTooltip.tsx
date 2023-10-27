@@ -73,7 +73,7 @@ export const ChartTooltip = React.memo(
         >
           <div
             style={{ '--left': `${left}px`, '--width': `${width}px` } as CustomProperties & React.CSSProperties}
-            tw="flex flex-row items-center bg-white max-w-mobile [border-radius: 8px] [text-align: left] [padding: 8px 12px 8px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
+            tw="flex flex-row items-center bg-white w-full [border-radius: 8px] [text-align: left] [padding: 8px 12px 8px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
             css={[
               checkPlatform() === 'pc'
                 ? tw`before:[left: calc(var(--left)-6px)]`
@@ -113,7 +113,7 @@ export const ChartTooltip = React.memo(
                           marginLeft: '4px',
                         }}
                       >
-                        {round(data.danji_count,1)==="0.0"? 0:round(data.danji_count,1)}
+                        {round(data.danji_count, 1) === '0.0' ? 0 : round(data.danji_count, 1)}
                       </span>
                     </span>
                   </div>
@@ -132,7 +132,7 @@ export const ChartTooltip = React.memo(
                           marginLeft: '4px',
                         }}
                       >
-                        {round(data.sigungu_count,1)==="0.0"? 0:round(data.sigungu_count,1)}
+                        {round(data.sigungu_count, 1) === '0.0' ? 0 : round(data.sigungu_count, 1)}
                       </span>
                     </span>
                   )}
@@ -153,7 +153,7 @@ export const ChartTooltip = React.memo(
                                 marginLeft: '4px',
                               }}
                             >
-                              {round(data.sido_count,1)==="0.0"? 0:round(data.sido_count,1)}
+                              {round(data.sido_count, 1) === '0.0' ? 0 : round(data.sido_count, 1)}
                             </span>
                           </span>
                         </>

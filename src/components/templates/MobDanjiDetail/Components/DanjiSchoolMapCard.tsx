@@ -327,7 +327,7 @@ export default function DanjiSchoolMapCard({
 
   return (
     <>
-      <div tw="relative flex-1 w-full max-w-mobile">
+      <div tw="relative flex-1 w-full">
         <NaverMapV1
           center={center}
           onCreate={onCreate}
@@ -380,7 +380,7 @@ export default function DanjiSchoolMapCard({
       </div>
       <Stack
         ref={schoolRef}
-        tw="w-full max-w-mobile"
+        tw="w-full"
         style={{
           paddingTop: '16px',
           paddingLeft: '20px',

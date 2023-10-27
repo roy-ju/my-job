@@ -47,7 +47,7 @@ export default function MobMyDetail({
 
   return (
     <>
-      <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+      <div tw="w-full mx-auto h-full flex flex-col bg-white">
         <NavigationHeader>
           <NavigationHeader.BackButton onClick={() => router.back()} />
           <NavigationHeader.Title>회원정보</NavigationHeader.Title>

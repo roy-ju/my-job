@@ -18,8 +18,8 @@ export default function MobDanjiPhotos({
 
   return (
     <>
-      <div tw="w-full max-w-mobile min-h-[100vh] overflow-y-hidden [z-index: 100] bg-white">
-        <div tw="w-[100%] max-w-mobile fixed top-0 left-auto right-auto [z-index: 50] bg-white">
+      <div tw="w-full min-h-[100vh] overflow-y-hidden [z-index: 100] bg-white">
+        <div tw="w-[100%] fixed top-0 left-auto right-auto [z-index: 50] bg-white">
           <div tw="flex items-center justify-between py-4 px-5">
             <span tw="text-b1 [line-height: 1] font-bold">
               단지 사진 <span tw="text-nego-1000 font-bold">{danjiPhotos?.danji_photos?.length || 0}</span>
@@ -30,7 +30,7 @@ export default function MobDanjiPhotos({
           </div>
         </div>
 
-        <div tw="w-full max-w-mobile fixed h-[calc(100vh - 56px)] overflow-y-auto left-auto right-auto [z-index: 1000] mt-[56px] pb-[7rem] bg-black">
+        <div tw="w-full fixed h-[calc(100vh - 56px)] overflow-y-auto left-auto right-auto [z-index: 1000] mt-[56px] pb-[7rem] bg-black">
           <div tw="grid [grid-template-columns: repeat(3,1fr)] [grid-gap: 0px]">
             {danjiPhotos?.danji_photos &&
               danjiPhotos.danji_photos.length > 0 &&

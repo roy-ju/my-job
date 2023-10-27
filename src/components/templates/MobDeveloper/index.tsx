@@ -40,10 +40,10 @@ export default function MobDeveloper({
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={() => router.replace(`${Routes.EntryMobile}/${Routes.My}`)} />
+        <NavigationHeader.BackButton onClick={() => router.replace(`/${Routes.EntryMobile}/${Routes.My}`)} />
         <NavigationHeader.Title>개발자 설정</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex flex-col p-5 gap-4 mt-[3.5rem]">
+      <div tw="flex flex-col p-5 gap-4">
         <div tw="flex flex-col gap-2">
           <TextField variant="outlined">
             <TextField.Input label="유저 닉네임" value={userNickname} />

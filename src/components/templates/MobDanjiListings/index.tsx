@@ -96,7 +96,7 @@ export default function MobDanjiListings({
 
   return (
     <>
-      <div tw="w-full max-w-mobile flex flex-col relative h-full">
+      <div tw="w-full w-full flex flex-col relative h-full">
         <NavigationHeader>
           <NavigationHeader.BackButton onClick={handleBackButton} />
           <NavigationHeader.Title>단지 매물 목록</NavigationHeader.Title>

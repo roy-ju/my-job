@@ -51,7 +51,7 @@ export default function MobRealPriceDetail() {
   }, [router.query]);
 
   return (
-    <div tw="w-full max-w-mobile relative flex flex-col h-full">
+    <div tw="w-full relative flex flex-col h-full">
       <ReapPriceDetailHeader
         danji={danji}
         buyOrRent={buyOrRent || 1}

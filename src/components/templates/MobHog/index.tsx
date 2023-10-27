@@ -45,7 +45,7 @@ export default function MobHog({
   onClickListingCreate?: () => void;
 }) {
   return (
-    <div tw="w-full max-w-mobile relative flex flex-col h-full">
+    <div tw="w-full relative flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>매물등록 신청</NavigationHeader.Title>

@@ -251,7 +251,7 @@ const MobDanjiSelect = ({
   if (!danji || !selectedValue) return null;
 
   return (
-    <div tw="w-full max-w-mobile relative flex flex-col h-full">
+    <div tw="w-full relative flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={handleClickBackButton} />
         <NavigationHeader.Title>{danji?.name} 비교하기</NavigationHeader.Title>
@@ -267,135 +267,137 @@ const MobDanjiSelect = ({
           </div>
         )}
       </NavigationHeader>
-      <div tw="pt-6">
-        <div tw="flex px-5 gap-2">
-          {sidoData?.list && (
-            <Dropdown
-              tw="min-w-0 h-8 w-[73px]"
-              size="small"
-              variant="outlined"
-              value={selectedValue}
-              onChange={(e) => {
-                const selectedCode = sidoData.list?.filter((item) => item.name === e)[0]?.code || '';
-                setSelectedValue(e);
-                setSelectedSidoCode(selectedCode);
-                setIsFirstIndex(true);
-              }}
-            >
-              {sidoData.list.map((item) => (
-                <Dropdown.OptionSmall tw="min-w-0" key={item.name} value={item.name}>
-                  {convertSidoName(item.name)}
-                </Dropdown.OptionSmall>
-              ))}
-            </Dropdown>
-          )}
-          {sigunguData?.list && (
-            <Dropdown
-              tw="min-w-0 h-8 w-[126px]"
-              size="small"
-              variant="outlined"
-              value={selectedSigungu}
-              onChange={(e) => {
-                const selectedCode = sigunguData.list?.filter((item) => item.name === e)[0]?.code || '';
-                setSelectedSigungu(e);
-                setSelectedSigunguCode(selectedCode);
-              }}
-            >
-              {sigunguData.list.map((item) => (
-                <Dropdown.OptionSmall key={item.name} value={item.name} tw="min-w-0">
-                  {convertSigunguName(item.name)}
-                </Dropdown.OptionSmall>
-              ))}
-            </Dropdown>
-          )}
+      <div tw="pt-6 flex px-5 gap-2">
+        {sidoData?.list && (
           <Dropdown
-            tw="min-w-0 h-8 w-[100px]"
+            tw="min-w-0 h-8 w-[73px]"
             size="small"
             variant="outlined"
-            value={selectedRealestateType}
+            value={selectedValue}
             onChange={(e) => {
-              setSelectedRealestateType(e);
-              if (e === '아파트') {
-                setSelectedRealestateTypeCode(RealestateType.Apartment);
-              } else if (e === '오피스텔') {
-                setSelectedRealestateTypeCode(RealestateType.Officetel);
-              }
+              const selectedCode = sidoData.list?.filter((item) => item.name === e)[0]?.code || '';
+              setSelectedValue(e);
+              setSelectedSidoCode(selectedCode);
+              setIsFirstIndex(true);
             }}
           >
-            <Dropdown.OptionSmall tw="min-w-0" key="apt" value="아파트">
-              아파트
-            </Dropdown.OptionSmall>
-            <Dropdown.OptionSmall tw="min-w-0" key="officetel" value="오피스텔">
-              오피스텔
-            </Dropdown.OptionSmall>
+            {sidoData.list.map((item) => (
+              <Dropdown.OptionSmall tw="min-w-0" key={item.name} value={item.name}>
+                {convertSidoName(item.name)}
+              </Dropdown.OptionSmall>
+            ))}
           </Dropdown>
-        </div>
-        <div tw="w-full relative bg-white py-3 pb-7 px-5 gap-1">
-          <SelectedDanjiListItem
-            listLength={comparisonList?.length || 0}
-            title={danji.name || ''}
-            index="#FF542D"
-            isDefaultDanji
-          />
-          {comparisonList &&
-            comparisonList.length > 0 &&
-            comparisonList.map((item) => (
-              <SelectedDanjiListItem
-                item={item}
-                title={item.name}
-                index={item.colorCode}
-                key={item.danjiID}
-                removeDanji={removeDanji}
-                listLength={comparisonList?.length || 0}
-              />
-            ))}
-          {!comparisonList ||
-            (comparisonList.length === 0 && (
-              <div tw="[text-align: center]">
-                <span tw="text-b2 text-gray-700">비교할 단지를 선택해 주세요.</span>
-              </div>
-            ))}
-        </div>
-      </div>
-
-      <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
-
-      <div tw="pt-10 px-5 flex-1 min-h-0 overflow-auto">
-        <div tw="flex items-center justify-between">
-          <span tw="text-b1 [line-height: 19px] font-bold">단지 선택</span>
+        )}
+        {sigunguData?.list && (
           <Dropdown
-            tw="min-w-0 h-8 w-[120px]"
+            tw="min-w-0 h-8 w-[126px]"
             size="small"
             variant="outlined"
-            value={selectedFilterValue}
-            onChange={(e) => setSelctedFilterValue(e)}
+            value={selectedSigungu}
+            onChange={(e) => {
+              const selectedCode = sigunguData.list?.filter((item) => item.name === e)[0]?.code || '';
+              setSelectedSigungu(e);
+              setSelectedSigunguCode(selectedCode);
+            }}
           >
-            <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="recently" value="최근 거래일순">
-              최근 거래일 순
-            </Dropdown.OptionSmall>
-            <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="pyoung" value="평당 거래가순">
-              평당 거래가순
-            </Dropdown.OptionSmall>
-            <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="saedae" value="세대 많은 순">
-              세대많은 순
-            </Dropdown.OptionSmall>
-            <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="distance" value="거리순">
-              거리순
-            </Dropdown.OptionSmall>
-          </Dropdown>
-        </div>
-        <InfiniteScroll tw="pt-1 flex-1 min-h-0 overflow-auto" onNext={onIntersect}>
-          {list &&
-            list.length > 0 &&
-            list.map((item) => (
-              <DanjiComparisonItem
-                item={item}
-                key={`${item.danji_id}${item.realestate_type}${item.name}${nanoid()}`}
-                onClickDanjiItem={onClickDanjiItem}
-                selectedBtn={selectedFilterValue}
-              />
+            {sigunguData.list.map((item) => (
+              <Dropdown.OptionSmall key={item.name} value={item.name} tw="min-w-0">
+                {convertSigunguName(item.name)}
+              </Dropdown.OptionSmall>
             ))}
-        </InfiniteScroll>
+          </Dropdown>
+        )}
+        <Dropdown
+          tw="min-w-0 h-8 w-[100px]"
+          size="small"
+          variant="outlined"
+          value={selectedRealestateType}
+          onChange={(e) => {
+            setSelectedRealestateType(e);
+            if (e === '아파트') {
+              setSelectedRealestateTypeCode(RealestateType.Apartment);
+            } else if (e === '오피스텔') {
+              setSelectedRealestateTypeCode(RealestateType.Officetel);
+            }
+          }}
+        >
+          <Dropdown.OptionSmall tw="min-w-0" key="apt" value="아파트">
+            아파트
+          </Dropdown.OptionSmall>
+          <Dropdown.OptionSmall tw="min-w-0" key="officetel" value="오피스텔">
+            오피스텔
+          </Dropdown.OptionSmall>
+        </Dropdown>
+      </div>
+      <div tw="flex-1 overflow-auto">
+        <div tw="min-h-0 ">
+          <div tw="w-full relative bg-white py-3 pb-7 px-5 gap-1">
+            <SelectedDanjiListItem
+              listLength={comparisonList?.length || 0}
+              title={danji.name || ''}
+              index="#FF542D"
+              isDefaultDanji
+            />
+            {comparisonList &&
+              comparisonList.length > 0 &&
+              comparisonList.map((item) => (
+                <SelectedDanjiListItem
+                  item={item}
+                  title={item.name}
+                  index={item.colorCode}
+                  key={item.danjiID}
+                  removeDanji={removeDanji}
+                  listLength={comparisonList?.length || 0}
+                />
+              ))}
+            {!comparisonList ||
+              (comparisonList.length === 0 && (
+                <div tw="[text-align: center]">
+                  <span tw="text-b2 text-gray-700">비교할 단지를 선택해 주세요.</span>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <Separator tw="min-h-[8px] min-w-[1px] bg-gray-300" />
+
+        <div tw="pt-10 px-5 flex-1 min-h-0">
+          <div tw="flex items-center justify-between">
+            <span tw="text-b1 [line-height: 19px] font-bold">단지 선택</span>
+            <Dropdown
+              tw="min-w-0 h-8 w-[120px]"
+              size="small"
+              variant="outlined"
+              value={selectedFilterValue}
+              onChange={(e) => setSelctedFilterValue(e)}
+            >
+              <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="recently" value="최근 거래일순">
+                최근 거래일 순
+              </Dropdown.OptionSmall>
+              <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="pyoung" value="평당 거래가순">
+                평당 거래가순
+              </Dropdown.OptionSmall>
+              <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="saedae" value="세대 많은 순">
+                세대많은 순
+              </Dropdown.OptionSmall>
+              <Dropdown.OptionSmall tw="min-w-0 w-[120px]" key="distance" value="거리순">
+                거리순
+              </Dropdown.OptionSmall>
+            </Dropdown>
+          </div>
+          <InfiniteScroll tw="pt-1 flex-1 min-h-0 overflow-auto" onNext={onIntersect}>
+            {list &&
+              list.length > 0 &&
+              list.map((item) => (
+                <DanjiComparisonItem
+                  item={item}
+                  key={`${item.danji_id}${item.realestate_type}${item.name}${nanoid()}`}
+                  onClickDanjiItem={onClickDanjiItem}
+                  selectedBtn={selectedFilterValue}
+                />
+              ))}
+          </InfiniteScroll>
+        </div>
       </div>
 
       <PersistentBottomBar>

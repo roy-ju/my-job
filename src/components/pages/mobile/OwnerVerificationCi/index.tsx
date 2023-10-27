@@ -65,7 +65,7 @@ export default function OwnerVerificationCi() {
   return (
     <>
       <div tw="w-full absolute bg-nego-1300 h-full [z-index: -1]" />
-      <div tw="w-full max-w-mobile left-0 right-0 flex flex-col h-full mx-auto bg-white fixed">
+      <div tw="w-full left-0 right-0 flex flex-col h-full mx-auto bg-white fixed">
         <NavigationHeader>
           <NavigationHeader.Title>본인인증 및 동의</NavigationHeader.Title>
           <NavigationHeader.Button onClick={() => router.replace(`/${Routes.EntryMobile}`)}>
