@@ -13,7 +13,6 @@ export { default as DetailWrraper } from './My/DetailWrraper';
 export { default as FaqWrraper } from './My/FaqWrraper';
 export { default as NoticeListWrraper } from './My/NoticeListWrraper';
 export { default as NoticeDetailWrraper } from './My/NoticeDetailWrraper';
-export { default as BusinessInfoWrraper } from './My/BusinessInfoWrraper';
 export { default as QnaWrraper } from './My/QnaWrraper';
 export { default as RealPriceListWrraper } from './My/RealPriceListWrraper';
 export { default as ServiceInfoWrraper } from './My/ServiceInfoWrraper';

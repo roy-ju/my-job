@@ -76,8 +76,8 @@ export function MobSearchMap() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div tw="fixed top-0 left-auto right-auto w-[100%] max-w-mobile mx-auto bg-white">
-        <div tw="w-[100%] max-w-mobile sticky top-0 left-auto right-auto flex items-center gap-3 pt-4 pb-3 pr-4 pl-4 bg-white">
+      <div tw="fixed top-0 left-auto right-auto w-full mx-auto bg-white">
+        <div tw="w-full sticky top-0 left-auto right-auto flex items-center gap-3 pt-4 pb-3 pr-4 pl-4 bg-white">
           <Button variant="ghost" tw="px-0" onClick={closeAll}>
             <ChveronLeftIcon />
           </Button>

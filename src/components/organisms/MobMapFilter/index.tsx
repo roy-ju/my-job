@@ -451,7 +451,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   }, [filter.realestateTypeGroup, filter.buyOrRents, filter]);
 
   return (
-    <div tw="w-full max-w-mobile bg-white shadow rounded-lg" id="negocio-map-header">
+    <div tw="w-full bg-white shadow rounded-lg" id="negocio-map-header">
       <div tw="flex items-center px-2">
         <FilterTypes onClickFilterType={handleClickFilterType} />
         <RealestateTypeGroupTabButton

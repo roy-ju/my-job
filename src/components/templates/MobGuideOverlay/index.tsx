@@ -11,13 +11,8 @@ function Container({ onClick }: { onClick: () => void }) {
     <div
       onClick={onClick}
       ref={containerRef}
-      tw="fixed min-h-[100vh] max-w-mobile [margin: 0 auto] top-0 left-0 right-0 bottom-0"
+      tw="fixed w-full h-[100vh] overflow-auto [margin: 0 auto] top-0 left-0 right-0 bottom-0"
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         backgroundColor: '#000000',
         opacity: 0.75,
         zIndex: 9000,

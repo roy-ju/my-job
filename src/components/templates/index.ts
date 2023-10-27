@@ -112,13 +112,9 @@ export { default as MobMyAddress } from './MobMyAddress';
 export { default as MobMyAddressDetail } from './MobMyAddressDetail';
 export { default as MobMyAddressVerifying } from './MobMyAddressVerifying';
 export { default as MobDeveloper } from './MobDeveloper';
-export { default as MobFAQ } from './MobFAQ';
 export { default as MobNoticeList } from './MobNoticeList';
 export { default as MobNoticeDetail } from './MobNoticeDetail';
-export { default as MobBusinessInfo } from './MobBusinessInfo';
-export { default as MobQna } from './MobQna';
 export { default as MobMyRealPriceList } from './MobMyRealPriceList';
-export { default as MobServiceInfo } from './MobServiceInfo';
 export { default as MobTransactionHistory } from './MobTransactionHistory';
 export { default as MobDeregister } from './MobDeregister';
 export { default as MobDeregisterDisclaimer } from './MobDeregisterDisclaimer';
@@ -130,10 +126,8 @@ export { default as MobMyNegoPoint } from './MobMyNegoPoint';
 export { default as MobNotificationList } from './MobNotificationList';
 export { default as MobNotificationSettings } from './MobNotificationSettings';
 export { default as MobFindAccount } from './MobFindAccount';
-
 export { default as MobListingDetail } from './MobListingDetail';
 export { default as RecommendGuide } from './RecommendGuide';
-
 export { default as MobDanjiDetail } from './MobDanjiDetail';
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';
 export { default as MobRealPriceDetail } from './MobRealPriceDetail';
