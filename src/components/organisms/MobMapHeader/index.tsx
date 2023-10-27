@@ -22,11 +22,7 @@ export default function MobMapHeader({ value }: Props) {
 
   return (
     <>
-      {/* <div
-        tw="[width: 100%] max-w-mobile bg-gradient-to-r from-nego-1200 to-nego-1100 px-5 py-4"
-        id="negocio-top-header"
-      > */}
-      <div tw="flex items-center [width: 100%] max-w-mobile bg-gradient-to-r from-nego-1200 to-nego-1100 px-5 py-4">
+      <div tw="flex items-center w-full bg-gradient-to-r from-nego-1200 to-nego-1100 px-5 py-4">
         <LogoIcon tw="text-white" />
         <div tw="flex items-center ml-auto gap-5">
           <Button variant="ghost" tw="px-0 h-auto" onClick={onClickSearchIcon}>
@@ -38,7 +34,6 @@ export default function MobMapHeader({ value }: Props) {
           </Button>
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 }
