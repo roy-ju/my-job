@@ -28,7 +28,7 @@ export default function MobGlobalNavigation({
 
   return (
     <div
-      tw="w-full max-w-mobile border-t border-t-gray-300 flex flex-col gap-5 pt-2.5 pb-7 px-[0.6025rem] bg-white [z-index: 300]"
+      tw="w-full border-t border-t-gray-300 flex flex-col gap-5 pt-2.5 pb-7 px-[0.6025rem] bg-white [z-index: 300]"
       id="negocio-mob-global-navigation"
     >
       <div tw="flex items-center">

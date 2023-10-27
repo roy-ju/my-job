@@ -2,7 +2,6 @@
 /* eslint-disable consistent-return */
 import { ChangeEventHandler, ReactNode, useCallback, useEffect, useState } from 'react';
 import {
-  MobDanjiSummary,
   MobGlobalNavigation,
   MobMapControls,
   MobMapHeader,
@@ -99,34 +98,36 @@ function MobLayoutMapContainer({
     setIsRenderGuideOverlay(false);
   }, []);
 
-  useEffect(() => {
-    if (localStorage.getItem('neogico-mob-map-initial') === 'true') {
-      setIsRenderGuideOverlay(false);
-      return;
-    }
-    if (!localStorage.getItem('neogico-mob-map-initial')) {
-      localStorage.setItem('neogico-mob-map-initial', 'true');
-      setIsRenderGuideOverlay(true);
-    }
+  // useEffect(() => {
+  //   if (localStorage.getItem('neogico-mob-map-initial') === 'true') {
+  //     setIsRenderGuideOverlay(false);
+  //     return;
+  //   }
+  //   if (!localStorage.getItem('neogico-mob-map-initial')) {
+  //     localStorage.setItem('neogico-mob-map-initial', 'true');
+  //     setIsRenderGuideOverlay(true);
+  //   }
 
-    return () => setIsRenderGuideOverlay(false);
-  }, []);
+  //   return () => setIsRenderGuideOverlay(false);
+  // }, []);
 
-  useEffect(() => {
-    if (isRenderGuideOverlay) {
-      const timeout = setTimeout(() => setIsRenderGuideOverlay(false), 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [isRenderGuideOverlay]);
+  // useEffect(() => {
+  //   if (isRenderGuideOverlay) {
+  //     const timeout = setTimeout(() => setIsRenderGuideOverlay(false), 5000);
+  //     return () => clearTimeout(timeout);
+  //   }
+  // }, [isRenderGuideOverlay]);
 
   return (
     <>
-      <div tw="flex flex-col w-full max-w-mobile h-full overflow-y-hidden mx-auto items-center">
+      <div tw="flex flex-col w-full h-full overflow-y-hidden mx-auto items-center">
         <MobMapHeader />
+
         {isRenderGuideOverlay && <MobGuideOverlay disappearGuideOverlay={handleGuidOverlay} />}
 
         <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
-        <div id="map-container" tw="relative flex-1 w-full max-w-mobile">
+
+        <div id="map-container" tw="relative flex-1 w-full">
           {filter?.realestateTypeGroup === 'apt,oftl' && (
             <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
               <div tw="w-fit pointer-events-auto">
@@ -178,7 +179,7 @@ function MobLayoutMapContainer({
             />
           </div>
 
-          <div tw="w-full max-w-mobile inline-flex absolute left-0 right-0 bottom-6 px-4 z-10 gap-3">
+          <div tw="w-full inline-flex absolute left-0 right-0 bottom-6 px-4 z-10 gap-3">
             <MobMapPositionBar
               sido={convertSidoName(centerAddress?.[0])}
               sigungu={centerAddress?.[1]}
@@ -195,7 +196,7 @@ function MobLayoutMapContainer({
           </div>
 
           {isRenderGuideOverlay && (
-            <div tw="w-full max-w-mobile inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10 [z-index: 9000]">
+            <div tw="w-full inline-flex justify-between absolute left-0 right-0 bottom-6 px-4 z-10 [z-index: 9000]">
               <Button variant="outlined" size="medium" tw="ml-auto whitespace-nowrap pointer-events-none">
                 매물 추천받기
               </Button>
@@ -209,7 +210,7 @@ function MobLayoutMapContainer({
         </div>
 
         {isRenderGuideOverlay && (
-          <div tw="w-[100%] pointer-events-auto max-w-mobile flex items-center justify-between px-5 pb-9 absolute bottom-0 [z-index: 9000]">
+          <div tw="w-full pointer-events-auto flex items-center justify-between px-5 pb-9 absolute bottom-0 [z-index: 9000]">
             <div tw="flex items-center gap-2">
               <Checkbox />
               <span tw="pointer-events-auto text-info [line-height: 1rem] text-white">다시보지 않기</span>

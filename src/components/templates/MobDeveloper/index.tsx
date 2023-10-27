@@ -1,8 +1,9 @@
 import { Button } from '@/components/atoms';
-import { Dropdown, TextField } from '@/components/molecules';
-import { MobGlobalHeader } from '@/components/organisms';
+import { Dropdown, NavigationHeader, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
+import Routes from '@/router/routes';
 import getCurrentPosition from '@/utils/getCurrentPosition';
+import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
 
@@ -21,6 +22,8 @@ export default function MobDeveloper({
   jwtOwners,
   onChangeJwtOwner,
 }: Props) {
+  const router = useRouter();
+
   const [jwtOwner, setJwtOwner] = useControlled({
     controlled: jwtOwnerProp,
     default: '',
@@ -36,7 +39,10 @@ export default function MobDeveloper({
 
   return (
     <div tw="flex flex-col h-full">
-      <MobGlobalHeader title="개발자 설정" />
+      <NavigationHeader>
+        <NavigationHeader.BackButton onClick={() => router.replace(`${Routes.EntryMobile}/${Routes.My}`)} />
+        <NavigationHeader.Title>개발자 설정</NavigationHeader.Title>
+      </NavigationHeader>
       <div tw="flex flex-col p-5 gap-4 mt-[3.5rem]">
         <div tw="flex flex-col gap-2">
           <TextField variant="outlined">

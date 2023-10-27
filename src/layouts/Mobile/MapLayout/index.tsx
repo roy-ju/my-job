@@ -150,14 +150,14 @@ function MapWrapper() {
         <AnimatePresence>
           {streetViewEvent && (
             <Layout.Overlay tw="flex items-center justify-center w-full h-[100vh]">
-              <div tw="w-[100%] max-w-mobile">
+              <div tw="w-[100%]">
                 <OutsideClick onOutsideClick={handleCloseStreetView}>
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                   >
-                    <div tw="min-w-[23.475rem] h-[100vh] max-h-[100vh] max-w-mobile bg-white">
+                    <div tw="min-w-[23.475rem] h-[100vh] max-h-[100vh] bg-white">
                       <MobMapStreetView
                         position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
                         title={streetViewEvent.address}
