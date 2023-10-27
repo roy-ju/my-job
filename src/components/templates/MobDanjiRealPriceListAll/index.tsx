@@ -194,7 +194,7 @@ export default function MobDanjiRealPriceListAll({
   if (selectedIndex === null || !data?.buy_or_rent) return null;
 
   return (
-    <div tw="w-full max-w-mobile relative flex flex-col h-full">
+    <div tw="w-full relative flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>평형별 실거래 내역</NavigationHeader.Title>

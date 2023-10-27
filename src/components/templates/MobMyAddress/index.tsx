@@ -9,12 +9,12 @@ export interface MyAddressProps {
 
 export default function MobMyAddress({ onSubmit, onClickBack }: MyAddressProps) {
   return (
-    <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+    <div tw="w-full mx-auto h-full flex flex-col bg-white">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>우리집 등록</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex-1 min-h-0">
+      <div tw="flex-1 min-h-0 overflow-auto">
         <AddressSearchForm onSubmit={onSubmit} />
       </div>
     </div>

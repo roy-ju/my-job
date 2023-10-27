@@ -134,8 +134,8 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
   }, [selectedRefThree?.current, scrollConainerRefThree]);
 
   return (
-    <div tw="w-[100%] max-w-mobile mx-auto z-[1000] bg-white">
-      <div tw="w-[100%] max-w-mobile fixed left-auto right-auto top-0 gap-3 bg-white z-[910]">
+    <div tw="w-[100%] mx-auto z-[1000] bg-white">
+      <div tw="w-[100%] fixed left-auto right-auto top-0 gap-3 bg-white z-[910]">
         <div tw="flex items-center justify-between py-4 px-5 [border-bottom-width: 1px] border-b-gray-300">
           <span tw="font-bold [font-size: 1rem] [line-height: 1.5rem]">지역 검색</span>
           <Button
@@ -292,7 +292,7 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
         </div>
       </div>
 
-      <div tw="fixed bottom-0 left-auto right-auto px-5 pt-4 pb-5 [width: 100%] max-w-mobile bg-white">
+      <div tw="fixed bottom-0 left-auto right-auto px-5 pt-4 pb-5 [width: 100%] bg-white">
         <Button
           variant="primary"
           size="bigger"

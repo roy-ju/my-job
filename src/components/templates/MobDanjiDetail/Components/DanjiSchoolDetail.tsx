@@ -30,7 +30,7 @@ export default function DanjiSchoolDetail({
   if (!lng || !lat) return null;
 
   return (
-    <div tw="flex flex-col w-full max-w-mobile h-full">
+    <div tw="flex flex-col w-full h-full">
       <NavigationHeader>
         <NavigationHeader.Title>학구도</NavigationHeader.Title>
         <Button

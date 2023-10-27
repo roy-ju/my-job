@@ -359,7 +359,7 @@ export default function ActiveListingInfo({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
-          tw="flex items-center fixed bottom-0 [z-index: 100000] pt-4 px-5 [padding-bottom: 42px] gap-3 bg-white w-full shadow max-w-mobile"
+          tw="flex items-center fixed bottom-0 [z-index: 100000] pt-4 px-5 [padding-bottom: 42px] gap-3 bg-white w-full shadow"
         >
           <Button variant="outlined" tw="flex-1" onClick={handleCreateListing} size="bigger">
             매물 등록

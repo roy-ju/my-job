@@ -9,7 +9,7 @@ export interface VerifyCiProps {
 
 export default function MobVerifyCi({ onClickBack, onClickIPinVerification, onClickPhoneVerification }: VerifyCiProps) {
   return (
-    <div tw="w-full max-w-mobile h-full flex flex-col mx-auto fixed top-0 left-0 right-0 bg-white">
+    <div tw="w-full h-full flex flex-col mx-auto fixed top-0 left-0 right-0 bg-white">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>본인인증</NavigationHeader.Title>

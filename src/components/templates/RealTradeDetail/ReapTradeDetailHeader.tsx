@@ -25,7 +25,7 @@ export default function ReapTradeDetailHeader({
   if (!danji) return null;
 
   return (
-    <div tw="flex flex-col">
+    <div tw="flex flex-col w-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBackButton} />
         <NavigationHeader.Title tw="text-inherit">실거래 심층 분석</NavigationHeader.Title>

@@ -20,7 +20,7 @@ export default function MobMyAddressVerifying({
 
   if (verifyStatus === MyVerifyStatus.Ing)
     return (
-      <div tw="fixed top-0 left-0 right-0 w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+      <div tw="fixed top-0 left-0 right-0 w-full mx-auto h-full flex flex-col bg-white">
         <NavigationHeader>{onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}</NavigationHeader>
         <div tw="p-5 flex-1 flex flex-col">
           <div tw="text-h2 font-bold">주소를 확인하고 있어요.</div>
@@ -34,7 +34,7 @@ export default function MobMyAddressVerifying({
 
   if (verifyStatus === MyVerifyStatus.OwnerIng)
     return (
-      <div tw="fixed top-0 left-0 right-0 w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+      <div tw="fixed top-0 left-0 right-0 w-full mx-auto h-full flex flex-col bg-white">
         <NavigationHeader>{onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}</NavigationHeader>
         <div tw="p-5 flex-1 flex flex-col">
           <div tw="text-h2 font-bold">등기부상 소유자가 맞는지 확인하고 있어요.</div>
@@ -47,7 +47,7 @@ export default function MobMyAddressVerifying({
     );
 
   return (
-    <div tw="fixed top-0 left-0 right-0 w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+    <div tw="fixed top-0 left-0 right-0 w-full mx-auto h-full flex flex-col bg-white">
       <NavigationHeader>{onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}</NavigationHeader>
       <div tw="p-5 flex-1 flex flex-col">
         <div tw="text-h2 font-bold">우리집 등록이 완료 되었습니다!</div>

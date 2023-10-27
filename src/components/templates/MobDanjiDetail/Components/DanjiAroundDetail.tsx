@@ -420,7 +420,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
   );
 
   return (
-    <div tw="flex flex-col w-full max-w-mobile h-full">
+    <div tw="flex flex-col w-full h-full">
       <NavigationHeader>
         <NavigationHeader.Title>교통 및 주변정보</NavigationHeader.Title>
         <Button
@@ -435,7 +435,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
         </Button>
       </NavigationHeader>
 
-      <div tw="relative flex-1 w-full max-w-mobile">
+      <div tw="relative flex-1 w-full">
         <DanjiAroundMapCard
           activeIndex={activeIndex}
           aroundList={convertedMarker}
@@ -454,7 +454,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
         />
       </div>
 
-      <Wrapper tw="w-full max-w-mobile" style={{ zIndex: 131 }} ref={sheet}>
+      <Wrapper tw="w-full" style={{ zIndex: 131 }} ref={sheet}>
         <Stack
           id="negocio-footer"
           style={{
