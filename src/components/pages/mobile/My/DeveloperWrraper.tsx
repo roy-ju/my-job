@@ -20,11 +20,7 @@ export default function DeveloperWrraper() {
   const handleChangeJwtOwner = useCallback(
     (newValue: string) => {
       setJwtOwner(newValue);
-      // localStorage.setItem(
-      //   Keys.ACCESS_TOKEN,
-      //   JSON.stringify(jwtList.find((item) => item.nickname === newValue)?.jwt ?? ''),
-      // );
-      // mutateUser();
+
       login(jwtList.find((item) => item.nickname === newValue)?.jwt ?? '', '');
 
       setTimeout(() => {

@@ -40,7 +40,7 @@ export default function MobRegister({
   onNavigateToServiceTerms,
 }: RegisterProps) {
   return (
-    <div tw="w-full max-w-mobile relative flex flex-col mx-auto bg-white h-full">
+    <div tw="w-full relative flex flex-col mx-auto bg-white h-full">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBackButton} />
         <NavigationHeader.Title>회원가입</NavigationHeader.Title>
