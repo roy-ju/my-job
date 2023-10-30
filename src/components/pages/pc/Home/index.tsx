@@ -18,9 +18,13 @@ import Routes from '@/router/routes';
 import useMap from '@/states/map';
 import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback, useState } from 'react';
+import { useRouter as useNextRouter } from 'next/router';
 
 export default memo(() => {
   const router = useRouter(0);
+
+  const nextRouter = useNextRouter();
+
   const [openPopup, setOpenPopup] = useState(false);
 
   const map = useMap();
@@ -147,8 +151,9 @@ export default memo(() => {
   }, []);
 
   const handleClickGuide = useCallback(() => {
-    window.open(`${window.location.origin}/${Routes.Intro}`, '_blank');
-  }, []);
+    nextRouter.push(`/${Routes.Intro}`);
+    // window.open(`${window.location.origin}/${Routes.Intro}`, '_blank');
+  }, [nextRouter]);
 
   const handleClickFavoriteButton = async (selected: boolean, listingId: number) => {
     if (!user) {
