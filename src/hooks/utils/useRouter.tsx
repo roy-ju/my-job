@@ -14,7 +14,7 @@ type NavigationOptions = {
   state?: Record<string, string>;
 };
 
-export default function useRouter(depth: number) {
+export default function useRouter(depth = 0) {
   const router = useNextRouter();
 
   /**
