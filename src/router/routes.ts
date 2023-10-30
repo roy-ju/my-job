@@ -117,6 +117,7 @@ const Routes = {
 
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
+  // SuggestRegionalForm: 'suggestRegionalFormTest',
   SuggestRegionalSummary: 'suggestRegionalSummary',
   SuggestRegionalFormUpdate: 'suggestRegionalFormUpdate',
 
@@ -134,7 +135,7 @@ const Routes = {
   SuggestSelectAddress: 'suggestSelectAddress',
 
   RecommendGuide: 'recommendGuide',
-  
+
   // 구해요 상세
   SuggestDetail: 'suggestDetail',
 
