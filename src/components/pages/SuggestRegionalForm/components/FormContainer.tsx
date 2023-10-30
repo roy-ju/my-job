@@ -12,6 +12,7 @@ import useForm from '../hooks/useForm';
 
 import useFormHandler from '../hooks/useFormHandler';
 import RegionForm from '../../mobile/SuggestRegionalForm/RegionForm';
+import useFormDisabled from '../hooks/useFormDisabled';
 
 function FormContainer() {
   const state = useForm();
@@ -25,6 +26,8 @@ function FormContainer() {
     handleIsQuitPopup,
     handleNextForm,
   } = useFormHandler();
+
+  const { nextButtonDisabled } = useFormDisabled();
 
   if (!state?.forms) return null;
 
@@ -50,7 +53,7 @@ function FormContainer() {
             {/* <Button disabled={nextButtonDisabled} tw="w-full" size="bigger" onClick={onClickNext}>
             다음
           </Button> */}
-            <Button tw="w-full" size="bigger" onClick={handleNextForm}>
+            <Button tw="w-full" size="bigger" onClick={handleNextForm} disabled={nextButtonDisabled}>
               다음
             </Button>
           </div>
