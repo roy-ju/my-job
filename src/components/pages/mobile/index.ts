@@ -15,7 +15,6 @@ export { default as NoticeListWrraper } from './My/NoticeListWrraper';
 export { default as NoticeDetailWrraper } from './My/NoticeDetailWrraper';
 export { default as QnaWrraper } from './My/QnaWrraper';
 export { default as RealPriceListWrraper } from './My/RealPriceListWrraper';
-export { default as ServiceInfoWrraper } from './My/ServiceInfoWrraper';
 export { default as DeregisterWrraper } from './My/DeregisterWrraper';
 export { default as DeregisterDisclaimerWrraper } from './My/DeregisterDisclaimerWrraper';
 export { default as NegoPointWrraper } from './My/NegoPointWrraper';
