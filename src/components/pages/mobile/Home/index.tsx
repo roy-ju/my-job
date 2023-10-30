@@ -144,8 +144,9 @@ export default function Home() {
   }, []);
 
   const handleClickGuide = useCallback(() => {
-    window.open(`${window.location.origin}/${Routes.EntryMobile}/${Routes.Intro}`, '_blank');
-  }, []);
+    router.push(`/${Routes.Intro}`);
+    // window.open(`${window.location.origin}/${Routes.EntryMobile}/${Routes.Intro}`, '_blank');
+  }, [router]);
 
   const handleClickFavoriteButton = async (selected: boolean, listingId: number) => {
     if (!user) {
