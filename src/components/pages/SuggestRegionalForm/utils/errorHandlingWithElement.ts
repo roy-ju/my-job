@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
-import { Forms } from "../types";
+import { Forms } from '../types';
 
 type ErrorHandlingWithElementTypes = {
   elementID: Forms;

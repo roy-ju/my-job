@@ -1,28 +1,28 @@
 import React from 'react';
 
+import tw from 'twin.macro';
+
+import { usePlatform } from '@/providers/PlatformProvider';
+
 import { Separator, PersistentBottomBar, Button } from '@/components/atoms';
 
 import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
 
-import tw from 'twin.macro';
-
-import FormRenderer from './FormRenderer';
-
-import usePlatform from '../hooks/usePlatform';
-
-import useInit from '../hooks/useInit';
-
-import useForm from '../hooks/useForm';
-
-import useFormCTA from '../hooks/useFormCTA';
-
-import useFormHandler from '../hooks/useFormHandler';
+import FormRenderer from '../organism/FormRenderer';
 
 import RegionForm from '../organism/RegionForm';
 
-import useAutoScroll from '../hooks/useAutoScroll';
+import useInit from '../../hooks/useInit';
 
-function FormContainer() {
+import useForm from '../../hooks/useForm';
+
+import useFormCTA from '../../hooks/useFormCTA';
+
+import useFormHandler from '../../hooks/useFormHandler';
+
+import useAutoScroll from '../../hooks/useAutoScroll';
+
+export default function SuggestRegionalFormTemplate() {
   const state = useForm();
 
   const platform = usePlatform();
@@ -119,5 +119,3 @@ function FormContainer() {
     </>
   );
 }
-
-export default FormContainer;

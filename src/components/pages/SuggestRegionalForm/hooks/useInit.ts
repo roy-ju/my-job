@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { usePlatform } from '@/providers/PlatformProvider';
+
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 
 import { TimeTypeString } from '@/constants/strings';
@@ -9,23 +11,20 @@ import { TimeTypeString } from '@/constants/strings';
 import { searchAddress } from '@/lib/kakao/search_address';
 
 import useFormDispatch from './useFormDispatch';
-import usePlatform from './usePlatform';
-
-
 
 export default function useInit() {
   const router = useRouter();
 
   const dispatch = useFormDispatch();
 
-  const platform= usePlatform()
+  const platform = usePlatform();
 
   // 법정동 프리필
   useEffect(() => {
     let ignore = false;
 
-    if (router?.query?.address && typeof router.query.address === 'string') {
-      searchAddress(router.query.address).then((data) => {
+    function prefillBubjundong(address: string) {
+      searchAddress(address).then((data) => {
         const bCode = data?.documents?.[0].address?.b_code;
 
         if (bCode && !ignore) {
@@ -38,6 +37,10 @@ export default function useInit() {
       });
     }
 
+    if (router?.query?.address && typeof router.query.address === 'string') {
+      prefillBubjundong(router.query.address);
+    }
+
     return () => {
       ignore = true;
     };
@@ -47,9 +50,9 @@ export default function useInit() {
   useEffect(() => {
     if (!router.query.params || !router.query.forms) return;
 
-    dispatch?.({ type: "update_Forms", payLoad: JSON.parse(router.query.forms as string) });
-
     const params: Record<string, unknown> = JSON.parse(router.query.params as string);
+
+    dispatch?.({ type: 'update_Forms', payLoad: JSON.parse(router.query.forms as string) });
 
     dispatch?.({
       type: 'update_Field',
@@ -60,13 +63,12 @@ export default function useInit() {
         .filter((type) => type !== RealestateType.Yunrip),
     });
 
-    dispatch?.({
-      type: 'update_Field',
-      key: 'buyOrRent',
-      payLoad: params.buy_or_rents ? Number(params.buy_or_rents) : 0,
-    });
-
     if (Number(params.buy_or_rents) === BuyOrRent.Buy) {
+      dispatch?.({
+        type: 'update_Field',
+        key: 'buyOrRent',
+        payLoad: 1,
+      });
       dispatch?.({
         type: 'update_Field',
         key: 'price',
@@ -78,6 +80,11 @@ export default function useInit() {
         payLoad: params.invest_amount ? String(params.invest_amount)?.slice(0, -4) : '',
       });
     } else {
+      dispatch?.({
+        type: 'update_Field',
+        key: 'buyOrRent',
+        payLoad: 2,
+      });
       dispatch?.({
         type: 'update_Field',
         key: 'price',
@@ -152,7 +159,7 @@ export default function useInit() {
       payLoad: params.interview_available_times ? String(params.interview_available_times).split(',') : [],
     });
 
-    if (platform?.platform === 'pc'){
+    if (platform?.platform === 'pc') {
       const url = new URL(window.location.href);
 
       url.searchParams.delete('params');

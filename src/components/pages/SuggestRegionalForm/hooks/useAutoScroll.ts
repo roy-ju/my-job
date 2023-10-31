@@ -1,5 +1,7 @@
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+
+import { useRouter } from 'next/router';
+
 import useForm from './useForm';
 
 export default function useAutoScroll({ elementID }: { elementID: string }) {
@@ -37,7 +39,6 @@ export default function useAutoScroll({ elementID }: { elementID: string }) {
         if (router?.query?.params) {
           formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
         } else {
-          console.log('hi');
           formElement.scrollIntoView({ behavior: 'smooth' });
         }
       }, 100);

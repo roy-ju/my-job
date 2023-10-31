@@ -1,14 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { useCallback } from 'react';
-
-import { BuyOrRent } from '@/constants/enums';
 
 import { useRouter as useNextRouter } from 'next/router';
 
-import { useRouter } from '@/hooks/utils';
-
-import { FormsInfo, RegionItem } from '../types';
+import { RegionItem } from '../types';
 
 import usePlatform from './usePlatform';
 
@@ -28,8 +22,6 @@ export default function useFormHandler() {
   const form = useForm();
 
   const dispatch = useFormDispatch();
-
-  const router = useRouter(platform?.depth);
 
   const nextRouter = useNextRouter();
 

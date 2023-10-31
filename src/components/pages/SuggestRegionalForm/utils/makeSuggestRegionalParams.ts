@@ -1,5 +1,7 @@
 import { RegionItem } from '@/components/organisms/RegionList';
+
 import { BuyOrRent, RealestateType } from '@/constants/enums';
+
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
 interface Args {

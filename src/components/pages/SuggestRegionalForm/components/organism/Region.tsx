@@ -1,8 +1,8 @@
 import { Button } from '@/components/atoms';
 
-import useForm from '../hooks/useForm';
+import useForm from '../../hooks/useForm';
 
-import useFormHandler from '../hooks/useFormHandler';
+import useFormHandler from '../../hooks/useFormHandler';
 
 export default function Region() {
   const form = useForm();
