@@ -8,6 +8,7 @@ export default function Provider({ depth, children }: { depth?: number; children
     if (typeof window !== 'undefined') {
       return { platform: checkPlatform(), depth };
     }
+
     return null;
   }, [depth]);
 
