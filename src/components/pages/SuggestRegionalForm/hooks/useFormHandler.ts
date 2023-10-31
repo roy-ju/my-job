@@ -4,7 +4,7 @@ import { useRouter as useNextRouter } from 'next/router';
 
 import { usePlatform } from '@/providers/PlatformProvider';
 
-import { RegionItem } from '../types';
+import { RegionItem as RegionItemType } from '@/components/organisms/RegionList';
 
 import useForm from './useForm';
 
@@ -33,7 +33,7 @@ export default function useFormHandler() {
   );
 
   const handleUpdateBubjungdong = useCallback(
-    (item: RegionItem) => {
+    (item: RegionItemType) => {
       dispatch?.({ type: 'update_Field', key: 'bubjungdong', payLoad: { name: item.name, code: item.code } });
     },
     [dispatch],
@@ -218,7 +218,7 @@ export default function useFormHandler() {
   }, [dispatch]);
 
   const handleBubjungdongChangePopup = useCallback(
-    (type: 'confirm' | 'close', item?: RegionItem) => {
+    (type: 'confirm' | 'close', item?: RegionItemType) => {
       if (type === 'confirm' && item) {
         handleUpdateBubjungdong(item);
       }

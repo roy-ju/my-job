@@ -1,7 +1,4 @@
-export type RegionItem = {
-  name: string;
-  code: string;
-};
+import { RegionItem as RegionItemType } from '@/components/organisms/RegionList';
 
 type EmptyTextFieldsItem = {
   price: boolean;
@@ -11,7 +8,7 @@ type EmptyTextFieldsItem = {
 type Nullable<T> = T | null;
 
 interface BaseFormValue {
-  bubjungdong?: Nullable<RegionItem>;
+  bubjungdong?: Nullable<RegionItemType>;
 
   realestateType?: number[];
 
