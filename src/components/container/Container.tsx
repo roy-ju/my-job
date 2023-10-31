@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 import { AuthRequired, MobAuthRequired, MobileContainer, Panel } from '@/components/atoms';
 
@@ -19,7 +19,13 @@ type Props = {
 export default function Container({ panelWidth, children, auth, ciRequired, onAccessDenied }: Props) {
   const platform = usePlatform();
 
-  if (platform?.platform === null) return null;
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (platform?.platform === null || !isClient) return <div />;
 
   return (
     <>

@@ -1,6 +1,6 @@
-import SuggestRegionalForm from '@/components/pages/SuggestRegionalForm';
-
 import { NextPageWithLayout } from '@/pages/_app';
+
+import SuggestRegionalForm from '@/components/pages/SuggestRegionalForm';
 
 const Page: NextPageWithLayout = () => <SuggestRegionalForm />;
 

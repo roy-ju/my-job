@@ -297,7 +297,7 @@ const SuggestRegionalForm = dynamic(() => import('@/components/pages/SuggestRegi
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestRegionalSummary = dynamic(() => import('@/components/pages/pc/SuggestRegionalSummary'), {
+const SuggestRegionalSummary = dynamic(() => import('@/components/pages/SuggestRegionalSummary'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -305,7 +305,6 @@ const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/Su
   ssr: false,
   loading: FallbackComponent,
 });
-
 const RecommendGuide = dynamic(() => import('@/components/pages/pc/RecommendGuide'), {
   ssr: false,
   loading: FallbackComponent,

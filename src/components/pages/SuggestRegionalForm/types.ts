@@ -5,37 +5,21 @@ type EmptyTextFieldsItem = {
   investAmount: boolean;
 };
 
-type Nullable<T> = T | null;
-
 interface BaseFormValue {
   bubjungdong?: Nullable<RegionItemType>;
-
   realestateType?: number[];
-
   buyOrRent?: number;
-
   price?: string;
-
   monthlyRentFee?: string;
-
   negotiable?: boolean;
-
   purpose?: string;
-
   investAmount?: string;
-
   moveInDate?: Nullable<Date>;
-
   moveInDateType?: string;
-
   minArea?: string;
-
   maxArea?: string;
-
   description?: string;
-
   interviewAvailabletimes?: string[];
-
   emptyTextFields?: Nullable<Partial<EmptyTextFieldsItem>>;
 }
 

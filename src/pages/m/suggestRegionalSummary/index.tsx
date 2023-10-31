@@ -1,5 +1,6 @@
-import { SuggestRegionalSummary } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import SuggestRegionalSummary from '@/components/pages/SuggestRegionalSummary';
 
 const Page: NextPageWithLayout = () => <SuggestRegionalSummary />;
 
