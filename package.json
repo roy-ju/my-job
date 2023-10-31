@@ -24,7 +24,6 @@
     "@popperjs/core": "^2.11.6",
     "@svgr/webpack": "^6.5.1",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@toss/use-funnel": "^1.2.6",
     "@types/blueimp-load-image": "^5.16.0",
     "@types/d3": "^7.4.0",
     "@types/d3-array": "^3.0.4",

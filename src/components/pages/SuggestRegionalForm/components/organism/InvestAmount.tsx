@@ -1,7 +1,8 @@
 import { TextField } from '@/components/molecules';
 
-import useForm from '../hooks/useForm';
-import useFormHandler from '../hooks/useFormHandler';
+import useForm from '../../hooks/useForm';
+
+import useFormHandler from '../../hooks/useFormHandler';
 
 export default function InvestAmount() {
   const form = useForm();

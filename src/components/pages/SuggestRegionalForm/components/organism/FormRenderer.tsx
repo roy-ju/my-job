@@ -1,10 +1,10 @@
 import { Separator } from '@/components/atoms';
 
-import { FormsInfo } from '../types';
+import { FormsInfo } from '../../types';
 
-import { SuggestRegionalForm } from '../organism';
+import useForm from '../../hooks/useForm';
 
-import useForm from '../hooks/useForm';
+import { SuggestRegionalForm } from '.';
 
 interface Props {
   form: string;

@@ -2,9 +2,9 @@ import { Button } from '@/components/atoms';
 
 import { RealestateType as RealestateEnum } from '@/constants/enums';
 
-import useForm from '../hooks/useForm';
+import useForm from '../../hooks/useForm';
 
-import useFormHandler from '../hooks/useFormHandler';
+import useFormHandler from '../../hooks/useFormHandler';
 
 export default function RealestateType() {
   const form = useForm();

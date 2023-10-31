@@ -8,11 +8,11 @@ import { BuyOrRent } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
+import { usePlatform } from '@/providers/PlatformProvider';
+
 import { FormsInfo } from '../types';
 
 import { makeSuggestRegionalParams, errorHandlingWithElement } from '../utils';
-
-import usePlatform from './usePlatform';
 
 import useForm from './useForm';
 
@@ -139,6 +139,7 @@ export default function useFormCTA() {
 
     if (!formData?.interviewAvailabletimes || formData.interviewAvailabletimes.length === 0) {
       errorHandlingWithElement({ elementID: FormsInfo.Option, errorMessage: '인터뷰 가능 시간대를 선택해 주세요.' });
+      return;
     }
 
     const params = makeSuggestRegionalParams({

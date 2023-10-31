@@ -28,6 +28,16 @@ export function suggestFormReducer(state: State, action: Action) {
   switch (action.type) {
     case 'update_Field':
       if (action.key === 'realestateType') {
+        if (Array.isArray(action.payLoad)) {
+          return {
+            ...state,
+            formData: {
+              ...(state?.formData ?? {}),
+              realestateType: action.payLoad as number[],
+            },
+          };
+        }
+
         const currentValue = state?.formData?.realestateType ?? [];
 
         const index = currentValue.indexOf(action.payLoad as number);

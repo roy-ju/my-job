@@ -1,8 +1,8 @@
 import { Label, Checkbox } from '@/components/atoms';
 
-import useForm from '../hooks/useForm';
+import useForm from '../../hooks/useForm';
 
-import useFormHandler from '../hooks/useFormHandler';
+import useFormHandler from '../../hooks/useFormHandler';
 
 const list = [
   '시간대 상관 없어요',
