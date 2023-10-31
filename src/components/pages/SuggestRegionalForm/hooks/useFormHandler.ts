@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 
 import { useRouter as useNextRouter } from 'next/router';
 
-import { RegionItem } from '../types';
+import { usePlatform } from '@/providers/PlatformProvider';
 
-import usePlatform from './usePlatform';
+import { RegionItem } from '../types';
 
 import useForm from './useForm';
 
