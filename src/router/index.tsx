@@ -293,11 +293,7 @@ const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'
   ssr: false,
   loading: FallbackComponent,
 });
-// const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestRegionalForm'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-const SuggestRegionalForm = dynamic(() => import('@/components/pages/SuggestRegionalForm/index'), {
+const SuggestRegionalForm = dynamic(() => import('@/components/pages/SuggestRegionalForm'), {
   ssr: false,
   loading: FallbackComponent,
 });
