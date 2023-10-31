@@ -1,6 +1,6 @@
 import { Separator } from '@/components/atoms';
 
-import { FormsInfo } from '../reducer/types';
+import { FormsInfo } from '../types';
 
 import { SuggestRegionalForm } from '../organism';
 

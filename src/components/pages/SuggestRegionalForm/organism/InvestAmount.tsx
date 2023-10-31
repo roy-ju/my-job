@@ -8,6 +8,8 @@ export default function InvestAmount() {
 
   const investAmount = form?.formData?.investAmount;
 
+  const hasError = form?.formData?.emptyTextFields?.price;
+
   const { handleUpdateInvestAmount } = useFormHandler();
 
   return (
@@ -18,8 +20,7 @@ export default function InvestAmount() {
       </div>
       <div tw="flex flex-col">
         <div>
-          {/* <TextField variant="outlined" hasError={hasError}> */}
-          <TextField variant="outlined">
+          <TextField variant="outlined" hasError={hasError}>
             <TextField.PriceInput
               label={investAmount ? '투자 예산' : '투자 예산 입력'}
               value={investAmount}
@@ -27,7 +28,7 @@ export default function InvestAmount() {
             />
           </TextField>
           <TextField.PriceHelperMessage tw="mr-4">{investAmount ?? '0'}</TextField.PriceHelperMessage>
-          {/* {hasError && <TextField.ErrorMessage>투자 예산을 입력해주세요.</TextField.ErrorMessage>} */}
+          {hasError && <TextField.ErrorMessage>투자 예산을 입력해주세요.</TextField.ErrorMessage>}
         </div>
       </div>
     </div>

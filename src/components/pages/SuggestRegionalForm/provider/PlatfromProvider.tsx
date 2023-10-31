@@ -9,7 +9,7 @@ export default function Provider({ depth, children }: { depth?: number; children
       return { platform: checkPlatform(), depth };
     }
     return null;
-  }, []);
+  }, [depth]);
 
   return <PlatformContext.Provider value={platform}>{children}</PlatformContext.Provider>;
 }

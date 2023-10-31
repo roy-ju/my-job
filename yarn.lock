@@ -1211,6 +1211,13 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
+"@babel/runtime@^7.19.0", "@babel/runtime@^7.21.0":
+  version "7.23.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
+  integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/runtime@^7.2.0":
   version "7.21.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.5.tgz#8492dddda9644ae3bda3b45eabe87382caee7200"
@@ -3023,6 +3030,57 @@
   integrity sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==
   dependencies:
     "@babel/runtime" "^7.12.5"
+
+"@toss/assert@^1.1.10":
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/@toss/assert/-/assert-1.1.10.tgz#79b15f3377e08d5105edf55cd777133447710257"
+  integrity sha512-iGuv1eYZBucgnnjEBuqA91o9XRUKsIH/nMz1H/JVz49bjzXbN8EVBIloRCCQrTv6fS06U0FEGn1LnQT596k9pA==
+  dependencies:
+    "@toss/utils" "^1.4.4"
+
+"@toss/react@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@toss/react/-/react-1.5.0.tgz#f41de08fa049dece69062bec091bed7f63daeb69"
+  integrity sha512-u1mjswd8a1GJxpItddeU8rbpg3vyppityHqdIHQhy84w4NLLE73q4LFr3a3F5X9oUDNIEjSWfe1qaJ4Z57E+aQ==
+  dependencies:
+    "@babel/runtime" "^7.14.8"
+    "@toss/storage" "^1.3.0"
+    "@toss/utils" "^1.4.4"
+    classnames "^2.3.1"
+    lodash.debounce "^4.0.8"
+    lodash.throttle "^4.1.1"
+
+"@toss/storage@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@toss/storage/-/storage-1.3.0.tgz#50f5394c6eff909992e3580bdd5cdf3edf5b8018"
+  integrity sha512-9xSwlICHbA1Ibm4Hp+WJZMkwUsW4mMX4QRGNklwE45xxQxQako1svIflPrugxaOZXnLygkb8nYYBaRtICzwoaw==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+
+"@toss/use-funnel@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@toss/use-funnel/-/use-funnel-1.2.6.tgz#136085900d2d76f5aee539d4ad70f39d200a6a20"
+  integrity sha512-SRla3FOz68A+gB87C/rdKqkf/YQbORqFVNN9xNK2wtBtgznhW8AW4IeKWM6A0TVqM9aj6f/ixLNe7yPvXnMJQw==
+  dependencies:
+    "@toss/assert" "^1.1.10"
+    "@toss/react" "^1.5.0"
+    "@toss/storage" "^1.3.0"
+    "@toss/use-query-param" "^1.1.7"
+    "@toss/utils" "^1.4.4"
+    fast-deep-equal "^3.1.3"
+
+"@toss/use-query-param@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@toss/use-query-param/-/use-query-param-1.1.7.tgz#00774453ea7894e373cdfd3dc879f16eb941fc9e"
+  integrity sha512-aA6q2ncfMPvSCAde866pOBzHCbRCoYlTzsU4f+ZNLpg1gzpZLhwc1a/C7ZpSLG56KEDDUaKQsKzOCLICpeYBjw==
+
+"@toss/utils@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@toss/utils/-/utils-1.4.4.tgz#b91d282012a86478f7ca12281051689e07dc2c17"
+  integrity sha512-g8/hEabUmWWed6eTTwI3OJ7ZDZtATjAcs4A1qqfF8TKrYMul5pZWsWkIeeVRMWJfTuvTKMP2QZrB+51bMO1p2w==
+  dependencies:
+    "@babel/runtime" "^7.14.8"
+    date-fns "^2.25.0"
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -6164,6 +6222,13 @@ date-fns@^2.0.1, date-fns@^2.24.0:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
   integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
+date-fns@^2.25.0:
+  version "2.30.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.30.0.tgz#f367e644839ff57894ec6ac480de40cae4b0f4d0"
+  integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+
 debounce@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.1.tgz#38881d8f4166a5c5848020c11827b834bcb3e0a5"
@@ -9091,6 +9156,11 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
+
 lodash.uniq@4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
@@ -11117,6 +11187,11 @@ regenerator-runtime@^0.13.11, regenerator-runtime@^0.13.2, regenerator-runtime@^
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz#f6dca3e7ceec20590d07ada785636a90cdca17f9"
   integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
+
+regenerator-runtime@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.14.0.tgz#5e19d68eb12d486f797e15a3c6a918f7cec5eb45"
+  integrity sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==
 
 regenerator-transform@^0.15.1:
   version "0.15.1"

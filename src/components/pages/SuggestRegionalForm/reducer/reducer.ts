@@ -1,4 +1,4 @@
-import { State, Action, FormsInfo } from './types';
+import { State, Action, FormsInfo } from '../types';
 
 export const initialState: State = {
   formData: {
@@ -119,12 +119,17 @@ export function suggestFormReducer(state: State, action: Action) {
         ...state,
         formData: {
           ...(state?.formData ?? {}),
-
           [action.key]: action.payLoad,
         },
       };
 
     case 'update_Forms':
+      if (Array.isArray(action.payLoad)) {
+        return {
+          ...state,
+          forms: action.payLoad,
+        };
+      }
       return {
         ...state,
         forms: [...state.forms, action.payLoad],

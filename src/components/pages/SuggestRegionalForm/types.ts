@@ -63,6 +63,6 @@ export type State = {
 
 export type Action<K extends keyof FormsValueType = keyof FormsValueType> =
   | { type: 'update_Field'; key: keyof FormsValueType; payLoad: FormsValueType[K] }
-  | { type: 'update_Forms'; payLoad: Forms }
+  | { type: 'update_Forms'; payLoad: Forms | Forms[] }
   | { type: 'reset' }
   | { type: 'popup'; payLoad: Popup };
