@@ -47,7 +47,7 @@ export default function useInit() {
   useEffect(() => {
     if (!router.query.params || !router.query.forms) return;
 
-    dispatch?.({ type: 'update_Forms', payLoad: JSON.parse(router.query.forms as string) });
+    dispatch?.({ type: "update_Forms", payLoad: JSON.parse(router.query.forms as string) });
 
     const params: Record<string, unknown> = JSON.parse(router.query.params as string);
 

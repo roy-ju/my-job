@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { BuyOrRent } from '@/constants/enums';
-
 import { useCallback } from 'react';
+
+import { BuyOrRent } from '@/constants/enums';
 
 import { useRouter as useNextRouter } from 'next/router';
 
 import { useRouter } from '@/hooks/utils';
 
-import { FormsInfo, RegionItem } from '../reducer/types';
+import { FormsInfo, RegionItem } from '../types';
 
-import useFormDispatch from './useFormDispatch';
+import usePlatform from './usePlatform';
 
 import useForm from './useForm';
-import usePlatform from './usePlatform';
+
+import useFormDispatch from './useFormDispatch';
 
 type MouseClickEvent = React.MouseEvent<HTMLButtonElement> | undefined;
 
@@ -220,41 +221,6 @@ export default function useFormHandler() {
     dispatch?.({ type: 'reset' });
   }, [dispatch]);
 
-  const handleNextForm = useCallback(() => {
-    if (form && form?.forms?.length) {
-      const formList = form.forms;
-
-      const lastForm = formList[formList.length - 1];
-
-      switch (lastForm) {
-        case FormsInfo.BasicInfo:
-          if (form?.formData?.buyOrRent === BuyOrRent.Buy) {
-            dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.Purpose });
-          }
-
-          if (form?.formData?.buyOrRent === BuyOrRent.Jeonsae) {
-            dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.MoveInDate });
-          }
-          break;
-
-        case FormsInfo.MoveInDate:
-          dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.Option });
-          break;
-
-        case FormsInfo.Purpose:
-          dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.Option });
-          break;
-
-        case FormsInfo.Option:
-          dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.Option });
-          break;
-
-        default:
-          break;
-      }
-    }
-  }, [form, dispatch]);
-
   const handleClosePopup = useCallback(() => {
     dispatch?.({ type: 'popup', payLoad: 'none' });
   }, [dispatch]);
@@ -322,11 +288,9 @@ export default function useFormHandler() {
     handleUpdateMaxArea,
     handleUpdateDescription,
     handleUpdateInterviewAvailableTime,
-    
-    handleNextForm,
-    
+
     handleOpenPopup,
-    
+
     handleBubjungdongChangePopup,
 
     handleBuyOrRentChangePopup,

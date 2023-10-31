@@ -208,6 +208,7 @@ export default function SuggestRegionalForm({
           ))}
         </div>
       </FormContext.Provider>
+
       {!(forms?.length === 1 && forms?.[0] === 'region' && !region) && (
         <PersistentBottomBar>
           <div>

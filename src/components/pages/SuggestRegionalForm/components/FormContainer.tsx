@@ -4,30 +4,37 @@ import { Separator, PersistentBottomBar, Button } from '@/components/atoms';
 
 import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
 
+import tw from 'twin.macro';
+
 import FormRenderer from './FormRenderer';
+
+import usePlatform from '../hooks/usePlatform';
 
 import useInit from '../hooks/useInit';
 
 import useForm from '../hooks/useForm';
 
+import useFormCTA from '../hooks/useFormCTA';
+
 import useFormHandler from '../hooks/useFormHandler';
-import RegionForm from '../../mobile/SuggestRegionalForm/RegionForm';
-import useFormDisabled from '../hooks/useFormDisabled';
+
+import RegionForm from '../organism/RegionForm';
+
+import useAutoScroll from '../hooks/useAutoScroll';
 
 function FormContainer() {
   const state = useForm();
 
+  const platform = usePlatform();
+
   useInit();
 
-  const {
-    hanldeClickBack,
-    handleBubjungdongChangePopup,
-    handleBuyOrRentChangePopup,
-    handleIsQuitPopup,
-    handleNextForm,
-  } = useFormHandler();
+  useAutoScroll({ elementID: 'formContainer' });
 
-  const { nextButtonDisabled } = useFormDisabled();
+  const { hanldeClickBack, handleBubjungdongChangePopup, handleBuyOrRentChangePopup, handleIsQuitPopup } =
+    useFormHandler();
+
+  const { nextButtonDisabled, handleNextForm } = useFormCTA();
 
   if (!state?.forms) return null;
 
@@ -50,9 +57,6 @@ function FormContainer() {
 
         <PersistentBottomBar>
           <div>
-            {/* <Button disabled={nextButtonDisabled} tw="w-full" size="bigger" onClick={onClickNext}>
-            다음
-          </Button> */}
             <Button tw="w-full" size="bigger" onClick={handleNextForm} disabled={nextButtonDisabled}>
               다음
             </Button>
@@ -62,7 +66,12 @@ function FormContainer() {
 
       {state.popup === 'bubjungdongChange' && (
         <OverlayPresenter>
-          <div tw="bg-white w-[380px] h-[600px] rounded-lg shadow">
+          <div
+            tw="bg-white rounded-lg shadow"
+            css={[
+              platform?.platform === 'pc' ? tw`w-[380px] h-[600px]` : tw`w-[90vw] h-[90vh] max-w-[380px] max-h-[600px]`,
+            ]}
+          >
             <RegionForm
               onClickClose={() => handleBubjungdongChangePopup('close')}
               onSubmit={(item) => {

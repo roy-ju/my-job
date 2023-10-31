@@ -13,6 +13,8 @@ export default function BuyOrRent() {
 
   const selected = (value: BuyOrRentEnum) => form?.formData?.buyOrRent === value;
 
+  const hasError = form?.formData?.emptyTextFields?.price;
+
   const { handleUpdateBuyOrRent, handleUpdatePrice, handleMonthlyRentFee, handleUpdateNegotiable } = useFormHandler();
 
   return (
@@ -48,8 +50,7 @@ export default function BuyOrRent() {
         {form?.formData?.buyOrRent === BuyOrRentEnum.Jeonsae && (
           <div tw="flex flex-col gap-4">
             <div>
-              {/* <TextField variant="outlined" hasError={hasError}> */}
-              <TextField variant="outlined">
+              <TextField variant="outlined" hasError={hasError}>
                 <TextField.PriceInput
                   label={form?.formData?.price ? '보증금' : '보증금 입력'}
                   value={form?.formData?.price}
@@ -57,9 +58,7 @@ export default function BuyOrRent() {
                 />
               </TextField>
               <TextField.PriceHelperMessage tw="mr-4">{form?.formData?.price ?? '0'}</TextField.PriceHelperMessage>
-
-              {/* {hasError && <TextField.ErrorMessage>보증금을 입력해 주세요.</TextField.ErrorMessage>} */}
-              <TextField.ErrorMessage>보증금을 입력해 주세요.</TextField.ErrorMessage>
+              {hasError && <TextField.ErrorMessage>보증금을 입력해 주세요.</TextField.ErrorMessage>}
             </div>
             <div>
               <TextField variant="outlined">
@@ -77,8 +76,7 @@ export default function BuyOrRent() {
         )}
         {form?.formData?.buyOrRent === BuyOrRentEnum.Buy && (
           <div>
-            {/* <TextField variant="outlined" hasError={hasError}> */}
-            <TextField variant="outlined">
+            <TextField variant="outlined" hasError={hasError}>
               <TextField.PriceInput
                 label={form?.formData?.price ? '매매가' : '매매가 입력'}
                 value={form?.formData?.price}
@@ -86,9 +84,7 @@ export default function BuyOrRent() {
               />
             </TextField>
             <TextField.PriceHelperMessage tw="mr-4">{form?.formData?.price ?? '0'}</TextField.PriceHelperMessage>
-
-            {/* {hasError && <TextField.ErrorMessage>매매가를 입력해 주세요.</TextField.ErrorMessage>} */}
-            <TextField.ErrorMessage>매매가를 입력해 주세요.</TextField.ErrorMessage>
+            {hasError && <TextField.ErrorMessage>매매가를 입력해 주세요.</TextField.ErrorMessage>}
           </div>
         )}
       </div>

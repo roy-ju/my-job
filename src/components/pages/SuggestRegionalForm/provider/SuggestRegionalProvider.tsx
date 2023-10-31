@@ -2,7 +2,7 @@ import { ReactNode, useReducer, createContext } from 'react';
 
 import { suggestFormReducer, initialState } from '../reducer';
 
-import { State, Action } from '../reducer/types';
+import { State, Action } from '../types';
 
 export const FormContext = createContext<State | null>(null);
 
