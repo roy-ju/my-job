@@ -14,7 +14,7 @@ import { MapStreet } from './components/MapStreet';
 
 const defaultMapSize: string = '190px';
 
-export function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse }) {
+export default function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse }) {
   const danjiMapTypeStore = useDanjiMapTypeStore();
   const danjiMapButtonStore = useDanjiMapButtonStore();
 

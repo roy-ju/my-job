@@ -1,6 +1,7 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { styled } from 'twin.macro';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { useNetwork } from './useNetwork';
 import useNaverMapEvent from '../navermap/hooks/useNaverEvent';
 
@@ -52,7 +53,7 @@ export function NaverMapV1({
   const containerRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<naver.maps.Map | null>(null);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!isOnline) {
       setMap((prev) => {
         prev?.destroy();

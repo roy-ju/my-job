@@ -175,13 +175,14 @@ export const Chart = React.memo(
 
             showTooltip({
               tooltipData: Object?.assign(
-                cloneDanjiData[firstIndex],
-                cloneSigunguData[firstIndex],
-                cloneSidoData[firstIndex],
+                cloneDanjiData[firstIndex] ? cloneDanjiData[firstIndex] : {},
+                cloneSigunguData[firstIndex] ? cloneSigunguData[firstIndex] : {},
+                cloneSidoData[firstIndex] ? cloneSidoData[firstIndex] : {},
               ) as DataProps,
               tooltipLeft: xScale(getDate(sigunguChartData[firstIndex])) + 2,
               tooltipTop: yScalePrice(tooltipTopValue || 0),
             });
+
             return;
           }
           if (x > xScale(getDate(sigunguChartData[lastIndex]))) {
@@ -189,9 +190,9 @@ export const Chart = React.memo(
 
             showTooltip({
               tooltipData: Object?.assign(
-                cloneDanjiData[lastIndex],
-                cloneSigunguData[lastIndex],
-                cloneSidoData[lastIndex],
+                cloneDanjiData[lastIndex] ? cloneDanjiData[lastIndex] : {},
+                cloneSigunguData[lastIndex] ? cloneSigunguData[lastIndex] : {},
+                cloneSidoData[lastIndex] ? cloneSidoData[lastIndex] : {},
               ) as DataProps,
               tooltipLeft: xScale(getDate(sigunguChartData[lastIndex])) + 2,
               tooltipTop: yScalePrice(tooltipTopValue || 0),

@@ -221,9 +221,11 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return () => {
       setUpdate(false);
     };
-  }, [activeCategory, danji]);
+  }, [activeCategory]);
 
-  if (!danji) return null;
+  if (!danji) {
+    return null;
+  }
 
   return (
     <div tw="w-full pt-10 pb-10 px-5 [min-height: 590px]">

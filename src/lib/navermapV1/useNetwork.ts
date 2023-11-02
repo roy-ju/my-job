@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 
 export function useNetwork() {
-  const [online, setOnline] = useState(window.navigator.onLine);
+  const [online, setOnline] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setOnline(window.navigator.onLine);
+    }
+
     const cb = () => {
       setOnline(window.navigator.onLine);
     };
