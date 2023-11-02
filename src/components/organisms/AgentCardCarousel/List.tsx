@@ -1,7 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useControlled } from '@/hooks/utils';
+import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
 import CarouselItem from './Item';
 import Button from './Button';
 import Indicator from './Indicator';
@@ -58,7 +58,7 @@ export default function List({ index: i, onChangeIndex, data }: ListProps) {
     }
   };
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const timer = setTimeout(() => {
       setShowItem(true);
     }, 1);

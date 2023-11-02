@@ -168,9 +168,9 @@ export const Chart = React.memo(
             const tooltipTopValue = getSigunguCount(sigunguChartData[firstIndex]);
             showTooltip({
               tooltipData: Object?.assign(
-                cloneDanjiData[firstIndex],
-                cloneSigunguData[firstIndex],
-                cloneSidoData[firstIndex],
+                cloneDanjiData[firstIndex] ? cloneDanjiData[firstIndex] : {},
+                cloneSigunguData[firstIndex] ? cloneSigunguData[firstIndex] : {},
+                cloneSidoData[firstIndex] ? cloneSidoData[firstIndex] : {},
               ) as DataProps,
               tooltipLeft: xScale(getDate(sigunguChartData[firstIndex])) + 2,
               tooltipTop: yScaleCount(tooltipTopValue || 0),
@@ -183,9 +183,9 @@ export const Chart = React.memo(
 
             showTooltip({
               tooltipData: Object?.assign(
-                cloneDanjiData[lastIndex],
-                cloneSigunguData[lastIndex],
-                cloneSidoData[lastIndex],
+                cloneDanjiData[lastIndex] ? cloneDanjiData[lastIndex] : {},
+                cloneSigunguData[lastIndex] ? cloneSigunguData[lastIndex] : {},
+                cloneSidoData[lastIndex] ? cloneSidoData[lastIndex] : {},
               ) as DataProps,
               tooltipLeft: xScale(getDate(sigunguChartData[lastIndex])) + 2,
               tooltipTop: yScaleCount(tooltipTopValue || 0),

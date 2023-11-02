@@ -4,12 +4,21 @@
  */
 
 import { Panel } from '@/components/atoms';
+
 import dynamic from 'next/dynamic';
+
 import { ParsedUrlQuery } from 'querystring';
+
 import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
+
 import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
+
 import Head from 'next/head';
+
 import AppConfig from '@/config';
+
+import DanjiDetail from '@/components/pages/pc/DanjiDetail';
+
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -96,11 +105,6 @@ const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'
   loading: FallbackComponent,
 });
 const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: FallbackComponent });
-
-const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
-  loading: FallbackComponent,
-  ssr: false,
-});
 
 const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
   loading: FallbackComponent,
@@ -367,9 +371,10 @@ interface RouterProps {
   query: ParsedUrlQuery; // 쿼리 파라미터
   depth: number; // route segment 의 depth
   ipAddress: string;
+  prefetchedData?: { [key: string]: any } | null;
 }
 
-function Router({ route, query, depth, ipAddress }: RouterProps) {
+function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps) {
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -549,7 +554,7 @@ function Router({ route, query, depth, ipAddress }: RouterProps) {
     }
 
     case Routes.DanjiDetail: {
-      return <DanjiDetail key={`${query.danjiID as string}`} {...props} />;
+      return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
     }
 
     case Routes.DanjiRecommendation: {

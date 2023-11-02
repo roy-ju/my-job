@@ -1,10 +1,17 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Table } from '@/components/molecules';
-import { MapCardDanji } from '@/components/templates/MobDanjiMap';
+
 import { describeRealestateType } from '@/constants/enums';
 import falsy from '@/utils/falsy';
 import { formatUseAcceptedYear } from '@/utils/fotmat';
 import { useMemo } from 'react';
+
+import dynamic from 'next/dynamic';
+
+const MapCardDanji = dynamic(() => import('@/components/templates/MobDanjiMap'), {
+  loading: () => <div />,
+  ssr: false,
+});
 
 export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   const isShowTableRow = useMemo(() => {
@@ -14,7 +21,10 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return true;
   }, [danji]);
 
-  if (!danji) return null;
+  if (!danji) {
+    console.log('hi');
+    return null;
+  }
 
   return (
     <div tw="px-5 pt-10 pb-10">

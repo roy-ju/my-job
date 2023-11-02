@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable func-names */
 
-import React, { useMemo, useState, useLayoutEffect, useEffect, useRef } from 'react';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { styled } from 'twin.macro';
 
 const MapContainer = styled.div`
@@ -34,7 +35,7 @@ export function MapStreet({
 
   const mapHeight: string = useMemo(() => defaultMapSize, []);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setPanorama(() => {
       const container = document.getElementById(containerId);
 
