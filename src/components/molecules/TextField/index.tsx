@@ -425,6 +425,7 @@ const PriceInput = forwardRef<
         if (val !== undefined) {
           if (!isZeroAllowed && val === 0) return false;
           if (!isNegativeAllowed && val < 0) return false;
+          if (!isNegativeAllowed && val > 9999999) return false;
         }
         return true;
       },
