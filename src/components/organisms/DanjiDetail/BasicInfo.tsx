@@ -87,7 +87,7 @@ export default function BasicInfo({
       <div css={[isListingDetail ? tw`pb-0` : tw`pb-10`]}>
         <div tw="px-5">
           <div tw="flex flex-row items-center justify-between mb-2">
-            <h1 tw="text-h3 font-bold">{danji.name}</h1>
+            <p tw="text-h3 font-bold">{danji.name}</p>
             {isShowDanjiListings && (
               <Button variant="outlined" size="small" onClick={handleDanjiDetail}>
                 단지 정보 보기
