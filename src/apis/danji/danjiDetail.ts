@@ -51,12 +51,18 @@ export type GetDanjiDetailResponse = {
   latest_rent_year: string;
 } & ErrorResponse;
 
-export function useAPI_GetDanjiDetail({ danjiId }: { danjiId?: number | null }) {
-
+export function useAPI_GetDanjiDetail({
+  preFetchedData,
+  danjiId,
+}: {
+  preFetchedData?: { [key: string]: any } | null;
+  danjiId?: number | null;
+}) {
   const { data, error, mutate } = useSWR<GetDanjiDetailResponse>(
     danjiId ? ['/danji/detail', { danji_id: danjiId }] : null,
     null,
     {
+      ...(preFetchedData ? { fallbackData: preFetchedData as GetDanjiDetailResponse } : {}),
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnMount: true,

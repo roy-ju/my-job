@@ -6,12 +6,13 @@ import { memo } from 'react';
 import useDanjiDetail from './useDanjiDetail';
 
 interface Props {
+  prefetchedData?: { [key: string]: any } | null;
   depth: number;
   panelWidth?: string;
 }
 
-export default memo(({ panelWidth, depth }: Props) => {
-  const { danji, mutate } = useDanjiDetail(depth);
+export default memo(({ prefetchedData, panelWidth, depth }: Props) => {
+  const { danji, mutate } = useDanjiDetail(depth, undefined, prefetchedData);
 
   const nextRouter = useNextRouter();
 
@@ -21,6 +22,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
+      <div />
       {danji && !danji.error_code && (
         <DanjiDetail depth={depth} danji={danji} isShowTab handleMutateDanji={handleMutateDanji} />
       )}

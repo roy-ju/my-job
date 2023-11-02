@@ -220,7 +220,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     return () => {
       setUpdate(false);
     };
-  }, [activeCategory, danji]);
+  }, [activeCategory]);
 
   const convertPlaceName = ({ category, name }: { category?: string; name?: string }) => {
     if (!name) return '';

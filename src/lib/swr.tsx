@@ -3,7 +3,7 @@ import axios from '@/lib/axios';
 import { SWRConfig as Config } from 'swr';
 import Keys from '@/constants/storage_keys';
 
-function fetcher(arg: string | [string, any]) {
+export function fetcher(arg: string | [string, any]) {
   if (typeof arg === 'string') {
     return axios.post(arg).then((res) => res.data);
   }
