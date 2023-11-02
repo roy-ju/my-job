@@ -4,7 +4,11 @@ import { useRouter } from '@/hooks/utils';
 import { ListingDanjiMarker } from '@/layouts/MapLayout/useMapLayout';
 import { useEffect, useMemo, useState } from 'react';
 
-export default function useDanjiDetail(depth: number, danjiID?: number) {
+export default function useDanjiDetail(
+  depth: number,
+  danjiID?: number,
+  prefetchedData?: { [key: string]: any} | null ,
+) {
   const router = useRouter(depth);
 
   const [listingDetailDanjiID, setListingDetailDanjiID] = useState<number>();
@@ -16,6 +20,7 @@ export default function useDanjiDetail(depth: number, danjiID?: number) {
   }, [router]);
 
   const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
+    preFetchedData:prefetchedData,
     danjiId: listingDetailDanjiID || id,
   });
 

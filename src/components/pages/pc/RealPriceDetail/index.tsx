@@ -1,5 +1,10 @@
+import dynamic from 'next/dynamic';
+
 import { Panel } from '@/components/atoms';
-import { RealPriceDetail } from '@/components/templates';
+
+const RealPriceDetail = dynamic(() => import('@/components/templates/RealPriceDetail'), {
+  ssr: false,
+});
 
 interface Props {
   depth: number;

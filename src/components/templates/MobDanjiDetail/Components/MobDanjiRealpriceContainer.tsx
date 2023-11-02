@@ -8,9 +8,10 @@ import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiR
 import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatusChart';
 import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
 import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { ParentSize } from '@visx/responsive';
 import { useRouter } from 'next/router';
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { DanjiRealPriceChart } from '../../DanjiDetail/DanjiRealPriceChart';
 import DanjiStatusChartWrraper from '../../DanjiDetail/DanjiStatusChartWrraper';
 import DanjiStatusJeonsaeChartWrraper from '../../DanjiDetail/DanjiStatusJeonsaeChartWrraper';
@@ -139,7 +140,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
     }
   }, [danjiRealPricesData?.buy_or_rent, danjiRealPricesPyoungList, danjiRealPricesPyoungListLoading, setIsShowRpTab]);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (router?.query?.bor === BuyOrRent.Buy.toString()) {
       setBuyOrRent(1);
       setIsMutate(true);

@@ -21,9 +21,9 @@ const DanjiSchoolDetail = dynamic(() => import('@/components/templates/MobDanjiD
   ssr: false,
 });
 
-const DanjiDetail = () => {
+const DanjiDetail = ({ prefetchedData }: { prefetchedData?: { [key: string]: any } | null }) => {
   const router = useRouter();
-  const { danji, mutate } = useDanjiDetail();
+  const { danji, mutate } = useDanjiDetail(undefined, prefetchedData);
 
   const {
     danjiAroundData,
@@ -60,7 +60,10 @@ const DanjiDetail = () => {
     [],
   );
 
-  if (!danji) return null;
+  if (!danji) {
+    console.log('hi', 'bye');
+    return null;
+  }
 
   if (danji?.error_code) {
     return (
