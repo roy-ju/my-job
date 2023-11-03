@@ -6,7 +6,7 @@ export const initialState: State = {
     buyOrRent: 0,
     price: '',
     monthlyRentFee: '',
-    negotiable: false,
+    negotiable: true,
     purpose: '',
     investAmount: '',
     moveInDate: null,

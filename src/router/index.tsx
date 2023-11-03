@@ -15,6 +15,14 @@ import AppConfig from '@/config';
 
 import DanjiDetail from '@/components/pages/pc/DanjiDetail';
 
+import SuggestRegionalForm from '@/components/pages/SuggestRegionalForm';
+
+import SuggestRegionalSummary from '@/components/pages/SuggestRegionalSummary';
+
+import PlatformProvider from '@/providers/PlatformProvider';
+
+import { Container } from '@/components/container';
+
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -295,14 +303,17 @@ const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestRegionalForm = dynamic(() => import('@/components/pages/SuggestRegionalForm'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const SuggestRegionalSummary = dynamic(() => import('@/components/pages/SuggestRegionalSummary'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+
+// const SuggestRegionalForm = dynamic(() => import('@/components/pages/SuggestRegionalForm'), {
+//   ssr: true,
+//   // loading: FallbackComponent,
+// });
+
+// const SuggestRegionalSummary = dynamic(() => import('@/components/pages/SuggestRegionalSummary'), {
+//   ssr: true,
+//   // loading: FallbackComponent,
+// });
+
 const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
   ssr: false,
   loading: FallbackComponent,
@@ -384,9 +395,10 @@ interface RouterProps {
   depth: number; // route segment 의 depth
   ipAddress: string;
   prefetchedData?: { [key: string]: any } | null;
+  platform: 'pc' | 'mobile';
 }
 
-function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps) {
+function Router({ route, query, depth, ipAddress, prefetchedData, platform }: RouterProps) {
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -708,11 +720,23 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
 
     case Routes.SuggestRegionalForm: {
-      return <SuggestRegionalForm {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container panelWidth={DEFAULT_PANEL_WIDTH}>
+            <SuggestRegionalForm />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.SuggestRegionalSummary: {
-      return <SuggestRegionalSummary {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container auth ciRequired panelWidth={DEFAULT_PANEL_WIDTH}>
+            <SuggestRegionalSummary />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.SuggestRegionalFormUpdate: {

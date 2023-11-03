@@ -63,7 +63,7 @@ export default function useFormHandler() {
           dispatch?.({ type: 'update_Field', key: 'buyOrRent', payLoad: Number(value) });
           dispatch?.({ type: 'update_Field', key: 'price', payLoad: '' });
           dispatch?.({ type: 'update_Field', key: 'monthlyRentFee', payLoad: '' });
-          dispatch?.({ type: 'update_Field', key: 'negotiable', payLoad: false });
+          dispatch?.({ type: 'update_Field', key: 'negotiable', payLoad: true });
         }
       }
     },
