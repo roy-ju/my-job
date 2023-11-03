@@ -22,7 +22,6 @@ export default function DetailInfo({ danji }: { danji?: GetDanjiDetailResponse }
   }, [danji]);
 
   if (!danji) {
-    console.log('hi');
     return null;
   }
 

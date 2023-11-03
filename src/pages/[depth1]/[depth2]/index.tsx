@@ -5,6 +5,9 @@ import { MapLayout } from '@/layouts';
 import PrevPage from '@/pages/[depth1]';
 import Router from '@/router';
 import getHtmlMetas from '@/utils/getHtmlMetas';
+import { fetcher } from '@/lib/swr';
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import { checkPlatform } from '@/utils/checkPlatform';
 
 const Page: NextPageWithLayout = () => null;
 
@@ -32,11 +35,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
 
   const userAgent = context.req.headers['user-agent'];
+
+  const platform = checkPlatform(userAgent);
+
   if (userAgent && userAgent.indexOf('Mobi') > -1) {
     // 모바일이라면
     return {
       notFound: true,
     };
+  }
+
+  let danjiDetail: GetDanjiDetailResponse | null = null;
+
+  if (context.query.danjiID) {
+    const response: GetDanjiDetailResponse = await fetcher([
+      '/danji/detail',
+      { danji_id: Number(context.query.danjiID) },
+    ]);
+
+    if (response.danji_id) {
+      danjiDetail = response;
+    }
   }
 
   return {
@@ -45,7 +64,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ipAddress: ip ?? null,
       query: context.query,
       route: context.query.depth2,
+      platform,
       depth: 2,
+      ...(danjiDetail ? { prefetchedData: danjiDetail } : {}),
     },
   };
 };
