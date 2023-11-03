@@ -61,7 +61,6 @@ const DanjiDetail = ({ prefetchedData }: { prefetchedData?: { [key: string]: any
   );
 
   if (!danji) {
-    console.log('hi', 'bye');
     return null;
   }
 
