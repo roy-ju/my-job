@@ -1,3 +1,3 @@
-export default function types() {
+export function types() {
   return null;
 }
