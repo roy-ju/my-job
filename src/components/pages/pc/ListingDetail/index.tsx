@@ -13,7 +13,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import deleteListingQna from '@/apis/listing/deleteListingQna';
 import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
-
+import axios from '@/lib/axios';
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
 import { formatNumberInKorean } from '@/utils';
 import Paths from '@/constants/paths';
@@ -85,16 +85,36 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
       return;
     }
 
+    async function removeFavoriteOptimistic() {
+      if (data?.listing?.id) {
+        await removeFavorite(data.listing.id);
+        const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
+        return updatedData;
+      }
+    }
+    async function addFavoriteOptimistic() {
+      if (data?.listing?.id) {
+        await addFavorite(data.listing.id);
+        const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
+        return updatedData;
+      }
+    }
+
     if (data?.listing?.id) {
       if (data.is_favorite) {
-        await removeFavorite(data.listing.id);
+        mutateListing(removeFavoriteOptimistic, {
+          optimisticData: { ...data, is_favorite: false },
+          rollbackOnError: true,
+        });
       } else {
-        await addFavorite(data.listing.id);
+        await mutateListing(addFavoriteOptimistic, {
+          optimisticData: { ...data, is_favorite: true },
+          rollbackOnError: true,
+        });
         toast.success('관심 매물에 추가되었습니다.');
       }
-      await mutateListing();
     }
-  }, [data, mutateListing, user, router]);
+  }, [data, mutateListing, user, router, listingID]);
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
@@ -309,13 +329,13 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         <Popup>
           <Popup.ContentGroup tw="py-10">
             {statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST ? (
-              <Popup.SmallTitle tw="[text-align: center]">유효하지 않은 페이지 입니다.</Popup.SmallTitle>
+              <Popup.Title tw="[text-align: center]">유효하지 않은 페이지 입니다.</Popup.Title>
             ) : (
-              <Popup.SmallTitle tw="[text-align: center]">
+              <Popup.Title tw="[text-align: center]">
                 거래가 종료되어
                 <br />
                 매물 상세 정보를 확인할 수 없습니다.
-              </Popup.SmallTitle>
+              </Popup.Title>
             )}
           </Popup.ContentGroup>
           <Popup.ButtonGroup>
@@ -356,11 +376,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-6">
-              <Popup.SmallTitle tw="text-b2 text-center">
+              <Popup.Title tw="text-b2 text-center">
                 관심없음으로 표시한 매물은
                 <br />
                 추천받은 목록에서 삭제됩니다.
-              </Popup.SmallTitle>
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
@@ -376,11 +396,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-6">
-              <Popup.SmallTitle tw="text-b2 text-center">
+              <Popup.Title tw="text-b2 text-center">
                 매물에 대한 추가 협의는 채팅으로 진행할 수 있습니
                 <br />
                 다. 이를 위한 중개사님과의 채팅방이 개설됩니다.
-              </Popup.SmallTitle>
+              </Popup.Title>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
