@@ -56,11 +56,14 @@ export default Page;
 
 // import DanjiDetail from '@/components/pages/DanjiDetail';
 
-// const Page: NextPageWithLayout<{ platform: string }> = ({ platform }) => (
+// const Page: NextPageWithLayout<{
+//   platform: string;
+//   danjiID: number | null;
+//   prefetchedData?: { [key: string]: any } | null;
+// }> = ({ platform, danjiID, prefetchedData }) => (
 //   <PlatformProvider platform={platform}>
 //     <Container>
-//       {/* <SuggestRegionalSummary /> */}
-//       < />
+//       <DanjiDetail prefetchedData={prefetchedData} danjiID={danjiID} />
 //     </Container>
 //   </PlatformProvider>
 // );
@@ -74,6 +77,7 @@ export default Page;
 //   const platform = checkPlatform(userAgent);
 
 //   let danjiDetail: GetDanjiDetailResponse | null = null;
+//   let danjiID: number | null = null;
 
 //   if (context.query.danjiID) {
 //     const response: GetDanjiDetailResponse = await fetcher([
@@ -82,14 +86,16 @@ export default Page;
 //     ]);
 
 //     if (response.danji_id) {
+//       danjiID = response.danji_id;
 //       danjiDetail = response;
 //     }
 //   }
 
 //   return {
 //     props: {
-//       ...(danjiDetail ? { prefetchedData: danjiDetail } : {}),
 //       platform,
+//       ...(danjiID ? { danjiID } : {}),
+//       ...(danjiDetail ? { prefetchedData: danjiDetail } : {}),
 //     },
 //   };
 // };
