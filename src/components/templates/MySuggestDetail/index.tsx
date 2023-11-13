@@ -69,8 +69,9 @@ export default function MySuggestDetail({
         </div>
         <div tw="flex-1 min-h-0">
           <ListingRecommendList
-            onNext={onNextListingRecommentList}
             recommendData={recommendData}
+            suggestStatus={suggestData?.suggest_status}
+            onNext={onNextListingRecommentList}
             onClickChat={onClickChat}
             onClickNotInterested={onClickNotInterested}
             onClickRecommendAccept={onClickRecommendAccept}
