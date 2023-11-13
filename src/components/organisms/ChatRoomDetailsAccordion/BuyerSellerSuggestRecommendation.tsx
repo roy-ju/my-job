@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { useContext } from 'react';
 import tw, { css } from 'twin.macro';
 import { BuyOrRentString, TimeTypeString } from '@/constants/strings';
-import { BuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
+import { BuyOrRent, SuggestStatus } from '@/constants/enums';
 import CheckCircleIcon from '@/assets/icons/check_circle_purple_16.svg';
 import ChatRoomDetailsAccordionContext from './ChatRoomDetailsAccordionContext';
 
@@ -84,7 +84,8 @@ export default function BuyerAgentSuggestRecommendation({
     </div>
   );
 
-  const isContractCompleted = suggestRecommendItem?.suggest_recommend_status === SuggestRecommendStatus.Completed;
+  // const isContractCompleted = suggestRecommendItem?.suggest_recommend_status === SuggestRecommendStatus.Completed;
+  const isContractCompleted = suggestItem?.suggest_status === SuggestStatus.Completed;
 
   return (
     <div tw="bg-white px-5 border-t border-b border-gray-300" css={expanded && tw`rounded-b-[20px]`}>

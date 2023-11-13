@@ -3,7 +3,7 @@ import React from 'react';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
 import { styled } from 'twin.macro';
 import { formatCreatedTime } from '@/utils/formatsTime';
-import { SuggestRecommendStatus } from '@/constants/enums';
+import { SuggestStatus } from '@/constants/enums';
 
 import ViewIcon from '@/assets/icons/view.svg';
 
@@ -28,7 +28,7 @@ export default function UserInfo({ data }: Props) {
 
       {data?.my_suggest && <Chip variant="nego">{ChipText.MySuggest}</Chip>}
 
-      {data?.suggest_status === SuggestRecommendStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>}
+      {data?.suggest_status === SuggestStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>}
 
       {data?.created_time && (
         <span tw="ml-3 text-gray-700 text-info [letter-spacing: -0.4px]">{formatCreatedTime(data.created_time)}</span>

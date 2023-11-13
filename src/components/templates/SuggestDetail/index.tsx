@@ -45,7 +45,11 @@ export default function SuggestDetail({
           <SuggestDetailListItem.UserInfo data={data} />
           <SuggestDetailListItem.ListingInfo data={data} />
           {isExistMySuggested && (
-            <SuggestDetailListItem.SuggestedListings list={myRecommendedList} onMutate={onMutate} />
+            <SuggestDetailListItem.SuggestedListings
+              list={myRecommendedList}
+              onMutate={onMutate}
+              suggestStatus={data?.suggest_status}
+            />
           )}
         </SuggestDetailListItem>
       </div>
