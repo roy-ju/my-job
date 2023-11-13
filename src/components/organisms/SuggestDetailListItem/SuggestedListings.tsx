@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cancelRecommend } from '@/apis/suggest/cancelRecommend';
 import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedList';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
@@ -65,24 +66,21 @@ function SuggestedListingItem({ suggestStatus, item, onMutate }: Item) {
     <>
       <div tw="not-last-of-type:[border-bottom: 1px solid #E9ECEF] py-5">
         <div tw="flex items-center justify-between mb-1.5">
-          {suggestStatus === SuggestStatus.Completed && <Chip variant="red">거래성사</Chip>}
+          {/* {suggestStatus === SuggestStatus.Completed && <Chip variant="red">거래성사</Chip>} */}
 
-          {suggestStatus !== SuggestStatus.Completed &&
-            item.suggest_recommend_status === SuggestRecommendStatus.Sent && <Chip variant="gray">대기중</Chip>}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Sent && <Chip variant="gray">대기중</Chip>}
 
-          {suggestStatus !== SuggestStatus.Completed &&
-            item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
 
-          {suggestStatus !== SuggestStatus.Completed &&
-            item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
-              <Button
-                variant="ghost"
-                tw="[text-decoration-line: underline] h-4 pr-0 text-info"
-                onClick={() => handlePopup(true)}
-              >
-                취소
-              </Button>
-            )}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
+            <Button
+              variant="ghost"
+              tw="[text-decoration-line: underline] h-4 pr-0 text-info"
+              onClick={() => handlePopup(true)}
+            >
+              취소
+            </Button>
+          )}
         </div>
 
         <div tw="text-b1 font-bold">
