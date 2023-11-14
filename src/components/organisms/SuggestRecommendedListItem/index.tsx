@@ -92,7 +92,7 @@ export default function SuggestRecommendedListItem({
         </Button>
       );
 
-    if (suggestItem.suggest_status === SuggestStatus.Completed) {
+    if (suggestRecommendItem.suggest_recommend_status === SuggestRecommendStatus.Completed) {
       if (suggestRecommendItem.chat_room_id === null) {
         return null;
       }
@@ -105,7 +105,6 @@ export default function SuggestRecommendedListItem({
         채팅방 바로가기
       </Button>;
     }
-
     if (suggestItem.suggest_status === SuggestStatus.Active) {
       return (
         <Button
@@ -119,7 +118,6 @@ export default function SuggestRecommendedListItem({
       );
     }
   };
-
   const renderSuggestRecommendErrorMessage = () => {
     if (suggestItem.suggest_status === SuggestStatus.Deleted)
       return (
@@ -193,8 +191,16 @@ export default function SuggestRecommendedListItem({
       </Wrapper>
       <Wrapper tw="p-4 bg-gray-100 rounded-lg mt-4">
         <div tw="flex justify-between">
-          <Chip variant={suggestItem.suggest_status === SuggestStatus.Completed ? 'red' : 'yellowOrange'}>
-            {suggestItem.suggest_status === SuggestStatus.Completed ? '거래성사' : '우리집 추천중'}
+          <Chip
+            variant={
+              suggestRecommendItem.suggest_recommend_status === SuggestRecommendStatus.Completed
+                ? 'red'
+                : 'yellowOrange'
+            }
+          >
+            {suggestRecommendItem.suggest_recommend_status === SuggestRecommendStatus.Completed
+              ? '거래성사'
+              : '우리집 추천중'}
           </Chip>
           <span tw="text-gray-700 text-info">
             추천일 <Moment format="yyyy.MM.DD">{suggestRecommendItem.created_time}</Moment>

@@ -3,19 +3,17 @@ import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedLis
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { Button, Chip, Numeral } from '@/components/atoms';
 import { ExpandableText, OverlayPresenter, Popup } from '@/components/molecules';
-import { describeBuyOrRent, SuggestRecommendStatus, SuggestStatus } from '@/constants/enums';
+import { describeBuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
 import { isNumber } from 'lodash';
 
 import React, { useCallback, useState } from 'react';
 
 type Props = {
-  suggestStatus?: number;
   list?: GetMyRecommendedListResponse['list'];
   onMutate?: () => void;
 };
 
 type Item = {
-  suggestStatus?: number;
   item: {
     suggest_recommend_id: number;
     suggest_recommend_status: number;
@@ -45,7 +43,7 @@ function PriceText({ tradeOrDepositPrice, monthlyRentFee }: { tradeOrDepositPric
   return <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>;
 }
 
-function SuggestedListingItem({ suggestStatus, item, onMutate }: Item) {
+function SuggestedListingItem({ item, onMutate }: Item) {
   const [open, setOpen] = useState(false);
 
   const handlePopup = useCallback((val: boolean) => {
@@ -65,24 +63,21 @@ function SuggestedListingItem({ suggestStatus, item, onMutate }: Item) {
     <>
       <div tw="not-last-of-type:[border-bottom: 1px solid #E9ECEF] py-5">
         <div tw="flex items-center justify-between mb-1.5">
-          {suggestStatus === SuggestStatus.Completed && <Chip variant="red">거래성사</Chip>}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Sent && <Chip variant="gray">대기중</Chip>}
 
-          {suggestStatus !== SuggestStatus.Completed &&
-            item.suggest_recommend_status === SuggestRecommendStatus.Sent && <Chip variant="gray">대기중</Chip>}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
 
-          {suggestStatus !== SuggestStatus.Completed &&
-            item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Completed && <Chip variant="red">거래성사</Chip>}
 
-          {suggestStatus !== SuggestStatus.Completed &&
-            item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
-              <Button
-                variant="ghost"
-                tw="[text-decoration-line: underline] h-4 pr-0 text-info"
-                onClick={() => handlePopup(true)}
-              >
-                취소
-              </Button>
-            )}
+          {item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
+            <Button
+              variant="ghost"
+              tw="[text-decoration-line: underline] h-4 pr-0 text-info"
+              onClick={() => handlePopup(true)}
+            >
+              취소
+            </Button>
+          )}
         </div>
 
         <div tw="text-b1 font-bold">
@@ -130,7 +125,7 @@ function SuggestedListingItem({ suggestStatus, item, onMutate }: Item) {
   );
 }
 
-export default function SuggestedListings({ suggestStatus, list, onMutate }: Props) {
+export default function SuggestedListings({ list, onMutate }: Props) {
   const [showDetails, setShowDetails] = useState(true);
 
   return (
@@ -155,14 +150,7 @@ export default function SuggestedListings({ suggestStatus, list, onMutate }: Pro
         </div>
       </button>
       {showDetails &&
-        list?.map((item) => (
-          <SuggestedListingItem
-            key={item.suggest_recommend_id}
-            item={item}
-            onMutate={onMutate}
-            suggestStatus={suggestStatus}
-          />
-        ))}
+        list?.map((item) => <SuggestedListingItem key={item.suggest_recommend_id} item={item} onMutate={onMutate} />)}
     </>
   );
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 import React, { memo } from 'react';
 

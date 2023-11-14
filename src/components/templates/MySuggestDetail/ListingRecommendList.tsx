@@ -5,7 +5,6 @@ import { ListingRecommendListItem } from '@/components/organisms';
 
 interface Props {
   recommendData?: GetMySuggestRecommendsResponse['list'];
-  suggestStatus?: number;
   onClickChat?: (id: number) => void;
   onClickNotInterested?: (id: number) => void;
   onClickRecommendAccept?: (id: number) => void;
@@ -15,7 +14,6 @@ interface Props {
 
 export default function ListingRecommendList({
   recommendData,
-  suggestStatus,
   onClickChat,
   onClickNotInterested,
   onClickRecommendAccept,
@@ -32,7 +30,6 @@ export default function ListingRecommendList({
         <div tw="flex flex-col gap-7">
           {recommendData?.map((item) => (
             <ListingRecommendListItem
-              suggestStatus={suggestStatus}
               key={item.suggest_recommend_id}
               item={item}
               onClickChat={() => onClickChat?.(item?.chat_room_id ?? 0)}
