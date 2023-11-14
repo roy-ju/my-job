@@ -67,7 +67,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
 
           {item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
 
-          {item.suggest_recommend_status === SuggestRecommendStatus.Completed && <Chip variant="red">거래성사</Chip>}
+          {/* {item.suggest_recommend_status === SuggestRecommendStatus.Completed && <Chip variant="red">거래성사</Chip>} */}
 
           {item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
             <Button
