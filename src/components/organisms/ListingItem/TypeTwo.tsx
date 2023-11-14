@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Avatar, Chip, Numeral } from '@/components/atoms';
 import { SuggestStatus } from '@/constants/enums';
 import { convertRangeText } from '@/utils/fotmat';
@@ -68,8 +67,7 @@ export default function TypeTwo({
             {ChipText.IamRecommending}
           </Chip>
         )}
-
-        {/* {item.suggest_status === SuggestStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>} */}
+        {item.suggest_status === SuggestStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>}
 
         {item.my_suggest || item.iam_recommending ? (
           <button type="button" tw="flex items-center text-info leading-4 ml-auto">
