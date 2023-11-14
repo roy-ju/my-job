@@ -2,13 +2,12 @@ import { css } from 'twin.macro';
 import { Button, Chip, Moment, Numeral } from '@/components/atoms';
 import { ButtonGroup, ExpandableText } from '@/components/molecules';
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
-import { SuggestRecommendStatus, SuggestStatus } from '@/constants/enums';
+import { SuggestRecommendStatus } from '@/constants/enums';
 import { BuyOrRentString } from '@/constants/strings';
 import ErrorIcon from '@/assets/icons/error.svg';
 import { Avatar } from '../ChatMessage/Avatar';
 
 interface Props {
-  suggestStatus?: number;
   showCheckbox?: boolean;
   item?: NonNullable<GetMySuggestRecommendsResponse['list']>[0];
   isLast?: boolean;
@@ -28,7 +27,6 @@ const informationStringWrapper = css`
 `;
 
 export default function ListingRecommendListItem({
-  suggestStatus,
   item,
   onClickChat,
   onClickNotInterested,
@@ -48,14 +46,13 @@ export default function ListingRecommendListItem({
         </ButtonGroup>
       );
     }
-
-    if (suggestStatus === SuggestStatus.Completed && item?.chat_room_id === null) {
+    if (item?.suggest_recommend_status === SuggestRecommendStatus.Completed && item?.chat_room_id === null) {
       return null;
     }
 
     if (
       item?.suggest_recommend_status === SuggestRecommendStatus.Accepted ||
-      suggestStatus === SuggestStatus.Completed
+      item?.suggest_recommend_status === SuggestRecommendStatus.Completed
     ) {
       return (
         <ButtonGroup tw="w-full border-t border-t-gray-300">
@@ -94,7 +91,7 @@ export default function ListingRecommendListItem({
         {renderMoments()}
       </div>
       <div tw="border-b mx-4 border-b-gray-300" />
-      {!item?.with_address && suggestStatus === SuggestStatus.Completed && (
+      {!item?.with_address && item?.suggest_recommend_status === SuggestRecommendStatus.Completed && (
         <div tw="px-4 pt-3">
           <Chip variant="red">거래 성사</Chip>
         </div>
@@ -103,7 +100,9 @@ export default function ListingRecommendListItem({
         <div tw=" px-4 pt-3">
           {!!item?.trade_or_deposit_price && (
             <div tw="flex gap-1 items-center">
-              {suggestStatus === SuggestStatus.Completed && <Chip variant="red">거래 성사</Chip>}
+              {item.suggest_recommend_status === SuggestRecommendStatus.Completed && (
+                <Chip variant="red">거래 성사</Chip>
+              )}
               <div tw="text-b1 font-bold">
                 {BuyOrRentString[item?.buy_or_rent ?? 0]} <Numeral koreanNumber>{item?.trade_or_deposit_price}</Numeral>
                 {Boolean(item?.monthly_rent_fee) && (
