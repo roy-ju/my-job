@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { css } from 'twin.macro';
 import { Button, Chip, Moment, Numeral } from '@/components/atoms';
 import { ButtonGroup, ExpandableText } from '@/components/molecules';
@@ -46,22 +47,22 @@ export default function ListingRecommendListItem({
         </ButtonGroup>
       );
     }
-    if (item?.suggest_recommend_status === SuggestRecommendStatus.Completed && item?.chat_room_id === null) {
-      return null;
-    }
+    // if (item?.suggest_recommend_status === SuggestRecommendStatus.Completed && item?.chat_room_id === null) {
+    //   return null;
+    // }
 
-    if (
-      item?.suggest_recommend_status === SuggestRecommendStatus.Accepted ||
-      item?.suggest_recommend_status === SuggestRecommendStatus.Completed
-    ) {
-      return (
-        <ButtonGroup tw="w-full border-t border-t-gray-300">
-          <Button onClick={onClickChat} tw="flex-1 rounded-t-none">
-            채팅방 바로가기
-          </Button>
-        </ButtonGroup>
-      );
-    }
+    // if (
+    //   item?.suggest_recommend_status === SuggestRecommendStatus.Accepted ||
+    //   item?.suggest_recommend_status === SuggestRecommendStatus.Completed
+    // ) {
+    //   return (
+    //     <ButtonGroup tw="w-full border-t border-t-gray-300">
+    //       <Button onClick={onClickChat} tw="flex-1 rounded-t-none">
+    //         채팅방 바로가기
+    //       </Button>
+    //     </ButtonGroup>
+    //   );
+    // }
 
     if (item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled) {
       return (
@@ -91,18 +92,18 @@ export default function ListingRecommendListItem({
         {renderMoments()}
       </div>
       <div tw="border-b mx-4 border-b-gray-300" />
-      {!item?.with_address && item?.suggest_recommend_status === SuggestRecommendStatus.Completed && (
+      {/* {!item?.with_address && item?.suggest_recommend_status === SuggestRecommendStatus.Completed && (
         <div tw="px-4 pt-3">
           <Chip variant="red">거래 성사</Chip>
         </div>
-      )}
+      )} */}
       {item?.with_address && (
         <div tw=" px-4 pt-3">
           {!!item?.trade_or_deposit_price && (
             <div tw="flex gap-1 items-center">
-              {item.suggest_recommend_status === SuggestRecommendStatus.Completed && (
+              {/* {item.suggest_recommend_status === SuggestRecommendStatus.Completed && (
                 <Chip variant="red">거래 성사</Chip>
-              )}
+              )} */}
               <div tw="text-b1 font-bold">
                 {BuyOrRentString[item?.buy_or_rent ?? 0]} <Numeral koreanNumber>{item?.trade_or_deposit_price}</Numeral>
                 {Boolean(item?.monthly_rent_fee) && (
