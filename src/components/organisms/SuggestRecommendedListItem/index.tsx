@@ -92,22 +92,19 @@ export default function SuggestRecommendedListItem({
         </Button>
       );
 
-    //     if (suggestItem.suggest_status === SuggestStatus.Completed) {
-    //       if (suggestRecommendItem.chat_room_id === null) {
-    //         return null;
-
-    //       }else {
-    // <Button
-    //   onClick={() => {
-    //     onNavigateToChatRoom?.(suggestRecommendItem.chat_room_id as number);
-    //   }}
-    //   tw="mt-4 w-full"
-    // >
-    //   채팅방 바로가기
-    // </Button>;
-    //       }
-
-    //     }
+    if (suggestItem.suggest_status === SuggestStatus.Completed) {
+      if (suggestRecommendItem.chat_room_id === null) {
+        return null;
+      }
+      <Button
+        onClick={() => {
+          onNavigateToChatRoom?.(suggestRecommendItem.chat_room_id as number);
+        }}
+        tw="mt-4 w-full"
+      >
+        채팅방 바로가기
+      </Button>;
+    }
 
     if (suggestItem.suggest_status === SuggestStatus.Active) {
       return (
@@ -196,9 +193,9 @@ export default function SuggestRecommendedListItem({
       </Wrapper>
       <Wrapper tw="p-4 bg-gray-100 rounded-lg mt-4">
         <div tw="flex justify-between">
-          {/* <Chip variant={suggestItem.suggest_status === SuggestStatus.Completed ? 'red' : 'yellowOrange'}>
+          <Chip variant={suggestItem.suggest_status === SuggestStatus.Completed ? 'red' : 'yellowOrange'}>
             {suggestItem.suggest_status === SuggestStatus.Completed ? '거래성사' : '우리집 추천중'}
-          </Chip> */}
+          </Chip>
           <span tw="text-gray-700 text-info">
             추천일 <Moment format="yyyy.MM.DD">{suggestRecommendItem.created_time}</Moment>
           </span>

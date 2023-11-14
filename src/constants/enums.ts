@@ -139,6 +139,7 @@ export enum SuggestStatus {
   Active = 1,
   Stopped = 2,
   Deleted = 3,
+  Completed = 4,
 }
 
 export enum SuggestCancelType {
