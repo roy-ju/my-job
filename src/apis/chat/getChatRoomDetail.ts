@@ -33,6 +33,7 @@ export interface IChatRoomDetailSuggestItem {
   move_in_date: string;
   move_in_date_type: number;
   note: string;
+  has_completed: boolean;
 }
 export interface IChatRoomDetailSuggestRecommendItem {
   suggest_recommend_id: number;

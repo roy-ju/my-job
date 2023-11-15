@@ -85,7 +85,7 @@ export default function BuyerAgentSuggestRecommendation({
     </div>
   );
 
-  // const isContractCompleted = suggestRecommendItem?.suggest_recommend_status === SuggestRecommendStatus.Completed;
+  const isContractCompleted = suggestItem?.has_completed;
 
   return (
     <div tw="bg-white px-5 border-t border-b border-gray-300" css={expanded && tw`rounded-b-[20px]`}>
@@ -146,24 +146,22 @@ export default function BuyerAgentSuggestRecommendation({
                 </div>
               )}
 
-              {/* {isContractCompleted && (
+              {isContractCompleted && (
                 <div tw="flex items-center mb-4">
                   <CheckCircleIcon tw="shrink-0" />
                   <span tw="text-info pl-1 text-nego-1000">거래가 성사되었습니다.</span>
                 </div>
-              )} */}
+              )}
+
               <div tw="flex gap-2">
                 <Button tw="w-full h-9" variant="outlined" onClick={handleClose}>
                   접어두기
                 </Button>
-                {/* {!isContractCompleted && (
+                {!isContractCompleted && (
                   <Button tw="w-full h-9" onClick={onClickContractCtaButton}>
                     거래성사
                   </Button>
-                )} */}
-                <Button tw="w-full h-9" onClick={onClickContractCtaButton}>
-                  거래성사
-                </Button>
+                )}
               </div>
             </div>
           </motion.div>
