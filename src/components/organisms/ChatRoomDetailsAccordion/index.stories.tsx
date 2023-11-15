@@ -49,6 +49,7 @@ Default.args = {
     move_in_date: '2023-08-31T00:00:00+09:00',
     move_in_date_type: 1,
     note: '원해요',
+    has_completed: false,
   },
   suggestRecommendItem: {
     suggest_recommend_id: 29,
