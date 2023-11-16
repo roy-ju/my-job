@@ -35,6 +35,7 @@ export default function BuyOrRent({
   onChangeQuickSale,
   hasError,
 }: BuyOrRentProps) {
+  console.log(quickSale);
   return (
     <div>
       <div tw="mb-4">

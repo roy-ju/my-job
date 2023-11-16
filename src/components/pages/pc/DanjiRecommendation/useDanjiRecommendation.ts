@@ -218,7 +218,7 @@ export default function useDanjiRecommendationForm(depth: number) {
     setBuyOrRent(0);
     setPrice('');
     setMonthlyRentFee('');
-    setQuickSale('');
+    setQuickSale('0');
     setInvestAmount('');
     setNegotiable(true);
     setPyoungList([]);
@@ -227,6 +227,7 @@ export default function useDanjiRecommendationForm(depth: number) {
     setMoveInDateType('이전');
     setDescription('');
     setOpenResetPopup(false);
+    setPyoungInputValue("")
     setEmptyTextFields({
       price: false,
       investAmount: false,

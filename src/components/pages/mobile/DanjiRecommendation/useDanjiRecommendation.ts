@@ -212,7 +212,8 @@ export default function useDanjiRecommendation() {
     setBuyOrRent(0);
     setPrice('');
     setMonthlyRentFee('');
-    setQuickSale('');
+    setQuickSale('0');
+    setPyoungInputValue('');
     setInvestAmount('');
     setNegotiable(true);
     setPyoungList([]);
