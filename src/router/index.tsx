@@ -19,6 +19,8 @@ import SuggestRegionalForm from '@/components/pages/SuggestRegionalForm';
 
 import SuggestRegionalSummary from '@/components/pages/SuggestRegionalSummary';
 
+import MySuggestDetail from '@/components/pages/MySuggestDetail';
+
 import PlatformProvider from '@/providers/PlatformProvider';
 
 import { Container } from '@/components/container';
@@ -334,10 +336,10 @@ const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListi
   ssr: false,
   loading: FallbackComponent,
 });
-const MySuggestDetail = dynamic(() => import('@/components/pages/pc/MySuggestDetail'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+// const MySuggestDetail = dynamic(() => import('@/components/pages/pc/MySuggestDetail'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
 const SuggestRecommendedList = dynamic(() => import('@/components/pages/pc/SuggestRecommendedList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -719,6 +721,7 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
       return <ListingReport {...props} />;
     }
 
+    /** 바뀐 지역폼 */
     case Routes.SuggestRegionalForm: {
       return (
         <PlatformProvider platform={platform} depth={depth}>
@@ -748,7 +751,13 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     }
 
     case Routes.MySuggestDetail: {
-      return <MySuggestDetail key={`${query.suggestID}`} {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container auth panelWidth={DEFAULT_PANEL_WIDTH}>
+            <MySuggestDetail key={`${query.suggestID}`} {...props} />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.SuggestSelectAddress: {

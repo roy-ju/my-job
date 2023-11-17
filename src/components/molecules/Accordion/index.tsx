@@ -47,7 +47,7 @@ function AccordionSummary({ children, hideArrow = false, isNewIcon = false, ...o
 
   return (
     <SummaryButton type="button" onClick={() => onChange?.(!expanded)} {...others}>
-      <div>{children}</div>
+      <div tw="w-full">{children}</div>
       {!hideArrow && (
         <div css={[tw`transition-transform`, expanded && tw`rotate-180`]}>
           {isNewIcon ? <ChevronDownNew /> : <ChevronDown />}

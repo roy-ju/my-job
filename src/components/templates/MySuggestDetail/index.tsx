@@ -64,7 +64,7 @@ export default function MySuggestDetail({
             <Switch checked={suggestChecked} onChange={(e) => onChangeSuggestChecked?.(e.target.checked)} />
             <span tw="text-gray-700 text-info">
               {suggestChecked ? '추천 요청 상태입니다.' : '추천 요정이 중단된 상태입니다.'}
-            </span>{' '}
+            </span>
           </div>
         </div>
         <div tw="flex-1 min-h-0">
