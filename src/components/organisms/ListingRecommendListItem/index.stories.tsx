@@ -6,9 +6,7 @@ export default {
   component: ListingRecommendListItem,
 } as ComponentMeta<typeof ListingRecommendListItem>;
 
-export const Default: ComponentStory<typeof ListingRecommendListItem> = (args) => (
-  <ListingRecommendListItem {...args} />
-);
+export const Default: ComponentStory<typeof ListingRecommendListItem> = () => <ListingRecommendListItem />;
 
 /*
 Default.args = {

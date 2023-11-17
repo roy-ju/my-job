@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetMySuggestRecommendsResponse } from '@/apis/suggest/getMySuggestRecommends';
 import { InfiniteScroll } from '@/components/atoms';
 import { NoDataUI } from '@/components/molecules';
@@ -28,7 +29,7 @@ export default function ListingRecommendList({
     <div tw="py-7 px-5">
       <InfiniteScroll onNext={onNext}>
         <div tw="flex flex-col gap-7">
-          {recommendData?.map((item) => (
+          {/* {recommendData?.map((item) => (
             <ListingRecommendListItem
               key={item.suggest_recommend_id}
               item={item}
@@ -37,7 +38,7 @@ export default function ListingRecommendList({
               onClickRecommendAccept={() => onClickRecommendAccept?.(item.suggest_recommend_id)}
               onClickDeleteSuggestRecommendItem={() => onClickDeleteSuggestRecommendItem?.(item.suggest_recommend_id)}
             />
-          ))}
+          ))} */}
         </div>
       </InfiniteScroll>
     </div>

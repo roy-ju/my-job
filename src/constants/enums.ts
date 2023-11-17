@@ -154,6 +154,12 @@ export enum SuggestRecommendStatus {
   // Completed = 5, // 거래성사 202308추가
 }
 
+export enum SuggestCompleteHistoryStatus {
+  New = 1,
+  Updated = 2,
+  Cancelled = 3,
+}
+
 export enum NotificationLinkType {
   ServiceHome = 1,
   ListingRegister = 2, // 매물등록
