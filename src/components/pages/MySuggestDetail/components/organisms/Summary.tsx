@@ -67,7 +67,6 @@ export default function Summary() {
                 variant="outlined"
                 size="small"
                 onClick={() => {
-                  console.log('hi');
                   handleClickDanjiDetail();
                 }}
               >
@@ -85,7 +84,7 @@ export default function Summary() {
                   quickSale={value.suggestDetailData?.quick_sale ?? false}
                 />
               </div>
-              {value.suggestDetailData?.negotiable && <StatusChip variant="orange">협의가능</StatusChip>}
+              {value.suggestDetailData?.negotiable && <StatusChip variant="white">협의가능</StatusChip>}
             </div>
 
             {value.suggestDetailData?.pyoung_text && (

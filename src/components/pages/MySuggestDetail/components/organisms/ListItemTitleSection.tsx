@@ -88,7 +88,7 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
 
           {item?.agent_office_address && (
             <div tw="flex flex-row items-center gap-3 text-info py-2">
-              <span tw="w-[72px] text-gray-700">중개 주소</span>
+              <span tw="w-[72px] text-gray-700">중개사 주소</span>
               <p>{item.agent_office_address}</p>
             </div>
           )}

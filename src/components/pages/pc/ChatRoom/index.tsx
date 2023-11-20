@@ -1,7 +1,7 @@
 import { Panel } from '@/components/atoms';
 import { ChatRoom } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
-import { memo, useMemo, useState } from 'react';
+import { memo, useMemo, useRef, useState } from 'react';
 import Routes from '@/router/routes';
 import { OverlayPresenter } from '@/components/molecules';
 import { ChatRoomType } from '@/constants/enums';
@@ -13,6 +13,7 @@ import { completeRecommend } from '@/apis/suggest/completeRecommend';
 import checkChatRoom from '@/apis/chat/checkChatRoom';
 import { toast } from 'react-toastify';
 import { useRouter as useNextRouter } from 'next/router';
+import useInterval from '@/hooks/utils/useInterval';
 import useChatRoom from './useChatRoom';
 
 interface Props {
@@ -26,6 +27,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [closePopupStatus, setClosePopupStatus] = useState<number | undefined>(undefined);
   const [chatRoomIsClosing, setChatRoomIsClosing] = useState(false);
   const [showContractCtaPopup, setShowContractCtaPopup] = useState(false);
+
+  const maxTimeout = useRef(0);
+
   const {
     title,
     otherName,
@@ -44,6 +48,14 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     mutate: mutateChatRoomDetail,
   } = useChatRoom(Number(router.query.chatRoomID));
+
+  useInterval(() => {
+    maxTimeout.current += 5000;
+
+    if (maxTimeout.current < 600000) {
+      mutateChatRoomDetail();
+    }
+  }, 5000);
 
   const nanoID = customAlphabet('123456789');
 
