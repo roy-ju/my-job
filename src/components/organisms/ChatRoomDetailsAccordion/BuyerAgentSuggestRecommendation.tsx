@@ -87,6 +87,8 @@ export default function BuyerAgentSuggestRecommendation({
 
   const isContractCompleted = suggestItem?.agent_completed;
 
+  const userCTAClicked = suggestItem?.user_completed;
+
   return (
     <div tw="bg-white px-5 border-t border-b border-gray-300" css={expanded && tw`rounded-b-[20px]`}>
       <div tw="flex justify-between py-4">
@@ -157,7 +159,7 @@ export default function BuyerAgentSuggestRecommendation({
                 <Button tw="w-full h-9" variant="outlined" onClick={handleClose}>
                   접어두기
                 </Button>
-                {!isContractCompleted && (
+                {!userCTAClicked && (
                   <Button tw="w-full h-9" onClick={onClickContractCtaButton}>
                     거래성사
                   </Button>
