@@ -85,7 +85,7 @@ export default function BuyerAgentSuggestRecommendation({
     </div>
   );
 
-  const isContractCompleted = suggestItem?.has_completed;
+  const isContractCompleted = suggestItem?.agent_completed;
 
   return (
     <div tw="bg-white px-5 border-t border-b border-gray-300" css={expanded && tw`rounded-b-[20px]`}>
