@@ -86,7 +86,6 @@ export { default as MobDanjiDetailSection } from './MobDanjiDetail';
 
 export { default as SuggestListingFormOrganisms } from './SuggestListingForm';
 
-export { default as MyListingsSummary } from './MyListingsSummary'; // 추후 삭제해야함
 export { default as MyListingsSummaryV3 } from './MyListingsSummaryV3';
 export { default as MyRegisteredHomesListItem } from './MyRegisteredHomesListItem';
 

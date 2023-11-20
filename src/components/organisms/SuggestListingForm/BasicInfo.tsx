@@ -12,7 +12,11 @@ import { ExpandableText } from '@/components/molecules';
 const Wrraper = styled('div')``;
 
 function NegotiableChip() {
-  return <div tw="text-white rounded-tl rounded-br text-info font-semibold bg-orange-700 px-1.5 h-5">협의가능</div>;
+  return (
+    <div tw="text-gray-900 rounded text-info [font-size: 11px] bg-white px-1.5 h-5 border border-gray-300">
+      협의가능
+    </div>
+  );
 }
 
 function PriceText({

@@ -78,7 +78,7 @@ export default function SuggestRegionalSummary({
           <p tw="text-gray-700 text-info">
             등록하신 정보의 수정 및 추천된 매물의 확인은
             <br />
-            &#39;마이페이지 &gt; 구해요 &gt; 내가 등록한 구하기&#39; 에서 가능합니다.
+            &#39;마이페이지 &gt; 구해요 &gt; 구하기 게시 내역&#39; 에서 가능합니다.
           </p>
         </div>
         <Separator />
