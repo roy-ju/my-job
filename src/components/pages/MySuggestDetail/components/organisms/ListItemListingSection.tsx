@@ -120,7 +120,7 @@ export default function ListItemListingSection({ item }: ListItemListingSectionP
         {item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled && (
           <div tw="flex gap-1 mt-3">
             <ErrorIcon />
-            <span tw="text-red-800 text-info leading-4">상대방이 추천을 취소했어요.</span>
+            <span tw="text-red-800 text-info leading-4">추천이 취소되었습니다.</span>
           </div>
         )}
       </div>
