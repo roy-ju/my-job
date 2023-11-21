@@ -68,10 +68,6 @@ export default memo(() => {
     );
   };
 
-  //  const handleClickLeaveButton = () => {
-  //    setPopupOpen(true);
-  //  };
-
   const handleClickLeaveButton = async () => {
     if (!router.query.chatRoomID) return;
     const { case: closeCase, error_code } = await checkChatRoom(Number(router.query.chatRoomID as string));
@@ -161,6 +157,16 @@ export default memo(() => {
       }, 200);
     }
   }, [isShowMap, naverMapURL]);
+
+  useEffect(() => {
+    window.Negocio.callbacks.mutateChatRoomDetail = () => {
+      mutateChatRoomDetail();
+    };
+
+    return () => {
+      delete window.Negocio.callbacks.mutateChatRoomDetail;
+    };
+  }, [mutateChatRoomDetail]);
 
   return (
     <MobileContainer>

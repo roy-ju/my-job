@@ -4,6 +4,7 @@ import { useWebSocket } from '@/hooks/utils';
 import usePageVisibility from '@/hooks/utils/usePageVisibility';
 import axios from '@/lib/axios';
 import useSyncronizer from '@/states/syncronizer';
+import { getQueryInUrl } from '@/utils/getQueryInUrl';
 import { isClient } from '@/utils/is';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
@@ -42,14 +43,25 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
             mutate('/chat/room/list');
             setUnreadChatCount(1);
             break;
+
           case 'no_chat':
             mutate('/chat/room/list');
             setUnreadChatCount(0);
             break;
+
+          case 'suggest_recommend_status_updated':
+            if (window.location.pathname.indexOf('/chatRoom') > -1 && getQueryInUrl('chatRoomID')) {
+              if (window?.Negocio?.callbacks?.mutateChatRoomDetail) {
+                window.Negocio.callbacks.mutateChatRoomDetail();
+              }
+            }
+            break;
+
           case 'new_notification':
             toast.success('새로운 알림이 있습니다.');
             setUnreadNotificationCount(Number(data.value) ?? 0);
             break;
+
           default:
             break;
         }
