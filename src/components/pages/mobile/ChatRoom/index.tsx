@@ -159,13 +159,15 @@ export default memo(() => {
   }, [isShowMap, naverMapURL]);
 
   useEffect(() => {
-    window.Negocio.callbacks.mutateChatRoomDetail = () => {
-      mutateChatRoomDetail();
-    };
+    if (typeof window !== 'undefined' && window?.Negocio.callbacks?.mutateChatRoomDetail) {
+      window.Negocio.callbacks.mutateChatRoomDetail = () => {
+        mutateChatRoomDetail();
+      };
 
-    return () => {
-      delete window.Negocio.callbacks.mutateChatRoomDetail;
-    };
+      return () => {
+        delete window.Negocio.callbacks.mutateChatRoomDetail;
+      };
+    }
   }, [mutateChatRoomDetail]);
 
   return (
