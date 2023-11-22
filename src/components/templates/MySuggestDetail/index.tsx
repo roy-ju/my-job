@@ -57,8 +57,9 @@ export default function MySuggestDetail({
         </div>
         <Separator tw="bg-gray-300 h-2" />
         <div tw="pt-10 px-5 flex justify-between items-center">
-          <div tw="text-gray-1000 text-b1 font-bold self-start">
-            추천 받은 매물 <span tw="text-nego-800">{recommendCount}</span>
+          <div tw="text-gray-1000 text-b1 font-bold self-start flex items-center gap-1">
+            <span>추천 현황</span>
+            <span tw="text-nego-800">{recommendCount}</span>
           </div>
           <div tw="flex flex-col items-end gap-2">
             <Switch checked={suggestChecked} onChange={(e) => onChangeSuggestChecked?.(e.target.checked)} />
