@@ -20,8 +20,9 @@ export default function ListHeader() {
 
   return (
     <div tw="pt-10 px-5 flex justify-between items-center">
-      <div tw="text-gray-1000 text-b1 font-bold self-start">
-        추천 받은 매물 <span tw="text-nego-800">{count}</span>
+      <div tw="text-gray-1000 text-b1 font-bold self-start gap-1 flex items-center">
+        <span>추천 현황</span>
+        <span tw="text-nego-800">{count}</span>
       </div>
       <div tw="flex flex-col items-end gap-2">
         <Switch checked={suggestChecked} onClick={handleClick} />

@@ -2,10 +2,9 @@ import { GetMySuggestListResponse } from '@/apis/suggest/getMySuggestList';
 import { Chip, Moment, Numeral } from '@/components/atoms';
 import { RealestateType, BuyOrRent } from '@/constants/enums';
 import { RealestateTypeString } from '@/constants/strings';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import ChevronIcon from '@/assets/icons/my_chevron_16_black.svg';
 import NewIcon from '@/assets/icons/new.svg';
-import tw from 'twin.macro';
 
 const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
   [RealestateType.Apartment]: 'nego',
@@ -18,7 +17,6 @@ const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'bl
 
 interface Props {
   item?: NonNullable<GetMySuggestListResponse['list']>[0];
-
   onClick?: () => void;
 }
 
@@ -67,6 +65,43 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
     [item?.realestate_types],
   );
 
+  const pyoungText = useCallback((d?: NonNullable<GetMySuggestListResponse['list']>[0]) => {
+    if (d?.pyoung_text) {
+      return <div tw="text-info text-gray-700">평형 {d.pyoung_text}</div>;
+    }
+    return null;
+  }, []);
+
+  const createdTimeText = useCallback((d?: NonNullable<GetMySuggestListResponse['list']>[0]) => {
+    if (d?.created_time) {
+      return (
+        <div tw="text-info text-gray-700">
+          <span>요청일 : </span>
+          <Moment format="relative">{d.created_time}</Moment>
+        </div>
+      );
+    }
+    return null;
+  }, []);
+
+  const recommendCountText = useCallback((d?: NonNullable<GetMySuggestListResponse['list']>[0]) => {
+    if (d?.suggest_recommended_count) {
+      return (
+        <div tw="flex items-center text-info text-nego-1000 gap-1.5">
+          {!!d?.has_new && (
+            <div>
+              <NewIcon />
+            </div>
+          )}
+          <span>추천</span>
+          <span tw="font-bold text-b2">{d?.suggest_recommended_count ?? 0}</span>
+        </div>
+      );
+    }
+
+    return <div tw="flex items-center text-info text-gray-700">추천 전</div>;
+  }, []);
+
   return (
     <div>
       <button type="button" tw="w-full text-start px-5 hover:bg-gray-100" onClick={onClick}>
@@ -74,7 +109,7 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
           <div tw="flex justify-between items-center">
             <div tw="flex gap-1">
               {realestateTypes?.map((d) => (
-                <Chip key={d} variant={chipVariantByRealestateType[d]}>
+                <Chip tw="[font-size: 11px]" key={d} variant={chipVariantByRealestateType[d]}>
                   {RealestateTypeString[d]}
                 </Chip>
               ))}
@@ -85,8 +120,8 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
             </div>
           </div>
 
-          <div tw="flex items-center my-1">
-            <div tw="text-b1 font-bold text-gray-1000 mr-1">
+          <div tw="flex items-center my-1 gap-1">
+            <div tw="text-b1 font-bold text-gray-1000">
               {buyOrRentText}{' '}
               <PriceText
                 tradeOrDepositPrice={item?.trade_or_deposit_price ?? 0}
@@ -96,23 +131,10 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
             </div>
             {item?.negotiable && <NegotiableChip />}
           </div>
-          {item?.pyoung_text && <div tw="text-info text-gray-700">{item?.pyoung_text}</div>}
+          {pyoungText(item)}
           <div tw="flex justify-between mt-1">
-            <div tw="text-info text-gray-700">
-              <span tw="mr-1">요청일:</span>
-              <Moment format="relative">{item?.created_time}</Moment>
-            </div>
-            <div tw="flex items-center text-info text-gray-700">
-              추천받은 수
-              <span tw="font-medium" css={[item?.suggest_recommended_count && tw`font-bold text-nego-1000`]}>
-                {item?.suggest_recommended_count ?? 0}
-              </span>
-              {!!item?.has_new && (
-                <div tw="ml-1">
-                  <NewIcon />
-                </div>
-              )}
-            </div>
+            {createdTimeText(item)}
+            {recommendCountText(item)}
           </div>
         </div>
       </button>
