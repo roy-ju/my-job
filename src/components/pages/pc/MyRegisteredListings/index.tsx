@@ -81,10 +81,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickListingItem = (listingId: number) => () => {
     if (isDeleteActive) return;
-    router.push(Routes.ListingDetail, {
+    router.replace(Routes.ListingDetail, {
       persistParams: true,
       searchParams: {
         listingID: `${listingId}`,
+        back: `${router.asPath}`,
       },
     });
   };
