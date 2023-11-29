@@ -33,8 +33,9 @@ interface ChatRoomProps {
   onClickLeaveButton?: () => void;
   onClickBack?: () => void;
 
-  onClickNavigateToListingDetail?: (listingID?: number, biddingID?: Nullable<number> | undefined) => void;
-  onClickNavigateToLSuggestDetail?: (suggestID?: number, isMine?: boolean) => void;
+  onClickNavigateToListingDetail?: (listingID?: number, biddingID?: Nullable<number>) => void;
+  onClickNavigateToSuggestDetail?: (suggestID?: number) => void;
+  onClickNavigateToSuggestRecommended?: (suggestRecommendID?: number) => void;
 }
 
 export default function ChatRoom({
@@ -61,7 +62,8 @@ export default function ChatRoom({
   onClickBack,
 
   onClickNavigateToListingDetail,
-  onClickNavigateToLSuggestDetail,
+  onClickNavigateToSuggestDetail,
+  onClickNavigateToSuggestRecommended,
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
 
@@ -131,7 +133,8 @@ export default function ChatRoom({
         accordionDetails={accordionDetails}
         chatRoomType={chatRoomType}
         onClickNavigateToListingDetail={onClickNavigateToListingDetail}
-        onClickNavigateToLSuggestDetail={onClickNavigateToLSuggestDetail}
+        onClickNavigateToSuggestDetail={onClickNavigateToSuggestDetail}
+        onClickNavigateToSuggestRecommended={onClickNavigateToSuggestRecommended}
       />
       <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden bg-white">
         {isLoading ? (

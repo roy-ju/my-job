@@ -43,6 +43,7 @@ export interface IChatRoomDetailSuggestItem {
 
 export interface IChatRoomDetailRecommendItem {
   suggest_id: number;
+  suggest_recommend_id: number;
   danji_or_regional: number;
   request_target_text: string;
   realestate_types: string;
