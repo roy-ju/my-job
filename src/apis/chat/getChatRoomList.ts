@@ -6,10 +6,12 @@ export interface GetChatRoomListResponse {
     | {
         chat_room_id: number;
         chat_room_type: number;
-        type_tag: string;
-        title: string;
+        chat_room_closed_time: null;
+
         other_profile_image_full_path: string;
         other_name: string;
+        deregistered: boolean;
+
         unread_message_count: number;
         latest_message: string;
         latest_message_time: string;

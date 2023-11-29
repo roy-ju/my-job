@@ -7,6 +7,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SuggestDetail } from '@/components/templates';
 import { SuggestStatus } from '@/constants/enums';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';
 
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -21,6 +22,8 @@ interface Props {
 
 export default memo(({ panelWidth, depth, ipAddress }: Props) => {
   const router = useRouter(depth);
+
+  const nextRouter = useNextRouter();
 
   const suggestID = useMemo(
     () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
@@ -101,6 +104,12 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
     setNeedVerifyAddressPopup(false);
   }, []);
 
+  const onClickBack = useCallback(() => {
+    if (router?.query?.back) {
+      nextRouter.replace(router.query.back as string);
+    }
+  }, [router, nextRouter]);
+
   async function handleSuggestView() {
     if (!data) return;
 
@@ -136,6 +145,7 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
             isExistMySuggested={isExistMySuggested}
             disabledCTA={disabledCTA}
             onClickCTA={handleClickCTA}
+            onClickBack={router.query.back ? onClickBack : undefined}
             onMutate={handleMutate}
           />
         ) : null}

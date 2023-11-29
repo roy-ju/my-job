@@ -12,11 +12,18 @@ export default function useHandleClickBack() {
 
   const nextRouter = useNextRouter();
 
-  const renderBackUICondition = platform?.platform === 'mobile' ? true : router.query.entry === 'my';
+  const renderBackUICondition =
+    platform?.platform === 'mobile' ? true : router.query.entry === 'my' ? true : !!router.query.back;
+
+
 
   const handleClickBack = () => {
     if (platform?.platform === 'pc') {
-      router.replace(Routes.SuggestRequestedList);
+      if (router.query.back) {
+        nextRouter.replace(router.query.back as string);
+      } else {
+        router.replace(Routes.SuggestRequestedList);
+      }
     } else if (typeof window !== 'undefined') {
       const canGoBack = window.history.length > 1;
 

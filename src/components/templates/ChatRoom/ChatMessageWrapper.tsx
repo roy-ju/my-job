@@ -222,7 +222,7 @@ export default memo(
       <>
         <div tw="px-5" style={{ paddingBottom: extraPaddingBottom }}>
           {shouldRenderDate && !isChatPhotoLoading && (
-            <div tw="py-7 text-center text-info leading-3">
+            <div tw="py-6 text-center text-body_01">
               <Moment format="yyyy년 MM월 DD일">{chat.sentTime}</Moment>
             </div>
           )}
@@ -234,9 +234,9 @@ export default memo(
 
             {isChatMessage && isChatPhotoLoading && (
               <ChatMessage.LoadingPhoto>
-                <div tw="flex items-center justify-center [height: 134.4px]">
+                <div tw="flex items-center justify-center [height: fit-content]">
                   <div tw="px-4 py-2 bg-gray-100 rounded-lg">
-                    <Loading />
+                    <Loading size="small" />
                   </div>
                 </div>
               </ChatMessage.LoadingPhoto>
@@ -282,8 +282,8 @@ export default memo(
 
                 {(buildingName || addressName) && (
                   <div tw="bg-white px-2 pt-2 [max-width: 200px]">
-                    {buildingName && <p tw="text-info text-gray-1000">{buildingName}</p>}
-                    {addressName && <p tw="text-info text-gray-700">{addressName}</p>}
+                    {buildingName && <p tw="text-body_01 text-gray-1000">{buildingName}</p>}
+                    {addressName && <p tw="text-body_01 text-gray-700">{addressName}</p>}
                   </div>
                 )}
 

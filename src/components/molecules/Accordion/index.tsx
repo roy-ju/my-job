@@ -2,6 +2,10 @@ import { useControlled } from '@/hooks/utils';
 import { HTMLProps, ReactNode, useCallback, useContext, useMemo } from 'react';
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
 import ChevronDownNew from '@/assets/icons/chevron_down.svg';
+
+import ArrowDownDeepgray from '@/assets/icons/arrow_down_deepgrey.svg';
+import ArrowDownLightgray from '@/assets/icons/arrow_down_lightgrey.svg';
+
 import tw from 'twin.macro';
 import { AnimatePresence, motion } from 'framer-motion';
 import AccordionContext from './AccordionContext';
@@ -40,9 +44,18 @@ const SummaryButton = tw.button`w-full flex items-center justify-between hover:b
 interface AccordionSummaryProps extends Omit<HTMLProps<HTMLButtonElement>, 'type' | 'onClick'> {
   hideArrow?: boolean;
   isNewIcon?: boolean;
+  isNewIconSmall?: boolean;
+  isNewIconSmallV2?: boolean;
 }
 
-function AccordionSummary({ children, hideArrow = false, isNewIcon = false, ...others }: AccordionSummaryProps) {
+function AccordionSummary({
+  children,
+  hideArrow = false,
+  isNewIcon = false,
+  isNewIconSmall = false,
+  isNewIconSmallV2 = false,
+  ...others
+}: AccordionSummaryProps) {
   const { expanded, onChange } = useContext(AccordionContext);
 
   return (
@@ -50,7 +63,15 @@ function AccordionSummary({ children, hideArrow = false, isNewIcon = false, ...o
       <div tw="w-full">{children}</div>
       {!hideArrow && (
         <div css={[tw`transition-transform`, expanded && tw`rotate-180`]}>
-          {isNewIcon ? <ChevronDownNew /> : <ChevronDown />}
+          {isNewIconSmall ? (
+            <ArrowDownDeepgray />
+          ) : isNewIconSmallV2 ? (
+            <ArrowDownLightgray />
+          ) : isNewIcon ? (
+            <ChevronDownNew />
+          ) : (
+            <ChevronDown />
+          )}
         </div>
       )}
     </SummaryButton>
