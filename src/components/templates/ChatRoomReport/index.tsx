@@ -4,7 +4,6 @@ import ChatReportTextField from './ChatReportTextField';
 
 interface CharRoomReportProps {
   targetName: string;
-  listingTitle: string;
 
   reportContent?: string;
   onChangeReportContent?: (value: string) => void;
@@ -14,7 +13,6 @@ interface CharRoomReportProps {
 
 export default function CharRoomReport({
   targetName,
-  listingTitle,
 
   reportContent,
   onChangeReportContent,
@@ -29,7 +27,6 @@ export default function CharRoomReport({
       </NavigationHeader>
       <div tw="m-7 flex-1">
         <div tw="mb-1 text-b1  font-bold">{targetName}</div>
-        <div tw="text-info mb-4 text-gray-700">{listingTitle}</div>
         <ChatReportTextField value={reportContent} onChangeValue={onChangeReportContent} />
       </div>
       <PersistentBottomBar>

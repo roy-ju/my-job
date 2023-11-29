@@ -61,7 +61,7 @@ export default function useChatRoom(chatRoomID: number) {
           ...prev,
           {
             id: chat.chat_id,
-            name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
+            name: `${data?.other_name}`,
             profileImagePath: data?.other_profile_image_full_path,
             message: chat.message,
             chatUserType: chat.chat_user_type,
@@ -90,8 +90,11 @@ export default function useChatRoom(chatRoomID: number) {
       setChatMessages(
         data?.list?.map((chat) => ({
           id: chat.id,
-          name: chat.chat_user_type === ChatUserType.Agent ? `공인중개사 ${data?.other_name}` : `${data?.other_name}`,
-          profileImagePath: data?.other_profile_image_full_path,
+          name: data.deregistered ? '탈퇴한 회원' : `${data?.other_name}`,
+          profileImagePath: data.deregistered
+            ? process.env.NEXT_PUBLIC_NEGOCIO_DELETED_PROFILE_IMG_PATH
+            : data?.other_profile_image_full_path,
+
           message: chat.message,
           chatUserType: chat.chat_user_type,
           sentTime: chat.created_time,
@@ -136,10 +139,17 @@ export default function useChatRoom(chatRoomID: number) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatRoomID, chatMessages.length, data?.chat_user_type, sendMessage, readyState]);
 
+  useEffect(() => {
+    if (data?.chat_room_closed_time) {
+      setTextFieldDisabled(true);
+    }
+  }, [data?.chat_room_closed_time]);
+
   return {
     isTextFieldDisabled: textFieldDisabled,
-    title: data?.title,
+
     otherName: data?.other_name,
+    deregistered: data?.deregistered,
 
     chatMessages,
     photosUrls,
@@ -151,10 +161,19 @@ export default function useChatRoom(chatRoomID: number) {
     chatUserType: data?.chat_user_type,
     chatRoomType: data?.chat_room_type,
 
-    listingItem: data?.listing_item,
-    biddingItem: data?.bidding_item,
-    suggestItem: data?.suggest_item,
-    suggestRecommendItem: data?.suggest_recommend_item,
+    accordionDetails: {
+      listingItem1Count: data?.listing_item1_count || 0,
+      listingItem1Arr: data?.listing_item1,
+
+      listingItem2Count: data?.listing_item2_count || 0,
+      listingItem2Arr: data?.listing_item2,
+
+      suggestCount: data?.suggest_item_count || 0,
+      suggestItemArr: data?.suggest_item,
+
+      recommendCount: data?.recommend_item_count || 0,
+      recommendItemArr: data?.recommend_item,
+    },
 
     mutate,
   };

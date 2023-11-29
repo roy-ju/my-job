@@ -1,50 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  IChatRoomDetailBiddingItem,
-  IChatRoomDetailListingItem,
-  IChatRoomDetailSuggestRecommendItem,
-  IChatRoomDetailSuggestItem,
-} from '@/apis/chat/getChatRoomDetail';
+import { ChatRoomAccordionsProps } from '@/apis/chat/getChatRoomDetail';
 import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { ChatRoomTextField } from '@/components/organisms';
+import { ChatRoomDetailsAccordion, ChatRoomTextField } from '@/components/organisms';
 import useLatest from '@/hooks/utils/useLatest';
 import React, { CSSProperties, Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList as List, VariableSizeList } from 'react-window';
-import ChatRoomDetailsAccordionRenderer from './ChatRoomDetailsAccordionRenderer';
+import tw from 'twin.macro';
 
 import ChatMessageWrapper, { IChatMessage } from './ChatMessageWrapper';
 
 interface ChatRoomProps {
-  title: string;
-
   isLoading: boolean;
-  chatMessages: IChatMessage[];
+  title?: string;
   chatUserType: number;
   chatRoomType: number;
-  listingItem?: IChatRoomDetailListingItem;
-  biddingItem?: IChatRoomDetailBiddingItem;
-  suggestItem?: IChatRoomDetailSuggestItem;
-  suggestRecommendItem?: IChatRoomDetailSuggestRecommendItem;
+  deregistered?: boolean;
+  accordionDetails: ChatRoomAccordionsProps;
 
+  chatMessages: IChatMessage[];
   textFieldDisabled?: boolean;
-  photosUrls?: string[];
-
-  setPhotoSending?: Dispatch<SetStateAction<boolean>>;
 
   inputRef?: (element: HTMLTextAreaElement | null) => void;
   onSendMessage?: (message: string) => void;
+
+  photosUrls?: string[];
   onChangePhotosUrls?: (url: string[]) => void;
+
+  setPhotoSending?: Dispatch<SetStateAction<boolean>>;
 
   onClickReportButton?: () => void;
   onClickLeaveButton?: () => void;
   onClickBack?: () => void;
-  onClickContractCtaButton?: () => void;
 
-  onClickNavigateToListingDetail?: (listingID: number) => () => void;
-  onClickNavigateToListingCreateResult?: (listingID: number) => () => void;
-  onClickNavigateToListingDetailHistory?: (listingID: number, biddingID: number) => () => void;
+  onClickNavigateToListingDetail?: (listingID?: number, biddingID?: Nullable<number> | undefined) => void;
+  onClickNavigateToLSuggestDetail?: (suggestID?: number, isMine?: boolean) => void;
 }
 
 export default function ChatRoom({
@@ -52,10 +42,8 @@ export default function ChatRoom({
   title,
   chatUserType,
   chatRoomType,
-  listingItem,
-  biddingItem,
-  suggestItem,
-  suggestRecommendItem,
+  deregistered,
+  accordionDetails,
 
   chatMessages,
   textFieldDisabled = false,
@@ -71,11 +59,9 @@ export default function ChatRoom({
   onClickReportButton,
   onClickLeaveButton,
   onClickBack,
-  onClickContractCtaButton,
 
   onClickNavigateToListingDetail,
-  onClickNavigateToListingCreateResult,
-  onClickNavigateToListingDetailHistory,
+  onClickNavigateToLSuggestDetail,
 }: ChatRoomProps) {
   const messagesRef = useLatest(chatMessages);
 
@@ -133,25 +119,21 @@ export default function ChatRoom({
     <div tw="flex flex-col h-full relative">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title tw="text-b1">{title}</NavigationHeader.Title>
+        <NavigationHeader.Title tw="text-subhead_03" css={[deregistered && tw`opacity-[0.4]`]}>
+          {title}
+        </NavigationHeader.Title>
         <NavigationHeader.MoreButton
           onClickItem={(index) => headerItems[index]?.onClick?.()}
           items={headerItems.map((item) => item.label)}
         />
       </NavigationHeader>
-      <ChatRoomDetailsAccordionRenderer
-        chatUserType={chatUserType}
+      <ChatRoomDetailsAccordion
+        accordionDetails={accordionDetails}
         chatRoomType={chatRoomType}
-        listingItem={listingItem}
-        biddingItem={biddingItem}
-        suggestItem={suggestItem}
-        suggestRecommendItem={suggestRecommendItem}
-        onClickContractCtaButton={onClickContractCtaButton}
         onClickNavigateToListingDetail={onClickNavigateToListingDetail}
-        onClickNavigateToListingCreateResult={onClickNavigateToListingCreateResult}
-        onClickNavigateToListingDetailHistory={onClickNavigateToListingDetailHistory}
+        onClickNavigateToLSuggestDetail={onClickNavigateToLSuggestDetail}
       />
-      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden  bg-white">
+      <div tw="flex flex-col flex-1 min-h-0 overflow-y-hidden bg-white">
         {isLoading ? (
           <Loading tw="text-center mt-10" />
         ) : (

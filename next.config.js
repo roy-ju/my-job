@@ -23,6 +23,11 @@ const nextConfig = withTwin({
       },
       {
         protocol: 'https',
+        hostname: 'negocio-common.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
         hostname: 'negocio-agent-photos.s3.ap-northeast-2.amazonaws.com',
         port: '',
       },

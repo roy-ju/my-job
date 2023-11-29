@@ -11,7 +11,7 @@ export { default as MapToggleButton } from './MapToggleButton';
 export { default as ChatRoomListNoData } from './ChatRoomListNoData';
 export { default as ChatRoomGuide } from './ChatRoomGuide';
 export { default as ChatRoomListItem } from './ChatRoomListItem';
-export { default as ChatRoomDetailsAccordion } from './ChatRoomDetailsAccordion';
+export { default as ChatRoomDetailsAccordion } from './ChatRoomDetailsAccordionV2';
 export { default as ChatMessage } from './ChatMessage';
 export { default as ChatRoomTextField } from './ChatRoomTextField';
 export { default as ChatRoomAgentSummary } from './ChatRoomAgentSummary';

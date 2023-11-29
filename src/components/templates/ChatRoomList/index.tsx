@@ -14,10 +14,8 @@ const ListContainer = styled.div`
 interface IChatRoomListItem {
   id: number;
   chatRoomType: number;
-  typeTag: string;
   profileImagePath: string | StaticImageData;
   name: string;
-  title: string;
   unreadMessageCount: number;
   lastMessage: string;
   lastMessageTime: string;
@@ -43,13 +41,12 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
                 onClick={() => {
                   onClickListItem?.(item.id);
                 }}
-                typeTag={item.typeTag}
                 name={item.name}
                 lastMessage="(사진)"
-                title={item.title}
                 lastMessageTime={item.lastMessageTime}
                 unreadMessageCount={item.unreadMessageCount}
                 profileImagePath={item.profileImagePath}
+                active={item.active}
               />
             );
           }
@@ -61,13 +58,12 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
                 onClick={() => {
                   onClickListItem?.(item.id);
                 }}
-                typeTag={item.typeTag}
                 name={item.name}
                 lastMessage="(장소공유)"
-                title={item.title}
                 lastMessageTime={item.lastMessageTime}
                 unreadMessageCount={item.unreadMessageCount}
                 profileImagePath={item.profileImagePath}
+                active={item.active}
               />
             );
           }
@@ -77,13 +73,12 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
               onClick={() => {
                 onClickListItem?.(item.id);
               }}
-              typeTag={item.typeTag}
               name={item.name}
               lastMessage={item.lastMessage}
-              title={item.title}
               lastMessageTime={item.lastMessageTime}
               unreadMessageCount={item.unreadMessageCount}
               profileImagePath={item.profileImagePath}
+              active={item.active}
             />
           );
         })}
