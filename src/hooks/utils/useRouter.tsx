@@ -12,6 +12,7 @@ type NavigationOptions = {
   searchParams?: Record<string, string>;
   // url 에 보이지 않는 query
   state?: Record<string, string>;
+  hash?: Record<string, string>;
 };
 
 export default function useRouter(depth = 0) {
@@ -216,6 +217,7 @@ export default function useRouter(depth = 0) {
       if (isPushHistroyStack) {
         return router.push({ pathname: path, query }, asPath);
       }
+
       return router.replace({ pathname: path, query }, asPath);
     },
     [router, depth],

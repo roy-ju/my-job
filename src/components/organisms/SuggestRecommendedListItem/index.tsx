@@ -147,7 +147,7 @@ export default function SuggestRecommendedListItem({
   };
 
   return (
-    <div tw="border border-gray-300 rounded-lg p-4">
+    <div tw="border border-gray-300 rounded-lg p-4" id={`recommendItem-${suggestRecommendItem.suggest_recommend_id}`}>
       <Wrapper>
         <div tw="flex justify-between items-center">
           <div tw="flex items-center gap-1">

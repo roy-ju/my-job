@@ -88,12 +88,18 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   };
 
-  const handleClickNavigateToLSuggestDetail = (suggestID?: number, isMine?: boolean) => {
-    if (isMine) {
-      router.push(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?suggestID=${suggestID}`);
-    } else {
-      router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?suggestID=${suggestID}`);
-    }
+  const handleClickNavigateToSuggestDetail = (suggestID?: number) => {
+    router.push(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?suggestID=${suggestID}`);
+  };
+
+  const handleClickNavigateToSuggestRecommended = (suggestRecommendID?: number) => {
+    router.push(
+      {
+        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`,
+        query: { suggestRecommendID: suggestRecommendID?.toString() },
+      },
+      `/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`,
+    );
   };
 
   const convertedChatMessages = useMemo(() => {
@@ -183,7 +189,8 @@ export default memo(() => {
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
         onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
-        onClickNavigateToLSuggestDetail={handleClickNavigateToLSuggestDetail}
+        onClickNavigateToSuggestDetail={handleClickNavigateToSuggestDetail}
+        onClickNavigateToSuggestRecommended={handleClickNavigateToSuggestRecommended}
         onClickBack={() => {
           if (typeof window !== 'undefined') {
             const canGoBack = window.history.length > 1;

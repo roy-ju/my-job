@@ -1,7 +1,7 @@
 import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { SuggestRecommendedList as SuggestRecommendedListTemplate } from '@/components/templates';
 import { useRouter } from 'next/router';
-import { memo, useState, useRef, useCallback } from 'react';
+import { memo, useState, useRef, useCallback, useEffect } from 'react';
 import useAPI_GetMySuggestRecommendedList from '@/apis/suggest/getMySuggestRecommendedList';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { toast } from 'react-toastify';
@@ -60,6 +60,16 @@ export default memo(() => {
       }
     }
   }, [router]);
+
+  useEffect(() => {
+    if (router?.query?.suggestRecommendID) {
+      const element = document.getElementById(`recommendItem-${router.query.suggestRecommendID}`);
+
+      if (element) {
+        element.scrollIntoView(true);
+      }
+    }
+  }, [router?.query?.suggestRecommendID]);
 
   return (
     <MobAuthRequired>

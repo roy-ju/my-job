@@ -81,18 +81,19 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   };
 
-  const handleClickNavigateToLSuggestDetail = (suggestID?: number, isMine?: boolean) => {
+  const handleClickNavigateToLSuggestDetail = (suggestID?: number) => {
     if (suggestID) {
-      if (isMine) {
-        router.replace(Routes.MySuggestDetail, {
-          searchParams: { suggestID: `${suggestID}`, back: `${router.asPath}` },
-        });
-      } else {
-        router.replace(Routes.SuggestDetail, {
-          searchParams: { suggestID: `${suggestID}`, back: `${router.asPath}` },
-        });
-      }
+      router.replace(Routes.MySuggestDetail, {
+        searchParams: { suggestID: `${suggestID}`, back: `${router.asPath}` },
+      });
     }
+  };
+
+  const handleClickNavigateToSuggestRecommended = (suggestRecommendID?: number) => {
+    router.replace(Routes.SuggestRecommendedList, {
+      searchParams: { back: `${router.asPath}` },
+      state: { suggestRecommendID: `${suggestRecommendID}` },
+    });
   };
 
   const convertedChatMessages = useMemo(() => {
@@ -143,7 +144,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickReportButton={handleClickReportButton}
         onClickLeaveButton={handleClickLeaveButton}
         onClickNavigateToListingDetail={handleClickNavigateToListingDetail}
-        onClickNavigateToLSuggestDetail={handleClickNavigateToLSuggestDetail}
+        onClickNavigateToSuggestDetail={handleClickNavigateToLSuggestDetail}
+        onClickNavigateToSuggestRecommended={handleClickNavigateToSuggestRecommended}
         setPhotoSending={setPhotoSending}
       />
 

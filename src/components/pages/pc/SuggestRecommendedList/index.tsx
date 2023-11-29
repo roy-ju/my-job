@@ -1,8 +1,9 @@
 import useAPI_GetMySuggestRecommendedList from '@/apis/suggest/getMySuggestRecommendedList';
 import { Panel, Loading, AuthRequired } from '@/components/atoms';
 import { SuggestRecommendedList as SuggestRecommendedListTemplate } from '@/components/templates';
-import { memo, useState, useRef } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 import { useRouter } from '@/hooks/utils';
+import { useRouter as useNextRouter } from 'next/router';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { toast } from 'react-toastify';
 import Routes from '@/router/routes';
@@ -17,6 +18,8 @@ interface Props {
 
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
+  const nextRouter = useNextRouter();
+
   const [showSuggestRecommendCancelPopup, setShowSuggestRecommendCancelPopup] = useState(false);
   const suggestRecommendIdToCancel = useRef<number | undefined>(undefined);
   const {
@@ -63,6 +66,22 @@ export default memo(({ panelWidth, depth }: Props) => {
     otherMutate('/my/dashboard/info');
   };
 
+  const onClickBack = () => {
+    if (router?.query?.back) {
+      nextRouter.replace(router.query.back as string);
+    }
+  };
+
+  useEffect(() => {
+    if (router?.query?.suggestRecommendID) {
+      const element = document.getElementById(`recommendItem-${router.query.suggestRecommendID}`);
+
+      if (element) {
+        element.scrollIntoView(true);
+      }
+    }
+  }, [router?.query?.suggestRecommendID]);
+
   return (
     <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
@@ -78,6 +97,7 @@ export default memo(({ panelWidth, depth }: Props) => {
             onNavigateToChatRoom={handleNavigateToChatRoom}
             onDeleteSuggestRecommend={handleDeleteSuggestRecommend}
             onClickSuggestRecommendCancel={handleClickSuggestRecommendCancel}
+            onClickBack={router?.query?.back ? onClickBack : undefined}
           />
         )}
         {showSuggestRecommendCancelPopup && (

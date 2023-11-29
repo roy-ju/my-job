@@ -20,14 +20,16 @@ type ChatRoomDetailsAccordionV2Props = {
   accordionDetails: ChatRoomAccordionsProps;
   chatRoomType: number;
   onClickNavigateToListingDetail?: (listingID?: number, biddingID?: Nullable<number>) => void;
-  onClickNavigateToLSuggestDetail?: (suggestID?: number, isMine?: boolean) => void;
+  onClickNavigateToSuggestDetail?: (suggestID?: number) => void;
+  onClickNavigateToSuggestRecommended?: (suggestRecommendID?: number) => void;
 };
 
 export default function ChatRoomDetailsAccordionV2({
   accordionDetails,
   chatRoomType,
-  onClickNavigateToLSuggestDetail,
   onClickNavigateToListingDetail,
+  onClickNavigateToSuggestDetail,
+  onClickNavigateToSuggestRecommended,
 }: ChatRoomDetailsAccordionV2Props) {
   const [open, setOpen] = useState(false);
 
@@ -211,7 +213,7 @@ export default function ChatRoomDetailsAccordionV2({
                     <div
                       key={`suggestItem-${item.suggest_id}`}
                       tw="h-[72px] flex flex-row bg-white px-4 py-2 [box-shadow: 0px 2px 10px 0px #0000000F] [border-radius: 8px] items-center hover:bg-gray-300 cursor-pointer"
-                      onClick={() => onClickNavigateToLSuggestDetail?.(item.suggest_id, true)}
+                      onClick={() => onClickNavigateToSuggestDetail?.(item.suggest_id)}
                     >
                       <div tw="min-w-[60px]">
                         <Chip variant={item.danji_or_regional === DanjiOrRegionalType.Danji ? 'nego' : 'blue'}>
@@ -332,7 +334,7 @@ export default function ChatRoomDetailsAccordionV2({
                     <div
                       key={`suggestItem-${item.suggest_id}`}
                       tw="h-[72px] flex flex-row bg-white px-4 py-2 [box-shadow: 0px 2px 10px 0px #0000000F] [border-radius: 8px] items-center hover:bg-gray-300 cursor-pointer"
-                      onClick={() => onClickNavigateToLSuggestDetail?.(item.suggest_id, true)}
+                      onClick={() => onClickNavigateToSuggestDetail?.(item.suggest_id)}
                     >
                       <div tw="min-w-[60px]">
                         <Chip variant={item.danji_or_regional === DanjiOrRegionalType.Danji ? 'nego' : 'blue'}>
@@ -426,9 +428,9 @@ export default function ChatRoomDetailsAccordionV2({
                   );
                   return (
                     <div
-                      key={`suggestItem-${item.suggest_id}`}
+                      key={`recommendItem-${item.suggest_id}`}
                       tw="h-[72px] flex flex-row bg-white px-4 py-2 [box-shadow: 0px 2px 10px 0px #0000000F] [border-radius: 8px] items-center hover:bg-gray-300 cursor-pointer"
-                      onClick={() => onClickNavigateToLSuggestDetail?.(item.suggest_id)}
+                      onClick={() => onClickNavigateToSuggestRecommended?.(item.suggest_recommend_id)}
                     >
                       <div tw="min-w-[60px]">
                         <Chip variant={item.danji_or_regional === DanjiOrRegionalType.Danji ? 'nego' : 'blue'}>
