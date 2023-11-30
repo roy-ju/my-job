@@ -51,6 +51,8 @@ export type SuggestRecommendDetailList = {
   recommender_id: number;
   recommender_name: string;
   recommender_profile_image_url: string;
+  suggest_recommend_ever_user_accepted: boolean;
+  suggest_recommend_has_sent: boolean;
   suggest_recommend_detail_list: SuggestRecommendDetailListItem[];
 };
 
