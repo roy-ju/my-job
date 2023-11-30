@@ -93,7 +93,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const handleRecommendAccept = useCallback(
     async (suggestRecommendId: number) => {
-      await acceptRecommend(suggestRecommendId);
+      // await acceptRecommend(suggestRecommendId);
       await mutate();
     },
     [mutate],

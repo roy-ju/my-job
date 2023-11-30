@@ -200,7 +200,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     if (!data?.suggest_recommend_id) return;
     setIsPopupButtonLoading(true);
 
-    await acceptRecommend(data.suggest_recommend_id);
+    //    await acceptRecommend(data.suggest_recommend_id);
     await mutateListing();
 
     setIsPopupButtonLoading(false);
