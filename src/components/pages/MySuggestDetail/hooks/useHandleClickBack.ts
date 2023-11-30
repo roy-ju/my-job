@@ -15,8 +15,6 @@ export default function useHandleClickBack() {
   const renderBackUICondition =
     platform?.platform === 'mobile' ? true : router.query.entry === 'my' ? true : !!router.query.back;
 
-
-
   const handleClickBack = () => {
     if (platform?.platform === 'pc') {
       if (router.query.back) {
