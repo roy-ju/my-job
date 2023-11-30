@@ -14,7 +14,7 @@ export default function ListItemCtas({ item }: Props) {
   const suggestID = Number(params.suggestID);
   const isChatRoomDeleted = item.chat_room_id && item.chat_room_is_deleted;
 
-  if (item.chat_room_id === null) {
+  if (item.suggest_recommend_ever_user_accepted === false && item.suggest_recommend_has_sent === true) {
     return (
       <Button
         variant="primary"
@@ -33,7 +33,7 @@ export default function ListItemCtas({ item }: Props) {
     );
   }
 
-  if (item.chat_room_id) {
+  if (item.suggest_recommend_ever_user_accepted === true) {
     return (
       <div tw="flex gap-2">
         <Button
