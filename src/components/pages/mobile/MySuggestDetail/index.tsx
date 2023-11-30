@@ -1,4 +1,3 @@
-import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import useAPI_GetMySuggestRecommends from '@/apis/suggest/getMySuggestRecommends';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
@@ -67,7 +66,7 @@ export default memo(() => {
 
   const handleRecommendAccept = useCallback(
     async (suggestRecommendId: number) => {
-      await acceptRecommend(suggestRecommendId);
+      // await acceptRecommend(suggestRecommendId);
       await mutate();
     },
     [mutate],
