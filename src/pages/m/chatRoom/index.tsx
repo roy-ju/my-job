@@ -6,13 +6,13 @@ import PlatformProvider from '@/providers/PlatformProvider';
 
 import { Container } from '@/components/container';
 
-import ChatRoom from '@/components/pages/ChatRoom';
-
 import { checkPlatform } from '@/utils/checkPlatform';
+
+import ChatRoom from '@/components/pages/ChatRoom';
 
 const Page: NextPageWithLayout<{ platform: string }> = ({ platform }) => (
   <PlatformProvider platform={platform}>
-    <Container>
+    <Container auth>
       <ChatRoom />
     </Container>
   </PlatformProvider>
