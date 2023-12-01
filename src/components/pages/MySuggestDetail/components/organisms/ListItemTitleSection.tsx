@@ -61,7 +61,7 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
                   : item?.recommender_profile_image_url
               }
             />
-            <p tw="text-b2 font-bold" css={[item.recommender_deregistered && tw`text-gray-600`]}>
+            <p tw="text-b2 font-bold" css={[item?.recommender_deregistered && tw`text-gray-600`]}>
               {title}
             </p>
             <p tw="text-info text-gray-700 ml-auto [display: inline-block]">중개사정보</p>
@@ -117,8 +117,18 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
     </>
   ) : (
     <div tw="flex flex-row items-center gap-1">
-      <Avatar size={24} alt="profile_img" src={item?.recommender_profile_image_url} />
-      <p tw="text-b2 font-bold">{title}</p>
+      <Avatar
+        size={24}
+        alt="profile_img"
+        src={
+          item?.recommender_deregistered
+            ? process.env.NEXT_PUBLIC_NEGOCIO_DELETED_PROFILE_IMG_PATH
+            : item?.recommender_profile_image_url
+        }
+      />
+      <p tw="text-b2 font-bold" css={[item?.recommender_deregistered && tw`text-gray-600`]}>
+        {title}
+      </p>
       <Chip variant="nego" tw="ml-auto">
         집주인
       </Chip>
