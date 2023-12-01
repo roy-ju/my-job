@@ -36,10 +36,18 @@ export default function useChatHeaderHandler() {
     }
   }, [nextRouter, platform?.platform, router, store?.data?.chat_room_id]);
 
-  const isExistBackButton = useMemo(() => platform?.platform !== 'pc', [platform?.platform]);
+  const isExistBackButton = useMemo(
+    () => router.query.back || platform?.platform !== 'pc',
+    [platform?.platform, router.query.back],
+  );
 
   const onClickBack = useCallback(() => {
     if (!isExistBackButton) {
+      return;
+    }
+
+    if (router.query.back) {
+      nextRouter.replace(router.query.back as string);
       return;
     }
 
@@ -52,7 +60,7 @@ export default function useChatHeaderHandler() {
         nextRouter.replace('/');
       }
     }
-  }, [nextRouter, isExistBackButton]);
+  }, [nextRouter, isExistBackButton, router.query.back]);
 
   const headerItems = useMemo(
     () => [
