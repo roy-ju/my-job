@@ -13,20 +13,20 @@ import Head from 'next/head';
 
 import AppConfig from '@/config';
 
-import DanjiDetail from '@/components/pages/pc/DanjiDetail';
+import PlatformProvider from '@/providers/PlatformProvider';
+
+import { Container } from '@/components/container';
+
+import MySuggestDetail from '@/components/pages/MySuggestDetail';
 
 import SuggestRegionalForm from '@/components/pages/SuggestRegionalForm';
 
 import SuggestRegionalSummary from '@/components/pages/SuggestRegionalSummary';
 
-import MySuggestDetail from '@/components/pages/MySuggestDetail';
-
-import PlatformProvider from '@/providers/PlatformProvider';
-
-import { Container } from '@/components/container';
-
 import ChatRoom from '@/components/pages/ChatRoom';
-import ChatRoomList from '@/components/pages/ChatRoomList';
+
+import DanjiDetail from '@/components/pages/pc/DanjiDetail';
+
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -126,8 +126,6 @@ const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'
   loading: FallbackComponent,
 });
 
-// const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: FallbackComponent });
-
 const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
   loading: FallbackComponent,
   ssr: false,
@@ -171,6 +169,11 @@ const DanjiSelect = dynamic(() => import('@/components/pages/pc/DanjiSelect'), {
 const DanjiListings = dynamic(() => import('@/components/pages/pc/DanjiListings'), {
   loading: FallbackComponent,
   ssr: false,
+});
+
+const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
+  ssr: false,
+  loading: FallbackComponent,
 });
 
 const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomReport'), {
@@ -306,16 +309,6 @@ const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'
   loading: FallbackComponent,
 });
 
-// const SuggestRegionalForm = dynamic(() => import('@/components/pages/SuggestRegionalForm'), {
-//   ssr: true,
-//   // loading: FallbackComponent,
-// });
-
-// const SuggestRegionalSummary = dynamic(() => import('@/components/pages/SuggestRegionalSummary'), {
-//   ssr: true,
-//   // loading: FallbackComponent,
-// });
-
 const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
   ssr: false,
   loading: FallbackComponent,
@@ -336,10 +329,7 @@ const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListi
   ssr: false,
   loading: FallbackComponent,
 });
-// const MySuggestDetail = dynamic(() => import('@/components/pages/pc/MySuggestDetail'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
+
 const SuggestRecommendedList = dynamic(() => import('@/components/pages/pc/SuggestRecommendedList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -592,17 +582,11 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     }
 
     case Routes.ChatRoomList: {
-      return (
-        <PlatformProvider platform={platform} depth={depth}>
-          <Container panelWidth={DEFAULT_PANEL_WIDTH}>
-            <ChatRoomList key={query.chatRoomID as string} {...props} />
-          </Container>
-        </PlatformProvider>
-      );
+      return <ChatRoomList {...props} />;
     }
 
     case Routes.ChatRoomReport: {
-      return <ChatRoomReport {...props} />;
+      return <ChatRoomReport key={query.chatRoomID as string} {...props} />;
     }
 
     case Routes.DanjiDetail: {
