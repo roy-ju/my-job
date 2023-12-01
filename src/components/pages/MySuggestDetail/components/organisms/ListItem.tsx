@@ -14,7 +14,7 @@ export default function ListItem({ item }: ListItemProps) {
   const isExistedList = item?.suggest_recommend_detail_list && item.suggest_recommend_detail_list.length > 0;
 
   const renderChatRoomClosedText = () => {
-    if (item?.chat_room_id && item.chat_room_is_deleted) {
+    if (item?.chat_room_id && item.suggest_recommend_ever_user_accepted && item.chat_room_is_deleted) {
       return (
         <p tw="text-caption_01 text-gray-700 text-center">
           이미 채팅방을 나간 요청 건입니다.
