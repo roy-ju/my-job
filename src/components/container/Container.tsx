@@ -4,6 +4,10 @@ import { AuthRequired, MobAuthRequired, MobileContainer, Panel } from '@/compone
 
 import { usePlatform } from '@/providers/PlatformProvider';
 
+import useSyncronizer from '@/states/syncronizer';
+
+import { MobGlobalNavigation } from '../organisms';
+
 type Props = {
   panelWidth?: string;
 
@@ -14,10 +18,23 @@ type Props = {
   ciRequired?: boolean;
 
   onAccessDenied?: () => void;
+
+  bottomNavigation?: Nullable<{
+    navigationIndex: 1 | 2 | 3 | 4 | 5;
+  }>;
 };
 
-export default function Container({ panelWidth, children, auth, ciRequired, onAccessDenied }: Props) {
+export default function Container({
+  panelWidth,
+  children,
+  auth,
+  ciRequired,
+  bottomNavigation = null,
+  onAccessDenied,
+}: Props) {
   const platform = usePlatform();
+
+  const { unreadChatCount } = useSyncronizer();
 
   return (
     <>
@@ -33,10 +50,26 @@ export default function Container({ panelWidth, children, auth, ciRequired, onAc
       {platform?.platform === 'mobile' &&
         (auth ? (
           <MobAuthRequired ciRequired={ciRequired} onAccessDenied={onAccessDenied}>
-            <MobileContainer>{children}</MobileContainer>
+            <MobileContainer
+              bottomNav={
+                bottomNavigation ? (
+                  <MobGlobalNavigation index={bottomNavigation.navigationIndex} unreadChatCount={unreadChatCount} />
+                ) : null
+              }
+            >
+              {children}
+            </MobileContainer>
           </MobAuthRequired>
         ) : (
-          <MobileContainer>{children}</MobileContainer>
+          <MobileContainer
+            bottomNav={
+              bottomNavigation ? (
+                <MobGlobalNavigation index={bottomNavigation.navigationIndex} unreadChatCount={unreadChatCount} />
+              ) : null
+            }
+          >
+            {children}
+          </MobileContainer>
         ))}
     </>
   );

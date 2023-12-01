@@ -26,6 +26,7 @@ import PlatformProvider from '@/providers/PlatformProvider';
 import { Container } from '@/components/container';
 
 import ChatRoom from '@/components/pages/ChatRoom';
+import ChatRoomList from '@/components/pages/ChatRoomList';
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -172,14 +173,11 @@ const DanjiListings = dynamic(() => import('@/components/pages/pc/DanjiListings'
   ssr: false,
 });
 
-const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
 const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomReport'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: FallbackComponent });
 const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { ssr: false, loading: FallbackComponent });
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
@@ -586,7 +584,7 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.ChatRoom: {
       return (
         <PlatformProvider platform={platform} depth={depth}>
-          <Container panelWidth={DEFAULT_PANEL_WIDTH}>
+          <Container auth panelWidth={DEFAULT_PANEL_WIDTH}>
             <ChatRoom key={query.chatRoomID as string} {...props} />
           </Container>
         </PlatformProvider>
@@ -594,7 +592,13 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     }
 
     case Routes.ChatRoomList: {
-      return <ChatRoomList {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container panelWidth={DEFAULT_PANEL_WIDTH}>
+            <ChatRoomList key={query.chatRoomID as string} {...props} />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.ChatRoomReport: {

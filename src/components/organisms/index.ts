@@ -9,7 +9,6 @@ export { default as MapSearchTextField } from './MapSearchTextField';
 export { default as MapFilter } from './MapFilter';
 export { default as MapToggleButton } from './MapToggleButton';
 export { default as ChatRoomListNoData } from './ChatRoomListNoData';
-export { default as ChatRoomGuide } from './ChatRoomGuide';
 export { default as ChatRoomListItem } from './ChatRoomListItem';
 export { default as ChatRoomDetailsAccordion } from './ChatRoomDetailsAccordionV2';
 export { default as ChatMessage } from './ChatMessage';
