@@ -16,9 +16,6 @@ export function ChatRoomReducer(state: State, action: Action) {
     case 'set_data':
       return { ...state, data: action.payLoad };
 
-    case 'set_mutate':
-      return { ...state, mutate: action.payLoad };
-
     case 'set_render_condition':
       return { ...state, renderCondition: action.payLoad };
 
@@ -34,7 +31,7 @@ export function ChatRoomReducer(state: State, action: Action) {
     case 'set_Popup':
       return { ...state, popup: action.payLoad };
 
-    case "set_PhotoSending":
+    case 'set_PhotoSending':
       return { ...state, photoSending: action.payLoad };
 
     default:
