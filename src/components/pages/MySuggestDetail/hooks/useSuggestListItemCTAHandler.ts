@@ -53,7 +53,7 @@ export default function useSuggestListItemCTAHandler() {
   const onClickRecommendAccept = async (request: {
     suggest_id: number;
     recommender_id: number;
-    recommender_is_agent: boolean;
+    is_recommender_agent: boolean;
   }) => {
     await acceptRecommend(request);
     await value?.mutate();

@@ -14,7 +14,7 @@ export default function ListItemCtas({ item }: Props) {
   const suggestID = Number(params.suggestID);
   const isChatRoomDeleted = item.chat_room_id && item.chat_room_is_deleted;
 
-  if (item.chat_room_id === null) {
+  if (!item.suggest_recommend_ever_user_accepted && item.suggest_recommend_has_sent) {
     return (
       <Button
         variant="primary"
@@ -23,7 +23,7 @@ export default function ListItemCtas({ item }: Props) {
           onClickRecommendAccept?.({
             suggest_id: suggestID,
             recommender_id: item.recommender_id,
-            recommender_is_agent: item.is_agent,
+            is_recommender_agent: item.is_agent,
           })
         }
         tw="w-full whitespace-nowrap"
@@ -32,6 +32,8 @@ export default function ListItemCtas({ item }: Props) {
       </Button>
     );
   }
+
+  if (!item.suggest_recommend_ever_user_accepted) return null;
 
   if (item.chat_room_id) {
     return (
