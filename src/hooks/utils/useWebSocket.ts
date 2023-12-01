@@ -49,7 +49,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       }
       onOpen.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Open);
-      
+
       // console.log('Websocket connection opened', event); => log추적
     };
 
@@ -66,7 +66,7 @@ export default function useWebSocket(socketUrl: string, options: UseWebSocketOpt
       }
       onClose.current?.(event, webSocket);
       setReadyState(webSocket.readyState || WebSocketReadyState.Closed);
-      
+
       // console.log('Websocket connection closed', event); => log추적
     };
 
