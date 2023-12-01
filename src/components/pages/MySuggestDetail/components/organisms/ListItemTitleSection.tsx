@@ -18,7 +18,9 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
 
   const isAgent = item?.is_agent;
   const agentSuggestCompleteHistoryStatus = item.agent_suggest_complete_history_status;
-  const title = `${item?.recommender_name} ${isAgent ? '중개사의 추천' : '님의 추천 매물'}`;
+  const title = item.recommender_deregistered
+    ? `${item?.recommender_name}`
+    : `${item?.recommender_name} ${isAgent ? '중개사의 추천' : '님의 추천 매물'}`;
 
   const text = useMemo(() => {
     if (agentSuggestCompleteHistoryStatus === SuggestCompleteHistoryStatus.Cancelled) {
@@ -48,10 +50,20 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
   return isAgent ? (
     <>
       <Accordion expanded={expanded} onChange={(val) => setExpanded(val)}>
-        <Accordion.Summary tw="w-full mb-4" hideArrow>
+        <Accordion.Summary tw="w-full [transition-duration: 0.2s]" css={[expanded && tw`mb-4`]} hideArrow>
           <div tw="w-full flex flex-row items-center justify-between gap-1">
-            <Avatar size={24} alt="profile_img" src={item?.recommender_profile_image_url} />
-            <p tw="text-b2 font-bold">{title}</p>
+            <Avatar
+              size={24}
+              alt="profile_img"
+              src={
+                item?.recommender_deregistered
+                  ? process.env.NEXT_PUBLIC_NEGOCIO_DELETED_PROFILE_IMG_PATH
+                  : item?.recommender_profile_image_url
+              }
+            />
+            <p tw="text-b2 font-bold" css={[item.recommender_deregistered && tw`text-gray-600`]}>
+              {title}
+            </p>
             <p tw="text-info text-gray-700 ml-auto [display: inline-block]">중개사정보</p>
 
             <ChevronDown

@@ -1,6 +1,6 @@
 import React from 'react';
-import tw, { css } from 'twin.macro';
-import { Button, Moment, Numeral } from '@/components/atoms';
+import { css } from 'twin.macro';
+import { Moment, Numeral } from '@/components/atoms';
 import { ExpandableText } from '@/components/molecules';
 import { SuggestRecommendDetailListItem } from '@/apis/suggest/getMySuggestRecommends';
 import { SuggestRecommendStatus } from '@/constants/enums';
@@ -23,8 +23,7 @@ const informationStringWrapper = css`
 export default function ListItemListingSection({ item }: ListItemListingSectionProps) {
   const isOptionField = item?.direction || item?.floor || item?.jeonyong_areas;
 
-  const { onClickNotInterested, onClickChat, onClickDeleteSuggestRecommendItem, onClickRecommendAccept } =
-    useSuggestListItemCTAHandler();
+  const { onClickNotInterested, onClickDeleteSuggestRecommendItem } = useSuggestListItemCTAHandler();
 
   const renderMoments = () => {
     if (item?.created_time) {
@@ -70,52 +69,32 @@ export default function ListItemListingSection({ item }: ListItemListingSectionP
     return null;
   };
 
-  const renderCTAs = () => {
-    if (item?.suggest_recommend_status === SuggestRecommendStatus.Sent) {
-      return (
-        <div tw="w-full flex flex-row gap-3">
-          <Button variant="outlined" onClick={() => onClickNotInterested(item.suggest_recommend_id)} tw="flex-1">
-            관심 없음
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => onClickRecommendAccept(item.suggest_recommend_id)}
-            tw="flex-1 whitespace-nowrap"
-          >
-            네고 협의 시작하기
-          </Button>
-        </div>
-      );
-    }
-
-    if (item?.chat_room_id && item?.suggest_recommend_status === SuggestRecommendStatus.Accepted) {
-      return (
-        <Button variant="primary" onClick={() => onClickChat(item.chat_room_id)} tw="w-full">
-          채팅방 바로가기
-        </Button>
-      );
-    }
-
+  const renderDeleteButton = () => {
+    let text = '';
+    let onClick: typeof onClickNotInterested | typeof onClickDeleteSuggestRecommendItem;
     if (item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled) {
-      return (
-        <Button
-          variant="outlined"
-          onClick={() => onClickDeleteSuggestRecommendItem(item.suggest_recommend_id)}
-          tw="w-full"
-        >
-          삭제
-        </Button>
-      );
+      text = '삭제';
+      onClick = onClickDeleteSuggestRecommendItem;
+    } else {
+      text = '관심 없음';
+      onClick = onClickNotInterested;
     }
 
-    return null;
+    return (
+      <button tw="text-gray-700 underline text-info" type="button" onClick={() => onClick(item.suggest_recommend_id)}>
+        {text}
+      </button>
+    );
   };
 
   return (
     <div tw="p-4 rounded-lg bg-gray-100">
-      {renderMoments()}
+      <div tw="flex justify-between items-center">
+        {renderMoments()}
+        {renderDeleteButton()}
+      </div>
       {renderContents()}
-      <div tw="flex flex-col flex-1 pt-3" css={[renderCTAs() && tw`pb-4`]}>
+      <div tw="flex flex-col flex-1 pt-3">
         {item.note && <ExpandableText color="#868E96">{item?.note}</ExpandableText>}
         {item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled && (
           <div tw="flex gap-1 mt-3">
@@ -124,7 +103,6 @@ export default function ListItemListingSection({ item }: ListItemListingSectionP
           </div>
         )}
       </div>
-      <div>{renderCTAs()}</div>
     </div>
   );
 }

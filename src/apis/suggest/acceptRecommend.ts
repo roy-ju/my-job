@@ -1,8 +1,12 @@
 import axios from '@/lib/axios';
 
-export async function acceptRecommend(id: number) {
+export async function acceptRecommend(request: {
+  suggest_id: number;
+  recommender_id: number;
+  is_recommender_agent: boolean;
+}) {
   try {
-    return await axios.post('/my/suggest/recommend/accept', { suggest_recommend_id: id });
+    return await axios.post('/my/suggest/recommend/accept', request);
   } catch {
     return null;
   }
