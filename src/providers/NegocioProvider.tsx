@@ -49,14 +49,6 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
             setUnreadChatCount(0);
             break;
 
-          case 'suggest_recommend_status_updated':
-            if (window.location.pathname.indexOf('/chatRoom') > -1 && getQueryInUrl('chatRoomID')) {
-              if (window?.Negocio?.callbacks?.mutateChatRoomDetail) {
-                window.Negocio.callbacks.mutateChatRoomDetail();
-              }
-            }
-            break;
-
           case 'new_notification':
             toast.success('새로운 알림이 있습니다.');
             setUnreadNotificationCount(Number(data.value) ?? 0);

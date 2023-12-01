@@ -108,7 +108,7 @@ export interface GetChatRoomDetailResponse {
 export default function useAPI_ChatRoomDetail(id: number) {
   const { user, isLoading: isLoadingUser } = useAuth();
   const { data, isLoading, mutate } = useSWR<GetChatRoomDetailResponse>(
-    user ? ['/chat/room/detail', { chat_room_id: id }] : null,
+    user && id ? ['/chat/room/detail', { chat_room_id: id }] : null,
   );
 
   return { data, isLoading: isLoading || isLoadingUser, mutate };

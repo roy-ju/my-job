@@ -25,6 +25,7 @@ import PlatformProvider from '@/providers/PlatformProvider';
 
 import { Container } from '@/components/container';
 
+import ChatRoom from '@/components/pages/ChatRoom';
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -123,7 +124,8 @@ const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'
   ssr: false,
   loading: FallbackComponent,
 });
-const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: FallbackComponent });
+
+// const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: FallbackComponent });
 
 const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
   loading: FallbackComponent,
@@ -582,7 +584,13 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     }
 
     case Routes.ChatRoom: {
-      return <ChatRoom key={query.chatRoomID as string} {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container panelWidth={DEFAULT_PANEL_WIDTH}>
+            <ChatRoom key={query.chatRoomID as string} {...props} />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.ChatRoomList: {
