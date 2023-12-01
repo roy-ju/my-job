@@ -10,9 +10,9 @@ export default {
   component: ChatRoom,
 } as ComponentMeta<typeof ChatRoom>;
 
-export const Default: ComponentStory<typeof ChatRoom> = (args) => (
+export const Default: ComponentStory<typeof ChatRoom> = () => (
   <Panel>
-    <ChatRoom {...args} />
+    <ChatRoom />
   </Panel>
 );
 
@@ -33,9 +33,9 @@ Default.args = {
     })),
 };
 
-export const ThousandsMessages: ComponentStory<typeof ChatRoom> = (args) => (
+export const ThousandsMessages: ComponentStory<typeof ChatRoom> = () => (
   <Panel>
-    <ChatRoom {...args} />
+    <ChatRoom />
   </Panel>
 );
 

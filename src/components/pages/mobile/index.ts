@@ -60,7 +60,7 @@ export { default as ListingCreateResult } from './ListingCreateResult';
 /** 채팅 */
 export { default as ChatRoomReport } from './ChatRoomReport';
 export { default as ChatRoomList } from './ChatRoomList';
-export { default as ChatRoom } from './ChatRoom';
+// export { default as ChatRoom } from './ChatRoom';
 
 /** 매물 목록 */
 export { default as MyRegisteredListings } from './MyRegisteredListings';
