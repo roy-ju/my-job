@@ -12,7 +12,6 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import deleteListingQna from '@/apis/listing/deleteListingQna';
-import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { useRouter } from 'next/router';
 import { SharePopup } from '@/components/organisms';
@@ -200,7 +199,7 @@ export default memo(() => {
     if (!data?.suggest_recommend_id) return;
     setIsPopupButtonLoading(true);
 
-    await acceptRecommend(data.suggest_recommend_id);
+    //    await acceptRecommend(data.suggest_recommend_id);
     await mutateListing();
 
     setIsPopupButtonLoading(false);
