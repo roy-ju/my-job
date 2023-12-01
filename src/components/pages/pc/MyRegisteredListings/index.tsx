@@ -143,12 +143,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleChangeListingTab = useCallback(
     (newValue: number) => {
       setTab(Number(newValue));
+      handleCancelDelete();
       router.replaceCurrent(Routes.MyRegisteredListingList, {
         persistParams: true,
         searchParams: { tab: `${newValue}` },
       });
     },
-    [setTab, router],
+    [setTab, router, handleCancelDelete],
   );
 
   return (
