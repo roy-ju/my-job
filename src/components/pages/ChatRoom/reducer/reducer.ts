@@ -4,7 +4,6 @@ export const initialState: State = {
   data: null,
   renderCondition: 'loading',
   photoSending: false,
-  mutate: undefined,
   chatMessages: [],
   photosUrls: [],
   textFieldDisabled: false,

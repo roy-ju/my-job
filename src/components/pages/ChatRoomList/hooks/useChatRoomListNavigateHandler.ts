@@ -23,12 +23,14 @@ export default function useChatRoomListNavigateHandler() {
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const { value } = e.currentTarget;
       if (platform?.platform === 'pc') {
+        console.log('bye');
         router.push(Routes.ChatRoom, {
           searchParams: { chatRoomID: `${value}` },
         });
 
         store?.mutate();
       } else {
+        console.log("hi")
         nextRouter.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${value}`);
       }
     },
