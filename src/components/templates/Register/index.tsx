@@ -7,14 +7,12 @@ export interface RegisterProps {
   email?: string;
   nickname?: string;
   funnelInfo?: string;
-  privacyRetention?: string;
   terms?: TermsState;
   formValid?: boolean;
   isLoading?: boolean;
   nicknameErrorMessage?: string;
   onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
   onChangeFunnelInfo?: ChangeEventHandler<HTMLInputElement>;
-  onChangePrivacyRetention?: (value: string) => void;
   onChangeTerms?: (newState: TermsState) => void;
   onClickNext?: () => void;
   onNavigateToServiceTerms?: () => void;
@@ -27,13 +25,11 @@ export default function Register({
   nickname,
   terms,
   funnelInfo = '',
-  privacyRetention,
   formValid = false,
   isLoading = false,
   nicknameErrorMessage,
   onChangeNickname,
   onChangeFunnelInfo,
-  onChangePrivacyRetention,
   onChangeTerms,
   onClickNext,
   onNavigateToServiceTerms,
@@ -47,10 +43,6 @@ export default function Register({
       </div>
       <div tw="my-10">
         <RegisterForm.Nickname value={nickname} onChange={onChangeNickname} errorMessage={nicknameErrorMessage} />
-      </div>
-      <Separator />
-      <div tw="my-10">
-        <RegisterForm.PrivacyRetention value={privacyRetention} onChange={onChangePrivacyRetention} />
       </div>
       <Separator />
       <div tw="my-10">

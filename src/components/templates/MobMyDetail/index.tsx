@@ -12,7 +12,6 @@ interface MyDetailProps {
   profileImageUrl: string;
   updateNicknameButtonDisabled: boolean;
   isLoading: boolean;
-  privacyRetentionType: string;
   onClickDeregister: () => void;
   onClickLogout: () => void;
   onClickUpdatePhone: () => void;
@@ -21,7 +20,6 @@ interface MyDetailProps {
   onClickUpdateProfileImage: (file: File) => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
-  onClickUpdatePrivacyRetentionType: (value: string) => void;
 }
 
 export default function MobMyDetail({
@@ -32,7 +30,6 @@ export default function MobMyDetail({
   profileImageUrl,
   updateNicknameButtonDisabled,
   isLoading,
-  privacyRetentionType,
   onClickDeregister,
   onClickLogout,
   onClickUpdatePhone,
@@ -41,7 +38,6 @@ export default function MobMyDetail({
   onClickUpdateProfileImage,
   onChangeNickname,
   onClickVerifyCi,
-  onClickUpdatePrivacyRetentionType,
 }: MyDetailProps) {
   const router = useRouter();
 
@@ -76,10 +72,6 @@ export default function MobMyDetail({
               <MyDetailForm.Separator />
               <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
               <MyDetailForm.Separator />
-              <MyDetailForm.PrivacyRetentionInfo
-                value={privacyRetentionType}
-                onChange={onClickUpdatePrivacyRetentionType}
-              />
               <div tw="px-5 mt-10">
                 <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
                   회원 탈퇴

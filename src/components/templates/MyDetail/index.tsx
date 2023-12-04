@@ -9,7 +9,6 @@ interface MyDetailProps {
   name: string;
   phone: string;
   profileImageUrl: string;
-  privacyRetentionType: string;
   updateNicknameButtonDisabled: boolean;
   isLoading: boolean;
   onClickDeregister: () => void;
@@ -20,7 +19,6 @@ interface MyDetailProps {
   onClickUpdateProfileImage: (file: File) => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
-  onClickUpdatePrivacyRetentionType?: (newValue: string) => void;
 }
 
 export default function MyDetail({
@@ -29,7 +27,6 @@ export default function MyDetail({
   name,
   phone,
   profileImageUrl,
-  privacyRetentionType,
   updateNicknameButtonDisabled,
   isLoading,
   onClickDeregister,
@@ -38,7 +35,6 @@ export default function MyDetail({
   onClickUpdateNickname,
   onClickUpdateEmail,
   onClickUpdateProfileImage,
-  onClickUpdatePrivacyRetentionType,
   onChangeNickname,
   onClickVerifyCi,
 }: MyDetailProps) {
@@ -71,10 +67,6 @@ export default function MyDetail({
             <MyDetailForm.Separator />
             <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
             <MyDetailForm.Separator />
-            <MyDetailForm.PrivacyRetentionInfo
-              value={privacyRetentionType}
-              onChange={onClickUpdatePrivacyRetentionType}
-            />
             <div tw="px-5 mt-10">
               <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
                 회원 탈퇴

@@ -10,6 +10,4 @@ export const Email = () => <RegisterForm.Email value="joel.kim@negocio.co.kr" />
 
 export const Nickname = () => <RegisterForm.Nickname />;
 
-export const PrivacyRetention = () => <RegisterForm.PrivacyRetention />;
-
 export const Terms = () => <RegisterForm.Terms />;

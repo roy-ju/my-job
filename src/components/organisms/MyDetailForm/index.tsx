@@ -1,5 +1,5 @@
-import { Button, Label, Radio, Separator as BaseSeparator, Ul } from '@/components/atoms';
-import { Dropdown, RadioGroup, TextField } from '@/components/molecules';
+import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
+import { Dropdown, TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import React, { ChangeEventHandler, useId } from 'react';
 import { NICKNAME_REGEX } from '@/constants/regex';
@@ -224,33 +224,6 @@ function ProfileImage({ profileImageUrl, onClickUpdate }: ProfileImageProps) {
   );
 }
 
-interface PrivacyRetentionInfoProps {
-  value?: string;
-  onChange?: (value: string) => void;
-}
-
-function PrivacyRetentionInfo({ value, onChange }: PrivacyRetentionInfoProps) {
-  return (
-    <div tw="px-5">
-      <div tw="flex items-center justify-between mb-3">
-        <div tw="text-b1 leading-4 font-bold">개인정보 보관기간</div>
-      </div>
-      <Ul tw="text-info text-gray-700 mb-4">
-        <li>개인정보를 파기 또는 분리 저장, 관리해야 하는 서비스 미이용 기간을 선택 해 주세요.</li>
-        <li>선택한 기간동안 서비스를 이용하지 않을 경우 휴면 계정으로 전환 또는 가입해지 됩니다.</li>
-      </Ul>
-      <div tw="flex flex-col gap-3">
-        <Dropdown placeholder="개인정보 보관기간" value={value} onChange={onChange}>
-          <Dropdown.Option value="1년">1년</Dropdown.Option>
-          <Dropdown.Option value="3년">3년</Dropdown.Option>
-          <Dropdown.Option value="5년">5년</Dropdown.Option>
-          <Dropdown.Option value="탈퇴시까지">탈퇴시까지</Dropdown.Option>
-        </Dropdown>
-      </div>
-    </div>
-  );
-}
-
 const Separator = tw(BaseSeparator)`my-10`;
 
 const Container = tw.div``;
@@ -258,7 +231,6 @@ const Container = tw.div``;
 export default Object.assign(Container, {
   LoginInfo,
   IdentityInfo,
-  PrivacyRetentionInfo,
   Separator,
   ProfileImage,
 });
