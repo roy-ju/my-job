@@ -15,6 +15,7 @@ import { SharePopup } from '@/components/organisms';
 import Paths from '@/constants/paths';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { useRouter as useNextRouter } from 'next/router';
 
 export default function DanjiDetailHeader({
   isHeaderActive,
@@ -25,6 +26,7 @@ export default function DanjiDetailHeader({
   handleMutateDanji?: () => void;
 }) {
   const router = useRouter(1);
+  const nextRouter = useNextRouter();
   const [popup, setPopup] = useState(false);
 
   const { user, isLoading: isAuthLoading } = useAuth();
@@ -142,6 +144,9 @@ export default function DanjiDetailHeader({
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
+        {router.query.back ? (
+          <NavigationHeader.BackButton onClick={() => nextRouter.replace(router.query.back as string)} />
+        ) : null}
         <NavigationHeader.Title tw="text-inherit">
           <h1>{danji.name}</h1>
         </NavigationHeader.Title>

@@ -126,6 +126,7 @@ const Routes = {
 
   // 나의 추천
   SuggestRecommendedList: 'suggestRecommendedList',
+  SuggestRecommendedDetail: 'suggestRecommendedDetail',
 
   // 매물 구해요 (지역 / 단지)
   RecommendationForm: 'recommendationForm',

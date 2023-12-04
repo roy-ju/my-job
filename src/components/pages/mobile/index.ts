@@ -123,6 +123,7 @@ export { default as RecommendationForm } from './RecommendationForm';
 
 /** 타인 구하기에 대한 나의 추천 */
 export { default as SuggestRecommendedList } from './SuggestRecommendedList';
+export { default as SuggestRecommendedDetail } from './SuggestRecommendedDetail';
 
 /** 매물추천하기  */
 export { default as SuggestSelectAddress } from './SuggestSelectAddress';
