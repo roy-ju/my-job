@@ -6,6 +6,7 @@ import Routes from '@/router/routes';
 import HTML_20221208 from '@/assets/terms/privacy_agreement/20221208';
 import HTML_20221103 from '@/assets/terms/privacy_agreement/20221103';
 import HTML_20221017 from '@/assets/terms/privacy_agreement/20221017';
+import HTML_20231211 from '@/assets/terms/privacy_agreement/20231211';
 
 interface Props {
   depth: number;
@@ -14,7 +15,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const [selectedTerms, setSelectedTerms] = useState('2022.12.08');
+  const [selectedTerms, setSelectedTerms] = useState('2023.12.11');
 
   const htmlTerms = (() => {
     switch (selectedTerms) {
@@ -22,8 +23,10 @@ export default memo(({ depth, panelWidth }: Props) => {
         return HTML_20221103;
       case '2022.10.17':
         return HTML_20221017;
-      default:
+      case '2022.12.08':
         return HTML_20221208;
+      default:
+        return HTML_20231211;
     }
   })();
 
