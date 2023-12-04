@@ -22,10 +22,6 @@ IdentityInfo.args = {
   phone: '01051177554',
 };
 
-export const PrivacyRetentionInfo: ComponentStory<typeof MyDetailForm.PrivacyRetentionInfo> = () => (
-  <MyDetailForm.PrivacyRetentionInfo />
-);
-
 export const AllCombiled = () => (
   <div tw="bg-white py-10">
     <MyDetailForm>
@@ -34,7 +30,6 @@ export const AllCombiled = () => (
       <MyDetailForm.IdentityInfo />
       <MyDetailForm.Separator />
       <MyDetailForm.Separator />
-      <MyDetailForm.PrivacyRetentionInfo />
     </MyDetailForm>
   </div>
 );

@@ -17,7 +17,6 @@ export default function DetailWrraper() {
     emailPopup,
     updateNicknameButtonDisabled,
     updateEmailPopup,
-    privacyRetentionType,
     handleClickDeregister,
     handleLogout,
     handleUpdatePhone,
@@ -32,7 +31,6 @@ export default function DetailWrraper() {
     handleClickUpdateToKakao,
     handleCloseEmailUpdatePopup,
     handleNavigateToVerifyCi,
-    handleChangePrivacyRetentionType,
   } = useMyDetail();
 
   useScrollLock(
@@ -52,7 +50,6 @@ export default function DetailWrraper() {
         name={name ?? ''}
         phone={phone ?? ''}
         profileImageUrl={profileImageUrl ?? ''}
-        privacyRetentionType={privacyRetentionType}
         updateNicknameButtonDisabled={updateNicknameButtonDisabled}
         onChangeNickname={handleChangeNickname}
         onClickDeregister={handleClickDeregister}
@@ -61,7 +58,6 @@ export default function DetailWrraper() {
         onClickUpdateNickname={handleClickUpdateNickname}
         onClickUpdateEmail={handleClickUpdateEmail}
         onClickUpdateProfileImage={handleUploadProfileImage}
-        onClickUpdatePrivacyRetentionType={handleChangePrivacyRetentionType}
         onClickVerifyCi={handleNavigateToVerifyCi}
       />
       {nicknamePopup && (

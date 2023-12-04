@@ -3,7 +3,6 @@ import { RadioGroup, TextField } from '@/components/molecules';
 import { useControlled } from '@/hooks/utils';
 import { useCallback, ChangeEventHandler } from 'react';
 import tw from 'twin.macro';
-import MyDetailForm from '../MyDetailForm';
 
 const Container = tw.div``;
 
@@ -67,15 +66,6 @@ function FunnelInfo({ value, onChange }: FunnelInfoProps) {
       </div>
     </div>
   );
-}
-
-interface PrivacyRetentionProps {
-  value?: string;
-  onChange?: (value: string) => void;
-}
-
-function PrivacyRetention({ value, onChange }: PrivacyRetentionProps) {
-  return <MyDetailForm.PrivacyRetentionInfo value={value} onChange={onChange} />;
 }
 
 export interface TermsState {
@@ -218,4 +208,4 @@ function Terms({
   );
 }
 
-export default Object.assign(Container, { Email, Nickname, PrivacyRetention, Terms, FunnelInfo });
+export default Object.assign(Container, { Email, Nickname, Terms, FunnelInfo });

@@ -8,7 +8,7 @@ import updateEmail from '@/apis/user/updateEmail';
 import { SocialLoginType } from '@/constants/enums';
 import checkNickname from '@/apis/user/checkNickname';
 import { useRouter } from 'next/router';
-import { updatePrivacyRetention } from '@/apis/my/updatePrivacyRetention';
+
 import Events from '@/constants/events';
 import uploadProfileImage from '@/apis/my/uploadProfileImage';
 
@@ -23,7 +23,6 @@ export default function useMyDetail() {
   const [emailPopup, setEmailPopup] = useState(false);
   const [updateEmailPopup, setUpdateEmailPopup] = useState<UpdateEmailPopupType>('none');
 
-  const [privacyRetentionType, setPrivacyRetentionType] = useState<string>('');
   const [nickname, setNickname] = useState('');
 
   const [profileImageUrl, setProfileImageUrl] = useState('');
@@ -38,39 +37,6 @@ export default function useMyDetail() {
   const handleChangeNickname = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setNickname(e.target.value);
   }, []);
-
-  const handleChangePrivacyRetentionType = useCallback(
-    async (e: string) => {
-      const value = e as unknown as string;
-
-      setPrivacyRetentionType(value);
-
-      let reqVal: number = 0;
-
-      if (value === '1년') {
-        reqVal = 1;
-      }
-
-      if (value === '3년') {
-        reqVal = 2;
-      }
-
-      if (value === '5년') {
-        reqVal = 3;
-      }
-
-      if (value === '탈퇴시까지') {
-        reqVal = 4;
-      }
-
-      const updatePrivacyRetentionRes = await updatePrivacyRetention({ privacy_retention_type: Number(reqVal) });
-
-      if (!updatePrivacyRetentionRes) {
-        mutateUser(false);
-      }
-    },
-    [mutateUser],
-  );
 
   const handleClickDeregister = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.Deregister}`);
@@ -195,28 +161,6 @@ export default function useMyDetail() {
     }
   }, [user?.profileImageUrl]);
 
-  useEffect(() => {
-    if (user?.privacyRetentionType) {
-      let stringVal: string = '';
-
-      if (user?.privacyRetentionType === 1) {
-        stringVal = '1년';
-      }
-
-      if (user?.privacyRetentionType === 2) {
-        stringVal = '3년';
-      }
-      if (user?.privacyRetentionType === 3) {
-        stringVal = '5년';
-      }
-      if (user?.privacyRetentionType === 4) {
-        stringVal = '탈퇴시까지';
-      }
-
-      setPrivacyRetentionType(stringVal);
-    }
-  }, [user?.privacyRetentionType]);
-
   return useMemo(
     () => ({
       ...user,
@@ -227,7 +171,6 @@ export default function useMyDetail() {
       nicknamePopup,
       emailPopup,
       updateEmailPopup,
-      privacyRetentionType,
       handleClickDeregister,
       handleLogout,
       handleUpdatePhone,
@@ -242,7 +185,6 @@ export default function useMyDetail() {
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
       handleNavigateToVerifyCi,
-      handleChangePrivacyRetentionType,
     }),
     [
       updateNicknameButtonDisabled,
@@ -255,7 +197,6 @@ export default function useMyDetail() {
       // isUserAddressLoading,
       isUserLoading,
       updateEmailPopup,
-      privacyRetentionType,
       handleClickDeregister,
       handleLogout,
       // handleUpdateAddress,
@@ -271,7 +212,6 @@ export default function useMyDetail() {
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
       handleNavigateToVerifyCi,
-      handleChangePrivacyRetentionType,
     ],
   );
 }

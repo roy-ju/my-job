@@ -6,7 +6,6 @@ interface LoginRequest {
   ipAddress?: string;
   socialLoginType: number;
   token: string;
-  privacyRetentionType?: number;
   marketing?: boolean;
   nickname?: string;
   email?: string;
@@ -36,7 +35,6 @@ export default async function login({
   token,
   email,
   nickname,
-  privacyRetentionType,
   marketing,
   signUpSource,
 }: LoginRequest) {
@@ -51,7 +49,6 @@ export default async function login({
       // for new registration
       email,
       nickname,
-      privacy_retention_type: privacyRetentionType,
       marketing,
       signup_source: signUpSource,
     });
