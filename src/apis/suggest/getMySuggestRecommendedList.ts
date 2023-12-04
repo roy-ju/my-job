@@ -2,27 +2,16 @@ import useSWRInfinite from 'swr/infinite';
 import { useAuth } from '@/hooks/services';
 import { useMemo, useCallback } from 'react';
 
-interface ISuggestRecommendItem {
-  suggest_recommend_id: number;
-  created_time: string;
-  suggest_recommend_status: number;
-  with_address: boolean;
-  address_free_text: string;
-  trade_or_deposit_price: number;
-  monthly_rent_fee: number;
-  jeonyong_areas: string;
-  floor: string;
-  direction: string;
-  buy_or_rent: number;
-  note: string;
-  chat_room_id: number | null;
-}
-
-interface ISuggestItem {
-  user_nickname: string;
-  user_profile_image_url: string;
-  created_time: string;
+interface Item {
+  suggestor_nickname: string;
+  suggestor_profile_image_url: string;
+  latest_recommended_time: string;
+  deregistered: boolean;
+  suggest_recommend_ever_user_accepted: boolean;
+  realestate_types: string;
   suggest_id: number;
+  suggest_recommend_count: number;
+  danji_or_regional: number;
   suggest_status: number;
   buy_or_rents: string;
   trade_or_deposit_price: number;
@@ -30,18 +19,13 @@ interface ISuggestItem {
   pyoung_text: string;
   purpose: string;
   invest_amount: number;
-  quick_sale?: boolean | null;
+  quick_sale: any;
   negotiable: boolean;
-  move_in_date: string | null;
-  move_in_date_type: number | null;
+  move_in_date: any;
+  move_in_date_type: any;
   note: string;
-  realestate_types: string;
   request_target_text: string;
-}
-
-interface Item {
-  suggest_item: ISuggestItem;
-  suggest_recommend_item: ISuggestRecommendItem;
+  suggestor_id: number;
 }
 
 export interface GetMySuggestRecommendedListResponse {

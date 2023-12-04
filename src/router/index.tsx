@@ -334,6 +334,11 @@ const SuggestRecommendedList = dynamic(() => import('@/components/pages/pc/Sugge
   ssr: false,
   loading: FallbackComponent,
 });
+const SuggestRecommendedDetail = dynamic(() => import('@/components/pages/pc/SuggestRecommendedDetail'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const SuggestSelectAddress = dynamic(() => import('@/components/pages/pc/SuggestSelectAddress'), {
   ssr: false,
   loading: FallbackComponent,
@@ -770,6 +775,10 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
 
     case Routes.SuggestRecommendedList: {
       return <SuggestRecommendedList {...props} />;
+    }
+
+    case Routes.SuggestRecommendedDetail: {
+      return <SuggestRecommendedDetail {...props} />;
     }
 
     case Routes.SuggestListingForm: {

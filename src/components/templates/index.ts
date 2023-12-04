@@ -76,6 +76,7 @@ export { default as SuggestDetail } from './SuggestDetail';
 export { default as SuggestListingForm } from './SuggestListingForm';
 export { default as SuggestListings } from './SuggestListings';
 export { default as SuggestRecommendedList } from './SuggestRecommendedList';
+export { default as SuggestRecommendedDetail } from './SuggestRecommendedDetail';
 
 export { default as MySuggestDetail } from './MySuggestDetail';
 export { default as ListingManage } from './ListingManage';
