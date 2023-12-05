@@ -26,7 +26,7 @@ export default function SuggestRecommendedList({
       </NavigationHeader>
 
       {suggestRecommendedList?.length ? (
-        <div tw="flex-1 min-h-0 overflow-auto pt-6 pb-10 flex flex-col gap-5">
+        <div tw="flex-1 min-h-0 overflow-auto pb-10 flex flex-col gap-5">
           <InfiniteScroll onNext={onNextListing} tw="overflow-y-visible">
             <div tw="flex flex-col">
               {suggestRecommendedList?.map((item) => (
