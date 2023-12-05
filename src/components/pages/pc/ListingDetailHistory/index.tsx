@@ -1,11 +1,14 @@
 import { Panel } from '@/components/atoms';
-import { memo } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
 import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
 import Routes from '@/router/routes';
 import { BiddingStatus } from '@/constants/enums';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+import cancelBidding from '@/apis/bidding/cancelBidding';
+import { toast } from 'react-toastify';
 
 interface Props {
   depth: number;
@@ -16,6 +19,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const nextRouter = useNextRouter();
   const chatRoomRouter = useRouter(1);
+
+  const [open, setOpen] = useState(false);
+
   const { data } = useAPI_GetMyParticipatedListingDetail(
     Number(router.query.listingID),
     Number(router.query.biddingID),
@@ -92,6 +98,24 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   };
 
+  const handleCancelBidding = useCallback(async () => {
+    const listingID = router?.query?.listingID;
+    const biddingID = router?.query?.biddingID;
+
+    if (listingID && biddingID) {
+      await cancelBidding(Number(listingID), Number(biddingID));
+
+      toast.success('제안을 취소하였습니다.');
+
+      if (nextRouter?.query?.back) {
+        nextRouter.replace(nextRouter.query.back as string);
+      } else {
+        router.replace(Routes.MyParticipatingListings, { searchParams: { tab: '4' } });
+        // router.pop();
+      }
+    }
+  }, [nextRouter, router]);
+
   return (
     <Panel width={panelWidth}>
       <ListingDetailHistoryTemplate
@@ -145,7 +169,21 @@ export default memo(({ depth, panelWidth }: Props) => {
         etcs={data?.etcs ?? ''}
         remainingAmountPaymentTime={data?.remaining_amount_payment_time ?? ''}
         remainingAmountPaymentTimeType={data?.remaining_amount_payment_time_type ?? 0}
+        openPopup={() => setOpen(true)}
       />
+      {open && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6 [text-align: center]">
+              <Popup.SmallTitle>제안을 취소하시겠습니까?</Popup.SmallTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpen(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleCancelBidding}>제안 취소하기</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });
