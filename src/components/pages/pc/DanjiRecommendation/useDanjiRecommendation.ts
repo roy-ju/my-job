@@ -227,7 +227,7 @@ export default function useDanjiRecommendationForm(depth: number) {
     setMoveInDateType('이전');
     setDescription('');
     setOpenResetPopup(false);
-    setPyoungInputValue("")
+    setPyoungInputValue('');
     setEmptyTextFields({
       price: false,
       investAmount: false,
@@ -481,6 +481,10 @@ export default function useDanjiRecommendationForm(depth: number) {
     }
 
     if (currentForm === Forms.Option) {
+      if (pyoungList.length === 0) {
+        setNextButtonDisabled(true);
+      }
+
       if (interviewAvailabletimes.length === 0) {
         setNextButtonDisabled(true);
       }

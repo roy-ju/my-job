@@ -409,7 +409,7 @@ export default function useDanjiRecommendation() {
       setTimeout(() => {
         if (router.query.params) {
           formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }else{
+        } else {
           formElement.scrollIntoView({ behavior: 'smooth' });
         }
       }, 100);
@@ -468,6 +468,10 @@ export default function useDanjiRecommendation() {
     }
 
     if (currentForm === Forms.Option) {
+      if (pyoungList.length === 0) {
+        setNextButtonDisabled(true);
+      }
+
       if (interviewAvailabletimes.length === 0) {
         setNextButtonDisabled(true);
       }
