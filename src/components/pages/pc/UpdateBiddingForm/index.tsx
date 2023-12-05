@@ -1,7 +1,7 @@
 import { Loading, Panel } from '@/components/atoms';
 import { BiddingForm } from '@/components/templates';
 import { memo } from 'react';
-import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import useUpdateBiddingForm from './useUpdateBiddingForm';
 
 interface Props {
@@ -40,11 +40,8 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     nextButtonDisabled,
     getBackButtonHandler,
-    handleCancelBidding,
-    handleClickNext,
 
-    popup,
-    setPopup,
+    handleClickNext,
   } = useUpdateBiddingForm(depth);
 
   return (
@@ -75,21 +72,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           onChangeEtcs={handleChangeEtcs}
           description={description}
           onChangeDescription={handleChangeDescription}
-          onClickCancelBidding={() => setPopup('cancelBidding')}
         />
-      )}
-      {popup === 'cancelBidding' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-10">
-              <Popup.Title>제안을 취소하시겠습니까?</Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleCancelBidding}>제안 취소하기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
       )}
     </Panel>
   );
