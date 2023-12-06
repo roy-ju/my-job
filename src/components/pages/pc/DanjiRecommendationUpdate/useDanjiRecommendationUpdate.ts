@@ -20,7 +20,7 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
 
   const danjiID = data?.danji_id ?? null;
 
-  const { mutate:listMutate } = useAPI_GetDanjiSuggestList({ danjiId: danjiID, pageSize: 4 });
+  const { mutate: listMutate } = useAPI_GetDanjiSuggestList({ danjiId: danjiID, pageSize: 4 });
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [price, setPrice] = useState('');
