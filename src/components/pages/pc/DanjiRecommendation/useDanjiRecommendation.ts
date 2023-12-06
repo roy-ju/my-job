@@ -205,6 +205,10 @@ export default function useDanjiRecommendationForm(depth: number) {
     setNextForm(Forms.Option);
   }, [setNextForm]);
 
+  const handleSubmitOption = useCallback(() => {
+    setNextForm(Forms.Interview);
+  }, [setNextForm]);
+
   const onClosePopup = useCallback(() => {
     setOpenResetPopup(false);
   }, []);
@@ -267,15 +271,6 @@ export default function useDanjiRecommendationForm(depth: number) {
       return;
     }
 
-    // area
-
-    if (!pyoungList.length) {
-      const form = document.getElementById(Forms.Area);
-      form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('평수를 선택해 주세요.');
-      return;
-    }
-
     // move in date
     if (purpose !== '투자' && !moveInDate) {
       if (buyOrRent === BuyOrRent.Buy) {
@@ -291,9 +286,16 @@ export default function useDanjiRecommendationForm(depth: number) {
       return;
     }
 
+    if (!pyoungList.length) {
+      const form = document.getElementById(Forms.Option);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('평수를 선택해 주세요.');
+      return;
+    }
+
     // interviewAvailabletimes
     if (interviewAvailabletimes.length === 0) {
-      const form = document.getElementById(Forms.Option);
+      const form = document.getElementById(Forms.Interview);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('인터뷰 가능 시간대를 선택해 주세요.');
       return;
@@ -374,14 +376,27 @@ export default function useDanjiRecommendationForm(depth: number) {
       case Forms.MoveInDate:
         handleSubmitMoveInDate();
         break;
+
       case Forms.Option:
+        handleSubmitOption();
+        break;
+
+      case Forms.Interview:
         handleSubmitFinal();
         break;
 
       default:
         break;
     }
-  }, [forms, handleSubmitDanji, handleSubmitBuyOrRent, handleSubmitPurpose, handleSubmitMoveInDate, handleSubmitFinal]);
+  }, [
+    forms,
+    handleSubmitDanji,
+    handleSubmitBuyOrRent,
+    handleSubmitPurpose,
+    handleSubmitMoveInDate,
+    handleSubmitFinal,
+    handleSubmitOption,
+  ]);
 
   const handleClickBack = useCallback(() => {
     if (router.query.back === 'true' && router.query.redirect)
@@ -430,6 +445,7 @@ export default function useDanjiRecommendationForm(depth: number) {
   // 버튼 비활성화 로직
   useIsomorphicLayoutEffect(() => {
     setNextButtonDisabled(false);
+
     const currentForm = forms[forms.length - 1];
 
     if (currentForm === Forms.Danji) {
@@ -448,12 +464,6 @@ export default function useDanjiRecommendationForm(depth: number) {
       }
 
       if (buyOrRent !== BuyOrRent.Buy && !price) {
-        setNextButtonDisabled(true);
-      }
-    }
-
-    if (currentForm === Forms.Area) {
-      if (!pyoungList.length) {
         setNextButtonDisabled(true);
       }
     }
@@ -484,7 +494,9 @@ export default function useDanjiRecommendationForm(depth: number) {
       if (pyoungList.length === 0) {
         setNextButtonDisabled(true);
       }
+    }
 
+    if (currentForm === Forms.Interview) {
       if (interviewAvailabletimes.length === 0) {
         setNextButtonDisabled(true);
       }
@@ -605,11 +617,6 @@ export default function useDanjiRecommendationForm(depth: number) {
 
     handleOpenDanjiList,
     handleCloseDanjiList,
-    handleSubmitDanji,
-    handleSubmitBuyOrRent,
-    handleSubmitMoveInDate,
-    handleSubmitPurpose,
-    handleSubmitFinal,
 
     handleClickNext,
     handleClickBack,

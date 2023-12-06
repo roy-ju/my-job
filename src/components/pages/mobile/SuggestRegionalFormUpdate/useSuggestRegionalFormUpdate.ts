@@ -213,10 +213,12 @@ export default function useSuggestRegionalFormUpdate() {
 
     if (!price) return;
 
+     if (realestateType?.includes(RealestateType.Apartment) && (!minArea || !maxArea)) return;
+
     if (interviewAvailabletimes.length === 0) return;
 
     setNextButtonDisabled(false);
-  }, [realestateType, purpose, investAmount, moveInDate, price, interviewAvailabletimes]);
+  }, [realestateType, purpose, investAmount, moveInDate, price, interviewAvailabletimes, minArea, maxArea]);
 
   return {
     targetText: data?.request_target_text,

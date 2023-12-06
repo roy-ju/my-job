@@ -28,6 +28,7 @@ export const FormsInfo = {
   Purpose: 'purpose',
   MoveInDate: 'moveInDate',
   Option: 'option',
+  Interview: 'interview',
 } as const;
 
 export type Popup = 'bubjungdongChange' | 'buyOrRentChange' | 'isQuit' | 'none';

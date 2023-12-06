@@ -4,7 +4,7 @@ import { useRouter as useNextRouter } from 'next/router';
 
 import { useRouter } from '@/hooks/utils';
 
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
@@ -74,6 +74,12 @@ export default function useFormCTA() {
       }
 
       if (currentForm === FormsInfo.Option) {
+        if (formData?.realestateType?.includes(RealestateType.Apartment) && (!formData?.minArea || !formData.maxArea)) {
+          setNextButtonDisabled(true);
+        }
+      }
+
+      if (currentForm === FormsInfo.Interview) {
         if (!formData?.interviewAvailabletimes || formData?.interviewAvailabletimes?.length === 0) {
           setNextButtonDisabled(true);
         }
@@ -132,13 +138,18 @@ export default function useFormCTA() {
       return;
     }
 
+    if (formData?.realestateType.includes(RealestateType.Apartment)&& (!formData?.minArea || !formData?.maxArea)) {
+      errorHandlingWithElement({ elementID: FormsInfo.Option, errorMessage: '관심있는 평수를 입력해 주세요.' });
+      return;
+    }
+
     if (formData?.minArea && formData?.maxArea && Number(formData.minArea) > Number(formData.maxArea)) {
       errorHandlingWithElement({ elementID: FormsInfo.Option, errorMessage: '최소 면적이 최대 면적보다 큽니다.' });
       return;
     }
 
     if (!formData?.interviewAvailabletimes || formData.interviewAvailabletimes.length === 0) {
-      errorHandlingWithElement({ elementID: FormsInfo.Option, errorMessage: '인터뷰 가능 시간대를 선택해 주세요.' });
+      errorHandlingWithElement({ elementID: FormsInfo.Interview, errorMessage: '인터뷰 가능 시간대를 선택해 주세요.' });
       return;
     }
 
@@ -214,8 +225,11 @@ export default function useFormCTA() {
           break;
 
         case FormsInfo.Option:
-          handleSubmit();
+          dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.Interview });
+          break;
 
+        case FormsInfo.Interview:
+          handleSubmit();
           break;
 
         default:

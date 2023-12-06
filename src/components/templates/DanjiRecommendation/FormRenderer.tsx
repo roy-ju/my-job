@@ -5,15 +5,11 @@ import FormContext from './FormContext';
 
 export const Forms = {
   Danji: 'danji',
-  RealestateType: 'realestateType',
   BuyOrRent: 'buyOrRent',
-  Price: 'price',
-  Area: 'area',
-  InvestAmount: 'investAmount',
   Purpose: 'purpose',
-  Description: 'description',
   MoveInDate: 'moveInDate',
   Option: 'option',
+  Interview: 'interview',
 };
 
 interface Props {
@@ -170,6 +166,12 @@ export default function FormRenderer({ form }: Props) {
               buyOrRent={buyOrRent}
             />
           </div>
+        </div>
+      );
+
+    case Forms.Interview:
+      return (
+        <div id={Forms.Interview}>
           <div tw="pb-10 px-5">
             <DanjiRecommendationForm.Interview
               interviewAvailabletimes={interviewAvailabletimes}

@@ -37,7 +37,9 @@ export default function Area({
     <>
       <div>
         <span tw="text-b1 font-bold">
-          {isShowDanjiRealPricesPyoungList ? '원하는 평형을 모두 선택해 주세요.' : '원하는 평형을 입력해 주세요.'}
+          {isShowDanjiRealPricesPyoungList
+            ? '원하는 평형을 모두 선택해 주세요. (복수 선택 가능)'
+            : '원하는 평형을 입력해 주세요.'}
         </span>
       </div>
       <div tw="flex flex-col pt-4 gap-4">
