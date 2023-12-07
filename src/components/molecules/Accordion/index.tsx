@@ -64,9 +64,9 @@ function AccordionSummary({
       {!hideArrow && (
         <div css={[tw`transition-transform`, expanded && tw`rotate-180`]}>
           {isNewIconSmall ? (
-            <ArrowDownDeepgray />
+            <ArrowDownDeepgray tw="rotate-180" />
           ) : isNewIconSmallV2 ? (
-            <ArrowDownLightgray />
+            <ArrowDownLightgray tw="rotate-180" />
           ) : isNewIcon ? (
             <ChevronDownNew />
           ) : (
