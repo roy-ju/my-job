@@ -172,7 +172,7 @@ export default function FormRenderer({ form }: Props) {
     case Forms.Interview:
       return (
         <div id={Forms.Interview}>
-          <div tw="pb-10 px-5">
+          <div tw="py-10 px-5">
             <DanjiRecommendationForm.Interview
               interviewAvailabletimes={interviewAvailabletimes}
               onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}

@@ -78,7 +78,7 @@ export default function FormRenderer({ form }: Props) {
     case FormsInfo.Interview:
       return (
         <div id={FormsInfo.Interview}>
-          <div tw="pb-10 px-5">
+          <div tw="py-10 px-5">
             <SuggestRegionalForm.Interview />
           </div>
         </div>
