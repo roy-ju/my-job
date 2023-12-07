@@ -43,6 +43,7 @@ export default function ChatRoomDetailsAccordionV2({
           if (v) {
             setOpen(v);
           } else {
+            setOpen(false);
             setSubTab(0);
           }
         }}

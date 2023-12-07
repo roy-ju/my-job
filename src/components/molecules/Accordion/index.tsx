@@ -1,5 +1,5 @@
 import { useControlled } from '@/hooks/utils';
-import { HTMLProps, ReactNode, useCallback, useContext, useMemo } from 'react';
+import React, { HTMLProps, ReactNode, useCallback, useContext, useMemo } from 'react';
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
 import ChevronDownNew from '@/assets/icons/chevron_down.svg';
 
@@ -98,4 +98,32 @@ function AccordionDetails({ children, ...others }: HTMLProps<HTMLDivElement>) {
   );
 }
 
-export default Object.assign(Accordion, { Summary: AccordionSummary, Details: AccordionDetails });
+type Ref = HTMLDivElement;
+
+const AccordionDetailsV2 = React.forwardRef<Ref, HTMLProps<HTMLDivElement>>(({ children, ...others }, ref) => {
+  const { expanded } = useContext(AccordionContext);
+
+  return (
+    <AnimatePresence initial={false}>
+      {expanded && (
+        <motion.div
+          initial={{ height: 0 }}
+          animate={{ height: 'auto' }}
+          exit={{ height: 0 }}
+          transition={{ type: 'just' }}
+          tw="overflow-hidden"
+        >
+          <div ref={ref} {...others}>
+            {children}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+});
+
+export default Object.assign(Accordion, {
+  Summary: AccordionSummary,
+  Details: AccordionDetails,
+  DetailsV2: AccordionDetailsV2,
+});
