@@ -19,6 +19,7 @@ export function BuyerSellerSummary() {
           setOpen(v);
         } else {
           setSubTab(0);
+          setOpen(v);
         }
       }}
     >

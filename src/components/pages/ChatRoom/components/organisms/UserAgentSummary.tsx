@@ -21,6 +21,7 @@ export function UserAgentSummary() {
           setOpen(v);
         } else {
           setSubTab(0);
+          setOpen(v);
         }
       }}
     >
