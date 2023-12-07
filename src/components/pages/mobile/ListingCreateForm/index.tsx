@@ -207,7 +207,7 @@ const ListingCreateForm = () => {
         onChangeVerandaRemodelling={handleChangeVerandaRemodelling}
         extraOptions={extraOptions}
         onChangeExtraOptions={handleChangeExtraOptions}
-        listingOptions={listingOptions}
+        listingOptions={listingOptions.filter((ele) => ele?.name !== '베란다 확장' && ele?.name !== '2년 내 올수리')}
         hasRentArea={hasRentArea}
         onChangeHasRentArea={handleChangeHasRentArea}
         rentArea={rentArea}
