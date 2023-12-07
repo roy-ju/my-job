@@ -160,7 +160,7 @@ export default function FormRenderer({ form }: Props) {
               buyOrRent={buyOrRent}
             />
           </div>
-          <div tw="pb-10 px-5">
+          <div tw="py-10 px-5">
             <SuggestRegionalForm.Interview
               interviewAvailabletimes={interviewAvailabletimes}
               onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
