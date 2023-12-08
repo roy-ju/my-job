@@ -48,6 +48,7 @@ export default function useSuggestListItemCTAHandler() {
   const onClickDeleteSuggestRecommendItem = async (suggestRecommendId: number) => {
     await deleteSuggestRecommend(suggestRecommendId);
     await value?.mutate();
+    toast.success('추천이 삭제되었습니다.');
   };
 
   const onClickRecommendAccept = async (request: {

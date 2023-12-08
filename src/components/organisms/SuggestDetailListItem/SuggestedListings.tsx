@@ -7,6 +7,7 @@ import { describeBuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
 import { isNumber } from 'lodash';
 
 import React, { useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
 
 type Props = {
   list?: GetMyRecommendedListResponse['list'];
@@ -54,6 +55,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
     async (id: number) => {
       await cancelMySuggestRecommend(id);
       await onMutate?.();
+      toast.success('추천이 취소되었습니다.');
       handlePopup(false);
     },
     [handlePopup, onMutate],
