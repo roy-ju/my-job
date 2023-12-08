@@ -60,6 +60,7 @@ export default memo(() => {
       return;
     }
     await deleteMySuggestRecommend(suggestRecommendID);
+    toast.success('추천이 삭제되었습니다.');
     mutate();
   };
 
@@ -97,7 +98,7 @@ export default memo(() => {
                 onClick={async () => {
                   await cancelMySuggestRecommend(targetDeleteOrCancelID.current);
                   nextRouter.replace(`/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`);
-                  toast.success('요청 카드가 삭제되었습니다.');
+                  toast.success('추천이 취소되었습니다.');
                 }}
               >
                 추천 취소
@@ -125,7 +126,7 @@ export default memo(() => {
                   await deleteMySuggestRecommend(targetDeleteOrCancelID.current);
                   nextRouter.replace(`/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`);
 
-                  toast.success('요청 카드가 삭제되었습니다.');
+                  toast.success('추천이 삭제되었습니다.');
                 }}
               >
                 삭제
