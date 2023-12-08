@@ -13,9 +13,11 @@ import tw from 'twin.macro';
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
-import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
 import NaverLogo from '@/assets/icons/naver_logo.svg';
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -29,6 +31,11 @@ export default function ActiveListingInfo({
 }) {
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
+
+  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
+  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
+
+  const { data: userData } = useAPI_GetUserInfo();
 
   const { mobileNaverURL } = useAPI_GetDanjiNaver({ danjiId: danji?.danji_id });
 
@@ -101,24 +108,68 @@ export default function ActiveListingInfo({
     [router, danji],
   );
 
-  const handleCreateListing = useCallback(() => {
-    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
-      danji?.danji_id || router?.query?.danjiID || ''
-    }`;
+  const handleCreateListing = useCallback(async () => {
+    if (!userData) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
 
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}?redirect=${redirectURL}`);
-  }, [danji?.danji_id, router]);
+    if (!userData.is_verified) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
+    if (!userData?.has_address) {
+      setOpenVerificationAddressPopup(true);
+      return;
+    }
+
+    if (userData?.has_address) {
+      const res = await listingEligibilityCheck({ danji_id: danji?.danji_id });
+
+      if (res && !res?.is_eligible) {
+        setOpenNeedMoreVerificationAddressPopup(true);
+        return;
+      }
+
+      if (res && res?.is_eligible) {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+          query: {
+            origin: router.asPath,
+            ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
+          },
+        });
+      }
+    }
+  }, [danji?.danji_id, router, userData]);
 
   const handleCreateSuggest = useCallback(() => {
+    const danjiID = `${danji?.danji_id}` || router?.query?.danjiID || '';
+
     const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
       danji?.danji_id || router?.query?.danjiID || ''
     }`;
 
-    router.push(
-      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${
-        danji?.danji_id || router?.query?.danjiID || ''
-      }&redirect=${redirectURL}&entry=danji`,
-    );
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
+      query: {
+        ...(danjiID ? { danjiID } : {}),
+        entry: 'danji',
+        redirect: redirectURL,
+        origin: router.asPath,
+      },
+    });
   }, [danji?.danji_id, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
@@ -147,7 +198,7 @@ export default function ActiveListingInfo({
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await danjiSuggestEligibilityCheck(code);
+      const response = await suggestEligibilityCheck(code);
 
       if (response && response.eligible) {
         setIsRecommendationService(true);
@@ -308,7 +359,7 @@ export default function ActiveListingInfo({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
-          tw="flex items-center fixed bottom-0 [z-index: 100000] pt-4 px-5 [padding-bottom: 42px] gap-3 bg-white w-full shadow max-w-mobile"
+          tw="flex items-center fixed bottom-0 [z-index: 100000] pt-4 px-5 [padding-bottom: 42px] gap-3 bg-white w-full shadow"
         >
           <Button variant="outlined" tw="flex-1" onClick={handleCreateListing} size="bigger">
             매물 등록
@@ -328,6 +379,70 @@ export default function ActiveListingInfo({
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => handleClosePopup('impossibleRecommendataion')}>
                 확인
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                이 단지의 집주인만 매물등록이 가능합니다.
+                <br />
+                우리집을 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenVerificationAddressPopup(false);
+                  router.push({
+                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+                    query: {
+                      origin: router.asPath,
+                      ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
+                    },
+                  });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openNeedMoreVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                추가로 매물등록이 가능한 우리집 정보가 없습니다.
+                <br />
+                우리집을 추가 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenNeedMoreVerificationAddressPopup(false);
+                  router.push({
+                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+                    query: {
+                      origin: router.asPath,
+                      ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
+                    },
+                  });
+                }}
+              >
+                인증하기
               </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>

@@ -63,7 +63,7 @@ export default function DanjiPhotos({
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>
-          단지 사진ff <span tw="text-nego-1000 font-bold">{danjiPhotos?.danji_photos?.length || 0}</span>
+          단지 사진<span tw="text-nego-1000 font-bold">{danjiPhotos?.danji_photos?.length || 0}</span>
         </NavigationHeader.Title>
       </NavigationHeader>
       <div tw="overflow-auto pb-5">

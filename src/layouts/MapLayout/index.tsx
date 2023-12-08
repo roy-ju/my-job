@@ -8,7 +8,10 @@ import Routes from '@/router/routes';
 import PcGlobalStyles from '@/styles/PcGlobalStyles';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import useSyncronizer from '@/states/syncronizer';
-import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
+
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -68,12 +71,18 @@ function MapWrapper({
     ...props
   } = useMapLayout();
 
-  const { depth, popLast, replace } = useRouter(0);
+  const { data: userData } = useAPI_GetUserInfo();
+
+  const { depth, popLast, replace, asPath } = useRouter(0);
 
   const [openPopup, setOpenPopup] = useState(false);
 
+  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
+
+  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
+
   const handleClickSuggestRegional = useCallback(async () => {
-    const response = await danjiSuggestEligibilityCheck(bubjungdongCode);
+    const response = await suggestEligibilityCheck(bubjungdongCode);
 
     if (response && !response.eligible) {
       setOpenPopup(true);
@@ -81,13 +90,15 @@ function MapWrapper({
     }
 
     if (centerAddress.join('') !== '') {
-      replace(Routes.SuggestRegionalForm, {
+      replace(Routes.RecommendGuide, {
         searchParams: {
+          entry: 'map',
           address: centerAddress.join(' '),
+          back: '/',
         },
       });
     } else {
-      replace(Routes.SuggestRegionalForm);
+      replace(Routes.RecommendGuide, { searchParams: { entry: 'map', back: '/' } });
     }
   }, [centerAddress, replace, bubjungdongCode]);
 
@@ -95,9 +106,46 @@ function MapWrapper({
     replace(Routes.MapListingList);
   }, [replace]);
 
-  const handleClickListingCreateAddress = useCallback(() => {
-    replace(Routes.ListingCreateAddress);
-  }, [replace]);
+  const handleClickListingCreateAddress = useCallback(async () => {
+    if (!userData) {
+      replace(Routes.Login, {
+        persistParams: true,
+        searchParams: { redirect: `${asPath}` },
+      });
+
+      return;
+    }
+
+    if (!userData.is_verified) {
+      replace(Routes.VerifyCi, {
+        persistParams: true,
+        searchParams: { redirect: `${asPath}` },
+      });
+      return;
+    }
+
+    if (!userData?.has_address) {
+      setOpenVerificationAddressPopup(true);
+      return;
+    }
+
+    if (userData?.has_address) {
+      const res = await listingEligibilityCheck({ danji_id: null });
+
+      if (res && !res?.is_eligible) {
+        setOpenNeedMoreVerificationAddressPopup(true);
+        return;
+      }
+
+      if (res && res?.is_eligible) {
+        replace(Routes.ListingSelectAddress, {
+          searchParams: {
+            origin: asPath,
+          },
+        });
+      }
+    }
+  }, [asPath, replace, userData]);
 
   const handleClickAgentSite = useCallback(() => {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
@@ -207,14 +255,62 @@ function MapWrapper({
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                해당 지역은 서비스 준비중입니다.
-                <br />
-                경기, 서울, 인천 지역에서 시도해 주세요.
-              </Popup.SubTitle>
+              <Popup.SubTitle>해당 지역은 서비스 준비중입니다.</Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => setOpenPopup(false)}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                매물등록을 위해서는 집주인 인증이 필요합니다.
+                <br />
+                우리집을 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenVerificationAddressPopup(false);
+                  replace(Routes.MyAddress, { searchParams: { origin: asPath } });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openNeedMoreVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                추가로 매물등록이 가능한 우리집 정보가 없습니다.
+                <br />
+                우리집을 추가 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenNeedMoreVerificationAddressPopup(false);
+                  replace(Routes.MyAddress, { searchParams: { origin: asPath } });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

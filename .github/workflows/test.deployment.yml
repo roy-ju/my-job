@@ -17,6 +17,7 @@ env:
   NEGOCIO_CHAT_PHOTO: https://negocio-chat-photos.s3.ap-northeast-2.amazonaws.com
   NAVER_MAP_URL: https://map.naver.com/v5/entry/address
   NAVER_SITE_VERIFICATION: 06f93a7407b9c3b68099b33bf28b4c70ec8bb8ba
+  NEGOCIO_DELETED_PROFILE_IMG_PATH: https://negocio-common.s3.ap-northeast-2.amazonaws.com/random_profiles/random_profile_1.png
   GA_TRACKING_ID: G-X5831H4W14
   GTM_ID: GTM-MQPT86G
 jobs:
@@ -54,6 +55,7 @@ jobs:
           NEXT_PUBLIC_NEGOCIO_REST_API_BASE_URL=${{ env.NEGOCIO_REST_API_BASE_URL }} \n \
           NEXT_PUBLIC_NEGOCIO_WEBSOCKET_BASE_URL=${{ env.NEGOCIO_WEBSOCKET_BASE_URL }} \n \
           NEXT_PUBLIC_APP_ENVIRONMENT=${{ env.NEGOCIO_APP_ENVIRONMENT }} \n \
+          NEXT_PUBLIC_NEGOCIO_DELETED_PROFILE_IMG_PATH=${{ env.NEGOCIO_DELETED_PROFILE_IMG_PATH }} \n \
           NEXT_PUBLIC_NAVER_SITE_VERIFICATION=${{ env.NAVER_SITE_VERIFICATION }} \n \
           NEXT_PUBLIC_NEGOCIO_CHAT_PHOTO=${{ env.NEGOCIO_CHAT_PHOTO }} \n \
           NEXT_PUBLIC_NAVER_MAP_URL=${{ env.NAVER_MAP_URL }} \n \

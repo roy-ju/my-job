@@ -46,8 +46,6 @@ function getKey(
       page_size: pageSize,
       page_number: pageIndex + 1,
     },
-    null,
-    { revalidateIfStale: false, revalidateOnFocus: false },
   ];
 }
 

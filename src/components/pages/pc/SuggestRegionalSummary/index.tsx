@@ -16,6 +16,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const nextRouter = useNextRouter();
   const router = useRouter(depth);
+
   const [isCreating, setIsCreating] = useState(false);
 
   const { mutate } = useAPI_GetDashboardInfo();
@@ -70,6 +71,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           moveInDate={params?.move_in_date}
           moveInDateType={params?.move_in_date_type}
           investAmount={params?.invest_amount}
+          interviewAvailabletimes={params?.interview_available_times}
           negotiable={params?.negotiable}
         />
       </Panel>

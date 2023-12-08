@@ -8,7 +8,6 @@ interface Props {
   data?: GetSuggestDetailResponse;
 
   address?: string;
-  onChangeAddress?: (val: string) => void;
 
   buyOrRent?: number;
   onChangeBuyOrRent?: (val: number | undefined) => void;
@@ -45,7 +44,6 @@ export default function SuggestListingForm({
   data,
 
   address,
-  onChangeAddress,
 
   buyOrRent,
   onChangeBuyOrRent,
@@ -92,7 +90,6 @@ export default function SuggestListingForm({
           <Separator tw="bg-gray-300" />
           <SuggestListingFormOrganisms.Form
             address={address}
-            onChangeAddress={onChangeAddress}
             buyOrRent={buyOrRent}
             onChangeBuyOrRent={onChangeBuyOrRent}
             tradePrice={tradePrice}

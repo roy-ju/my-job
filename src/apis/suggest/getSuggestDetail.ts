@@ -29,6 +29,7 @@ export interface GetSuggestDetailResponse {
   my_suggest: boolean;
   has_active_chat_room: boolean;
   view_count: number;
+  interview_available_times: string;
 }
 
 export default function useAPI_GetSuggestDetail(suggestID: number | undefined | null) {

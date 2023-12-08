@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationHeader } from '@/components/molecules';
 import BellIcon from '@/assets/icons/bell.svg';
-import { LoginRequired, MyListingsSummary, MyPageNavigationList, MySummary } from '@/components/organisms';
+import { LoginRequired, MyListingsSummaryV3, MyPageNavigationList, MySummary } from '@/components/organisms';
 import { Loading, Separator } from '@/components/atoms';
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
@@ -12,6 +12,9 @@ interface Props {
   profileImageUrl?: string;
   unreadNotificationCount?: number;
   dashboardInfo?: GetDashboardInfoResponse | null;
+  tab?: number;
+  hasAddress?: boolean;
+  hasNotVerifiedAddress?: boolean;
   onClickLogin?: () => void;
   onClickNotificationList?: () => void;
   onClickMyDetail?: () => void;
@@ -25,10 +28,11 @@ interface Props {
   onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
   onClickMyParticipatingListings?: (params: number) => void;
-  onClickRecommendationForm?: () => void;
   onClickRequestedSuggests?: () => void;
   onClickSuggestRecommendedList?: () => void;
   onClickDeveloper?: () => void;
+  onClickTab?: (val: 1 | 2) => void;
+  onClickMyRegisteredHomes?: () => void;
 }
 
 export default function My({
@@ -38,6 +42,9 @@ export default function My({
   profileImageUrl,
   unreadNotificationCount = 0,
   dashboardInfo,
+  tab,
+  hasAddress,
+  hasNotVerifiedAddress,
   onClickLogin,
   onClickNotificationList,
   onClickMyDetail,
@@ -51,10 +58,11 @@ export default function My({
   onClickMyAddress,
   onClickMyRegisteredListings,
   onClickMyParticipatingListings,
-  onClickRecommendationForm,
   onClickRequestedSuggests,
   onClickSuggestRecommendedList,
   onClickDeveloper,
+  onClickTab,
+  onClickMyRegisteredHomes,
 }: Props) {
   return (
     <div tw="flex flex-col h-full">
@@ -79,6 +87,7 @@ export default function My({
             <Loading />
           </div>
         )}
+
         {!isLoading && loggedIn && (
           <>
             <MySummary
@@ -88,25 +97,34 @@ export default function My({
               onClickCoupons={onClickCoupons}
               onClickNegoPoint={onClickNegoPoint}
             />
-            <MyListingsSummary
+
+            <MyListingsSummaryV3
               dashboardInfo={dashboardInfo}
               onClickMyAddress={onClickMyAddress}
               onClickMyRegisteredListings={onClickMyRegisteredListings}
               onClickMyParticipatingListings={onClickMyParticipatingListings}
-              onClickRecommendationForm={onClickRecommendationForm}
               onClickRequestedSuggests={onClickRequestedSuggests}
               onClickSuggestRecommendedList={onClickSuggestRecommendedList}
+              tab={tab}
+              hasAddress={hasAddress}
+              hasNotVerifiedAddress={hasNotVerifiedAddress}
+              onClickTab={onClickTab}
+              onClickMyRegisteredHomes={onClickMyRegisteredHomes}
             />
           </>
         )}
+
         {!isLoading && !loggedIn && (
           <div tw="mt-5 mb-14">
             <LoginRequired onClickLogin={onClickLogin} />
           </div>
         )}
         <Separator tw="bg-gray-300" />
+
         {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
+
         {loggedIn && <Separator tw="bg-gray-300" />}
+
         <MyPageNavigationList>
           <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
           <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />

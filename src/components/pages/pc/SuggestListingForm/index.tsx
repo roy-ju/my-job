@@ -1,7 +1,6 @@
 import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { memo, useState, useCallback, useEffect, useMemo } from 'react';
 import { SuggestListingForm } from '@/components/templates';
-import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
 import { BuyOrRent } from '@/constants/enums';
 import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
 import { toast } from 'react-toastify';
@@ -9,6 +8,7 @@ import { useRouter } from '@/hooks/utils';
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 import Routes from '@/router/routes';
+import { OverlayPresenter, Popup } from '@/components/molecules';
 
 interface Props {
   depth: number;
@@ -17,8 +17,6 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-
-  const { data } = useAPI_GetUserAddress();
 
   const suggestID = useMemo(
     () => (router?.query?.suggestID ? Number(router.query.suggestID) : undefined),
@@ -30,14 +28,22 @@ export default memo(({ depth, panelWidth }: Props) => {
     [router?.query?.danjiID],
   );
 
+  const userAddressID = useMemo(
+    () => (router?.query?.userAddressID ? Number(router.query.userAddressID as string) : undefined),
+    [router?.query?.userAddressID],
+  );
+
+  const selectedAddress = useMemo(
+    () => (router?.query?.addressDetail ? (router.query.addressDetail as string) : ''),
+    [router?.query?.addressDetail],
+  );
+
   const { mutate } = useAPI_GetDanjiSuggestList({
     danjiId: danjiID,
     pageSize: 10,
   });
 
   const { data: suggestData, isLoading } = useAPI_GetSuggestDetail(suggestID);
-
-  const [address, setAddress] = useState<string>('');
 
   const [buyOrRent, setBuyOrRent] = useState<number>();
 
@@ -57,9 +63,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleChangeAddress = useCallback((val: string) => {
-    setAddress(val);
-  }, []);
+  const [showInActivePopup, setShowInActivePopup] = useState(false);
 
   const handleChangeBuyOrRent = useCallback(
     (val: number | undefined) => {
@@ -102,7 +106,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const disabledCTA = useMemo(() => {
     // 주소가 없을 때
-    if (!address) return true;
+    if (!selectedAddress || !userAddressID) return true;
 
     // 거래종류가 없을 때
     if (!buyOrRent) return true;
@@ -117,17 +121,19 @@ export default memo(({ depth, panelWidth }: Props) => {
     if (!description) return true;
 
     return false;
-  }, [address, buyOrRent, description, monthlyRentFee, tradePrice]);
+  }, [userAddressID, selectedAddress, buyOrRent, description, monthlyRentFee, tradePrice]);
 
   const handleCTA = useCallback(async () => {
-    if (!address || !buyOrRent || !description || !suggestID) return;
+    if (!userAddressID || !selectedAddress || !buyOrRent || !description || !suggestID) return;
 
     setLoading(true);
 
     const res = await createSuggestRecommend({
+      user_address_id: userAddressID,
+
       suggest_id: suggestID,
 
-      address_free_text: address,
+      address_free_text: selectedAddress,
 
       buy_or_rent: buyOrRent,
 
@@ -162,13 +168,15 @@ export default memo(({ depth, panelWidth }: Props) => {
       mutate();
 
       router.replace(Routes.SuggestDetail, {
-        searchParams: danjiID
-          ? { suggestID: suggestID.toString(), danjiID: danjiID.toString() }
-          : { suggestID: suggestID.toString() },
+        searchParams: {
+          ...(danjiID ? { danjiID: `${danjiID}` as string } : {}),
+          ...(suggestID ? { suggestID: `${suggestID}` as string } : {}),
+        },
       });
     }
   }, [
-    address,
+    userAddressID,
+    selectedAddress,
     buyOrRent,
     danjiID,
     description,
@@ -182,66 +190,72 @@ export default memo(({ depth, panelWidth }: Props) => {
     tradePrice,
   ]);
 
-  useEffect(() => {
-    if (data?.building_name && !data?.dong) {
-      setAddress(data.building_name);
-      return;
-    }
-
-    if (!data?.building_name && data?.dong) {
-      setAddress(data.dong);
-      return;
-    }
-
-    if (data?.building_name && data?.dong) {
-      setAddress(`${data.building_name} ${data.dong}`);
-      return;
-    }
-
-    if (!data?.building_name && !data?.dong && data?.road_name_address) {
-      setAddress(data.road_name_address);
-    }
-  }, [data?.building_name, data?.dong, data?.road_name_address]);
+  const handleInActivePopupCTA = useCallback(() => {
+    router.popAll();
+  }, [router]);
 
   useEffect(() => {
-    if (data?.floor) {
-      setFloor(data.floor);
+    if (router?.query?.floor) {
+      setFloor(router.query.floor as string);
     }
-  }, [data?.floor]);
+  }, [router?.query?.floor]);
+
+  useEffect(() => {
+    if (!router?.query?.danjiID || !router?.query?.userAddressID || !router?.query?.suggestID) {
+      setShowInActivePopup(true);
+    }
+  }, [router?.query?.danjiID, router?.query?.suggestID, router?.query?.userAddressID]);
 
   return (
     <AuthRequired depth={depth} ciRequired>
       <Panel width={panelWidth}>
-        {isLoading ? (
-          <div tw="py-20">
-            <Loading />
-          </div>
-        ) : suggestData ? (
-          <SuggestListingForm
-            data={suggestData}
-            address={address}
-            onChangeAddress={handleChangeAddress}
-            buyOrRent={buyOrRent}
-            onChangeBuyOrRent={handleChangeBuyOrRent}
-            tradePrice={tradePrice}
-            onChangePrice={handleChangePrice}
-            monthlyRentFee={monthlyRentFee}
-            onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
-            floor={floor}
-            onChangeFloor={handleChangeFloor}
-            pyoungArea={pyoungArea}
-            onChangePyoungArea={handleChangePyoungArea}
-            meterArea={meterArea}
-            onChangeMeterArea={handleChangeMeterArea}
-            direction={direction}
-            onChangeDirection={handleChangeDirection}
-            description={description}
-            onChangeDescription={handleChangeDescription}
-            loading={loading}
-            disabledCTA={disabledCTA}
-            handleCTA={handleCTA}
-          />
-        ) : null}
+        {!showInActivePopup &&
+          (isLoading ? (
+            <div tw="py-20">
+              <Loading />
+            </div>
+          ) : suggestData ? (
+            <SuggestListingForm
+              data={suggestData}
+              address={selectedAddress}
+              buyOrRent={buyOrRent}
+              onChangeBuyOrRent={handleChangeBuyOrRent}
+              tradePrice={tradePrice}
+              onChangePrice={handleChangePrice}
+              monthlyRentFee={monthlyRentFee}
+              onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+              floor={floor}
+              onChangeFloor={handleChangeFloor}
+              pyoungArea={pyoungArea}
+              onChangePyoungArea={handleChangePyoungArea}
+              meterArea={meterArea}
+              onChangeMeterArea={handleChangeMeterArea}
+              direction={direction}
+              onChangeDirection={handleChangeDirection}
+              description={description}
+              onChangeDescription={handleChangeDescription}
+              loading={loading}
+              disabledCTA={disabledCTA}
+              handleCTA={handleCTA}
+            />
+          ) : null)}
+
+        {showInActivePopup && (
+          <OverlayPresenter>
+            <Popup>
+              <Popup.ContentGroup tw="py-6">
+                <Popup.SubTitle tw="text-center">
+                  현재 로그인 계정으로는
+                  <br />
+                  접근이 불가능한 페이지입니다.
+                </Popup.SubTitle>
+              </Popup.ContentGroup>
+              <Popup.ButtonGroup>
+                <Popup.ActionButton onClick={handleInActivePopupCTA}>네고시오 홈으로 돌아가기</Popup.ActionButton>
+              </Popup.ButtonGroup>
+            </Popup>
+          </OverlayPresenter>
+        )}
       </Panel>
     </AuthRequired>
   );

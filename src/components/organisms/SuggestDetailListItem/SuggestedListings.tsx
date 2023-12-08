@@ -1,4 +1,4 @@
-import { cancelRecommend } from '@/apis/suggest/cancelRecommend';
+import { cancelMySuggestRecommend } from '@/apis/suggest/cancelMySuggestRecommendCancel';
 import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedList';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { Button, Chip, Numeral } from '@/components/atoms';
@@ -52,7 +52,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
 
   const handleCancel = useCallback(
     async (id: number) => {
-      await cancelRecommend(id);
+      await cancelMySuggestRecommend(id);
       await onMutate?.();
       handlePopup(false);
     },
@@ -67,7 +67,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
 
           {item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
 
-          {item.suggest_recommend_status === SuggestRecommendStatus.Completed && <Chip variant="red">거래성사</Chip>}
+          {/* {item.suggest_recommend_status === SuggestRecommendStatus.Completed && <Chip variant="red">거래성사</Chip>} */}
 
           {item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
             <Button

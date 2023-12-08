@@ -6,10 +6,10 @@ interface LoginRequest {
   ipAddress?: string;
   socialLoginType: number;
   token: string;
-  privacyRetentionType?: number;
   marketing?: boolean;
   nickname?: string;
   email?: string;
+  signUpSource?: string;
 }
 
 export interface LoginResponse extends ErrorResponse {
@@ -24,6 +24,7 @@ export interface LoginResponse extends ErrorResponse {
   access_token: string;
   refresh_token: string;
   exp: number;
+  
 }
 
 export default async function login({
@@ -34,8 +35,8 @@ export default async function login({
   token,
   email,
   nickname,
-  privacyRetentionType,
   marketing,
+  signUpSource,
 }: LoginRequest) {
   try {
     const { data } = await axios.post('/user/login/sns', {
@@ -48,8 +49,8 @@ export default async function login({
       // for new registration
       email,
       nickname,
-      privacy_retention_type: privacyRetentionType,
       marketing,
+      signup_source: signUpSource,
     });
     return data as LoginResponse;
   } catch (e) {

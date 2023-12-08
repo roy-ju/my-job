@@ -2,7 +2,7 @@ import { Avatar, Chip, Moment, Numeral } from '@/components/atoms';
 import React, { useMemo } from 'react';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 import tw, { styled } from 'twin.macro';
@@ -12,7 +12,11 @@ import { ExpandableText } from '@/components/molecules';
 const Wrraper = styled('div')``;
 
 function NegotiableChip() {
-  return <div tw="text-white rounded-tl rounded-br text-info font-semibold bg-orange-700 px-1.5 h-5">협의가능</div>;
+  return (
+    <div tw="text-gray-900 rounded text-info [font-size: 11px] bg-white px-1.5 h-5 border border-gray-300">
+      협의가능
+    </div>
+  );
 }
 
 function PriceText({

@@ -9,22 +9,16 @@ interface MyDetailProps {
   name: string;
   phone: string;
   profileImageUrl: string;
-  address: string;
-  addressDetail: string;
-  addressVerified: boolean;
-  privacyRetentionType: string;
   updateNicknameButtonDisabled: boolean;
   isLoading: boolean;
   onClickDeregister: () => void;
   onClickLogout: () => void;
-  onClickUpdateAddress: () => void;
   onClickUpdatePhone: () => void;
   onClickUpdateNickname: () => void;
   onClickUpdateEmail: () => void;
   onClickUpdateProfileImage: (file: File) => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
-  onClickUpdatePrivacyRetentionType?: (newValue: string) => void;
 }
 
 export default function MyDetail({
@@ -33,20 +27,14 @@ export default function MyDetail({
   name,
   phone,
   profileImageUrl,
-  address,
-  addressDetail,
-  addressVerified,
-  privacyRetentionType,
   updateNicknameButtonDisabled,
   isLoading,
   onClickDeregister,
   onClickLogout,
-  onClickUpdateAddress,
   onClickUpdatePhone,
   onClickUpdateNickname,
   onClickUpdateEmail,
   onClickUpdateProfileImage,
-  onClickUpdatePrivacyRetentionType,
   onChangeNickname,
   onClickVerifyCi,
 }: MyDetailProps) {
@@ -77,19 +65,8 @@ export default function MyDetail({
               onClickVerifyCi={onClickVerifyCi}
             />
             <MyDetailForm.Separator />
-            <MyDetailForm.AddressInfo
-              address={address}
-              addressDetail={addressDetail}
-              verified={addressVerified}
-              onClickUpdateAddress={onClickUpdateAddress}
-            />
-            <MyDetailForm.Separator />
             <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
             <MyDetailForm.Separator />
-            <MyDetailForm.PrivacyRetentionInfo
-              value={privacyRetentionType}
-              onChange={onClickUpdatePrivacyRetentionType}
-            />
             <div tw="px-5 mt-10">
               <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
                 회원 탈퇴

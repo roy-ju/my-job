@@ -62,6 +62,10 @@ export default memo(() => {
 
     remainingAmountDateType,
     handleChangeRemainingAmountDateType,
+
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
+
     openResetPopup,
     onClosePopup,
     onConfirmPopup,
@@ -116,6 +120,8 @@ export default memo(() => {
         onChangeRemainingAmountDate={handleChangeRemainingAmountDate}
         remainingAmountDateType={remainingAmountDateType}
         onChangeRemainingAmountDateType={handleChangeRemainingAmountDateType}
+        interviewAvailabletimes={interviewAvailabletimes}
+        onChangeInterviewAvailabletimes={handleChangeInterviewAvailabletimes}
       />
       {isRegionListOpen && (
         <OverlayPresenter>

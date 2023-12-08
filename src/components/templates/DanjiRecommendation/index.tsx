@@ -41,6 +41,9 @@ export default function DanjiRecommendationForm({
   onChangeDescription,
   pyoungInputValue,
   onChangePyoungInputValue,
+  interviewAvailabletimes,
+  onChangeInterviewAvailabletimes,
+
   onClickBack,
   onClickOpenDanjiList,
 
@@ -83,6 +86,8 @@ export default function DanjiRecommendationForm({
       onChangeDescription,
       pyoungInputValue,
       onChangePyoungInputValue,
+      interviewAvailabletimes,
+      onChangeInterviewAvailabletimes,
       onClickOpenDanjiList,
 
       danjiRealPricesPyoungList,
@@ -124,6 +129,8 @@ export default function DanjiRecommendationForm({
       onChangeDescription,
       pyoungInputValue,
       onChangePyoungInputValue,
+      interviewAvailabletimes,
+      onChangeInterviewAvailabletimes,
       onClickOpenDanjiList,
 
       danjiRealPricesPyoungList,

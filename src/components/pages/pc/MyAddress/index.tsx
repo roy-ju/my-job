@@ -1,4 +1,3 @@
-import { useRouter as useNextRouter } from 'next/router';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { MyAddress } from '@/components/templates';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
@@ -13,12 +12,14 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const nextRouter = useNextRouter();
 
   const handleSubmit = useCallback(
     (value: KakaoAddressAutocompleteResponseItem) => {
       router.replace(Routes.MyAddressDetail, {
-        searchParams: router?.query?.redirect ? { redirect: router.query.redirect as string } : undefined,
+        searchParams: {
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+          ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+        },
         state: {
           addressData: JSON.stringify(value),
           ...(router.query.origin
@@ -27,29 +28,27 @@ export default memo(({ depth, panelWidth }: Props) => {
               }
             : {}),
         },
+        persistParams: true,
       });
     },
     [router],
   );
 
   const handleClickBack = useCallback(() => {
-    if (nextRouter.query.origin) {
-      nextRouter.replace(nextRouter.query.origin as string);
-      return;
+    if (router?.query?.redirect && typeof router.query.redirect === 'string') {
+      router.replace(router.query.redirect, {
+        searchParams: {
+          ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+          ...(router?.query?.suggestID ? { suggestID: router.query.suggestID as string } : {}),
+        },
+      });
     }
-
-    if (nextRouter.query.redirect) {
-      nextRouter.replace(nextRouter.query.redirect as string);
-    }
-  }, [nextRouter]);
+  }, [router]);
 
   return (
     <AuthRequired ciRequired depth={depth}>
       <Panel width={panelWidth}>
-        <MyAddress
-          onSubmit={handleSubmit}
-          onClickBack={router.query.origin ? handleClickBack : router.query.redirect ? handleClickBack : undefined}
-        />
+        <MyAddress onSubmit={handleSubmit} onClickBack={router.query.redirect ? handleClickBack : undefined} />
       </Panel>
     </AuthRequired>
   );

@@ -1,4 +1,3 @@
-import { BuyOrRent } from '@/constants/enums';
 import { Panel } from '@/components/atoms';
 import ListingCreateResultStatus from '.';
 
@@ -7,43 +6,6 @@ const meta = {
 };
 
 export default meta;
-
-export const VerifyingAddress = () => (
-  <Panel>
-    <ListingCreateResultStatus.VerifyingAddress />
-  </Panel>
-);
-
-export const InvalidAddress = () => (
-  <Panel>
-    <ListingCreateResultStatus.NoAddressFound
-      addressLine1="경기도 성남시 분당구 동판교로 156"
-      addressLine2="삼평동, 봇들마을9단지 금호어울림 아파트 101동 101호"
-    />
-  </Panel>
-);
-
-export const WaitingForAgentCompletion = () => (
-  <Panel>
-    <ListingCreateResultStatus.WaitingForAgentCompletion />
-  </Panel>
-);
-
-export const Duplicated = () => (
-  <Panel>
-    <ListingCreateResultStatus.Duplicated
-      addressLine1="경기도 성남시 분당구 동판교로 156"
-      addressLine2="삼평동, 봇들마을9단지 금호어울림 아파트 101동 101호"
-      buyOrRent={BuyOrRent.Buy}
-    />
-  </Panel>
-);
-
-export const OwnerConsent = () => (
-  <Panel>
-    <ListingCreateResultStatus.WaitingForOwnerAgreement />
-  </Panel>
-);
 
 const agents = [
   {
@@ -81,5 +43,11 @@ const agents = [
 export const AgentSelection = () => (
   <Panel>
     <ListingCreateResultStatus.AgentSelection agents={agents} />
+  </Panel>
+);
+
+export const WaitingForAgentCompletion = () => (
+  <Panel>
+    <ListingCreateResultStatus.WaitingForAgentCompletion />
   </Panel>
 );

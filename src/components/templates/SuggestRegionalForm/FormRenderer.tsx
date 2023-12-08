@@ -4,10 +4,10 @@ import { useContext } from 'react';
 import FormContext from './FormContext';
 
 export const Forms = {
-  Region: 'region',
-  RealestateType: 'realestateType',
-  BuyOrRent: 'buyOrRent',
-  Price: 'price',
+  // Region: 'region',
+  BasicInfo: 'basicInfo',
+  // BuyOrRent: 'buyOrRent',
+  // Price: 'price',
   Area: 'area',
   Floor: 'floor',
   Purpose: 'purpose',
@@ -62,12 +62,15 @@ export default function FormRenderer({ form }: Props) {
     onChangeDescription,
 
     emptyTextFields,
+
+    interviewAvailabletimes,
+    onChangeInterviewAvailabletimes,
   } = useContext(FormContext);
 
   switch (form) {
-    case Forms.Region:
+    case Forms.BasicInfo:
       return (
-        <div id={Forms.Region}>
+        <div id={Forms.BasicInfo}>
           <div tw="pt-7 pb-10 px-5 flex items-center font-bold [letter-spacing: -0.25px]">
             최소 10명의 중개사님에게 추천 요청이 발송됩니다.
             <br />
@@ -77,12 +80,7 @@ export default function FormRenderer({ form }: Props) {
           <div tw="py-10 px-5">
             <SuggestRegionalForm.Region region={region} onClickOpenRegionList={onClickOpenRegionList} />
           </div>
-        </div>
-      );
-
-    case Forms.RealestateType:
-      return (
-        <div id={Forms.RealestateType}>
+          <Separator />
           <div tw="pt-10 pb-7 px-5">
             <SuggestRegionalForm.RealestateType value={realestateType} onChange={onChangeRealestateType} />
           </div>
@@ -111,21 +109,6 @@ export default function FormRenderer({ form }: Props) {
               onChangeMoveInDate={onChangeMoveInDate}
               moveInDateType={moveInDateType}
               onChangeMoveInDateType={onChangeMoveInDateType}
-            />
-          </div>
-        </div>
-      );
-
-    case Forms.Price:
-      return (
-        <div id={Forms.Price}>
-          <div tw="py-10 px-5">
-            <SuggestRegionalForm.Price
-              buyOrRent={buyOrRent}
-              price={price}
-              onChangePrice={onChangePrice}
-              monthlyRentFee={monthlyRentFee}
-              onChangeMonthlyRentFee={onChangeMonthlyRentFee}
             />
           </div>
         </div>
@@ -175,6 +158,12 @@ export default function FormRenderer({ form }: Props) {
               description={description}
               onChangeDescription={onChangeDescription}
               buyOrRent={buyOrRent}
+            />
+          </div>
+          <div tw="py-10 px-5">
+            <SuggestRegionalForm.Interview
+              interviewAvailabletimes={interviewAvailabletimes}
+              onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
             />
           </div>
         </div>

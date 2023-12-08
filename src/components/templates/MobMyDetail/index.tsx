@@ -10,22 +10,16 @@ interface MyDetailProps {
   name: string;
   phone: string;
   profileImageUrl: string;
-  address: string;
-  addressDetail: string;
-  addressVerified: boolean;
   updateNicknameButtonDisabled: boolean;
   isLoading: boolean;
-  privacyRetentionType: string;
   onClickDeregister: () => void;
   onClickLogout: () => void;
-  onClickUpdateAddress: () => void;
   onClickUpdatePhone: () => void;
   onClickUpdateNickname: () => void;
   onClickUpdateEmail: () => void;
   onClickUpdateProfileImage: (file: File) => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
-  onClickUpdatePrivacyRetentionType: (value: string) => void;
 }
 
 export default function MobMyDetail({
@@ -34,28 +28,22 @@ export default function MobMyDetail({
   name,
   phone,
   profileImageUrl,
-  address,
-  addressDetail,
-  addressVerified,
   updateNicknameButtonDisabled,
   isLoading,
-  privacyRetentionType,
   onClickDeregister,
   onClickLogout,
-  onClickUpdateAddress,
   onClickUpdatePhone,
   onClickUpdateNickname,
   onClickUpdateEmail,
   onClickUpdateProfileImage,
   onChangeNickname,
   onClickVerifyCi,
-  onClickUpdatePrivacyRetentionType,
 }: MyDetailProps) {
   const router = useRouter();
 
   return (
     <>
-      <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+      <div tw="w-full mx-auto h-full flex flex-col bg-white">
         <NavigationHeader>
           <NavigationHeader.BackButton onClick={() => router.back()} />
           <NavigationHeader.Title>회원정보</NavigationHeader.Title>
@@ -82,19 +70,8 @@ export default function MobMyDetail({
                 onClickVerifyCi={onClickVerifyCi}
               />
               <MyDetailForm.Separator />
-              <MyDetailForm.AddressInfo
-                address={address}
-                addressDetail={addressDetail}
-                verified={addressVerified}
-                onClickUpdateAddress={onClickUpdateAddress}
-              />
-              <MyDetailForm.Separator />
               <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
               <MyDetailForm.Separator />
-              <MyDetailForm.PrivacyRetentionInfo
-                value={privacyRetentionType}
-                onChange={onClickUpdatePrivacyRetentionType}
-              />
               <div tw="px-5 mt-10">
                 <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
                   회원 탈퇴

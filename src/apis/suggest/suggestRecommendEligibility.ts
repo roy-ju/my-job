@@ -2,8 +2,6 @@ import axios from '@/lib/axios';
 
 export interface SuggestRecommendEligibilityResponse {
   is_eligible: boolean;
-  had_address: boolean;
-  owner_verified: boolean;
 }
 
 interface SuggestRecommendEligibilityRequest {

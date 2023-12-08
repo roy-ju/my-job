@@ -1,49 +1,49 @@
-import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
+import { NavigationHeader } from '@/components/molecules';
 import { VerifyCi } from '@/components/templates';
 import CloseIcon from '@/assets/icons/close_24.svg';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 import completeAgreement from '@/apis/listing/completeAgreement';
-import ErrorCodes from '@/constants/error_codes';
 import useAPI_GetAgreementInfo from '@/apis/listing/getAgreementInfo';
 import { Loading } from '@/components/atoms';
+import Routes from '@/router/routes';
 
 export default function OwnerVerificationCi() {
   const router = useRouter();
   const { request } = useNiceId();
 
-  const [errorCode, setErrorCode] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const loi = router.query.loi as string;
 
-  const { mutate, isLoading: isLoadingAgreementInfo } = useAPI_GetAgreementInfo(loi);
+  const token = router.query.t as string;
+
+  const { mutate, isLoading: isLoadingAgreementInfo } = useAPI_GetAgreementInfo(loi, token);
 
   const handleNiceResponse = useCallback(
     async (res: NiceResponse) => {
+      if (!token || !loi) return;
+
       setIsLoading(true);
-      const ciRes = await completeAgreement({
+
+      await completeAgreement({
         enc_data: res.encData,
         kie: res.kie,
         integrity_value: res.integrityValue,
         token_version_id: res.tokenVersionId,
         type: Number(res.type),
+        token,
         loi: Number(loi),
       });
 
-      if (ciRes?.error_code) {
-        setIsLoading(false);
-        setErrorCode(ciRes?.error_code);
-      }
+      await mutate();
 
-      if (!ciRes?.error_code) {
-        await mutate();
-        setIsLoading(false);
-        router.back();
-      }
+      setIsLoading(false);
+
+      router.back();
     },
-    [router, loi, mutate],
+    [token, loi, mutate, router],
   );
 
   const handleVerifyPhone = useCallback(() => {
@@ -65,10 +65,10 @@ export default function OwnerVerificationCi() {
   return (
     <>
       <div tw="w-full absolute bg-nego-1300 h-full [z-index: -1]" />
-      <div tw="w-full max-w-mobile left-0 right-0 flex flex-col h-full mx-auto bg-white fixed">
+      <div tw="w-full left-0 right-0 flex flex-col h-full mx-auto bg-white fixed">
         <NavigationHeader>
           <NavigationHeader.Title>본인인증 및 동의</NavigationHeader.Title>
-          <NavigationHeader.Button>
+          <NavigationHeader.Button onClick={() => router.replace(`/${Routes.EntryMobile}`)}>
             <CloseIcon />
           </NavigationHeader.Button>
         </NavigationHeader>
@@ -80,42 +80,6 @@ export default function OwnerVerificationCi() {
           />
         </div>
       </div>
-      {errorCode === ErrorCodes.ALREADY_VERIFIED && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.Title>이미 다른 소유자가 매물 등록에 동의했어요.</Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setErrorCode(null)}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-      {errorCode === ErrorCodes.UNABLE_TO_VALIDATE_OWNER && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.Title>등기부상 소유자의 본인인증이 필요해요.</Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setErrorCode(null)}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-      {errorCode === ErrorCodes.LISTING_DOES_NOT_EXIST && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.Title>해당 매물 등록 신청은 종료되었어요.</Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setErrorCode(null)}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
     </>
   );
 }

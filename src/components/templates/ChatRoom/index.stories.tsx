@@ -10,9 +10,9 @@ export default {
   component: ChatRoom,
 } as ComponentMeta<typeof ChatRoom>;
 
-export const Default: ComponentStory<typeof ChatRoom> = (args) => (
+export const Default: ComponentStory<typeof ChatRoom> = () => (
   <Panel>
-    <ChatRoom {...args} />
+    <ChatRoom />
   </Panel>
 );
 
@@ -20,8 +20,6 @@ Default.args = {
   isLoading: false,
   textFieldDisabled: true,
   title: '공개용 주소 최대 22자 모두 노출 가능',
-  otherName: '김네고',
-  otherProfileImagePath: defaultAvatar,
   chatMessages: Array(3)
     .fill(0)
     .map((_, index) => ({
@@ -35,9 +33,9 @@ Default.args = {
     })),
 };
 
-export const ThousandsMessages: ComponentStory<typeof ChatRoom> = (args) => (
+export const ThousandsMessages: ComponentStory<typeof ChatRoom> = () => (
   <Panel>
-    <ChatRoom {...args} />
+    <ChatRoom />
   </Panel>
 );
 
@@ -45,8 +43,6 @@ ThousandsMessages.args = {
   isLoading: false,
   textFieldDisabled: true,
   title: '공개용 주소 최대 22자 모두 노출 가능',
-  otherName: '김네고',
-  otherProfileImagePath: defaultAvatar,
   chatMessages: Array(100)
     .fill(0)
     .map((_, index) => ({

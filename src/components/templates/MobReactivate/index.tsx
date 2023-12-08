@@ -20,7 +20,7 @@ export default function MobReactivate({
   onClickBack,
 }: MobReactivateProps) {
   return (
-    <div tw="w-full max-w-mobile mx-auto bg-white h-full flex flex-col">
+    <div tw="w-full mx-auto bg-white h-full flex flex-col">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title> 휴면 계정 해제</NavigationHeader.Title>

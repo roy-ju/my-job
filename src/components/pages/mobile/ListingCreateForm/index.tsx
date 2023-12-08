@@ -11,76 +11,94 @@ import Routes from '@/router/routes';
 import useListingCreateForm from './useListingCreateForm';
 
 const ListingCreateForm = () => {
-  const router = useRouter();
-
   const {
-    dong,
-    ho,
+    // isAddInterimButtonDisabled,
+    isAddCollateralDisabled,
+    isAddDebtSuccessionDisabled,
 
-    addressLine1,
-    addressLine2,
-    popup,
-    errPopup,
-    forms,
-    isOwner,
-    ownerName,
-    ownerPhone,
-    buyOrRent,
-    price,
-    monthlyRentFee,
-    // contractAmount,
-    // contractAmountNegotiable,
-    // remainingAmount,
-    // interims,
-    debtSuccessionDeposit,
-    debtSuccessionMiscs,
-    collaterals,
-    specialTerms,
-    moveInDate,
-    moveInDateType,
-    handleChangeIsOwner,
-    handleChangeOwnerName,
-    handleChangeOwnerPhone,
-    handleChangeBuyOrRent,
+    nextButtonDisabled,
     handleClickNext,
-    closePopup,
-    closeErrPopup,
-    handleConfirmChangeBuyOrRent,
+    handleClickBack,
+
+    forms,
+
+    buyOrRent,
+    handleChangeBuyOrRent,
+
+    price,
     handleChangePrice,
+
+    monthlyRentFee,
     handleChangeMonthlyRentFee,
-    // handleAddInterim,
-    // handleChangeContractAmount,
-    // handleChangeContractAmountNegotiable,
-    // handleChangeRemainingAmount,
+
+    quickSale,
+    handleChangeQuickSale,
+
+    hasDebtSuccession,
+    handleChangeHasDebtSuccession,
+
+    debtSuccessionDeposit,
     handleChangeDebtSuccessionDeposit,
+
+    debtSuccessionMiscs,
     handleAddDebtSuccessionMisc,
-    handleChangeSpecialTerms,
+
+    rentEndDate,
+    handleChangeRentEndDate,
+
+    collaterals,
     handleAddCollaterals,
-    handleChangeMoveInDateType,
+
+    specialTerms,
+    handleChangeSpecialTerms,
+
+    hasSpecialTerms,
+    handleChangeHasSpecialTerms,
+
+    hasMoveInDate,
+    handleChangeHasMoveInDate,
+
+    moveInDate,
     handleChangeMoveInDate,
 
-    rentArea,
+    moveInDateType,
+    handleChangeMoveInDateType,
+
+    // contractAmount,
+    // handleChangeContractAmount,
+
+    // contractAmountNegotiable,
+    // handleChangeContractAmountNegotiable,
+
+    // remainingAmount,
+    // handleChangeRemainingAmount,
+
+    // interims,
+    // handleAddInterim,
+
     hasRentArea,
-    handleChangeRentArea,
     handleChangeHasRentArea,
 
+    rentArea,
+    handleChangeRentArea,
+
     verandaExtended,
-    verandaRemodelling,
     handleChangeVerandaExtended,
+
+    verandaRemodelling,
     handleChangeVerandaRemodelling,
 
     extraOptions,
     handleChangeExtraOptions,
 
-    rentTermMonth,
     rentTermYear,
-    rentTermNegotiable,
-    handleChangeRentTermMonth,
     handleChangeRentTermYear,
-    handleChangeRentTermNegotiable,
 
-    quickSale,
-    handleChangeQuickSale,
+    rentTermMonth,
+    handleChangeRentTermMonth,
+
+    rentTermNegotiable,
+    handleChangeRentTermNegotiable,
 
     jeonsaeLoan,
     handleChangeJeonsaeLoan,
@@ -97,26 +115,17 @@ const ListingCreateForm = () => {
     description,
     handleChangeDescription,
 
-    rentEndDate,
-    handleChangeRentEndDate,
+    popup,
+    closePopup,
 
-    hasMoveInDate,
-    handleChangeHasMoveInDate,
+    errPopup,
+    closeErrPopup,
 
-    hasSpecialTerms,
-    handleChangeHasSpecialTerms,
-
-    handleClickBack,
     openBackPopup,
-    nextButtonDisabled,
-
-    // isAddInterimButtonDisabled,
-    isAddCollateralDisabled,
-    isAddDebtSuccessionDisabled,
-
-    hasDebtSuccession,
-    handleChangeHasDebtSuccession,
+    handleConfirmChangeBuyOrRent,
   } = useListingCreateForm();
+
+  const router = useRouter();
 
   const { list: listingOptions } = useAPI_GetOptionList();
 
@@ -125,18 +134,19 @@ const ListingCreateForm = () => {
 
   useEffect(() => {
     const currentForm = forms[forms.length - 1];
-    if (currentForm === Forms.BuyOrRent) {
+
+    if (currentForm === Forms.BuyOrRent && !router?.query?.isBack) {
       setIsCoachVisible(true);
     }
-  }, [forms]);
+  }, [forms, router]);
 
   useEffect(() => {
-    if (!router.query.addressData) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    if (!router.query.userAddressID) {
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
   }, [router]);
 
-  if (!router.query.addressData) {
+  if (!router?.query?.userAddressID) {
     return (
       <MobileContainer>
         <div tw="py-20">
@@ -149,68 +159,65 @@ const ListingCreateForm = () => {
   return (
     <MobileContainer>
       <ListingCreateFormTemplate
-        dong={dong ?? ''}
-        ho={ho ?? ''}
         // isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         isAddCollateralDisabled={isAddCollateralDisabled}
         isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
-        onClickBack={openBackPopup}
-        addressLine1={addressLine1}
-        addressLine2={addressLine2}
+        onClickNext={handleClickNext}
         forms={forms}
-        isOwner={isOwner}
-        ownerName={ownerName}
-        ownerPhone={ownerPhone}
         buyOrRent={buyOrRent}
+        onChangeBuyOrRent={handleChangeBuyOrRent}
         price={price}
+        onChangePrice={handleChangePrice}
         monthlyRentFee={monthlyRentFee}
+        onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
+        quickSale={quickSale}
+        onChangeQuickSale={handleChangeQuickSale}
         // contractAmount={contractAmount}
         // contractAmountNegotiable={contractAmountNegotiable}
         // remainingAmount={remainingAmount}
         // interims={interims}
-        debtSuccessionDeposit={debtSuccessionDeposit}
-        debtSuccessionMiscs={debtSuccessionMiscs}
-        collaterals={collaterals}
-        specialTerms={specialTerms}
-        verandaExtended={verandaExtended}
-        verandaRemodelling={verandaRemodelling}
-        onChangeVerandaExtended={handleChangeVerandaExtended}
-        onChangeVerandaRemodelling={handleChangeVerandaRemodelling}
-        extraOptions={extraOptions}
-        onChangeExtraOptions={handleChangeExtraOptions}
-        listingOptions={listingOptions}
-        moveInDate={moveInDate}
-        moveInDateType={moveInDateType}
-        onClickNext={handleClickNext}
-        onChangeIsOwner={handleChangeIsOwner}
-        onChangeOwnerName={handleChangeOwnerName}
-        onChangeOwnerPhone={handleChangeOwnerPhone}
-        onChangeBuyOrRent={handleChangeBuyOrRent}
-        onChangePrice={handleChangePrice}
-        onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
         // onClickAddInterim={handleAddInterim}
         // onChangeContractAmount={handleChangeContractAmount}
         // onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
         // onChangeRemainingAmount={handleChangeRemainingAmount}
+        hasDebtSuccession={hasDebtSuccession}
+        onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
+        debtSuccessionDeposit={debtSuccessionDeposit}
         onChangeDebtSuccessionDeposit={handleChangeDebtSuccessionDeposit}
+        debtSuccessionMiscs={debtSuccessionMiscs}
         onClickAddDebtSuccessionMisc={handleAddDebtSuccessionMisc}
-        onChangeSpecialTerms={handleChangeSpecialTerms}
+        rentEndDate={rentEndDate}
+        onChangeRentEndDate={handleChangeRentEndDate}
+        collaterals={collaterals}
         onClickAddCollateral={handleAddCollaterals}
+        hasSpecialTerms={hasSpecialTerms}
+        onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
+        specialTerms={specialTerms}
+        onChangeSpecialTerms={handleChangeSpecialTerms}
+        hasMoveInDate={hasMoveInDate}
+        onChangeHasMoveInDate={handleChangeHasMoveInDate}
+        moveInDate={moveInDate}
         onChangeMoveInDate={handleChangeMoveInDate}
+        moveInDateType={moveInDateType}
         onChangeMoveInDateType={handleChangeMoveInDateType}
-        rentArea={rentArea}
+        verandaExtended={verandaExtended}
+        onChangeVerandaExtended={handleChangeVerandaExtended}
+        verandaRemodelling={verandaRemodelling}
+        onChangeVerandaRemodelling={handleChangeVerandaRemodelling}
+        extraOptions={extraOptions}
+        onChangeExtraOptions={handleChangeExtraOptions}
+        listingOptions={listingOptions.filter((ele) => ele?.name !== '베란다 확장' && ele?.name !== '2년 내 올수리')}
         hasRentArea={hasRentArea}
-        onChangeRentArea={handleChangeRentArea}
         onChangeHasRentArea={handleChangeHasRentArea}
+        rentArea={rentArea}
+        onChangeRentArea={handleChangeRentArea}
         rentTermYear={rentTermYear}
-        rentTermMonth={rentTermMonth}
-        rentTermNegotiable={rentTermNegotiable}
         onChangeRentTermYear={handleChangeRentTermYear}
+        rentTermMonth={rentTermMonth}
         onChangeRentTermMonth={handleChangeRentTermMonth}
+        rentTermNegotiable={rentTermNegotiable}
         onChangeRentTermNegotiable={handleChangeRentTermNegotiable}
-        quickSale={quickSale}
-        onChangeQuickSale={handleChangeQuickSale}
         jeonsaeLoan={jeonsaeLoan}
         onChangeJeonsaeLoan={handleChangeJeonsaeLoan}
         adminFee={adminFee}
@@ -221,15 +228,9 @@ const ListingCreateForm = () => {
         onChangeDanjiPhotoUrls={handleChangeDanjiPhotoUrls}
         description={description}
         onChangeDescription={handleChangeDescription}
-        rentEndDate={rentEndDate}
-        onChangeRentEndDate={handleChangeRentEndDate}
-        hasMoveInDate={hasMoveInDate}
-        onChangeHasMoveInDate={handleChangeHasMoveInDate}
-        hasSpecialTerms={hasSpecialTerms}
-        onChangeHasSpecialTerms={handleChangeHasSpecialTerms}
-        hasDebtSuccession={hasDebtSuccession}
-        onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
+        onClickBack={openBackPopup}
       />
+
       {isCoachVisible && !hasBeenVisible.current && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -265,15 +266,16 @@ const ListingCreateForm = () => {
           </div>
         </motion.div>
       )}
+
       {popup === 'back' && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-12">
-              <Popup.Title>
+              <Popup.SmallTitle>
                 정말 뒤로 돌아가시겠습니까?
                 <br />
                 입력하신 정보가 저장되지 않습니다.
-              </Popup.Title>
+              </Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
@@ -282,11 +284,12 @@ const ListingCreateForm = () => {
           </Popup>
         </OverlayPresenter>
       )}
+
       {popup === 'buyOrRentChagne' && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-12">
-              <Popup.Title>입력하신 값들이 초기화 됩니다.</Popup.Title>
+              <Popup.SmallTitle>입력하신 값들이 초기화 됩니다.</Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
@@ -295,11 +298,12 @@ const ListingCreateForm = () => {
           </Popup>
         </OverlayPresenter>
       )}
+
       {errPopup !== '' && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup tw="py-12">
-              <Popup.Title>{errPopup}</Popup.Title>
+              <Popup.SmallTitle>{errPopup}</Popup.SmallTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={closeErrPopup}>닫기</Popup.ActionButton>

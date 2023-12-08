@@ -25,18 +25,18 @@ export default function ReapPriceDetailHeader({
   if (!danji) return null;
 
   return (
-    <div tw="">
+    <div tw="flex flex-col w-full">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-inherit">실거래 심층 분석</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex items-center justify-between mb-2 px-5">
+      <div tw="w-full flex items-center justify-between mb-2 px-5">
         <span tw="text-b1 [line-height: 1] font-bold">{danji.name}</span>
         <Button variant="outlined" size="small" onClick={onClickSelectPage}>
           VS 타단지와 비교
         </Button>
       </div>
-      <div>
+      <div tw="w-full">
         <div tw="px-5">
           <Tabs variant="contained" value={buyOrRent} onChange={onChangeBuyOrRent}>
             <Tabs.Tab value={BuyOrRent.Buy}>{describeJeonsaeWolsaeSame(BuyOrRent.Buy)}</Tabs.Tab>
@@ -44,7 +44,7 @@ export default function ReapPriceDetailHeader({
             <Tabs.Indicator />
           </Tabs>
         </div>
-        <div tw="mt-3 px-5">
+        <div tw="mt-3 px-5 w-full">
           <Tabs variant="outlined" value={selectedYear} onChange={onChangeSelectedYear}>
             <Tabs.Tab value={Year.One}>{Year.One}년</Tabs.Tab>
             <Tabs.Tab value={Year.Three}>{Year.Three}년</Tabs.Tab>

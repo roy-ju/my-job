@@ -10,7 +10,7 @@ export default function LandingHeader() {
   return (
     <div tw="max-w-[1280px] xl:mx-auto">
       <header tw="flex items-center justify-between py-4 px-5 md:py-6 md:px-10 xl:px-20">
-        <button type="button" onClick={() => window.location.reload()}>
+        <button type="button" onClick={() => window.location.reload()} aria-label="네고시오 로고">
           <LogoIcon tw="w-20 h-6 md:[width: 110px] md:[height: 34px]" />
         </button>
         <div tw="flex gap-3 font-bold text-xs md:text-base leading-5 text-gray-800">

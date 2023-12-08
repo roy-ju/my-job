@@ -15,5 +15,4 @@ export const Default: ComponentStory<typeof ChatRoomReport> = (args) => (
 
 Default.args = {
   targetName: '김네고 공인중개사',
-  listingTitle: '도곡한라비발디프라펠리스 101동aaaaaaaaa',
 };

@@ -9,7 +9,7 @@ export interface NegoMoneyProps {
 
 export default function MobMyNegoMoney({ totalMoney, onClickBack }: NegoMoneyProps) {
   return (
-    <div tw="w-full max-w-mobile mx-auto fixed right-0 left-0 h-full flex flex-col bg-white">
+    <div tw="w-full mx-auto fixed right-0 left-0 h-full flex flex-col bg-white">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>네고머니</NavigationHeader.Title>

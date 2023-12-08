@@ -65,6 +65,8 @@ interface ListingDetailHistoryProps {
   etcs: string;
   remainingAmountPaymentTime: string;
   remainingAmountPaymentTimeType: number;
+
+  openPopup?: () => void;
 }
 
 const StyledTable = styled.table`
@@ -124,6 +126,8 @@ export default function ListingDetailHistory({
   moveInDateType,
   description,
   etcs,
+
+  openPopup,
 }: ListingDetailHistoryProps) {
   const renderMonthlyRentFee = (fee: number) => {
     if (fee === 0) return '0원';
@@ -224,6 +228,7 @@ export default function ListingDetailHistory({
               moveInDateType={moveInDateType}
               description={description}
               etcs={etcs}
+              openPopup={openPopup}
             />
             <div tw="border-t border-gray-300 absolute left-0 right-0 mt-7" />
           </div>

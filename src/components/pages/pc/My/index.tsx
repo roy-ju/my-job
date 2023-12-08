@@ -1,14 +1,11 @@
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
-import { Panel } from '@/components/atoms';
+import { Loading, Panel } from '@/components/atoms';
 import { My as MyTemplate } from '@/components/templates';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
-import { coordToRegion } from '@/lib/kakao';
-import { NaverLatLng } from '@/lib/navermap/types';
 import Routes from '@/router/routes';
 import useSyncronizer from '@/states/syncronizer';
-import { useState, memo, useCallback } from 'react';
-import { Popup, OverlayPresenter } from '@/components/molecules';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 interface Props {
   depth: number;
@@ -19,7 +16,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const { user, isLoading } = useAuth();
   const { data: dashboardData } = useAPI_GetDashboardInfo();
-  const [showMyAddressPopup, setShowMyAddressPopup] = useState(false);
+
+  const [tab, setTab] = useState<number>();
 
   const { unreadNotificationCount } = useSyncronizer();
 
@@ -64,12 +62,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   const handleMyAddress = useCallback(() => {
-    if (user?.hasAddress) {
-      setShowMyAddressPopup(true);
-      return;
-    }
-    router.push(Routes.MyAddress);
-  }, [router, user?.hasAddress]);
+    router.push(Routes.MyAddress, { searchParams: { origin: router.asPath } });
+  }, [router]);
 
   const handleClickMyRegisteredListings = useCallback(
     (params: number) => {
@@ -89,27 +83,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     [router],
   );
 
-  const handleRecommendationForm = useCallback(async () => {
-    if (!window.NaverMap) {
-      router.replace(Routes.RecommendationForm);
-      return;
-    }
-    const center = window.NaverMap.getCenter() as NaverLatLng;
-    const response = await coordToRegion(center.x, center.y);
-    if (response && response.documents?.length > 0) {
-      const region = response.documents.filter((item) => item.region_type === 'B')[0];
-      if (region) {
-        router.replace(Routes.RecommendationForm, {
-          searchParams: {
-            address: `${region.region_1depth_name} ${region.region_2depth_name} ${region.region_3depth_name}`,
-            redirect: `${router.asPath}`,
-            back: 'true',
-          },
-        });
-      }
-    }
-  }, [router]);
-
   const handleRequestedSuggests = useCallback(() => {
     router.push(Routes.SuggestRequestedList);
   }, [router]);
@@ -117,6 +90,37 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleSuggestRecommendedList = useCallback(() => {
     router.push(Routes.SuggestRecommendedList);
   }, [router]);
+
+  const handleTab = useCallback((val: 1 | 2) => {
+    setTab(val);
+  }, []);
+
+  const handleClickMyRegisteredHomes = useCallback(() => {
+    router.push(Routes.MyRegisteredHomes);
+  }, [router]);
+
+  useEffect(() => {
+    if (router?.query?.default === '1') {
+      setTab(1);
+      return;
+    }
+
+    if (router?.query?.default === '2') {
+      setTab(2);
+      return;
+    }
+
+    setTab(1);
+  }, [router?.query?.default]);
+
+  if (!tab)
+    return (
+      <Panel>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </Panel>
+    );
 
   return (
     <Panel width={panelWidth}>
@@ -140,40 +144,14 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
         onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        onClickRecommendationForm={handleRecommendationForm}
         onClickRequestedSuggests={handleRequestedSuggests}
         onClickSuggestRecommendedList={handleSuggestRecommendedList}
+        tab={tab}
+        hasAddress={user?.hasAddress}
+        hasNotVerifiedAddress={user?.hasNotVerifiedAddress}
+        onClickTab={handleTab}
+        onClickMyRegisteredHomes={handleClickMyRegisteredHomes}
       />
-      {showMyAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.SubTitle tw="text-center">
-                이미 등록하신 주소가 있습니다.
-                <br />
-                새로운 집주소를 등록하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton
-                onClick={() => {
-                  setShowMyAddressPopup(false);
-                }}
-              >
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  router.push(Routes.MyAddress);
-                  setShowMyAddressPopup(false);
-                }}
-              >
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
     </Panel>
   );
 });

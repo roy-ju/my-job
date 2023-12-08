@@ -23,8 +23,14 @@ export default function NoDataUI({ tabStatus, onClick }: { tabStatus: 1 | 2 | 3 
         <div tw="flex flex-col gap-4 items-center text-center">
           <ExclamationMark />
           <Information.Title>{title[tabStatus]}</Information.Title>
-          <Information.Contents>거래가 필요한 매물을 등록하고 온라인으로 네고를 시작해보세요</Information.Contents>
-          <Button onClick={onClick}>매물등록 신청하기</Button>
+          <Information.Contents>
+            거래가 필요한 매물을 등록하고
+            <br />
+            온라인으로 네고를 시작해보세요
+          </Information.Contents>
+          <Button size="medium" onClick={onClick}>
+            매물등록 신청하기
+          </Button>
         </div>
       </Information>
     </div>

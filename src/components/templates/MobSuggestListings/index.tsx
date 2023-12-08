@@ -1,5 +1,4 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { danjiSuggestEligibilityCheck } from '@/apis/danji/danjiRecommendation';
 import { GetDanjiSuggestListResponse } from '@/apis/danji/danjiSuggestList';
 import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
 import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
@@ -10,6 +9,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import Image from 'next/image';
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 
 type Props = {
   danji?: GetDanjiDetailResponse;
@@ -45,9 +45,15 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
   const handleCreateSuggest = useCallback(() => {
     const redirectURL = `/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${danjiID}`;
 
-    router.push(
-      `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danjiID}&redirect=${redirectURL}&entry=danji`,
-    );
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
+      query: {
+        ...(danjiID ? { danjiID } : {}),
+        entry: 'danjiSuggestLisiting',
+        redirect: redirectURL,
+        origin: router.asPath,
+      },
+    });
   }, [danjiID, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
@@ -70,7 +76,7 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await danjiSuggestEligibilityCheck(code);
+      const response = await suggestEligibilityCheck(code);
 
       if (response && response.eligible) {
         setIsRecommendationService(true);

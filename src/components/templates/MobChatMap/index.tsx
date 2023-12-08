@@ -264,7 +264,7 @@ export default function MobChatMap() {
   }, [map]);
 
   return (
-    <div tw="flex flex-col w-full max-w-mobile h-full">
+    <div tw="flex flex-col w-full h-full">
       <NavigationHeader>
         <NavigationHeader.Title>장소공유</NavigationHeader.Title>
         <Button
@@ -283,7 +283,7 @@ export default function MobChatMap() {
         </Button>
       </NavigationHeader>
 
-      <div tw="relative flex-1 w-full max-w-mobile">
+      <div tw="relative flex-1 w-full">
         <NaverMapV1
           id="negocio-chat-map"
           onCreate={onCreate}

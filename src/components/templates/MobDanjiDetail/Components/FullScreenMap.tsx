@@ -153,14 +153,14 @@ export function FullScreenMap({ type, danji }: { type: string; danji?: GetDanjiD
   );
 
   return (
-    <div tw="flex flex-col w-full max-w-mobile h-full">
+    <div tw="flex flex-col w-full h-full">
       <NavigationHeader>
-        <NavigationHeader.Title>{danji.name}gg</NavigationHeader.Title>
+        <NavigationHeader.Title>{danji.name}</NavigationHeader.Title>
         <Button variant="ghost" tw="p-0" onClick={() => mapButtonStore.makeFalse()}>
           <CloseIcon />
         </Button>
       </NavigationHeader>
-      <div tw="relative flex-1 w-full max-w-mobile">
+      <div tw="relative flex-1 w-full">
         {mapType === 'road' && !!(danji?.lat && danji?.long) && (
           <MapStreet defaultMapSize="100%" isFullScreen bindPanorama={bindPanorama} />
         )}

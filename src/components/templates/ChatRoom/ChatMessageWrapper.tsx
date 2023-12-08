@@ -3,12 +3,12 @@ import { ChatMessage } from '@/components/organisms';
 import { ChatUserType } from '@/constants/enums';
 import { StaticImageData } from 'next/image';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { formatLastMessageTime } from '@/utils/formatLastMessageTime';
 import { Button, Loading, Moment } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { useIsomorphicLayoutEffect, useOutsideClick } from '@/hooks/utils';
 import { checkPlatform } from '@/utils/checkPlatform';
 import tw from 'twin.macro';
+import { compareMessageTime } from '@/utils/formatsTime';
 
 export interface IChatMessage {
   id: number;
@@ -20,15 +20,6 @@ export interface IChatMessage {
   agentReadTime: Date | null;
   photoLoading?: boolean;
 }
-
-/*
-const variantByType: Record<ChatUserType, 'gray' | 'nego' | 'system'> = {
-  [ChatUserType.Agent]: 'gray',
-  [ChatUserType.Buyer]: 'nego',
-  [ChatUserType.Seller]: 'nego',
-  [ChatUserType.System]: 'system',
-};
-*/
 
 export default memo(
   ({
@@ -70,7 +61,8 @@ export default memo(
     const shouldRenderSentTime = useMemo(() => {
       if (!nextChat) return true;
       if (nextChat.chatUserType !== chat.chatUserType) return true;
-      if (formatLastMessageTime(nextChat.sentTime) !== formatLastMessageTime(chat.sentTime)) return true;
+      if (compareMessageTime(nextChat.sentTime) !== compareMessageTime(chat.sentTime)) return true;
+
       return false;
     }, [nextChat, chat]);
 
@@ -230,7 +222,7 @@ export default memo(
       <>
         <div tw="px-5" style={{ paddingBottom: extraPaddingBottom }}>
           {shouldRenderDate && !isChatPhotoLoading && (
-            <div tw="py-7 text-center text-info leading-3">
+            <div tw="py-6 text-center text-body_01">
               <Moment format="yyyy년 MM월 DD일">{chat.sentTime}</Moment>
             </div>
           )}
@@ -242,9 +234,9 @@ export default memo(
 
             {isChatMessage && isChatPhotoLoading && (
               <ChatMessage.LoadingPhoto>
-                <div tw="flex items-center justify-center [height: 134.4px]">
+                <div tw="flex items-center justify-center [height: fit-content]">
                   <div tw="px-4 py-2 bg-gray-100 rounded-lg">
-                    <Loading />
+                    <Loading size="small" />
                   </div>
                 </div>
               </ChatMessage.LoadingPhoto>
@@ -290,8 +282,8 @@ export default memo(
 
                 {(buildingName || addressName) && (
                   <div tw="bg-white px-2 pt-2 [max-width: 200px]">
-                    {buildingName && <p tw="text-info text-gray-1000">{buildingName}</p>}
-                    {addressName && <p tw="text-info text-gray-700">{addressName}</p>}
+                    {buildingName && <p tw="text-body_01 text-gray-1000">{buildingName}</p>}
+                    {addressName && <p tw="text-body_01 text-gray-700">{addressName}</p>}
                   </div>
                 )}
 

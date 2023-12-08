@@ -7,11 +7,11 @@ import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { Loading, MobileContainer } from '@/components/atoms';
 import { MobListingDetail } from '@/components/templates';
 import Routes from '@/router/routes';
+import axios from '@/lib/axios';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import deleteListingQna from '@/apis/listing/deleteListingQna';
-import { acceptRecommend } from '@/apis/suggest/acceptRecommend';
 import { notIntersted } from '@/apis/suggest/notInterested';
 import { useRouter } from 'next/router';
 import { SharePopup } from '@/components/organisms';
@@ -106,16 +106,36 @@ export default memo(() => {
       return;
     }
 
+    async function removeFavoriteOptimistic() {
+      if (data?.listing?.id) {
+        await removeFavorite(data.listing.id);
+        const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
+        return updatedData;
+      }
+    }
+    async function addFavoriteOptimistic() {
+      if (data?.listing?.id) {
+        await addFavorite(data.listing.id);
+        const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
+        return updatedData;
+      }
+    }
+
     if (data?.listing?.id) {
       if (data.is_favorite) {
-        await removeFavorite(data.listing.id);
+        mutateListing(removeFavoriteOptimistic, {
+          optimisticData: { ...data, is_favorite: false },
+          rollbackOnError: true,
+        });
       } else {
-        await addFavorite(data.listing.id);
+        await mutateListing(addFavoriteOptimistic, {
+          optimisticData: { ...data, is_favorite: true },
+          rollbackOnError: true,
+        });
         toast.success('관심 매물에 추가되었습니다.');
       }
-      await mutateListing();
     }
-  }, [data, mutateListing, user]);
+  }, [data, mutateListing, user, router, listingID]);
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
@@ -179,7 +199,7 @@ export default memo(() => {
     if (!data?.suggest_recommend_id) return;
     setIsPopupButtonLoading(true);
 
-    await acceptRecommend(data.suggest_recommend_id);
+    //    await acceptRecommend(data.suggest_recommend_id);
     await mutateListing();
 
     setIsPopupButtonLoading(false);

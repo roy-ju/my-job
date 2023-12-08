@@ -7,7 +7,6 @@ import tw from 'twin.macro';
 import FormContext from './FormContext';
 
 export const Forms = {
-  IsOwner: 'isOwner',
   BuyOrRent: 'buyOrRent',
   Price: 'price',
   DebtSuccessions: 'debtSuccessions',
@@ -39,23 +38,17 @@ export default function FormRenderer({ form }: Props) {
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
-    // IsOwner
-    isOwner,
-    onChangeIsOwner,
-    // OwnerInfo
-    ownerName,
-    ownerPhone,
-    onChangeOwnerName,
-    onChangeOwnerPhone,
     // BuyOrRent
     buyOrRent,
     onChangeBuyOrRent,
     // Price
     price,
-    monthlyRentFee,
-    quickSale,
     onChangePrice,
+
+    monthlyRentFee,
     onChangeMonthlyRentFee,
+
+    quickSale,
     onChangeQuickSale,
 
     // 희망 지급일정
@@ -71,32 +64,39 @@ export default function FormRenderer({ form }: Props) {
 
     // 채무승계
     debtSuccessionDeposit,
-    debtSuccessionMiscs,
     onChangeDebtSuccessionDeposit,
+
+    debtSuccessionMiscs,
     onClickAddDebtSuccessionMisc,
+
     // 선순위 담보권
     collaterals,
     onClickAddCollateral,
 
     // 입주가능시기
     moveInDate,
-    moveInDateType,
-    hasMoveInDate,
     onChangeMoveInDate,
+
+    moveInDateType,
     onChangeMoveInDateType,
+
+    hasMoveInDate,
     onChangeHasMoveInDate,
 
     // 특약사항
     specialTerms,
-    hasSpecialTerms,
     onChangeSpecialTerms,
+
+    hasSpecialTerms,
     onChangeHasSpecialTerms,
 
     // 임대할 부분
     rentArea,
-    hasRentArea,
     onChangeRentArea,
+
+    hasRentArea,
     onChangeHasRentArea,
+
     // 베란다 확장
     verandaExtended,
     onChangeVerandaExtended,
@@ -108,13 +108,16 @@ export default function FormRenderer({ form }: Props) {
     // 추가 옵션
     extraOptions,
     onChangeExtraOptions,
+
     listingOptions,
 
-    rentTermMonth,
     rentTermYear,
-    rentTermNegotiable,
-    onChangeRentTermMonth,
     onChangeRentTermYear,
+
+    rentTermMonth,
+    onChangeRentTermMonth,
+
+    rentTermNegotiable,
     onChangeRentTermNegotiable,
 
     jeonsaeLoan,
@@ -134,32 +137,13 @@ export default function FormRenderer({ form }: Props) {
   } = useContext(FormContext);
 
   switch (form) {
-    case Forms.IsOwner:
-      return (
-        <div>
-          <div id={Forms.IsOwner} tw="px-5 pt-10 pb-5">
-            <Form.IsOwner isOwner={isOwner} onChangeIsOwner={onChangeIsOwner} />
-          </div>
-          {!isOwner && (
-            <div tw="px-5 pt-0 pb-10">
-              <Form.OwnerInfo
-                name={ownerName}
-                phone={ownerPhone}
-                onChangeName={(e) => onChangeOwnerName?.(e.target.value)}
-                onChangePhone={(e) => onChangeOwnerPhone?.(e.target.value)}
-                onClickNameDeleteIcon={() => onChangeOwnerName?.('')}
-                onClickPhoneDeleteIcon={() => onChangeOwnerPhone?.('')}
-              />
-            </div>
-          )}
-        </div>
-      );
     case Forms.BuyOrRent:
       return (
         <div id={Forms.BuyOrRent} tw="px-5 py-10">
           <Form.BuyOrRent value={buyOrRent} onChange={onChangeBuyOrRent} />
         </div>
       );
+
     case Forms.Price:
       return (
         <div id={Forms.Price} tw="px-5 py-10">

@@ -8,7 +8,7 @@ import tw, { styled } from 'twin.macro';
 const StyledTable = styled.table`
   ${tw`w-full text-b2`}
   th {
-    ${tw`py-2 text-gray-700 w-21`}
+    ${tw`w-24 py-2 text-gray-700`}
   }
   td {
     ${tw`w-auto py-2 text-left`}
@@ -29,6 +29,7 @@ interface Props {
   moveInDate?: string;
   moveInDateType?: number;
   investAmount?: number;
+  interviewAvailabletimes?: string;
   negotiable?: boolean;
   quickSale?: boolean;
   isNextButtonLoading?: boolean;
@@ -48,6 +49,7 @@ export default function DanjiRecommendationSummary({
   moveInDateType,
   investAmount,
   negotiable,
+  interviewAvailabletimes,
   quickSale,
   isNextButtonLoading,
   onClickBack,
@@ -84,7 +86,7 @@ export default function DanjiRecommendationSummary({
           <p tw="text-gray-700 text-info">
             등록하신 정보의 수정 및 추천된 매물의 확인은
             <br />
-            &#39;마이페이지 &gt; 구해요 &gt; 내가 등록한 구하기&#39; 에서 가능합니다.
+            &#39;마이페이지 &gt; 구해요 &gt; 구하기 게시 내역&#39; 에서 가능합니다.
           </p>
         </div>
         <Separator />
@@ -142,6 +144,11 @@ export default function DanjiRecommendationSummary({
                 <Table.Row>
                   <Table.Head>추가 조건</Table.Head>
                   <Table.Data>{falsy(description, '없음')}</Table.Data>
+                </Table.Row>
+
+                <Table.Row>
+                  <Table.Head>인터뷰 가능 시간</Table.Head>
+                  <Table.Data>{interviewAvailabletimes || ''}</Table.Data>
                 </Table.Row>
               </Table.Body>
             </StyledTable>

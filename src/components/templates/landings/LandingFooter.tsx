@@ -74,6 +74,7 @@ export default function LandingFooter() {
               target="_blank"
               href="https://apps.apple.com/kr/app/%EB%84%A4%EA%B3%A0%EC%8B%9C%EC%98%A4/id6444820605"
               rel="noopener noreferrer"
+              aria-label="앱스토어 바로가기"
             >
               <AppleIcon tw="w-5 h-5" />
               <AppleTextIcon />
@@ -83,6 +84,7 @@ export default function LandingFooter() {
               target="_blank"
               href="https://play.google.com/store/apps/details?id=kr.co.negocio.production&hl=ko"
               rel="noopener noreferrer"
+              aria-label="구글플레이 바로가기"
             >
               <GooglePlayIcon tw="w-5 h-5" />
               <GooglePlayTextIcon />

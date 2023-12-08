@@ -30,6 +30,13 @@ const customStyles = css`
     display: none;
   }
 
+  .negocio-chat-room-scroll {
+    ::-webkit-scrollbar-thumb {
+      background: ${theme`colors.gray.400`};
+      border-radius: 10px;
+    }
+  }
+
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;

@@ -3,6 +3,9 @@ import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/componen
 import { memo, useCallback, useEffect, useState } from 'react';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 import useMyRegisteredListings from './useMyRegisteredListings';
 
 export default memo(() => {
@@ -42,6 +45,11 @@ export default memo(() => {
   const [tab, setTab] = useState(Number(router.query.tab));
   const [isLoading, setIsLoading] = useState(false);
 
+  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
+  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
+
+  const { data: userData } = useAPI_GetUserInfo();
+
   useEffect(() => {
     if (router.query.tab) {
       setTab(Number(router.query.tab));
@@ -68,8 +76,49 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${listingID}`);
   };
 
-  const handleNavigateToListingCreate = () => {
-    router.push(Routes.HOG);
+  const handleNavigateToListingCreate = async () => {
+    if (!userData) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
+    if (!userData.is_verified) {
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+        query: {
+          redirect: router.asPath,
+        },
+      });
+      return;
+    }
+
+    if (!userData?.has_address) {
+      setOpenVerificationAddressPopup(true);
+      return;
+    }
+
+    if (userData?.has_address) {
+      const res = await listingEligibilityCheck({ danji_id: null });
+
+      if (res && !res?.is_eligible) {
+        setOpenNeedMoreVerificationAddressPopup(true);
+        return;
+      }
+
+      if (res && res?.is_eligible) {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
+          query: {
+            origin: router.asPath,
+          },
+        });
+      }
+    }
   };
 
   const handleNavigateToListingDetailPassed = (listingID: number) => () => {
@@ -88,52 +137,116 @@ export default memo(() => {
       const canGoBack = window.history.length > 1;
 
       if (canGoBack) {
-        router.back();
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
       } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
       }
     }
   }, [router]);
 
   return (
-    <MobAuthRequired>
-      <MobileContainer>
-        {isLoading ? (
-          <div tw="py-20">
-            <Loading />
-          </div>
-        ) : (
-          <MyRegisteredListingsTemplate
-            tab={tab}
-            onClickBack={handleClickBack}
-            onChangeListingTab={handleChangeListingTab}
-            onClickListingItem={handleClickListingItem}
-            onClickNavigateToListingCreate={handleNavigateToListingCreate}
-            onClickNavigateToListingDetailPassed={handleNavigateToListingDetailPassed}
-            isDeleteActive={isDeleteActive}
-            isPopupActive={isPopupActive}
-            checkedListingIdList={checkedListingIdList}
-            onChangeCheckbox={handleChangeCheckbox}
-            onDeleteListingList={handleDeleteListingList}
-            onActiveDelete={handleActiveDelete}
-            onCancelDelete={handleCancelDelete}
-            onOpenPopup={handleOpenPopup}
-            onClosePopup={handleClosePopup}
-            myRegisteringListingCount={myRegisteringListingCount ?? 0}
-            myRegisteringListingData={myRegisteringListingData ?? []}
-            myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
-            myActiveListingCount={myActiveListingCount ?? 0}
-            myActiveListingData={myActiveListingData ?? []}
-            myActiveListingIncrementalPageNumber={myActiveListingIncrementalPageNumber}
-            myContractCompleteListingCount={myContractCompleteListingCount ?? 0}
-            myContractCompleteListingData={myContractCompleteListingData ?? []}
-            myContractCompleteListingIncrementalPageNumber={myContractCompleteListingIncrementalPageNumber}
-            myCancelledListingCount={myCancelledListingCount ?? 0}
-            myCancelledListingData={myCancelledListingData ?? []}
-            myCancelledListingIncrementalPageNumber={myCancelledListingIncrementalPageNumber}
-          />
-        )}
-      </MobileContainer>
-    </MobAuthRequired>
+    <>
+      <MobAuthRequired>
+        <MobileContainer>
+          {isLoading ? (
+            <div tw="py-20">
+              <Loading />
+            </div>
+          ) : (
+            <MyRegisteredListingsTemplate
+              tab={tab}
+              onClickBack={handleClickBack}
+              onChangeListingTab={handleChangeListingTab}
+              onClickListingItem={handleClickListingItem}
+              onClickNavigateToListingCreate={handleNavigateToListingCreate}
+              onClickNavigateToListingDetailPassed={handleNavigateToListingDetailPassed}
+              isDeleteActive={isDeleteActive}
+              isPopupActive={isPopupActive}
+              checkedListingIdList={checkedListingIdList}
+              onChangeCheckbox={handleChangeCheckbox}
+              onDeleteListingList={handleDeleteListingList}
+              onActiveDelete={handleActiveDelete}
+              onCancelDelete={handleCancelDelete}
+              onOpenPopup={handleOpenPopup}
+              onClosePopup={handleClosePopup}
+              myRegisteringListingCount={myRegisteringListingCount ?? 0}
+              myRegisteringListingData={myRegisteringListingData ?? []}
+              myRegisteringListingIncrementalPageNumber={myRegisteringListingIncrementalPageNumber}
+              myActiveListingCount={myActiveListingCount ?? 0}
+              myActiveListingData={myActiveListingData ?? []}
+              myActiveListingIncrementalPageNumber={myActiveListingIncrementalPageNumber}
+              myContractCompleteListingCount={myContractCompleteListingCount ?? 0}
+              myContractCompleteListingData={myContractCompleteListingData ?? []}
+              myContractCompleteListingIncrementalPageNumber={myContractCompleteListingIncrementalPageNumber}
+              myCancelledListingCount={myCancelledListingCount ?? 0}
+              myCancelledListingData={myCancelledListingData ?? []}
+              myCancelledListingIncrementalPageNumber={myCancelledListingIncrementalPageNumber}
+            />
+          )}
+        </MobileContainer>
+      </MobAuthRequired>
+
+      {openVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                이 단지의 집주인만 매물등록이 가능합니다.
+                <br />
+                우리집을 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenVerificationAddressPopup(false);
+                  router.push({
+                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+                    query: {
+                      origin: router.asPath,
+                    },
+                  });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openNeedMoreVerificationAddressPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="[text-align: center]">
+              <Popup.SubTitle>
+                추가로 매물등록이 가능한 우리집 정보가 없습니다.
+                <br />
+                우리집을 추가 인증하시겠습니까?
+              </Popup.SubTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
+                취소
+              </Popup.CancelButton>
+              <Popup.ActionButton
+                onClick={() => {
+                  setOpenNeedMoreVerificationAddressPopup(false);
+                  router.push({
+                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+                    query: {
+                      origin: router.asPath,
+                    },
+                  });
+                }}
+              >
+                인증하기
+              </Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+    </>
   );
 });

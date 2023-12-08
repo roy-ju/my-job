@@ -91,7 +91,7 @@ const MobDanjiSummary = React.memo(
       <>
         <motion.div
           ref={bottomSheetWrraperRef}
-          tw="w-full max-w-mobile h-fit relative [z-index: 250] pointer-events-none mx-auto"
+          tw="w-full h-fit relative [z-index: 250] pointer-events-none mx-auto"
           initial={{ opacity: 0, y: 0, scaleY: 0 }}
           animate={{
             opacity: 1,
@@ -244,7 +244,5 @@ const MobDanjiSummary = React.memo(
     );
   },
 );
-
-/* <div tw="w-[100%] mx-auto max-w-mobile [border-bottom-width: 1px] border-b-gray-1100 absolute rounded-t-lg px-4 py-5 bottom-[5rem] bg-white [z-index:500]"> */
 
 export default MobDanjiSummary;

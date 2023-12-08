@@ -4,6 +4,7 @@ import { Deregister } from '@/components/templates';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function DeregisterWrraper() {
   const router = useRouter();
@@ -12,6 +13,11 @@ export default function DeregisterWrraper() {
   const [extraReasons, setExtraReasons] = useState('');
 
   const handleChangeExtraReasons = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length > 200) {
+      setExtraReasons(e.target.value.slice(0, 200));
+      toast.error('최대 200자까지 입력이 가능합니다.', { toastId: 'maxLength' });
+      return;
+    }
     setExtraReasons(e.target.value);
   }, []);
 

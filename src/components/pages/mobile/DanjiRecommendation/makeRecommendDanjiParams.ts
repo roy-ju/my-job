@@ -15,6 +15,7 @@ interface Args {
   moveInDate: Date | null;
   moveInDateType: string;
   description: string;
+  interviewAvailabletimes: string[];
 }
 
 function getDateType(value?: string) {
@@ -39,6 +40,7 @@ export default function makeRecommendDanjiParams(args: Args) {
     move_in_date_type: args.purpose === '투자' ? null : getDateType(args.moveInDateType),
     note: args.description,
     quick_sale: args.buyOrRent === BuyOrRent.Buy ? Boolean(+args.quickSale) : null,
+    interview_available_times: args.interviewAvailabletimes.join(),
   };
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);
   return params;

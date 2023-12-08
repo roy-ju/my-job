@@ -13,7 +13,9 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
-  const listingID = Number(router.query.listingID) ?? 0;
+
+  const userAddressID = Number(router.query.userAddressID) ?? 0;
+
   const [index, setIndex] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -22,8 +24,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const fetchAgentList = useCallback(async () => {
     setIsLoading(true);
-    const res = await getAgentList({ listing_id: listingID });
+
+    const res = await getAgentList({ user_address_id: userAddressID });
+
     setIsLoading(false);
+
     if (res && res.agent_list) {
       setAgents(
         res.agent_list.map((item) => ({
@@ -39,29 +44,17 @@ export default memo(({ depth, panelWidth }: Props) => {
         })),
       );
     }
-  }, [listingID]);
-
-  useEffect(() => {
-    fetchAgentList();
-  }, [fetchAgentList]);
-
-  useEffect(() => {
-    const { params } = router.query;
-    if (!params) router.pop();
-  }, [router]);
+  }, [userAddressID]);
 
   const handleClickBack = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
       searchParams: {
-        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        listingID: router.query.listingID as string,
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
       },
       state: {
+        isBack: 'true',
         params: router.query.params as string,
-        addressLine1: router.query.addressLine1 as string,
-        addressLine2: router.query.addressLine2 as string,
-        addressData: router.query.addressData as string,
         ...(router.query.origin
           ? {
               origin: router.query.origin as string,
@@ -73,18 +66,15 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickNext = useCallback(() => {
     const agentId = agents[index]?.id;
+
     router.replace(Routes.ListingCreateSummary, {
       searchParams: {
-        danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-        redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        listingID: router.query.listingID as string,
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
         agentID: `${agentId}`,
       },
       state: {
         params: router.query.params as string,
-        addressLine1: router.query.addressLine1 as string,
-        addressLine2: router.query.addressLine2 as string,
-        addressData: router.query.addressData as string,
         ...(router.query.origin
           ? {
               origin: router.query.origin as string,
@@ -93,6 +83,21 @@ export default memo(({ depth, panelWidth }: Props) => {
       },
     });
   }, [agents, index, router]);
+
+  useEffect(() => {
+    fetchAgentList();
+  }, [fetchAgentList]);
+
+  useEffect(() => {
+    const { params } = router.query;
+
+    if (!userAddressID) {
+      router.pop();
+      return;
+    }
+
+    if (!params) router.pop();
+  }, [router, userAddressID]);
 
   return (
     <Panel width={panelWidth}>

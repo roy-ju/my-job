@@ -47,6 +47,9 @@ export interface IFormContext {
   pyoungInputValue?: string;
   onChangePyoungInputValue?: (value: string) => void;
 
+  interviewAvailabletimes?: string[];
+  onChangeInterviewAvailabletimes?: (value: string) => void;
+
   danjiRealPricesPyoungList?: GetDanjiRealPricesPyoungListResponse['list'];
 
   onClickPyoungDeleteIcon?: () => void;

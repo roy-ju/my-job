@@ -4,27 +4,12 @@ export interface CreateListingResponse {
   listing_id: number;
 }
 
-interface Request {
-  road_name_address: string;
-  jibun_address: string;
-  bubjungdong_code: string;
-  sido: string;
-  sigungu: string;
-  eubmyundong: string;
-  li: string;
-  building_name: string;
-  long: number;
-  lat: number;
-  dong: string;
-  ho: string;
-}
-
-export default async function createListing(req: Request) {
+export default async function createListing(req: any) {
   try {
-    const { data } = await axios.post('/listing/create/v2', {
+    const { data } = await axios.post('/listing/create', {
       ...req,
     });
-    return data as CreateListingResponse;
+    return data as CreateListingResponse & ErrorResponse;
   } catch (e) {
     return null;
   }

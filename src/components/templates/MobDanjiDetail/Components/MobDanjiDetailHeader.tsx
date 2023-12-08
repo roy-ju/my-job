@@ -2,7 +2,8 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { NavigationHeader, OverlayPresenter } from '@/components/molecules';
 import React, { useCallback, useState } from 'react';
 import tw from 'twin.macro';
-
+import axios from '@/lib/axios';
+import { mutate } from 'swr';
 import ShareIcon from '@/assets/icons/share.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
@@ -18,7 +19,6 @@ export default function MobDanjiDetailHeader({
   danji,
   isHeaderActive,
   onClickBack,
-  handleMutateDanji,
 }: {
   danji?: GetDanjiDetailResponse;
   isHeaderActive: boolean;
@@ -28,7 +28,6 @@ export default function MobDanjiDetailHeader({
   const router = useRouter();
 
   const [popup, setPopup] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(!!danji?.is_favorite);
 
   const { user, isLoading: isAuthLoading } = useAuth();
 
@@ -55,30 +54,42 @@ export default function MobDanjiDetailHeader({
       return;
     }
 
-    if (user) {
-      if (!isFavorite) {
+    async function danjiFavoriteAddOptimistic() {
+      if (danji) {
         await danjiFavoriteAdd({
           danji_id: danji.danji_id,
         });
-        toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
-        setIsFavorite(true);
+        const { data: updatedData } = await axios.post('/danji/detail', { danji_id: danji?.danji_id });
+        return updatedData;
+      }
+    }
 
-        if (handleMutateDanji) {
-          handleMutateDanji();
-        }
-      } else {
+    async function danjiFavoriteRemoveOptimistic() {
+      if (danji) {
         await danjiFavoriteRemove({
           danji_id: danji.danji_id,
         });
-        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
-        setIsFavorite(false);
-
-        if (handleMutateDanji) {
-          handleMutateDanji();
-        }
+        const { data: updatedData } = await axios.post('/danji/detail', { danji_id: danji?.danji_id });
+        return updatedData;
       }
     }
-  }, [danji, isAuthLoading, user, isFavorite, handleMutateDanji, router]);
+
+    if (user && danji) {
+      if (!danji.is_favorite) {
+        await mutate(['/danji/detail', { danji_id: danji.danji_id }], danjiFavoriteAddOptimistic, {
+          optimisticData: { ...danji, is_favorite: true },
+          rollbackOnError: true,
+        });
+        toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
+      } else {
+        await mutate(['/danji/detail', { danji_id: danji.danji_id }], danjiFavoriteRemoveOptimistic, {
+          optimisticData: { ...danji, is_favorite: false },
+          rollbackOnError: true,
+        });
+        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
+      }
+    }
+  }, [danji, isAuthLoading, user, router]);
 
   const handleClickShare = useCallback(() => setPopup(true), []);
 

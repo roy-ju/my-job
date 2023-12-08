@@ -55,7 +55,7 @@ export default function Home() {
   }, [router]);
 
   const handleClickSuggestion = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.RecommendGuide}`, query: { origin: router.asPath } });
   }, [router]);
 
   const handleClickBidding = useCallback(() => {
@@ -77,12 +77,8 @@ export default function Home() {
       setOpenPopup(true);
       return;
     }
-    router.push(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`, query: { origin: router.asPath as string } });
   }, [router, user?.hasAddress]);
-
-  const handleClickListingCreate = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.HOG}`);
-  }, [router]);
 
   const handleClickListing = useCallback(
     (listingID: number) => {
@@ -208,7 +204,6 @@ export default function Home() {
         onClickSuggestion={handleClickSuggestion}
         onClickBidding={handleClickBidding}
         onClickHomeRegister={handleClickHomeRegister}
-        onClickListingCreate={handleClickListingCreate}
         onClickListing={handleClickListing}
         onClickDanji={handleClickDanji}
         onClickAppStore={handleClickAppStore}
@@ -225,6 +220,7 @@ export default function Home() {
         onClickCounseling={handleClickCounseling}
         onClickLawQna={handleClickLawQna}
       />
+
       {openPopup && (
         <OverlayPresenter>
           <Popup>
@@ -232,12 +228,12 @@ export default function Home() {
               <Popup.SubTitle tw="text-center">
                 이미 등록된 주소가 있습니다.
                 <br />
-                주소변경은 마이페이지에서 가능합니다.
+                우리집 추가는 마이페이지에서 가능합니다.
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setOpenPopup(false)}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}/${Routes.My}`)}>
+              <Popup.ActionButton onClick={() => router.push(`/${Routes.EntryMobile}/${Routes.My}?default=2`)}>
                 마이페이지 이동
               </Popup.ActionButton>
             </Popup.ButtonGroup>

@@ -2,6 +2,7 @@ import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
 import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { SuggestRequestedList } from '@/components/templates';
 import { useRouter } from '@/hooks/utils';
+
 import Routes from '@/router/routes';
 import { memo, useCallback } from 'react';
 
@@ -16,7 +17,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
 
   const handleClickRecommendationForm = useCallback(() => {
-    router.replace(Routes.RecommendationForm, {
+    router.replace(Routes.RecommendGuide, {
       searchParams: {
         back: router.asPath,
         entry: 'my',

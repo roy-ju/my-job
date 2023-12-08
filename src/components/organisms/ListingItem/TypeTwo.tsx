@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Avatar, Chip, Numeral } from '@/components/atoms';
 import { SuggestRecommendStatus } from '@/constants/enums';
 import { convertRangeText } from '@/utils/fotmat';
@@ -6,7 +7,7 @@ import ArrowRight from '@/assets/icons/arrow_right_16.svg';
 import ViewIcon from '@/assets/icons/view.svg';
 import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
 
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 
 function PriceText({
   tradeOrDepositPrice,
@@ -67,7 +68,7 @@ export default function TypeTwo({
             {ChipText.IamRecommending}
           </Chip>
         )}
-        {item.suggest_status === SuggestRecommendStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>}
+        {/* {item.suggest_status === SuggestRecommendStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>} */}
 
         {item.my_suggest || item.iam_recommending ? (
           <button type="button" tw="flex items-center text-info leading-4 ml-auto">

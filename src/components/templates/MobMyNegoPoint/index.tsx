@@ -10,7 +10,7 @@ export interface MobMyNegoPointProps {
 
 export default function MobMyNegoPoint({ totalPoint, earnedPoint, usedPoint, onClickBack }: MobMyNegoPointProps) {
   return (
-    <div tw="w-full max-w-mobile flex flex-col h-full mx-auto bg-white fixed left-0 right-0">
+    <div tw="w-full flex flex-col h-full mx-auto bg-white fixed left-0 right-0">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={onClickBack} />
         <NavigationHeader.Title>네고포인트</NavigationHeader.Title>

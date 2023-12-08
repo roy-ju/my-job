@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 
 export default memo(() => {
   const router = useRouter();
+
   const [isCreating, setIsCreating] = useState(false);
 
   const { mutate } = useAPI_GetDashboardInfo();
@@ -23,11 +24,17 @@ export default memo(() => {
   }, [router.query.params]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(
-      `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}?address=${params.address}&params=${JSON.stringify(
-        params,
-      )}&forms=${router.query.forms}`,
-    );
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
+      query: {
+        ...(params ? { params: JSON.stringify(params) } : {}),
+        ...(params?.address ? { address: params.address as string } : {}),
+        ...(router?.query?.forms ? { forms: router.query.forms as string } : {}),
+        ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.redirect ? { redirect: router.query.redirect as string } : {}),
+      },
+    });
   }, [router, params]);
 
   const handleClickNext = useCallback(async () => {
@@ -39,6 +46,11 @@ export default memo(() => {
     toast.success('구해요 글이 등록되었습니다.');
 
     setIsCreating(false);
+
+    if (router?.query?.origin) {
+      router.replace(router.query.origin as string);
+      return;
+    }
 
     router.replace(`/${Routes.EntryMobile}`);
   }, [router, params, mutate]);
@@ -73,6 +85,7 @@ export default memo(() => {
           moveInDate={params?.move_in_date}
           moveInDateType={params?.move_in_date_type}
           investAmount={params?.invest_amount}
+          interviewAvailabletimes={params?.interview_available_times}
           negotiable={params?.negotiable}
         />
       </MobileContainer>
