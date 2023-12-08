@@ -52,8 +52,8 @@ export default memo(() => {
   }, [router]);
 
   const handleClickNotification = useCallback(() => {
-    router.replace(Routes.NotificationList);
-  }, [router]);
+    nextRouter.replace(`/${Routes.My}/${Routes.NotificationList}`);
+  }, [nextRouter]);
 
   const handleClickSuggestion = useCallback(async () => {
     router.replace(Routes.RecommendGuide, {
