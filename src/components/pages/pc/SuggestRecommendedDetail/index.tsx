@@ -113,7 +113,7 @@ export default memo(({ depth, panelWidth }: Props) => {
                 onClick={async () => {
                   await cancelMySuggestRecommend(targetDeleteOrCancelID.current);
                   router.replace(Routes.SuggestRecommendedList);
-                  toast.success('요청 카드가 삭제되었습니다.');
+                  toast.success('추천이 취소되었습니다.');
                 }}
               >
                 추천 취소
@@ -140,7 +140,7 @@ export default memo(({ depth, panelWidth }: Props) => {
                 onClick={async () => {
                   await deleteMySuggestRecommend(targetDeleteOrCancelID.current);
                   router.replace(Routes.SuggestRecommendedList);
-                  toast.success('요청 카드가 삭제되었습니다.');
+                  toast.success('추천이 삭제되었습니다.');
                 }}
               >
                 삭제
