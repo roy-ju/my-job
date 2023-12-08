@@ -60,6 +60,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     moveInDateType,
     handleChangeMoveInDateType,
 
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
+
     emptyTextFields,
 
     handleSubmitFinal,
@@ -105,6 +108,8 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeMoveInDate={handleChangeMoveInDate}
         moveInDateType={moveInDateType}
         onChangeMoveInDateType={handleChangeMoveInDateType}
+        interviewAvailabletimes={interviewAvailabletimes}
+        onChangeInterviewAvailabletimes={handleChangeInterviewAvailabletimes}
         emptyTextFields={emptyTextFields}
         onSubmitFinal={handleSubmitFinal}
       />

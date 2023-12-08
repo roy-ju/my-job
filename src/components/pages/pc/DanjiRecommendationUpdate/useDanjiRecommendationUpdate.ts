@@ -10,13 +10,17 @@ import { TimeTypeString } from '@/constants/strings';
 import { mutate } from 'swr';
 import updateSuggest from '@/apis/suggest/updateSuggest';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 
 export default function useDanjiRecommendationFormUpdate(depth: number) {
   const router = useRouter(depth);
   const suggestID = Number(router?.query?.suggestID) ?? 0;
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
+
   const danjiID = data?.danji_id ?? null;
+
+  const { mutate: listMutate } = useAPI_GetDanjiSuggestList({ danjiId: danjiID, pageSize: 4 });
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [price, setPrice] = useState('');
@@ -30,6 +34,7 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
   const [description, setDescription] = useState('');
+  const [interviewAvailabletimes, setInterviewAvailabletimes] = useState<string[]>([]);
 
   const [emptyTextFields, setEmptyTextFields] = useState({
     price: false,
@@ -139,6 +144,26 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
     setMoveInDateType(value);
   }, []);
 
+  const handleChangeInterviewAvailabletimes = useCallback(
+    (value: string) => {
+      if (value === '시간대 상관 없어요') {
+        if (interviewAvailabletimes.includes(value)) {
+          const result = interviewAvailabletimes.filter((ele) => ele !== value);
+          setInterviewAvailabletimes(result);
+        } else {
+          setInterviewAvailabletimes([value]);
+        }
+      } else {
+        const result = interviewAvailabletimes.includes('시간대 상관 없어요')
+          ? [value]
+          : interviewAvailabletimes.includes(value)
+          ? interviewAvailabletimes.filter((ele) => ele !== value)
+          : [...interviewAvailabletimes, value];
+        setInterviewAvailabletimes(result);
+      }
+    },
+    [interviewAvailabletimes],
+  );
   const handleSubmitFinal = useCallback(async () => {
     function getDateType(value?: string) {
       if (value === '이전') return 1;
@@ -161,22 +186,28 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
       move_in_date_type: purpose === '투자' ? null : getDateType(moveInDateType),
       note: description,
       quick_sale: Number(data?.buy_or_rents) === BuyOrRent.Buy ? Boolean(+quickSale) : null,
+      interview_available_times: interviewAvailabletimes.join(),
     };
 
     Object.keys(request).forEach((key) => (request[key] === undefined || request[key] === '') && delete request[key]);
 
     await updateSuggest(request);
+
     await mutate('/suggest/detail');
+
+    await listMutate();
 
     toast.success('구해요 글이 수정되었습니다.');
 
     router.replace(Routes.MySuggestDetail, {
       searchParams: {
-        suggestID: `${data?.suggest_id}`,
+        ...(data?.danji_id ? { danjiID: `${data?.danji_id}` } : {}),
+        ...(data?.suggest_id ? { suggestID: `${data?.suggest_id}` } : {}),
       },
     });
   }, [
     router,
+    data?.danji_id,
     data?.suggest_id,
     suggestID,
     price,
@@ -191,6 +222,8 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
     description,
     data?.buy_or_rents,
     data?.realestate_types,
+    interviewAvailabletimes,
+    listMutate,
   ]);
 
   // 프리필 로직
@@ -198,6 +231,7 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
     if (typeof router.query.suggestID !== 'string') {
       router.pop();
     }
+
     setPrice(String(data?.trade_or_deposit_price ?? '').slice(0, -4));
     setMonthlyRentFee(String(data?.monthly_rent_fee ?? '').slice(0, -4));
     setInvestAmount(String(data?.invest_amount ?? '').slice(0, -4));
@@ -209,6 +243,7 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
     setPurpose(data?.purpose ?? '');
     setMoveInDate(data?.move_in_date ? new Date(data?.move_in_date) : null);
     setMoveInDateType(data?.move_in_date_type ? TimeTypeString[data?.move_in_date_type] : '이전');
+    setInterviewAvailabletimes(data?.interview_available_times ? data.interview_available_times.split(',') : []);
   }, [router.query.danjiID]);
 
   useIsomorphicLayoutEffect(() => {
@@ -222,8 +257,10 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
 
     if (!+quickSale && !price) return;
 
+    if (interviewAvailabletimes.length === 0) return;
+
     setNextButtonDisabled(false);
-  }, [purpose, investAmount, moveInDate, pyoungList, quickSale, price]);
+  }, [purpose, investAmount, moveInDate, pyoungList, quickSale, price, interviewAvailabletimes]);
 
   return {
     targetText: data?.request_target_text,
@@ -266,6 +303,9 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
     description,
     handleChangeDescription,
 
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
+
     handleSubmitFinal,
 
     danjiRealPricesPyoungList: hasJyb === false ? undefined : danjiRealPricesPyoungList,
@@ -279,6 +319,6 @@ export default function useDanjiRecommendationFormUpdate(depth: number) {
 
     emptyTextFields,
 
-    isEntryDanji: router?.query?.entry === 'danji',
+    isEntryDanji: router?.query?.entry === 'danji' || router?.query?.entry === 'danjiSuggestListings',
   };
 }

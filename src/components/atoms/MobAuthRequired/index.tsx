@@ -8,7 +8,6 @@ import MobileContainer from '../MobileContainer';
 import Loading from '../Loading';
 
 interface Props {
-  depth?: number;
   ciRequired?: boolean;
   children?: ReactNode;
   onAccessDenied?: () => void;

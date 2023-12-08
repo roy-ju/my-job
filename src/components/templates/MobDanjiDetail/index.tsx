@@ -191,7 +191,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
 
   return (
     <>
-      <div tw="relative w-full max-w-mobile flex flex-col h-full overflow-x-hidden">
+      <div tw="relative w-full flex flex-col h-full overflow-x-hidden">
         <div tw="[z-index: 500]">
           <MobDanjiDetailHeader
             danji={danji}
@@ -215,7 +215,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
                 onMouseLeave={onDragEnd}
               >
                 <StyledDiv
-                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
+                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer flex-1"
                   onClick={() => onClickTab(0)}
                   ref={(el) => (refs.current[0] = el)}
                 >
@@ -235,7 +235,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
 
                 {isShowRpTab && (
                   <StyledDiv
-                    tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
+                    tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer flex-1"
                     onClick={() => onClickTab(1)}
                     ref={(el) => (refs.current[1] = el)}
                   >
@@ -255,7 +255,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
                 )}
 
                 <StyledDiv
-                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
+                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer flex-1"
                   onClick={() => onClickTab(2)}
                   ref={(el) => (refs.current[2] = el)}
                 >
@@ -274,7 +274,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
                 </StyledDiv>
 
                 <StyledDiv
-                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
+                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer flex-1"
                   onClick={() => onClickTab(3)}
                   ref={(el) => (refs.current[3] = el)}
                 >

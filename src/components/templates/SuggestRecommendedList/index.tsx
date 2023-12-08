@@ -1,47 +1,36 @@
 import { GetMySuggestRecommendedListResponse } from '@/apis/suggest/getMySuggestRecommendedList';
 import { NavigationHeader, NoDataUI } from '@/components/molecules';
 import { InfiniteScroll } from '@/components/atoms';
-import { SuggestRecommendedListItem } from '@/components/organisms';
+import Item from './Item';
 
 interface Props {
   suggestRecommendedList?: GetMySuggestRecommendedListResponse['list'];
   onNextListing?: () => void;
-  onClickBack?: () => void;
-  onClickSuggestRecommendCancel?: (suggestRecommendId: number) => void;
+  onNavigateToSuggestRecommendedDetail?: (suggestRecommendId: number) => void;
   onNavigateToDanjiRecommendation?: () => void;
-  onNavigateToChatRoom?: (chatRoomId: number) => void;
-  onDeleteSuggestRecommend?: (suggestRecommendId: number) => void;
+  onClickBack?: () => void;
 }
 
 export default function SuggestRecommendedList({
   suggestRecommendedList,
   onNextListing,
-  onClickBack,
-  onClickSuggestRecommendCancel,
+  onNavigateToSuggestRecommendedDetail,
   onNavigateToDanjiRecommendation,
-  onNavigateToChatRoom,
-  onDeleteSuggestRecommend,
+  onClickBack,
 }: Props) {
   return (
     <div tw="h-full flex flex-col">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title>타인 구하기에 대한 나의 추천</NavigationHeader.Title>
+        <NavigationHeader.Title>우리집 추천 내역</NavigationHeader.Title>
       </NavigationHeader>
 
       {suggestRecommendedList?.length ? (
-        <div tw="flex-1 min-h-0 overflow-auto pt-7 pb-10 px-5 flex flex-col gap-5">
+        <div tw="flex-1 min-h-0 overflow-auto pb-10 flex flex-col gap-5">
           <InfiniteScroll onNext={onNextListing} tw="overflow-y-visible">
-            <div tw="flex flex-col gap-5">
-              {suggestRecommendedList?.map(({ suggest_item, suggest_recommend_item }) => (
-                <SuggestRecommendedListItem
-                  suggestItem={suggest_item}
-                  suggestRecommendItem={suggest_recommend_item}
-                  key={suggest_recommend_item.suggest_recommend_id}
-                  onClickSuggestRecommendCancel={onClickSuggestRecommendCancel}
-                  onNavigateToChatRoom={onNavigateToChatRoom}
-                  onDeleteSuggestRecommend={onDeleteSuggestRecommend}
-                />
+            <div tw="flex flex-col">
+              {suggestRecommendedList?.map((item) => (
+                <Item key={item.suggest_id} onClick={onNavigateToSuggestRecommendedDetail} item={item} />
               ))}
             </div>
           </InfiniteScroll>

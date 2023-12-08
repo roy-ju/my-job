@@ -22,6 +22,24 @@ export default memo(() => {
     setSelectedButton('danji');
   };
 
+  const handleSuggestRegionalForm = (address: string) => {
+    handleCloseModal();
+
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
+      query: { address, ...(router?.query?.origin ? { origin: router.query.origin as string } : {}) },
+    });
+  };
+
+  const handleDanjiRecommendationForm = (danjiID: number) => {
+    handleCloseModal();
+
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
+      query: { danjiID: `${danjiID}`, ...(router?.query?.origin ? { origin: router.query.origin as string } : {}) },
+    });
+  };
+
   return (
     <MobileContainer>
       <RecommendationFormTemplate
@@ -38,8 +56,7 @@ export default memo(() => {
             <RegionForm
               onClickClose={handleCloseModal}
               onSubmit={(item) => {
-                handleCloseModal();
-                router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}?address=${item.name}`);
+                handleSuggestRegionalForm(item.name);
               }}
             />
           </div>
@@ -52,8 +69,7 @@ export default memo(() => {
               <DanjiList.Header onClickClose={handleCloseModal} />
               <DanjiList.AddressSearchForm
                 onSubmit={(danjiID) => {
-                  handleCloseModal();
-                  router.push(`/${Routes.EntryMobile}/${Routes.DanjiRecommendation}?danjiID=${danjiID}`);
+                  handleDanjiRecommendationForm(danjiID);
                 }}
               />
             </DanjiList>

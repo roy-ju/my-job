@@ -40,6 +40,8 @@ export default function DanjiRecommendationUpdate({
   onChangeDescription,
   pyoungInputValue,
   onChangePyoungInputValue,
+  interviewAvailabletimes,
+  onChangeInterviewAvailabletimes,
   danjiRealPricesPyoungList,
   onClickPyoungDeleteIcon,
   onClickPyoungAddIcon,
@@ -126,6 +128,12 @@ export default function DanjiRecommendationUpdate({
               description={description}
               onChangeDescription={onChangeDescription}
               buyOrRent={buyOrRent}
+            />
+          </div>
+          <div tw="px-5 pb-10">
+            <DanjiRecommendationForm.Interview
+              interviewAvailabletimes={interviewAvailabletimes}
+              onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
             />
           </div>
         </div>

@@ -12,10 +12,12 @@ export default function OwnerVerification() {
 
   const loi = router.query.loi as string;
 
-  const { data, isLoading } = useAPI_GetAgreementInfo(loi);
+  const token = router.query.t as string;
+
+  const { data, isLoading } = useAPI_GetAgreementInfo(loi, token);
 
   const handleVerify = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/ov/ci?loi=${router.query.loi}`);
+    router.push(`/${Routes.EntryMobile}/ov/ci?t=${router.query.t}&loi=${router.query.loi}`);
   }, [router]);
 
   const handleNavigateToPrivacyPolicy = useCallback(() => {
@@ -29,9 +31,7 @@ export default function OwnerVerification() {
           isLoading={!loi || isLoading}
           address={data?.full_road_name_address}
           requestorName={data?.requestor_name}
-          price={data?.trade_or_deposit_price}
-          monthlyRentFee={data?.monthly_rent_fee}
-          buyOrRent={data?.buy_or_rent}
+          statusText={data?.status_text}
           onClickVerify={handleVerify}
           onClickPrivacyPolicy={handleNavigateToPrivacyPolicy}
         />

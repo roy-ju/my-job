@@ -1,3 +1,16 @@
+export function convertSignupPass(v?: string) {
+  if (!v) return '';
+
+  if (v === 'internet') return '인터넷 검색';
+  if (v === 'sns') return 'SNS 및 블로그';
+  if (v === 'appstore') return '앱스토어';
+  if (v === 'friends') return '지인 소개';
+  if (v === 'ad') return '광고';
+  if (v === 'news') return '뉴스 기사';
+
+  return '기타';
+}
+
 export function convertSidoName(v: string | undefined | null) {
   if (!v) return '-';
 
@@ -9,6 +22,38 @@ export function convertSidoName(v: string | undefined | null) {
   if (v === '경상북도') return '경북';
 
   return v.slice(0, 2);
+}
+
+export function makeAddressDetail({ danjiName, dong, ho }: { danjiName: string; dong: string; ho: string }) {
+  if (danjiName && dong && ho) {
+    return `${danjiName} ${dong.replaceAll('동', '')}동 ${ho.replaceAll('호', '')}호`;
+  }
+
+  if (danjiName && dong && !ho) {
+    return `${danjiName} ${dong.replaceAll('동', '')}동`;
+  }
+
+  if (danjiName && !dong && ho) {
+    return `${danjiName} ${ho.replaceAll('호', '')}호`;
+  }
+
+  if (danjiName && !dong && !ho) {
+    return `${danjiName}`;
+  }
+
+  if (!danjiName && dong && ho) {
+    return `${dong.replaceAll('동', '')}동 ${ho.replaceAll('호', '')}호`;
+  }
+
+  if (!danjiName && dong && !ho) {
+    return `${dong.replaceAll('동', '')}동`;
+  }
+
+  if (!danjiName && !dong && ho) {
+    return `${ho.replaceAll('호', '')}호`;
+  }
+
+  return '';
 }
 
 export function convertSigunguName(v: string | undefined | null) {
@@ -80,6 +125,13 @@ export function minDigits(num: number, digits: number) {
     useGrouping: false,
     minimumIntegerDigits: digits,
   });
+}
+
+export function countFormat({ value }: { value: number | undefined | null }) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return 0;
 }
 
 export function formatDate({

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import getAgentList from '@/apis/listing/getAgentList';
-
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { ListingCreateChooseAgent as ListingCreateChooseAgentTemplate } from '@/components/templates';
 import { useRouter } from 'next/router';
@@ -10,7 +8,9 @@ import { Loading, MobileContainer } from '@/components/atoms';
 
 const ListingCreateChooseAgent = () => {
   const router = useRouter();
-  const listingID = Number(router.query.listingID) ?? 0;
+
+  const userAddressID = Number(router.query.userAddressID) ?? 0;
+
   const [index, setIndex] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -19,8 +19,11 @@ const ListingCreateChooseAgent = () => {
 
   const fetchAgentList = useCallback(async () => {
     setIsLoading(true);
-    const res = await getAgentList({ listing_id: listingID });
+
+    const res = await getAgentList({ user_address_id: userAddressID });
+
     setIsLoading(false);
+
     if (res && res.agent_list) {
       setAgents(
         res.agent_list.map((item) => ({
@@ -36,58 +39,47 @@ const ListingCreateChooseAgent = () => {
         })),
       );
     }
-  }, [listingID]);
-
-  useEffect(() => {
-    fetchAgentList();
-  }, [fetchAgentList]);
+  }, [userAddressID]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
-        query: {
-          listingID: router.query.listingID as string,
-          params: router.query.params as string,
-          addressLine1: router.query.addressLine1 as string,
-          addressLine2: router.query.addressLine2 as string,
-          addressData: router.query.addressData as string,
-          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateForm}`,
+      query: {
+        params: router.query.params as string,
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
+        isBack: 'true',
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateForm}?listingID=${router.query.listingID}`,
-    );
+    });
   }, [router]);
 
   const handleClickNext = useCallback(() => {
     const agentId = agents[index]?.id;
 
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}`,
-        query: {
-          listingID: router.query.listingID as string,
-          agentID: `${agentId}`,
-          params: router.query.params as string,
-          addressLine1: router.query.addressLine1 as string,
-          addressLine2: router.query.addressLine2 as string,
-          addressData: router.query.addressData as string,
-          danjiID: router?.query?.danjiID ? (router.query.danjiID as string) : '',
-          redirect: router?.query?.redirect ? (router.query.redirect as string) : '',
-        },
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}`,
+      query: {
+        params: router.query.params as string,
+        agentID: `${agentId}`,
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
+        ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
       },
-      `/${Routes.EntryMobile}/${Routes.ListingCreateSummary}?listingID=${router.query.listingID}`,
-    );
+    });
   }, [agents, index, router]);
 
   useEffect(() => {
-    if (!router.query.listingID || !router.query.addressData || !router.query.params) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.ListingCreateAddress}`);
+    fetchAgentList();
+  }, [fetchAgentList]);
+
+  useEffect(() => {
+    if (!router?.query?.userAddressID || !router?.query?.params) {
+      router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
     }
   }, [router]);
 
-  if (!router.query.listingID || !router.query.addressData || !router.query.params) {
+  if (!router?.query?.userAddressID || !router?.query?.params) {
     return (
       <MobileContainer>
         <div tw="py-20">

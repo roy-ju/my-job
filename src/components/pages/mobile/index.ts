@@ -24,6 +24,9 @@ export { default as UpdatePhoneWrraper } from './My/UpdatePhoneWrraper';
 export { default as AddressWrraper } from './My/AddressWrraper';
 export { default as AddressDetailWrrpaer } from './My/AddressDetailWrraper';
 export { default as AddressVerifyingWrraper } from './My/AddressVerifyingWrraper';
+export { default as MyRegisterdHomes } from './MyRegisterdHomes';
+export { default as MyAddressVerfiyResult } from './MyAddressVerfiyResult';
+export { default as MyAddressAgreement } from './MyAddressAgreement';
 export { default as NotificationSettingsWrraper } from './My/NotificationSettingsWrraper';
 export { default as NotificationWrraper } from './My/NotificationWrraper';
 export { default as FindAccountWrraper } from './My/FindAccountWrraper';
@@ -48,23 +51,22 @@ export { default as VerifyCiSuccessWrraper } from './VerifyCiSuccess';
 export { default as OwnerVerification } from './OwnerVerification';
 
 /** 매물등록 */
-export { default as ListingCreateAddress } from './ListingCreateAddress';
-export { default as ListingCreateAddressDetail } from './ListingCreateAddressDetail';
+export { default as ListingSelectAddress } from './ListingSelectAddress';
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
 export { default as ListingCreateSummary } from './ListingCreateSummary';
 export { default as ListingCreateResult } from './ListingCreateResult';
-export { default as ListingCreateUpdateAddress } from './ListingCreateUpdateAddress';
-export { default as ListingCreateUpdateAddressDetail } from './ListingCreateUpdateAddressDetail';
 
 /** 채팅 */
 export { default as ChatRoomReport } from './ChatRoomReport';
 export { default as ChatRoomList } from './ChatRoomList';
-export { default as ChatRoom } from './ChatRoom';
+// export { default as ChatRoom } from './ChatRoom';
 
 /** 매물 목록 */
 export { default as MyRegisteredListings } from './MyRegisteredListings';
 export { default as MyParticipatingListings } from './MyParticipatingListings';
+
+export { default as RecommendGuide } from './RecommendGuide';
 
 /** 지역 추천 */
 export { default as SuggestRequestedList } from './SuggestRequestedList';
@@ -72,8 +74,6 @@ export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
 export { default as SuggestRegionalFormUpdate } from './SuggestRegionalFormUpdate';
 export { default as SuggestDetail } from './SuggestDetail';
-
-export { default as MySuggestDetail } from './MySuggestDetail';
 
 /** 매물 상세 */
 export { default as ListingDetail } from './ListingDetail';
@@ -111,9 +111,6 @@ export { default as DanjiRecommendationUpdate } from './DanjiRecommendationUpdat
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 
-/** 매물등록 가이드 */
-export { default as MobHog } from './MobHog';
-
 /** 법률 게시판 */
 export { default as LawQna } from './LawQna';
 export { default as LawQnaDetail } from './LawQnaDetail';
@@ -126,8 +123,10 @@ export { default as RecommendationForm } from './RecommendationForm';
 
 /** 타인 구하기에 대한 나의 추천 */
 export { default as SuggestRecommendedList } from './SuggestRecommendedList';
+export { default as SuggestRecommendedDetail } from './SuggestRecommendedDetail';
 
 /** 매물추천하기  */
+export { default as SuggestSelectAddress } from './SuggestSelectAddress';
 export { default as SuggestListingForm } from './SuggestListingForm';
 
 export { default as SuggestListings } from './SuggestListings';

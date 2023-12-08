@@ -2,10 +2,10 @@ import checkNickname from '@/apis/user/checkNickname';
 import login from '@/apis/user/login';
 import { TermsState } from '@/components/organisms/RegisterForm';
 import { MobRegister } from '@/components/templates';
-import { PrivacyRetentionType } from '@/constants/enums';
 import { NICKNAME_REGEX } from '@/constants/regex';
 import { useAuth } from '@/hooks/services';
 import Routes from '@/router/routes';
+import { convertSignupPass } from '@/utils/fotmat';
 import { useRouter } from 'next/router';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -18,7 +18,8 @@ export default function RegisterWrraper() {
   const [nickname, setNickname] = useState('');
   const [nicknameErrMsg, setNickNameErrMsg] = useState('');
 
-  const [privacyRetention, setPrivacyRetention] = useState('탈퇴시까지');
+  const [funnelInfo, setFunnelInfo] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [terms, setTerms] = useState<TermsState>({
@@ -34,12 +35,13 @@ export default function RegisterWrraper() {
     () =>
       email.length > 0 &&
       nickname.length > 0 &&
+      funnelInfo.length > 0 &&
       terms.over19 &&
       terms.service &&
       terms.privacy &&
       terms.location &&
       terms.notification,
-    [email, nickname, terms],
+    [email, nickname, funnelInfo, terms],
   );
 
   const handleChangeNickname = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
@@ -57,8 +59,8 @@ export default function RegisterWrraper() {
     setNickname(e.target.value);
   }, []);
 
-  const handleChangePrivacyRetention = useCallback((value: string) => {
-    setPrivacyRetention(value);
+  const handleChangeFunnelInfo = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    setFunnelInfo(e.target.value);
   }, []);
 
   const handleChangeTerms = useCallback((newTerms: TermsState) => {
@@ -79,23 +81,13 @@ export default function RegisterWrraper() {
       return;
     }
 
-    let privacyRetentionType = PrivacyRetentionType.Deregister;
-
-    if (privacyRetention === '1년') {
-      privacyRetentionType = PrivacyRetentionType.OneYear;
-    } else if (privacyRetention === '3년') {
-      privacyRetentionType = PrivacyRetentionType.ThreeYear;
-    } else if (privacyRetention === '5년') {
-      privacyRetentionType = PrivacyRetentionType.FiveYear;
-    }
-
     const loginResponse = await login({
       email,
       marketing: terms.marketing,
       nickname,
-      privacyRetentionType,
       socialLoginType: Number(router.query.socialLoginType),
       token: router.query.token as string,
+      signUpSource: convertSignupPass(funnelInfo),
     });
 
     if (loginResponse?.access_token) {
@@ -110,7 +102,7 @@ export default function RegisterWrraper() {
         redirect: router.query.redirect ?? '',
       },
     });
-  }, [email, terms, privacyRetention, nickname, router, handleLogin]);
+  }, [nickname, email, terms.marketing, router, funnelInfo, handleLogin]);
 
   const handleNavigateToServiceTerms = useCallback(() => {
     router.replace(
@@ -168,12 +160,12 @@ export default function RegisterWrraper() {
       email={email}
       nickname={nickname}
       nicknameErrorMessage={nicknameErrMsg}
-      privacyRetention={privacyRetention}
+      funnelInfo={funnelInfo}
       terms={terms}
       formValid={formValid}
       isLoading={isLoading}
       onChangeNickname={handleChangeNickname}
-      onChangePrivacyRetention={handleChangePrivacyRetention}
+      onChangeFunnelInfo={handleChangeFunnelInfo}
       onChangeTerms={handleChangeTerms}
       onClickNext={handleClickNext}
       onClickBackButton={handleClickBack}

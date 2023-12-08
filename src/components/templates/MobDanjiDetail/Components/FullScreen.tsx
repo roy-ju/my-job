@@ -30,7 +30,7 @@ const Container = styled('div')({
   pointerEvents: 'auto',
   width: '100vw',
   overflowX: 'hidden',
-  maxWidth: '428px',
+  maxWidth: '100%',
   minHeight: '100%',
   backgroundColor: 'white',
   margin: '0 auto',

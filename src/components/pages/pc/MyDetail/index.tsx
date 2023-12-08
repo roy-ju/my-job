@@ -18,17 +18,12 @@ export default memo(({ depth, panelWidth }: Props) => {
     name,
     phone,
     profileImageUrl,
-    privacyRetentionValue,
-    roadNameAddress,
-    addressDetail,
-    ownershipVerified,
     nicknamePopup,
     emailPopup,
     updateNicknameButtonDisabled,
     updateEmailPopup,
     handleClickDeregister,
     handleLogout,
-    handleUpdateAddress,
     handleUpdatePhone,
     handleClickUpdateNickname,
     updateNickname,
@@ -41,7 +36,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleClickUpdateToKakao,
     handleCloseEmailUpdatePopup,
     handleNavigateToVerifyCi,
-    handleChangeUpdatePrivacyRetentionType,
   } = useMyDetail(depth);
 
   return (
@@ -54,20 +48,14 @@ export default memo(({ depth, panelWidth }: Props) => {
           name={name ?? ''}
           phone={phone ?? ''}
           profileImageUrl={profileImageUrl ?? ''}
-          address={roadNameAddress ?? ''}
-          addressDetail={addressDetail ?? ''}
-          addressVerified={ownershipVerified ?? false}
-          privacyRetentionType={privacyRetentionValue ?? ''}
           updateNicknameButtonDisabled={updateNicknameButtonDisabled}
           onChangeNickname={handleChangeNickname}
           onClickDeregister={handleClickDeregister}
           onClickLogout={handleLogout}
-          onClickUpdateAddress={handleUpdateAddress}
           onClickUpdatePhone={handleUpdatePhone}
           onClickUpdateNickname={handleClickUpdateNickname}
           onClickUpdateEmail={handleClickUpdateEmail}
           onClickUpdateProfileImage={handleUploadProfileImage}
-          onClickUpdatePrivacyRetentionType={handleChangeUpdatePrivacyRetentionType}
           onClickVerifyCi={handleNavigateToVerifyCi}
         />
         {nicknamePopup && (

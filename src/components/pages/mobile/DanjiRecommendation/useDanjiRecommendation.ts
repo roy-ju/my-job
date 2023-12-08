@@ -29,6 +29,7 @@ export default function useDanjiRecommendation() {
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
   const [description, setDescription] = useState('');
+  const [interviewAvailabletimes, setInterviewAvailabletimes] = useState<string[]>([]);
 
   const [openResetPopup, setOpenResetPopup] = useState(false);
 
@@ -145,6 +146,27 @@ export default function useDanjiRecommendation() {
     setMoveInDateType(value);
   }, []);
 
+  const handleChangeInterviewAvailabletimes = useCallback(
+    (value: string) => {
+      if (value === '시간대 상관 없어요') {
+        if (interviewAvailabletimes.includes(value)) {
+          const result = interviewAvailabletimes.filter((ele) => ele !== value);
+          setInterviewAvailabletimes(result);
+        } else {
+          setInterviewAvailabletimes([value]);
+        }
+      } else {
+        const result = interviewAvailabletimes.includes('시간대 상관 없어요')
+          ? [value]
+          : interviewAvailabletimes.includes(value)
+          ? interviewAvailabletimes.filter((ele) => ele !== value)
+          : [...interviewAvailabletimes, value];
+        setInterviewAvailabletimes(result);
+      }
+    },
+    [interviewAvailabletimes],
+  );
+
   const handleOpenDanjiList = useCallback(() => {
     setIsDanjiListOpen(true);
   }, []);
@@ -177,12 +199,16 @@ export default function useDanjiRecommendation() {
     setNextForm(Forms.Option);
   }, [setNextForm]);
 
+  const handleSubmitOption = useCallback(() => {
+    setNextForm(Forms.Interview);
+  }, [setNextForm]);
+
   const onClosePopup = useCallback(() => {
     setOpenResetPopup(false);
   }, []);
 
   const onConfirmPopup = useCallback(() => {
-    if (router?.query?.entry === 'danji') {
+    if (router?.query?.entry === 'danji' || router?.query?.entry === 'danjiSuggestListings') {
       setForms([Forms.BuyOrRent]);
     } else {
       setForms([Forms.Danji, Forms.BuyOrRent]);
@@ -190,7 +216,8 @@ export default function useDanjiRecommendation() {
     setBuyOrRent(0);
     setPrice('');
     setMonthlyRentFee('');
-    setQuickSale('');
+    setQuickSale('0');
+    setPyoungInputValue('');
     setInvestAmount('');
     setNegotiable(true);
     setPyoungList([]);
@@ -203,6 +230,7 @@ export default function useDanjiRecommendation() {
       price: false,
       investAmount: false,
     });
+    setInterviewAvailabletimes([]);
   }, [router?.query?.entry]);
 
   const handleSubmitFinal = useCallback(async () => {
@@ -237,15 +265,6 @@ export default function useDanjiRecommendation() {
       return;
     }
 
-    // area
-
-    if (!pyoungList.length) {
-      const form = document.getElementById(Forms.Area);
-      form?.scrollIntoView({ behavior: 'smooth' });
-      toast.error('평수를 선택해 주세요.');
-      return;
-    }
-
     // move in date
     if (purpose !== '투자' && !moveInDate) {
       if (buyOrRent === BuyOrRent.Buy) {
@@ -258,6 +277,22 @@ export default function useDanjiRecommendation() {
       const form = document.getElementById(Forms.MoveInDate);
       form?.scrollIntoView({ behavior: 'smooth' });
       toast.error('입주 희망일을 입력해주세요.');
+      return;
+    }
+
+    // area
+    if (!pyoungList.length) {
+      const form = document.getElementById(Forms.Option);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('평수를 선택해 주세요.');
+      return;
+    }
+
+    // interviewAvailabletimes
+    if (interviewAvailabletimes.length === 0) {
+      const form = document.getElementById(Forms.Interview);
+      form?.scrollIntoView({ behavior: 'smooth' });
+      toast.error('인터뷰 가능 시간대를 선택해 주세요.');
       return;
     }
 
@@ -275,13 +310,15 @@ export default function useDanjiRecommendation() {
       moveInDate,
       moveInDateType,
       description,
+      interviewAvailabletimes,
     });
 
     router.replace({
       pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendationSummary}`,
       query: {
-        entry: router?.query?.entry ? (router?.query?.entry as string) : '',
-        redirect: router?.query?.redirect ? (router?.query?.redirect as string) : '',
+        ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+        ...(router?.query?.origin ? { origin: router.query.origin as string } : {}),
+        ...(router?.query?.redirect ? { redirect: router.query.redirect as string } : {}),
         danjiID,
         params: JSON.stringify(params),
         forms: JSON.stringify(forms),
@@ -303,6 +340,7 @@ export default function useDanjiRecommendation() {
     description,
     negotiable,
     quickSale,
+    interviewAvailabletimes,
     emptyTextFields,
   ]);
 
@@ -336,14 +374,27 @@ export default function useDanjiRecommendation() {
       case Forms.MoveInDate:
         handleSubmitMoveInDate();
         break;
+
       case Forms.Option:
+        handleSubmitOption();
+        break;
+
+      case Forms.Interview:
         handleSubmitFinal();
         break;
 
       default:
         break;
     }
-  }, [forms, handleSubmitDanji, handleSubmitBuyOrRent, handleSubmitPurpose, handleSubmitMoveInDate, handleSubmitFinal]);
+  }, [
+    forms,
+    handleSubmitDanji,
+    handleSubmitBuyOrRent,
+    handleSubmitPurpose,
+    handleSubmitMoveInDate,
+    handleSubmitFinal,
+    handleSubmitOption,
+  ]);
 
   // 단지 id 프리필 로직
   useIsomorphicLayoutEffect(() => {
@@ -371,13 +422,20 @@ export default function useDanjiRecommendation() {
         }
       }
 
-      setTimeout(() => formElement.scrollIntoView({ behavior: 'smooth' }), 50);
+      setTimeout(() => {
+        if (router.query.params) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+          formElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }
   }, [forms]);
 
   // 버튼 비활성화 로직
   useIsomorphicLayoutEffect(() => {
     setNextButtonDisabled(false);
+
     const currentForm = forms[forms.length - 1];
 
     if (currentForm === Forms.Danji) {
@@ -390,16 +448,12 @@ export default function useDanjiRecommendation() {
       if (!buyOrRent) {
         setNextButtonDisabled(true);
       }
+
       if (buyOrRent === BuyOrRent.Buy && quickSale === '0' && !price) {
         setNextButtonDisabled(true);
       }
-      if (buyOrRent !== BuyOrRent.Buy && !price) {
-        setNextButtonDisabled(true);
-      }
-    }
 
-    if (currentForm === Forms.Area) {
-      if (!pyoungList.length) {
+      if (buyOrRent !== BuyOrRent.Buy && !price) {
         setNextButtonDisabled(true);
       }
     }
@@ -425,14 +479,39 @@ export default function useDanjiRecommendation() {
         }
       }
     }
-  }, [forms, danjiID, buyOrRent, investAmount, purpose, moveInDate, pyoungList, price, quickSale]);
+
+    if (currentForm === Forms.Option) {
+      if (pyoungList.length === 0) {
+        setNextButtonDisabled(true);
+      }
+    }
+
+    if (currentForm === Forms.Interview) {
+      if (interviewAvailabletimes.length === 0) {
+        setNextButtonDisabled(true);
+      }
+    }
+  }, [
+    forms,
+    danjiID,
+    buyOrRent,
+    investAmount,
+    purpose,
+    moveInDate,
+    pyoungList,
+    price,
+    quickSale,
+    interviewAvailabletimes,
+  ]);
 
   // 수정하기 프리필 로직
 
   useIsomorphicLayoutEffect(() => {
     if (!router.query.params) return;
     if (!router.query.forms) return;
+
     setForms(JSON.parse(router.query.forms as string));
+
     const params: Record<string, unknown> = JSON.parse(router.query.params as string);
 
     setDanjiID(router.query.danjiID as string);
@@ -441,15 +520,17 @@ export default function useDanjiRecommendation() {
       setBuyOrRent(1);
       setPrice(params.trade_price ? String(params.trade_price)?.slice(0, -4) : '');
       setInvestAmount(params.invest_amount ? String(params.invest_amount)?.slice(0, -4) : '');
-      setQuickSale(params.quick_sale ? String(+params.quick_sale) : '0');
+      setQuickSale(params.quick_sale ? String(+(params.quick_sale as unknown as boolean)) : '0');
     } else {
       setBuyOrRent(2);
       setPrice(params.deposit ? String(params.deposit)?.slice(0, -4) : '');
       setMonthlyRentFee(params.monthly_rent_fee ? String(params.monthly_rent_fee)?.slice(0, -4) : '');
     }
+
     setNegotiable(Boolean(params.negotiable));
 
     setPyoungList((params.pyoungs as number[]) ?? []);
+
     setPurpose(String(params.purpose ?? ''));
 
     if (String(params.purpose) === '투자') {
@@ -459,9 +540,19 @@ export default function useDanjiRecommendation() {
       setMoveInDate(new Date(String(params.move_in_date ?? '')));
       setMoveInDateType(params.move_in_date_type ? TimeTypeString[Number(params.move_in_date_type)] : '이전');
     }
+
     setDescription(String(params.note ?? ''));
 
+    setInterviewAvailabletimes(String(params.interview_available_times).split(',') as unknown as string[]);
+
+    if (router.query.entry === 'danji' || router.query.entry === 'danjiSuggestListings') {
+      const formBuyOrRent = document.getElementById(Forms.BuyOrRent);
+
+      if (formBuyOrRent) formBuyOrRent.style.minHeight = '';
+    }
+
     const formDanji = document.getElementById(Forms.Danji);
+
     if (formDanji) {
       formDanji.style.minHeight = '';
     }
@@ -509,15 +600,13 @@ export default function useDanjiRecommendation() {
     description,
     handleChangeDescription,
 
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
+
     openResetPopup,
 
     handleOpenDanjiList,
     handleCloseDanjiList,
-    handleSubmitDanji,
-    handleSubmitBuyOrRent,
-    handleSubmitMoveInDate,
-    handleSubmitPurpose,
-    handleSubmitFinal,
 
     handleClickNext,
     onClosePopup,
@@ -534,6 +623,6 @@ export default function useDanjiRecommendation() {
 
     emptyTextFields,
 
-    isEntryDanji: router?.query?.entry === 'danji',
+    isEntryDanji: router?.query?.entry === 'danji' || router?.query?.entry === 'danjiSuggestListings',
   };
 }

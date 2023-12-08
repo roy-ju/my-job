@@ -56,7 +56,7 @@ export default memo(() => {
   }, [router]);
 
   const handleClickSuggestion = useCallback(async () => {
-    router.replace(Routes.RecommendationForm, {
+    router.replace(Routes.RecommendGuide, {
       searchParams: {
         back: router.asPath,
       },
@@ -74,16 +74,8 @@ export default memo(() => {
       setOpenPopup(true);
       return;
     }
-    router.replace(Routes.MyAddress);
+    router.replace(Routes.MyAddress, { searchParams: { origin: router.asPath } });
   }, [router, user?.hasAddress]);
-
-  const handleClickListingCreate = useCallback(() => {
-    router.replace(Routes.ListingCreateAddress, {
-      searchParams: {
-        origin: router.asPath,
-      },
-    });
-  }, [router]);
 
   const handleClickLawQna = useCallback(
     (id?: number) => {
@@ -203,7 +195,6 @@ export default memo(() => {
         onClickSuggestion={handleClickSuggestion}
         onClickBidding={handleClickBidding}
         onClickHomeRegister={handleClickHomeRegister}
-        onClickListingCreate={handleClickListingCreate}
         onClickListing={handleClickListing}
         onClickDanji={handleClickDanji}
         onClickAppStore={handleClickAppStore}
@@ -220,6 +211,7 @@ export default memo(() => {
         onClickCounseling={handleClickCounseling}
         onClickLawQna={handleClickLawQna}
       />
+
       {openPopup && (
         <OverlayPresenter>
           <Popup>
@@ -227,12 +219,16 @@ export default memo(() => {
               <Popup.SubTitle tw="text-center">
                 이미 등록된 주소가 있습니다.
                 <br />
-                주소변경은 마이페이지에서 가능합니다.
+                우리집 추가는 마이페이지에서 가능합니다.
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setOpenPopup(false)}>닫기</Popup.CancelButton>
-              <Popup.ActionButton onClick={() => router.replace(`/${Routes.My}`)}>마이페이지 이동</Popup.ActionButton>
+              <Popup.ActionButton
+                onClick={() => router.replace(Routes.My, { searchParams: { default: '2' }, persistParams: true })}
+              >
+                마이페이지 이동
+              </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

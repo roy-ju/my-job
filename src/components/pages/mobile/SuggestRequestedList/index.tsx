@@ -12,7 +12,7 @@ export default memo(() => {
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
 
   const handleClickRecommendationForm = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`);
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.RecommendGuide}`, query: { origin: router.asPath } });
   }, [router]);
 
   const handleClickSuggestItem = useCallback(
@@ -27,9 +27,9 @@ export default memo(() => {
       const canGoBack = window.history.length > 1;
 
       if (canGoBack) {
-        router.back();
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
       } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
       }
     }
   }, [router]);

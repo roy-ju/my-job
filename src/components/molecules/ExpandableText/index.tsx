@@ -8,6 +8,7 @@ interface ExpandableTextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCh
   defaultExpanded?: boolean;
   onChange?: (expanded: boolean) => void;
   hideArrow?: boolean;
+  color?: string;
   children: ReactNode;
 }
 
@@ -16,6 +17,7 @@ export default function ExpandableText({
   defaultExpanded = false,
   onChange,
   hideArrow = false,
+  color = 'none',
   children,
   ...others
 }: ExpandableTextProps) {
@@ -59,6 +61,7 @@ export default function ExpandableText({
               transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
               transition: 'transform 0.2s ease-in-out',
               alignSelf: 'top',
+              ...(color !== 'none' ? { color } : {}),
             }}
           />
         </button>

@@ -1,10 +1,13 @@
-import { memo } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
 import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
 import Routes from '@/router/routes';
 import { BiddingStatus } from '@/constants/enums';
 import { useRouter } from 'next/router';
 import { MobileContainer } from '@/components/atoms';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+import cancelBidding from '@/apis/bidding/cancelBidding';
+import { toast } from 'react-toastify';
 
 export default memo(() => {
   const router = useRouter();
@@ -12,6 +15,8 @@ export default memo(() => {
     Number(router.query.listingID),
     Number(router.query.biddingID),
   );
+
+  const [open, setOpen] = useState(false);
 
   const handleNavigateToChatRoom = () => {
     if (!data?.buyer_agent_chat_room_id) return;
@@ -57,6 +62,19 @@ export default memo(() => {
         return '';
     }
   };
+
+  const handleCancelBidding = useCallback(async () => {
+    const listingID = router?.query?.listingID;
+    const biddingID = router?.query?.biddingID;
+
+    if (listingID && biddingID) {
+      await cancelBidding(Number(listingID), Number(biddingID));
+
+      toast.success('제안을 취소하였습니다.');
+
+      router.replace(`/${Routes.EntryMobile}/${Routes.MyParticipatingListings}?tab=4`);
+    }
+  }, [router]);
 
   return (
     <MobileContainer>
@@ -111,7 +129,22 @@ export default memo(() => {
         etcs={data?.etcs ?? ''}
         remainingAmountPaymentTime={data?.remaining_amount_payment_time ?? ''}
         remainingAmountPaymentTimeType={data?.remaining_amount_payment_time_type ?? 0}
+        openPopup={() => setOpen(true)}
       />
+
+      {open && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-6 [text-align: center]">
+              <Popup.SmallTitle>제안을 취소하시겠습니까?</Popup.SmallTitle>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.CancelButton onClick={() => setOpen(false)}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleCancelBidding}>제안 취소하기</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </MobileContainer>
   );
 });

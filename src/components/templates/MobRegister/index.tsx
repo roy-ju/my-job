@@ -7,13 +7,13 @@ import { ChangeEventHandler } from 'react';
 export interface RegisterProps {
   email?: string;
   nickname?: string;
-  privacyRetention?: string;
+  funnelInfo?: string;
   terms?: TermsState;
   formValid?: boolean;
   isLoading?: boolean;
   nicknameErrorMessage?: string;
   onChangeNickname?: ChangeEventHandler<HTMLInputElement>;
-  onChangePrivacyRetention?: (value: string) => void;
+  onChangeFunnelInfo?: ChangeEventHandler<HTMLInputElement>;
   onChangeTerms?: (newState: TermsState) => void;
   onClickNext?: () => void;
   onClickBackButton?: () => void;
@@ -26,12 +26,12 @@ export default function MobRegister({
   email = '',
   nickname,
   terms,
-  privacyRetention,
+  funnelInfo = '',
   formValid = false,
   isLoading = false,
   nicknameErrorMessage,
   onChangeNickname,
-  onChangePrivacyRetention,
+  onChangeFunnelInfo,
   onChangeTerms,
   onClickNext,
   onClickBackButton,
@@ -54,7 +54,7 @@ export default function MobRegister({
         </div>
         <Separator />
         <div tw="my-10">
-          <MobRegisterForm.PrivacyRetention value={privacyRetention} onChange={onChangePrivacyRetention} />
+          <MobRegisterForm.FunnelInfo value={funnelInfo} onChange={onChangeFunnelInfo} />
         </div>
         <Separator />
         <div tw="my-10">

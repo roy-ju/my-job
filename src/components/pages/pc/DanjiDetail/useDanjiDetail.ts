@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 export default function useDanjiDetail(
   depth: number,
   danjiID?: number,
-  prefetchedData?: { [key: string]: any} | null ,
+  prefetchedData?: { [key: string]: any } | null,
 ) {
   const router = useRouter(depth);
 
@@ -20,7 +20,7 @@ export default function useDanjiDetail(
   }, [router]);
 
   const { danji, mutate, isLoading } = useAPI_GetDanjiDetail({
-    preFetchedData:prefetchedData,
+    preFetchedData: prefetchedData,
     danjiId: listingDetailDanjiID || id,
   });
 

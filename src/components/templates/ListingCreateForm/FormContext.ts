@@ -34,16 +34,6 @@ export interface IFormContext {
   isAddDebtSuccessionDisabled?: boolean;
   isAddCollateralDisabled?: boolean;
 
-  // IsOwner
-  isOwner?: boolean;
-  onChangeIsOwner?: (value: boolean) => void;
-
-  // OwnerInfo
-  ownerName?: string;
-  ownerPhone?: string;
-  onChangeOwnerName?: (value: string) => void;
-  onChangeOwnerPhone?: (value: string) => void;
-
   // 매매/전세/월세
   buyOrRent?: number;
   onChangeBuyOrRent?: (value: number) => void;

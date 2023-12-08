@@ -20,7 +20,7 @@ export interface GetAgentListResponse {
 }
 
 interface Request {
-  listing_id: number;
+  user_address_id: number
 }
 
 export default async function getAgentList(req: Request) {

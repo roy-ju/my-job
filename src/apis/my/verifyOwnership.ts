@@ -15,10 +15,15 @@ export interface VerifyAddressRequest {
   sigungu: string;
 }
 
+export interface VerifyAddressResponse {
+  user_address_id: number;
+  verified: boolean;
+}
+
 export default async function verifyOwnership(req: VerifyAddressRequest) {
   try {
-    await axios.post('/my/verifyownership', req);
-    return null;
+    const { data } = await axios.post('/my/verifyownership', req);
+    return data as VerifyAddressResponse & ErrorResponse;
   } catch (e) {
     return null;
   }

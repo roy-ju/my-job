@@ -29,6 +29,7 @@ export default function useAuth() {
             privacyRetentionType: data.privacy_retention_type,
             isVerified: data.is_verified,
             hasAddress: data.has_address,
+            hasNotVerifiedAddress: data.has_not_verified_address,
           }
         : null,
     [data],

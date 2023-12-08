@@ -2,7 +2,7 @@ import moment from 'moment';
 import 'moment/locale/ko';
 
 import React, { HTMLProps } from 'react';
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 
 const DAY_IN_MINUTE = 1440;
 

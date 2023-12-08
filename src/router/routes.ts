@@ -33,6 +33,10 @@ const Routes = {
   MyAddress: 'myAddress',
   MyAddressDetail: 'myAddressDetail',
   MyAddressVerifying: 'myAddressVerifying',
+  MyAddressVerifyResult: 'myAddressVerifyResult',
+  MyAddressAgreement: 'myAddressAgreement',
+
+  MyRegisteredHomes: 'myRegisteredHomes',
 
   MyRealPriceList: 'myRealPriceList',
   MyDetail: 'myDetail',
@@ -82,14 +86,11 @@ const Routes = {
   LocationTerms: 'locationTerms',
 
   // 매물등록
-  ListingCreateAddress: 'listingCreateAddress',
-  ListingCreateAddressDetail: 'listingCreateAddressDetail',
+  ListingSelectAddress: 'listingSelectAddress',
   ListingCreateForm: 'listingCreateForm',
   ListingCreateChooseAgent: 'listingCreateChooseAgent',
   ListingCreateSummary: 'listingCreateSummary',
   ListingCreateResult: 'listingCreateResult',
-  ListingCreateUpdateAddress: 'listingCreateUpdateAddress',
-  ListingCreateUpdateAddressDetail: 'listingCreateUpdateAddressDetail',
 
   // 모바일 매물등록 가이드 페이지
   HOG: 'hog',
@@ -116,6 +117,7 @@ const Routes = {
 
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
+  // SuggestRegionalForm: 'suggestRegionalFormTest',
   SuggestRegionalSummary: 'suggestRegionalSummary',
   SuggestRegionalFormUpdate: 'suggestRegionalFormUpdate',
 
@@ -124,12 +126,16 @@ const Routes = {
 
   // 나의 추천
   SuggestRecommendedList: 'suggestRecommendedList',
+  SuggestRecommendedDetail: 'suggestRecommendedDetail',
 
   // 매물 구해요 (지역 / 단지)
   RecommendationForm: 'recommendationForm',
 
   // 매물 내놓기
   SuggestListingForm: 'suggestListingForm',
+  SuggestSelectAddress: 'suggestSelectAddress',
+
+  RecommendGuide: 'recommendGuide',
 
   // 구해요 상세
   SuggestDetail: 'suggestDetail',

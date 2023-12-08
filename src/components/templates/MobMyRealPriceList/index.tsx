@@ -47,7 +47,7 @@ export default function MobMyRealPriceList({
   onChagneSortBy,
 }: MyRealPriceListProps) {
   return (
-    <div tw="w-full max-w-mobile mx-auto h-full flex flex-col bg-white">
+    <div tw="w-full mx-auto h-full flex flex-col bg-white">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>관심 실거래가</NavigationHeader.Title>
@@ -115,7 +115,7 @@ export default function MobMyRealPriceList({
           </div>
         )}
       </div>
-      <div tw="w-full max-w-mobile fixed bottom-0 left-auto right-auto">
+      <div tw="w-full fixed bottom-0 left-auto right-auto">
         <MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />
       </div>
     </div>

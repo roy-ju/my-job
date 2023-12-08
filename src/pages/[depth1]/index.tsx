@@ -3,6 +3,7 @@ import { MapLayout } from '@/layouts';
 import { fetcher } from '@/lib/swr';
 import { NextPageWithLayout } from '@/pages/_app';
 import Router from '@/router';
+import { checkPlatform } from '@/utils/checkPlatform';
 import getHtmlMetas from '@/utils/getHtmlMetas';
 import { GetServerSideProps } from 'next';
 
@@ -19,6 +20,11 @@ Page.getLayout = function getLayout(page) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const metas = await getHtmlMetas(context.query);
   const forwarded = context.req.headers['x-forwarded-for'];
+
+  const userAgent = context.req.headers['user-agent'];
+
+  const platform = checkPlatform(userAgent);
+
   const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
 
   let danjiDetail: GetDanjiDetailResponse | null = null;
@@ -40,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ipAddress: ip ?? null,
       query: context.query,
       route: context.query.depth1,
+      platform,
       depth: 1,
       ...(danjiDetail ? { prefetchedData: danjiDetail } : {}),
     },

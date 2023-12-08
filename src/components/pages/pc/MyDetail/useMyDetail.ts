@@ -1,16 +1,14 @@
-import useAPI_GetUserAddress from '@/apis/user/getUserAddress';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 import updateNicknameApi from '@/apis/user/updateNickname';
-import { updatePrivacyRetention as updatePrivacyRetentionApi } from '@/apis/my/updatePrivacyRetention';
+
 import { toast } from 'react-toastify';
 import { loginWithApple } from '@/lib/apple';
 import updateEmail from '@/apis/user/updateEmail';
-import { SocialLoginType, PrivacyRetentionType } from '@/constants/enums';
+import { SocialLoginType } from '@/constants/enums';
 import checkNickname from '@/apis/user/checkNickname';
-import { PrivacyRetentionTypeString } from '@/constants/strings';
 import Events from '@/constants/events';
 import uploadProfileImage from '@/apis/my/uploadProfileImage';
 
@@ -20,22 +18,14 @@ export default function useMyDetail(depth: number) {
   const router = useRouter(depth);
 
   const { user, logout, mutate: mutateUser, isLoading: isUserLoading } = useAuth();
-  const { data: userAddressData, isLoading: isUserAddressLoading } = useAPI_GetUserAddress();
 
   const [nicknamePopup, setNicknamePopup] = useState(false);
   const [emailPopup, setEmailPopup] = useState(false);
   const [updateEmailPopup, setUpdateEmailPopup] = useState<UpdateEmailPopupType>('none');
 
   const [nickname, setNickname] = useState('');
-  const [privacyRetentionValue, setPrivacyRetentionValue] = useState('');
 
   const [profileImageUrl, setProfileImageUrl] = useState('');
-
-  useEffect(() => {
-    if (user) {
-      setPrivacyRetentionValue(PrivacyRetentionTypeString[user?.privacyRetentionType]);
-    }
-  }, [user]);
 
   const updateNicknameButtonDisabled = useMemo(() => user?.nickname === nickname, [user?.nickname, nickname]);
 
@@ -51,10 +41,6 @@ export default function useMyDetail(depth: number) {
     await router.pop();
     logout();
   }, [logout, router]);
-
-  const handleUpdateAddress = useCallback(() => {
-    router.replace(Routes.MyAddress, { state: { origin: router.asPath as string } });
-  }, [router]);
 
   const handleUpdatePhone = useCallback(() => {
     router.replace(Routes.UpdatePhone);
@@ -146,30 +132,6 @@ export default function useMyDetail(depth: number) {
     mutateUser(false);
   }, [nickname, mutateUser]);
 
-  const handleChangeUpdatePrivacyRetentionType = useCallback((newValue: string) => {
-    setPrivacyRetentionValue(newValue);
-    let privacyRetentionType;
-
-    switch (newValue) {
-      case '1년':
-        privacyRetentionType = PrivacyRetentionType.OneYear;
-        break;
-      case '3년':
-        privacyRetentionType = PrivacyRetentionType.ThreeYear;
-        break;
-      case '5년':
-        privacyRetentionType = PrivacyRetentionType.FiveYear;
-        break;
-      case '탈퇴시까지':
-        privacyRetentionType = PrivacyRetentionType.Deregister;
-        break;
-      default:
-        throw new Error('해당하는 개인정보 보관 기간 값을 찾을 수 없습니다.');
-    }
-
-    updatePrivacyRetentionApi({ privacy_retention_type: privacyRetentionType });
-  }, []);
-
   const handleNavigateToVerifyCi = useCallback(() => {
     router.replace(Routes.VerifyCi);
   }, [router]);
@@ -193,21 +155,15 @@ export default function useMyDetail(depth: number) {
   return useMemo(
     () => ({
       ...user,
-      isLoading: isUserLoading || isUserAddressLoading,
+      isLoading: isUserLoading,
       profileImageUrl,
       updateNicknameButtonDisabled,
       nickname,
       nicknamePopup,
       emailPopup,
-      privacyRetentionValue,
-      addressDetail: userAddressData?.address_detail,
-      roadNameAddress: userAddressData?.road_name_address,
-      ownershipVerified: userAddressData?.ownership_verified,
-      isUserAddressLoading,
       updateEmailPopup,
       handleClickDeregister,
       handleLogout,
-      handleUpdateAddress,
       handleUpdatePhone,
       handleClickUpdateNickname,
       updateNickname,
@@ -220,7 +176,6 @@ export default function useMyDetail(depth: number) {
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
       handleNavigateToVerifyCi,
-      handleChangeUpdatePrivacyRetentionType,
     }),
     [
       updateNicknameButtonDisabled,
@@ -229,14 +184,10 @@ export default function useMyDetail(depth: number) {
       emailPopup,
       user,
       profileImageUrl,
-      privacyRetentionValue,
-      userAddressData,
-      isUserAddressLoading,
       isUserLoading,
       updateEmailPopup,
       handleClickDeregister,
       handleLogout,
-      handleUpdateAddress,
       handleUpdatePhone,
       handleClickUpdateNickname,
       updateNickname,
@@ -249,7 +200,6 @@ export default function useMyDetail(depth: number) {
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
       handleNavigateToVerifyCi,
-      handleChangeUpdatePrivacyRetentionType,
     ],
   );
 }

@@ -1,7 +1,7 @@
 import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
 import { SuggestRegionalForm } from '@/components/organisms';
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 import { IFormContext } from '../SuggestRegionalForm/FormContext';
 
 interface Props extends Omit<IFormContext, 'buyOrRent'> {
@@ -47,6 +47,9 @@ export default function SuggestRegionalFormUpdate({
 
   description,
   onChangeDescription,
+
+  interviewAvailabletimes,
+  onChangeInterviewAvailabletimes,
 
   emptyTextFields,
 
@@ -118,6 +121,7 @@ export default function SuggestRegionalFormUpdate({
         <div>
           <div tw="py-10 px-5">
             <SuggestRegionalForm.Area
+              isRequired={!!realestateType?.includes(RealestateType.Apartment)}
               minArea={minArea}
               onChangeMinArea={onChangeMinArea}
               maxArea={maxArea}
@@ -129,6 +133,12 @@ export default function SuggestRegionalFormUpdate({
               description={description}
               onChangeDescription={onChangeDescription}
               buyOrRent={Number(buyOrRent) || BuyOrRent.Jeonsae}
+            />
+          </div>
+          <div tw="px-5 pb-10">
+            <SuggestRegionalForm.Interview
+              interviewAvailabletimes={interviewAvailabletimes}
+              onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
             />
           </div>
         </div>

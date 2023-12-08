@@ -2,6 +2,8 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { NavigationHeader, OverlayPresenter } from '@/components/molecules';
 import React, { useCallback, useState } from 'react';
 import tw from 'twin.macro';
+import { mutate } from 'swr';
+import axios from '@/lib/axios';
 
 import ShareIcon from '@/assets/icons/share.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
@@ -13,22 +15,21 @@ import { SharePopup } from '@/components/organisms';
 import Paths from '@/constants/paths';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { useRouter as useNextRouter } from 'next/router';
 
 export default function DanjiDetailHeader({
   isHeaderActive,
   danji,
-  handleMutateDanji,
 }: {
   isHeaderActive: boolean;
   danji?: GetDanjiDetailResponse;
   handleMutateDanji?: () => void;
 }) {
   const router = useRouter(1);
+  const nextRouter = useNextRouter();
   const [popup, setPopup] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(!!danji?.is_favorite);
 
   const { user, isLoading: isAuthLoading } = useAuth();
-
   const onClickFavorite = useCallback(async () => {
     if (!danji || isAuthLoading) return;
 
@@ -48,30 +49,42 @@ export default function DanjiDetailHeader({
       return;
     }
 
-    if (user) {
-      if (!isFavorite) {
+    async function danjiFavoriteAddOptimistic() {
+      if (danji) {
         await danjiFavoriteAdd({
           danji_id: danji.danji_id,
         });
-        toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
-        setIsFavorite(true);
+        const { data: updatedData } = await axios.post('/danji/detail', { danji_id: danji?.danji_id });
+        return updatedData;
+      }
+    }
 
-        if (handleMutateDanji) {
-          handleMutateDanji();
-        }
-      } else {
+    async function danjiFavoriteRemoveOptimistic() {
+      if (danji) {
         await danjiFavoriteRemove({
           danji_id: danji.danji_id,
         });
-        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
-        setIsFavorite(false);
-
-        if (handleMutateDanji) {
-          handleMutateDanji();
-        }
+        const { data: updatedData } = await axios.post('/danji/detail', { danji_id: danji?.danji_id });
+        return updatedData;
       }
     }
-  }, [danji, isAuthLoading, user, isFavorite, handleMutateDanji, router]);
+
+    if (user && danji) {
+      if (!danji.is_favorite) {
+        await mutate(['/danji/detail', { danji_id: danji.danji_id }], danjiFavoriteAddOptimistic, {
+          optimisticData: { ...danji, is_favorite: true },
+          rollbackOnError: true,
+        });
+        toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
+      } else {
+        await mutate(['/danji/detail', { danji_id: danji.danji_id }], danjiFavoriteRemoveOptimistic, {
+          optimisticData: { ...danji, is_favorite: false },
+          rollbackOnError: true,
+        });
+        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
+      }
+    }
+  }, [danji, isAuthLoading, user, router]);
 
   const handleClickShare = useCallback(() => setPopup(true), []);
 
@@ -131,6 +144,9 @@ export default function DanjiDetailHeader({
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
+        {router.query.back ? (
+          <NavigationHeader.BackButton onClick={() => nextRouter.replace(router.query.back as string)} />
+        ) : null}
         <NavigationHeader.Title tw="text-inherit">
           <h1>{danji.name}</h1>
         </NavigationHeader.Title>

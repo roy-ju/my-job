@@ -1,7 +1,7 @@
 /* eslint-disable react/self-closing-comp */
 import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
 import { GetLawQnaDetailResponse } from '@/apis/lawQna/getLawQnaDetail';
-import { formatCreatedTime } from '@/utils/formatLastMessageTime';
+import { formatCreatedTime } from '@/utils/formatsTime';
 import { useOutsideClick } from '@/hooks/utils';
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { usePopper } from 'react-popper';

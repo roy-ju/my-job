@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
 import { AuthRequired, Panel } from '@/components/atoms';
 import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
@@ -9,6 +10,7 @@ import { DanjiRecommendationSummary as DanjiRecommendationSummaryTemplate } from
 import danjiRecommendationFinal from '@/apis/danji/danjiRecommendationFinal';
 import { toast } from 'react-toastify';
 import { mutate as otherMutate } from 'swr';
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
 
 interface Props {
   depth: number;
@@ -17,10 +19,18 @@ interface Props {
 
 export default function DanjiRecommendationSummary({ panelWidth, depth }: Props) {
   const nextRouter = useNextRouter();
+
   const router = useRouter(depth);
+
   const [isCreating, setIsCreating] = useState(false);
+  const [danjiID, setDanjiID] = useState<number | null>(null);
 
   const { mutate } = useAPI_GetDashboardInfo();
+
+  const { mutate: listMutate } = useAPI_GetDanjiSuggestList({
+    danjiId: danjiID,
+    pageSize: 10,
+  });
 
   const params = useMemo<Record<string, any>>(() => {
     if (typeof router.query.params === 'string') {
@@ -28,10 +38,17 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     }
     return null;
   }, [router.query.params]);
+
   const handleClickBack = useCallback(() => {
     if (router.query.entry === 'danji') {
       nextRouter.replace(
         `/${Routes.DanjiDetail}/${Routes.DanjiRecommendation}?danjiID=${
+          params.danji_id
+        }&entry=danji&params=${JSON.stringify(params)}&forms=${router.query.forms}&redirect=${router.query.redirect}`,
+      );
+    } else if (router.query.entry === 'danjiSuggestListings') {
+      nextRouter.replace(
+        `/${Routes.SuggestListings}/${Routes.DanjiRecommendation}?danjiID=${
           params.danji_id
         }&entry=danji&params=${JSON.stringify(params)}&forms=${router.query.forms}&redirect=${router.query.redirect}`,
       );
@@ -54,6 +71,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     setIsCreating(true);
 
     delete params?.address;
+
     await danjiRecommendationFinal({
       ...params,
       danji_id: Number(params.danji_id),
@@ -61,7 +79,12 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
     });
 
     await mutate();
+
     await otherMutate(() => true, undefined);
+
+    if (params.danji_id) {
+      await setDanjiID(Number(params.danji_id));
+    }
 
     toast.success('구해요 글이 등록되었습니다.');
 
@@ -92,6 +115,7 @@ export default function DanjiRecommendationSummary({ panelWidth, depth }: Props)
           moveInDateType={params?.move_in_date_type}
           investAmount={params?.invest_amount}
           negotiable={params?.negotiable}
+          interviewAvailabletimes={params?.interview_available_times}
           quickSale={params?.quick_sale}
         />
       </Panel>

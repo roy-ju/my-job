@@ -22,20 +22,6 @@ IdentityInfo.args = {
   phone: '01051177554',
 };
 
-export const AddressInfo: ComponentStory<typeof MyDetailForm.AddressInfo> = (args) => (
-  <MyDetailForm.AddressInfo {...args} />
-);
-
-AddressInfo.args = {
-  address: '경기도 용인시 기흥구 신갈동',
-  addressDetail: '817-13',
-  verified: true,
-};
-
-export const PrivacyRetentionInfo: ComponentStory<typeof MyDetailForm.PrivacyRetentionInfo> = () => (
-  <MyDetailForm.PrivacyRetentionInfo />
-);
-
 export const AllCombiled = () => (
   <div tw="bg-white py-10">
     <MyDetailForm>
@@ -43,9 +29,7 @@ export const AllCombiled = () => (
       <MyDetailForm.Separator />
       <MyDetailForm.IdentityInfo />
       <MyDetailForm.Separator />
-      <MyDetailForm.AddressInfo />
       <MyDetailForm.Separator />
-      <MyDetailForm.PrivacyRetentionInfo />
     </MyDetailForm>
   </div>
 );

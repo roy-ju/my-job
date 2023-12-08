@@ -11,9 +11,12 @@ import updateSuggest from '@/apis/suggest/updateSuggest';
 
 export default function useSuggestRegionalFormUpdate(depth: number) {
   const router = useRouter(depth);
+
   const suggestID = Number(router.query.suggestID) ?? 0;
 
   const { data, isLoading } = useAPI_GetSuggestDetail(suggestID);
+
+  const buyOrRent = Number(data?.buy_or_rents);
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [realestateType, setRealestateType] = useState<number[]>([]);
@@ -27,7 +30,7 @@ export default function useSuggestRegionalFormUpdate(depth: number) {
   const [moveInDate, setMoveInDate] = useState<Date | null>(null);
   const [moveInDateType, setMoveInDateType] = useState('이전');
   const [description, setDescription] = useState('');
-  const buyOrRent = Number(data?.buy_or_rents);
+  const [interviewAvailabletimes, setInterviewAvailabletimes] = useState<string[]>([]);
 
   const [emptyTextFields, setEmptyTextFields] = useState({
     price: false,
@@ -93,6 +96,26 @@ export default function useSuggestRegionalFormUpdate(depth: number) {
     setMoveInDateType(value);
   }, []);
 
+  const handleChangeInterviewAvailabletimes = useCallback(
+    (value: string) => {
+      if (value === '시간대 상관 없어요') {
+        if (interviewAvailabletimes.includes(value)) {
+          const result = interviewAvailabletimes.filter((ele) => ele !== value);
+          setInterviewAvailabletimes(result);
+        } else {
+          setInterviewAvailabletimes([value]);
+        }
+      } else {
+        const result = interviewAvailabletimes.includes('시간대 상관 없어요')
+          ? [value]
+          : interviewAvailabletimes.includes(value)
+          ? interviewAvailabletimes.filter((ele) => ele !== value)
+          : [...interviewAvailabletimes, value];
+        setInterviewAvailabletimes(result);
+      }
+    },
+    [interviewAvailabletimes],
+  );
   const handleSubmitFinal = useCallback(async () => {
     if (minArea && maxArea && Number(minArea) > Number(maxArea)) {
       toast.error('최소평수가 최대평수보다 큽니다.');
@@ -119,14 +142,16 @@ export default function useSuggestRegionalFormUpdate(depth: number) {
       pyoung_from: minArea,
       pyoung_to: minArea === maxArea ? undefined : maxArea,
       purpose: buyOrRent === BuyOrRent.Buy ? purpose : '',
-
       move_in_date: purpose === '투자' ? null : moveInDate?.toISOString(),
       move_in_date_type: purpose === '투자' ? null : getDateType(moveInDateType),
       note: description,
+      interview_available_times: interviewAvailabletimes.join(),
     };
+
     Object.keys(request).forEach((key) => (request[key] === undefined || request[key] === '') && delete request[key]);
 
     await updateSuggest(request);
+
     await mutate('/suggest/detail');
 
     toast.success('구해요 글이 수정되었습니다.');
@@ -152,6 +177,7 @@ export default function useSuggestRegionalFormUpdate(depth: number) {
     description,
     data?.suggest_id,
     data?.buy_or_rents,
+    interviewAvailabletimes,
   ]);
 
   // 프리필 로직
@@ -159,6 +185,7 @@ export default function useSuggestRegionalFormUpdate(depth: number) {
     if (typeof router.query.suggestID !== 'string') {
       router.pop();
     }
+
     setRealestateType(
       data?.realestate_types
         .split(',')
@@ -175,18 +202,26 @@ export default function useSuggestRegionalFormUpdate(depth: number) {
     setMoveInDate(data?.move_in_date ? new Date(data?.move_in_date) : null);
     setMoveInDateType(data?.move_in_date_type ? TimeTypeString[data?.move_in_date_type] : '이전');
     setDescription(data?.note ?? '');
+    setInterviewAvailabletimes(data?.interview_available_times ? data.interview_available_times.split(',') : []);
   }, [router.query.suggestID]);
 
   useIsomorphicLayoutEffect(() => {
     setNextButtonDisabled(true);
 
     if (!realestateType.length) return;
+
     if (purpose === '투자' && !investAmount) return;
+
     if (purpose !== '투자' && !moveInDate) return;
+
     if (!price) return;
 
+    if (realestateType?.includes(RealestateType.Apartment) && (!minArea || !maxArea)) return;
+
+    if (interviewAvailabletimes.length === 0) return;
+
     setNextButtonDisabled(false);
-  }, [realestateType, purpose, investAmount, moveInDate, price]);
+  }, [realestateType, purpose, investAmount, moveInDate, price, interviewAvailabletimes, minArea, maxArea]);
 
   return {
     targetText: data?.request_target_text,
@@ -229,6 +264,9 @@ export default function useSuggestRegionalFormUpdate(depth: number) {
 
     moveInDateType,
     handleChangeMoveInDateType,
+
+    interviewAvailabletimes,
+    handleChangeInterviewAvailabletimes,
 
     emptyTextFields,
 

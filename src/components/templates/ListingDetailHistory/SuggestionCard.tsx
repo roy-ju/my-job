@@ -1,7 +1,7 @@
 import React from 'react';
 import tw, { styled } from 'twin.macro';
 import { Table } from '@/components/molecules';
-import { Moment, Numeral } from '@/components/atoms';
+import { Button, Moment, Numeral } from '@/components/atoms';
 import { TimeTypeString } from '@/constants/strings';
 
 interface SuggestionCardProps {
@@ -13,6 +13,8 @@ interface SuggestionCardProps {
   moveInDateType: number;
   description: string;
   etcs: string;
+
+  openPopup?: () => void;
 }
 
 const StyledTable = styled.table`
@@ -34,6 +36,8 @@ export default function SuggestionCard({
   moveInDateType,
   description,
   etcs,
+
+  openPopup,
 }: SuggestionCardProps) {
   const renderMonthlyRentFee = () => {
     if (biddingMonthlyRentFee === 0) return '0원';
@@ -46,7 +50,12 @@ export default function SuggestionCard({
 
   return (
     <>
-      <div tw="text-b1 mb-4 font-bold">나의 제안 내용</div>
+      <div tw="text-b1 mb-4 font-bold flex flex-row items-center">
+        나의 제안 내용
+        <Button variant="outlined" size="small" tw="ml-auto font-normal" onClick={openPopup}>
+          제안 취소
+        </Button>
+      </div>
       <StyledTable>
         <Table.Body tw="text-b2 text-gray-1000 flex flex-col gap-2">
           <Table.Row tw="flex">

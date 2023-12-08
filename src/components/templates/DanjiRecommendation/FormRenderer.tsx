@@ -5,15 +5,11 @@ import FormContext from './FormContext';
 
 export const Forms = {
   Danji: 'danji',
-  RealestateType: 'realestateType',
   BuyOrRent: 'buyOrRent',
-  Price: 'price',
-  Area: 'area',
-  InvestAmount: 'investAmount',
   Purpose: 'purpose',
-  Description: 'description',
   MoveInDate: 'moveInDate',
   Option: 'option',
+  Interview: 'interview',
 };
 
 interface Props {
@@ -47,6 +43,8 @@ export default function FormRenderer({ form }: Props) {
     onChangeDescription,
     pyoungInputValue,
     onChangePyoungInputValue,
+    interviewAvailabletimes,
+    onChangeInterviewAvailabletimes,
 
     danjiRealPricesPyoungList,
     onClickPyoungDeleteIcon,
@@ -166,6 +164,18 @@ export default function FormRenderer({ form }: Props) {
               description={description}
               onChangeDescription={onChangeDescription}
               buyOrRent={buyOrRent}
+            />
+          </div>
+        </div>
+      );
+
+    case Forms.Interview:
+      return (
+        <div id={Forms.Interview}>
+          <div tw="py-10 px-5">
+            <DanjiRecommendationForm.Interview
+              interviewAvailabletimes={interviewAvailabletimes}
+              onChangeInterviewAvailabletimes={onChangeInterviewAvailabletimes}
             />
           </div>
         </div>

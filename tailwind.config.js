@@ -68,11 +68,147 @@ module.exports = {
             letterSpacing: '0 !important',
           },
         ],
+
+        /** 새로운 타이포그래피 타이틀 */
+
+        display_01: ['1.625rem', { lineHeight: '2.25rem', letterSpacing: '-0.25px', fontWeight: 700 }],
+
+        display_02: ['1.75rem', { lineHeight: '2.375rem', letterSpacing: '-0.25px', fontWeight: 700 }],
+
+        display_03: [
+          '1.875rem',
+          {
+            lineHeight: '2.625rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        heading_01: [
+          '1.125rem',
+          {
+            lineHeight: '1.625rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        heading_02: [
+          '1.25rem',
+          {
+            lineHeight: '1.75rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        heading_03: [
+          '1.5rem',
+          {
+            lineHeight: '2.125rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        subhead_01: [
+          '0.75rem',
+          {
+            lineHeight: '1.25rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        subhead_02: [
+          '0.875rem',
+          {
+            lineHeight: '1.375rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        subhead_03: [
+          '1rem',
+          {
+            lineHeight: '1.5rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        /** 새로운 타이포그래피 바디 */
+
+        body_01: [
+          '0.75rem',
+          {
+            lineHeight: '1.25rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
+
+        body_02: [
+          '0.875rem',
+          {
+            lineHeight: '1.375rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
+
+        body_03: [
+          '1rem',
+          {
+            lineHeight: '1.5rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
+
+        body_04: [
+          '1.125rem',
+          {
+            lineHeight: '1.625rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
+
+        body_05: [
+          '1.25rem',
+          {
+            lineHeight: '1.75rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
+
+        body_06: [
+          '1.5rem',
+          {
+            lineHeight: '2.125rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
+
+        caption_01: [
+          '0.625rem',
+          {
+            lineHeight: '1rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
       },
+
       lineHeight: {
         3.5: '0.875rem',
         4.5: '1.125rem',
       },
+
       colors: {
         gray: {
           100: '#F8F9FA',
@@ -87,6 +223,7 @@ module.exports = {
           1000: '#212529',
           1100: '#E6E8ED',
           1200: '#9DA2AC',
+          1300: '#F0F0F6',
         },
         nego: {
           DEFAULT: '#7048E8',

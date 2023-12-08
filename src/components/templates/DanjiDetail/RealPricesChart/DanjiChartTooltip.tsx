@@ -51,7 +51,7 @@ const DanjiChartTooltip = React.memo(({ left = 0, top, data = {}, buy, jeonsae, 
       >
         <div
           style={{ '--left': `${left}px`, '--width': `${width}px` } as CustomProperties & React.CSSProperties}
-          tw="flex flex-row items-center justify-center bg-white min-w-0 max-w-mobile [border-radius: 8px] [text-align: center] [padding: 8px 12px 8px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
+          tw="flex flex-row items-center justify-center bg-white min-w-0 w-full [border-radius: 8px] [text-align: center] [padding: 8px 12px 8px 12px] before:[content:''] before:absolute before:[bottom: -5px] before:[width: 10px] before:[height: 10px] before:bg-white before:rotate-45"
           css={[
             checkPlatform() === 'pc'
               ? tw`before:[left: calc(var(--left)-6px)]`

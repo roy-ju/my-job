@@ -9,13 +9,21 @@ import dynamic from 'next/dynamic';
 
 import { ParsedUrlQuery } from 'querystring';
 
-import ListingCreateUpdateAddress from '@/components/pages/pc/ListingCreateUpdateAddress';
-
-import ListingCreateUpdateAddressDetail from '@/components/pages/pc/ListingCreateUpdateAddressDetail';
-
 import Head from 'next/head';
 
 import AppConfig from '@/config';
+
+import PlatformProvider from '@/providers/PlatformProvider';
+
+import { Container } from '@/components/container';
+
+import MySuggestDetail from '@/components/pages/MySuggestDetail';
+
+import SuggestRegionalForm from '@/components/pages/SuggestRegionalForm';
+
+import SuggestRegionalSummary from '@/components/pages/SuggestRegionalSummary';
+
+import ChatRoom from '@/components/pages/ChatRoom';
 
 import DanjiDetail from '@/components/pages/pc/DanjiDetail';
 
@@ -39,6 +47,14 @@ const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/pc/MyA
   ssr: false,
   loading: FallbackComponent,
 });
+const MyAddressVerifyResult = dynamic(() => import('@/components/pages/pc/MyAddressVerifyResult'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const MyAddressAgreement = dynamic(() => import('@/components/pages/pc/MyAddressAgreement'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: FallbackComponent });
 const MyRealPriceList = dynamic(() => import('@/components/pages/pc/MyRealPriceList'), {
   ssr: false,
@@ -53,6 +69,11 @@ const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegis
   loading: FallbackComponent,
 });
 const MyParticipatingListings = dynamic(() => import('@/components/pages/pc/MyParticipatingListings'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const MyRegisteredHomes = dynamic(() => import('@/components/pages/pc/MyRegisteredHomes'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -104,7 +125,6 @@ const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'
   ssr: false,
   loading: FallbackComponent,
 });
-const ChatRoom = dynamic(() => import('@/components/pages/pc/ChatRoom'), { ssr: false, loading: FallbackComponent });
 
 const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
   loading: FallbackComponent,
@@ -155,10 +175,12 @@ const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'),
   ssr: false,
   loading: FallbackComponent,
 });
+
 const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomReport'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: FallbackComponent });
 const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { ssr: false, loading: FallbackComponent });
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
@@ -210,15 +232,10 @@ const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingCreateAddress = dynamic(() => import('@/components/pages/pc/ListingCreateAddress'), {
+const ListingSelectAddress = dynamic(() => import('@/components/pages/pc/ListingSelectAddress'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingCreateAddressDetail = dynamic(() => import('@/components/pages/pc/ListingCreateAddressDetail'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-
 const ListingCreateForm = dynamic(() => import('@/components/pages/pc/ListingCreateForm'), {
   ssr: false,
   loading: FallbackComponent,
@@ -291,15 +308,12 @@ const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestRegionalForm = dynamic(() => import('@/components/pages/pc/SuggestRegionalForm'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const SuggestRegionalSummary = dynamic(() => import('@/components/pages/pc/SuggestRegionalSummary'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+
 const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const RecommendGuide = dynamic(() => import('@/components/pages/pc/RecommendGuide'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -315,11 +329,17 @@ const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListi
   ssr: false,
   loading: FallbackComponent,
 });
-const MySuggestDetail = dynamic(() => import('@/components/pages/pc/MySuggestDetail'), {
+
+const SuggestRecommendedList = dynamic(() => import('@/components/pages/pc/SuggestRecommendedList'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestRecommendedList = dynamic(() => import('@/components/pages/pc/SuggestRecommendedList'), {
+const SuggestRecommendedDetail = dynamic(() => import('@/components/pages/pc/SuggestRecommendedDetail'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const SuggestSelectAddress = dynamic(() => import('@/components/pages/pc/SuggestSelectAddress'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -372,9 +392,10 @@ interface RouterProps {
   depth: number; // route segment 의 depth
   ipAddress: string;
   prefetchedData?: { [key: string]: any } | null;
+  platform: 'pc' | 'mobile';
 }
 
-function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps) {
+function Router({ route, query, depth, ipAddress, prefetchedData, platform }: RouterProps) {
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -401,6 +422,14 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
       return <MyAddressDetailVerifying {...props} />;
     }
 
+    case Routes.MyAddressVerifyResult: {
+      return <MyAddressVerifyResult {...props} />;
+    }
+
+    case Routes.MyAddressAgreement: {
+      return <MyAddressAgreement {...props} />;
+    }
+
     case Routes.MyRealPriceList: {
       return <MyRealPriceList {...props} />;
     }
@@ -415,6 +444,10 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
 
     case Routes.MyParticipatingListings: {
       return <MyParticipatingListings {...props} />;
+    }
+
+    case Routes.MyRegisteredHomes: {
+      return <MyRegisteredHomes {...props} />;
     }
 
     case Routes.ListingDetailPassed: {
@@ -499,9 +532,11 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.ServiceTerms: {
       return <ServiceTerms {...props} />;
     }
+
     case Routes.PrivacyPolicy: {
       return <PrivacyPolicy {...props} />;
     }
+
     case Routes.LocationTerms: {
       return <LocationTerms {...props} />;
     }
@@ -542,7 +577,13 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
 
     case Routes.ChatRoom: {
-      return <ChatRoom key={query.chatRoomID as string} {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container auth panelWidth={DEFAULT_PANEL_WIDTH}>
+            <ChatRoom key={query.chatRoomID as string} {...props} />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.ChatRoomList: {
@@ -550,7 +591,7 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
 
     case Routes.ChatRoomReport: {
-      return <ChatRoomReport {...props} />;
+      return <ChatRoomReport key={query.chatRoomID as string} {...props} />;
     }
 
     case Routes.DanjiDetail: {
@@ -605,6 +646,10 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
       return <Register {...props} />;
     }
 
+    case Routes.RecommendGuide: {
+      return <RecommendGuide {...props} />;
+    }
+
     case Routes.RegisterSuccess: {
       return <RegisterSuccess {...props} />;
     }
@@ -621,16 +666,12 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
       return <FindAccount {...props} />;
     }
 
-    case Routes.ListingCreateAddress: {
-      return <ListingCreateAddress {...props} />;
-    }
-
-    case Routes.ListingCreateAddressDetail: {
-      return <ListingCreateAddressDetail {...props} />;
-    }
-
     case Routes.ListingCreateForm: {
       return <ListingCreateForm {...props} />;
+    }
+
+    case Routes.ListingSelectAddress: {
+      return <ListingSelectAddress {...props} />;
     }
 
     case Routes.ListingCreateChooseAgent: {
@@ -643,14 +684,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
 
     case Routes.ListingCreateResult: {
       return <ListingCreateResult {...props} />;
-    }
-
-    case Routes.ListingCreateUpdateAddress: {
-      return <ListingCreateUpdateAddress {...props} />;
-    }
-
-    case Routes.ListingCreateUpdateAddressDetail: {
-      return <ListingCreateUpdateAddressDetail {...props} />;
     }
 
     case Routes.BiddingForm: {
@@ -689,12 +722,25 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
       return <ListingReport {...props} />;
     }
 
+    /** 바뀐 지역폼 */
     case Routes.SuggestRegionalForm: {
-      return <SuggestRegionalForm {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container panelWidth={DEFAULT_PANEL_WIDTH}>
+            <SuggestRegionalForm />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.SuggestRegionalSummary: {
-      return <SuggestRegionalSummary {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container auth ciRequired panelWidth={DEFAULT_PANEL_WIDTH}>
+            <SuggestRegionalSummary />
+          </Container>
+        </PlatformProvider>
+      );
     }
 
     case Routes.SuggestRegionalFormUpdate: {
@@ -706,7 +752,17 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
 
     case Routes.MySuggestDetail: {
-      return <MySuggestDetail key={`${query.suggestID}`} {...props} />;
+      return (
+        <PlatformProvider platform={platform} depth={depth}>
+          <Container auth panelWidth={DEFAULT_PANEL_WIDTH}>
+            <MySuggestDetail key={`${query.suggestID}`} {...props} />
+          </Container>
+        </PlatformProvider>
+      );
+    }
+
+    case Routes.SuggestSelectAddress: {
+      return <SuggestSelectAddress key={`${query.suggestID}`} {...props} />;
     }
 
     case Routes.SuggestDetail: {
@@ -719,6 +775,10 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
 
     case Routes.SuggestRecommendedList: {
       return <SuggestRecommendedList {...props} />;
+    }
+
+    case Routes.SuggestRecommendedDetail: {
+      return <SuggestRecommendedDetail {...props} />;
     }
 
     case Routes.SuggestListingForm: {

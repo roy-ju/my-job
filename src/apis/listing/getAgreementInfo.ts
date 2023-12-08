@@ -1,23 +1,21 @@
 import useSWR from 'swr';
 
 interface GetAgreementInfoResponse {
-  approver_name: string;
-  full_road_name_address: string;
-  loi: number;
-  requestor_name: string;
-
-  buy_or_rent: number;
-  trade_or_deposit_price: number;
-  monthly_rent_fee: number;
+  full_road_name_address: string
+  requestor_name: string
+  token: string
+  loi: number
+  status_text: '';
 }
 
-export default function useAPI_GetAgreementInfo(loi: string) {
+export default function useAPI_GetAgreementInfo(loi: string, token: string) {
   const { data, isLoading, mutate } = useSWR<GetAgreementInfoResponse & ErrorResponse>(
-    loi
+    loi && token
       ? [
-          '/listing/agreement/info',
+          '/my/agreement/info',
           {
             loi: Number(loi),
+            token,
           },
         ]
       : null,

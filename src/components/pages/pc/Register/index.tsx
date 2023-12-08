@@ -3,11 +3,11 @@ import login from '@/apis/user/login';
 import { Panel } from '@/components/atoms';
 import { TermsState } from '@/components/organisms/RegisterForm';
 import { Register } from '@/components/templates';
-import { PrivacyRetentionType } from '@/constants/enums';
 import { NICKNAME_REGEX } from '@/constants/regex';
 import { useAuth } from '@/hooks/services';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
+import { convertSignupPass } from '@/utils/fotmat';
 import { ChangeEventHandler, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
@@ -23,8 +23,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [email] = useState(`${router.query.email}`);
   const [nickname, setNickname] = useState('');
   const [nicknameErrMsg, setNickNameErrMsg] = useState('');
+  const [funnelInfo, setFunnelInfo] = useState('');
 
-  const [privacyRetention, setPrivacyRetention] = useState('탈퇴시까지');
   const [isLoading, setIsLoading] = useState(false);
 
   const [terms, setTerms] = useState<TermsState>({
@@ -40,12 +40,13 @@ export default memo(({ depth, panelWidth }: Props) => {
     () =>
       email.length > 0 &&
       nickname.length > 0 &&
+      funnelInfo.length > 0 &&
       terms.over19 &&
       terms.service &&
       terms.privacy &&
       terms.location &&
       terms.notification,
-    [email, nickname, terms],
+    [email, nickname, terms, funnelInfo],
   );
 
   const handleChangeNickname = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
@@ -63,8 +64,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     setNickname(e.target.value);
   }, []);
 
-  const handleChangePrivacyRetention = useCallback((value: string) => {
-    setPrivacyRetention(value);
+  const handleChangeFunnelInfo = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    setFunnelInfo(e.target.value);
   }, []);
 
   const handleChangeTerms = useCallback((newTerms: TermsState) => {
@@ -96,23 +97,13 @@ export default memo(({ depth, panelWidth }: Props) => {
       return;
     }
 
-    let privacyRetentionType = PrivacyRetentionType.Deregister;
-
-    if (privacyRetention === '1년') {
-      privacyRetentionType = PrivacyRetentionType.OneYear;
-    } else if (privacyRetention === '3년') {
-      privacyRetentionType = PrivacyRetentionType.ThreeYear;
-    } else if (privacyRetention === '5년') {
-      privacyRetentionType = PrivacyRetentionType.FiveYear;
-    }
-
     const loginResponse = await login({
       email,
       marketing: terms.marketing,
       nickname,
-      privacyRetentionType,
       socialLoginType: Number(router.query.socialLoginType),
       token: router.query.token as string,
+      signUpSource: convertSignupPass(funnelInfo),
     });
 
     if (loginResponse?.access_token) {
@@ -127,7 +118,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         redirect: (router.query.redirect as string) ?? '',
       },
     });
-  }, [email, terms, privacyRetention, nickname, router, handleLogin]);
+  }, [nickname, email, terms.marketing, router, funnelInfo, handleLogin]);
 
   useEffect(() => {
     if (!router.query.email || !router.query.token || !router.query.socialLoginType) {
@@ -178,12 +169,12 @@ export default memo(({ depth, panelWidth }: Props) => {
         email={email}
         nickname={nickname}
         nicknameErrorMessage={nicknameErrMsg}
-        privacyRetention={privacyRetention}
+        funnelInfo={funnelInfo}
+        onChangeFunnelInfo={handleChangeFunnelInfo}
         terms={terms}
         formValid={formValid}
         isLoading={isLoading}
         onChangeNickname={handleChangeNickname}
-        onChangePrivacyRetention={handleChangePrivacyRetention}
         onChangeTerms={handleChangeTerms}
         onClickNext={handleClickNext}
         onNavigateToServiceTerms={handleNavigateToServiceTerms}
