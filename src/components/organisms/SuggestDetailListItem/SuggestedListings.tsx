@@ -1,4 +1,4 @@
-import { cancelRecommend } from '@/apis/suggest/cancelRecommend';
+import { cancelMySuggestRecommend } from '@/apis/suggest/cancelMySuggestRecommendCancel';
 import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedList';
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { Button, Chip, Numeral } from '@/components/atoms';
@@ -52,7 +52,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
 
   const handleCancel = useCallback(
     async (id: number) => {
-      await cancelRecommend(id);
+      await cancelMySuggestRecommend(id);
       await onMutate?.();
       handlePopup(false);
     },
