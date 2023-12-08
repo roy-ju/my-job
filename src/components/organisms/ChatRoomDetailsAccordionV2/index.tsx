@@ -92,7 +92,7 @@ export default function ChatRoomDetailsAccordionV2({
                           {RealestateTypeString[item.realestate_type]}
                         </Chip>
                       ) : (
-                        <Chip variant="gray">등록 대기</Chip>
+                        <Chip variant="gray">등록대기</Chip>
                       )}
                     </div>
 
