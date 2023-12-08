@@ -112,9 +112,11 @@ export default function useClientWebsocket() {
       const { chatMessages, data } = store;
       const lastChat = chatMessages[chatMessages.length - 1];
 
-      console.log(readyState)
-
-      if (lastChat && data?.chat_user_type && (readyState === WebSocketReadyState.Open||readyState === WebSocketReadyState.Closed)) {
+      if (
+        lastChat &&
+        data?.chat_user_type &&
+        (readyState === WebSocketReadyState.Open || readyState === WebSocketReadyState.Closed)
+      ) {
         updateChatMessagesRead(data.chat_room_id).then(() => mutate());
 
         sendMessage(
