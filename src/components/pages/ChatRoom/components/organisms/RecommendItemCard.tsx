@@ -31,7 +31,7 @@ export function RecommendItemCard({ item }: Omit<RecommendItemCardProps, 'count'
     <button
       type="button"
       tw="w-full [text-align: left] h-[72px] flex flex-row bg-white px-4 py-2 [box-shadow: 0px 2px 10px 0px #0000000F] [border-radius: 8px] items-center hover:bg-gray-300 cursor-pointer"
-      onClick={() => onClickNavigateToSuggestRecommended?.(item.suggest_recommend_id)}
+      onClick={() => onClickNavigateToSuggestRecommended?.(item.suggest_id)}
     >
       <div tw="min-w-[60px]">
         <Chip variant={item.danji_or_regional === DanjiOrRegionalType.Danji ? 'nego' : 'blue'}>

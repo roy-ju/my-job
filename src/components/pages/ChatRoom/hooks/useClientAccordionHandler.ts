@@ -87,19 +87,19 @@ export default function useClientAccordionHandler() {
   );
 
   const onClickNavigateToSuggestRecommended = useCallback(
-    (suggestRecommendID?: number) => {
+    (suggestID?: number) => {
       if (isPC) {
-        router.replace(Routes.SuggestRecommendedList, {
+        router.replace(Routes.SuggestRecommendedDetail, {
           searchParams: { back: `${router.asPath}` },
-          state: { suggestRecommendID: `${suggestRecommendID}` },
+          state: { suggestID: `${suggestID}` },
         });
       } else {
         nextRouter.push(
           {
-            pathname: `/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`,
-            query: { suggestRecommendID: suggestRecommendID?.toString() },
+            pathname: `/${Routes.EntryMobile}/${Routes.SuggestRecommendedDetail}`,
+            query: { suggestID: suggestID?.toString() },
           },
-          `/${Routes.EntryMobile}/${Routes.SuggestRecommendedList}`,
+          `/${Routes.EntryMobile}/${Routes.SuggestRecommendedDetail}`,
         );
       }
     },
