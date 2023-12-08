@@ -29,7 +29,7 @@ export function ListingItemCard({ item }: Omit<ListingItemCardProps, 'count'>) {
             {RealestateTypeString[item.realestate_type]}
           </Chip>
         ) : (
-          <Chip variant="gray">등록 대기</Chip>
+          <Chip variant="gray">등록대기</Chip>
         )}
       </div>
 
