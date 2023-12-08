@@ -76,6 +76,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       return;
     }
     await deleteMySuggestRecommend(suggestRecommendID);
+    toast.success('추천이 삭제되었습니다.');
     mutate();
   };
 
