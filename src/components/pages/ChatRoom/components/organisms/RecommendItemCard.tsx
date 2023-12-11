@@ -34,7 +34,7 @@ export function RecommendItemCard({ item }: Omit<RecommendItemCardProps, 'count'
       onClick={() => onClickNavigateToSuggestRecommended?.(item.suggest_id)}
     >
       <div tw="min-w-[60px]">
-        <Chip variant={item.danji_or_regional === DanjiOrRegionalType.Danji ? 'nego' : 'blue'}>
+        <Chip tw="text-caption_01" variant={item.danji_or_regional === DanjiOrRegionalType.Danji ? 'nego' : 'blue'}>
           {item.danji_or_regional === DanjiOrRegionalType.Danji ? '단지' : '지역'}
         </Chip>
       </div>
