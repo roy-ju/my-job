@@ -23,8 +23,6 @@ export default memo(() => {
 
     const response = await getListingStatus(data.listing_id);
 
-    console.log(response);
-
     if (response?.can_access) {
       handleNavigateToListingDetail();
     } else if (!response?.can_access) {
