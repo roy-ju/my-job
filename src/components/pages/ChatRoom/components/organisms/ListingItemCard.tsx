@@ -25,11 +25,13 @@ export function ListingItemCard({ item }: Omit<ListingItemCardProps, 'count'>) {
     >
       <div tw="min-w-[60px]">
         {item.realestate_type ? (
-          <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
+          <Chip tw="text-caption_01" variant={RealestateTypeChipVariant[item.realestate_type]}>
             {RealestateTypeString[item.realestate_type]}
           </Chip>
         ) : (
-          <Chip variant="gray">등록대기</Chip>
+          <Chip variant="gray" tw="text-caption_01">
+            등록대기
+          </Chip>
         )}
       </div>
 

@@ -23,10 +23,10 @@ export function BuyerSellerSummary() {
         }
       }}
     >
-      <Accordion.Summary tw="text-subhead_02 px-5 py-4" isNewIconSmall>
+      <Accordion.Summary tw="text-subhead_02 px-5 py-4 hover:bg-transparent" isNewIconSmall>
         <div tw="flex flex-row justify-between">
           현재 진행 사항
-          <p tw="text-body_01 text-gray-700 inline mr-0.5">상세정보 {open ? '접기' : '보기'}</p>
+          <p tw="text-body_01 text-gray-800 inline mr-0.5">상세정보 {open ? '접기' : '보기'}</p>
         </div>
       </Accordion.Summary>
 
