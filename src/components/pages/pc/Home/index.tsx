@@ -79,9 +79,9 @@ export default memo(() => {
 
   const handleClickLawQna = useCallback(
     (id?: number) => {
-      router.replace(Routes.LawQnaDetail, { searchParams: { qnaID: `${id}` } });
+      nextRouter.replace(`/${Routes.LawQna}/${Routes.LawQnaDetail}?qnaID=${id}`);
     },
-    [router],
+    [nextRouter],
   );
 
   const handleClickListing = useCallback(
