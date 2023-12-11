@@ -71,12 +71,12 @@ export default function TypeTwo({
         {/* {item.suggest_status === SuggestRecommendStatus.Completed && <Chip variant="red">{ChipText.Completed}</Chip>} */}
 
         {item.my_suggest || item.iam_recommending ? (
-          <button type="button" tw="flex items-center text-info leading-4 ml-auto">
+          <button type="button" tw="flex items-center text-info leading-4 whitespace-nowrap ml-auto">
             상세보기
             <ArrowRight />
           </button>
         ) : (
-          <button type="button" tw="flex items-center text-info leading-4 ml-auto">
+          <button type="button" tw="flex items-center text-info leading-4 whitespace-nowrap ml-auto">
             상세보기
             <ArrowRight />
           </button>

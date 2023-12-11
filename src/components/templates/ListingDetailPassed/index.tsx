@@ -6,9 +6,9 @@ import { ListingStatus } from '@/constants/enums';
 
 interface Props {
   onNavigateToBack?: () => void;
-  onNavigateToListingDetail?: () => void;
   onNavigateToChatRoom?: () => void;
   onNavigateToTransactionReview?: () => void;
+  onHandleDirectPassedItem?: () => Promise<void>;
 
   listingId: number;
   listingStatus: number;
@@ -31,9 +31,9 @@ interface Props {
 
 export default function ListingDetailPassed({
   onNavigateToBack,
-  onNavigateToListingDetail,
   onNavigateToChatRoom,
   onNavigateToTransactionReview,
+  onHandleDirectPassedItem,
   listingStatus,
   thumbnailFullPath,
   listingTitle,
@@ -92,7 +92,7 @@ export default function ListingDetailPassed({
       </NavigationHeader>
       <div tw="px-5 py-7 flex-1 min-h-0 overflow-auto">
         <ListingDetailPassedItem
-          onClick={onNavigateToListingDetail}
+          onClick={onHandleDirectPassedItem}
           listingTitle={listingTitle ?? ''}
           address={roadNameAddress ?? ''}
           area={jeonyongArea ?? ''}

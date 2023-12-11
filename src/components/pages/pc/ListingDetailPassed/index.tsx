@@ -1,9 +1,11 @@
 import { Panel } from '@/components/atoms';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useRouter } from '@/hooks/utils';
 import useAPI_GetMyListingDetailPassed from '@/apis/my/getMyListingDetailPassed';
 import { ListingDetailPassed as ListingDetailPassedTemplate } from '@/components/templates';
 import Routes from '@/router/routes';
+import { OverlayPresenter, Popup } from '@/components/molecules';
+import { getListingStatus } from '@/apis/listing/getListingStatus';
 
 interface Props {
   depth: number;
@@ -15,12 +17,30 @@ export default memo(({ depth, panelWidth }: Props) => {
   const chatRoomRouter = useRouter(1);
   const { data } = useAPI_GetMyListingDetailPassed(Number(router.query.listingID));
 
+  const [openPastPopup, setOpenPastPopup] = useState(false);
+
   const handleNavigateToListingDetail = () => {
     router.replace(Routes.ListingDetail, {
       searchParams: {
         listingID: String(data?.listing_id),
       },
     });
+  };
+
+  const handleDirectPassedItem = async () => {
+    if (!data?.listing_id) return;
+
+    const response = await getListingStatus(data.listing_id);
+
+    if (response?.can_access) {
+      handleNavigateToListingDetail();
+    } else if (!response?.can_access) {
+      setOpenPastPopup(true);
+    }
+  };
+
+  const handleClosePastPopup = () => {
+    setOpenPastPopup(false);
   };
 
   const handleNavigateToChatRoom = () => {
@@ -58,9 +78,9 @@ export default memo(({ depth, panelWidth }: Props) => {
     <Panel width={panelWidth}>
       <ListingDetailPassedTemplate
         onNavigateToBack={handleNavigateToBack}
-        onNavigateToListingDetail={handleNavigateToListingDetail}
         onNavigateToChatRoom={handleNavigateToChatRoom}
         onNavigateToTransactionReview={handleNavigateToTransactionReview}
+        onHandleDirectPassedItem={handleDirectPassedItem}
         listingId={data?.listing_id ?? 0}
         listingStatus={data?.listing_status ?? 0}
         thumbnailFullPath={data?.thumbnail_full_path}
@@ -79,6 +99,23 @@ export default memo(({ depth, panelWidth }: Props) => {
         hasReview={data?.has_review ?? false}
         listingContractId={data?.listing_contract_id ?? 0}
       />
+
+      {openPastPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-10">
+              <Popup.Title tw="[text-align: center]">
+                거래가 종료되어
+                <br />
+                매물 상세 정보를 확인할 수 없습니다.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={handleClosePastPopup}>확인</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
     </Panel>
   );
 });

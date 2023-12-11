@@ -65,9 +65,12 @@ export default memo(({ depth, panelWidth }: Props) => {
       setPopup('cancel');
       return;
     }
+
     await cancelMySuggestRecommend(suggestRecommendID);
+    toast.success('추천이 취소되었습니다.');
     mutate();
   };
+
   const handleMyRecommendDelete = async (suggestRecommendID: number) => {
     if (data?.suggest_recommends.length === 1) {
       targetDeleteOrCancelID.current = suggestRecommendID;
