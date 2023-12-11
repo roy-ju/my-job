@@ -99,7 +99,7 @@ export default function SuggestRequestedListItem({ item, onClick }: Props) {
       );
     }
 
-    return <div tw="flex items-center text-info text-gray-700">추천 전</div>;
+    return <div tw="flex items-center text-info text-gray-600">추천 전</div>;
   }, []);
 
   return (
