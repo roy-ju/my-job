@@ -61,10 +61,13 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
                   : item?.recommender_profile_image_url
               }
             />
-            <p tw="text-b2 font-bold" css={[item?.recommender_deregistered && tw`text-gray-600`]}>
+            <p
+              tw="text-b2 font-bold [text-overflow: ellipsis] overflow-hidden whitespace-nowrap"
+              css={[item?.recommender_deregistered && tw`text-gray-600`]}
+            >
               {title}
             </p>
-            <p tw="text-info text-gray-700 ml-auto [display: inline-block]">중개사정보</p>
+            <p tw="whitespace-nowrap text-info text-gray-700 ml-auto [display: inline-block]">중개사정보</p>
 
             <ChevronDown
               role="presentation"
@@ -126,7 +129,10 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
             : item?.recommender_profile_image_url
         }
       />
-      <p tw="text-b2 font-bold" css={[item?.recommender_deregistered && tw`text-gray-600`]}>
+      <p
+        tw="text-b2 font-bold [text-overflow: ellipsis] overflow-hidden whitespace-nowrap"
+        css={[item?.recommender_deregistered && tw`text-gray-600`]}
+      >
         {title}
       </p>
       <Chip variant="nego" tw="ml-auto">
