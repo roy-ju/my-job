@@ -23,7 +23,7 @@ export interface GetChatRoomListResponse {
 export default function useAPI_ChatRoomList(config?: {}) {
   const { user, isLoading: isLoadingUser } = useAuth();
 
-  const { data, mutate } = useSWR<GetChatRoomListResponse>(user ? '/chat/room/list' : null, null, config);
+  const { data, isLoading, mutate } = useSWR<GetChatRoomListResponse>(user ? '/chat/room/list' : null, null, config);
 
-  return { data, isLoading: isLoadingUser ? true : !data, mutate };
+  return { data, isLoading: isLoading || isLoadingUser, mutate };
 }
