@@ -78,7 +78,7 @@ export default function Item({ item, onClick }: Props) {
     <div tw="not-last-of-type:border-b not-last-of-type:border-gray-300">
       <button
         type="button"
-        tw="w-full text-start px-5 hover:bg-gray-100"
+        tw="w-full text-start px-5"
         onClick={() => {
           onClick?.(item.suggest_id);
         }}
