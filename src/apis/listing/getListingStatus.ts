@@ -1,3 +1,4 @@
+import axios from 'axios';
 import useSWR from 'swr';
 
 export interface GetListingDetailResponse {
@@ -13,4 +14,13 @@ export default function useAPI_GetListingStatus(id: number) {
   ]);
 
   return { data, isLoading, mutate };
+}
+
+export async function getListingStatus(listingID: number): Promise<GetListingDetailResponse | null> {
+  try {
+    const { data } = await axios.post('/listing/status', { listing_id: listingID });
+    return data;
+  } catch {
+    return null;
+  }
 }
