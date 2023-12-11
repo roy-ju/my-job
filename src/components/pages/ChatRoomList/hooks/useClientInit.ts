@@ -8,9 +8,9 @@ export default function useClientInit() {
   const renderCondition = useMemo(() => {
     if (!store) return '';
 
-    if (store.isLoading || !store.data?.list) return 'loading';
+    if (store.isLoading) return 'loading';
 
-    if (store.data.list.length === 0) return 'nodata';
+    if (!store.data.list) return 'nodata';
 
     if (store.data.list.length > 0) return 'list';
 
