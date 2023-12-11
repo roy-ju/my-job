@@ -10,7 +10,7 @@ export default function useClientInit() {
 
     if (store.isLoading) return 'loading';
 
-    if (!store.data.list) return 'nodata';
+    if (!store?.data?.list) return 'nodata';
 
     if (store.data.list.length > 0) return 'list';
 
