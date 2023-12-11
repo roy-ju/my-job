@@ -93,21 +93,21 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
         >
           {item?.agent_office_name && (
             <div tw="flex flex-row items-center gap-3 text-info py-2">
-              <span tw="w-[72px] text-gray-700">중개 사무소명</span>
+              <p tw="w-[72px] [min-width: 72px]  text-gray-700 whitespace-nowrap">중개 사무소명</p>
               <p>{item.agent_office_name}</p>
             </div>
           )}
 
           {item?.agent_office_address && (
             <div tw="flex flex-row items-center gap-3 text-info py-2">
-              <span tw="w-[72px] text-gray-700">중개사 주소</span>
+              <p tw="w-[72px] [min-width: 72px] text-gray-700 whitespace-nowrap">중개사 주소</p>
               <p>{item.agent_office_address}</p>
             </div>
           )}
 
           {item?.agent_office_phone && (
             <div tw="flex flex-row items-center gap-3 text-info py-2">
-              <span tw="w-[72px] text-gray-700">전화번호</span>
+              <p tw="w-[72px] [min-width: 72px] text-gray-700 whitespace-nowrap">전화번호</p>
               <p>{item.agent_office_phone}</p>
             </div>
           )}
