@@ -14,9 +14,12 @@ type ListItemListingSectionProps = {
 
 const informationStringWrapper = css`
   & > span:not(:first-of-type)::before {
-    content: ' | ';
-    margin: 0 2px;
-    color: #e9ecef; // text-gray-300
+    content: '';
+    width: 1px;
+    height: 8px;
+    background-color: #e9ecef;
+    margin: 0 4px;
+    display: inline-block;
   }
 `;
 
