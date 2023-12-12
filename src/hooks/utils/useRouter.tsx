@@ -22,8 +22,10 @@ export default function useRouter(depth = 0) {
    * 현재 depth 기준으로 호출된 depth 포함 오른쪽에 열려있는 모든 depth 들을 닫는다.
    */
   const pop = useCallback(
-    (options?: NavigationOptions, isPushHistroyStack = false) => {
-      window.history.pushState({}, '', router.asPath);
+    (options?: NavigationOptions, isPushHistoryStack = true) => {
+      if (isPushHistoryStack) {
+        window.history.pushState({}, '', router.asPath);
+      }
       let segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -48,10 +50,6 @@ export default function useRouter(depth = 0) {
         query[`depth${index + 1}`] = value;
       });
 
-      if (isPushHistroyStack) {
-        return router.push({ pathname: path, query });
-      }
-
       return router.replace({ pathname: path, query });
     },
     [router, depth],
@@ -62,8 +60,10 @@ export default function useRouter(depth = 0) {
    */
 
   const popLast = useCallback(
-    (isPushHistroyStack = false) => {
-      window.history.pushState({}, '', router.asPath);
+    (isPushHistoryStack = true) => {
+      if (isPushHistoryStack) {
+        window.history.pushState({}, '', router.asPath);
+      }
       const segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -90,10 +90,6 @@ export default function useRouter(depth = 0) {
         query[`depth${index + 1}`] = value;
       });
 
-      if (isPushHistroyStack) {
-        return router.push({ pathname: path, query });
-      }
-
       return router.replace({ pathname: path, query });
     },
     [router],
@@ -103,8 +99,10 @@ export default function useRouter(depth = 0) {
    * 오른쪽에 열려있는 모든 depth 를 유지한체 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replaceCurrent = useCallback(
-    (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
-      window.history.pushState({}, '', router.asPath);
+    (pathname: string, options?: NavigationOptions, isPushHistoryStack = true) => {
+      if (isPushHistoryStack) {
+        window.history.pushState({}, '', router.asPath);
+      }
       const segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -150,10 +148,6 @@ export default function useRouter(depth = 0) {
           asPath += `?${searchParams}`;
         }
 
-        if (isPushHistroyStack) {
-          return router.push({ pathname: path, query }, asPath);
-        }
-
         return router.replace({ pathname: path, query }, asPath);
       }
     },
@@ -164,8 +158,10 @@ export default function useRouter(depth = 0) {
    * 오른쪽에 열려있는 모든 depth 들을 닫고 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replace = useCallback(
-    (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
-      window.history.pushState({}, '', router.asPath);
+    (pathname: string, options?: NavigationOptions, isPushHistoryStack = true) => {
+      if (isPushHistoryStack) {
+        window.history.pushState({}, '', router.asPath);
+      }
 
       let segments = router.asPath
         .split('?')[0]
@@ -219,10 +215,6 @@ export default function useRouter(depth = 0) {
         asPath += `?${searchParams}`;
       }
 
-      if (isPushHistroyStack) {
-        return router.push({ pathname: path, query }, asPath);
-      }
-
       return router.replace({ pathname: path, query }, asPath);
     },
     [router, depth],
@@ -264,8 +256,10 @@ export default function useRouter(depth = 0) {
    * 기존에 있는 2 depth 를 그 새로운 depth 로 대체한다.
    */
   const push = useCallback(
-    (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
-      window.history.pushState({}, '', router.asPath);
+    (pathname: string, options?: NavigationOptions, isPushHistoryStack = true) => {
+      if (isPushHistoryStack) {
+        window.history.pushState({}, '', router.asPath);
+      }
 
       const segments = router.asPath
         .split('?')[0]
@@ -326,10 +320,6 @@ export default function useRouter(depth = 0) {
       if (options?.searchParams) {
         const searchParams = new URLSearchParams(options.searchParams);
         asPath += `?${searchParams}`;
-      }
-
-      if (isPushHistroyStack) {
-        return router.push({ pathname: path, query }, asPath);
       }
 
       return router.replace({ pathname: path, query }, asPath);

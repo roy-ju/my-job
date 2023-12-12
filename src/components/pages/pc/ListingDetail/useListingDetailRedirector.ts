@@ -18,7 +18,7 @@ export default function useListingDetailRedirector(listingID: number, depth: num
     const listingStatus = statusData?.status ?? ListingStatus.Active;
 
     if (visitUserType === VisitUserType.SellerGeneral && listingStatus < ListingStatus.Active) {
-      router.replaceCurrent(Routes.ListingCreateResult, { persistParams: true });
+      router.replaceCurrent(Routes.ListingCreateResult, { persistParams: true }, false);
       return;
     }
 

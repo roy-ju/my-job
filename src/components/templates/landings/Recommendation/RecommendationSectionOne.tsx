@@ -47,7 +47,7 @@ export default function SectionOne() {
           </p>
           <Link
             tw="block mx-auto md:mr-auto md:ml-0 mb-5 bg-nego-800 text-white rounded-full w-[173px] md:w-[280px] py-3 md:py-[16px] font-bold md:text-[20px] text-sm leading-[22px] md:leading-[28px] hover:opacity-70 transition-opacity"
-            href="/suggestRegionalForm"
+            href="/recommendGuide"
           >
             네고 매물 추천받기
           </Link>
