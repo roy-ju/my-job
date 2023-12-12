@@ -119,12 +119,14 @@ export default function useClientWebsocket() {
       ) {
         updateChatMessagesRead(data.chat_room_id).then(() => mutate());
 
-        sendMessage(
-          JSON.stringify({
-            chat_user_type: data?.chat_user_type,
-            read_chat_id: lastChat.id,
-          }),
-        );
+        if (readyState === WebSocketReadyState.Open) {
+          sendMessage(
+            JSON.stringify({
+              chat_user_type: data?.chat_user_type,
+              read_chat_id: lastChat.id,
+            }),
+          );
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
