@@ -23,6 +23,7 @@ export default function useRouter(depth = 0) {
    */
   const pop = useCallback(
     (options?: NavigationOptions, isPushHistroyStack = false) => {
+      window.history.pushState({}, '', router.asPath);
       let segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -62,6 +63,7 @@ export default function useRouter(depth = 0) {
 
   const popLast = useCallback(
     (isPushHistroyStack = false) => {
+      window.history.pushState({}, '', router.asPath);
       const segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -102,6 +104,7 @@ export default function useRouter(depth = 0) {
    */
   const replaceCurrent = useCallback(
     (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
+      window.history.pushState({}, '', router.asPath);
       const segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -162,6 +165,8 @@ export default function useRouter(depth = 0) {
    */
   const replace = useCallback(
     (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
+      window.history.pushState({}, '', router.asPath);
+
       let segments = router.asPath
         .split('?')[0]
         .split('/')
@@ -228,6 +233,7 @@ export default function useRouter(depth = 0) {
    */
   const popAll = useCallback(
     (isPushHistroyStack = false) => {
+      window.history.pushState({}, '', router.asPath);
       if (router.pathname === '/') {
         return new Promise<boolean>((resolve) => {
           resolve(false);
@@ -259,6 +265,8 @@ export default function useRouter(depth = 0) {
    */
   const push = useCallback(
     (pathname: string, options?: NavigationOptions, isPushHistroyStack = false) => {
+      window.history.pushState({}, '', router.asPath);
+
       const segments = router.asPath
         .split('?')[0]
         .split('/')
