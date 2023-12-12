@@ -16,8 +16,8 @@ export default function LandingHeader() {
         <div tw="flex gap-3 font-bold text-xs md:text-base leading-5 text-gray-800">
           <Link
             tw="[letter-spacing: -0.25px] hover:opacity-70 transition-opacity"
-            css={pathname.includes('/intro') && tw`text-nego-1000`}
-            href="/intro"
+            css={pathname.includes('/') && tw`text-nego-1000`}
+            href="/"
           >
             서비스 소개
           </Link>
