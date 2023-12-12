@@ -16,7 +16,7 @@ export function UserAgentSummary() {
 
   return (
     <Accordion
-      tw="border-b border-t border-gray-300"
+      tw="absolute w-full top-14 z-10 border-b border-t border-gray-300"
       onChange={(v) => {
         if (v) {
           setOpen(v);
