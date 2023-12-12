@@ -112,7 +112,7 @@ export default function SuggestRecommendedDetail({
             <div>
               <div tw="flex gap-1 mb-1">
                 {data?.realestate_types?.split(',').map((d) => (
-                  <Chip tw="[font-size: 11px]" key={d} variant={chipVariantByRealestateType[+d]}>
+                  <Chip key={d} variant={chipVariantByRealestateType[+d]}>
                     {RealestateTypeString[+d]}
                   </Chip>
                 ))}

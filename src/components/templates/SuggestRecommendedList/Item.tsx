@@ -106,7 +106,7 @@ export default function Item({ item, onClick }: Props) {
             <div tw="flex justify-between items-center">
               <div tw="flex gap-1">
                 {realestateTypes?.map((d) => (
-                  <Chip tw="[font-size: 11px]" key={d} variant={chipVariantByRealestateType[d]}>
+                  <Chip key={d} variant={chipVariantByRealestateType[d]}>
                     {RealestateTypeString[d]}
                   </Chip>
                 ))}

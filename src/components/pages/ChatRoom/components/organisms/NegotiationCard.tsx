@@ -22,7 +22,7 @@ export function NegotiationItemCard({ item }: Omit<NegotiationItemCardProps, 'co
       onClick={() => onClickNavigateToListingDetail?.(item.listing_id, item.bidding_id)}
     >
       <div tw="min-w-[60px]">
-        <Chip tw="text-caption_01" variant={RealestateTypeChipVariant[item.realestate_type]}>
+        <Chip variant={RealestateTypeChipVariant[item.realestate_type]}>
           {RealestateTypeString[item.realestate_type]}
         </Chip>
       </div>
