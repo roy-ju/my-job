@@ -30,6 +30,6 @@ const colors = {
 };
 
 export default styled.h4<Props>(({ variant = 'nego' }) => [
-  tw`h-5 px-1.5 text-info leading-3.5 inline-flex items-center rounded whitespace-nowrap`,
+  tw`h-5 px-1.5 text-caption_01 inline-flex items-center rounded whitespace-nowrap`,
   colors[variant],
 ]);
