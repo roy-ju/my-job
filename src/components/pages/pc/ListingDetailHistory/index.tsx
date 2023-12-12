@@ -9,6 +9,7 @@ import { BiddingStatus } from '@/constants/enums';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import cancelBidding from '@/apis/bidding/cancelBidding';
 import { toast } from 'react-toastify';
+import { getListingStatus } from '@/apis/listing/getListingStatus';
 
 interface Props {
   depth: number;
@@ -21,6 +22,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const chatRoomRouter = useRouter(1);
 
   const [open, setOpen] = useState(false);
+  const [openPastPopup, setOpenPastPopup] = useState(false);
 
   const { data } = useAPI_GetMyParticipatedListingDetail(
     Number(router.query.listingID),
@@ -70,12 +72,24 @@ export default memo(({ depth, panelWidth }: Props) => {
     });
   };
 
-  const handleNavigateToListingDetail = () => {
-    router.replace(Routes.ListingDetail, {
-      searchParams: {
-        listingID: String(data?.listing_id),
-      },
-    });
+  const handleNavigateToListingDetail = async () => {
+    if (!data?.listing_id) return;
+
+    const response = await getListingStatus(data.listing_id);
+
+    if (response?.can_access) {
+      router.replace(Routes.ListingDetail, {
+        searchParams: {
+          listingID: data.listing_id.toString(),
+        },
+      });
+    } else if (!response?.can_access) {
+      setOpenPastPopup(true);
+    }
+  };
+
+  const handleClosePastPopup = () => {
+    setOpenPastPopup(false);
   };
 
   const headerTitle = () => {
@@ -171,6 +185,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         remainingAmountPaymentTimeType={data?.remaining_amount_payment_time_type ?? 0}
         openPopup={() => setOpen(true)}
       />
+
       {open && (
         <OverlayPresenter>
           <Popup>
@@ -180,6 +195,23 @@ export default memo(({ depth, panelWidth }: Props) => {
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setOpen(false)}>취소</Popup.CancelButton>
               <Popup.ActionButton onClick={handleCancelBidding}>제안 취소하기</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openPastPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-10">
+              <Popup.Title tw="[text-align: center]">
+                거래가 종료되어
+                <br />
+                매물 상세 정보를 확인할 수 없습니다.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={handleClosePastPopup}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

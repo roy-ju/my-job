@@ -8,6 +8,7 @@ import { MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import cancelBidding from '@/apis/bidding/cancelBidding';
 import { toast } from 'react-toastify';
+import { getListingStatus } from '@/apis/listing/getListingStatus';
 
 export default memo(() => {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default memo(() => {
   );
 
   const [open, setOpen] = useState(false);
+  const [openPastPopup, setOpenPastPopup] = useState(false);
 
   const handleNavigateToChatRoom = () => {
     if (!data?.buyer_agent_chat_room_id) return;
@@ -39,8 +41,16 @@ export default memo(() => {
     );
   };
 
-  const handleNavigateToListingDetail = () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${data?.listing_id}`);
+  const handleNavigateToListingDetail = async () => {
+    if (!data?.listing_id) return;
+
+    const response = await getListingStatus(data.listing_id);
+
+    if (response?.can_access) {
+      router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${data.listing_id}`);
+    } else if (!response?.can_access) {
+      setOpenPastPopup(true);
+    }
   };
 
   const headerTitle = () => {
@@ -75,6 +85,10 @@ export default memo(() => {
       router.replace(`/${Routes.EntryMobile}/${Routes.MyParticipatingListings}?tab=4`);
     }
   }, [router]);
+
+  const handleClosePastPopup = () => {
+    setOpenPastPopup(false);
+  };
 
   return (
     <MobileContainer>
@@ -141,6 +155,23 @@ export default memo(() => {
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setOpen(false)}>취소</Popup.CancelButton>
               <Popup.ActionButton onClick={handleCancelBidding}>제안 취소하기</Popup.ActionButton>
+            </Popup.ButtonGroup>
+          </Popup>
+        </OverlayPresenter>
+      )}
+
+      {openPastPopup && (
+        <OverlayPresenter>
+          <Popup>
+            <Popup.ContentGroup tw="py-10">
+              <Popup.Title tw="[text-align: center]">
+                거래가 종료되어
+                <br />
+                매물 상세 정보를 확인할 수 없습니다.
+              </Popup.Title>
+            </Popup.ContentGroup>
+            <Popup.ButtonGroup>
+              <Popup.ActionButton onClick={handleClosePastPopup}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
