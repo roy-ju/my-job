@@ -80,8 +80,9 @@ export default function RealPriceInfoCurrent({
 
   const sigunguSidoName = useMemo(() => {
     if (danji) {
-      return `${danji?.sido_name || ''} ${danji?.sigungu_name || ''}`;
+      return `${danji?.sigungu_name || ''}`;
     }
+
     return '';
   }, [danji]);
 
