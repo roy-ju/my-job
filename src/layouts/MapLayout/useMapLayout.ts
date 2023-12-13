@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-return-assign */
 /* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import getSchools from '@/apis/map/mapSchools';
 import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
 import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
@@ -1211,15 +1212,15 @@ export default function useMapLayout() {
 
   useEffect(() => {
     window.Negocio.callbacks.selectListingHomeButton = () => {
-      if (mapToggleValue === 0) {
-        setMapToggleValue(1);
-      }
+      setMapToggleValue(0);
+      setPriceType('buy');
+      setFilter(getDefaultFilterAptOftl());
     };
 
     return () => {
       delete window.Negocio.callbacks.selectListingHomeButton;
     };
-  }, [mapState.naverMap]);
+  }, [mapState.naverMap, setFilter]);
 
   useEffect(() => {
     if (
@@ -1289,8 +1290,6 @@ export default function useMapLayout() {
     }
   }, [interactionState.around, mapState.naverMap, interactionSelectedMarker]);
 
-  
-
   return {
     // common map handlers and properties
     minZoom: DEFAULT_MIN_ZOOM,
@@ -1346,6 +1345,5 @@ export default function useMapLayout() {
     selectedMouseOverDanjiSummary,
     searchResultMarker,
     aroundMarkers,
-    
   };
 }

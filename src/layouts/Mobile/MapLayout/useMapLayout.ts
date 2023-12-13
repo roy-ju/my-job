@@ -9,7 +9,7 @@ import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { getMetersByZoom } from '@/lib/navermap/utils';
 import _ from 'lodash';
-import { ChangeEventHandler, useCallback, useEffect,  useMemo, useRef, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
@@ -930,9 +930,11 @@ export default function useMapLayout() {
 
   useIsomorphicLayoutEffect(() => {
     if (router?.query?.listing === 'listingBtn') {
-      setMapToggleValue(1);
+      setMapToggleValue(0);
+      setPriceType('buy');
+      setFilter(getDefaultFilterAptOftl());
     }
-  }, [router.query]);
+  }, [router.query, setFilter]);
 
   return {
     // common map handlers and properties

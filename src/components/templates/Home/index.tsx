@@ -339,7 +339,7 @@ export default function Home({
                   <h2>
                     지도에서
                     <br />
-                    매물 검색
+                    검색하기
                   </h2>
                 </a>
                 <div
@@ -590,7 +590,7 @@ export default function Home({
                 <h2>추천 요청 많은 단지</h2> <HoneyJarIcon />
               </div>
               <div tw="px-5 text-b2 text-gray-700 mt-1">
-                <p>중개사님에게 추천 요청이 많은 매물이에요.</p>
+                <p>매물을 구하는 사람이 많은 단지에요.</p>
               </div>
               <Carousel
                 gap={16}
