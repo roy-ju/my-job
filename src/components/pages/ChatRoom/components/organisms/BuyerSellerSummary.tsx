@@ -32,7 +32,7 @@ export function BuyerSellerSummary() {
       </Accordion.Summary>
 
       <Accordion.Details tw="mx-5 mb-5 [border-radius: 8px]">
-        <div tw="bg-gray-100 px-3 [border-radius: 8px]">
+        <div tw="bg-gray-100 px-4 [border-radius: 8px]">
           <Accordion
             tw="bg-transparent"
             onChange={(v) => {
@@ -47,7 +47,7 @@ export function BuyerSellerSummary() {
             <Accordion.Summary
               tw="text-body_01 py-3"
               isNewIconSmallV2
-              css={[subTab !== 3 && tw`border-b border-gray-300`]}
+              css={[subTab !== 3 && tw`border-b border-gray-300 [transition: border 0.3s ease 0.4s]`]}
             >
               <SuggestionItemCardHeader count={accordionDetails?.suggestCount || 0} />
             </Accordion.Summary>

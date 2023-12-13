@@ -34,7 +34,7 @@ export function UserAgentSummary() {
       </Accordion.Summary>
 
       <Accordion.Details tw="mx-5 mb-5 [border-radius: 8px]">
-        <div tw="bg-gray-100 px-3 [border-radius: 8px]">
+        <div tw="bg-gray-100 px-4 [border-radius: 8px]">
           <Accordion
             tw="bg-transparent"
             onChange={(v) => {
@@ -49,7 +49,7 @@ export function UserAgentSummary() {
             <Accordion.Summary
               tw="text-body_01 py-3"
               isNewIconSmallV2
-              css={[subTab !== 1 && tw`border-b border-gray-300`]}
+              css={[subTab !== 1 && tw`border-b border-gray-300 [transition: border 0.3s ease 0.4s]`]}
             >
               <ListingItemCardHeader count={accordionDetails?.listingItem1Count || 0} />
             </Accordion.Summary>
@@ -84,7 +84,7 @@ export function UserAgentSummary() {
             <Accordion.Summary
               tw="text-body_01 py-3"
               isNewIconSmallV2
-              css={[subTab !== 2 && tw`border-b border-gray-300`]}
+              css={[subTab !== 2 && tw`border-b border-gray-300 [transition: border 0.3s ease 045s]`]}
             >
               <NegotiationItemCardHeader count={accordionDetails?.listingItem2Count || 0} />
             </Accordion.Summary>
