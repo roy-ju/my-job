@@ -1,6 +1,7 @@
 import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
 import OfferIcon from '@/assets/icons/my_offer_24.svg';
 import SaveIcon from '@/assets/icons/my_save_24.svg';
+import SearchIcon from '@/assets/icons/my_search_24.svg';
 
 interface CTAButton {
   type?: 'requestedSuggests' | 'myParticipatingListings' | 'myRegisterdListings' | 'suggestRecommendedList';
@@ -12,7 +13,7 @@ interface CTAButton {
 }
 
 interface GuideType {
-  [key: string]: { title: string; info: string; onClickHanlder?: () => void; icon: 'save' | 'offer' };
+  [key: string]: { title: string; info: string; onClickHanlder?: () => void; icon: 'save' | 'offer' | 'search' };
 }
 
 export default function CTAButtons({
@@ -28,7 +29,7 @@ export default function CTAButtons({
       title: '구하기 게시 내역',
       info: '구하기 게시하고, 매물을 추천받아요.',
       onClickHanlder: onClickRequestedSuggestsCTA,
-      icon: 'save',
+      icon: 'search',
     },
     myParticipatingListings: {
       title: '가격 제안 내역',
@@ -62,6 +63,7 @@ export default function CTAButtons({
         <div tw="flex gap-2 items-center">
           {CTAGuide[type].icon === 'save' && <SaveIcon />}
           {CTAGuide[type].icon === 'offer' && <OfferIcon />}
+          {CTAGuide[type].icon === 'search' && <SearchIcon />}
           <span tw="text-b2 text-gray-1000">{CTAGuide[type].title}</span>
         </div>
 
