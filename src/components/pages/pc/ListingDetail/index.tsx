@@ -169,7 +169,11 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   }, [router]);
 
   const handleNavigateToUpdateTargetPrice = useCallback(() => {
-    router.push(Routes.ListingTargetPriceUpdate, { persistParams: true });
+    router.push(Routes.ListingTargetPriceUpdate, {
+      searchParams: {
+        listingID: router.query.listingID as string,
+      },
+    });
   }, [router]);
 
   const handleNavigateToSuggestRegional = useCallback(() => {
