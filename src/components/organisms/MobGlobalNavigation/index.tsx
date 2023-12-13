@@ -22,7 +22,7 @@ export default function MobGlobalNavigation({
   };
 
   const buttonStyles = {
-    selected: tw`text-nego-800`,
+    selected: tw`text-gray-1000`,
     default: tw`text-gray-700`,
   };
 
