@@ -80,12 +80,9 @@ export default function RealPriceInfoCurrent({
 
   const sigunguSidoName = useMemo(() => {
     if (danji) {
-      if (danji.sido_name === '세종특별자치시') {
-        return `${danji?.sigungu_name || ''}`;
-      }
-
-      return `${danji?.sido_name || ''} ${danji?.sigungu_name || ''}`;
+      return `${danji?.sigungu_name || ''}`;
     }
+
     return '';
   }, [danji]);
 
