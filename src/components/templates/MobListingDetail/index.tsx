@@ -309,7 +309,7 @@ export default function MobListingDetail({
           <div>
             <Separator />
             <Accordion defaultExpanded>
-              <Accordion.Summary tw="h-14 px-5 font-bold">
+              <Accordion.Summary tw="h-14 px-5 font-bold text-left">
                 {UserStatusStrings[listingDetail?.visit_user_type ?? 0]?.title}
               </Accordion.Summary>
               <Accordion.Details tw="pt-1 pb-6 px-5 text-b2 text-gray-700 whitespace-pre-wrap">
