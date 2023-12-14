@@ -12,6 +12,7 @@ import useSyncronizer from '@/states/syncronizer';
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
+import useMap from '@/states/map';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -320,6 +321,7 @@ function MapWrapper({
 }
 
 export default function MapLayout({ children }: Props) {
+  const map = useMap();
   const router = useRouter(0);
   const [tabIndex, setTabIndex] = useState(0);
   const [panelsVisible, setPanelsVisible] = useState(true);
@@ -335,7 +337,9 @@ export default function MapLayout({ children }: Props) {
           router.popAll();
           break;
         case 1: // 지도
+          map.naverMap?.setZoom(16, true);
           router.replace(Routes.Map);
+
           break;
         case 2: // 나의거래
           router.replace(Routes.MyFavoriteList);
@@ -355,7 +359,7 @@ export default function MapLayout({ children }: Props) {
       setTabIndex(index);
       setPanelsVisible(true);
     },
-    [router],
+    [map.naverMap, router],
   );
 
   useEffect(() => {
