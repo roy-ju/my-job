@@ -28,7 +28,7 @@ import useLatest from '@/hooks/utils/useLatest';
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
 const DEFAULT_LNG = 127.1109415;
-const DEFAULT_ZOOM = 14; // 500m
+const DEFAULT_ZOOM = 16; // 100m
 const DEFAULT_MIN_ZOOM = 8; // 30km
 const DEFAULT_MAX_ZOOM = 19; // 20m
 
@@ -102,6 +102,8 @@ export function getBounds(m: NaverMap): MapBounds {
   } else {
     mapLevel = 4;
   }
+
+
 
   const naverMapBounds = m.getBounds() as naver.maps.LatLngBounds;
   const sw = naverMapBounds.getSW();

@@ -65,7 +65,7 @@ export default memo(() => {
 
   const handleClickBidding = useCallback(() => {
     router.replace(Routes.MapListingList);
-    map.naverMap?.setZoom(13, true);
+    map.naverMap?.setZoom(16, true);
     window.Negocio.callbacks.selectListingHomeButton();
   }, [map.naverMap, router]);
 
