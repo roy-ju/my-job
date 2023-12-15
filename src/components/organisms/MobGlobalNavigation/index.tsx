@@ -7,6 +7,7 @@ import { Button, NewCount } from '@/components/atoms';
 import { useRouter } from 'next/router';
 import tw from 'twin.macro';
 import Routes from '@/router/routes';
+import useMap from '@/states/mob/mobileMap';
 
 export default function MobGlobalNavigation({
   index,
@@ -15,6 +16,7 @@ export default function MobGlobalNavigation({
   index?: number;
   unreadChatCount?: number;
 }) {
+  const map = useMap();
   const router = useRouter();
 
   const onClickButton = (path: string) => {
@@ -52,7 +54,14 @@ export default function MobGlobalNavigation({
             관심목록
           </span>
         </Button>
-        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-[5px]" onClick={() => onClickButton(Routes.Map)}>
+        <Button
+          variant="ghost"
+          tw="flex-col px-0 h-auto flex-1 gap-[5px]"
+          onClick={() => {
+            onClickButton(Routes.Map);
+            map?.setZoom(15, true);
+          }}
+        >
           <MapIcon css={index === 2 ? buttonStyles.selected : buttonStyles.default} />
           <span css={[tw`text-gray-700 text-mobCaption`, index === 2 ? buttonStyles.selected : buttonStyles.default]}>
             지도
