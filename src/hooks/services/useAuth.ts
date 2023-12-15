@@ -4,6 +4,24 @@ import Keys from '@/constants/storage_keys';
 import { useCallback, useMemo } from 'react';
 import { mutate } from 'swr';
 
+export type User = {
+  id: number;
+  name: string;
+  nickname: string;
+  email: string;
+  phone: string;
+  profileImageUrl: string;
+  serviceNotification: boolean;
+  chatPushNotification: boolean;
+  marketingNotification: boolean;
+  marketingAgreementDate: Nullable<string>;
+  marketingDisagreementDate: Nullable<string>;
+  privacyRetentionType: number;
+  isVerified: boolean;
+  hasAddress: boolean;
+  hasNotVerifiedAddress: boolean;
+};
+
 export default function useAuth() {
   const {
     data,
@@ -11,7 +29,7 @@ export default function useAuth() {
     mutate: mutateUserInfo,
   } = useAPI_GetUserInfo({ revalidateIfStale: false, revalidateOnFocus: false });
 
-  const user = useMemo(
+  const user: Nullable<User> = useMemo(
     () =>
       data
         ? {
