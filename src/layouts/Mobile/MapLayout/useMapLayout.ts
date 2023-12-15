@@ -24,7 +24,7 @@ import { toast } from 'react-toastify';
 const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
 const DEFAULT_LNG = 127.1109415;
-const DEFAULT_ZOOM = 14; // 500m
+const DEFAULT_ZOOM = 15; // 300m
 const DEFAULT_MIN_ZOOM = 8; // 30km
 const DEFAULT_MAX_ZOOM = 19; // 20m
 
@@ -104,7 +104,8 @@ export interface MapBounds {
  * 현재 지도 위치정보를 쿼리파라미터에 저장한다.
  */
 function setMapState(map: NaverMap) {
-  const zoom = map.getZoom();
+  // const zoom = map.getZoom();
+  const zoom = DEFAULT_ZOOM;
   const center = map.getCenter() as NaverLatLng;
 
   const ms = [center.lat(), center.lng(), zoom].join(',');
