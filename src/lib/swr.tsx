@@ -1,6 +1,9 @@
 import { ReactNode, useMemo } from 'react';
+
 import axios from '@/lib/axios';
+
 import { SWRConfig as Config } from 'swr';
+
 import Keys from '@/constants/storage_keys';
 
 export function fetcher(arg: string | [string, any]) {
