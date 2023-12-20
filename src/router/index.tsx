@@ -823,6 +823,7 @@ interface MetaInsertedProps extends RouterProps {
   ogType?: string;
   ogImagePath?: string;
   ogTitleOnly?: boolean;
+  canonical?: string;
 }
 
 export default function MetaInserted({
@@ -835,6 +836,7 @@ export default function MetaInserted({
   ogType,
   ogImagePath,
   ogTitleOnly,
+  canonical,
   ...props
 }: MetaInsertedProps) {
   return (
@@ -850,6 +852,7 @@ export default function MetaInserted({
         {ogSiteName && <meta property="og:site_name" content={ogSiteName} />}
         {ogType && <meta property="og:type" content={ogType} />}
         {ogImagePath && <meta property="og:image" content={ogImagePath} />}
+        {canonical && <link rel="canonical" href={canonical} />}
       </Head>
       <Router {...props} />
     </>
