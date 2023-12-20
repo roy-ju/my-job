@@ -9,7 +9,13 @@ declare global {
 
   type MaybeRef<T> = T | MutableRefObject<T>;
 
-  type Nullable<T> = T | null
+  type Nullable<T> = T | null;
+
+  type NegocioChangeEvent<T> = React.ChangeEvent<T>;
+
+  type NegocioMouseEvent<T> = React.MouseEvent<T>;
+
+  type NegocioTouchEvent<T> = React.TouchEvent<T>;
 
   type Fn = () => void;
 }
