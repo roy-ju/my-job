@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import useForm from './useForm';
 
 export function hideKeyboard(id: string) {
@@ -22,39 +23,39 @@ export default function useAutoScroll({ elementID }: { elementID: string }) {
 
   const router = useRouter();
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!form?.forms) return;
 
-    const forms = form?.forms;
+    setTimeout(() => {
+      const forms = form?.forms;
 
-    const currentForm = forms[forms.length - 1];
+      const currentForm = forms[forms.length - 1];
 
-    const formContainer = document.getElementById(elementID);
+      const formContainer = document.getElementById(elementID);
 
-    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
+      const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
 
-    const formElement = document.getElementById(currentForm);
+      const formElement = document.getElementById(currentForm);
 
-    if (formElement) {
-      formElement.style.minHeight = `${containerHeight}px`;
+      if (formElement) {
+        formElement.style.minHeight = `${containerHeight}px`;
 
-      const prevForm = forms[forms.length - 2];
+        const prevForm = forms[forms.length - 2];
 
-      if (prevForm) {
-        const prevFormElement = document.getElementById(prevForm);
+        if (prevForm) {
+          const prevFormElement = document.getElementById(prevForm);
 
-        if (prevFormElement) {
-          prevFormElement.style.minHeight = '';
+          if (prevFormElement) {
+            prevFormElement.style.minHeight = '';
+          }
+        }
+
+        if (router?.query?.params) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+          formElement.scrollIntoView({ behavior: 'smooth' });
         }
       }
-
-      if (router?.query?.params) {
-        formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      } else {
-        setTimeout(() => {
-          formElement.scrollIntoView({ behavior: 'smooth' });
-        }, 500);
-      }
-    }
+    }, 300);
   }, [elementID, router, form?.forms]);
 }
