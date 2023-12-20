@@ -98,6 +98,7 @@ const DanjiDetail = ({ prefetchedData }: { prefetchedData?: { [key: string]: any
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={Paths.DEFAULT_OPEN_GRAPH_IMAGE_3} />
+        <link rel="canonical" href={`https://www.negocio.co.kr/danjiDetail?danjiID=${danji?.danji_id}`} />
       </Head>
       {!isTrue && !isTrueAround && !isTrueSchool && (
         <MobileContainer>
