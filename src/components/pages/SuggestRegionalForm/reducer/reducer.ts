@@ -20,7 +20,7 @@ export const initialState: State = {
       investAmount: false,
     },
   },
-  forms: [FormsInfo.BasicInfo],
+  forms: [FormsInfo.Region],
   popup: 'none',
 } as State;
 

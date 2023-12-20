@@ -31,7 +31,7 @@ export type SuggestsOrListingsState = {
     mutate: KeyedMutator<DanjiListingsListResponse[]>;
   };
 
-  suggestList: {
+  suggestsList: {
     isLoading: boolean;
     data: DanjiSuggestListItem[];
     totalCount: number;
@@ -54,4 +54,4 @@ export type SuggestsOrListingsState = {
   };
 };
 
-export type SuggestsOrListingsStateAction = { type: 'set_tab'; payLoad: 1 | 2 };
+export type SuggestsOrListingsStateAction = { type: 'set_tab'; payLoad: 1 | 2 } | { type: 'set_data'; payLoad: any };

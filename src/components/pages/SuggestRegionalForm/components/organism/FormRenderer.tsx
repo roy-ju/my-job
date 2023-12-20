@@ -14,9 +14,9 @@ export default function FormRenderer({ form }: Props) {
   const forms = useForm();
 
   switch (form) {
-    case FormsInfo.BasicInfo:
+    case FormsInfo.Region:
       return (
-        <div id={FormsInfo.BasicInfo}>
+        <div id={FormsInfo.Region}>
           <div tw="pt-7 pb-10 px-5 flex items-center font-bold [letter-spacing: -0.25px]">
             최소 10명의 중개사님에게 추천 요청이 발송됩니다.
             <br />
@@ -26,7 +26,12 @@ export default function FormRenderer({ form }: Props) {
           <div tw="py-10 px-5">
             <SuggestRegionalForm.Region />
           </div>
-          <Separator />
+        </div>
+      );
+
+    case FormsInfo.BasicInfo:
+      return (
+        <div id={FormsInfo.BasicInfo}>
           <div tw="pt-10 pb-7 px-5">
             <SuggestRegionalForm.RealestateType />
           </div>

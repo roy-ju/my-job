@@ -76,7 +76,7 @@ export default function BuyOrRent() {
         )}
         {form?.formData?.buyOrRent === BuyOrRentEnum.Buy && (
           <div>
-            <TextField variant="outlined" hasError={hasError}>
+            <TextField variant="outlined" hasError={hasError} id="searchbar">
               <TextField.PriceInput
                 label={form?.formData?.price ? '매매가' : '매매가 입력'}
                 value={form?.formData?.price}

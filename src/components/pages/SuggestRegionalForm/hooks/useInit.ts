@@ -10,10 +10,16 @@ import { TimeTypeString } from '@/constants/strings';
 
 import { searchAddress } from '@/lib/kakao/search_address';
 
+import useForm from './useForm';
+
 import useFormDispatch from './useFormDispatch';
+
+import { FormsInfo } from '../types';
 
 export default function useInit() {
   const router = useRouter();
+
+  const form = useForm();
 
   const dispatch = useFormDispatch();
 
@@ -39,6 +45,17 @@ export default function useInit() {
 
     if (router?.query?.address && typeof router.query.address === 'string') {
       prefillBubjundong(router.query.address);
+
+      if (form && form?.forms) {
+        const currentForm = form.forms[form.forms.length - 1];
+        if (currentForm === FormsInfo.Region) {
+          dispatch?.({
+            type: 'update_Forms',
+            payLoad: FormsInfo.BasicInfo,
+          });
+        }
+      }
+
       return;
     }
 
@@ -53,7 +70,7 @@ export default function useInit() {
     return () => {
       ignore = true;
     };
-  }, [dispatch, router.query.address, router.query.params]);
+  }, [dispatch, form, router.query.address, router.query.params]);
 
   // 수정하기
   useEffect(() => {

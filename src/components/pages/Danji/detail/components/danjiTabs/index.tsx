@@ -40,8 +40,6 @@ function DanjiTabs({ tabIndex, handleTabIndex }: DanjiTabProps) {
     }
   }, [refs, scrollRef, tabIndex]);
 
-  console.log('render');
-
   return (
     <div id="mob-negocio-danjidetail-tabs" tw="px-3 pt-2 pb-0 sticky bg-white [top: 56px] [z-index: 300]">
       <div
