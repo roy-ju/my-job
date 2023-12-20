@@ -9,6 +9,7 @@ import { RegionItem as RegionItemType } from '@/components/organisms/RegionList'
 import useForm from './useForm';
 
 import useFormDispatch from './useFormDispatch';
+import { FormsInfo } from '../types';
 
 type MouseClickEvent = React.MouseEvent<HTMLButtonElement> | undefined;
 

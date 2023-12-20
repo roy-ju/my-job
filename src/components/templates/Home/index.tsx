@@ -261,7 +261,7 @@ export default function Home({
         <div tw="pb-10" style={{ backgroundColor: '#F4F6FA' }}>
           <div tw="pt-4 px-6">
             <h1 tw="text-h1 font-bold mb-2">
-              추천받고.︎ 비교하고. 네고하고.︎
+              추천받고.︎ 비교하고. 네고하고.
               <br />
               네고시오
             </h1>

@@ -4,6 +4,19 @@ import { useRouter } from 'next/router';
 
 import useForm from './useForm';
 
+export function hideKeyboard(id: string) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.setAttribute('readonly', 'readonly');
+    element.setAttribute('disabled', 'true');
+    setTimeout(() => {
+      element.blur();
+      element.removeAttribute('readonly');
+      element.removeAttribute('disabled');
+    }, 100);
+  }
+}
+
 export default function useAutoScroll({ elementID }: { elementID: string }) {
   const form = useForm();
 
@@ -40,7 +53,7 @@ export default function useAutoScroll({ elementID }: { elementID: string }) {
       } else {
         setTimeout(() => {
           formElement.scrollIntoView({ behavior: 'smooth' });
-        }, 200);
+        }, 500);
       }
     }
   }, [elementID, router, form?.forms]);

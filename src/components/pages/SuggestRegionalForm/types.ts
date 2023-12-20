@@ -24,6 +24,7 @@ interface BaseFormValue {
 }
 
 export const FormsInfo = {
+  Region: 'region',
   BasicInfo: 'basicInfo',
   Purpose: 'purpose',
   MoveInDate: 'moveInDate',

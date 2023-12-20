@@ -1,50 +1,22 @@
-// import { ReactNode, createContext } from 'react';
+import { ReactNode, createContext, useReducer } from 'react';
 
-// import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
+import { DanjiSuggestsOrListingsReducer, initialState } from '../reducer';
 
-// import { useFetchDanjiListingsList } from '@/services/danji/useFetchDanjiListingsList';
+import { SuggestsOrListingsState, SuggestsOrListingsStateAction } from '../types';
 
-// import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
+export const DanjiSuggestsOrListingsContext = createContext<SuggestsOrListingsState>(initialState);
 
-// import { useFetchNaverDanji } from '@/services/danji/useFetchNaverDanji';
+export const DanjiSuggestsOrListingsDispatchContext =
+  createContext<React.Dispatch<SuggestsOrListingsStateAction> | null>(null);
 
-// import { SuggestsOrListingsState, SuggestsOrListingsStateAction } from '../types';
+export default function DanjiSuggestsOrListingsProvider({ children }: { children: ReactNode }) {
+  const [value, dispatch] = useReducer(DanjiSuggestsOrListingsReducer, initialState);
 
-// import useDanjiDetailStore from '../hooks/useDanjiDetailStore';
-
-// export const DanjiSuggestsOrListingsContext = createContext<Nullable<SuggestsOrListingsState>>(null);
-
-// export const DanjiSuggestsOrListingsDispatchContext =
-//   createContext<React.Dispatch<SuggestsOrListingsStateAction> | null>(null);
-
-// export default function DanjiSuggestsOrListingsProvider({ children }: { children: ReactNode }) {
-//   const store = useDanjiDetailStore();
-
-//   const danjiID = store?.danji?.danji_id;
-
-//   const realestateType = store?.danji?.type;
-
-//   const value = useFetchDanjiDetail({});
-
-//   const listingsListData = useFetchDanjiListingsList({
-//     danjiID,
-//     realestateType,
-//     orderBy: 1,
-//     pageSize: 4,
-//   });
-
-//   const suggestListsData = useFetchDanjiSuggestsList({
-//     danjiID,
-//     pageSize: 4,
-//   });
-
-//   const { mobileNaverURL, pcNaverURL, isLoading, mutate, error } = useFetchNaverDanji({ id: store?.danji?.danji_id });
-
-//   return <DanjiSuggestsOrListingsContext.Provider value={value}>{children}</DanjiSuggestsOrListingsContext.Provider>;
-// }
-
-import React from 'react';
-
-export default function DanjiSuggestsOrListingsProvider() {
-  return <div>DanjiSuggestsOrListingsProvider</div>;
+  return (
+    <DanjiSuggestsOrListingsContext.Provider value={value}>
+      <DanjiSuggestsOrListingsDispatchContext.Provider value={dispatch}>
+        {children}
+      </DanjiSuggestsOrListingsDispatchContext.Provider>
+    </DanjiSuggestsOrListingsContext.Provider>
+  );
 }

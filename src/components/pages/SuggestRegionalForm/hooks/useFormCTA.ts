@@ -39,9 +39,14 @@ export default function useFormCTA() {
 
       const currentForm = formList[formList.length - 1];
 
+      if (currentForm === FormsInfo.Region) {
+        if (!formData?.bubjungdong) {
+          setNextButtonDisabled(true);
+        }
+      }
+
       if (currentForm === FormsInfo.BasicInfo) {
         if (
-          !formData?.bubjungdong ||
           !formData?.realestateType ||
           formData?.realestateType?.length === 0 ||
           !formData?.buyOrRent ||
@@ -97,7 +102,7 @@ export default function useFormCTA() {
     // region
     if (!formData?.bubjungdong) {
       errorHandlingWithElement({
-        elementID: FormsInfo.BasicInfo,
+        elementID: FormsInfo.Region,
         errorMessage: '어느 지역을 추천받고 싶은지 선택해주세요.',
       });
       return;
@@ -138,7 +143,7 @@ export default function useFormCTA() {
       return;
     }
 
-    if (formData?.realestateType.includes(RealestateType.Apartment)&& (!formData?.minArea || !formData?.maxArea)) {
+    if (formData?.realestateType.includes(RealestateType.Apartment) && (!formData?.minArea || !formData?.maxArea)) {
       errorHandlingWithElement({ elementID: FormsInfo.Option, errorMessage: '관심있는 평수를 입력해 주세요.' });
       return;
     }
@@ -177,7 +182,6 @@ export default function useFormCTA() {
       interviewAvailabletimes: formData?.interviewAvailabletimes || [],
     });
 
-    
     if (platform?.platform === 'pc') {
       router.replace(Routes.SuggestRegionalSummary, {
         searchParams: {
@@ -206,6 +210,12 @@ export default function useFormCTA() {
       const lastForm = formList[formList.length - 1];
 
       switch (lastForm) {
+        case FormsInfo.Region:
+          if (form?.formData?.bubjungdong) {
+            dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.BasicInfo });
+          }
+          break;
+
         case FormsInfo.BasicInfo:
           if (form?.formData?.buyOrRent === BuyOrRent.Buy) {
             dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.Purpose });
