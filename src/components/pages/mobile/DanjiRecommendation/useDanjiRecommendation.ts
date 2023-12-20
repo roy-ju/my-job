@@ -422,13 +422,13 @@ export default function useDanjiRecommendation() {
         }
       }
 
-      setTimeout(() => {
-        if (router.query.params) {
-          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        } else {
+      if (router?.query?.params) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      } else {
+        setTimeout(() => {
           formElement.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
+        }, 200);
+      }
     }
   }, [forms]);
 

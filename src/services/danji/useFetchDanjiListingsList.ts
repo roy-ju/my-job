@@ -5,14 +5,14 @@ import useSWRInfinite from 'swr/infinite';
 import { DanjiListingsListResponse } from './types';
 
 function getKey(
-  danjiId: number | null | undefined,
+  danjiID: number | null | undefined,
   realestateType: number | null | undefined,
   orderBy: number,
   pageSize: number,
   pageIndex: number,
   previousPageData: DanjiListingsListResponse | null,
 ) {
-  if (!danjiId || !realestateType) return null;
+  if (!danjiID || !realestateType) return null;
 
   if (previousPageData && !previousPageData?.list?.length) return null;
 
@@ -21,7 +21,7 @@ function getKey(
   return [
     '/danji/listings/list',
     {
-      danji_id: danjiId,
+      danji_id: danjiID,
       realestate_type: realestateType,
       order_by: orderBy,
       page_size: pageSize,
@@ -31,12 +31,12 @@ function getKey(
 }
 
 export function useFetchDanjiListingsList({
-  danjiId,
+  danjiID,
   realestateType,
   orderBy,
   pageSize,
 }: {
-  danjiId: number | null | undefined;
+  danjiID: number | null | undefined;
   realestateType: number | null | undefined;
   orderBy: number;
   pageSize: number;
@@ -48,7 +48,7 @@ export function useFetchDanjiListingsList({
     setSize,
     mutate,
   } = useSWRInfinite<DanjiListingsListResponse>(
-    (pageIndex, previousPageData) => getKey(danjiId, realestateType, orderBy, pageSize, pageIndex, previousPageData),
+    (pageIndex, previousPageData) => getKey(danjiID, realestateType, orderBy, pageSize, pageIndex, previousPageData),
     null,
     {
       revalidateFirstPage: false,

@@ -31,7 +31,7 @@ export default function useInit() {
           dispatch?.({
             type: 'update_Field',
             key: 'bubjungdong',
-            payLoad: { name: router.query.address as string, code: bCode },
+            payLoad: { name: address as string, code: bCode },
           });
         }
       });
@@ -39,12 +39,21 @@ export default function useInit() {
 
     if (router?.query?.address && typeof router.query.address === 'string') {
       prefillBubjundong(router.query.address);
+      return;
+    }
+
+    if (router.query.params) {
+      const params: Record<string, unknown> = JSON.parse(router.query.params as string);
+
+      if (params?.address) {
+        prefillBubjundong(String(params.address) as string);
+      }
     }
 
     return () => {
       ignore = true;
     };
-  }, [dispatch, router.query.address]);
+  }, [dispatch, router.query.address, router.query.params]);
 
   // 수정하기
   useEffect(() => {

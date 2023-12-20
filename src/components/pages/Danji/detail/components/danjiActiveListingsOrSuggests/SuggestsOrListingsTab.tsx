@@ -17,7 +17,6 @@ function SuggestsOrListingsTab({
   listingTotalCount,
   handleChangeTab,
 }: SuggestsOrListingsTabProps) {
-  console.log('hi');
   return (
     <NewTabs variant="contained" value={tab} onChange={handleChangeTab}>
       <NewTabs.Tab value={1}>
