@@ -4,7 +4,7 @@ import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import { DanjiDetailProvider } from './provider';
 
-import { DanjiDetail } from './components/template';
+import DanjiDetail from './template';
 
 export default memo(({ prefetchedData }: { prefetchedData?: { [key: string]: any } | null }) => {
   const { isLoading } = useFetchDanjiDetail({ preFetchedData: prefetchedData });

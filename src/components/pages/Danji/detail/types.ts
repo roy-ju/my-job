@@ -1,6 +1,8 @@
-import { KeyedMutator } from "swr";
+import { KeyedMutator } from 'swr';
 
-import { DanjiDetailResponse } from "@/services/danji/types";
+import { DanjiDetailResponse } from '@/services/danji/types';
+
+import React from 'react';
 
 export type State = {
   danji: DanjiDetailResponse;
@@ -8,3 +10,8 @@ export type State = {
   mutate: KeyedMutator<DanjiDetailResponse>;
   error: any;
 };
+
+export type TabIndex = 0 | 1 | 2 | 3;
+
+
+  

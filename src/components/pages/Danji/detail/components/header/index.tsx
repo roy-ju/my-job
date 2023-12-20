@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import tw from 'twin.macro';
 
-import { NavigationHeader, OverlayPresenter } from '@/components/molecules';
+import { NavigationHeader } from '@/components/molecules';
 
 import ShareIcon from '@/assets/icons/share.svg';
 
@@ -10,22 +10,16 @@ import HeartFilledIcon from '@/assets/icons/heart.svg';
 
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 
-import { SharePopup } from '@/components/organisms';
-
 import { useAuth } from '@/hooks/services';
 
-import { usePopupDisaptchStore, usePopupStore } from '@/providers/PopupProvider';
+import { usePopupDisaptchStore } from '@/providers/PopupProvider';
 
 import useDanjiDetailStore from '../../hooks/useDanjiDetailStore';
 
 import useDanjiFavorite from '../../hooks/useDanjiFavoriteHandler';
 
-import useDanjiShareHandler from '../../hooks/useDanjiShareHandler';
-
-export default function Header({ isHeaderActive }: { isHeaderActive: boolean }) {
+function Header({ isHeaderActive }: { isHeaderActive: boolean }) {
   const store = useDanjiDetailStore();
-
-  const popup = usePopupStore();
 
   const popupDispatch = usePopupDisaptchStore();
 
@@ -33,16 +27,10 @@ export default function Header({ isHeaderActive }: { isHeaderActive: boolean }) 
 
   const { onClickFavorite } = useDanjiFavorite();
 
-  const { onClickShare, setCopyUrl } = useDanjiShareHandler();
-
   const onClickBack = () => {};
 
   const handleOpenSharePopup = useCallback(() => {
     popupDispatch?.('danjiShared');
-  }, [popupDispatch]);
-
-  const handleCloseSharePopup = useCallback(() => {
-    popupDispatch?.('');
   }, [popupDispatch]);
 
   if (!store?.danji) return null;
@@ -52,7 +40,7 @@ export default function Header({ isHeaderActive }: { isHeaderActive: boolean }) 
   const { name, is_favorite } = danji;
 
   return (
-    <>
+    <div tw="[z-index: 500]">
       <NavigationHeader
         id="negocio-header"
         css={[
@@ -75,16 +63,8 @@ export default function Header({ isHeaderActive }: { isHeaderActive: boolean }) 
           </NavigationHeader.Button>
         </div>
       </NavigationHeader>
-
-      {popup && (
-        <OverlayPresenter>
-          <SharePopup
-            onClickOutside={handleCloseSharePopup}
-            onClickShareViaKakao={() => onClickShare(store?.danji, handleCloseSharePopup)}
-            onClickCopyUrl={() => setCopyUrl(store?.danji, handleCloseSharePopup)}
-          />
-        </OverlayPresenter>
-      )}
-    </>
+    </div>
   );
 }
+
+export default React.memo(Header);

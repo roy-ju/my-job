@@ -1,9 +1,12 @@
-import axios from '@/lib/axios';
+import ApiService from '@/lib/apiService';
+
 import { DanjiDetailResponse } from './danji/types';
 
-export default class ApiService {
-  private instance = axios;
+import { ListingEligibilityCheckResponse } from './listing/types';
 
+import { suggestEligibilityCheckResponse } from './suggests/types';
+
+export class NegocioApiService extends ApiService {
   /** 단지 정보 */
   async fetchDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {
@@ -32,6 +35,34 @@ export default class ApiService {
       return null;
     }
   }
+
+  /** 구해요 가능 여부확인 */
+  async suggestEligibilityCheck({
+    bubjungdong_code,
+    id,
+  }: {
+    bubjungdong_code: string;
+    id?: number;
+  }): Promise<suggestEligibilityCheckResponse | null> {
+    try {
+      const { data } = await this.instance.post('/suggest/eligibility/check', {
+        bubjungdong_code,
+        danji_id: id,
+      });
+      return data as suggestEligibilityCheckResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async listingEligibilityCheck({ id }: { id?: Nullable<number> }): Promise<ListingEligibilityCheckResponse | null> {
+    try {
+      const { data } = await this.instance.post('/listing/eligibility/check', { danji_id: id });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
-export const apiService = new ApiService();
+export const apiService = new NegocioApiService();

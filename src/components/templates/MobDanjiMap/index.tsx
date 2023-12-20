@@ -2,23 +2,33 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
+
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
 import { getZoomByMeters } from '@/utils/map';
+
 import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
+
 import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+
 import { NaverMapV1 } from '@/lib/navermapV1';
+
 import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+
 import { MapEnlarge } from './components/MapEnlargeButton';
+
 import { MapTypeButton } from './components/MapTypeButton';
+
 import { MapStreet } from './components/MapStreet';
 
 const defaultMapSize: string = '190px';
 
 export default function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse }) {
   const danjiMapTypeStore = useDanjiMapTypeStore();
+
   const danjiMapButtonStore = useDanjiMapButtonStore();
 
-  const [streetViewLayer, setStreetViewLayer] = useState<naver.maps.StreetLayer | null>(null); // 거리뷰 레이어
+  const [streetViewLayer, setStreetViewLayer] = useState<naver.maps.StreetLayer | null>(null);
 
   const [clickedCenter, setClickedCenter] = useState<{
     lat: number;

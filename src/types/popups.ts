@@ -1,1 +1,6 @@
-export type PopupStateType = '' | 'danjiShared';
+export type PopupStateType =
+  | ''
+  | 'danjiShared'
+  | 'needMoreVerificationAddress'
+  | 'verificationAddress'
+  | 'impossibleRecommendation';
