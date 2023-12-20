@@ -177,7 +177,7 @@ export default function useFormCTA() {
       interviewAvailabletimes: formData?.interviewAvailabletimes || [],
     });
 
-    // mobile
+    
     if (platform?.platform === 'pc') {
       router.replace(Routes.SuggestRegionalSummary, {
         searchParams: {

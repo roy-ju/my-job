@@ -12,7 +12,7 @@ import { checkPlatform } from '@/utils/checkPlatform';
 
 const Page: NextPageWithLayout<{ platform: string }> = ({ platform }) => (
   <PlatformProvider platform={platform}>
-    <Container>
+    <Container auth ciRequired>
       <SuggestRegionalSummary />
     </Container>
   </PlatformProvider>

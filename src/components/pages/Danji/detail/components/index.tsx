@@ -10,7 +10,7 @@ import { TabIndex } from '../types';
 
 import DanjiSummary from './danjiSummary';
 
-import DanjiActiveListingsOrSuggests from './danjiActiveListingsOrSuggests';
+// import DanjiActiveListingsOrSuggests from './danjiActiveListingsOrSuggests';
 
 import DanjiBasicInfo from './danjiBasicInfo';
 
@@ -42,7 +42,7 @@ function Contents({ handleHeaderActive }: ContentsContainerProps) {
       <DanjiTabs tabIndex={tabIndex} handleTabIndex={handleTabIndex} />
       <div tw="pt-7" id="listingsSection">
         <DanjiSummary />
-        <DanjiActiveListingsOrSuggests tabIndex={tabIndex} />
+        {/* <DanjiActiveListingsOrSuggests tabIndex={tabIndex} /> */}
         <DanjiBasicInfo />
       </div>
     </div>
