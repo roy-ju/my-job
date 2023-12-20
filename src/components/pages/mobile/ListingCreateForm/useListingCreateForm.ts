@@ -1064,7 +1064,7 @@ export default function useListingCreateForm() {
       if (formElement) {
         formElement.style.minHeight = `${containerHeight}px`;
         const prevForm = forms[forms.length - 2];
-        
+
         if (prevForm) {
           const prevFormElement = document.getElementById(prevForm);
           if (prevFormElement) {
