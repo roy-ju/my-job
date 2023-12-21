@@ -1,59 +1,35 @@
 import { useRouter } from 'next/router';
 
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
+import { usePlatform } from '@/providers/PlatformProvider';
+
 import useForm from './useForm';
 
-export function hideKeyboard(id: string) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.setAttribute('readonly', 'readonly');
-    element.setAttribute('disabled', 'true');
-    setTimeout(() => {
-      element.blur();
-      element.removeAttribute('readonly');
-      element.removeAttribute('disabled');
-    }, 100);
-  }
-}
+import SuggestRegionalFormUtils from '../utils/SuggestRegionalFormUtils';
 
 export default function useAutoScroll({ elementID }: { elementID: string }) {
   const form = useForm();
 
   const router = useRouter();
 
+  const platform = usePlatform();
+
   useIsomorphicLayoutEffect(() => {
     if (!form?.forms) return;
 
-    setTimeout(() => {
-      const forms = form?.forms;
+    const forms = form.forms;
 
-      const currentForm = forms[forms.length - 1];
+    const currentForm = forms[forms.length - 1];
 
-      const formContainer = document.getElementById(elementID);
+    const timeout = platform?.platform === 'pc' ? 200 : 500;
 
-      const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
-
-      const formElement = document.getElementById(currentForm);
-
-      if (formElement) {
-        formElement.style.minHeight = `${containerHeight}px`;
-
-        const prevForm = forms[forms.length - 2];
-
-        if (prevForm) {
-          const prevFormElement = document.getElementById(prevForm);
-
-          if (prevFormElement) {
-            prevFormElement.style.minHeight = '';
-          }
-        }
-
-        if (router?.query?.params) {
-          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        } else {
-          formElement.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    }, 300);
-  }, [elementID, router, form?.forms]);
+    if (router.query.params) {
+      SuggestRegionalFormUtils.autoScroll(elementID, forms, currentForm, router?.query?.params);
+    } else {
+      setTimeout(() => {
+        SuggestRegionalFormUtils.autoScroll(elementID, forms, currentForm);
+      }, timeout);
+    }
+  }, [elementID, router, form?.forms, platform?.platform]);
 }
