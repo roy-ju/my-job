@@ -10,6 +10,8 @@ import Routes from '@/router/routes';
 
 import { usePlatform } from '@/providers/PlatformProvider';
 
+import * as gtag from '@/lib/gtag';
+
 import { FormsInfo } from '../types';
 
 import useForm from './useForm';
@@ -225,6 +227,13 @@ export default function useFormCTA() {
         case FormsInfo.Region:
           if (form?.formData?.bubjungdong) {
             dispatch?.({ type: 'update_Forms', payLoad: FormsInfo.BasicInfo });
+
+            gtag?.event({
+              action: 'suggest_regional_next_button_click',
+              category: 'button_click',
+              label: '지역 선택',
+              value: '',
+            });
           }
           break;
 
