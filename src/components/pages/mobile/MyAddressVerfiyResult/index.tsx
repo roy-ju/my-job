@@ -5,11 +5,11 @@ import React, { memo, useState, useEffect, useCallback } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import Routes from '@/router/routes';
 import { MyVerifyStatus } from '@/constants/enums';
-import { searchAddress } from '@/lib/kakao/search_address';
 import verifyOwnership from '@/apis/my/verifyOwnership';
 import ErrorCodes from '@/constants/error_codes';
 import { toast } from 'react-toastify';
 import { MyAddressVerifying, MyAddressVerifyResult } from '@/components/templates';
+import { searchAddress } from '@/lib/kakao/search_address';
 
 type AddressData = {
   addressName?: string;

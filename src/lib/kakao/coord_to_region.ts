@@ -26,17 +26,19 @@ export interface CoordToRegionResponse {
 
 export default async function coordToRegion(x: number, y: number) {
   try {
-    const params = new URLSearchParams({
-      x: `${x}`,
-      y: `${y}`,
-    });
+    // const params = new URLSearchParams({
+    //   x: `${x}`,
+    //   y: `${y}`,
+    // });
+    // const { data } = await axios.get(`https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?`, {
+    //   params,
+    //   headers: {
+    //     Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
+    //   },
+    // });
+    // return data as CoordToRegionResponse;
 
-    const { data } = await axios.get(`https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?`, {
-      params,
-      headers: {
-        Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
-      },
-    });
+    const { data } = await axios.get(`/api/kakao/coordToRegion`, { params: { x: `${x}`, y: `${y}` } });
     return data as CoordToRegionResponse;
   } catch (e) {
     return null;

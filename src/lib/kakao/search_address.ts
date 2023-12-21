@@ -42,20 +42,37 @@ export interface AddressSearchResponse {
   };
 }
 
-export async function searchAddress(
-  query: string,
-): Promise<AddressSearchResponse | null> {
+export async function searchAddress(query: string): Promise<AddressSearchResponse | null> {
   try {
-    const { data } = await axios.get(
-      `https://dapi.kakao.com/v2/local/search/address.json?query=${query}&analyze_type=similar`,
-      {
-        headers: {
-          Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
-        },
-      },
-    );
-    return data;
+    // const { data } = await axios.get(
+    //   `https://dapi.kakao.com/v2/local/search/address.json?query=${query}&analyze_type=similar`,
+    //   {
+    //     headers: {
+    //       Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
+    //     },
+    //   },
+    // );
+    // return data;
+
+    const { data } = await axios.get(`/api/kakao/searchAddress`, {
+      params: { query },
+    });
+
+    return data as AddressSearchResponse;
   } catch (e) {
     return null;
   }
 }
+
+// export async function searchAddress(query: string) {
+//   try {
+//     const response = await axios.get(`/api/kakao/searchAddress`, {
+//       params: { query },
+//     });
+
+//     return response.data as AddressSearchResponse;
+//   } catch (e) {
+//     console.error(e);
+//     return null;
+//   }
+// }
