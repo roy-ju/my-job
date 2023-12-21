@@ -24,6 +24,8 @@ export default function useKakaoAddressAutocomplete(query: string) {
         return;
       }
 
+      // const [keywordRes, addressRes] = await Promise.all([searchKeyword(q), searchAddress(q)]);
+
       const [keywordRes, addressRes] = await Promise.all([searchKeyword(q), searchAddress(q)]);
 
       const keywordItems: KakaoAddressAutocompleteResponseItem[] =

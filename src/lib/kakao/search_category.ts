@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export type SearchCategoryRequest = {
   /**	카테고리 코드 */
@@ -51,16 +51,22 @@ export type SearchCategoryResponse = {
 export async function searchCategoryGroup(req: SearchCategoryRequest): Promise<SearchCategoryResponse | null> {
   try {
     if (req.category_group_code && req.x && req.y && req.radius && req.page) {
-      const { data } = await axios.get(
-        `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=${req.category_group_code}&x=${req.x}&y=${req.y}&radius=${req.radius}&page=${req.page}`,
-        {
-          headers: {
-            Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
-          },
-        },
-      );
+      // const { data } = await axios.get(
+      //   `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=${req.category_group_code}&x=${req.x}&y=${req.y}&radius=${req.radius}&page=${req.page}`,
+      //   {
+      //     headers: {
+      //       Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
+      //     },
+      //   },
+      // );
 
-      return data;
+      // return data;
+
+      const { data } = await axios.get('/api/kakao/searchCategory', {
+        params: { query: req },
+      });
+
+      return data as SearchCategoryResponse;
     }
     return null;
   } catch (e) {

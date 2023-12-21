@@ -1,0 +1,40 @@
+import axios from '@/lib/axios';
+
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    const { query } = req.query;
+
+    if (!query) {
+      return res.status(400).json({ error: 'Query is required' });
+    }
+
+    const headers = {
+      Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
+    };
+
+    if (typeof query === 'string') {
+      const params = new URLSearchParams({
+        query,
+      });
+      try {
+        const { data } = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json`, {
+          params,
+          headers,
+        });
+
+        res.status(200).json(data);
+
+        return data;
+      } catch (e) {
+        const err = e as any;
+        const status = err.response.status ? err.response.status : 500;
+
+        res.status(status).json({
+          ...err?.response?.data,
+        });
+      }
+    }
+  }
+}
