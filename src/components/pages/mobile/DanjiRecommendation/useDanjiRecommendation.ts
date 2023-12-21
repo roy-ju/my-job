@@ -13,7 +13,11 @@ import makeRecommendDanjiParams from './makeRecommendDanjiParams';
 export default function useDanjiRecommendation() {
   const router = useRouter();
 
-  const [forms, setForms] = useState<string[]>(router?.query?.entry === 'danji' ? [Forms.BuyOrRent] : [Forms.Danji]);
+  const [forms, setForms] = useState<string[]>(
+    router?.query?.entry === 'danji' || router?.query?.entry === 'danjiSuggestListings'
+      ? [Forms.BuyOrRent]
+      : [Forms.Danji],
+  );
   const [isDanjiListOpen, setIsDanjiListOpen] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [danjiID, setDanjiID] = useState<string | null>(router?.query?.danjiID as string);
@@ -403,32 +407,48 @@ export default function useDanjiRecommendation() {
     }
   }, [router.query.danjiID]);
 
+  // 단지를 타고 들어오지 않았을때 바로 buyOrRent 폼으로
+  useIsomorphicLayoutEffect(() => {
+    if (router?.query?.entry !== 'danji' && router?.query?.entry !== 'danjiSuggestListings') {
+      setNextForm(Forms.BuyOrRent);
+    }
+  }, [router.query]);
+
   // 필드 자동스크롤 로직
   useIsomorphicLayoutEffect(() => {
     const currentForm = forms[forms.length - 1];
 
-    const formContainer = document.getElementById('formContainer');
-    const formElement = document.getElementById(currentForm);
+    function autoScroll(params?: string | string[]) {
+      const formContainer = document.getElementById('formContainer');
+      const formElement = document.getElementById(currentForm);
 
-    const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
+      const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
 
-    if (formElement) {
-      formElement.style.minHeight = `${containerHeight}px`;
-      const prevForm = forms[forms.length - 2];
-      if (prevForm) {
-        const prevFormElement = document.getElementById(prevForm);
-        if (prevFormElement) {
-          prevFormElement.style.minHeight = '';
+      if (formElement) {
+        formElement.style.minHeight = `${containerHeight}px`;
+        const prevForm = forms[forms.length - 2];
+
+        if (prevForm) {
+          const prevFormElement = document.getElementById(prevForm);
+          if (prevFormElement) {
+            prevFormElement.style.minHeight = '';
+          }
+        }
+
+        if (params) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+          formElement.scrollIntoView({ behavior: 'smooth' });
         }
       }
+    }
 
-      if (router?.query?.params) {
-        formElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      } else {
-        setTimeout(() => {
-          formElement.scrollIntoView({ behavior: 'smooth' });
-        }, 200);
-      }
+    if (router?.query?.params) {
+      autoScroll(router.query.params);
+    } else {
+      setTimeout(() => {
+        autoScroll();
+      }, 500);
     }
   }, [forms]);
 
