@@ -62,12 +62,15 @@ export async function searchCategoryGroup(req: SearchCategoryRequest): Promise<S
 
       // return data;
 
+      const { category_group_code, x, y, radius, page } = req;
+
       const { data } = await axios.get('/api/kakao/searchCategory', {
-        params: { query: req },
+        params: { category_group_code, x, y, radius, page },
       });
 
       return data as SearchCategoryResponse;
     }
+
     return null;
   } catch (e) {
     return null;

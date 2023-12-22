@@ -6,6 +6,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     const { x, y } = req.query;
 
+    if (!x || !y) {
+      return res.status(400).json({ error: 'x and y is required' });
+    }
+
+    const accessKEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+
+    if (!accessKEY) {
+      return res.status(500).json({ error: 'Missing NEXT_PUBLIC_KAKAO_REST_API_KEY' });
+    }
+
     const headers = {
       Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
     };
