@@ -7,7 +7,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { query } = req.query;
 
     if (!query) {
-      return res.status(400).json({ error: 'Query is required' });
+      return res.status(400).json({ error: 'query is required' });
+    }
+
+    const accessKEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+
+    if (!accessKEY) {
+      return res.status(500).json({ error: 'Missing NEXT_PUBLIC_KAKAO_REST_API_KEY' });
     }
 
     const headers = {
