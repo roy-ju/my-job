@@ -43,7 +43,7 @@ export default function useInit() {
       });
     }
 
-    if (router?.query?.address && typeof router.query.address === 'string') {
+    if (!ignore && router?.query?.address && typeof router.query.address === 'string') {
       prefillBubjundong(router.query.address);
 
       if (form && form?.forms) {
@@ -70,7 +70,9 @@ export default function useInit() {
     return () => {
       ignore = true;
     };
-  }, [dispatch, form, router.query.address, router.query.params]);
+    // rerendering 이슈
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, router.query.address, router.query.params]);
 
   // 수정하기
   useEffect(() => {
