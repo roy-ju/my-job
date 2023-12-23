@@ -1,32 +1,27 @@
 import { Fragment, memo, useState } from 'react';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-
 import { Button } from '@/components/atoms';
 
 import { Skeletons } from '@/components/molecules';
 
-import { NewsItem as NewsItemType, scrapeNews } from '@/lib/scrape/scrape';
+import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
-import { checkPlatform } from '@/utils/checkPlatform';
 import NewsItem from './NewsItem';
+
+import useFetchNews from './hooks/useFetchNews';
 
 function makeKey(v1: string, v2: string, v3: string, v4: number) {
   return `${v1}-${v2}-${v3}-${v4}`;
 }
 
 function ColumnType({ title = '단지뉴스', query }: { title?: string; query: string }) {
-  const [news, setNews] = useState<NewsItemType[]>([]);
-
-  const [loading, setLoading] = useState(true);
-
-  const [error, setError] = useState(false);
-
   const [page, setPage] = useState(1);
 
-  const [sliceDisplay, setSliceDisplay] = useState(5);
+  const { news, loading, error } = useFetchNews({ query, page });
 
-  const [mobileOrPC, setMobileOrPC] = useState('');
+  const { platform } = useCheckPlatform();
+
+  const [sliceDisplay, setSliceDisplay] = useState(5);
 
   const handleMoreView = () => {
     if (page < 2) {
@@ -60,42 +55,6 @@ function ColumnType({ title = '단지뉴스', query }: { title?: string; query: 
       }
     }, 300);
   };
-
-  useIsomorphicLayoutEffect(() => {
-    const display = 10;
-
-    async function scrape() {
-      if (page === 1) {
-        setLoading(true);
-      }
-
-      const response = await scrapeNews({
-        query: `${query}`,
-        display,
-        start: (page - 1) * display + 1,
-        sort: 'date',
-      });
-
-      if (response) {
-        setNews((prev) => [...prev, ...response]);
-      } else {
-        setError(true);
-      }
-
-      if (page === 1) {
-        setLoading(false);
-      }
-    }
-
-    if (query && page <= 2) {
-      scrape();
-    }
-  }, [query, page]);
-
-  useIsomorphicLayoutEffect(() => {
-    const platform = checkPlatform();
-    setMobileOrPC(platform);
-  }, []);
 
   if (!news.length) return null;
 
@@ -134,7 +93,7 @@ function ColumnType({ title = '단지뉴스', query }: { title?: string; query: 
         )}
       </div>
 
-      {mobileOrPC === 'mobile' && <div tw="[min-height: 114px]" id="negocio-danjidetail-bottom" />}
+      {platform === 'mobile' && <div tw="[min-height: 114px]" id="negocio-danjidetail-bottom" />}
     </div>
   );
 }

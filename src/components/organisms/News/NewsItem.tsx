@@ -7,6 +7,7 @@ import Paths from '@/constants/paths';
 import tw, { styled } from 'twin.macro';
 
 import { NewsItem as NewsItemType } from '@/lib/scrape/scrape';
+import { useMemo, useState } from 'react';
 
 const StyledLink = styled(Link)`
   b {
@@ -26,6 +27,16 @@ const StyledLink = styled(Link)`
 type NewsItemProps = { item: NewsItemType };
 
 export default function NewsItem({ item }: NewsItemProps) {
+  const [imgError, setImgError] = useState(false);
+
+  const imgSrc = useMemo(() => {
+    if (imgError) return Paths.DEFAULT_APARTMENT_IMAGE_PATH;
+
+    if (item?.imageUrl) return item.imageUrl;
+
+    return Paths.DEFAULT_APARTMENT_IMAGE_PATH;
+  }, [item, imgError]);
+
   return (
     <>
       <StyledLink
@@ -48,7 +59,8 @@ export default function NewsItem({ item }: NewsItemProps) {
               height={80}
               priority
               alt=""
-              src={item?.imageUrl || Paths.DEFAULT_APARTMENT_IMAGE_PATH}
+              src={imgSrc}
+              onError={() => setImgError(true)}
             />
           </div>
           <div tw="max-w-[240px] flex flex-col justify-between  text-gray-700">
