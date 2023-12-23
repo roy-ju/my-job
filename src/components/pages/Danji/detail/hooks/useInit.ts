@@ -47,5 +47,5 @@ export default function useInit() {
     [checkRecommdationServiceData, listingsListData, naverDanjiData, suggestListsData],
   );
 
-  useEffect(() => () => dispatch?.({ type: 'set_data', payLoad: collectionDatas }), [collectionDatas]);
+  useEffect(() => () => dispatch?.({ type: 'set_data', payLoad: collectionDatas }), [collectionDatas, dispatch]);
 }

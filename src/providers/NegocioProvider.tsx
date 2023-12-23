@@ -4,7 +4,6 @@ import { useWebSocket } from '@/hooks/utils';
 import usePageVisibility from '@/hooks/utils/usePageVisibility';
 import axios from '@/lib/axios';
 import useSyncronizer from '@/states/syncronizer';
-import { getQueryInUrl } from '@/utils/getQueryInUrl';
 import { isClient } from '@/utils/is';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';

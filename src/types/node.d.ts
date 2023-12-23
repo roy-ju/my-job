@@ -12,5 +12,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_GTM_ID: string;
     KAKAO_CLIENT_SECRET: string;
     NEXT_PUBLIC_NEGOCIO_DELETED_PROFILE_IMG_PATH: string;
+    NEXT_PUBLIC_NCP_CLIENT_SEARCH_ID: string;
+    NEXT_PUBLIC_NCP_CLIENT_SEARCH_PASSWORD: string;
   }
 }

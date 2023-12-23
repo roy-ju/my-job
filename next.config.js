@@ -3,7 +3,9 @@ const withTwin = require('./withTwin.js');
 /** @type {import('next').NextConfig} */
 const nextConfig = withTwin({
   reactStrictMode: false,
+
   output: 'standalone',
+
   images: {
     remotePatterns: [
       {
@@ -44,6 +46,22 @@ const nextConfig = withTwin({
       {
         protocol: 'https',
         hostname: 'negocio-user-photos.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'negocio-user-photos.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+      },
+      //issue scraping
+      {
+        protocol: 'https',
+        hostname: '**',
+        port: '',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
         port: '',
       },
     ],

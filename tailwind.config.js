@@ -103,6 +103,15 @@ module.exports = {
         ],
 
         heading_03: [
+          '1.375rem',
+          {
+            lineHeight: '1.875rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 700,
+          },
+        ],
+
+        heading_04: [
           '1.5rem',
           {
             lineHeight: '2.125rem',
@@ -186,6 +195,15 @@ module.exports = {
         ],
 
         body_06: [
+          '1.375rem',
+          {
+            lineHeight: '1.875rem',
+            letterSpacing: '-0.25px',
+            fontWeight: 400,
+          },
+        ],
+
+        body_07: [
           '1.5rem',
           {
             lineHeight: '2.125rem',

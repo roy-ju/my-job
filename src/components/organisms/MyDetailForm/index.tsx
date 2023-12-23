@@ -1,5 +1,5 @@
 import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
-import { Dropdown, TextField } from '@/components/molecules';
+import { TextField } from '@/components/molecules';
 import tw from 'twin.macro';
 import React, { ChangeEventHandler, useId } from 'react';
 import { NICKNAME_REGEX } from '@/constants/regex';

@@ -1,20 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { Loading, Separator } from '@/components/atoms';
-import { DanjiDetailSection } from '@/components/organisms';
-import tw from 'twin.macro';
-
 import { useRef, useState, MouseEvent, useEffect, useCallback, useMemo } from 'react';
+
+import { Loading, Separator } from '@/components/atoms';
+
+import { DanjiDetailSection } from '@/components/organisms';
+
+import { DanjiTab } from '@/components/organisms/DanjiDetail/DanjiTabs';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
 import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
-import { motion } from 'framer-motion';
+
 import useDanjiInteraction from '@/states/danjiButton';
 
-import DanjiDetailHeader from './Components/DanjiDetailHeader';
-import DanjiPhotoHero from './Components/DanjiPhotoHero';
+import { describeRealestateType } from '@/constants/enums';
+
+import News from '@/components/organisms/News';
+
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
+
+import DanjiPhotoHero from './Components/DanjiPhotoHero';
+
+import DanjiDetailHeader from './Components/DanjiDetailHeader';
 
 interface Props {
   depth: number;
@@ -30,22 +40,24 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const refs = useRef<any>([]);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [listingsSection, setListingsSection] = useState<HTMLDivElement | null>(null);
   const [realPriceSection, setRealPriceSection] = useState<HTMLDivElement | null>(null);
   const [infoSection, setInfoSection] = useState<HTMLDivElement | null>(null);
   const [facilitiesSection, setFacilitiesSection] = useState<HTMLDivElement | null>(null);
+  const [newsSection, setNewsSection] = useState<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
+
   const [loadingRp, setLoadingRp] = useState(true);
+  const [isShowRpTab, setIsShowRpTab] = useState(false);
 
   const [tabIndex, setTabIndex] = useState(0);
 
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();
 
-  const [isShowRpTab, setIsShowRpTab] = useState(false);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
   const [bottomReached, setBottomReached] = useState(false);
 
   const [visibleState, setVisibleState] = useState<Record<string, boolean>>({
@@ -53,6 +65,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     realPriceSection: false,
     infoSection: false,
     facilitiesSection: false,
+    newsSection: false,
   });
 
   const isShowlistingsSection = useMemo(() => router?.query?.depth2 !== Routes.DanjiListings, [router.query]);
@@ -90,7 +103,9 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
   };
 
   const onClickTab = useCallback(
-    (index: number) => {
+    (e: NegocioMouseEvent<HTMLButtonElement>) => {
+      const index = Number(e.currentTarget.value);
+
       if (index === 0) {
         scrollContainer.current?.scrollBy({
           top: (listingsSection?.getBoundingClientRect()?.top ?? 0) - 103,
@@ -118,8 +133,15 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
           behavior: 'smooth',
         });
       }
+
+      if (index === 4) {
+        scrollContainer.current?.scrollBy({
+          top: (newsSection?.getBoundingClientRect()?.top ?? 0) - 103,
+          behavior: 'smooth',
+        });
+      }
     },
-    [listingsSection, realPriceSection, infoSection, facilitiesSection],
+    [listingsSection, realPriceSection, infoSection, facilitiesSection, newsSection],
   );
 
   useEffect(() => {
@@ -151,10 +173,14 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       observer.observe(facilitiesSection);
     }
 
+    if (newsSection) {
+      observer.observe(newsSection);
+    }
+
     return () => {
       observer.disconnect();
     };
-  }, [facilitiesSection, infoSection, listingsSection, realPriceSection]);
+  }, [facilitiesSection, infoSection, listingsSection, realPriceSection, newsSection]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -202,7 +228,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
     let i = 0;
 
     if (bottomReached) {
-      i = 3;
+      i = 4;
       setTabIndex(i);
       return;
     }
@@ -218,6 +244,9 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
       setTabIndex(i);
     } else if (visibleState.facilitiesSection === true) {
       i = 3;
+      setTabIndex(i);
+    } else if (visibleState.newsSection === true) {
+      i = 4;
       setTabIndex(i);
     }
   }, [bottomReached, visibleState, isShowRpTab]);
@@ -265,96 +294,78 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
               onMouseLeave={onDragEnd}
             >
               {isShowlistingsSection && (
-                <div
-                  role="presentation"
-                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
-                  onClick={() => {
-                    onClickTab(0);
-                  }}
-                  ref={(el) => (refs.current[0] = el)}
-                >
-                  <p
-                    tw="[text-align: center] w-full text-b2 [line-height: 17px]"
-                    css={[tabIndex === 0 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+                <DanjiTab>
+                  <DanjiTab.Tab
+                    value={0}
+                    onClick={onClickTab}
+                    ref={(el) => {
+                      refs.current[0] = el;
+                      return null;
+                    }}
                   >
-                    단지 거래
-                  </p>
-                  {tabIndex === 0 && (
-                    <motion.div
-                      layoutId="danji-tab-indicator"
-                      tw="absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000"
-                    />
-                  )}
-                </div>
+                    <DanjiTab.Text selected={tabIndex === 0}>단지 거래</DanjiTab.Text>
+                    {tabIndex === 0 && <DanjiTab.Indicator layoutId="danji-tab-indicator" />}
+                  </DanjiTab.Tab>
+                </DanjiTab>
               )}
 
               {isShowRpTab && (
-                <div
-                  role="presentation"
-                  tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
-                  onClick={() => {
-                    onClickTab(1);
-                  }}
-                  ref={(el) => (refs.current[1] = el)}
-                >
-                  <p
-                    tw="[text-align: center] w-full text-b2 [line-height: 17px]"
-                    css={[tabIndex === 1 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+                <DanjiTab>
+                  <DanjiTab.Tab
+                    value={1}
+                    onClick={onClickTab}
+                    ref={(el) => {
+                      refs.current[1] = el;
+                      return null;
+                    }}
                   >
-                    단지 실거래 분석
-                  </p>
-                  {tabIndex === 1 && (
-                    <motion.div
-                      layoutId="danji-tab-indicator"
-                      tw="absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000"
-                    />
-                  )}
-                </div>
+                    <DanjiTab.Text selected={tabIndex === 1}>단지 실거래 분석</DanjiTab.Text>
+                    {tabIndex === 1 && <DanjiTab.Indicator layoutId="danji-tab-indicator" />}
+                  </DanjiTab.Tab>
+                </DanjiTab>
               )}
 
-              <div
-                role="presentation"
-                tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
-                onClick={() => {
-                  onClickTab(2);
-                }}
-                ref={(el) => (refs.current[2] = el)}
-              >
-                <p
-                  tw="[text-align: center] w-full text-b2 [line-height: 17px]"
-                  css={[tabIndex === 2 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+              <DanjiTab>
+                <DanjiTab.Tab
+                  value={2}
+                  onClick={onClickTab}
+                  ref={(el) => {
+                    refs.current[2] = el;
+                    return null;
+                  }}
                 >
-                  기본 정보
-                </p>
-                {tabIndex === 2 && (
-                  <motion.div
-                    layoutId="danji-tab-indicator"
-                    tw="absolute bottom-0 left-[0px] w-full h-full border-b-2 border-b-gray-1000"
-                  />
-                )}
-              </div>
+                  <DanjiTab.Text selected={tabIndex === 2}>기본 정보</DanjiTab.Text>
+                  {tabIndex === 2 && <DanjiTab.Indicator layoutId="danji-tab-indicator" />}
+                </DanjiTab.Tab>
+              </DanjiTab>
 
-              <div
-                role="presentation"
-                tw="relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer"
-                onClick={() => {
-                  onClickTab(3);
-                }}
-                ref={(el) => (refs.current[3] = el)}
-              >
-                <p
-                  tw="[text-align: center] w-full text-b2 [line-height: 17px]"
-                  css={[tabIndex === 3 ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`]}
+              <DanjiTab>
+                <DanjiTab.Tab
+                  value={3}
+                  onClick={onClickTab}
+                  ref={(el) => {
+                    refs.current[3] = el;
+                    return null;
+                  }}
                 >
-                  학군 및 주변 정보
-                </p>
-                {tabIndex === 3 && (
-                  <motion.div
-                    layoutId="danji-tab-indicator"
-                    tw="absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000"
-                  />
-                )}
-              </div>
+                  <DanjiTab.Text selected={tabIndex === 3}>학군 및 주변 정보</DanjiTab.Text>
+                  {tabIndex === 3 && <DanjiTab.Indicator layoutId="danji-tab-indicator" />}
+                </DanjiTab.Tab>
+              </DanjiTab>
+
+              <DanjiTab>
+                <DanjiTab.Tab
+                  value={4}
+                  onClick={onClickTab}
+                  ref={(el) => {
+                    refs.current[4] = el;
+                    return null;
+                  }}
+                >
+                  <DanjiTab.Text selected={tabIndex === 4}>단지 뉴스</DanjiTab.Text>
+                  {tabIndex === 4 && <DanjiTab.Indicator layoutId="danji-tab-indicator" />}
+                </DanjiTab.Tab>
+              </DanjiTab>
             </div>
           </div>
         )}
@@ -389,7 +400,13 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
             <Separator tw="w-full [min-height: 8px]" />
             <DanjiDetailSection.AroundInfo danji={danji} />
           </div>
+
+          <div id="newsSection" ref={setNewsSection}>
+            <Separator tw="w-full [min-height: 8px]" />
+            <News.ColumnType query={`${danji.name} ${describeRealestateType(danji.type)}`} />
+          </div>
         </DanjiDetailSection>
+
         <div id="negocio-danjidetail-bottom" ref={bottomRef} style={{ height: '10px' }} />
       </div>
     </div>
