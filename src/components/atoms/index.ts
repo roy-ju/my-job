@@ -21,3 +21,4 @@ export { default as MobAuthRequired } from './MobAuthRequired';
 export { default as TopLoadingBar } from './TopLoadingBar';
 export { default as HorizontalScroller } from './HorizontalScroller';
 export { default as NewCount } from './NewCount';
+export { default as Skeleton } from './Skeleton';

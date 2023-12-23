@@ -15,3 +15,4 @@ export { default as Table } from './Table';
 export { default as Carousel } from './Carousel';
 export { default as NoDataUI } from './NoDataUI';
 export { default as ExpandableText } from './ExpandableText';
+export { default as Skeletons } from './Skeletons';

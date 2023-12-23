@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMemo, useEffect } from 'react';
 
 import { useFetchDanjiListingsList } from '@/services/danji/useFetchDanjiListingsList';

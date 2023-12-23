@@ -1,8 +1,13 @@
 import { Panel } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import { DanjiDetail } from '@/components/templates';
+
 import { useRouter as useNextRouter } from 'next/router';
+
 import { memo } from 'react';
+
 import useDanjiDetail from './useDanjiDetail';
 
 interface Props {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { useFetchNaverDanji } from '@/services/danji/useFetchNaverDanji';
