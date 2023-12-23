@@ -18,9 +18,13 @@ import EyesImage from '@/../public/static/images/image_emoji_eyes.png';
 
 import LogoImage from '@/../public/static/images/image_logo2.png';
 
+import NaverBlogIcon from '@/assets/icons/blog_color.svg';
+
+import KakaoChanelIcon from '@/assets/icons/kakao_chanel.svg';
+
 import InstagramIcon from '@/assets/icons/instagram_color.svg';
 
-import NaverBlogIcon from '@/assets/icons/blog_color.svg';
+import FacebookIcon from '@/assets/icons/facebook_color.svg';
 
 const IntroButton = styled.button`
   ${tw`flex items-start gap-4 rounded-2xl [height: 112px] p-4 text-left bg-nego-100 hover:bg-nego-200`}
@@ -83,11 +87,17 @@ export default function Footer() {
 
         <div tw="flex flex-col py-10 mt-5">
           <div tw="flex gap-5 justify-center mb-5">
+            <Button size="none" variant="ghost" onClick={handleClickNaverBlog}>
+              <NaverBlogIcon />
+            </Button>
+            <Button size="none" variant="ghost" onClick={handleClickInstagram}>
+              <KakaoChanelIcon />
+            </Button>
             <Button size="none" variant="ghost" onClick={handleClickInstagram}>
               <InstagramIcon />
             </Button>
-            <Button size="none" variant="ghost" onClick={handleClickNaverBlog}>
-              <NaverBlogIcon />
+            <Button size="none" variant="ghost" onClick={handleClickInstagram}>
+              <FacebookIcon />
             </Button>
           </div>
 
