@@ -56,8 +56,6 @@ function ColumnType({ title = '단지뉴스', query }: { title?: string; query: 
     }, 300);
   };
 
-  if (!news.length) return null;
-
   if (error) return null;
 
   return (
@@ -75,8 +73,8 @@ function ColumnType({ title = '단지뉴스', query }: { title?: string; query: 
               .slice(0, sliceDisplay)
               .map((item, index) => (
                 <NewsItem
-                  item={item}
                   key={makeKey(item.title || '', item.pubDate || '', item.description || '', index)}
+                  item={item}
                 />
               ))}
       </div>

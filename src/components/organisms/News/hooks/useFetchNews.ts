@@ -4,7 +4,7 @@ import { NewsItem as NewsItemType, scrapeNews } from '@/lib/scrape/scrape';
 
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 
-export default function useFetchNews({ query, page }: { query: string; page: number }) {
+export default function useFetchNews({ query, page, display = 15 }: { query: string; page: number; display?: number }) {
   const [news, setNews] = useState<NewsItemType[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -12,8 +12,6 @@ export default function useFetchNews({ query, page }: { query: string; page: num
   const [error, setError] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
-    const display = 10;
-
     async function scrape() {
       if (page === 1) {
         setLoading(true);
@@ -21,7 +19,7 @@ export default function useFetchNews({ query, page }: { query: string; page: num
 
       const response = await scrapeNews({
         query: `${query}`,
-        display,
+        display: display || 10,
         start: (page - 1) * display + 1,
         sort: 'date',
       });

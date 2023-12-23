@@ -60,6 +60,11 @@ const nextConfig = withTwin({
         port: '',
       },
       {
+        protocol: 'https',
+        hostname: '**',
+        port: '**',
+      },
+      {
         protocol: 'http',
         hostname: '**',
         port: '',

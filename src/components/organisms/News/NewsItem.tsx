@@ -1,13 +1,15 @@
-import Link from 'next/link';
+/* eslint-disable @next/next/no-img-element */
+import { useMemo, useState } from 'react';
 
-import Image from 'next/image';
+import Link from 'next/link';
 
 import Paths from '@/constants/paths';
 
 import tw, { styled } from 'twin.macro';
 
 import { NewsItem as NewsItemType } from '@/lib/scrape/scrape';
-import { useMemo, useState } from 'react';
+
+import moment from 'moment';
 
 const StyledLink = styled(Link)`
   b {
@@ -53,11 +55,8 @@ export default function NewsItem({ item }: NewsItemProps) {
         </div>
         <div tw="flex gap-4">
           <div tw="relative w-[80px] h-[80px] min-w-[80px] min-h-[80px]">
-            <Image
-              tw="[object-fit: cover] w-full h-full rounded-lg"
-              width={80}
-              height={80}
-              priority
+            <img
+              tw="w-full h-full absolute top-0 left-0 [object-fit: cover] rounded-lg border border-gray-300"
               alt=""
               src={imgSrc}
               onError={() => setImgError(true)}
@@ -66,7 +65,10 @@ export default function NewsItem({ item }: NewsItemProps) {
           <div tw="max-w-[240px] flex flex-col justify-between  text-gray-700">
             <div tw="text-info line-clamp-2" dangerouslySetInnerHTML={{ __html: item.description }} />
 
-            <p tw="ml-auto text-info [text-decoration-line: underline]">뉴스보러가기</p>
+            <div tw="flex">
+              {item.pubDate && <div tw="text-info">{moment(item.pubDate).format('YYYY-MM-DD')}</div>}
+              <p tw="ml-auto text-info [text-decoration-line: underline]">뉴스보러가기</p>
+            </div>
           </div>
         </div>
       </StyledLink>
