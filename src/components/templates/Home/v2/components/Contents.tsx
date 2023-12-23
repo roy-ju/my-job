@@ -1,6 +1,6 @@
 import { Separator } from '@/components/atoms';
 
-import News from '@/components/organisms/News';
+// import News from '@/components/organisms/News';
 
 import SuggestForm from './SuggestForm';
 
@@ -16,10 +16,10 @@ export default function Contents({ handleOpenDanjiListPopup }: ContentsProps) {
       <SuggestForm />
       <Guide handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
       <Separator tw="bg-gray-200 h-2" />
-      <News>
+      {/* <News>
         <News.CarouselType query="부동산" />
       </News>
-      <Separator tw="bg-gray-200 h-2" />
+      <Separator tw="bg-gray-200 h-2" /> */}
     </>
   );
 }
