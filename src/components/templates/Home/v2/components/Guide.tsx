@@ -5,11 +5,10 @@ import WomanImage from '@/../public/static/images/image_emoji_woman.png';
 import GuideButton from './GuideButton';
 
 type GuideProps = {
-  handleOpenRegisterMyHomePopup: () => void;
   handleOpenDanjiListPopup: () => void;
 };
 
-export default function Guide({ handleOpenRegisterMyHomePopup, handleOpenDanjiListPopup }: GuideProps) {
+export default function Guide({ handleOpenDanjiListPopup }: GuideProps) {
   return (
     <div tw="px-5 py-10 flex flex-col gap-5">
       <div tw="flex items-center gap-2">
@@ -20,7 +19,7 @@ export default function Guide({ handleOpenRegisterMyHomePopup, handleOpenDanjiLi
         <GuideButton variant="map" />
         <GuideButton variant="realprice" handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
         <GuideButton variant="law" />
-        <GuideButton variant="register" handleOpenRegisterMyHomePopup={handleOpenRegisterMyHomePopup} />
+        <GuideButton variant="register" />
       </div>
     </div>
   );

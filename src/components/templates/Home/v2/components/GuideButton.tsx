@@ -41,11 +41,7 @@ const Button = styled.button<{ variant: 'map' | 'realprice' | 'law' | 'register'
   ${({ variant }) => variant && variants[variant]}
 `;
 
-export default function GuideButton({
-  variant,
-  handleOpenRegisterMyHomePopup,
-  handleOpenDanjiListPopup,
-}: GuidButtonProps) {
+export default function GuideButton({ variant, handleOpenDanjiListPopup }: GuidButtonProps) {
   const { user } = useAuth();
 
   const map = useMap();
@@ -78,19 +74,20 @@ export default function GuideButton({
   };
 
   const handleClickHomeRegister = () => {
-    if (user?.hasAddress) {
-      handleOpenRegisterMyHomePopup?.();
-      return;
+    if (!user?.hasAddress) {
+      if (platform === 'pc') {
+        router.replace(`/${Routes.My}/${Routes.MyAddress}`);
+      } else {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+          query: { origin: router.asPath as string },
+        });
+      }
     }
 
-    if (platform === 'pc') {
-      customRouter.replace(Routes.MyAddress, { searchParams: { origin: customRouter.asPath } });
-    } else {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-        query: { origin: router.asPath as string },
-      });
-    }
+    // Todo 우리집 등록이 되어있을때
+
+    // Todo 우리집도 내놓았고 매물등록도 되어있을때
   };
 
   const ButtonObject = {

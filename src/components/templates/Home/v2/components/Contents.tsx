@@ -5,18 +5,14 @@ import SuggestForm from './SuggestForm';
 import Guide from './Guide';
 
 type ContentsProps = {
-  handleOpenRegisterMyHomePopup: () => void;
   handleOpenDanjiListPopup: () => void;
 };
 
-export default function Contents({ handleOpenRegisterMyHomePopup, handleOpenDanjiListPopup }: ContentsProps) {
+export default function Contents({ handleOpenDanjiListPopup }: ContentsProps) {
   return (
     <>
       <SuggestForm />
-      <Guide
-        handleOpenRegisterMyHomePopup={handleOpenRegisterMyHomePopup}
-        handleOpenDanjiListPopup={handleOpenDanjiListPopup}
-      />
+      <Guide handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
       <Separator tw="bg-gray-200 h-2" />
     </>
   );
