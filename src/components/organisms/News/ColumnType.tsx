@@ -14,10 +14,10 @@ function makeKey(v1: string, v2: string, v3: string, v4: number) {
   return `${v1}-${v2}-${v3}-${v4}`;
 }
 
-function ColumnType({ title = '단지뉴스', query }: { title?: string; query: string }) {
+function ColumnType({ title = '단지뉴스', query, query2 }: { title?: string; query: string; query2: string }) {
   const [page, setPage] = useState(1);
 
-  const { news, loading, error } = useFetchNews({ query, page });
+  const { news, loading, error } = useFetchNews({ query, query2, page });
 
   const { platform } = useCheckPlatform();
 

@@ -4,6 +4,8 @@ type SearchNewsNaverReq = {
   /** 검색어 UTF-8 인코딩 */
   query: string;
 
+  query2?: string;
+
   /** 한 번에 표시할 검색 결과 개수(기본값: 10, 최댓값: 100) */
   display?: number;
 
@@ -32,10 +34,10 @@ export type SeachNewsNaverRes = {
 };
 
 export async function scrapeNews(req: SearchNewsNaverReq): Promise<NewsItem[] | null> {
-  const { query, display, start, sort } = req;
+  const { query, query2, display, start, sort } = req;
 
   try {
-    const { data } = await axios.get(`/api/scrape/news`, { params: { query, display, start, sort } });
+    const { data } = await axios.get(`/api/scrape/news`, { params: { query, query2, display, start, sort } });
 
     return data;
   } catch (e) {

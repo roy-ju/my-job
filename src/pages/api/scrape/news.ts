@@ -18,7 +18,7 @@ type NewsMetaDataList = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    const { query, display, start, sort } = req.query;
+    const { query, query2, display, start, sort } = req.query;
 
     if (!query) {
       return res.status(400).json({ error: 'query is required' });
@@ -72,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
               newsMetaDataList.push(convertedNewsData);
             } catch (e) {
-              //
+              console.log(link);
             }
           }
 
@@ -83,6 +83,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(status).json({
             ...e?.response?.data,
           });
+        }
+      } else if (query2) {
+        console.log('hello');
+        const { data: data2 } = await axios.get(`https://openapi.naver.com/v1/search/news.json`, {
+          params: { query: query2, display, start, sort },
+          headers,
+        });
+
+        const { items: items2 } = data2;
+
+        if (items2 && items2?.length > 0) {
+          const newsMetaDataList = [];
+
+          for (const { link, originallink, title, description, pubDate } of items2) {
+            try {
+              const response = await axios.get(link, { headers: { 'User-agent': 'request' } });
+
+              const html = response?.data;
+
+              const $ = cheerio.load(html);
+
+              const ogImageUrl = $('meta[property="og:image"]').attr('content');
+
+              const convertedNewsData = {
+                title,
+                description,
+                imageUrl: ogImageUrl || '',
+                originallink,
+                link,
+                pubDate,
+              };
+
+              newsMetaDataList.push(convertedNewsData);
+            } catch (e) {
+              console.log(link);
+            }
+          }
+
+          res.status(200).json(newsMetaDataList as NewsMetaDataList[]);
         }
       }
     } catch (e) {
