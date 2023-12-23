@@ -11,7 +11,7 @@ export default function useFetchNews({
   display = 10,
 }: {
   query: string;
-  query2: string;
+  query2?: string;
   page: number;
   display?: number;
 }) {

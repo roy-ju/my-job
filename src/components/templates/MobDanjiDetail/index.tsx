@@ -347,7 +347,10 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
 
             <div id="newsSection" ref={setNewsSection}>
               <Separator tw="w-full [min-height: 8px]" />
-              <News.ColumnType query={`${danji.name} ${describeRealestateType(danji.type)}`} />
+              <News.ColumnType
+                query={`${danji.name} ${describeRealestateType(danji.type)}`}
+                query2={`${danji.sigungu_name} 부동산`}
+              />
             </div>
           </MobDanjiDetailSection>
         </div>
