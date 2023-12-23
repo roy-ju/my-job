@@ -85,7 +85,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           });
         }
       } else if (query2) {
-        console.log('hello');
         const { data: data2 } = await axios.get(`https://openapi.naver.com/v1/search/news.json`, {
           params: { query: query2, display, start, sort },
           headers,
