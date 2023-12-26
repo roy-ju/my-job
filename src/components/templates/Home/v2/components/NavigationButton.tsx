@@ -22,7 +22,7 @@ import MapImage from '@/../public/static/images/image_map.png';
 
 import Routes from '@/router/routes';
 
-type GuidButtonProps = {
+type NavigationButtonProps = {
   variant: 'map' | 'realprice' | 'law' | 'register';
   handleOpenRegisterMyHomePopup?: () => void;
   handleOpenDanjiListPopup?: () => void;
@@ -41,7 +41,7 @@ const Button = styled.button<{ variant: 'map' | 'realprice' | 'law' | 'register'
   ${({ variant }) => variant && variants[variant]}
 `;
 
-export default function GuideButton({ variant, handleOpenDanjiListPopup }: GuidButtonProps) {
+export default function NavigationButton({ variant, handleOpenDanjiListPopup }: NavigationButtonProps) {
   const { user } = useAuth();
 
   const map = useMap();

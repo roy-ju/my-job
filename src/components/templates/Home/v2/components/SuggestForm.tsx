@@ -1,4 +1,4 @@
-import { Button as StyledButton } from '@/components/atoms';
+import { ButtonV2, Button as StyledButton } from '@/components/atoms';
 
 import { useState } from 'react';
 
@@ -7,7 +7,6 @@ import tw, { styled } from 'twin.macro';
 import FormImage from './FormImage';
 
 const Button = styled(StyledButton)`
-  ${tw`transition-all`}
   ${tw`text-gray-700 [border-radius: 100px] hover:border-nego-600`}
   ${({ selected }) => selected && tw`font-bold bg-white text-nego-800 border-nego-800 hover:border-nego-800`}
 `;
@@ -44,7 +43,7 @@ export default function SuggestForm() {
   };
 
   return (
-    <div tw="pt-4 px-5">
+    <section tw="pt-4 px-5">
       <div tw="pt-6 pb-5 px-5 [border-radius: 20px] bg-nego-100">
         <div tw="flex items-center justify-between gap-5 [height: 120px]">
           <div tw="flex flex-col gap-4 whitespace-pre-wrap">
@@ -84,10 +83,10 @@ export default function SuggestForm() {
           </div>
         </div>
 
-        <StyledButton variant="secondary" tw="w-full mt-6" disabled={!realestateTypes || !buyOrRents}>
+        <ButtonV2 variant="primary" size="big" tw="w-full mt-6" disabled={!realestateTypes || !buyOrRents}>
           구해요
-        </StyledButton>
+        </ButtonV2>
       </div>
-    </div>
+    </section>
   );
 }
