@@ -191,7 +191,7 @@ export default memo(() => {
           <Popup>
             <Popup.ContentGroup tw="[text-align: center]">
               <Popup.SubTitle>
-                이 단지의 집주인만 매물등록이 가능합니다.
+                매물등록을 위해서는 집주인 인증이 필요합니다.
                 <br />
                 우리집을 인증하시겠습니까?
               </Popup.SubTitle>

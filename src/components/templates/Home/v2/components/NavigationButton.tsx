@@ -24,8 +24,8 @@ import Routes from '@/router/routes';
 
 type NavigationButtonProps = {
   variant: 'map' | 'realprice' | 'law' | 'register';
-  handleOpenRegisterMyHomePopup?: () => void;
   handleOpenDanjiListPopup?: () => void;
+  handleOpenNeedVerifyAddressPopup?: () => void;
 };
 
 const variants = {
@@ -41,7 +41,11 @@ const Button = styled.button<{ variant: 'map' | 'realprice' | 'law' | 'register'
   ${({ variant }) => variant && variants[variant]}
 `;
 
-export default function NavigationButton({ variant, handleOpenDanjiListPopup }: NavigationButtonProps) {
+export default function NavigationButton({
+  variant,
+  handleOpenDanjiListPopup,
+  handleOpenNeedVerifyAddressPopup,
+}: NavigationButtonProps) {
   const { user } = useAuth();
 
   const map = useMap();
@@ -74,18 +78,21 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
   };
 
   const handleClickHomeRegister = () => {
-    if (!user?.hasAddress) {
-      if (platform === 'pc') {
-        router.replace(`/${Routes.My}/${Routes.MyAddress}`);
-      } else {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-          query: { origin: router.asPath as string },
-        });
-      }
+    if (!user) {
+      handleOpenNeedVerifyAddressPopup?.();
     }
 
-    // Todo 우리집 등록이 되어있을때
+    if (user && !user.hasAddress) {
+      handleOpenNeedVerifyAddressPopup?.();
+    }
+
+    if (user && user.hasAddress) {
+      if (platform === 'pc') {
+        router.push(`/${Routes.My}/${Routes.ListingSelectAddress}?origin=${router.asPath}`);
+      } else {
+        router.push(`/${Routes.EntryMobile}/${Routes.ListingSelectAddress}?origin=${router.asPath}`);
+      }
+    }
 
     // Todo 우리집도 내놓았고 매물등록도 되어있을때
   };

@@ -6,9 +6,10 @@ import NavigationButton from './NavigationButton';
 
 type GuideProps = {
   handleOpenDanjiListPopup: () => void;
+  handleOpenNeedVerifyAddressPopup: () => void;
 };
 
-export default function NavigationGuide({ handleOpenDanjiListPopup }: GuideProps) {
+export default function NavigationGuide({ handleOpenDanjiListPopup, handleOpenNeedVerifyAddressPopup }: GuideProps) {
   return (
     <section tw="px-5 py-10 flex flex-col gap-5">
       <div tw="flex items-center gap-2">
@@ -19,7 +20,7 @@ export default function NavigationGuide({ handleOpenDanjiListPopup }: GuideProps
         <NavigationButton variant="map" />
         <NavigationButton variant="realprice" handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
         <NavigationButton variant="law" />
-        <NavigationButton variant="register" />
+        <NavigationButton variant="register" handleOpenNeedVerifyAddressPopup={handleOpenNeedVerifyAddressPopup} />
       </div>
     </section>
   );
