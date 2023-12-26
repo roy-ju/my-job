@@ -21,9 +21,12 @@ const Paths = {
 
   APP_STORE: 'https://apps.apple.com/kr/app/%EB%84%A4%EA%B3%A0%EC%8B%9C%EC%98%A4/id6444820605',
   GOOGLE_PLAY_STORE: 'https://play.google.com/store/search?q=%EB%84%A4%EA%B3%A0%EC%8B%9C%EC%98%A4&c=apps&hl=ko',
-  INSTAGRAM: 'https://www.instagram.com/negocio.app',
   YOUTUBE: 'https://youtu.be/DRaGUpMo_bo',
+
+  INSTAGRAM: 'https://www.instagram.com/negocio.app',
   NAVER_BLOG: 'https://blog.naver.com/negocio21',
+  KAKAO_CHANEL: 'http://pf.kakao.com/_QRxats',
+  FACEBOOK: 'https://www.facebook.com/profile.php?id=100083575832524&mibextid=LQQJ4d',
 
   LAWQNA: 'https://negocio-common.s3.ap-northeast-2.amazonaws.com/law_og_720.png',
 };
