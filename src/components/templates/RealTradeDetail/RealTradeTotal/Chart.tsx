@@ -3,9 +3,12 @@ import React, { useMemo } from 'react';
 import { AxisLeft } from '@visx/axis';
 import { GridRows } from '@visx/grid';
 import { scaleLinear, scaleTime } from '@visx/scale';
-import { LinePath } from '@visx/shape';
+import { Bar, LinePath } from '@visx/shape';
 import { extent } from 'd3-array';
+import { customAlphabet } from 'nanoid';
 import { DanjiChartAxisBottom } from '../../DanjiDetail/DanjiChartAxisBottom';
+
+const barChartHeight = 131;
 
 const lineChartHeight = 131;
 const yAxisWidth = 42;
@@ -76,6 +79,7 @@ export const Chart = React.memo(
     fourthChartData: ChartData;
     fifthChartData: ChartData;
   }) => {
+    const nanoid = customAlphabet('1234567890abcdef', 10);
     const xScale = useMemo(
       () =>
         scaleTime({
@@ -127,21 +131,21 @@ export const Chart = React.memo(
       });
     }, [danjiChartData, firstChartData, secondChartData, thirdChartData, fourthChartData, fifthChartData]);
 
-    const danjiLineChartComponent = useMemo(() => {
-      if (!danjiChartData) return null;
+    // const danjiLineChartComponent = useMemo(() => {
+    //   if (!danjiChartData) return null;
 
-      const memoizedData = danjiChartData.filter((d) => typeof d?.danji_count === 'number' && d.danji_count >= 0);
+    //   const memoizedData = danjiChartData.filter((d) => typeof d?.danji_count === 'number' && d.danji_count >= 0);
 
-      return (
-        <LinePath
-          stroke="#FF542D"
-          strokeWidth={2}
-          data={memoizedData}
-          x={(d) => xScale(getDate(d)) ?? 0}
-          y={(d) => yScaleCount(getDanjiCount(d) as number)}
-        />
-      );
-    }, [danjiChartData, xScale, yScaleCount]);
+    //   return (
+    //     <LinePath
+    //       stroke="#FF542D"
+    //       strokeWidth={2}
+    //       data={memoizedData}
+    //       x={(d) => xScale(getDate(d)) ?? 0}
+    //       y={(d) => yScaleCount(getDanjiCount(d) as number)}
+    //     />
+    //   );
+    // }, [danjiChartData, xScale, yScaleCount]);
 
     const comOneLineChartComponent = useMemo(() => {
       if (!firstChartData) return null;
@@ -284,7 +288,28 @@ export const Chart = React.memo(
           {comThirdLineChartComponent}
           {comFourthLineChartComponent}
           {comFifthLineChartComponent}
-          {danjiLineChartComponent}
+          {/* {danjiLineChartComponent} */}
+          {danjiChartData
+            .filter((item) => item.danji_count && item.danji_count > 0)
+            .map((item) => {
+              const date = getDate(item);
+              const barWidth = 4;
+
+              const barHeight = barChartHeight - 3 - (yScaleCount(getDanjiCount(item) as number) ?? 0);
+              const barX = xScale(date);
+              const barY = barChartHeight - barHeight;
+
+              return (
+                <Bar
+                  key={`targetDanji-bar-${date}-${nanoid()}`}
+                  x={barX}
+                  y={barY}
+                  width={barWidth}
+                  height={barHeight}
+                  fill="#FF542D"
+                />
+              );
+            })}
         </svg>
         <div style={{ position: 'absolute', bottom: -20 }}>
           <DanjiChartAxisBottom
