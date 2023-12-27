@@ -16,7 +16,7 @@ export interface SelectAddressTemplateProps {
 
 const Ments = {
   listing: {
-    title: '매물추천',
+    title: '매물등록',
     subTitle: '매물 등록을 신청하시겠습니까?',
     p: '다른 주소지로 매물 등록을 원하신다면, 마이페이지 > 우리집 내놓기에서 우리집 주소를 등록해주세요.',
   },
