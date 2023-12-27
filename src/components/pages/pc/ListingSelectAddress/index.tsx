@@ -26,7 +26,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
-  const { isLoading, list } = useAPI_GetMyAddressList({
+  const { list } = useAPI_GetMyAddressList({
     activeOnly: true,
     danjiID: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     isFetch,
@@ -77,25 +77,19 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   useEffect(() => {
-    if (user && !user.hasAddress) {
+    if (!user) {
       setShowInActivePopup(true);
       return;
     }
 
     setIsFetch(true);
-  }, [user, router]);
+  }, [user]);
 
   useEffect(() => {
     if (list && list?.length > 0) {
       setShowGuidePopup(true);
     }
   }, [list]);
-
-  useEffect(() => {
-    if (isFetch && !isLoading && ((list && list.length === 0) || !list)) {
-      setShowInActivePopup(true);
-    }
-  }, [isFetch, isLoading, list]);
 
   return (
     <AuthRequired ciRequired>

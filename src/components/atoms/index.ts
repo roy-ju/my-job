@@ -1,6 +1,7 @@
 export { default as Panel } from './Panel';
 export { default as Numeral } from './Numeral';
 export { default as Button } from './Button';
+export { default as ButtonV2 } from './ButtonV2';
 export { default as Checkbox } from './Checkbox';
 export { default as Moment } from './Moment';
 export { default as Radio } from './Radio';

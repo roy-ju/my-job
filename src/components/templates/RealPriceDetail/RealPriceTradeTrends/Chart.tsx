@@ -10,8 +10,11 @@ import { useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
+import { customAlphabet } from 'nanoid';
 import { DanjiChartAxisBottom } from '../../DanjiDetail/DanjiChartAxisBottom';
 import { ChartTooltip } from './ChartTooltip';
+
+const barChartHeight = 131;
 
 const lineChartHeight = 131;
 const yAxisWidth = 42;
@@ -79,6 +82,7 @@ export const Chart = React.memo(
     sl: number;
     bor?: number;
   }) => {
+    const nanoid = customAlphabet('1234567890abcdef', 10);
     const { tooltipData, tooltipLeft, showTooltip, hideTooltip } = useTooltip<DataProps>();
 
     const [isLineBreak, setIsLineBreak] = useState(false);
@@ -213,21 +217,21 @@ export const Chart = React.memo(
       [sigunguChartData, danjiChartData, sidoChartData, xScale, yScaleCount, showTooltip, bisectDate],
     );
 
-    const danjiLineChartComponent = useMemo(() => {
-      if (!danjiChartData) return null;
+    // const danjiLineChartComponent = useMemo(() => {
+    //   if (!danjiChartData) return null;
 
-      const memoizedData = danjiChartData.filter((d) => typeof d?.danji_count === 'number' && d.danji_count >= 0);
+    //   const memoizedData = danjiChartData.filter((d) => typeof d?.danji_count === 'number' && d.danji_count > 0);
 
-      return (
-        <LinePath
-          stroke="#FF542D"
-          strokeWidth={2}
-          data={memoizedData}
-          x={(d) => xScale(getDate(d)) ?? 0}
-          y={(d) => yScaleCount(getDanjiCount(d) as number)}
-        />
-      );
-    }, [danjiChartData, xScale, yScaleCount]);
+    //   return (
+    //     <LinePath
+    //       stroke="#FF542D"
+    //       strokeWidth={2}
+    //       data={memoizedData}
+    //       x={(d) => xScale(getDate(d)) ?? 0}
+    //       y={(d) => yScaleCount(getDanjiCount(d) as number)}
+    //     />
+    //   );
+    // }, [danjiChartData, xScale, yScaleCount]);
 
     const sigunguLineChartComponent = useMemo(() => {
       if (!sigunguChartData) return null;
@@ -310,16 +314,37 @@ export const Chart = React.memo(
 
           {sidoLineChartComponent}
           {sigunguLineChartComponent}
-          {danjiLineChartComponent}
+          {/* {danjiLineChartComponent} */}
+          {danjiChartData
+            .filter((item) => item.danji_count && item.danji_count > 0)
+            .map((item) => {
+              const date = getDate(item);
+              const barWidth = 4;
+
+              const barHeight = barChartHeight - 3 - (yScaleCount(getDanjiCount(item) as number) ?? 0);
+              const barX = xScale(date);
+              const barY = barChartHeight - barHeight;
+
+              return (
+                <Bar
+                  key={`totalTrade-bar-${date}-${nanoid()}`}
+                  x={barX}
+                  y={barY}
+                  width={barWidth}
+                  height={barHeight}
+                  fill="#FF542D"
+                />
+              );
+            })}
           {tooltipData && (
             <g>
               <Line
                 from={{
-                  x: tooltipLeft ? tooltipLeft - 2 : tooltipLeft,
+                  x: tooltipLeft,
                   y: 0,
                 }}
                 to={{
-                  x: tooltipLeft ? tooltipLeft - 2 : tooltipLeft,
+                  x: tooltipLeft,
                   y: lineChartHeight + 36,
                 }}
                 stroke="#212529"

@@ -5,6 +5,7 @@ import { GridRows } from '@visx/grid';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { LinePath } from '@visx/shape';
 import { extent } from 'd3-array';
+
 import { DanjiChartAxisBottom } from '../../DanjiDetail/DanjiChartAxisBottom';
 
 const lineChartHeight = 131;
