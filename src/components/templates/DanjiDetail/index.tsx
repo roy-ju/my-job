@@ -353,7 +353,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                 </DanjiTab.Tab>
               </DanjiTab>
 
-              <DanjiTab>
+              {/* <DanjiTab>
                 <DanjiTab.Tab
                   value={4}
                   onClick={onClickTab}
@@ -365,7 +365,7 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
                   <DanjiTab.Text selected={tabIndex === 4}>단지 뉴스</DanjiTab.Text>
                   {tabIndex === 4 && <DanjiTab.Indicator layoutId="danji-tab-indicator" />}
                 </DanjiTab.Tab>
-              </DanjiTab>
+              </DanjiTab> */}
             </div>
           </div>
         )}
@@ -401,13 +401,13 @@ export default function DanjiDetail({ depth, danji, isShowTab = true, handleMuta
             <DanjiDetailSection.AroundInfo danji={danji} />
           </div>
 
-          <div id="newsSection" ref={setNewsSection}>
+          {/* <div id="newsSection" ref={setNewsSection}>
             <Separator tw="w-full [min-height: 8px]" />
             <News.ColumnType
               query={`${danji.name} ${describeRealestateType(danji.type)}`}
               query2={`${danji.sigungu_name} 부동산`}
             />
-          </div>
+          </div> */}
         </DanjiDetailSection>
 
         <div id="negocio-danjidetail-bottom" ref={bottomRef} style={{ height: '10px' }} />
