@@ -348,6 +348,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
           data?.name || ''
         }', 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
         canonical: `https://www.negocio.co.kr/danjiDetail?danjiID=${query?.danjiID}`,
+        alternate: `https://www.negocio.co.kr/m/danjiDetail?danjiID=${query?.danjiID}`,
       };
     } catch (e) {
       return defaultMeta;
