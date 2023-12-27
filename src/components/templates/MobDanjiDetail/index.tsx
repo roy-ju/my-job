@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-return-assign */
 import { useRef, useState, MouseEvent, useCallback, useEffect } from 'react';
 
@@ -300,7 +301,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
                   </DanjiTab.Tab>
                 </DanjiTab>
 
-                <DanjiTab>
+                {/* <DanjiTab>
                   <DanjiTab.Tab
                     value={4}
                     onClick={onClickTab}
@@ -312,7 +313,7 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
                     <DanjiTab.Text selected={tabIndex === 4}>단지 뉴스</DanjiTab.Text>
                     {tabIndex === 4 && <DanjiTab.Indicator layoutId="danji-tab-indicator" />}
                   </DanjiTab.Tab>
-                </DanjiTab>
+                </DanjiTab> */}
               </div>
             </div>
           )}
@@ -345,13 +346,13 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
               <div tw="[min-height: 80px] w-full" />
             </div>
 
-            <div id="newsSection" ref={setNewsSection}>
+            {/* <div id="newsSection" ref={setNewsSection}>
               <Separator tw="w-full [min-height: 8px]" />
               <News.ColumnType
                 query={`${danji.name} ${describeRealestateType(danji.type)}`}
                 query2={`${danji.sigungu_name} 부동산`}
               />
-            </div>
+            </div> */}
           </MobDanjiDetailSection>
         </div>
       </div>
