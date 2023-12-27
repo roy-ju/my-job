@@ -1,8 +1,8 @@
-// import HomeV2 from '@/components/pages/mobile/Home/HomeV2';
-import { Home } from '@/components/pages/mobile';
+// import { Home } from '@/components/pages/mobile';
+import HomeV2 from '@/components/pages/mobile/Home/HomeV2';
 
 import type { NextPage } from 'next';
 
-const Page: NextPage = () => <Home />;
+const Page: NextPage = () => <HomeV2 />;
 
 export default Page;
