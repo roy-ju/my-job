@@ -44,7 +44,7 @@ export default function Header() {
   };
 
   return (
-    <div tw="h-14 px-4 flex items-center justify-between z-[1000] bg-white">
+    <header tw="h-14 px-4 flex items-center justify-between z-[1000] bg-white">
       <LogoIcon />
       {!user ? (
         <Button
@@ -67,6 +67,6 @@ export default function Header() {
           )}
         </button>
       )}
-    </div>
+    </header>
   );
 }

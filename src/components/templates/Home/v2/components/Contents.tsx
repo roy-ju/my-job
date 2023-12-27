@@ -4,7 +4,9 @@ import { Separator } from '@/components/atoms';
 
 import SuggestForm from './SuggestForm';
 
-import Guide from './Guide';
+import NavigationGuide from './NavigationGuide';
+
+import UserGuide from './UserGuide';
 
 type ContentsProps = {
   handleOpenDanjiListPopup: () => void;
@@ -12,14 +14,15 @@ type ContentsProps = {
 
 export default function Contents({ handleOpenDanjiListPopup }: ContentsProps) {
   return (
-    <>
+    <main>
       <SuggestForm />
-      <Guide handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
+      <NavigationGuide handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
       <Separator tw="bg-gray-200 h-2" />
+      <UserGuide />
       {/* <News>
         <News.CarouselType query="부동산" />
-      </News>
-      <Separator tw="bg-gray-200 h-2" /> */}
-    </>
+      </News> */}
+      {/* <Separator tw="bg-gray-200 h-2" /> */}
+    </main>
   );
 }

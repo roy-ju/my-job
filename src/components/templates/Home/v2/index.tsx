@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useRouter as useCustomRouter } from '@/hooks/utils';
-
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import { OverlayPresenter } from '@/components/molecules';
@@ -23,8 +21,6 @@ export default function HomeV2Template() {
 
   const router = useRouter();
 
-  const customRouter = useCustomRouter(0);
-
   const [openDanjiList, setOpenDanjiList] = useState(false);
 
   const handleOpenDanjiListPopup = () => {
@@ -39,13 +35,9 @@ export default function HomeV2Template() {
     handleCloseDanjiListPopup();
 
     if (platform === 'pc') {
-      customRouter.replace(Routes.DanjiDetail, {
-        searchParams: {
-          danjiID: `${danjiID}`,
-        },
-      });
+      router.push(`/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?danjiID=${danjiID}`);
     } else {
-      router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}?danjiID=${danjiID}`);
     }
   };
 
