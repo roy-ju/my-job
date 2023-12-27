@@ -10,17 +10,13 @@ import UserGuide from './UserGuide';
 
 type ContentsProps = {
   handleOpenDanjiListPopup: () => void;
-  handleOpenNeedVerifyAddressPopup: () => void;
 };
 
-export default function Contents({ handleOpenDanjiListPopup, handleOpenNeedVerifyAddressPopup }: ContentsProps) {
+export default function Contents({ handleOpenDanjiListPopup }: ContentsProps) {
   return (
     <main>
       <SuggestForm />
-      <NavigationGuide
-        handleOpenDanjiListPopup={handleOpenDanjiListPopup}
-        handleOpenNeedVerifyAddressPopup={handleOpenNeedVerifyAddressPopup}
-      />
+      <NavigationGuide handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
       <Separator tw="bg-gray-200 h-2" />
       <UserGuide />
       {/* <News>

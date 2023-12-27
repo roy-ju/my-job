@@ -41,11 +41,7 @@ const Button = styled.button<{ variant: 'map' | 'realprice' | 'law' | 'register'
   ${({ variant }) => variant && variants[variant]}
 `;
 
-export default function NavigationButton({
-  variant,
-  handleOpenDanjiListPopup,
-  handleOpenNeedVerifyAddressPopup,
-}: NavigationButtonProps) {
+export default function NavigationButton({ variant, handleOpenDanjiListPopup }: NavigationButtonProps) {
   const { user } = useAuth();
 
   const map = useMap();
@@ -78,23 +74,50 @@ export default function NavigationButton({
   };
 
   const handleClickHomeRegister = () => {
+    const pcRedirectURI = `/${Routes.My}?default=2`;
+    const mobileRedirectURI = `/${Routes.EntryMobile}${pcRedirectURI}`;
+
     if (!user) {
-      handleOpenNeedVerifyAddressPopup?.();
-    }
-
-    if (user && !user.hasAddress) {
-      handleOpenNeedVerifyAddressPopup?.();
-    }
-
-    if (user && user.hasAddress) {
       if (platform === 'pc') {
-        router.push(`/${Routes.My}/${Routes.ListingSelectAddress}?origin=${router.asPath}`);
+        customRouter.replace(Routes.Login, {
+          persistParams: true,
+          searchParams: { redirect: pcRedirectURI },
+        });
       } else {
-        router.push(`/${Routes.EntryMobile}/${Routes.ListingSelectAddress}?origin=${router.asPath}`);
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+          query: {
+            redirect: mobileRedirectURI,
+          },
+        });
       }
+      return;
     }
 
-    // Todo 우리집도 내놓았고 매물등록도 되어있을때
+    if (!user?.isVerified) {
+      if (platform === 'pc') {
+        customRouter.replace(Routes.VerifyCi, {
+          persistParams: true,
+          searchParams: { redirect: pcRedirectURI },
+        });
+      } else {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+          query: {
+            redirect: mobileRedirectURI,
+          },
+        });
+      }
+      return;
+    }
+
+    if (platform === 'pc') {
+      customRouter.replace(Routes.My, {
+        searchParams: { default: '2' },
+      });
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+    }
   };
 
   const ButtonObject = {
