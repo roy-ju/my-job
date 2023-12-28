@@ -1,7 +1,12 @@
-import { Button } from '@/components/atoms';
-import { styled } from 'twin.macro';
-import { DragHandlers, motion, useAnimation } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { styled } from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
+import { DragHandlers, motion, useAnimation } from 'framer-motion';
+
+import Image from 'next/image';
 
 function swipePower(offset: number, absDistance: number) {
   return (offset / absDistance) * 100;
@@ -79,14 +84,17 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
     [rect, animation, paginate],
   );
 
-  if (!itemSize) {
+  if (!itemSize && defaultPhotoPath) {
     return (
-      <div
-        tw="w-full h-[256px] bg-center bg-cover bg-no-repeat"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${defaultPhotoPath}')`,
-        }}
-      />
+      <div tw="relative w-full [height: 256px]">
+        <div
+          tw="w-full h-full absolute z-10"
+          style={{
+            background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))`,
+          }}
+        />
+        {/* <Image priority placeholder="blur" quality={100} alt="기본 부동산 이미지" fill src={defaultPhotoPath} /> */}
+      </div>
     );
   }
 

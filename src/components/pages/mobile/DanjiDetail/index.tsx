@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MobileContainer } from '@/components/atoms';
+import { Loading, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MobDanjiDetail } from '@/components/templates';
 import { FullScreenMap } from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
@@ -60,10 +60,6 @@ const DanjiDetail = ({ prefetchedData }: { prefetchedData?: { [key: string]: any
     [],
   );
 
-  if (!danji) {
-    return null;
-  }
-
   if (danji?.error_code) {
     return (
       <OverlayPresenter>
@@ -100,25 +96,26 @@ const DanjiDetail = ({ prefetchedData }: { prefetchedData?: { [key: string]: any
         <meta property="og:image" content={Paths.DEFAULT_OPEN_GRAPH_IMAGE_3} />
         <link rel="canonical" href={`https://www.negocio.co.kr/danjiDetail?danjiID=${danji?.danji_id}`} />
       </Head>
-      {!isTrue && !isTrueAround && !isTrueSchool && (
+
+      {danji?.danji_id && !isTrue && !isTrueAround && !isTrueSchool && (
         <MobileContainer>
           <MobDanjiDetail danji={danji} handleMutateDanji={handleMutateDanji} isShowTab />
         </MobileContainer>
       )}
 
-      {isTrue && (
+      {danji?.danji_id && isTrue && (
         <MobileContainer>
           <FullScreenMap danji={danji} type={mapType} />
         </MobileContainer>
       )}
 
-      {isTrueAround && (
+      {danji?.danji_id && isTrueAround && (
         <MobileContainer>
           <DanjiAroundDetail danji={danjiAroundData} />
         </MobileContainer>
       )}
 
-      {isTrueSchool && (
+      {danji?.danji_id && isTrueSchool && (
         <MobileContainer>
           <DanjiSchoolDetail lat={danji?.lat} lng={danji?.long} rt={danji?.type} danjiID={danji?.danji_id} />
         </MobileContainer>
