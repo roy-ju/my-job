@@ -1,5 +1,3 @@
-import { useCallback, useMemo } from 'react';
-
 import useSWRInfinite from 'swr/infinite';
 
 import { DanjiSuggestListResponse } from './types';
@@ -31,45 +29,20 @@ function getKey(
 export function useFetchDanjiSuggestsList({
   danjiID,
   pageSize,
+  prefetchedData,
 }: {
   danjiID: number | null | undefined;
   pageSize: number;
+  prefetchedData?: DanjiSuggestListResponse;
 }) {
-  const {
-    data: dataList,
-    isLoading,
-    size,
-    setSize,
-    mutate,
-  } = useSWRInfinite<DanjiSuggestListResponse>(
+  return useSWRInfinite<DanjiSuggestListResponse>(
     (pageIndex, previousPageData) => getKey(danjiID, pageSize, pageIndex, previousPageData),
     null,
     {
       revalidateFirstPage: false,
       revalidateOnMount: true,
       onSuccess: () => {},
+      ...(prefetchedData ? { fallbackData: [prefetchedData] } : {}),
     },
   );
-
-  const increamentPageNumber = useCallback(() => {
-    setSize((prev) => prev + 1);
-  }, [setSize]);
-
-  const data = useMemo(() => {
-    if (!dataList) return [];
-    return dataList
-      ?.map((item) => item?.list)
-      .filter((item) => Boolean(item))
-      .flat();
-  }, [dataList]);
-
-  return {
-    isLoading,
-    data,
-    totalCount: dataList ? (dataList[0] ? dataList[0].total_count : 0) : 0,
-    size,
-    increamentPageNumber,
-    setSize,
-    mutate,
-  };
 }

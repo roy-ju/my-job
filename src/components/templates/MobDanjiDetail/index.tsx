@@ -1,63 +1,77 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-return-assign */
-import { useRef, useState, MouseEvent, useCallback, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 
-import { useRouter } from 'next/router';
+import { Separator } from '@/components/atoms';
 
-// import { Loading, Separator } from '@/components/atoms';
+import { useScroll, useIsomorphicLayoutEffect } from '@/hooks/utils';
 
-import { MobDanjiDetailSection } from '@/components/organisms';
-
-// import { DanjiTab } from '@/components/organisms/DanjiDetail/DanjiTabs';
-
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-
-import { useScroll } from '@/hooks/utils';
-
-// import { describeRealestateType } from '@/constants/enums';
-
-// import News from '@/components/organisms/News';
+import { describeRealestateType } from '@/constants/enums';
 
 import dynamic from 'next/dynamic';
 
-const MobDanjiTab = dynamic(() => import('./Components/MobDanjiTab'), {
-  ssr: false,
-});
+import {
+  DanjiDetailResponse,
+  DanjiListingListResponse,
+  DanjiPhotosResponse,
+  DanjiSuggestListResponse,
+  NaverDanjiResponse,
+} from '@/services/danji/types';
 
-const MobDanjiDetailHeader = dynamic(() => import('./Components/MobDanjiDetailHeader'), {
-  ssr: true,
-});
+import News from '@/components/organisms/News';
 
-const MobDanjiPhotoHero = dynamic(() => import('./Components/MobDanjiPhotoHero'), {
-  ssr: false,
-});
+import ListingsSection from './Components/sectionContainers/ListingsSection';
 
-const MobDanjiRealpriceContainer = dynamic(() => import('./Components/MobDanjiRealpriceContainer'), {
-  ssr: false,
-});
+import RealPriceSection from './Components/sectionContainers/RealPriceSection';
 
-interface Props {
-  danji: GetDanjiDetailResponse;
-  isShowTab?: boolean;
-  handleMutateDanji?: () => void;
+import InfoSection from './Components/sectionContainers/InfoSection';
+
+import FacilitiesSection from './Components/sectionContainers/FacilitiesSection';
+
+import NewsSection from './Components/sectionContainers/NewsSection';
+
+import Header from './Components/header';
+
+import Photos from './Components/photos';
+
+import Tabs from './Components/tabs';
+
+import Summary from './Components/summary';
+
+import BasicInfo from './Components/basicInfo';
+
+import SuggestsOrListings from './Components/suggestsOrListings';
+
+const Realprice = dynamic(() => import('./Components/MobDanjiRealpriceContainer'), { ssr: false });
+
+const SchoolInfo = dynamic(() => import('./Components/schoolInfo'), { ssr: false });
+
+const AroundInfo = dynamic(() => import('./Components/aroundInfo'), { ssr: false });
+
+interface MobDanjiDetailProps {
+  danji: DanjiDetailResponse;
+  danjiPhotos?: DanjiPhotosResponse;
+  danjiSuggestList?: DanjiSuggestListResponse;
+  danjiListingList?: DanjiListingListResponse;
+  naverDanji?: NaverDanjiResponse;
 }
 
-export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDanji }: Props) {
-  const router = useRouter();
+export default function MobDanjiDetail({
+  danji,
+  danjiPhotos,
+  danjiSuggestList,
+  danjiListingList,
+  naverDanji,
+}: MobDanjiDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const refs = useRef<any>([]);
 
-  const [listingsSection, setListingsSection] = useState<HTMLDivElement | null>(null);
-  const [realPriceSection, setRealPriceSection] = useState<HTMLDivElement | null>(null);
-  const [infoSection, setInfoSection] = useState<HTMLDivElement | null>(null);
-  const [facilitiesSection, setFacilitiesSection] = useState<HTMLDivElement | null>(null);
-  const [newsSection, setNewsSection] = useState<HTMLDivElement | null>(null);
+  const listingsSectionRef = useRef<HTMLDivElement | null>(null);
+  const infoSectionRef = useRef<HTMLDivElement | null>(null);
+  const realPriceSectionRef = useRef<HTMLDivElement | null>(null);
+  const facilitiesSectionRef = useRef<HTMLDivElement | null>(null);
+  const newsSectionRef = useRef<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
-
-  const [loadingRp, setLoadingRp] = useState(true);
-  const [isShowRpTab, setIsShowRpTab] = useState(false);
+  const [loadingRealprice, setLoadingRealprice] = useState(true);
+  const [showRealPriceTab, setShowRealPriceTab] = useState(false);
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -73,53 +87,46 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
     setIsHeaderActive(scrollY > 0);
   });
 
-  const onClickBack = () => {
-    router.back();
+  const onClickTab = (e: NegocioMouseEvent<HTMLButtonElement>) => {
+    const index = Number(e.currentTarget.value);
+
+    if (index === 0) {
+      scrollContainer.current?.scrollBy({
+        top: (listingsSectionRef?.current?.getBoundingClientRect()?.top ?? 0) - 103,
+        behavior: 'smooth',
+      });
+    }
+
+    if (index === 1) {
+      scrollContainer.current?.scrollBy({
+        top: (realPriceSectionRef?.current?.getBoundingClientRect()?.top ?? 0) - 103,
+        behavior: 'smooth',
+      });
+    }
+
+    if (index === 2) {
+      scrollContainer.current?.scrollBy({
+        top: (infoSectionRef?.current?.getBoundingClientRect()?.top ?? 0) - 103,
+        behavior: 'smooth',
+      });
+    }
+
+    if (index === 3) {
+      scrollContainer.current?.scrollBy({
+        top: (facilitiesSectionRef?.current?.getBoundingClientRect()?.top ?? 0) - 103,
+        behavior: 'smooth',
+      });
+    }
+
+    if (index === 4) {
+      scrollContainer.current?.scrollBy({
+        top: (newsSectionRef?.current?.getBoundingClientRect()?.top ?? 0) - 103,
+        behavior: 'smooth',
+      });
+    }
   };
 
-  const onClickTab = useCallback(
-    (e: NegocioMouseEvent<HTMLButtonElement>) => {
-      const index = Number(e.currentTarget.value);
-
-      if (index === 0) {
-        scrollContainer.current?.scrollBy({
-          top: (listingsSection?.getBoundingClientRect()?.top ?? 0) - 103,
-          behavior: 'smooth',
-        });
-      }
-
-      if (index === 1) {
-        scrollContainer.current?.scrollBy({
-          top: (realPriceSection?.getBoundingClientRect()?.top ?? 0) - 103,
-          behavior: 'smooth',
-        });
-      }
-
-      if (index === 2) {
-        scrollContainer.current?.scrollBy({
-          top: (infoSection?.getBoundingClientRect()?.top ?? 0) - 103,
-          behavior: 'smooth',
-        });
-      }
-
-      if (index === 3) {
-        scrollContainer.current?.scrollBy({
-          top: (facilitiesSection?.getBoundingClientRect()?.top ?? 0) - 103,
-          behavior: 'smooth',
-        });
-      }
-
-      if (index === 4) {
-        scrollContainer.current?.scrollBy({
-          top: (newsSection?.getBoundingClientRect()?.top ?? 0) - 103,
-          behavior: 'smooth',
-        });
-      }
-    },
-    [listingsSection, realPriceSection, infoSection, facilitiesSection, newsSection],
-  );
-
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -132,32 +139,32 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
       { rootMargin: '-104px 0px -104px 0px', threshold: 0.1 },
     );
 
-    if (listingsSection) {
-      observer.observe(listingsSection);
+    if (listingsSectionRef?.current) {
+      observer.observe(listingsSectionRef.current);
     }
 
-    if (realPriceSection) {
-      observer.observe(realPriceSection);
+    if (realPriceSectionRef?.current) {
+      observer.observe(realPriceSectionRef.current);
     }
 
-    if (infoSection) {
-      observer.observe(infoSection);
+    if (infoSectionRef?.current) {
+      observer.observe(infoSectionRef.current);
     }
 
-    if (facilitiesSection) {
-      observer.observe(facilitiesSection);
+    if (facilitiesSectionRef?.current) {
+      observer.observe(facilitiesSectionRef.current);
     }
 
-    if (newsSection) {
-      observer.observe(newsSection);
+    if (newsSectionRef?.current) {
+      observer.observe(newsSectionRef.current);
     }
 
     return () => {
       observer.disconnect();
     };
-  }, [facilitiesSection, infoSection, listingsSection, realPriceSection, newsSection]);
+  }, [listingsSectionRef, realPriceSectionRef, infoSectionRef, facilitiesSectionRef, newsSectionRef]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     let i = 0;
 
     if (visibleState.listingsSection === true) {
@@ -182,61 +189,56 @@ export default function MobDanjiDetail({ danji, isShowTab = true, handleMutateDa
     <>
       <div tw="relative w-full flex flex-col h-full overflow-x-hidden">
         <div tw="[z-index: 500]">
-          <MobDanjiDetailHeader
-            danji={danji}
-            isHeaderActive={isHeaderActive}
-            onClickBack={onClickBack}
-            handleMutateDanji={handleMutateDanji}
-          />
+          <Header danji={danji} isHeaderActive={isHeaderActive} />
         </div>
-        <div tw="flex-1 min-h-0 overflow-y-auto" ref={scrollContainer} id="scroll-container">
-          <MobDanjiPhotoHero danji={danji} />
-
-          <MobDanjiTab
+        <div tw="flex-1 min-h-0 overflow-y-auto" id="scroll-container" ref={scrollContainer}>
+          <Photos danji={danji} danjiPhotos={danjiPhotos} />
+          <Tabs
             danji={danji}
             tabIndex={tabIndex}
-            isShowRpTab={isShowRpTab}
-            isShowTab={isShowTab}
-            loadingRp={loadingRp}
+            showRealPriceTab={showRealPriceTab}
+            loadingRealprice={loadingRealprice}
             onClickTab={onClickTab}
           />
 
-          <MobDanjiDetailSection>
-            {/* <div tw="pt-7" id="listingsSection" ref={setListingsSection}>
-              <MobDanjiDetailSection.Info danji={danji} />
-              <MobDanjiDetailSection.ActiveInfo danji={danji} tabIndex={tabIndex} />
-            </div> */}
+          <ListingsSection ref={listingsSectionRef}>
+            <Summary danji={danji} />
+            <SuggestsOrListings
+              tabIndex={tabIndex}
+              danji={danji}
+              danjiSuggestList={danjiSuggestList}
+              danjiListingList={danjiListingList}
+              naverDanji={naverDanji}
+            />
+          </ListingsSection>
 
-            <div id="realPriceSection" ref={setRealPriceSection}>
-              <MobDanjiRealpriceContainer
-                danji={danji}
-                isShowRpTab={isShowRpTab}
-                setLoadingRp={setLoadingRp}
-                setIsShowRpTab={setIsShowRpTab}
-              />
-            </div>
+          <RealPriceSection ref={realPriceSectionRef}>
+            <Realprice
+              danji={danji}
+              isShowRpTab={showRealPriceTab}
+              setLoadingRp={setLoadingRealprice}
+              setIsShowRpTab={setShowRealPriceTab}
+            />
+          </RealPriceSection>
 
-            {/* <div id="infoSection" ref={setInfoSection}>
-              <Separator tw="w-full [min-height: 8px]" />
-              <MobDanjiDetailSection.DetailInfo danji={danji} />
-            </div> */}
+          <InfoSection ref={infoSectionRef}>
+            <BasicInfo danji={danji} />
+          </InfoSection>
 
-            {/* <div id="facilitiesSection" ref={setFacilitiesSection}>
-              <Separator tw="w-full [min-height: 8px]" />
-              <MobDanjiDetailSection.SchoolInfo danji={danji} />
-              <Separator tw="w-full [min-height: 8px]" />
-              <MobDanjiDetailSection.AroundInfo danji={danji} />
-              <div tw="[min-height: 80px] w-full" />
-            </div> */}
+          <FacilitiesSection ref={facilitiesSectionRef}>
+            <Separator tw="w-full [min-height: 8px]" />
+            <SchoolInfo danji={danji} />
+            <Separator tw="w-full [min-height: 8px]" />
+            <AroundInfo danji={danji} />
+          </FacilitiesSection>
 
-            {/* <div id="newsSection" ref={setNewsSection}>
-              <Separator tw="w-full [min-height: 8px]" />
-              <News.ColumnType
-                query={`${danji.name} ${describeRealestateType(danji.type)}`}
-                query2={`${danji.sigungu_name} 부동산`}
-              />
-            </div> */}
-          </MobDanjiDetailSection>
+          <NewsSection ref={newsSectionRef}>
+            <Separator tw="w-full [min-height: 8px]" />
+            <News.ColumnType
+              query={`${danji.name} ${describeRealestateType(danji.type)}`}
+              query2={`${danji.sigungu_name} 부동산`}
+            />
+          </NewsSection>
         </div>
       </div>
     </>

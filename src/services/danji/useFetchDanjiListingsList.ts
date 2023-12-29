@@ -1,8 +1,6 @@
-import { useCallback, useMemo } from 'react';
-
 import useSWRInfinite from 'swr/infinite';
 
-import { DanjiListingsListResponse } from './types';
+import { DanjiListingListResponse } from './types';
 
 function getKey(
   danjiID: number | null | undefined,
@@ -10,7 +8,7 @@ function getKey(
   orderBy: number,
   pageSize: number,
   pageIndex: number,
-  previousPageData: DanjiListingsListResponse | null,
+  previousPageData: DanjiListingListResponse | null,
 ) {
   if (!danjiID || !realestateType) return null;
 
@@ -35,47 +33,22 @@ export function useFetchDanjiListingsList({
   realestateType,
   orderBy,
   pageSize,
+  prefetchedData,
 }: {
   danjiID: number | null | undefined;
   realestateType: number | null | undefined;
   orderBy: number;
   pageSize: number;
+  prefetchedData?: DanjiListingListResponse;
 }) {
-  const {
-    data: dataList,
-    isLoading,
-    size,
-    setSize,
-    mutate,
-  } = useSWRInfinite<DanjiListingsListResponse>(
+  return useSWRInfinite<DanjiListingListResponse>(
     (pageIndex, previousPageData) => getKey(danjiID, realestateType, orderBy, pageSize, pageIndex, previousPageData),
     null,
     {
       revalidateFirstPage: false,
       revalidateOnMount: true,
       onSuccess: () => {},
+      ...(prefetchedData ? { fallbackData: [prefetchedData] } : {}),
     },
   );
-
-  const increamentPageNumber = useCallback(() => {
-    setSize((prev) => prev + 1);
-  }, [setSize]);
-
-  const data = useMemo(() => {
-    if (!dataList) return [];
-    return dataList
-      ?.map((item) => item?.list)
-      .filter((item) => Boolean(item))
-      .flat();
-  }, [dataList]);
-
-  return {
-    isLoading,
-    data,
-    totalCount: dataList ? (dataList[0] ? dataList[0].total_count : 0) : 0,
-    size,
-    increamentPageNumber,
-    setSize,
-    mutate,
-  };
 }

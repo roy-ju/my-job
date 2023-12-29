@@ -59,7 +59,7 @@ function MapButton({ selected = false, onClick }: MapButtonProps) {
 
 const defaultMapSize: string = '200px';
 
-export function FullScreenMap({ type, danji }: { type: string; danji?: GetDanjiDetailResponse | any }) {
+export default function FullScreenMap({ type, danji }: { type: string; danji?: GetDanjiDetailResponse | any }) {
   const { makeGeneralMap, panoCenter, makePanoInitialize, makeRoadLayer } = useDanjiMapTypeStore();
   const mapButtonStore = useDanjiMapButtonStore();
 

@@ -1,8 +1,6 @@
-import React, { forwardRef, ReactNode, useContext } from 'react';
+import React, { forwardRef, ReactNode } from 'react';
 
 import tw, { styled } from 'twin.macro';
-
-import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
 
 import { resolveProps } from '@/utils';
 
@@ -50,7 +48,7 @@ const radiuses = {
   r100: tw`[border-radius: 6.25rem]`,
 };
 
-export interface ButtonProps {
+interface ButtonProps {
   /** 버튼 안의 내용 */
   children?: string | ReactNode;
   /** 클릭 했을 때 호출할 함수 */
@@ -84,8 +82,8 @@ const ButtonRoot = styled.button<ButtonProps>`
 `;
 
 export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
-  const contextProps = useContext(ButtonGroupContext);
-  const resolvedProps = resolveProps(inProps, contextProps);
+  const resolvedProps = resolveProps(inProps, {});
+
   const {
     children,
     onClick,
