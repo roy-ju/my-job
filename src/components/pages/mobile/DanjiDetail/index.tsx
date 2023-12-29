@@ -112,8 +112,8 @@ const DanjiDetail = ({
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={Paths.DEFAULT_OPEN_GRAPH_IMAGE_3} />
-        <meta property="og:url" content={`https://www.negocio.co.kr/m/danjiDetail?danjiID=${danji?.danji_id}`} />
-        <link rel="canonical" href={`https://www.negocio.co.kr/danjiDetail?danjiID=${danji?.danji_id}`} />
+        <meta property="og:url" content={`https://www.negocio.co.kr/m/danjiDetail?danjiID=${data?.danji_id}`} />
+        <link rel="canonical" href={`https://www.negocio.co.kr/danjiDetail?danjiID=${data?.danji_id}`} />
       </Head>
 
       {data?.danji_id && !isTrue && !isTrueAround && !isTrueSchool && (
