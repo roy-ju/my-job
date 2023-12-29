@@ -40,10 +40,10 @@ export default function TypeOne({
               {item.label_text}
             </Chip>
 
-            <button type="button" tw="flex items-center text-info whitespace-nowrap leading-4 ml-auto">
+            <p tw="flex items-center text-info whitespace-nowrap leading-4 ml-auto">
               상세보기
               <ArrowRight />
-            </button>
+            </p>
           </div>
         )}
 
@@ -68,10 +68,10 @@ export default function TypeOne({
           )}
 
           {!item.is_participating && (
-            <button type="button" tw="flex items-center text-info whitespace-nowrap leading-4 ml-auto">
+            <p tw="flex items-center text-info whitespace-nowrap leading-4 ml-auto">
               상세보기
               <ArrowRight />
-            </button>
+            </p>
           )}
         </div>
 

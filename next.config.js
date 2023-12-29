@@ -2,8 +2,6 @@ const withTwin = require('./withTwin.js');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withTwin({
-  swcMinify: true,
-
   reactStrictMode: false,
 
   output: 'standalone',

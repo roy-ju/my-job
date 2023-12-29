@@ -21,7 +21,7 @@ export class NegocioApiService extends ApiService {
   /** 단지 상세 좋아요 */
   async danjiFavoriteAdd({ id }: { id: number }): Promise<void | null> {
     try {
-      await this.instance.post('/danji/favorite/add', { danji_id: id });
+      return await this.instance.post('/danji/favorite/add', { danji_id: id });
     } catch (e) {
       return null;
     }
@@ -30,7 +30,7 @@ export class NegocioApiService extends ApiService {
   /** 단지 상세 좋아요 취소 */
   async danjiFavoriteRemove({ id }: { id: number }): Promise<void | null> {
     try {
-      await this.instance.post('/danji/favorite/remove', { danji_id: id });
+      return await this.instance.post('/danji/favorite/remove', { danji_id: id });
     } catch (e) {
       return null;
     }

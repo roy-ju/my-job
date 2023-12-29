@@ -49,31 +49,27 @@ export type DanjiDetailResponse = {
   latest_rent_year: string;
 } & ErrorResponse;
 
-export type DanjiPhotosResponse = {
-  danji_photos:
-    | [
-        {
-          id: number;
-          listing_id: string;
-          danji_id: number;
-          token: string;
-          document_type: number;
-          full_file_path: string;
-          thumb_file_path: string;
-          created_time: string;
-        },
-      ]
-    | null;
-} & ErrorResponse;
+export type DanjiPhotoItem = {
+  id: number;
+  listing_id: string;
+  danji_id: number;
+  token: string;
+  document_type: number;
+  full_file_path: string;
+  thumb_file_path: string;
+  created_time: string;
+};
 
+export type DanjiPhotosResponse = {
+  danji_photos: DanjiPhotoItem[];
+} & ErrorResponse;
 
 export type NaverDanjiResponse = {
   outlink_pc: string;
   outlink_mobile: string;
-} & ErrorResponse;
+};
 
-
-export type DanjiListingsListItem = {
+export type DanjiListingListItem = {
   listing_id: number;
   listing_title: string;
   buy_or_rent: number;
@@ -90,12 +86,10 @@ export type DanjiListingsListItem = {
   label_text: string;
 };
 
-export type DanjiListingsListResponse = {
-  list: DanjiListingsListItem[];
-  
+export type DanjiListingListResponse = {
+  list: DanjiListingListItem[];
   total_count: number;
 };
-
 
 export type DanjiSuggestListItem = {
   my_suggest: boolean;

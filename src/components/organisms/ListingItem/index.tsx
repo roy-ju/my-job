@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
+
 import TypeOne from './TypeOne';
+
 import TypeTwo from './TypeTwo';
 
 interface ListingItemProps {

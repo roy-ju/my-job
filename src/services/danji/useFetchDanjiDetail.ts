@@ -6,7 +6,7 @@ import useSWR from 'swr';
 
 import { DanjiDetailResponse } from './types';
 
-export function useFetchDanjiDetail({ preFetchedData }: { preFetchedData?: { [key: string]: any } | null }) {
+export function useFetchDanjiDetail({ prefetchedData }: { prefetchedData?: { [key: string]: any } | null }) {
   const router = useRouter();
 
   const id = useMemo(() => {
@@ -17,21 +17,10 @@ export function useFetchDanjiDetail({ preFetchedData }: { preFetchedData?: { [ke
     return 0;
   }, [router.query.danjiID]);
 
-  const { data, isLoading, error, mutate } = useSWR<DanjiDetailResponse>(
-    id ? ['/danji/detail', { danji_id: id }] : null,
-    null,
-    {
-      ...(preFetchedData ? { fallbackData: preFetchedData as DanjiDetailResponse } : {}),
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnMount: true,
-    },
-  );
-
-  return {
-    danji: data,
-    isLoading: id ? isLoading : false,
-    mutate,
-    error,
-  };
+  return useSWR<DanjiDetailResponse>(id ? ['/danji/detail', { danji_id: id }] : null, null, {
+    ...(prefetchedData ? { fallbackData: prefetchedData as DanjiDetailResponse } : {}),
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnMount: true,
+  });
 }

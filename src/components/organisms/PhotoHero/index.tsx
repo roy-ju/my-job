@@ -93,7 +93,7 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
             background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))`,
           }}
         />
-        {/* <Image priority placeholder="blur" quality={100} alt="기본 부동산 이미지" fill src={defaultPhotoPath} /> */}
+        <Image priority quality={100} alt="기본 부동산 이미지" fill src={defaultPhotoPath} />
       </div>
     );
   }

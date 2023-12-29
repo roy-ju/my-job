@@ -127,7 +127,6 @@ export { default as MobRealPriceDetail } from './MobRealPriceDetail';
 export { default as MobDanjiSelect } from './MobDanjiSelect';
 export { default as MobRealTradeDetail } from './MobRealTradeDetail';
 export { default as MobDanjiListings } from './MobDanjiListings';
-export { default as MobDanjiPhotos } from './MobDanjiPhotos';
 export { default as MobDanjiRecommendation } from './MobDanjiRecommendation';
 export { default as MobHog } from './MobHog';
 export { default as MobChatMap } from './MobChatMap';

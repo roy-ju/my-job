@@ -21,9 +21,11 @@ import Paths from '@/constants/paths';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
-import { FullScreenMap } from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
+
+import FullScreenMap from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
 import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail';
 import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
+
 import viewListing from '@/apis/listing/viewListing';
 import { useAuth } from '@/hooks/services';
 import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';

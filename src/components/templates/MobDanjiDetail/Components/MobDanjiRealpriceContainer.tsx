@@ -20,7 +20,7 @@ import DanjiStatusTradeChartWrraper from '../../DanjiDetail/DanjiStatusTradeChar
 type Props = {
   danji?: GetDanjiDetailResponse;
   isShowRpTab: boolean;
-  setLoadingRp: Dispatch<SetStateAction<boolean>>;
+  setLoadingRp?: Dispatch<SetStateAction<boolean>>;
   setIsShowRpTab: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -118,7 +118,7 @@ const MobDanjiRealpriceContainer = React.forwardRef<HTMLDivElement, Props>((prop
 
   useEffect(() => {
     if (danjiRealPricesPyoungListLoading === false) {
-      setLoadingRp(false);
+      setLoadingRp?.(false);
     }
   }, [danjiRealPricesPyoungListLoading]);
 
