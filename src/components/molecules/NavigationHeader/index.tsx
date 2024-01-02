@@ -1,9 +1,14 @@
 import React, { useCallback, useRef, useState } from 'react';
+
 import tw from 'twin.macro';
+
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
+
 import TripleDotsIcon from '@/assets/icons/triple_dots.svg';
+
 import { usePopper } from 'react-popper';
-import { useOutsideClick } from '@/hooks/utils';
+
+import useOutsideClick from '@/hooks/utils/useOutsideClick';
 
 const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shrink-0`;
 
@@ -26,8 +31,11 @@ function MoreButton({ iconColor = 'dark', items, onClickItem }: MoreButtonProps)
   const [isOpen, setIsOpen] = useState(false);
 
   const outsideRef = useRef<HTMLDivElement | null>(null);
+
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
+
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
+
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'bottom-end',
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],

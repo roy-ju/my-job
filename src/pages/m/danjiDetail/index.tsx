@@ -1,8 +1,10 @@
-import DanjiDetail from '@/components/pages/mobile/DanjiDetail';
+import { GetServerSideProps } from 'next';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 import { fetcher } from '@/lib/swr';
 
-import { NextPageWithLayout } from '@/pages/_app';
+import DanjiDetail from '@/components/pages/mobile/DanjiDetail';
 
 import {
   DanjiDetailResponse,
@@ -14,8 +16,6 @@ import {
 } from '@/services/danji/types';
 
 import { checkPlatform } from '@/utils/checkPlatform';
-
-import { GetServerSideProps } from 'next';
 
 const Page: NextPageWithLayout<{
   prefetchedData?: DanjiDetailResponse;

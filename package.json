@@ -7,6 +7,9 @@
       "preset": "emotion"
     }
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -87,6 +90,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.23.7",
     "@emotion/babel-preset-css-prop": "^11.10.0",
     "@next/bundle-analyzer": "^14.0.4",
     "@storybook/addon-actions": "^6.5.16",

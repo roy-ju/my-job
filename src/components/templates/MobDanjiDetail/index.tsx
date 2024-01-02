@@ -1,8 +1,10 @@
 import React, { memo, useCallback, useRef, useState } from 'react';
 
-import { Separator } from '@/components/atoms';
+import Separator from '@/components/atoms/Separator';
 
-import { useScroll, useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useScroll from '@/hooks/utils/useScroll';
+
+import useIsomorphicLayoutEffect from '@/hooks/utils/useIsomorphicLayoutEffect';
 
 import { describeRealestateType } from '@/constants/enums';
 
