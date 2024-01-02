@@ -1,5 +1,6 @@
-import { ListingDetailHistory } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingDetailHistory from '@/components/pages/mobile/ListingDetailHistory';
 
 const Page: NextPageWithLayout = () => <ListingDetailHistory />;
 

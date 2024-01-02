@@ -1,5 +1,6 @@
-import AddressDetailWrraper from '@/components/pages/mobile/My/AddressDetailWrraper';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import AddressDetailWrraper from '@/components/pages/mobile/My/AddressDetailWrraper';
 
 const Page: NextPageWithLayout = () => <AddressDetailWrraper />;
 

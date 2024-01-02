@@ -1,5 +1,6 @@
-import { ListingSelectAddress } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingSelectAddress from '@/components/pages/mobile/ListingSelectAddress';
 
 const Page: NextPageWithLayout = () => <ListingSelectAddress />;
 

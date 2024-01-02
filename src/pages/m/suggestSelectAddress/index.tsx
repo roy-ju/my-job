@@ -1,5 +1,6 @@
-import { SuggestSelectAddress } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import SuggestSelectAddress from '@/components/pages/mobile/SuggestSelectAddress';
 
 const Page: NextPageWithLayout = () => <SuggestSelectAddress />;
 

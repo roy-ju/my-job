@@ -1,5 +1,6 @@
-import { TransactionReview } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import TransactionReview from '@/components/pages/mobile/TransactionReview';
 
 const Page: NextPageWithLayout = () => <TransactionReview />;
 

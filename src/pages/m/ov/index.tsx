@@ -1,5 +1,6 @@
-import { OwnerVerification } from '@/components/pages/mobile';
 import type { NextPage } from 'next';
+
+import OwnerVerification from '@/components/pages/mobile/OwnerVerification';
 
 const Page: NextPage = () => <OwnerVerification />;
 

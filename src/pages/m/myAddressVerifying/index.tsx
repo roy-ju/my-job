@@ -1,5 +1,6 @@
-import { AddressVerifyingWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import AddressVerifyingWrraper from '@/components/pages/mobile/My/AddressVerifyingWrraper';
 
 const Page: NextPageWithLayout = () => <AddressVerifyingWrraper />;
 

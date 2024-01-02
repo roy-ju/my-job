@@ -1,5 +1,6 @@
-import { NotificationSettingsWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import NotificationSettingsWrraper from '@/components/pages/mobile/My/NotificationSettingsWrraper';
 
 const Page: NextPageWithLayout = () => <NotificationSettingsWrraper />;
 

@@ -1,5 +1,6 @@
-import { ListingCreateChooseAgent } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingCreateChooseAgent from '@/components/pages/mobile/ListingCreateChooseAgent';
 
 const Page: NextPageWithLayout = () => <ListingCreateChooseAgent />;
 

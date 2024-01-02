@@ -1,8 +1,12 @@
-import { Loading, MobileContainer } from '@/components/atoms';
-import Routes from '@/router/routes';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+
+import { NextPage } from 'next';
+
+import { useRouter } from 'next/router';
+
+import { Loading, MobileContainer } from '@/components/atoms';
+
+import Routes from '@/router/routes';
 
 // 네이티브 앱에서 푸시알림 클릭후 리디렉트 핸들링
 const Page: NextPage = () => {

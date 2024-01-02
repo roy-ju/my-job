@@ -1,5 +1,6 @@
-import { UpdatePhoneWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import UpdatePhoneWrraper from '@/components/pages/mobile/My/UpdatePhoneWrraper';
 
 const Page: NextPageWithLayout = () => <UpdatePhoneWrraper />;
 

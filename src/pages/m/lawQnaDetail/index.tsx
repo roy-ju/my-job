@@ -1,5 +1,6 @@
-import { NextPageWithLayout } from '@/pages/_app';
 import dynamic from 'next/dynamic';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 const LawQnaDetail = dynamic(() => import('@/components/pages/mobile/LawQnaDetail'), { ssr: false });
 

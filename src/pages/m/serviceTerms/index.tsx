@@ -1,13 +1,20 @@
-import { MobileContainer } from '@/components/atoms';
 import { memo, useCallback, useState } from 'react';
 
-import Routes from '@/router/routes';
-import { ServiceTerms as ServiceTermsTemplate } from '@/components/templates';
-import HTML_20230322 from '@/assets/terms/service_agreement/20230322';
-import HTML_20221208 from '@/assets/terms/service_agreement/20221208';
-import HTML_20221103 from '@/assets/terms/service_agreement/20221103';
-import HTML_20221017 from '@/assets/terms/service_agreement/20221017';
 import { useRouter } from 'next/router';
+
+import { MobileContainer } from '@/components/atoms';
+
+import Routes from '@/router/routes';
+
+import { ServiceTerms as ServiceTermsTemplate } from '@/components/templates';
+
+import HTML_20230322 from '@/assets/terms/service_agreement/20230322';
+
+import HTML_20221208 from '@/assets/terms/service_agreement/20221208';
+
+import HTML_20221103 from '@/assets/terms/service_agreement/20221103';
+
+import HTML_20221017 from '@/assets/terms/service_agreement/20221017';
 
 export default memo(() => {
   const router = useRouter();

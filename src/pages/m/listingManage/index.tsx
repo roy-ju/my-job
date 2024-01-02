@@ -1,5 +1,6 @@
-import { ListingManage } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingManage from '@/components/pages/mobile/ListingManage';
 
 const Page: NextPageWithLayout = () => <ListingManage />;
 

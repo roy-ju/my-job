@@ -1,5 +1,6 @@
-import { CouponWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import CouponWrraper from '@/components/pages/mobile/My/CouponWrraper';
 
 const Page: NextPageWithLayout = () => <CouponWrraper />;
 

@@ -1,8 +1,8 @@
-import { Recommendation as RecommendationTemplate } from '@/components/templates/landings';
+import Recommendation from '@/components/templates/landings/Recommendation';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPageWithLayout = () => <RecommendationTemplate />;
+const Page: NextPageWithLayout = () => <Recommendation />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
