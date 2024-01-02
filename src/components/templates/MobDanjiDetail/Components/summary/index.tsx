@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useRouter } from 'next/router';
 
 import { Button, Chip } from '@/components/atoms';
@@ -22,7 +24,7 @@ type SummaryProps = {
   isListingDetail?: boolean;
 };
 
-export default function Summary({ danji, isShowDanjiListings = false, isListingDetail = false }: SummaryProps) {
+function Summary({ danji, isShowDanjiListings = false, isListingDetail = false }: SummaryProps) {
   const router = useRouter();
 
   const handleDanjiDetail = () => {
@@ -101,3 +103,5 @@ export default function Summary({ danji, isShowDanjiListings = false, isListingD
     </div>
   );
 }
+
+export default memo(Summary);

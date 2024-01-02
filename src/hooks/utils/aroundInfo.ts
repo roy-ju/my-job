@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import sum from 'lodash/sum';
 
 export function formatUseAcceptedYear(value: string) {
   if (value.length === 4) {
@@ -144,7 +144,7 @@ export function getAverageDistance(param: string | string[]) {
 
   if (typeof param === 'string') return param;
 
-  const result = _.sum(param.map((item) => Number(item))) / param.length;
+  const result = sum(param.map((item) => Number(item))) / param.length;
 
   return result.toFixed(0);
 }

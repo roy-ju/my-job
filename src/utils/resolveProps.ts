@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export default function resolveProps<DefaultPropsType extends {}, PropsType extends {}>(
   defaultProps: DefaultPropsType,
   props: PropsType,

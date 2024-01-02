@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { motion } from 'framer-motion';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import { useEffect, useMemo, useRef, useState, MouseEvent } from 'react';
 import { NavigationHeader } from '@/components/molecules';
 import CloseIcon from '@/assets/icons/close_18.svg';

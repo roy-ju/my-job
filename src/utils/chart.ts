@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { round } from 'lodash';
+import round from 'lodash/round';
 import formatNumberInKorean from './formatNumberInKorean';
 import { toNumber } from './toNumber';
 

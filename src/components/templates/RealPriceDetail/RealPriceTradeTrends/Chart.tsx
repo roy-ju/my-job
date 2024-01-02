@@ -8,7 +8,7 @@ import { scaleLinear, scaleTime } from '@visx/scale';
 import { Bar, Line, LinePath } from '@visx/shape';
 import { useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import moment from 'moment';
 import { customAlphabet } from 'nanoid';
 import { DanjiChartAxisBottom } from '../../DanjiDetail/DanjiChartAxisBottom';

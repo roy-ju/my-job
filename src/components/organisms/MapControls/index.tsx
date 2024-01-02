@@ -1,7 +1,12 @@
+import React, { ChangeEventHandler, ReactNode, useCallback, useRef, useState } from 'react';
+
+import dynamic from 'next/dynamic';
+
+import tw, { theme } from 'twin.macro';
+
 import { Button, Label, Radio } from '@/components/atoms';
 import { ButtonGroup, RadioGroup } from '@/components/molecules';
-import React, { ChangeEventHandler, ReactNode, useCallback, useRef, useState } from 'react';
-import tw, { theme } from 'twin.macro';
+
 import SchoolIcon from '@/assets/icons/school.svg';
 import StackIcon from '@/assets/icons/stack.svg';
 import MapPinRoad from '@/assets/icons/map_pin_road.svg';
@@ -11,8 +16,10 @@ import MinusIcon from '@/assets/icons/minus.svg';
 import GPSIcon from '@/assets/icons/gps.svg';
 import { usePopper } from 'react-popper';
 import { useOutsideClick } from '@/hooks/utils';
-import Lottie from 'react-lottie';
-import * as animationData from '@/assets/icons/json/loading.json';
+
+import animationData from '@/assets/icons/json/loading.json';
+
+const Lottie = dynamic(() => import('react-lottie'), { ssr: false });
 
 interface OnClickProps {
   onClick?: () => void;

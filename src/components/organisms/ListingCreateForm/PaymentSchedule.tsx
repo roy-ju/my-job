@@ -1,7 +1,7 @@
 import { Button, Numeral } from '@/components/atoms';
 import { DebtSuccessionType } from '@/components/templates/ListingCreateForm/FormContext';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
-import _ from 'lodash';
+import sum from 'lodash/sum';
 import { useMemo } from 'react';
 
 export interface PaymentScheduleProps {
@@ -24,7 +24,7 @@ export default function PaymentSchedule({
   const price = convertPriceInputToNumber(priceStr);
   const debtSuccessionTotal = useMemo(() => {
     const deposit = convertPriceInputToNumber(debtSuccessionDepositStr);
-    const miscTotal = _.sum(debtSuccessionMiscs?.map((item) => convertPriceInputToNumber(item.price))) ?? 0;
+    const miscTotal = sum(debtSuccessionMiscs?.map((item) => convertPriceInputToNumber(item.price))) ?? 0;
     return deposit + miscTotal;
   }, [debtSuccessionDepositStr, debtSuccessionMiscs]);
 

@@ -1,5 +1,6 @@
-import { BusinessInfo } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import BusinessInfo from '@/components/pages/mobile/BusinessInfo';
 
 const Page: NextPageWithLayout = () => <BusinessInfo />;
 

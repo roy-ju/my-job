@@ -1,6 +1,8 @@
-import { PageNotFound } from '@/components/templates';
-import { useRouter } from 'next/router';
 import { useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { PageNotFound } from '@/components/templates';
 
 export default function Error404() {
   const router = useRouter();

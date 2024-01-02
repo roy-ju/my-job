@@ -1,8 +1,13 @@
 import { isValidElement, ReactNode, useCallback, useContext, useMemo } from 'react';
+
 import { motion } from 'framer-motion';
+
 import { useControlled } from '@/hooks/utils';
+
 import tw from 'twin.macro';
+
 import getChildrenByType from '@/utils/getChildrenByType';
+
 import SchoolTabsContext from './SchoolTabsContext';
 
 const schoolTabStyles = {

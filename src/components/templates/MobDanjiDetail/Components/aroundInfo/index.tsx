@@ -6,7 +6,7 @@ import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
 import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import dynamic from 'next/dynamic';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
 import tw, { styled } from 'twin.macro';

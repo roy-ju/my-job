@@ -4,7 +4,7 @@ import ChevronDown from '@/assets/icons/chevron_down.svg';
 import { Button, Chip, Numeral } from '@/components/atoms';
 import { ExpandableText, OverlayPresenter, Popup } from '@/components/molecules';
 import { describeBuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
-import { isNumber } from 'lodash';
+import isNumber from 'lodash/isNumber';
 
 import React, { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';

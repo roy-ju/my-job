@@ -1,5 +1,6 @@
-import DanjiRealPriceListAll from '@/components/pages/mobile/DanjiRealRriceListAll';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import DanjiRealPriceListAll from '@/components/pages/mobile/DanjiRealRriceListAll';
 
 const Page: NextPageWithLayout = () => <DanjiRealPriceListAll />;
 

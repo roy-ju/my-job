@@ -1,8 +1,12 @@
-import { Popup } from '@/components/molecules';
-import { loginWithKakao } from '@/lib/kakao';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
+
 import { useCallback } from 'react';
+
+import { Popup } from '@/components/molecules';
+
+import { loginWithKakao } from '@/lib/kakao';
+
+import { useRouter } from 'next/router';
 
 const Page: NextPage = () => {
   const router = useRouter();

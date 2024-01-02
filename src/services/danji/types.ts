@@ -126,3 +126,102 @@ export type DanjiSuggestListResponse = {
   list: DanjiSuggestListItem[];
   total_count: number;
 };
+
+export type SchoolItem = {
+  school_id: string;
+  name: string;
+  school_type: string;
+  found_type: string;
+  students_per_teacher_count: number;
+  distance_in_km: number;
+};
+
+export type DanjiSchoolsResponse = {
+  list_all: SchoolItem[] | null;
+  list_elementary_schools: SchoolItem[] | null;
+  list_middle_schools: SchoolItem[] | null;
+  list_high_schools: SchoolItem[] | null;
+};
+
+export type RealPriceChartItem = {
+  date: string;
+  count: number;
+  prices: string;
+  avg_price: number;
+};
+
+export type DanjiRealPriceChartResponse = {
+  list: RealPriceChartItem[] | null;
+};
+
+export type PyoungListItem = {
+  min_jeonyong: number;
+  max_jeonyong: number;
+  avg_jeonyong: number;
+  gonggeup_pyoung: number;
+  saedae_count: number;
+  default: boolean;
+};
+
+export type DanjiRealPricesPyoungListResponse = {
+  buy_or_rent: number;
+  list: PyoungListItem[] | null;
+  has_jyb: boolean;
+};
+
+export type RealPricesListItem = {
+  year: string;
+  month: string;
+  day: string;
+  buy_or_rent: number;
+  price: number;
+  monthly_rent_fee: number;
+  floor: string;
+  trade_type: string;
+  cancel_deal_day: string;
+};
+
+export type DanjiRealPricesListResponse = {
+  list: RealPricesListItem[];
+  page_number: number;
+  page_size: number;
+};
+
+export type DanjiTradeTurnrateResponse = {
+  trade_turn_rate: number;
+};
+
+export type DanjiTradeTurnrateSigunguResponse = {
+  trade_turn_rate: number;
+};
+
+export type DanjiJeonsaerateResponse = {
+  jeonsae_rate: number;
+};
+
+export type DanjiJeonsaerateSigunguResponse = {
+  jeonsae_rate: number;
+};
+
+export type StatusListItem = {
+  date: string;
+  price: number;
+  count: number;
+};
+
+export type StatusJeonsaeListItem = {
+  date: string;
+  jeonsae_rate: number;
+};
+
+export type DanjiStatsGraphResponse = {
+  list_danji: StatusListItem[];
+  list_sigungu: StatusListItem[];
+  list_sido: StatusListItem[];
+};
+
+export type DanjiStatusGraphJeonsaeResponse = {
+  list_danji: StatusJeonsaeListItem[];
+  list_sigungu: StatusJeonsaeListItem[];
+  list_sido: StatusJeonsaeListItem[];
+};

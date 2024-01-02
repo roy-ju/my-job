@@ -1,6 +1,6 @@
 import { searchKeyword } from '@/lib/kakao';
 import { searchAddress } from '@/lib/kakao/search_address';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface KakaoAddressAutocompleteResponseItem {
@@ -18,13 +18,11 @@ export default function useKakaoAddressAutocomplete(query: string) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const search = useCallback(
-    _.debounce(async (q: string) => {
+    debounce(async (q: string) => {
       if (!q) {
         setResults([]);
         return;
       }
-
-      // const [keywordRes, addressRes] = await Promise.all([searchKeyword(q), searchAddress(q)]);
 
       const [keywordRes, addressRes] = await Promise.all([searchKeyword(q), searchAddress(q)]);
 
@@ -46,12 +44,7 @@ export default function useKakaoAddressAutocomplete(query: string) {
           .filter((item) => item.address && item.address.b_code)
           .map((item) => ({
             id: item.address?.b_code ?? '',
-            placeName:
-              // item.road_address?.road_name ||
-              // item.address?.region_3depth_name ||
-              // item.address?.region_2depth_name ||
-              // item.address?.region_1depth_name ||
-              '',
+            placeName: '',
             categoryName: '특정주소',
             addressName: item.address_name,
             roadAddressName: item.road_address?.address_name ?? '',

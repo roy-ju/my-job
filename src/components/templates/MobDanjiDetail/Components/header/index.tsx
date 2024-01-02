@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 import { DanjiDetailResponse } from '@/services/danji/types';
 
@@ -28,7 +28,7 @@ import Routes from '@/router/routes';
 
 import { apiService } from '@/services';
 
-export default function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeaderActive: boolean }) {
+function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeaderActive: boolean }) {
   const router = useRouter();
 
   const handleClickBack = () => {
@@ -193,3 +193,5 @@ export default function Header({ danji, isHeaderActive }: { danji: DanjiDetailRe
     </>
   );
 }
+
+export default memo(Header);

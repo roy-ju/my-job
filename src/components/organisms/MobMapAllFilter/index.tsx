@@ -6,7 +6,6 @@ import { BuyOrRent, RealestateType } from '@/constants/enums';
 import Close from '@/assets/icons/close_24.svg';
 import { toast } from 'react-toastify';
 import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
-import _ from 'lodash';
 import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from '../MobMapFilter/types';
 import BuyorRentFilter from '../MobMapFilter/BuyOrRentFilter';
 import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '../MobMapFilter/PriceFilter';

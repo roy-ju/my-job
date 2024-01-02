@@ -1,4 +1,4 @@
-import React, { useState, useRef, MouseEvent } from 'react';
+import React, { useState, useRef, MouseEvent, memo } from 'react';
 
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
@@ -152,4 +152,4 @@ const Tabs = ({ danji, tabIndex, showRealPriceTab, loadingRealprice, onClickTab 
   );
 };
 
-export default Tabs;
+export default memo(Tabs);

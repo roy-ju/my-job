@@ -8,7 +8,7 @@ import { coordToRegion } from '@/lib/kakao';
 import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { getMetersByZoom } from '@/lib/navermap/utils';
-import _ from 'lodash';
+
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
 import getCurrentPosition from '@/utils/getCurrentPosition';
 import { toast } from 'react-toastify';
+import debounce from 'lodash/debounce';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -650,7 +651,7 @@ export default function useMapLayout() {
    */
   const onIdle = useMemo(
     () =>
-      _.debounce(
+      debounce(
         (_map: NaverMap) => {
           setTimeout(() => {
             isPanningRef.current = false;

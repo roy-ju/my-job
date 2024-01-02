@@ -4,7 +4,6 @@ import { Filter } from '@/components/organisms/MapFilter/types';
 import { useNegocioMapEvent } from '@/hooks/utils';
 import { MapBounds, getBounds } from '@/layouts/MapLayout/useMapLayout';
 import useMap from '@/states/map';
-import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 

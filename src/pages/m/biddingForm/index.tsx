@@ -1,5 +1,6 @@
-import { BiddingForm } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import BiddingForm from '@/components/pages/mobile/BiddingForm';
 
 const Page: NextPageWithLayout = () => <BiddingForm />;
 
