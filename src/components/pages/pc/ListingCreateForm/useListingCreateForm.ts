@@ -5,7 +5,6 @@ import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 // import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
-import _ from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';

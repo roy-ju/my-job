@@ -1,5 +1,6 @@
-import { RealTradeDetail } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import RealTradeDetail from '@/components/pages/mobile/RealPriceDetail';
 
 const Page: NextPageWithLayout = () => <RealTradeDetail />;
 

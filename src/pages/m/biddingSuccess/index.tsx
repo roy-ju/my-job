@@ -1,5 +1,6 @@
-import { BiddingSuccess } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import BiddingSuccess from '@/components/pages/mobile/BiddingSuccess';
 
 const Page: NextPageWithLayout = () => <BiddingSuccess />;
 

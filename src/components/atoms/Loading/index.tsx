@@ -1,6 +1,9 @@
 import { HTMLProps } from 'react';
+
 import LoadingIcon from '@/assets/icons/loading_dot.svg';
+
 import tw, { styled } from 'twin.macro';
+
 import { keyframes } from '@emotion/react';
 
 const iconSizes = {

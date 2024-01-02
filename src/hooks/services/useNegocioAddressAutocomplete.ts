@@ -1,6 +1,6 @@
 import searchDanji, { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
+import debounce from 'lodash/debounce';
 import { useEffect, useState, useCallback } from 'react';
-import _ from 'lodash';
 
 export default function useNegocioAddressAutocomplete(query: string) {
   const [results, setResults] = useState<SearchDanjiResponseItem[]>([]);
@@ -8,7 +8,7 @@ export default function useNegocioAddressAutocomplete(query: string) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const search = useCallback(
-    _.debounce(async (q: string) => {
+    debounce(async (q: string) => {
       if (!q) {
         setResults([]);
         setPageNumber(1);

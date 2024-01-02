@@ -22,6 +22,7 @@ import {
   DanjiDetailResponse,
   DanjiListingListResponse,
   DanjiPhotosResponse,
+  DanjiSchoolsResponse,
   DanjiSuggestListResponse,
   NaverDanjiResponse,
 } from '@/services/danji/types';
@@ -48,12 +49,16 @@ const DanjiDetail = ({
   prefetchedSuggestList,
   prefetchedListingList,
   prefetchedNaverDanji,
+  preselectedSchoolType,
+  prefetchedDanjiSchoolData,
 }: {
   prefetchedData?: DanjiDetailResponse;
   prefetchedPhotosData?: DanjiPhotosResponse;
   prefetchedSuggestList?: DanjiSuggestListResponse;
   prefetchedListingList?: DanjiListingListResponse;
   prefetchedNaverDanji?: NaverDanjiResponse;
+  preselectedSchoolType: number;
+  prefetchedDanjiSchoolData?: DanjiSchoolsResponse;
 }) => {
   const { data } = useFetchDanjiDetail({ prefetchedData });
 
@@ -123,7 +128,9 @@ const DanjiDetail = ({
             danjiPhotos={prefetchedPhotosData}
             danjiSuggestList={prefetchedSuggestList}
             danjiListingList={prefetchedListingList}
+            danjiSchools={prefetchedDanjiSchoolData}
             naverDanji={prefetchedNaverDanji}
+            preselectedSchoolType={preselectedSchoolType}
           />
         </MobileContainer>
       )}

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import dynamic from 'next/dynamic';
 
 import { Separator, Skeleton } from '@/components/atoms';
@@ -15,7 +17,7 @@ type BasicInfoProps = {
   danji: DanjiDetailResponse;
 };
 
-export default function BasicInfo({ danji }: BasicInfoProps) {
+function BasicInfo({ danji }: BasicInfoProps) {
   return (
     <>
       <Separator tw="w-full [min-height: 8px]" />
@@ -33,3 +35,5 @@ export default function BasicInfo({ danji }: BasicInfoProps) {
     </>
   );
 }
+
+export default memo(BasicInfo);

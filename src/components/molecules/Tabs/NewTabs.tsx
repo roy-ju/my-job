@@ -47,7 +47,7 @@ function Indicator({ children }: { children?: ReactNode }) {
   return (
     <>
       <div
-        tw="w-full bg-red"
+        tw="w-full"
         css={[
           newIndicatorStyles[variant],
           value === 1

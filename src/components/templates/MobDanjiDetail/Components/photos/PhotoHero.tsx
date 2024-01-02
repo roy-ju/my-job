@@ -2,11 +2,9 @@ import { useCallback, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
-import { styled } from 'twin.macro';
-
 import { Button } from '@/components/atoms';
 
-import { DragHandlers, motion, useAnimation } from 'framer-motion';
+import { DragHandlers, m, useAnimation } from 'framer-motion';
 
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 
@@ -15,14 +13,6 @@ import { DanjiPhotoItem } from '@/services/danji/types';
 function swipePower(offset: number, absDistance: number) {
   return (offset / absDistance) * 100;
 }
-
-const Item = styled(motion.div)`
-  flex: 1 0 100%;
-  height: 256px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
 
 type PhotoHeroProps = {
   photoPaths: DanjiPhotoItem[];
@@ -104,7 +94,7 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
 
   return (
     <div tw="relative w-full overflow-x-hidden">
-      <motion.div
+      <m.div
         key={page}
         ref={ref}
         drag={itemSize > 1 ? 'x' : undefined}
@@ -132,14 +122,6 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
         }}
         tw="flex flex-row items-end justify-center"
       >
-        {/* <Item
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${
-              photoPaths[getNextPage(page, -1)].full_file_path
-            }')`,
-          }}
-        /> */}
-
         <div tw="relative w-full [height: 256px]">
           <div
             tw="w-full h-full absolute z-10"
@@ -147,31 +129,14 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
               background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))`,
             }}
           />
-          <Image
-            priority
-            fill
-            src={photoPaths[page].full_file_path}
-            alt="단지 사진"
-
-            // style={{
-            //   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${photoPaths[page].full_file_path}')`,
-            // }}
-          />
+          <Image priority fill src={photoPaths[page].full_file_path} alt="단지 사진" quality={75} tw="flex-1" />
         </div>
-
-        {/* <Item
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${
-              photoPaths[getNextPage(page, 1)].full_file_path
-            }')`,
-          }}
-        /> */}
-      </motion.div>
+      </m.div>
 
       <Button
         onClick={onClickViewPhotos}
         size="none"
-        tw="rounded-bubble h-5 text-[10px] text-white px-2 bg-gray-1000/50 absolute bottom-3 right-5"
+        tw="z-20 rounded-bubble h-5 text-[10px] text-white px-2 bg-gray-1000/50 absolute bottom-3 right-5"
       >
         {page + 1} / {itemSize} 모두보기
       </Button>

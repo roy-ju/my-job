@@ -14,7 +14,7 @@ import storage from '@/storage/recentLawQnaSearch';
 import Close from '@/assets/icons/close.svg';
 
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import { useRouter } from 'next/router';
 
 function BackButton({ onClick }: { onClick?: () => void }) {
@@ -72,7 +72,7 @@ export default function LawSearchFormPc({
   );
 
   const debouncedSubmit = useCallback(
-    _.debounce((value) => {
+    debounce((value) => {
       onSubmit?.(value);
     }, 200),
     [],

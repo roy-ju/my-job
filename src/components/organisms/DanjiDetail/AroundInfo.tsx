@@ -1,18 +1,30 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { Button } from '@/components/atoms';
-import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
-import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
-import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
-import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
-import { cloneDeep } from 'lodash';
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { Button } from '@/components/atoms';
+
+import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
+
+import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
+
+import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
+
+import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
+
+import cloneDeep from 'lodash/cloneDeep';
+
 import { useRecoilValue } from 'recoil';
+
 import tw from 'twin.macro';
+
 import { v4 as uuid4 } from 'uuid';
+
 import NoDataTypeOne from './NoData';
+
 import ConvertArrayToSubwayComponent from './SubwayFormatComponent';
 
 type BtnState = {

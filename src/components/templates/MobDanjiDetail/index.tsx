@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useCallback, useRef, useState } from 'react';
 
 import { Separator } from '@/components/atoms';
 
@@ -12,6 +12,7 @@ import {
   DanjiDetailResponse,
   DanjiListingListResponse,
   DanjiPhotosResponse,
+  DanjiSchoolsResponse,
   DanjiSuggestListResponse,
   NaverDanjiResponse,
 } from '@/services/danji/types';
@@ -40,9 +41,9 @@ import BasicInfo from './Components/basicInfo';
 
 import SuggestsOrListings from './Components/suggestsOrListings';
 
-const Realprice = dynamic(() => import('./Components/MobDanjiRealpriceContainer'), { ssr: false });
+import SchoolInfo from './Components/schoolInfo';
 
-const SchoolInfo = dynamic(() => import('./Components/schoolInfo'), { ssr: false });
+const Realprice = dynamic(() => import('./Components/realprice'), { ssr: false });
 
 const AroundInfo = dynamic(() => import('./Components/aroundInfo'), { ssr: false });
 
@@ -52,14 +53,18 @@ interface MobDanjiDetailProps {
   danjiSuggestList?: DanjiSuggestListResponse;
   danjiListingList?: DanjiListingListResponse;
   naverDanji?: NaverDanjiResponse;
+  preselectedSchoolType: number;
+  danjiSchools?: DanjiSchoolsResponse;
 }
 
-export default function MobDanjiDetail({
+function MobDanjiDetail({
   danji,
   danjiPhotos,
   danjiSuggestList,
   danjiListingList,
   naverDanji,
+  preselectedSchoolType,
+  danjiSchools,
 }: MobDanjiDetailProps) {
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
@@ -87,7 +92,7 @@ export default function MobDanjiDetail({
     setIsHeaderActive(scrollY > 0);
   });
 
-  const onClickTab = (e: NegocioMouseEvent<HTMLButtonElement>) => {
+  const onClickTab = useCallback((e: NegocioMouseEvent<HTMLButtonElement>) => {
     const index = Number(e.currentTarget.value);
 
     if (index === 0) {
@@ -124,7 +129,7 @@ export default function MobDanjiDetail({
         behavior: 'smooth',
       });
     }
-  };
+  }, []);
 
   useIsomorphicLayoutEffect(() => {
     const observer = new IntersectionObserver(
@@ -227,7 +232,7 @@ export default function MobDanjiDetail({
 
           <FacilitiesSection ref={facilitiesSectionRef}>
             <Separator tw="w-full [min-height: 8px]" />
-            <SchoolInfo danji={danji} />
+            <SchoolInfo danji={danji} danjiSchools={danjiSchools} preselectedSchoolType={preselectedSchoolType} />
             <Separator tw="w-full [min-height: 8px]" />
             <AroundInfo danji={danji} />
           </FacilitiesSection>
@@ -244,3 +249,5 @@ export default function MobDanjiDetail({
     </>
   );
 }
+
+export default memo(MobDanjiDetail);

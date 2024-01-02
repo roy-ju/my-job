@@ -11,7 +11,7 @@ import { NaverMap } from '@/lib/navermap';
 import { NaverLatLng } from '@/lib/navermap/types';
 import { getMetersByZoom } from '@/lib/navermap/utils';
 import { mapState as recoilMapState } from '@/states/map';
-import _ from 'lodash';
+
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
@@ -24,6 +24,9 @@ import getHakgudo from '@/apis/map/mapHakgudos';
 import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
 import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
 import useLatest from '@/hooks/utils/useLatest';
+
+import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
 
 const USER_LAST_LOCATION = 'user_last_location';
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -102,8 +105,6 @@ export function getBounds(m: NaverMap): MapBounds {
   } else {
     mapLevel = 4;
   }
-
-
 
   const naverMapBounds = m.getBounds() as naver.maps.LatLngBounds;
   const sw = naverMapBounds.getSW();
@@ -352,7 +353,7 @@ export default function useMapLayout() {
 
       setFilter((prev) => {
         const old = prev === null ? getDefaultFilterAptOftl() : prev;
-        if (_.isEqual(old, { ...old, ...value })) {
+        if (isEqual(old, { ...old, ...value })) {
           return old;
         }
         return {
@@ -809,7 +810,7 @@ export default function useMapLayout() {
    */
   const onIdle = useMemo(
     () =>
-      _.debounce(
+      debounce(
         (_map: NaverMap) => {
           setTimeout(() => {
             isPanningRef.current = false;

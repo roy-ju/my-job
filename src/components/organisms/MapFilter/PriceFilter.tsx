@@ -2,7 +2,7 @@ import { Slider } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
 import { useControlled } from '@/hooks/utils';
 import { formatNumberInKorean } from '@/utils';
-import _ from 'lodash';
+import range from 'lodash/range';
 import { useCallback, useMemo } from 'react';
 
 function useEnabled(value: BuyOrRent, list: string) {
@@ -16,25 +16,25 @@ function f(n: number) {
 }
 
 export const PRICE_STEPS = [
-  ..._.range(0, 50000000, 30000000),
-  ..._.range(50000000, 500000000, 50000000),
-  ..._.range(500000000, 1700000000, 100000000),
+  ...range(0, 50000000, 30000000),
+  ...range(50000000, 500000000, 50000000),
+  ...range(500000000, 1700000000, 100000000),
 ];
 
 export const DEPOSIT_STEPS = [
-  ..._.range(0, 5000000, 1000000),
-  ..._.range(5000000, 70000000, 5000000),
-  ..._.range(70000000, 200000000, 10000000),
-  ..._.range(200000000, 1200000000, 50000000),
-  ..._.range(1200000000, 1400000000, 100000000),
+  ...range(0, 5000000, 1000000),
+  ...range(5000000, 70000000, 5000000),
+  ...range(70000000, 200000000, 10000000),
+  ...range(200000000, 1200000000, 50000000),
+  ...range(1200000000, 1400000000, 100000000),
 ];
 
 export const RENT_STEPS = [
-  ..._.range(0, 500000, 50000),
-  ..._.range(500000, 600000, 10000),
-  ..._.range(600000, 800000, 50000),
-  ..._.range(800000, 2100000, 100000),
-  ..._.range(2500000, 4500000, 500000),
+  ...range(0, 500000, 50000),
+  ...range(500000, 600000, 10000),
+  ...range(600000, 800000, 50000),
+  ...range(800000, 2100000, 100000),
+  ...range(2500000, 4500000, 500000),
 ];
 
 const priceLabels = ['0', f(PRICE_STEPS[Math.floor(PRICE_STEPS.length / 2)]), '무제한'];
@@ -43,18 +43,18 @@ const depositLabels = ['0', f(DEPOSIT_STEPS[Math.floor(DEPOSIT_STEPS.length / 2)
 
 const rentLabels = ['0', f(RENT_STEPS[Math.floor(RENT_STEPS.length / 2)]), '무제한'];
 
-function PriceLabel({ steps, range }: { steps: number[]; range: number[] }) {
+function PriceLabel({ steps, rangeArray }: { steps: number[]; rangeArray: number[] }) {
   const label = useMemo(() => {
-    if (range[0] === 0 && range[1] === steps.length - 1) {
+    if (rangeArray[0] === 0 && rangeArray[1] === steps.length - 1) {
       return '무제한';
     }
 
-    if (range[0] !== 0 && range[1] === steps.length - 1) {
-      return `${f(steps[range[0]])} ~ 무제한`;
+    if (rangeArray[0] !== 0 && rangeArray[1] === steps.length - 1) {
+      return `${f(steps[rangeArray[0]])} ~ 무제한`;
     }
 
-    return `${f(steps[range[0]])} ~ ${f(steps[range[1]])}`;
-  }, [range, steps]);
+    return `${f(steps[rangeArray[0]])} ~ ${f(steps[rangeArray[1]])}`;
+  }, [rangeArray, steps]);
 
   return <span tw="text-b2 text-nego-1000">{label}</span>;
 }
@@ -131,7 +131,7 @@ export default function PriceFilter({
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">매매가</span>
-              <PriceLabel steps={PRICE_STEPS} range={priceRange} />
+              <PriceLabel steps={PRICE_STEPS} rangeArray={priceRange} />
             </div>
             <Slider
               min={0}
@@ -147,7 +147,7 @@ export default function PriceFilter({
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">보증금 (전 / 월세)</span>
-              <PriceLabel steps={DEPOSIT_STEPS} range={depositRange} />
+              <PriceLabel steps={DEPOSIT_STEPS} rangeArray={depositRange} />
             </div>
             <Slider
               min={0}
@@ -163,7 +163,7 @@ export default function PriceFilter({
           <div>
             <div tw="flex items-center justify-between mb-2.5">
               <span tw="text-b2 text-gray-1000">월차임</span>
-              <PriceLabel steps={RENT_STEPS} range={rentRange} />
+              <PriceLabel steps={RENT_STEPS} rangeArray={rentRange} />
             </div>
             <Slider
               min={0}

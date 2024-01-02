@@ -1,6 +1,5 @@
 import { BiddingForm as Form } from '@/components/organisms';
 import { useContext, useMemo } from 'react';
-import _ from 'lodash';
 import { BuyOrRent } from '@/constants/enums';
 import { Separator } from '@/components/atoms';
 import FormContext from './FormContext';

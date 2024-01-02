@@ -7,7 +7,7 @@ import { scaleLinear, scaleTime } from '@visx/scale';
 import { Bar, Line, LinePath } from '@visx/shape';
 import { useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import moment from 'moment';
 import { toNumber } from '@/utils/toNumber';
 import { formatNumberInKorean } from '@/utils';
@@ -282,7 +282,7 @@ export const Chart = React.memo(
                 return formatNumberInKorean(toNumber(price));
               }
 
-              if (price < 10000000) {
+              if (price ?? 0 < 10000000) {
                 return formatNumberInKorean(toNumber(price));
               }
 

@@ -1,4 +1,4 @@
-import { DanjiDetail } from '@/components/pages/mobile';
+import DanjiDetail from '@/components/pages/mobile/DanjiDetail';
 
 import { fetcher } from '@/lib/swr';
 
@@ -10,6 +10,7 @@ import {
   DanjiListingListResponse,
   DanjiSuggestListResponse,
   NaverDanjiResponse,
+  DanjiSchoolsResponse,
 } from '@/services/danji/types';
 
 import { checkPlatform } from '@/utils/checkPlatform';
@@ -22,13 +23,25 @@ const Page: NextPageWithLayout<{
   prefetchedSuggestList?: DanjiSuggestListResponse;
   prefetchedListingList?: DanjiListingListResponse;
   prefetchedNaverDanji?: NaverDanjiResponse;
-}> = ({ prefetchedData, prefetchedPhotosData, prefetchedSuggestList, prefetchedListingList, prefetchedNaverDanji }) => (
+  preselectedSchoolType: number;
+  prefetchedDanjiSchoolData?: DanjiSchoolsResponse;
+}> = ({
+  prefetchedData,
+  prefetchedPhotosData,
+  prefetchedSuggestList,
+  prefetchedListingList,
+  prefetchedNaverDanji,
+  preselectedSchoolType,
+  prefetchedDanjiSchoolData,
+}) => (
   <DanjiDetail
     prefetchedData={prefetchedData}
     prefetchedPhotosData={prefetchedPhotosData}
     prefetchedSuggestList={prefetchedSuggestList}
     prefetchedListingList={prefetchedListingList}
     prefetchedNaverDanji={prefetchedNaverDanji}
+    prefetchedDanjiSchoolData={prefetchedDanjiSchoolData}
+    preselectedSchoolType={preselectedSchoolType}
   />
 );
 
@@ -53,6 +66,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     list: [],
     total_count: 0,
   };
+
+  let danjiSchools: DanjiSchoolsResponse | null = null;
+
+  let preselectedSchoolType = 1;
 
   let naverDanji: NaverDanjiResponse = {
     outlink_pc: '',
@@ -85,6 +102,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         { danji_id: response.danji_id },
       ]);
 
+      const danjiSchoolsResponse: DanjiSchoolsResponse = await fetcher([
+        '/danji/schools',
+        { danji_id: response.danji_id, realestate_type: response.type, order_by: 1, page_size: 4, page_number: 1 },
+      ]);
+
       if (danjiPhotosResponse?.danji_photos && danjiPhotosResponse.danji_photos.length > 0) {
         danjiPhotos = danjiPhotosResponse;
       }
@@ -95,6 +117,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
       if (danjiListingListResponse?.list && danjiListingListResponse.list.length > 0) {
         danjiListingList = danjiListingListResponse;
+      }
+
+      if (
+        danjiSchoolsResponse &&
+        ((danjiSchoolsResponse.list_all && danjiSchoolsResponse.list_all?.length > 0) ||
+          (danjiSchoolsResponse.list_elementary_schools && danjiSchoolsResponse.list_elementary_schools?.length > 0) ||
+          (danjiSchoolsResponse.list_middle_schools && danjiSchoolsResponse.list_middle_schools?.length > 0) ||
+          (danjiSchoolsResponse.list_high_schools && danjiSchoolsResponse.list_high_schools?.length > 0))
+      ) {
+        danjiSchools = danjiSchoolsResponse;
+
+        if (danjiSchoolsResponse.list_middle_schools && danjiSchoolsResponse.list_middle_schools?.length > 0) {
+          preselectedSchoolType = 2;
+        } else if (danjiSchoolsResponse.list_high_schools && danjiSchoolsResponse.list_high_schools?.length > 0) {
+          preselectedSchoolType = 3;
+        }
       }
 
       if (naverDanjiResponse?.outlink_pc || naverDanjiResponse?.outlink_mobile) {
@@ -114,6 +152,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       prefetchedSuggestList: danjiSuggestList,
       prefetchedListingList: danjiListingList,
       prefetchedNaverDanji: naverDanji,
+      ...(danjiSchools ? { prefetchedDanjiSchoolData: danjiSchools } : {}),
+      preselectedSchoolType,
     },
   };
 };
