@@ -1,5 +1,6 @@
-import { SuggestListingForm } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import SuggestListingForm from '@/components/pages/mobile/SuggestListingForm';
 
 const Page: NextPageWithLayout = () => <SuggestListingForm />;
 

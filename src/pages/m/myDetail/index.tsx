@@ -1,5 +1,6 @@
-import { DetailWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import DetailWrraper from '@/components/pages/mobile/My/DetailWrraper';
 
 const Page: NextPageWithLayout = () => <DetailWrraper />;
 

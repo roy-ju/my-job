@@ -1,5 +1,6 @@
-import { RecommendGuide } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import RecommendGuide from '@/components/pages/mobile/RecommendGuide';
 
 const Page: NextPageWithLayout = () => <RecommendGuide />;
 

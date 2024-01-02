@@ -1,5 +1,6 @@
-import { ListingCreateSummary } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingCreateSummary from '@/components/pages/mobile/ListingCreateSummary';
 
 const Page: NextPageWithLayout = () => <ListingCreateSummary />;
 

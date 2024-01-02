@@ -1,10 +1,15 @@
-import { MobileContainer } from '@/components/atoms';
 import { memo, useCallback, useState } from 'react';
+
+import { MobileContainer } from '@/components/atoms';
+
 import { LocationTerms as LocationTermsTemplate } from '@/components/templates';
 
 import HTML_20221103 from '@/assets/terms/location_agreement/20221103';
+
 import HTML_20221017 from '@/assets/terms/location_agreement/20221017';
+
 import Routes from '@/router/routes';
+
 import { useRouter } from 'next/router';
 
 export default memo(() => {

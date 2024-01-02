@@ -1,5 +1,6 @@
-import { ListingQnaCreateForm } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingQnaCreateForm from '@/components/pages/mobile/ListingQnaCreateForm';
 
 const Page: NextPageWithLayout = () => <ListingQnaCreateForm />;
 

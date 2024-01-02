@@ -1,5 +1,6 @@
-import { ListingReport } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingReport from '@/components/pages/mobile/ListingReport';
 
 const Page: NextPageWithLayout = () => <ListingReport />;
 

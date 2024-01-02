@@ -1,5 +1,6 @@
-import { ListingDetailPassed } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingDetailPassed from '@/components/pages/mobile/ListingDetailPassed';
 
 const Page: NextPageWithLayout = () => <ListingDetailPassed />;
 

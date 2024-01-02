@@ -1,5 +1,6 @@
-import { QnaWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import QnaWrraper from '@/components/pages/mobile/My/QnaWrraper';
 
 const Page: NextPageWithLayout = () => <QnaWrraper />;
 

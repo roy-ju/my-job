@@ -1,5 +1,6 @@
-import { DeregisterWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import DeregisterWrraper from '@/components/pages/mobile/My/DeregisterWrraper';
 
 const Page: NextPageWithLayout = () => <DeregisterWrraper />;
 

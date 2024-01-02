@@ -1,5 +1,6 @@
-import { UpdateBiddingSummary } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import UpdateBiddingSummary from '@/components/pages/mobile/UpdateBiddingSummary';
 
 const Page: NextPageWithLayout = () => <UpdateBiddingSummary />;
 

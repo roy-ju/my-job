@@ -1,5 +1,6 @@
-import { DanjiRecommendationUpdate } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import DanjiRecommendationUpdate from '@/components/pages/mobile/DanjiRecommendationUpdate';
 
 const Page: NextPageWithLayout = () => <DanjiRecommendationUpdate />;
 

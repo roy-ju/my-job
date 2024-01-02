@@ -1,5 +1,6 @@
-import { ListingPhotoGallery } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingPhotoGallery from '@/components/pages/mobile/ListingPhotoGallery';
 
 const Page: NextPageWithLayout = () => <ListingPhotoGallery />;
 

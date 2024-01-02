@@ -1,5 +1,6 @@
-import { DanjiListings } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import DanjiListings from '@/components/pages/mobile/DanjiListings';
 
 const Page: NextPageWithLayout = () => <DanjiListings />;
 

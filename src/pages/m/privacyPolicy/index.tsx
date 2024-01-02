@@ -1,12 +1,19 @@
 import { memo, useCallback, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { PrivacyPolicy as PrivacyPolicyTemplate } from '@/components/templates';
 
 import Routes from '@/router/routes';
+
 import HTML_20221208 from '@/assets/terms/privacy_agreement/20221208';
+
 import HTML_20221103 from '@/assets/terms/privacy_agreement/20221103';
+
 import HTML_20221017 from '@/assets/terms/privacy_agreement/20221017';
+
 import HTML_20231211 from '@/assets/terms/privacy_agreement/20231211';
-import { useRouter } from 'next/router';
+
 import { MobileContainer } from '@/components/atoms';
 
 export default memo(() => {

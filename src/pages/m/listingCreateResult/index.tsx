@@ -1,5 +1,6 @@
-import { ListingCreateResult } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import ListingCreateResult from '@/components/pages/mobile/ListingCreateResult';
 
 const Page: NextPageWithLayout = () => <ListingCreateResult />;
 

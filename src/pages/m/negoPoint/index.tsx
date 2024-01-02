@@ -1,5 +1,6 @@
-import { NegoPointWrraper } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import NegoPointWrraper from '@/components/pages/mobile/My/NegoPointWrraper';
 
 const Page: NextPageWithLayout = () => <NegoPointWrraper />;
 

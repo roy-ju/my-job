@@ -1,5 +1,6 @@
-import { SuggestDetail } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import SuggestDetail from '@/components/pages/mobile/SuggestDetail';
 
 const Page: NextPageWithLayout = () => <SuggestDetail />;
 

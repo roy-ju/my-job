@@ -1,5 +1,6 @@
-import { NextPageWithLayout } from '@/pages/_app';
 import dynamic from 'next/dynamic';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 const NoSSRVerifyCiSuccessWrraper = dynamic(() => import('@/components/pages/mobile/VerifyCiSuccess'), { ssr: false });
 

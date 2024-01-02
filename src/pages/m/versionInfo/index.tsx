@@ -1,5 +1,6 @@
-import { VersionInfo } from '@/components/pages/mobile';
 import { NextPageWithLayout } from '@/pages/_app';
+
+import VersionInfo from '@/components/pages/mobile/VersionInfo';
 
 const Page: NextPageWithLayout = () => <VersionInfo />;
 

@@ -1,5 +1,6 @@
-import { NextPageWithLayout } from '@/pages/_app';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 import LoginWrapper from '@/components/pages/mobile/My/LoginWrraper';
 

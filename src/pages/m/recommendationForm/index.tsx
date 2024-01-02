@@ -1,7 +1,8 @@
-import { RecommendationForm as RecommendationFormTemplate } from '@/components/pages/mobile';
+import RecommendationForm from '@/components/pages/mobile/RecommendationForm';
+
 import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPageWithLayout = () => <RecommendationFormTemplate />;
+const Page: NextPageWithLayout = () => <RecommendationForm />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
