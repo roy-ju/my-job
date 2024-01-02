@@ -4,9 +4,9 @@ import Head from 'next/head';
 
 import dynamic from 'next/dynamic';
 
-import { MobileContainer } from '@/components/atoms';
+import MobileContainer from '@/components/atoms/MobileContainer';
 
-import { MobDanjiDetail } from '@/components/templates';
+import MobDanjiDetail from '@/components/templates/MobDanjiDetail';
 
 import Paths from '@/constants/paths';
 
@@ -16,7 +16,7 @@ import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
 
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/utils/useIsomorphicLayoutEffect';
 
 import {
   DanjiDetailResponse,

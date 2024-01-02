@@ -1,32 +1,34 @@
 import { memo, useState } from 'react';
 
-import { DanjiDetailResponse } from '@/services/danji/types';
-
-import { NavigationHeader, OverlayPresenter } from '@/components/molecules';
+import dynamic from 'next/dynamic';
 
 import tw from 'twin.macro';
 
 import { mutate } from 'swr';
 
-import ShareIcon from '@/assets/icons/share.svg';
+import { DanjiDetailResponse } from '@/services/danji/types';
 
-import HeartFilledIcon from '@/assets/icons/heart.svg';
+import NavigationHeader from '@/components/molecules/NavigationHeader';
 
-import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
-
-import { useAuth } from '@/hooks/services';
-
-import { toast } from 'react-toastify';
+import useAuth from '@/hooks/services/useAuth';
 
 import Paths from '@/constants/paths';
-
-import { SharePopup } from '@/components/organisms';
 
 import { useRouter } from 'next/router';
 
 import Routes from '@/router/routes';
 
 import { apiService } from '@/services';
+
+const OverlayPresenter = dynamic(() => import('@/components/molecules/OverlayPresenter'), { ssr: false });
+
+const SharePopup = dynamic(() => import('@/components/organisms/SharePopup'), { ssr: false });
+
+const ShareIcon = dynamic(() => import('@/assets/icons/share.svg'), { ssr: false });
+
+const HeartFilledIcon = dynamic(() => import('@/assets/icons/heart.svg'), { ssr: false });
+
+const HeartOutlinedIcon = dynamic(() => import('@/assets/icons/heart_outlined.svg'), { ssr: false });
 
 function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeaderActive: boolean }) {
   const router = useRouter();
@@ -95,13 +97,19 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
           optimisticData: { ...danji, is_favorite: true },
           rollbackOnError: true,
         });
-        toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
+
+        const Toast = (await import('react-toastify')).default;
+
+        Toast.toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
       } else {
         await mutate(['/danji/detail', { danji_id: danji.danji_id }], danjiFavoriteRemoveOptimistic, {
           optimisticData: { ...danji, is_favorite: false },
           rollbackOnError: true,
         });
-        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
+
+        const Toast = (await import('react-toastify')).default;
+
+        Toast.toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
       }
     }
   };
@@ -143,7 +151,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
     setPopup(false);
   };
 
-  const handleCopyUrl = () => {
+  const handleCopyUrl = async () => {
     if (!danji) return;
 
     const content = `[네고시오] ${danji?.name}\n► ${danji?.road_name_address ?? danji?.jibun_address}\n\n${
@@ -151,7 +159,10 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
     }/danjiDetail?danjiID=${danji.danji_id}`;
 
     navigator.clipboard.writeText(content);
-    toast.success('복사되었습니다.');
+
+    const Toast = (await import('react-toastify')).default;
+
+    Toast.toast.success('복사되었습니다.');
 
     setPopup(false);
   };

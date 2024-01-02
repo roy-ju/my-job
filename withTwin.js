@@ -21,23 +21,36 @@ module.exports = function withTwin(nextConfig) {
               sourceMaps: dev,
               presets: [
                 [
-                  '@babel/preset-react',
-                  { runtime: 'automatic', importSource: '@emotion/react' },
+                  '@babel/preset-env',
+                  {
+                    modules: false,
+                  },
                 ],
+                ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }],
               ],
               plugins: [
                 require.resolve('babel-plugin-twin'),
                 require.resolve('babel-plugin-macros'),
                 require.resolve('@emotion/babel-plugin'),
-                [
-                  require.resolve('@babel/plugin-syntax-typescript'),
-                  { isTSX: true },
-                ],
+                [require.resolve('@babel/plugin-syntax-typescript'), { isTSX: true }],
               ],
             },
           },
         ],
       });
+
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      };
+
+      config.optimization = config.optimization || {};
+
+      config.optimization.splitChunks = config.optimization.splitChunks || {};
+
+      config.optimization.splitChunks.chunks = 'all';
 
       if (!isServer) {
         config.resolve.fallback = {
