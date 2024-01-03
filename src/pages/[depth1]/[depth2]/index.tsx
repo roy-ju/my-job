@@ -5,9 +5,10 @@ import { MapLayout } from '@/layouts';
 import PrevPage from '@/pages/[depth1]';
 import Router from '@/router';
 import getHtmlMetas from '@/utils/getHtmlMetas';
-import { fetcher } from '@/lib/swr';
+
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { checkPlatform } from '@/utils/checkPlatform';
+import fetcher from '@/lib/swr/fetcher';
 
 const Page: NextPageWithLayout = () => null;
 

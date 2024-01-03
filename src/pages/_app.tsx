@@ -1,29 +1,56 @@
-import { cache } from '@emotion/css';
-import { CacheProvider } from '@emotion/react';
-import type { NextPage } from 'next';
-import type { AppProps } from 'next/app';
 import { ReactNode, useEffect } from 'react';
-import { RecoilRoot } from 'recoil';
-import GlobalStyles from '@/styles/GlobalStyles';
-import SWRConfig from '@/lib/swr';
-import Script from 'next/script';
-import { initializeKakaoSDK } from '@/lib/kakao';
 
-import OverlayContainer from '@/components/molecules/FullScreenDialog';
-import { updateVH } from '@/utils/updateVH';
-import ToastContainer from '@/lib/react-toastify';
-import { useNativeAppEventListeners, usePageLoading, usePlatform } from '@/hooks/utils';
 import Head from 'next/head';
+
+import dynamic from 'next/dynamic';
+
+import { useRouter } from 'next/router';
+
+import type { NextPage } from 'next';
+
+import type { AppProps } from 'next/app';
+
+import { cache } from '@emotion/css';
+
+import { CacheProvider } from '@emotion/react';
+
+import { RecoilRoot } from 'recoil';
+
+import GlobalStyles from '@/styles/GlobalStyles';
+
+import SWRConfig from '@/lib/swr/swr';
+
+import Script from 'next/script';
+
+import initializeKakaoSDK from '@/lib/kakao/initialize';
+
+import initializeAppleAuth from '@/lib/apple/initialize';
+
+import { updateVH } from '@/utils/updateVH';
+
+import useNativeAppEventListeners from '@/hooks/utils/useNativeAppEventListeners';
+
+import usePageLoading from '@/hooks/utils/usePageLoading';
+
+import usePlatform from '@/hooks/utils/usePlatform';
+
 import AppConfig from '@/config';
+
 import NegocioProvider from '@/providers/NegocioProvider';
-import TooltipProvider from '@/providers/TooltipProvider';
+
 import ErrorBoundary from '@/providers/ErrorBoundary';
-import { initializeAppleAuth } from '@/lib/apple';
 
 import * as gtag from '@/lib/gtag';
-import { useRouter } from 'next/router';
-import AppVersionChecker from '@/providers/AppVersionChecker';
+
 import '../styles/globalFont.css';
+
+const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
+
+const TooltipProvider = dynamic(() => import('@/providers/TooltipProvider'), { ssr: false });
+
+const ToastContainer = dynamic(() => import('@/lib/react-toastify'), { ssr: false });
+
+const AppVersionChecker = dynamic(() => import('@/providers/AppVersionChecker'), { ssr: false });
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;

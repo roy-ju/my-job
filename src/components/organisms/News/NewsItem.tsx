@@ -57,8 +57,9 @@ export default function NewsItem({ item }: NewsItemProps) {
           <div tw="relative w-[80px] h-[80px] min-w-[80px] min-h-[80px]">
             <img
               tw="w-full h-full absolute top-0 left-0 [object-fit: cover] rounded-lg border border-gray-300"
-              alt=""
+              alt="단지 뉴스"
               src={imgSrc}
+              loading="lazy"
               onError={() => setImgError(true)}
             />
           </div>

@@ -1,12 +1,19 @@
-import Keys from '@/constants/storage_keys';
-import { useAuth } from '@/hooks/services';
-import { useWebSocket } from '@/hooks/utils';
-import usePageVisibility from '@/hooks/utils/usePageVisibility';
-import axios from '@/lib/axios';
-import useSyncronizer from '@/states/syncronizer';
-import { isClient } from '@/utils/is';
 import { ReactNode, useEffect, useMemo } from 'react';
-import { toast } from 'react-toastify';
+
+import Keys from '@/constants/storage_keys';
+
+import { useAuth } from '@/hooks/services';
+
+import { useWebSocket } from '@/hooks/utils';
+
+import usePageVisibility from '@/hooks/utils/usePageVisibility';
+
+import axios from '@/lib/axios';
+
+import useSyncronizer from '@/states/syncronizer';
+
+import { isClient } from '@/utils/is';
+
 import { mutate } from 'swr';
 
 export default function NegocioProvider({ children }: { children?: ReactNode }) {
@@ -31,13 +38,14 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
   const { connect, disconnect } = useWebSocket(wsUrl, {
     onOpen: () => {},
     onClose: () => {},
-    onMessage: (e) => {
+    onMessage: async (e) => {
+      const Toast = (await import('react-toastify')).default;
       const data = JSON.parse(e.data);
       if (data && data.key) {
         switch (data.key) {
           case 'new_chat':
             if (window.location.pathname.indexOf('/chatRoom') === -1) {
-              toast.success('새로운 채팅메시지가 있습니다.');
+              Toast.toast.success('새로운 채팅메시지가 있습니다.');
             }
             mutate('/chat/room/list');
             setUnreadChatCount(1);
@@ -49,7 +57,7 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
             break;
 
           case 'new_notification':
-            toast.success('새로운 알림이 있습니다.');
+            Toast.toast.success('새로운 알림이 있습니다.');
             setUnreadNotificationCount(Number(data.value) ?? 0);
             break;
 

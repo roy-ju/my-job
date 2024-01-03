@@ -2,9 +2,7 @@ import { memo, useCallback, useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
 
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-
-import { DanjiPhotosResponse } from '@/services/danji/types';
+import { DanjiDetailResponse, DanjiPhotosResponse } from '@/services/danji/types';
 
 import { DefaultListingImageLg } from '@/constants/strings';
 
@@ -14,7 +12,7 @@ import PhotoHero from './PhotoHero';
 
 const PhotosDialog = dynamic(() => import('./PhotosDialog'), { ssr: false });
 
-function Photos({ danji, danjiPhotos }: { danji: GetDanjiDetailResponse; danjiPhotos?: DanjiPhotosResponse }) {
+function Photos({ danji, danjiPhotos }: { danji: DanjiDetailResponse; danjiPhotos?: DanjiPhotosResponse }) {
   const { addFullScreenDialog, closeAll } = useFullScreenDialogStore();
 
   const paths = useMemo(() => danjiPhotos?.danji_photos?.map((item) => item) ?? [], [danjiPhotos]);

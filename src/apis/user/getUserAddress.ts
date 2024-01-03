@@ -1,6 +1,8 @@
-import { useAuth } from '@/hooks/services';
-import { authFetcher } from '@/lib/swr';
 import useSWR from 'swr';
+
+import { useAuth } from '@/hooks/services';
+
+import authFetcher from '@/lib/swr/authFetcher';
 
 export interface GetUserAddressResponse {
   road_name_address: string;

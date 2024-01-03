@@ -1,6 +1,7 @@
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { MapLayout } from '@/layouts';
-import { fetcher } from '@/lib/swr';
+import fetcher from '@/lib/swr/fetcher';
+
 import { NextPageWithLayout } from '@/pages/_app';
 import Router from '@/router';
 import { checkPlatform } from '@/utils/checkPlatform';
