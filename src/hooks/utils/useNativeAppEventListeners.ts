@@ -1,6 +1,8 @@
-import { updateFcmToken } from '@/apis/user/updateFcmToken';
-import Keys from '@/constants/storage_keys';
 import { useCallback, useEffect } from 'react';
+
+import { updateFcmToken } from '@/apis/user/updateFcmToken';
+
+import Keys from '@/constants/storage_keys';
 
 const Events = {
   UpdateFcmToken: 'negocio_native_event_session_storage_change',

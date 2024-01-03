@@ -1,5 +1,6 @@
-import { authFetcher } from '@/lib/swr';
 import useSWR from 'swr';
+
+import authFetcher from '@/lib/swr/authFetcher';
 
 export interface GetUserInfoResponse {
   ID: number;

@@ -1,5 +1,7 @@
-import Router from 'next/router';
 import { useEffect } from 'react';
+
+import Router from 'next/router';
+
 import NProgress from 'nprogress';
 
 export default function usePageLoading() {

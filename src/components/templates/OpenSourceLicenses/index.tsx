@@ -22,7 +22,6 @@ const oss = `
 "@visx/gradient": "2.10.0",
 "@visx/grid": "2.11.1",
 "@visx/group": "2.10.0",
-"@visx/marker": "2.11.1",
 "@visx/responsive": "2.10.0",
 "@visx/scale": "2.2.2",
 "@visx/shape": "2.11.1",

@@ -1,6 +1,8 @@
-import { useAuth } from '@/hooks/services';
-import { authFetcher } from '@/lib/swr';
 import useSWR from 'swr';
+
+import { useAuth } from '@/hooks/services';
+
+import authFetcher from '@/lib/swr/authFetcher';
 
 interface SuggestRecommend {
   suggest_recommend_id: number;
