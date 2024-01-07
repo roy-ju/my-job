@@ -59,6 +59,7 @@
     "eslint-config-next": "13.1.2",
     "framer-motion": "^9.0.0",
     "fs": "^0.0.1-security",
+    "immer": "^10.0.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "nanoid": "^4.0.2",
@@ -81,7 +82,8 @@
     "swr": "^2.1.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "typescript": "4.9.4",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

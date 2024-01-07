@@ -20,12 +20,12 @@ module.exports = function withTwin(nextConfig) {
             options: {
               sourceMaps: dev,
               presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    modules: false,
-                  },
-                ],
+                // [
+                //   '@babel/preset-env',
+                //   {
+                //     modules: false,
+                //   },
+                // ],
                 ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }],
               ],
               plugins: [
@@ -39,18 +39,18 @@ module.exports = function withTwin(nextConfig) {
         ],
       });
 
-      config.cache = {
-        type: 'filesystem',
-        buildDependencies: {
-          config: [__filename],
-        },
-      };
+      // config.cache = {
+      //   type: 'filesystem',
+      //   buildDependencies: {
+      //     config: [__filename],
+      //   },
+      // };
 
-      config.optimization = config.optimization || {};
+      // config.optimization = config.optimization || {};
 
-      config.optimization.splitChunks = config.optimization.splitChunks || {};
+      // config.optimization.splitChunks = config.optimization.splitChunks || {};
 
-      config.optimization.splitChunks.chunks = 'all';
+      // config.optimization.splitChunks.chunks = 'all';
 
       if (!isServer) {
         config.resolve.fallback = {

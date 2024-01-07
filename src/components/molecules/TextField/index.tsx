@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {
   ReactNode,
   ChangeEventHandler,
@@ -31,6 +32,7 @@ export interface TextFieldProps extends Omit<HTMLProps<HTMLDivElement>, 'theme' 
   variant?: VariantType;
   size?: SizeType;
   hasError?: boolean;
+  nego?: boolean;
 }
 
 interface InputProps
@@ -38,6 +40,8 @@ interface InputProps
   label?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  isLabelBottom?: boolean;
+  nego?: boolean;
 }
 
 interface TextAreaProps extends HTMLProps<HTMLTextAreaElement> {}
@@ -54,7 +58,7 @@ interface SuccessMessageProps {
   children?: ReactNode;
 }
 
-type StyledInputProps = InputProps & { inSize: SizeType; hasError: boolean };
+type StyledInputProps = InputProps & { inSize: SizeType; hasError: boolean; isLabelBottom?: boolean };
 
 const StyledContainer = styled.div<{
   disabled: boolean;
@@ -79,9 +83,11 @@ const StyledInput = styled.input(({ inSize, disabled, label, hasError }: StyledI
 
 // prevent props for styled components from being passed to the actual component.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledNumericInput = styled(({ inSize, label, hasError, ...others }: NumericFormatProps & StyledInputProps) => (
-  <NumericFormat {...others} />
-))(({ inSize, disabled, label, hasError }) => [
+const StyledNumericInput = styled(
+  ({ inSize, label, hasError, isLabelBottom = false, ...others }: NumericFormatProps & StyledInputProps) => (
+    <NumericFormat {...others} />
+  ),
+)(({ inSize, disabled, label, hasError, isLabelBottom }) => [
   tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-b1 text-gray-1000 text-ellipsis`,
   disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
@@ -89,6 +95,8 @@ const StyledNumericInput = styled(({ inSize, label, hasError, ...others }: Numer
   inSize === 'small' && tw`[height: 32px] px-4 py-2 text-info leading-4`,
   inSize === 'medium' && tw`h-4 px-4 py-4 leading-4 text-b2`,
   inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
+
+  inSize === 'xlg' && label && (isLabelBottom ? tw`px-4 pt-[14px] pb-[34px]` : tw`px-4 pt-[34px] pb-[14px]`),
 ]);
 
 // prevent props for styled components from being passed to the actual component.
@@ -122,17 +130,27 @@ const StyledTextArea = styled.textarea(
   ],
 );
 
-const StyledLabel = styled.div<{ inSize: SizeType; focused: boolean; disabled: boolean; hasError: boolean }>(
-  ({ inSize, focused, disabled, hasError }) => [
-    tw`absolute top-0 left-0 leading-none text-gray-700 transition-all translate-x-4 translate-y-5 pointer-events-none text-b1`,
-    disabled && tw`text-gray-600 opacity-100`,
-    focused && tw`leading-none translate-y-3 text-info`,
-    hasError && tw`text-red-800`,
-    inSize === 'small' && tw`leading-none translate-x-4 translate-y-4 text-info`,
-    inSize === 'medium' && tw`leading-none translate-x-4 translate-y-4 text-b2`,
-    inSize === 'medium' && focused && tw`translate-y-2 text-[10px] leading-none`,
-  ],
-);
+const StyledLabel = styled.div<{
+  inSize: SizeType;
+  focused: boolean;
+  disabled: boolean;
+  hasError: boolean;
+  isBottom?: boolean;
+  nego?: boolean;
+}>(({ inSize, focused, disabled, hasError, isBottom = false, nego = false }) => [
+  tw`absolute top-0 left-0 leading-none text-gray-700 transition-all translate-x-4 translate-y-5 pointer-events-none text-b1`,
+  disabled && tw`text-gray-600 opacity-100`,
+  focused && tw`leading-none translate-y-3 text-info`,
+  hasError && tw`text-red-800`,
+  inSize === 'small' && tw`leading-none translate-y-4 text-info`,
+  inSize === 'medium' && tw`leading-none translate-y-4 text-b2`,
+  inSize === 'xlg' && tw`leading-none translate-y-6 text-body_03`,
+  inSize === 'medium' && focused && tw`translate-y-2 text-[10px] leading-none`,
+  inSize === 'xlg' &&
+    focused &&
+    (isBottom ? tw`translate-y-10 text-[12px] leading-none` : tw`translate-y-2.5 text-[12px] leading-none`),
+  inSize === 'xlg' && focused && nego && tw`text-nego-800`,
+]);
 
 const Suffix = styled.span<{ inSize: SizeType; label?: string; disabled?: boolean }>(({ inSize, label, disabled }) => [
   tw`box-content h-4 px-4 py-5 leading-none text-b1`,
@@ -143,22 +161,26 @@ const Suffix = styled.span<{ inSize: SizeType; label?: string; disabled?: boolea
   inSize === 'medium' && label && tw`px-4 pt-6 pb-2`,
 ]);
 
-const Border = styled.div<{ variant: VariantType; hasError: boolean; focused: boolean; disabled: boolean }>(
-  ({ focused, variant, hasError, disabled }) => [
-    tw`absolute top-0 left-0 w-full h-full rounded-lg pointer-events-none`,
-    variant === 'outlined' && tw`border border-gray-300`,
-    variant === 'outlined' && focused && tw`border-gray-1000`,
-    variant === 'outlined' && disabled && tw`border-gray-100`,
-    hasError && tw`border border-red-800`,
-  ],
-);
+const Border = styled.div<{
+  variant: VariantType;
+  hasError: boolean;
+  focused: boolean;
+  disabled: boolean;
+  nego?: boolean;
+}>(({ focused, variant, hasError, disabled, nego = false }) => [
+  tw`absolute top-0 left-0 w-full h-full rounded-lg pointer-events-none`,
+  variant === 'outlined' && tw`border border-gray-300`,
+  variant === 'outlined' && focused && (!nego ? tw`border-gray-1000` : tw`border-nego-800`),
+  variant === 'outlined' && disabled && tw`border-gray-100`,
+  hasError && tw`border border-red-800`,
+]);
 
 const StyledLeading = tw.span`pl-2.5`;
 
 const StyledTrailing = tw.span`pr-2.5`;
 
 const Container = forwardRef<HTMLDivElement, TextFieldProps>(
-  ({ variant = 'ghost', size = 'big', hasError = false, children, ...nativeProps }, ref) => {
+  ({ variant = 'ghost', size = 'big', hasError = false, children, nego = false, ...nativeProps }, ref) => {
     const [focused, setFocused] = useState(false);
     const [disabled, setDisabled] = useState<boolean>(false);
 
@@ -186,7 +208,7 @@ const Container = forwardRef<HTMLDivElement, TextFieldProps>(
           {...nativeProps}
         >
           {children}
-          <Border disabled={disabled} focused={focused} variant={variant} hasError={hasError} />
+          <Border disabled={disabled} focused={focused} variant={variant} hasError={hasError} nego={nego} />
         </StyledContainer>
       </TextFieldContext.Provider>
     );
@@ -267,7 +289,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, ...inProps }, r
 const NumericInput = forwardRef<
   HTMLInputElement,
   Omit<InputProps & NumericFormatProps, 'value' | 'defaultValue'> & { value?: string }
->(({ label, value: valueProp, onChange, onFocus, onBlur, ...others }, ref) => {
+>(({ label, value: valueProp, onChange, isLabelBottom = false, nego = false, onFocus, onBlur, ...others }, ref) => {
   const { size, focused, disabled, hasError, setFocused, setDisabled } = useContext(TextFieldContext);
 
   const [value, setValue] = useControlled({
@@ -308,7 +330,14 @@ const NumericInput = forwardRef<
   return (
     <>
       {label && (
-        <StyledLabel inSize={size} hasError={hasError} disabled={disabled} focused={focused || value.length > 0}>
+        <StyledLabel
+          inSize={size}
+          hasError={hasError}
+          disabled={disabled}
+          focused={focused || value.length > 0}
+          isBottom={isLabelBottom}
+          nego={nego}
+        >
           {label}
         </StyledLabel>
       )}
@@ -323,6 +352,7 @@ const NumericInput = forwardRef<
         onBlur={handleBlur}
         label={label}
         hasError={hasError}
+        isLabelBottom={isLabelBottom}
         {...others}
       />
     </>
@@ -402,7 +432,16 @@ const PriceInput = forwardRef<
   InputProps & { suffix?: string; isZeroAllowed?: boolean; isNegativeAllowed?: boolean }
 >(
   (
-    { value: valueProp, onChange, suffix = '만 원', isZeroAllowed = false, isNegativeAllowed = false, ...props },
+    {
+      value: valueProp,
+      onChange,
+      suffix = '만 원',
+      isZeroAllowed = false,
+      isNegativeAllowed = false,
+      nego = false,
+      isLabelBottom = false,
+      ...props
+    },
     ref,
   ) => {
     const { size, disabled } = useContext(TextFieldContext);
@@ -443,8 +482,11 @@ const PriceInput = forwardRef<
           isAllowed={isAllowed}
           onChange={handleChange}
           pattern="[0-9]*"
+          isLabelBottom={isLabelBottom}
+          nego={nego}
+          suffix={nego ? ' 만원' : undefined}
         />
-        {value && (
+        {value && !nego && (
           <Suffix inSize={size} disabled={disabled} label={props.label}>
             {suffix}
           </Suffix>

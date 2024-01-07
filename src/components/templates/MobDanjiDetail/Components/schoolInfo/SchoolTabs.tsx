@@ -1,6 +1,6 @@
 import { isValidElement, ReactNode, useCallback, useContext, useMemo } from 'react';
 
-import { m } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import { useControlled } from '@/hooks/utils';
 
@@ -81,23 +81,23 @@ function SchoolTabs({ variant = 'outlined', value: valueProp, children, onChange
 
   return (
     <SchoolTabsContext.Provider value={context}>
-      <m.div layout layoutRoot css={[tw`flex items-center`, schoolTabsStyles[variant]]}>
+      <motion.div layout layoutRoot css={[tw`flex items-center`, schoolTabsStyles[variant]]}>
         {tabChildren?.map((child) =>
           isValidElement(child) ? (
             <div tw="relative flex-1" key={child.key ?? child.props.value}>
               {child}
               {value === child.props.value && (
-                <m.div
+                <motion.div
                   layoutId={`school-${variant}-indicator`}
                   tw="absolute left-0 top-0 w-full h-full pointer-events-none z-0"
                 >
                   {indicatorChild}
-                </m.div>
+                </motion.div>
               )}
             </div>
           ) : null,
         )}
-      </m.div>
+      </motion.div>
     </SchoolTabsContext.Provider>
   );
 }

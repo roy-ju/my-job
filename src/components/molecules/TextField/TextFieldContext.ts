@@ -2,11 +2,12 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 
 export type VariantType = 'ghost' | 'outlined';
 
-export type SizeType = 'small' | 'big' | 'medium';
+export type SizeType = 'small' | 'medium' | 'big' | 'xlg';
 
 interface ITextFieldContext {
   variant: VariantType;
   size: SizeType;
+  nego?: boolean;
   focused: boolean;
   disabled: boolean;
   hasError: boolean;

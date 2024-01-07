@@ -1,4 +1,4 @@
-import { m } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import React from 'react';
 
@@ -8,7 +8,7 @@ const Tab = styled.button`
   ${tw`relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer flex-1`}
 `;
 
-const Indicator = styled(m.div)`
+const Indicator = styled(motion.div)`
   ${tw`absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000`}
 `;
 

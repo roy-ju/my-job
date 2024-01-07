@@ -1,15 +1,21 @@
-import { useControlled } from '@/hooks/utils';
 import React, { HTMLProps, ReactNode, useCallback, useContext, useMemo } from 'react';
+
+import tw from 'twin.macro';
+
+import { AnimatePresence, motion } from 'framer-motion';
+
+import { useControlled } from '@/hooks/utils';
+
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
+
 import ChevronDownNew from '@/assets/icons/chevron_down.svg';
 
 import ArrowDownDeepgray from '@/assets/icons/arrow_down_deepgrey.svg';
+
 import ArrowDownLightgray from '@/assets/icons/arrow_down_lightgrey.svg';
 
 import CustomArrowDown from '@/assets/icons/custom_arrow_down.svg';
 
-import tw from 'twin.macro';
-import { AnimatePresence, motion } from 'framer-motion';
 import AccordionContext from './AccordionContext';
 
 interface AccordionProps extends Omit<HTMLProps<HTMLDivElement>, 'onChange'> {
@@ -121,7 +127,7 @@ const AccordionDetailsV2 = React.forwardRef<Ref, HTMLProps<HTMLDivElement>>(({ c
           animate={{ height: 'auto' }}
           exit={{ height: 0 }}
           transition={{ type: 'just' }}
-          tw="overflow-hidden"
+          // tw="overflow-hidden"
         >
           <div ref={ref} {...others}>
             {children}

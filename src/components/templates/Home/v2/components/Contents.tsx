@@ -8,15 +8,11 @@ import NavigationGuide from './NavigationGuide';
 
 import UserGuide from './UserGuide';
 
-type ContentsProps = {
-  handleOpenDanjiListPopup: () => void;
-};
-
-export default function Contents({ handleOpenDanjiListPopup }: ContentsProps) {
+export default function Contents() {
   return (
     <main>
       <SuggestForm />
-      <NavigationGuide handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
+      <NavigationGuide />
       <Separator tw="bg-gray-200 h-2" />
       <UserGuide />
       {/* <News>

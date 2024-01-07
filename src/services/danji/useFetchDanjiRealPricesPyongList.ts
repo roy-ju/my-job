@@ -27,12 +27,4 @@ export function useFetchDanjiRealPricesPyongList({
       revalidateOnFocus: false,
     },
   );
-
-  // return {
-  //   data,
-  //   list: data?.list,
-  //   hasJyb: data?.has_jyb,
-  //   error,
-  //   isLoading: !data ? true : data.list && false,
-  // };
 }

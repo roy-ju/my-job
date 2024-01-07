@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { Button } from '@/components/atoms';
 
-import { DragHandlers, m, useAnimation } from 'framer-motion';
+import { DragHandlers, motion, useAnimation } from 'framer-motion';
 
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 
@@ -94,7 +94,7 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
 
   return (
     <div tw="relative w-full overflow-x-hidden">
-      <m.div
+      <motion.div
         key={page}
         ref={ref}
         drag={itemSize > 1 ? 'x' : undefined}
@@ -131,7 +131,7 @@ export default function PhotoHero({ photoPaths, defaultPhotoPath, onClickViewPho
           />
           <Image priority fill src={photoPaths[page].full_file_path} alt="단지 사진" quality={75} tw="flex-1" />
         </div>
-      </m.div>
+      </motion.div>
 
       <Button
         onClick={onClickViewPhotos}
