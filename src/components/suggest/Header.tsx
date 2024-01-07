@@ -1,11 +1,15 @@
 import { NavigationHeader } from '@/components/molecules';
 
-type HeaderProps = { title: string; handleClickBack?: () => void };
+import useBackButtonHandler from './form/hooks/useBackButtonHandler';
 
-export default function Header({ title, handleClickBack }: HeaderProps) {
+type HeaderProps = { title: string; depth?: number };
+
+export default function Header({ title, depth }: HeaderProps) {
+  const { handleClickBack } = useBackButtonHandler({ depth });
+
   return (
     <NavigationHeader>
-      {handleClickBack && <NavigationHeader.BackButton onClick={handleClickBack} />}
+      <NavigationHeader.BackButton onClick={handleClickBack} />
       <NavigationHeader.Title>{title}</NavigationHeader.Title>
     </NavigationHeader>
   );

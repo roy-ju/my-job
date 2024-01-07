@@ -89,6 +89,7 @@ export interface DatePickerProps extends Omit<TextFieldProps, 'value' | 'onChang
   onChange?: (value: Date | null) => void;
   minDate?: Date | null;
   maxDate?: Date | null;
+  dateFormat?: string | string[];
 }
 
 export default function DatePicker({
@@ -101,6 +102,7 @@ export default function DatePicker({
   minDate,
   maxDate,
   disabled,
+  dateFormat = 'yyyy.MM.DD',
   ...others
 }: DatePickerProps) {
   const [value, setValue] = useControlled<Date | null>({
@@ -129,7 +131,7 @@ export default function DatePicker({
         disabledKeyboardNavigation
         formatWeekDay={(day) => weekDays[day as unknown as string]}
         placeholderText={placeholder}
-        dateFormat="yyyy.MM.dd"
+        dateFormat={dateFormat}
         selected={value}
         onChange={handleChangeValue}
         customInput={customInput}

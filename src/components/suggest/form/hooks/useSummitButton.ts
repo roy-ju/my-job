@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useMemo } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -13,6 +14,8 @@ import SuggestForm from '../types';
 import forms from '../constants/forms';
 
 import getValidArrayField from '../../utils/getValidArrayField';
+
+import getVaildRegionOrDanji from '../../utils/getVaildRegionOrDanji';
 
 import getValidBuyPurpose from '../../utils/getValidBuyPurpose';
 
@@ -58,12 +61,22 @@ export default function useSummitButton() {
     SuggestFormSelector('errorMessageInvestAmountPrice'),
   );
 
+  const errorPyoungInput = useRecoilValue<SuggestForm['errorPyoungInput']>(SuggestFormSelector('errorPyoungInput'));
+
   const isRenderRevisionText = useMemo(() => Boolean(form?.length > 1), [form?.length]);
 
   const disabled = useMemo(() => {
     const currentForm = form[form.length - 1];
 
+    if (isEqualValue(currentForm, forms.REGION_OR_DANJI)) {
+      return getVaildRegionOrDanji(danjiOrRegion);
+    }
+
     if (isEqualValue(currentForm, forms.REALESTATE_AND_BUYORRENT_AND_PRICE)) {
+      if (errorMessageTradeOrDepositPrice || errorMessageMonthlyRentFeePrice) {
+        return true;
+      }
+
       return getValidRealestateTypeAndBuyOrRentAndPrice(
         danjiOrRegion,
         buyOrRent,
@@ -74,6 +87,10 @@ export default function useSummitButton() {
     }
 
     if (isEqualValue(currentForm, forms.BUY_PURPOSE)) {
+      if (errorMessageInvestAmountPrice) {
+        return true;
+      }
+
       return getValidBuyPurpose(purpose, investAmount, moveInDate, moveInDateType);
     }
 
@@ -82,6 +99,10 @@ export default function useSummitButton() {
     }
 
     if (isEqualValue(currentForm, forms.AREA)) {
+      if (errorPyoungInput) {
+        return true;
+      }
+
       return getValidArrayField(pyoungList);
     }
 
@@ -102,6 +123,10 @@ export default function useSummitButton() {
     additionalCondtions,
     buyOrRent,
     danjiOrRegion,
+    errorMessageInvestAmountPrice,
+    errorMessageMonthlyRentFeePrice,
+    errorMessageTradeOrDepositPrice,
+    errorPyoungInput,
     form,
     interviewAvailabletimes,
     investAmount,

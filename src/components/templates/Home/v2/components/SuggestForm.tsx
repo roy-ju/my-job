@@ -21,7 +21,9 @@ import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 import isNotEqualValue from '@/components/suggest/utils/isNotEqualValue';
 
 import { RegionItem } from '@/components/organisms/RegionList';
+
 import isEqualValue from '@/components/suggest/utils/isEqualValue';
+
 import FormImage from './FormImage';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });

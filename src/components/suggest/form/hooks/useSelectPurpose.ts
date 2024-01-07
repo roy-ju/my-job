@@ -22,7 +22,7 @@ export default function useSelectPurpose() {
     SuggestFormSelector('errorMessageInvestAmountPrice'),
   );
 
-  const isRenderPurposeField = useMemo(() => buyOrRent === BuyOrRent.Buy, []);
+  const isRenderPurposeField = useMemo(() => buyOrRent === BuyOrRent.Buy, [buyOrRent]);
 
   const handleClickBuyPurpose = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {

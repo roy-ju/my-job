@@ -15,7 +15,10 @@ import isEnumValue from '../../utils/isEnumValue';
 export default function useSelectBuyOrRent() {
   const [buyOrRent, setBuyOrRent] = useRecoilState<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
 
+  const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
+
+  const setPopup = useSetRecoilState<SuggestForm['popup']>(SuggestFormSelector('popup'));
 
   const setTradeOrDepositPrice = useSetRecoilState<SuggestForm['tradeOrDepositPrice']>(
     SuggestFormSelector('tradeOrDepositPrice'),
@@ -40,6 +43,11 @@ export default function useSelectBuyOrRent() {
           return;
         }
 
+        if (forms.length > 2) {
+          setPopup('buyOrRent');
+          return;
+        }
+
         if (isEnumValue(Number(value), BuyOrRent)) {
           setBuyOrRent(Number(value));
           setTradeOrDepositPrice('');
@@ -53,11 +61,13 @@ export default function useSelectBuyOrRent() {
     },
     [
       buyOrRent,
+      forms.length,
       setBuyOrRent,
       setErrorMessageMonthlyRentFeePrice,
       setErrorMessageTradeOrDepositPrice,
       setMonthlyRentFee,
       setNegotiable,
+      setPopup,
       setQuickSale,
       setTradeOrDepositPrice,
     ],

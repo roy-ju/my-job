@@ -6,11 +6,11 @@ import { motion } from 'framer-motion';
 
 import { TextFieldV2 } from '@/components/molecules';
 
+import useSuffixPosition from '@/hooks/utils/useSuffixPosition';
+
 import CloseContained from '@/assets/icons/close_contained.svg';
 
 import ErrorIcon from '@/assets/icons/error.svg';
-
-import useSuffixPosition from '../hooks/useSuffixPosition';
 
 type PriceFieldProps = {
   id: string;

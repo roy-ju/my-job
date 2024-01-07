@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { memo, useCallback, useRef, useState } from 'react';
 
 import Separator from '@/components/atoms/Separator';

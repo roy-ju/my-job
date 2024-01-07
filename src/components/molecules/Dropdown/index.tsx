@@ -6,6 +6,7 @@ import { ModifierPhases } from '@popperjs/core';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';
 import { motion, AnimatePresence } from 'framer-motion';
+import useSuffixPosition from '@/hooks/utils/useSuffixPosition';
 import TextField from '../TextField';
 import { SizeType, VariantType } from '../TextField/TextFieldContext';
 import DropdownContext from './DropdownContext';
@@ -25,6 +26,7 @@ interface DropdownProps extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value'
   onChange?: (value: string) => void;
   children?: ReactNode;
   disabled?: boolean;
+  suffix?: string;
 }
 
 function Dropdown({
@@ -36,6 +38,7 @@ function Dropdown({
   onChange,
   children,
   disabled,
+  suffix,
   ...others
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +48,12 @@ function Dropdown({
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
 
   const [value, setValue] = useControlled({ controlled: valueProp, default: '' });
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const suffixRef = useRef<HTMLSpanElement>(null);
+
+  const { suffix: suffixTitle, left } = useSuffixPosition(inputRef, suffixRef, value, suffix || '');
 
   const handleValueChange = useCallback(
     (newValue: string) => {
@@ -106,6 +115,7 @@ function Dropdown({
       <div ref={outsideRef} {...others}>
         <TextField ref={setReferenceElement} variant={variant} size={size} tw="relative">
           <TextField.Input
+            ref={inputRef}
             placeholder={placeholder}
             label={label}
             value={value}
@@ -114,6 +124,17 @@ function Dropdown({
             disabled={disabled}
             css={[tw`hover:cursor-pointer`, size === 'small' ? tw`pr-7` : tw`pr-8`]}
           />
+
+          {value && suffix && (
+            <span
+              ref={suffixRef}
+              tw="text-body_03 absolute leading-4"
+              css={{ left: `${left}px`, top: '50%', transform: 'translateY(-45%)' }}
+            >
+              {suffixTitle}
+            </span>
+          )}
+
           <TextField.Trailing
             css={[tw`absolute right-0 pointer-events-none`, size === 'small' ? tw`pr-3 top-2` : tw`pr-4 top-[20px]`]}
           >
