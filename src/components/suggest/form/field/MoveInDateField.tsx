@@ -6,6 +6,8 @@ import Dropdown from '@/components/molecules/Dropdown';
 
 import DatePicker from '@/components/molecules/DatePicker';
 
+import FIELD_ID from '../constants/fieldId';
+
 type MoveInDateFieldProps = {
   isRender: boolean;
   moveInDate: Date | null;
@@ -26,7 +28,7 @@ function MoveInDateField({
   if (!isRender) return null;
 
   return (
-    <div id="move_in_data_field">
+    <div id={FIELD_ID.MoveInDate}>
       <motion.div
         tw="flex gap-3"
         initial={{ opacity: 0, y: -10 }}
@@ -49,9 +51,11 @@ function MoveInDateField({
           onChange={handleChangeMoveInDateType}
           placeholder="선택"
         >
-          <Dropdown.Option value="이전">이전</Dropdown.Option>
-          <Dropdown.Option value="이후">이후</Dropdown.Option>
-          <Dropdown.Option value="당일">당일</Dropdown.Option>
+          {['이전', '이후', '당일'].map((item) => (
+            <Dropdown.Option key={item} value={item}>
+              {item} 입주
+            </Dropdown.Option>
+          ))}
         </Dropdown>
       </motion.div>
     </div>

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 
 import { Label, Checkbox } from '@/components/atoms';
 
+import FIELD_ID from '../constants/fieldId';
+
 type NegotiableFieldProps = {
   isRender: boolean;
   negotiable: boolean;
@@ -14,7 +16,7 @@ function NegotiableField({ isRender, negotiable, handleChange }: NegotiableField
   if (!isRender) return null;
 
   return (
-    <div id="negotiable_field" tw="mt-3 ml-auto">
+    <div id={FIELD_ID.Negotiable} tw="mt-3 ml-auto">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

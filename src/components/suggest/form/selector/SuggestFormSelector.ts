@@ -1,6 +1,5 @@
 import { selectorFamily } from 'recoil';
 
-import { v1 } from 'uuid';
 import SuggestForm from '../types';
 
 import SuggestFormState from '../atoms/SuggestFormState';
@@ -8,7 +7,7 @@ import SuggestFormState from '../atoms/SuggestFormState';
 type Params = keyof SuggestForm;
 
 const SuggestFormSelector = selectorFamily<any, Params>({
-  key: `SuggestFormSelector/${v1()}`,
+  key: `SuggestFormSelector`,
   get:
     (params) =>
     ({ get }) => {

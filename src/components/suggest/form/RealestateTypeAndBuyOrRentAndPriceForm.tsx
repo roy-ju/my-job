@@ -20,6 +20,10 @@ import useChangeTradeOrDepositPrice from './hooks/useChangeTradeOrDepositPrice';
 
 import useChangeMonthlyRentFee from './hooks/useChangeMonthlyRentFee';
 
+import FIELD_ID from './constants/fieldId';
+
+import forms from './constants/forms';
+
 export default function RealestateTypeAndBuyOrRentAndPriceForm() {
   const { isRenderRealestateTypeField, realestateTypes, handleClickRealestateType } = useSelectRealestateTypes();
 
@@ -48,7 +52,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm() {
   } = useChangeMonthlyRentFee();
 
   return (
-    <section id="realestate_and_buyOrRent_and_price" tw="pt-10 pb-10 px-5">
+    <section id={forms.REALESTATE_AND_BUYORRENT_AND_PRICE} tw="pt-10 pb-10 px-5">
       <RealestateTypeField
         isRender={isRenderRealestateTypeField}
         realestateTypes={realestateTypes}
@@ -59,7 +63,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm() {
       <div id="prices_field" tw="flex flex-col gap-2">
         <PriceField
           key={tradeOrDepositPriceLabel.includes('매매') ? 'tradePrice_field' : 'depositPrice_field'}
-          id="tradeOrDepositPrice_field"
+          id={FIELD_ID.TradeOrDepositPrice}
           isRender={isRenderTradeOrDepositPrice}
           price={tradeOrDepositPrice}
           label={tradeOrDepositPriceLabel}
@@ -68,7 +72,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm() {
           handleReset={handleResetTradeOrDepositPrice}
         />
         <PriceField
-          id="monthlyRentFeeField_field"
+          id={FIELD_ID.MonthlyRentFee}
           isRender={isRenderTradeOrDepositPrice && isRenderMonthlyRentFeeField}
           price={monthlyRentFee}
           label={monthlyRentFeeLabel}

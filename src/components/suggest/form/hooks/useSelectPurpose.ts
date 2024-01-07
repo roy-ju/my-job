@@ -18,6 +18,9 @@ export default function useSelectPurpose() {
   const setInvestAmount = useSetRecoilState<SuggestForm['investAmount']>(SuggestFormSelector('investAmount'));
   const setMoveInDate = useSetRecoilState<SuggestForm['moveInDate']>(SuggestFormSelector('moveInDate'));
   const setMoveInDateType = useSetRecoilState<SuggestForm['moveInDateType']>(SuggestFormSelector('moveInDateType'));
+  const setErrorMessageInvestAmountPrice = useSetRecoilState<SuggestForm['errorMessageInvestAmountPrice']>(
+    SuggestFormSelector('errorMessageInvestAmountPrice'),
+  );
 
   const isRenderPurposeField = useMemo(() => buyOrRent === BuyOrRent.Buy, []);
 
@@ -35,10 +38,11 @@ export default function useSelectPurpose() {
           setInvestAmount('');
           setMoveInDate(null);
           setMoveInDateType('');
+          setErrorMessageInvestAmountPrice('');
         }
       }
     },
-    [purpose, setInvestAmount, setMoveInDate, setMoveInDateType, setPurpose],
+    [purpose, setInvestAmount, setMoveInDate, setMoveInDateType, setPurpose, setErrorMessageInvestAmountPrice],
   );
 
   return { isRenderPurposeField, purpose, handleClickBuyPurpose };

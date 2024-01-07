@@ -13,6 +13,7 @@ import SuggestForm from '../types';
 import maxAmount from '../constants/maxAmount';
 
 import getPriceFormatFn from '../../utils/getPriceFormat';
+import ERROR_MESSAGE from '../constants/errorMessage';
 
 export default function useChangeInvestAmount() {
   const [investAmount, setInvestAmount] = useRecoilState<SuggestForm['investAmount']>(
@@ -21,7 +22,7 @@ export default function useChangeInvestAmount() {
 
   const [errorMessageInvestAmountPrice, setErrorMessageInvestAmountPrice] = useRecoilState<
     SuggestForm['errorMessageInvestAmountPrice']
-  >(SuggestFormSelector('errorMessageTradeOrDepositPrice'));
+  >(SuggestFormSelector('errorMessageInvestAmountPrice'));
 
   const purpose = useRecoilValue<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
 
@@ -35,7 +36,7 @@ export default function useChangeInvestAmount() {
         if (numericValue > maxAmount) {
           numericValue = maxAmount;
 
-          setErrorMessageInvestAmountPrice('입력 가능한 최대 금액은 999억 9999천만 이에요.');
+          setErrorMessageInvestAmountPrice(ERROR_MESSAGE.MAXIMUM_PRICE);
         } else {
           setErrorMessageInvestAmountPrice('');
         }
@@ -52,7 +53,8 @@ export default function useChangeInvestAmount() {
 
   const handleResetInvestAmount = useCallback(() => {
     setInvestAmount('');
-  }, [setInvestAmount]);
+    setErrorMessageInvestAmountPrice('');
+  }, [setInvestAmount, setErrorMessageInvestAmountPrice]);
 
   const investAmountLabel = useMemo(
     () =>

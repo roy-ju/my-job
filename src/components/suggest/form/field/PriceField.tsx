@@ -1,4 +1,8 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
+
+import tw from 'twin.macro';
+
+import { motion } from 'framer-motion';
 
 import { TextFieldV2 } from '@/components/molecules';
 
@@ -6,8 +10,6 @@ import CloseContained from '@/assets/icons/close_contained.svg';
 
 import ErrorIcon from '@/assets/icons/error.svg';
 
-import { motion } from 'framer-motion';
-import tw from 'twin.macro';
 import useSuffixPosition from '../hooks/useSuffixPosition';
 
 type PriceFieldProps = {
@@ -17,17 +19,27 @@ type PriceFieldProps = {
   label: string;
   handleChange: (e?: NegocioChangeEvent<HTMLInputElement>) => void;
   handleReset: (e?: NegocioMouseEvent<HTMLSpanElement>) => void;
+  helperMessage?: string;
   errorMessage?: string;
 };
 
-function PriceField({ id, isRender, price, label, errorMessage, handleChange, handleReset }: PriceFieldProps) {
+function PriceField({
+  id,
+  isRender,
+  price,
+  label,
+  errorMessage,
+  helperMessage,
+  handleChange,
+  handleReset,
+}: PriceFieldProps) {
   const [focus, setFocus] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const suffixRef = useRef<HTMLSpanElement>(null);
 
-  const { left, top } = useSuffixPosition(inputRef, suffixRef, price);
+  const { suffix, left, top } = useSuffixPosition(inputRef, suffixRef, price, '만원');
 
   if (!isRender) return null;
 
@@ -53,9 +65,9 @@ function PriceField({ id, isRender, price, label, errorMessage, handleChange, ha
         >
           <TextFieldV2.Input value={price} onChange={handleChange} label={label} isLabelBottom />
 
-          {price && !!left && (
+          {price && (
             <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, top }}>
-              만원
+              {suffix}
             </span>
           )}
 
@@ -78,7 +90,11 @@ function PriceField({ id, isRender, price, label, errorMessage, handleChange, ha
           )}
         </TextFieldV2>
 
-        {errorMessage && <TextFieldV2.ErrorMessage>{errorMessage}</TextFieldV2.ErrorMessage>}
+        {errorMessage ? (
+          <TextFieldV2.ErrorMessage>{errorMessage}</TextFieldV2.ErrorMessage>
+        ) : (
+          helperMessage && <TextFieldV2.HelperMessage>{helperMessage}</TextFieldV2.HelperMessage>
+        )}
       </motion.div>
     </div>
   );

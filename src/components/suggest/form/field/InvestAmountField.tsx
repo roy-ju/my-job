@@ -2,6 +2,8 @@ import { memo } from 'react';
 
 import PriceField from './PriceField';
 
+import HELPER_MESSAGE from '../constants/helperMessage';
+
 type InvestAmountFieldProps = {
   id: string;
   isRender: boolean;
@@ -28,6 +30,7 @@ function InvestAmountField({
       price={price}
       label={label}
       errorMessage={errorMessage}
+      helperMessage={HELPER_MESSAGE.INVEST_AMOUNT}
       handleChange={handleChange}
       handleReset={handleReset}
     />

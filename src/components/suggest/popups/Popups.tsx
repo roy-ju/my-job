@@ -2,24 +2,26 @@ import { useCallback } from 'react';
 
 import dynamic from 'next/dynamic';
 
+import { useRouter } from 'next/router';
+
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
+import { useRouter as useCustormRouter } from '@/hooks/utils';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
-import { useRouter as useCustormRouter } from '@/hooks/utils';
-import { useRouter } from 'next/router';
+import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
+
 import SuggestFormSelector from '../form/selector/SuggestFormSelector';
 
 import SuggestForm, { BubjungdongType } from '../form/types';
-import QuitConfirmPopup from './QuitConfirmPopup';
 
 const ReselectConfirmPopup = dynamic(() => import('./ReselectConfirmPopup'), { ssr: false });
-
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
-
 const DanjiListPopup = dynamic(() => import('@/components/organisms/popups/DanjiListPopup'), { ssr: false });
+const QuitConfirmPopup = dynamic(() => import('./QuitConfirmPopup'), { ssr: false });
+const BuyOrRentChangePopup = dynamic(() => import('./BuyOrRentChangePopup'), { ssr: false });
+const RealestateTypeChangePopup = dynamic(() => import('./RealestateTypeChangePopup'), { ssr: false });
 
 type PopupsProps = { depth?: number };
 
@@ -78,6 +80,7 @@ export default function Popups({ depth }: PopupsProps) {
   );
 
   const handleQuitForm = useCallback(() => {
+    // TO DO 추가 로직 구현 폼을 초기화 해야함
     if (platform === 'pc') {
       router.back();
     }
@@ -90,6 +93,14 @@ export default function Popups({ depth }: PopupsProps) {
     // TO DO 추가 로직 구현 폼을 초기화 해야함
     setForms(['region_or_danji']);
   }, [setForms]);
+
+  const handleConfirmChangeBuyOrRent = useCallback(() => {
+    // TO DO 추가 로직 구현 폼을 초기화 해야함
+  }, []);
+
+  const handleConfirmChangeRealestateType = useCallback(() => {
+    // TO DO 추가 로직 구현 폼을 초기화 해야함
+  }, []);
 
   if (popup === 'regionList') {
     return <RegionListPopup onClickClose={() => handleUpdatePopup('')} onSubmit={handleUpdateAddressAndBubjungdong} />;
@@ -105,6 +116,21 @@ export default function Popups({ depth }: PopupsProps) {
 
   if (popup === 'quit') {
     return <QuitConfirmPopup onClickClose={() => handleUpdatePopup('')} onClickConfirm={handleQuitForm} />;
+  }
+
+  if (popup === 'buyOrRent') {
+    return (
+      <BuyOrRentChangePopup onClickClose={() => handleUpdatePopup('')} onClickConfirm={handleConfirmChangeBuyOrRent} />
+    );
+  }
+
+  if (popup === 'realestateTypes') {
+    return (
+      <RealestateTypeChangePopup
+        onClickClose={() => handleUpdatePopup('')}
+        onClickConfirm={handleConfirmChangeRealestateType}
+      />
+    );
   }
 
   return null;

@@ -19,6 +19,10 @@ export default function PyoungInputWrraper() {
     pyoungInput,
     pyounInputLabel,
     selectedInputedPyoungList,
+    pyoungInputOpen,
+    errorPyoungInput,
+    handleOpenAccordion,
+    handleCloseAccordion,
     handleChangePyoungInputValue,
     handleResetInputValue,
     handleClickAddPyoung,
@@ -27,12 +31,21 @@ export default function PyoungInputWrraper() {
 
   return (
     <>
-      <Line initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} />
+      <Line
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        css={[!isRenderPyoungInputField && tw`hidden`]}
+      />
 
       <PyoungInputField
         isRender={isRenderPyoungInputField}
         value={pyoungInput}
         label={pyounInputLabel}
+        open={pyoungInputOpen}
+        error={errorPyoungInput}
+        handleOpen={handleOpenAccordion}
+        handleClose={handleCloseAccordion}
         handleChange={handleChangePyoungInputValue}
         handleClickAdd={handleClickAddPyoung}
         handleReset={handleResetInputValue}

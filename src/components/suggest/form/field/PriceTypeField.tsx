@@ -10,6 +10,10 @@ import isEqualValue from '../../utils/isEqualValue';
 
 import { AnimationP } from '../ui/AnimationText';
 
+import HELPER_MESSAGE from '../constants/helperMessage';
+
+import FIELD_ID from '../constants/fieldId';
+
 type PriceTypeFieldProps = {
   isRender: boolean;
   quickSale: string;
@@ -20,7 +24,7 @@ function PriceTypeField({ isRender, quickSale, handleChange }: PriceTypeFieldPro
   if (!isRender) return null;
 
   return (
-    <div id="price_type_field" tw="flex flex-col gap-3 " css={[isEqualValue(quickSale, '1') ? tw`pb-0` : tw`pb-4`]}>
+    <div id={FIELD_ID.PriceType} tw="flex flex-col gap-3 " css={[isEqualValue(quickSale, '1') ? tw`pb-0` : tw`pb-4`]}>
       <div tw="flex flex-col gap-1">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -37,7 +41,7 @@ function PriceTypeField({ isRender, quickSale, handleChange }: PriceTypeFieldPro
           />
         </motion.div>
         <AnimationP transition={{ duration: 0.6 }} tw="text-gray-600 text-body_01 pl-7">
-          선택한 단지의 급매물을 추천받고 싶어요!
+          {HELPER_MESSAGE.QUICK_SALE}
         </AnimationP>
       </div>
       <div>

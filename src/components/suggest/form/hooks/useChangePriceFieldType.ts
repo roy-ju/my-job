@@ -22,6 +22,13 @@ export default function useChangePriceTypeField() {
   const setMonthlyRentFee = useSetRecoilState<SuggestForm['monthlyRentFee']>(SuggestFormSelector('monthlyRentFee'));
   const setNegotiable = useSetRecoilState<SuggestForm['negotiable']>(SuggestFormSelector('negotiable'));
 
+  const setErrorMessageTradeOrDepositPrice = useSetRecoilState<SuggestForm['errorMessageTradeOrDepositPrice']>(
+    SuggestFormSelector('errorMessageTradeOrDepositPrice'),
+  );
+  const setErrorMessageMonthlyRentFeePrice = useSetRecoilState<SuggestForm['errorMessageMonthlyRentFeePrice']>(
+    SuggestFormSelector('errorMessageMonthlyRentFeePrice'),
+  );
+
   const handleChangeQuickSale = useCallback(
     (e?: NegocioChangeEvent<HTMLInputElement>) => {
       if (e) {
@@ -36,10 +43,19 @@ export default function useChangePriceTypeField() {
           setTradeOrDepositPrice('');
           setMonthlyRentFee('');
           setNegotiable(true);
+          setErrorMessageTradeOrDepositPrice('');
+          setErrorMessageMonthlyRentFeePrice('');
         }
       }
     },
-    [setMonthlyRentFee, setNegotiable, setQuickSale, setTradeOrDepositPrice],
+    [
+      setErrorMessageMonthlyRentFeePrice,
+      setErrorMessageTradeOrDepositPrice,
+      setMonthlyRentFee,
+      setNegotiable,
+      setQuickSale,
+      setTradeOrDepositPrice,
+    ],
   );
 
   const isRenderPriceTypeField = useMemo(() => {

@@ -8,6 +8,8 @@ import getIncludeValue from '../../utils/getIncludeValue';
 
 import CheckBoxButton from '../ui/CheckBoxButton';
 
+import FIELD_ID from '../constants/fieldId';
+
 type PyoungListFieldProps = {
   isRender: boolean;
   list: string[];
@@ -20,7 +22,7 @@ function PyoungListField({ isRender, list, selectedList, handleClick }: PyoungLi
 
   return (
     <>
-      <div id="pyoung_list_field" tw="flex flex-row flex-wrap gap-3">
+      <div id={FIELD_ID.PyoungList} tw="flex flex-row flex-wrap gap-3">
         {list
           .filter((item) => item !== '잘 모르겠어요')
           .map((item) => (

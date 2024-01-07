@@ -1,17 +1,21 @@
 import { useRecoilValue } from 'recoil';
 
-import { BuyOrRent, DanjiOrRegionalType, describeJeonsaeWolsaeSame, describeRealestateType } from '@/constants/enums';
+import tw, { styled } from 'twin.macro';
+
+import { motion } from 'framer-motion';
 
 import moment from 'moment';
 
 import formatNumberInKorean from '@/utils/formatNumberInKorean';
 
-import tw, { styled } from 'twin.macro';
-import { motion } from 'framer-motion';
+import { BuyOrRent, DanjiOrRegionalType, describeJeonsaeWolsaeSame, describeRealestateType } from '@/constants/enums';
+
 import SuggestFormState from './atoms/SuggestFormState';
 
 import SummaryContainer from './ui/SummaryContainer';
+
 import getPriceFormatFn from '../utils/getPriceFormat';
+
 import isEqualValue from '../utils/isEqualValue';
 
 const AdditionalConditionWrraper = styled(motion.div)`

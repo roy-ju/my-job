@@ -10,6 +10,10 @@ import useChangeMoveInDate from './hooks/useChangeMoveInDate';
 
 import MoveInDateField from './field/MoveInDateField';
 
+import FIELD_ID from './constants/fieldId';
+
+import forms from './constants/forms';
+
 export default function BuyPurposeForm() {
   const { isRenderPurposeField, purpose, handleClickBuyPurpose } = useSelectPurpose();
 
@@ -26,7 +30,7 @@ export default function BuyPurposeForm() {
     useChangeMoveInDate();
 
   return (
-    <section id="buy_purpose" tw="flex flex-col pt-10 pb-10 px-5 gap-4">
+    <section id={forms.BUY_PURPOSE} tw="flex flex-col pt-10 pb-10 px-5 gap-4">
       <PurposeField isRender={isRenderPurposeField} purpose={purpose} handleClick={handleClickBuyPurpose} />
 
       <div>
@@ -39,7 +43,7 @@ export default function BuyPurposeForm() {
         />
 
         <InvestAmountField
-          id="invest_amount_field"
+          id={FIELD_ID.InvestAmount}
           isRender={isRenderInvestAmountField}
           errorMessage={errorMessageInvestAmountPrice}
           price={formattedPrice}

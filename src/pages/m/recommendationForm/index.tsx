@@ -1,11 +1,13 @@
-import RecommendationForm from '@/components/pages/mobile/RecommendationForm';
-
 import { NextPageWithLayout } from '@/pages/_app';
 
-const Page: NextPageWithLayout = () => <RecommendationForm />;
+import { MobileContainer } from '@/components/atoms';
+
+import SuggestForm from '@/components/suggest/SuggestForm';
+
+const Page: NextPageWithLayout = () => <SuggestForm />;
 
 Page.getLayout = function getLayout(page) {
-  return <>{page}</>;
+  return <MobileContainer>{page}</MobileContainer>;
 };
 
 export default Page;

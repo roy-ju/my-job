@@ -47,6 +47,10 @@ interface ErrorMessageProps {
   children?: ReactNode;
 }
 
+interface HelperMessageProps {
+  children?: ReactNode;
+}
+
 interface SuccessMessageProps {
   children?: ReactNode;
 }
@@ -229,31 +233,20 @@ function ErrorMessage({ children }: ErrorMessageProps) {
   );
 }
 
+function HelperMessage({ children }: HelperMessageProps) {
+  return (
+    <div tw="flex mt-1">
+      <span tw="text-body_01 leading-4 pl-1 text-gray-700">{children}</span>
+    </div>
+  );
+}
+
 function SuccessMessage({ children }: SuccessMessageProps) {
   return (
     <div tw="flex mt-2">
       <SuccessIcon tw="shrink-0" />
       <span tw="text-info leading-4 pl-1 text-green-1000">{children}</span>
     </div>
-  );
-}
-
-const HelperMessage = tw.div`text-end text-info leading-3 mt-2 h-3 pl-1 text-gray-700`;
-
-function PriceHelperMessage({
-  children,
-  ...props
-}: Omit<HTMLProps<HTMLDivElement>, 'children'> & { children: string | number }) {
-  const numberChild = Number(children) ?? 0;
-
-  if (!numberChild) return null;
-
-  return (
-    <HelperMessage {...props}>
-      <NumeralV2 suffix={` 원`} koreanNumber>
-        {numberChild * 10000}
-      </NumeralV2>
-    </HelperMessage>
   );
 }
 
@@ -264,5 +257,4 @@ export default Object.assign(Container, {
   ErrorMessage,
   SuccessMessage,
   HelperMessage,
-  PriceHelperMessage,
 });

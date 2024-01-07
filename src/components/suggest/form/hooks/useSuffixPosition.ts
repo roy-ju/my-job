@@ -4,6 +4,7 @@ const useSuffixPosition = (
   inputRef: React.RefObject<HTMLInputElement>,
   suffixRef: React.RefObject<HTMLSpanElement>,
   targetText: string,
+  suffix: string,
 ) => {
   const [suffixPosition, setSuffixPosition] = useState<number>(0);
 
@@ -21,7 +22,7 @@ const useSuffixPosition = (
     }
   }, [inputRef, suffixRef, targetText]);
 
-  return { left: suffixPosition, top: 11 };
+  return { left: suffixPosition, top: 10, suffix };
 };
 
 export default useSuffixPosition;

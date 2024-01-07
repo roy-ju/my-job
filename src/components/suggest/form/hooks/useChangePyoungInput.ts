@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -8,15 +8,22 @@ import { useFetchDanjiRealPricesPyongList } from '@/services/danji/useFetchDanji
 
 import { DanjiOrRegionalType } from '@/constants/enums';
 
+import { regNumber } from '@/utils/regex';
+
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
 import SuggestForm from '../types';
 
 import isEqualValue from '../../utils/isEqualValue';
 
+import maxPyoung from '../constants/maxPyoung';
+
 export default function useChangePyoungInput() {
   const [pyoungInput, setPyoungInput] = useRecoilState<SuggestForm['pyoungInput']>(SuggestFormSelector('pyoungInput'));
   const [pyoungList, setPyoungList] = useRecoilState<SuggestForm['pyoungList']>(SuggestFormSelector('pyoungList'));
+  const [errorPyoungInput, setErrorPyoungInput] = useRecoilState<SuggestForm['errorPyoungInput']>(
+    SuggestFormSelector('errorPyoungInput'),
+  );
 
   const danjiID = useRecoilValue<SuggestForm['danjiID']>(SuggestFormSelector('danjiID'));
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
@@ -24,25 +31,53 @@ export default function useChangePyoungInput() {
     SuggestFormSelector('danjiRealestateType'),
   );
 
+  const [pyoungInputOpen, setPyoungInputOpen] = useState(false);
+
   const { data } = useFetchDanjiRealPricesPyongList({
     danjiId: danjiID ? Number(danjiID) : 0,
     realestateType: danjiRealestateType,
     buyOrRent: null,
   });
 
+  const handleOpenAccordion = useCallback(() => {
+    setPyoungInputOpen(true);
+  }, []);
+
+  const handleCloseAccordion = useCallback(() => {
+    setPyoungInputOpen(false);
+    setPyoungInput('');
+    setErrorPyoungInput(false);
+  }, [setErrorPyoungInput, setPyoungInput]);
+
   const handleChangePyoungInputValue = useCallback(
     (e?: NegocioChangeEvent<HTMLInputElement>) => {
       if (e) {
-        const { value } = e.target;
-        setPyoungInput(value);
+        const input = e.target.value.replace(regNumber, '');
+
+        let numericValue = input ? parseInt(input, 10) : 0;
+
+        if (numericValue > maxPyoung) {
+          numericValue = maxPyoung;
+
+          setErrorPyoungInput(true);
+        } else {
+          setErrorPyoungInput(false);
+        }
+
+        if (numericValue === 0) {
+          setPyoungInput('');
+        } else {
+          setPyoungInput(numericValue.toString());
+        }
       }
     },
-    [setPyoungInput],
+    [setErrorPyoungInput, setPyoungInput],
   );
 
   const handleResetInputValue = useCallback(() => {
     setPyoungInput('');
-  }, [setPyoungInput]);
+    setErrorPyoungInput(false);
+  }, [setPyoungInput, setErrorPyoungInput]);
 
   const handleClickAddPyoung = useCallback(
     (value: string) => {
@@ -91,9 +126,13 @@ export default function useChangePyoungInput() {
   return {
     isRenderPyoungInputField,
     isRenderSelectedPyoungList,
-    pyounInputLabel,
     pyoungInput,
+    pyounInputLabel,
     selectedInputedPyoungList,
+    pyoungInputOpen,
+    errorPyoungInput,
+    handleOpenAccordion,
+    handleCloseAccordion,
     handleChangePyoungInputValue,
     handleClickAddPyoung,
     handleResetInputValue,

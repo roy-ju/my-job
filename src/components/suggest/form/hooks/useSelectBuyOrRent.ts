@@ -24,6 +24,13 @@ export default function useSelectBuyOrRent() {
   const setNegotiable = useSetRecoilState<SuggestForm['negotiable']>(SuggestFormSelector('negotiable'));
   const setQuickSale = useSetRecoilState<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
 
+  const setErrorMessageTradeOrDepositPrice = useSetRecoilState<SuggestForm['errorMessageTradeOrDepositPrice']>(
+    SuggestFormSelector('errorMessageTradeOrDepositPrice'),
+  );
+  const setErrorMessageMonthlyRentFeePrice = useSetRecoilState<SuggestForm['errorMessageMonthlyRentFeePrice']>(
+    SuggestFormSelector('errorMessageMonthlyRentFeePrice'),
+  );
+
   const handleClickBuyOrRent = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
       if (e) {
@@ -39,10 +46,21 @@ export default function useSelectBuyOrRent() {
           setMonthlyRentFee('');
           setNegotiable(true);
           setQuickSale('0');
+          setErrorMessageTradeOrDepositPrice('');
+          setErrorMessageMonthlyRentFeePrice('');
         }
       }
     },
-    [buyOrRent, setBuyOrRent, setMonthlyRentFee, setNegotiable, setQuickSale, setTradeOrDepositPrice],
+    [
+      buyOrRent,
+      setBuyOrRent,
+      setErrorMessageMonthlyRentFeePrice,
+      setErrorMessageTradeOrDepositPrice,
+      setMonthlyRentFee,
+      setNegotiable,
+      setQuickSale,
+      setTradeOrDepositPrice,
+    ],
   );
 
   const isStyleChange = useMemo(() => isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji), [danjiOrRegion]);
