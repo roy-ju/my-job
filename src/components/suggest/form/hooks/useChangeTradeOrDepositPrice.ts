@@ -4,9 +4,13 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { formatNumberInKorean } from '@/utils';
 
+import { regNumber } from '@/utils/regex';
+
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
 import SuggestForm from '../types';
+
+import maxAmount from '../constants/maxAmount';
 
 import isEqualValue from '../../utils/isEqualValue';
 
@@ -19,6 +23,10 @@ export default function useChangeTradeOrDepositPrice() {
     SuggestFormSelector('tradeOrDepositPrice'),
   );
 
+  const [errorMessageTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice] = useRecoilState<
+    SuggestForm['errorMessageTradeOrDepositPrice']
+  >(SuggestFormSelector('errorMessageTradeOrDepositPrice'));
+
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
 
   const quickSale = useRecoilValue<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
@@ -26,16 +34,32 @@ export default function useChangeTradeOrDepositPrice() {
   const handleChangeTradeOrDepositPrice = useCallback(
     (e?: NegocioChangeEvent<HTMLInputElement>) => {
       if (e) {
-        const { value } = e.target;
-        setTradeOrDepositPrice(value);
+        const input = e.target.value.replace(regNumber, '');
+
+        let numericValue = input ? parseInt(input, 10) : 0;
+
+        if (numericValue > maxAmount) {
+          numericValue = maxAmount;
+
+          setErrorMessageTradeOrDepositPrice('입력 가능한 최대 금액은 999억 9999천만 이에요.');
+        } else {
+          setErrorMessageTradeOrDepositPrice('');
+        }
+
+        if (numericValue === 0) {
+          setTradeOrDepositPrice('');
+        } else {
+          setTradeOrDepositPrice(numericValue.toString());
+        }
       }
     },
-    [setTradeOrDepositPrice],
+    [setTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice],
   );
 
   const handleResetTradeOrDepositPrice = useCallback(() => {
     setTradeOrDepositPrice('');
-  }, [setTradeOrDepositPrice]);
+    setErrorMessageTradeOrDepositPrice('');
+  }, [setTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice]);
 
   const isRenderTradeOrDepositPrice = useMemo(
     () => !(!buyOrRent || isEqualValue(quickSale, '1')),
@@ -54,10 +78,16 @@ export default function useChangeTradeOrDepositPrice() {
       : `${getBuyOrRentPriceTitle(buyOrRent)}`;
   }, [buyOrRent, tradeOrDepositPrice]);
 
+  const formattedPrice = useMemo(
+    () => (tradeOrDepositPrice ? parseInt(tradeOrDepositPrice, 10).toLocaleString() : ''),
+    [tradeOrDepositPrice],
+  );
+
   return {
     isRenderTradeOrDepositPrice,
-    tradeOrDepositPrice,
+    formattedPrice,
     tradeOrDepositPriceLabel,
+    errorMessageTradeOrDepositPrice,
     handleChangeTradeOrDepositPrice,
     handleResetTradeOrDepositPrice,
   };

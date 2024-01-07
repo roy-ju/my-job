@@ -13,8 +13,6 @@ type ActionButtonProps = {
 };
 
 function ActionButton({ disabled, isRenderRevisionText, handleClick }: ActionButtonProps) {
-  console.log('render ActionButton');
-
   return (
     <div tw="w-full">
       <PersistentBottomBar>

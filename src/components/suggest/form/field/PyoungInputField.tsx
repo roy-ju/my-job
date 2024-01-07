@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 import { ButtonV2 } from '@/components/atoms';
 
-import { Accordion, TextField } from '@/components/molecules';
+import { Accordion, TextFieldV2 } from '@/components/molecules';
 
 import CloseContained from '@/assets/icons/close_contained.svg';
 
@@ -43,7 +43,7 @@ function PyoungInputField({
         </motion.div>
 
         <Accordion.Details>
-          <TextField
+          <TextFieldV2
             variant="outlined"
             tw="mt-4"
             nego
@@ -55,18 +55,18 @@ function PyoungInputField({
               }, 200)
             }
           >
-            <TextField.NumericInput label={label} value={value} onChange={handleChange} />
+            <TextFieldV2.NumericInput label={label} value={value} onChange={handleChange} />
             {value && focus && (
-              <TextField.Trailing tw="flex items-center">
+              <TextFieldV2.Trailing tw="flex items-center">
                 <ButtonV2 variant="ghost" size="small" onClick={handleReset}>
                   <CloseContained />
                 </ButtonV2>
                 <ButtonV2 size="small" onClick={() => handleClickAdd(value)}>
                   추가
                 </ButtonV2>
-              </TextField.Trailing>
+              </TextFieldV2.Trailing>
             )}
-          </TextField>
+          </TextFieldV2>
 
           <AnimationP tw="text-body_01 text-gray-700 ml-2 mt-1">
             입력하실 수 있는 평수는 최소 1평부터 최대 100평까지입니다.

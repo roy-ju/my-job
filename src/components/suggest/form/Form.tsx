@@ -35,8 +35,6 @@ export default function Form({ depth }: FormProps) {
 
   useAutoScroll({ elementID: 'formContainer', targetForm: forms });
 
-  console.log('render Form');
-
   const formComponents = {
     region_or_danji: <RegionOrDanjiForm />,
     realestate_and_buyOrRent_and_price: <RealestateTypeAndBuyOrRentAndPriceField />,

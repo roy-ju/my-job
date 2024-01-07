@@ -1,10 +1,14 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 
-import { TextField } from '@/components/molecules';
+import { TextFieldV2 } from '@/components/molecules';
 
 import CloseContained from '@/assets/icons/close_contained.svg';
 
+import ErrorIcon from '@/assets/icons/error.svg';
+
 import { motion } from 'framer-motion';
+import tw from 'twin.macro';
+import useSuffixPosition from '../hooks/useSuffixPosition';
 
 type PriceFieldProps = {
   id: string;
@@ -13,13 +17,17 @@ type PriceFieldProps = {
   label: string;
   handleChange: (e?: NegocioChangeEvent<HTMLInputElement>) => void;
   handleReset: (e?: NegocioMouseEvent<HTMLSpanElement>) => void;
+  errorMessage?: string;
 };
 
-function PriceField({ id, isRender, price, label, handleChange, handleReset }: PriceFieldProps) {
-  console.log('render PricesField');
+function PriceField({ id, isRender, price, label, errorMessage, handleChange, handleReset }: PriceFieldProps) {
   const [focus, setFocus] = useState(false);
 
-  console.log(focus);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const suffixRef = useRef<HTMLSpanElement>(null);
+
+  const { left, top } = useSuffixPosition(inputRef, suffixRef, price);
 
   if (!isRender) return null;
 
@@ -31,25 +39,46 @@ function PriceField({ id, isRender, price, label, handleChange, handleReset }: P
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <TextField
+        <TextFieldV2
           variant="outlined"
           tw="w-full"
-          size="xlg"
-          nego
           onFocus={() => setFocus(true)}
           onBlur={() =>
             setTimeout(() => {
               setFocus(false);
             }, 200)
           }
+          hasError={!!errorMessage}
+          ref={inputRef}
         >
-          <TextField.PriceInput value={price} onChange={handleChange} label={label} nego isLabelBottom />
-          {price && focus && (
-            <TextField.Trailing tw="cursor-pointer pr-4" onClick={() => handleReset()}>
-              <CloseContained />
-            </TextField.Trailing>
+          <TextFieldV2.Input value={price} onChange={handleChange} label={label} isLabelBottom />
+
+          {price && !!left && (
+            <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, top }}>
+              만원
+            </span>
           )}
-        </TextField>
+
+          {price && focus && (
+            <>
+              <TextFieldV2.Trailing
+                tw="cursor-pointer"
+                onClick={() => handleReset()}
+                css={[errorMessage ? tw`pr-3` : tw`pr-4`]}
+              >
+                <CloseContained />
+              </TextFieldV2.Trailing>
+            </>
+          )}
+
+          {errorMessage && (
+            <TextFieldV2.Trailing tw="cursor-pointer pr-4">
+              <ErrorIcon />
+            </TextFieldV2.Trailing>
+          )}
+        </TextFieldV2>
+
+        {errorMessage && <TextFieldV2.ErrorMessage>{errorMessage}</TextFieldV2.ErrorMessage>}
       </motion.div>
     </div>
   );

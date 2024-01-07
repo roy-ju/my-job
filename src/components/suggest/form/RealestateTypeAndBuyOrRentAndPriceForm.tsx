@@ -30,22 +30,22 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm() {
   const { isRenderNegotiableField, negotiable, handleChangeNegotiable } = useChangeNegotiable();
 
   const {
+    formattedPrice: tradeOrDepositPrice,
     isRenderTradeOrDepositPrice,
-    tradeOrDepositPrice,
     tradeOrDepositPriceLabel,
+    errorMessageTradeOrDepositPrice,
     handleChangeTradeOrDepositPrice,
     handleResetTradeOrDepositPrice,
   } = useChangeTradeOrDepositPrice();
 
   const {
+    formattedPrice: monthlyRentFee,
     isRenderMonthlyRentFeeField,
-    monthlyRentFee,
     monthlyRentFeeLabel,
+    errorMessageMonthlyRentFeePrice,
     handleChangeMonthlyRentFee,
     handleResetMonthlyRentFee,
   } = useChangeMonthlyRentFee();
-
-  console.log('render RealestateTypeAndBuyOrRentAndPriceForm');
 
   return (
     <section id="realestate_and_buyOrRent_and_price" tw="pt-10 pb-10 px-5">
@@ -63,6 +63,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm() {
           isRender={isRenderTradeOrDepositPrice}
           price={tradeOrDepositPrice}
           label={tradeOrDepositPriceLabel}
+          errorMessage={errorMessageTradeOrDepositPrice}
           handleChange={handleChangeTradeOrDepositPrice}
           handleReset={handleResetTradeOrDepositPrice}
         />
@@ -71,6 +72,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm() {
           isRender={isRenderTradeOrDepositPrice && isRenderMonthlyRentFeeField}
           price={monthlyRentFee}
           label={monthlyRentFeeLabel}
+          errorMessage={errorMessageMonthlyRentFeePrice}
           handleChange={handleChangeMonthlyRentFee}
           handleReset={handleResetMonthlyRentFee}
         />

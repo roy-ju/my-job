@@ -4,3 +4,5 @@ export const detectRobot = (userAgent: string) => {
   const robots = new RegExp([/Googlebot/, /Bingbot/].map((r) => r.source).join('|'), 'i');
   return robots.test(userAgent);
 };
+
+export const regNumber = /\D/g;

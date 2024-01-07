@@ -1,6 +1,8 @@
-import React, { forwardRef, ReactNode } from 'react';
+import { forwardRef, ReactNode, useContext } from 'react';
 
 import tw, { styled } from 'twin.macro';
+
+import ButtonGroupV2Context from '@/components/molecules/ButtonGroupV2/ButtonGroupV2Context';
 
 import { resolveProps } from '@/utils';
 
@@ -48,7 +50,7 @@ const radiuses = {
   r100: tw`[border-radius: 6.25rem]`,
 };
 
-interface ButtonProps {
+export interface ButtonV2Props {
   /** 버튼 안의 내용 */
   children?: string | ReactNode;
   /** 클릭 했을 때 호출할 함수 */
@@ -71,7 +73,7 @@ interface ButtonProps {
   style?: React.CSSProperties;
 }
 
-const ButtonRoot = styled.button<ButtonProps>`
+const ButtonRoot = styled.button<ButtonV2Props>`
   ${defaultStyle}
   ${({ variant }) => variant && variants[variant]}
   ${({ size }) => size && sizes[size]}
@@ -81,8 +83,9 @@ const ButtonRoot = styled.button<ButtonProps>`
   ${({ selected, variant }) => selected && variant && selectedStyles[variant]}
 `;
 
-export default forwardRef<HTMLButtonElement, ButtonProps>((inProps, ref) => {
-  const resolvedProps = resolveProps(inProps, {});
+export default forwardRef<HTMLButtonElement, ButtonV2Props>((inProps, ref) => {
+  const contextProps = useContext(ButtonGroupV2Context);
+  const resolvedProps = resolveProps(inProps, contextProps);
 
   const {
     children,

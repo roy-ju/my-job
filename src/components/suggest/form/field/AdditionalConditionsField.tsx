@@ -17,8 +17,6 @@ type AdditionalConditionsFieldProps = {
 };
 
 function AdditionalConditionsField({ list, selectedList, handleClick }: AdditionalConditionsFieldProps) {
-  console.log('render AdditionalConditionsField');
-
   return (
     <>
       <div id="additional_conditions_field" tw="flex flex-row flex-wrap gap-3">

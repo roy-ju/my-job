@@ -57,6 +57,12 @@ type SuggestForm = {
   interviewAvailabletimes: string[];
 
   popup: 'regionList' | 'danjiList' | 'reselectRegionOrDanji' | 'quit' | '';
+
+  errorMessageTradeOrDepositPrice: string;
+
+  errorMessageMonthlyRentFeePrice: string;
+
+  errorMessageInvestAmountPrice: string;
 };
 
 export default SuggestForm;

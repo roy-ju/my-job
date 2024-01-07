@@ -40,8 +40,6 @@ type RealestateTypeFieldProps = {
 };
 
 function RealestateTypeField({ isRender, realestateTypes, handleClick }: RealestateTypeFieldProps) {
-  console.log('render RealestateTypeField');
-
   if (isRender) return null;
 
   return (

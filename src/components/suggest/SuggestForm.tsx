@@ -25,7 +25,6 @@ export default function SuggestForm({ depth }: SuggestFormProps) {
 
   useEffect(
     () => () => {
-      console.log('unmount');
       reset();
     },
     [reset],
