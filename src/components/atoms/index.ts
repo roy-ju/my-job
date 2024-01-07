@@ -1,5 +1,6 @@
 export { default as Panel } from './Panel';
 export { default as Numeral } from './Numeral';
+export { default as NumeralV2 } from './NumeralV2';
 export { default as Button } from './Button';
 export { default as ButtonV2 } from './ButtonV2';
 export { default as Checkbox } from './Checkbox';

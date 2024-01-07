@@ -41,7 +41,7 @@ import Summary from './Components/summary';
 
 import BasicInfo from './Components/basicInfo';
 
-import SuggestsOrListings from './Components/suggestsOrListings';
+// import SuggestsOrListings from './Components/suggestsOrListings';
 
 import SchoolInfo from './Components/schoolInfo';
 
@@ -210,13 +210,13 @@ function MobDanjiDetail({
 
           <ListingsSection ref={listingsSectionRef}>
             <Summary danji={danji} />
-            <SuggestsOrListings
+            {/* <SuggestsOrListings
               tabIndex={tabIndex}
               danji={danji}
               danjiSuggestList={danjiSuggestList}
               danjiListingList={danjiListingList}
               naverDanji={naverDanji}
-            />
+            /> */}
           </ListingsSection>
 
           <RealPriceSection ref={realPriceSectionRef}>

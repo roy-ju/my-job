@@ -13,51 +13,51 @@ import Buy from '@/../public/static/images/image_signboard_purchase.png';
 import Rent from '@/../public/static/images/image_signboard_rent.png';
 
 type FormImageProps = {
-  realestateTypes: string;
-  buyOrRents: string;
+  property: string;
+  buyOrRent: string;
 };
 
-export default function FormImage({ realestateTypes, buyOrRents }: FormImageProps) {
-  const realestateImageType = useMemo(() => {
-    if (realestateTypes === '아파트/오피스텔') {
+export default function FormImage({ property, buyOrRent }: FormImageProps) {
+  const properyImageType = useMemo(() => {
+    if (property === '아파트/오피스텔') {
       return 'apart';
     }
 
-    if (realestateTypes === '원룸/투룸') {
+    if (property === '원룸/투룸') {
       return 'oneroom';
     }
 
-    if (realestateTypes === '그외') {
+    if (property === '그외') {
       return 'etc';
     }
 
     return '';
-  }, [realestateTypes]);
+  }, [property]);
 
-  const buyOrRentsImageType = useMemo(() => {
-    if (buyOrRents === '매매') {
+  const buyOrRentImageType = useMemo(() => {
+    if (buyOrRent === '1') {
       return 'buy';
     }
 
-    if (buyOrRents === '전월세') {
+    if (buyOrRent === '2') {
       return 'rent';
     }
 
     return '';
-  }, [buyOrRents]);
+  }, [buyOrRent]);
 
-  const realestatePaths: Record<string, string> = {
+  const PropertyPaths: Record<string, string> = {
     apart: Apartment.src,
     oneroom: Oneroom.src,
     etc: Etc.src,
   };
 
-  const buyOrRentsPaths: Record<string, string> = {
+  const BuyOrRentPaths: Record<string, string> = {
     buy: Buy.src,
     rent: Rent.src,
   };
 
-  if (!realestateTypes && !buyOrRents) {
+  if (!property && !buyOrRent) {
     return (
       <div tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white">
         <p tw="text-display_03 text-gray-500 text-center [padding-block: 39px]">?</p>
@@ -72,13 +72,13 @@ export default function FormImage({ realestateTypes, buyOrRents }: FormImageProp
       transition={{ duration: 0.5 }}
       tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white relative"
     >
-      {realestateTypes && (
+      {property && (
         <motion.img
-          key={realestatePaths[realestateImageType]}
+          key={PropertyPaths[properyImageType]}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          src={realestatePaths[realestateImageType]}
+          src={PropertyPaths[properyImageType]}
           width={100}
           height={100}
           alt=""
@@ -86,13 +86,13 @@ export default function FormImage({ realestateTypes, buyOrRents }: FormImageProp
         />
       )}
 
-      {buyOrRents && (
+      {buyOrRent && (
         <motion.img
-          key={buyOrRentsPaths[buyOrRentsImageType]}
+          key={BuyOrRentPaths[buyOrRentImageType]}
           initial={{ left: 0, bottom: 10 }}
           animate={{ left: 60, bottom: 10 }}
           transition={{ duration: 0.5 }}
-          src={buyOrRentsPaths[buyOrRentsImageType]}
+          src={BuyOrRentPaths[buyOrRentImageType]}
           width={50}
           height={50}
           alt=""

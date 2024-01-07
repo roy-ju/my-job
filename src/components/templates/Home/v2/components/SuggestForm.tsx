@@ -1,12 +1,32 @@
-import { ButtonV2, Button as StyledButton } from '@/components/atoms';
-
 import { useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { useRouter as useCunstomRouter } from '@/hooks/utils';
+
+import dynamic from 'next/dynamic';
 
 import tw, { styled } from 'twin.macro';
 
+import Button from '@/components/atoms/Button';
+
+import ButtonV2 from '@/components/atoms/ButtonV2';
+
+import { describeJeonsaeWolsaeSame } from '@/constants/enums';
+
+import Routes from '@/router/routes';
+
+import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+
+import isNotEqualValue from '@/components/suggest/utils/isNotEqualValue';
+
+import { RegionItem } from '@/components/organisms/RegionList';
+import isEqualValue from '@/components/suggest/utils/isEqualValue';
 import FormImage from './FormImage';
 
-const Button = styled(StyledButton)`
+const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
+
+const StyledButton = styled(Button)`
   ${tw`text-gray-700 [border-radius: 100px] hover:border-nego-600`}
   ${({ selected }) => selected && tw`font-bold bg-white text-nego-800 border-nego-800 hover:border-nego-800`}
 `;
@@ -17,22 +37,31 @@ StyledButton.defaultProps = {
 };
 
 export default function SuggestForm() {
-  const [realestateTypes, setRealestateTypes] = useState('');
-  const [buyOrRents, setBuyOrRents] = useState('');
+  const router = useRouter();
 
-  const handleClickRealestateType = (e?: NegocioMouseEvent<HTMLButtonElement>) => {
+  const customRouter = useCunstomRouter(0);
+
+  const { platform } = useCheckPlatform();
+
+  const [property, setProperty] = useState('');
+
+  const [buyOrRent, setBuyOrRent] = useState('');
+
+  const [popup, setPopup] = useState<'' | 'regionList'>('');
+
+  const handleClickProperty = (e?: NegocioMouseEvent<HTMLButtonElement>) => {
     if (e) {
       const { value } = e.currentTarget;
 
-      setRealestateTypes(value);
+      setProperty(value);
     }
   };
 
-  const handleClickBuyOrRents = (e?: NegocioMouseEvent<HTMLButtonElement>) => {
+  const handleClickBuyOrRent = (e?: NegocioMouseEvent<HTMLButtonElement>) => {
     if (e) {
       const { value } = e.currentTarget;
 
-      setBuyOrRents(value);
+      setBuyOrRent(value);
     }
   };
 
@@ -42,51 +71,125 @@ export default function SuggestForm() {
     }
   };
 
+  const handlePopup = (value: '' | 'regionList') => {
+    setPopup(value);
+  };
+
+  const handleRoute = (from: 'regionListPoup' | 'none', v?: RegionItem) => {
+    if (isEqualValue(platform, 'pc')) {
+      if (isEqualValue(from, 'none')) {
+        customRouter.replace(Routes.RecommendationForm, {
+          searchParams: {
+            property,
+            buyOrRent,
+            entry: 'home',
+          },
+        });
+      } else {
+        customRouter.replace(Routes.RecommendationForm, {
+          searchParams: {
+            property,
+            buyOrRent,
+            entry: 'home',
+            ...(v?.name ? { address: v?.name } : {}),
+            ...(v?.code ? { bcode: v?.code } : {}),
+          },
+        });
+      }
+    }
+
+    if (isEqualValue(platform, 'mobile')) {
+      if (isEqualValue(from, 'none')) {
+        router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`, {
+          query: { property, buyOrRent, entry: 'home' },
+        });
+      } else {
+        router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`, {
+          query: {
+            property,
+            buyOrRent,
+            entry: 'home',
+            ...(v?.name ? { address: v?.name } : {}),
+            ...(v?.code ? { bcode: v?.code } : {}),
+          },
+        });
+      }
+    }
+  };
+
+  const handleClickSuggest = () => {
+    if (isNotEqualValue(property, '아파트/오피스텔')) {
+      return handlePopup('regionList');
+    }
+
+    handleRoute('none');
+  };
+
+  const handleSummitRegion = (v: RegionItem) => {
+    handlePopup('');
+
+    handleRoute('regionListPoup', v);
+  };
+
   return (
-    <section tw="pt-4 px-5">
-      <div tw="pt-6 pb-5 px-5 [border-radius: 20px] bg-nego-100">
-        <div tw="flex items-center justify-between gap-5 [height: 120px]">
-          <div tw="flex flex-col gap-4 whitespace-pre-wrap">
-            <h2 tw="text-heading_03">{'어떤 집을\n구하시나요?'}</h2>
-            <p tw="text-body_02 text-gray-700">네고해서 집을 구하세요.</p>
+    <>
+      <section tw="pt-4 px-5">
+        <div tw="pt-6 pb-5 px-5 [border-radius: 20px] bg-nego-100">
+          <div tw="flex items-center justify-between gap-5 [height: 120px]">
+            <div tw="flex flex-col gap-4 whitespace-pre-wrap">
+              <h2 tw="text-heading_03">{'어떤 집을\n구하시나요?'}</h2>
+              <p tw="text-body_02 text-gray-700">네고해서 집을 구하세요.</p>
+            </div>
+            <FormImage property={property} buyOrRent={buyOrRent} />
           </div>
-          <FormImage realestateTypes={realestateTypes} buyOrRents={buyOrRents} />
-        </div>
 
-        <div tw="min-w-full [min-height: 1px] bg-nego-200 my-6" />
+          <div tw="min-w-full [min-height: 1px] bg-nego-200 my-6" />
 
-        <div tw="flex flex-col gap-2 mb-6">
-          <p tw="text-subhead_02">부동산 종류</p>
-          <div tw="flex gap-2">
-            {['아파트 / 오피스텔', '원룸 / 투룸', '그외'].map((item) => (
-              <Button
-                key={item}
-                value={item.replace(/\s+/g, '')}
-                selected={isSelected(realestateTypes, item.replace(/\s+/g, ''))}
-                onClick={handleClickRealestateType}
-                tw="whitespace-nowrap"
-              >
-                {item}
-              </Button>
-            ))}
+          <div tw="flex flex-col gap-2 mb-6">
+            <p tw="text-subhead_02">부동산 종류</p>
+            <div tw="flex gap-2">
+              {['아파트 / 오피스텔', '원룸 / 투룸', '그외'].map((item) => (
+                <StyledButton
+                  key={item}
+                  value={item.replace(/\s+/g, '')}
+                  selected={isSelected(property, item.replace(/\s+/g, ''))}
+                  onClick={handleClickProperty}
+                  tw="whitespace-nowrap"
+                >
+                  {item}
+                </StyledButton>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div tw="flex flex-col gap-2">
-          <p tw="text-subhead_02">거래 종류</p>
-          <div tw="flex gap-2">
-            {['매매', '전월세'].map((item) => (
-              <Button key={item} value={item} selected={isSelected(buyOrRents, item)} onClick={handleClickBuyOrRents}>
-                {item}
-              </Button>
-            ))}
+          <div tw="flex flex-col gap-2">
+            <p tw="text-subhead_02">거래 종류</p>
+            <div tw="flex gap-2">
+              {['1', '2'].map((item) => (
+                <StyledButton
+                  key={item}
+                  value={item}
+                  selected={isSelected(buyOrRent, item)}
+                  onClick={handleClickBuyOrRent}
+                >
+                  {describeJeonsaeWolsaeSame(Number(item))}
+                </StyledButton>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <ButtonV2 variant="primary" size="big" tw="w-full mt-6" disabled={!realestateTypes || !buyOrRents}>
-          구해요
-        </ButtonV2>
-      </div>
-    </section>
+          <ButtonV2
+            variant="primary"
+            size="big"
+            tw="w-full mt-6"
+            disabled={!property || !buyOrRent}
+            onClick={handleClickSuggest}
+          >
+            구해요
+          </ButtonV2>
+        </div>
+      </section>
+      {popup === 'regionList' && <RegionListPopup onSubmit={handleSummitRegion} onClickClose={() => handlePopup('')} />}
+    </>
   );
 }

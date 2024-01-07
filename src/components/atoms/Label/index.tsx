@@ -29,7 +29,7 @@ const LabelRoot = styled.label<{ labelPlacement: LabelPlacement }>`
 `;
 
 const LabelText = styled.span<{ labelPlacement: LabelPlacement }>`
-  ${tw`text-b2 text-gray-1000`}
+  ${tw`text-body_01 text-gray-1000`}
   vertical-align: middle;
   ${({ labelPlacement }) => {
     if (labelPlacement === 'bottom') {

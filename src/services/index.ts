@@ -1,6 +1,6 @@
 import ApiService from '@/lib/apiService';
 
-import { DanjiDetailResponse } from './danji/types';
+import { DanjiDetailResponse, DanjiRealPricesPyoungListResponse } from './danji/types';
 
 import { ListingEligibilityCheckResponse } from './listing/types';
 
@@ -58,6 +58,29 @@ export class NegocioApiService extends ApiService {
   async listingEligibilityCheck({ id }: { id?: Nullable<number> }): Promise<ListingEligibilityCheckResponse | null> {
     try {
       const { data } = await this.instance.post('/listing/eligibility/check', { danji_id: id });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** 단지 평형정보 불러오기 */
+  async getDanjiPyoungList({
+    danjiId,
+    realestateType,
+    buyOrRent,
+  }: {
+    danjiId?: number;
+    realestateType?: number;
+    buyOrRent?: number | null;
+  }): Promise<DanjiRealPricesPyoungListResponse | null> {
+    try {
+      const { data } = await this.instance.post('/danji/realprices/pyoung/list', {
+        danji_id: danjiId,
+        realestateType,
+        buyOrRent,
+      });
+
       return data;
     } catch (e) {
       return null;

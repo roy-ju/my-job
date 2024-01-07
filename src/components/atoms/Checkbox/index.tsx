@@ -1,8 +1,16 @@
-import { useControlled } from '@/hooks/utils';
 import { ChangeEventHandler, forwardRef, HTMLProps, useCallback } from 'react';
+
 import tw from 'twin.macro';
+
 import CheckboxCheckedIcon from '@/assets/icons/checkbox_checked.svg';
+
+import CheckboxCheckedCircleIcon from '@/assets/icons/checkbox_checked_circle.svg';
+
 import CheckboxUncheckedIcon from '@/assets/icons/checkbox_unchecked.svg';
+
+import CheckboxUncheckedCircleIcon from '@/assets/icons/checkbox_unchecked_circle.svg';
+
+import { useControlled } from '@/hooks/utils';
 
 const CheckboxRoot = tw.span`inline-flex relative`;
 
@@ -12,10 +20,11 @@ interface Props extends HTMLProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  iconType?: 'square' | 'circle';
 }
 
 export default forwardRef<HTMLInputElement, Props>(
-  ({ checked: checkedProp, defaultChecked, onChange, ...others }, ref) => {
+  ({ checked: checkedProp, defaultChecked, onChange, iconType = 'square', ...others }, ref) => {
     const [checked, setCheckedState] = useControlled({
       controlled: checkedProp,
       default: Boolean(defaultChecked),
@@ -32,14 +41,18 @@ export default forwardRef<HTMLInputElement, Props>(
     );
     return (
       <CheckboxRoot>
-        <CheckboxInput
-          type="checkbox"
-          checked={checked}
-          onChange={handleInputChange}
-          ref={ref}
-          {...others}
-        />
-        {checked ? <CheckboxCheckedIcon /> : <CheckboxUncheckedIcon />}
+        <CheckboxInput type="checkbox" checked={checked} onChange={handleInputChange} ref={ref} {...others} />
+        {checked ? (
+          iconType === 'square' ? (
+            <CheckboxCheckedIcon />
+          ) : (
+            <CheckboxCheckedCircleIcon />
+          )
+        ) : iconType === 'square' ? (
+          <CheckboxUncheckedIcon />
+        ) : (
+          <CheckboxUncheckedCircleIcon />
+        )}
       </CheckboxRoot>
     );
   },

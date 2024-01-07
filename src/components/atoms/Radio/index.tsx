@@ -1,16 +1,21 @@
-import useRadioGroup from '@/components/molecules/RadioGroup/useRadioGroup';
-import useControlled from '@/hooks/utils/useControlled';
 import { ChangeEvent, ChangeEventHandler, forwardRef, HTMLProps, useCallback } from 'react';
+
 import tw, { styled } from 'twin.macro';
+
+import useRadioGroup from '@/components/molecules/RadioGroup/useRadioGroup';
+
+import useControlled from '@/hooks/utils/useControlled';
 
 const RadioRoot = tw.span`inline-flex relative`;
 
 const RadioInput = tw.input`absolute opacity-0 w-full h-full top-0 left-0 z-[1] hover:cursor-pointer`;
 
-const RadioIcon = styled.span<{ checked: boolean }>`
+const RadioIcon = styled.span<{ checked: boolean; iconBlue: boolean }>`
   ${tw`w-5 h-5 border border-gray-300 bg-white`}
   border-radius: 50%;
-  ${({ checked }) => checked && tw`border-[6px] border-gray-1000`}
+  ${({ iconBlue }) => iconBlue && tw`transition-all duration-200`}
+  ${({ checked, iconBlue }) =>
+    checked ? (iconBlue ? tw`border-[6px] border-nego-800` : tw`border-[6px] border-gray-1000`) : tw``}
 `;
 
 function areEqualValues(a: any, b: any) {
@@ -26,10 +31,11 @@ interface Props extends HTMLProps<HTMLInputElement> {
   defaultChecked?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: any;
+  iconBlue?: boolean;
 }
 
 export default forwardRef<HTMLInputElement, Props>(
-  ({ checked: checkedProp, defaultChecked, onChange: onChangeProp, value, ...others }, ref) => {
+  ({ checked: checkedProp, defaultChecked, onChange: onChangeProp, value, iconBlue = false, ...others }, ref) => {
     const radioGroup = useRadioGroup();
     const radioGroupOnChange = radioGroup?.onChange;
     const onChange = useCallback(
@@ -65,7 +71,7 @@ export default forwardRef<HTMLInputElement, Props>(
     return (
       <RadioRoot>
         <RadioInput {...others} type="radio" value={value} checked={checked} onChange={handleInputChange} ref={ref} />
-        <RadioIcon checked={checked} />
+        <RadioIcon checked={checked} iconBlue={iconBlue} />
       </RadioRoot>
     );
   },

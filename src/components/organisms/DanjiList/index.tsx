@@ -7,6 +7,7 @@ import { ChangeEventHandler, FormEventHandler, useCallback } from 'react';
 import { useControlled } from '@/hooks/utils';
 import { useNegocioAddressAutocomplete } from '@/hooks/services';
 import { RealestateTypeString } from '@/constants/strings';
+import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
 
 function Guide() {
   return (
@@ -32,9 +33,10 @@ export interface AddressSearchFormProps {
   value?: string;
   onChange?: (value: string) => void;
   onSubmit?: (value: number) => void;
+  onSubmitV2?: (value: SearchDanjiResponseItem) => void;
 }
 
-function AddressSearchForm({ value: valueProp, onChange, onSubmit }: AddressSearchFormProps) {
+function AddressSearchForm({ value: valueProp, onChange, onSubmit, onSubmitV2 }: AddressSearchFormProps) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: '',
@@ -83,6 +85,7 @@ function AddressSearchForm({ value: valueProp, onChange, onSubmit }: AddressSear
             key={result.danji_id}
             onClick={() => {
               onSubmit?.(result.danji_id);
+              onSubmitV2?.(result);
             }}
             tw="p-4 gap-2 min-h-[74px] hover:bg-gray-200 text-start transition-colors"
           >
