@@ -12,6 +12,8 @@ import useSelectDanjiOrRegion from './hooks/useSelectDanjiOrRegion';
 
 import { AnimationLi, AnimationP } from './ui/AnimationText';
 
+import forms from './constants/forms';
+
 const GuideTexts = memo(() => (
   <ul tw="text-body_01 text-gray-600 list-disc pl-3 text-justify">
     <AnimationLi transition={{ duration: 0.7 }}>
@@ -28,7 +30,7 @@ export default function RegionOrDanjiForm() {
     useSelectDanjiOrRegion();
 
   return (
-    <section id="region_or_danji" tw="px-5 pb-10">
+    <section id={forms.REGION_OR_DANJI} tw="px-5 pb-10">
       {!address && !danjiName ? (
         <>
           <div tw="flex flex-row items-center gap-3 mb-6">

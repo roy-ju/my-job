@@ -8,6 +8,8 @@ import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { BuyOrRent, describeJeonsaeWolsaeSame } from '@/constants/enums';
 
+import FIELD_ID from '../constants/fieldId';
+
 import isEqualValue from '../../utils/isEqualValue';
 
 const BuyOrRentButton = styled(ButtonV2)`
@@ -27,7 +29,7 @@ type BuyOrRentFieldProps = {
 
 function BuyOrRentField({ isStyleChange, buyOrRent, handleClick }: BuyOrRentFieldProps) {
   return (
-    <section id="buy_or_rent_field" tw="flex flex-row gap-2 pb-4" css={[isStyleChange ? tw`pt-0` : tw`pt-6`]}>
+    <div id={FIELD_ID.BuyOrRent} tw="flex flex-row gap-2 pb-4" css={[isStyleChange ? tw`pt-0` : tw`pt-6`]}>
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -58,7 +60,7 @@ function BuyOrRentField({ isStyleChange, buyOrRent, handleClick }: BuyOrRentFiel
           {describeJeonsaeWolsaeSame(BuyOrRent.Jeonsae)}
         </BuyOrRentButton>
       </motion.div>
-    </section>
+    </div>
   );
 }
 

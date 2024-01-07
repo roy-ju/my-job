@@ -3,7 +3,10 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 
 import DeleteIcon from '@/assets/icons/delete_nego.svg';
+
 import SelectButton from '../ui/SelectButton';
+
+import FIELD_ID from '../constants/fieldId';
 
 type RegionSelectedPyoungListFieldProps = {
   isRender: boolean;
@@ -15,7 +18,7 @@ function RegionSelectedPyoungListField({ isRender, list, handleClick }: RegionSe
   if (!isRender) return null;
 
   return (
-    <div id="region_selected_pyoung_list_field" tw="flex flex-row flex-wrap items-center gap-3 mb-6">
+    <div id={FIELD_ID.RegionSelectedPyoungList} tw="flex flex-row flex-wrap items-center gap-3 mb-6">
       {list.map((item) => (
         <motion.div
           key={item}

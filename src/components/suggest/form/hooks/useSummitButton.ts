@@ -46,6 +46,18 @@ export default function useSummitButton() {
     SuggestFormSelector('interviewAvailabletimes'),
   );
 
+  const errorMessageTradeOrDepositPrice = useRecoilValue<SuggestForm['errorMessageTradeOrDepositPrice']>(
+    SuggestFormSelector('errorMessageTradeOrDepositPrice'),
+  );
+
+  const errorMessageMonthlyRentFeePrice = useRecoilValue<SuggestForm['errorMessageMonthlyRentFeePrice']>(
+    SuggestFormSelector('errorMessageMonthlyRentFeePrice'),
+  );
+
+  const errorMessageInvestAmountPrice = useRecoilValue<SuggestForm['errorMessageInvestAmountPrice']>(
+    SuggestFormSelector('errorMessageInvestAmountPrice'),
+  );
+
   const isRenderRevisionText = useMemo(() => Boolean(form?.length > 1), [form?.length]);
 
   const disabled = useMemo(() => {

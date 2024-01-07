@@ -18,6 +18,8 @@ import getBuyOrRentPriceTitle from '../../utils/getBuyOrRentPriceTitle';
 
 import getPriceFormatFn from '../../utils/getPriceFormat';
 
+import ERROR_MESSAGE from '../constants/errorMessage';
+
 export default function useChangeTradeOrDepositPrice() {
   const [tradeOrDepositPrice, setTradeOrDepositPrice] = useRecoilState<SuggestForm['tradeOrDepositPrice']>(
     SuggestFormSelector('tradeOrDepositPrice'),
@@ -41,7 +43,7 @@ export default function useChangeTradeOrDepositPrice() {
         if (numericValue > maxAmount) {
           numericValue = maxAmount;
 
-          setErrorMessageTradeOrDepositPrice('입력 가능한 최대 금액은 999억 9999천만 이에요.');
+          setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.MAXIMUM_PRICE);
         } else {
           setErrorMessageTradeOrDepositPrice('');
         }

@@ -49,7 +49,7 @@ export default function useGetStepperInfo() {
     if (currentForm === 'area') {
       return makeObject({
         title: '원하는 평수를 선택해주세요!',
-        subTitle: '실거주 또는 투자 목적에 따라 추천 매물은 다를 수 있어요.',
+        subTitle: '원하는 평수가 없나요? 그럼 평수를 직접 입력해보세요!',
         currentIndex: 3,
       });
     }

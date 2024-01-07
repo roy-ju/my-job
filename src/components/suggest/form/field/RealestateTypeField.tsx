@@ -16,6 +16,8 @@ import checkSelected from '../../utils/checkSelected';
 
 import RealestateTypeButton from '../ui/RealestateTypeButton';
 
+import FIELD_ID from '../constants/fieldId';
+
 const Icons: Record<RealestateType, ReactNode> = {
   10: <Apart />,
   20: <Officetel />,
@@ -43,7 +45,7 @@ function RealestateTypeField({ isRender, realestateTypes, handleClick }: Realest
   if (isRender) return null;
 
   return (
-    <div id="realestate_field" tw="flex flex-row gap-2 pb-6 border-b border-b-gray-200">
+    <div id={FIELD_ID.Realestate_field} tw="flex flex-row gap-2 pb-6 border-b border-b-gray-200">
       {realestateTypesArray.map((value) => (
         <RealestateTypeButton
           key={value}

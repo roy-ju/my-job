@@ -27,6 +27,7 @@ const initialValues = {
   errorMessageTradeOrDepositPrice: '',
   errorMessageMonthlyRentFeePrice: '',
   errorMessageInvestAmountPrice: '',
+  errorPyoungInput: false,
 };
 
 export default initialValues;

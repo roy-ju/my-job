@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 
 import SelectButton from '../ui/SelectButton';
 
-import getIncludeValue from '../../utils/getIncludeValue';
-
 import CheckBoxButton from '../ui/CheckBoxButton';
+
+import FIELD_ID from '../constants/fieldId';
+
+import getIncludeValue from '../../utils/getIncludeValue';
 
 import makeHash from '../../utils/makeHash';
 
@@ -19,7 +21,7 @@ type AdditionalConditionsFieldProps = {
 function AdditionalConditionsField({ list, selectedList, handleClick }: AdditionalConditionsFieldProps) {
   return (
     <>
-      <div id="additional_conditions_field" tw="flex flex-row flex-wrap gap-3">
+      <div id={FIELD_ID.AdditionalCondtions} tw="flex flex-row flex-wrap gap-3">
         {list
           .filter((item) => item !== '원하는 조건이 없어요!')
           .map((item) => (

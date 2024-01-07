@@ -100,11 +100,13 @@ export default function SuggestForm() {
 
     if (isEqualValue(platform, 'mobile')) {
       if (isEqualValue(from, 'none')) {
-        router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`, {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
           query: { property, buyOrRent, entry: 'home' },
         });
       } else {
-        router.push(`/${Routes.EntryMobile}/${Routes.RecommendationForm}`, {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
           query: {
             property,
             buyOrRent,

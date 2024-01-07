@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import dynamic from 'next/dynamic';
 
 import tw from 'twin.macro';
@@ -14,7 +16,6 @@ import StepFour from '@/assets/icons/stepper_4.svg';
 
 import StepFive from '@/assets/icons/stepper_5.svg';
 
-import { useMemo } from 'react';
 import { AnimationP } from './ui/AnimationText';
 
 import useGetStepperInfo from './hooks/useGetStepperInfo';

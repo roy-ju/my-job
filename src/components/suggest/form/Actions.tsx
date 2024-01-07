@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ActionButton from './ui/ActionButton';
 
 import useSummitButton from './hooks/useSummitButton';

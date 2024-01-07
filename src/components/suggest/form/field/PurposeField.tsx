@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
+import FIELD_ID from '../constants/fieldId';
+
 import isEqualValue from '../../utils/isEqualValue';
 
 const PurposeButton = styled(ButtonV2)`
@@ -27,7 +29,7 @@ function PurposeField({ isRender, purpose, handleClick }: PurposeFieldProps) {
   if (!isRender) return null;
 
   return (
-    <div tw="flex flex-row gap-2">
+    <div id={FIELD_ID.Purpose} tw="flex flex-row gap-2">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
