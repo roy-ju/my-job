@@ -10,7 +10,7 @@ export default function RealestateTypeChangePopup({ onClickClose, onClickConfirm
     <OverlayPresenter>
       <Popup>
         <Popup.ContentGroup>
-          <Popup.SmallTitle>
+          <Popup.SmallTitle tw="text-center">
             부동산 종류를 변경하시면 처음부터 다시 입력하셔야 합니다. 부동산 종류를 변경하시겠습니까?
           </Popup.SmallTitle>
         </Popup.ContentGroup>

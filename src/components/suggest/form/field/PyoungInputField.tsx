@@ -8,11 +8,11 @@ import { ButtonV2 } from '@/components/atoms';
 
 import { Accordion, TextFieldV2 } from '@/components/molecules';
 
+import useSuffixPosition from '@/hooks/utils/useSuffixPosition';
+
 import CloseContained from '@/assets/icons/close_contained.svg';
 
 import { AnimationP } from '../ui/AnimationText';
-
-import useSuffixPosition from '../hooks/useSuffixPosition';
 
 import FIELD_ID from '../constants/fieldId';
 

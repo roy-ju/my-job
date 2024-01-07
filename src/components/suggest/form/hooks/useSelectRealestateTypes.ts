@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 
@@ -17,12 +17,20 @@ export default function useSelectRealestateTypes() {
     SuggestFormSelector('realestateTypes'),
   );
 
+  const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
+
+  const setPopup = useSetRecoilState<SuggestForm['popup']>(SuggestFormSelector('popup'));
 
   const handleClickRealestateType = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
       if (e) {
         const { value } = e.currentTarget;
+
+        if (forms.length > 3) {
+          setPopup('realestateTypes');
+          return;
+        }
 
         if (isEnumValue(Number(value), RealestateType)) {
           const realestateType = Number(value);
@@ -37,7 +45,7 @@ export default function useSelectRealestateTypes() {
         }
       }
     },
-    [realestateTypes, setRealestateTypes],
+    [forms.length, realestateTypes, setPopup, setRealestateTypes],
   );
 
   const isRender = useMemo(() => isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji), [danjiOrRegion]);

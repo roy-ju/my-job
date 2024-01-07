@@ -10,7 +10,7 @@ export default function BuyOrRentChangePopup({ onClickClose, onClickConfirm }: B
     <OverlayPresenter>
       <Popup>
         <Popup.ContentGroup>
-          <Popup.SmallTitle>
+          <Popup.SmallTitle tw="text-center">
             거래 종류를 변경하시면 처음부터 다시 입력하셔야 합니다. 거래 종류를 변경하시겠습니까?
           </Popup.SmallTitle>
         </Popup.ContentGroup>

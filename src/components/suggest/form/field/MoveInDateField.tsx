@@ -42,6 +42,7 @@ function MoveInDateField({
           value={moveInDate}
           minDate={minDate.current}
           onChange={(v) => handleChangeMoveInDate(v)}
+          dateFormat="yyyy. MM. dd"
         />
 
         <Dropdown
@@ -50,6 +51,7 @@ function MoveInDateField({
           value={moveInDateType}
           onChange={handleChangeMoveInDateType}
           placeholder="선택"
+          suffix="입주"
         >
           {['이전', '이후', '당일'].map((item) => (
             <Dropdown.Option key={item} value={item}>

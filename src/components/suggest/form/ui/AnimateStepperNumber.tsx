@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 
 import { motion } from 'framer-motion';
 
@@ -26,10 +26,12 @@ type AnimateStepperNumberProps = {
   active?: boolean;
 };
 
-export default function AnimateStepperNumber({ children, active }: AnimateStepperNumberProps) {
+function AnimateStepperNumber({ children, active }: AnimateStepperNumberProps) {
   return (
     <motion.div animate={active ? animate : { opacity: 1 }} transition={active ? transition : { opacity: 1 }}>
       {children}
     </motion.div>
   );
 }
+
+export default memo(AnimateStepperNumber);

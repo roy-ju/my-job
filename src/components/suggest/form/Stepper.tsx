@@ -4,8 +4,6 @@ import dynamic from 'next/dynamic';
 
 import tw from 'twin.macro';
 
-import { v1 } from 'uuid';
-
 import StepOne from '@/assets/icons/stepper_1.svg';
 
 import StepTwo from '@/assets/icons/stepper_2.svg';
@@ -16,13 +14,13 @@ import StepFour from '@/assets/icons/stepper_4.svg';
 
 import StepFive from '@/assets/icons/stepper_5.svg';
 
-import { AnimationP } from './ui/AnimationText';
-
 import useGetStepperInfo from './hooks/useGetStepperInfo';
 
 import getColor from '../utils/getColor';
 
 import getStep from '../utils/getStep';
+
+import StepperTitle from './ui/StepperTitle';
 
 const AnimateStepperNumber = dynamic(() => import('./ui/AnimateStepperNumber'), { ssr: false });
 
@@ -62,16 +60,7 @@ export default function Stepper() {
           <StepFive color={getColor(5, currentIndex)} />
         </AnimateStepperNumber>
       </div>
-      <AnimationP key={v1()} tw="text-heading_01 text-gray-900 text-center">
-        {title}
-      </AnimationP>
-      <AnimationP
-        key={v1()}
-        transition={{ duration: 0.4 }}
-        tw="text-body_02 text-gray-700 text-center mt-1 whitespace-pre-line"
-      >
-        {subTitle}
-      </AnimationP>
+      <StepperTitle title={title} subTitle={subTitle} />
     </div>
   );
 }
