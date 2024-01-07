@@ -11,7 +11,6 @@ type NegotiableFieldProps = {
 };
 
 function NegotiableField({ isRender, negotiable, handleChange }: NegotiableFieldProps) {
-  console.log('render NegotiableField');
   if (!isRender) return null;
 
   return (

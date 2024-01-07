@@ -29,8 +29,6 @@ export default function useSelectDanjiOrRegion() {
     [setPopup],
   );
 
-  console.log(address);
-
   /** STEP 단지 및 지역선택 */
   const handleClickDanjiOrRegion = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {

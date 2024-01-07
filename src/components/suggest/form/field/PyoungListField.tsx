@@ -16,7 +16,6 @@ type PyoungListFieldProps = {
 };
 
 function PyoungListField({ isRender, list, selectedList, handleClick }: PyoungListFieldProps) {
-  console.log('render PyoungListField');
   if (!isRender) return null;
 
   return (

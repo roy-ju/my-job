@@ -1,7 +1,11 @@
-import React, { forwardRef, ReactNode, useContext } from 'react';
+import { forwardRef, ReactNode, useContext } from 'react';
+
 import tw, { styled } from 'twin.macro';
+
 import ButtonGroupContext from '@/components/molecules/ButtonGroup/ButtonGroupContext';
+
 import { resolveProps } from '@/utils';
+
 import Loading from '../Loading';
 
 const defaultStyle = tw`flex items-center justify-center h-fit rounded-lg transition-colors`;

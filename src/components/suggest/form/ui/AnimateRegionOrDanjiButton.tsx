@@ -42,7 +42,6 @@ function AnimateRegionOrDanjiButton({
   handleClick,
   selected,
 }: AnimateRegionOrDanjiButtonProps) {
-  console.log(`rerneder ${title}`);
   return (
     <Button key={value} value={value} onClick={handleClick} selected={selected}>
       <AnimationSpan>{title}</AnimationSpan>

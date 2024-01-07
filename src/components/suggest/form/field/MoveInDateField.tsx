@@ -21,7 +21,6 @@ function MoveInDateField({
   handleChangeMoveInDate,
   handleChangeMoveInDateType,
 }: MoveInDateFieldProps) {
-  console.log('render MoveInDateField');
   const minDate = useRef(new Date());
 
   if (!isRender) return null;

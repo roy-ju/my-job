@@ -25,8 +25,6 @@ export default function useSelectPyoung() {
     SuggestFormSelector('danjiRealestateType'),
   );
 
-  console.log(pyoungList);
-
   const { data } = useFetchDanjiRealPricesPyongList({
     danjiId: danjiID ? Number(danjiID) : 0,
     realestateType: danjiRealestateType,

@@ -23,6 +23,10 @@ const initialValues = {
   interviewAvailabletimes: [],
 
   popup: '',
+
+  errorMessageTradeOrDepositPrice: '',
+  errorMessageMonthlyRentFeePrice: '',
+  errorMessageInvestAmountPrice: '',
 };
 
 export default initialValues;

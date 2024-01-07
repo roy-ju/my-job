@@ -6,9 +6,13 @@ import { BuyOrRent } from '@/constants/enums';
 
 import { formatNumberInKorean } from '@/utils';
 
+import { regNumber } from '@/utils/regex';
+
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
 import SuggestForm from '../types';
+
+import maxAmount from '../constants/maxAmount';
 
 import isEqualValue from '../../utils/isEqualValue';
 
@@ -21,16 +25,35 @@ export default function useChangeMonthlyRentFee() {
     SuggestFormSelector('monthlyRentFee'),
   );
 
+  const [errorMessageMonthlyRentFeePrice, setErrorMessageMonthlyRentFeePrice] = useRecoilState<
+    SuggestForm['errorMessageMonthlyRentFeePrice']
+  >(SuggestFormSelector('errorMessageMonthlyRentFeePrice'));
+
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
 
   const handleChangeMonthlyRentFee = useCallback(
     (e?: NegocioChangeEvent<HTMLInputElement>) => {
       if (e) {
-        const { value } = e.target;
-        setMonthlyRentFee(value);
+        const input = e.target.value.replace(regNumber, '');
+
+        let numericValue = input ? parseInt(input, 10) : 0;
+
+        if (numericValue > maxAmount) {
+          numericValue = maxAmount;
+
+          setErrorMessageMonthlyRentFeePrice('입력 가능한 최대 금액은 999억 9999천만 이에요.');
+        } else {
+          setErrorMessageMonthlyRentFeePrice('');
+        }
+
+        if (numericValue === 0) {
+          setMonthlyRentFee('');
+        } else {
+          setMonthlyRentFee(numericValue.toString());
+        }
       }
     },
-    [setMonthlyRentFee],
+    [setMonthlyRentFee, setErrorMessageMonthlyRentFeePrice],
   );
 
   const handleResetMonthlyRentFee = useCallback(() => {
@@ -51,10 +74,16 @@ export default function useChangeMonthlyRentFee() {
       : `${getBuyOrRentPriceTitle(BuyOrRent.Wolsae)}`;
   }, [buyOrRent, monthlyRentFee]);
 
+  const formattedPrice = useMemo(
+    () => (monthlyRentFee ? parseInt(monthlyRentFee, 10).toLocaleString() : ''),
+    [monthlyRentFee],
+  );
+
   return {
     isRenderMonthlyRentFeeField,
-    monthlyRentFee,
+    formattedPrice,
     monthlyRentFeeLabel,
+    errorMessageMonthlyRentFeePrice,
     handleChangeMonthlyRentFee,
     handleResetMonthlyRentFee,
   };

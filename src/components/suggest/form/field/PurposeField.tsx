@@ -24,7 +24,6 @@ type PurposeFieldProps = {
 };
 
 function PurposeField({ isRender, purpose, handleClick }: PurposeFieldProps) {
-  console.log('render PurposeField');
   if (!isRender) return null;
 
   return (

@@ -14,7 +14,6 @@ type InterviewFieldProps = {
 };
 
 function InterviewField({ selectedList, handleClick }: InterviewFieldProps) {
-  console.log('render InterviewField');
   return (
     <>
       <div tw="flex flex-col gap-5">

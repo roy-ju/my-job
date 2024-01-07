@@ -13,8 +13,6 @@ import isEqualValue from '../../utils/isEqualValue';
 export default function useSelectPurpose() {
   const [purpose, setPurpose] = useRecoilState<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
 
-  console.log(purpose);
-
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
 
   const setInvestAmount = useSetRecoilState<SuggestForm['investAmount']>(SuggestFormSelector('investAmount'));
@@ -25,7 +23,6 @@ export default function useSelectPurpose() {
 
   const handleClickBuyPurpose = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
-      console.log('hello');
       if (e) {
         const { value } = e.currentTarget;
 

@@ -17,8 +17,6 @@ type PriceTypeFieldProps = {
 };
 
 function PriceTypeField({ isRender, quickSale, handleChange }: PriceTypeFieldProps) {
-  console.log('render PriceTypeField');
-
   if (!isRender) return null;
 
   return (

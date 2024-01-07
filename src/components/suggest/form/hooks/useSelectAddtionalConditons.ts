@@ -28,8 +28,6 @@ export default function useSelectAddtionalConditons() {
     SuggestFormSelector('additionalCondtions'),
   );
 
-  console.log(additionalCondtions);
-
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
   const realestateTypes = useRecoilValue<SuggestForm['realestateTypes']>(SuggestFormSelector('realestateTypes'));

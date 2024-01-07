@@ -26,8 +26,6 @@ type BuyOrRentFieldProps = {
 };
 
 function BuyOrRentField({ isStyleChange, buyOrRent, handleClick }: BuyOrRentFieldProps) {
-  console.log('render BuyOrRentField');
-
   return (
     <section id="buy_or_rent_field" tw="flex flex-row gap-2 pb-4" css={[isStyleChange ? tw`pt-0` : tw`pt-6`]}>
       <motion.div

@@ -15,16 +15,15 @@ export default function BuyPurposeForm() {
 
   const {
     isRenderInvestAmountField,
-    investAmount,
+    formattedPrice,
     investAmountLabel,
+    errorMessageInvestAmountPrice,
     handleChangeInvestAmount,
     handleResetInvestAmount,
   } = useChangeInvestAmount();
 
   const { isRenderMoveInDateField, moveInDate, moveInDateType, handleChangeMoveInDate, handlChangeMoveInDateType } =
     useChangeMoveInDate();
-
-  console.log('render BuyPurposeForm');
 
   return (
     <section id="buy_purpose" tw="flex flex-col pt-10 pb-10 px-5 gap-4">
@@ -42,7 +41,8 @@ export default function BuyPurposeForm() {
         <InvestAmountField
           id="invest_amount_field"
           isRender={isRenderInvestAmountField}
-          price={investAmount}
+          errorMessage={errorMessageInvestAmountPrice}
+          price={formattedPrice}
           label={investAmountLabel}
           handleChange={handleChangeInvestAmount}
           handleReset={handleResetInvestAmount}
