@@ -8,17 +8,17 @@ import SelectButton from '../ui/SelectButton';
 
 import FIELD_ID from '../constants/fieldId';
 
-type RegionSelectedPyoungListFieldProps = {
+type SelectedPyoungListFieldProps = {
   isRender: boolean;
   list: string[];
   handleClick: (value: string) => void;
 };
 
-function RegionSelectedPyoungListField({ isRender, list, handleClick }: RegionSelectedPyoungListFieldProps) {
+function SelectedPyoungListField({ isRender, list, handleClick }: SelectedPyoungListFieldProps) {
   if (!isRender) return null;
 
   return (
-    <div id={FIELD_ID.RegionSelectedPyoungList} tw="flex flex-row flex-wrap items-center gap-3 mb-6">
+    <div id={FIELD_ID.SelectedPyoungList} tw="flex flex-row flex-wrap items-center gap-3 mt-6">
       {list.map((item) => (
         <motion.div
           key={item}
@@ -37,4 +37,4 @@ function RegionSelectedPyoungListField({ isRender, list, handleClick }: RegionSe
   );
 }
 
-export default memo(RegionSelectedPyoungListField);
+export default memo(SelectedPyoungListField);

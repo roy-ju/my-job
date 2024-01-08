@@ -9,10 +9,12 @@ import SuggestFormSelector from '../selector/SuggestFormSelector';
 import SuggestForm from '../types';
 
 import isEqualValue from '../../utils/isEqualValue';
+import ERROR_MESSAGE from '../constants/errorMessage';
 
 export default function useSelectPurpose() {
   const [purpose, setPurpose] = useRecoilState<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
 
+  const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
 
   const setInvestAmount = useSetRecoilState<SuggestForm['investAmount']>(SuggestFormSelector('investAmount'));
@@ -22,7 +24,7 @@ export default function useSelectPurpose() {
     SuggestFormSelector('errorMessageInvestAmountPrice'),
   );
 
-  const isRenderPurposeField = useMemo(() => buyOrRent === BuyOrRent.Buy, [buyOrRent]);
+  const isRenderPurposeField = useMemo(() => isEqualValue(buyOrRent, BuyOrRent.Buy), [buyOrRent]);
 
   const handleClickBuyPurpose = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
@@ -38,11 +40,25 @@ export default function useSelectPurpose() {
           setInvestAmount('');
           setMoveInDate(null);
           setMoveInDateType('');
-          setErrorMessageInvestAmountPrice('');
+          if (isEqualValue(value, '투자')) {
+            if (forms.length > 3) {
+              setErrorMessageInvestAmountPrice(ERROR_MESSAGE.REQUIRE_INVEST_AMOUNT);
+            }
+          } else {
+            setErrorMessageInvestAmountPrice('');
+          }
         }
       }
     },
-    [purpose, setInvestAmount, setMoveInDate, setMoveInDateType, setPurpose, setErrorMessageInvestAmountPrice],
+    [
+      purpose,
+      setPurpose,
+      setInvestAmount,
+      setMoveInDate,
+      setMoveInDateType,
+      forms.length,
+      setErrorMessageInvestAmountPrice,
+    ],
   );
 
   return { isRenderPurposeField, purpose, handleClickBuyPurpose };

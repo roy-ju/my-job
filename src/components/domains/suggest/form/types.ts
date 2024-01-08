@@ -68,7 +68,7 @@ type SuggestForm = {
   errorMessageInvestAmountPrice: string;
 
   /** 평수 제안 에러상태 */
-  errorPyoungInput: boolean;
+  errorMessagePyoungInput: string;
 };
 
 export default SuggestForm;

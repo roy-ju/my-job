@@ -16,12 +16,16 @@ import { AnimationP } from '../ui/AnimationText';
 
 import FIELD_ID from '../constants/fieldId';
 
+import HELPER_MESSAGE from '../constants/helperMessage';
+
 type PyoungInputFieldProps = {
+  isRenderAccordion: boolean;
   isRender: boolean;
   value: string;
   label: string;
   open: boolean;
-  error: boolean;
+  disabled: boolean;
+  errorMessage: string;
   handleOpen: () => void;
   handleClose: () => void;
   handleChange: (e?: NegocioChangeEvent<HTMLInputElement>) => void;
@@ -30,11 +34,13 @@ type PyoungInputFieldProps = {
 };
 
 function PyoungInputField({
+  isRenderAccordion,
   isRender,
   value,
   label,
   open,
-  error,
+  disabled,
+  errorMessage,
   handleOpen,
   handleClose,
   handleChange,
@@ -50,6 +56,47 @@ function PyoungInputField({
   const { suffix, left, top } = useSuffixPosition(inputRef, suffixRef, value, '평');
 
   if (!isRender) return null;
+
+  if (!isRenderAccordion) {
+    return (
+      <>
+        <TextFieldV2
+          variant="outlined"
+          tw="w-full"
+          onFocus={() => setFocus(true)}
+          onBlur={() =>
+            setTimeout(() => {
+              setFocus(false);
+            }, 200)
+          }
+          hasError={!!errorMessage}
+          ref={inputRef}
+        >
+          <TextFieldV2.Input label={label} value={value} onChange={handleChange} isLabelBottom />
+
+          {value && (
+            <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, top }}>
+              {suffix}
+            </span>
+          )}
+
+          {value && focus && (
+            <TextFieldV2.Trailing tw="flex items-center" as="div">
+              <ButtonV2 variant="ghost" size="small" onClick={handleReset} tw="pr-3">
+                <CloseContained />
+              </ButtonV2>
+              <ButtonV2 size="small" disabled={disabled} onClick={() => handleClickAdd(value)}>
+                추가
+              </ButtonV2>
+            </TextFieldV2.Trailing>
+          )}
+        </TextFieldV2>
+        <AnimationP tw="text-body_01 ml-2 mt-1" css={[errorMessage ? tw`text-red-800` : tw`text-gray-700`]}>
+          {errorMessage || HELPER_MESSAGE.PYOUNG_INPUT}
+        </AnimationP>
+      </>
+    );
+  }
 
   return (
     <div id={FIELD_ID.PyoungInput} tw="mb-6">
@@ -79,7 +126,7 @@ function PyoungInputField({
                 setFocus(false);
               }, 200)
             }
-            hasError={error}
+            hasError={!!errorMessage}
             ref={inputRef}
           >
             <TextFieldV2.Input label={label} value={value} onChange={handleChange} isLabelBottom />
@@ -95,15 +142,15 @@ function PyoungInputField({
                 <ButtonV2 variant="ghost" size="small" onClick={handleReset} tw="pr-3">
                   <CloseContained />
                 </ButtonV2>
-                <ButtonV2 size="small" disabled={error} onClick={() => handleClickAdd(value)}>
+                <ButtonV2 size="small" disabled={disabled} onClick={() => handleClickAdd(value)}>
                   추가
                 </ButtonV2>
               </TextFieldV2.Trailing>
             )}
           </TextFieldV2>
 
-          <AnimationP tw="text-body_01 ml-2 mt-1" css={[error ? tw`text-red-800` : tw`text-gray-700`]}>
-            입력하실 수 있는 평수는 최소 1평부터 최대 100평까지입니다.
+          <AnimationP tw="text-body_01 ml-2 mt-1" css={[errorMessage ? tw`text-red-800` : tw`text-gray-700`]}>
+            {errorMessage || HELPER_MESSAGE.PYOUNG_INPUT}
           </AnimationP>
         </Accordion.Details>
       </Accordion>

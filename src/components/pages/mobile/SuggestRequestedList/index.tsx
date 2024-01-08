@@ -12,7 +12,10 @@ export default memo(() => {
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
 
   const handleClickRecommendationForm = useCallback(() => {
-    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`, query: { entry: 'my' } });
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+      query: { entry: 'suggestRequestedList' },
+    });
   }, [router]);
 
   const handleClickSuggestItem = useCallback(

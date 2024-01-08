@@ -27,7 +27,7 @@ function ActionButton({
         <PersistentBottomBar>
           <div tw="flex gap-3">
             {handleClickBackButton && (
-              <ButtonV2 variant="grayOutline" tw="w-full text-gray-1000" size="bigger" onClick={handleClickBackButton}>
+              <ButtonV2 variant="gray" tw="w-full text-gray-1000" size="bigger" onClick={handleClickBackButton}>
                 뒤로가기
               </ButtonV2>
             )}

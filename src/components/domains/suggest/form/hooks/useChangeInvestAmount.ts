@@ -12,8 +12,11 @@ import SuggestForm from '../types';
 
 import maxAmount from '../constants/maxAmount';
 
-import getPriceFormatFn from '../../utils/getPriceFormat';
 import ERROR_MESSAGE from '../constants/errorMessage';
+
+import isEqualValue from '../../utils/isEqualValue';
+
+import getPriceFormatFn from '../../utils/getPriceFormat';
 
 export default function useChangeInvestAmount() {
   const [investAmount, setInvestAmount] = useRecoilState<SuggestForm['investAmount']>(
@@ -24,6 +27,7 @@ export default function useChangeInvestAmount() {
     SuggestForm['errorMessageInvestAmountPrice']
   >(SuggestFormSelector('errorMessageInvestAmountPrice'));
 
+  const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
   const purpose = useRecoilValue<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
 
   const handleChangeInvestAmount = useCallback(
@@ -41,20 +45,29 @@ export default function useChangeInvestAmount() {
           setErrorMessageInvestAmountPrice('');
         }
 
-        if (numericValue === 0) {
+        if (isEqualValue(numericValue, 0)) {
           setInvestAmount('');
+
+          if (forms.length > 3) {
+            setErrorMessageInvestAmountPrice(ERROR_MESSAGE.REQUIRE_INVEST_AMOUNT);
+          }
         } else {
           setInvestAmount(numericValue.toString());
         }
       }
     },
-    [setErrorMessageInvestAmountPrice, setInvestAmount],
+    [forms.length, setErrorMessageInvestAmountPrice, setInvestAmount],
   );
 
   const handleResetInvestAmount = useCallback(() => {
     setInvestAmount('');
-    setErrorMessageInvestAmountPrice('');
-  }, [setInvestAmount, setErrorMessageInvestAmountPrice]);
+
+    if (forms.length > 3) {
+      setErrorMessageInvestAmountPrice(ERROR_MESSAGE.REQUIRE_INVEST_AMOUNT);
+    } else {
+      setErrorMessageInvestAmountPrice('');
+    }
+  }, [setInvestAmount, forms.length, setErrorMessageInvestAmountPrice]);
 
   const investAmountLabel = useMemo(
     () =>
@@ -66,7 +79,7 @@ export default function useChangeInvestAmount() {
     [investAmount],
   );
 
-  const isRenderInvestAmountField = useMemo(() => purpose === '투자', [purpose]);
+  const isRenderInvestAmountField = useMemo(() => isEqualValue(purpose, '투자'), [purpose]);
 
   const formattedPrice = useMemo(
     () => (investAmount ? parseInt(investAmount, 10).toLocaleString() : ''),

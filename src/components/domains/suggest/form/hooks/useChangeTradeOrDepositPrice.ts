@@ -6,19 +6,21 @@ import { formatNumberInKorean } from '@/utils';
 
 import { regNumber } from '@/utils/regex';
 
+import { BuyOrRent } from '@/constants/enums';
+
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
 import SuggestForm from '../types';
 
 import maxAmount from '../constants/maxAmount';
 
+import ERROR_MESSAGE from '../constants/errorMessage';
+
 import isEqualValue from '../../utils/isEqualValue';
 
 import getBuyOrRentPriceTitle from '../../utils/getBuyOrRentPriceTitle';
 
 import getPriceFormatFn from '../../utils/getPriceFormat';
-
-import ERROR_MESSAGE from '../constants/errorMessage';
 
 export default function useChangeTradeOrDepositPrice() {
   const [tradeOrDepositPrice, setTradeOrDepositPrice] = useRecoilState<SuggestForm['tradeOrDepositPrice']>(
@@ -29,8 +31,8 @@ export default function useChangeTradeOrDepositPrice() {
     SuggestForm['errorMessageTradeOrDepositPrice']
   >(SuggestFormSelector('errorMessageTradeOrDepositPrice'));
 
+  const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
-
   const quickSale = useRecoilValue<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
 
   const handleChangeTradeOrDepositPrice = useCallback(
@@ -48,20 +50,37 @@ export default function useChangeTradeOrDepositPrice() {
           setErrorMessageTradeOrDepositPrice('');
         }
 
-        if (numericValue === 0) {
+        if (isEqualValue(numericValue, 0)) {
           setTradeOrDepositPrice('');
+
+          if (forms.length > 2) {
+            if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
+              setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.REQUIRE_TRADE_PRICE);
+            } else {
+              setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.REQUIRE_DEPOSIT_PRICE);
+            }
+          }
         } else {
           setTradeOrDepositPrice(numericValue.toString());
         }
       }
     },
-    [setTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice],
+    [forms.length, buyOrRent, setErrorMessageTradeOrDepositPrice, setTradeOrDepositPrice],
   );
 
   const handleResetTradeOrDepositPrice = useCallback(() => {
     setTradeOrDepositPrice('');
-    setErrorMessageTradeOrDepositPrice('');
-  }, [setTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice]);
+
+    if (forms.length > 2) {
+      if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
+        setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.REQUIRE_TRADE_PRICE);
+      } else {
+        setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.REQUIRE_DEPOSIT_PRICE);
+      }
+    } else {
+      setErrorMessageTradeOrDepositPrice('');
+    }
+  }, [setTradeOrDepositPrice, forms.length, buyOrRent, setErrorMessageTradeOrDepositPrice]);
 
   const isRenderTradeOrDepositPrice = useMemo(
     () => !(!buyOrRent || isEqualValue(quickSale, '1')),

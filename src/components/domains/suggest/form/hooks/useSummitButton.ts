@@ -1,17 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useMemo } from 'react';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { BuyOrRent } from '@/constants/enums';
-
-import isEqualValue from '../../utils/isEqualValue';
 
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
 import SuggestForm from '../types';
 
 import forms from '../constants/forms';
+
+import ERROR_MESSAGE from '../constants/errorMessage';
+
+import isEqualValue from '../../utils/isEqualValue';
+
+import isNotEqualValue from '../../utils/isNotEqualValue';
+
+import errorHandlingWithElement from '../../utils/errorHandlingWidthElement';
 
 import getValidArrayField from '../../utils/getValidArrayField';
 
@@ -31,6 +37,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
   const tradeOrDepositPrice = useRecoilValue<SuggestForm['tradeOrDepositPrice']>(
     SuggestFormSelector('tradeOrDepositPrice'),
   );
+
   const realestateTypes = useRecoilValue<SuggestForm['realestateTypes']>(SuggestFormSelector('realestateTypes'));
   const quickSale = useRecoilValue<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
 
@@ -49,19 +56,21 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     SuggestFormSelector('interviewAvailabletimes'),
   );
 
-  const errorMessageTradeOrDepositPrice = useRecoilValue<SuggestForm['errorMessageTradeOrDepositPrice']>(
-    SuggestFormSelector('errorMessageTradeOrDepositPrice'),
-  );
+  const [errorMessageTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice] = useRecoilState<
+    SuggestForm['errorMessageTradeOrDepositPrice']
+  >(SuggestFormSelector('errorMessageTradeOrDepositPrice'));
 
-  const errorMessageMonthlyRentFeePrice = useRecoilValue<SuggestForm['errorMessageMonthlyRentFeePrice']>(
-    SuggestFormSelector('errorMessageMonthlyRentFeePrice'),
-  );
+  const [errorMessageMonthlyRentFeePrice, setErrorMessageMonthlyRentFeePrice] = useRecoilState<
+    SuggestForm['errorMessageMonthlyRentFeePrice']
+  >(SuggestFormSelector('errorMessageMonthlyRentFeePrice'));
 
-  const errorMessageInvestAmountPrice = useRecoilValue<SuggestForm['errorMessageInvestAmountPrice']>(
-    SuggestFormSelector('errorMessageInvestAmountPrice'),
-  );
+  const [errorMessageInvestAmountPrice, setErrorMessageInvestAmountPrice] = useRecoilState<
+    SuggestForm['errorMessageInvestAmountPrice']
+  >(SuggestFormSelector('errorMessageInvestAmountPrice'));
 
-  const errorPyoungInput = useRecoilValue<SuggestForm['errorPyoungInput']>(SuggestFormSelector('errorPyoungInput'));
+  const setErrorMessagePyoungInput = useSetRecoilState<SuggestForm['errorMessagePyoungInput']>(
+    SuggestFormSelector('errorMessagePyoungInput'),
+  );
 
   const currentForm = useMemo(() => form[form.length - 1], [form]);
 
@@ -105,10 +114,6 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     }
 
     if (isEqualValue(currentForm, forms.AREA)) {
-      if (errorPyoungInput) {
-        return true;
-      }
-
       return getValidArrayField(pyoungList);
     }
 
@@ -120,10 +125,6 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       return getValidArrayField(interviewAvailabletimes);
     }
 
-    if (isEqualValue(currentForm, forms.SUMMARY)) {
-      return true;
-    }
-
     return false;
   }, [
     currentForm,
@@ -133,7 +134,6 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     errorMessageInvestAmountPrice,
     errorMessageMonthlyRentFeePrice,
     errorMessageTradeOrDepositPrice,
-    errorPyoungInput,
     interviewAvailabletimes,
     investAmount,
     moveInDate,
@@ -177,8 +177,119 @@ export default function useSummitButton({ depth }: { depth?: number }) {
 
   /** STEP FIVE */
   const handleSubmitInterview = useCallback(() => {
+    if (!realestateTypes || (realestateTypes && isEqualValue(realestateTypes.length, 0))) {
+      errorHandlingWithElement({
+        elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
+        errorMessage: ERROR_MESSAGE.REQUIRE_REALESTATE_TYPES,
+      });
+
+      return;
+    }
+
+    if (!buyOrRent) {
+      errorHandlingWithElement({
+        elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
+        errorMessage: ERROR_MESSAGE.REQUIRE_BUY_OR_RENT,
+      });
+
+      return;
+    }
+
+    if (isNotEqualValue(quickSale, '1')) {
+      if (errorMessageTradeOrDepositPrice) {
+        errorHandlingWithElement({
+          elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
+          errorMessage: errorMessageTradeOrDepositPrice,
+        });
+
+        return;
+      }
+
+      if (errorMessageMonthlyRentFeePrice) {
+        errorHandlingWithElement({
+          elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
+          errorMessage: errorMessageMonthlyRentFeePrice,
+        });
+
+        return;
+      }
+    }
+
+    if (isEqualValue(buyOrRent, BuyOrRent.Buy) && isEqualValue(purpose, '투자') && errorMessageInvestAmountPrice) {
+      errorHandlingWithElement({
+        elementID: forms.BUY_PURPOSE,
+        errorMessage: errorMessageInvestAmountPrice,
+      });
+
+      return;
+    }
+
+    if (isEqualValue(buyOrRent, BuyOrRent.Buy) && isEqualValue(purpose, '실거주') && (!moveInDate || !moveInDateType)) {
+      errorHandlingWithElement({
+        elementID: forms.BUY_PURPOSE,
+        errorMessage: ERROR_MESSAGE.REQUIRE_MOVE_IN_DATE,
+      });
+
+      return;
+    }
+
+    if (isNotEqualValue(buyOrRent, BuyOrRent.Buy) && (!moveInDate || !moveInDateType)) {
+      errorHandlingWithElement({
+        elementID: forms.MOVE_IN_DATE,
+        errorMessage: ERROR_MESSAGE.REQUIRE_MOVE_IN_DATE,
+      });
+
+      return;
+    }
+
+    if (!pyoungList || (pyoungList && isEqualValue(pyoungList.length, 0))) {
+      errorHandlingWithElement({
+        elementID: forms.AREA,
+        errorMessage: ERROR_MESSAGE.REQUIRE_AREA,
+      });
+
+      return;
+    }
+
+    if (!additionalCondtions || (additionalCondtions && isEqualValue(additionalCondtions.length, 0))) {
+      errorHandlingWithElement({
+        elementID: forms.ADDITIONAL_CONDITIONS,
+        errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS,
+      });
+      return;
+    }
+
+    if (!interviewAvailabletimes || (interviewAvailabletimes && isEqualValue(interviewAvailabletimes.length, 0))) {
+      errorHandlingWithElement({
+        elementID: forms.INTERVIEW,
+        errorMessage: ERROR_MESSAGE.REQUIRE_INTERVIEW,
+      });
+    }
+
     setForm((prev) => [...prev, forms.SUMMARY]);
-  }, [setForm]);
+    setErrorMessageTradeOrDepositPrice('');
+    setErrorMessageMonthlyRentFeePrice('');
+    setErrorMessageInvestAmountPrice('');
+    setErrorMessagePyoungInput('');
+  }, [
+    additionalCondtions,
+    buyOrRent,
+    errorMessageInvestAmountPrice,
+    errorMessageMonthlyRentFeePrice,
+    errorMessageTradeOrDepositPrice,
+    interviewAvailabletimes,
+    moveInDate,
+    moveInDateType,
+    purpose,
+    pyoungList,
+    quickSale,
+    realestateTypes,
+    setErrorMessageInvestAmountPrice,
+    setErrorMessageMonthlyRentFeePrice,
+    setErrorMessagePyoungInput,
+    setErrorMessageTradeOrDepositPrice,
+    setForm,
+  ]);
 
   const handleSubmitSummary = useCallback(() => {}, []);
 

@@ -10,9 +10,12 @@ import SuggestFormSelector from '../selector/SuggestFormSelector';
 
 import SuggestForm from '../types';
 
+import ERROR_MESSAGE from '../constants/errorMessage';
+
 export default function useChangePriceTypeField() {
   const [quickSale, setQuickSale] = useRecoilState<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
 
+  const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
 
@@ -36,6 +39,13 @@ export default function useChangePriceTypeField() {
 
         if (isEqualValue(value, '0')) {
           setQuickSale('0');
+          if (forms.length > 2) {
+            if (buyOrRent === BuyOrRent.Buy) {
+              setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.REQUIRE_TRADE_PRICE);
+            } else {
+              setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.REQUIRE_DEPOSIT_PRICE);
+            }
+          }
         }
 
         if (isEqualValue(value, '1')) {
@@ -49,6 +59,8 @@ export default function useChangePriceTypeField() {
       }
     },
     [
+      buyOrRent,
+      forms.length,
       setErrorMessageMonthlyRentFeePrice,
       setErrorMessageTradeOrDepositPrice,
       setMonthlyRentFee,

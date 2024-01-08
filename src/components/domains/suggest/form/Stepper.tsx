@@ -38,7 +38,7 @@ export default function Stepper() {
   }, [currentIndex]);
 
   return (
-    <div tw="p-5 pb-8 shadow-sm">
+    <div tw="p-5 pb-8 [box-shadow: 0px 16px 24px 0px #00000014]">
       <div tw="flex items-center justify-center mb-6" css={[hidden && tw`hidden`]}>
         <AnimateStepperNumber active={getStep(1, currentIndex) === 'current'}>
           <StepOne color={getColor(1, currentIndex)} />

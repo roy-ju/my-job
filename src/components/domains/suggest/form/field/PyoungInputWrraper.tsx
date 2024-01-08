@@ -6,7 +6,7 @@ import PyoungInputField from './PyoungInputField';
 
 import useChangePyoungInput from '../hooks/useChangePyoungInput';
 
-import RegionSelectedPyoungListField from './RegionSelectedPyoungListField';
+import SelectedPyoungListField from './SelectedPyoungListField';
 
 const Line = styled(motion.div)`
   ${tw`bg-gray-200 w-full [height: 1px] my-6`}
@@ -14,18 +14,20 @@ const Line = styled(motion.div)`
 
 export default function PyoungInputWrraper() {
   const {
+    isRenderAccordion,
     isRenderPyoungInputField,
     isRenderSelectedPyoungList,
     pyoungInput,
-    pyounInputLabel,
-    selectedInputedPyoungList,
+    pyoungInputLabel,
     pyoungInputOpen,
-    errorPyoungInput,
+    selectedInputedPyoungList,
+    errorMessagePyoungInput,
+    disableAddButton,
     handleOpenAccordion,
     handleCloseAccordion,
     handleChangePyoungInputValue,
-    handleResetInputValue,
     handleClickAddPyoung,
+    handleResetInputValue,
     handleClickDeleteAddedPyoung,
   } = useChangePyoungInput();
 
@@ -35,15 +37,17 @@ export default function PyoungInputWrraper() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        css={[!isRenderPyoungInputField && tw`hidden`]}
+        css={[!isRenderAccordion && tw`hidden`]}
       />
 
       <PyoungInputField
+        isRenderAccordion={isRenderAccordion}
         isRender={isRenderPyoungInputField}
         value={pyoungInput}
-        label={pyounInputLabel}
+        label={pyoungInputLabel}
         open={pyoungInputOpen}
-        error={errorPyoungInput}
+        disabled={disableAddButton}
+        errorMessage={errorMessagePyoungInput}
         handleOpen={handleOpenAccordion}
         handleClose={handleCloseAccordion}
         handleChange={handleChangePyoungInputValue}
@@ -51,7 +55,7 @@ export default function PyoungInputWrraper() {
         handleReset={handleResetInputValue}
       />
 
-      <RegionSelectedPyoungListField
+      <SelectedPyoungListField
         isRender={isRenderSelectedPyoungList}
         list={selectedInputedPyoungList}
         handleClick={handleClickDeleteAddedPyoung}
