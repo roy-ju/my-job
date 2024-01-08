@@ -22,7 +22,7 @@ export default function useRouter(depth = 0) {
    * 현재 depth 기준으로 호출된 depth 포함 오른쪽에 열려있는 모든 depth 들을 닫는다.
    */
   const pop = useCallback(
-    (options?: NavigationOptions, queryReset = false, isPushHistoryStack = true) => {
+    (options?: NavigationOptions, isPushHistoryStack = true) => {
       if (isPushHistoryStack) {
         window.history.pushState({}, '', router.asPath);
       }
@@ -49,10 +49,6 @@ export default function useRouter(depth = 0) {
         path += `[depth${index + 1}]/`;
         query[`depth${index + 1}`] = value;
       });
-
-      if (queryReset) {
-        return router.replace({ pathname: path, query: {} });
-      }
 
       return router.replace({ pathname: path, query });
     },

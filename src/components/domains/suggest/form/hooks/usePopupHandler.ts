@@ -56,6 +56,7 @@ export default function usePopupHandler({ depth }: { depth?: number }) {
         danjiAddress: v.address,
         danjiName: v.name,
         forms: [...prev.forms, 'realestate_and_buyOrRent_and_price'],
+        realestateTypes: [v.realestate_type],
         popup: '',
       }));
     },
@@ -64,7 +65,7 @@ export default function usePopupHandler({ depth }: { depth?: number }) {
 
   const handleQuitForm = useCallback(async () => {
     if (platform === 'pc') {
-      await customRouter.pop(undefined, true);
+      await customRouter.pop();
       reset();
     }
     if (platform === 'mobile') {
@@ -106,7 +107,7 @@ export default function usePopupHandler({ depth }: { depth?: number }) {
       errorMessageTradeOrDepositPrice: '',
       errorMessageMonthlyRentFeePrice: '',
       errorMessageInvestAmountPrice: '',
-      errorPyoungInput: false,
+      errorMessagePyoungInput: '',
     }));
   }, [setState]);
 

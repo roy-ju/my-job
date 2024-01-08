@@ -62,6 +62,7 @@ function PriceField({
           }
           hasError={!!errorMessage}
           ref={inputRef}
+          id={id}
         >
           <TextFieldV2.Input value={price} onChange={handleChange} label={label} isLabelBottom />
 

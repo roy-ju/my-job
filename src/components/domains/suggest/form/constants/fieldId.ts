@@ -19,7 +19,7 @@ const FIELD_ID = {
 
   PyoungList: 'pyoung_list_field',
 
-  RegionSelectedPyoungList: 'region_selected_pyoung_list_field',
+  SelectedPyoungList: 'selected_pyoung_list_field',
 
   Realestate_field: 'realestate_field',
 

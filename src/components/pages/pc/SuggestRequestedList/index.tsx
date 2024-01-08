@@ -19,7 +19,7 @@ export default memo(({ panelWidth, depth }: Props) => {
   const handleClickRecommendationForm = useCallback(() => {
     router.replace(Routes.RecommendationForm, {
       searchParams: {
-        entry: 'my',
+        entry: 'suggestRequestedList',
       },
     });
   }, [router]);
@@ -29,7 +29,7 @@ export default memo(({ panelWidth, depth }: Props) => {
       router.replace(Routes.MySuggestDetail, {
         searchParams: {
           suggestID: `${id}`,
-          entry: 'my',
+          entry: 'suggestRequestedList',
         },
       });
     },

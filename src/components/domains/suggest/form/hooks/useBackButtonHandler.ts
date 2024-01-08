@@ -35,20 +35,30 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
       return;
     }
 
-    if (platform === 'pc') {
+    if (isEqualValue(platform, 'pc')) {
       if (isEqualValue(router?.query?.entry, 'home')) {
         if (isEqualValue(router?.query?.property, '그외')) {
           if (forms.length > 2) {
             setPopup('quit');
           } else {
             setTimeout(() => reset(), 200);
-            customRouter.pop(undefined, true);
+            customRouter.pop();
           }
         } else if (forms.length >= 2) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          customRouter.pop(undefined, true);
+          customRouter.pop();
+        }
+      } else if (
+        isEqualValue(router?.query?.entry, 'danjiDetail') ||
+        isEqualValue(router?.query?.entry, 'danjiSuggestListings')
+      ) {
+        if (forms.length > 2) {
+          setPopup('quit');
+        } else {
+          setTimeout(() => reset(), 200);
+          customRouter.pop();
         }
       } else if (forms.length >= 2) {
         setPopup('quit');
@@ -58,7 +68,7 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
       }
     }
 
-    if (platform === 'mobile') {
+    if (isEqualValue(platform, 'mobile')) {
       if (isEqualValue(router?.query?.entry, 'home')) {
         if (isEqualValue(router?.query?.property, '그외')) {
           if (forms.length > 2) {
@@ -68,6 +78,16 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
             router.back();
           }
         } else if (forms.length >= 2) {
+          setPopup('quit');
+        } else {
+          setTimeout(() => reset(), 200);
+          router.back();
+        }
+      } else if (
+        isEqualValue(router?.query?.entry, 'danjiDetail') ||
+        isEqualValue(router?.query?.entry, 'danjiSuggestListings')
+      ) {
+        if (forms.length > 2) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);

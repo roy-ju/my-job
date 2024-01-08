@@ -8,8 +8,6 @@ import { describeRealestateType, describeJeonsaeWolsaeSame, BuyOrRent, DanjiOrRe
 
 import { formatNumberInKorean } from '@/utils';
 
-import AdditionalConditionWrraper from '../ui/AdditionalContionsWrraper';
-
 import getPriceFormatFn from '../../utils/getPriceFormat';
 
 import isEqualValue from '../../utils/isEqualValue';
@@ -88,13 +86,13 @@ export default function useGetSummary() {
 
   const purposeData = useCallback(() => {
     if (purpose && investAmount) {
-      return `${purpose} ${formatNumberInKorean(Number(investAmount) * 10000, {
+      return `${purpose} / ${formatNumberInKorean(Number(investAmount) * 10000, {
         formatFn: getPriceFormatFn,
       })}`;
     }
 
     if (purpose && moveInDate && moveInDateType) {
-      return `${purpose} ${moment(moveInDate).format('YY.MM.DD')} ${moveInDateType}`;
+      return `${purpose} / ${moment(moveInDate).format('YY.MM.DD')} ${moveInDateType} 입주`;
     }
 
     return '';
@@ -114,20 +112,7 @@ export default function useGetSummary() {
 
   const addtionalCondtionsData = useCallback(() => {
     if (additionalCondtions && additionalCondtions.length > 0) {
-      return (
-        <div tw="flex flex-wrap [gap: 5px]">
-          {additionalCondtions.map((item) => (
-            <AdditionalConditionWrraper
-              key={item}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {item}
-            </AdditionalConditionWrraper>
-          ))}
-        </div>
-      );
+      return additionalCondtions.join(' / ');
     }
 
     return '';
@@ -135,7 +120,7 @@ export default function useGetSummary() {
 
   const interviewAvailabletimesData = useCallback(() => {
     if (interviewAvailabletimes && interviewAvailabletimes.length > 0) {
-      return interviewAvailabletimes.join(', ');
+      return interviewAvailabletimes.map((item) => item.replaceAll(' 에 인터뷰 가능해요.', '')).join(' / ');
     }
 
     return '';
