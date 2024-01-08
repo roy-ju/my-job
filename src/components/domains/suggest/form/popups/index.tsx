@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 
-import usePopupHandler from '../form/hooks/usePopupHandler';
+import usePopupHandler from '../hooks/usePopupHandler';
 
 const ReselectConfirmPopup = dynamic(() => import('./ReselectConfirmPopup'), { ssr: false });
 

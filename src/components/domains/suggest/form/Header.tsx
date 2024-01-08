@@ -1,6 +1,6 @@
 import { NavigationHeader } from '@/components/molecules';
 
-import useBackButtonHandler from './form/hooks/useBackButtonHandler';
+import useBackButtonHandler from './hooks/useBackButtonHandler';
 
 type HeaderProps = { title: string; depth?: number };
 
