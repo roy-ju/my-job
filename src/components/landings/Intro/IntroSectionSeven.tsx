@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function IntroSectionSeven() {
   return (
     <section tw="py-[60px] md:py-[120px] text-center [background: linear-gradient(90deg, #5661D1 0%, #715FE2 100%)] ">

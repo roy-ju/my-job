@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+
 import ArrowIcon from '@/assets/icons/arrow_right.svg';
 
 export default function IntroSectionEight() {

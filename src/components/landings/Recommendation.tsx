@@ -1,9 +1,12 @@
-import React from 'react';
 import tw from 'twin.macro';
-import LandingFooter from '../LandingFooter';
-import LandingHeader from '../LandingHeader';
-import SectionTwo from '../Intro/IntroSectionThree';
-import SectionOne from './RecommendationSectionOne';
+
+import LandingFooter from './ui/LandingFooter';
+
+import LandingHeader from './ui/LandingHeader';
+
+import SectionTwo from './intro/IntroSectionThree';
+
+import SectionOne from './recommendation/RecommendationSectionOne';
 
 const Layout = tw.div`absolute inset-0 overflow-auto`;
 const Main = tw.main``;

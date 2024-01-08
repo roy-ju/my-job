@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import PhoneImage from '@/../public/static/images/landing/intro_phone6.png';
-import PopupImage1 from '@/../public/static/images/landing/intro_popup1.png';
-import PopupImage2 from '@/../public/static/images/landing/intro_popup2.png';
-import PopupImage3 from '@/../public/static/images/landing/intro_popup3.png';
+import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
+
+import PhoneImage from '@/../public/static/images/landing/intro_phone6.png';
+
+import PopupImage1 from '@/../public/static/images/landing/intro_popup1.png';
+
+import PopupImage2 from '@/../public/static/images/landing/intro_popup2.png';
+
+import PopupImage3 from '@/../public/static/images/landing/intro_popup3.png';
 
 const StyledP = styled.p`
   ${tw`text-sm md:text-2xl md:leading-10 leading-[22px] text-gray-900`}

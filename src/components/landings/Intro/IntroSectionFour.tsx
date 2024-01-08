@@ -1,7 +1,8 @@
-import React from 'react';
-import BubbleImage1 from '@/../public/static/images/landing/intro_bubble1.png';
-import BubbleImage2 from '@/../public/static/images/landing/intro_bubble2.png';
 import Image from 'next/image';
+
+import BubbleImage1 from '@/../public/static/images/landing/intro_bubble1.png';
+
+import BubbleImage2 from '@/../public/static/images/landing/intro_bubble2.png';
 
 export default function introSectionFour() {
   return (
