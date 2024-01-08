@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
-export default function Error404() {
+export default function NotFound() {
   const router = useRouter();
 
   useEffect(() => {

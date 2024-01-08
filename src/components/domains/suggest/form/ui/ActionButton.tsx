@@ -1,10 +1,12 @@
 import { memo } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import PersistentBottomBar from '@/components/atoms/PersistentBottomBar';
 
-import ScrollUp from './ScrollUp';
+const ScrollUp = dynamic(() => import('./ScrollUp'));
 
 type ActionButtonProps = {
   disabled: boolean;

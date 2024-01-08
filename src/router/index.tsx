@@ -182,11 +182,14 @@ const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomRepor
 });
 
 const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: FallbackComponent });
-const NotFound = dynamic(() => import('@/components/pages/pc/NotFound'), { ssr: false, loading: FallbackComponent });
+
+const NotFound = dynamic(() => import('@/components/pages/NotFound'), { ssr: false, loading: FallbackComponent });
+
 const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/DeregisterDisclaimer'), {
   ssr: false,
   loading: FallbackComponent,
@@ -808,11 +811,11 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
       if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {
         return <Developer {...props} />;
       }
-      return <NotFound {...props} />;
+      return <NotFound />;
     }
 
     default: {
-      return <NotFound {...props} />;
+      return <NotFound />;
     }
   }
 }
