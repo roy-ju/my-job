@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import AppConfig from '@/config';
 
-import Recommendation from '@/components/landings/Recommendation';
+import Recommendation from '@/components/domains/landings/Recommendation';
 
 import { NextPageWithLayout } from '../_app';
 

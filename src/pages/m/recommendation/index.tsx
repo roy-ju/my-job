@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import Recommendation from '@/components/landings/Recommendation';
+import Recommendation from '@/components/domains/landings/Recommendation';
 
 const Page: NextPageWithLayout = () => <Recommendation />;
 

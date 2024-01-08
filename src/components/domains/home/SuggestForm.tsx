@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useRouter as useCunstomRouter } from '@/hooks/utils';
-
 import dynamic from 'next/dynamic';
 
 import tw, { styled } from 'twin.macro';
+
+import { useRouter as useCunstomRouter } from '@/hooks/utils';
 
 import Button from '@/components/atoms/Button';
 
@@ -18,13 +18,13 @@ import Routes from '@/router/routes';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
-import isNotEqualValue from '@/components/suggest/utils/isNotEqualValue';
-
 import { RegionItem } from '@/components/organisms/RegionList';
 
-import isEqualValue from '@/components/suggest/utils/isEqualValue';
-
 import FormImage from './FormImage';
+
+import isEqualValue from '../suggest/utils/isEqualValue';
+
+import isNotEqualValue from '../suggest/utils/isNotEqualValue';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
 

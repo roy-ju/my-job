@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import SuggestGuide from '@/components/suggest/SuggestGuide';
+import SuggestGuide from '@/components/domains/suggest/SuggestGuide';
 
 import Panel from '@/components/atoms/Panel';
 
