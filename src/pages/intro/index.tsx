@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import AppConfig from '@/config';
 
-import Intro from '@/components/landings/Intro';
+import Intro from '@/components/domains/landings/Intro';
 
 import { NextPageWithLayout } from '../_app';
 

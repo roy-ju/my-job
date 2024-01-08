@@ -1,4 +1,4 @@
-import SuggestForm from '@/components/suggest/SuggestForm';
+import SuggestForm from '@/components/domains/suggest/SuggestForm';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 

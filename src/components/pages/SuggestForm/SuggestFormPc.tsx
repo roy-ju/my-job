@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import SuggestForm from '@/components/suggest/SuggestForm';
+import SuggestForm from '@/components/domains/suggest/SuggestForm';
 
 import Panel from '@/components/atoms/Panel';
 

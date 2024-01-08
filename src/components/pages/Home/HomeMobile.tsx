@@ -1,4 +1,4 @@
-import Home from '@/components/home';
+import Home from '@/components/domains/home';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 

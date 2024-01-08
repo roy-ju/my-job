@@ -1,4 +1,4 @@
-import SuggestGuide from '@/components/suggest/SuggestGuide';
+import SuggestGuide from '@/components/domains/suggest/SuggestGuide';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 
