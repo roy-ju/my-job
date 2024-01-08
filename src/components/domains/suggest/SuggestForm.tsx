@@ -4,7 +4,7 @@ import { useResetRecoilState } from 'recoil';
 
 import useInitializeFormData from './form/hooks/useInitializeFormData';
 
-import Header from './Header';
+import Header from './form/Header';
 
 import Stepper from './form/Stepper';
 
@@ -12,7 +12,7 @@ import Form from './form/Form';
 
 import Actions from './form/Actions';
 
-import Popups from './popups/Popups';
+import Popups from './form/popups';
 
 import SuggestFormState from './form/atoms/SuggestFormState';
 
