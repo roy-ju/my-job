@@ -74,13 +74,13 @@ export default function useGetSummary() {
       })} /
         ${formatNumberInKorean(Number(monthlyRentFee) * 10000, {
           formatFn: getPriceFormatFn,
-        })} ${negotiable && '(금액 협의 가능)'}`;
+        })} ${negotiable ? ' (금액 협의 가능)' : ''}`;
     }
 
     if (tradeOrDepositPrice) {
       return `${formatNumberInKorean(Number(tradeOrDepositPrice) * 10000, {
         formatFn: getPriceFormatFn,
-      })} ${negotiable && '(금액 협의 가능)'}`;
+      })} ${negotiable ? ' (금액 협의 가능)' : ''}`;
     }
 
     return '';

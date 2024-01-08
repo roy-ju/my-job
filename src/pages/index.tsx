@@ -1,8 +1,11 @@
-// import Home from '@/components/pages/pc/Home';
-import { MapLayout } from '@/layouts';
-import AppConfig from '@/config';
 import Head from 'next/head';
-import HomeV2 from '@/components/pages/pc/Home/HomeV2';
+
+import { MapLayout } from '@/layouts';
+
+import AppConfig from '@/config';
+
+import HomePc from '@/components/pages/Home/HomePc';
+
 import { NextPageWithLayout } from './_app';
 
 const Page: NextPageWithLayout = () => (
@@ -20,7 +23,7 @@ const Page: NextPageWithLayout = () => (
       <meta property="og:description" content={AppConfig.description} />
       <meta property="og:image" content={AppConfig.ogImagePath} />
     </Head>
-    <HomeV2 />
+    <HomePc />
   </>
 );
 

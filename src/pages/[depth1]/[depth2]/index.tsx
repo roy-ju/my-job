@@ -1,14 +1,20 @@
-import { NextPageWithLayout } from '@/pages/_app';
 import { GetServerSideProps } from 'next';
 
-import { MapLayout } from '@/layouts';
-import PrevPage from '@/pages/[depth1]';
-import Router from '@/router';
-import getHtmlMetas from '@/utils/getHtmlMetas';
+import { NextPageWithLayout } from '@/pages/_app';
 
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { checkPlatform } from '@/utils/checkPlatform';
+import Router from '@/router';
+
+import PrevPage from '@/pages/[depth1]';
+
+import { MapLayout } from '@/layouts';
+
 import fetcher from '@/lib/swr/fetcher';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
+
+import { checkPlatform } from '@/utils/checkPlatform';
+
+import getHtmlMetas from '@/utils/getHtmlMetas';
 
 const Page: NextPageWithLayout = () => null;
 
@@ -46,13 +52,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  let danjiDetail: GetDanjiDetailResponse | null = null;
+  let danjiDetail: DanjiDetailResponse | null = null;
 
   if (context.query.danjiID) {
-    const response: GetDanjiDetailResponse = await fetcher([
-      '/danji/detail',
-      { danji_id: Number(context.query.danjiID) },
-    ]);
+    const response: DanjiDetailResponse = await fetcher(['/danji/detail', { danji_id: Number(context.query.danjiID) }]);
 
     if (response.danji_id) {
       danjiDetail = response;

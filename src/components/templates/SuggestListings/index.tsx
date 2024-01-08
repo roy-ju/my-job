@@ -1,16 +1,24 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { GetDanjiSuggestListResponse } from '@/apis/danji/danjiSuggestList';
-import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
-import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
-import { DanjiDetailSection, ListingItem } from '@/components/organisms';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
-import Routes from '@/router/routes';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import Image from 'next/image';
+
+import { useRouter } from '@/hooks/utils';
+
+import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
+
+import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
+
+import { DanjiDetailSection, ListingItem } from '@/components/organisms';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { GetDanjiSuggestListResponse } from '@/apis/danji/danjiSuggestList';
+
 import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
+
+import Routes from '@/router/routes';
+
+import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 
 type Props = {
   depth: number;
@@ -26,7 +34,6 @@ type Props = {
 
 export default function SuggestListings({ depth, danji, data, totalCount, onNext, onClickBack }: Props) {
   const router = useRouter(depth);
-  const nextRouter = useNextRouter();
 
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
@@ -50,17 +57,8 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   );
 
   const handleCreateSuggest = useCallback(() => {
-    const redirectURL = `/${Routes.SuggestListings}?danjiID=${danjiID}`;
-
-    nextRouter.replace({
-      pathname: `/${Routes.SuggestListings}/${Routes.RecommendGuide}`,
-      query: {
-        entry: 'danjiSuggestListings',
-        ...(danjiID ? { danjiID } : {}),
-        redirect: redirectURL,
-      },
-    });
-  }, [danjiID, nextRouter]);
+    router.push(Routes.RecommendationForm, { searchParams: { entry: 'danjiSuggestListings', danjiID: `${danjiID}` } });
+  }, [danjiID, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
     if (type === 'impossibleRecommendataion') {
@@ -95,6 +93,12 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
       isAccessible(danji.bubjungdong_code);
     }
   }, [danji]);
+
+  useEffect(() => {
+    if (!router?.query?.danjiID) {
+      router.popAll();
+    }
+  }, [router]);
 
   if (!danji) return null;
 

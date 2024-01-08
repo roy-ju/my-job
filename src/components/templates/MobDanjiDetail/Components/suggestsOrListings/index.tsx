@@ -183,17 +183,11 @@ export default function SuggestsOrListings({
       return;
     }
 
-    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
-      danji?.danji_id || router?.query?.danjiID || ''
-    }`;
-
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
       query: {
-        ...(danjiID ? { danjiID: `${danjiID}` } : {}),
-        entry: 'danji',
-        redirect: redirectURL,
-        origin: router.asPath,
+        danjiID: `${danjiID}`,
+        entry: 'danjiDetail',
       },
     });
   };

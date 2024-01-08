@@ -1,10 +1,10 @@
-import Header from './components/Header';
+import Header from './Header';
 
-import Contents from './components/Contents';
+import Contents from './Contents';
 
-import Footer from './components/Footer';
+import Footer from './Footer';
 
-export default function HomeV2Template() {
+export default function Home() {
   return (
     <>
       <div tw="h-full flex flex-col">

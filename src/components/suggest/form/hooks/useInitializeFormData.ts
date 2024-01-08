@@ -66,6 +66,22 @@ export default function useInitializeFormData() {
       } else {
         setStateForms(['region_or_danji']);
       }
+    } else if (isEqualValue(router?.query?.entry, 'map')) {
+      // 지도에서 들어왔을때
+
+      if (router?.query?.address && router?.query?.bcode) {
+        // 주소와 코드가 있으면 지역이라고 하자.
+        setStateDanjiOrRegion(DanjiOrRegionalType.Regional);
+        const address = router.query.address as string;
+        const code = router.query.bcode as string;
+
+        setAddress(address as string);
+        setBubjungdong({ name: address, code });
+        setStateForms(['region_or_danji', 'realestate_and_buyOrRent_and_price']);
+      } else {
+        // 없으면 다시 선택해야한다.
+        setStateForms(['region_or_danji']);
+      }
     } else {
       setStateForms(['region_or_danji']);
     }

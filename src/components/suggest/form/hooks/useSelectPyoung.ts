@@ -56,17 +56,20 @@ export default function useSelectPyoung() {
     [pyoungList, setPyoungList],
   );
 
-  const handleClickDanjiPyoung = (e?: NegocioMouseEvent<HTMLButtonElement>) => {
-    if (e) {
-      const { value } = e.currentTarget;
+  const handleClickDanjiPyoung = useCallback(
+    (e?: NegocioMouseEvent<HTMLButtonElement>) => {
+      if (e) {
+        const { value } = e.currentTarget;
 
-      if (pyoungList.includes(value)) {
-        setPyoungList((prev) => prev.filter((ele) => ele !== value));
-      } else {
-        setPyoungList((prev) => [...prev, value]);
+        if (pyoungList.includes(value)) {
+          setPyoungList((prev) => prev.filter((ele) => ele !== value));
+        } else {
+          setPyoungList((prev) => [...prev, value]);
+        }
       }
-    }
-  };
+    },
+    [pyoungList, setPyoungList],
+  );
 
   const list = useMemo(() => {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Regional)) {

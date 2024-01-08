@@ -1,57 +1,18 @@
-import { Button } from '@/components/atoms';
 import React from 'react';
 
+import { Button } from '@/components/atoms';
+
 import ChevronRight from '@/assets/icons/chevron_right_12.svg';
+
 import NegocioGrayLogo from '@/assets/icons/negocio_gray_logo.svg';
-import Routes from '@/router/routes';
+
 import styled from '@emotion/styled';
 
-import BannerImage from '@/../public/static/images/lawqna_main_banner.png';
 import BannerImage2 from '@/../public/static/images/lawqna_main_banner2.png';
-import { motion } from 'framer-motion';
 
 const StyledBox = styled.div``;
 
-export function Banner({
-  handleClickCounseling,
-  mobileOrPc,
-}: {
-  handleClickCounseling?: () => void;
-  mobileOrPc: string;
-}) {
-  return (
-    <motion.div
-      whileHover={{ scale: mobileOrPc === 'pc' ? 1.05 : 'none' }}
-      tw="[border-radius: 12px] min-h-[88px] [min-width: 340px] mx-auto relative p-5 py-4"
-      style={{
-        backgroundImage: `url('${BannerImage.src}')`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-      }}
-      onClick={handleClickCounseling}
-    >
-      <h1 tw="text-b2 [line-height: 16.8px] [letter-spacing: -0.4px] text-gray-300 font-bold mb-2">
-        <a
-          onClick={(e) => {
-            e.preventDefault();
-            handleClickCounseling?.();
-          }}
-          href={`/${Routes.LawQna}`}
-          tw="pointer-events-none"
-        >
-          부동산 법률 무료 상담 Q&A
-        </a>
-      </h1>
-
-      <Button tw="absolute bottom-4 w-[118px] h-[24px] px-3 [font-size: 10px] [line-height: 12px] [border-radius: 14px] font-medium whitespace-nowrap bg-blue hover:bg-blue">
-        상담 게시판 바로가기 <ChevronRight />
-      </Button>
-    </motion.div>
-  );
-}
-
-export function LegalPageBanner({ handleClickHome }: { handleClickHome?: () => void }) {
+function Banner({ handleClickHome }: { handleClickHome?: () => void }) {
   return (
     <StyledBox
       tw="[border-radius: 12px] min-h-[140px] [min-width: 340px] mx-auto relative p-5"
@@ -86,3 +47,5 @@ export function LegalPageBanner({ handleClickHome }: { handleClickHome?: () => v
     </StyledBox>
   );
 }
+
+export default Banner;
