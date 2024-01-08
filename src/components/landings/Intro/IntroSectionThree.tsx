@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import PhoneImage from '@/../public/static/images/landing/intro_phone2.png';
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
-import MypageImage from '@/../public/static/images/landing/intro_mypage.png';
-import MypageImage2 from '@/../public/static/images/landing/intro_mypage2.png';
+
 import { motion } from 'framer-motion';
+
+import PhoneImage from '@/../public/static/images/landing/intro_phone2.png';
+
+import MypageImage from '@/../public/static/images/landing/intro_mypage.png';
+
+import MypageImage2 from '@/../public/static/images/landing/intro_mypage2.png';
 
 const StyledP = styled.p`
   ${tw`text-sm md:text-2xl md:leading-10 leading-[22px] text-gray-900`}

@@ -1,6 +1,9 @@
+import { useRef, useState, useEffect } from 'react';
+
 import Image from 'next/image';
-import React, { useRef, useState, useEffect } from 'react';
+
 import Phone1 from '@/../public/static/images/landing/intro_phone3.png';
+
 import Phone2 from '@/../public/static/images/landing/intro_phone4.png';
 
 export default function IntroSectionFive({ isMobileSize }: { isMobileSize: boolean }) {

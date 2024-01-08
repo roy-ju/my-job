@@ -1,13 +1,23 @@
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import TitleImage from '@/../public/static/images/landing/intro_title.png';
-import BigTitleImage from '@/../public/static/images/landing/intro_title_big_white.png';
-import BigBannerImage from '@/../public/static/images/landing/intro_banner_big3.webp';
-import AppleIcon from '@/assets/icons/apple_store.svg';
-import GooglePlayIcon from '@/assets/icons/google_store.svg';
-import AppleTextIcon from '@/assets/icons/apple_store_text.svg';
-import GooglePlayTextIcon from '@/assets/icons/google_store_text.svg';
+import { useEffect, useState } from 'react';
+
 import Link from 'next/link';
+
+import Image from 'next/image';
+
+import TitleImage from '@/../public/static/images/landing/intro_title.png';
+
+import BigTitleImage from '@/../public/static/images/landing/intro_title_big_white.png';
+
+import BigBannerImage from '@/../public/static/images/landing/intro_banner_big3.webp';
+
+import AppleIcon from '@/assets/icons/apple_store.svg';
+
+import GooglePlayIcon from '@/assets/icons/google_store.svg';
+
+import AppleTextIcon from '@/assets/icons/apple_store_text.svg';
+
+import GooglePlayTextIcon from '@/assets/icons/google_store_text.svg';
+
 import tw from 'twin.macro';
 
 const carouselItems = [

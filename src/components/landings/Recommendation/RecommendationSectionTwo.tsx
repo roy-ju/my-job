@@ -1,7 +1,8 @@
-import React from 'react';
-import PhoneImage from '@/../public/static/images/landing/recommendation_phone2.png';
-import MypageImage from '@/../public/static/images/landing/recommendation_mypage.png';
 import Image from 'next/image';
+
+import PhoneImage from '@/../public/static/images/landing/recommendation_phone2.png';
+
+import MypageImage from '@/../public/static/images/landing/recommendation_mypage.png';
 
 export default function SectionTwo() {
   return (

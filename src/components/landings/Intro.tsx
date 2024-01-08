@@ -1,15 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
 import tw from 'twin.macro';
-import LandingFooter from '../LandingFooter';
-import LandingHeader from '../LandingHeader';
-import SectionOne from './IntroSectionOne';
-import SectionTwo from './IntroSectionTwo';
-import SectionThree from './IntroSectionThree';
-import SectionFour from './IntroSectionFour';
-import SectionSeven from './IntroSectionSeven';
-import SectionEight from './IntroSectionEight';
-import SectionSix from './IntroSectionSix';
-import SectionFive from './IntroSectionFive';
+
+import LandingFooter from './ui/LandingFooter';
+
+import LandingHeader from './ui/LandingHeader';
+
+import SectionOne from './intro/IntroSectionOne';
+
+import SectionTwo from './intro/IntroSectionTwo';
+
+import SectionThree from './intro/IntroSectionThree';
+
+import SectionFour from './intro/IntroSectionFour';
+
+import SectionSeven from './intro/IntroSectionSeven';
+
+import SectionEight from './intro/IntroSectionEight';
+
+import SectionSix from './intro/IntroSectionSix';
+
+import SectionFive from './intro/IntroSectionFive';
 
 const Layout = tw.div`absolute inset-0 overflow-auto`;
 const Main = tw.main``;

@@ -1,6 +1,9 @@
-import AppConfig from '@/config';
 import Head from 'next/head';
-import { Intro as IntroTemplate } from '@/components/templates/landings';
+
+import AppConfig from '@/config';
+
+import Intro from '@/components/landings/Intro';
+
 import { NextPageWithLayout } from '../_app';
 
 const Page: NextPageWithLayout = () => (
@@ -19,7 +22,7 @@ const Page: NextPageWithLayout = () => (
       <meta property="og:description" content={AppConfig.description} />
       <meta property="og:image" content={AppConfig.ogImagePath} />
     </Head>
-    <IntroTemplate />
+    <Intro />
   </>
 );
 

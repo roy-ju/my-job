@@ -1,4 +1,4 @@
-import Intro from '@/components/templates/landings/Intro';
+import Intro from '@/components/landings/Intro';
 
 import { NextPageWithLayout } from '@/pages/_app';
 

@@ -1,9 +1,14 @@
-import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
-import TitleImage from '@/../public/static/images/landing/recommendation_title.png';
-import TitleImage2 from '@/../public/static/images/landing/recommendation_title2.png';
-import PhoneImage from '@/../public/static/images/landing/recommendation_phone1.png';
+import { useState, useEffect } from 'react';
+
 import Link from 'next/link';
+
+import Image from 'next/image';
+
+import TitleImage from '@/../public/static/images/landing/recommendation_title.png';
+
+import TitleImage2 from '@/../public/static/images/landing/recommendation_title2.png';
+
+import PhoneImage from '@/../public/static/images/landing/recommendation_phone1.png';
 
 export default function SectionOne() {
   const [isMobileSize, setIsMobileSize] = useState(false);

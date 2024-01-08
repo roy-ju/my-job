@@ -1,13 +1,20 @@
-import React from 'react';
-import FacebookIcon from '@/assets/icons/facebook_black.svg';
-import BlogIcon from '@/assets/icons/blog_black.svg';
-import YoutubeIcon from '@/assets/icons/youtube_black.svg';
-import InstagramIcon from '@/assets/icons/instagram_black.svg';
-import AppleIcon from '@/assets/icons/apple_store.svg';
-import GooglePlayIcon from '@/assets/icons/google_store.svg';
-import AppleTextIcon from '@/assets/icons/apple_store_text.svg';
-import GooglePlayTextIcon from '@/assets/icons/google_store_text.svg';
 import Link from 'next/link';
+
+import FacebookIcon from '@/assets/icons/facebook_black.svg';
+
+import BlogIcon from '@/assets/icons/blog_black.svg';
+
+import YoutubeIcon from '@/assets/icons/youtube_black.svg';
+
+import InstagramIcon from '@/assets/icons/instagram_black.svg';
+
+import AppleIcon from '@/assets/icons/apple_store.svg';
+
+import GooglePlayIcon from '@/assets/icons/google_store.svg';
+
+import AppleTextIcon from '@/assets/icons/apple_store_text.svg';
+
+import GooglePlayTextIcon from '@/assets/icons/google_store_text.svg';
 
 export default function LandingFooter() {
   return (

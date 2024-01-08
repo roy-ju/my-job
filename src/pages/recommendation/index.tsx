@@ -1,6 +1,9 @@
-import AppConfig from '@/config';
 import Head from 'next/head';
-import { Recommendation as RecommendationTemplate } from '@/components/templates/landings';
+
+import AppConfig from '@/config';
+
+import Recommendation from '@/components/landings/Recommendation';
+
 import { NextPageWithLayout } from '../_app';
 
 const Page: NextPageWithLayout = () => (
@@ -19,7 +22,7 @@ const Page: NextPageWithLayout = () => (
       <meta property="og:description" content={AppConfig.description} />
       <meta property="og:image" content={AppConfig.ogImagePath} />
     </Head>
-    <RecommendationTemplate />
+    <Recommendation />
   </>
 );
 

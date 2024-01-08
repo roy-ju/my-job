@@ -1,10 +1,17 @@
+import { MutableRefObject, useRef, useState } from 'react';
+
 import Image from 'next/image';
-import React, { MutableRefObject, useRef, useState } from 'react';
+
 import Chat1 from '@/../public/static/images/landing/intro_chat_recieve1.png';
+
 import Chat2 from '@/../public/static/images/landing/intro_chat_send1.png';
+
 import Chat3 from '@/../public/static/images/landing/intro_chat_recieve2.png';
+
 import Chat4 from '@/../public/static/images/landing/intro_chat_send2.png';
+
 import useEventListener from '@/hooks/utils/useEventListener';
+
 import { unRef } from '@/utils/unRef';
 
 export default function IntroSectionSix({
