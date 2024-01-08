@@ -13,8 +13,9 @@ import { useRouter as useNextRouter } from 'next/router';
 import { formatCreatedTime } from '@/utils/formatsTime';
 import { getDevice } from '@/utils/misc';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
-import { LegalPageBanner } from '../Home/Components/Banner';
+
 import { LegalContent } from './Components/LegalContent';
+import Banner from './Components/Banner';
 
 export default function LegalCounseling({
   qnaLawData,
@@ -124,7 +125,7 @@ export default function LegalCounseling({
 
       <div tw="flex-1 min-h-0 overflow-auto" ref={scrollContainer}>
         <div tw="bg-white px-5 pt-7">
-          <LegalPageBanner handleClickHome={onClickHome} />
+          <Banner handleClickHome={onClickHome} />
         </div>
 
         <div tw="bg-white">

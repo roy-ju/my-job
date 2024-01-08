@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { useRouter as useCustormRouter } from '@/hooks/utils';
 
@@ -23,16 +23,21 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
 
   const customRouter = useCustormRouter(depth);
 
-  const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
+  const [forms, setForms] = useRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
   const setPopup = useSetRecoilState<SuggestForm['popup']>(SuggestFormSelector('popup'));
 
   const reset = useResetRecoilState(SuggestFormState);
 
   const handleClickBack = useCallback(() => {
+    if (forms[forms.length - 1] === 'summary') {
+      setForms((prev) => prev.filter((ele) => ele !== 'summary'));
+      return;
+    }
+
     if (platform === 'pc') {
       if (isEqualValue(router?.query?.entry, 'home')) {
-        if (router.query.property === '그외') {
+        if (isEqualValue(router?.query?.property, '그외')) {
           if (forms.length > 2) {
             setPopup('quit');
           } else {
@@ -55,7 +60,7 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
 
     if (platform === 'mobile') {
       if (isEqualValue(router?.query?.entry, 'home')) {
-        if (router.query.property === '그외') {
+        if (isEqualValue(router?.query?.property, '그외')) {
           if (forms.length > 2) {
             setPopup('quit');
           } else {
@@ -75,7 +80,7 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
         router.back();
       }
     }
-  }, [forms?.length, platform, customRouter, router, reset, setPopup]);
+  }, [forms, platform, setForms, router, setPopup, customRouter, reset]);
 
   return { handleClickBack };
 }

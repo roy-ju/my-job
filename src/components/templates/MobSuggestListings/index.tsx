@@ -43,15 +43,11 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
   );
 
   const handleCreateSuggest = useCallback(() => {
-    const redirectURL = `/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${danjiID}`;
-
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
       query: {
-        ...(danjiID ? { danjiID } : {}),
-        entry: 'danjiSuggestLisiting',
-        redirect: redirectURL,
-        origin: router.asPath,
+        danjiID,
+        entry: 'danjiSuggestListings',
       },
     });
   }, [danjiID, router]);

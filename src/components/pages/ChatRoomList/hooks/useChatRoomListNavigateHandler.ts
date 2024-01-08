@@ -37,15 +37,15 @@ export default function useChatRoomListNavigateHandler() {
 
   const handleClickRecommendationForm = useCallback(() => {
     if (platform?.platform === 'pc') {
-      router.replace(Routes.RecommendGuide, {
+      router.replace(Routes.RecommendationForm, {
         searchParams: {
-          back: router.asPath,
+          entry: 'chatRooomList',
         },
       });
     } else {
       nextRouter.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.RecommendGuide}`,
-        query: { origin: router.asPath },
+        pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+        query: { entry: 'chatRooomList' },
       });
     }
   }, [router, nextRouter, platform]);

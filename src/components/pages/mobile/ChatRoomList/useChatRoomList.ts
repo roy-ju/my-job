@@ -19,7 +19,7 @@ export default function useChatRoomList() {
         ? process.env.NEXT_PUBLIC_NEGOCIO_DELETED_PROFILE_IMG_PATH
         : item.other_profile_image_full_path,
 
-      name: item.deregistered  ? '탈퇴한 회원' : item.other_name,
+      name: item.deregistered ? '탈퇴한 회원' : item.other_name,
 
       unreadMessageCount: item.unread_message_count,
       lastMessage: item.latest_message,
@@ -37,7 +37,7 @@ export default function useChatRoomList() {
   );
 
   const handleClickRecommendationForm = useCallback(() => {
-    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.RecommendGuide}`, query: { origin: router.asPath } });
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`, query: { entry: 'chatRooomList' } });
   }, [router]);
 
   return {

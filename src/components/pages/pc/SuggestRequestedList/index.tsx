@@ -17,9 +17,8 @@ export default memo(({ panelWidth, depth }: Props) => {
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
 
   const handleClickRecommendationForm = useCallback(() => {
-    router.replace(Routes.RecommendGuide, {
+    router.replace(Routes.RecommendationForm, {
       searchParams: {
-        back: router.asPath,
         entry: 'my',
       },
     });

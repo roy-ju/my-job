@@ -1,12 +1,18 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { MapLayout } from '@/layouts';
-import fetcher from '@/lib/swr/fetcher';
+import { GetServerSideProps } from 'next';
 
 import { NextPageWithLayout } from '@/pages/_app';
+
 import Router from '@/router';
+
+import { MapLayout } from '@/layouts';
+
+import fetcher from '@/lib/swr/fetcher';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
+
 import { checkPlatform } from '@/utils/checkPlatform';
+
 import getHtmlMetas from '@/utils/getHtmlMetas';
-import { GetServerSideProps } from 'next';
 
 const Page: NextPageWithLayout = () => null;
 
@@ -28,13 +34,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
 
-  let danjiDetail: GetDanjiDetailResponse | null = null;
+  let danjiDetail: DanjiDetailResponse | null = null;
 
   if (context.query.danjiID) {
-    const response: GetDanjiDetailResponse = await fetcher([
-      '/danji/detail',
-      { danji_id: Number(context.query.danjiID) },
-    ]);
+    const response: DanjiDetailResponse = await fetcher(['/danji/detail', { danji_id: Number(context.query.danjiID) }]);
 
     if (response.danji_id) {
       danjiDetail = response;

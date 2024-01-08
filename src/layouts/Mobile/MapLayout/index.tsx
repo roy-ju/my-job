@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MobDanjiSummary } from '@/components/organisms';
 import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
+import { searchAddress } from '@/lib/kakao/search_address';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -52,6 +53,29 @@ function MapWrapper() {
 
   const [openPopup, setOpenPopup] = useState(false);
 
+  const handleSuggestFormRouter = useCallback(
+    (address?: string, bcode?: string) => {
+      if (address && bcode) {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+          query: {
+            entry: 'map',
+            address,
+            bcode,
+          },
+        });
+      } else {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+          query: {
+            entry: 'map',
+          },
+        });
+      }
+    },
+    [router],
+  );
+
   const handleClickSuggestRegional = useCallback(async () => {
     if (!code) return;
 
@@ -62,25 +86,42 @@ function MapWrapper() {
       return;
     }
 
+    // if (centerAddress.join('') !== '') {
+    //   router.push({
+    //     pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+    //     query: {
+    //       entry: 'map',
+    //       address: centerAddress.join(' '),
+    //       origin: router.asPath,
+    //     },
+    //   });
+    // } else {
+    //   router.push({
+    //     pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+    //     query: {
+    //       entry: 'map',
+    //       origin: router.asPath,
+    //     },
+    //   });
+    // }
+
     if (centerAddress.join('') !== '') {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
-        query: {
-          entry: 'map',
-          address: centerAddress.join(' '),
-          origin: router.asPath,
-        },
-      });
+      searchAddress(centerAddress.join(' '))
+        .then((data) => {
+          const bCode = data?.documents?.[0].address?.b_code;
+          if (bCode) {
+            handleSuggestFormRouter(centerAddress.join(' '), bCode);
+          } else {
+            handleSuggestFormRouter();
+          }
+        })
+        .catch(() => {
+          handleSuggestFormRouter();
+        });
     } else {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`,
-        query: {
-          entry: 'map',
-          origin: router.asPath,
-        },
-      });
+      handleSuggestFormRouter();
     }
-  }, [router, centerAddress, code]);
+  }, [code, centerAddress, handleSuggestFormRouter]);
 
   const [touchEvent, setTouchEvent] = useState<'none' | 'touch' | 'scroll'>('none');
   const [render, setRender] = useState(false);

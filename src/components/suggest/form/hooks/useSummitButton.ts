@@ -23,7 +23,7 @@ import getValidMoveInDate from '../../utils/getValidMoveInDate';
 
 import getValidRealestateTypeAndBuyOrRentAndPrice from '../../utils/getValidRealestateTypeAndBuyOrRentAndPrice';
 
-export default function useSummitButton() {
+export default function useSummitButton({ depth }: { depth?: number }) {
   const [form, setForm] = useRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
@@ -63,11 +63,17 @@ export default function useSummitButton() {
 
   const errorPyoungInput = useRecoilValue<SuggestForm['errorPyoungInput']>(SuggestFormSelector('errorPyoungInput'));
 
+  const currentForm = useMemo(() => form[form.length - 1], [form]);
+
   const isRenderRevisionText = useMemo(() => Boolean(form?.length > 1), [form?.length]);
 
-  const disabled = useMemo(() => {
-    const currentForm = form[form.length - 1];
+  const isRenderSummitButton = useMemo(() => currentForm === 'summary', [currentForm]);
 
+  const handleClickBackButton = useCallback(() => {
+    setForm((prev) => prev.filter((ele) => ele !== 'summary'));
+  }, [setForm]);
+
+  const disabled = useMemo(() => {
     if (isEqualValue(currentForm, forms.REGION_OR_DANJI)) {
       return getVaildRegionOrDanji(danjiOrRegion);
     }
@@ -120,6 +126,7 @@ export default function useSummitButton() {
 
     return false;
   }, [
+    currentForm,
     additionalCondtions,
     buyOrRent,
     danjiOrRegion,
@@ -127,7 +134,6 @@ export default function useSummitButton() {
     errorMessageMonthlyRentFeePrice,
     errorMessageTradeOrDepositPrice,
     errorPyoungInput,
-    form,
     interviewAvailabletimes,
     investAmount,
     moveInDate,
@@ -223,8 +229,10 @@ export default function useSummitButton() {
   ]);
 
   return {
+    isRenderSummitButton,
     isRenderRevisionText,
     disabled,
     handleFormsAction,
+    handleClickBackButton: isRenderSummitButton ? handleClickBackButton : undefined,
   };
 }

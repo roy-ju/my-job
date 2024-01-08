@@ -13,6 +13,7 @@ import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 import useMap from '@/states/map';
+import { searchAddress } from '@/lib/kakao/search_address';
 import useMapLayout from './useMapLayout';
 import Markers from './Markers';
 
@@ -82,6 +83,19 @@ function MapWrapper({
 
   const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
+  const handleSuggestFormRouter = useCallback(
+    (address?: string, bcode?: string) => {
+      if (address && bcode) {
+        replace(Routes.RecommendationForm, {
+          searchParams: { entry: 'map', address, bcode },
+        });
+      } else {
+        replace(Routes.RecommendationForm, { searchParams: { entry: 'map' } });
+      }
+    },
+    [replace],
+  );
+
   const handleClickSuggestRegional = useCallback(async () => {
     const response = await suggestEligibilityCheck(bubjungdongCode);
 
@@ -91,17 +105,22 @@ function MapWrapper({
     }
 
     if (centerAddress.join('') !== '') {
-      replace(Routes.RecommendGuide, {
-        searchParams: {
-          entry: 'map',
-          address: centerAddress.join(' '),
-          back: '/',
-        },
-      });
+      searchAddress(centerAddress.join(' '))
+        .then((data) => {
+          const bCode = data?.documents?.[0].address?.b_code;
+          if (bCode) {
+            handleSuggestFormRouter(centerAddress.join(' '), bCode);
+          } else {
+            handleSuggestFormRouter();
+          }
+        })
+        .catch(() => {
+          handleSuggestFormRouter();
+        });
     } else {
-      replace(Routes.RecommendGuide, { searchParams: { entry: 'map', back: '/' } });
+      handleSuggestFormRouter();
     }
-  }, [centerAddress, replace, bubjungdongCode]);
+  }, [bubjungdongCode, centerAddress, handleSuggestFormRouter]);
 
   const handleClickMapListingList = useCallback(() => {
     replace(Routes.MapListingList);

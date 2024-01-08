@@ -1,17 +1,17 @@
-import { MobileContainer } from '@/components/atoms';
+import Home from '@/components/home';
 
-import { MobGlobalNavigation } from '@/components/organisms';
+import MobileContainer from '@/components/atoms/MobileContainer';
 
-import HomeV2Template from '@/components/templates/Home/v2';
+import MobGlobalNavigation from '@/components/organisms/MobGlobalNavigation';
 
 import useSyncronizer from '@/states/syncronizer';
 
-export default function HomeV2() {
+export default function HomeMobile() {
   const { unreadChatCount } = useSyncronizer();
 
   return (
     <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
-      <HomeV2Template />
+      <Home />
     </MobileContainer>
   );
 }

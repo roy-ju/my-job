@@ -313,10 +313,7 @@ const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/Su
   ssr: false,
   loading: FallbackComponent,
 });
-const RecommendGuide = dynamic(() => import('@/components/pages/pc/RecommendGuide'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+
 const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -379,7 +376,13 @@ const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalC
   ssr: false,
   loading: FallbackComponent,
 });
-const RecommendationForm = dynamic(() => import('@/components/pages/pc/RecommendationForm'), {
+
+const SuggestForm = dynamic(() => import('@/components/pages/SuggestForm/SuggestFormPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const SuggestGuide = dynamic(() => import('@/components/pages/SuggestGuide/SuggestGuidePc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -557,10 +560,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
       return <Reactivate {...props} />;
     }
 
-    case Routes.RecommendationForm: {
-      return <RecommendationForm {...props} />;
-    }
-
     case Routes.ListingDetail: {
       return (
         <ListingDetail
@@ -598,18 +597,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
       return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
     }
 
-    case Routes.DanjiRecommendation: {
-      return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
-    }
-
-    case Routes.DanjiRecommendationSummary: {
-      return <DanjiRecommendationSummary key={`${query.danjiID}`} {...props} />;
-    }
-
-    case Routes.DanjiRecommendationUpdate: {
-      return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
-    }
-
     case Routes.DanjiPhotos: {
       return <DanjiPhotos key={`${query.danjiID}`} {...props} />;
     }
@@ -644,10 +631,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
 
     case Routes.Register: {
       return <Register {...props} />;
-    }
-
-    case Routes.RecommendGuide: {
-      return <RecommendGuide {...props} />;
     }
 
     case Routes.RegisterSuccess: {
@@ -720,6 +703,26 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
 
     case Routes.ListingReport: {
       return <ListingReport {...props} />;
+    }
+
+    case Routes.DanjiRecommendation: {
+      return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
+    }
+
+    case Routes.DanjiRecommendationSummary: {
+      return <DanjiRecommendationSummary key={`${query.danjiID}`} {...props} />;
+    }
+
+    case Routes.DanjiRecommendationUpdate: {
+      return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
+    }
+
+    case Routes.RecommendationForm: {
+      return <SuggestForm {...props} />;
+    }
+
+    case Routes.RecommendGuide: {
+      return <SuggestGuide {...props} />;
     }
 
     /** 바뀐 지역폼 */

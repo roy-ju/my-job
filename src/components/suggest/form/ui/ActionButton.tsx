@@ -8,11 +8,39 @@ import ScrollUp from './ScrollUp';
 
 type ActionButtonProps = {
   disabled: boolean;
+  isRenderSummitButton: boolean;
   isRenderRevisionText: boolean;
   handleClick: () => void;
+  handleClickBackButton?: () => void;
 };
 
-function ActionButton({ disabled, isRenderRevisionText, handleClick }: ActionButtonProps) {
+function ActionButton({
+  disabled,
+  isRenderSummitButton,
+  isRenderRevisionText,
+  handleClick,
+  handleClickBackButton,
+}: ActionButtonProps) {
+  if (isRenderSummitButton) {
+    return (
+      <div tw="w-full">
+        <PersistentBottomBar>
+          <div tw="flex gap-3">
+            {handleClickBackButton && (
+              <ButtonV2 variant="grayOutline" tw="w-full text-gray-1000" size="bigger" onClick={handleClickBackButton}>
+                뒤로가기
+              </ButtonV2>
+            )}
+            <ButtonV2 tw="w-full" size="bigger" onClick={handleClick} disabled={disabled}>
+              제출하기
+            </ButtonV2>
+          </div>
+          <div tw="[min-height: 18px]" />
+        </PersistentBottomBar>
+      </div>
+    );
+  }
+
   return (
     <div tw="w-full">
       <PersistentBottomBar>
