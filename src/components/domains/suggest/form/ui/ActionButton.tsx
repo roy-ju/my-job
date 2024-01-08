@@ -13,7 +13,7 @@ type ActionButtonProps = {
   isRenderSummitButton: boolean;
   isRenderRevisionText: boolean;
   handleClick: () => void;
-  handleClickBackButton?: () => void;
+  handleClickBack?: () => void;
 };
 
 function ActionButton({
@@ -21,15 +21,15 @@ function ActionButton({
   isRenderSummitButton,
   isRenderRevisionText,
   handleClick,
-  handleClickBackButton,
+  handleClickBack,
 }: ActionButtonProps) {
   if (isRenderSummitButton) {
     return (
       <div tw="w-full">
         <PersistentBottomBar>
           <div tw="flex gap-3">
-            {handleClickBackButton && (
-              <ButtonV2 variant="gray" tw="w-full text-gray-1000" size="bigger" onClick={handleClickBackButton}>
+            {handleClickBack && (
+              <ButtonV2 variant="gray" tw="w-full text-gray-1000" size="bigger" onClick={handleClickBack}>
                 뒤로가기
               </ButtonV2>
             )}

@@ -1,17 +1,19 @@
-import { BuyOrRent } from '@/constants/enums';
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
 import getDateType from '@/utils/getDateType';
+
+import { BubjungdongType } from '../form/types';
 
 import isEqualValue from './isEqualValue';
 
 import isNotEqualValue from './isNotEqualValue';
 
 interface Args {
-  danjiID: string;
+  bubjungdong: BubjungdongType;
 
-  name: string;
+  realestateType: number[];
 
   buyOrRent: number;
 
@@ -19,15 +21,15 @@ interface Args {
 
   monthlyRentFee: string;
 
-  quickSale: string;
-
-  investAmount: string;
-
   negotiable: boolean;
 
-  pyoungList: number[];
+  minArea: string;
+
+  maxArea: string;
 
   purpose: string;
+
+  investAmount: string;
 
   moveInDate: Date | null;
 
@@ -38,15 +40,22 @@ interface Args {
   interviewAvailabletimes: string[];
 }
 
-export default function makeDanjiSuggestParams(args: Args) {
-  const params: Record<string, unknown> = {
-    danji_id: args.danjiID,
+export default function createRegionSuggestParams(args: Args) {
+  const updatedRealestateType =
+    args.realestateType.includes(RealestateType.Dasaedae) && !args.realestateType.includes(RealestateType.Yunrip)
+      ? [...args.realestateType, RealestateType.Yunrip]
+      : args.realestateType;
 
-    name: args.name,
+  const params: Record<string, unknown> = {
+    address: args.bubjungdong.name,
+
+    bubjungdong_code: args.bubjungdong.code,
+
+    realestate_types: `${updatedRealestateType}`,
 
     buy_or_rents: isEqualValue(args.buyOrRent, BuyOrRent.Buy)
       ? BuyOrRent.Buy.toString()
-      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(''),
+      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(' '),
 
     trade_price: isEqualValue(args.buyOrRent, BuyOrRent.Buy) ? convertPriceInputToNumber(args.tradeOrDepositPrice) : 0,
 
@@ -56,10 +65,7 @@ export default function makeDanjiSuggestParams(args: Args) {
       ? convertPriceInputToNumber(args.monthlyRentFee)
       : 0,
 
-    negotiable:
-      isEqualValue(args.buyOrRent, BuyOrRent.Buy) && isEqualValue(args.quickSale, '1') ? false : args.negotiable,
-
-    quick_sale: isEqualValue(args.buyOrRent, BuyOrRent.Buy) ? Boolean(+args.quickSale) : null,
+    negotiable: args.negotiable,
 
     purpose: args.purpose,
 
@@ -69,7 +75,9 @@ export default function makeDanjiSuggestParams(args: Args) {
 
     move_in_date_type: isEqualValue(args.purpose, '투자') ? null : getDateType(args.moveInDateType),
 
-    pyoungs: args.pyoungList.sort((a, b) => a - b),
+    pyoung_from: args.minArea,
+
+    pyoung_to: undefined,
 
     note: args.description,
 
@@ -77,5 +85,6 @@ export default function makeDanjiSuggestParams(args: Args) {
   };
 
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);
+
   return params;
 }

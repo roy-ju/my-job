@@ -1,19 +1,17 @@
-import { BuyOrRent, RealestateType } from '@/constants/enums';
+import { BuyOrRent } from '@/constants/enums';
 
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
 import getDateType from '@/utils/getDateType';
-
-import { BubjungdongType } from '../form/types';
 
 import isEqualValue from './isEqualValue';
 
 import isNotEqualValue from './isNotEqualValue';
 
 interface Args {
-  bubjungdong: BubjungdongType;
+  danjiID: string;
 
-  realestateType: number[];
+  name: string;
 
   buyOrRent: number;
 
@@ -21,15 +19,15 @@ interface Args {
 
   monthlyRentFee: string;
 
-  negotiable: boolean;
-
-  minArea: string;
-
-  maxArea: string;
-
-  purpose: string;
+  quickSale: string;
 
   investAmount: string;
+
+  negotiable: boolean;
+
+  pyoungList: number[];
+
+  purpose: string;
 
   moveInDate: Date | null;
 
@@ -40,21 +38,15 @@ interface Args {
   interviewAvailabletimes: string[];
 }
 
-export default function makeSuggestRegionalParams(args: Args) {
-  if (args.realestateType.includes(RealestateType.Dasaedae) && !args.realestateType.includes(RealestateType.Yunrip)) {
-    args.realestateType.push(RealestateType.Yunrip);
-  }
-
+export default function createDanjiSuggestParams(args: Args) {
   const params: Record<string, unknown> = {
-    address: args.bubjungdong.name,
+    danji_id: Number(args.danjiID ?? 0),
 
-    bubjungdong_code: args.bubjungdong.code,
-
-    realestate_types: `${args.realestateType}`,
+    name: args.name,
 
     buy_or_rents: isEqualValue(args.buyOrRent, BuyOrRent.Buy)
       ? BuyOrRent.Buy.toString()
-      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(''),
+      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(' '),
 
     trade_price: isEqualValue(args.buyOrRent, BuyOrRent.Buy) ? convertPriceInputToNumber(args.tradeOrDepositPrice) : 0,
 
@@ -64,7 +56,10 @@ export default function makeSuggestRegionalParams(args: Args) {
       ? convertPriceInputToNumber(args.monthlyRentFee)
       : 0,
 
-    negotiable: args.negotiable,
+    negotiable:
+      isEqualValue(args.buyOrRent, BuyOrRent.Buy) && isEqualValue(args.quickSale, '1') ? false : args.negotiable,
+
+    quick_sale: isEqualValue(args.buyOrRent, BuyOrRent.Buy) ? Boolean(+args.quickSale) : null,
 
     purpose: args.purpose,
 
@@ -74,9 +69,7 @@ export default function makeSuggestRegionalParams(args: Args) {
 
     move_in_date_type: isEqualValue(args.purpose, '투자') ? null : getDateType(args.moveInDateType),
 
-    pyoung_from: args.minArea,
-
-    pyoung_to: undefined,
+    pyoungs: args.pyoungList.sort((a, b) => a - b).join(','),
 
     note: args.description,
 
@@ -84,6 +77,5 @@ export default function makeSuggestRegionalParams(args: Args) {
   };
 
   Object.keys(params).forEach((key) => (params[key] === undefined || params[key] === '') && delete params[key]);
-
   return params;
 }

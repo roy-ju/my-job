@@ -79,7 +79,7 @@ export default function Summary() {
               <div tw="text-b1 font-bold text-gray-1000 mr-1">
                 {buyOrRentText}{' '}
                 <PriceText
-                  tradeOrDepositPrice={value.suggestDetailData?.trade_or_deposit_price ?? 0}
+                  tradeOrDepositPrice={value.suggestDetailData?.trade_or_deposit_price}
                   monthlyRentFee={value.suggestDetailData?.monthly_rent_fee ?? 0}
                   quickSale={value.suggestDetailData?.quick_sale ?? false}
                 />
