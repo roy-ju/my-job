@@ -102,7 +102,7 @@ export default function DatePicker({
   minDate,
   maxDate,
   disabled,
-  dateFormat = 'yyyy.MM.DD',
+  dateFormat = 'yyyy.MM.dd',
   ...others
 }: DatePickerProps) {
   const [value, setValue] = useControlled<Date | null>({

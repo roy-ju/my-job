@@ -86,6 +86,16 @@ export class NegocioApiService extends ApiService {
       return null;
     }
   }
+
+  /** 구해요 지역 생성 */
+  async createSuggestRegional(args: any): Promise<void> {
+    await this.instance.post('/suggest/regional/create', { ...args });
+  }
+
+  /** 구해요 단지 생성 */
+  async createSuggestDanji(args: any): Promise<void> {
+    await this.instance.post('/suggest/danji/create', { ...args });
+  }
 }
 
 export const apiService = new NegocioApiService();

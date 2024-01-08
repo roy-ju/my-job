@@ -1,9 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useMemo } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { BuyOrRent } from '@/constants/enums';
+import { mutate as otherMutate } from 'swr';
+
+import { toast } from 'react-toastify';
+
+import { apiService } from '@/services';
+
+import useFetchMyDashboardInfo from '@/services/my/useFetchMyDashboardInfo';
+
+import { BuyOrRent, DanjiOrRegionalType } from '@/constants/enums';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
+
+import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+
+import Routes from '@/router/routes';
+
+import useCreateParams from './useCreateParams';
 
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
@@ -30,31 +48,17 @@ import getValidMoveInDate from '../../utils/getValidMoveInDate';
 import getValidRealestateTypeAndBuyOrRentAndPrice from '../../utils/getValidRealestateTypeAndBuyOrRentAndPrice';
 
 export default function useSummitButton({ depth }: { depth?: number }) {
+  const customRouter = useCustomRouter(depth);
+
+  const router = useRouter();
+
+  const { platform } = useCheckPlatform();
+
+  const { mutate: dashBoardInfoMutate } = useFetchMyDashboardInfo();
+
+  const { createParams } = useCreateParams();
+
   const [form, setForm] = useRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
-
-  const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
-  const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
-  const tradeOrDepositPrice = useRecoilValue<SuggestForm['tradeOrDepositPrice']>(
-    SuggestFormSelector('tradeOrDepositPrice'),
-  );
-
-  const realestateTypes = useRecoilValue<SuggestForm['realestateTypes']>(SuggestFormSelector('realestateTypes'));
-  const quickSale = useRecoilValue<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
-
-  const purpose = useRecoilValue<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
-  const investAmount = useRecoilValue<SuggestForm['investAmount']>(SuggestFormSelector('investAmount'));
-  const moveInDate = useRecoilValue<SuggestForm['moveInDate']>(SuggestFormSelector('moveInDate'));
-  const moveInDateType = useRecoilValue<SuggestForm['moveInDateType']>(SuggestFormSelector('moveInDateType'));
-
-  const pyoungList = useRecoilValue<SuggestForm['pyoungList']>(SuggestFormSelector('pyoungList'));
-
-  const additionalCondtions = useRecoilValue<SuggestForm['additionalCondtions']>(
-    SuggestFormSelector('additionalCondtions'),
-  );
-
-  const interviewAvailabletimes = useRecoilValue<SuggestForm['interviewAvailabletimes']>(
-    SuggestFormSelector('interviewAvailabletimes'),
-  );
 
   const [errorMessageTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice] = useRecoilState<
     SuggestForm['errorMessageTradeOrDepositPrice']
@@ -68,6 +72,36 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     SuggestForm['errorMessageInvestAmountPrice']
   >(SuggestFormSelector('errorMessageInvestAmountPrice'));
 
+  const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
+
+  const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
+
+  const tradeOrDepositPrice = useRecoilValue<SuggestForm['tradeOrDepositPrice']>(
+    SuggestFormSelector('tradeOrDepositPrice'),
+  );
+
+  const realestateTypes = useRecoilValue<SuggestForm['realestateTypes']>(SuggestFormSelector('realestateTypes'));
+
+  const quickSale = useRecoilValue<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
+
+  const purpose = useRecoilValue<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
+
+  const investAmount = useRecoilValue<SuggestForm['investAmount']>(SuggestFormSelector('investAmount'));
+
+  const moveInDate = useRecoilValue<SuggestForm['moveInDate']>(SuggestFormSelector('moveInDate'));
+
+  const moveInDateType = useRecoilValue<SuggestForm['moveInDateType']>(SuggestFormSelector('moveInDateType'));
+
+  const pyoungList = useRecoilValue<SuggestForm['pyoungList']>(SuggestFormSelector('pyoungList'));
+
+  const additionalCondtions = useRecoilValue<SuggestForm['additionalCondtions']>(
+    SuggestFormSelector('additionalCondtions'),
+  );
+
+  const interviewAvailabletimes = useRecoilValue<SuggestForm['interviewAvailabletimes']>(
+    SuggestFormSelector('interviewAvailabletimes'),
+  );
+
   const setErrorMessagePyoungInput = useSetRecoilState<SuggestForm['errorMessagePyoungInput']>(
     SuggestFormSelector('errorMessagePyoungInput'),
   );
@@ -78,7 +112,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
 
   const isRenderSummitButton = useMemo(() => currentForm === 'summary', [currentForm]);
 
-  const handleClickBackButton = useCallback(() => {
+  const handleClickBack = useCallback(() => {
     setForm((prev) => prev.filter((ele) => ele !== 'summary'));
   }, [setForm]);
 
@@ -291,7 +325,53 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     setForm,
   ]);
 
-  const handleSubmitSummary = useCallback(() => {}, []);
+  const handleSubmitSummary = useCallback(async () => {
+    if (!danjiOrRegion) return;
+
+    const params = createParams();
+
+    if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
+      try {
+        await apiService.createSuggestDanji(params);
+
+        await dashBoardInfoMutate();
+
+        await otherMutate(() => true, undefined);
+
+        toast.success('구해요 글이 등록되었습니다.');
+
+        if (platform === 'pc') {
+          router.replace(`/${Routes.DanjiDetail}?danjiID=${params?.danji_id}`);
+        } else {
+          router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${params?.danji_id}`);
+        }
+      } catch (error) {
+        console.log(error);
+
+        toast.error('등록 중 오류가 발생했습니다.');
+      }
+    }
+
+    if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Regional)) {
+      try {
+        await apiService.createSuggestRegional(params);
+
+        await dashBoardInfoMutate();
+
+        toast.success('구해요 글이 등록되었습니다.');
+
+        if (platform === 'pc') {
+          router.replace(`/${Routes.My}/${Routes.SuggestRequestedList}?default=1`);
+        } else {
+          router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}?default=1`);
+        }
+      } catch (error) {
+        console.log(error);
+
+        toast.error('등록 중 오류가 발생했습니다.');
+      }
+    }
+  }, [createParams, danjiOrRegion, dashBoardInfoMutate, platform, router]);
 
   const handleFormsAction = useCallback(() => {
     const lastForm = form[form.length - 1];
@@ -344,6 +424,6 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     isRenderRevisionText,
     disabled,
     handleFormsAction,
-    handleClickBackButton: isRenderSummitButton ? handleClickBackButton : undefined,
+    handleClickBack: isRenderSummitButton ? handleClickBack : undefined,
   };
 }
