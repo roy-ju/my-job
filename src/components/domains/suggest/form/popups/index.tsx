@@ -14,9 +14,7 @@ const BuyOrRentChangePopup = dynamic(() => import('./BuyOrRentChangePopup'), { s
 
 const RealestateTypeChangePopup = dynamic(() => import('./RealestateTypeChangePopup'), { ssr: false });
 
-type PopupsProps = { depth?: number };
-
-export default function Popups({ depth }: PopupsProps) {
+export default function Popups() {
   const {
     popup,
     handleUpdatePopup,
@@ -26,7 +24,7 @@ export default function Popups({ depth }: PopupsProps) {
     handleUpdateFormReset,
     handleConfirmChangeBuyOrRent,
     handleConfirmChangeRealestateType,
-  } = usePopupHandler({ depth });
+  } = usePopupHandler();
 
   if (popup === 'regionList') {
     return <RegionListPopup onClickClose={() => handleUpdatePopup('')} onSubmit={handleUpdateAddressAndBubjungdong} />;

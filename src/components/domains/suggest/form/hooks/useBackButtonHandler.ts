@@ -4,9 +4,11 @@ import { useRouter } from 'next/router';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { useRouter as useCustormRouter } from '@/hooks/utils';
-
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+
+import Routes from '@/router/routes';
+
+import useMobileBackRouter from '@/hooks/utils/useMobileBackRouter';
 
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
@@ -16,12 +18,10 @@ import SuggestFormState from '../atoms/SuggestFormState';
 
 import isEqualValue from '../../utils/isEqualValue';
 
-export default function useBackButtonHandler({ depth }: { depth?: number }) {
+export default function useBackButtonHandler() {
   const { platform } = useCheckPlatform();
 
   const router = useRouter();
-
-  const customRouter = useCustormRouter(depth);
 
   const [forms, setForms] = useRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
@@ -29,8 +29,10 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
 
   const reset = useResetRecoilState(SuggestFormState);
 
+  const { mobilebackHandler } = useMobileBackRouter();
+
   const handleClickBack = useCallback(() => {
-    if (forms[forms.length - 1] === 'summary') {
+    if (isEqualValue(forms[forms.length - 1], 'summary')) {
       setForms((prev) => prev.filter((ele) => ele !== 'summary'));
       return;
     }
@@ -42,13 +44,13 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
             setPopup('quit');
           } else {
             setTimeout(() => reset(), 200);
-            customRouter.pop();
+            router.replace(`/`);
           }
         } else if (forms.length >= 2) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          customRouter.pop();
+          router.replace(`/`);
         }
       } else if (
         isEqualValue(router?.query?.entry, 'danjiDetail') ||
@@ -58,12 +60,22 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          customRouter.pop();
+          if (isEqualValue(router?.query?.entry, 'danjiDetail')) {
+            router.replace(`/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
+          } else {
+            router.replace(`/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
+          }
         }
       } else if (forms.length >= 2) {
         setPopup('quit');
       } else {
-        customRouter.pop();
+        if (isEqualValue(router?.query?.entry, 'my')) {
+          router.replace(`/${Routes.My}?default=1`);
+        } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
+          router.replace(`/${Routes.My}?default=1`);
+        } else {
+          router.replace(`/${Routes.Map}`);
+        }
         setTimeout(() => reset(), 200);
       }
     }
@@ -75,13 +87,13 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
             setPopup('quit');
           } else {
             setTimeout(() => reset(), 200);
-            router.back();
+            mobilebackHandler();
           }
         } else if (forms.length >= 2) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          router.back();
+          mobilebackHandler();
         }
       } else if (
         isEqualValue(router?.query?.entry, 'danjiDetail') ||
@@ -91,16 +103,16 @@ export default function useBackButtonHandler({ depth }: { depth?: number }) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          router.back();
+          mobilebackHandler();
         }
       } else if (forms.length >= 2) {
         setPopup('quit');
       } else {
         setTimeout(() => reset(), 200);
-        router.back();
+        mobilebackHandler();
       }
     }
-  }, [forms, platform, setForms, router, setPopup, customRouter, reset]);
+  }, [forms, platform, setForms, router, setPopup, reset, mobilebackHandler]);
 
   return { handleClickBack };
 }

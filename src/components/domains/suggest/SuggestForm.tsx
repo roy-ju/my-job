@@ -32,11 +32,11 @@ export default function SuggestForm({ depth }: SuggestFormProps) {
 
   return (
     <div tw="flex flex-col h-full">
-      <Header title="집 구하기" depth={depth} />
+      <Header title="집 구하기" />
       <Stepper />
       <Form depth={depth} />
       <Actions depth={depth} />
-      <Popups depth={depth} />
+      <Popups />
     </div>
   );
 }
