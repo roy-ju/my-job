@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useResetRecoilState } from 'recoil';
 
 import { useRouter } from 'next/router';
 
-import useInitializeUpdateFormData from './update-form/hooks/useInitializeUpdateFormData';
+import useInitializeUpdateFormData from './form/update-form/hooks/useInitializeUpdateFormData';
 
-import Header from './update-form/Header';
+import Header from './form/update-form/Header';
+
+import Actions from './form/update-form/Actions';
 
 import Form from './form/Form';
 
 import Popups from './form/popups';
 
 import SuggestFormState from './form/atoms/SuggestFormState';
-
-import Actions from './update-form/Actions';
 
 type SuggestFormUpdateProps = { depth?: number };
 

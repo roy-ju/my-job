@@ -12,7 +12,7 @@ import Button from '@/components/atoms/Button';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
-import { describeJeonsaeWolsaeSame } from '@/constants/enums';
+import { RealestateType, describeJeonsaeWolsaeSame, describeRealestateType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
@@ -24,7 +24,7 @@ import FormImage from './FormImage';
 
 import isEqualValue from '../suggest/utils/isEqualValue';
 
-import isNotEqualValue from '../suggest/utils/isNotEqualValue';
+import getIncludeValue from '../suggest/utils/getIncludeValue';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
 
@@ -45,7 +45,7 @@ export default function SuggestForm() {
 
   const { platform } = useCheckPlatform();
 
-  const [property, setProperty] = useState('');
+  const [property, setProperty] = useState<string[]>([]);
 
   const [buyOrRent, setBuyOrRent] = useState('');
 
@@ -55,13 +55,19 @@ export default function SuggestForm() {
     if (e) {
       const { value } = e.currentTarget;
 
-      setProperty(value);
+      if (getIncludeValue(value, property)) {
+        setProperty((prev) => prev.filter((ele) => ele !== value));
+      } else {
+        setProperty((prev) => [...prev, value]);
+      }
     }
   };
 
   const handleClickBuyOrRent = (e?: NegocioMouseEvent<HTMLButtonElement>) => {
     if (e) {
       const { value } = e.currentTarget;
+
+      if (value === buyOrRent) return;
 
       setBuyOrRent(value);
     }
@@ -82,7 +88,8 @@ export default function SuggestForm() {
       if (isEqualValue(from, 'none')) {
         customRouter.replace(Routes.RecommendationForm, {
           searchParams: {
-            property,
+            // 아파트 또는 오피스텔
+            property: describeRealestateType(Number(property[0])),
             buyOrRent,
             entry: 'home',
           },
@@ -90,7 +97,8 @@ export default function SuggestForm() {
       } else {
         customRouter.replace(Routes.RecommendationForm, {
           searchParams: {
-            property,
+            // 복수 선택밖에 없다.
+            property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
             entry: 'home',
             ...(v?.name ? { address: v?.name } : {}),
@@ -104,13 +112,14 @@ export default function SuggestForm() {
       if (isEqualValue(from, 'none')) {
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
-          query: { property, buyOrRent, entry: 'home' },
+          query: { property: describeRealestateType(Number(property[0])), buyOrRent, entry: 'home' },
         });
       } else {
+        // 복수 선택밖에 없다.
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
           query: {
-            property,
+            property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
             entry: 'home',
             ...(v?.name ? { address: v?.name } : {}),
@@ -122,11 +131,16 @@ export default function SuggestForm() {
   };
 
   const handleClickSuggest = () => {
-    if (isNotEqualValue(property, '아파트/오피스텔')) {
-      return handlePopup('regionList');
+    if (
+      isEqualValue(property.length, 1) &&
+      (isEqualValue(property[0], RealestateType.Apartment.toString()) ||
+        isEqualValue(property[0], RealestateType.Officetel.toString()))
+    ) {
+      handleRoute('none');
+      return;
     }
 
-    handleRoute('none');
+    return handlePopup('regionList');
   };
 
   const handleSummitRegion = (v: RegionItem) => {
@@ -155,16 +169,16 @@ export default function SuggestForm() {
 
           <div tw="flex flex-col gap-2 mb-6">
             <p tw="text-subhead_02">부동산 종류</p>
-            <div tw="flex gap-2">
-              {['아파트 / 오피스텔', '원룸 / 투룸', '그외'].map((item) => (
+            <div tw="flex flex-wrap gap-2 pr-4">
+              {['10', '20', '30', '60', '50'].map((item) => (
                 <StyledButton
                   key={item}
-                  value={item.replace(/\s+/g, '')}
-                  selected={isSelected(property, item.replace(/\s+/g, ''))}
+                  value={item}
+                  selected={getIncludeValue(item, property)}
                   onClick={handleClickProperty}
                   tw="whitespace-nowrap"
                 >
-                  {item}
+                  {describeRealestateType(Number(item))}
                 </StyledButton>
               ))}
             </div>
