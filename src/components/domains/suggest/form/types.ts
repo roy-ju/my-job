@@ -56,7 +56,15 @@ type SuggestForm = {
   /** 인터뷰 가능 시간 */
   interviewAvailabletimes: string[];
 
-  popup: 'regionList' | 'danjiList' | 'reselectRegionOrDanji' | 'quit' | 'buyOrRent' | 'realestateTypes' | '';
+  popup:
+    | 'regionList'
+    | 'danjiList'
+    | 'reselectRegionOrDanji'
+    | 'quit'
+    | 'buyOrRent'
+    | 'realestateTypes'
+    | 'invalidAccess'
+    | '';
 
   /** 보증금 또는 매매가 에러메세지 */
   errorMessageTradeOrDepositPrice: string;

@@ -29,6 +29,8 @@ export default function RegionOrDanjiForm() {
   const { danjiOrRegion, address, danjiName, handleClickDanjiOrRegion, handleOpenReselectPopup } =
     useSelectDanjiOrRegion();
 
+  console.log(address);
+
   return (
     <section id={forms.REGION_OR_DANJI} tw="px-5 pb-10">
       {!address && !danjiName ? (

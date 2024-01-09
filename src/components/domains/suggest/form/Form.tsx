@@ -29,12 +29,13 @@ import Summary from './Summary';
 
 type FormProps = {
   depth?: number;
+  stopAutoScroll?: boolean;
 };
 
-export default function Form({ depth }: FormProps) {
+export default function Form({ depth, stopAutoScroll = false }: FormProps) {
   const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
-  useAutoScroll({ elementID: 'formContainer', targetForm: forms });
+  useAutoScroll({ elementID: 'formContainer', targetForm: forms, stop: stopAutoScroll });
 
   const formComponents = {
     region_or_danji: <RegionOrDanjiForm />,

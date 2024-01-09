@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { apiService } from '@/services';
 
@@ -23,7 +23,7 @@ import SuggestFormState from '../atoms/SuggestFormState';
 export default function useInitializeFormData() {
   const router = useRouter();
 
-  const [state, setState] = useRecoilState(SuggestFormState);
+  const setState = useSetRecoilState(SuggestFormState);
 
   const { normalizeParams } = useNormalizeparms();
 

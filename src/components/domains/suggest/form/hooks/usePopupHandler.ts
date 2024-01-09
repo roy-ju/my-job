@@ -11,6 +11,7 @@ import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
 import useMobileBackRouter from '@/hooks/utils/useMobileBackRouter';
 
 import Routes from '@/router/routes';
+
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import SuggestForm, { BubjungdongType } from '../types';
@@ -119,6 +120,7 @@ export default function usePopupHandler() {
         | 'quit'
         | 'buyOrRent'
         | 'realestateTypes'
+        | 'invalidAccess'
         | '',
       errorMessageTradeOrDepositPrice: '',
       errorMessageMonthlyRentFeePrice: '',
@@ -153,6 +155,7 @@ export default function usePopupHandler() {
         | 'quit'
         | 'buyOrRent'
         | 'realestateTypes'
+        | 'invalidAccess'
         | '',
       errorMessageTradeOrDepositPrice: '',
       errorMessageMonthlyRentFeePrice: '',

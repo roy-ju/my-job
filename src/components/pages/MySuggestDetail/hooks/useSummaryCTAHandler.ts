@@ -15,7 +15,10 @@ export default function useSummaryCTAHandler() {
 
   const value = useMySuggestDetailStore();
 
-  const { mutate: listMutate } = useAPI_GetDanjiSuggestList({ danjiId: value?.suggestDetailData?.danji_id, pageSize: 4 });
+  const { mutate: listMutate } = useAPI_GetDanjiSuggestList({
+    danjiId: value?.suggestDetailData?.danji_id,
+    pageSize: 4,
+  });
 
   const router = useRouter(platform?.depth);
 
@@ -59,11 +62,11 @@ export default function useSummaryCTAHandler() {
     const suggestID = value?.suggestDetailData?.suggest_id ?? 0;
 
     if (platform?.platform === 'pc') {
-      router.replace(targetRoute, {
+      router.replace(Routes.RecommendationFormUpdate, {
         searchParams: {
           ...(danjiID ? { danjiID: `${danjiID}` } : {}),
           ...(suggestID ? { suggestID: `${suggestID}` } : {}),
-          back: router.asPath,
+          entry: 'mySuggestDetail',
         },
       });
     } else {
@@ -78,7 +81,7 @@ export default function useSummaryCTAHandler() {
     await deleteSuggest(suggestID);
 
     if (platform?.platform === 'pc') {
-      await listMutate()
+      await listMutate();
       await otherMutate('/my/dashboard/info');
     }
 

@@ -14,6 +14,8 @@ const BuyOrRentChangePopup = dynamic(() => import('./BuyOrRentChangePopup'), { s
 
 const RealestateTypeChangePopup = dynamic(() => import('./RealestateTypeChangePopup'), { ssr: false });
 
+const InvalidAccessPopup = dynamic(() => import('@/components/molecules/CommonPopups/InvalidAccess'), { ssr: false });
+
 export default function Popups() {
   const {
     popup,
@@ -55,6 +57,10 @@ export default function Popups() {
         onClickConfirm={handleConfirmChangeRealestateType}
       />
     );
+  }
+
+  if (popup === 'invalidAccess') {
+    return <InvalidAccessPopup />;
   }
 
   return null;

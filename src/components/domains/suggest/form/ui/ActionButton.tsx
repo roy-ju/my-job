@@ -12,17 +12,34 @@ type ActionButtonProps = {
   disabled: boolean;
   isRenderSummitButton: boolean;
   isRenderRevisionText: boolean;
+  isRenderUpdateButton?: boolean;
   handleClick: () => void;
   handleClickBack?: () => void;
+  handleClickUpdate?: () => void;
 };
 
 function ActionButton({
   disabled,
   isRenderSummitButton,
   isRenderRevisionText,
+  isRenderUpdateButton = false,
   handleClick,
   handleClickBack,
+  handleClickUpdate,
 }: ActionButtonProps) {
+  if (isRenderUpdateButton) {
+    return (
+      <div tw="w-full">
+        <PersistentBottomBar>
+          <ButtonV2 tw="w-full" size="bigger" onClick={handleClickUpdate} disabled={disabled}>
+            수정완료
+          </ButtonV2>
+          <div tw="[min-height: 18px]" />
+        </PersistentBottomBar>
+      </div>
+    );
+  }
+
   if (isRenderSummitButton) {
     return (
       <div tw="w-full">
