@@ -106,13 +106,13 @@ export default function useGetSummary() {
     return '';
   }, [moveInDate, moveInDateType]);
 
-  const pyounsData = useCallback(() => {
+  const pyoungsData = useCallback(() => {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
       return pyoungList.map((item) => `${item}평`).join(', ');
     }
 
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Regional)) {
-      return pyoungList.join(', ');
+      return pyoungList.map((item) => item).join(', ');
     }
 
     return '';
@@ -143,7 +143,7 @@ export default function useGetSummary() {
     priceData,
     purposeData,
     moveInDateData,
-    pyounsData,
+    pyoungsData,
     addtionalCondtionsData,
     interviewAvailabletimesData,
     isRenderPurpose,

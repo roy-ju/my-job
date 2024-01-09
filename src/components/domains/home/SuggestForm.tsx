@@ -142,7 +142,11 @@ export default function SuggestForm() {
           <div tw="flex items-center justify-between gap-5 [height: 120px]">
             <div tw="flex flex-col gap-4 whitespace-pre-wrap">
               <h2 tw="text-heading_03">{'어떤 집을\n구하시나요?'}</h2>
-              <p tw="text-body_02 text-gray-700">네고해서 집을 구하세요.</p>
+              <p tw="text-body_02 text-gray-700">
+                이젠, 집 구할때도
+                <br />
+                추천받아 네고하며 구해요.
+              </p>
             </div>
             <FormImage property={property} buyOrRent={buyOrRent} />
           </div>

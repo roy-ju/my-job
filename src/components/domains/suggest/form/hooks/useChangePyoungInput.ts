@@ -42,23 +42,25 @@ export default function useChangePyoungInput() {
     buyOrRent: null,
   });
 
+  const list = useMemo(() => data?.list?.filter((item) => item.gonggeup_pyoung !== 0) ?? [], [data?.list]);
+
   const selectedInputedPyoungList = useMemo(() => {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
-      const danjiPyoungList = data?.list?.map((item) => item.gonggeup_pyoung.toString()) ?? [];
+      const danjiPyoungList = list.map((item) => item.gonggeup_pyoung.toString()) ?? [];
 
       return pyoungList.filter((x) => !danjiPyoungList.includes(x));
     }
 
     return [];
-  }, [danjiOrRegion, data?.list, pyoungList]);
+  }, [danjiOrRegion, list, pyoungList]);
 
   const isRenderAccordion = useMemo(() => {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
-      return (data?.list ?? []).length !== 0;
+      return list.length !== 0;
     }
 
     return false;
-  }, [danjiOrRegion, data?.list]);
+  }, [danjiOrRegion, list]);
 
   const isRenderPyoungInputField = useMemo(
     () => isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji),

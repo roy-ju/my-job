@@ -41,7 +41,7 @@ function SummaryContainer({ isRender = true, title, children, duration = 0.5 }: 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          tw="text-gray-1000 text-subhead_03 [width: 84px]"
+          tw="text-gray-1000 text-subhead_03"
         >
           {title}
         </AnimationP>

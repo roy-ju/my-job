@@ -66,6 +66,7 @@ export default function useInitializeFormData() {
 
       const normalizedParams = normalizeParams(params);
 
+      // @ts-expect-error
       setState(() => ({
         forms,
         ...normalizedParams,

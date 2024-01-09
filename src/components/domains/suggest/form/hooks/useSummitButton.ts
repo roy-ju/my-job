@@ -389,6 +389,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
         if (params) {
           delete params.danjiAddress;
           delete params.danjiRealestateType;
+          params.pyoungs = (params.pyoungs as string[]).join(',');
         }
 
         await apiService.createSuggestDanji(params);
