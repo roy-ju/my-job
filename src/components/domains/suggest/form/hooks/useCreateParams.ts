@@ -22,6 +22,10 @@ export default function useCreateParams() {
       return createDanjiSuggestParams({
         danjiID: state.danjiID || '',
 
+        danjiAddress: state.danjiAddress,
+
+        danjiRealestateType: state.danjiRealestateType,
+
         name: state.danjiName,
 
         buyOrRent: state.buyOrRent,
@@ -87,9 +91,11 @@ export default function useCreateParams() {
     state.additionalCondtions,
     state.bubjungdong,
     state.buyOrRent,
+    state.danjiAddress,
     state.danjiID,
     state.danjiName,
     state.danjiOrRegion,
+    state.danjiRealestateType,
     state.interviewAvailabletimes,
     state.investAmount,
     state.monthlyRentFee,

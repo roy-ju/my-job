@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -21,11 +21,11 @@ import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
+import { useAuth } from '@/hooks/services';
+
 import useCreateParams from './useCreateParams';
 
-import SuggestFormSelector from '../selector/SuggestFormSelector';
-
-import SuggestForm from '../types';
+import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';
 
@@ -47,6 +47,12 @@ import getValidMoveInDate from '../../utils/getValidMoveInDate';
 
 import getValidRealestateTypeAndBuyOrRentAndPrice from '../../utils/getValidRealestateTypeAndBuyOrRentAndPrice';
 
+interface ExtendedURL extends URL {
+  params?: string;
+  forms?: string;
+  entry?: string;
+}
+
 export default function useSummitButton({ depth }: { depth?: number }) {
   const customRouter = useCustomRouter(depth);
 
@@ -54,164 +60,130 @@ export default function useSummitButton({ depth }: { depth?: number }) {
 
   const { platform } = useCheckPlatform();
 
+  const { user } = useAuth();
+
   const { mutate: dashBoardInfoMutate } = useFetchMyDashboardInfo();
 
   const { createParams } = useCreateParams();
 
-  const [form, setForm] = useRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
+  const [state, setState] = useRecoilState(SuggestFormState);
 
-  const [errorMessageTradeOrDepositPrice, setErrorMessageTradeOrDepositPrice] = useRecoilState<
-    SuggestForm['errorMessageTradeOrDepositPrice']
-  >(SuggestFormSelector('errorMessageTradeOrDepositPrice'));
+  const currentForm = useMemo(() => state.forms[state.forms.length - 1], [state.forms]);
 
-  const [errorMessageMonthlyRentFeePrice, setErrorMessageMonthlyRentFeePrice] = useRecoilState<
-    SuggestForm['errorMessageMonthlyRentFeePrice']
-  >(SuggestFormSelector('errorMessageMonthlyRentFeePrice'));
-
-  const [errorMessageInvestAmountPrice, setErrorMessageInvestAmountPrice] = useRecoilState<
-    SuggestForm['errorMessageInvestAmountPrice']
-  >(SuggestFormSelector('errorMessageInvestAmountPrice'));
-
-  const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
-
-  const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
-
-  const tradeOrDepositPrice = useRecoilValue<SuggestForm['tradeOrDepositPrice']>(
-    SuggestFormSelector('tradeOrDepositPrice'),
-  );
-
-  const realestateTypes = useRecoilValue<SuggestForm['realestateTypes']>(SuggestFormSelector('realestateTypes'));
-
-  const quickSale = useRecoilValue<SuggestForm['quickSale']>(SuggestFormSelector('quickSale'));
-
-  const purpose = useRecoilValue<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
-
-  const investAmount = useRecoilValue<SuggestForm['investAmount']>(SuggestFormSelector('investAmount'));
-
-  const moveInDate = useRecoilValue<SuggestForm['moveInDate']>(SuggestFormSelector('moveInDate'));
-
-  const moveInDateType = useRecoilValue<SuggestForm['moveInDateType']>(SuggestFormSelector('moveInDateType'));
-
-  const pyoungList = useRecoilValue<SuggestForm['pyoungList']>(SuggestFormSelector('pyoungList'));
-
-  const additionalCondtions = useRecoilValue<SuggestForm['additionalCondtions']>(
-    SuggestFormSelector('additionalCondtions'),
-  );
-
-  const interviewAvailabletimes = useRecoilValue<SuggestForm['interviewAvailabletimes']>(
-    SuggestFormSelector('interviewAvailabletimes'),
-  );
-
-  const setErrorMessagePyoungInput = useSetRecoilState<SuggestForm['errorMessagePyoungInput']>(
-    SuggestFormSelector('errorMessagePyoungInput'),
-  );
-
-  const currentForm = useMemo(() => form[form.length - 1], [form]);
-
-  const isRenderRevisionText = useMemo(() => Boolean(form?.length > 1), [form?.length]);
+  const isRenderRevisionText = useMemo(() => Boolean(state.forms?.length > 1), [state.forms?.length]);
 
   const isRenderSummitButton = useMemo(() => currentForm === 'summary', [currentForm]);
 
   const handleClickBack = useCallback(() => {
-    setForm((prev) => prev.filter((ele) => ele !== 'summary'));
-  }, [setForm]);
+    setState((prev) => ({ ...prev, forms: prev.forms.filter((ele) => ele !== 'summary') }));
+  }, [setState]);
 
   const disabled = useMemo(() => {
     if (isEqualValue(currentForm, forms.REGION_OR_DANJI)) {
-      return getVaildRegionOrDanji(danjiOrRegion);
+      return getVaildRegionOrDanji(state.danjiOrRegion);
     }
 
     if (isEqualValue(currentForm, forms.REALESTATE_AND_BUYORRENT_AND_PRICE)) {
-      if (errorMessageTradeOrDepositPrice || errorMessageMonthlyRentFeePrice) {
+      if (state.errorMessageTradeOrDepositPrice || state.errorMessageMonthlyRentFeePrice) {
         return true;
       }
 
       return getValidRealestateTypeAndBuyOrRentAndPrice(
-        danjiOrRegion,
-        buyOrRent,
-        tradeOrDepositPrice,
-        realestateTypes,
-        quickSale,
+        state.danjiOrRegion,
+        state.buyOrRent,
+        state.tradeOrDepositPrice,
+        state.realestateTypes,
+        state.quickSale,
       );
     }
 
     if (isEqualValue(currentForm, forms.BUY_PURPOSE)) {
-      if (errorMessageInvestAmountPrice) {
+      if (state.errorMessageInvestAmountPrice) {
         return true;
       }
 
-      return getValidBuyPurpose(purpose, investAmount, moveInDate, moveInDateType);
+      return getValidBuyPurpose(state.purpose, state.investAmount, state.moveInDate, state.moveInDateType);
     }
 
     if (isEqualValue(currentForm, forms.MOVE_IN_DATE)) {
-      return getValidMoveInDate(moveInDate, moveInDateType);
+      return getValidMoveInDate(state.moveInDate, state.moveInDateType);
     }
 
     if (isEqualValue(currentForm, forms.AREA)) {
-      return getValidArrayField(pyoungList);
+      return getValidArrayField(state.pyoungList);
     }
 
     if (isEqualValue(currentForm, forms.ADDITIONAL_CONDITIONS)) {
-      return getValidArrayField(additionalCondtions);
+      return getValidArrayField(state.additionalCondtions);
     }
 
     if (isEqualValue(currentForm, forms.INTERVIEW)) {
-      return getValidArrayField(interviewAvailabletimes);
+      return getValidArrayField(state.interviewAvailabletimes);
     }
 
     return false;
   }, [
     currentForm,
-    additionalCondtions,
-    buyOrRent,
-    danjiOrRegion,
-    errorMessageInvestAmountPrice,
-    errorMessageMonthlyRentFeePrice,
-    errorMessageTradeOrDepositPrice,
-    interviewAvailabletimes,
-    investAmount,
-    moveInDate,
-    moveInDateType,
-    purpose,
-    pyoungList,
-    quickSale,
-    realestateTypes,
-    tradeOrDepositPrice,
+    state.additionalCondtions,
+    state.buyOrRent,
+    state.danjiOrRegion,
+    state.errorMessageInvestAmountPrice,
+    state.errorMessageMonthlyRentFeePrice,
+    state.errorMessageTradeOrDepositPrice,
+    state.interviewAvailabletimes,
+    state.investAmount,
+    state.moveInDate,
+    state.moveInDateType,
+    state.purpose,
+    state.pyoungList,
+    state.quickSale,
+    state.realestateTypes,
+    state.tradeOrDepositPrice,
   ]);
 
   const handleSubmitRealestateAndBuyOrRentAndPrice = useCallback(() => {
-    if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
-      setForm((prev) => [...prev, forms.BUY_PURPOSE]);
+    if (isEqualValue(state.buyOrRent, BuyOrRent.Buy)) {
+      setState((prev) => ({ ...prev, forms: [...prev.forms, forms.BUY_PURPOSE] }));
     }
 
-    if (isEqualValue(buyOrRent, BuyOrRent.Jeonsae)) {
-      setForm((prev) => [...prev, forms.MOVE_IN_DATE]);
+    if (isEqualValue(state.buyOrRent, BuyOrRent.Jeonsae)) {
+      setState((prev) => ({ ...prev, forms: [...prev.forms, forms.MOVE_IN_DATE] }));
     }
-  }, [buyOrRent, setForm]);
+  }, [setState, state.buyOrRent]);
 
   /** 매매 STEP TWO */
   const handleSubmitBuyPurpose = useCallback(() => {
-    setForm((prev) => [...prev, forms.AREA]);
-  }, [setForm]);
+    setState((prev) => ({ ...prev, forms: [...prev.forms, forms.AREA] }));
+  }, [setState]);
 
   /** 전월세 STEP TWO */
   const handleSubmitMoveInDate = useCallback(() => {
-    setForm((prev) => [...prev, forms.AREA]);
-  }, [setForm]);
+    setState((prev) => ({ ...prev, forms: [...prev.forms, forms.AREA] }));
+  }, [setState]);
 
   /** STEP THREE */
   const handleSubmitArea = useCallback(() => {
-    setForm((prev) => [...prev, forms.ADDITIONAL_CONDITIONS]);
-  }, [setForm]);
+    setState((prev) => ({
+      ...prev,
+      forms: [...prev.forms, forms.ADDITIONAL_CONDITIONS],
+      pyoungInput: '',
+      errorMessagePyoungInput: '',
+    }));
+  }, [setState]);
 
   /** STEP FOUR */
   const handleSubmitAdditionalConditions = useCallback(() => {
-    setForm((prev) => [...prev, forms.INTERVIEW]);
-  }, [setForm]);
+    setState((prev) => ({
+      ...prev,
+      forms: [...prev.forms, forms.INTERVIEW],
+      pyoungInput: '',
+      errorMessagePyoungInput: '',
+    }));
+  }, [setState]);
 
   /** STEP FIVE */
   const handleSubmitInterview = useCallback(() => {
-    if (!realestateTypes || (realestateTypes && isEqualValue(realestateTypes.length, 0))) {
+    if (!state.realestateTypes || (state.realestateTypes && isEqualValue(state.realestateTypes.length, 0))) {
       errorHandlingWithElement({
         elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
         errorMessage: ERROR_MESSAGE.REQUIRE_REALESTATE_TYPES,
@@ -220,7 +192,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       return;
     }
 
-    if (!buyOrRent) {
+    if (!state.buyOrRent) {
       errorHandlingWithElement({
         elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
         errorMessage: ERROR_MESSAGE.REQUIRE_BUY_OR_RENT,
@@ -229,36 +201,44 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       return;
     }
 
-    if (isNotEqualValue(quickSale, '1')) {
-      if (errorMessageTradeOrDepositPrice) {
+    if (isNotEqualValue(state.quickSale, '1')) {
+      if (state.errorMessageTradeOrDepositPrice) {
         errorHandlingWithElement({
           elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
-          errorMessage: errorMessageTradeOrDepositPrice,
+          errorMessage: state.errorMessageTradeOrDepositPrice,
         });
 
         return;
       }
 
-      if (errorMessageMonthlyRentFeePrice) {
+      if (state.errorMessageMonthlyRentFeePrice) {
         errorHandlingWithElement({
           elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
-          errorMessage: errorMessageMonthlyRentFeePrice,
+          errorMessage: state.errorMessageMonthlyRentFeePrice,
         });
 
         return;
       }
     }
 
-    if (isEqualValue(buyOrRent, BuyOrRent.Buy) && isEqualValue(purpose, '투자') && errorMessageInvestAmountPrice) {
+    if (
+      isEqualValue(state.buyOrRent, BuyOrRent.Buy) &&
+      isEqualValue(state.purpose, '투자') &&
+      state.errorMessageInvestAmountPrice
+    ) {
       errorHandlingWithElement({
         elementID: forms.BUY_PURPOSE,
-        errorMessage: errorMessageInvestAmountPrice,
+        errorMessage: state.errorMessageInvestAmountPrice,
       });
 
       return;
     }
 
-    if (isEqualValue(buyOrRent, BuyOrRent.Buy) && isEqualValue(purpose, '실거주') && (!moveInDate || !moveInDateType)) {
+    if (
+      isEqualValue(state.buyOrRent, BuyOrRent.Buy) &&
+      isEqualValue(state.purpose, '실거주') &&
+      (!state.moveInDate || !state.moveInDateType)
+    ) {
       errorHandlingWithElement({
         elementID: forms.BUY_PURPOSE,
         errorMessage: ERROR_MESSAGE.REQUIRE_MOVE_IN_DATE,
@@ -267,7 +247,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       return;
     }
 
-    if (isNotEqualValue(buyOrRent, BuyOrRent.Buy) && (!moveInDate || !moveInDateType)) {
+    if (isNotEqualValue(state.buyOrRent, BuyOrRent.Buy) && (!state.moveInDate || !state.moveInDateType)) {
       errorHandlingWithElement({
         elementID: forms.MOVE_IN_DATE,
         errorMessage: ERROR_MESSAGE.REQUIRE_MOVE_IN_DATE,
@@ -276,7 +256,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       return;
     }
 
-    if (!pyoungList || (pyoungList && isEqualValue(pyoungList.length, 0))) {
+    if (!state.pyoungList || (state.pyoungList && isEqualValue(state.pyoungList.length, 0))) {
       errorHandlingWithElement({
         elementID: forms.AREA,
         errorMessage: ERROR_MESSAGE.REQUIRE_AREA,
@@ -285,7 +265,10 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       return;
     }
 
-    if (!additionalCondtions || (additionalCondtions && isEqualValue(additionalCondtions.length, 0))) {
+    if (
+      !state.additionalCondtions ||
+      (state.additionalCondtions && isEqualValue(state.additionalCondtions.length, 0))
+    ) {
       errorHandlingWithElement({
         elementID: forms.ADDITIONAL_CONDITIONS,
         errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS,
@@ -293,45 +276,128 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       return;
     }
 
-    if (!interviewAvailabletimes || (interviewAvailabletimes && isEqualValue(interviewAvailabletimes.length, 0))) {
+    if (
+      !state.interviewAvailabletimes ||
+      (state.interviewAvailabletimes && isEqualValue(state.interviewAvailabletimes.length, 0))
+    ) {
       errorHandlingWithElement({
         elementID: forms.INTERVIEW,
         errorMessage: ERROR_MESSAGE.REQUIRE_INTERVIEW,
       });
     }
 
-    setForm((prev) => [...prev, forms.SUMMARY]);
-    setErrorMessageTradeOrDepositPrice('');
-    setErrorMessageMonthlyRentFeePrice('');
-    setErrorMessageInvestAmountPrice('');
-    setErrorMessagePyoungInput('');
+    const params = createParams();
+
+    if (!user) {
+      if (platform === 'pc') {
+        customRouter.replaceCurrent(Routes.Login, {
+          persistParams: true,
+          searchParams: {
+            redirect: `${router.asPath}`,
+            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+            params: JSON.stringify(params),
+            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+          },
+        });
+      } else {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+          query: {
+            redirect: `${router.asPath}`,
+            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+            params: JSON.stringify(params),
+            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+          },
+        });
+      }
+      return;
+    }
+
+    if (user && !user?.isVerified) {
+      if (platform === 'pc') {
+        customRouter.replaceCurrent(Routes.VerifyCi, {
+          persistParams: true,
+          searchParams: {
+            redirect: `${router.asPath}`,
+            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+            params: JSON.stringify(params),
+          },
+        });
+      } else {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+          query: {
+            redirect: `${router.asPath}`,
+            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+            params: JSON.stringify(params),
+          },
+        });
+      }
+      return;
+    }
+
+    setState((prev) => ({
+      ...prev,
+      forms: [...prev.forms, forms.SUMMARY],
+      pyoungInput: '',
+      errorMessageTradeOrDepositPrice: '',
+      errorMessageMonthlyRentFeePrice: '',
+      errorMessageInvestAmountPrice: '',
+      errorMessagePyoungInput: '',
+    }));
+
+    customRouter.replace(
+      Routes.RecommendationForm,
+      {
+        searchParams: {
+          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+          forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+          params: JSON.stringify(params),
+        },
+      },
+      true,
+    );
   }, [
-    additionalCondtions,
-    buyOrRent,
-    errorMessageInvestAmountPrice,
-    errorMessageMonthlyRentFeePrice,
-    errorMessageTradeOrDepositPrice,
-    interviewAvailabletimes,
-    moveInDate,
-    moveInDateType,
-    purpose,
-    pyoungList,
-    quickSale,
-    realestateTypes,
-    setErrorMessageInvestAmountPrice,
-    setErrorMessageMonthlyRentFeePrice,
-    setErrorMessagePyoungInput,
-    setErrorMessageTradeOrDepositPrice,
-    setForm,
+    state.realestateTypes,
+    state.buyOrRent,
+    state.quickSale,
+    state.purpose,
+    state.errorMessageInvestAmountPrice,
+    state.moveInDate,
+    state.moveInDateType,
+    state.pyoungList,
+    state.additionalCondtions,
+    state.interviewAvailabletimes,
+    state.errorMessageTradeOrDepositPrice,
+    state.errorMessageMonthlyRentFeePrice,
+    state.forms,
+    createParams,
+    user,
+    setState,
+    platform,
+    customRouter,
+    router,
   ]);
 
   const handleSubmitSummary = useCallback(async () => {
-    if (!danjiOrRegion) return;
+    if (!state.danjiOrRegion) return;
 
     const params = createParams();
 
-    if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
+    if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Danji)) {
       try {
+        if (params) {
+          delete params.danjiAddress;
+          delete params.danjiRealestateType;
+        }
+
         await apiService.createSuggestDanji(params);
 
         await dashBoardInfoMutate();
@@ -352,7 +418,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       }
     }
 
-    if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Regional)) {
+    if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Regional)) {
       try {
         await apiService.createSuggestRegional(params);
 
@@ -371,10 +437,10 @@ export default function useSummitButton({ depth }: { depth?: number }) {
         toast.error('등록 중 오류가 발생했습니다.');
       }
     }
-  }, [createParams, danjiOrRegion, dashBoardInfoMutate, platform, router]);
+  }, [createParams, dashBoardInfoMutate, platform, router, state.danjiOrRegion]);
 
   const handleFormsAction = useCallback(() => {
-    const lastForm = form[form.length - 1];
+    const lastForm = state.forms[state.forms.length - 1];
 
     switch (lastForm) {
       case forms.REALESTATE_AND_BUYORRENT_AND_PRICE:
@@ -409,13 +475,13 @@ export default function useSummitButton({ depth }: { depth?: number }) {
         break;
     }
   }, [
-    form,
-    handleSubmitAdditionalConditions,
-    handleSubmitArea,
-    handleSubmitBuyPurpose,
-    handleSubmitInterview,
-    handleSubmitMoveInDate,
+    state.forms,
     handleSubmitRealestateAndBuyOrRentAndPrice,
+    handleSubmitBuyPurpose,
+    handleSubmitMoveInDate,
+    handleSubmitArea,
+    handleSubmitAdditionalConditions,
+    handleSubmitInterview,
     handleSubmitSummary,
   ]);
 

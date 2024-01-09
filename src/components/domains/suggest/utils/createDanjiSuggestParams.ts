@@ -11,6 +11,10 @@ import isNotEqualValue from './isNotEqualValue';
 interface Args {
   danjiID: string;
 
+  danjiAddress: string;
+
+  danjiRealestateType: number;
+
   name: string;
 
   buyOrRent: number;
@@ -41,6 +45,10 @@ interface Args {
 export default function createDanjiSuggestParams(args: Args) {
   const params: Record<string, unknown> = {
     danji_id: Number(args.danjiID ?? 0),
+
+    danji_address: args.danjiAddress ?? '',
+
+    danji_type: args.danjiRealestateType ? args.danjiRealestateType : 0,
 
     name: args.name,
 

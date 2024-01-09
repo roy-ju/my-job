@@ -4,24 +4,27 @@ import { useRouter } from 'next/router';
 
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import { useRouter as useCustormRouter } from '@/hooks/utils';
-
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
 
+import useMobileBackRouter from '@/hooks/utils/useMobileBackRouter';
+
+import Routes from '@/router/routes';
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import SuggestForm, { BubjungdongType } from '../types';
 
 import initialValues from '../constants/initialValue';
 
-export default function usePopupHandler({ depth }: { depth?: number }) {
+import isEqualValue from '../../utils/isEqualValue';
+
+export default function usePopupHandler() {
   const { platform } = useCheckPlatform();
 
-  const router = useRouter();
+  const { mobilebackHandler } = useMobileBackRouter();
 
-  const customRouter = useCustormRouter(depth);
+  const router = useRouter();
 
   const [state, setState] = useRecoilState(SuggestFormState);
 
@@ -64,15 +67,28 @@ export default function usePopupHandler({ depth }: { depth?: number }) {
   );
 
   const handleQuitForm = useCallback(async () => {
-    if (platform === 'pc') {
-      await customRouter.pop();
-      reset();
+    if (isEqualValue(platform, 'pc')) {
+      if (isEqualValue(router?.query?.entry, 'home')) {
+        router.replace(`/`);
+      } else if (isEqualValue(router?.query?.entry, 'danjiDetail')) {
+        router.replace(`/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
+      } else if (isEqualValue(router?.query?.entry, 'danjiSuggestListings')) {
+        router.replace(`/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
+      } else if (isEqualValue(router?.query?.entry, 'my')) {
+        router.replace(`/${Routes.My}?default=1`);
+      } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
+        router.replace(`/${Routes.My}?default=1`);
+      } else {
+        router.replace(`/${Routes.Map}`);
+      }
     }
+
     if (platform === 'mobile') {
-      await router.back();
-      reset();
+      await mobilebackHandler();
     }
-  }, [customRouter, platform, reset, router]);
+
+    setTimeout(() => reset(), 200);
+  }, [mobilebackHandler, platform, reset, router]);
 
   const handleUpdateFormReset = useCallback(() => {
     setTimeout(() => setState({ ...(initialValues as SuggestForm), forms: ['region_or_danji'] }), 100);

@@ -4,9 +4,11 @@ import { useRouter } from 'next/router';
 
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { apiService } from '@/services';
+
+import useNormalizeparms from './useNormalizeParams';
 
 import isEqualValue from '../../utils/isEqualValue';
 
@@ -14,18 +16,21 @@ import getNumber from '../../utils/getNumber';
 
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
-import SuggestForm from '../types';
+import SuggestForm, { FormType } from '../types';
+
+import SuggestFormState from '../atoms/SuggestFormState';
 
 export default function useInitializeFormData() {
   const router = useRouter();
 
+  const [state, setState] = useRecoilState(SuggestFormState);
+
+  const { normalizeParams } = useNormalizeparms();
+
   const setStateForms = useSetRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
-
   const setStateDanjiOrRegion = useSetRecoilState<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
-
   const setAddress = useSetRecoilState<SuggestForm['address']>(SuggestFormSelector('address'));
   const setBubjungdong = useSetRecoilState<SuggestForm['bubjungdong']>(SuggestFormSelector('bubjungdong'));
-
   const setStateDanjiID = useSetRecoilState<SuggestForm['danjiID']>(SuggestFormSelector('danjiID'));
   const setStateDanjiAddress = useSetRecoilState<SuggestForm['danjiAddress']>(SuggestFormSelector('danjiAddress'));
   const setStateDanjiName = useSetRecoilState<SuggestForm['danjiName']>(SuggestFormSelector('danjiName'));
@@ -52,6 +57,23 @@ export default function useInitializeFormData() {
         setStateForms(['region_or_danji']);
       }
     }
+
+    if (router?.query?.params && router?.query?.forms) {
+      const params: Record<string, unknown> = JSON.parse(router.query.params as string);
+
+      /** 폼 */
+      const forms: FormType[] = JSON.parse(router.query.forms as string);
+
+      const normalizedParams = normalizeParams(params);
+
+      setState(() => ({
+        forms,
+        ...normalizedParams,
+      }));
+
+      return;
+    }
+
     // 홈에서 들어왔을때
     if (isEqualValue(router?.query?.entry, 'home')) {
       // 매매 전세 월세 바인딩

@@ -158,7 +158,7 @@ export default function useRouter(depth = 0) {
    * 오른쪽에 열려있는 모든 depth 들을 닫고 현재의 depth 를 새로운 depth 로 대체한다.
    */
   const replace = useCallback(
-    (pathname: string, options?: NavigationOptions, isPushHistoryStack = true) => {
+    (pathname: string, options?: NavigationOptions, shllow = false, isPushHistoryStack = true) => {
       if (isPushHistoryStack) {
         window.history.pushState({}, '', router.asPath);
       }
@@ -215,7 +215,7 @@ export default function useRouter(depth = 0) {
         asPath += `?${searchParams}`;
       }
 
-      return router.replace({ pathname: path, query }, asPath);
+      return router.replace({ pathname: path, query }, asPath, { shallow: shllow });
     },
     [router, depth],
   );
