@@ -481,6 +481,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
   return {
     isRenderSummitButton,
     isRenderRevisionText,
+    hidden: currentForm === 'region_or_danji',
     disabled,
     handleFormsAction,
     handleClickBack: isRenderSummitButton ? handleClickBack : undefined,

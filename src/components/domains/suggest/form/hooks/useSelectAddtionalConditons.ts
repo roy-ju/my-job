@@ -11,17 +11,19 @@ import SuggestFormSelector from '../selector/SuggestFormSelector';
 import isEqualValue from '../../utils/isEqualValue';
 
 import {
-  DanjiBuyInvestOptions,
-  DanjiBuyMoveInDateOptions,
+  DanjiBuyOptions,
   DanjiJeonsaeOptions,
-  RegionBuyApartInvestOptions,
-  RegionBuyNotApartInvestOptions,
-  RegionJeonsaeApartOptions,
-  RegionJeonsaeNotApartOptions,
-  RegionBuyApartMoveInDateOptions,
-  RegionBuyNotApartMoveInDateOptions,
+  RegionApartmentBuyOptions,
+  RegionApartmentJeonsaeOptions,
+  RegionCommonBuyOptions,
+  RegionCommonJeonsaeOptions,
+  RegionDandokBuyOptions,
+  RegionDandokJeonsaeOptions,
+  RegionOfficetelVillaDagagooBuyOptions,
+  RegionOfficetelVillaDagagooJeonsaeOptions,
 } from '../constants/hashtags';
 import getIncludeValue from '../../utils/getIncludeValue';
+import addObjectIfKeyNotExists from '../../utils/addObjectIfKeyNotExists';
 
 export default function useSelectAddtionalConditons() {
   const [additionalCondtions, setAdditionalCondtions] = useRecoilState<SuggestForm['additionalCondtions']>(
@@ -31,7 +33,6 @@ export default function useSelectAddtionalConditons() {
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
   const buyOrRent = useRecoilValue<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
   const realestateTypes = useRecoilValue<SuggestForm['realestateTypes']>(SuggestFormSelector('realestateTypes'));
-  const purpose = useRecoilValue<SuggestForm['purpose']>(SuggestFormSelector('purpose'));
 
   const handleClickHashTag = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
@@ -58,83 +59,68 @@ export default function useSelectAddtionalConditons() {
     [additionalCondtions, setAdditionalCondtions],
   );
 
-  const list = useMemo(() => {
+  const list: { [key: string]: string[] }[] = useMemo(() => {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
-      if (isEqualValue(buyOrRent, BuyOrRent.Jeonsae)) {
-        return DanjiJeonsaeOptions;
-      }
-
       if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
-        if (isEqualValue(purpose, '실거주')) {
-          return DanjiBuyMoveInDateOptions;
-        }
-
-        if (isEqualValue(purpose, '투자')) {
-          return DanjiBuyInvestOptions;
-        }
+        return [{ danjiBuy: DanjiBuyOptions }];
       }
+      return [{ danjiJeonsae: DanjiJeonsaeOptions }];
     }
 
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Regional)) {
-      if (isEqualValue(buyOrRent, BuyOrRent.Jeonsae)) {
+      if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
+        const array = [{ common: RegionCommonBuyOptions }];
+
         if (
           getIncludeValue(RealestateType.Apartment, realestateTypes) ||
           getIncludeValue(RealestateType.Officetel, realestateTypes)
         ) {
-          return RegionJeonsaeApartOptions;
+          addObjectIfKeyNotExists(array, 'apartment', RegionApartmentBuyOptions);
         }
 
         if (
+          getIncludeValue(RealestateType.Officetel, realestateTypes) ||
           getIncludeValue(RealestateType.Dasaedae, realestateTypes) ||
-          getIncludeValue(RealestateType.Dandok, realestateTypes) ||
           getIncludeValue(RealestateType.Dagagoo, realestateTypes) ||
           getIncludeValue(RealestateType.Yunrip, realestateTypes)
         ) {
-          return RegionJeonsaeNotApartOptions;
+          addObjectIfKeyNotExists(array, 'officetelVillaDagagoo', RegionOfficetelVillaDagagooBuyOptions);
         }
+
+        if (getIncludeValue(RealestateType.Dandok, realestateTypes)) {
+          addObjectIfKeyNotExists(array, 'dandok', RegionDandokBuyOptions);
+        }
+
+        return array;
       }
 
-      if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
-        if (isEqualValue(purpose, '실거주')) {
-          if (
-            getIncludeValue(RealestateType.Apartment, realestateTypes) ||
-            getIncludeValue(RealestateType.Officetel, realestateTypes)
-          ) {
-            return RegionBuyApartMoveInDateOptions;
-          }
+      const array = [{ common: RegionCommonJeonsaeOptions }];
 
-          if (
-            getIncludeValue(RealestateType.Dasaedae, realestateTypes) ||
-            getIncludeValue(RealestateType.Dandok, realestateTypes) ||
-            getIncludeValue(RealestateType.Dagagoo, realestateTypes) ||
-            getIncludeValue(RealestateType.Yunrip, realestateTypes)
-          ) {
-            return RegionBuyNotApartMoveInDateOptions;
-          }
-        }
-
-        if (isEqualValue(purpose, '투자')) {
-          if (
-            getIncludeValue(RealestateType.Apartment, realestateTypes) ||
-            getIncludeValue(RealestateType.Officetel, realestateTypes)
-          ) {
-            return RegionBuyApartInvestOptions;
-          }
-
-          if (
-            getIncludeValue(RealestateType.Dasaedae, realestateTypes) ||
-            getIncludeValue(RealestateType.Dandok, realestateTypes) ||
-            getIncludeValue(RealestateType.Dagagoo, realestateTypes) ||
-            getIncludeValue(RealestateType.Yunrip, realestateTypes)
-          ) {
-            return RegionBuyNotApartInvestOptions;
-          }
-        }
+      if (
+        getIncludeValue(RealestateType.Apartment, realestateTypes) ||
+        getIncludeValue(RealestateType.Officetel, realestateTypes)
+      ) {
+        addObjectIfKeyNotExists(array, 'apartment', RegionApartmentJeonsaeOptions);
       }
+
+      if (
+        getIncludeValue(RealestateType.Officetel, realestateTypes) ||
+        getIncludeValue(RealestateType.Dasaedae, realestateTypes) ||
+        getIncludeValue(RealestateType.Dagagoo, realestateTypes) ||
+        getIncludeValue(RealestateType.Yunrip, realestateTypes)
+      ) {
+        addObjectIfKeyNotExists(array, 'officetelVillaDagagoo', RegionOfficetelVillaDagagooJeonsaeOptions);
+      }
+
+      if (getIncludeValue(RealestateType.Dandok, realestateTypes)) {
+        addObjectIfKeyNotExists(array, 'dandok', RegionDandokJeonsaeOptions);
+      }
+
+      return array;
     }
 
     return [];
-  }, [buyOrRent, danjiOrRegion, purpose, realestateTypes]);
+  }, [buyOrRent, danjiOrRegion, realestateTypes]);
 
   return { list, selectedList: additionalCondtions, handleClickHashTag };
 }
