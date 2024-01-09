@@ -8,11 +8,11 @@ import useFetchSuggestDetail from '@/services/suggests/useFetchSuggestDetail';
 
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
-import SuggestFormState from '../../form/atoms/SuggestFormState';
+import useNormalizeParams from '../../hooks/useNormalizeParams';
 
-import useNormalizeParams from '../../form/hooks/useNormalizeParams';
+import SuggestFormState from '../../atoms/SuggestFormState';
 
-import forms from '../../form/constants/forms';
+import forms from '../../constants/forms';
 
 export default function useInitializeUpdateFormData({ suggestID }: { suggestID: number | null }) {
   const { data: suggestData, isLoading: suggestDataLoading } = useFetchSuggestDetail({ suggestID });

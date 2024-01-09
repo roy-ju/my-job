@@ -11,23 +11,37 @@ import Etc from '@/../public/static/images/image_house_etc.png';
 import Buy from '@/../public/static/images/image_signboard_purchase.png';
 
 import Rent from '@/../public/static/images/image_signboard_rent.png';
+import { RealestateType } from '@/constants/enums';
+import getIncludeValue from '../suggest/utils/getIncludeValue';
 
 type FormImageProps = {
-  property: string;
+  property: string[];
   buyOrRent: string;
 };
 
 export default function FormImage({ property, buyOrRent }: FormImageProps) {
   const properyImageType = useMemo(() => {
-    if (property === '아파트/오피스텔') {
+    if (getIncludeValue(RealestateType.Apartment.toString(), property)) {
       return 'apart';
     }
 
-    if (property === '원룸/투룸') {
+    if (getIncludeValue(RealestateType.Officetel.toString(), property)) {
+      return 'apart';
+    }
+
+    if (getIncludeValue(RealestateType.Dasaedae.toString(), property)) {
       return 'oneroom';
     }
 
-    if (property === '그외') {
+    if (getIncludeValue(RealestateType.Yunrip.toString(), property)) {
+      return 'oneroom';
+    }
+
+    if (getIncludeValue(RealestateType.Dagagoo.toString(), property)) {
+      return 'oneroom';
+    }
+
+    if (getIncludeValue(RealestateType.Dandok.toString(), property)) {
       return 'etc';
     }
 
@@ -57,7 +71,7 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
     rent: Rent.src,
   };
 
-  if (!property && !buyOrRent) {
+  if (property.length === 0 && !buyOrRent) {
     return (
       <div tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white">
         <p tw="text-display_03 text-gray-500 text-center [padding-block: 39px]">?</p>
@@ -72,7 +86,7 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
       transition={{ duration: 0.5 }}
       tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white relative"
     >
-      {property && (
+      {!!property.length && (
         <motion.img
           key={PropertyPaths[properyImageType]}
           initial={{ opacity: 0 }}

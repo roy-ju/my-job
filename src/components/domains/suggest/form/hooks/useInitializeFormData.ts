@@ -20,6 +20,16 @@ import SuggestForm, { FormType } from '../types';
 
 import SuggestFormState from '../atoms/SuggestFormState';
 
+function propertyToRealestateType(val: string) {
+  if (val === '아파트') return 10;
+  if (val === '오피스텔') return 20;
+  if (val === '빌라' || val === '다세대') return 30;
+  if (val === '연립') return 40;
+  if (val === '단독') return 50;
+  if (val === '다가구') return 60;
+  return 0;
+}
+
 export default function useInitializeFormData() {
   const router = useRouter();
 
@@ -83,21 +93,18 @@ export default function useInitializeFormData() {
       setBuyOrRent(buyOrRent);
 
       // 부동산 종류 바인딩
-      if (isEqualValue(router?.query?.property, '아파트/오피스텔')) {
-        const realestateTypes = [RealestateType.Apartment, RealestateType.Officetel];
-
+      if (isEqualValue(router?.query?.property, '아파트')) {
+        const realestateTypes = [RealestateType.Apartment];
         setRealestateTypes(realestateTypes);
-      }
-
-      if (isEqualValue(router?.query?.property, '원룸/투룸')) {
-        const realestateTypes = [RealestateType.Dasaedae, RealestateType.Dagagoo];
-
+      } else if (isEqualValue(router?.query?.property, '오피스텔')) {
+        const realestateTypes = [RealestateType.Officetel];
         setRealestateTypes(realestateTypes);
-      }
-
-      if (isEqualValue(router?.query?.property, '그외')) {
-        const realestateTypes = [RealestateType.Dandok];
+      } else if (router?.query?.property) {
+        const realestateTypes = (router?.query?.property as string)
+          .split(',')
+          .map((item) => propertyToRealestateType(item));
         setRealestateTypes(realestateTypes);
+        console.log(realestateTypes);
       }
 
       // 지역과 코드가 있으면 주소와 법정동을 프리필해준다.

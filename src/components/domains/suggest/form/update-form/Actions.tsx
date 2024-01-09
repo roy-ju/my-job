@@ -1,4 +1,4 @@
-import ActionButton from '../form/ui/ActionButton';
+import ActionButton from '../ui/ActionButton';
 
 import useUpdateFormSummitButton from './hooks/useUpdateFormSummit';
 

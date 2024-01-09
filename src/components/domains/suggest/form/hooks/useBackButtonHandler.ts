@@ -17,6 +17,7 @@ import SuggestForm from '../types';
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import isEqualValue from '../../utils/isEqualValue';
+import isNotEqualValue from '../../utils/isNotEqualValue';
 
 export default function useBackButtonHandler() {
   const { platform } = useCheckPlatform();
@@ -39,7 +40,10 @@ export default function useBackButtonHandler() {
 
     if (isEqualValue(platform, 'pc')) {
       if (isEqualValue(router?.query?.entry, 'home')) {
-        if (isEqualValue(router?.query?.property, '그외')) {
+        if (
+          isNotEqualValue(router?.query?.property, '아파트') &&
+          isNotEqualValue(router?.query?.property, '오피스텔')
+        ) {
           if (forms.length > 2) {
             setPopup('quit');
           } else {
@@ -82,7 +86,10 @@ export default function useBackButtonHandler() {
 
     if (isEqualValue(platform, 'mobile')) {
       if (isEqualValue(router?.query?.entry, 'home')) {
-        if (isEqualValue(router?.query?.property, '그외')) {
+        if (
+          isNotEqualValue(router?.query?.property, '아파트') &&
+          isNotEqualValue(router?.query?.property, '오피스텔')
+        ) {
           if (forms.length > 2) {
             setPopup('quit');
           } else {
