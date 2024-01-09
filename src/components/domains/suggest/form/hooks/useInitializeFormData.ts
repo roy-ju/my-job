@@ -104,7 +104,6 @@ export default function useInitializeFormData() {
           .split(',')
           .map((item) => propertyToRealestateType(item));
         setRealestateTypes(realestateTypes);
-        console.log(realestateTypes);
       }
 
       // 지역과 코드가 있으면 주소와 법정동을 프리필해준다.
