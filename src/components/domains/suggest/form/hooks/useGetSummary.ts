@@ -98,6 +98,14 @@ export default function useGetSummary() {
     return '';
   }, [investAmount, moveInDate, moveInDateType, purpose]);
 
+  const moveInDateData = useCallback(() => {
+    if (moveInDate && moveInDateType) {
+      return `${moment(moveInDate).format('YY.MM.DD')} ${moveInDateType} 입주`;
+    }
+
+    return '';
+  }, [moveInDate, moveInDateType]);
+
   const pyounsData = useCallback(() => {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
       return pyoungList.map((item) => `${item}평`).join(', ');
@@ -134,6 +142,7 @@ export default function useGetSummary() {
     buyOrRentData,
     priceData,
     purposeData,
+    moveInDateData,
     pyounsData,
     addtionalCondtionsData,
     interviewAvailabletimesData,
