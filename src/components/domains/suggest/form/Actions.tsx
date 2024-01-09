@@ -5,9 +5,12 @@ import useSummitButton from './hooks/useSummitButton';
 type ActionsProps = { depth?: number };
 
 export default function Actions({ depth }: ActionsProps) {
-  const { disabled, isRenderRevisionText, isRenderSummitButton, handleFormsAction, handleClickBack } = useSummitButton({
-    depth,
-  });
+  const { disabled, hidden, isRenderRevisionText, isRenderSummitButton, handleFormsAction, handleClickBack } =
+    useSummitButton({
+      depth,
+    });
+
+  if (hidden) return null;
 
   return (
     <div tw="w-full">
