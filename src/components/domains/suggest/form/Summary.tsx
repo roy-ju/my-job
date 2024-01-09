@@ -10,7 +10,7 @@ export default function Summary() {
     priceData,
     purposeData,
     moveInDateData,
-    pyounsData,
+    pyoungsData,
     addtionalCondtionsData,
     interviewAvailabletimesData,
     isRenderPurpose,
@@ -28,7 +28,7 @@ export default function Summary() {
       <SummaryContainer title="희망 입주 날짜" isRender={!isRenderPurpose}>
         {moveInDateData()}
       </SummaryContainer>
-      <SummaryContainer title="평수">{pyounsData()}</SummaryContainer>
+      <SummaryContainer title="평수">{pyoungsData()}</SummaryContainer>
       <SummaryContainer title="추가 조건">{addtionalCondtionsData()}</SummaryContainer>
       <SummaryContainer title="인터뷰">{interviewAvailabletimesData()}</SummaryContainer>
     </div>

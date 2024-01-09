@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 export default function useNormalizeParams() {
   const normalizeParams = useCallback((params: Record<string, unknown>) => {
     /** 단지 인지 지역인지 */
-    const danjiOrRegion = params?.danji_id ? DanjiOrRegionalType.Regional : DanjiOrRegionalType.Danji;
+    const danjiOrRegion = params?.danji_id ? DanjiOrRegionalType.Danji : DanjiOrRegionalType.Regional;
     /** 지역정보 */
     const address = params?.address ? params.address.toString() : '';
     const code = params.bubjungdong_code ? params.bubjungdong_code.toString() : '';
@@ -58,7 +58,10 @@ export default function useNormalizeParams() {
     /** 직접입력한 평 */
     const pyoungInput = '';
     /** 평 리스트 */
-    const pyoungList = (params.pyoungs as string[]) ?? [];
+
+    const pyoungList = params?.danji_id
+      ? (params.pyoungs as number[]) ?? []
+      : ((params.pyoung_from as string).split(',') as string[]) ?? [];
 
     return {
       danjiOrRegion,

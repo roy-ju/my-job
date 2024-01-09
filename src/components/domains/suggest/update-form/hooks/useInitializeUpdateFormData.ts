@@ -58,7 +58,7 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
           : {}),
         ...(suggestData.danji_id
           ? { pyoungs: suggestData.pyoungs.split(',') }
-          : { pyoungs: suggestData.pyoung_from.split(',') }),
+          : { pyoung_from: suggestData.pyoung_from }),
       };
 
       if (params) {
@@ -73,9 +73,8 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
                 .map((item) => item)
                 .filter((ele) => ele !== 'summary' && ele !== 'buy_purpose');
 
-        console.log(normalizedParams);
-
         if (normalizedParams) {
+          // @ts-expect-error
           setState((prev) => ({
             ...prev,
             forms: formArray,

@@ -32,6 +32,7 @@ import Toilet from '@/../public/static/images/suggests/Toilet.png';
 import Television from '@/../public/static/images/suggests/Television.png';
 import Houses from '@/../public/static/images/suggests/Houses.png';
 import House from '@/../public/static/images/suggests/House.png';
+import Calendar from '@/../public/static/images/suggests/Spiral_Calendar.png';
 
 export default function useIcons() {
   const iconObj: Record<string, ReactNode> = {
@@ -81,6 +82,7 @@ export default function useIcons() {
     화장실3개이상: <Image src={Toilet} width={20} height={20} alt="toilet" />,
     풀옵션필수: <Image src={Television} width={20} height={20} alt="television" />,
     풀옵션선호: <Image src={Television} width={20} height={20} alt="television" />,
+    '희망 입주 날짜': <Image src={Calendar} width={20} height={20} alt="calendar" />,
   };
 
   return { iconObj };

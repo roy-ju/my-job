@@ -54,7 +54,7 @@ export default function createDanjiSuggestParams(args: Args) {
 
     buy_or_rents: isEqualValue(args.buyOrRent, BuyOrRent.Buy)
       ? BuyOrRent.Buy.toString()
-      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(' '),
+      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
 
     trade_price: isEqualValue(args.buyOrRent, BuyOrRent.Buy) ? convertPriceInputToNumber(args.tradeOrDepositPrice) : 0,
 
@@ -77,7 +77,7 @@ export default function createDanjiSuggestParams(args: Args) {
 
     move_in_date_type: isEqualValue(args.purpose, '투자') ? null : getDateType(args.moveInDateType),
 
-    pyoungs: args.pyoungList.sort((a, b) => a - b).join(','),
+    pyoungs: args.pyoungList,
 
     note: args.description,
 

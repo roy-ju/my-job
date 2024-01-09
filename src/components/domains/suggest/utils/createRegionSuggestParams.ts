@@ -44,18 +44,18 @@ export default function createRegionSuggestParams(args: Args) {
   const updatedRealestateType =
     args.realestateType.includes(RealestateType.Dasaedae) && !args.realestateType.includes(RealestateType.Yunrip)
       ? [...args.realestateType, RealestateType.Yunrip]
-      : args.realestateType;
+      : [...args.realestateType];
 
   const params: Record<string, unknown> = {
     address: args.bubjungdong.name,
 
     bubjungdong_code: args.bubjungdong.code,
 
-    realestate_types: `${updatedRealestateType}`,
+    realestate_types: `${updatedRealestateType.sort((a, b) => a - b)}`,
 
     buy_or_rents: isEqualValue(args.buyOrRent, BuyOrRent.Buy)
       ? BuyOrRent.Buy.toString()
-      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(' '),
+      : [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
 
     trade_price: isEqualValue(args.buyOrRent, BuyOrRent.Buy) ? convertPriceInputToNumber(args.tradeOrDepositPrice) : 0,
 

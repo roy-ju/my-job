@@ -46,7 +46,7 @@ export default function useCreateParams() {
 
         moveInDateType: state.moveInDateType,
 
-        pyoungList: state.pyoungList.map((item) => Number(item)),
+        pyoungList: state.pyoungList.map((item) => Number(item)).sort((a, b) => a - b),
 
         description: state.additionalCondtions.join(','),
 
@@ -87,27 +87,7 @@ export default function useCreateParams() {
     }
 
     return null;
-  }, [
-    state.additionalCondtions,
-    state.bubjungdong,
-    state.buyOrRent,
-    state.danjiAddress,
-    state.danjiID,
-    state.danjiName,
-    state.danjiOrRegion,
-    state.danjiRealestateType,
-    state.interviewAvailabletimes,
-    state.investAmount,
-    state.monthlyRentFee,
-    state.moveInDate,
-    state.moveInDateType,
-    state.negotiable,
-    state.purpose,
-    state.pyoungList,
-    state.quickSale,
-    state.realestateTypes,
-    state.tradeOrDepositPrice,
-  ]);
+  }, [state]);
 
   return { createParams };
 }
