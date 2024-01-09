@@ -379,12 +379,14 @@ const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalC
   ssr: false,
   loading: FallbackComponent,
 });
-
 const SuggestForm = dynamic(() => import('@/components/pages/SuggestForm/SuggestFormPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
+const SuggestFormUpdate = dynamic(() => import('@/components/pages/SuggestFormUpdate/SuggestFormUpdatePc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const SuggestGuide = dynamic(() => import('@/components/pages/SuggestGuide/SuggestGuidePc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -411,67 +413,51 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.My: {
       return <My {...props} />;
     }
-
     case Routes.MyDetail: {
       return <MyDetail {...props} />;
     }
-
     case Routes.MyAddress: {
       return <MyAddress {...props} />;
     }
-
     case Routes.MyAddressDetail: {
       return <MyAddressDetail {...props} />;
     }
-
     case Routes.MyAddressVerifying: {
       return <MyAddressDetailVerifying {...props} />;
     }
-
     case Routes.MyAddressVerifyResult: {
       return <MyAddressVerifyResult {...props} />;
     }
-
     case Routes.MyAddressAgreement: {
       return <MyAddressAgreement {...props} />;
     }
-
     case Routes.MyRealPriceList: {
       return <MyRealPriceList {...props} />;
     }
-
     case Routes.MyFavoriteList: {
       return <MyFavoriteList {...props} />;
     }
-
     case Routes.MyRegisteredListingList: {
       return <MyRegisteredListings {...props} />;
     }
-
     case Routes.MyParticipatingListings: {
       return <MyParticipatingListings {...props} />;
     }
-
     case Routes.MyRegisteredHomes: {
       return <MyRegisteredHomes {...props} />;
     }
-
     case Routes.ListingDetailPassed: {
       return <ListingDetailPassed {...props} />;
     }
-
     case Routes.ListingDetailHistory: {
       return <ListingDetailHistory {...props} />;
     }
-
     case Routes.LawQna: {
       return <LegalCounseling {...props} />;
     }
-
     case Routes.LawQnaSearch: {
       return <LegalCounselingSearch {...props} />;
     }
-
     case Routes.LawQnaDetail: {
       return (
         <LegalCounselingDetail
@@ -482,87 +468,66 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
         />
       );
     }
-
     case Routes.LawQnaCreate: {
       return <LegalCounselingWriting {...props} />;
     }
-
     case Routes.LawQnaUpdate: {
       return <LegalCounselingUpdate key={query.qnaID as string} qnaID={Number(query.qnaID)} {...props} />;
     }
-
     case Routes.NotificationList: {
       return <NotificationList {...props} />;
     }
-
     case Routes.NotificationSettings: {
       return <NotificationSettings {...props} />;
     }
-
     case Routes.NoticeList: {
       return <NoticeList {...props} />;
     }
-
     case Routes.NoticeDetail: {
       return <NoticeDetail {...props} />;
     }
-
     case Routes.TransactionReview: {
       return <TransactionReview {...props} />;
     }
-
     case Routes.NegoPoint: {
       return <NegoPoint {...props} />;
     }
-
     case Routes.Qna: {
       return <Qna {...props} />;
     }
-
     case Routes.FAQ: {
       return <FAQ {...props} />;
     }
-
     case Routes.MyCoupon: {
       return <MyCoupon {...props} />;
     }
-
     case Routes.ServiceInfo: {
       return <ServiceInfo {...props} />;
     }
-
     case Routes.TermsAndPolicy: {
       return <TermsAndPolicy {...props} />;
     }
-
     case Routes.ServiceTerms: {
       return <ServiceTerms {...props} />;
     }
-
     case Routes.PrivacyPolicy: {
       return <PrivacyPolicy {...props} />;
     }
-
     case Routes.LocationTerms: {
       return <LocationTerms {...props} />;
     }
-
     case Routes.Deregister: {
       return <Deregister {...props} />;
     }
-
     case Routes.DeregisterDisclaimer: {
       return <DeregisterDisclaimer {...props} />;
     }
-
     case Routes.Login: {
       return <Login ipAddress={ipAddress} {...props} />;
     }
-
     case Routes.Reactivate: {
       return <Reactivate {...props} />;
     }
-
     case Routes.ListingDetail: {
       return (
         <ListingDetail
@@ -573,11 +538,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
         />
       );
     }
-
     case Routes.ContractTerms: {
       return <ContractTerms {...props} />;
     }
-
     case Routes.ChatRoom: {
       return (
         <PlatformProvider platform={platform} depth={depth}>
@@ -587,147 +550,116 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
         </PlatformProvider>
       );
     }
-
     case Routes.ChatRoomList: {
       return <ChatRoomList {...props} />;
     }
-
     case Routes.ChatRoomReport: {
       return <ChatRoomReport key={query.chatRoomID as string} {...props} />;
     }
-
     case Routes.DanjiDetail: {
       return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
     }
-
     case Routes.DanjiPhotos: {
       return <DanjiPhotos key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.DanjiRealPriceDetail: {
       return <DanjiRealPriceDetail key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.DanjiRealTradeDetail: {
       return <DanjiRealTradeDetail key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.DanjiSelect: {
       return <DanjiSelect key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.DanjiListings: {
       return <DanjiListings key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.DanjiRealPriceList: {
       return <DanjiRealPriceListAll key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.UpdatePhone: {
       return <UpdatePhone {...props} />;
     }
-
     case Routes.BusinessInfo: {
       return <BusinessInfo {...props} />;
     }
-
     case Routes.Register: {
       return <Register {...props} />;
     }
-
     case Routes.RegisterSuccess: {
       return <RegisterSuccess {...props} />;
     }
-
     case Routes.VerifyCi: {
       return <VerifyCi {...props} />;
     }
-
     case Routes.VerifyCiSuccess: {
       return <VerifyCiSuccess {...props} />;
     }
-
     case Routes.FindAccount: {
       return <FindAccount {...props} />;
     }
-
     case Routes.ListingCreateForm: {
       return <ListingCreateForm {...props} />;
     }
-
     case Routes.ListingSelectAddress: {
       return <ListingSelectAddress {...props} />;
     }
-
     case Routes.ListingCreateChooseAgent: {
       return <ListingCreateChooseAgent {...props} />;
     }
-
     case Routes.ListingCreateSummary: {
       return <ListingCreateSummary {...props} />;
     }
-
     case Routes.ListingCreateResult: {
       return <ListingCreateResult {...props} />;
     }
-
     case Routes.BiddingForm: {
       return <BiddingForm {...props} />;
     }
-
     case Routes.BiddingSummary: {
       return <BiddingSummary {...props} />;
     }
-
     case Routes.BiddingSuccess: {
       return <BiddingSuccess {...props} />;
     }
-
     case Routes.UpdateBiddingForm: {
       return <UpdateBiddingForm {...props} />;
     }
-
     case Routes.UpdateBiddingSummary: {
       return <UpdateBiddingSummary {...props} />;
     }
-
     case Routes.UpdateBiddingSuccess: {
       return <UpdateBiddingSuccess {...props} />;
     }
-
     case Routes.ListingQnaCreateForm: {
       return <ListingQnaCreateForm {...props} />;
     }
-
     case Routes.ListingManage: {
       return <ListingManage {...props} />;
     }
-
     case Routes.ListingReport: {
       return <ListingReport {...props} />;
     }
-
     case Routes.DanjiRecommendation: {
       return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.DanjiRecommendationSummary: {
       return <DanjiRecommendationSummary key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.DanjiRecommendationUpdate: {
       return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.RecommendationForm: {
       return <SuggestForm {...props} />;
+    }
+
+    case Routes.RecommendationFormUpdate: {
+      return <SuggestFormUpdate {...props} />;
     }
 
     case Routes.RecommendGuide: {
       return <SuggestGuide {...props} />;
     }
-
     /** 바뀐 지역폼 */
     case Routes.SuggestRegionalForm: {
       return (
@@ -738,7 +670,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
         </PlatformProvider>
       );
     }
-
     case Routes.SuggestRegionalSummary: {
       return (
         <PlatformProvider platform={platform} depth={depth}>
@@ -748,15 +679,12 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
         </PlatformProvider>
       );
     }
-
     case Routes.SuggestRegionalFormUpdate: {
       return <SuggestRegionalFormUpdate {...props} />;
     }
-
     case Routes.SuggestRequestedList: {
       return <SuggestRequestedList {...props} />;
     }
-
     case Routes.MySuggestDetail: {
       return (
         <PlatformProvider platform={platform} depth={depth}>
@@ -766,47 +694,36 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
         </PlatformProvider>
       );
     }
-
     case Routes.SuggestSelectAddress: {
       return <SuggestSelectAddress key={`${query.suggestID}`} {...props} />;
     }
-
     case Routes.SuggestDetail: {
       return <SuggestDetail key={`${query.suggestID}`} ipAddress={ipAddress} {...props} />;
     }
-
     case Routes.SuggestListings: {
       return <SuggestListings key={`${query.danjiID}`} {...props} />;
     }
-
     case Routes.SuggestRecommendedList: {
       return <SuggestRecommendedList {...props} />;
     }
-
     case Routes.SuggestRecommendedDetail: {
       return <SuggestRecommendedDetail {...props} />;
     }
-
     case Routes.SuggestListingForm: {
       return <SuggestListingForm key={`${query.suggestID}`} {...props} />;
     }
-
     case Routes.ListingPhotoGallery: {
       return <ListingPhotoGallery {...props} />;
     }
-
     case Routes.ListingTargetPriceUpdate: {
       return <ListingTargetPriceUpdate {...props} />;
     }
-
     case Routes.ListingTargetPriceUpdateSummary: {
       return <ListingTargetPriceUpdateSummary {...props} />;
     }
-
     case Routes.MapListingList: {
       return <MapListingList {...props} />;
     }
-
     case Routes.Developer: {
       if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {
         return <Developer {...props} />;

@@ -130,12 +130,12 @@ const Routes = {
 
   // 매물 구해요 (지역 / 단지)
   RecommendationForm: 'recommendationForm',
+  RecommendationFormUpdate: 'recommendationFormUpdate',
+  RecommendGuide: 'recommendGuide',
 
   // 매물 내놓기
   SuggestListingForm: 'suggestListingForm',
   SuggestSelectAddress: 'suggestSelectAddress',
-
-  RecommendGuide: 'recommendGuide',
 
   // 구해요 상세
   SuggestDetail: 'suggestDetail',

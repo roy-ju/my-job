@@ -1,21 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { mutate as otherMutate } from 'swr';
 
 import { toast } from 'react-toastify';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
 
 import { apiService } from '@/services';
 
 import useFetchMyDashboardInfo from '@/services/my/useFetchMyDashboardInfo';
 
 import { BuyOrRent, DanjiOrRegionalType } from '@/constants/enums';
-
-import { useRouter as useCustomRouter } from '@/hooks/utils';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
@@ -46,12 +45,6 @@ import getValidBuyPurpose from '../../utils/getValidBuyPurpose';
 import getValidMoveInDate from '../../utils/getValidMoveInDate';
 
 import getValidRealestateTypeAndBuyOrRentAndPrice from '../../utils/getValidRealestateTypeAndBuyOrRentAndPrice';
-
-interface ExtendedURL extends URL {
-  params?: string;
-  forms?: string;
-  entry?: string;
-}
 
 export default function useSummitButton({ depth }: { depth?: number }) {
   const customRouter = useCustomRouter(depth);
