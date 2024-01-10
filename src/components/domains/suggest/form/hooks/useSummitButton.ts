@@ -22,6 +22,10 @@ import Routes from '@/router/routes';
 
 import { useAuth } from '@/hooks/services';
 
+import toQueryString from '@/utils/newQueryString';
+
+import addQueryStringToUrl from '@/utils/addQueryStringToUrl';
+
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';
@@ -175,26 +179,38 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     const params = createSubmitParams(state);
 
     if (!user) {
+      const willBindQueryParamsIfNotUserOrNotVerified = {
+        forms: JSON.stringify([...state.forms]),
+        params: JSON.stringify(params),
+      };
       if (platform === 'pc') {
-        customRouter.replaceCurrent(Routes.Login, {
-          persistParams: true,
-          searchParams: {
-            redirect: `${router.asPath}`,
-            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-            params: JSON.stringify(params),
-            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+        customRouter.replaceCurrent(
+          Routes.Login,
+          {
+            persistParams: true,
+            searchParams: {
+              redirect: addQueryStringToUrl(
+                customRouter.asPath,
+                toQueryString(willBindQueryParamsIfNotUserOrNotVerified),
+              ),
+            },
           },
-        });
+          true,
+        );
       } else {
+        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+          forms: JSON.stringify([...state.forms]),
+          params: JSON.stringify(params),
+        };
         router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
           query: {
-            redirect: `${router.asPath}`,
-            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-            params: JSON.stringify(params),
-            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+            redirect: addQueryStringToUrl(
+              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+            ),
           },
         });
       }
@@ -202,26 +218,38 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     }
 
     if (user && !user?.isVerified) {
+      const willBindQueryParamsIfNotUserOrNotVerified = {
+        forms: JSON.stringify([...state.forms]),
+        params: JSON.stringify(params),
+      };
       if (platform === 'pc') {
-        customRouter.replaceCurrent(Routes.VerifyCi, {
-          persistParams: true,
-          searchParams: {
-            redirect: `${router.asPath}`,
-            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
-            params: JSON.stringify(params),
+        customRouter.replaceCurrent(
+          Routes.VerifyCi,
+          {
+            persistParams: true,
+            searchParams: {
+              redirect: addQueryStringToUrl(
+                customRouter.asPath,
+                toQueryString(willBindQueryParamsIfNotUserOrNotVerified),
+              ),
+            },
           },
-        });
+          true,
+        );
       } else {
+        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+          forms: JSON.stringify([...state.forms]),
+          params: JSON.stringify(params),
+        };
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
           query: {
-            redirect: `${router.asPath}`,
-            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
-            params: JSON.stringify(params),
+            redirect: addQueryStringToUrl(
+              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+            ),
           },
         });
       }

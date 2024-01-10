@@ -22,6 +22,7 @@ function NegotiableField({ isRender, negotiable, handleChange }: NegotiableField
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         whileHover={{ scale: 1.04 }}
+        tw="text-right"
       >
         <Label
           checked={negotiable}

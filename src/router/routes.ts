@@ -128,9 +128,9 @@ const Routes = {
   SuggestRecommendedDetail: 'suggestRecommendedDetail',
 
   // 매물 구해요 (지역 / 단지)
+  SuggestGuide: 'suggestGuide',
   SuggestForm: 'suggestForm',
   SuggestFormUpdate: 'suggestFormUpdate',
-  SuggestGuide: 'suggestGuide',
 
   // 매물 내놓기
   SuggestListingForm: 'suggestListingForm',

@@ -151,6 +151,18 @@ export default function useInitializeFormData() {
       // 그외의 경우
       setStateForms(['region_or_danji']);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [
+    router,
+    setAddress,
+    setBubjungdong,
+    setBuyOrRent,
+    setRealestateTypes,
+    setState,
+    setStateDanjiAddress,
+    setStateDanjiID,
+    setStateDanjiName,
+    setStateDanjiOrRegion,
+    setStateDanjiRealestateType,
+    setStateForms,
+  ]);
 }
