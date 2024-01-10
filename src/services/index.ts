@@ -4,7 +4,7 @@ import { DanjiDetailResponse, DanjiRealPricesPyoungListResponse } from './danji/
 
 import { ListingEligibilityCheckResponse } from './listing/types';
 
-import { suggestEligibilityCheckResponse } from './suggests/types';
+import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 export class NegocioApiService extends ApiService {
   /** 단지 정보 */
@@ -43,13 +43,13 @@ export class NegocioApiService extends ApiService {
   }: {
     bubjungdong_code: string;
     id?: number;
-  }): Promise<suggestEligibilityCheckResponse | null> {
+  }): Promise<SuggestEligibilityCheckResponse | null> {
     try {
       const { data } = await this.instance.post('/suggest/eligibility/check', {
         bubjungdong_code,
         danji_id: id,
       });
-      return data as suggestEligibilityCheckResponse;
+      return data as SuggestEligibilityCheckResponse;
     } catch (e) {
       return null;
     }
@@ -95,6 +95,11 @@ export class NegocioApiService extends ApiService {
   /** 구해요 단지 생성 */
   async createSuggestDanji(args: any): Promise<void> {
     await this.instance.post('/suggest/danji/create', { ...args });
+  }
+
+  /** 구해요 업데이트 */
+  async updateSuggest(args: any): Promise<void> {
+    await this.instance.post('/suggest/update', { ...args });
   }
 }
 

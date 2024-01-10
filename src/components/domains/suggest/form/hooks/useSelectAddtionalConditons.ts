@@ -41,20 +41,10 @@ export default function useSelectAddtionalConditons() {
       if (e) {
         const { value } = e.currentTarget;
 
-        if (isEqualValue(value, '원하는 조건이 없어요!')) {
-          if (additionalCondtions.includes(value)) {
-            setAdditionalCondtions((prev) => prev.filter((ele) => ele !== value));
-          } else {
-            setAdditionalCondtions(['원하는 조건이 없어요!']);
-          }
+        if (getIncludeValue(value, additionalCondtions)) {
+          setAdditionalCondtions((prev) => prev.filter((ele) => ele !== value));
         } else {
-          const list = additionalCondtions.includes('원하는 조건이 없어요!')
-            ? [value]
-            : getIncludeValue(value, additionalCondtions)
-            ? additionalCondtions.filter((ele) => ele !== value)
-            : [...additionalCondtions, value];
-
-          setAdditionalCondtions(list);
+          setAdditionalCondtions((prev) => [...prev, value]);
         }
       }
     },

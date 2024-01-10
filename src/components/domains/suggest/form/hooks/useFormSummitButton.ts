@@ -46,7 +46,7 @@ import createSubmitParams from '../../utils/createSubmitParams';
 
 import checkFinalValidation from '../../utils/checkFinalValidation';
 
-export default function useSummitButton({ depth }: { depth?: number }) {
+export default function useFormSummitButton({ depth }: { depth?: number }) {
   const customRouter = useCustomRouter(depth);
 
   const router = useRouter();

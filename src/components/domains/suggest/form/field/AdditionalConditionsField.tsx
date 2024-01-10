@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 
 import SelectButton from '../ui/SelectButton';
 
-import CheckBoxButton from '../ui/CheckBoxButton';
-
 import { AnimationP } from '../ui/AnimationText';
 
 import useIcons from '../hooks/useIcons';
@@ -27,7 +25,7 @@ function AdditionalConditionsField({ list, selectedList, handleClick }: Addition
 
   return (
     <>
-      <div id={FIELD_ID.AdditionalCondtions} tw="flex flex-col gap-10">
+      <div id={FIELD_ID.AdditionalCondtions} tw="flex flex-col gap-10 pb-10">
         {list.map((tags) => {
           const key = Object.keys(tags)[0];
           const items = tags[key];
@@ -61,14 +59,6 @@ function AdditionalConditionsField({ list, selectedList, handleClick }: Addition
             </div>
           );
         })}
-        <div tw="pb-10">
-          <CheckBoxButton
-            label="원하는 조건이 없어요!"
-            value="원하는 조건이 없어요!"
-            selected={getIncludeValue('원하는 조건이 없어요!', selectedList)}
-            handleClick={handleClick}
-          />
-        </div>
       </div>
     </>
   );

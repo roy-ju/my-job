@@ -1,16 +1,29 @@
-import login from '@/apis/user/login';
-import { Panel } from '@/components/atoms';
-import { Login as LoginTemplate } from '@/components/templates';
-import { SocialLoginType } from '@/constants/enums';
-import { useAuth } from '@/hooks/services';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
-import { loginWithApple } from '@/lib/apple';
-import Routes from '@/router/routes';
 import { memo, useCallback, useEffect } from 'react';
+
+import { useRouter as useNextRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
+
+import { Panel } from '@/components/atoms';
+
+import login from '@/apis/user/login';
+
+import { useAuth } from '@/hooks/services';
+
+import { useRouter } from '@/hooks/utils';
+
+import { loginWithApple } from '@/lib/apple';
+
+import Routes from '@/router/routes';
+
 import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
+
+import { Login as LoginTemplate } from '@/components/templates';
+
+import { SocialLoginType } from '@/constants/enums';
+
 import ErrorCodes from '@/constants/error_codes';
+
 import { isMobile } from '@/utils/is';
 
 interface Props {

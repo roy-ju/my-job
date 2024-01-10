@@ -12,9 +12,11 @@ import Header from './form/update-form/Header';
 
 import Actions from './form/update-form/Actions';
 
-import Form from './form/Form';
+import UpdateForm from './form/update-form/UpdateForm';
 
 import SuggestFormState from './form/atoms/SuggestFormState';
+
+import StepperTitle from './form/ui/StepperTitle';
 
 const Popups = dynamic(() => import('./form/popups'), { ssr: false });
 
@@ -36,8 +38,15 @@ export default function SuggestFormUpdate({ depth }: SuggestFormUpdateProps) {
 
   return (
     <div tw="flex flex-col h-full">
-      <Header title="구해요 수정" />
-      <Form depth={depth} stopAutoScroll />
+      <Header title="집 구해요 수정" />
+      <div tw="p-5 pb-8 [box-shadow: 0px 16px 24px 0px #00000014]">
+        <StepperTitle
+          title="집 구하기 조건을 수정해보세요!"
+          subTitle={'위치, 부동산 종류, 거래 종류는 수정이 불가해요.\n수정을 원하시면 새로운 집구하기를 작성해보세요!'}
+          isIcon={false}
+        />
+      </div>
+      <UpdateForm depth={depth} />
       <Actions depth={depth} />
       <Popups />
     </div>

@@ -19,9 +19,9 @@ const ERROR_MESSAGE = {
 
   REQUIRE_AREA_INPUT: '평수를 입력해 주세요.',
 
-  REQUIRE_ADDITIONAL_CONDITIONS: '추가조건을 최소 1개이상 선택해 주세요.',
+  REQUIRE_ADDITIONAL_CONDITIONS: '추가 조건을 1개 이상 선택해주세요.',
 
-  REQUIRE_INTERVIEW: '인터뷰 가능한 시간대를 최소 1개이상 선택해 주세요.',
+  REQUIRE_INTERVIEW: '인터뷰 시간을 선택해주세요.',
 };
 
 export default ERROR_MESSAGE;

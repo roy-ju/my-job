@@ -14,6 +14,10 @@ import { AnimationLi, AnimationP } from './ui/AnimationText';
 
 import forms from './constants/forms';
 
+type RegionOrDanjiFormProps = {
+  needDiabledFields?: boolean;
+};
+
 const GuideTexts = memo(() => (
   <ul tw="text-body_01 text-gray-600 list-disc pl-3 text-justify">
     <AnimationLi transition={{ duration: 0.7 }}>
@@ -25,7 +29,7 @@ const GuideTexts = memo(() => (
   </ul>
 ));
 
-export default function RegionOrDanjiForm() {
+export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionOrDanjiFormProps) {
   const { danjiOrRegion, address, danjiName, handleClickDanjiOrRegion, handleOpenReselectPopup } =
     useSelectDanjiOrRegion();
 
@@ -63,9 +67,11 @@ export default function RegionOrDanjiForm() {
               </AnimationP>
             </div>
 
-            <ButtonV2 variant="gray" size="small" onClick={handleOpenReselectPopup}>
-              재선택
-            </ButtonV2>
+            {!needDiabledFields && (
+              <ButtonV2 variant="gray" size="small" onClick={handleOpenReselectPopup}>
+                재선택
+              </ButtonV2>
+            )}
           </div>
           <AnimationP transition={{ duration: 0.4 }} tw="text-body_01 text-gray-600">
             {address ? '추천은 법정동을 기준으로 합니다.' : '선택한 단지의 매물만 추천받을 수 있어요.'}

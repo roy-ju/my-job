@@ -1,8 +1,10 @@
+import { useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { MobRegisterSuccess } from '@/components/templates';
 
 import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
 
 export default function SuccessWrraper() {
   const router = useRouter();

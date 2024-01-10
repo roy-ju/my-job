@@ -25,7 +25,7 @@ import StepperSeperator from './ui/StepperSeperator';
 import AnimateStepperNumber from './ui/AnimateStepperNumber';
 
 export default function Stepper() {
-  const { title, currentIndex, subTitle } = useGetStepperInfo();
+  const { title, currentIndex, subTitle, isIcon } = useGetStepperInfo();
 
   const hidden = useMemo(() => {
     if (currentIndex === 5 || currentIndex === 6) {
@@ -58,7 +58,7 @@ export default function Stepper() {
           <StepFive color={getColor(5, currentIndex)} />
         </AnimateStepperNumber>
       </div>
-      <StepperTitle title={title} subTitle={subTitle} />
+      <StepperTitle title={title} subTitle={subTitle} isIcon={isIcon} />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import Dandok from '@/assets/icons/dandok.svg';
 
 import { RealestateType } from '@/constants/enums';
 
+import tw from 'twin.macro';
 import checkSelected from '../../utils/checkSelected';
 
 import RealestateTypeButton from '../ui/RealestateTypeButton';
@@ -37,15 +38,20 @@ const realestateTypesArray = [
 
 type RealestateTypeFieldProps = {
   isRender: boolean;
+  needDiabledFields?: boolean;
   realestateTypes: number[];
   handleClick: (e?: NegocioMouseEvent<HTMLButtonElement> | undefined) => void;
 };
 
-function RealestateTypeField({ isRender, realestateTypes, handleClick }: RealestateTypeFieldProps) {
+function RealestateTypeField({ isRender, needDiabledFields, realestateTypes, handleClick }: RealestateTypeFieldProps) {
   if (isRender) return null;
 
   return (
-    <div id={FIELD_ID.Realestate_field} tw="flex flex-row gap-2 pb-6 border-b border-b-gray-200">
+    <div
+      id={FIELD_ID.Realestate_field}
+      tw="flex flex-row gap-2 pb-6 border-b border-b-gray-200"
+      css={[needDiabledFields && tw`pointer-events-none`]}
+    >
       {realestateTypesArray.map((value) => (
         <RealestateTypeButton
           key={value}

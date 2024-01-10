@@ -15,7 +15,6 @@ type ActionButtonProps = {
   isRenderUpdateButton?: boolean;
   handleClick: () => void;
   handleClickBack?: () => void;
-  handleClickUpdate?: () => void;
 };
 
 function ActionButton({
@@ -25,13 +24,13 @@ function ActionButton({
   isRenderUpdateButton = false,
   handleClick,
   handleClickBack,
-  handleClickUpdate,
 }: ActionButtonProps) {
   if (isRenderUpdateButton) {
     return (
       <div tw="w-full">
         <PersistentBottomBar>
-          <ButtonV2 tw="w-full" size="bigger" onClick={handleClickUpdate} disabled={disabled}>
+          <ScrollUp isRender />
+          <ButtonV2 tw="w-full" size="bigger" onClick={handleClick} disabled={disabled}>
             수정완료
           </ButtonV2>
           <div tw="[min-height: 18px]" />
