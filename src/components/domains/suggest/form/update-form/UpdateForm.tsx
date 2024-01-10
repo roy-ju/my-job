@@ -5,50 +5,40 @@ import { useRecoilValue } from 'recoil';
 
 import Separator from '@/components/atoms/Separator';
 
-import SuggestFormSelector from './selector/SuggestFormSelector';
+import SuggestFormSelector from '../selector/SuggestFormSelector';
 
-import RegionOrDanjiForm from './RegionOrDanjiForm';
+import RegionOrDanjiForm from '../RegionOrDanjiForm';
 
-import RealestateTypeAndBuyOrRentAndPriceField from './RealestateTypeAndBuyOrRentAndPriceForm';
-
-import BuyPurposeForm from './BuyPurposeForm';
-
-import MoveInDateForm from './MoveInDateForm';
-
-import AreaForm from './AreaForm';
-
-import InterviewForm from './InterviewForm';
+import RealestateTypeAndBuyOrRentAndPriceForm from '../RealestateTypeAndBuyOrRentAndPriceForm';
 
 import AdditionalConditionsForm from './AdditionalConditionsForm';
 
-import Summary from './Summary';
+import AreaForm from '../AreaForm';
 
-import SuggestForm from './types';
+import BuyPurposeForm from '../BuyPurposeForm';
 
-import useAutoScroll from './hooks/useAutoScroll';
+import InterviewForm from '../InterviewForm';
 
-type FormProps = {
+import MoveInDateForm from '../MoveInDateForm';
+
+import SuggestForm from '../types';
+
+type UpdateFormProps = {
   depth?: number;
 };
 
-export default function Form({ depth }: FormProps) {
+export default function UpdateForm({ depth }: UpdateFormProps) {
   const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
-  useAutoScroll({ elementID: 'formContainer', targetForm: forms });
-
   const formComponents = {
-    region_or_danji: <RegionOrDanjiForm />,
-    realestate_and_buyOrRent_and_price: <RealestateTypeAndBuyOrRentAndPriceField />,
+    region_or_danji: <RegionOrDanjiForm needDiabledFields />,
+    realestate_and_buyOrRent_and_price: <RealestateTypeAndBuyOrRentAndPriceForm needDiabledFields />,
     buy_purpose: <BuyPurposeForm />,
     move_in_date: <MoveInDateForm />,
     area: <AreaForm />,
     additional_conditions: <AdditionalConditionsForm />,
     interview: <InterviewForm />,
   };
-
-  if (forms[forms.length - 1] === 'summary') {
-    return <Summary />;
-  }
 
   return (
     <div id="formContainer" tw="w-full flex-1 flex flex-col min-h-0 overflow-y-auto pt-10">

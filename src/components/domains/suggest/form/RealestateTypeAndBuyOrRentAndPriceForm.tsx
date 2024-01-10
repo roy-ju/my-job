@@ -24,7 +24,13 @@ import FIELD_ID from './constants/fieldId';
 
 import forms from './constants/forms';
 
-export default function RealestateTypeAndBuyOrRentAndPriceForm() {
+type RealestateTypeAndBuyOrRentAndPriceFormProps = {
+  needDiabledFields?: boolean;
+};
+
+export default function RealestateTypeAndBuyOrRentAndPriceForm({
+  needDiabledFields,
+}: RealestateTypeAndBuyOrRentAndPriceFormProps) {
   const { isRenderRealestateTypeField, realestateTypes, handleClickRealestateType } = useSelectRealestateTypes();
 
   const { isRenderPriceTypeField, quickSale, handleChangeQuickSale } = useChangePriceTypeField();
@@ -55,10 +61,16 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm() {
     <section id={forms.REALESTATE_AND_BUYORRENT_AND_PRICE} tw="pt-10 pb-10 px-5">
       <RealestateTypeField
         isRender={isRenderRealestateTypeField}
+        needDiabledFields={needDiabledFields}
         realestateTypes={realestateTypes}
         handleClick={handleClickRealestateType}
       />
-      <BuyOrRentField isStyleChange={isStyleChange} buyOrRent={buyOrRent} handleClick={handleClickBuyOrRent} />
+      <BuyOrRentField
+        isStyleChange={isStyleChange}
+        needDiabledFields={needDiabledFields}
+        buyOrRent={buyOrRent}
+        handleClick={handleClickBuyOrRent}
+      />
       <PriceTypeField isRender={isRenderPriceTypeField} quickSale={quickSale} handleChange={handleChangeQuickSale} />
       <div id="prices_field" tw="flex flex-col gap-2">
         <PriceField

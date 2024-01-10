@@ -53,6 +53,7 @@ type SuggestForm = {
   pyoungList: string[];
   /** 추가조건 */
   additionalCondtions: string[];
+
   /** 인터뷰 가능 시간 */
   interviewAvailabletimes: string[];
   /** 보증금 또는 매매가 에러메세지 */
@@ -63,6 +64,12 @@ type SuggestForm = {
   errorMessageInvestAmountPrice: string;
   /** 평수 제안 에러상태 */
   errorMessagePyoungInput: string;
+
+  /** 과거 유저가 입력한 추가조건 */
+  uiBuyOrRent?: string;
+
+  /** 과거 유저가 입력한 추가조건 */
+  uiRealestateType?: string;
 
   popup:
     | 'regionList'

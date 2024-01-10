@@ -1,12 +1,12 @@
 import ActionButton from './ui/ActionButton';
 
-import useSummitButton from './hooks/useSummitButton';
+import useFormSummitButton from './hooks/useFormSummitButton';
 
 type ActionsProps = { depth?: number };
 
 export default function Actions({ depth }: ActionsProps) {
   const { disabled, hidden, isRenderRevisionText, isRenderSummitButton, handleFormsAction, handleClickBack } =
-    useSummitButton({
+    useFormSummitButton({
       depth,
     });
 

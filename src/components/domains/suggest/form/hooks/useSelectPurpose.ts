@@ -31,7 +31,7 @@ export default function useSelectPurpose() {
       if (e) {
         const { value } = e.currentTarget;
 
-        if (isEqualValue(Number(value), purpose)) {
+        if (isEqualValue(value, purpose)) {
           return;
         }
 

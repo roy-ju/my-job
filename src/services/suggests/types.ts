@@ -1,4 +1,4 @@
-export type suggestEligibilityCheckResponse = {
+export type SuggestEligibilityCheckResponse = {
   eligible: true;
 } & ErrorResponse;
 

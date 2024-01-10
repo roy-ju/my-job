@@ -19,10 +19,6 @@ import { Container } from '@/components/container';
 
 import MySuggestDetail from '@/components/pages/MySuggestDetail';
 
-import SuggestRegionalForm from '@/components/pages/SuggestRegionalForm';
-
-import SuggestRegionalSummary from '@/components/pages/SuggestRegionalSummary';
-
 import ChatRoom from '@/components/pages/ChatRoom';
 
 import DanjiDetail from '@/components/pages/pc/DanjiDetail';
@@ -124,21 +120,6 @@ const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'
 const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'), {
   ssr: false,
   loading: FallbackComponent,
-});
-
-const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
-  loading: FallbackComponent,
-  ssr: false,
-});
-
-const DanjiRecommendationSummary = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSummary'), {
-  loading: FallbackComponent,
-  ssr: false,
-});
-
-const DanjiRecommendationUpdate = dynamic(() => import('@/components/pages/pc/DanjiRecommendationUpdate'), {
-  loading: FallbackComponent,
-  ssr: false,
 });
 
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
@@ -312,11 +293,6 @@ const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'
   loading: FallbackComponent,
 });
 
-const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-
 const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -379,6 +355,7 @@ const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalC
   ssr: false,
   loading: FallbackComponent,
 });
+
 const SuggestForm = dynamic(() => import('@/components/pages/SuggestForm/SuggestFormPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -391,6 +368,26 @@ const SuggestGuide = dynamic(() => import('@/components/pages/SuggestGuide/Sugge
   ssr: false,
   loading: FallbackComponent,
 });
+
+// const DanjiRecommendation = dynamic(() => import('@/components/pages/pc/DanjiRecommendation'), {
+//   loading: FallbackComponent,
+//   ssr: false,
+// });
+
+// const DanjiRecommendationSummary = dynamic(() => import('@/components/pages/pc/DanjiRecommendationSummary'), {
+//   loading: FallbackComponent,
+//   ssr: false,
+// });
+
+// const DanjiRecommendationUpdate = dynamic(() => import('@/components/pages/pc/DanjiRecommendationUpdate'), {
+//   loading: FallbackComponent,
+//   ssr: false,
+// });
+
+// const SuggestRegionalFormUpdate = dynamic(() => import('@/components/pages/pc/SuggestRegionalFormUpdate'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -640,48 +637,50 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.ListingReport: {
       return <ListingReport {...props} />;
     }
-    case Routes.DanjiRecommendation: {
-      return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
-    }
-    case Routes.DanjiRecommendationSummary: {
-      return <DanjiRecommendationSummary key={`${query.danjiID}`} {...props} />;
-    }
-    case Routes.DanjiRecommendationUpdate: {
-      return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
-    }
     case Routes.SuggestForm: {
       return <SuggestForm {...props} />;
     }
-
     case Routes.SuggestFormUpdate: {
       return <SuggestFormUpdate {...props} />;
     }
-
     case Routes.SuggestGuide: {
       return <SuggestGuide {...props} />;
     }
-    /** 바뀐 지역폼 */
-    case Routes.SuggestRegionalForm: {
-      return (
-        <PlatformProvider platform={platform} depth={depth}>
-          <Container panelWidth={DEFAULT_PANEL_WIDTH}>
-            <SuggestRegionalForm />
-          </Container>
-        </PlatformProvider>
-      );
-    }
-    case Routes.SuggestRegionalSummary: {
-      return (
-        <PlatformProvider platform={platform} depth={depth}>
-          <Container auth ciRequired panelWidth={DEFAULT_PANEL_WIDTH}>
-            <SuggestRegionalSummary />
-          </Container>
-        </PlatformProvider>
-      );
-    }
-    case Routes.SuggestRegionalFormUpdate: {
-      return <SuggestRegionalFormUpdate {...props} />;
-    }
+    // case Routes.DanjiRecommendation: {
+    //   return <DanjiRecommendation key={`${query.danjiID}`} {...props} />;
+    // }
+
+    // case Routes.DanjiRecommendationSummary: {
+    //   return <DanjiRecommendationSummary key={`${query.danjiID}`} {...props} />;
+    // }
+
+    // case Routes.DanjiRecommendationUpdate: {
+    //   return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
+    // }
+
+    // case Routes.SuggestRegionalForm: {
+    //   return (
+    //     <PlatformProvider platform={platform} depth={depth}>
+    //       <Container panelWidth={DEFAULT_PANEL_WIDTH}>
+    //         <SuggestRegionalForm />
+    //       </Container>
+    //     </PlatformProvider>
+    //   );
+    // }
+
+    // case Routes.SuggestRegionalSummary: {
+    //   return (
+    //     <PlatformProvider platform={platform} depth={depth}>
+    //       <Container auth ciRequired panelWidth={DEFAULT_PANEL_WIDTH}>
+    //         <SuggestRegionalSummary />
+    //       </Container>
+    //     </PlatformProvider>
+    //   );
+    // }
+
+    // case Routes.SuggestRegionalFormUpdate: {
+    //   return <SuggestRegionalFormUpdate {...props} />;
+    // }
     case Routes.SuggestRequestedList: {
       return <SuggestRequestedList {...props} />;
     }

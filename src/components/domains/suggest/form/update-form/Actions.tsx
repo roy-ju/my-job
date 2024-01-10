@@ -5,16 +5,16 @@ import useUpdateFormSummitButton from './hooks/useUpdateFormSummit';
 type ActionsProps = { depth?: number };
 
 export default function Actions({ depth }: ActionsProps) {
-  const { handleClickSubmit } = useUpdateFormSummitButton({ depth });
+  const { handleSubmitUpdate } = useUpdateFormSummitButton({ depth });
 
   return (
     <div tw="w-full">
       <ActionButton
-        isRenderRevisionText={false}
-        isRenderSummitButton={false}
+        isRenderRevisionText
         isRenderUpdateButton
+        isRenderSummitButton={false}
         disabled={false}
-        handleClick={handleClickSubmit}
+        handleClick={handleSubmitUpdate}
       />
     </div>
   );

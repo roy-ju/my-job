@@ -12,7 +12,7 @@ import isEqualValue from './isEqualValue';
 
 import isNotEqualValue from './isNotEqualValue';
 
-export default function checkFinalValidation(state: SuggestForm) {
+export default function checkFinalValidation(state: SuggestForm, formType: 'create' | 'update' = 'create') {
   if (!state.realestateTypes || (state.realestateTypes && isEqualValue(state.realestateTypes.length, 0))) {
     errorHandlingWithElement({
       elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
@@ -95,12 +95,30 @@ export default function checkFinalValidation(state: SuggestForm) {
     return false;
   }
 
-  if (!state.additionalCondtions || (state.additionalCondtions && isEqualValue(state.additionalCondtions.length, 0))) {
-    errorHandlingWithElement({
-      elementID: forms.ADDITIONAL_CONDITIONS,
-      errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS,
-    });
-    return false;
+  if (formType === 'create') {
+    if (
+      !state.additionalCondtions ||
+      (state.additionalCondtions && isEqualValue(state.additionalCondtions.length, 0))
+    ) {
+      errorHandlingWithElement({
+        elementID: forms.ADDITIONAL_CONDITIONS,
+        errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS,
+      });
+      return false;
+    }
+  }
+
+  if (formType === 'update') {
+    if (
+      !state.additionalCondtions ||
+      (state.additionalCondtions && isEqualValue(state.additionalCondtions.length, 0))
+    ) {
+      errorHandlingWithElement({
+        elementID: forms.ADDITIONAL_CONDITIONS,
+        errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS,
+      });
+      return false;
+    }
   }
 
   if (

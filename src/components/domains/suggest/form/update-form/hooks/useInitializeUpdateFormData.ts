@@ -9,6 +9,7 @@ import useFetchSuggestDetail from '@/services/suggests/useFetchSuggestDetail';
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import combineStrings from '@/utils/combinedTwoStrings';
+
 import SuggestFormState from '../../atoms/SuggestFormState';
 
 import forms from '../../constants/forms';
@@ -58,7 +59,11 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
         ...(danjiIData?.type ? { danji_type: danjiIData?.type } : {}),
         ...(suggestData.realestate_types ? { realestate_types: suggestData.realestate_types } : {}),
         ...(suggestData.buy_or_rents ? { buy_or_rents: suggestData.buy_or_rents } : {}),
-        ...(suggestData.trade_or_deposit_price ? { trade_price: suggestData.trade_or_deposit_price } : {}),
+        ...(suggestData.trade_or_deposit_price
+          ? suggestData.buy_or_rents === BuyOrRent.Buy.toString()
+            ? { trade_price: suggestData.trade_or_deposit_price }
+            : { deposit: suggestData.trade_or_deposit_price }
+          : {}),
         ...(suggestData.monthly_rent_fee ? { monthly_rent_fee: suggestData.monthly_rent_fee } : {}),
         ...(suggestData.quick_sale ? { quick_sale: suggestData.quick_sale } : {}),
         ...(suggestData.negotiable ? { negotiable: suggestData.negotiable } : {}),
