@@ -22,13 +22,22 @@ export default function useSelectRealestateTypes() {
 
   const setPopup = useSetRecoilState<SuggestForm['popup']>(SuggestFormSelector('popup'));
 
+  const setUiRealestateType = useSetRecoilState<SuggestForm['uiRealestateType']>(
+    SuggestFormSelector('uiRealestateType'),
+  );
+
+  console.log(realestateTypes);
+
   const handleClickRealestateType = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
       if (e) {
         const { value } = e.currentTarget;
 
         if (forms.length > 3) {
+          if (realestateTypes.includes(Number(value))) return;
+
           setPopup('realestateTypes');
+          setUiRealestateType(value);
           return;
         }
 
@@ -45,7 +54,7 @@ export default function useSelectRealestateTypes() {
         }
       }
     },
-    [forms.length, realestateTypes, setPopup, setRealestateTypes],
+    [forms.length, realestateTypes, setPopup, setRealestateTypes, setUiRealestateType],
   );
 
   const isRender = useMemo(() => isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji), [danjiOrRegion]);
