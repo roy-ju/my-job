@@ -5,6 +5,8 @@ import { useRecoilValue } from 'recoil';
 
 import Separator from '@/components/atoms/Separator';
 
+import AdditionalConditionsForm from './AdditionalConditionsForm';
+
 import RegionOrDanjiForm from '../form/RegionOrDanjiForm';
 
 import RealestateTypeAndBuyOrRentAndPriceForm from '../form/RealestateTypeAndBuyOrRentAndPriceForm';
@@ -14,8 +16,6 @@ import BuyPurposeForm from '../form/BuyPurposeForm';
 import MoveInDateForm from '../form/MoveInDateForm';
 
 import AreaForm from '../form/AreaForm';
-
-import AdditionalConditionsForm from './AdditionalConditionsForm';
 
 import InterviewForm from '../form/InterviewForm';
 
@@ -35,7 +35,7 @@ export default function UpdateForm({ depth }: UpdateFormProps) {
     realestate_and_buyOrRent_and_price: <RealestateTypeAndBuyOrRentAndPriceForm needDiabledFields />,
     buy_purpose: <BuyPurposeForm />,
     move_in_date: <MoveInDateForm />,
-    area: <AreaForm />,
+    area: <AreaForm type="update" />,
     additional_conditions: <AdditionalConditionsForm />,
     interview: <InterviewForm />,
   };

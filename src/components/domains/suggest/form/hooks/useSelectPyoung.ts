@@ -6,6 +6,8 @@ import { useFetchDanjiRealPricesPyongList } from '@/services/danji/useFetchDanji
 
 import { DanjiOrRegionalType } from '@/constants/enums';
 
+import isNaN from 'lodash/isNaN';
+
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
 import SuggestForm from '../types';
@@ -16,7 +18,7 @@ import isEqualValue from '../../utils/isEqualValue';
 
 import getIncludeValue from '../../utils/getIncludeValue';
 
-export default function useSelectPyoung() {
+export default function useSelectPyoung({ type = 'create' }: { type: 'create' | 'update' }) {
   const [pyoungList, setPyoungList] = useRecoilState<SuggestForm['pyoungList']>(SuggestFormSelector('pyoungList'));
 
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
@@ -56,6 +58,17 @@ export default function useSelectPyoung() {
     [pyoungList, setPyoungList],
   );
 
+  const handleClickDeleteRegionPyoung = useCallback(
+    (e?: NegocioMouseEvent<HTMLButtonElement>) => {
+      if (e) {
+        const { value } = e.currentTarget;
+
+        setPyoungList((prev) => prev.filter((ele) => ele !== value));
+      }
+    },
+    [setPyoungList],
+  );
+
   const handleClickDanjiPyoung = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
       if (e) {
@@ -73,6 +86,11 @@ export default function useSelectPyoung() {
 
   const list = useMemo(() => {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Regional)) {
+      if (type === 'update') {
+        const pastForwardRegionPyoungList = [...pyoungList].filter((item) => !isNaN(Number(item)));
+
+        return [...regionPyoungList, ...pastForwardRegionPyoungList];
+      }
       return regionPyoungList;
     }
 
@@ -83,7 +101,7 @@ export default function useSelectPyoung() {
     }
 
     return [];
-  }, [danjiOrRegion, data?.list]);
+  }, [danjiOrRegion, data?.list, pyoungList, type]);
 
   const isRenderPyoungListField = useMemo(() => Boolean(list.length), [list.length]);
 
@@ -94,5 +112,7 @@ export default function useSelectPyoung() {
     handleClickPyoung: isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)
       ? handleClickDanjiPyoung
       : handleClickRegionPyoung,
+    handleClickDeletePyoung:
+      type === 'update' && danjiOrRegion === DanjiOrRegionalType.Regional ? handleClickDeleteRegionPyoung : undefined,
   };
 }

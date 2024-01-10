@@ -6,8 +6,12 @@ import useSelectPyoung from './hooks/useSelectPyoung';
 
 import forms from './constants/forms';
 
-export default function AreaForm() {
-  const { pyoungList, isRenderPyoungListField, list, handleClickPyoung } = useSelectPyoung();
+type AreaFormProps = { type: 'create' | 'update' };
+
+export default function AreaForm({ type }: AreaFormProps) {
+  const { pyoungList, isRenderPyoungListField, list, handleClickPyoung, handleClickDeletePyoung } = useSelectPyoung({
+    type,
+  });
 
   return (
     <section id={forms.AREA} tw="pt-10 pb-10 px-5">
@@ -16,8 +20,9 @@ export default function AreaForm() {
         list={list}
         selectedList={pyoungList}
         handleClick={handleClickPyoung}
+        handleClickDelete={handleClickDeletePyoung}
       />
-      <PyoungInputWrraper />
+      <PyoungInputWrraper type={type} />
     </section>
   );
 }

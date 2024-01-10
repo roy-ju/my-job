@@ -12,7 +12,11 @@ const Line = styled(motion.div)`
   ${tw`bg-gray-200 w-full [height: 1px] my-6`}
 `;
 
-export default function PyoungInputWrraper() {
+type PyoungInputWrraperProps = {
+  type: 'create' | 'update';
+};
+
+export default function PyoungInputWrraper({ type }: PyoungInputWrraperProps) {
   const {
     isRenderAccordion,
     isRenderPyoungInputField,
@@ -29,7 +33,7 @@ export default function PyoungInputWrraper() {
     handleClickAddPyoung,
     handleResetInputValue,
     handleClickDeleteAddedPyoung,
-  } = useChangePyoungInput();
+  } = useChangePyoungInput({ type });
 
   return (
     <>

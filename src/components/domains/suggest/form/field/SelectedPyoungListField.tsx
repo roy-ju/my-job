@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 import DeleteIcon from '@/assets/icons/delete_nego.svg';
 
-import SelectButton from '../ui/SelectButton';
+import SelectTag from '@/components/atoms/SelectTag';
 
 import FIELD_ID from '../constants/fieldId';
 
@@ -27,10 +27,10 @@ function SelectedPyoungListField({ isRender, list, handleClick }: SelectedPyoung
           transition={{ duration: 0.6 }}
           whileHover={{ scale: 1.1 }}
         >
-          <SelectButton key={item} variant="primaryOutline" value={item} selected tw="flex items-center gap-1 pr-1.5">
+          <SelectTag key={item} value={item} selected isRightIcon>
             {Number(item) > 0 ? `${item}평` : item}
             <DeleteIcon onClick={() => handleClick(item)} />
-          </SelectButton>
+          </SelectTag>
         </motion.div>
       ))}
     </div>

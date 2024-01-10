@@ -41,7 +41,7 @@ export default function Form({ depth }: FormProps) {
     realestate_and_buyOrRent_and_price: <RealestateTypeAndBuyOrRentAndPriceField />,
     buy_purpose: <BuyPurposeForm />,
     move_in_date: <MoveInDateForm />,
-    area: <AreaForm />,
+    area: <AreaForm type="create" />,
     additional_conditions: <AdditionalConditionsForm />,
     interview: <InterviewForm />,
   };
