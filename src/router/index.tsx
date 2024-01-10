@@ -381,7 +381,7 @@ const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalC
 });
 const SuggestForm = dynamic(() => import('@/components/pages/SuggestForm/SuggestFormPc'), {
   ssr: false,
-  // loading: FallbackComponent,
+  loading: FallbackComponent,
 });
 const SuggestFormUpdate = dynamic(() => import('@/components/pages/SuggestFormUpdate/SuggestFormUpdatePc'), {
   ssr: false,
