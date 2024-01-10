@@ -16,8 +16,8 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
 
-  const handleClickRecommendationForm = useCallback(() => {
-    router.replace(Routes.RecommendationForm, {
+  const handleClickSuggestForm = useCallback(() => {
+    router.replace(Routes.SuggestForm, {
       searchParams: {
         entry: 'suggestRequestedList',
       },
@@ -46,7 +46,7 @@ export default memo(({ panelWidth, depth }: Props) => {
         ) : (
           <SuggestRequestedList
             list={data}
-            onClickRecommendationForm={handleClickRecommendationForm}
+            onClickSuggestForm={handleClickSuggestForm}
             onClickSuggestItem={handleClickSuggestItem}
             onNext={increamentPageNumber}
           />

@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 
-import dynamic from 'next/dynamic';
-
 import tw from 'twin.macro';
 
 import StepOne from '@/assets/icons/stepper_1.svg';
@@ -22,9 +20,9 @@ import getStep from '../utils/getStep';
 
 import StepperTitle from './ui/StepperTitle';
 
-const AnimateStepperNumber = dynamic(() => import('./ui/AnimateStepperNumber'), { ssr: false });
+import StepperSeperator from './ui/StepperSeperator';
 
-const StepperSeperator = dynamic(() => import('./ui/StepperSeperator'), { ssr: false });
+import AnimateStepperNumber from './ui/AnimateStepperNumber';
 
 export default function Stepper() {
   const { title, currentIndex, subTitle } = useGetStepperInfo();

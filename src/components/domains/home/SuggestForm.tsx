@@ -4,11 +4,9 @@ import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic';
 
-import tw, { styled } from 'twin.macro';
+import { styled } from 'twin.macro';
 
 import { useRouter as useCunstomRouter } from '@/hooks/utils';
-
-import Button from '@/components/atoms/Button';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
@@ -28,14 +26,11 @@ import getIncludeValue from '../suggest/utils/getIncludeValue';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
 
-const StyledButton = styled(Button)`
-  ${tw`text-gray-700 [border-radius: 100px] hover:border-nego-600`}
-  ${({ selected }) => selected && tw`font-bold bg-white text-nego-800 border-nego-800 hover:border-nego-800`}
-`;
+const StyledButton = styled(ButtonV2)``;
 
 StyledButton.defaultProps = {
-  variant: 'outlined',
   size: 'medium',
+  radius: 'r100',
 };
 
 export default function SuggestForm() {
@@ -86,7 +81,7 @@ export default function SuggestForm() {
   const handleRoute = (from: 'regionListPoup' | 'none', v?: RegionItem) => {
     if (isEqualValue(platform, 'pc')) {
       if (isEqualValue(from, 'none')) {
-        customRouter.replace(Routes.RecommendationForm, {
+        customRouter.replace(Routes.SuggestForm, {
           searchParams: {
             // 아파트 또는 오피스텔
             property: describeRealestateType(Number(property[0])),
@@ -95,7 +90,7 @@ export default function SuggestForm() {
           },
         });
       } else {
-        customRouter.replace(Routes.RecommendationForm, {
+        customRouter.replace(Routes.SuggestForm, {
           searchParams: {
             // 복수 선택밖에 없다.
             property: property.map((item) => describeRealestateType(Number(item))).join(),
@@ -111,13 +106,13 @@ export default function SuggestForm() {
     if (isEqualValue(platform, 'mobile')) {
       if (isEqualValue(from, 'none')) {
         router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: { property: describeRealestateType(Number(property[0])), buyOrRent, entry: 'home' },
         });
       } else {
         // 복수 선택밖에 없다.
         router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: {
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
@@ -172,6 +167,8 @@ export default function SuggestForm() {
             <div tw="flex flex-wrap gap-2 pr-4">
               {['10', '20', '30', '60', '50'].map((item) => (
                 <StyledButton
+                  variant={getIncludeValue(item, property) ? 'primary' : 'grayOutline'}
+                  radius="r100"
                   key={item}
                   value={item}
                   selected={getIncludeValue(item, property)}
@@ -189,6 +186,7 @@ export default function SuggestForm() {
             <div tw="flex gap-2">
               {['1', '2'].map((item) => (
                 <StyledButton
+                  variant={isSelected(buyOrRent, item) ? 'primary' : 'grayOutline'}
                   key={item}
                   value={item}
                   selected={isSelected(buyOrRent, item)}

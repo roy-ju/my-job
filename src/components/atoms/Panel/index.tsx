@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
+
 import tw from 'twin.macro';
+
 import { motion } from 'framer-motion';
 
 interface Props {

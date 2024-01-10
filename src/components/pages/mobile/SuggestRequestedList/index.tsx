@@ -11,9 +11,9 @@ export default memo(() => {
 
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
 
-  const handleClickRecommendationForm = useCallback(() => {
+  const handleClickSuggestForm = useCallback(() => {
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
       query: { entry: 'suggestRequestedList' },
     });
   }, [router]);
@@ -48,7 +48,7 @@ export default memo(() => {
           <SuggestRequestedList
             onClickBack={handleClickBack}
             list={data}
-            onClickRecommendationForm={handleClickRecommendationForm}
+            onClickSuggestForm={handleClickSuggestForm}
             onClickSuggestItem={handleClickSuggestItem}
             onNext={increamentPageNumber}
           />

@@ -57,7 +57,7 @@ function MapWrapper() {
     (address?: string, bcode?: string) => {
       if (address && bcode) {
         router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: {
             entry: 'map',
             address,
@@ -66,7 +66,7 @@ function MapWrapper() {
         });
       } else {
         router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: {
             entry: 'map',
           },

@@ -29,7 +29,7 @@ interface Args {
 
   negotiable: boolean;
 
-  pyoungList: number[];
+  pyoungList: string[];
 
   purpose: string;
 
@@ -42,7 +42,7 @@ interface Args {
   interviewAvailabletimes: string[];
 }
 
-export default function createDanjiSuggestParams(args: Args) {
+export default function suggestDanjiParams(args: Args) {
   const params: Record<string, unknown> = {
     danji_id: Number(args.danjiID ?? 0),
 

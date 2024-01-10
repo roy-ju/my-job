@@ -184,7 +184,7 @@ export default function SuggestsOrListings({
     }
 
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
       query: {
         danjiID: `${danjiID}`,
         entry: 'danjiDetail',

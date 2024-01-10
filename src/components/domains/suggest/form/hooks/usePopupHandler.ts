@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -12,6 +12,7 @@ import useMobileBackRouter from '@/hooks/utils/useMobileBackRouter';
 
 import Routes from '@/router/routes';
 
+import { RealestateType } from '@/constants/enums';
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import SuggestForm, { BubjungdongType } from '../types';
@@ -164,8 +165,32 @@ export default function usePopupHandler() {
     }));
   }, [setState]);
 
+  const isFilter = useMemo(() => {
+    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, 'home')) {
+      return true;
+    }
+
+    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, 'home')) {
+      return true;
+    }
+
+    return false;
+  }, [router?.query?.enry, router?.query?.property]);
+
+  const filterQuery = useMemo(() => {
+    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, 'home')) {
+      return RealestateType.Apartment;
+    }
+
+    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, 'home')) {
+      return RealestateType.Officetel;
+    }
+  }, [router?.query?.enry, router?.query?.property]);
+
   return {
     popup: state.popup,
+    isFilter,
+    filterQuery,
     handleUpdatePopup,
     handleUpdateAddressAndBubjungdong,
     handleUpdateDanjiInfo,

@@ -7,7 +7,7 @@ import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 import useChatRoomListNavigateHandler from '../../hooks/useChatRoomListNavigateHandler';
 
 export default function NoData() {
-  const { handleClickRecommendationForm } = useChatRoomListNavigateHandler();
+  const { handleClickSuggestForm } = useChatRoomListNavigateHandler();
 
   return (
     <div tw="flex-1">
@@ -20,7 +20,7 @@ export default function NoData() {
               <Information.Contents>구해요 글을 올리고 중개사님과 채팅을 개설해 보세요.</Information.Contents>
             </div>
           </div>
-          <Button onClick={handleClickRecommendationForm} tw="mx-auto mt-5 h-10">
+          <Button onClick={handleClickSuggestForm} tw="mx-auto mt-5 h-10">
             새로운 매물 추천 받아보기
           </Button>
         </Information>

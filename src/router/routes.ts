@@ -117,7 +117,6 @@ const Routes = {
 
   // 지역매물추천
   SuggestRegionalForm: 'suggestRegionalForm',
-  // SuggestRegionalForm: 'suggestRegionalFormTest',
   SuggestRegionalSummary: 'suggestRegionalSummary',
   SuggestRegionalFormUpdate: 'suggestRegionalFormUpdate',
 
@@ -129,9 +128,9 @@ const Routes = {
   SuggestRecommendedDetail: 'suggestRecommendedDetail',
 
   // 매물 구해요 (지역 / 단지)
-  RecommendationForm: 'recommendationForm',
-  RecommendationFormUpdate: 'recommendationFormUpdate',
-  RecommendGuide: 'recommendGuide',
+  SuggestForm: 'suggestForm',
+  SuggestFormUpdate: 'suggestFormUpdate',
+  SuggestGuide: 'suggestGuide',
 
   // 매물 내놓기
   SuggestListingForm: 'suggestListingForm',

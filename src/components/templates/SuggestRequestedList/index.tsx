@@ -13,7 +13,7 @@ const ListContainer = styled(InfiniteScroll)`
 
 interface Props {
   list?: GetMySuggestListResponse['list'];
-  onClickRecommendationForm?: () => void;
+  onClickSuggestForm?: () => void;
   onClickSuggestItem?: (id: number) => void;
   onNext?: () => void;
   onClickBack?: () => void;
@@ -21,7 +21,7 @@ interface Props {
 
 export default function SuggestRequestedList({
   list,
-  onClickRecommendationForm,
+  onClickSuggestForm,
   onClickSuggestItem,
   onNext,
   onClickBack,
@@ -36,7 +36,7 @@ export default function SuggestRequestedList({
         {list?.length !== 0 ? (
           <div tw="flex flex-col flex-1 min-h-0">
             <div tw="p-5">
-              <Button onClick={onClickRecommendationForm} tw="w-full" variant="secondary">
+              <Button onClick={onClickSuggestForm} tw="w-full" variant="secondary">
                 새로운 매물 구하기
               </Button>
             </div>
@@ -57,7 +57,7 @@ export default function SuggestRequestedList({
             title="구하는 글이 없습니다."
             body="구하기 글을 작성하고 원하는 곳의 매물을 추천받아보세요."
             buttonText="새로운 매물 구하기"
-            onClick={onClickRecommendationForm}
+            onClick={onClickSuggestForm}
           />
         )}
       </div>

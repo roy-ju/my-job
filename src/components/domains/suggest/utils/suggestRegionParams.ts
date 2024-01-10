@@ -40,7 +40,7 @@ interface Args {
   interviewAvailabletimes: string[];
 }
 
-export default function createRegionSuggestParams(args: Args) {
+export default function suggestRegionParams(args: Args) {
   const updatedRealestateType =
     args.realestateType.includes(RealestateType.Dasaedae) && !args.realestateType.includes(RealestateType.Yunrip)
       ? [...args.realestateType, RealestateType.Yunrip]

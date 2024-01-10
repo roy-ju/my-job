@@ -40,8 +40,8 @@ export default function useChatRoomList(depth: number) {
     [router, mutate],
   );
 
-  const handleClickRecommendationForm = useCallback(() => {
-    router.replace(Routes.RecommendationForm, {
+  const handleClickSuggestForm = useCallback(() => {
+    router.replace(Routes.SuggestForm, {
       searchParams: {
         entry: 'chatRooomList',
         back: router.asPath,
@@ -53,6 +53,6 @@ export default function useChatRoomList(depth: number) {
     chatRoomList,
     isLoading,
     handleClickListItem,
-    handleClickRecommendationForm,
+    handleClickSuggestForm,
   };
 }

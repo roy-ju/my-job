@@ -55,6 +55,7 @@ export default function Form({ depth, stopAutoScroll = false }: FormProps) {
     <div id="formContainer" tw="w-full flex-1 flex flex-col min-h-0 overflow-y-auto pt-10">
       {forms.map((form) => {
         if (form === 'summary') return null;
+
         return (
           <Fragment key={form}>
             {form !== 'region_or_danji' && <Separator tw="min-w-full [min-height: 8px]" />}

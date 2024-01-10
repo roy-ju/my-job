@@ -36,14 +36,14 @@ export default function useChatRoomList() {
     [router],
   );
 
-  const handleClickRecommendationForm = useCallback(() => {
-    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`, query: { entry: 'chatRooomList' } });
+  const handleClickSuggestForm = useCallback(() => {
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`, query: { entry: 'chatRooomList' } });
   }, [router]);
 
   return {
     chatRoomList,
     isLoading,
     handleClickListItem,
-    handleClickRecommendationForm,
+    handleClickSuggestForm,
   };
 }
