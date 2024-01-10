@@ -33,7 +33,7 @@ export default function ReapTradeDetailHeader({
       <div tw="flex items-center justify-between mb-2 px-5">
         <span tw="text-b1 [line-height: 1] font-bold">{danji.name}</span>
         <Button variant="outlined" size="small" selected onClick={onClickSelectPage}>
-          VS 타단지와 비교
+          VS 다른 단지와 비교
         </Button>
       </div>
       <div>

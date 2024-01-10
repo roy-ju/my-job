@@ -2,58 +2,53 @@ import { useMemo } from 'react';
 
 import { motion } from 'framer-motion';
 
-import Apartment from '@/../public/static/images/image_house_apartment.png';
+import Logo from '@/../public/static/images/home/image_logo.png';
 
-import Oneroom from '@/../public/static/images/image_house_oneroom.png';
+import Apartment from '@/../public/static/images/home/image_house_apartment.png';
 
-import Etc from '@/../public/static/images/image_house_etc.png';
+import Officetels from '@/../public/static/images/home/image_house_officetels.png';
 
-import Buy from '@/../public/static/images/image_signboard_purchase.png';
+import Villa from '@/../public/static/images/home/image_house_villa.png';
 
-import Rent from '@/../public/static/images/image_signboard_rent.png';
-import { RealestateType } from '@/constants/enums';
-import getIncludeValue from '../suggest/utils/getIncludeValue';
+import MultiFamilyHouse from '@/../public/static/images/home/image_house_MultiFamilyHouse.png';
+
+import DetachedHouse from '@/../public/static/images/home/image_house_DetachedHouse.png';
+
+import Buy from '@/../public/static/images/home/image_signboard_purchase.png';
+
+import Rent from '@/../public/static/images/home/image_signboard_rent.png';
+
+import { BuyOrRent, RealestateType } from '@/constants/enums';
 
 type FormImageProps = {
   property: string[];
   buyOrRent: string;
 };
 
+function makeValue(value: string) {
+  if (value === RealestateType.Apartment.toString()) return 'apart';
+
+  if (value === RealestateType.Officetel.toString()) return 'officetel';
+
+  if (value === RealestateType.Dasaedae.toString()) return 'villa';
+
+  if (value === RealestateType.Yunrip.toString()) return 'villa';
+
+  if (value === RealestateType.Dagagoo.toString()) return 'dagagoo';
+
+  if (value === RealestateType.Dandok.toString()) return 'dandok';
+  return '';
+}
+
 export default function FormImage({ property, buyOrRent }: FormImageProps) {
-  const properyImageType = useMemo(() => {
-    if (getIncludeValue(RealestateType.Apartment.toString(), property)) {
-      return 'apart';
-    }
-
-    if (getIncludeValue(RealestateType.Officetel.toString(), property)) {
-      return 'apart';
-    }
-
-    if (getIncludeValue(RealestateType.Dasaedae.toString(), property)) {
-      return 'oneroom';
-    }
-
-    if (getIncludeValue(RealestateType.Yunrip.toString(), property)) {
-      return 'oneroom';
-    }
-
-    if (getIncludeValue(RealestateType.Dagagoo.toString(), property)) {
-      return 'oneroom';
-    }
-
-    if (getIncludeValue(RealestateType.Dandok.toString(), property)) {
-      return 'etc';
-    }
-
-    return '';
-  }, [property]);
+  const properyImageType = useMemo(() => makeValue(property[property.length - 1]), [property]);
 
   const buyOrRentImageType = useMemo(() => {
-    if (buyOrRent === '1') {
+    if (buyOrRent === BuyOrRent.Buy.toString()) {
       return 'buy';
     }
 
-    if (buyOrRent === '2') {
+    if (buyOrRent === BuyOrRent.Jeonsae.toString()) {
       return 'rent';
     }
 
@@ -62,8 +57,10 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
 
   const PropertyPaths: Record<string, string> = {
     apart: Apartment.src,
-    oneroom: Oneroom.src,
-    etc: Etc.src,
+    officetel: Officetels.src,
+    villa: Villa.src,
+    dandok: MultiFamilyHouse.src,
+    dagagoo: DetachedHouse.src,
   };
 
   const BuyOrRentPaths: Record<string, string> = {
@@ -91,9 +88,17 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
           tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       ) : (
-        <div tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white">
-          <p tw="text-display_03 text-gray-500 text-center [padding-block: 39px]">?</p>
-        </div>
+        <motion.img
+          key="logo"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          src={Logo.src}
+          width={100}
+          height={100}
+          alt=""
+          tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
       )}
 
       {buyOrRent && (

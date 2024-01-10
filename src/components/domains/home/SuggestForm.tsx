@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic';
 
-import tw, { styled } from 'twin.macro';
-
 import { useRouter as useCunstomRouter } from '@/hooks/utils';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
@@ -18,6 +16,7 @@ import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import { RegionItem } from '@/components/organisms/RegionList';
 
+import ToggleTag from '@/components/atoms/ToggleTag';
 import FormImage from './FormImage';
 
 import isEqualValue from '../suggest/utils/isEqualValue';
@@ -25,15 +24,6 @@ import isEqualValue from '../suggest/utils/isEqualValue';
 import getIncludeValue from '../suggest/utils/getIncludeValue';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
-
-const StyledButton = styled(ButtonV2)`
-  ${(props) => props.selected && tw`bg-white font-bold`}
-`;
-
-StyledButton.defaultProps = {
-  size: 'medium',
-  radius: 'r100',
-};
 
 export default function SuggestForm() {
   const router = useRouter();
@@ -176,9 +166,7 @@ export default function SuggestForm() {
                 RealestateType.Dagagoo.toString(),
                 RealestateType.Dandok.toString(),
               ].map((item) => (
-                <StyledButton
-                  variant={getIncludeValue(item, property) ? 'primaryOutline' : 'grayOutline'}
-                  radius="r100"
+                <ToggleTag
                   key={item}
                   value={item}
                   selected={getIncludeValue(item, property)}
@@ -186,7 +174,7 @@ export default function SuggestForm() {
                   tw="whitespace-nowrap"
                 >
                   {describeRealestateType(Number(item))}
-                </StyledButton>
+                </ToggleTag>
               ))}
             </div>
           </div>
@@ -195,15 +183,14 @@ export default function SuggestForm() {
             <p tw="text-subhead_02">거래 종류</p>
             <div tw="flex gap-2">
               {['1', '2'].map((item) => (
-                <StyledButton
-                  variant={isSelected(buyOrRent, item) ? 'primaryOutline' : 'grayOutline'}
+                <ToggleTag
                   key={item}
                   value={item}
                   selected={isSelected(buyOrRent, item)}
                   onClick={handleClickBuyOrRent}
                 >
                   {describeJeonsaeWolsaeSame(Number(item))}
-                </StyledButton>
+                </ToggleTag>
               ))}
             </div>
           </div>
