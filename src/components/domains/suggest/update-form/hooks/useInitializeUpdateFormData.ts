@@ -10,11 +10,11 @@ import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import combineStrings from '@/utils/combinedTwoStrings';
 
-import SuggestFormState from '../../atoms/SuggestFormState';
+import SuggestFormState from '../../form/atoms/SuggestFormState';
 
-import forms from '../../constants/forms';
+import forms from '../../form/constants/forms';
 
-import normalizeParams from '../../../utils/normalizeParams';
+import normalizeParams from '../../utils/normalizeParams';
 
 export default function useInitializeUpdateFormData({ suggestID }: { suggestID: number | null }) {
   const { data: suggestData, isLoading: suggestDataLoading, error } = useFetchSuggestDetail({ suggestID });

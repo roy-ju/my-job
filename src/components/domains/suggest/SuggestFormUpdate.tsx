@@ -6,17 +6,17 @@ import { useRouter } from 'next/router';
 
 import { useResetRecoilState } from 'recoil';
 
-import useInitializeUpdateFormData from './form/update-form/hooks/useInitializeUpdateFormData';
+import Header from './update-form/Header';
 
-import Header from './form/update-form/Header';
+import Actions from './update-form/Actions';
 
-import Actions from './form/update-form/Actions';
-
-import UpdateForm from './form/update-form/UpdateForm';
+import UpdateForm from './update-form/UpdateForm';
 
 import SuggestFormState from './form/atoms/SuggestFormState';
 
 import StepperTitle from './form/ui/StepperTitle';
+
+import useInitializeUpdateFormData from './update-form/hooks/useInitializeUpdateFormData';
 
 const Popups = dynamic(() => import('./form/popups'), { ssr: false });
 
