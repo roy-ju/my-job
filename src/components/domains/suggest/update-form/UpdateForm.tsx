@@ -5,23 +5,23 @@ import { useRecoilValue } from 'recoil';
 
 import Separator from '@/components/atoms/Separator';
 
-import SuggestFormSelector from '../selector/SuggestFormSelector';
+import RegionOrDanjiForm from '../form/RegionOrDanjiForm';
 
-import RegionOrDanjiForm from '../RegionOrDanjiForm';
+import RealestateTypeAndBuyOrRentAndPriceForm from '../form/RealestateTypeAndBuyOrRentAndPriceForm';
 
-import RealestateTypeAndBuyOrRentAndPriceForm from '../RealestateTypeAndBuyOrRentAndPriceForm';
+import BuyPurposeForm from '../form/BuyPurposeForm';
+
+import MoveInDateForm from '../form/MoveInDateForm';
+
+import AreaForm from '../form/AreaForm';
 
 import AdditionalConditionsForm from './AdditionalConditionsForm';
 
-import AreaForm from '../AreaForm';
+import InterviewForm from '../form/InterviewForm';
 
-import BuyPurposeForm from '../BuyPurposeForm';
+import SuggestFormSelector from '../form/selector/SuggestFormSelector';
 
-import InterviewForm from '../InterviewForm';
-
-import MoveInDateForm from '../MoveInDateForm';
-
-import SuggestForm from '../types';
+import SuggestForm from '../form/types';
 
 type UpdateFormProps = {
   depth?: number;

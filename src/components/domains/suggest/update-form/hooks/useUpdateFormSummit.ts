@@ -20,11 +20,11 @@ import { DanjiOrRegionalType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
-import SuggestFormState from '../../atoms/SuggestFormState';
+import SuggestFormState from '../../form/atoms/SuggestFormState';
 
-import checkFinalValidation from '../../../utils/checkFinalValidation';
+import checkFinalValidation from '../../utils/checkFinalValidation';
 
-import suggestUpdateParams from '../../../utils/suggestUpdateParams';
+import suggestUpdateParams from '../../utils/suggestUpdateParams';
 
 export default function useUpdateFormSummitButton({ depth }: { depth?: number }) {
   const customRouter = useCustomRouter(depth);
