@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 
-import { useResetRecoilState } from 'recoil';
+import dynamic from 'next/dynamic';
 
 import { useRouter } from 'next/router';
+
+import { useResetRecoilState } from 'recoil';
 
 import useInitializeUpdateFormData from './form/update-form/hooks/useInitializeUpdateFormData';
 
@@ -12,9 +14,9 @@ import Actions from './form/update-form/Actions';
 
 import Form from './form/Form';
 
-import Popups from './form/popups';
-
 import SuggestFormState from './form/atoms/SuggestFormState';
+
+const Popups = dynamic(() => import('./form/popups'), { ssr: false });
 
 type SuggestFormUpdateProps = { depth?: number };
 

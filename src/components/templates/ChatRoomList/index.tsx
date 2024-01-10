@@ -25,7 +25,7 @@ interface IChatRoomListItem {
 interface ChatRoomListProps {
   list: IChatRoomListItem[];
   onClickListItem?: (chatRoomID: number) => void;
-  onClickRecommendationForm?: () => void;
+  onClickSuggestForm?: () => void;
   isLoading: boolean;
 }
 
@@ -87,26 +87,21 @@ function List({ list, onClickListItem }: Omit<ChatRoomListProps, 'isLoading'>) {
   );
 }
 
-function NoData({ onClickRecommendationForm }: { onClickRecommendationForm?: () => void }) {
+function NoData({ onClickSuggestForm }: { onClickSuggestForm?: () => void }) {
   return (
     <div tw="flex-1">
       <div tw="pt-12 pb-10">
-        <ChatRoomListNoData onClickRecommendationForm={onClickRecommendationForm} />
+        <ChatRoomListNoData onClickSuggestForm={onClickSuggestForm} />
       </div>
     </div>
   );
 }
 
-export default function ChatRoomList({
-  list,
-  isLoading,
-  onClickListItem,
-  onClickRecommendationForm,
-}: ChatRoomListProps) {
+export default function ChatRoomList({ list, isLoading, onClickListItem, onClickSuggestForm }: ChatRoomListProps) {
   const renderList = () => {
     if (isLoading) return <Loading tw="text-center mt-10" />;
     if (list.length > 0) return <List list={list} onClickListItem={onClickListItem} />;
-    return <NoData onClickRecommendationForm={onClickRecommendationForm} />;
+    return <NoData onClickSuggestForm={onClickSuggestForm} />;
   };
 
   return (

@@ -8,14 +8,15 @@ import useFetchSuggestDetail from '@/services/suggests/useFetchSuggestDetail';
 
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
-import useNormalizeParams from '../../hooks/useNormalizeParams';
-
+import combineStrings from '@/utils/combinedTwoStrings';
 import SuggestFormState from '../../atoms/SuggestFormState';
 
 import forms from '../../constants/forms';
 
+import normalizeParams from '../../../utils/normalizeParams';
+
 export default function useInitializeUpdateFormData({ suggestID }: { suggestID: number | null }) {
-  const { data: suggestData, isLoading: suggestDataLoading } = useFetchSuggestDetail({ suggestID });
+  const { data: suggestData, isLoading: suggestDataLoading, error } = useFetchSuggestDetail({ suggestID });
 
   const { data: danjiIData, isLoading: danjiDataLoading } = useFetchDanjiDetail({
     danjiID: suggestData?.danji_id || null,
@@ -23,10 +24,23 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
 
   const setState = useSetRecoilState(SuggestFormState);
 
-  const { normalizeParams } = useNormalizeParams();
-
   useEffect(() => {
     if (!suggestID) {
+      setState((prev) => ({ ...prev, popup: 'invalidAccess' }));
+      return;
+    }
+
+    if (error) {
+      setState((prev) => ({ ...prev, popup: 'invalidAccess' }));
+      return;
+    }
+
+    if (suggestData && !suggestData.my_suggest) {
+      setState((prev) => ({ ...prev, popup: 'invalidAccess' }));
+      return;
+    }
+
+    if (suggestData && suggestData.error_code) {
       setState((prev) => ({ ...prev, popup: 'invalidAccess' }));
       return;
     }
@@ -58,7 +72,7 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
           : {}),
         ...(suggestData.danji_id
           ? { pyoungs: suggestData.pyoungs.split(',') }
-          : { pyoung_from: suggestData.pyoung_from }),
+          : { pyoung_from: combineStrings(suggestData.pyoung_from, suggestData.pyoung_to) }),
       };
 
       if (params) {
@@ -74,7 +88,6 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
                 .filter((ele) => ele !== 'summary' && ele !== 'buy_purpose');
 
         if (normalizedParams) {
-          // @ts-expect-error
           setState((prev) => ({
             ...prev,
             forms: formArray,
@@ -83,5 +96,5 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
         }
       }
     }
-  }, [danjiDataLoading, danjiIData, normalizeParams, setState, suggestData, suggestDataLoading, suggestID]);
+  }, [danjiDataLoading, danjiIData, error, setState, suggestData, suggestDataLoading, suggestID]);
 }

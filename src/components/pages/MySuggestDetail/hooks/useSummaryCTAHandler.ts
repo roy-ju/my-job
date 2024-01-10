@@ -62,7 +62,7 @@ export default function useSummaryCTAHandler() {
     const suggestID = value?.suggestDetailData?.suggest_id ?? 0;
 
     if (platform?.platform === 'pc') {
-      router.replace(Routes.RecommendationFormUpdate, {
+      router.replace(Routes.SuggestFormUpdate, {
         searchParams: {
           ...(danjiID ? { danjiID: `${danjiID}` } : {}),
           ...(suggestID ? { suggestID: `${suggestID}` } : {}),

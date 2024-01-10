@@ -19,6 +19,8 @@ const InvalidAccessPopup = dynamic(() => import('@/components/molecules/CommonPo
 export default function Popups() {
   const {
     popup,
+    isFilter,
+    filterQuery,
     handleUpdatePopup,
     handleUpdateAddressAndBubjungdong,
     handleUpdateDanjiInfo,
@@ -33,7 +35,14 @@ export default function Popups() {
   }
 
   if (popup === 'danjiList') {
-    return <DanjiListPopup onClickClose={() => handleUpdatePopup('')} onSubmitV2={handleUpdateDanjiInfo} />;
+    return (
+      <DanjiListPopup
+        query={filterQuery}
+        isFilter={isFilter}
+        onSubmitV2={handleUpdateDanjiInfo}
+        onClickClose={() => handleUpdatePopup('')}
+      />
+    );
   }
 
   if (popup === 'reselectRegionOrDanji') {

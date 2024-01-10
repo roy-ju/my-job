@@ -381,7 +381,7 @@ const LegalCounselingUpdate = dynamic(() => import('@/components/pages/pc/LegalC
 });
 const SuggestForm = dynamic(() => import('@/components/pages/SuggestForm/SuggestFormPc'), {
   ssr: false,
-  loading: FallbackComponent,
+  // loading: FallbackComponent,
 });
 const SuggestFormUpdate = dynamic(() => import('@/components/pages/SuggestFormUpdate/SuggestFormUpdatePc'), {
   ssr: false,
@@ -649,15 +649,15 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.DanjiRecommendationUpdate: {
       return <DanjiRecommendationUpdate key={`${query.danjiID}`} {...props} />;
     }
-    case Routes.RecommendationForm: {
+    case Routes.SuggestForm: {
       return <SuggestForm {...props} />;
     }
 
-    case Routes.RecommendationFormUpdate: {
+    case Routes.SuggestFormUpdate: {
       return <SuggestFormUpdate {...props} />;
     }
 
-    case Routes.RecommendGuide: {
+    case Routes.SuggestGuide: {
       return <SuggestGuide {...props} />;
     }
     /** 바뀐 지역폼 */

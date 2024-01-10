@@ -19,6 +19,7 @@ import isEqualValue from '../../utils/isEqualValue';
 import maxPyoung from '../constants/maxPyoung';
 
 import ERROR_MESSAGE from '../constants/errorMessage';
+import regionPyoungList from '../constants/regionPyoungList';
 
 export default function useChangePyoungInput() {
   const [pyoungInput, setPyoungInput] = useRecoilState<SuggestForm['pyoungInput']>(SuggestFormSelector('pyoungInput'));
@@ -48,10 +49,10 @@ export default function useChangePyoungInput() {
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
       const danjiPyoungList = list.map((item) => item.gonggeup_pyoung.toString()) ?? [];
 
-      return pyoungList.filter((x) => !danjiPyoungList.includes(x));
+      return pyoungList.filter((ele) => !danjiPyoungList.includes(ele));
     }
 
-    return [];
+    return pyoungList.filter((ele) => !regionPyoungList.includes(ele));
   }, [danjiOrRegion, list, pyoungList]);
 
   const isRenderAccordion = useMemo(() => {
@@ -68,8 +69,8 @@ export default function useChangePyoungInput() {
   );
 
   const isRenderSelectedPyoungList = useMemo(
-    () => isRenderPyoungInputField && selectedInputedPyoungList.length > 0,
-    [isRenderPyoungInputField, selectedInputedPyoungList.length],
+    () => selectedInputedPyoungList.length > 0,
+    [selectedInputedPyoungList.length],
   );
 
   const pyoungInputLabel = useMemo(() => (pyoungInput ? '평수' : '평수 입력'), [pyoungInput]);

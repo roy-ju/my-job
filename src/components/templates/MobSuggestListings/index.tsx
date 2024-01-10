@@ -44,7 +44,7 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
 
   const handleCreateSuggest = useCallback(() => {
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
       query: {
         danjiID,
         entry: 'danjiSuggestListings',

@@ -86,11 +86,11 @@ function MapWrapper({
   const handleSuggestFormRouter = useCallback(
     (address?: string, bcode?: string) => {
       if (address && bcode) {
-        replace(Routes.RecommendationForm, {
+        replace(Routes.SuggestForm, {
           searchParams: { entry: 'map', address, bcode },
         });
       } else {
-        replace(Routes.RecommendationForm, { searchParams: { entry: 'map' } });
+        replace(Routes.SuggestForm, { searchParams: { entry: 'map' } });
       }
     },
     [replace],

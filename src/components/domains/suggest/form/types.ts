@@ -55,6 +55,14 @@ type SuggestForm = {
   additionalCondtions: string[];
   /** 인터뷰 가능 시간 */
   interviewAvailabletimes: string[];
+  /** 보증금 또는 매매가 에러메세지 */
+  errorMessageTradeOrDepositPrice: string;
+  /** 월세 에러메세지 */
+  errorMessageMonthlyRentFeePrice: string;
+  /** 투자금 에러메시지 */
+  errorMessageInvestAmountPrice: string;
+  /** 평수 제안 에러상태 */
+  errorMessagePyoungInput: string;
 
   popup:
     | 'regionList'
@@ -65,18 +73,6 @@ type SuggestForm = {
     | 'realestateTypes'
     | 'invalidAccess'
     | '';
-
-  /** 보증금 또는 매매가 에러메세지 */
-  errorMessageTradeOrDepositPrice: string;
-
-  /** 월세 에러메세지 */
-  errorMessageMonthlyRentFeePrice: string;
-
-  /** 투자금 에러메시지 */
-  errorMessageInvestAmountPrice: string;
-
-  /** 평수 제안 에러상태 */
-  errorMessagePyoungInput: string;
 };
 
 export default SuggestForm;

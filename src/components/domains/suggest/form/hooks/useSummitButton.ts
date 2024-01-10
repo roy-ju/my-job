@@ -22,19 +22,11 @@ import Routes from '@/router/routes';
 
 import { useAuth } from '@/hooks/services';
 
-import useCreateParams from './useCreateParams';
-
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';
 
-import ERROR_MESSAGE from '../constants/errorMessage';
-
 import isEqualValue from '../../utils/isEqualValue';
-
-import isNotEqualValue from '../../utils/isNotEqualValue';
-
-import errorHandlingWithElement from '../../utils/errorHandlingWidthElement';
 
 import getValidArrayField from '../../utils/getValidArrayField';
 
@@ -46,6 +38,10 @@ import getValidMoveInDate from '../../utils/getValidMoveInDate';
 
 import getValidRealestateTypeAndBuyOrRentAndPrice from '../../utils/getValidRealestateTypeAndBuyOrRentAndPrice';
 
+import createSubmitParams from '../../utils/createSubmitParams';
+
+import checkFinalValidation from '../../utils/checkFinalValidation';
+
 export default function useSummitButton({ depth }: { depth?: number }) {
   const customRouter = useCustomRouter(depth);
 
@@ -56,8 +52,6 @@ export default function useSummitButton({ depth }: { depth?: number }) {
   const { user } = useAuth();
 
   const { mutate: dashBoardInfoMutate } = useFetchMyDashboardInfo();
-
-  const { createParams } = useCreateParams();
 
   const [state, setState] = useRecoilState(SuggestFormState);
 
@@ -176,110 +170,9 @@ export default function useSummitButton({ depth }: { depth?: number }) {
 
   /** STEP FIVE */
   const handleSubmitInterview = useCallback(() => {
-    if (!state.realestateTypes || (state.realestateTypes && isEqualValue(state.realestateTypes.length, 0))) {
-      errorHandlingWithElement({
-        elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
-        errorMessage: ERROR_MESSAGE.REQUIRE_REALESTATE_TYPES,
-      });
+    if (!checkFinalValidation(state)) return;
 
-      return;
-    }
-
-    if (!state.buyOrRent) {
-      errorHandlingWithElement({
-        elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
-        errorMessage: ERROR_MESSAGE.REQUIRE_BUY_OR_RENT,
-      });
-
-      return;
-    }
-
-    if (isNotEqualValue(state.quickSale, '1')) {
-      if (state.errorMessageTradeOrDepositPrice) {
-        errorHandlingWithElement({
-          elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
-          errorMessage: state.errorMessageTradeOrDepositPrice,
-        });
-
-        return;
-      }
-
-      if (state.errorMessageMonthlyRentFeePrice) {
-        errorHandlingWithElement({
-          elementID: forms.REALESTATE_AND_BUYORRENT_AND_PRICE,
-          errorMessage: state.errorMessageMonthlyRentFeePrice,
-        });
-
-        return;
-      }
-    }
-
-    if (
-      isEqualValue(state.buyOrRent, BuyOrRent.Buy) &&
-      isEqualValue(state.purpose, '투자') &&
-      state.errorMessageInvestAmountPrice
-    ) {
-      errorHandlingWithElement({
-        elementID: forms.BUY_PURPOSE,
-        errorMessage: state.errorMessageInvestAmountPrice,
-      });
-
-      return;
-    }
-
-    if (
-      isEqualValue(state.buyOrRent, BuyOrRent.Buy) &&
-      isEqualValue(state.purpose, '실거주') &&
-      (!state.moveInDate || !state.moveInDateType)
-    ) {
-      errorHandlingWithElement({
-        elementID: forms.BUY_PURPOSE,
-        errorMessage: ERROR_MESSAGE.REQUIRE_MOVE_IN_DATE,
-      });
-
-      return;
-    }
-
-    if (isNotEqualValue(state.buyOrRent, BuyOrRent.Buy) && (!state.moveInDate || !state.moveInDateType)) {
-      errorHandlingWithElement({
-        elementID: forms.MOVE_IN_DATE,
-        errorMessage: ERROR_MESSAGE.REQUIRE_MOVE_IN_DATE,
-      });
-
-      return;
-    }
-
-    if (!state.pyoungList || (state.pyoungList && isEqualValue(state.pyoungList.length, 0))) {
-      errorHandlingWithElement({
-        elementID: forms.AREA,
-        errorMessage: ERROR_MESSAGE.REQUIRE_AREA,
-      });
-
-      return;
-    }
-
-    if (
-      !state.additionalCondtions ||
-      (state.additionalCondtions && isEqualValue(state.additionalCondtions.length, 0))
-    ) {
-      errorHandlingWithElement({
-        elementID: forms.ADDITIONAL_CONDITIONS,
-        errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS,
-      });
-      return;
-    }
-
-    if (
-      !state.interviewAvailabletimes ||
-      (state.interviewAvailabletimes && isEqualValue(state.interviewAvailabletimes.length, 0))
-    ) {
-      errorHandlingWithElement({
-        elementID: forms.INTERVIEW,
-        errorMessage: ERROR_MESSAGE.REQUIRE_INTERVIEW,
-      });
-    }
-
-    const params = createParams();
+    const params = createSubmitParams(state);
 
     if (!user) {
       if (platform === 'pc') {
@@ -346,7 +239,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     }));
 
     customRouter.replace(
-      Routes.RecommendationForm,
+      Routes.SuggestForm,
       {
         searchParams: {
           ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
@@ -357,32 +250,12 @@ export default function useSummitButton({ depth }: { depth?: number }) {
       },
       true,
     );
-  }, [
-    state.realestateTypes,
-    state.buyOrRent,
-    state.quickSale,
-    state.purpose,
-    state.errorMessageInvestAmountPrice,
-    state.moveInDate,
-    state.moveInDateType,
-    state.pyoungList,
-    state.additionalCondtions,
-    state.interviewAvailabletimes,
-    state.errorMessageTradeOrDepositPrice,
-    state.errorMessageMonthlyRentFeePrice,
-    state.forms,
-    createParams,
-    user,
-    setState,
-    platform,
-    customRouter,
-    router,
-  ]);
+  }, [state, user, setState, customRouter, router, platform]);
 
-  const handleSubmitSummary = useCallback(async () => {
+  const handleSubmitCreate = useCallback(async () => {
     if (!state.danjiOrRegion) return;
 
-    const params = createParams();
+    const params = createSubmitParams(state);
 
     if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Danji)) {
       try {
@@ -431,7 +304,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
         toast.error('등록 중 오류가 발생했습니다.');
       }
     }
-  }, [createParams, dashBoardInfoMutate, platform, router, state.danjiOrRegion]);
+  }, [dashBoardInfoMutate, platform, router, state]);
 
   const handleFormsAction = useCallback(() => {
     const lastForm = state.forms[state.forms.length - 1];
@@ -462,7 +335,7 @@ export default function useSummitButton({ depth }: { depth?: number }) {
         break;
 
       case forms.SUMMARY:
-        handleSubmitSummary();
+        handleSubmitCreate();
         break;
 
       default:
@@ -476,13 +349,13 @@ export default function useSummitButton({ depth }: { depth?: number }) {
     handleSubmitArea,
     handleSubmitAdditionalConditions,
     handleSubmitInterview,
-    handleSubmitSummary,
+    handleSubmitCreate,
   ]);
 
   return {
     isRenderSummitButton,
     isRenderRevisionText,
-    hidden: currentForm === 'region_or_danji',
+    hidden: currentForm === forms.REGION_OR_DANJI,
     disabled,
     handleFormsAction,
     handleClickBack: isRenderSummitButton ? handleClickBack : undefined,

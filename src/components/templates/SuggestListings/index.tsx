@@ -57,7 +57,7 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   );
 
   const handleCreateSuggest = useCallback(() => {
-    router.push(Routes.RecommendationForm, { searchParams: { entry: 'danjiSuggestListings', danjiID: `${danjiID}` } });
+    router.push(Routes.SuggestForm, { searchParams: { entry: 'danjiSuggestListings', danjiID: `${danjiID}` } });
   }, [danjiID, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {

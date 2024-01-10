@@ -1,11 +1,15 @@
 import { MobileContainer } from '@/components/atoms';
+
 import { ChatRoomList as ChatRoomListTemplate } from '@/components/templates';
+
 import { MobGlobalNavigation } from '@/components/organisms';
+
 import useSyncronizer from '@/states/syncronizer';
+
 import useChatRoomList from './useChatRoomList';
 
 export default function ChatRoomList() {
-  const { chatRoomList, isLoading, handleClickListItem, handleClickRecommendationForm } = useChatRoomList();
+  const { chatRoomList, isLoading, handleClickListItem, handleClickSuggestForm } = useChatRoomList();
 
   const { unreadChatCount } = useSyncronizer();
 
@@ -15,7 +19,7 @@ export default function ChatRoomList() {
         list={chatRoomList}
         isLoading={isLoading}
         onClickListItem={handleClickListItem}
-        onClickRecommendationForm={handleClickRecommendationForm}
+        onClickSuggestForm={handleClickSuggestForm}
       />
     </MobileContainer>
   );

@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+
+import dynamic from 'next/dynamic';
 
 import { useResetRecoilState } from 'recoil';
 
@@ -12,9 +14,9 @@ import Form from './form/Form';
 
 import Actions from './form/Actions';
 
-import Popups from './form/popups';
-
 import SuggestFormState from './form/atoms/SuggestFormState';
+
+const Popups = dynamic(() => import('./form/popups'), { ssr: false });
 
 type SuggestFormProps = { depth?: number };
 
@@ -25,13 +27,14 @@ export default function SuggestForm({ depth }: SuggestFormProps) {
 
   useEffect(
     () => () => {
+      console.log('render');
       reset();
     },
     [reset],
   );
 
   return (
-    <div tw="flex flex-col h-full">
+    <div tw="flex flex-col h-full relative">
       <Header title="집 구하기" />
       <Stepper />
       <Form depth={depth} />

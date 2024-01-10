@@ -8,8 +8,6 @@ import { useSetRecoilState } from 'recoil';
 
 import { apiService } from '@/services';
 
-import useNormalizeparms from './useNormalizeParams';
-
 import isEqualValue from '../../utils/isEqualValue';
 
 import getNumber from '../../utils/getNumber';
@@ -19,6 +17,8 @@ import SuggestFormSelector from '../selector/SuggestFormSelector';
 import SuggestForm, { FormType } from '../types';
 
 import SuggestFormState from '../atoms/SuggestFormState';
+
+import normalizeParams from '../../utils/normalizeParams';
 
 function propertyToRealestateType(val: string) {
   if (val === '아파트') return 10;
@@ -35,8 +35,6 @@ export default function useInitializeFormData() {
 
   const setState = useSetRecoilState(SuggestFormState);
 
-  const { normalizeParams } = useNormalizeparms();
-
   const setStateForms = useSetRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
   const setStateDanjiOrRegion = useSetRecoilState<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
   const setAddress = useSetRecoilState<SuggestForm['address']>(SuggestFormSelector('address'));
@@ -47,7 +45,6 @@ export default function useInitializeFormData() {
   const setStateDanjiRealestateType = useSetRecoilState<SuggestForm['danjiRealestateType']>(
     SuggestFormSelector('danjiRealestateType'),
   );
-
   const setBuyOrRent = useSetRecoilState<SuggestForm['buyOrRent']>(SuggestFormSelector('buyOrRent'));
   const setRealestateTypes = useSetRecoilState<SuggestForm['realestateTypes']>(SuggestFormSelector('realestateTypes'));
 
@@ -76,7 +73,6 @@ export default function useInitializeFormData() {
 
       const normalizedParams = normalizeParams(params);
 
-      // @ts-expect-error
       setState(() => ({
         forms,
         ...normalizedParams,

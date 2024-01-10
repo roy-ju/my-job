@@ -35,16 +35,16 @@ export default function useChatRoomListNavigateHandler() {
     [router, nextRouter, platform, store],
   );
 
-  const handleClickRecommendationForm = useCallback(() => {
+  const handleClickSuggestForm = useCallback(() => {
     if (platform?.platform === 'pc') {
-      router.replace(Routes.RecommendationForm, {
+      router.replace(Routes.SuggestForm, {
         searchParams: {
           entry: 'chatRooomList',
         },
       });
     } else {
       nextRouter.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
+        pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
         query: { entry: 'chatRooomList' },
       });
     }
@@ -52,6 +52,6 @@ export default function useChatRoomListNavigateHandler() {
 
   return {
     handleClickChatRoomListItem,
-    handleClickRecommendationForm,
+    handleClickSuggestForm,
   };
 }

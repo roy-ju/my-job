@@ -3,7 +3,7 @@ import CloseIcon from '@/assets/icons/close_24.svg';
 import tw from 'twin.macro';
 import { Separator, InfiniteScroll } from '@/components/atoms';
 import SearchIcon from '@/assets/icons/search.svg';
-import { ChangeEventHandler, FormEventHandler, useCallback } from 'react';
+import { ChangeEventHandler, FormEventHandler, useCallback, useMemo } from 'react';
 import { useControlled } from '@/hooks/utils';
 import { useNegocioAddressAutocomplete } from '@/hooks/services';
 import { RealestateTypeString } from '@/constants/strings';
@@ -30,13 +30,22 @@ function Guide() {
 }
 
 export interface AddressSearchFormProps {
+  isFilter?: boolean;
+  query?: number;
   value?: string;
   onChange?: (value: string) => void;
   onSubmit?: (value: number) => void;
   onSubmitV2?: (value: SearchDanjiResponseItem) => void;
 }
 
-function AddressSearchForm({ value: valueProp, onChange, onSubmit, onSubmitV2 }: AddressSearchFormProps) {
+function AddressSearchForm({
+  isFilter,
+  query,
+  value: valueProp,
+  onChange,
+  onSubmit,
+  onSubmitV2,
+}: AddressSearchFormProps) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: '',
@@ -55,6 +64,13 @@ function AddressSearchForm({ value: valueProp, onChange, onSubmit, onSubmitV2 }:
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
     e.preventDefault();
   }, []);
+
+  const convertedResults = useMemo(() => {
+    if (isFilter && query) {
+      return results.filter((ele) => ele.realestate_type !== query);
+    }
+    return results;
+  }, [query, isFilter, results]);
 
   return (
     <form tw="bg-white h-full flex flex-col rounded-b-[8px] overflow-hidden" onSubmit={handleSubmit}>
@@ -79,7 +95,7 @@ function AddressSearchForm({ value: valueProp, onChange, onSubmit, onSubmitV2 }:
       >
         {!results?.length && <Guide />}
 
-        {results?.map((result) => (
+        {convertedResults?.map((result) => (
           <button
             type="button"
             key={result.danji_id}

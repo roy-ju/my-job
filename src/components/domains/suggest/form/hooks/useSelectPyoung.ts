@@ -77,7 +77,7 @@ export default function useSelectPyoung() {
     }
 
     if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
-      const dataList = data?.list ?? [];
+      const dataList = data?.list?.filter((item) => item.gonggeup_pyoung !== 0) ?? [];
 
       return dataList.map((item) => `${item.gonggeup_pyoung}`);
     }

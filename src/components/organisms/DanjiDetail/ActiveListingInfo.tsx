@@ -194,7 +194,7 @@ export default function ActiveListingInfo({
     const danjiID = `${danji?.danji_id}` || router?.query?.danjiID || '';
 
     nextRouter.replace({
-      pathname: `/${Routes.DanjiDetail}/${Routes.RecommendationForm}`,
+      pathname: `/${Routes.DanjiDetail}/${Routes.SuggestForm}`,
       query: {
         entry: 'danjiDetail',
         danjiID,

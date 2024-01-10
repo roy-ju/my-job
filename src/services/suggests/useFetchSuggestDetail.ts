@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { SuggestDetailResponse } from './types';
 
 export default function useFetchSuggestDetail({ suggestID }: { suggestID: number | undefined | null }) {
-  return useSWR<SuggestDetailResponse | null>(
+  return useSWR<(SuggestDetailResponse & ErrorResponse) | null>(
     suggestID
       ? [
           '/suggest/detail',
