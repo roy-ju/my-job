@@ -12,13 +12,13 @@ import useMap from '@/states/map';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
-import GraphImage from '@/../public/static/images/image_graph.png';
+import GraphImage from '@/../public/static/images/home/image_graph.png';
 
-import HomeImage from '@/../public/static/images/image_home.png';
+import HomeImage from '@/../public/static/images/home/image_home.png';
 
-import LawImage from '@/../public/static/images/image_law.png';
+import LawImage from '@/../public/static/images/home/image_law.png';
 
-import MapImage from '@/../public/static/images/image_map.png';
+import MapImage from '@/../public/static/images/home/image_map.png';
 
 import Routes from '@/router/routes';
 
@@ -122,26 +122,26 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
 
   const ButtonObject = {
     map: {
-      title: '지도검색',
-      description: '원하는 지역을 검색해\n구해요 요청하기',
+      title: '지도 검색',
+      description: '지도에서 검색해서\n집 구하기',
       path: MapImage,
       onClick: handleClickMap,
     },
     realprice: {
       title: '실거래가',
-      description: '관심 있는 지역의\n실거래가 확인하기',
+      description: '관심있는 단지의\n실거래가 분석하기',
       path: GraphImage,
       onClick: handleOpenDanjiListPopup,
     },
     law: {
       title: '무료 법률 상담',
-      description: '계약하기 전 변호사와\n법률 상담하기',
+      description: '어려운 부동산 법률,\n변호사에게 물어보기',
       path: LawImage,
       onClick: handleClickCounseling,
     },
     register: {
       title: '우리집 내놓기',
-      description: '우리집 등록하고\n가격제안 받기',
+      description: '우리집 등록하고\n가격제안 받아보기',
       path: HomeImage,
       onClick: handleClickHomeRegister,
     },
