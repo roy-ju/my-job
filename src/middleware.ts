@@ -44,7 +44,6 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   // Redirect Mobile user
 
   if (ua.indexOf('Mobi') > -1) {
-    console.log('어디');
     const segments = request.nextUrl.pathname.split('/');
 
     const firstSegment = segments[1];
