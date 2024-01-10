@@ -71,14 +71,6 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
     rent: Rent.src,
   };
 
-  if (property.length === 0 && !buyOrRent) {
-    return (
-      <div tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white">
-        <p tw="text-display_03 text-gray-500 text-center [padding-block: 39px]">?</p>
-      </div>
-    );
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -86,7 +78,7 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
       transition={{ duration: 0.5 }}
       tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white relative"
     >
-      {!!property.length && (
+      {property.length ? (
         <motion.img
           key={PropertyPaths[properyImageType]}
           initial={{ opacity: 0 }}
@@ -98,6 +90,10 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
           alt=""
           tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
+      ) : (
+        <div tw="[min-width: 120px] [min-height: 120px] rounded-2xl bg-white">
+          <p tw="text-display_03 text-gray-500 text-center [padding-block: 39px]">?</p>
+        </div>
       )}
 
       {buyOrRent && (

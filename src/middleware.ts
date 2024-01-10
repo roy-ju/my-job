@@ -17,10 +17,12 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     );
   }
 
+  // 구해요 개선에 따른 페이지 URL변경
   if (path === '/recommendationGuide') {
     return NextResponse.redirect(new URL(`${Routes.SuggestGuide}`, request.url), 301);
   }
 
+  // 구해요 개선에 따른 페이지 URL변경
   if (
     path === '/suggestRegionalForm' ||
     path === '/suggestRegionalSummary' ||
@@ -42,8 +44,28 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   }
 
   // Redirect Mobile user
-
   if (ua.indexOf('Mobi') > -1) {
+    // 구해요 개선에 따른 페이지 URL변경
+    if (path === `/${Routes.EntryMobile}/recommendationGuide`) {
+      return NextResponse.redirect(
+        new URL(`${request.nextUrl.origin}/${Routes.EntryMobile}/${Routes.SuggestGuide}`, request.url),
+        301,
+      );
+    }
+
+    // 구해요 개선에 따른 페이지 URL변경
+    if (
+      path === `/${Routes.EntryMobile}/suggestRegionalForm` ||
+      path === `/${Routes.EntryMobile}/suggestRegionalSummary` ||
+      path === `/${Routes.EntryMobile}/danjiRecommendation` ||
+      path === `/${Routes.EntryMobile}/danjiRecommendationSummary`
+    ) {
+      return NextResponse.redirect(
+        new URL(`${request.nextUrl.origin}/${Routes.EntryMobile}/${Routes.SuggestForm}`, request.url),
+        301,
+      );
+    }
+
     const segments = request.nextUrl.pathname.split('/');
 
     const firstSegment = segments[1];
@@ -52,20 +74,22 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
       const lastSegment = segments[segments.length - 1];
 
       if (lastSegment) {
-        return NextResponse.redirect(`${request.nextUrl.origin}/m/${lastSegment}${request.nextUrl.search}`);
+        return NextResponse.redirect(
+          `${request.nextUrl.origin}/${Routes.EntryMobile}/${lastSegment}${request.nextUrl.search}`,
+        );
       }
 
-      return NextResponse.redirect(`${request.nextUrl.origin}/m`);
+      return NextResponse.redirect(`${request.nextUrl.origin}/${Routes.EntryMobile}`);
     }
   } else {
     const segments = request.nextUrl.pathname.split('/');
 
     const firstSegment = segments[1];
 
-    if (firstSegment === 'm') {
+    if (firstSegment === Routes.EntryMobile) {
       const lastSegment = segments[segments.length - 1];
 
-      if (lastSegment !== 'm') {
+      if (lastSegment !== Routes.EntryMobile) {
         return NextResponse.redirect(`${request.nextUrl.origin}/${lastSegment}${request.nextUrl.search}`);
       }
 

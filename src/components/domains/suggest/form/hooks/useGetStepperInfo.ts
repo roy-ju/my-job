@@ -64,7 +64,7 @@ export default function useGetStepperInfo() {
 
     if (currentForm === 'interview') {
       return makeObject({
-        title: '마지막 단계에요!',
+        title: '마지막으로 인터뷰 시간대를 선택해주세요!',
         subTitle: '인터뷰 가능한 시간대를 알려주시면 해당 시간대에\n네고시오 전담매니저가 연락드릴 예정이에요.',
         currentIndex: 5,
       });

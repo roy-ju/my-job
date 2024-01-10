@@ -45,7 +45,7 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
         switch (data.key) {
           case 'new_chat':
             if (window.location.pathname.indexOf('/chatRoom') === -1) {
-              Toast.toast.success('새로운 채팅메시지가 있습니다.');
+              Toast?.toast.success('새로운 채팅메시지가 있습니다.');
             }
             mutate('/chat/room/list');
             setUnreadChatCount(1);
@@ -57,7 +57,7 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
             break;
 
           case 'new_notification':
-            Toast.toast.success('새로운 알림이 있습니다.');
+            Toast?.toast.success('새로운 알림이 있습니다.');
             setUnreadNotificationCount(Number(data.value) ?? 0);
             break;
 

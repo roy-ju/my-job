@@ -1,8 +1,13 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo } from 'react';
+
 import tw from 'twin.macro';
+
 import Logo from '@/assets/icons/logo.svg';
+
 import { useControlled } from '@/hooks/utils';
+
 import { NewCount } from '@/components/atoms';
+
 import GlobalHambergerMenu from '../GlobalHambergerMenu';
 
 interface NavigationContextType {

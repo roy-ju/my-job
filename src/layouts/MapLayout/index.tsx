@@ -385,25 +385,33 @@ export default function MapLayout({ children }: Props) {
     setPanelsVisible(true);
     if (router.pathname === '/') {
       setTabIndex(0);
-    } else if (router.query.depth1 === 'lawQna') {
+    } else if (router.query.depth1 === Routes.SuggestForm) {
       setTabIndex(0);
-    } else if (router.query.depth1 === 'lawQnaSearch') {
+    } else if (router.query.depth1 === Routes.SuggestDetail) {
       setTabIndex(0);
-    } else if (router.query.depth1 === 'lawQnaDetail') {
+    } else if (router.query.depth1 === Routes.SuggestGuide) {
       setTabIndex(0);
-    } else if (router.query.depth1 === 'lawQnaCreate') {
+    } else if (router.query.depth1 === Routes.SuggestFormUpdate) {
       setTabIndex(0);
-    } else if (router.query.depth1 === 'lawQnaUpdate') {
+    } else if (router.query.depth1 === Routes.LawQna) {
       setTabIndex(0);
-    } else if (router.pathname === '/map') {
+    } else if (router.query.depth1 === Routes.LawQnaSearch) {
+      setTabIndex(0);
+    } else if (router.query.depth1 === Routes.LawQnaDetail) {
+      setTabIndex(0);
+    } else if (router.query.depth1 === Routes.LawQnaCreate) {
+      setTabIndex(0);
+    } else if (router.query.depth1 === Routes.LawQnaUpdate) {
+      setTabIndex(0);
+    } else if (router.pathname === Routes.Map) {
       setTabIndex(1);
-    } else if (router.query.depth1 === 'myFavoriteList') {
+    } else if (router.query.depth1 === Routes.MyFavoriteList) {
       setTabIndex(2);
-    } else if (router.query.depth1 === 'chatRoomList') {
+    } else if (router.query.depth1 === Routes.ChatRoomList) {
       setTabIndex(3);
-    } else if (router.query.depth1 === 'my') {
+    } else if (router.query.depth1 === Routes.My) {
       setTabIndex(4);
-    } else if (router.query.depth1 === 'developer') {
+    } else if (router.query.depth1 === Routes.Developer) {
       setTabIndex(5);
     } else {
       setTabIndex(1);

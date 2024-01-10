@@ -11,26 +11,26 @@ import Loading from '../Loading';
 const defaultStyle = tw`flex items-center justify-center h-fit transition-all`;
 
 const variants = {
-  primary: tw`border-none bg-nego-800 text-white hover:bg-nego-600 disabled:[background: rgba(112, 72, 232, 0.4)]`,
+  primary: tw`border border-nego-800 bg-nego-800 text-white hover:bg-nego-600 hover:border-nego-600 disabled:[background: rgba(112, 72, 232, 0.4)] disabled:border-none`,
   primaryOutline: tw`bg-white border border-nego-800 text-nego-800 hover:[background: rgba(112, 72, 232, 0.05)] disabled:bg-white disabled:[color:rgba(112, 72, 232, 0.4)] disabled:[border-color: rgba(112, 72, 232, 0.4)]`,
 
-  secondary: tw`border-none bg-gray-1000 text-white hover:bg-gray-800 disabled:[background: rgba(33, 37, 41, 0.4)]`,
+  secondary: tw`border border-gray-1000 bg-gray-1000 text-white hover:bg-gray-800 hover:border-gray-800 disabled:[background: rgba(33, 37, 41, 0.4)] disabled:border-none`,
   secondaryOutline: tw`bg-white border border-gray-1000 text-gray-1000 hover:[background: rgba(33, 37, 41, 0.05)] disabled:bg-white disabled:[color: rgba(33, 37, 41, 0.4)] disabled:[border-color: rgba(33, 37, 41, 0.4)]`,
 
-  gray: tw`border-none bg-gray-200 text-gray-1000 hover:bg-gray-400 disabled:[color: rgba(33, 37, 41, 0.4)] disabled:[background: rgba(241, 243, 245, 0.4)]`,
+  gray: tw`border border-gray-200 bg-gray-200 text-gray-1000 hover:bg-gray-400 hover:border-gray-400 disabled:[color: rgba(33, 37, 41, 0.4)] disabled:[background: rgba(241, 243, 245, 0.4)] disabled:border-none`,
   grayOutline: tw`bg-white border border-gray-300 text-gray-700 hover:[background: rgba(233, 236, 239, 0.2)] disabled:bg-white disabled:[color: rgba(134, 142, 150, 0.4)] disabled:[border-color: rgba(233, 236, 239, 0.4)]`,
 
   ghost: tw``,
 };
 
 const selectedStyles = {
-  primary: tw`bg-nego-800 hover:bg-nego-800 text-white hover:text-white`,
+  primary: tw`border border-nego-800 bg-nego-800 hover:bg-nego-800 text-white hover:border-nego-800 hover:text-white`,
   primaryOutline: tw`[background: rgba(112, 72, 232, 0.1)] hover:[background: rgba(112, 72, 232, 0.1)]`,
 
-  secondary: tw`bg-gray-1000 text-white hover:bg-gray-1000 hover:text-white`,
+  secondary: tw`border border-gray-1000 bg-gray-1000 text-white hover:bg-gray-1000 hover:text-white`,
   secondaryOutline: tw`[background: rgba(33, 37, 41, 0.1)] hover:[background: rgba(33, 37, 41, 0.1)]`,
 
-  gray: tw`bg-gray-600 text-gray-1000 hover:bg-gray-600 hover:text-gray-1000`,
+  gray: tw`border border-gray-600 bg-gray-600 text-gray-1000 hover:bg-gray-600 hover:text-gray-1000`,
   grayOutline: tw`[background: rgba(233, 236, 239, 0.5)] text-gray-700 border-gray-300 hover:[background: rgba(233, 236, 239, 0.5)] hover:text-gray-700 hover:border-gray-300`,
 
   ghost: tw``,

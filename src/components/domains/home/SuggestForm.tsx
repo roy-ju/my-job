@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic';
 
-import { styled } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 import { useRouter as useCunstomRouter } from '@/hooks/utils';
 
@@ -26,7 +26,9 @@ import getIncludeValue from '../suggest/utils/getIncludeValue';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
 
-const StyledButton = styled(ButtonV2)``;
+const StyledButton = styled(ButtonV2)`
+  ${(props) => props.selected && tw`bg-white font-bold`}
+`;
 
 StyledButton.defaultProps = {
   size: 'medium',
@@ -62,7 +64,10 @@ export default function SuggestForm() {
     if (e) {
       const { value } = e.currentTarget;
 
-      if (value === buyOrRent) return;
+      if (value === buyOrRent) {
+        setBuyOrRent('');
+        return;
+      }
 
       setBuyOrRent(value);
     }
@@ -140,7 +145,6 @@ export default function SuggestForm() {
 
   const handleSummitRegion = (v: RegionItem) => {
     handlePopup('');
-
     handleRoute('regionListPoup', v);
   };
 
@@ -165,9 +169,15 @@ export default function SuggestForm() {
           <div tw="flex flex-col gap-2 mb-6">
             <p tw="text-subhead_02">부동산 종류</p>
             <div tw="flex flex-wrap gap-2 pr-4">
-              {['10', '20', '30', '60', '50'].map((item) => (
+              {[
+                RealestateType.Apartment.toString(),
+                RealestateType.Officetel.toString(),
+                RealestateType.Dasaedae.toString(),
+                RealestateType.Dagagoo.toString(),
+                RealestateType.Dandok.toString(),
+              ].map((item) => (
                 <StyledButton
-                  variant={getIncludeValue(item, property) ? 'primary' : 'grayOutline'}
+                  variant={getIncludeValue(item, property) ? 'primaryOutline' : 'grayOutline'}
                   radius="r100"
                   key={item}
                   value={item}
@@ -186,7 +196,7 @@ export default function SuggestForm() {
             <div tw="flex gap-2">
               {['1', '2'].map((item) => (
                 <StyledButton
-                  variant={isSelected(buyOrRent, item) ? 'primary' : 'grayOutline'}
+                  variant={isSelected(buyOrRent, item) ? 'primaryOutline' : 'grayOutline'}
                   key={item}
                   value={item}
                   selected={isSelected(buyOrRent, item)}

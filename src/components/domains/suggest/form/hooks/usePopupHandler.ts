@@ -8,11 +8,10 @@ import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
 
-import useMobileBackRouter from '@/hooks/utils/useMobileBackRouter';
-
 import Routes from '@/router/routes';
 
 import { RealestateType } from '@/constants/enums';
+
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import SuggestForm, { BubjungdongType } from '../types';
@@ -23,8 +22,6 @@ import isEqualValue from '../../utils/isEqualValue';
 
 export default function usePopupHandler() {
   const { platform } = useCheckPlatform();
-
-  const { mobilebackHandler } = useMobileBackRouter();
 
   const router = useRouter();
 
@@ -86,11 +83,23 @@ export default function usePopupHandler() {
     }
 
     if (platform === 'mobile') {
-      await mobilebackHandler();
+      if (isEqualValue(router?.query?.entry, 'home')) {
+        router.replace(`/${Routes.EntryMobile}`);
+      } else if (isEqualValue(router?.query?.entry, 'danjiDetail')) {
+        router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
+      } else if (isEqualValue(router?.query?.entry, 'danjiSuggestListings')) {
+        router.replace(`/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
+      } else if (isEqualValue(router?.query?.entry, 'my')) {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
+      } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.Map}`);
+      }
     }
 
     setTimeout(() => reset(), 200);
-  }, [mobilebackHandler, platform, reset, router]);
+  }, [platform, reset, router]);
 
   const handleUpdateFormReset = useCallback(() => {
     setTimeout(() => setState({ ...(initialValues as SuggestForm), forms: ['region_or_danji'] }), 100);
