@@ -20,6 +20,8 @@ export default function useSelectBuyOrRent() {
 
   const setPopup = useSetRecoilState<SuggestForm['popup']>(SuggestFormSelector('popup'));
 
+  const setUiBuyOrRent = useSetRecoilState<SuggestForm['uiBuyOrRent']>(SuggestFormSelector('uiBuyOrRent'));
+
   const setTradeOrDepositPrice = useSetRecoilState<SuggestForm['tradeOrDepositPrice']>(
     SuggestFormSelector('tradeOrDepositPrice'),
   );
@@ -44,6 +46,7 @@ export default function useSelectBuyOrRent() {
         }
 
         if (forms.length > 2) {
+          setUiBuyOrRent(Number(value));
           setPopup('buyOrRent');
           return;
         }
@@ -70,6 +73,7 @@ export default function useSelectBuyOrRent() {
       setPopup,
       setQuickSale,
       setTradeOrDepositPrice,
+      setUiBuyOrRent,
     ],
   );
 

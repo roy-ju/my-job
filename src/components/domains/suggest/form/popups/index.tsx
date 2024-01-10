@@ -28,6 +28,8 @@ export default function Popups() {
     handleUpdateFormReset,
     handleConfirmChangeBuyOrRent,
     handleConfirmChangeRealestateType,
+    handleCloseBuyOrRentChangePopup,
+    handleCloseRealestateTypeChangePopup,
   } = usePopupHandler();
 
   if (popup === 'regionList') {
@@ -55,14 +57,17 @@ export default function Popups() {
 
   if (popup === 'buyOrRent') {
     return (
-      <BuyOrRentChangePopup onClickClose={() => handleUpdatePopup('')} onClickConfirm={handleConfirmChangeBuyOrRent} />
+      <BuyOrRentChangePopup
+        onClickClose={handleCloseBuyOrRentChangePopup}
+        onClickConfirm={handleConfirmChangeBuyOrRent}
+      />
     );
   }
 
   if (popup === 'realestateTypes') {
     return (
       <RealestateTypeChangePopup
-        onClickClose={() => handleUpdatePopup('')}
+        onClickClose={handleCloseRealestateTypeChangePopup}
         onClickConfirm={handleConfirmChangeRealestateType}
       />
     );

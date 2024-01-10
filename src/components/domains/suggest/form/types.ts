@@ -66,7 +66,7 @@ type SuggestForm = {
   errorMessagePyoungInput: string;
 
   /** 과거 유저가 입력한 추가조건 */
-  uiBuyOrRent?: string;
+  uiBuyOrRent?: BuyOrRent | 0;
 
   /** 과거 유저가 입력한 추가조건 */
   uiRealestateType?: string;

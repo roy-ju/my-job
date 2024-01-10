@@ -27,6 +27,8 @@ export default function usePopupHandler() {
 
   const [state, setState] = useRecoilState(SuggestFormState);
 
+  console.log(state);
+
   const reset = useResetRecoilState(SuggestFormState);
 
   const handleUpdatePopup = useCallback(
@@ -105,12 +107,22 @@ export default function usePopupHandler() {
     setTimeout(() => setState({ ...(initialValues as SuggestForm), forms: ['region_or_danji'] }), 100);
   }, [setState]);
 
+  const handleCloseBuyOrRentChangePopup = useCallback(() => {
+    handleUpdatePopup('');
+    setState((prev) => ({ ...prev, uiBuyOrRent: undefined }));
+  }, [handleUpdatePopup, setState]);
+
+  const handleCloseRealestateTypeChangePopup = useCallback(() => {
+    handleUpdatePopup('');
+    setState((prev) => ({ ...prev, uiRealestateType: undefined }));
+  }, [handleUpdatePopup, setState]);
+
   /** 부동산 종류 초기화 화면 안됨, 주소 및 단지 정보 초기화 하면 안됨 */
   const handleConfirmChangeBuyOrRent = useCallback(() => {
     setState((prev) => ({
       ...prev,
       forms: ['region_or_danji', 'realestate_and_buyOrRent_and_price'],
-      buyOrRent: initialValues.buyOrRent,
+      buyOrRent: state.uiBuyOrRent ? state.uiBuyOrRent : initialValues.buyOrRent,
       tradeOrDepositPrice: initialValues.tradeOrDepositPrice,
       monthlyRentFee: initialValues.monthlyRentFee,
       negotiable: initialValues.negotiable,
@@ -137,14 +149,14 @@ export default function usePopupHandler() {
       errorMessageInvestAmountPrice: '',
       errorMessagePyoungInput: '',
     }));
-  }, [setState]);
+  }, [setState, state?.uiBuyOrRent]);
 
   /** 주소 및 단지 정보 초기화 하면 안됨 */
   const handleConfirmChangeRealestateType = useCallback(() => {
     setState((prev) => ({
       ...prev,
       forms: ['region_or_danji', 'realestate_and_buyOrRent_and_price'],
-      realestateTypes: initialValues.realestateTypes,
+      realestateTypes: state.uiRealestateType ? [Number(state.uiRealestateType)] : initialValues.realestateTypes,
       buyOrRent: initialValues.buyOrRent,
       tradeOrDepositPrice: initialValues.tradeOrDepositPrice,
       monthlyRentFee: initialValues.monthlyRentFee,
@@ -172,7 +184,7 @@ export default function usePopupHandler() {
       errorMessageInvestAmountPrice: '',
       errorPyoungInput: false,
     }));
-  }, [setState]);
+  }, [setState, state?.uiRealestateType]);
 
   const isFilter = useMemo(() => {
     if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, 'home')) {
@@ -207,5 +219,7 @@ export default function usePopupHandler() {
     handleUpdateFormReset,
     handleConfirmChangeBuyOrRent,
     handleConfirmChangeRealestateType,
+    handleCloseBuyOrRentChangePopup,
+    handleCloseRealestateTypeChangePopup,
   };
 }
