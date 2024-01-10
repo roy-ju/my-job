@@ -27,8 +27,6 @@ export default function usePopupHandler() {
 
   const [state, setState] = useRecoilState(SuggestFormState);
 
-  console.log(state);
-
   const reset = useResetRecoilState(SuggestFormState);
 
   const handleUpdatePopup = useCallback(

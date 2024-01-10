@@ -26,8 +26,6 @@ export default function useSelectRealestateTypes() {
     SuggestFormSelector('uiRealestateType'),
   );
 
-  console.log(realestateTypes);
-
   const handleClickRealestateType = useCallback(
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
       if (e) {
