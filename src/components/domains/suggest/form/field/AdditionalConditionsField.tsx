@@ -2,8 +2,7 @@ import { memo } from 'react';
 
 import { motion } from 'framer-motion';
 
-import SelectButton from '../ui/SelectButton';
-
+import SelectTag from '@/components/atoms/SelectTag';
 import { AnimationP } from '../ui/AnimationText';
 
 import useIcons from '../hooks/useIcons';
@@ -42,17 +41,15 @@ function AdditionalConditionsField({ list, selectedList, handleClick }: Addition
                     transition={{ duration: 0.6 }}
                     whileHover={{ scale: 1.1 }}
                   >
-                    <SelectButton
+                    <SelectTag
                       key={item}
-                      variant={getIncludeValue(item, selectedList) ? 'primaryOutline' : 'grayOutline'}
                       value={item}
                       selected={getIncludeValue(item, selectedList)}
                       onClick={handleClick}
-                      tw="flex items-center gap-1"
                     >
                       {iconObj[item]}
                       {item}
-                    </SelectButton>
+                    </SelectTag>
                   </motion.div>
                 ))}
               </div>

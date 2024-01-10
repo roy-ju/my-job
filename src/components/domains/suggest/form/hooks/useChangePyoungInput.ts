@@ -19,9 +19,10 @@ import isEqualValue from '../../utils/isEqualValue';
 import maxPyoung from '../constants/maxPyoung';
 
 import ERROR_MESSAGE from '../constants/errorMessage';
+
 import regionPyoungList from '../constants/regionPyoungList';
 
-export default function useChangePyoungInput() {
+export default function useChangePyoungInput({ type }: { type: 'create' | 'update' }) {
   const [pyoungInput, setPyoungInput] = useRecoilState<SuggestForm['pyoungInput']>(SuggestFormSelector('pyoungInput'));
   const [pyoungList, setPyoungList] = useRecoilState<SuggestForm['pyoungList']>(SuggestFormSelector('pyoungList'));
   const [errorMessagePyoungInput, setErrorMessagePyoungInput] = useRecoilState<SuggestForm['errorMessagePyoungInput']>(
@@ -68,10 +69,13 @@ export default function useChangePyoungInput() {
     [danjiOrRegion],
   );
 
-  const isRenderSelectedPyoungList = useMemo(
-    () => selectedInputedPyoungList.length > 0,
-    [selectedInputedPyoungList.length],
-  );
+  const isRenderSelectedPyoungList = useMemo(() => {
+    if (isEqualValue(danjiOrRegion, DanjiOrRegionalType.Danji)) {
+      return selectedInputedPyoungList.length > 0;
+    }
+
+    return type === 'update' ? false : selectedInputedPyoungList.length > 0;
+  }, [danjiOrRegion, selectedInputedPyoungList.length, type]);
 
   const pyoungInputLabel = useMemo(() => (pyoungInput ? '평수' : '평수 입력'), [pyoungInput]);
 
