@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import DanjiIcon from '@/assets/icons/danji_line.svg';
+import DanjiIcon from '@/assets/icons/vertical_line.svg';
 import SigunguIcon from '@/assets/icons/sigungu_line.svg';
 import SidoIcon from '@/assets/icons/sido_line.svg';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';

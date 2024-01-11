@@ -1,9 +1,10 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { Button } from '@/components/atoms';
-import { NavigationHeader, Tabs } from '@/components/molecules';
-import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
 
-import React from 'react';
+import { NavigationHeader, Tabs } from '@/components/molecules';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
 
 export default function ReapPriceDetailHeader({
   danji,
@@ -13,6 +14,7 @@ export default function ReapPriceDetailHeader({
   onChangeSelectedYear,
   onClickSelectPage,
   onClickBack,
+  onClickTitle,
 }: {
   danji?: GetDanjiDetailResponse;
   buyOrRent?: number;
@@ -21,6 +23,7 @@ export default function ReapPriceDetailHeader({
   onChangeSelectedYear?: (value: number) => void;
   onClickSelectPage?: () => void;
   onClickBack?: () => void;
+  onClickTitle?: () => void;
 }) {
   if (!danji) return null;
 
@@ -30,8 +33,10 @@ export default function ReapPriceDetailHeader({
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-inherit">실거래 심층 분석</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="w-full flex items-center justify-between mb-2 px-5">
-        <span tw="text-b1 [line-height: 1] font-bold">{danji.name}</span>
+      <div tw="w-full flex items-center justify-between mt-7 mb-3 px-5">
+        <button type="button" tw="text-b1 font-bold underline" onClick={onClickTitle}>
+          {danji.name}
+        </button>
         <Button variant="outlined" size="small" onClick={onClickSelectPage}>
           VS 다른 단지와 비교
         </Button>
