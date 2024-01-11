@@ -3,13 +3,13 @@ import { useMemo, useState } from 'react';
 
 import Link from 'next/link';
 
-import Paths from '@/constants/paths';
-
 import tw, { styled } from 'twin.macro';
 
 import { NewsItem as NewsItemType } from '@/lib/scrape/scrape';
 
 import moment from 'moment';
+
+import DefaultNewsImage from '@/../public/static/images/danji/news.png';
 
 const StyledLink = styled(Link)`
   b {
@@ -32,11 +32,11 @@ export default function NewsItem({ item }: NewsItemProps) {
   const [imgError, setImgError] = useState(false);
 
   const imgSrc = useMemo(() => {
-    if (imgError) return Paths.DEFAULT_APARTMENT_IMAGE_PATH;
+    if (imgError) return DefaultNewsImage.src;
 
     if (item?.imageUrl) return item.imageUrl;
 
-    return Paths.DEFAULT_APARTMENT_IMAGE_PATH;
+    return DefaultNewsImage.src;
   }, [item, imgError]);
 
   return (
@@ -47,28 +47,30 @@ export default function NewsItem({ item }: NewsItemProps) {
         target="_blank"
       >
         <div tw="w-full">
-          <div
-            tw="text-body_02 text-ellipsis overflow-hidden whitespace-nowrap mb-2"
-            dangerouslySetInnerHTML={{ __html: item.title }}
-            className="news-title"
-          />
-        </div>
-        <div tw="flex gap-4">
-          <div tw="relative w-[80px] h-[80px] min-w-[80px] min-h-[80px]">
-            <img
-              tw="w-full h-full absolute top-0 left-0 [object-fit: cover] rounded-lg border border-gray-300"
-              alt="단지 뉴스"
-              src={imgSrc}
-              loading="lazy"
-              onError={() => setImgError(true)}
-            />
-          </div>
-          <div tw="max-w-[240px] flex flex-col justify-between  text-gray-700">
-            <div tw="text-info line-clamp-2" dangerouslySetInnerHTML={{ __html: item.description }} />
+          <div tw="flex gap-4">
+            <div tw="relative w-[80px] h-[80px] min-w-[80px] min-h-[80px]">
+              <img
+                tw="w-full h-full absolute top-0 left-0 [object-fit: cover] rounded-lg"
+                alt="단지 뉴스"
+                src={imgSrc}
+                loading="lazy"
+                onError={() => setImgError(true)}
+              />
+            </div>
 
-            <div tw="flex">
-              {item.pubDate && <div tw="text-info">{moment(item.pubDate).format('YYYY-MM-DD')}</div>}
-              <p tw="ml-auto text-info [text-decoration-line: underline]">뉴스보러가기</p>
+            <div tw="flex flex-col">
+              <div
+                tw="text-subhead_02 line-clamp-1 mb-1"
+                dangerouslySetInnerHTML={{ __html: item.title }}
+                className="news-title"
+              />
+
+              <div
+                tw="text-body_01 text-gray-700 line-clamp-2"
+                dangerouslySetInnerHTML={{ __html: item.description }}
+              />
+
+              {item.pubDate && <div tw="text-info text-gray-600">{moment(item.pubDate).format('YYYY-MM-DD')}</div>}
             </div>
           </div>
         </div>

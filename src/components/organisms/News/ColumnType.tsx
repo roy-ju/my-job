@@ -14,22 +14,24 @@ function makeKey(v1: string, v2: string, v3: string, v4: number) {
   return `${v1}-${v2}-${v3}-${v4}`;
 }
 
-function ColumnType({ title = '단지뉴스', query, query2 }: { title?: string; query: string; query2: string }) {
-  const [page, setPage] = useState(1);
-
-  const { news, loading, error } = useFetchNews({ query, query2, page });
+function ColumnType({
+  title = '단지 최신 뉴스 TOP10',
+  query,
+  query2,
+}: {
+  title?: string;
+  query: string;
+  query2: string;
+}) {
+  const { news, loading, error } = useFetchNews({ query, query2, page: 1 });
 
   const { platform } = useCheckPlatform();
 
-  const [sliceDisplay, setSliceDisplay] = useState(5);
+  const [sliceDisplay, setSliceDisplay] = useState(3);
 
   const handleMoreView = () => {
-    if (page < 2) {
-      setPage(page + 1);
-    }
-
-    if (sliceDisplay < 20) {
-      setSliceDisplay((prev) => prev + 5);
+    if (sliceDisplay < 11) {
+      setSliceDisplay((prev) => prev + 7);
     }
 
     setTimeout(() => {
@@ -41,7 +43,7 @@ function ColumnType({ title = '단지뉴스', query, query2 }: { title?: string;
   };
 
   const handleCloseView = () => {
-    setSliceDisplay(5);
+    setSliceDisplay(3);
 
     setTimeout(() => {
       const container = document.getElementById('scroll-container');
@@ -63,7 +65,7 @@ function ColumnType({ title = '단지뉴스', query, query2 }: { title?: string;
       <h2 tw="font-bold text-b1 mb-1 px-5">{title}</h2>
 
       <div tw="flex flex-col">
-        {page === 1 && loading
+        {loading
           ? [1, 2, 3, 4, 5].map((item) => (
               <Fragment key={`${item}`}>
                 <Skeletons.NewsItem />
@@ -79,8 +81,8 @@ function ColumnType({ title = '단지뉴스', query, query2 }: { title?: string;
               ))}
       </div>
 
-      <div tw="w-full flex flex-col gap-4 px-5 mt-7 min-h-[48px]">
-        {!loading && sliceDisplay < 20 ? (
+      <div tw="w-full flex flex-col gap-4 px-5 mt-4 h-10">
+        {!loading && sliceDisplay < 10 ? (
           <Button variant="outlined" onClick={handleMoreView}>
             더보기
           </Button>
