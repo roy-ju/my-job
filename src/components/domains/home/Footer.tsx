@@ -6,6 +6,8 @@ import { Button } from '@/components/atoms';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
+import useIsNativeApp from '@/hooks/utils/useIsNativeApp';
+
 import Routes from '@/router/routes';
 
 import Paths from '@/constants/paths';
@@ -24,6 +26,8 @@ import GooglePlayIcon from '@/assets/icons/google_store.svg';
 
 export default function Footer() {
   const { platform } = useCheckPlatform();
+
+  const isNativeApp = useIsNativeApp();
 
   const router = useRouter();
 
@@ -86,20 +90,22 @@ export default function Footer() {
         </Button>
       </div>
 
-      <div tw="mb-2">
-        <div tw="flex gap-3">
-          <Button tw="flex-1 p-0" variant="outlined" size="big" onClick={handleClickAppStore}>
-            <AppleIcon tw="w-6 h-6 mr-2" />
-            <span tw="whitespace-nowrap">앱스토어에서 설치</span>
-          </Button>
-          <Button tw="flex-1 p-0" variant="outlined" size="big" onClick={handleClickGooglePlay}>
-            <GooglePlayIcon tw="w-6 h-6 mr-2" />
-            <span tw="whitespace-nowrap">구글플레이에서 설치</span>
-          </Button>
+      {!isNativeApp && (
+        <div>
+          <div tw="flex gap-3">
+            <Button tw="flex-1 p-0" variant="outlined" size="big" onClick={handleClickAppStore}>
+              <AppleIcon tw="w-6 h-6 mr-2" />
+              <span tw="whitespace-nowrap">앱스토어에서 설치</span>
+            </Button>
+            <Button tw="flex-1 p-0" variant="outlined" size="big" onClick={handleClickGooglePlay}>
+              <GooglePlayIcon tw="w-6 h-6 mr-2" />
+              <span tw="whitespace-nowrap">구글플레이에서 설치</span>
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div tw="flex items-center justify-center">
+      <div tw="flex items-center justify-center mt-2">
         <Button size="none" variant="ghost" tw="text-body_02 text-gray-700" onClick={handleClickPrivacyPolicy}>
           개인정보처리방침
         </Button>

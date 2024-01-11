@@ -1,5 +1,6 @@
-import Keys from '@/constants/storage_keys';
 import { useMemo } from 'react';
+
+import Keys from '@/constants/storage_keys';
 
 export default function useIsNativeApp() {
   return useMemo(() => {
