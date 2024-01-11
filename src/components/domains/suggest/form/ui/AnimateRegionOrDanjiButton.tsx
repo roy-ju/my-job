@@ -4,6 +4,12 @@ import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
 
+import Region from '@/../public/static/images/suggests/Region.png';
+
+import Danji from '@/../public/static/images/suggests/Danji.png';
+
+import { DanjiOrRegionalType } from '@/constants/enums';
+
 import { AnimationSpan } from './AnimationText';
 
 const Button = styled.button<{ selected?: boolean }>`
@@ -48,7 +54,7 @@ function AnimateRegionOrDanjiButton({
       <Image
         width={56}
         height={56}
-        src={value === '2' ? '/static/images/suggest_region.png' : '/static/images/suggest_danji.png'}
+        src={value === DanjiOrRegionalType.Regional.toString() ? Region : Danji}
         alt={`${title}선택 아이콘`}
         quality={75}
       />
