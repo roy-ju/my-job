@@ -1,12 +1,18 @@
-import { MobileContainer } from '@/components/atoms';
-import { ServiceInfo } from '@/components/templates';
-import useIsNativeApp from '@/hooks/utils/useIsNativeApp';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { memo } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { ServiceInfo } from '@/components/templates';
+
+import useIsNativeApp from '@/hooks/utils/useIsNativeApp';
+
+import Routes from '@/router/routes';
 
 export default memo(() => {
   const router = useRouter();
+
   const isNativeApp = useIsNativeApp();
 
   return (
