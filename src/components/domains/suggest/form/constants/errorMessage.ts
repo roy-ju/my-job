@@ -21,6 +21,8 @@ const ERROR_MESSAGE = {
 
   REQUIRE_ADDITIONAL_CONDITIONS: '추가 조건을 1개 이상 선택해주세요.',
 
+  REQUIRE_ADDITIONAL_CONDITIONS_UPDATE: '추가 조건을 1개 이상 선택또는 작성해주세요.',
+
   REQUIRE_INTERVIEW: '인터뷰 시간을 선택해주세요.',
 };
 

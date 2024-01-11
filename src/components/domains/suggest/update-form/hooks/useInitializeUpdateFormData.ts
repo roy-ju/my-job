@@ -72,6 +72,7 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
         ...(suggestData.move_in_date ? { move_in_date: suggestData.move_in_date } : {}),
         ...(suggestData.move_in_date_type ? { move_in_date_type: suggestData.move_in_date_type } : {}),
         ...(suggestData.note ? { note: suggestData.note } : {}),
+        ...(suggestData.additional_conditions ? { additional_conditions: suggestData.additional_conditions } : {}),
         ...(suggestData.interview_available_times
           ? { interview_available_times: suggestData.interview_available_times }
           : {}),
@@ -97,6 +98,7 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
             ...prev,
             forms: formArray,
             ...normalizedParams,
+            isPastAdditionalCondition: !!suggestData?.note,
           }));
         }
       }

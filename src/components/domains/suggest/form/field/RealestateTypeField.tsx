@@ -48,7 +48,7 @@ function RealestateTypeField({ isRender, needDiabledFields, realestateTypes, han
 
   return (
     <div
-      id={FIELD_ID.Realestate_field}
+      id={FIELD_ID.Realestate}
       tw="flex flex-row gap-2 pb-6 border-b border-b-gray-200"
       css={[needDiabledFields && tw`pointer-events-none`]}
     >

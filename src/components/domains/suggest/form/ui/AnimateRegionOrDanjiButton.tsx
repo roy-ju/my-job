@@ -46,7 +46,6 @@ function AnimateRegionOrDanjiButton({
     <Button key={value} value={value} onClick={handleClick} selected={selected}>
       <AnimationSpan>{title}</AnimationSpan>
       <Image
-        priority
         width={56}
         height={56}
         src={value === '2' ? '/static/images/suggest_region.png' : '/static/images/suggest_danji.png'}

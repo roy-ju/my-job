@@ -79,7 +79,9 @@ export default function suggestDanjiParams(args: Args) {
 
     pyoungs: args.pyoungList,
 
-    note: args.description,
+    note: '',
+
+    additional_conditions: args.description,
 
     interview_available_times: args.interviewAvailabletimes.join(),
   };

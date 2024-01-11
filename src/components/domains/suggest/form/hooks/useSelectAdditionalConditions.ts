@@ -27,9 +27,9 @@ import getIncludeValue from '../../utils/getIncludeValue';
 
 import addObjectIfKeyNotExists from '../../utils/addObjectIfKeyNotExists';
 
-export default function useSelectAddtionalConditons() {
-  const [additionalCondtions, setAdditionalCondtions] = useRecoilState<SuggestForm['additionalCondtions']>(
-    SuggestFormSelector('additionalCondtions'),
+export default function useSelectAdditionalConditions() {
+  const [additionalConditions, setadditionalConditions] = useRecoilState<SuggestForm['additionalConditions']>(
+    SuggestFormSelector('additionalConditions'),
   );
 
   const danjiOrRegion = useRecoilValue<SuggestForm['danjiOrRegion']>(SuggestFormSelector('danjiOrRegion'));
@@ -41,14 +41,14 @@ export default function useSelectAddtionalConditons() {
       if (e) {
         const { value } = e.currentTarget;
 
-        if (getIncludeValue(value, additionalCondtions)) {
-          setAdditionalCondtions((prev) => prev.filter((ele) => ele !== value));
+        if (getIncludeValue(value, additionalConditions)) {
+          setadditionalConditions((prev) => prev.filter((ele) => ele !== value));
         } else {
-          setAdditionalCondtions((prev) => [...prev, value]);
+          setadditionalConditions((prev) => [...prev, value]);
         }
       }
     },
-    [additionalCondtions, setAdditionalCondtions],
+    [additionalConditions, setadditionalConditions],
   );
 
   const list: { [key: string]: string[] }[] = useMemo(() => {
@@ -114,5 +114,5 @@ export default function useSelectAddtionalConditons() {
     return [];
   }, [buyOrRent, danjiOrRegion, realestateTypes]);
 
-  return { list, selectedList: additionalCondtions, handleClickHashTag };
+  return { list, selectedList: additionalConditions, handleClickHashTag };
 }

@@ -79,7 +79,9 @@ export default function suggestRegionParams(args: Args) {
 
     pyoung_to: undefined,
 
-    note: args.description,
+    note: '',
+
+    additional_conditions: args.description,
 
     interview_available_times: args.interviewAvailabletimes.join(),
   };

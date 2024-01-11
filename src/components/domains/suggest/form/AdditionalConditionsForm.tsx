@@ -1,11 +1,11 @@
 import AdditionalConditionsField from './field/AdditionalConditionsField';
 
-import useSelectAddtionalConditons from './hooks/useSelectAddtionalConditons';
+import useSelectAdditionalConditons from './hooks/useSelectAdditionalConditions';
 
 import forms from './constants/forms';
 
 export default function AdditionalConditionsForm() {
-  const { list, selectedList, handleClickHashTag } = useSelectAddtionalConditons();
+  const { list, selectedList, handleClickHashTag } = useSelectAdditionalConditons();
 
   return (
     <section id={forms.ADDITIONAL_CONDITIONS} tw="pt-10 pb-10 px-5">

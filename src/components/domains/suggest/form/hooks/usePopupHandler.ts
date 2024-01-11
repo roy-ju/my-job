@@ -131,7 +131,8 @@ export default function usePopupHandler() {
       investAmount: initialValues.investAmount,
       pyoungInput: initialValues.pyoungInput,
       pyoungList: initialValues.pyoungList,
-      additionalCondtions: initialValues.additionalCondtions,
+      note: initialValues.note,
+      additionalConditions: initialValues.additionalConditions,
       interviewAvailabletimes: initialValues.interviewAvailabletimes,
       popup: initialValues.popup as
         | 'regionList'
@@ -166,7 +167,8 @@ export default function usePopupHandler() {
       investAmount: initialValues.investAmount,
       pyoungInput: initialValues.pyoungInput,
       pyoungList: initialValues.pyoungList,
-      additionalCondtions: initialValues.additionalCondtions,
+      note: initialValues.note,
+      additionalConditions: initialValues.additionalConditions,
       interviewAvailabletimes: initialValues.interviewAvailabletimes,
       popup: initialValues.popup as
         | 'regionList'
