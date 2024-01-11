@@ -150,7 +150,7 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
   return (
     <Button variant={variant} onClick={ButtonObject[variant].onClick}>
       <h3 tw="text-subhead_03 text-gray-900">{ButtonObject[variant].title}</h3>
-      <p tw="mt-2 text-body_02 text-gray-700">{ButtonObject[variant].description}</p>
+      <p tw="mt-2 text-body_02 text-gray-700 whitespace-pre-line">{ButtonObject[variant].description}</p>
       <div tw="flex items-center justify-end">
         <Image width={58} height={58} quality={100} src={ButtonObject[variant].path} alt="" />
       </div>

@@ -20,11 +20,11 @@ import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-// import { useAuth } from '@/hooks/services';
+import { useAuth } from '@/hooks/services';
 
-// import toQueryString from '@/utils/newQueryString';
+import toQueryString from '@/utils/newQueryString';
 
-// import addQueryStringToUrl from '@/utils/addQueryStringToUrl';
+import addQueryStringToUrl from '@/utils/addQueryStringToUrl';
 
 import SuggestFormState from '../atoms/SuggestFormState';
 
@@ -53,7 +53,7 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
 
   const { platform } = useCheckPlatform();
 
-  // const { user } = useAuth();
+  const { user } = useAuth();
 
   const { mutate: dashBoardInfoMutate } = useFetchMyDashboardInfo();
 
@@ -266,24 +266,90 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
       errorMessagePyoungInput: '',
     }));
 
-    customRouter.replace(
-      Routes.SuggestForm,
-      {
-        searchParams: {
-          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-          forms: JSON.stringify([...state.forms, forms.SUMMARY]),
-          params: JSON.stringify(params),
+    if (platform === 'pc') {
+      customRouter.replace(
+        Routes.SuggestForm,
+        {
+          searchParams: {
+            ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+            ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+            forms: JSON.stringify([...state.forms, forms.SUMMARY]),
+            params: JSON.stringify(params),
+          },
         },
-      },
-      true,
-    );
-  }, [state, setState, customRouter, router]);
+        true,
+      );
+    }
+  }, [state, setState, platform, customRouter, router?.query?.entry, router?.query?.danjiID]);
 
   const handleSubmitCreate = useCallback(async () => {
     if (!state.danjiOrRegion) return;
 
     const params = createSubmitParams(state);
+
+    if (!user) {
+      if (platform === 'pc') {
+        customRouter.replaceCurrent(
+          Routes.Login,
+          {
+            persistParams: true,
+            searchParams: {
+              redirect: customRouter.asPath,
+            },
+          },
+          true,
+        );
+      } else {
+        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+          forms: JSON.stringify([...state.forms]),
+          params: JSON.stringify(params),
+        };
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+          query: {
+            redirect: addQueryStringToUrl(
+              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+            ),
+          },
+        });
+      }
+      return;
+    }
+
+    if (user && !user?.isVerified) {
+      if (platform === 'pc') {
+        customRouter.replaceCurrent(
+          Routes.VerifyCi,
+          {
+            persistParams: true,
+            searchParams: {
+              redirect: customRouter.asPath,
+            },
+          },
+          true,
+        );
+      } else {
+        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+          forms: JSON.stringify([...state.forms]),
+          params: JSON.stringify(params),
+        };
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+          query: {
+            redirect: addQueryStringToUrl(
+              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+            ),
+          },
+        });
+      }
+      return;
+    }
 
     if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Danji)) {
       try {
@@ -332,7 +398,7 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
         toast.error('등록 중 오류가 발생했습니다.');
       }
     }
-  }, [dashBoardInfoMutate, platform, router, state]);
+  }, [dashBoardInfoMutate, platform, router, state, user, customRouter]);
 
   const handleFormsAction = useCallback(() => {
     const lastForm = state.forms[state.forms.length - 1];
