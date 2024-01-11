@@ -40,7 +40,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     setRender('default');
   }, [nextRouter]);
 
-  const handleRedirect = () => {
+  const handleRedirect = useCallback(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
 
     const redirect = urlSearchParams.get('redirect');
@@ -50,9 +50,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         nextRouter.replace(redirect);
       }, 100);
     }
-  };
+  }, [nextRouter]);
 
-  if (!render) return null;
+  if (!render) return <Panel width={panelWidth} />;
 
   return render === 'auto' ? (
     <Panel width={panelWidth}>

@@ -1,8 +1,12 @@
-import { Button, Loading } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
-import { MyDetailForm } from '@/components/organisms';
-import { useRouter } from 'next/router';
 import { ChangeEventHandler } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { Button, Loading } from '@/components/atoms';
+
+import { NavigationHeader } from '@/components/molecules';
+
+import { MyDetailForm } from '@/components/organisms';
 
 interface MyDetailProps {
   nickname: string;

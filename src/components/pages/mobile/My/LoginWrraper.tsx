@@ -1,16 +1,28 @@
 /* eslint-disable consistent-return */
-import { loginWithApple } from '@/lib/apple';
-import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
-import { SocialLoginType } from '@/constants/enums';
-import login from '@/apis/user/login';
-import Routes from '@/router/routes';
-import { MobileContainer } from '@/components/atoms';
-import { Login as LoginTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
-import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
+
+import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { Login as LoginTemplate } from '@/components/templates';
+
+import { useAuth } from '@/hooks/services';
+
+import { loginWithApple } from '@/lib/apple';
+
+import Routes from '@/router/routes';
+
+import login from '@/apis/user/login';
+
+import { SocialLoginType } from '@/constants/enums';
+
+import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
+
 import ErrorCodes from '@/constants/error_codes';
+
 import { isMobile } from '@/utils/is';
 
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
@@ -110,22 +122,6 @@ export default function LoginWrraper({ ipAddress }: { ipAddress: string }) {
   const handleClickBack = useCallback(() => {
     if (typeof window !== 'undefined') {
       const canGoBack = window.history.length > 1;
-
-      if (router?.query?.redirect?.includes('/m/suggestRegionalSummary')) {
-        const redirectURL = router.query.redirect as string;
-
-        const url = redirectURL.replaceAll('suggestRegionalSummary', 'suggestRegionalForm');
-        router.replace(url);
-        return;
-      }
-
-      if (router?.query?.redirect?.includes('/m/danjiRecommendationSummary')) {
-        const redirectURL = router.query.redirect as string;
-
-        const url = redirectURL.replaceAll('danjiRecommendationSummary', 'danjiRecommendation');
-        router.replace(url);
-        return;
-      }
 
       if (canGoBack) {
         router.back();
