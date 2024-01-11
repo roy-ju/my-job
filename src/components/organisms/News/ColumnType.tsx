@@ -81,7 +81,7 @@ function ColumnType({
               ))}
       </div>
 
-      <div tw="w-full flex flex-col gap-4 px-5 mt-4 h-10">
+      <div tw="w-full flex flex-col gap-4 px-5 mt-1 h-10">
         {!loading && sliceDisplay < 10 ? (
           <Button variant="outlined" onClick={handleMoreView}>
             더보기
