@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { motion } from 'framer-motion';
 
-import Logo from '@/../public/static/images/home/image_logo.png';
+import Logo from '@/../public/static/images/home/animation_logo.gif';
 
 import Apartment from '@/../public/static/images/home/image_house_apartment.png';
 
@@ -19,6 +19,7 @@ import Buy from '@/../public/static/images/home/image_signboard_purchase.png';
 import Rent from '@/../public/static/images/home/image_signboard_rent.png';
 
 import { BuyOrRent, RealestateType } from '@/constants/enums';
+import Image from 'next/image';
 
 type FormImageProps = {
   property: string[];
@@ -59,8 +60,8 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
     apart: Apartment.src,
     officetel: Officetels.src,
     villa: Villa.src,
-    dandok: MultiFamilyHouse.src,
-    dagagoo: DetachedHouse.src,
+    dandok: DetachedHouse.src,
+    dagagoo: MultiFamilyHouse.src,
   };
 
   const BuyOrRentPaths: Record<string, string> = {
@@ -88,14 +89,11 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
           tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       ) : (
-        <motion.img
+        <Image
           key="logo"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          src={Logo.src}
-          width={100}
-          height={100}
+          src={Logo}
+          width={84}
+          height={20}
           alt=""
           tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
