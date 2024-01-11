@@ -27,6 +27,7 @@ export type DanjiSuggestListItem = {
   move_in_date: null | string;
   move_in_date_type: null | number;
   note: string;
+  additional_conditions: string;
   updated_time: string;
   created_time: string;
   view_count: number;

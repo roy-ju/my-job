@@ -1,10 +1,17 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
+
 import { Button, Chip, Moment, Numeral, StatusChip } from '@/components/atoms';
+
 import { ExpandableText, OverlayPresenter, Popup } from '@/components/molecules';
+
 import { DanjiOrRegionalType, RealestateType, BuyOrRent } from '@/constants/enums';
+
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
+
 import PriceText from './PriceText';
+
 import useMySuggestDetailStore from '../../hooks/useMySuggestDetailStore';
+
 import useSummaryCTAHandler from '../../hooks/useSummaryCTAHandler';
 
 export default function Summary() {
@@ -106,7 +113,21 @@ export default function Summary() {
           </div>
         </div>
 
-        {value.suggestDetailData?.note && <ExpandableText tw="mb-5">{value.suggestDetailData?.note}</ExpandableText>}
+        {value.suggestDetailData?.note && value.suggestDetailData?.additional_conditions && (
+          <ExpandableText tw="mb-5">
+            {value.suggestDetailData?.note}, {value.suggestDetailData.additional_conditions.split(',').join(', ')}
+          </ExpandableText>
+        )}
+
+        {value.suggestDetailData?.note && !value.suggestDetailData?.additional_conditions && (
+          <ExpandableText tw="mb-5">{value.suggestDetailData?.note}</ExpandableText>
+        )}
+
+        {!value.suggestDetailData?.note && value.suggestDetailData?.additional_conditions && (
+          <ExpandableText tw="mb-5">
+            {value.suggestDetailData.additional_conditions.split(',').join(', ')}
+          </ExpandableText>
+        )}
 
         <div tw="flex flex-col items-center  gap-4">
           <Button variant="outlined" tw="w-full" onClick={handleClickSuggestUpdate}>

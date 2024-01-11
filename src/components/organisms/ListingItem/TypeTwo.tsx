@@ -1,11 +1,16 @@
-import { Avatar, Chip, Numeral } from '@/components/atoms';
-import { convertRangeText } from '@/utils/fotmat';
 import tw from 'twin.macro';
-import ArrowRight from '@/assets/icons/arrow_right_16.svg';
-import ViewIcon from '@/assets/icons/view.svg';
+
+import { Avatar, Chip, Numeral } from '@/components/atoms';
+
 import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
 
+import { convertRangeText } from '@/utils/fotmat';
+
 import { formatCreatedTime } from '@/utils/formatsTime';
+
+import ArrowRight from '@/assets/icons/arrow_right_16.svg';
+
+import ViewIcon from '@/assets/icons/view.svg';
 
 function PriceText({
   tradeOrDepositPrice,
@@ -119,7 +124,19 @@ export default function TypeTwo({
               v2: item.pyoung_to,
             })}
           </div>
-          <div tw="break-all line-clamp-1"> {` ${item.note}` || ''}</div>
+
+          {item.note && item.additional_conditions && (
+            <div tw="break-all line-clamp-1">
+              {`${item.note}, ${item.additional_conditions.split(',').join(', ')}` || ''}
+            </div>
+          )}
+          {item.note && !item.additional_conditions && <div tw="break-all line-clamp-1">{`${item.note}`}</div>}
+
+          {!item.note && item.additional_conditions && (
+            <div tw="break-all line-clamp-1">
+              {`${item.additional_conditions.split(',').join(', ')}, ${item.note}` || ''}
+            </div>
+          )}
         </div>
       </div>
 
