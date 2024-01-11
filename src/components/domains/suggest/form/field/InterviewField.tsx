@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import { motion } from 'framer-motion';
+
 import { AnimationP } from '../ui/AnimationText';
 
 import CheckBoxButton from '../ui/CheckBoxButton';
@@ -19,7 +21,7 @@ type InterviewFieldProps = {
 
 function InterviewField({ selectedList, handleClick }: InterviewFieldProps) {
   return (
-    <>
+    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
       <div id={FIELD_ID.Interview} tw="flex flex-col gap-5">
         {interviews.map((item) => (
           <CheckBoxButton
@@ -34,7 +36,7 @@ function InterviewField({ selectedList, handleClick }: InterviewFieldProps) {
       <AnimationP tw="pl-7 text-body_01 text-nego-800 mt-0.5" transition={{ duration: 0.6 }}>
         {HELPER_MESSAGE.INTERVIEW}
       </AnimationP>
-    </>
+    </motion.div>
   );
 }
 

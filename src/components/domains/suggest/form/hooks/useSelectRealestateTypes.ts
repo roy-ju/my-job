@@ -32,8 +32,6 @@ export default function useSelectRealestateTypes() {
         const { value } = e.currentTarget;
 
         if (forms.length > 3) {
-          if (realestateTypes.includes(Number(value))) return;
-
           setPopup('realestateTypes');
           setUiRealestateType(value);
           return;
