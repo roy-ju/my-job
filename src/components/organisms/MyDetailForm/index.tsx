@@ -1,10 +1,17 @@
-import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
-import { TextField } from '@/components/molecules';
-import tw from 'twin.macro';
-import React, { ChangeEventHandler, useId } from 'react';
-import { NICKNAME_REGEX } from '@/constants/regex';
+/* eslint-disable @next/next/no-img-element */
+import { ChangeEventHandler, useId } from 'react';
+
 import Image, { StaticImageData } from 'next/image';
+
+import tw from 'twin.macro';
+
 import { toast } from 'react-toastify';
+
+import { Button, Separator as BaseSeparator, Ul } from '@/components/atoms';
+
+import { TextField } from '@/components/molecules';
+
+import { NICKNAME_REGEX } from '@/constants/regex';
 
 interface UpdatetableTextFieldProps {
   label: string;

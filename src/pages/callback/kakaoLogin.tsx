@@ -95,7 +95,7 @@ const Page: NextPage = ({ ipAddress }: InferGetServerSidePropsType<typeof getSer
   }, [handleLogin, handleEmailUpdate, router]);
 
   return (
-    <div tw="w-full h-full flex items-center justify-center">
+    <div tw="w-full h-full flex items-center justify-center bg-white">
       {!hasOpener ? (
         <div tw="flex flex-col items-center justify-center">
           <div tw="text-h2 font-medium mb-4 text-center">비정상적인 접근입니다.</div>
