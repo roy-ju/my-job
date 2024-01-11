@@ -12,9 +12,7 @@ export default function NewsItem() {
         <div tw=" flex flex-col justify-between gap-2 max-w-[240px] [width: 240px]">
           <Skeleton height="40px" />
 
-          <div tw="ml-auto">
-            <Skeleton width="60px" height="20px" />
-          </div>
+          <Skeleton width="60px" height="20px" />
         </div>
       </div>
     </div>
