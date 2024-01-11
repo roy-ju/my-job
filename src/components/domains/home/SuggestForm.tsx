@@ -14,9 +14,10 @@ import Routes from '@/router/routes';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
+import ToggleTag from '@/components/atoms/ToggleTag';
+
 import { RegionItem } from '@/components/organisms/RegionList';
 
-import ToggleTag from '@/components/atoms/ToggleTag';
 import FormImage from './FormImage';
 
 import isEqualValue from '../suggest/utils/isEqualValue';
