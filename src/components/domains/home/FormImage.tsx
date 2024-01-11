@@ -92,8 +92,8 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
         <Image
           key="logo"
           src={Logo}
-          width={84}
-          height={20}
+          width={100}
+          height={100}
           alt=""
           tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
