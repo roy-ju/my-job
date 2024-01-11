@@ -47,10 +47,12 @@ export default function normalizeParams(params: Record<string, unknown>) {
     params?.purpose === '투자'
       ? ''
       : (TimeTypeString[Number(params?.move_in_date_type ?? 1)] as '이전' | '이후' | '당일' | '');
-  /** 추가조건 */
+  /** 과거 추가조건  */
   const note = params?.note ? (params.note as string) : '';
-
-  const additionalConditions = (params?.additional_conditions || '').toString().split(',') as unknown as string[];
+  /** 추가조건 */
+  const additionalConditions = params?.additional_conditions
+    ? ((params.additional_conditions as string).toString().split(',') as unknown as string[])
+    : ([] as string[]);
   /** 인터뷰 가능 시간 */
   const interviewAvailabletimes = (params?.interview_available_times || '')
     .toString()
@@ -58,7 +60,6 @@ export default function normalizeParams(params: Record<string, unknown>) {
   /** 직접입력한 평 */
   const pyoungInput = '';
   /** 평 리스트 */
-
   const pyoungList = params?.danji_id
     ? (params.pyoungs as string[]) ?? []
     : ((params.pyoung_from as string).split(',') as string[]) ?? [];
