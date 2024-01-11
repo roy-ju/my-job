@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 
 import SelectTag from '@/components/atoms/SelectTag';
+
 import { AnimationP } from '../ui/AnimationText';
 
 import useIcons from '../hooks/useIcons';
@@ -24,7 +25,7 @@ function AdditionalConditionsField({ list, selectedList, handleClick }: Addition
 
   return (
     <>
-      <div id={FIELD_ID.additionalConditions} tw="flex flex-col gap-10 pb-10">
+      <div id={FIELD_ID.additionalConditions} tw="flex flex-col gap-10">
         {list.map((tags) => {
           const key = Object.keys(tags)[0];
           const items = tags[key];
