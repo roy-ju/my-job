@@ -24,6 +24,7 @@ export interface GetSuggestDetailResponse {
   move_in_date: string;
   move_in_date_type: number;
   note: string;
+  additional_conditions: string;
   updated_time: string;
   created_time: string;
   my_suggest: boolean;

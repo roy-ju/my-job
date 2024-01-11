@@ -24,7 +24,7 @@ function AdditionalConditionsField({ list, selectedList, handleClick }: Addition
 
   return (
     <>
-      <div id={FIELD_ID.AdditionalCondtions} tw="flex flex-col gap-10 pb-10">
+      <div id={FIELD_ID.additionalConditions} tw="flex flex-col gap-10 pb-10">
         {list.map((tags) => {
           const key = Object.keys(tags)[0];
           const items = tags[key];

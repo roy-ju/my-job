@@ -1,5 +1,5 @@
 const FIELD_ID = {
-  AdditionalCondtions: 'additional_conditions_field',
+  additionalConditions: 'additional_conditions_field',
 
   BuyOrRent: 'buy_or_rent_field',
 
@@ -21,7 +21,9 @@ const FIELD_ID = {
 
   SelectedPyoungList: 'selected_pyoung_list_field',
 
-  Realestate_field: 'realestate_field',
+  Realestate: 'realestate_field',
+
+  PastforwardAdditionalConditions: 'pastforward_additional_conditions_field',
 
   Interview: 'interview_field',
 

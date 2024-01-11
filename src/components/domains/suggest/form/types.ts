@@ -52,8 +52,9 @@ type SuggestForm = {
   /** 평수 */
   pyoungList: string[];
   /** 추가조건 */
-  additionalCondtions: string[];
-
+  note: string;
+  /** 추가조건 */
+  additionalConditions: string[];
   /** 인터뷰 가능 시간 */
   interviewAvailabletimes: string[];
   /** 보증금 또는 매매가 에러메세지 */
@@ -65,11 +66,14 @@ type SuggestForm = {
   /** 평수 제안 에러상태 */
   errorMessagePyoungInput: string;
 
-  /** 과거 유저가 입력한 추가조건 */
+  /** ui 거래조건 */
   uiBuyOrRent?: BuyOrRent | 0;
 
-  /** 과거 유저가 입력한 추가조건 */
+  /** ui 부동산 */
   uiRealestateType?: string;
+
+  /** ui 추가조건 (수정에서만 쓰임) */
+  isPastAdditionalCondition?: boolean;
 
   popup:
     | 'regionList'

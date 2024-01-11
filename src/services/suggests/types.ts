@@ -30,6 +30,7 @@ export type SuggestDetailResponse = {
   created_time: string;
   my_suggest: boolean;
   has_active_chat_room: boolean;
+  additional_conditions: string;
   view_count: number;
   interview_available_times: string;
 };

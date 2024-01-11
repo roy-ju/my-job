@@ -97,8 +97,8 @@ export default function checkFinalValidation(state: SuggestForm, formType: 'crea
 
   if (formType === 'create') {
     if (
-      !state.additionalCondtions ||
-      (state.additionalCondtions && isEqualValue(state.additionalCondtions.length, 0))
+      !state.additionalConditions ||
+      (state.additionalConditions && isEqualValue(state.additionalConditions.length, 0))
     ) {
       errorHandlingWithElement({
         elementID: forms.ADDITIONAL_CONDITIONS,
@@ -110,12 +110,13 @@ export default function checkFinalValidation(state: SuggestForm, formType: 'crea
 
   if (formType === 'update') {
     if (
-      !state.additionalCondtions ||
-      (state.additionalCondtions && isEqualValue(state.additionalCondtions.length, 0))
+      (!state.additionalConditions ||
+        (state.additionalConditions && isEqualValue(state.additionalConditions.length, 0))) &&
+      !state.note
     ) {
       errorHandlingWithElement({
         elementID: forms.ADDITIONAL_CONDITIONS,
-        errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS,
+        errorMessage: ERROR_MESSAGE.REQUIRE_ADDITIONAL_CONDITIONS_UPDATE,
       });
       return false;
     }

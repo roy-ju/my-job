@@ -28,7 +28,7 @@ export default function createSubmitParams(state: SuggestForm) {
         .map((item) => Number(item))
         .sort((a, b) => a - b)
         .map((item) => item.toString()),
-      description: state.additionalCondtions.join(','),
+      description: state.additionalConditions.join(','),
       interviewAvailabletimes: state.interviewAvailabletimes,
     });
   }
@@ -47,7 +47,7 @@ export default function createSubmitParams(state: SuggestForm) {
       investAmount: state.investAmount,
       moveInDate: state.moveInDate,
       moveInDateType: state.moveInDateType,
-      description: state.additionalCondtions.join(','),
+      description: state.additionalConditions.join(','),
       interviewAvailabletimes: state.interviewAvailabletimes,
     });
   }

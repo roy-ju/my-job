@@ -22,6 +22,7 @@ interface Args {
   purpose: string;
   moveInDate: Date | null;
   moveInDateType: string;
+  note: string;
   additionalConditions: string[];
   interviewAvailabletimes: string[];
 }
@@ -53,7 +54,8 @@ export default function suggestUpdateParams(args: Args) {
       move_in_date: isEqualValue(args.purpose, '투자') ? null : args.moveInDate?.toISOString(),
       move_in_date_type: isEqualValue(args.purpose, '투자') ? null : getDateType(args.moveInDateType),
       pyoungs: [...args.pyoungList].sort((a, b) => Number(a) - Number(b)).join(),
-      note: [...args.additionalConditions].join(),
+      note: args.note,
+      additional_conditions: [...args.additionalConditions].join(),
       interview_available_times: [...args.interviewAvailabletimes].join(),
     };
 
@@ -87,7 +89,8 @@ export default function suggestUpdateParams(args: Args) {
       move_in_date_type: isEqualValue(args.purpose, '투자') ? null : getDateType(args.moveInDateType),
       pyoung_from: [...args.pyoungList].join(),
       pyoung_to: undefined,
-      note: [...args.additionalConditions].join(),
+      note: args.note,
+      additional_conditions: [...args.additionalConditions].join(),
       interview_available_times: [...args.interviewAvailabletimes].join(),
     };
 

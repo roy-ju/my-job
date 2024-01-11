@@ -31,7 +31,7 @@ export default function useGetSummary() {
     monthlyRentFee,
     tradeOrDepositPrice,
     pyoungList,
-    additionalCondtions,
+    additionalConditions,
     interviewAvailabletimes,
   } = useRecoilValue(SuggestFormState);
 
@@ -119,12 +119,12 @@ export default function useGetSummary() {
   }, [danjiOrRegion, pyoungList]);
 
   const addtionalCondtionsData = useCallback(() => {
-    if (additionalCondtions && additionalCondtions.length > 0) {
-      return additionalCondtions.join(' / ');
+    if (additionalConditions && additionalConditions.length > 0) {
+      return additionalConditions.join(' / ');
     }
 
     return '';
-  }, [additionalCondtions]);
+  }, [additionalConditions]);
 
   const interviewAvailabletimesData = useCallback(() => {
     if (interviewAvailabletimes && interviewAvailabletimes.length > 0) {

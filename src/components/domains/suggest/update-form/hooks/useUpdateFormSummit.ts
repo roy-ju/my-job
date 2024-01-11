@@ -98,7 +98,8 @@ export default function useUpdateFormSummitButton({ depth }: { depth?: number })
       purpose: state.purpose,
       moveInDate: state.moveInDate,
       moveInDateType: state.moveInDateType,
-      additionalConditions: state.additionalCondtions,
+      note: state.note,
+      additionalConditions: state.additionalConditions,
       interviewAvailabletimes: state.interviewAvailabletimes,
     });
 
@@ -137,7 +138,7 @@ export default function useUpdateFormSummitButton({ depth }: { depth?: number })
   //       return true;
   //     }
 
-  //     if (isEqualValue(state.additionalCondtions.length, 0)) {
+  //     if (isEqualValue(state.additionalConditions.length, 0)) {
   //       return true;
   //     }
 
@@ -181,7 +182,7 @@ export default function useUpdateFormSummitButton({ depth }: { depth?: number })
   //       return true;
   //     }
 
-  //     if (isEqualValue(state.additionalCondtions.length, 0)) {
+  //     if (isEqualValue(state.additionalConditions.length, 0)) {
   //       return true;
   //     }
 
@@ -194,7 +195,7 @@ export default function useUpdateFormSummitButton({ depth }: { depth?: number })
 
   //   return true;
   // }, [
-  //   state.additionalCondtions.length,
+  //   state.additionalConditions.length,
   //   state.danjiOrRegion,
   //   state.errorMessageInvestAmountPrice,
   //   state.errorMessageMonthlyRentFeePrice,

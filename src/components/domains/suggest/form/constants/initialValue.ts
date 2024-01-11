@@ -19,7 +19,8 @@ const initialValues = {
   moveInDateType: '',
   pyoungList: [],
   pyoungInput: '',
-  additionalCondtions: [],
+  note: '',
+  additionalConditions: [],
   interviewAvailabletimes: [],
 
   popup: '',

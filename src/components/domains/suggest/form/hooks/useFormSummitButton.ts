@@ -20,11 +20,11 @@ import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-import { useAuth } from '@/hooks/services';
+// import { useAuth } from '@/hooks/services';
 
-import toQueryString from '@/utils/newQueryString';
+// import toQueryString from '@/utils/newQueryString';
 
-import addQueryStringToUrl from '@/utils/addQueryStringToUrl';
+// import addQueryStringToUrl from '@/utils/addQueryStringToUrl';
 
 import SuggestFormState from '../atoms/SuggestFormState';
 
@@ -53,7 +53,7 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
 
   const { platform } = useCheckPlatform();
 
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const { mutate: dashBoardInfoMutate } = useFetchMyDashboardInfo();
 
@@ -105,7 +105,7 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
     }
 
     if (isEqualValue(currentForm, forms.ADDITIONAL_CONDITIONS)) {
-      return getValidArrayField(state.additionalCondtions);
+      return getValidArrayField(state.additionalConditions);
     }
 
     if (isEqualValue(currentForm, forms.INTERVIEW)) {
@@ -115,7 +115,7 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
     return false;
   }, [
     currentForm,
-    state.additionalCondtions,
+    state.additionalConditions,
     state.buyOrRent,
     state.danjiOrRegion,
     state.errorMessageInvestAmountPrice,
@@ -176,85 +176,85 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
   const handleSubmitInterview = useCallback(() => {
     if (!checkFinalValidation(state)) return;
 
+    // if (!user) {
+    //   const willBindQueryParamsIfNotUserOrNotVerified = {
+    //     forms: JSON.stringify([...state.forms]),
+    //     params: JSON.stringify(params),
+    //   };
+    //   if (platform === 'pc') {
+    //     customRouter.replaceCurrent(
+    //       Routes.Login,
+    //       {
+    //         persistParams: true,
+    //         searchParams: {
+    //           redirect: addQueryStringToUrl(
+    //             customRouter.asPath,
+    //             toQueryString(willBindQueryParamsIfNotUserOrNotVerified),
+    //           ),
+    //         },
+    //       },
+    //       true,
+    //     );
+    //   } else {
+    //     const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+    //       ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+    //       ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+    //       forms: JSON.stringify([...state.forms]),
+    //       params: JSON.stringify(params),
+    //     };
+    //     router.push({
+    //       pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+    //       query: {
+    //         redirect: addQueryStringToUrl(
+    //           `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+    //           toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+    //         ),
+    //       },
+    //     });
+    //   }
+    //   return;
+    // }
+
+    // if (user && !user?.isVerified) {
+    //   const willBindQueryParamsIfNotUserOrNotVerified = {
+    //     forms: JSON.stringify([...state.forms]),
+    //     params: JSON.stringify(params),
+    //   };
+    //   if (platform === 'pc') {
+    //     customRouter.replaceCurrent(
+    //       Routes.VerifyCi,
+    //       {
+    //         persistParams: true,
+    //         searchParams: {
+    //           redirect: addQueryStringToUrl(
+    //             customRouter.asPath,
+    //             toQueryString(willBindQueryParamsIfNotUserOrNotVerified),
+    //           ),
+    //         },
+    //       },
+    //       true,
+    //     );
+    //   } else {
+    //     const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+    //       ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+    //       ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+    //       forms: JSON.stringify([...state.forms]),
+    //       params: JSON.stringify(params),
+    //     };
+    //     router.push({
+    //       pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+    //       query: {
+    //         redirect: addQueryStringToUrl(
+    //           `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+    //           toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+    //         ),
+    //       },
+    //     });
+    //   }
+    //   return;
+    // }
+
     const params = createSubmitParams(state);
-
-    if (!user) {
-      const willBindQueryParamsIfNotUserOrNotVerified = {
-        forms: JSON.stringify([...state.forms]),
-        params: JSON.stringify(params),
-      };
-      if (platform === 'pc') {
-        customRouter.replaceCurrent(
-          Routes.Login,
-          {
-            persistParams: true,
-            searchParams: {
-              redirect: addQueryStringToUrl(
-                customRouter.asPath,
-                toQueryString(willBindQueryParamsIfNotUserOrNotVerified),
-              ),
-            },
-          },
-          true,
-        );
-      } else {
-        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
-          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-          forms: JSON.stringify([...state.forms]),
-          params: JSON.stringify(params),
-        };
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-          query: {
-            redirect: addQueryStringToUrl(
-              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
-              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
-            ),
-          },
-        });
-      }
-      return;
-    }
-
-    if (user && !user?.isVerified) {
-      const willBindQueryParamsIfNotUserOrNotVerified = {
-        forms: JSON.stringify([...state.forms]),
-        params: JSON.stringify(params),
-      };
-      if (platform === 'pc') {
-        customRouter.replaceCurrent(
-          Routes.VerifyCi,
-          {
-            persistParams: true,
-            searchParams: {
-              redirect: addQueryStringToUrl(
-                customRouter.asPath,
-                toQueryString(willBindQueryParamsIfNotUserOrNotVerified),
-              ),
-            },
-          },
-          true,
-        );
-      } else {
-        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
-          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-          forms: JSON.stringify([...state.forms]),
-          params: JSON.stringify(params),
-        };
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-          query: {
-            redirect: addQueryStringToUrl(
-              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
-              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
-            ),
-          },
-        });
-      }
-      return;
-    }
 
     setState((prev) => ({
       ...prev,
@@ -278,7 +278,7 @@ export default function useFormSummitButton({ depth }: { depth?: number }) {
       },
       true,
     );
-  }, [state, user, setState, customRouter, router, platform]);
+  }, [state, setState, customRouter, router]);
 
   const handleSubmitCreate = useCallback(async () => {
     if (!state.danjiOrRegion) return;

@@ -21,12 +21,12 @@ import SuggestFormState from '../atoms/SuggestFormState';
 import normalizeParams from '../../utils/normalizeParams';
 
 function propertyToRealestateType(val: string) {
-  if (val === '아파트') return 10;
-  if (val === '오피스텔') return 20;
-  if (val === '빌라' || val === '다세대') return 30;
-  if (val === '연립') return 40;
-  if (val === '단독') return 50;
-  if (val === '다가구') return 60;
+  if (val === '아파트') return RealestateType.Apartment;
+  if (val === '오피스텔') return RealestateType.Officetel;
+  if (val === '빌라' || val === '다세대') return RealestateType.Dasaedae;
+  if (val === '연립') return RealestateType.Yunrip;
+  if (val === '단독') return RealestateType.Dandok;
+  if (val === '다가구') return RealestateType.Dagagoo;
   return 0;
 }
 
