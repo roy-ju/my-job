@@ -1,8 +1,13 @@
-import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
-import Routes from '@/router/routes';
+import { useCallback, useEffect, useState } from 'react';
+
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+
+import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
+
+import Routes from '@/router/routes';
+
 import RealPriceDetailContent from '../RealPriceDetail/RealPriceDetailContent';
+
 import ReapPriceDetailHeader from '../RealPriceDetail/ReapPriceDetailHeader';
 
 export default function MobRealPriceDetail() {
@@ -36,9 +41,19 @@ export default function MobRealPriceDetail() {
     );
   };
 
-  const onClickBack = () => {
-    router.back();
-  };
+  const handleClickBack = useCallback(() => {
+    const canGoBack = window.history.length > 1;
+
+    if (canGoBack) {
+      router.back();
+    } else {
+      router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
+    }
+  }, [router]);
+
+  const handleClickTitle = useCallback(() => {
+    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
+  }, [router]);
 
   useEffect(() => {
     if (router?.query?.bor) {
@@ -59,7 +74,8 @@ export default function MobRealPriceDetail() {
         onChangeBuyOrRent={onChangeBuyOrRent}
         onChangeSelectedYear={onChangeSelectedYear}
         onClickSelectPage={onClickSelectPage}
-        onClickBack={onClickBack}
+        onClickBack={handleClickBack}
+        onClickTitle={handleClickTitle}
       />
       <div tw="overflow-y-auto">
         <RealPriceDetailContent danji={danji} buyOrRent={buyOrRent || 1} selectedYear={selectedYear || 3} />
