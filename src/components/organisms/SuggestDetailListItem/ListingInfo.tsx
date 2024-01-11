@@ -1,8 +1,13 @@
-import { Chip, Moment, Numeral } from '@/components/atoms';
-import React, { useMemo } from 'react';
-import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
+import { useMemo } from 'react';
+
 import { styled } from 'twin.macro';
+
+import { Chip, Moment, Numeral } from '@/components/atoms';
+
+import { GetSuggestDetailResponse } from '@/apis/suggest/getSuggestDetail';
+
 import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
+
 import { RealestateTypeChipVariant, RealestateTypeString, TimeTypeString } from '@/constants/strings';
 
 import { Table } from '@/components/molecules';
@@ -118,10 +123,30 @@ export default function ListingInfo({ data }: Props) {
                 </Table.Row>
               )}
 
-              {data?.note && (
+              {data?.note && data?.additional_conditions && (
+                <>
+                  <Table.Row tw="flex ">
+                    <Table.Head tw="max-w-[84px] mr-1">요청사항1</Table.Head>
+                    <Table.Data tw="w-full">{data.note}</Table.Data>
+                  </Table.Row>
+                  <Table.Row tw="flex ">
+                    <Table.Head tw="max-w-[84px] mr-1">요청사항2</Table.Head>
+                    <Table.Data tw="w-full">{data.additional_conditions.split(',').join(', ')}</Table.Data>
+                  </Table.Row>
+                </>
+              )}
+
+              {data?.note && !data?.additional_conditions && (
                 <Table.Row tw="flex ">
-                  <Table.Head tw="max-w-[84px] mr-1">요청사항</Table.Head>
+                  <Table.Head tw="max-w-[84px] mr-1">요청사항1</Table.Head>
                   <Table.Data tw="w-full">{data?.note}</Table.Data>
+                </Table.Row>
+              )}
+
+              {!data?.note && data?.additional_conditions && (
+                <Table.Row tw="flex ">
+                  <Table.Head tw="max-w-[84px] mr-1">요청사항1</Table.Head>
+                  <Table.Data tw="w-full">{data.additional_conditions.split(',').join(', ')}</Table.Data>
                 </Table.Row>
               )}
             </Table.Body>

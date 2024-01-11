@@ -1,7 +1,10 @@
-import { useControlled } from '@/hooks/utils';
 import { HTMLAttributes, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import ChevronDown from '@/assets/icons/chevron_down.svg';
+
 import tw from 'twin.macro';
+
+import { useControlled } from '@/hooks/utils';
+
+import ChevronDown from '@/assets/icons/chevron_down.svg';
 
 interface ExpandableTextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   expanded?: boolean;
@@ -27,6 +30,7 @@ export default function ExpandableText({
 
   useEffect(() => {
     if (!ref.current) return;
+
     if (ref.current.scrollHeight > ref.current.clientHeight) {
       setShowExpandButton(true);
     } else {
@@ -44,7 +48,7 @@ export default function ExpandableText({
 
   return (
     <div tw="flex justify-between gap-4 w-full text-gray-1000 text-info" {...others}>
-      <p ref={ref} tw="break-all text-left  flex-1" css={[expanded === false && tw`line-clamp-1`]}>
+      <p ref={ref} tw="break-all text-left flex-1" css={[expanded === false && tw`line-clamp-1`]}>
         {children}
       </p>
       {showExpandButton && (
