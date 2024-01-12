@@ -91,7 +91,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm({
           errorMessage={errorMessageMonthlyRentFeePrice}
           handleChange={handleChangeMonthlyRentFee}
           handleReset={handleResetMonthlyRentFee}
-          helperMessage="월세인 경우에만 금액을 입력해주세요."
+          helperMessage="전세인 경우 보증금액만 입력해주세요."
         />
       </div>
       <NegotiableField
