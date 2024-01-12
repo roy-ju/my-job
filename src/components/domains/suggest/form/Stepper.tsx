@@ -37,10 +37,8 @@ export default function Stepper() {
     return false;
   }, [currentIndex]);
 
-  console.log(currentIndex);
-
   return (
-    <div tw="p-5 pb-8 [box-shadow: 0px 16px 24px 0px #00000014]">
+    <div tw="p-5 pb-8">
       <div tw="flex items-center justify-center mb-6" css={[hidden && tw`hidden`]}>
         <AnimateStepperNumber active={getStep(0, currentIndex) === 'current'}>
           {getStep(0, currentIndex) === 'prev' ? (
