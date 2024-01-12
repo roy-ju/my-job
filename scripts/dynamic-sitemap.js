@@ -15,7 +15,7 @@ const headerSitemapIndex = `<sitemapindex xmlns="${xmlnsURL}">`;
 const Routes = {
   MAP: 'map',
   INTRO: 'intro',
-  RECOMMENDATION: 'recommendation',
+  SUGGESTGUIDE: 'suggestGuide',
   LAWQNA: 'lawQna',
   CHATROOMLIST: 'chatRoomList',
   LOGIN: 'login',
@@ -53,7 +53,7 @@ const sitemapBaseXMLList = [
   { locValue: mobileBaseURL, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.MAP}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.INTRO}`, lastmodValue, priorityValue },
-  { locValue: `${mobileBaseURL}/${Routes.RECOMMENDATION}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUGGESTGUIDE}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.LAWQNA}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.CHATROOMLIST}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.LOGIN}`, lastmodValue, priorityValue },
