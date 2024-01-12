@@ -38,6 +38,7 @@ function PriceTypeField({ isRender, quickSale, handleChange }: PriceTypeFieldPro
             value="1"
             label="급매물 구해요"
             onChange={handleChange}
+            size="large"
           />
         </motion.div>
         <AnimationP transition={{ duration: 0.6 }} tw="text-gray-600 text-body_01 pl-7">
@@ -57,6 +58,7 @@ function PriceTypeField({ isRender, quickSale, handleChange }: PriceTypeFieldPro
             value="0"
             label="이 가격에 구해요"
             onChange={handleChange}
+            size="large"
           />
         </motion.div>
       </div>
