@@ -25,7 +25,11 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   const handleGoBack = useCallback(() => {
-    router.replace(Routes.ServiceInfo);
+    if (router?.query?.entry === Routes.Home) {
+      router.replace('/');
+    } else {
+      router.replace(Routes.ServiceInfo);
+    }
   }, [router]);
 
   return (

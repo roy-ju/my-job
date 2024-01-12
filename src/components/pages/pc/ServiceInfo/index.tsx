@@ -1,7 +1,11 @@
-import { Panel } from '@/components/atoms';
 import { memo, useCallback } from 'react';
+
+import { Panel } from '@/components/atoms';
+
 import { ServiceInfo as ServiceInfoTemplate } from '@/components/templates';
+
 import { useRouter } from '@/hooks/utils';
+
 import Routes from '@/router/routes';
 
 interface Props {
@@ -20,9 +24,14 @@ export default memo(({ depth, panelWidth }: Props) => {
     router.replace(Routes.TermsAndPolicy);
   }, [router]);
 
+  const handleClickBack = useCallback(() => {
+    router.replace('/');
+  }, [router]);
+
   return (
     <Panel width={panelWidth}>
       <ServiceInfoTemplate
+        onClickBack={handleClickBack}
         onClickBusinessInfo={handleClickBusinessInfo}
         onClickTermsAndPolicy={handleClickTermsAndPolicy}
       />

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -15,6 +15,18 @@ export default memo(() => {
 
   const isNativeApp = useIsNativeApp();
 
+  const handleClickBack = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}`);
+      }
+    }
+  }, [router]);
+
   return (
     <MobileContainer>
       <ServiceInfo
@@ -24,9 +36,7 @@ export default memo(() => {
           isNativeApp ? () => router.push(`/${Routes.EntryMobile}/${Routes.OpenSourceLicenses}`) : undefined
         }
         onClickVersionInfo={isNativeApp ? () => router.push(`/${Routes.EntryMobile}/${Routes.VersionInfo}`) : undefined}
-        // onClickOpenSourceLicense={() => router.push(`/${Routes.EntryMobile}/${Routes.OpenSourceLicenses}`)}
-        // onClickVersionInfo={() => router.push(`/${Routes.EntryMobile}/${Routes.VersionInfo}`)}
-        onClickBack={() => router.back()}
+        onClickBack={handleClickBack}
       />
     </MobileContainer>
   );

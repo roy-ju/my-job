@@ -1,10 +1,16 @@
-import { Panel } from '@/components/atoms';
 import { memo, useCallback, useState } from 'react';
+
+import { Panel } from '@/components/atoms';
+
 import { LocationTerms as LocationTermsTemplate } from '@/components/templates';
+
 import { useRouter } from '@/hooks/utils';
-import HTML_20221103 from '@/assets/terms/location_agreement/20221103';
-import HTML_20221017 from '@/assets/terms/location_agreement/20221017';
+
 import Routes from '@/router/routes';
+
+import HTML_20221103 from '@/assets/terms/location_agreement/20221103';
+
+import HTML_20221017 from '@/assets/terms/location_agreement/20221017';
 
 interface Props {
   depth: number;
@@ -32,7 +38,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   );
 
   const handleGoBack = useCallback(() => {
-    if (router.query.register)
+    if (router.query.register) {
       router.replace(Routes.Register, {
         state: {
           email: router.query.email as string,
@@ -40,7 +46,9 @@ export default memo(({ depth, panelWidth }: Props) => {
           socialLoginType: router.query.socialLoginType as string,
         },
       });
-    else router.replace(Routes.TermsAndPolicy);
+    } else {
+      router.replace(Routes.TermsAndPolicy);
+    }
   }, [router]);
 
   return (

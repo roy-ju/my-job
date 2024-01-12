@@ -228,8 +228,6 @@ export default function usePopupHandler() {
     }
   }, [router?.query?.entry, router?.query?.property]);
 
-  console.log(filterQuery);
-
   return {
     popup: state.popup,
     isFilter,
