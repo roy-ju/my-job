@@ -14,6 +14,8 @@ import useClientAccordionHandler from '../../hooks/useClientAccordionHandler';
 export function UserAgentSummary() {
   const { open, subTab, accordionDetails, setOpen, setSubTab } = useClientAccordionHandler();
 
+  console.log(subTab);
+
   return (
     <Accordion
       tw="absolute w-full top-14 z-10 border-b border-t border-gray-300"
@@ -84,7 +86,7 @@ export function UserAgentSummary() {
             <Accordion.Summary
               tw="text-body_01 py-3"
               isNewIconSmallV2
-              css={[subTab !== 2 && tw`border-b border-gray-300 [transition: border 0.3s ease 045s]`]}
+              css={[subTab !== 2 && tw`border-b border-gray-300 [transition: border 0.3s ease 0.4s]`]}
             >
               <NegotiationItemCardHeader count={accordionDetails?.listingItem2Count || 0} />
             </Accordion.Summary>

@@ -18,7 +18,7 @@ export function ListingItemCard({ item }: Omit<ListingItemCardProps, 'count'>) {
   return (
     <button
       type="button"
-      tw="w-full [text-align: left] h-14 flex flex-row bg-white px-4 py-2 [box-shadow: 0px 2px 10px 0px #0000000F] [border-radius: 8px] items-center hover:bg-gray-300 cursor-pointer"
+      tw="w-full [text-align: left] h-14 flex flex-row bg-white px-4 py-2 [border-radius: 8px] items-center hover:bg-gray-300 cursor-pointer"
       onClick={() => {
         onClickNavigateToListingDetail?.(item.listing_id, item.bidding_id);
       }}
