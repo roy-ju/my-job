@@ -146,7 +146,7 @@ const Routes = {
   Home: 'home',
 
   // 과거 매물추천과 관련된 Routes들 존재하면 안되는 페이지
-  PAST_RecommedationGuide: 'recommendationGuide',
+  PAST_RecommedationGuide: 'recommendGuide',
 
   PAST_RecommendationForm: 'recommendationForm',
 
