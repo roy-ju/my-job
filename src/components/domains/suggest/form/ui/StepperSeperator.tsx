@@ -2,8 +2,8 @@ import tw, { styled } from 'twin.macro';
 
 const selectedStyles = {
   prev: tw`bg-nego-800`,
-  current: tw`bg-nego-800 text-nego-800`,
-  next: tw`bg-nego-300`,
+  current: tw`bg-gray-400`,
+  next: tw`bg-gray-400`,
   another: tw`bg-gray-400`,
 };
 
