@@ -44,63 +44,63 @@ export default function Stepper() {
       <div tw="flex items-center justify-center mb-6" css={[hidden && tw`hidden`]}>
         <AnimateStepperNumber active={getStep(0, currentIndex) === 'current'}>
           {getStep(0, currentIndex) === 'prev' ? (
-            <StepChecked />
+            <StepChecked color={getColor(0, 1)} />
           ) : (
             <StepOne
               color={getColor(1, currentIndex)}
-              css={[getStep(0, currentIndex) === 'current' && tw`[width: 26px] [height: 26px]`]}
+              css={[getStep(0, currentIndex) === 'current' && tw`[width: 24px] [height: 24px]`]}
+            />
+          )}
+        </AnimateStepperNumber>
+
+        <StepperSeperator step={getStep(0, currentIndex)} />
+
+        <AnimateStepperNumber active={getStep(1, currentIndex) === 'current'}>
+          {getStep(1, currentIndex) === 'prev' ? (
+            <StepChecked color={getColor(0, 1)} />
+          ) : (
+            <StepTwo
+              color={getColor(2, currentIndex)}
+              css={[getStep(1, currentIndex) === 'current' && tw`[width: 24px] [height: 24px]`]}
+            />
+          )}
+        </AnimateStepperNumber>
+
+        <StepperSeperator step={getStep(1, currentIndex)} />
+
+        <AnimateStepperNumber active={getStep(2, currentIndex) === 'current'}>
+          {getStep(2, currentIndex) === 'prev' ? (
+            <StepChecked color={getColor(0, 1)} />
+          ) : (
+            <StepThree
+              color={getColor(3, currentIndex)}
+              css={[getStep(2, currentIndex) === 'current' && tw`[width: 24px] [height: 24px]`]}
             />
           )}
         </AnimateStepperNumber>
 
         <StepperSeperator step={getStep(2, currentIndex)} />
 
-        <AnimateStepperNumber active={getStep(1, currentIndex) === 'current'}>
-          {getStep(1, currentIndex) === 'prev' ? (
-            <StepChecked />
+        <AnimateStepperNumber active={getStep(3, currentIndex) === 'current'}>
+          {getStep(3, currentIndex) === 'prev' ? (
+            <StepChecked color={getColor(0, 1)} />
           ) : (
-            <StepTwo
-              color={getColor(2, currentIndex)}
-              css={[getStep(1, currentIndex) === 'current' && tw`[width: 26px] [height: 26px]`]}
+            <StepFour
+              color={getColor(4, currentIndex)}
+              css={[getStep(3, currentIndex) === 'current' && tw`[width: 24px] [height: 24px]`]}
             />
           )}
         </AnimateStepperNumber>
 
         <StepperSeperator step={getStep(3, currentIndex)} />
 
-        <AnimateStepperNumber active={getStep(2, currentIndex) === 'current'}>
-          {getStep(2, currentIndex) === 'prev' ? (
-            <StepChecked />
-          ) : (
-            <StepThree
-              color={getColor(3, currentIndex)}
-              css={[getStep(2, currentIndex) === 'current' && tw`[width: 26px] [height: 26px]`]}
-            />
-          )}
-        </AnimateStepperNumber>
-
-        <StepperSeperator step={getStep(4, currentIndex)} />
-
-        <AnimateStepperNumber active={getStep(3, currentIndex) === 'current'}>
-          {getStep(3, currentIndex) === 'prev' ? (
-            <StepChecked />
-          ) : (
-            <StepFour
-              color={getColor(4, currentIndex)}
-              css={[getStep(3, currentIndex) === 'current' && tw`[width: 26px] [height: 26px]`]}
-            />
-          )}
-        </AnimateStepperNumber>
-
-        <StepperSeperator step={getStep(5, currentIndex)} />
-
         <AnimateStepperNumber active={getStep(4, currentIndex) === 'current'}>
           {getStep(4, currentIndex) === 'prev' ? (
-            <StepChecked />
+            <StepChecked color={getColor(0, 1)} />
           ) : (
             <StepFive
               color={getColor(5, currentIndex)}
-              css={[getStep(4, currentIndex) === 'current' && tw`[width: 26px] [height: 26px]`]}
+              css={[getStep(4, currentIndex) === 'current' && tw`[width: 24px] [height: 24px]`]}
             />
           )}
         </AnimateStepperNumber>
