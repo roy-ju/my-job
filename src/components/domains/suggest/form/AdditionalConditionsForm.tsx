@@ -1,3 +1,5 @@
+import Section from './ui/Section';
+
 import AdditionalConditionsField from './field/AdditionalConditionsField';
 
 import useSelectAdditionalConditons from './hooks/useSelectAdditionalConditions';
@@ -8,8 +10,8 @@ export default function AdditionalConditionsForm() {
   const { list, selectedList, handleClickHashTag } = useSelectAdditionalConditons();
 
   return (
-    <section id={forms.ADDITIONAL_CONDITIONS} tw="pt-10 pb-10 px-5">
+    <Section id={forms.ADDITIONAL_CONDITIONS}>
       <AdditionalConditionsField list={list} selectedList={selectedList} handleClick={handleClickHashTag} />
-    </section>
+    </Section>
   );
 }

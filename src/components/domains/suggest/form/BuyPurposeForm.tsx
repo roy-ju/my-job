@@ -1,3 +1,5 @@
+import Section from './ui/Section';
+
 import PurposeField from './field/PurposeField';
 
 import InvestAmountField from './field/InvestAmountField';
@@ -30,7 +32,7 @@ export default function BuyPurposeForm() {
     useChangeMoveInDate();
 
   return (
-    <section id={forms.BUY_PURPOSE} tw="flex flex-col pt-10 pb-10 px-5 gap-4">
+    <Section id={forms.BUY_PURPOSE} tw="gap-4">
       <PurposeField isRender={isRenderPurposeField} purpose={purpose} handleClick={handleClickBuyPurpose} />
 
       <div>
@@ -52,6 +54,6 @@ export default function BuyPurposeForm() {
           handleReset={handleResetInvestAmount}
         />
       </div>
-    </section>
+    </Section>
   );
 }

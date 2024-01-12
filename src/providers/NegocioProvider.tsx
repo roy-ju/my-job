@@ -66,9 +66,7 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
         }
       }
     },
-    onError: () => {
-      console.error('error');
-    },
+    onError: () => {},
   });
 
   useEffect(() => {

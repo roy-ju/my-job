@@ -23,6 +23,7 @@ import useChangeMonthlyRentFee from './hooks/useChangeMonthlyRentFee';
 import FIELD_ID from './constants/fieldId';
 
 import forms from './constants/forms';
+import Section from './ui/Section';
 
 type RealestateTypeAndBuyOrRentAndPriceFormProps = {
   needDiabledFields?: boolean;
@@ -58,7 +59,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm({
   } = useChangeMonthlyRentFee();
 
   return (
-    <section id={forms.REALESTATE_AND_BUYORRENT_AND_PRICE} tw="py-10 px-5">
+    <Section id={forms.REALESTATE_AND_BUYORRENT_AND_PRICE}>
       <RealestateTypeField
         isRender={isRenderRealestateTypeField}
         needDiabledFields={needDiabledFields}
@@ -99,6 +100,6 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm({
         negotiable={negotiable}
         handleChange={handleChangeNegotiable}
       />
-    </section>
+    </Section>
   );
 }

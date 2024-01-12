@@ -66,9 +66,7 @@ export default function useClientWebsocket() {
       dispatch?.({ type: 'set_TextFieldDisabled', payLoad: true });
     },
 
-    onError: (event) => {
-      console.error(event);
-    },
+    onError: () => {},
 
     onMessage: (event) => {
       const chat = JSON.parse(event.data) as WebSocketMessage;

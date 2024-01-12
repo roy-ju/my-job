@@ -15,13 +15,13 @@ type RealestateTypeButtonProps = {
   needDiabledFields?: boolean;
 };
 
-const Button = styled(motion.button)<{ selected?: boolean; disabled?: boolean; needDiabledFields?: boolean }>`
+const Button = styled(motion.button)<{ selected?: boolean; disabled?: boolean; needdiabledfields?: string }>`
   ${tw`flex flex-col flex-1 gap-1.5 justify-center items-center rounded-xl border [max-width: 62px] [height: 76px] [box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.06)]`}
 
   ${({ selected }) => selected && tw`border-nego-800 [box-shadow: 0px 0px 12px 0px rgba(112, 72, 232, 0.16)]`}
-  ${({ needDiabledFields }) => needDiabledFields && tw`pointer-events-none`}
-  ${({ needDiabledFields, selected }) =>
-    needDiabledFields && !selected && tw`pointer-events-none svg:opacity-50 [box-shadow: none]`}
+  ${({ needdiabledfields }) => needdiabledfields && tw`pointer-events-none`}
+  ${({ needdiabledfields, selected }) =>
+    needdiabledfields && !selected && tw`pointer-events-none svg:opacity-50 [box-shadow: none]`}
 
   span {
     ${tw`text-body_01`}
@@ -48,7 +48,7 @@ export default function RealestateTypeButton({
       onClick={handleClick}
       selected={selected}
       disabled={disabled}
-      needDiabledFields={needDiabledFields}
+      needdiabledfields={needDiabledFields ? 'true' : undefined}
     >
       {children}
       <span>{describeRealestateType(value)}</span>

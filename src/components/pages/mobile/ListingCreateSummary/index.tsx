@@ -72,7 +72,7 @@ const ListingCreateSummary = () => {
           getFileFromUrl(item, v4()).then((f) => updateDanjiPhoto(response.listing_id, f));
         });
       } catch (e) {
-        console.error(e);
+        //
       }
 
       setIsCreating(false);

@@ -50,7 +50,7 @@ export default function SuggestFormUpdate({ depth }: SuggestFormUpdateProps) {
           />
         </div>
       </div>
-      <UpdateForm depth={depth} />
+      <UpdateForm />
       <Actions depth={depth} />
       <Popups />
     </div>

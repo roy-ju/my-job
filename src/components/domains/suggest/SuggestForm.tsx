@@ -36,7 +36,7 @@ export default function SuggestForm({ depth }: SuggestFormProps) {
     <div tw="flex flex-col h-full relative">
       <div tw="[box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.08)]">
         <Header title="집 구하기" />
-        <Stepper />
+        <Stepper id="suggestForm-stepper" />
       </div>
       <Form />
       <Actions depth={depth} />

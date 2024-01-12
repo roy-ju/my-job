@@ -47,9 +47,7 @@ export default function useChatRoom(chatRoomID: number) {
     onClose: () => {
       setTextFieldDisabled(true);
     },
-    onError: (event) => {
-      console.error(event);
-    },
+    onError: () => {},
     onMessage: (event) => {
       const chat = JSON.parse(event.data) as WebSocketMessage;
 

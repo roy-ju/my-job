@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Fragment } from 'react';
 
 import { useRecoilValue } from 'recoil';
@@ -23,11 +22,7 @@ import SuggestFormSelector from '../form/selector/SuggestFormSelector';
 
 import SuggestForm from '../form/types';
 
-type UpdateFormProps = {
-  depth?: number;
-};
-
-export default function UpdateForm({ depth }: UpdateFormProps) {
+export default function UpdateForm() {
   const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
   const formComponents = {

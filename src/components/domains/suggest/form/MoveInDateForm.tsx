@@ -3,13 +3,14 @@ import MoveInDateField from './field/MoveInDateField';
 import useChangeMoveInDate from './hooks/useChangeMoveInDate';
 
 import forms from './constants/forms';
+import Section from './ui/Section';
 
 export default function MoveInDateForm() {
   const { isRenderMoveInDateField, moveInDate, moveInDateType, handleChangeMoveInDate, handlChangeMoveInDateType } =
     useChangeMoveInDate();
 
   return (
-    <section id={forms.MOVE_IN_DATE} tw="pt-10 pb-10 px-5">
+    <Section id={forms.MOVE_IN_DATE}>
       <MoveInDateField
         isRender={isRenderMoveInDateField}
         moveInDate={moveInDate}
@@ -17,6 +18,6 @@ export default function MoveInDateForm() {
         handleChangeMoveInDate={handleChangeMoveInDate}
         handleChangeMoveInDateType={handlChangeMoveInDateType}
       />
-    </section>
+    </Section>
   );
 }

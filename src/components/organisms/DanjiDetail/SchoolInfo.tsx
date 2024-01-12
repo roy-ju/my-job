@@ -67,7 +67,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         interactionStore.makeDanjiAroundPlaceName('');
       }
     } catch (error) {
-      console.error('Error:', error);
+      //
     }
 
     setDiasbled(false);
@@ -92,7 +92,7 @@ export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }
         setTimeout(() => interactionStore.makeSelectedSchool(`schoolMarker:${id}`), 200);
       }
     } catch (error) {
-      console.error('Error:', error);
+      //
     }
 
     setProcessingMap(false);

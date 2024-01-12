@@ -1,3 +1,5 @@
+import Section from './ui/Section';
+
 import PyoungListField from './field/PyoungListField';
 
 import PyoungInputWrraper from './field/PyoungInputWrraper';
@@ -14,7 +16,7 @@ export default function AreaForm({ type }: AreaFormProps) {
   });
 
   return (
-    <section id={forms.AREA} tw="pt-10 pb-10 px-5">
+    <Section id={forms.AREA}>
       <PyoungListField
         isRender={isRenderPyoungListField}
         list={list}
@@ -23,6 +25,6 @@ export default function AreaForm({ type }: AreaFormProps) {
         handleClickDelete={handleClickDeletePyoung}
       />
       <PyoungInputWrraper type={type} />
-    </section>
+    </Section>
   );
 }

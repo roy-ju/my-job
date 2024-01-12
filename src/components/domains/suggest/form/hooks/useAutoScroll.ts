@@ -9,9 +9,11 @@ import isEqualValue from '../../utils/isEqualValue';
 export default function useAutoScroll<T extends string>({
   elementID,
   targetForm,
+  callback,
 }: {
   elementID: string;
   targetForm: T[];
+  callback?: () => void;
 }) {
   const platform = useCheckPlatform();
 
@@ -23,7 +25,11 @@ export default function useAutoScroll<T extends string>({
     const currentForm = targetForm[targetForm.length - 1];
 
     setTimeout(() => {
+      callback?.();
       autoScroll(elementID, targetForm, currentForm);
+
+      // setTimeout(() => {
+      // });
     }, timeout);
-  }, [elementID, targetForm.length]);
+  }, [elementID, targetForm.length, callback]);
 }
