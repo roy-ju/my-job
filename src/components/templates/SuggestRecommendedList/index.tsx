@@ -7,7 +7,7 @@ interface Props {
   suggestRecommendedList?: GetMySuggestRecommendedListResponse['list'];
   onNextListing?: () => void;
   onNavigateToSuggestRecommendedDetail?: (suggestRecommendId: number) => void;
-  onNavigateToDanjiRecommendation?: () => void;
+  onNavigateToMap?: () => void;
   onClickBack?: () => void;
 }
 
@@ -15,7 +15,7 @@ export default function SuggestRecommendedList({
   suggestRecommendedList,
   onNextListing,
   onNavigateToSuggestRecommendedDetail,
-  onNavigateToDanjiRecommendation,
+  onNavigateToMap,
   onClickBack,
 }: Props) {
   return (
@@ -40,7 +40,7 @@ export default function SuggestRecommendedList({
           title="추천한 매물이 없습니다."
           body="단지 정보 화면에서 구하는 글에 매물을 추천해 보세요!"
           buttonText="추천할 단지 찾기"
-          onClick={onNavigateToDanjiRecommendation}
+          onClick={onNavigateToMap}
         />
       )}
     </div>

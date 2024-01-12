@@ -12,7 +12,6 @@ export { default as ChatRoomListNoData } from './ChatRoomListNoData';
 export { default as ChatRoomListItem } from './ChatRoomListItem';
 export { default as ChatRoomDetailsAccordion } from './ChatRoomDetailsAccordionV2';
 export { default as ChatMessage } from './ChatMessage';
-// export { default as ChatRoomTextField } from './ChatRoomTextField';
 export { default as ChatRoomAgentSummary } from './ChatRoomAgentSummary';
 export { default as MyPageNavigationList } from './MyPageNavigationList';
 export { default as MySummary } from './MySummary';
@@ -49,7 +48,6 @@ export { default as PhotoHero } from './PhotoHero';
 export { default as ListingDetailSection } from './ListingDetailSection';
 export { default as MySuggestDetailListItem } from './MySuggestDetailListItem';
 export { default as SuggestDetailListItem } from './SuggestDetailListItem';
-export { default as SuggestRegionalForm } from './SuggestRegionalForm';
 export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
 
 export { default as ListingRecommendListItem } from './ListingRecommendListItem';
@@ -59,7 +57,6 @@ export { default as SharePopup } from './SharePopup';
 export { default as LawSearchForm } from './LawSearchForm';
 export { default as LawSerachFormPc } from './LawSerachFormPc';
 export { default as DanjiList } from './DanjiList';
-export { default as DanjiRecommendationForm } from './DanjiRecommendationForm';
 
 // 모바일 전용
 export { default as MobDanjiSummary } from './MobDanjiSummary';

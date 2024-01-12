@@ -6,10 +6,9 @@ interface CommonProps {
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
-  onNavigateToSuggestRegional?: () => void;
+  onNavigateToSuggestForm?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
   onNavigateToListingDetailHistory?: () => void;
-
   onClickSuggestNotInterested?: () => void;
   onClickSuggestAcceptRecommend?: () => void;
 }
@@ -72,23 +71,6 @@ function Rejected({ buttonSize = 'bigger', onNavigateToUpdateBidding, onNavigate
   );
 }
 
-// function HasSuggested({
-//   buttonSize = 'bigger',
-//   onClickSuggestNotInterested,
-//   onClickSuggestAcceptRecommend,
-// }: CommonProps) {
-//   return (
-//     <div tw="flex items-center gap-3">
-//       <Button variant="outlined" tw="w-full" size={buttonSize} onClick={onClickSuggestNotInterested}>
-//         관심없음
-//       </Button>
-//       <Button tw="w-full" size={buttonSize} onClick={onClickSuggestAcceptRecommend}>
-//         네고 협의 시작하기
-//       </Button>
-//     </div>
-//   );
-// }
-
 function HasRejectedSuggest({ buttonSize = 'bigger' }: CommonProps) {
   return (
     <div>
@@ -149,12 +131,12 @@ function PreContractSelf({
 
 function PreContractOthers({
   buttonSize = 'bigger',
-  onNavigateToSuggestRegional,
+  onNavigateToSuggestForm,
   onNavigateToListingDetailHistory,
 }: CommonProps) {
   return (
     <div>
-      <Button tw="w-full" size={buttonSize} onClick={onNavigateToSuggestRegional}>
+      <Button tw="w-full" size={buttonSize} onClick={onNavigateToSuggestForm}>
         다른 매물 추천받기
       </Button>
       {onNavigateToListingDetailHistory && (
@@ -201,7 +183,6 @@ function Wrapper({ visitUserType, ...props }: { visitUserType: number } & Common
     return <BuyerGeneral {...props} />;
   if (visitUserType === VisitUserType.Submitted) return <Submitted {...props} />;
   if (visitUserType === VisitUserType.Rejected) return <Rejected {...props} />;
-  // if (visitUserType === VisitUserType.HasSuggestRecommend) return <HasSuggested {...props} />;
   if (visitUserType === VisitUserType.Accepted) return <Accepted {...props} />;
   if (visitUserType === VisitUserType.PreContractSelf) return <PreContractSelf {...props} />;
   if (visitUserType === VisitUserType.PreContractOthers) return <PreContractOthers {...props} />;
@@ -215,7 +196,6 @@ export default Object.assign(Wrapper, {
   BuyerGeneral,
   Submitted,
   Rejected,
-  // HasSuggested,
   HasRejectedSuggest,
   Accepted,
   PreContractSelf,

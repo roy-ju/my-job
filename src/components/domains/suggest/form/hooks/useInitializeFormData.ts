@@ -8,6 +8,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { apiService } from '@/services';
 
+import Routes from '@/router/routes';
 import isEqualValue from '../../utils/isEqualValue';
 
 import getNumber from '../../utils/getNumber';
@@ -82,7 +83,7 @@ export default function useInitializeFormData() {
     }
 
     // 홈에서 들어왔을때
-    if (isEqualValue(router?.query?.entry, 'home')) {
+    if (isEqualValue(router?.query?.entry, Routes.Home)) {
       // 매매 전세 월세 바인딩
       const buyOrRent = getNumber(router?.query?.buyOrRent) as BuyOrRent | 0;
 
@@ -114,7 +115,7 @@ export default function useInitializeFormData() {
       } else {
         setStateForms(['region_or_danji']);
       }
-    } else if (isEqualValue(router?.query?.entry, 'map')) {
+    } else if (isEqualValue(router?.query?.entry, Routes.Map)) {
       // 지도에서 들어왔을때
 
       if (router?.query?.address && router?.query?.bcode) {
@@ -131,8 +132,8 @@ export default function useInitializeFormData() {
         setStateForms(['region_or_danji']);
       }
     } else if (
-      isEqualValue(router?.query?.entry, 'danjiDetail') ||
-      isEqualValue(router?.query?.entry, 'danjiSuggestListings')
+      isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
+      isEqualValue(router?.query?.entry, Routes.SuggestListings)
     ) {
       // 단지 상세에서 들어왔을때
       if (router?.query?.danjiID) {
@@ -141,10 +142,10 @@ export default function useInitializeFormData() {
       } else {
         setStateForms(['region_or_danji']);
       }
-    } else if (isEqualValue(router?.query?.entry, 'suggestRequestedList')) {
+    } else if (isEqualValue(router?.query?.entry, Routes.SuggestRequestedList)) {
       // 마이페이지 구하기게시내역에서 들어왔을때
       setStateForms(['region_or_danji']);
-    } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
+    } else if (isEqualValue(router?.query?.entry, Routes.ChatRoomList)) {
       // 채팅방에서 들어왔을때
       setStateForms(['region_or_danji']);
     } else {

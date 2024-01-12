@@ -176,8 +176,9 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     });
   }, [router]);
 
-  const handleNavigateToSuggestRegional = useCallback(() => {
-    router.replace(Routes.SuggestRegionalForm, { persistParams: true });
+  const handleNavigateToSuggestForm = useCallback(() => {
+    router.replace(Routes.SuggestForm, { persistParams: true });
+    // To do 추가 로직 구현필요
   }, [router]);
 
   const handleNavigateToListingDetailHistory = useCallback(() => {
@@ -372,7 +373,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         onNavigateToChatRoom={handleNavigateToChatRoom}
         onNavigateToCreateQna={handleNavigateToCreateQna}
         onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
-        onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
+        onNavigateToSuggestForm={handleNavigateToSuggestForm}
         onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
       />
       {popup === 'suggestNotInterested' && (

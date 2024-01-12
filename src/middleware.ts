@@ -18,16 +18,19 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   }
 
   // 구해요 개선에 따른 페이지 URL변경
-  if (path === '/recommendationGuide') {
+  if (path === `/${Routes.PAST_RecommedationGuide}`) {
     return NextResponse.redirect(new URL(`${Routes.SuggestGuide}`, request.url), 301);
   }
 
   // 구해요 개선에 따른 페이지 URL변경
   if (
-    path === '/suggestRegionalForm' ||
-    path === '/suggestRegionalSummary' ||
-    path === '/danjiRecommendation' ||
-    path === '/danjiRecommendationSummary'
+    path === `/${Routes.PAST_RecommendationForm}` ||
+    path === `/${Routes.PAST_SuggestRegionalForm}` ||
+    path === `/${Routes.PAST_SuggestRegionalFormUpdate}` ||
+    path === `/${Routes.PAST_SuggestRegionalSummary}` ||
+    path === `/${Routes.PAST_DanjiRecommendation}` ||
+    path === `/${Routes.PAST_DanjiRecommendationUpdate}` ||
+    path === `/${Routes.PAST_DanjiRecommendationSummary}`
   ) {
     return NextResponse.redirect(new URL(`${Routes.SuggestForm}`, request.url), 301);
   }
@@ -46,7 +49,7 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   // Redirect Mobile user
   if (ua.indexOf('Mobi') > -1) {
     // 구해요 개선에 따른 페이지 URL변경
-    if (path === `/${Routes.EntryMobile}/recommendationGuide`) {
+    if (path === `/${Routes.EntryMobile}/${Routes.PAST_RecommedationGuide}`) {
       return NextResponse.redirect(
         new URL(`${request.nextUrl.origin}/${Routes.EntryMobile}/${Routes.SuggestGuide}`, request.url),
         301,
@@ -55,10 +58,13 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
 
     // 구해요 개선에 따른 페이지 URL변경
     if (
-      path === `/${Routes.EntryMobile}/suggestRegionalForm` ||
-      path === `/${Routes.EntryMobile}/suggestRegionalSummary` ||
-      path === `/${Routes.EntryMobile}/danjiRecommendation` ||
-      path === `/${Routes.EntryMobile}/danjiRecommendationSummary`
+      path === `/${Routes.EntryMobile}/${Routes.PAST_RecommendationForm}` ||
+      path === `/${Routes.EntryMobile}/${Routes.PAST_SuggestRegionalForm}` ||
+      path === `/${Routes.EntryMobile}/${Routes.PAST_SuggestRegionalFormUpdate}` ||
+      path === `/${Routes.EntryMobile}/${Routes.PAST_SuggestRegionalSummary}` ||
+      path === `/${Routes.EntryMobile}/${Routes.PAST_DanjiRecommendation}` ||
+      path === `/${Routes.EntryMobile}/${Routes.PAST_DanjiRecommendationUpdate}` ||
+      path === `/${Routes.EntryMobile}/${Routes.PAST_DanjiRecommendationSummary}`
     ) {
       return NextResponse.redirect(
         new URL(`${request.nextUrl.origin}/${Routes.EntryMobile}/${Routes.SuggestForm}`, request.url),

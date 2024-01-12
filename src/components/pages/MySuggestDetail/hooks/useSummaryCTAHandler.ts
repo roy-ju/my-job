@@ -55,8 +55,8 @@ export default function useSummaryCTAHandler() {
   const handleClickSuggestUpdate = () => {
     const targetRoute =
       value?.suggestDetailData?.danji_or_regional === DanjiOrRegionalType.Danji
-        ? Routes.DanjiRecommendationUpdate
-        : Routes.SuggestRegionalFormUpdate;
+        ? Routes.SuggestFormUpdate
+        : Routes.SuggestFormUpdate;
 
     const danjiID = value?.suggestDetailData?.danji_id ?? 0;
     const suggestID = value?.suggestDetailData?.suggest_id ?? 0;

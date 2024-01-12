@@ -37,7 +37,7 @@ export interface ListingDetailProps {
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
-  onNavigateToSuggestRegional?: () => void;
+  onNavigateToSuggestForm?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
   onNavigateToListingDetailHistory?: () => void;
 
@@ -64,7 +64,7 @@ export default function MobListingDetail({
   onNavigateToChatRoom,
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
-  onNavigateToSuggestRegional,
+  onNavigateToSuggestForm,
   onNavigateToListingDetailHistory,
   onClickShare,
   onClickBack,
@@ -331,7 +331,7 @@ export default function MobListingDetail({
                     onNavigateToChatRoom={onNavigateToChatRoom}
                     onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
                     onClickSuggestNotInterested={onClickSuggestNotInterested}
-                    onNavigateToSuggestRegional={onNavigateToSuggestRegional}
+                    onNavigateToSuggestForm={onNavigateToSuggestForm}
                     onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
                   />
                 </div>
@@ -566,7 +566,7 @@ export default function MobListingDetail({
             onNavigateToChatRoom={onNavigateToChatRoom}
             onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
             onClickSuggestNotInterested={onClickSuggestNotInterested}
-            onNavigateToSuggestRegional={onNavigateToSuggestRegional}
+            onNavigateToSuggestForm={onNavigateToSuggestForm}
           />
         </PersistentBottomBar>
       )}

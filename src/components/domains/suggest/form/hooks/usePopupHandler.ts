@@ -67,34 +67,54 @@ export default function usePopupHandler() {
 
   const handleQuitForm = useCallback(async () => {
     if (isEqualValue(platform, 'pc')) {
-      if (isEqualValue(router?.query?.entry, 'home')) {
-        router.replace(`/`);
-      } else if (isEqualValue(router?.query?.entry, 'danjiDetail')) {
-        router.replace(`/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
-      } else if (isEqualValue(router?.query?.entry, 'danjiSuggestListings')) {
-        router.replace(`/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
-      } else if (isEqualValue(router?.query?.entry, 'suggestRequestedList')) {
-        router.replace(`/${Routes.My}?default=1`);
-      } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
-        router.replace(`/${Routes.My}?default=1`);
-      } else {
-        router.replace(`/${Routes.Map}`);
+      if (isEqualValue(router?.query?.entry, Routes.Home)) {
+        await router.replace(`/`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.DanjiDetail)) {
+        await router.replace(`/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.SuggestListings)) {
+        await router.replace(`/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.SuggestRequestedList)) {
+        await router.replace(`/${Routes.My}?default=1`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.ChatRoomList)) {
+        await router.replace(`/${Routes.My}?default=1`);
+      }
+
+      if (!router?.query?.entry || isEqualValue(router?.query?.entry, Routes.Map)) {
+        await router.replace(`/${Routes.Map}`);
       }
     }
 
     if (platform === 'mobile') {
-      if (isEqualValue(router?.query?.entry, 'home')) {
-        router.replace(`/${Routes.EntryMobile}`);
-      } else if (isEqualValue(router?.query?.entry, 'danjiDetail')) {
-        router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
-      } else if (isEqualValue(router?.query?.entry, 'danjiSuggestListings')) {
-        router.replace(`/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
-      } else if (isEqualValue(router?.query?.entry, 'suggestRequestedList')) {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
-      } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
-        router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
-      } else {
-        router.replace(`/${Routes.EntryMobile}/${Routes.Map}`);
+      if (isEqualValue(router?.query?.entry, Routes.Home)) {
+        await router.replace(`/${Routes.EntryMobile}`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.DanjiDetail)) {
+        await router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.SuggestListings)) {
+        await router.replace(`/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.SuggestRequestedList)) {
+        await router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.ChatRoomList)) {
+        await router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
+      }
+
+      if (!router?.query?.entry || isEqualValue(router?.query?.entry, Routes.Map)) {
+        await router.replace(`/${Routes.Map}`);
       }
     }
 
@@ -187,11 +207,11 @@ export default function usePopupHandler() {
   }, [setState, state?.uiRealestateType]);
 
   const isFilter = useMemo(() => {
-    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, 'home')) {
+    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, Routes.Home)) {
       return true;
     }
 
-    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, 'home')) {
+    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, Routes.Home)) {
       return true;
     }
 
@@ -199,11 +219,11 @@ export default function usePopupHandler() {
   }, [router?.query?.enry, router?.query?.property]);
 
   const filterQuery = useMemo(() => {
-    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, 'home')) {
+    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, Routes.Home)) {
       return RealestateType.Apartment;
     }
 
-    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, 'home')) {
+    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, Routes.Home)) {
       return RealestateType.Officetel;
     }
   }, [router?.query?.enry, router?.query?.property]);
