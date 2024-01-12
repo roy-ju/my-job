@@ -20,7 +20,7 @@ export default function ListItemTitleSection({ item }: ListItemTitleSectionProps
   const agentSuggestCompleteHistoryStatus = item.agent_suggest_complete_history_status;
   const title = item.recommender_deregistered
     ? `${item?.recommender_name}`
-    : `${item?.recommender_name} ${isAgent ? '중개사의 추천' : '님의 추천 매물'}`;
+    : `${item?.recommender_name}${isAgent ? ' 중개사의 추천' : '님의 추천 매물'}`;
 
   const text = useMemo(() => {
     if (agentSuggestCompleteHistoryStatus === SuggestCompleteHistoryStatus.Cancelled) {
