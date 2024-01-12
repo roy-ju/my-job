@@ -79,7 +79,7 @@ export default function MobGlobalNavigation({
           <div tw="relative">
             <ChatIcon css={index === 3 ? buttonStyles.selected : buttonStyles.defaultIcon} />
             {!!unreadChatCount && (
-              <div tw="absolute w-1 h-1 bg-red-800 [border-radius: 50%] font-bold top-0 -right-[8.5px]" />
+              <div tw="absolute w-1 h-1 bg-red-800 [border-radius: 50%] font-bold top-0 -right-[11px]" />
             )}
           </div>
           <span css={[tw`text-body_01`, index === 3 ? buttonStyles.selected : buttonStyles.default]}>채팅</span>
