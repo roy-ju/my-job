@@ -11,20 +11,33 @@ type RealestateTypeButtonProps = {
   children: ReactNode;
   handleClick: (e?: NegocioMouseEvent<HTMLButtonElement>) => void;
   selected: boolean;
+  disabled?: boolean;
+  needDiabledFields?: boolean;
 };
 
-const Button = styled(motion.button)<{ selected?: boolean }>`
+const Button = styled(motion.button)<{ selected?: boolean; disabled?: boolean; needDiabledFields?: boolean }>`
   ${tw`flex flex-col flex-1 gap-1.5 justify-center items-center rounded-xl border [max-width: 62px] [height: 76px] [box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.06)]`}
 
   ${({ selected }) => selected && tw`border-nego-800 [box-shadow: 0px 0px 12px 0px rgba(112, 72, 232, 0.16)]`}
+  ${({ needDiabledFields }) => needDiabledFields && tw`pointer-events-none`}
+  ${({ needDiabledFields, selected }) =>
+    needDiabledFields && !selected && tw`pointer-events-none svg:opacity-50 [box-shadow: none]`}
 
   span {
     ${tw`text-body_01`}
     ${({ selected }) => (selected ? tw`text-nego-800` : tw`text-gray-700`)}
+    ${({ disabled }) => disabled && tw`text-gray-500`}
   }
 `;
 
-export default function RealestateTypeButton({ value, selected, children, handleClick }: RealestateTypeButtonProps) {
+export default function RealestateTypeButton({
+  value,
+  selected,
+  disabled,
+  needDiabledFields,
+  children,
+  handleClick,
+}: RealestateTypeButtonProps) {
   return (
     <Button
       initial={{ opacity: 0, y: -10 }}
@@ -34,6 +47,8 @@ export default function RealestateTypeButton({ value, selected, children, handle
       value={value}
       onClick={handleClick}
       selected={selected}
+      disabled={disabled}
+      needDiabledFields={needDiabledFields}
     >
       {children}
       <span>{describeRealestateType(value)}</span>

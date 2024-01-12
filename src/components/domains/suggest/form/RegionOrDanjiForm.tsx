@@ -47,7 +47,7 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
             />
             <AnimateRegionOrDanjiButton
               title="단지"
-              description="□□아파트 단지에서 집 찾기"
+              description="□□단지에서 집 찾기"
               value={DanjiOrRegionalType.Danji.toString()}
               handleClick={handleClickDanjiOrRegion}
               selected={checkSelected<DanjiOrRegionalType | 0>(danjiOrRegion, DanjiOrRegionalType.Danji)}
