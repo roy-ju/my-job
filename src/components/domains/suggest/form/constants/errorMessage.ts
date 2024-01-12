@@ -1,5 +1,5 @@
 const ERROR_MESSAGE = {
-  MAXIMUM_PRICE: '입력 가능한 최대 금액은 999억 999,9만원 이에요.',
+  MAXIMUM_PRICE: '입력하실 수 있는 가격이 너무 높습니다.',
 
   MAX_PYOUNG: '입력하실 수 있는 평수는 최소 1평부터 최대 500평까지입니다.',
 
