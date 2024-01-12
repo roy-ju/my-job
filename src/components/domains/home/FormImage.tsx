@@ -89,16 +89,18 @@ export default function FormImage({ property, buyOrRent }: FormImageProps) {
           tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       ) : (
-        <Image
-          key="logo"
-          src={Logo}
-          width={100}
-          height={100}
-          alt=""
-          tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
+        !buyOrRent && (
+          <Image
+            key="logo"
+            src={Logo}
+            width={100}
+            height={100}
+            alt=""
+            tw="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+        )
       )}
-      {buyOrRent && !!property.length && (
+      {buyOrRent && (
         <motion.img
           key={BuyOrRentPaths[buyOrRentImageType]}
           initial={{ left: 0, bottom: 10 }}
