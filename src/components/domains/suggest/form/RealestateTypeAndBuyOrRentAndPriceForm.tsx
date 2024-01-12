@@ -58,7 +58,7 @@ export default function RealestateTypeAndBuyOrRentAndPriceForm({
   } = useChangeMonthlyRentFee();
 
   return (
-    <section id={forms.REALESTATE_AND_BUYORRENT_AND_PRICE} tw="pt-10 pb-10 px-5">
+    <section id={forms.REALESTATE_AND_BUYORRENT_AND_PRICE} tw="py-10 px-5">
       <RealestateTypeField
         isRender={isRenderRealestateTypeField}
         needDiabledFields={needDiabledFields}

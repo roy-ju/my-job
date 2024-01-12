@@ -27,11 +27,7 @@ import SuggestForm from './types';
 
 import useAutoScroll from './hooks/useAutoScroll';
 
-type FormProps = {
-  depth?: number;
-};
-
-export default function Form({ depth }: FormProps) {
+export default function Form() {
   const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
   useAutoScroll({ elementID: 'formContainer', targetForm: forms });
@@ -56,10 +52,10 @@ export default function Form({ depth }: FormProps) {
         if (form === 'summary') return null;
 
         return (
-          <Fragment key={form}>
+          <div key={form}>
             {form !== 'region_or_danji' && <Separator tw="min-w-full [min-height: 8px]" />}
             {formComponents[form]}
-          </Fragment>
+          </div>
         );
       })}
     </div>
