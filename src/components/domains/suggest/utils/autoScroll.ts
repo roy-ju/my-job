@@ -18,6 +18,7 @@ export default function autoScroll<T extends string>(
 
     if (prevForm) {
       const prevFormElement = document.getElementById(prevForm);
+
       if (prevFormElement && !params) {
         prevFormElement.style.minHeight = '';
       }

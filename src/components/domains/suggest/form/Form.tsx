@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Fragment } from 'react';
+import { useCallback } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
@@ -30,7 +29,28 @@ import useAutoScroll from './hooks/useAutoScroll';
 export default function Form() {
   const forms = useRecoilValue<SuggestForm['forms']>(SuggestFormSelector('forms'));
 
-  useAutoScroll({ elementID: 'formContainer', targetForm: forms });
+  const hideStepper = useCallback(
+    (id: string) => {
+      const currentStep = forms[forms.length - 1];
+
+      const element = document.getElementById(id);
+
+      if (currentStep === 'summary' || currentStep === 'interview') {
+        if (element) {
+          element.style.display = 'none';
+        }
+      }
+    },
+    [forms],
+  );
+
+  useAutoScroll({
+    elementID: 'formContainer',
+    targetForm: forms,
+    callback: () => {
+      hideStepper('suggestForm-stepper');
+    },
+  });
 
   const formComponents = {
     region_or_danji: <RegionOrDanjiForm />,

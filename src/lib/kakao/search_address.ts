@@ -63,16 +63,3 @@ export async function searchAddress(query: string): Promise<AddressSearchRespons
     return null;
   }
 }
-
-// export async function searchAddress(query: string) {
-//   try {
-//     const response = await axios.get(`/api/kakao/searchAddress`, {
-//       params: { query },
-//     });
-
-//     return response.data as AddressSearchResponse;
-//   } catch (e) {
-//     console.error(e);
-//     return null;
-//   }
-// }

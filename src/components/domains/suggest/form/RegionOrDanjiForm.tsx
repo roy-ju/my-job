@@ -4,6 +4,8 @@ import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { DanjiOrRegionalType } from '@/constants/enums';
 
+import Section from './ui/Section';
+
 import AnimateRegionOrDanjiButton from './ui/AnimateRegionOrDanjiButton';
 
 import checkSelected from '../utils/checkSelected';
@@ -34,7 +36,7 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
     useSelectDanjiOrRegion();
 
   return (
-    <section id={forms.REGION_OR_DANJI} tw="px-5 pb-10">
+    <Section id={forms.REGION_OR_DANJI} tw="pt-0">
       {!address && !danjiName ? (
         <>
           <div tw="flex flex-row items-center gap-3 mb-6">
@@ -78,6 +80,6 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
           </AnimationP>
         </>
       )}
-    </section>
+    </Section>
   );
 }
