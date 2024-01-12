@@ -28,9 +28,12 @@ function NegotiableChip() {
 
 const informationStringWrapper = css`
   & > span:not(:first-of-type)::before {
-    content: ' | ';
-    margin: 0 0.25rem;
-    color: #e9ecef; // text-gray-300
+    content: '';
+    width: 1px;
+    height: 8px;
+    background-color: #e9ecef;
+    margin: 0 4px;
+    display: inline-block;
   }
 `;
 
