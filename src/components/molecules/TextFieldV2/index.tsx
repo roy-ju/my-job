@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {
   ReactNode,
   ChangeEventHandler,
@@ -13,8 +12,6 @@ import React, {
 } from 'react';
 
 import tw, { styled } from 'twin.macro';
-
-import { NumeralV2 } from '@/components/atoms';
 
 import { useControlled } from '@/hooks/utils';
 
@@ -32,10 +29,11 @@ interface TextFieldProps extends Omit<HTMLProps<HTMLDivElement>, 'theme' | 'as' 
 }
 
 interface InputProps
-  extends Omit<HTMLProps<HTMLInputElement>, 'as' | 'theme' | 'size' | 'type' | 'value' | 'onChange'> {
+  extends Omit<HTMLProps<HTMLInputElement>, 'as' | 'theme' | 'type' | 'value' | 'onChange' | 'mode'> {
   label?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  mode?: 'text' | 'none' | 'search' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal';
   isLabelBottom?: boolean;
 }
 
@@ -141,7 +139,7 @@ const Container = forwardRef<HTMLDivElement, TextFieldProps>(
   },
 );
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ label, isLabelBottom, ...inProps }, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ label, isLabelBottom, mode, ...inProps }, ref) => {
   const autocompleteContext = useContext(AutocompleteContext);
   const { focused, disabled, hasError, setFocused, setDisabled } = useContext(TextFieldContextV2);
 
@@ -210,6 +208,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, isLabelBottom, 
         onBlur={handleBlur}
         label={label}
         isLabelBottom={isLabelBottom}
+        inputMode={mode || 'text'}
         hasError={hasError}
         {...others}
       />
