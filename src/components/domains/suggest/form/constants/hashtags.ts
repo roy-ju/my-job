@@ -3,8 +3,8 @@ export const DanjiBuyOptions = [
   '조용한동',
   '1층',
   '로열층',
-  '저층',
-  '고층',
+  '낮은층',
+  '높은층',
   '방2개',
   '방3개',
   '방4개',
@@ -17,8 +17,8 @@ export const DanjiJeonsaeOptions = [
   '조용한동',
   '1층',
   '로열층',
-  '저층',
-  '고층',
+  '낮은층',
+  '높은층',
   '방2개',
   '방3개',
   '방4개',
@@ -40,11 +40,14 @@ export const RegionCommonBuyOptions = [
   '자연환경',
   '신축(~5년)',
   '신축(~10년)',
+  '화장실2개',
+  '화장실3개이상',
 ];
 
 export const RegionCommonJeonsaeOptions = [
   '신축(~5년)',
   '신축(~10년)',
+  '인테리어예정',
   '올수리되어있는',
   '반려동물가능',
   '반전세가능',
@@ -57,6 +60,8 @@ export const RegionCommonJeonsaeOptions = [
   '방2개',
   '방3개',
   '방4개',
+  '화장실2개',
+  '화장실3개이상',
 ];
 
 export const RegionApartmentBuyOptions = [
@@ -68,11 +73,11 @@ export const RegionApartmentBuyOptions = [
   '대단지',
   '1층',
   '로열층',
-  '저층',
-  '고층',
+  '낮은층',
+  '높은층',
 ];
 
-export const RegionOfficetelVillaDagagooBuyOptions = ['건물1층', '중간층', '탑층', '주차가능'];
+export const RegionOfficetelVillaDagagooBuyOptions = ['저층', '중간층', '탑층', '주차가능'];
 
 export const RegionDandokBuyOptions = [
   '단층',
@@ -82,8 +87,6 @@ export const RegionDandokBuyOptions = [
   '주차3대이상',
   '타운하우스',
   '개별단독',
-  '화장실2개',
-  '화장실3개이상',
 ];
 
 export const RegionApartmentJeonsaeOptions = [
@@ -91,8 +94,8 @@ export const RegionApartmentJeonsaeOptions = [
   '조용한동',
   '1층',
   '로열층',
-  '저층',
-  '고층',
+  '낮은층',
+  '높은층',
   '500세대~',
   '1000세대~',
   '소단지',
@@ -100,7 +103,7 @@ export const RegionApartmentJeonsaeOptions = [
 ];
 
 export const RegionOfficetelVillaDagagooJeonsaeOptions = [
-  '건물1층',
+  '저층',
   '중간층',
   '탑층',
   '주차가능',
@@ -116,8 +119,6 @@ export const RegionDandokJeonsaeOptions = [
   '주차3대이상',
   '타운하우스',
   '개별단독',
-  '화장실2개',
-  '화장실3개이상',
 ];
 
 export const HastgTitleObj: Record<string, string> = {
