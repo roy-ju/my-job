@@ -51,17 +51,17 @@ export default function Footer() {
 
   const handleClickTermsAndPolicy = () => {
     if (platform === 'pc') {
-      customRouter.replace(Routes.TermsAndPolicy);
+      customRouter.replace(Routes.TermsAndPolicy, { searchParams: { entry: Routes.Home } });
     } else {
-      router.replace(Routes.TermsAndPolicy);
+      router.push(`/${Routes.EntryMobile}/${Routes.TermsAndPolicy}`);
     }
   };
 
   const handleClickPrivacyPolicy = () => {
     if (platform === 'pc') {
-      customRouter.replace(Routes.PrivacyPolicy);
+      customRouter.replace(Routes.PrivacyPolicy, { searchParams: { entry: Routes.Home } });
     } else {
-      router.replace(Routes.PrivacyPolicy);
+      router.push(`/${Routes.EntryMobile}/${Routes.PrivacyPolicy}`);
     }
   };
 

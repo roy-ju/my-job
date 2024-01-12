@@ -1,11 +1,19 @@
-import { Panel } from '@/components/atoms';
 import { memo, useCallback, useState } from 'react';
+
+import { Panel } from '@/components/atoms';
+
 import { PrivacyPolicy as PrivacyPolicyTemplate } from '@/components/templates';
+
 import { useRouter } from '@/hooks/utils';
+
 import Routes from '@/router/routes';
+
 import HTML_20221208 from '@/assets/terms/privacy_agreement/20221208';
+
 import HTML_20221103 from '@/assets/terms/privacy_agreement/20221103';
+
 import HTML_20221017 from '@/assets/terms/privacy_agreement/20221017';
+
 import HTML_20231211 from '@/assets/terms/privacy_agreement/20231211';
 
 interface Props {
@@ -15,6 +23,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
   const [selectedTerms, setSelectedTerms] = useState('2023.12.11');
 
   const htmlTerms = (() => {
@@ -38,7 +47,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   );
 
   const handleGoBack = useCallback(() => {
-    if (router.query.register)
+    if (router?.query?.register) {
       router.replace(Routes.Register, {
         state: {
           email: router.query.email as string,
@@ -46,7 +55,11 @@ export default memo(({ depth, panelWidth }: Props) => {
           socialLoginType: router.query.socialLoginType as string,
         },
       });
-    else router.replace(Routes.TermsAndPolicy);
+    } else if (router.query.entry === 'home') {
+      router.replace('/');
+    } else {
+      router.replace(Routes.TermsAndPolicy);
+    }
   }, [router]);
 
   return (

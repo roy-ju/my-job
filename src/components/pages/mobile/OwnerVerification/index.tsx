@@ -1,11 +1,18 @@
-import useAPI_GetAgreementInfo from '@/apis/listing/getAgreementInfo';
-import { OwnerVerification as Template, OwnerVerificationComplete as CompleteTemplate } from '@/components/templates';
-import { useRouter } from 'next/router';
 import { useCallback } from 'react';
-import ErrorCodes from '@/constants/error_codes';
-import Routes from '@/router/routes';
-import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { useRouter } from 'next/router';
+
 import { MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { OwnerVerification as Template, OwnerVerificationComplete as CompleteTemplate } from '@/components/templates';
+
+import useAPI_GetAgreementInfo from '@/apis/listing/getAgreementInfo';
+
+import Routes from '@/router/routes';
+
+import ErrorCodes from '@/constants/error_codes';
 
 export default function OwnerVerification() {
   const router = useRouter();
