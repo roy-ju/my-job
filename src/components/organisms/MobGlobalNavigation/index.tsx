@@ -1,12 +1,21 @@
-import HomeIcon from '@/assets/icons/home.svg';
-import HeartIcon from '@/assets/icons/heart.svg';
-import MapIcon from '@/assets/icons/mob_map_pin.svg';
-import ChatIcon from '@/assets/icons/mob_chat.svg';
-import UserIcon from '@/assets/icons/user.svg';
-import { Button, NewCount } from '@/components/atoms';
 import { useRouter } from 'next/router';
+
 import tw from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
+import HomeIcon from '@/assets/icons/home.svg';
+
+import HeartIcon from '@/assets/icons/heart.svg';
+
+import MapIcon from '@/assets/icons/mob_map_pin.svg';
+
+import ChatIcon from '@/assets/icons/mob_chat.svg';
+
+import UserIcon from '@/assets/icons/user.svg';
+
 import Routes from '@/router/routes';
+
 import useMap from '@/states/mob/mobileMap';
 
 export default function MobGlobalNavigation({
