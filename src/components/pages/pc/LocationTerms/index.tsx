@@ -19,6 +19,7 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
   const [selectedTerms, setSelectedTerms] = useState('2022.11.03');
 
   const htmlTerms = (() => {
