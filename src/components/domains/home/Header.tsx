@@ -8,7 +8,7 @@ import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
 import useSyncronizer from '@/states/syncronizer';
 
-import { Button } from '@/components/atoms';
+import { ButtonV2 } from '@/components/atoms';
 
 import Routes from '@/router/routes';
 
@@ -47,16 +47,15 @@ export default function Header() {
     <header tw="h-14 px-4 flex items-center justify-between z-[1000] bg-white">
       <LogoIcon />
       {!user ? (
-        <Button
-          size="none"
-          variant="ghost"
-          tw="h-6 px-2.5 rounded-lg border border-nego-1000 text-nego-1000 text-info hover:bg-nego-100"
+        <ButtonV2
+          size="small"
+          variant="primaryOutline"
+          radius="r100"
+          tw="h-6 px-2 py-0.5 text-body_01"
           onClick={handleClickLogin}
         >
-          로그인
-          <span tw="h-2 w-px bg-nego-1000 mx-1" />
-          회원가입
-        </Button>
+          로그인 | 회원가입
+        </ButtonV2>
       ) : (
         <button type="button" tw="relative" onClick={handleClickNotification}>
           <BellIcon />
