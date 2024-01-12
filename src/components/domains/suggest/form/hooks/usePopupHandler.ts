@@ -73,7 +73,7 @@ export default function usePopupHandler() {
         router.replace(`/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
       } else if (isEqualValue(router?.query?.entry, 'danjiSuggestListings')) {
         router.replace(`/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
-      } else if (isEqualValue(router?.query?.entry, 'my')) {
+      } else if (isEqualValue(router?.query?.entry, 'suggestRequestedList')) {
         router.replace(`/${Routes.My}?default=1`);
       } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
         router.replace(`/${Routes.My}?default=1`);
@@ -89,7 +89,7 @@ export default function usePopupHandler() {
         router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
       } else if (isEqualValue(router?.query?.entry, 'danjiSuggestListings')) {
         router.replace(`/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
-      } else if (isEqualValue(router?.query?.entry, 'my')) {
+      } else if (isEqualValue(router?.query?.entry, 'suggestRequestedList')) {
         router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
       } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
         router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
