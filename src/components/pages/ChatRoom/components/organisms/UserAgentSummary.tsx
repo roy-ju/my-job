@@ -14,8 +14,6 @@ import useClientAccordionHandler from '../../hooks/useClientAccordionHandler';
 export function UserAgentSummary() {
   const { open, subTab, accordionDetails, setOpen, setSubTab } = useClientAccordionHandler();
 
-  console.log(subTab);
-
   return (
     <Accordion
       tw="absolute w-full top-14 z-10 border-b border-t border-gray-300"
