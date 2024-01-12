@@ -69,8 +69,8 @@ export default function MobGlobalNavigation({
         >
           <div tw="relative">
             <ChatIcon css={index === 3 ? buttonStyles.selected : buttonStyles.defaultIcon} />
-            {unreadChatCount > 0 && (
-              <NewCount value="N" tw="font-bold absolute top-0 right-0 translate-x-1/2 -translate-y-1/2" />
+            {!!unreadChatCount && (
+              <div tw="absolute w-1 h-1 bg-red-800 [border-radius: 50%] font-bold top-0 -right-[8.5px]" />
             )}
           </div>
           <span css={[tw`text-body_01`, index === 3 ? buttonStyles.selected : buttonStyles.default]}>채팅</span>

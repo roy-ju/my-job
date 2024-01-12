@@ -50,8 +50,14 @@ export default memo(() => {
           socialLoginType: router.query.socialLoginType as string,
         },
       });
-    } else {
-      router.back();
+    } else if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
     }
   }, [router]);
 
