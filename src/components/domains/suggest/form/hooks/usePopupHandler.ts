@@ -207,26 +207,28 @@ export default function usePopupHandler() {
   }, [setState, state?.uiRealestateType]);
 
   const isFilter = useMemo(() => {
-    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, Routes.Home)) {
+    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.entry, Routes.Home)) {
       return true;
     }
 
-    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, Routes.Home)) {
+    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.entry, Routes.Home)) {
       return true;
     }
 
     return false;
-  }, [router?.query?.enry, router?.query?.property]);
+  }, [router?.query?.entry, router?.query?.property]);
 
   const filterQuery = useMemo(() => {
-    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.enry, Routes.Home)) {
+    if (isEqualValue(router?.query?.property, '아파트') && isEqualValue(router?.query?.entry, Routes.Home)) {
       return RealestateType.Apartment;
     }
 
-    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.enry, Routes.Home)) {
+    if (isEqualValue(router?.query?.property, '오피스텔') && isEqualValue(router?.query?.entry, Routes.Home)) {
       return RealestateType.Officetel;
     }
-  }, [router?.query?.enry, router?.query?.property]);
+  }, [router?.query?.entry, router?.query?.property]);
+
+  console.log(filterQuery);
 
   return {
     popup: state.popup,

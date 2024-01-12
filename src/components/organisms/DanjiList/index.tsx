@@ -67,7 +67,7 @@ function AddressSearchForm({
 
   const convertedResults = useMemo(() => {
     if (isFilter && query) {
-      return results.filter((ele) => ele.realestate_type !== query);
+      return results.filter((ele) => ele.realestate_type === query);
     }
     return results;
   }, [query, isFilter, results]);
