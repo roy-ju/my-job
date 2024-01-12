@@ -70,19 +70,19 @@ export default function useGetStepperInfo() {
 
     if (currentForm === 'interview') {
       return makeObject({
-        title: '마지막으로 인터뷰 시간대를 선택해주세요!',
-        subTitle: '인터뷰 가능한 시간대를 알려주시면 해당 시간대에\n네고시오 전담매니저가 연락드릴 예정이에요.',
+        title: '수고하셨어요!',
+        subTitle: '이제 인터뷰 가능한 시간대를 선택해주시면\n네고시오 전담 매니저가 연락드릴 예정이에요!',
         currentIndex: 5,
-        isIcon: false,
+        isIcon: true,
       });
     }
 
     if (currentForm === 'summary') {
       return makeObject({
-        title: '수고하셨어요!',
-        subTitle: '이제 인터뷰 가능한 시간대를 선택해주시면\n네고시오 전담 매니저가 연락드릴 예정이에요!',
+        title: '구하는 내용을 최종 확인해주세요!',
+        subTitle: "입력하신 내용의 수정 및 추천 현황은\n‘마이페이지 > 구하기 게시 내역' 에서 확인 가능합니다.",
         currentIndex: 6,
-        isIcon: true,
+        isIcon: false,
       });
     }
 
