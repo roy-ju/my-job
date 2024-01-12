@@ -64,7 +64,7 @@ function PriceField({
           ref={inputRef}
           id={id}
         >
-          <TextFieldV2.Input value={price} onChange={handleChange} label={label} isLabelBottom />
+          <TextFieldV2.Input value={price} onChange={handleChange} label={label} mode="numeric" isLabelBottom />
 
           {price && (
             <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, top }}>
