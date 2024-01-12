@@ -65,7 +65,7 @@ export default function OpenSourceLicenses({ onClickBack }: Props) {
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title>오픈소스 라이선스</NavigationHeader.Title>
+        <NavigationHeader.Title>오픈소스 라이센스</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex-1 overflow-auto px-5 py-10">
         <p>

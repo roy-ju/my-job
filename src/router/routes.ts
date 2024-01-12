@@ -134,7 +134,7 @@ const Routes = {
   // 구해요 목록
   SuggestListings: 'suggestListings',
 
-  // 오픈소스라이선스
+  // 오픈소스라이센스
   OpenSourceLicenses: 'openSourceLicenses',
   // 버전정보
   VersionInfo: 'versionInfo',
