@@ -1,8 +1,7 @@
-import React from 'react';
+import tw from 'twin.macro';
 
 import { Accordion } from '@/components/molecules';
 
-import tw from 'twin.macro';
 import { SuggestionItemCard, SuggestionItemCardHeader } from './SuggestionCard';
 
 import { RecommendItemCard, RecommendItemCardHeader } from './RecommendItemCard';
