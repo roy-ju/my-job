@@ -11,7 +11,7 @@ const initialValues = {
   buyOrRent: 0,
   tradeOrDepositPrice: '',
   monthlyRentFee: '',
-  negotiable: true,
+  negotiable: false,
   quickSale: '0',
   purpose: '',
   investAmount: '',

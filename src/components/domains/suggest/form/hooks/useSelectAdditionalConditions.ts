@@ -83,26 +83,28 @@ export default function useSelectAdditionalConditions() {
         return array;
       }
 
-      const array = [{ common: RegionCommonJeonsaeOptions }];
+      if (isEqualValue(buyOrRent, BuyOrRent.Jeonsae)) {
+        const array = [{ common: RegionCommonJeonsaeOptions }];
 
-      if (getIncludeValue(RealestateType.Apartment, realestateTypes)) {
-        addObjectIfKeyNotExists(array, 'apartment', RegionApartmentJeonsaeOptions);
+        if (getIncludeValue(RealestateType.Apartment, realestateTypes)) {
+          addObjectIfKeyNotExists(array, 'apartment', RegionApartmentJeonsaeOptions);
+        }
+
+        if (
+          getIncludeValue(RealestateType.Officetel, realestateTypes) ||
+          getIncludeValue(RealestateType.Dasaedae, realestateTypes) ||
+          getIncludeValue(RealestateType.Dagagoo, realestateTypes) ||
+          getIncludeValue(RealestateType.Yunrip, realestateTypes)
+        ) {
+          addObjectIfKeyNotExists(array, 'officetelVillaDagagoo', RegionOfficetelVillaDagagooJeonsaeOptions);
+        }
+
+        if (getIncludeValue(RealestateType.Dandok, realestateTypes)) {
+          addObjectIfKeyNotExists(array, 'dandok', RegionDandokJeonsaeOptions);
+        }
+
+        return array;
       }
-
-      if (
-        getIncludeValue(RealestateType.Officetel, realestateTypes) ||
-        getIncludeValue(RealestateType.Dasaedae, realestateTypes) ||
-        getIncludeValue(RealestateType.Dagagoo, realestateTypes) ||
-        getIncludeValue(RealestateType.Yunrip, realestateTypes)
-      ) {
-        addObjectIfKeyNotExists(array, 'officetelVillaDagagoo', RegionOfficetelVillaDagagooJeonsaeOptions);
-      }
-
-      if (getIncludeValue(RealestateType.Dandok, realestateTypes)) {
-        addObjectIfKeyNotExists(array, 'dandok', RegionDandokJeonsaeOptions);
-      }
-
-      return array;
     }
 
     return [];
