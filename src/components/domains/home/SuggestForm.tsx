@@ -200,7 +200,7 @@ export default function SuggestForm() {
             variant="primary"
             size="big"
             tw="w-full mt-6"
-            disabled={!property || !buyOrRent}
+            disabled={!property.length || !buyOrRent}
             onClick={handleClickSuggest}
           >
             구해요

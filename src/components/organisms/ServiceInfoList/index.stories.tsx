@@ -9,7 +9,7 @@ export default {
 export const Default: ComponentStory<typeof ServiceInfoList> = () => (
   <ServiceInfoList>
     <ServiceInfoList.Item title="약관 및 정책" />
-    <ServiceInfoList.Item title="오픈소스 라이선스" />
+    <ServiceInfoList.Item title="오픈소스 라이센스" />
     <ServiceInfoList.Item title="버전정보" />
     <ServiceInfoList.Item title="사업자정보" />
   </ServiceInfoList>
