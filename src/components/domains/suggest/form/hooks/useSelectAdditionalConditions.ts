@@ -63,10 +63,7 @@ export default function useSelectAdditionalConditions() {
       if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
         const array = [{ common: RegionCommonBuyOptions }];
 
-        if (
-          getIncludeValue(RealestateType.Apartment, realestateTypes) ||
-          getIncludeValue(RealestateType.Officetel, realestateTypes)
-        ) {
+        if (getIncludeValue(RealestateType.Apartment, realestateTypes)) {
           addObjectIfKeyNotExists(array, 'apartment', RegionApartmentBuyOptions);
         }
 
@@ -88,10 +85,7 @@ export default function useSelectAdditionalConditions() {
 
       const array = [{ common: RegionCommonJeonsaeOptions }];
 
-      if (
-        getIncludeValue(RealestateType.Apartment, realestateTypes) ||
-        getIncludeValue(RealestateType.Officetel, realestateTypes)
-      ) {
+      if (getIncludeValue(RealestateType.Apartment, realestateTypes)) {
         addObjectIfKeyNotExists(array, 'apartment', RegionApartmentJeonsaeOptions);
       }
 
