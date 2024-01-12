@@ -16,16 +16,16 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   const targetRoute = query.depth2 ?? query.depth1;
 
-  if (targetRoute === Routes.DanjiRecommendation) {
+  if (targetRoute === Routes.PAST_RecommedationGuide || targetRoute === Routes.SuggestGuide) {
     return {
-      title: `단지 추천받기 | ${
+      title: `매물 추천받기 가이드 | ${
         process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
           ? '(TEST) 부동산 가격협상 앱 네고시오'
           : '부동산 가격협상 앱 네고시오'
       }`,
-      description: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
-      ogTitle: '단지 추천받기',
-      ogDescription: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
+      description: '매물 추천받기 서비스를 이용해 보세요.',
+      ogTitle: '매물 추천받기 가이드',
+      ogDescription: '매물 추천받기 서비스를 이용해 보세요.',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
@@ -36,10 +36,11 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
   }
 
   if (
-    targetRoute === Routes.MySuggestDetail ||
-    targetRoute === Routes.SuggestRegionalForm ||
-    targetRoute === Routes.SuggestRegionalSummary ||
-    targetRoute === Routes.SuggestRequestedList
+    targetRoute === Routes.SuggestForm ||
+    targetRoute === Routes.PAST_SuggestRegionalForm ||
+    targetRoute === Routes.PAST_SuggestRegionalSummary ||
+    targetRoute === Routes.PAST_DanjiRecommendation ||
+    targetRoute === Routes.PAST_DanjiRecommendationSummary
   ) {
     return {
       title: `매물 추천받기 | ${
@@ -47,9 +48,33 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
           ? '(TEST) 부동산 가격협상 앱 네고시오'
           : '부동산 가격협상 앱 네고시오'
       }`,
-      description: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
+      description: '매물 추천받기 서비스를 이용해 보세요.',
       ogTitle: '매물 추천받기',
-      ogDescription: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
+      ogDescription: '매물 추천받기 서비스를 이용해 보세요.',
+      ogImagePath: AppConfig.ogImagePath,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      keyWords: `${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
+      }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
+    };
+  }
+
+  if (
+    targetRoute === Routes.SuggestForm ||
+    targetRoute === Routes.PAST_RecommendationForm ||
+    targetRoute === Routes.PAST_SuggestRegionalForm ||
+    targetRoute === Routes.PAST_DanjiRecommendation
+  ) {
+    return {
+      title: `매물 구해요 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
+      description: '매물 구해요 서비스를 이용해 보세요.',
+      ogTitle: '매물 구해요',
+      ogDescription: '매물 구해요 서비스를 이용해 보세요.',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',

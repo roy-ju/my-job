@@ -10,7 +10,7 @@ export default memo(() => {
 
   const { data: suggestRecommendedList, isLoading, increamentPageNumber } = useAPI_GetMySuggestRecommendedList();
 
-  const handleNavigateToDanjiRecommendation = () => {
+  const handleNavigateMap = () => {
     router.push(`/${Routes.EntryMobile}/${Routes.Map}`);
   };
 
@@ -39,7 +39,7 @@ export default memo(() => {
           <SuggestRecommendedListTemplate
             suggestRecommendedList={suggestRecommendedList}
             onNextListing={increamentPageNumber}
-            onNavigateToDanjiRecommendation={handleNavigateToDanjiRecommendation}
+            onNavigateToMap={handleNavigateMap}
             onNavigateToSuggestRecommendedDetail={handleNavigateToSuggestRecommendedDetail}
             onClickBack={() => {
               router.back();

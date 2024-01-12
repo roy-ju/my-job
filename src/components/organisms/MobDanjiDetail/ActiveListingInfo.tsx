@@ -162,10 +162,10 @@ export default function ActiveListingInfo({
     }`;
 
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.DanjiRecommendation}`,
+      pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
       query: {
         ...(danjiID ? { danjiID } : {}),
-        entry: 'danji',
+        entry: Routes.DanjiDetail,
         redirect: redirectURL,
         origin: router.asPath,
       },

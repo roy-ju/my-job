@@ -179,8 +179,9 @@ export default memo(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ListingTargetPriceUpdate}?listingID=${router.query.listingID}`);
   }, [router]);
 
-  const handleNavigateToSuggestRegional = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestRegionalForm}`);
+  const handleNavigateToSuggestForm = useCallback(() => {
+    router.push(`/${Routes.EntryMobile}/${Routes.SuggestForm}`);
+    // To do 추가 로직 구현필요
   }, [router]);
 
   const handleNavigateToListingDetailHistory = useCallback(() => {
@@ -379,7 +380,7 @@ export default memo(() => {
               onNavigateToChatRoom={handleNavigateToChatRoom}
               onNavigateToCreateQna={handleNavigateToCreateQna}
               onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
-              onNavigateToSuggestRegional={handleNavigateToSuggestRegional}
+              onNavigateToSuggestForm={handleNavigateToSuggestForm}
               onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
               onClickBack={handleClickBack}
             />

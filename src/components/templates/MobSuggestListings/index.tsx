@@ -47,7 +47,7 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
       pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
       query: {
         danjiID,
-        entry: 'danjiSuggestListings',
+        entry: 'suggestListings',
       },
     });
   }, [danjiID, router]);

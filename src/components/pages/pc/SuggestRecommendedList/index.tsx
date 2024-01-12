@@ -23,7 +23,7 @@ export default memo(({ panelWidth, depth }: Props) => {
     });
   };
 
-  const handleNavigateToDanjiRecommendation = () => {
+  const handleNavigateToMap = () => {
     router.replace(Routes.Map, {
       searchParams: { back: router.asPath },
     });
@@ -58,7 +58,7 @@ export default memo(({ panelWidth, depth }: Props) => {
             suggestRecommendedList={suggestRecommendedList}
             onNextListing={increamentPageNumber}
             onNavigateToSuggestRecommendedDetail={handleNavigateToSuggestRecommendedDetail}
-            onNavigateToDanjiRecommendation={handleNavigateToDanjiRecommendation}
+            onNavigateToMap={handleNavigateToMap}
           />
         )}
       </Panel>

@@ -66,22 +66,6 @@ export default function VerifyCiWrraper() {
     if (typeof window !== 'undefined') {
       const canGoBack = window.history.length > 1;
 
-      if (router?.query?.redirect?.includes('/m/suggestRegionalSummary')) {
-        const redirectURL = router.query.redirect as string;
-
-        const url = redirectURL.replaceAll('suggestRegionalSummary', 'suggestRegionalForm');
-        router.replace(url);
-        return;
-      }
-
-      if (router?.query?.redirect?.includes('/m/danjiRecommendationSummary')) {
-        const redirectURL = router.query.redirect as string;
-
-        const url = redirectURL.replaceAll('danjiRecommendationSummary', 'danjiRecommendation');
-        router.replace(url);
-        return;
-      }
-
       if (canGoBack) {
         router.back();
       } else {

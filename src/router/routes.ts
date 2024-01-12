@@ -11,9 +11,6 @@ const Routes = {
   DanjiDetail: 'danjiDetail',
   DanjiListings: 'danjiListings',
   DanjiPhotos: 'danjiPhotos',
-  DanjiRecommendation: 'danjiRecommendation',
-  DanjiRecommendationSummary: 'danjiRecommendationSummary',
-  DanjiRecommendationUpdate: 'danjiRecommendationUpdate',
   DanjiRealPriceList: 'danjiRealPriceList',
   DanjiRealPriceDetail: 'danjiRealPrice',
   DanjiRealTradeDetail: 'danjiRealTrade',
@@ -115,11 +112,6 @@ const Routes = {
   ListingTargetPriceUpdateSummary: 'listingTargetPriceUpdateSummary',
   ContractTerms: 'contractTerms',
 
-  // 지역매물추천
-  SuggestRegionalForm: 'suggestRegionalForm',
-  SuggestRegionalSummary: 'suggestRegionalSummary',
-  SuggestRegionalFormUpdate: 'suggestRegionalFormUpdate',
-
   // 나의 추천요청 / 추천받은매물
   SuggestRequestedList: 'suggestRequestedList',
 
@@ -149,6 +141,22 @@ const Routes = {
 
   EntryMobile: 'm',
   Intro: 'intro',
+
+  // 실제로 존재하는 url은 아니다. 핸들링을 필요한 클라이언트 루트
+  Home: 'home',
+
+  // 과거 매물추천과 관련된 Routes들 존재하면 안되는 페이지
+  PAST_RecommedationGuide: 'recommendationGuide',
+
+  PAST_RecommendationForm: 'recommendationForm',
+
+  PAST_SuggestRegionalForm: 'suggestRegionalForm',
+  PAST_SuggestRegionalSummary: 'suggestRegionalSummary',
+  PAST_SuggestRegionalFormUpdate: 'suggestRegionalFormUpdate',
+
+  PAST_DanjiRecommendation: 'danjiRecommendation',
+  PAST_DanjiRecommendationSummary: 'danjiRecommendationSummary',
+  PAST_DanjiRecommendationUpdate: 'danjiRecommendationUpdate',
 };
 
 export default Routes;

@@ -39,7 +39,7 @@ export default function useBackButtonHandler() {
     }
 
     if (isEqualValue(platform, 'pc')) {
-      if (isEqualValue(router?.query?.entry, 'home')) {
+      if (isEqualValue(router?.query?.entry, Routes.Home)) {
         if (
           isNotEqualValue(router?.query?.property, '아파트') &&
           isNotEqualValue(router?.query?.property, '오피스텔')
@@ -57,14 +57,14 @@ export default function useBackButtonHandler() {
           router.replace(`/`);
         }
       } else if (
-        isEqualValue(router?.query?.entry, 'danjiDetail') ||
-        isEqualValue(router?.query?.entry, 'danjiSuggestListings')
+        isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
+        isEqualValue(router?.query?.entry, Routes.SuggestListings)
       ) {
         if (forms.length > 2) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          if (isEqualValue(router?.query?.entry, 'danjiDetail')) {
+          if (isEqualValue(router?.query?.entry, Routes.DanjiDetail)) {
             router.replace(`/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
           } else {
             router.replace(`/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
@@ -73,7 +73,7 @@ export default function useBackButtonHandler() {
       } else if (forms.length >= 2) {
         setPopup('quit');
       } else {
-        if (isEqualValue(router?.query?.entry, 'my')) {
+        if (isEqualValue(router?.query?.entry, Routes.My)) {
           router.replace(`/${Routes.My}?default=1`);
         } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
           router.replace(`/${Routes.My}?default=1`);
@@ -85,7 +85,7 @@ export default function useBackButtonHandler() {
     }
 
     if (isEqualValue(platform, 'mobile')) {
-      if (isEqualValue(router?.query?.entry, 'home')) {
+      if (isEqualValue(router?.query?.entry, Routes.Home)) {
         if (
           isNotEqualValue(router?.query?.property, '아파트') &&
           isNotEqualValue(router?.query?.property, '오피스텔')
@@ -103,8 +103,8 @@ export default function useBackButtonHandler() {
           mobilebackHandler();
         }
       } else if (
-        isEqualValue(router?.query?.entry, 'danjiDetail') ||
-        isEqualValue(router?.query?.entry, 'danjiSuggestListings')
+        isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
+        isEqualValue(router?.query?.entry, Routes.SuggestListings)
       ) {
         if (forms.length > 2) {
           setPopup('quit');

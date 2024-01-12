@@ -86,25 +86,6 @@ function MapWrapper() {
       return;
     }
 
-    // if (centerAddress.join('') !== '') {
-    //   router.push({
-    //     pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
-    //     query: {
-    //       entry: 'map',
-    //       address: centerAddress.join(' '),
-    //       origin: router.asPath,
-    //     },
-    //   });
-    // } else {
-    //   router.push({
-    //     pathname: `/${Routes.EntryMobile}/${Routes.RecommendationForm}`,
-    //     query: {
-    //       entry: 'map',
-    //       origin: router.asPath,
-    //     },
-    //   });
-    // }
-
     if (centerAddress.join('') !== '') {
       searchAddress(centerAddress.join(' '))
         .then((data) => {

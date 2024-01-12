@@ -7,9 +7,6 @@ export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiListings } from './DanjiListings';
 export { default as DanjiRealPriceListAll } from './DanjiRealPriceListAll';
-export { default as DanjiRecommendation } from './DanjiRecommendation';
-export { default as DanjiRecommendationSummary } from './DanjiRecommendationSummary';
-export { default as DanjiRecommendationUpdate } from './DanjiRecommendationUpdate';
 export { default as MapLayout } from './MapLayout';
 export { default as My } from './My';
 export { default as PageNotFound } from './PageNotFound';
@@ -66,9 +63,6 @@ export { default as MyRegisteredListings } from './MyRegisteredListings';
 export { default as ListingDetailPassed } from './ListingDetailPassed';
 export { default as ListingDetailHistory } from './ListingDetailHistory';
 
-export { default as SuggestRegionalForm } from './SuggestRegionalForm';
-export { default as SuggestRegionalSummary } from './SuggestRegionalSummary';
-export { default as SuggestRegionalFormUpdate } from './SuggestRegionalFormUpdate';
 export { default as SuggestRequestedList } from './SuggestRequestedList';
 export { default as SuggestDetail } from './SuggestDetail';
 
@@ -92,7 +86,6 @@ export { default as LegalCounseling } from './LegalCounseling';
 export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
-export { default as RecommendationForm } from './RecommendationForm';
 export { default as MyRegisteredHomes } from './MyRegisteredHomes';
 export { default as SelectAddressTemplate } from './SelectAddressTemplate';
 
@@ -125,7 +118,6 @@ export { default as MobRealPriceDetail } from './MobRealPriceDetail';
 export { default as MobDanjiSelect } from './MobDanjiSelect';
 export { default as MobRealTradeDetail } from './MobRealTradeDetail';
 export { default as MobDanjiListings } from './MobDanjiListings';
-export { default as MobDanjiRecommendation } from './MobDanjiRecommendation';
 export { default as MobHog } from './MobHog';
 export { default as MobChatMap } from './MobChatMap';
 export { default as MobSuggestListings } from './MobSuggestListings';

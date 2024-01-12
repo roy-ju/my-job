@@ -40,7 +40,7 @@ export interface ListingDetailProps {
   onNavigateToParticipateBidding?: () => void;
   onNavigateToUpdateBidding?: () => void;
   onNavigateToChatRoom?: () => void;
-  onNavigateToSuggestRegional?: () => void;
+  onNavigateToSuggestForm?: () => void;
   onNavigateToUpdateTargetPrice?: () => void;
   onNavigateToListingDetailHistory?: () => void;
   onClickSuggestNotInterested?: () => void;
@@ -67,7 +67,7 @@ export default function ListingDetail({
   onNavigateToChatRoom,
   onNavigateToCreateQna,
   onNavigateToPhotoGallery,
-  onNavigateToSuggestRegional,
+  onNavigateToSuggestForm,
   onNavigateToListingDetailHistory,
   onClickShare,
   onClickBack,
@@ -351,7 +351,7 @@ export default function ListingDetail({
                     onNavigateToChatRoom={onNavigateToChatRoom}
                     onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
                     onClickSuggestNotInterested={onClickSuggestNotInterested}
-                    onNavigateToSuggestRegional={onNavigateToSuggestRegional}
+                    onNavigateToSuggestForm={onNavigateToSuggestForm}
                     onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
                   />
                 </div>
@@ -599,7 +599,7 @@ export default function ListingDetail({
             onNavigateToChatRoom={onNavigateToChatRoom}
             onClickSuggestAcceptRecommend={onClickSuggestAcceptRecommend}
             onClickSuggestNotInterested={onClickSuggestNotInterested}
-            onNavigateToSuggestRegional={onNavigateToSuggestRegional}
+            onNavigateToSuggestForm={onNavigateToSuggestForm}
           />
         </PersistentBottomBar>
       )}
