@@ -1,20 +1,39 @@
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-import { Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
-import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
-import { ListingCtaButtons, ListingDetailSection, MobDanjiDetailSection, PhotoHero } from '@/components/organisms';
-import HeartFilledIcon from '@/assets/icons/heart.svg';
-import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
-import ShareIcon from '@/assets/icons/share.svg';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useIsomorphicLayoutEffect, useScroll } from '@/hooks/utils';
+
 import tw from 'twin.macro';
-import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
+
+import { Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
+
+import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
+
+import { ListingCtaButtons, ListingDetailSection, MobDanjiDetailSection, PhotoHero } from '@/components/organisms';
+
+import useScroll from '@/hooks/useScroll';
+
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
 import falsy from '@/utils/falsy';
+
+import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
+
 import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
+
+import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
-import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
+
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
+
+import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
+
+import HeartFilledIcon from '@/assets/icons/heart.svg';
+
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
+
+import ShareIcon from '@/assets/icons/share.svg';
+
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
+
 import UserStatusStrings from '../ListingDetail/strings';
 
 export interface ListingDetailProps {

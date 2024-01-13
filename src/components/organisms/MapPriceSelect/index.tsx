@@ -1,8 +1,15 @@
-import { useControlled, useOutsideClick } from '@/hooks/utils';
 import React, { useCallback, useRef, useState } from 'react';
-import { usePopper } from 'react-popper';
-import ChevronDownIcon from '@/assets/icons/chevron_down.svg';
+
 import tw, { styled, theme } from 'twin.macro';
+
+import { usePopper } from 'react-popper';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import { useControlled } from '@/hooks/utils';
+
+import ChevronDownIcon from '@/assets/icons/chevron_down.svg';
+
 import CheckIcon from '@/assets/icons/check.svg';
 
 const SelectButton = styled.button`

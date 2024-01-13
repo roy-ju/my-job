@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
-import useIsNativeApp from '@/hooks/utils/useIsNativeApp';
+import useIsNativeApp from '@/hooks/useIsNativeApp';
 
 import Routes from '@/router/routes';
 

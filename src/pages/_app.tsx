@@ -28,7 +28,7 @@ import initializeAppleAuth from '@/lib/apple/initialize';
 
 import { updateVH } from '@/utils/updateVH';
 
-import useNativeAppEventListeners from '@/hooks/utils/useNativeAppEventListeners';
+import useNativeAppEventListeners from '@/hooks/useNativeAppEventListeners';
 
 import usePageLoading from '@/hooks/utils/usePageLoading';
 

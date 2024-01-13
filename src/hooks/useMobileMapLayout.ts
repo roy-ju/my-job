@@ -14,9 +14,11 @@ import { Filter } from '@/components/organisms/MapFilter/types';
 
 import mobileMapAtom from '@/states/atom/mobileMap';
 
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import useSessionStorage from '@/hooks/useSessionStorage';
 
-import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
 import { coordToRegion } from '@/lib/kakao';
 

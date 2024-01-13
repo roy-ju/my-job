@@ -24,9 +24,11 @@ import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
 import danjiInteractionAtom from '@/states/atom/danjiInteraction';
 
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import useSessionStorage from '@/hooks/useSessionStorage';
 
-import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
 import useRecentSearches from '@/hooks/services/useRecentSearches';
 
@@ -48,7 +50,7 @@ import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
 
 import Routes from '@/router/routes';
 
-import useLatest from '@/hooks/utils/useLatest';
+import useLatest from '@/hooks/useLatest';
 
 import { CommonMarker, ListingDanjiMarker, SchoolMarker, AroundMarker } from '@/types/markers';
 

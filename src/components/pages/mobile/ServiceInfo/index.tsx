@@ -6,7 +6,7 @@ import { MobileContainer } from '@/components/atoms';
 
 import { ServiceInfo } from '@/components/templates';
 
-import useIsNativeApp from '@/hooks/utils/useIsNativeApp';
+import useIsNativeApp from '@/hooks/useIsNativeApp';
 
 import Routes from '@/router/routes';
 

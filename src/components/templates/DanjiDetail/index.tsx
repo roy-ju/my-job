@@ -12,7 +12,9 @@ import News from '@/components/organisms/News';
 
 import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
-import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
+import useScroll from '@/hooks/useScroll';
+
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 

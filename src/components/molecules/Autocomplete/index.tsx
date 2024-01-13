@@ -1,5 +1,3 @@
-import { useControlled, useOutsideClick } from '@/hooks/utils';
-import { ModifierPhases } from '@popperjs/core';
 import React, {
   ChangeEventHandler,
   Children,
@@ -14,7 +12,15 @@ import React, {
   useRef,
   useState,
 } from 'react';
+
 import { usePopper } from 'react-popper';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import { useControlled } from '@/hooks/utils';
+
+import { ModifierPhases } from '@popperjs/core';
+
 import AutocompleteContext from './AutocompleteContext';
 
 function Popper({ children }: { children?: ReactNode }) {

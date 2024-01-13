@@ -1,17 +1,31 @@
 /* eslint-disable react/self-closing-comp */
-import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
-import { GetLawQnaDetailResponse } from '@/apis/lawQna/getLawQnaDetail';
-import { formatCreatedTime } from '@/utils/formatsTime';
-import { useOutsideClick } from '@/hooks/utils';
+
 import { useState, useRef, useCallback, useMemo } from 'react';
-import { usePopper } from 'react-popper';
-import TripleDotsIcon from '@/assets/icons/triple_dots_gray.svg';
+
 import Image from 'next/image';
-import defaultAvatar from '@/../public/static/images/default_avatar.png';
-import { Button, Separator } from '@/components/atoms';
+
 import { styled } from 'twin.macro';
+
+import { usePopper } from 'react-popper';
+
+import { Button, Separator } from '@/components/atoms';
+
+import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import { formatCreatedTime } from '@/utils/formatsTime';
+
+import { GetLawQnaDetailResponse } from '@/apis/lawQna/getLawQnaDetail';
+
+import TripleDotsIcon from '@/assets/icons/triple_dots_gray.svg';
+
+import defaultAvatar from '@/../public/static/images/default_avatar.png';
+
 import ShareIcon from '@/assets/icons/share_another.svg';
+
 import ThumbIcon from '@/assets/icons/thumb_big.svg';
+
 import ThumbRedIcon from '@/assets/icons/thumb_big_red.svg';
 
 const ButtomWrraper = styled.div``;

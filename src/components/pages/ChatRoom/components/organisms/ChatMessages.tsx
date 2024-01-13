@@ -1,14 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 
-import tw from 'twin.macro';
-
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
+
+import tw from 'twin.macro';
 
 import { Button, Loading, Moment } from '@/components/atoms';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { useIsomorphicLayoutEffect, useOutsideClick } from '@/hooks/utils';
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 
 import { ChatUserType } from '@/constants/enums';
 

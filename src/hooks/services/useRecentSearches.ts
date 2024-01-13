@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { useLocalStorage } from '../utils';
+
+import useLocalStorage from '../useLocalStorage';
 
 export interface RecentSearchType {
   id: string;

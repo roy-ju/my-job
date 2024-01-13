@@ -1,20 +1,30 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+
+import { useRouter as useNextRouter } from 'next/router';
+
+import { Button, InfiniteScroll } from '@/components/atoms';
+
 import { NavigationHeader } from '@/components/molecules';
 
-import SearchBlackIcon from '@/assets/icons/search.svg';
 import { ILawQnaListItem } from '@/apis/lawQna/getLawQna';
-import { Button, InfiniteScroll } from '@/components/atoms';
-import Plus16 from '@/assets/icons/plus_16px.svg';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useScroll } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
+
+import useScroll from '@/hooks/useScroll';
+
 import { formatCreatedTime } from '@/utils/formatsTime';
+
 import { getDevice } from '@/utils/misc';
+
+import Plus16 from '@/assets/icons/plus_16px.svg';
+
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 
+import SearchBlackIcon from '@/assets/icons/search.svg';
+
 import { LegalContent } from './Components/LegalContent';
+
 import Banner from './Components/Banner';
 
 export default function LegalCounseling({

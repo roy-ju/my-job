@@ -1,15 +1,28 @@
 import { Children, HTMLProps, ReactNode, useCallback, useContext, useMemo, useRef, useState } from 'react';
-import ChevronDown from '@/assets/icons/chevron_down.svg';
-import { usePopper } from 'react-popper';
-import { useControlled, useOutsideClick } from '@/hooks/utils';
-import { ModifierPhases } from '@popperjs/core';
+
 import tw from 'twin.macro';
-import SelectedIcon from '@/assets/icons/selected.svg';
+
 import { motion, AnimatePresence } from 'framer-motion';
-import useSuffixPosition from '@/hooks/utils/useSuffixPosition';
-import TextField from '../TextField';
-import { SizeType, VariantType } from '../TextField/TextFieldContext';
+
+import { usePopper } from 'react-popper';
+
+import { ModifierPhases } from '@popperjs/core';
+
+import { useControlled } from '@/hooks/utils';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import useSuffixPosition from '@/hooks/useSuffixPosition';
+
+import ChevronDown from '@/assets/icons/chevron_down.svg';
+
+import SelectedIcon from '@/assets/icons/selected.svg';
+
 import DropdownContext from './DropdownContext';
+
+import TextField from '../TextField';
+
+import { SizeType, VariantType } from '../TextField/TextFieldContext';
 
 const OptionsContainer = tw.div`bg-white rounded-lg py-2 border border-gray-1000`;
 

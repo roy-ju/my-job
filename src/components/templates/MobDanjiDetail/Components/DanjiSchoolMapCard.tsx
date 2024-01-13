@@ -2,20 +2,32 @@
 /* eslint-disable no-nested-ternary */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { SchoolType } from '@/constants/enums';
+
 import styled from '@emotion/styled';
-import { useAPI_DanjiMapSchools } from '@/apis/danji/danjiMapSchools';
-import { useSessionStorage } from '@/hooks/utils';
-import { getListingMapLevelByZoom, getZoomByMeters } from '@/utils/map';
-import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
-import { NaverMapV1 } from '@/lib/navermapV1';
-import { MobSchoolMarker } from '@/components/organisms';
+
 import { Button } from '@/components/atoms';
-import getHakgudo from '@/apis/map/mapHakgudos';
-import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
+
+import { MobSchoolMarker } from '@/components/organisms';
+
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
+
+import useSessionStorage from '@/hooks/useSessionStorage';
+
+import { getListingMapLevelByZoom, getZoomByMeters } from '@/utils/map';
+
+import { NaverMapV1 } from '@/lib/navermapV1';
+
+import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+
+import getHakgudo from '@/apis/map/mapHakgudos';
+
+import { useAPI_DanjiMapSchools } from '@/apis/danji/danjiMapSchools';
+
+import { SchoolType } from '@/constants/enums';
+
+import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
 
 type GetSchoolResponse = {
   school_name: string;

@@ -4,7 +4,7 @@ import { customAlphabet } from 'nanoid';
 
 import { VariableSizeList } from 'react-window';
 
-import useLatest from '@/hooks/utils/useLatest';
+import useLatest from '@/hooks/useLatest';
 
 import ChatMessageWrapper from '../components/organisms/ChatMessages';
 

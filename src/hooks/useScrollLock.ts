@@ -1,6 +1,6 @@
 import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 
-export function useScrollLock(trigger = true) {
+export default function useScrollLock(trigger = true) {
   useIsomorphicLayoutEffect(() => {
     let scrollPosition = 0;
     const html = document.documentElement;

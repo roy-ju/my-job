@@ -1,4 +1,4 @@
-import useIsomorphicLayoutEffect from '@/hooks/utils/useIsomorphicLayoutEffect';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 

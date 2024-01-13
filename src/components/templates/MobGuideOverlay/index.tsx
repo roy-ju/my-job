@@ -2,7 +2,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import { useRef } from 'react';
-import { useScrollLock } from '@/hooks/utils/useScrollLock';
+
+import useScrollLock from '@/hooks/useScrollLock';
 
 function Container({ onClick }: { onClick: () => void }) {
   const containerRef = useRef<HTMLDivElement | null>(null);

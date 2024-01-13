@@ -2,13 +2,13 @@ import { useCallback, useRef, useState } from 'react';
 
 import tw from 'twin.macro';
 
+import { usePopper } from 'react-popper';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 
 import TripleDotsIcon from '@/assets/icons/triple_dots.svg';
-
-import { usePopper } from 'react-popper';
-
-import useOutsideClick from '@/hooks/utils/useOutsideClick';
 
 const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shrink-0`;
 

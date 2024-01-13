@@ -7,10 +7,15 @@ import {
   useRef,
   useState,
 } from 'react';
-import { motion, useAnimationControls } from 'framer-motion';
+
 import { styled } from 'twin.macro';
+
+import { motion, useAnimationControls } from 'framer-motion';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
 import { unRef } from '@/utils/unRef';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
 import { getTranslateX } from './utils';
 
 const Container = styled.div`
