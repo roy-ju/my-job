@@ -5,7 +5,7 @@ import { VerifyCiPopup } from '@/components/organisms';
 import { VerifyCi } from '@/components/templates';
 import { NiceVerificationType } from '@/constants/enums';
 import ErrorCodes from '@/constants/error_codes';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from '@/hooks/utils';
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 import Routes from '@/router/routes';

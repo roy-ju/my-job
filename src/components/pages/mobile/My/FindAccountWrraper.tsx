@@ -2,7 +2,7 @@ import loginByCi from '@/apis/user/loginByCi';
 import { MobileContainer } from '@/components/atoms';
 import { MobFindAccount } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';

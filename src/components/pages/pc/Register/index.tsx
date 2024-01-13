@@ -4,7 +4,7 @@ import { Panel } from '@/components/atoms';
 import { TermsState } from '@/components/organisms/RegisterForm';
 import { Register } from '@/components/templates';
 import { NICKNAME_REGEX } from '@/constants/regex';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { convertSignupPass } from '@/utils/fotmat';

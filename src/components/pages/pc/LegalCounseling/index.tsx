@@ -2,7 +2,7 @@ import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 import { Panel } from '@/components/atoms';
 import { LegalCounseling } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';

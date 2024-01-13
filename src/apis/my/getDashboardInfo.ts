@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import authFetcher from '@/lib/swr/authFetcher';
 

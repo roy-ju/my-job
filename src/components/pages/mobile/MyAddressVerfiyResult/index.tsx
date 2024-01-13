@@ -1,5 +1,5 @@
 import { MobileContainer } from '@/components/atoms';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from 'next/router';
 import React, { memo, useState, useEffect, useCallback } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';

@@ -3,7 +3,7 @@ import login from '@/apis/user/login';
 import { TermsState } from '@/components/organisms/RegisterForm';
 import { MobRegister } from '@/components/templates';
 import { NICKNAME_REGEX } from '@/constants/regex';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import Routes from '@/router/routes';
 import { convertSignupPass } from '@/utils/fotmat';
 import { useRouter } from 'next/router';

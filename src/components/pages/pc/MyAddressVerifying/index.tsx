@@ -13,7 +13,7 @@ import { searchAddress } from '@/lib/kakao/search_address';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 interface Props {
   depth: number;

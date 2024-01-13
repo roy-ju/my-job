@@ -9,7 +9,7 @@ import { SharePopup } from '@/components/organisms';
 import { LegalCounselingDetail } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
 import Paths from '@/constants/paths';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import Routes from '@/router/routes';
 import { getDevice, getBrowser } from '@/utils/misc';

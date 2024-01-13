@@ -6,7 +6,7 @@ import { My as MyTemplate } from '@/components/templates';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
 

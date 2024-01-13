@@ -5,7 +5,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MobMyAddressVerifying } from '@/components/templates';
 import { MyVerifyStatus } from '@/constants/enums';
 import ErrorCodes from '@/constants/error_codes';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 import { searchAddress } from '@/lib/kakao/search_address';
 import Routes from '@/router/routes';

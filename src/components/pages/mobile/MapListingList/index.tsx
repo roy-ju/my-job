@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 import { useRouter } from 'next/router';
 import Routes from '@/router/routes';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import useMapListingList from './useMapListingList';
 
 export default memo(() => {

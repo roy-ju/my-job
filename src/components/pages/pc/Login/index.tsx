@@ -8,7 +8,7 @@ import { Panel } from '@/components/atoms';
 
 import login from '@/apis/user/login';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
 

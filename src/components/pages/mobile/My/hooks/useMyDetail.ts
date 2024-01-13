@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import Routes from '@/router/routes';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 import updateNicknameApi from '@/apis/user/updateNickname';

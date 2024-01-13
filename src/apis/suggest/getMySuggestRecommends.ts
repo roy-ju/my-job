@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useCallback, useMemo } from 'react';
 import useSWRInfinite from 'swr/infinite';
 

@@ -1,5 +1,5 @@
 import useSWRInfinite from 'swr/infinite';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useMemo, useCallback } from 'react';
 
 interface Item {

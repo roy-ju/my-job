@@ -10,7 +10,7 @@ import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 interface Props {
   depth: number;

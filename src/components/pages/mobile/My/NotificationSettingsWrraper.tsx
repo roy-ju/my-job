@@ -1,7 +1,7 @@
 import updateNotificationConfig from '@/apis/notification/updateNotificationConfig';
 import { MobileContainer } from '@/components/atoms';
 import { NotificationSettings as NotificationSettingsTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import React, { ChangeEventHandler, useCallback, useEffect, useState } from 'react';

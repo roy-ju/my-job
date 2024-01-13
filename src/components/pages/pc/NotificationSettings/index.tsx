@@ -1,7 +1,7 @@
 import updateNotificationConfig from '@/apis/notification/updateNotificationConfig';
 import { Panel } from '@/components/atoms';
 import { NotificationSettings as NotificationSettingsTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { ChangeEventHandler, memo, useCallback, useEffect, useState } from 'react';
