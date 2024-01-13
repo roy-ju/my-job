@@ -6,7 +6,7 @@ import tw, { styled } from 'twin.macro';
 
 import useMap from '@/states/hooks/useMap';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 

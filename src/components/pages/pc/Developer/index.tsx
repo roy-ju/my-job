@@ -2,7 +2,7 @@ import useAPI_GetJwtList from '@/apis/test/getJwtList';
 import { Panel } from '@/components/atoms';
 import { Developer as DeveloperTemplate } from '@/components/templates';
 import Keys from '@/constants/storage_keys';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 

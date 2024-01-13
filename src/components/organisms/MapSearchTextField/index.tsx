@@ -6,9 +6,9 @@ import { Autocomplete, TextField } from '@/components/molecules';
 
 import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
-import { useKakaoAddressAutocomplete } from '@/hooks/services';
-
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+import useKakaoAddressAutocomplete, {
+  KakaoAddressAutocompleteResponseItem,
+} from '@/hooks/services/useKakaoAddressAutocomplete';
 
 import useControlled from '@/hooks/useControlled';
 

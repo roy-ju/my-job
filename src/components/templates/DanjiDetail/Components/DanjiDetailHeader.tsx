@@ -8,7 +8,7 @@ import axios from '@/lib/axios';
 import ShareIcon from '@/assets/icons/share.svg';
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { toast } from 'react-toastify';
 import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
 import { SharePopup } from '@/components/organisms';

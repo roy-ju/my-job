@@ -4,7 +4,7 @@ import { mutate } from 'swr';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import useWebSocket from '@/hooks/useWebSocket';
 

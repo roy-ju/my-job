@@ -51,7 +51,7 @@ import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/
 
 import viewListing from '@/apis/listing/viewListing';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 

@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 export type ChatRoomListItem = {
   chat_room_id: number;

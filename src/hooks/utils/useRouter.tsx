@@ -1,6 +1,7 @@
 /* eslint-disable no-prototype-builtins */
-import { useRouter as useNextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
+
+import { useRouter as useNextRouter } from 'next/router';
 
 function removeTrailingSlash(url: string) {
   return url.endsWith('/') ? url.slice(0, -1) : url;

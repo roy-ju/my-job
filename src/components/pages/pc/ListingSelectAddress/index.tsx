@@ -5,7 +5,7 @@ import Routes from '@/router/routes';
 import { memo, useCallback, useRef, useState, useEffect } from 'react';
 import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { ListingCreateGuidePopup } from '@/components/organisms';
 
 interface Props {

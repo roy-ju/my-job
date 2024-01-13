@@ -3,7 +3,7 @@ import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MyRegisteredHomes } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';

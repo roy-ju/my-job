@@ -3,7 +3,7 @@ import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MyRegisteredHomes } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';

@@ -8,7 +8,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { SharePopup } from '@/components/organisms';
 import { LegalCounselingDetail } from '@/components/templates';
 import ErrorCodes from '@/constants/error_codes';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from '@/hooks/utils';
 import { useRouter as useNextRouter } from 'next/router';
 import Routes from '@/router/routes';

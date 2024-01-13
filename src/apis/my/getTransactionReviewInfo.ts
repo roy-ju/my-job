@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useMemo } from 'react';
 import useSWR from 'swr';
 

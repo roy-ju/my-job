@@ -1,7 +1,7 @@
 import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
 import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 import { LegalCounseling } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';

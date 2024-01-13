@@ -1,5 +1,6 @@
-import { useAuth } from '@/hooks/services';
 import useSWR from 'swr';
+
+import useAuth from '@/hooks/services/useAuth';
 
 export interface IChatRoomDetailListingItem1 {
   listing_id: number;

@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from '@/hooks/utils';
 import { isClient } from '@/utils/is';
 import { ReactNode } from 'react';

@@ -9,7 +9,7 @@ import { MobileContainer } from '@/components/atoms';
 
 import { Login as LoginTemplate } from '@/components/templates';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import { loginWithApple } from '@/lib/apple';
 

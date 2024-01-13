@@ -1,6 +1,6 @@
 import { Button, Separator } from '@/components/atoms';
 import { NavigationHeader, TextField } from '@/components/molecules';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useMemo } from 'react';
 import ErrorIcon from '@/assets/icons/error.svg';

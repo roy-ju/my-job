@@ -2,7 +2,7 @@ import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 import { OverlayPresenter, Popup } from '@/components/molecules';
 import { MobHog, SelectAddressTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useState, useEffect } from 'react';

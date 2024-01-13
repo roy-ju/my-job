@@ -1,5 +1,5 @@
 import { Panel } from '@/components/atoms';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { memo, useState, ChangeEvent } from 'react';
 import { Qna as QnaTemplate } from '@/components/templates';
 import useAPI_GetServiceQnaList from '@/apis/serviceqna/getServiceQnaList';

@@ -6,7 +6,7 @@ import Routes from '@/router/routes';
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 import { toast } from 'react-toastify';
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import useMapListingList from './useMapListingList';
 
 interface Props {

@@ -1,7 +1,7 @@
 import useAPI_GetServiceQnaList from '@/apis/serviceqna/getServiceQnaList';
 import { MobileContainer } from '@/components/atoms';
 import { Qna as QnaTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from 'next/router';
 import { useState, ChangeEvent } from 'react';
 import { OverlayPresenter, Popup } from '@/components/molecules';

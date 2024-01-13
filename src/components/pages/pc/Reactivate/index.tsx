@@ -7,7 +7,7 @@ import ErrorCodes from '@/constants/error_codes';
 import { toast } from 'react-toastify';
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 import Routes from '@/router/routes';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 interface Props {
   depth: number;

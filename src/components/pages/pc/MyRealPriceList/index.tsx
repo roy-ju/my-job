@@ -2,7 +2,7 @@ import useAPI_GetMyRealPriceList from '@/apis/my/getMyRealPriceList';
 import { Panel } from '@/components/atoms';
 import { MyRealPriceList } from '@/components/templates';
 import { memo, useCallback, useMemo, useState } from 'react';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import { useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
 

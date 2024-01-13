@@ -19,7 +19,7 @@ import Paths from '@/constants/paths';
 import { SharePopup } from '@/components/organisms';
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 import viewListing from '@/apis/listing/viewListing';
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 import ErrorCodes from '@/constants/error_codes';
 import { useRouter as useNextRouter } from 'next/router';

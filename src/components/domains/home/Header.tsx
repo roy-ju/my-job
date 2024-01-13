@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useAuth } from '@/hooks/services';
+import useAuth from '@/hooks/services/useAuth';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
