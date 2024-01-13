@@ -10,8 +10,6 @@ import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 
-import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
-
 import { useFetchDanjiListingsList } from '@/services/danji/useFetchDanjiListingsList';
 
 import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
@@ -25,6 +23,7 @@ import {
 
 import useAuthRedirect from '@/hooks/useAuthRedirect';
 
+import { apiService } from '@/services';
 import Tabs from './Tabs';
 
 import Messages from './Messages';
@@ -210,7 +209,7 @@ export default function SuggestsOrListings({
 
   useEffect(() => {
     async function isCheckPossibleRecommedationService(code: string) {
-      const response = await suggestEligibilityCheck(code);
+      const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: code });
 
       if (response && response.eligible) {
         setIsRecommendationService(true);

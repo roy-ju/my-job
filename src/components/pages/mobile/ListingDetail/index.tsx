@@ -27,8 +27,6 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import deleteListingQna from '@/apis/listing/deleteListingQna';
 
-import { notIntersted } from '@/apis/suggest/notInterested';
-
 import { useRouter } from 'next/router';
 
 import { SharePopup } from '@/components/organisms';
@@ -57,6 +55,7 @@ import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 
 import ErrorCodes from '@/constants/error_codes';
 
+import { apiService } from '@/services';
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
@@ -65,6 +64,7 @@ export default memo(() => {
   const { user } = useAuth();
 
   const router = useRouter();
+
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { redirectable } = useListingDetailRedirector(listingID);
@@ -230,7 +230,6 @@ export default memo(() => {
     if (!data?.suggest_recommend_id) return;
     setIsPopupButtonLoading(true);
 
-    //    await acceptRecommend(data.suggest_recommend_id);
     await mutateListing();
 
     setIsPopupButtonLoading(false);
@@ -242,7 +241,7 @@ export default memo(() => {
     if (!data?.suggest_recommend_id) return;
     setIsPopupButtonLoading(true);
 
-    await notIntersted(data.suggest_recommend_id);
+    await apiService.mySuggestRecommendNotIntersted({ id: data.suggest_recommend_id });
     await mutateListing();
 
     setIsPopupButtonLoading(false);

@@ -16,8 +16,6 @@ import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 
-import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
-
 import useMapLayout from '@/hooks/useMapLayout';
 
 import { useRouter as useCustomRouter } from '@/hooks/utils';
@@ -32,6 +30,7 @@ import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 
 import Routes from '@/router/routes';
 
+import { apiService } from '@/services';
 import Markers from './Markers';
 
 import usePanelVisible from './hooks/usePanelVisible';
@@ -118,7 +117,7 @@ function MapWrapper({
   );
 
   const handleClickSuggestForm = useCallback(async () => {
-    const response = await suggestEligibilityCheck(bubjungdongCode);
+    const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: bubjungdongCode });
 
     if (response && !response.eligible) {
       setOpenPopup(true);

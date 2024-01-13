@@ -17,7 +17,7 @@ import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
 import NaverLogo from '@/assets/icons/naver_logo.svg';
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
-import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
+import { apiService } from '@/services';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -157,17 +157,10 @@ export default function ActiveListingInfo({
   const handleCreateSuggest = useCallback(() => {
     const danjiID = `${danji?.danji_id}` || router?.query?.danjiID || '';
 
-    const redirectURL = `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${
-      danji?.danji_id || router?.query?.danjiID || ''
-    }`;
-
     router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
       query: {
         ...(danjiID ? { danjiID } : {}),
-        entry: Routes.DanjiDetail,
-        redirect: redirectURL,
-        origin: router.asPath,
       },
     });
   }, [danji?.danji_id, router]);
@@ -198,7 +191,7 @@ export default function ActiveListingInfo({
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await suggestEligibilityCheck(code);
+      const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: code });
 
       if (response && response.eligible) {
         setIsRecommendationService(true);

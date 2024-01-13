@@ -1,5 +1,7 @@
 import type { MutableRefObject } from 'react';
 
+import Routes from '@/router/routes';
+
 export {};
 
 declare global {
@@ -18,4 +20,6 @@ declare global {
   type NegocioTouchEvent<T> = React.TouchEvent<T>;
 
   type Fn = () => void;
+
+  type NegocioPath = keyof typeof Routes;
 }

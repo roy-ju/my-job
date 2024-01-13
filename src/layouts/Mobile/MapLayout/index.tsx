@@ -14,13 +14,13 @@ import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/
 
 import useMobileMapLayout from '@/hooks/useMobileMapLayout';
 
+import { apiService } from '@/services';
+
 import { Map } from '@/lib/navermap';
 
 import { searchAddress } from '@/lib/kakao/search_address';
 
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
-
-import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 
 import Routes from '@/router/routes';
 
@@ -92,7 +92,7 @@ function MapWrapper() {
   const handleClickSuggestRegional = useCallback(async () => {
     if (!code) return;
 
-    const response = await suggestEligibilityCheck(code);
+    const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: code });
 
     if (response && !response.eligible) {
       setOpenPopup(true);

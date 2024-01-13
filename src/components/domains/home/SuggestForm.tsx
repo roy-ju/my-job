@@ -78,7 +78,6 @@ export default function SuggestForm() {
           query: {
             property: describeRealestateType(Number(property[0])),
             buyOrRent,
-            entry: 'home',
           },
         });
       } else {
@@ -87,7 +86,6 @@ export default function SuggestForm() {
           query: {
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
-            entry: 'home',
             ...(v?.name ? { address: v?.name } : {}),
             ...(v?.code ? { bcode: v?.code } : {}),
           },
@@ -99,7 +97,7 @@ export default function SuggestForm() {
       if (isEqualValue(from, 'none')) {
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
-          query: { property: describeRealestateType(Number(property[0])), buyOrRent, entry: 'home' },
+          query: { property: describeRealestateType(Number(property[0])), buyOrRent },
         });
       } else {
         // 복수 선택밖에 없다.
@@ -108,7 +106,6 @@ export default function SuggestForm() {
           query: {
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
-            entry: 'home',
             ...(v?.name ? { address: v?.name } : {}),
             ...(v?.code ? { bcode: v?.code } : {}),
           },

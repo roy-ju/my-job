@@ -1,10 +1,15 @@
+import { ReactNode } from 'react';
+
+import { useRouter } from 'next/router';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import { isClient } from '@/utils/is';
-import { ReactNode } from 'react';
+
 import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
+
 import MobileContainer from '../MobileContainer';
+
 import Loading from '../Loading';
 
 interface Props {
@@ -15,6 +20,7 @@ interface Props {
 
 export default function MobAuthRequired({ ciRequired = false, onAccessDenied, children }: Props) {
   const router = useRouter();
+
   const { user, isLoading } = useAuth();
 
   if (isLoading) {

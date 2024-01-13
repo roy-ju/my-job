@@ -1,8 +1,10 @@
-import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
+import { useCallback, useMemo } from 'react';
+
+import { useRouter } from 'next/router';
 
 import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
-import { useCallback, useMemo } from 'react';
+
+import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
 
 export default function useChatRoomList() {
   const router = useRouter();
@@ -37,7 +39,7 @@ export default function useChatRoomList() {
   );
 
   const handleClickSuggestForm = useCallback(() => {
-    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`, query: { entry: 'chatRooomList' } });
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}` });
   }, [router]);
 
   return {

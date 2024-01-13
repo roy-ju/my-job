@@ -1,11 +1,18 @@
-import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
-
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { useCallback, useMemo } from 'react';
 
+import { useRouter } from 'next/router';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
+
+import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
+
+import Routes from '@/router/routes';
+
 export default function useChatRoomList(depth: number) {
-  const router = useRouter(depth);
+  const customRouter = useCustomRouter(depth);
+
+  const router = useRouter();
+
   const { data, isLoading, mutate } = useAPI_ChatRoomList();
 
   const chatRoomList = useMemo(() => {
@@ -31,22 +38,17 @@ export default function useChatRoomList(depth: number) {
 
   const handleClickListItem = useCallback(
     async (id: number) => {
-      router.push(Routes.ChatRoom, {
+      customRouter.push(Routes.ChatRoom, {
         searchParams: { chatRoomID: `${id}` },
       });
 
       mutate();
     },
-    [router, mutate],
+    [customRouter, mutate],
   );
 
   const handleClickSuggestForm = useCallback(() => {
-    router.replace(Routes.SuggestForm, {
-      searchParams: {
-        entry: 'chatRooomList',
-        back: router.asPath,
-      },
-    });
+    router.push({ pathname: `/${Routes.SuggestForm}` });
   }, [router]);
 
   return {
