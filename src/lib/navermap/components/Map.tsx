@@ -1,6 +1,9 @@
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { createContext, memo, ReactNode, useRef, useState } from 'react';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
 import useNaverMapEvent from '../hooks/useNaverEvent';
+
 import { NaverLatLngBounds, NaverMap } from '../types';
 
 export const NaverMapContext = createContext<NaverMap>(undefined as unknown as NaverMap);

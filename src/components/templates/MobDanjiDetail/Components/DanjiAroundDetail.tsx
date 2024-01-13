@@ -1,19 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { motion } from 'framer-motion';
-import cloneDeep from 'lodash/cloneDeep';
 import { useEffect, useMemo, useRef, useState, MouseEvent } from 'react';
-import { NavigationHeader } from '@/components/molecules';
-import CloseIcon from '@/assets/icons/close_18.svg';
+
+import { styled } from 'twin.macro';
+
+import { motion } from 'framer-motion';
+
+import cloneDeep from 'lodash/cloneDeep';
+
 import { Button } from '@/components/atoms';
 
-import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
-import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
+import { NavigationHeader } from '@/components/molecules';
+
 import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
-import { styled } from 'twin.macro';
+
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
+
+import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/utils/danjiAroundInfo';
+
+import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
+
+import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import CloseIcon from '@/assets/icons/close_18.svg';
+
 import DanjiAroundMapCard from './DanjiAroundMapCard';
 
 const commonStyle = {

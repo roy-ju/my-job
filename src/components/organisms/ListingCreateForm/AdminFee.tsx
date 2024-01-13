@@ -1,6 +1,6 @@
 import { Label, Radio } from '@/components/atoms';
 import { RadioGroup, TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 
 interface AdminFeeProps {

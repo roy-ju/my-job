@@ -2,7 +2,7 @@ import { Button as ButtonBase } from '@/components/atoms';
 import tw, { styled, theme } from 'twin.macro';
 import CheckIcon from '@/assets/icons/check.svg';
 import { ButtonProps } from '@/components/atoms/Button';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
 import { MinHousehold } from './types';
 

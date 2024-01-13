@@ -6,7 +6,7 @@ import { Button } from '@/components/atoms';
 
 import { DragHandlers, motion, useAnimation } from 'framer-motion';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { DanjiPhotoItem } from '@/services/danji/types';
 

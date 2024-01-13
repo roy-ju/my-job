@@ -13,7 +13,7 @@ import { ChatMessage } from '@/components/organisms';
 
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { checkPlatform } from '@/utils/checkPlatform';
 

@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { styled } from 'twin.macro';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
 import { useNetwork } from './useNetwork';
+
 import useNaverMapEvent from '../navermap/hooks/useNaverEvent';
 
 const MapContainer = styled.div`

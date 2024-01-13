@@ -1,14 +1,26 @@
-import sendPhoneVerificationCode from '@/apis/user/sendPhoneVerificationCode';
-import updatePhone from '@/apis/user/updatePhone';
-import { Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { UpdatePhone } from '@/components/templates';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { ChangeEventHandler, memo, useCallback, useMemo, useState } from 'react';
+
 import { toast } from 'react-toastify';
-import ErrorCodes from '@/constants/error_codes';
+
 import { mutate } from 'swr';
+
+import { Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { UpdatePhone } from '@/components/templates';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import Routes from '@/router/routes';
+
+import updatePhone from '@/apis/user/updatePhone';
+
+import sendPhoneVerificationCode from '@/apis/user/sendPhoneVerificationCode';
 
 interface Props {
   depth: number;

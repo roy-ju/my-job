@@ -9,7 +9,7 @@ import { ChangeEventHandler, FormEventHandler, useCallback, useState } from 'rea
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 import { nanoid } from 'nanoid';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import storage from '@/storage/recentLawQnaSearch';
 import Close from '@/assets/icons/close.svg';
 

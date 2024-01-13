@@ -1,13 +1,25 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BuyOrRent } from '@/constants/enums';
-import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
-import useAPI_GetBiddingInfo, { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
-import Routes from '@/router/routes';
-import { TimeTypeString } from '@/constants/strings';
+
 import { useRouter as useNextRouter } from 'next/router';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
+
+import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
+
+import { BuyOrRent } from '@/constants/enums';
+
+import { TimeTypeString } from '@/constants/strings';
+
+import Routes from '@/router/routes';
+
+import useAPI_GetBiddingInfo, { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
+
+import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
+
 import cancelBidding from '@/apis/bidding/cancelBidding';
+
 import makeUpdateBiddingParams from './makeUpdateBiddingParams';
 
 export default function useUpdateBiddingForm(depth: number) {

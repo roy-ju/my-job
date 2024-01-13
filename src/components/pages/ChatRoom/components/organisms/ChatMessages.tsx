@@ -10,7 +10,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { ChatUserType } from '@/constants/enums';
 

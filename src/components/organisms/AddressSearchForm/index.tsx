@@ -5,7 +5,7 @@ import { ChangeEventHandler, FormEventHandler, useCallback } from 'react';
 import useKakaoAddressAutocomplete, {
   KakaoAddressAutocompleteResponseItem,
 } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 function Guide() {
   return (

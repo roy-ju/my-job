@@ -1,14 +1,24 @@
-import { UpdatePhone as UpdatePhoneTemplate } from '@/components/templates';
-import { useRouter } from 'next/router';
-import sendPhoneVerificationCode from '@/apis/user/sendPhoneVerificationCode';
-import updatePhone from '@/apis/user/updatePhone';
-import Routes from '@/router/routes';
 import { ChangeEventHandler, useCallback, useMemo, useState } from 'react';
-import { MobileContainer } from '@/components/atoms';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import ErrorCodes from '@/constants/error_codes';
+
+import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
+
+import { MobileContainer } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { UpdatePhone as UpdatePhoneTemplate } from '@/components/templates';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import sendPhoneVerificationCode from '@/apis/user/sendPhoneVerificationCode';
+
+import updatePhone from '@/apis/user/updatePhone';
+
+import Routes from '@/router/routes';
 
 const VALID_TIME_OF_VERIFICATION = 180;
 

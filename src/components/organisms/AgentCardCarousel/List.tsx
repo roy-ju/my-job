@@ -1,10 +1,19 @@
-import { AnimatePresence } from 'framer-motion';
 import React, { useCallback, useState } from 'react';
+
+import { AnimatePresence } from 'framer-motion';
+
 import { v4 as uuidv4 } from 'uuid';
-import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import useControlled from '@/hooks/useControlled';
+
 import CarouselItem from './Item';
+
 import Button from './Button';
+
 import Indicator from './Indicator';
+
 import AgentCardItem from '../AgentCardItem';
 
 export interface ListProps {

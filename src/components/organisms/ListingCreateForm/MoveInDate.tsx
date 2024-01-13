@@ -1,6 +1,6 @@
 import { Label, Radio } from '@/components/atoms';
 import { DatePicker, Dropdown, RadioGroup } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback, useEffect, useRef } from 'react';
 import tw from 'twin.macro';
 

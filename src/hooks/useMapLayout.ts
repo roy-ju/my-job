@@ -26,7 +26,9 @@ import danjiInteractionAtom from '@/states/atom/danjiInteraction';
 
 import useSessionStorage from '@/hooks/useSessionStorage';
 
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 

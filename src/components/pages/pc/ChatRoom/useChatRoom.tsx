@@ -6,7 +6,7 @@ import { IChatMessage } from '@/components/templates/ChatRoom/ChatMessageWrapper
 
 import useLocalStorage from '@/hooks/useLocalStorage';
 
-import usePageVisibility from '@/hooks/utils/usePageVisibility';
+import usePageVisibility from '@/hooks/usePageVisibility';
 
 import useWebSocket, { WebSocketReadyState } from '@/hooks/useWebSocket';
 

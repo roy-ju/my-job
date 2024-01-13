@@ -1,6 +1,6 @@
 import { Slider } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { formatNumberInKorean } from '@/utils';
 import range from 'lodash/range';
 import { useCallback, useMemo } from 'react';

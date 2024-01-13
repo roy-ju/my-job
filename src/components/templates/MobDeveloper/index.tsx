@@ -1,6 +1,6 @@
 import { Button } from '@/components/atoms';
 import { Dropdown, NavigationHeader, TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import Routes from '@/router/routes';
 import getCurrentPosition from '@/utils/getCurrentPosition';
 import { useRouter } from 'next/router';

@@ -1,5 +1,6 @@
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { useRef } from 'react';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 export interface PanoramaProps {
   position: {

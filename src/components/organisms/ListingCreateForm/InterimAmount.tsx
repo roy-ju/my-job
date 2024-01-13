@@ -2,7 +2,7 @@ import { Button } from '@/components/atoms';
 import CheckIcon from '@/assets/icons/check.svg';
 import { TextField } from '@/components/molecules';
 import RemoveIcon from '@/assets/icons/remove.svg';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback } from 'react';
 import CloseContained from '@/assets/icons/close_contained.svg';
 

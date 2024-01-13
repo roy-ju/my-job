@@ -1,7 +1,7 @@
 import { Button } from '@/components/atoms';
 import { ButtonProps } from '@/components/atoms/Button';
 import tw, { styled } from 'twin.macro';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 import FilterTypes from './FilterTypes';

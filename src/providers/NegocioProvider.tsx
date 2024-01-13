@@ -6,9 +6,9 @@ import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import { useAuth } from '@/hooks/services';
 
-import { useWebSocket } from '@/hooks/utils';
+import useWebSocket from '@/hooks/useWebSocket';
 
-import usePageVisibility from '@/hooks/utils/usePageVisibility';
+import usePageVisibility from '@/hooks/usePageVisibility';
 
 import axios from '@/lib/axios';
 

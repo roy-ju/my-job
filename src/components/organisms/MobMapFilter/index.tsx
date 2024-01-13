@@ -8,7 +8,7 @@ import { ButtonProps } from '@/components/atoms/Button';
 
 import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 

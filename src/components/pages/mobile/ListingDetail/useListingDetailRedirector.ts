@@ -1,9 +1,14 @@
-import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
-import { ListingStatus, VisitUserType } from '@/constants/enums';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { ListingStatus, VisitUserType } from '@/constants/enums';
+
+import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
+
+import Routes from '@/router/routes';
 
 export default function useListingDetailRedirector(listingID: number) {
   const router = useRouter();

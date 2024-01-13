@@ -10,7 +10,7 @@ import { RealestateType, describeJeonsaeWolsaeSame, describeRealestateType } fro
 
 import Routes from '@/router/routes';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import ToggleTag from '@/components/atoms/ToggleTag';
 

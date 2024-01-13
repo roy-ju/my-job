@@ -1,8 +1,8 @@
 import React, { useState, useRef, MouseEvent, memo } from 'react';
 
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 import { DanjiTab } from './DanjiTab';
 

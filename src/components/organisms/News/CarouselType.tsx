@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 
 import { Carousel, Skeletons } from '@/components/molecules';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import { renderLeftButton, renderRightButton } from './RenderButtons';
 

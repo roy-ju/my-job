@@ -1,7 +1,10 @@
-import { NiceVerificationType } from '@/constants/enums';
-import useUnmount from '@/hooks/utils/useUnmount';
-import openPopupWindow from '@/utils/openPopupWindow';
 import { useCallback, useMemo } from 'react';
+
+import useUnmount from '@/hooks/useUnmount';
+
+import openPopupWindow from '@/utils/openPopupWindow';
+
+import { NiceVerificationType } from '@/constants/enums';
 
 export interface NiceResponse {
   kie: string;

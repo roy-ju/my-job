@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 
 import Logo from '@/assets/icons/logo.svg';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import { NewCount } from '@/components/atoms';
 

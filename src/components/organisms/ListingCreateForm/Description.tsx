@@ -1,5 +1,5 @@
 import React, { useCallback, ChangeEventHandler } from 'react';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { TextField } from '@/components/molecules';
 
 interface DescriptionsProps {

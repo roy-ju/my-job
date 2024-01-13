@@ -16,7 +16,7 @@ import mobileMapAtom from '@/states/atom/mobileMap';
 
 import useSessionStorage from '@/hooks/useSessionStorage';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 

@@ -13,7 +13,7 @@ import { Button } from '@/components/atoms';
 
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
-import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
+import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/utils/danjiAroundInfo';
 
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 

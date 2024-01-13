@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';
 

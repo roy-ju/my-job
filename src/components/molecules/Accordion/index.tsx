@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import ChevronDown from '@/assets/icons/chevron_down_24.svg';
 

@@ -12,7 +12,9 @@ import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
 import useScroll from '@/hooks/useScroll';
 
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
 
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 

@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms';
 
 import { Skeletons } from '@/components/molecules';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import NewsItem from './NewsItem';
 

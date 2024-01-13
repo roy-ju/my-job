@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable func-names */
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import React, { useMemo, useState, useEffect, useRef } from 'react';
+
 import { styled } from 'twin.macro';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 const MapContainer = styled.div`
   flex: 1;

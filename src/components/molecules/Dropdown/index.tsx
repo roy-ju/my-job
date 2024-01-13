@@ -8,7 +8,7 @@ import { usePopper } from 'react-popper';
 
 import { ModifierPhases } from '@popperjs/core';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import useOutsideClick from '@/hooks/useOutsideClick';
 

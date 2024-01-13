@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { Button } from '@/components/atoms';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import useIsNativeApp from '@/hooks/useIsNativeApp';
 

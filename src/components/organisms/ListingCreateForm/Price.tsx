@@ -1,6 +1,6 @@
 import { TextField } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback, useMemo } from 'react';
 import CheckIcon from '@/assets/icons/check.svg';
 import { Button } from '@/components/atoms';

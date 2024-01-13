@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 
 import useLatest from './useLatest';
 
-import useUnmount from './utils/useUnmount';
+import useUnmount from './useUnmount';
 
 export enum WebSocketReadyState {
   Connecting = 0,

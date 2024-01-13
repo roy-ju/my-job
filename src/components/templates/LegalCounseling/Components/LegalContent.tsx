@@ -1,14 +1,22 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
-import { styled } from 'twin.macro';
-import Eye from '@/assets/icons/eye.svg';
-import Thumb from '@/assets/icons/thumb.svg';
-import ThumbRed from '@/assets/icons/thumb_red.svg';
-import { Button } from '@/components/atoms';
+
 import { useRouter } from 'next/router';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
+import { styled } from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
 import { getDevice } from '@/utils/misc';
+
+import Eye from '@/assets/icons/eye.svg';
+
+import Thumb from '@/assets/icons/thumb.svg';
+
+import ThumbRed from '@/assets/icons/thumb_red.svg';
 
 interface LegalContentProp {
   qnaId?: number;

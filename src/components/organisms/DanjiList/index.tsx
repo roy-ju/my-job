@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 import { Separator, InfiniteScroll } from '@/components/atoms';
 import SearchIcon from '@/assets/icons/search.svg';
 import { ChangeEventHandler, FormEventHandler, useCallback, useMemo } from 'react';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useNegocioAddressAutocomplete } from '@/hooks/services';
 import { RealestateTypeString } from '@/constants/strings';
 import { SearchDanjiResponseItem } from '@/apis/danji/searchDanji';

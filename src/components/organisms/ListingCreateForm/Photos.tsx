@@ -1,4 +1,4 @@
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback, useMemo, useRef } from 'react';
 import { Button } from '@/components/atoms';
 import PlusIcon from '@/assets/icons/plus.svg';

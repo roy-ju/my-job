@@ -2,7 +2,7 @@ import { isValidElement, ReactNode, useCallback, useContext, useMemo } from 'rea
 
 import { motion } from 'framer-motion';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import tw from 'twin.macro';
 

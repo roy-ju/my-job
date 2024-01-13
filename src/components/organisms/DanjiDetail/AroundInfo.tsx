@@ -11,7 +11,7 @@ import danjiInteractionAtom from '@/states/atom/danjiInteraction';
 
 import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
-import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
+import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/utils/danjiAroundInfo';
 
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 

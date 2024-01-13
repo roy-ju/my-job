@@ -1,8 +1,12 @@
-import getNiceEncData from '@/apis/user/getNiceEncData';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useRef } from 'react';
+
+import { useRouter } from 'next/router';
+
+import type { NextPage } from 'next';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import getNiceEncData from '@/apis/user/getNiceEncData';
 
 const Page: NextPage = () => {
   const router = useRouter();

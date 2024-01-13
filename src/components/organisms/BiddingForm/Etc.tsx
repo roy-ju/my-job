@@ -1,7 +1,7 @@
 import { Checkbox, Label } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
 import { BuyOrRent } from '@/constants/enums';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback, ChangeEventHandler, useState } from 'react';
 import { toast } from 'react-toastify';
 import tw from 'twin.macro';

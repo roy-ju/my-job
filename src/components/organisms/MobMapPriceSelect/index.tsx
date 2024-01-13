@@ -6,7 +6,7 @@ import { usePopper } from 'react-popper';
 
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import ChevronDownIcon from '@/assets/icons/chevron_down.svg';
 

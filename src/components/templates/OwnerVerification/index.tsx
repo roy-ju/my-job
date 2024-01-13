@@ -2,7 +2,7 @@ import { NavigationHeader, Table } from '@/components/molecules';
 import CloseIcon from '@/assets/icons/close_24.svg';
 import ExclamationMark from '@/assets/icons/exclamation_mark_outlined.svg';
 import { Button, Checkbox, Label, Loading, PersistentBottomBar, Separator } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
 import { useRouter } from 'next/router';

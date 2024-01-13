@@ -10,11 +10,9 @@ import Keys from '@/constants/storage_keys';
 
 import useLocalStorage from '@/hooks/useLocalStorage';
 
-import { useWebSocket } from '@/hooks/utils';
+import usePageVisibility from '@/hooks/usePageVisibility';
 
-import usePageVisibility from '@/hooks/utils/usePageVisibility';
-
-import { WebSocketReadyState } from '@/hooks/useWebSocket';
+import useWebSocket, { WebSocketReadyState } from '@/hooks/useWebSocket';
 
 import { ChatMessages, WebSocketMessage } from '../types';
 

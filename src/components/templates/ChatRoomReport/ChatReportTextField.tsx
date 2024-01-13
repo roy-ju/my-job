@@ -1,6 +1,6 @@
 import { useCallback, ChangeEventHandler } from 'react';
 import { TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 interface ChatReportTextFieldProps {
   value?: string;

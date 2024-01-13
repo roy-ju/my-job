@@ -8,7 +8,7 @@ import useMap from '@/states/hooks/useMap';
 
 import { useAuth } from '@/hooks/services';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import GraphImage from '@/../public/static/images/home/image_graph.png';
 

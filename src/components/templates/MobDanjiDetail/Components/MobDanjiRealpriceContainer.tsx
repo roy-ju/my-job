@@ -8,7 +8,7 @@ import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiR
 import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatusChart';
 import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
 import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import { ParentSize } from '@visx/responsive';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';

@@ -1,18 +1,28 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { useAPI_DanjiRecentlyRealPricesListAll } from '@/apis/danji/danjiRecentlyList';
+import { useCallback, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { customAlphabet } from 'nanoid';
+
 import { Button } from '@/components/atoms';
-import { BuyOrRent, describeJeonsaeWolsaeSame } from '@/constants/enums';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import Routes from '@/router/routes';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { formatNumberInKorean } from '@/utils';
+
 import { checkPlatform } from '@/utils/checkPlatform';
+
 import { cuttingDot, minDigits } from '@/utils/fotmat';
-import { customAlphabet } from 'nanoid';
-import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+
+import { BuyOrRent, describeJeonsaeWolsaeSame } from '@/constants/enums';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { useAPI_DanjiRecentlyRealPricesListAll } from '@/apis/danji/danjiRecentlyList';
+
+import Routes from '@/router/routes';
 
 const ListItemComponent = ({
   anchorURL,

@@ -6,7 +6,7 @@ import { useRouter } from '@/hooks/utils';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
-import useUnmount from '@/hooks/utils/useUnmount';
+import useUnmount from '@/hooks/useUnmount';
 
 import deleteNotifications from '@/apis/notification/deleteNotifications';
 

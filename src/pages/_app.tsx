@@ -30,9 +30,9 @@ import { updateVH } from '@/utils/updateVH';
 
 import useNativeAppEventListeners from '@/hooks/useNativeAppEventListeners';
 
-import usePageLoading from '@/hooks/utils/usePageLoading';
+import usePageLoading from '@/hooks/usePageLoading';
 
-import usePlatform from '@/hooks/utils/usePlatform';
+import usePlatform from '@/hooks/usePlatform';
 
 import AppConfig from '@/config';
 

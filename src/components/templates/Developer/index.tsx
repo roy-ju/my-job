@@ -1,6 +1,6 @@
 import { Button } from '@/components/atoms';
 import { Dropdown, NavigationHeader, TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
 import * as gtag from '@/lib/gtag';
 import Keys from '@/constants/storage_keys';
