@@ -95,6 +95,8 @@ function MapWrapper({
 
   const { data: userData } = useAPI_GetUserInfo();
 
+  const router = useRouter();
+
   const { depth, popLast, replace, asPath } = useCustomRouter(0);
 
   const [openPopup, setOpenPopup] = useState(false);
@@ -106,14 +108,12 @@ function MapWrapper({
   const handleSuggestFormRouter = useCallback(
     (address?: string, bcode?: string) => {
       if (address && bcode) {
-        replace(Routes.SuggestForm, {
-          searchParams: { entry: 'map', address, bcode },
-        });
+        router.push({ pathname: `/${Routes.SuggestForm}`, query: { address, bcode, entry: Routes.Map } });
       } else {
-        replace(Routes.SuggestForm, { searchParams: { entry: 'map' } });
+        router.push({ pathname: `/${Routes.SuggestForm}`, query: { entry: Routes.Map } });
       }
     },
-    [replace],
+    [router],
   );
 
   const handleClickSuggestForm = useCallback(async () => {

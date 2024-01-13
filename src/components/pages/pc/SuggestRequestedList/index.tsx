@@ -1,10 +1,18 @@
-import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
+import { memo, useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { AuthRequired, Loading, Panel } from '@/components/atoms';
+
 import { SuggestRequestedList } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
+
+import getPath from '@/utils/getPath';
 
 import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+
+import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
 
 interface Props {
   depth: number;
@@ -12,28 +20,37 @@ interface Props {
 }
 
 export default memo(({ panelWidth, depth }: Props) => {
-  const router = useRouter(depth);
+  const customRouter = useCustomRouter(depth);
+
+  const router = useRouter();
 
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
 
   const handleClickSuggestForm = useCallback(() => {
-    router.replace(Routes.SuggestForm, {
-      searchParams: {
-        entry: 'suggestRequestedList',
+    const path = getPath({
+      depth1: router?.query?.depth1 as NegocioPath,
+      depth2: router?.query?.depth2 as NegocioPath,
+      targetPath: Routes.SuggestForm as NegocioPath,
+    });
+
+    router.push({
+      pathname: path,
+      query: {
+        entry: Routes.SuggestRequestedList,
       },
     });
   }, [router]);
 
   const handleClickSuggestItem = useCallback(
     (id: number) => {
-      router.replace(Routes.MySuggestDetail, {
+      customRouter.replace(Routes.MySuggestDetail, {
         searchParams: {
           suggestID: `${id}`,
-          entry: 'suggestRequestedList',
+          entry: Routes.SuggestRequestedList,
         },
       });
     },
-    [router],
+    [customRouter],
   );
 
   return (
