@@ -22,11 +22,11 @@ import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
 
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 
-import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
-
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 
 import suggestView from '@/apis/suggest/suggestView';
+
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -81,7 +81,7 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
     }
 
     if (data?.danji_id) {
-      const res = await suggestRecommendEligibility({ danji_id: data.danji_id });
+      const res = await apiService.danjiSuggestRecommendEligibility({ danji_id: data.danji_id });
 
       if (res && !res?.is_eligible) {
         setNeedVerifyAddressPopup(true);

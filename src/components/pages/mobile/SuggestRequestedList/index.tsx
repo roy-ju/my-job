@@ -1,10 +1,14 @@
-import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
+import { memo, useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
 
 import { SuggestRequestedList } from '@/components/templates';
+
 import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
-import { memo, useCallback } from 'react';
+
+import useAPI_GetMySuggestList from '@/apis/suggest/getMySuggestList';
 
 export default memo(() => {
   const router = useRouter();
@@ -14,7 +18,6 @@ export default memo(() => {
   const handleClickSuggestForm = useCallback(() => {
     router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
-      query: { entry: 'suggestRequestedList' },
     });
   }, [router]);
 

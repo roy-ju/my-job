@@ -226,3 +226,7 @@ export type DanjiStatusGraphJeonsaeResponse = {
   list_sigungu: StatusJeonsaeListItem[];
   list_sido: StatusJeonsaeListItem[];
 };
+
+export type DanjiSuggestRecommendEligibilityResponse = {
+  is_eligible: boolean;
+};

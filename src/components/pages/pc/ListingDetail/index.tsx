@@ -1,28 +1,53 @@
 import { addFavorite } from '@/apis/listing/addListingFavroite';
+
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+
 import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
+
 import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
+
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+
 import { Loading, Panel } from '@/components/atoms';
+
 import { ListingDetail } from '@/components/templates';
+
 import { useRouter } from '@/hooks/utils';
+
 import Routes from '@/router/routes';
+
 import { memo, useCallback, useEffect, useState } from 'react';
+
 import { toast } from 'react-toastify';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import deleteListingQna from '@/apis/listing/deleteListingQna';
-import { notIntersted } from '@/apis/suggest/notInterested';
+
 import axios from '@/lib/axios';
+
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
+
 import { formatNumberInKorean } from '@/utils';
+
 import Paths from '@/constants/paths';
+
 import { SharePopup } from '@/components/organisms';
+
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
+
 import viewListing from '@/apis/listing/viewListing';
+
 import useAuth from '@/hooks/services/useAuth';
+
 import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
+
 import ErrorCodes from '@/constants/error_codes';
+
 import { useRouter as useNextRouter } from 'next/router';
+
+import { apiService } from '@/services';
+
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -204,7 +229,6 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     if (!data?.suggest_recommend_id) return;
     setIsPopupButtonLoading(true);
 
-    //    await acceptRecommend(data.suggest_recommend_id);
     await mutateListing();
 
     setIsPopupButtonLoading(false);
@@ -216,7 +240,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     if (!data?.suggest_recommend_id) return;
     setIsPopupButtonLoading(true);
 
-    await notIntersted(data.suggest_recommend_id);
+    await apiService.mySuggestRecommendNotIntersted({ id: data.suggest_recommend_id });
     await mutateListing();
 
     setIsPopupButtonLoading(false);

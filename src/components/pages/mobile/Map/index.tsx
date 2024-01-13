@@ -1,4 +1,4 @@
-import { MobMapLayout } from '@/layouts';
+import MobMapLayout from '@/layouts/MapLayout';
 
 export default function MobMap() {
   return (

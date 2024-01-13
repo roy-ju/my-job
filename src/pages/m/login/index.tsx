@@ -2,7 +2,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-import LoginWrapper from '@/components/pages/mobile/My/LoginWrraper';
+import LoginWrapper from '@/components/pages/mobile/My/Login';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const forwarded = context.req.headers['x-forwarded-for'];

@@ -8,7 +8,7 @@ import { MobVerifyCiSuccess } from '@/components/templates';
 
 import animationData from '@/assets/icons/json/success.json';
 
-export default function VerifyCiSuccessWrraper() {
+export default function VerifyCiSuccess() {
   const [render, setRender] = useState<'default' | 'auto' | ''>('auto');
 
   const router = useRouter();

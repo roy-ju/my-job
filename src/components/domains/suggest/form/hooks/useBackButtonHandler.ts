@@ -8,7 +8,7 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-import useMobileBackRouter from '@/hooks/useMobileBackRouter';
+import useBack from '@/hooks/useBack';
 
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
@@ -31,7 +31,7 @@ export default function useBackButtonHandler() {
 
   const reset = useResetRecoilState(SuggestFormState);
 
-  const { mobilebackHandler } = useMobileBackRouter();
+  const { back } = useBack();
 
   const handleClickBack = useCallback(() => {
     if (isEqualValue(forms[forms.length - 1], 'summary')) {
@@ -49,13 +49,13 @@ export default function useBackButtonHandler() {
             setPopup('quit');
           } else {
             setTimeout(() => reset(), 200);
-            router.replace(`/`);
+            back();
           }
         } else if (forms.length >= 2) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          router.replace(`/`);
+          back();
         }
       } else if (
         isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
@@ -66,20 +66,20 @@ export default function useBackButtonHandler() {
         } else {
           setTimeout(() => reset(), 200);
           if (isEqualValue(router?.query?.entry, Routes.DanjiDetail)) {
-            router.replace(`/${Routes.DanjiDetail}?danjiID=${router?.query?.danjiID}`);
+            back();
           } else {
-            router.replace(`/${Routes.SuggestListings}?danjiID=${router?.query?.danjiID}`);
+            back();
           }
         }
       } else if (forms.length >= 2) {
         setPopup('quit');
       } else {
         if (isEqualValue(router?.query?.entry, Routes.My)) {
-          router.replace(`/${Routes.My}?default=1`);
+          back();
         } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
-          router.replace(`/${Routes.My}?default=1`);
+          back();
         } else {
-          router.replace(`/${Routes.Map}`);
+          back();
         }
         setTimeout(() => reset(), 200);
       }
@@ -95,13 +95,13 @@ export default function useBackButtonHandler() {
             setPopup('quit');
           } else {
             setTimeout(() => reset(), 200);
-            mobilebackHandler();
+            back();
           }
         } else if (forms.length >= 2) {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          mobilebackHandler();
+          back();
         }
       } else if (
         isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
@@ -111,16 +111,16 @@ export default function useBackButtonHandler() {
           setPopup('quit');
         } else {
           setTimeout(() => reset(), 200);
-          mobilebackHandler();
+          back();
         }
       } else if (forms.length >= 2) {
         setPopup('quit');
       } else {
         setTimeout(() => reset(), 200);
-        mobilebackHandler();
+        back();
       }
     }
-  }, [forms, platform, setForms, router, setPopup, reset, mobilebackHandler]);
+  }, [forms, platform, setForms, router, setPopup, reset, back]);
 
   return { handleClickBack };
 }

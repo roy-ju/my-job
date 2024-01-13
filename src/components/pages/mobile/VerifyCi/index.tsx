@@ -1,16 +1,26 @@
-import { updateCi } from '@/apis/user/updateCi';
-import { OverlayPresenter } from '@/components/molecules';
-import { VerifyCiPopup } from '@/components/organisms';
-import { MobVerifyCi } from '@/components/templates';
-import { NiceVerificationType } from '@/constants/enums';
-import ErrorCodes from '@/constants/error_codes';
-import useAuth from '@/hooks/services/useAuth';
-import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
-export default function VerifyCiWrraper() {
+import { useRouter } from 'next/router';
+
+import { OverlayPresenter } from '@/components/molecules';
+
+import { VerifyCiPopup } from '@/components/organisms';
+
+import { MobVerifyCi } from '@/components/templates';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
+
+import { NiceVerificationType } from '@/constants/enums';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import { updateCi } from '@/apis/user/updateCi';
+
+import Routes from '@/router/routes';
+
+export default function VerifyCi() {
   const { mutate: mutateUser } = useAuth();
   const router = useRouter();
 

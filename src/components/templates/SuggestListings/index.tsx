@@ -10,11 +10,11 @@ import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecule
 
 import { DanjiDetailSection, ListingItem } from '@/components/organisms';
 
+import { apiService } from '@/services';
+
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 import { GetDanjiSuggestListResponse } from '@/apis/danji/danjiSuggestList';
-
-import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
 
 import Routes from '@/router/routes';
 
@@ -80,7 +80,7 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await suggestEligibilityCheck(code);
+      const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: code });
 
       if (response && response.eligible) {
         setIsRecommendationService(true);

@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
 import Image from 'next/image';
-import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
+import { apiService } from '@/services';
 
 type Props = {
   danji?: GetDanjiDetailResponse;
@@ -72,7 +72,7 @@ export default function MobSuggestListings({ danji, data, totalCount, onNext, on
 
   useEffect(() => {
     async function isAccessible(code: string) {
-      const response = await suggestEligibilityCheck(code);
+      const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: code });
 
       if (response && response.eligible) {
         setIsRecommendationService(true);
