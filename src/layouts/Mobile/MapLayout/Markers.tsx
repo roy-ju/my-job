@@ -1,11 +1,14 @@
+import DeferredRender from '@/components/atoms/DeferredRender';
+
+import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
+
 import { MobDanjiMarker, MobRegionMarker } from '@/components/organisms';
+
+import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from '@/hooks/useMobileMapLayout';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
-import DeferredRender from '@/components/atoms/DeferredRender';
-import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
-import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from './useMapLayout';
 
 interface MarkersProps {
   mapLevel: number;

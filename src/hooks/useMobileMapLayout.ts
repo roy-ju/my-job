@@ -1,32 +1,55 @@
-import getDanjiSummary from '@/apis/map/mapDanjiSummary';
-import getHakgudo from '@/apis/map/mapHakgudos';
-import getSchools from '@/apis/map/mapSchools';
-import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
-
-import { Filter } from '@/components/organisms/MapFilter/types';
-import { coordToRegion } from '@/lib/kakao';
-import { NaverMap } from '@/lib/navermap';
-import { NaverLatLng } from '@/lib/navermap/types';
-import { getMetersByZoom } from '@/lib/navermap/utils';
-
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { mobileMapState } from '@/states/mob/mobileMap';
-import getListingSummary from '@/apis/map/mapListingSummary';
-import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
+
 import { useRouter } from 'next/router';
-import Routes from '@/router/routes';
-import getCurrentPosition from '@/utils/getCurrentPosition';
+
+import { useRecoilState } from 'recoil';
+
 import { toast } from 'react-toastify';
+
 import debounce from 'lodash/debounce';
 
+import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
+
+import { Filter } from '@/components/organisms/MapFilter/types';
+
+import { mobileMapState } from '@/states/mob/mobileMap';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+
+import { useIsomorphicLayoutEffect, useSessionStorage } from '@/hooks/utils';
+
+import { coordToRegion } from '@/lib/kakao';
+
+import { NaverMap } from '@/lib/navermap';
+
+import { NaverLatLng } from '@/lib/navermap/types';
+
+import { getMetersByZoom } from '@/lib/navermap/utils';
+
+import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
+
+import getSchools from '@/apis/map/mapSchools';
+
+import getHakgudo from '@/apis/map/mapHakgudos';
+
+import getDanjiSummary from '@/apis/map/mapDanjiSummary';
+
+import getListingSummary from '@/apis/map/mapListingSummary';
+
+import Routes from '@/router/routes';
+
+import getCurrentPosition from '@/utils/getCurrentPosition';
+
 const USER_LAST_LOCATION = 'mob_user_last_location';
+
 const DEFAULT_LAT = 37.3945005; // 판교역
+
 const DEFAULT_LNG = 127.1109415;
+
 const DEFAULT_ZOOM = 15; // 300m
+
 const DEFAULT_MIN_ZOOM = 8; // 30km
+
 const DEFAULT_MAX_ZOOM = 19; // 20m
 
 export interface DanjiSummary {
@@ -147,7 +170,7 @@ function getUserLastLocation(): { lat: number; lng: number } {
 /**
  * 지도레이아웃 초기화와 이벤트 기능구현을 담당하는 훅
  */
-export default function useMapLayout() {
+export default function useMobileMapLayout() {
   const router = useRouter();
 
   const [map, setMap] = useRecoilState(mobileMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용

@@ -1,16 +1,29 @@
-import OutsideClick from '@/components/atoms/OutsideClick';
-import { Map } from '@/lib/navermap';
-import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/components/templates';
-import { AnimatePresence, motion } from 'framer-motion';
-import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { AnimatePresence, motion } from 'framer-motion';
+
+import OutsideClick from '@/components/atoms/OutsideClick';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import { MobDanjiSummary } from '@/components/organisms';
-import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
+
+import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/components/templates';
+
+import useMobileMapLayout from '@/hooks/useMobileMapLayout';
+
+import { Map } from '@/lib/navermap';
+
 import { searchAddress } from '@/lib/kakao/search_address';
-import useMapLayout from './useMapLayout';
+
+import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
+
+import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
+
+import Routes from '@/router/routes';
+
 import Markers from './Markers';
 
 function MapWrapper() {
@@ -47,7 +60,7 @@ function MapWrapper() {
     setPopup,
     removeMyMarker,
     ...props
-  } = useMapLayout();
+  } = useMobileMapLayout();
 
   const router = useRouter();
 

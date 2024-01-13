@@ -1,9 +1,9 @@
 import { ChangeEventHandler, ReactNode } from 'react';
-import Home from '@/assets/icons/home.svg';
-import MapPin from '@/assets/icons/map_pin.svg';
-import ChatBubble from '@/assets/icons/chat_bubble.svg';
-import User from '@/assets/icons/user.svg';
-import Heart from '@/assets/icons/heart.svg';
+
+import tw from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
 import {
   MapControls,
   GlobalNavigation,
@@ -12,14 +12,29 @@ import {
   MapFilter,
   MapToggleButton,
 } from '@/components/organisms';
-import { Button } from '@/components/atoms';
-import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
-import HouseGreenIcon from '@/assets/icons/house_green.svg';
+
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+
+import Home from '@/assets/icons/home.svg';
+
+import MapPin from '@/assets/icons/map_pin.svg';
+
+import ChatBubble from '@/assets/icons/chat_bubble.svg';
+
+import User from '@/assets/icons/user.svg';
+
+import Heart from '@/assets/icons/heart.svg';
+
 import { Filter } from '@/components/organisms/MapFilter/types';
+
 import MapPositionBar from '@/components/organisms/MapPositionBar';
-import tw from 'twin.macro';
+
+import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
+
+import HouseGreenIcon from '@/assets/icons/house_green.svg';
+
 import CloseIcon from '@/assets/icons/close.svg';
+
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 
 interface LayoutMainProps {
@@ -84,7 +99,7 @@ interface LayoutMapContainerProps {
   onClickSchool?: () => void;
   onClickMapLayerCadastral?: () => void;
   onClickMapLayerStreet?: () => void;
-  onClickSuggestReginoal?: () => void;
+  onClickSuggestForm?: () => void;
   onClickLogo?: () => void;
   onChangeMapType?: ChangeEventHandler<HTMLInputElement>;
   onChangeSchoolType?: ChangeEventHandler<HTMLInputElement>;
@@ -121,7 +136,7 @@ function LayoutMapContainer({
   onClickCurrentLocation,
   onClickMapLayerCadastral,
   onClickMapLayerStreet,
-  onClickSuggestReginoal,
+  onClickSuggestForm,
   onChangeMapType,
   onClickSchool,
   onClickZoomIn,
@@ -209,12 +224,7 @@ function LayoutMapContainer({
         </MapControls.Group>
       </div>
       <div tw="absolute right-5 bottom-[104px] z-10">
-        <Button
-          variant="ghost"
-          size="none"
-          tw="px-4 bg-white shadow hover:bg-gray-300"
-          onClick={onClickSuggestReginoal}
-        >
+        <Button variant="ghost" size="none" tw="px-4 bg-white shadow hover:bg-gray-300" onClick={onClickSuggestForm}>
           <div tw="pt-5 pb-4 text-start mr-10">
             <span tw="text-info leading-4 whitespace-nowrap">찾으시는 매물이 없다면,</span>
             <br />

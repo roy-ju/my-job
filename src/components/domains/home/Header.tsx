@@ -1,6 +1,4 @@
-import { useRouter } from '@/hooks/utils';
-
-import { useRouter as useNextRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import { useAuth } from '@/hooks/services';
 
@@ -21,25 +19,23 @@ export default function Header() {
 
   const { platform } = useCheckPlatform();
 
-  const router = useRouter(0);
-
-  const nextRouter = useNextRouter();
+  const router = useRouter();
 
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = () => {
     if (platform === 'pc') {
-      router.replace(Routes.Login);
+      router.push(`/${Routes.Login}`);
     } else if (platform === 'mobile') {
-      nextRouter.push(`/${Routes.EntryMobile}/${Routes.Login}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
     }
   };
 
   const handleClickNotification = () => {
     if (platform === 'pc') {
-      nextRouter.replace(`/${Routes.My}/${Routes.NotificationList}`);
+      router.push(`/${Routes.My}/${Routes.NotificationList}`);
     } else if (platform === 'mobile') {
-      nextRouter.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
     }
   };
 

@@ -23,6 +23,7 @@ export default function UserGuide() {
   const handleClickGuide = () => {
     router.push(`/${Routes.Intro}`);
   };
+
   return (
     <section tw="py-10 px-5 flex flex-col gap-5">
       <div tw="flex items-center gap-2">

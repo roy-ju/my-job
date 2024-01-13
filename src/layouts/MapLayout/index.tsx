@@ -1,21 +1,42 @@
-import OutsideClick from '@/components/atoms/OutsideClick';
-import { MapLayout as Layout, MapStreetView } from '@/components/templates';
-import { Map } from '@/lib/navermap';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
+
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import PcGlobalStyles from '@/styles/PcGlobalStyles';
+
+import { useRouter } from 'next/router';
+
+import OutsideClick from '@/components/atoms/OutsideClick';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MapLayout as Layout, MapStreetView } from '@/components/templates';
+
+import useMap from '@/states/map';
+
 import useSyncronizer from '@/states/syncronizer';
 
-import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+
 import { suggestEligibilityCheck } from '@/apis/suggest/suggestEligibilityCheck';
-import useMap from '@/states/map';
+
+import useMapLayout from '@/hooks/useMapLayout';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
+
+import { Map } from '@/lib/navermap';
+
 import { searchAddress } from '@/lib/kakao/search_address';
-import useMapLayout from './useMapLayout';
+
+import PcGlobalStyles from '@/styles/PcGlobalStyles';
+
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+
+import Routes from '@/router/routes';
+
 import Markers from './Markers';
+
+import usePanelVisible from './hooks/usePanelVisible';
+
+import useTab from './hooks/useTab';
 
 interface Props {
   children?: ReactNode;
@@ -75,7 +96,7 @@ function MapWrapper({
 
   const { data: userData } = useAPI_GetUserInfo();
 
-  const { depth, popLast, replace, asPath } = useRouter(0);
+  const { depth, popLast, replace, asPath } = useCustomRouter(0);
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -96,7 +117,7 @@ function MapWrapper({
     [replace],
   );
 
-  const handleClickSuggestRegional = useCallback(async () => {
+  const handleClickSuggestForm = useCallback(async () => {
     const response = await suggestEligibilityCheck(bubjungdongCode);
 
     if (response && !response.eligible) {
@@ -200,7 +221,7 @@ function MapWrapper({
         onChangeMapToggleValue={handleChangeMapToggleValue}
         onChangePriceType={handleChangePriceType}
         onClickClosePanel={popLast}
-        onClickSuggestReginoal={handleClickSuggestRegional}
+        onClickSuggestForm={handleClickSuggestForm}
         onClickMapListingList={handleClickMapListingList}
         onClickListingCreateAddress={handleClickListingCreateAddress}
         onClickAgentSite={handleClickAgentSite}
@@ -341,86 +362,89 @@ function MapWrapper({
 
 export default function MapLayout({ children }: Props) {
   const map = useMap();
-  const router = useRouter(0);
-  const [tabIndex, setTabIndex] = useState(0);
-  const [panelsVisible, setPanelsVisible] = useState(true);
+
+  const router = useRouter();
+
+  const { panelsVisible, handlePanelsVisible, togglePanelsVisibility } = usePanelVisible();
+
+  const { tabIndex, handleChangeTabIndex } = useTab();
+
+  const { unreadChatCount } = useSyncronizer();
 
   const handleClickLogo = useCallback(() => {
-    router.popAll();
+    router.push('/');
   }, [router]);
 
-  const handleChangeTabIndex = useCallback(
+  const handleChangeRoutes = useCallback(
     (index: number) => {
       switch (index) {
         case 0: // 홈
-          router.popAll();
+          router.push('/');
           break;
         case 1: // 지도
           map.naverMap?.setZoom(16, true);
-          router.replace(Routes.Map);
-
+          router.push(`/${Routes.Map}`);
           break;
         case 2: // 나의거래
-          router.replace(Routes.MyFavoriteList);
+          router.push(`/${Routes.MyFavoriteList}`);
           break;
         case 3: // 문의목록
-          router.replace(Routes.ChatRoomList);
+          router.push(`/${Routes.ChatRoomList}`);
           break;
         case 4: // 마이페이지
-          router.replace(Routes.My);
+          router.push(`/${Routes.My}`);
           break;
         case 5: // 개발자설정
-          router.replace(Routes.Developer);
+          router.replace(`/${Routes.Developer}`);
           break;
         default:
           break;
       }
-      setTabIndex(index);
-      setPanelsVisible(true);
+      handleChangeTabIndex(index);
+      handlePanelsVisible(true);
     },
-    [map.naverMap, router],
+    [handleChangeTabIndex, handlePanelsVisible, map?.naverMap, router],
   );
 
   useEffect(() => {
-    setPanelsVisible(true);
+    handlePanelsVisible(true);
+
     if (router.pathname === '/') {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.SuggestForm) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.SuggestDetail) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.SuggestGuide) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.SuggestFormUpdate) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.LawQna) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.LawQnaSearch) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.LawQnaDetail) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.LawQnaCreate) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.LawQnaUpdate) {
-      setTabIndex(0);
+      handleChangeTabIndex(0);
     } else if (router.pathname === Routes.Map) {
-      setTabIndex(1);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.MyFavoriteList) {
-      setTabIndex(2);
+      handleChangeTabIndex(2);
     } else if (router.query.depth1 === Routes.ChatRoomList) {
-      setTabIndex(3);
+      handleChangeTabIndex(3);
     } else if (router.query.depth1 === Routes.My) {
-      setTabIndex(4);
+      handleChangeTabIndex(4);
     } else if (router.query.depth1 === Routes.Developer) {
-      setTabIndex(5);
+      handleChangeTabIndex(5);
     } else {
-      setTabIndex(1);
+      handleChangeTabIndex(0);
     }
-  }, [router]);
+  }, [handleChangeTabIndex, handlePanelsVisible, router]);
 
-  const togglePanelsVisibility = useCallback(() => setPanelsVisible((prev) => !prev), []);
-
-  const { unreadChatCount } = useSyncronizer();
+  // Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서 분리된 컴포넌트로 사용한다.
 
   return (
     <>
@@ -428,12 +452,10 @@ export default function MapLayout({ children }: Props) {
       <Layout
         unreadChatCount={unreadChatCount}
         tabIndex={tabIndex}
-        onChangeTab={handleChangeTabIndex}
+        onChangeTab={handleChangeRoutes}
         onClickLogo={handleClickLogo}
       >
         <Layout.Panels visible={panelsVisible}>{children}</Layout.Panels>
-        {/* Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서
-      분리된 컴포넌트로 사용한다. */}
         <MapWrapper panelsVisible={panelsVisible} onTogglePanelsVisibility={togglePanelsVisibility} />
       </Layout>
     </>

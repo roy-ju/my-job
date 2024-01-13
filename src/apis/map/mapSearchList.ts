@@ -1,9 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '@/components/organisms/MapFilter/PriceFilter';
-import { Filter } from '@/components/organisms/MapFilter/types';
-import { MapBounds } from '@/layouts/Mobile/MapLayout/useMapLayout';
-import useSWRInfinite from 'swr/infinite';
 import { useCallback, useMemo } from 'react';
+
+import useSWRInfinite from 'swr/infinite';
+
+import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '@/components/organisms/MapFilter/PriceFilter';
+
+import { Filter } from '@/components/organisms/MapFilter/types';
+
+import { MapBounds } from '@/hooks/useMobileMapLayout';
+
 import { MapSearchFilter } from './mapSearchLevel';
 
 interface ListItem {

@@ -1,16 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Chip, Separator } from '@/components/atoms';
-import { RealestateType, describeRealestateType, BuyOrRent } from '@/constants/enums';
-import { formatNumberInKorean } from '@/utils';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import CheveronDown from '@/assets/icons/chevron_down_24.svg';
-import { DanjiSummary } from '@/layouts/Mobile/MapLayout/useMapLayout';
 import { useRouter } from 'next/router';
+
 import { styled } from 'twin.macro';
-import Routes from '@/router/routes';
+
 import { motion, useDragControls, useMotionValue } from 'framer-motion';
+
+import { Chip, Separator } from '@/components/atoms';
+
 import BottomSheet from '@/components/molecules/BottomSheet';
+
+import { DanjiSummary } from '@/hooks/useMobileMapLayout';
+
+import { formatNumberInKorean } from '@/utils';
+
+import Routes from '@/router/routes';
+
+import { RealestateType, describeRealestateType, BuyOrRent } from '@/constants/enums';
+
+import CheveronDown from '@/assets/icons/chevron_down_24.svg';
+
 import { Filter } from '../MobMapFilter/types';
 
 const StyledDiv = styled.div``;

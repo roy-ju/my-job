@@ -1,8 +1,10 @@
-import { NaverMap } from '@/lib/navermap';
 import { atom, useRecoilValue } from 'recoil';
+
 import { v1 } from 'uuid';
 
-interface IMapState {
+import { NaverMap } from '@/lib/navermap';
+
+export interface IMapState {
   naverMap?: NaverMap;
 }
 

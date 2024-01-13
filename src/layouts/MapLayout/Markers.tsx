@@ -1,24 +1,31 @@
 /* eslint-disable arrow-body-style */
-import { DanjiMarker, RegionMarker } from '@/components/organisms';
-import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
+import { useRouter as useNextRouter } from 'next/router';
 
 import { useRecoilValue } from 'recoil';
 
-import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
-
 import DeferredRender from '@/components/atoms/DeferredRender';
-import MyMarkerIcon from '@/assets/icons/my_location.svg';
-import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
-import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
-import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
 
-import { useRouter as useNextRouter } from 'next/router';
+import { DanjiMarker, RegionMarker } from '@/components/organisms';
+
+import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
+
 import {
   AroundMarker as AroundMarkerType,
   CommonMarker,
   ListingDanjiMarker as ListingDanjiMarkerType,
   SchoolMarker as SchoolMarkerType,
-} from './useMapLayout';
+} from '@/hooks/useMapLayout';
+
+import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
+
+import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
+
+import { GetDanjiSummaryResponse } from '@/apis/map/mapDanjiSummary';
+
+import MyMarkerIcon from '@/assets/icons/my_location.svg';
+
+import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
+
 import AroundMarker from './AroundMarker';
 
 interface MarkersProps {
