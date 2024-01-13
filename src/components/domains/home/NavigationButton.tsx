@@ -4,9 +4,9 @@ import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
 
-import { useAuth } from '@/hooks/services';
+import useMap from '@/states/hooks/useMap';
 
-import useMap from '@/states/map';
+import { useAuth } from '@/hooks/services';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 

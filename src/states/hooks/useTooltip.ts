@@ -1,21 +1,13 @@
-import { TooltipType } from '@/constants/tooltips';
 import { useCallback } from 'react';
-import { atom, useRecoilState } from 'recoil';
-import { v1 } from 'uuid';
 
-interface ITooltipState {
-  activeTooltip: TooltipType | '';
-}
+import { useRecoilState } from 'recoil';
 
-export const tooltipState = atom<ITooltipState>({
-  key: `negocio_tooltip/${v1()}`,
-  default: {
-    activeTooltip: '',
-  },
-});
+import { TooltipType } from '@/constants/tooltips';
+
+import tooltipAtom from '../atom/tooltip';
 
 export default function useTooltip() {
-  const [state, setState] = useRecoilState(tooltipState);
+  const [state, setState] = useRecoilState(tooltipAtom);
 
   const openTooltip = useCallback(
     (tooltip: TooltipType | '') => {

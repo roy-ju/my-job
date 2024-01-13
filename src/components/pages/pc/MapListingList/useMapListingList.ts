@@ -6,7 +6,7 @@ import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
-import useMap from '@/states/map';
+import useMap from '@/states/hooks/useMap';
 
 import { MapBounds, getBounds } from '@/hooks/useMapLayout';
 

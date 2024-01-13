@@ -1,55 +1,11 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { atom, useRecoilState } from 'recoil';
-import { v1 } from 'uuid';
+import { useRecoilState } from 'recoil';
 
-type BtnState = {
-  SW8?: boolean;
-  HP8?: boolean;
-  MT1?: boolean;
-  CS2?: boolean;
-  BK9?: boolean;
-  PO3?: boolean;
-};
+import { DanjiDetailResponse } from '@/services/danji/types';
 
-type DanjiMapButtonStore = {
-  isTrue: boolean;
-  isTrueSchool: boolean;
-  isTrueAround: boolean;
-  isShowRoad: boolean;
-  isShowMap: boolean;
+import mobileDanjiInteractionAtom, { BtnState } from '../atom/mobileDanjiMapInteraction';
 
-  danjiAroundData: GetDanjiDetailResponse | undefined;
-  danjiAroundDetailDefault: keyof BtnState;
-
-  danjiSchoolID?: string;
-  danjiAddress?: string;
-  danjiPlace?: string;
-  danjiAroundLat?: string;
-  danjiAroundLng?: string;
-};
-
-export const danjiMapButtonStore = atom<DanjiMapButtonStore>({
-  key: `danji_map_button/${v1()}`,
-  default: {
-    isTrue: false,
-    isTrueSchool: false,
-    isTrueAround: false,
-    isShowRoad: true,
-    isShowMap: true,
-    danjiAroundData: undefined,
-    danjiAroundDetailDefault: 'HP8',
-
-    danjiSchoolID: '',
-    danjiAddress: '',
-    danjiAroundLat: '',
-    danjiAroundLng: '',
-    danjiPlace: '',
-  },
-  dangerouslyAllowMutability: true,
-});
-
-export function useDanjiMapButtonStore() {
-  const [state, setState] = useRecoilState(danjiMapButtonStore);
+export default function useMobileDanjiInteraction() {
+  const [state, setState] = useRecoilState(mobileDanjiInteractionAtom);
 
   const makeTrue = () => {
     setState((prev) => ({ ...prev, isTrue: true }));
@@ -88,7 +44,7 @@ export function useDanjiMapButtonStore() {
     setState((prev) => ({ ...prev, isShowMap: false }));
   };
 
-  const makeBindDanji = (danji: GetDanjiDetailResponse | undefined) => {
+  const makeBindDanji = (danji: DanjiDetailResponse | undefined) => {
     setState((prev) => ({ ...prev, danjiAroundData: danji }));
   };
 

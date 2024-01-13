@@ -12,7 +12,7 @@ import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
-import { mobileMapState } from '@/states/mob/mobileMap';
+import mobileMapAtom from '@/states/atom/mobileMap';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -39,6 +39,8 @@ import getListingSummary from '@/apis/map/mapListingSummary';
 import Routes from '@/router/routes';
 
 import getCurrentPosition from '@/utils/getCurrentPosition';
+
+import { CommonMapMarker, CommonSchoolMarker } from '@/types/mobileMarkers';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 
@@ -83,37 +85,6 @@ export interface ListingSummary {
   negotiationTarget: number;
   realestateType: number;
   tradeOrDepositPrice: number;
-}
-
-export interface CommonMapMarker {
-  id: string;
-  variant: 'blue' | 'nego';
-  bubjungdongCode?: string;
-  bubjungdongName?: string;
-  danjiCount?: number;
-  danjiID?: number;
-  danjiRealestateType?: number;
-  pyoung?: string;
-  price?: number;
-  monthlyRentFee?: number;
-  roadNameAddress?: string;
-  jibunAddress?: string;
-  listingIDs?: string;
-  tradePrice?: number;
-  deposit?: number;
-  listingCount: number;
-  lat: number;
-  lng: number;
-  onClick?: () => void;
-}
-
-export interface CommonSchoolMarker {
-  id: string;
-  type: string;
-  lat: number;
-  lng: number;
-  name: string;
-  onClick?: () => void;
 }
 
 export interface MapBounds {
@@ -173,7 +144,7 @@ function getUserLastLocation(): { lat: number; lng: number } {
 export default function useMobileMapLayout() {
   const router = useRouter();
 
-  const [map, setMap] = useRecoilState(mobileMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+  const [map, setMap] = useRecoilState(mobileMapAtom); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [isGeoLoading, setIsGeoLoading] = useState(false);
 

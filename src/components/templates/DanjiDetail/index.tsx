@@ -8,17 +8,17 @@ import { DanjiDetailSection } from '@/components/organisms';
 
 import { DanjiTab } from '@/components/organisms/DanjiDetail/DanjiTabs';
 
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import News from '@/components/organisms/News';
+
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
 import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
 
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
 import Routes from '@/router/routes';
 
-import useDanjiInteraction from '@/states/danjiButton';
-
 import { describeRealestateType } from '@/constants/enums';
-
-import News from '@/components/organisms/News';
 
 import DanjiRealpriceContainer from './Components/DanjiRealpriceContainer';
 

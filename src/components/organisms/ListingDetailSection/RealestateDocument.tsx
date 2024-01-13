@@ -1,9 +1,14 @@
-import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
-import { Button, Moment } from '@/components/atoms';
 import { memo } from 'react';
-import QuestionIcon from '@/assets/icons/question.svg';
+
 import tw, { styled } from 'twin.macro';
-import useTooltip from '@/states/tooltip';
+
+import { Button, Moment } from '@/components/atoms';
+
+import useTooltip from '@/states/hooks/useTooltip';
+
+import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
+
+import QuestionIcon from '@/assets/icons/question.svg';
 
 const StyledTable = styled.table`
   width: 100%;

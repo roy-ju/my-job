@@ -1,8 +1,12 @@
-import { Button } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
 import { useCallback } from 'react';
+
+import { Button } from '@/components/atoms';
+
+import useTooltip from '@/states/hooks/useTooltip';
+
+import { useControlled } from '@/hooks/utils';
+
 import QuestionIcon from '@/assets/icons/question.svg';
-import useTooltip from '@/states/tooltip';
 
 interface JeonsaeLoanProps {
   value?: boolean;

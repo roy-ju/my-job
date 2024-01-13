@@ -2,18 +2,18 @@ import { memo, useCallback, useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
 
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
+
 import { DanjiDetailResponse, DanjiPhotosResponse } from '@/services/danji/types';
 
 import { DefaultListingImageLg } from '@/constants/strings';
-
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 
 import PhotoHero from './PhotoHero';
 
 const PhotosDialog = dynamic(() => import('./PhotosDialog'), { ssr: false });
 
 function Photos({ danji, danjiPhotos }: { danji: DanjiDetailResponse; danjiPhotos?: DanjiPhotosResponse }) {
-  const { addFullScreenDialog, closeAll } = useFullScreenDialogStore();
+  const { addFullScreenDialog, closeAll } = useFullScreenDialog();
 
   const paths = useMemo(() => danjiPhotos?.danji_photos?.map((item) => item) ?? [], [danjiPhotos]);
 

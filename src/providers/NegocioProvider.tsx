@@ -1,6 +1,8 @@
 import { ReactNode, useEffect, useMemo } from 'react';
 
-import Keys from '@/constants/storage_keys';
+import { mutate } from 'swr';
+
+import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import { useAuth } from '@/hooks/services';
 
@@ -10,11 +12,9 @@ import usePageVisibility from '@/hooks/utils/usePageVisibility';
 
 import axios from '@/lib/axios';
 
-import useSyncronizer from '@/states/syncronizer';
-
 import { isClient } from '@/utils/is';
 
-import { mutate } from 'swr';
+import Keys from '@/constants/storage_keys';
 
 export default function NegocioProvider({ children }: { children?: ReactNode }) {
   const pageVisible = usePageVisibility();

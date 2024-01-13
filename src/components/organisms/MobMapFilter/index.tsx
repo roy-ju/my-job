@@ -1,19 +1,34 @@
-import { Button } from '@/components/atoms';
-import { ButtonProps } from '@/components/atoms/Button';
-import tw, { styled } from 'twin.macro';
-import { useControlled } from '@/hooks/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import tw, { styled } from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
+import { ButtonProps } from '@/components/atoms/Button';
+
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
+
+import { useControlled } from '@/hooks/utils';
+
 import { BuyOrRent, RealestateType } from '@/constants/enums';
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+
 import FilterTypes from './FilterTypes';
-import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from './types';
+
 import BuyorRentFilter from './BuyOrRentFilter';
+
 import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from './PriceFilter';
+
 import HouseholdFilter from './HouseholdFilter';
+
 import EtcFilter from './EtcFilter';
+
 import FilterTypesMedium from './FilterTypesMedium';
+
 import RealestateTypeRoomCountFilter from './RealestateTypeRoomCountFilter';
+
 import MobAllMapFilter from '../MobMapAllFilter';
+
+import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from './types';
 
 export function getDefaultFilterAptOftl(): Filter {
   return {
@@ -111,7 +126,7 @@ export default function MobMapFilter({ filter: filterProp, onChangeFilter }: Map
   const [isSecondFilterTypesExpandedFive, setIsSecondFilterTypesExpandedFive] = useState(false);
   const [isFilterTypesExpanded, setIsFilterTypeExapnded] = useState(false);
 
-  const { addFullScreenDialog } = useFullScreenDialogStore();
+  const { addFullScreenDialog } = useFullScreenDialog();
 
   // 선택가능한 필터 종류들
   const [filterTypes, setFilterTypes] = useState<FilterType[]>([

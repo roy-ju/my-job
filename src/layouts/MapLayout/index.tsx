@@ -10,9 +10,9 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { MapLayout as Layout, MapStreetView } from '@/components/templates';
 
-import useMap from '@/states/map';
+import useMap from '@/states/hooks/useMap';
 
-import useSyncronizer from '@/states/syncronizer';
+import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 

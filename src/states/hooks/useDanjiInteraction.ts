@@ -1,82 +1,12 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import { useRecoilState } from 'recoil';
+
 import getDanjiSchoolsMarker from '@/apis/map/danjiMapSchools';
 
-import { atom, useRecoilState } from 'recoil';
-import { v1 } from 'uuid';
+import { DanjiDetailResponse } from '@/services/danji/types';
 
-interface CommonMarker {
-  id: string;
-  lat: number;
-  lng: number;
-  onClick?: () => void;
-}
+import { SchoolMarker, AroundMarker } from '@/types/markers';
 
-interface SchoolMarker extends CommonMarker {
-  type: string;
-  name: string;
-}
-
-interface SelectedSchool {
-  id?: string;
-}
-
-interface SelectedAround {
-  id?: string;
-  addressName?: string;
-}
-
-interface AroundMarker extends CommonMarker {
-  type: string;
-  place?: string | string[];
-  duplicatedCount?: number;
-  distance?: string;
-  addressName?: string;
-}
-
-interface AroundMarkers {
-  address_name: string;
-  category_group_code: string;
-  category_group_name: string;
-  category_name: string;
-  distance: string;
-  place_name: string;
-  x: string;
-  y: string;
-  id: string;
-  phone: string;
-  road_address_name: string;
-  place_url: string;
-}
-
-export const schoolAroundState = atom<{
-  activeCategory: string;
-  school: boolean;
-  around: boolean;
-  danjiData?: GetDanjiDetailResponse;
-  selectedSchool?: SelectedSchool;
-  selectedAround?: SelectedAround;
-  selectedSchoolMarker?: SchoolMarker;
-  selectedAroundMarker?: AroundMarker;
-  schoolMarkers: SchoolMarker[];
-  aroundMarkers: AroundMarkers[];
-  danjiAroundPlaceName?: string;
-}>({
-  key: `negocio_danji_interaction_map/${v1()}`,
-  default: {
-    activeCategory: 'HP8',
-    school: false,
-    around: false,
-    danjiData: undefined,
-    selectedSchoolMarker: undefined,
-    selectedAroundMarker: undefined,
-    schoolMarkers: [],
-    aroundMarkers: [],
-    danjiAroundPlaceName: undefined,
-  },
-  dangerouslyAllowMutability: true,
-});
+import danjiInteractionAtom, { AroundMarkers } from '../atom/danjiInteraction';
 
 const schoolTypes = [
   { type: '1', name: 'elementary' },
@@ -84,14 +14,11 @@ const schoolTypes = [
   { type: '3', name: 'high' },
 ];
 
-export default function useDanjiInteraction({ danjiData }: { danjiData?: GetDanjiDetailResponse }) {
-  const [state, setState] = useRecoilState(schoolAroundState);
+export default function useDanjiInteraction({ danjiData }: { danjiData?: DanjiDetailResponse }) {
+  const [state, setState] = useRecoilState(danjiInteractionAtom);
 
   const makeSchoolOn = async (callback?: () => unknown) => {
-    let newSchoolMarkers: SchoolMarker[] = [];
-
-    // setState((prev) => ({ ...prev, school: true }));
-    // setState((prev) => ({ ...prev, danjiData }));
+    const newSchoolMarkers: SchoolMarker[] = [];
 
     if (danjiData) {
       window.Negocio.callbacks.selectSchoolInteraction({

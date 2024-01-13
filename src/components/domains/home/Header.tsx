@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/services';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
 
-import useSyncronizer from '@/states/syncronizer';
+import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import { ButtonV2 } from '@/components/atoms';
 

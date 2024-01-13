@@ -1,20 +1,24 @@
 /* eslint-disable no-redeclare */
 import { useEffect, useRef } from 'react';
-import { isClient, isString, noop } from '@/utils/is';
-import { unRef } from '@/utils/unRef';
-import { _window } from './ssr_config';
 
-// interface InferEventTarget<Events> {
-//   addEventListener(event: Events, fn?: any, options?: any): any;
-//   removeEventListener(event: Events, fn?: any, options?: any): any;
-// }
+import { isClient, isString, noop } from '@/utils/is';
+
+import { unRef } from '@/utils/unRef';
+
+import { _window } from '@/config/ssr_config';
 
 export type WindowEventName = keyof WindowEventMap;
+
 export type DocumentEventName = keyof DocumentEventMap;
 
 export type GeneralEventListener<E = Event> = {
   (evt: E): void;
 };
+
+// interface InferEventTarget<Events> {
+//   addEventListener(event: Events, fn?: any, options?: any): any;
+//   removeEventListener(event: Events, fn?: any, options?: any): any;
+// }
 
 // export function useEventListener<E extends keyof WindowEventMap>(
 //   event: E,

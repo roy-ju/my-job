@@ -7,13 +7,15 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 import { Button } from '@/components/atoms';
 
+import danjiInteractionAtom from '@/states/atom/danjiInteraction';
+
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
+
 import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
 
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
-
-import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
 
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -50,7 +52,8 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
   const refs = useRef<any>([]);
   const listRefs = useRef<any>([]);
 
-  const interactionState = useRecoilValue(schoolAroundState);
+  const interactionState = useRecoilValue(danjiInteractionAtom);
+
   const interactionStore = useDanjiInteraction({ danjiData: danji });
 
   const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);

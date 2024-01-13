@@ -4,6 +4,8 @@ import tw from 'twin.macro';
 
 import { Button } from '@/components/atoms';
 
+import useMobileMap from '@/states/hooks/useMobileMap';
+
 import HomeIcon from '@/assets/icons/home.svg';
 
 import HeartIcon from '@/assets/icons/heart.svg';
@@ -16,8 +18,6 @@ import UserIcon from '@/assets/icons/user.svg';
 
 import Routes from '@/router/routes';
 
-import useMap from '@/states/mob/mobileMap';
-
 export default function MobGlobalNavigation({
   index,
   unreadChatCount = 0,
@@ -25,7 +25,7 @@ export default function MobGlobalNavigation({
   index?: number;
   unreadChatCount?: number;
 }) {
-  const map = useMap();
+  const map = useMobileMap();
   const router = useRouter();
 
   const onClickButton = (path: string) => {

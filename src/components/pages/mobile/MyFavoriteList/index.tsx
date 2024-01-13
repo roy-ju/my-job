@@ -1,10 +1,17 @@
-import { MobileContainer } from '@/components/atoms';
 import { memo } from 'react';
-import { MyFavoriteList as MyFavoriteListTemplate } from '@/components/templates';
-import Routes from '@/router/routes';
+
 import { useRouter } from 'next/router';
+
+import { MobileContainer } from '@/components/atoms';
+
 import { MobGlobalNavigation } from '@/components/organisms';
-import useSyncronizer from '@/states/syncronizer';
+
+import { MyFavoriteList as MyFavoriteListTemplate } from '@/components/templates';
+
+import useSyncronizer from '@/states/hooks/useSyncronizer';
+
+import Routes from '@/router/routes';
+
 import useMyFavoriteList from './useMyFavoriteList';
 
 export default memo(() => {

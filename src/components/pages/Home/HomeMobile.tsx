@@ -4,7 +4,7 @@ import MobileContainer from '@/components/atoms/MobileContainer';
 
 import MobGlobalNavigation from '@/components/organisms/MobGlobalNavigation';
 
-import useSyncronizer from '@/states/syncronizer';
+import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 export default function HomeMobile() {
   const { unreadChatCount } = useSyncronizer();

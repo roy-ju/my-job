@@ -6,13 +6,14 @@ import { useEffect, useMemo, useRef, useState, MouseEvent } from 'react';
 import { NavigationHeader } from '@/components/molecules';
 import CloseIcon from '@/assets/icons/close_18.svg';
 import { Button } from '@/components/atoms';
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
 import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
 import { styled } from 'twin.macro';
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 import DanjiAroundMapCard from './DanjiAroundMapCard';
 
 const commonStyle = {
@@ -96,7 +97,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     makeDanjiAroundAddress,
     makeDanjiAroundPlace,
     makeDanjiAroundLatLng,
-  } = useDanjiMapButtonStore();
+  } = useMobileDanjiInteraction();
 
   const [map, setMap] = useState<naver.maps.Map | null | undefined>(null);
 

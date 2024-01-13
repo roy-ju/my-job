@@ -1,18 +1,32 @@
-import { Button } from '@/components/atoms';
-import { ButtonProps } from '@/components/atoms/Button';
-import tw, { styled } from 'twin.macro';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BuyOrRent, RealestateType } from '@/constants/enums';
-import Close from '@/assets/icons/close_24.svg';
+
+import tw, { styled } from 'twin.macro';
+
 import { toast } from 'react-toastify';
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
-import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from '../MobMapFilter/types';
+
+import { Button } from '@/components/atoms';
+
+import { ButtonProps } from '@/components/atoms/Button';
+
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
+
+import { BuyOrRent, RealestateType } from '@/constants/enums';
+
+import Close from '@/assets/icons/close_24.svg';
+
 import BuyorRentFilter from '../MobMapFilter/BuyOrRentFilter';
+
 import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '../MobMapFilter/PriceFilter';
+
 import HouseholdFilter from '../MobMapFilter/HouseholdFilter';
+
 import EtcFilter from '../MobMapFilter/EtcFilter';
+
 import FilterTypesMedium from '../MobMapFilter/FilterTypesMedium';
+
 import RealestateTypeRoomCountFilter from '../MobMapFilter/RealestateTypeRoomCountFilter';
+
+import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from '../MobMapFilter/types';
 
 export function getDefaultFilterAptOftl(): Filter {
   return {
@@ -95,7 +109,7 @@ interface MapFilterProps {
 }
 
 export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: MapFilterProps) {
-  const { closeAll } = useFullScreenDialogStore();
+  const { closeAll } = useFullScreenDialog();
 
   const [uiFilter, setUIFilterState] = useState<Filter>(filterProp || getDefaultFilterAptOftl());
 

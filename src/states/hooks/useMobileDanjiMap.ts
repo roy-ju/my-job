@@ -1,22 +1,9 @@
-/* eslint-disable consistent-return */
-/* eslint-disable @typescript-eslint/naming-convention */
+import { useRecoilState } from 'recoil';
 
-import { atom, useRecoilState } from 'recoil';
-import { v1 } from 'uuid';
+import mobileDanjiMapAtom from '../atom/danjiMap';
 
-type DanjiMapTypeStore = {
-  mapType: string;
-  panoCenter?: { lat: number; lng: number };
-};
-
-export const danjiMapTypeStore = atom<DanjiMapTypeStore>({
-  key: `danji_map_type/${v1()}`,
-  default: { mapType: 'map', panoCenter: undefined },
-  dangerouslyAllowMutability: true,
-});
-
-export function useDanjiMapTypeStore() {
-  const [state, setState] = useRecoilState(danjiMapTypeStore);
+export default function useMobileDanjiMap() {
+  const [state, setState] = useRecoilState(mobileDanjiMapAtom);
 
   const makeRoadLayer = () => {
     setState((prev) => ({ ...prev, mapType: 'roadlayer' }));

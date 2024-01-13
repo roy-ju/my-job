@@ -14,9 +14,11 @@ import {
   CommonMarker,
   ListingDanjiMarker as ListingDanjiMarkerType,
   SchoolMarker as SchoolMarkerType,
-} from '@/hooks/useMapLayout';
+} from '@/types/markers';
 
-import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
+import danjiInteractionAtom from '@/states/atom/danjiInteraction';
+
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
@@ -64,7 +66,7 @@ export default function Markers({
   const router = useNextRouter();
 
   const { school, around, selectedAroundMarker, selectedSchoolMarker, danjiAroundPlaceName, activeCategory } =
-    useRecoilValue(schoolAroundState);
+    useRecoilValue(danjiInteractionAtom);
 
   const interactionAction = useDanjiInteraction({ danjiData: undefined });
 

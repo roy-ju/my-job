@@ -5,7 +5,7 @@ import { useRouter } from '@/hooks/utils';
 
 import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 
-import { ListingDanjiMarker } from '@/hooks/useMapLayout';
+import { ListingDanjiMarker } from '@/types/markers';
 
 export default function useDanjiDetail(
   depth: number,

@@ -1,10 +1,16 @@
 import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+
 import { Moment, Numeral, Button } from '@/components/atoms';
+
 import { Table } from '@/components/molecules';
+
+import useTooltip from '@/states/hooks/useTooltip';
+
 import { BuyOrRent } from '@/constants/enums';
+
 import { BuyOrRentString, TimeTypeString } from '@/constants/strings';
+
 import QuestionIcon from '@/assets/icons/question.svg';
-import useTooltip from '@/states/tooltip';
 
 export interface ConditionsProps {
   listing?: GetListingDetailResponse['listing'];

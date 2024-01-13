@@ -18,9 +18,11 @@ import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
-import { mapState as recoilMapState } from '@/states/map';
+import mapAtom from '@/states/atom/map';
 
-import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
+
+import danjiInteractionAtom from '@/states/atom/danjiInteraction';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -48,6 +50,8 @@ import Routes from '@/router/routes';
 
 import useLatest from '@/hooks/utils/useLatest';
 
+import { CommonMarker, ListingDanjiMarker, SchoolMarker, AroundMarker } from '@/types/markers';
+
 const USER_LAST_LOCATION = 'user_last_location';
 
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -66,46 +70,6 @@ export interface DanjiSummary {
   householdCount: number;
   buyListingCount: number;
   rentListingCount: number;
-}
-
-export interface CommonMarker {
-  id: string;
-  lat: number;
-  lng: number;
-  onClick?: () => void;
-  onMouseOver?: () => void;
-  onMouseLeave?: () => void;
-}
-
-export interface ListingDanjiMarker extends CommonMarker {
-  variant: 'blue' | 'nego';
-  bubjungdongCode?: string;
-  bubjungdongName?: string;
-  danjiCount?: number;
-  danjiID?: number;
-  danjiRealestateType?: number;
-  pyoung?: string;
-  price?: number;
-  monthlyRentFee?: number;
-  roadNameAddress?: string;
-  jibunAddress?: string;
-  listingIDs?: string;
-  tradePrice?: number;
-  deposit?: number;
-  listingCount: number;
-}
-
-export interface SchoolMarker extends CommonMarker {
-  type: string;
-  name: string;
-}
-
-export interface AroundMarker extends CommonMarker {
-  type: string;
-  place?: string | string[];
-  duplicatedCount?: number;
-  distance?: string;
-  addressName?: string;
 }
 
 export interface MapBounds {
@@ -204,7 +168,7 @@ function getUserLastLocation(): { lat: number; lng: number } | null {
 export default function useMapLayout() {
   const router = useRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
 
-  const interactionState = useRecoilValue(schoolAroundState);
+  const interactionState = useRecoilValue(danjiInteractionAtom);
 
   const interactionAction = useDanjiInteraction({ danjiData: undefined });
 
@@ -230,7 +194,7 @@ export default function useMapLayout() {
 
   const [searchResultMarker, setSearchResultMarker] = useState<{ lat: number; lng: number } | null>(null);
 
-  const [mapState, setMapState] = useRecoilState(recoilMapState); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
+  const [mapState, setMapState] = useRecoilState(mapAtom); // 지도 레이아웃을 가진 어느 페이지에서간에 map 을 사용할수있도록한다. useMap 훅을 사용
 
   const [mapType, setMapType] = useState('normal');
 

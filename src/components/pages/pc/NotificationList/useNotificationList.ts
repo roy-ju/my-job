@@ -1,15 +1,22 @@
-import deleteNotifications from '@/apis/notification/deleteNotifications';
-import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
-import readNotifications from '@/apis/notification/readNotifications';
-import getNotificationUrl from '@/apis/notification/getNotificationUrl';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
-import useUnmount from '@/hooks/utils/useUnmount';
-import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import useSyncronizer from '@/states/syncronizer';
 
-// import { useRouter as useNextRouter } from 'next/router';
+import { useRouter as useNextRouter } from 'next/router';
+
+import { useRouter } from '@/hooks/utils';
+
+import useSyncronizer from '@/states/hooks/useSyncronizer';
+
+import useUnmount from '@/hooks/utils/useUnmount';
+
+import deleteNotifications from '@/apis/notification/deleteNotifications';
+
+import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
+
+import readNotifications from '@/apis/notification/readNotifications';
+
+import getNotificationUrl from '@/apis/notification/getNotificationUrl';
+
+import Routes from '@/router/routes';
 
 export default function useNotificationList(depth: number) {
   const router = useRouter(depth);

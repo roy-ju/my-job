@@ -1,17 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Separator } from '@/components/atoms';
 import React, { useEffect, useRef, useState } from 'react';
 
-import Close from '@/assets/icons/close_24.svg';
-import { useMapSidoList } from '@/apis/map/mapSidoList';
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import { useRecoilState } from 'recoil';
+
+import { Button, Separator } from '@/components/atoms';
+
+import mobileMapAtom from '@/states/atom/mobileMap';
+
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
+
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
 import { convertSidoName, convertSigunguName } from '@/utils/fotmat';
 
+import { useMapSidoList } from '@/apis/map/mapSidoList';
+
 import { useMapSigunguList } from '@/apis/map/mapSigunguList';
+
 import { useMapEubmyeondongList } from '@/apis/map/mapEubmyeondong';
-import { useRecoilState } from 'recoil';
-import { mobileMapState } from '@/states/mob/mobileMap';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
+import Close from '@/assets/icons/close_24.svg';
 
 export default function MobAreaSearch({ centerAddress, code }: { centerAddress?: string[]; code?: string }) {
   const [sido, setSido] = useState('');
@@ -40,9 +48,9 @@ export default function MobAreaSearch({ centerAddress, code }: { centerAddress?:
 
   const { data: eubmyeondongData } = useMapEubmyeondongList({ sigunguCode });
 
-  const { closeAll } = useFullScreenDialogStore();
+  const { closeAll } = useFullScreenDialog();
 
-  const [map, _] = useRecoilState(mobileMapState);
+  const [map, _] = useRecoilState(mobileMapAtom);
 
   useEffect(() => {
     if (centerAddress) {
