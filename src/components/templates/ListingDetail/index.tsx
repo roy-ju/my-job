@@ -10,7 +10,9 @@ import { DanjiDetailSection, ListingCtaButtons, ListingDetailSection, PhotoHero 
 
 import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
-import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
+import useScroll from '@/hooks/useScroll';
+
+import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 

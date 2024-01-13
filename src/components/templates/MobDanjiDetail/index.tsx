@@ -1,14 +1,16 @@
 import React, { memo, useCallback, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import Separator from '@/components/atoms/Separator';
 
-import useScroll from '@/hooks/utils/useScroll';
+import News from '@/components/organisms/News';
 
-import useIsomorphicLayoutEffect from '@/hooks/utils/useIsomorphicLayoutEffect';
+import useScroll from '@/hooks/useScroll';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { describeRealestateType } from '@/constants/enums';
-
-import dynamic from 'next/dynamic';
 
 import {
   DanjiDetailResponse,
@@ -18,8 +20,6 @@ import {
   DanjiSuggestListResponse,
   NaverDanjiResponse,
 } from '@/services/danji/types';
-
-import News from '@/components/organisms/News';
 
 import ListingsSection from './Components/sectionContainers/ListingsSection';
 

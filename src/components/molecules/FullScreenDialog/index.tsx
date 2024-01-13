@@ -7,9 +7,9 @@ import { FullScreenDialog as FullScreenDialogProps } from '@/states/atom/dialog'
 
 import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
-import { useScrollLock } from '@/hooks/utils/useScrollLock';
+import useScrollLock from '@/hooks/useScrollLock';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 

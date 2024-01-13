@@ -10,7 +10,7 @@ import useMap from '@/states/hooks/useMap';
 
 import { MapBounds, getBounds } from '@/hooks/useMapLayout';
 
-import { useNegocioMapEvent } from '@/hooks/utils';
+import useNegocioMapEvent from '@/hooks/useNegocioMapEvent';
 
 import useAPI_MapSearchList from '@/apis/map/mapSearchList';
 

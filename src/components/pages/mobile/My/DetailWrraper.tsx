@@ -1,8 +1,13 @@
 import { MobileContainer } from '@/components/atoms';
+
 import { OverlayPresenter } from '@/components/molecules';
+
 import { UpdateEmailPopup, UpdateNicknamePopup } from '@/components/organisms';
+
 import { MobMyDetail } from '@/components/templates';
-import { useScrollLock } from '@/hooks/utils/useScrollLock';
+
+import useScrollLock from '@/hooks/useScrollLock';
+
 import useMyDetail from './hooks/useMyDetail';
 
 export default function DetailWrraper() {

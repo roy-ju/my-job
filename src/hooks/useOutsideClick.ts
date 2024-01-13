@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+
 import useCallbackRef from './useCallbackRef';
 
 export interface UseOutsideClickProps {

@@ -5,7 +5,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { ListingCreateResult } from '@/components/templates';
 import { ListingStatus } from '@/constants/enums';
-import usePolling from '@/hooks/utils/usePolling';
+import usePolling from '@/hooks/usePolling';
 import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';

@@ -1,6 +1,8 @@
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
 import { HTMLProps, useRef } from 'react';
+
 import tw from 'twin.macro';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 const Container = tw.div`overflow-y-auto`;
 

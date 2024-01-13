@@ -1,14 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
-import { ChatMessage } from '@/components/organisms';
-import { ChatUserType } from '@/constants/enums';
-import { StaticImageData } from 'next/image';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Loading, Moment } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { useIsomorphicLayoutEffect, useOutsideClick } from '@/hooks/utils';
-import { checkPlatform } from '@/utils/checkPlatform';
+
+import { StaticImageData } from 'next/image';
+
 import tw from 'twin.macro';
+
+import { Button, Loading, Moment } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ChatMessage } from '@/components/organisms';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
+import { checkPlatform } from '@/utils/checkPlatform';
+
 import { compareMessageTime } from '@/utils/formatsTime';
+
+import { ChatUserType } from '@/constants/enums';
 
 export interface IChatMessage {
   id: number;

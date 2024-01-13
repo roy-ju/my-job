@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 import { TextFieldV2 } from '@/components/molecules';
 
-import useSuffixPosition from '@/hooks/utils/useSuffixPosition';
+import useSuffixPosition from '@/hooks/useSuffixPosition';
 
 import CloseContained from '@/assets/icons/close_contained.svg';
 

@@ -14,7 +14,7 @@ import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction'
 
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
-import useIsomorphicLayoutEffect from '@/hooks/utils/useIsomorphicLayoutEffect';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import Paths from '@/constants/paths';
 

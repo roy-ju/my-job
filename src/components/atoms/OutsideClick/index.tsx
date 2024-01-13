@@ -1,6 +1,8 @@
-import { useOutsideClick } from '@/hooks/utils';
 import { ReactNode, useRef } from 'react';
+
 import tw from 'twin.macro';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 interface OutsideClickProps {
   onOutsideClick?: () => void;

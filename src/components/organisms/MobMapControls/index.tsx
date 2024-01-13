@@ -1,20 +1,30 @@
-import { Button, Label, Radio } from '@/components/atoms';
-import { ButtonGroup, RadioGroup } from '@/components/molecules';
 import React, { ChangeEventHandler, ReactNode, useCallback, useRef, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 
 import tw, { theme } from 'twin.macro';
 
-import SchoolIcon from '@/assets/icons/school.svg';
-import StackIcon from '@/assets/icons/stack.svg';
-import MapPinRoad from '@/assets/icons/map_pin_road.svg';
-import NaverMapPin from '@/assets/icons/naver_map_pin.svg';
-import PlusIcon from '@/assets/icons/plus.svg';
-import MinusIcon from '@/assets/icons/minus.svg';
-import GPSIcon from '@/assets/icons/gps.svg';
 import { usePopper } from 'react-popper';
-import { useOutsideClick } from '@/hooks/utils';
+
+import { Button, Label, Radio } from '@/components/atoms';
+
+import { ButtonGroup, RadioGroup } from '@/components/molecules';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import SchoolIcon from '@/assets/icons/school.svg';
+
+import StackIcon from '@/assets/icons/stack.svg';
+
+import MapPinRoad from '@/assets/icons/map_pin_road.svg';
+
+import NaverMapPin from '@/assets/icons/naver_map_pin.svg';
+
+import PlusIcon from '@/assets/icons/plus.svg';
+
+import MinusIcon from '@/assets/icons/minus.svg';
+
+import GPSIcon from '@/assets/icons/gps.svg';
 
 import animationData from '@/assets/icons/json/loading.json';
 

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { v4 } from 'uuid';
 
 export default function useNegocioMapEvent(eventName: Negocio.MapEvent, callback?: (...args: any[]) => void) {

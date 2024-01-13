@@ -23,7 +23,7 @@ import {
   NaverDanjiResponse,
 } from '@/services/danji/types';
 
-import useAuthRedirect from '@/hooks/utils/useAuthRedirect';
+import useAuthRedirect from '@/hooks/useAuthRedirect';
 
 import Tabs from './Tabs';
 

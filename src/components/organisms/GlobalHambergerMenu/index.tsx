@@ -1,14 +1,26 @@
-import { useOutsideClick, useRouter } from '@/hooks/utils';
 import React, { useCallback, useRef, useState } from 'react';
+
 import { usePopper } from 'react-popper';
-import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
-import HouseGreenCheckIcon from '@/assets/icons/house_green_check.svg';
-import AppleStoreIcon from '@/assets/icons/apple_store.svg';
-import GoogleStoreIcon from '@/assets/icons/google_store.svg';
-import QuestionFlagIcon from '@/assets/icons/question_flag.svg';
-import Menu from '@/assets/icons/menu.svg';
+
+import { useRouter } from '@/hooks/utils';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
+
 import Routes from '@/router/routes';
+
 import Paths from '@/constants/paths';
+
+import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
+
+import HouseGreenCheckIcon from '@/assets/icons/house_green_check.svg';
+
+import AppleStoreIcon from '@/assets/icons/apple_store.svg';
+
+import GoogleStoreIcon from '@/assets/icons/google_store.svg';
+
+import QuestionFlagIcon from '@/assets/icons/question_flag.svg';
+
+import Menu from '@/assets/icons/menu.svg';
 
 export default function GlobalHambergerMenu() {
   const [isOpen, setIsOpen] = useState(false);

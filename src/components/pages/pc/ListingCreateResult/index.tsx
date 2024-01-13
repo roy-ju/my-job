@@ -5,7 +5,7 @@ import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
 import { ListingCreateResult } from '@/components/templates';
 import { ListingStatus } from '@/constants/enums';
 import { useRouter } from '@/hooks/utils';
-import usePolling from '@/hooks/utils/usePolling';
+import usePolling from '@/hooks/usePolling';
 import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';

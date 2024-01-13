@@ -11,11 +11,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useControlled, useIsomorphicLayoutEffect } from '@/hooks/utils';
-import { mergeRefs, resolveProps } from '@/utils';
+
 import tw, { css, styled } from 'twin.macro';
-import ErrorIcon from '@/assets/icons/error.svg';
-import SuccessIcon from '@/assets/icons/success.svg';
+
 import {
   NumberFormatValues,
   NumericFormat,
@@ -24,7 +22,19 @@ import {
   PatternFormatProps,
 } from 'react-number-format';
 import { Numeral } from '@/components/atoms';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useControlled } from '@/hooks/utils';
+
+import { mergeRefs, resolveProps } from '@/utils';
+
+import ErrorIcon from '@/assets/icons/error.svg';
+
+import SuccessIcon from '@/assets/icons/success.svg';
+
 import AutocompleteContext from '../Autocomplete/AutocompleteContext';
+
 import TextFieldContext, { SizeType, VariantType } from './TextFieldContext';
 
 export interface TextFieldProps extends Omit<HTMLProps<HTMLDivElement>, 'theme' | 'as' | 'size'> {
