@@ -1,19 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
-import { Separator } from '@/components/atoms';
-import { DanjiDetailSection } from '@/components/organisms';
-import DanjiChartNodata from '@/components/organisms/DanjiDetail/DanjiChartNodata';
-import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
-import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatusChart';
-import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
-import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
-import { ParentSize } from '@visx/responsive';
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+
+import { ParentSize } from '@visx/responsive';
+
+import { Separator } from '@/components/atoms';
+
+import { DanjiDetailSection } from '@/components/organisms';
+
+import DanjiChartNodata from '@/components/organisms/DanjiDetail/DanjiChartNodata';
+
+import useDanjiRealPricesChart from '@/components/pages/pc/DanjiDetail/useDanjiRealPricesChart';
+
+import useDanjiStatusChart from '@/components/pages/pc/DanjiDetail/useDanjiStatusChart';
+
+import useDanjiStatusChartJeonsae from '@/components/pages/pc/DanjiDetail/useDanjiStatusChartJeonsae';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
+
+import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
+
+import { useAPI_DanjiRealPricesPyoungList } from '@/apis/danji/danjiRealPricesPyoungList';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
 import { DanjiRealPriceChart } from '../DanjiRealPriceChart';
+
 import DanjiStatusChartWrraper from '../DanjiStatusChartWrraper';
+
 import DanjiStatusJeonsaeChartWrraper from '../DanjiStatusJeonsaeChartWrraper';
+
 import DanjiStatusTradeChartWrraper from '../DanjiStatusTradeChartWrraper';
 
 type Props = {

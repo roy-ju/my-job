@@ -10,7 +10,7 @@ import { ListingCtaButtons, ListingDetailSection, MobDanjiDetailSection, PhotoHe
 
 import useScroll from '@/hooks/useScroll';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import falsy from '@/utils/falsy';
 

@@ -1,18 +1,32 @@
-import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
-import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
-import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
-import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-import { Loading, Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { SuggestDetail } from '@/components/templates';
-import { SuggestStatus } from '@/constants/enums';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
+import { memo, useCallback, useMemo, useState } from 'react';
+
 import { useRouter as useNextRouter } from 'next/router';
+
+import { Loading, Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { SuggestDetail } from '@/components/templates';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
+
+import { isMobile } from '@/utils/is';
+
+import { SuggestStatus } from '@/constants/enums';
+
 import Routes from '@/router/routes';
 
-import { memo, useCallback, useMemo, useState } from 'react';
+import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
+
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
+
+import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
+
+import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+
 import suggestView from '@/apis/suggest/suggestView';
-import { isMobile } from '@/utils/is';
 
 interface Props {
   depth: number;

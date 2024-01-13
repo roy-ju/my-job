@@ -1,5 +1,5 @@
 import { RadioGroup, TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback, useEffect } from 'react';
 import { Label, Radio } from '@/components/atoms';
 

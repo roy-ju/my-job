@@ -1,10 +1,14 @@
-import getUserAppVersion from '@/apis/user/userAppVersion';
-import { Popup } from '@/components/molecules';
-import Keys from '@/constants/storage_keys';
-import usePageVisibility from '@/hooks/utils/usePageVisibility';
-import { checkPlatformInt } from '@/utils/checkPlatformInt';
 import { useCallback, useEffect, useState } from 'react';
-// import { toast } from 'react-toastify';
+
+import { Popup } from '@/components/molecules';
+
+import usePageVisibility from '@/hooks/usePageVisibility';
+
+import { checkPlatformInt } from '@/utils/checkPlatformInt';
+
+import Keys from '@/constants/storage_keys';
+
+import getUserAppVersion from '@/apis/user/userAppVersion';
 
 const Events = {
   SessionStorageChange: 'negocio_native_event_session_storage_change',

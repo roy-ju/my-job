@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 

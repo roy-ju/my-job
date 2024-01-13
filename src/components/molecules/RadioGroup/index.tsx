@@ -1,11 +1,5 @@
-import { useControlled } from '@/hooks/utils';
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  HTMLProps,
-  ReactNode,
-  useMemo,
-} from 'react';
+import useControlled from '@/hooks/useControlled';
+import { ChangeEvent, ChangeEventHandler, HTMLProps, ReactNode, useMemo } from 'react';
 import RadioGroupContext from './RadioGroupContext';
 
 interface Props extends HTMLProps<HTMLDivElement> {
@@ -15,13 +9,7 @@ interface Props extends HTMLProps<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export default function RadioGroup({
-  value: valueProp,
-  defaultValue,
-  onChange,
-  children,
-  ...others
-}: Props) {
+export default function RadioGroup({ value: valueProp, defaultValue, onChange, children, ...others }: Props) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: defaultValue,

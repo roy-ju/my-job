@@ -1,5 +1,5 @@
 import { Button } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
 
 export interface IsOwnerProps {

@@ -10,7 +10,7 @@ import CheckboxUncheckedIcon from '@/assets/icons/checkbox_unchecked.svg';
 
 import CheckboxUncheckedCircleIcon from '@/assets/icons/checkbox_unchecked_circle.svg';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 const CheckboxRoot = tw.span`inline-flex relative`;
 

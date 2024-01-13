@@ -1,11 +1,18 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BuyOrRent } from '@/constants/enums';
-import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
-import { TimeTypeString } from '@/constants/strings';
+
 import { useRouter } from 'next/router';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
+
+import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
+
+import { TimeTypeString } from '@/constants/strings';
+
+import { BuyOrRent } from '@/constants/enums';
+
+import Routes from '@/router/routes';
 
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 

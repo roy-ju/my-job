@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import { NewsItem as NewsItemType, scrapeNews } from '@/lib/scrape/scrape';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import { NewsItem as NewsItemType, scrapeNews } from '@/lib/scrape/scrape';
 
 export default function useFetchNews({
   query,

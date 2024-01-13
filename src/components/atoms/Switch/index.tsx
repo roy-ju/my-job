@@ -1,4 +1,4 @@
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, forwardRef, HTMLProps, useCallback } from 'react';
 import tw from 'twin.macro';
 import SelectedIcon from '@/assets/icons/selected.svg';

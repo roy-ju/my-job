@@ -1,12 +1,19 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
+
+import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
+
+import { BuyOrRent } from '@/constants/enums';
+
+import { TimeTypeString } from '@/constants/strings';
+
 import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
 import Routes from '@/router/routes';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BuyOrRent } from '@/constants/enums';
-import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
-import { TimeTypeString } from '@/constants/strings';
-// import { toast } from 'react-toastify';
+
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 
 export default function useBiddingForm(depth: number) {
@@ -38,22 +45,25 @@ export default function useBiddingForm(depth: number) {
 
   const [description, setDescription] = useState('');
 
-  const handleChangeType = useCallback((value: number) => {
-    if (value === type) return;
+  const handleChangeType = useCallback(
+    (value: number) => {
+      if (value === type) return;
 
-    setType(value);
+      setType(value);
 
-    if (value === 2) {
-      setPrice('');
-      setMonthlyRentFee('');
-      
-      setMoveInDate(null);
-      setMoveInDateType('이후');
-      
-      setDescription('');
-      setEtcs([]);
-    }
-  }, [type]);
+      if (value === 2) {
+        setPrice('');
+        setMonthlyRentFee('');
+
+        setMoveInDate(null);
+        setMoveInDateType('이후');
+
+        setDescription('');
+        setEtcs([]);
+      }
+    },
+    [type],
+  );
 
   const handleChangePrice = useCallback((value: string) => {
     setPrice(value);

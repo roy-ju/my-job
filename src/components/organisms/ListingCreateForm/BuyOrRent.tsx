@@ -1,5 +1,5 @@
 import { Button } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { BuyOrRent as BuyOrRentType } from '@/constants/enums';
 import { useCallback } from 'react';
 

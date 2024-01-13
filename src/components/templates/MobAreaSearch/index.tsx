@@ -9,7 +9,7 @@ import mobileMapAtom from '@/states/atom/mobileMap';
 
 import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { convertSidoName, convertSigunguName } from '@/utils/fotmat';
 

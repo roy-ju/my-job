@@ -1,6 +1,6 @@
 import { Button, Numeral } from '@/components/atoms';
 import { TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback } from 'react';
 
 export interface ContractAmountProps {

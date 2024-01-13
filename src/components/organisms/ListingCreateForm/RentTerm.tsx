@@ -1,6 +1,6 @@
 import { Dropdown } from '@/components/molecules';
 import CheckIcon from '@/assets/icons/check.svg';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
 import { Button } from '@/components/atoms';
 

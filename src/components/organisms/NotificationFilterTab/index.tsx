@@ -1,6 +1,6 @@
 import { Button as ButtonBase } from '@/components/atoms';
 import { ButtonGroup } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
 import tw, { styled } from 'twin.macro';
 

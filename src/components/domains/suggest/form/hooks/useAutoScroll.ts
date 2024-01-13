@@ -1,6 +1,6 @@
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import autoScroll from '../../utils/autoScroll';
 

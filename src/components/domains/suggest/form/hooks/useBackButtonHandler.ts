@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-import useMobileBackRouter from '@/hooks/utils/useMobileBackRouter';
+import useMobileBackRouter from '@/hooks/useMobileBackRouter';
 
 import SuggestFormSelector from '../selector/SuggestFormSelector';
 
@@ -17,6 +17,7 @@ import SuggestForm from '../types';
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import isEqualValue from '../../utils/isEqualValue';
+
 import isNotEqualValue from '../../utils/isNotEqualValue';
 
 export default function useBackButtonHandler() {

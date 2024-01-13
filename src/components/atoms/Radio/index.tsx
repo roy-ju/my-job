@@ -4,7 +4,7 @@ import tw, { styled } from 'twin.macro';
 
 import useRadioGroup from '@/components/molecules/RadioGroup/useRadioGroup';
 
-import useControlled from '@/hooks/utils/useControlled';
+import useControlled from '@/hooks/useControlled';
 
 const RadioRoot = tw.span`inline-flex relative`;
 

@@ -1,11 +1,18 @@
-import getUserAppVersion from '@/apis/user/userAppVersion';
-import { MobileContainer } from '@/components/atoms';
-import { VersionInfo } from '@/components/templates';
-import { PlatformType } from '@/constants/enums';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import { checkPlatformInt } from '@/utils/checkPlatformInt';
-import { useRouter } from 'next/router';
 import { memo, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { VersionInfo } from '@/components/templates';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { checkPlatformInt } from '@/utils/checkPlatformInt';
+
+import { PlatformType } from '@/constants/enums';
+
+import getUserAppVersion from '@/apis/user/userAppVersion';
 
 export default memo(() => {
   const router = useRouter();

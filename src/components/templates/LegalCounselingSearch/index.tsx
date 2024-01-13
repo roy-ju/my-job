@@ -1,7 +1,10 @@
-import { LawSearchForm, LawSerachFormPc } from '@/components/organisms';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import { getDevice } from '@/utils/misc';
 import { useState } from 'react';
+
+import { LawSearchForm, LawSerachFormPc } from '@/components/organisms';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { getDevice } from '@/utils/misc';
 
 export interface LegalCounselingSearchProps {
   onSubmit?: (value: string) => void;

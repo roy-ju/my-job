@@ -16,7 +16,7 @@ import useFetchMyDashboardInfo from '@/services/my/useFetchMyDashboardInfo';
 
 import { BuyOrRent, DanjiOrRegionalType } from '@/constants/enums';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 

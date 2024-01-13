@@ -1,7 +1,7 @@
 /* eslint-disable no-inner-declarations */
 import { useEffect, useState } from 'react';
 
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 export default function Maintenence() {
   const [render, setRender] = useState(false);

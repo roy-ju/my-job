@@ -1,7 +1,7 @@
 import { Button, Label, Radio } from '@/components/atoms';
 import { RadioGroup } from '@/components/molecules';
 import { RealestateType } from '@/constants/enums';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback } from 'react';
 import CheckIcon from '@/assets/icons/check.svg';
 import { RealestateTypeGroup } from './types';

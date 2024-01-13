@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Chip, Moment } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import tw from 'twin.macro';
 
 interface QnaListItemProps {

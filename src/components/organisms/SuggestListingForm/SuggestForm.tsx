@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import { TextField } from '@/components/molecules';
 import CloseContained from '@/assets/icons/close_contained.svg';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { Button } from '@/components/atoms';
 import { BuyOrRent } from '@/constants/enums';
 import { useMemo } from 'react';

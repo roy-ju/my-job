@@ -10,7 +10,7 @@ import { useKakaoAddressAutocomplete } from '@/hooks/services';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import CloseIcon from '@/assets/icons/close.svg';
 

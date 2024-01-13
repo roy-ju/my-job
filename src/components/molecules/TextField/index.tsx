@@ -25,7 +25,7 @@ import { Numeral } from '@/components/atoms';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import { mergeRefs, resolveProps } from '@/utils';
 

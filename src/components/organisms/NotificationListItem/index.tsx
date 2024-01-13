@@ -1,5 +1,5 @@
 import { Checkbox, Chip, Moment } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
 import tw from 'twin.macro';
 

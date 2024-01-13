@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 
 import { useRouter as useCustomRouter } from '@/hooks/utils';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Header from './guide/Header';
 

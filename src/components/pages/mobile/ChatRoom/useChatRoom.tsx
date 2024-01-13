@@ -8,7 +8,7 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 
 import useLatest from '@/hooks/useLatest';
 
-import usePageVisibility from '@/hooks/utils/usePageVisibility';
+import usePageVisibility from '@/hooks/usePageVisibility';
 
 import useWebSocket, { WebSocketReadyState } from '@/hooks/useWebSocket';
 

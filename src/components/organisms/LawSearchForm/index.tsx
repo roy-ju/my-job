@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms';
 import { ChangeEventHandler, FormEventHandler, useCallback, useState } from 'react';
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import storage from '@/storage/recentLawQnaSearch';
 import Close from '@/assets/icons/close.svg';
 

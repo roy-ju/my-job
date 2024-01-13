@@ -1,19 +1,30 @@
+import { memo, useMemo, useCallback, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { Loading, MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { SuggestDetail } from '@/components/templates';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { isMobile } from '@/utils/is';
+
+import { SuggestStatus } from '@/constants/enums';
+
+import Routes from '@/router/routes';
+
 import useAPI_getMyRecommendedList from '@/apis/suggest/getMyRecommendedList';
+
 import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
+
 import suggestRecommendEligibility from '@/apis/suggest/suggestRecommendEligibility';
+
 import suggestView from '@/apis/suggest/suggestView';
 
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-import { Loading, MobileContainer } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { SuggestDetail } from '@/components/templates';
-import { SuggestStatus } from '@/constants/enums';
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { isMobile } from '@/utils/is';
-
-import { useRouter } from 'next/router';
-import { memo, useMemo, useCallback, useState } from 'react';
 
 export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const router = useRouter();

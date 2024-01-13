@@ -1,5 +1,5 @@
 import { Label, Checkbox } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback } from 'react';
 
 interface EtcFilterProps {
@@ -44,18 +44,8 @@ export default function EtcFilter({
     <div tw="py-5">
       <p tw="text-b1 text-gray-1000 font-bold mb-5">기타</p>
       <div tw="flex gap-4">
-        <Label
-          label="급매"
-          checked={quickSale}
-          onChange={handleChangeQuickSale}
-          control={<Checkbox />}
-        />
-        <Label
-          label="갭투자"
-          checked={gapInvestment}
-          onChange={handleChangeGapInvestment}
-          control={<Checkbox />}
-        />
+        <Label label="급매" checked={quickSale} onChange={handleChangeQuickSale} control={<Checkbox />} />
+        <Label label="갭투자" checked={gapInvestment} onChange={handleChangeGapInvestment} control={<Checkbox />} />
       </div>
     </div>
   );

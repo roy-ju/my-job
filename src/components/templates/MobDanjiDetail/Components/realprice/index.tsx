@@ -5,17 +5,17 @@ import dynamic from 'next/dynamic';
 
 import { useRouter } from 'next/router';
 
+import { ParentSize } from '@visx/responsive';
+
 import { Separator } from '@/components/atoms';
 
-import { BuyOrRent } from '@/constants/enums';
-
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
-
-import { ParentSize } from '@visx/responsive';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { DanjiDetailResponse } from '@/services/danji/types';
 
 import { useFetchDanjiRealPricesPyongList } from '@/services/danji/useFetchDanjiRealPricesPyongList';
+
+import { BuyOrRent } from '@/constants/enums';
 
 import useConvertedRealPriceChartData from '../../hooks/useConvertedRealPriceChartData';
 

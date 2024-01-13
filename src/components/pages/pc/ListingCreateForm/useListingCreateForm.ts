@@ -1,13 +1,25 @@
-import { CollateralType, DebtSuccessionType } from '@/components/templates/ListingCreateForm/FormContext';
-import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
-import { BuyOrRent } from '@/constants/enums';
-import { useIsomorphicLayoutEffect, useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
-// import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { v4 as uuidv4 } from 'uuid';
+
 import { toast } from 'react-toastify';
+
+import { CollateralType, DebtSuccessionType } from '@/components/templates/ListingCreateForm/FormContext';
+
+import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
+
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
+
+import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
+
+import { BuyOrRent } from '@/constants/enums';
+
+import Routes from '@/router/routes';
+
+// import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+
 import makeListingCreateParams from './makeListingCreateParams';
 
 type PopupType = 'none' | 'buyOrRentChagne' | 'back';

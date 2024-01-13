@@ -1,6 +1,6 @@
 import { isValidElement, ReactNode, useCallback, useContext, useMemo, useRef } from 'react';
 import { LayoutGroup, motion } from 'framer-motion';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import tw from 'twin.macro';
 import getChildrenByType from '@/utils/getChildrenByType';
 import { v4 } from 'uuid';

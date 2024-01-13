@@ -1,7 +1,7 @@
 import { Button, Separator } from '@/components/atoms';
 import { NavigationHeader, TextField } from '@/components/molecules';
 import { useAuth } from '@/hooks/services';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useMemo } from 'react';
 import ErrorIcon from '@/assets/icons/error.svg';
 import DeleteIcon from '@/assets/icons/close_contained.svg';

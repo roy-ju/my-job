@@ -1,4 +1,4 @@
-import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 function DanjiGoogleTrendsSection({ keyword }: { keyword?: string }) {
   useIsomorphicLayoutEffect(() => {

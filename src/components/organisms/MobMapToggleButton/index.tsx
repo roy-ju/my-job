@@ -2,7 +2,7 @@ import { Button } from '@/components/atoms';
 import tw from 'twin.macro';
 import Chart from '@/assets/icons/chart.svg';
 import HomeWithDollar from '@/assets/icons/home_with_dollar.svg';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
 import { motion } from 'framer-motion';
 

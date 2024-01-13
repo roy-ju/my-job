@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 import WomanImage from '@/../public/static/images/image_emoji_woman.png';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 

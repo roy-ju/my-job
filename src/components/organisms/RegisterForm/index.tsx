@@ -1,6 +1,6 @@
 import { Button, Checkbox, Label, Radio } from '@/components/atoms';
 import { RadioGroup, TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { useCallback, ChangeEventHandler } from 'react';
 import tw from 'twin.macro';
 

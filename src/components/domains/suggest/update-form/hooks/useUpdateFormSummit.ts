@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 import { useRouter as useCustomRouter } from '@/hooks/utils';
 
-import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import { apiService } from '@/services';
 

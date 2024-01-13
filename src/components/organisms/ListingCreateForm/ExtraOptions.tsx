@@ -1,5 +1,5 @@
 import { Checkbox, Label } from '@/components/atoms';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import { ChangeEventHandler, useCallback } from 'react';
 
 interface ExtraOptionsProps {

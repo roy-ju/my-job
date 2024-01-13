@@ -2,7 +2,7 @@ import CharacterImage from '@/../public/static/images/character_mirror.png';
 import CloseIcon from '@/assets/icons/close_24.svg';
 import { HTMLProps } from 'react';
 import Image from 'next/image';
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 import tw from 'twin.macro';
 
 const GuideStepList = [

@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms';
 
 import useTooltip from '@/states/hooks/useTooltip';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import QuestionIcon from '@/assets/icons/question.svg';
 

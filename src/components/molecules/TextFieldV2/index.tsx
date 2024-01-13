@@ -13,7 +13,7 @@ import React, {
 
 import tw, { styled } from 'twin.macro';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import { resolveProps } from '@/utils';
 

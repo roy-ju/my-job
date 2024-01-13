@@ -2,7 +2,7 @@ import { HTMLAttributes, ReactNode, useCallback, useEffect, useRef, useState } f
 
 import tw from 'twin.macro';
 
-import { useControlled } from '@/hooks/utils';
+import useControlled from '@/hooks/useControlled';
 
 import ChevronDown from '@/assets/icons/chevron_down.svg';
 
