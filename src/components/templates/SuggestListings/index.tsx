@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Image from 'next/image';
 
-import { useRouter } from '@/hooks/utils';
+import { useRouter } from 'next/router';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
 
 import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
 
@@ -19,6 +21,7 @@ import { GetDanjiSuggestListResponse } from '@/apis/danji/danjiSuggestList';
 import Routes from '@/router/routes';
 
 import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
+import getPath from '@/utils/getPath';
 
 type Props = {
   depth: number;
@@ -33,7 +36,9 @@ type Props = {
 };
 
 export default function SuggestListings({ depth, danji, data, totalCount, onNext, onClickBack }: Props) {
-  const router = useRouter(depth);
+  const customRouter = useCustomRouter(depth);
+
+  const router = useRouter();
 
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
@@ -43,21 +48,27 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   const handleSuggestDetail = useCallback(
     (id: number, mySuggest: boolean) => {
       if (mySuggest) {
-        router.push(Routes.MySuggestDetail, {
+        customRouter.push(Routes.MySuggestDetail, {
           searchParams: { suggestID: `${id}`, danjiID: `${danjiID}` || '' },
         });
         return;
       }
 
-      router.push(Routes.SuggestDetail, {
+      customRouter.push(Routes.SuggestDetail, {
         searchParams: { danjiID: `${danjiID}` || '', suggestID: `${id}` },
       });
     },
-    [danjiID, router],
+    [danjiID, customRouter],
   );
 
   const handleCreateSuggest = useCallback(() => {
-    router.push(Routes.SuggestForm, { searchParams: { entry: Routes.SuggestListings, danjiID: `${danjiID}` } });
+    const path = getPath({
+      depth1: router?.query?.depth1 as NegocioPath,
+      depth2: router?.query?.depth2 as NegocioPath,
+      targetPath: Routes.SuggestForm as NegocioPath,
+    });
+
+    router.push({ pathname: path, query: { entry: Routes.SuggestListings, danjiID: `${danjiID}` } });
   }, [danjiID, router]);
 
   const handleClosePopup = (type: 'impossibleRecommendataion') => {
@@ -95,10 +106,10 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
   }, [danji]);
 
   useEffect(() => {
-    if (!router?.query?.danjiID) {
-      router.popAll();
+    if (!customRouter?.query?.danjiID) {
+      customRouter.popAll();
     }
-  }, [router]);
+  }, [customRouter]);
 
   if (!danji) return null;
 

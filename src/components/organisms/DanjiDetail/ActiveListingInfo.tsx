@@ -17,6 +17,8 @@ import NaverLogo from '@/assets/icons/naver_logo.svg';
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
 import { apiService } from '@/services';
+
+import getPath from '@/utils/getPath';
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -193,10 +195,17 @@ export default function ActiveListingInfo({
   const handleCreateSuggest = useCallback(() => {
     const danjiID = `${danji?.danji_id}` || router?.query?.danjiID || '';
 
+    const path = getPath({
+      depth1: nextRouter?.query?.depth1 as NegocioPath,
+      depth2: nextRouter?.query?.depth2 as NegocioPath,
+      targetPath: Routes.SuggestForm as NegocioPath,
+    });
+
     nextRouter.push({
-      pathname: `/${Routes.DanjiDetail}/${Routes.SuggestForm}`,
+      pathname: path,
       query: {
         danjiID,
+        entry: Routes.DanjiDetail,
       },
     });
   }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);

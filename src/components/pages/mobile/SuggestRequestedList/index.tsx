@@ -18,6 +18,7 @@ export default memo(() => {
   const handleClickSuggestForm = useCallback(() => {
     router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+      query: { entry: Routes.SuggestRequestedList },
     });
   }, [router]);
 

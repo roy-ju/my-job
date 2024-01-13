@@ -4,7 +4,7 @@ import { usePlatform } from '@/providers/PlatformProvider';
 
 import { useRouter as useNextRouter } from 'next/router';
 
-import { useRouter } from '@/hooks/utils';
+import { useRouter as useCustomRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
 
@@ -15,31 +15,32 @@ export default function useChatRoomListNavigateHandler() {
 
   const platform = usePlatform();
 
-  const nextRouter = useNextRouter();
+  const router = useNextRouter();
 
-  const router = useRouter(platform?.depth);
+  const customRouter = useCustomRouter(platform?.depth);
 
   const handleClickChatRoomListItem = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const { value } = e.currentTarget;
       if (platform?.platform === 'pc') {
-        router.push(Routes.ChatRoom, {
+        customRouter.push(Routes.ChatRoom, {
           searchParams: { chatRoomID: `${value}` },
         });
 
         store?.mutate();
       } else {
-        nextRouter.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${value}`);
+        router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${value}`);
       }
     },
-    [router, nextRouter, platform, store],
+    [customRouter, router, platform, store],
   );
 
   const handleClickSuggestForm = useCallback(() => {
-    nextRouter.push({
+    router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+      query: { entry: Routes.ChatRoomList },
     });
-  }, [nextRouter]);
+  }, [router]);
 
   return {
     handleClickChatRoomListItem,

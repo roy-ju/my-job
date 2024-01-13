@@ -72,16 +72,16 @@ function MapWrapper() {
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: {
-            entry: 'map',
             address,
             bcode,
+            entry: Routes.Map,
           },
         });
       } else {
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: {
-            entry: 'map',
+            entry: Routes.Map,
           },
         });
       }
