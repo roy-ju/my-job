@@ -1,6 +1,8 @@
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import useTooltip from '@/states/hooks/useTooltip';
+
 import Tooltips from '@/constants/tooltips';
-import useTooltip from '@/states/tooltip';
 
 export default function TooltipProvider() {
   const { activeTooltip, closeTooltip } = useTooltip();

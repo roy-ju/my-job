@@ -2,7 +2,7 @@ import { memo, useMemo, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import { useFetchDanjiSchools } from '@/services/danji/useFetchDanjiSchools';
 
@@ -31,7 +31,7 @@ function SchoolInfo({ danji, danjiSchools, preselectedSchoolType }: SchoolInfoPr
 
   const [isClickMore, setIsClickMore] = useState(false);
 
-  const { makeTrueSchool, makeDanjiSchoolID } = useDanjiMapButtonStore();
+  const { makeTrueSchool, makeDanjiSchoolID } = useMobileDanjiInteraction();
 
   const { data } = useFetchDanjiSchools({
     danjiId: danji.danji_id,

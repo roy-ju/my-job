@@ -5,7 +5,7 @@ import { Button } from '@/components/atoms';
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
 import { SchoolType } from '@/constants/enums';
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import checkStudentCount from '@/utils/checkStudentCount';
 import getDistance from '@/utils/getDistance';
@@ -18,7 +18,8 @@ const Div = styled.div``;
 export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
-  const { makeTrueSchool, makeDanjiSchoolID } = useDanjiMapButtonStore();
+
+  const { makeTrueSchool, makeDanjiSchoolID } = useMobileDanjiInteraction();
   const {
     isLoading: danjiSchoolsIsLoading,
     listElementarySchools,

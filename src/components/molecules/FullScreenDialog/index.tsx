@@ -1,11 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
-import { MobileFullScreenDialog as MobileFullScreenDialogProps } from '@/states/mob/mobileFullscreenDialog';
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 import { useRouter } from 'next/router';
+
+import { FullScreenDialog as FullScreenDialogProps } from '@/states/atom/dialog';
+
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
+
 import { useScrollLock } from '@/hooks/utils/useScrollLock';
+
 import { useIsomorphicLayoutEffect } from '@/hooks/utils';
+
 import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 
 type Props = {
@@ -30,7 +35,7 @@ function Backdrop() {
   return <div tw="absolute pointer-events-none left-0 top-0 w-[100vw] h-[100%] [z-index: -1]" />;
 }
 
-function FullScreenDialog({ body, onClose }: MobileFullScreenDialogProps) {
+function FullScreenDialog({ body, onClose }: FullScreenDialogProps) {
   const handleClose = useCallback(() => {
     onClose?.();
   }, [onClose]);
@@ -49,7 +54,7 @@ function FullScreenDialog({ body, onClose }: MobileFullScreenDialogProps) {
 }
 
 function FullScreenDialogs({ onChange }: Props) {
-  const { dialogStates, closeFullScreenDialog, closeAll } = useFullScreenDialogStore();
+  const { dialogStates, closeFullScreenDialog, closeAll } = useFullScreenDialog();
 
   useEffect(() => {
     onChange(Boolean(dialogStates.length));

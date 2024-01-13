@@ -4,7 +4,7 @@ import { AuthRequired, MobAuthRequired, MobileContainer, Panel } from '@/compone
 
 import { usePlatform } from '@/providers/PlatformProvider';
 
-import useSyncronizer from '@/states/syncronizer';
+import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import { MobGlobalNavigation } from '../organisms';
 

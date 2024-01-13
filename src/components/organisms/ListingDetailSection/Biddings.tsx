@@ -1,8 +1,13 @@
 import React from 'react';
-import { Chip, Moment, Numeral, Button } from '@/components/atoms';
-import { Table } from '@/components/molecules';
+
 import tw, { styled } from 'twin.macro';
-import useTooltip from '@/states/tooltip';
+
+import { Chip, Moment, Numeral, Button } from '@/components/atoms';
+
+import { Table } from '@/components/molecules';
+
+import useTooltip from '@/states/hooks/useTooltip';
+
 import QuestionIcon from '@/assets/icons/question.svg';
 
 const StyledTable = styled.table`

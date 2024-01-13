@@ -4,11 +4,13 @@ import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker'
 
 import { MobDanjiMarker, MobRegionMarker } from '@/components/organisms';
 
-import { CommonMapMarker, CommonSchoolMarker, DanjiSummary } from '@/hooks/useMobileMapLayout';
+import { DanjiSummary } from '@/hooks/useMobileMapLayout';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
+
+import { CommonSchoolMarker, CommonMapMarker } from '@/types/mobileMarkers';
 
 interface MarkersProps {
   mapLevel: number;

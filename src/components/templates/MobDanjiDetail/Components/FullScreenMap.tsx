@@ -2,20 +2,35 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { useEffect, useState, useCallback, useMemo, ChangeEventHandler } from 'react';
-import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
-import MapPinRoad from '@/assets/icons/map_pin_road.svg';
-import NaverMapPin from '@/assets/icons/naver_map_pin.svg';
-import CloseIcon from '@/assets/icons/close_18.svg';
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
-import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
-import { getZoomByMeters } from '@/utils/map';
-import { NaverMapV1 } from '@/lib/navermapV1';
-import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { NavigationHeader } from '@/components/molecules';
-import { Button } from '@/components/atoms';
+
 import tw, { theme } from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
+import { NavigationHeader } from '@/components/molecules';
+
 import { MapControls } from '@/components/organisms';
+
+import useMobileDanjiMap from '@/states/hooks/useMobileDanjiMap';
+
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
+
+import { getZoomByMeters } from '@/utils/map';
+
+import { NaverMapV1 } from '@/lib/navermapV1';
+
+import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
+
+import MapPinRoad from '@/assets/icons/map_pin_road.svg';
+
+import NaverMapPin from '@/assets/icons/naver_map_pin.svg';
+
+import CloseIcon from '@/assets/icons/close_18.svg';
+
 import { MapStreet } from '../../MobDanjiMap/components/MapStreet';
 
 interface OnClickProps {
@@ -60,8 +75,8 @@ function MapButton({ selected = false, onClick }: MapButtonProps) {
 const defaultMapSize: string = '200px';
 
 export default function FullScreenMap({ type, danji }: { type: string; danji?: GetDanjiDetailResponse | any }) {
-  const { makeGeneralMap, panoCenter, makePanoInitialize, makeRoadLayer } = useDanjiMapTypeStore();
-  const mapButtonStore = useDanjiMapButtonStore();
+  const { makeGeneralMap, panoCenter, makePanoInitialize, makeRoadLayer } = useMobileDanjiMap();
+  const mobileDanjiInteraction = useMobileDanjiInteraction();
 
   const [mapType, setMapType] = useState<string>();
   const [map, setMap] = useState<naver.maps.Map | null>(null);
@@ -146,8 +161,8 @@ export default function FullScreenMap({ type, danji }: { type: string; danji?: G
     () => () => {
       makeGeneralMap();
       makePanoInitialize();
-      mapButtonStore.makeShowMapButton();
-      mapButtonStore.makeShowRoadButton();
+      mobileDanjiInteraction.makeShowMapButton();
+      mobileDanjiInteraction.makeShowRoadButton();
     },
     [],
   );
@@ -156,7 +171,7 @@ export default function FullScreenMap({ type, danji }: { type: string; danji?: G
     <div tw="flex flex-col w-full h-full">
       <NavigationHeader>
         <NavigationHeader.Title>{danji.name}</NavigationHeader.Title>
-        <Button variant="ghost" tw="p-0" onClick={() => mapButtonStore.makeFalse()}>
+        <Button variant="ghost" tw="p-0" onClick={() => mobileDanjiInteraction.makeFalse()}>
           <CloseIcon />
         </Button>
       </NavigationHeader>
@@ -190,7 +205,7 @@ export default function FullScreenMap({ type, danji }: { type: string; danji?: G
           </NaverMapV1>
         )}
 
-        {(mapButtonStore.isShowMap || mapButtonStore.isShowRoad) && (
+        {(mobileDanjiInteraction.isShowMap || mobileDanjiInteraction.isShowRoad) && (
           <div
             style={{
               position: 'absolute',
@@ -201,8 +216,10 @@ export default function FullScreenMap({ type, danji }: { type: string; danji?: G
             }}
           >
             <MapControls.Group>
-              {mapButtonStore.isShowMap && <MapButton onClick={() => makeGeneralMap()} selected={mapType === 'map'} />}
-              {mapButtonStore.isShowRoad && (
+              {mobileDanjiInteraction.isShowMap && (
+                <MapButton onClick={() => makeGeneralMap()} selected={mapType === 'map'} />
+              )}
+              {mobileDanjiInteraction.isShowRoad && (
                 <StreetViewButton
                   onClick={() => makeRoadLayer()}
                   selected={mapType === 'road' || mapType === 'roadlayer'}

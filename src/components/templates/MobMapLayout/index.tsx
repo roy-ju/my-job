@@ -17,9 +17,9 @@ import MobMapFilter from '@/components/organisms/MobMapFilter';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
-import { DanjiSummary, ListingSummary } from '@/hooks/useMobileMapLayout';
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import { DanjiSummary, ListingSummary } from '@/hooks/useMobileMapLayout';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -95,7 +95,7 @@ function MobLayoutMapContainer({
   children,
   removeMyMarker,
 }: MobLayoutMapContainerProps) {
-  const { addFullScreenDialog } = useFullScreenDialogStore();
+  const { addFullScreenDialog } = useFullScreenDialog();
 
   const openFullSearchArea = () => {
     addFullScreenDialog({

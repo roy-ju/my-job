@@ -8,15 +8,15 @@ import MobileContainer from '@/components/atoms/MobileContainer';
 
 import MobDanjiDetail from '@/components/templates/MobDanjiDetail';
 
-import Paths from '@/constants/paths';
+import useMobileDanjiMap from '@/states/hooks/useMobileDanjiMap';
 
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
-
-import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import useIsomorphicLayoutEffect from '@/hooks/utils/useIsomorphicLayoutEffect';
+
+import Paths from '@/constants/paths';
 
 import {
   DanjiDetailResponse,
@@ -71,9 +71,9 @@ const DanjiDetail = ({
     makeFalseAround,
     makeFalseSchool,
     makeBindDanji,
-  } = useDanjiMapButtonStore();
+  } = useMobileDanjiInteraction();
 
-  const { mapType, makeGeneralMap, makePanoInitialize } = useDanjiMapTypeStore();
+  const { mapType, makeGeneralMap, makePanoInitialize } = useMobileDanjiMap();
 
   const convertedTitle = useMemo(() => `'${data?.name}'시세, 실거래가, 단지, 매물, 주변 정보`, [data]);
 

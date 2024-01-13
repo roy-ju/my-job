@@ -1,20 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { Button } from '@/components/atoms';
+
 // import { DanjiAroundMapCard } from '@/components/templates/MobDanjiDetail/Components/DanjiAroundMapCard';
-import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
-import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
-import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
-import cloneDeep from 'lodash/cloneDeep';
-import dynamic from 'next/dynamic';
+
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
+
+import dynamic from 'next/dynamic';
+
 import tw, { styled } from 'twin.macro';
+
 import { v4 as uuid4 } from 'uuid';
+
+import cloneDeep from 'lodash/cloneDeep';
+
+import { Button } from '@/components/atoms';
 
 import NoDataTypeOne from '@/components/organisms/MobDanjiDetail/NoData';
 
 import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
+
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
+
+import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/hooks/utils/aroundInfo';
+
+import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
+
+import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 const DanjiAroundMapCard = dynamic(
   () => import('@/components/templates/MobDanjiDetail/Components/DanjiAroundMapCard'),
@@ -60,7 +72,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
     makeDanjiAroundAddress,
     makeDanjiAroundLatLng,
     makeDanjiAroundPlace,
-  } = useDanjiMapButtonStore();
+  } = useMobileDanjiInteraction();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>();

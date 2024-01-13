@@ -4,7 +4,7 @@ import { ChatRoomList as ChatRoomListTemplate } from '@/components/templates';
 
 import { MobGlobalNavigation } from '@/components/organisms';
 
-import useSyncronizer from '@/states/syncronizer';
+import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import useChatRoomList from './useChatRoomList';
 

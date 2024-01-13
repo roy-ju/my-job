@@ -8,7 +8,7 @@ import { Autocomplete, TextField } from '@/components/molecules';
 
 import useMobileMapLayout from '@/hooks/useMobileMapLayout';
 
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
 import useMobKakaoAddressAutocomplete from '@/hooks/services/useMobKakaoAddressAutoComplete';
 
@@ -81,7 +81,7 @@ export function MobSearchMap() {
     storage.getRecentSearches().sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime()),
   );
 
-  const { closeAll } = useFullScreenDialogStore();
+  const { closeAll } = useFullScreenDialog();
 
   return (
     <form onSubmit={handleSubmit}>

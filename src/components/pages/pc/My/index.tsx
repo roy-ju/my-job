@@ -1,11 +1,18 @@
-import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
-import { Loading, Panel } from '@/components/atoms';
-import { My as MyTemplate } from '@/components/templates';
-import { useAuth } from '@/hooks/services';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import useSyncronizer from '@/states/syncronizer';
 import { memo, useCallback, useEffect, useState } from 'react';
+
+import { Loading, Panel } from '@/components/atoms';
+
+import { My as MyTemplate } from '@/components/templates';
+
+import useSyncronizer from '@/states/hooks/useSyncronizer';
+
+import { useAuth } from '@/hooks/services';
+
+import { useRouter } from '@/hooks/utils';
+
+import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
+
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;

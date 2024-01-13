@@ -1,13 +1,22 @@
-import SearchIcon from '@/assets/icons/search.svg';
-import { Autocomplete, TextField } from '@/components/molecules';
-import { useKakaoAddressAutocomplete } from '@/hooks/services';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { useControlled } from '@/hooks/utils';
 import { ChangeEvent, ChangeEventHandler, useCallback } from 'react';
-import DeleteAllIcon from '@/assets/icons/delete_all.svg';
+
 import { Button } from '@/components/atoms';
+
+import { Autocomplete, TextField } from '@/components/molecules';
+
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
+
+import { useKakaoAddressAutocomplete } from '@/hooks/services';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+
+import { useControlled } from '@/hooks/utils';
+
 import CloseIcon from '@/assets/icons/close.svg';
-import useDanjiInteraction from '@/states/danjiButton';
+
+import DeleteAllIcon from '@/assets/icons/delete_all.svg';
+
+import SearchIcon from '@/assets/icons/search.svg';
 
 interface MapSearchTextFieldProps {
   value?: string;
@@ -27,6 +36,7 @@ export default function MapSearchTextField({
   onClickRemoveRecentSearch,
 }: MapSearchTextFieldProps) {
   const interactionStore = useDanjiInteraction({ danjiData: undefined });
+
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: '',

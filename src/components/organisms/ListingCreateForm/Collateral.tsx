@@ -1,9 +1,15 @@
-import { Button } from '@/components/atoms';
 import { ChangeEvent } from 'react';
-import QuestionIcon from '@/assets/icons/question.svg';
-import RemoveIcon from '@/assets/icons/remove.svg';
+
+import { Button } from '@/components/atoms';
+
 import { TextField } from '@/components/molecules';
-import useTooltip from '@/states/tooltip';
+
+import useTooltip from '@/states/hooks/useTooltip';
+
+import QuestionIcon from '@/assets/icons/question.svg';
+
+import RemoveIcon from '@/assets/icons/remove.svg';
+
 import CloseContained from '@/assets/icons/close_contained.svg';
 
 interface ContainerProps {

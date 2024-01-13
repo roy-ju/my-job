@@ -2,7 +2,8 @@
 import CloseIcon from '@/assets/icons/close_18.svg';
 import { Button } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
+
 import { useEffect } from 'react';
 import DanjiSchoolMapCard from './DanjiSchoolMapCard';
 
@@ -17,7 +18,7 @@ export default function DanjiSchoolDetail({
   danjiID?: number;
   rt?: number;
 }) {
-  const { makeFalseSchool } = useDanjiMapButtonStore();
+  const { makeFalseSchool } = useMobileDanjiInteraction();
 
   useEffect(
     () => () => {

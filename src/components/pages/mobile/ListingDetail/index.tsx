@@ -1,36 +1,64 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { addFavorite } from '@/apis/listing/addListingFavroite';
+
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+
 import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
+
 import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
+
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+
 import { Loading, MobileContainer } from '@/components/atoms';
+
 import { MobListingDetail } from '@/components/templates';
+
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
+
 import Routes from '@/router/routes';
+
 import axios from '@/lib/axios';
+
 import { memo, useCallback, useEffect, useState } from 'react';
+
 import { toast } from 'react-toastify';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import deleteListingQna from '@/apis/listing/deleteListingQna';
+
 import { notIntersted } from '@/apis/suggest/notInterested';
+
 import { useRouter } from 'next/router';
+
 import { SharePopup } from '@/components/organisms';
+
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
+
 import formatNumberInKorean from '@/utils/formatNumberInKorean';
+
 import Paths from '@/constants/paths';
+
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
-import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
+
+import useMobileDanjiMap from '@/states/hooks/useMobileDanjiMap';
 
 import FullScreenMap from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
+
 import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail';
+
 import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
 
 import viewListing from '@/apis/listing/viewListing';
+
 import { useAuth } from '@/hooks/services';
+
 import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
+
 import ErrorCodes from '@/constants/error_codes';
+
 import useListingDetailRedirector from './useListingDetailRedirector';
+
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 export default memo(() => {
@@ -58,9 +86,9 @@ export default memo(() => {
     makeFalseAround,
     makeFalseSchool,
     makeBindDanji,
-  } = useDanjiMapButtonStore();
+  } = useMobileDanjiInteraction();
 
-  const { mapType, makeGeneralMap } = useDanjiMapTypeStore();
+  const { mapType, makeGeneralMap } = useMobileDanjiMap();
 
   const { danji } = useDanjiDetail(data?.listing?.danji_id);
 

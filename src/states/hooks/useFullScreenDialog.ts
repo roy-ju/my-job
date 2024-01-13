@@ -1,18 +1,11 @@
-import { mobileFullScreenDialogs } from '@/states/mob/mobileFullscreenDialog';
-import { nanoid } from 'nanoid';
 import { useRecoilState } from 'recoil';
 
-export type FullScreenDialog = {
-  id: string;
-  body?: JSX.Element;
-  onClose?: () => void;
-  noAnimation?: boolean;
-  onAnimationStart?: () => void;
-  onAnimationComplete?: () => void;
-};
+import { nanoid } from 'nanoid';
 
-export default function useFullScreenDialogStore() {
-  const [dialogStates, setDialogStates] = useRecoilState(mobileFullScreenDialogs);
+import fullScreenDialogsAtom, { FullScreenDialog } from '../atom/dialog';
+
+export default function useFullScreenDialog() {
+  const [dialogStates, setDialogStates] = useRecoilState(fullScreenDialogsAtom);
 
   const addFullScreenDialog = (fullScreenDialog: Omit<FullScreenDialog, 'id'>) => {
     const id = nanoid();

@@ -1,24 +1,36 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { useAPI_DanjiSchools } from '@/apis/danji/danjiSchools';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import tw from 'twin.macro';
+
+import { useRecoilValue } from 'recoil';
+
 import { Button } from '@/components/atoms';
+
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
-import { SchoolType } from '@/constants/enums';
-import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
+
+import danjiInteractionAtom from '@/states/atom/danjiInteraction';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
 
 import checkStudentCount from '@/utils/checkStudentCount';
+
 import getDistance from '@/utils/getDistance';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import tw from 'twin.macro';
+
+import { useAPI_DanjiSchools } from '@/apis/danji/danjiSchools';
+
+import { SchoolType } from '@/constants/enums';
+
 import NoDataTypeOne from './NoData';
 
-export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
+export default function SchoolInfo({ danji }: { danji?: DanjiDetailResponse }) {
   const interactionStore = useDanjiInteraction({ danjiData: danji });
-  const interactionState = useRecoilValue(schoolAroundState);
+
+  const interactionState = useRecoilValue(danjiInteractionAtom);
 
   const [selectedSchoolID, setSelectedSchoolID] = useState<string>();
 

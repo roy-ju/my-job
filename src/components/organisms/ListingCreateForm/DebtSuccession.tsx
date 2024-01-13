@@ -1,10 +1,17 @@
-import { RadioGroup, TextField } from '@/components/molecules';
-import { useControlled } from '@/hooks/utils';
 import { ChangeEvent, ChangeEventHandler, useCallback } from 'react';
-import QuestionIcon from '@/assets/icons/question.svg';
+
 import { Button, Label, Radio } from '@/components/atoms';
+
+import { RadioGroup, TextField } from '@/components/molecules';
+
+import useTooltip from '@/states/hooks/useTooltip';
+
+import { useControlled } from '@/hooks/utils';
+
+import QuestionIcon from '@/assets/icons/question.svg';
+
 import RemoveIcon from '@/assets/icons/remove.svg';
-import useTooltip from '@/states/tooltip';
+
 import CloseContained from '@/assets/icons/close_contained.svg';
 
 interface DepositProps {

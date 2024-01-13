@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
+import useMobileDanjiMap from '@/states/hooks/useMobileDanjiMap';
 
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import { getZoomByMeters } from '@/utils/map';
-
-import { useDanjiMapTypeStore } from '@/states/mob/danjiMapTypeStore';
-
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
 
 import { NaverMapV1 } from '@/lib/navermapV1';
 
 import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
 
 import { MapEnlarge } from './components/MapEnlargeButton';
 
@@ -24,9 +24,9 @@ import { MapStreet } from './components/MapStreet';
 const defaultMapSize: string = '190px';
 
 export default function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse }) {
-  const danjiMapTypeStore = useDanjiMapTypeStore();
+  const { mapType, makeRoadType, makePanoPosition } = useMobileDanjiMap();
 
-  const danjiMapButtonStore = useDanjiMapButtonStore();
+  const { makeTrue } = useMobileDanjiInteraction();
 
   const [streetViewLayer, setStreetViewLayer] = useState<naver.maps.StreetLayer | null>(null);
 
@@ -70,12 +70,12 @@ export default function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse 
 
     const streetLayer = new naver.maps.StreetLayer();
 
-    if (danjiMapTypeStore.mapType === 'roadlayer') {
+    if (mapType === 'roadlayer') {
       streetLayer.setMap(map);
       setStreetViewLayer(streetLayer);
     }
 
-    if (danjiMapTypeStore.mapType !== 'roadlayer') {
+    if (mapType !== 'roadlayer') {
       streetViewLayer?.setMap(null);
     }
 
@@ -83,12 +83,12 @@ export default function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse 
       const latlng = e.coord;
 
       if (streetLayer.getMap()) {
-        danjiMapTypeStore.makeRoadType();
+        makeRoadType();
         setClickedCenter({ lat: latlng.y, lng: latlng.x });
-        danjiMapTypeStore.makePanoPosition(latlng.y, latlng.x);
+        makePanoPosition(latlng.y, latlng.x);
       }
     });
-  }, [danjiMapTypeStore.mapType]);
+  }, [mapType]);
 
   useEffect(() => {
     if (clickedCenter && pano) {
@@ -112,7 +112,7 @@ export default function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse 
   }, [danji]);
 
   const handleEnlarge = () => {
-    danjiMapButtonStore.makeTrue();
+    makeTrue();
   };
 
   const bindPanorama = (val: naver.maps.Panorama | null) => {
@@ -137,13 +137,11 @@ export default function MapCardDanji({ danji }: { danji: GetDanjiDetailResponse 
                 handleEnlarge();
               }}
             />
-            <MapTypeButton type={danjiMapTypeStore.mapType} right="12px" bottom="12px" />
+            <MapTypeButton type={mapType} right="12px" bottom="12px" />
 
-            {danjiMapTypeStore.mapType === 'road' && (
-              <MapStreet containerId="panorama-small" bindPanorama={bindPanorama} />
-            )}
+            {mapType === 'road' && <MapStreet containerId="panorama-small" bindPanorama={bindPanorama} />}
 
-            {(danjiMapTypeStore.mapType === 'map' || danjiMapTypeStore.mapType === 'roadlayer') && (
+            {(mapType === 'map' || mapType === 'roadlayer') && (
               <NaverMapV1
                 onCreate={onCreate}
                 center={center}

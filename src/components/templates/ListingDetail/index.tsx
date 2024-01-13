@@ -1,22 +1,41 @@
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-import { Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
-import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
-import { DanjiDetailSection, ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
-import HeartFilledIcon from '@/assets/icons/heart.svg';
-import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
-import ShareIcon from '@/assets/icons/share.svg';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
+
 import tw from 'twin.macro';
+
+import { Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
+
+import { Accordion, NavigationHeader, Table, Tabs } from '@/components/molecules';
+
+import { DanjiDetailSection, ListingCtaButtons, ListingDetailSection, PhotoHero } from '@/components/organisms';
+
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
+
+import { useIsomorphicLayoutEffect, useRouter, useScroll } from '@/hooks/utils';
+
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
-import falsy from '@/utils/falsy';
-import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
-import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
+
 import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
+
+import falsy from '@/utils/falsy';
+
+import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
+
+import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
+
 import Routes from '@/router/routes';
+
+import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
-import useDanjiInteraction from '@/states/danjiButton';
+
+import HeartFilledIcon from '@/assets/icons/heart.svg';
+
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
+
+import ShareIcon from '@/assets/icons/share.svg';
+
 import UserStatusStrings from './strings';
+
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
 export interface ListingDetailProps {

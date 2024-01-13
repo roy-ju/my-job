@@ -1,12 +1,20 @@
-import { useAuth } from '@/hooks/services';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { useCallback, useState, useEffect } from 'react';
-import { My as MyTemplate } from '@/components/templates';
+
+import { useRouter } from 'next/router';
+
 import { Loading, MobileContainer } from '@/components/atoms';
-import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
+
 import { MobGlobalNavigation } from '@/components/organisms';
-import useSyncronizer from '@/states/syncronizer';
+
+import { My as MyTemplate } from '@/components/templates';
+
+import useSyncronizer from '@/states/hooks/useSyncronizer';
+
+import { useAuth } from '@/hooks/services';
+
+import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
+
+import Routes from '@/router/routes';
 
 export default function MobMy() {
   const router = useRouter();

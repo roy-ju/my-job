@@ -1,32 +1,9 @@
-import { atom, useRecoilState } from 'recoil';
-import { v1 } from 'uuid';
+import { useRecoilState } from 'recoil';
 
-type ChatButtonStore = {
-  isShowMap: boolean;
-  naverMapURL: string;
-  naverMapURLAnother: string;
-  lat?: number;
-  lng?: number;
-  buildingName: string;
-  address: string;
-};
+import chatRoomMapAtom from '../atom/chatRoomMap';
 
-export const chatButtonStore = atom<ChatButtonStore>({
-  key: `chat_map_button/${v1()}`,
-  default: {
-    isShowMap: false,
-    naverMapURL: '',
-    naverMapURLAnother:"",
-    lat: undefined,
-    lng: undefined,
-    buildingName:"",
-    address:"",
-  },
-  dangerouslyAllowMutability: true,
-});
-
-export function useChatButtonStore() {
-  const [state, setState] = useRecoilState(chatButtonStore);
+export default function useChatRoomMap() {
+  const [state, setState] = useRecoilState(chatRoomMapAtom);
 
   const makeShowMap = () => {
     setState((prev) => ({ ...prev, isShowMap: true }));
@@ -48,7 +25,7 @@ export function useChatButtonStore() {
     setState((prev) => ({ ...prev, naverMapURLAnother: val || '' }));
   };
 
-   const makeAddressAPI = (val?: string) => {
+  const makeAddressAPI = (val?: string) => {
     setState((prev) => ({ ...prev, address: val || '' }));
   };
 
@@ -56,15 +33,14 @@ export function useChatButtonStore() {
     setState((prev) => ({ ...prev, buildingName: val || '' }));
   };
 
-
   return {
     isShowMap: state.isShowMap,
     lat: state.lat,
     lng: state.lng,
     naverMapURL: state.naverMapURL,
-    naverMapAnother:state.naverMapURLAnother,
-    aName:state.address,
-    bName:state.buildingName,
+    naverMapAnother: state.naverMapURLAnother,
+    aName: state.address,
+    bName: state.buildingName,
     makeURL,
     makeURLAnother,
     makeShowMap,

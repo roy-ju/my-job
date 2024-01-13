@@ -1,19 +1,30 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { NavigationHeader } from '@/components/molecules';
-import { useChatButtonStore } from '@/states/mob/chatButtonStore';
-import CloseIcon from '@/assets/icons/close_18.svg';
-import { Button } from '@/components/atoms';
 import { useCallback, useEffect, useState, useMemo } from 'react';
-import { getZoomByMeters } from '@/utils/map';
-import { NaverMapV1 } from '@/lib/navermapV1';
+
 import { toast } from 'react-toastify';
-import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
-import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+
+import { Button } from '@/components/atoms';
+
 import DeferredRender from '@/components/atoms/DeferredRender';
 
+import { NavigationHeader } from '@/components/molecules';
+
+import useChatRoomMap from '@/states/hooks/useChatRoomMap';
+
+import { getZoomByMeters } from '@/utils/map';
+
+import { NaverMapV1 } from '@/lib/navermapV1';
+
+import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
+
+import CloseIcon from '@/assets/icons/close_18.svg';
+
+import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
+
 const DEFAULT_LAT = 37.3945005; // 판교역
+
 const DEFAULT_LNG = 127.1109415;
 
 function hasArea(area: any) {
@@ -33,8 +44,7 @@ function hasAddition(addition: any) {
 }
 
 export default function MobChatMap() {
-  const { makeShowChat, makeShowLatLng, makeURL, makeAddressAPI, makeBuildingName, makeURLAnother } =
-    useChatButtonStore();
+  const { makeShowChat, makeShowLatLng, makeURL, makeAddressAPI, makeBuildingName, makeURLAnother } = useChatRoomMap();
 
   const [map, setMap] = useState<naver.maps.Map | null>(null);
 

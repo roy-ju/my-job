@@ -1,22 +1,11 @@
 import { useCallback } from 'react';
-import { atom, useRecoilState } from 'recoil';
-import { v1 } from 'uuid';
 
-interface ISyncronizerState {
-  unreadChatCount: number;
-  unreadNotificationCount: number;
-}
+import { useRecoilState } from 'recoil';
 
-export const syncronizerState = atom<ISyncronizerState>({
-  key: `syncronizer/${v1()}`,
-  default: {
-    unreadChatCount: 0,
-    unreadNotificationCount: 0,
-  },
-});
+import syncronizerAtom from '../atom/syncronizer';
 
 export default function useSyncronizer() {
-  const [state, setState] = useRecoilState(syncronizerState);
+  const [state, setState] = useRecoilState(syncronizerAtom);
 
   const setUnreadChatCount = useCallback(
     (value: number) => {

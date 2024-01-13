@@ -13,8 +13,9 @@ import { MobSchoolMarker } from '@/components/organisms';
 import { Button } from '@/components/atoms';
 import getHakgudo from '@/apis/map/mapHakgudos';
 import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
-import { useDanjiMapButtonStore } from '@/states/mob/danjiMapButtonStore';
+
 import DeferredRender from '@/components/atoms/DeferredRender';
+import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 type GetSchoolResponse = {
   school_name: string;
@@ -69,7 +70,7 @@ export default function DanjiSchoolMapCard({
   const [polygon, setPolygon] = useState<naver.maps.Polygon[]>([]); // 학구도 폴리곤
   const [selectedSchoolId, setSelectedSchoolId] = useState<string>();
 
-  const { danjiSchoolID, makeDanjiSchoolID } = useDanjiMapButtonStore();
+  const { danjiSchoolID, makeDanjiSchoolID } = useMobileDanjiInteraction();
 
   const [schoolType, setSchoolType] = useSessionStorage(
     'danji-selected-school',

@@ -1,18 +1,23 @@
-import SearchIcon from '@/assets/icons/search_24px.svg';
-import LogoIcon from '@/assets/icons/header_logo.svg';
-import NotificationIcon from '@/assets/icons/notification_24px.svg';
 import { Button } from '@/components/atoms';
+
 import NewCount from '@/components/atoms/NewCount';
 
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
 import { MobSearchMap } from '@/components/templates/MobSearchMap';
+
+import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
+
+import SearchIcon from '@/assets/icons/search_24px.svg';
+
+import LogoIcon from '@/assets/icons/header_logo.svg';
+
+import NotificationIcon from '@/assets/icons/notification_24px.svg';
 
 interface Props {
   value?: number | boolean | null;
 }
 
 export default function MobMapHeader({ value }: Props) {
-  const { addFullScreenDialog } = useFullScreenDialogStore();
+  const { addFullScreenDialog } = useFullScreenDialog();
 
   const onClickSearchIcon = () => {
     addFullScreenDialog({

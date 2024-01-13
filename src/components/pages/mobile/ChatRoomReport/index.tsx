@@ -1,9 +1,15 @@
 import { MobileContainer } from '@/components/atoms';
+
 import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
+
 import { useCallback, useState } from 'react';
+
 import createReportChatRoom from '@/apis/chat/createReportChatRoom';
+
 import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
+
 import useChatRoom from '../ChatRoom/useChatRoom';
 
 export default function ChatRoomReport() {
