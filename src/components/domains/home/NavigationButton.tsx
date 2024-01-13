@@ -4,8 +4,6 @@ import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
 
-import { useRouter as useCustomRouter } from '@/hooks/utils';
-
 import { useAuth } from '@/hooks/services';
 
 import useMap from '@/states/map';
@@ -50,11 +48,9 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
 
   const router = useRouter();
 
-  const customRouter = useCustomRouter(0);
-
   const handleClickCounseling = () => {
     if (platform === 'pc') {
-      customRouter.replace(Routes.LawQna);
+      router.push(`/${Routes.LawQna}`);
     } else {
       router.push(`/${Routes.EntryMobile}/${Routes.LawQna}`);
     }
@@ -62,8 +58,10 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
 
   const handleClickMap = () => {
     if (platform === 'pc') {
-      customRouter.replace(Routes.Map);
+      router.push(`/${Routes.Map}`);
+
       map.naverMap?.setZoom(16, true);
+
       window.Negocio.callbacks.selectListingHomeButton();
     } else {
       router.push(
@@ -75,13 +73,16 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
 
   const handleClickHomeRegister = () => {
     const pcRedirectURI = `/${Routes.My}?default=2`;
+
     const mobileRedirectURI = `/${Routes.EntryMobile}${pcRedirectURI}`;
 
     if (!user) {
       if (platform === 'pc') {
-        customRouter.replace(Routes.Login, {
-          persistParams: true,
-          searchParams: { redirect: pcRedirectURI },
+        router.push({
+          pathname: `/${Routes.Login}`,
+          query: {
+            redirect: pcRedirectURI,
+          },
         });
       } else {
         router.push({
@@ -96,9 +97,11 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
 
     if (!user?.isVerified) {
       if (platform === 'pc') {
-        customRouter.replace(Routes.VerifyCi, {
-          persistParams: true,
-          searchParams: { redirect: pcRedirectURI },
+        router.push({
+          pathname: `/${Routes.VerifyCi}`,
+          query: {
+            redirect: pcRedirectURI,
+          },
         });
       } else {
         router.push({
@@ -112,8 +115,11 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
     }
 
     if (platform === 'pc') {
-      customRouter.replace(Routes.My, {
-        searchParams: { default: '2' },
+      router.push({
+        pathname: `/${Routes.My}`,
+        query: {
+          default: '2',
+        },
       });
     } else {
       router.push(`/${Routes.EntryMobile}/${Routes.My}?default=2`);

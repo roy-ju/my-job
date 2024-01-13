@@ -2,37 +2,62 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable @typescript-eslint/no-shadow */
 
-import getSchools from '@/apis/map/mapSchools';
-import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
-import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
-import { Filter } from '@/components/organisms/MapFilter/types';
-import { coordToRegion } from '@/lib/kakao';
-import { NaverMap } from '@/lib/navermap';
-import { NaverLatLng } from '@/lib/navermap/types';
-import { getMetersByZoom } from '@/lib/navermap/utils';
-import { mapState as recoilMapState } from '@/states/map';
-
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import Routes from '@/router/routes';
-import useRecentSearches from '@/hooks/services/useRecentSearches';
+
 import { v1 } from 'uuid';
+
 import { toast } from 'react-toastify';
-import getHakgudo from '@/apis/map/mapHakgudos';
-import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
-import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
-import useLatest from '@/hooks/utils/useLatest';
 
 import isEqual from 'lodash/isEqual';
+
 import debounce from 'lodash/debounce';
 
+import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
+
+import { Filter } from '@/components/organisms/MapFilter/types';
+
+import { mapState as recoilMapState } from '@/states/map';
+
+import useDanjiInteraction, { schoolAroundState } from '@/states/danjiButton';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+
+import { useIsomorphicLayoutEffect, useRouter, useSessionStorage } from '@/hooks/utils';
+
+import useRecentSearches from '@/hooks/services/useRecentSearches';
+
+import { coordToRegion } from '@/lib/kakao';
+
+import { NaverMap } from '@/lib/navermap';
+
+import { NaverLatLng } from '@/lib/navermap/types';
+
+import { getMetersByZoom } from '@/lib/navermap/utils';
+
+import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
+
+import getSchools from '@/apis/map/mapSchools';
+
+import getHakgudo from '@/apis/map/mapHakgudos';
+
+import { useDanjiSummary } from '@/apis/map/mapDanjiSummary';
+
+import Routes from '@/router/routes';
+
+import useLatest from '@/hooks/utils/useLatest';
+
 const USER_LAST_LOCATION = 'user_last_location';
+
 const DEFAULT_LAT = 37.3945005; // 판교역
+
 const DEFAULT_LNG = 127.1109415;
+
 const DEFAULT_ZOOM = 16; // 100m
+
 const DEFAULT_MIN_ZOOM = 8; // 30km
+
 const DEFAULT_MAX_ZOOM = 19; // 20m
 
 export interface DanjiSummary {

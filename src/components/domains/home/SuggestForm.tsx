@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic';
 
-import { useRouter as useCunstomRouter } from '@/hooks/utils';
-
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { RealestateType, describeJeonsaeWolsaeSame, describeRealestateType } from '@/constants/enums';
@@ -28,8 +26,6 @@ const RegionListPopup = dynamic(() => import('@/components/organisms/popups/Regi
 
 export default function SuggestForm() {
   const router = useRouter();
-
-  const customRouter = useCunstomRouter(0);
 
   const { platform } = useCheckPlatform();
 
@@ -77,18 +73,18 @@ export default function SuggestForm() {
   const handleRoute = (from: 'regionListPoup' | 'none', v?: RegionItem) => {
     if (isEqualValue(platform, 'pc')) {
       if (isEqualValue(from, 'none')) {
-        customRouter.replace(Routes.SuggestForm, {
-          searchParams: {
-            // 아파트 또는 오피스텔
+        router.push({
+          pathname: `/${Routes.SuggestForm}`,
+          query: {
             property: describeRealestateType(Number(property[0])),
             buyOrRent,
             entry: 'home',
           },
         });
       } else {
-        customRouter.replace(Routes.SuggestForm, {
-          searchParams: {
-            // 복수 선택밖에 없다.
+        router.push({
+          pathname: `/${Routes.SuggestForm}`,
+          query: {
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
             entry: 'home',

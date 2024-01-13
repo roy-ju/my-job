@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router';
 
-import { useRouter as useCustomRouter } from '@/hooks/utils';
-
 import { Button } from '@/components/atoms';
 
 import useCheckPlatform from '@/hooks/utils/useCheckPlatform';
@@ -31,8 +29,6 @@ export default function Footer() {
 
   const router = useRouter();
 
-  const customRouter = useCustomRouter(0);
-
   const handleClickInstagram = () => {
     window.open(Paths.INSTAGRAM, '_blank');
   };
@@ -51,7 +47,7 @@ export default function Footer() {
 
   const handleClickTermsAndPolicy = () => {
     if (platform === 'pc') {
-      customRouter.replace(Routes.TermsAndPolicy, { searchParams: { entry: Routes.Home } });
+      router.push(`/${Routes.TermsAndPolicy}?entry=${Routes.Home}`);
     } else {
       router.push(`/${Routes.EntryMobile}/${Routes.TermsAndPolicy}`);
     }
@@ -59,7 +55,7 @@ export default function Footer() {
 
   const handleClickPrivacyPolicy = () => {
     if (platform === 'pc') {
-      customRouter.replace(Routes.PrivacyPolicy, { searchParams: { entry: Routes.Home } });
+      router.push(`/${Routes.PrivacyPolicy}?entry=${Routes.Home}`);
     } else {
       router.push(`/${Routes.EntryMobile}/${Routes.PrivacyPolicy}`);
     }

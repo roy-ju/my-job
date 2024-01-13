@@ -1,19 +1,28 @@
-import SearchIconText from '@/assets/icons/search.svg';
+import { useState, useCallback, ChangeEventHandler, FormEventHandler, ChangeEvent } from 'react';
+
+import tw from 'twin.macro';
+
+import { Button } from '@/components/atoms';
 
 import { Autocomplete, TextField } from '@/components/molecules';
 
-import useMapLayout from '@/layouts/Mobile/MapLayout/useMapLayout';
+import useMobileMapLayout from '@/hooks/useMobileMapLayout';
+
+import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+
+import useMobKakaoAddressAutocomplete from '@/hooks/services/useMobKakaoAddressAutoComplete';
+
+import storage from '@/storage/mob/stroage';
+
+import { checkPlatform } from '@/utils/checkPlatform';
+
+import SearchIconText from '@/assets/icons/search.svg';
 
 import ChveronLeftIcon from '@/assets/icons/chevron_left_24.svg';
-import { Button } from '@/components/atoms';
-import storage from '@/storage/mob/stroage';
-import { useState, useCallback, ChangeEventHandler, FormEventHandler, ChangeEvent } from 'react';
-import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
+
 import Close from '@/assets/icons/close.svg';
+
 import DeleteAllIcon from '@/assets/icons/delete_all.svg';
-import useMobKakaoAddressAutocomplete from '@/hooks/services/useMobKakaoAddressAutoComplete';
-import { checkPlatform } from '@/utils/checkPlatform';
-import tw from 'twin.macro';
 
 function Guide() {
   return (
@@ -36,7 +45,7 @@ function Guide() {
 }
 
 export function MobSearchMap() {
-  const { handleMapSearch } = useMapLayout();
+  const { handleMapSearch } = useMobileMapLayout();
 
   const [textValue, setTextValueState] = useState('');
 

@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable consistent-return */
-import { ChangeEventHandler, ReactNode, useCallback, useEffect, useState } from 'react';
+import { ChangeEventHandler, ReactNode, useCallback, useState } from 'react';
+
+import { Button, Checkbox } from '@/components/atoms';
+
 import {
   MobGlobalNavigation,
   MobMapControls,
@@ -9,15 +12,23 @@ import {
   MobMapPriceSelect,
   MobMapToggleButton,
 } from '@/components/organisms';
-import { Button, Checkbox } from '@/components/atoms';
-import Close from '@/assets/icons/close_24.svg';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { Filter } from '@/components/organisms/MapFilter/types';
+
 import MobMapFilter from '@/components/organisms/MobMapFilter';
-import { convertSidoName } from '@/utils/fotmat';
+
+import { Filter } from '@/components/organisms/MapFilter/types';
+
+import { DanjiSummary, ListingSummary } from '@/hooks/useMobileMapLayout';
+
 import useFullScreenDialogStore from '@/hooks/recoil/mobile/useFullScreenDialog';
-import { DanjiSummary, ListingSummary } from '@/layouts/Mobile/MapLayout/useMapLayout';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+
+import { convertSidoName } from '@/utils/fotmat';
+
+import Close from '@/assets/icons/close_24.svg';
+
 import MobAreaSearch from '../MobAreaSearch';
+
 import MobGuideOverlay from '../MobGuideOverlay';
 
 interface MobLayoutMapContainerProps {
@@ -97,26 +108,6 @@ function MobLayoutMapContainer({
   const handleGuidOverlay = useCallback(() => {
     setIsRenderGuideOverlay(false);
   }, []);
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('neogico-mob-map-initial') === 'true') {
-  //     setIsRenderGuideOverlay(false);
-  //     return;
-  //   }
-  //   if (!localStorage.getItem('neogico-mob-map-initial')) {
-  //     localStorage.setItem('neogico-mob-map-initial', 'true');
-  //     setIsRenderGuideOverlay(true);
-  //   }
-
-  //   return () => setIsRenderGuideOverlay(false);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (isRenderGuideOverlay) {
-  //     const timeout = setTimeout(() => setIsRenderGuideOverlay(false), 5000);
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [isRenderGuideOverlay]);
 
   return (
     <>
