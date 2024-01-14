@@ -39,7 +39,7 @@ export default function useChatRoomList() {
   );
 
   const handleClickSuggestForm = useCallback(() => {
-    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}` });
+    router.push({ pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`, query: { entry: Routes.ChatRoomList } });
   }, [router]);
 
   return {

@@ -21,7 +21,7 @@ import Routes from '@/router/routes';
 import useMySuggestDetailStore from './useMySuggestDetailStore';
 
 export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
-  const platform = useCheckPlatform();
+  const { platform } = useCheckPlatform();
 
   const value = useMySuggestDetailStore();
 
@@ -36,7 +36,7 @@ export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
 
   const [deletePopup, setDeletePopup] = useState(false);
 
-  const renderDanjiShowUICondition = platform?.platform === 'mobile' ? true : router.query.entry === 'my';
+  const renderDanjiShowUICondition = platform === 'mobile' ? true : router.query.entry === 'my';
 
   const openDeletePopup = () => {
     setDeletePopup(true);
@@ -51,7 +51,7 @@ export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
 
     if (!danjiID) return;
 
-    if (platform?.platform === 'pc') {
+    if (platform === 'pc') {
       customRouter.replace(Routes.DanjiDetail, {
         searchParams: {
           danjiID: `${danjiID}`,
@@ -71,7 +71,7 @@ export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
 
     const depth2 = (router?.query?.depth2 as NegocioPath) ?? '';
 
-    if (platform?.platform === 'pc') {
+    if (platform === 'pc') {
       const pathname = getPath({
         depth1,
         depth2,
@@ -81,6 +81,7 @@ export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
       router.push({
         pathname,
         query: {
+          entry: Routes.SuggestRequestedList,
           ...(danjiID ? { danjiID: `${danjiID}` } : {}),
           ...(suggestID ? { suggestID: `${suggestID}` } : {}),
         },
@@ -89,6 +90,7 @@ export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
       router.push({
         pathname: `/${Routes.EntryMobile}/${Routes.SuggestFormUpdate}`,
         query: {
+          entry: Routes.SuggestRequestedList,
           ...(danjiID ? { danjiID: `${danjiID}` } : {}),
           ...(suggestID ? { suggestID: `${suggestID}` } : {}),
         },
@@ -103,7 +105,7 @@ export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
 
     await apiService.mySuggestDelete({ suggestID });
 
-    if (platform?.platform === 'pc') {
+    if (platform === 'pc') {
       await listMutate();
       await otherMutate('/my/dashboard/info');
     }
@@ -112,7 +114,7 @@ export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
 
     toast.success('추천 요청을 삭제했습니다.', { toastId: 'success_delete' });
 
-    if (platform?.platform === 'pc') {
+    if (platform === 'pc') {
       customRouter.replace(Routes.SuggestRequestedList, {
         state: {
           ...(value?.suggestDetailData?.danji_id ? { danjiID: `${value.suggestDetailData.danji_id}` } : {}),

@@ -27,9 +27,6 @@ export default function useAutoScroll<T extends string>({
     setTimeout(() => {
       callback?.();
       autoScroll(elementID, targetForm, currentForm);
-
-      // setTimeout(() => {
-      // });
     }, timeout);
-  }, [elementID, targetForm.length, callback]);
+  }, [elementID, targetForm.length]);
 }

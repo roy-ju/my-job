@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
-
 import { useSetRecoilState } from 'recoil';
+
+import { BuyOrRent, DanjiOrRegionalType, RealestateType } from '@/constants/enums';
 
 import { apiService } from '@/services';
 
 import Routes from '@/router/routes';
+
 import isEqualValue from '../../utils/isEqualValue';
 
 import getNumber from '../../utils/getNumber';
@@ -33,6 +34,8 @@ function propertyToRealestateType(val: string) {
 
 export default function useInitializeFormData() {
   const router = useRouter();
+
+  const [beforePopstateEvent, setBeforePopstateEvent] = useState(false);
 
   const setState = useSetRecoilState(SuggestFormState);
 
@@ -66,6 +69,10 @@ export default function useInitializeFormData() {
       }
     }
 
+    if (beforePopstateEvent) {
+      return;
+    }
+
     if (router?.query?.params && router?.query?.forms) {
       const params: Record<string, unknown> = JSON.parse(router.query.params as string);
 
@@ -79,6 +86,10 @@ export default function useInitializeFormData() {
         ...normalizedParams,
       }));
 
+      return;
+    }
+
+    if (router.query.back) {
       return;
     }
 
@@ -153,6 +164,7 @@ export default function useInitializeFormData() {
       setStateForms(['region_or_danji']);
     }
   }, [
+    beforePopstateEvent,
     router,
     setAddress,
     setBubjungdong,
@@ -166,4 +178,31 @@ export default function useInitializeFormData() {
     setStateDanjiRealestateType,
     setStateForms,
   ]);
+
+  useEffect(() => {
+    let forms = '';
+
+    const handleBeforePopstate = () => {
+      if (router?.query?.forms && router?.query?.params) {
+        forms = router.query.forms as string;
+
+        const arr = JSON.parse(forms) as FormType[];
+
+        setBeforePopstateEvent(true);
+
+        setStateForms(arr.filter((ele) => ele !== 'summary'));
+      }
+
+      return true;
+    };
+
+    router.beforePopState(() => handleBeforePopstate());
+
+    return () => {
+      router.beforePopState(() => {
+        setBeforePopstateEvent(false);
+        return true;
+      });
+    };
+  }, [router, setStateForms]);
 }

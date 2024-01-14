@@ -22,7 +22,9 @@ const getPath = ({
   if (!depth1) return `/${targetPath}`;
 
   if (option.replace) {
-    console.log('d1', depth1, 'd2', depth2, 't', targetPath);
+    if (depth1 === targetPath) {
+      return `/${targetPath}`;
+    }
 
     return `/${depth1}/${targetPath}`;
   }
