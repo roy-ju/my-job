@@ -76,6 +76,7 @@ export default function SuggestForm() {
         router.push({
           pathname: `/${Routes.SuggestForm}`,
           query: {
+            entry: Routes.Home,
             property: describeRealestateType(Number(property[0])),
             buyOrRent,
           },
@@ -84,6 +85,7 @@ export default function SuggestForm() {
         router.push({
           pathname: `/${Routes.SuggestForm}`,
           query: {
+            entry: Routes.Home,
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
             ...(v?.name ? { address: v?.name } : {}),

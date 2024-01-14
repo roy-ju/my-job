@@ -6,8 +6,6 @@ import { AuthRequired, Loading, Panel } from '@/components/atoms';
 
 import { SuggestRequestedList } from '@/components/templates';
 
-import { useRouter as useCustomRouter } from '@/hooks/utils';
-
 import getPath from '@/utils/getPath';
 
 import Routes from '@/router/routes';
@@ -20,8 +18,6 @@ interface Props {
 }
 
 export default memo(({ panelWidth, depth }: Props) => {
-  const customRouter = useCustomRouter(depth);
-
   const router = useRouter();
 
   const { data, isLoading, increamentPageNumber } = useAPI_GetMySuggestList();
@@ -37,20 +33,33 @@ export default memo(({ panelWidth, depth }: Props) => {
       pathname: path,
       query: {
         entry: Routes.SuggestRequestedList,
+        ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
+        ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),
+        ...(router?.query?.default ? { default: `${router.query.default}` } : {}),
       },
     });
   }, [router]);
 
   const handleClickSuggestItem = useCallback(
     (id: number) => {
-      customRouter.replace(Routes.MySuggestDetail, {
-        searchParams: {
+      const path = getPath({
+        depth1: router?.query?.depth1 as NegocioPath,
+        depth2: router?.query?.depth2 as NegocioPath,
+        targetPath: Routes.MySuggestDetail as NegocioPath,
+      });
+
+      router.push({
+        pathname: path,
+        query: {
           suggestID: `${id}`,
           entry: Routes.SuggestRequestedList,
+          ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
+          ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),
+          ...(router?.query?.default ? { default: `${router.query.default}` } : {}),
         },
       });
     },
-    [customRouter],
+    [router],
   );
 
   return (

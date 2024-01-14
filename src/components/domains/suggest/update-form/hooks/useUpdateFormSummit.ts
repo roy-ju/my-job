@@ -64,7 +64,6 @@ export default function useUpdateFormSummitButton({ depth }: { depth?: number })
           router.replace(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?suggestID=${router?.query?.suggestID}`);
         }
       } catch (error) {
-        console.log(error);
         toast.error('업데이트 중 오류가 발생했습니다.');
       }
     },

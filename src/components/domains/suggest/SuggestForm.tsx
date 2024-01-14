@@ -18,9 +18,7 @@ import SuggestFormState from './form/atoms/SuggestFormState';
 
 const Popups = dynamic(() => import('./form/popups'), { ssr: false });
 
-type SuggestFormProps = { depth?: number };
-
-export default function SuggestForm({ depth }: SuggestFormProps) {
+export default function SuggestForm() {
   const reset = useResetRecoilState(SuggestFormState);
 
   useInitializeFormData();
@@ -39,7 +37,7 @@ export default function SuggestForm({ depth }: SuggestFormProps) {
         <Stepper id="suggestForm-stepper" />
       </div>
       <Form />
-      <Actions depth={depth} />
+      <Actions />
       <Popups />
     </div>
   );
