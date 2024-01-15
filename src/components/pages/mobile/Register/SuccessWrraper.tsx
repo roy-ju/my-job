@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
+import MobileContainer from '@/components/atoms/MobileContainer';
+
 import { MobRegisterSuccess } from '@/components/templates';
 
 import Routes from '@/router/routes';
@@ -28,5 +30,9 @@ export default function SuccessWrraper() {
     });
   }, [router]);
 
-  return <MobRegisterSuccess onClickLeave={handleLeave} onClickVerifyCi={navigateToVerifyCi} />;
+  return (
+    <MobileContainer>
+      <MobRegisterSuccess onClickLeave={handleLeave} onClickVerifyCi={navigateToVerifyCi} />
+    </MobileContainer>
+  );
 }

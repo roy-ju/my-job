@@ -1,18 +1,11 @@
-import dynamic from 'next/dynamic';
-
 import { NextPageWithLayout } from '@/pages/_app';
 
-const NoSSRRegisterWrraper = dynamic(() => import('@/components/pages/mobile/Register'), { ssr: false });
+import Register from '@/components/pages/mobile/Register';
 
-const Page: NextPageWithLayout = () => <NoSSRRegisterWrraper />;
+const Page: NextPageWithLayout = () => <Register />;
 
 Page.getLayout = function getLayout(page) {
-  return (
-    <>
-      <div tw="w-[100%] absolute bg-nego-1300 h-full [z-index: -1]" />
-      {page}
-    </>
-  );
+  return <>{page}</>;
 };
 
 export default Page;
