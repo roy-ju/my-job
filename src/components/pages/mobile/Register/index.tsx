@@ -1,5 +1,6 @@
 import checkNickname from '@/apis/user/checkNickname';
 import login from '@/apis/user/login';
+import { MobileContainer } from '@/components/atoms';
 import { TermsState } from '@/components/organisms/RegisterForm';
 import { MobRegister } from '@/components/templates';
 import { NICKNAME_REGEX } from '@/constants/regex';
@@ -156,22 +157,24 @@ export default function RegisterWrraper() {
   }, [router]);
 
   return (
-    <MobRegister
-      email={email}
-      nickname={nickname}
-      nicknameErrorMessage={nicknameErrMsg}
-      funnelInfo={funnelInfo}
-      terms={terms}
-      formValid={formValid}
-      isLoading={isLoading}
-      onChangeNickname={handleChangeNickname}
-      onChangeFunnelInfo={handleChangeFunnelInfo}
-      onChangeTerms={handleChangeTerms}
-      onClickNext={handleClickNext}
-      onClickBackButton={handleClickBack}
-      onNavigateToServiceTerms={handleNavigateToServiceTerms}
-      onNavigateToPrivacyPolicy={handleNavigateToPrivacyPolicy}
-      onNavigateToLocationTerms={handleNavigateToLocationTerms}
-    />
+    <MobileContainer>
+      <MobRegister
+        email={email}
+        nickname={nickname}
+        nicknameErrorMessage={nicknameErrMsg}
+        funnelInfo={funnelInfo}
+        terms={terms}
+        formValid={formValid}
+        isLoading={isLoading}
+        onChangeNickname={handleChangeNickname}
+        onChangeFunnelInfo={handleChangeFunnelInfo}
+        onChangeTerms={handleChangeTerms}
+        onClickNext={handleClickNext}
+        onClickBackButton={handleClickBack}
+        onNavigateToServiceTerms={handleNavigateToServiceTerms}
+        onNavigateToPrivacyPolicy={handleNavigateToPrivacyPolicy}
+        onNavigateToLocationTerms={handleNavigateToLocationTerms}
+      />
+    </MobileContainer>
   );
 }

@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import MobileContainer from '@/components/atoms/MobileContainer';
+
 import { OverlayPresenter } from '@/components/molecules';
 
 import { VerifyCiPopup } from '@/components/organisms';
@@ -85,7 +87,7 @@ export default function VerifyCi() {
   }, [router]);
 
   return (
-    <>
+    <MobileContainer>
       <MobVerifyCi
         onClickBack={handleClickBack}
         onClickIPinVerification={handleVerifyIPin}
@@ -103,6 +105,6 @@ export default function VerifyCi() {
           <VerifyCiPopup.Under19 onClickClose={() => setErrorCode(null)} />
         </OverlayPresenter>
       )}
-    </>
+    </MobileContainer>
   );
 }
