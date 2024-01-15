@@ -1,14 +1,8 @@
-import { useRouter } from 'next/router';
-
 import { Separator } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import { useCallback } from 'react';
-
-import { useRouter as useCustomRouter } from '@/hooks/utils';
-
-import useCheckPlatform from '@/hooks/useCheckPlatform';
+import useBack from '@/hooks/useBack';
 
 import Header from './guide/Header';
 
@@ -18,29 +12,13 @@ import Faqs from './guide/Faqs';
 
 import Info from './guide/Info';
 
-type SuggestGuideProps = {
-  depth?: number;
-};
-
-function SuggestGuide({ depth }: SuggestGuideProps) {
-  const customRouter = useCustomRouter(depth);
-
-  const router = useRouter();
-
-  const { platform } = useCheckPlatform();
-
-  const handleClickBack = useCallback(() => {
-    if (platform === 'pc') {
-      customRouter.popAll();
-    } else {
-      router.replace('/');
-    }
-  }, [customRouter, platform, router]);
+function SuggestGuide() {
+  const { back } = useBack();
 
   return (
     <div tw="flex flex-col h-full relative">
       <NavigationHeader>
-        <NavigationHeader.BackButton onClick={handleClickBack} />
+        <NavigationHeader.BackButton onClick={back} />
         <NavigationHeader.Title>매물 구해요</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex flex-col flex-1 overflow-y-scroll">

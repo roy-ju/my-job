@@ -61,6 +61,14 @@ export default function Footer() {
     }
   };
 
+  const handleClickServicePage = () => {
+    if (platform === 'pc') {
+      router.push(`/${Routes.Intro}`);
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.Intro}`);
+    }
+  };
+
   const handleClickAppStore = () => {
     window.open(Paths.APP_STORE, '_blank');
   };
@@ -102,6 +110,10 @@ export default function Footer() {
       )}
 
       <div tw="flex items-center justify-center mt-2">
+        <Button size="none" variant="ghost" tw="text-body_02 text-gray-700" onClick={handleClickServicePage}>
+          서비스 소개
+        </Button>
+        <span tw="h-3 w-px bg-gray-700 mx-2" />
         <Button size="none" variant="ghost" tw="text-body_02 text-gray-700" onClick={handleClickPrivacyPolicy}>
           개인정보처리방침
         </Button>
