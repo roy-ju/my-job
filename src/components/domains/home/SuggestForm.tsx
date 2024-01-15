@@ -99,13 +99,14 @@ export default function SuggestForm() {
       if (isEqualValue(from, 'none')) {
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
-          query: { property: describeRealestateType(Number(property[0])), buyOrRent },
+          query: { entry: Routes.Home, property: describeRealestateType(Number(property[0])), buyOrRent },
         });
       } else {
         // 복수 선택밖에 없다.
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: {
+            entry: Routes.Home,
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
             ...(v?.name ? { address: v?.name } : {}),

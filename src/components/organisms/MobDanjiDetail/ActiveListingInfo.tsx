@@ -160,8 +160,8 @@ export default function ActiveListingInfo({
     router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
       query: {
-        ...(danjiID ? { danjiID } : {}),
         entry: Routes.DanjiDetail,
+        ...(danjiID ? { danjiID } : {}),
       },
     });
   }, [danji?.danji_id, router]);
