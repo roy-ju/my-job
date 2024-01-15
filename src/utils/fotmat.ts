@@ -1,3 +1,5 @@
+import { BuyOrRent } from '@/constants/enums';
+
 export function convertSignupPass(v?: string) {
   if (!v) return '';
 
@@ -207,5 +209,12 @@ export function convertArea({ type, value }: { type: string; value: string }) {
     return value ? (parseFloat(value) * 3.3058).toFixed(2).toString() : '';
   }
 
+  return '';
+}
+
+export function describeBuyOrRentPriceTitle(v: number) {
+  if (v === BuyOrRent.Buy) return '매매가';
+  if (v === BuyOrRent.Jeonsae) return '보증금';
+  if (v === BuyOrRent.Wolsae) return '월세';
   return '';
 }

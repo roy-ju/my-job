@@ -123,7 +123,7 @@ export class NegocioApiService extends ApiService {
   }
 
   async mySuggestDelete({ suggestID }: { suggestID: number }): Promise<void> {
-    await this.instance.post('/my/suggest/delete', { suggestID });
+    await this.instance.post('/my/suggest/delete', { suggest_id: suggestID });
   }
 
   async mySuggestSuggestorComplete({

@@ -16,7 +16,8 @@ function BackButton({ onClick, title }: { onClick?: () => void; title?: string }
   return (
     <button type="button" onClick={onClick} tw="h-full pr-3 flex items-center">
       <ChevronLeftIcon tw="text-inherit" />
-      <span tw="font-bold [margin-top: 1px]">{title && title}</span>
+
+      {title && <span tw="font-bold [margin-top: 1px]">{title}</span>}
     </button>
   );
 }
