@@ -33,7 +33,7 @@ export default function SuggestForm() {
   return (
     <div tw="flex flex-col h-full relative">
       <div tw="[box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.08)]">
-        <Header title="집 구하기" />
+        <Header title="집 구해요" />
         <Stepper id="suggestForm-stepper" />
       </div>
       <Form />
