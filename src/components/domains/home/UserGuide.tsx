@@ -12,16 +12,24 @@ import EyesImage from '@/../public/static/images/image_emoji_eyes.png';
 
 import LogoImage from '@/../public/static/images/home/image_logo2.png';
 
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
 const IntroButton = styled.button`
   ${tw`flex items-start gap-4 rounded-2xl [height: 112px] p-4 text-left bg-nego-100 hover:bg-nego-200`}
   ${tw`transition-all`}
 `;
 
 export default function UserGuide() {
+  const { platform } = useCheckPlatform();
+
   const router = useRouter();
 
   const handleClickGuide = () => {
-    router.push(`/${Routes.Intro}`);
+    if (platform === 'pc') {
+      router.push(`/${Routes.SuggestGuide}`);
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.SuggestGuide}`);
+    }
   };
 
   return (
