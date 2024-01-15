@@ -8,6 +8,8 @@ import { describeRealestateType, describeJeonsaeWolsaeSame, BuyOrRent, DanjiOrRe
 
 import { formatNumberInKorean } from '@/utils';
 
+import { describeBuyOrRentPriceTitle } from '@/utils/fotmat';
+
 import getPriceFormatFn from '../../utils/getPriceFormat';
 
 import isEqualValue from '../../utils/isEqualValue';
@@ -63,20 +65,20 @@ export default function useGetSummary() {
 
   const priceData = useCallback(() => {
     if (isEqualValue(buyOrRent, BuyOrRent.Buy) && isEqualValue(quickSale, '1')) {
-      return '급매';
+      return '급매물 구해요';
     }
 
     if (tradeOrDepositPrice && monthlyRentFee) {
-      return `${formatNumberInKorean(Number(tradeOrDepositPrice) * 10000, {
+      return `${describeBuyOrRentPriceTitle(buyOrRent)} ${formatNumberInKorean(Number(tradeOrDepositPrice) * 10000, {
         formatFn: getPriceFormatFn,
-      })} /
+      })}원 / ${describeBuyOrRentPriceTitle(BuyOrRent.Wolsae)}
         ${formatNumberInKorean(Number(monthlyRentFee) * 10000, {
           formatFn: getPriceFormatFn,
         })} ${negotiable ? ' (금액 협의 가능)' : ''}`;
     }
 
     if (tradeOrDepositPrice) {
-      return `${formatNumberInKorean(Number(tradeOrDepositPrice) * 10000, {
+      return `${describeBuyOrRentPriceTitle(buyOrRent)} ${formatNumberInKorean(Number(tradeOrDepositPrice) * 10000, {
         formatFn: getPriceFormatFn,
       })} ${negotiable ? ' (금액 협의 가능)' : ''}`;
     }

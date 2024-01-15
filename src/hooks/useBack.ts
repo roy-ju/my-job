@@ -2,8 +2,14 @@ import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
-export default function useBackButtonHandler() {
+import Routes from '@/router/routes';
+
+import useCheckPlatform from './useCheckPlatform';
+
+export default function useBack() {
   const router = useRouter();
+
+  const { platform } = useCheckPlatform();
 
   const back = useCallback(() => {
     if (typeof window !== 'undefined') {
@@ -11,11 +17,13 @@ export default function useBackButtonHandler() {
 
       if (canGoBack) {
         router.back();
-      } else {
+      } else if (platform === 'pc') {
         router.replace('/');
+      } else {
+        router.replace(`/${Routes.EntryMobile}`);
       }
     }
-  }, [router]);
+  }, [platform, router]);
 
   return { back };
 }
