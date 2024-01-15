@@ -204,8 +204,8 @@ export default function ActiveListingInfo({
     nextRouter.push({
       pathname: path,
       query: {
-        danjiID,
         entry: Routes.DanjiDetail,
+        danjiID,
       },
     });
   }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);

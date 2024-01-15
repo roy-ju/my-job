@@ -39,6 +39,7 @@ export default function useChangePriceTypeField() {
 
         if (isEqualValue(value, '0')) {
           setQuickSale('0');
+          setNegotiable(true);
           if (forms.length > 2) {
             if (buyOrRent === BuyOrRent.Buy) {
               setErrorMessageTradeOrDepositPrice(ERROR_MESSAGE.REQUIRE_TRADE_PRICE);

@@ -55,7 +55,7 @@ export default function useSelectBuyOrRent() {
           setBuyOrRent(Number(value));
           setTradeOrDepositPrice('');
           setMonthlyRentFee('');
-          setNegotiable(false);
+          setNegotiable(true);
           setQuickSale('0');
           setErrorMessageTradeOrDepositPrice('');
           setErrorMessageMonthlyRentFeePrice('');
