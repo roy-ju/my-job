@@ -19,7 +19,7 @@ function SuggestGuide() {
     <div tw="flex flex-col h-full relative">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={back} />
-        <NavigationHeader.Title>구해요 사용설명서</NavigationHeader.Title>
+        <NavigationHeader.Title>구해요 설명서</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex flex-col flex-1 overflow-y-scroll">
         <Header />
