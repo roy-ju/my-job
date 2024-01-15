@@ -52,7 +52,7 @@ export default function useChangePriceTypeField() {
           setQuickSale('1');
           setTradeOrDepositPrice('');
           setMonthlyRentFee('');
-          setNegotiable(true);
+          setNegotiable(false);
           setErrorMessageTradeOrDepositPrice('');
           setErrorMessageMonthlyRentFeePrice('');
         }
