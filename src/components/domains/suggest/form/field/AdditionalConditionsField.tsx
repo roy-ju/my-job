@@ -12,7 +12,7 @@ import FIELD_ID from '../constants/fieldId';
 
 import getIncludeValue from '../../utils/getIncludeValue';
 
-import { HastgTitleObj } from '../constants/hashtags';
+import { HashTagTitleObj } from '../constants/hashtags';
 
 type AdditionalConditionsFieldProps = {
   list: { [key: string]: string[] }[];
@@ -32,7 +32,9 @@ function AdditionalConditionsField({ list, selectedList, handleClick }: Addition
 
           return (
             <div key={key} tw="flex flex-col gap-3">
-              {HastgTitleObj[key] && <AnimationP tw="text-subhead_02 text-gray-900">{HastgTitleObj[key]}</AnimationP>}
+              {HashTagTitleObj[key] && (
+                <AnimationP tw="text-subhead_02 text-gray-900">{HashTagTitleObj[key]}</AnimationP>
+              )}
               <div tw="flex flex-row flex-wrap gap-3">
                 {items.map((item) => (
                   <motion.div

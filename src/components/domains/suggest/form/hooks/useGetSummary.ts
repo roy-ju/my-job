@@ -16,6 +16,8 @@ import isEqualValue from '../../utils/isEqualValue';
 
 import SuggestFormState from '../atoms/SuggestFormState';
 
+import createSelectedSummaryHashTags from '../../utils/createSelectedSummaryHashTags';
+
 export default function useGetSummary() {
   const {
     danjiOrRegion,
@@ -121,12 +123,15 @@ export default function useGetSummary() {
   }, [danjiOrRegion, pyoungList]);
 
   const addtionalCondtionsData = useCallback(() => {
-    if (additionalConditions && additionalConditions.length > 0) {
-      return additionalConditions.join(' / ');
-    }
+    const result = createSelectedSummaryHashTags({
+      danjiOrRegion,
+      buyOrRent,
+      realestateType: realestateTypes,
+      selectedConditions: additionalConditions,
+    });
 
-    return '';
-  }, [additionalConditions]);
+    return result;
+  }, [additionalConditions, buyOrRent, danjiOrRegion, realestateTypes]);
 
   const interviewAvailabletimesData = useCallback(() => {
     if (interviewAvailabletimes && interviewAvailabletimes.length > 0) {
