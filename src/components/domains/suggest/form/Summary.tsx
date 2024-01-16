@@ -31,7 +31,20 @@ export default function Summary() {
         {moveInDateData()}
       </SummaryContainer>
       <SummaryContainer title="평수">{pyoungsData()}</SummaryContainer>
-      <SummaryContainer title="추가 조건">{addtionalCondtionsData()}</SummaryContainer>
+      <SummaryContainer title="추가 조건">
+        <div tw="flex flex-col gap-4">
+          {addtionalCondtionsData()?.map((item) =>
+            item.list ? (
+              <div key={item.list}>
+                <div tw="flex flex-col gap-1">
+                  <p tw="text-subhead_02 text-gray-800">{item.title}</p>
+                  <p tw="text-body_02 text-gray-800">{item.list}</p>
+                </div>
+              </div>
+            ) : null,
+          )}
+        </div>
+      </SummaryContainer>
       <SummaryContainer title="인터뷰">{interviewAvailabletimesData()}</SummaryContainer>
     </div>
   );

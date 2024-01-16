@@ -20,7 +20,7 @@ type SummaryContainerProps = {
 };
 
 const Container = styled(motion.div)`
-  ${tw`flex flex-col gap-1 pb-2 bg-gray-100 px-4 py-3 rounded-lg`}
+  ${tw`flex flex-col gap-1 px-4 py-3 pb-2 bg-gray-100 rounded-lg`}
 `;
 
 function SummaryContainer({ isRender = true, title, children, duration = 0.5 }: SummaryContainerProps) {
@@ -47,7 +47,14 @@ function SummaryContainer({ isRender = true, title, children, duration = 0.5 }: 
         </AnimationP>
       </div>
       {isComponent ? (
-        children
+        <motion.div
+          key={v1()}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration }}
+        >
+          {children}
+        </motion.div>
       ) : (
         <AnimationP
           key={v1()}
