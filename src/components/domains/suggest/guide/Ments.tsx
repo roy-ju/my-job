@@ -23,10 +23,9 @@ export default function Ments() {
   return (
     <div tw="flex flex-col gap-10 px-5 pr-4">
       {MENT.map((item, idx) => (
-        <div key={item.head} tw="flex justify-between">
+        <div key={item.head} tw="flex gap-6">
           {IconObj[`${idx + 1}`]}
-
-          <div tw="w-[243px]">
+          <div tw="flex-1">
             <p tw="text-b1 text-nego font-bold">{item.head}</p>
             <p tw="text-b2">{item.paragraph}</p>
           </div>

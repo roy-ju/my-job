@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-
 import Routes from '@/router/routes';
 
 import useBack from '@/hooks/useBack';
@@ -21,8 +19,6 @@ import isEqualValue from '../../utils/isEqualValue';
 import isNotEqualValue from '../../utils/isNotEqualValue';
 
 export default function useBackButtonHandler() {
-  const { platform } = useCheckPlatform();
-
   const router = useRouter();
 
   const [forms, setForms] = useRecoilState<SuggestForm['forms']>(SuggestFormSelector('forms'));
@@ -39,74 +35,8 @@ export default function useBackButtonHandler() {
       return;
     }
 
-    if (isEqualValue(platform, 'pc')) {
-      if (isEqualValue(router?.query?.entry, Routes.Home)) {
-        if (
-          isNotEqualValue(router?.query?.property, '아파트') &&
-          isNotEqualValue(router?.query?.property, '오피스텔')
-        ) {
-          if (forms.length > 2) {
-            setPopup('quit');
-          } else {
-            setTimeout(() => reset(), 200);
-            back();
-          }
-        } else if (forms.length >= 2) {
-          setPopup('quit');
-        } else {
-          setTimeout(() => reset(), 200);
-          back();
-        }
-      } else if (
-        isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
-        isEqualValue(router?.query?.entry, Routes.SuggestListings)
-      ) {
-        if (forms.length > 2) {
-          setPopup('quit');
-        } else {
-          setTimeout(() => reset(), 200);
-          if (isEqualValue(router?.query?.entry, Routes.DanjiDetail)) {
-            back();
-          } else {
-            back();
-          }
-        }
-      } else if (forms.length >= 2) {
-        setPopup('quit');
-      } else {
-        if (isEqualValue(router?.query?.entry, Routes.My)) {
-          back();
-        } else if (isEqualValue(router?.query?.entry, 'chatRoomList')) {
-          back();
-        } else {
-          back();
-        }
-        setTimeout(() => reset(), 200);
-      }
-    }
-
-    if (isEqualValue(platform, 'mobile')) {
-      if (isEqualValue(router?.query?.entry, Routes.Home)) {
-        if (
-          isNotEqualValue(router?.query?.property, '아파트') &&
-          isNotEqualValue(router?.query?.property, '오피스텔')
-        ) {
-          if (forms.length > 2) {
-            setPopup('quit');
-          } else {
-            setTimeout(() => reset(), 200);
-            back();
-          }
-        } else if (forms.length >= 2) {
-          setPopup('quit');
-        } else {
-          setTimeout(() => reset(), 200);
-          back();
-        }
-      } else if (
-        isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
-        isEqualValue(router?.query?.entry, Routes.SuggestListings)
-      ) {
+    if (isEqualValue(router?.query?.entry, Routes.Home)) {
+      if (isNotEqualValue(router?.query?.property, '아파트') && isNotEqualValue(router?.query?.property, '오피스텔')) {
         if (forms.length > 2) {
           setPopup('quit');
         } else {
@@ -119,8 +49,41 @@ export default function useBackButtonHandler() {
         setTimeout(() => reset(), 200);
         back();
       }
+    } else if (isEqualValue(router?.query?.entry, Routes.Map)) {
+      if (router?.query?.address && router?.query?.bcode) {
+        if (forms.length > 2) {
+          setPopup('quit');
+        } else {
+          setTimeout(() => reset(), 200);
+          back();
+        }
+      } else if (forms.length >= 2) {
+        setPopup('quit');
+      } else {
+        setTimeout(() => reset(), 200);
+        back();
+      }
+    } else if (
+      isEqualValue(router?.query?.entry, Routes.DanjiDetail) ||
+      isEqualValue(router?.query?.entry, Routes.SuggestListings)
+    ) {
+      if (forms.length > 2) {
+        setPopup('quit');
+      } else {
+        back();
+        setTimeout(() => reset(), 200);
+      }
+    } else if (forms.length >= 2) {
+      setPopup('quit');
+    } else {
+      // 그외의 경우
+      // 마이페이지 구하기게시내역에서 들어왔을때
+      // 채팅방에서 들어왔을때
+      // 구해요 설명서에서 들어왔을때
+      back();
+      setTimeout(() => reset(), 200);
     }
-  }, [forms, platform, setForms, router, setPopup, reset, back]);
+  }, [forms, setForms, router, setPopup, reset, back]);
 
   return { handleClickBack };
 }
