@@ -28,11 +28,11 @@ const Icons: Record<RealestateType, ReactNode> = {
 };
 
 const realestateTypesArray = [
-  RealestateType.Apartment,
-  RealestateType.Officetel,
-  RealestateType.Dasaedae,
-  RealestateType.Dagagoo,
-  RealestateType.Dandok,
+  RealestateType.Apartment, // 10
+  RealestateType.Officetel, // 20
+  RealestateType.Dasaedae, // 30
+  RealestateType.Dagagoo, // 60
+  RealestateType.Dandok, // 50
 ];
 
 type RealestateTypeFieldProps = {
