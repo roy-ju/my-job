@@ -13,6 +13,7 @@ import EyesImage from '@/../public/static/images/image_emoji_eyes.png';
 import LogoImage from '@/../public/static/images/home/image_logo2.png';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
+import { ButtonV2 } from '@/components/atoms';
 
 const IntroButton = styled.button`
   ${tw`flex items-start gap-4 rounded-2xl [height: 112px] p-4 text-left bg-nego-100 hover:bg-nego-200`}
@@ -48,6 +49,17 @@ export default function UserGuide() {
           </span>
         </p>
       </IntroButton>
+
+      <div tw="flex mt-5 justify-between items-center">
+        <p tw="text-body_02 text-gray-700 [width: 208px]">
+          중개사님 이신가요?
+          <br />
+          네고시오의 파트너가 되어주세요!
+        </p>
+        <ButtonV2 variant="primaryOutline" size="small" radius="r100" tw="whitespace-nowrap [width: 120px]">
+          중개사 홈 바로가기
+        </ButtonV2>
+      </div>
     </section>
   );
 }
