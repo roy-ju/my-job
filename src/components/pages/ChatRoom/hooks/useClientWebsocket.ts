@@ -127,8 +127,7 @@ export default function useClientWebsocket() {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store?.data?.chat_room_id, store?.chatMessages?.length, store?.data?.chat_user_type, sendMessage, readyState]);
+  }, [store?.chatMessages.length, sendMessage, readyState, store, mutate]);
 
   const handleSendMessage = useCallback(
     (message: string) => {
