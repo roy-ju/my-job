@@ -37,7 +37,7 @@ export default function Summary() {
             item.list ? (
               <div key={item.list}>
                 <div tw="flex flex-col gap-1">
-                  <p tw="text-subhead_02 text-gray-800">{item.title}</p>
+                  {item.title && <p tw="text-subhead_02 text-gray-800">{item.title}</p>}
                   <p tw="text-body_02 text-gray-800">{item.list}</p>
                 </div>
               </div>
