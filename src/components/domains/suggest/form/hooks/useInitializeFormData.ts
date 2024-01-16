@@ -97,7 +97,6 @@ export default function useInitializeFormData() {
     if (isEqualValue(router?.query?.entry, Routes.Home)) {
       // 매매 전세 월세 바인딩
       const buyOrRent = getNumber(router?.query?.buyOrRent) as BuyOrRent | 0;
-
       setBuyOrRent(buyOrRent);
 
       // 부동산 종류 바인딩
@@ -128,7 +127,6 @@ export default function useInitializeFormData() {
       }
     } else if (isEqualValue(router?.query?.entry, Routes.Map)) {
       // 지도에서 들어왔을때
-
       if (router?.query?.address && router?.query?.bcode) {
         // 주소와 코드가 있으면 지역이라고 하자.
         setStateDanjiOrRegion(DanjiOrRegionalType.Regional);
@@ -153,14 +151,11 @@ export default function useInitializeFormData() {
       } else {
         setStateForms(['region_or_danji']);
       }
-    } else if (isEqualValue(router?.query?.entry, Routes.SuggestRequestedList)) {
-      // 마이페이지 구하기게시내역에서 들어왔을때
-      setStateForms(['region_or_danji']);
-    } else if (isEqualValue(router?.query?.entry, Routes.ChatRoomList)) {
-      // 채팅방에서 들어왔을때
-      setStateForms(['region_or_danji']);
     } else {
       // 그외의 경우
+      // 마이페이지 구하기게시내역에서 들어왔을때
+      // 채팅방에서 들어왔을때
+      // 구해요 설명서에서 들어왔을때
       setStateForms(['region_or_danji']);
     }
   }, [

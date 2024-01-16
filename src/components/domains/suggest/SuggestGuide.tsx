@@ -1,6 +1,6 @@
-import { Separator } from '@/components/atoms';
+import Separator from '@/components/atoms/Separator';
 
-import { NavigationHeader } from '@/components/molecules';
+import NavigationHeader from '@/components/molecules/NavigationHeader';
 
 import useBack from '@/hooks/useBack';
 
@@ -12,8 +12,14 @@ import Faqs from './guide/Faqs';
 
 import Info from './guide/Info';
 
+import ActionButton from './guide/ActionButton';
+
+import useGoSuggestForm from './guide/hooks/useGoSuggestForm';
+
 function SuggestGuide() {
   const { back } = useBack();
+
+  const { handleClickGoSuggestForm } = useGoSuggestForm();
 
   return (
     <div tw="flex flex-col h-full relative">
@@ -28,6 +34,7 @@ function SuggestGuide() {
         <Separator tw="bg-gray-1300 h-3 min-h-[12px]" />
         <Faqs />
       </div>
+      <ActionButton handleClick={handleClickGoSuggestForm} />
     </div>
   );
 }

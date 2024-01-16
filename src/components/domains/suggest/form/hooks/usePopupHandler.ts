@@ -87,8 +87,16 @@ export default function usePopupHandler() {
         await router.replace(`/${Routes.My}?default=1`);
       }
 
-      if (!router?.query?.entry || isEqualValue(router?.query?.entry, Routes.Map)) {
+      if (isEqualValue(router?.query?.entry, Routes.SuggestGuide)) {
+        await router.replace(`/${Routes.SuggestGuide}?default=1`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.Map)) {
         await router.replace(`/${Routes.Map}`);
+      }
+
+      if (!router?.query?.entry) {
+        await router.replace(`/${Routes.Home}`);
       }
     }
 
@@ -113,8 +121,16 @@ export default function usePopupHandler() {
         await router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=1`);
       }
 
-      if (!router?.query?.entry || isEqualValue(router?.query?.entry, Routes.Map)) {
-        await router.replace(`/${Routes.Map}`);
+      if (isEqualValue(router?.query?.entry, Routes.SuggestGuide)) {
+        await router.replace(`/${Routes.EntryMobile}/${Routes.SuggestGuide}?default=1`);
+      }
+
+      if (isEqualValue(router?.query?.entry, Routes.Map)) {
+        await router.replace(`/${Routes.EntryMobile}/${Routes.Map}`);
+      }
+
+      if (!router?.query?.entry) {
+        await router.replace(`/${Routes.EntryMobile}/${Routes.Home}`);
       }
     }
 
