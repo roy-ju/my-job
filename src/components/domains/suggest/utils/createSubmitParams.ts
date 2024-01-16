@@ -9,6 +9,7 @@ import SuggestForm, { BubjungdongType } from '../form/types';
 import isEqualValue from './isEqualValue';
 
 export default function createSubmitParams(state: SuggestForm) {
+  console.log(state.realestateTypes);
   if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Danji)) {
     return suggestDanjiParams({
       danjiID: state.danjiID || '',

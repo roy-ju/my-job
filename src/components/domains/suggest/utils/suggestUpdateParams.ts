@@ -67,7 +67,7 @@ export default function suggestUpdateParams(args: Args) {
     const params: Record<string, unknown> = {
       suggest_id: Number(args.suggestID),
       realestate_types: args.realestateTypes.includes(RealestateType.Dasaedae)
-        ? `${[...args.realestateTypes, RealestateType.Yunrip]}`
+        ? `${[...args.realestateTypes, RealestateType.Yunrip].sort((a, b) => a - b)}`
         : `${[...args.realestateTypes]}`,
       buy_or_rents: isEqualValue(args.buyOrRent, BuyOrRent.Buy)
         ? BuyOrRent.Buy.toString()

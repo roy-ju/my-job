@@ -304,13 +304,9 @@ export default function useFormSummitButton() {
         if (platform === 'pc') {
           router.replace({
             pathname: `/${Routes.My}/${Routes.SuggestRequestedList}`,
-            query: {
-              ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
-              ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),
-            },
           });
         } else {
-          router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}?default=1`);
+          router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
         }
       } catch (error) {
         toast.error('등록 중 오류가 발생했습니다.');
@@ -328,13 +324,9 @@ export default function useFormSummitButton() {
         if (platform === 'pc') {
           router.replace({
             pathname: `/${Routes.My}/${Routes.SuggestRequestedList}`,
-            query: {
-              ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
-              ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),
-            },
           });
         } else {
-          router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}?default=1`);
+          router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
         }
       } catch (error) {
         toast.error('등록 중 오류가 발생했습니다.');

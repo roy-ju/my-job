@@ -18,6 +18,7 @@ import ChevronDown from '@/assets/icons/chevron_down.svg';
 
 import SelectedIcon from '@/assets/icons/selected.svg';
 
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 import DropdownContext from './DropdownContext';
 
 import TextField from '../TextField';
@@ -57,8 +58,12 @@ function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
 
   const outsideRef = useRef<HTMLDivElement | null>(null);
+
   const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null);
+
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
+
+  const { platform } = useCheckPlatform();
 
   const [value, setValue] = useControlled({ controlled: valueProp, default: '' });
 
@@ -142,7 +147,11 @@ function Dropdown({
             <span
               ref={suffixRef}
               tw="text-body_03 absolute leading-4"
-              css={{ left: `${left}px`, top: '50%', transform: 'translateY(-45%)' }}
+              css={{
+                left: `${left}px`,
+                top: '50%',
+                transform: platform === 'pc' ? 'translateY(-45%)' : 'translateY(-50%)',
+              }}
             >
               {suffixTitle}
             </span>
