@@ -33,6 +33,10 @@ export default function UserGuide() {
     }
   };
 
+  const handleClickAgentSite = () => {
+    window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
+  };
+
   return (
     <section tw="py-10 px-5 flex flex-col gap-5">
       <div tw="flex items-center gap-2">
@@ -56,7 +60,13 @@ export default function UserGuide() {
           <br />
           네고시오의 파트너가 되어주세요!
         </p>
-        <ButtonV2 variant="primaryOutline" size="small" radius="r100" tw="whitespace-nowrap [width: 120px]">
+        <ButtonV2
+          variant="primaryOutline"
+          size="small"
+          radius="r100"
+          tw="whitespace-nowrap [width: 120px]"
+          onClick={handleClickAgentSite}
+        >
           중개사 홈 바로가기
         </ButtonV2>
       </div>
