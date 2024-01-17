@@ -28,6 +28,7 @@ import { LegalContent } from './Components/LegalContent';
 import Banner from './Components/Banner';
 
 export default function LegalCounseling({
+  isLoading,
   qnaLawData,
   onClickBack,
   onClickHome,
@@ -38,6 +39,7 @@ export default function LegalCounseling({
   onClickWritingPage,
   onClickAllPage,
 }: {
+  isLoading: boolean;
   qnaLawData: ILawQnaListItem[];
   onClickBack?: () => void;
   onClickHome?: () => void;

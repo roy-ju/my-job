@@ -1,13 +1,18 @@
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
+import { memo, useCallback } from 'react';
+
 import { Panel } from '@/components/atoms';
+
 import { LegalCounseling } from '@/components/templates';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 
-import { memo, useCallback } from 'react';
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+
+import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
+
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;
@@ -20,6 +25,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
   const {
+    isLoading,
     data: qnaLawData,
     mutate: mutateQnaData,
     incrementalPageNumber,
@@ -83,6 +89,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <LegalCounseling
+        isLoading={isLoading}
         qnaLawData={qnaLawData}
         onNext={incrementalPageNumber}
         onClickHome={handleClickHome}

@@ -12,6 +12,7 @@ function LawQna() {
   const router = useRouter();
 
   const {
+    isLoading,
     data: qnaLawData,
     mutate: mutateQnaData,
     incrementalPageNumber,
@@ -83,6 +84,7 @@ function LawQna() {
 
   return (
     <LegalCounseling
+      isLoading={isLoading}
       qnaLawData={qnaLawData}
       onNext={incrementalPageNumber}
       onClickBack={handleClickBack}

@@ -29,7 +29,7 @@ export default function InfiniteScroll({ onNext, children, ...others }: Infinite
   return (
     <Container {...others}>
       {children}
-      <div ref={endRef} />
+      <div tw="[min-height: 1px]" ref={endRef} />
     </Container>
   );
 }
