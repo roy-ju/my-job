@@ -428,7 +428,7 @@ export default function MapLayout({ children }: Props) {
       handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.LawQnaUpdate) {
       handleChangeTabIndex(0);
-    } else if (router.pathname === Routes.Map) {
+    } else if (router.query.depth1 === Routes.Map) {
       handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.MyFavoriteList) {
       handleChangeTabIndex(2);
