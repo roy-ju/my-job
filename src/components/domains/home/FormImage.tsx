@@ -20,7 +20,7 @@ import Rent from '@/../public/static/images/home/image_signboard_rent.png';
 
 import { BuyOrRent, RealestateType } from '@/constants/enums';
 
-import Logo from '@/../public/static/images/home/changed_animation_logo.gif';
+import Logo from '@/../public/static/images/home/logo_motion_02.gif';
 
 type FormImageProps = {
   property: string[];
