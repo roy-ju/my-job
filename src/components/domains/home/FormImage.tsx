@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { motion } from 'framer-motion';
+import Image from 'next/image';
 
-import Logo from '@/../public/static/images/home/animation_logo.gif';
+import { motion } from 'framer-motion';
 
 import Apartment from '@/../public/static/images/home/image_house_apartment.png';
 
@@ -19,7 +19,8 @@ import Buy from '@/../public/static/images/home/image_signboard_purchase.png';
 import Rent from '@/../public/static/images/home/image_signboard_rent.png';
 
 import { BuyOrRent, RealestateType } from '@/constants/enums';
-import Image from 'next/image';
+
+import Logo from '@/../public/static/images/home/changed_animation_logo.gif';
 
 type FormImageProps = {
   property: string[];
