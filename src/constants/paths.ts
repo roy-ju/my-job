@@ -26,7 +26,7 @@ const Paths = {
   INSTAGRAM: 'https://www.instagram.com/negocio.app',
   NAVER_BLOG: 'https://blog.naver.com/negocio21',
   KAKAO_CHANEL: 'http://pf.kakao.com/_QRxats',
-  FACEBOOK: 'https://www.facebook.com/profile.php?id=100083575832524&mibextid=LQQJ4d',
+  FACEBOOK: 'https://www.facebook.com/profile.php?id=100089238053016',
 
   LAWQNA: 'https://negocio-common.s3.ap-northeast-2.amazonaws.com/law_og_720.png',
 };
