@@ -23,6 +23,7 @@ import ErrorCodes from '@/constants/error_codes';
 import Routes from '@/router/routes';
 
 import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
+
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
@@ -129,10 +130,17 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
           }
 
           if (depth1 && !depth2) {
-            router.push({
-              pathname: `${depth1}/${Routes.Register}`,
-              query,
-            });
+            if (depth1 === Routes.SuggestForm) {
+              router.push({
+                pathname: `/${Routes.Register}`,
+                query,
+              });
+            } else {
+              router.push({
+                pathname: `${depth1}/${Routes.Register}`,
+                query,
+              });
+            }
           }
 
           if (!depth1 && !depth2) {
