@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useRouter } from 'next/router';
 
 import useAuth from '@/hooks/services/useAuth';
@@ -14,30 +16,30 @@ import LogoIcon from '@/assets/icons/home_logo.svg';
 
 import BellIcon from '@/assets/icons/bell.svg';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
 export default function Header() {
   const { user } = useAuth();
 
   const { platform } = useCheckPlatform();
 
+  const { openAuthPopup } = useAuthPopup();
+
   const router = useRouter();
 
   const { unreadNotificationCount } = useSyncronizer();
 
-  const handleClickLogin = () => {
-    if (platform === 'pc') {
-      router.push(`/${Routes.Login}`);
-    } else if (platform === 'mobile') {
-      router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
-    }
-  };
+  const handleClickLogin = useCallback(() => {
+    openAuthPopup('onlyLogin');
+  }, [openAuthPopup]);
 
-  const handleClickNotification = () => {
+  const handleClickNotification = useCallback(() => {
     if (platform === 'pc') {
       router.push(`/${Routes.My}/${Routes.NotificationList}`);
     } else if (platform === 'mobile') {
       router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
     }
-  };
+  }, [router, platform]);
 
   return (
     <header tw="h-14 px-4 flex items-center justify-between z-[1000] bg-white">

@@ -6,6 +6,8 @@ import { My as MyTemplate } from '@/components/templates';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
@@ -21,7 +23,11 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
   const { user, isLoading } = useAuth();
+
+  const { openAuthPopup } = useAuthPopup();
+
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
   const [tab, setTab] = useState<number>();
@@ -29,8 +35,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
-    router.push(Routes.Login);
-  }, [router]);
+    openAuthPopup('onlyLogin');
+  }, [openAuthPopup]);
 
   const handleClickNotificationList = useCallback(() => {
     router.push(Routes.NotificationList);

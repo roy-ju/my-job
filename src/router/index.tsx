@@ -194,26 +194,50 @@ const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'),
   ssr: false,
   loading: FallbackComponent,
 });
-const Register = dynamic(() => import('@/components/pages/pc/Register'), {
+
+// const Register = dynamic(() => import('@/components/pages/pc/Register'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+// const RegisterSuccess = dynamic(() => import('@/components/pages/pc/RegisterSuccess'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+const Register = dynamic(() => import('@/components/pages/Register/RegisterPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const RegisterSuccess = dynamic(() => import('@/components/pages/pc/RegisterSuccess'), {
+
+const RegisterSuccess = dynamic(() => import('@/components/pages/RegisterSuccess/RegisterSuccessPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const VerifyCi = dynamic(() => import('@/components/pages/pc/VerifyCi'), {
+
+// const VerifyCi = dynamic(() => import('@/components/pages/pc/VerifyCi'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+// const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+const VerifyCi = dynamic(() => import('@/components/pages/VerifyCi/VerifyCiPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
+
+const VerifyCiSuccess = dynamic(() => import('@/components/pages/verifyCiSuccess/VerifyCiSuccessPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const ListingSelectAddress = dynamic(() => import('@/components/pages/pc/ListingSelectAddress'), {
   ssr: false,
   loading: FallbackComponent,
@@ -570,6 +594,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.BusinessInfo: {
       return <BusinessInfo {...props} />;
     }
+    // case Routes.Register: {
+    //   return <Register {...props} />;
+    // }
     case Routes.Register: {
       return <Register {...props} />;
     }

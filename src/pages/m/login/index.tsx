@@ -2,7 +2,9 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-import Login from '@/components/pages/mobile/My/Login';
+import LoginMobile from '@/components/pages/Login/LoginMobile';
+
+// import Login from '@/components/pages/mobile/My/Login';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const forwarded = context.req.headers['x-forwarded-for'];
@@ -16,7 +18,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Page: NextPageWithLayout = ({ ipAddress }: InferGetServerSidePropsType<typeof getServerSideProps>) => (
-  <Login ipAddress={ipAddress} />
+  // <Login ipAddress={ipAddress} />
+  <LoginMobile ipAddress={ipAddress} />
 );
 
 Page.getLayout = function getLayout(page) {

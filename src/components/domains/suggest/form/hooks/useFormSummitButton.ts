@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -16,16 +16,17 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import useAuth from '@/hooks/services/useAuth';
 
-import toQueryString from '@/utils/newQueryString';
-
-import addQueryStringToUrl from '@/utils/addQueryStringToUrl';
-
 import getPath from '@/utils/getPath';
 
 import { BuyOrRent, DanjiOrRegionalType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
+
+import Events from '@/constants/events';
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';
@@ -56,6 +57,10 @@ export default function useFormSummitButton() {
   const { mutate: dashBoardInfoMutate } = useFetchMyDashboardInfo();
 
   const [state, setState] = useRecoilState(SuggestFormState);
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { openVerifyCiPopup } = useVerifyCiPopup();
 
   const currentForm = useMemo(() => state.forms[state.forms.length - 1], [state.forms]);
 
@@ -224,66 +229,8 @@ export default function useFormSummitButton() {
     }
   }, [state, setState, platform, router]);
 
-  const handleSubmitCreate = useCallback(async () => {
-    if (!state.danjiOrRegion) return;
-
+  const createSuggest = useCallback(async () => {
     const params = createSubmitParams(state);
-
-    if (!user) {
-      if (platform === 'pc') {
-        router.push({
-          pathname: `/${Routes.Login}`,
-          query: {
-            redirect: router.asPath,
-          },
-        });
-      } else {
-        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
-          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-          forms: JSON.stringify([...state.forms]),
-          params: JSON.stringify(params),
-        };
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-          query: {
-            redirect: addQueryStringToUrl(
-              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
-              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
-            ),
-          },
-        });
-      }
-      return;
-    }
-
-    if (user && !user?.isVerified) {
-      if (platform === 'pc') {
-        router.push({
-          pathname: `/${Routes.VerifyCi}`,
-          query: {
-            redirect: router.asPath,
-          },
-        });
-      } else {
-        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
-          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
-          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
-          forms: JSON.stringify([...state.forms]),
-          params: JSON.stringify(params),
-        };
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-          query: {
-            redirect: addQueryStringToUrl(
-              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
-              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
-            ),
-          },
-        });
-      }
-      return;
-    }
 
     if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Danji)) {
       try {
@@ -332,7 +279,23 @@ export default function useFormSummitButton() {
         toast.error('등록 중 오류가 발생했습니다.');
       }
     }
-  }, [dashBoardInfoMutate, platform, router, state, user]);
+  }, [dashBoardInfoMutate, platform, router, state]);
+
+  const handleSubmitCreate = useCallback(async () => {
+    if (!state.danjiOrRegion) return;
+
+    if (!user) {
+      openAuthPopup('needVerify');
+      return;
+    }
+
+    if (user && !user?.isVerified) {
+      openVerifyCiPopup();
+      return;
+    }
+
+    createSuggest();
+  }, [createSuggest, openAuthPopup, openVerifyCiPopup, state.danjiOrRegion, user]);
 
   const handleFormsAction = useCallback(() => {
     const lastForm = state.forms[state.forms.length - 1];
@@ -380,6 +343,22 @@ export default function useFormSummitButton() {
     handleSubmitCreate,
   ]);
 
+  useEffect(() => {
+    const handler: EventListenerOrEventListenerObject = async (event) => {
+      const detail = (event as CustomEvent)?.detail;
+
+      if (detail === 'action') {
+        createSuggest();
+      }
+    };
+
+    window.addEventListener(Events.NEGOCIO_CREATE_SUGGEST, handler);
+
+    return () => {
+      window.removeEventListener(Events.NEGOCIO_CREATE_SUGGEST, handler);
+    };
+  }, [createSuggest, handleSubmitCreate]);
+
   return {
     isRenderSummitButton,
     isRenderRevisionText,
@@ -389,3 +368,113 @@ export default function useFormSummitButton() {
     handleClickBack: isRenderSummitButton ? handleClickBack : undefined,
   };
 }
+
+// const handleSubmitCreate = useCallback(async () => {
+//   if (!state.danjiOrRegion) return;
+
+//   const params = createSubmitParams(state);
+
+//   if (!user) {
+//      if (platform === 'pc') {
+//        router.push({
+//          pathname: `/${Routes.Login}`,
+//          query: {
+//            redirect: router.asPath,
+//          },
+//        });
+//      } else {
+//        const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+//          ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+//          ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+//          forms: JSON.stringify([...state.forms]),
+//          params: JSON.stringify(params),
+//        };
+//        router.push({
+//          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
+//          query: {
+//            redirect: addQueryStringToUrl(
+//              `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+//              toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+//            ),
+//          },
+//        });
+//      }
+//     return;
+//   }
+
+//   if (user && !user?.isVerified) {
+//     if (platform === 'pc') {
+//       router.push({
+//         pathname: `/${Routes.VerifyCi}`,
+//         query: {
+//           redirect: router.asPath,
+//         },
+//       });
+//     } else {
+//       const mobileWillBindQueryParamsIfNotUserOrNotVerified = {
+//         ...(router?.query?.entry ? { entry: router.query.entry as string } : {}),
+//         ...(router?.query?.danjiID ? { depth2: router.query.danjiID as string } : {}),
+//         forms: JSON.stringify([...state.forms]),
+//         params: JSON.stringify(params),
+//       };
+//       router.push({
+//         pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+//         query: {
+//           redirect: addQueryStringToUrl(
+//             `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+//             toQueryString(mobileWillBindQueryParamsIfNotUserOrNotVerified),
+//           ),
+//         },
+//       });
+//     }
+//     return;
+//   }
+
+//   if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Danji)) {
+//     try {
+//       if (params) {
+//         delete params.danjiAddress;
+//         delete params.danjiRealestateType;
+//         params.pyoungs = (params.pyoungs as string[]).join(',');
+//       }
+
+//       await apiService.createSuggestDanji(params);
+
+//       await dashBoardInfoMutate();
+
+//       await otherMutate(() => true, undefined);
+
+//       toast.success('구해요 글이 등록되었습니다.');
+
+//       if (platform === 'pc') {
+//         router.replace({
+//           pathname: `/${Routes.My}/${Routes.SuggestRequestedList}`,
+//         });
+//       } else {
+//         router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
+//       }
+//     } catch (error) {
+//       toast.error('등록 중 오류가 발생했습니다.');
+//     }
+//   }
+
+//   if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Regional)) {
+//     try {
+//       await apiService.createSuggestRegional(params);
+
+//       await dashBoardInfoMutate();
+
+//       toast.success('구해요 글이 등록되었습니다.');
+
+//       if (platform === 'pc') {
+//         router.replace({
+//           pathname: `/${Routes.My}/${Routes.SuggestRequestedList}`,
+//         });
+//       } else {
+//         router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
+//       }
+//     } catch (error) {
+//       toast.error('등록 중 오류가 발생했습니다.');
+//     }
+//   }
+// }, [dashBoardInfoMutate, platform, router, state, user]);

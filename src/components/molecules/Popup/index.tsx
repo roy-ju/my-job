@@ -1,10 +1,15 @@
 import React, { ReactNode } from 'react';
-import { Button } from '@/components/atoms';
+
 import tw from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
 import ButtonGroup, { ButtonGroupProps } from '@/components/molecules/ButtonGroup';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 interface PopupProps {
   children?: ReactNode;
+  type?: 'normal' | 'large';
 }
 
 /* Text Components */
@@ -31,7 +36,19 @@ const PopupButtonGroup = tw(({ size = 'big', ...others }: ButtonGroupProps) => (
 
 /* Super Component */
 
-function PopupMain({ children }: PopupProps) {
+function PopupMain({ children, type = 'normal' }: PopupProps) {
+  const { platform } = useCheckPlatform();
+
+  if (type === 'large')
+    return (
+      <div
+        tw="[max-width: 380px] rounded-lg px-5"
+        css={platform === 'pc' ? tw`[max-width: 380px]` : tw`[max-width: 380px] px-5`}
+      >
+        {children}
+      </div>
+    );
+
   return <div tw="w-[20rem] shadow rounded-lg">{children}</div>;
 }
 

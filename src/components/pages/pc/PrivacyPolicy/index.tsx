@@ -1,10 +1,12 @@
 import { memo, useCallback, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { Panel } from '@/components/atoms';
 
 import { PrivacyPolicy as PrivacyPolicyTemplate } from '@/components/templates';
 
-import { useRouter } from '@/hooks/utils';
+import { useRouter as useCustomRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
 
@@ -22,7 +24,9 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+  const customRouter = useCustomRouter(depth);
+
+  const router = useRouter();
 
   const [selectedTerms, setSelectedTerms] = useState('2023.12.11');
 
@@ -48,19 +52,20 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleGoBack = useCallback(() => {
     if (router?.query?.register) {
-      router.replace(Routes.Register, {
-        state: {
-          email: router.query.email as string,
-          token: router.query.token as string,
-          socialLoginType: router.query.socialLoginType as string,
-        },
-      });
-    } else if (router.query.entry === 'home') {
-      router.replace('/');
+      router.back();
+      // customRouter.replace(Routes.Register, {
+      //   state: {
+      //     email: customRouter.query.email as string,
+      //     token: customRouter.query.token as string,
+      //     socialLoginType: customRouter.query.socialLoginType as string,
+      //   },
+      // });
+    } else if (customRouter.query.entry === 'home') {
+      customRouter.replace('/');
     } else {
-      router.replace(Routes.TermsAndPolicy);
+      customRouter.replace(Routes.TermsAndPolicy);
     }
-  }, [router]);
+  }, [customRouter, router]);
 
   return (
     <Panel width={panelWidth}>

@@ -1,12 +1,14 @@
 import { memo, useCallback, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { Panel } from '@/components/atoms';
 
-import { useRouter } from '@/hooks/utils';
+import { ServiceTerms as ServiceTermsTemplate } from '@/components/templates';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
-
-import { ServiceTerms as ServiceTermsTemplate } from '@/components/templates';
 
 import HTML_20230322 from '@/assets/terms/service_agreement/20230322';
 
@@ -22,7 +24,10 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+  const router = useRouter();
+
+  const customRouter = useCustomRouter(depth);
+
   const [selectedTerms, setSelectedTerms] = useState('2023.03.22');
 
   const htmlTerms = (() => {
@@ -47,17 +52,18 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleGoBack = useCallback(() => {
     if (router.query.register) {
-      router.replace(Routes.Register, {
-        state: {
-          email: router.query.email as string,
-          token: router.query.token as string,
-          socialLoginType: router.query.socialLoginType as string,
-        },
-      });
+      // customRouter.replace(Routes.Register, {
+      //   state: {
+      //     email: router.query.email as string,
+      //     token: router.query.token as string,
+      //     socialLoginType: router.query.socialLoginType as string,
+      //   },
+      // });
+      router.back();
     } else {
-      router.replace(Routes.TermsAndPolicy);
+      customRouter.replace(Routes.TermsAndPolicy);
     }
-  }, [router]);
+  }, [customRouter, router]);
 
   return (
     <Panel width={panelWidth}>

@@ -1,8 +1,10 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import SuccessWrraper from '@/components/pages/mobile/Register/SuccessWrraper';
+import RegisterSuccessMobile from '@/components/pages/RegisterSuccess/RegisterSuccessMobile';
 
-const Page: NextPageWithLayout = () => <SuccessWrraper />;
+// import SuccessWrraper from '@/components/pages/mobile/Register/SuccessWrraper';
+
+const Page: NextPageWithLayout = () => <RegisterSuccessMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

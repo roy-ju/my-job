@@ -39,6 +39,7 @@ function isValidEvent(event: any, ref: React.RefObject<HTMLElement>) {
  */
 export default function useOutsideClick(props: UseOutsideClickProps) {
   const { ref, handler, enabled = true } = props;
+
   const savedHandler = useCallbackRef(handler);
 
   const stateRef = useRef({
