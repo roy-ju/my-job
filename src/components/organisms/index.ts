@@ -18,7 +18,6 @@ export { default as MySummary } from './MySummary';
 export { default as NotificationFilterTab } from './NotificationFilterTab';
 export { default as NotificaitonListItem } from './NotificationListItem';
 export { default as NotificationSettingsForm } from './NotificationSettingsForm';
-export { default as DeregisterForm } from './DeregisterForm';
 export { default as NoticeListItem } from './NoticeListItem';
 export { default as LoginRequired } from './LoginRequired';
 export { default as LoginForm } from './LoginForm';
@@ -31,7 +30,6 @@ export { default as TransactionHistoryDetail } from './TransactionHistoryDetail'
 export { default as TransactionHistoryListItem } from './TransactionHistoryListItem';
 export { default as TransactionReviewForm } from './TransactionReviewForm';
 export { default as ServiceInfoList } from './ServiceInfoList';
-export { default as RegisterForm } from './RegisterForm';
 export { default as AgentCardItem } from './AgentCardItem';
 export { default as TransactionCondition } from './TransactionCondition';
 export { default as ListingCreateForm } from './ListingCreateForm';

@@ -96,6 +96,23 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async deregister(reasons: string) {
+    try {
+      await this.instance.post('/my/user/deregister', { reasons });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async deleteFcmToken(data: { token: string }): Promise<ErrorResponse | null> {
+    return this.instance.post('/user/delete/fcmtoken', data);
+  }
+
+  async updateFcmToken(data: { token: string; device_id: string }): Promise<ErrorResponse | null> {
+    return this.instance.post('/user/update/fcmtoken', data);
+  }
+
   /** 단지 정보 */
   async fetchDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {

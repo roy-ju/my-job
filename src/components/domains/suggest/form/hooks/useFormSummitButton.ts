@@ -26,6 +26,8 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
 
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';
@@ -58,6 +60,8 @@ export default function useFormSummitButton() {
   const [state, setState] = useRecoilState(SuggestFormState);
 
   const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const { openVerifyCiPopup } = useVerifyCiPopup();
 
@@ -259,7 +263,7 @@ export default function useFormSummitButton() {
             });
           } else if (depth1 && depth2) {
             router.replace({
-              pathname: `/${Routes.WaitingCreateForm}`,
+              pathname: `/${depth1}/${Routes.WaitingCreateForm}`,
               query: {
                 ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
                 ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),
@@ -311,16 +315,18 @@ export default function useFormSummitButton() {
 
     if (!user) {
       openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (user && !user?.isVerified) {
       openVerifyCiPopup();
+      handleUpdateReturnUrl();
       return;
     }
 
     createSuggest();
-  }, [createSuggest, openAuthPopup, openVerifyCiPopup, state.danjiOrRegion, user]);
+  }, [createSuggest, openAuthPopup, openVerifyCiPopup, handleUpdateReturnUrl, state.danjiOrRegion, user]);
 
   const handleFormsAction = useCallback(() => {
     const lastForm = state.forms[state.forms.length - 1];
