@@ -96,7 +96,7 @@ export default function MobDanjiListings({
 
   return (
     <>
-      <div tw="w-full w-full flex flex-col relative h-full">
+      <div tw="w-full flex flex-col relative h-full">
         <NavigationHeader>
           <NavigationHeader.BackButton onClick={handleBackButton} />
           <NavigationHeader.Title>단지 매물 목록</NavigationHeader.Title>
@@ -158,11 +158,11 @@ export default function MobDanjiListings({
         {data && data.length === 0 && (
           <div tw="px-5 flex-1 min-h-0 overflow-auto flex flex-col items-center">
             <Image src={ListingNodata.src} width={200} height={128} alt="" />
-            <p tw="mt-4 mb-2 text-center text-h2 font-bold">거래를 희망하는 매물을 등록해 보세요.</p>
+            <p tw="mt-4 mb-2 text-center text-h2 font-bold">해당 단지에 등록된 매물이 없어요!</p>
             <p tw="text-center text-info text-gray-700">
-              매물등록만으로 중개사를 배정받고
+              해당 단지에 매물을 가지고 있다면
               <br />
-              매수인, 임차인에게 가격을 제안 받을 수 있어요.
+              우리집 등록 후 매물을 등록해보세요!
             </p>
           </div>
         )}

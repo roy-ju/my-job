@@ -93,8 +93,8 @@ export default function useVerifyCiPopup() {
         mutateAuth(false);
 
         if (returnUrl) {
-          if (returnUrl.includes(Routes.SuggestForm) && router?.query?.params) {
-            createSuggest();
+          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+            await createSuggest();
           } else {
             if (returnUrl === router.asPath) {
               return;

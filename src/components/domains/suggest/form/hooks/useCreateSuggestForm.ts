@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import router from 'next/router';
+import { useRouter } from 'next/router';
 
 import { mutate as otherMutate } from 'swr';
 
@@ -20,12 +20,16 @@ import Routes from '@/router/routes';
 
 import isEqualValue from '../../utils/isEqualValue';
 
+import createSubmitParams from '../../utils/createSubmitParams';
+
 import normalizeParams from '../../utils/normalizeParams';
 
 export default function useCreateSuggestForm() {
   const { mutate: dashBoardInfoMutate } = useFetchMyDashboardInfo();
 
   const { platform } = useCheckPlatform();
+
+  const router = useRouter();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
@@ -34,13 +38,15 @@ export default function useCreateSuggestForm() {
 
     const queryParams: Record<string, unknown> = JSON.parse(router.query.params as string);
 
-    const params: any = normalizeParams(queryParams);
+    const normalizedParams = normalizeParams(queryParams);
+
+    const params = createSubmitParams(normalizedParams as any);
 
     if (typeof window !== 'undefined') {
       window.sessionStorage.setItem('create-suggest-form', '1');
     }
 
-    if (isEqualValue(params.danjiOrRegion, DanjiOrRegionalType.Danji)) {
+    if (isEqualValue(normalizedParams.danjiOrRegion, DanjiOrRegionalType.Danji)) {
       try {
         if (params) {
           delete params?.danjiAddress;
@@ -65,7 +71,7 @@ export default function useCreateSuggestForm() {
             });
           } else if (depth1 && depth2) {
             router.replace({
-              pathname: `/${Routes.WaitingCreateForm}`,
+              pathname: `/${depth1}/${Routes.WaitingCreateForm}`,
               query: {
                 ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
                 ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),
@@ -82,7 +88,7 @@ export default function useCreateSuggestForm() {
       }
     }
 
-    if (isEqualValue(params.danjiOrRegion, DanjiOrRegionalType.Regional)) {
+    if (isEqualValue(normalizedParams.danjiOrRegion, DanjiOrRegionalType.Regional)) {
       try {
         await apiService.createSuggestRegional(params);
 
@@ -114,7 +120,7 @@ export default function useCreateSuggestForm() {
         handleUpdateReturnUrl('');
       }
     }
-  }, [dashBoardInfoMutate, handleUpdateReturnUrl, platform]);
+  }, [dashBoardInfoMutate, handleUpdateReturnUrl, platform, router]);
 
   return { createSuggest };
 }

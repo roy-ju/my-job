@@ -169,12 +169,22 @@ const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr
 
 const NotFound = dynamic(() => import('@/components/pages/NotFound'), { ssr: false, loading: FallbackComponent });
 
-const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
+// const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+// const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/DeregisterDisclaimer'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+const Deregister = dynamic(() => import('@/components/pages/Deregister/DeregisterPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
 
-const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/DeregisterDisclaimer'), {
+const DeregisterDisclaimer = dynamic(() => import('@/components/pages/DeregisterDisclaimer/DeregisterDisclaimerPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -187,10 +197,16 @@ const FAQ = dynamic(() => import('@/components/pages/pc/FAQ'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
+// const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+const UpdatePhone = dynamic(() => import('@/components/pages/UpdatePhone/UpdatePhonePc'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
   ssr: false,
   loading: FallbackComponent,
@@ -209,6 +225,7 @@ const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'),
 //   ssr: false,
 //   loading: FallbackComponent,
 // });
+
 const Register = dynamic(() => import('@/components/pages/Register/RegisterPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -223,6 +240,7 @@ const RegisterSuccess = dynamic(() => import('@/components/pages/RegisterSuccess
 //   ssr: false,
 //   loading: FallbackComponent,
 // });
+
 // const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
 //   ssr: false,
 //   loading: FallbackComponent,

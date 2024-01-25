@@ -20,7 +20,6 @@ export default function GlobalAuthVerfiyCiPopup() {
     if (typeof window === 'undefined') return;
 
     const handleBack = () => {
-      console.log('실행');
       reset();
     };
 
