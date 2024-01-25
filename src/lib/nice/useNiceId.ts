@@ -24,8 +24,6 @@ export default function useNiceId() {
       typeInteger = NiceVerificationType.IPin;
     }
 
-    console.log(callback);
-
     window.Negocio.callbacks.niceResponse = (arg: NiceResponse) => {
       callback?.(arg);
     };

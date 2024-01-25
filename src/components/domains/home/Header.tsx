@@ -18,6 +18,8 @@ import BellIcon from '@/assets/icons/bell.svg';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 export default function Header() {
   const { user } = useAuth();
 
@@ -25,13 +27,16 @@ export default function Header() {
 
   const { openAuthPopup } = useAuthPopup();
 
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const router = useRouter();
 
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
     openAuthPopup('onlyLogin');
-  }, [openAuthPopup]);
+    handleUpdateReturnUrl();
+  }, [openAuthPopup, handleUpdateReturnUrl]);
 
   const handleClickNotification = useCallback(() => {
     if (platform === 'pc') {

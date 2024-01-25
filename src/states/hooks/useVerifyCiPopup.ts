@@ -18,6 +18,8 @@ import Events from '@/constants/events';
 
 import verifyCiPopupAtom from '../atom/verifyCiPopup';
 
+import useAuthPopup from './useAuhPopup';
+
 import useReturnUrl from './useReturnUrl';
 
 export default function useVerifyCiPopup() {
@@ -29,7 +31,9 @@ export default function useVerifyCiPopup() {
 
   const { mutate: mutateAuth } = useAuth();
 
-  const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
+  const { openAuthPopup } = useAuthPopup();
+
+  const { returnUrl } = useReturnUrl();
 
   const { request } = useNiceId();
 
@@ -47,6 +51,7 @@ export default function useVerifyCiPopup() {
 
   const handleNiceResponse = useCallback(
     async (res: NiceResponse) => {
+      console.log(returnUrl);
       const updateCiRes = await apiService.updateCi({
         encData: res.encData,
         kie: res.kie,
@@ -56,22 +61,26 @@ export default function useVerifyCiPopup() {
       });
 
       if (updateCiRes?.error_code === ErrorCodes.DUPLCATED_CI) {
-        setState((prev) => ({
-          ...prev,
-          title: '본인인증 오류',
-          subTitle: '이미 다른 네고시오 계정에서 사용되고 있습니다.',
-          actionButtonTitle: '확인',
-          cancelButtonTitle: '',
-          actionButtonEvent: () => closeVericyCiPopup(),
-          cancelButtonEvent: undefined,
+        setState(() => ({
+          open: true,
+          title: '이미 가입된 계정',
+          subTitle: '본인 인증이 완료된 다른 계정이 있습니다.',
+          actionButtonTitle: '다른 계정 로그인',
+          cancelButtonTitle: '취소',
+          actionButtonEvent: () => {
+            openAuthPopup('onlyLogin');
+            closeVericyCiPopup();
+          },
+          cancelButtonEvent: () => closeVericyCiPopup(),
         }));
       }
 
       if (updateCiRes?.error_code === ErrorCodes.UNDER_NINETEEN) {
-        setState((prev) => ({
-          ...prev,
-          title: '본인인증 오류',
-          subTitle: '19세 미만은 매물등록, 거래참여\n및 네고머니 관련 서비스를 이용할 수 없습니다.',
+        setState(() => ({
+          open: true,
+          title: '19세 미만 회원',
+          subTitle:
+            '만 19세 미만의 회원은 매물 등록, 가격제안, 집 구해요 서비스를 이용할 수 없습니다.\n(그 외에 서비스는 계속해서 이용할 수 있습니다.)',
           actionButtonTitle: '확인',
           cancelButtonTitle: '',
           actionButtonEvent: () => closeVericyCiPopup(),
@@ -87,6 +96,10 @@ export default function useVerifyCiPopup() {
             const event = new CustomEvent(Events.NEGOCIO_CREATE_SUGGEST, { detail: 'action' });
             window.dispatchEvent(event);
           } else {
+            if (returnUrl === router.asPath) {
+              return;
+            }
+
             router.replace(returnUrl);
           }
         } else {
@@ -96,28 +109,18 @@ export default function useVerifyCiPopup() {
         closeVericyCiPopup();
       }
     },
-    [closeVericyCiPopup, mutateAuth, returnUrl, router, setState],
+    [closeVericyCiPopup, mutateAuth, openAuthPopup, returnUrl, router, setState],
   );
 
-  const handleVerifyPhone = useCallback(() => {
+  const handleVerifyPhone = useCallback(async () => {
     request('phone', handleNiceResponse);
   }, [handleNiceResponse, request]);
 
   const openVerifyCiPopup = useCallback(() => {
-    if (!returnUrl) {
-      handleUpdateReturnUrl();
-    }
-
     setState({
       open: true,
-      title: '본인인증',
-      subTitle: '본인인증을 진행하고 있어요!',
-      actionButtonTitle: '본인인증하기',
-      cancelButtonTitle: '취소',
-      actionButtonEvent: () => handleVerifyPhone(),
-      cancelButtonEvent: () => closeVericyCiPopup(),
     });
-  }, [closeVericyCiPopup, handleUpdateReturnUrl, handleVerifyPhone, returnUrl, setState]);
+  }, [setState]);
 
   return {
     isOpenVerifyCiPopup: state.open,

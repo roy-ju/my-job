@@ -1,65 +1,37 @@
-import { useEffect, useRef, useState } from 'react';
+import { OverlayPresenter } from '@/components/molecules';
 
-import { OverlayPresenter, Popup } from '@/components/molecules';
+import { AnimatePresence } from 'framer-motion';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
-import useOutsideClick from '@/hooks/useOutsideClick';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-import Ctas from './Ctas';
+import PcLoginPopup from './PcLoginPopup';
+
+import MobileLoginPopup from './MobileLoginPopup';
 
 export default function GlobalAuthPopup() {
-  const { isOpenAuthPopup, closeAuthPopup, resetAuthPopup } = useAuthPopup();
+  const { isOpenAuthPopup } = useAuthPopup();
 
-  const [ipAddress, setIpAddress] = useState('');
+  const { platform } = useCheckPlatform();
 
-  const popupContainerRef = useRef<HTMLDivElement | null>(null);
-
-  useOutsideClick({
-    ref: popupContainerRef,
-    handler: () => {
-      closeAuthPopup();
-      resetAuthPopup();
-    },
-    enabled: isOpenAuthPopup,
-  });
-
-  useEffect(() => {
-    if (!isOpenAuthPopup) return;
-
-    async function fetchIpAddress() {
-      const response = await fetch('/api/ip/getIpAddress');
-      const data = await response.json();
-      setIpAddress(data.ipAddress);
-    }
-
-    fetchIpAddress();
-
-    return () => setIpAddress('');
-  }, [isOpenAuthPopup]);
-
-  useEffect(() => {
-    const handleBack = () => {
-      closeAuthPopup();
-      resetAuthPopup();
-    };
-
-    window.addEventListener('popstate', handleBack);
-
-    return () => window.removeEventListener('popstate', handleBack);
-  }, [closeAuthPopup, resetAuthPopup]);
-
-  if (!isOpenAuthPopup) return null;
-
-  return (
-    <OverlayPresenter>
-      <div ref={popupContainerRef}>
-        <Popup>
-          <Popup.ContentGroup tw="py-6 rounded-lg">
-            <Ctas ipAddress={ipAddress} />
-          </Popup.ContentGroup>
-        </Popup>
-      </div>
-    </OverlayPresenter>
-  );
+  return platform ? (
+    platform === 'pc' ? (
+      <>
+        {isOpenAuthPopup && (
+          <OverlayPresenter>
+            <PcLoginPopup />
+          </OverlayPresenter>
+        )}
+      </>
+    ) : (
+      <AnimatePresence>
+        {isOpenAuthPopup && (
+          <OverlayPresenter>
+            <MobileLoginPopup />
+          </OverlayPresenter>
+        )}
+      </AnimatePresence>
+    )
+  ) : null;
 }

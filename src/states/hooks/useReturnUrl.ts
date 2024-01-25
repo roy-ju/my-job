@@ -14,7 +14,7 @@ export default function useReturnUrl() {
   const handleUpdateReturnUrl = useCallback(
     (value?: string) => {
       setState(() => ({
-        returnUrl: value || router.asPath,
+        returnUrl: typeof value === 'string' ? value : router.asPath,
       }));
     },
     [setState, router],

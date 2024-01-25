@@ -9,6 +9,7 @@ import {
 } from './danji/types';
 
 import { ListingEligibilityCheckResponse } from './listing/types';
+import { UploadProfileImageResponse } from './my/types';
 
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
@@ -65,6 +66,31 @@ export class NegocioApiService extends ApiService {
     try {
       const { data } = await this.instance.post('/user/checknickname', { nickname });
       return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateNickname(nickname: string): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/nickname/update', { nickname });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async uploadProfileImage(userID: number, file: File) {
+    const formData = new FormData();
+    formData.append('user_id', `${userID}`);
+    formData.append('files', file);
+    try {
+      const { data } = await this.instance.post<UploadProfileImageResponse>('my/upload/profileimage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return data as UploadProfileImageResponse;
     } catch (e) {
       return null;
     }

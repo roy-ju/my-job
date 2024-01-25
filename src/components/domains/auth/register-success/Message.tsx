@@ -7,7 +7,15 @@ export default function Message({ type }: MessageProps) {
 
   return (
     <div tw="px-5">
-      <p tw="text-display_01 mt-20 mb-2">회원가입이 완료되었어요!</p>
+      {type === 'onlyLogin' ? (
+        <p tw="text-display_01 mt-20 mb-2">회원가입이 완료되었어요!</p>
+      ) : (
+        <p tw="text-display_01 mt-20 mb-2">
+          회원가입이 완료되었어요!
+          <br />
+          하지만...
+        </p>
+      )}
       {type === 'onlyLogin' ? (
         <p tw="text-body_03 text-gray-700">
           지금 바로 네고시오에서
@@ -16,9 +24,9 @@ export default function Message({ type }: MessageProps) {
         </p>
       ) : (
         <p tw="text-body_03 text-gray-700">
-          방금 전에 보신 서비스는 본인인증까지 완료되어야
+          본인 인증을 완료해야 이 서비스를 이용할 수 있어요!
           <br />
-          이용하실 수 있어요. 본인 인증하시겠어요?
+          지금 <span tw="text-nego-800 text-subhead_03">본인인증</span> 하러 갈까요?
         </p>
       )}
     </div>

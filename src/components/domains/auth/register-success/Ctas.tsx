@@ -9,7 +9,7 @@ import useRegisterSuccessCta from './hooks/useRegisterSuccessCta';
 type CtasProps = { type: RegisterSuccessType };
 
 const CtasContainer = styled.div`
-  ${tw`flex flex-col w-full gap-3 px-5`}
+  ${tw`flex flex-col w-full gap-3 px-5 pb-3`}
 `;
 
 const CTAButton = styled(ButtonV2)``;
@@ -24,12 +24,14 @@ export default function Ctas({ type }: CtasProps) {
   if (!type) return null;
 
   return (
-    <CtasContainer css={[type === 'onlyLogin' ? tw`[margin-top: 115px]` : tw`[margin-top: 47px]`]}>
-      {type === 'onlyLogin' ? (
+    <CtasContainer css={[type === 'onlyLogin' ? tw`[margin-top: 115px]` : tw`[margin-top: 0px]`]}>
+      {type === 'onlyLogin' && (
         <CTAButton tw="w-full" onClick={handleOnlyLoginCta}>
           확인
         </CTAButton>
-      ) : (
+      )}
+
+      {type === 'needVerify' && (
         <>
           <CTAButton tw="w-full" onClick={handleDirectVerifyCta}>
             좋아요, 본인 인증하기

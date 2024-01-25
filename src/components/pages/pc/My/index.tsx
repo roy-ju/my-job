@@ -8,6 +8,8 @@ import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
@@ -28,6 +30,8 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const { openAuthPopup } = useAuthPopup();
 
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
   const [tab, setTab] = useState<number>();
@@ -36,7 +40,8 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickLogin = useCallback(() => {
     openAuthPopup('onlyLogin');
-  }, [openAuthPopup]);
+    handleUpdateReturnUrl();
+  }, [openAuthPopup, handleUpdateReturnUrl]);
 
   const handleClickNotificationList = useCallback(() => {
     router.push(Routes.NotificationList);

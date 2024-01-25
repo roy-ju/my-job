@@ -45,7 +45,12 @@ const MyAddressAgreement = dynamic(() => import('@/components/pages/pc/MyAddress
   ssr: false,
   loading: FallbackComponent,
 });
-const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: FallbackComponent });
+// const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: FallbackComponent });
+const MyDetail = dynamic(() => import('@/components/pages/MyDetail/MyDetailPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const MyRealPriceList = dynamic(() => import('@/components/pages/pc/MyRealPriceList'), {
   ssr: false,
   loading: FallbackComponent,
@@ -228,7 +233,12 @@ const VerifyCi = dynamic(() => import('@/components/pages/VerifyCi/VerifyCiPc'),
   loading: FallbackComponent,
 });
 
-const VerifyCiSuccess = dynamic(() => import('@/components/pages/verifyCiSuccess/VerifyCiSuccessPc'), {
+const VerifyCiSuccess = dynamic(() => import('@/components/pages/VerifyCiSuccess/VerifyCiSuccessPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const WaitingCreateForm = dynamic(() => import('@/components/pages/WaitingCreateForm/WaitingCreateFormPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -705,6 +715,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     }
     case Routes.MapListingList: {
       return <MapListingList {...props} />;
+    }
+    case Routes.WaitingCreateForm: {
+      return <WaitingCreateForm {...props} />;
     }
     case Routes.Developer: {
       if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {

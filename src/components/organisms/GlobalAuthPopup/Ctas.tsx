@@ -2,19 +2,19 @@ import SocialLoginButton from './SocialLoginButton';
 
 import EtcButton from './EtcButton';
 
-import useLoginCtas from './hooks/useLoginCtas';
-
-import useEtcCtas from './hooks/useEtcCtas';
-
 type CtasProps = {
-  ipAddress?: string;
+  handleClickKakaoLogin: () => void;
+  handleClickAppleLogin: () => void;
+  handleClickForgotPassword: () => void;
+  handleClickFaqs: () => void;
 };
 
-export default function Ctas({ ipAddress }: CtasProps) {
-  const { handleClickKakaoLogin, handleClickAppleLogin } = useLoginCtas({ ipAddress });
-
-  const { handleClickForgotPassword, handleClickFaqs } = useEtcCtas();
-
+export default function Ctas({
+  handleClickKakaoLogin,
+  handleClickAppleLogin,
+  handleClickForgotPassword,
+  handleClickFaqs,
+}: CtasProps) {
   return (
     <div tw="flex flex-col gap-4 px-5">
       <div tw="flex flex-col gap-3">

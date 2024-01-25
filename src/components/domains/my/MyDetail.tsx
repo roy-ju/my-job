@@ -1,7 +1,12 @@
-import { Button, Loading } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
-import { MyDetailForm } from '@/components/organisms';
 import { ChangeEventHandler } from 'react';
+
+import tw, { styled } from 'twin.macro';
+
+import { Button, Loading } from '@/components/atoms';
+
+import { NavigationHeader } from '@/components/molecules';
+
+import Form from './my-detail/Form';
 
 interface MyDetailProps {
   nickname: string;
@@ -19,7 +24,16 @@ interface MyDetailProps {
   onClickUpdateProfileImage: (file: File) => void;
   onChangeNickname: ChangeEventHandler<HTMLInputElement>;
   onClickVerifyCi?: () => void;
+  onClickBack?: () => void;
 }
+
+const Container = styled.div`
+  ${tw`flex flex-col h-full`}
+`;
+
+const FlexContents = styled.div`
+  ${tw`flex-1 min-h-0 overflow-y-auto`}
+`;
 
 export default function MyDetail({
   nickname,
@@ -37,18 +51,20 @@ export default function MyDetail({
   onClickUpdateProfileImage,
   onChangeNickname,
   onClickVerifyCi,
+  onClickBack,
 }: MyDetailProps) {
   return (
-    <div tw="h-full flex flex-col">
+    <Container>
       <NavigationHeader>
+        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-b1">회원정보</NavigationHeader.Title>
       </NavigationHeader>
-      <div tw="flex-1 min-h-0 overflow-y-auto">
+      <FlexContents>
         {isLoading ? (
           <Loading tw="mt-10" />
         ) : (
-          <MyDetailForm tw="pt-6 pb-10">
-            <MyDetailForm.LoginInfo
+          <Form tw="pt-6 pb-10">
+            <Form.LoginInfo
               nickname={nickname}
               email={email}
               updateNicknameButtonDisabled={updateNicknameButtonDisabled}
@@ -57,24 +73,28 @@ export default function MyDetail({
               onClickUpdateEmail={onClickUpdateEmail}
               onChangeNickname={onChangeNickname}
             />
-            <MyDetailForm.Separator />
-            <MyDetailForm.IdentityInfo
+
+            <Form.Separator />
+
+            <Form.IdentityInfo
               name={name}
               phone={phone}
               onClickUpdate={onClickUpdatePhone}
               onClickVerifyCi={onClickVerifyCi}
             />
-            <MyDetailForm.Separator />
-            <MyDetailForm.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
-            <MyDetailForm.Separator />
+            <Form.Separator />
+
+            <Form.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
+
+            <Form.Separator />
             <div tw="px-5 mt-10">
               <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
                 회원 탈퇴
               </Button>
             </div>
-          </MyDetailForm>
+          </Form>
         )}
-      </div>
-    </div>
+      </FlexContents>
+    </Container>
   );
 }

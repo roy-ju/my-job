@@ -20,6 +20,7 @@ export default function GlobalAuthVerfiyCiPopup() {
     if (typeof window === 'undefined') return;
 
     const handleBack = () => {
+      console.log('실행');
       reset();
     };
 
@@ -30,12 +31,14 @@ export default function GlobalAuthVerfiyCiPopup() {
 
   if (!isOpenVerifyCiPopup) return null;
 
+  if (!title) return null;
+
   return (
     <OverlayPresenter>
       <Popup>
         <Popup.ContentGroup tw="py-6 gap-2">
-          {title && <Popup.SmallTitle>본인인증</Popup.SmallTitle>}
-          {subtitle && <Popup.Body>본인인증을 진행하고 있어요!</Popup.Body>}
+          {title && <Popup.SmallTitle>{title}</Popup.SmallTitle>}
+          {subtitle && <Popup.Body>{subtitle}</Popup.Body>}
         </Popup.ContentGroup>
 
         <Popup.ButtonGroup>
