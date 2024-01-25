@@ -52,6 +52,13 @@ const ToastContainer = dynamic(() => import('@/lib/react-toastify'), { ssr: fals
 
 const AppVersionChecker = dynamic(() => import('@/providers/AppVersionChecker'), { ssr: false });
 
+const GlobalAuthPopup = dynamic(() => import('@/components/organisms/GlobalAuthPopup/GlobalAuthPopup'), { ssr: false });
+
+const GlobalAuthVerifyCiPopup = dynamic(
+  () => import('@/components/organisms/GlobalAuthVerifyCiPopup/GlobalAuthVerifyCiPopup'),
+  { ssr: false },
+);
+
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
   getComponent?: (pageProps: any) => ReactNode;
@@ -143,6 +150,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             <div id="rootOverlay" tw="pointer-events-none [z-index: 1500]" />
             <ErrorBoundary>
               <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
+              <GlobalAuthPopup />
+              <GlobalAuthVerifyCiPopup />
             </ErrorBoundary>
             <ToastContainer platform={platform} />
             <TooltipProvider />

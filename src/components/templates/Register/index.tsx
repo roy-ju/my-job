@@ -1,6 +1,9 @@
 import { Button, Separator } from '@/components/atoms';
+
 import { RegisterForm } from '@/components/organisms';
+
 import { TermsState } from '@/components/organisms/RegisterForm';
+
 import { ChangeEventHandler } from 'react';
 
 export interface RegisterProps {

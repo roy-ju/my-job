@@ -1,14 +1,24 @@
-import checkNickname from '@/apis/user/checkNickname';
-import login from '@/apis/user/login';
-import { MobileContainer } from '@/components/atoms';
-import { TermsState } from '@/components/organisms/RegisterForm';
-import { MobRegister } from '@/components/templates';
-import { NICKNAME_REGEX } from '@/constants/regex';
-import useAuth from '@/hooks/services/useAuth';
-import Routes from '@/router/routes';
-import { convertSignupPass } from '@/utils/fotmat';
-import { useRouter } from 'next/router';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import checkNickname from '@/apis/user/checkNickname';
+
+import login from '@/apis/user/login';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { TermsState } from '@/components/organisms/RegisterForm';
+
+import { Register } from '@/components/templates';
+
+import { NICKNAME_REGEX } from '@/constants/regex';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import Routes from '@/router/routes';
+
+import { convertSignupPass } from '@/utils/fotmat';
 
 export default function RegisterWrraper() {
   const { login: handleLogin } = useAuth();
@@ -158,19 +168,18 @@ export default function RegisterWrraper() {
 
   return (
     <MobileContainer>
-      <MobRegister
+      <Register
         email={email}
         nickname={nickname}
         nicknameErrorMessage={nicknameErrMsg}
         funnelInfo={funnelInfo}
+        onChangeFunnelInfo={handleChangeFunnelInfo}
         terms={terms}
         formValid={formValid}
         isLoading={isLoading}
         onChangeNickname={handleChangeNickname}
-        onChangeFunnelInfo={handleChangeFunnelInfo}
         onChangeTerms={handleChangeTerms}
         onClickNext={handleClickNext}
-        onClickBackButton={handleClickBack}
         onNavigateToServiceTerms={handleNavigateToServiceTerms}
         onNavigateToPrivacyPolicy={handleNavigateToPrivacyPolicy}
         onNavigateToLocationTerms={handleNavigateToLocationTerms}

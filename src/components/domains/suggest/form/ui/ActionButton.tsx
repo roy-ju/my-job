@@ -1,10 +1,11 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
+import useAuth from '@/hooks/services/useAuth';
 
 const ScrollUp = dynamic(() => import('./ScrollUp'));
 
@@ -25,6 +26,16 @@ function ActionButton({
   handleClick,
   handleClickBack,
 }: ActionButtonProps) {
+  const { user } = useAuth();
+
+  const submmitTitle = useMemo(() => {
+    if (!user) return '로그인하고 제출하기';
+
+    if (user?.isVerified) return '제출하기';
+
+    if (user && !user?.isVerified) return '본인인증 후 제출하기';
+  }, [user]);
+
   if (isRenderUpdateButton) {
     return (
       <div tw="w-full">
@@ -49,7 +60,7 @@ function ActionButton({
               </ButtonV2>
             )}
             <ButtonV2 tw="w-full" size="bigger" onClick={handleClick} disabled={disabled}>
-              제출하기
+              {submmitTitle}
             </ButtonV2>
           </div>
         </PersistentBottomBarV2>

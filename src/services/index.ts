@@ -1,5 +1,7 @@
 import ApiService from '@/lib/apiService';
 
+import { LoginRequest, LoginResponse, UpdateCIResponse } from './auth/types';
+
 import {
   DanjiDetailResponse,
   DanjiRealPricesPyoungListResponse,
@@ -11,6 +13,63 @@ import { ListingEligibilityCheckResponse } from './listing/types';
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 export class NegocioApiService extends ApiService {
+  /** 로그인  */
+  async login(req: LoginRequest) {
+    try {
+      const { data } = await this.instance.post('/user/login/sns', {
+        browser: req.browser,
+        ip_address: req.ipAddress,
+        device: req.device,
+        social_login_type: req.socialLoginType,
+        token: req.token,
+
+        // for new registration
+        email: req.email,
+        nickname: req.nickname,
+        marketing: req.marketing,
+        signup_source: req.signUpSource,
+      });
+      return data as LoginResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateCi(req: {
+    encData: string;
+    integrityValue: string;
+    kie: string;
+    tokenVersionId: string;
+    type: number;
+  }): Promise<UpdateCIResponse | null> {
+    const { data } = await this.instance.post('/user/update/ci', {
+      enc_data: req.encData,
+      integrity_value: req.integrityValue,
+      kie: req.kie,
+      token_version_id: req.tokenVersionId,
+      type: req.type,
+    });
+    return data;
+  }
+
+  async updateEmail(token: string, socialLoginType: number) {
+    try {
+      const { data } = await this.instance.post('/my/email/update', { token, social_login_type: socialLoginType });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async checkNickname(nickname: string): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/user/checknickname', { nickname });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   /** 단지 정보 */
   async fetchDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {

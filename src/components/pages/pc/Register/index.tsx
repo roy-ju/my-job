@@ -1,13 +1,23 @@
 import checkNickname from '@/apis/user/checkNickname';
+
 import login from '@/apis/user/login';
+
 import { Panel } from '@/components/atoms';
+
 import { TermsState } from '@/components/organisms/RegisterForm';
+
 import { Register } from '@/components/templates';
+
 import { NICKNAME_REGEX } from '@/constants/regex';
+
 import useAuth from '@/hooks/services/useAuth';
+
 import { useRouter } from '@/hooks/utils';
+
 import Routes from '@/router/routes';
+
 import { convertSignupPass } from '@/utils/fotmat';
+
 import { ChangeEventHandler, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Props {
@@ -138,6 +148,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       },
     });
   }, [router]);
+
   const handleNavigateToPrivacyPolicy = useCallback(() => {
     router.replace(Routes.PrivacyPolicy, {
       searchParams: {
@@ -150,6 +161,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       },
     });
   }, [router]);
+
   const handleNavigateToLocationTerms = useCallback(() => {
     router.replace(Routes.LocationTerms, {
       searchParams: {

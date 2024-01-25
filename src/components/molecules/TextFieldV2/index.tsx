@@ -68,7 +68,7 @@ const StyledContainer = styled.div<{
 
 const StyledInput = styled.input(({ disabled, label, hasError, isLabelBottom = false }: StyledInputProps) => [
   tw`box-content flex-1 h-4 min-w-0 px-4 py-5 leading-none placeholder-gray-700 bg-transparent text-start text-body_03 text-gray-1000 text-ellipsis`,
-  disabled && tw`text-gray-700 placeholder-gray-500 opacity-100`,
+  disabled && tw`text-gray-600 placeholder-gray-500 opacity-100`,
   label && tw`px-4 pb-3 pt-7`,
   hasError && tw`placeholder-red-800`,
   label && (isLabelBottom ? tw`px-4 pt-[14px] pb-[34px]` : tw`px-4 pt-[34px] pb-[14px]`),
@@ -81,10 +81,10 @@ const StyledLabel = styled.div<{
   isBottom?: boolean;
 }>(({ focused, disabled, hasError, isBottom = false }) => [
   tw`absolute top-0 left-0 leading-none text-gray-700 transition-all translate-x-4 translate-y-6 pointer-events-none text-b1`,
-  disabled && tw`text-gray-600 opacity-100`,
+  disabled && (isBottom ? tw`translate-y-10 text-[12px] leading-none` : tw`translate-y-2.5 text-[12px] leading-none`),
   hasError && tw`text-red-800`,
   focused && (isBottom ? tw`translate-y-10 text-[12px] leading-none` : tw`translate-y-2.5 text-[12px] leading-none`),
-  focused && (!hasError ? tw`text-nego-800` : tw`text-red-800`),
+  focused && (!hasError ? (isBottom ? tw`text-nego-800` : tw`text-gray-700`) : tw`text-red-800`),
 ]);
 
 const Border = styled.div<{
@@ -96,7 +96,7 @@ const Border = styled.div<{
   tw`absolute top-0 left-0 w-full h-full rounded-lg pointer-events-none`,
   variant === 'outlined' && tw`border border-gray-300`,
   variant === 'outlined' && focused && tw`border-nego-800`,
-  variant === 'outlined' && disabled && tw`border-gray-100`,
+  variant === 'outlined' && disabled && tw`border-gray-300`,
   hasError && tw`border border-red-800`,
 ]);
 
@@ -193,7 +193,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, isLabelBottom, 
         <StyledLabel
           hasError={hasError}
           disabled={disabled}
-          focused={focused || value.length > 0}
+          focused={disabled ? false : focused || value.length > 0}
           isBottom={isLabelBottom}
         >
           {label}

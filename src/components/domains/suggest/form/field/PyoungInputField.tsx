@@ -72,19 +72,21 @@ function PyoungInputField({
           hasError={!!errorMessage}
           ref={inputRef}
         >
-          <TextFieldV2.Input label={label} value={value} onChange={handleChange} isLabelBottom />
+          <TextFieldV2.Input label={label} value={value} onChange={handleChange} />
 
           {value && (
-            <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, top }}>
+            <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, bottom: top - 1 }}>
               {suffix}
             </span>
           )}
 
-          {value && focus && (
+          {value && (
             <TextFieldV2.Trailing tw="flex items-center" as="div">
-              <ButtonV2 variant="ghost" size="small" onClick={handleReset} tw="pr-3">
-                <CloseContained />
-              </ButtonV2>
+              {focus && (
+                <ButtonV2 variant="ghost" size="small" onClick={handleReset} tw="pr-3">
+                  <CloseContained />
+                </ButtonV2>
+              )}
               <ButtonV2 size="small" disabled={disabled} onClick={() => handleClickAdd(value)}>
                 추가
               </ButtonV2>
@@ -129,19 +131,21 @@ function PyoungInputField({
             hasError={!!errorMessage}
             ref={inputRef}
           >
-            <TextFieldV2.Input label={label} value={value} onChange={handleChange} isLabelBottom />
+            <TextFieldV2.Input label={label} value={value} onChange={handleChange} />
 
             {value && (
-              <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, top }}>
+              <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, bottom: top - 1 }}>
                 {suffix}
               </span>
             )}
 
-            {value && focus && (
+            {value && (
               <TextFieldV2.Trailing tw="flex items-center" as="div">
-                <ButtonV2 variant="ghost" size="small" onClick={handleReset} tw="pr-3">
-                  <CloseContained />
-                </ButtonV2>
+                {focus && (
+                  <ButtonV2 variant="ghost" size="small" onClick={handleReset} tw="pr-3">
+                    <CloseContained />
+                  </ButtonV2>
+                )}
                 <ButtonV2 size="small" disabled={disabled} onClick={() => handleClickAdd(value)}>
                   추가
                 </ButtonV2>
