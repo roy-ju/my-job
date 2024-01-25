@@ -106,11 +106,36 @@ export class NegocioApiService extends ApiService {
   }
 
   async deleteFcmToken(data: { token: string }): Promise<ErrorResponse | null> {
-    return this.instance.post('/user/delete/fcmtoken', data);
+    try {
+      return await this.instance.post('/user/delete/fcmtoken', data);
+    } catch (e) {
+      return null;
+    }
   }
 
   async updateFcmToken(data: { token: string; device_id: string }): Promise<ErrorResponse | null> {
-    return this.instance.post('/user/update/fcmtoken', data);
+    try {
+      return await this.instance.post('/user/update/fcmtoken', data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updatePhone(phone: string, code: string) {
+    try {
+      const { data } = await this.instance.post('/my/phone/update', { phone, verification_number: code });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async sendPhoneVerificationCode(phone: string) {
+    try {
+      return await this.instance.post('/user/phone/verification/sms', { phone });
+    } catch (e) {
+      return null;
+    }
   }
 
   /** 단지 정보 */
