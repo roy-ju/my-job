@@ -158,6 +158,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
               email: detail.email,
               token: detail.snsToken,
               socialLoginType: `${detail.socialLoginType}`,
+              ...router.query,
             },
           });
         }
