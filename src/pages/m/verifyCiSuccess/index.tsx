@@ -1,10 +1,10 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import VerifyCiMobile from '@/components/pages/VerifyCiSuccess/VerifyCiSuccessMobile';
+import VerifyCiSuccessMobile from '@/components/pages/VerifyCiSuccess/VerifyCiSuccessMobile';
 
 // import VerifyCiSuccess from '@/components/pages/mobile/VerifyCiSuccess';
 
-const Page: NextPageWithLayout = () => <VerifyCiMobile />;
+const Page: NextPageWithLayout = () => <VerifyCiSuccessMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
