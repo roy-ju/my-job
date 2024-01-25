@@ -6,6 +6,10 @@ import { RegisterSuccessType } from './types';
 
 import useRegisterSuccessCta from './hooks/useRegisterSuccessCta';
 
+import SuggestAfterVerify from './popups/SuggestAfterVerify';
+
+import NotSuggestAfterVerify from './popups/NotSuggestAfterVerify';
+
 type CtasProps = { type: RegisterSuccessType };
 
 const CtasContainer = styled.div`
@@ -19,28 +23,36 @@ CTAButton.defaultProps = {
 };
 
 export default function Ctas({ type }: CtasProps) {
-  const { handleOnlyLoginCta, handleDirectVerifyCta, handleAfterNeedVerifyCta } = useRegisterSuccessCta();
+  const { popups, closePopup, handleOnlyLoginCta, handleDirectVerifyCta, handleAfterNeedVerifyCta, handleGoHome } =
+    useRegisterSuccessCta();
 
   if (!type) return null;
 
   return (
-    <CtasContainer css={[type === 'onlyLogin' ? tw`[margin-top: 115px]` : tw`[margin-top: 0px]`]}>
-      {type === 'onlyLogin' && (
-        <CTAButton tw="w-full" onClick={handleOnlyLoginCta}>
-          확인
-        </CTAButton>
-      )}
+    <>
+      <CtasContainer css={[type === 'onlyLogin' ? tw`[margin-top: 115px]` : tw`[margin-top: 0px]`]}>
+        {type === 'onlyLogin' && (
+          <CTAButton tw="w-full" onClick={handleOnlyLoginCta}>
+            확인
+          </CTAButton>
+        )}
 
-      {type === 'needVerify' && (
-        <>
-          <CTAButton tw="w-full" onClick={handleDirectVerifyCta}>
-            좋아요, 본인 인증하기
-          </CTAButton>
-          <CTAButton variant="primaryOutline" tw="w-full" onClick={handleAfterNeedVerifyCta}>
-            괜찮아요, 나중에 할래요
-          </CTAButton>
-        </>
+        {type === 'needVerify' && (
+          <>
+            <CTAButton tw="w-full" onClick={handleDirectVerifyCta}>
+              좋아요, 본인 인증하기
+            </CTAButton>
+            <CTAButton variant="primaryOutline" tw="w-full" onClick={handleAfterNeedVerifyCta}>
+              아쉽지만, 지금 안할래요
+            </CTAButton>
+          </>
+        )}
+      </CtasContainer>
+      {popups === 'suggestAfterVerify' && <SuggestAfterVerify handleCancel={closePopup} handleConfirm={handleGoHome} />}
+
+      {popups === 'notSuggestAfterVerify' && (
+        <NotSuggestAfterVerify handleCancel={closePopup} handleConfirm={handleGoHome} />
       )}
-    </CtasContainer>
+    </>
   );
 }

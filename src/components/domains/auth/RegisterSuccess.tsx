@@ -20,12 +20,14 @@ export default function RegisterSuccess() {
   const { authType } = useAuthPopup();
 
   return (
-    <RegisterSuccessContainer>
-      <Message type={authType ?? ''} />
-      <FlexContents>
-        <ImageContents type={authType ?? ''} />
-      </FlexContents>
-      <Ctas type={authType ?? ''} />
-    </RegisterSuccessContainer>
+    <>
+      <RegisterSuccessContainer>
+        <Message type={authType ?? ''} />
+        <FlexContents>
+          <ImageContents type={authType ?? ''} />
+        </FlexContents>
+        <Ctas type={authType ?? ''} />
+      </RegisterSuccessContainer>
+    </>
   );
 }
