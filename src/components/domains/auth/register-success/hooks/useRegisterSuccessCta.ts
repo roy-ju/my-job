@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -11,6 +10,8 @@ import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
 
+type Popups = 'notSuggestAfterVerify' | 'suggestAfterVerify' | '';
+
 export default function useRegisterSuccessCta() {
   const router = useRouter();
 
@@ -20,13 +21,17 @@ export default function useRegisterSuccessCta() {
 
   const { openVerifyCiPopup, handleVerifyPhone } = useVerifyCiPopup();
 
-  const handleOnlyLoginCta = useCallback(async () => {
-    if (returnUrl) {
-      await router.replace(returnUrl);
-      handleUpdateReturnUrl('');
-      return;
-    }
+  const [popups, setPopups] = useState<Popups>('');
 
+  const openPopup = useCallback((value: Popups) => {
+    setPopups(value);
+  }, []);
+
+  const closePopup = useCallback(() => {
+    setPopups('');
+  }, []);
+
+  const handleGoHome = useCallback(() => {
     if (platform === 'pc') {
       router.replace('/');
       handleUpdateReturnUrl('');
@@ -37,7 +42,17 @@ export default function useRegisterSuccessCta() {
       router.replace(`/${Routes.EntryMobile}`);
       handleUpdateReturnUrl('');
     }
-  }, [returnUrl, platform, router, handleUpdateReturnUrl]);
+  }, [handleUpdateReturnUrl, platform, router]);
+
+  const handleOnlyLoginCta = useCallback(async () => {
+    if (returnUrl) {
+      await router.replace(returnUrl);
+      handleUpdateReturnUrl('');
+      return;
+    }
+
+    handleGoHome();
+  }, [returnUrl, handleGoHome, router, handleUpdateReturnUrl]);
 
   const handleDirectVerifyCta = useCallback(async () => {
     openVerifyCiPopup();
@@ -46,23 +61,22 @@ export default function useRegisterSuccessCta() {
 
   const handleAfterNeedVerifyCta = useCallback(() => {
     if (returnUrl) {
-      router.replace(returnUrl);
+      if (returnUrl.includes(Routes.SuggestForm) && router?.query?.params) {
+        openPopup('suggestAfterVerify');
+      } else {
+        openPopup('notSuggestAfterVerify');
+      }
       return;
     }
-
-    if (platform === 'pc') {
-      router.replace('/');
-      return;
-    }
-
-    if (platform === 'mobile') {
-      router.replace(`/${Routes.EntryMobile}`);
-    }
-  }, [platform, returnUrl, router]);
+    handleGoHome();
+  }, [returnUrl, handleGoHome, router?.query?.params, openPopup]);
 
   return {
+    popups,
+    closePopup,
     handleOnlyLoginCta,
     handleDirectVerifyCta,
     handleAfterNeedVerifyCta,
+    handleGoHome,
   };
 }
