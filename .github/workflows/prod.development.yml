@@ -21,7 +21,8 @@ env:
   NAVER_SITE_VERIFICATION: 0549b5c334f953e866c92693a983ef4f5be659e1
   NEGOCIO_DELETED_PROFILE_IMG_PATH: https://negocio-common.s3.ap-northeast-2.amazonaws.com/random_profiles/random_profile_1.png
   GA_TRACKING_ID: G-B08P6Y5VNB
-  GTM_ID: GTM-MQPT86G
+  GTM_ID: GTM-5FQNK6LH
+  # GTM_ID: GTM-MQPT86G
 jobs:
   deploy:
     name: Deploy
