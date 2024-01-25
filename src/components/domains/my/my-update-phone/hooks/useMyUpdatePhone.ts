@@ -4,9 +4,7 @@ import { toast } from 'react-toastify';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-import sendPhoneVerificationCode from '@/apis/user/sendPhoneVerificationCode';
-
-import updatePhone from '@/apis/user/updatePhone';
+import { apiService } from '@/services';
 
 import ErrorCodes from '@/constants/error_codes';
 
@@ -46,7 +44,7 @@ export default function useMyUpdatePhone() {
     setSent(true);
     setErrorCode(null);
     setCode('');
-    const res = await sendPhoneVerificationCode(phone);
+    const res = await apiService.sendPhoneVerificationCode(phone);
     if (res?.data?.error_code) {
       setErrorCode(res?.data?.error_code);
       return undefined;
@@ -61,7 +59,7 @@ export default function useMyUpdatePhone() {
   }, []);
 
   const handleClickVerifyCode = useCallback(async () => {
-    const res = await updatePhone(phone, code);
+    const res = await apiService.updatePhone(phone, code);
     if (res?.error_code) {
       setErrorCode(res?.error_code);
       setCodeVerified(false);
