@@ -40,8 +40,9 @@ export default function useRegisterSuccessCta() {
   }, [returnUrl, platform, router, handleUpdateReturnUrl]);
 
   const handleDirectVerifyCta = useCallback(async () => {
+    openVerifyCiPopup();
     handleVerifyPhone();
-  }, [handleVerifyPhone]);
+  }, [handleVerifyPhone, openVerifyCiPopup]);
 
   const handleAfterNeedVerifyCta = useCallback(() => {
     if (returnUrl) {

@@ -12,7 +12,6 @@ import { apiService } from '@/services';
 
 import Routes from '@/router/routes';
 
-import useAuthPopup from '@/states/hooks/useAuhPopup';
 import convertSignupPass from '../utils/convertSignupPass';
 
 import { TermsState } from '../Terms';
@@ -23,8 +22,6 @@ export default function useRegisterForm() {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
-
-  const { authType } = useAuthPopup();
 
   const email = `${router.query.email}`;
 

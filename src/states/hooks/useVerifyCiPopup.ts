@@ -14,7 +14,7 @@ import ErrorCodes from '@/constants/error_codes';
 
 import Routes from '@/router/routes';
 
-import Events from '@/constants/events';
+import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
 
 import verifyCiPopupAtom from '../atom/verifyCiPopup';
 
@@ -37,6 +37,8 @@ export default function useVerifyCiPopup() {
 
   const { request } = useNiceId();
 
+  const { createSuggest } = useCreateSuggestForm();
+
   const closeVericyCiPopup = useCallback(() => {
     setState((prev) => ({ ...prev, open: false }));
   }, [setState]);
@@ -51,7 +53,6 @@ export default function useVerifyCiPopup() {
 
   const handleNiceResponse = useCallback(
     async (res: NiceResponse) => {
-      console.log(returnUrl);
       const updateCiRes = await apiService.updateCi({
         encData: res.encData,
         kie: res.kie,
@@ -93,8 +94,7 @@ export default function useVerifyCiPopup() {
 
         if (returnUrl) {
           if (returnUrl.includes(Routes.SuggestForm) && router?.query?.params) {
-            const event = new CustomEvent(Events.NEGOCIO_CREATE_SUGGEST, { detail: 'action' });
-            window.dispatchEvent(event);
+            createSuggest();
           } else {
             if (returnUrl === router.asPath) {
               return;
@@ -109,7 +109,7 @@ export default function useVerifyCiPopup() {
         closeVericyCiPopup();
       }
     },
-    [closeVericyCiPopup, mutateAuth, openAuthPopup, returnUrl, router, setState],
+    [closeVericyCiPopup, createSuggest, mutateAuth, openAuthPopup, returnUrl, router, setState],
   );
 
   const handleVerifyPhone = useCallback(async () => {
