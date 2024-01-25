@@ -24,13 +24,9 @@ export default function useEtcCtas() {
   const handleClickForgotPassword = useCallback(() => {
     if (platform === 'pc') {
       const path = getPathIfReplaceCurrent(depth1, depth2, Routes.Login, Routes.FindAccount);
-
       const query = router.query;
-
       delete query.depth1;
-
       delete query.depth2;
-
       router.push({ pathname: path, query: { ...query } });
     }
 
@@ -45,11 +41,8 @@ export default function useEtcCtas() {
     if (platform === 'pc') {
       const path = getPathIfReplaceCurrent(depth1, depth2, Routes.Login, Routes.FAQ);
       const query = router.query;
-
       delete query.depth1;
-
       delete query.depth2;
-
       router.push({ pathname: path, query: { ...query } });
     }
 

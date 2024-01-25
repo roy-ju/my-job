@@ -18,8 +18,10 @@ export default function useAccissbleRegister() {
       if (platform === 'pc') {
         if (depth1 && depth2) {
           const query = router.query;
+
           router.replace({ pathname: `/${depth1}`, query: { ...query } });
         }
+
         router.replace('/');
       }
 

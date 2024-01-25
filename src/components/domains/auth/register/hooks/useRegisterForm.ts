@@ -12,6 +12,7 @@ import { apiService } from '@/services';
 
 import Routes from '@/router/routes';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
 import convertSignupPass from '../utils/convertSignupPass';
 
 import { TermsState } from '../Terms';
@@ -22,6 +23,8 @@ export default function useRegisterForm() {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
+
+  const { authType } = useAuthPopup();
 
   const email = `${router.query.email}`;
 
@@ -119,11 +122,8 @@ export default function useRegisterForm() {
 
     if (checkNicknameResponse?.error_code === 1009) {
       setNickNameErrMsg('이미 사용 중인 닉네임이에요!');
-
       setIsLoading(false);
-
       nickNameRef.current?.scrollIntoView({ behavior: 'smooth' });
-
       return;
     }
 

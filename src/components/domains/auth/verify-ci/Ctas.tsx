@@ -3,7 +3,7 @@ import tw, { styled } from 'twin.macro';
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 const CtasContainer = styled.div`
-  ${tw`flex flex-col w-full gap-3 px-5`}
+  ${tw`flex flex-col w-full gap-3 px-5 pb-3`}
 `;
 
 const CTAButton = styled(ButtonV2)``;

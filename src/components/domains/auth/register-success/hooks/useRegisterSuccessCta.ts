@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import Routes from '@/router/routes';
 
@@ -17,49 +16,32 @@ export default function useRegisterSuccessCta() {
 
   const { platform } = useCheckPlatform();
 
-  const { resetAuthPopup } = useAuthPopup();
-
-  const { returnUrl } = useReturnUrl();
+  const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
 
   const { openVerifyCiPopup, handleVerifyPhone } = useVerifyCiPopup();
 
-  const handleOnlyLoginCta = useCallback(() => {
-    if (returnUrl) {
-      router.replace(returnUrl);
-      resetAuthPopup();
-      return;
-    }
-
-    if (platform === 'pc') {
-      router.replace('/');
-      resetAuthPopup();
-      return;
-    }
-
-    if (platform === 'mobile') {
-      router.replace(`/${Routes.EntryMobile}`);
-      resetAuthPopup();
-    }
-  }, [returnUrl, platform, router, resetAuthPopup]);
-
-  const handleDirectVerifyCta = useCallback(async () => {
+  const handleOnlyLoginCta = useCallback(async () => {
     if (returnUrl) {
       await router.replace(returnUrl);
-
-      await openVerifyCiPopup();
-
-      await handleVerifyPhone();
+      handleUpdateReturnUrl('');
       return;
     }
 
     if (platform === 'pc') {
       router.replace('/');
+      handleUpdateReturnUrl('');
+      return;
     }
 
     if (platform === 'mobile') {
       router.replace(`/${Routes.EntryMobile}`);
+      handleUpdateReturnUrl('');
     }
-  }, [openVerifyCiPopup, handleVerifyPhone, platform, returnUrl, router]);
+  }, [returnUrl, platform, router, handleUpdateReturnUrl]);
+
+  const handleDirectVerifyCta = useCallback(async () => {
+    handleVerifyPhone();
+  }, [handleVerifyPhone]);
 
   const handleAfterNeedVerifyCta = useCallback(() => {
     if (returnUrl) {
@@ -69,14 +51,13 @@ export default function useRegisterSuccessCta() {
 
     if (platform === 'pc') {
       router.replace('/');
-      resetAuthPopup();
       return;
     }
+
     if (platform === 'mobile') {
       router.replace(`/${Routes.EntryMobile}`);
-      resetAuthPopup();
     }
-  }, [platform, returnUrl, router, resetAuthPopup]);
+  }, [platform, returnUrl, router]);
 
   return {
     handleOnlyLoginCta,

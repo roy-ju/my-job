@@ -10,11 +10,17 @@ const VerifyCiContainer = styled.div`
   ${tw`relative flex flex-col h-full gap-0.5`}
 `;
 
+const FlexContents = styled.div`
+  ${tw`flex flex-col flex-1 h-full overflow-y-auto`}
+`;
+
 export default function VerifyCi() {
   return (
     <VerifyCiContainer>
       <Message />
-      <ImageContents />
+      <FlexContents>
+        <ImageContents />
+      </FlexContents>
       <Ctas />
     </VerifyCiContainer>
   );

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import tw, { styled } from 'twin.macro';
 
-import { useInterval } from '@/hooks/useInterval';
+import useInterval from '@/hooks/useInterval';
 
 import Message from './verify-ci-success/Message';
 

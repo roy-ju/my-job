@@ -1,6 +1,9 @@
 import { Button } from '@/components/atoms';
+
 import { Popup } from '@/components/molecules';
+
 import KakaoLogoIcon from '@/assets/icons/kakao_logo.svg';
+
 import AppleLogoIcon from '@/assets/icons/apple.svg';
 
 export interface UpdateEmailPopupProps {
@@ -13,7 +16,7 @@ function UpdateEmailPopup({ onClickKakao, onClickApple, onClickCancel }: UpdateE
   return (
     <Popup>
       <Popup.ContentGroup tw="gap-5">
-        <Popup.Title tw="text-center">간편로그인 방법</Popup.Title>
+        <Popup.SmallTitle tw="text-center">간편로그인 방법</Popup.SmallTitle>
         <Popup.Body tw="flex flex-col gap-3">
           <Button tw="bg-yellow-kakao hover:bg-yellow-kakaoHover text-gray-1000" size="bigger" onClick={onClickKakao}>
             <KakaoLogoIcon tw="mr-2" />
@@ -25,7 +28,7 @@ function UpdateEmailPopup({ onClickKakao, onClickApple, onClickCancel }: UpdateE
         </Popup.Body>
       </Popup.ContentGroup>
       <Popup.ButtonGroup>
-        <Popup.CancelButton onClick={onClickCancel}>취소</Popup.CancelButton>
+        <Popup.ActionButton onClick={onClickCancel}>취소</Popup.ActionButton>
       </Popup.ButtonGroup>
     </Popup>
   );
@@ -39,7 +42,7 @@ function Success({ onClickClose }: SuccessProps) {
   return (
     <Popup>
       <Popup.ContentGroup tw="gap-5 py-12">
-        <Popup.Title tw="text-center">변경이 반영되었습니다.</Popup.Title>
+        <Popup.SmallTitle tw="text-center">변경이 반영되었습니다.</Popup.SmallTitle>
       </Popup.ContentGroup>
       <Popup.ButtonGroup>
         <Popup.ActionButton onClick={onClickClose}>확인</Popup.ActionButton>
@@ -56,7 +59,7 @@ function DuplicatedCi({ onClickClose }: DuplicatedCiProps) {
   return (
     <Popup>
       <Popup.ContentGroup>
-        <Popup.Title>변경 오류</Popup.Title>
+        <Popup.SmallTitle>변경 오류</Popup.SmallTitle>
         <Popup.Body>
           이미 다른 네고시오 계정에서 사용되고 있습니다.
           <br />
@@ -71,11 +74,10 @@ function DuplicatedCi({ onClickClose }: DuplicatedCiProps) {
 }
 
 interface DuplicatedEmailProps {
-  onClickOverwrite?: () => void;
   onClickClose?: () => void;
 }
 
-function DuplicatedEmail({ onClickOverwrite, onClickClose }: DuplicatedEmailProps) {
+function DuplicatedEmail({ onClickClose }: DuplicatedEmailProps) {
   return (
     <Popup>
       <Popup.ContentGroup>
@@ -87,7 +89,6 @@ function DuplicatedEmail({ onClickOverwrite, onClickClose }: DuplicatedEmailProp
         </Popup.Body>
       </Popup.ContentGroup>
       <Popup.ButtonGroup>
-        <Popup.CancelButton onClick={onClickOverwrite}>취소</Popup.CancelButton>
         <Popup.ActionButton onClick={onClickClose}>확인</Popup.ActionButton>
       </Popup.ButtonGroup>
     </Popup>

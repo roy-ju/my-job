@@ -22,16 +22,16 @@ const RegisterQuit = dynamic(() => import('./register/popups/RegisterQuit'), { s
 
 const TermsPopup = dynamic(() => import('./register/popups/Terms'), { ssr: false });
 
-const FieldContainer = styled.div`
-  ${tw`my-10`}
-`;
-
 const RegisterContainer = styled.div`
   ${tw`relative flex flex-col h-full`}
 `;
 
 const RegisterFieldContainer = styled.div`
   ${tw`flex-1 h-full min-h-0 pt-5 overflow-y-auto`}
+`;
+
+const FieldContainer = styled.div`
+  ${tw`my-10`}
 `;
 
 export default function Register() {

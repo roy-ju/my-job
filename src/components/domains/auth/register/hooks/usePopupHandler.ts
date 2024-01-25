@@ -2,9 +2,11 @@ import { useCallback, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import useAuthPopup from '@/states/hooks/useAuhPopup';
-
 import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+import Routes from '@/router/routes';
 
 type Popup = 'quit' | 'terms' | '';
 
@@ -15,9 +17,9 @@ export default function usePopupHandler() {
 
   const [termsPopupType, setTermsPopupType] = useState<'location' | 'service' | 'privacy' | ''>('');
 
-  const { resetAuthPopup } = useAuthPopup();
+  const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
 
-  const { returnUrl } = useReturnUrl();
+  const { platform } = useCheckPlatform();
 
   const handlePopup = useCallback((value: Popup) => {
     setPopup(value);
@@ -32,9 +34,20 @@ export default function usePopupHandler() {
 
     if (returnUrl) {
       await router.replace(returnUrl);
-      resetAuthPopup();
+
+      return;
     }
-  }, [handlePopup, resetAuthPopup, returnUrl, router]);
+
+    if (platform === 'pc') {
+      router.replace('/');
+    }
+
+    if (platform === 'mobile') {
+      router.replace(`/${Routes.EntryMobile}`);
+    }
+
+    handleUpdateReturnUrl('');
+  }, [handlePopup, platform, returnUrl, router, handleUpdateReturnUrl]);
 
   const handleCancel = useCallback(() => {
     handlePopup('');

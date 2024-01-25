@@ -51,3 +51,7 @@ export interface MySuggestRecommendsResponse {
   suggest_status: number;
   list: SuggestRecommendDetailList[] | null;
 }
+
+export interface UploadProfileImageResponse {
+  full_file_paths: string[];
+}

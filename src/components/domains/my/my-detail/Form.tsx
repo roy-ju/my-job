@@ -193,18 +193,21 @@ interface ProfileImageProps {
 
 function ProfileImage({ profileImageUrl, onClickUpdate }: ProfileImageProps) {
   const id = useId();
+
   return (
     <div tw="px-5">
       <div tw="flex items-center justify-between mb-4">
         <div tw="text-b1 leading-4 font-bold">프로필 이미지 변경</div>
       </div>
-      <Image
-        src={profileImageUrl}
-        alt="프로필 사진"
-        width={120}
-        height={120}
-        tw="mx-auto rounded [object-fit: cover] mb-5 w-[120px] h-[120px] object-cover"
-      />
+      {profileImageUrl && (
+        <Image
+          src={profileImageUrl}
+          alt="프로필 사진"
+          width={120}
+          height={120}
+          tw="mx-auto rounded [object-fit: cover] mb-5 w-[120px] h-[120px] object-cover"
+        />
+      )}
       <label
         htmlFor={`${id}-file`}
         tw="flex items-center justify-center rounded-lg transition-colors text-white bg-nego-800 hover:bg-nego-600 disabled:bg-nego-300 disabled:text-white px-4 h-[3rem] text-b2 leading-4 cursor-pointer"

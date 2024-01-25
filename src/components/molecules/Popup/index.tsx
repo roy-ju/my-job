@@ -5,6 +5,7 @@ import tw from 'twin.macro';
 import { Button } from '@/components/atoms';
 
 import ButtonGroup, { ButtonGroupProps } from '@/components/molecules/ButtonGroup';
+
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 interface PopupProps {

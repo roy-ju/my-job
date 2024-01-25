@@ -1,16 +1,16 @@
-import { AuthRequired, Panel } from '@/components/atoms';
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
 import { OverlayPresenter } from '@/components/molecules';
-import { UpdateEmailPopup, UpdateNicknamePopup } from '@/components/organisms';
-import { MyDetail as MyDetailTemplate } from '@/components/templates';
-import { memo } from 'react';
-import useMyDetail from './useMyDetail';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
+import MyDetail from '@/components/domains/my/MyDetail';
 
-export default memo(({ depth, panelWidth }: Props) => {
+import useMyDetailMobile from '@/components/domains/my/my-detail/hooks/useMyDetailMobile';
+
+import UpdateNicknamePopup from '@/components/domains/my/my-detail/popups/UpdateNickname';
+
+import UpdateEmail from '@/components/domains/my/my-detail/popups/UpdateEmail';
+
+export default function MyDetailMobile() {
   const {
     isLoading,
     nickname,
@@ -35,13 +35,14 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleClickUpdateToApple,
     handleClickUpdateToKakao,
     handleCloseEmailUpdatePopup,
-    handleNavigateToVerifyCi,
-  } = useMyDetail(depth);
+    handleUpdateVerify,
+    handleClickBack,
+  } = useMyDetailMobile();
 
   return (
-    <AuthRequired depth={depth}>
-      <Panel width={panelWidth}>
-        <MyDetailTemplate
+    <MobAuthRequired>
+      <MobileContainer>
+        <MyDetail
           isLoading={isLoading}
           nickname={nickname}
           email={email ?? ''}
@@ -56,41 +57,44 @@ export default memo(({ depth, panelWidth }: Props) => {
           onClickUpdateNickname={handleClickUpdateNickname}
           onClickUpdateEmail={handleClickUpdateEmail}
           onClickUpdateProfileImage={handleUploadProfileImage}
-          onClickVerifyCi={handleNavigateToVerifyCi}
+          onClickVerifyCi={handleUpdateVerify}
+          onClickBack={handleClickBack}
         />
+
         {nicknamePopup && (
           <OverlayPresenter>
             <UpdateNicknamePopup onClickCancel={cancelUpdateNickname} onClickUpdate={updateNickname} />
           </OverlayPresenter>
         )}
+
         {emailPopup && (
           <OverlayPresenter>
-            <UpdateEmailPopup
+            <UpdateEmail
               onClickCancel={handleClickCancelUpdateEmail}
               onClickApple={handleClickUpdateToApple}
               onClickKakao={handleClickUpdateToKakao}
             />
           </OverlayPresenter>
         )}
+
         {updateEmailPopup === 'success' && (
           <OverlayPresenter>
-            <UpdateEmailPopup.Success onClickClose={handleCloseEmailUpdatePopup} />
+            <UpdateEmail.Success onClickClose={handleCloseEmailUpdatePopup} />
           </OverlayPresenter>
         )}
+
         {updateEmailPopup === 'duplicated_ci' && (
           <OverlayPresenter>
-            <UpdateEmailPopup.DuplicatedCi onClickClose={handleCloseEmailUpdatePopup} />
+            <UpdateEmail.DuplicatedCi onClickClose={handleCloseEmailUpdatePopup} />
           </OverlayPresenter>
         )}
+
         {updateEmailPopup === 'duplicated_email' && (
           <OverlayPresenter>
-            <UpdateEmailPopup.DuplicatedEmail
-              onClickOverwrite={handleCloseEmailUpdatePopup}
-              onClickClose={handleCloseEmailUpdatePopup}
-            />
+            <UpdateEmail.DuplicatedEmail onClickClose={handleCloseEmailUpdatePopup} />
           </OverlayPresenter>
         )}
-      </Panel>
-    </AuthRequired>
+      </MobileContainer>
+    </MobAuthRequired>
   );
-});
+}

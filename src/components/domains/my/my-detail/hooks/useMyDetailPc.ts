@@ -1,26 +1,43 @@
-import useAuth from '@/hooks/services/useAuth';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
-import updateNicknameApi from '@/apis/user/updateNickname';
 
 import { toast } from 'react-toastify';
+
+import { useRouter } from '@/hooks/utils';
+
+import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import { apiService } from '@/services';
+
 import { loginWithApple } from '@/lib/apple';
-import updateEmail from '@/apis/user/updateEmail';
+
 import { SocialLoginType } from '@/constants/enums';
-import checkNickname from '@/apis/user/checkNickname';
+
 import Events from '@/constants/events';
-import uploadProfileImage from '@/apis/my/uploadProfileImage';
+
+import Routes from '@/router/routes';
 
 type UpdateEmailPopupType = 'none' | 'duplicated_ci' | 'duplicated_email' | 'success';
 
-export default function useMyDetail(depth: number) {
+export default function useMyDetailPc(depth: number) {
   const router = useRouter(depth);
+
+  const { openVerifyCiPopup, handleVerifyPhone } = useVerifyCiPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const { user, logout, mutate: mutateUser, isLoading: isUserLoading } = useAuth();
 
+  /** this handleUpdateReturnUrl Call flag */
+  const [handleUpdateVerifyCalled, setHandleUpdateVerifyCalled] = useState(false);
+
   const [nicknamePopup, setNicknamePopup] = useState(false);
+
   const [emailPopup, setEmailPopup] = useState(false);
+
   const [updateEmailPopup, setUpdateEmailPopup] = useState<UpdateEmailPopupType>('none');
 
   const [nickname, setNickname] = useState('');
@@ -56,7 +73,7 @@ export default function useMyDetail(depth: number) {
 
   const handleUploadProfileImage = useCallback(
     async (file: File) => {
-      await uploadProfileImage(user?.id as number, file);
+      await apiService.uploadProfileImage(user?.id as number, file);
       await mutateUser(false);
     },
     [user?.id, mutateUser],
@@ -83,11 +100,19 @@ export default function useMyDetail(depth: number) {
   }, []);
 
   const handleClickUpdateToKakao = useCallback(() => {
-    // window.Negocio.callbacks.updateToKakao = (response: ErrorResponse | null) => {
-    //   handleUpdateEmailResponse(response);
-    // };
+    const width = 375;
 
-    window.open(`${window.location.origin}/auth/kakao?type=update`, '_blank');
+    const height = document.documentElement.scrollHeight;
+
+    const top = (window.innerHeight - height) / 2;
+
+    const left = (window.innerWidth - width) / 2;
+
+    window.open(
+      `${window.location.origin}/auth/kakao?type=update`,
+      '_blank',
+      `width=${width}, height=${height}, top=${top}, left=${left}`,
+    );
     setEmailPopup(false);
   }, []);
 
@@ -108,7 +133,7 @@ export default function useMyDetail(depth: number) {
     const res = await loginWithApple();
     if (res && !res.error) {
       const idToken = res.authorization.id_token;
-      const updateEmailRes = await updateEmail(idToken, SocialLoginType.Apple);
+      const updateEmailRes = await apiService.updateEmail(idToken, SocialLoginType.Apple);
       handleUpdateEmailResponse(updateEmailRes);
     }
 
@@ -117,13 +142,13 @@ export default function useMyDetail(depth: number) {
 
   const updateNickname = useCallback(async () => {
     setNicknamePopup(false);
-    const checkNicknameRes = await checkNickname(nickname);
+    const checkNicknameRes = await apiService.checkNickname(nickname);
     if (checkNicknameRes?.error_code) {
       toast.error('중복된 닉네임 입니다.');
       return;
     }
 
-    const res = await updateNicknameApi(nickname);
+    const res = await apiService.updateNickname(nickname);
     if (res?.error_code) {
       toast.error('닉네임을 변경할 수 없습니다.');
     } else {
@@ -132,9 +157,10 @@ export default function useMyDetail(depth: number) {
     mutateUser(false);
   }, [nickname, mutateUser]);
 
-  const handleNavigateToVerifyCi = useCallback(() => {
-    router.replace(Routes.VerifyCi);
-  }, [router]);
+  const handleUpdateVerify = useCallback(() => {
+    handleUpdateReturnUrl();
+    setHandleUpdateVerifyCalled(true);
+  }, [handleUpdateReturnUrl]);
 
   const cancelUpdateNickname = useCallback(() => {
     setNicknamePopup(false);
@@ -151,6 +177,21 @@ export default function useMyDetail(depth: number) {
       setProfileImageUrl(user?.profileImageUrl);
     }
   }, [user?.profileImageUrl]);
+
+  useEffect(() => {
+    if (handleUpdateVerifyCalled) {
+      openVerifyCiPopup();
+      handleVerifyPhone();
+      setHandleUpdateVerifyCalled(false);
+    }
+  }, [handleUpdateVerifyCalled, openVerifyCiPopup, handleVerifyPhone]);
+
+  useEffect(
+    () => () => {
+      setHandleUpdateVerifyCalled(false);
+    },
+    [],
+  );
 
   return useMemo(
     () => ({
@@ -175,7 +216,7 @@ export default function useMyDetail(depth: number) {
       handleClickUpdateToKakao,
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
-      handleNavigateToVerifyCi,
+      handleUpdateVerify,
     }),
     [
       updateNicknameButtonDisabled,
@@ -199,7 +240,7 @@ export default function useMyDetail(depth: number) {
       handleClickUpdateToKakao,
       handleClickUpdateToApple,
       handleCloseEmailUpdatePopup,
-      handleNavigateToVerifyCi,
+      handleUpdateVerify,
     ],
   );
 }

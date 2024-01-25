@@ -122,21 +122,21 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
           query.socialLoginType = `${detail.socialLoginType}`;
 
           if (depth1 && depth2) {
-            router.replace({
+            router.push({
               pathname: `/${depth1}/${Routes.Register}`,
               query,
             });
           }
 
           if (depth1 && !depth2) {
-            router.replace({
-              pathname: `/${Routes.Register}`,
+            router.push({
+              pathname: `${depth1}/${Routes.Register}`,
               query,
             });
           }
 
           if (!depth1 && !depth2) {
-            router.replace({
+            router.push({
               pathname: `/${Routes.Register}`,
               query,
             });
@@ -144,7 +144,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         }
 
         if (platform === 'mobile') {
-          router.replace({
+          router.push({
             pathname: `/${Routes.EntryMobile}/${Routes.Register}`,
             query: {
               email: detail.email,

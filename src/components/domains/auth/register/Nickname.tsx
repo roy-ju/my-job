@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangeEventHandler, useState } from 'react';
 
 import tw from 'twin.macro';
@@ -27,10 +28,6 @@ export default function Nickname({
   handleResetErrorMsg,
   handleClientValidation,
 }: NicknameProps) {
-  const [focus, setFocus] = useState(false);
-
-  console.log(value, focus);
-
   return (
     <div tw="px-5">
       <p tw="text-heading_01 mb-1">닉네임</p>
@@ -40,7 +37,6 @@ export default function Nickname({
         hasError={Boolean(errorMessage)}
         onFocus={() => {
           handleResetErrorMsg?.();
-          setFocus(true);
         }}
         onBlur={() => {
           if (value) {

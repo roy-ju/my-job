@@ -17,7 +17,6 @@ export { default as MyPageNavigationList } from './MyPageNavigationList';
 export { default as MySummary } from './MySummary';
 export { default as NotificationFilterTab } from './NotificationFilterTab';
 export { default as NotificaitonListItem } from './NotificationListItem';
-export { default as MyDetailForm } from './MyDetailForm';
 export { default as NotificationSettingsForm } from './NotificationSettingsForm';
 export { default as DeregisterForm } from './DeregisterForm';
 export { default as NoticeListItem } from './NoticeListItem';
@@ -49,7 +48,6 @@ export { default as ListingDetailSection } from './ListingDetailSection';
 export { default as MySuggestDetailListItem } from './MySuggestDetailListItem';
 export { default as SuggestDetailListItem } from './SuggestDetailListItem';
 export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
-
 export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
 export { default as FaqList } from './FaqList';
 export { default as SharePopup } from './SharePopup';

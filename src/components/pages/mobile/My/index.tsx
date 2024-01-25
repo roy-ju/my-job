@@ -12,6 +12,8 @@ import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
@@ -27,6 +29,8 @@ export default function MobMy() {
 
   const { openAuthPopup } = useAuthPopup();
 
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const [tab, setTab] = useState(1);
 
   const { unreadChatCount } = useSyncronizer();
@@ -35,7 +39,8 @@ export default function MobMy() {
 
   const handleClickLogin = useCallback(() => {
     openAuthPopup('onlyLogin');
-  }, [openAuthPopup]);
+    handleUpdateReturnUrl();
+  }, [handleUpdateReturnUrl, openAuthPopup]);
 
   const handleClickNotificationList = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
