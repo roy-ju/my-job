@@ -23,20 +23,31 @@ CTAButton.defaultProps = {
 };
 
 export default function Ctas({ type }: CtasProps) {
-  const { popups, closePopup, handleOnlyLoginCta, handleDirectVerifyCta, handleAfterNeedVerifyCta, handleGoHome } =
-    useRegisterSuccessCta();
+  const {
+    popups,
+    closePopup,
+    handleLoginCta,
+    handleOnlyLoginCta,
+    handleDirectVerifyCta,
+    handleAfterNeedVerifyCta,
+    handleGoHome,
+  } = useRegisterSuccessCta();
 
   if (!type) return null;
 
   return (
     <>
-      <CtasContainer css={[type === 'onlyLogin' ? tw`[margin-top: 115px]` : tw`[margin-top: 0px]`]}>
+      <CtasContainer css={[type === 'onlyLogin' || type === 'login' ? tw`[margin-top: 115px]` : tw`[margin-top: 0px]`]}>
+        {type === 'login' && (
+          <CTAButton tw="w-full" onClick={handleLoginCta}>
+            확인
+          </CTAButton>
+        )}
         {type === 'onlyLogin' && (
           <CTAButton tw="w-full" onClick={handleOnlyLoginCta}>
             확인
           </CTAButton>
         )}
-
         {type === 'needVerify' && (
           <>
             <CTAButton tw="w-full" onClick={handleDirectVerifyCta}>
@@ -48,6 +59,7 @@ export default function Ctas({ type }: CtasProps) {
           </>
         )}
       </CtasContainer>
+
       {popups === 'suggestAfterVerify' && <SuggestAfterVerify handleCancel={closePopup} handleConfirm={handleGoHome} />}
 
       {popups === 'notSuggestAfterVerify' && (

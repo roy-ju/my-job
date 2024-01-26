@@ -39,8 +39,6 @@ export { default as LocationTerms } from './LocationTerms';
 export { default as BusinessInfo } from './BusinessInfo';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
-export { default as VerifyCi } from './VerifyCi';
-export { default as VerifyCiSuccess } from './VerifyCiSuccess';
 export { default as FindAccount } from './FindAccount';
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as ListingCreateChooseAgent } from './ListingCreateChooseAgent';
@@ -96,8 +94,6 @@ export { default as MobMyAddressVerifying } from './MobMyAddressVerifying';
 export { default as MobDeveloper } from './MobDeveloper';
 export { default as MobMyRealPriceList } from './MobMyRealPriceList';
 
-export { default as MobVerifyCi } from './MobVerifyCi';
-export { default as MobVerifyCiSuccess } from './MobVerifyCiSuccess';
 export { default as MobMyNegoMoney } from './MobMyNegoMoney';
 export { default as MobMyCoupon } from './MobMyCoupon';
 export { default as MobMyNegoPoint } from './MobMyNegoPoint';

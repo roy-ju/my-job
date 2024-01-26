@@ -54,6 +54,16 @@ export default function useRegisterSuccessCta() {
     handleGoHome();
   }, [returnUrl, handleGoHome, router, handleUpdateReturnUrl]);
 
+  const handleLoginCta = useCallback(async () => {
+    if (returnUrl) {
+      await router.replace(returnUrl);
+      handleUpdateReturnUrl('');
+      return;
+    }
+
+    handleGoHome();
+  }, [returnUrl, handleGoHome, router, handleUpdateReturnUrl]);
+
   const handleDirectVerifyCta = useCallback(async () => {
     openVerifyCiPopup();
     handleVerifyPhone();
@@ -74,6 +84,7 @@ export default function useRegisterSuccessCta() {
   return {
     popups,
     closePopup,
+    handleLoginCta,
     handleOnlyLoginCta,
     handleDirectVerifyCta,
     handleAfterNeedVerifyCta,

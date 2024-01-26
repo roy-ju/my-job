@@ -7,7 +7,7 @@ export default function Message({ type }: MessageProps) {
 
   return (
     <div tw="px-5">
-      {type === 'onlyLogin' ? (
+      {type === 'onlyLogin' || type === 'login' ? (
         <p tw="text-display_01 mt-20 mb-2">회원가입이 완료되었어요!</p>
       ) : (
         <p tw="text-display_01 mt-20 mb-2">
@@ -16,7 +16,8 @@ export default function Message({ type }: MessageProps) {
           하지만...
         </p>
       )}
-      {type === 'onlyLogin' ? (
+
+      {type === 'onlyLogin' || type === 'login' ? (
         <p tw="text-body_03 text-gray-700">
           지금 바로 네고시오에서
           <br />

@@ -1,16 +1,16 @@
 import { Button } from '@/components/atoms';
 
-export interface VerifyCiProps {
+export interface LegacyVerifyCiProps {
   subTitle?: string;
   onClickPhoneVerification?: () => void;
   onClickIPinVerification?: () => void;
 }
 
-export default function VerifyCi({
-  subTitle = '네고시오는 안전한 거래를 위해 본인인증이 필요합니다.',
+export default function LegacyVerifyCi({
+  subTitle = '',
   onClickIPinVerification,
   onClickPhoneVerification,
-}: VerifyCiProps) {
+}: LegacyVerifyCiProps) {
   return (
     <div tw="h-full flex flex-col px-5 py-12">
       <div tw="text-h2 font-bold mb-1">본인인증</div>

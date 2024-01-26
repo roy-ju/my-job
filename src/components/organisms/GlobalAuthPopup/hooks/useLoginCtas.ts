@@ -41,7 +41,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
   const { closeAuthPopup, authType } = useAuthPopup();
 
-  const { returnUrl } = useReturnUrl();
+  const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
 
   const { openVerifyCiPopup } = useVerifyCiPopup();
 
@@ -101,7 +101,59 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     if (!platform) return;
 
     if (user && !user.isVerified && authType === 'needVerify') {
-      openVerifyCiPopup();
+      if (returnUrl) {
+        if (platform === 'pc') {
+          const depth1 = router?.query?.depth1;
+          const depth2 = router?.query?.depth2;
+          const query = router.query;
+
+          delete query.depth1;
+          delete query.depth2;
+
+          if (depth1 && depth2) {
+            router.push({
+              pathname: `/${depth1}/${Routes.VerifyCi}`,
+              query,
+            });
+          }
+
+          if (depth1 && !depth2) {
+            if (depth1 === Routes.SuggestForm) {
+              router.push({
+                pathname: `/${Routes.VerifyCi}`,
+                query,
+              });
+            } else {
+              router.push({
+                pathname: `/${depth1}/${Routes.VerifyCi}`,
+                query,
+              });
+            }
+          }
+
+          return;
+        }
+
+        if (platform === 'mobile') {
+          router.push({
+            pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+            query: router.query,
+          });
+        }
+
+        return;
+      }
+
+      if (platform === 'pc') {
+        router.push('/');
+        handleUpdateReturnUrl('');
+      }
+
+      if (platform === 'mobile') {
+        router.push('/');
+        handleUpdateReturnUrl('');
+      }
+      return;
     }
 
     const handleLoginResponse: EventListenerOrEventListenerObject = async (event) => {
@@ -137,7 +189,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
               });
             } else {
               router.push({
-                pathname: `${depth1}/${Routes.Register}`,
+                pathname: `/${depth1}/${Routes.Register}`,
                 query,
               });
             }
@@ -217,7 +269,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     return () => {
       window.removeEventListener(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, handleLoginResponse);
     };
-  }, [router, login, platform, closeAuthPopup, returnUrl, user, authType, openVerifyCiPopup]);
+  }, [router, login, platform, closeAuthPopup, returnUrl, user, authType, openVerifyCiPopup, handleUpdateReturnUrl]);
 
   return { handleClickKakaoLogin, handleClickAppleLogin };
 }

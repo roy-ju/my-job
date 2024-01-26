@@ -39,7 +39,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
-    openAuthPopup('onlyLogin');
+    openAuthPopup('login');
     handleUpdateReturnUrl();
   }, [openAuthPopup, handleUpdateReturnUrl]);
 

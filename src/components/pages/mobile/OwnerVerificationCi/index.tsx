@@ -1,12 +1,21 @@
 import { NavigationHeader } from '@/components/molecules';
-import { VerifyCi } from '@/components/templates';
+
+import LegacyVerifyCi from '@/components/templates/LegacyVerifyCi';
+
 import CloseIcon from '@/assets/icons/close_24.svg';
+
 import { useRouter } from 'next/router';
+
 import { useCallback, useState } from 'react';
+
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
+
 import completeAgreement from '@/apis/listing/completeAgreement';
+
 import useAPI_GetAgreementInfo from '@/apis/listing/getAgreementInfo';
+
 import { Loading } from '@/components/atoms';
+
 import Routes from '@/router/routes';
 
 export default function OwnerVerificationCi() {
@@ -73,7 +82,7 @@ export default function OwnerVerificationCi() {
           </NavigationHeader.Button>
         </NavigationHeader>
         <div tw="flex-1 min-h-0 overflow-auto -mt-7">
-          <VerifyCi
+          <LegacyVerifyCi
             subTitle="소유자 확인을 위해 본인인증이 필요합니다."
             onClickPhoneVerification={handleVerifyPhone}
             onClickIPinVerification={handleVerifyIPin}

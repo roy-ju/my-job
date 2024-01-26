@@ -16,11 +16,13 @@ import Routes from '@/router/routes';
 
 import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
 
+import { toast } from 'react-toastify';
 import verifyCiPopupAtom from '../atom/verifyCiPopup';
 
 import useAuthPopup from './useAuhPopup';
 
 import useReturnUrl from './useReturnUrl';
+import useVerifyCiStatus from './useVerifyCiStatus';
 
 export default function useVerifyCiPopup() {
   const [state, setState] = useRecoilState(verifyCiPopupAtom);
@@ -38,6 +40,8 @@ export default function useVerifyCiPopup() {
   const { request } = useNiceId();
 
   const { createSuggest } = useCreateSuggestForm();
+
+  const { updateVerifyCiStatus } = useVerifyCiStatus();
 
   const closeVericyCiPopup = useCallback(() => {
     setState((prev) => ({ ...prev, open: false }));
@@ -69,7 +73,12 @@ export default function useVerifyCiPopup() {
           actionButtonTitle: '다른 계정 로그인',
           cancelButtonTitle: '취소',
           actionButtonEvent: () => {
-            openAuthPopup('onlyLogin');
+            if (router?.asPath?.includes(Routes.MyDetail)) {
+              openAuthPopup('login');
+            } else {
+              openAuthPopup('needVerify');
+            }
+
             closeVericyCiPopup();
           },
           cancelButtonEvent: () => closeVericyCiPopup(),
@@ -92,10 +101,13 @@ export default function useVerifyCiPopup() {
       if (!updateCiRes?.error_code) {
         mutateAuth(false);
 
+        toast.success('본인 인증이 완료되었어요!');
+
         if (returnUrl) {
           if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
             await createSuggest();
           } else {
+            updateVerifyCiStatus('success');
             if (returnUrl === router.asPath) {
               return;
             }
@@ -107,9 +119,13 @@ export default function useVerifyCiPopup() {
         }
 
         closeVericyCiPopup();
+
+        setTimeout(() => {
+          updateVerifyCiStatus('');
+        }, 2000);
       }
     },
-    [closeVericyCiPopup, createSuggest, mutateAuth, openAuthPopup, returnUrl, router, setState],
+    [closeVericyCiPopup, createSuggest, mutateAuth, openAuthPopup, returnUrl, router, setState, updateVerifyCiStatus],
   );
 
   const handleVerifyPhone = useCallback(async () => {

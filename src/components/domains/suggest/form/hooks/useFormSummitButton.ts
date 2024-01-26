@@ -24,8 +24,6 @@ import Routes from '@/router/routes';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
-import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
-
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import SuggestFormState from '../atoms/SuggestFormState';
@@ -62,8 +60,6 @@ export default function useFormSummitButton() {
   const { openAuthPopup } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
-
-  const { openVerifyCiPopup } = useVerifyCiPopup();
 
   const currentForm = useMemo(() => state.forms[state.forms.length - 1], [state.forms]);
 
@@ -294,7 +290,7 @@ export default function useFormSummitButton() {
             });
           } else if (depth1 && depth2) {
             router.replace({
-              pathname: `/${Routes.WaitingCreateForm}`,
+              pathname: `/${depth1}/${Routes.WaitingCreateForm}`,
               query: {
                 ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
                 ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),
@@ -320,13 +316,37 @@ export default function useFormSummitButton() {
     }
 
     if (user && !user?.isVerified) {
-      openVerifyCiPopup();
-      handleUpdateReturnUrl();
+      if (platform === 'pc') {
+        const depth1 = router?.query?.depth1;
+        const depth2 = router?.query?.depth2;
+
+        const query = router.query;
+
+        delete query.depth1;
+        delete query.depth2;
+
+        if (depth1 && !depth2) {
+          router.replace({
+            pathname: `/${Routes.VerifyCi}`,
+            query,
+          });
+        } else if (depth1 && depth2) {
+          router.replace({
+            pathname: `/${depth1}/${Routes.VerifyCi}`,
+            query,
+          });
+        }
+        handleUpdateReturnUrl();
+      } else {
+        router.replace({ pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`, query: router.query });
+        handleUpdateReturnUrl();
+      }
+
       return;
     }
 
     createSuggest();
-  }, [createSuggest, openAuthPopup, openVerifyCiPopup, handleUpdateReturnUrl, state.danjiOrRegion, user]);
+  }, [state.danjiOrRegion, user, createSuggest, openAuthPopup, handleUpdateReturnUrl, platform, router]);
 
   const handleFormsAction = useCallback(() => {
     const lastForm = state.forms[state.forms.length - 1];
