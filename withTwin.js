@@ -20,12 +20,12 @@ module.exports = function withTwin(nextConfig) {
             options: {
               sourceMaps: dev,
               presets: [
-                // [
-                //   '@babel/preset-env',
-                //   {
-                //     modules: false,
-                //   },
-                // ],
+                [
+                  '@babel/preset-env',
+                  {
+                    modules: false,
+                  },
+                ],
                 ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }],
               ],
               plugins: [

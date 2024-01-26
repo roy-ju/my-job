@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler } from 'react';
 
 import tw from 'twin.macro';
 
-import ButtonV2 from '@/components/atoms/ButtonV2';
+// import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { TextFieldV2 } from '@/components/molecules';
 
-import CloseContained from '@/assets/icons/close_contained.svg';
+// import CloseContained from '@/assets/icons/close_contained.svg';
 
 import ErrorIcon from '@/assets/icons/error.svg';
 
@@ -46,13 +46,13 @@ export default function Nickname({
       >
         <TextFieldV2.Input label="닉네임" value={value} onChange={onChange} />
 
-        {value && (
+        {/* {value && (
           <TextFieldV2.Trailing css={[errorMessage ? tw`pr-3` : tw`pr-4`]}>
             <ButtonV2 variant="ghost" onClick={handleResetNickName} tw="p-0">
               <CloseContained />
             </ButtonV2>
           </TextFieldV2.Trailing>
-        )}
+        )} */}
 
         {errorMessage && (
           <TextFieldV2.Trailing tw="pr-4">
