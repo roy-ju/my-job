@@ -8,7 +8,7 @@ export default function useAuthPopup() {
   const [state, setState] = useRecoilState(authPopupAtom);
 
   const openAuthPopup = useCallback(
-    (value: 'needVerify' | 'onlyLogin' | '') => {
+    (value: 'needVerify' | 'onlyLogin' | 'login' | '') => {
       setState(() => ({ type: value, open: true }));
     },
     [setState],

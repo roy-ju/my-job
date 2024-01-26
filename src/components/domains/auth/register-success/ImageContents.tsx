@@ -9,5 +9,5 @@ type ImageContentsProps = { type: RegisterSuccessType };
 export default function ImageContents({ type }: ImageContentsProps) {
   if (!type) return null;
 
-  return type === 'onlyLogin' ? <SuccessAnimation /> : <RequireVerifyAnimation />;
+  return type === 'onlyLogin' || type === 'login' ? <SuccessAnimation /> : <RequireVerifyAnimation />;
 }

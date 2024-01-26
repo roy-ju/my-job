@@ -104,7 +104,7 @@ export default function useCreateSuggestForm() {
             });
           } else if (depth1 && depth2) {
             router.replace({
-              pathname: `/${Routes.WaitingCreateForm}`,
+              pathname: `/${depth1}/${Routes.WaitingCreateForm}`,
               query: {
                 ...(router?.query?.danjiID ? { danjiID: `${router.query.danjiID}` } : {}),
                 ...(router?.query?.listingID ? { listingID: `${router.query.listingID}` } : {}),

@@ -11,7 +11,7 @@ import Routes from '@/router/routes';
 export default function useWaitingFormHandler() {
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [remainTime, setRemainTime] = useState(3);
+  const [remainTime, setRemainTime] = useState(2);
 
   const { platform } = useCheckPlatform();
 

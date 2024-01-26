@@ -251,11 +251,6 @@ const VerifyCi = dynamic(() => import('@/components/pages/VerifyCi/VerifyCiPc'),
   loading: FallbackComponent,
 });
 
-const VerifyCiSuccess = dynamic(() => import('@/components/pages/VerifyCiSuccess/VerifyCiSuccessPc'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-
 const WaitingCreateForm = dynamic(() => import('@/components/pages/WaitingCreateForm/WaitingCreateFormPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -634,9 +629,7 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.VerifyCi: {
       return <VerifyCi {...props} />;
     }
-    case Routes.VerifyCiSuccess: {
-      return <VerifyCiSuccess {...props} />;
-    }
+
     case Routes.FindAccount: {
       return <FindAccount {...props} />;
     }

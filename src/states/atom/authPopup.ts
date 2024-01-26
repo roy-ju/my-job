@@ -4,7 +4,7 @@ import { v1 } from 'uuid';
 
 type AuthPopupAtom = {
   open: boolean;
-  type?: 'needVerify' | 'onlyLogin' | '';
+  type?: 'needVerify' | 'onlyLogin' | 'login' | '';
 };
 
 const authPopupAtom = atom<AuthPopupAtom>({

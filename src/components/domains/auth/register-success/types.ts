@@ -1,1 +1,1 @@
-export type RegisterSuccessType = 'onlyLogin' | 'needVerify' | '';
+export type RegisterSuccessType = 'onlyLogin' | 'needVerify' | 'login' | '';

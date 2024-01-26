@@ -38,7 +38,7 @@ export default function MobMy() {
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
-    openAuthPopup('onlyLogin');
+    openAuthPopup('login');
     handleUpdateReturnUrl();
   }, [handleUpdateReturnUrl, openAuthPopup]);
 

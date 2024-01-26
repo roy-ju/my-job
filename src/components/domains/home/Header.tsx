@@ -34,7 +34,7 @@ export default function Header() {
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
-    openAuthPopup('onlyLogin');
+    openAuthPopup('login');
     handleUpdateReturnUrl();
   }, [openAuthPopup, handleUpdateReturnUrl]);
 
