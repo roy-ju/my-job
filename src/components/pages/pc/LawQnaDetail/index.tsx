@@ -1,21 +1,44 @@
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
-import { lawQnaDelete } from '@/apis/lawQna/lawQnaCrud';
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
-import lawQnaView from '@/apis/lawQna/lawQnaView';
-import { Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { SharePopup } from '@/components/organisms';
-import { LegalCounselingDetail } from '@/components/templates';
-import ErrorCodes from '@/constants/error_codes';
-import useAuth from '@/hooks/services/useAuth';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
-import Routes from '@/router/routes';
-import { getBrowser, getDevice } from '@/utils/misc';
 import { memo, useCallback, useEffect, useState } from 'react';
+
+import { useRouter as useNextRouter } from 'next/router';
+
+import { useRouter } from '@/hooks/utils';
+
 import { toast } from 'react-toastify';
+
+import { Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { SharePopup } from '@/components/organisms';
+
+import { LegalCounselingDetail } from '@/components/templates';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import kakaoShare from '@/utils/kakaoShare';
+
+import { getBrowser, getDevice } from '@/utils/misc';
+
+import ErrorCodes from '@/constants/error_codes';
+
 import Paths from '@/constants/paths';
+
+import Routes from '@/router/routes';
+
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+
+import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
+
+import { lawQnaDelete } from '@/apis/lawQna/lawQnaCrud';
+
+import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
+
+import lawQnaView from '@/apis/lawQna/lawQnaView';
 
 interface Props {
   depth: number;
@@ -27,16 +50,23 @@ interface Props {
 export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const { user } = useAuth();
 
+  const router = useRouter(depth);
+
+  const nextRouter = useNextRouter();
+
   const [openPopup, setOpenPopup] = useState(false);
+
   const [openSharePopup, setOpenSharePopup] = useState(false);
+
   const [openErrPopup, setOpenErrPopup] = useState(false);
 
   const [text, setText] = useState('');
 
-  const router = useRouter(depth);
-  const nextRouter = useNextRouter();
-
   const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useAPI_GetLawQnaDetail(
     router?.query?.qnaID ? Number(router?.query?.qnaID) : undefined,
@@ -46,7 +76,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
     if (!id) return;
 
     router.replace(Routes.LawQnaDetail, {
-      searchParams: router?.query?.q ? { qnaID: `${id}`, q: router.query.q as string } : { qnaID: `${id}` },
+      searchParams: { qnaID: `${id}`, ...(router?.query?.q ? { q: router.query.q as string } : {}) },
     });
   };
 
@@ -60,22 +90,20 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
 
       await mutateQnaData();
 
-      if (router?.query?.q) {
-        nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
-      } else {
-        nextRouter.replace(`/${Routes.LawQna}`);
-      }
+      nextRouter.replace({
+        pathname: `/${Routes.LawQna}`,
+        query: { ...(router?.query?.q ? { q: router.query.q } : {}) },
+      });
     } else if (response?.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setText('삭제');
       setOpenErrPopup(true);
 
       await mutateQnaData();
 
-      if (router?.query?.q) {
-        nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
-      } else {
-        nextRouter.replace(`/${Routes.LawQna}`);
-      }
+      nextRouter.replace({
+        pathname: `/${Routes.LawQna}`,
+        query: { ...(router?.query?.q ? { q: router.query.q } : {}) },
+      });
     }
   }, [mutateQnaData, qnaID, nextRouter, router]);
 
@@ -116,14 +144,14 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const handleClickLike = useCallback(
     async (liked?: boolean, qnaId?: number) => {
       if (!user) {
-        router.replaceCurrent(Routes.Login, {
-          persistParams: true,
-          searchParams: { redirect: `${router.asPath}`, back: 'true' },
-        });
+        handleUpdateReturnUrl();
+        openAuthPopup('onlyLogin');
         return;
       }
 
-      if (typeof liked !== 'boolean' || typeof qnaId !== 'number') return;
+      if (typeof liked !== 'boolean' || typeof qnaId !== 'number') {
+        return;
+      }
 
       if (liked) {
         await lawQnaDislike({ law_qna_id: qnaId });
@@ -135,42 +163,30 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
         mutateQnaData();
       }
     },
-    [lawQnaDetailDataMutate, mutateQnaData, router, user],
+    [handleUpdateReturnUrl, lawQnaDetailDataMutate, mutateQnaData, openAuthPopup, user],
   );
 
   const handleCopyUrl = useCallback(() => {
     const content = `[네고시오] 부동산 법률 상담 게시판\n\n부동산 거래 플랫폼 네고시오에서 변호사가 직접\n법률 상담에 답변해 드려요.\n\n${window.origin}/${Routes.LawQnaDetail}?qnaID=${qnaID}`;
     navigator.clipboard.writeText(content);
+
     setOpenSharePopup(false);
+
     toast.success('복사되었습니다.');
   }, [qnaID]);
 
   const handleShareViaKakao = useCallback(() => {
     const link = `${window.origin}/${Routes.LawQnaDetail}?qnaID=${qnaID}`;
 
-    window.Kakao.Share.sendDefault({
+    kakaoShare({
+      width: 1200,
+      height: 630,
       objectType: 'feed',
-      installTalk: true,
-      content: {
-        title: '네고시오 부동산 법률 상담게시판',
-        description: `Q.${lawQnaDetailData?.title}`,
-        imageUrl: Paths.LAWQNA,
-        link: {
-          mobileWebUrl: link,
-          webUrl: link,
-        },
-        imageWidth: 1200,
-        imageHeight: 630,
-      },
-      buttons: [
-        {
-          title: '자세히보기',
-          link: {
-            mobileWebUrl: link,
-            webUrl: link,
-          },
-        },
-      ],
+      title: '네고시오 부동산 법률 상담게시판',
+      description: `Q.${lawQnaDetailData?.title}`,
+      imgUrl: Paths.LAWQNA,
+      buttonTitle: '자세히보기',
+      link,
     });
 
     setOpenSharePopup(false);
@@ -210,11 +226,10 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
             <Popup.ActionButton
               onClick={() => {
                 mutateQnaData();
-                if (router?.query?.q) {
-                  nextRouter.replace(`/${Routes.LawQna}?q=${router.query.q as string}`);
-                } else {
-                  nextRouter.replace(`/${Routes.LawQna}`);
-                }
+                nextRouter.replace({
+                  pathname: `/${Routes.LawQna}`,
+                  query: { ...(router?.query?.q ? { q: router.query.q } : {}) },
+                });
               }}
             >
               확인

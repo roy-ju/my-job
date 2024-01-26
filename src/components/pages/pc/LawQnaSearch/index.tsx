@@ -1,8 +1,12 @@
+import { memo, useCallback } from 'react';
+
 import { Panel } from '@/components/atoms';
+
 import LegalCounselingSearch from '@/components/templates/LegalCounselingSearch';
+
 import { useRouter } from '@/hooks/utils';
+
 import Routes from '@/router/routes';
-import { memo } from 'react';
 
 interface Props {
   depth: number;
@@ -12,20 +16,23 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
-  const routerFirst = useRouter(1);
+  const anotherRouter = useRouter(1);
 
-  const onSummit = (value: string) => {
-    if (!value) {
-      router.replace(Routes.LawQnaSearch, { searchParams: undefined });
-      return;
-    }
+  const onSummit = useCallback(
+    (value: string) => {
+      if (!value) {
+        router.replace(Routes.LawQnaSearch, { searchParams: undefined });
+        return;
+      }
 
-    router.replace(Routes.LawQnaSearch, { searchParams: { q: value }, persistParams: true });
-  };
+      router.replace(Routes.LawQnaSearch, { searchParams: { q: value }, persistParams: true });
+    },
+    [router],
+  );
 
-  const closePopLast = () => {
-    routerFirst.popLast();
-  };
+  const closePopLast = useCallback(() => {
+    anotherRouter.popLast();
+  }, [anotherRouter]);
 
   return (
     <Panel width={panelWidth}>

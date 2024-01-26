@@ -25,6 +25,7 @@ import Routes from '@/router/routes';
 import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
+import adjustWindowPopup from '@/utils/adjustWindowPopup';
 
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
   error_code: number;
@@ -53,13 +54,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
   const handleClickKakaoLogin = useCallback(() => {
     if (platform === 'pc') {
-      const width = 375;
-
-      const height = document.documentElement.scrollHeight;
-
-      const top = (window.innerHeight - height) / 2;
-
-      const left = (window.innerWidth - width) / 2;
+      const { width, height, left, top } = adjustWindowPopup({ w: 612 });
 
       window.open(
         `${window.location.origin}/auth/kakao`,
@@ -99,6 +94,26 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
   useEffect(() => {
     if (!platform) return;
+
+    if (user && authType === 'onlyLogin') {
+      if (platform === 'pc') {
+        if (returnUrl) {
+          router.push(returnUrl);
+          return;
+        }
+
+        router.push(`/`);
+      }
+
+      if (platform === 'mobile') {
+        if (returnUrl) {
+          router.push(returnUrl);
+          return;
+        }
+
+        router.push(`/${Routes.EntryMobile}`);
+      }
+    }
 
     if (user && !user.isVerified && authType === 'needVerify') {
       if (returnUrl) {

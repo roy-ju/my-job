@@ -1,15 +1,22 @@
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import { lawQnaUpdate } from '@/apis/lawQna/lawQnaCrud';
-
-import { MobAuthRequired, MobileContainer } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { LegalCounselingWriting } from '@/components/templates';
-import ErrorCodes from '@/constants/error_codes';
-import Routes from '@/router/routes';
+import { useState } from 'react';
 
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+
 import { toast } from 'react-toastify';
+
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { LegalCounselingWriting } from '@/components/templates';
+
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+
+import { lawQnaUpdate } from '@/apis/lawQna/lawQnaCrud';
+
+import Routes from '@/router/routes';
+
+import ErrorCodes from '@/constants/error_codes';
 
 function LawQnaUpdate() {
   const router = useRouter();
@@ -32,8 +39,11 @@ function LawQnaUpdate() {
     if (response === null) {
       toast.success('수정이 완료되었습니다.');
       mutate();
+
       router.back();
-    } else if (response.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
+    }
+
+    if (response.error_code === ErrorCodes.NOTEXIST_LAWQNA) {
       setError(true);
     }
   };
@@ -41,11 +51,12 @@ function LawQnaUpdate() {
   const handleClickErrPopup = () => {
     mutate();
 
-    if (router?.query?.q) {
-      router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}?q=${router.query.q as string}`);
-    } else {
-      router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}`);
-    }
+    router.replace({
+      pathname: `/${Routes.EntryMobile}/${Routes.LawQna}`,
+      query: {
+        ...(router.query.q ? { q: router.query.q } : {}),
+      },
+    });
   };
 
   if (!qnaID || error)

@@ -9,7 +9,7 @@ export default function NotSuggestAfterVerfiy({ handleCancel, handleConfirm }: N
   return (
     <OverlayPresenter>
       <Popup>
-        <Popup.ContentGroup>
+        <Popup.ContentGroup tw="gap-2">
           <Popup.Title>본인 인증이 필요해요!</Popup.Title>
           <Popup.Body>
             방금 이용하시려는 서비스는 본인 인증이 필요합니다.

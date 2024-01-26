@@ -141,16 +141,3 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
 
   return children as JSX.Element;
 }
-
-//  if (isClient && router.isReady) {
-//    router.replace(Routes.Login, {
-//      persistParams: true,
-//      searchParams: {
-//        redirect: `${router.asPath}`,
-//      },
-//    });
-//  }
-
-// if (isClient && router.isReady) {
-//   router.replace(Routes.VerifyCi, { persistParams: true, searchParams: { redirect: `${router.asPath}` } });
-// }

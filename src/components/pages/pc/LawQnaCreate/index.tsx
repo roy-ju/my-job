@@ -1,12 +1,18 @@
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import { lawQnaCreate } from '@/apis/lawQna/lawQnaCrud';
-import { AuthRequired, Panel } from '@/components/atoms';
-import { LegalCounselingWriting } from '@/components/templates';
-import Routes from '@/router/routes';
+import { memo, useState } from 'react';
+
 import { useRouter as useNextRouter } from 'next/router';
 
-import { memo, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { AuthRequired, Panel } from '@/components/atoms';
+
+import LegalCounselingWriting from '@/components/templates/LegalCounselingWriting';
+
+import Routes from '@/router/routes';
+
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+
+import { lawQnaCreate } from '@/apis/lawQna/lawQnaCrud';
 
 interface Props {
   depth: number;
@@ -28,8 +34,10 @@ export default memo(({ depth, panelWidth }: Props) => {
     const response = await lawQnaCreate({ title: text, user_message: message });
 
     if (response === null) {
-      toast.success('등록이 완료되었습니다.');
+      toast.success('등록이 완료되었습니다.', { toastId: 'success-law-create' });
+
       mutate();
+
       nextRouter.replace(`/${Routes.LawQna}`);
     }
   };

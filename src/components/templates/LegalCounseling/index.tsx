@@ -36,7 +36,7 @@ export default function LegalCounseling({
   onClickLike,
   onClickSearchPage,
   onClickQnaDetail,
-  onClickWritingPage,
+  onClickCreate,
   onClickAllPage,
 }: {
   isLoading: boolean;
@@ -47,7 +47,7 @@ export default function LegalCounseling({
   onClickLike?: (like?: boolean, qnaId?: number) => Promise<void>;
   onClickSearchPage?: () => void;
   onClickQnaDetail?: (id?: number) => void;
-  onClickWritingPage?: () => void;
+  onClickCreate?: () => void;
   onClickAllPage?: () => void;
 }) {
   const nextRouter = useNextRouter();
@@ -186,7 +186,7 @@ export default function LegalCounseling({
             isMobile ? (
               <Button
                 variant="secondary"
-                onClick={() => onClickWritingPage?.()}
+                onClick={() => onClickCreate?.()}
                 tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [right: 16px] p-0"
               >
                 <Plus16 />
@@ -194,7 +194,7 @@ export default function LegalCounseling({
             ) : (
               <Button
                 variant="secondary"
-                onClick={() => onClickWritingPage?.()}
+                onClick={() => onClickCreate?.()}
                 tw="[width: 32px] [height: 32px] [border-radius: 50%] flex justify-center items-center [position: fixed] [bottom: 16px] [left: 400px] p-0"
               >
                 <Plus16 />
@@ -203,7 +203,7 @@ export default function LegalCounseling({
           ) : isMobile ? (
             <Button
               variant="secondary"
-              onClick={() => onClickWritingPage?.()}
+              onClick={() => onClickCreate?.()}
               tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [right: 16px]"
             >
               <Plus16 />
@@ -212,7 +212,7 @@ export default function LegalCounseling({
           ) : (
             <Button
               variant="secondary"
-              onClick={() => onClickWritingPage?.()}
+              onClick={() => onClickCreate?.()}
               tw="[max-width: 104px] [border-radius: 30px] flex gap-1 items-center [position: fixed] [bottom: 16px] [left: 326px]"
             >
               <Plus16 />

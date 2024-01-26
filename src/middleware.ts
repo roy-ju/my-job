@@ -35,6 +35,11 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     return NextResponse.redirect(new URL(`${Routes.SuggestForm}`, request.url), 301);
   }
 
+  // 인증과정 개선에 따른 페이지 URL변경
+  if (path === `/${Routes.Login}`) {
+    return NextResponse.redirect(new URL(`/`, request.url), 301);
+  }
+
   const { ua } = userAgent(request);
 
   if (detectRobot(ua)) {
@@ -48,6 +53,11 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
 
   // Redirect Mobile user
   if (ua.indexOf('Mobi') > -1) {
+    // 구해요 개선에 따른 페이지 URL변경
+    if (path === `/${Routes.EntryMobile}/${Routes.Login}`) {
+      return NextResponse.redirect(new URL(`${request.nextUrl.origin}/${Routes.EntryMobile}`, request.url), 301);
+    }
+
     // 구해요 개선에 따른 페이지 URL변경
     if (path === `/${Routes.EntryMobile}/${Routes.PAST_RecommedationGuide}`) {
       return NextResponse.redirect(
