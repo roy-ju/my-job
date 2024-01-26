@@ -111,19 +111,29 @@ export default function useVerifyCiPopup() {
             }
 
             updateVerifyCiStatus('success');
-            setTimeout(() => router.replace(returnUrl), 2000);
+
+            setTimeout(() => {
+              router.replace(returnUrl);
+
+              setTimeout(() => {
+                updateVerifyCiStatus('');
+              }, 3000);
+            }, 2000);
           }
         } else {
           toast.success('본인 인증이 완료되었습니다.');
           updateVerifyCiStatus('success');
-          setTimeout(() => router.replace('/'), 2000);
+
+          setTimeout(() => {
+            router.replace('/');
+
+            setTimeout(() => {
+              updateVerifyCiStatus('');
+            }, 3000);
+          }, 2000);
         }
 
         closeVericyCiPopup();
-
-        setTimeout(() => {
-          updateVerifyCiStatus('');
-        }, 3000);
       }
     },
     [closeVericyCiPopup, createSuggest, mutateAuth, openAuthPopup, returnUrl, router, setState, updateVerifyCiStatus],

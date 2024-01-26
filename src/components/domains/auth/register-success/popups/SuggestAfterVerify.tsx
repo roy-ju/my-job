@@ -9,7 +9,7 @@ export default function SuggestAfterVerify({ handleCancel, handleConfirm }: Sugg
   return (
     <OverlayPresenter>
       <Popup>
-        <Popup.ContentGroup>
+        <Popup.ContentGroup tw="gap-2">
           <Popup.Title>내용이 저장되지 않았습니다.</Popup.Title>
           <Popup.Body>
             지금 홈으로 이동하시면 작성하신 집구해요 내용은 저장이 되지 않습니다. 홈으로 이동하시겠어요?

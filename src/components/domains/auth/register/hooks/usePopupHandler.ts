@@ -4,10 +4,6 @@ import { useRouter } from 'next/router';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import Routes from '@/router/routes';
-
 type Popup = 'quit' | 'terms' | '';
 
 export default function usePopupHandler() {
@@ -17,9 +13,7 @@ export default function usePopupHandler() {
 
   const [termsPopupType, setTermsPopupType] = useState<'location' | 'service' | 'privacy' | ''>('');
 
-  const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
-
-  const { platform } = useCheckPlatform();
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const handlePopup = useCallback((value: Popup) => {
     setPopup(value);
@@ -32,22 +26,10 @@ export default function usePopupHandler() {
   const handleConfirmRegisterQuit = useCallback(async () => {
     handlePopup('');
 
-    if (returnUrl) {
-      await router.replace(returnUrl);
-
-      return;
-    }
-
-    if (platform === 'pc') {
-      router.replace('/');
-    }
-
-    if (platform === 'mobile') {
-      router.replace(`/${Routes.EntryMobile}`);
-    }
+    router.back();
 
     handleUpdateReturnUrl('');
-  }, [handlePopup, platform, returnUrl, router, handleUpdateReturnUrl]);
+  }, [handlePopup, router, handleUpdateReturnUrl]);
 
   const handleCancel = useCallback(() => {
     handlePopup('');

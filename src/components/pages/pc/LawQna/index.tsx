@@ -14,6 +14,10 @@ import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 
 import Routes from '@/router/routes';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 interface Props {
   depth: number;
   panelWidth: string;
@@ -23,6 +27,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { user } = useAuth();
 
   const router = useRouter(depth);
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const {
     isLoading,
@@ -53,9 +61,19 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   };
 
-  const handleClickWritingPage = () => {
+  const handleClickCreateButton = () => {
+    if (!user) {
+      const returnUrl = router.query.q
+        ? `/${Routes.LawQna}/${Routes.LawQnaCreate}?q=${router.query.q}`
+        : `/${Routes.LawQna}/${Routes.LawQnaCreate}`;
+
+      handleUpdateReturnUrl(returnUrl);
+      openAuthPopup('onlyLogin');
+      return;
+    }
+
     router.push(Routes.LawQnaCreate, {
-      searchParams: router?.query?.q ? { q: router.query.q as string } : undefined,
+      searchParams: { ...(router?.query?.q ? { q: router.query.q as string } : {}) },
     });
   };
 
@@ -66,10 +84,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickLike = useCallback(
     async (liked?: boolean, qnaId?: number) => {
       if (!user) {
-        router.replaceCurrent(Routes.Login, {
-          persistParams: true,
-          searchParams: { redirect: `${router.asPath}`, back: 'true' },
-        });
+        handleUpdateReturnUrl();
+        openAuthPopup('onlyLogin');
         return;
       }
 
@@ -83,7 +99,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         mutateQnaData();
       }
     },
-    [mutateQnaData, router, user],
+    [handleUpdateReturnUrl, mutateQnaData, openAuthPopup, user],
   );
 
   return (
@@ -96,7 +112,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickLike={handleClickLike}
         onClickSearchPage={handleClickSearchPage}
         onClickQnaDetail={handleQnaDetail}
-        onClickWritingPage={handleClickWritingPage}
+        onClickCreate={handleClickCreateButton}
         onClickAllPage={handleClickAllPage}
       />
     </Panel>

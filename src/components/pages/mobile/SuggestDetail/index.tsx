@@ -8,7 +8,13 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { SuggestDetail } from '@/components/templates';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { apiService } from '@/services';
 
 import { isMobile } from '@/utils/is';
 
@@ -23,8 +29,6 @@ import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import suggestView from '@/apis/suggest/suggestView';
 
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-
-import { apiService } from '@/services';
 
 export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const router = useRouter();
@@ -41,6 +45,10 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
 
   const [needVerifyAddressPopup, setNeedVerifyAddressPopup] = useState(false);
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const disabledCTA = useMemo(() => {
     if (data?.suggest_status === SuggestStatus.Active) return false;
@@ -66,21 +74,15 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
     if (!suggestID) return;
 
     if (!userData) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (!userData.is_verified) {
+      handleUpdateReturnUrl();
       router.push({
         pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-        query: {
-          redirect: router.asPath,
-        },
       });
       return;
     }
@@ -106,7 +108,7 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
         }
       }
     }
-  }, [data?.danji_id, router, suggestID, userData]);
+  }, [data, handleUpdateReturnUrl, openAuthPopup, router, suggestID, userData]);
 
   const handleAddressApplyPopupCTA = useCallback(() => {
     router.push({

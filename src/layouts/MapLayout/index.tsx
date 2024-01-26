@@ -31,6 +31,11 @@ import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import Routes from '@/router/routes';
 
 import { apiService } from '@/services';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import Markers from './Markers';
 
 import usePanelVisible from './hooks/usePanelVisible';
@@ -105,6 +110,10 @@ function MapWrapper({
 
   const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const handleSuggestFormRouter = useCallback(
     (address?: string, bcode?: string) => {
       if (address && bcode) {
@@ -148,19 +157,14 @@ function MapWrapper({
 
   const handleClickListingCreateAddress = useCallback(async () => {
     if (!userData) {
-      replace(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${asPath}` },
-      });
-
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (!userData.is_verified) {
-      replace(Routes.VerifyCi, {
-        persistParams: true,
-        searchParams: { redirect: `${asPath}` },
-      });
+      router.push(`/${Routes.VerifyCi}`);
+      handleUpdateReturnUrl();
       return;
     }
 
@@ -185,7 +189,7 @@ function MapWrapper({
         });
       }
     }
-  }, [asPath, replace, userData]);
+  }, [asPath, handleUpdateReturnUrl, openAuthPopup, replace, router, userData]);
 
   const handleClickAgentSite = useCallback(() => {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
