@@ -1,10 +1,15 @@
 import createBidding, { CreateBiddingResponse } from '@/apis/bidding/createBidding';
 import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
 import { Loading, Panel } from '@/components/atoms';
-import { BiddingSummary } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { BiddingSummary } from '@/components/templates';
+
+import { useRouter as useNextRouter } from 'next/router';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;
@@ -13,6 +18,9 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
+  const nextRouter = useNextRouter();
+
   const listingID = Number(router.query.listingID) ?? 0;
 
   const { data, isLoading } = useAPI_GetListingDetail(listingID);
@@ -50,11 +58,8 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router, listingID, params, mutateListing]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(Routes.BiddingForm, {
-      searchParams: { listingID: router.query.listingID as string },
-      state: { params: router.query.params as string },
-    });
-  }, [router]);
+    nextRouter.back();
+  }, [nextRouter]);
 
   useEffect(() => {
     if (!params) router.pop();

@@ -100,7 +100,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   useEffect(() => {
     if (!platform) return;
 
-    if (user && authType === 'onlyLogin') {
+    if (user && (authType === 'onlyLogin' || authType === 'login')) {
       if (platform === 'pc') {
         if (returnUrl) {
           router.push(returnUrl);
@@ -199,9 +199,13 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     }
 
     if (user && user.isVerified && authType === 'needVerify') {
-      if (returnUrl && returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-        createSuggest();
-        return;
+      if (returnUrl) {
+        if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+          createSuggest();
+          return;
+        }
+
+        router.push(returnUrl);
       }
     }
 

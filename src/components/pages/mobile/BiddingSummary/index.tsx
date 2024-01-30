@@ -53,16 +53,7 @@ export default memo(() => {
   }, [router, listingID, params, mutateListing]);
 
   const handleClickBack = useCallback(() => {
-    router.replace(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.BiddingForm}`,
-        query: {
-          listingID: router.query.listingID,
-          params: router.query.params as string,
-        },
-      },
-      `/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`,
-    );
+    router.back();
   }, [router]);
 
   useEffect(() => {

@@ -6,6 +6,10 @@ import { useRouter } from 'next/router';
 
 import { useResetRecoilState } from 'recoil';
 
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+import Routes from '@/router/routes';
+
 import Header from './update-form/Header';
 
 import Actions from './update-form/Actions';
@@ -23,6 +27,7 @@ const Popups = dynamic(() => import('./form/popups'), { ssr: false });
 type SuggestFormUpdateProps = { depth?: number };
 
 export default function SuggestFormUpdate({ depth }: SuggestFormUpdateProps) {
+  const { platform } = useCheckPlatform();
   const router = useRouter();
 
   const reset = useResetRecoilState(SuggestFormState);
@@ -35,6 +40,18 @@ export default function SuggestFormUpdate({ depth }: SuggestFormUpdateProps) {
     },
     [reset],
   );
+
+  useEffect(() => {
+    const suggestID = router?.query?.suggestID;
+
+    if (!suggestID) {
+      if (platform === 'pc') {
+        router.replace(`/`);
+      } else {
+        router.replace(`/${Routes.EntryMobile}`);
+      }
+    }
+  }, [platform, router]);
 
   return (
     <div tw="flex flex-col h-full">

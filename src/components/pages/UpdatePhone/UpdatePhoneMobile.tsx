@@ -8,8 +8,6 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import ErrorCodes from '@/constants/error_codes';
 
-import Routes from '@/router/routes';
-
 import MyUpdatePhone from '@/components/domains/my/MyUpdatePhone';
 
 import useMyUpdatePhone from '@/components/domains/my/my-update-phone/hooks/useMyUpdatePhone';
@@ -35,12 +33,7 @@ export default function UpdatePhoneMobile() {
 
   const handleClickNext = useCallback(() => {
     if (router.query.trigger === 'iPin') {
-      router.replace({
-        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCiSuccess}`,
-        query: {
-          redirect: (router.query.redirect as string) ?? '',
-        },
-      });
+      // To Will Logic
     } else {
       router.back();
     }
