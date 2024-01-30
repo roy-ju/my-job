@@ -106,21 +106,25 @@ export default function useVerifyCiPopup() {
           if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
             await createSuggest();
           } else if (returnUrl?.includes(Routes.MyRegisteredListingList)) {
+            updateVerifyCiStatus('success');
+
             setTimeout(() => {
               router.replace(returnUrl);
 
               setTimeout(() => {
                 updateVerifyCiStatus('');
-              }, 2500);
-            }, 200);
+              }, 3000);
+            }, 2000);
           } else if (returnUrl?.includes(Routes.DanjiListings)) {
+            updateVerifyCiStatus('success');
+
             setTimeout(() => {
               router.replace(returnUrl);
 
               setTimeout(() => {
                 updateVerifyCiStatus('');
-              }, 2500);
-            }, 200);
+              }, 3000);
+            }, 2000);
           } else {
             if (returnUrl === router.asPath) {
               toast.success('본인 인증이 완료되었습니다.');
@@ -134,8 +138,8 @@ export default function useVerifyCiPopup() {
 
               setTimeout(() => {
                 updateVerifyCiStatus('');
-              }, 2500);
-            }, 200);
+              }, 3000);
+            }, 2000);
           }
         } else {
           toast.success('본인 인증이 완료되었습니다.');
