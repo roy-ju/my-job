@@ -82,6 +82,7 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
     if (!userData.is_verified) {
       const path = replaceFirstOccurrence(router.asPath, Routes.SuggestDetail, Routes.VerifyCi);
       handleUpdateReturnUrl();
+
       nextRouter.push(path);
       return;
     }

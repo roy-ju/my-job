@@ -22,6 +22,7 @@ import verifyCiPopupAtom from '../atom/verifyCiPopup';
 import useAuthPopup from './useAuhPopup';
 
 import useReturnUrl from './useReturnUrl';
+
 import useVerifyCiStatus from './useVerifyCiStatus';
 
 export default function useVerifyCiPopup() {
@@ -104,6 +105,14 @@ export default function useVerifyCiPopup() {
         if (returnUrl) {
           if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
             await createSuggest();
+          } else if (returnUrl?.includes(Routes.MyRegisteredListingList)) {
+            setTimeout(() => {
+              router.replace(returnUrl);
+
+              setTimeout(() => {
+                updateVerifyCiStatus('');
+              }, 3000);
+            }, 200);
           } else {
             if (returnUrl === router.asPath) {
               toast.success('본인 인증이 완료되었습니다.');
@@ -118,7 +127,7 @@ export default function useVerifyCiPopup() {
               setTimeout(() => {
                 updateVerifyCiStatus('');
               }, 3000);
-            }, 2000);
+            }, 200);
           }
         } else {
           toast.success('본인 인증이 완료되었습니다.');
@@ -130,7 +139,7 @@ export default function useVerifyCiPopup() {
             setTimeout(() => {
               updateVerifyCiStatus('');
             }, 3000);
-          }, 2000);
+          }, 200);
         }
 
         closeVericyCiPopup();
