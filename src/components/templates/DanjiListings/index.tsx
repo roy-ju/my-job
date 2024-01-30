@@ -1,20 +1,12 @@
-import { useCallback, useState } from 'react';
-
 import Image from 'next/image';
 
-import { useRouter as useNextRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
-import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
+import { InfiniteScroll } from '@/components/atoms';
 
-import { Dropdown, NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
+import { Dropdown, NavigationHeader } from '@/components/molecules';
 
 import { DanjiDetailSection, ListingItem } from '@/components/organisms';
-
-import useAuthPopup from '@/states/hooks/useAuhPopup';
-
-import useReturnUrl from '@/states/hooks/useReturnUrl';
-
-import { useRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
 
@@ -22,13 +14,7 @@ import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
 
-import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-
-import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
-
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
-
-import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
 
 export default function DanjiListings({
   depth,
@@ -49,73 +35,18 @@ export default function DanjiListings({
   handleBackButton?: () => void;
   handleChangeDropDown: (value: string) => void;
 }) {
-  const router = useRouter(depth);
-
-  const nextRouter = useNextRouter();
-
-  const { data: userData } = useAPI_GetUserInfo();
-
-  const { openAuthPopup } = useAuthPopup();
-
-  const { handleUpdateReturnUrl } = useReturnUrl();
-
-  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
-
-  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
+  const router = useRouter();
 
   const handleClickListingDetail = (id: number, buyOrRent: number) => {
-    router.push(Routes.ListingDetail, {
-      persistParams: true,
-      searchParams: { listingID: `${id}` },
-      state: {
-        bor: `${buyOrRent}`,
-      },
+    const query = router.query;
+    delete query.depth1;
+    delete query.depth2;
+
+    router.push({
+      pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
+      query: { ...query, listingID: `${id}`, bor: `${buyOrRent}` },
     });
   };
-
-  const handleCreateListing = useCallback(async () => {
-    if (!userData) {
-      openAuthPopup('needVerify');
-      handleUpdateReturnUrl();
-      return;
-    }
-
-    if (!userData.is_verified) {
-      const path = replaceFirstOccurrence(nextRouter.asPath, Routes.DanjiListings, Routes.VerifyCi);
-      nextRouter.push(path);
-      handleUpdateReturnUrl();
-      return;
-    }
-
-    if (!userData?.has_address) {
-      setOpenVerificationAddressPopup(true);
-      return;
-    }
-
-    if (userData?.has_address) {
-      const res = await listingEligibilityCheck({ danji_id: danji?.danji_id });
-
-      if (res && !res?.is_eligible) {
-        setOpenNeedMoreVerificationAddressPopup(true);
-        return;
-      }
-
-      if (res && res?.is_eligible) {
-        nextRouter.replace(
-          {
-            pathname: `/${Routes.DanjiListings}/${Routes.ListingSelectAddress}`,
-            query: {
-              danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-              origin: router.asPath,
-            },
-          },
-          `/${Routes.DanjiListings}/${Routes.ListingSelectAddress}?danjiID=${
-            danji?.danji_id || router?.query?.danjiID || ''
-          }`,
-        );
-      }
-    }
-  }, [danji?.danji_id, handleUpdateReturnUrl, nextRouter, openAuthPopup, router, userData]);
 
   if (!danji) return null;
 
@@ -194,77 +125,7 @@ export default function DanjiListings({
             </p>
           </div>
         )}
-
-        <PersistentBottomBar>
-          <div tw="w-full [padding-bottom: 26px]">
-            <Button variant="primary" size="bigger" tw="w-full" onClick={handleCreateListing}>
-              매물 등록
-            </Button>
-          </div>
-        </PersistentBottomBar>
       </div>
-
-      {openVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                이 단지의 집주인만 매물등록이 가능합니다.
-                <br />
-                우리집을 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-                  router.push(Routes.MyAddress, {
-                    searchParams: {
-                      origin: router.asPath,
-                      ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-
-      {openNeedMoreVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                추가로 매물등록이 가능한 우리집 정보가 없습니다.
-                <br />
-                우리집을 추가 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-                  router.push(Routes.MyAddress, {
-                    searchParams: {
-                      origin: router.asPath,
-                      ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
     </>
   );
 }
