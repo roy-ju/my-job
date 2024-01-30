@@ -22,7 +22,6 @@ import { addFavorite } from '@/apis/listing/addListingFavroite';
 
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 
-import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
 import useMapListingList from './useMapListingList';
 
 interface Props {
@@ -61,15 +60,7 @@ export default memo(({ depth, panelWidth }: Props) => {
       if (isAuthLoading) return;
 
       if (!user) {
-        openAuthPopup('needVerify');
-        handleUpdateReturnUrl();
-        return;
-      }
-
-      if (!user.isVerified) {
-        const path = replaceFirstOccurrence(router.asPath, Routes.MapListingList, Routes.VerifyCi);
-        router.push(path);
-
+        openAuthPopup('onlyLogin');
         handleUpdateReturnUrl();
         return;
       }
@@ -82,7 +73,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         toast.success('관심을 해제했습니다.');
       }
     },
-    [isAuthLoading, user, openAuthPopup, handleUpdateReturnUrl, router],
+    [isAuthLoading, user, openAuthPopup, handleUpdateReturnUrl],
   );
 
   const handleNextPage = useCallback(() => {

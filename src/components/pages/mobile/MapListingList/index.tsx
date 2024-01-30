@@ -54,13 +54,7 @@ export default memo(() => {
       if (isAuthLoading) return;
 
       if (!user) {
-        openAuthPopup('needVerify');
-        handleUpdateReturnUrl();
-        return;
-      }
-
-      if (!user.isVerified) {
-        router.push(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+        openAuthPopup('onlyLogin');
         handleUpdateReturnUrl();
         return;
       }
@@ -75,7 +69,7 @@ export default memo(() => {
         mutate();
       }
     },
-    [handleUpdateReturnUrl, isAuthLoading, mutate, openAuthPopup, router, user],
+    [handleUpdateReturnUrl, isAuthLoading, mutate, openAuthPopup, user],
   );
 
   return (
