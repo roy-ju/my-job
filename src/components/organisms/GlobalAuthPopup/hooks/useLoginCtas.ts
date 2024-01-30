@@ -25,7 +25,10 @@ import Routes from '@/router/routes';
 import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import adjustWindowPopup from '@/utils/adjustWindowPopup';
+
+import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
 
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
   error_code: number;
@@ -51,6 +54,8 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   const router = useRouter();
 
   const device = useMemo(() => (platform === 'pc' ? 'MOBILE' : 'PC'), [platform]);
+
+  const { createSuggest } = useCreateSuggestForm();
 
   const handleClickKakaoLogin = useCallback(() => {
     if (platform === 'pc') {
@@ -126,14 +131,26 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
           delete query.depth2;
 
           if (depth1 && depth2) {
-            router.push({
-              pathname: `/${depth1}/${Routes.VerifyCi}`,
-              query,
-            });
+            if (depth1 === Routes.MapListingList) {
+              router.push({
+                pathname: `/${Routes.VerifyCi}/${depth2}`,
+                query,
+              });
+            } else {
+              router.push({
+                pathname: `/${depth1}/${Routes.VerifyCi}`,
+                query,
+              });
+            }
           }
 
           if (depth1 && !depth2) {
             if (depth1 === Routes.SuggestForm) {
+              router.push({
+                pathname: `/${Routes.VerifyCi}`,
+                query,
+              });
+            } else if (depth1 === Routes.MapListingList) {
               router.push({
                 pathname: `/${Routes.VerifyCi}`,
                 query,
@@ -171,6 +188,13 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
       return;
     }
 
+    if (user && user.isVerified && authType === 'needVerify') {
+      if (returnUrl && returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+        createSuggest();
+        return;
+      }
+    }
+
     const handleLoginResponse: EventListenerOrEventListenerObject = async (event) => {
       const detail = (event as CustomEvent).detail as LoginCustomEventDetail;
 
@@ -190,14 +214,26 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
           query.socialLoginType = `${detail.socialLoginType}`;
 
           if (depth1 && depth2) {
-            router.push({
-              pathname: `/${depth1}/${Routes.Register}`,
-              query,
-            });
+            if (depth1 === Routes.MapListingList) {
+              router.push({
+                pathname: `/${Routes.Register}/${depth2}`,
+                query,
+              });
+            } else {
+              router.push({
+                pathname: `/${depth1}/${Routes.Register}`,
+                query,
+              });
+            }
           }
 
           if (depth1 && !depth2) {
             if (depth1 === Routes.SuggestForm) {
+              router.push({
+                pathname: `/${Routes.Register}`,
+                query,
+              });
+            } else if (depth1 === Routes.MapListingList) {
               router.push({
                 pathname: `/${Routes.Register}`,
                 query,
@@ -284,7 +320,18 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     return () => {
       window.removeEventListener(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, handleLoginResponse);
     };
-  }, [router, login, platform, closeAuthPopup, returnUrl, user, authType, openVerifyCiPopup, handleUpdateReturnUrl]);
+  }, [
+    router,
+    login,
+    platform,
+    closeAuthPopup,
+    returnUrl,
+    user,
+    authType,
+    openVerifyCiPopup,
+    handleUpdateReturnUrl,
+    createSuggest,
+  ]);
 
   return { handleClickKakaoLogin, handleClickAppleLogin };
 }

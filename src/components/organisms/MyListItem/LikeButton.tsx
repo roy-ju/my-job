@@ -1,6 +1,8 @@
-import Heart from '@/assets/icons/heart.svg';
-import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import { useState } from 'react';
+
+import Heart from '@/assets/icons/heart.svg';
+
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 
 export default function LikeButton({
   onLike,

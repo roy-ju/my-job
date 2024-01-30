@@ -147,7 +147,7 @@ export default function useRegisterForm() {
 
       if (depth1 && depth2) {
         if (depth1 === Routes.Register) {
-          path = `/${Routes.RegisterSuccess}`;
+          path = `/${Routes.RegisterSuccess}/${depth2}`;
         } else if (depth2 === Routes.Register) {
           path = `/${depth1}/${Routes.RegisterSuccess}`;
         } else {
