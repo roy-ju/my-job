@@ -1,16 +1,30 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
-import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
-import { Dropdown, NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingItem, MobDanjiDetailSection } from '@/components/organisms';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
-import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
+
+import { useRouter } from 'next/router';
+
+import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
+
+import { Dropdown, NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ListingItem, MobDanjiDetailSection } from '@/components/organisms';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import Routes from '@/router/routes';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
+
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+
+import ListingNodata from '@/../public/static/images/listing_nodata.png';
 
 export default function MobDanjiListings({
   data,
@@ -33,6 +47,10 @@ export default function MobDanjiListings({
 
   const { data: userData } = useAPI_GetUserInfo();
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
   const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
@@ -48,22 +66,14 @@ export default function MobDanjiListings({
 
   const handleCreateListing = useCallback(async () => {
     if (!userData) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (!userData.is_verified) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
+      router.push(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+      handleUpdateReturnUrl();
       return;
     }
 
@@ -90,7 +100,7 @@ export default function MobDanjiListings({
         });
       }
     }
-  }, [danji?.danji_id, router, userData]);
+  }, [danji?.danji_id, handleUpdateReturnUrl, openAuthPopup, router, userData]);
 
   if (!danji) return null;
 

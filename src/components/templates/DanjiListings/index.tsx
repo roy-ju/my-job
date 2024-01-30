@@ -1,17 +1,34 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
-import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
-import { Dropdown, NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
-import { DanjiDetailSection, ListingItem } from '@/components/organisms';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
-import Routes from '@/router/routes';
 import { useCallback, useState } from 'react';
 
-import ListingNodata from '@/../public/static/images/listing_nodata.png';
 import Image from 'next/image';
+
+import { useRouter as useNextRouter } from 'next/router';
+
+import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
+
+import { Dropdown, NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
+
+import { DanjiDetailSection, ListingItem } from '@/components/organisms';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
+
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+
+import ListingNodata from '@/../public/static/images/listing_nodata.png';
+
+import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
 
 export default function DanjiListings({
   depth,
@@ -38,6 +55,10 @@ export default function DanjiListings({
 
   const { data: userData } = useAPI_GetUserInfo();
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
 
   const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
@@ -54,19 +75,15 @@ export default function DanjiListings({
 
   const handleCreateListing = useCallback(async () => {
     if (!userData) {
-      router.replace(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
-
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (!userData.is_verified) {
-      router.replace(Routes.VerifyCi, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
+      const path = replaceFirstOccurrence(nextRouter.asPath, Routes.DanjiListings, Routes.VerifyCi);
+      nextRouter.push(path);
+      handleUpdateReturnUrl();
       return;
     }
 
@@ -98,7 +115,7 @@ export default function DanjiListings({
         );
       }
     }
-  }, [danji?.danji_id, nextRouter, router, userData]);
+  }, [danji?.danji_id, handleUpdateReturnUrl, nextRouter, openAuthPopup, router, userData]);
 
   if (!danji) return null;
 
