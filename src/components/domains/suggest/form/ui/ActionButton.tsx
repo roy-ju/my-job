@@ -26,15 +26,17 @@ function ActionButton({
   handleClick,
   handleClickBack,
 }: ActionButtonProps) {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
   const submmitTitle = useMemo(() => {
+    if (isLoading) return;
+
     if (!user) return '로그인하고 제출하기';
 
     if (user?.isVerified) return '제출하기';
 
     if (user && !user?.isVerified) return '본인인증 후 제출하기';
-  }, [user]);
+  }, [user, isLoading]);
 
   if (isRenderUpdateButton) {
     return (

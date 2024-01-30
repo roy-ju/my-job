@@ -136,6 +136,11 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
                 pathname: `/${Routes.VerifyCi}/${depth2}`,
                 query,
               });
+            } else if (depth1 === Routes.DanjiListings) {
+              router.push({
+                pathname: `/${Routes.VerifyCi}/${depth2}`,
+                query,
+              });
             } else {
               router.push({
                 pathname: `/${depth1}/${Routes.VerifyCi}`,
@@ -151,6 +156,11 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
                 query,
               });
             } else if (depth1 === Routes.MapListingList) {
+              router.push({
+                pathname: `/${Routes.VerifyCi}`,
+                query,
+              });
+            } else if (depth1 === Routes.DanjiListings) {
               router.push({
                 pathname: `/${Routes.VerifyCi}`,
                 query,
@@ -219,6 +229,11 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
                 pathname: `/${Routes.Register}/${depth2}`,
                 query,
               });
+            } else if (depth1 === Routes.DanjiListings) {
+              router.push({
+                pathname: `/${Routes.Register}/${depth2}`,
+                query,
+              });
             } else {
               router.push({
                 pathname: `/${depth1}/${Routes.Register}`,
@@ -234,6 +249,11 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
                 query,
               });
             } else if (depth1 === Routes.MapListingList) {
+              router.push({
+                pathname: `/${Routes.Register}`,
+                query,
+              });
+            } else if (depth1 === Routes.DanjiListings) {
               router.push({
                 pathname: `/${Routes.Register}`,
                 query,

@@ -60,11 +60,9 @@ export default function useMyDetailMobile() {
   }, [router]);
 
   const handleLogout = useCallback(async () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.My}`);
+    await router.push(`/${Routes.EntryMobile}/${Routes.My}`);
 
-    setTimeout(() => {
-      logout();
-    }, 200);
+    logout();
   }, [logout, router]);
 
   const handleUpdatePhone = useCallback(() => {

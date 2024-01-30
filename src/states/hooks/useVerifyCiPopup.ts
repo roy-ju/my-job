@@ -111,7 +111,15 @@ export default function useVerifyCiPopup() {
 
               setTimeout(() => {
                 updateVerifyCiStatus('');
-              }, 3000);
+              }, 2500);
+            }, 200);
+          } else if (returnUrl?.includes(Routes.DanjiListings)) {
+            setTimeout(() => {
+              router.replace(returnUrl);
+
+              setTimeout(() => {
+                updateVerifyCiStatus('');
+              }, 2500);
             }, 200);
           } else {
             if (returnUrl === router.asPath) {
@@ -126,7 +134,7 @@ export default function useVerifyCiPopup() {
 
               setTimeout(() => {
                 updateVerifyCiStatus('');
-              }, 3000);
+              }, 2500);
             }, 200);
           }
         } else {
