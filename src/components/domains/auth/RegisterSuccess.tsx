@@ -13,7 +13,7 @@ const RegisterSuccessContainer = styled.div`
 `;
 
 const FlexContents = styled.div`
-  ${tw`flex flex-col flex-1 h-full overflow-y-auto`}
+  ${tw`flex flex-col flex-1 h-full overflow-x-hidden overflow-y-auto`}
 `;
 
 export default function RegisterSuccess() {
