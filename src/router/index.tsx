@@ -108,10 +108,6 @@ const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   loading: FallbackComponent,
 });
 
-// const Login = dynamic(() => import('@/components/pages/pc/Login'), { ssr: false, loading: FallbackComponent });
-
-const Login = dynamic(() => import('@/components/pages/Login/LoginPc'), { ssr: false, loading: FallbackComponent });
-
 const Reactivate = dynamic(() => import('@/components/pages/pc/Reactivate'), {
   ssr: false,
   loading: FallbackComponent,
@@ -550,10 +546,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.DeregisterDisclaimer: {
       return <DeregisterDisclaimer {...props} />;
     }
-    case Routes.Login: {
-      // return <Login ipAddress={ipAddress} {...props} />;
-      return <Login ipAddress={ipAddress} {...props} />;
-    }
+    // case Routes.Login: {
+    //   return <Login ipAddress={ipAddress} {...props} />;
+    // }
     case Routes.Reactivate: {
       return <Reactivate {...props} />;
     }

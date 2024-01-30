@@ -17,7 +17,6 @@ export { default as NotificationList } from './NotificationList';
 export { default as NotificationSettings } from './NotificationSettings';
 export { default as NoticeList } from './NoticeList';
 export { default as NoticeDetail } from './NoticeDetail';
-export { default as Login } from './Login';
 export { default as Reactivate } from './Reactivate';
 export { default as MyAddress } from './MyAddress';
 export { default as MyAddressDetail } from './MyAddressDetail';

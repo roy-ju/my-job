@@ -80,10 +80,10 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
     }
 
     if (!userData.is_verified) {
-      handleUpdateReturnUrl();
       router.push({
         pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
       });
+      handleUpdateReturnUrl();
       return;
     }
 
