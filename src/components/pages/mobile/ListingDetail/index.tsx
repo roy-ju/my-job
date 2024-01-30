@@ -190,13 +190,26 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
+    if (!user) {
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
+      return;
+    }
+
+    if (user && !user.isVerified) {
+      router.push(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+      handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
+      return;
+    }
+
     router.push(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToUpdateBidding = useCallback(() => {
     if (!data?.bidding_id) {
-      toast.error('bidding_id not found');
+      toast.error('bidding ID가 존재하지 않습니다.');
     }
+
     router.push(
       `/${Routes.EntryMobile}/${Routes.UpdateBiddingForm}?listingID=${router.query.listingID}&biddingID=${data?.bidding_id}`,
     );

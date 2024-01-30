@@ -41,7 +41,6 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
       if (!isLoading && !user) {
         openAuthPopup('login');
         handleUpdateReturnUrl();
-
         return;
       }
 
