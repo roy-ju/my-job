@@ -39,7 +39,7 @@ export default function PcLoginPopup() {
 
   const { handleClickKakaoLogin, handleClickAppleLogin } = useLoginCtas({ ipAddress });
 
-  const { handleClickForgotPassword, handleClickFaqs } = useEtcCtas();
+  const { handleClickForgotPassword } = useEtcCtas();
 
   useEffect(() => {
     async function fetchIpAddress() {
@@ -74,7 +74,6 @@ export default function PcLoginPopup() {
           handleClickKakaoLogin={handleClickKakaoLogin}
           handleClickAppleLogin={handleClickAppleLogin}
           handleClickForgotPassword={handleClickForgotPassword}
-          handleClickFaqs={handleClickFaqs}
         />
       </CtasContainer>
     </PcLoginPopupContainer>

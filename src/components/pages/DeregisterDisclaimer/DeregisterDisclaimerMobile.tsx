@@ -18,11 +18,11 @@ import Routes from '@/router/routes';
 
 import MyDeregisterDisclaimer from '@/components/domains/my/MyDeregisterClaimer';
 
-import DergisterDisclaimer from '@/components/domains/my/my-dergister-disclaimer/popups/DergisterDisclaimer';
+import DergisterDisclaimer from '@/components/domains/my/dergister-disclaimer/popups/DergisterDisclaimer';
 
 import useFetchDergisterStatus from '@/services/my/useFetchDergisterStatus';
 
-import useMyDeregisterClaimer from '@/components/domains/my/my-dergister-disclaimer/hooks/useMyDeregisterClaimer';
+import useMyDeregisterClaimer from '@/components/domains/my/dergister-disclaimer/hooks/useMyDeregisterClaimer';
 
 export default function DeregisterDisclaimerMobile() {
   const { status, setStatus, handleClickCancel } = useMyDeregisterClaimer();

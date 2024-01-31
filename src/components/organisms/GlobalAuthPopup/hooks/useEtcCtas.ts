@@ -39,23 +39,5 @@ export default function useEtcCtas() {
     closeAuthPopup();
   }, [depth1, depth2, platform, router, closeAuthPopup]);
 
-  const handleClickFaqs = useCallback(() => {
-    if (platform === 'pc') {
-      const path = getPathIfReplaceCurrent(depth1, depth2, Routes.FAQ);
-      const query = router.query;
-
-      delete query.depth1;
-      delete query.depth2;
-
-      router.push({ pathname: path, query: { ...query } });
-    }
-
-    if (platform === 'mobile') {
-      router.replace(`/${Routes.EntryMobile}/${Routes.FAQ}`);
-    }
-
-    closeAuthPopup();
-  }, [depth1, depth2, platform, router, closeAuthPopup]);
-
-  return { handleClickForgotPassword, handleClickFaqs };
+  return { handleClickForgotPassword };
 }

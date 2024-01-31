@@ -1,6 +1,6 @@
 import ApiService from '@/lib/apiService';
 
-import { LoginRequest, LoginResponse, UpdateCIResponse } from './auth/types';
+import { LoginCiRequest, LoginCiResponse, LoginRequest, LoginResponse, UpdateCIResponse } from './auth/types';
 
 import {
   DanjiDetailResponse,
@@ -44,6 +44,17 @@ export class NegocioApiService extends ApiService {
     type: number;
   }): Promise<UpdateCIResponse | null> {
     const { data } = await this.instance.post('/user/update/ci', {
+      enc_data: req.encData,
+      integrity_value: req.integrityValue,
+      kie: req.kie,
+      token_version_id: req.tokenVersionId,
+      type: req.type,
+    });
+    return data;
+  }
+
+  async loginCi(req: LoginCiRequest): Promise<LoginCiResponse | null> {
+    const { data } = await this.instance.post('/user/login/ci', {
       enc_data: req.encData,
       integrity_value: req.integrityValue,
       kie: req.kie,

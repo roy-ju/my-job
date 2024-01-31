@@ -42,7 +42,7 @@ export default function MobileLoginPopup() {
 
   const { handleClickKakaoLogin, handleClickAppleLogin } = useLoginCtas({ ipAddress });
 
-  const { handleClickForgotPassword, handleClickFaqs } = useEtcCtas();
+  const { handleClickForgotPassword } = useEtcCtas();
 
   useOutsideClick({ ref: sheetRef, handler: () => handleClickCloseButton() });
 
@@ -80,7 +80,6 @@ export default function MobileLoginPopup() {
             handleClickKakaoLogin={handleClickKakaoLogin}
             handleClickAppleLogin={handleClickAppleLogin}
             handleClickForgotPassword={handleClickForgotPassword}
-            handleClickFaqs={handleClickFaqs}
           />
         </CtasContainer>
       </BottomSheetChild>

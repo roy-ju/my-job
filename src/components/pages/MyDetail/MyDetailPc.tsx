@@ -8,11 +8,11 @@ import { AuthRequired } from '@/components/atoms';
 
 import { OverlayPresenter } from '@/components/molecules';
 
-import useMyDetailPc from '@/components/domains/my/my-detail/hooks/useMyDetailPc';
+import useMyDetailPc from '@/components/domains/my/detail/hooks/useMyDetailPc';
 
-import UpdateEmail from '@/components/domains/my/my-detail/popups/UpdateEmail';
+import UpdateEmail from '@/components/domains/my/detail/popups/UpdateEmail';
 
-import UpdateNickname from '@/components/domains/my/my-detail/popups/UpdateNickname';
+import UpdateNickname from '@/components/domains/my/detail/popups/UpdateNickname';
 
 interface Props {
   depth: number;

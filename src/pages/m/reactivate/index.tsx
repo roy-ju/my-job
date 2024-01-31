@@ -1,10 +1,8 @@
-import dynamic from 'next/dynamic';
-
 import { NextPageWithLayout } from '@/pages/_app';
 
-const ReactivateWrapper = dynamic(() => import('@/components/pages/mobile/My/ReactivateWrapper'), { ssr: false });
+import ReActivateMobile from '@/components/pages/ReActivate/ReActivateMobile';
 
-const Page: NextPageWithLayout = () => <ReactivateWrapper />;
+const Page: NextPageWithLayout = () => <ReActivateMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
