@@ -6,7 +6,7 @@ import { Button, Loading } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import Form from './my-detail/Form';
+import Form from './detail/Form';
 
 interface MyDetailProps {
   nickname: string;

@@ -10,6 +10,14 @@ export type LoginRequest = {
   signUpSource?: string;
 };
 
+export interface LoginCiRequest {
+  encData: string;
+  integrityValue: string;
+  kie: string;
+  tokenVersionId: string;
+  type: number;
+}
+
 export type LoginResponse = {
   new_registration: boolean;
   phone_verified: boolean;
@@ -70,4 +78,13 @@ export type UserInfoResponse = {
 
 export type UpdateCIResponse = {
   coupon_created: boolean;
+} & ErrorResponse;
+
+export type LoginCiResponse = {
+  access_token: string;
+  email: string;
+  exp: number;
+  reactivated: boolean;
+  refresh_token: string;
+  social_login_type: number;
 } & ErrorResponse;

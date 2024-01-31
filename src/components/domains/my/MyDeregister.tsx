@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import Form from './my-deregister/Form';
+import Form from './deregister/Form';
 
 interface MyDeregisterProps {
   deregisterReasons?: string[];

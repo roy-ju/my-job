@@ -4,11 +4,11 @@ import { OverlayPresenter } from '@/components/molecules';
 
 import MyDetail from '@/components/domains/my/MyDetail';
 
-import useMyDetailMobile from '@/components/domains/my/my-detail/hooks/useMyDetailMobile';
+import useMyDetailMobile from '@/components/domains/my/detail/hooks/useMyDetailMobile';
 
-import UpdateNicknamePopup from '@/components/domains/my/my-detail/popups/UpdateNickname';
+import UpdateNicknamePopup from '@/components/domains/my/detail/popups/UpdateNickname';
 
-import UpdateEmail from '@/components/domains/my/my-detail/popups/UpdateEmail';
+import UpdateEmail from '@/components/domains/my/detail/popups/UpdateEmail';
 
 export default function MyDetailMobile() {
   const {

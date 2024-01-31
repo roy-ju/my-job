@@ -8,7 +8,7 @@ import Routes from '@/router/routes';
 
 import MyDeregister from '@/components/domains/my/MyDeregister';
 
-import useMyDergister from '@/components/domains/my/my-deregister/hooks/useMyDergister';
+import useMyDergister from '@/components/domains/my/deregister/hooks/useMyDergister';
 
 export default function DeregisterMobile() {
   const {

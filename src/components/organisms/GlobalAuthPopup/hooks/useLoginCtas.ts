@@ -290,48 +290,54 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
           });
         }
       } else if (detail?.error_code === ErrorCodes.USER_IS_INACTIVE) {
-        // if (platform === 'pc') {
-        //   const depth1 = router?.query?.depth1;
-        //   const depth2 = router?.query?.depth2;
-        //   const query = router.query;
-        //   delete query.depth1;
-        //   delete query.depth2;
-        //   query.email = detail?.fields?.email;
-        //   query.inactive_time = `${detail?.fields?.inactive_time}`;
-        //   query.social_login_type = `${detail?.socialLoginType}`;
-        //   if (redirect) {
-        //     query.redirect = redirect;
-        //   }
-        //   if (depth1 && depth2) {
-        //     router.push({
-        //       pathname: `/${depth1}/${Routes.Reactivate}`,
-        //       query,
-        //     });
-        //   }
-        //   if (depth1 && !depth2) {
-        //     router.push({
-        //       pathname: `/${Routes.Reactivate}`,
-        //       query,
-        //     });
-        //   }
-        //   if (!depth1 && !depth2) {
-        //     router.push({
-        //       pathname: `/${Routes.Reactivate}`,
-        //       query,
-        //     });
-        //   }
-        // }
-        // if (platform === 'mobile') {
-        //   router.push({
-        //     pathname: `/${Routes.EntryMobile}/${Routes.Reactivate}`,
-        //     query: {
-        //       email: detail?.fields?.email,
-        //       inactive_time: `${detail?.fields?.inactive_time}`,
-        //       social_login_type: `${detail?.socialLoginType}`,
-        //       ...(redirect ? { redirect } : {}),
-        //     },
-        //   });
-        // }
+        if (platform === 'pc') {
+          const depth1 = router?.query?.depth1;
+
+          const depth2 = router?.query?.depth2;
+
+          const query = router.query;
+
+          delete query.depth1;
+
+          delete query.depth2;
+
+          query.email = detail?.fields?.email;
+
+          query.inactive_time = `${detail?.fields?.inactive_time}`;
+
+          query.social_login_type = `${detail?.socialLoginType}`;
+
+          if (depth1 && depth2) {
+            router.push({
+              pathname: `/${depth1}/${Routes.Reactivate}`,
+              query,
+            });
+          }
+
+          if (depth1 && !depth2) {
+            router.push({
+              pathname: `/${Routes.Reactivate}`,
+              query,
+            });
+          }
+
+          if (!depth1 && !depth2) {
+            router.push({
+              pathname: `/${Routes.Reactivate}`,
+              query,
+            });
+          }
+        }
+        if (platform === 'mobile') {
+          router.push({
+            pathname: `/${Routes.EntryMobile}/${Routes.Reactivate}`,
+            query: {
+              email: detail?.fields?.email,
+              inactive_time: `${detail?.fields?.inactive_time}`,
+              social_login_type: `${detail?.socialLoginType}`,
+            },
+          });
+        }
       } else {
         toast.error(`문제가 발생했습니다. 잠시 뒤 다시 시도해 주세요. error_code: ${detail?.error_code}`);
       }
@@ -346,12 +352,12 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     };
   }, [
     router,
-    login,
     platform,
-    closeAuthPopup,
     returnUrl,
     user,
     authType,
+    login,
+    closeAuthPopup,
     openVerifyCiPopup,
     handleUpdateReturnUrl,
     createSuggest,

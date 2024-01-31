@@ -108,10 +108,16 @@ const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   loading: FallbackComponent,
 });
 
-const Reactivate = dynamic(() => import('@/components/pages/pc/Reactivate'), {
+// const Reactivate = dynamic(() => import('@/components/pages/pc/Reactivate'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+const Reactivate = dynamic(() => import('@/components/pages/ReActivate/ReActivatePc'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), {
   ssr: false,
   loading: FallbackComponent,
@@ -252,7 +258,12 @@ const WaitingCreateForm = dynamic(() => import('@/components/pages/WaitingCreate
   loading: FallbackComponent,
 });
 
-const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
+// const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+const FindAccount = dynamic(() => import('@/components/pages/FindAccount/FindAccountPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -619,10 +630,10 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.VerifyCi: {
       return <VerifyCi {...props} />;
     }
-
     case Routes.FindAccount: {
       return <FindAccount {...props} />;
     }
+
     case Routes.ListingCreateForm: {
       return <ListingCreateForm {...props} />;
     }

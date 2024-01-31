@@ -1,27 +1,33 @@
-import loginByCi from '@/apis/user/loginByCi';
-import { Panel } from '@/components/atoms';
-import { FindAccount } from '@/components/templates';
-import ErrorCodes from '@/constants/error_codes';
-import useAuth from '@/hooks/services/useAuth';
-import { useRouter } from '@/hooks/utils';
-import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
-import Routes from '@/router/routes';
-import { memo, useCallback } from 'react';
+import { useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
 
-interface Props {
-  depth: number;
-  panelWidth?: string;
-}
+import useAuth from '@/hooks/services/useAuth';
 
-export default memo(({ depth, panelWidth }: Props) => {
+import { apiService } from '@/services';
+
+import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import Routes from '@/router/routes';
+
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+export default function useMyFindAccount() {
+  const router = useRouter();
+
+  const { platform } = useCheckPlatform();
+
   const { login } = useAuth();
-  const router = useRouter(depth);
+
   const { request } = useNiceId();
 
   const handleNiceResponse = useCallback(
     async (res: NiceResponse) => {
-      const loginRes = await loginByCi({
+      const loginRes = await apiService.loginCi({
         encData: res.encData,
         kie: res.kie,
         integrityValue: res.integrityValue,
@@ -35,26 +41,27 @@ export default memo(({ depth, panelWidth }: Props) => {
       } else if (loginRes?.access_token) {
         if (loginRes?.access_token) {
           await login(loginRes.access_token, loginRes.refresh_token);
-          router.replace(Routes.MyDetail);
+          if (platform === 'pc') {
+            router.replace(`/${Routes.MyDetail}`);
+          }
+          if (platform === 'mobile') {
+            router.replace(`/${Routes.EntryMobile}/${Routes.MyDetail}`);
+          }
         } else {
           toast.error('로그인에 실패하였습니다.');
         }
       }
     },
-    [router, login],
+    [login, platform, router],
   );
+
+  const handleClickBack = useCallback(() => {
+    router.back();
+  }, [router]);
 
   const handleVerifyPhone = useCallback(() => {
     request('phone', handleNiceResponse);
   }, [handleNiceResponse, request]);
 
-  const handleVerifyIPin = useCallback(() => {
-    request('ipin', handleNiceResponse);
-  }, [handleNiceResponse, request]);
-
-  return (
-    <Panel width={panelWidth}>
-      <FindAccount onClickPhoneVerification={handleVerifyPhone} onClickIPinVerification={handleVerifyIPin} />
-    </Panel>
-  );
-});
+  return { handleVerifyPhone, handleClickBack };
+}

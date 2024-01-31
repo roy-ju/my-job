@@ -5,7 +5,7 @@ import Lottie from 'react-lottie';
 import animationData from '@/assets/icons/json/surprised.json';
 
 const ImageContainer = styled.div`
-  ${tw`relative flex items-center justify-center [min-height: 386px]`}
+  ${tw`relative flex items-center justify-center pt-20`}
 `;
 
 export default function RequireVerifyAnimation() {
