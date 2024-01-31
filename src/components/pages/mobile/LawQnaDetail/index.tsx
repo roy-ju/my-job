@@ -281,6 +281,7 @@ function LawQnaDetail() {
         onClickBack={handleClickBack}
         onClickSharePopup={() => setOpenSharePopup(true)}
       />
+
       {openSharePopup && (
         <OverlayPresenter>
           <SharePopup

@@ -257,6 +257,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
           onClickUpdate={handleClickUpdate}
           onClickSharePopup={() => setOpenSharePopup(true)}
         />
+
         {openSharePopup && (
           <OverlayPresenter>
             <SharePopup

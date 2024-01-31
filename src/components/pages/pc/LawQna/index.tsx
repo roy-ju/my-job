@@ -67,8 +67,9 @@ export default memo(({ depth, panelWidth }: Props) => {
         ? `/${Routes.LawQna}/${Routes.LawQnaCreate}?q=${router.query.q}`
         : `/${Routes.LawQna}/${Routes.LawQnaCreate}`;
 
-      handleUpdateReturnUrl(returnUrl);
       openAuthPopup('onlyLogin');
+
+      handleUpdateReturnUrl(returnUrl);
       return;
     }
 
