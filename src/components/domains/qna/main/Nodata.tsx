@@ -1,5 +1,5 @@
-import React from 'react';
 import { Information } from '@/components/molecules';
+
 import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 
 export default function NoData() {

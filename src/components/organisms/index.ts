@@ -25,7 +25,7 @@ export { default as AddressSearchForm } from './AddressSearchForm';
 export { default as MyRealPriceListItem } from './MyRealPriceListItem';
 export { default as MyNegoPoint } from './MyNegoPoint';
 export { default as MyCouponListItem } from './MyCouponListItem';
-export { default as QnaListitem } from './QnaListItem';
+
 export { default as TransactionHistoryDetail } from './TransactionHistoryDetail';
 export { default as TransactionHistoryListItem } from './TransactionHistoryListItem';
 export { default as TransactionReviewForm } from './TransactionReviewForm';
