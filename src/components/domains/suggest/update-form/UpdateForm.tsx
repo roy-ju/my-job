@@ -32,7 +32,7 @@ export default function UpdateForm() {
     move_in_date: <MoveInDateForm />,
     area: <AreaForm type="update" />,
     additional_conditions: <AdditionalConditionsForm />,
-    interview: <InterviewForm />,
+    interview: <InterviewForm isUpdateForm />,
   };
 
   return (
