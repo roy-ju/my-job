@@ -186,7 +186,9 @@ export default memo(() => {
   );
 
   const handleNavigateToCreateQna = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${router.query.listingID}`);
+    const id = listingID || (router?.query?.listingID as string);
+
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
