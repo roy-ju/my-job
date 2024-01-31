@@ -1,6 +1,8 @@
 import React from 'react';
+
 import tw, { styled } from 'twin.macro';
-import QnaListItem from '@/components/organisms/QnaListItem';
+
+import ListItem from './ListItem';
 
 const ListContainer = styled.div`
   ${tw`max-h-full min-h-0 overflow-x-hidden overflow-y-auto`}
@@ -20,17 +22,18 @@ export default function List({ list }: { list: IQnaItem[] }) {
     <ListContainer>
       {list.map((item, i) => (
         <React.Fragment key={item.id}>
-          {!!i && <div tw="border-t mx-5 border-gray-100" />}
-          <QnaListItem>
-            <QnaListItem.User
+          {!!i && <div tw="border-t mx-5 border-gray-300" />}
+
+          <ListItem>
+            <ListItem.User
               userMessage={item.user_message}
               createdTime={item.created_time}
               didReply={!!item.admin_message}
             />
             {item.admin_message ? (
-              <QnaListItem.Admin adminMessage={item.admin_message} responseTime={item.admin_response_time} />
+              <ListItem.Admin adminMessage={item.admin_message} responseTime={item.admin_response_time} />
             ) : null}
-          </QnaListItem>
+          </ListItem>
         </React.Fragment>
       ))}
     </ListContainer>

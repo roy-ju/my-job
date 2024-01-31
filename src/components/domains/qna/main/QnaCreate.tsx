@@ -1,13 +1,14 @@
-import { TextField } from '@/components/molecules';
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
-interface IQnaProps {
+import { TextField } from '@/components/molecules';
+
+type QnaCreateProps = {
   value?: string;
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-}
+};
 
-export default function Qna({ placeholder, value, onChange }: IQnaProps) {
+export default function QnaCreate({ placeholder, value, onChange }: QnaCreateProps) {
   return (
     <div tw="px-5 mt-7">
       <TextField variant="outlined">

@@ -99,10 +99,17 @@ const NoticeDetail = dynamic(() => import('@/components/pages/pc/NoticeDetail'),
   ssr: false,
   loading: FallbackComponent,
 });
-const Qna = dynamic(() => import('@/components/pages/pc/Qna'), {
+
+// const Qna = dynamic(() => import('@/components/pages/pc/Qna'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+const Qna = dynamic(() => import('@/components/pages/Qna/QnaPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
+
 const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   ssr: false,
   loading: FallbackComponent,
@@ -122,6 +129,7 @@ const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'
   ssr: false,
   loading: FallbackComponent,
 });
+
 const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'), {
   ssr: false,
   loading: FallbackComponent,

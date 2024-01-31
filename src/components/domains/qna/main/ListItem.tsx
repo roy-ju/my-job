@@ -1,33 +1,31 @@
-import React, { ReactNode } from 'react';
-import { Chip, Moment } from '@/components/atoms';
-import useControlled from '@/hooks/useControlled';
+import { ReactNode } from 'react';
+
 import tw from 'twin.macro';
+
+import { Chip, Moment } from '@/components/atoms';
+
+import useControlled from '@/hooks/useControlled';
 
 interface QnaListItemProps {
   children: ReactNode;
 }
 
-interface QnaListItemUserProps {
+interface UserProps {
   userMessage: string;
   createdTime: string;
   didReply: boolean;
   expanded?: boolean;
   defaultExpanded?: boolean;
 }
-interface QnaListItemAdminProps {
+
+interface AdminProps {
   adminMessage: string;
   responseTime: string;
   expanded?: boolean;
   defaultExpanded?: boolean;
 }
 
-function QnaListItemUser({
-  userMessage,
-  createdTime,
-  didReply,
-  expanded: expandedProp,
-  defaultExpanded = false,
-}: QnaListItemUserProps) {
+function User({ userMessage, createdTime, didReply, expanded: expandedProp, defaultExpanded = false }: UserProps) {
   const [expanded, setExpanded] = useControlled({ controlled: expandedProp, default: defaultExpanded });
 
   return (
@@ -46,12 +44,8 @@ function QnaListItemUser({
     </button>
   );
 }
-function QnaListItemAdmin({
-  adminMessage,
-  responseTime,
-  expanded: expandedProp,
-  defaultExpanded = false,
-}: QnaListItemAdminProps) {
+
+function Admin({ adminMessage, responseTime, expanded: expandedProp, defaultExpanded = false }: AdminProps) {
   const [expanded, setExpanded] = useControlled({ controlled: expandedProp, default: defaultExpanded });
   if (!adminMessage) return null;
 
@@ -76,13 +70,13 @@ function QnaListItemAdmin({
   );
 }
 
-function QnaListItemMain({ children }: QnaListItemProps) {
+function QnaListItem({ children }: QnaListItemProps) {
   return <div tw="flex flex-col gap-3">{children}</div>;
 }
 
-const QnaListItem = Object.assign(QnaListItemMain, {
-  User: QnaListItemUser,
-  Admin: QnaListItemAdmin,
+const ListItem = Object.assign(QnaListItem, {
+  User,
+  Admin,
 });
 
-export default QnaListItem;
+export default ListItem;

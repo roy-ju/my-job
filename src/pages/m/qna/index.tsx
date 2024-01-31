@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import QnaWrraper from '@/components/pages/mobile/My/QnaWrraper';
+import QnaMobile from '@/components/pages/Qna/QnaMobile';
 
-const Page: NextPageWithLayout = () => <QnaWrraper />;
+const Page: NextPageWithLayout = () => <QnaMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

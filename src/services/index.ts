@@ -149,6 +149,14 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async serviceQnaCreate(message: string) {
+    try {
+      return await this.instance.post(`/my/serviceqna/create`, { message });
+    } catch (e) {
+      return null;
+    }
+  }
+
   /** 단지 정보 */
   async fetchDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {

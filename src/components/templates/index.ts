@@ -23,7 +23,6 @@ export { default as MyAddressDetail } from './MyAddressDetail';
 export { default as MyAddressVerifying } from './MyAddressVerifying';
 export { default as MyAddressVerifyResult } from './MyAddressVerifyResult';
 export { default as MyAddressAgreement } from './MyAddressAgreement';
-export { default as Qna } from './Qna';
 export { default as MyRealPriceList } from './MyRealPriceList';
 export { default as MyParticipatingListings } from './MyParticipatingListings';
 export { default as TransactionReview } from './TransactionReview';
@@ -60,7 +59,6 @@ export { default as SuggestListingForm } from './SuggestListingForm';
 export { default as SuggestListings } from './SuggestListings';
 export { default as SuggestRecommendedList } from './SuggestRecommendedList';
 export { default as SuggestRecommendedDetail } from './SuggestRecommendedDetail';
-
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ListingQnaCreateForm } from './ListingQnaCreateForm';
