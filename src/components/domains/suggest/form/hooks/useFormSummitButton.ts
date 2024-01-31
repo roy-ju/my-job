@@ -22,14 +22,12 @@ import { BuyOrRent, DanjiOrRegionalType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
-<<<<<<< HEAD
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-=======
 import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
->>>>>>> 03aabe0c13a5252657de38fcaa98d6ee539a9ef8
+
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';

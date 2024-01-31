@@ -5,11 +5,10 @@ import dynamic from 'next/dynamic';
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
-<<<<<<< HEAD
+
 import useAuth from '@/hooks/services/useAuth';
-=======
+
 import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
->>>>>>> 03aabe0c13a5252657de38fcaa98d6ee539a9ef8
 
 const ScrollUp = dynamic(() => import('./ScrollUp'));
 
@@ -73,10 +72,6 @@ function ActionButton({
                 뒤로가기
               </ButtonV2>
             )}
-<<<<<<< HEAD
-            <ButtonV2 tw="w-full" size="bigger" onClick={handleClick} disabled={disabled}>
-              {submmitTitle}
-=======
             <ButtonV2
               tw="w-full"
               size="bigger"
@@ -85,7 +80,6 @@ function ActionButton({
               id={GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_SUMMARY_CREATE}
             >
               제출하기
->>>>>>> 03aabe0c13a5252657de38fcaa98d6ee539a9ef8
             </ButtonV2>
           </div>
         </PersistentBottomBarV2>
