@@ -16,6 +16,7 @@ import ToggleTag from '@/components/atoms/ToggleTag';
 
 import { RegionItem } from '@/components/organisms/RegionList';
 
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
 import FormImage from './FormImage';
 
 import isEqualValue from '../suggest/utils/isEqualValue';
@@ -198,6 +199,7 @@ export default function SuggestForm() {
             tw="w-full mt-6"
             disabled={!property.length || !buyOrRent}
             onClick={handleClickSuggest}
+            id={GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_ENTRY_HOME}
           >
             구해요
           </ButtonV2>
