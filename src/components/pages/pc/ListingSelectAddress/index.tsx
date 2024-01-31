@@ -1,12 +1,20 @@
-import { AuthRequired, Panel } from '@/components/atoms';
-import { SelectAddressTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { memo, useCallback, useRef, useState, useEffect } from 'react';
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+
+import { AuthRequired, Panel } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import useAuth from '@/hooks/services/useAuth';
+
 import { ListingCreateGuidePopup } from '@/components/organisms';
+
+import { SelectAddressTemplate } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+
+import useAuth from '@/hooks/services/useAuth';
 
 interface Props {
   depth: number;
@@ -21,7 +29,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { user } = useAuth();
 
   const [showGuidePopup, setShowGuidePopup] = useState(false);
+
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
+
   const [showInActivePopup, setShowInActivePopup] = useState(false);
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
@@ -78,6 +88,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   useEffect(() => {
     if (!user) {
+      setShowInActivePopup(true);
+      return;
+    }
+
+    if (user && !user.hasAddress && !user.hasNotVerifiedAddress) {
       setShowInActivePopup(true);
       return;
     }

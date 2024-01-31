@@ -1,11 +1,18 @@
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
-import { MobAuthRequired, MobileContainer } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MobHog, SelectAddressTemplate } from '@/components/templates';
-import useAuth from '@/hooks/services/useAuth';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { memo, useCallback, useState, useEffect } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MobHog, SelectAddressTemplate } from '@/components/templates';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+
+import Routes from '@/router/routes';
 
 export default memo(() => {
   const router = useRouter();
@@ -13,7 +20,9 @@ export default memo(() => {
   const { user } = useAuth();
 
   const [showGuidePopup, setShowGuidePopup] = useState(false);
+
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
+
   const [showInActivePopup, setShowInActivePopup] = useState(false);
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
@@ -86,6 +95,11 @@ export default memo(() => {
 
   useEffect(() => {
     if (!user) {
+      setShowInActivePopup(true);
+      return;
+    }
+
+    if (user && !user.hasAddress && !user.hasNotVerifiedAddress) {
       setShowInActivePopup(true);
       return;
     }

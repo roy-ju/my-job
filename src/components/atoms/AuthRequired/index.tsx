@@ -39,7 +39,12 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
   useEffect(() => {
     if (isClient && router.isReady) {
       if (!isLoading && !user) {
-        openAuthPopup('login');
+        if (ciRequired) {
+          openAuthPopup('needVerify');
+        } else {
+          openAuthPopup('login');
+        }
+
         handleUpdateReturnUrl();
         return;
       }
