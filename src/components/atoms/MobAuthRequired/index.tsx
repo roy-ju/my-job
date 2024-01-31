@@ -33,7 +33,12 @@ export default function MobAuthRequired({ ciRequired = false, onAccessDenied, ch
   useEffect(() => {
     if (isClient && router.isReady) {
       if (!isLoading && !user) {
-        openAuthPopup('login');
+        if (ciRequired) {
+          openAuthPopup('needVerify');
+        } else {
+          openAuthPopup('login');
+        }
+
         handleUpdateReturnUrl();
 
         return;
