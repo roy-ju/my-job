@@ -79,7 +79,7 @@ function ActionButton({
               disabled={disabled}
               id={GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_SUMMARY_CREATE}
             >
-              제출하기
+              {submmitTitle}
             </ButtonV2>
           </div>
         </PersistentBottomBarV2>
