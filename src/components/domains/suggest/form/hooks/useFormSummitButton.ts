@@ -22,10 +22,14 @@ import { BuyOrRent, DanjiOrRegionalType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
+<<<<<<< HEAD
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
+=======
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+>>>>>>> 03aabe0c13a5252657de38fcaa98d6ee539a9ef8
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';
@@ -70,6 +74,20 @@ export default function useFormSummitButton() {
   const handleClickBack = useCallback(() => {
     setState((prev) => ({ ...prev, forms: prev.forms.filter((ele) => ele !== 'summary') }));
   }, [setState]);
+
+  const gtagButtonId = useMemo(() => {
+    /** 추가 조건  */
+    if (currentForm === 'additional_conditions') {
+      return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_ADDITIONAL_CONDITIONS;
+    }
+
+    /** 추가 조건  */
+    if (currentForm === 'interview') {
+      return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_INTERVIEW;
+    }
+
+    return '';
+  }, [currentForm]);
 
   const disabled = useMemo(() => {
     if (isEqualValue(currentForm, forms.REGION_OR_DANJI)) {
@@ -399,6 +417,7 @@ export default function useFormSummitButton() {
     isRenderRevisionText,
     hidden: currentForm === forms.REGION_OR_DANJI,
     disabled,
+    gtagButtonId,
     handleFormsAction,
     handleClickBack: isRenderSummitButton ? handleClickBack : undefined,
   };
