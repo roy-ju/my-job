@@ -1,11 +1,18 @@
-import { AuthRequired, Panel } from '@/components/atoms';
-import { SelectAddressTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+
+import { AuthRequired, Panel } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { SelectAddressTemplate } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
 import { makeAddressDetail } from '@/utils/fotmat';
+
+import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;
@@ -16,10 +23,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
+
   const [selectedAddressDetail, setSelectedAddressDetail] = useState<string>();
+
   const [selectedFloor, setSelectedFloor] = useState<string>();
 
   const [showInActivePopup, setShowInActivePopup] = useState(false);
+
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
   const { list } = useAPI_GetMyAddressList({

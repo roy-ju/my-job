@@ -151,6 +151,33 @@ export default memo(() => {
     }
   }, [router]);
 
+  const handleActionVerificationAddressPopup = useCallback(() => {
+    setOpenVerificationAddressPopup(false);
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      query: {
+        origin: router.asPath,
+      },
+    });
+  }, [router]);
+
+  const handleCloseVerificationAddressPopup = useCallback(() => setOpenVerificationAddressPopup(false), []);
+
+  const handleActionNeedMoreVerificationAddressPopup = useCallback(() => {
+    setOpenNeedMoreVerificationAddressPopup(false);
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      query: {
+        origin: router.asPath,
+      },
+    });
+  }, [router]);
+
+  const handleCloseNeedMoreVerificationAddressPopup = useCallback(
+    () => setOpenNeedMoreVerificationAddressPopup(false),
+    [],
+  );
+
   return (
     <>
       <MobAuthRequired>
@@ -204,20 +231,8 @@ export default memo(() => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-                  router.push({
-                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-                    query: {
-                      origin: router.asPath,
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCloseVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -234,22 +249,8 @@ export default memo(() => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-                  router.push({
-                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-                    query: {
-                      origin: router.asPath,
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCloseNeedMoreVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionNeedMoreVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

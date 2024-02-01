@@ -1,20 +1,30 @@
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
-import { MobAuthRequired, MobileContainer } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { SelectAddressTemplate } from '@/components/templates';
-import Routes from '@/router/routes';
-import { makeAddressDetail } from '@/utils/fotmat';
-import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { SelectAddressTemplate } from '@/components/templates';
+
+import { makeAddressDetail } from '@/utils/fotmat';
+
+import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+
+import Routes from '@/router/routes';
 
 export default memo(() => {
   const router = useRouter();
 
   const [selectedUserAddressID, setSelectedUserAddressID] = useState<number>();
+
   const [selectedAddressDetail, setSelectedAddressDetail] = useState<string>();
+
   const [selectedFloor, setSelectedFloor] = useState<string>();
 
   const [showInActivePopup, setShowInActivePopup] = useState(false);
+
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
   const { list } = useAPI_GetMyAddressList({

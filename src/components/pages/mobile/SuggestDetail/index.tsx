@@ -110,7 +110,7 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
     }
   }, [data, handleUpdateReturnUrl, openAuthPopup, router, suggestID, userData]);
 
-  const handleAddressApplyPopupCTA = useCallback(() => {
+  const handleActionNeedVerifyAddressPopup = useCallback(() => {
     router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
       query: { origin: router.asPath, ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}) },
@@ -121,7 +121,7 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
     mutate();
   }, [mutate]);
 
-  const closeNeedVerifyAddressPopup = useCallback(() => {
+  const handleCloseNeedVerifyAddressPopup = useCallback(() => {
     setNeedVerifyAddressPopup(false);
   }, []);
 
@@ -172,8 +172,8 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
                 </Popup.SmallTitle>
               </Popup.ContentGroup>
               <Popup.ButtonGroup>
-                <Popup.CancelButton onClick={closeNeedVerifyAddressPopup}>닫기</Popup.CancelButton>
-                <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>집주인 인증하기</Popup.ActionButton>
+                <Popup.CancelButton onClick={handleCloseNeedVerifyAddressPopup}>닫기</Popup.CancelButton>
+                <Popup.ActionButton onClick={handleActionNeedVerifyAddressPopup}>집주인 인증하기</Popup.ActionButton>
               </Popup.ButtonGroup>
             </Popup>
           </OverlayPresenter>
