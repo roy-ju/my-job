@@ -1,13 +1,22 @@
-import deleteMyAddress from '@/apis/my/deleteMyAddress';
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
-import { AuthRequired, Loading, Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MyRegisteredHomes } from '@/components/templates';
-import useAuth from '@/hooks/services/useAuth';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';
+
 import { toast } from 'react-toastify';
+
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MyRegisteredHomes } from '@/components/templates';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import deleteMyAddress from '@/apis/my/deleteMyAddress';
+
+import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 
 interface Props {
   depth: number;
@@ -27,6 +36,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { list, mutate } = useAPI_GetMyAddressList({ activeOnly: false, danjiID: null, isFetch: true });
 
   const [showInActivePopup, setShowInActivePopup] = useState(false);
+
   const [showDeleteConfirmPopup, setShowDeleteConfirmPopup] = useState(false);
 
   const [userAddressInfo, setUserAddressInfo] = useState<UserAddressIInfo>();

@@ -1,5 +1,7 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
+import { useRouter as useNextRouter } from 'next/router';
+
 import { Loading, Panel } from '@/components/atoms';
 
 import { My as MyTemplate } from '@/components/templates';
@@ -26,6 +28,8 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
 
+  const nextRouter = useNextRouter();
+
   const { user, isLoading } = useAuth();
 
   const { openAuthPopup } = useAuthPopup();
@@ -43,79 +47,75 @@ export default memo(({ depth, panelWidth }: Props) => {
     handleUpdateReturnUrl();
   }, [openAuthPopup, handleUpdateReturnUrl]);
 
-  const handleClickNotificationList = useCallback(() => {
-    router.push(Routes.NotificationList);
-  }, [router]);
-
-  const handleClickMyDetail = useCallback(() => {
-    router.push(Routes.MyDetail);
-  }, [router]);
-
-  const handleClickNoticeList = useCallback(() => {
-    router.push(Routes.NoticeList);
-  }, [router]);
-
-  const handleClickQna = useCallback(() => {
-    router.push(Routes.Qna);
-  }, [router]);
-
-  const handleClickMyRealPriceList = useCallback(() => {
-    router.push(Routes.MyRealPriceList);
-  }, [router]);
-
-  const handleClickFAQ = useCallback(() => {
-    router.push(Routes.FAQ);
-  }, [router]);
-
-  const handleClickNegoPoint = useCallback(() => {
-    router.push(Routes.NegoPoint);
-  }, [router]);
-
-  const handleClickCoupons = useCallback(() => {
-    router.push(Routes.MyCoupon);
-  }, [router]);
-
-  const handleServiceInfo = useCallback(() => {
-    router.push(Routes.ServiceInfo);
-  }, [router]);
-
-  const handleMyAddress = useCallback(() => {
-    router.push(Routes.MyAddress, { searchParams: { origin: router.asPath } });
-  }, [router]);
-
-  const handleClickMyRegisteredListings = useCallback(
-    (params: number) => {
-      router.push(Routes.MyRegisteredListingList, {
-        searchParams: { tab: `${params}` },
-      });
-    },
-    [router],
-  );
-
-  const handleClickMyParticipatingListings = useCallback(
-    (params: number) => {
-      router.push(Routes.MyParticipatingListings, {
-        searchParams: { tab: `${params}` },
-      });
-    },
-    [router],
-  );
-
-  const handleRequestedSuggests = useCallback(() => {
-    router.push(Routes.SuggestRequestedList);
-  }, [router]);
-
-  const handleSuggestRecommendedList = useCallback(() => {
-    router.push(Routes.SuggestRecommendedList);
-  }, [router]);
-
   const handleTab = useCallback((val: 1 | 2) => {
     setTab(val);
   }, []);
 
+  const handleClickNotificationList = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.NotificationList}`);
+  }, [nextRouter]);
+
+  const handleClickMyDetail = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.MyDetail}`);
+  }, [nextRouter]);
+
+  const handleClickNoticeList = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.NoticeList}`);
+  }, [nextRouter]);
+
+  const handleClickQna = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.Qna}`);
+  }, [nextRouter]);
+
+  const handleClickMyRealPriceList = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.MyRealPriceList}`);
+  }, [nextRouter]);
+
+  const handleClickFAQ = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.FAQ}`);
+  }, [nextRouter]);
+
+  const handleClickNegoPoint = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.NegoPoint}`);
+  }, [nextRouter]);
+
+  const handleClickCoupons = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.MyCoupon}`);
+  }, [nextRouter]);
+
+  const handleServiceInfo = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.ServiceInfo}`);
+  }, [nextRouter]);
+
+  const handleMyAddress = useCallback(() => {
+    nextRouter.push({ pathname: `/${Routes.My}/${Routes.MyAddress}`, query: { origin: nextRouter.asPath } });
+  }, [nextRouter]);
+
+  const handleClickMyRegisteredListings = useCallback(
+    (params: number) => {
+      nextRouter.push(`/${Routes.My}/${Routes.MyRegisteredListingList}?tab=${params}`);
+    },
+    [nextRouter],
+  );
+
+  const handleClickMyParticipatingListings = useCallback(
+    (params: number) => {
+      nextRouter.push(`/${Routes.My}/${Routes.MyParticipatingListings}?tab=${params}`);
+    },
+    [nextRouter],
+  );
+
+  const handleRequestedSuggests = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.SuggestRequestedList}`);
+  }, [nextRouter]);
+
+  const handleSuggestRecommendedList = useCallback(() => {
+    nextRouter.push(`/${Routes.My}/${Routes.SuggestRecommendedList}`);
+  }, [nextRouter]);
+
   const handleClickMyRegisteredHomes = useCallback(() => {
-    router.push(Routes.MyRegisteredHomes);
-  }, [router]);
+    nextRouter.push(`/${Routes.My}/${Routes.MyRegisteredHomes}`);
+  }, [nextRouter]);
 
   useEffect(() => {
     if (router?.query?.default === '1') {

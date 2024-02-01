@@ -1,16 +1,28 @@
-import verifyOwnership from '@/apis/my/verifyOwnership';
-import { Panel } from '@/components/atoms';
-import { MyAddressVerifying, MyAddressVerifyResult } from '@/components/templates';
-import { MyVerifyStatus } from '@/constants/enums';
-import ErrorCodes from '@/constants/error_codes';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
-import { searchAddress } from '@/lib/kakao/search_address';
-import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';
+
 import { toast } from 'react-toastify';
+
+import { useRouter as useNextRouter } from 'next/router';
+
+import { Panel } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MyAddressVerifying, MyAddressVerifyResult } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
 import useAuth from '@/hooks/services/useAuth';
+
+import verifyOwnership from '@/apis/my/verifyOwnership';
+
+import { searchAddress } from '@/lib/kakao/search_address';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import { MyVerifyStatus } from '@/constants/enums';
+
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;
