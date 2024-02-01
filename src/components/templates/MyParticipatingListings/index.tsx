@@ -1,24 +1,22 @@
 import { NavigationHeader, Tabs } from '@/components/molecules';
+
 import { IBiddingStatus } from '@/components/pages/pc/MyParticipatingListings/useMyParticipatingListings';
+
 import ListingsRenderer from './ListingsRenderer';
 
 export interface MyParticipatingListingsProps {
   tab: number;
-
   biddingStatus: IBiddingStatus;
-
   onChangeListingTab: (newValue: number) => void;
-  onClickListingItem: (listingId: number) => () => void;
   onNavigateToListingDetailHistory: (listingId: number, biddingId: number) => () => void;
   onClickBack?: () => void;
 }
 
 export default function MyParticipatingListings({
   tab,
-  onChangeListingTab,
-  // onClickListingItem,
-  onNavigateToListingDetailHistory,
   biddingStatus,
+  onChangeListingTab,
+  onNavigateToListingDetailHistory,
   onClickBack,
 }: MyParticipatingListingsProps) {
   return (
@@ -52,7 +50,6 @@ export default function MyParticipatingListings({
       </Tabs>
       <ListingsRenderer
         onNavigateToListingDetailHistory={onNavigateToListingDetailHistory}
-        // onClickListingItem={onClickListingItem}
         tabStatus={tab}
         biddingStatus={biddingStatus}
       />

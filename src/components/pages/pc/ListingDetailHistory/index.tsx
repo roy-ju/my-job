@@ -1,14 +1,25 @@
-import { Panel } from '@/components/atoms';
 import { memo, useCallback, useState } from 'react';
-import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
+
 import { useRouter as useNextRouter } from 'next/router';
-import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
-import Routes from '@/router/routes';
-import { BiddingStatus } from '@/constants/enums';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import cancelBidding from '@/apis/bidding/cancelBidding';
+
 import { toast } from 'react-toastify';
+
+import { Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import { BiddingStatus } from '@/constants/enums';
+
+import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
+
+import cancelBidding from '@/apis/bidding/cancelBidding';
+
 import { getListingStatus } from '@/apis/listing/getListingStatus';
 
 interface Props {
@@ -18,10 +29,13 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
   const nextRouter = useNextRouter();
+
   const chatRoomRouter = useRouter(1);
 
   const [open, setOpen] = useState(false);
+
   const [openPastPopup, setOpenPastPopup] = useState(false);
 
   const { data } = useAPI_GetMyParticipatedListingDetail(
@@ -54,9 +68,40 @@ export default memo(({ depth, panelWidth }: Props) => {
     if (router.query.back) {
       nextRouter.replace(router.query.back as string);
     } else {
-      router.replace(Routes.MyParticipatingListings, {
-        searchParams: {
-          tab: router.query.tab as string,
+      const depth1 = nextRouter?.query?.depth1;
+      const depth2 = nextRouter?.query?.depth2;
+
+      const query = nextRouter.query;
+
+      delete query.depth1;
+      delete query.depth2;
+
+      if (depth1 && depth2) {
+        if (depth1 === Routes.ListingDetailHistory) {
+          nextRouter.replace({
+            pathname: `/${Routes.MyParticipatingListings}/${depth2}`,
+            query: {
+              ...query,
+              tab: '4',
+            },
+          });
+        } else {
+          nextRouter.replace({
+            pathname: `${depth1}/${Routes.MyParticipatingListings}`,
+            query: {
+              ...query,
+              tab: '4',
+            },
+          });
+        }
+        return;
+      }
+
+      nextRouter.replace({
+        pathname: `/${Routes.MyParticipatingListings}`,
+        query: {
+          ...query,
+          tab: '4',
         },
       });
     }
@@ -124,8 +169,42 @@ export default memo(({ depth, panelWidth }: Props) => {
       if (nextRouter?.query?.back) {
         nextRouter.replace(nextRouter.query.back as string);
       } else {
-        router.replace(Routes.MyParticipatingListings, { searchParams: { tab: '4' } });
-        // router.pop();
+        const depth1 = nextRouter?.query?.depth1;
+        const depth2 = nextRouter?.query?.depth2;
+
+        const query = nextRouter.query;
+
+        delete query.depth1;
+        delete query.depth2;
+
+        if (depth1 && depth2) {
+          if (depth1 === Routes.ListingDetailHistory) {
+            nextRouter.replace({
+              pathname: `/${Routes.MyParticipatingListings}/${depth2}`,
+              query: {
+                ...query,
+                tab: '4',
+              },
+            });
+          } else {
+            nextRouter.replace({
+              pathname: `/${depth1}/${Routes.MyParticipatingListings}`,
+              query: {
+                ...query,
+                tab: '4',
+              },
+            });
+          }
+          return;
+        }
+
+        nextRouter.replace({
+          pathname: `/${Routes.MyParticipatingListings}`,
+          query: {
+            ...query,
+            tab: '4',
+          },
+        });
       }
     }
   }, [nextRouter, router]);

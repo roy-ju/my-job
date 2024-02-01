@@ -1,8 +1,13 @@
-import { AuthRequired, Loading, Panel } from '@/components/atoms';
-import { useRouter } from '@/hooks/utils';
 import { memo, useState, useEffect, useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
+
 import { MyParticipatingListings as MyParticipatingListingsTemplate } from '@/components/templates';
+
 import Routes from '@/router/routes';
+
 import useMyParticipatingListings from './useMyParticipatingListings';
 
 interface Props {
@@ -11,9 +16,32 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+  const router = useRouter();
+
   const { biddingStatus, isLoading } = useMyParticipatingListings();
+
   const [tab, setTab] = useState(Number(router.query.tab));
+
+  const handleChangeListingTab = useCallback(
+    (newValue: number) => {
+      setTab(Number(newValue));
+      router.push({ pathname: `/${Routes.My}/${Routes.MyParticipatingListings}`, query: { tab: `${newValue}` } });
+    },
+    [setTab, router],
+  );
+
+  const handleNavigateToListingDetailHistory = useCallback(
+    (listingId: number, biddingId: number) => () => {
+      router.replace({
+        pathname: `/${Routes.My}/${Routes.ListingDetailHistory}`,
+        query: {
+          listingID: `${listingId}`,
+          biddingID: `${biddingId}`,
+        },
+      });
+    },
+    [router],
+  );
 
   useEffect(() => {
     if (router.query.tab) {
@@ -21,37 +49,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     }
   }, [router.query.tab]);
 
-  const handleChangeListingTab = useCallback(
-    (newValue: number) => {
-      setTab(Number(newValue));
-      router.replaceCurrent(Routes.MyParticipatingListings, {
-        persistParams: true,
-        searchParams: { tab: `${newValue}` },
-      });
-    },
-    [setTab, router],
-  );
-
-  const handleClickListingItem = (listingId: number) => () => {
-    router.push(Routes.ListingDetail, {
-      persistParams: true,
-      searchParams: {
-        listingID: `${listingId}`,
-      },
-    });
-  };
-  const handleNavigateToListingDetailHistory = (listingId: number, biddingId: number) => () => {
-    router.replace(Routes.ListingDetailHistory, {
-      persistParams: true,
-      searchParams: {
-        listingID: `${listingId}`,
-        biddingID: `${biddingId}`,
-      },
-    });
-  };
-
   return (
-    <AuthRequired ciRequired depth={depth}>
+    <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
         {isLoading ? (
           <div tw="py-20">
@@ -61,7 +60,6 @@ export default memo(({ depth, panelWidth }: Props) => {
           <MyParticipatingListingsTemplate
             tab={tab}
             onChangeListingTab={handleChangeListingTab}
-            onClickListingItem={handleClickListingItem}
             onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
             biddingStatus={biddingStatus}
           />

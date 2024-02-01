@@ -1,23 +1,35 @@
 import { memo, useCallback, useState } from 'react';
-import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
-import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
-import Routes from '@/router/routes';
-import { BiddingStatus } from '@/constants/enums';
+
 import { useRouter } from 'next/router';
-import { MobileContainer } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import cancelBidding from '@/apis/bidding/cancelBidding';
+
 import { toast } from 'react-toastify';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
+
+import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
+
+import Routes from '@/router/routes';
+
+import { BiddingStatus } from '@/constants/enums';
+
+import cancelBidding from '@/apis/bidding/cancelBidding';
+
 import { getListingStatus } from '@/apis/listing/getListingStatus';
 
 export default memo(() => {
   const router = useRouter();
+
   const { data } = useAPI_GetMyParticipatedListingDetail(
     Number(router.query.listingID),
     Number(router.query.biddingID),
   );
 
   const [open, setOpen] = useState(false);
+
   const [openPastPopup, setOpenPastPopup] = useState(false);
 
   const handleNavigateToChatRoom = () => {
@@ -75,6 +87,7 @@ export default memo(() => {
 
   const handleCancelBidding = useCallback(async () => {
     const listingID = router?.query?.listingID;
+
     const biddingID = router?.query?.biddingID;
 
     if (listingID && biddingID) {

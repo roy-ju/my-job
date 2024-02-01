@@ -1,14 +1,22 @@
-import deleteMyAddress from '@/apis/my/deleteMyAddress';
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+import { memo, useCallback, useEffect, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { toast } from 'react-toastify';
+
 import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import { MyRegisteredHomes } from '@/components/templates';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
-import { memo, useCallback, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+
+import deleteMyAddress from '@/apis/my/deleteMyAddress';
+
+import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
 
 export type UserAddressIInfo = {
   id?: number;
@@ -19,9 +27,11 @@ export default memo(() => {
   const router = useRouter();
 
   const { user, isLoading, mutate: authMutate } = useAuth();
+
   const { list, mutate } = useAPI_GetMyAddressList({ activeOnly: false, danjiID: null, isFetch: true });
 
   const [showInActivePopup, setShowInActivePopup] = useState(false);
+
   const [showDeleteConfirmPopup, setShowDeleteConfirmPopup] = useState(false);
 
   const [userAddressInfo, setUserAddressInfo] = useState<UserAddressIInfo>();
