@@ -35,7 +35,7 @@ function InterviewField({ isUpdateForm = false, selectedList, handleClick }: Int
               />
             ))
           : interviews
-              .slice(0, interviews.length - 2)
+              .slice(0, interviews.length - 1)
               .map((item) => (
                 <CheckBoxButton
                   key={item}
