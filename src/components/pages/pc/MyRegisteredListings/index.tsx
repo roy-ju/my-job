@@ -175,11 +175,6 @@ export default memo(({ depth, panelWidth }: Props) => {
           pathname: `/${depth1}/${Routes.MyRegisteredListingList}`,
           query: { ...query, tab: `${newValue}` },
         });
-      } else if (depth1 && !depth2) {
-        router.push({
-          pathname: `/${depth1}/${Routes.MyRegisteredListingList}`,
-          query: { ...query, tab: `${newValue}` },
-        });
       } else {
         router.push({
           pathname: `/${Routes.MyRegisteredListingList}`,
