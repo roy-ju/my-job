@@ -162,12 +162,32 @@ export default memo(({ depth, panelWidth }: Props) => {
 
       handleCancelDelete();
 
-      customRouter.replaceCurrent(Routes.MyRegisteredListingList, {
-        persistParams: true,
-        searchParams: { tab: `${newValue}` },
-      });
+      const depth1 = router?.query?.depth1;
+      const depth2 = router?.query?.depth2;
+
+      const query = router.query;
+
+      delete query.depth1;
+      delete query.depth2;
+
+      if (depth1 && depth2) {
+        router.push({
+          pathname: `/${depth1}/${Routes.MyRegisteredListingList}`,
+          query: { ...query, tab: `${newValue}` },
+        });
+      } else if (depth1 && !depth2) {
+        router.push({
+          pathname: `/${depth1}/${Routes.MyRegisteredListingList}`,
+          query: { ...query, tab: `${newValue}` },
+        });
+      } else {
+        router.push({
+          pathname: `/${Routes.MyRegisteredListingList}`,
+          query: { ...query, tab: `${newValue}` },
+        });
+      }
     },
-    [setTab, customRouter, handleCancelDelete],
+    [handleCancelDelete, router],
   );
 
   return (

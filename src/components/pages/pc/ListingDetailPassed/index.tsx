@@ -1,11 +1,21 @@
-import { Panel } from '@/components/atoms';
 import { memo, useState } from 'react';
-import { useRouter } from '@/hooks/utils';
-import useAPI_GetMyListingDetailPassed from '@/apis/my/getMyListingDetailPassed';
-import { ListingDetailPassed as ListingDetailPassedTemplate } from '@/components/templates';
-import Routes from '@/router/routes';
+
+import { useRouter as useNextRouter } from 'next/router';
+
+import { Panel } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ListingDetailPassed as ListingDetailPassedTemplate } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import useAPI_GetMyListingDetailPassed from '@/apis/my/getMyListingDetailPassed';
+
 import { getListingStatus } from '@/apis/listing/getListingStatus';
+
+import Routes from '@/router/routes';
+import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
 
 interface Props {
   depth: number;
@@ -14,7 +24,11 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
+  const nextRouter = useNextRouter();
+
   const chatRoomRouter = useRouter(1);
+
   const { data } = useAPI_GetMyListingDetailPassed(Number(router.query.listingID));
 
   const [openPastPopup, setOpenPastPopup] = useState(false);
@@ -67,11 +81,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   const handleNavigateToBack = () => {
-    router.replace(Routes.MyRegisteredListingList, {
-      searchParams: {
-        tab: router.query.tab as string,
-      },
-    });
+    const path = replaceFirstOccurrence(nextRouter.asPath, Routes.ListingDetailPassed, Routes.MyRegisteredListingList);
+
+    nextRouter.replace(path);
   };
 
   return (

@@ -1,4 +1,4 @@
-export default function replaceFirstOccurrence(inputString: string, search: string, replacement: string): string {
+export default function replaceFirstOccurrence(currentURL: string, search: string, replacement: string): string {
   const regex = new RegExp(search);
-  return inputString.replace(regex, replacement);
+  return currentURL.replace(regex, replacement);
 }
