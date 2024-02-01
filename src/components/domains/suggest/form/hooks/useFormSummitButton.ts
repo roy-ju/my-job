@@ -74,12 +74,26 @@ export default function useFormSummitButton() {
   }, [setState]);
 
   const gtagButtonId = useMemo(() => {
-    /** 추가 조건  */
+    if (currentForm === 'realestate_and_buyOrRent_and_price') {
+      return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_REALESTATE_BOR_PRICE;
+    }
+
+    if (currentForm === 'buy_purpose') {
+      return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_BUY_PURPOSE;
+    }
+
+    if (currentForm === 'move_in_date') {
+      return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_MOVE_IN_DATE;
+    }
+
+    if (currentForm === 'area') {
+      return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_AREA;
+    }
+
     if (currentForm === 'additional_conditions') {
       return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_ADDITIONAL_CONDITIONS;
     }
 
-    /** 추가 조건  */
     if (currentForm === 'interview') {
       return GOOGLE_TAG_BUTTON_ID.SUGGEST_FORM_INTERVIEW;
     }
