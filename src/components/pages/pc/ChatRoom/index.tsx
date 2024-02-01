@@ -90,10 +90,6 @@
 //   };
 
 //   const handleClickNavigateToSuggestRecommended = (suggestRecommendID?: number) => {
-//     router.replace(Routes.SuggestRecommendedList, {
-//       searchParams: { back: `${router.asPath}` },
-//       state: { suggestRecommendID: `${suggestRecommendID}` },
-//     });
 //   };
 
 //   const convertedChatMessages = useMemo(() => {

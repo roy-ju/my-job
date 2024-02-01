@@ -185,6 +185,23 @@ export default memo(({ depth, panelWidth }: Props) => {
     [handleCancelDelete, router],
   );
 
+  const handleActionVerificationAddressPopup = useCallback(() => {
+    setOpenVerificationAddressPopup(false);
+    customRouter.replace(Routes.MyAddress, { searchParams: { origin: customRouter.asPath } });
+  }, [customRouter]);
+
+  const handleCancelVerificationAddressPopup = useCallback(() => setOpenVerificationAddressPopup(false), []);
+
+  const handleActionNeedMoreVerificationAddressPopup = useCallback(() => {
+    setOpenNeedMoreVerificationAddressPopup(false);
+    customRouter.replace(Routes.MyAddress, { searchParams: { origin: customRouter.asPath } });
+  }, [customRouter]);
+
+  const handleCancelNeedMoreVerificationAddressPopup = useCallback(
+    () => setOpenNeedMoreVerificationAddressPopup(false),
+    [],
+  );
+
   return (
     <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
@@ -235,16 +252,8 @@ export default memo(({ depth, panelWidth }: Props) => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-
-                  customRouter.replace(Routes.MyAddress, { searchParams: { origin: customRouter.asPath } });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCancelVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -261,18 +270,8 @@ export default memo(({ depth, panelWidth }: Props) => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-
-                  customRouter.replace(Routes.MyAddress, { searchParams: { origin: customRouter.asPath } });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCancelNeedMoreVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionNeedMoreVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
