@@ -76,11 +76,13 @@ if (typeof window !== 'undefined') {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
+
   const getComponent = Component.getComponent ?? ((p) => <Component {...p} />);
 
   const platform = usePlatform();
 
   usePageLoading();
+
   useNativeAppEventListeners();
 
   const router = useRouter();

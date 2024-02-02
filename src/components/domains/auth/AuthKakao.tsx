@@ -15,6 +15,7 @@ export default function AuthKakao() {
     const loginType = router?.query?.type;
 
     const timeout = setTimeout(() => loginWithKakao(loginType === 'update' ? loginType : '', isNativeApp), 200);
+
     return () => clearTimeout(timeout);
   }, [router, isNativeApp]);
 
