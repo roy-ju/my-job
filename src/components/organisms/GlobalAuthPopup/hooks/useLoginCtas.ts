@@ -100,25 +100,27 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   useEffect(() => {
     if (!platform) return;
 
-    // if (user && (authType === 'onlyLogin' || authType === 'login')) {
-    //   if (platform === 'pc') {
-    //     if (returnUrl) {
-    //       router.push(returnUrl, undefined, { shallow: true });
-    //       return;
-    //     }
+    if (user && (authType === 'onlyLogin' || authType === 'login')) {
+      if (platform === 'pc') {
+        if (returnUrl) {
+          router.push(returnUrl, undefined, { shallow: true });
+          return;
+        }
 
-    //     router.push(`/`, undefined, { shallow: true });
-    //   }
+        router.push(`/`, undefined, { shallow: true });
+        return;
+      }
 
-    //   if (platform === 'mobile') {
-    //     if (returnUrl) {
-    //       router.push(returnUrl, undefined, { shallow: true });
-    //       return;
-    //     }
+      if (platform === 'mobile') {
+        if (returnUrl) {
+          router.push(returnUrl, undefined, { shallow: true });
+          return;
+        }
 
-    //     router.push(`/${Routes.EntryMobile}`, undefined, { shallow: true });
-    //   }
-    // }
+        router.push(`/${Routes.EntryMobile}`, undefined, { shallow: true });
+        return;
+      }
+    }
 
     if (user && !user.isVerified && authType === 'needVerify') {
       if (returnUrl) {
