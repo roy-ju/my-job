@@ -2,19 +2,23 @@ import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { loginWithKakao } from '@/lib/kakao';
-
 import { useTimeout } from '@/hooks/useTimeout';
 
 export default function AuthKakao() {
   const router = useRouter();
 
   const handleLoginWithKakao = useCallback(() => {
-    const type = router?.query?.type;
-    loginWithKakao(type === 'update' ? type : '');
+    const type = (router?.query?.type as string) ?? '';
+
+    if (typeof window !== 'undefined' && typeof Kakao !== 'undefined') {
+      Kakao.Auth.authorize({
+        redirectUri: `${window.location.origin}/callback/kakaoLogin`,
+        state: type,
+      });
+    }
   }, [router]);
 
-  useTimeout(handleLoginWithKakao, 100);
+  useTimeout(handleLoginWithKakao, 300);
 
   return <div />;
 }
