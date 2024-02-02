@@ -31,6 +31,11 @@ import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 import Routes from '@/router/routes';
 
 import { apiService } from '@/services';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import Markers from './Markers';
 
 import usePanelVisible from './hooks/usePanelVisible';
@@ -105,6 +110,10 @@ function MapWrapper({
 
   const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const handleSuggestFormRouter = useCallback(
     (address?: string, bcode?: string) => {
       if (address && bcode) {
@@ -148,19 +157,14 @@ function MapWrapper({
 
   const handleClickListingCreateAddress = useCallback(async () => {
     if (!userData) {
-      replace(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${asPath}` },
-      });
-
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (!userData.is_verified) {
-      replace(Routes.VerifyCi, {
-        persistParams: true,
-        searchParams: { redirect: `${asPath}` },
-      });
+      router.push(`/${Routes.VerifyCi}`);
+      handleUpdateReturnUrl();
       return;
     }
 
@@ -185,11 +189,35 @@ function MapWrapper({
         });
       }
     }
-  }, [asPath, replace, userData]);
+  }, [asPath, handleUpdateReturnUrl, openAuthPopup, replace, router, userData]);
 
   const handleClickAgentSite = useCallback(() => {
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
+
+  const handleActionLocationPermissionPopup = useCallback(() => setPopup('none'), [setPopup]);
+
+  const handleActionOpenPopup = useCallback(() => setOpenPopup(false), [setOpenPopup]);
+
+  const handleActionVerificationAddressPopup = useCallback(() => {
+    setOpenVerificationAddressPopup(false);
+    replace(Routes.MyAddress, { searchParams: { origin: asPath } });
+  }, [asPath, replace]);
+
+  const handleCancelVerificationAddressPopup = useCallback(
+    () => setOpenVerificationAddressPopup(false),
+    [setOpenVerificationAddressPopup],
+  );
+
+  const handleActionNeedMoreVerificationAddressPopup = useCallback(() => {
+    setOpenNeedMoreVerificationAddressPopup(false);
+    replace(Routes.MyAddress, { searchParams: { origin: asPath } });
+  }, [asPath, replace]);
+
+  const handleCancelNeedMoreVerificationAddressPopup = useCallback(
+    () => setOpenNeedMoreVerificationAddressPopup(false),
+    [],
+  );
 
   return (
     <>
@@ -285,7 +313,7 @@ function MapWrapper({
               </Popup.Body>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
+              <Popup.ActionButton onClick={handleActionLocationPermissionPopup}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -298,7 +326,7 @@ function MapWrapper({
               <Popup.SubTitle>해당 지역은 서비스 준비중입니다.</Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setOpenPopup(false)}>확인</Popup.ActionButton>
+              <Popup.ActionButton onClick={handleActionOpenPopup}>확인</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -315,15 +343,8 @@ function MapWrapper({
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-                  replace(Routes.MyAddress, { searchParams: { origin: asPath } });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCancelVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -340,17 +361,8 @@ function MapWrapper({
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-                  replace(Routes.MyAddress, { searchParams: { origin: asPath } });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCancelNeedMoreVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionNeedMoreVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

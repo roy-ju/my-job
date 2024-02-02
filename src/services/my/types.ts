@@ -51,3 +51,14 @@ export interface MySuggestRecommendsResponse {
   suggest_status: number;
   list: SuggestRecommendDetailList[] | null;
 }
+
+export interface UploadProfileImageResponse {
+  full_file_paths: string[];
+}
+
+export type DeregisterResponse = {
+  can_deregister: boolean;
+  has_bidding: boolean;
+  has_deposit_or_nego_money: boolean;
+  has_listing: boolean;
+} & ErrorResponse;

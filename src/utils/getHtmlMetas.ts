@@ -147,25 +147,6 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
     };
   }
 
-  if (targetRoute === Routes.Login) {
-    return {
-      title: `로그인 | ${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-          ? '(TEST) 부동산 가격협상 앱 네고시오'
-          : '부동산 가격협상 앱 네고시오'
-      }`,
-      description: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
-      ogTitle: '로그인',
-      ogDescription: '단지 기본정보, 실거래가/시세, 호가, 매물, 주변학군/생활/교통 정보를 보여드립니다.',
-      ogImagePath: AppConfig.ogImagePath,
-      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
-      ogType: 'website',
-      keyWords: `${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
-      }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
-    };
-  }
-
   if (targetRoute === Routes.Deregister) {
     return {
       title: `탈퇴하기 | ${

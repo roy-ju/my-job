@@ -1,13 +1,22 @@
 import { memo, useState, useEffect, ChangeEventHandler, useCallback } from 'react';
-import { toast } from 'react-toastify';
+
 import { useRouter } from 'next/router';
-import addressAgreementPhone from '@/apis/my/addressAgreementPhone';
+
+import { toast } from 'react-toastify';
+
 import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import { MyAddressAgreement } from '@/components/templates';
-import ErrorCodes from '@/constants/error_codes';
-import Routes from '@/router/routes';
+
 import { autoHyphenPhone } from '@/utils/autoHypenPhone';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import addressAgreementPhone from '@/apis/my/addressAgreementPhone';
+
+import Routes from '@/router/routes';
 
 type AddressData = {
   addressName?: string;

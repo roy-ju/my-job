@@ -1,19 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import verifyAddress from '@/apis/my/verifyAddress';
-import verifyOwnership from '@/apis/my/verifyOwnership';
-import { Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MyAddressVerifying } from '@/components/templates';
-import { MyVerifyStatus } from '@/constants/enums';
-import ErrorCodes from '@/constants/error_codes';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { useRouter } from '@/hooks/utils';
-import { useRouter as useNextRouter } from 'next/router';
-import { searchAddress } from '@/lib/kakao/search_address';
-import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useState } from 'react';
+
+import { useRouter as useNextRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
+
+import { Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MyAddressVerifying } from '@/components/templates';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+
+import { useRouter } from '@/hooks/utils';
+
 import useAuth from '@/hooks/services/useAuth';
+
+import { MyVerifyStatus } from '@/constants/enums';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import Routes from '@/router/routes';
+
+import { searchAddress } from '@/lib/kakao/search_address';
+
+import verifyAddress from '@/apis/my/verifyAddress';
+
+import verifyOwnership from '@/apis/my/verifyOwnership';
 
 interface Props {
   depth: number;
@@ -28,7 +42,9 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { mutate } = useAuth();
 
   const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
+
   const [verifyingSeconds, setVerifyingSeconds] = useState<number>(30);
+
   const [verifyCompletedSeconds, setVerifyCompletedSeconds] = useState<number>(2);
 
   const [popup, setPopup] = useState<'alreadyExistAddress' | 'verifiedCountReachedLimit' | ''>('');

@@ -1,24 +1,39 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
-import { Button } from '@/components/atoms';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { useCallback, useEffect, useState } from 'react';
+
 import { useRouter as useNextRouter } from 'next/router';
-import NewTabs from '@/components/molecules/Tabs/NewTabs';
-import tw from 'twin.macro';
-import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
-import ListingNodata from '@/../public/static/images/listing_nodata.png';
+
 import Image from 'next/image';
-import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
-import NaverLogo from '@/assets/icons/naver_logo.svg';
-import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
-import { apiService } from '@/services';
+
+import tw from 'twin.macro';
+
+import { Button } from '@/components/atoms';
+
+import NewTabs from '@/components/molecules/Tabs/NewTabs';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
 
 import getPath from '@/utils/getPath';
+
+import { apiService } from '@/services';
+
+import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
+
+import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
+
+import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
+
+import ListingNodata from '@/../public/static/images/listing_nodata.png';
+
+import NaverLogo from '@/assets/icons/naver_logo.svg';
+
 import ListingItem from '../ListingItem';
 
 export default function ActiveListingInfo({
@@ -30,13 +45,8 @@ export default function ActiveListingInfo({
   depth: number;
   danji?: GetDanjiDetailResponse;
 }) {
-  const { data: userData } = useAPI_GetUserInfo();
   const [isRecommendationService, setIsRecommendationService] = useState(false);
   const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
-
-  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
-
-  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
   const { pcNaverURL } = useAPI_GetDanjiNaver({ danjiId: danji?.danji_id });
 
@@ -143,54 +153,6 @@ export default function ActiveListingInfo({
     },
     [nextRouter, danji?.danji_id, router?.query?.danjiID],
   );
-
-  const handleCreateListing = useCallback(async () => {
-    if (!userData) {
-      router.replace(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
-
-      return;
-    }
-
-    if (!userData.is_verified) {
-      router.replace(Routes.VerifyCi, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
-      return;
-    }
-
-    if (!userData?.has_address) {
-      setOpenVerificationAddressPopup(true);
-      return;
-    }
-
-    if (userData?.has_address) {
-      const res = await listingEligibilityCheck({ danji_id: danji?.danji_id });
-
-      if (res && !res?.is_eligible) {
-        setOpenNeedMoreVerificationAddressPopup(true);
-        return;
-      }
-
-      if (res && res?.is_eligible) {
-        nextRouter.replace(
-          {
-            pathname: `/${Routes.DanjiDetail}/${Routes.ListingSelectAddress}`,
-            query: {
-              danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
-              origin: router.asPath,
-            },
-          },
-          `/${Routes.DanjiDetail}/${Routes.ListingSelectAddress}?danjiID=${
-            danji?.danji_id || router?.query?.danjiID || ''
-          }`,
-        );
-      }
-    }
-  }, [danji?.danji_id, nextRouter, router, userData]);
 
   const handleCreateSuggest = useCallback(() => {
     const danjiID = `${danji?.danji_id}` || router?.query?.danjiID || '';
@@ -375,11 +337,11 @@ export default function ActiveListingInfo({
               ) : (
                 <div tw="px-5 flex-1 min-h-0 flex flex-col items-center overflow-auto">
                   <Image src={ListingNodata.src} width={200} height={128} alt="" />
-                  <p tw="mt-4 mb-2 text-center text-h2 font-bold">거래를 희망하는 매물을 등록해 보세요.</p>
+                  <p tw="mt-4 mb-2 text-center text-h2 font-bold">해당 단지에 등록된 매물이 없어요!</p>
                   <p tw="text-center text-info text-gray-700">
-                    매물등록만으로 중개사를 배정받고
+                    해당 단지에 매물을 가지고 있다면
                     <br />
-                    매수인, 임차인에게 가격을 제안 받을 수 있어요.
+                    우리집 등록 후 매물을 등록해보세요!
                   </p>
                 </div>
               ))}
@@ -390,12 +352,6 @@ export default function ActiveListingInfo({
           {tab === 1 && (
             <Button tw="w-full" onClick={handleSuggestCTA} size="big">
               구해요 등록
-            </Button>
-          )}
-
-          {tab === 2 && (
-            <Button tw="w-full" onClick={handleCreateListing} size="big">
-              매물 등록
             </Button>
           )}
 
@@ -417,68 +373,6 @@ export default function ActiveListingInfo({
             <Popup.ButtonGroup>
               <Popup.ActionButton onClick={() => handleClosePopup('impossibleRecommendataion')}>
                 확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-
-      {openVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                이 단지의 집주인만 매물등록이 가능합니다.
-                <br />
-                우리집을 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-                  router.push(Routes.MyAddress, {
-                    searchParams: {
-                      origin: router.asPath,
-                      ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-
-      {openNeedMoreVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                추가로 매물등록이 가능한 우리집 정보가 없습니다.
-                <br />
-                우리집을 추가 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-                  router.push(Routes.MyAddress, {
-                    searchParams: {
-                      origin: router.asPath,
-                      ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
-                    },
-                  });
-                }}
-              >
-                인증하기
               </Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>

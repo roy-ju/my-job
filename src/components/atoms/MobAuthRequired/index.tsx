@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -6,8 +6,11 @@ import useAuth from '@/hooks/services/useAuth';
 
 import { isClient } from '@/utils/is';
 
-import Routes from '@/router/routes';
+import useAuthPopup from '@/states/hooks/useAuhPopup';
 
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import Routes from '@/router/routes';
 import MobileContainer from '../MobileContainer';
 
 import Loading from '../Loading';
@@ -23,6 +26,30 @@ export default function MobAuthRequired({ ciRequired = false, onAccessDenied, ch
 
   const { user, isLoading } = useAuth();
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
+  useEffect(() => {
+    if (isClient && router.isReady) {
+      if (!isLoading && !user) {
+        if (ciRequired) {
+          openAuthPopup('needVerify');
+        } else {
+          openAuthPopup('login');
+        }
+
+        handleUpdateReturnUrl();
+
+        return;
+      }
+
+      if (!isLoading && user && ciRequired && !user.isVerified) {
+        handleUpdateReturnUrl();
+      }
+    }
+  }, [ciRequired, router.isReady, user, isLoading, openAuthPopup, handleUpdateReturnUrl]);
+
   if (isLoading) {
     return (
       <MobileContainer>
@@ -35,28 +62,34 @@ export default function MobAuthRequired({ ciRequired = false, onAccessDenied, ch
 
   if (!user) {
     onAccessDenied?.();
+
     if (isClient && router.isReady) {
-      router.replace({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
+      router.replace({ pathname: `/` });
     }
-    return <MobileContainer />;
+
+    return (
+      <MobileContainer>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </MobileContainer>
+    );
   }
 
   if (ciRequired && !user.isVerified) {
     onAccessDenied?.();
+
     if (isClient && router.isReady) {
-      router.replace({
-        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
+      router.replace({ pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}` });
     }
-    return <MobileContainer />;
+
+    return (
+      <MobileContainer>
+        <div tw="py-20">
+          <Loading />
+        </div>
+      </MobileContainer>
+    );
   }
 
   return children as JSX.Element;

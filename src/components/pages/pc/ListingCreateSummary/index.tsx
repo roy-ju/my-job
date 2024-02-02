@@ -1,16 +1,30 @@
-import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
-import updateDanjiPhoto from '@/apis/listing/updateDanjiPhoto';
-import uploadListingPhoto from '@/apis/listing/updateListingPhoto';
-import { Loading, Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingCreateSummary } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import getFileFromUrl from '@/utils/getFileFromUrl';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useRouter as useNextRouter } from 'next/router';
+
 import { v4 } from 'uuid';
-import createListing from '@/apis/listing/createListing';
+
+import { Loading, Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ListingCreateSummary } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import getFileFromUrl from '@/utils/getFileFromUrl';
+
+import Routes from '@/router/routes';
+
 import ErrorCodes from '@/constants/error_codes';
+
+import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
+
+import updateDanjiPhoto from '@/apis/listing/updateDanjiPhoto';
+
+import uploadListingPhoto from '@/apis/listing/updateListingPhoto';
+
+import createListing from '@/apis/listing/createListing';
 
 interface Props {
   depth: number;
@@ -19,6 +33,8 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
+
+  const nextRouter = useNextRouter();
 
   const userAddressID = Number(router.query.userAddressID) ?? 0;
   const agentID = Number(router.query.agentID) ?? 0;
@@ -136,24 +152,26 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleErrorPopup = useCallback(() => {
     setErrorPopup(false);
 
-    router.replace(Routes.MyRegisteredListingList, {
-      searchParams: {
-        ...(router.query.danjiID
-          ? {
-              danjiID: router.query.danjiID as string,
-            }
-          : {}),
-        tab: '1',
-      },
-      state: {
-        ...(router.query.origin
-          ? {
-              origin: router.query.origin as string,
-            }
-          : {}),
-      },
-    });
-  }, [router]);
+    const depth1 = nextRouter.query.depth1;
+    const depth2 = nextRouter.query.depth2;
+
+    const query = nextRouter.query;
+
+    delete query.depth1;
+    delete query.depth2;
+
+    if (depth1 && depth2) {
+      nextRouter.replace({
+        pathname: `/${depth1}/${Routes.MyRegisteredListingList}`,
+        query: { ...query, tab: '1' },
+      });
+    } else {
+      nextRouter.replace({
+        pathname: `/${Routes.MyRegisteredListingList}`,
+        query: { ...query, tab: '1' },
+      });
+    }
+  }, [nextRouter]);
 
   useEffect(() => {
     fetchAgentList();

@@ -1,3 +1,5 @@
+import { memo, useCallback, useEffect, useState } from 'react';
+
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 
 import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
@@ -16,8 +18,6 @@ import { useRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
 
-import { memo, useCallback, useEffect, useState } from 'react';
-
 import { toast } from 'react-toastify';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
@@ -25,6 +25,10 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 import deleteListingQna from '@/apis/listing/deleteListingQna';
 
 import axios from '@/lib/axios';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import { BuyOrRent, VisitUserType } from '@/constants/enums';
 
@@ -48,6 +52,8 @@ import { useRouter as useNextRouter } from 'next/router';
 
 import { apiService } from '@/services';
 
+import kakaoShare from '@/utils/kakaoShare';
+
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -63,6 +69,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const { redirectable } = useListingDetailRedirector(listingID, depth);
 
   const router = useRouter(depth);
+
   const nextRouter = useNextRouter();
 
   const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
@@ -72,6 +79,10 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
 
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const {
     data: qnaData,
@@ -102,10 +113,8 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   const handleClickFavorite = useCallback(async () => {
     if (!user) {
-      router.replaceCurrent(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}`, back: 'true' },
-      });
+      openAuthPopup('onlyLogin');
+      handleUpdateReturnUrl();
       return;
     }
 
@@ -126,19 +135,22 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
     if (data?.listing?.id) {
       if (data.is_favorite) {
-        mutateListing(removeFavoriteOptimistic, {
+        await mutateListing(removeFavoriteOptimistic, {
           optimisticData: { ...data, is_favorite: false },
           rollbackOnError: true,
         });
+
+        toast.success('관심 매물을 해제하셨습니다.');
       } else {
         await mutateListing(addFavoriteOptimistic, {
           optimisticData: { ...data, is_favorite: true },
           rollbackOnError: true,
         });
+
         toast.success('관심 매물에 추가되었습니다.');
       }
     }
-  }, [data, mutateListing, user, router, listingID]);
+  }, [user, data, openAuthPopup, handleUpdateReturnUrl, listingID, mutateListing]);
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
@@ -150,24 +162,35 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   );
 
   const handleNavigateToCreateQna = useCallback(() => {
-    router.push(Routes.ListingQnaCreateForm, {
-      searchParams: {
-        listingID: router.query.listingID as string,
+    const id = listingID || (router?.query?.listingID as string);
+
+    nextRouter.push({
+      pathname: `/${Routes.ListingDetail}/${Routes.ListingQnaCreateForm}`,
+      query: {
+        listingID: `${id}`,
       },
     });
-  }, [router]);
+  }, [listingID, nextRouter, router?.query?.listingID]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
-    router.push(Routes.BiddingForm, {
-      searchParams: {
-        listingID: router.query.listingID as string,
-      },
-    });
-  }, [router]);
+    if (!user) {
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${nextRouter.query.listingID}`);
+      return;
+    }
+
+    if (user && !user.isVerified) {
+      nextRouter.push(`/${Routes.VerifyCi}/${Routes.ListingDetail}?listingID=${nextRouter.query.listingID}`);
+      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${nextRouter.query.listingID}`);
+      return;
+    }
+
+    nextRouter.push(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${nextRouter.query.listingID}`);
+  }, [handleUpdateReturnUrl, nextRouter, openAuthPopup, user]);
 
   const handleNavigateToUpdateBidding = useCallback(() => {
     if (!data?.bidding_id) {
-      toast.error('bidding_id not found');
+      toast.error('bidding ID가 존재하지 않습니다.');
     }
 
     router.push(Routes.UpdateBiddingForm, {
@@ -284,29 +307,15 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
       description = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}, ${data?.display_address}`;
     }
 
-    window.Kakao.Share.sendDefault({
+    kakaoShare({
+      width: 1200,
+      height: 630,
       objectType: 'feed',
-      installTalk: true,
-      content: {
-        title: data?.listing?.listing_title ?? '',
-        description,
-        imageUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
-        link: {
-          mobileWebUrl: link,
-          webUrl: link,
-        },
-        imageWidth: 1200,
-        imageHeight: 630,
-      },
-      buttons: [
-        {
-          title: '자세히보기',
-          link: {
-            mobileWebUrl: link,
-            webUrl: link,
-          },
-        },
-      ],
+      title: data?.listing?.listing_title ?? '',
+      description,
+      imgUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
+      buttonTitle: '자세히보기',
+      link,
     });
   }, [data]);
 

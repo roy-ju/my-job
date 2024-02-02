@@ -9,17 +9,23 @@ export default function usePageLoading() {
     const routeEventStart = () => {
       NProgress.start();
     };
+
     const routeEventEnd = () => {
+      NProgress.done();
+    };
+
+    const routeEventError = () => {
       NProgress.done();
     };
 
     Router.events.on('routeChangeStart', routeEventStart);
     Router.events.on('routeChangeComplete', routeEventEnd);
-    Router.events.on('routeChangeError', routeEventEnd);
+    Router.events.on('routeChangeError', routeEventError);
+
     return () => {
       Router.events.off('routeChangeStart', routeEventStart);
       Router.events.off('routeChangeComplete', routeEventEnd);
-      Router.events.off('routeChangeError', routeEventEnd);
+      Router.events.off('routeChangeError', routeEventError);
     };
   }, []);
 }

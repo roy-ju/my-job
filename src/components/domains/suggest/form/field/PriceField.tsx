@@ -76,7 +76,7 @@ function PriceField({
             <>
               <TextFieldV2.Trailing
                 tw="cursor-pointer"
-                onClick={() => handleReset()}
+                onClick={handleReset}
                 css={[errorMessage ? tw`pr-3` : tw`pr-4`]}
               >
                 <CloseContained />

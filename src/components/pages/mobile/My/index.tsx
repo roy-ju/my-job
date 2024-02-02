@@ -10,6 +10,10 @@ import { My as MyTemplate } from '@/components/templates';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
@@ -18,8 +22,14 @@ import Routes from '@/router/routes';
 
 export default function MobMy() {
   const router = useRouter();
+
   const { data: dashboardData } = useAPI_GetDashboardInfo();
+
   const { user, isLoading } = useAuth();
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const [tab, setTab] = useState(1);
 
@@ -28,8 +38,9 @@ export default function MobMy() {
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.Login}`);
-  }, [router]);
+    openAuthPopup('login');
+    handleUpdateReturnUrl();
+  }, [handleUpdateReturnUrl, openAuthPopup]);
 
   const handleClickNotificationList = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);

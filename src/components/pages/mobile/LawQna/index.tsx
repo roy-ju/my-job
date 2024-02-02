@@ -1,15 +1,29 @@
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
-import { LegalCounseling } from '@/components/templates';
-import useAuth from '@/hooks/services/useAuth';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+
+import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
+
+import { LegalCounseling } from '@/components/templates';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import Routes from '@/router/routes';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 function LawQna() {
   const { user } = useAuth();
 
   const router = useRouter();
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const {
     isLoading,
@@ -38,12 +52,21 @@ function LawQna() {
     }
   };
 
-  const handleClickWritingPage = () => {
-    if (router?.query?.q) {
-      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaCreate}?q=${router.query.q as string}`);
-    } else {
-      router.push(`/${Routes.EntryMobile}/${Routes.LawQnaCreate}`);
+  const handleClickCreateButton = () => {
+    if (!user) {
+      const returnUrl = router.query.q
+        ? `/${Routes.EntryMobile}/${Routes.LawQnaCreate}?q=${router.query.q}`
+        : `/${Routes.EntryMobile}/${Routes.LawQnaCreate}`;
+
+      handleUpdateReturnUrl(returnUrl);
+      openAuthPopup('onlyLogin');
+      return;
     }
+
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.LawQnaCreate}`,
+      query: { ...(router.query.q ? { q: `${router.query.q}` } : {}) },
+    });
   };
 
   const handleQnaDetail = (id?: number) => {
@@ -59,14 +82,11 @@ function LawQna() {
   const handleClickLike = useCallback(
     async (liked?: boolean, qnaId?: number) => {
       if (!user) {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-          query: {
-            redirect: router.asPath,
-          },
-        });
+        handleUpdateReturnUrl();
+        openAuthPopup('onlyLogin');
         return;
       }
+
       if (typeof liked !== 'boolean' || typeof qnaId !== 'number') {
         return;
       }
@@ -79,7 +99,7 @@ function LawQna() {
         mutateQnaData();
       }
     },
-    [mutateQnaData, router, user],
+    [handleUpdateReturnUrl, mutateQnaData, openAuthPopup, user],
   );
 
   return (
@@ -92,7 +112,7 @@ function LawQna() {
       onClickLike={handleClickLike}
       onClickSearchPage={handleClickSearchPage}
       onClickQnaDetail={handleQnaDetail}
-      onClickWritingPage={handleClickWritingPage}
+      onClickCreate={handleClickCreateButton}
       onClickAllPage={handleClickAllPage}
     />
   );

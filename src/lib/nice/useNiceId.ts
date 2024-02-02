@@ -19,6 +19,7 @@ type VerificationType = 'phone' | 'ipin';
 export default function useNiceId() {
   const request = useCallback((type: VerificationType, callback?: (res: NiceResponse) => void) => {
     let typeInteger = NiceVerificationType.Phone;
+
     if (type === 'ipin') {
       typeInteger = NiceVerificationType.IPin;
     }
