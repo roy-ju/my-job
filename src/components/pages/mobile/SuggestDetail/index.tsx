@@ -8,7 +8,13 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { SuggestDetail } from '@/components/templates';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { apiService } from '@/services';
 
 import { isMobile } from '@/utils/is';
 
@@ -23,8 +29,6 @@ import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import suggestView from '@/apis/suggest/suggestView';
 
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-
-import { apiService } from '@/services';
 
 export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const router = useRouter();
@@ -41,6 +45,10 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const { data: myRecommendedList, mutate } = useAPI_getMyRecommendedList({ suggestId: suggestID });
 
   const [needVerifyAddressPopup, setNeedVerifyAddressPopup] = useState(false);
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const disabledCTA = useMemo(() => {
     if (data?.suggest_status === SuggestStatus.Active) return false;
@@ -66,22 +74,16 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
     if (!suggestID) return;
 
     if (!userData) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (!userData.is_verified) {
       router.push({
         pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-        query: {
-          redirect: router.asPath,
-        },
       });
+      handleUpdateReturnUrl();
       return;
     }
 
@@ -106,9 +108,9 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
         }
       }
     }
-  }, [data?.danji_id, router, suggestID, userData]);
+  }, [data, handleUpdateReturnUrl, openAuthPopup, router, suggestID, userData]);
 
-  const handleAddressApplyPopupCTA = useCallback(() => {
+  const handleActionNeedVerifyAddressPopup = useCallback(() => {
     router.push({
       pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
       query: { origin: router.asPath, ...(router?.query?.suggestID ? { suggestID: router?.query?.suggestID } : {}) },
@@ -119,7 +121,7 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
     mutate();
   }, [mutate]);
 
-  const closeNeedVerifyAddressPopup = useCallback(() => {
+  const handleCloseNeedVerifyAddressPopup = useCallback(() => {
     setNeedVerifyAddressPopup(false);
   }, []);
 
@@ -170,8 +172,8 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
                 </Popup.SmallTitle>
               </Popup.ContentGroup>
               <Popup.ButtonGroup>
-                <Popup.CancelButton onClick={closeNeedVerifyAddressPopup}>닫기</Popup.CancelButton>
-                <Popup.ActionButton onClick={handleAddressApplyPopupCTA}>집주인 인증하기</Popup.ActionButton>
+                <Popup.CancelButton onClick={handleCloseNeedVerifyAddressPopup}>닫기</Popup.CancelButton>
+                <Popup.ActionButton onClick={handleActionNeedVerifyAddressPopup}>집주인 인증하기</Popup.ActionButton>
               </Popup.ButtonGroup>
             </Popup>
           </OverlayPresenter>

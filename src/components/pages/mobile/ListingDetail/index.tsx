@@ -39,6 +39,10 @@ import Paths from '@/constants/paths';
 
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useMobileDanjiMap from '@/states/hooks/useMobileDanjiMap';
 
 import FullScreenMap from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
@@ -56,6 +60,9 @@ import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 import ErrorCodes from '@/constants/error_codes';
 
 import { apiService } from '@/services';
+
+import kakaoShare from '@/utils/kakaoShare';
+
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
@@ -76,6 +83,10 @@ export default memo(() => {
   const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
 
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const {
     danjiAroundData,
@@ -127,12 +138,8 @@ export default memo(() => {
 
   const handleClickFavorite = useCallback(async () => {
     if (!user) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
+      openAuthPopup('onlyLogin');
+      handleUpdateReturnUrl();
       return;
     }
 
@@ -153,10 +160,12 @@ export default memo(() => {
 
     if (data?.listing?.id) {
       if (data.is_favorite) {
-        mutateListing(removeFavoriteOptimistic, {
+        await mutateListing(removeFavoriteOptimistic, {
           optimisticData: { ...data, is_favorite: false },
           rollbackOnError: true,
         });
+
+        toast.success('관심 매물을 해제하셨습니다.');
       } else {
         await mutateListing(addFavoriteOptimistic, {
           optimisticData: { ...data, is_favorite: true },
@@ -177,17 +186,32 @@ export default memo(() => {
   );
 
   const handleNavigateToCreateQna = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${router.query.listingID}`);
+    const id = listingID || (router?.query?.listingID as string);
+
+    router.push(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
+    if (!user) {
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
+      return;
+    }
+
+    if (user && !user.isVerified) {
+      router.push(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+      handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
+      return;
+    }
+
     router.push(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);
   }, [router]);
 
   const handleNavigateToUpdateBidding = useCallback(() => {
     if (!data?.bidding_id) {
-      toast.error('bidding_id not found');
+      toast.error('bidding ID가 존재하지 않습니다.');
     }
+
     router.push(
       `/${Routes.EntryMobile}/${Routes.UpdateBiddingForm}?listingID=${router.query.listingID}&biddingID=${data?.bidding_id}`,
     );
@@ -297,29 +321,15 @@ export default memo(() => {
       description = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}, ${data?.display_address}`;
     }
 
-    window.Kakao.Share.sendDefault({
+    kakaoShare({
+      width: 1200,
+      height: 630,
       objectType: 'feed',
-      installTalk: true,
-      content: {
-        title: data?.listing?.listing_title ?? '',
-        description,
-        imageUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
-        link: {
-          mobileWebUrl: link,
-          webUrl: link,
-        },
-        imageWidth: 1200,
-        imageHeight: 630,
-      },
-      buttons: [
-        {
-          title: '자세히보기',
-          link: {
-            mobileWebUrl: link,
-            webUrl: link,
-          },
-        },
-      ],
+      title: data?.listing?.listing_title ?? '',
+      description,
+      imgUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
+      buttonTitle: '자세히보기',
+      link,
     });
   }, [data]);
 

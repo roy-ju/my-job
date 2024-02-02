@@ -6,10 +6,6 @@ import { useRouter } from 'next/router';
 
 import Routes from '@/router/routes';
 
-import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
-
-import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
-
 import { useFetchDanjiListingsList } from '@/services/danji/useFetchDanjiListingsList';
 
 import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
@@ -20,8 +16,6 @@ import {
   DanjiSuggestListResponse,
   NaverDanjiResponse,
 } from '@/services/danji/types';
-
-import useAuthRedirect from '@/hooks/useAuthRedirect';
 
 import { apiService } from '@/services';
 import Tabs from './Tabs';
@@ -35,12 +29,6 @@ import RegisterButtons from './RegisterButtons';
 const FixedButton = dynamic(() => import('./FixedButton'), { ssr: false });
 
 const ImpossibleRecommdation = dynamic(() => import('../popups/ImpossibleRecommdation'), { ssr: false });
-
-const VerificationAddress = dynamic(() => import('../popups/VerificationAddress'), { ssr: false });
-
-const NeedMoreAddVerificationAddress = dynamic(() => import('../popups/NeedMoreAddVerificationAddress'), {
-  ssr: false,
-});
 
 const ListingDetailOpertionsButtons = dynamic(() => import('./ListingDetailOpertionsButtons'), { ssr: false });
 
@@ -62,10 +50,6 @@ export default function SuggestsOrListings({
   const router = useRouter();
 
   const danjiID = danji.danji_id || Number(router?.query?.danjiID ?? 0);
-
-  const { data: userData } = useAPI_GetUserInfo();
-
-  const { handleLogin, handleVerified } = useAuthRedirect();
 
   const [isRecommendationService, setIsRecommendationService] = useState(false);
 
@@ -140,43 +124,6 @@ export default function SuggestsOrListings({
     );
   };
 
-  const handleCreateListing = async () => {
-    if (!userData) {
-      handleLogin();
-      return;
-    }
-
-    if (!userData.is_verified) {
-      handleVerified();
-      return;
-    }
-
-    if (!userData?.has_address) {
-      setPopup('verificationAddress');
-      return;
-    }
-
-    if (userData?.has_address) {
-      const res = await listingEligibilityCheck({ danji_id: danjiID });
-
-      if (res && !res?.is_eligible) {
-        setPopup('needMoreVerificationAddress');
-
-        return;
-      }
-
-      if (res && res?.is_eligible) {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
-          query: {
-            origin: router.asPath,
-            ...(danjiID ? { danjiID: `${danjiID}` } : {}),
-          },
-        });
-      }
-    }
-  };
-
   const handleCreateSuggest = () => {
     if (!isRecommendationService) {
       return;
@@ -193,18 +140,6 @@ export default function SuggestsOrListings({
 
   const handleClosePopup = () => {
     setPopup('');
-  };
-
-  const handleVerficationAddress = () => {
-    handleClosePopup();
-
-    router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-      query: {
-        origin: router.asPath,
-        ...(danjiID ? { danjiID: `${danjiID}` } : {}),
-      },
-    });
   };
 
   useEffect(() => {
@@ -266,28 +201,12 @@ export default function SuggestsOrListings({
           tab={tab}
           danjiID={danji.danji_id}
           handleClickSuggestButton={handleCreateSuggest}
-          handleClickListingButton={handleCreateListing}
           naverDanji={naverDanji}
         />
       </div>
-      <FixedButton
-        tabIndex={tabIndex}
-        handleClickSuggestButton={handleCreateSuggest}
-        handleClickListingButton={handleCreateListing}
-      />
+      <FixedButton tabIndex={tabIndex} handleClickSuggestButton={handleCreateSuggest} />
 
       {popup === 'impossibleRecommendation' && <ImpossibleRecommdation handleClosePopup={handleClosePopup} />}
-
-      {popup === 'verificationAddress' && (
-        <VerificationAddress handleVerficationAddress={handleVerficationAddress} handleClosePopup={handleClosePopup} />
-      )}
-
-      {popup === 'needMoreVerificationAddress' && (
-        <NeedMoreAddVerificationAddress
-          handleVerficationAddress={handleVerficationAddress}
-          handleClosePopup={handleClosePopup}
-        />
-      )}
     </>
   );
 }

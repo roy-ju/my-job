@@ -1,17 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import verifyAddress from '@/apis/my/verifyAddress';
-import verifyOwnership from '@/apis/my/verifyOwnership';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MobMyAddressVerifying } from '@/components/templates';
-import { MyVerifyStatus } from '@/constants/enums';
-import ErrorCodes from '@/constants/error_codes';
-import useAuth from '@/hooks/services/useAuth';
-import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-import { searchAddress } from '@/lib/kakao/search_address';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MobMyAddressVerifying } from '@/components/templates';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import { MyVerifyStatus } from '@/constants/enums';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
+
+import { searchAddress } from '@/lib/kakao/search_address';
+
+import verifyAddress from '@/apis/my/verifyAddress';
+
+import verifyOwnership from '@/apis/my/verifyOwnership';
+
+import Routes from '@/router/routes';
 
 export default function AddressVerifyingWrraper() {
   const router = useRouter();
@@ -19,7 +31,9 @@ export default function AddressVerifyingWrraper() {
   const { mutate } = useAuth();
 
   const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
+
   const [verifyingSeconds, setVerifyingSeconds] = useState<number>(30);
+
   const [verifyCompletedSeconds, setVerifyCompletedSeconds] = useState<number>(2);
 
   const [popup, setPopup] = useState<'alreadyExistAddress' | 'verifiedCountReachedLimit' | ''>('');

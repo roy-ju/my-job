@@ -1,16 +1,20 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
-import { Button, InfiniteScroll, PersistentBottomBar } from '@/components/atoms';
-import { Dropdown, NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingItem, MobDanjiDetailSection } from '@/components/organisms';
-import Routes from '@/router/routes';
+import Image from 'next/image';
+
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+
+import { InfiniteScroll } from '@/components/atoms';
+
+import { Dropdown, NavigationHeader } from '@/components/molecules';
+
+import { ListingItem, MobDanjiDetailSection } from '@/components/organisms';
+
+import Routes from '@/router/routes';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { GetDanjiListingsResponse } from '@/apis/danji/danjiListingsList';
 
 import ListingNodata from '@/../public/static/images/listing_nodata.png';
-import Image from 'next/image';
-import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
-import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 
 export default function MobDanjiListings({
   data,
@@ -31,72 +35,18 @@ export default function MobDanjiListings({
 }) {
   const router = useRouter();
 
-  const { data: userData } = useAPI_GetUserInfo();
-
-  const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
-  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
-
   const handleClickListingDetail = (id: number, buyOrRent: number) => {
-    router.push(
-      {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
-        query: { listingID: `${id}`, bor: `${buyOrRent}` },
-      },
-      `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}`,
-    );
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
+      query: { listingID: `${id}`, bor: `${buyOrRent}` },
+    });
   };
-
-  const handleCreateListing = useCallback(async () => {
-    if (!userData) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
-      return;
-    }
-
-    if (!userData.is_verified) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
-      return;
-    }
-
-    if (!userData?.has_address) {
-      setOpenVerificationAddressPopup(true);
-      return;
-    }
-
-    if (userData?.has_address) {
-      const res = await listingEligibilityCheck({ danji_id: danji?.danji_id });
-
-      if (res && !res?.is_eligible) {
-        setOpenNeedMoreVerificationAddressPopup(true);
-        return;
-      }
-
-      if (res && res?.is_eligible) {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.ListingSelectAddress}`,
-          query: {
-            origin: router.asPath,
-            ...(router?.query?.danjiID ? { danjiID: router?.query?.danjiID } : {}),
-          },
-        });
-      }
-    }
-  }, [danji?.danji_id, router, userData]);
 
   if (!danji) return null;
 
   return (
     <>
-      <div tw="w-full w-full flex flex-col relative h-full">
+      <div tw="w-full flex flex-col relative h-full">
         <NavigationHeader>
           <NavigationHeader.BackButton onClick={handleBackButton} />
           <NavigationHeader.Title>단지 매물 목록</NavigationHeader.Title>
@@ -158,85 +108,15 @@ export default function MobDanjiListings({
         {data && data.length === 0 && (
           <div tw="px-5 flex-1 min-h-0 overflow-auto flex flex-col items-center">
             <Image src={ListingNodata.src} width={200} height={128} alt="" />
-            <p tw="mt-4 mb-2 text-center text-h2 font-bold">거래를 희망하는 매물을 등록해 보세요.</p>
+            <p tw="mt-4 mb-2 text-center text-h2 font-bold">해당 단지에 등록된 매물이 없어요!</p>
             <p tw="text-center text-info text-gray-700">
-              매물등록만으로 중개사를 배정받고
+              해당 단지에 매물을 가지고 있다면
               <br />
-              매수인, 임차인에게 가격을 제안 받을 수 있어요.
+              우리집 등록 후 매물을 등록해보세요!
             </p>
           </div>
         )}
-
-        <PersistentBottomBar>
-          <div tw="w-full [padding-bottom: 26px]">
-            <Button variant="primary" size="bigger" tw="w-full" onClick={handleCreateListing}>
-              매물 등록
-            </Button>
-          </div>
-        </PersistentBottomBar>
       </div>
-
-      {openVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                이 단지의 집주인만 매물등록이 가능합니다.
-                <br />
-                우리집을 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-                  router.push({
-                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-                    query: {
-                      origin: router.asPath,
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
-
-      {openNeedMoreVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                추가로 매물등록이 가능한 우리집 정보가 없습니다.
-                <br />
-                우리집을 추가 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-                  router.push({
-                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-                    query: {
-                      origin: router.asPath,
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
     </>
   );
 }

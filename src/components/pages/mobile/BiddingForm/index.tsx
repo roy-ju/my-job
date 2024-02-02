@@ -1,7 +1,11 @@
-import { BiddingForm } from '@/components/templates';
 import { memo } from 'react';
-import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
 import { useRouter } from 'next/router';
+
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
+import { BiddingForm } from '@/components/templates';
+
 import useBiddingForm from './useBiddingForm';
 
 export default memo(() => {

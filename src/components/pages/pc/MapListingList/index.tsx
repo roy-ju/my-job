@@ -1,12 +1,27 @@
-import { Panel } from '@/components/atoms';
-import { MapListingList } from '@/components/templates';
 import { memo, useCallback } from 'react';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { addFavorite } from '@/apis/listing/addListingFavroite';
+
+import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
-import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+
+import { Panel } from '@/components/atoms';
+
+import { MapListingList } from '@/components/templates';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
+
 import useAuth from '@/hooks/services/useAuth';
+
+import Routes from '@/router/routes';
+
+import { addFavorite } from '@/apis/listing/addListingFavroite';
+
+import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+
 import useMapListingList from './useMapListingList';
 
 interface Props {
@@ -15,15 +30,21 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+  const customRouter = useCustomRouter(depth);
+
+  const router = useRouter();
 
   const { data, isLoading, increamentPageNumber } = useMapListingList();
 
   const { user, isLoading: isAuthLoading } = useAuth();
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const onClickListing = useCallback(
     (id: number, buyOrRent: number) => {
-      router.push(Routes.ListingDetail, {
+      customRouter.push(Routes.ListingDetail, {
         persistParams: true,
         searchParams: { listingID: `${id}` },
         state: {
@@ -31,7 +52,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         },
       });
     },
-    [router],
+    [customRouter],
   );
 
   const onToggleFav = useCallback(
@@ -39,18 +60,8 @@ export default memo(({ depth, panelWidth }: Props) => {
       if (isAuthLoading) return;
 
       if (!user) {
-        router.replaceCurrent(Routes.Login, {
-          persistParams: true,
-          searchParams: { redirect: `${router.asPath}`, back: 'true' },
-        });
-        return;
-      }
-
-      if (!user.isVerified) {
-        router.replaceCurrent(Routes.VerifyCi, {
-          persistParams: true,
-          searchParams: { redirect: `${router.asPath}`, back: 'true' },
-        });
+        openAuthPopup('onlyLogin');
+        handleUpdateReturnUrl();
         return;
       }
 
@@ -62,7 +73,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         toast.success('관심을 해제했습니다.');
       }
     },
-    [isAuthLoading, router, user],
+    [isAuthLoading, user, openAuthPopup, handleUpdateReturnUrl],
   );
 
   const handleNextPage = useCallback(() => {

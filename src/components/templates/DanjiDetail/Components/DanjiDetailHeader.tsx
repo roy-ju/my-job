@@ -1,21 +1,40 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { NavigationHeader, OverlayPresenter } from '@/components/molecules';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
+
+import { useRouter as useNextRouter } from 'next/router';
+
 import tw from 'twin.macro';
+
 import { mutate } from 'swr';
+
+import { toast } from 'react-toastify';
+
+import { NavigationHeader, OverlayPresenter } from '@/components/molecules';
+
+import { SharePopup } from '@/components/organisms';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import axios from '@/lib/axios';
 
-import ShareIcon from '@/assets/icons/share.svg';
-import HeartFilledIcon from '@/assets/icons/heart.svg';
-import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 import useAuth from '@/hooks/services/useAuth';
-import { toast } from 'react-toastify';
-import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
-import { SharePopup } from '@/components/organisms';
-import Paths from '@/constants/paths';
+
 import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import { useRouter as useNextRouter } from 'next/router';
+
+import kakaoShare from '@/utils/kakaoShare';
+
+import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+
+import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
+
+import Paths from '@/constants/paths';
+
+import ShareIcon from '@/assets/icons/share.svg';
+
+import HeartFilledIcon from '@/assets/icons/heart.svg';
+
+import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 
 export default function DanjiDetailHeader({
   isHeaderActive,
@@ -26,26 +45,24 @@ export default function DanjiDetailHeader({
   handleMutateDanji?: () => void;
 }) {
   const router = useRouter(1);
+
   const nextRouter = useNextRouter();
+
   const [popup, setPopup] = useState(false);
 
   const { user, isLoading: isAuthLoading } = useAuth();
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const onClickFavorite = useCallback(async () => {
     if (!danji || isAuthLoading) return;
 
     if (!user) {
-      router.replaceCurrent(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}`, back: 'true' },
-      });
-      return;
-    }
+      openAuthPopup('onlyLogin');
+      handleUpdateReturnUrl();
 
-    if (!user.isVerified) {
-      router.replaceCurrent(Routes.VerifyCi, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}`, back: 'true' },
-      });
       return;
     }
 
@@ -81,10 +98,10 @@ export default function DanjiDetailHeader({
           optimisticData: { ...danji, is_favorite: false },
           rollbackOnError: true,
         });
-        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
+        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-delete-favorite' });
       }
     }
-  }, [danji, isAuthLoading, user, router]);
+  }, [danji, isAuthLoading, user, openAuthPopup, handleUpdateReturnUrl]);
 
   const handleClickShare = useCallback(() => setPopup(true), []);
 
@@ -93,29 +110,15 @@ export default function DanjiDetailHeader({
 
     const link = `${window.origin}/danjiDetail?danjiID=${danji.danji_id}`;
 
-    window.Kakao.Share.sendDefault({
+    kakaoShare({
+      width: 1200,
+      height: 630,
       objectType: 'feed',
-      installTalk: true,
-      content: {
-        title: danji?.name ?? '',
-        description: danji?.road_name_address ?? danji?.jibun_address ?? '',
-        imageUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
-        link: {
-          mobileWebUrl: link,
-          webUrl: link,
-        },
-        imageWidth: 1200,
-        imageHeight: 630,
-      },
-      buttons: [
-        {
-          title: '자세히보기',
-          link: {
-            mobileWebUrl: link,
-            webUrl: link,
-          },
-        },
-      ],
+      title: danji?.name ?? '',
+      description: danji?.road_name_address ?? danji?.jibun_address ?? '',
+      imgUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
+      link,
+      buttonTitle: '자세히 보기',
     });
 
     setPopup(false);

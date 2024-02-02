@@ -6,6 +6,10 @@ import tw, { styled } from 'twin.macro';
 
 import useMap from '@/states/hooks/useMap';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
@@ -48,6 +52,10 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
 
   const router = useRouter();
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const handleClickCounseling = () => {
     if (platform === 'pc') {
       router.push(`/${Routes.LawQna}`);
@@ -72,25 +80,17 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
   };
 
   const handleClickHomeRegister = () => {
-    const pcRedirectURI = `/${Routes.My}?default=2`;
+    const pcReturnURL = `/${Routes.My}?default=2`;
 
-    const mobileRedirectURI = `/${Routes.EntryMobile}${pcRedirectURI}`;
+    const mobileReturnURL = `/${Routes.EntryMobile}${pcReturnURL}`;
 
     if (!user) {
       if (platform === 'pc') {
-        router.push({
-          pathname: `/${Routes.Login}`,
-          query: {
-            redirect: pcRedirectURI,
-          },
-        });
+        openAuthPopup('needVerify');
+        handleUpdateReturnUrl(pcReturnURL);
       } else {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-          query: {
-            redirect: mobileRedirectURI,
-          },
-        });
+        openAuthPopup('needVerify');
+        handleUpdateReturnUrl(mobileReturnURL);
       }
       return;
     }
@@ -99,17 +99,13 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
       if (platform === 'pc') {
         router.push({
           pathname: `/${Routes.VerifyCi}`,
-          query: {
-            redirect: pcRedirectURI,
-          },
         });
+        handleUpdateReturnUrl(pcReturnURL);
       } else {
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-          query: {
-            redirect: mobileRedirectURI,
-          },
         });
+        handleUpdateReturnUrl(mobileReturnURL);
       }
       return;
     }

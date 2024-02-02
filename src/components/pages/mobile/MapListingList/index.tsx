@@ -1,12 +1,25 @@
-import { MobileContainer } from '@/components/atoms';
-import { MapListingList } from '@/components/templates';
 import { memo, useCallback } from 'react';
-import { addFavorite } from '@/apis/listing/addListingFavroite';
-import { toast } from 'react-toastify';
-import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+
 import { useRouter } from 'next/router';
-import Routes from '@/router/routes';
+
+import { toast } from 'react-toastify';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { MapListingList } from '@/components/templates';
+
 import useAuth from '@/hooks/services/useAuth';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import { addFavorite } from '@/apis/listing/addListingFavroite';
+
+import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+
+import Routes from '@/router/routes';
+
 import useMapListingList from './useMapListingList';
 
 export default memo(() => {
@@ -15,6 +28,10 @@ export default memo(() => {
   const { data, isLoading, increamentPageNumber, mutate } = useMapListingList();
 
   const { user, isLoading: isAuthLoading } = useAuth();
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const onClickListing = useCallback(
     (id: number, buyOrRent: number) => {
@@ -37,22 +54,8 @@ export default memo(() => {
       if (isAuthLoading) return;
 
       if (!user) {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-          query: {
-            redirect: router.asPath,
-          },
-        });
-        return;
-      }
-
-      if (!user.isVerified) {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-          query: {
-            redirect: router.asPath,
-          },
-        });
+        openAuthPopup('onlyLogin');
+        handleUpdateReturnUrl();
         return;
       }
 
@@ -66,7 +69,7 @@ export default memo(() => {
         mutate();
       }
     },
-    [isAuthLoading, mutate, router, user],
+    [handleUpdateReturnUrl, isAuthLoading, mutate, openAuthPopup, user],
   );
 
   return (

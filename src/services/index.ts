@@ -1,5 +1,7 @@
 import ApiService from '@/lib/apiService';
 
+import { LoginCiRequest, LoginCiResponse, LoginRequest, LoginResponse, UpdateCIResponse } from './auth/types';
+
 import {
   DanjiDetailResponse,
   DanjiRealPricesPyoungListResponse,
@@ -7,10 +9,154 @@ import {
 } from './danji/types';
 
 import { ListingEligibilityCheckResponse } from './listing/types';
+import { UploadProfileImageResponse } from './my/types';
 
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 export class NegocioApiService extends ApiService {
+  /** 로그인  */
+  async login(req: LoginRequest) {
+    try {
+      const { data } = await this.instance.post('/user/login/sns', {
+        browser: req.browser,
+        ip_address: req.ipAddress,
+        device: req.device,
+        social_login_type: req.socialLoginType,
+        token: req.token,
+
+        // for new registration
+        email: req.email,
+        nickname: req.nickname,
+        marketing: req.marketing,
+        signup_source: req.signUpSource,
+      });
+      return data as LoginResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateCi(req: {
+    encData: string;
+    integrityValue: string;
+    kie: string;
+    tokenVersionId: string;
+    type: number;
+  }): Promise<UpdateCIResponse | null> {
+    const { data } = await this.instance.post('/user/update/ci', {
+      enc_data: req.encData,
+      integrity_value: req.integrityValue,
+      kie: req.kie,
+      token_version_id: req.tokenVersionId,
+      type: req.type,
+    });
+    return data;
+  }
+
+  async loginCi(req: LoginCiRequest): Promise<LoginCiResponse | null> {
+    const { data } = await this.instance.post('/user/login/ci', {
+      enc_data: req.encData,
+      integrity_value: req.integrityValue,
+      kie: req.kie,
+      token_version_id: req.tokenVersionId,
+      type: req.type,
+    });
+    return data;
+  }
+
+  async updateEmail(token: string, socialLoginType: number) {
+    try {
+      const { data } = await this.instance.post('/my/email/update', { token, social_login_type: socialLoginType });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async checkNickname(nickname: string): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/user/checknickname', { nickname });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateNickname(nickname: string): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/nickname/update', { nickname });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async uploadProfileImage(userID: number, file: File) {
+    const formData = new FormData();
+    formData.append('user_id', `${userID}`);
+    formData.append('files', file);
+    try {
+      const { data } = await this.instance.post<UploadProfileImageResponse>('my/upload/profileimage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return data as UploadProfileImageResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deregister(reasons: string) {
+    try {
+      await this.instance.post('/my/user/deregister', { reasons });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async deleteFcmToken(data: { token: string }): Promise<ErrorResponse | null> {
+    try {
+      return await this.instance.post('/user/delete/fcmtoken', data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateFcmToken(data: { token: string; device_id: string }): Promise<ErrorResponse | null> {
+    try {
+      return await this.instance.post('/user/update/fcmtoken', data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updatePhone(phone: string, code: string) {
+    try {
+      const { data } = await this.instance.post('/my/phone/update', { phone, verification_number: code });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async sendPhoneVerificationCode(phone: string) {
+    try {
+      return await this.instance.post('/user/phone/verification/sms', { phone });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async serviceQnaCreate(message: string) {
+    try {
+      return await this.instance.post(`/my/serviceqna/create`, { message });
+    } catch (e) {
+      return null;
+    }
+  }
+
   /** 단지 정보 */
   async fetchDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {

@@ -1,8 +1,10 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import DeregisterDisclaimerWrraper from '@/components/pages/mobile/My/DeregisterDisclaimerWrraper';
+import DeregisterDisclaimerMobile from '@/components/pages/DeregisterDisclaimer/DeregisterDisclaimerMobile';
 
-const Page: NextPageWithLayout = () => <DeregisterDisclaimerWrraper />;
+// import DeregisterDisclaimerWrraper from '@/components/pages/mobile/My/DeregisterDisclaimerWrraper';
+
+const Page: NextPageWithLayout = () => <DeregisterDisclaimerMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

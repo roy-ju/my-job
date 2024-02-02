@@ -1,15 +1,24 @@
-import addressAgreementPhone from '@/apis/my/addressAgreementPhone';
-import { AuthRequired, Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { MyAddressAgreement } from '@/components/templates';
-import ErrorCodes from '@/constants/error_codes';
-import { useRouter } from '@/hooks/utils';
+import { memo, useState, useEffect, ChangeEventHandler, useCallback } from 'react';
+
 import { useRouter as useNextRouter } from 'next/router';
-import Routes from '@/router/routes';
+
+import { toast } from 'react-toastify';
+
+import { AuthRequired, Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MyAddressAgreement } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import ErrorCodes from '@/constants/error_codes';
+
 import { autoHyphenPhone } from '@/utils/autoHypenPhone';
 
-import { memo, useState, useEffect, ChangeEventHandler, useCallback } from 'react';
-import { toast } from 'react-toastify';
+import addressAgreementPhone from '@/apis/my/addressAgreementPhone';
+
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;

@@ -6,19 +6,23 @@ import tw from 'twin.macro';
 
 import { mutate } from 'swr';
 
-import { DanjiDetailResponse } from '@/services/danji/types';
-
 import NavigationHeader from '@/components/molecules/NavigationHeader';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useAuth from '@/hooks/services/useAuth';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
 
 import Paths from '@/constants/paths';
 
 import { useRouter } from 'next/router';
 
-import Routes from '@/router/routes';
-
 import { apiService } from '@/services';
+
+import kakaoShare from '@/utils/kakaoShare';
 
 const OverlayPresenter = dynamic(() => import('@/components/molecules/OverlayPresenter'), { ssr: false });
 
@@ -41,26 +45,17 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
 
   const { user, isLoading: isAuthLoading } = useAuth();
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const onClickFavorite = async () => {
     if (!danji || isAuthLoading) return;
 
     if (!user) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
-      return;
-    }
+      openAuthPopup('onlyLogin');
+      handleUpdateReturnUrl();
 
-    if (!user.isVerified) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
       return;
     }
 
@@ -109,7 +104,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
 
         const Toast = (await import('react-toastify')).default;
 
-        Toast.toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-favorite' });
+        Toast.toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-delete-favorite' });
       }
     }
   };
@@ -123,29 +118,15 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
 
     const link = `${window.origin}/danjiDetail?danjiID=${danji.danji_id}`;
 
-    window.Kakao.Share.sendDefault({
+    kakaoShare({
+      width: 1200,
+      height: 630,
       objectType: 'feed',
-      installTalk: true,
-      content: {
-        title: danji?.name ?? '',
-        description: danji?.road_name_address ?? danji?.jibun_address ?? '',
-        imageUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
-        link: {
-          mobileWebUrl: link,
-          webUrl: link,
-        },
-        imageWidth: 1200,
-        imageHeight: 630,
-      },
-      buttons: [
-        {
-          title: '자세히보기',
-          link: {
-            mobileWebUrl: link,
-            webUrl: link,
-          },
-        },
-      ],
+      title: danji?.name ?? '',
+      description: danji?.road_name_address ?? danji?.jibun_address ?? '',
+      imgUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
+      link,
+      buttonTitle: '자세히 보기',
     });
 
     setPopup(false);

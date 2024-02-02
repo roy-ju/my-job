@@ -1,15 +1,30 @@
-import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
-import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/components/templates';
 import { memo, useCallback, useEffect, useState } from 'react';
-import Routes from '@/router/routes';
+
 import { useRouter } from 'next/router';
+
+import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/components/templates';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+
+import Routes from '@/router/routes';
+
 import useMyRegisteredListings from './useMyRegisteredListings';
 
 export default memo(() => {
   const router = useRouter();
+
+  const { data: userData } = useAPI_GetUserInfo();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const {
     myRegisteringListingCount,
     myRegisteringListingData,
@@ -42,13 +57,14 @@ export default memo(() => {
     checkedListingIdList,
     handleDeleteListingList,
   } = useMyRegisteredListings();
+
   const [tab, setTab] = useState(Number(router.query.tab));
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
-  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
-  const { data: userData } = useAPI_GetUserInfo();
+  const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
   useEffect(() => {
     if (router.query.tab) {
@@ -77,23 +93,14 @@ export default memo(() => {
   };
 
   const handleNavigateToListingCreate = async () => {
-    if (!userData) {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.Login}`,
-        query: {
-          redirect: router.asPath,
-        },
-      });
-      return;
-    }
+    if (!userData) return;
 
     if (!userData.is_verified) {
       router.push({
         pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-        query: {
-          redirect: router.asPath,
-        },
       });
+
+      handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.MyAddress}`);
       return;
     }
 
@@ -143,6 +150,33 @@ export default memo(() => {
       }
     }
   }, [router]);
+
+  const handleActionVerificationAddressPopup = useCallback(() => {
+    setOpenVerificationAddressPopup(false);
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      query: {
+        origin: router.asPath,
+      },
+    });
+  }, [router]);
+
+  const handleCloseVerificationAddressPopup = useCallback(() => setOpenVerificationAddressPopup(false), []);
+
+  const handleActionNeedMoreVerificationAddressPopup = useCallback(() => {
+    setOpenNeedMoreVerificationAddressPopup(false);
+    router.push({
+      pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
+      query: {
+        origin: router.asPath,
+      },
+    });
+  }, [router]);
+
+  const handleCloseNeedMoreVerificationAddressPopup = useCallback(
+    () => setOpenNeedMoreVerificationAddressPopup(false),
+    [],
+  );
 
   return (
     <>
@@ -197,20 +231,8 @@ export default memo(() => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-                  router.push({
-                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-                    query: {
-                      origin: router.asPath,
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCloseVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -227,22 +249,8 @@ export default memo(() => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-                  router.push({
-                    pathname: `/${Routes.EntryMobile}/${Routes.MyAddress}`,
-                    query: {
-                      origin: router.asPath,
-                    },
-                  });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCloseNeedMoreVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionNeedMoreVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

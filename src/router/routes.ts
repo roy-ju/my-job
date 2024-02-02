@@ -134,6 +134,9 @@ const Routes = {
   // 구해요 목록
   SuggestListings: 'suggestListings',
 
+  // 구해요 목록
+  WaitingCreateForm: 'waitingCreateForm',
+
   // 오픈소스라이센스
   OpenSourceLicenses: 'openSourceLicenses',
   // 버전정보

@@ -1,10 +1,12 @@
 import { memo, useCallback, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { Panel } from '@/components/atoms';
 
 import { LocationTerms as LocationTermsTemplate } from '@/components/templates';
 
-import { useRouter } from '@/hooks/utils';
+import { useRouter as useCustomRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
 
@@ -18,7 +20,9 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+  const router = useRouter();
+
+  const customRouter = useCustomRouter(depth);
 
   const [selectedTerms, setSelectedTerms] = useState('2022.11.03');
 
@@ -40,17 +44,18 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleGoBack = useCallback(() => {
     if (router.query.register) {
-      router.replace(Routes.Register, {
-        state: {
-          email: router.query.email as string,
-          token: router.query.token as string,
-          socialLoginType: router.query.socialLoginType as string,
-        },
-      });
+      // customRouter.replace(Routes.Register, {
+      //   state: {
+      //     email: router.query.email as string,
+      //     token: router.query.token as string,
+      //     socialLoginType: router.query.socialLoginType as string,
+      //   },
+      // });
+      router.back();
     } else {
-      router.replace(Routes.TermsAndPolicy);
+      customRouter.replace(Routes.TermsAndPolicy);
     }
-  }, [router]);
+  }, [customRouter, router]);
 
   return (
     <Panel width={panelWidth}>

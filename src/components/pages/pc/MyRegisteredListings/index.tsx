@@ -1,12 +1,25 @@
-import { AuthRequired, Loading, Panel } from '@/components/atoms';
-import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
 import { memo, useCallback, useEffect, useState } from 'react';
-import Routes from '@/router/routes';
+
+import { useRouter } from 'next/router';
+
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
+import { MyRegisteredListings as MyRegisteredListingsTemplate } from '@/components/templates';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import { useRouter as useCustomRouter } from '@/hooks/utils';
+
+import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
+
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+
 import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
+
+import Routes from '@/router/routes';
+
 import useMyRegisteredListings from './useMyRegisteredListings';
 
 interface Props {
@@ -15,8 +28,13 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth }: Props) => {
-  const router = useRouter(depth);
+  const customRouter = useCustomRouter(depth);
+
+  const router = useRouter();
+
   const { data: userData } = useAPI_GetUserInfo();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const {
     myRegisteringListingCount,
@@ -50,19 +68,22 @@ export default memo(({ depth, panelWidth }: Props) => {
     checkedListingIdList,
     handleDeleteListingList,
   } = useMyRegisteredListings();
-  const [tab, setTab] = useState(Number(router.query.tab ?? 1));
+
+  const [tab, setTab] = useState(Number(customRouter?.query?.tab ?? 1));
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
+
   const [openNeedMoreVerificationAddressPopup, setOpenNeedMoreVerificationAddressPopup] = useState(false);
 
   useEffect(() => {
-    if (router.query.tab) {
-      setTab(Number(router.query.tab));
+    if (customRouter?.query?.tab) {
+      setTab(Number(customRouter?.query?.tab));
     } else {
       setTab(1);
     }
-  }, [router.query.tab]);
+  }, [customRouter?.query?.tab]);
 
   useEffect(() => {
     const isPromiseFullfilled =
@@ -81,30 +102,25 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleClickListingItem = (listingId: number) => () => {
     if (isDeleteActive) return;
-    router.replace(Routes.ListingDetail, {
+
+    customRouter.replace(Routes.ListingDetail, {
       persistParams: true,
       searchParams: {
         listingID: `${listingId}`,
-        back: `${router.asPath}`,
+        back: `${customRouter.asPath}`,
       },
     });
   };
 
   const handleNavigateToListingCreate = async () => {
-    if (!userData) {
-      router.replace(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
-
-      return;
-    }
+    if (!userData) return;
 
     if (!userData.is_verified) {
-      router.replace(Routes.VerifyCi, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
+      const path = replaceFirstOccurrence(router.asPath, Routes.MyRegisteredListingList, Routes.VerifyCi);
+
+      router.push(path);
+
+      handleUpdateReturnUrl(`/${Routes.My}/${Routes.MyAddress}?default=1`);
       return;
     }
 
@@ -122,9 +138,9 @@ export default memo(({ depth, panelWidth }: Props) => {
       }
 
       if (res && res?.is_eligible) {
-        router.replace(Routes.ListingSelectAddress, {
+        customRouter.replace(Routes.ListingSelectAddress, {
           searchParams: {
-            origin: router.asPath,
+            origin: customRouter.asPath,
           },
         });
       }
@@ -132,7 +148,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   };
 
   const handleNavigateToListingDetailPassed = (listingId: number) => () => {
-    router.replace(Routes.ListingDetailPassed, {
+    customRouter.replace(Routes.ListingDetailPassed, {
       persistParams: true,
       searchParams: {
         listingID: `${listingId}`,
@@ -143,13 +159,47 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleChangeListingTab = useCallback(
     (newValue: number) => {
       setTab(Number(newValue));
+
       handleCancelDelete();
-      router.replaceCurrent(Routes.MyRegisteredListingList, {
-        persistParams: true,
-        searchParams: { tab: `${newValue}` },
-      });
+
+      const depth1 = router?.query?.depth1;
+      const depth2 = router?.query?.depth2;
+
+      const query = router.query;
+
+      delete query.depth1;
+      delete query.depth2;
+
+      if (depth1 && depth2) {
+        router.push({
+          pathname: `/${depth1}/${Routes.MyRegisteredListingList}`,
+          query: { ...query, tab: `${newValue}` },
+        });
+      } else {
+        router.push({
+          pathname: `/${Routes.MyRegisteredListingList}`,
+          query: { ...query, tab: `${newValue}` },
+        });
+      }
     },
-    [setTab, router, handleCancelDelete],
+    [handleCancelDelete, router],
+  );
+
+  const handleActionVerificationAddressPopup = useCallback(() => {
+    setOpenVerificationAddressPopup(false);
+    customRouter.replace(Routes.MyAddress, { searchParams: { origin: customRouter.asPath } });
+  }, [customRouter]);
+
+  const handleCancelVerificationAddressPopup = useCallback(() => setOpenVerificationAddressPopup(false), []);
+
+  const handleActionNeedMoreVerificationAddressPopup = useCallback(() => {
+    setOpenNeedMoreVerificationAddressPopup(false);
+    customRouter.replace(Routes.MyAddress, { searchParams: { origin: customRouter.asPath } });
+  }, [customRouter]);
+
+  const handleCancelNeedMoreVerificationAddressPopup = useCallback(
+    () => setOpenNeedMoreVerificationAddressPopup(false),
+    [],
   );
 
   return (
@@ -202,15 +252,8 @@ export default memo(({ depth, panelWidth }: Props) => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenVerificationAddressPopup(false)}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenVerificationAddressPopup(false);
-                  router.replace(Routes.MyAddress, { searchParams: { origin: router.asPath } });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCancelVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>
@@ -227,17 +270,8 @@ export default memo(({ depth, panelWidth }: Props) => {
               </Popup.SubTitle>
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setOpenNeedMoreVerificationAddressPopup(false)}>
-                취소
-              </Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  setOpenNeedMoreVerificationAddressPopup(false);
-                  router.replace(Routes.MyAddress, { searchParams: { origin: router.asPath } });
-                }}
-              >
-                인증하기
-              </Popup.ActionButton>
+              <Popup.CancelButton onClick={handleCancelNeedMoreVerificationAddressPopup}>취소</Popup.CancelButton>
+              <Popup.ActionButton onClick={handleActionNeedMoreVerificationAddressPopup}>인증하기</Popup.ActionButton>
             </Popup.ButtonGroup>
           </Popup>
         </OverlayPresenter>

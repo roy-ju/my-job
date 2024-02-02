@@ -1,4 +1,5 @@
 import { Button } from '@/components/atoms';
+
 import AvatarIcon from '@/assets/icons/avatar.svg';
 
 export interface LoginRequiredProps {

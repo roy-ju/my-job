@@ -1,13 +1,18 @@
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-import { lawQnaCreate } from '@/apis/lawQna/lawQnaCrud';
-
-import { MobAuthRequired, MobileContainer } from '@/components/atoms';
-import { LegalCounselingWriting } from '@/components/templates';
-import Routes from '@/router/routes';
+import { useState } from 'react';
 
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+
 import { toast } from 'react-toastify';
+
+import { MobAuthRequired, MobileContainer } from '@/components/atoms';
+
+import LegalCounselingWriting from '@/components/templates/LegalCounselingWriting';
+
+import Routes from '@/router/routes';
+
+import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+
+import { lawQnaCreate } from '@/apis/lawQna/lawQnaCrud';
 
 function LawQnaCreate() {
   const router = useRouter();
@@ -24,9 +29,11 @@ function LawQnaCreate() {
     const response = await lawQnaCreate({ title: text, user_message: message });
 
     if (response === null) {
-      toast.success('등록이 완료되었습니다.', { toastId: 'success' });
+      toast.success('등록이 완료되었습니다.', { toastId: 'success-law-create' });
+
       mutate();
-      router.replace(`/${Routes.LawQna}`);
+
+      router.replace(`/${Routes.EntryMobile}/${Routes.LawQna}`);
     }
   };
 

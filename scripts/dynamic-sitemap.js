@@ -56,7 +56,6 @@ const sitemapBaseXMLList = [
   { locValue: `${mobileBaseURL}/${Routes.SUGGESTGUIDE}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.LAWQNA}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.CHATROOMLIST}`, lastmodValue, priorityValue },
-  { locValue: `${mobileBaseURL}/${Routes.LOGIN}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.MY}`, lastmodValue, priorityValue },
 ];
 

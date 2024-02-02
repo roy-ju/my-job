@@ -8,9 +8,15 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { SuggestDetail } from '@/components/templates';
 
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { useRouter } from '@/hooks/utils';
+
+import { apiService } from '@/services';
 
 import { isMobile } from '@/utils/is';
 
@@ -26,7 +32,7 @@ import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
 
 import suggestView from '@/apis/suggest/suggestView';
 
-import { apiService } from '@/services';
+import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
 
 interface Props {
   depth: number;
@@ -52,6 +58,10 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
 
   const [needVerifyAddressPopup, setNeedVerifyAddressPopup] = useState(false);
 
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
   const disabledCTA = useMemo(() => {
     if (data?.suggest_status === SuggestStatus.Active) return false;
 
@@ -64,19 +74,16 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
     if (!suggestID) return;
 
     if (!userData) {
-      router.replace(Routes.Login, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
-
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl();
       return;
     }
 
     if (!userData.is_verified) {
-      router.replace(Routes.VerifyCi, {
-        persistParams: true,
-        searchParams: { redirect: `${router.asPath}` },
-      });
+      const path = replaceFirstOccurrence(router.asPath, Routes.SuggestDetail, Routes.VerifyCi);
+      handleUpdateReturnUrl();
+
+      nextRouter.push(path);
       return;
     }
 
@@ -98,7 +105,7 @@ export default memo(({ panelWidth, depth, ipAddress }: Props) => {
         });
       }
     }
-  }, [data?.danji_id, router, suggestID, userData]);
+  }, [data, handleUpdateReturnUrl, nextRouter, openAuthPopup, router, suggestID, userData]);
 
   const handleMutate = useCallback(() => {
     mutate();

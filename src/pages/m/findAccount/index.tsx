@@ -1,8 +1,10 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import FindAccountWrraper from '@/components/pages/mobile/My/FindAccountWrraper';
+import FindAccountMobile from '@/components/pages/FindAccount/FindAccountMobile';
 
-const Page: NextPageWithLayout = () => <FindAccountWrraper />;
+// import FindAccountWrraper from '@/components/pages/mobile/My/FindAccountWrraper';
+
+const Page: NextPageWithLayout = () => <FindAccountMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

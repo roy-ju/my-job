@@ -1,14 +1,25 @@
-import { MobileContainer } from '@/components/atoms';
-import useAuth from '@/hooks/services/useAuth';
+import { memo, useState, useEffect, useCallback } from 'react';
+
 import { useRouter } from 'next/router';
-import React, { memo, useState, useEffect, useCallback } from 'react';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import Routes from '@/router/routes';
-import { MyVerifyStatus } from '@/constants/enums';
-import verifyOwnership from '@/apis/my/verifyOwnership';
-import ErrorCodes from '@/constants/error_codes';
+
 import { toast } from 'react-toastify';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
 import { MyAddressVerifying, MyAddressVerifyResult } from '@/components/templates';
+
+import useAuth from '@/hooks/services/useAuth';
+
+import ErrorCodes from '@/constants/error_codes';
+
+import { MyVerifyStatus } from '@/constants/enums';
+
+import Routes from '@/router/routes';
+
+import verifyOwnership from '@/apis/my/verifyOwnership';
+
 import { searchAddress } from '@/lib/kakao/search_address';
 
 type AddressData = {
@@ -33,8 +44,11 @@ export default memo(() => {
   const { mutate } = useAuth();
 
   const [addressData, setAddressData] = useState<AddressData>();
+
   const [addressList, setAddressList] = useState<AddressListItem[]>();
+
   const [errorCode, setErrorCode] = useState<string>();
+
   const [selectedItemID, setSelectedItemID] = useState<string>();
 
   const [popup, setPopup] = useState<'alreadyExistAddress' | 'invalidAccess' | ''>('');
@@ -59,10 +73,10 @@ export default memo(() => {
     (value: 'alreadyExistAddress' | 'invalidAccess') => {
       setPopup('');
 
-      if (value === 'invalidAccess') {
-        router.replace(`/${Routes.EntryMobile}`);
-      } else if (value === 'alreadyExistAddress') {
+      if (value === 'alreadyExistAddress') {
         router.replace(`/${Routes.EntryMobile}/${Routes.My}?default=2`);
+      } else if (value === 'invalidAccess') {
+        router.replace(`/${Routes.EntryMobile}`);
       }
     },
     [router],
