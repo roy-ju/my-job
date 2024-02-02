@@ -14,7 +14,7 @@ export default function AuthKakao() {
     loginWithKakao(type === 'update' ? type : '');
   }, [router]);
 
-  useTimeout(handleLoginWithKakao, 1000);
+  useTimeout(handleLoginWithKakao, 100);
 
   return <div />;
 }
