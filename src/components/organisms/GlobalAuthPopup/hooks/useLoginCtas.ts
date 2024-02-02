@@ -103,20 +103,20 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
       if (platform === 'pc') {
         if (returnUrl) {
-          router.push(returnUrl);
+          router.push(returnUrl, undefined, { shallow: true });
           return;
         }
 
-        router.push(`/`);
+        router.push(`/`, undefined, { shallow: true });
       }
 
       if (platform === 'mobile') {
         if (returnUrl) {
-          router.push(returnUrl);
+          router.push(returnUrl, undefined, { shallow: true });
           return;
         }
 
-        router.push(`/${Routes.EntryMobile}`);
+        router.push(`/${Routes.EntryMobile}`, undefined, { shallow: true });
       }
     }
 
