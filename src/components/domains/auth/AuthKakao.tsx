@@ -4,14 +4,19 @@ import { useRouter } from 'next/router';
 
 import { loginWithKakao } from '@/lib/kakao';
 
+import useIsNativeApp from '@/hooks/useIsNativeApp';
+
 export default function AuthKakao() {
   const router = useRouter();
 
-  const loginType = router?.query?.type;
+  const isNativeApp = useIsNativeApp();
 
   useEffect(() => {
-    setTimeout(() => loginWithKakao(loginType === 'update' ? loginType : ''), 100);
-  }, [loginType]);
+    const loginType = router?.query?.type;
+
+    const timeout = setTimeout(() => loginWithKakao(loginType === 'update' ? loginType : '', isNativeApp), 200);
+    return () => clearTimeout(timeout);
+  }, [router, isNativeApp]);
 
   return <div />;
 }
