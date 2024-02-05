@@ -94,13 +94,20 @@ export default function useRegisterForm() {
   }, []);
 
   const handleNickNameClientValidation = useCallback(() => {
+    if (nickname.length === 0) {
+      setNickNameErrMsg('');
+      setFocus(false);
+      return;
+    }
+
     if (nickname.length < 3) {
       setNickNameErrMsg('3자 이상 20자 이하의 한글, 영문, 숫자만 사용 가능해요!');
     } else if (!NICKNAME_REGEX.general.test(nickname)) {
-      setNickNameErrMsg('공백, 특수문자, 이모티콘 등은 사용할 수 없습니다.');
+      setNickNameErrMsg('3자 이상 20자 이하의 한글, 영문, 숫자만 사용 가능해요!');
     } else {
       setNickNameErrMsg('');
     }
+
     setFocus(false);
   }, [nickname]);
 

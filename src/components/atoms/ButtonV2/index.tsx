@@ -55,6 +55,8 @@ export interface ButtonV2Props {
   children?: string | ReactNode;
   /** 클릭 했을 때 호출할 함수 */
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  /** 클릭 했을 때 호출할 함수 */
+  onMouseDown?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   /** 버튼 테마 */
   variant?: 'primary' | 'primaryOutline' | 'secondary' | 'secondaryOutline' | 'gray' | 'grayOutline' | 'ghost';
   /** 버튼 사이즈 */
@@ -90,6 +92,7 @@ export default forwardRef<HTMLButtonElement, ButtonV2Props>((inProps, ref) => {
   const {
     children,
     onClick,
+    onMouseDown,
     variant = 'primary',
     size = 'big',
     radius = 'r8',
@@ -108,6 +111,7 @@ export default forwardRef<HTMLButtonElement, ButtonV2Props>((inProps, ref) => {
       ref={ref}
       type="button"
       onClick={onClick}
+      onMouseDown={onMouseDown}
       disabled={disabled}
       variant={variant}
       radius={radius}
