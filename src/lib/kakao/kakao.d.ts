@@ -3,7 +3,7 @@ declare namespace Kakao {
     redirectUri?: string;
     state?: string;
     scope?: string;
-    prompts?: string;
+    prompt?: string;
     nonce?: string;
     throughTalk?: boolean;
   };
