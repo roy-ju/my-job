@@ -101,7 +101,10 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
       if (platform === 'pc') {
         if (returnUrl) {
-          router.push(returnUrl);
+          if (returnUrl !== router.asPath) {
+            router.push(returnUrl);
+          }
+
           return;
         }
 
@@ -111,7 +114,10 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
       if (platform === 'mobile') {
         if (returnUrl) {
-          router.push(returnUrl);
+          if (returnUrl !== router.asPath) {
+            router.push(returnUrl);
+          }
+
           return;
         }
 
