@@ -98,118 +98,124 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   }, [device, ipAddress]);
 
   useEffect(() => {
-    if (!platform) return;
-
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
       if (platform === 'pc') {
         if (returnUrl) {
-          router.push(returnUrl, undefined, { shallow: true });
+          router.push(returnUrl);
           return;
         }
 
-        router.push(`/`, undefined, { shallow: true });
+        router.push(`/`);
         return;
       }
 
       if (platform === 'mobile') {
         if (returnUrl) {
-          router.push(returnUrl, undefined, { shallow: true });
+          router.push(returnUrl);
           return;
         }
 
-        router.push(`/${Routes.EntryMobile}`, undefined, { shallow: true });
+        router.push(`/${Routes.EntryMobile}`);
         return;
       }
     }
 
-    if (user && !user.isVerified && authType === 'needVerify') {
-      if (returnUrl) {
-        if (platform === 'pc') {
-          const depth1 = router?.query?.depth1;
-          const depth2 = router?.query?.depth2;
-          const query = router.query;
-
-          delete query.depth1;
-          delete query.depth2;
-
-          if (depth1 && depth2) {
-            if (depth1 === Routes.MapListingList) {
-              router.push({
-                pathname: `/${Routes.VerifyCi}/${depth2}`,
-                query,
-              });
-            } else if (depth1 === Routes.DanjiListings) {
-              router.push({
-                pathname: `/${Routes.VerifyCi}/${depth2}`,
-                query,
-              });
-            } else {
-              router.push({
-                pathname: `/${depth1}/${Routes.VerifyCi}`,
-                query,
-              });
-            }
+    if (user && authType === 'needVerify') {
+      if (user.isVerified) {
+        if (returnUrl) {
+          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+            createSuggest();
+            return;
           }
 
-          if (depth1 && !depth2) {
-            if (depth1 === Routes.SuggestForm) {
-              router.push({
-                pathname: `/${Routes.VerifyCi}`,
-                query,
-              });
-            } else if (depth1 === Routes.MapListingList) {
-              router.push({
-                pathname: `/${Routes.VerifyCi}`,
-                query,
-              });
-            } else if (depth1 === Routes.DanjiListings) {
-              router.push({
-                pathname: `/${Routes.VerifyCi}`,
-                query,
-              });
-            } else {
-              router.push({
-                pathname: `/${depth1}/${Routes.VerifyCi}`,
-                query,
-              });
+          router.push(returnUrl);
+        }
+        return;
+      }
+
+      if (!user.isVerified) {
+        if (returnUrl) {
+          if (platform === 'pc') {
+            const depth1 = router?.query?.depth1;
+            const depth2 = router?.query?.depth2;
+            const query = router.query;
+
+            delete query.depth1;
+            delete query.depth2;
+
+            if (depth1 && depth2) {
+              if (depth1 === Routes.MapListingList) {
+                router.push({
+                  pathname: `/${Routes.VerifyCi}/${depth2}`,
+                  query,
+                });
+              } else if (depth1 === Routes.DanjiListings) {
+                router.push({
+                  pathname: `/${Routes.VerifyCi}/${depth2}`,
+                  query,
+                });
+              } else {
+                router.push({
+                  pathname: `/${depth1}/${Routes.VerifyCi}`,
+                  query,
+                });
+              }
             }
+
+            if (depth1 && !depth2) {
+              if (depth1 === Routes.SuggestForm) {
+                router.push({
+                  pathname: `/${Routes.VerifyCi}`,
+                  query,
+                });
+              } else if (depth1 === Routes.MapListingList) {
+                router.push({
+                  pathname: `/${Routes.VerifyCi}`,
+                  query,
+                });
+              } else if (depth1 === Routes.DanjiListings) {
+                router.push({
+                  pathname: `/${Routes.VerifyCi}`,
+                  query,
+                });
+              } else {
+                router.push({
+                  pathname: `/${depth1}/${Routes.VerifyCi}`,
+                  query,
+                });
+              }
+            }
+
+            return;
+          }
+
+          if (platform === 'mobile') {
+            router.push({
+              pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+              query: router.query,
+            });
           }
 
           return;
+        }
+
+        if (platform === 'pc') {
+          router.push('/');
+          handleUpdateReturnUrl('');
         }
 
         if (platform === 'mobile') {
-          router.push({
-            pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-            query: router.query,
-          });
+          router.push('/');
+          handleUpdateReturnUrl('');
         }
-
-        return;
-      }
-
-      if (platform === 'pc') {
-        router.push('/');
-        handleUpdateReturnUrl('');
-      }
-
-      if (platform === 'mobile') {
-        router.push('/');
-        handleUpdateReturnUrl('');
-      }
-      return;
-    }
-
-    if (user && user.isVerified && authType === 'needVerify') {
-      if (returnUrl) {
-        if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-          createSuggest();
-          return;
-        }
-
-        router.push(returnUrl);
       }
     }
+  }, [authType, createSuggest, handleUpdateReturnUrl, platform, returnUrl, router, user]);
+
+  useEffect(() => {
+    if (!platform) return;
+
+    if (user) return;
 
     const handleLoginResponse: EventListenerOrEventListenerObject = async (event) => {
       const detail = (event as CustomEvent).detail as LoginCustomEventDetail;

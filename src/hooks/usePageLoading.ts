@@ -19,12 +19,16 @@ export default function usePageLoading() {
     };
 
     Router.events.on('routeChangeStart', routeEventStart);
+
     Router.events.on('routeChangeComplete', routeEventEnd);
+
     Router.events.on('routeChangeError', routeEventError);
 
     return () => {
       Router.events.off('routeChangeStart', routeEventStart);
+
       Router.events.off('routeChangeComplete', routeEventEnd);
+
       Router.events.off('routeChangeError', routeEventError);
     };
   }, []);
