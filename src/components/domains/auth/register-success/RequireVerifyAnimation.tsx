@@ -13,7 +13,7 @@ export default function RequireVerifyAnimation() {
     <ImageContainer>
       <Lottie
         options={{
-          loop: false,
+          loop: true,
           autoplay: true,
           animationData,
           rendererSettings: {
