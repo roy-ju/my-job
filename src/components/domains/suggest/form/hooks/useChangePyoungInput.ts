@@ -77,7 +77,7 @@ export default function useChangePyoungInput({ type }: { type: 'create' | 'updat
     return type === 'update' ? false : selectedInputedPyoungList.length > 0;
   }, [danjiOrRegion, selectedInputedPyoungList.length, type]);
 
-  const pyoungInputLabel = useMemo(() => (pyoungInput ? '평수' : '평수 입력'), [pyoungInput]);
+  const pyoungInputLabel = useMemo(() => (pyoungInput ? '평수' : '평수'), [pyoungInput]);
 
   const disableAddButton = useMemo(() => {
     if (!pyoungInput) {
