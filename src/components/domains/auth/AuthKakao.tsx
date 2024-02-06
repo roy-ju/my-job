@@ -23,7 +23,9 @@ function AndroidWebAuthPopup({
     <OverlayPresenter>
       <Popup>
         <Popup.ContentGroup>
-          <Popup.Title tw="text-center py-6">카카오 로그인을 진행하시겠습니까?</Popup.Title>
+          <Popup.Title tw="text-center py-6">
+            {isLoading ? '카카오 로그인을 진행중입니다.' : '카카오 로그인을 진행하시겠습니까?'}
+          </Popup.Title>
         </Popup.ContentGroup>
 
         <Popup.ButtonGroup>
