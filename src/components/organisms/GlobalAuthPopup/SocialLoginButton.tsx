@@ -11,7 +11,7 @@ export default function SocialLoginButton({ type, handleClick }: SocialLoginButt
     return (
       <ButtonV2
         variant="ghost"
-        tw="w-full bg-yellow-kakao hover:bg-yellow-kakaoHover"
+        tw="w-full text-black bg-yellow-kakao hover:bg-yellow-kakaoHover"
         size="bigger"
         onClick={handleClick}
       >
@@ -23,7 +23,7 @@ export default function SocialLoginButton({ type, handleClick }: SocialLoginButt
 
   if (type === 'apple') {
     return (
-      <ButtonV2 tw="w-full" size="bigger" variant="secondary" onClick={handleClick}>
+      <ButtonV2 tw="w-full bg-black" size="bigger" variant="secondary" onClick={handleClick}>
         <AppleLogoIcon tw="mr-2" /> Apple로 시작하기
       </ButtonV2>
     );

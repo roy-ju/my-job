@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
 import tw from 'twin.macro';
 
@@ -27,6 +27,8 @@ export default function Nickname({
   handleResetErrorMsg,
   handleClientValidation,
 }: NicknameProps) {
+  const [focus, setFocus] = useState(false);
+
   return (
     <div tw="px-5">
       <p tw="text-heading_01 mb-1">닉네임</p>
@@ -36,6 +38,7 @@ export default function Nickname({
         hasError={Boolean(errorMessage)}
         onFocus={() => {
           handleResetErrorMsg?.();
+          setFocus(true);
         }}
         onBlur={() => {
           if (value) {
@@ -43,11 +46,12 @@ export default function Nickname({
               handleClientValidation?.();
             }, 100);
           }
+          setFocus(false);
         }}
       >
         <TextFieldV2.Input label="닉네임" value={value} onChange={onChange} />
 
-        {value && (
+        {value && focus && (
           <TextFieldV2.Trailing css={[errorMessage ? tw`pr-3` : tw`pr-4`]}>
             <ButtonV2
               variant="ghost"
