@@ -188,6 +188,18 @@ export default memo(() => {
   const handleNavigateToCreateQna = useCallback(() => {
     const id = listingID || (router?.query?.listingID as string);
 
+    if (!user) {
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
+      return;
+    }
+
+    if (user && !user.isVerified) {
+      router.push(`/${Routes.EntryMobile}/${Routes.VerifyCi}`);
+      handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
+      return;
+    }
+
     router.push(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
   }, [router]);
 
