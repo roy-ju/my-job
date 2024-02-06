@@ -164,13 +164,20 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   const handleNavigateToCreateQna = useCallback(() => {
     const id = listingID || (router?.query?.listingID as string);
 
-    nextRouter.push({
-      pathname: `/${Routes.ListingDetail}/${Routes.ListingQnaCreateForm}`,
-      query: {
-        listingID: `${id}`,
-      },
-    });
-  }, [listingID, nextRouter, router?.query?.listingID]);
+    if (!user) {
+      openAuthPopup('needVerify');
+      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
+      return;
+    }
+
+    if (user && !user.isVerified) {
+      nextRouter.push(`/${Routes.VerifyCi}/${Routes.ListingDetail}?listingID=${id}`);
+      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
+      return;
+    }
+
+    nextRouter.push(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${id}`);
+  }, [handleUpdateReturnUrl, listingID, nextRouter, openAuthPopup, router?.query?.listingID, user]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
     if (!user) {

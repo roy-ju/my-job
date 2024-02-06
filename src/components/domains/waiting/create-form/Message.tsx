@@ -1,7 +1,7 @@
 export default function Message() {
   return (
     <div tw="px-5">
-      <p tw="text-display_01 mt-20 mb-2">작성하신 내용을 제출 중이예요!</p>
+      <p tw="text-display_01 mt-20 mb-2">작성하신 내용을 제출 중이에요!</p>
       <p tw="text-body_03 text-gray-700">
         작성해주신 내용을 토대로
         <br />
