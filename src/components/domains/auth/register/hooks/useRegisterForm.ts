@@ -31,7 +31,7 @@ export default function useRegisterForm() {
 
   const [nicknameErrMsg, setNickNameErrMsg] = useState('');
 
-  const [funnelInfo, setFunnelInfo] = useState('');
+  // const [funnelInfo, setFunnelInfo] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -52,7 +52,7 @@ export default function useRegisterForm() {
       email.length > 0 &&
       nickname.length > 0 &&
       !nicknameErrMsg &&
-      funnelInfo.length > 0 &&
+      // funnelInfo.length > 0 &&
       terms.over19 &&
       terms.service &&
       terms.privacy &&
@@ -63,7 +63,7 @@ export default function useRegisterForm() {
       email.length,
       nickname.length,
       nicknameErrMsg,
-      funnelInfo.length,
+      // funnelInfo.length,
       terms.over19,
       terms.service,
       terms.privacy,
@@ -111,9 +111,9 @@ export default function useRegisterForm() {
     setFocus(false);
   }, [nickname]);
 
-  const handleChangeFunnelInfo = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    setFunnelInfo(e.target.value);
-  }, []);
+  // const handleChangeFunnelInfo = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+  //   setFunnelInfo(e.target.value);
+  // }, []);
 
   const handleChangeTerms = useCallback((newTerms: TermsState) => {
     setTerms(newTerms);
@@ -135,8 +135,8 @@ export default function useRegisterForm() {
       email,
       marketing: terms.marketing,
       nickname,
-      signUpSource: convertSignupPass(funnelInfo),
-
+      // signUpSource: convertSignupPass(funnelInfo),
+      signUpSource: convertSignupPass('sns'),
       socialLoginType: Number(router.query.socialLoginType),
       token: router.query.token as string,
     });
@@ -182,21 +182,21 @@ export default function useRegisterForm() {
 
       router.replace({ pathname: `/${Routes.EntryMobile}/${Routes.RegisterSuccess}`, query });
     }
-  }, [nickname, email, terms.marketing, router, funnelInfo, platform, handleLogin]);
+  }, [nickname, email, terms.marketing, router, platform, handleLogin]);
 
   return {
     email,
     nickname,
     nickNameRef,
     nicknameErrMsg,
-    funnelInfo,
+    // funnelInfo,
     terms,
     formValid,
     isLoading,
     handleNickNameClientValidation,
     handleResetNickName,
     handleResetNickNameErrorMsg,
-    handleChangeFunnelInfo,
+    // handleChangeFunnelInfo,
     handleChangeNickname,
     handleChangeTerms,
     handleClickRegister,
