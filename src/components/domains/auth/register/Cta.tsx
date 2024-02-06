@@ -23,7 +23,7 @@ export default function Cta({ isLoading, disabled, onClickNext }: CtaProps) {
         onClick={onClickNext}
         id={GOOGLE_TAG_BUTTON_ID.REGISTER_CTA}
       >
-        다음
+        가입하기
       </ButtonV2>
     </PersistentBottomBarV2>
   );

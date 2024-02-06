@@ -135,9 +135,10 @@ export default function useRegisterForm() {
       email,
       marketing: terms.marketing,
       nickname,
+      signUpSource: convertSignupPass(funnelInfo),
+
       socialLoginType: Number(router.query.socialLoginType),
       token: router.query.token as string,
-      signUpSource: convertSignupPass(funnelInfo),
     });
 
     if (loginResponse?.access_token) {
