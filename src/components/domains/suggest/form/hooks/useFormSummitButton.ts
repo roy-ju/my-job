@@ -277,7 +277,9 @@ export default function useFormSummitButton() {
 
         await dashBoardInfoMutate();
 
-        await otherMutate(() => true, undefined);
+        if (platform === 'pc') {
+          await otherMutate(() => true, undefined);
+        }
 
         if (platform === 'pc') {
           const depth1 = router?.query?.depth1;
