@@ -27,7 +27,7 @@ export default function Message({ type }: MessageProps) {
         <p tw="text-body_03 text-gray-700">
           본인 인증을 완료해야 이 서비스를 이용할 수 있어요!
           <br />
-          지금 <span tw="text-nego-800 text-subhead_03">본인인증</span> 하러 갈까요?
+          지금 본인인증 하러 갈까요?
         </p>
       )}
     </div>

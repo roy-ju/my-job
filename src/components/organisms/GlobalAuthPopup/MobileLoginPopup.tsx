@@ -31,7 +31,7 @@ export default function MobileLoginPopup() {
 
   const [ipAddress, setIpAddress] = useState('');
 
-  const { closeAuthPopup } = useAuthPopup();
+  const { closeAuthPopup, authType } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
@@ -69,7 +69,9 @@ export default function MobileLoginPopup() {
     >
       <BottomSheetChild variants={itemVariants}>
         <TitleContainer tw="pt-0">
-          <p>부동산 네고 쉽고 빠르게</p>
+          {authType === 'login' && <p>부동산 네고 쉽고 빠르게</p>}
+          {authType === 'onlyLogin' && <p>로그인이 필요한 서비스입니다.</p>}
+          {authType === 'needVerify' && <p>로그인이 필요한 서비스입니다.</p>}
           <p>내 인생 가장 큰 거래 부동산, 꼭 네고하세요!</p>
         </TitleContainer>
         <ImageContainer tw="px-0 relative">
