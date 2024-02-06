@@ -130,13 +130,13 @@ const MobDanjiSummary = React.memo(
             <BottomSheet.Header>
               <StyledDiv tw="flex items-center cursor-pointer" onClick={() => handleDanjiDetail()}>
                 {selectedDanjiSummary?.realestateType === RealestateType.Apartment && (
-                  <Chip tw="text-green-1000 bg-green">
+                  <Chip tw="text-nego-1000 bg-nego-100">
                     {describeRealestateType(selectedDanjiSummary?.realestateType)}
                   </Chip>
                 )}
 
                 {selectedDanjiSummary?.realestateType === RealestateType.Officetel && (
-                  <Chip tw="text-nego-1000 bg-nego-100">
+                  <Chip tw="text-green-1000 bg-green">
                     {describeRealestateType(selectedDanjiSummary?.realestateType)}
                   </Chip>
                 )}
