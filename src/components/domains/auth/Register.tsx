@@ -45,11 +45,11 @@ export default function Register() {
     nickname,
     nickNameRef,
     nicknameErrMsg,
-    funnelInfo,
+    // funnelInfo,
     terms,
     formValid,
     isLoading,
-    handleChangeFunnelInfo,
+    // handleChangeFunnelInfo,
     handleChangeNickname,
     handleChangeTerms,
     handleClickRegister,
@@ -90,10 +90,10 @@ export default function Register() {
             />
           </FieldContainer>
           <SeperatorV2 />
-          <FieldContainer>
+          {/* <FieldContainer>
             <RegisterForm.FunnelInfo value={funnelInfo} onChange={handleChangeFunnelInfo} />
           </FieldContainer>
-          <SeperatorV2 />
+          <SeperatorV2 /> */}
           <FieldContainer>
             <RegisterForm.Terms
               state={terms}
