@@ -75,7 +75,7 @@ function PyoungInputField({
           <TextFieldV2.Input label={label} value={value} onChange={handleChange} />
 
           {value && (
-            <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, bottom: top - 1 }}>
+            <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, bottom: top - 2 }}>
               {suffix}
             </span>
           )}
@@ -134,7 +134,7 @@ function PyoungInputField({
             <TextFieldV2.Input label={label} value={value} onChange={handleChange} />
 
             {value && (
-              <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, bottom: top - 1 }}>
+              <span ref={suffixRef} tw="text-body_03 absolute" css={{ left: `${left}px`, bottom: top - 2 }}>
                 {suffix}
               </span>
             )}

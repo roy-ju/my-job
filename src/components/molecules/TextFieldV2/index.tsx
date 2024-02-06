@@ -81,9 +81,11 @@ const StyledLabel = styled.div<{
   isBottom?: boolean;
 }>(({ focused, disabled, hasError, isBottom = false }) => [
   tw`absolute top-0 left-0 leading-none text-gray-700 transition-all translate-x-4 translate-y-6 pointer-events-none text-b1`,
-  disabled && (isBottom ? tw`translate-y-10 text-[12px] leading-none` : tw`translate-y-2.5 text-[12px] leading-none`),
+  disabled &&
+    (isBottom ? tw`translate-y-[38px] text-[12px] leading-none` : tw`translate-y-3.5 text-[12px] leading-none`),
   hasError && tw`text-red-800`,
-  focused && (isBottom ? tw`translate-y-10 text-[12px] leading-none` : tw`translate-y-2.5 text-[12px] leading-none`),
+  focused &&
+    (isBottom ? tw`translate-y-[38px] text-[12px] leading-none` : tw`translate-y-3.5 text-[12px] leading-none`),
   focused && (!hasError ? (isBottom ? tw`text-nego-800` : tw`text-gray-700`) : tw`text-red-800`),
 ]);
 

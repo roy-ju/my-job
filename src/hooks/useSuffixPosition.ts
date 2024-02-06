@@ -22,7 +22,7 @@ const useSuffixPosition = (
     }
   }, [inputRef, suffixRef, targetText]);
 
-  return { left: suffixPosition, top: 10, suffix };
+  return { left: suffixPosition, top: 11, suffix };
 };
 
 export default useSuffixPosition;
