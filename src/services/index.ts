@@ -26,8 +26,8 @@ export class NegocioApiService extends ApiService {
 
         // for new registration
         email: req.email,
-        nickname: req.nickname,
         marketing: req.marketing,
+        nickname: req.nickname,
         signup_source: req.signUpSource,
       });
       return data as LoginResponse;
