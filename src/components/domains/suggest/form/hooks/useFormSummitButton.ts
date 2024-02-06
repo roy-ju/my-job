@@ -356,19 +356,19 @@ export default function useFormSummitButton() {
         delete query.depth2;
 
         if (depth1 && !depth2) {
-          router.replace({
+          router.push({
             pathname: `/${Routes.VerifyCi}`,
             query,
           });
         } else if (depth1 && depth2) {
-          router.replace({
+          router.push({
             pathname: `/${depth1}/${Routes.VerifyCi}`,
             query,
           });
         }
         handleUpdateReturnUrl();
       } else {
-        router.replace({ pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`, query: router.query });
+        router.push({ pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`, query: router.query });
         handleUpdateReturnUrl();
       }
 
