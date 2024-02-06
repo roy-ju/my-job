@@ -16,6 +16,12 @@ const GOOGLE_TAG_BUTTON_ID = {
   SUGGEST_FORM_SUMMARY_CREATE: 'gtag-suggest-form-summary-create',
 
   SUGGEST_FORM_SUMMARY_BACK: 'gtag-suggest-form-summary-back',
+
+  REGISTER_CTA: 'gtag-register-cta',
+
+  VERIFY_DIRECTLY_CTA: 'gtag-now-verify-cta',
+
+  VERIFY_AFTER_CTA: 'gtag-after-verify-cta',
 };
 
 export default GOOGLE_TAG_BUTTON_ID;
