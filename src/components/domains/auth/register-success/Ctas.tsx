@@ -2,6 +2,8 @@ import tw, { styled } from 'twin.macro';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+
 import { RegisterSuccessType } from './types';
 
 import useRegisterSuccessCta from './hooks/useRegisterSuccessCta';
@@ -37,7 +39,7 @@ export default function Ctas({ type }: CtasProps) {
 
   return (
     <>
-      <CtasContainer css={[type === 'onlyLogin' || type === 'login' ? tw`[margin-top: 115px]` : tw`[margin-top: 0px]`]}>
+      <CtasContainer css={[type === 'onlyLogin' || type === 'login' ? tw`[margin-top: 0px]` : tw`[margin-top: 0px]`]}>
         {type === 'login' && (
           <CTAButton tw="w-full" onClick={handleLoginCta}>
             확인
@@ -50,10 +52,15 @@ export default function Ctas({ type }: CtasProps) {
         )}
         {type === 'needVerify' && (
           <>
-            <CTAButton tw="w-full" onClick={handleDirectVerifyCta}>
+            <CTAButton tw="w-full" onClick={handleDirectVerifyCta} id={GOOGLE_TAG_BUTTON_ID.VERIFY_DIRECTLY_CTA}>
               좋아요, 본인 인증하기
             </CTAButton>
-            <CTAButton variant="primaryOutline" tw="w-full" onClick={handleAfterNeedVerifyCta}>
+            <CTAButton
+              variant="primaryOutline"
+              tw="w-full"
+              onClick={handleAfterNeedVerifyCta}
+              id={GOOGLE_TAG_BUTTON_ID.VERIFY_AFTER_CTA}
+            >
               아쉽지만, 지금 안할래요
             </CTAButton>
           </>

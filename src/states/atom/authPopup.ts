@@ -11,7 +11,7 @@ const authPopupAtom = atom<AuthPopupAtom>({
   key: `authPopupAtom/${v1()}`,
   default: {
     open: false,
-    type: '',
+    type: 'login',
   },
   dangerouslyAllowMutability: true,
 });
