@@ -1,8 +1,10 @@
-import { ChangeEventHandler, useCallback, useMemo, useRef, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+import useRemoveSessionKey from '@/hooks/useRemoveSessionKey';
 
 import useAuth from '@/hooks/services/useAuth';
 
@@ -11,6 +13,8 @@ import { NICKNAME_REGEX } from '@/constants/regex';
 import { apiService } from '@/services';
 
 import Routes from '@/router/routes';
+
+import Actions from '@/constants/actions';
 
 import convertSignupPass from '../utils/convertSignupPass';
 
@@ -36,6 +40,8 @@ export default function useRegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [focus, setFocus] = useState(false);
+
+  const { removeSessionKey } = useRemoveSessionKey();
 
   const [terms, setTerms] = useState<TermsState>({
     over19: false,
@@ -183,6 +189,20 @@ export default function useRegisterForm() {
       router.replace({ pathname: `/${Routes.EntryMobile}/${Routes.RegisterSuccess}`, query });
     }
   }, [nickname, email, terms.marketing, router, platform, handleLogin]);
+
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      if (!url?.includes(Routes.RegisterSuccess)) {
+        removeSessionKey(Actions.Danji_Favorite.key);
+      }
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [removeSessionKey, router]);
 
   return {
     email,
