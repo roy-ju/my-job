@@ -10,6 +10,10 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
+import useRemoveSessionKey from '@/hooks/useRemoveSessionKey';
+
+import Actions from '@/constants/actions';
+
 import useLoginCtas from './hooks/useLoginCtas';
 
 import useEtcCtas from './hooks/useEtcCtas';
@@ -32,10 +36,13 @@ export default function PcLoginPopup() {
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
+  const { removeSessionKey } = useRemoveSessionKey();
+
   const handleClickCloseButton = useCallback(() => {
+    removeSessionKey(Actions.Danji_Favorite.key);
     closeAuthPopup();
     handleUpdateReturnUrl('');
-  }, [closeAuthPopup, handleUpdateReturnUrl]);
+  }, [closeAuthPopup, handleUpdateReturnUrl, removeSessionKey]);
 
   const { handleClickKakaoLogin, handleClickAppleLogin } = useLoginCtas({ ipAddress });
 

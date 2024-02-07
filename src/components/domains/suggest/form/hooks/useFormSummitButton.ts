@@ -28,6 +28,8 @@ import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
 
+import Actions from '@/constants/actions';
+
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import forms from '../constants/forms';
@@ -262,7 +264,7 @@ export default function useFormSummitButton() {
     const params = createSubmitParams(state);
 
     if (typeof window !== 'undefined') {
-      window.sessionStorage.setItem('create-suggest-form', '1');
+      window.sessionStorage.setItem(Actions.Suggest_Create_Form.key, '1');
     }
 
     if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Danji)) {
