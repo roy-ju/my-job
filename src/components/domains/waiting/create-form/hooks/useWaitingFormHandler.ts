@@ -6,6 +6,8 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import useInterval from '@/hooks/useInterval';
 
+import Actions from '@/constants/actions';
+
 import Routes from '@/router/routes';
 
 export default function useWaitingFormHandler() {
@@ -45,7 +47,7 @@ export default function useWaitingFormHandler() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const suggestFormValue = window.sessionStorage.getItem('create-suggest-form');
+      const suggestFormValue = window.sessionStorage.getItem(Actions.Suggest_Create_Form.key);
 
       if (!suggestFormValue) {
         setOpenPopup(true);
@@ -61,7 +63,7 @@ export default function useWaitingFormHandler() {
   useEffect(() => {
     const routeChangeStarthandler = () => {
       if (typeof window !== 'undefined') {
-        window.sessionStorage.removeItem('create-suggest-form');
+        window.sessionStorage.removeItem(Actions.Suggest_Create_Form.key);
       }
     };
 

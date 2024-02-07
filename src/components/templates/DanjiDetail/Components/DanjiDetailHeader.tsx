@@ -24,6 +24,8 @@ import { useRouter } from '@/hooks/utils';
 
 import kakaoShare from '@/utils/kakaoShare';
 
+import Actions from '@/constants/actions';
+
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
 import { danjiFavoriteAdd, danjiFavoriteRemove } from '@/apis/danji/danjiFavorite';
@@ -63,6 +65,10 @@ export default function DanjiDetailHeader({
       openAuthPopup('onlyLogin');
       handleUpdateReturnUrl();
 
+      if (typeof window !== 'undefined' && danji?.danji_id) {
+        const id = danji.danji_id.toString() as string;
+        window.sessionStorage.setItem(Actions.Danji_Favorite.key, id);
+      }
       return;
     }
 

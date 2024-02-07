@@ -16,6 +16,8 @@ import useFetchMyDashboardInfo from '@/services/my/useFetchMyDashboardInfo';
 
 import { DanjiOrRegionalType } from '@/constants/enums';
 
+import Actions from '@/constants/actions';
+
 import Routes from '@/router/routes';
 
 import isEqualValue from '../../utils/isEqualValue';
@@ -43,7 +45,7 @@ export default function useCreateSuggestForm() {
     const params = createSubmitParams(normalizedParams as any);
 
     if (typeof window !== 'undefined') {
-      window.sessionStorage.setItem('create-suggest-form', '1');
+      window.sessionStorage.setItem(Actions.Suggest_Create_Form.key, '1');
     }
 
     if (isEqualValue(normalizedParams.danjiOrRegion, DanjiOrRegionalType.Danji)) {

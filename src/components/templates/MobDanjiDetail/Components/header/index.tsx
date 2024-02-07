@@ -22,7 +22,10 @@ import { useRouter } from 'next/router';
 
 import { apiService } from '@/services';
 
+import Actions from '@/constants/actions';
+
 import kakaoShare from '@/utils/kakaoShare';
+import { toast } from 'react-toastify';
 
 const OverlayPresenter = dynamic(() => import('@/components/molecules/OverlayPresenter'), { ssr: false });
 
@@ -55,6 +58,11 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
     if (!user) {
       openAuthPopup('onlyLogin');
       handleUpdateReturnUrl();
+
+      if (typeof window !== 'undefined' && danji?.danji_id) {
+        const id = danji.danji_id.toString() as string;
+        window.sessionStorage.setItem(Actions.Danji_Favorite.key, id);
+      }
 
       return;
     }
@@ -93,18 +101,14 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
           rollbackOnError: true,
         });
 
-        const Toast = (await import('react-toastify')).default;
-
-        Toast.toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
+        toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
       } else {
         await mutate(['/danji/detail', { danji_id: danji.danji_id }], danjiFavoriteRemoveOptimistic, {
           optimisticData: { ...danji, is_favorite: false },
           rollbackOnError: true,
         });
 
-        const Toast = (await import('react-toastify')).default;
-
-        Toast.toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-delete-favorite' });
+        toast.success('관심단지가 해제되었습니다.', { toastId: 'toast-danji-delete-favorite' });
       }
     }
   };
