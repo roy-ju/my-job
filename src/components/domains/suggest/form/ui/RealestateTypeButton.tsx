@@ -16,7 +16,7 @@ type RealestateTypeButtonProps = {
 };
 
 const Button = styled(motion.button)<{ selected?: boolean; disabled?: boolean; needdiabledfields?: string }>`
-  ${tw`flex flex-col flex-1 gap-1.5 justify-center items-center rounded-xl border [min-width: 60px] [height: 76px] [box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.06)]`}
+  ${tw`flex flex-col flex-1 gap-1.5 justify-center items-center rounded-xl border [min-width: 60px] [height: 76px] [box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.06)] pt-4 pb-2.5`}
 
   ${({ selected }) => selected && tw`border-nego-800 [box-shadow: 0px 0px 12px 0px rgba(112, 72, 232, 0.16)]`}
   ${({ needdiabledfields }) => needdiabledfields && tw`pointer-events-none`}
@@ -49,7 +49,6 @@ export default function RealestateTypeButton({
       selected={selected}
       disabled={disabled}
       needdiabledfields={needDiabledFields ? 'true' : undefined}
-      tw="flex-1"
     >
       {children}
       <span>{describeRealestateType(value)}</span>
