@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
+
+import useDanjiFavoriteAdd from '@/components/domains/danji/hooks/useDanjiFavoriteAdd';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
@@ -10,6 +12,10 @@ import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
 
+import useRemoveSessionKey from '@/hooks/useRemoveSessionKey';
+
+import Actions from '@/constants/actions';
+
 type Popups = 'notSuggestAfterVerify' | 'suggestAfterVerify' | '';
 
 export default function useRegisterSuccessCta() {
@@ -18,6 +24,10 @@ export default function useRegisterSuccessCta() {
   const { platform } = useCheckPlatform();
 
   const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
+
+  const { danjiFavoriteAdd } = useDanjiFavoriteAdd();
+
+  const { removeSessionKey } = useRemoveSessionKey();
 
   const { openVerifyCiPopup, handleVerifyPhone } = useVerifyCiPopup();
 
@@ -46,13 +56,16 @@ export default function useRegisterSuccessCta() {
 
   const handleOnlyLoginCta = useCallback(async () => {
     if (returnUrl) {
+      await danjiFavoriteAdd();
+
       await router.replace(returnUrl);
+
       handleUpdateReturnUrl('');
       return;
     }
 
     handleGoHome();
-  }, [returnUrl, handleGoHome, router, handleUpdateReturnUrl]);
+  }, [returnUrl, handleGoHome, router, danjiFavoriteAdd, handleUpdateReturnUrl]);
 
   const handleLoginCta = useCallback(async () => {
     if (returnUrl) {
@@ -80,6 +93,8 @@ export default function useRegisterSuccessCta() {
     }
     handleGoHome();
   }, [returnUrl, handleGoHome, router?.query?.params, openPopup]);
+
+  useEffect(() => () => removeSessionKey(Actions.Danji_Favorite.key), [removeSessionKey]);
 
   return {
     popups,

@@ -25,12 +25,12 @@ export default function useDanjiFavoriteAdd() {
 
       if (platform === 'pc') {
         toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
-        await otherMutate(() => true, undefined);
+        await otherMutate(() => '/danji/detail', undefined);
       }
 
       if (platform === 'mobile') {
         toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });
-        await otherMutate(() => true, undefined);
+        await otherMutate(() => '/danji/detail', undefined);
       }
 
       removeSessionKey(Actions.Danji_Favorite.key);
