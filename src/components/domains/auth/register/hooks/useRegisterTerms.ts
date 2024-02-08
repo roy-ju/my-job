@@ -12,20 +12,22 @@ import HTML_LOCATION_20221017 from '@/assets/terms/location_agreement/20221017';
 
 import HTML_LOCATION_20221103 from '@/assets/terms/location_agreement/20221103';
 
-import HTML_PRIVACY_20221208 from '@/assets/terms/privacy_agreement/20221208';
+import HTML_PRIVACY_20221017 from '@/assets/terms/privacy_agreement/20221017';
 
 import HTML_PRIVACY_20221103 from '@/assets/terms/privacy_agreement/20221103';
 
-import HTML_PRIVACY_20221017 from '@/assets/terms/privacy_agreement/20221017';
+import HTML_PRIVACY_20221208 from '@/assets/terms/privacy_agreement/20221208';
 
 import HTML_PRIVACY_20231211 from '@/assets/terms/privacy_agreement/20231211';
+
+import HTML_PRIVACY_20240213 from '@/assets/terms/privacy_agreement/20240213';
 
 export default function useRegisterTerms() {
   const [selectedServiceTerms, setSelectedServiceTerms] = useState('2023.03.22');
 
   const [selectedLocationTerms, setSelectedLocationTerms] = useState('2022.11.03');
 
-  const [selectedPrivacyTerms, setSelectedPrivacyTerms] = useState('2023.12.11');
+  const [selectedPrivacyTerms, setSelectedPrivacyTerms] = useState('2024.02.13');
 
   const selectedServiceHtmlTerms = (() => {
     switch (selectedServiceTerms) {
@@ -57,8 +59,10 @@ export default function useRegisterTerms() {
         return HTML_PRIVACY_20221017;
       case '2022.12.08':
         return HTML_PRIVACY_20221208;
-      default:
+      case '2023.12.11':
         return HTML_PRIVACY_20231211;
+      default:
+        return HTML_PRIVACY_20240213;
     }
   })();
 
