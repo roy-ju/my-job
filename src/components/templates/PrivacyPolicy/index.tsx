@@ -33,6 +33,8 @@ export default function PrivacyPolicy({ html, termDate, onClickGoBack, onChangeS
               <Dropdown.Option value="2022.10.17">2022.10.17</Dropdown.Option>
               <Dropdown.Option value="2022.11.03">2022.11.03</Dropdown.Option>
               <Dropdown.Option value="2022.12.08">2022.12.08</Dropdown.Option>
+              <Dropdown.Option value="2023.12.11">2023.12.11</Dropdown.Option>
+              <Dropdown.Option value="2024.02.13">2024.02.13</Dropdown.Option>
             </Dropdown>
           </div>
         )}

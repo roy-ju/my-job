@@ -14,11 +14,14 @@ import HTML_20221017 from '@/assets/terms/privacy_agreement/20221017';
 
 import HTML_20231211 from '@/assets/terms/privacy_agreement/20231211';
 
+import HTML_20240213 from '@/assets/terms/privacy_agreement/20240213';
+
 import { MobileContainer } from '@/components/atoms';
 
 export default memo(() => {
   const router = useRouter();
-  const [selectedTerms, setSelectedTerms] = useState('2023.12.11');
+
+  const [selectedTerms, setSelectedTerms] = useState('2024.02.13');
 
   const htmlTerms = (() => {
     switch (selectedTerms) {
@@ -28,8 +31,10 @@ export default memo(() => {
         return HTML_20221017;
       case '2022.12.08':
         return HTML_20221208;
-      default:
+      case '2023.12.11':
         return HTML_20231211;
+      default:
+        return HTML_20240213;
     }
   })();
 
