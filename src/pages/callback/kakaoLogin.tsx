@@ -8,17 +8,21 @@ import { useRouter } from 'next/router';
 
 import { Button, Loading } from '@/components/atoms';
 
+// import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+// import useIsNativeApp from '@/hooks/useIsNativeApp';
+
+import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
+
 import { SocialLoginType } from '@/constants/enums';
 
 import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 
+import { apiService } from '@/services';
+
 import { isMobile } from '@/utils/is';
 
-import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
-
-import { apiService } from '@/services';
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-import useIsNativeApp from '@/hooks/useIsNativeApp';
+// import useKakaoLoginCallbackHandler from '@/hooks/useKakaoLoginCallbackHandler';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const forwarded = context.req.headers['x-forwarded-for'];
@@ -34,11 +38,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Page: NextPage = ({ ipAddress }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
 
-  const { platform } = useCheckPlatform();
+  // const { platform } = useCheckPlatform();
 
-  const isNativeApp = useIsNativeApp();
+  // const isNativeApp = useIsNativeApp();
 
   const [hasOpener, setHasOpener] = useState(true);
+
+  // const { handleLoginPcOrNativeApp, handleEmailUpdatePcOrNativeApp } = useKakaoLoginCallbackHandler({ ipAddress });
 
   const handleLogin = useCallback(
     async (code: string) => {
@@ -97,25 +103,39 @@ const Page: NextPage = ({ ipAddress }: InferGetServerSidePropsType<typeof getSer
     if (!code) {
       setHasOpener(false);
     } else if (typeof code === 'string') {
-      if (isNativeApp || platform === 'pc') {
-        if (queryState === 'update') {
-          handleEmailUpdate(code).then(() => {
-            window.close();
-          });
-        } else {
-          handleLogin(code).then(() => {
-            window.close();
-          });
-        }
-      } else if (platform === 'mobile') {
-        if (queryState === 'update') {
-          alert('모바일');
-        } else {
-          alert('모바일');
-        }
+      if (queryState === 'update') {
+        handleEmailUpdate(code).then(() => window.close());
+      } else {
+        handleLogin(code).then(() => window.close());
       }
     }
-  }, [handleLogin, handleEmailUpdate, router, isNativeApp, platform]);
+  }, [handleLogin, handleEmailUpdate, router]);
+
+  // useEffect(() => {
+  //   const { code, state: queryState } = router.query;
+
+  //   if (!code) {
+  //     setHasOpener(false);
+  //   } else if (typeof code === 'string') {
+  //     if (isNativeApp || platform === 'pc') {
+  //       if (queryState === 'update') {
+  //         handleEmailUpdatePcOrNativeApp(code).then(() => {
+  //           window.close();
+  //         });
+  //       } else {
+  //         handleLoginPcOrNativeApp(code).then(() => {
+  //           window.close();
+  //         });
+  //       }
+  //     } else if (platform === 'mobile') {
+  //       if (queryState === 'update') {
+  //         alert('모바일');
+  //       } else {
+  //         alert('모바일');
+  //       }
+  //     }
+  //   }
+  // }, [router, isNativeApp, platform, handleEmailUpdatePcOrNativeApp, handleLoginPcOrNativeApp]);
 
   if (!hasOpener) {
     <div tw="w-full h-full flex items-center justify-center bg-white">
