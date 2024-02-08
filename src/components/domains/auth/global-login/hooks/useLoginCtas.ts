@@ -8,6 +8,8 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
+import useIsNativeApp from '@/hooks/useIsNativeApp';
+
 import useAuth from '@/hooks/services/useAuth';
 
 import { apiService } from '@/services';
@@ -61,7 +63,9 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
   const { createSuggest } = useCreateSuggestForm();
 
-  const handleClickKakaoLogin = useCallback(() => {
+  const isNativeApp = useIsNativeApp();
+
+  const handleClickKakaoLogin = useCallback(async () => {
     if (platform === 'pc') {
       const { width, height, left, top } = adjustWindowPopup({ w: 612 });
 
@@ -73,9 +77,18 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     }
 
     if (platform === 'mobile') {
-      window.open(`${window.location.origin}/auth/kakao`, '_blank');
+      if (isNativeApp) {
+        window.open(`${window.location.origin}/auth/kakao`, '_blank');
+      } else {
+        const type = (router?.query?.update as string) ?? '';
+
+        Kakao.Auth.authorize({
+          redirectUri: `${window.location.origin}/callback/kakaoLogin`,
+          state: type,
+        });
+      }
     }
-  }, [platform]);
+  }, [isNativeApp, platform, router?.query?.update]);
 
   const handleClickAppleLogin = useCallback(async () => {
     const res = await loginWithApple();

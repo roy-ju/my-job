@@ -4,11 +4,13 @@ import { useRouter } from 'next/router';
 
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
+import { toast } from 'react-toastify';
+
+import useAuth from '@/hooks/services/useAuth';
+
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 
 import { apiService } from '@/services';
-
-import useAuth from '@/hooks/services/useAuth';
 
 import ErrorCodes from '@/constants/error_codes';
 
@@ -16,7 +18,6 @@ import Routes from '@/router/routes';
 
 import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
 
-import { toast } from 'react-toastify';
 import verifyCiPopupAtom from '../atom/verifyCiPopup';
 
 import useAuthPopup from './useAuhPopup';
