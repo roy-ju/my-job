@@ -30,6 +30,8 @@ import adjustWindowPopup from '@/utils/adjustWindowPopup';
 
 import useDanjiFavoriteAdd from '@/components/domains/danji/hooks/useDanjiFavoriteAdd';
 
+import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
+
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
   error_code: number;
   error_message: string;
@@ -52,6 +54,8 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   const { platform } = useCheckPlatform();
 
   const { danjiFavoriteAdd } = useDanjiFavoriteAdd();
+
+  const { createSuggest } = useCreateSuggestForm();
 
   const router = useRouter();
 
@@ -101,6 +105,11 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
       if (platform === 'pc') {
         if (returnUrl) {
+          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+            createSuggest();
+            return;
+          }
+
           danjiFavoriteAdd();
 
           if (returnUrl !== router.asPath) {
@@ -116,6 +125,11 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
       if (platform === 'mobile') {
         if (returnUrl) {
+          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+            createSuggest();
+            return;
+          }
+
           danjiFavoriteAdd();
 
           if (returnUrl !== router.asPath) {
@@ -210,7 +224,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         }
       }
     }
-  }, [authType, danjiFavoriteAdd, handleUpdateReturnUrl, platform, returnUrl, router, user]);
+  }, [authType, createSuggest, danjiFavoriteAdd, handleUpdateReturnUrl, platform, returnUrl, router, user]);
 
   useEffect(() => {
     if (!platform) return;
