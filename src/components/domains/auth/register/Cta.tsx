@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
@@ -7,12 +5,16 @@ import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
 import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
 
 type CtaProps = {
+  isRenderCta: boolean;
+  title: string;
   isLoading: boolean;
   disabled: boolean;
-  onClickNext: () => void;
+  handleClick: () => void;
 };
 
-export default function Cta({ isLoading, disabled, onClickNext }: CtaProps) {
+export default function Cta({ isRenderCta, title, isLoading, disabled, handleClick }: CtaProps) {
+  if (!isRenderCta) return null;
+
   return (
     <PersistentBottomBarV2 tw="px-5">
       <ButtonV2
@@ -20,10 +22,10 @@ export default function Cta({ isLoading, disabled, onClickNext }: CtaProps) {
         disabled={disabled}
         tw="w-full"
         size="bigger"
-        onClick={onClickNext}
+        onClick={handleClick}
         id={GOOGLE_TAG_BUTTON_ID.REGISTER_CTA}
       >
-        가입하기
+        {title}
       </ButtonV2>
     </PersistentBottomBarV2>
   );

@@ -1,10 +1,6 @@
-import { useCallback } from 'react';
-
 import dynamic from 'next/dynamic';
 
 import tw, { styled } from 'twin.macro';
-
-import SeperatorV2 from '@/components/atoms/SeperatorV2';
 
 import RegisterForm from './register/RegisterForm';
 
@@ -16,104 +12,144 @@ import Cta from './register/Cta';
 
 import useAccissbleRegister from './register/hooks/useAccissbleRegister';
 
-import useRegisterForm from './register/hooks/useRegisterForm';
+import useStep from './register/hooks/useStep';
+
+import useFieldName from './register/hooks/useFieldName';
+
+import useFieldPhone from './register/hooks/useFieldPhone';
+
+import useFieldTerms from './register/hooks/useFieldTerms';
+
+import useFieldVerificationPhone from './register/hooks/useFieldVerificationPhone';
+
+import useRegisterHandlers from './register/hooks/useRegisterHandlers';
+
+import REGISTER_STEP from './register/constants/registerStep';
+
+import FIELD_ID from './register/constants/fieldId';
 
 const RegisterQuit = dynamic(() => import('./register/popups/RegisterQuit'), { ssr: false });
 
 const TermsPopup = dynamic(() => import('./register/popups/Terms'), { ssr: false });
+
+const SendSms = dynamic(() => import('./register/popups/SendSms'), { ssr: false });
+
+const MaxSmsAttepmtsReached = dynamic(() => import('./register/popups/MaxSmsAttemptsReached'), { ssr: false });
+
+const VerticalSpacing = styled.div`
+  ${tw`[min-height: 20px]`}
+`;
 
 const RegisterContainer = styled.div`
   ${tw`relative flex flex-col h-full`}
 `;
 
 const RegisterFieldContainer = styled.div`
-  ${tw`flex-1 h-full min-h-0 pt-5 overflow-y-auto`}
+  ${tw`flex flex-col flex-1 h-full min-h-0 gap-4 px-5 overflow-y-auto`}
 `;
 
-const FieldContainer = styled.div`
-  ${tw`my-10`}
+const RegisterPhoneFieldContainer = styled.div`
+  ${tw`flex flex-col gap-4`}
 `;
 
 export default function Register() {
   useAccissbleRegister();
 
-  const { popup, termsPopupType, handleChangeTermsPopup, handlePopup, handleConfirmRegisterQuit, handleCancel } =
-    usePopupHandler();
+  const { forms, step, updateStep } = useStep();
+
+  const { name, handleChangeName, handleResetName } = useFieldName();
+
+  const { phone, handleChangePhone, handleResetPhone } = useFieldPhone();
+
+  const { terms, handleChangeTerms } = useFieldTerms();
 
   const {
-    email,
-    nickname,
-    nickNameRef,
-    nicknameErrMsg,
-    // funnelInfo,
+    popup,
+    termsPopupType,
+    handleChangePopup,
+    handleOpenTermsPopup,
+    handleConfirmRegisterQuit,
+    handleClosePopup,
+  } = usePopupHandler();
+
+  const {
+    isRenderVerifyField,
+    time,
+    remainCount,
+    verifyStatus,
+    code,
+    codeErrMsg,
+    handleChangeCode,
+    handleResetCode,
+    handleSendVerifcationCode,
+    handleReSendVerifcationCode,
+  } = useFieldVerificationPhone({ phone, updatePopupFunc: handleChangePopup, updateStepFunc: updateStep });
+
+  const { isRenderCta, ctaTitle, disabledRegister, isLoadingRegister, handleRegisterCtas } = useRegisterHandlers({
+    step,
+    verifyStatus,
+    name,
+    phone,
     terms,
-    formValid,
-    isLoading,
-    // handleChangeFunnelInfo,
-    handleChangeNickname,
-    handleChangeTerms,
-    handleClickRegister,
-    handleResetNickName,
-    handleResetNickNameErrorMsg,
-    handleNickNameClientValidation,
-  } = useRegisterForm();
-
-  const handleTerms = useCallback(
-    (value: 'service' | 'privacy' | 'location') => {
-      handlePopup('terms');
-      handleChangeTermsPopup(value);
-    },
-    [handleChangeTermsPopup, handlePopup],
-  );
-
-  const handleCloseTermsPopup = useCallback(() => {
-    handleCancel();
-    handleChangeTermsPopup('');
-  }, [handleChangeTermsPopup, handleCancel]);
+    updateStepFunc: updateStep,
+    sendSmsCodeFunc: handleSendVerifcationCode,
+  });
 
   return (
     <>
       <RegisterContainer>
-        <RegisterHeader onClickClose={() => handlePopup('quit')} />
-        <RegisterFieldContainer>
-          <FieldContainer tw="my-0">
-            <RegisterForm.Email value={email} />
-          </FieldContainer>
-          <FieldContainer ref={nickNameRef}>
-            <RegisterForm.Nickname
-              value={nickname}
-              onChange={handleChangeNickname}
-              errorMessage={nicknameErrMsg}
-              handleClientValidation={handleNickNameClientValidation}
-              handleResetErrorMsg={handleResetNickNameErrorMsg}
-              handleResetNickName={handleResetNickName}
-            />
-          </FieldContainer>
-          <SeperatorV2 />
-          {/* <FieldContainer>
-            <RegisterForm.FunnelInfo value={funnelInfo} onChange={handleChangeFunnelInfo} />
-          </FieldContainer>
-          <SeperatorV2 /> */}
-          <FieldContainer>
+        <RegisterHeader onClickClose={() => handleChangePopup('quit')} />
+        <VerticalSpacing />
+        <RegisterForm.Title step={step} />
+        {step === REGISTER_STEP.TERMS ? <VerticalSpacing tw="[min-height: 40px]" /> : <VerticalSpacing />}
+        <RegisterFieldContainer id="formContainer">
+          {forms?.includes(FIELD_ID.NAME) && (
+            <RegisterForm.Name value={name} onChange={handleChangeName} handleClickReset={handleResetName} />
+          )}
+          {forms?.includes(FIELD_ID.PHONE) && (
+            <RegisterPhoneFieldContainer id={FIELD_ID.PHONE}>
+              <RegisterForm.Phone value={phone} onChange={handleChangePhone} handleClickReset={handleResetPhone} />
+              <RegisterForm.PhoneVerification
+                isRender={isRenderVerifyField}
+                time={time}
+                value={code}
+                errorMessage={codeErrMsg}
+                onChange={handleChangeCode}
+                handleClickReset={handleResetCode}
+                handleReSendVerifcationCode={handleReSendVerifcationCode}
+              />
+            </RegisterPhoneFieldContainer>
+          )}
+          {!isRenderCta && <VerticalSpacing tw="[min-height: 80px]" />}
+          {forms?.includes(FIELD_ID.TERMS) && (
             <RegisterForm.Terms
               state={terms}
               onChangeState={handleChangeTerms}
               onOpenServiceTerms={() => {
-                handleTerms('service');
+                handleOpenTermsPopup('service');
               }}
               onOpenPrivacyPolicy={() => {
-                handleTerms('privacy');
+                handleOpenTermsPopup('privacy');
               }}
               onOpenLocationTerms={() => {
-                handleTerms('location');
+                handleOpenTermsPopup('location');
               }}
             />
-          </FieldContainer>
+          )}
         </RegisterFieldContainer>
-        <Cta isLoading={isLoading} disabled={!formValid} onClickNext={handleClickRegister} />
+        <Cta
+          isRenderCta={isRenderCta}
+          title={ctaTitle}
+          isLoading={isLoadingRegister}
+          disabled={!disabledRegister}
+          handleClick={handleRegisterCtas}
+        />
       </RegisterContainer>
-      {popup === 'quit' && <RegisterQuit handleCancel={handleCancel} handleConfirm={handleConfirmRegisterQuit} />}
-      {popup === 'terms' && <TermsPopup type={termsPopupType} handleCancel={handleCloseTermsPopup} />}
+
+      {popup === 'quit' && <RegisterQuit handleConfirm={handleConfirmRegisterQuit} handleCancel={handleClosePopup} />}
+      {popup === 'sendSms' && <SendSms remainCount={remainCount} handleConfirm={handleClosePopup} />}
+      {popup === 'maxSmsAttemptsReached' && <MaxSmsAttepmtsReached handleConfirm={handleClosePopup} />}
+      {popup === 'terms' && <TermsPopup type={termsPopupType} handleCancel={handleClosePopup} />}
     </>
   );
 }

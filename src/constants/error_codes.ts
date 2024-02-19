@@ -13,6 +13,7 @@ const ErrorCodes = {
   DUPLCATED_CI: 1022, // 이미 본인인증됐음
   DUPLICATED_EMAIL: 1023, // 이미 사용중인 이메일
   USER_IS_NOT_REGISTERED_WITH_CI: 1024, // 본인인증이 되지 않은 계정
+  CANNOT_UPDATE_NAME: 1025, // 이름을 업데이트할 수 없음
   CANNOT_UPDATE_NICKNAME: 1025, // 닉네임을 업데이트할 수 없음
   PIN_VERIFICATION_FAILED: 1026, // 핀번호 인증 실패
   PIN_IS_LOCKED: 1027, // 핀번호 입력횟수 초과로 잠겨있음

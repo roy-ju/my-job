@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 import { v1 } from 'uuid';
 
-import Clapping from '@/../public/static/images/suggests/Clapping Hands Light Skin Tone.png';
+import Clapping from '@/../public/static/images/suggests/Clapping_Hands_Light_Skin_Tone.png';
 
 import { AnimationP } from './AnimationText';
 

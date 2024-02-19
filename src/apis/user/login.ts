@@ -13,18 +13,16 @@ interface LoginRequest {
 }
 
 export interface LoginResponse extends ErrorResponse {
-  new_registration: boolean;
-  phone_verified: boolean;
-  over_nineteen: boolean;
-  kakao_nickname: any;
-  kakao_nickname_duplicated: boolean;
-  nickname: string;
-  email: string;
-  name: string;
   access_token: string;
-  refresh_token: string;
+  email: string;
   exp: number;
-  
+  name: string;
+  new_registration: boolean;
+  nickname: string;
+  over_nineteen: boolean;
+  phone: string;
+  phone_verified: boolean;
+  refresh_token: string;
 }
 
 export default async function login({

@@ -69,6 +69,26 @@ const LabelTextBig = styled.span<{ labelPlacement: LabelPlacement }>`
   }}
 `;
 
+const LabelTextXlarge = styled.span<{ labelPlacement: LabelPlacement }>`
+  ${tw`text-gray-1000 text-subhead_03`}
+  vertical-align: middle;
+  ${({ labelPlacement }) => {
+    if (labelPlacement === 'bottom') {
+      return tw`mt-2`;
+    }
+
+    if (labelPlacement === 'top') {
+      return tw`mb-2`;
+    }
+
+    if (labelPlacement === 'start') {
+      return tw`mr-2`;
+    }
+
+    return tw`ml-2`;
+  }}
+`;
+
 interface Props extends Omit<HTMLProps<HTMLLabelElement>, 'onChange' | 'label' | 'as' | 'size'> {
   label: string | ReactElement;
   control: ReactElement;
@@ -76,7 +96,7 @@ interface Props extends Omit<HTMLProps<HTMLLabelElement>, 'onChange' | 'label' |
   checked?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: any;
-  size?: 'medium' | 'large';
+  size?: 'medium' | 'large' | 'xlarge';
 }
 
 export default function Label(props: Props) {
@@ -100,7 +120,9 @@ export default function Label(props: Props) {
     <LabelRoot labelPlacement={labelPlacement} {...others}>
       {cloneElement(control, controlProps)}
 
-      {size === 'large' ? (
+      {size === 'xlarge' ? (
+        <LabelTextXlarge labelPlacement={labelPlacement}>{label}</LabelTextXlarge>
+      ) : size === 'large' ? (
         <LabelTextBig labelPlacement={labelPlacement}>{label}</LabelTextBig>
       ) : (
         <LabelText labelPlacement={labelPlacement}>{label}</LabelText>

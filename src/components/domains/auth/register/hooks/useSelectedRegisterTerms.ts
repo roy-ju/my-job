@@ -22,11 +22,9 @@ import HTML_PRIVACY_20231211 from '@/assets/terms/privacy_agreement/20231211';
 
 import HTML_PRIVACY_20240213 from '@/assets/terms/privacy_agreement/20240213';
 
-export default function useRegisterTerms() {
+export default function useSelectedRegisterTerms() {
   const [selectedServiceTerms, setSelectedServiceTerms] = useState('2023.03.22');
-
   const [selectedLocationTerms, setSelectedLocationTerms] = useState('2022.11.03');
-
   const [selectedPrivacyTerms, setSelectedPrivacyTerms] = useState('2024.02.13');
 
   const selectedServiceHtmlTerms = (() => {

@@ -73,9 +73,7 @@ export default function MyDetail({
               onClickUpdateEmail={onClickUpdateEmail}
               onChangeNickname={onChangeNickname}
             />
-
             <Form.Separator />
-
             <Form.IdentityInfo
               name={name}
               phone={phone}
@@ -83,9 +81,7 @@ export default function MyDetail({
               onClickVerifyCi={onClickVerifyCi}
             />
             <Form.Separator />
-
             <Form.ProfileImage profileImageUrl={profileImageUrl} onClickUpdate={onClickUpdateProfileImage} />
-
             <Form.Separator />
             <div tw="px-5 mt-10">
               <Button variant="outlined" tw="w-full" size="medium" onClick={onClickDeregister}>
