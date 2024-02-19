@@ -6,7 +6,7 @@ import { ServiceTerms, LocationTerms, PrivacyPolicy } from '@/components/templat
 
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-import useRegisterTerms from '../hooks/useRegisterTerms';
+import useSelectedRegisterTerms from '../hooks/useSelectedRegisterTerms';
 
 type TermsPopupProps = {
   type: 'location' | 'service' | 'privacy' | '';
@@ -23,7 +23,7 @@ export default function TermsPopup({ type, handleCancel }: TermsPopupProps) {
     selectedServiceHtmlTerms,
     selectedLocationHtmlTerms,
     selectedPrivacyHtmlTerms,
-  } = useRegisterTerms();
+  } = useSelectedRegisterTerms();
 
   useOutsideClick({ ref: popupContainerRef, handler: () => handleCancel(), enabled: !!type });
 

@@ -5,7 +5,8 @@ export type LoginRequest = {
   socialLoginType: number;
   token: string;
   marketing?: boolean;
-  nickname?: string;
+  name?: string;
+  phone?: string;
   email?: string;
   signUpSource?: string;
 };
@@ -87,4 +88,8 @@ export type LoginCiResponse = {
   reactivated: boolean;
   refresh_token: string;
   social_login_type: number;
+} & ErrorResponse;
+
+export type SendPhoneVerificationCodeForRegisterResponse = {
+  attemp_count_today: number;
 } & ErrorResponse;

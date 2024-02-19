@@ -1,6 +1,15 @@
 import ApiService from '@/lib/apiService';
 
-import { LoginCiRequest, LoginCiResponse, LoginRequest, LoginResponse, UpdateCIResponse } from './auth/types';
+import {
+  LoginCiRequest,
+  LoginCiResponse,
+  LoginRequest,
+  LoginResponse,
+  SendPhoneVerificationCodeForRegisterResponse,
+  UpdateCIResponse,
+} from './auth/types';
+
+import { UploadProfileImageResponse } from './my/types';
 
 import {
   DanjiDetailResponse,
@@ -9,7 +18,6 @@ import {
 } from './danji/types';
 
 import { ListingEligibilityCheckResponse } from './listing/types';
-import { UploadProfileImageResponse } from './my/types';
 
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
@@ -27,7 +35,8 @@ export class NegocioApiService extends ApiService {
         // for new registration
         email: req.email,
         marketing: req.marketing,
-        nickname: req.nickname,
+        name: req.name,
+        phone: req.phone,
         signup_source: req.signUpSource,
       });
       return data as LoginResponse;
@@ -62,6 +71,29 @@ export class NegocioApiService extends ApiService {
       type: req.type,
     });
     return data;
+  }
+
+  async sendPhoneVerificationCodeForRegister(
+    phone: string,
+  ): Promise<SendPhoneVerificationCodeForRegisterResponse | null> {
+    try {
+      const { data } = await this.instance.post('/user/regist/phone/verification/sms', { phone });
+      return data as SendPhoneVerificationCodeForRegisterResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async phoneVerificationForRegister(phone: string, code: string): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/user/regist/phone/verify', {
+        verification_number: code,
+        phone,
+      });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
   }
 
   async updateEmail(token: string, socialLoginType: number) {
@@ -132,18 +164,18 @@ export class NegocioApiService extends ApiService {
     }
   }
 
-  async updatePhone(phone: string, code: string) {
+  async sendPhoneVerificationCode(phone: string) {
     try {
-      const { data } = await this.instance.post('/my/phone/update', { phone, verification_number: code });
-      return data as ErrorResponse;
+      return await this.instance.post('/user/phone/verification/sms', { phone });
     } catch (e) {
       return null;
     }
   }
 
-  async sendPhoneVerificationCode(phone: string) {
+  async updatePhone(phone: string, code: string) {
     try {
-      return await this.instance.post('/user/phone/verification/sms', { phone });
+      const { data } = await this.instance.post('/my/phone/update', { phone, verification_number: code });
+      return data as ErrorResponse;
     } catch (e) {
       return null;
     }

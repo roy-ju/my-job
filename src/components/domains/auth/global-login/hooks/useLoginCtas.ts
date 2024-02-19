@@ -262,6 +262,13 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
           query.token = detail.snsToken;
           query.socialLoginType = `${detail.socialLoginType}`;
 
+          if (detail.name) {
+            query.name = `${detail.name}`;
+          }
+          if (detail.phone) {
+            query.phone = `${detail.phone}`;
+          }
+
           if (depth1 && depth2) {
             if (depth1 === Routes.MapListingList) {
               router.push({
@@ -320,6 +327,8 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
               email: detail.email,
               token: detail.snsToken,
               socialLoginType: `${detail.socialLoginType}`,
+              ...(detail.name ? { name: `${detail.name}` } : {}),
+              ...(detail.phone ? { phone: `${detail.phone}` } : {}),
               ...router.query,
             },
           });

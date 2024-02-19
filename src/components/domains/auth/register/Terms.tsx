@@ -1,27 +1,43 @@
 import { useCallback, ChangeEventHandler } from 'react';
 
+import tw, { styled } from 'twin.macro';
+
 import { Label, Checkbox, ButtonV2 } from '@/components/atoms';
 
 import useControlled from '@/hooks/useControlled';
 
 import ArrowRight from '@/assets/icons/arrow_right_20.svg';
 
-export interface TermsState {
-  over19: boolean;
-  service: boolean;
-  privacy: boolean;
-  location: boolean;
-  notification: boolean;
-  marketing: boolean;
-}
+import TermsState from './types/Terms';
+import FIELD_ID from './constants/fieldId';
 
-interface TermsProps {
+type TermsProps = {
   state?: TermsState;
   onChangeState?: (newState: TermsState) => void;
   onOpenServiceTerms?: () => void;
   onOpenPrivacyPolicy?: () => void;
   onOpenLocationTerms?: () => void;
-}
+};
+
+const Container = styled.div`
+  ${tw`flex flex-col`}
+`;
+
+const StyledLabel = styled.span`
+  ${tw`text-gray-900`}
+`;
+
+const ArrowLabelContainer = styled.div`
+  ${tw`flex items-center justify-between`}
+`;
+
+const TopLabelWrraper = styled.div`
+  ${tw`pb-4 border-b border-b-gray-200`}
+`;
+
+const SubLabelWrraper = styled.div`
+  ${tw`flex flex-col gap-4 pt-4`}
+`;
 
 export default function Terms({
   state: stateProp,
@@ -70,79 +86,75 @@ export default function Terms({
   const all = over19 && service && privacy && location && notification && marketing;
 
   return (
-    <div tw="px-5 flex flex-col">
-      <p tw="text-heading_01 mb-1">약관 동의</p>
-      <p tw="text-body_01 text-gray-700 mb-6">서비스를 이용하려면 약관에 동의가 필요해요!</p>
-
-      <div tw="pb-4 border-b border-b-gray-200">
+    <Container id={FIELD_ID.TERMS}>
+      <TopLabelWrraper>
         <Label
-          size="large"
+          size="xlarge"
           control={<Checkbox name="all" iconType="blueSquare" />}
-          label="전체 동의 및 확인"
+          label="모두 동의합니다."
           checked={all}
           onChange={handleChangeState}
         />
-      </div>
-
-      <div tw="pt-4 flex flex-col gap-4">
+      </TopLabelWrraper>
+      <SubLabelWrraper>
         <Label
           size="large"
-          control={<Checkbox name="over19" iconType="blueSquare" />}
-          label="(필수) 만 19세 이상"
+          control={<Checkbox name="over19" iconType="noOutline" />}
+          label={<StyledLabel>(필수) 만 19세 이상</StyledLabel>}
           checked={over19}
           onChange={handleChangeState}
         />
-        <div tw="flex items-center justify-between">
+        <ArrowLabelContainer>
           <Label
             size="large"
-            control={<Checkbox name="service" iconType="blueSquare" />}
-            label="(필수) 서비스 이용약관 동의"
+            control={<Checkbox name="service" iconType="noOutline" />}
+            label={<StyledLabel>(필수) 서비스 이용약관 동의</StyledLabel>}
             checked={service}
             onChange={handleChangeState}
           />
           <ButtonV2 onClick={onOpenServiceTerms} variant="ghost" size="none" tw="text-gray-700">
             <ArrowRight />
           </ButtonV2>
-        </div>
-        <div tw="flex items-center justify-between">
+        </ArrowLabelContainer>
+        <ArrowLabelContainer>
           <Label
             size="large"
-            control={<Checkbox name="privacy" iconType="blueSquare" />}
-            label="(필수) 개인정보 수집 및 이용 동의"
+            control={<Checkbox name="privacy" iconType="noOutline" />}
+            label={<StyledLabel>(필수) 개인정보 수집 및 이용 동의</StyledLabel>}
             checked={privacy}
             onChange={handleChangeState}
           />
           <ButtonV2 onClick={onOpenPrivacyPolicy} variant="ghost" size="none" tw="text-gray-700">
             <ArrowRight />
           </ButtonV2>
-        </div>
-        <div tw="flex items-center justify-between">
+        </ArrowLabelContainer>
+        <ArrowLabelContainer>
           <Label
             size="large"
-            control={<Checkbox name="location" iconType="blueSquare" />}
-            label="(필수) 위치기반 서비스 이용 동의"
+            control={<Checkbox name="location" iconType="noOutline" />}
+            label={<StyledLabel>(필수) 위치기반 서비스 이용 동의</StyledLabel>}
             checked={location}
             onChange={handleChangeState}
           />
           <ButtonV2 onClick={onOpenLocationTerms} variant="ghost" size="none" tw="text-gray-700">
             <ArrowRight />
           </ButtonV2>
-        </div>
+        </ArrowLabelContainer>
         <Label
           size="large"
-          control={<Checkbox name="notification" iconType="blueSquare" />}
-          label="(필수) 거래 알림 수신 동의"
+          control={<Checkbox name="notification" iconType="noOutline" />}
+          label={<StyledLabel>(필수) 거래 알림 수신 동의</StyledLabel>}
           checked={notification}
           onChange={handleChangeState}
         />
         <Label
           size="large"
-          control={<Checkbox name="marketing" iconType="blueSquare" />}
-          label="(선택) 이벤트/마케팅 정보 수신 동의"
+          control={<Checkbox name="marketing" iconType="noOutline" />}
+          label={<StyledLabel>(선택) 이벤트/마케팅 정보 수신 동의</StyledLabel>}
           checked={marketing}
           onChange={handleChangeState}
         />
-      </div>
-    </div>
+      </SubLabelWrraper>
+    </Container>
   );
 }

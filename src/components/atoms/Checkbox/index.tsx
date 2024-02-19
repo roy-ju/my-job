@@ -12,6 +12,10 @@ import CheckboxUncheckedCircleIcon from '@/assets/icons/checkbox_unchecked_circl
 
 import CheckboxBlueCheckedIcon from '@/assets/icons/checkbox_checked_blue.svg';
 
+import CheckboxNoOutlineUnCheckedIcon from '@/assets/icons/checkbox_unchecked_no_outline.svg';
+
+import CheckboxNoOutlineCheckedIcon from '@/assets/icons/checkbox_checked_no_outline.svg';
+
 import useControlled from '@/hooks/useControlled';
 
 const CheckboxRoot = tw.span`inline-flex relative`;
@@ -22,7 +26,7 @@ interface Props extends HTMLProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  iconType?: 'square' | 'circle' | 'blueSquare';
+  iconType?: 'square' | 'circle' | 'blueSquare' | 'noOutline';
 }
 
 export default forwardRef<HTMLInputElement, Props>(
@@ -47,6 +51,7 @@ export default forwardRef<HTMLInputElement, Props>(
         {iconType === 'square' && (checked ? <CheckboxCheckedIcon /> : <CheckboxUncheckedIcon />)}
         {iconType === 'blueSquare' && (checked ? <CheckboxBlueCheckedIcon /> : <CheckboxUncheckedIcon />)}
         {iconType === 'circle' && (checked ? <CheckboxCheckedCircleIcon /> : <CheckboxUncheckedCircleIcon />)}
+        {iconType === 'noOutline' && (checked ? <CheckboxNoOutlineCheckedIcon /> : <CheckboxNoOutlineUnCheckedIcon />)}
       </CheckboxRoot>
     );
   },

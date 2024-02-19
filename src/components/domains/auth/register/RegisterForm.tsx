@@ -1,13 +1,15 @@
 import tw from 'twin.macro';
 
-import Nickname from './Nickname';
+import Title from './Title';
 
-import Email from './Email';
+import Name from './Name';
 
-import FunnelInfo from './FunnelInfo';
+import Phone from './Phone';
+
+import PhoneVerification from './PhoneVerification';
 
 import Terms from './Terms';
 
 const Container = tw.div``;
 
-export default Object.assign(Container, { Email, Nickname, Terms, FunnelInfo });
+export default Object.assign(Container, { Title, Name, Phone, PhoneVerification, Terms });

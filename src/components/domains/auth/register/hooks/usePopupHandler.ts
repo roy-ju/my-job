@@ -4,36 +4,50 @@ import { useRouter } from 'next/router';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-type Popup = 'quit' | 'terms' | '';
+import Popup from '../types/Popups';
 
 export default function usePopupHandler() {
   const router = useRouter();
 
-  const [popup, setPopup] = useState<Popup>('');
-
-  const [termsPopupType, setTermsPopupType] = useState<'location' | 'service' | 'privacy' | ''>('');
-
   const { handleUpdateReturnUrl } = useReturnUrl();
 
-  const handlePopup = useCallback((value: Popup) => {
+  const [popup, setPopup] = useState<Popup>('');
+  const [termsPopupType, setTermsPopupType] = useState<'location' | 'service' | 'privacy' | ''>('');
+
+  const handleChangePopup = useCallback((value: Popup) => {
     setPopup(value);
   }, []);
 
-  const handleChangeTermsPopup = useCallback((value: 'location' | 'service' | 'privacy' | '') => {
+  const handleChangeTermsPopupType = useCallback((value: 'location' | 'service' | 'privacy' | '') => {
     setTermsPopupType(value);
   }, []);
 
-  const handleConfirmRegisterQuit = useCallback(async () => {
-    handlePopup('');
+  const handleOpenTermsPopup = useCallback(
+    (value: 'service' | 'privacy' | 'location') => {
+      handleChangePopup('terms');
+      handleChangeTermsPopupType(value);
+    },
+    [handleChangeTermsPopupType, handleChangePopup],
+  );
+
+  const handleConfirmRegisterQuit = useCallback(() => {
+    handleChangePopup('');
 
     router.back();
 
     handleUpdateReturnUrl('');
-  }, [handlePopup, router, handleUpdateReturnUrl]);
+  }, [handleChangePopup, router, handleUpdateReturnUrl]);
 
-  const handleCancel = useCallback(() => {
-    handlePopup('');
-  }, [handlePopup]);
+  const handleClosePopup = useCallback(() => {
+    handleChangePopup('');
+  }, [handleChangePopup]);
 
-  return { popup, termsPopupType, handleChangeTermsPopup, handlePopup, handleConfirmRegisterQuit, handleCancel };
+  return {
+    popup,
+    termsPopupType,
+    handleChangePopup,
+    handleOpenTermsPopup,
+    handleConfirmRegisterQuit,
+    handleClosePopup,
+  };
 }

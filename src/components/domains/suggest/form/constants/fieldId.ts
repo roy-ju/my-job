@@ -1,5 +1,5 @@
 const FIELD_ID = {
-  additionalConditions: 'additional_conditions_field',
+  AdditionalConditions: 'additional_conditions_field',
 
   BuyOrRent: 'buy_or_rent_field',
 

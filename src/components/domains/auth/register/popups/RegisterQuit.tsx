@@ -12,9 +12,9 @@ export default function RegisterQuit({ handleConfirm, handleCancel }: RegisterQu
         <Popup.ContentGroup tw="py-6 gap-2">
           <Popup.Title>회원가입 종료</Popup.Title>
           <Popup.Body>
-            취소하시면 회원가입이 종료됩니다.
+            아직 회원가입이 완료되지 않았어요.
             <br />
-            회원가입을 종료하시겠어요?
+            지금 회원가입을 종료할까요?
           </Popup.Body>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>

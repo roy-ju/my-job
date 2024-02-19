@@ -106,6 +106,8 @@ const Page: NextPage = ({ ipAddress }: InferGetServerSidePropsType<typeof getSer
       if (queryState === 'update') {
         handleEmailUpdate(code).then(() => window.close());
       } else {
+        alert('render');
+
         handleLogin(code).then(() => window.close());
       }
     }
