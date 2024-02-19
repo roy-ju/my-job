@@ -38,9 +38,7 @@ function ActionButton({
 
     if (!user) return '로그인하고 제출하기';
 
-    if (user?.isVerified) return '제출하기';
-
-    if (user && !user?.isVerified) return '본인인증 후 제출하기';
+    if (user) return '제출하기';
   }, [user, isLoading]);
 
   if (isRenderUpdateButton) {

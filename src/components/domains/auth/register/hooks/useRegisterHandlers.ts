@@ -96,7 +96,8 @@ export default function useRegisterHandlers({
     const loginResponse = await apiService.login({
       email: router?.query?.email ? (router.query.email as string) : '',
       marketing: terms.marketing,
-      name,
+      name: name || '이름등록이 필요합니다.',
+      phone: phone.replaceAll('-', ''),
       signUpSource: convertSignupPass('sns'),
       socialLoginType: Number(router.query.socialLoginType),
       token: router.query.token as string,
@@ -143,7 +144,7 @@ export default function useRegisterHandlers({
 
       router.replace({ pathname: `/${Routes.EntryMobile}/${Routes.RegisterSuccess}`, query });
     }
-  }, [terms.marketing, name, router, platform, handleLogin]);
+  }, [router, terms.marketing, name, phone, platform, handleLogin]);
 
   const handleRegisterCtas = useCallback(async () => {
     if (step === REGISTER_STEP.NONE) {

@@ -12,6 +12,7 @@ import ErrorMessage from './ErrorMessage';
 
 interface PhoneVerificationProps {
   isRender: boolean;
+  isRenderTimer: boolean;
   time: string;
   value: string;
   errorMessage?: string;
@@ -25,6 +26,7 @@ interface PhoneVerificationProps {
 
 export default function PhoneVerification({
   isRender,
+  isRenderTimer,
   time,
   value,
   errorMessage,
@@ -74,9 +76,11 @@ export default function PhoneVerification({
       <TextFieldV2 variant="outlined" hasError={Boolean(errorMessage)} onFocus={handleFocus} onBlur={handleBlur}>
         <TextFieldV2.Input mode="numeric" label="인증번호" value={value} onChange={onChange} maxLength={13} />
         <ResetButton render={renderResetIcon} handleMouseDown={handleResetCode} prChange={!!errorMessage} />
-        <TextFieldV2.Trailing tw="pr-4">
-          <Timer>{time}</Timer>
-        </TextFieldV2.Trailing>
+        {isRenderTimer && (
+          <TextFieldV2.Trailing tw="pr-4">
+            <Timer>{time}</Timer>
+          </TextFieldV2.Trailing>
+        )}
       </TextFieldV2>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <ReSendButton handleClick={handleReSendVerifcationCode} />

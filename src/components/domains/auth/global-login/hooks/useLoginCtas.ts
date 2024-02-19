@@ -8,8 +8,6 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-import useIsNativeApp from '@/hooks/useIsNativeApp';
-
 import useAuth from '@/hooks/services/useAuth';
 
 import { apiService } from '@/services';
@@ -29,8 +27,6 @@ import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import adjustWindowPopup from '@/utils/adjustWindowPopup';
-
-import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
 
 import useDanjiFavoriteAdd from '@/components/domains/danji/hooks/useDanjiFavoriteAdd';
 
@@ -61,10 +57,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
   const device = useMemo(() => (platform === 'pc' ? 'MOBILE' : 'PC'), [platform]);
 
-  const { createSuggest } = useCreateSuggestForm();
-
-  const isNativeApp = useIsNativeApp();
-
   const handleClickKakaoLogin = useCallback(async () => {
     if (platform === 'pc') {
       const { width, height, left, top } = adjustWindowPopup({ w: 612 });
@@ -77,18 +69,9 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     }
 
     if (platform === 'mobile') {
-      if (isNativeApp) {
-        window.open(`${window.location.origin}/auth/kakao`, '_blank');
-      } else {
-        const type = (router?.query?.update as string) ?? '';
-
-        Kakao.Auth.authorize({
-          redirectUri: `${window.location.origin}/callback/kakaoLogin`,
-          state: type,
-        });
-      }
+      window.open(`${window.location.origin}/auth/kakao`, '_blank');
     }
-  }, [isNativeApp, platform, router?.query?.update]);
+  }, [platform]);
 
   const handleClickAppleLogin = useCallback(async () => {
     const res = await loginWithApple();
@@ -150,11 +133,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     if (user && authType === 'needVerify') {
       if (user.isVerified) {
         if (returnUrl) {
-          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-            createSuggest();
-            return;
-          }
-
           router.push(returnUrl);
         }
         return;
@@ -190,12 +168,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
             }
 
             if (depth1 && !depth2) {
-              if (depth1 === Routes.SuggestForm) {
-                router.push({
-                  pathname: `/${Routes.VerifyCi}`,
-                  query,
-                });
-              } else if (depth1 === Routes.MapListingList) {
+              if (depth1 === Routes.MapListingList) {
                 router.push({
                   pathname: `/${Routes.VerifyCi}`,
                   query,
@@ -237,7 +210,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         }
       }
     }
-  }, [authType, createSuggest, danjiFavoriteAdd, handleUpdateReturnUrl, platform, returnUrl, router, user]);
+  }, [authType, danjiFavoriteAdd, handleUpdateReturnUrl, platform, returnUrl, router, user]);
 
   useEffect(() => {
     if (!platform) return;
@@ -394,18 +367,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     return () => {
       window.removeEventListener(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, handleLoginResponse);
     };
-  }, [
-    router,
-    platform,
-    returnUrl,
-    user,
-    authType,
-    login,
-    closeAuthPopup,
-    openVerifyCiPopup,
-    handleUpdateReturnUrl,
-    createSuggest,
-  ]);
+  }, [router, platform, returnUrl, user, authType, login, closeAuthPopup, openVerifyCiPopup, handleUpdateReturnUrl]);
 
   return { handleClickKakaoLogin, handleClickAppleLogin };
 }

@@ -1,18 +1,20 @@
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-type SuggestAfterVerifyProps = {
+type AfterVerfiyProps = {
   handleCancel: () => void;
   handleConfirm: () => void;
 };
 
-export default function SuggestAfterVerify({ handleCancel, handleConfirm }: SuggestAfterVerifyProps) {
+export default function AfterVerfiy({ handleCancel, handleConfirm }: AfterVerfiyProps) {
   return (
     <OverlayPresenter>
       <Popup>
         <Popup.ContentGroup tw="gap-2">
-          <Popup.Title>내용이 저장되지 않았습니다.</Popup.Title>
+          <Popup.Title>본인 인증이 필요해요!</Popup.Title>
           <Popup.Body>
-            지금 홈으로 이동하시면 작성하신 집구해요 내용은 저장이 되지 않습니다. 홈으로 이동하시겠어요?
+            방금 이용하시려는 서비스는 본인 인증이 필요합니다.
+            <br />
+            본인 인증 없이 홈으로 이동하시겠어요?
           </Popup.Body>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>

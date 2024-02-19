@@ -74,15 +74,20 @@ export default function Register() {
 
   const {
     isRenderVerifyField,
-    time,
-    remainCount,
+    isRenderTimer,
+
     verifyStatus,
+
     code,
     codeErrMsg,
     handleChangeCode,
     handleResetCode,
+
     handleSendVerifcationCode,
     handleReSendVerifcationCode,
+
+    time,
+    remainCount,
   } = useFieldVerificationPhone({ phone, updatePopupFunc: handleChangePopup, updateStepFunc: updateStep });
 
   const { isRenderCta, ctaTitle, disabledRegister, isLoadingRegister, handleRegisterCtas } = useRegisterHandlers({
@@ -103,14 +108,15 @@ export default function Register() {
         <RegisterForm.Title step={step} />
         {step === REGISTER_STEP.TERMS ? <VerticalSpacing tw="[min-height: 40px]" /> : <VerticalSpacing />}
         <RegisterFieldContainer id="formContainer">
-          {forms?.includes(FIELD_ID.NAME) && (
+          {forms?.includes(FIELD_ID.NAME) && !forms?.includes(FIELD_ID.TERMS) && (
             <RegisterForm.Name value={name} onChange={handleChangeName} handleClickReset={handleResetName} />
           )}
-          {forms?.includes(FIELD_ID.PHONE) && (
+          {forms?.includes(FIELD_ID.PHONE) && !forms?.includes(FIELD_ID.TERMS) && (
             <RegisterPhoneFieldContainer id={FIELD_ID.PHONE}>
               <RegisterForm.Phone value={phone} onChange={handleChangePhone} handleClickReset={handleResetPhone} />
               <RegisterForm.PhoneVerification
                 isRender={isRenderVerifyField}
+                isRenderTimer={isRenderTimer}
                 time={time}
                 value={code}
                 errorMessage={codeErrMsg}
