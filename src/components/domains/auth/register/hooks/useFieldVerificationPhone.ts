@@ -32,6 +32,11 @@ export default function useFieldVerificationPhone({
 
   const isRenderVerifyField = useMemo(() => verifyStatus > PHONE_VERIFY_STATUS.DEFAULT, [verifyStatus]);
 
+  const isRenderTimer = useMemo(
+    () => verifyStatus === PHONE_VERIFY_STATUS.ING || verifyStatus === PHONE_VERIFY_STATUS.FAIL,
+    [verifyStatus],
+  );
+
   const handleChangeCode = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
     const value = e.target.value;
 
@@ -127,7 +132,7 @@ export default function useFieldVerificationPhone({
         handleUpdateVerifyStatus(PHONE_VERIFY_STATUS.SUCCESS);
       }
     },
-    [handleChangeCode, handleUpdateCodeErrMsg, handleUpdateVerifyStatus, phone, updateStepFunc],
+    [phone, handleChangeCode, handleUpdateCodeErrMsg, handleUpdateVerifyStatus, updateStepFunc],
   );
 
   useEffect(() => {
@@ -151,16 +156,14 @@ export default function useFieldVerificationPhone({
 
   return {
     isRenderVerifyField,
+    isRenderTimer,
 
     verifyStatus,
-    handleUpdateVerifyStatus,
 
     code,
     codeErrMsg,
     handleChangeCode: handleChangeCodeAndVerifyPhone,
     handleResetCode,
-
-    handleUpdateCodeErrMsg,
 
     handleSendVerifcationCode,
     handleReSendVerifcationCode,

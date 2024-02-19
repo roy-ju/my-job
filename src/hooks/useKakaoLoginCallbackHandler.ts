@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 
+import { toast } from 'react-toastify';
+
 import { apiService } from '@/services';
 
 import { isMobile } from '@/utils/is';
@@ -11,7 +13,7 @@ import { SocialLoginType } from '@/constants/enums';
 import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
 
 export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress: any }) {
-  const handleLoginPcOrNativeApp = useCallback(
+  const handleLogin = useCallback(
     async (code: string) => {
       const kakaoAccessTokenResponse = await getKakaoAccessToken({
         code,
@@ -19,6 +21,7 @@ export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress:
       });
 
       if (!kakaoAccessTokenResponse) {
+        toast.error('카카오 서버 쪽 문제가 발생했습니다. 다시 시도해 주세요.');
         window.close();
         return false;
       }
@@ -44,7 +47,7 @@ export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress:
     [ipAddress],
   );
 
-  const handleEmailUpdatePcOrNativeApp = useCallback(async (code: string) => {
+  const handleEmailUpdate = useCallback(async (code: string) => {
     const kakaoAccessTokenResponse = await getKakaoAccessToken({
       code,
       redirectUri: `${window.location.origin}${window.location.pathname}`,
@@ -62,9 +65,5 @@ export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress:
     return true;
   }, []);
 
-  const handleLoginMobileWeb = useCallback(() => {}, []);
-
-  const handleEmailUpdateMobileWeb = useCallback(() => {}, []);
-
-  return { handleLoginPcOrNativeApp, handleEmailUpdatePcOrNativeApp, handleLoginMobileWeb, handleEmailUpdateMobileWeb };
+  return { handleLogin, handleEmailUpdate };
 }

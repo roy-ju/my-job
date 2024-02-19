@@ -16,8 +16,6 @@ import ErrorCodes from '@/constants/error_codes';
 
 import Routes from '@/router/routes';
 
-import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
-
 import verifyCiPopupAtom from '../atom/verifyCiPopup';
 
 import useAuthPopup from './useAuhPopup';
@@ -40,8 +38,6 @@ export default function useVerifyCiPopup() {
   const { returnUrl } = useReturnUrl();
 
   const { request } = useNiceId();
-
-  const { createSuggest } = useCreateSuggestForm();
 
   const { updateVerifyCiStatus } = useVerifyCiStatus();
 
@@ -104,9 +100,7 @@ export default function useVerifyCiPopup() {
         mutateAuth(false);
 
         if (returnUrl) {
-          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-            await createSuggest();
-          } else if (returnUrl?.includes(Routes.MyRegisteredListingList)) {
+          if (returnUrl?.includes(Routes.MyRegisteredListingList)) {
             updateVerifyCiStatus('success');
 
             setTimeout(() => {
@@ -158,7 +152,7 @@ export default function useVerifyCiPopup() {
         closeVericyCiPopup();
       }
     },
-    [closeVericyCiPopup, createSuggest, mutateAuth, openAuthPopup, returnUrl, router, setState, updateVerifyCiStatus],
+    [closeVericyCiPopup, mutateAuth, openAuthPopup, returnUrl, router, setState, updateVerifyCiStatus],
   );
 
   const handleVerifyPhone = useCallback(async () => {

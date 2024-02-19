@@ -2,26 +2,30 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import useDanjiFavoriteAdd from '@/components/domains/danji/hooks/useDanjiFavoriteAdd';
-
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import Routes from '@/router/routes';
-
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import useVerifyCiPopup from '@/states/hooks/useVerifyCiPopup';
 
+import useDanjiFavoriteAdd from '@/components/domains/danji/hooks/useDanjiFavoriteAdd';
+
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
 import useRemoveSessionKey from '@/hooks/useRemoveSessionKey';
+
+import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
+
+import Routes from '@/router/routes';
 
 import Actions from '@/constants/actions';
 
-type Popups = 'notSuggestAfterVerify' | 'suggestAfterVerify' | '';
+type Popups = 'afterVerify' | '';
 
 export default function useRegisterSuccessCta() {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
+
+  const { createSuggest } = useCreateSuggestForm();
 
   const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
 
@@ -56,6 +60,11 @@ export default function useRegisterSuccessCta() {
 
   const handleOnlyLoginCta = useCallback(async () => {
     if (returnUrl) {
+      if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+        await createSuggest();
+        return;
+      }
+
       await danjiFavoriteAdd();
 
       await router.replace(returnUrl);
@@ -65,7 +74,7 @@ export default function useRegisterSuccessCta() {
     }
 
     handleGoHome();
-  }, [returnUrl, handleGoHome, router, danjiFavoriteAdd, handleUpdateReturnUrl]);
+  }, [returnUrl, handleGoHome, router, danjiFavoriteAdd, handleUpdateReturnUrl, createSuggest]);
 
   const handleLoginCta = useCallback(async () => {
     if (returnUrl) {
@@ -84,15 +93,11 @@ export default function useRegisterSuccessCta() {
 
   const handleAfterNeedVerifyCta = useCallback(() => {
     if (returnUrl) {
-      if (returnUrl.includes(Routes.SuggestForm) && router?.query?.params) {
-        openPopup('suggestAfterVerify');
-      } else {
-        openPopup('notSuggestAfterVerify');
-      }
+      openPopup('afterVerify');
       return;
     }
     handleGoHome();
-  }, [returnUrl, handleGoHome, router?.query?.params, openPopup]);
+  }, [returnUrl, handleGoHome, openPopup]);
 
   useEffect(() => () => removeSessionKey(Actions.Danji_Favorite.key), [removeSessionKey]);
 

@@ -33,11 +33,9 @@ export default function TermsPopup({ type, handleCancel }: TermsPopupProps) {
     <OverlayPresenter>
       <div ref={popupContainerRef}>
         <Popup type="large">
-          <Popup.ContentGroup tw="py-6 gap-2 [max-height: 600px] overflow-y-scroll rounded-lg">
+          <Popup.ContentGroup tw="py-6 gap-2 [max-height: 520px] overflow-y-scroll rounded-lg relative">
             {type === 'service' && <ServiceTerms termDate={selectedServiceTerms} html={selectedServiceHtmlTerms} />}
-
             {type === 'location' && <LocationTerms termDate={selectedLocationTerms} html={selectedLocationHtmlTerms} />}
-
             {type === 'privacy' && <PrivacyPolicy termDate={selectedPrivacyTerms} html={selectedPrivacyHtmlTerms} />}
           </Popup.ContentGroup>
         </Popup>

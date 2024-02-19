@@ -23,8 +23,9 @@ const Container = styled.div`
   ${tw`flex flex-col`}
 `;
 
-const StyledLabel = styled.span`
-  ${tw`text-gray-900`}
+const StyledLabel = styled.span<{ checked: boolean }>`
+  ${tw`text-gray-700`}
+  ${({ checked }) => checked && tw`text-gray-900`}
 `;
 
 const ArrowLabelContainer = styled.div`
@@ -100,7 +101,7 @@ export default function Terms({
         <Label
           size="large"
           control={<Checkbox name="over19" iconType="noOutline" />}
-          label={<StyledLabel>(필수) 만 19세 이상</StyledLabel>}
+          label={<StyledLabel checked={over19}>(필수) 만 19세 이상</StyledLabel>}
           checked={over19}
           onChange={handleChangeState}
         />
@@ -108,7 +109,7 @@ export default function Terms({
           <Label
             size="large"
             control={<Checkbox name="service" iconType="noOutline" />}
-            label={<StyledLabel>(필수) 서비스 이용약관 동의</StyledLabel>}
+            label={<StyledLabel checked={service}>(필수) 서비스 이용약관 동의</StyledLabel>}
             checked={service}
             onChange={handleChangeState}
           />
@@ -120,7 +121,7 @@ export default function Terms({
           <Label
             size="large"
             control={<Checkbox name="privacy" iconType="noOutline" />}
-            label={<StyledLabel>(필수) 개인정보 수집 및 이용 동의</StyledLabel>}
+            label={<StyledLabel checked={privacy}>(필수) 개인정보 수집 및 이용 동의</StyledLabel>}
             checked={privacy}
             onChange={handleChangeState}
           />
@@ -132,7 +133,7 @@ export default function Terms({
           <Label
             size="large"
             control={<Checkbox name="location" iconType="noOutline" />}
-            label={<StyledLabel>(필수) 위치기반 서비스 이용 동의</StyledLabel>}
+            label={<StyledLabel checked={location}>(필수) 위치기반 서비스 이용 동의</StyledLabel>}
             checked={location}
             onChange={handleChangeState}
           />
@@ -143,14 +144,14 @@ export default function Terms({
         <Label
           size="large"
           control={<Checkbox name="notification" iconType="noOutline" />}
-          label={<StyledLabel>(필수) 거래 알림 수신 동의</StyledLabel>}
+          label={<StyledLabel checked={notification}>(필수) 거래 알림 수신 동의</StyledLabel>}
           checked={notification}
           onChange={handleChangeState}
         />
         <Label
           size="large"
           control={<Checkbox name="marketing" iconType="noOutline" />}
-          label={<StyledLabel>(선택) 이벤트/마케팅 정보 수신 동의</StyledLabel>}
+          label={<StyledLabel checked={marketing}>(선택) 이벤트/마케팅 정보 수신 동의</StyledLabel>}
           checked={marketing}
           onChange={handleChangeState}
         />

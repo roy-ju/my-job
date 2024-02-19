@@ -44,7 +44,7 @@ function PopupMain({ children, type = 'normal' }: PopupProps) {
     return (
       <div
         tw="[max-width: 380px] rounded-lg px-5"
-        css={platform === 'pc' ? tw`[max-width: 380px]` : tw`[max-width: 380px] px-5`}
+        css={platform === 'pc' ? tw`[max-width: 380px]` : tw`[max-width: 340px]`}
       >
         {children}
       </div>

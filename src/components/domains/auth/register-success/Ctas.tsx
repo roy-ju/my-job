@@ -8,9 +8,7 @@ import { RegisterSuccessType } from './types';
 
 import useRegisterSuccessCta from './hooks/useRegisterSuccessCta';
 
-import SuggestAfterVerify from './popups/SuggestAfterVerify';
-
-import NotSuggestAfterVerify from './popups/NotSuggestAfterVerify';
+import AfterVerify from './popups/AfterVerify';
 
 type CtasProps = { type: RegisterSuccessType };
 
@@ -67,11 +65,7 @@ export default function Ctas({ type }: CtasProps) {
         )}
       </CtasContainer>
 
-      {popups === 'suggestAfterVerify' && <SuggestAfterVerify handleCancel={closePopup} handleConfirm={handleGoHome} />}
-
-      {popups === 'notSuggestAfterVerify' && (
-        <NotSuggestAfterVerify handleCancel={closePopup} handleConfirm={handleGoHome} />
-      )}
+      {popups === 'afterVerify' && <AfterVerify handleCancel={closePopup} handleConfirm={handleGoHome} />}
     </>
   );
 }

@@ -52,6 +52,8 @@ export default function useStep() {
 
     if (!currentForm) return;
 
+    if (currentForm === FIELD_ID.TERMS) return;
+
     const formContainer = document.getElementById('formContainer');
 
     const formElement = document.getElementById(currentForm);
