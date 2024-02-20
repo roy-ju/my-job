@@ -102,6 +102,8 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   }, [device, ipAddress]);
 
   useEffect(() => {
+    if (!platform) return;
+
     const handleOnlyLoginOrLogin = async () => {
       if (returnUrl) {
         if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
@@ -124,8 +126,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         router.push(`/${Routes.EntryMobile}`);
       }
     };
-
-    if (!platform) return;
 
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
       handleOnlyLoginOrLogin();

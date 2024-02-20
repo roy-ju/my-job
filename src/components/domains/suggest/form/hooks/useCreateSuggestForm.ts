@@ -18,6 +18,7 @@ import Actions from '@/constants/actions';
 
 import Routes from '@/router/routes';
 
+import useReturnUrl from '@/states/hooks/useReturnUrl';
 import isEqualValue from '../../utils/isEqualValue';
 
 import createSubmitParams from '../../utils/createSubmitParams';
@@ -30,6 +31,8 @@ export default function useCreateSuggestForm() {
   const { platform } = useCheckPlatform();
 
   const router = useRouter();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const createSuggest = useCallback(async () => {
     if (!router?.query?.params) return;
@@ -83,6 +86,8 @@ export default function useCreateSuggestForm() {
         }
       } catch (error) {
         toast.error('등록 중 오류가 발생했습니다.');
+      } finally {
+        handleUpdateReturnUrl('');
       }
     }
 
@@ -114,9 +119,11 @@ export default function useCreateSuggestForm() {
         }
       } catch (error) {
         toast.error('등록 중 오류가 발생했습니다.');
+      } finally {
+        handleUpdateReturnUrl('');
       }
     }
-  }, [dashBoardInfoMutate, platform, router]);
+  }, [dashBoardInfoMutate, handleUpdateReturnUrl, platform, router]);
 
   return { createSuggest };
 }

@@ -8,7 +8,7 @@ import useWaitingFormRouteHandler from './create-form/hooks/useWaitingFormHandle
 
 import AlreadyCreated from './create-form/popups/AlreadyCreated';
 
-const VerifyCiContainer = styled.div`
+const WaitingCreateFormContainer = styled.div`
   ${tw`relative flex flex-col h-full gap-20`}
 `;
 
@@ -17,10 +17,10 @@ export default function WaitingCreateForm() {
 
   return (
     <>
-      <VerifyCiContainer>
+      <WaitingCreateFormContainer>
         <Message />
         <ImageContents />
-      </VerifyCiContainer>
+      </WaitingCreateFormContainer>
       {openPopup && <AlreadyCreated handleClick={handleReplaceRouter} />}
     </>
   );
