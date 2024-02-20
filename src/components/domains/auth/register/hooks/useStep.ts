@@ -26,6 +26,12 @@ export default function useStep() {
       return;
     }
 
+    if (router?.query?.name && !router?.query?.phone) {
+      setStep(REGISTER_STEP.PHONE);
+
+      return;
+    }
+
     setStep(REGISTER_STEP.NAME);
   }, [router]);
 
