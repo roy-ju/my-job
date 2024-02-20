@@ -224,7 +224,8 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         }
       }
     }
-  }, [authType, createSuggest, danjiFavoriteAdd, handleUpdateReturnUrl, platform, returnUrl, router, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authType, createSuggest, danjiFavoriteAdd, handleUpdateReturnUrl, platform, router, user]);
 
   useEffect(() => {
     if (!platform) return;
