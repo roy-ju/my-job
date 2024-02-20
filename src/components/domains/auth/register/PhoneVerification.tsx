@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useCallback, useState, MouseEvent, useMemo, useEffect } from 'react';
+import { ChangeEventHandler, useCallback, useState, MouseEvent, useMemo } from 'react';
 
 import { TextFieldV2 } from '@/components/molecules';
 
@@ -69,15 +69,6 @@ export default function PhoneVerification({
     return false;
   }, [value, focus]);
 
-  useEffect(() => {
-    if (isRender) {
-      const ref = document.getElementById('register-phone-verification-input');
-      if (ref) {
-        ref.focus();
-      }
-    }
-  }, [isRender]);
-
   if (!isRender) return null;
 
   return (
@@ -89,6 +80,7 @@ export default function PhoneVerification({
           label="인증번호"
           value={value}
           onChange={onChange}
+          autoFocus
           maxLength={13}
         />
         <ResetButton render={renderResetIcon} handleMouseDown={handleResetCode} prChange={!!errorMessage} />
