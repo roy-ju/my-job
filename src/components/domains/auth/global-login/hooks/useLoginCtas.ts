@@ -102,48 +102,33 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   }, [device, ipAddress]);
 
   useEffect(() => {
-    if (user && (authType === 'onlyLogin' || authType === 'login')) {
+    const handleOnlyLoginOrLogin = async () => {
+      if (returnUrl) {
+        if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
+          await createSuggest();
+          return;
+        }
+
+        await danjiFavoriteAdd();
+
+        if (returnUrl !== router.asPath) {
+          router.push(returnUrl);
+        }
+
+        return;
+      }
+
       if (platform === 'pc') {
-        if (returnUrl) {
-          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-            createSuggest();
-
-            return;
-          }
-
-          danjiFavoriteAdd();
-
-          if (returnUrl !== router.asPath) {
-            router.push(returnUrl);
-          }
-
-          return;
-        }
-
         router.push(`/`);
-        return;
-      }
-
-      if (platform === 'mobile') {
-        if (returnUrl) {
-          if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-            createSuggest();
-
-            return;
-          }
-
-          danjiFavoriteAdd();
-
-          if (returnUrl !== router.asPath) {
-            router.push(returnUrl);
-          }
-
-          return;
-        }
-
+      } else {
         router.push(`/${Routes.EntryMobile}`);
-        return;
       }
+    };
+
+    if (!platform) return;
+
+    if (user && (authType === 'onlyLogin' || authType === 'login')) {
+      handleOnlyLoginOrLogin();
     }
 
     if (user && authType === 'needVerify') {
