@@ -30,7 +30,7 @@ export default function SuggestRequestedList({
     <div tw="h-full flex flex-col">
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title>구하기 게시 내역</NavigationHeader.Title>
+        <NavigationHeader.Title>나의 구해요 목록</NavigationHeader.Title>
       </NavigationHeader>
       <div tw="flex flex-col flex-1 min-h-0">
         {list?.length !== 0 ? (

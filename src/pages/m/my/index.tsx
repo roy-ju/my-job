@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import My from '@/components/pages/mobile/My';
+import MyMobile from '@/components/pages/My/MyMobile';
 
-const Page: NextPageWithLayout = () => <My />;
+const Page: NextPageWithLayout = () => <MyMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

@@ -44,8 +44,8 @@ const RegisterContainer = styled.div`
   ${tw`relative flex flex-col h-full`}
 `;
 
-const RegisterFieldContainer = styled.div`
-  ${tw`flex flex-col flex-1 h-full min-h-0 gap-4 px-5 overflow-y-auto`}
+const RegisterFieldsContainer = styled.div`
+  ${tw`flex flex-col flex-1 w-full h-full min-h-0 gap-4 px-5 overflow-y-auto`}
 `;
 
 const RegisterPhoneFieldContainer = styled.div`
@@ -107,10 +107,11 @@ export default function Register() {
         <VerticalSpacing />
         <RegisterForm.Title step={step} />
         {step === REGISTER_STEP.TERMS ? <VerticalSpacing tw="[min-height: 40px]" /> : <VerticalSpacing />}
-        <RegisterFieldContainer id="formContainer">
+        <RegisterFieldsContainer id="formContainer">
           {forms?.includes(FIELD_ID.NAME) && !forms?.includes(FIELD_ID.TERMS) && (
             <RegisterForm.Name value={name} onChange={handleChangeName} handleClickReset={handleResetName} />
           )}
+
           {forms?.includes(FIELD_ID.PHONE) && !forms?.includes(FIELD_ID.TERMS) && (
             <RegisterPhoneFieldContainer id={FIELD_ID.PHONE}>
               <RegisterForm.Phone value={phone} onChange={handleChangePhone} handleClickReset={handleResetPhone} />
@@ -126,7 +127,9 @@ export default function Register() {
               />
             </RegisterPhoneFieldContainer>
           )}
+
           {!isRenderCta && <VerticalSpacing tw="[min-height: 80px]" />}
+
           {forms?.includes(FIELD_ID.TERMS) && (
             <RegisterForm.Terms
               state={terms}
@@ -142,7 +145,7 @@ export default function Register() {
               }}
             />
           )}
-        </RegisterFieldContainer>
+        </RegisterFieldsContainer>
         <Cta
           isRenderCta={isRenderCta}
           title={ctaTitle}

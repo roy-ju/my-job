@@ -27,8 +27,11 @@ const MapListingList = dynamic(() => import('@/components/pages/pc/MapListingLis
   ssr: false,
   loading: FallbackComponent,
 });
-const My = dynamic(() => import('@/components/pages/pc/My'), { ssr: false, loading: FallbackComponent });
+
+const My = dynamic(() => import('@/components/pages/My/MyPc'), { ssr: false, loading: FallbackComponent });
+
 const MyAddress = dynamic(() => import('@/components/pages/pc/MyAddress'), { ssr: false, loading: FallbackComponent });
+
 const MyAddressDetail = dynamic(() => import('@/components/pages/pc/MyAddressDetail'), {
   ssr: false,
   loading: FallbackComponent,
