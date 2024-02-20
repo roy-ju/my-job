@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useCallback, useState, MouseEvent, useMemo } from 'react';
+import { ChangeEventHandler, useCallback, useState, MouseEvent, useMemo, useEffect } from 'react';
 
 import { TextFieldV2 } from '@/components/molecules';
 
@@ -35,10 +35,24 @@ export default function Phone({ value, onChange, handleClickReset }: PhoneProps)
     return false;
   }, [value, focus]);
 
+  useEffect(() => {
+    const ref = document.getElementById('register-phone-input');
+    if (ref) {
+      ref.focus();
+    }
+  }, []);
+
   return (
     <div>
       <TextFieldV2 variant="outlined" onFocus={handleFocus} onBlur={handleBlur}>
-        <TextFieldV2.Input mode="numeric" label="전화번호" value={value} onChange={onChange} maxLength={13} />
+        <TextFieldV2.Input
+          id="register-phone-input"
+          mode="numeric"
+          label="전화번호"
+          value={value}
+          onChange={onChange}
+          maxLength={13}
+        />
         <ResetButton render={renderResetIcon} handleMouseDown={handleResetPhoneNumber} />
       </TextFieldV2>
     </div>
