@@ -6,8 +6,6 @@ import { mutate as otherMutate } from 'swr';
 
 import { toast } from 'react-toastify';
 
-import useReturnUrl from '@/states/hooks/useReturnUrl';
-
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import { apiService } from '@/services';
@@ -32,8 +30,6 @@ export default function useCreateSuggestForm() {
   const { platform } = useCheckPlatform();
 
   const router = useRouter();
-
-  const { handleUpdateReturnUrl } = useReturnUrl();
 
   const createSuggest = useCallback(async () => {
     if (!router?.query?.params) return;
@@ -87,8 +83,6 @@ export default function useCreateSuggestForm() {
         }
       } catch (error) {
         toast.error('등록 중 오류가 발생했습니다.');
-      } finally {
-        handleUpdateReturnUrl('');
       }
     }
 
@@ -120,11 +114,9 @@ export default function useCreateSuggestForm() {
         }
       } catch (error) {
         toast.error('등록 중 오류가 발생했습니다.');
-      } finally {
-        handleUpdateReturnUrl('');
       }
     }
-  }, [dashBoardInfoMutate, handleUpdateReturnUrl, platform, router]);
+  }, [dashBoardInfoMutate, platform, router]);
 
   return { createSuggest };
 }

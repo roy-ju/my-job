@@ -107,6 +107,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         if (returnUrl) {
           if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
             createSuggest();
+
             return;
           }
 
@@ -127,6 +128,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         if (returnUrl) {
           if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
             createSuggest();
+
             return;
           }
 
@@ -215,17 +217,14 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
         if (platform === 'pc') {
           router.push('/');
-          handleUpdateReturnUrl('');
         }
 
         if (platform === 'mobile') {
           router.push('/');
-          handleUpdateReturnUrl('');
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authType, createSuggest, danjiFavoriteAdd, handleUpdateReturnUrl, platform, router, user]);
+  }, [authType, returnUrl, createSuggest, danjiFavoriteAdd, closeAuthPopup, platform, router, user]);
 
   useEffect(() => {
     if (!platform) return;
