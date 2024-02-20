@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useCallback, useState, MouseEvent, useMemo } from 'react';
+import { ChangeEventHandler, useCallback, useState, MouseEvent, useMemo, useEffect } from 'react';
 
 import { TextFieldV2 } from '@/components/molecules';
 
@@ -69,12 +69,28 @@ export default function PhoneVerification({
     return false;
   }, [value, focus]);
 
+  useEffect(() => {
+    if (isRender) {
+      const ref = document.getElementById('register-phone-verification-input');
+      if (ref) {
+        ref.focus();
+      }
+    }
+  }, [isRender]);
+
   if (!isRender) return null;
 
   return (
     <div>
       <TextFieldV2 variant="outlined" hasError={Boolean(errorMessage)} onFocus={handleFocus} onBlur={handleBlur}>
-        <TextFieldV2.Input mode="numeric" label="인증번호" value={value} onChange={onChange} maxLength={13} />
+        <TextFieldV2.Input
+          id="register-phone-verification-input"
+          mode="numeric"
+          label="인증번호"
+          value={value}
+          onChange={onChange}
+          maxLength={13}
+        />
         <ResetButton render={renderResetIcon} handleMouseDown={handleResetCode} prChange={!!errorMessage} />
         {isRenderTimer && (
           <TextFieldV2.Trailing tw="pr-4">
