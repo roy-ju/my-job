@@ -44,7 +44,6 @@ export default function Phone({ value, onChange, handleClickReset }: PhoneProps)
           label="전화번호"
           value={value}
           onChange={onChange}
-          autoFocus
           maxLength={13}
         />
         <ResetButton render={renderResetIcon} handleMouseDown={handleResetPhoneNumber} />

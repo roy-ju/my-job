@@ -1,4 +1,7 @@
+import tw, { styled } from 'twin.macro';
+
 import { Button } from '@/components/atoms';
+
 import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
 
 interface ListItemProps {
@@ -6,7 +9,7 @@ interface ListItemProps {
   onClick?: () => void;
 }
 
-export default function ListItem({ title, onClick }: ListItemProps) {
+function ListItem({ title, onClick }: ListItemProps) {
   return (
     <Button
       variant="ghost"
@@ -21,3 +24,12 @@ export default function ListItem({ title, onClick }: ListItemProps) {
     </Button>
   );
 }
+
+const List = styled.div`
+  ${tw`bg-white`}
+  & > button:not(:first-of-type) {
+    ${tw`border-t border-t-gray-300`}
+  }
+`;
+
+export default Object.assign(List, { Item: ListItem });

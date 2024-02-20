@@ -1,5 +1,6 @@
-import NeedIcon from '@/assets/icons/need.svg';
 import { Button } from '@/components/atoms';
+
+import NeedIcon from '@/assets/icons/need.svg';
 
 export default function NeedHomeVerify({ onClickCTA }: { onClickCTA?: () => void }) {
   return (

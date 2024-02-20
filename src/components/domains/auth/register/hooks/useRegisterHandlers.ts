@@ -96,7 +96,7 @@ export default function useRegisterHandlers({
     const loginResponse = await apiService.login({
       email: router?.query?.email ? (router.query.email as string) : '',
       marketing: terms.marketing,
-      name: name || '이름등록이 필요합니다.',
+      name: name || 'anonymous',
       phone: phone.replaceAll('-', ''),
       signUpSource: convertSignupPass('sns'),
       socialLoginType: Number(router.query.socialLoginType),

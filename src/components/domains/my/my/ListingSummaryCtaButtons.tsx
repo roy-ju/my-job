@@ -1,6 +1,9 @@
 import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
+
 import OfferIcon from '@/assets/icons/my_offer_24.svg';
+
 import SaveIcon from '@/assets/icons/my_save_24.svg';
+
 import SearchIcon from '@/assets/icons/my_search_24.svg';
 
 interface CTAButton {
@@ -16,7 +19,7 @@ interface GuideType {
   [key: string]: { title: string; info: string; onClickHanlder?: () => void; icon: 'save' | 'offer' | 'search' };
 }
 
-export default function CTAButtons({
+export default function ListingSummaryCtaButtons({
   type,
   count,
   onClickRequestedSuggestsCTA,
@@ -26,7 +29,7 @@ export default function CTAButtons({
 }: CTAButton) {
   const CTAGuide: GuideType = {
     requestedSuggests: {
-      title: '구하기 게시 내역',
+      title: '나의 구해요 목록',
       info: '구하기 게시하고, 매물을 추천받아요.',
       onClickHanlder: onClickRequestedSuggestsCTA,
       icon: 'search',

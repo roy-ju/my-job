@@ -1,13 +1,23 @@
-import React from 'react';
 import { NavigationHeader } from '@/components/molecules';
+
 import BellIcon from '@/assets/icons/bell.svg';
-import { LoginRequired, MyListingsSummaryV3, MyPageNavigationList, MySummary } from '@/components/organisms';
+
 import { Loading, Separator } from '@/components/atoms';
+
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
-interface Props {
+import UserSummary from './my/UserSummary';
+
+import LoginRequired from './my/LoginRequired';
+
+import NavigationList from './my/NavigationList';
+
+import ListingSummary from './my/ListingSummary';
+
+interface MyProps {
   isLoading?: boolean;
   loggedIn?: boolean;
+  name?: string;
   nickname?: string;
   profileImageUrl?: string;
   unreadNotificationCount?: number;
@@ -38,6 +48,7 @@ interface Props {
 export default function My({
   isLoading,
   loggedIn,
+  name,
   nickname,
   profileImageUrl,
   unreadNotificationCount = 0,
@@ -63,11 +74,12 @@ export default function My({
   onClickDeveloper,
   onClickTab,
   onClickMyRegisteredHomes,
-}: Props) {
+}: MyProps) {
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
         <NavigationHeader.Title tw="text-b1 leading-none">마이페이지</NavigationHeader.Title>
+
         {loggedIn && (
           <NavigationHeader.Button tw="ml-auto" onClick={onClickNotificationList}>
             <div tw="relative">
@@ -81,24 +93,28 @@ export default function My({
           </NavigationHeader.Button>
         )}
       </NavigationHeader>
+
       <div tw="flex-1 min-h-0 overflow-auto pb-10">
-        {isLoading && (
+        {isLoading ? (
           <div tw="h-40 flex items-center justify-center">
             <Loading />
           </div>
-        )}
-
-        {!isLoading && loggedIn && (
+        ) : !loggedIn ? (
+          <div tw="mt-5 mb-14">
+            <LoginRequired onClickLogin={onClickLogin} />
+          </div>
+        ) : (
           <>
-            <MySummary
+            <UserSummary
               profileImagePath={profileImageUrl}
+              name={name}
               nickname={nickname}
               onClickMyDetail={onClickMyDetail}
               onClickCoupons={onClickCoupons}
               onClickNegoPoint={onClickNegoPoint}
             />
 
-            <MyListingsSummaryV3
+            <ListingSummary
               dashboardInfo={dashboardInfo}
               onClickMyAddress={onClickMyAddress}
               onClickMyRegisteredListings={onClickMyRegisteredListings}
@@ -114,24 +130,19 @@ export default function My({
           </>
         )}
 
-        {!isLoading && !loggedIn && (
-          <div tw="mt-5 mb-14">
-            <LoginRequired onClickLogin={onClickLogin} />
-          </div>
-        )}
-        <Separator tw="bg-gray-300" />
+        <Separator tw="bg-gray-300 h-2" />
 
-        {loggedIn && <MyPageNavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
+        {loggedIn && <NavigationList.Item title="관심실거래가 현황" onClick={onClickMyRealPriceList} />}
 
-        {loggedIn && <Separator tw="bg-gray-300" />}
+        {loggedIn && <Separator tw="bg-gray-300 h-2" />}
 
-        <MyPageNavigationList>
-          <MyPageNavigationList.Item title="공지사항" onClick={onClickNoticeList} />
-          <MyPageNavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
-          {loggedIn && <MyPageNavigationList.Item title="서비스 문의" onClick={onClickQna} />}
-          <MyPageNavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
-          {onClickDeveloper && <MyPageNavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
-        </MyPageNavigationList>
+        <NavigationList>
+          <NavigationList.Item title="공지사항" onClick={onClickNoticeList} />
+          <NavigationList.Item title="자주 묻는 질문" onClick={onClickFAQ} />
+          {loggedIn && <NavigationList.Item title="서비스 문의" onClick={onClickQna} />}
+          <NavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
+          {onClickDeveloper && <NavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
+        </NavigationList>
       </div>
     </div>
   );

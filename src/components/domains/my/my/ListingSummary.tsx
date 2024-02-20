@@ -1,12 +1,20 @@
-import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
-import NewTabs from '@/components/molecules/Tabs/NewTabs';
-import { countFormat } from '@/utils/fotmat';
 import { useCallback, useMemo } from 'react';
-import ErrorIcon from '@/assets/icons/error_12.svg';
-import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
-import { CTAButtons, NeedHomeVerify } from './components';
 
-export interface MyListingsSummaryV3Props {
+import NewTabs from '@/components/molecules/Tabs/NewTabs';
+
+import { countFormat } from '@/utils/fotmat';
+
+import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
+
+import ErrorIcon from '@/assets/icons/error_12.svg';
+
+import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
+
+import ListingSummaryCtaButtons from './ListingSummaryCtaButtons';
+
+import NeedHomeVerify from './NeedHomeVerify';
+
+export interface ListingSummaryProps {
   dashboardInfo?: GetDashboardInfoResponse | null;
   tab?: number;
   hasAddress?: boolean;
@@ -20,7 +28,7 @@ export interface MyListingsSummaryV3Props {
   onClickMyRegisteredHomes?: () => void;
 }
 
-export default function MyListingsSummaryV3({
+export default function ListingSummary({
   dashboardInfo,
   tab,
   hasAddress,
@@ -32,7 +40,7 @@ export default function MyListingsSummaryV3({
   onClickSuggestRecommendedList,
   onClickTab,
   onClickMyRegisteredHomes,
-}: MyListingsSummaryV3Props) {
+}: ListingSummaryProps) {
   const myParticipatingItems = useMemo(
     () => [
       {
@@ -199,7 +207,7 @@ export default function MyListingsSummaryV3({
 
       <div tw="pt-6 pb-10 px-5 w-full flex flex-col gap-3">
         {tab === 1 && (
-          <CTAButtons
+          <ListingSummaryCtaButtons
             type="requestedSuggests"
             onClickRequestedSuggestsCTA={onClickRequestedSuggests}
             count={countFormat({ value: dashboardInfo?.suggest_sent_count })}
@@ -207,7 +215,7 @@ export default function MyListingsSummaryV3({
         )}
 
         {tab === 1 && (
-          <CTAButtons
+          <ListingSummaryCtaButtons
             type="myParticipatingListings"
             onClickMyParticipatingListingsCTA={onClickMyParticipatingListingsCTA}
             count={totalCountParticipatingTrading}
@@ -232,7 +240,7 @@ export default function MyListingsSummaryV3({
             hasNotVerifiedAddress ||
             totalCountMyRegisteredListings > 0 ||
             countFormat({ value: dashboardInfo?.suggest_recommended_count }) > 0) && (
-            <CTAButtons
+            <ListingSummaryCtaButtons
               type="myRegisterdListings"
               onClickMyRegisterdListingsCTA={onClickMyRegisterdListingsCTA}
               count={totalCountMyRegisteredListings}
@@ -244,7 +252,7 @@ export default function MyListingsSummaryV3({
             hasNotVerifiedAddress ||
             totalCountMyRegisteredListings > 0 ||
             countFormat({ value: dashboardInfo?.suggest_recommended_count }) > 0) && (
-            <CTAButtons
+            <ListingSummaryCtaButtons
               type="suggestRecommendedList"
               onClickSuggestRecommendedListCTA={onClickSuggestRecommendedList}
               count={countFormat({ value: dashboardInfo?.suggest_recommended_count })}

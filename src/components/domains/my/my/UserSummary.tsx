@@ -1,9 +1,12 @@
-import { Avatar, Button } from '@/components/atoms';
 import { StaticImageData } from 'next/image';
+
+import { Avatar, Button } from '@/components/atoms';
+
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 
-interface MySummaryProps {
+interface UserSummaryProps {
   profileImagePath?: string | StaticImageData;
+  name?: string;
   nickname?: string;
   profileImgaeUrl?: string;
   point?: number;
@@ -13,15 +16,18 @@ interface MySummaryProps {
   onClickCoupons?: () => void;
 }
 
-export default function MySummary({ nickname, profileImagePath, onClickMyDetail }: MySummaryProps) {
+export default function UserSummary({ name, nickname, profileImagePath, onClickMyDetail }: UserSummaryProps) {
   return (
     <div tw="flex items-center px-5 pt-7 pb-10">
       <div tw="w-full flex items-center text-start">
         <Avatar size={48} src={profileImagePath || defaultAvatar} alt={`${nickname} 프로필 사진`} />
-        <div tw="text-b1 font-bold ml-3 mr-1">{nickname ? `${nickname}님` : '김네고'}</div>
+        <div tw="ml-3 mr-1 flex flex-col">
+          <div tw="text-subhead_03">{name || 'anonymous'}님</div>
+          <div tw="text-body_01 text-gray-700">{nickname || '-'}</div>
+        </div>
       </div>
       <Button onClick={onClickMyDetail} size="small" variant="outlined" tw="whitespace-nowrap">
-        프로필 편집
+        회원정보
       </Button>
     </div>
   );
