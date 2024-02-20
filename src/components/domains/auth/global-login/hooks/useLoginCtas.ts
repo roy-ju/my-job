@@ -108,7 +108,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
       if (returnUrl) {
         if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
           await createSuggest();
-          return;
         }
 
         await danjiFavoriteAdd();
@@ -116,30 +115,29 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         if (returnUrl !== router.asPath) {
           router.push(returnUrl);
         }
-
-        return;
-      }
-
-      if (platform === 'pc') {
-        router.push(`/`);
-      } else {
-        router.push(`/${Routes.EntryMobile}`);
       }
     };
 
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
       handleOnlyLoginOrLogin();
     }
+  }, [authType, createSuggest, danjiFavoriteAdd, platform, returnUrl, router, user]);
+
+  useEffect(() => {
+    if (!platform) return;
 
     if (user && authType === 'needVerify') {
-      if (user.isVerified) {
+      const { isVerified } = user;
+
+      if (isVerified) {
         if (returnUrl) {
           router.push(returnUrl);
         }
+
         return;
       }
 
-      if (!user.isVerified) {
+      if (!isVerified) {
         if (returnUrl) {
           if (platform === 'pc') {
             const depth1 = router?.query?.depth1;
@@ -209,8 +207,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authType, createSuggest, danjiFavoriteAdd, closeAuthPopup, platform, router, user]);
+  }, [authType, platform, returnUrl, router, user]);
 
   useEffect(() => {
     if (!platform) return;

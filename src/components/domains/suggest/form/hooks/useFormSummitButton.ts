@@ -349,36 +349,6 @@ export default function useFormSummitButton() {
       return;
     }
 
-    // if (user && !user?.isVerified) {
-    //   if (platform === 'pc') {
-    //     const depth1 = router?.query?.depth1;
-    //     const depth2 = router?.query?.depth2;
-
-    //     const query = router.query;
-
-    //     delete query.depth1;
-    //     delete query.depth2;
-
-    //     if (depth1 && !depth2) {
-    //       router.push({
-    //         pathname: `/${Routes.VerifyCi}`,
-    //         query,
-    //       });
-    //     } else if (depth1 && depth2) {
-    //       router.push({
-    //         pathname: `/${depth1}/${Routes.VerifyCi}`,
-    //         query,
-    //       });
-    //     }
-    //     handleUpdateReturnUrl();
-    //   } else {
-    //     router.push({ pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`, query: router.query });
-    //     handleUpdateReturnUrl();
-    //   }
-
-    //   return;
-    // }
-
     createSuggest();
   }, [state.danjiOrRegion, user, createSuggest, openAuthPopup, handleUpdateReturnUrl]);
 
