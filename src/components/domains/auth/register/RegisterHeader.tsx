@@ -11,7 +11,7 @@ type RegisterHeaderProps = {
 export default function RegisterHeader({ onClickClose }: RegisterHeaderProps) {
   return (
     <NavigationHeader>
-      <button type="button" tw="ml-auto" onClick={onClickClose}>
+      <button type="button" tw="" onClick={onClickClose}>
         <CloseIcon />
       </button>
     </NavigationHeader>

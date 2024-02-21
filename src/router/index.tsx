@@ -48,7 +48,7 @@ const MyAddressAgreement = dynamic(() => import('@/components/pages/pc/MyAddress
   ssr: false,
   loading: FallbackComponent,
 });
-// const MyDetail = dynamic(() => import('@/components/pages/pc/MyDetail'), { ssr: false, loading: FallbackComponent });
+
 const MyDetail = dynamic(() => import('@/components/pages/MyDetail/MyDetailPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -103,11 +103,6 @@ const NoticeDetail = dynamic(() => import('@/components/pages/pc/NoticeDetail'),
   loading: FallbackComponent,
 });
 
-// const Qna = dynamic(() => import('@/components/pages/pc/Qna'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-
 const Qna = dynamic(() => import('@/components/pages/Qna/QnaPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -117,11 +112,6 @@ const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
-// const Reactivate = dynamic(() => import('@/components/pages/pc/Reactivate'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
 
 const Reactivate = dynamic(() => import('@/components/pages/ReActivate/ReActivatePc'), {
   ssr: false,
@@ -182,16 +172,6 @@ const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr
 
 const NotFound = dynamic(() => import('@/components/pages/NotFound'), { ssr: false, loading: FallbackComponent });
 
-// const Deregister = dynamic(() => import('@/components/pages/pc/Deregister'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-
-// const DeregisterDisclaimer = dynamic(() => import('@/components/pages/pc/DeregisterDisclaimer'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-
 const Deregister = dynamic(() => import('@/components/pages/Deregister/DeregisterPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -210,10 +190,6 @@ const FAQ = dynamic(() => import('@/components/pages/pc/FAQ'), {
   ssr: false,
   loading: FallbackComponent,
 });
-// const UpdatePhone = dynamic(() => import('@/components/pages/pc/UpdatePhone'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
 
 const UpdatePhone = dynamic(() => import('@/components/pages/UpdatePhone/UpdatePhonePc'), {
   ssr: false,
@@ -229,16 +205,6 @@ const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'),
   loading: FallbackComponent,
 });
 
-// const Register = dynamic(() => import('@/components/pages/pc/Register'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-
-// const RegisterSuccess = dynamic(() => import('@/components/pages/pc/RegisterSuccess'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-
 const Register = dynamic(() => import('@/components/pages/Register/RegisterPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -249,16 +215,6 @@ const RegisterSuccess = dynamic(() => import('@/components/pages/RegisterSuccess
   loading: FallbackComponent,
 });
 
-// const VerifyCi = dynamic(() => import('@/components/pages/pc/VerifyCi'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-
-// const VerifyCiSuccess = dynamic(() => import('@/components/pages/pc/VerifyCiSuccess'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
-
 const VerifyCi = dynamic(() => import('@/components/pages/VerifyCi/VerifyCiPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -268,11 +224,6 @@ const WaitingCreateForm = dynamic(() => import('@/components/pages/WaitingCreate
   ssr: false,
   loading: FallbackComponent,
 });
-
-// const FindAccount = dynamic(() => import('@/components/pages/pc/FindAccount'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
 
 const FindAccount = dynamic(() => import('@/components/pages/FindAccount/FindAccountPc'), {
   ssr: false,

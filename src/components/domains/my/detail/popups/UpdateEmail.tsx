@@ -6,31 +6,35 @@ import KakaoLogoIcon from '@/assets/icons/kakao_logo.svg';
 
 import AppleLogoIcon from '@/assets/icons/apple.svg';
 
-export interface UpdateEmailPopupProps {
+export interface SocialLoginPopupProps {
   onClickKakao?: () => void;
   onClickApple?: () => void;
   onClickCancel?: () => void;
 }
 
-function UpdateEmailPopup({ onClickKakao, onClickApple, onClickCancel }: UpdateEmailPopupProps) {
+export function SocialLoginPopup({ onClickKakao, onClickApple, onClickCancel }: SocialLoginPopupProps) {
   return (
-    <Popup>
-      <Popup.ContentGroup tw="gap-5">
-        <Popup.SmallTitle tw="text-center">간편로그인 방법</Popup.SmallTitle>
-        <Popup.Body tw="flex flex-col gap-3">
-          <Button tw="bg-yellow-kakao hover:bg-yellow-kakaoHover text-gray-1000" size="bigger" onClick={onClickKakao}>
-            <KakaoLogoIcon tw="mr-2" />
-            카카오 계정으로 변경하기
-          </Button>
-          <Button size="bigger" onClick={onClickApple}>
-            <AppleLogoIcon tw="mr-2" /> Apple 계정으로 변경하기
-          </Button>
-        </Popup.Body>
-      </Popup.ContentGroup>
-      <Popup.ButtonGroup>
-        <Popup.ActionButton onClick={onClickCancel}>취소</Popup.ActionButton>
-      </Popup.ButtonGroup>
-    </Popup>
+    <>
+      <div tw="[width: 280px] rounded-lg">
+        <Popup.ContentGroup tw="gap-5 px-7">
+          <Popup.SmallTitle tw="pt-2 text-center [font-size: 16px] [line-height: 24px]">
+            간편로그인 방법
+          </Popup.SmallTitle>
+          <Popup.Body tw="flex flex-col gap-3 pb-2">
+            <Button tw="bg-yellow-kakao hover:bg-yellow-kakaoHover text-gray-1000" size="bigger" onClick={onClickKakao}>
+              <KakaoLogoIcon tw="mr-2" />
+              카카오 계정으로 변경하기
+            </Button>
+            <Button size="bigger" onClick={onClickApple}>
+              <AppleLogoIcon tw="mr-2" /> Apple 계정으로 변경하기
+            </Button>
+          </Popup.Body>
+        </Popup.ContentGroup>
+        <Popup.ButtonGroup>
+          <Popup.CancelButton onClick={onClickCancel}>취소</Popup.CancelButton>
+        </Popup.ButtonGroup>
+      </div>
+    </>
   );
 }
 
@@ -38,7 +42,7 @@ interface SuccessProps {
   onClickClose?: () => void;
 }
 
-function Success({ onClickClose }: SuccessProps) {
+export function Success({ onClickClose }: SuccessProps) {
   return (
     <Popup>
       <Popup.ContentGroup tw="gap-5 py-12">
@@ -55,7 +59,7 @@ interface DuplicatedCiProps {
   onClickClose?: () => void;
 }
 
-function DuplicatedCi({ onClickClose }: DuplicatedCiProps) {
+export function DuplicatedCi({ onClickClose }: DuplicatedCiProps) {
   return (
     <Popup>
       <Popup.ContentGroup>
@@ -77,7 +81,7 @@ interface DuplicatedEmailProps {
   onClickClose?: () => void;
 }
 
-function DuplicatedEmail({ onClickClose }: DuplicatedEmailProps) {
+export function DuplicatedEmail({ onClickClose }: DuplicatedEmailProps) {
   return (
     <Popup>
       <Popup.ContentGroup>
@@ -94,9 +98,3 @@ function DuplicatedEmail({ onClickClose }: DuplicatedEmailProps) {
     </Popup>
   );
 }
-
-export default Object.assign(UpdateEmailPopup, {
-  Success,
-  DuplicatedCi,
-  DuplicatedEmail,
-});

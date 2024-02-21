@@ -82,8 +82,6 @@ function MapWrapper({
     streetViewEvent,
     recentSearches,
     isGeoLoading,
-    popup,
-    setPopup,
     selectedMarker,
     selectedMouseOverMarker,
     danjiSummary,
@@ -195,8 +193,6 @@ function MapWrapper({
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
 
-  const handleActionLocationPermissionPopup = useCallback(() => setPopup('none'), [setPopup]);
-
   const handleActionOpenPopup = useCallback(() => setOpenPopup(false), [setOpenPopup]);
 
   const handleActionVerificationAddressPopup = useCallback(() => {
@@ -300,24 +296,6 @@ function MapWrapper({
           </Layout.Overlay>
         )}
       </AnimatePresence>
-
-      {popup === 'locationPermission' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup>
-              <Popup.Title>간편로그인 방법 변경</Popup.Title>
-              <Popup.Body>
-                이미 다른 네고시오 계정에서 사용되고 있습니다.
-                <br />
-                해당계정을 삭제하고 간편로그인 방법 변경을 계속 진행하시겠습니까?
-              </Popup.Body>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={handleActionLocationPermissionPopup}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
 
       {openPopup && (
         <OverlayPresenter>

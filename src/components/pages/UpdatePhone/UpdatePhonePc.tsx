@@ -14,6 +14,8 @@ import MyUpdatePhone from '@/components/domains/my/MyUpdatePhone';
 
 import useMyUpdatePhone from '@/components/domains/my/my-update-phone/hooks/useMyUpdatePhone';
 
+import useAuth from '@/hooks/services/useAuth';
+
 interface Props {
   depth: number;
   panelWidth?: string;
@@ -21,6 +23,8 @@ interface Props {
 
 function UpdatePhonePc({ depth, panelWidth }: Props) {
   const router = useRouter(depth);
+
+  const { mutate } = useAuth();
 
   const {
     phone,
@@ -38,13 +42,14 @@ function UpdatePhonePc({ depth, panelWidth }: Props) {
     handleClickRemovePhoneValue,
   } = useMyUpdatePhone();
 
-  const handleClickNext = useCallback(() => {
+  const handleClickNext = useCallback(async () => {
     if (router.query.trigger === 'iPin') {
       // To Will Logic
     } else {
+      await mutate();
       router.replace(Routes.MyDetail);
     }
-  }, [router]);
+  }, [mutate, router]);
 
   const handleClickBack = useCallback(() => {
     router.replace(Routes.MyDetail);
