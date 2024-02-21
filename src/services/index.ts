@@ -105,6 +105,15 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async updateName(name: string) {
+    try {
+      const { data } = await this.instance.post('/my/name/update', { name });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async checkNickname(nickname: string): Promise<ErrorResponse | null> {
     try {
       const { data } = await this.instance.post('/user/checknickname', { nickname });

@@ -22,7 +22,9 @@ export default function UserSummary({ name, nickname, profileImagePath, onClickM
       <div tw="w-full flex items-center text-start">
         <Avatar size={48} src={profileImagePath || defaultAvatar} alt={`${nickname} 프로필 사진`} />
         <div tw="ml-3 mr-1 flex flex-col">
-          <div tw="text-subhead_03">{name || 'anonymous'}님</div>
+          <div tw="text-subhead_03">
+            {name ? (name === '이름없음' ? `${name}` : `${name}님`) : '이름을 입력해주세요.'}
+          </div>
           <div tw="text-body_01 text-gray-700">{nickname || '-'}</div>
         </div>
       </div>

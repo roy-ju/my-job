@@ -12,8 +12,12 @@ import MyUpdatePhone from '@/components/domains/my/MyUpdatePhone';
 
 import useMyUpdatePhone from '@/components/domains/my/my-update-phone/hooks/useMyUpdatePhone';
 
+import useAuth from '@/hooks/services/useAuth';
+
 export default function UpdatePhoneMobile() {
   const router = useRouter();
+
+  const { mutate } = useAuth();
 
   const {
     phone,
@@ -31,13 +35,14 @@ export default function UpdatePhoneMobile() {
     handleClickRemovePhoneValue,
   } = useMyUpdatePhone();
 
-  const handleClickNext = useCallback(() => {
+  const handleClickNext = useCallback(async () => {
     if (router.query.trigger === 'iPin') {
       // To Will Logic
     } else {
+      await mutate();
       router.back();
     }
-  }, [router]);
+  }, [mutate, router]);
 
   const handleClickBack = useCallback(() => {
     router.back();
