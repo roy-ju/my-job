@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect } from 'react';
 
-import { Panel } from '@/components/atoms';
+import { useRouter as useNextRouter } from 'next/router';
 
-import { useRouter } from '@/hooks/utils';
+import { Panel } from '@/components/atoms';
 
 import Routes from '@/router/routes';
 
@@ -11,11 +11,10 @@ import MyDeregister from '@/components/domains/my/MyDeregister';
 import useMyDergister from '@/components/domains/my/deregister/hooks/useMyDergister';
 
 interface Props {
-  depth: number;
   panelWidth?: string;
 }
 
-function DeregisterPc({ depth, panelWidth }: Props) {
+function DeregisterPc({ panelWidth }: Props) {
   const {
     deregisterReasons,
     extraReasons,
@@ -25,29 +24,34 @@ function DeregisterPc({ depth, panelWidth }: Props) {
     handleChangeExtraReasons,
   } = useMyDergister();
 
-  const router = useRouter(depth);
+  const nextRouter = useNextRouter();
 
   const handleClickBackButton = useCallback(() => {
-    router.replace(Routes.MyDetail);
-  }, [router]);
+    nextRouter.replace(`/${Routes.My}/${Routes.MyDetail}`);
+  }, [nextRouter]);
 
   const handleClickNext = useCallback(() => {
-    router.replace(Routes.DeregisterDisclaimer, {
-      state: {
-        deregisterReasons: deregisterReasons.join(','),
-        extraReasons,
-      },
+    const depth1 = nextRouter.query.depth1;
+
+    const query = nextRouter.query;
+
+    delete query.depth1;
+    delete query.depth2;
+
+    nextRouter.replace({
+      pathname: `/${depth1}/${Routes.DeregisterDisclaimer}`,
+      query: { ...query, deregisterReasons: deregisterReasons.join(','), extraReasons },
     });
-  }, [router, deregisterReasons, extraReasons]);
+  }, [nextRouter, deregisterReasons, extraReasons]);
 
   useEffect(() => {
-    if (router.query.deregisterReasons) {
-      setDeregisterReasons((router.query.deregisterReasons as string).split(','));
+    if (nextRouter.query.deregisterReasons) {
+      setDeregisterReasons((nextRouter.query.deregisterReasons as string).split(','));
     }
-    if (router.query.extraReasons) {
-      setExtraReasons(router.query.extraReasons as string);
+    if (nextRouter.query.extraReasons) {
+      setExtraReasons(nextRouter.query.extraReasons as string);
     }
-  }, [router.query.deregisterReasons, router.query.extraReasons, setDeregisterReasons, setExtraReasons]);
+  }, [nextRouter.query.deregisterReasons, nextRouter.query.extraReasons, setDeregisterReasons, setExtraReasons]);
 
   return (
     <Panel width={panelWidth}>
