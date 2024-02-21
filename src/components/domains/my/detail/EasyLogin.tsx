@@ -14,7 +14,7 @@ export default function EasyLogin({ label, value, handleUpdateField }: EasyLogin
   return (
     <FormFieldContainer>
       <TextFieldV2 variant="outlined">
-        <TextFieldV2.Input label={label} value={value} readOnly />
+        <TextFieldV2.Input label={label} value={value} readOnly tw="pointer-events-none" />
         <UpdateButton render handleClick={handleUpdateField} />
       </TextFieldV2>
     </FormFieldContainer>

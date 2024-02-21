@@ -73,7 +73,11 @@ export default function useRegisterHandlers({
     if (step === REGISTER_STEP.NONE) return false;
 
     if (step === REGISTER_STEP.NAME) {
-      return true;
+      if (name) {
+        return true;
+      }
+
+      return false;
     }
 
     if (step === REGISTER_STEP.PHONE) {
@@ -87,7 +91,7 @@ export default function useRegisterHandlers({
     if (step === REGISTER_STEP.TERMS) {
       return terms.over19 && terms.service && terms.privacy && terms.location && terms.notification;
     }
-  }, [phone.length, step, terms.location, terms.notification, terms.over19, terms.privacy, terms.service]);
+  }, [name, phone.length, step, terms.location, terms.notification, terms.over19, terms.privacy, terms.service]);
 
   /** 마지막 단계 또는 카카오 정보가 모두 존재할때 */
   const handleClickRegister = useCallback(async () => {

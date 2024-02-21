@@ -18,7 +18,14 @@ export default function Phone({ label, value, noValueText, handleUpdateField }: 
   return (
     <FormFieldContainer>
       <TextFieldV2 variant="outlined">
-        <TextFieldV2.Input mode="numeric" label={label} value={value || noValueText || ''} readOnly disabled={!value} />
+        <TextFieldV2.Input
+          mode="numeric"
+          label={label}
+          value={value || noValueText || ''}
+          readOnly
+          disabled={!value}
+          tw="pointer-events-none"
+        />
         <UpdateButton ctaTitle={value ? '수정' : '등록'} render handleClick={handleUpdateField} />
       </TextFieldV2>
     </FormFieldContainer>
