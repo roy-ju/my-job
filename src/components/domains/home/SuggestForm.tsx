@@ -12,6 +12,8 @@ import Routes from '@/router/routes';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 import ToggleTag from '@/components/atoms/ToggleTag';
 
 import { RegionItem } from '@/components/organisms/RegionList';
@@ -26,9 +28,7 @@ import getIncludeValue from '../suggest/utils/getIncludeValue';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
 
-type SuggestFormProps = { isInAppBrowser: boolean; handleOpenAppInstallPopup: () => void };
-
-export default function SuggestForm({ isInAppBrowser, handleOpenAppInstallPopup }: SuggestFormProps) {
+export default function SuggestForm() {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
@@ -38,6 +38,8 @@ export default function SuggestForm({ isInAppBrowser, handleOpenAppInstallPopup 
   const [buyOrRent, setBuyOrRent] = useState('');
 
   const [popup, setPopup] = useState<'' | 'regionList'>('');
+
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const handleClickProperty = (e?: NegocioMouseEvent<HTMLButtonElement>) => {
     if (e) {
@@ -122,7 +124,7 @@ export default function SuggestForm({ isInAppBrowser, handleOpenAppInstallPopup 
   };
 
   const handleClickSuggest = () => {
-    if (isInAppBrowser) {
+    if (inAppInfo.isInAppBrowser) {
       handleOpenAppInstallPopup();
       return;
     }

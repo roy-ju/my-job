@@ -2,8 +2,6 @@ import { useCallback, useState, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
-import dynamic from 'next/dynamic';
-
 import { Loading, MobileContainer } from '@/components/atoms';
 
 import { MobGlobalNavigation } from '@/components/organisms';
@@ -22,20 +20,12 @@ import Routes from '@/router/routes';
 
 import My from '@/components/domains/my/My';
 
-import useCheckInAppBrowser from '@/hooks/useCheckInAppBrowser';
-
-const GlobalAppInstall = dynamic(() => import('@/components/domains/auth/global-app-install'), { ssr: false });
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
 export default function MyMobile() {
   const router = useRouter();
 
-  const {
-    isInAppBrowser,
-    openAppInstallPopup,
-    handleClickInstall,
-    handleOpenAppInstallPopup,
-    handleCloseAppInstallPopup,
-  } = useCheckInAppBrowser();
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
@@ -52,13 +42,14 @@ export default function MyMobile() {
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
-    if (isInAppBrowser) {
+    if (inAppInfo.isInAppBrowser) {
       handleOpenAppInstallPopup();
       return;
     }
+
     openAuthPopup('login');
     handleUpdateReturnUrl();
-  }, [handleOpenAppInstallPopup, handleUpdateReturnUrl, isInAppBrowser, openAuthPopup]);
+  }, [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo, openAuthPopup]);
 
   const handleClickNotificationList = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
@@ -191,10 +182,6 @@ export default function MyMobile() {
           tab={tab}
         />
       </MobileContainer>
-
-      {openAppInstallPopup && (
-        <GlobalAppInstall handleClickConfirm={handleClickInstall} handleClickCancel={handleCloseAppInstallPopup} />
-      )}
     </>
   );
 }

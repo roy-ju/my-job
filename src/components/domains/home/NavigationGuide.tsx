@@ -16,9 +16,7 @@ import NavigationButton from './NavigationButton';
 
 const DanjiListPopup = dynamic(() => import('@/components/organisms/popups/DanjiListPopup'), { ssr: false });
 
-type NavigationGuideProps = { isInAppBrowser: boolean; handleOpenAppInstallPopup: () => void };
-
-export default function NavigationGuide({ isInAppBrowser, handleOpenAppInstallPopup }: NavigationGuideProps) {
+export default function NavigationGuide() {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
@@ -54,11 +52,7 @@ export default function NavigationGuide({ isInAppBrowser, handleOpenAppInstallPo
           <NavigationButton variant="map" />
           <NavigationButton variant="realprice" handleOpenDanjiListPopup={handleOpenDanjiListPopup} />
           <NavigationButton variant="law" />
-          <NavigationButton
-            variant="register"
-            isInAppBrowser={isInAppBrowser}
-            handleOpenAppInstallPopup={handleOpenAppInstallPopup}
-          />
+          <NavigationButton variant="register" />
         </div>
       </section>
 

@@ -43,6 +43,7 @@ import ErrorBoundary from '@/providers/ErrorBoundary';
 import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
+import useInAppBrowserCheck from '@/states/hooks/useInAppBrowserCheck';
 
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
@@ -55,6 +56,8 @@ const AppVersionChecker = dynamic(() => import('@/providers/AppVersionChecker'),
 const AuthPopup = dynamic(() => import('@/components/domains/auth/global-login'), { ssr: false });
 
 const VerifyCiPopup = dynamic(() => import('@/components/domains/auth/global-verify-ci'), { ssr: false });
+
+const GlobalAppInstall = dynamic(() => import('@/components/domains/auth/global-app-install'), { ssr: false });
 
 export type NextPageWithLayout<P = { children?: ReactNode }, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactNode, pageProps: any, prevPage?: ReactNode) => ReactNode;
@@ -81,6 +84,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   usePageLoading();
 
   useNativeAppEventListeners();
+
+  useInAppBrowserCheck();
 
   const router = useRouter();
 
@@ -177,6 +182,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
               <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
               <AuthPopup />
               <VerifyCiPopup />
+              <GlobalAppInstall />
             </ErrorBoundary>
             <ToastContainer platform={platform} />
             <TooltipProvider />
