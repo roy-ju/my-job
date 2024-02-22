@@ -16,11 +16,13 @@ export default function useInAppBrowserCheck() {
   const setInAppInfo = useSetRecoilState(inAppInfoAtom);
 
   useEffect(() => {
-    if (isNativeApp) return;
+    if (typeof window === 'undefined') return;
 
     if (platform === 'pc') return;
 
-    const userAgent = navigator.userAgent.toLowerCase();
+    if (isNativeApp) return;
+
+    const userAgent = window.navigator.userAgent.toLowerCase();
 
     if (userAgent.match(/Line|instagram|FB_IAB|FB4A|FBAN|FBIOS|FBSS\/[^1]/i)) {
       if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
