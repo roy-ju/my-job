@@ -44,7 +44,7 @@ import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
 
-// import useInAppBrowserCheck from '@/states/hooks/useInAppBrowserCheck';
+import useInAppBrowserCheck from '@/states/hooks/useInAppBrowserCheck';
 
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
@@ -86,7 +86,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   useNativeAppEventListeners();
 
-  // useInAppBrowserCheck();
+  useInAppBrowserCheck();
 
   const router = useRouter();
 
