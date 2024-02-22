@@ -2,6 +2,8 @@ import { useCallback, useState, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import dynamic from 'next/dynamic';
+
 import { Loading, MobileContainer } from '@/components/atoms';
 
 import { MobGlobalNavigation } from '@/components/organisms';
@@ -20,8 +22,20 @@ import Routes from '@/router/routes';
 
 import My from '@/components/domains/my/My';
 
+import useCheckInAppBrowser from '@/hooks/useCheckInAppBrowser';
+
+const GlobalAppInstall = dynamic(() => import('@/components/domains/auth/global-app-install'), { ssr: false });
+
 export default function MyMobile() {
   const router = useRouter();
+
+  const {
+    isInAppBrowser,
+    openAppInstallPopup,
+    handleClickInstall,
+    handleOpenAppInstallPopup,
+    handleCloseAppInstallPopup,
+  } = useCheckInAppBrowser();
 
   const { data: dashboardData } = useAPI_GetDashboardInfo();
 
@@ -38,9 +52,13 @@ export default function MyMobile() {
   const { unreadNotificationCount } = useSyncronizer();
 
   const handleClickLogin = useCallback(() => {
+    if (isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
     openAuthPopup('login');
     handleUpdateReturnUrl();
-  }, [handleUpdateReturnUrl, openAuthPopup]);
+  }, [handleOpenAppInstallPopup, handleUpdateReturnUrl, isInAppBrowser, openAuthPopup]);
 
   const handleClickNotificationList = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.NotificationList}`);
@@ -140,37 +158,43 @@ export default function MyMobile() {
     );
 
   return (
-    <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
-      <My
-        isLoading={isLoading}
-        loggedIn={user !== null}
-        name={user?.name}
-        nickname={user?.nickname}
-        profileImageUrl={user?.profileImageUrl}
-        unreadNotificationCount={unreadNotificationCount}
-        dashboardInfo={dashboardData}
-        onClickLogin={handleClickLogin}
-        onClickNotificationList={handleClickNotificationList}
-        onClickMyDetail={handleClickMyDetail}
-        onClickNoticeList={handleClickNoticeList}
-        onClickQna={handleClickQna}
-        onClickMyRealPriceList={handleClickMyRealPriceList}
-        onClickFAQ={handleClickFAQ}
-        onClickNegoPoint={handleClickNegoPoint}
-        onClickCoupons={handleClickCoupons}
-        onClickServiceInfo={handleServiceInfo}
-        onClickMyAddress={handleMyAddress}
-        onClickMyRegisteredListings={handleClickMyRegisteredListings}
-        onClickMyParticipatingListings={handleClickMyParticipatingListings}
-        onClickRequestedSuggests={handleRequestedSuggests}
-        onClickSuggestRecommendedList={handleSuggestRecommendedList}
-        hasAddress={user?.hasAddress}
-        hasNotVerifiedAddress={user?.hasNotVerifiedAddress}
-        onClickTab={handleTab}
-        onClickMyRegisteredHomes={handleClickMyRegisteredHomes}
-        onClickDeveloper={process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? handleDeveloper : undefined}
-        tab={tab}
-      />
-    </MobileContainer>
+    <>
+      <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
+        <My
+          isLoading={isLoading}
+          loggedIn={user !== null}
+          name={user?.name}
+          nickname={user?.nickname}
+          profileImageUrl={user?.profileImageUrl}
+          unreadNotificationCount={unreadNotificationCount}
+          dashboardInfo={dashboardData}
+          onClickLogin={handleClickLogin}
+          onClickNotificationList={handleClickNotificationList}
+          onClickMyDetail={handleClickMyDetail}
+          onClickNoticeList={handleClickNoticeList}
+          onClickQna={handleClickQna}
+          onClickMyRealPriceList={handleClickMyRealPriceList}
+          onClickFAQ={handleClickFAQ}
+          onClickNegoPoint={handleClickNegoPoint}
+          onClickCoupons={handleClickCoupons}
+          onClickServiceInfo={handleServiceInfo}
+          onClickMyAddress={handleMyAddress}
+          onClickMyRegisteredListings={handleClickMyRegisteredListings}
+          onClickMyParticipatingListings={handleClickMyParticipatingListings}
+          onClickRequestedSuggests={handleRequestedSuggests}
+          onClickSuggestRecommendedList={handleSuggestRecommendedList}
+          hasAddress={user?.hasAddress}
+          hasNotVerifiedAddress={user?.hasNotVerifiedAddress}
+          onClickTab={handleTab}
+          onClickMyRegisteredHomes={handleClickMyRegisteredHomes}
+          onClickDeveloper={process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? handleDeveloper : undefined}
+          tab={tab}
+        />
+      </MobileContainer>
+
+      {openAppInstallPopup && (
+        <GlobalAppInstall handleClickConfirm={handleClickInstall} handleClickCancel={handleCloseAppInstallPopup} />
+      )}
+    </>
   );
 }

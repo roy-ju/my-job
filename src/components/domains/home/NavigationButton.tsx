@@ -26,8 +26,10 @@ import Routes from '@/router/routes';
 
 type NavigationButtonProps = {
   variant: 'map' | 'realprice' | 'law' | 'register';
+  isInAppBrowser?: boolean;
   handleOpenDanjiListPopup?: () => void;
   handleOpenNeedVerifyAddressPopup?: () => void;
+  handleOpenAppInstallPopup?: () => void;
 };
 
 const variants = {
@@ -43,7 +45,12 @@ const Button = styled.button<{ variant: 'map' | 'realprice' | 'law' | 'register'
   ${({ variant }) => variant && variants[variant]}
 `;
 
-export default function NavigationButton({ variant, handleOpenDanjiListPopup }: NavigationButtonProps) {
+export default function NavigationButton({
+  variant,
+  isInAppBrowser,
+  handleOpenAppInstallPopup,
+  handleOpenDanjiListPopup,
+}: NavigationButtonProps) {
   const { user } = useAuth();
 
   const map = useMap();
@@ -80,6 +87,11 @@ export default function NavigationButton({ variant, handleOpenDanjiListPopup }: 
   };
 
   const handleClickHomeRegister = () => {
+    if (isInAppBrowser) {
+      handleOpenAppInstallPopup?.();
+      return;
+    }
+
     const pcReturnURL = `/${Routes.My}?default=2`;
 
     const mobileReturnURL = `/${Routes.EntryMobile}${pcReturnURL}`;

@@ -26,7 +26,9 @@ import getIncludeValue from '../suggest/utils/getIncludeValue';
 
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
 
-export default function SuggestForm() {
+type SuggestFormProps = { isInAppBrowser: boolean; handleOpenAppInstallPopup: () => void };
+
+export default function SuggestForm({ isInAppBrowser, handleOpenAppInstallPopup }: SuggestFormProps) {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
@@ -120,6 +122,11 @@ export default function SuggestForm() {
   };
 
   const handleClickSuggest = () => {
+    if (isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     if (
       isEqualValue(property.length, 1) &&
       (isEqualValue(property[0], RealestateType.Apartment.toString()) ||
