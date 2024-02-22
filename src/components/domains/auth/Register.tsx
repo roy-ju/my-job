@@ -45,7 +45,7 @@ const RegisterContainer = styled.div`
 `;
 
 const RegisterFieldsContainer = styled.div`
-  ${tw`flex flex-col flex-1 w-full h-full min-h-0 gap-4 px-5 overflow-auto bg-blue`}
+  ${tw`flex flex-col flex-1 w-full h-full min-h-0 gap-4 px-5 overflow-auto`}
 `;
 
 const RegisterPhoneFieldContainer = styled.div`

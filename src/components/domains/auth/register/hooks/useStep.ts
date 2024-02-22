@@ -61,16 +61,13 @@ export default function useStep() {
     if (currentForm === FIELD_ID.TERMS) return;
 
     const formContainer = document.getElementById('formContainer');
-
     const formElement = document.getElementById(currentForm);
-
     const containerHeight = formContainer?.getBoundingClientRect().height ?? 0;
-
+    
     if (formElement) {
       formElement.style.minHeight = `${containerHeight}px`;
-
       const prevForm = forms[forms.length - 2];
-
+      
       if (prevForm) {
         const prevFormElement = document.getElementById(prevForm);
 

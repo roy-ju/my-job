@@ -16,7 +16,7 @@ export default function Cta({ isRenderCta, title, isLoading, disabled, handleCli
   if (!isRenderCta) return null;
 
   return (
-    <PersistentBottomBarV2 tw="px-5 shadow-none bg-red">
+    <PersistentBottomBarV2 tw="px-5 shadow-none">
       <ButtonV2
         isLoading={isLoading}
         disabled={disabled}
