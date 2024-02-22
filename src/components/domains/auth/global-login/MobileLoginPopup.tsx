@@ -47,7 +47,8 @@ export default function MobileLoginPopup() {
     handleUpdateReturnUrl('');
   }, [closeAuthPopup, handleUpdateReturnUrl, removeSessionKey]);
 
-  const { handleClickKakaoLogin, handleClickAppleLogin } = useLoginCtas({ ipAddress });
+  const { isKakaoLoginButtonClicked, isAppleLoginButtonClicked, handleClickKakaoLogin, handleClickAppleLogin } =
+    useLoginCtas({ ipAddress });
 
   const { handleClickForgotPassword } = useEtcCtas();
 
@@ -86,6 +87,8 @@ export default function MobileLoginPopup() {
         </ImageContainer>
         <CtasContainer tw="pb-0">
           <Ctas
+            isKakaoLoginButtonClicked={isKakaoLoginButtonClicked}
+            isAppleLoginButtonClicked={isAppleLoginButtonClicked}
             handleClickKakaoLogin={handleClickKakaoLogin}
             handleClickAppleLogin={handleClickAppleLogin}
             handleClickForgotPassword={handleClickForgotPassword}

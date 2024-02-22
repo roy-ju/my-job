@@ -85,6 +85,14 @@ const customStyles = css`
     }
   }
 
+  input[type='file'] {
+    -webkit-appearance: none; /* iOS의 기본 스타일링을 제거합니다 */
+    appearance: none;
+    border: none; /* 테두리를 제거합니다 */
+    outline: none; /* 포커스시 외곽선을 제거합니다 */
+    box-shadow: none; /* 그림자 효과를 제거합니다 */
+  }
+
   @media (hover: none) {
     *:not(input, textarea) {
       //-webkit-tap-highlight-color: transparent;
@@ -95,6 +103,10 @@ const customStyles = css`
       -ms-user-select: none;
       user-select: none;
     }
+  }
+
+  label {
+    -webkit-tap-highlight-color: transparent; /* 탭 하이라이트 색상을 투명하게 설정 */
   }
 `;
 

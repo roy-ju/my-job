@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -59,9 +59,15 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
   const router = useRouter();
 
+  const [isKakaoLoginButtonClicked, setIsKakaoLoginButtonClicked] = useState(false);
+
+  const [isAppleLoginButtonClicked, setIsAppleLoginButtonClicked] = useState(false);
+
   const device = useMemo(() => (platform === 'pc' ? 'MOBILE' : 'PC'), [platform]);
 
   const handleClickKakaoLogin = useCallback(async () => {
+    setIsKakaoLoginButtonClicked(true);
+
     if (platform === 'pc') {
       const { width, height, left, top } = adjustWindowPopup({ w: 612 });
 
@@ -75,10 +81,16 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     if (platform === 'mobile') {
       window.open(`${window.location.origin}/auth/kakao`, '_blank');
     }
+
+    setIsKakaoLoginButtonClicked(false);
   }, [platform]);
 
   const handleClickAppleLogin = useCallback(async () => {
+    setIsAppleLoginButtonClicked(true);
+
     const res = await loginWithApple();
+
+    setIsAppleLoginButtonClicked(false);
 
     if (res && !res.error) {
       const idToken = res.authorization.id_token;
@@ -366,5 +378,5 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     };
   }, [router, platform, returnUrl, user, authType, login, closeAuthPopup, openVerifyCiPopup, handleUpdateReturnUrl]);
 
-  return { handleClickKakaoLogin, handleClickAppleLogin };
+  return { isKakaoLoginButtonClicked, isAppleLoginButtonClicked, handleClickKakaoLogin, handleClickAppleLogin };
 }
