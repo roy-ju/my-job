@@ -20,9 +20,9 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-type HeaderProps = { isInAppBrowser: boolean; handleOpenAppInstallPopup: () => void };
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
-export default function Header({ isInAppBrowser, handleOpenAppInstallPopup }: HeaderProps) {
+export default function Header() {
   const { user } = useAuth();
 
   const { platform } = useCheckPlatform();
@@ -35,15 +35,17 @@ export default function Header({ isInAppBrowser, handleOpenAppInstallPopup }: He
 
   const { unreadNotificationCount } = useSyncronizer();
 
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
+
   const handleClickLogin = useCallback(() => {
-    if (isInAppBrowser) {
+    if (inAppInfo.isInAppBrowser) {
       handleOpenAppInstallPopup();
       return;
     }
 
     openAuthPopup('login');
     handleUpdateReturnUrl();
-  }, [isInAppBrowser, openAuthPopup, handleUpdateReturnUrl, handleOpenAppInstallPopup]);
+  }, [inAppInfo.isInAppBrowser, openAuthPopup, handleUpdateReturnUrl, handleOpenAppInstallPopup]);
 
   const handleClickNotification = useCallback(() => {
     if (platform === 'pc') {

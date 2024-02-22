@@ -1,12 +1,14 @@
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-export default function GlobalAppInstall({
-  handleClickCancel,
-  handleClickConfirm,
-}: {
-  handleClickCancel: () => void;
-  handleClickConfirm: () => void;
-}) {
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
+export default function GlobalAppInstall() {
+  const { inAppInfo, handleClickInstall, handleCloseAppInstallPopup } = useInAppBroswerHandler();
+
+  if (!inAppInfo.popupOpen) {
+    return null;
+  }
+
   return (
     <OverlayPresenter>
       <Popup>
@@ -15,8 +17,8 @@ export default function GlobalAppInstall({
           <Popup.Body>해당 서비스는 앱을 다운로드하여 이용해주세요.</Popup.Body>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>
-          <Popup.CancelButton onClick={handleClickCancel}>취소</Popup.CancelButton>
-          <Popup.ActionButton onClick={handleClickConfirm}>설치하러 가기</Popup.ActionButton>
+          <Popup.CancelButton onClick={handleCloseAppInstallPopup}>취소</Popup.CancelButton>
+          <Popup.ActionButton onClick={handleClickInstall}>확인</Popup.ActionButton>
         </Popup.ButtonGroup>
       </Popup>
     </OverlayPresenter>

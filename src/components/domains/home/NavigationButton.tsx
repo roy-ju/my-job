@@ -24,12 +24,11 @@ import MapImage from '@/../public/static/images/home/image_map.png';
 
 import Routes from '@/router/routes';
 
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 type NavigationButtonProps = {
   variant: 'map' | 'realprice' | 'law' | 'register';
-  isInAppBrowser?: boolean;
   handleOpenDanjiListPopup?: () => void;
-  handleOpenNeedVerifyAddressPopup?: () => void;
-  handleOpenAppInstallPopup?: () => void;
 };
 
 const variants = {
@@ -45,12 +44,7 @@ const Button = styled.button<{ variant: 'map' | 'realprice' | 'law' | 'register'
   ${({ variant }) => variant && variants[variant]}
 `;
 
-export default function NavigationButton({
-  variant,
-  isInAppBrowser,
-  handleOpenAppInstallPopup,
-  handleOpenDanjiListPopup,
-}: NavigationButtonProps) {
+export default function NavigationButton({ variant, handleOpenDanjiListPopup }: NavigationButtonProps) {
   const { user } = useAuth();
 
   const map = useMap();
@@ -62,6 +56,8 @@ export default function NavigationButton({
   const { openAuthPopup } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
+
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const handleClickCounseling = () => {
     if (platform === 'pc') {
@@ -87,8 +83,8 @@ export default function NavigationButton({
   };
 
   const handleClickHomeRegister = () => {
-    if (isInAppBrowser) {
-      handleOpenAppInstallPopup?.();
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
       return;
     }
 
