@@ -68,6 +68,7 @@ export default function useStep() {
 
     if (formElement) {
       formElement.style.minHeight = `${containerHeight}px`;
+
       const prevForm = forms[forms.length - 2];
 
       if (prevForm) {
