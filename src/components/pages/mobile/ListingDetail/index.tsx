@@ -63,6 +63,8 @@ import { apiService } from '@/services';
 
 import kakaoShare from '@/utils/kakaoShare';
 
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
@@ -87,6 +89,8 @@ export default memo(() => {
   const { openAuthPopup } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
+
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const {
     danjiAroundData,
@@ -137,6 +141,11 @@ export default memo(() => {
   );
 
   const handleClickFavorite = useCallback(async () => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     if (!user) {
       openAuthPopup('onlyLogin');
       handleUpdateReturnUrl();
@@ -188,6 +197,11 @@ export default memo(() => {
   const handleNavigateToCreateQna = useCallback(() => {
     const id = listingID || (router?.query?.listingID as string);
 
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     if (!user) {
       openAuthPopup('needVerify');
       handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
@@ -204,6 +218,11 @@ export default memo(() => {
   }, [router]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     if (!user) {
       openAuthPopup('needVerify');
       handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.BiddingForm}?listingID=${router.query.listingID}`);

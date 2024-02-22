@@ -29,6 +29,7 @@ import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
 import suggestView from '@/apis/suggest/suggestView';
 
 import useAPI_GetUserInfo from '@/apis/user/getUserInfo';
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
 export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const router = useRouter();
@@ -49,6 +50,8 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
   const { openAuthPopup } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
+
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const disabledCTA = useMemo(() => {
     if (data?.suggest_status === SuggestStatus.Active) return false;
@@ -72,6 +75,11 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
 
   const handleClickCTA = useCallback(async () => {
     if (!suggestID) return;
+
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
 
     if (!userData) {
       openAuthPopup('needVerify');
@@ -108,7 +116,16 @@ export default memo(({ ipAddress }: { ipAddress?: string }) => {
         }
       }
     }
-  }, [data, handleUpdateReturnUrl, openAuthPopup, router, suggestID, userData]);
+  }, [
+    inAppInfo.isInAppBrowser,
+    data?.danji_id,
+    handleOpenAppInstallPopup,
+    handleUpdateReturnUrl,
+    openAuthPopup,
+    router,
+    suggestID,
+    userData,
+  ]);
 
   const handleActionNeedVerifyAddressPopup = useCallback(() => {
     router.push({

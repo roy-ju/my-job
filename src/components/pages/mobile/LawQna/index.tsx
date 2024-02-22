@@ -16,6 +16,8 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 function LawQna() {
   const { user } = useAuth();
 
@@ -31,6 +33,8 @@ function LawQna() {
     mutate: mutateQnaData,
     incrementalPageNumber,
   } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
+
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const handleClickBack = () => {
     router.replace(`/${Routes.EntryMobile}`);
@@ -53,6 +57,11 @@ function LawQna() {
   };
 
   const handleClickCreateButton = () => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     if (!user) {
       const returnUrl = router.query.q
         ? `/${Routes.EntryMobile}/${Routes.LawQnaCreate}?q=${router.query.q}`
@@ -81,6 +90,11 @@ function LawQna() {
 
   const handleClickLike = useCallback(
     async (liked?: boolean, qnaId?: number) => {
+      if (inAppInfo.isInAppBrowser) {
+        handleOpenAppInstallPopup();
+        return;
+      }
+
       if (!user) {
         handleUpdateReturnUrl();
         openAuthPopup('onlyLogin');
@@ -99,7 +113,7 @@ function LawQna() {
         mutateQnaData();
       }
     },
-    [handleUpdateReturnUrl, mutateQnaData, openAuthPopup, user],
+    [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, mutateQnaData, openAuthPopup, user],
   );
 
   return (

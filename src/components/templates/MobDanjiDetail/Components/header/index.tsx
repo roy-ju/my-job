@@ -6,6 +6,8 @@ import tw from 'twin.macro';
 
 import { mutate } from 'swr';
 
+import { toast } from 'react-toastify';
+
 import NavigationHeader from '@/components/molecules/NavigationHeader';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
@@ -25,7 +27,8 @@ import { apiService } from '@/services';
 import Actions from '@/constants/actions';
 
 import kakaoShare from '@/utils/kakaoShare';
-import { toast } from 'react-toastify';
+
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
 const OverlayPresenter = dynamic(() => import('@/components/molecules/OverlayPresenter'), { ssr: false });
 
@@ -52,8 +55,15 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
+
   const onClickFavorite = async () => {
     if (!danji || isAuthLoading) return;
+
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
 
     if (!user) {
       openAuthPopup('onlyLogin');

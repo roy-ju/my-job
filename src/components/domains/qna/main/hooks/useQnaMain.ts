@@ -10,6 +10,8 @@ import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import useAuth from '@/hooks/services/useAuth';
 
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 import useFetchServiceQnaList from '@/services/qna/useFetchServiceQnaList';
 
 import { apiService } from '@/services';
@@ -37,6 +39,8 @@ export default function useQnaMain() {
 
   const loggedIn = useMemo(() => user !== null, [user]);
 
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
+
   useEffect(() => {
     if (!isToastShown && qnaText.length > 99) {
       toast.error('더 이상 입력할 수 없습니다.');
@@ -53,6 +57,11 @@ export default function useQnaMain() {
   }, []);
 
   const handleOpenQnaCreate = useCallback(() => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     if (!user) {
       openAuthPopup('onlyLogin');
       handleUpdateReturnUrl();
@@ -60,7 +69,7 @@ export default function useQnaMain() {
     }
 
     setIsQnaCreateOpen(true);
-  }, [handleUpdateReturnUrl, openAuthPopup, user]);
+  }, [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, user]);
 
   const handleCloseQnaCreate = useCallback(() => {
     setIsQnaCreateOpen(false);
