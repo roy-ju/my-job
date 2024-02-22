@@ -16,6 +16,7 @@ interface WebKitMessageHandlers {
   cancelAllNotificationsByTagContains?: WebKitMessageHandler;
   goToAppPermissionSettings?: WebKitMessageHandler;
   checkCameraPermission?: WebKitMessageHandler;
+  showKeyboard?: WebKitMessageHandler;
 }
 
 interface WebKitMessageHandler {

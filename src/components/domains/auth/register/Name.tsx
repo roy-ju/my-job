@@ -37,10 +37,16 @@ export default function Name({ value, onChange, handleClickReset }: NameProps) {
     return false;
   }, [value, focus]);
 
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     window.webkit?.messageHandlers?.showKeyboard?.postMessage?.('name');
+  //   }
+  // }, []);
+
   return (
     <div id={FIELD_ID.NAME}>
       <TextFieldV2 variant="outlined" onFocus={handleFocus} onBlur={handleBlur}>
-        <TextFieldV2.Input label="이름" value={value} onChange={onChange} />
+        <TextFieldV2.Input label="이름" value={value} onChange={onChange} id="negocio-register-name-input" />
         <ResetButton render={renderResetIcon} handleMouseDown={handleResetName} />
       </TextFieldV2>
     </div>

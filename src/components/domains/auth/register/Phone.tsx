@@ -35,11 +35,17 @@ export default function Phone({ value, onChange, handleClickReset }: PhoneProps)
     return false;
   }, [value, focus]);
 
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     window.webkit?.messageHandlers?.showKeyboard?.postMessage?.('phone');
+  //   }
+  // }, []);
+
   return (
     <div>
       <TextFieldV2 variant="outlined" onFocus={handleFocus} onBlur={handleBlur}>
         <TextFieldV2.Input
-          id="register-phone-input"
+          id="negocio-register-phone-input"
           mode="numeric"
           label="전화번호"
           value={value}
