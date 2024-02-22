@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import dynamic from 'next/dynamic';
 
 import tw, { styled } from 'twin.macro';
@@ -128,8 +129,6 @@ export default function Register() {
               />
             </RegisterPhoneFieldContainer>
           )}
-
-          {!isRenderCta && <VerticalSpacing tw="[min-height: 80px]" />}
 
           {forms?.includes(FIELD_ID.TERMS) && (
             <RegisterForm.Terms

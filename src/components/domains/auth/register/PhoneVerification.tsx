@@ -19,7 +19,6 @@ interface PhoneVerificationProps {
   onChange: ChangeEventHandler<HTMLInputElement>;
   handleClickReset: () => void;
   handleReSendVerifcationCode?: () => void;
-
   handleClientValidation?: () => void;
   handleResetErrorMsg?: () => void;
 }
@@ -33,7 +32,6 @@ export default function PhoneVerification({
   onChange,
   handleClickReset,
   handleReSendVerifcationCode,
-
   handleResetErrorMsg,
   handleClientValidation,
 }: PhoneVerificationProps) {
@@ -69,13 +67,19 @@ export default function PhoneVerification({
     return false;
   }, [value, focus]);
 
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined' && isRender) {
+  //     setTimeout(() => window.webkit?.messageHandlers?.showKeyboard?.postMessage?.('phoneVerify'), 100);
+  //   }
+  // }, [isRender]);
+
   if (!isRender) return null;
 
   return (
     <div>
       <TextFieldV2 variant="outlined" hasError={Boolean(errorMessage)} onFocus={handleFocus} onBlur={handleBlur}>
         <TextFieldV2.Input
-          id="register-phone-verification-input"
+          id="negocio-register-phone-verification-input"
           mode="numeric"
           label="인증번호"
           value={value}
