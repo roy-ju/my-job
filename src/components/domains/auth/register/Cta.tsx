@@ -28,15 +28,15 @@ export default function Cta({ isRenderCta, title, isLoading, disabled, handleCli
   useEffect(() => {
     if (typeof window !== 'undefined' && window?.visualViewport && platform === 'mobile') {
       const handleViewportResize = () => {
-        const newHeight: number = window.visualViewport.height;
+        const newHeight: number = window?.visualViewport?.height ?? 0;
 
         setBottom(window.innerHeight - newHeight);
       };
 
-      window.visualViewport.addEventListener('resize', handleViewportResize);
+      window?.visualViewport?.addEventListener('resize', handleViewportResize);
 
       return () => {
-        window.visualViewport.removeEventListener('resize', handleViewportResize);
+        window?.visualViewport?.removeEventListener('resize', handleViewportResize);
       };
     }
   }, [platform]);
