@@ -24,7 +24,7 @@ export default function useCheckInAppBrowser() {
 
     const userAgent = navigator.userAgent.toLowerCase();
 
-    if (userAgent.match(/instagram|FB_IAB|FB4A|FBAN|FBIOS|FBSS\/[^1]/i)) {
+    if (userAgent.match(/Line|instagram|FB_IAB|FB4A|FBAN|FBIOS|FBSS\/[^1]/i)) {
       if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
         // Ios devices
         setIsInAppBrowser(true);
