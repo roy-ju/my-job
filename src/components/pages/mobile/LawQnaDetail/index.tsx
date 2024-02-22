@@ -38,6 +38,8 @@ import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 
 import lawQnaView from '@/apis/lawQna/lawQnaView';
 
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 function LawQnaDetail() {
   const { user } = useAuth();
 
@@ -58,6 +60,8 @@ function LawQnaDetail() {
   const { openAuthPopup } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
+
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useAPI_GetLawQnaDetail(
     router?.query?.qnaID ? Number(router?.query?.qnaID) : undefined,
@@ -157,6 +161,11 @@ function LawQnaDetail() {
 
   const handleClickLike = useCallback(
     async (liked?: boolean, qnaId?: number) => {
+      if (inAppInfo.isInAppBrowser) {
+        handleOpenAppInstallPopup();
+        return;
+      }
+
       if (!user) {
         handleUpdateReturnUrl();
         openAuthPopup('onlyLogin');
@@ -177,7 +186,15 @@ function LawQnaDetail() {
         mutateQnaData();
       }
     },
-    [handleUpdateReturnUrl, lawQnaDetailDataMutate, mutateQnaData, openAuthPopup, user],
+    [
+      handleOpenAppInstallPopup,
+      handleUpdateReturnUrl,
+      inAppInfo.isInAppBrowser,
+      lawQnaDetailDataMutate,
+      mutateQnaData,
+      openAuthPopup,
+      user,
+    ],
   );
 
   const handleCopyUrl = useCallback(() => {

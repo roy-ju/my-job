@@ -10,6 +10,8 @@ import { MapListingList } from '@/components/templates';
 
 import useAuth from '@/hooks/services/useAuth';
 
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
@@ -33,6 +35,8 @@ export default memo(() => {
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
+
   const onClickListing = useCallback(
     (id: number, buyOrRent: number) => {
       router.push(
@@ -51,6 +55,11 @@ export default memo(() => {
 
   const onToggleFav = useCallback(
     async (id: number, active: boolean) => {
+      if (inAppInfo.isInAppBrowser) {
+        handleOpenAppInstallPopup();
+        return;
+      }
+
       if (isAuthLoading) return;
 
       if (!user) {
@@ -69,7 +78,15 @@ export default memo(() => {
         mutate();
       }
     },
-    [handleUpdateReturnUrl, isAuthLoading, mutate, openAuthPopup, user],
+    [
+      handleOpenAppInstallPopup,
+      handleUpdateReturnUrl,
+      inAppInfo.isInAppBrowser,
+      isAuthLoading,
+      mutate,
+      openAuthPopup,
+      user,
+    ],
   );
 
   return (
