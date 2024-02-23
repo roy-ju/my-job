@@ -1,15 +1,11 @@
 import tw, { styled } from 'twin.macro';
 
-import { ButtonV2 } from '@/components/atoms';
-
 import Plus24 from '@/assets/icons/plus_24.svg';
+
+import FabButton from '@/components/atoms/FabButton/FabButton';
 
 const StickyContainer = styled.div`
   ${tw`sticky bottom-4 right-4`}
-`;
-
-const TransitionNoneButton = styled(ButtonV2)`
-  ${tw`ml-auto mr-4 transition-none`}
 `;
 
 export default function SuggestCreate({
@@ -21,15 +17,15 @@ export default function SuggestCreate({
 }) {
   return isScrollingButton ? (
     <StickyContainer>
-      <TransitionNoneButton onClick={handleClick} tw="w-12 h-12 px-0 [border-radius: 50%]">
+      <FabButton onClick={handleClick} type="none">
         <Plus24 />
-      </TransitionNoneButton>
+      </FabButton>
     </StickyContainer>
   ) : (
     <StickyContainer>
-      <TransitionNoneButton onClick={handleClick} radius="r100" tw="[width: 142px] flex items-center gap-1">
+      <FabButton onClick={handleClick} type="extended">
         <Plus24 />집 구해요 등록
-      </TransitionNoneButton>
+      </FabButton>
     </StickyContainer>
   );
 }
