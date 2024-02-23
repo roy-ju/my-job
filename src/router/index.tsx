@@ -307,7 +307,7 @@ const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'
   loading: FallbackComponent,
 });
 
-const SuggestRequestedList = dynamic(() => import('@/components/pages/pc/SuggestRequestedList'), {
+const SuggestRequestedList = dynamic(() => import('@/components/pages/SuggestRequestedList/SuggestRequestedListPc'), {
   ssr: false,
   loading: FallbackComponent,
 });

@@ -42,7 +42,7 @@ export { default as PhotoHero } from './PhotoHero';
 export { default as ListingDetailSection } from './ListingDetailSection';
 export { default as MySuggestDetailListItem } from './MySuggestDetailListItem';
 export { default as SuggestDetailListItem } from './SuggestDetailListItem';
-export { default as SuggestRequestedListItem } from './SuggestRequestedListItem';
+
 export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
 export { default as FaqList } from './FaqList';
 export { default as SharePopup } from './SharePopup';

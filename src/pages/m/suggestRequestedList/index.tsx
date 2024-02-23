@@ -1,9 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
-import dynamic from 'next/dynamic';
 
-const SuggestRequestedList = dynamic(() => import('@/components/pages/mobile/SuggestRequestedList'), { ssr: false });
+import SuggestRequestedListMobile from '@/components/pages/SuggestRequestedList/SuggestRequestedListMobile';
 
-const Page: NextPageWithLayout = () => <SuggestRequestedList />;
+const Page: NextPageWithLayout = () => <SuggestRequestedListMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
