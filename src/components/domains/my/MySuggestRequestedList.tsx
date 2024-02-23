@@ -61,7 +61,7 @@ export default function MySuggestRequestedList() {
     if (typeof window === 'undefined') return;
 
     if (platform === 'pc') {
-      router.back();
+      router.replace(`/${Routes.My}?default=1`);
     }
 
     if (platform === 'mobile') {
