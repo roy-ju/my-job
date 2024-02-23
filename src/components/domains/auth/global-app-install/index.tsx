@@ -2,7 +2,13 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
+import useInAppBrowserCheck from '@/states/hooks/useInAppBrowserCheck';
+
 export default function GlobalAppInstall() {
+  useInAppBrowserCheck();
+
+  useInAppBrowserCheck();
+
   const { inAppInfo, handleClickInstall, handleCloseAppInstallPopup } = useInAppBroswerHandler();
 
   if (!inAppInfo.popupOpen) {
