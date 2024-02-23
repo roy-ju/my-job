@@ -62,3 +62,24 @@ export type DeregisterResponse = {
   has_deposit_or_nego_money: boolean;
   has_listing: boolean;
 } & ErrorResponse;
+
+export type MySuggestListItem = {
+  suggest_id: number;
+  realestate_types: string;
+  title: string;
+  status: number;
+  suggest_recommended_count: number;
+  created_time: string;
+  danji_or_regional: number;
+  buy_or_rents: string;
+  trade_or_deposit_price: number;
+  monthly_rent_fee: number;
+  pyoung_text: string;
+  negotiable: boolean;
+  quick_sale: boolean;
+  has_new: boolean;
+};
+
+export type MySuggestListResponse = {
+  list: MySuggestListItem[] | null;
+};

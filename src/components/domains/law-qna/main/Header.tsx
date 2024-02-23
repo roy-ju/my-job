@@ -79,30 +79,6 @@ export default function Header() {
             handleClickContainer={handleClickContainer}
             handleClickDeleteButton={handleClickDeleteButton}
           />
-          {/* <div
-            tw="flex items-center p-4 leading-4 border border-gray-300 rounded-lg [min-width: 308px]"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onClickSearchPage?.();
-            }}
-          >
-            <SearchIcon tw="mr-2" />
-            <span tw="font-normal [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
-              {nextRouter.query.q as string}
-            </span>
-            <Button
-              variant="ghost"
-              tw="ml-auto p-0 pl-2 [height: 16px]"
-              onClick={(e) => {
-                e?.preventDefault();
-                e?.stopPropagation();
-                onClickAllPage?.();
-              }}
-            >
-              <DeleteIcon />
-            </Button>
-          </div> */}
         </NavigationHeader.Title>
       )}
     </NavigationHeader>

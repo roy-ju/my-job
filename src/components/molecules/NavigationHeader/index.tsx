@@ -6,7 +6,7 @@ import { usePopper } from 'react-popper';
 
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
+import HeaderChevronLeftIcon from '@/assets/icons/header_chevron_left_24.svg';
 
 import TripleDotsIcon from '@/assets/icons/triple_dots.svg';
 
@@ -14,9 +14,8 @@ const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shri
 
 function BackButton({ onClick, title }: { onClick?: () => void; title?: string }) {
   return (
-    <button type="button" onClick={onClick} tw="h-full pr-3 flex items-center">
-      <ChevronLeftIcon tw="text-inherit" />
-
+    <button type="button" onClick={onClick} tw="h-full pr-5 flex items-center">
+      <HeaderChevronLeftIcon tw="text-inherit" />
       {title && <span tw="font-bold [margin-top: 1px]">{title}</span>}
     </button>
   );
@@ -77,7 +76,7 @@ function MoreButton({ iconColor = 'dark', items, onClickItem }: MoreButtonProps)
 
 const Button = tw.button`relative h-full`;
 
-const Title = tw.div`flex-1 min-w-0 overflow-hidden whitespace-nowrap text-ellipsis text-b1 text-gray-1000 font-bold pt-px pr-1`;
+const Title = tw.div`flex-1 min-w-0 overflow-hidden whitespace-nowrap text-ellipsis text-heading_01 text-gray-1000 pr-5`;
 
 export default Object.assign(NavigationHeader, {
   Title,
