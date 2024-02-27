@@ -50,7 +50,6 @@ export { default as MyFavoriteList } from './MyFavoriteList';
 export { default as MyRegisteredListings } from './MyRegisteredListings';
 export { default as ListingDetailPassed } from './ListingDetailPassed';
 export { default as ListingDetailHistory } from './ListingDetailHistory';
-export { default as SuggestDetail } from './SuggestDetail';
 export { default as SuggestListingForm } from './SuggestListingForm';
 export { default as SuggestListings } from './SuggestListings';
 export { default as SuggestRecommendedList } from './SuggestRecommendedList';

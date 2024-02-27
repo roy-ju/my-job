@@ -309,6 +309,20 @@ export class NegocioApiService extends ApiService {
     await this.instance.post('/suggest/recommend/delete', { suggest_recommend_id: suggestRecommendID });
   }
 
+  async suggestView(req: {
+    suggest_id: number;
+    ip_address: string;
+    device: string;
+    browser: string;
+  }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/suggest/view', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async mySuggestDelete({ suggestID }: { suggestID: number }): Promise<void> {
     await this.instance.post('/my/suggest/delete', { suggest_id: suggestID });
   }
@@ -343,6 +357,14 @@ export class NegocioApiService extends ApiService {
 
   async mySuggestRecommendNotIntersted({ id }: { id: number }) {
     await this.instance.post('/my/suggest/recommend/notinterested', { suggest_recommend_id: id });
+  }
+
+  async mySuggestRecommendCancel(suggestRecommendID: number) {
+    try {
+      return await this.instance.post('/my/suggest/recommend/cancel', { suggest_recommend_id: suggestRecommendID });
+    } catch {
+      return null;
+    }
   }
 
   async mySuggestStop({ suggestID }: { suggestID: number }) {

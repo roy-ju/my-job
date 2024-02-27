@@ -311,7 +311,8 @@ const SuggestRequestedList = dynamic(() => import('@/components/pages/SuggestReq
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestDetail = dynamic(() => import('@/components/pages/pc/SuggestDetail'), {
+
+const SuggestDetail = dynamic(() => import('@/components/pages/SuggestDetail/SuggestDetailPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -651,13 +652,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
       return <SuggestRequestedList {...props} />;
     }
     case Routes.MySuggestDetail: {
-      // return (
-      //   <PlatformProvider platform={platform} depth={depth}>
-      //     <Container auth panelWidth={DEFAULT_PANEL_WIDTH} key="hi">
-      //       <MySuggestDetail key={`${query.suggestID}`} {...props} />
-      //     </Container>
-      //   </PlatformProvider>
-      // );
       return <MySuggestDetail key={`${query.suggestID}`} {...props} />;
     }
     case Routes.SuggestSelectAddress: {

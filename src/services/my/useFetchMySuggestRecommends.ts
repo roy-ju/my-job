@@ -18,6 +18,7 @@ function getKey(suggestID: number | null, filter?: number) {
 
 export default function useFetchMySuggestRecommends(suggestID: number | null, filter?: number, mySuggest?: boolean) {
   const { user } = useAuth();
+
   const {
     data: dataList,
     size,

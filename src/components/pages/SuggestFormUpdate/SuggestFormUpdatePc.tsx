@@ -13,7 +13,7 @@ interface Props {
 
 function SuggestFormUpdatePc({ depth, panelWidth }: Props) {
   return (
-    <AuthRequired depth={depth} ciRequired>
+    <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
         <SuggestFormUpdate depth={depth} />
       </Panel>

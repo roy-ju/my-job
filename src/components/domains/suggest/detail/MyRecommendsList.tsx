@@ -1,16 +1,23 @@
-import { cancelMySuggestRecommend } from '@/apis/suggest/cancelMySuggestRecommendCancel';
-import { GetMyRecommendedListResponse } from '@/apis/suggest/getMyRecommendedList';
-import ChevronDown from '@/assets/icons/chevron_down.svg';
-import { Button, Chip, Numeral } from '@/components/atoms';
-import { ExpandableText, OverlayPresenter, Popup } from '@/components/molecules';
-import { describeBuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
-import isNumber from 'lodash/isNumber';
-
 import React, { useCallback, useState } from 'react';
+
 import { toast } from 'react-toastify';
 
+import isNumber from 'lodash/isNumber';
+
+import { describeBuyOrRent, SuggestRecommendStatus } from '@/constants/enums';
+
+import { ExpandableText, OverlayPresenter, Popup } from '@/components/molecules';
+
+import ChevronDown from '@/assets/icons/chevron_down.svg';
+
+import { Button, Chip, Numeral } from '@/components/atoms';
+
+import { apiService } from '@/services';
+
+import { SuggestMyRecommendedListResponse } from '@/services/suggests/useFetchSuggestMyRecommendedList';
+
 type Props = {
-  list?: GetMyRecommendedListResponse['list'];
+  list?: SuggestMyRecommendedListResponse['list'];
   onMutate?: () => void;
 };
 
@@ -44,7 +51,7 @@ function PriceText({ tradeOrDepositPrice, monthlyRentFee }: { tradeOrDepositPric
   return <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>;
 }
 
-function SuggestedListingItem({ item, onMutate }: Item) {
+function RecommendsItem({ item, onMutate }: Item) {
   const [open, setOpen] = useState(false);
 
   const handlePopup = useCallback((val: boolean) => {
@@ -53,7 +60,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
 
   const handleCancel = useCallback(
     async (id: number) => {
-      await cancelMySuggestRecommend(id);
+      await apiService.mySuggestRecommendCancel(id);
       await onMutate?.();
       toast.success('추천이 취소되었습니다.');
       handlePopup(false);
@@ -66,11 +73,7 @@ function SuggestedListingItem({ item, onMutate }: Item) {
       <div tw="not-last-of-type:[border-bottom: 1px solid #E9ECEF] py-5">
         <div tw="flex items-center justify-between mb-1.5">
           {item.suggest_recommend_status === SuggestRecommendStatus.Sent && <Chip variant="gray">대기중</Chip>}
-
           {item.suggest_recommend_status === SuggestRecommendStatus.Accepted && <Chip variant="nego">협의중</Chip>}
-
-          {/* {item.suggest_recommend_status === SuggestRecommendStatus.Completed && <Chip variant="red">거래성사</Chip>} */}
-
           {item.suggest_recommend_status === SuggestRecommendStatus.Sent && (
             <Button
               variant="ghost"
@@ -91,14 +94,12 @@ function SuggestedListingItem({ item, onMutate }: Item) {
 
         <div tw="flex items-center gap-1">
           {item.jeonyong_areas && <span tw="text-info text-gray-700">전용 {item.jeonyong_areas}㎡</span>}
-
           {item.floor && (
             <>
               {item.jeonyong_areas && <div tw="[height: 8px] [width: 1px] bg-gray-300" />}
               <span tw="text-info text-gray-700">{isNumber(Number(item.floor)) ? `${item.floor}층` : item.floor}</span>
             </>
           )}
-
           {item.direction && (
             <>
               {(item.floor || item.jeonyong_areas) && <div tw="[height: 8px] [width: 1px] bg-gray-300" />}
@@ -127,13 +128,13 @@ function SuggestedListingItem({ item, onMutate }: Item) {
   );
 }
 
-export default function SuggestedListings({ list, onMutate }: Props) {
+export default function MyRecommendsList({ list, onMutate }: Props) {
   const [showDetails, setShowDetails] = useState(true);
 
   return (
-    <>
+    <div tw="px-5">
       <button
-        tw="w-full flex justify-between gap-4 mt-10"
+        tw="w-full flex items-center justify-between gap-4 mt-10"
         type="button"
         onClick={() => {
           setShowDetails((prev) => !prev);
@@ -151,8 +152,9 @@ export default function SuggestedListings({ list, onMutate }: Props) {
           />
         </div>
       </button>
+
       {showDetails &&
-        list?.map((item) => <SuggestedListingItem key={item.suggest_recommend_id} item={item} onMutate={onMutate} />)}
-    </>
+        list?.map((item) => <RecommendsItem key={item.suggest_recommend_id} item={item} onMutate={onMutate} />)}
+    </div>
   );
 }

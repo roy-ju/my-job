@@ -42,6 +42,8 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
 
   const { ua } = userAgent(request);
 
+  console.log(ua);
+
   if (detectRobot(ua)) {
     return;
   }
@@ -52,7 +54,8 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   }
 
   // Redirect Mobile user
-  if (ua.indexOf('Mobi') > -1) {
+
+  if (ua.indexOf('Mobi') > -1 || ua.indexOf('Android') > -1) {
     // 구해요 개선에 따른 페이지 URL변경
     if (path === `/${Routes.EntryMobile}/${Routes.Login}`) {
       return NextResponse.redirect(new URL(`${request.nextUrl.origin}/${Routes.EntryMobile}`, request.url), 301);

@@ -22,12 +22,14 @@ function BackButton({ onClick, title }: { onClick?: () => void; title?: string }
 }
 
 interface MoreButtonProps {
+  type?: 'icon' | 'text';
+  text?: string;
   iconColor?: 'dark' | 'light';
   items: string[];
   onClickItem?: (index: number, item: string) => void;
 }
 
-function MoreButton({ iconColor = 'dark', items, onClickItem }: MoreButtonProps) {
+function MoreButton({ type = 'icon', text, iconColor = 'dark', items, onClickItem }: MoreButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const outsideRef = useRef<HTMLDivElement | null>(null);
@@ -48,9 +50,11 @@ function MoreButton({ iconColor = 'dark', items, onClickItem }: MoreButtonProps)
   return (
     <>
       <button ref={setReferenceElement} type="button" tw="relative h-full ml-auto" onClick={handleMoreButtonClick}>
-        {iconColor === 'light' && <TripleDotsIcon tw="text-white" />}
-        {iconColor === 'dark' && <TripleDotsIcon />}
+        {type === 'icon' && iconColor === 'light' && <TripleDotsIcon tw="text-white" />}
+        {type === 'icon' && iconColor === 'dark' && <TripleDotsIcon />}
+        {type === 'text' && text && <span tw="text-body_03 text-gray-800">{text}</span>}
       </button>
+
       {isOpen && (
         <div ref={setPopperElement} style={styles.popper} {...attributes.popper} tw="z-[110]">
           <div ref={outsideRef} tw="bg-white rounded-lg py-1 flex flex-col shadow">

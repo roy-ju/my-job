@@ -1,136 +1,76 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { mutate as otherMutate } from 'swr';
-
-import { toast } from 'react-toastify';
-
-import { useRouter as useCustomRouter } from '@/hooks/utils';
-
 import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import { apiService } from '@/services';
-
-import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
-
-import getPath from '@/utils/getPath';
 
 import Routes from '@/router/routes';
 
-import useMySuggestDetailStore from './useMySuggestDetailStore';
+import { SuggestDetailResponse } from '@/services/suggests/types';
 
-export default function useSummaryCTAHandler({ depth }: { depth?: number }) {
-  const { platform } = useCheckPlatform();
+import { DanjiOrRegionalType } from '@/constants/enums';
 
-  const value = useMySuggestDetailStore();
-
-  const { mutate: listMutate } = useFetchDanjiSuggestsList({
-    danjiID: value?.suggestDetailData?.danji_id,
-    pageSize: 4,
-  });
-
-  const customRouter = useCustomRouter(depth);
-
+export default function useSummaryCTAHandler({ data }: { data?: (SuggestDetailResponse & ErrorResponse) | null }) {
   const router = useRouter();
 
-  const [deletePopup, setDeletePopup] = useState(false);
+  const { platform } = useCheckPlatform();
 
-  const renderDanjiShowUICondition = platform === 'mobile' ? true : router.query.entry === 'my';
+  const [openSummaryDetail, setOpenSummaryDetail] = useState(false);
 
-  const openDeletePopup = () => {
-    setDeletePopup(true);
-  };
+  const danjiID = useMemo(() => data?.danji_id ?? 0, [data]);
 
-  const closeDeletePopup = () => {
-    setDeletePopup(false);
-  };
+  const renderRoutingDanjiDetailButton = useMemo(() => {
+    if (data?.danji_or_regional === DanjiOrRegionalType.Danji && data?.danji_id) {
+      return true;
+    }
 
-  const handleClickDanjiDetail = () => {
-    const danjiID = value?.suggestDetailData?.danji_id ?? 0;
+    return false;
+  }, [data]);
 
+  const handleClickOpenSummaryDetail = useCallback(() => {
+    setOpenSummaryDetail((prev) => !prev);
+  }, []);
+
+  const handleRouterDanjiDetail = useCallback(() => {
     if (!danjiID) return;
 
     if (platform === 'pc') {
-      customRouter.replace(Routes.DanjiDetail, {
-        searchParams: {
-          danjiID: `${danjiID}`,
-        },
-      });
-    } else {
+      const depth1 = router?.query?.depth1 ?? '';
+      const depth2 = router?.query?.depth2 ?? '';
+
+      const query = router.query;
+
+      delete query.depth1;
+      delete query.depth2;
+
+      if (depth1 && !depth2) {
+        router.push({
+          pathname: `/${Routes.DanjiDetail}`,
+          query: {
+            ...query,
+            danjiID: `${danjiID}`,
+          },
+        });
+      } else if (depth1 && depth2) {
+        router.push({
+          pathname: `/${depth1}/${Routes.DanjiDetail}`,
+          query: {
+            ...query,
+            danjiID: `${danjiID}`,
+          },
+        });
+      }
+    }
+
+    if (platform === 'mobile') {
       router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
     }
-  };
+  }, [danjiID, platform, router]);
 
-  const handleClickSuggestUpdate = () => {
-    const danjiID = value?.suggestDetailData?.danji_id ?? 0;
-
-    const suggestID = value?.suggestDetailData?.suggest_id ?? 0;
-
-    const depth1 = (router?.query?.depth1 as NegocioPath) ?? '';
-
-    const depth2 = (router?.query?.depth2 as NegocioPath) ?? '';
-
-    if (platform === 'pc') {
-      const pathname = getPath({
-        depth1,
-        depth2,
-        targetPath: Routes.SuggestFormUpdate as NegocioPath,
-      });
-
-      router.push({
-        pathname,
-        query: {
-          entry: Routes.SuggestRequestedList,
-          ...(danjiID ? { danjiID: `${danjiID}` } : {}),
-          ...(suggestID ? { suggestID: `${suggestID}` } : {}),
-        },
-      });
-    } else {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.SuggestFormUpdate}`,
-        query: {
-          entry: Routes.SuggestRequestedList,
-          ...(danjiID ? { danjiID: `${danjiID}` } : {}),
-          ...(suggestID ? { suggestID: `${suggestID}` } : {}),
-        },
-      });
-    }
-  };
-
-  const handleDelete = async () => {
-    const suggestID = value?.suggestDetailData?.suggest_id;
-
-    if (!suggestID) return;
-
-    await apiService.mySuggestDelete({ suggestID });
-
-    if (platform === 'pc') {
-      await listMutate();
-      await otherMutate('/my/dashboard/info');
-    }
-
-    closeDeletePopup();
-
-    toast.success('추천 요청을 삭제했습니다.', { toastId: 'success_delete' });
-
-    if (platform === 'pc') {
-      customRouter.replace(Routes.SuggestRequestedList, {
-        state: {
-          ...(value?.suggestDetailData?.danji_id ? { danjiID: `${value.suggestDetailData.danji_id}` } : {}),
-        },
-      });
-    } else {
-      router.back();
-    }
-  };
   return {
-    deletePopup,
-    renderDanjiShowUICondition,
-    openDeletePopup,
-    closeDeletePopup,
-    handleDelete,
-    handleClickDanjiDetail,
-    handleClickSuggestUpdate,
+    openSummaryDetail,
+    renderRoutingDanjiDetailButton,
+    handleRouterDanjiDetail,
+    handleClickOpenSummaryDetail,
   };
 }

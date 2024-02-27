@@ -15,7 +15,7 @@ function MySuggestDetailPc({ depth, panelWidth }: Props) {
   return (
     <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
-        <MySuggsetDetail depth={depth} />
+        <MySuggsetDetail />
       </Panel>
     </AuthRequired>
   );

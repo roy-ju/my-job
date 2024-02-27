@@ -1,57 +1,97 @@
-import { SuggestRecommendDetailList } from '@/services/my/types';
+import { useCallback, useMemo } from 'react';
 
-import SuccessIcon from '@/assets/icons/success.svg';
+import { useRouter } from 'next/router';
 
-import CancelIcon from '@/assets/icons/cancel.svg';
+import tw, { styled } from 'twin.macro';
 
-import ListItemListingSection from './ListItemListingSection';
+import { KeyedMutator } from 'swr';
+
+import { ButtonV2 } from '@/components/atoms';
+
+import { MySuggestRecommendsResponse, SuggestRecommendDetailList } from '@/services/my/types';
 
 import ListItemTitleSection from './ListItemTitleSection';
 
+import ListItemStatusMessage from './ListItemStatusMessage';
+
 import ListItemCtas from './ListItemCtas';
+
+import DeletedChatRoomMessage from './DeletedChatRoomMessage';
+
+import ListItemListingSection from './ListItemListingSection';
+
+import useSuggestListItemHandler from './hooks/useSuggestListItemHandler';
+
+const StartNegotiationButton = styled(ButtonV2)`
+  ${tw`absolute z-20 left-1/2 -translate-x-1/2 [width: 157px] top-1/2 -translate-y-1/2 opacity-100`}
+`;
+
+const DimmedLayer = styled.div`
+  ${tw`absolute z-10 w-full bg-gray-300 rounded-lg`}
+
+  background: linear-gradient(0deg, #ffffff 22%, rgba(255, 255, 255, 0.3) 100%);
+
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  margin-left: 1px;
+  margin-top: 1px;
+`;
 
 type ListItemProps = {
   item: SuggestRecommendDetailList;
-  depth?: number;
+  mutate: KeyedMutator<MySuggestRecommendsResponse[]>;
 };
 
-export default function ListItem({ item, depth }: ListItemProps) {
-  const isExistedList = item?.suggest_recommend_detail_list && item.suggest_recommend_detail_list.length > 0;
+export default function ListItem({ item, mutate }: ListItemProps) {
+  const { query } = useRouter();
 
-  const renderChatRoomClosedText = () => {
-    if (item?.chat_room_id && item.suggest_recommend_ever_user_accepted && item.chat_room_is_deleted) {
-      return (
-        <p tw="text-caption_01 text-gray-700 text-center">
-          이미 채팅방을 나간 요청 건입니다.
-          <br />
-          이전 채팅 내용을 확인하고 싶다면 &apos;채팅 복원하기&apos; 를 진행해주세요.
-        </p>
-      );
-    }
-  };
+  const { onClickMySuggestRecommendAccept } = useSuggestListItemHandler({ mutate });
+
+  const isExistedList = useMemo(
+    () => item?.suggest_recommend_detail_list && item?.suggest_recommend_detail_list.length > 0,
+    [item],
+  );
+
+  const chatRoomDeleted = useMemo(
+    () => item?.chat_room_id && item?.suggest_recommend_ever_user_accepted && item?.chat_room_is_deleted,
+    [item],
+  );
+
+  const isListDimmed = item.is_agent && !item.suggest_recommend_ever_user_accepted && item.suggest_recommend_has_sent;
+
+  const handleClickNegotiationStartButton = useCallback(() => {
+    const suggestID = query.suggestID ? Number(query.suggestID) : 0;
+
+    if (!suggestID) return;
+
+    onClickMySuggestRecommendAccept({
+      suggest_id: suggestID,
+      recommender_id: item.recommender_id,
+      is_recommender_agent: item.is_agent,
+    });
+  }, [item.is_agent, item.recommender_id, onClickMySuggestRecommendAccept, query.suggestID]);
 
   return (
-    <div tw="p-4 rounded-lg border border-gray-300 flex flex-col gap-4">
-      <ListItemTitleSection item={item} />
-      {item?.agent_has_suggest_complete_completed && (
-        <div tw="flex gap-1 items-center text-info text-green-800 font-bold">
-          <SuccessIcon />
-          <p>거래성사가 완료되었습니다.</p>
-        </div>
+    <div tw="relative">
+      {isListDimmed && (
+        <>
+          <DimmedLayer />
+          <StartNegotiationButton onClick={handleClickNegotiationStartButton}>확인하기</StartNegotiationButton>
+        </>
       )}
-      {item.agent_has_suggest_complete_cancelled && (
-        <div tw="flex gap-1 items-center text-info text-gray-700 font-bold">
-          <CancelIcon />
-          <p>거래 성사가 취소되었습니다.</p>
-        </div>
-      )}
-      <ListItemCtas item={item} depth={depth} />
-      {isExistedList && renderChatRoomClosedText()}
-      {isExistedList &&
-        item.suggest_recommend_detail_list.map((data) => (
-          <ListItemListingSection key={data.suggest_recommend_id} item={data} depth={depth} />
-        ))}
-      {!isExistedList && <p tw="text-info text-gray-700 text-center">유효한 추천이 없습니다.</p>}
+
+      <div tw="p-4 rounded-lg border border-gray-300 flex flex-col gap-4">
+        <ListItemTitleSection item={item} isListDimmed={isListDimmed} />
+        {item?.agent_has_suggest_complete_completed && <ListItemStatusMessage status="success" />}
+        {item?.agent_has_suggest_complete_cancelled && <ListItemStatusMessage status="cancel" />}
+        <ListItemCtas item={item} mutate={mutate} />
+        {isExistedList && chatRoomDeleted && <DeletedChatRoomMessage />}
+        {isExistedList &&
+          (isListDimmed ? item.suggest_recommend_detail_list.slice(0, 1) : item.suggest_recommend_detail_list).map(
+            (data) => <ListItemListingSection key={data.suggest_recommend_id} item={data} mutate={mutate} />,
+          )}
+        {!isExistedList && <p tw="text-info text-gray-700 text-center">유효한 추천이 없습니다.</p>}
+      </div>
     </div>
   );
 }
