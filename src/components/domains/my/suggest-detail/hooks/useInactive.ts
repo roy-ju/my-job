@@ -2,36 +2,36 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useRouter as useCustomRouter } from '@/hooks/utils';
-
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-import useMySuggestDetailStore from './useMySuggestDetailStore';
+import Routes from '@/router/routes';
 
-export default function useRedirect({ depth }: { depth?: number }) {
+import { SuggestDetailResponse } from '@/services/suggests/types';
+
+export default function useInactive({
+  suggestDetailData,
+}: {
+  suggestDetailData: (SuggestDetailResponse & ErrorResponse) | null;
+}) {
   const { platform } = useCheckPlatform();
-
-  const value = useMySuggestDetailStore();
-
-  const customRouter = useCustomRouter(depth);
 
   const router = useRouter();
 
   const [showInactivePopup, setShowInactivePopup] = useState(false);
 
   useEffect(() => {
-    if (value && value.suggestDetailData?.my_suggest === false) {
+    if (suggestDetailData && (suggestDetailData?.my_suggest === false || suggestDetailData?.error_code)) {
       setShowInactivePopup(true);
     }
-  }, [value]);
+  }, [suggestDetailData]);
 
   const inactivePopupCTA = () => {
     setShowInactivePopup(false);
 
     if (platform === 'pc') {
-      customRouter.popAll();
-    } else {
       router.replace('/');
+    } else {
+      router.replace(`/${Routes.EntryMobile}`);
     }
   };
 

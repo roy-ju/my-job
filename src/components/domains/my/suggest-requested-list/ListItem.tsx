@@ -1,10 +1,6 @@
-import { useMemo } from 'react';
-
 import tw, { styled } from 'twin.macro';
 
 import { MySuggestListItem } from '@/services/my/types';
-
-import { BuyOrRent } from '@/constants/enums';
 
 import RealestateTypeLabel from './RealestateTypeLabel';
 
@@ -17,6 +13,8 @@ import Pyoung from './Pyoung';
 import CompleteStatusLabel from './CompleteStatusLabel';
 
 import SuggestCounts from './SuggestCounts';
+import BuyOrRent from './BuyOrRent';
+import Negotiable from './Negotiable';
 
 const ListItemHeader = styled.div`
   ${tw`flex items-center justify-between`}
@@ -40,11 +38,6 @@ type ListItemProps = {
 };
 
 export default function ListItem({ item, handleClick }: ListItemProps) {
-  const buyOrRentText = useMemo(
-    () => (Number(item?.buy_or_rents) === BuyOrRent.Buy ? '매매 ' : '전월세 '),
-    [item?.buy_or_rents],
-  );
-
   return (
     <div>
       <button type="button" tw="w-full text-start px-5" onClick={() => handleClick(item.suggest_id)}>
@@ -56,13 +49,13 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
           <BasicInfo>
             <Title>{item.title}</Title>
             <BuyOrRentPriceNegotiableWrraper>
-              <span>{buyOrRentText}</span>
+              <BuyOrRent buyOrRents={item.buy_or_rents} />
               <Price
                 tradeOrDepositPrice={item?.trade_or_deposit_price ?? 0}
                 monthlyRentFee={item?.monthly_rent_fee ?? 0}
                 quickSale={item?.quick_sale ?? false}
               />
-              {item.negotiable && <span>&nbsp;(협의 가능)</span>}
+              <Negotiable negotiable={item.negotiable} />
             </BuyOrRentPriceNegotiableWrraper>
             <Pyoung pyoung={item.pyoung_text} />
           </BasicInfo>

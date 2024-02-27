@@ -9,7 +9,7 @@ export default function Price({
   monthlyRentFee: number;
   quickSale: boolean;
 }) {
-  if (quickSale) return <>급매 구해요</>;
+  if (quickSale) return <>급매</>;
 
   if (monthlyRentFee) {
     return (

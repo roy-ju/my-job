@@ -6,7 +6,7 @@ import MobileContainer from '@/components/atoms/MobileContainer';
 
 export default function SuggestFormUpdateMobile() {
   return (
-    <MobAuthRequired ciRequired>
+    <MobAuthRequired>
       <MobileContainer>
         <SuggestFormUpdate />
       </MobileContainer>

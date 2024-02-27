@@ -1,12 +1,14 @@
 import React from 'react';
 
+import { KeyedMutator } from 'swr';
+
 import { css } from 'twin.macro';
 
 import { Moment, Numeral } from '@/components/atoms';
 
 import { ExpandableText } from '@/components/molecules';
 
-import { SuggestRecommendDetailListItem } from '@/services/my/types';
+import { MySuggestRecommendsResponse, SuggestRecommendDetailListItem } from '@/services/my/types';
 
 import { SuggestRecommendStatus } from '@/constants/enums';
 
@@ -14,11 +16,11 @@ import { BuyOrRentString } from '@/constants/strings';
 
 import ErrorIcon from '@/assets/icons/error.svg';
 
-import useSuggestListItemCTAHandler from './hooks/useSuggestListItemCTAHandler';
+import useSuggestListItemHandler from './hooks/useSuggestListItemHandler';
 
 type ListItemListingSectionProps = {
   item: SuggestRecommendDetailListItem;
-  depth?: number;
+  mutate: KeyedMutator<MySuggestRecommendsResponse[]>;
 };
 
 const informationStringWrapper = css`
@@ -32,10 +34,10 @@ const informationStringWrapper = css`
   }
 `;
 
-export default function ListItemListingSection({ item, depth }: ListItemListingSectionProps) {
+export default function ListItemListingSection({ item, mutate }: ListItemListingSectionProps) {
   const isOptionField = item?.direction || item?.floor || item?.jeonyong_areas;
 
-  const { onClickNotInterested, onClickDeleteSuggestRecommendItem } = useSuggestListItemCTAHandler({ depth });
+  const { onClickNotInterested, onClickDeleteSuggestRecommendItem } = useSuggestListItemHandler({ mutate });
 
   const renderMoments = () => {
     if (item?.created_time) {
@@ -66,6 +68,7 @@ export default function ListItemListingSection({ item, depth }: ListItemListingS
             </div>
           )}
           {item?.address_free_text && <div tw="text-info">{item?.address_free_text}</div>}
+
           {isOptionField && (
             <div tw="text-info text-gray-700 flex items-center" css={informationStringWrapper}>
               {item?.jeonyong_areas && (
@@ -83,7 +86,9 @@ export default function ListItemListingSection({ item, depth }: ListItemListingS
 
   const renderDeleteButton = () => {
     let text = '';
+
     let onClick: typeof onClickNotInterested | typeof onClickDeleteSuggestRecommendItem;
+
     if (item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled) {
       text = '삭제';
       onClick = onClickDeleteSuggestRecommendItem;
@@ -108,6 +113,7 @@ export default function ListItemListingSection({ item, depth }: ListItemListingS
       {renderContents()}
       <div tw="flex flex-col flex-1 pt-3">
         {item.note && <ExpandableText color="#868E96">{item?.note}</ExpandableText>}
+
         {item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled && (
           <div tw="flex gap-1 mt-3">
             <ErrorIcon />

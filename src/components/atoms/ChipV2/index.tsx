@@ -9,7 +9,7 @@ interface Props {
 const sizes = {
   small: tw`h-5 text-caption_01`,
 
-  large: tw`h-6 text-subhead_02`,
+  large: tw`h-6 text-subhead_01`,
 };
 
 const colors = {
