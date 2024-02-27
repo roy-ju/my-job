@@ -137,7 +137,7 @@ export default function SuggestListings({ depth, danji, data, totalCount, onNext
         )}
 
         {data && data.length > 0 && (
-          <div tw="px-5 flex-1 min-h-0 overflow-auto">
+          <div tw="py-2 px-5 flex-1 min-h-0 overflow-auto">
             <InfiniteScroll tw="pt-0 flex-1 min-h-0 overflow-auto flex flex-col gap-4" onNext={onNext}>
               {data.map((item) => (
                 <ListingItem.TypeTwo

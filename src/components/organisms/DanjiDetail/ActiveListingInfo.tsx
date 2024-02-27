@@ -295,7 +295,7 @@ export default function ActiveListingInfo({
           <ListingItem>
             {tab === 1 &&
               (suggestListings?.length > 0 ? (
-                <div tw="flex flex-col gap-4 px-5 mt-4">
+                <div tw="flex flex-col gap-4 py-2 px-5 mt-4">
                   {suggestListings?.slice(0, 3).map((item) => (
                     <ListingItem.TypeTwo
                       key={item.suggest_id}
