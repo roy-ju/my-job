@@ -1,16 +1,38 @@
-import tw from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
-import { Avatar, Chip, Numeral } from '@/components/atoms';
+import { Numeral } from '@/components/atoms';
 
 import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
 
-import { convertRangeText } from '@/utils/fotmat';
+import ChipV2 from '@/components/atoms/ChipV2';
 
-import { formatCreatedTime } from '@/utils/formatsTime';
+import CreatedTime from '@/components/domains/my/suggest-requested-list/CreatedTime';
 
-import ArrowRight from '@/assets/icons/arrow_right_16.svg';
+import StatusLabel from './StatusLabel';
 
-import ViewIcon from '@/assets/icons/view.svg';
+const CardButton = styled.button`
+  ${tw`w-full flex flex-col p-5 pb-4 border border-gray-200 rounded-lg hover:border-gray-300 [box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06)]`}
+`;
+
+const BuyOrRentText = styled.h1`
+  ${tw`inline`}
+`;
+
+const NegotiableText = styled.span`
+  ${tw`text-gray-600 text-body_02`}
+`;
+
+const MainWrraper = styled.div`
+  ${tw`text-heading_01 text-gray-800 pb-0.5`}
+`;
+
+const Flex = styled.div`
+  ${tw`flex flex-row items-center`}
+`;
+
+const ATagFlex = styled.a`
+  ${tw`flex flex-row items-center`}
+`;
 
 function PriceText({
   tradeOrDepositPrice,
@@ -21,7 +43,7 @@ function PriceText({
   monthlyRentFee: number;
   quickSale: boolean;
 }) {
-  if (quickSale) return <span>급매 구해요</span>;
+  if (quickSale) return <span>급매</span>;
 
   if (!tradeOrDepositPrice && !monthlyRentFee) return <span>급매 구해요</span>;
 
@@ -53,100 +75,59 @@ export default function TypeTwo({
   };
 
   return (
-    <button
-      type="button"
-      tw="flex flex-col p-4 border border-gray-300 rounded-lg hover:bg-gray-200"
-      css={[tw`w-full`]}
-      onClick={() => onClick?.(item.suggest_id)}
-    >
-      <div tw="w-full flex items-center gap-1">
-        <Avatar src={item.user_profile_image_url} alt="프로필" size={24} />
-        <span tw="text-info text-gray-700 [letter-spacing: -0.4px] [text-overflow: ellipsis] overflow-hidden whitespace-nowrap max-w-[150px]">
-          {item.user_nickname}
-        </span>
+    <CardButton onClick={() => onClick?.(item.suggest_id)}>
+      {item.my_suggest && (
+        <ChipV2 variant="primary" size="small" tw="mb-3">
+          {ChipText.MySuggest}
+        </ChipV2>
+      )}
 
-        {item.my_suggest && <Chip variant="nego">{ChipText.MySuggest}</Chip>}
-        {item.iam_recommending && (
-          <Chip variant="yellow" tw="text-red-1100">
-            {ChipText.IamRecommending}
-          </Chip>
-        )}
+      {item.iam_recommending && (
+        <ChipV2 variant="green" size="small" tw="mb-3">
+          {ChipText.IamRecommending}
+        </ChipV2>
+      )}
 
-        {item.my_suggest || item.iam_recommending ? (
-          <p tw="flex items-center text-info leading-4 whitespace-nowrap ml-auto">
-            상세보기
-            <ArrowRight />
-          </p>
-        ) : (
-          <p tw="flex items-center text-info leading-4 whitespace-nowrap ml-auto">
-            상세보기
-            <ArrowRight />
-          </p>
-        )}
-      </div>
-
-      <div tw="font-bold pt-2 pb-1">
+      <MainWrraper>
         {anchorURL ? (
-          <a
+          <ATagFlex
             href={anchorURL}
             onClick={(e) => {
               e.preventDefault();
               onClick?.(item.suggest_id);
             }}
+            tw="flex flex-row items-center"
           >
-            <h1 tw="text-b1 [display: inline]">{item.buy_or_rents === '1' ? '매매' : '전월세'} </h1>
+            <BuyOrRentText>{item.buy_or_rents === '1' ? '매매' : '전월세'} </BuyOrRentText>
             <PriceText
               tradeOrDepositPrice={item.trade_or_deposit_price}
               monthlyRentFee={item.monthly_rent_fee}
               quickSale={item.quick_sale}
             />
-          </a>
+            {item?.negotiable && <NegotiableText>&nbsp;(협의가능)</NegotiableText>}
+          </ATagFlex>
         ) : (
-          <>
-            <h1 tw="text-b1 [display: inline]">{item.buy_or_rents === '1' ? '매매' : '전월세'} </h1>
+          <Flex>
+            <BuyOrRentText>{item.buy_or_rents === '1' ? '매매' : '전월세'} </BuyOrRentText>
             <PriceText
               tradeOrDepositPrice={item.trade_or_deposit_price}
               monthlyRentFee={item.monthly_rent_fee}
               quickSale={item.quick_sale}
             />
-          </>
+            {item?.negotiable && <NegotiableText>&nbsp;(협의가능)</NegotiableText>}
+          </Flex>
         )}
+      </MainWrraper>
+
+      <div tw="w-full flex items-center">
+        <p tw="text-gray-700 text-body_02 whitespace-nowrap text-ellipsis overflow-hidden">{item.pyoung_text}</p>
       </div>
 
-      <div tw="flex w-full">
-        <div tw="flex items-center gap-1  text-gray-700 text-b2">
-          <div tw="shrink-0">
-            {convertRangeText({
-              unit: '평',
-              dashStyle: '~',
-              bracket: true,
-              v1: item.pyoung_from,
-              v2: item.pyoung_to,
-            })}
-          </div>
-
-          {item.note && item.additional_conditions && (
-            <div tw="break-all line-clamp-1">
-              {`${item.note}, ${item.additional_conditions.split(',').join(', ')}` || ''}
-            </div>
-          )}
-          {item.note && !item.additional_conditions && <div tw="break-all line-clamp-1">{`${item.note}`}</div>}
-
-          {!item.note && item.additional_conditions && (
-            <div tw="break-all line-clamp-1">
-              {`${item.additional_conditions.split(',').join(', ')}, ${item.note}` || ''}
-            </div>
-          )}
-        </div>
+      <div tw="mt-2 w-full text-left">
+        <CreatedTime time={item.created_time} />
       </div>
 
-      <div tw="mt-1 flex items-center w-full">
-        <p tw="text-gray-700 [letter-spacing: -0.4px] text-info">{formatCreatedTime(item.created_time)}</p>
-        <div tw="flex gap-1 ml-auto items-center">
-          <ViewIcon />
-          <span tw="text-gray-700 [letter-spacing: -0.25px] text-info">{item.view_count}</span>
-        </div>
-      </div>
-    </button>
+      <StatusLabel render={false} iconType="success" message="거래성사가 완료되었습니다." />
+    </CardButton>
   );
 }
