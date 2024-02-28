@@ -9,14 +9,18 @@ export default function Price({
   monthlyRentFee: number;
   quickSale: boolean;
 }) {
-  if (quickSale) return <>급매</>;
+  if (quickSale) return <>&nbsp;급매물 구해요</>;
 
   if (monthlyRentFee) {
     return (
       <>
-        <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
+        &nbsp;<Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
       </>
     );
   }
-  return <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>;
+  return (
+    <>
+      &nbsp;<Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>
+    </>
+  );
 }
