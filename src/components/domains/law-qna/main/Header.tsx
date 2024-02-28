@@ -64,7 +64,7 @@ export default function Header() {
 
   return (
     <NavigationHeader tw="relative">
-      <NavigationHeader.BackButton onClick={handleClickBack} title={renderType === 'none' ? '서비스 홈' : ''} />
+      <NavigationHeader.BackButton onClick={handleClickBack} title={renderType === 'none' ? '' : ''} />
       {renderType === 'none' ? (
         <>
           <NavigationHeader.Title tw="absolute [left: 38%] text-center">부동산 법률 상담</NavigationHeader.Title>
