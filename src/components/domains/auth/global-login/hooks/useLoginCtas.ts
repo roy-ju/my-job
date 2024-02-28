@@ -116,10 +116,50 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   useEffect(() => {
     if (!platform) return;
 
-    const handleOnlyLoginOrLogin = async () => {
+    const handleOnlyLoginOrLogin = async (phone: string, pf: string) => {
       if (returnUrl) {
         if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-          await createSuggest();
+          if (phone) {
+            await createSuggest();
+          } else if (!phone) {
+            if (pf === 'pc') {
+              const depth1 = router?.query?.depth1;
+              const depth2 = router?.query?.depth2;
+              const query = router.query;
+
+              delete query.depth1;
+              delete query.depth2;
+
+              if (depth1 && depth2) {
+                if (depth1 === Routes.SuggestForm) {
+                  router.push({
+                    pathname: `/${Routes.VerifyCi}/${depth2}`,
+                    query,
+                  });
+                } else if (depth2 === Routes.SuggestForm) {
+                  router.push({
+                    pathname: `/${depth1}/${Routes.VerifyCi}`,
+                    query,
+                  });
+                }
+              }
+
+              if (depth1 && !depth2) {
+                router.push({
+                  pathname: `/${Routes.VerifyCi}`,
+                  query,
+                });
+              }
+            }
+
+            if (pf === 'mobile') {
+              router.push({
+                pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+                query: router.query,
+              });
+            }
+            return;
+          }
         }
 
         await danjiFavoriteAdd();
@@ -131,7 +171,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     };
 
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
-      handleOnlyLoginOrLogin();
+      handleOnlyLoginOrLogin(user.phone ?? '', platform);
     }
   }, [authType, createSuggest, danjiFavoriteAdd, platform, returnUrl, router, user]);
 
