@@ -33,7 +33,6 @@ export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as AgentCardCarousel } from './AgentCardCarousel';
 export { default as MyListItem } from './MyListItem';
 export { default as DanjiDetailSection } from './DanjiDetail';
-export { default as ListingItem } from './ListingItem';
 export { default as ListingCreateResultStatus } from './ListingCreateResultStatus';
 export { default as ListingCtaButtons } from './ListingCtaButtons';
 export { default as BiddingForm } from './BiddingForm';

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-import { Button } from '@/components/atoms';
+import { ButtonV2 } from '@/components/atoms';
 
 type FixedButtonProps = {
   tabIndex: number;
@@ -17,9 +17,9 @@ function FixedButton({ tabIndex, handleClickSuggestButton }: FixedButtonProps) {
       transition={{ duration: 0.2 }}
       tw="flex items-center fixed bottom-0 [z-index: 100000] py-3 px-5  gap-3 bg-white w-full shadow"
     >
-      <Button tw="flex-1" onClick={handleClickSuggestButton} size="bigger">
+      <ButtonV2 tw="flex-1" onClick={handleClickSuggestButton} size="big">
         구해요 등록
-      </Button>
+      </ButtonV2>
     </motion.div>
   );
 }

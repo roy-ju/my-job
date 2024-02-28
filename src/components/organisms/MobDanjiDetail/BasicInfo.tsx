@@ -1,22 +1,29 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { Button, Chip } from '@/components/atoms';
-import { describeRealestateType } from '@/constants/enums';
-import { RealestateTypeChipVariant } from '@/constants/strings';
-import Routes from '@/router/routes';
-import { cuttingDot } from '@/utils/fotmat';
-import moment from 'moment';
-import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
 import tw from 'twin.macro';
 
+import moment from 'moment';
+
+import { Button, Chip } from '@/components/atoms';
+
+import { describeRealestateType } from '@/constants/enums';
+
+import { RealestateTypeChipVariant } from '@/constants/strings';
+
+import Routes from '@/router/routes';
+
+import { cuttingDot } from '@/utils/fotmat';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
+
 export default function BasicInfo({
-  isShowDanjiListings = false,
-  isListingDetail = false,
+  type = '',
   danji,
 }: {
-  isShowDanjiListings?: boolean;
-  isListingDetail?: boolean;
-  danji: GetDanjiDetailResponse;
+  type?: '' | 'listingDetail' | 'danjiListings';
+  danji: DanjiDetailResponse;
 }) {
   const router = useRouter();
 
@@ -33,11 +40,11 @@ export default function BasicInfo({
 
   return (
     <>
-      <div css={[isListingDetail ? tw`pb-0` : tw`pb-9`]}>
+      <div css={[type === 'listingDetail' ? tw`pb-0` : tw`pb-9`]}>
         <div tw="px-5">
           <div tw="flex flex-row items-center justify-between mb-2">
             <span tw="text-h3 font-bold">{danji.name}</span>
-            {isShowDanjiListings && (
+            {type === 'danjiListings' && (
               <Button variant="outlined" size="small" onClick={handleDanjiDetail}>
                 단지 정보 보기
               </Button>

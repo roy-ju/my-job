@@ -1,14 +1,24 @@
-import { AuthRequired, Loading, Panel } from '@/components/atoms';
 import { memo, useState, useCallback, useEffect, useMemo } from 'react';
-import { SuggestListingForm } from '@/components/templates';
-import { BuyOrRent } from '@/constants/enums';
-import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
+
 import { toast } from 'react-toastify';
+
 import { useRouter } from '@/hooks/utils';
-import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
-import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
-import Routes from '@/router/routes';
+
+import { AuthRequired, Loading, Panel } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { SuggestListingForm } from '@/components/templates';
+
+import { BuyOrRent } from '@/constants/enums';
+
+import Routes from '@/router/routes';
+
+import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
+
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
+
+import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
 
 interface Props {
   depth: number;
@@ -38,8 +48,8 @@ export default memo(({ depth, panelWidth }: Props) => {
     [router?.query?.addressDetail],
   );
 
-  const { mutate } = useAPI_GetDanjiSuggestList({
-    danjiId: danjiID,
+  const { mutate } = useFetchDanjiSuggestsList({
+    danjiID,
     pageSize: 10,
   });
 

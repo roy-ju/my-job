@@ -1,12 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useRouter as useNextRouter } from 'next/router';
 
-import Image from 'next/image';
-
 import tw from 'twin.macro';
 
-import { Button } from '@/components/atoms';
+import { Button, ButtonV2 } from '@/components/atoms';
 
 import NewTabs from '@/components/molecules/Tabs/NewTabs';
 
@@ -20,23 +18,23 @@ import getPath from '@/utils/getPath';
 
 import { apiService } from '@/services';
 
-import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
-
 import { useAPI_GetDanjiNaver } from '@/apis/danji/danjiNaver';
 
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
 
-import { useAPI_GetDanjiListingsList } from '@/apis/danji/danjiListingsList';
-
-import SuggestNodata from '@/../public/static/images/suggest_nodata.png';
-
-import ListingNodata from '@/../public/static/images/listing_nodata.png';
-
 import NaverLogo from '@/assets/icons/naver_logo.svg';
 
-import ListingItem from '../ListingItem';
+import SuggestListingsNodata from '@/components/domains/suggest/listings-list/Nodata';
+
+import DanjiListingsNodata from '@/components/domains/danji/listings-list/Nodata';
+
+import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
+
+import { useFetchDanjiListingsList } from '@/services/danji/useFetchDanjiListingsList';
 
 import SuggestCardInDanji from '../suggest/SuggestCardInDanji';
+
+import DanjiListingsCard from '../danji/DanjiListingsCard';
 
 export default function ActiveListingInfo({
   isListingDetail = false,
@@ -55,23 +53,48 @@ export default function ActiveListingInfo({
   const [tab, setTab] = useState(1);
 
   const router = useRouter(depth);
+
   const nextRouter = useNextRouter();
 
-  const { data: danjiListings, totalCount } = useAPI_GetDanjiListingsList({
-    danjiId: danji?.danji_id,
+  const { data: danjiListingsListData } = useFetchDanjiListingsList({
+    danjiID: danji?.danji_id,
     realestateType: danji?.type,
     orderBy: 1,
     pageSize: 4,
   });
 
-  const {
-    data: suggestListings,
-    totalCount: suggestTotalCount,
-    mutate,
-  } = useAPI_GetDanjiSuggestList({
-    danjiId: danji?.danji_id,
+  const danjiListings = useMemo(() => {
+    if (!danjiListingsListData) return [];
+
+    return danjiListingsListData
+      ?.map((item) => item?.list)
+      .filter((item) => Boolean(item))
+      .flat();
+  }, [danjiListingsListData]);
+
+  const totalCount = useMemo(
+    () => (danjiListingsListData ? (danjiListingsListData[0] ? danjiListingsListData[0].total_count : 0) : 0),
+    [danjiListingsListData],
+  );
+
+  const { data: suggestListData, mutate } = useFetchDanjiSuggestsList({
+    danjiID: danji?.danji_id,
     pageSize: 4,
   });
+
+  const suggestListings = useMemo(() => {
+    if (!suggestListData) return [];
+
+    return suggestListData
+      ?.map((item) => item?.list)
+      .filter((item) => Boolean(item))
+      .flat();
+  }, [suggestListData]);
+
+  const suggestTotalCount = useMemo(
+    () => (suggestListData ? (suggestListData[0] ? suggestListData[0].total_count : 0) : 0),
+    [suggestListData],
+  );
 
   const handleSuggestListAll = useCallback(() => {
     if (router.query.listingID) {
@@ -294,7 +317,7 @@ export default function ActiveListingInfo({
                 )}
           </div>
 
-          <ListingItem>
+          <>
             {tab === 1 &&
               (suggestListings?.length > 0 ? (
                 <div tw="flex flex-col gap-4 py-2 px-5 mt-4">
@@ -303,21 +326,11 @@ export default function ActiveListingInfo({
                       key={item.suggest_id}
                       item={item}
                       onClick={() => handleSuggestDetail(item.suggest_id, item.my_suggest)}
-                      anchorURL={`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${item.danji_id}&suggestID=${item.suggest_id}`}
                     />
                   ))}
                 </div>
               ) : (
-                <>
-                  <div tw="flex flex-col px-5 items-center">
-                    <Image src={SuggestNodata.src} width={200} height={128} alt="" />
-                    <p tw="mt-4 mb-2 text-center text-h2 font-bold">원하는 조건의 매물을 구해보세요.</p>
-                    <p tw="text-center text-info text-gray-700">
-                      단지 주변 중개사에게 매물을 추천받고
-                      <br />이 단지 집주인에게 직접 연락 받을 수 있어요.
-                    </p>
-                  </div>
-                </>
+                <SuggestListingsNodata />
               ))}
 
             {tab === 2 &&
@@ -325,36 +338,25 @@ export default function ActiveListingInfo({
                 danjiListings
                   ?.slice(0, 3)
                   .map((item, index) => (
-                    <ListingItem.TypeOne
+                    <DanjiListingsCard
                       key={item.listing_id}
                       item={item}
                       isFirst={index === 0}
                       isLast={index === 2}
                       onClick={() => handleListingDetail(item.listing_id, item.buy_or_rent)}
-                      anchorURL={`/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${
-                        item.listing_id
-                      }&danjiID=${danji?.danji_id || `${router?.query?.danjiID}` || ''}`}
                     />
                   ))
               ) : (
-                <div tw="px-5 flex-1 min-h-0 flex flex-col items-center overflow-auto">
-                  <Image src={ListingNodata.src} width={200} height={128} alt="" />
-                  <p tw="mt-4 mb-2 text-center text-h2 font-bold">해당 단지에 등록된 매물이 없어요!</p>
-                  <p tw="text-center text-info text-gray-700">
-                    해당 단지에 매물을 가지고 있다면
-                    <br />
-                    우리집 등록 후 매물을 등록해보세요!
-                  </p>
-                </div>
+                <DanjiListingsNodata />
               ))}
-          </ListingItem>
+          </>
         </div>
 
         <div tw="w-full pt-5 px-5">
           {tab === 1 && (
-            <Button tw="w-full" onClick={handleSuggestCTA} size="big">
+            <ButtonV2 tw="w-full" onClick={handleSuggestCTA} size="big">
               구해요 등록
-            </Button>
+            </ButtonV2>
           )}
 
           {pcNaverURL && (

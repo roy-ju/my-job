@@ -10,6 +10,8 @@ import SeperatorV2 from '@/components/atoms/SeperatorV2';
 
 import { NavigationHeader } from '@/components/molecules';
 
+import StatusLabel from '@/components/organisms/suggest/StatusLabel';
+
 import useFetchSuggestDetail from '@/services/suggests/useFetchSuggestDetail';
 
 import useFetchSuggestMyRecommendedList from '@/services/suggests/useFetchSuggestMyRecommendedList';
@@ -26,8 +28,6 @@ import useHandleClickBack from './detail/hooks/useHandleClickBack';
 
 import InValidAccessPopup from './detail/popups/InValidAccessPopup';
 
-import StatusLabel from './detail/StatusLabel';
-
 import useSuggestView from './detail/hooks/useSuggestView';
 
 import Pyoung from '../my/suggest-requested-list/Pyoung';
@@ -37,6 +37,7 @@ import PurposeOrMoveInDate from '../my/suggest-detail/PurposeOrMoveInDate';
 import AdditionalConditions from '../my/suggest-detail/AdditionalConditions';
 
 import Note from '../my/suggest-detail/Note';
+
 import SuggestDetailCta from './detail/SuggestDetailCta';
 
 const Container = styled.div`
@@ -59,6 +60,10 @@ const FlexContents = styled.div`
   ${tw`flex-1 overflow-y-auto`}
 `;
 
+const StatusLabelWrraper = styled.div`
+  ${tw`px-5 mb-6`}
+`;
+
 type SuggestDetailProps = {
   ipAddress?: string;
 };
@@ -78,6 +83,10 @@ export default function SuggestDetail({ ipAddress }: SuggestDetailProps) {
   const isExistMySuggested = useMemo(() => !!myRecommendedList?.list?.length, [myRecommendedList?.list?.length]);
 
   const status = useMemo(() => {
+    if (data?.suggest_complete_status) {
+      return 'success';
+    }
+
     if (data?.suggest_status === SuggestStatus.Stopped) {
       return 'stopped';
     }
@@ -118,7 +127,15 @@ export default function SuggestDetail({ ipAddress }: SuggestDetailProps) {
 
       <FlexContents>
         <SummaryInfo>
-          <StatusLabel render={status === 'stopped'} iconType="error" message="추천 요청이 중단된 상태입니다." />
+          {(status === 'success' || status === 'stopped') && (
+            <StatusLabelWrraper>
+              {status === 'success' ? (
+                <StatusLabel render iconType="success" message="거래 성사가 완료되었습니다." />
+              ) : (
+                <StatusLabel render iconType="error" message="추천 요청이 중단된 상태입니다." />
+              )}
+            </StatusLabelWrraper>
+          )}
           <Summary data={data} iamRecommending={isExistMySuggested} />
         </SummaryInfo>
         <SeperatorV2 />

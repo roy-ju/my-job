@@ -1,24 +1,30 @@
-import { DanjiListingsListItem } from '@/apis/danji/danjiListingsList';
-import { Chip } from '@/components/atoms';
-import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
-import { formatNumberInKorean } from '@/utils';
-import { cuttingDot } from '@/utils/fotmat';
 import tw from 'twin.macro';
+
+import { DanjiListingsListItem } from '@/apis/danji/danjiListingsList';
+
+import { Chip } from '@/components/atoms';
+
+import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
+
+import { formatNumberInKorean } from '@/utils';
+
+import { cuttingDot } from '@/utils/fotmat';
+
 import View from '@/assets/icons/view.svg';
+
 import Participants from '@/assets/icons/participants.svg';
+
 import ArrowRight from '@/assets/icons/arrow_right_16.svg';
 
-export default function TypeOne({
+export default function DanjiListingsCard({
   item,
   isFirst = false,
   isLast = false,
-  anchorURL,
   onClick,
 }: {
   item?: DanjiListingsListItem;
   isFirst?: boolean;
   isLast?: boolean;
-  anchorURL?: string;
   onClick?: (id: number, buyOrRent: number) => void;
 }) {
   if (!item) return null;
@@ -76,19 +82,7 @@ export default function TypeOne({
         </div>
 
         <div>
-          {anchorURL ? (
-            <a
-              href={anchorURL}
-              onClick={(e) => {
-                e.preventDefault();
-                onClick?.(item.listing_id, item.buy_or_rent);
-              }}
-            >
-              <h1 tw="text-info">{item.listing_title}</h1>
-            </a>
-          ) : (
-            <h1 tw="text-info">{item.listing_title}</h1>
-          )}
+          <h1 tw="text-info">{item.listing_title}</h1>
         </div>
 
         <div tw="w-full flex items-center justify-between">

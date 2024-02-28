@@ -2,9 +2,9 @@ import tw, { styled } from 'twin.macro';
 
 import { Numeral } from '@/components/atoms';
 
-import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
-
 import CreatedTime from '@/components/domains/my/suggest-requested-list/CreatedTime';
+
+import { DanjiSuggestListItem } from '@/services/danji/types';
 
 import StatusLabel from './StatusLabel';
 
@@ -32,12 +32,12 @@ const Flex = styled.div`
   ${tw`flex flex-row items-center`}
 `;
 
-const ATagFlex = styled.a`
-  ${tw`flex flex-row items-center`}
-`;
-
 const LabelWrraper = styled.div`
   ${tw`mb-3`}
+`;
+
+const StatusLabelWrraper = styled.div`
+  ${tw`w-full mt-3`}
 `;
 
 function PriceText({
@@ -65,11 +65,9 @@ function PriceText({
 
 export default function SuggestCardInDanji({
   item,
-  anchorURL,
   onClick,
 }: {
   item?: DanjiSuggestListItem;
-  anchorURL?: string;
   onClick?: (id: number) => void;
 }) {
   if (!item) return null;
@@ -89,34 +87,15 @@ export default function SuggestCardInDanji({
       )}
 
       <MainWrraper>
-        {anchorURL ? (
-          <ATagFlex
-            href={anchorURL}
-            onClick={(e) => {
-              e.preventDefault();
-              onClick?.(item.suggest_id);
-            }}
-            tw="flex flex-row items-center"
-          >
-            <BuyOrRentText>{item.buy_or_rents === '1' ? '매매' : '전월세'} </BuyOrRentText>
-            <PriceText
-              tradeOrDepositPrice={item.trade_or_deposit_price}
-              monthlyRentFee={item.monthly_rent_fee}
-              quickSale={item.quick_sale}
-            />
-            {item?.negotiable && <NegotiableText>&nbsp;(협의가능)</NegotiableText>}
-          </ATagFlex>
-        ) : (
-          <Flex>
-            <BuyOrRentText>{item.buy_or_rents === '1' ? '매매' : '전월세'} </BuyOrRentText>
-            <PriceText
-              tradeOrDepositPrice={item.trade_or_deposit_price}
-              monthlyRentFee={item.monthly_rent_fee}
-              quickSale={item.quick_sale}
-            />
-            {item?.negotiable && <NegotiableText>&nbsp;(협의가능)</NegotiableText>}
-          </Flex>
-        )}
+        <Flex>
+          <BuyOrRentText>{item.buy_or_rents === '1' ? '매매' : '전월세'} </BuyOrRentText>
+          <PriceText
+            tradeOrDepositPrice={item.trade_or_deposit_price}
+            monthlyRentFee={item.monthly_rent_fee}
+            quickSale={item.quick_sale}
+          />
+          {item?.negotiable && <NegotiableText>&nbsp;(협의가능)</NegotiableText>}
+        </Flex>
       </MainWrraper>
 
       <div tw="w-full flex items-center">
@@ -127,7 +106,11 @@ export default function SuggestCardInDanji({
         <CreatedTime time={item.created_time} />
       </div>
 
-      <StatusLabel render={false} iconType="success" message="거래성사가 완료되었습니다." />
+      {item.suggest_complete_status && (
+        <StatusLabelWrraper>
+          <StatusLabel render iconType="success" message="거래성사가 완료되었습니다." />
+        </StatusLabelWrraper>
+      )}
     </CardButton>
   );
 }

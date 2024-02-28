@@ -57,11 +57,11 @@ const Seperator = styled.div`
 `;
 
 const SummaryDetailHeader = styled.div`
-  ${tw`py-4 border-t border-t-gray-200`}
+  ${tw`border-t border-t-gray-200`}
 `;
 
 const SummaryDetailHeaderButton = styled.button`
-  ${tw`flex items-center justify-center gap-0.5 mx-auto`}
+  ${tw`flex items-center justify-center gap-0.5 mx-auto w-full h-full py-4`}
 
   span {
     ${tw`text-gray-700 text-body_02`}

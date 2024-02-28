@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 
-import { ListingItem } from '@/components/organisms';
-
 import { DanjiListingListItem, DanjiSuggestListItem } from '@/services/danji/types';
 
 import { sliceList } from '@/utils/sliceList';
+
+import SuggestCardInDanji from '@/components/organisms/suggest/SuggestCardInDanji';
+
+import DanjiListingsCard from '@/components/organisms/danji/DanjiListingsCard';
 
 import DanjiListingsOrSuggestNodata from './DanjiListingsOrSuggestNodata';
 
@@ -50,11 +52,11 @@ export default function ListingItemList({
   if (renderType === 'noData') return <DanjiListingsOrSuggestNodata type={type as 'listing' | 'suggest'} />;
 
   return (
-    <ListingItem>
+    <>
       {type === 'suggest' ? (
         <div tw="flex flex-col gap-4 px-5 mt-4">
           {(list as DanjiSuggestListItem[]).map((item) => (
-            <ListingItem.TypeTwo
+            <SuggestCardInDanji
               key={item.suggest_id}
               item={item}
               onClick={() => handleClickSuggestItem(item.suggest_id, item.my_suggest)}
@@ -64,7 +66,7 @@ export default function ListingItemList({
       ) : (
         <>
           {(list as DanjiListingListItem[]).map((item, index) => (
-            <ListingItem.TypeOne
+            <DanjiListingsCard
               key={item.listing_id}
               item={item}
               isFirst={index === 0}
@@ -74,6 +76,6 @@ export default function ListingItemList({
           ))}
         </>
       )}
-    </ListingItem>
+    </>
   );
 }

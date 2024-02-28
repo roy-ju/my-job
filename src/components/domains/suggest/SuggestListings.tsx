@@ -46,7 +46,7 @@ const DanjiInfoWrraper = styled.div`
   ${tw`py-6`}
 `;
 
-const DanjiListWrraper = styled.div`
+const DanjiSuggestListingsWrraper = styled.div`
   ${tw`flex-1 py-6 overflow-y-auto`}
 `;
 
@@ -113,13 +113,11 @@ export default function SuggestListings() {
           {renderBackButtonUi && <NavigationHeader.BackButton onClick={handleClickBack} />}
           <NavigationHeader.Title>단지 내 구해요 목록</NavigationHeader.Title>
         </NavigationHeader>
-
         <DanjiInfoWrraper>
           <DanjiInfo danji={danjiData} handleClick={handleClickDanjiDetailButton} />
         </DanjiInfoWrraper>
         <SeperatorV2 />
-
-        <DanjiListWrraper>
+        <DanjiSuggestListingsWrraper>
           {suggestList && suggestList.length === 0 && <Nodata />}
           {suggestList && suggestList.length > 0 && (
             <>
@@ -128,7 +126,7 @@ export default function SuggestListings() {
               <List list={suggestList} onNext={increamentPageNumber} handleClickItem={handleClickItem} />
             </>
           )}
-        </DanjiListWrraper>
+        </DanjiSuggestListingsWrraper>
 
         <Ctas handleClickCta={handleClickCreateSuggestButton} />
 
