@@ -49,18 +49,23 @@ function PriceText({
   monthlyRentFee: number;
   quickSale: boolean;
 }) {
-  if (quickSale) return <span>급매</span>;
+  if (quickSale) return <span>&nbsp;급매물 구해요</span>;
 
-  if (!tradeOrDepositPrice && !monthlyRentFee) return <span>급매 구해요</span>;
+  if (!tradeOrDepositPrice && !monthlyRentFee) return <span>&nbsp;급매물 구해요</span>;
 
   if (monthlyRentFee) {
     return (
       <>
-        <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
+        &nbsp;<Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> / <Numeral koreanNumber>{monthlyRentFee}</Numeral>
       </>
     );
   }
-  return <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>;
+
+  return (
+    <>
+      &nbsp;<Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>
+    </>
+  );
 }
 
 export default function SuggestCardInDanji({
