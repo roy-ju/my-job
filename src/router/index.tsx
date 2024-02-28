@@ -316,7 +316,13 @@ const SuggestDetail = dynamic(() => import('@/components/pages/SuggestDetail/Sug
   ssr: false,
   loading: FallbackComponent,
 });
-const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListings'), {
+
+// const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListings'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
+
+const SuggestListings = dynamic(() => import('@/components/pages/SuggestListings/SuggestListingsPc'), {
   ssr: false,
   loading: FallbackComponent,
 });

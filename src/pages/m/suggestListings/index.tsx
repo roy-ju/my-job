@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import SuggestListings from '@/components/pages/mobile/SuggestListings';
+import SuggestListingsMobile from '@/components/pages/SuggestListings/SuggestListingsMobile';
 
-const Page: NextPageWithLayout = () => <SuggestListings />;
+const Page: NextPageWithLayout = () => <SuggestListingsMobile />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

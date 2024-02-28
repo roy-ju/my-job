@@ -15,12 +15,15 @@ export default function InfiniteScroll({ onNext, children, ...others }: Infinite
 
   useIsomorphicLayoutEffect(() => {
     if (!endRef.current) return () => {};
+
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         onNext?.();
       }
     });
+
     observer.observe(endRef.current);
+
     return () => {
       observer.disconnect();
     };
