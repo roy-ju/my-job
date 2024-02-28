@@ -153,14 +153,10 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
             }
 
             if (pf === 'mobile') {
-              router.push(
-                {
-                  pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-                  query: router.query,
-                },
-                undefined,
-                { shallow: true },
-              );
+              router.push({
+                pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+                query: router.query,
+              });
             }
             return;
           }

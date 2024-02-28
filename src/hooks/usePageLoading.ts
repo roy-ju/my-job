@@ -1,11 +1,17 @@
 import { useEffect } from 'react';
 
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 import NProgress from 'nprogress';
 
 export default function usePageLoading() {
+  const { query } = useRouter();
+
   useEffect(() => {
+    if (query?.isLoading === 'none') {
+      return;
+    }
+
     const routeEventStart = () => {
       NProgress.start();
     };
@@ -23,5 +29,5 @@ export default function usePageLoading() {
       Router.events.off('routeChangeComplete', routeEventEnd);
       Router.events.off('routeChangeError', routeEventEnd);
     };
-  }, []);
+  }, [query?.isLoading]);
 }
