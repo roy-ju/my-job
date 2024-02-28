@@ -227,12 +227,12 @@ export default function ActiveListingInfo({
             {tab === 1
               ? suggestTotalCount > 3 && (
                   <Button variant="outlined" tw="h-9" onClick={handleSuggestListAll}>
-                    구해요 전체보기
+                    전체보기
                   </Button>
                 )
               : totalCount > 3 && (
                   <Button variant="outlined" tw="h-9" onClick={handleListingAll}>
-                    매물 전체보기
+                    전체보기
                   </Button>
                 )}
           </div>

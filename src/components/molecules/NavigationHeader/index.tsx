@@ -8,14 +8,24 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 
 import HeaderChevronLeftIcon from '@/assets/icons/header_chevron_left_24.svg';
 
+import HeaderChevronLeftWhiteIcon from '@/assets/icons/header_chevron_left_white_24.svg';
+
 import TripleDotsIcon from '@/assets/icons/triple_dots.svg';
 
 const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shrink-0`;
 
-function BackButton({ onClick, title }: { onClick?: () => void; title?: string }) {
+function BackButton({
+  onClick,
+  title,
+  isHeaderActive = false,
+}: {
+  onClick?: () => void;
+  title?: string;
+  isHeaderActive?: boolean;
+}) {
   return (
     <button type="button" onClick={onClick} tw="h-full pr-5 flex items-center">
-      <HeaderChevronLeftIcon tw="text-inherit" />
+      {isHeaderActive ? <HeaderChevronLeftWhiteIcon tw="text-inherit" /> : <HeaderChevronLeftIcon tw="text-inherit" />}
       {title && <span tw="font-bold [margin-top: 1px]">{title}</span>}
     </button>
   );

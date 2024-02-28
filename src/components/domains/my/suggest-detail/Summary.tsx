@@ -45,7 +45,7 @@ const TitleButton = styled.button`
 `;
 
 const Title = styled.p`
-  ${tw`flex-1 text-left text-heading_01`}
+  ${tw`flex-1 text-left text-gray-800 text-heading_01`}
 `;
 
 const BuyOrRentPriceNegotiableWrraper = styled.div`

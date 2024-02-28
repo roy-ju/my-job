@@ -42,8 +42,6 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
 
   const { ua } = userAgent(request);
 
-  console.log(ua);
-
   if (detectRobot(ua)) {
     return;
   }

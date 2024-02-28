@@ -36,12 +36,12 @@ export default function Messages({
       {tab === 1
         ? suggestCount > 3 && (
             <Button variant="outlined" tw="h-9" onClick={handleSuggestListAll}>
-              구해요 전체보기
+              전체보기
             </Button>
           )
         : listingCount > 3 && (
             <Button variant="outlined" tw="h-9" onClick={handleListingListAll}>
-              매물 전체보기
+              전체보기
             </Button>
           )}
     </div>

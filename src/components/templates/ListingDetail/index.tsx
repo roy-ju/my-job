@@ -287,7 +287,7 @@ export default function ListingDetail({
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
-        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
+        {onClickBack && <NavigationHeader.BackButton isHeaderActive={!isHeaderActive} onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-inherit">
           <h1>{listingDetail?.listing?.listing_title}</h1>
         </NavigationHeader.Title>

@@ -2,9 +2,9 @@ import tw, { styled } from 'twin.macro';
 
 import { SuggestDetailResponse } from '@/services/suggests/types';
 
-import UserInfo from './UserInfo';
+import IamRecommendingLabel from '@/components/organisms/suggest/IamRecommendingLabel';
 
-import IamRecommending from './IamRecommending';
+import UserInfo from './UserInfo';
 
 import Price from './Price';
 
@@ -20,7 +20,7 @@ export default function Summary({ data, iamRecommending }: SummaryProps) {
   return (
     <SummaryContainer>
       <UserInfo nickname={data.user_nickname} imgSrc={data.user_profile_image_url} />
-      {iamRecommending && <IamRecommending />}
+      {iamRecommending && <IamRecommendingLabel />}
       <Price
         tradeOrDepositPrice={data.trade_or_deposit_price}
         monthlyRentFee={data.monthly_rent_fee}

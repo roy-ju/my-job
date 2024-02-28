@@ -36,6 +36,8 @@ import NaverLogo from '@/assets/icons/naver_logo.svg';
 
 import ListingItem from '../ListingItem';
 
+import SuggestCardInDanji from '../suggest/SuggestCardInDanji';
+
 export default function ActiveListingInfo({
   isListingDetail = false,
   depth,
@@ -282,12 +284,12 @@ export default function ActiveListingInfo({
             {tab === 1
               ? suggestTotalCount > 3 && (
                   <Button variant="outlined" tw="h-9" onClick={handleSuggestListAll}>
-                    구해요 전체보기
+                    전체보기
                   </Button>
                 )
               : totalCount > 3 && (
                   <Button variant="outlined" tw="h-9" onClick={handleListingAll}>
-                    매물 전체보기
+                    전체보기
                   </Button>
                 )}
           </div>
@@ -297,7 +299,7 @@ export default function ActiveListingInfo({
               (suggestListings?.length > 0 ? (
                 <div tw="flex flex-col gap-4 py-2 px-5 mt-4">
                   {suggestListings?.slice(0, 3).map((item) => (
-                    <ListingItem.TypeTwo
+                    <SuggestCardInDanji
                       key={item.suggest_id}
                       item={item}
                       onClick={() => handleSuggestDetail(item.suggest_id, item.my_suggest)}

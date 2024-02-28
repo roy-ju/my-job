@@ -265,7 +265,7 @@ export default function MobListingDetail({
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
-        {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
+        {onClickBack && <NavigationHeader.BackButton isHeaderActive={!isHeaderActive} onClick={onClickBack} />}
         <NavigationHeader.Title tw="text-inherit">{listingDetail?.listing?.listing_title}</NavigationHeader.Title>
         <div tw="flex gap-4">
           <NavigationHeader.Button onClick={onClickShare}>

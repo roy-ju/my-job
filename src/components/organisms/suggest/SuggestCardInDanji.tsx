@@ -4,13 +4,13 @@ import { Numeral } from '@/components/atoms';
 
 import { DanjiSuggestListItem } from '@/apis/danji/danjiSuggestList';
 
-import ChipV2 from '@/components/atoms/ChipV2';
-
 import CreatedTime from '@/components/domains/my/suggest-requested-list/CreatedTime';
 
 import StatusLabel from './StatusLabel';
-import MySuggestLabel from '../suggest/MySuggestLabel';
-import IamRecommendingLabel from '../suggest/IamRecommendingLabel';
+
+import MySuggestLabel from './MySuggestLabel';
+
+import IamRecommendingLabel from './IamRecommendingLabel';
 
 const CardButton = styled.button`
   ${tw`w-full flex flex-col p-5 pb-4 border border-gray-200 rounded-lg hover:border-gray-300 [box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06)]`}
@@ -63,7 +63,7 @@ function PriceText({
   return <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>;
 }
 
-export default function TypeTwo({
+export default function SuggestCardInDanji({
   item,
   anchorURL,
   onClick,

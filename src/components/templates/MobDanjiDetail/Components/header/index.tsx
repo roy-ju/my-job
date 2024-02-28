@@ -171,7 +171,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
-        <NavigationHeader.BackButton onClick={handleClickBack} />
+        <NavigationHeader.BackButton isHeaderActive={!isHeaderActive} onClick={handleClickBack} />
 
         <NavigationHeader.Title tw="text-inherit">
           <h1>{danji.name}</h1>

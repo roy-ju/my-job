@@ -154,7 +154,10 @@ export default function DanjiDetailHeader({
         ]}
       >
         {router.query.back ? (
-          <NavigationHeader.BackButton onClick={() => nextRouter.replace(router.query.back as string)} />
+          <NavigationHeader.BackButton
+            isHeaderActive={!isHeaderActive}
+            onClick={() => nextRouter.replace(router.query.back as string)}
+          />
         ) : null}
         <NavigationHeader.Title tw="text-inherit">
           <h1>{danji.name}</h1>
