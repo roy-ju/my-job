@@ -1,12 +1,12 @@
 import tw from 'twin.macro';
 
-import { DanjiListingsListItem } from '@/apis/danji/danjiListingsList';
-
 import { Chip } from '@/components/atoms';
 
 import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
 
 import { formatNumberInKorean } from '@/utils';
+
+import { DanjiListingListItem } from '@/services/danji/types';
 
 import { cuttingDot } from '@/utils/fotmat';
 
@@ -22,7 +22,7 @@ export default function DanjiListingsCard({
   isLast = false,
   onClick,
 }: {
-  item?: DanjiListingsListItem;
+  item?: DanjiListingListItem;
   isFirst?: boolean;
   isLast?: boolean;
   onClick?: (id: number, buyOrRent: number) => void;
