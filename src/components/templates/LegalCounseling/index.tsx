@@ -85,9 +85,9 @@ export default function LegalCounseling({
           {nextRouter?.query?.q ? (
             <>
               <NavigationHeader.BackButton onClick={onClickBack} />
-              <NavigationHeader.Title tw="text-center">
+              <NavigationHeader.Title tw="pr-0">
                 <div
-                  tw="flex items-center p-4 [line-height: 16px] [border: 1px solid #E9ECEF] [border-radius: 8px] [min-width: 308px]"
+                  tw="flex items-center px-3 py-2 [line-height: 1] [border: 1px solid #E9ECEF] [border-radius: 8px] w-full"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -95,7 +95,7 @@ export default function LegalCounseling({
                   }}
                 >
                   <SearchBlackIcon style={{ marginRight: '8px' }} />
-                  <span tw="font-normal [text-overflow: ellipsis] overflow-hidden whitespace-nowrap">
+                  <span tw="[text-overflow: ellipsis] overflow-hidden whitespace-nowrap text-body_02">
                     {nextRouter.query.q as string}
                   </span>
                   <Button
@@ -114,8 +114,8 @@ export default function LegalCounseling({
             </>
           ) : (
             <>
-              <NavigationHeader.BackButton onClick={onClickBack} title="서비스 홈" />
-              <NavigationHeader.Title tw="absolute [left: 38%] text-center">부동산 법률 상담</NavigationHeader.Title>
+              <NavigationHeader.BackButton onClick={onClickBack} />
+              <NavigationHeader.Title>부동산 법률 상담</NavigationHeader.Title>
               <Button variant="ghost" tw="absolute right-4 p-0" onClick={onClickSearchPage}>
                 <SearchBlackIcon />
               </Button>

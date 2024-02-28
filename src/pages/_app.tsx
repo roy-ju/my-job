@@ -106,6 +106,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
       {/* Google Tag */}
       <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`} />
+
       <Script id="gtag-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
@@ -117,30 +118,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           });
         `}
       </Script>
-      {/* <Script id="webviewApp-name-text-field-show" strategy="afterInteractive">
-        {`window.focusOnNameTextField = function () {
-            const ele = document.getElementById('negocio-register-name-input');
-            if (ele) {
-              ele.focus();
-            }
-        };`}
-      </Script> */}
-      {/* <Script id="webviewApp-phone-text-field-show" strategy="afterInteractive">
-        {`window.focusOnPhoneTextField = function () {
-            const ele = document.getElementById('negocio-register-phone-input');
-            if (ele) {
-              ele.focus();
-            }
-        };`}
-      </Script> */}
-      {/* <Script id="webviewApp-phoneVerify-field-show" strategy="afterInteractive">
-        {`window.focusOnPhoneVerificationTextField = function () {
-            const ele = document.getElementById('negocio-register-phone-verification-input');
-            if (ele) {
-              ele.focus();
-            }
-        };`}
-      </Script> */}
 
       {/* Google Tag Manager */}
       <Script id="gtm-init" strategy="afterInteractive">
@@ -152,6 +129,33 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           })(window,document,'script','dataLayer','${gtag.GTM_ID}');
         `}
       </Script>
+
+      {/* <Script id="webviewApp-name-text-field-show" strategy="afterInteractive">
+        {`window.focusOnNameTextField = function () {
+            const ele = document.getElementById('negocio-register-name-input');
+            if (ele) {
+              ele.focus();
+            }
+        };`}
+      </Script> */}
+
+      {/* <Script id="webviewApp-phone-text-field-show" strategy="afterInteractive">
+        {`window.focusOnPhoneTextField = function () {
+            const ele = document.getElementById('negocio-register-phone-input');
+            if (ele) {
+              ele.focus();
+            }
+        };`}
+      </Script> */}
+
+      {/* <Script id="webviewApp-phoneVerify-field-show" strategy="afterInteractive">
+        {`window.focusOnPhoneVerificationTextField = function () {
+            const ele = document.getElementById('negocio-register-phone-verification-input');
+            if (ele) {
+              ele.focus();
+            }
+        };`}
+      </Script> */}
 
       {/* Kakao SDK */}
       <Script
