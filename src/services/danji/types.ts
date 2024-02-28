@@ -95,6 +95,7 @@ export type DanjiSuggestListItem = {
   my_suggest: boolean;
   iam_recommending: boolean;
   suggest_id: number;
+  suggest_complete_status: boolean;
   suggest_status: number;
   user_nickname: string;
   user_profile_image_url: string;

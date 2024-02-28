@@ -19,6 +19,8 @@ export default function SuggestDetailCta({ data }: SuggestDetailCtaProps) {
 
   if (data && data?.my_suggest) return null;
 
+  if (data && data?.suggest_complete_status) return null;
+
   return (
     <>
       <PersistentBottomBarV2>

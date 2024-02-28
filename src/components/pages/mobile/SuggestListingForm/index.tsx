@@ -1,14 +1,24 @@
-import { useAPI_GetDanjiSuggestList } from '@/apis/danji/danjiSuggestList';
-import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
-import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
-import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { SuggestListingForm } from '@/components/templates';
-import { BuyOrRent } from '@/constants/enums';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
+
+import { Loading, MobAuthRequired, MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { SuggestListingForm } from '@/components/templates';
+
+import { BuyOrRent } from '@/constants/enums';
+
+import Routes from '@/router/routes';
+
+import createSuggestRecommend from '@/apis/suggest/createSuggestRecommend';
+
+import useAPI_GetSuggestDetail from '@/apis/suggest/getSuggestDetail';
+
+import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
 
 export default memo(() => {
   const router = useRouter();
@@ -33,8 +43,8 @@ export default memo(() => {
     [router?.query?.addressDetail],
   );
 
-  const { mutate } = useAPI_GetDanjiSuggestList({
-    danjiId: danjiID,
+  const { mutate } = useFetchDanjiSuggestsList({
+    danjiID,
     pageSize: 10,
   });
 

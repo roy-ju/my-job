@@ -8,6 +8,8 @@ import { Loading } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
+import StatusLabel from '@/components/organisms/suggest/StatusLabel';
+
 import useFetchSuggestDetail from '@/services/suggests/useFetchSuggestDetail';
 
 import useFetchMySuggestRecommends from '@/services/my/useFetchMySuggestRecommends';
@@ -21,8 +23,6 @@ import useInactive from './suggest-detail/hooks/useInactive';
 import useHandleClickBack from './suggest-detail/hooks/useHandleClickBack';
 
 import InValidAccessPopup from './suggest-detail/popups/InValidAccessPopup';
-
-import StatusLabel from './suggest-detail/StatusLabel';
 
 import Summary from './suggest-detail/Summary';
 
@@ -44,6 +44,10 @@ const Container = styled.div`
 
 const RecommendsListContainer = styled.div`
   ${tw`flex flex-col w-full px-5 pt-6`}
+`;
+
+const StatusLabelWrraper = styled.div`
+  ${tw`px-5 mb-6`}
 `;
 
 const options = ['요청 수정', '요청 중단', '요청 취소'];
@@ -68,6 +72,10 @@ export default function MySuggestDetail() {
   const danjiID = useMemo(() => suggestDetailData?.danji_id ?? 0, [suggestDetailData?.danji_id]);
 
   const status = useMemo(() => {
+    if (suggestDetailData?.suggest_complete_status) {
+      return 'success';
+    }
+
     if (suggestDetailData?.suggest_status === SuggestStatus.Stopped) {
       return 'stopped';
     }
@@ -154,7 +162,16 @@ export default function MySuggestDetail() {
         </NavigationHeader>
 
         <FlexContents>
-          <StatusLabel render={status === 'stopped'} iconType="error" message="추천 요청이 중단된 상태입니다." />
+          {(status === 'stopped' || status === 'success') && (
+            <StatusLabelWrraper>
+              {status === 'success' ? (
+                <StatusLabel render iconType="success" message="거래 성사가 완료되었습니다." />
+              ) : (
+                <StatusLabel render iconType="error" message="추천 요청이 중단된 상태입니다." />
+              )}
+            </StatusLabelWrraper>
+          )}
+
           <Summary data={suggestDetailData} />
           <SeperatorV2 />
           <RecommendsListContainer>

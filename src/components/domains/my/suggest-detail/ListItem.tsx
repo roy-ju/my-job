@@ -76,7 +76,6 @@ export default function ListItem({ item, mutate }: ListItemProps) {
       {isListDimmed && (
         <>
           <DimmedLayer />
-          <StartNegotiationButton onClick={handleClickNegotiationStartButton}>확인하기</StartNegotiationButton>
         </>
       )}
 
@@ -88,7 +87,19 @@ export default function ListItem({ item, mutate }: ListItemProps) {
         {isExistedList && chatRoomDeleted && <DeletedChatRoomMessage />}
         {isExistedList &&
           (isListDimmed ? item.suggest_recommend_detail_list.slice(0, 1) : item.suggest_recommend_detail_list).map(
-            (data) => <ListItemListingSection key={data.suggest_recommend_id} item={data} mutate={mutate} />,
+            (data) =>
+              isListDimmed ? (
+                <div tw="relative" key={data.suggest_recommend_id}>
+                  {isListDimmed && (
+                    <StartNegotiationButton onClick={handleClickNegotiationStartButton}>
+                      확인하기
+                    </StartNegotiationButton>
+                  )}
+                  <ListItemListingSection key={data.suggest_recommend_id} item={data} mutate={mutate} />
+                </div>
+              ) : (
+                <ListItemListingSection key={data.suggest_recommend_id} item={data} mutate={mutate} />
+              ),
           )}
         {!isExistedList && <p tw="text-info text-gray-700 text-center">유효한 추천이 없습니다.</p>}
       </div>

@@ -153,7 +153,7 @@ const DanjiSelect = dynamic(() => import('@/components/pages/pc/DanjiSelect'), {
   ssr: false,
 });
 
-const DanjiListings = dynamic(() => import('@/components/pages/pc/DanjiListings'), {
+const DanjiListings = dynamic(() => import('@/components/pages/DanjiListings/DanjiListingsPc'), {
   loading: FallbackComponent,
   ssr: false,
 });
@@ -316,11 +316,6 @@ const SuggestDetail = dynamic(() => import('@/components/pages/SuggestDetail/Sug
   ssr: false,
   loading: FallbackComponent,
 });
-
-// const SuggestListings = dynamic(() => import('@/components/pages/pc/SuggestListings'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
 
 const SuggestListings = dynamic(() => import('@/components/pages/SuggestListings/SuggestListingsPc'), {
   ssr: false,

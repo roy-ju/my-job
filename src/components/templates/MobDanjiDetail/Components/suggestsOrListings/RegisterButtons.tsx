@@ -1,4 +1,4 @@
-import { Button } from '@/components/atoms';
+import { ButtonV2 } from '@/components/atoms';
 
 import { NaverDanjiResponse } from '@/services/danji/types';
 
@@ -19,9 +19,9 @@ export default function RegisterButtons({ tab, danjiID, naverDanji, handleClickS
   return (
     <div tw="w-full pt-5 px-5 flex flex-col gap-4">
       {type === 'suggest' && (
-        <Button tw="w-full" onClick={handleClickSuggestButton} size="bigger">
+        <ButtonV2 tw="w-full" onClick={handleClickSuggestButton} size="big">
           구해요 등록
-        </Button>
+        </ButtonV2>
       )}
 
       <NaverMapButton danjiID={danjiID} naverDanji={naverDanji} />

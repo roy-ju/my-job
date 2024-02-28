@@ -1,29 +1,12 @@
-import useAuth from '@/hooks/services/useAuth';
 import { useCallback, useMemo } from 'react';
+
+import useAuth from '@/hooks/services/useAuth';
+
 import useSWRInfinite from 'swr/infinite';
 
-export interface GetMySuggestListResponse {
-  list:
-    | {
-        suggest_id: number;
-        realestate_types: string;
-        title: string;
-        status: number;
-        suggest_recommended_count: number;
-        created_time: string;
-        danji_or_regional: number;
-        buy_or_rents: string;
-        trade_or_deposit_price: number;
-        monthly_rent_fee: number;
-        pyoung_text: string;
-        negotiable: boolean;
-        quick_sale: boolean;
-        has_new: boolean;
-      }[]
-    | null;
-}
+import { MySuggestListResponse } from './types';
 
-function getKey(size: number, previousPageData: GetMySuggestListResponse) {
+function getKey(size: number, previousPageData: MySuggestListResponse) {
   const previousLength = previousPageData?.list?.length ?? 0;
   if (previousPageData && previousLength < 1) return null;
   return [`/my/suggest/list`, { page_number: size + 1, page_size: 10 }];
@@ -38,14 +21,14 @@ export default function useFetchMySuggestList() {
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<GetMySuggestListResponse>(user ? getKey : () => null);
+  } = useSWRInfinite<MySuggestListResponse>(user ? getKey : () => null);
 
   const data = useMemo(() => {
     if (!dataList) return [];
     return dataList
       ?.map((item) => item.list)
       .filter((item) => Boolean(item))
-      .flat() as GetMySuggestListResponse['list'];
+      .flat() as MySuggestListResponse['list'];
   }, [dataList]);
 
   const increamentPageNumber = useCallback(() => {

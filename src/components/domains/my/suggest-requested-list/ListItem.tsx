@@ -1,6 +1,10 @@
+import { useMemo } from 'react';
+
 import tw, { styled } from 'twin.macro';
 
 import { MySuggestListItem } from '@/services/my/types';
+
+import StatusLabel from '@/components/organisms/suggest/StatusLabel';
 
 import RealestateTypeLabel from './RealestateTypeLabel';
 
@@ -10,10 +14,10 @@ import Price from './Price';
 
 import Pyoung from './Pyoung';
 
-import CompleteStatusLabel from './CompleteStatusLabel';
-
 import SuggestCounts from './SuggestCounts';
+
 import BuyOrRent from './BuyOrRent';
+
 import Negotiable from './Negotiable';
 
 const ListItemHeader = styled.div`
@@ -32,12 +36,22 @@ const Title = styled.p`
   ${tw`overflow-hidden text-heading_01 text-ellipsis whitespace-nowrap`}
 `;
 
+const StatusLabelWrraper = styled.div`
+  ${tw`my-2`}
+`;
+
 type ListItemProps = {
   item: MySuggestListItem;
   handleClick: (id: number) => void;
 };
 
 export default function ListItem({ item, handleClick }: ListItemProps) {
+  const labelRenderType = useMemo(() => {
+    if (item?.suggest_complete_status) return 'success';
+
+    return '';
+  }, [item]);
+
   return (
     <div>
       <button type="button" tw="w-full text-start px-5" onClick={() => handleClick(item.suggest_id)}>
@@ -59,8 +73,17 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
             </BuyOrRentPriceNegotiableWrraper>
             <Pyoung pyoung={item.pyoung_text} />
           </BasicInfo>
-          <CompleteStatusLabel />
-          <SuggestCounts newCount={0} allCount={item.suggest_recommended_count} />
+
+          {labelRenderType === 'success' && (
+            <StatusLabelWrraper>
+              <StatusLabel render iconType="success" message="거래 성사가 완료되었습니다." />
+            </StatusLabelWrraper>
+          )}
+
+          <SuggestCounts
+            newCount={labelRenderType === 'success' ? 0 : item.new_suggest_recommended_count}
+            allCount={labelRenderType === 'success' ? 0 : item.suggest_recommended_count}
+          />
         </div>
       </button>
     </div>

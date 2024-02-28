@@ -68,7 +68,11 @@ export type MySuggestListItem = {
   realestate_types: string;
   title: string;
   status: number;
+
+  new_suggest_recommended_count: number;
   suggest_recommended_count: number;
+  suggest_complete_status: boolean;
+
   created_time: string;
   danji_or_regional: number;
   buy_or_rents: string;
