@@ -38,7 +38,9 @@ function ActionButton({
 
     if (!user) return '로그인하고 제출하기';
 
-    if (user) return '제출하기';
+    if (user && !user.phone) return '본인인증하고 제출하기';
+
+    if (user && user.phone) return '제출하기';
   }, [user, isLoading]);
 
   if (isRenderUpdateButton) {
