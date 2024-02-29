@@ -37,7 +37,7 @@ const Title = styled.p`
 `;
 
 const StatusLabelWrraper = styled.div`
-  ${tw``}
+  ${tw`mt-2`}
 `;
 
 type ListItemProps = {
