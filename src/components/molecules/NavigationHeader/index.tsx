@@ -12,6 +12,12 @@ import HeaderChevronLeftWhiteIcon from '@/assets/icons/header_chevron_left_white
 
 import TripleDotsIcon from '@/assets/icons/triple_dots.svg';
 
+import Wrraper from '../Menu/Wrraper';
+
+import Content from '../Menu/Content';
+
+import Container from '../Menu/Conatiner';
+
 const NavigationHeader = tw.div`w-full h-14 bg-white px-4 flex items-center shrink-0`;
 
 function BackButton({
@@ -66,26 +72,22 @@ function MoreButton({ type = 'icon', text, iconColor = 'dark', items, onClickIte
       </button>
 
       {isOpen && (
-        <div ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper} tw="z-[110] [min-width: 112px]">
-          <div
-            ref={outsideRef}
-            tw="bg-white rounded-lg py-2 flex flex-col border border-gray-300 [box-shadow: 0px 2px 12px 0px #0000001A]"
-          >
+        <Container ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
+          <Wrraper ref={outsideRef}>
             {items.map((item, index) => (
-              <button
+              <Content
                 key={item}
                 type="button"
-                tw="[padding-top: 13px] [padding-bottom: 13px] px-4 text-body_02 text-gray-1000 hover:bg-nego-100 active:bg-nego-200 disabled:text-gray-500"
                 onClick={() => {
                   onClickItem?.(index, item);
                   setIsOpen(false);
                 }}
               >
                 {item}
-              </button>
+              </Content>
             ))}
-          </div>
-        </div>
+          </Wrraper>
+        </Container>
       )}
     </>
   );
