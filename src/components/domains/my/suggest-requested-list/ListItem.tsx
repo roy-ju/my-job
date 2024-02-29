@@ -25,7 +25,7 @@ const ListItemHeader = styled.div`
 `;
 
 const BasicInfo = styled.div`
-  ${tw`flex flex-col gap-0.5 py-2`}
+  ${tw`flex flex-col gap-0.5`}
 `;
 
 const BuyOrRentPriceNegotiableWrraper = styled.div`
@@ -37,7 +37,7 @@ const Title = styled.p`
 `;
 
 const StatusLabelWrraper = styled.div`
-  ${tw`my-2`}
+  ${tw``}
 `;
 
 type ListItemProps = {
@@ -55,11 +55,12 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
   return (
     <div>
       <button type="button" tw="w-full text-start" onClick={() => handleClick(item.suggest_id)}>
-        <div tw="py-2">
+        <div tw="flex flex-col gap-2 py-2">
           <ListItemHeader tw="flex justify-between items-center">
             <RealestateTypeLabel realestateTypes={item.realestate_types} />
             <CreatedTime time={item.created_time} />
           </ListItemHeader>
+
           <BasicInfo>
             <Title>{item.title}</Title>
             <BuyOrRentPriceNegotiableWrraper>
