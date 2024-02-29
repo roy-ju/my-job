@@ -24,7 +24,8 @@ export default function useHandleClickBack() {
       const canGoBack = window.history.length > 1;
 
       if (canGoBack) {
-        router.back();
+        // router.back();
+        router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
       } else {
         router.replace(`/${Routes.EntryMobile}/${Routes.SuggestRequestedList}`);
       }
