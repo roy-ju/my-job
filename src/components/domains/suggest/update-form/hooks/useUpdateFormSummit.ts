@@ -61,7 +61,7 @@ export default function useUpdateFormSummitButton({ depth }: { depth?: number })
             },
           });
         } else {
-          router.replace(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?suggestID=${router?.query?.suggestID}`);
+          router.back();
         }
       } catch (error) {
         toast.error('업데이트 중 오류가 발생했습니다.');
