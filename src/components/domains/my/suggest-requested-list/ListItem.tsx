@@ -33,7 +33,7 @@ const BuyOrRentPriceNegotiableWrraper = styled.div`
 `;
 
 const Title = styled.p`
-  ${tw`overflow-hidden text-heading_01 text-ellipsis whitespace-nowrap`}
+  ${tw`overflow-hidden text-gray-800 text-heading_01 text-ellipsis whitespace-nowrap`}
 `;
 
 const StatusLabelWrraper = styled.div`
