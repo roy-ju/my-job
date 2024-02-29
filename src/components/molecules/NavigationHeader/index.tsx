@@ -67,7 +67,10 @@ function MoreButton({ type = 'icon', text, iconColor = 'dark', items, onClickIte
 
       {isOpen && (
         <div ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper} tw="z-[110] [min-width: 112px]">
-          <div ref={outsideRef} tw="bg-white rounded-lg py-2 flex flex-col shadow">
+          <div
+            ref={outsideRef}
+            tw="bg-white rounded-lg py-2 flex flex-col border border-gray-300 [box-shadow: 0px 2px 12px 0px #0000001A]"
+          >
             {items.map((item, index) => (
               <button
                 key={item}
