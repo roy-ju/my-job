@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import tw, { styled } from 'twin.macro';
 
 import Plus24 from '@/assets/icons/plus_24.svg';
@@ -9,7 +11,7 @@ const MobileFixedContainer = styled.div`
 `;
 
 const PcFixedContainer = styled.div`
-  ${tw`fixed bottom-4 right-4`}
+  ${tw`fixed bottom-4`}
 `;
 
 export default function SuggestCreate({
@@ -21,6 +23,8 @@ export default function SuggestCreate({
   isScrollingButton: boolean;
   handleClick: () => void;
 }) {
+  const [fixedRight, setFixedRight] = useState(0);
+
   const animate = {
     minWidth: isScrollingButton ? 48 : 142,
     width: isScrollingButton ? 48 : 142,
@@ -30,6 +34,25 @@ export default function SuggestCreate({
     transition: { type: 'tween', duration: 0.3 },
     scale: 1,
   };
+
+  useEffect(() => {
+    if (platform === 'pc') {
+      const handleResize = () => {
+        const parentElement = document.getElementById('negocio-my-suggest-requestedList');
+
+        if (parentElement) {
+          const rightPosition = window.innerWidth - parentElement.getBoundingClientRect().right;
+          setFixedRight(rightPosition + 16);
+        }
+      };
+
+      handleResize();
+
+      window.addEventListener('resize', handleResize);
+
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, [platform]);
 
   if (platform === 'mobile') {
     return (
@@ -42,7 +65,7 @@ export default function SuggestCreate({
   }
 
   return (
-    <PcFixedContainer>
+    <PcFixedContainer style={{ right: fixedRight }}>
       <FabButton onClick={handleClick} animate={animate}>
         <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && '집 구해요 등록'}
       </FabButton>
