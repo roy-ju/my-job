@@ -54,7 +54,7 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
 
   return (
     <div>
-      <button type="button" tw="w-full text-start px-5" onClick={() => handleClick(item.suggest_id)}>
+      <button type="button" tw="w-full text-start" onClick={() => handleClick(item.suggest_id)}>
         <div tw="py-2">
           <ListItemHeader tw="flex justify-between items-center">
             <RealestateTypeLabel realestateTypes={item.realestate_types} />
