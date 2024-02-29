@@ -28,7 +28,7 @@ export default function useFetchMySuggestRecommends(suggestID: number | null, fi
   } = useSWRInfinite<MySuggestRecommendsResponse>(
     user && mySuggest && (suggestID || filter) ? getKey(suggestID, filter) : () => null,
     null,
-    { revalidateFirstPage: false, revalidateOnMount: true },
+    { revalidateFirstPage: true, revalidateOnMount: true },
   );
   const data = useMemo(() => {
     if (!dataList) return [];
