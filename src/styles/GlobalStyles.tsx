@@ -1,8 +1,13 @@
 import React from 'react';
+
 import { Global } from '@emotion/react';
+
 import tw, { css, GlobalStyles as BaseStyles, theme } from 'twin.macro';
+
 import toastifyStyles from '@/lib/react-toastify/styles';
+
 import datepickerStyles from '@/lib/react-datepicker/styles';
+
 import nprogressStyles from '@/lib/nprogress/styles';
 
 const customStyles = css`
@@ -12,6 +17,7 @@ const customStyles = css`
 
   * {
     outline: none;
+    -webkit-tap-highlight-color: transparent; /* 탭 하이라이트 색상을 투명하게 설정 */
   }
 
   html,
