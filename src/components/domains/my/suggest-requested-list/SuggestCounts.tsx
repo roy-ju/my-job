@@ -5,7 +5,7 @@ import AddIcon from '@/assets/icons/home_add.svg';
 import NewIcon from '@/assets/icons/home_new.svg';
 
 const CountsContainer = styled.div`
-  ${tw`flex items-center justify-between w-full h-12 gap-2 px-4 bg-gray-100 rounded-lg`}
+  ${tw`flex items-center justify-between w-full h-12 gap-2 px-4 mt-2 bg-gray-100 rounded-lg`}
 `;
 
 const CountWrraper = styled.div`
