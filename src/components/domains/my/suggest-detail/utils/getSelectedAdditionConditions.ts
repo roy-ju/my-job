@@ -30,7 +30,7 @@ export default function getSelectedAdditionConditions({
       return [
         {
           title: '',
-          list: selectedConditions.filter((ele) => DanjiBuyOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => DanjiBuyOptions.includes(ele)).join(', '),
         },
       ];
     }
@@ -39,7 +39,7 @@ export default function getSelectedAdditionConditions({
       return [
         {
           title: '',
-          list: selectedConditions.filter((ele) => DanjiJeonsaeOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => DanjiJeonsaeOptions.includes(ele)).join(', '),
         },
       ];
     }
@@ -55,13 +55,13 @@ export default function getSelectedAdditionConditions({
     if (isEqualValue(buyOrRent, BuyOrRent.Buy)) {
       arr.push({
         title: HashTagTitleObj.common,
-        list: selectedConditions.filter((ele) => RegionCommonBuyOptions.includes(ele)).join(' / '),
+        list: selectedConditions.filter((ele) => RegionCommonBuyOptions.includes(ele)).join(', '),
       });
 
       if (convertedRealestateType.includes(RealestateType.Apartment)) {
         arr.push({
           title: HashTagTitleObj.apartment,
-          list: selectedConditions.filter((ele) => RegionApartmentBuyOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => RegionApartmentBuyOptions.includes(ele)).join(', '),
         });
       }
 
@@ -73,14 +73,14 @@ export default function getSelectedAdditionConditions({
       ) {
         arr.push({
           title: HashTagTitleObj.officetelVillaDagagoo,
-          list: selectedConditions.filter((ele) => RegionOfficetelVillaDagagooBuyOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => RegionOfficetelVillaDagagooBuyOptions.includes(ele)).join(', '),
         });
       }
 
       if (convertedRealestateType.includes(RealestateType.Dandok)) {
         arr.push({
           title: HashTagTitleObj.dandok,
-          list: selectedConditions.filter((ele) => RegionDandokBuyOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => RegionDandokBuyOptions.includes(ele)).join(', '),
         });
       }
 
@@ -90,13 +90,13 @@ export default function getSelectedAdditionConditions({
     if (isEqualValue(buyOrRent, BuyOrRent.Jeonsae)) {
       arr.push({
         title: HashTagTitleObj.common,
-        list: selectedConditions.filter((ele) => RegionCommonJeonsaeOptions.includes(ele)).join(' / '),
+        list: selectedConditions.filter((ele) => RegionCommonJeonsaeOptions.includes(ele)).join(', '),
       });
 
       if (convertedRealestateType.includes(RealestateType.Apartment)) {
         arr.push({
           title: HashTagTitleObj.apartment,
-          list: selectedConditions.filter((ele) => RegionApartmentJeonsaeOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => RegionApartmentJeonsaeOptions.includes(ele)).join(', '),
         });
       }
 
@@ -108,14 +108,14 @@ export default function getSelectedAdditionConditions({
       ) {
         arr.push({
           title: HashTagTitleObj.officetelVillaDagagoo,
-          list: selectedConditions.filter((ele) => RegionOfficetelVillaDagagooJeonsaeOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => RegionOfficetelVillaDagagooJeonsaeOptions.includes(ele)).join(', '),
         });
       }
 
       if (convertedRealestateType.includes(RealestateType.Dandok)) {
         arr.push({
           title: HashTagTitleObj.dandok,
-          list: selectedConditions.filter((ele) => RegionDandokBuyOptions.includes(ele)).join(' / '),
+          list: selectedConditions.filter((ele) => RegionDandokBuyOptions.includes(ele)).join(', '),
         });
       }
 

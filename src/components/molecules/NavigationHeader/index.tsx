@@ -66,13 +66,13 @@ function MoreButton({ type = 'icon', text, iconColor = 'dark', items, onClickIte
       </button>
 
       {isOpen && (
-        <div ref={setPopperElement} style={styles.popper} {...attributes.popper} tw="z-[110]">
-          <div ref={outsideRef} tw="bg-white rounded-lg py-1 flex flex-col shadow">
+        <div ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper} tw="z-[110] [min-width: 112px]">
+          <div ref={outsideRef} tw="bg-white rounded-lg py-2 flex flex-col shadow">
             {items.map((item, index) => (
               <button
                 key={item}
                 type="button"
-                tw="py-3 px-4 text-b2 text-gray-1000 leading-4 hover:bg-gray-100"
+                tw="[padding-top: 13px] [padding-bottom: 13px] px-4 text-body_02 text-gray-1000 hover:bg-nego-100 active:bg-nego-200 disabled:text-gray-500"
                 onClick={() => {
                   onClickItem?.(index, item);
                   setIsOpen(false);
