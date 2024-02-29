@@ -116,51 +116,10 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   useEffect(() => {
     if (!platform) return;
 
-    const handleOnlyLoginOrLogin = async (phone: string, pf: string) => {
+    const handleOnlyLoginOrLogin = async (phone: string) => {
       if (returnUrl) {
-        if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params) {
-          if (phone) {
-            await createSuggest();
-          } else if (!phone) {
-            if (pf === 'pc') {
-              const depth1 = router?.query?.depth1;
-              const depth2 = router?.query?.depth2;
-              const query = router.query;
-
-              delete query.depth1;
-              delete query.depth2;
-
-              if (depth1 && depth2) {
-                if (depth1 === Routes.SuggestForm) {
-                  router.push({
-                    pathname: `/${Routes.VerifyCi}/${depth2}`,
-                    query,
-                  });
-                } else if (depth2 === Routes.SuggestForm) {
-                  router.push({
-                    pathname: `/${depth1}/${Routes.VerifyCi}`,
-                    query,
-                  });
-                }
-              }
-
-              if (depth1 && !depth2) {
-                router.push({
-                  pathname: `/${Routes.VerifyCi}`,
-                  query,
-                });
-              }
-            }
-
-            if (pf === 'mobile') {
-              console.log('push');
-              router.push({
-                pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
-                query: { ...router.query },
-              });
-            }
-            return;
-          }
+        if (returnUrl?.includes(Routes.SuggestForm) && router?.query?.params && phone) {
+          await createSuggest();
         }
 
         await danjiFavoriteAdd();
@@ -172,9 +131,60 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     };
 
     if (user && (authType === 'onlyLogin' || authType === 'login')) {
-      handleOnlyLoginOrLogin(user.phone ?? '', platform);
+      handleOnlyLoginOrLogin(user.phone ?? '');
     }
   }, [authType, createSuggest, danjiFavoriteAdd, platform, returnUrl, router, user]);
+
+  useEffect(() => {
+    if (
+      (authType === 'onlyLogin' || authType === 'login') &&
+      user &&
+      !user.phone &&
+      returnUrl?.includes(Routes.SuggestForm) &&
+      router?.query?.params
+    ) {
+      console.log('rendering');
+      if (platform === 'pc') {
+        const depth1 = router?.query?.depth1;
+        const depth2 = router?.query?.depth2;
+        const query = router.query;
+
+        delete query.depth1;
+        delete query.depth2;
+
+        if (depth1 && depth2) {
+          if (depth1 === Routes.SuggestForm) {
+            router.push({
+              pathname: `/${Routes.VerifyCi}/${depth2}`,
+              query,
+            });
+          } else if (depth2 === Routes.SuggestForm) {
+            router.push({
+              pathname: `/${depth1}/${Routes.VerifyCi}`,
+              query,
+            });
+          }
+          return;
+        }
+
+        if (depth1 && !depth2) {
+          router.push({
+            pathname: `/${Routes.VerifyCi}`,
+            query,
+          });
+          return;
+        }
+      }
+
+      if (platform === 'mobile') {
+        router.push({
+          pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
+          query: { ...router.query },
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authType, platform, user]);
 
   useEffect(() => {
     if (!platform) return;
