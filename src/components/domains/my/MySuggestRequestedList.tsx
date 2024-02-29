@@ -129,8 +129,14 @@ export default function MySuggestRequestedList() {
     [platform, router],
   );
 
-  useScroll(scrollContainer, ({ scrollY }) => {
-    setIsScrollingButton(scrollY > 0);
+  useScroll(scrollContainer, ({ scrollY, direction }) => {
+    if (scrollY <= 0) {
+      setIsScrollingButton(false);
+    } else if (direction === 'up') {
+      setIsScrollingButton(false);
+    } else if (direction === 'down') {
+      setIsScrollingButton(true);
+    }
   });
 
   useEffect(() => {
@@ -179,7 +185,7 @@ export default function MySuggestRequestedList() {
       </FlexContentsWrraper>
 
       {list && list.length > 0 && render && (
-        <SuggestCreate isScrollingButton={isScrollingButton} handleClick={handleClickSuggestForm} />
+        <SuggestCreate platform={platform} isScrollingButton={isScrollingButton} handleClick={handleClickSuggestForm} />
       )}
     </Container>
   );
