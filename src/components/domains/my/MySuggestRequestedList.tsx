@@ -129,14 +129,8 @@ export default function MySuggestRequestedList() {
     [platform, router],
   );
 
-  useScroll(scrollContainer, ({ scrollY, direction }) => {
-    if (scrollY <= 0) {
-      setIsScrollingButton(false);
-    } else if (direction === 'up') {
-      setIsScrollingButton(false);
-    } else if (direction === 'down') {
-      setIsScrollingButton(true);
-    }
+  useScroll(scrollContainer, ({ scrollY }) => {
+    setIsScrollingButton(scrollY > 0);
   });
 
   useEffect(() => {
@@ -156,7 +150,7 @@ export default function MySuggestRequestedList() {
   }
 
   return (
-    <Container>
+    <Container id="negocio-my-suggest-requestedList">
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={handleClickBack} />
         <NavigationHeader.Title>나의 구해요 목록</NavigationHeader.Title>
