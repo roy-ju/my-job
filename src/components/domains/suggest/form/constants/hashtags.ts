@@ -124,6 +124,6 @@ export const RegionDandokJeonsaeOptions = [
 export const HashTagTitleObj: Record<string, string> = {
   common: '공통 조건',
   apartment: '아파트 개별 조건',
-  officetelVillaDagagoo: '오피스텔/빌라/다가구 개별 조건',
+  officetelVillaDagagoo: '오피스텔 / 빌라 / 다가구 개별 조건',
   dandok: '단독주택 개별 조건',
 };
