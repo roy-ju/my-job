@@ -41,11 +41,11 @@ const SummaryInfo = styled.div`
 `;
 
 const TitleButton = styled.button`
-  ${tw`flex flex-row items-center`}
+  ${tw`flex flex-row items-center gap-0.5`}
 `;
 
 const Title = styled.p`
-  ${tw`flex-1 text-left text-gray-800 text-heading_01`}
+  ${tw`text-left text-gray-800 text-heading_01 [max-width: 313px]`}
 `;
 
 const BuyOrRentPriceNegotiableWrraper = styled.div`
