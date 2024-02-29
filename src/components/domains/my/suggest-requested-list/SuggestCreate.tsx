@@ -15,16 +15,24 @@ export default function SuggestCreate({
   isScrollingButton: boolean;
   handleClick: () => void;
 }) {
-  return isScrollingButton ? (
+  // return isScrollingButton ? (
+  //   <StickyContainer>
+  //     <FabButton onClick={handleClick} type={isScrollingButton ? 'none' : 'extended'}>
+  //       <Plus24 />
+  //     </FabButton>
+  //   </StickyContainer>
+  // ) : (
+  //   <StickyContainer>
+  //     <FabButton onClick={handleClick} type="extended">
+  //       <Plus24 />집 구해요 등록
+  //     </FabButton>
+  //   </StickyContainer>
+  // );
+
+  return (
     <StickyContainer>
-      <FabButton onClick={handleClick} type="none">
-        <Plus24 />
-      </FabButton>
-    </StickyContainer>
-  ) : (
-    <StickyContainer>
-      <FabButton onClick={handleClick} type="extended">
-        <Plus24 />집 구해요 등록
+      <FabButton onClick={handleClick} type={isScrollingButton ? 'none' : 'extended'}>
+        <Plus24 /> {!isScrollingButton && '집 구해요 등록'}
       </FabButton>
     </StickyContainer>
   );

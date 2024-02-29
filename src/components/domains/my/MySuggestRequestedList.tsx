@@ -31,7 +31,7 @@ const FlexContentsWrraper = styled.div`
 `;
 
 const Contents = styled.div`
-  ${tw``}
+  ${tw`px-5`}
 `;
 
 const ListContainer = styled(InfiniteScroll)`
