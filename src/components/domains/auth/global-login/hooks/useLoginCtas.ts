@@ -143,7 +143,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
       returnUrl?.includes(Routes.SuggestForm) &&
       router?.query?.params
     ) {
-      console.log('rendering');
       if (platform === 'pc') {
         const depth1 = router?.query?.depth1;
         const depth2 = router?.query?.depth2;
