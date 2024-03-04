@@ -8,6 +8,8 @@ import { InfiniteScroll, Loading } from '@/components/atoms';
 
 import { NavigationHeader, NoDataUI } from '@/components/molecules';
 
+import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
+
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import getPath from '@/utils/getPath';
@@ -129,6 +131,8 @@ export default function MySuggestRequestedList() {
     [platform, router],
   );
 
+  useIosWebkitNoneApplySafeArea();
+
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsScrollingButton(scrollY > 0);
   });
@@ -139,12 +143,6 @@ export default function MySuggestRequestedList() {
     }, 600);
 
     return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.webkit?.messageHandlers?.noneApplySafeArea?.postMessage?.('');
-    }
   }, []);
 
   if (isLoading) {
