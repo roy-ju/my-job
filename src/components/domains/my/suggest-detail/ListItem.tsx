@@ -57,7 +57,7 @@ export default function ListItem({ item, mutate }: ListItemProps) {
     [item],
   );
 
-  const isListDimmed = item.is_agent && !item.suggest_recommend_ever_user_accepted && item.suggest_recommend_has_sent;
+  const isListDimmed = !item.suggest_recommend_ever_user_accepted && item.suggest_recommend_has_sent;
 
   const handleClickNegotiationStartButton = useCallback(() => {
     const suggestID = query.suggestID ? Number(query.suggestID) : 0;

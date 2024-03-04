@@ -16,8 +16,7 @@ interface Props {
 }
 
 export default function ListItemCtas({ item, mutate }: Props) {
-  const { onClickMySuggestRecommendAccept, onClickMySuggestorComplete, onClickChat, onClickReopenChat } =
-    useSuggestListItemHandler({ mutate });
+  const { onClickMySuggestorComplete, onClickChat, onClickReopenChat } = useSuggestListItemHandler({ mutate });
 
   const { query } = useRouter();
 
@@ -26,17 +25,6 @@ export default function ListItemCtas({ item, mutate }: Props) {
   const isChatRoomDeleted = item.chat_room_id && item.chat_room_is_deleted;
 
   const chatRoomButtonTitle = isChatRoomDeleted ? '채팅 복원하기' : '채팅 바로가기';
-
-  const isExistNegotiationButton =
-    !item.is_agent && !item.suggest_recommend_ever_user_accepted && item.suggest_recommend_has_sent;
-
-  const handleClickNegotiationStartButton = useCallback(() => {
-    onClickMySuggestRecommendAccept({
-      suggest_id: suggestID,
-      recommender_id: item.recommender_id,
-      is_recommender_agent: item.is_agent,
-    });
-  }, [item?.is_agent, item?.recommender_id, onClickMySuggestRecommendAccept, suggestID]);
 
   const handleClickChatRoomButton = useCallback(() => {
     if (item.chat_room_id === null) return;
@@ -56,19 +44,6 @@ export default function ListItemCtas({ item, mutate }: Props) {
       is_recommender_agent: item.is_agent,
     });
   }, [item.is_agent, item.recommender_id, onClickMySuggestorComplete, suggestID]);
-
-  if (isExistNegotiationButton) {
-    return (
-      <Button
-        variant="primary"
-        disabled={item.recommender_deregistered}
-        onClick={handleClickNegotiationStartButton}
-        tw="w-full whitespace-nowrap"
-      >
-        네고 협의 시작하기
-      </Button>
-    );
-  }
 
   if (item.suggest_recommend_ever_user_accepted && item.chat_room_id) {
     return (
