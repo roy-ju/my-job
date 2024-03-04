@@ -141,6 +141,12 @@ export default function MySuggestRequestedList() {
     return () => clearTimeout(timeout);
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.webkit?.messageHandlers?.noneApplySafeArea?.postMessage?.('');
+    }
+  }, []);
+
   if (isLoading) {
     return (
       <div tw="py-20">
