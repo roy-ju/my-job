@@ -29,7 +29,7 @@ import ListHeader from './listings-list/ListHeader';
 import List from './listings-list/List';
 
 const Container = styled.div`
-  ${tw`relative flex flex-col h-full `}
+  ${tw`relative flex flex-col h-full`}
 `;
 
 const DanjiInfoWrraper = styled.div`
