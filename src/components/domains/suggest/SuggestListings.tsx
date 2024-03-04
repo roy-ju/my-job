@@ -47,7 +47,7 @@ const DanjiInfoWrraper = styled.div`
 `;
 
 const DanjiSuggestListingsWrraper = styled.div`
-  ${tw`flex-1 py-6 overflow-y-auto`}
+  ${tw`flex-1 overflow-y-auto`}
 `;
 
 export default function SuggestListings() {
@@ -116,8 +116,9 @@ export default function SuggestListings() {
         <DanjiInfoWrraper>
           <DanjiInfo danji={danjiData} handleClick={handleClickDanjiDetailButton} />
         </DanjiInfoWrraper>
-        <SeperatorV2 />
         <DanjiSuggestListingsWrraper>
+          <SeperatorV2 />
+          <SeperatorV2 tw="h-6 bg-transparent" />
           {suggestList && suggestList.length === 0 && <Nodata />}
           {suggestList && suggestList.length > 0 && (
             <>
