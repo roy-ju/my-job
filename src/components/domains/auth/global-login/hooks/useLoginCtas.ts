@@ -176,7 +176,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
       }
 
       if (platform === 'mobile') {
-        console.log('render');
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.VerifyCi}`,
           query: { ...router.query },
@@ -193,7 +192,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
       const { isVerified } = user;
 
       if (isVerified) {
-        console.log('isVerified');
         if (returnUrl) {
           router.push(returnUrl);
         }
@@ -202,7 +200,6 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
       }
 
       if (!isVerified) {
-        console.log('!isVerified');
         if (returnUrl) {
           if (platform === 'pc') {
             const depth1 = router?.query?.depth1;
