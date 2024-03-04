@@ -100,10 +100,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>{AppConfig.title}</title>
-        <meta
-          name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, viewport-fit=cover"
-        />
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
         <meta name="naver-site-verification" content={`${process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION}`} />
       </Head>
 

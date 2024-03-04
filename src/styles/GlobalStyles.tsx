@@ -13,8 +13,6 @@ import nprogressStyles from '@/lib/nprogress/styles';
 const customStyles = css`
   body {
     ${tw`antialiased text-gray-1000`}
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   * {
