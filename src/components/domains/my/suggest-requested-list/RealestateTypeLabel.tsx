@@ -19,7 +19,7 @@ export default function RealestateTypeLabel({ realestateTypes }: { realestateTyp
 
   if (array.length <= 2) {
     return (
-      <div tw="flex gap-1">
+      <div tw="flex gap-2">
         {array?.map((d) => (
           <ChipV2 key={d} variant={ChipVariantByRealestateType[d]} size="large">
             {RealestateTypeString[d]}
@@ -31,7 +31,7 @@ export default function RealestateTypeLabel({ realestateTypes }: { realestateTyp
 
   if (array.length > 2) {
     return (
-      <div tw="flex gap-1">
+      <div tw="flex gap-2">
         {array.map((d, index) => {
           if (index > 0) return null;
 
