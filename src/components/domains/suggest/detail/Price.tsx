@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const PriceWrraper = styled.div`
-  ${tw`text-gray-800 text-heading_01 [max-width: 274px] whitespace-pre-line`}
+  ${tw`text-gray-800 whitespace-pre-line text-heading_01`}
 `;
 
 const Negotiable = styled.span`
@@ -30,7 +30,7 @@ export default function Price({
   if (quickSale)
     return (
       <Container>
-        <PriceWrraper id="suggest-detail-price-field">급매</PriceWrraper>{' '}
+        <PriceWrraper id="suggest-detail-price-field">매매 급매물 구해요</PriceWrraper>{' '}
         {negotiable && <Negotiable>(협의가능)</Negotiable>}
       </Container>
     );
@@ -38,7 +38,7 @@ export default function Price({
   if (monthlyRentFee) {
     return (
       <Container>
-        <PriceWrraper id="suggest-detail-price-field">
+        <PriceWrraper id="suggest-detail-price-field" css={[negotiable ? tw`[max-width: 274px]` : tw`w-full`]}>
           {describeJeonsaeWolsaeSame(BuyOrRent.Jeonsae)} <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral> /{' '}
           <Numeral koreanNumber>{monthlyRentFee}</Numeral>
         </PriceWrraper>
@@ -48,7 +48,7 @@ export default function Price({
   }
   return (
     <Container>
-      <PriceWrraper id="suggest-detail-price-field">
+      <PriceWrraper id="suggest-detail-price-field" css={[negotiable ? tw`[max-width: 274px]` : tw`w-full`]}>
         {describeJeonsaeWolsaeSame(BuyOrRent.Buy)} <Numeral koreanNumber>{tradeOrDepositPrice}</Numeral>
       </PriceWrraper>
       {negotiable && <Negotiable>(협의가능)</Negotiable>}
