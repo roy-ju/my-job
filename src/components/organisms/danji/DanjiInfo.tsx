@@ -69,9 +69,7 @@ export default function DanjiInfo({ danji, handleClick }: { danji: DanjiDetailRe
 
   const acceptedYearText = useMemo(
     () =>
-      danji?.use_accepted_year?.replaceAll(' ', '')
-        ? `${moment(danji.use_accepted_year).format('YYYY.MM.DD')} 준공`
-        : '',
+      danji?.use_accepted_year?.replaceAll(' ', '') ? `${moment(danji.use_accepted_year).format('YYYY.MM')} 준공` : '',
     [danji],
   );
 

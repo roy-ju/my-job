@@ -113,7 +113,6 @@ export default function ListItemListingSection({ item, mutate }: ListItemListing
       {renderContents()}
       <div tw="flex flex-col flex-1 pt-3">
         {item.note && <ExpandableText color="#868E96">{item?.note}</ExpandableText>}
-
         {item?.suggest_recommend_status === SuggestRecommendStatus.Cancelled && (
           <div tw="flex gap-1 mt-3">
             <ErrorIcon />
