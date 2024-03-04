@@ -18,6 +18,8 @@ import useFetchSuggestMyRecommendedList from '@/services/suggests/useFetchSugges
 
 import { SuggestStatus } from '@/constants/enums';
 
+import useCheckNotResource from '@/hooks/useCheckNotResource';
+
 import Summary from './detail/Summary';
 
 import MyRecommendsList from './detail/MyRecommendsList';
@@ -76,7 +78,7 @@ export default function SuggestDetail({ ipAddress }: SuggestDetailProps) {
     [router.query.suggestID],
   );
 
-  const { data, isLoading, mutate: detailMutate } = useFetchSuggestDetail({ suggestID });
+  const { data, isLoading, mutate: detailMutate, error } = useFetchSuggestDetail({ suggestID });
 
   const { data: myRecommendedList, mutate } = useFetchSuggestMyRecommendedList({ suggestId: suggestID });
 
@@ -95,6 +97,8 @@ export default function SuggestDetail({ ipAddress }: SuggestDetailProps) {
   }, [data]);
 
   const { handleClickBack } = useHandleClickBack();
+
+  useCheckNotResource({ error, message: '이미 취소된 요청 건입니다.' });
 
   const { showInactivePopup, inactivePopupCTA } = useInactive({ suggestDetailData: data });
 

@@ -36,7 +36,7 @@ axios.interceptors.response.use(
     if (response?.status === 500 && typeof window !== 'undefined') {
       toast.error('문제가 발생했습니다. 잠시 뒤 다시 시도해 주세요.');
       if (window.location.pathname !== '/') {
-        if (navigator.userAgent.indexOf('Mobi') > 1) {
+        if (navigator.userAgent.indexOf('Mobi') > 1 || navigator.userAgent.indexOf('Android') > -1) {
           Router.replace(`/${Routes.EntryMobile}`);
         } else {
           Router.replace(`/`);

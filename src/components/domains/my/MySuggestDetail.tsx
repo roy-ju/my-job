@@ -18,6 +18,7 @@ import SeperatorV2 from '@/components/atoms/SeperatorV2';
 
 import { SuggestStatus } from '@/constants/enums';
 
+import useCheckNotResource from '@/hooks/useCheckNotResource';
 import useInactive from './suggest-detail/hooks/useInactive';
 
 import useHandleClickBack from './suggest-detail/hooks/useHandleClickBack';
@@ -61,6 +62,7 @@ export default function MySuggestDetail() {
     data: suggestDetailData,
     mutate: mutateDetail,
     isLoading,
+    error,
   } = useFetchSuggestDetail({
     suggestID: Number(router?.query?.suggestID) ?? 0,
   });
@@ -132,6 +134,8 @@ export default function MySuggestDetail() {
       suggestDetailData?.suggest_status,
     ],
   );
+
+  useCheckNotResource({ error, message: '이미 취소된 요청 건입니다.' });
 
   if (isLoading || !suggestDetailData) {
     return (
