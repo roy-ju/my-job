@@ -1,10 +1,16 @@
-import { refresh } from '@/apis/user/refresh';
-import Keys from '@/constants/storage_keys';
-import Routes from '@/router/routes';
-import instance from 'axios';
 import Router from 'next/router';
-import { toast } from 'react-toastify';
+
+import instance from 'axios';
+
 import { mutate } from 'swr';
+
+import { toast } from 'react-toastify';
+
+import { refresh } from '@/apis/user/refresh';
+
+import Keys from '@/constants/storage_keys';
+
+import Routes from '@/router/routes';
 
 const axios = instance.create({
   baseURL: process.env.NEXT_PUBLIC_NEGOCIO_REST_API_BASE_URL,

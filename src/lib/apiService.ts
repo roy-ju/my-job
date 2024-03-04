@@ -1,16 +1,16 @@
+import Router from 'next/router';
+
+import { mutate } from 'swr';
+
 import axios, { AxiosInstance } from 'axios';
+
+import { toast } from 'react-toastify';
 
 import { refresh } from '@/apis/user/refresh';
 
 import Keys from '@/constants/storage_keys';
 
 import Routes from '@/router/routes';
-
-import Router from 'next/router';
-
-import { toast } from 'react-toastify';
-
-import { mutate } from 'swr';
 
 class ApiService {
   public instance: AxiosInstance;
@@ -21,8 +21,8 @@ class ApiService {
     });
 
     this._requestInterceptor();
-    
-    this._responseInterceptor(); 
+
+    this._responseInterceptor();
   }
 
   static redirectOnError = () => {
