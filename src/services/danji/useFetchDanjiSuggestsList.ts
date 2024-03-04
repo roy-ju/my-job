@@ -22,7 +22,6 @@ function getKey(
       page_number: pageIndex + 1,
     },
     null,
-    { revalidateIfStale: false, revalidateOnFocus: false },
   ];
 }
 
@@ -39,7 +38,7 @@ export function useFetchDanjiSuggestsList({
     (pageIndex, previousPageData) => getKey(danjiID, pageSize, pageIndex, previousPageData),
     null,
     {
-      revalidateFirstPage: false,
+      revalidateFirstPage: true,
       revalidateOnMount: true,
       onSuccess: () => {},
       ...(prefetchedData ? { fallbackData: [prefetchedData] } : {}),
