@@ -5,6 +5,8 @@ import tw, { styled } from 'twin.macro';
 import Plus24 from '@/assets/icons/plus_24.svg';
 
 import FabButton from '@/components/atoms/FabButton/FabButton';
+import useIsNativeApp from '@/hooks/useIsNativeApp';
+import isIOS from '@/utils/isIos';
 
 const MobileFixedContainer = styled.div`
   ${tw`fixed bottom-4 right-4`}
@@ -23,6 +25,8 @@ export default function SuggestCreate({
   isScrollingButton: boolean;
   handleClick: () => void;
 }) {
+  const isNaitveApp = useIsNativeApp();
+
   const [fixedRight, setFixedRight] = useState(0);
 
   const animate = {
@@ -56,7 +60,7 @@ export default function SuggestCreate({
 
   if (platform === 'mobile') {
     return (
-      <MobileFixedContainer>
+      <MobileFixedContainer css={[isNaitveApp && isIOS() && tw`[bottom: 49px]`]}>
         <FabButton onClick={handleClick} animate={animate}>
           <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && '집 구해요 등록'}
         </FabButton>

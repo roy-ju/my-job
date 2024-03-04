@@ -10,6 +10,8 @@ import { NavigationHeader } from '@/components/molecules';
 
 import DanjiInfo from '@/components/organisms/danji/DanjiInfo';
 
+import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
+
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import { useFetchDanjiListingsList } from '@/services/danji/useFetchDanjiListingsList';
@@ -83,6 +85,8 @@ export default function DanjiListings() {
   const { handleClickItem } = useListItemHandler();
 
   const { handleClickDanjiDetailButton } = useCtasHandler({ danjiID });
+
+  useIosWebkitNoneApplySafeArea();
 
   if (isLoading || !danjiData) return null;
 
