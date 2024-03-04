@@ -10,8 +10,6 @@ import { NavigationHeader } from '@/components/molecules';
 
 import DanjiInfo from '@/components/organisms/danji/DanjiInfo';
 
-import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
-
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
@@ -103,8 +101,6 @@ export default function SuggestListings() {
   useMutateSuggestListCallback({ mutateCallback: mutate });
 
   const { handleClickItem } = useListItemHandler({ danjiID });
-
-  useIosWebkitNoneApplySafeArea();
 
   if (isLoading || !danjiData) return null;
 
