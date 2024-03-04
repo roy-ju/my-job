@@ -37,7 +37,7 @@ const DanjiInfoWrraper = styled.div`
 `;
 
 const DanjiListingsWrraper = styled.div`
-  ${tw`flex-1 py-6 overflow-y-auto`}
+  ${tw`flex-1 overflow-y-auto`}
 `;
 
 const Seperator = styled.div`
@@ -97,8 +97,9 @@ export default function DanjiListings() {
       <DanjiInfoWrraper>
         <DanjiInfo danji={danjiData} handleClick={handleClickDanjiDetailButton} />
       </DanjiInfoWrraper>
-      <SeperatorV2 />
       <DanjiListingsWrraper>
+        <SeperatorV2 />
+        <SeperatorV2 tw="h-6 bg-transparent" />
         {listingsList && listingsList.length === 0 && <Nodata />}
         {listingsList && listingsList.length > 0 && (
           <>
