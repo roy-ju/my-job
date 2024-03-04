@@ -1,4 +1,4 @@
-import MySuggsetDetail from '@/components/domains/my/MySuggsetDetail';
+import MySuggestDetail from '@/components/domains/my/MySuggestDetail';
 
 import MobAuthRequired from '@/components/atoms/MobAuthRequired';
 
@@ -8,7 +8,7 @@ export default function MySuggestDetailMobile() {
   return (
     <MobAuthRequired>
       <MobileContainer>
-        <MySuggsetDetail />
+        <MySuggestDetail />
       </MobileContainer>
     </MobAuthRequired>
   );

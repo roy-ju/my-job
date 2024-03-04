@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import MySuggsetDetail from '@/components/domains/my/MySuggsetDetail';
+import MySuggestDetail from '@/components/domains/my/MySuggestDetail';
 
 import AuthRequired from '@/components/atoms/AuthRequired';
 
@@ -15,7 +15,7 @@ function MySuggestDetailPc({ depth, panelWidth }: Props) {
   return (
     <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
-        <MySuggsetDetail />
+        <MySuggestDetail />
       </Panel>
     </AuthRequired>
   );
