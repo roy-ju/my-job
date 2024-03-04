@@ -7,9 +7,9 @@ interface Props {
 }
 
 const sizes = {
-  small: tw`h-5 text-caption_01`,
+  small: tw`h-5 text-caption_01 [line-height: 1]`,
 
-  large: tw`h-6 text-subhead_01`,
+  large: tw`h-6 text-subhead_01 [line-height: 1]`,
 };
 
 const colors = {
@@ -27,7 +27,7 @@ const colors = {
 };
 
 export default styled.h4<Props>(({ variant = 'primary', size = 'small' }) => [
-  tw`py-0.5 px-2 inline-flex items-center rounded whitespace-nowrap [border-radius: 100px]`,
+  tw`py-0.5 px-2 inline-flex items-center whitespace-nowrap [border-radius: 100px]`,
   colors[variant],
   sizes[size],
 ]);
