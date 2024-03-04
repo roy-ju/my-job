@@ -21,7 +21,10 @@ export default function useFetchMySuggestList() {
     setSize,
     isLoading,
     mutate,
-  } = useSWRInfinite<MySuggestListResponse>(user ? getKey : () => null);
+  } = useSWRInfinite<MySuggestListResponse>(user ? getKey : () => null, null, {
+    revalidateFirstPage: true,
+    revalidateOnMount: true,
+  });
 
   const data = useMemo(() => {
     if (!dataList) return [];
