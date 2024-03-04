@@ -54,7 +54,7 @@ export default function ListingItemList({
   return (
     <>
       {type === 'suggest' ? (
-        <div tw="flex flex-col gap-4 px-5 mt-4">
+        <div tw="flex flex-col gap-4 mt-4">
           {(list as DanjiSuggestListItem[]).map((item) => (
             <SuggestCardInDanji
               key={item.suggest_id}
