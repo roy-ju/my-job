@@ -150,7 +150,7 @@ export default function ListItemTitleSection({ item, isListDimmed }: ListItemTit
 
   if (!isAgent) {
     return (
-      <div tw="flex flex-row items-center gap-1">
+      <div tw="flex flex-row items-center gap-1 relative z-30" css={[isListDimmed && tw`pointer-events-none`]}>
         <Avatar
           size={24}
           alt="profile_img"
