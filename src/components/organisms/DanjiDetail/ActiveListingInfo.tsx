@@ -320,7 +320,7 @@ export default function ActiveListingInfo({
           <>
             {tab === 1 &&
               (suggestListings?.length > 0 ? (
-                <div tw="flex flex-col gap-4 py-2 px-5 mt-4">
+                <div tw="flex flex-col gap-4 py-2 mt-4">
                   {suggestListings?.slice(0, 3).map((item) => (
                     <SuggestCardInDanji
                       key={item.suggest_id}
