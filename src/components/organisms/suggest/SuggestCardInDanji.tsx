@@ -13,7 +13,7 @@ import IamRecommendingLabel from './IamRecommendingLabel';
 import StatusLabelInCard from './StatusLabelInCard';
 
 const CardButton = styled.button`
-  ${tw`[width: calc(100% - 40px)] flex flex-col p-5 pb-4 border border-gray-200 rounded-lg hover:border-gray-300 [box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06)] mx-5`}
+  ${tw`[width: calc(100% - 40px)] flex flex-col p-5 pb-4 border border-gray-200 [border-radius: 12px] hover:border-gray-300 [box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06)] mx-5`}
 `;
 
 const BuyOrRentText = styled.h1`
@@ -32,12 +32,12 @@ const Flex = styled.div`
   ${tw`flex flex-row items-center`}
 `;
 
-const LabelWrraper = styled.div`
-  ${tw`mb-3`}
-`;
-
 const StatusLabelWrraper = styled.div`
   ${tw`w-full mt-3`}
+`;
+
+const LabelWrraper = styled.div`
+  ${tw`flex items-center justify-center mb-3`}
 `;
 
 function PriceText({
