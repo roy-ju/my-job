@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import useSWR from 'swr';
 
 function fetcher(arg: string | [string, any]) {
@@ -8,15 +9,16 @@ function fetcher(arg: string | [string, any]) {
   return axios.get(arg[0], arg[1]).then((res) => res.data);
 }
 
-export type GetFaqListResponse = {
+export type InternalFaqListResponse = {
   [category: string]: {
     q: string;
     a: string;
   }[];
 };
 
-export default function useAPI_Internal_GetFaqList() {
-  const { data, isLoading, mutate } = useSWR<GetFaqListResponse>(`/api/faq`, fetcher);
+export default function useFetchInternalFaqList() {
+  const { data, isLoading, mutate } = useSWR<InternalFaqListResponse>(`/api/faq`, fetcher);
+
   return {
     data,
     isLoading,

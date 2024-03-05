@@ -19,6 +19,7 @@ import SeperatorV2 from '@/components/atoms/SeperatorV2';
 import { SuggestStatus } from '@/constants/enums';
 
 import useCheckNotResource from '@/hooks/useCheckNotResource';
+
 import useInactive from './suggest-detail/hooks/useInactive';
 
 import useHandleClickBack from './suggest-detail/hooks/useHandleClickBack';

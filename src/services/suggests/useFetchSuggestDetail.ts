@@ -14,6 +14,6 @@ export default function useFetchSuggestDetail({ suggestID }: { suggestID: number
         ]
       : null,
     null,
-    { revalidateIfStale: false, revalidateOnFocus: false, revalidateOnMount: true },
+    { revalidateIfStale: false, revalidateOnFocus: true, revalidateOnMount: true },
   );
 }
