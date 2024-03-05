@@ -13,10 +13,6 @@ import Head from 'next/head';
 
 import AppConfig from '@/config';
 
-import PlatformProvider from '@/providers/PlatformProvider';
-
-import { Container } from '@/components/container';
-
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -137,7 +133,7 @@ const DanjiListings = dynamic(() => import('@/components/pages/DanjiListings/Dan
   loading: FallbackComponent,
   ssr: false,
 });
-const ChatRoomList = dynamic(() => import('@/components/pages/pc/ChatRoomList'), {
+const ChatRoomList = dynamic(() => import('@/components/pages/ChatRoomList/ChatRoomListPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -347,7 +343,7 @@ const MySuggestDetail = dynamic(() => import('@/components/pages/MySuggestDetail
   ssr: false,
   loading: FallbackComponent,
 });
-const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom'), {
+const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom/ChatRoomPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -364,10 +360,9 @@ interface RouterProps {
   depth: number; // route segment 의 depth
   ipAddress: string;
   prefetchedData?: { [key: string]: any } | null;
-  platform: 'pc' | 'mobile';
 }
 
-function Router({ route, query, depth, ipAddress, prefetchedData, platform }: RouterProps) {
+function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps) {
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
@@ -479,9 +474,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.DeregisterDisclaimer: {
       return <DeregisterDisclaimer {...props} />;
     }
-    // case Routes.Login: {
-    //   return <Login ipAddress={ipAddress} {...props} />;
-    // }
     case Routes.Reactivate: {
       return <Reactivate {...props} />;
     }
@@ -499,13 +491,7 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
       return <ContractTerms {...props} />;
     }
     case Routes.ChatRoom: {
-      return (
-        <PlatformProvider platform={platform} depth={depth}>
-          <Container auth panelWidth={DEFAULT_PANEL_WIDTH}>
-            <ChatRoom key={query.chatRoomID as string} {...props} />
-          </Container>
-        </PlatformProvider>
-      );
+      return <ChatRoom key={query.chatRoomID as string} {...props} />;
     }
     case Routes.ChatRoomList: {
       return <ChatRoomList {...props} />;
@@ -540,9 +526,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.BusinessInfo: {
       return <BusinessInfo {...props} />;
     }
-    // case Routes.Register: {
-    //   return <Register {...props} />;
-    // }
     case Routes.Register: {
       return <Register {...props} />;
     }
@@ -555,7 +538,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData, platform }: Ro
     case Routes.FindAccount: {
       return <FindAccount {...props} />;
     }
-
     case Routes.ListingCreateForm: {
       return <ListingCreateForm {...props} />;
     }

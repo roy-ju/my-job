@@ -21,6 +21,8 @@ import { ListingEligibilityCheckResponse } from './listing/types';
 
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
+import { UploadDocumentResponse } from './chat/type';
+
 export class NegocioApiService extends ApiService {
   /** 로그인  */
   async login(req: LoginRequest) {
@@ -373,6 +375,41 @@ export class NegocioApiService extends ApiService {
 
   async mySuggsetResume({ suggestID }: { suggestID: number }) {
     await this.instance.post('/my/suggest/resume', { suggest_id: suggestID });
+  }
+
+  async closeChatRoom(chatRoomID: number) {
+    try {
+      const { data } = await this.instance.post('/chat/room/close', {
+        chat_room_id: chatRoomID,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async uploadPhotos(file: File): Promise<UploadDocumentResponse | null> {
+    const formData = new FormData();
+    formData.append('files', file);
+    try {
+      const { data } = await this.instance.post('/chat/upload/photos', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return data as UploadDocumentResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateChatMessagesRead(chatRoomID: number) {
+    try {
+      return await this.instance.post('/chat/messages/read', { chat_room_id: chatRoomID });
+    } catch (e) {
+      return null;
+    }
   }
 }
 

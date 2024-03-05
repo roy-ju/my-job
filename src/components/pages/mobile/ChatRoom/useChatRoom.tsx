@@ -16,11 +16,10 @@ import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
 
-import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
-
 import { ChatUserType } from '@/constants/enums';
 
 import Keys from '@/constants/storage_keys';
+import useFetchChatRoomList from '@/services/chat/useFetchChatRoomList';
 
 interface WebSocketMessage {
   message: string;
@@ -38,7 +37,7 @@ export default function useChatRoom(chatRoomID: number) {
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
   const [photosUrls, setPhotosUrls] = useState<string[]>([]);
   const [textFieldDisabled, setTextFieldDisabled] = useState(false);
-  const { mutate: mutateChatRoomList } = useAPI_ChatRoomList();
+  const { mutate: mutateChatRoomList } = useFetchChatRoomList();
   const mutateListRef = useLatest(mutateChatRoomList);
 
   const webSocketUrl = useMemo(() => {

@@ -126,6 +126,7 @@ export default function SuggestsOrListings({
 
   const handleCreateSuggest = () => {
     if (!isRecommendationService) {
+      setPopup('impossibleRecommendation');
       return;
     }
 
@@ -157,6 +158,8 @@ export default function SuggestsOrListings({
       isCheckPossibleRecommedationService(danji.bubjungdong_code);
     }
   }, [danji]);
+
+  console.log(isRecommendationService);
 
   useEffect(() => {
     mutate();
