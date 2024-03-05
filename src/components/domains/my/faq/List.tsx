@@ -1,5 +1,6 @@
-import { Accordion } from '@/components/molecules';
 import tw, { styled } from 'twin.macro';
+
+import { Accordion } from '@/components/molecules';
 
 const Conatiner = styled.div`
   & > div:not(:last-of-type) {
@@ -7,25 +8,33 @@ const Conatiner = styled.div`
   }
 `;
 
-export default function FaqList({
-  list,
-}: {
+const SummaryText = styled.p`
+  ${tw`font-semibold text-b2 text-start text-gray-1000`}
+`;
+
+const DetailText = styled.p`
+  ${tw`px-5 py-4 break-words whitespace-pre-wrap text-info`}
+`;
+
+type ListProps = {
   list?:
     | {
         a: string;
         q: string;
       }[]
     | null;
-}) {
+};
+
+export default function List({ list }: ListProps) {
   return (
     <Conatiner>
       {list?.map((item) => (
         <Accordion key={item.q}>
           <Accordion.Summary tw="px-5 py-4 flex gap-4">
-            <p tw="text-b2 text-start font-semibold text-gray-1000">{item.q}</p>
+            <SummaryText>{item.q}</SummaryText>
           </Accordion.Summary>
           <Accordion.Details>
-            <p tw="px-5 text-info break-words py-4 whitespace-pre-wrap">{item.a}</p>
+            <DetailText>{item.a}</DetailText>
           </Accordion.Details>
         </Accordion>
       ))}

@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import NoticeListWrraper from '@/components/pages/mobile/My/NoticeListWrraper';
+import NoticeList from '@/components/pages/NoticeList/NoticeListMobile';
 
-const Page: NextPageWithLayout = () => <NoticeListWrraper />;
+const Page: NextPageWithLayout = () => <NoticeList />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import FaqWrraper from '@/components/pages/mobile/My/FaqWrraper';
+import Faq from '@/components/pages/Faq/FaqMobile';
 
-const Page: NextPageWithLayout = () => <FaqWrraper />;
+const Page: NextPageWithLayout = () => <Faq />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

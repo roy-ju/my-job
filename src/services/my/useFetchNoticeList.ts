@@ -1,23 +1,29 @@
 import { useCallback, useMemo } from 'react';
+
 import useSWRInfinite from 'swr/infinite';
 
-export interface GetNoticeListResponse {
-  list: {
-    id: number;
-    category: string;
-    title: string;
-    created_time: string;
-  }[];
+export type NoticeListItem = {
+  id: number;
+  category?: string;
+  title: string;
+  created_time: string;
+};
+
+export interface NoticeListResponse {
+  list: NoticeListItem[];
 }
 
-function getKey(size: number, previousPageData: GetNoticeListResponse) {
+function getKey(size: number, previousPageData: NoticeListResponse) {
   const previousLength = previousPageData?.list?.length ?? 0;
+
   if (previousPageData && previousLength < 1) return null;
+
   return [`/notice/list`, { page_number: size + 1, page_size: 10 }];
 }
 
-export default function useAPI_GetNoticeList() {
-  const { data: dataList, size, setSize, isLoading, mutate } = useSWRInfinite<GetNoticeListResponse>(getKey);
+export default function useFetchNoticeList() {
+  const { data: dataList, size, setSize, isLoading, mutate } = useSWRInfinite<NoticeListResponse>(getKey);
+
   const data = useMemo(() => {
     if (!dataList) return [];
     return dataList
