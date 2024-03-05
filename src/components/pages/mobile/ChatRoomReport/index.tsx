@@ -8,9 +8,9 @@ import { MobileContainer } from '@/components/atoms';
 
 import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
 
-import createReportChatRoom from '@/apis/chat/createReportChatRoom';
-
 import useFetchChatRoomDetail from '@/services/chat/useFetchChatRoomDetail';
+
+import { apiService } from '@/services';
 
 export default function ChatRoomReport() {
   const router = useRouter();
@@ -27,8 +27,8 @@ export default function ChatRoomReport() {
     setReportContent(value);
   }, []);
 
-  const handleClickReportButton = () => {
-    createReportChatRoom({
+  const handleClickReportButton = async () => {
+    await apiService.listingReportCreate({
       chat_room_id: Number(router.query.chatRoomID),
       message: reportContent,
     });

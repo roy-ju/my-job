@@ -10,8 +10,6 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-import reopneChatRoom from '@/apis/chat/reopenChatRoom';
-
 import { apiService } from '@/services';
 
 import { MySuggestRecommendsResponse } from '@/services/my/types';
@@ -37,7 +35,7 @@ export default function useSuggestListItemHandler({
 
   const onClickReopenChat = useCallback(
     async (chatRoomID: number) => {
-      await reopneChatRoom(chatRoomID);
+      await apiService.chatRoomReopen(chatRoomID);
       await mutate?.();
     },
     [mutate],

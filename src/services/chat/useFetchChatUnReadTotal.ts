@@ -9,7 +9,7 @@ interface Response {
   chat_room_id: number;
 }
 
-export default function useAPI_GetUnreadChatCount(config?: {}) {
+export default function useFetchChatUnReadTotal(config?: {}) {
   const { user } = useAuth();
 
   const { data, mutate } = useSWR<Response>(user ? '/chat/unread/total' : null, authFetcher, config);

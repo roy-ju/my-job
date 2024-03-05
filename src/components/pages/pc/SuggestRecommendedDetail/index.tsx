@@ -18,12 +18,13 @@ import useAPI_GetMySuggestRecommendedDetail from '@/apis/suggest/getMySuggestRec
 
 import { completeMySuggestRecommender } from '@/apis/suggest/completeMySuggestRecommender';
 
-import reopneChatRoom from '@/apis/chat/reopenChatRoom';
-
 import { cancelMySuggestRecommend } from '@/apis/suggest/cancelMySuggestRecommendCancel';
 
 import { deleteMySuggestRecommend } from '@/apis/suggest/deleteMySuggestRecommend';
+
 import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
+
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -55,7 +56,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [data?.suggestor_id, suggestID]);
 
   const handleChatRoomReopen = useCallback(async () => {
-    await reopneChatRoom(data?.chat_room_id);
+    await apiService.chatRoomReopen(data?.chat_room_id);
     mutate();
   }, [data?.chat_room_id, mutate]);
 

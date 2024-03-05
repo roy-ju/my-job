@@ -20,7 +20,7 @@ import { deleteMySuggestRecommend } from '@/apis/suggest/deleteMySuggestRecommen
 
 import { completeMySuggestRecommender } from '@/apis/suggest/completeMySuggestRecommender';
 
-import reopneChatRoom from '@/apis/chat/reopenChatRoom';
+import { apiService } from '@/services';
 
 export default memo(() => {
   const router = useRouter();
@@ -45,7 +45,7 @@ export default memo(() => {
   }, [data?.suggestor_id, suggestID]);
 
   const handleChatRoomReopen = useCallback(async () => {
-    await reopneChatRoom(data?.chat_room_id);
+    await apiService.chatRoomReopen(data?.chat_room_id);
     mutate();
   }, [data?.chat_room_id, mutate]);
 

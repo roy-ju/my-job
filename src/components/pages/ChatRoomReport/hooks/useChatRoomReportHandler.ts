@@ -6,11 +6,11 @@ import { useRouter } from '@/hooks/utils';
 
 import { useRouter as useNextRouter } from 'next/router';
 
-import createReportChatRoom from '@/apis/chat/createReportChatRoom';
-
 import { toast } from 'react-toastify';
 
 import Routes from '@/router/routes';
+
+import { apiService } from '@/services';
 
 import useChatRoomReportStore from './useChatRoomReportStore';
 
@@ -35,7 +35,7 @@ export default function useChatRoomReportHandler() {
 
       if (!value || !chatRoomID) return;
 
-      await createReportChatRoom({
+      await apiService.listingReportCreate({
         chat_room_id: chatRoomID,
         message: value,
       });

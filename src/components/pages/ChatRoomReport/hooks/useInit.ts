@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
-import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
+import useFetchChatRoomDetail from '@/services/chat/useFetchChatRoomDetail';
 
 export default function useInit() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function useInit() {
     return 0;
   }, [router?.query]);
 
-  const { data, isLoading } = useAPI_ChatRoomDetail(id);
+  const { data, isLoading } = useFetchChatRoomDetail(id);
 
   return { data, isLoading };
 }

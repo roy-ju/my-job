@@ -87,7 +87,7 @@ export default function usePopupsHandler({ callbackFn }: UsePopupsHandlerProps) 
     try {
       const uploadPromises = values.map(async (item) => {
         const f = await getFileFromUrl(item, v4());
-        const res = await apiService.uploadPhotos(f);
+        const res = await apiService.chatUploadPhotos(f);
 
         return res?.full_file_paths;
       });

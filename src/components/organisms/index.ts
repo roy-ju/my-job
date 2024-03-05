@@ -11,10 +11,6 @@ export { default as RegionMarker } from './map_markers/RegionMarker';
 export { default as DanjiMarker } from './map_markers/DanjiMarker';
 export { default as ListingMarker } from './map_markers/ListingMarker';
 
-export { default as ChatRoomDetailsAccordion } from './ChatRoomDetailsAccordionV2';
-export { default as ChatMessage } from './ChatMessage';
-export { default as ChatRoomAgentSummary } from './ChatRoomAgentSummary';
-
 export { default as NotificationFilterTab } from './NotificationFilterTab';
 export { default as NotificaitonListItem } from './NotificationListItem';
 export { default as NotificationSettingsForm } from './NotificationSettingsForm';
