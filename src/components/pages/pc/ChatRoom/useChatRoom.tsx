@@ -12,13 +12,12 @@ import useWebSocket, { WebSocketReadyState } from '@/hooks/useWebSocket';
 
 import useAPI_ChatRoomDetail from '@/apis/chat/getChatRoomDetail';
 
-import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
-
 import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 import { ChatUserType } from '@/constants/enums';
 
 import Keys from '@/constants/storage_keys';
+import useFetchChatRoomList from '@/services/chat/useFetchChatRoomList';
 
 interface WebSocketMessage {
   message: string;
@@ -37,7 +36,7 @@ export default function useChatRoom(chatRoomID: number) {
   const [photosUrls, setPhotosUrls] = useState<string[]>([]);
   const [textFieldDisabled, setTextFieldDisabled] = useState(false);
 
-  const { mutate: mutateChatRoomList } = useAPI_ChatRoomList();
+  const { mutate: mutateChatRoomList } = useFetchChatRoomList();
 
   const webSocketUrl = useMemo(() => {
     if (!chatRoomID || !accessToken) return '';
