@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
-import useAPI_ChatRoomList from '@/apis/chat/getChatRoomList';
-
 import { updateChatMessagesRead } from '@/apis/chat/updateChatMessagesRead';
 
 import { ChatUserType } from '@/constants/enums';
@@ -13,6 +11,8 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 import usePageVisibility from '@/hooks/usePageVisibility';
 
 import useWebSocket, { WebSocketReadyState } from '@/hooks/useWebSocket';
+
+import useFetchChatRoomList from '@/services/chat/useFetchChatRoomList';
 
 import { ChatMessages, WebSocketMessage } from '../types';
 
@@ -29,7 +29,7 @@ export default function useClientWebsocket() {
 
   const dispatch = useChatRoomDispatch();
 
-  const { mutate } = useAPI_ChatRoomList();
+  const { mutate } = useFetchChatRoomList();
 
   const webSocketUrl = useMemo(() => {
     if (!store?.data?.chat_room_id) return '';
