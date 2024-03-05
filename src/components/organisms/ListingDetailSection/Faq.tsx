@@ -1,8 +1,9 @@
-import useAPI_Internal_GetFaqList from '@/apis/internal/getFaq';
+import useFetchInternalFaqList from '@/apis/internal/getFaqs';
+
 import FaqList from '../FaqList';
 
 export default function Faq() {
-  const { data } = useAPI_Internal_GetFaqList();
+  const { data } = useFetchInternalFaqList();
 
   return (
     <div>

@@ -1,13 +1,17 @@
-import { NavigationHeader, Dropdown } from '@/components/molecules';
 import { useEffect, useMemo, useState } from 'react';
+
+import { NavigationHeader, Dropdown } from '@/components/molecules';
+
 import { FaqList } from '@/components/organisms';
-import useAPI_Internal_GetFaqList from '@/apis/internal/getFaq';
+
+import useFetchInternalFaqList from '@/apis/internal/getFaqs';
+
 import { Loading } from '@/components/atoms';
 
 export default function FAQ({ onClickBack }: { onClickBack?: () => void }) {
   const [category, setCategory] = useState('');
 
-  const { data } = useAPI_Internal_GetFaqList();
+  const { data } = useFetchInternalFaqList();
 
   const categories = useMemo(() => {
     if (!data) return [];
