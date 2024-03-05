@@ -1,13 +1,20 @@
 import { ExpandableText, NavigationHeader } from '@/components/molecules';
+
 import { Button, Chip, Moment, Numeral } from '@/components/atoms';
-import { Avatar } from '@/components/organisms/ChatMessage/Avatar';
+
 import { GetMySuggestRecommendedDetailResponse } from '@/apis/suggest/getMySuggestRecommendedDetail';
 
 import { RealestateType, BuyOrRent, SuggestRecommendStatus, SuggestStatus } from '@/constants/enums';
+
 import { RealestateTypeString, TimeTypeString } from '@/constants/strings';
+
 import ExclamationMarkIcon from '@/assets/icons/exclamation_mark_nego.svg';
+
 import ExclamationMarkRedIcon from '@/assets/icons/exclamation_mark_red.svg';
+
 import tw, { css } from 'twin.macro';
+
+import { Avatar } from '@/components/domains/chat/room/widget/Avatar';
 
 const chipVariantByRealestateType: Record<number, 'nego' | 'green' | 'red' | 'blue' | 'orange'> = {
   [RealestateType.Apartment]: 'nego',

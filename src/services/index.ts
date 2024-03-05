@@ -388,7 +388,7 @@ export class NegocioApiService extends ApiService {
     }
   }
 
-  async uploadPhotos(file: File): Promise<UploadDocumentResponse | null> {
+  async chatUploadPhotos(file: File): Promise<UploadDocumentResponse | null> {
     const formData = new FormData();
     formData.append('files', file);
     try {
@@ -407,6 +407,28 @@ export class NegocioApiService extends ApiService {
   async updateChatMessagesRead(chatRoomID: number) {
     try {
       return await this.instance.post('/chat/messages/read', { chat_room_id: chatRoomID });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async listingReportCreate(req: { chat_room_id: number; message: string }) {
+    try {
+      const { data } = await this.instance.post('/listing/report/create', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async chatRoomReopen(chatRoomID: number) {
+    try {
+      const { data } = await this.instance.post('/chat/room/reopen', {
+        chat_room_id: chatRoomID,
+      });
+      return data;
     } catch (e) {
       return null;
     }

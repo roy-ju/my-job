@@ -18,7 +18,7 @@ import { checkPlatform } from '@/utils/checkPlatform';
 
 import { compareMessageTime } from '@/utils/formatsTime';
 
-import { ChatMessage } from '@/components/organisms';
+import ChatMessage from './widget';
 
 import { ChatMessage as ChatMessgaeType } from './types';
 

@@ -6,13 +6,13 @@ import { Panel } from '@/components/atoms';
 
 import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
 
-import createReportChatRoom from '@/apis/chat/createReportChatRoom';
-
 import Routes from '@/router/routes';
 
 import { toast } from 'react-toastify';
 
 import useFetchChatRoomDetail from '@/services/chat/useFetchChatRoomDetail';
+
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -34,8 +34,8 @@ export default function ChatRoomReport({ depth, panelWidth }: Props) {
     setReportContent(value);
   }, []);
 
-  const handleClickReportButton = () => {
-    createReportChatRoom({
+  const handleClickReportButton = async () => {
+    await apiService.listingReportCreate({
       chat_room_id: Number(router.query.chatRoomID),
       message: reportContent,
     });

@@ -1,6 +1,8 @@
-import { GetChatRoomDetailResponse } from '@/apis/chat/getChatRoomDetail';
-import { ChatUserType } from '@/constants/enums';
 import { StaticImageData } from 'next/image';
+
+import { ChatRoomDetailResponse } from '@/services/chat/type';
+
+import { ChatUserType } from '@/constants/enums';
 
 export type WebSocketMessage = {
   message: string;
@@ -27,7 +29,7 @@ type RenderCondition = 'loading' | 'success' | 'error';
 type Popups = 'photo_maximum_six' | 'close_chatroom' | 'send_photo' | '';
 
 export type State = {
-  data: Nullable<GetChatRoomDetailResponse>;
+  data: Nullable<ChatRoomDetailResponse>;
   renderCondition: RenderCondition;
   photoSending: boolean;
   chatMessages: ChatMessages;
@@ -37,7 +39,7 @@ export type State = {
 };
 
 export type Action =
-  | { type: 'set_data'; payLoad: GetChatRoomDetailResponse }
+  | { type: 'set_data'; payLoad: ChatRoomDetailResponse }
   | { type: 'set_render_condition'; payLoad: 'loading' | 'success' | 'error' }
   | { type: 'set_ChatMessages'; payLoad: ChatMessages }
   | { type: 'set_PhotosUrls'; payLoad: string[] }

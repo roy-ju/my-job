@@ -1,6 +1,6 @@
-import { GetChatRoomDetailResponse } from '@/apis/chat/getChatRoomDetail';
+import { ChatRoomDetailResponse } from '@/services/chat/type';
 
 export type State = {
-  data?: GetChatRoomDetailResponse;
+  data?: ChatRoomDetailResponse;
   isLoading: boolean;
 };

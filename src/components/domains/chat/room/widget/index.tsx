@@ -1,13 +1,23 @@
 import { Children, isValidElement, ReactNode, useMemo } from 'react';
+
 import tw from 'twin.macro';
-import { Avatar, AvatarType } from './Avatar';
-import { Bubble, BubbleType } from './Bubble';
+
 import ChatMessageContext from './ChatMessageContext';
+
+import { Avatar, AvatarType } from './Avatar';
+
+import { Bubble, BubbleType } from './Bubble';
+
 import { SenderName, SenderNameType } from './SenderName';
+
 import { SentTime, SentTimeType } from './SentTime';
+
 import { ReadIndicator, ReadIndicatorType } from './ReadIndicator';
+
 import { Photo, PhotoType } from './Photo';
+
 import { LinkTag, LinkType } from './LinkTag';
+
 import { LoadingPhoto, LoadingPhotoType } from './LoadingPhoto';
 
 function getBubble(children: ReactNode) {
