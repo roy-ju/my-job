@@ -16,7 +16,6 @@ export { default as ChatRoomAgentSummary } from './ChatRoomAgentSummary';
 export { default as NotificationFilterTab } from './NotificationFilterTab';
 export { default as NotificaitonListItem } from './NotificationListItem';
 export { default as NotificationSettingsForm } from './NotificationSettingsForm';
-export { default as NoticeListItem } from './NoticeListItem';
 export { default as LoginForm } from './LoginForm';
 export { default as AddressSearchForm } from './AddressSearchForm';
 export { default as MyRealPriceListItem } from './MyRealPriceListItem';
@@ -41,7 +40,6 @@ export { default as PhotoHero } from './PhotoHero';
 export { default as ListingDetailSection } from './ListingDetailSection';
 
 export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
-export { default as FaqList } from './FaqList';
 export { default as SharePopup } from './SharePopup';
 export { default as LawSearchForm } from './LawSearchForm';
 export { default as LawSerachFormPc } from './LawSerachFormPc';
