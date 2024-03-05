@@ -1,20 +1,26 @@
-import { MobileContainer } from '@/components/atoms';
-
-import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
-
 import { useCallback, useState } from 'react';
-
-import createReportChatRoom from '@/apis/chat/createReportChatRoom';
 
 import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
 
-import useChatRoom from '../ChatRoom/useChatRoom';
+import { MobileContainer } from '@/components/atoms';
+
+import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
+
+import createReportChatRoom from '@/apis/chat/createReportChatRoom';
+
+import useFetchChatRoomDetail from '@/services/chat/useFetchChatRoomDetail';
 
 export default function ChatRoomReport() {
   const router = useRouter();
-  const { otherName, deregistered } = useChatRoom(Number(router.query.chatRoomID));
+
+  const { data } = useFetchChatRoomDetail(Number(router.query.chatRoomID));
+
+  const otherName = data?.other_name;
+
+  const deregistered = data?.deregistered;
+
   const [reportContent, setReportContent] = useState('');
 
   const handleChangeReportContent = useCallback((value: string) => {

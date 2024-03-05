@@ -1,5 +1,4 @@
 /** PC */
-// export { default as ChatRoom } from './ChatRoom';
 export { default as ChatRoomReport } from './ChatRoomReport';
 export { default as DanjiPhotos } from './DanjiPhotos';
 export { default as DanjiDetail } from './DanjiDetail';

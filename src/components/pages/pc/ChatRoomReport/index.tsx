@@ -1,11 +1,18 @@
-import { Panel } from '@/components/atoms';
-import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
 import { useCallback, useState } from 'react';
+
+import { useRouter } from '@/hooks/utils';
+
+import { Panel } from '@/components/atoms';
+
+import { ChatRoomReport as ChatRoomReportTemplate } from '@/components/templates';
+
 import createReportChatRoom from '@/apis/chat/createReportChatRoom';
+
 import Routes from '@/router/routes';
+
 import { toast } from 'react-toastify';
-import useChatRoom from '../ChatRoom/useChatRoom';
+
+import useFetchChatRoomDetail from '@/services/chat/useFetchChatRoomDetail';
 
 interface Props {
   depth: number;
@@ -14,7 +21,13 @@ interface Props {
 
 export default function ChatRoomReport({ depth, panelWidth }: Props) {
   const router = useRouter(depth);
-  const { otherName, deregistered } = useChatRoom(Number(router.query.chatRoomID));
+
+  const { data } = useFetchChatRoomDetail(Number(router.query.chatRoomID));
+
+  const otherName = data?.other_name;
+
+  const deregistered = data?.deregistered;
+
   const [reportContent, setReportContent] = useState('');
 
   const handleChangeReportContent = useCallback((value: string) => {
