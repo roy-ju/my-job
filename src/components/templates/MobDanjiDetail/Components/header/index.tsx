@@ -85,7 +85,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
           id,
         });
 
-        const response = await apiService.fetchDanjiDetail({ id });
+        const response = await apiService.getDanjiDetail({ id });
 
         return response;
       }
@@ -98,7 +98,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
           id,
         });
 
-        const response = await apiService.fetchDanjiDetail({ id });
+        const response = await apiService.getDanjiDetail({ id });
 
         return response;
       }

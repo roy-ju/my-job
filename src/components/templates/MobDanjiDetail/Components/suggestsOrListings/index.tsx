@@ -28,7 +28,9 @@ import RegisterButtons from './RegisterButtons';
 
 const FixedButton = dynamic(() => import('./FixedButton'), { ssr: false });
 
-const ImpossibleRecommdation = dynamic(() => import('../popups/ImpossibleRecommdation'), { ssr: false });
+const ImpossibleSuggestArea = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
+  ssr: false,
+});
 
 const ListingDetailOpertionsButtons = dynamic(() => import('./ListingDetailOpertionsButtons'), { ssr: false });
 
@@ -56,7 +58,7 @@ export default function SuggestsOrListings({
   const [tab, setTab] = useState(1);
 
   const [popup, setPopup] = useState<
-    'impossibleRecommendation' | 'verificationAddress' | 'needMoreVerificationAddress' | ''
+    'impossibleSuggestArea' | 'verificationAddress' | 'needMoreVerificationAddress' | ''
   >('');
 
   const handleChangeTab = (value: number) => {
@@ -126,7 +128,7 @@ export default function SuggestsOrListings({
 
   const handleCreateSuggest = () => {
     if (!isRecommendationService) {
-      setPopup('impossibleRecommendation');
+      setPopup('impossibleSuggestArea');
       return;
     }
 
@@ -158,8 +160,6 @@ export default function SuggestsOrListings({
       isCheckPossibleRecommedationService(danji.bubjungdong_code);
     }
   }, [danji]);
-
-  console.log(isRecommendationService);
 
   useEffect(() => {
     mutate();
@@ -209,7 +209,7 @@ export default function SuggestsOrListings({
       </div>
       <FixedButton tabIndex={tabIndex} handleClickSuggestButton={handleCreateSuggest} />
 
-      {popup === 'impossibleRecommendation' && <ImpossibleRecommdation handleClosePopup={handleClosePopup} />}
+      {popup === 'impossibleSuggestArea' && <ImpossibleSuggestArea handleClosePopup={handleClosePopup} />}
     </>
   );
 }

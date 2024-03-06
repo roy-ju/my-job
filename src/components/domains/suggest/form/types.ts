@@ -83,6 +83,7 @@ type SuggestForm = {
     | 'buyOrRent'
     | 'realestateTypes'
     | 'invalidAccess'
+    | 'impossibleSuggestArea'
     | '';
 };
 

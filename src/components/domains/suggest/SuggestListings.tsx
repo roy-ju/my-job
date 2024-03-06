@@ -14,6 +14,8 @@ import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
 
+import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
+
 import useHandleClickBack from './listings-list/hooks/useHandleClickBack';
 
 import useCheckPossibleSuggest from './listings-list/hooks/useCheckPossibleSuggest';
@@ -31,8 +33,6 @@ import List from './listings-list/List';
 import Nodata from './listings-list/Nodata';
 
 import Ctas from './listings-list/Ctas';
-
-import ImpossibleRecommendationPopup from './listings-list/popups/ImpossibleRecommendationPopup';
 
 const Container = styled.div`
   ${tw`relative flex flex-col w-full h-full`}
@@ -89,10 +89,10 @@ export default function SuggestListings() {
   const { isRecommendationService } = useCheckPossibleSuggest({ danji: danjiData });
 
   const {
-    impossibleRecommendationPopup,
+    impossibleSuggestAreaPopup,
     handleClickDanjiDetailButton,
     handleClickCreateSuggestButton,
-    handleCloseImpossibleRecommendationPopup,
+    handleCloseImpossibleSuggestAreaPopup,
   } = useCtasHandler({
     isRecommendable: isRecommendationService,
     danjiID,
@@ -131,8 +131,8 @@ export default function SuggestListings() {
 
         <Ctas handleClickCta={handleClickCreateSuggestButton} />
 
-        {impossibleRecommendationPopup && (
-          <ImpossibleRecommendationPopup handleClickConfirm={handleCloseImpossibleRecommendationPopup} />
+        {impossibleSuggestAreaPopup && (
+          <ImpossibleSuggestAreaPopup handleClosePopup={handleCloseImpossibleSuggestAreaPopup} />
         )}
       </Container>
     </>

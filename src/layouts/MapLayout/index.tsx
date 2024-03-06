@@ -36,6 +36,7 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
+import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
 import Markers from './Markers';
 
 import usePanelVisible from './hooks/usePanelVisible';
@@ -102,7 +103,7 @@ function MapWrapper({
 
   const { depth, popLast, replace, asPath } = useCustomRouter(0);
 
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openImpossibleSuggestAreaPopup, setOpenImpossibleSuggestAreaPopup] = useState(false);
 
   const [openVerificationAddressPopup, setOpenVerificationAddressPopup] = useState(false);
 
@@ -127,7 +128,7 @@ function MapWrapper({
     const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: bubjungdongCode });
 
     if (response && !response.eligible) {
-      setOpenPopup(true);
+      setOpenImpossibleSuggestAreaPopup(true);
       return;
     }
 
@@ -193,7 +194,7 @@ function MapWrapper({
     window.open(process.env.NEXT_PUBLIC_NEGOCIO_AGENT_CLIENT_URL, '_blank');
   }, []);
 
-  const handleActionOpenPopup = useCallback(() => setOpenPopup(false), [setOpenPopup]);
+  const handleCloseImpossibleSuggestAreaPopup = useCallback(() => setOpenImpossibleSuggestAreaPopup(false), []);
 
   const handleActionVerificationAddressPopup = useCallback(() => {
     setOpenVerificationAddressPopup(false);
@@ -297,17 +298,8 @@ function MapWrapper({
         )}
       </AnimatePresence>
 
-      {openPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>해당 지역은 서비스 준비중입니다.</Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={handleActionOpenPopup}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+      {openImpossibleSuggestAreaPopup && (
+        <ImpossibleSuggestAreaPopup handleClosePopup={handleCloseImpossibleSuggestAreaPopup} />
       )}
 
       {openVerificationAddressPopup && (
