@@ -17,7 +17,7 @@ import Buy_Process from './trade-process/constants/buyProcess';
 import JeonWolsae_Process from './trade-process/constants/jeonwolsaeProcess';
 
 const FlexContents = styled.div`
-  ${tw`relative flex flex-col flex-1 h-full px-5 pt-10 pb-10 overflow-x-hidden overflow-y-auto`}
+  ${tw`relative flex flex-col flex-1 h-full px-5 pt-10 pb-5 overflow-x-hidden overflow-y-auto`}
 `;
 
 export default function TradeProcess() {

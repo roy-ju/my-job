@@ -30,7 +30,7 @@ import Tip from './widget/Tip';
 
 import Caution from './widget/Caution';
 
-import { itemVariants } from './constants/animations';
+import { contentsVariants, contentVariants, itemVariants } from './constants/animations';
 
 type ListItemProps = {
   item: ProcessListItem;
@@ -59,7 +59,7 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
 
   return (
     <ListItemWrraper variants={itemVariants}>
-      <Summary>
+      <Summary onClick={() => handleClickSummaryButton(order)} tw="cursor-pointer">
         <OrderWrraper tw="[margin-top: 1px]">
           <OrderText>{order}</OrderText>
         </OrderWrraper>
@@ -69,7 +69,7 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
           <Thumbnail>{thumbnail}</Thumbnail>
         </SummaryTextWrraper>
 
-        <SummaryButton onClick={() => handleClickSummaryButton(order)}>
+        <SummaryButton>
           <ArrowDown
             color={theme`colors.gray.700`}
             style={{
@@ -89,8 +89,8 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
             transition={{ type: 'just' }}
             tw="overflow-hidden"
           >
-            <Detail>
-              <Content>{contents}</Content>
+            <Detail initial="hidden" animate="visible" variants={contentsVariants}>
+              <Content variants={contentVariants}>{contents}</Content>
               <Tip text={tip} />
               <Caution text={caution} />
             </Detail>
