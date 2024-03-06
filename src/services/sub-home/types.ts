@@ -17,3 +17,8 @@ export interface SubHomeGuideListResponse {
   middle_category_list: GuideListItem[];
   list: GuideListItem[];
 }
+
+export interface SubHomeGuideDetailResponse {
+  term: GuideListItem;
+  related_terms: GuideListItem[];
+}

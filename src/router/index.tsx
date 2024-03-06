@@ -359,6 +359,10 @@ const Dictionary = dynamic(() => import('@/components/pages/Dictionary/Dictionar
   ssr: false,
   loading: FallbackComponent,
 });
+const DictionaryDetail = dynamic(() => import('@/components/pages/DictionaryDetail/DictionaryDetailPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -640,9 +644,11 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.TradeProcess: {
       return <TradeProcess {...props} />;
     }
-
     case Routes.Dictionary: {
       return <Dictionary {...props} />;
+    }
+    case Routes.DictionaryDetail: {
+      return <DictionaryDetail {...props} />;
     }
 
     case Routes.Developer: {
