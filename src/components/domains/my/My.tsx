@@ -1,3 +1,11 @@
+import { useCallback } from 'react';
+
+import { useRouter } from 'next/router';
+
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+import Routes from '@/router/routes';
+
 import { NavigationHeader } from '@/components/molecules';
 
 import BellIcon from '@/assets/icons/bell.svg';
@@ -75,6 +83,20 @@ export default function My({
   onClickTab,
   onClickMyRegisteredHomes,
 }: MyProps) {
+  const router = useRouter();
+
+  const { platform } = useCheckPlatform();
+
+  const handleClickSampleRealestateTradeProcess = useCallback(() => {
+    if (platform === 'pc') {
+      router.push(`/${Routes.My}/${Routes.TradeProcess}`);
+    }
+
+    if (platform === 'mobile') {
+      router.push(`/${Routes.EntryMobile}/${Routes.TradeProcess}`);
+    }
+  }, [platform, router]);
+
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -142,6 +164,7 @@ export default function My({
           {loggedIn && <NavigationList.Item title="서비스 문의" onClick={onClickQna} />}
           <NavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
           {onClickDeveloper && <NavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
+          <NavigationList.Item title="부동산 거래절차 (sample)" onClick={handleClickSampleRealestateTradeProcess} />
         </NavigationList>
       </div>
     </div>
