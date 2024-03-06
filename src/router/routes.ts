@@ -142,6 +142,8 @@ const Routes = {
 
   // 부동산 거래도우미 사전
   Dictionary: 'dictionary',
+  // 부동산 거래도우미 사전
+  DictionaryDetail: 'dictionaryDetail',
 
   // 오픈소스라이센스
   OpenSourceLicenses: 'openSourceLicenses',

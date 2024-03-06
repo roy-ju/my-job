@@ -28,7 +28,7 @@ export default function DictContents({ item }: DictContentsProps) {
         {item.children?.map((dict) => (
           <Fragment key={dict.id}>
             <Seperator />
-            <ListItem title={dict.name} thumbnail={dict.content} />
+            <ListItem id={dict.id} title={dict.name} thumbnail={dict.content} />
           </Fragment>
         ))}
       </motion.div>
