@@ -5,7 +5,7 @@ import tw, { styled } from 'twin.macro';
 import { motion } from 'framer-motion';
 
 const Tab = styled.button`
-  ${tw`relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer flex-1`}
+  ${tw`relative flex-1 pb-3.5 mx-auto cursor-pointer whitespace-nowrap`}
 `;
 
 const Indicator = styled(motion.div)`
@@ -13,10 +13,14 @@ const Indicator = styled(motion.div)`
 `;
 
 const Text = styled.p<{ selected: boolean }>`
-  ${tw`[text-align: center] w-full text-b2 [line-height: 17px]`}
-  ${({ selected }) => (selected ? tw`font-bold text-gray-1000` : tw`font-normal text-gray-600`)}
+  ${tw`[text-align: center] w-full`}
+  ${({ selected }) => (selected ? tw`text-subhead_03 text-gray-1000` : tw`text-gray-700 text-body_03`)}
+`;
+
+export const TabsV2Wrraper = styled.div`
+  ${tw`flex-1 pt-2.5 px-3 flex justify-center`}
 `;
 
 export const TabRoot = ({ children }: { children: React.ReactNode }) => <>{children}</>;
 
-export const DanjiTab = Object.assign(TabRoot, { Tab, Indicator, Text });
+export const TabsV2 = Object.assign(TabRoot, { Tab, Indicator, Text });
