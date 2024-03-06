@@ -1,6 +1,8 @@
 import tw, { styled } from 'twin.macro';
 
-const Content = styled.span`
+import { motion } from 'framer-motion';
+
+const Content = styled(motion.span)`
   ${tw`text-gray-800 text-body_03`}
 `;
 
