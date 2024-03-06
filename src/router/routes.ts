@@ -137,6 +137,9 @@ const Routes = {
   // 구해요 목록
   WaitingCreateForm: 'waitingCreateForm',
 
+  // 부동산 거래도우미 거래절차
+  TradeProcess: 'tradeProcess',
+
   // 오픈소스라이센스
   OpenSourceLicenses: 'openSourceLicenses',
   // 버전정보
