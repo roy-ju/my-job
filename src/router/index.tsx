@@ -351,6 +351,10 @@ const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
   ssr: false,
   loading: FallbackComponent,
 });
+const TradeProcess = dynamic(() => import('@/components/pages/TradeProcess/TradeProcessPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -628,6 +632,11 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.WaitingCreateForm: {
       return <WaitingCreateForm {...props} />;
     }
+
+    case Routes.TradeProcess: {
+      return <TradeProcess {...props} />;
+    }
+
     case Routes.Developer: {
       if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {
         return <Developer {...props} />;
