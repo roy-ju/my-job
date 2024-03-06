@@ -97,6 +97,16 @@ export default function My({
     }
   }, [platform, router]);
 
+  const handleClickSampleRealestateDict = useCallback(() => {
+    if (platform === 'pc') {
+      router.push(`/${Routes.My}/${Routes.Dictionary}`);
+    }
+
+    if (platform === 'mobile') {
+      router.push(`/${Routes.EntryMobile}/${Routes.Dictionary}`);
+    }
+  }, [platform, router]);
+
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -164,7 +174,9 @@ export default function My({
           {loggedIn && <NavigationList.Item title="서비스 문의" onClick={onClickQna} />}
           <NavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
           {onClickDeveloper && <NavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
+
           <NavigationList.Item title="부동산 거래절차 (sample)" onClick={handleClickSampleRealestateTradeProcess} />
+          <NavigationList.Item title="부동산 용어사전 (sample)" onClick={handleClickSampleRealestateDict} />
         </NavigationList>
       </div>
     </div>
