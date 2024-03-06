@@ -140,6 +140,9 @@ const Routes = {
   // 부동산 거래도우미 거래절차
   TradeProcess: 'tradeProcess',
 
+  // 부동산 거래도우미 사전
+  Dictionary: 'dictionary',
+
   // 오픈소스라이센스
   OpenSourceLicenses: 'openSourceLicenses',
   // 버전정보

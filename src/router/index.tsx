@@ -355,6 +355,10 @@ const TradeProcess = dynamic(() => import('@/components/pages/TradeProcess/Trade
   ssr: false,
   loading: FallbackComponent,
 });
+const Dictionary = dynamic(() => import('@/components/pages/Dictionary/DictionaryPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 
 const DEFAULT_PANEL_WIDTH = '380px';
 
@@ -635,6 +639,10 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
 
     case Routes.TradeProcess: {
       return <TradeProcess {...props} />;
+    }
+
+    case Routes.Dictionary: {
+      return <Dictionary {...props} />;
     }
 
     case Routes.Developer: {
