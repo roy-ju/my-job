@@ -2,11 +2,15 @@ import dynamic from 'next/dynamic';
 
 import usePopupHandler from '../hooks/usePopupHandler';
 
-const ReselectConfirmPopup = dynamic(() => import('./ReselectConfirmPopup'), { ssr: false });
-
 const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
 
 const DanjiListPopup = dynamic(() => import('@/components/organisms/popups/DanjiListPopup'), { ssr: false });
+
+const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
+  ssr: false,
+});
+
+const ReselectConfirmPopup = dynamic(() => import('./ReselectConfirmPopup'), { ssr: false });
 
 const QuitConfirmPopup = dynamic(() => import('./QuitConfirmPopup'), { ssr: false });
 
@@ -75,6 +79,10 @@ export default function Popups() {
 
   if (popup === 'invalidAccess') {
     return <InvalidAccessPopup />;
+  }
+
+  if (popup === 'impossibleSuggestArea') {
+    return <ImpossibleSuggestAreaPopup handleClosePopup={() => handleUpdatePopup('')} />;
   }
 
   return null;

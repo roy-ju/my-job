@@ -201,7 +201,7 @@ export class NegocioApiService extends ApiService {
   }
 
   /** 단지 정보 */
-  async fetchDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
+  async getDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {
       const { data } = await this.instance.post('/danji/detail', { danji_id: id });
 

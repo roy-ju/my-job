@@ -24,6 +24,7 @@ import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 
 import Routes from '@/router/routes';
 
+import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
 import Markers from './Markers';
 
 function MapWrapper() {
@@ -64,7 +65,7 @@ function MapWrapper() {
 
   const router = useRouter();
 
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openImpossibleSuggestAreaPopup, setOpenImpossibleSuggestAreaPopup] = useState(false);
 
   const handleSuggestFormRouter = useCallback(
     (address?: string, bcode?: string) => {
@@ -95,7 +96,7 @@ function MapWrapper() {
     const response = await apiService.suggestEligibilityCheck({ bubjungdong_code: code });
 
     if (response && !response.eligible) {
-      setOpenPopup(true);
+      setOpenImpossibleSuggestAreaPopup(true);
       return;
     }
 
@@ -243,17 +244,9 @@ function MapWrapper() {
           </Popup>
         </OverlayPresenter>
       )}
-      {openPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>해당 지역은 서비스 준비중입니다.</Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setOpenPopup(false)}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+
+      {openImpossibleSuggestAreaPopup && (
+        <ImpossibleSuggestAreaPopup handleClosePopup={() => setOpenImpossibleSuggestAreaPopup(false)} />
       )}
     </>
   );

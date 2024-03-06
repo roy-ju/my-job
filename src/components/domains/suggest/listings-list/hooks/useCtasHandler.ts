@@ -13,12 +13,12 @@ import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 export default function useCtasHandler({ isRecommendable, danjiID }: { isRecommendable: boolean; danjiID: number }) {
   const { platform } = useCheckPlatform();
 
-  const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
+  const [impossibleSuggestAreaPopup, setImpossibleSuggestAreaPopup] = useState(false);
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
-  const handleCloseImpossibleRecommendationPopup = useCallback(() => {
-    setImpossibleRecommendataionPopup(false);
+  const handleCloseImpossibleSuggestAreaPopup = useCallback(() => {
+    setImpossibleSuggestAreaPopup(false);
   }, []);
 
   const handleCreateSuggestPc = useCallback(() => {
@@ -42,13 +42,13 @@ export default function useCtasHandler({ isRecommendable, danjiID }: { isRecomme
   }, [danjiID]);
 
   const handleClickCreateSuggestButton = useCallback(() => {
-    if (!isRecommendable) {
-      setImpossibleRecommendataionPopup(true);
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
       return;
     }
 
-    if (inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
+    if (!isRecommendable) {
+      setImpossibleSuggestAreaPopup(true);
       return;
     }
 
@@ -89,9 +89,9 @@ export default function useCtasHandler({ isRecommendable, danjiID }: { isRecomme
   }, [danjiID, platform]);
 
   return {
-    impossibleRecommendationPopup,
+    impossibleSuggestAreaPopup,
     handleClickDanjiDetailButton,
     handleClickCreateSuggestButton,
-    handleCloseImpossibleRecommendationPopup,
+    handleCloseImpossibleSuggestAreaPopup,
   };
 }

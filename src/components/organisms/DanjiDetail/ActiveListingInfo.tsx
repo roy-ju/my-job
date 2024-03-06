@@ -8,8 +8,6 @@ import { Button, ButtonV2 } from '@/components/atoms';
 
 import NewTabs from '@/components/molecules/Tabs/NewTabs';
 
-import { OverlayPresenter, Popup } from '@/components/molecules';
-
 import { useRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
@@ -36,6 +34,8 @@ import SuggestCardInDanji from '../suggest/SuggestCardInDanji';
 
 import DanjiListingsCard from '../danji/DanjiListingsCard';
 
+import ImpossibleSuggestAreaPopup from '../popups/ImpossibleSuggestArea';
+
 export default function ActiveListingInfo({
   isListingDetail = false,
   depth,
@@ -46,7 +46,8 @@ export default function ActiveListingInfo({
   danji?: GetDanjiDetailResponse;
 }) {
   const [isRecommendationService, setIsRecommendationService] = useState(false);
-  const [impossibleRecommendationPopup, setImpossibleRecommendataionPopup] = useState(false);
+
+  const [impossibleSuggestAreaPopup, setImpossibleSuggestAreaPopup] = useState(false);
 
   const { pcNaverURL } = useAPI_GetDanjiNaver({ danjiId: danji?.danji_id });
 
@@ -197,10 +198,8 @@ export default function ActiveListingInfo({
     });
   }, [danji?.danji_id, nextRouter, router?.query?.danjiID]);
 
-  const handleClosePopup = (type: 'impossibleRecommendataion') => {
-    if (type === 'impossibleRecommendataion') {
-      setImpossibleRecommendataionPopup(false);
-    }
+  const handleClosePopup = () => {
+    setImpossibleSuggestAreaPopup(false);
   };
 
   const handleOpenNaverRealestate = () => {
@@ -211,13 +210,13 @@ export default function ActiveListingInfo({
 
   const handleSuggestCTA = () => {
     if (isRecommendationService) {
-      setImpossibleRecommendataionPopup(false);
+      setImpossibleSuggestAreaPopup(false);
 
       if (handleCreateSuggest) {
         handleCreateSuggest();
       }
     } else {
-      setImpossibleRecommendataionPopup(true);
+      setImpossibleSuggestAreaPopup(true);
     }
   };
 
@@ -368,20 +367,7 @@ export default function ActiveListingInfo({
         </div>
       </div>
 
-      {impossibleRecommendationPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SmallTitle>해당 지역은 서비스 준비중입니다.</Popup.SmallTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => handleClosePopup('impossibleRecommendataion')}>
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+      {impossibleSuggestAreaPopup && <ImpossibleSuggestAreaPopup handleClosePopup={handleClosePopup} />}
     </>
   );
 }

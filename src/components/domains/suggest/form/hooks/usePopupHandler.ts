@@ -12,6 +12,7 @@ import Routes from '@/router/routes';
 
 import { RealestateType } from '@/constants/enums';
 
+import { apiService } from '@/services';
 import SuggestFormState from '../atoms/SuggestFormState';
 
 import SuggestForm, { BubjungdongType } from '../types';
@@ -51,16 +52,34 @@ export default function usePopupHandler() {
 
   const handleUpdateDanjiInfo = useCallback(
     async (v: SearchDanjiResponseItem) => {
-      setState((prev) => ({
-        ...prev,
-        danjiID: v.danji_id.toString(),
-        danjiRealestateType: v.realestate_type,
-        danjiAddress: v.address,
-        danjiName: v.name,
-        forms: [...prev.forms, 'realestate_and_buyOrRent_and_price'],
-        realestateTypes: [v.realestate_type],
-        popup: '',
-      }));
+      if (v.danji_id) {
+        const response = await apiService.getDanjiDetail({ id: v.danji_id });
+
+        if (response?.bubjungdong_code) {
+          const oResponse = await apiService.suggestEligibilityCheck({
+            bubjungdong_code: response.bubjungdong_code,
+            id: v.danji_id,
+          });
+
+          if (oResponse?.eligible) {
+            setState((prev) => ({
+              ...prev,
+              danjiID: v.danji_id.toString(),
+              danjiRealestateType: v.realestate_type,
+              danjiAddress: v.address,
+              danjiName: v.name,
+              forms: [...prev.forms, 'realestate_and_buyOrRent_and_price'],
+              realestateTypes: [v.realestate_type],
+              popup: '',
+            }));
+          } else if (!oResponse?.eligible) {
+            setState((prev) => ({
+              ...prev,
+              popup: 'impossibleSuggestArea',
+            }));
+          }
+        }
+      }
     },
     [setState],
   );
@@ -178,6 +197,7 @@ export default function usePopupHandler() {
         | 'buyOrRent'
         | 'realestateTypes'
         | 'invalidAccess'
+        | 'impossibleSuggestArea'
         | '',
       errorMessageTradeOrDepositPrice: '',
       errorMessageMonthlyRentFeePrice: '',
@@ -214,6 +234,7 @@ export default function usePopupHandler() {
         | 'buyOrRent'
         | 'realestateTypes'
         | 'invalidAccess'
+        | 'impossibleSuggestArea'
         | '',
       errorMessageTradeOrDepositPrice: '',
       errorMessageMonthlyRentFeePrice: '',

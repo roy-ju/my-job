@@ -54,7 +54,7 @@ export default function useInitializeFormData() {
 
   useEffect(() => {
     async function getDanjiDetail({ id }: { id: number }) {
-      const response = await apiService.fetchDanjiDetail({ id });
+      const response = await apiService.getDanjiDetail({ id });
 
       if (response) {
         setStateDanjiOrRegion(DanjiOrRegionalType.Danji);
