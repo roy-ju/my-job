@@ -28,6 +28,8 @@ import { contentsVariants } from './dictionary-detail/constants/animations';
 
 import useShareHandler from './dictionary-detail/hooks/useShareHandler';
 
+import useHandleClickBack from './dictionary-detail/hooks/useHandleClickBack';
+
 const FlexContents = styled(motion.div)`
   ${tw`relative flex flex-col flex-1 h-full gap-5 overflow-x-hidden overflow-y-auto`}
 `;
@@ -36,6 +38,8 @@ export default function DictionaryDetail() {
   const router = useRouter();
 
   const id = Number(router.query.dictID);
+
+  const { handleClickBack } = useHandleClickBack();
 
   const { term, relatedTerms, isLoading } = useFetchSubHomeGuideDetail({ code: 'DICT', id });
 
@@ -54,7 +58,7 @@ export default function DictionaryDetail() {
     <>
       <Container>
         <NavigationHeader>
-          <NavigationHeader.Title />
+          <NavigationHeader.BackButton onClick={handleClickBack} />
           <ShareButton handleClick={handleOpenSharePopup} />
         </NavigationHeader>
         <FlexContents initial="hidden" animate="visible" variants={contentsVariants}>
