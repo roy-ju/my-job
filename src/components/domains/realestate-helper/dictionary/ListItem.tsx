@@ -4,15 +4,11 @@ import { useRouter } from 'next/router';
 
 import tw, { styled } from 'twin.macro';
 
-import { motion } from 'framer-motion';
-
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
 import { Title, Thumbnail } from './widget/ListItemWidget';
-
-import { contentVariants } from './constants/animations';
 
 type ListItemProps = {
   id: number;
@@ -20,7 +16,7 @@ type ListItemProps = {
   thumbnail: string;
 };
 
-const ListItemButton = styled(motion.button)`
+const ListItemButton = styled.button`
   ${tw`flex flex-col gap-2 py-4 text-left`}
 `;
 
@@ -40,7 +36,7 @@ export default function ListItem({ id, title, thumbnail }: ListItemProps) {
   }, [id, platform, router]);
 
   return (
-    <ListItemButton onClick={handleClickListItem} variants={contentVariants}>
+    <ListItemButton onClick={handleClickListItem}>
       <Title>{title}</Title>
       <Thumbnail>{thumbnail}</Thumbnail>
     </ListItemButton>
