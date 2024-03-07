@@ -1,6 +1,12 @@
 import tw, { styled } from 'twin.macro';
 
-const Li = styled.li<{ hiddenVerticalLine: boolean; isLast: boolean }>`
+import { motion } from 'framer-motion';
+
+export const Ul = styled(motion.ul)`
+  ${tw`relative flex flex-col`}
+`;
+
+export const Li = styled.li<{ hiddenVerticalLine: boolean; isLast: boolean }>`
   ${tw`relative`}
 
   ::after {
@@ -19,5 +25,3 @@ const Li = styled.li<{ hiddenVerticalLine: boolean; isLast: boolean }>`
     ${({ isLast }) => isLast && tw`[height: calc(100% - 37px - 40px - 30px)]`}
   }
 `;
-
-export default Li;

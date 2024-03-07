@@ -10,21 +10,16 @@ import ArrowDown from '@/assets/icons/arrow_down_20.svg';
 
 import { ProcessListItem } from './types';
 
-import ListItemWrraper from './widget/ListItemWrraper';
-
-import Summary from './widget/Summary';
-
-import SummaryTextWrraper from './widget/SummaryTextWrraper';
-
-import Title from './widget/Title';
-
-import Thumbnail from './widget/Thumbnail';
-
-import SummaryButton from './widget/SummaryButton';
-
-import Detail from './widget/Detail';
-
-import Content from './widget/Content';
+import {
+  ListItemWrraper,
+  Summary,
+  SummaryTextWrraper,
+  Title,
+  Thumbnail,
+  SummaryButton,
+  Detail,
+  Content,
+} from './widget/ListItemWidget';
 
 import Tip from './widget/Tip';
 
