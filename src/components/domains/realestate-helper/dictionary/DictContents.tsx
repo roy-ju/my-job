@@ -1,14 +1,12 @@
 import { Fragment } from 'react';
 
-import tw, { styled } from 'twin.macro';
-
 import { motion } from 'framer-motion';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
 import ListItem from './ListItem';
 
-import CategoryName from './widget/CategoryName';
+import { CategoryName, Column } from './widget/DictContentsWidget';
 
 import Seperator from './widget/Seperator';
 
@@ -16,13 +14,9 @@ type DictContentsProps = {
   item: GuideListItem;
 };
 
-const Column = styled(motion.div)`
-  ${tw`flex flex-col`}
-`;
-
 export default function DictContents({ item }: DictContentsProps) {
   return (
-    <Column>
+    <Column id={`negocio-dict-list-${item.name}`}>
       <CategoryName>{item.name}</CategoryName>
       <motion.div>
         {item.children?.map((dict) => (
