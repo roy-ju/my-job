@@ -25,7 +25,7 @@ import useFilterTabs from './dictionary/hooks/useFilterTabs';
 import { DictElementListItem } from './dictionary/type';
 
 const FlexContents = styled(motion.div)`
-  ${tw`relative flex flex-col flex-1 h-full gap-5 px-5 pb-5 overflow-x-hidden overflow-y-auto`}
+  ${tw`relative flex flex-col flex-1 h-full gap-5 px-5 overflow-x-hidden overflow-y-auto`}
 `;
 
 export default function Dictionary() {
@@ -38,11 +38,11 @@ export default function Dictionary() {
   const { isLoading, middleCategoryList, list } = useFetchSubHomeGuideList({ code: 'DICT' });
 
   useEffect(() => {
-    list?.forEach((i) => {
+    list?.forEach((i, idx) => {
       const item = document.getElementById(`negocio-dict-list-${i.name}`);
 
       if (item) {
-        setElementsList((prev) => [...prev, { name: i.name, element: item }]);
+        setElementsList((prev) => [...prev, { name: i.name, element: item, priority: idx + 1 }]);
       }
     });
   }, [list]);
@@ -66,6 +66,7 @@ export default function Dictionary() {
         {list.map((item) => (
           <DictContents key={item.name} item={item} />
         ))}
+        <div tw="[min-height: 1px] [min-width: 100%]" id="negocio-dictionary-bottom-ref" />
       </FlexContents>
     </Container>
   );
