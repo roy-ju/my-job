@@ -66,7 +66,7 @@ export default function Dictionary() {
         {list.map((item) => (
           <DictContents key={item.name} item={item} />
         ))}
-        <div tw="[min-height: 1px] [min-width: 100%]" id="negocio-dictionary-bottom-ref" />
+        <div id="negocio-dictionary-bottom-ref" tw="[min-height: 1px] [min-width: 100%]" />
       </FlexContents>
     </Container>
   );

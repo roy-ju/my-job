@@ -10,6 +10,8 @@ import { CategoryName, Column } from './widget/DictContentsWidget';
 
 import Seperator from './widget/Seperator';
 
+import { contentsVariants } from './constants/animations';
+
 type DictContentsProps = {
   item: GuideListItem;
 };
@@ -18,7 +20,7 @@ export default function DictContents({ item }: DictContentsProps) {
   return (
     <Column id={`negocio-dict-list-${item.name}`}>
       <CategoryName>{item.name}</CategoryName>
-      <motion.div>
+      <motion.div initial="hidden" animate="visible" variants={contentsVariants}>
         {item.children?.map((dict) => (
           <Fragment key={dict.id}>
             <Seperator />
