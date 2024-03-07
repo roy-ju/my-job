@@ -45,7 +45,6 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
     observer.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log(entry);
           setVisibleState((prevVisibleState) => ({
             ...prevVisibleState,
             [entry.target.id]: entry.isIntersecting,
@@ -63,7 +62,6 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
     const bottomRefObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log(entry);
           if (entry.target.id === 'negocio-dictionary-bottom-ref' && entry.isIntersecting) {
             const lastIndex = elementsList.length - 1;
             setTab(elementsList[lastIndex].name);
