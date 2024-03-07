@@ -22,10 +22,10 @@ export const BottomContentsTitle = styled.div`
   }
 `;
 
-export const BottomContentsDict = styled(motion.div)`
-  ${tw`flex flex-col gap-1`}
+export const BottomContentsDict = styled(motion.button)`
+  ${tw`flex flex-col gap-1 text-left`}
 
-  button {
+  span {
     ${tw`text-left text-gray-800 text-subhead_03`}
   }
 

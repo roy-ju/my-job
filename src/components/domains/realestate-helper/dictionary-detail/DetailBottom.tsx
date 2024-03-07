@@ -37,10 +37,8 @@ export default function DetailBottom({ relatedTerms }: DetailBottomProps) {
         <BottomContentsBody initial="hidden" animate="visible" variants={contentsVariants}>
           {relatedTerms?.map((item, idx) => (
             <Fragment key={item.id}>
-              <BottomContentsDict variants={contentVariants}>
-                <button type="button" value={item.id} onClick={handleGoDictDetail}>
-                  {item.name}
-                </button>
+              <BottomContentsDict variants={contentVariants} value={item.id} onClick={handleGoDictDetail}>
+                <span>{item.name}</span>
                 <p>{item.content}</p>
               </BottomContentsDict>
               {relatedTerms.length !== idx + 1 && <Seperator tw="my-0" />}
