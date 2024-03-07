@@ -59,6 +59,7 @@ export default function DictionaryDetail() {
       <Container>
         <NavigationHeader>
           <NavigationHeader.BackButton onClick={handleClickBack} />
+          <NavigationHeader.Title />
           <ShareButton handleClick={handleOpenSharePopup} />
         </NavigationHeader>
         <FlexContents initial="hidden" animate="visible" variants={contentsVariants}>
