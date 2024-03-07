@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 
 import tw, { styled } from 'twin.macro';
 
-import { motion } from 'framer-motion';
-
 import Container from '@/components/atoms/Container';
 
 import LoadingContainer from '@/components/atoms/LoadingContainer';
@@ -24,8 +22,8 @@ import useFilterTabs from './dictionary/hooks/useFilterTabs';
 
 import { DictElementListItem } from './dictionary/type';
 
-const FlexContents = styled(motion.div)`
-  ${tw`relative flex flex-col flex-1 h-full gap-5 px-5 overflow-x-hidden overflow-y-auto`}
+const FlexContents = styled.div`
+  ${tw`relative flex flex-col flex-1 min-h-0 gap-5 px-5 overflow-x-hidden overflow-y-auto`}
 `;
 
 export default function Dictionary() {
@@ -66,7 +64,7 @@ export default function Dictionary() {
         {list.map((item) => (
           <DictContents key={item.name} item={item} />
         ))}
-        <div id="negocio-dictionary-bottom-ref" tw="[min-height: 1px] [min-width: 100%]" />
+        {/* <div id="negocio-dictionary-bottom" tw="[min-height: 1px] [min-width: 100%]" /> */}
       </FlexContents>
     </Container>
   );

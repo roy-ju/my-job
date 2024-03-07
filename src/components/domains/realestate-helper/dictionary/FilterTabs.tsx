@@ -64,11 +64,9 @@ export default function FilterTabs({ tab, tabIndex, list, handleChangeTab }: Fil
         scrollRef.current.scrollLeft =
           childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
 
-        setTimeout(() => {
-          if (scrollRef?.current) {
-            scrollRef.current.style.scrollBehavior = 'auto';
-          }
-        }, 200); // transition 시간과 일치시켜야 합니다.
+        if (scrollRef?.current) {
+          scrollRef.current.style.scrollBehavior = 'auto';
+        }
       }
     }
   }, [tab, tabIndex]);

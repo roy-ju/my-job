@@ -1,8 +1,6 @@
 import tw, { styled } from 'twin.macro';
 
-import { motion } from 'framer-motion';
-
-export const Column = styled(motion.div)`
+export const Column = styled.div`
   ${tw`flex flex-col`}
 `;
 

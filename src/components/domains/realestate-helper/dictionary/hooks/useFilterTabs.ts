@@ -21,19 +21,17 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
 
   const handleChangeTab = useCallback(
     (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => {
-      const value = e.currentTarget.value;
+      const { value } = e.currentTarget;
 
       setTab(value);
       setTabIndex(idx);
 
-      const targetElement = elementsList.find((item) => item.name === value)?.element;
-
       const scrollContainer = document.getElementById('negocio-dictionary-scrollable-container');
 
+      const targetElement = elementsList.find((item) => item.name === value)?.element;
+
       if (scrollContainer && targetElement) {
-        scrollContainer.scrollBy({
-          top: (targetElement.getBoundingClientRect()?.top ?? 0) - headerHeight,
-        });
+        targetElement.scrollIntoView();
       }
     },
     [elementsList],
@@ -62,29 +60,33 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
     const bottomRefObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target.id === 'negocio-dictionary-bottom-ref' && entry.isIntersecting) {
+          if (entry.target.id === 'negocio-dictionary-bottom' && entry.isIntersecting) {
             const lastIndex = elementsList.length - 1;
-            setTab(elementsList[lastIndex].name);
+
+            setTab(elementsList[lastIndex]?.name);
             setTabIndex(lastIndex);
           }
         });
       },
-      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0.1 },
+      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0 },
     );
 
-    const bottomElement = document.getElementById('negocio-dictionary-bottom-ref');
+    const bottomElement = document.getElementById('negocio-dictionary-bottom');
 
     if (bottomElement) {
       bottomRefObserver.observe(bottomElement);
     }
 
     return () => {
-      if (observer.current) observer.current.disconnect();
+      if (observer.current) {
+        observer.current.disconnect();
+      }
     };
   }, [elementsList, height]);
 
   useEffect(() => {
     const visibleElements = elementsList.filter((element) => visibleState[element.element.id]);
+
     if (visibleElements.length === 0) return;
 
     const highestPriorityElement = visibleElements.reduce(
@@ -93,6 +95,7 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
     );
 
     setTab(highestPriorityElement.name);
+
     setTabIndex(elementsList.indexOf(highestPriorityElement));
   }, [elementsList, visibleState]);
 
