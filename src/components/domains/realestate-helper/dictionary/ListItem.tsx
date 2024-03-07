@@ -12,6 +12,8 @@ import Routes from '@/router/routes';
 
 import { Title, Thumbnail } from './widget/ListItemWidget';
 
+import { contentVariants } from './constants/animations';
+
 type ListItemProps = {
   id: number;
   title: string;
@@ -38,7 +40,7 @@ export default function ListItem({ id, title, thumbnail }: ListItemProps) {
   }, [id, platform, router]);
 
   return (
-    <ListItemButton onClick={handleClickListItem}>
+    <ListItemButton onClick={handleClickListItem} variants={contentVariants}>
       <Title>{title}</Title>
       <Thumbnail>{thumbnail}</Thumbnail>
     </ListItemButton>
