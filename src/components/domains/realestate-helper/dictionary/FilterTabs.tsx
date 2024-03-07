@@ -59,8 +59,16 @@ export default function FilterTabs({ tab, tabIndex, list, handleChangeTab }: Fil
         const { offsetLeft } = scrollRef.current;
         const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
 
+        scrollRef.current.style.scrollBehavior = 'smooth';
+
         scrollRef.current.scrollLeft =
           childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
+
+        setTimeout(() => {
+          if (scrollRef?.current) {
+            scrollRef.current.style.scrollBehavior = 'auto';
+          }
+        }, 200); // transition 시간과 일치시켜야 합니다.
       }
     }
   }, [tab, tabIndex]);
