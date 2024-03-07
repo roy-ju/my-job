@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import Ul from './widget/Ul';
-
 import ListItem from './ListItem';
 
 import { ProcessLists } from './types';
 
 import { listVariants } from './constants/animations';
 
-import Li from './widget/Li';
+import { Ul, Li } from './widget/ListsWidget';
 
 type ListsProps = {
   tab: number;
