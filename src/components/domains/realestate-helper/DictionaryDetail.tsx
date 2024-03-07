@@ -30,6 +30,8 @@ import useShareHandler from './dictionary-detail/hooks/useShareHandler';
 
 import useHandleClickBack from './dictionary-detail/hooks/useHandleClickBack';
 
+import makeContents from './dictionary-detail/utils/makeContents';
+
 const FlexContents = styled(motion.div)`
   ${tw`relative flex flex-col flex-1 h-full gap-5 overflow-x-hidden overflow-y-auto`}
 `;
@@ -63,8 +65,8 @@ export default function DictionaryDetail() {
           <ShareButton handleClick={handleOpenSharePopup} />
         </NavigationHeader>
         <FlexContents initial="hidden" animate="visible" variants={contentsVariants}>
-          <DetailTop name={term?.name ?? ''} content={term?.content ?? ''} />
-          <DetailMiddle content={term?.additional_explanation ?? ''} />
+          <DetailTop name={term?.name ?? ''} content={makeContents(term?.content, term?.additional_explanation)} />
+          <DetailMiddle content={term?.tip ?? ''} />
           <DetailBottom relatedTerms={relatedTerms} />
         </FlexContents>
       </Container>
