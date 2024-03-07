@@ -1,6 +1,26 @@
-import KakaoLogoIcon from '@/assets/icons/kakao_logo.svg';
-import ShareIcon from '@/assets/icons/chain.svg';
+import tw, { styled } from 'twin.macro';
+
 import OutsideClick from '@/components/atoms/OutsideClick';
+
+import KakaoLogoIcon from '@/assets/icons/kakao_logo.svg';
+
+import ShareIcon from '@/assets/icons/chain.svg';
+
+const Container = styled.div`
+  ${tw`[width: 295px] flex [padding-inline: 67.5px] [padding-block: 37px] bg-white px-14 rounded-2xl gap-12`}
+`;
+
+const Button = styled.button`
+  ${tw`w-[56px] flex flex-col items-center justify-center`}
+`;
+
+const DivText = styled.div`
+  ${tw`text-gray-800 text-body_02`}
+`;
+
+const IconWrraper = styled.div`
+  ${tw`mb-2 w-[56px] h-[56px] rounded-full flex items-center justify-center`}
+`;
 
 interface Props {
   onClickOutside?: () => void;
@@ -11,28 +31,21 @@ interface Props {
 export default function SharePopup({ onClickOutside, onClickShareViaKakao, onClickCopyUrl }: Props) {
   return (
     <OutsideClick onOutsideClick={onClickOutside}>
-      <div tw="py-6 px-14 flex bg-white rounded-2xl">
-        <button
-          type="button"
-          tw="w-[112px] flex flex-col items-center justify-center rounded-lg hover:bg-gray-100 py-2"
-          onClick={onClickCopyUrl}
-        >
-          <div tw="mb-2 w-[60px] h-[60px] rounded-full bg-gray-400 flex items-center justify-center">
+      <Container>
+        <Button onClick={onClickCopyUrl}>
+          <IconWrraper tw="bg-gray-400">
             <ShareIcon />
-          </div>
-          <div tw="text-b2">URL 복사</div>
-        </button>
-        <button
-          type="button"
-          tw="w-[112px] flex flex-col items-center justify-center rounded-lg hover:bg-gray-100 py-2"
-          onClick={onClickShareViaKakao}
-        >
-          <div tw="mb-2 w-[60px] h-[60px] rounded-full bg-yellow-kakao flex items-center justify-center">
+          </IconWrraper>
+          <DivText>URL 복사</DivText>
+        </Button>
+
+        <Button onClick={onClickShareViaKakao}>
+          <IconWrraper tw="bg-yellow-kakao">
             <KakaoLogoIcon />
-          </div>
-          <div tw="text-b2">카카오톡 공유</div>
-        </button>
-      </div>
+          </IconWrraper>
+          <DivText>카카오톡</DivText>
+        </Button>
+      </Container>
     </OutsideClick>
   );
 }
