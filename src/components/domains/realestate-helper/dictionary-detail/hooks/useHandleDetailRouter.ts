@@ -11,7 +11,17 @@ export default function useHandleDetailRouter() {
 
   const router = useRouter();
 
-  const handleGoDictList = useCallback(() => router.back(), [router]);
+  const handleGoDictList = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(platform === 'pc' ? `/${Routes.Dictionary}` : `/${Routes.EntryMobile}/${Routes.Dictionary}`);
+      }
+    }
+  }, [platform, router]);
 
   const handleGoDictDetail = useCallback(
     (e: MouseEvent<HTMLButtonElement>) => {
