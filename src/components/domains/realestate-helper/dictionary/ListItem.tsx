@@ -10,9 +10,7 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-import Title from './widget/Title';
-
-import Thumbnail from './widget/Thumbnail';
+import { Title, Thumbnail } from './widget/ListItemWidget';
 
 type ListItemProps = {
   id: number;

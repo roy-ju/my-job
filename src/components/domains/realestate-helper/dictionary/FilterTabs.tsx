@@ -1,18 +1,12 @@
 import { useRef, MouseEvent, useState } from 'react';
 
-import tw, { styled } from 'twin.macro';
-
 import BoxTab from '@/components/molecules/Tabs/BoxTabs';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
-import ScrollContainer from './widget/ScrollContainer';
-
-const Container = styled.div`
-  ${tw`relative flex w-full my-5`}
-`;
+import { ScrollContainer, TabsContainer } from './widget/FIlterTabsWidget';
 
 type FilterTabsProps = {
   tab: string;
@@ -72,7 +66,7 @@ export default function FilterTabs({ tab, tabIndex, list, handleChangeTab }: Fil
   }, [tab, tabIndex]);
 
   return (
-    <Container>
+    <TabsContainer>
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
@@ -98,6 +92,6 @@ export default function FilterTabs({ tab, tabIndex, list, handleChangeTab }: Fil
           </BoxTab>
         ))}
       </ScrollContainer>
-    </Container>
+    </TabsContainer>
   );
 }
