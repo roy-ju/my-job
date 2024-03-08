@@ -24,13 +24,15 @@ import DetailMiddle from './dictionary-detail/DetailMiddle';
 
 import DetailBottom from './dictionary-detail/DetailBottom';
 
-import { contentsVariants } from './dictionary-detail/constants/animations';
-
 import useShareHandler from './dictionary-detail/hooks/useShareHandler';
 
 import useHandleClickBack from './dictionary-detail/hooks/useHandleClickBack';
 
 import makeContents from './dictionary-detail/utils/makeContents';
+
+import { contentsVariants } from './dictionary-detail/constants/animations';
+
+import useRecenltyDictionaryName from './dictionary-detail/hooks/useRecenltyDictionaryName';
 
 const FlexContents = styled(motion.div)`
   ${tw`relative flex flex-col flex-1 h-full gap-5 overflow-x-hidden overflow-y-auto`}
@@ -47,6 +49,8 @@ export default function DictionaryDetail() {
 
   const { openSharePopup, handleOpenSharePopup, handleCopyUrl, handleShareViaKakao, handleCloseSharePopup } =
     useShareHandler();
+
+  useRecenltyDictionaryName({ name: term?.name });
 
   if (isLoading) {
     return (

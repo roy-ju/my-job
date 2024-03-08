@@ -14,6 +14,14 @@ import { Loading, Separator } from '@/components/atoms';
 
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
 
+import useAuth from '@/hooks/services/useAuth';
+
+import useAuthPopup from '@/states/hooks/useAuhPopup';
+
+import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
 import UserSummary from './my/UserSummary';
 
 import LoginRequired from './my/LoginRequired';
@@ -83,29 +91,69 @@ export default function My({
   onClickTab,
   onClickMyRegisteredHomes,
 }: MyProps) {
+  const { user } = useAuth();
+
+  const { openAuthPopup } = useAuthPopup();
+
+  const { handleUpdateReturnUrl } = useReturnUrl();
+
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
+
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
 
   const handleClickSampleRealestateTradeProcess = useCallback(() => {
-    if (platform === 'pc') {
-      router.push(`/${Routes.My}/${Routes.TradeProcess}`);
+    const url =
+      platform === 'pc' ? `/${Routes.My}/${Routes.TradeProcess}` : `/${Routes.EntryMobile}/${Routes.TradeProcess}`;
+
+    if (!user && inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
     }
 
-    if (platform === 'mobile') {
-      router.push(`/${Routes.EntryMobile}/${Routes.TradeProcess}`);
+    if (!user) {
+      openAuthPopup('onlyLogin');
+      handleUpdateReturnUrl(url);
+      return;
     }
-  }, [platform, router]);
+
+    router.push(url);
+  }, [
+    user,
+    inAppInfo.isInAppBrowser,
+    platform,
+    router,
+    openAuthPopup,
+    handleOpenAppInstallPopup,
+    handleUpdateReturnUrl,
+  ]);
 
   const handleClickSampleRealestateDict = useCallback(() => {
-    if (platform === 'pc') {
-      router.push(`/${Routes.My}/${Routes.Dictionary}`);
+    const url =
+      platform === 'pc' ? `/${Routes.My}/${Routes.Dictionary}` : `/${Routes.EntryMobile}/${Routes.Dictionary}`;
+
+    if (!user && inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
     }
 
-    if (platform === 'mobile') {
-      router.push(`/${Routes.EntryMobile}/${Routes.Dictionary}`);
+    if (!user) {
+      handleUpdateReturnUrl(url);
+      openAuthPopup('login');
+      return;
     }
-  }, [platform, router]);
+
+    router.push(url);
+  }, [
+    user,
+    inAppInfo.isInAppBrowser,
+    platform,
+    router,
+    openAuthPopup,
+    handleOpenAppInstallPopup,
+    handleUpdateReturnUrl,
+  ]);
 
   return (
     <div tw="flex flex-col h-full">

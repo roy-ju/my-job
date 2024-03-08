@@ -8,7 +8,7 @@ type InAppInfoAtom = {
 };
 
 const inAppInfoAtom = atom<InAppInfoAtom>({
-  key: `inAppInfoAtom/${v1()}`,
+  key: `in_app_info_atom/${v1()}`,
   default: {
     popupOpen: false,
     isInAppBrowser: false,

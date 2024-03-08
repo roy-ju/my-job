@@ -5,7 +5,7 @@ import { v1 } from 'uuid';
 import { NaverMap } from '@/lib/navermap';
 
 const mobileMapAtom = atom<NaverMap | null>({
-  key: `negocio_mobile_map/${v1()}`,
+  key: `negocio_mobile_map_atom/${v1()}`,
   default: null,
   dangerouslyAllowMutability: true,
 });

@@ -31,7 +31,7 @@ type DanjiMapButtonStore = {
 };
 
 const mobileDanjiInteractionAtom = atom<DanjiMapButtonStore>({
-  key: `mobileDanjiInteractionAtom/${v1()}`,
+  key: `mobile_danji_interaction_atom/${v1()}`,
   default: {
     isTrue: false,
     isTrueSchool: false,
