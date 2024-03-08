@@ -4,6 +4,8 @@ import Container from '@/components/atoms/Container';
 
 import { NavigationHeader } from '@/components/molecules';
 
+import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
+
 import ProcessTab from './trade-process/ProcessTabs';
 
 import Lists from './trade-process/Lists';
@@ -24,6 +26,8 @@ export default function TradeProcess() {
   const { handleClickBack } = useHandleClickBack();
 
   const { tab, handleChangeTab } = useProcessTabs();
+
+  useIosWebkitNoneApplySafeArea();
 
   return (
     <Container>
