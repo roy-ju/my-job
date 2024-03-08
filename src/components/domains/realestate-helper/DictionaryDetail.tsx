@@ -16,6 +16,8 @@ import useFetchSubHomeGuideDetail from '@/services/sub-home/useFetchSubHomeGuide
 
 import SharePopup from '@/components/organisms/SharePopup';
 
+import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
+
 import ShareButton from './dictionary-detail/widget/ShareButton';
 
 import DetailTop from './dictionary-detail/DetailTop';
@@ -51,6 +53,8 @@ export default function DictionaryDetail() {
     useShareHandler();
 
   useRecenltyDictionaryName({ name: term?.name });
+
+  useIosWebkitNoneApplySafeArea();
 
   if (isLoading) {
     return (

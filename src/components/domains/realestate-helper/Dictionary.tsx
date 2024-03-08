@@ -14,6 +14,7 @@ import useFetchSubHomeGuideList from '@/services/sub-home/useFetchSubHomeGuideLi
 
 import useRecentlyClickedElementId from '@/states/hooks/useRecentlyClickedElementId';
 
+import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
 import useHandleClickBack from './dictionary/hooks/useHandleClickBack';
 
 import FilterTabs from './dictionary/FilterTabs';
@@ -62,6 +63,8 @@ export default function Dictionary() {
       });
     }
   }, [handleResetRecentlyClickedElementId, recenltyClickedElementID]);
+
+  useIosWebkitNoneApplySafeArea();
 
   if (isLoading) {
     return (
