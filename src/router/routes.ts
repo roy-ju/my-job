@@ -17,7 +17,6 @@ const Routes = {
   DanjiSelect: 'danjiSelect',
 
   Deregister: 'deregister',
-  DeregisterDisclaimer: 'deregisterDisclaimer',
   Developer: 'developer',
   Login: 'login',
   Reactivate: 'reactivate',
