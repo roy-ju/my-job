@@ -28,13 +28,15 @@ export default function useHandleDetailRouter() {
   const router = useRouter();
 
   const handleGoDictList = useCallback(() => {
+    const url = platform === 'pc' ? `/${Routes.Dictionary}` : `/${Routes.EntryMobile}/${Routes.Dictionary}`;
+
     if (!user && inAppInfo.isInAppBrowser) {
       handleOpenAppInstallPopup();
       return;
     }
 
     if (!user) {
-      handleUpdateReturnUrl();
+      handleUpdateReturnUrl(url);
       openAuthPopup('onlyLogin');
       return;
     }
@@ -45,7 +47,7 @@ export default function useHandleDetailRouter() {
       if (canGoBack) {
         router.back();
       } else {
-        router.replace(platform === 'pc' ? `/${Routes.Dictionary}` : `/${Routes.EntryMobile}/${Routes.Dictionary}`);
+        router.replace(url);
       }
     }
   }, [
@@ -62,34 +64,38 @@ export default function useHandleDetailRouter() {
     (e: MouseEvent<HTMLButtonElement>) => {
       const { value } = e.currentTarget;
 
+      const depth1 = router?.query?.depth1 ?? '';
+      const depth2 = router?.query?.depth2 ?? '';
+
+      const url =
+        platform === 'pc'
+          ? depth2
+            ? `/${depth1}/${Routes.DictionaryDetail}?dictID=${value}`
+            : `/${depth1}?dictID=${value}`
+          : `/${Routes.EntryMobile}/${Routes.DictionaryDetail}?dictID=${value}`;
+
       if (!user && inAppInfo.isInAppBrowser) {
         handleOpenAppInstallPopup();
         return;
       }
 
       if (!user) {
-        handleUpdateReturnUrl();
+        handleUpdateReturnUrl(url);
         openAuthPopup('onlyLogin');
         return;
       }
 
       if (platform === 'pc') {
-        const depth1 = router?.query?.depth1 ?? '';
-        const depth2 = router?.query?.depth2 ?? '';
         const query = router.query;
 
         delete query.depth1;
         delete query.depth2;
 
-        if (depth1 && depth2) {
-          router.replace({ pathname: `/${depth1}/${Routes.DictionaryDetail}`, query: { dictID: value } });
-        } else if (depth1 && !depth2) {
-          router.replace({ pathname: `/${depth1}`, query: { dictID: value } });
-        }
+        router.replace(url);
       }
 
       if (platform === 'mobile') {
-        router.replace({ pathname: `/${Routes.DictionaryDetail}`, query: { dictID: value } });
+        router.replace(url);
       }
     },
     [user, inAppInfo.isInAppBrowser, platform, router, handleOpenAppInstallPopup, handleUpdateReturnUrl, openAuthPopup],
