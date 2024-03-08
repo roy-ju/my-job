@@ -93,10 +93,6 @@ const Qna = dynamic(() => import('@/components/pages/Qna/QnaPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const MyCoupon = dynamic(() => import('@/components/pages/pc/MyCoupon'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
 const Reactivate = dynamic(() => import('@/components/pages/ReActivate/ReActivatePc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -156,10 +152,6 @@ const FAQ = dynamic(() => import('@/components/pages/Faq/FaqPc'), {
   loading: FallbackComponent,
 });
 const UpdatePhone = dynamic(() => import('@/components/pages/UpdatePhone/UpdatePhonePc'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const NegoPoint = dynamic(() => import('@/components/pages/pc/NegoPoint'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -449,17 +441,11 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.TransactionReview: {
       return <TransactionReview {...props} />;
     }
-    case Routes.NegoPoint: {
-      return <NegoPoint {...props} />;
-    }
     case Routes.Qna: {
       return <Qna {...props} />;
     }
     case Routes.FAQ: {
       return <FAQ {...props} />;
-    }
-    case Routes.MyCoupon: {
-      return <MyCoupon {...props} />;
     }
     case Routes.ServiceInfo: {
       return <ServiceInfo {...props} />;

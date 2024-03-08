@@ -48,8 +48,6 @@ interface MyProps {
   onClickQna?: () => void;
   onClickMyRealPriceList?: () => void;
   onClickFAQ?: () => void;
-  onClickNegoPoint?: () => void;
-  onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
   onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
@@ -79,8 +77,6 @@ export default function My({
   onClickQna,
   onClickMyRealPriceList,
   onClickFAQ,
-  onClickCoupons,
-  onClickNegoPoint,
   onClickServiceInfo,
   onClickMyAddress,
   onClickMyRegisteredListings,
@@ -190,8 +186,6 @@ export default function My({
               name={name}
               nickname={nickname}
               onClickMyDetail={onClickMyDetail}
-              onClickCoupons={onClickCoupons}
-              onClickNegoPoint={onClickNegoPoint}
             />
 
             <ListingSummary
