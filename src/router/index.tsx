@@ -147,10 +147,6 @@ const Deregister = dynamic(() => import('@/components/pages/Deregister/Deregiste
   ssr: false,
   loading: FallbackComponent,
 });
-const DeregisterDisclaimer = dynamic(() => import('@/components/pages/DeregisterDisclaimer/DeregisterDisclaimerPc'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
 const TransactionReview = dynamic(() => import('@/components/pages/pc/TransactionReview'), {
   ssr: false,
   loading: FallbackComponent,
@@ -482,9 +478,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.Deregister: {
       return <Deregister {...props} />;
-    }
-    case Routes.DeregisterDisclaimer: {
-      return <DeregisterDisclaimer {...props} />;
     }
     case Routes.Reactivate: {
       return <Reactivate {...props} />;
