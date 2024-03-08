@@ -57,15 +57,10 @@ const Routes = {
   NoticeList: 'noticeList',
   NoticeDetail: 'noticeDetail',
 
-  NegoMoney: 'negoMoney',
-  NegoPoint: 'negoPoint',
-
   Qna: 'qna',
   TransactionReview: 'transactionReview',
   FAQ: 'faq',
   UpdatePhone: 'updatePhone',
-
-  MyCoupon: 'myCoupon',
 
   Register: 'register',
   RegisterSuccess: 'registerSuccess',

@@ -75,14 +75,6 @@ export default function MyMobile() {
     router.push(`/${Routes.EntryMobile}/${Routes.FAQ}`);
   }, [router]);
 
-  const handleClickNegoPoint = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.NegoPoint}`);
-  }, [router]);
-
-  const handleClickCoupons = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.MyCoupon}`);
-  }, [router]);
-
   const handleServiceInfo = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ServiceInfo}`);
   }, [router]);
@@ -166,8 +158,6 @@ export default function MyMobile() {
           onClickQna={handleClickQna}
           onClickMyRealPriceList={handleClickMyRealPriceList}
           onClickFAQ={handleClickFAQ}
-          onClickNegoPoint={handleClickNegoPoint}
-          onClickCoupons={handleClickCoupons}
           onClickServiceInfo={handleServiceInfo}
           onClickMyAddress={handleMyAddress}
           onClickMyRegisteredListings={handleClickMyRegisteredListings}
