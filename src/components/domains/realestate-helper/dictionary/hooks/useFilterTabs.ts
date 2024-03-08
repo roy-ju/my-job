@@ -17,6 +17,8 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
 
   const [visibleState, setVisibleState] = useState<{ [key: string]: boolean }>({});
 
+  const [scrollTop, setScrollTop] = useState<number>(0);
+
   const observer = useRef<IntersectionObserver | null>(null);
 
   const handleChangeTab = useCallback(
@@ -31,7 +33,11 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
       const targetElement = elementsList.find((item) => item.name === value)?.element;
 
       if (scrollContainer && targetElement) {
-        targetElement.scrollIntoView();
+        if (value === 'ㅎ') {
+          scrollContainer?.scrollTo(0, scrollContainer.scrollHeight + 100);
+        } else {
+          targetElement.scrollIntoView();
+        }
       }
     },
     [elementsList],
@@ -68,7 +74,7 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
           }
         });
       },
-      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0 },
+      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0.1 },
     );
 
     const bottomElement = document.getElementById('negocio-dictionary-bottom');
@@ -81,8 +87,32 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
       if (observer.current) {
         observer.current.disconnect();
       }
+
+      if (bottomElement) {
+        bottomRefObserver.disconnect();
+      }
     };
   }, [elementsList, height]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const scrollContainer = document?.getElementById('negocio-dictionary-scrollable-container');
+
+      const handleScroll = () => {
+        setScrollTop((scrollContainer?.scrollTop ?? 0) + (scrollContainer?.clientHeight ?? 0));
+      };
+
+      if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', handleScroll);
+
+        return () => {
+          scrollContainer.removeEventListener('scroll', handleScroll);
+        };
+      }
+    }
+  }, [elementsList, scrollTop]);
+
+  console.log(scrollTop);
 
   useEffect(() => {
     const visibleElements = elementsList.filter((element) => visibleState[element.element.id]);
@@ -94,10 +124,13 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
       visibleElements[0],
     );
 
-    setTab(highestPriorityElement.name);
+    const scrollContainer = document?.getElementById('negocio-dictionary-scrollable-container');
 
-    setTabIndex(elementsList.indexOf(highestPriorityElement));
-  }, [elementsList, visibleState]);
+    if ((scrollContainer?.scrollHeight ?? 0) - scrollTop > 10) {
+      setTab(highestPriorityElement.name);
+      setTabIndex(elementsList.indexOf(highestPriorityElement));
+    }
+  }, [elementsList, scrollTop, visibleState]);
 
   return {
     tab,
