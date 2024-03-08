@@ -9,7 +9,7 @@ interface TooltipAtom {
 }
 
 const tooltipAtom = atom<TooltipAtom>({
-  key: `tooltipAtom/${v1()}`,
+  key: `tooltip_atom/${v1()}`,
   default: {
     activeTooltip: '',
   },

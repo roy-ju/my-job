@@ -12,6 +12,8 @@ import { NavigationHeader } from '@/components/molecules';
 
 import useFetchSubHomeGuideList from '@/services/sub-home/useFetchSubHomeGuideList';
 
+import useRecentlyClickedElementId from '@/states/hooks/useRecentlyClickedElementId';
+
 import useHandleClickBack from './dictionary/hooks/useHandleClickBack';
 
 import FilterTabs from './dictionary/FilterTabs';
@@ -31,6 +33,8 @@ export default function Dictionary() {
 
   const { handleClickBack } = useHandleClickBack();
 
+  const { recenltyClickedElementID, handleResetRecentlyClickedElementId } = useRecentlyClickedElementId();
+
   const { tab, tabIndex, handleChangeTab } = useFilterTabs({ elementsList });
 
   const { isLoading, middleCategoryList, list } = useFetchSubHomeGuideList({ code: 'DICT' });
@@ -44,6 +48,20 @@ export default function Dictionary() {
       }
     });
   }, [list]);
+
+  useEffect(() => {
+    if (recenltyClickedElementID) {
+      const element = document.getElementById(recenltyClickedElementID);
+
+      setTimeout(() => {
+        element?.scrollIntoView();
+
+        setTimeout(() => {
+          handleResetRecentlyClickedElementId();
+        }, 200);
+      });
+    }
+  }, [handleResetRecentlyClickedElementId, recenltyClickedElementID]);
 
   if (isLoading) {
     return (
@@ -64,7 +82,7 @@ export default function Dictionary() {
         {list.map((item) => (
           <DictContents key={item.name} item={item} />
         ))}
-        {/* <div id="negocio-dictionary-bottom" tw="[min-height: 1px] [min-width: 100%]" /> */}
+        <div id="negocio-dictionary-bottom" tw="[min-height: 1px] [min-width: 100%]" />
       </FlexContents>
     </Container>
   );

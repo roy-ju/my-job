@@ -21,7 +21,7 @@ export type FullScreenDialogsAtom = {
 };
 
 const fullScreenDialogsAtom = atom<FullScreenDialogsAtom[]>({
-  key: `fullScreenDialogs/${v1()}`,
+  key: `full_screen_dialogs_atom/${v1()}`,
   default: [],
   dangerouslyAllowMutability: true,
 });

@@ -1,14 +1,8 @@
-import { useCallback } from 'react';
-
-import { useRouter } from 'next/router';
-
 import tw, { styled } from 'twin.macro';
 
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import Routes from '@/router/routes';
-
 import { Title, Thumbnail } from './widget/ListItemWidget';
+
+import useHandleClickListItem from './hooks/useHandleClickListItem';
 
 type ListItemProps = {
   id: number;
@@ -21,22 +15,10 @@ const ListItemButton = styled.button`
 `;
 
 export default function ListItem({ id, title, thumbnail }: ListItemProps) {
-  const router = useRouter();
-
-  const { platform } = useCheckPlatform();
-
-  const handleClickListItem = useCallback(() => {
-    if (platform === 'pc') {
-      router.push({ pathname: `/${Routes.My}/${Routes.DictionaryDetail}`, query: { dictID: `${id}` } });
-    }
-
-    if (platform === 'mobile') {
-      router.push(`/${Routes.EntryMobile}/${Routes.DictionaryDetail}?dictID=${id}`);
-    }
-  }, [id, platform, router]);
+  const { handleClickListItem } = useHandleClickListItem({ id });
 
   return (
-    <ListItemButton onClick={handleClickListItem}>
+    <ListItemButton onClick={handleClickListItem} id={`negocio-dictionary-${title}`}>
       <Title>{title}</Title>
       <Thumbnail>{thumbnail}</Thumbnail>
     </ListItemButton>
