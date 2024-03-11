@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { Panel } from '@/components/atoms';
 
-import { ServiceTerms as ServiceTermsTemplate } from '@/components/templates';
+// import { ServiceTerms as ServiceTermsTemplate } from '@/components/templates';
 
 import { useRouter as useCustomRouter } from '@/hooks/utils';
 
@@ -67,12 +67,12 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <ServiceTermsTemplate
+      {/* <ServiceTermsTemplate
         termDate={selectedTerms}
         html={htmlTerms}
         onClickGoBack={handleGoBack}
         onChangeSelectedTerms={handleChangeSelectedTerms}
-      />
+      /> */}
     </Panel>
   );
 });

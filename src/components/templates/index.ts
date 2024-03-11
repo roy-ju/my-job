@@ -18,12 +18,7 @@ export { default as MyAddressVerifyResult } from './MyAddressVerifyResult';
 export { default as MyAddressAgreement } from './MyAddressAgreement';
 export { default as MyParticipatingListings } from './MyParticipatingListings';
 export { default as TransactionReview } from './TransactionReview';
-export { default as ServiceInfo } from './ServiceInfo';
-export { default as TermsAndPolicy } from './TermsAndPolicy';
-export { default as ServiceTerms } from './ServiceTerms';
-export { default as PrivacyPolicy } from './PrivacyPolicy';
-export { default as LocationTerms } from './LocationTerms';
-export { default as BusinessInfo } from './BusinessInfo';
+
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 export { default as ListingCreateForm } from './ListingCreateForm';
@@ -50,15 +45,25 @@ export { default as PhotoGallery } from './PhotoGallery';
 export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
 export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPriceUpdateSummary';
 export { default as MapListingList } from './MapListingList';
-export { default as OpenSourceLicenses } from './OpenSourceLicenses';
-export { default as VersionInfo } from './VersionInfo';
-export { default as ContractTerms } from './ContractTerms';
+
 export { default as LegalCounseling } from './LegalCounseling';
 export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 export { default as MyRegisteredHomes } from './MyRegisteredHomes';
 export { default as SelectAddressTemplate } from './SelectAddressTemplate';
+
+// export { default as BusinessInfo } from './BusinessInfo';
+export { default as ServiceInfo } from './ServiceInfo';
+export { default as VersionInfo } from './VersionInfo';
+
+export { default as TermsAndPolicy } from './TermsAndPolicy';
+export { default as PrivacyPolicy } from './PrivacyPolicy';
+
+// export { default as ServiceTerms } from './ServiceTerms';
+export { default as LocationTerms } from './LocationTerms';
+// export { default as ContractTerms } from './ContractTerms';
+export { default as OpenSourceLicenses } from './OpenSourceLicenses';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';

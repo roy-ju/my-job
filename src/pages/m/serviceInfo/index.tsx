@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import ServiceInfo from '@/components/pages/mobile/ServiceInfo';
+import ServiceInfo from '@/components/pages/ServiceInfo/ServiceInfoMobile';
 
 const Page: NextPageWithLayout = () => <ServiceInfo />;
 
