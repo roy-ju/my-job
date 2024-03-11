@@ -1,33 +1,34 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useRouter as useNextRouter } from 'next/router';
-
-import { useRouter } from '@/hooks/utils';
+import { useRouter } from 'next/router';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import useUnmount from '@/hooks/useUnmount';
 
-import deleteNotifications from '@/apis/notification/deleteNotifications';
-
-import useAPI_GetNotificationList from '@/apis/notification/getNotificationList';
-
-import readNotifications from '@/apis/notification/readNotifications';
-
-import getNotificationUrl from '@/apis/notification/getNotificationUrl';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-export default function useNotificationList(depth: number) {
-  const router = useRouter(depth);
-  const nextRouter = useNextRouter();
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const [tabIndex, setTabIndex] = useState(0);
+import { apiService } from '@/services';
 
-  const { data, isLoading, increamentPageNumber, mutate: mutateList } = useAPI_GetNotificationList();
+import useFetchNotificationList from '@/services/notifications/useFetchNotificationList';
+
+export default function useNotificationList() {
+  const { platform } = useCheckPlatform();
+
+  const router = useRouter();
+
+  const { data, isLoading, increamentPageNumber, mutate: mutateList } = useFetchNotificationList();
+
   const { setUnreadNotificationCount } = useSyncronizer();
 
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+
+  const [tabIndex, setTabIndex] = useState(0);
+
   const [isDeleting, setIsDeleting] = useState(false);
+
   const [checkedState, setCheckedState] = useState<Record<number, boolean>>({});
 
   const notifications = useMemo(
@@ -51,13 +52,39 @@ export default function useNotificationList(depth: number) {
 
   const handleHeaderItemClick = useCallback(
     (index: number) => {
-      if (index === 1) {
-        router.replace(Routes.NotificationSettings);
-      } else if (index === 0) {
-        setIsDeleting((prev) => !prev);
+      if (platform === 'pc') {
+        if (index === 1) {
+          const depth1 = router?.query?.depth1 ?? '';
+          const depth2 = router?.query?.depth1 ?? '';
+
+          const query = router.query;
+
+          delete query.depth1;
+          delete query.depth2;
+
+          if (depth1 && depth2) {
+            if (depth1 === Routes.NotificationList) {
+              router.push({ pathname: `/${Routes.NotificationSettings}/${depth2}`, query: { ...query } });
+            } else {
+              router.push({ pathname: `/${depth1}/${Routes.NotificationSettings}`, query: { ...query } });
+            }
+          } else if (depth1 && !depth2) {
+            router.push({ pathname: `/${depth1}/${Routes.NotificationSettings}`, query: { ...query } });
+          }
+        } else if (index === 0) {
+          setIsDeleting((prev) => !prev);
+        }
+      }
+
+      if (platform === 'mobile') {
+        if (index === 1) {
+          router.replace(`/${Routes.EntryMobile}/${Routes.NotificationSettings}`);
+        } else if (index === 0) {
+          setIsDeleting((prev) => !prev);
+        }
       }
     },
-    [router],
+    [platform, router],
   );
 
   const handleChangeTabIndex = useCallback(
@@ -69,12 +96,14 @@ export default function useNotificationList(depth: number) {
 
   const handleNotificationClick = useCallback(
     async (id: number) => {
-      const response = await getNotificationUrl(id);
+      const response = await apiService.fetchNotificationUrl(id);
+
       if (response === null) return;
       const url = response?.data?.url;
-      nextRouter.replace(url);
+
+      router.replace(url);
     },
-    [nextRouter],
+    [router],
   );
 
   const handleNotificationChecked = useCallback((id: number, checked: boolean) => {
@@ -85,30 +114,35 @@ export default function useNotificationList(depth: number) {
     const ids = Object.keys(checkedState)
       .filter((id) => checkedState[Number(id)])
       .join(',');
+
     if (ids !== '') {
       setIsDeleteLoading(true);
-      await deleteNotifications(ids);
+      await apiService.deleteNotifications(ids);
     }
+
     setIsDeleteLoading(false);
+
     setIsDeleting(false);
+
     mutateList();
   }, [checkedState, mutateList]);
 
   const filteredNotificationsByTabIndex = useMemo(() => {
     if (tabIndex === 0) return notifications;
+
     return notifications.filter((item) => item.type === tabIndex);
   }, [tabIndex, notifications]);
 
   useEffect(() => {
     setCheckedState({});
     (async () => {
-      await readNotifications();
+      await apiService.readNotifications();
       setUnreadNotificationCount(0);
     })();
   }, [isDeleting, setUnreadNotificationCount]);
 
   useUnmount(async () => {
-    await readNotifications();
+    await apiService.readNotifications();
     setUnreadNotificationCount(0);
   });
 
