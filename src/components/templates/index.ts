@@ -8,7 +8,6 @@ export { default as MapLayout } from './MapLayout';
 export { default as PageNotFound } from './PageNotFound';
 export { default as ReportListing } from './ReportListing';
 export { default as MapStreetView } from './MapStreetView';
-export { default as NotificationList } from './NotificationList';
 export { default as NotificationSettings } from './NotificationSettings';
 export { default as Reactivate } from './Reactivate';
 export { default as MyAddress } from './MyAddress';

@@ -73,7 +73,7 @@ const ListingDetailHistory = dynamic(() => import('@/components/pages/pc/Listing
   ssr: false,
   loading: FallbackComponent,
 });
-const NotificationList = dynamic(() => import('@/components/pages/pc/NotificationList'), {
+const Notifications = dynamic(() => import('@/components/pages/Notifications/NotificationsPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -434,7 +434,7 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
       return <LawQnaUpdate key={query.qnaID as string} qnaID={Number(query.qnaID)} {...props} />;
     }
     case Routes.NotificationList: {
-      return <NotificationList {...props} />;
+      return <Notifications {...props} />;
     }
     case Routes.NotificationSettings: {
       return <NotificationSettings {...props} />;

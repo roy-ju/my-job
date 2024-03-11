@@ -1,8 +1,8 @@
-import updateNotificationConfig from '@/apis/notification/updateNotificationConfig';
 import { MobileContainer } from '@/components/atoms';
 import { NotificationSettings as NotificationSettingsTemplate } from '@/components/templates';
 import useAuth from '@/hooks/services/useAuth';
 import Routes from '@/router/routes';
+import { apiService } from '@/services';
 import { useRouter } from 'next/router';
 import React, { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 
@@ -25,19 +25,19 @@ export default function NotificationSettingsWrraper() {
 
   const handleChangeService = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
     const { checked } = e.target;
-    await updateNotificationConfig('service', checked);
+    await apiService.updateNotificationConfig('service', checked);
     setServiceNotification(checked);
   }, []);
 
   const handleChangeChat = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
     const { checked } = e.target;
-    await updateNotificationConfig('chat', checked);
+    await apiService.updateNotificationConfig('chat', checked);
     setChatPushNotification(checked);
   }, []);
 
   const handleChangeMarketing = useCallback<ChangeEventHandler<HTMLInputElement>>(async (e) => {
     const { checked } = e.target;
-    await updateNotificationConfig('marketing', checked);
+    await apiService.updateNotificationConfig('marketing', checked);
     setMarketingNotification(checked);
   }, []);
 

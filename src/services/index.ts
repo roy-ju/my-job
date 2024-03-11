@@ -443,6 +443,40 @@ export class NegocioApiService extends ApiService {
       return null;
     }
   }
+
+  async deleteNotifications(ids: string) {
+    try {
+      return await this.instance.post('/notification/delete', { ids });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async readNotifications() {
+    try {
+      return await this.instance.post('/notification/read');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async fetchNotificationUrl(id: number) {
+    try {
+      return await this.instance.post('/notification/url', {
+        notification_id: id,
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateNotificationConfig(notification: string, isOn: boolean) {
+    try {
+      return await this.instance.post(`/notification/config/${notification}`, { notification_on: isOn });
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 export const apiService = new NegocioApiService();
