@@ -112,8 +112,6 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
     }
   }, [elementsList, scrollTop]);
 
-  console.log(scrollTop);
-
   useEffect(() => {
     const visibleElements = elementsList.filter((element) => visibleState[element.element.id]);
 

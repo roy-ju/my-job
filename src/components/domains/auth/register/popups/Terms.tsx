@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { ServiceTerms, LocationTerms, PrivacyPolicy } from '@/components/templates';
-
 import useOutsideClick from '@/hooks/useOutsideClick';
 
 import useSelectedRegisterTerms from '../hooks/useSelectedRegisterTerms';
+
+import TermsTemplate from '../TermsTemplate';
 
 type TermsPopupProps = {
   type: 'location' | 'service' | 'privacy' | '';
@@ -34,9 +34,9 @@ export default function TermsPopup({ type, handleCancel }: TermsPopupProps) {
       <div ref={popupContainerRef}>
         <Popup type="large">
           <Popup.ContentGroup tw="py-6 gap-2 [max-height: 520px] overflow-y-scroll rounded-lg relative">
-            {type === 'service' && <ServiceTerms termDate={selectedServiceTerms} html={selectedServiceHtmlTerms} />}
-            {type === 'location' && <LocationTerms termDate={selectedLocationTerms} html={selectedLocationHtmlTerms} />}
-            {type === 'privacy' && <PrivacyPolicy termDate={selectedPrivacyTerms} html={selectedPrivacyHtmlTerms} />}
+            {type === 'service' && <TermsTemplate termDate={selectedServiceTerms} html={selectedServiceHtmlTerms} />}
+            {type === 'location' && <TermsTemplate termDate={selectedLocationTerms} html={selectedLocationHtmlTerms} />}
+            {type === 'privacy' && <TermsTemplate termDate={selectedPrivacyTerms} html={selectedPrivacyHtmlTerms} />}
           </Popup.ContentGroup>
         </Popup>
       </div>

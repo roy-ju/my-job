@@ -53,18 +53,6 @@ export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 export { default as MyRegisteredHomes } from './MyRegisteredHomes';
 export { default as SelectAddressTemplate } from './SelectAddressTemplate';
 
-// export { default as BusinessInfo } from './BusinessInfo';
-export { default as ServiceInfo } from './ServiceInfo';
-export { default as VersionInfo } from './VersionInfo';
-
-export { default as TermsAndPolicy } from './TermsAndPolicy';
-export { default as PrivacyPolicy } from './PrivacyPolicy';
-
-// export { default as ServiceTerms } from './ServiceTerms';
-export { default as LocationTerms } from './LocationTerms';
-// export { default as ContractTerms } from './ContractTerms';
-export { default as OpenSourceLicenses } from './OpenSourceLicenses';
-
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';
 export { default as MobAreaSearch } from './MobAreaSearch';
