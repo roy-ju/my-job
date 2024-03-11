@@ -7,6 +7,7 @@ import {
   LoginResponse,
   SendPhoneVerificationCodeForRegisterResponse,
   UpdateCIResponse,
+  UserAppVersionResponse,
 } from './auth/types';
 
 import { UploadProfileImageResponse } from './my/types';
@@ -73,6 +74,15 @@ export class NegocioApiService extends ApiService {
       type: req.type,
     });
     return data;
+  }
+
+  async userAppVersion(version_name: string, platform: number) {
+    try {
+      const { data } = await this.instance.post('/user/appversion/get', { version_name, platform });
+      return data as UserAppVersionResponse;
+    } catch (e) {
+      return null;
+    }
   }
 
   async sendPhoneVerificationCodeForRegister(

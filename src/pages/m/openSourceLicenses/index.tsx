@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import OpenSourceLicenses from '@/components/pages/mobile/OpenSourceLicenses';
+import OpenSourceLicenses from '@/components/pages/OpenSourceLicenses/OpenSourceLicensesMobile';
 
 const Page: NextPageWithLayout = () => <OpenSourceLicenses />;
 

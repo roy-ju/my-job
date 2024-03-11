@@ -101,10 +101,6 @@ const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'
   ssr: false,
   loading: FallbackComponent,
 });
-const ContractTerms = dynamic(() => import('@/components/pages/pc/ContractTerms'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
   loading: FallbackComponent,
   ssr: false,
@@ -158,10 +154,6 @@ const UpdatePhone = dynamic(() => import('@/components/pages/UpdatePhone/UpdateP
   ssr: false,
   loading: FallbackComponent,
 });
-const BusinessInfo = dynamic(() => import('@/components/pages/pc/BusinessInfo'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
 const Register = dynamic(() => import('@/components/pages/Register/RegisterPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -199,26 +191,6 @@ const ListingCreateSummary = dynamic(() => import('@/components/pages/pc/Listing
   loading: FallbackComponent,
 });
 const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingCreateResult'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const ServiceInfo = dynamic(() => import('@/components/pages/pc/ServiceInfo'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const TermsAndPolicy = dynamic(() => import('@/components/pages/pc/TermsAndPolicy'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const ServiceTerms = dynamic(() => import('@/components/pages/pc/ServiceTerms'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const PrivacyPolicy = dynamic(() => import('@/components/pages/pc/PrivacyPolicy'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const LocationTerms = dynamic(() => import('@/components/pages/pc/LocationTerms'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -355,6 +327,38 @@ const DictionaryDetail = dynamic(() => import('@/components/pages/DictionaryDeta
   loading: FallbackComponent,
 });
 
+// 약관 및 정책 관련
+const BusinessInfo = dynamic(() => import('@/components/pages/BusinessInfo/BusinessInfoPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const ServiceInfo = dynamic(() => import('@/components/pages/ServiceInfo/ServiceInfoPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const ContractTerms = dynamic(() => import('@/components/pages/ContractTerms/ContractTermsPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const LocationTerms = dynamic(() => import('@/components/pages/LocationTerms/LocationTermsPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const ServiceTerms = dynamic(() => import('@/components/pages/ServiceTerms/ServiceTermsPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const PrivacyPolicy = dynamic(() => import('@/components/pages/PrivacyPolicy/PrivacyPolicyPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+const TermsAndPolicy = dynamic(() => import('@/components/pages/TermsAndPolicy/TermsAndPolicyPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const DEFAULT_PANEL_WIDTH = '380px';
 
 interface RouterProps {
@@ -450,21 +454,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.FAQ: {
       return <FAQ {...props} />;
     }
-    case Routes.ServiceInfo: {
-      return <ServiceInfo {...props} />;
-    }
-    case Routes.TermsAndPolicy: {
-      return <TermsAndPolicy {...props} />;
-    }
-    case Routes.ServiceTerms: {
-      return <ServiceTerms {...props} />;
-    }
-    case Routes.PrivacyPolicy: {
-      return <PrivacyPolicy {...props} />;
-    }
-    case Routes.LocationTerms: {
-      return <LocationTerms {...props} />;
-    }
     case Routes.Deregister: {
       return <Deregister {...props} />;
     }
@@ -480,9 +469,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
           {...props}
         />
       );
-    }
-    case Routes.ContractTerms: {
-      return <ContractTerms {...props} />;
     }
     case Routes.ChatRoom: {
       return <ChatRoom key={query.chatRoomID as string} {...props} />;
@@ -516,9 +502,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.UpdatePhone: {
       return <UpdatePhone {...props} />;
-    }
-    case Routes.BusinessInfo: {
-      return <BusinessInfo {...props} />;
     }
     case Routes.Register: {
       return <Register {...props} />;
@@ -631,6 +614,30 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.DictionaryDetail: {
       return <DictionaryDetail {...props} />;
+    }
+
+    case Routes.BusinessInfo: {
+      return <BusinessInfo {...props} />;
+    }
+    case Routes.ServiceInfo: {
+      return <ServiceInfo {...props} />;
+    }
+
+    case Routes.ServiceTerms: {
+      return <ServiceTerms {...props} />;
+    }
+    case Routes.LocationTerms: {
+      return <LocationTerms {...props} />;
+    }
+    case Routes.ContractTerms: {
+      return <ContractTerms {...props} />;
+    }
+
+    case Routes.TermsAndPolicy: {
+      return <TermsAndPolicy {...props} />;
+    }
+    case Routes.PrivacyPolicy: {
+      return <PrivacyPolicy {...props} />;
     }
 
     case Routes.Developer: {
