@@ -86,7 +86,7 @@ export default function useServiceInfo() {
   }, [platform, router]);
 
   const handleClickOpenSourceLicense = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.TermsAndPolicy}`);
+    router.push(`/${Routes.EntryMobile}/${Routes.OpenSourceLicenses}`);
   }, [router]);
 
   const handleClickVersionInfo = useCallback(() => {

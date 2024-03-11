@@ -20,7 +20,6 @@ export { default as AddressSearchForm } from './AddressSearchForm';
 export { default as TransactionHistoryDetail } from './TransactionHistoryDetail';
 export { default as TransactionHistoryListItem } from './TransactionHistoryListItem';
 export { default as TransactionReviewForm } from './TransactionReviewForm';
-export { default as ServiceInfoList } from './ServiceInfoList';
 export { default as AgentCardItem } from './AgentCardItem';
 export { default as TransactionCondition } from './TransactionCondition';
 export { default as ListingCreateForm } from './ListingCreateForm';
