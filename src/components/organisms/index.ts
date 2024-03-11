@@ -16,7 +16,6 @@ export { default as NotificaitonListItem } from './NotificationListItem';
 export { default as NotificationSettingsForm } from './NotificationSettingsForm';
 
 export { default as AddressSearchForm } from './AddressSearchForm';
-export { default as MyRealPriceListItem } from './MyRealPriceListItem';
 
 export { default as TransactionHistoryDetail } from './TransactionHistoryDetail';
 export { default as TransactionHistoryListItem } from './TransactionHistoryListItem';
