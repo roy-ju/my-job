@@ -1,6 +1,8 @@
-import { Moment, Switch } from '@/components/atoms';
 import { ChangeEventHandler } from 'react';
+
 import tw, { styled } from 'twin.macro';
+
+import { Moment, Switch } from '@/components/atoms';
 
 interface CommonProps {
   checked?: boolean;

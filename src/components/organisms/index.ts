@@ -11,8 +11,6 @@ export { default as RegionMarker } from './map_markers/RegionMarker';
 export { default as DanjiMarker } from './map_markers/DanjiMarker';
 export { default as ListingMarker } from './map_markers/ListingMarker';
 
-export { default as NotificationSettingsForm } from './NotificationSettingsForm';
-
 export { default as AddressSearchForm } from './AddressSearchForm';
 
 export { default as TransactionHistoryDetail } from './TransactionHistoryDetail';

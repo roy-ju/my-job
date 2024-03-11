@@ -77,7 +77,7 @@ const Notifications = dynamic(() => import('@/components/pages/Notifications/Not
   ssr: false,
   loading: FallbackComponent,
 });
-const NotificationSettings = dynamic(() => import('@/components/pages/pc/NotificationSettings'), {
+const NotificationSettings = dynamic(() => import('@/components/pages/NotificationSettings/NotificationSettingsPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
