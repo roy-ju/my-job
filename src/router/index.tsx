@@ -45,7 +45,7 @@ const MyDetail = dynamic(() => import('@/components/pages/MyDetail/MyDetailPc'),
   ssr: false,
   loading: FallbackComponent,
 });
-const MyRealPriceList = dynamic(() => import('@/components/pages/pc/MyRealPriceList'), {
+const MyRealPriceList = dynamic(() => import('@/components/pages/MyRealpriceList/MyRealpriceListPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -137,7 +137,10 @@ const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomRepor
   ssr: false,
   loading: FallbackComponent,
 });
-const Developer = dynamic(() => import('@/components/pages/pc/Developer'), { ssr: false, loading: FallbackComponent });
+const Developer = dynamic(() => import('@/components/pages/Developer/DeveloperPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const NotFound = dynamic(() => import('@/components/pages/NotFound'), { ssr: false, loading: FallbackComponent });
 const Deregister = dynamic(() => import('@/components/pages/Deregister/DeregisterPc'), {
   ssr: false,

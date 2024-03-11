@@ -1,6 +1,8 @@
+import dynamic from 'next/dynamic';
+
 import { NextPageWithLayout } from '@/pages/_app';
 
-import Developer from '@/components/pages/Developer/DeveloperMobile';
+const Developer = dynamic(() => import('@/components/domains/developer'), { ssr: false });
 
 const Page: NextPageWithLayout = () => {
   if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {

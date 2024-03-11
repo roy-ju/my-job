@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import RealPriceListWrraper from '@/components/pages/mobile/My/RealPriceListWrraper';
+import MyRealpriceList from '@/components/pages/MyRealpriceList/MyRealpriceListMobile';
 
-const Page: NextPageWithLayout = () => <RealPriceListWrraper />;
+const Page: NextPageWithLayout = () => <MyRealpriceList />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;

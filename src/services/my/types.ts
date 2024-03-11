@@ -87,3 +87,24 @@ export type MySuggestListItem = {
 export type MySuggestListResponse = {
   list: MySuggestListItem[] | null;
 };
+
+export type MyRealpriceListItem = {
+  danji_id: number;
+  realestate_type: number;
+  danji_name: string;
+  price: number;
+  monthly_rent_fee: number;
+  buy_or_rent: number;
+  jeonyong_area: string;
+  deal_year: string;
+  deal_month: string;
+  deal_day: string;
+  deal_type: string;
+  created_time: string;
+};
+
+export type MyRealpriceListItemResponse = {
+  list: MyRealpriceListItem[];
+  page_number: number;
+  updated_time: string;
+};
