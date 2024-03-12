@@ -108,6 +108,39 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async checkNickname(nickname: string): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/user/checknickname', { nickname });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteFcmToken(data: { token: string }): Promise<ErrorResponse | null> {
+    try {
+      return await this.instance.post('/user/delete/fcmtoken', data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateFcmToken(data: { token: string; device_id: string }): Promise<ErrorResponse | null> {
+    try {
+      return await this.instance.post('/user/update/fcmtoken', data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async sendPhoneVerificationCode(phone: string) {
+    try {
+      return await this.instance.post('/user/phone/verification/sms', { phone });
+    } catch (e) {
+      return null;
+    }
+  }
+
   async updateEmail(token: string, socialLoginType: number) {
     try {
       const { data } = await this.instance.post('/my/email/update', { token, social_login_type: socialLoginType });
@@ -121,15 +154,6 @@ export class NegocioApiService extends ApiService {
     try {
       const { data } = await this.instance.post('/my/name/update', { name });
       return data as ErrorResponse;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async checkNickname(nickname: string): Promise<ErrorResponse | null> {
-    try {
-      const { data } = await this.instance.post('/user/checknickname', { nickname });
-      return data;
     } catch (e) {
       return null;
     }
@@ -169,30 +193,6 @@ export class NegocioApiService extends ApiService {
     }
   }
 
-  async deleteFcmToken(data: { token: string }): Promise<ErrorResponse | null> {
-    try {
-      return await this.instance.post('/user/delete/fcmtoken', data);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async updateFcmToken(data: { token: string; device_id: string }): Promise<ErrorResponse | null> {
-    try {
-      return await this.instance.post('/user/update/fcmtoken', data);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async sendPhoneVerificationCode(phone: string) {
-    try {
-      return await this.instance.post('/user/phone/verification/sms', { phone });
-    } catch (e) {
-      return null;
-    }
-  }
-
   async updatePhone(phone: string, code: string) {
     try {
       const { data } = await this.instance.post('/my/phone/update', { phone, verification_number: code });
@@ -208,6 +208,67 @@ export class NegocioApiService extends ApiService {
     } catch (e) {
       return null;
     }
+  }
+
+  async deleteMyListing({ listing_id }: { listing_id: number }) {
+    try {
+      await this.instance.post('my/listing/delete', { listing_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async mySuggestDelete({ suggestID }: { suggestID: number }): Promise<void> {
+    await this.instance.post('/my/suggest/delete', { suggest_id: suggestID });
+  }
+
+  async mySuggestSuggestorComplete({
+    suggest_id,
+    recommender_id,
+    is_recommender_agent,
+  }: {
+    suggest_id: number;
+    recommender_id: number;
+    is_recommender_agent: boolean;
+  }): Promise<void> {
+    await this.instance.post('/my/suggest/suggestor/complete', {
+      suggest_id,
+      recommender_id,
+      is_recommender_agent,
+    });
+  }
+
+  async mySuggestRecommendAccept({
+    suggest_id,
+    recommender_id,
+    is_recommender_agent,
+  }: {
+    suggest_id: number;
+    recommender_id: number;
+    is_recommender_agent: boolean;
+  }) {
+    await this.instance.post('/my/suggest/recommend/accept', { suggest_id, recommender_id, is_recommender_agent });
+  }
+
+  async mySuggestRecommendNotIntersted({ id }: { id: number }) {
+    await this.instance.post('/my/suggest/recommend/notinterested', { suggest_recommend_id: id });
+  }
+
+  async mySuggestRecommendCancel(suggestRecommendID: number) {
+    try {
+      return await this.instance.post('/my/suggest/recommend/cancel', { suggest_recommend_id: suggestRecommendID });
+    } catch {
+      return null;
+    }
+  }
+
+  async mySuggestStop({ suggestID }: { suggestID: number }) {
+    await this.instance.post('/my/suggest/stop', { suggest_id: suggestID });
+  }
+
+  async mySuggsetResume({ suggestID }: { suggestID: number }) {
+    await this.instance.post('/my/suggest/resume', { suggest_id: suggestID });
   }
 
   async addListingFavorite({ listing_id }: { listing_id: number }) {
@@ -351,58 +412,6 @@ export class NegocioApiService extends ApiService {
     } catch (e) {
       return null;
     }
-  }
-
-  async mySuggestDelete({ suggestID }: { suggestID: number }): Promise<void> {
-    await this.instance.post('/my/suggest/delete', { suggest_id: suggestID });
-  }
-
-  async mySuggestSuggestorComplete({
-    suggest_id,
-    recommender_id,
-    is_recommender_agent,
-  }: {
-    suggest_id: number;
-    recommender_id: number;
-    is_recommender_agent: boolean;
-  }): Promise<void> {
-    await this.instance.post('/my/suggest/suggestor/complete', {
-      suggest_id,
-      recommender_id,
-      is_recommender_agent,
-    });
-  }
-
-  async mySuggestRecommendAccept({
-    suggest_id,
-    recommender_id,
-    is_recommender_agent,
-  }: {
-    suggest_id: number;
-    recommender_id: number;
-    is_recommender_agent: boolean;
-  }) {
-    await this.instance.post('/my/suggest/recommend/accept', { suggest_id, recommender_id, is_recommender_agent });
-  }
-
-  async mySuggestRecommendNotIntersted({ id }: { id: number }) {
-    await this.instance.post('/my/suggest/recommend/notinterested', { suggest_recommend_id: id });
-  }
-
-  async mySuggestRecommendCancel(suggestRecommendID: number) {
-    try {
-      return await this.instance.post('/my/suggest/recommend/cancel', { suggest_recommend_id: suggestRecommendID });
-    } catch {
-      return null;
-    }
-  }
-
-  async mySuggestStop({ suggestID }: { suggestID: number }) {
-    await this.instance.post('/my/suggest/stop', { suggest_id: suggestID });
-  }
-
-  async mySuggsetResume({ suggestID }: { suggestID: number }) {
-    await this.instance.post('/my/suggest/resume', { suggest_id: suggestID });
   }
 
   async closeChatRoom(chatRoomID: number) {

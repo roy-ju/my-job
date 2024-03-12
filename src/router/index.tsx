@@ -41,7 +41,7 @@ const MySuggestDetail = dynamic(() => import('@/components/pages/MySuggestDetail
   ssr: false,
   loading: FallbackComponent,
 });
-const MyRegisteredListings = dynamic(() => import('@/components/pages/pc/MyRegisteredListings'), {
+const MyRegisteredListings = dynamic(() => import('@/components/pages/MyRegisteredListings/MyRegisteredListingsPc'), {
   ssr: false,
   loading: FallbackComponent,
 });

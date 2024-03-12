@@ -1,6 +1,8 @@
-import { Information } from '@/components/molecules';
-import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 import { Button } from '@/components/atoms';
+
+import { Information } from '@/components/molecules';
+
+import ExclamationMark from '@/assets/icons/exclamation_mark.svg';
 
 enum MyRegisteredListingStatus {
   RegisteringListing = 1, // 등록신청
@@ -16,7 +18,7 @@ const title = {
   [MyRegisteredListingStatus.CancelledListing]: '지난거래 매물이 없습니다.',
 };
 
-export default function NoDataUI({ tabStatus, onClick }: { tabStatus: 1 | 2 | 3 | 4; onClick: () => void }) {
+export default function Nodata({ tabStatus, onClick }: { tabStatus: 1 | 2 | 3 | 4; onClick: () => void }) {
   return (
     <div tw="flex-1 min-h-0 mt-7">
       <Information>
