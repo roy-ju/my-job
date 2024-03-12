@@ -4,14 +4,7 @@ import tw from 'twin.macro';
 
 import { Button } from '@/components/atoms';
 
-import {
-  MapControls,
-  GlobalNavigation,
-  MapPriceSelect,
-  MapSearchTextField,
-  MapFilter,
-  MapToggleButton,
-} from '@/components/organisms';
+import { MapControls, MapPriceSelect, MapSearchTextField, MapFilter, MapToggleButton } from '@/components/organisms';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -36,6 +29,8 @@ import HouseGreenIcon from '@/assets/icons/house_green.svg';
 import CloseIcon from '@/assets/icons/close.svg';
 
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
+
+import GlobalNavigation from '@/components/organisms/global/GlobalNavigation';
 
 interface LayoutMainProps {
   children?: ReactNode;

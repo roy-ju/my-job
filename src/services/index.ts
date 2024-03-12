@@ -210,6 +210,24 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async addListingFavorite({ listing_id }: { listing_id: number }) {
+    try {
+      await this.instance.post('/listing/favorite/add', { listing_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async removeListingFavorite({ listing_id }: { listing_id: number }) {
+    try {
+      await this.instance.post('/listing/favorite/remove', { listing_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   /** 단지 정보 */
   async getDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {
@@ -222,9 +240,18 @@ export class NegocioApiService extends ApiService {
   }
 
   /** 단지 상세 좋아요 */
-  async danjiFavoriteAdd({ id }: { id: number }): Promise<void | null> {
+  async addDanjiFavorite({ id, type }: { id: number; type?: number }): Promise<void | null> {
     try {
-      return await this.instance.post('/danji/favorite/add', { danji_id: id });
+      return await this.instance.post('/danji/favorite/add', { danji_id: id, realestate_type: type });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** 단지 상세 좋아요 취소 */
+  async removeDanjiFavorite({ id, type }: { id: number; type?: number }): Promise<void | null> {
+    try {
+      return await this.instance.post('/danji/favorite/remove', { danji_id: id, realestate_type: type });
     } catch (e) {
       return null;
     }
@@ -248,15 +275,6 @@ export class NegocioApiService extends ApiService {
       });
 
       return data;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /** 단지 상세 좋아요 취소 */
-  async danjiFavoriteRemove({ id }: { id: number }): Promise<void | null> {
-    try {
-      return await this.instance.post('/danji/favorite/remove', { danji_id: id });
     } catch (e) {
       return null;
     }

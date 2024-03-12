@@ -1,8 +1,12 @@
-import tw from 'twin.macro';
 import React from 'react';
-import { MyListItem } from '@/components/organisms';
-import { IMyListingListItem } from '@/components/organisms/MyListItem/Listing';
+
+import tw from 'twin.macro';
+
+import MyListItem from '@/components/organisms/my/my-list-item';
+
 import { InfiniteScroll } from '@/components/atoms';
+
+import { MyFavoriteListingListUiItem } from '@/components/domains/my/favorite-list/types';
 
 import NoDataUI from './NoDataUI';
 
@@ -27,10 +31,10 @@ export interface ListingsRendererProps {
   onClickNavigateToListingDetailPassed: (listingId: number) => () => void;
   onChangeCheckbox: (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
 
-  myRegisteringListingData: IMyListingListItem[];
-  myActiveListingData: IMyListingListItem[];
-  myContractCompleteListingData: IMyListingListItem[];
-  myCancelledListingData: IMyListingListItem[];
+  myRegisteringListingData: MyFavoriteListingListUiItem[];
+  myActiveListingData: MyFavoriteListingListUiItem[];
+  myContractCompleteListingData: MyFavoriteListingListUiItem[];
+  myCancelledListingData: MyFavoriteListingListUiItem[];
 
   myRegisteringListingIncrementalPageNumber: () => void;
   myActiveListingIncrementalPageNumber: () => void;

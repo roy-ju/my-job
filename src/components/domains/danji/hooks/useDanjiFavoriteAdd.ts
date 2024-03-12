@@ -21,7 +21,7 @@ export default function useDanjiFavoriteAdd() {
     if (typeof window !== 'undefined' && window.sessionStorage.getItem(Actions.Danji_Favorite.key)) {
       const danjiId = window.sessionStorage.getItem(Actions.Danji_Favorite.key);
 
-      await apiService.danjiFavoriteAdd({ id: Number(danjiId) });
+      await apiService.addDanjiFavorite({ id: Number(danjiId) });
 
       if (platform === 'pc') {
         toast.success('관심단지로 추가되었습니다.', { toastId: 'toast-danji-favorite' });

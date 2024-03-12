@@ -1,8 +1,13 @@
-import { IBiddingStatus } from '@/components/pages/pc/MyParticipatingListings/useMyParticipatingListings';
-import tw from 'twin.macro';
-import { InfiniteScroll } from '@/components/atoms';
-import { MyListItem } from '@/components/organisms';
 import React from 'react';
+
+import tw from 'twin.macro';
+
+import { InfiniteScroll } from '@/components/atoms';
+
+import { IBiddingStatus } from '@/components/pages/pc/MyParticipatingListings/useMyParticipatingListings';
+
+import MyListItem from '@/components/organisms/my/my-list-item';
+
 import NoDataUI from './NoDataUI';
 
 interface ListingRendererProps {

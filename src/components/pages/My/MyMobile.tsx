@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { Loading, MobileContainer } from '@/components/atoms';
 
-import { MobGlobalNavigation } from '@/components/organisms';
+import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNavigation';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
@@ -133,7 +133,7 @@ export default function MyMobile() {
 
   if (!tab)
     return (
-      <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
+      <MobileContainer bottomNav={<BottomGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
         <div tw="py-20">
           <Loading />
         </div>
@@ -142,7 +142,7 @@ export default function MyMobile() {
 
   return (
     <>
-      <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
+      <MobileContainer bottomNav={<BottomGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
         <My
           isLoading={isLoading}
           loggedIn={user !== null}

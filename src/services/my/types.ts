@@ -108,3 +108,54 @@ export type MyRealpriceListItemResponse = {
   page_number: number;
   updated_time: string;
 };
+
+export type FavoriteDanjiListItem = {
+  danji_id: number;
+  realestate_type: number;
+  eubmyundong: string;
+  danji_name: string;
+  road_name_address: string;
+  total_saedae_count: string;
+  year: string;
+  month: string;
+  day: string;
+  jeonyong_min: string;
+  jeonyong_max: string;
+  buy_count: number;
+  jeonsae_count: number;
+  wolsae_count: number;
+  is_favorite: boolean;
+  dong_count: number;
+};
+
+export type MyFavoriteDanjiListResponse = {
+  count: number;
+  list: FavoriteDanjiListItem[];
+};
+
+export type FavoriteListingListItem = {
+  listing_id: number;
+  thumbnail_full_path: string;
+  listing_title: string;
+  realestate_type: number;
+  jeonyong_area: string;
+  floor_description: string;
+  total_floor: string;
+  direction: string;
+  buy_or_rent: number;
+  quick_sale: boolean;
+  is_participating: boolean;
+  view_count: number;
+  participants_count: number;
+  trade_or_deposit_price: number;
+  monthly_rent_fee: number;
+  eubmyundong: string;
+  is_favorite: boolean;
+  label_text: string;
+  status_text: string;
+};
+
+export type MyFavoriteListingListResponse = {
+  count: number;
+  list: FavoriteListingListItem[];
+};
