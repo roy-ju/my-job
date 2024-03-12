@@ -1,4 +1,4 @@
-import Home from '@/components/domains/home';
+import MyFavoriteList from '@/components/domains/my/MyFavoriteList';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 
@@ -6,12 +6,12 @@ import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNa
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
-export default function HomeMobile() {
+export default function MyFavoriteListMobile() {
   const { unreadChatCount } = useSyncronizer();
 
   return (
-    <MobileContainer bottomNav={<BottomGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
-      <Home />
+    <MobileContainer bottomNav={<BottomGlobalNavigation index={1} unreadChatCount={unreadChatCount} />}>
+      <MyFavoriteList />
     </MobileContainer>
   );
 }

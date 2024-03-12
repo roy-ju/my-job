@@ -6,7 +6,7 @@ import { usePlatform } from '@/providers/PlatformProvider';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
-import { MobGlobalNavigation } from '../organisms';
+import BottomGlobalNavigation from '../organisms/global/BottomGlobalNavigation';
 
 type Props = {
   panelWidth?: string;
@@ -53,7 +53,7 @@ export default function Container({
             <MobileContainer
               bottomNav={
                 bottomNavigation ? (
-                  <MobGlobalNavigation index={bottomNavigation.navigationIndex} unreadChatCount={unreadChatCount} />
+                  <BottomGlobalNavigation index={bottomNavigation.navigationIndex} unreadChatCount={unreadChatCount} />
                 ) : null
               }
             >
@@ -64,7 +64,7 @@ export default function Container({
           <MobileContainer
             bottomNav={
               bottomNavigation ? (
-                <MobGlobalNavigation index={bottomNavigation.navigationIndex} unreadChatCount={unreadChatCount} />
+                <BottomGlobalNavigation index={bottomNavigation.navigationIndex} unreadChatCount={unreadChatCount} />
               ) : null
             }
           >

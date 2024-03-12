@@ -1,5 +1,4 @@
 // PC + 모바일 공유
-export { default as GlobalNavigation } from './GlobalNavigation';
 
 export { default as MapControls } from './MapControls';
 export { default as MapPriceSelect } from './MapPriceSelect';
@@ -20,7 +19,6 @@ export { default as AgentCardItem } from './AgentCardItem';
 export { default as TransactionCondition } from './TransactionCondition';
 export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as AgentCardCarousel } from './AgentCardCarousel';
-export { default as MyListItem } from './MyListItem';
 export { default as DanjiDetailSection } from './DanjiDetail';
 export { default as ListingCreateResultStatus } from './ListingCreateResultStatus';
 export { default as ListingCtaButtons } from './ListingCtaButtons';
@@ -36,8 +34,6 @@ export { default as LawSerachFormPc } from './LawSerachFormPc';
 export { default as DanjiList } from './DanjiList';
 
 // 모바일 전용
-export { default as MobDanjiSummary } from './MobDanjiSummary';
-export { default as MobGlobalNavigation } from './MobGlobalNavigation';
 export { default as MobMapAllFilter } from './MobMapAllFilter';
 export { default as MobMapControls } from './MobMapControls';
 export { default as MobMapFilter } from './MobMapFilter';

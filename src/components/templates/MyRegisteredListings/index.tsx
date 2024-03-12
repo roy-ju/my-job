@@ -1,6 +1,9 @@
 import { Tabs } from '@/components/molecules';
-import { IMyListingListItem } from '@/components/organisms/MyListItem/Listing';
+
+import { MyFavoriteListingListUiItem } from '@/components/domains/my/favorite-list/types';
+
 import HeaderRenderer from './HeaderRenderer';
+
 import ListingsRenderer from './ListingsRenderer';
 
 export interface MyRegisteredListingsProps {
@@ -21,16 +24,16 @@ export interface MyRegisteredListingsProps {
   onClosePopup: () => void;
 
   myRegisteringListingCount: number;
-  myRegisteringListingData: IMyListingListItem[];
+  myRegisteringListingData: MyFavoriteListingListUiItem[];
   myRegisteringListingIncrementalPageNumber: () => void;
   myActiveListingCount: number;
-  myActiveListingData: IMyListingListItem[];
+  myActiveListingData: MyFavoriteListingListUiItem[];
   myActiveListingIncrementalPageNumber: () => void;
   myContractCompleteListingCount: number;
-  myContractCompleteListingData: IMyListingListItem[];
+  myContractCompleteListingData: MyFavoriteListingListUiItem[];
   myContractCompleteListingIncrementalPageNumber: () => void;
   myCancelledListingCount: number;
-  myCancelledListingData: IMyListingListItem[];
+  myCancelledListingData: MyFavoriteListingListUiItem[];
   myCancelledListingIncrementalPageNumber: () => void;
 
   onClickBack?: () => void;
