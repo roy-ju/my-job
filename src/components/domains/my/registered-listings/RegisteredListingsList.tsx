@@ -8,7 +8,7 @@ import { InfiniteScroll } from '@/components/atoms';
 
 import { MyFavoriteListingListUiItem } from '@/components/domains/my/favorite-list/types';
 
-import NoDataUI from './NoDataUI';
+import Nodata from './Nodata';
 
 const Wrapper = tw.div`py-2`;
 
@@ -22,49 +22,54 @@ enum MyRegisteredListingStatus {
 }
 
 export interface ListingsRendererProps {
-  tabStatus: number;
+  tab: number;
   isDeleteActive: boolean;
   checkedListingIdList: number[];
 
-  onClickListingItem: (listingId: number) => () => void;
-  onClickNavigateToListingCreate: () => void;
-  onClickNavigateToListingDetailPassed: (listingId: number) => () => void;
-  onChangeCheckbox: (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClickListingItem: (listingId: number) => () => void;
+  handleClickNavigateToListingCreate: () => void;
+  handleClickNavigateToListingDetailPassed: (listingId: number) => () => void;
+  handleChangeCheckbox: (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
 
   myRegisteringListingData: MyFavoriteListingListUiItem[];
-  myActiveListingData: MyFavoriteListingListUiItem[];
-  myContractCompleteListingData: MyFavoriteListingListUiItem[];
-  myCancelledListingData: MyFavoriteListingListUiItem[];
-
   myRegisteringListingIncrementalPageNumber: () => void;
+
+  myActiveListingData: MyFavoriteListingListUiItem[];
   myActiveListingIncrementalPageNumber: () => void;
+
+  myContractCompleteListingData: MyFavoriteListingListUiItem[];
   myContractCompleteListingIncrementalPageNumber: () => void;
+
+  myCancelledListingData: MyFavoriteListingListUiItem[];
   myCancelledListingIncrementalPageNumber: () => void;
 }
 
-export default function ListingsRenderer({
-  tabStatus,
+export default function RegisteredListingsList({
+  tab,
   isDeleteActive,
   checkedListingIdList,
 
-  onClickListingItem,
-  onClickNavigateToListingCreate,
-  onClickNavigateToListingDetailPassed,
-  onChangeCheckbox,
+  handleClickListingItem,
+  handleClickNavigateToListingCreate,
+  handleClickNavigateToListingDetailPassed,
+  handleChangeCheckbox,
 
   myRegisteringListingData,
-  myContractCompleteListingData,
-  myActiveListingData,
-  myCancelledListingData,
-
   myRegisteringListingIncrementalPageNumber,
+
+  myActiveListingData,
   myActiveListingIncrementalPageNumber,
+
+  myContractCompleteListingData,
   myContractCompleteListingIncrementalPageNumber,
+
+  myCancelledListingData,
   myCancelledListingIncrementalPageNumber,
 }: ListingsRendererProps) {
-  switch (tabStatus) {
+  switch (tab) {
     case MyRegisteredListingStatus.RegisteringListing: {
-      if (!myRegisteringListingData?.length) return <NoDataUI tabStatus={1} onClick={onClickNavigateToListingCreate} />;
+      if (!myRegisteringListingData?.length)
+        return <Nodata tabStatus={1} onClick={handleClickNavigateToListingCreate} />;
 
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myRegisteringListingIncrementalPageNumber}>
@@ -75,8 +80,8 @@ export default function ListingsRenderer({
                 <MyListItem.RegisteringListing
                   isDeleteActive={isDeleteActive}
                   checkedListingIdList={checkedListingIdList}
-                  onClickListingItem={onClickListingItem}
-                  onChangeCheckbox={onChangeCheckbox}
+                  onClickListingItem={handleClickListingItem}
+                  onChangeCheckbox={handleChangeCheckbox}
                   {...item}
                 />
               </React.Fragment>
@@ -85,8 +90,9 @@ export default function ListingsRenderer({
         </InfiniteScroll>
       );
     }
+
     case MyRegisteredListingStatus.ActiveListing: {
-      if (!myActiveListingData?.length) return <NoDataUI tabStatus={2} onClick={onClickNavigateToListingCreate} />;
+      if (!myActiveListingData?.length) return <Nodata tabStatus={2} onClick={handleClickNavigateToListingCreate} />;
 
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myActiveListingIncrementalPageNumber}>
@@ -94,16 +100,17 @@ export default function ListingsRenderer({
             {myActiveListingData?.map((item, i) => (
               <React.Fragment key={item.listingId}>
                 {i > 0 && <Divider />}
-                <MyListItem.Listing showLikeButton={false} onClickListingItem={onClickListingItem} {...item} />
+                <MyListItem.Listing showLikeButton={false} onClickListingItem={handleClickListingItem} {...item} />
               </React.Fragment>
             ))}
           </Wrapper>
         </InfiniteScroll>
       );
     }
+
     case MyRegisteredListingStatus.ContractCompleteListing: {
       if (!myContractCompleteListingData?.length)
-        return <NoDataUI onClick={onClickNavigateToListingCreate} tabStatus={3} />;
+        return <Nodata onClick={handleClickNavigateToListingCreate} tabStatus={3} />;
 
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myContractCompleteListingIncrementalPageNumber}>
@@ -114,7 +121,7 @@ export default function ListingsRenderer({
                 <MyListItem.Listing
                   showPopularityInformation={false}
                   showLikeButton={false}
-                  onClickListingItem={onClickListingItem}
+                  onClickListingItem={handleClickListingItem}
                   {...item}
                 />
               </React.Fragment>
@@ -123,8 +130,9 @@ export default function ListingsRenderer({
         </InfiniteScroll>
       );
     }
+
     case MyRegisteredListingStatus.CancelledListing: {
-      if (!myCancelledListingData?.length) return <NoDataUI onClick={onClickNavigateToListingCreate} tabStatus={4} />;
+      if (!myCancelledListingData?.length) return <Nodata onClick={handleClickNavigateToListingCreate} tabStatus={4} />;
 
       return (
         <InfiniteScroll tw="flex-1 min-h-0 overflow-auto" onNext={myCancelledListingIncrementalPageNumber}>
@@ -135,7 +143,7 @@ export default function ListingsRenderer({
                 <MyListItem.Listing
                   showPopularityInformation={false}
                   showLikeButton={false}
-                  onClickListingItem={onClickNavigateToListingDetailPassed}
+                  onClickListingItem={handleClickNavigateToListingDetailPassed}
                   {...item}
                 />
               </React.Fragment>
@@ -144,6 +152,7 @@ export default function ListingsRenderer({
         </InfiniteScroll>
       );
     }
+
     default:
       return <Wrapper />;
   }

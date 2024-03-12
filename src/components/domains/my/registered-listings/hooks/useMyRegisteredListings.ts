@@ -1,12 +1,20 @@
-import useAPI_GetMyRegisteredListingList from '@/apis/my/getMyRegisteredListingList';
-import { useState } from 'react';
-import deleteMyListing from '@/apis/my/deleteMyListing';
+import { useCallback, useEffect, useState } from 'react';
+
 import { mutate } from 'swr';
+
 import { toast } from 'react-toastify';
 
+import useFetchMyListingsRegistered from '@/services/my/useFetchMyListingsRegistered';
+
+import { apiService } from '@/services';
+
 export default function useMyRegisteredListings() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [isDeleteActive, setIsDeleteActive] = useState(false);
+
   const [isPopupActive, setIsPopupActive] = useState(false);
+
   const [checkedListingIdList, setCheckedListingIdList] = useState<number[]>([]);
 
   const {
@@ -15,95 +23,114 @@ export default function useMyRegisteredListings() {
     incrementalPageNumber: myRegisteringListingIncrementalPageNumber,
     mutate: myRegisteringListingMutate,
     isLoading: myRegisteringListingIsLoading,
-  } = useAPI_GetMyRegisteredListingList(1);
+  } = useFetchMyListingsRegistered(1);
+
   const {
     count: myActiveListingCount,
     data: myActiveListingData,
     incrementalPageNumber: myActiveListingIncrementalPageNumber,
     mutate: myActiveListingMutate,
     isLoading: myActiveListingIsLoading,
-  } = useAPI_GetMyRegisteredListingList(2);
+  } = useFetchMyListingsRegistered(2);
   const {
     count: myContractCompleteListingCount,
     data: myContractCompleteListingData,
     incrementalPageNumber: myContractCompleteListingIncrementalPageNumber,
     mutate: myContractCompleteListingMutate,
     isLoading: myContractCompleteListingIsLoading,
-  } = useAPI_GetMyRegisteredListingList(3);
+  } = useFetchMyListingsRegistered(3);
   const {
     count: myCancelledListingCount,
     data: myCancelledListingData,
     incrementalPageNumber: myCancelledListingIncrementalPageNumber,
     mutate: myCancelledListingMutate,
     isLoading: myCancelledListingIsLoading,
-  } = useAPI_GetMyRegisteredListingList(4);
+  } = useFetchMyListingsRegistered(4);
 
-  const handleChangeCheckbox = (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target;
-    if (checked) {
-      setCheckedListingIdList([...checkedListingIdList, listingId]);
-    } else {
-      setCheckedListingIdList(checkedListingIdList.filter((id) => id !== listingId));
-    }
-  };
+  const handleChangeCheckbox = useCallback(
+    (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { checked } = e.target;
 
-  const handleDeleteListingList = async () => {
-    await Promise.all(checkedListingIdList?.map((listingId) => deleteMyListing({ listing_id: listingId })));
+      if (checked) {
+        setCheckedListingIdList([...checkedListingIdList, listingId]);
+      } else {
+        setCheckedListingIdList(checkedListingIdList.filter((id) => id !== listingId));
+      }
+    },
+    [checkedListingIdList],
+  );
+
+  const handleDeleteListingList = useCallback(async () => {
+    await Promise.all(checkedListingIdList?.map((listingId) => apiService.deleteMyListing({ listing_id: listingId })));
 
     await myRegisteringListingMutate();
     await mutate('/my/dashboard/info');
 
     toast.success('매물을 삭제했습니다.', { toastId: 'successDelete' });
-
     setIsDeleteActive(false);
     setIsPopupActive(false);
-  };
+  }, [checkedListingIdList, myRegisteringListingMutate]);
 
-  const handleActiveDelete = () => {
+  const handleActiveDelete = useCallback(() => {
     setIsDeleteActive(true);
-  };
+  }, []);
 
-  const handleCancelDelete = () => {
+  const handleCancelDelete = useCallback(() => {
     setIsDeleteActive(false);
     setCheckedListingIdList([]);
-  };
+  }, []);
 
-  const handleOpenPopup = () => {
+  const handleOpenPopup = useCallback(() => {
+    if (!checkedListingIdList.length) return;
+
     setIsPopupActive(true);
-  };
+  }, [checkedListingIdList.length]);
 
-  const handleClosePopup = () => {
+  const handleClosePopup = useCallback(() => {
     setIsPopupActive(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    const isPromiseFullfilled =
+      myRegisteringListingIsLoading &&
+      myActiveListingIsLoading &&
+      myContractCompleteListingIsLoading &&
+      myCancelledListingIsLoading;
+
+    setIsLoading(isPromiseFullfilled);
+  }, [
+    myRegisteringListingIsLoading,
+    myActiveListingIsLoading,
+    myContractCompleteListingIsLoading,
+    myCancelledListingIsLoading,
+  ]);
 
   return {
     myRegisteringListingCount,
     myRegisteringListingData,
     myRegisteringListingIncrementalPageNumber,
     myRegisteringListingMutate,
-    myRegisteringListingIsLoading,
 
     myActiveListingCount,
     myActiveListingData,
     myActiveListingIncrementalPageNumber,
     myActiveListingMutate,
-    myActiveListingIsLoading,
 
     myContractCompleteListingCount,
     myContractCompleteListingData,
     myContractCompleteListingIncrementalPageNumber,
     myContractCompleteListingMutate,
-    myContractCompleteListingIsLoading,
 
     myCancelledListingCount,
     myCancelledListingData,
     myCancelledListingIncrementalPageNumber,
     myCancelledListingMutate,
-    myCancelledListingIsLoading,
+
+    isLoading,
 
     isDeleteActive,
     isPopupActive,
-    
+
     handleDeleteListingList,
     handleActiveDelete,
     handleCancelDelete,

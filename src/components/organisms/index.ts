@@ -10,6 +10,11 @@ export { default as RegionMarker } from './map_markers/RegionMarker';
 export { default as DanjiMarker } from './map_markers/DanjiMarker';
 export { default as ListingMarker } from './map_markers/ListingMarker';
 
+export { default as MobRegionMarker } from './map_markers/MobRegionMarker';
+export { default as MobDanjiMarker } from './map_markers/MobDanjiMarker';
+export { default as MobListingMarker } from './map_markers/MobListingMarker';
+export { default as MobSchoolMarker } from './map_markers/MobSchoolMarker';
+
 export { default as AddressSearchForm } from './AddressSearchForm';
 
 export { default as TransactionHistoryDetail } from './TransactionHistoryDetail';
@@ -41,11 +46,6 @@ export { default as MobMapHeader } from './MobMapHeader';
 export { default as MobMapPositionBar } from './MobMapPositionBar';
 export { default as MobMapPriceSelect } from './MobMapPriceSelect';
 export { default as MobMapToggleButton } from './MobMapToggleButton';
-
-export { default as MobRegionMarker } from './map_markers/MobRegionMarker';
-export { default as MobDanjiMarker } from './map_markers/MobDanjiMarker';
-export { default as MobListingMarker } from './map_markers/MobListingMarker';
-export { default as MobSchoolMarker } from './map_markers/MobSchoolMarker';
 
 export { default as MobMySummary } from './MobMySummary';
 

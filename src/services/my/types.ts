@@ -159,3 +159,30 @@ export type MyFavoriteListingListResponse = {
   count: number;
   list: FavoriteListingListItem[];
 };
+
+export type MyListingsRegisteredListItem = {
+  listing_id: number;
+  thumbnail_full_path: string;
+  listing_title: string;
+  realestate_type: number;
+  jeonyong_area: string;
+  floor_description: string;
+  total_floor: string;
+  direction: string;
+  buy_or_rent: number;
+  quick_sale: boolean;
+  is_participating: boolean;
+  view_count: number;
+  participants_count: number;
+  trade_or_deposit_price: number;
+  monthly_rent_fee: number;
+  eubmyundong: string;
+  is_favorite: boolean;
+  status_text: string;
+  label_text: string;
+};
+
+export type MyListingsRegisteredListResponse = {
+  count: number;
+  list: MyListingsRegisteredListItem[];
+};
