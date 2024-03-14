@@ -1,7 +1,8 @@
 import tw, { styled } from 'twin.macro';
 
-import ErrorIcon from '@/assets/icons/error_20_filled.svg';
 import { MarginTopEighty } from '@/components/atoms/Margin';
+
+import ErrorIcon from '@/assets/icons/error_20_filled.svg';
 
 type ResultMessageProps = {
   type: 'findAddressOverTen' | 'notFoundAddress' | 'serviceError' | '';

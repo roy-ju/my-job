@@ -344,6 +344,13 @@ const RealestateDocumentList = dynamic(
     loading: FallbackComponent,
   },
 );
+const RealestateDocumentDetail = dynamic(
+  () => import('@/components/pages/RealestateDocumentDetail/RealestateDocumentDetailPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 const RealestateDocumentSearchAddress = dynamic(
   () => import('@/components/pages/RealestateDocumentSearchAddress/RealestateDocumentSearchAddressPc'),
   {
@@ -667,8 +674,12 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.DictionaryDetail: {
       return <DictionaryDetail {...props} />;
     }
+
     case Routes.RealestateDocumentList: {
       return <RealestateDocumentList {...props} />;
+    }
+    case Routes.RealestateDocumentDetail: {
+      return <RealestateDocumentDetail {...props} />;
     }
     case Routes.RealestateDocumentSearchAddress: {
       return <RealestateDocumentSearchAddress {...props} />;
