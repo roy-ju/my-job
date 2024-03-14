@@ -344,6 +344,34 @@ const RealestateDocumentList = dynamic(
     loading: FallbackComponent,
   },
 );
+const RealestateDocumentSearchAddress = dynamic(
+  () => import('@/components/pages/RealestateDocumentSearchAddress/RealestateDocumentSearchAddressPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
+const RealestateDocumentAddressDetail = dynamic(
+  () => import('@/components/pages/RealestateDocumentAddressDetail/RealestateDocumentAddressDetailPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
+const RealestateDocumentAddressVerifying = dynamic(
+  () => import('@/components/pages/RealestateDocumentAddressVerifying/RealestateDocumentAddressVerifyingPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
+const RealestateDocumentAddressVerifyResult = dynamic(
+  () => import('@/components/pages/RealestateDocumentVerifyResult/RealestateDocumentVerifyResultPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 
 // 약관 및 정책 관련
 const BusinessInfo = dynamic(() => import('@/components/pages/BusinessInfo/BusinessInfoPc'), {
@@ -641,6 +669,18 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.RealestateDocumentList: {
       return <RealestateDocumentList {...props} />;
+    }
+    case Routes.RealestateDocumentSearchAddress: {
+      return <RealestateDocumentSearchAddress {...props} />;
+    }
+    case Routes.RealestateDocumentAddressDetail: {
+      return <RealestateDocumentAddressDetail {...props} />;
+    }
+    case Routes.RealestateDocumentAddressVerifying: {
+      return <RealestateDocumentAddressVerifying {...props} />;
+    }
+    case Routes.RealestateDocumentAddressVerifyResult: {
+      return <RealestateDocumentAddressVerifyResult {...props} />;
     }
 
     case Routes.BusinessInfo: {

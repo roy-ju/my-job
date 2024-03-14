@@ -1,7 +1,10 @@
-import { searchKeyword } from '@/lib/kakao';
-import { searchAddress } from '@/lib/kakao/search_address';
-import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useState } from 'react';
+
+import debounce from 'lodash/debounce';
+
+import { searchKeyword } from '@/lib/kakao';
+
+import { searchAddress } from '@/lib/kakao/search_address';
 
 export interface KakaoAddressAutocompleteResponseItem {
   id: string;

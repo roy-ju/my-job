@@ -1,14 +1,14 @@
-import RealestateDocumentList from '@/components/domains/realestate-helper/RealestateDocumentList';
+import RealestateDocumentVerifying from '@/components/domains/realestate-helper/RealestateDocumentVerifying';
 
 import MobAuthRequired from '@/components/atoms/MobAuthRequired';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 
-export default function RealestateDcoumentListMobile() {
+export default function RealestateDocumentAddressVerifyingMobile() {
   return (
     <MobAuthRequired>
       <MobileContainer>
-        <RealestateDocumentList />
+        <RealestateDocumentVerifying />
       </MobileContainer>
     </MobAuthRequired>
   );

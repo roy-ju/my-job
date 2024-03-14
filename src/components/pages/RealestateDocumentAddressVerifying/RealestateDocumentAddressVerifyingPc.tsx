@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import RealestateDocumentList from '@/components/domains/realestate-helper/RealestateDocumentList';
+import RealestateDocumentVerifying from '@/components/domains/realestate-helper/RealestateDocumentVerifying';
 
 import AuthRequired from '@/components/atoms/AuthRequired';
 
@@ -11,14 +11,14 @@ interface Props {
   panelWidth?: string;
 }
 
-function RealestateDocumentListPc({ depth, panelWidth }: Props) {
+function RealestateDocumentAddressVerifyingPc({ panelWidth, depth }: Props) {
   return (
     <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
-        <RealestateDocumentList />
+        <RealestateDocumentVerifying />
       </Panel>
     </AuthRequired>
   );
 }
 
-export default memo(RealestateDocumentListPc);
+export default memo(RealestateDocumentAddressVerifyingPc);
