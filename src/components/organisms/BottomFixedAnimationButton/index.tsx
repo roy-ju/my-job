@@ -5,7 +5,9 @@ import tw, { styled } from 'twin.macro';
 import Plus24 from '@/assets/icons/plus_24.svg';
 
 import FabButton from '@/components/atoms/FabButton/FabButton';
+
 import useIsNativeApp from '@/hooks/useIsNativeApp';
+
 import isIOS from '@/utils/isIos';
 
 const MobileFixedContainer = styled.div`
@@ -16,13 +18,19 @@ const PcFixedContainer = styled.div`
   ${tw`fixed bottom-4`}
 `;
 
-export default function SuggestCreate({
+export default function BottomFixedAnimationButton({
+  containerId,
+  ctaTitle,
+  width,
   platform,
-  isScrollingButton,
+  isScrollingButton = false,
   handleClick,
 }: {
+  containerId: string;
+  ctaTitle: string;
+  width: number;
   platform: string;
-  isScrollingButton: boolean;
+  isScrollingButton?: boolean;
   handleClick: () => void;
 }) {
   const isNaitveApp = useIsNativeApp();
@@ -30,8 +38,8 @@ export default function SuggestCreate({
   const [fixedRight, setFixedRight] = useState(0);
 
   const animate = {
-    minWidth: isScrollingButton ? 48 : 142,
-    width: isScrollingButton ? 48 : 142,
+    minWidth: isScrollingButton ? 48 : width,
+    width: isScrollingButton ? 48 : width,
     height: 48,
     paddingLeft: isScrollingButton ? '0px' : '16px',
     paddingRight: isScrollingButton ? '0px' : '20px',
@@ -42,7 +50,7 @@ export default function SuggestCreate({
   useEffect(() => {
     if (platform === 'pc') {
       const handleResize = () => {
-        const parentElement = document.getElementById('negocio-my-suggest-requestedList');
+        const parentElement = document.getElementById(containerId);
 
         if (parentElement) {
           const rightPosition = window.innerWidth - parentElement.getBoundingClientRect().right;
@@ -56,13 +64,13 @@ export default function SuggestCreate({
 
       return () => window.removeEventListener('resize', handleResize);
     }
-  }, [platform]);
+  }, [containerId, platform]);
 
   if (platform === 'mobile') {
     return (
       <MobileFixedContainer css={[isNaitveApp && isIOS() && tw`[bottom: 49px]`]}>
         <FabButton onClick={handleClick} animate={animate}>
-          <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && '집 구해요 등록'}
+          <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && `${ctaTitle}`}
         </FabButton>
       </MobileFixedContainer>
     );
@@ -71,7 +79,7 @@ export default function SuggestCreate({
   return (
     <PcFixedContainer style={{ right: fixedRight }}>
       <FabButton onClick={handleClick} animate={animate}>
-        <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && '집 구해요 등록'}
+        <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && `${ctaTitle}`}
       </FabButton>
     </PcFixedContainer>
   );

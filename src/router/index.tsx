@@ -337,6 +337,13 @@ const DictionaryDetail = dynamic(() => import('@/components/pages/DictionaryDeta
   ssr: false,
   loading: FallbackComponent,
 });
+const RealestateDocumentList = dynamic(
+  () => import('@/components/pages/RealestateDocumentList/RealestateDocumentListPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 
 // 약관 및 정책 관련
 const BusinessInfo = dynamic(() => import('@/components/pages/BusinessInfo/BusinessInfoPc'), {
@@ -631,6 +638,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.DictionaryDetail: {
       return <DictionaryDetail {...props} />;
+    }
+    case Routes.RealestateDocumentList: {
+      return <RealestateDocumentList {...props} />;
     }
 
     case Routes.BusinessInfo: {

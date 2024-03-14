@@ -136,8 +136,11 @@ const Routes = {
 
   // 부동산 거래도우미 사전
   Dictionary: 'dictionary',
-  // 부동산 거래도우미 사전
+  // 부동산 거래도우미 사전 상세
   DictionaryDetail: 'dictionaryDetail',
+
+  // 부동산 조회한 등기부 목록
+  RealestateDocumentList: 'realestateDocumentList',
 
   // 오픈소스라이센스
   OpenSourceLicenses: 'openSourceLicenses',
