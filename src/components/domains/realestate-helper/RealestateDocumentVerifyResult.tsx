@@ -1,26 +1,34 @@
 import tw, { styled } from 'twin.macro';
 
+import dynamic from 'next/dynamic';
+
 import Container from '@/components/atoms/Container';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import dynamic from 'next/dynamic';
+import { MarginTopFourty, MarginTopThirtyTwo, MarginTopTwenty } from '@/components/atoms/Margin';
 
-import { MarginTopFourty, MarginTopThirtyTwo } from '@/components/atoms/Margin';
+import { Line, LineWrraper } from './realestate-document-address-detail/widget/RealestateDocumentAddressDetailWidget';
+
 import useHandleClickBack from './realestate-document-verify-result/hooks/useHandleClickBack';
 
 import useResultType from './realestate-document-verify-result/hooks/useResultType';
+
+import useCtasHandler from './realestate-document-verify-result/hooks/useCtasHandler';
 
 import ResultMessage from './realestate-document-verify-result/ResultMessage';
 
 import ServiceError from './realestate-document-verify-result/ServiceError';
 
-import Ctas from './realestate-document-verify-result/Ctas';
+import Notice from './realestate-document-address-detail/Notice';
 
 import PreviouslyEnteredAddress from './realestate-document-verify-result/PreviouslyEnteredAddress';
 
-import { Line, LineWrraper } from './realestate-document-address-detail/widget/RealestateDocumentAddressDetailWidget';
-import Notice from './realestate-document-address-detail/Notice';
+import SelectAddressHeader from './realestate-document-verify-result/SelectAddressHeader';
+
+import Ctas from './realestate-document-verify-result/Ctas';
+import ListItem from './realestate-document-verify-result/ListItem';
+import { ListWrraper } from './realestate-document-verify-result/widget/RealestateDocumentVerifyResultWidget';
 
 const NeedConfirmAddressPopup = dynamic(
   () => import('./realestate-document-verify-result/popups/NeedConfirmAddressPopup'),
@@ -36,6 +44,8 @@ export default function RealestateDocumentVerifyResult() {
 
   const { handleClickBack } = useHandleClickBack();
 
+  const { handleSearchOtherAddress, handleClickCtas } = useCtasHandler({ type });
+
   return (
     <>
       <Container>
@@ -45,11 +55,8 @@ export default function RealestateDocumentVerifyResult() {
             <NavigationHeader.Title>등기부 신규 조회</NavigationHeader.Title>
           </NavigationHeader>
         )}
-
         <ResultMessage type={type} />
-
         {(type === 'findAddressOverTen' || type === 'notFoundAddress') && <MarginTopFourty />}
-
         <FlexContents>
           {type === 'serviceError' && <ServiceError />}
           {type === 'findAddressOverTen' && (
@@ -63,6 +70,36 @@ export default function RealestateDocumentVerifyResult() {
                 <Line />
               </LineWrraper>
               <MarginTopThirtyTwo />
+              <SelectAddressHeader handleClick={handleSearchOtherAddress} />
+              <MarginTopTwenty />
+              <ListWrraper>
+                <ListItem
+                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
+                  secondLine="경기도 화성시 동탄중앙로 189"
+                  handleClickItem={() => {}}
+                  selected
+                />
+                <ListItem
+                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
+                  secondLine="경기도 화성시 동탄중앙로 189"
+                  handleClickItem={() => {}}
+                />
+                <ListItem
+                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
+                  secondLine="경기도 화성시 동탄중앙로 189"
+                  handleClickItem={() => {}}
+                />
+                <ListItem
+                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
+                  secondLine="경기도 화성시 동탄중앙로 189"
+                  handleClickItem={() => {}}
+                />
+                <ListItem
+                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
+                  secondLine="경기도 화성시 동탄중앙로 189"
+                  handleClickItem={() => {}}
+                />
+              </ListWrraper>
             </>
           )}
           {type === 'notFoundAddress' && (
@@ -80,10 +117,8 @@ export default function RealestateDocumentVerifyResult() {
             </>
           )}
         </FlexContents>
-
-        <Ctas type={type} handleClick={() => {}} />
+        <Ctas type={type} handleClick={handleClickCtas} />
       </Container>
-
       {openPopup && <NeedConfirmAddressPopup handleConfirm={handleClosePopup} />}
     </>
   );
