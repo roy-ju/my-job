@@ -1,13 +1,5 @@
 import tw, { styled } from 'twin.macro';
 
-export const MarginTopEight = styled.div`
-  ${tw`w-full mt-2`}
-`;
-
-export const MarginTopTwenty = styled.div`
-  ${tw`w-full mt-5`}
-`;
-
 export const FlexContents = styled.div`
   ${tw`flex flex-col flex-1 h-full overflow-x-hidden overflow-y-auto`}
 `;

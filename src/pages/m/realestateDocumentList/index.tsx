@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import RealestateDcoumentListMobile from '@/components/pages/RealestateDocumentList/RealestateDcoumentListMobile';
+import RealestateDcoumentList from '@/components/pages/RealestateDocumentList/RealestateDcoumentListMobile';
 
-const Page: NextPageWithLayout = () => <RealestateDcoumentListMobile />;
+const Page: NextPageWithLayout = () => <RealestateDcoumentList />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
