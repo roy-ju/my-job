@@ -141,13 +141,20 @@ const Routes = {
 
   // 조회한 등기부 목록
   RealestateDocumentList: 'realestateDocumentList',
+
+  // 등기부 상세
+  RealestateDocumentDetail: 'realestateDocumentDetail',
+
   // 등기부 주소 검색
   RealestateDocumentSearchAddress: 'realestateDocumentSearchAddress',
-  // 등기부 주소 상세
+
+  // 등기부 주소 검색 상세
   RealestateDocumentAddressDetail: 'realestateDocumentAddressDetail',
+
   // 등기부 주소 검색중
   RealestateDocumentAddressVerifying: 'realestateDocumentAddressVerifying',
-  // 등기부 주소 검색중
+
+  // 등기부 주소 결과
   RealestateDocumentAddressVerifyResult: 'realestateDocumentAddressVerifyResult',
 
   // 오픈소스라이센스
