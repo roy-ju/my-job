@@ -10,6 +10,8 @@ import RefreshIcon from '@/assets/icons/refresh_20_2.svg';
 
 import { SubHomeRealestatedocumentDetailResponse } from '@/services/sub-home/types';
 
+import useNativeFileDownload from '@/hooks/useNativeFileDownload';
+
 import { Line } from '../realestate-document-address-detail/widget/RealestateDocumentAddressDetailWidget';
 
 import { AddressContainer, AddressWrraper } from './widget/RealestateDocumentDetailWidget';
@@ -34,6 +36,8 @@ export default function Address({
   handleViewPreviousHistories,
   handleCheckUpdateRealestateDocument,
 }: AddressProps) {
+  const { downloadFile } = useNativeFileDownload();
+
   function makeTitle(item: Item) {
     if (item?.danji_name) {
       if (item?.dong && item?.ho) {
@@ -69,7 +73,7 @@ export default function Address({
   return (
     <>
       <MarginTopTwenty />
-      <AddressContainer>
+      <AddressContainer tw="px-5">
         <AddressWrraper>
           <div tw="flex flex-col gap-0.5">
             <p tw="text-body_01 text-gray-700">건물 주소</p>
@@ -130,6 +134,11 @@ export default function Address({
               radius="r100"
               tw="flex-1 gap-0.5 px-0"
               disabled={!pdfInfo?.realestate_document_path}
+              onClick={() => {
+                if (pdfInfo?.realestate_document_path) {
+                  downloadFile(pdfInfo.realestate_document_path);
+                }
+              }}
             >
               <a tw="flex gap-0.5" href={pdfInfo?.realestate_document_path}>
                 <DownloadIcon />
