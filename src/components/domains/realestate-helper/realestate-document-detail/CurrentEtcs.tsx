@@ -48,7 +48,7 @@ export default function CurrentEtcs({ list }: CurrentEtcsProps) {
         <TableTitle>
           기타 특별 현황<TableSubTitle>(압류 현황)</TableSubTitle>
         </TableTitle>
-        <TableSmallTitle>총 {list.length}명</TableSmallTitle>
+        <TableSmallTitle>총 {list.length}건</TableSmallTitle>
       </BetweenRow>
       <MarginTopSixteen />
       <TableWrraper tw="px-5">
