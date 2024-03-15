@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import RealestateDocumentAddressVerifying from '@/components/pages/RealestateDocumentAddressVerifying/RealestateDocumentAddressVerifyingMobile';
+import RealestateDocumentAddressDetail from '@/components/pages/RealestateDocumentAddressDetail/RealestateDocumentAddressDetailMobile';
 
-const Page: NextPageWithLayout = () => <RealestateDocumentAddressVerifying />;
+const Page: NextPageWithLayout = () => <RealestateDocumentAddressDetail />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
