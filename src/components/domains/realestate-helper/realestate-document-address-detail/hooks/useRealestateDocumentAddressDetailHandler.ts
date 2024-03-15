@@ -8,7 +8,7 @@ import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoA
 
 import Routes from '@/router/routes';
 
-export default function useRealestateDocumentAddressDetail() {
+export default function useRealestateDocumentAddressDetailHandler() {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-export default function usePopupHandler() {
+export default function usePopupsHandler() {
   const [popup, setPopup] = useState<'delete' | 'update' | 'impossible' | 'previous' | ''>('');
 
   const handleClosePopup = useCallback(() => {

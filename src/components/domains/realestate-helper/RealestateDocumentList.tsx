@@ -21,7 +21,10 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 import useFetchSubHomeRealestateDocumentList from '@/services/sub-home/useFetchSubHomeRealestateDocumentList';
 
 import Routes from '@/router/routes';
+
 import useHandleClickBack from './realestate-document-list/hooks/useHandleClickBack';
+
+import usePopupsHandler from './realestate-document-list/hooks/usePopupsHandler';
 
 import { FlexContents } from './realestate-document-list/widget/RealestateDocumentListWidget';
 
@@ -50,7 +53,7 @@ export default function RealestateDocumentList() {
 
   const { platform } = useCheckPlatform();
 
-  const [popup, setPopup] = useState<'creating' | 'remaining' | ''>('');
+  const { popup, handleClosePopup, handleOpenPopup } = usePopupsHandler();
 
   const handleRouteSearchAddress = useCallback(() => {
     if (platform === 'pc') {
@@ -96,10 +99,6 @@ export default function RealestateDocumentList() {
     }
   }, [platform, router]);
 
-  const handleClosePopup = useCallback(() => {
-    setPopup('');
-  }, []);
-
   const handleConfirmRemainingCountPopup = useCallback(() => {
     if (remainingCount > 0) {
       handleRouteSearchAddress();
@@ -109,8 +108,8 @@ export default function RealestateDocumentList() {
   }, [remainingCount, handleClosePopup, handleRouteSearchAddress]);
 
   const handleClickRealestateDocumentCreate = useCallback(async () => {
-    setPopup('remaining');
-  }, []);
+    handleOpenPopup('remaining');
+  }, [handleOpenPopup]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -137,7 +136,7 @@ export default function RealestateDocumentList() {
         </NavigationHeader>
         <MarginTopEight />
         <FlexContents>
-          {list.length === 0 ? <Nodata /> : <List list={list} handleOpenPopup={() => setPopup('creating')} />}
+          {list.length === 0 ? <Nodata /> : <List list={list} handleOpenPopup={() => handleOpenPopup('creating')} />}
           {render && (
             <BottomFixedAnimationButton
               width={115}

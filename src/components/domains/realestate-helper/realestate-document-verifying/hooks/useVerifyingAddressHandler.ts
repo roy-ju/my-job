@@ -93,8 +93,6 @@ export default function useVerifyingAddressHandler() {
     handleClosePopup();
     toast.success('등기부 조회를 시작해요.');
 
-    // api 호출을 해야합니다.
-
     if (platform === 'pc') {
       handleRedirectRealestateDocumentList();
     }

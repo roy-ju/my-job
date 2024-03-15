@@ -10,7 +10,9 @@ import useHandleClickBack from './realestate-document-address-detail/hooks/useHa
 
 import useInputHandler from './realestate-document-address-detail/hooks/useInputHandler';
 
-import useRealestateDocumentAddressDetail from './realestate-document-address-detail/hooks/useRealestateDocumentAddressDetail';
+import useRealestateDocumentAddressDetailHandler from './realestate-document-address-detail/hooks/useRealestateDocumentAddressDetailHandler';
+
+import useCreateRealestateDocument from './realestate-document-address-detail/hooks/useCreateRealestateDocument';
 
 import {
   FormContainer,
@@ -21,12 +23,11 @@ import {
 import DocumentCreate from './realestate-document-address-detail/DocumentCreate';
 
 import Notice from './realestate-document-address-detail/Notice';
-import useCreateRealestateDocument from './realestate-document-address-detail/hooks/useCreateRealestateDocument';
 
 export default function RealestateDocumentAddressDetail() {
   const { handleClickBack } = useHandleClickBack();
 
-  const { addressLine1, addressLine2 } = useRealestateDocumentAddressDetail();
+  const { addressLine1, addressLine2 } = useRealestateDocumentAddressDetailHandler();
 
   const { dong, ho, handleChangeDong, handleChangeHo } = useInputHandler();
 
