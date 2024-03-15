@@ -28,7 +28,7 @@ import Routes from '@/router/routes';
 
 import useHandleClickBack from './realestate-document-detail/hooks/useHandleClickBack';
 
-import usePopupHandler from './realestate-document-detail/hooks/usePopupHandler';
+import usePopupsHandler from './realestate-document-detail/hooks/usePopupsHandler';
 
 import { DeleteButton } from './realestate-document-detail/widget/RealestateDocumentDetailWidget';
 
@@ -62,7 +62,7 @@ const FlexContents = styled.div`
 export default function RealestateDocumentDetail() {
   const { handleClickBack } = useHandleClickBack();
 
-  const { popup, handleClosePopup, handleOpenPopup } = usePopupHandler();
+  const { popup, handleClosePopup, handleOpenPopup } = usePopupsHandler();
 
   const router = useRouter();
 

@@ -79,9 +79,7 @@ export default function List({ list, handleOpenPopup }: ListProps) {
       }
 
       if (platform === 'mobile') {
-        router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.RealestateDocumentDetail}?realestatedDocumentID=${id}`,
-        });
+        router.push(`/${Routes.EntryMobile}/${Routes.RealestateDocumentDetail}?realestatedDocumentID=${id}`);
       }
     },
     [handleOpenPopup, platform, router],
