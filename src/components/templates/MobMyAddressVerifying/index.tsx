@@ -1,6 +1,6 @@
 import { Loading } from '@/components/atoms';
 import { NavigationHeader } from '@/components/molecules';
-import { MyVerifyStatus } from '@/constants/enums';
+import { VerifyStatus } from '@/constants/enums';
 import SuccessIcon from '@/assets/icons/success_verify_address.svg';
 
 export interface MobMyAddressVerifyingProps {
@@ -16,9 +16,9 @@ export default function MobMyAddressVerifying({
   verifyCompletedSeconds,
   onClickBack,
 }: MobMyAddressVerifyingProps) {
-  if (verifyStatus === MyVerifyStatus.None) return null;
+  if (verifyStatus === VerifyStatus.None) return null;
 
-  if (verifyStatus === MyVerifyStatus.Ing)
+  if (verifyStatus === VerifyStatus.Ing)
     return (
       <div tw="fixed top-0 left-0 right-0 w-full mx-auto h-full flex flex-col bg-white">
         <NavigationHeader>{onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}</NavigationHeader>
@@ -32,7 +32,7 @@ export default function MobMyAddressVerifying({
       </div>
     );
 
-  if (verifyStatus === MyVerifyStatus.OwnerIng)
+  if (verifyStatus === VerifyStatus.OwnerIng)
     return (
       <div tw="fixed top-0 left-0 right-0 w-full mx-auto h-full flex flex-col bg-white">
         <NavigationHeader>{onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}</NavigationHeader>

@@ -14,7 +14,7 @@ import useAuth from '@/hooks/services/useAuth';
 
 import ErrorCodes from '@/constants/error_codes';
 
-import { MyVerifyStatus } from '@/constants/enums';
+import { VerifyStatus } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
@@ -56,7 +56,7 @@ export default memo(() => {
   const [dong, setDong] = useState<string>('');
   const [ho, setHo] = useState<string>('');
 
-  const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
+  const [verifyStatus, setVerifyStatus] = useState<number>(VerifyStatus.None);
   const [verifyCompletedSeconds, setVerifyCompletedSeconds] = useState<number>(2);
 
   const reset = useCallback(() => {
@@ -65,7 +65,7 @@ export default memo(() => {
     setSelectedItemID(undefined);
     setDong('');
     setHo('');
-    setVerifyStatus(MyVerifyStatus.None);
+    setVerifyStatus(VerifyStatus.None);
     setVerifyCompletedSeconds(2);
   }, []);
 
@@ -160,7 +160,7 @@ export default memo(() => {
           }
 
           if (response?.verified === true) {
-            await setVerifyStatus(MyVerifyStatus.Success);
+            await setVerifyStatus(VerifyStatus.Success);
 
             setErrorCode('');
 
@@ -251,7 +251,7 @@ export default memo(() => {
   }, [router]);
 
   useEffect(() => {
-    if (verifyStatus === MyVerifyStatus.Success) {
+    if (verifyStatus === VerifyStatus.Success) {
       if (verifyCompletedSeconds === 0) return;
 
       const interval = setInterval(() => {
@@ -264,7 +264,7 @@ export default memo(() => {
 
   return (
     <MobileContainer>
-      {verifyStatus !== MyVerifyStatus.Success && (
+      {verifyStatus !== VerifyStatus.Success && (
         <MyAddressVerifyResult
           onClickBack={handleClickBack}
           addressData={addressData}
@@ -280,7 +280,7 @@ export default memo(() => {
         />
       )}
 
-      {verifyStatus === MyVerifyStatus.Success && (
+      {verifyStatus === VerifyStatus.Success && (
         <MyAddressVerifying verifyStatus={verifyStatus} verifyCompletedSeconds={verifyCompletedSeconds} />
       )}
 

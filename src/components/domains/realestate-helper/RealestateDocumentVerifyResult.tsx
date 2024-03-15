@@ -27,11 +27,27 @@ import PreviouslyEnteredAddress from './realestate-document-verify-result/Previo
 import SelectAddressHeader from './realestate-document-verify-result/SelectAddressHeader';
 
 import Ctas from './realestate-document-verify-result/Ctas';
+
 import ListItem from './realestate-document-verify-result/ListItem';
+
 import { ListWrraper } from './realestate-document-verify-result/widget/RealestateDocumentVerifyResultWidget';
+
+import useVerfiyAddressResult from './realestate-document-verify-result/hooks/useVerfiyAddressResult';
+
+import usePopupsHandler from './realestate-document-verify-result/hooks/usePopupsHandler';
 
 const NeedConfirmAddressPopup = dynamic(
   () => import('./realestate-document-verify-result/popups/NeedConfirmAddressPopup'),
+  { ssr: false },
+);
+
+const RemainingCountZeroPopup = dynamic(
+  () => import('./realestate-document-verifying/popups/RemainingCountZeroPopup'),
+  { ssr: false },
+);
+
+const StartCreateDocumentPopup = dynamic(
+  () => import('./realestate-document-verifying/popups/StartCreateDocumentPopup'),
   { ssr: false },
 );
 
@@ -40,11 +56,22 @@ const FlexContents = styled.div`
 `;
 
 export default function RealestateDocumentVerifyResult() {
-  const { type, openPopup, handleClosePopup } = useResultType();
+  const {
+    popup,
+    handleOpenPopup,
+    handleClosePopup,
+    handleConfirmStartCreateDocumentPopup,
+    handleRedirectRealestateDocumentList,
+  } = usePopupsHandler();
+
+  const { type } = useResultType({ handleOpenPopup });
 
   const { handleClickBack } = useHandleClickBack();
 
-  const { handleSearchOtherAddress, handleClickCtas } = useCtasHandler({ type });
+  const { handleSearchOtherAddress, handleClickCtasIfServiceErrorOrNotFoundAddress } = useCtasHandler({ type });
+
+  const { title, subTitle, addressList, selectedItemID, handleClickListItem, handleClickCtsaIfFindAddressOverTen } =
+    useVerfiyAddressResult({ handleOpenPopup });
 
   return (
     <>
@@ -57,14 +84,12 @@ export default function RealestateDocumentVerifyResult() {
         )}
         <ResultMessage type={type} />
         {(type === 'findAddressOverTen' || type === 'notFoundAddress') && <MarginTopFourty />}
+
         <FlexContents>
           {type === 'serviceError' && <ServiceError />}
           {type === 'findAddressOverTen' && (
             <>
-              <PreviouslyEnteredAddress
-                firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
-                secondLine="경기도 화성시 동탄중앙로 189"
-              />
+              <PreviouslyEnteredAddress firstLine={title} secondLine={subTitle} />
               <MarginTopThirtyTwo />
               <LineWrraper>
                 <Line />
@@ -73,32 +98,15 @@ export default function RealestateDocumentVerifyResult() {
               <SelectAddressHeader handleClick={handleSearchOtherAddress} />
               <MarginTopTwenty />
               <ListWrraper>
-                <ListItem
-                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
-                  secondLine="경기도 화성시 동탄중앙로 189"
-                  handleClickItem={() => {}}
-                  selected
-                />
-                <ListItem
-                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
-                  secondLine="경기도 화성시 동탄중앙로 189"
-                  handleClickItem={() => {}}
-                />
-                <ListItem
-                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
-                  secondLine="경기도 화성시 동탄중앙로 189"
-                  handleClickItem={() => {}}
-                />
-                <ListItem
-                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
-                  secondLine="경기도 화성시 동탄중앙로 189"
-                  handleClickItem={() => {}}
-                />
-                <ListItem
-                  firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
-                  secondLine="경기도 화성시 동탄중앙로 189"
-                  handleClickItem={() => {}}
-                />
+                {addressList?.map((item) => (
+                  <ListItem
+                    key={item.realestate_unique_number}
+                    firstLine={item?.full_road_name_address ?? ''}
+                    secondLine={item?.address_detail ?? ''}
+                    handleClickItem={() => handleClickListItem(item.realestate_unique_number)}
+                    selected={selectedItemID === item.realestate_unique_number}
+                  />
+                ))}
               </ListWrraper>
             </>
           )}
@@ -117,9 +125,26 @@ export default function RealestateDocumentVerifyResult() {
             </>
           )}
         </FlexContents>
-        <Ctas type={type} handleClick={handleClickCtas} />
+        <Ctas
+          type={type}
+          disabled={type === 'findAddressOverTen' ? !selectedItemID : false}
+          handleClick={
+            type === 'findAddressOverTen'
+              ? handleClickCtsaIfFindAddressOverTen
+              : handleClickCtasIfServiceErrorOrNotFoundAddress
+          }
+        />
       </Container>
-      {openPopup && <NeedConfirmAddressPopup handleConfirm={handleClosePopup} />}
+
+      {popup === 'needConfirmAddressPopup' && <NeedConfirmAddressPopup handleConfirm={handleClosePopup} />}
+
+      {popup === 'remainingCountZeroPopup' && (
+        <RemainingCountZeroPopup handleConfirm={handleRedirectRealestateDocumentList} />
+      )}
+
+      {popup === 'startCreateDocumentPopup' && (
+        <StartCreateDocumentPopup handleConfirm={handleConfirmStartCreateDocumentPopup} />
+      )}
     </>
   );
 }

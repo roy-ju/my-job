@@ -1,8 +1,14 @@
+import { useRouter } from 'next/router';
+
 import { Popup, OverlayPresenter } from '@/components/molecules';
 
 import { CommonPopupProps } from '@/types/popups';
 
 export default function NeedConfirmAddressPopup({ handleConfirm }: CommonPopupProps) {
+  const { query } = useRouter();
+
+  const remainingCount = query?.remainingCount ? Number(query.remainingCount) : 0;
+
   return (
     <OverlayPresenter>
       <Popup>
@@ -14,7 +20,7 @@ export default function NeedConfirmAddressPopup({ handleConfirm }: CommonPopupPr
             주소 확인 후 정확하게 입력해주세요.
             <br />
             <br />
-            현재 주소 입력 가능 횟수는 총 2회입니다.
+            현재 주소 입력 가능 횟수는 총 {remainingCount}회입니다.
             <br />
             (주소 입력 횟수는 1일 최대 5회이며, 초과할 경우 금일
             <br />

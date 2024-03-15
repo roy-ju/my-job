@@ -61,7 +61,7 @@ export default function useCtasHandler({
     }
   }, [router, platform]);
 
-  const handleClickCtas = useCallback(() => {
+  const handleClickCtasIfServiceErrorOrNotFoundAddress = useCallback(() => {
     if (type === 'serviceError') {
       if (platform === 'pc') {
         const depth1 = router?.query?.depth1 ?? '';
@@ -106,10 +106,6 @@ export default function useCtasHandler({
           pathname: `/${Routes.EntryMobile}/${Routes.RealestateDocumentList}`,
         });
       }
-    }
-
-    if (type === 'findAddressOverTen') {
-      //
     }
 
     if (type === 'notFoundAddress') {
@@ -157,5 +153,5 @@ export default function useCtasHandler({
     }
   }, [platform, router, type]);
 
-  return { handleSearchOtherAddress, handleClickCtas };
+  return { handleSearchOtherAddress, handleClickCtasIfServiceErrorOrNotFoundAddress };
 }
