@@ -46,7 +46,7 @@ export default function useSummitAddress() {
 
       if (platform === 'mobile') {
         router.push({
-          pathname: `/${Routes.EntryMobile}/${Routes.MyAddressDetail}`,
+          pathname: `/${Routes.EntryMobile}/${Routes.RealestateDocumentAddressDetail}`,
           query: { addressData: JSON.stringify(value) },
         });
       }
