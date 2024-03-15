@@ -18,6 +18,7 @@ interface WebKitMessageHandlers {
   checkCameraPermission?: WebKitMessageHandler;
   showKeyboard?: WebKitMessageHandler;
   noneApplySafeArea?: WebKitMessageHandler;
+  downloadFile?: WebKitMessageHandler;
 }
 
 interface WebKitMessageHandler {
