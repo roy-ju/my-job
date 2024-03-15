@@ -6,7 +6,7 @@ import { InfoTitle, Row, Column } from './widget/RealestateDocumentDetailWidget'
 
 export default function Caution({ message }: { message: string }) {
   return (
-    <Column>
+    <Column tw="px-5">
       <InfoTitle>요약 정보</InfoTitle>
       <MarginTopEight />
       <Row>

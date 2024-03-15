@@ -16,7 +16,11 @@ import { AddressData, AddressListItem } from '../types';
 
 import { PopupProps } from './usePopupsHandler';
 
-export default function useVerfiyAddressResult({ handleOpenPopup }: { handleOpenPopup: (v: PopupProps) => void }) {
+export default function useVerfiyAddressResultHandler({
+  handleOpenPopup,
+}: {
+  handleOpenPopup: (v: PopupProps) => void;
+}) {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
@@ -148,9 +152,11 @@ export default function useVerfiyAddressResult({ handleOpenPopup }: { handleOpen
           return;
         }
 
-        setTimeout(() => {
-          handleOpenPopup?.('startCreateDocumentPopup');
-        }, 200);
+        if (response === null) {
+          setTimeout(() => {
+            handleOpenPopup?.('startCreateDocumentPopup');
+          }, 200);
+        }
       }
     }
   }, [addressData, handleOpenPopup, selectedAddress]);

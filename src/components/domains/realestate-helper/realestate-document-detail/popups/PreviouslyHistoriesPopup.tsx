@@ -1,8 +1,16 @@
+import moment from 'moment';
+
 import { Popup, OverlayPresenter } from '@/components/molecules';
+
+import { SubHomeRealestatedocumentDetailResponse } from '@/services/sub-home/types';
 
 import { CommonPopupProps } from '@/types/popups';
 
-export default function PreviouslyHistoriesPopup({ handleConfirm }: CommonPopupProps) {
+interface PreviouslyHistoriesPopupProps extends CommonPopupProps {
+  list: SubHomeRealestatedocumentDetailResponse['previous_history_list'];
+}
+
+export default function PreviouslyHistoriesPopup({ list, handleConfirm }: PreviouslyHistoriesPopupProps) {
   return (
     <OverlayPresenter>
       <Popup>
@@ -13,10 +21,9 @@ export default function PreviouslyHistoriesPopup({ handleConfirm }: CommonPopupP
               최대 10개까지 조회됩니다.
               <br />
               <br />
-              - 2024년 01월 30일 조회
-              <br />
-              - 2023년 12월 30일 조회
-              <br />- 2023년 11월 10일 조회
+              {list?.map((item) => (
+                <span key={item.created_time}>{`- ${moment(item.created_time).format('YYYY년 MM월 DD일')}조회`}</span>
+              ))}
             </div>
           </Popup.Body>
         </Popup.ContentGroup>

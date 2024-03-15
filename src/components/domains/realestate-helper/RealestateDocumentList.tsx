@@ -137,7 +137,7 @@ export default function RealestateDocumentList() {
         </NavigationHeader>
         <MarginTopEight />
         <FlexContents>
-          {list.length === 0 ? <Nodata /> : <List list={list} />}
+          {list.length === 0 ? <Nodata /> : <List list={list} handleOpenPopup={() => setPopup('creating')} />}
           {render && (
             <BottomFixedAnimationButton
               width={115}
@@ -150,7 +150,7 @@ export default function RealestateDocumentList() {
         </FlexContents>
       </Container>
 
-      {popup === 'creating' && <RealestateDocumentCreatingPopup handleConfirm={() => {}} />}
+      {popup === 'creating' && <RealestateDocumentCreatingPopup handleConfirm={handleClosePopup} />}
 
       {popup === 'remaining' && (
         <RealestateDocumentRemainingCountPopup

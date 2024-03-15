@@ -14,6 +14,7 @@ const variants = {
   underline: tw`flex items-center justify-center underline`,
   right: tw`flex items-center justify-center gap-0.5`,
   down: tw`flex items-center justify-center gap-0.5`,
+  up: tw`flex items-center justify-center gap-0.5`,
 };
 
 const sizes = {
@@ -22,7 +23,7 @@ const sizes = {
 };
 
 interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: 'underline' | 'right' | 'down';
+  variant: 'underline' | 'right' | 'down' | 'up';
   size: 'small' | 'large';
 
   title: string;
@@ -41,6 +42,8 @@ export default function TextButton({ variant, size, title, ...others }: TextButt
       {variant === 'right' && size === 'large' && <ArrowRightLargeIcon />}
       {variant === 'down' && size === 'small' && <ArrowDownSmallIcon />}
       {variant === 'down' && size === 'large' && <ArrowDownLargeIcon />}
+      {variant === 'up' && size === 'small' && <ArrowDownSmallIcon tw="rotate-180" />}
+      {variant === 'up' && size === 'large' && <ArrowDownLargeIcon tw="rotate-180" />}
     </TextButtonUI>
   );
 }
