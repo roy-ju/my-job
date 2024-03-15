@@ -51,7 +51,7 @@ export default function List({ list, handleOpenPopup }: ListProps) {
 
         if (depth1 && depth2) {
           if (depth1 === Routes.RealestateDocumentList) {
-            router.replace({
+            router.push({
               pathname: `/${Routes.RealestateDocumentDetail}/${depth2}`,
               query: {
                 ...query,
@@ -59,7 +59,7 @@ export default function List({ list, handleOpenPopup }: ListProps) {
               },
             });
           } else {
-            router.replace({
+            router.push({
               pathname: `/${depth1}/${Routes.RealestateDocumentDetail}`,
               query: {
                 ...query,
@@ -68,7 +68,7 @@ export default function List({ list, handleOpenPopup }: ListProps) {
             });
           }
         } else if (depth1 && !depth2) {
-          router.replace({
+          router.push({
             pathname: `/${Routes.RealestateDocumentDetail}`,
             query: {
               ...query,

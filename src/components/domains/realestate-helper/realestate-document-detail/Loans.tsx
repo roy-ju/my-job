@@ -48,7 +48,7 @@ export default function Loans({ list }: LoansProps) {
         <TableTitle>
           담보 제공 현황<TableSubTitle>((근)저당권 및 전세권)</TableSubTitle>
         </TableTitle>
-        <TableSmallTitle>총 {list.length}명</TableSmallTitle>
+        <TableSmallTitle>총 {list.length}건</TableSmallTitle>
       </BetweenRow>
       <MarginTopSixteen />
       <TableWrraper tw="px-5">
