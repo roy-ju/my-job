@@ -8,12 +8,18 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
+export type PopupProps = 'startCreateDocumentPopup' | 'needConfirmAddressPopup' | 'remainingCountZeroPopup' | '';
+
 export default function usePopupsHandler() {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
 
-  const [popup, setPopup] = useState<'startCreateDocumentPopup' | 'verifyAddressExceedMaxCountPopup' | ''>('');
+  const [popup, setPopup] = useState<PopupProps>('');
+
+  const handleOpenPopup = useCallback((v: PopupProps) => {
+    setPopup(v);
+  }, []);
 
   const handleClosePopup = useCallback(() => {
     setPopup('');
@@ -32,7 +38,7 @@ export default function usePopupsHandler() {
     delete query.addressData;
 
     if (depth1 && depth2) {
-      if (depth1 === Routes.RealestateDocumentAddressVerifying) {
+      if (depth1 === Routes.RealestateDocumentAddressVerifyResult) {
         router.replace({
           pathname: `/${Routes.RealestateDocumentList}/${depth2}`,
           query: {
@@ -72,17 +78,11 @@ export default function usePopupsHandler() {
     }
   }, [handleClosePopup, handleRedirectRealestateDocumentList, platform, router]);
 
-  const handleConfirmVerifyAddressExceedMaxCountPopup = useCallback(() => {
-    handleClosePopup();
-
-    if (platform === 'pc') {
-      handleRedirectRealestateDocumentList();
-    }
-
-    if (platform === 'mobile') {
-      router.replace(`/${Routes.EntryMobile}/${Routes.RealestateDocumentList}`);
-    }
-  }, [handleClosePopup, handleRedirectRealestateDocumentList, platform, router]);
-
-  return { popup, handleConfirmStartCreateDocumentPopup, handleConfirmVerifyAddressExceedMaxCountPopup };
+  return {
+    popup,
+    handleRedirectRealestateDocumentList,
+    handleConfirmStartCreateDocumentPopup,
+    handleOpenPopup,
+    handleClosePopup,
+  };
 }

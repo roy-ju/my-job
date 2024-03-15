@@ -8,19 +8,26 @@ import Container from '@/components/atoms/Container';
 
 import { MarginTopEight } from '@/components/atoms/Margin';
 
+import LoadingContainer from '@/components/atoms/LoadingContainer';
+
+import Loading from '@/components/atoms/Loading';
+
 import { NavigationHeader } from '@/components/molecules';
 
 import BottomFixedAnimationButton from '@/components/organisms/BottomFixedAnimationButton';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-import List from './realestate-document-list/List';
+import useFetchSubHomeRealestateDocumentList from '@/services/sub-home/useFetchSubHomeRealestateDocumentList';
+
+import Routes from '@/router/routes';
+import useHandleClickBack from './realestate-document-list/hooks/useHandleClickBack';
 
 import { FlexContents } from './realestate-document-list/widget/RealestateDocumentListWidget';
 
-import useHandleClickBack from './realestate-document-list/hooks/useHandleClickBack';
+import List from './realestate-document-list/List';
 
-// import Nodata from './realestate-document-list/Nodata';
+import Nodata from './realestate-document-list/Nodata';
 
 const RealestateDocumentCreatingPopup = dynamic(
   () => import('./realestate-document-list/popups/RealestateDocumentCreatingPopup'),
@@ -33,6 +40,8 @@ const RealestateDocumentRemainingCountPopup = dynamic(
 );
 
 export default function RealestateDocumentList() {
+  const { list, remainingCount, isLoading } = useFetchSubHomeRealestateDocumentList();
+
   const { handleClickBack } = useHandleClickBack();
 
   const router = useRouter();
@@ -43,7 +52,49 @@ export default function RealestateDocumentList() {
 
   const [popup, setPopup] = useState<'creating' | 'remaining' | ''>('');
 
-  const [remainingCount, setRemainingCount] = useState(0);
+  const handleRouteSearchAddress = useCallback(() => {
+    if (platform === 'pc') {
+      const depth1 = router?.query?.depth1 ?? '';
+      const depth2 = router?.query?.depth2 ?? '';
+
+      const query = router.query;
+
+      delete query.depth1;
+      delete query.depth2;
+      delete query.addressData;
+      delete query.dong;
+      delete query.ho;
+
+      if (depth1 && depth2) {
+        if (depth1 === Routes.RealestateDocumentList) {
+          router.push({
+            pathname: `/${Routes.RealestateDocumentSearchAddress}/${depth2}`,
+            query: {
+              ...query,
+            },
+          });
+        } else {
+          router.push({
+            pathname: `/${depth1}/${Routes.RealestateDocumentSearchAddress}`,
+            query: {
+              ...query,
+            },
+          });
+        }
+      } else if (depth1 && !depth2) {
+        router.push({
+          pathname: `/${Routes.RealestateDocumentSearchAddress}`,
+          query: {
+            ...query,
+          },
+        });
+      }
+    }
+
+    if (platform === 'mobile') {
+      router.push(`/${Routes.EntryMobile}/${Routes.RealestateDocumentSearchAddress}`);
+    }
+  }, [platform, router]);
 
   const handleClosePopup = useCallback(() => {
     setPopup('');
@@ -51,16 +102,14 @@ export default function RealestateDocumentList() {
 
   const handleConfirmRemainingCountPopup = useCallback(() => {
     if (remainingCount > 0) {
-      // 주소 검색 페이지로 보낸다.
-      console.log(router);
+      handleRouteSearchAddress();
     }
 
     handleClosePopup();
-  }, [remainingCount, router, handleClosePopup]);
+  }, [remainingCount, handleClosePopup, handleRouteSearchAddress]);
 
   const handleClickRealestateDocumentCreate = useCallback(async () => {
-    // 주소 가능횟수 검토 api 호출하고
-    // 해당 응답값에 따라 setCount 및 팝업 타입 정하기
+    setPopup('remaining');
   }, []);
 
   useEffect(() => {
@@ -71,6 +120,14 @@ export default function RealestateDocumentList() {
     return () => clearTimeout(timeout);
   }, []);
 
+  if (isLoading) {
+    return (
+      <LoadingContainer>
+        <Loading />
+      </LoadingContainer>
+    );
+  }
+
   return (
     <>
       <Container id="negocio-realestate-document-list">
@@ -80,8 +137,7 @@ export default function RealestateDocumentList() {
         </NavigationHeader>
         <MarginTopEight />
         <FlexContents>
-          {/* <Nodata /> */}
-          <List />
+          {list.length === 0 ? <Nodata /> : <List list={list} />}
           {render && (
             <BottomFixedAnimationButton
               width={115}
@@ -93,9 +149,14 @@ export default function RealestateDocumentList() {
           )}
         </FlexContents>
       </Container>
-      {popup === 'creating' && <RealestateDocumentCreatingPopup handleConfirm={handleConfirmRemainingCountPopup} />}
+
+      {popup === 'creating' && <RealestateDocumentCreatingPopup handleConfirm={() => {}} />}
+
       {popup === 'remaining' && (
-        <RealestateDocumentRemainingCountPopup remainingCount={remainingCount} handleConfirm={() => {}} />
+        <RealestateDocumentRemainingCountPopup
+          remainingCount={remainingCount}
+          handleConfirm={handleConfirmRemainingCountPopup}
+        />
       )}
     </>
   );

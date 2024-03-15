@@ -8,7 +8,14 @@ import Loading from '@/components/atoms/Loading';
 
 import { MarginTopEighty, MarginTopSixty } from '@/components/atoms/Margin';
 
-import usePopupsHandler from './realestate-document-verifying/hooks/usePopupsHandler';
+// import usePopupsHandler from './realestate-document-verifying/hooks/usePopupsHandler';
+
+import useVerifyingAddressHandler from './realestate-document-verifying/hooks/useVerifyingAddressHandler';
+
+const RemainingCountZeroPopup = dynamic(
+  () => import('./realestate-document-verifying/popups/RemainingCountZeroPopup'),
+  { ssr: false },
+);
 
 const VerifyAddressExceedMaxCountPopup = dynamic(
   () => import('./realestate-document-verifying/popups/VerifyAddressExceedMaxCountPopup'),
@@ -37,8 +44,12 @@ const FlexContents = styled.div`
 `;
 
 export default function RealestateDocumentVerifying() {
-  const { popup, handleConfirmStartCreateDocumentPopup, handleConfirmVerifyAddressExceedMaxCountPopup } =
-    usePopupsHandler();
+  const {
+    popup,
+    handleRedirectRealestateDocumentList,
+    handleConfirmStartCreateDocumentPopup,
+    handleConfirmVerifyAddressExceedMaxCountPopup,
+  } = useVerifyingAddressHandler();
 
   return (
     <Container>
@@ -58,8 +69,13 @@ export default function RealestateDocumentVerifying() {
       {popup === 'startCreateDocumentPopup' && (
         <StartCreateDocumentPopup handleConfirm={handleConfirmStartCreateDocumentPopup} />
       )}
+
       {popup === 'verifyAddressExceedMaxCountPopup' && (
         <VerifyAddressExceedMaxCountPopup handleConfirm={handleConfirmVerifyAddressExceedMaxCountPopup} />
+      )}
+
+      {popup === 'remainingCountZeroPopup' && (
+        <RemainingCountZeroPopup handleConfirm={handleRedirectRealestateDocumentList} />
       )}
     </Container>
   );

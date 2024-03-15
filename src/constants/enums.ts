@@ -83,7 +83,7 @@ export enum MyAddressStatus {
   Active = 20,
 }
 
-export enum MyVerifyStatus {
+export enum VerifyStatus {
   None = 1,
   Ing = 2,
   OwnerIng = 3,

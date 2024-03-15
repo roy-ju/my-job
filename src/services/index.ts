@@ -23,6 +23,12 @@ import { ListingEligibilityCheckResponse } from './listing/types';
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 import { UploadDocumentResponse } from './chat/type';
+import {
+  SubHomeRealestatedocumentGetRequest,
+  SubHomeRealestatedocumentGetResonse,
+  SubHomeVerifyAddressRequest,
+  SubHomeVerifyAddressResponse,
+} from './sub-home/types';
 
 export class NegocioApiService extends ApiService {
   /** 로그인  */
@@ -500,6 +506,24 @@ export class NegocioApiService extends ApiService {
   async updateNotificationConfig(notification: string, isOn: boolean) {
     try {
       return await this.instance.post(`/notification/config/${notification}`, { notification_on: isOn });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subhomeVerifyAddress(req: SubHomeVerifyAddressRequest) {
+    try {
+      const { data } = await this.instance.post('/subhome/verifyaddress', req);
+      return data as SubHomeVerifyAddressResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subhomeRealestatedocumentGet(req: SubHomeRealestatedocumentGetRequest) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/get', req);
+      return data as SubHomeRealestatedocumentGetResonse & ErrorResponse;
     } catch (e) {
       return null;
     }

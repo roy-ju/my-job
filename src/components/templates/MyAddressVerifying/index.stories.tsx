@@ -1,5 +1,5 @@
 import { Panel } from '@/components/atoms';
-import { MyVerifyStatus } from '@/constants/enums';
+import { VerifyStatus } from '@/constants/enums';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import MyAddressVerifying from '.';
 
@@ -14,4 +14,4 @@ export const Default: ComponentStory<typeof MyAddressVerifying> = (args) => (
   </Panel>
 );
 
-Default.args = { verifyStatus: MyVerifyStatus.None, verifyingSeconds: 30, verifyCompletedSeconds: 3 };
+Default.args = { verifyStatus: VerifyStatus.None, verifyingSeconds: 30, verifyCompletedSeconds: 3 };

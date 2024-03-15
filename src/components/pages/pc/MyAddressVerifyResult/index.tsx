@@ -20,7 +20,7 @@ import { searchAddress } from '@/lib/kakao/search_address';
 
 import ErrorCodes from '@/constants/error_codes';
 
-import { MyVerifyStatus } from '@/constants/enums';
+import { VerifyStatus } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
@@ -62,7 +62,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const [dong, setDong] = useState<string>('');
   const [ho, setHo] = useState<string>('');
 
-  const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
+  const [verifyStatus, setVerifyStatus] = useState<number>(VerifyStatus.None);
   const [verifyCompletedSeconds, setVerifyCompletedSeconds] = useState<number>(2);
 
   const reset = useCallback(() => {
@@ -71,7 +71,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     setSelectedItemID(undefined);
     setDong('');
     setHo('');
-    setVerifyStatus(MyVerifyStatus.None);
+    setVerifyStatus(VerifyStatus.None);
     setVerifyCompletedSeconds(2);
   }, []);
 
@@ -182,7 +182,7 @@ export default memo(({ depth, panelWidth }: Props) => {
           }
 
           if (response?.verified === true) {
-            await setVerifyStatus(MyVerifyStatus.Success);
+            await setVerifyStatus(VerifyStatus.Success);
             setErrorCode('');
             setTimeout(() => {
               mutate();
@@ -266,7 +266,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   useEffect(() => {
-    if (verifyStatus === MyVerifyStatus.Success) {
+    if (verifyStatus === VerifyStatus.Success) {
       if (verifyCompletedSeconds === 0) return;
 
       const interval = setInterval(() => {
@@ -279,7 +279,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      {verifyStatus !== MyVerifyStatus.Success && (
+      {verifyStatus !== VerifyStatus.Success && (
         <MyAddressVerifyResult
           addressData={addressData}
           addressList={addressList}
@@ -294,7 +294,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         />
       )}
 
-      {verifyStatus === MyVerifyStatus.Success && (
+      {verifyStatus === VerifyStatus.Success && (
         <MyAddressVerifying verifyStatus={verifyStatus} verifyCompletedSeconds={verifyCompletedSeconds} />
       )}
 

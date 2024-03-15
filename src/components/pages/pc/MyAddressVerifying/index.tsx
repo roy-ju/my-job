@@ -17,7 +17,7 @@ import { useRouter } from '@/hooks/utils';
 
 import useAuth from '@/hooks/services/useAuth';
 
-import { MyVerifyStatus } from '@/constants/enums';
+import { VerifyStatus } from '@/constants/enums';
 
 import ErrorCodes from '@/constants/error_codes';
 
@@ -41,7 +41,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const { mutate } = useAuth();
 
-  const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
+  const [verifyStatus, setVerifyStatus] = useState<number>(VerifyStatus.None);
 
   const [verifyingSeconds, setVerifyingSeconds] = useState<number>(30);
 
@@ -82,7 +82,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     const addressData = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
 
-    setVerifyStatus(MyVerifyStatus.Ing);
+    setVerifyStatus(VerifyStatus.Ing);
 
     const res = await verifyAddress({
       road_name_address: addressData.roadAddressName,
@@ -201,7 +201,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         }
 
         if (response?.verified === true) {
-          setVerifyStatus(MyVerifyStatus.Success);
+          setVerifyStatus(VerifyStatus.Success);
           mutate();
           toast.success('우리집 등록이 완료 되었습니다!');
 
@@ -252,7 +252,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   useEffect(() => {
-    if (verifyStatus === MyVerifyStatus.Ing) {
+    if (verifyStatus === VerifyStatus.Ing) {
       if (verifyingSeconds === 0) return;
 
       const interval = setInterval(() => {
@@ -263,7 +263,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [verifyStatus, verifyingSeconds]);
 
   useEffect(() => {
-    if (verifyStatus === MyVerifyStatus.Success) {
+    if (verifyStatus === VerifyStatus.Success) {
       if (verifyCompletedSeconds === 0) return;
 
       const interval = setInterval(() => {

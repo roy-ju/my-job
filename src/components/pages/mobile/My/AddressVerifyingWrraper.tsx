@@ -11,7 +11,7 @@ import { MobMyAddressVerifying } from '@/components/templates';
 
 import useAuth from '@/hooks/services/useAuth';
 
-import { MyVerifyStatus } from '@/constants/enums';
+import { VerifyStatus } from '@/constants/enums';
 
 import ErrorCodes from '@/constants/error_codes';
 
@@ -30,7 +30,7 @@ export default function AddressVerifyingWrraper() {
 
   const { mutate } = useAuth();
 
-  const [verifyStatus, setVerifyStatus] = useState<number>(MyVerifyStatus.None);
+  const [verifyStatus, setVerifyStatus] = useState<number>(VerifyStatus.None);
 
   const [verifyingSeconds, setVerifyingSeconds] = useState<number>(30);
 
@@ -56,7 +56,7 @@ export default function AddressVerifyingWrraper() {
 
     const addressData = JSON.parse(inAddressData as string) as KakaoAddressAutocompleteResponseItem;
 
-    setVerifyStatus(MyVerifyStatus.Ing);
+    setVerifyStatus(VerifyStatus.Ing);
 
     const res = await verifyAddress({
       jibun_address: addressData.addressName,
@@ -168,7 +168,7 @@ export default function AddressVerifyingWrraper() {
         }
 
         if (response?.verified === true) {
-          await setVerifyStatus(MyVerifyStatus.Success);
+          await setVerifyStatus(VerifyStatus.Success);
 
           setTimeout(() => {
             mutate();
@@ -202,7 +202,7 @@ export default function AddressVerifyingWrraper() {
   }, [router]);
 
   useEffect(() => {
-    if (verifyStatus === MyVerifyStatus.Ing) {
+    if (verifyStatus === VerifyStatus.Ing) {
       if (verifyingSeconds === 0) return;
 
       const interval = setInterval(() => {
@@ -213,7 +213,7 @@ export default function AddressVerifyingWrraper() {
   }, [verifyStatus, verifyingSeconds]);
 
   useEffect(() => {
-    if (verifyStatus === MyVerifyStatus.Success) {
+    if (verifyStatus === VerifyStatus.Success) {
       if (verifyCompletedSeconds === 0) return;
 
       const interval = setInterval(() => {
