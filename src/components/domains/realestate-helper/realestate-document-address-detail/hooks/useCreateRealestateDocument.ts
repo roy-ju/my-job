@@ -21,6 +21,8 @@ export default function useCreateRealestateDocument() {
 
         delete query.depth1;
         delete query.depth2;
+        delete query.dong;
+        delete query.ho;
 
         if (depth1 && depth2) {
           if (depth1 === Routes.RealestateDocumentAddressDetail) {

@@ -24,8 +24,10 @@ import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 import { UploadDocumentResponse } from './chat/type';
 import {
+  SubHomeRealestatedocumentDetailResponse,
   SubHomeRealestatedocumentGetRequest,
   SubHomeRealestatedocumentGetResonse,
+  SubHomeRealestatedocumentListResponse,
   SubHomeVerifyAddressRequest,
   SubHomeVerifyAddressResponse,
 } from './sub-home/types';
@@ -524,6 +526,48 @@ export class NegocioApiService extends ApiService {
     try {
       const { data } = await this.instance.post('/subhome/realestatedocument/get', req);
       return data as SubHomeRealestatedocumentGetResonse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subHomeRealestateDocumentList() {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/list');
+      return data as SubHomeRealestatedocumentListResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subHomeRealestateDocumentDetail({ id }: { id: number }) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/detail', {
+        user_realestate_history_id: id,
+      });
+      return data as SubHomeRealestatedocumentDetailResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async renewSubhomeRealestatedocument({ id }: { id: number }) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/renew', {
+        user_realestate_history_id: id,
+      });
+      return data as { user_realestate_document_history_id: number } & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteSubhomeRealestatedocument({ id }: { id: number }) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/delete', {
+        user_realestate_history_id: id,
+      });
+      return data as { user_realestate_document_history_id: number } & ErrorResponse;
     } catch (e) {
       return null;
     }

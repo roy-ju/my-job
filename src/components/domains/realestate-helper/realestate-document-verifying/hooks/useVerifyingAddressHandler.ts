@@ -354,9 +354,11 @@ export default function useVerifyingAddressHandler() {
           return;
         }
 
-        setTimeout(() => {
-          handleOpenPopup?.('startCreateDocumentPopup');
-        }, 200);
+        if (response2 === null) {
+          setTimeout(() => {
+            handleOpenPopup?.('startCreateDocumentPopup');
+          }, 200);
+        }
       }
     }
   }, [

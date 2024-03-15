@@ -69,6 +69,7 @@ export type RealestateDocumentListItem = {
   dong: string;
   ho: string;
   floor: string;
+  created_time: string;
 };
 
 export type SubHomeRealestatedocumentGetResonse = {
@@ -78,4 +79,53 @@ export type SubHomeRealestatedocumentGetResonse = {
 export type SubHomeRealestatedocumentListResponse = {
   list: RealestateDocumentListItem[];
   remaining_count: number;
+};
+
+export type OwnerListItem = {
+  owner: string;
+  registration_number: string;
+  share: string;
+  address: string;
+  number: string;
+};
+
+export type DeptListItem = {
+  number: string;
+  purpose: string;
+  application_info: string;
+  description: string;
+  owner: string;
+};
+
+export type PreviousHistoryListItem = {
+  user_realestate_history_id: string;
+  created_time: string;
+};
+
+export type SubHomeRealestatedocumentDetailResponse = {
+  realestate_document_info: {
+    id: number;
+    road_name_address: string;
+    address_detail: string;
+    dong: string;
+    ho: string;
+    floor: string;
+    danji_id: number;
+    danji_name: string;
+    created_time: string;
+  };
+
+  realestate_document_summary: {
+    created_time: string;
+    owner_list: OwnerListItem[] | null;
+    debt_list1: DeptListItem[] | null;
+    debt_list2: DeptListItem[] | null;
+  };
+
+  previous_history_list: PreviousHistoryListItem[] | null;
+
+  realestate_document_pdf: {
+    realestate_document_path: string;
+    realestate_document_time: string;
+  };
 };

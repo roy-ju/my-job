@@ -1,4 +1,10 @@
-import { MarginTopTwenty, MarginTopTwentyFour } from '@/components/atoms/Margin';
+import { useState, useCallback, memo, useMemo } from 'react';
+
+import TextButton from '@/components/atoms/TextButton';
+
+import { MarginTopSixteen, MarginTopTwentyFour } from '@/components/atoms/Margin';
+
+import { DeptListItem } from '@/services/sub-home/types';
 
 import {
   BetweenRow,
@@ -10,30 +16,65 @@ import {
   CurrentEtcsTableBody,
 } from './widget/RealestateDocumentDetailWidget';
 
-export default function CurrentEtcs() {
+type CurrentEtcsProps = { list: DeptListItem[] };
+
+const StrikeOut = memo(({ str }: { str: string }) => {
+  // Regular expression to match words enclosed in "&" symbols
+  const regex = /&([^&]*)&/g;
+
+  // Replace matched words with wrapped tags
+  const output = str.replace(regex, '<strike>$1</strike>');
+
+  // eslint-disable-next-line react/no-danger
+  return <span dangerouslySetInnerHTML={{ __html: output }} />;
+});
+
+export default function CurrentEtcs({ list }: CurrentEtcsProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleClick = useCallback(() => {
+    if (!open) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [open]);
+
+  const renderMoreButtonUI = useMemo(() => list.length > 3, [list]);
+
   return (
-    <div tw="bg-yellow-500">
-      <BetweenRow>
+    <div>
+      <BetweenRow tw="px-5">
         <TableTitle>
           기타 특별 현황<TableSubTitle>(압류 현황)</TableSubTitle>
         </TableTitle>
-        <TableSmallTitle>총 5명</TableSmallTitle>
+        <TableSmallTitle>총 {list.length}명</TableSmallTitle>
       </BetweenRow>
-      <MarginTopTwenty />
-      <TableWrraper tw="pt-0">
+      <MarginTopSixteen />
+      <TableWrraper tw="px-5">
         <CurrentEtcsTableHead>
           <div>목적 / 날짜</div>
           <div>내용</div>
         </CurrentEtcsTableHead>
-
-        {[1, 2, 3, 4, 5].map((item) => (
-          <CurrentEtcsTableBody key={item}>
-            <div>{'임의경매개시결정\n2024-01-01'}</div>
-            <div>2분의 1</div>
+        {(!open ? list.slice(0, 3) : list.slice(0, list.length)).map((item) => (
+          <CurrentEtcsTableBody key={item.purpose + item.application_info + item.number}>
+            <div>{`${item.purpose}\n${item.application_info}`}</div>
+            <div>
+              <StrikeOut str={item.description} />
+            </div>
           </CurrentEtcsTableBody>
         ))}
       </TableWrraper>
-      <MarginTopTwentyFour />
+      {renderMoreButtonUI && <MarginTopTwentyFour />}
+      {renderMoreButtonUI && (
+        <TextButton
+          variant={!open ? 'down' : 'up'}
+          title={!open ? '더보기' : '접기'}
+          size="large"
+          tw="w-full border-t border-t-gray-200 [padding-block: 17px]"
+          onClick={handleClick}
+        />
+      )}
     </div>
   );
 }

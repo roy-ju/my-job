@@ -32,7 +32,7 @@ import ListItem from './realestate-document-verify-result/ListItem';
 
 import { ListWrraper } from './realestate-document-verify-result/widget/RealestateDocumentVerifyResultWidget';
 
-import useVerfiyAddressResult from './realestate-document-verify-result/hooks/useVerfiyAddressResult';
+import useVerfiyAddressResultHandler from './realestate-document-verify-result/hooks/useVerfiyAddressResultHandler';
 
 import usePopupsHandler from './realestate-document-verify-result/hooks/usePopupsHandler';
 
@@ -71,7 +71,7 @@ export default function RealestateDocumentVerifyResult() {
   const { handleSearchOtherAddress, handleClickCtasIfServiceErrorOrNotFoundAddress } = useCtasHandler({ type });
 
   const { title, subTitle, addressList, selectedItemID, handleClickListItem, handleClickCtsaIfFindAddressOverTen } =
-    useVerfiyAddressResult({ handleOpenPopup });
+    useVerfiyAddressResultHandler({ handleOpenPopup });
 
   return (
     <>
@@ -112,10 +112,7 @@ export default function RealestateDocumentVerifyResult() {
           )}
           {type === 'notFoundAddress' && (
             <>
-              <PreviouslyEnteredAddress
-                firstLine="동탄시범다은마을 월드메르디앙 반도유보라 아파트 333동"
-                secondLine="경기도 화성시 동탄중앙로 189"
-              />
+              <PreviouslyEnteredAddress firstLine={title} secondLine={subTitle} />
               <MarginTopThirtyTwo />
               <LineWrraper>
                 <Line />

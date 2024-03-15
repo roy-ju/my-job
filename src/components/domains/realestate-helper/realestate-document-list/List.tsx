@@ -2,11 +2,17 @@ import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
+import moment from 'moment';
+
 import { RealestateDocumentListItem } from '@/services/sub-home/types';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
+
+import { apiService } from '@/services';
+
+import ErrorCodes from '@/constants/error_codes';
 
 import ListItem from './ListItem';
 
@@ -14,17 +20,23 @@ import { ListContainer } from './widget/RealestateDocumentListWidget';
 
 import makeTitle from './utils/makeSubTitle';
 
-type ListProps = { list: RealestateDocumentListItem[] };
+type ListProps = { list: RealestateDocumentListItem[]; handleOpenPopup: () => void };
 
-export default function List({ list }: ListProps) {
+export default function List({ list, handleOpenPopup }: ListProps) {
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
 
   const handleClickListItem = useCallback(
-    (id: number) => {
-      console.log(id);
+    async (id: number) => {
       if (!id) return null;
+
+      const response = await apiService.subHomeRealestateDocumentDetail({ id });
+
+      if (response?.error_code === ErrorCodes.CREATING_DOCUMENT) {
+        handleOpenPopup();
+        return;
+      }
 
       if (platform === 'pc') {
         const depth1 = router?.query?.depth1 ?? '';
@@ -72,7 +84,7 @@ export default function List({ list }: ListProps) {
         });
       }
     },
-    [platform, router],
+    [handleOpenPopup, platform, router],
   );
 
   return (
@@ -80,7 +92,7 @@ export default function List({ list }: ListProps) {
       {list.map((item) => (
         <ListItem
           key={item.id}
-          lookupText="2024.01.01 조회"
+          lookupText={item?.created_time ? `${moment(item.created_time).format('YYYY.MM.DD')}조회` : ''}
           title={makeTitle({ item }).firstLine}
           subTitle={makeTitle({ item }).secondLine}
           handleClickItem={() => handleClickListItem(item.id)}

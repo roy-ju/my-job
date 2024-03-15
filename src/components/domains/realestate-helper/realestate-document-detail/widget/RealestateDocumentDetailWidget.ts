@@ -5,7 +5,7 @@ export const DeleteButton = styled.button`
 `;
 
 export const AddressContainer = styled.div`
-  ${tw`flex flex-col gap-10 px-5`}
+  ${tw`flex flex-col gap-10`}
 `;
 
 export const AddressWrraper = styled.div`
@@ -41,7 +41,7 @@ export const TableSmallTitle = styled.span`
 `;
 
 export const TableWrraper = styled.div`
-  ${tw`pt-2 pb-2 bg-yellow-200`}
+  ${tw`pt-2 pb-2`}
 `;
 
 export const CurrentOwnersTableHead = styled.div`
@@ -86,6 +86,10 @@ export const CurrentOwnersTableBody = styled.div`
   div:nth-of-type(3) {
     ${tw`[width: 25.7%]`}
   }
+
+  :last-child {
+    ${tw`pb-0 [border-bottom: none]`}
+  }
 `;
 
 export const CurrentEtcsTableHead = styled.div`
@@ -101,6 +105,10 @@ export const CurrentEtcsTableBody = styled.div`
 
   div {
     ${tw`[width: 50%] text-center text-gray-800 whitespace-pre-line text-body_02`}
+  }
+
+  :last-child {
+    ${tw`pb-0 [border-bottom: none]`}
   }
 `;
 
@@ -133,5 +141,9 @@ export const LoansTableBody = styled.div`
 
   div:nth-of-type(2) {
     ${tw`[width: 68.7%]`}
+  }
+
+  :last-child {
+    ${tw`pb-0 [border-bottom: none]`}
   }
 `;
