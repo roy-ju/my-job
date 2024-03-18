@@ -12,9 +12,25 @@ import { SubHomeRealestatedocumentDetailResponse } from '@/services/sub-home/typ
 
 import useNativeFileDownload from '@/hooks/useNativeFileDownload';
 
+import useIsNativeApp from '@/hooks/useIsNativeApp';
+
+import TextButton from '@/components/atoms/TextButton';
+
 import { Line } from '../realestate-document-address-detail/widget/RealestateDocumentAddressDetailWidget';
 
-import { AddressContainer, AddressWrraper } from './widget/RealestateDocumentDetailWidget';
+import {
+  AddressContainer,
+  AddressTop,
+  AddressWrraper,
+  ColumnGapOneHalf,
+  RowGapOne,
+  CtaWrraper,
+  Info,
+  RowCenter,
+  RowVerticalCenter,
+  SmallTitle,
+  StrikeText,
+} from './widget/RealestateDocumentDetailWidget';
 
 type AddressProps = {
   info?: SubHomeRealestatedocumentDetailResponse['realestate_document_info'];
@@ -36,6 +52,8 @@ export default function Address({
   handleViewPreviousHistories,
   handleCheckUpdateRealestateDocument,
 }: AddressProps) {
+  const isNaitiveApp = useIsNativeApp();
+
   const { downloadFile } = useNativeFileDownload();
 
   function makeTitle(item: Item) {
@@ -75,9 +93,9 @@ export default function Address({
       <MarginTopTwenty />
       <AddressContainer tw="px-5">
         <AddressWrraper>
-          <div tw="flex flex-col gap-0.5">
-            <p tw="text-body_01 text-gray-700">건물 주소</p>
-            <p tw="text-body_03 text-gray-800">
+          <AddressTop>
+            <p>건물 주소</p>
+            <p>
               {makeTitle({
                 danji_name: info?.danji_name,
                 road_name_address: info?.road_name_address,
@@ -85,49 +103,38 @@ export default function Address({
                 ho: info?.ho,
               })}
             </p>
-          </div>
-
+          </AddressTop>
           <MarginTopTwenty />
           <Line />
           <MarginTopTwenty />
-
-          <div tw="flex justify-between items-center">
-            <p tw="text-gray-800 text-subhead_02">안내사항</p>
-            <button type="button" tw="text-gray-600 underline text-body_01" onClick={handleViewPreviousHistories}>
-              이전 조회 이력
-            </button>
-          </div>
-
+          <RowCenter>
+            <SmallTitle>안내사항</SmallTitle>
+            <TextButton variant="underline" size="small" onClick={handleViewPreviousHistories} title="이전 조회 이력" />
+          </RowCenter>
           <MarginTopSixteen />
-
-          <div tw="flex flex-col gap-0.5">
-            <div tw="flex items-center gap-1">
-              <p tw="text-body_01 text-gray-700">-</p>
+          <ColumnGapOneHalf>
+            <RowVerticalCenter>
+              <Info>-</Info>
               {info?.created_time && (
-                <p tw="text-body_01 text-gray-700">
-                  <span tw="text-nego-800">{moment(info.created_time).format('YYYY-MM-DD')}</span>을 기준으로 가장
-                  마지막에 조회한 내용입니다.
-                </p>
+                <Info>
+                  <StrikeText>{moment(info.created_time).format('YYYY-MM-DD')}</StrikeText>을 기준으로 가장 마지막에
+                  조회한 내용입니다.
+                </Info>
               )}
-            </div>
-
-            <div tw="flex items-center gap-1">
-              <p tw="text-body_01 text-gray-700">-</p>
-              <p tw="text-body_01 text-gray-700">최신 등기부는 등기부 업데이트를 통해 확인해주세요.</p>
-            </div>
-
-            <div tw="flex gap-1">
-              <p tw="text-body_01 text-gray-700">-</p>
-              <p tw="text-body_01 text-gray-700">
-                등기부 등본을 요약한 내용으로 자세한 사항은 <span tw="text-nego-800">등기부 PDF</span>를
-                다운로드해주세요.
-              </p>
-            </div>
-          </div>
-
+            </RowVerticalCenter>
+            <RowVerticalCenter>
+              <Info>-</Info>
+              <Info>최신 등기부는 등기부 업데이트를 통해 확인해주세요.</Info>
+            </RowVerticalCenter>
+            <RowGapOne>
+              <Info>-</Info>
+              <Info>
+                등기부 등본을 요약한 내용으로 자세한 사항은 <StrikeText>등기부 PDF</StrikeText>를 다운로드해주세요.
+              </Info>
+            </RowGapOne>
+          </ColumnGapOneHalf>
           <MarginTopTwenty />
-
-          <div tw="flex items-center gap-3">
+          <CtaWrraper>
             <ButtonV2
               variant="secondary"
               size="medium"
@@ -140,10 +147,17 @@ export default function Address({
                 }
               }}
             >
-              <a tw="flex gap-0.5" href={pdfInfo?.realestate_document_path}>
-                <DownloadIcon />
-                등기부 PDF
-              </a>
+              {isNaitiveApp ? (
+                <>
+                  <DownloadIcon />
+                  등기부 PDF
+                </>
+              ) : (
+                <a tw="flex gap-0.5" href={pdfInfo?.realestate_document_path}>
+                  <DownloadIcon />
+                  등기부 PDF
+                </a>
+              )}
             </ButtonV2>
             <ButtonV2
               variant="secondaryOutline"
@@ -155,7 +169,7 @@ export default function Address({
               <RefreshIcon />
               등기부 업데이트
             </ButtonV2>
-          </div>
+          </CtaWrraper>
         </AddressWrraper>
       </AddressContainer>
       <MarginTopTwenty />
