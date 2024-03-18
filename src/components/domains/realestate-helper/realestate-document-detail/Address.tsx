@@ -4,7 +4,7 @@ import { ButtonV2 } from '@/components/atoms';
 
 import { MarginTopSixteen, MarginTopTwenty } from '@/components/atoms/Margin';
 
-import DownloadIcon from '@/assets/icons/download_20_2.svg';
+import PdfIcon from '@/assets/icons/pdf_20_2.svg';
 
 import RefreshIcon from '@/assets/icons/refresh_20_2.svg';
 
@@ -129,7 +129,7 @@ export default function Address({
             <RowGapOne>
               <Info>-</Info>
               <Info>
-                등기부 등본을 요약한 내용으로 자세한 사항은 <StrikeText>등기부 PDF</StrikeText>를 다운로드해주세요.
+                등기부 등본을 요약한 내용으로 자세한 사항은 <StrikeText>등기부 PDF</StrikeText>를 참고해주세요.
               </Info>
             </RowGapOne>
           </ColumnGapOneHalf>
@@ -149,12 +149,12 @@ export default function Address({
             >
               {isNaitiveApp ? (
                 <>
-                  <DownloadIcon />
+                  <PdfIcon />
                   등기부 PDF
                 </>
               ) : (
                 <a tw="flex gap-0.5" href={pdfInfo?.realestate_document_path}>
-                  <DownloadIcon />
+                  <PdfIcon />
                   등기부 PDF
                 </a>
               )}
