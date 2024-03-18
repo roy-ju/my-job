@@ -15,6 +15,7 @@ export default function useHandleClickBack() {
     const canGoBack = window.history.length > 1;
 
     if (canGoBack) {
+      // 추후 서브홈으로 강제 url 고정해야함.
       router.back();
     } else {
       router.replace(platform === 'pc' ? '/' : `/${Routes.EntryMobile}`);
