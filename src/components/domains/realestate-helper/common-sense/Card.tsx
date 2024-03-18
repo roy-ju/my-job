@@ -59,7 +59,7 @@ export default function Card({ thumbnailImgPath, title, subTitle, link, handleCl
       <MarginTopTwenty />
       <Description>
         <span>{title}</span>
-        <p>{subTitle}</p>
+        <p tw="line-clamp-2">{subTitle}</p>
       </Description>
     </Wrraper>
   );

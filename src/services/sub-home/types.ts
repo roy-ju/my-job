@@ -11,6 +11,8 @@ export type GuideListItem = {
   order_num: number;
   created_time: string;
   children?: GuideListItem[] | null;
+  notion_url?: string;
+  thumb_file_path?: string;
 };
 
 export type SubHomeGuideListResponse = {
