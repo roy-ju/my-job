@@ -147,3 +147,47 @@ export const LoansTableBody = styled.div`
     ${tw`pb-0 [border-bottom: none]`}
   }
 `;
+
+export const AddressTop = styled.div`
+  ${tw`flex flex-col gap-0.5`}
+
+  p:nth-of-type(1) {
+    ${tw`text-gray-700 text-body_01`}
+  }
+
+  p:nth-of-type(1) {
+    ${tw`text-gray-800 text-body_03`}
+  }
+`;
+
+export const CtaWrraper = styled.div`
+  ${tw`flex items-center gap-3`}
+`;
+
+export const Info = styled.p`
+  ${tw`text-gray-700 text-body_01`}
+`;
+
+export const StrikeText = styled.span`
+  ${tw`text-nego-800`}
+`;
+
+export const SmallTitle = styled.div`
+  ${tw`text-gray-800 text-subhead_02`}
+`;
+
+export const RowCenter = styled.div`
+  ${tw`flex items-center justify-between`}
+`;
+
+export const RowVerticalCenter = styled.div`
+  ${tw`flex items-center gap-1`}
+`;
+
+export const RowGapOne = styled.div`
+  ${tw`flex gap-1`}
+`;
+
+export const ColumnGapOneHalf = styled.div`
+  ${tw`flex flex-col gap-0.5`}
+`;
