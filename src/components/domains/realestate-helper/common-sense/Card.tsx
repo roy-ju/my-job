@@ -13,11 +13,19 @@ type CardProps = {
 };
 
 const Wrraper = styled.button`
-  ${tw`[width: calc(100% - 40px)] mx-5 text-left rounded-2xl [box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.08),0px 2px 10px 0px rgba(0, 0, 0, 0.04)]`}
+  ${tw`[width: calc(100% - 40px)] mx-5 text-left rounded-2xl [box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.08), 0px 2px 10px 0px rgba(0, 0, 0, 0.04)] mt-4`}
+
+  :nth-of-type(1) {
+    ${tw`mt-5`}
+  }
 `;
 
 const ImageWrraper = styled.div`
-  ${tw`w-full`}
+  ${tw`w-full [border-top-left-radius: 16px] [border-top-right-radius: 16px]`}
+`;
+
+const BackgroundImage = styled.div`
+  ${tw`[border-top-left-radius: 16px] [border-top-right-radius: 16px] w-full h-[184px] bg-no-repeat bg-center bg-cover`}
 `;
 
 const Description = styled.div`
@@ -42,16 +50,13 @@ export default function Card({ thumbnailImgPath, title, subTitle, link, handleCl
       }}
     >
       <ImageWrraper>
-        <div
-          tw="rounded-lg w-full h-[184px] bg-no-repeat bg-center bg-cover"
+        <BackgroundImage
           style={{
             backgroundImage: thumbnailImgPath ? `url('${thumbnailImgPath}')` : `url('${Sample.src}')`,
           }}
         />
       </ImageWrraper>
-
       <MarginTopTwenty />
-
       <Description>
         <span>{title}</span>
         <p>{subTitle}</p>
