@@ -139,6 +139,9 @@ const Routes = {
   // 부동산 거래도우미 사전 상세
   DictionaryDetail: 'dictionaryDetail',
 
+  // 부동산 거래도우미 사전 상세
+  CommonSense: 'commonSense',
+
   // 조회한 등기부 목록
   RealestateDocumentList: 'realestateDocumentList',
 

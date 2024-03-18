@@ -329,6 +329,7 @@ const TradeProcess = dynamic(() => import('@/components/pages/TradeProcess/Trade
   ssr: false,
   loading: FallbackComponent,
 });
+
 const Dictionary = dynamic(() => import('@/components/pages/Dictionary/DictionaryPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -337,6 +338,12 @@ const DictionaryDetail = dynamic(() => import('@/components/pages/DictionaryDeta
   ssr: false,
   loading: FallbackComponent,
 });
+
+const CommonSense = dynamic(() => import('@/components/pages/CommonSense/CommonSensePc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const RealestateDocumentList = dynamic(
   () => import('@/components/pages/RealestateDocumentList/RealestateDocumentListPc'),
   {
@@ -673,6 +680,10 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.DictionaryDetail: {
       return <DictionaryDetail {...props} />;
+    }
+
+    case Routes.CommonSense: {
+      return <CommonSense {...props} />;
     }
 
     case Routes.RealestateDocumentList: {
