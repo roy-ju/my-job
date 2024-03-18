@@ -10,6 +10,7 @@ import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea
 
 import useWindowOpen from '@/hooks/useWindowOpen';
 
+import useFetchSubHomeGuideList from '@/services/sub-home/useFetchSubHomeGuideList';
 import CardList from './common-sense/CardList';
 
 import useHandleClickBack from './common-sense/hooks/useHandleClickBack';
@@ -22,6 +23,8 @@ export default function CommonSense() {
   const { handleClickBack } = useHandleClickBack();
 
   const { openWindowWithLink } = useWindowOpen();
+
+  const { list } = useFetchSubHomeGuideList({ code: 'KNOW' });
 
   useIosWebkitNoneApplySafeArea();
 
@@ -40,7 +43,7 @@ export default function CommonSense() {
       </NavigationHeader>
       {/* <MarginTopTwenty /> */}
       <FlexContents>
-        <CardList list={[1, 2, 3, 4, 5]} handleClickItem={onClickItem} />
+        <CardList list={list} handleClickItem={onClickItem} />
       </FlexContents>
     </Container>
   );
