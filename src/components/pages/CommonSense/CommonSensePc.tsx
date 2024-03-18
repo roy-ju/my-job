@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import TradeProcess from '@/components/domains/realestate-helper/TradeProcess';
+import CommonSense from '@/components/domains/realestate-helper/CommonSense';
 
 import AuthRequired from '@/components/atoms/AuthRequired';
 
@@ -11,14 +11,14 @@ interface Props {
   panelWidth?: string;
 }
 
-function TradeProcessPc({ depth, panelWidth }: Props) {
+function CommonSensePc({ panelWidth, depth }: Props) {
   return (
     <AuthRequired depth={depth}>
       <Panel width={panelWidth}>
-        <TradeProcess />
+        <CommonSense />
       </Panel>
     </AuthRequired>
   );
 }
 
-export default memo(TradeProcessPc);
+export default memo(CommonSensePc);

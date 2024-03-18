@@ -2,8 +2,6 @@ import { useState, useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { toast } from 'react-toastify';
-
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
@@ -65,9 +63,6 @@ export default function usePopupsHandler() {
 
   const handleConfirmStartCreateDocumentPopup = useCallback(async () => {
     handleClosePopup();
-    toast.success('등기부 조회를 시작해요.');
-
-    // api 호출을 해야합니다.
 
     if (platform === 'pc') {
       handleRedirectRealestateDocumentList();

@@ -2,8 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { toast } from 'react-toastify';
-
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
@@ -91,7 +89,6 @@ export default function useVerifyingAddressHandler() {
 
   const handleConfirmStartCreateDocumentPopup = useCallback(async () => {
     handleClosePopup();
-    toast.success('등기부 조회를 시작해요.');
 
     if (platform === 'pc') {
       handleRedirectRealestateDocumentList();
