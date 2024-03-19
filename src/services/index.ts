@@ -303,6 +303,15 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async myAgreementPhone(req: { user_address_id: number; name: string; phone: string }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/agreement/sendsms', req);
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
   async deleteMyAddress({ user_address_id }: { user_address_id: number }) {
     try {
       await this.instance.post('/my/address/delete', { user_address_id });
