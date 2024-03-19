@@ -303,6 +303,15 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async deleteMyAddress({ user_address_id }: { user_address_id: number }) {
+    try {
+      await this.instance.post('/my/address/delete', { user_address_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async addListingFavorite({ listing_id }: { listing_id: number }) {
     try {
       await this.instance.post('/listing/favorite/add', { listing_id });

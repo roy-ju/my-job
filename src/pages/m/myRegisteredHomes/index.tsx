@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import MyRegisterdHomes from '@/components/pages/mobile/MyRegisterdHomes';
+import MyRegisterdHomes from '@/components/pages/MyRegisteredHomes/MyRegisteredHomesMobile';
 
 const Page: NextPageWithLayout = () => <MyRegisterdHomes />;
 

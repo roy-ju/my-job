@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import RegisterHomeSearchAddress from '@/components/domains/my/RegisterHomeSearchAddress';
+import MyRegisteredHomes from '@/components/domains/my/MyRegisteredHomes';
 
 import AuthRequired from '@/components/atoms/AuthRequired';
 
@@ -11,14 +11,14 @@ interface Props {
   panelWidth?: string;
 }
 
-function MyAddressPc({ panelWidth, depth }: Props) {
+function MyRegisteredHomesPc({ panelWidth, depth }: Props) {
   return (
     <AuthRequired depth={depth} ciRequired>
       <Panel width={panelWidth}>
-        <RegisterHomeSearchAddress />
+        <MyRegisteredHomes />
       </Panel>
     </AuthRequired>
   );
 }
 
-export default memo(MyAddressPc);
+export default memo(MyRegisteredHomesPc);

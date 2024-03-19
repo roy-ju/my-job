@@ -6,7 +6,7 @@ import MobileContainer from '@/components/atoms/MobileContainer';
 
 export default function MyAddressMobile() {
   return (
-    <MobAuthRequired>
+    <MobAuthRequired ciRequired>
       <MobileContainer>
         <RegisterHomeSearchAddress />
       </MobileContainer>

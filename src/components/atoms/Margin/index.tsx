@@ -20,6 +20,10 @@ export const MarginTopTwentyFour = styled.div`
   ${tw`w-full mt-6`}
 `;
 
+export const MarginTopTwentyEight = styled.div`
+  ${tw`w-full mt-7`}
+`;
+
 export const MarginTopThirtyTwo = styled.div`
   ${tw`w-full mt-8`}
 `;
