@@ -187,7 +187,7 @@ export class NegocioApiService extends ApiService {
     formData.append('user_id', `${userID}`);
     formData.append('files', file);
     try {
-      const { data } = await this.instance.post<UploadProfileImageResponse>('my/upload/profileimage', formData, {
+      const { data } = await this.instance.post<UploadProfileImageResponse>('/my/upload/profileimage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
