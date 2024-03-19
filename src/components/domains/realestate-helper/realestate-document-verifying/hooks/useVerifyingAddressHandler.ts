@@ -369,7 +369,7 @@ export default function useVerifyingAddressHandler() {
     if (platform) {
       verifyAddress();
     }
-  }, [platform, router, verifyAddress]);
+  }, [platform, verifyAddress]);
 
   useEffect(() => {
     if (verifyStatus === VerifyStatus.Ing) {

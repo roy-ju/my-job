@@ -44,7 +44,13 @@ export default function RealestateDocumentAddressDetail() {
         <LineWrraper>
           <Line />
         </LineWrraper>
-        <AddressDetail dong={dong} ho={ho} handleChangeDong={handleChangeDong} handleChangeHo={handleChangeHo} />
+        <AddressDetail
+          type="realestateDocument"
+          dong={dong}
+          ho={ho}
+          handleChangeDong={handleChangeDong}
+          handleChangeHo={handleChangeHo}
+        />
         <Notice />
       </FormContainer>
       <DocumentCreate handleClick={() => handleCreateDocument(dong, ho)} />

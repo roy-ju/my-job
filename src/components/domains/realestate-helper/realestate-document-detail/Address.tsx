@@ -1,10 +1,10 @@
+import Image from 'next/image';
+
 import moment from 'moment';
 
 import { ButtonV2 } from '@/components/atoms';
 
 import { MarginTopSixteen, MarginTopTwenty } from '@/components/atoms/Margin';
-
-import PdfIcon from '@/assets/icons/pdf_20_2.svg';
 
 import RefreshIcon from '@/assets/icons/refresh_20_2.svg';
 
@@ -15,6 +15,8 @@ import useNativeFileDownload from '@/hooks/useNativeFileDownload';
 import useIsNativeApp from '@/hooks/useIsNativeApp';
 
 import TextButton from '@/components/atoms/TextButton';
+
+import PdfIcon from '@/../public/static/images/pdf_20_2.png';
 
 import { Line } from '../realestate-document-address-detail/widget/RealestateDocumentAddressDetailWidget';
 
@@ -149,13 +151,15 @@ export default function Address({
             >
               {isNaitiveApp ? (
                 <>
-                  <PdfIcon />
+                  <Image alt="pdfIcon" src={PdfIcon.src} width={20} height={20} />
                   등기부 PDF
                 </>
               ) : (
                 <a tw="flex gap-0.5" href={pdfInfo?.realestate_document_path}>
-                  <PdfIcon />
-                  등기부 PDF
+                  <>
+                    <Image alt="pdfIcon" src={PdfIcon.src} width={20} height={20} />
+                    등기부 PDF
+                  </>
                 </a>
               )}
             </ButtonV2>

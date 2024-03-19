@@ -1,6 +1,6 @@
-import tw, { styled } from 'twin.macro';
-
 import dynamic from 'next/dynamic';
+
+import tw, { styled } from 'twin.macro';
 
 import Container from '@/components/atoms/Container';
 
@@ -82,7 +82,9 @@ export default function RealestateDocumentVerifyResult() {
             <NavigationHeader.Title>등기부 신규 조회</NavigationHeader.Title>
           </NavigationHeader>
         )}
+
         <ResultMessage type={type} />
+
         {(type === 'findAddressOverTen' || type === 'notFoundAddress') && <MarginTopFourty />}
 
         <FlexContents>

@@ -10,7 +10,13 @@ import {
   UserAppVersionResponse,
 } from './auth/types';
 
-import { UploadProfileImageResponse } from './my/types';
+import {
+  MyVerifyAddressRequest,
+  MyVerifyAddressResponse,
+  MyVerifyOwnershipRequest,
+  MyVerifyOwnershipResponse,
+  UploadProfileImageResponse,
+} from './my/types';
 
 import {
   DanjiDetailResponse,
@@ -277,6 +283,24 @@ export class NegocioApiService extends ApiService {
 
   async mySuggsetResume({ suggestID }: { suggestID: number }) {
     await this.instance.post('/my/suggest/resume', { suggest_id: suggestID });
+  }
+
+  async myVerifyAddress(req: MyVerifyAddressRequest) {
+    try {
+      const { data } = await this.instance.post('/my/verifyaddress', req);
+      return data as MyVerifyAddressResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async myVerifyOwnership(req: MyVerifyOwnershipRequest) {
+    try {
+      const { data } = await this.instance.post('/my/verifyownership', req);
+      return data as MyVerifyOwnershipResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
   }
 
   async addListingFavorite({ listing_id }: { listing_id: number }) {
