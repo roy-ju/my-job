@@ -45,6 +45,7 @@ const MyRegisteredListings = dynamic(() => import('@/components/pages/MyRegister
   ssr: false,
   loading: FallbackComponent,
 });
+// 추후 리팩토링
 const MyParticipatingListings = dynamic(() => import('@/components/pages/pc/MyParticipatingListings'), {
   ssr: false,
   loading: FallbackComponent,
@@ -68,7 +69,7 @@ const MyAddressVerifyResult = dynamic(
     loading: FallbackComponent,
   },
 );
-const MyAddressAgreement = dynamic(() => import('@/components/pages/pc/MyAddressAgreement'), {
+const MyAddressAgreement = dynamic(() => import('@/components/pages/MyAddressAgreement/MyAddressAgreementPc'), {
   ssr: false,
   loading: FallbackComponent,
 });

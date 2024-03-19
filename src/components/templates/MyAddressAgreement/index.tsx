@@ -115,12 +115,15 @@ export default function MyAddressAgreement({
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
         <NavigationHeader.Title>우리집 등록</NavigationHeader.Title>
       </NavigationHeader>
+
       <div tw="py-10 px-5">
         <p tw="text-b1 font-bold [line-height: 16px] mb-3">등록 신청 주소</p>
         {title && <p tw="text-b1 font-medium [line-height: 20px]">{title}</p>}
         {subTitle && <p tw="text-info text-gray-700 [line-height: 20px]">{subTitle}</p>}
       </div>
+
       <Separator />
+
       <div tw="flex-1 min-h-0 overflow-auto px-5 pt-8 pb-8">
         {isResend ? (
           <p tw="text-b1 font-bold">소유자 인증요청 문자를 재발송 하시겠습니까?</p>
