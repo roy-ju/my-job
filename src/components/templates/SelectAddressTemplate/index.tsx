@@ -1,11 +1,14 @@
-import { MyAddressListListItem } from '@/apis/my/getMyAddressList';
 import { Button, PersistentBottomBar } from '@/components/atoms';
+
 import { NavigationHeader } from '@/components/molecules';
+
+import { MyAddressListItem } from '@/services/my/types';
+
 import { makeAddressDetail } from '@/utils/fotmat';
 
 export interface SelectAddressTemplateProps {
   type?: 'suggest' | 'listing';
-  list?: MyAddressListListItem[] | null;
+  list?: MyAddressListItem[] | null;
   selectedUserAddressID?: number;
   onClickBack?: () => void;
   onClickNext?: () => void;

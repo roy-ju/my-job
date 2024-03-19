@@ -72,7 +72,7 @@ const MyAddressAgreement = dynamic(() => import('@/components/pages/pc/MyAddress
   ssr: false,
   loading: FallbackComponent,
 });
-const MyRegisteredHomes = dynamic(() => import('@/components/pages/pc/MyRegisteredHomes'), {
+const MyRegisteredHomes = dynamic(() => import('@/components/pages/MyRegisteredHomes/MyRegisteredHomesPc'), {
   ssr: false,
   loading: FallbackComponent,
 });

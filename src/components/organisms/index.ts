@@ -51,6 +51,4 @@ export { default as MobDanjiDetailSection } from './MobDanjiDetail';
 
 export { default as SuggestListingFormOrganisms } from './SuggestListingForm';
 
-export { default as MyRegisteredHomesListItem } from './MyRegisteredHomesListItem';
-
 export * from './popups';

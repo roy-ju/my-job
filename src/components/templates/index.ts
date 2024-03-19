@@ -41,7 +41,7 @@ export { default as LegalCounseling } from './LegalCounseling';
 export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
-export { default as MyRegisteredHomes } from './MyRegisteredHomes';
+
 export { default as SelectAddressTemplate } from './SelectAddressTemplate';
 
 /** 모바일 */

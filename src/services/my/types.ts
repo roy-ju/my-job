@@ -223,3 +223,24 @@ export interface MyVerifyOwnershipResponse {
   user_address_id: number;
   verified: boolean;
 }
+
+export type MyAddressListRequest = {
+  activeOnly?: boolean;
+  danjiID?: number | null;
+  isFetch?: boolean;
+  exclude_duplicated_listing?: boolean;
+};
+
+export interface MyAddressListItem {
+  id: number;
+  status: number;
+  road_name_address: string;
+  danji_name: string;
+  dong: string;
+  ho: string;
+  floor?: string | null;
+}
+
+export interface MyAddressListResponse {
+  list: MyAddressListItem[] | null;
+}

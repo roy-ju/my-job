@@ -13,7 +13,7 @@ interface Props {
 
 function MyRegisteredListingsPc({ depth, panelWidth }: Props) {
   return (
-    <AuthRequired depth={depth}>
+    <AuthRequired depth={depth} ciRequired>
       <Panel width={panelWidth}>
         <MyRegisteredListings />
       </Panel>

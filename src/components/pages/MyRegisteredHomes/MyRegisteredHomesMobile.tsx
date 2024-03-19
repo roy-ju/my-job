@@ -1,4 +1,4 @@
-import MyRegisteredListings from '@/components/domains/my/MyRegisteredListings';
+import MyRegisteredHomes from '@/components/domains/my/MyRegisteredHomes';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 
@@ -8,7 +8,7 @@ export default function MyRegisteredListingsMobile() {
   return (
     <MobAuthRequired ciRequired>
       <MobileContainer>
-        <MyRegisteredListings />
+        <MyRegisteredHomes />
       </MobileContainer>
     </MobAuthRequired>
   );
