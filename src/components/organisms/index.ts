@@ -47,8 +47,6 @@ export { default as MobMapPositionBar } from './MobMapPositionBar';
 export { default as MobMapPriceSelect } from './MobMapPriceSelect';
 export { default as MobMapToggleButton } from './MobMapToggleButton';
 
-export { default as MobMySummary } from './MobMySummary';
-
 export { default as MobDanjiDetailSection } from './MobDanjiDetail';
 
 export { default as SuggestListingFormOrganisms } from './SuggestListingForm';

@@ -8,8 +8,6 @@ import Loading from '@/components/atoms/Loading';
 
 import { MarginTopEighty, MarginTopSixty } from '@/components/atoms/Margin';
 
-// import usePopupsHandler from './realestate-document-verifying/hooks/usePopupsHandler';
-
 import useVerifyingAddressHandler from './realestate-document-verifying/hooks/useVerifyingAddressHandler';
 
 const RemainingCountZeroPopup = dynamic(

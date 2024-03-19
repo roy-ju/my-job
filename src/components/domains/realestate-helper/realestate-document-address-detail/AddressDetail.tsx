@@ -4,20 +4,42 @@ import { MarginTopTwenty } from '@/components/atoms/Margin';
 
 import { TextFieldV2 } from '@/components/molecules';
 
+import TextButton from '@/components/atoms/TextButton';
+
 import { AddressDetailWrraper, DetailTitle, InputContainer } from './widget/RealestateDocumentAddressDetailWidget';
 
 type AddressDetailProps = {
+  type: 'registerMyHome' | 'realestateDocument';
   dong: string;
   ho: string;
   handleChangeDong: (e: ChangeEvent<HTMLInputElement>) => void;
   handleChangeHo: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleClickSearchAnotherAddress?: () => void;
 };
 
-export default function AddressDetail({ dong, ho, handleChangeDong, handleChangeHo }: AddressDetailProps) {
+export default function AddressDetail({
+  type,
+  dong,
+  ho,
+  handleClickSearchAnotherAddress,
+  handleChangeDong,
+  handleChangeHo,
+}: AddressDetailProps) {
   return (
     <AddressDetailWrraper>
       <MarginTopTwenty />
-      <DetailTitle>상세 주소 입력</DetailTitle>
+      <DetailTitle>
+        상세 주소 입력
+        {type === 'registerMyHome' && (
+          <TextButton
+            variant="underline"
+            title="다른 주소 검색"
+            size="large"
+            tw="ml-auto inline-block"
+            onClick={handleClickSearchAnotherAddress}
+          />
+        )}
+      </DetailTitle>
       <MarginTopTwenty />
       <InputContainer>
         <TextFieldV2 variant="outlined">

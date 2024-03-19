@@ -186,3 +186,40 @@ export type MyListingsRegisteredListResponse = {
   count: number;
   list: MyListingsRegisteredListItem[];
 };
+
+export interface MyVerifyAddressRequest {
+  jibun_address: string;
+  road_name_address: string;
+  dong: string;
+  ho: string;
+}
+
+export interface MyVerifyAddressResponse {
+  count: number;
+
+  address_list: {
+    address_detail: string;
+    full_road_name_address: string;
+    realestate_unique_number: string;
+  }[];
+}
+
+export interface MyVerifyOwnershipRequest {
+  realestate_unique_number: string;
+  address_detail: string;
+  bubjungdong_code: string;
+  building_name: string;
+  jibun_address: string;
+  eubmyundong: string;
+  lat: number;
+  li: string;
+  long: number;
+  road_name_address: string;
+  sido: string;
+  sigungu: string;
+}
+
+export interface MyVerifyOwnershipResponse {
+  user_address_id: number;
+  verified: boolean;
+}

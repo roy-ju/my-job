@@ -29,7 +29,7 @@ export const AddressDetailWrraper = styled.div`
 `;
 
 export const DetailTitle = styled.div`
-  ${tw`pt-3 text-gray-800 text-subhead_03`}
+  ${tw`flex flex-row justify-between pt-3 text-gray-800 text-subhead_03`}
 `;
 
 export const InputContainer = styled.div`

@@ -92,6 +92,8 @@ export default function useVerfiyAddressResultHandler({
       delete query.depth1;
       delete query.depth2;
       delete query.addressData;
+      delete query.addressLine;
+      delete query.resultType;
       delete query.dong;
       delete query.ho;
 

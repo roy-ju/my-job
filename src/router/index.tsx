@@ -49,19 +49,25 @@ const MyParticipatingListings = dynamic(() => import('@/components/pages/pc/MyPa
   ssr: false,
   loading: FallbackComponent,
 });
-const MyAddress = dynamic(() => import('@/components/pages/pc/MyAddress'), { ssr: false, loading: FallbackComponent });
-const MyAddressDetail = dynamic(() => import('@/components/pages/pc/MyAddressDetail'), {
+const MyAddress = dynamic(() => import('@/components/pages/MyAddress/MyAddressPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/pc/MyAddressVerifying'), {
+const MyAddressDetail = dynamic(() => import('@/components/pages/MyAddressDetail/MyAddressDetailPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const MyAddressVerifyResult = dynamic(() => import('@/components/pages/pc/MyAddressVerifyResult'), {
+const MyAddressDetailVerifying = dynamic(() => import('@/components/pages/MyAddressVerifying/MyAddressVerifyingPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
+const MyAddressVerifyResult = dynamic(
+  () => import('@/components/pages/MyAddressVerifyResult/MyAddressVerifyResultPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 const MyAddressAgreement = dynamic(() => import('@/components/pages/pc/MyAddressAgreement'), {
   ssr: false,
   loading: FallbackComponent,

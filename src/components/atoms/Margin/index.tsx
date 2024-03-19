@@ -4,6 +4,10 @@ export const MarginTopEight = styled.div`
   ${tw`w-full mt-2`}
 `;
 
+export const MarginTopTwelve = styled.div`
+  ${tw`w-full mt-3`}
+`;
+
 export const MarginTopSixteen = styled.div`
   ${tw`w-full mt-4`}
 `;
