@@ -122,7 +122,7 @@ export default function useVerifyingAddressHandler() {
             ...(router?.query?.addressData ? { addressData: router.query.addressData as string } : {}),
             ...(router?.query?.dong ? { dong: `${(router.query.dong as string).replaceAll('동', '')}` } : {}),
             ...(router?.query?.ho ? { ho: `${(router.query.ho as string).replaceAll('호', '')}` } : {}),
-            errorCode: errorcode === 1031 ? 'serviceError' : 'notFoundAddress',
+            resultType: errorcode === 1031 ? 'serviceError' : 'notFoundAddress',
           },
         });
       }
