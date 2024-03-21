@@ -1,19 +1,22 @@
-import { useRef, MouseEvent, useState } from 'react';
+import { useRef, MouseEvent, useState, memo } from 'react';
+
+import tw from 'twin.macro';
 
 import BoxTab from '@/components/molecules/Tabs/BoxTabs';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-import { ScrollContainer, TabsContainer } from '../dictionary/widget/CategoryTabsWidget';
+import { ScrollContainer, TabsContainer } from './widget/SpecialTermsWidget';
 
-type FilterTabsProps = {
+type CategoryTabsProps = {
+  notIsSticky: boolean;
   tab: string;
   tabIndex: number;
   list: string[];
   handleChangeTab: (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => void;
 };
 
-export default function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: FilterTabsProps) {
+function CategoryTabs({ notIsSticky, tab, tabIndex, list, handleChangeTab }: CategoryTabsProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const refs = useRef<any>([]);
@@ -70,7 +73,7 @@ export default function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: F
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer tw="sticky top-0">
+    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]}>
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
@@ -99,3 +102,5 @@ export default function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: F
     </TabsContainer>
   );
 }
+
+export default memo(CategoryTabs);

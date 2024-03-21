@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Image from 'next/image';
 
 import TextButton from '@/components/atoms/TextButton';
@@ -13,7 +15,7 @@ type ShowTermsInNotionProps = {
   url: string;
 };
 
-export default function ShowTermsInNotion({ title, url }: ShowTermsInNotionProps) {
+function ShowTermsInNotion({ title, url }: ShowTermsInNotionProps) {
   const { openWindowWithLink } = useWindowOpen();
 
   return (
@@ -28,3 +30,5 @@ export default function ShowTermsInNotion({ title, url }: ShowTermsInNotionProps
     </PaddingTwentyWrrapaer>
   );
 }
+
+export default memo(ShowTermsInNotion);

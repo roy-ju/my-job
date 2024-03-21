@@ -63,7 +63,7 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
               });
             }
           }
-        });
+        }, 50);
       }
     },
     [handleClickListItem, openListItemIdx],
@@ -97,13 +97,7 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
       </Summary>
 
       <AnimatePresence initial={false}>
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: 'auto' }}
-          exit={{ height: 0 }}
-          transition={{ type: 'spring' }}
-          tw="overflow-hidden"
-        >
+        <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} tw="overflow-hidden">
           {expaned && (
             <Detail initial="hidden" animate="visible" variants={contentsVariants}>
               <Content variants={contentVariants}>{contents}</Content>

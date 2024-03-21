@@ -24,7 +24,7 @@ import DictContents from './dictionary/DictContents';
 
 import useCategoryTabs from './dictionary/hooks/useCategoryTabs';
 
-import { DictElementListItem } from './dictionary/type';
+import { DictElementListItem } from './dictionary/types';
 
 import {
   DictionaryBottomElementId,

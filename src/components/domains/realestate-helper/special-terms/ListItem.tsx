@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 import tw, { theme } from 'twin.macro';
 
@@ -10,7 +10,7 @@ import { SpecialContentsParagraph } from './widget/SpecialTermsWidget';
 
 type ListItemProps = { item: TermsListItem };
 
-export default function ListItem({ item }: ListItemProps) {
+function ListItem({ item }: ListItemProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,3 +34,5 @@ export default function ListItem({ item }: ListItemProps) {
     </Accordion>
   );
 }
+
+export default memo(ListItem);
