@@ -30,6 +30,7 @@ import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 import { UploadDocumentResponse } from './chat/type';
 import {
+  SubHomeGuideListResponse,
   SubHomeRealestatedocumentDetailResponse,
   SubHomeRealestatedocumentGetRequest,
   SubHomeRealestatedocumentGetResonse,
@@ -610,6 +611,17 @@ export class NegocioApiService extends ApiService {
         user_realestate_history_id: id,
       });
       return data as { user_realestate_document_history_id: number } & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getListingCheckList(req: { code: string }) {
+    try {
+      const { data } = await this.instance.post('/subhome/guide/list', {
+        code: req.code,
+      });
+      return data as SubHomeGuideListResponse;
     } catch (e) {
       return null;
     }
