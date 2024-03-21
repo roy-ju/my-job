@@ -296,12 +296,11 @@ export default function My({
           {loggedIn && <NavigationList.Item title="서비스 문의" onClick={onClickQna} />}
           <NavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
           {onClickDeveloper && <NavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
-
           <NavigationList.Item title="부동산 거래절차 (sample)" onClick={handleClickSampleRealestateTradeProcess} />
           <NavigationList.Item title="부동산 용어사전 (sample)" onClick={handleClickSampleRealestateDict} />
           <NavigationList.Item title="조회한 등기부 목록 (sample)" onClick={handleClickSampleRealestateDocumentList} />
           <NavigationList.Item title="부동산 상식 (sample)" onClick={handleClickCommonSense} />
-          <NavigationList.Item title="부동산 특약 (sample)" onClick={handleClickSpecialTerms} />
+          <NavigationList.Item title="계약서 및 특약사항 (sample)" onClick={handleClickSpecialTerms} />
         </NavigationList>
       </div>
     </div>
