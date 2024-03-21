@@ -4,11 +4,13 @@ import useViewportHeight from '@/hooks/useViewportHeight';
 
 import { DictElementListItem } from '../type';
 
+import { DictionaryBottomElementId, DictionaryContainerElementId } from '../constants/element_id';
+
 const headerHeight = 128;
 
 const titleHeight = 56;
 
-export default function useFilterTabs({ elementsList }: { elementsList: DictElementListItem[] }) {
+export default function useCategoryTabs({ elementsList }: { elementsList: DictElementListItem[] }) {
   const [tab, setTab] = useState('ㄱ');
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -28,7 +30,7 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
       setTab(value);
       setTabIndex(idx);
 
-      const scrollContainer = document.getElementById('negocio-dictionary-scrollable-container');
+      const scrollContainer = document.getElementById(DictionaryContainerElementId);
 
       const targetElement = elementsList.find((item) => item.name === value)?.element;
 
@@ -66,7 +68,7 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
     const bottomRefObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target.id === 'negocio-dictionary-bottom' && entry.isIntersecting) {
+          if (entry.target.id === DictionaryBottomElementId && entry.isIntersecting) {
             const lastIndex = elementsList.length - 1;
 
             setTab(elementsList[lastIndex]?.name);
@@ -77,7 +79,7 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
       { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0.1 },
     );
 
-    const bottomElement = document.getElementById('negocio-dictionary-bottom');
+    const bottomElement = document.getElementById(DictionaryBottomElementId);
 
     if (bottomElement) {
       bottomRefObserver.observe(bottomElement);
@@ -96,7 +98,7 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const scrollContainer = document?.getElementById('negocio-dictionary-scrollable-container');
+      const scrollContainer = document?.getElementById(DictionaryContainerElementId);
 
       const handleScroll = () => {
         setScrollTop((scrollContainer?.scrollTop ?? 0) + (scrollContainer?.clientHeight ?? 0));
@@ -122,7 +124,7 @@ export default function useFilterTabs({ elementsList }: { elementsList: DictElem
       visibleElements[0],
     );
 
-    const scrollContainer = document?.getElementById('negocio-dictionary-scrollable-container');
+    const scrollContainer = document?.getElementById(DictionaryContainerElementId);
 
     if ((scrollContainer?.scrollHeight ?? 0) - scrollTop > 10) {
       setTab(highestPriorityElement.name);

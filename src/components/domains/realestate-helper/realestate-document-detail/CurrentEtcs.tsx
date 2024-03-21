@@ -71,6 +71,7 @@ export default function CurrentEtcs({ list }: CurrentEtcsProps) {
           variant={!open ? 'down' : 'up'}
           title={!open ? '더보기' : '접기'}
           size="large"
+          color="gray700"
           tw="w-full border-t border-t-gray-200 [padding-block: 17px]"
           onClick={handleClick}
         />

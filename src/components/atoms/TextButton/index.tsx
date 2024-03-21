@@ -22,16 +22,23 @@ const sizes = {
   large: tw`text-gray-700 text-body_02`,
 };
 
+const colors = {
+  gray600: tw`text-gray-600`,
+  gray700: tw`text-gray-700`,
+  nego800: tw`text-nego-800`,
+};
+
 interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant: 'underline' | 'right' | 'down' | 'up';
   size: 'small' | 'large';
-
+  color: 'gray600' | 'gray700' | 'nego800';
   title: string;
 }
 
 const TextButtonUI = styled.button<Omit<TextButtonProps, 'title'>>`
   ${({ variant }) => variant && variants[variant]}
   ${({ size }) => size && sizes[size]}
+  ${({ color }) => color && colors[color]}
 `;
 
 export default function TextButton({ variant, size, title, ...others }: TextButtonProps) {

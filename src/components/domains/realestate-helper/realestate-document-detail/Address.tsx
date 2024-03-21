@@ -111,7 +111,13 @@ export default function Address({
           <MarginTopTwenty />
           <RowCenter>
             <SmallTitle>안내사항</SmallTitle>
-            <TextButton variant="underline" size="small" onClick={handleViewPreviousHistories} title="이전 조회 이력" />
+            <TextButton
+              variant="underline"
+              size="small"
+              color="gray600"
+              onClick={handleViewPreviousHistories}
+              title="이전 조회 이력"
+            />
           </RowCenter>
           <MarginTopSixteen />
           <ColumnGapOneHalf>

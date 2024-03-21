@@ -4,6 +4,8 @@ import { Title, Thumbnail } from './widget/ListItemWidget';
 
 import useHandleClickListItem from './hooks/useHandleClickListItem';
 
+import { DictionaryButtonElementId } from './constants/element_id';
+
 type ListItemProps = {
   id: number;
   title: string;
@@ -18,7 +20,7 @@ export default function ListItem({ id, title, thumbnail }: ListItemProps) {
   const { handleClickListItem } = useHandleClickListItem({ id });
 
   return (
-    <ListItemButton onClick={handleClickListItem} id={`negocio-dictionary-${title}`}>
+    <ListItemButton onClick={handleClickListItem} id={`${DictionaryButtonElementId}-${title}`}>
       <Title>{title}</Title>
       <Thumbnail>{thumbnail}</Thumbnail>
     </ListItemButton>

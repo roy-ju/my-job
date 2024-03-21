@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-export default function useProcessTabs() {
+export default function useBuyOrRentTabsHandler() {
   const { query } = useRouter();
 
   const [tab, setTab] = useState(1);
@@ -14,11 +14,11 @@ export default function useProcessTabs() {
   }, []);
 
   useEffect(() => {
-    if (!query?.processType) return;
+    if (!query?.specialTermsType) return;
 
-    if (query?.processType === '1') {
+    if (query?.specialTermsType === '1') {
       setTab(1);
-    } else if (query?.processType === '2') {
+    } else if (query?.specialTermsType === '2') {
       setTab(2);
     }
   }, [query]);
