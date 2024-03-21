@@ -85,6 +85,13 @@ function List({ tab, code }: ListProps) {
     };
   }, [tab]);
 
+  const handleClick = useCallback(
+    (id: number) => {
+      handleCheckboxChange(id, !checkedItems[id]);
+    },
+    [checkedItems, handleCheckboxChange],
+  );
+
   useEffect(() => {
     if (!isLoading) {
       setRequiredList([...originalRequiredList]); // 원본 리스트를 복사하여 초기화
@@ -98,16 +105,13 @@ function List({ tab, code }: ListProps) {
         {initial && (
           <RequiredListWrraper>
             {requiredList.map((item) => (
-              <RequiredListItem layout key={item.id} css={[checkedItems[item.id] && tw`text-gray-600 bg-gray-200`]}>
-                <Checkbox
-                  iconType="graySquare"
-                  checked={checkedItems[item.id] || false}
-                  onChange={(e) => {
-                    const id = Number(e.target.value);
-                    handleCheckboxChange(id, e.target.checked);
-                  }}
-                  value={item.id}
-                />
+              <RequiredListItem
+                layout
+                key={item.id}
+                css={[checkedItems[item.id] && tw`text-gray-600 bg-gray-200`]}
+                onClick={() => handleClick(item.id)}
+              >
+                <Checkbox iconType="graySquare" checked={checkedItems[item.id] || false} />
                 {item.content}
               </RequiredListItem>
             ))}
