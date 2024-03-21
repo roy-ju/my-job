@@ -37,6 +37,8 @@ function List({ tab, code }: ListProps) {
 
   const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({});
 
+  const [initial, setInitial] = useState(false);
+
   const handleCheckboxChange = useCallback(
     (id: number, isChecked: boolean) => {
       setCheckedItems((prev) => ({
@@ -73,32 +75,44 @@ function List({ tab, code }: ListProps) {
   );
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setInitial(true);
+    }, 50);
+
+    return () => {
+      clearTimeout(timer);
+      setInitial(false);
+    };
+  }, [tab]);
+
+  useEffect(() => {
     if (!isLoading) {
       setRequiredList([...originalRequiredList]); // 원본 리스트를 복사하여 초기화
     }
   }, [isLoading, originalRequiredList]);
 
   return (
-    <CheckListContainer css={[tab !== code && tw`[display: none]`]}>
+    <CheckListContainer style={{ display: tab === code ? 'block' : 'none' }}>
       <CheckListWrraper>
         <Title url={CheckImage.src} title="꼭 확인해야 할 항목이에요!" alt="iconCheck" />
-
-        <RequiredListWrraper>
-          {requiredList.map((item) => (
-            <RequiredListItem key={item.id} css={[checkedItems[item.id] && tw`text-gray-600 bg-gray-200`]}>
-              <Checkbox
-                iconType="graySquare"
-                checked={checkedItems[item.id] || false}
-                onChange={(e) => {
-                  const id = Number(e.target.value);
-                  handleCheckboxChange(id, e.target.checked);
-                }}
-                value={item.id}
-              />
-              {item.content}
-            </RequiredListItem>
-          ))}
-        </RequiredListWrraper>
+        {initial && (
+          <RequiredListWrraper>
+            {requiredList.map((item) => (
+              <RequiredListItem layout key={item.id} css={[checkedItems[item.id] && tw`text-gray-600 bg-gray-200`]}>
+                <Checkbox
+                  iconType="graySquare"
+                  checked={checkedItems[item.id] || false}
+                  onChange={(e) => {
+                    const id = Number(e.target.value);
+                    handleCheckboxChange(id, e.target.checked);
+                  }}
+                  value={item.id}
+                />
+                {item.content}
+              </RequiredListItem>
+            ))}
+          </RequiredListWrraper>
+        )}
       </CheckListWrraper>
 
       {additionalList.length > 0 && (

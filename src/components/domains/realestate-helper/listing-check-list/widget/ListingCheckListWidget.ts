@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import tw, { styled } from 'twin.macro';
 
 export const TabsContainer = styled.div`
@@ -41,6 +42,6 @@ export const RequiredListWrraper = styled.div`
   ${tw`flex flex-col gap-4 px-5`}
 `;
 
-export const RequiredListItem = styled.div`
+export const RequiredListItem = styled(motion.div)`
   ${tw`text-body_03 flex flex-row items-center gap-2 py-4 px-3 rounded-2xl [background: rgba(243, 240, 255, 0.6)]`}
 `;
