@@ -48,30 +48,46 @@ function List({ tab, code }: ListProps) {
 
       setRequiredList((prevList) => {
         const newList = [...prevList];
+
+        // 해당 아이템의 인덱스를 찾는다.
         const itemIndex = newList.findIndex((item) => item.id === id);
-        const item = newList[itemIndex];
 
-        newList.splice(itemIndex, 1);
+        // 해당 아이템을 삭제
+        const item = newList.splice(itemIndex, 1)[0];
 
-        const checkedIndexes = newList
-          .map((listItem, index) => (checkedItems[listItem.id] ? index : -1))
-          .filter((index) => index !== -1);
+        // 체크된 아이템들의 인덱스를 찾는다.
+        const checkedIndexes: number[] = [];
+
+        newList.forEach((listItem, index) => {
+          if (checkedItems[listItem.id]) {
+            checkedIndexes.push(index);
+          }
+        });
 
         if (isChecked) {
+          // 체크된 아이템이 있는 경우
           if (checkedIndexes.length > 0) {
-            newList.splice(checkedIndexes[0], 0, item);
+            // 체크된 아이템 중 가장 앞에 있는 인덱스를 찾는다.
+            const insertIndex = Math.min(...checkedIndexes);
+            // 해당 인덱스에 아이템을 삽입.
+            newList.splice(insertIndex, 0, item);
           } else {
+            // 체크된 아이템이 없는 경우, 맨 뒤로 이동
             newList.push(item);
           }
         } else {
-          const originalIndex = originalRequiredList.findIndex((originalItem) => originalItem.id === id);
-          newList.splice(originalIndex, 0, item);
+          // 체크가 해제된 경우
+
+          // 체크된 아이템들을 제외한 나머지 아이템들과 새로운 아이템의 순서를 비교하여 적절한 위치에 삽입
+          const uncheckedItems = newList.filter((nListItem) => !checkedItems[nListItem.id]);
+          const insertIndex = uncheckedItems.findIndex((unItems) => unItems.id > id);
+          newList.splice(insertIndex === -1 ? uncheckedItems.length : insertIndex, 0, item);
         }
 
         return newList;
       });
     },
-    [checkedItems, originalRequiredList],
+    [checkedItems],
   );
 
   useEffect(() => {
