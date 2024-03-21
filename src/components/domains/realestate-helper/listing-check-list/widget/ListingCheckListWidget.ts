@@ -43,5 +43,5 @@ export const RequiredListWrraper = styled.div`
 `;
 
 export const RequiredListItem = styled(motion.div)`
-  ${tw`text-body_03 flex flex-row items-center gap-2 py-4 px-3 rounded-2xl [background: rgba(243, 240, 255, 0.6)]`}
+  ${tw`text-body_03 flex flex-row items-center gap-2 py-4 px-3 rounded-2xl [background: rgba(243, 240, 255, 0.6)] cursor-pointer`}
 `;
