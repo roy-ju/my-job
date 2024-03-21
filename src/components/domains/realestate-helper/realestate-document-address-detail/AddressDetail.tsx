@@ -35,6 +35,7 @@ export default function AddressDetail({
             variant="underline"
             title="다른 주소 검색"
             size="large"
+            color="gray700"
             tw="ml-auto inline-block"
             onClick={handleClickSearchAnotherAddress}
           />

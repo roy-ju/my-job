@@ -8,13 +8,15 @@ import { CategoryName, Column } from './widget/DictContentsWidget';
 
 import Seperator from './widget/Seperator';
 
+import { PrefixListElementItemId } from './constants/element_id';
+
 type DictContentsProps = {
   item: GuideListItem;
 };
 
 export default function DictContents({ item }: DictContentsProps) {
   return (
-    <Column id={`negocio-dict-list-${item.name}`}>
+    <Column id={`${PrefixListElementItemId}-${item.name}`}>
       <CategoryName>{item.name}</CategoryName>
       <div>
         {item.children?.map((dict) => (

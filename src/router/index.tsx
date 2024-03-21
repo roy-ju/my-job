@@ -351,6 +351,16 @@ const CommonSense = dynamic(() => import('@/components/pages/CommonSense/CommonS
   loading: FallbackComponent,
 });
 
+const ListingCheckList = dynamic(() => import('@/components/pages/ListingCheckList/ListingCheckListPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
+const SpecialTerms = dynamic(() => import('@/components/pages/SpecialTerms/SpecialTermsPc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
+
 const RealestateDocumentList = dynamic(
   () => import('@/components/pages/RealestateDocumentList/RealestateDocumentListPc'),
   {
@@ -688,11 +698,15 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.DictionaryDetail: {
       return <DictionaryDetail {...props} />;
     }
-
     case Routes.CommonSense: {
       return <CommonSense {...props} />;
     }
-
+    case Routes.ListingCheckList: {
+      return <ListingCheckList {...props} />;
+    }
+    case Routes.SpecialTerms: {
+      return <SpecialTerms {...props} />;
+    }
     case Routes.RealestateDocumentList: {
       return <RealestateDocumentList {...props} />;
     }

@@ -6,7 +6,7 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
-import { ScrollContainer, TabsContainer } from './widget/FIlterTabsWidget';
+import { ScrollContainer, TabsContainer } from './widget/CategoryTabsWidget';
 
 type FilterTabsProps = {
   tab: string;
@@ -15,7 +15,7 @@ type FilterTabsProps = {
   handleChangeTab: (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => void;
 };
 
-export default function FilterTabs({ tab, tabIndex, list, handleChangeTab }: FilterTabsProps) {
+export default function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: FilterTabsProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const refs = useRef<any>([]);

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { theme } from 'twin.macro';
 
@@ -26,6 +26,7 @@ import Tip from './widget/Tip';
 import Caution from './widget/Caution';
 
 import { contentsVariants, contentVariants, itemVariants } from './constants/animations';
+import { TradeProcessContainerElementId } from './constants/element_id';
 
 type ListItemProps = {
   item: ProcessListItem;
@@ -35,6 +36,8 @@ type ListItemProps = {
 };
 
 export default function ListItem({ item, openListItemIdx, handleClickListItem }: ListItemProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
   const handleClickSummaryButton = useCallback(
     (v: number) => {
       if (openListItemIdx) {
@@ -84,7 +87,7 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
             transition={{ type: 'just' }}
             tw="overflow-hidden"
           >
-            <Detail initial="hidden" animate="visible" variants={contentsVariants}>
+            <Detail initial="hidden" animate="visible" variants={contentsVariants} ref={ref}>
               <Content variants={contentVariants}>{contents}</Content>
               <Tip text={tip} />
               <Caution text={caution} />

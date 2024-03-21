@@ -205,6 +205,32 @@ export default function My({
     handleUpdateReturnUrl,
   ]);
 
+  const handleClickSpecialTerms = useCallback(() => {
+    const url =
+      platform === 'pc' ? `/${Routes.My}/${Routes.SpecialTerms}` : `/${Routes.EntryMobile}/${Routes.SpecialTerms}`;
+
+    if (!user && inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
+    if (!user) {
+      handleUpdateReturnUrl(url);
+      openAuthPopup('login');
+      return;
+    }
+
+    router.push(url);
+  }, [
+    user,
+    inAppInfo.isInAppBrowser,
+    platform,
+    router,
+    openAuthPopup,
+    handleOpenAppInstallPopup,
+    handleUpdateReturnUrl,
+  ]);
+
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -275,6 +301,7 @@ export default function My({
           <NavigationList.Item title="부동산 용어사전 (sample)" onClick={handleClickSampleRealestateDict} />
           <NavigationList.Item title="조회한 등기부 목록 (sample)" onClick={handleClickSampleRealestateDocumentList} />
           <NavigationList.Item title="부동산 상식 (sample)" onClick={handleClickCommonSense} />
+          <NavigationList.Item title="부동산 특약 (sample)" onClick={handleClickSpecialTerms} />
         </NavigationList>
       </div>
     </div>
