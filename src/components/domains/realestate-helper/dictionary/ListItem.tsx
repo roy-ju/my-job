@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import tw, { styled } from 'twin.macro';
 
 import { Title, Thumbnail } from './widget/ListItemWidget';
@@ -16,7 +18,7 @@ const ListItemButton = styled.button`
   ${tw`flex flex-col gap-2 py-4 text-left`}
 `;
 
-export default function ListItem({ id, title, thumbnail }: ListItemProps) {
+function ListItem({ id, title, thumbnail }: ListItemProps) {
   const { handleClickListItem } = useHandleClickListItem({ id });
 
   return (
@@ -26,3 +28,5 @@ export default function ListItem({ id, title, thumbnail }: ListItemProps) {
     </ListItemButton>
   );
 }
+
+export default memo(ListItem);

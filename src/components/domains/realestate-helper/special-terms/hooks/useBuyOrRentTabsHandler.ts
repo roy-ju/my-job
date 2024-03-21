@@ -2,16 +2,21 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-export default function useBuyOrRentTabsHandler() {
+export default function useBuyOrRentTabsHandler({ handleChangeTabCallback }: { handleChangeTabCallback: () => void }) {
   const { query } = useRouter();
 
   const [tab, setTab] = useState(1);
 
-  const handleChangeTab = useCallback((e: NegocioMouseEvent<HTMLButtonElement>) => {
-    const value = Number(e.currentTarget.value);
+  const handleChangeTab = useCallback(
+    (e: NegocioMouseEvent<HTMLButtonElement>) => {
+      const value = Number(e.currentTarget.value);
 
-    setTab(value);
-  }, []);
+      setTab(value);
+
+      handleChangeTabCallback();
+    },
+    [handleChangeTabCallback],
+  );
 
   useEffect(() => {
     if (!query?.specialTermsType) return;

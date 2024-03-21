@@ -1,24 +1,22 @@
-import { useMemo } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 import Container from '@/components/atoms/Container';
 
 import FlexContents from '@/components/atoms/FlexContents';
 
-import { MarginTopFourty, MarginTopTwenty } from '@/components/atoms/Margin';
-
-import SeperatorV2 from '@/components/atoms/SeperatorV2';
+import { MarginTopEight, MarginTopFourty, MarginTopTwenty } from '@/components/atoms/Margin';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import Paths from '@/constants/paths';
-
-import { BuyOrRent } from '@/constants/enums';
-
 import Tabs from './shared/Tabs';
+
+import useHandleClickBack from './special-terms/hooks/useHandleClickBack';
 
 import useBuyOrRentTabsHandler from './special-terms/hooks/useBuyOrRentTabsHandler';
 
-import useHandleClickBack from './special-terms/hooks/useHandleClickBack';
+import useCategoryTabs from './special-terms/hooks/useCategoryTabs';
+
+import useGetListAndInfo from './special-terms/hooks/useGetListAndInfo';
 
 import ShowTermsInNotion from './special-terms/ShowTermsInNotion';
 
@@ -26,43 +24,45 @@ import Titles from './special-terms/Titles';
 
 import CategoryTabs from './special-terms/CategoryTabs';
 
-import useCategoryTabs from './special-terms/hooks/useCategoryTabs';
+import Lists from './special-terms/Lists';
 
-import Buy_Tabs from './special-terms/constants/buyTabs';
+import useChangeRenderTabs from './special-terms/hooks/useChangeRenderTabs';
 
-import Rent_Tabs from './special-terms/constants/rentTabs';
+import { TermsElementListItem } from './special-terms/types';
 
-import { ListTitle, ListItemWrraper } from './special-terms/widget/SpecialTermsWidget';
-
-import Buy_Special_Terms from './special-terms/constants/buySpecialTerms';
-
-import Rent_Special_Terms from './special-terms/constants/rentSpecialTerms';
-
-import ListItem from './special-terms/ListItem';
+import { PrefixListElementItemId } from './special-terms/constants/element_id';
 
 export default function SpecialTerms() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [elementsList, setElementsList] = useState<TermsElementListItem[]>([]);
+
   const { handleClickBack } = useHandleClickBack();
 
-  const { tab: buyOrRent, handleChangeTab: handlChangeBuyOrRentTab } = useBuyOrRentTabsHandler();
+  const {
+    tab: category,
+    tabIndex,
+    handleChangeTab: handleChangeCategoryTab,
+    handleChangeTabCallback,
+  } = useCategoryTabs({ elementsList });
 
-  const notionInfo = useMemo(
-    () =>
-      buyOrRent === BuyOrRent.Buy
-        ? { title: '매매 계약서 보는 법', url: Paths.BUY_TERMS_IN_NOTION }
-        : { title: '전월세 계약서 보는 법', url: Paths.RENT_TERMS_IN_NOTION },
-    [buyOrRent],
-  );
+  const { tab: buyOrRent, handleChangeTab: handlChangeBuyOrRentTab } = useBuyOrRentTabsHandler({
+    handleChangeTabCallback,
+  });
 
-  const categoryTabListOnlyTitle = useMemo(
-    () => (buyOrRent === BuyOrRent.Buy ? Buy_Tabs.map((tab) => tab.title) : Rent_Tabs.map((tab) => tab.title)),
-    [buyOrRent],
-  );
+  const { notionInfo, categoryTabListOnlyTitle, categoryTablist, list } = useGetListAndInfo({ buyOrRent });
 
-  const categoryTablist = useMemo(() => (buyOrRent === BuyOrRent.Buy ? Buy_Tabs : Rent_Tabs), [buyOrRent]);
+  const { notIsSticky } = useChangeRenderTabs({ refObj: ref });
 
-  const list = useMemo(() => (buyOrRent === BuyOrRent.Buy ? Buy_Special_Terms : Rent_Special_Terms), [buyOrRent]);
+  useEffect(() => {
+    categoryTablist?.forEach((i, idx) => {
+      const item = document.getElementById(`${PrefixListElementItemId}-${i.title}`);
 
-  const { tab: category, tabIndex, handleChangeTab: handleChangeCategoryTab } = useCategoryTabs();
+      if (item) {
+        setElementsList((prev) => [...prev, { name: i.title, element: item, priority: idx + 1 }]);
+      }
+    });
+  }, [categoryTablist]);
 
   return (
     <Container>
@@ -70,6 +70,7 @@ export default function SpecialTerms() {
         <NavigationHeader.BackButton onClick={handleClickBack} />
         <NavigationHeader.Title>특약사항</NavigationHeader.Title>
       </NavigationHeader>
+      <MarginTopEight />
 
       <Tabs
         type="specialTerms"
@@ -79,36 +80,21 @@ export default function SpecialTerms() {
         v2Title="전월세 특약"
       />
 
-      <FlexContents id="negocio-special-terms-scrollable-container">
+      <FlexContents id="negocio-special-terms-scrollable-container" ref={ref}>
         <MarginTopTwenty />
         <ShowTermsInNotion title={notionInfo.title} url={notionInfo.url} />
         <MarginTopFourty />
         <Titles />
+
         <CategoryTabs
+          notIsSticky={notIsSticky}
           list={categoryTabListOnlyTitle}
           tab={category}
           tabIndex={tabIndex}
           handleChangeTab={handleChangeCategoryTab}
         />
-        {categoryTablist.map((tabList, index) => {
-          console.log(index);
-          return (
-            <ListItemWrraper key={tabList.title}>
-              <ListTitle>{tabList.subTitle}</ListTitle>
-              {list
-                .filter((listItem) => listItem.smallCategory === tabList.subTitle)
-                .map((item) => (
-                  <ListItem key={item.title} item={item} />
-                ))}
-              {categoryTablist.length !== index + 1 && (
-                <>
-                  <MarginTopTwenty />
-                  <SeperatorV2 tw="[min-height: 12px]" />
-                </>
-              )}
-            </ListItemWrraper>
-          );
-        })}
+
+        <Lists categoryTablist={categoryTablist} list={list} />
       </FlexContents>
     </Container>
   );

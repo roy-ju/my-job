@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
@@ -14,7 +14,7 @@ type DictContentsProps = {
   item: GuideListItem;
 };
 
-export default function DictContents({ item }: DictContentsProps) {
+function DictContents({ item }: DictContentsProps) {
   return (
     <Column id={`${PrefixListElementItemId}-${item.name}`}>
       <CategoryName>{item.name}</CategoryName>
@@ -29,3 +29,5 @@ export default function DictContents({ item }: DictContentsProps) {
     </Column>
   );
 }
+
+export default memo(DictContents);

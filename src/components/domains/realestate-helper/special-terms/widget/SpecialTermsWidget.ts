@@ -37,5 +37,14 @@ export const ListTitle = styled.p`
 `;
 
 export const SpecialContentsParagraph = styled.div`
-  ${tw`p-5 text-gray-700 bg-gray-100 text-body_02 rounded-2xl`}
+  ${tw`p-5 text-gray-700 whitespace-pre-line bg-gray-100 text-body_02 rounded-2xl`}
+`;
+
+export const TabsContainer = styled.div`
+  ${tw`sticky top-0 flex w-full bg-white`}
+`;
+
+export const ScrollContainer = styled.div`
+  ${tw`flex flex-row items-center gap-2 px-5 overflow-x-auto`}
+  transition: scroll 0.2s ease;
 `;

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import tw, { styled } from 'twin.macro';
 
 import { TabsV2, TabsV2Wrraper } from '@/components/molecules/Tabs/TabsV2';
@@ -14,7 +16,7 @@ type TabsProps = {
   handleChange?: (e: NegocioMouseEvent<HTMLButtonElement>) => void;
 };
 
-export default function Tabs({ type, value, handleChange, v1Title, v2Title }: TabsProps) {
+function Tabs({ type, value, handleChange, v1Title, v2Title }: TabsProps) {
   return (
     <Container css={[type === 'specialTerms' && tw`my-0`]}>
       <TabsV2Wrraper>
@@ -36,3 +38,5 @@ export default function Tabs({ type, value, handleChange, v1Title, v2Title }: Ta
     </Container>
   );
 }
+
+export default memo(Tabs);

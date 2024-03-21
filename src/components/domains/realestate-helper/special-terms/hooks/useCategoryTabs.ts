@@ -2,14 +2,16 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useViewportHeight from '@/hooks/useViewportHeight';
 
-// import { DictElementListItem } from '../../dictionary/type';
+import { SpecialTermsContainerElementId } from '../constants/element_id';
+
+import { TermsElementListItem } from '../types';
 
 const headerHeight = 128;
 
 const titleHeight = 56;
 
-export default function useCategoryTabs() {
-  const [tab, setTab] = useState('ㄱ');
+export default function useCategoryTabs({ elementsList }: { elementsList: TermsElementListItem[] }) {
+  const [tab, setTab] = useState('기본');
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -21,24 +23,43 @@ export default function useCategoryTabs() {
 
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const handleChangeTab = useCallback((e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => {
-    const { value } = e.currentTarget;
+  const handleChangeTabCallback = useCallback(() => {
+    setTab('기본');
+    setTabIndex(0);
 
-    setTab(value);
-    setTabIndex(idx);
+    const scrollContainer = document.getElementById(SpecialTermsContainerElementId);
 
-    const scrollContainer = document.getElementById('negocio-special-terms-scrollable-container');
+    const targetElement = elementsList.find((item) => item.name === '기본')?.element;
 
-    // const targetElement = elementsList.find((item) => item.name === value)?.element;
+    if (scrollContainer && targetElement) {
+      targetElement.scrollIntoView();
+    }
+  }, [elementsList]);
 
-    // if (scrollContainer && targetElement) {
-    //   if (value === 'ㅎ') {
-    //     scrollContainer?.scrollTo(0, scrollContainer.scrollHeight + 100);
-    //   } else {
-    //     targetElement.scrollIntoView();
-    //   }
-    // }
-  }, []);
+  const handleChangeTab = useCallback(
+    (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => {
+      const { value } = e.currentTarget;
+
+      setTab(value);
+      setTabIndex(idx);
+
+      const scrollContainer = document.getElementById(SpecialTermsContainerElementId);
+
+      const targetElement = elementsList.find((item) => item.name === value)?.element;
+
+      if (scrollContainer && targetElement) {
+        const targetElementRect = targetElement.getBoundingClientRect();
+
+        const scrollPosition = targetElementRect.top + scrollContainer.scrollTop - 56 - 8 - 48 - 50;
+
+        scrollContainer.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }
+    },
+    [elementsList],
+  );
 
   useEffect(() => {
     const bottomMargin = height - headerHeight - titleHeight;
@@ -89,7 +110,7 @@ export default function useCategoryTabs() {
     //     bottomRefObserver.disconnect();
     //   }
     // };
-  }, []);
+  }, [height]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -131,5 +152,6 @@ export default function useCategoryTabs() {
     tab,
     tabIndex,
     handleChangeTab,
+    handleChangeTabCallback,
   };
 }

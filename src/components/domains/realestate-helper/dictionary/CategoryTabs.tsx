@@ -1,4 +1,4 @@
-import { useRef, MouseEvent, useState } from 'react';
+import { useRef, MouseEvent, useState, memo } from 'react';
 
 import BoxTab from '@/components/molecules/Tabs/BoxTabs';
 
@@ -8,14 +8,14 @@ import { GuideListItem } from '@/services/sub-home/types';
 
 import { ScrollContainer, TabsContainer } from './widget/CategoryTabsWidget';
 
-type FilterTabsProps = {
+type CategoryTabsProps = {
   tab: string;
   tabIndex: number;
   list: GuideListItem[];
   handleChangeTab: (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => void;
 };
 
-export default function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: FilterTabsProps) {
+function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: CategoryTabsProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const refs = useRef<any>([]);
@@ -101,3 +101,5 @@ export default function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: F
     </TabsContainer>
   );
 }
+
+export default memo(CategoryTabs);

@@ -1,6 +1,8 @@
+import { memo } from 'react';
+
 import { TitlesWrraper } from './widget/SpecialTermsWidget';
 
-export default function Titles() {
+function Titles() {
   return (
     <TitlesWrraper>
       <p>특약사항 예시</p>
@@ -8,3 +10,5 @@ export default function Titles() {
     </TitlesWrraper>
   );
 }
+
+export default memo(Titles);

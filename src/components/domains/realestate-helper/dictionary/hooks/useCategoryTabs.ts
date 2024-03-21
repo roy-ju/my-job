@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useViewportHeight from '@/hooks/useViewportHeight';
 
-import { DictElementListItem } from '../type';
+import { DictElementListItem } from '../types';
 
 import { DictionaryBottomElementId, DictionaryContainerElementId } from '../constants/element_id';
 

@@ -20,3 +20,5 @@ export type TermsListItem = {
   title: string;
   content: string;
 };
+
+export type TermsElementListItem = { name: string; element: HTMLElement; priority: number };
