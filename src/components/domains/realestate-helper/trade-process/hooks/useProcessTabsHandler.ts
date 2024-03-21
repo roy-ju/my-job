@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
+
 import { TradeProcessContainerElementId } from '../constants/element_id';
 
 export default function useProcessTabsHandler() {
@@ -16,7 +17,7 @@ export default function useProcessTabsHandler() {
     const scrollContainer = document.getElementById(TradeProcessContainerElementId);
 
     if (scrollContainer) {
-      // scrollContainer?.scrollTo(0, 0);
+      scrollContainer?.scrollTo(0, 0);
     }
   }, []);
 
