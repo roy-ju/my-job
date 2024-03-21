@@ -30,7 +30,7 @@ import useChangeRenderTabs from './special-terms/hooks/useChangeRenderTabs';
 
 import { TermsElementListItem } from './special-terms/types';
 
-import { PrefixListElementItemId } from './special-terms/constants/element_id';
+import { PrefixListElementItemId, SpecialTermsContainerElementId } from './special-terms/constants/element_id';
 
 export default function SpecialTerms() {
   const ref = useRef<HTMLDivElement>(null);
@@ -55,20 +55,22 @@ export default function SpecialTerms() {
   const { notIsSticky } = useChangeRenderTabs({ refObj: ref });
 
   useEffect(() => {
+    setElementsList([]);
+
     categoryTablist?.forEach((i, idx) => {
       const item = document.getElementById(`${PrefixListElementItemId}-${i.title}`);
 
       if (item) {
-        setElementsList((prev) => [...prev, { name: i.title, element: item, priority: idx + 1 }]);
+        setElementsList((prevList) => [...prevList, { name: i.title, element: item, priority: idx + 1 }]);
       }
     });
-  }, [categoryTablist]);
+  }, [buyOrRent, categoryTablist]);
 
   return (
     <Container>
       <NavigationHeader>
         <NavigationHeader.BackButton onClick={handleClickBack} />
-        <NavigationHeader.Title>특약사항</NavigationHeader.Title>
+        <NavigationHeader.Title>계약서 및 특약사항</NavigationHeader.Title>
       </NavigationHeader>
       <MarginTopEight />
 
@@ -80,7 +82,7 @@ export default function SpecialTerms() {
         v2Title="전월세 특약"
       />
 
-      <FlexContents id="negocio-special-terms-scrollable-container" ref={ref}>
+      <FlexContents id={SpecialTermsContainerElementId} ref={ref}>
         <MarginTopTwenty />
         <ShowTermsInNotion title={notionInfo.title} url={notionInfo.url} />
         <MarginTopFourty />

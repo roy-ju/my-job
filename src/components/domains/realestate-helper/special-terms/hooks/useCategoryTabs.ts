@@ -2,13 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useViewportHeight from '@/hooks/useViewportHeight';
 
-import { SpecialTermsContainerElementId } from '../constants/element_id';
+import { SpecialTermsContainerElementId, SpecialTermsBottomElementId } from '../constants/element_id';
 
 import { TermsElementListItem } from '../types';
 
-const headerHeight = 128;
-
-const titleHeight = 56;
+const headerHeight = 56 + 8 + 48 + 64;
 
 export default function useCategoryTabs({ elementsList }: { elementsList: TermsElementListItem[] }) {
   const [tab, setTab] = useState('기본');
@@ -54,7 +52,6 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
 
         scrollContainer.scrollTo({
           top: scrollPosition,
-          behavior: 'smooth',
         });
       }
     },
@@ -62,7 +59,7 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
   );
 
   useEffect(() => {
-    const bottomMargin = height - headerHeight - titleHeight;
+    const bottomMargin = height - headerHeight - 40;
 
     observer.current = new IntersectionObserver(
       (entries) => {
@@ -77,44 +74,44 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
       { rootMargin: `-${headerHeight}px 0px -${bottomMargin}px 0px`, threshold: 0 },
     );
 
-    // elementsList.forEach((element) => {
-    //   observer.current!.observe(element.element);
-    // });
+    elementsList.forEach((element) => {
+      observer.current!.observe(element.element);
+    });
 
-    // const bottomRefObserver = new IntersectionObserver(
-    //   (entries) => {
-    //     entries.forEach((entry) => {
-    //       if (entry.target.id === 'negocio-dictionary-bottom' && entry.isIntersecting) {
-    //         const lastIndex = elementsList.length - 1;
+    const bottomRefObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target.id === SpecialTermsBottomElementId && entry.isIntersecting) {
+            const lastIndex = elementsList.length - 1;
 
-    //         setTab(elementsList[lastIndex]?.name);
-    //         setTabIndex(lastIndex);
-    //       }
-    //     });
-    //   },
-    //   { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0.1 },
-    // );
+            setTab(elementsList[lastIndex]?.name);
+            setTabIndex(lastIndex);
+          }
+        });
+      },
+      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0.1 },
+    );
 
-    // const bottomElement = document.getElementById('negocio-dictionary-bottom');
+    const bottomElement = document.getElementById(SpecialTermsBottomElementId);
 
-    // if (bottomElement) {
-    //   bottomRefObserver.observe(bottomElement);
-    // }
+    if (bottomElement) {
+      bottomRefObserver.observe(bottomElement);
+    }
 
-    // return () => {
-    //   if (observer.current) {
-    //     observer.current.disconnect();
-    //   }
+    return () => {
+      if (observer.current) {
+        observer.current.disconnect();
+      }
 
-    //   if (bottomElement) {
-    //     bottomRefObserver.disconnect();
-    //   }
-    // };
-  }, [height]);
+      if (bottomElement) {
+        bottomRefObserver.disconnect();
+      }
+    };
+  }, [elementsList, height]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const scrollContainer = document?.getElementById('negocio-dictionary-scrollable-container');
+      const scrollContainer = document?.getElementById(SpecialTermsContainerElementId);
 
       const handleScroll = () => {
         setScrollTop((scrollContainer?.scrollTop ?? 0) + (scrollContainer?.clientHeight ?? 0));
@@ -128,25 +125,25 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
         };
       }
     }
-  }, []);
+  }, [elementsList, scrollTop]);
 
-  // useEffect(() => {
-  //   const visibleElements = elementsList.filter((element) => visibleState[element.element.id]);
+  useEffect(() => {
+    const visibleElements = elementsList.filter((element) => visibleState[element.element.id]);
 
-  //   if (visibleElements.length === 0) return;
+    if (visibleElements.length === 0) return;
 
-  //   const highestPriorityElement = visibleElements.reduce(
-  //     (prev, current) => (prev.priority < current.priority ? prev : current),
-  //     visibleElements[0],
-  //   );
+    const highestPriorityElement = visibleElements.reduce(
+      (prev, current) => (prev.priority < current.priority ? prev : current),
+      visibleElements[0],
+    );
 
-  //   const scrollContainer = document?.getElementById('negocio-dictionary-scrollable-container');
+    const scrollContainer = document?.getElementById(SpecialTermsContainerElementId);
 
-  //   if ((scrollContainer?.scrollHeight ?? 0) - scrollTop > 10) {
-  //     setTab(highestPriorityElement.name);
-  //     setTabIndex(elementsList.indexOf(highestPriorityElement));
-  //   }
-  // }, [elementsList, scrollTop, visibleState]);
+    if ((scrollContainer?.scrollHeight ?? 0) - scrollTop > 10) {
+      setTab(highestPriorityElement.name);
+      setTabIndex(elementsList.indexOf(highestPriorityElement));
+    }
+  }, [elementsList, scrollTop, visibleState]);
 
   return {
     tab,
