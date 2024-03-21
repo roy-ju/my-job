@@ -2,9 +2,9 @@ import { memo } from 'react';
 
 import { motion } from 'framer-motion';
 
-import CheckboxCheckedIcon from '@/assets/icons/checkbox_checked_blue.svg';
+import CheckboxCheckedIcon from '@/assets/icons/checkbox_checked_blue_2.svg';
 
-import CheckboxUncheckedIcon from '@/assets/icons/checkbox_unchecked.svg';
+import CheckboxUncheckedIcon from '@/assets/icons/checkbox_unchecked_2.svg';
 
 type CheckBoxButtonProps = {
   label: string;

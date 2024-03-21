@@ -13,11 +13,16 @@ export type GuideListItem = {
   children?: GuideListItem[] | null;
   notion_url?: string;
   thumb_file_path?: string;
+
+  checked?: boolean;
 };
 
 export type SubHomeGuideListResponse = {
   middle_category_list: GuideListItem[];
   list: GuideListItem[];
+
+  additional_list: GuideListItem[];
+  required_list: GuideListItem[];
 };
 
 export type SubHomeGuideDetailResponse = {
