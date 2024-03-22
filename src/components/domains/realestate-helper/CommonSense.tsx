@@ -11,6 +11,7 @@ import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea
 import useWindowOpen from '@/hooks/useWindowOpen';
 
 import useFetchSubHomeGuideList from '@/services/sub-home/useFetchSubHomeGuideList';
+
 import CardList from './common-sense/CardList';
 
 import useHandleClickBack from './common-sense/hooks/useHandleClickBack';
@@ -41,7 +42,6 @@ export default function CommonSense() {
         <NavigationHeader.BackButton onClick={handleClickBack} />
         <NavigationHeader.Title>부동산 상식</NavigationHeader.Title>
       </NavigationHeader>
-      {/* <MarginTopTwenty /> */}
       <FlexContents>
         <CardList list={list} handleClickItem={onClickItem} />
       </FlexContents>

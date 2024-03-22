@@ -15,9 +15,9 @@ export default function CardList({ list, handleClickItem }: CardListProps) {
           key={item.id}
           handleClickItem={handleClickItem}
           title={item?.name ?? ''}
-          subTitle={item?.thumb_file_path ?? ''}
+          subTitle={item?.content ?? ''}
           link={item?.notion_url ?? ''}
-          thumbnailImgPath={item?.content ?? ''}
+          thumbnailImgPath={item?.thumb_file_path ?? ''}
         />
       ))}
     </>
