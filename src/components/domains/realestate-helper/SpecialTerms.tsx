@@ -30,7 +30,13 @@ import useChangeRenderTabs from './special-terms/hooks/useChangeRenderTabs';
 
 import { TermsElementListItem } from './special-terms/types';
 
-import { PrefixListElementItemId, SpecialTermsContainerElementId } from './special-terms/constants/element_id';
+import {
+  PrefixListElementItemId,
+  SpecialTermsBottomElementId,
+  SpecialTermsContainerElementId,
+} from './special-terms/constants/element_id';
+
+import useVirtualBoxHeight from './special-terms/hooks/useVirtualBoxHeight';
 
 export default function SpecialTerms() {
   const ref = useRef<HTMLDivElement>(null);
@@ -38,6 +44,8 @@ export default function SpecialTerms() {
   const [elementsList, setElementsList] = useState<TermsElementListItem[]>([]);
 
   const { handleClickBack } = useHandleClickBack();
+
+  const { boxHeight } = useVirtualBoxHeight();
 
   const {
     tab: category,
@@ -87,7 +95,6 @@ export default function SpecialTerms() {
         <ShowTermsInNotion title={notionInfo.title} url={notionInfo.url} />
         <MarginTopFourty />
         <Titles />
-
         <CategoryTabs
           notIsSticky={notIsSticky}
           list={categoryTabListOnlyTitle}
@@ -95,8 +102,9 @@ export default function SpecialTerms() {
           tabIndex={tabIndex}
           handleChangeTab={handleChangeCategoryTab}
         />
-
         <Lists categoryTablist={categoryTablist} list={list} />
+        <div style={{ minHeight: `${boxHeight}px` }} tw="w-full" />
+        <div id={SpecialTermsBottomElementId} tw="[min-height: 10px] [min-width: 100%]" />
       </FlexContents>
     </Container>
   );

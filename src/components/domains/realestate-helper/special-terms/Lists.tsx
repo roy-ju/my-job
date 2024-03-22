@@ -10,7 +10,7 @@ import { MiddleCategory, SmallCategory, TermsListItem } from './types';
 
 import { ListItemWrraper, ListTitle } from './widget/SpecialTermsWidget';
 
-import { PrefixListElementItemId, SpecialTermsBottomElementId } from './constants/element_id';
+import { PrefixListElementItemId } from './constants/element_id';
 
 type ListsProps = {
   categoryTablist: {
@@ -39,7 +39,6 @@ function Lists({ categoryTablist, list }: ListsProps) {
           )}
         </ListItemWrraper>
       ))}
-      <div id={SpecialTermsBottomElementId} tw="[min-height: 10px] [min-width: 100%]" />
     </>
   );
 }
