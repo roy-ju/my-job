@@ -40,12 +40,12 @@ export default function useHandleClickBack() {
     }
 
     if (typeof window !== 'undefined') {
-      const canGoBack = window.history.length > 1;
+      if (platform === 'pc') {
+        router.replace(`/${Routes.SubHome}`);
+      }
 
-      if (canGoBack) {
-        router.back();
-      } else {
-        router.replace(platform === 'pc' ? '/' : `/${Routes.EntryMobile}`);
+      if (platform === 'mobile') {
+        router.replace(`/${Routes.EntryMobile}/${Routes.SubHome}`);
       }
     }
   }, [

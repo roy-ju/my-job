@@ -2,13 +2,19 @@ import { useCallback, useRef } from 'react';
 
 import { MarginTopFour } from '@/components/atoms/Margin';
 
-import TextButton from '@/components/atoms/TextButton';
-
 import { Carousel } from '@/components/molecules';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
-import { CommonSenseContainer, CommonSenseWrraper, CommonSenseFirst, CommonSenseSecond } from './widget/SubHomeWidget';
+import IconButton from '@/components/atoms/IconButton';
+
+import {
+  CommonSenseContainer,
+  CommonSenseWrraper,
+  CommonSenseFirst,
+  CommonSenseSecond,
+  MoreButtonWrraper,
+} from './widget/SubHomeWidget';
 
 import CommonSenseCarouselItem from './CommonSenseCarouselItem';
 
@@ -24,19 +30,6 @@ function CommonSenseTitle() {
       <CommonSenseFirst>부동산 상식</CommonSenseFirst>
       <CommonSenseSecond>가장 중요하지만, 가장 어려운 부동산 상식의 모든 것!</CommonSenseSecond>
     </CommonSenseWrraper>
-  );
-}
-
-function CommonSenseMoreButton({ handleClick }: { handleClick: () => void }) {
-  return (
-    <TextButton
-      title="부동산 상식 더보기"
-      variant="right"
-      color="gray700"
-      size="large"
-      tw="w-full text-center border-t border-t-gray-200 [padding-block: 17px]"
-      onClick={handleClick}
-    />
   );
 }
 
@@ -57,8 +50,18 @@ export default function CommonSense({ list, handleNavigateCommonSense }: CommonS
     <CommonSenseContainer>
       <CommonSenseTitle />
       <MarginTopFour />
-
-      <Carousel gap={20} trackStyle={{ padding: '20px 20px' }} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <Carousel
+        gap={20}
+        trackStyle={{ padding: '20px 20px' }}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        renderRightButtonIsRightIntersection={() => (
+          <MoreButtonWrraper onClick={handleNavigateCommonSense}>
+            <IconButton variant="primary" tw="mb-1" />
+            <span>더보기</span>
+          </MoreButtonWrraper>
+        )}
+      >
         {list
           ?.sort((a, b) => new Date(b.created_time).getTime() - new Date(a.created_time).getTime())
           .slice(0, 5)
@@ -70,8 +73,6 @@ export default function CommonSense({ list, handleNavigateCommonSense }: CommonS
             />
           ))}
       </Carousel>
-      <MarginTopFour />
-      <CommonSenseMoreButton handleClick={handleNavigateCommonSense} />
     </CommonSenseContainer>
   );
 }
