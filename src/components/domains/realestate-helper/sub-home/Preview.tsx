@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import BulbImage from '@/../public/static/images/subhome_bulb.png';
 
 import DictImage from '@/../public/static/images/subhome_dict.png';
@@ -5,7 +7,6 @@ import DictImage from '@/../public/static/images/subhome_dict.png';
 import HomeImage from '@/../public/static/images/subhome_home.png';
 
 import StampImage from '@/../public/static/images/subhome_stamp.png';
-import Image from 'next/image';
 
 import { Box, Flex, PreviewContainer, PreviewIconWrraper } from './widget/PreviewWidget';
 
