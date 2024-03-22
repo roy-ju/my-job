@@ -332,11 +332,14 @@ const LawQnaUpdate = dynamic(() => import('@/components/pages/pc/LawQnaUpdate'),
   loading: FallbackComponent,
 });
 
+const SubHome = dynamic(() => import('@/components/pages/SubHome/SubHomePc'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const TradeProcess = dynamic(() => import('@/components/pages/TradeProcess/TradeProcessPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const Dictionary = dynamic(() => import('@/components/pages/Dictionary/DictionaryPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -345,17 +348,14 @@ const DictionaryDetail = dynamic(() => import('@/components/pages/DictionaryDeta
   ssr: false,
   loading: FallbackComponent,
 });
-
 const CommonSense = dynamic(() => import('@/components/pages/CommonSense/CommonSensePc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const ListingCheckList = dynamic(() => import('@/components/pages/ListingCheckList/ListingCheckListPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const SpecialTerms = dynamic(() => import('@/components/pages/SpecialTerms/SpecialTermsPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -688,7 +688,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.WaitingCreateForm: {
       return <WaitingCreateForm {...props} />;
     }
-
+    case Routes.SubHome: {
+      return <SubHome {...props} />;
+    }
     case Routes.TradeProcess: {
       return <TradeProcess {...props} />;
     }

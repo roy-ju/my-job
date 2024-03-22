@@ -45,3 +45,21 @@ export const RequiredListWrraper = styled.div`
 export const RequiredListItem = styled(motion.div)`
   ${tw`text-body_03 flex flex-row items-center gap-2 py-4 px-3 rounded-2xl [background: rgba(243, 240, 255, 0.6)] cursor-pointer`}
 `;
+
+export const SubTitle = styled.div`
+  ${tw`flex flex-col gap-1`}
+
+  span:nth-of-type(1) {
+    ${tw`text-heading_01 whitespace-pre-line`}
+  }
+
+  span:nth-of-type(2) {
+    ${tw`text-body_02 text-gray-700 whitespace-pre-line`}
+  }
+`;
+
+export const Flex = styled.div`
+  ${tw`p-5 flex flex-row items-center [width: calc(100% - 40px)] rounded-2xl mx-auto gap-3`}
+
+  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.06), 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
+`;

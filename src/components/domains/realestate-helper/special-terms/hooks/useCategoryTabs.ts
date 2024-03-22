@@ -59,7 +59,7 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
   );
 
   useEffect(() => {
-    const bottomMargin = height - headerHeight - 40;
+    const bottomMargin = height - headerHeight - 100;
 
     observer.current = new IntersectionObserver(
       (entries) => {
@@ -71,7 +71,7 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
         });
       },
 
-      { rootMargin: `-${headerHeight}px 0px -${bottomMargin}px 0px`, threshold: 0 },
+      { rootMargin: `-${headerHeight}px 0px -${bottomMargin}px 0px`, threshold: 0.1 },
     );
 
     elementsList.forEach((element) => {
@@ -131,6 +131,8 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
     const visibleElements = elementsList.filter((element) => visibleState[element.element.id]);
 
     if (visibleElements.length === 0) return;
+
+    console.log(visibleElements);
 
     const highestPriorityElement = visibleElements.reduce(
       (prev, current) => (prev.priority < current.priority ? prev : current),

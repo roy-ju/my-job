@@ -20,6 +20,8 @@ import useCategoryTabs from './listing-check-list/hooks/useCategoryTabs';
 
 import List from './listing-check-list/List';
 
+import MainDescription from './listing-check-list/MainDescription';
+
 export default function ListingCheckList() {
   const { handleClickBack } = useHandleClickBack();
 
@@ -43,16 +45,26 @@ export default function ListingCheckList() {
       </NavigationHeader>
 
       <CategoryTabs
-        list={middleCategoryList?.map((item) => ({ code: item.code, name: item.name }))}
+        list={middleCategoryList?.sort((a, b) => a.id - b.id).map((item) => ({ code: item.code, name: item.name }))}
         tab={tab}
         tabIndex={tabIndex}
         handleChangeTab={handleChangeTab}
       />
       <MarginTopSixteen />
       <FlexContents>
-        {middleCategoryList.map((item) => (
-          <List key={item.code} tab={tab} code={item.code} />
-        ))}
+        {middleCategoryList
+          ?.sort((a, b) => a.id - b.id)
+          .map((item) => (
+            <MainDescription key={item.name} tab={tab} code={item.code} title={item.name} />
+          ))}
+
+        <MarginTopSixteen />
+
+        {middleCategoryList
+          ?.sort((a, b) => a.id - b.id)
+          .map((item) => (
+            <List key={item.code} tab={tab} code={item.code} />
+          ))}
       </FlexContents>
     </Container>
   );
