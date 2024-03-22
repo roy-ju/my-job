@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import tw, { styled } from 'twin.macro';
 
 export const ProcessContainer = styled.div`
-  ${tw`py-8`}
+  ${tw`pt-8 pb-0`}
 `;
 
 export const ProcessTitleWrraper = styled.div`
@@ -51,7 +51,7 @@ export const RequiredItemContainer = styled.button`
 `;
 
 export const CommonSenseContainer = styled.div`
-  ${tw`py-8`}
+  ${tw`pt-8 pb-3`}
 `;
 
 export const CommonSenseWrraper = styled.div`
@@ -132,4 +132,8 @@ export const HashtagWrraper = styled.div`
 
 export const Hashtag = styled.div`
   ${tw`flex flex-row items-center gap-0.5 justify-center bg-gray-100 [padding-block: 5px] px-3 [border-radius: 100px] text-gray-700 text-body_01`}
+`;
+
+export const MoreButtonWrraper = styled.div`
+  ${tw`absolute top-1/2 right-0 -translate-y-1/2 z-10 px-1.5 text-center text-gray-600 text-body_02 cursor-pointer`}
 `;

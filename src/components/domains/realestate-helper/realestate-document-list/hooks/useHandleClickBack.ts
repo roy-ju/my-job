@@ -12,13 +12,12 @@ export default function useHandleClickBack() {
   const { platform } = useCheckPlatform();
 
   const handleClickBack = useCallback(() => {
-    const canGoBack = window.history.length > 1;
+    if (platform === 'pc') {
+      router.replace(`/${Routes.SubHome}`);
+    }
 
-    if (canGoBack) {
-      // 추후 서브홈으로 강제 url 고정해야함.
-      router.back();
-    } else {
-      router.replace(platform === 'pc' ? '/' : `/${Routes.EntryMobile}`);
+    if (platform === 'mobile') {
+      router.replace(`/${Routes.EntryMobile}/${Routes.SubHome}`);
     }
   }, [platform, router]);
 
