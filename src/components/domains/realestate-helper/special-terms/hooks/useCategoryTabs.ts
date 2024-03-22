@@ -132,8 +132,6 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
 
     if (visibleElements.length === 0) return;
 
-    console.log(visibleElements);
-
     const highestPriorityElement = visibleElements.reduce(
       (prev, current) => (prev.priority < current.priority ? prev : current),
       visibleElements[0],
