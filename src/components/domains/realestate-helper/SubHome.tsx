@@ -12,6 +12,8 @@ import useHandleClickBack from './sub-home/hooks/useHandleClickBack';
 
 import useNavigationHandler from './sub-home/hooks/useNavigationHandler';
 
+import Preview from './sub-home/Preview';
+
 import Process from './sub-home/Process';
 
 import Required from './sub-home/Required';
@@ -36,6 +38,15 @@ export default function SubHome() {
         <NavigationHeader.Title>부동산 거래 도우미</NavigationHeader.Title>
       </NavigationHeader>
       <FlexContents>
+        <Preview
+          handleNavigateTradeProcess={() => handleNavigateSubPage(makeUrl('tradeProcess'))}
+          handleNavigateDeungibu={() => handleNavigateSubPage(makeUrl('documentList'))}
+          handleNavigateCheckList={() => handleNavigateSubPage(makeUrl('listingCheckList'))}
+          handleNavigateSpecialTerms={() => handleNavigateSubPage(makeUrl('specialTerms'))}
+          handleNavigateCommonSense={() => handleNavigateSubPage(makeUrl('commonSense'))}
+          handleNavigateDict={() => handleNavigateSubPage(makeUrl('dict'))}
+        />
+        <MarginTopTwenty />
         <Process handleClick={() => handleNavigateSubPage(makeUrl('tradeProcess'))} />
         <MarginTopTwenty />
         <Required
