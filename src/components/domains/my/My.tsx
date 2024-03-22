@@ -1,11 +1,3 @@
-import { useCallback } from 'react';
-
-import { useRouter } from 'next/router';
-
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import Routes from '@/router/routes';
-
 import { NavigationHeader } from '@/components/molecules';
 
 import BellIcon from '@/assets/icons/bell.svg';
@@ -13,14 +5,6 @@ import BellIcon from '@/assets/icons/bell.svg';
 import { Loading, Separator } from '@/components/atoms';
 
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
-
-import useAuth from '@/hooks/services/useAuth';
-
-import useAuthPopup from '@/states/hooks/useAuhPopup';
-
-import useReturnUrl from '@/states/hooks/useReturnUrl';
-
-import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
 import UserSummary from './my/UserSummary';
 
@@ -87,178 +71,6 @@ export default function My({
   onClickTab,
   onClickMyRegisteredHomes,
 }: MyProps) {
-  const { user } = useAuth();
-
-  const { openAuthPopup } = useAuthPopup();
-
-  const { handleUpdateReturnUrl } = useReturnUrl();
-
-  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
-
-  const router = useRouter();
-
-  const { platform } = useCheckPlatform();
-
-  const handleClickSampleRealestateTradeProcess = useCallback(() => {
-    const url =
-      platform === 'pc' ? `/${Routes.My}/${Routes.TradeProcess}` : `/${Routes.EntryMobile}/${Routes.TradeProcess}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      openAuthPopup('onlyLogin');
-      handleUpdateReturnUrl(url);
-      return;
-    }
-
-    router.push(url);
-  }, [
-    user,
-    inAppInfo.isInAppBrowser,
-    platform,
-    router,
-    openAuthPopup,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-  ]);
-
-  const handleClickSampleRealestateDict = useCallback(() => {
-    const url =
-      platform === 'pc' ? `/${Routes.My}/${Routes.Dictionary}` : `/${Routes.EntryMobile}/${Routes.Dictionary}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      handleUpdateReturnUrl(url);
-      openAuthPopup('login');
-      return;
-    }
-
-    router.push(url);
-  }, [
-    user,
-    inAppInfo.isInAppBrowser,
-    platform,
-    router,
-    openAuthPopup,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-  ]);
-
-  const handleClickSampleRealestateDocumentList = useCallback(() => {
-    const url =
-      platform === 'pc'
-        ? `/${Routes.My}/${Routes.RealestateDocumentList}`
-        : `/${Routes.EntryMobile}/${Routes.RealestateDocumentList}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      handleUpdateReturnUrl(url);
-      openAuthPopup('login');
-      return;
-    }
-
-    router.push(url);
-  }, [
-    user,
-    inAppInfo.isInAppBrowser,
-    platform,
-    router,
-    openAuthPopup,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-  ]);
-
-  const handleClickCommonSense = useCallback(() => {
-    const url =
-      platform === 'pc' ? `/${Routes.My}/${Routes.CommonSense}` : `/${Routes.EntryMobile}/${Routes.CommonSense}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      handleUpdateReturnUrl(url);
-      openAuthPopup('login');
-      return;
-    }
-
-    router.push(url);
-  }, [
-    user,
-    inAppInfo.isInAppBrowser,
-    platform,
-    router,
-    openAuthPopup,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-  ]);
-
-  const handleClickSpecialTerms = useCallback(() => {
-    const url =
-      platform === 'pc' ? `/${Routes.My}/${Routes.SpecialTerms}` : `/${Routes.EntryMobile}/${Routes.SpecialTerms}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      handleUpdateReturnUrl(url);
-      openAuthPopup('login');
-      return;
-    }
-
-    router.push(url);
-  }, [
-    user,
-    inAppInfo.isInAppBrowser,
-    platform,
-    router,
-    openAuthPopup,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-  ]);
-
-  const handleClickListingCheckList = useCallback(() => {
-    const url =
-      platform === 'pc'
-        ? `/${Routes.My}/${Routes.ListingCheckList}`
-        : `/${Routes.EntryMobile}/${Routes.ListingCheckList}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      handleUpdateReturnUrl(url);
-      openAuthPopup('login');
-      return;
-    }
-
-    router.push(url);
-  }, [
-    user,
-    inAppInfo.isInAppBrowser,
-    platform,
-    router,
-    openAuthPopup,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-  ]);
-
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
@@ -324,12 +136,6 @@ export default function My({
           {loggedIn && <NavigationList.Item title="서비스 문의" onClick={onClickQna} />}
           <NavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
           {onClickDeveloper && <NavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
-          <NavigationList.Item title="부동산 거래절차 (sample)" onClick={handleClickSampleRealestateTradeProcess} />
-          <NavigationList.Item title="부동산 용어사전 (sample)" onClick={handleClickSampleRealestateDict} />
-          <NavigationList.Item title="조회한 등기부 목록 (sample)" onClick={handleClickSampleRealestateDocumentList} />
-          <NavigationList.Item title="부동산 상식 (sample)" onClick={handleClickCommonSense} />
-          <NavigationList.Item title="계약서 및 특약사항 (sample)" onClick={handleClickSpecialTerms} />
-          <NavigationList.Item title="매물 체크리스트 (sample)" onClick={handleClickListingCheckList} />
         </NavigationList>
       </div>
     </div>

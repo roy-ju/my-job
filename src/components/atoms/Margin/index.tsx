@@ -1,5 +1,9 @@
 import tw, { styled } from 'twin.macro';
 
+export const MarginTopFour = styled.div`
+  ${tw`w-full mt-1`}
+`;
+
 export const MarginTopEight = styled.div`
   ${tw`w-full mt-2`}
 `;

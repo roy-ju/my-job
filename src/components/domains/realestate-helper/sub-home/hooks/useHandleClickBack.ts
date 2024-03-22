@@ -23,5 +23,5 @@ export default function useHandleClickBack() {
     }
   }, [platform, router]);
 
-  return { handleClickBack };
+  return { renderBackButton: platform === 'mobile' ? true : !router?.query?.depth2, handleClickBack };
 }

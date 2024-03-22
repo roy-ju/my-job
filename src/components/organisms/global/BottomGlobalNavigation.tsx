@@ -52,13 +52,9 @@ export default function BottomGlobalNavigation({
           <HomeIcon css={index === 0 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 0 ? buttonStyles.selected : buttonStyles.default]}>홈</span>
         </Button>
-        <Button
-          variant="ghost"
-          tw="flex-col px-0 h-auto flex-1 gap-0.5"
-          onClick={() => onClickButton(Routes.MyFavoriteList)}
-        >
+        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-0.5" onClick={() => onClickButton(Routes.SubHome)}>
           <HeartIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
-          <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>관심목록</span>
+          <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>거래도우미</span>
         </Button>
         <Button
           variant="ghost"

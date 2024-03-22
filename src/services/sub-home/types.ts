@@ -15,6 +15,12 @@ export type GuideListItem = {
   thumb_file_path?: string;
 
   checked?: boolean;
+  related_terms?: string[];
+};
+
+export type TermsDictionaryListItem = {
+  term_dictionary: GuideListItem;
+  related_terms: string[];
 };
 
 export type SubHomeGuideListResponse = {
@@ -23,6 +29,11 @@ export type SubHomeGuideListResponse = {
 
   additional_list: GuideListItem[];
   required_list: GuideListItem[];
+};
+
+export type SubHomeDashInfoResponse = {
+  realestate_knowledge_list: GuideListItem[];
+  term_dictionary_list: TermsDictionaryListItem[];
 };
 
 export type SubHomeGuideDetailResponse = {

@@ -1,0 +1,57 @@
+import Image from 'next/image';
+
+import { MarginTopFour } from '@/components/atoms/Margin';
+
+import TextButton from '@/components/atoms/TextButton';
+
+import ProcessImage from '@/../public/static/images/trade_process.png';
+
+import {
+  ProcessImageContainer,
+  ProcessTitleWrraper,
+  ProcessTitleFirst,
+  ProcessTitleSecond,
+  ProcessContainer,
+} from './widget/SubHomeWidget';
+
+function ProcessTitle() {
+  return (
+    <ProcessTitleWrraper>
+      <ProcessTitleFirst>부동산 거래 절차</ProcessTitleFirst>
+      <ProcessTitleSecond>어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!</ProcessTitleSecond>
+    </ProcessTitleWrraper>
+  );
+}
+
+function ProcessMoreButton({ handleClick }: { handleClick: () => void }) {
+  return (
+    <TextButton
+      title="더보기"
+      variant="right"
+      color="gray700"
+      size="large"
+      tw="w-full text-center border-t border-t-gray-200 [padding-block: 17px]"
+      onClick={handleClick}
+    />
+  );
+}
+
+export default function Process({ handleClick }: { handleClick: () => void }) {
+  return (
+    <ProcessContainer>
+      <ProcessTitle />
+      <MarginTopFour />
+      <ProcessImageContainer onClick={handleClick}>
+        <Image
+          src={ProcessImage.src}
+          alt="processImage"
+          tw="w-full h-full object-cover object-left [min-height: 378px]"
+          width={375}
+          height={378}
+          quality={100} // 품질을 조절할 수 있는 속성
+        />
+      </ProcessImageContainer>
+      <ProcessMoreButton handleClick={handleClick} />
+    </ProcessContainer>
+  );
+}
