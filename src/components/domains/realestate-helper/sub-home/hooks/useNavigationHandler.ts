@@ -83,7 +83,7 @@ export default function useNavigtaionHandler() {
 
   const handleNavigateSubPage = useCallback(
     (link: string) => {
-      if (!user && inAppInfo.isInAppBrowser) {
+      if (inAppInfo.isInAppBrowser) {
         handleOpenAppInstallPopup();
         return;
       }
@@ -101,7 +101,7 @@ export default function useNavigtaionHandler() {
 
   const handleNavigateDictDetail = useCallback(
     (id: number) => {
-      if (!user && inAppInfo.isInAppBrowser) {
+      if (inAppInfo.isInAppBrowser) {
         handleOpenAppInstallPopup();
         return;
       }
