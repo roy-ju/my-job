@@ -73,7 +73,7 @@ function CategoryTabs({ notIsSticky, tab, tabIndex, list, handleChangeTab }: Cat
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]} id="testTabsContainer">
+    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]} id="special-terms-sticky-tabs">
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"

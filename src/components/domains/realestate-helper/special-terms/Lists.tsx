@@ -18,9 +18,11 @@ type ListsProps = {
     subTitle: SmallCategory;
   }[];
   list: TermsListItem[];
+  openTitle: string | null;
+  handleChangeOpenTitle: (v: string | null) => void;
 };
 
-function Lists({ categoryTablist, list }: ListsProps) {
+function Lists({ categoryTablist, list, openTitle, handleChangeOpenTitle }: ListsProps) {
   return (
     <>
       {categoryTablist.map((tabList, index) => (
@@ -29,7 +31,12 @@ function Lists({ categoryTablist, list }: ListsProps) {
           {list
             .filter((listItem) => listItem.smallCategory === tabList.subTitle)
             .map((item) => (
-              <ListItem key={item.title} item={item} />
+              <ListItem
+                key={item.title}
+                item={item}
+                openTitle={openTitle}
+                handleChagneOpenTitle={handleChangeOpenTitle}
+              />
             ))}
           {categoryTablist.length !== index + 1 && (
             <>

@@ -19,7 +19,7 @@ function ShowTermsInNotion({ title, url }: ShowTermsInNotionProps) {
   const { openWindowWithLink } = useWindowOpen();
 
   return (
-    <PaddingTwentyWrrapaer>
+    <PaddingTwentyWrrapaer id="test-test">
       <GrayBox onClick={() => openWindowWithLink(url)} tw="cursor-pointer">
         <Image alt="contractImage" src={ContractImage.src} width={48} height={48} />
         <div>

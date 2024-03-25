@@ -18,7 +18,11 @@ import {
 
 import CommonSenseCarouselItem from './CommonSenseCarouselItem';
 
-type CommonSenseProps = { list: GuideListItem[]; handleNavigateCommonSense: () => void };
+type CommonSenseProps = {
+  list: GuideListItem[];
+  handleNavigateCommonSense: () => void;
+  handleNavigateCommonSenseDetail: (v: string) => void;
+};
 
 function makeKey(v1: string, v2: string, v3: string, v4: number) {
   return `${v1}-${v2}-${v3}-${v4}`;
@@ -33,7 +37,11 @@ function CommonSenseTitle() {
   );
 }
 
-export default function CommonSense({ list, handleNavigateCommonSense }: CommonSenseProps) {
+export default function CommonSense({
+  list,
+  handleNavigateCommonSense,
+  handleNavigateCommonSenseDetail,
+}: CommonSenseProps) {
   const isDragging = useRef(false);
 
   const handleDragStart = useCallback(() => {
@@ -70,6 +78,7 @@ export default function CommonSense({ list, handleNavigateCommonSense }: CommonS
               key={makeKey(item.name || '', item.content || '', item.created_time || '', i)}
               item={item}
               isDragging={isDragging}
+              handleNavigateCommonSenseDetail={handleNavigateCommonSenseDetail}
             />
           ))}
       </Carousel>

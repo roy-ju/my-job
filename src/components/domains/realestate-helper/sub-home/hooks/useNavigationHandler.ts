@@ -14,6 +14,7 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
+import useWindowOpen from '@/hooks/useWindowOpen';
 import { SubHomUrlType } from '../types';
 
 export default function useNavigtaionHandler() {
@@ -28,6 +29,8 @@ export default function useNavigtaionHandler() {
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
   const { platform } = useCheckPlatform();
+
+  const { openWindowWithLink } = useWindowOpen();
 
   const makeUrl = useCallback(
     (type: SubHomUrlType) => {
@@ -119,9 +122,40 @@ export default function useNavigtaionHandler() {
     [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, platform, router, user],
   );
 
+  const handleNavigateCommonSenseDetail = useCallback(
+    (link: string) => {
+      if (inAppInfo.isInAppBrowser) {
+        handleOpenAppInstallPopup();
+      }
+
+      if (!user) {
+        const url =
+          platform === 'pc'
+            ? `/${Routes.SubHome}/${Routes.CommonSense}`
+            : `/${Routes.EntryMobile}/${Routes.CommonSense}`;
+
+        openAuthPopup('onlyLogin');
+        handleUpdateReturnUrl(url);
+        return;
+      }
+
+      openWindowWithLink(link);
+    },
+    [
+      handleOpenAppInstallPopup,
+      handleUpdateReturnUrl,
+      inAppInfo.isInAppBrowser,
+      openAuthPopup,
+      openWindowWithLink,
+      platform,
+      user,
+    ],
+  );
+
   return {
     handleNavigateSubPage,
     handleNavigateDictDetail,
+    handleNavigateCommonSenseDetail,
     makeUrl,
   };
 }

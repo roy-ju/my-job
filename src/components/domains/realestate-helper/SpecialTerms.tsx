@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 import Container from '@/components/atoms/Container';
 
@@ -46,6 +46,12 @@ export default function SpecialTerms() {
   const { handleClickBack } = useHandleClickBack();
 
   const { boxHeight } = useVirtualBoxHeight();
+
+  const [openTitle, setOpenTitle] = useState<string | null>(null);
+
+  const handleChangeOpenTitle = useCallback((v: string | null) => {
+    setOpenTitle(v);
+  }, []);
 
   const {
     tab: category,
@@ -102,7 +108,12 @@ export default function SpecialTerms() {
           tabIndex={tabIndex}
           handleChangeTab={handleChangeCategoryTab}
         />
-        <Lists categoryTablist={categoryTablist} list={list} />
+        <Lists
+          categoryTablist={categoryTablist}
+          list={list}
+          openTitle={openTitle}
+          handleChangeOpenTitle={handleChangeOpenTitle}
+        />
         <div style={{ minHeight: `${boxHeight}px` }} tw="w-full" />
         <div id={SpecialTermsBottomElementId} tw="[min-height: 10px] [min-width: 100%]" />
       </FlexContents>

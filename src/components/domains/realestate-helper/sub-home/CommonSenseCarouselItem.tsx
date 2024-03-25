@@ -1,7 +1,5 @@
 import { MutableRefObject } from 'react';
 
-import useWindowOpen from '@/hooks/useWindowOpen';
-
 import { GuideListItem } from '@/services/sub-home/types';
 
 import {
@@ -17,18 +15,21 @@ import {
 type CarouselItemProps = {
   item: GuideListItem;
   isDragging: MutableRefObject<boolean>;
+  handleNavigateCommonSenseDetail: (v: string) => void;
 };
 
-export default function CommonSenseCarouselItem({ item, isDragging }: CarouselItemProps) {
-  const { openWindowWithLink } = useWindowOpen();
-
+export default function CommonSenseCarouselItem({
+  item,
+  isDragging,
+  handleNavigateCommonSenseDetail,
+}: CarouselItemProps) {
   return (
     <MotionCarouselItemContainer
       key={item.name}
       tw="w-[250px] hover:cursor-pointer"
       onClick={() => {
         if (!isDragging.current) {
-          openWindowWithLink(item?.notion_url ?? '');
+          handleNavigateCommonSenseDetail(item?.notion_url ?? '');
         }
       }}
     >
