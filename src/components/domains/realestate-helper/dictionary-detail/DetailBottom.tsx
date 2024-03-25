@@ -12,7 +12,6 @@ import {
   BottomContentsDict,
   BottomContentsTitle,
   BottomContentsWrraper,
-  GoListButton,
 } from './widget/DetailBottomWidget';
 
 import { contentsVariants, contentVariants } from './constants/animations';
@@ -24,7 +23,7 @@ type DetailBottomProps = {
 export default function DetailBottom({ relatedTerms }: DetailBottomProps) {
   const totalCount = relatedTerms?.length ?? 0;
 
-  const { handleGoDictList, handleGoDictDetail } = useHandleDetailRouter();
+  const { handleGoDictDetail } = useHandleDetailRouter();
 
   return (
     <BottomContainer variants={contentVariants}>
@@ -46,8 +45,6 @@ export default function DetailBottom({ relatedTerms }: DetailBottomProps) {
           ))}
         </BottomContentsBody>
       </BottomContentsWrraper>
-
-      <GoListButton onClick={handleGoDictList}>목록으로 이동</GoListButton>
     </BottomContainer>
   );
 }
