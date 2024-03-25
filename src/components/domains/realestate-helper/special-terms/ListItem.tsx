@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 
 import tw, { theme } from 'twin.macro';
 
@@ -8,16 +8,23 @@ import { TermsListItem } from './types';
 
 import { SpecialContentsParagraph } from './widget/SpecialTermsWidget';
 
-type ListItemProps = { item: TermsListItem };
+type ListItemProps = {
+  item: TermsListItem;
+  openTitle: string | null;
+  handleChagneOpenTitle: (v: string | null) => void;
+};
 
-function ListItem({ item }: ListItemProps) {
-  const [open, setOpen] = useState(false);
-
+function ListItem({ item, openTitle, handleChagneOpenTitle }: ListItemProps) {
   return (
     <Accordion
       key={item.title}
+      expanded={item.title === openTitle}
       onChange={(v) => {
-        setOpen(v);
+        if (v) {
+          handleChagneOpenTitle(item?.title);
+        } else {
+          handleChagneOpenTitle(null);
+        }
       }}
     >
       <Accordion.Summary
@@ -28,7 +35,7 @@ function ListItem({ item }: ListItemProps) {
       >
         {item.title}
       </Accordion.Summary>
-      <Accordion.Details tw="px-5" css={[open && tw`pb-5`]}>
+      <Accordion.Details tw="px-5" css={[openTitle === item.title && tw`pb-5`]}>
         <SpecialContentsParagraph>{item.content}</SpecialContentsParagraph>
       </Accordion.Details>
     </Accordion>

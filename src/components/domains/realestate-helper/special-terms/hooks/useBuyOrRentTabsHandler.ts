@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { SpecialTermsContainerElementId } from '../constants/element_id';
+
 export default function useBuyOrRentTabsHandler({ handleChangeTabCallback }: { handleChangeTabCallback: () => void }) {
   const { query } = useRouter();
 
@@ -12,6 +14,22 @@ export default function useBuyOrRentTabsHandler({ handleChangeTabCallback }: { h
       const value = Number(e.currentTarget.value);
 
       setTab(value);
+
+      const scrollContainer = document.getElementById('special-terms-sticky-tabs');
+
+      const scrollContainer2 = document.getElementById(SpecialTermsContainerElementId);
+
+      if (scrollContainer) {
+        scrollContainer.style.position = 'relative';
+
+        setTimeout(() => {
+          scrollContainer2?.scrollTo(0, 0);
+        });
+
+        setTimeout(() => {
+          scrollContainer.style.position = 'sticky';
+        }, 1000);
+      }
 
       handleChangeTabCallback();
     },

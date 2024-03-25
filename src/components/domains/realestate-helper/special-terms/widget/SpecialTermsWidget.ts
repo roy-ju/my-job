@@ -41,7 +41,7 @@ export const SpecialContentsParagraph = styled.div`
 `;
 
 export const TabsContainer = styled.div`
-  ${tw`sticky top-0 flex w-full bg-white [z-index: 100]`}
+  ${tw`sticky top-0 flex w-full bg-white [z-index: 0]`}
 `;
 
 export const ScrollContainer = styled.div`

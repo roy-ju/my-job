@@ -27,7 +27,8 @@ import { LastVirtualDiv, Seperator } from './sub-home/widget/SubHomeWidget';
 export default function SubHome() {
   const { renderBackButton, handleClickBack } = useHandleClickBack();
 
-  const { handleNavigateSubPage, makeUrl, handleNavigateDictDetail } = useNavigationHandler();
+  const { handleNavigateSubPage, makeUrl, handleNavigateDictDetail, handleNavigateCommonSenseDetail } =
+    useNavigationHandler();
 
   const { isLoading, list1, list2 } = useFetchSubHomeDashboardInfo();
 
@@ -57,7 +58,11 @@ export default function SubHome() {
           handleNavigateSpecialTerms={() => handleNavigateSubPage(makeUrl('specialTerms'))}
         />
         <Seperator />
-        <CommonSense list={list1} handleNavigateCommonSense={() => handleNavigateSubPage(makeUrl('commonSense'))} />
+        <CommonSense
+          list={list1}
+          handleNavigateCommonSense={() => handleNavigateSubPage(makeUrl('commonSense'))}
+          handleNavigateCommonSenseDetail={handleNavigateCommonSenseDetail}
+        />
         <Seperator />
         <Dict
           list={list2}
