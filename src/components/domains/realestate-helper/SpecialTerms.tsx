@@ -86,8 +86,8 @@ export default function SpecialTerms() {
         type="specialTerms"
         value={buyOrRent}
         handleChange={handlChangeBuyOrRentTab}
-        v1Title="매매 특약"
-        v2Title="전월세 특약"
+        v1Title="매매"
+        v2Title="전월세"
       />
 
       <FlexContents id={SpecialTermsContainerElementId} ref={ref}>
