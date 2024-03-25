@@ -30,9 +30,8 @@ const Paths = {
 
   LAWQNA: 'https://negocio-common.s3.ap-northeast-2.amazonaws.com/law_og_720.png',
 
-  BUY_TERMS_IN_NOTION: 'https://www.notion.so/ef88f530b0294a9985ed245b5b5c18dd?pvs=4',
-
-  RENT_TERMS_IN_NOTION: 'https://www.notion.so/ff5005cc48164f83a44fc79e6e7339a8?pvs=4',
+  BUY_TERMS_IN_NOTION: 'https://cord-pantry-166.notion.site/ef88f530b0294a9985ed245b5b5c18dd',
+  RENT_TERMS_IN_NOTION: 'https://cord-pantry-166.notion.site/ff5005cc48164f83a44fc79e6e7339a8',
 };
 
 export default Paths;

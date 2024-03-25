@@ -1,9 +1,19 @@
+import tw, { styled } from 'twin.macro';
+
 import { motion } from 'framer-motion';
 
-import tw, { styled } from 'twin.macro';
+import SeperatorV2 from '@/components/atoms/SeperatorV2';
 
 export const ProcessContainer = styled.div`
   ${tw`pt-8 pb-0`}
+`;
+
+export const Seperator = styled(SeperatorV2)`
+  ${tw`[min-height: 12px] h-3 mb-5`}
+`;
+
+export const LastVirtualDiv = styled.div`
+  ${tw`[min-height: 20px]`}
 `;
 
 export const ProcessTitleWrraper = styled.div`
