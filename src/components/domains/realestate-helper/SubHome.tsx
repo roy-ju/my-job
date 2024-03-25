@@ -8,7 +8,6 @@ import { NavigationHeader } from '@/components/molecules';
 
 import useFetchSubHomeDashboardInfo from '@/services/sub-home/useFetchSubHomeDashboardInfo';
 
-import SeperatorV2 from '@/components/atoms/SeperatorV2';
 import useHandleClickBack from './sub-home/hooks/useHandleClickBack';
 
 import useNavigationHandler from './sub-home/hooks/useNavigationHandler';
@@ -22,6 +21,8 @@ import Required from './sub-home/Required';
 import CommonSense from './sub-home/CommonSense';
 
 import Dict from './sub-home/Dict';
+
+import { LastVirtualDiv, Seperator } from './sub-home/widget/SubHomeWidget';
 
 export default function SubHome() {
   const { renderBackButton, handleClickBack } = useHandleClickBack();
@@ -48,30 +49,22 @@ export default function SubHome() {
           handleNavigateDict={() => handleNavigateSubPage(makeUrl('dict'))}
         />
         <MarginTopTwenty />
-
         <Process handleClick={() => handleNavigateSubPage(makeUrl('tradeProcess'))} />
-
-        <SeperatorV2 tw="[min-height: 12px] h-3 mb-5" />
-
+        <Seperator />
         <Required
           handleNavigateDeungibu={() => handleNavigateSubPage(makeUrl('documentList'))}
           handleNavigateCheckList={() => handleNavigateSubPage(makeUrl('listingCheckList'))}
           handleNavigateSpecialTerms={() => handleNavigateSubPage(makeUrl('specialTerms'))}
         />
-
-        <SeperatorV2 tw="[min-height: 12px] h-3 my-5" />
-
+        <Seperator />
         <CommonSense list={list1} handleNavigateCommonSense={() => handleNavigateSubPage(makeUrl('commonSense'))} />
-
-        <SeperatorV2 tw="[min-height: 12px] h-3 my-5" />
-
+        <Seperator />
         <Dict
           list={list2}
           handleNavigateDict={() => handleNavigateSubPage(makeUrl('dict'))}
           handleNavigateDictDetail={handleNavigateDictDetail}
         />
-
-        <div tw="[min-height: 20px]" />
+        <LastVirtualDiv />
       </FlexContents>
     </Container>
   );
