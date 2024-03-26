@@ -100,7 +100,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
         description: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
         ogTitle: convertedTitle ? `${convertedTitle}` : '',
         ogDescription: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
-        ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
+        ogImagePath: AppConfig.ogImagePath,
         ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
         ogType: 'website',
         ogTitleOnly: true,
