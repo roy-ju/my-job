@@ -2,11 +2,11 @@ import { useCallback, useRef } from 'react';
 
 import { MarginTopFour } from '@/components/atoms/Margin';
 
-import { Carousel } from '@/components/molecules';
-
 import { GuideListItem } from '@/services/sub-home/types';
 
 import IconButton from '@/components/atoms/IconButton';
+
+import Carousel from '@/components/molecules/Carousel';
 
 import {
   CommonSenseContainer,
@@ -63,7 +63,7 @@ export default function CommonSense({
         trackStyle={{ padding: '20px 20px' }}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        renderRightButtonIsRightIntersection={() => (
+        renderRightButtonIsNotIntersection={() => (
           <MoreButtonWrraper onClick={handleNavigateCommonSense}>
             <IconButton variant="primary" tw="mb-1" />
             <span>더보기</span>
