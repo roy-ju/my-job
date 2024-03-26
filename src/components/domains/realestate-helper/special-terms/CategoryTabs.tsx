@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, MouseEvent, useState, memo, useEffect, RefObject } from 'react';
 
 import tw from 'twin.macro';

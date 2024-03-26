@@ -28,7 +28,7 @@ import { SpecialTermsContainerElementId } from './special-terms/constants/elemen
 
 import VirtualDiv from './special-terms/VirtualDiv';
 
-import useChangeRenderTabs from './special-terms/hooks/useChangeRenderTabs';
+// import useChangeRenderTabs from './special-terms/hooks/useChangeRenderTabs';
 
 export default function SpecialTerms() {
   const ref = useRef<HTMLDivElement>(null);
