@@ -1,5 +1,7 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-import BellIcon from '@/assets/icons/bell.svg';
+
+import NotifcitaionIcon from '@/assets/icons/icons_24_notification.svg';
+
 import NavigationHeader from './index';
 
 export default {
@@ -18,7 +20,7 @@ export const WithButton: ComponentStory<typeof NavigationHeader> = () => (
   <NavigationHeader>
     <NavigationHeader.Title>마이페이지</NavigationHeader.Title>
     <NavigationHeader.Button tw="ml-auto">
-      <BellIcon />
+      <NotifcitaionIcon />
     </NavigationHeader.Button>
   </NavigationHeader>
 );
