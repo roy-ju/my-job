@@ -12,13 +12,7 @@ export default function RealestateDocumentAddressDetailMobile() {
   return (
     <>
       <Head>
-        <title>
-          {`등기부 조회 | ${
-            process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-              ? '(TEST) 부동산 가격협상 앱 네고시오'
-              : '부동산 가격협상 앱 네고시오'
-          }`}
-        </title>
+        <title>등기부 조회</title>
         <meta name="description" content="부동산에서 가장 중요한 등기부, 이제 네고시오에서 무료로 조회해보세요!" />
         <meta property="og:title" content="등기부 조회" />
         <meta

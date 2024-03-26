@@ -12,13 +12,7 @@ export default function TradeProcessMobile() {
   return (
     <>
       <Head>
-        <title>
-          {`부동산 거래 절차 | ${
-            process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-              ? '(TEST) 부동산 가격협상 앱 네고시오'
-              : '부동산 가격협상 앱 네고시오'
-          }`}
-        </title>
+        <title>부동산 거래 절차</title>
         <meta name="description" content="어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!" />
         <meta property="og:title" content="부동산 거래 절차" />
         <meta property="og:description" content="어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!" />

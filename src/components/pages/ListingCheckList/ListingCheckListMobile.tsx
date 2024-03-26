@@ -12,13 +12,7 @@ export default function ListingCheckListMobile() {
   return (
     <>
       <Head>
-        <title>
-          {`매물 체크리스트 | ${
-            process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-              ? '(TEST) 부동산 가격협상 앱 네고시오'
-              : '부동산 가격협상 앱 네고시오'
-          }`}
-        </title>
+        <title>매물 체크리스트</title>
         <meta
           name="description"
           content="집보는데 뭘 봐야할까? 네고시오에서 제안하는 매물 체크리스트를 참고해보세요!"
