@@ -4,15 +4,20 @@ import RealestateDocumentAddressDetail from '@/components/domains/realestate-hel
 
 import Panel from '@/components/atoms/Panel';
 
+import AuthRequired from '@/components/atoms/AuthRequired';
+
 interface Props {
+  depth: number;
   panelWidth?: string;
 }
 
-function RealestateDocumentAddressDetailPc({ panelWidth }: Props) {
+function RealestateDocumentAddressDetailPc({ depth, panelWidth }: Props) {
   return (
-    <Panel width={panelWidth}>
-      <RealestateDocumentAddressDetail />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        <RealestateDocumentAddressDetail />
+      </Panel>
+    </AuthRequired>
   );
 }
 
