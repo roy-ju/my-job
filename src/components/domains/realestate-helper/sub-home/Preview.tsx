@@ -1,18 +1,18 @@
 import Image from 'next/image';
 
-import BulbImage from '@/../public/static/images/subhome_bulb.png';
+import BulbImage from '@/../public/static/images/icon_bulb.png';
 
-import DictImage from '@/../public/static/images/subhome_dict.png';
+import DictImage from '@/../public/static/images/icon_dictionary.png';
 
-import HomeImage from '@/../public/static/images/subhome_home.png';
+import RunningImage from '@/../public/static/images/icon_running.png';
 
-import StampImage from '@/../public/static/images/subhome_stamp.png';
+import StampImage from '@/../public/static/images/icon_stamp.png';
 
 import CheckImage from '@/../public/static/images/checked_3d.png';
 
 import FolderImage from '@/../public/static/images/folder_3d.png';
 
-import { Box, Flex, PreviewContainer, PreviewIconWrraper } from './widget/PreviewWidget';
+import { Box, Flex, PreviewButton, PreviewContainer, PreviewIconWrraper } from './widget/PreviewWidget';
 
 export default function Preview({
   handleNavigateTradeProcess,
@@ -34,9 +34,9 @@ export default function Preview({
       <PreviewContainer>
         <Box tw="px-5">
           <div tw="flex gap-3 justify-center">
-            <button
+            <PreviewButton
               type="button"
-              tw="flex-1 text-subhead_02 flex gap-2 items-center text-left text-yellow-1000 pl-3 py-4 [padding-right: 18px] border border-yellow-300 [background: rgba(255, 245, 217, 0.6)] [border-radius: 12px]"
+              tw="text-yellow-1000 border-yellow-300 [background: rgba(255, 245, 217, 0.6)]"
               onClick={handleNavigateDeungibu}
             >
               <Image src={FolderImage.src} width={42} height={42} alt="folder" />
@@ -45,10 +45,10 @@ export default function Preview({
                 <p tw="whitespace-nowrap">무료</p>
                 <p tw="whitespace-nowrap">등기부 조회</p>
               </div>
-            </button>
-            <button
+            </PreviewButton>
+            <PreviewButton
               type="button"
-              tw="flex-1 text-subhead_02 flex gap-2 items-center text-left text-green-800 pl-3 py-4 [padding-right: 18px]  border border-green-300 [background: rgba(227, 252, 237, 0.6)] [border-radius: 12px]"
+              tw="text-green-800 border-green-300 [background: rgba(227, 252, 237, 0.6)]"
               onClick={handleNavigateCheckList}
             >
               <Image src={CheckImage.src} width={42} height={42} alt="check" />
@@ -57,24 +57,24 @@ export default function Preview({
                 <p tw="whitespace-nowrap">매물 방문</p>
                 <p tw="whitespace-nowrap">체크리스트</p>
               </div>
-            </button>
+            </PreviewButton>
           </div>
           <div tw="[min-height: 1px] w-full bg-gray-200 my-5" />
           <Flex tw="px-1 gap-5">
             <PreviewIconWrraper onClick={handleNavigateTradeProcess}>
-              <Image src={HomeImage.src} width={56} height={56} alt="homeImage" />
+              <Image src={RunningImage.src} width={56} height={56} alt="runningImage" tw="h-14" />
               거래 절차
             </PreviewIconWrraper>
             <PreviewIconWrraper onClick={handleNavigateCommonSense}>
-              <Image src={BulbImage.src} width={56} height={56} alt="bulbImage" />
+              <Image src={BulbImage.src} width={56} height={56} alt="bulbImage" tw="h-14" />
               상식
             </PreviewIconWrraper>
             <PreviewIconWrraper onClick={handleNavigateSpecialTerms}>
-              <Image src={StampImage.src} width={56} height={56} alt="stampImage" />
+              <Image src={StampImage.src} width={56} height={56} alt="stampImage" tw="h-14" />
               계약서
             </PreviewIconWrraper>
             <PreviewIconWrraper onClick={handleNavigateDict}>
-              <Image src={DictImage.src} width={56} height={56} alt="dictImage" />
+              <Image src={DictImage.src} width={56} height={56} alt="dictImage" tw="h-14" />
               용어사전
             </PreviewIconWrraper>
           </Flex>

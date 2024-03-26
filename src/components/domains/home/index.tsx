@@ -1,3 +1,5 @@
+import { MarginTopSixteen } from '@/components/atoms/Margin';
+
 import Header from './Header';
 
 import Contents from './Contents';
@@ -9,6 +11,7 @@ export default function Home() {
     <>
       <div tw="h-full flex flex-col">
         <Header />
+        <MarginTopSixteen />
         <div tw="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
           <Contents />
           <Footer />
