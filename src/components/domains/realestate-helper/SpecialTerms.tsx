@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 
 import Container from '@/components/atoms/Container';
 
@@ -8,7 +8,7 @@ import { MarginTopEight, MarginTopFourty, MarginTopTwenty } from '@/components/a
 
 import { NavigationHeader } from '@/components/molecules';
 
-import Tabs from './shared/Tabs';
+import Tabs from './special-terms/Tabs';
 
 import useHandleClickBack from './special-terms/hooks/useHandleClickBack';
 
@@ -28,12 +28,17 @@ import { SpecialTermsContainerElementId } from './special-terms/constants/elemen
 
 import VirtualDiv from './special-terms/VirtualDiv';
 
-// import useChangeRenderTabs from './special-terms/hooks/useChangeRenderTabs';
-
 export default function SpecialTerms() {
+  const [render, setRender] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const { handleClickBack } = useHandleClickBack();
+
+  const [callbackFuncState, setCallbackFuncState] = useState<() => void>();
+
+  const handleUpdateCallbackFuncState = (ch: () => void) => {
+    setCallbackFuncState(ch);
+  };
 
   const [openTitle, setOpenTitle] = useState<string | null>(null);
 
@@ -43,9 +48,16 @@ export default function SpecialTerms() {
 
   const { tab: buyOrRent, handleChangeTab: handleChangeBuyOrRentTab } = useBuyOrRentTabsHandler({
     containerRef: ref,
+    handleChangeTabToCallback: callbackFuncState,
   });
 
   const { notionInfo, categoryTabListOnlyTitle, categoryTablist, list } = useGetListAndInfo({ buyOrRent });
+
+  useEffect(() => {
+    setTimeout(() => setRender(true), 300);
+  }, []);
+
+  if (!render) return null;
 
   return (
     <Container>
@@ -55,27 +67,20 @@ export default function SpecialTerms() {
       </NavigationHeader>
       <MarginTopEight />
 
-      <Tabs
-        type="specialTerms"
-        value={buyOrRent}
-        handleChange={handleChangeBuyOrRentTab}
-        v1Title="매매"
-        v2Title="전월세"
-      />
+      <Tabs value={buyOrRent} handleChange={handleChangeBuyOrRentTab} v1Title="매매" v2Title="전월세" />
 
       <FlexContents id={SpecialTermsContainerElementId} ref={ref}>
         <MarginTopTwenty />
         <ShowTermsInNotion title={notionInfo.title} url={notionInfo.url} />
         <MarginTopFourty />
         <Titles />
-
         <CategoryTabs
           containerRef={ref}
           buyOrRent={buyOrRent}
           categoryTablist={categoryTablist}
           list={categoryTabListOnlyTitle}
+          handleUpdateCallbackFuncState={handleUpdateCallbackFuncState}
         />
-
         <Lists
           categoryTablist={categoryTablist}
           list={list}

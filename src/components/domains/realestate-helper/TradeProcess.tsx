@@ -8,7 +8,7 @@ import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea
 
 import { MarginTopEight } from '@/components/atoms/Margin';
 
-import Tabs from './shared/Tabs';
+import Tabs from './trade-process/Tabs';
 
 import Lists from './trade-process/Lists';
 
@@ -40,13 +40,7 @@ export default function TradeProcess() {
         <NavigationHeader.Title>부동산 거래 절차</NavigationHeader.Title>
       </NavigationHeader>
       <MarginTopEight />
-      <Tabs
-        type="tradeProcess"
-        value={tab}
-        handleChange={handleChangeTab}
-        v1Title="매매 거래 절차"
-        v2Title="전월세 거래 절차"
-      />
+      <Tabs value={tab} handleChange={handleChangeTab} v1Title="매매 거래 절차" v2Title="전월세 거래 절차" />
       <FlexContents id={TradeProcessContainerElementId}>
         <Lists tab={tab} list={tab === 1 ? Buy_Process : JeonWolsae_Process} />
       </FlexContents>

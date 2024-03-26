@@ -38,7 +38,11 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
 
   const [elementsList, setElementsList] = useState<TermsElementListItem[]>([]);
 
-  const { tab, tabIndex, handleChangeTab, handleChangeTabCallback } = useCategoryTabs({ elementsList, containerRef });
+  const { tab, tabIndex, handleChangeTab } = useCategoryTabs({
+    elementsList,
+    containerRef,
+    buyOrRent,
+  });
 
   const { notIsSticky } = useChangeRenderTabs({ containerRef });
 
@@ -103,7 +107,7 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]}>
+    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]} id="negocio-special-terms-tabs-container">
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
