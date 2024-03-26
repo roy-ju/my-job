@@ -38,7 +38,7 @@ export default function SubHome() {
     <Container>
       <NavigationHeader>
         {renderBackButton && <NavigationHeader.BackButton onClick={handleClickBack} />}
-        <NavigationHeader.Title>부동산 거래 도우미</NavigationHeader.Title>
+        <NavigationHeader.Title>거래 도우미</NavigationHeader.Title>
       </NavigationHeader>
       <FlexContents>
         <Preview

@@ -145,5 +145,6 @@ export const Hashtag = styled.div`
 `;
 
 export const MoreButtonWrraper = styled.div`
-  ${tw`absolute top-1/2 right-0 -translate-y-1/2 z-10 px-1.5 text-center text-gray-600 text-body_02 cursor-pointer`}
+  /* ${tw`absolute top-1/2 right-0 -translate-y-1/2 z-10 px-1.5 text-center text-gray-600 text-body_02 cursor-pointer`} */
+  ${tw`px-3 my-auto text-center text-gray-600 cursor-pointer text-body_02 h-fit`}
 `;

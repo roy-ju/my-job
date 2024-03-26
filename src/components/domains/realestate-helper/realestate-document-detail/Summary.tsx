@@ -10,7 +10,7 @@ import CurrentOwners from './CurrentOwners';
 
 import Loans from './Loans';
 
-import { AddressContainer } from './widget/RealestateDocumentDetailWidget';
+import { AddressContainer, InfoTitle } from './widget/RealestateDocumentDetailWidget';
 
 import Caution from './Caution';
 
@@ -39,9 +39,12 @@ export default function Summary({ summary }: SummaryProps) {
     <>
       <MarginTopTwenty />
       <AddressContainer>
+        {!cautionMessage && <InfoTitle tw="px-5 pt-5">요약 정보</InfoTitle>}
         {cautionMessage && <Caution message={cautionMessage} />}
         {summary?.owner_list && summary.owner_list.length > 0 && <CurrentOwners list={summary.owner_list} />}
+
         {summary?.debt_list1 && summary.debt_list1.length > 0 && <CurrentEtcs list={summary.debt_list1} />}
+
         {summary?.debt_list2 && summary.debt_list2.length > 0 && <Loans list={summary.debt_list2} />}
       </AddressContainer>
     </>

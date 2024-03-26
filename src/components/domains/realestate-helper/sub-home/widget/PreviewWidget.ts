@@ -14,7 +14,7 @@ export const Flex = styled.div`
 `;
 
 export const PreviewIconWrraper = styled.div`
-  ${tw`flex flex-col items-center justify-center flex-1 text-gray-900 bg-white text-body_01`}
+  ${tw`flex flex-col items-center justify-center flex-1 text-gray-900 bg-white cursor-pointer text-body_01`}
 
   gap: 4.8px
 `;

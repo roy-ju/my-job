@@ -35,5 +35,5 @@ export const Detail = styled(motion.div)`
 `;
 
 export const Content = styled(motion.span)`
-  ${tw`text-gray-800 text-body_03`}
+  ${tw`text-gray-800 whitespace-pre-line text-body_03`}
 `;

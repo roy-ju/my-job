@@ -1,4 +1,4 @@
-import { useRef, MouseEvent, useState, memo } from 'react';
+import { useRef, MouseEvent, useState, memo, useEffect, RefObject } from 'react';
 
 import tw from 'twin.macro';
 
@@ -8,21 +8,38 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import { ScrollContainer, TabsContainer } from './widget/SpecialTermsWidget';
 
+import { MiddleCategory, SmallCategory, TermsElementListItem } from './types';
+
+import useCategoryTabs from './hooks/useCategoryTabs';
+
+import { PrefixListElementItemId } from './constants/element_id';
+
+import useChangeRenderTabs from './hooks/useChangeRenderTabs';
+
 type CategoryTabsProps = {
-  notIsSticky: boolean;
-  tab: string;
-  tabIndex: number;
+  buyOrRent: number;
+  categoryTablist: {
+    title: MiddleCategory;
+    subTitle: SmallCategory;
+  }[];
   list: string[];
-  handleChangeTab: (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => void;
+  containerRef: RefObject<HTMLDivElement>;
 };
 
-function CategoryTabs({ notIsSticky, tab, tabIndex, list, handleChangeTab }: CategoryTabsProps) {
+function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: CategoryTabsProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const refs = useRef<any>([]);
 
   const [isDrag, setIsDrag] = useState<boolean>(false);
+
   const [startX, setStartX] = useState<number>();
+
+  const [elementsList, setElementsList] = useState<TermsElementListItem[]>([]);
+
+  const { tab, tabIndex, handleChangeTab, handleChangeTabCallback } = useCategoryTabs({ elementsList, containerRef });
+
+  const { notIsSticky } = useChangeRenderTabs({ containerRef });
 
   const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return;
@@ -52,6 +69,18 @@ function CategoryTabs({ notIsSticky, tab, tabIndex, list, handleChangeTab }: Cat
     }
   };
 
+  useEffect(() => {
+    setElementsList([]);
+
+    categoryTablist?.forEach((i, idx) => {
+      const item = document.getElementById(`${PrefixListElementItemId}-${i.title}`);
+
+      if (item) {
+        setElementsList((prevList) => [...prevList, { name: i.title, element: item, priority: idx + 1 }]);
+      }
+    });
+  }, [buyOrRent, categoryTablist]);
+
   useIsomorphicLayoutEffect(() => {
     if (typeof tab === 'string' && typeof tabIndex === 'number') {
       const selectedElement = refs.current[tabIndex];
@@ -73,7 +102,7 @@ function CategoryTabs({ notIsSticky, tab, tabIndex, list, handleChangeTab }: Cat
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]} id="special-terms-sticky-tabs">
+    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]}>
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
