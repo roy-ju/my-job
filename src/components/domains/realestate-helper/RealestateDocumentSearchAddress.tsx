@@ -1,4 +1,4 @@
-import { FormEventHandler, useCallback } from 'react';
+import { FormEventHandler, KeyboardEventHandler, useCallback } from 'react';
 
 import Container from '@/components/atoms/Container';
 
@@ -37,6 +37,18 @@ export default function RealestateDocumentSearchAddress() {
     e.preventDefault();
   }, []);
 
+  const handleKeyPress = useCallback<KeyboardEventHandler<HTMLFormElement>>((e) => {
+    if (e.key === 'Enter') {
+      const input = document.getElementById('realesate-document-search-address');
+
+      if (input) {
+        input.blur();
+      }
+
+      e.preventDefault();
+    }
+  }, []);
+
   const results = useKakaoAddressAutocomplete(inputValue);
 
   return (
@@ -46,7 +58,7 @@ export default function RealestateDocumentSearchAddress() {
         <NavigationHeader.Title>등기부 신규 조회</NavigationHeader.Title>
       </NavigationHeader>
       <FormContainer>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} onKeyPress={handleKeyPress}>
           <MarginTopTwenty />
           <Search value={inputValue} handleChange={handleChange} />
           <MarginTopTwenty />
