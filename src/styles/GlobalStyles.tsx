@@ -80,6 +80,16 @@ const customStyles = css`
     }
   }
 
+  #negocio-trade-process-image {
+    object-fit: cover;
+  }
+
+  @media (min-width: 486px) {
+    #negocio-trade-process-image {
+      object-fit: contain;
+    }
+  }
+
   .lawQnaWrraper {
     ol {
       list-style: decimal;

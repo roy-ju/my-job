@@ -43,6 +43,7 @@ export default function Process({ handleClick }: { handleClick: () => void }) {
       <MarginTopFour />
       <ProcessImageContainer onClick={handleClick}>
         <Image
+          id="negocio-trade-process-image"
           src={TradeProcessImage.src}
           alt="tradeProcessImage"
           tw="w-full h-full object-cover object-left [min-height: 378px]"

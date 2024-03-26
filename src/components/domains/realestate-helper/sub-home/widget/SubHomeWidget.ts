@@ -21,7 +21,7 @@ export const ProcessTitleWrraper = styled.div`
 `;
 
 export const ProcessImageContainer = styled.div`
-  ${tw`flex [min-height: 378px] w-full overflow-hidden cursor-pointer`}
+  ${tw`flex [height: 378px] w-full overflow-hidden cursor-pointer`}
 `;
 
 export const ProcessTitleFirst = styled.span`
