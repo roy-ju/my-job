@@ -49,7 +49,7 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
 
   renderLeftButton?: (props: ControlProps) => ReactElement;
   renderRightButton?: (props: ControlProps) => ReactElement;
-  renderRightButtonIsRightIntersection?: () => ReactElement;
+  renderRightButtonIsNotIntersection?: () => ReactElement;
 }
 
 export default function Carousel({
@@ -57,7 +57,7 @@ export default function Carousel({
   trackStyle,
   renderLeftButton,
   renderRightButton,
-  renderRightButtonIsRightIntersection,
+  renderRightButtonIsNotIntersection,
   onDragStart,
   onDragEnd,
   children,
@@ -171,7 +171,7 @@ export default function Carousel({
           onDragEnd={onDragEnd as any}
         >
           {children}
-          {renderRightButtonIsRightIntersection && lastItemIntersecting && renderRightButtonIsRightIntersection()}
+          {renderRightButtonIsNotIntersection && renderRightButtonIsNotIntersection()}
         </Track>
       </DragConstraints>
     </Container>
