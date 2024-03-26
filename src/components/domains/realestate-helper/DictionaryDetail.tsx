@@ -82,8 +82,8 @@ export default function DictionaryDetail() {
       {openSharePopup && (
         <OverlayPresenter>
           <SharePopup
-            onClickCopyUrl={handleCopyUrl}
-            onClickShareViaKakao={handleShareViaKakao}
+            onClickCopyUrl={() => handleCopyUrl(term?.name ?? '')}
+            onClickShareViaKakao={() => handleShareViaKakao(term?.name ?? '')}
             onClickOutside={handleCloseSharePopup}
           />
         </OverlayPresenter>
