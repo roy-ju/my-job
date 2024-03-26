@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import kakaoShare from '@/utils/kakaoShare';
 
 import Routes from '@/router/routes';
+import Paths from '@/constants/paths';
 
 export default function useShareHandler() {
   const { query } = useRouter();
@@ -26,7 +27,7 @@ export default function useShareHandler() {
   const handleCopyUrl = useCallback(() => {
     const content = `[네고시오] 부동산 거래 도우미\n\n부동산 용어 사전\n\n${window.origin}/${Routes.DictionaryDetail}?dictID=${id}`;
 
-    navigator.clipboard.writeText(content);
+    window?.navigator.clipboard.writeText(content);
 
     toast.success('복사되었습니다.');
 
@@ -40,9 +41,9 @@ export default function useShareHandler() {
       width: 1200,
       height: 630,
       objectType: 'feed',
-      title: '',
-      description: '',
-      imgUrl: '',
+      title: '부동산 용어 사전',
+      description: '[네고시오] 부동산 용어 사전\n부동산과 관련된 용어를 예시와 함께 설명해드려요!',
+      imgUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_1,
       buttonTitle: '자세히보기',
       link,
     });
