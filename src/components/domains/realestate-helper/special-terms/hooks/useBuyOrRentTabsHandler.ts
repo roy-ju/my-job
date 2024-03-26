@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { RefObject, useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
@@ -18,13 +19,9 @@ export default function useBuyOrRentTabsHandler({ containerRef }: { containerRef
       const scrollContainer2 = document.getElementById(SpecialTermsContainerElementId);
 
       if (containerRef) {
-        // alert(`Before scrollTo: ${containerRef?.current?.scrollTop}`);
-
         setTimeout(() => {
           containerRef?.current?.scrollTo(0, 0);
         }, 100);
-
-        // alert(`Before scrollTo: ${containerRef?.current?.scrollTop}`);
       }
     },
     [containerRef],

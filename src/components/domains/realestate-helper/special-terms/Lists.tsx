@@ -23,7 +23,6 @@ type ListsProps = {
 };
 
 function Lists({ categoryTablist, list, openTitle, handleChangeOpenTitle }: ListsProps) {
-  console.log('render list component');
   return (
     <>
       {categoryTablist.map((tabList, index) => (
