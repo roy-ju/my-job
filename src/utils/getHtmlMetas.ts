@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BuyOrRent } from '@/constants/enums';
 
 import { ParsedUrlQuery } from 'querystring';
@@ -24,82 +23,91 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   if (targetRoute === Routes.TradeProcess) {
     return {
-      title: `부동산 거래 절차 | ${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-          ? '(TEST) 부동산 가격협상 앱 네고시오'
-          : '부동산 가격협상 앱 네고시오'
-      }`,
+      title: `부동산 거래 절차`,
       description: '어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!',
       ogTitle: '부동산 거래 절차',
       ogDescription: '어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
+      ogTitleOnly: true,
     };
   }
 
   if (targetRoute === Routes.ListingCheckList) {
     return {
-      title: `매물 체크리스트 | ${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-          ? '(TEST) 부동산 가격협상 앱 네고시오'
-          : '부동산 가격협상 앱 네고시오'
-      }`,
+      title: `매물 체크리스트`,
       description: '집보는데 뭘 봐야할까? 네고시오에서 제안하는 매물 체크리스트를 참고해보세요!',
       ogTitle: '매물 체크리스트',
       ogDescription: '집보는데 뭘 봐야할까? 네고시오에서 제안하는 매물 체크리스트를 참고해보세요!',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
+      ogTitleOnly: true,
     };
   }
 
   if (targetRoute === Routes.CommonSense) {
     return {
-      title: `부동산 상식 | ${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-          ? '(TEST) 부동산 가격협상 앱 네고시오'
-          : '부동산 가격협상 앱 네고시오'
-      }`,
+      title: `부동산 상식`,
       description: '가장 중요하지만, 가장 어려운 부동산 상식의 모든 것을 알려드릴게요!',
       ogTitle: '부동산 상식',
       ogDescription: '가장 중요하지만, 가장 어려운 부동산 상식의 모든 것을 알려드릴게요!',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
+      ogTitleOnly: true,
     };
   }
 
   if (targetRoute === Routes.SpecialTerms) {
     return {
-      title: `계약서 및 특약사항 | ${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-          ? '(TEST) 부동산 가격협상 앱 네고시오'
-          : '부동산 가격협상 앱 네고시오'
-      }`,
+      title: `계약서 및 특약사항`,
       description: '계약서 작성부터 꼭 필요한 특약사항까지 모두 알려드려요!',
       ogTitle: '계약서 및 특약사항',
       ogDescription: '계약서 작성부터 꼭 필요한 특약사항까지 모두 알려드려요!',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
+      ogTitleOnly: true,
     };
   }
 
   if (targetRoute === Routes.Dictionary) {
     return {
-      title: `부동산 용어 사전 | ${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
-          ? '(TEST) 부동산 가격협상 앱 네고시오'
-          : '부동산 가격협상 앱 네고시오'
-      }`,
+      title: `부동산 용어 사전`,
       description: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
       ogTitle: '부동산 용어 사전',
       ogDescription: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
+      ogTitleOnly: true,
     };
+  }
+
+  if (targetRoute === Routes.DictionaryDetail) {
+    try {
+      const { data } = await axios.post('/subhome/guide/detail', {
+        code: 'DICT',
+        guide_id: Number(query.dictID),
+      });
+
+      const convertedTitle = `부동산 용어 사전 > ${data?.term?.name ?? ''}`;
+
+      return {
+        title: convertedTitle ? `${convertedTitle}` : '',
+        description: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
+        ogTitle: convertedTitle ? `${convertedTitle}` : '',
+        ogDescription: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
+        ogImagePath: Paths.DEFAULT_OPEN_GRAPH_IMAGE_3,
+        ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+        ogType: 'website',
+        ogTitleOnly: true,
+      };
+    } catch (e) {
+      return defaultMeta;
+    }
   }
 
   if (
@@ -122,6 +130,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
+      ogTitleOnly: true,
     };
   }
 
