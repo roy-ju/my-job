@@ -73,6 +73,8 @@ export default function Dictionary() {
 
   useIosWebkitNoneApplySafeArea();
 
+  console.log('render');
+
   if (isLoading) {
     return (
       <LoadingContainer>
@@ -87,7 +89,9 @@ export default function Dictionary() {
         <NavigationHeader.BackButton onClick={handleClickBack} />
         <NavigationHeader.Title>부동산 용어 사전</NavigationHeader.Title>
       </NavigationHeader>
+
       <CategoryTabs tab={tab} tabIndex={tabIndex} handleChangeTab={handleChangeTab} list={middleCategoryList} />
+
       <FlexContents id={DictionaryContainerElementId}>
         {list.map((item) => (
           <DictContents key={item.name} item={item} />

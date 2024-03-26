@@ -36,9 +36,13 @@ export default function useCategoryTabs({ elementsList }: { elementsList: DictEl
 
       if (scrollContainer && targetElement) {
         if (value === 'ㅎ') {
-          scrollContainer?.scrollTo(0, scrollContainer.scrollHeight + 100);
+          setTimeout(() => {
+            scrollContainer?.scrollTo(0, scrollContainer.scrollHeight + 100);
+          }, 100);
         } else {
-          targetElement.scrollIntoView();
+          setTimeout(() => {
+            targetElement.scrollIntoView();
+          }, 100);
         }
       }
     },

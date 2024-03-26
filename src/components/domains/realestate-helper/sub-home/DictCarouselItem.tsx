@@ -49,7 +49,7 @@ export default function DictCarouselItem({
   return (
     <MotionCarouselItemContainer
       key={item.name}
-      tw="w-[330px] [height: 220px]"
+      tw="w-[300px] [height: 220px]"
       onClick={() => {
         if (!isDragging.current) {
           handleNavigateDictDetail();
