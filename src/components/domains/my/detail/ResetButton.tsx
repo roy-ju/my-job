@@ -1,7 +1,5 @@
 import { MouseEvent } from 'react';
 
-import tw from 'twin.macro';
-
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { TextFieldV2 } from '@/components/molecules';
