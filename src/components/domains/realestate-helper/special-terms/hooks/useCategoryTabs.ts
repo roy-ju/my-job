@@ -11,9 +11,11 @@ import { TermsElementListItem } from '../types';
 const headerHeight = 56 + 8 + 48 + 64;
 
 export default function useCategoryTabs({
+  buyOrRent,
   elementsList,
   containerRef,
 }: {
+  buyOrRent: number;
   elementsList: TermsElementListItem[];
   containerRef: RefObject<HTMLDivElement>;
 }) {
@@ -36,7 +38,7 @@ export default function useCategoryTabs({
     const targetElement = elementsList.find((item) => item.name === '기본')?.element;
 
     if (containerRef && targetElement) {
-      targetElement.scrollIntoView();
+      containerRef.current?.scrollTo(0, 0);
     }
   }, [containerRef, elementsList]);
 
@@ -133,10 +135,15 @@ export default function useCategoryTabs({
     }
   }, [containerRef, elementsList, scrollTop, visibleState]);
 
+  useEffect(() => {
+    if (buyOrRent) {
+      handleChangeTabCallback();
+    }
+  }, [buyOrRent, handleChangeTabCallback]);
+
   return {
     tab,
     tabIndex,
     handleChangeTab,
-    handleChangeTabCallback,
   };
 }

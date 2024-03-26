@@ -19,9 +19,9 @@ function ShowTermsInNotion({ title, url }: ShowTermsInNotionProps) {
   const { openWindowWithLink } = useWindowOpen();
 
   return (
-    <PaddingTwentyWrrapaer id="test-test">
+    <PaddingTwentyWrrapaer>
       <GrayBox onClick={() => openWindowWithLink(url)} tw="cursor-pointer">
-        <Image alt="contractImage" src={ContractImage.src} width={48} height={48} />
+        <Image alt="contractImage" src={ContractImage.src} width={48} height={48} priority />
         <div>
           <p>{title}</p>
           <TextButton variant="right" size="large" title="자세히 보기" color="nego800" />

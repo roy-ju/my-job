@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { RefObject, useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
-
-import { SpecialTermsContainerElementId } from '../constants/element_id';
 
 export default function useBuyOrRentTabsHandler({ containerRef }: { containerRef: RefObject<HTMLDivElement> }) {
   const { query } = useRouter();
@@ -16,12 +13,20 @@ export default function useBuyOrRentTabsHandler({ containerRef }: { containerRef
 
       setTab(value);
 
-      const scrollContainer2 = document.getElementById(SpecialTermsContainerElementId);
+      if (containerRef?.current) {
+        containerRef.current.style.overflowY = 'hidden';
 
-      if (containerRef) {
         setTimeout(() => {
-          containerRef?.current?.scrollTo(0, 0);
+          if (containerRef?.current) {
+            containerRef.current.style.overflowY = 'auto';
+          }
         }, 100);
+
+        setTimeout(() => {
+          if (containerRef) {
+            containerRef?.current?.scrollTo(0, 0);
+          }
+        }, 200);
       }
     },
     [containerRef],
