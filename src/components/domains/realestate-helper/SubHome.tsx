@@ -4,13 +4,11 @@ import FlexContents from '@/components/atoms/FlexContents';
 
 import { MarginTopTwenty } from '@/components/atoms/Margin';
 
-import { NavigationHeader } from '@/components/molecules';
-
 import useFetchSubHomeDashboardInfo from '@/services/sub-home/useFetchSubHomeDashboardInfo';
 
-import useHandleClickBack from './sub-home/hooks/useHandleClickBack';
-
 import useNavigationHandler from './sub-home/hooks/useNavigationHandler';
+
+import Header from './sub-home/Header';
 
 import Preview from './sub-home/Preview';
 
@@ -25,8 +23,6 @@ import Dict from './sub-home/Dict';
 import { LastVirtualDiv, Seperator } from './sub-home/widget/SubHomeWidget';
 
 export default function SubHome() {
-  const { renderBackButton, handleClickBack } = useHandleClickBack();
-
   const { handleNavigateSubPage, makeUrl, handleNavigateDictDetail, handleNavigateCommonSenseDetail } =
     useNavigationHandler();
 
@@ -36,10 +32,7 @@ export default function SubHome() {
 
   return (
     <Container>
-      <NavigationHeader>
-        {renderBackButton && <NavigationHeader.BackButton onClick={handleClickBack} />}
-        <NavigationHeader.Title>거래 도우미</NavigationHeader.Title>
-      </NavigationHeader>
+      <Header />
       <FlexContents>
         <Preview
           handleNavigateTradeProcess={() => handleNavigateSubPage(makeUrl('tradeProcess'))}

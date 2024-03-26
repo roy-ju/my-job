@@ -4,7 +4,7 @@ import { MarginTopFour } from '@/components/atoms/Margin';
 
 import TextButton from '@/components/atoms/TextButton';
 
-import ProcessImage from '@/../public/static/images/trade_process.png';
+import TradeProcessImage from '@/../public/static/images/image_step.png';
 
 import {
   ProcessImageContainer,
@@ -43,8 +43,8 @@ export default function Process({ handleClick }: { handleClick: () => void }) {
       <MarginTopFour />
       <ProcessImageContainer onClick={handleClick}>
         <Image
-          src={ProcessImage.src}
-          alt="processImage"
+          src={TradeProcessImage.src}
+          alt="tradeProcessImage"
           tw="w-full h-full object-cover object-left [min-height: 378px]"
           width={375}
           height={378}

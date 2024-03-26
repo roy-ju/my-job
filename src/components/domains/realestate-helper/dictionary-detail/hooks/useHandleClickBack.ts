@@ -40,12 +40,21 @@ export default function useHandleClickBack() {
     }
 
     if (typeof window !== 'undefined') {
-      const canGoBack = window.history.length > 1;
+      if (typeof window !== 'undefined') {
+        if (platform === 'pc') {
+          const depth1 = router?.query?.depth1 ?? '';
+          const depth2 = router?.query?.depth2 ?? '';
 
-      if (canGoBack) {
-        router.back();
-      } else {
-        router.replace(platform === 'pc' ? `/${Routes.Dictionary}` : `/${Routes.EntryMobile}/${Routes.Dictionary}`);
+          if (depth1 && depth2) {
+            router.replace(`/${Routes.SubHome}/${Routes.Dictionary}`);
+          } else if (depth1 && !depth2) {
+            router.replace(`/${Routes.Dictionary}`);
+          }
+        }
+
+        if (platform === 'mobile') {
+          router.replace(`/${Routes.EntryMobile}/${Routes.Dictionary}`);
+        }
       }
     }
   }, [
