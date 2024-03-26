@@ -60,7 +60,7 @@ export default function Preview({
             </PreviewButton>
           </div>
           <div tw="[min-height: 1px] w-full bg-gray-200 my-5" />
-          <Flex tw="px-1 gap-5">
+          <Flex tw="px-1 gap-5 justify-between">
             <PreviewIconWrraper onClick={handleNavigateTradeProcess}>
               <Image src={RunningImage.src} width={56} height={56} alt="runningImage" tw="h-14" />
               거래 절차

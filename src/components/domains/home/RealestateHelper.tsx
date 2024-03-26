@@ -45,7 +45,7 @@ const SeperatorLine = styled.div`
 `;
 
 const PreviewButton = styled.button`
-  ${tw`text-subhead_02 flex gap-2 items-center text-left pl-3 py-4 [padding-right: 18px] border [border-radius: 12px]`}
+  ${tw`text-subhead_02 flex gap-2 items-center text-left pl-3 py-4 [padding-right: 18px] border [border-radius: 12px] flex-1`}
 `;
 
 export default function RealestateHelper() {
