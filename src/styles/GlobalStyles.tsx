@@ -80,13 +80,28 @@ const customStyles = css`
     }
   }
 
-  #negocio-trade-process-image {
+  #negocio-trade-process-image-mobile {
     object-fit: cover;
   }
 
   @media (min-width: 486px) {
-    #negocio-trade-process-image {
+    #negocio-trade-process-image-mobile {
       object-fit: contain;
+    }
+  }
+
+  #negocio-trade-process-image-pc {
+    object-fit: cover;
+  }
+
+  .lawQnaWrraper {
+    ol {
+      list-style: decimal;
+      padding-left: 30px;
+    }
+    ul {
+      list-style: disc;
+      padding-left: 30px;
     }
   }
 
