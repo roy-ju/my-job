@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import kakaoShare from '@/utils/kakaoShare';
 
 import Routes from '@/router/routes';
+
 import Paths from '@/constants/paths';
 
 export default function useShareHandler() {
@@ -41,7 +42,7 @@ export default function useShareHandler() {
       width: 1200,
       height: 630,
       objectType: 'feed',
-      title: '부동산 용어 사전',
+      title: '부동산 용어 사전 | 부동산 가격협상 앱 네고시오',
       description: '[네고시오] 부동산 용어 사전\n부동산과 관련된 용어를 예시와 함께 설명해드려요!',
       imgUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_1,
       buttonTitle: '자세히보기',

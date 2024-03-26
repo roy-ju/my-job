@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
-import useAuth from '@/hooks/services/useAuth';
-
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
+import useAuth from '@/hooks/services/useAuth';
 
 import Routes from '@/router/routes';
 
@@ -14,24 +14,20 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-import useWindowOpen from '@/hooks/useWindowOpen';
+import { SubHomUrlType } from '../../realestate-helper/sub-home/types';
 
-import { SubHomUrlType } from '../types';
-
-export default function useNavigtaionHandler() {
+export default function useNavigationHandler() {
   const router = useRouter();
 
   const { user } = useAuth();
+
+  const { platform } = useCheckPlatform();
 
   const { openAuthPopup } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
-
-  const { platform } = useCheckPlatform();
-
-  const { openWindowWithLink } = useWindowOpen();
 
   const makeUrl = useCallback(
     (type: SubHomUrlType) => {
@@ -82,6 +78,14 @@ export default function useNavigtaionHandler() {
     [platform],
   );
 
+  const handleNavigateSubHomeAll = useCallback(() => {
+    if (platform === 'pc') {
+      router.push(`/${Routes.SubHome}`);
+    } else if (platform === 'mobile') {
+      router.push(`/${Routes.EntryMobile}/${Routes.SubHome}`);
+    }
+  }, [platform, router]);
+
   const handleNavigateSubPage = useCallback(
     (link: string) => {
       if (inAppInfo.isInAppBrowser) {
@@ -100,63 +104,13 @@ export default function useNavigtaionHandler() {
     [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, router, user],
   );
 
-  const handleNavigateDictDetail = useCallback(
-    (id: number) => {
-      if (inAppInfo.isInAppBrowser) {
-        handleOpenAppInstallPopup();
-        return;
-      }
-
-      const url =
-        platform === 'pc'
-          ? `/${Routes.SubHome}/${Routes.DictionaryDetail}?dictID=${id}`
-          : `/${Routes.EntryMobile}/${Routes.DictionaryDetail}?dictID=${id}`;
-
-      if (!user) {
-        openAuthPopup('onlyLogin');
-        handleUpdateReturnUrl(url);
-        return;
-      }
-
-      router.push(url);
-    },
-    [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, platform, router, user],
-  );
-
-  const handleNavigateCommonSenseDetail = useCallback(
-    (link: string) => {
-      if (inAppInfo.isInAppBrowser) {
-        handleOpenAppInstallPopup();
-      }
-
-      if (!user) {
-        const url =
-          platform === 'pc'
-            ? `/${Routes.SubHome}/${Routes.CommonSense}`
-            : `/${Routes.EntryMobile}/${Routes.CommonSense}`;
-
-        openAuthPopup('onlyLogin');
-        handleUpdateReturnUrl(url);
-        return;
-      }
-
-      openWindowWithLink(link);
-    },
-    [
-      handleOpenAppInstallPopup,
-      handleUpdateReturnUrl,
-      inAppInfo.isInAppBrowser,
-      openAuthPopup,
-      openWindowWithLink,
-      platform,
-      user,
-    ],
-  );
-
-  return {
-    handleNavigateSubPage,
-    handleNavigateDictDetail,
-    handleNavigateCommonSenseDetail,
-    makeUrl,
+  const handleNavigateLawQna = () => {
+    if (platform === 'pc') {
+      router.push(`/${Routes.LawQna}`);
+    } else {
+      router.push(`/${Routes.EntryMobile}/${Routes.LawQna}`);
+    }
   };
+
+  return { makeUrl, handleNavigateSubPage, handleNavigateSubHomeAll, handleNavigateLawQna };
 }

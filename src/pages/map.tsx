@@ -1,6 +1,9 @@
-import { MapLayout } from '@/layouts';
-import AppConfig from '@/config';
 import Head from 'next/head';
+
+import { MapLayout } from '@/layouts';
+
+import AppConfig from '@/config';
+
 import { NextPageWithLayout } from './_app';
 
 const Page: NextPageWithLayout = () => (

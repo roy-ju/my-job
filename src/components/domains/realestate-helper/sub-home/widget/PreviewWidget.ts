@@ -14,7 +14,9 @@ export const Flex = styled.div`
 `;
 
 export const PreviewIconWrraper = styled.div`
-  ${tw`flex flex-col items-center justify-center flex-1 text-gray-900 bg-white cursor-pointer text-body_01`}
+  ${tw`flex flex-col items-center justify-center gap-1 text-gray-900 bg-white cursor-pointer text-body_01 w-14`}
+`;
 
-  gap: 4.8px
+export const PreviewButton = styled.button`
+  ${tw`text-subhead_02 flex gap-2 items-center text-left pl-3 py-4 [padding-right: 18px] border [border-radius: 12px] [min-width: 141.5px] flex-1`}
 `;

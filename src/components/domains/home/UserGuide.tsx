@@ -13,6 +13,7 @@ import EyesImage from '@/../public/static/images/image_emoji_eyes.png';
 import LogoImage from '@/../public/static/images/home/image_logo2.png';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
+
 import { ButtonV2 } from '@/components/atoms';
 
 const IntroButton = styled.button`
