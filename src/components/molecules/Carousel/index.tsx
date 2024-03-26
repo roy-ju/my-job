@@ -154,7 +154,6 @@ export default function Carousel({
     <Container {...others}>
       {renderLeftButton && !firstItemInterecting && renderLeftButton({ onClick: handleClickLeft })}
       {renderRightButton && !lastItemIntersecting && renderRightButton({ onClick: handleClickRight })}
-      {renderRightButtonIsRightIntersection && lastItemIntersecting && renderRightButtonIsRightIntersection()}
       <DragConstraints ref={constraintsRef}>
         <Track
           ref={trackRef}
@@ -172,6 +171,7 @@ export default function Carousel({
           onDragEnd={onDragEnd as any}
         >
           {children}
+          {renderRightButtonIsRightIntersection && lastItemIntersecting && renderRightButtonIsRightIntersection()}
         </Track>
       </DragConstraints>
     </Container>

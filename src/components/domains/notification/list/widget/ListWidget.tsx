@@ -28,7 +28,7 @@ export const Title = styled.div`
 `;
 
 export const Message = styled.div`
-  ${tw`text-info leading-4.5 text-gray-700 mt-1 break-words`}
+  ${tw`text-info leading-4.5 text-gray-700 mt-1 break-words whitespace-pre-line`}
 `;
 
 export const CreatedTime = styled.div`

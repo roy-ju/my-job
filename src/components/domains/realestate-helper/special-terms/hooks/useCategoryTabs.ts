@@ -1,14 +1,22 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 import useViewportHeight from '@/hooks/useViewportHeight';
 
-import { SpecialTermsContainerElementId, SpecialTermsBottomElementId } from '../constants/element_id';
+import useEventListener from '@/hooks/useEventListener';
+
+import { SpecialTermsBottomElementId } from '../constants/element_id';
 
 import { TermsElementListItem } from '../types';
 
 const headerHeight = 56 + 8 + 48 + 64;
 
-export default function useCategoryTabs({ elementsList }: { elementsList: TermsElementListItem[] }) {
+export default function useCategoryTabs({
+  elementsList,
+  containerRef,
+}: {
+  elementsList: TermsElementListItem[];
+  containerRef: RefObject<HTMLDivElement>;
+}) {
   const [tab, setTab] = useState('기본');
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -25,14 +33,12 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
     setTab('기본');
     setTabIndex(0);
 
-    const scrollContainer = document.getElementById(SpecialTermsContainerElementId);
-
     const targetElement = elementsList.find((item) => item.name === '기본')?.element;
 
-    if (scrollContainer && targetElement) {
+    if (containerRef && targetElement) {
       targetElement.scrollIntoView();
     }
-  }, [elementsList]);
+  }, [containerRef, elementsList]);
 
   const handleChangeTab = useCallback(
     (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => {
@@ -41,21 +47,19 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
       setTab(value);
       setTabIndex(idx);
 
-      const scrollContainer = document.getElementById(SpecialTermsContainerElementId);
-
       const targetElement = elementsList.find((item) => item.name === value)?.element;
 
-      if (scrollContainer && targetElement) {
+      if (containerRef?.current && targetElement) {
         const targetElementRect = targetElement.getBoundingClientRect();
 
-        const scrollPosition = targetElementRect.top + scrollContainer.scrollTop - 56 - 8 - 48 - 50;
+        const scrollPosition = targetElementRect.top + containerRef.current.scrollTop - 56 - 8 - 48 - 50;
 
-        scrollContainer.scrollTo({
+        containerRef.current.scrollTo({
           top: scrollPosition,
         });
       }
     },
-    [elementsList],
+    [elementsList, containerRef],
   );
 
   useEffect(() => {
@@ -109,23 +113,9 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
     };
   }, [elementsList, height]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const scrollContainer = document?.getElementById(SpecialTermsContainerElementId);
-
-      const handleScroll = () => {
-        setScrollTop((scrollContainer?.scrollTop ?? 0) + (scrollContainer?.clientHeight ?? 0));
-      };
-
-      if (scrollContainer) {
-        scrollContainer.addEventListener('scroll', handleScroll);
-
-        return () => {
-          scrollContainer.removeEventListener('scroll', handleScroll);
-        };
-      }
-    }
-  }, [elementsList, scrollTop]);
+  useEventListener(containerRef, 'scroll', () => {
+    setScrollTop((containerRef?.current?.scrollTop ?? 0) + (containerRef?.current?.clientHeight ?? 0));
+  });
 
   useEffect(() => {
     const visibleElements = elementsList.filter((element) => visibleState[element.element.id]);
@@ -137,13 +127,11 @@ export default function useCategoryTabs({ elementsList }: { elementsList: TermsE
       visibleElements[0],
     );
 
-    const scrollContainer = document?.getElementById(SpecialTermsContainerElementId);
-
-    if ((scrollContainer?.scrollHeight ?? 0) - scrollTop > 10) {
+    if ((containerRef?.current?.scrollHeight ?? 0) - scrollTop > 10) {
       setTab(highestPriorityElement.name);
       setTabIndex(elementsList.indexOf(highestPriorityElement));
     }
-  }, [elementsList, scrollTop, visibleState]);
+  }, [containerRef, elementsList, scrollTop, visibleState]);
 
   return {
     tab,

@@ -29,7 +29,7 @@ const customStyles = css`
   }
 
   body {
-    /* overscroll-behavior: contain; */
+    overscroll-behavior: contain;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
