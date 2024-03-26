@@ -22,6 +22,7 @@ export default function Search({ value, handleChange }: SearchProps) {
           <SearchIcon />
         </TextFieldV2.Leading>
         <TextFieldV2.Input
+          id="realesate-document-search-address"
           value={value}
           onChange={handleChange}
           tw="py-4 pl-3 h-6"
