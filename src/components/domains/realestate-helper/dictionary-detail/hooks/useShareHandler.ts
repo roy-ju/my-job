@@ -25,7 +25,7 @@ export default function useShareHandler() {
   }, []);
 
   const handleCopyUrl = useCallback(() => {
-    const content = `[네고시오] 부동산 거래 도우미\n\n부동산 용어 사전\n\n${window.origin}/${Routes.DictionaryDetail}?dictID=${id}`;
+    const content = `[네고시오] 부동산 용어 사전\n부동산과 관련된 용어를 예시와 함께 설명해드려요!\n\n${window.origin}/${Routes.DictionaryDetail}?dictID=${id}`;
 
     window?.navigator.clipboard.writeText(content);
 
