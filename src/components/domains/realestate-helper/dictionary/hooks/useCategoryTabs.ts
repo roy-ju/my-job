@@ -25,28 +25,49 @@ export default function useCategoryTabs({ elementsList }: { elementsList: DictEl
 
   const handleChangeTab = useCallback(
     (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => {
+      e.preventDefault();
+
+      if (tab === e.currentTarget.value) return;
+
       const { value } = e.currentTarget;
 
       setTab(value);
+
       setTabIndex(idx);
 
       const scrollContainer = document.getElementById(DictionaryContainerElementId);
 
       const targetElement = elementsList.find((item) => item.name === value)?.element;
 
+      if (scrollContainer) {
+        scrollContainer.style.overflowY = 'hidden';
+
+        setTimeout(() => {
+          if (scrollContainer) {
+            scrollContainer.style.overflowY = 'auto';
+          }
+        }, 100);
+
+        setTimeout(() => {
+          if (scrollContainer && targetElement) {
+            if (value === 'ㅎ') {
+              scrollContainer?.scrollTo(0, scrollContainer.scrollHeight + 100);
+            } else {
+              targetElement.scrollIntoView();
+            }
+          }
+        }, 200);
+      }
+
       if (scrollContainer && targetElement) {
         if (value === 'ㅎ') {
-          setTimeout(() => {
-            scrollContainer?.scrollTo(0, scrollContainer.scrollHeight + 100);
-          }, 100);
+          scrollContainer?.scrollTo(0, scrollContainer.scrollHeight + 100);
         } else {
-          setTimeout(() => {
-            targetElement.scrollIntoView();
-          }, 100);
+          targetElement.scrollIntoView();
         }
       }
     },
-    [elementsList],
+    [elementsList, tab],
   );
 
   useEffect(() => {

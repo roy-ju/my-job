@@ -31,6 +31,7 @@ function Tabs({ type, value, handleChange, v1Title, v2Title }: TabsProps) {
 
         if (value !== Number(button.value)) {
           const currentScrollTop = scrollContainer.scrollTop;
+
           scrollContainer.scrollTo(0, currentScrollTop);
           setTimeout(() => {
             scrollContainer.scrollTo(0, 0);

@@ -1,4 +1,4 @@
-import { useRef, MouseEvent, useState, memo } from 'react';
+import { useRef, MouseEvent, useState, memo, useEffect } from 'react';
 
 import BoxTab from '@/components/molecules/Tabs/BoxTabs';
 
@@ -8,14 +8,22 @@ import { GuideListItem } from '@/services/sub-home/types';
 
 import { ScrollContainer, TabsContainer } from './widget/CategoryTabsWidget';
 
+import useCategoryTabs from './hooks/useCategoryTabs';
+
+import { DictElementListItem } from './types';
+
+import { PrefixListElementItemId } from './constants/element_id';
+
 type CategoryTabsProps = {
-  tab: string;
-  tabIndex: number;
   list: GuideListItem[];
-  handleChangeTab: (e: NegocioMouseEvent<HTMLButtonElement>, idx: number) => void;
+  middleCategoryList: GuideListItem[];
 };
 
-function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: CategoryTabsProps) {
+function CategoryTabs({ list, middleCategoryList }: CategoryTabsProps) {
+  const [elementsList, setElementsList] = useState<DictElementListItem[]>([]);
+
+  const { tab, tabIndex, handleChangeTab } = useCategoryTabs({ elementsList });
+
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const refs = useRef<any>([]);
@@ -71,6 +79,16 @@ function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: CategoryTabsProp
     }
   }, [tab, tabIndex]);
 
+  useEffect(() => {
+    list?.forEach((i, idx) => {
+      const item = document.getElementById(`${PrefixListElementItemId}-${i.name}`);
+
+      if (item) {
+        setElementsList((prev) => [...prev, { name: i.name, element: item, priority: idx + 1 }]);
+      }
+    });
+  }, [list]);
+
   return (
     <TabsContainer>
       <ScrollContainer
@@ -82,8 +100,9 @@ function CategoryTabs({ tab, tabIndex, list, handleChangeTab }: CategoryTabsProp
         onMouseUp={onDragEnd}
         onMouseLeave={onDragEnd}
       >
-        {list?.map((item, idx) => (
+        {middleCategoryList?.map((item, idx) => (
           <BoxTab
+            id={`negocio-middle-category-list-${item.name}`}
             key={item.name}
             selected={tab === item.name}
             value={item.name}
