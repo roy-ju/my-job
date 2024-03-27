@@ -18,6 +18,11 @@ const customStyles = css`
   * {
     outline: none;
     -webkit-tap-highlight-color: transparent; /* 탭 하이라이트 색상을 투명하게 설정 */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   html,

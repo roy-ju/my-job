@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { memo, useCallback, useMemo, useRef } from 'react';
 
 import { MarginTopFour } from '@/components/atoms/Margin';
 
 import TextButton from '@/components/atoms/TextButton';
 
-import { Carousel } from '@/components/molecules';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
@@ -13,6 +13,8 @@ import RelatedTermsImage from '@/../public/static/images/subhome_related_terms.p
 import { DictContainer, DictWrraper, DictFirst, DictSecond } from './widget/SubHomeWidget';
 
 import DictCarouselItem from './DictCarouselItem';
+
+import Carousel from './widget/Carousel';
 
 type DictProps = {
   list: GuideListItem[];
@@ -46,7 +48,9 @@ function DictMoreButton({ handleClick }: { handleClick: () => void }) {
   );
 }
 
-export default function Dict({ list, handleNavigateDict, handleNavigateDictDetail }: DictProps) {
+function Dict({ list, handleNavigateDict, handleNavigateDictDetail }: DictProps) {
+  const { platform } = useCheckPlatform();
+
   const isDragging = useRef(false);
 
   const handleDragStart = useCallback(() => {
@@ -54,22 +58,22 @@ export default function Dict({ list, handleNavigateDict, handleNavigateDictDetai
 
     const element = document.getElementById('negocio-subhome-container-div-box');
 
-    if (element) {
+    if (element && platform === 'mobile') {
       element.style.overflow = 'hidden';
     }
-  }, []);
+  }, [platform]);
 
   const handleDragEnd = useCallback(() => {
     const element = document.getElementById('negocio-subhome-container-div-box');
 
-    if (element) {
+    if (element && platform === 'mobile') {
       element.style.overflow = 'auto';
     }
 
     setTimeout(() => {
       isDragging.current = false;
     }, 300);
-  }, []);
+  }, [platform]);
 
   const imageData = useMemo(
     () => ({
@@ -95,8 +99,9 @@ export default function Dict({ list, handleNavigateDict, handleNavigateDictDetai
       <DictTitle />
       <MarginTopFour />
       <Carousel
+        totalSlidesMarginRight={(list.length + 1) * 18}
         gap={16}
-        trackStyle={{ padding: '20px 20px', touchAction: 'pan-y pinch-zoom' }}
+        trackStyle={{ padding: '20px 20px' }}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
@@ -118,3 +123,5 @@ export default function Dict({ list, handleNavigateDict, handleNavigateDictDetai
     </DictContainer>
   );
 }
+
+export default memo(Dict);

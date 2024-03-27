@@ -44,9 +44,7 @@ interface ControlProps {
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
   trackStyle?: CSSProperties;
-
   gap?: number;
-
   renderLeftButton?: (props: ControlProps) => ReactElement;
   renderRightButton?: (props: ControlProps) => ReactElement;
   renderRightButtonIsNotIntersection?: () => ReactElement;
@@ -57,7 +55,6 @@ export default function Carousel({
   trackStyle,
   renderLeftButton,
   renderRightButton,
-  renderRightButtonIsNotIntersection,
   onDragStart,
   onDragEnd,
   children,
@@ -171,7 +168,6 @@ export default function Carousel({
           onDragEnd={onDragEnd as any}
         >
           {children}
-          {renderRightButtonIsNotIntersection && renderRightButtonIsNotIntersection()}
         </Track>
       </DragConstraints>
     </Container>
