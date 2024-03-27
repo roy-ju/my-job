@@ -10,15 +10,10 @@ export default function Contents() {
   return (
     <main>
       <SuggestForm />
-
       <MarginTopFourty />
-
       <RealestateHelper />
-
       <MarginTopFourty />
-
       <LawQna />
-
       <MarginTopFourty />
     </main>
   );
