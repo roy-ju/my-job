@@ -46,9 +46,21 @@ export default function CommonSense({
 
   const handleDragStart = useCallback(() => {
     isDragging.current = true;
+
+    const element = document.getElementById('negocio-subhome-container-div-box');
+
+    if (element) {
+      element.style.overflow = 'hidden';
+    }
   }, []);
 
   const handleDragEnd = useCallback(() => {
+    const element = document.getElementById('negocio-subhome-container-div-box');
+
+    if (element) {
+      element.style.overflow = 'auto';
+    }
+
     setTimeout(() => {
       isDragging.current = false;
     }, 300);

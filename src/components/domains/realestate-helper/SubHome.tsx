@@ -33,7 +33,7 @@ export default function SubHome() {
   return (
     <Container>
       <Header />
-      <FlexContents>
+      <FlexContents id="negocio-subhome-container-div-box">
         <Preview
           handleNavigateTradeProcess={() => handleNavigateSubPage(makeUrl('tradeProcess'))}
           handleNavigateDeungibu={() => handleNavigateSubPage(makeUrl('documentList'))}

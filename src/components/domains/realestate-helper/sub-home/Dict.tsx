@@ -51,9 +51,21 @@ export default function Dict({ list, handleNavigateDict, handleNavigateDictDetai
 
   const handleDragStart = useCallback(() => {
     isDragging.current = true;
+
+    const element = document.getElementById('negocio-subhome-container-div-box');
+
+    if (element) {
+      element.style.overflow = 'hidden';
+    }
   }, []);
 
   const handleDragEnd = useCallback(() => {
+    const element = document.getElementById('negocio-subhome-container-div-box');
+
+    if (element) {
+      element.style.overflow = 'auto';
+    }
+
     setTimeout(() => {
       isDragging.current = false;
     }, 300);
@@ -82,7 +94,12 @@ export default function Dict({ list, handleNavigateDict, handleNavigateDictDetai
     <DictContainer>
       <DictTitle />
       <MarginTopFour />
-      <Carousel gap={16} trackStyle={{ padding: '20px 20px' }} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <Carousel
+        gap={16}
+        trackStyle={{ padding: '20px 20px', touchAction: 'pan-y pinch-zoom' }}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
         {[imageData, ...list]
           ?.sort((a, b) => new Date(b.created_time).getTime() - new Date(a.created_time).getTime())
           .slice(0, 5)
