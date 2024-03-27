@@ -41,11 +41,13 @@ export default function useHandleClickBack() {
 
     if (typeof window !== 'undefined') {
       if (platform === 'pc') {
-        router.replace(`/${Routes.SubHome}`);
+        router.replace(router?.query?.entry === 'home' ? `/` : `/${Routes.SubHome}`);
       }
 
       if (platform === 'mobile') {
-        router.replace(`/${Routes.EntryMobile}/${Routes.SubHome}`);
+        router.replace(
+          router?.query?.entry === 'home' ? `/${Routes.EntryMobile}` : `/${Routes.EntryMobile}/${Routes.SubHome}`,
+        );
       }
     }
   }, [

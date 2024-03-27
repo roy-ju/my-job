@@ -39,38 +39,38 @@ export default function useNavigationHandler() {
 
       if (type === 'dict') {
         return platform === 'pc'
-          ? `/${Routes.SubHome}/${Routes.Dictionary}`
-          : `/${Routes.EntryMobile}/${Routes.Dictionary}`;
+          ? `/${Routes.SubHome}/${Routes.Dictionary}?entry=home`
+          : `/${Routes.EntryMobile}/${Routes.Dictionary}?entry=home`;
       }
 
       if (type === 'commonSense') {
         return platform === 'pc'
-          ? `/${Routes.SubHome}/${Routes.CommonSense}`
-          : `/${Routes.EntryMobile}/${Routes.CommonSense}`;
+          ? `/${Routes.SubHome}/${Routes.CommonSense}?entry=home`
+          : `/${Routes.EntryMobile}/${Routes.CommonSense}?entry=home`;
       }
 
       if (type === 'specialTerms') {
         return platform === 'pc'
-          ? `/${Routes.SubHome}/${Routes.SpecialTerms}`
-          : `/${Routes.EntryMobile}/${Routes.SpecialTerms}`;
+          ? `/${Routes.SubHome}/${Routes.SpecialTerms}?entry=home`
+          : `/${Routes.EntryMobile}/${Routes.SpecialTerms}?entry=home`;
       }
 
       if (type === 'listingCheckList') {
         return platform === 'pc'
-          ? `/${Routes.SubHome}/${Routes.ListingCheckList}`
-          : `/${Routes.EntryMobile}/${Routes.ListingCheckList}`;
+          ? `/${Routes.SubHome}/${Routes.ListingCheckList}?entry=home`
+          : `/${Routes.EntryMobile}/${Routes.ListingCheckList}?entry=home`;
       }
 
       if (type === 'documentList') {
         return platform === 'pc'
-          ? `/${Routes.SubHome}/${Routes.RealestateDocumentList}`
-          : `/${Routes.EntryMobile}/${Routes.RealestateDocumentList}`;
+          ? `/${Routes.SubHome}/${Routes.RealestateDocumentList}?entry=home`
+          : `/${Routes.EntryMobile}/${Routes.RealestateDocumentList}?entry=home`;
       }
 
       if (type === 'documentSearch') {
         return platform === 'pc'
-          ? `/${Routes.SubHome}/${Routes.RealestateDocumentSearchAddress}`
-          : `/${Routes.EntryMobile}/${Routes.RealestateDocumentSearchAddress}`;
+          ? `/${Routes.SubHome}/${Routes.RealestateDocumentSearchAddress}?entry=home`
+          : `/${Routes.EntryMobile}/${Routes.RealestateDocumentSearchAddress}?entry=home`;
       }
 
       return '';
