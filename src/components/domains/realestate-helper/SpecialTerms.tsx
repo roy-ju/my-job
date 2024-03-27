@@ -30,15 +30,10 @@ import VirtualDiv from './special-terms/VirtualDiv';
 
 export default function SpecialTerms() {
   const [render, setRender] = useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
 
   const { handleClickBack } = useHandleClickBack();
-
-  const [callbackFuncState, setCallbackFuncState] = useState<() => void>();
-
-  const handleUpdateCallbackFuncState = (ch: () => void) => {
-    setCallbackFuncState(ch);
-  };
 
   const [openTitle, setOpenTitle] = useState<string | null>(null);
 
@@ -48,7 +43,6 @@ export default function SpecialTerms() {
 
   const { tab: buyOrRent, handleChangeTab: handleChangeBuyOrRentTab } = useBuyOrRentTabsHandler({
     containerRef: ref,
-    handleChangeTabToCallback: callbackFuncState,
   });
 
   const { notionInfo, categoryTabListOnlyTitle, categoryTablist, list } = useGetListAndInfo({ buyOrRent });
@@ -79,7 +73,6 @@ export default function SpecialTerms() {
           buyOrRent={buyOrRent}
           categoryTablist={categoryTablist}
           list={categoryTabListOnlyTitle}
-          handleUpdateCallbackFuncState={handleUpdateCallbackFuncState}
         />
         <Lists
           categoryTablist={categoryTablist}
