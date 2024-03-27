@@ -41,7 +41,7 @@ export default function DictCarouselItem({
         }}
       >
         <CarouselItemContainerTypeTwo tw="h-full border-none">
-          <Image src={item.thumb_file_path ?? ''} alt="dummyImage" width={200} height={220} />
+          <Image src={item.thumb_file_path ?? ''} alt="dummyImage" width={200} height={220} tw="pointer-events-none" />
         </CarouselItemContainerTypeTwo>
       </MotionCarouselItemContainer>
     );

@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { memo, useCallback, useRef } from 'react';
 
 import { MarginTopFour } from '@/components/atoms/Margin';
 
@@ -6,8 +6,7 @@ import { GuideListItem } from '@/services/sub-home/types';
 
 import IconButton from '@/components/atoms/IconButton';
 
-import Carousel from '@/components/molecules/Carousel';
-
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 import {
   CommonSenseContainer,
   CommonSenseWrraper,
@@ -17,6 +16,8 @@ import {
 } from './widget/SubHomeWidget';
 
 import CommonSenseCarouselItem from './CommonSenseCarouselItem';
+
+import Carousel from './widget/Carousel';
 
 type CommonSenseProps = {
   list: GuideListItem[];
@@ -37,11 +38,9 @@ function CommonSenseTitle() {
   );
 }
 
-export default function CommonSense({
-  list,
-  handleNavigateCommonSense,
-  handleNavigateCommonSenseDetail,
-}: CommonSenseProps) {
+function CommonSense({ list, handleNavigateCommonSense, handleNavigateCommonSenseDetail }: CommonSenseProps) {
+  const { platform } = useCheckPlatform();
+
   const isDragging = useRef(false);
 
   const handleDragStart = useCallback(() => {
@@ -49,22 +48,22 @@ export default function CommonSense({
 
     const element = document.getElementById('negocio-subhome-container-div-box');
 
-    if (element) {
+    if (element && platform === 'mobile') {
       element.style.overflow = 'hidden';
     }
-  }, []);
+  }, [platform]);
 
   const handleDragEnd = useCallback(() => {
     const element = document.getElementById('negocio-subhome-container-div-box');
 
-    if (element) {
+    if (element && platform === 'mobile') {
       element.style.overflow = 'auto';
     }
 
     setTimeout(() => {
       isDragging.current = false;
     }, 300);
-  }, []);
+  }, [platform]);
 
   return (
     <CommonSenseContainer>
@@ -72,6 +71,7 @@ export default function CommonSense({
       <MarginTopFour />
       <Carousel
         gap={20}
+        totalSlidesMarginRight={list.slice(0, 5).length * 30}
         trackStyle={{ padding: '20px 20px' }}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
@@ -97,3 +97,5 @@ export default function CommonSense({
     </CommonSenseContainer>
   );
 }
+
+export default memo(CommonSense);

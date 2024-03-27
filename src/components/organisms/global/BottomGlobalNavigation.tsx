@@ -1,3 +1,5 @@
+import { MouseEvent } from 'react';
+
 import { useRouter } from 'next/router';
 
 import tw from 'twin.macro';
@@ -28,7 +30,9 @@ export default function BottomGlobalNavigation({
   const map = useMobileMap();
   const router = useRouter();
 
-  const onClickButton = (path: string) => {
+  const onClickButton = (path: string, e?: MouseEvent<HTMLButtonElement> | undefined) => {
+    if (e?.currentTarget.value === index?.toString()) return;
+
     router.replace(`/${Routes.EntryMobile}/${path}`);
   };
 
@@ -46,31 +50,46 @@ export default function BottomGlobalNavigation({
       <div tw="flex items-center">
         <Button
           variant="ghost"
+          value={0}
           tw="flex-col px-0 h-auto flex-1 gap-0.5"
-          onClick={() => router.replace(`/${Routes.EntryMobile}`)}
+          onClick={(e) => {
+            if (e?.currentTarget.value === index?.toString()) return;
+
+            router.replace(`/${Routes.EntryMobile}`);
+          }}
         >
           <HomeIcon css={index === 0 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 0 ? buttonStyles.selected : buttonStyles.default]}>홈</span>
         </Button>
-        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-0.5" onClick={() => onClickButton(Routes.SubHome)}>
+
+        <Button
+          variant="ghost"
+          value={1}
+          tw="flex-col px-0 h-auto flex-1 gap-0.5"
+          onClick={(e) => onClickButton(Routes.SubHome, e)}
+        >
           <BookIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>거래도우미</span>
         </Button>
+
         <Button
           variant="ghost"
+          value={2}
           tw="flex-col px-0 h-auto flex-1 gap-0.5"
-          onClick={() => {
-            onClickButton(Routes.Map);
+          onClick={(e) => {
+            onClickButton(Routes.Map, e);
             map?.setZoom(15, true);
           }}
         >
           <MapIcon css={index === 2 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 2 ? buttonStyles.selected : buttonStyles.default]}>지도</span>
         </Button>
+
         <Button
           variant="ghost"
+          value={3}
           tw="flex-col px-0 h-auto flex-1 gap-0.5"
-          onClick={() => onClickButton(Routes.ChatRoomList)}
+          onClick={(e) => onClickButton(Routes.ChatRoomList, e)}
         >
           <div tw="relative">
             <ChatIcon css={index === 3 ? buttonStyles.selected : buttonStyles.defaultIcon} />
@@ -80,7 +99,13 @@ export default function BottomGlobalNavigation({
           </div>
           <span css={[tw`text-body_01`, index === 3 ? buttonStyles.selected : buttonStyles.default]}>채팅</span>
         </Button>
-        <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-0.5" onClick={() => onClickButton(Routes.My)}>
+
+        <Button
+          variant="ghost"
+          value={4}
+          tw="flex-col px-0 h-auto flex-1 gap-0.5"
+          onClick={(e) => onClickButton(Routes.My, e)}
+        >
           <UserIcon css={index === 4 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 4 ? buttonStyles.selected : buttonStyles.default]}>마이페이지</span>
         </Button>

@@ -1,4 +1,5 @@
 import { MutableRefObject } from 'react';
+
 import { isRef } from './is';
 
 /**
