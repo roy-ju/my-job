@@ -8,7 +8,7 @@ import useMobileMap from '@/states/hooks/useMobileMap';
 
 import HomeIcon from '@/assets/icons/home.svg';
 
-import HeartIcon from '@/assets/icons/heart.svg';
+import BookIcon from '@/assets/icons/icon_book_24.svg';
 
 import MapIcon from '@/assets/icons/mob_map_pin.svg';
 
@@ -53,7 +53,7 @@ export default function BottomGlobalNavigation({
           <span css={[tw`text-body_01`, index === 0 ? buttonStyles.selected : buttonStyles.default]}>홈</span>
         </Button>
         <Button variant="ghost" tw="flex-col px-0 h-auto flex-1 gap-0.5" onClick={() => onClickButton(Routes.SubHome)}>
-          <HeartIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
+          <BookIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>거래도우미</span>
         </Button>
         <Button
