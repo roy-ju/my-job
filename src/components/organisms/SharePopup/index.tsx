@@ -1,10 +1,10 @@
-import tw, { styled } from 'twin.macro';
+import tw, { styled, theme } from 'twin.macro';
 
 import OutsideClick from '@/components/atoms/OutsideClick';
 
 import KakaoLogoIcon from '@/assets/icons/kakao_logo.svg';
 
-import ShareIcon from '@/assets/icons/chain.svg';
+import CopyIcon from '@/assets/icons/icon_copy_24_2.svg';
 
 const Container = styled.div`
   ${tw`[width: 295px] flex [padding-inline: 67.5px] [padding-block: 37px] bg-white px-14 rounded-2xl gap-12`}
@@ -33,8 +33,8 @@ export default function SharePopup({ onClickOutside, onClickShareViaKakao, onCli
     <OutsideClick onOutsideClick={onClickOutside}>
       <Container>
         <Button onClick={onClickCopyUrl}>
-          <IconWrraper tw="bg-gray-400">
-            <ShareIcon />
+          <IconWrraper tw="bg-gray-200">
+            <CopyIcon color={theme`colors.gray.700`} />
           </IconWrraper>
           <DivText>URL 복사</DivText>
         </Button>
