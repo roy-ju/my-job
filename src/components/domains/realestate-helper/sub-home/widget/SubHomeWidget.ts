@@ -140,10 +140,6 @@ export const HashtagWrraper = styled.div`
   ${tw`flex flex-wrap gap-3 px-5 py-5`}
 `;
 
-export const Hashtag = styled.div`
-  ${tw`flex flex-row items-center gap-0.5 justify-center bg-gray-100 [padding-block: 5px] px-3 [border-radius: 100px] text-gray-700 text-body_01`}
-`;
-
 export const MoreButtonWrraper = styled.div`
   /* ${tw`absolute top-1/2 right-0 -translate-y-1/2 z-10 px-1.5 text-center text-gray-600 text-body_02 cursor-pointer`} */
   ${tw`px-3 my-auto text-center text-gray-600 cursor-pointer text-body_02 h-fit`}
