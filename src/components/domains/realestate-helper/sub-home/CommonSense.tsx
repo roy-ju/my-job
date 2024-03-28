@@ -1,6 +1,12 @@
 import { memo, useCallback, useRef } from 'react';
 
+import { theme } from 'twin.macro';
+
 import { MarginTopFour } from '@/components/atoms/Margin';
+
+import ButtonV2 from '@/components/atoms/ButtonV2';
+
+import IconArrowRight from '@/assets/icons/icon_arrow_right_20_1.svg';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
@@ -35,6 +41,15 @@ function CommonSenseTitle() {
       <CommonSenseFirst>부동산 상식</CommonSenseFirst>
       <CommonSenseSecond>가장 중요하지만, 가장 어려운 부동산 상식의 모든 것!</CommonSenseSecond>
     </CommonSenseWrraper>
+  );
+}
+
+function CommonSenseMoreButton({ handleClick }: { handleClick: () => void }) {
+  return (
+    <ButtonV2 variant="white" tw="w-full flex gap-0.5" size="bigger" radius="none" onClick={handleClick}>
+      더보기
+      <IconArrowRight color={theme`colors.gray.600`} />
+    </ButtonV2>
   );
 }
 
@@ -94,6 +109,9 @@ function CommonSense({ list, handleNavigateCommonSense, handleNavigateCommonSens
             />
           ))}
       </Carousel>
+      <MarginTopFour />
+      <div tw="bg-gray-200 w-full [min-height: 1px]" />
+      <CommonSenseMoreButton handleClick={handleNavigateCommonSense} />
     </CommonSenseContainer>
   );
 }
