@@ -1,14 +1,18 @@
 import { memo, useCallback, useMemo, useRef } from 'react';
 
+import { theme } from 'twin.macro';
+
 import { MarginTopFour } from '@/components/atoms/Margin';
 
-import TextButton from '@/components/atoms/TextButton';
+import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
 import RelatedTermsImage from '@/../public/static/images/subhome_related_terms.png';
+
+import IconArrowRight from '@/assets/icons/icon_arrow_right_20_1.svg';
 
 import { DictContainer, DictWrraper, DictFirst, DictSecond } from './widget/SubHomeWidget';
 
@@ -37,14 +41,10 @@ function DictTitle() {
 
 function DictMoreButton({ handleClick }: { handleClick: () => void }) {
   return (
-    <TextButton
-      title="부동산 용어 더보기"
-      variant="right"
-      color="gray700"
-      size="large"
-      tw="w-full text-center border-t border-t-gray-200 [padding-block: 17px]"
-      onClick={handleClick}
-    />
+    <ButtonV2 variant="white" tw="w-full flex gap-0.5" size="bigger" radius="none" onClick={handleClick}>
+      부동산 용어 더보기
+      <IconArrowRight color={theme`colors.gray.600`} />
+    </ButtonV2>
   );
 }
 
@@ -119,6 +119,7 @@ function Dict({ list, handleNavigateDict, handleNavigateDictDetail }: DictProps)
           ))}
       </Carousel>
       <MarginTopFour />
+      <div tw="bg-gray-200 w-full [min-height: 1px]" />
       <DictMoreButton handleClick={handleNavigateDict} />
     </DictContainer>
   );

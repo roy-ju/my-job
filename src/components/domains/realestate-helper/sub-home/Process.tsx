@@ -1,14 +1,16 @@
 import Image from 'next/image';
 
+import { theme } from 'twin.macro';
+
 import { MarginTopFour } from '@/components/atoms/Margin';
 
-import TextButton from '@/components/atoms/TextButton';
+import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import TradeProcessImage from '@/../public/static/images/image_step.png';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-// import { ButtonV2 } from '@/components/atoms';
+import IconArrowRight from '@/assets/icons/icon_arrow_right_20_1.svg';
 
 import {
   ProcessImageContainer,
@@ -29,14 +31,10 @@ function ProcessTitle() {
 
 function ProcessMoreButton({ handleClick }: { handleClick: () => void }) {
   return (
-    <TextButton
-      title="더보기"
-      variant="right"
-      color="gray700"
-      size="large"
-      tw="w-full text-center border-t border-t-gray-200 [padding-block: 17px]"
-      onClick={handleClick}
-    />
+    <ButtonV2 variant="white" tw="w-full flex gap-0.5" size="bigger" radius="none" onClick={handleClick}>
+      더보기
+      <IconArrowRight color={theme`colors.gray.600`} />
+    </ButtonV2>
   );
 }
 
@@ -58,6 +56,7 @@ export default function Process({ handleClick }: { handleClick: () => void }) {
           quality={100} // 품질을 조절할 수 있는 속성
         />
       </ProcessImageContainer>
+      <div tw="bg-gray-200 w-full [min-height: 1px]" />
       <ProcessMoreButton handleClick={handleClick} />
     </ProcessContainer>
   );

@@ -1,10 +1,14 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 
-import TextButton from '@/components/atoms/TextButton';
+import tw, { theme } from 'twin.macro';
+
+import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { MarginTopSixteen, MarginTopTwentyFour } from '@/components/atoms/Margin';
 
 import { DeptListItem } from '@/services/sub-home/types';
+
+import IconArrowDown from '@/assets/icons/icon_arrow_down_20_1.svg';
 
 import {
   BetweenRow,
@@ -66,15 +70,12 @@ export default function Loans({ list }: LoansProps) {
         ))}
       </TableWrraper>
       {renderMoreButtonUI && <MarginTopTwentyFour />}
+      {renderMoreButtonUI && <div tw="bg-gray-200 w-full [min-height: 1px]" />}
       {renderMoreButtonUI && (
-        <TextButton
-          variant={!open ? 'down' : 'up'}
-          title={!open ? '더보기' : '접기'}
-          size="large"
-          color="gray700"
-          tw="w-full border-t border-t-gray-200 [padding-block: 17px]"
-          onClick={handleClick}
-        />
+        <ButtonV2 variant="white" tw="w-full flex gap-0.5" size="bigger" radius="none" onClick={handleClick}>
+          {!open ? '더보기' : '접기'}
+          <IconArrowDown color={theme`colors.gray.600`} css={[open && tw`rotate-180`]} />
+        </ButtonV2>
       )}
     </div>
   );

@@ -23,6 +23,8 @@ const variants = {
 
   grayOutline: tw`bg-white border border-gray-300 text-gray-700 hover:[background: rgba(233, 236, 239, 0.2)] disabled:bg-white disabled:[color: rgba(134, 142, 150, 0.4)] disabled:[border-color: rgba(233, 236, 239, 0.4)]`,
 
+  white: tw`border border-white bg-white text-gray-700 hover:bg-gray-100 hover:text-gray-700 disabled:text-gray-700 disabled:[background: rgba(255, 255, 255, 0.4)] disabled:[border-color: rgba(241, 243, 245, 0.4)]`,
+
   ghost: tw``,
 };
 
@@ -36,9 +38,7 @@ const selectedStyles = {
   gray: tw`border border-gray-600 bg-gray-600 text-gray-1000 hover:bg-gray-600 hover:text-gray-1000`,
   grayOutline: tw`[background: rgba(233, 236, 239, 0.5)] text-gray-700 border-gray-300 hover:[background: rgba(233, 236, 239, 0.5)] hover:text-gray-700 hover:border-gray-300`,
 
-  white: tw`border border-white bg-white text-gray-700 hover:bg-gray-600 hover:text-gray-700`,
-
-  whiteOutline: tw`[background: rgba(233, 236, 239, 0.5)] text-gray-700 border-gray-300 hover:[background: rgba(233, 236, 239, 0.5)] hover:text-gray-700 hover:border-gray-300`,
+  white: tw`border border-gray-200 bg-gray-200 text-gray-700 hover:bg-gray-200 hover:text-gray-700`,
 
   ghost: tw``,
 };
@@ -65,7 +65,15 @@ export interface ButtonV2Props {
   /** 클릭 했을 때 호출할 함수 */
   onMouseDown?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   /** 버튼 테마 */
-  variant?: 'primary' | 'primaryOutline' | 'secondary' | 'secondaryOutline' | 'gray' | 'grayOutline' | 'ghost';
+  variant?:
+    | 'primary'
+    | 'primaryOutline'
+    | 'secondary'
+    | 'secondaryOutline'
+    | 'gray'
+    | 'grayOutline'
+    | 'white'
+    | 'ghost';
   /** 버튼 사이즈 */
   size?: 'small' | 'medium' | 'big' | 'bigger' | 'none';
   /** 버튼 radius */
