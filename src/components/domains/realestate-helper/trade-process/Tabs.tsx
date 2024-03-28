@@ -17,7 +17,7 @@ type TabsProps = {
 
 function Tabs({ value, handleChange, v1Title, v2Title }: TabsProps) {
   return (
-    <Container>
+    <Container tw="border-b border-b-gray-200">
       <TabsV2Wrraper>
         <TabsV2>
           <TabsV2.Tab value={1} onClick={handleChange} id="negocio-trade-process-buy-tabs">
