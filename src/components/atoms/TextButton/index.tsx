@@ -47,8 +47,10 @@ export default function TextButton({ variant, size, title, ...others }: TextButt
       {title}
       {variant === 'right' && size === 'small' && <ArrowRightSmallIcon />}
       {variant === 'right' && size === 'large' && <ArrowRightLargeIcon />}
+
       {variant === 'down' && size === 'small' && <ArrowDownSmallIcon />}
       {variant === 'down' && size === 'large' && <ArrowDownLargeIcon />}
+
       {variant === 'up' && size === 'small' && <ArrowDownSmallIcon tw="rotate-180" />}
       {variant === 'up' && size === 'large' && <ArrowDownLargeIcon tw="rotate-180" />}
     </TextButtonUI>
