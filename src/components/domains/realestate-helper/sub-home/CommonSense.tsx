@@ -97,17 +97,14 @@ function CommonSense({ list, handleNavigateCommonSense, handleNavigateCommonSens
           </MoreButtonWrraper>
         )}
       >
-        {list
-          ?.sort((a, b) => new Date(b.created_time).getTime() - new Date(a.created_time).getTime())
-          .slice(0, 5)
-          .map((item, i) => (
-            <CommonSenseCarouselItem
-              key={makeKey(item.name || '', item.content || '', item.created_time || '', i)}
-              item={item}
-              isDragging={isDragging}
-              handleNavigateCommonSenseDetail={handleNavigateCommonSenseDetail}
-            />
-          ))}
+        {list.slice(0, 5).map((item, i) => (
+          <CommonSenseCarouselItem
+            key={makeKey(item.name || '', item.content || '', item.created_time || '', i)}
+            item={item}
+            isDragging={isDragging}
+            handleNavigateCommonSenseDetail={handleNavigateCommonSenseDetail}
+          />
+        ))}
       </Carousel>
       <MarginTopFour />
       <div tw="bg-gray-200 w-full [min-height: 1px]" />

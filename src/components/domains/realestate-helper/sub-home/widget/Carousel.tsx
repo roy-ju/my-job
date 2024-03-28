@@ -1,8 +1,19 @@
-import { CSSProperties, ComponentPropsWithoutRef, ReactElement, useRef, memo, useState, useEffect } from 'react';
+import {
+  CSSProperties,
+  ComponentPropsWithoutRef,
+  ReactElement,
+  useRef,
+  useState,
+  useEffect,
+  memo,
+  useCallback,
+} from 'react';
 
 import { styled } from 'twin.macro';
 
 import { motion, useAnimationControls } from 'framer-motion';
+
+import { v4 } from 'uuid';
 
 const Container = styled.div`
   position: relative;
@@ -23,6 +34,18 @@ const Track = styled(motion.div)`
     flex-shrink: 0;
   }
 `;
+
+const useResize = (callback: () => void) => {
+  useEffect(() => {
+    // `resize` 이벤트 리스너 등록
+    window.addEventListener('resize', callback);
+
+    // 컴포넌트가 언마운트될 때, `resize` 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('resize', callback);
+    };
+  }, [callback]); // 의존성 배열에 콜백을 포함합니다.
+};
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
   trackStyle?: CSSProperties;
@@ -46,49 +69,36 @@ function Carousel({
   const slidesRef = useRef<HTMLDivElement | null>(null);
 
   /** new */
-  const [sliderWidth, setSliderWidths] = useState(0);
-  const [slidesWidth, setSlidesWidths] = useState(0);
+  const [sliderWidth, setSliderWidth] = useState(0);
+  const [slidesWidth, setSlidesWidth] = useState(0);
 
   const animationControls = useAnimationControls();
 
+  const measureWidths = useCallback(() => {
+    const sliderW = sliderRef.current?.clientWidth ?? 0;
+    const slidesW = Array.from(slidesRef.current?.childNodes ?? []).reduce(
+      (acc, node) => acc + (node as HTMLElement).clientWidth,
+      0,
+    );
+    setSliderWidth(sliderW);
+    setSlidesWidth(slidesW);
+  }, []);
+
+  useResize(measureWidths);
+
   useEffect(() => {
-    const measureSliderWidth = () => {
-      setSliderWidths(sliderRef?.current?.clientWidth ?? 0);
-    };
-
-    const measureSlidesWidth = () => {
-      const slidesNode = slidesRef?.current?.childNodes;
-
-      if (slidesNode) {
-        const slidesArr = Array.from(slidesNode);
-
-        // @ts-ignore
-        const slidesSumWidth = slidesArr.reduce((acc, node) => acc + (node?.clientWidth ?? 0), 0);
-        setSlidesWidths(slidesSumWidth);
-      }
-    };
-
-    measureSliderWidth();
-    measureSlidesWidth();
-
-    window.addEventListener('resize', measureSliderWidth);
-    window.addEventListener('resize', measureSlidesWidth);
-
-    return () => {
-      window.removeEventListener('resize', measureSliderWidth);
-      window.removeEventListener('resize', measureSlidesWidth);
-    };
-  }, [sliderWidth, slidesWidth]);
+    measureWidths();
+  }, [measureWidths]);
 
   return (
     <Container {...others}>
       <DragConstraints ref={sliderRef}>
         <Track
+          key={v4()}
           ref={slidesRef}
           drag="x"
           animate={animationControls}
           dragElastic={0.2}
-          // dragConstraints={sliderRef}
           dragConstraints={{
             left: -(slidesWidth - sliderWidth + totalSlidesMarginRight),
             right: 0,
