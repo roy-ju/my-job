@@ -2,7 +2,7 @@ import { MouseEvent } from 'react';
 
 import { useRouter } from 'next/router';
 
-import tw from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 import Button from '@/components/atoms/Button';
 
@@ -19,6 +19,20 @@ import ChatIcon from '@/assets/icons/mob_chat.svg';
 import UserIcon from '@/assets/icons/user.svg';
 
 import Routes from '@/router/routes';
+
+const BottomGlobalNavigationContainer = styled.div`
+  ${tw`w-full border-t border-t-gray-300 flex flex-col gap-5 px-[5px] bg-white [z-index: 300]`}
+`;
+
+const BottomGlobalNavigationFlex = styled.div`
+  ${tw`flex items-center`}
+`;
+
+const NavigationButton = styled(Button)`
+  ${tw`flex-col px-0 h-auto flex-1 gap-0.5 [padding-block: 5px]`}
+`;
+
+NavigationButton.defaultProps = { variant: 'ghost' };
 
 export default function BottomGlobalNavigation({
   index,
@@ -43,39 +57,26 @@ export default function BottomGlobalNavigation({
   };
 
   return (
-    <div
-      tw="w-full border-t border-t-gray-300 flex flex-col gap-5 py-[5px] px-[5px] bg-white [z-index: 300]"
-      id="negocio-mob-global-navigation"
-    >
-      <div tw="flex items-center">
-        <Button
-          variant="ghost"
+    <BottomGlobalNavigationContainer id="negocio-mob-global-navigation">
+      <BottomGlobalNavigationFlex>
+        <NavigationButton
           value={0}
-          tw="flex-col px-0 h-auto flex-1 gap-0.5"
           onClick={(e) => {
             if (e?.currentTarget.value === index?.toString()) return;
-
             router.replace(`/${Routes.EntryMobile}`);
           }}
         >
           <HomeIcon css={index === 0 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 0 ? buttonStyles.selected : buttonStyles.default]}>홈</span>
-        </Button>
+        </NavigationButton>
 
-        <Button
-          variant="ghost"
-          value={1}
-          tw="flex-col px-0 h-auto flex-1 gap-0.5"
-          onClick={(e) => onClickButton(Routes.SubHome, e)}
-        >
+        <NavigationButton value={1} onClick={(e) => onClickButton(Routes.SubHome, e)}>
           <BookIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>거래도우미</span>
-        </Button>
+        </NavigationButton>
 
-        <Button
-          variant="ghost"
+        <NavigationButton
           value={2}
-          tw="flex-col px-0 h-auto flex-1 gap-0.5"
           onClick={(e) => {
             onClickButton(Routes.Map, e);
             map?.setZoom(15, true);
@@ -83,14 +84,9 @@ export default function BottomGlobalNavigation({
         >
           <MapIcon css={index === 2 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 2 ? buttonStyles.selected : buttonStyles.default]}>지도</span>
-        </Button>
+        </NavigationButton>
 
-        <Button
-          variant="ghost"
-          value={3}
-          tw="flex-col px-0 h-auto flex-1 gap-0.5"
-          onClick={(e) => onClickButton(Routes.ChatRoomList, e)}
-        >
+        <NavigationButton value={3} onClick={(e) => onClickButton(Routes.ChatRoomList, e)}>
           <div tw="relative">
             <ChatIcon css={index === 3 ? buttonStyles.selected : buttonStyles.defaultIcon} />
             {!!unreadChatCount && (
@@ -98,18 +94,13 @@ export default function BottomGlobalNavigation({
             )}
           </div>
           <span css={[tw`text-body_01`, index === 3 ? buttonStyles.selected : buttonStyles.default]}>채팅</span>
-        </Button>
+        </NavigationButton>
 
-        <Button
-          variant="ghost"
-          value={4}
-          tw="flex-col px-0 h-auto flex-1 gap-0.5"
-          onClick={(e) => onClickButton(Routes.My, e)}
-        >
+        <NavigationButton value={4} onClick={(e) => onClickButton(Routes.My, e)}>
           <UserIcon css={index === 4 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 4 ? buttonStyles.selected : buttonStyles.default]}>마이페이지</span>
-        </Button>
-      </div>
-    </div>
+        </NavigationButton>
+      </BottomGlobalNavigationFlex>
+    </BottomGlobalNavigationContainer>
   );
 }

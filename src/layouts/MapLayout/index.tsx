@@ -37,6 +37,7 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
+
 import Markers from './Markers';
 
 import usePanelVisible from './hooks/usePanelVisible';
@@ -362,12 +363,12 @@ export default function MapLayout({ children }: Props) {
         case 0: // 홈
           router.push('/');
           break;
-        case 1: // 지도
+        case 1: // 거래도우미
+          router.push(`/${Routes.SubHome}`);
+          break;
+        case 2: // 지도
           map.naverMap?.setZoom(16, true);
           router.push(`/${Routes.Map}`);
-          break;
-        case 2: // 거래도우미
-          router.push(`/${Routes.SubHome}`);
           break;
         case 3: // 문의목록
           router.push(`/${Routes.ChatRoomList}`);
@@ -411,33 +412,33 @@ export default function MapLayout({ children }: Props) {
     } else if (router.query.depth1 === Routes.LawQnaUpdate) {
       handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.Map) {
-      handleChangeTabIndex(1);
+      handleChangeTabIndex(2);
     } else if (router.query.depth1 === Routes.SubHome) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.TradeProcess) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.SpecialTerms) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.CommonSense) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.Dictionary) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.DictionaryDetail) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.ListingCheckList) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.RealestateDocumentSearchAddress) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.RealestateDocumentAddressDetail) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.RealestateDocumentAddressVerifying) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.RealestateDocumentAddressVerifyResult) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.RealestateDocumentList) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.RealestateDocumentDetail) {
-      handleChangeTabIndex(2);
+      handleChangeTabIndex(1);
     } else if (router.query.depth1 === Routes.ChatRoomList) {
       handleChangeTabIndex(3);
     } else if (router.query.depth1 === Routes.My) {

@@ -2,11 +2,11 @@ import { createContext, ReactNode, useCallback, useContext, useMemo } from 'reac
 
 import tw from 'twin.macro';
 
-import Logo from '@/assets/icons/logo.svg';
-
 import useControlled from '@/hooks/useControlled';
 
 import { NewCount } from '@/components/atoms';
+
+import Logo from '@/assets/icons/logo.svg';
 
 import GlobalHambergerMenu from './GlobalHambergerMenu';
 
@@ -71,6 +71,7 @@ function GlobalNavigation({
 
 function useNavigationContext() {
   const context = useContext(NavigationContext);
+
   if (!context) {
     throw new Error('Global Navigation compound components cannot be rendered outside the GlobalNavigation component');
   }
@@ -98,18 +99,24 @@ function TabButton({
     <button
       type="button"
       css={[
-        tw`w-full h-[5.25rem] flex flex-col items-center py-5 gap-2 hover:bg-gray-100 transition-colors`,
+        tw`w-full h-[5.25rem] flex flex-col items-center py-3.5 gap-0.5 hover:bg-gray-100 transition-colors`,
         selectedTab === idx ? tw`bg-nego-100 hover:bg-nego-100` : tw`bg-white`,
       ]}
       onClick={handleTabButton}
     >
-      <div css={[tw`relative transition-colors`, selectedTab === idx ? tw`text-nego-700` : tw`text-gray-600`]}>
+      <div
+        tw="[padding-top: 5px]"
+        css={[tw`relative transition-colors`, selectedTab === idx ? tw`text-nego-800` : tw`text-gray-500`]}
+      >
         {icon}{' '}
         {text === '채팅' && unreadChatCount > 0 && (
-          <NewCount value="N" tw="font-bold absolute top-0 right-0 translate-x-1/2 -translate-y-1/2" />
+          <NewCount value="N" tw="font-bold absolute top-1 -right-0 translate-x-1/2 -translate-y-1/2" />
         )}
       </div>
-      <span css={[tw`transition-colors text-info`, selectedTab === idx ? tw`text-nego-1000` : tw`text-gray-1000`]}>
+      <span
+        tw="text-body_01 [padding-bottom: 5px]"
+        css={[tw`transition-colors text-info`, selectedTab === idx ? tw`text-nego-800` : tw`text-gray-800`]}
+      >
         {text}
       </span>
     </button>

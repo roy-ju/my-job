@@ -27,12 +27,12 @@ export default function Home() {
     <>
       <div tw="h-full flex flex-col">
         <Header />
-        <MarginTopSixteen />
         <FlexContents
           tw="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden"
           className={ClassNames.NegocioMainScrollContainer}
           ref={containerRef}
         >
+          <MarginTopSixteen />
           <Contents />
           <Footer />
         </FlexContents>
