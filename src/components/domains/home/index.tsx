@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { MarginTopSixteen } from '@/components/atoms/Margin';
+import { MarginTopTwelve } from '@/components/atoms/Margin';
 
 import FlexContents from '@/components/atoms/FlexContents';
 
@@ -32,7 +32,7 @@ export default function Home() {
           className={ClassNames.NegocioMainScrollContainer}
           ref={containerRef}
         >
-          <MarginTopSixteen />
+          <MarginTopTwelve />
           <Contents />
           <Footer />
         </FlexContents>
