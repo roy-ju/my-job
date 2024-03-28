@@ -46,14 +46,26 @@ export default function useHandleClickBack() {
           const depth2 = router?.query?.depth2 ?? '';
 
           if (depth1 && depth2) {
-            router.replace(`/${Routes.SubHome}/${Routes.Dictionary}`);
+            if (router?.query?.entry === 'subhome') {
+              router.replace(`/${Routes.SubHome}`);
+            } else {
+              router.replace(`/${Routes.SubHome}/${Routes.Dictionary}`);
+            }
           } else if (depth1 && !depth2) {
-            router.replace(`/${Routes.Dictionary}`);
+            if (router?.query?.entry === 'subhome') {
+              router.replace(`/${Routes.SubHome}`);
+            } else {
+              router.replace(`/${Routes.Dictionary}`);
+            }
           }
         }
 
         if (platform === 'mobile') {
-          router.replace(`/${Routes.EntryMobile}/${Routes.Dictionary}`);
+          if (router?.query?.entry === 'subhome') {
+            router.replace(`/${Routes.EntryMobile}/${Routes.SubHome}`);
+          } else {
+            router.replace(`/${Routes.EntryMobile}/${Routes.Dictionary}`);
+          }
         }
       }
     }

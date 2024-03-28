@@ -25,7 +25,7 @@ import BottomRefElement from './dictionary/BottomRefElement';
 import { DictionaryContainerElementId } from './dictionary/constants/element_id';
 
 const FlexContents = styled.div`
-  ${tw`relative flex flex-col flex-1 min-h-0 gap-5 px-5 overflow-x-hidden overflow-y-auto`}
+  ${tw`relative flex flex-col flex-1 min-h-0 gap-5 px-5 pt-5 overflow-x-hidden overflow-y-auto`}
 `;
 
 export default function Dictionary() {

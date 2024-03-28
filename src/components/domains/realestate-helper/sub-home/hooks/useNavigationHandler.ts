@@ -114,11 +114,11 @@ export default function useNavigtaionHandler() {
 
       if (!user) {
         openAuthPopup('onlyLogin');
-        handleUpdateReturnUrl(url);
+        handleUpdateReturnUrl(`${url}&entry=subhome`);
         return;
       }
 
-      router.push(url);
+      router.push(`${url}&entry=subhome`);
     },
     [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, platform, router, user],
   );
