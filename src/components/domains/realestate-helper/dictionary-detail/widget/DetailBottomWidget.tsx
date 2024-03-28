@@ -3,7 +3,7 @@ import tw, { styled } from 'twin.macro';
 import { motion } from 'framer-motion';
 
 export const BottomContainer = styled(motion.div)`
-  ${tw`flex-1 w-full pb-5 bg-gray-100`}
+  ${tw`flex-1 w-full pb-20 bg-gray-100`}
 `;
 
 export const BottomContentsBody = styled(motion.div)`
