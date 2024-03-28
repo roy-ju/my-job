@@ -12,10 +12,10 @@ export const Li = styled.li<{ hiddenVerticalLine: boolean; isLast: boolean }>`
   ::after {
     content: '';
     position: absolute;
-    left: 12px;
+    left: 11.5px;
     top: 37px;
     bottom: 0;
-    width: 1px;
+    width: 2px;
     background-color: ${tw`bg-gray-200`};
     height: calc(100% - 48px);
   }
