@@ -4,7 +4,7 @@ import tw, { styled, theme } from 'twin.macro';
 
 import ArrowRight from '@/assets/icons/arrow_right_16_1.svg';
 
-import StarImage from '@/../public/static/images/icon_star_eyes_emoji.png';
+import StarImage from '@/../public/static/images/icon_star-eyes-emoji_2.png';
 
 const Button = styled.button`
   ${tw`[width: calc(100% - 40px)] mx-auto p-5 [box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.06), 0px 2px 10px 0px rgba(0, 0, 0, 0.03)] [border-radius: 12px] text-left flex justify-between items-center bg-white`}
