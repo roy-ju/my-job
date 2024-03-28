@@ -61,7 +61,7 @@ export const RequiredItemContainer = styled.button`
 `;
 
 export const CommonSenseContainer = styled.div`
-  ${tw`pt-8 pb-3`}
+  ${tw`pt-8`}
 `;
 
 export const CommonSenseWrraper = styled.div`
