@@ -7,6 +7,9 @@ import TextButton from '@/components/atoms/TextButton';
 import TradeProcessImage from '@/../public/static/images/image_step.png';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+// import { ButtonV2 } from '@/components/atoms';
+
 import {
   ProcessImageContainer,
   ProcessTitleWrraper,

@@ -5,7 +5,7 @@ export const PreviewContainer = styled.div`
 `;
 
 export const Box = styled.div`
-  ${tw`my-5 [border-radius: 12px] [width: calc(100% - 40px)] mx-auto px-5 py-5 bg-white`}
+  ${tw`my-5 rounded-2xl [width: calc(100% - 40px)] mx-auto px-5 py-5 bg-white`}
   box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.06), 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
 `;
 

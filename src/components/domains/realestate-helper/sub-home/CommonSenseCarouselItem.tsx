@@ -34,9 +34,10 @@ export default function CommonSenseCarouselItem({
       }}
     >
       <CarouselItemContainer>
-        <ImageWrraper>
+        <ImageWrraper tw="[border-radius: 0px]">
           <BackgroundImage
             style={{
+              borderRadius: '0px !important',
               backgroundImage: `url(${item?.thumb_file_path ?? ''})`,
             }}
           />

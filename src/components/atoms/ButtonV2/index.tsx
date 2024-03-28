@@ -36,6 +36,10 @@ const selectedStyles = {
   gray: tw`border border-gray-600 bg-gray-600 text-gray-1000 hover:bg-gray-600 hover:text-gray-1000`,
   grayOutline: tw`[background: rgba(233, 236, 239, 0.5)] text-gray-700 border-gray-300 hover:[background: rgba(233, 236, 239, 0.5)] hover:text-gray-700 hover:border-gray-300`,
 
+  white: tw`border border-white bg-white text-gray-700 hover:bg-gray-600 hover:text-gray-700`,
+
+  whiteOutline: tw`[background: rgba(233, 236, 239, 0.5)] text-gray-700 border-gray-300 hover:[background: rgba(233, 236, 239, 0.5)] hover:text-gray-700 hover:border-gray-300`,
+
   ghost: tw``,
 };
 

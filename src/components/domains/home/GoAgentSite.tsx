@@ -19,7 +19,7 @@ export default function GoAgentSite() {
     <Button onClick={handleClickAgentSite}>
       <Image src={StarImage.src} width={32} height={32} alt="starImage" />
       <div tw="flex flex-col ml-2.5 justify-center">
-        <span tw="text-body_02 text-gray-700">중개사님 이신가요?</span>
+        <span tw="text-body_02 text-gray-700">중개사님이신가요?</span>
         <span tw="text-subhead_03 text-gray-900">네고시오의 파트너가 되어주세요!</span>
       </div>
       <ArrowRight tw="ml-auto" color={theme`colors.gray.700`} />
