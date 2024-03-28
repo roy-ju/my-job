@@ -33,7 +33,7 @@ export const ListItemWrraper = styled.div`
 `;
 
 export const ListTitle = styled.p`
-  ${tw`px-5 mb-2 text-gray-700 text-body_02`}
+  ${tw`px-5 pt-5 mb-2 text-gray-700 text-body_02`}
 `;
 
 export const SpecialContentsParagraph = styled.div`

@@ -4,6 +4,7 @@ import { MarginTopTwenty } from '@/components/atoms/Margin';
 
 import SeperatorV2 from '@/components/atoms/SeperatorV2';
 
+import tw from 'twin.macro';
 import ListItem from './ListItem';
 
 import { MiddleCategory, SmallCategory, TermsListItem } from './types';
@@ -26,7 +27,11 @@ function Lists({ categoryTablist, list, openTitle, handleChangeOpenTitle }: List
   return (
     <>
       {categoryTablist.map((tabList, index) => (
-        <ListItemWrraper key={tabList.title} id={`${PrefixListElementItemId}-${tabList.title}`}>
+        <ListItemWrraper
+          key={tabList.title}
+          id={`${PrefixListElementItemId}-${tabList.title}`}
+          css={[index === 0 && tw`pt-0`]}
+        >
           <ListTitle>{tabList.subTitle}</ListTitle>
           {list
             .filter((listItem) => listItem.smallCategory === tabList.subTitle)

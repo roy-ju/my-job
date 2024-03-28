@@ -107,7 +107,11 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer css={[notIsSticky ? tw`py-5` : tw`py-4`]} id="negocio-special-terms-tabs-container">
+    <TabsContainer
+      css={[notIsSticky ? tw`py-5` : tw`py-4`]}
+      tw="[z-index: 1]"
+      id="negocio-special-terms-tabs-container"
+    >
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
