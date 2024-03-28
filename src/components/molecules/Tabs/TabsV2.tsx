@@ -9,7 +9,7 @@ const Tab = styled.button`
 `;
 
 const Indicator = styled(motion.div)`
-  ${tw`absolute bottom-0 left-[-0px] w-full h-full border-b-2 border-b-gray-1000`}
+  ${tw`absolute bottom-0 left-[-0px] w-full [height: 2px] bg-gray-1000 [border-radius: 100px]`}
 `;
 
 const Text = styled.p<{ selected: boolean }>`

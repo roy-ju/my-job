@@ -28,7 +28,7 @@ function ListItem({ item, openTitle, handleChagneOpenTitle }: ListItemProps) {
       }}
     >
       <Accordion.Summary
-        isCustomIcon
+        isNewIconV3
         iconColor={theme`colors.gray.700`}
         iconWidth="20"
         tw="p-5 text-left text-gray-800 text-subhead_03 hover:bg-white "
