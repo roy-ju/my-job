@@ -1,8 +1,14 @@
+import { useRef } from 'react';
+
 import { MarginTopSixteen } from '@/components/atoms/Margin';
 
-import { useScrollPosition } from '@/providers/ScrollProvider';
+import FlexContents from '@/components/atoms/FlexContents';
 
-import { useEffect } from 'react';
+import ClassNames from '@/constants/classNames';
+
+import useSaveScrollLocation from '@/hooks/useSaveScrollLocation';
+
+import useRestoreScrollPosition from '@/hooks/useScrollResotoration';
 
 import Header from './Header';
 
@@ -11,21 +17,25 @@ import Contents from './Contents';
 import Footer from './Footer';
 
 export default function Home() {
-  const { scrollPosition, setScrollPosition } = useScrollPosition();
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    console.log(scrollPosition);
-  }, [scrollPosition]);
+  useSaveScrollLocation(containerRef, 'home');
+
+  useRestoreScrollPosition(containerRef, 'home');
 
   return (
     <>
       <div tw="h-full flex flex-col">
         <Header />
         <MarginTopSixteen />
-        <div tw="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+        <FlexContents
+          tw="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden"
+          className={ClassNames.NegocioMainScrollContainer}
+          ref={containerRef}
+        >
           <Contents />
           <Footer />
-        </div>
+        </FlexContents>
       </div>
     </>
   );

@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+
 import Container from '@/components/atoms/Container';
 
 import FlexContents from '@/components/atoms/FlexContents';
@@ -5,6 +7,12 @@ import FlexContents from '@/components/atoms/FlexContents';
 import { MarginTopTwenty } from '@/components/atoms/Margin';
 
 import useFetchSubHomeDashboardInfo from '@/services/sub-home/useFetchSubHomeDashboardInfo';
+
+import ClassNames from '@/constants/classNames';
+
+import useSaveScrollLocation from '@/hooks/useSaveScrollLocation';
+
+import useRestoreScrollPosition from '@/hooks/useScrollResotoration';
 
 import useNavigationHandler from './sub-home/hooks/useNavigationHandler';
 
@@ -28,12 +36,22 @@ export default function SubHome() {
 
   const { isLoading, list1, list2 } = useFetchSubHomeDashboardInfo();
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useSaveScrollLocation(containerRef, 'subhome');
+
+  useRestoreScrollPosition(containerRef, 'subhome');
+
   if (isLoading) return null;
 
   return (
     <Container>
       <Header />
-      <FlexContents id="negocio-subhome-container-div-box">
+      <FlexContents
+        id="negocio-subhome-container-div-box"
+        className={ClassNames.NegocioMainScrollContainer}
+        ref={containerRef}
+      >
         <Preview
           handleNavigateTradeProcess={() => handleNavigateSubPage(makeUrl('tradeProcess'))}
           handleNavigateDeungibu={() => handleNavigateSubPage(makeUrl('documentList'))}
