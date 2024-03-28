@@ -90,7 +90,7 @@ function CategoryTabs({ list, middleCategoryList }: CategoryTabsProps) {
   }, [list]);
 
   return (
-    <TabsContainer>
+    <TabsContainer tw="mb-4">
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
