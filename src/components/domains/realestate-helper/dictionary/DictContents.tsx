@@ -16,7 +16,7 @@ type DictContentsProps = {
 
 function DictContents({ item }: DictContentsProps) {
   return (
-    <Column id={`${PrefixListElementItemId}-${item.name}`}>
+    <Column id={`${PrefixListElementItemId}-${item.name}`} tw="py-5">
       <CategoryName>{item.name}</CategoryName>
       <div>
         {item.children?.map((dict) => (
