@@ -14,7 +14,7 @@ export default function Header() {
   return (
     <NavigationHeader>
       {renderBackButton && <NavigationHeader.BackButton onClick={handleClickBack} />}
-      <NavigationHeader.Title>거래 도우미</NavigationHeader.Title>
+      <NavigationHeader.Title>거래도우미</NavigationHeader.Title>
       {loggedIn && (
         <HeaderNotificationButton
           unreadNotificationCount={unreadNotificationCount}

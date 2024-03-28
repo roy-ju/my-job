@@ -46,7 +46,7 @@ function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo, unreadChatCo
       <div tw="z-50">
         <GlobalNavigation tabIndex={tabIndex} onChangeTab={onChangeTab} onClickLogo={onClickLogo}>
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
-          <GlobalNavigation.TabButton idx={1} text="거래 도우미" icon={<BookIcon />} />
+          <GlobalNavigation.TabButton idx={1} text="거래도우미" icon={<BookIcon />} />
           <GlobalNavigation.TabButton idx={2} text="지도" icon={<MapPin />} />
           <GlobalNavigation.TabButton idx={3} text="채팅" icon={<ChatBubble />} unreadChatCount={unreadChatCount} />
           <GlobalNavigation.TabButton idx={4} text="마이페이지" icon={<User />} />
