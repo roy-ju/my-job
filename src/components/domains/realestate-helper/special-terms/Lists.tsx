@@ -35,14 +35,20 @@ function Lists({ categoryTablist, list, openTitle, handleChangeOpenTitle }: List
           <ListTitle>{tabList.subTitle}</ListTitle>
           {list
             .filter((listItem) => listItem.smallCategory === tabList.subTitle)
-            .map((item) => (
-              <ListItem
-                key={item.title}
-                item={item}
-                openTitle={openTitle}
-                handleChagneOpenTitle={handleChangeOpenTitle}
-              />
-            ))}
+            .map((item, idx) => {
+              const convertedList = list.filter((listItem) => listItem.smallCategory === tabList.subTitle);
+
+              const isLast = convertedList.length === idx + 1;
+              return (
+                <ListItem
+                  key={item.title}
+                  item={item}
+                  openTitle={openTitle}
+                  handleChagneOpenTitle={handleChangeOpenTitle}
+                  isLast={isLast}
+                />
+              );
+            })}
           {categoryTablist.length !== index + 1 && (
             <>
               <MarginTopTwenty />

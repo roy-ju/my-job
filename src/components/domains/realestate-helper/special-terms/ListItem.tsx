@@ -11,14 +11,17 @@ import { SpecialContentsParagraph } from './widget/SpecialTermsWidget';
 type ListItemProps = {
   item: TermsListItem;
   openTitle: string | null;
+  isLast: boolean;
   handleChagneOpenTitle: (v: string | null) => void;
 };
 
-function ListItem({ item, openTitle, handleChagneOpenTitle }: ListItemProps) {
+function ListItem({ item, openTitle, isLast, handleChagneOpenTitle }: ListItemProps) {
+  const expanded = item.title === openTitle;
+
   return (
     <Accordion
       key={item.title}
-      expanded={item.title === openTitle}
+      expanded={expanded}
       onChange={(v) => {
         if (v) {
           handleChagneOpenTitle(item?.title);
@@ -31,7 +34,8 @@ function ListItem({ item, openTitle, handleChagneOpenTitle }: ListItemProps) {
         isNewIconV3
         iconColor={theme`colors.gray.700`}
         iconWidth="20"
-        tw="p-5 text-left text-gray-800 text-subhead_03 hover:bg-white "
+        tw="py-5 text-left text-gray-800 text-subhead_03 hover:bg-white mx-auto [width: calc(100% - 40px)]"
+        css={[!expanded && !isLast && tw`border-b border-b-gray-200`]}
       >
         {item.title}
       </Accordion.Summary>

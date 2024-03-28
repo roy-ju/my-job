@@ -13,11 +13,7 @@ type CardProps = {
 };
 
 const Wrraper = styled.button`
-  ${tw`[width: calc(100% - 40px)] mx-5 text-left rounded-2xl [box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.08), 0px 2px 10px 0px rgba(0, 0, 0, 0.04)] mt-4`}
-
-  :nth-of-type(1) {
-    ${tw`mt-5`}
-  }
+  ${tw`[width: calc(100% - 40px)] mx-5 text-left rounded-2xl [box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.08), 0px 2px 10px 0px rgba(0, 0, 0, 0.04)] mt-5`}
 `;
 
 const ImageWrraper = styled.div`

@@ -68,12 +68,14 @@ export default function SpecialTerms() {
         <ShowTermsInNotion title={notionInfo.title} url={notionInfo.url} />
         <MarginTopFourty />
         <Titles />
+        <MarginTopTwenty />
         <CategoryTabs
           containerRef={ref}
           buyOrRent={buyOrRent}
           categoryTablist={categoryTablist}
           list={categoryTabListOnlyTitle}
         />
+        <MarginTopTwenty />
         <Lists
           categoryTablist={categoryTablist}
           list={list}
