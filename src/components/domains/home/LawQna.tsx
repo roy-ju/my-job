@@ -22,7 +22,7 @@ const TextWrraper = styled.div`
   }
 
   p:nth-of-type(3) {
-    ${tw`text-gray-700 text-subhead_01`}
+    ${tw`text-gray-700 text-body_01`}
   }
 `;
 
