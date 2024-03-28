@@ -43,7 +43,6 @@ import ErrorBoundary from '@/providers/ErrorBoundary';
 import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
-import { ScrollPositionProvider } from '@/providers/ScrollProvider';
 
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
@@ -94,47 +93,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     router.events.on('routeChangeComplete', handleRouteChange);
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    let savedScrollPosition = 0;
-
-    const handleScroll = () => {
-      const elementsWithDataTwFlexAndOverflowYAuto = document.querySelectorAll(
-        '[data-tw*="flex-1"][data-tw*="overflow-y-auto"]',
-      );
-      console.log(elementsWithDataTwFlexAndOverflowYAuto);
-
-      savedScrollPosition = window.scrollY;
-    };
-
-    const handleRouteChangeStart = () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-
-    const handleRouteChangeComplete = () => {
-      const allElements = document.querySelectorAll('*');
-
-      // 모든 엘리먼트를 순회하면서 스크롤이 가능한지 확인합니다.
-      const scrollableElements = Array.from(allElements).filter((element) => {
-        const style = window.getComputedStyle(element);
-        return style.overflow === 'auto' || style.overflowY === 'auto';
-      });
-
-      console.log(scrollableElements);
-
-      window.addEventListener('scroll', handleScroll);
-    };
-
-    router.events.on('routeChangeStart', handleRouteChangeStart);
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
-
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChangeStart);
-      router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
   }, [router.events]);
 
@@ -225,9 +183,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             <OverlayContainer />
             <div id="rootOverlay" tw="pointer-events-none [z-index: 1500]" />
             <ErrorBoundary>
-              <NegocioProvider>
-                <ScrollPositionProvider>{getLayout(getComponent(pageProps), pageProps)}</ScrollPositionProvider>
-              </NegocioProvider>
+              <NegocioProvider>{getLayout(getComponent(pageProps), pageProps)}</NegocioProvider>
               <AuthPopup />
               <VerifyCiPopup />
               <GlobalAppInstall />
