@@ -22,6 +22,6 @@ export const Li = styled.li<{ hiddenVerticalLine: boolean; isLast: boolean }>`
 
   &:last-child::after {
     ${({ hiddenVerticalLine }) => hiddenVerticalLine && tw`[display: none] [height: calc(100% - 47px - 44px)]`}
-    ${({ isLast }) => isLast && tw`[height: calc(100% - 37px - 40px - 30px)]`}
+    ${({ isLast }) => isLast && tw`[height: calc(100% - 37px - 40px)]`}
   }
 `;
