@@ -53,7 +53,7 @@ export default function Process({ handleClick }: { handleClick: () => void }) {
           tw="w-full h-full object-left [min-height: 378px]"
           width={375}
           height={378}
-          quality={100} // 품질을 조절할 수 있는 속성
+          quality={100}
         />
       </ProcessImageContainer>
       <div tw="bg-gray-200 w-full [min-height: 1px]" />

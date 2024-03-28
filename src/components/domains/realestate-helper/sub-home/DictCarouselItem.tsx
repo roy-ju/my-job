@@ -6,13 +6,14 @@ import { v1 } from 'uuid';
 
 import { GuideListItem } from '@/services/sub-home/types';
 
+import Hashtag from '@/components/atoms/Hashtag';
+
 import {
   MotionCarouselItemContainer,
   CarouselItemContainerTypeTwo,
   DictCarouselItemTextWrraper,
   DictCarouselItemTextTitle,
   DictCarouselItemTextSubTitle,
-  Hashtag,
   HashtagWrraper,
 } from './widget/SubHomeWidget';
 
@@ -69,7 +70,7 @@ export default function DictCarouselItem({
         {item?.related_terms && item.related_terms.length > 0 && (
           <HashtagWrraper>
             {item.related_terms.map((i) => (
-              <Hashtag key={v1()}>
+              <Hashtag key={v1()} size="medium">
                 <span>#</span>
                 <span>{i}</span>
               </Hashtag>
