@@ -40,8 +40,10 @@ export default function TradeProcess() {
         <NavigationHeader.Title>부동산 거래 절차</NavigationHeader.Title>
       </NavigationHeader>
       <MarginTopEight />
+
       <Tabs value={tab} handleChange={handleChangeTab} v1Title="매매 거래 절차" v2Title="전월세 거래 절차" />
       <FlexContents id={TradeProcessContainerElementId}>
+        <MarginTopEight />
         <Lists tab={tab} list={tab === 1 ? Buy_Process : JeonWolsae_Process} />
       </FlexContents>
     </Container>
