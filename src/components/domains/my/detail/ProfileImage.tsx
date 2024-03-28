@@ -39,6 +39,7 @@ export default function ProfileImage({ profileImageUrl, onClickUpdate }: Profile
             name="file"
             id={`${id}-file`}
             style={{ display: 'none' }}
+            accept="image/png, image/jpg, image/jpeg, image/jfif"
             onChange={(e) => {
               if (!e.target.files) return;
 
