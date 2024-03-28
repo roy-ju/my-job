@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, MouseEvent, useState, memo, useEffect, RefObject } from 'react';
 
 import tw from 'twin.macro';
@@ -7,6 +6,8 @@ import BoxTab from '@/components/molecules/Tabs/BoxTabs';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
+// import useStickyState from '@/hooks/useStickyState';
+
 import { ScrollContainer, TabsContainer } from './widget/SpecialTermsWidget';
 
 import { MiddleCategory, SmallCategory, TermsElementListItem } from './types';
@@ -14,8 +15,6 @@ import { MiddleCategory, SmallCategory, TermsElementListItem } from './types';
 import useCategoryTabs from './hooks/useCategoryTabs';
 
 import { PrefixListElementItemId } from './constants/element_id';
-
-import useChangeRenderTabs from './hooks/useChangeRenderTabs';
 
 type CategoryTabsProps = {
   buyOrRent: number;
@@ -44,7 +43,7 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
     buyOrRent,
   });
 
-  const { notIsSticky } = useChangeRenderTabs({ containerRef });
+  // const [ref, isSticky] = useStickyState({ containerRef, stickyThreshold: 113 });
 
   const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return;
@@ -107,11 +106,7 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer
-      css={[notIsSticky ? tw`py-5` : tw`py-4`]}
-      tw="[z-index: 1]"
-      id="negocio-special-terms-tabs-container"
-    >
+    <TabsContainer css={[tw`py-4`]} id="negocio-special-terms-tabs-container">
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
