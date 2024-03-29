@@ -42,6 +42,8 @@ export const SpecialContentsParagraph = styled.div`
 
 export const TabsContainer = styled.div`
   ${tw`sticky top-0 flex w-full py-4 bg-white`}
+
+  -webkit-transform: translateZ(0);
 `;
 
 export const ScrollContainer = styled.div`

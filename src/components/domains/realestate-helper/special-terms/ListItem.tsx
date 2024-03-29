@@ -34,7 +34,7 @@ function ListItem({ item, openTitle, isLast, handleChagneOpenTitle }: ListItemPr
         isNewIconV3
         iconColor={theme`colors.gray.700`}
         iconWidth="20"
-        tw="py-5 text-left text-gray-800 text-subhead_03 hover:bg-white mx-auto [width: calc(100% - 40px)]"
+        tw="py-5 text-left text-gray-800 text-subhead_03 hover:bg-white mx-auto [width: calc(100% - 40px)] [-webkit-transform: translateZ(0)]"
         css={[!expanded && !isLast && tw`border-b border-b-gray-200`]}
       >
         {item.title}

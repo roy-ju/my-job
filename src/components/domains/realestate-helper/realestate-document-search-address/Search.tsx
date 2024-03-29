@@ -25,7 +25,7 @@ export default function Search({ value, handleChange }: SearchProps) {
           id="realesate-document-search-address"
           value={value}
           onChange={handleChange}
-          tw="py-4 pl-3 h-6"
+          tw="py-4 pl-3 h-6 placeholder-gray-600"
           placeholder="주소 또는 단지명을 입력하세요."
           autoComplete="off"
         />
