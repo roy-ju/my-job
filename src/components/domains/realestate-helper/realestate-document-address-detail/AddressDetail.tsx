@@ -44,10 +44,10 @@ export default function AddressDetail({
       <MarginTopTwenty />
       <InputContainer>
         <TextFieldV2 variant="outlined">
-          <TextFieldV2.Input value={dong} onChange={handleChangeDong} label="동" />
+          <TextFieldV2.Input value={dong} onChange={handleChangeDong} placeholder="동" tw="placeholder-gray-600" />
         </TextFieldV2>
         <TextFieldV2 variant="outlined">
-          <TextFieldV2.Input value={ho} onChange={handleChangeHo} label="호수" />
+          <TextFieldV2.Input value={ho} onChange={handleChangeHo} placeholder="호수" tw="placeholder-gray-600" />
         </TextFieldV2>
       </InputContainer>
       <MarginTopTwenty />
