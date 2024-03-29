@@ -35,37 +35,49 @@ export default function useVerfiyAddressResultHandler({
 
   const [selectedItemID, setSelectedItemID] = useState<string>();
 
-  // const firstTitle =
+  const addressLine1 = useMemo(() => {
+    if (addressData && addressData?.placeName && (addressData?.roadAddressName || addressData?.addressName)) {
+      if (dong && ho) {
+        return `${addressData.placeName} ${dong}동 ${ho}호`;
+      }
 
-  const firstTitle = useMemo(() => {}, []);
+      if (!dong && ho) {
+        return `${addressData.placeName} ${ho}호`;
+      }
 
-  const subTitle = useMemo(() => {
-    if (addressData?.placeName && dong && ho) {
-      return `${addressData.placeName} ${dong}동 ${ho}호`;
+      if (dong && !ho) {
+        return `${addressData.placeName} ${dong}동`;
+      }
+
+      return addressData.placeName;
     }
 
-    if (addressData?.placeName && !dong && ho) {
-      return `${addressData.placeName} ${ho}호`;
+    if (addressData && !addressData?.placeName && (addressData?.roadAddressName || addressData?.addressName)) {
+      return addressData?.roadAddressName || addressData?.addressName || '';
     }
 
-    if (addressData?.placeName && dong && !ho) {
-      return `${addressData.placeName} ${dong}동`;
+    return '';
+  }, [addressData, dong, ho]);
+
+  const addressLine2 = useMemo(() => {
+    if (addressData && addressData?.placeName && (addressData?.roadAddressName || addressData?.addressName)) {
+      return addressData?.roadAddressName || addressData?.addressName || '';
     }
 
-    if (addressData?.placeName && !dong && !ho) {
-      return `${addressData.placeName}`;
-    }
+    if (addressData && !addressData?.placeName) {
+      if (dong && ho) {
+        return `${dong}동 ${ho}호`;
+      }
 
-    if (!addressData?.placeName && dong && ho) {
-      return `${dong}동 ${ho}호`;
-    }
+      if (!dong && ho) {
+        return `${ho}호`;
+      }
 
-    if (!addressData?.placeName && dong && !ho) {
-      return `${dong}동 `;
-    }
+      if (dong && !ho) {
+        return `${dong}동`;
+      }
 
-    if (!addressData?.placeName && !dong && ho) {
-      return `${ho}호`;
+      return '';
     }
 
     return '';
@@ -193,8 +205,8 @@ export default function useVerfiyAddressResultHandler({
   }, [router, redirectSearchAddress]);
 
   return {
-    title: addressData?.roadAddressName ?? '',
-    subTitle,
+    addressLine1,
+    addressLine2,
     addressList,
     selectedItemID,
     handleClickListItem,
