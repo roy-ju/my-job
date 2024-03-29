@@ -1,12 +1,8 @@
 import { useRef, MouseEvent, useState, memo, useEffect, RefObject } from 'react';
 
-import tw from 'twin.macro';
-
 import BoxTab from '@/components/molecules/Tabs/BoxTabs';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
-
-// import useStickyState from '@/hooks/useStickyState';
 
 import { ScrollContainer, TabsContainer } from './widget/SpecialTermsWidget';
 
@@ -42,8 +38,6 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
     containerRef,
     buyOrRent,
   });
-
-  // const [ref, isSticky] = useStickyState({ containerRef, stickyThreshold: 113 });
 
   const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return;
@@ -106,7 +100,7 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer css={[tw`py-4`]} id="negocio-special-terms-tabs-container">
+    <TabsContainer>
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
