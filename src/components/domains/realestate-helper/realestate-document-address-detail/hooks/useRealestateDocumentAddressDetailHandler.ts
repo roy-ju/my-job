@@ -16,22 +16,25 @@ export default function useRealestateDocumentAddressDetailHandler() {
   const [addressData, setAddressData] = useState<KakaoAddressAutocompleteResponseItem | null>(null);
 
   const addressLine1 = useMemo(() => {
-    if (addressData && addressData?.roadAddressName) {
-      return addressData.roadAddressName;
+    if (addressData && addressData?.placeName && (addressData?.roadAddressName || addressData?.addressName)) {
+      return addressData.placeName;
     }
 
-    if (addressData && addressData?.addressName) {
-      return addressData.addressName;
+    if (addressData && !addressData?.placeName && (addressData?.roadAddressName || addressData?.addressName)) {
+      return addressData?.roadAddressName || addressData?.addressName || '';
     }
 
     return '';
   }, [addressData]);
 
   const addressLine2 = useMemo(() => {
-    if (addressData && addressData?.placeName) {
-      return addressData.placeName;
+    if (addressData && addressData?.placeName && (addressData?.roadAddressName || addressData?.addressName)) {
+      return addressData?.roadAddressName || addressData?.addressName || '';
     }
 
+    if (addressData && !addressData?.placeName) {
+      return '';
+    }
     return '';
   }, [addressData]);
 
