@@ -99,7 +99,7 @@ function Dict({ list, handleNavigateDict, handleNavigateDictDetail }: DictProps)
       <DictTitle />
       <MarginTopFour />
       <Carousel
-        totalSlidesMarginRight={(list.length + 1) * 18}
+        totalSlidesMarginRight={(list.length + 1) * 20}
         gap={16}
         trackStyle={{ padding: '20px 20px' }}
         onDragStart={handleDragStart}
@@ -107,7 +107,7 @@ function Dict({ list, handleNavigateDict, handleNavigateDictDetail }: DictProps)
       >
         {[imageData, ...list]
           ?.sort((a, b) => new Date(b.created_time).getTime() - new Date(a.created_time).getTime())
-          .slice(0, 5)
+          .slice(0, 6)
           .map((item, i) => (
             <DictCarouselItem
               key={makeKey(item.name || '', item.content || '', item.created_time || '', i)}
