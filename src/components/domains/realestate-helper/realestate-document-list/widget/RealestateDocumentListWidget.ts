@@ -9,7 +9,7 @@ export const NodataParagraph = styled.p`
 `;
 
 export const ListContainer = styled.div`
-  ${tw`flex flex-col gap-5 px-5`}
+  ${tw`flex flex-col gap-4 px-5`}
 `;
 
 export const ListItemViewTimeText = styled.span`

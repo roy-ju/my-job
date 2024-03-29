@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion';
 import tw, { styled } from 'twin.macro';
 
+import { motion } from 'framer-motion';
+
 export const TabsContainer = styled.div`
-  ${tw`relative flex w-full mt-5 mb-3`}
+  ${tw`relative flex w-full mt-5 mb-4`}
 `;
 
 export const ScrollContainer = styled.div`
@@ -27,7 +28,7 @@ export const AdditionListWrraper = styled.div`
 `;
 
 export const AdditionalListItem = styled.span`
-  ${tw`flex items-center gap-2 py-4 border-b border-b-gray-200`}
+  ${tw`flex items-center gap-2 py-4 not-last-of-type:border-b not-last-of-type:border-b-gray-200`}
 `;
 
 export const AddtionalListQuestion = styled.span`

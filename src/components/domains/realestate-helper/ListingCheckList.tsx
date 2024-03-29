@@ -55,9 +55,7 @@ export default function ListingCheckList() {
           .map((item) => (
             <MainDescription key={item.name} tab={tab} code={item.code} title={item.name} subTitle={item.content} />
           ))}
-
         <MarginTopSixteen />
-
         {middleCategoryList
           ?.sort((a, b) => a.id - b.id)
           .map((item) => (
