@@ -70,8 +70,14 @@ export default function RealestateDocumentVerifyResult() {
 
   const { handleSearchOtherAddress, handleClickCtasIfServiceErrorOrNotFoundAddress } = useCtasHandler({ type });
 
-  const { title, subTitle, addressList, selectedItemID, handleClickListItem, handleClickCtsaIfFindAddressOverTen } =
-    useVerfiyAddressResultHandler({ handleOpenPopup });
+  const {
+    addressLine1,
+    addressLine2,
+    addressList,
+    selectedItemID,
+    handleClickListItem,
+    handleClickCtsaIfFindAddressOverTen,
+  } = useVerfiyAddressResultHandler({ handleOpenPopup });
 
   return (
     <>
@@ -90,7 +96,7 @@ export default function RealestateDocumentVerifyResult() {
           {(type === 'findAddressOverTen' || type === 'notFoundAddress') && <MarginTopFourty />}
           {type === 'findAddressOverTen' && (
             <>
-              <PreviouslyEnteredAddress firstLine={title} secondLine={subTitle} />
+              <PreviouslyEnteredAddress firstLine={addressLine1} secondLine={addressLine2} />
               <MarginTopThirtyTwo />
               <LineWrraper>
                 <Line />
@@ -113,7 +119,7 @@ export default function RealestateDocumentVerifyResult() {
           )}
           {type === 'notFoundAddress' && (
             <>
-              <PreviouslyEnteredAddress firstLine={title} secondLine={subTitle} />
+              <PreviouslyEnteredAddress firstLine={addressLine1} secondLine={addressLine2} />
               <MarginTopThirtyTwo />
               <LineWrraper>
                 <Line />
