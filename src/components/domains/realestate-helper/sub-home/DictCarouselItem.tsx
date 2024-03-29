@@ -71,7 +71,7 @@ export default function DictCarouselItem({
           <HashtagWrraper>
             {item.related_terms.map((i) => (
               <Hashtag key={v1()} size="medium">
-                <span>#</span>
+                <span tw="text-body_01">#</span>
                 <span>{i}</span>
               </Hashtag>
             ))}
