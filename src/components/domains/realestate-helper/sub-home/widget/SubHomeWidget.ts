@@ -133,7 +133,7 @@ export const DictCarouselItemTextTitle = styled.p`
 `;
 
 export const DictCarouselItemTextSubTitle = styled.p`
-  ${tw`text-gray-700 text-body_02 [height: 72px] line-clamp-3`}
+  ${tw`text-gray-700 text-body_03 [height: 72px] line-clamp-3`}
 `;
 
 export const HashtagWrraper = styled.div`
