@@ -6,8 +6,6 @@ import Container from '@/components/atoms/Container';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
-
 import useWindowOpen from '@/hooks/useWindowOpen';
 
 import useFetchSubHomeGuideList from '@/services/sub-home/useFetchSubHomeGuideList';
@@ -26,8 +24,6 @@ export default function CommonSense() {
   const { openWindowWithLink } = useWindowOpen();
 
   const { list } = useFetchSubHomeGuideList({ code: 'KNOW' });
-
-  useIosWebkitNoneApplySafeArea();
 
   const onClickItem = useCallback(
     (link: string) => {

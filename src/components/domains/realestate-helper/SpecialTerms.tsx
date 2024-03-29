@@ -4,7 +4,7 @@ import Container from '@/components/atoms/Container';
 
 import FlexContents from '@/components/atoms/FlexContents';
 
-import { MarginTopEight, MarginTopFourty, MarginTopTwenty } from '@/components/atoms/Margin';
+import { MarginTopEight, MarginTopFour, MarginTopFourty, MarginTopTwenty } from '@/components/atoms/Margin';
 
 import { NavigationHeader } from '@/components/molecules';
 
@@ -68,14 +68,14 @@ export default function SpecialTerms() {
         <ShowTermsInNotion title={notionInfo.title} url={notionInfo.url} />
         <MarginTopFourty />
         <Titles />
-        <MarginTopTwenty />
+        <MarginTopFour />
         <CategoryTabs
           containerRef={ref}
           buyOrRent={buyOrRent}
           categoryTablist={categoryTablist}
           list={categoryTabListOnlyTitle}
         />
-        <MarginTopTwenty />
+        <MarginTopFour />
         <Lists
           categoryTablist={categoryTablist}
           list={list}
