@@ -2,6 +2,8 @@ import { MouseEvent } from 'react';
 
 import { useRouter } from 'next/router';
 
+import Image from 'next/image';
+
 import tw, { styled } from 'twin.macro';
 
 import Button from '@/components/atoms/Button';
@@ -20,8 +22,10 @@ import UserIcon from '@/assets/icons/user.svg';
 
 import Routes from '@/router/routes';
 
+import SpeeachBubble from '@/../public/static/images/speech_bubble.png';
+
 const BottomGlobalNavigationContainer = styled.div`
-  ${tw`w-full border-t border-t-gray-300 flex flex-col gap-5 px-[5px] bg-white [z-index: 300]`}
+  ${tw`relative w-full border-t border-t-gray-300 flex flex-col gap-5 px-[5px] bg-white [z-index: 300]`}
 `;
 
 const BottomGlobalNavigationFlex = styled.div`
@@ -29,7 +33,7 @@ const BottomGlobalNavigationFlex = styled.div`
 `;
 
 const NavigationButton = styled(Button)`
-  ${tw`flex-col px-0 h-auto flex-1 gap-0.5 [padding-block: 5px]`}
+  ${tw`relative flex-col px-0 h-auto flex-1 gap-0.5 [padding-block: 5px]`}
 `;
 
 NavigationButton.defaultProps = { variant: 'ghost' };
@@ -71,6 +75,13 @@ export default function BottomGlobalNavigation({
         </NavigationButton>
 
         <NavigationButton value={1} onClick={(e) => onClickButton(Routes.SubHome, e)}>
+          <Image
+            src={SpeeachBubble.src}
+            alt="speeach_bubble"
+            width={61}
+            height={33.6}
+            tw="absolute [top: -29.3px] [z-index: 301]"
+          />
           <BookIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>거래도우미</span>
         </NavigationButton>

@@ -35,6 +35,10 @@ export default function useVerfiyAddressResultHandler({
 
   const [selectedItemID, setSelectedItemID] = useState<string>();
 
+  // const firstTitle =
+
+  const firstTitle = useMemo(() => {}, []);
+
   const subTitle = useMemo(() => {
     if (addressData?.placeName && dong && ho) {
       return `${addressData.placeName} ${dong}동 ${ho}호`;
