@@ -118,7 +118,7 @@ function List({ tab, code }: ListProps) {
     <CheckListContainer style={{ display: tab === code ? 'block' : 'none' }}>
       <CheckListWrraper>
         <Title url={CheckImage.src} title="꼭 확인해야 할 항목이에요!" alt="iconCheck" />
-        {initial && (
+        {initial ? (
           <RequiredListWrraper>
             {requiredList.map((item) => (
               <RequiredListItem
@@ -132,11 +132,12 @@ function List({ tab, code }: ListProps) {
               </RequiredListItem>
             ))}
           </RequiredListWrraper>
+        ) : (
+          <div tw="[min-height: 500px]" />
         )}
       </CheckListWrraper>
-
       {additionalList.length > 0 && (
-        <CheckListWrraper>
+        <CheckListWrraper tw="mt-4">
           <Title title="추가로 질문해보세요!" url={ManRaisingHandImage.src} alt="manRaisingHand" />
           <AdditionListWrraper tw="px-0">
             <AdditionListWrraper>

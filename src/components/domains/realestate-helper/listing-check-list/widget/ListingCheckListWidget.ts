@@ -59,7 +59,7 @@ export const SubTitle = styled.div`
 `;
 
 export const Flex = styled.div`
-  ${tw`p-5 flex flex-row items-center [width: calc(100% - 40px)] rounded-2xl mx-auto gap-3`}
+  ${tw`p-5 flex flex-row items-center [width: calc(100% - 40px)] rounded-2xl mx-auto gap-3 mt-4`}
 
   box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.06), 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
 `;

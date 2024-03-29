@@ -43,14 +43,12 @@ export default function ListingCheckList() {
         <NavigationHeader.BackButton onClick={handleClickBack} />
         <NavigationHeader.Title>매물 체크리스트</NavigationHeader.Title>
       </NavigationHeader>
-
       <CategoryTabs
         list={middleCategoryList?.sort((a, b) => a.id - b.id).map((item) => ({ code: item.code, name: item.name }))}
         tab={tab}
         tabIndex={tabIndex}
         handleChangeTab={handleChangeTab}
       />
-      <MarginTopSixteen />
       <FlexContents>
         {middleCategoryList
           ?.sort((a, b) => a.id - b.id)

@@ -163,30 +163,30 @@ export default function useVerfiyAddressResultHandler({
     }
   }, [addressData, handleOpenPopup, selectedAddress]);
 
-  useEffect(() => {
-    if (!router?.query?.addressData) {
-      redirectSearchAddress();
-      return;
-    }
+  // useEffect(() => {
+  //   if (!router?.query?.addressData) {
+  //     redirectSearchAddress();
+  //     return;
+  //   }
 
-    if (router?.query?.addressData) {
-      const addressD = JSON.parse(decodeURIComponent(router.query.addressData as string));
-      setAddressData(addressD);
-    }
+  //   if (router?.query?.addressData) {
+  //     const addressD = JSON.parse(decodeURIComponent(router.query.addressData as string));
+  //     setAddressData(addressD);
+  //   }
 
-    if (router?.query?.addressList) {
-      const addressLi = JSON.parse(decodeURIComponent(router.query.addressList as string));
-      setAddressList(addressLi);
-    }
+  //   if (router?.query?.addressList) {
+  //     const addressLi = JSON.parse(decodeURIComponent(router.query.addressList as string));
+  //     setAddressList(addressLi);
+  //   }
 
-    if (router?.query?.dong) {
-      setDong(router.query.dong as string);
-    }
+  //   if (router?.query?.dong) {
+  //     setDong(router.query.dong as string);
+  //   }
 
-    if (router?.query?.ho) {
-      setHo(router.query.ho as string);
-    }
-  }, [router, redirectSearchAddress]);
+  //   if (router?.query?.ho) {
+  //     setHo(router.query.ho as string);
+  //   }
+  // }, [router, redirectSearchAddress]);
 
   return {
     title: addressData?.roadAddressName ?? '',
