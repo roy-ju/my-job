@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo } from 'react';
 
+import Image from 'next/image';
+
 import tw from 'twin.macro';
 
 import useControlled from '@/hooks/useControlled';
@@ -7,6 +9,8 @@ import useControlled from '@/hooks/useControlled';
 import { NewCount } from '@/components/atoms';
 
 import Logo from '@/assets/icons/logo.svg';
+
+import SpeeachBubble from '@/../public/static/images/speech_bubble_horizontal.png';
 
 import GlobalHambergerMenu from './GlobalHambergerMenu';
 
@@ -63,6 +67,15 @@ function GlobalNavigation({
           </button>
           {children}
         </div>
+
+        <Image
+          src={SpeeachBubble.src}
+          alt="speeach_bubble"
+          width={68}
+          height={28}
+          tw="absolute [top: 189px] [left: 50px]"
+          style={{ zIndex: 300 }}
+        />
         <GlobalHambergerMenu />
       </div>
     </NavigationContext.Provider>

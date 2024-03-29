@@ -43,7 +43,7 @@ interface LayoutMainProps {
 function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo, unreadChatCount }: LayoutMainProps) {
   return (
     <div tw="flex h-full w-full flex-row overflow-hidden">
-      <div tw="z-50">
+      <div tw="z-50 bg-red">
         <GlobalNavigation tabIndex={tabIndex} onChangeTab={onChangeTab} onClickLogo={onClickLogo}>
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
           <GlobalNavigation.TabButton idx={1} text="거래도우미" icon={<BookIcon />} />
@@ -55,6 +55,7 @@ function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo, unreadChatCo
           )}
         </GlobalNavigation>
       </div>
+
       {children}
     </div>
   );
