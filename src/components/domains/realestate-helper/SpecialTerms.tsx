@@ -63,7 +63,7 @@ export default function SpecialTerms() {
 
       <Tabs value={buyOrRent} handleChange={handleChangeBuyOrRentTab} v1Title="매매" v2Title="전월세" />
 
-      <FlexContents id={SpecialTermsContainerElementId} ref={ref}>
+      <FlexContents id={SpecialTermsContainerElementId} ref={ref} tw="z-0">
         <MarginTopTwenty />
         <ShowTermsInNotion title={notionInfo.title} url={notionInfo.url} />
         <MarginTopFourty />

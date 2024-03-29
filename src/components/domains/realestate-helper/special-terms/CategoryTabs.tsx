@@ -100,7 +100,7 @@ function CategoryTabs({ buyOrRent, categoryTablist, list, containerRef }: Catego
   }, [tab, tabIndex]);
 
   return (
-    <TabsContainer tw="bg-white">
+    <TabsContainer>
       <ScrollContainer
         ref={scrollRef}
         className="scrollbar-hide"
