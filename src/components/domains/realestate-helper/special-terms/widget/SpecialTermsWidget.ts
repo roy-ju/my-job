@@ -41,12 +41,14 @@ export const SpecialContentsParagraph = styled.div`
 `;
 
 export const TabsContainer = styled.div`
-  ${tw`sticky top-0 flex w-full py-4 bg-white`}
+  ${tw`sticky top-0 z-10 flex w-full py-4 bg-white`}
 
   -webkit-transform: translateZ(0);
+
+  transform: translateZ(0);
 `;
 
 export const ScrollContainer = styled.div`
-  ${tw`flex flex-row items-center gap-2 px-5 overflow-x-auto`}
+  ${tw`z-10 flex flex-row items-center gap-2 px-5 overflow-x-auto`}
   transition: scroll 0.2s ease;
 `;
