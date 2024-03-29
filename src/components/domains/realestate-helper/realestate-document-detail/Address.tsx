@@ -93,7 +93,7 @@ export default function Address({
   return (
     <>
       <MarginTopTwenty />
-      <AddressContainer tw="px-5">
+      <AddressContainer tw="px-5 pb-5">
         <AddressWrraper>
           <AddressTop>
             <p>건물 주소</p>

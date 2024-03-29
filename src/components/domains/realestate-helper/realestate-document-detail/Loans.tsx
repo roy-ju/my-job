@@ -47,7 +47,7 @@ export default function Loans({ list }: LoansProps) {
   const renderMoreButtonUI = useMemo(() => list.length > 3, [list]);
 
   return (
-    <div>
+    <div tw="pb-4">
       <BetweenRow tw="px-5">
         <TableTitle>
           담보 제공 현황<TableSubTitle>((근)저당권 및 전세권)</TableSubTitle>
