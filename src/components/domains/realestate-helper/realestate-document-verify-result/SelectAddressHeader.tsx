@@ -31,7 +31,7 @@ export default function SelectAddressHeader({ handleClick }: SelectAddressHeader
         <p>주소 선택</p>
         <SearchButton onClick={handleClick}>다른 주소 검색</SearchButton>
       </Row>
-      <span>원하시는 주소를 선택해 주세요.</span>
+      <span>원하시는 주소를 선택해주세요.</span>
     </SelectAddressHeaderContainer>
   );
 }

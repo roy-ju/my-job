@@ -47,7 +47,7 @@ export default function CurrentEtcs({ list }: CurrentEtcsProps) {
   const renderMoreButtonUI = useMemo(() => list.length > 3, [list]);
 
   return (
-    <div>
+    <div tw="pb-4">
       <BetweenRow tw="px-5">
         <TableTitle>
           기타 특별 현황<TableSubTitle>(압류 현황)</TableSubTitle>

@@ -35,7 +35,7 @@ export default function CurrentOwners({ list }: CurrentOwnersProps) {
   const renderMoreButtonUI = useMemo(() => list.length > 3, [list]);
 
   return (
-    <div>
+    <div tw="pb-4">
       <BetweenRow tw="px-5">
         <TableTitle>건물 소유자 현황</TableTitle>
         <TableSmallTitle>총 {list.length}명</TableSmallTitle>

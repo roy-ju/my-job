@@ -155,7 +155,7 @@ export const AddressTop = styled.div`
     ${tw`text-gray-700 text-body_01`}
   }
 
-  p:nth-of-type(1) {
+  p:nth-of-type(2) {
     ${tw`text-gray-800 text-body_03`}
   }
 `;
