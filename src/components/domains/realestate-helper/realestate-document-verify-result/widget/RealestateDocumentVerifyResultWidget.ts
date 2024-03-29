@@ -5,5 +5,5 @@ export const PreviouslyEnteredAddressTitle = styled.p`
 `;
 
 export const ListWrraper = styled.div`
-  ${tw`flex flex-col gap-4 px-5`}
+  ${tw`flex flex-col gap-4 px-5 pb-5`}
 `;

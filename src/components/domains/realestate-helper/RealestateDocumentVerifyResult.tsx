@@ -85,10 +85,9 @@ export default function RealestateDocumentVerifyResult() {
 
         <ResultMessage type={type} />
 
-        {(type === 'findAddressOverTen' || type === 'notFoundAddress') && <MarginTopFourty />}
-
         <FlexContents>
           {type === 'serviceError' && <ServiceError />}
+          {(type === 'findAddressOverTen' || type === 'notFoundAddress') && <MarginTopFourty />}
           {type === 'findAddressOverTen' && (
             <>
               <PreviouslyEnteredAddress firstLine={title} secondLine={subTitle} />
