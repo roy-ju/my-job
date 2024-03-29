@@ -86,11 +86,11 @@ export default function List({ list, handleOpenPopup }: ListProps) {
   );
 
   return (
-    <ListContainer>
+    <ListContainer tw="mt-5">
       {list.map((item) => (
         <ListItem
           key={item.id}
-          lookupText={item?.created_time ? `${moment(item.created_time).format('YYYY.MM.DD')}조회` : ''}
+          lookupText={item?.created_time ? `${moment(item.created_time).format('YYYY.MM.DD')} 조회` : ''}
           title={makeTitle({ item }).firstLine}
           subTitle={makeTitle({ item }).secondLine}
           handleClickItem={() => handleClickListItem(item.id)}

@@ -22,6 +22,7 @@ import useFetchSubHomeRealestateDocumentList from '@/services/sub-home/useFetchS
 
 import Routes from '@/router/routes';
 
+import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
 import useHandleClickBack from './realestate-document-list/hooks/useHandleClickBack';
 
 import usePopupsHandler from './realestate-document-list/hooks/usePopupsHandler';
@@ -54,6 +55,8 @@ export default function RealestateDocumentList() {
   const { platform } = useCheckPlatform();
 
   const { popup, handleClosePopup, handleOpenPopup } = usePopupsHandler();
+
+  useIosWebkitNoneApplySafeArea();
 
   const handleRouteSearchAddress = useCallback(() => {
     if (platform === 'pc') {
@@ -148,9 +151,7 @@ export default function RealestateDocumentList() {
           )}
         </FlexContents>
       </Container>
-
       {popup === 'creating' && <RealestateDocumentCreatingPopup handleConfirm={handleClosePopup} />}
-
       {popup === 'remaining' && (
         <RealestateDocumentRemainingCountPopup
           remainingCount={remainingCount}
