@@ -5,7 +5,7 @@ import { GuideTitle, GuideParagraph } from './widget/RealestateDocumentSearchAdd
 export default function SearchAddressGuide() {
   return (
     <div tw="p-5">
-      <GuideTitle>이렇게 검색해 보세요</GuideTitle>
+      <GuideTitle>이렇게 검색해보세요.</GuideTitle>
       <MarginTopTwentyFour />
       <GuideParagraph>
         <p>도로명 + 건물번호</p>
