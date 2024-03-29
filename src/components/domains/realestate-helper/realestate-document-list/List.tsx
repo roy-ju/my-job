@@ -86,7 +86,7 @@ export default function List({ list, handleOpenPopup }: ListProps) {
   );
 
   return (
-    <ListContainer tw="mt-5">
+    <ListContainer tw="py-5">
       {list.map((item) => (
         <ListItem
           key={item.id}
