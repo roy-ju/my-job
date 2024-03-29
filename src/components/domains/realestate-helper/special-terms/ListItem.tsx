@@ -39,7 +39,10 @@ function ListItem({ item, openTitle, isLast, handleChagneOpenTitle }: ListItemPr
       >
         {item.title}
       </Accordion.Summary>
-      <Accordion.Details tw="px-5" css={[openTitle === item.title && tw`pb-5`]}>
+      <Accordion.Details
+        tw="mx-auto [width: calc(100% - 40px)]"
+        css={[openTitle === item.title && tw`pb-5`, expanded && !isLast && tw`border-b border-b-gray-200`]}
+      >
         <SpecialContentsParagraph>{item.content}</SpecialContentsParagraph>
       </Accordion.Details>
     </Accordion>
