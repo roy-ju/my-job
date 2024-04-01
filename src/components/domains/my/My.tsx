@@ -1,18 +1,10 @@
-import { useCallback } from 'react';
-
-import { useRouter } from 'next/router';
-
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import Routes from '@/router/routes';
-
 import { NavigationHeader } from '@/components/molecules';
-
-import BellIcon from '@/assets/icons/bell.svg';
 
 import { Loading, Separator } from '@/components/atoms';
 
 import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
+
+import HeaderNotificationButton from '@/components/organisms/global/HeaderNotificationButton';
 
 import UserSummary from './my/UserSummary';
 
@@ -40,8 +32,6 @@ interface MyProps {
   onClickQna?: () => void;
   onClickMyRealPriceList?: () => void;
   onClickFAQ?: () => void;
-  onClickNegoPoint?: () => void;
-  onClickCoupons?: () => void;
   onClickServiceInfo?: () => void;
   onClickMyAddress?: () => void;
   onClickMyRegisteredListings?: (params: number) => void;
@@ -71,8 +61,6 @@ export default function My({
   onClickQna,
   onClickMyRealPriceList,
   onClickFAQ,
-  onClickCoupons,
-  onClickNegoPoint,
   onClickServiceInfo,
   onClickMyAddress,
   onClickMyRegisteredListings,
@@ -83,36 +71,15 @@ export default function My({
   onClickTab,
   onClickMyRegisteredHomes,
 }: MyProps) {
-  const router = useRouter();
-
-  const { platform } = useCheckPlatform();
-
-  const handleClickSampleRealestateTradeProcess = useCallback(() => {
-    if (platform === 'pc') {
-      router.push(`/${Routes.My}/${Routes.TradeProcess}`);
-    }
-
-    if (platform === 'mobile') {
-      router.push(`/${Routes.EntryMobile}/${Routes.TradeProcess}`);
-    }
-  }, [platform, router]);
-
   return (
     <div tw="flex flex-col h-full">
       <NavigationHeader>
-        <NavigationHeader.Title tw="text-b1 leading-none">마이페이지</NavigationHeader.Title>
-
+        <NavigationHeader.Title>마이페이지</NavigationHeader.Title>
         {loggedIn && (
-          <NavigationHeader.Button tw="ml-auto" onClick={onClickNotificationList}>
-            <div tw="relative">
-              <BellIcon />
-              {unreadNotificationCount > 0 && (
-                <span tw="absolute top-0 -right-0.5  animate-bounce   text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center ">
-                  {unreadNotificationCount}
-                </span>
-              )}
-            </div>
-          </NavigationHeader.Button>
+          <HeaderNotificationButton
+            unreadNotificationCount={unreadNotificationCount}
+            handleClick={onClickNotificationList}
+          />
         )}
       </NavigationHeader>
 
@@ -132,8 +99,6 @@ export default function My({
               name={name}
               nickname={nickname}
               onClickMyDetail={onClickMyDetail}
-              onClickCoupons={onClickCoupons}
-              onClickNegoPoint={onClickNegoPoint}
             />
 
             <ListingSummary
@@ -164,7 +129,6 @@ export default function My({
           {loggedIn && <NavigationList.Item title="서비스 문의" onClick={onClickQna} />}
           <NavigationList.Item title="서비스 정보" onClick={onClickServiceInfo} />
           {onClickDeveloper && <NavigationList.Item title="개발자 설정" onClick={onClickDeveloper} />}
-          <NavigationList.Item title="부동산 거래절차 (sample)" onClick={handleClickSampleRealestateTradeProcess} />
         </NavigationList>
       </div>
     </div>

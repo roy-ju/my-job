@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 import { theme } from 'twin.macro';
 
@@ -10,27 +10,24 @@ import ArrowDown from '@/assets/icons/arrow_down_20.svg';
 
 import { ProcessListItem } from './types';
 
-import ListItemWrraper from './widget/ListItemWrraper';
-
-import Summary from './widget/Summary';
-
-import SummaryTextWrraper from './widget/SummaryTextWrraper';
-
-import Title from './widget/Title';
-
-import Thumbnail from './widget/Thumbnail';
-
-import SummaryButton from './widget/SummaryButton';
-
-import Detail from './widget/Detail';
-
-import Content from './widget/Content';
+import {
+  ListItemWrraper,
+  Summary,
+  SummaryTextWrraper,
+  Title,
+  Thumbnail,
+  SummaryButton,
+  Detail,
+  Content,
+} from './widget/ListItemWidget';
 
 import Tip from './widget/Tip';
 
 import Caution from './widget/Caution';
 
 import { contentsVariants, contentVariants, itemVariants } from './constants/animations';
+
+import { TradeProcessContainerElementId } from './constants/element_id';
 
 type ListItemProps = {
   item: ProcessListItem;
@@ -40,6 +37,8 @@ type ListItemProps = {
 };
 
 export default function ListItem({ item, openListItemIdx, handleClickListItem }: ListItemProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
   const handleClickSummaryButton = useCallback(
     (v: number) => {
       if (openListItemIdx) {
@@ -48,6 +47,23 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
 
       if (openListItemIdx !== v) {
         handleClickListItem(v);
+
+        setTimeout(() => {
+          if (ref?.current) {
+            const elementRect = ref.current.getBoundingClientRect();
+
+            const container = document.getElementById(TradeProcessContainerElementId);
+
+            if (container) {
+              const scrollPosition = elementRect.top + container.scrollTop - 128 - 40;
+
+              container.scrollTo({
+                top: scrollPosition,
+                behavior: 'smooth',
+              });
+            }
+          }
+        }, 50);
       }
     },
     [handleClickListItem, openListItemIdx],
@@ -58,7 +74,7 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
   const expaned = order === openListItemIdx;
 
   return (
-    <ListItemWrraper variants={itemVariants}>
+    <ListItemWrraper variants={itemVariants} ref={ref}>
       <Summary onClick={() => handleClickSummaryButton(order)} tw="cursor-pointer">
         <OrderWrraper tw="[margin-top: 1px]">
           <OrderText>{order}</OrderText>
@@ -81,21 +97,15 @@ export default function ListItem({ item, openListItemIdx, handleClickListItem }:
       </Summary>
 
       <AnimatePresence initial={false}>
-        {expaned && (
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: 'auto' }}
-            exit={{ height: 0 }}
-            transition={{ type: 'just' }}
-            tw="overflow-hidden"
-          >
+        <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} tw="overflow-hidden">
+          {expaned && (
             <Detail initial="hidden" animate="visible" variants={contentsVariants}>
               <Content variants={contentVariants}>{contents}</Content>
               <Tip text={tip} />
               <Caution text={caution} />
             </Detail>
-          </motion.div>
-        )}
+          )}
+        </motion.div>
       </AnimatePresence>
     </ListItemWrraper>
   );

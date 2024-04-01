@@ -29,7 +29,7 @@ export default function Caution({ text = '' }: { text?: string }) {
     <Column variants={contentVariants}>
       <Flex tw="flex items-center gap-1">
         <CautionIcon />
-        <CautionTitle>부동산 거래 팁</CautionTitle>
+        <CautionTitle>주의사항</CautionTitle>
       </Flex>
       <CautionText>{text}</CautionText>
     </Column>

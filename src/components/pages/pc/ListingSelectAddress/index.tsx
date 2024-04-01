@@ -12,7 +12,7 @@ import { useRouter } from '@/hooks/utils';
 
 import Routes from '@/router/routes';
 
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+import useFetchMyAddressList from '@/services/my/useFetchMyAddressList';
 
 import useAuth from '@/hooks/services/useAuth';
 
@@ -36,7 +36,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
-  const { list } = useAPI_GetMyAddressList({
+  const { list } = useFetchMyAddressList({
     activeOnly: true,
     danjiID: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     isFetch,

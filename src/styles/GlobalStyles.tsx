@@ -18,6 +18,11 @@ const customStyles = css`
   * {
     outline: none;
     -webkit-tap-highlight-color: transparent; /* 탭 하이라이트 색상을 투명하게 설정 */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   html,
@@ -29,7 +34,7 @@ const customStyles = css`
   }
 
   body {
-    /* overscroll-behavior: contain; */
+    overscroll-behavior: contain;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
@@ -77,6 +82,31 @@ const customStyles = css`
       min-height: 134.4px;
       object-fit: cover;
       border-radius: 8px;
+    }
+  }
+
+  #negocio-trade-process-image-mobile {
+    object-fit: cover;
+  }
+
+  @media (min-width: 486px) {
+    #negocio-trade-process-image-mobile {
+      object-fit: contain;
+    }
+  }
+
+  #negocio-trade-process-image-pc {
+    object-fit: cover;
+  }
+
+  .lawQnaWrraper {
+    ol {
+      list-style: decimal;
+      padding-left: 30px;
+    }
+    ul {
+      list-style: disc;
+      padding-left: 30px;
     }
   }
 

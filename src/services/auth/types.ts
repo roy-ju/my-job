@@ -93,3 +93,14 @@ export type LoginCiResponse = {
 export type SendPhoneVerificationCodeForRegisterResponse = {
   attemp_count_today: number;
 } & ErrorResponse;
+
+export type UserAppVersionResponse = {
+  id: number;
+  version_name: string;
+  latest_version_name: string;
+  is_latest: boolean;
+  platform: number;
+  stale: boolean;
+  released_time: string;
+  created_time: string;
+} & ErrorResponse;

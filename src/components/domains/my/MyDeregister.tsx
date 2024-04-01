@@ -1,55 +1,81 @@
-import { ChangeEvent } from 'react';
-
-import { Button } from '@/components/atoms';
-
 import { NavigationHeader } from '@/components/molecules';
+
+import Container from '@/components/atoms/Container';
+
+import useFetchDergisterStatus from '@/services/my/useFetchDergisterStatus';
+
+import { CtaWrraper, NextStepButton, Title, DeregisterCta, FlexContents } from './deregister/widget/DeregisterWidget';
 
 import Form from './deregister/Form';
 
-interface MyDeregisterProps {
-  deregisterReasons?: string[];
-  extraReasons?: string;
-  onChangeDeregisterReasons?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onChangeExtraReasons?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  onClickBackButton?: () => void;
-  onClickNext?: () => void;
-}
+import CautionConfirm from './deregister/CautionConfirm';
 
-export default function MyDeregister({
-  deregisterReasons,
-  extraReasons,
-  onChangeDeregisterReasons,
-  onChangeExtraReasons,
-  onClickBackButton,
-  onClickNext,
-}: MyDeregisterProps) {
+import useMyDergister from './deregister/hooks/useMyDergister';
+
+import useStep from './deregister/hooks/useStep';
+
+import useHandleClickBack from './deregister/hooks/useHandleClickBack';
+
+import useCtasHandler from './deregister/hooks/useCtasHandler';
+
+import SuccessPopup from './deregister/popups/SuccessPopup';
+
+import ConfirmPopup from './deregister/popups/ConfirmPopup';
+
+export default function MyDeregister() {
+  const { deregisterReasons, extraReasons, handleChangeDeregisterReasons, handleChangeExtraReasons } = useMyDergister();
+
+  const { data } = useFetchDergisterStatus();
+
+  const { step, handleUpdateStep } = useStep();
+
+  const { handleClickBack } = useHandleClickBack({ step, updateStep: handleUpdateStep });
+
+  const reasons = extraReasons ? deregisterReasons?.join(',').concat(',', extraReasons) : deregisterReasons?.join('');
+
+  const { popup, stepOneCta, stepTwoCta, handleDeregister, handleConfirmPopup, handleClosePopup } = useCtasHandler({
+    updateStep: handleUpdateStep,
+    reasons,
+  });
+
   return (
-    <div tw="relative flex flex-col h-full">
-      <NavigationHeader>
-        {onClickBackButton && <NavigationHeader.BackButton onClick={onClickBackButton} />}
-        <NavigationHeader.Title>회원탈퇴</NavigationHeader.Title>
-        <Button size="none" variant="ghost" tw="underline text-info leading-4" onClick={onClickNext}>
-          건너뛰기
-        </Button>
-      </NavigationHeader>
-      <div tw="flex-1 min-h-0 px-5 py-5 overflow-y-auto">
-        <div tw="text-h2 font-bold mb-6">
-          네고시오 탈퇴 이유를
-          <br />
-          알려주세요
-        </div>
-        <Form
-          extraReasons={extraReasons}
-          onChangeTextArea={onChangeExtraReasons}
-          deregisterReasons={deregisterReasons}
-          onChangeCheckbox={onChangeDeregisterReasons}
-        />
-      </div>
-      <div tw="w-full px-5 py-4 bg-white shadow-persistentBottomBar">
-        <Button variant="secondary" size="bigger" tw="w-full" onClick={onClickNext}>
-          다음
-        </Button>
-      </div>
-    </div>
+    <>
+      <Container>
+        <NavigationHeader>
+          {handleClickBack && <NavigationHeader.BackButton onClick={handleClickBack} />}
+          <NavigationHeader.Title>회원탈퇴</NavigationHeader.Title>
+          {step === 1 && <NextStepButton onClick={stepOneCta}>건너뛰기</NextStepButton>}
+        </NavigationHeader>
+
+        {step === 1 ? (
+          <FlexContents>
+            <Title>{`네고시오 탈퇴 이유를\n알려주세요`}</Title>
+            <Form
+              deregisterReasons={deregisterReasons}
+              extraReasons={extraReasons}
+              onChangeCheckbox={handleChangeDeregisterReasons}
+              onChangeTextArea={handleChangeExtraReasons}
+            />
+          </FlexContents>
+        ) : (
+          <FlexContents>
+            <CautionConfirm />
+          </FlexContents>
+        )}
+
+        <CtaWrraper>
+          {step === 1 && <DeregisterCta onClick={stepOneCta}>다음</DeregisterCta>}
+
+          {step === 2 && (
+            <DeregisterCta disabled={!data?.can_deregister} onClick={stepTwoCta}>
+              탈퇴하기
+            </DeregisterCta>
+          )}
+        </CtaWrraper>
+      </Container>
+
+      {popup === 'confirm' && <ConfirmPopup onClickCancel={handleClosePopup} onClickDeregister={handleConfirmPopup} />}
+      {popup === 'success' && <SuccessPopup onClickNavigateToHome={handleDeregister} />}
+    </>
   );
 }

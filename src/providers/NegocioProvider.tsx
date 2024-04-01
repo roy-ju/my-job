@@ -16,12 +16,35 @@ import { isClient } from '@/utils/is';
 
 import Keys from '@/constants/storage_keys';
 
+// import previousDomState from '@/states/atom/previousDomState';
+
+// import { useRecoilState } from 'recoil';
+
+// import { useRouter } from 'next/router';
+
 export default function NegocioProvider({ children }: { children?: ReactNode }) {
   const pageVisible = usePageVisibility();
 
   const { user } = useAuth();
 
   const { setUnreadChatCount, setUnreadNotificationCount } = useSyncronizer();
+
+  // const [pushToStack, setPushToStack] = useRecoilState(previousDomState);
+
+  // const router = useRouter();
+
+  // useEffect(() => {
+  //   const handleRouteChange = () => {
+  //     const currentDom = document.documentElement.innerHTML;
+  //     setPushToStack((stack) => [...stack, currentDom]);
+  //   };
+
+  //   router.events.on('routeChangeStart', handleRouteChange);
+
+  //   return () => {
+  //     router.events.off('routeChangeStart', handleRouteChange);
+  //   };
+  // }, [pushToStack, router.events, setPushToStack]);
 
   const wsUrl = useMemo(() => {
     if (typeof window === 'undefined') return '';

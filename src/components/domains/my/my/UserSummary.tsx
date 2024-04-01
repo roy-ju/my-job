@@ -5,15 +5,10 @@ import { Avatar, Button } from '@/components/atoms';
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
 
 interface UserSummaryProps {
-  profileImagePath?: string | StaticImageData;
   name?: string;
   nickname?: string;
-  profileImgaeUrl?: string;
-  point?: number;
-  couponCount?: number;
+  profileImagePath?: string | StaticImageData;
   onClickMyDetail?: () => void;
-  onClickNegoPoint?: () => void;
-  onClickCoupons?: () => void;
 }
 
 export default function UserSummary({ name, nickname, profileImagePath, onClickMyDetail }: UserSummaryProps) {

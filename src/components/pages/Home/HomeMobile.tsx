@@ -2,7 +2,7 @@ import Home from '@/components/domains/home';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 
-import MobGlobalNavigation from '@/components/organisms/MobGlobalNavigation';
+import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNavigation';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
@@ -10,7 +10,7 @@ export default function HomeMobile() {
   const { unreadChatCount } = useSyncronizer();
 
   return (
-    <MobileContainer bottomNav={<MobGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
+    <MobileContainer bottomNav={<BottomGlobalNavigation index={0} unreadChatCount={unreadChatCount} />}>
       <Home />
     </MobileContainer>
   );

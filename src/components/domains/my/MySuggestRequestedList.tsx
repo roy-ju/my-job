@@ -8,6 +8,8 @@ import { InfiniteScroll, Loading } from '@/components/atoms';
 
 import { NavigationHeader, NoDataUI } from '@/components/molecules';
 
+import BottomFixedAnimationButton from '@/components/organisms/BottomFixedAnimationButton';
+
 import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
@@ -21,8 +23,6 @@ import useFetchMySuggestList from '@/services/my/useFetchMySuggestList';
 import useScroll from '@/hooks/useScroll';
 
 import ListItem from './suggest-requested-list/ListItem';
-
-import SuggestCreate from './suggest-requested-list/SuggestCreate';
 
 const Container = styled.div`
   ${tw`relative flex flex-col w-full h-full`}
@@ -183,7 +183,14 @@ export default function MySuggestRequestedList() {
       </FlexContentsWrraper>
 
       {list && list.length > 0 && render && (
-        <SuggestCreate platform={platform} isScrollingButton={isScrollingButton} handleClick={handleClickSuggestForm} />
+        <BottomFixedAnimationButton
+          width={142}
+          containerId="negocio-my-suggest-requestedList"
+          ctaTitle="집 구해요 등록"
+          platform={platform}
+          isScrollingButton={isScrollingButton}
+          handleClick={handleClickSuggestForm}
+        />
       )}
     </Container>
   );

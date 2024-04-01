@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import MyFavoriteList from '@/components/pages/mobile/MyFavoriteList';
+import MyFavoriteList from '@/components/pages/MyFavoriteList/MyFavoriteListMobile';
 
 const Page: NextPageWithLayout = () => <MyFavoriteList />;
 

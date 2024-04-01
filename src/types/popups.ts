@@ -4,3 +4,8 @@ export type PopupStateType =
   | 'needMoreVerificationAddress'
   | 'verificationAddress'
   | 'impossibleRecommendation';
+
+export interface CommonPopupProps {
+  handleCancel?: (...args: any) => void;
+  handleConfirm?: (...args: any) => void;
+}

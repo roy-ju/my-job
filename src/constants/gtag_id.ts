@@ -22,6 +22,9 @@ const GOOGLE_TAG_BUTTON_ID = {
   VERIFY_DIRECTLY_CTA: 'gtag-now-verify-cta',
 
   VERIFY_AFTER_CTA: 'gtag-after-verify-cta',
+
+  /** 등기붓 신규조회 */
+  REALESTATE_DOCUMENT_NEW_SEARCH: 'gtag-realestate-document-new-search',
 };
 
 export default GOOGLE_TAG_BUTTON_ID;
