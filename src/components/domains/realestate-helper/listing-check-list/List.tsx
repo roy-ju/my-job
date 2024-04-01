@@ -1,7 +1,5 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
-import ManRaisingHandImage from '@/../public/static/images/icon_man-raising-hand.png';
-
 import CheckImage from '@/../public/static/images/icon_check.png';
 
 import useFetchSubHomeGuideList from '@/services/sub-home/useFetchSubHomeGuideList';
@@ -10,17 +8,11 @@ import { GuideListItem } from '@/services/sub-home/types';
 
 import Title from './Title';
 
-import {
-  AdditionalListItem,
-  AdditionListWrraper,
-  AddtionalListQuestion,
-  AddtionalListText,
-  CheckListContainer,
-  CheckListWrraper,
-  RequiredListWrraper,
-} from './widget/ListingCheckListWidget';
+import { CheckListContainer, CheckListWrraper } from './widget/ListingCheckListWidget';
 
-import ListItem from './ListItem';
+import AdditionalList from './AdditionalList';
+
+import RequiredList from './RequiredList';
 
 type ListProps = {
   tab: string;
@@ -104,27 +96,9 @@ function List({ tab, code }: ListProps) {
     <CheckListContainer style={tab !== code ? { display: 'none' } : {}}>
       <CheckListWrraper>
         <Title url={CheckImage.src} title="꼭 확인해야 할 항목이에요!" alt="iconCheck" />
-        <RequiredListWrraper>
-          {requiredList.map((item) => (
-            <ListItem item={item} key={item.id} checkedItems={checkedItems} handleClick={handleClick} />
-          ))}
-        </RequiredListWrraper>
+        <RequiredList list={requiredList} checkedItems={checkedItems} handleClick={handleClick} />
       </CheckListWrraper>
-      {additionalList.length > 0 && (
-        <CheckListWrraper tw="mt-4">
-          <Title title="추가로 질문해보세요!" url={ManRaisingHandImage.src} alt="manRaisingHand" />
-          <AdditionListWrraper tw="px-0">
-            <AdditionListWrraper>
-              {additionalList.map((item) => (
-                <AdditionalListItem key={item.id}>
-                  <AddtionalListQuestion>Q</AddtionalListQuestion>
-                  <AddtionalListText>{item.content}</AddtionalListText>
-                </AdditionalListItem>
-              ))}
-            </AdditionListWrraper>
-          </AdditionListWrraper>
-        </CheckListWrraper>
-      )}
+      <AdditionalList list={additionalList} />
     </CheckListContainer>
   );
 }
