@@ -5,7 +5,6 @@ import { ChangeEventHandler, ReactNode, useCallback, useState } from 'react';
 import { Button, Checkbox } from '@/components/atoms';
 
 import {
-  MobGlobalNavigation,
   MobMapControls,
   MobMapHeader,
   MobMapPositionBar,
@@ -26,6 +25,8 @@ import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoA
 import { convertSidoName } from '@/utils/fotmat';
 
 import Close from '@/assets/icons/close_24.svg';
+
+import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNavigation';
 
 import MobAreaSearch from '../MobAreaSearch';
 
@@ -210,7 +211,7 @@ function MobLayoutMapContainer({
           </div>
         )}
 
-        <MobGlobalNavigation index={2} />
+        <BottomGlobalNavigation index={2} />
       </div>
     </>
   );

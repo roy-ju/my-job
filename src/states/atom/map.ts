@@ -9,7 +9,7 @@ export interface MapAtom {
 }
 
 const mapAtom = atom<MapAtom>({
-  key: `negocio_map/${v1()}`,
+  key: `negocio_map_atom/${v1()}`,
   default: {},
   dangerouslyAllowMutability: true,
 });

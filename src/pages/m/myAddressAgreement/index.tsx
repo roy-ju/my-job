@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import MyAddressAgreement from '@/components/pages/mobile/MyAddressAgreement';
+import MyAddressAgreement from '@/components/pages/MyAddressAgreement/MyAddressAgreementMobile';
 
 const Page: NextPageWithLayout = () => <MyAddressAgreement />;
 

@@ -4,14 +4,7 @@ import tw from 'twin.macro';
 
 import { Button } from '@/components/atoms';
 
-import {
-  MapControls,
-  GlobalNavigation,
-  MapPriceSelect,
-  MapSearchTextField,
-  MapFilter,
-  MapToggleButton,
-} from '@/components/organisms';
+import { MapControls, MapPriceSelect, MapSearchTextField, MapFilter, MapToggleButton } from '@/components/organisms';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -23,7 +16,7 @@ import ChatBubble from '@/assets/icons/chat_bubble.svg';
 
 import User from '@/assets/icons/user.svg';
 
-import Heart from '@/assets/icons/heart.svg';
+import BookIcon from '@/assets/icons/icon_book_24.svg';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
@@ -37,6 +30,8 @@ import CloseIcon from '@/assets/icons/close.svg';
 
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 
+import GlobalNavigation from '@/components/organisms/global/GlobalNavigation';
+
 interface LayoutMainProps {
   children?: ReactNode;
   tabIndex?: number;
@@ -48,11 +43,11 @@ interface LayoutMainProps {
 function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo, unreadChatCount }: LayoutMainProps) {
   return (
     <div tw="flex h-full w-full flex-row overflow-hidden">
-      <div tw="z-50">
+      <div tw="z-50 bg-red">
         <GlobalNavigation tabIndex={tabIndex} onChangeTab={onChangeTab} onClickLogo={onClickLogo}>
           <GlobalNavigation.TabButton idx={0} text="홈" icon={<Home />} />
-          <GlobalNavigation.TabButton idx={1} text="지도" icon={<MapPin />} />
-          <GlobalNavigation.TabButton idx={2} text="관심 목록" icon={<Heart />} />
+          <GlobalNavigation.TabButton idx={1} text="거래도우미" icon={<BookIcon />} />
+          <GlobalNavigation.TabButton idx={2} text="지도" icon={<MapPin />} />
           <GlobalNavigation.TabButton idx={3} text="채팅" icon={<ChatBubble />} unreadChatCount={unreadChatCount} />
           <GlobalNavigation.TabButton idx={4} text="마이페이지" icon={<User />} />
           {process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' && (
@@ -60,6 +55,7 @@ function LayoutMain({ tabIndex, onChangeTab, children, onClickLogo, unreadChatCo
           )}
         </GlobalNavigation>
       </div>
+
       {children}
     </div>
   );

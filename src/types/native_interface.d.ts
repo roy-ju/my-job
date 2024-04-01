@@ -6,6 +6,7 @@ interface Android {
   getCurrentPositionPermissionState?: () => number;
   requestCurrentPosition?: () => number;
   requestCurrentPositionPermission?: () => void;
+  downloadFile?: (url: string) => void;
 }
 
 interface WebKit {
@@ -18,6 +19,7 @@ interface WebKitMessageHandlers {
   checkCameraPermission?: WebKitMessageHandler;
   showKeyboard?: WebKitMessageHandler;
   noneApplySafeArea?: WebKitMessageHandler;
+  downloadFile?: WebKitMessageHandler;
 }
 
 interface WebKitMessageHandler {

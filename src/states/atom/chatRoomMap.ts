@@ -13,7 +13,7 @@ type ChatRoomMapAtom = {
 };
 
 const chatRoomMapAtom = atom<ChatRoomMapAtom>({
-  key: `chatRoomMapAtom/${v1()}`,
+  key: `chat_room_mop_atom/${v1()}`,
   default: {
     isShowMap: false,
     naverMapURL: '',

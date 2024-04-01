@@ -8,8 +8,6 @@ import OutsideClick from '@/components/atoms/OutsideClick';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { MobDanjiSummary } from '@/components/organisms';
-
 import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/components/templates';
 
 import useMobileMapLayout from '@/hooks/useMobileMapLayout';
@@ -25,6 +23,9 @@ import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 import Routes from '@/router/routes';
 
 import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
+
+import DanjiSummaryInMobileBottomSheet from '@/components/organisms/danji/DanjiSummaryInMobileBottomSheet';
+
 import Markers from './Markers';
 
 function MapWrapper() {
@@ -174,7 +175,7 @@ function MapWrapper() {
         </Map>
 
         {render && (
-          <MobDanjiSummary
+          <DanjiSummaryInMobileBottomSheet
             selectedDanjiSummary={selectedDanjiSummary}
             filter={filter}
             touchEvent={touchEvent}

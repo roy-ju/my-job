@@ -1,9 +1,10 @@
 import useAPI_GetMyParticipatedListingList from '@/apis/my/getMyParticipatedListingList';
-import { IMyListingListItem } from '@/components/organisms/MyListItem/Listing';
+
+import { MyFavoriteListingListUiItem } from '@/components/domains/my/favorite-list/types';
 
 interface IBiddingStatusItem {
   count?: number;
-  data?: IMyListingListItem[];
+  data?: MyFavoriteListingListUiItem[];
   incrementalPageNumber?: () => void;
   mutate?: () => void;
   isLoading?: boolean;

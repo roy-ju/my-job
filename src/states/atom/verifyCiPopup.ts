@@ -13,7 +13,7 @@ type VerifyCiPopupAtom = {
 };
 
 const verifyCiPopupAtom = atom<VerifyCiPopupAtom>({
-  key: `verifyCiPopupAtom/${v1()}`,
+  key: `verify_ci_popup_atom/${v1()}`,
   default: {
     open: false,
   },

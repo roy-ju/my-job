@@ -7,7 +7,7 @@ type VerifyCiStatusAtom = {
 };
 
 const verifyCiStatusAtom = atom<VerifyCiStatusAtom>({
-  key: `verifyCiPopupAtom/${v1()}`,
+  key: `verify_ci_popup_atom/${v1()}`,
   default: { status: '' },
 
   dangerouslyAllowMutability: true,

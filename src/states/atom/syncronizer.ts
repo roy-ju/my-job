@@ -8,7 +8,7 @@ interface SyncronizerAtom {
 }
 
 const syncronizerAtom = atom<SyncronizerAtom>({
-  key: `syncronizerAtom/${v1()}`,
+  key: `syncronizer_atom/${v1()}`,
   default: {
     unreadChatCount: 0,
     unreadNotificationCount: 0,

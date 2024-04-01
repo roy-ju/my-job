@@ -81,7 +81,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
       if (danji) {
         const id = danji.danji_id;
 
-        await apiService.danjiFavoriteAdd({
+        await apiService.addDanjiFavorite({
           id,
         });
 
@@ -94,7 +94,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
     async function danjiFavoriteRemoveOptimistic() {
       if (danji) {
         const id = danji.danji_id;
-        await apiService.danjiFavoriteRemove({
+        await apiService.removeDanjiFavorite({
           id,
         });
 

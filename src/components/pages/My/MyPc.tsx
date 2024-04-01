@@ -75,14 +75,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     nextRouter.push(`/${Routes.My}/${Routes.FAQ}`);
   }, [nextRouter]);
 
-  const handleClickNegoPoint = useCallback(() => {
-    nextRouter.push(`/${Routes.My}/${Routes.NegoPoint}`);
-  }, [nextRouter]);
-
-  const handleClickCoupons = useCallback(() => {
-    nextRouter.push(`/${Routes.My}/${Routes.MyCoupon}`);
-  }, [nextRouter]);
-
   const handleServiceInfo = useCallback(() => {
     nextRouter.push(`/${Routes.My}/${Routes.ServiceInfo}`);
   }, [nextRouter]);
@@ -157,8 +149,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onClickQna={handleClickQna}
         onClickMyRealPriceList={handleClickMyRealPriceList}
         onClickFAQ={handleClickFAQ}
-        onClickNegoPoint={handleClickNegoPoint}
-        onClickCoupons={handleClickCoupons}
         onClickServiceInfo={handleServiceInfo}
         onClickMyAddress={handleMyAddress}
         onClickMyRegisteredListings={handleClickMyRegisteredListings}
