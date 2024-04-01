@@ -29,20 +29,18 @@ function ListItem({ item, openTitle, isLast, handleChagneOpenTitle }: ListItemPr
           handleChagneOpenTitle(null);
         }
       }}
+      tw="py-5 [width: calc(100% - 40px)] mx-auto"
+      css={[!isLast && tw`border-b border-b-gray-200`]}
     >
       <Accordion.Summary
         isNewIconV3
         iconColor={theme`colors.gray.700`}
         iconWidth="20"
-        tw="py-5 text-left text-gray-800 text-subhead_03 hover:bg-white mx-auto [width: calc(100% - 40px)] [-webkit-transform: translateZ(0)]"
-        css={[!expanded && !isLast && tw`border-b border-b-gray-200`]}
+        tw="text-left text-gray-800 text-subhead_03 hover:bg-white [-webkit-transform: translateZ(0)]"
       >
         {item.title}
       </Accordion.Summary>
-      <Accordion.Details
-        tw="mx-auto [width: calc(100% - 40px)]"
-        css={[openTitle === item.title && tw`pb-5`, expanded && !isLast && tw`border-b border-b-gray-200`]}
-      >
+      <Accordion.Details css={[openTitle === item.title && tw`pt-5`]}>
         <SpecialContentsParagraph>{item.content}</SpecialContentsParagraph>
       </Accordion.Details>
     </Accordion>

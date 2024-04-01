@@ -1,10 +1,6 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
-import tw from 'twin.macro';
-
 import ManRaisingHandImage from '@/../public/static/images/icon_man-raising-hand.png';
-
-import { Checkbox } from '@/components/atoms';
 
 import CheckImage from '@/../public/static/images/icon_check.png';
 
@@ -21,9 +17,10 @@ import {
   AddtionalListText,
   CheckListContainer,
   CheckListWrraper,
-  RequiredListItem,
   RequiredListWrraper,
 } from './widget/ListingCheckListWidget';
+
+import ListItem from './ListItem';
 
 type ListProps = {
   tab: string;
@@ -36,8 +33,6 @@ function List({ tab, code }: ListProps) {
   const [requiredList, setRequiredList] = useState<GuideListItem[]>([]);
 
   const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({});
-
-  const [initial, setInitial] = useState(false);
 
   const handleCheckboxChange = useCallback(
     (id: number, isChecked: boolean) => {
@@ -90,17 +85,6 @@ function List({ tab, code }: ListProps) {
     [checkedItems],
   );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setInitial(true);
-    }, 50);
-
-    return () => {
-      clearTimeout(timer);
-      setInitial(false);
-    };
-  }, [tab]);
-
   const handleClick = useCallback(
     (id: number) => {
       handleCheckboxChange(id, !checkedItems[id]);
@@ -114,27 +98,17 @@ function List({ tab, code }: ListProps) {
     }
   }, [isLoading, originalRequiredList]);
 
+  if (tab !== code) return null;
+
   return (
-    <CheckListContainer style={{ display: tab === code ? 'block' : 'none' }}>
+    <CheckListContainer style={tab !== code ? { display: 'none' } : {}}>
       <CheckListWrraper>
         <Title url={CheckImage.src} title="꼭 확인해야 할 항목이에요!" alt="iconCheck" />
-        {initial ? (
-          <RequiredListWrraper>
-            {requiredList.map((item) => (
-              <RequiredListItem
-                layout
-                key={item.id}
-                css={[checkedItems[item.id] && tw`text-gray-600 bg-gray-200`]}
-                onClick={() => handleClick(item.id)}
-              >
-                <Checkbox iconType="graySquare" checked={checkedItems[item.id] || false} />
-                {item.content}
-              </RequiredListItem>
-            ))}
-          </RequiredListWrraper>
-        ) : (
-          <div tw="[min-height: 500px]" />
-        )}
+        <RequiredListWrraper>
+          {requiredList.map((item) => (
+            <ListItem item={item} key={item.id} checkedItems={checkedItems} handleClick={handleClick} />
+          ))}
+        </RequiredListWrraper>
       </CheckListWrraper>
       {additionalList.length > 0 && (
         <CheckListWrraper tw="mt-4">
