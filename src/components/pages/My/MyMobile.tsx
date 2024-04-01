@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { Loading, MobileContainer } from '@/components/atoms';
 
-import { MobGlobalNavigation } from '@/components/organisms';
+import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNavigation';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
@@ -75,14 +75,6 @@ export default function MyMobile() {
     router.push(`/${Routes.EntryMobile}/${Routes.FAQ}`);
   }, [router]);
 
-  const handleClickNegoPoint = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.NegoPoint}`);
-  }, [router]);
-
-  const handleClickCoupons = useCallback(() => {
-    router.push(`/${Routes.EntryMobile}/${Routes.MyCoupon}`);
-  }, [router]);
-
   const handleServiceInfo = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/${Routes.ServiceInfo}`);
   }, [router]);
@@ -141,7 +133,7 @@ export default function MyMobile() {
 
   if (!tab)
     return (
-      <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
+      <MobileContainer bottomNav={<BottomGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
         <div tw="py-20">
           <Loading />
         </div>
@@ -150,7 +142,7 @@ export default function MyMobile() {
 
   return (
     <>
-      <MobileContainer bottomNav={<MobGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
+      <MobileContainer bottomNav={<BottomGlobalNavigation index={4} unreadChatCount={unreadChatCount} />}>
         <My
           isLoading={isLoading}
           loggedIn={user !== null}
@@ -166,8 +158,6 @@ export default function MyMobile() {
           onClickQna={handleClickQna}
           onClickMyRealPriceList={handleClickMyRealPriceList}
           onClickFAQ={handleClickFAQ}
-          onClickNegoPoint={handleClickNegoPoint}
-          onClickCoupons={handleClickCoupons}
           onClickServiceInfo={handleServiceInfo}
           onClickMyAddress={handleMyAddress}
           onClickMyRegisteredListings={handleClickMyRegisteredListings}

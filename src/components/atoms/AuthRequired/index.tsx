@@ -45,7 +45,18 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
           openAuthPopup('login');
         }
 
-        handleUpdateReturnUrl();
+        if (
+          router.asPath.includes(Routes.RealestateDocumentList) ||
+          router.asPath.includes(Routes.RealestateDocumentSearchAddress) ||
+          router.asPath.includes(Routes.RealestateDocumentAddressDetail) ||
+          router.asPath.includes(Routes.RealestateDocumentAddressVerifying) ||
+          router.asPath.includes(Routes.RealestateDocumentAddressVerifyResult) ||
+          router.asPath.includes(Routes.RealestateDocumentDetail)
+        ) {
+          handleUpdateReturnUrl(`/${Routes.SubHome}/${Routes.RealestateDocumentList}`);
+        } else {
+          handleUpdateReturnUrl();
+        }
         return;
       }
 
@@ -53,7 +64,17 @@ export default function AuthRequired({ depth = 1, ciRequired = false, onAccessDe
         handleUpdateReturnUrl();
       }
     }
-  }, [ciRequired, depth, router.isReady, user, isLoading, customRouter, openAuthPopup, handleUpdateReturnUrl]);
+  }, [
+    ciRequired,
+    depth,
+    router.isReady,
+    user,
+    isLoading,
+    customRouter,
+    openAuthPopup,
+    handleUpdateReturnUrl,
+    router.asPath,
+  ]);
 
   if (isLoading)
     return (

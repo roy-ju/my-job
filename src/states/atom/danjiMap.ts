@@ -8,7 +8,7 @@ type MobileDanjiMapTypeAtom = {
 };
 
 const mobileDanjiMapAtom = atom<MobileDanjiMapTypeAtom>({
-  key: `mobileDanjiMapAtom/${v1()}`,
+  key: `mobile_danji_map_atom/${v1()}`,
   default: { mapType: 'map', panoCenter: undefined },
   dangerouslyAllowMutability: true,
 });

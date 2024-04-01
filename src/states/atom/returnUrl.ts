@@ -7,7 +7,7 @@ type ReturnUrlAtom = {
 };
 
 const returnUrlAtom = atom<ReturnUrlAtom>({
-  key: `returnUrlAtom/${v1()}`,
+  key: `return_url_atom/${v1()}`,
   default: {
     returnUrl: '',
   },

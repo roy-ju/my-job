@@ -22,6 +22,10 @@ import AppleIcon from '@/assets/icons/apple_store.svg';
 
 import GooglePlayIcon from '@/assets/icons/google_store.svg';
 
+import { MarginTopFourty, MarginTopTwenty, MarginTopTwentyFour } from '@/components/atoms/Margin';
+
+import GoAgentSite from './GoAgentSite';
+
 export default function Footer() {
   const { platform } = useCheckPlatform();
 
@@ -78,8 +82,12 @@ export default function Footer() {
   };
 
   return (
-    <footer tw="px-5 py-10 flex flex-col gap-3">
-      <div tw="flex gap-5 justify-center mb-2">
+    <footer tw="pb-10 flex flex-col bg-gray-100">
+      <MarginTopTwentyFour />
+      <GoAgentSite />
+      <MarginTopFourty />
+
+      <div tw="flex gap-5 justify-center px-5 pt-10">
         <Button size="none" variant="ghost" onClick={handleClickNaverBlog}>
           <NaverBlogIcon />
         </Button>
@@ -94,9 +102,11 @@ export default function Footer() {
         </Button>
       </div>
 
-      {!isNativeApp && (
+      <MarginTopTwenty />
+
+      {!isNativeApp && platform === 'mobile' && (
         <div>
-          <div tw="flex gap-3">
+          <div tw="flex gap-3 px-5">
             <Button tw="flex-1 p-0" variant="outlined" size="big" onClick={handleClickAppStore}>
               <AppleIcon tw="w-6 h-6 mr-2" />
               <span tw="whitespace-nowrap">앱스토어에서 설치</span>
@@ -106,10 +116,11 @@ export default function Footer() {
               <span tw="whitespace-nowrap">구글플레이에서 설치</span>
             </Button>
           </div>
+          <MarginTopTwenty />
         </div>
       )}
 
-      <div tw="flex items-center justify-center mt-2">
+      <div tw="flex items-center justify-center px-5 mb-3">
         <Button size="none" variant="ghost" tw="text-body_02 text-gray-700" onClick={handleClickServicePage}>
           서비스 소개
         </Button>
@@ -122,8 +133,7 @@ export default function Footer() {
           이용약관
         </Button>
       </div>
-
-      <div tw="text-center text-body_01 text-gray-600">ⓒ 2023. Negocio All rights reserved.</div>
+      <div tw="text-center text-body_01 text-gray-600 px-5">ⓒ 2023. Negocio All rights reserved.</div>
     </footer>
   );
 }

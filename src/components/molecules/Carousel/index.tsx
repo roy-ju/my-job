@@ -44,16 +44,14 @@ interface ControlProps {
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
   trackStyle?: CSSProperties;
-
   gap?: number;
-
   renderLeftButton?: (props: ControlProps) => ReactElement;
   renderRightButton?: (props: ControlProps) => ReactElement;
+  renderRightButtonIsNotIntersection?: () => ReactElement;
 }
 
 export default function Carousel({
   gap = 0,
-
   trackStyle,
   renderLeftButton,
   renderRightButton,
@@ -63,7 +61,9 @@ export default function Carousel({
   ...others
 }: Props) {
   const constraintsRef = useRef<HTMLDivElement>(null);
+
   const trackRef = useRef<HTMLDivElement>(null);
+
   const animationControls = useAnimationControls();
 
   const [firstItemInterecting, setFirstItemIntersecting] = useState(true);

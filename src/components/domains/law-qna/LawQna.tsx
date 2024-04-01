@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRouter } from 'next/router';
 
 import useAuth from '@/hooks/services/useAuth';

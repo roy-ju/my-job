@@ -14,6 +14,8 @@ import ArrowDownDeepgray from '@/assets/icons/arrow_down_deepgrey.svg';
 
 import ArrowDownLightgray from '@/assets/icons/arrow_down_lightgrey.svg';
 
+import ArrowDown from '@/assets/icons/arrow_down_20.svg';
+
 import CustomArrowDown from '@/assets/icons/custom_arrow_down.svg';
 
 import AccordionContext from './AccordionContext';
@@ -54,6 +56,7 @@ interface AccordionSummaryProps extends Omit<HTMLProps<HTMLButtonElement>, 'type
   isNewIcon?: boolean;
   isNewIconSmall?: boolean;
   isNewIconSmallV2?: boolean;
+  isNewIconV3?: boolean;
   isCustomIcon?: boolean;
   iconColor?: React.CSSProperties['color'];
   iconWidth?: React.CSSProperties['width'];
@@ -66,6 +69,7 @@ function AccordionSummary({
   isNewIconSmall = false,
   isNewIconSmallV2 = false,
   isCustomIcon = false,
+  isNewIconV3 = false,
   iconColor = '',
   iconWidth = '',
   ...others
@@ -77,7 +81,9 @@ function AccordionSummary({
       <div tw="w-full">{children}</div>
       {!hideArrow && (
         <div css={[tw`transition-transform`, expanded && tw`rotate-180`]}>
-          {isCustomIcon ? (
+          {isNewIconV3 ? (
+            <ArrowDown color={iconColor} width={iconWidth} />
+          ) : isCustomIcon ? (
             <CustomArrowDown color={iconColor} width={iconWidth} />
           ) : isNewIconSmall ? (
             <ArrowDownDeepgray tw="rotate-180" />

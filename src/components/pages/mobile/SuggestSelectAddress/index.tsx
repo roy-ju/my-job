@@ -10,7 +10,7 @@ import { SelectAddressTemplate } from '@/components/templates';
 
 import { makeAddressDetail } from '@/utils/fotmat';
 
-import useAPI_GetMyAddressList from '@/apis/my/getMyAddressList';
+import useFetchMyAddressList from '@/services/my/useFetchMyAddressList';
 
 import Routes from '@/router/routes';
 
@@ -27,7 +27,7 @@ export default memo(() => {
 
   const [isFetch, setIsFetch] = useState<boolean>(false);
 
-  const { list } = useAPI_GetMyAddressList({
+  const { list } = useFetchMyAddressList({
     activeOnly: true,
     danjiID: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
     isFetch,

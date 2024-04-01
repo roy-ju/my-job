@@ -26,6 +26,7 @@ import TextFieldContextV2, { VariantTypeV2 } from './TextFieldContext';
 interface TextFieldProps extends Omit<HTMLProps<HTMLDivElement>, 'theme' | 'as' | 'size'> {
   variant?: VariantTypeV2;
   hasError?: boolean;
+  borderType?: 'nego' | 'gray';
 }
 
 interface InputProps
@@ -92,12 +93,13 @@ const StyledLabel = styled.div<{
 const Border = styled.div<{
   variant: VariantTypeV2;
   hasError: boolean;
+  borderType: 'nego' | 'gray';
   focused: boolean;
   disabled: boolean;
-}>(({ focused, variant, hasError, disabled }) => [
+}>(({ focused, variant, hasError, disabled, borderType }) => [
   tw`absolute top-0 left-0 w-full h-full rounded-lg pointer-events-none`,
   variant === 'outlined' && tw`border border-gray-300`,
-  variant === 'outlined' && focused && tw`border-nego-800`,
+  variant === 'outlined' && focused && (borderType === 'nego' ? tw`border-nego-800` : tw`border-gray-1000`),
   variant === 'outlined' && disabled && tw`border-gray-300`,
   hasError && tw`border border-red-800`,
 ]);
@@ -107,7 +109,7 @@ const StyledLeading = tw.span`pl-2.5`;
 const StyledTrailing = tw.span`pr-2.5`;
 
 const Container = forwardRef<HTMLDivElement, TextFieldProps>(
-  ({ variant = 'ghost', hasError = false, children, ...nativeProps }, ref) => {
+  ({ variant = 'ghost', hasError = false, children, borderType = 'nego', ...nativeProps }, ref) => {
     const [focused, setFocused] = useState(false);
     const [disabled, setDisabled] = useState<boolean>(false);
 
@@ -134,7 +136,7 @@ const Container = forwardRef<HTMLDivElement, TextFieldProps>(
           {...nativeProps}
         >
           {children}
-          <Border disabled={disabled} focused={focused} variant={variant} hasError={hasError} />
+          <Border disabled={disabled} focused={focused} variant={variant} hasError={hasError} borderType={borderType} />
         </StyledContainer>
       </TextFieldContextV2.Provider>
     );

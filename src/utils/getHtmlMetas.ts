@@ -1,10 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BuyOrRent } from '@/constants/enums';
-import Paths from '@/constants/paths';
-import axios from '@/lib/axios';
-import Routes from '@/router/routes';
+
 import { ParsedUrlQuery } from 'querystring';
+
+import Paths from '@/constants/paths';
+
+import axios from '@/lib/axios';
+
+import Routes from '@/router/routes';
+
 import AppConfig from '@/config';
+
 import formatNumberInKorean from './formatNumberInKorean';
 
 export default async function getHtmlMetas(query: ParsedUrlQuery) {
@@ -16,22 +21,116 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   const targetRoute = query.depth2 ?? query.depth1;
 
-  if (targetRoute === Routes.PAST_RecommedationGuide || targetRoute === Routes.SuggestGuide) {
+  if (targetRoute === Routes.TradeProcess) {
     return {
-      title: `매물 추천받기 가이드 | ${
+      title: `부동산 거래 절차`,
+      description: '어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!',
+      ogTitle: '부동산 거래 절차',
+      ogDescription: '어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!',
+      ogImagePath: AppConfig.ogImagePath,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      ogTitleOnly: true,
+    };
+  }
+
+  if (targetRoute === Routes.ListingCheckList) {
+    return {
+      title: `매물 체크리스트`,
+      description: '집보는데 뭘 봐야할까? 네고시오에서 제안하는 매물 체크리스트를 참고해보세요!',
+      ogTitle: '매물 체크리스트',
+      ogDescription: '집보는데 뭘 봐야할까? 네고시오에서 제안하는 매물 체크리스트를 참고해보세요!',
+      ogImagePath: AppConfig.ogImagePath,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      ogTitleOnly: true,
+    };
+  }
+
+  if (targetRoute === Routes.CommonSense) {
+    return {
+      title: `부동산 상식`,
+      description: '가장 중요하지만, 가장 어려운 부동산 상식의 모든 것을 알려드릴게요!',
+      ogTitle: '부동산 상식',
+      ogDescription: '가장 중요하지만, 가장 어려운 부동산 상식의 모든 것을 알려드릴게요!',
+      ogImagePath: AppConfig.ogImagePath,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      ogTitleOnly: true,
+    };
+  }
+
+  if (targetRoute === Routes.SpecialTerms) {
+    return {
+      title: `계약서 및 특약사항`,
+      description: '계약서 작성부터 꼭 필요한 특약사항까지 모두 알려드려요!',
+      ogTitle: '계약서 및 특약사항',
+      ogDescription: '계약서 작성부터 꼭 필요한 특약사항까지 모두 알려드려요!',
+      ogImagePath: AppConfig.ogImagePath,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      ogTitleOnly: true,
+    };
+  }
+
+  if (targetRoute === Routes.Dictionary) {
+    return {
+      title: `부동산 용어 사전`,
+      description: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
+      ogTitle: '부동산 용어 사전',
+      ogDescription: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
+      ogImagePath: AppConfig.ogImagePath,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      ogTitleOnly: true,
+    };
+  }
+
+  if (targetRoute === Routes.DictionaryDetail) {
+    try {
+      const { data } = await axios.post('/subhome/guide/detail', {
+        code: 'DICT',
+        guide_id: Number(query.dictID),
+      });
+
+      const convertedTitle = `부동산 용어 사전 > ${data?.term?.name ?? ''}`;
+
+      return {
+        title: convertedTitle ? `${convertedTitle}` : '',
+        description: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
+        ogTitle: convertedTitle ? `${convertedTitle}` : '',
+        ogDescription: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
+        ogImagePath: AppConfig.ogImagePath,
+        ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+        ogType: 'website',
+        ogTitleOnly: true,
+      };
+    } catch (e) {
+      return defaultMeta;
+    }
+  }
+
+  if (
+    targetRoute === Routes.RealestateDocumentList ||
+    targetRoute === Routes.RealestateDocumentSearchAddress ||
+    targetRoute === Routes.RealestateDocumentAddressDetail ||
+    targetRoute === Routes.RealestateDocumentAddressVerifying ||
+    targetRoute === Routes.RealestateDocumentAddressVerifyResult ||
+    targetRoute === Routes.RealestateDocumentDetail
+  ) {
+    return {
+      title: `등기부 조회 | ${
         process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
           ? '(TEST) 부동산 가격협상 앱 네고시오'
           : '부동산 가격협상 앱 네고시오'
       }`,
-      description: '매물 추천받기 서비스를 이용해 보세요.',
-      ogTitle: '매물 추천받기 가이드',
-      ogDescription: '매물 추천받기 서비스를 이용해 보세요.',
+      description: '부동산에서 가장 중요한 등기부, 이제 네고시오에서 무료로 조회해보세요!',
+      ogTitle: '등기부 조회',
+      ogDescription: '부동산에서 가장 중요한 등기부, 이제 네고시오에서 무료로 조회해보세요!',
       ogImagePath: AppConfig.ogImagePath,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
-      keyWords: `${
-        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
-      }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
+      ogTitleOnly: true,
     };
   }
 

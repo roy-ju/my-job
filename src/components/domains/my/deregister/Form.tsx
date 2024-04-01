@@ -17,50 +17,27 @@ export default function Form({
 }) {
   const [isExtraCheckboxChecked, setIsExtraCheckboxChecked] = useState(false);
 
+  const reasons = [
+    '집을 보러오는 매수(임차)인이 없어요',
+    '원하는 매물이 없어요',
+    '비매너 이용자가 있어요',
+    '중개사가 불만이에요',
+    '잦은 오류가 발생해요',
+    '대체할 만한 서비스를 찾았어요',
+  ];
+
   return (
     <div tw="flex flex-col gap-8">
-      <Label
-        checked={deregisterReasons.includes('집을 보러오는 매수(임차)인이 없어요')}
-        onChange={onChangeCheckbox}
-        label="집을 보러오는 매수(임차)인이 없어요"
-        control={<Checkbox name="집을 보러오는 매수(임차)인이 없어요" />}
-      />
-      <Label
-        checked={deregisterReasons.includes('원하는 매물이 없어요')}
-        onChange={onChangeCheckbox}
-        label="원하는 매물이 없어요"
-        control={<Checkbox name="원하는 매물이 없어요" />}
-      />
-      <Label
-        checked={deregisterReasons.includes('비매너 이용자가 있어요')}
-        onChange={onChangeCheckbox}
-        label="비매너 이용자가 있어요"
-        control={<Checkbox name="비매너 이용자가 있어요" />}
-      />
-      <Label
-        checked={deregisterReasons.includes('중개사가 불만이에요')}
-        onChange={onChangeCheckbox}
-        label="중개사가 불만이에요"
-        control={<Checkbox name="중개사가 불만이에요" />}
-      />
-      <Label
-        checked={deregisterReasons.includes('서비스 이용이 불편해요')}
-        onChange={onChangeCheckbox}
-        label="서비스 이용이 불편해요"
-        control={<Checkbox name="서비스 이용이 불편해요" />}
-      />
-      <Label
-        checked={deregisterReasons.includes('잦은 오류가 발생해요')}
-        onChange={onChangeCheckbox}
-        label="잦은 오류가 발생해요"
-        control={<Checkbox name="잦은 오류가 발생해요" />}
-      />
-      <Label
-        checked={deregisterReasons.includes('대체할 만한 서비스를 찾았어요')}
-        onChange={onChangeCheckbox}
-        label="대체할 만한 서비스를 찾았어요"
-        control={<Checkbox name="대체할 만한 서비스를 찾았어요" />}
-      />
+      {reasons.map((item) => (
+        <Label
+          key={item}
+          checked={deregisterReasons.includes(item)}
+          onChange={onChangeCheckbox}
+          label={item}
+          control={<Checkbox name={item} />}
+        />
+      ))}
+
       <div tw="flex flex-col gap-4">
         <Label
           onChange={() => {

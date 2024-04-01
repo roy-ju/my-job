@@ -26,6 +26,8 @@ const separatorStyles = {
   gray: tw`border-gray-500`,
   grayOutline: tw`border-gray-500`,
 
+  white: tw`border-white`,
+
   ghost: tw`border-gray-300`,
 };
 

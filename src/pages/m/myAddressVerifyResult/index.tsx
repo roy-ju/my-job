@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import MyAddressVerfiyResult from '@/components/pages/mobile/MyAddressVerfiyResult';
+import MyAddressVerfiyResult from '@/components/pages/MyAddressVerifyResult/MyAddressVerifyResultMobile';
 
 const Page: NextPageWithLayout = () => <MyAddressVerfiyResult />;
 

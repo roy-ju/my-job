@@ -8,7 +8,7 @@ type AuthPopupAtom = {
 };
 
 const authPopupAtom = atom<AuthPopupAtom>({
-  key: `authPopupAtom/${v1()}`,
+  key: `auth_popup_atom/${v1()}`,
   default: {
     open: false,
     type: '',

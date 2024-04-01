@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import NotificationWrraper from '@/components/pages/mobile/My/NotificationWrraper';
+import Notifications from '@/components/pages/Notifications/NotificationsMobile';
 
-const Page: NextPageWithLayout = () => <NotificationWrraper />;
+const Page: NextPageWithLayout = () => <Notifications />;
 
 Page.getLayout = function getLayout(page) {
   return <>{page}</>;
