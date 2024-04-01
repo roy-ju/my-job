@@ -39,7 +39,7 @@ export const AddtionalListText = styled.span`
   ${tw`text-gray-800 text-body_03`}
 `;
 
-export const RequiredListWrraper = styled.div`
+export const RequiredListWrraper = styled(motion.div)`
   ${tw`flex flex-col gap-4 px-5`}
 `;
 
