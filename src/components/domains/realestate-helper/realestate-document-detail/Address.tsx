@@ -18,6 +18,8 @@ import TextButton from '@/components/atoms/TextButton';
 
 import PdfIcon from '@/../public/static/images/pdf_20_2.png';
 
+import isIOS from '@/utils/isIos';
+
 import { Line } from '../realestate-document-address-detail/widget/RealestateDocumentAddressDetailWidget';
 
 import {
@@ -39,6 +41,7 @@ type AddressProps = {
   pdfInfo?: SubHomeRealestatedocumentDetailResponse['realestate_document_pdf'];
   handleViewPreviousHistories: () => void;
   handleCheckUpdateRealestateDocument: () => void;
+  handleOpenPopup: (v: '' | 'delete' | 'update' | 'impossible' | 'previous' | 'notUserFunctionInIos') => void;
 };
 
 type Item = {
@@ -53,6 +56,7 @@ export default function Address({
   pdfInfo,
   handleViewPreviousHistories,
   handleCheckUpdateRealestateDocument,
+  handleOpenPopup,
 }: AddressProps) {
   const isNaitiveApp = useIsNativeApp();
 
@@ -150,6 +154,11 @@ export default function Address({
               tw="flex-1 gap-0.5 px-0"
               disabled={!pdfInfo?.realestate_document_path}
               onClick={() => {
+                if (isIOS() && isNaitiveApp) {
+                  handleOpenPopup('notUserFunctionInIos');
+                  return;
+                }
+
                 if (pdfInfo?.realestate_document_path) {
                   downloadFile(pdfInfo.realestate_document_path);
                 }

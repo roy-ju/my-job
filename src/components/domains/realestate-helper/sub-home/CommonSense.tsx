@@ -80,13 +80,23 @@ function CommonSense({ list, handleNavigateCommonSense, handleNavigateCommonSens
     }, 300);
   }, [platform]);
 
+  const makePower = useCallback((length: number) => {
+    if (length === 5) return 5 * 28;
+
+    if (length === 4) return 4 * 30;
+
+    if (length === 3) return 3 * 33;
+
+    return length * 40;
+  }, []);
+
   return (
     <CommonSenseContainer>
       <CommonSenseTitle />
       <MarginTopFour />
       <Carousel
         gap={20}
-        totalSlidesMarginRight={list.slice(0, 5).length * 30}
+        totalSlidesMarginRight={makePower(list.length)}
         trackStyle={{ padding: '20px 20px' }}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
@@ -97,7 +107,7 @@ function CommonSense({ list, handleNavigateCommonSense, handleNavigateCommonSens
           </MoreButtonWrraper>
         )}
       >
-        {list.slice(0, 5).map((item, i) => (
+        {list.map((item, i) => (
           <CommonSenseCarouselItem
             key={makeKey(item.name || '', item.content || '', item.created_time || '', i)}
             item={item}
