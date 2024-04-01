@@ -28,7 +28,7 @@ export default function useInAppBrowserCheck() {
       if (userAgent.match(/Line|kakaotalk|instagram|FB_IAB|FB4A|FBAN|FBIOS|FBSS\/[^1]/i)) {
         setInAppInfo((prev) => ({ ...prev, isInAppBrowser: true }));
       }
-    } else if (userAgent.match(/Line||instagram|FB_IAB|FB4A|FBAN|FBIOS|FBSS\/[^1]/i)) {
+    } else if (userAgent.match(/Line|instagram|FB_IAB|FB4A|FBAN|FBIOS|FBSS\/[^1]/i)) {
       setInAppInfo((prev) => ({ ...prev, isInAppBrowser: true }));
     }
   }, [isNativeApp, platform, setInAppInfo]);
