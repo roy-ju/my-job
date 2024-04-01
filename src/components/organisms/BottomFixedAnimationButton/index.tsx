@@ -20,6 +20,7 @@ const PcFixedContainer = styled.div`
 
 export default function BottomFixedAnimationButton({
   containerId,
+  buttonId,
   ctaTitle,
   width,
   platform,
@@ -27,6 +28,7 @@ export default function BottomFixedAnimationButton({
   handleClick,
 }: {
   containerId: string;
+  buttonId?: string;
   ctaTitle: string;
   width: number;
   platform: string;
@@ -69,7 +71,7 @@ export default function BottomFixedAnimationButton({
   if (platform === 'mobile') {
     return (
       <MobileFixedContainer css={[isNaitveApp && isIOS() && tw`[bottom: 49px]`]}>
-        <FabButton onClick={handleClick} animate={animate}>
+        <FabButton onClick={handleClick} animate={animate} id={buttonId}>
           <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && `${ctaTitle}`}
         </FabButton>
       </MobileFixedContainer>
@@ -78,7 +80,7 @@ export default function BottomFixedAnimationButton({
 
   return (
     <PcFixedContainer style={{ right: fixedRight }}>
-      <FabButton onClick={handleClick} animate={animate}>
+      <FabButton onClick={handleClick} animate={animate} id={buttonId}>
         <Plus24 style={{ width: '24px', height: '24px' }} /> {!isScrollingButton && `${ctaTitle}`}
       </FabButton>
     </PcFixedContainer>

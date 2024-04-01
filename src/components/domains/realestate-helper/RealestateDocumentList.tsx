@@ -23,6 +23,9 @@ import useFetchSubHomeRealestateDocumentList from '@/services/sub-home/useFetchS
 import Routes from '@/router/routes';
 
 import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
+
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+
 import useHandleClickBack from './realestate-document-list/hooks/useHandleClickBack';
 
 import usePopupsHandler from './realestate-document-list/hooks/usePopupsHandler';
@@ -144,6 +147,7 @@ export default function RealestateDocumentList() {
             <BottomFixedAnimationButton
               width={115}
               containerId="negocio-realestate-document-list"
+              buttonId={GOOGLE_TAG_BUTTON_ID.REALESTATE_DOCUMENT_NEW_SEARCH}
               ctaTitle="신규조회"
               platform={platform}
               handleClick={handleClickRealestateDocumentCreate}
