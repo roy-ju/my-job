@@ -1,18 +1,20 @@
-import { Separator } from '@/components/atoms';
+import { MarginTopFourty } from '@/components/atoms/Margin';
 
 import SuggestForm from './SuggestForm';
 
-import NavigationGuide from './NavigationGuide';
+import RealestateHelper from './RealestateHelper';
 
-import UserGuide from './UserGuide';
+import LawQna from './LawQna';
 
 export default function Contents() {
   return (
     <main>
       <SuggestForm />
-      <NavigationGuide />
-      <Separator tw="bg-gray-200 h-2" />
-      <UserGuide />
+      <MarginTopFourty />
+      <RealestateHelper />
+      <MarginTopFourty />
+      <LawQna />
+      <MarginTopFourty />
     </main>
   );
 }

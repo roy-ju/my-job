@@ -27,7 +27,7 @@ import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 function Guide() {
   return (
     <div tw="p-4 mt-[1.5rem]">
-      <div tw="text-b1 leading-none font-bold mb-3">이렇게 검색해 보세요</div>
+      <div tw="text-b1 leading-none font-bold mb-3">이렇게 검색해보세요.</div>
       <div tw="h-14 flex flex-col justify-center">
         <div tw="text-b2 leading-none mb-2">도로명 + 건물번호</div>
         <div tw="text-info leading-none text-gray-700">예) 판교역로 235, 제주 첨단로 242</div>

@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
-
 import React from 'react';
 
 import tw, { styled } from 'twin.macro';
+
+import { motion } from 'framer-motion';
 
 const Tab = styled.button`
   ${tw`relative px-5 pt-2.5 pb-3 whitespace-nowrap cursor-pointer flex-1`}

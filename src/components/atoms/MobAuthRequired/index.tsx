@@ -11,6 +11,7 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import Routes from '@/router/routes';
+
 import MobileContainer from '../MobileContainer';
 
 import Loading from '../Loading';
@@ -39,7 +40,18 @@ export default function MobAuthRequired({ ciRequired = false, onAccessDenied, ch
           openAuthPopup('login');
         }
 
-        handleUpdateReturnUrl();
+        if (
+          router.asPath.includes(Routes.RealestateDocumentList) ||
+          router.asPath.includes(Routes.RealestateDocumentSearchAddress) ||
+          router.asPath.includes(Routes.RealestateDocumentAddressDetail) ||
+          router.asPath.includes(Routes.RealestateDocumentAddressVerifying) ||
+          router.asPath.includes(Routes.RealestateDocumentAddressVerifyResult) ||
+          router.asPath.includes(Routes.RealestateDocumentDetail)
+        ) {
+          handleUpdateReturnUrl(`/${Routes.EntryMobile}/${Routes.RealestateDocumentList}`);
+        } else {
+          handleUpdateReturnUrl();
+        }
 
         return;
       }
@@ -48,7 +60,7 @@ export default function MobAuthRequired({ ciRequired = false, onAccessDenied, ch
         handleUpdateReturnUrl();
       }
     }
-  }, [ciRequired, router.isReady, user, isLoading, openAuthPopup, handleUpdateReturnUrl]);
+  }, [ciRequired, router.isReady, user, isLoading, openAuthPopup, handleUpdateReturnUrl, router.asPath]);
 
   if (isLoading) {
     return (

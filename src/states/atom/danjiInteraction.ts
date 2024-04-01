@@ -61,7 +61,7 @@ const danjiInteractionAtom = atom<{
   aroundMarkers: AroundMarkers[];
   danjiAroundPlaceName?: string;
 }>({
-  key: `danjiInteractionAtom/${v1()}`,
+  key: `danji_interaction_atom/${v1()}`,
   default: {
     activeCategory: 'HP8',
     school: false,

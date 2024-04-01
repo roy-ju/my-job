@@ -1,0 +1,40 @@
+export type MyFavoriteListingListUiItem = {
+  listingId: number;
+  thumbnailFullPath: string;
+  listingTitle: string;
+  realestateType: number;
+  jeonyongArea: string;
+  floorDescription: string;
+  totalFloor: string;
+  direction: string;
+  buyOrRent: number;
+  quickSale: boolean;
+  isParticipating: boolean;
+  viewCount: number;
+  participantsCount: number;
+  tradeOrDepositPrice: number;
+  monthlyRentFee: number;
+  eubmyundong: string;
+  isFavorite: boolean;
+  labelText: string;
+  statusText: string;
+};
+
+export type MyFavoriteDanjiListUiItem = {
+  danjiId: number;
+  realestateType: number;
+  eubmyundong: string;
+  danjiName: string;
+  roadNameAddress: string;
+  totalSaedaeCount: string;
+  year: string;
+  month: string;
+  day: string;
+  jeonyongMin: string;
+  jeonyongMax: string;
+  buyCount: number;
+  jeonsaeCount: number;
+  wolsaeCount: number;
+  isFavorite: boolean;
+  dongCount: number;
+};

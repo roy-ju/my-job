@@ -14,13 +14,13 @@ import Routes from '@/router/routes';
 
 import LogoIcon from '@/assets/icons/home_logo.svg';
 
-import BellIcon from '@/assets/icons/bell.svg';
-
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
+import HeaderNotificationButton from '@/components/organisms/global/HeaderNotificationButton';
 
 export default function Header() {
   const { user } = useAuth();
@@ -69,14 +69,10 @@ export default function Header() {
           로그인 | 회원가입
         </ButtonV2>
       ) : (
-        <button type="button" tw="relative" onClick={handleClickNotification}>
-          <BellIcon />
-          {unreadNotificationCount > 0 && (
-            <span tw="absolute top-0 -right-0.5  animate-bounce text-[8px] text-white  font-bold leading-none px-1 h-3 bg-red rounded-full inline-flex items-center justify-center">
-              {unreadNotificationCount}
-            </span>
-          )}
-        </button>
+        <HeaderNotificationButton
+          unreadNotificationCount={unreadNotificationCount}
+          handleClick={handleClickNotification}
+        />
       )}
     </header>
   );

@@ -31,8 +31,6 @@ export default function useMyDergister() {
   return {
     deregisterReasons,
     extraReasons,
-    setDeregisterReasons,
-    setExtraReasons,
     handleChangeDeregisterReasons,
     handleChangeExtraReasons,
   };

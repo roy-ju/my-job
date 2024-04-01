@@ -148,7 +148,7 @@ export default function SuggestForm() {
 
   return (
     <>
-      <section tw="pt-4 px-5">
+      <section tw="px-5">
         <div tw="pt-6 pb-5 px-5 [border-radius: 20px] bg-nego-100">
           <div tw="flex items-center justify-between gap-5 [height: 120px]">
             <div tw="flex flex-col gap-4 whitespace-pre-wrap">

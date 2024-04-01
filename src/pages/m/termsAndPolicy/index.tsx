@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import TermsAndPolicy from '@/components/pages/mobile/TermsAndPolicy';
+import TermsAndPolicy from '@/components/pages/TermsAndPolicy/TermsAndPolicyMobile';
 
 const Page: NextPageWithLayout = () => <TermsAndPolicy />;
 

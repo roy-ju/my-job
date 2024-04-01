@@ -1,5 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
+import FlexContents from '@/components/atoms/FlexContents';
+
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useVerifyCiStatus from '@/states/hooks/useVerifyCiStatus';
@@ -14,10 +16,6 @@ import VerifyCiSuccess from './verify-ci/success/VerifyCiSuccess';
 
 const RegisterSuccessContainer = styled.div`
   ${tw`relative flex flex-col h-full gap-0.5`}
-`;
-
-const FlexContents = styled.div`
-  ${tw`flex flex-col flex-1 h-full overflow-x-hidden overflow-y-auto`}
 `;
 
 export default function RegisterSuccess() {

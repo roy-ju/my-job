@@ -1,11 +1,12 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import DeveloperWrraper from '@/components/pages/mobile/My/DeveloperWrraper';
+import Developer from '@/components/pages/Developer/DeveloperMobile';
 
 const Page: NextPageWithLayout = () => {
   if (process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test') {
-    return <DeveloperWrraper />;
+    return <Developer />;
   }
+
   return <div />;
 };
 

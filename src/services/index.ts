@@ -7,9 +7,16 @@ import {
   LoginResponse,
   SendPhoneVerificationCodeForRegisterResponse,
   UpdateCIResponse,
+  UserAppVersionResponse,
 } from './auth/types';
 
-import { UploadProfileImageResponse } from './my/types';
+import {
+  MyVerifyAddressRequest,
+  MyVerifyAddressResponse,
+  MyVerifyOwnershipRequest,
+  MyVerifyOwnershipResponse,
+  UploadProfileImageResponse,
+} from './my/types';
 
 import {
   DanjiDetailResponse,
@@ -22,6 +29,15 @@ import { ListingEligibilityCheckResponse } from './listing/types';
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 import { UploadDocumentResponse } from './chat/type';
+import {
+  SubHomeGuideListResponse,
+  SubHomeRealestatedocumentDetailResponse,
+  SubHomeRealestatedocumentGetRequest,
+  SubHomeRealestatedocumentGetResonse,
+  SubHomeRealestatedocumentListResponse,
+  SubHomeVerifyAddressRequest,
+  SubHomeVerifyAddressResponse,
+} from './sub-home/types';
 
 export class NegocioApiService extends ApiService {
   /** 로그인  */
@@ -75,6 +91,15 @@ export class NegocioApiService extends ApiService {
     return data;
   }
 
+  async userAppVersion(version_name: string, platform: number) {
+    try {
+      const { data } = await this.instance.post('/user/appversion/get', { version_name, platform });
+      return data as UserAppVersionResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async sendPhoneVerificationCodeForRegister(
     phone: string,
   ): Promise<SendPhoneVerificationCodeForRegisterResponse | null> {
@@ -98,64 +123,12 @@ export class NegocioApiService extends ApiService {
     }
   }
 
-  async updateEmail(token: string, socialLoginType: number) {
-    try {
-      const { data } = await this.instance.post('/my/email/update', { token, social_login_type: socialLoginType });
-      return data as ErrorResponse;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async updateName(name: string) {
-    try {
-      const { data } = await this.instance.post('/my/name/update', { name });
-      return data as ErrorResponse;
-    } catch (e) {
-      return null;
-    }
-  }
-
   async checkNickname(nickname: string): Promise<ErrorResponse | null> {
     try {
       const { data } = await this.instance.post('/user/checknickname', { nickname });
       return data;
     } catch (e) {
       return null;
-    }
-  }
-
-  async updateNickname(nickname: string): Promise<ErrorResponse | null> {
-    try {
-      const { data } = await this.instance.post('/my/nickname/update', { nickname });
-      return data as ErrorResponse;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async uploadProfileImage(userID: number, file: File) {
-    const formData = new FormData();
-    formData.append('user_id', `${userID}`);
-    formData.append('files', file);
-    try {
-      const { data } = await this.instance.post<UploadProfileImageResponse>('my/upload/profileimage', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return data as UploadProfileImageResponse;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async deregister(reasons: string) {
-    try {
-      await this.instance.post('/my/user/deregister', { reasons });
-      return true;
-    } catch (e) {
-      return false;
     }
   }
 
@@ -183,6 +156,58 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async updateEmail(token: string, socialLoginType: number) {
+    try {
+      const { data } = await this.instance.post('/my/email/update', { token, social_login_type: socialLoginType });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateName(name: string) {
+    try {
+      const { data } = await this.instance.post('/my/name/update', { name });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateNickname(nickname: string): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/nickname/update', { nickname });
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async uploadProfileImage(userID: number, file: File) {
+    const formData = new FormData();
+    formData.append('user_id', `${userID}`);
+    formData.append('files', file);
+    try {
+      const { data } = await this.instance.post<UploadProfileImageResponse>('/my/upload/profileimage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return data as UploadProfileImageResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deregister(reasons: string) {
+    try {
+      await this.instance.post('/my/user/deregister', { reasons });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   async updatePhone(phone: string, code: string) {
     try {
       const { data } = await this.instance.post('/my/phone/update', { phone, verification_number: code });
@@ -200,6 +225,121 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async deleteMyListing({ listing_id }: { listing_id: number }) {
+    try {
+      await this.instance.post('my/listing/delete', { listing_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async mySuggestDelete({ suggestID }: { suggestID: number }): Promise<void> {
+    await this.instance.post('/my/suggest/delete', { suggest_id: suggestID });
+  }
+
+  async mySuggestSuggestorComplete({
+    suggest_id,
+    recommender_id,
+    is_recommender_agent,
+  }: {
+    suggest_id: number;
+    recommender_id: number;
+    is_recommender_agent: boolean;
+  }): Promise<void> {
+    await this.instance.post('/my/suggest/suggestor/complete', {
+      suggest_id,
+      recommender_id,
+      is_recommender_agent,
+    });
+  }
+
+  async mySuggestRecommendAccept({
+    suggest_id,
+    recommender_id,
+    is_recommender_agent,
+  }: {
+    suggest_id: number;
+    recommender_id: number;
+    is_recommender_agent: boolean;
+  }) {
+    await this.instance.post('/my/suggest/recommend/accept', { suggest_id, recommender_id, is_recommender_agent });
+  }
+
+  async mySuggestRecommendNotIntersted({ id }: { id: number }) {
+    await this.instance.post('/my/suggest/recommend/notinterested', { suggest_recommend_id: id });
+  }
+
+  async mySuggestRecommendCancel(suggestRecommendID: number) {
+    try {
+      return await this.instance.post('/my/suggest/recommend/cancel', { suggest_recommend_id: suggestRecommendID });
+    } catch {
+      return null;
+    }
+  }
+
+  async mySuggestStop({ suggestID }: { suggestID: number }) {
+    await this.instance.post('/my/suggest/stop', { suggest_id: suggestID });
+  }
+
+  async mySuggsetResume({ suggestID }: { suggestID: number }) {
+    await this.instance.post('/my/suggest/resume', { suggest_id: suggestID });
+  }
+
+  async myVerifyAddress(req: MyVerifyAddressRequest) {
+    try {
+      const { data } = await this.instance.post('/my/verifyaddress', req);
+      return data as MyVerifyAddressResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async myVerifyOwnership(req: MyVerifyOwnershipRequest) {
+    try {
+      const { data } = await this.instance.post('/my/verifyownership', req);
+      return data as MyVerifyOwnershipResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async myAgreementPhone(req: { user_address_id: number; name: string; phone: string }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/agreement/sendsms', req);
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
+  async deleteMyAddress({ user_address_id }: { user_address_id: number }) {
+    try {
+      await this.instance.post('/my/address/delete', { user_address_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async addListingFavorite({ listing_id }: { listing_id: number }) {
+    try {
+      await this.instance.post('/listing/favorite/add', { listing_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async removeListingFavorite({ listing_id }: { listing_id: number }) {
+    try {
+      await this.instance.post('/listing/favorite/remove', { listing_id });
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   /** 단지 정보 */
   async getDanjiDetail({ id }: { id: number }): Promise<DanjiDetailResponse | null> {
     try {
@@ -212,9 +352,18 @@ export class NegocioApiService extends ApiService {
   }
 
   /** 단지 상세 좋아요 */
-  async danjiFavoriteAdd({ id }: { id: number }): Promise<void | null> {
+  async addDanjiFavorite({ id, type }: { id: number; type?: number }): Promise<void | null> {
     try {
-      return await this.instance.post('/danji/favorite/add', { danji_id: id });
+      return await this.instance.post('/danji/favorite/add', { danji_id: id, realestate_type: type });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** 단지 상세 좋아요 취소 */
+  async removeDanjiFavorite({ id, type }: { id: number; type?: number }): Promise<void | null> {
+    try {
+      return await this.instance.post('/danji/favorite/remove', { danji_id: id, realestate_type: type });
     } catch (e) {
       return null;
     }
@@ -238,15 +387,6 @@ export class NegocioApiService extends ApiService {
       });
 
       return data;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /** 단지 상세 좋아요 취소 */
-  async danjiFavoriteRemove({ id }: { id: number }): Promise<void | null> {
-    try {
-      return await this.instance.post('/danji/favorite/remove', { danji_id: id });
     } catch (e) {
       return null;
     }
@@ -325,58 +465,6 @@ export class NegocioApiService extends ApiService {
     }
   }
 
-  async mySuggestDelete({ suggestID }: { suggestID: number }): Promise<void> {
-    await this.instance.post('/my/suggest/delete', { suggest_id: suggestID });
-  }
-
-  async mySuggestSuggestorComplete({
-    suggest_id,
-    recommender_id,
-    is_recommender_agent,
-  }: {
-    suggest_id: number;
-    recommender_id: number;
-    is_recommender_agent: boolean;
-  }): Promise<void> {
-    await this.instance.post('/my/suggest/suggestor/complete', {
-      suggest_id,
-      recommender_id,
-      is_recommender_agent,
-    });
-  }
-
-  async mySuggestRecommendAccept({
-    suggest_id,
-    recommender_id,
-    is_recommender_agent,
-  }: {
-    suggest_id: number;
-    recommender_id: number;
-    is_recommender_agent: boolean;
-  }) {
-    await this.instance.post('/my/suggest/recommend/accept', { suggest_id, recommender_id, is_recommender_agent });
-  }
-
-  async mySuggestRecommendNotIntersted({ id }: { id: number }) {
-    await this.instance.post('/my/suggest/recommend/notinterested', { suggest_recommend_id: id });
-  }
-
-  async mySuggestRecommendCancel(suggestRecommendID: number) {
-    try {
-      return await this.instance.post('/my/suggest/recommend/cancel', { suggest_recommend_id: suggestRecommendID });
-    } catch {
-      return null;
-    }
-  }
-
-  async mySuggestStop({ suggestID }: { suggestID: number }) {
-    await this.instance.post('/my/suggest/stop', { suggest_id: suggestID });
-  }
-
-  async mySuggsetResume({ suggestID }: { suggestID: number }) {
-    await this.instance.post('/my/suggest/resume', { suggest_id: suggestID });
-  }
-
   async closeChatRoom(chatRoomID: number) {
     try {
       const { data } = await this.instance.post('/chat/room/close', {
@@ -429,6 +517,111 @@ export class NegocioApiService extends ApiService {
         chat_room_id: chatRoomID,
       });
       return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteNotifications(ids: string) {
+    try {
+      return await this.instance.post('/notification/delete', { ids });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async readNotifications() {
+    try {
+      return await this.instance.post('/notification/read');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async fetchNotificationUrl(id: number) {
+    try {
+      return await this.instance.post('/notification/url', {
+        notification_id: id,
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateNotificationConfig(notification: string, isOn: boolean) {
+    try {
+      return await this.instance.post(`/notification/config/${notification}`, { notification_on: isOn });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subhomeVerifyAddress(req: SubHomeVerifyAddressRequest) {
+    try {
+      const { data } = await this.instance.post('/subhome/verifyaddress', req);
+      return data as SubHomeVerifyAddressResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subhomeRealestatedocumentGet(req: SubHomeRealestatedocumentGetRequest) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/get', req);
+      return data as SubHomeRealestatedocumentGetResonse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subHomeRealestateDocumentList() {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/list');
+      return data as SubHomeRealestatedocumentListResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async subHomeRealestateDocumentDetail({ id }: { id: number }) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/detail', {
+        user_realestate_history_id: id,
+      });
+      return data as SubHomeRealestatedocumentDetailResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async renewSubhomeRealestatedocument({ id }: { id: number }) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/renew', {
+        user_realestate_history_id: id,
+      });
+      return data as { user_realestate_document_history_id: number } & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteSubhomeRealestatedocument({ id }: { id: number }) {
+    try {
+      const { data } = await this.instance.post('/subhome/realestatedocument/delete', {
+        user_realestate_history_id: id,
+      });
+      return data as { user_realestate_document_history_id: number } & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getListingCheckList(req: { code: string }) {
+    try {
+      const { data } = await this.instance.post('/subhome/guide/list', {
+        code: req.code,
+      });
+      return data as SubHomeGuideListResponse;
     } catch (e) {
       return null;
     }
