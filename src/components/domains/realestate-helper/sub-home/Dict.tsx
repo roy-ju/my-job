@@ -14,6 +14,7 @@ import RelatedTermsImage from '@/../public/static/images/subhome_related_terms.p
 
 import IconArrowRight from '@/assets/icons/icon_arrow_right_20_1.svg';
 
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
 import { DictContainer, DictWrraper, DictFirst, DictSecond } from './widget/SubHomeWidget';
 
 import DictCarouselItem from './DictCarouselItem';
@@ -41,7 +42,14 @@ function DictTitle() {
 
 function DictMoreButton({ handleClick }: { handleClick: () => void }) {
   return (
-    <ButtonV2 variant="white" tw="w-full flex gap-0.5" size="bigger" radius="none" onClick={handleClick}>
+    <ButtonV2
+      id={GOOGLE_TAG_BUTTON_ID.SUBHOME_DICTIONARY_MORE}
+      variant="white"
+      tw="w-full flex gap-0.5"
+      size="bigger"
+      radius="none"
+      onClick={handleClick}
+    >
       부동산 용어 더보기
       <IconArrowRight color={theme`colors.gray.600`} />
     </ButtonV2>

@@ -1,20 +1,36 @@
 export type GuideListItem = {
   id: number;
+
   code: string;
-  name: string;
+
+  title?: string;
+
+  name?: string;
+
   parent_id: number;
+
   content: string;
+
   additional_explanation: string;
+
   tip: string;
+
   warning: string;
+
   related_terms_ids: string;
+
   order_num: number;
+
   created_time: string;
+
   children?: GuideListItem[] | null;
+
   notion_url?: string;
+
   thumb_file_path?: string;
 
   checked?: boolean;
+
   related_terms?: string[];
 };
 

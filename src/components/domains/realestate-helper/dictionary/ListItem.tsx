@@ -10,7 +10,7 @@ import { DictionaryButtonElementId } from './constants/element_id';
 
 type ListItemProps = {
   id: number;
-  title: string;
+  title?: string;
   thumbnail: string;
 };
 

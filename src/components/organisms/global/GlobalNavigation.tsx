@@ -4,6 +4,8 @@ import Image from 'next/image';
 
 import tw from 'twin.macro';
 
+import { useReadLocalStorage } from 'usehooks-ts';
+
 import useControlled from '@/hooks/useControlled';
 
 import { NewCount } from '@/components/atoms';
@@ -11,6 +13,8 @@ import { NewCount } from '@/components/atoms';
 import Logo from '@/assets/icons/logo.svg';
 
 import SpeeachBubble from '@/../public/static/images/speech_bubble_horizontal.png';
+
+import LocalStorageValue from '@/constants/localStorageValues';
 
 import GlobalHambergerMenu from './GlobalHambergerMenu';
 
@@ -58,6 +62,8 @@ function GlobalNavigation({
     [tabIndex, handleChangeTab],
   );
 
+  const value = useReadLocalStorage(LocalStorageValue.firstVisitInSubHome);
+
   return (
     <NavigationContext.Provider value={providerValue}>
       <div tw="w-16 h-full min-h-[36rem] bg-white flex flex-col justify-between border-r border-gray-300 shadow-[0px_8px_16px_rgba(0,0,0,0.06)]">
@@ -68,14 +74,16 @@ function GlobalNavigation({
           {children}
         </div>
 
-        <Image
-          src={SpeeachBubble.src}
-          alt="speeach_bubble"
-          width={68}
-          height={28}
-          tw="absolute [top: 189px] [left: 50px]"
-          style={{ zIndex: 300 }}
-        />
+        {value !== '1' && (
+          <Image
+            src={SpeeachBubble.src}
+            alt="speeach_bubble"
+            width={68}
+            height={28}
+            tw="absolute [top: 189px] [left: 50px]"
+            style={{ zIndex: 300 }}
+          />
+        )}
         <GlobalHambergerMenu />
       </div>
     </NavigationContext.Provider>
@@ -92,11 +100,13 @@ function useNavigationContext() {
 }
 
 function TabButton({
+  id,
   text,
   idx,
   icon,
   unreadChatCount = 0,
 }: {
+  id?: string;
   text: string;
   idx: number;
   icon: any;
@@ -110,6 +120,7 @@ function TabButton({
 
   return (
     <button
+      id={id}
       type="button"
       css={[
         tw`w-full h-[5.25rem] flex flex-col items-center py-3.5 gap-0.5 hover:bg-gray-100 transition-colors`,

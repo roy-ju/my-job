@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+
 import BulbImage from '@/../public/static/images/icon_bulb.png';
 
 import DictImage from '@/../public/static/images/icon_dictionary.png';
@@ -35,6 +37,7 @@ export default function Preview({
         <Box tw="px-5">
           <div tw="flex gap-3 justify-center">
             <PreviewButton
+              id={GOOGLE_TAG_BUTTON_ID.SUBHOME_NAVIGATION_REALESTATE_DOCUMENT}
               type="button"
               tw="text-yellow-1000 border-yellow-300 [background: rgba(255, 245, 217, 0.6)]"
               onClick={handleNavigateDeungibu}
@@ -47,6 +50,7 @@ export default function Preview({
               </div>
             </PreviewButton>
             <PreviewButton
+              id={GOOGLE_TAG_BUTTON_ID.SUBHOME_NAVIGATION_LISTING_CHECKLIST}
               type="button"
               tw="text-green-800 border-green-300 [background: rgba(227, 252, 237, 0.6)]"
               onClick={handleNavigateCheckList}
@@ -61,19 +65,28 @@ export default function Preview({
           </div>
           <div tw="[min-height: 1px] w-full bg-gray-200 my-5" />
           <Flex tw="px-1 gap-5 justify-between">
-            <PreviewIconWrraper onClick={handleNavigateTradeProcess}>
+            <PreviewIconWrraper
+              id={GOOGLE_TAG_BUTTON_ID.SUBHOME_NAVIGATION_LISTING_CHECKLIST}
+              onClick={handleNavigateTradeProcess}
+            >
               <Image src={RunningImage.src} width={56} height={56} alt="runningImage" tw="h-14" />
               거래 절차
             </PreviewIconWrraper>
-            <PreviewIconWrraper onClick={handleNavigateCommonSense}>
+            <PreviewIconWrraper
+              id={GOOGLE_TAG_BUTTON_ID.SUBHOME_NAVIGATION_COMMON_SENSE}
+              onClick={handleNavigateCommonSense}
+            >
               <Image src={BulbImage.src} width={56} height={56} alt="bulbImage" tw="h-14" />
               상식
             </PreviewIconWrraper>
-            <PreviewIconWrraper onClick={handleNavigateSpecialTerms}>
+            <PreviewIconWrraper
+              id={GOOGLE_TAG_BUTTON_ID.SUBHOME_NAVIGATION_CONTRACT}
+              onClick={handleNavigateSpecialTerms}
+            >
               <Image src={StampImage.src} width={56} height={56} alt="stampImage" tw="h-14" />
               계약서
             </PreviewIconWrraper>
-            <PreviewIconWrraper onClick={handleNavigateDict}>
+            <PreviewIconWrraper id={GOOGLE_TAG_BUTTON_ID.SUBHOME_NAVIGATION_DICTIONARY} onClick={handleNavigateDict}>
               <Image src={DictImage.src} width={56} height={56} alt="dictImage" tw="h-14" />
               용어사전
             </PreviewIconWrraper>

@@ -55,10 +55,6 @@ const UpdateRealestateDocumentPopup = dynamic(
   { ssr: false },
 );
 
-const NotUseFunctionInIosPopup = dynamic(() => import('./realestate-document-detail/popups/NotUseFunctionInIosPopup'), {
-  ssr: false,
-});
-
 const FlexContents = styled.div`
   ${tw`flex-1 min-h-0 pb-5 overflow-y-auto`}
 `;
@@ -178,7 +174,6 @@ export default function RealestateDocumentDetail() {
             pdfInfo={data?.realestate_document_pdf}
             handleViewPreviousHistories={handleViewPreviousHistories}
             handleCheckUpdateRealestateDocument={handleCheckUpdateRealestateDocument}
-            handleOpenPopup={handleOpenPopup}
           />
           <SeperatorV2 />
           <Summary summary={data?.realestate_document_summary} />
@@ -199,7 +194,6 @@ export default function RealestateDocumentDetail() {
         <PreviouslyHistoriesPopup handleConfirm={handleClosePopup} list={data?.previous_history_list ?? []} />
       )}
       {popup === 'impossible' && <ImpossibeUpdateRealestateDocumentPopup handleConfirm={handleClosePopup} />}
-      {popup === 'notUserFunctionInIos' && <NotUseFunctionInIosPopup handleConfirm={handleClosePopup} />}
     </>
   );
 }

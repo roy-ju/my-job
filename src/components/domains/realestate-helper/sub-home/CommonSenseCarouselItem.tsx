@@ -43,7 +43,7 @@ export default function CommonSenseCarouselItem({
           />
         </ImageWrraper>
         <CommonSenseCarouselItemTextWrraper>
-          <CommonSenseCarouselItemTextTitle>{item.name}</CommonSenseCarouselItemTextTitle>
+          <CommonSenseCarouselItemTextTitle>{item.title}</CommonSenseCarouselItemTextTitle>
           <CommonSenseCarouselItemTextSubTitle>{item.content}</CommonSenseCarouselItemTextSubTitle>
         </CommonSenseCarouselItemTextWrraper>
       </CarouselItemContainer>
