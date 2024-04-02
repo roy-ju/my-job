@@ -350,6 +350,7 @@ export default function useVerifyingAddressHandler() {
         }
 
         if (response2 === null) {
+          window?.sessionStorage.setItem('verifyingDeungibu', '1');
           setTimeout(() => {
             handleOpenPopup?.('startCreateDocumentPopup');
           }, 200);
