@@ -70,7 +70,7 @@ const GOOGLE_TAG_BUTTON_ID = {
   SUBHOME_LISTING_CHECKLIST: 'gtag-subhome-listing-checklist',
   /** 서브 홈 등기부 조회 */
   SUBHOME_REALESTATE_DOCUMENT: 'gtag-subhome-realestate-document',
-  /** 서브 홈 매물 체크리스트 */
+  /** 서브 홈 매물 계약서 */
   SUBHOME_CONTRACT: 'gtag-subhome-contract',
 };
 
