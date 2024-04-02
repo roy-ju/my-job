@@ -84,7 +84,7 @@ function CategoryTabs({ list, middleCategoryList }: CategoryTabsProps) {
       const item = document.getElementById(`${PrefixListElementItemId}-${i.name}`);
 
       if (item) {
-        setElementsList((prev) => [...prev, { name: i.name, element: item, priority: idx + 1 }]);
+        setElementsList((prev) => [...prev, { name: i?.name ?? '', element: item, priority: idx + 1 }]);
       }
     });
   }, [list]);

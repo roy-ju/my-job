@@ -37,8 +37,6 @@ export default function Header() {
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
-  console.log(inAppInfo);
-
   const handleClickLogin = useCallback(() => {
     if (inAppInfo.isInAppBrowser) {
       handleOpenAppInstallPopup();

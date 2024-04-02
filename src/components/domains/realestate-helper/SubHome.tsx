@@ -1,4 +1,6 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+
+import { useLocalStorage } from 'usehooks-ts';
 
 import Container from '@/components/atoms/Container';
 
@@ -13,6 +15,8 @@ import ClassNames from '@/constants/classNames';
 import useSaveScrollLocation from '@/hooks/useSaveScrollLocation';
 
 import useRestoreScrollPosition from '@/hooks/useScrollResotoration';
+
+import LocalStorageValue from '@/constants/localStorageValues';
 
 import useNavigationHandler from './sub-home/hooks/useNavigationHandler';
 
@@ -36,11 +40,17 @@ export default function SubHome() {
 
   const { isLoading, list1, list2 } = useFetchSubHomeDashboardInfo();
 
+  const [_, setValue] = useLocalStorage(LocalStorageValue.firstVisitInSubHome, '');
+
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useSaveScrollLocation(containerRef, 'subhome');
 
   useRestoreScrollPosition(containerRef, 'subhome');
+
+  useEffect(() => {
+    setValue('1');
+  }, [setValue]);
 
   if (isLoading) return null;
 

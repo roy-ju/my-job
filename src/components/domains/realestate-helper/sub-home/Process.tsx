@@ -6,11 +6,13 @@ import { MarginTopFour } from '@/components/atoms/Margin';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
-import TradeProcessImage from '@/../public/static/images/image_step.png';
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import IconArrowRight from '@/assets/icons/icon_arrow_right_20_1.svg';
+
+import TradeProcessImage from '@/../public/static/images/image_step.png';
 
 import {
   ProcessImageContainer,
@@ -31,7 +33,14 @@ function ProcessTitle() {
 
 function ProcessMoreButton({ handleClick }: { handleClick: () => void }) {
   return (
-    <ButtonV2 variant="white" tw="w-full flex gap-0.5" size="bigger" radius="none" onClick={handleClick}>
+    <ButtonV2
+      id={GOOGLE_TAG_BUTTON_ID.SUBHOME_TRADE_PROCESS_MORE}
+      variant="white"
+      tw="w-full flex gap-0.5"
+      size="bigger"
+      radius="none"
+      onClick={handleClick}
+    >
       더보기
       <IconArrowRight color={theme`colors.gray.600`} />
     </ButtonV2>

@@ -4,6 +4,10 @@ import tw, { styled } from 'twin.macro';
 
 import { MarginTopTwenty } from '@/components/atoms/Margin';
 
+import TextButton from '@/components/atoms/TextButton';
+
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+
 import WomanImage from '@/../public/static/images/image_emoji_woman.png';
 
 import CheckImage from '@/../public/static/images/checked_3d.png';
@@ -17,8 +21,6 @@ import DictImage from '@/../public/static/images/icon_dictionary.png';
 import RunningImage from '@/../public/static/images/icon_running.png';
 
 import StampImage from '@/../public/static/images/icon_stamp.png';
-
-import TextButton from '@/components/atoms/TextButton';
 
 import { Flex, PreviewIconWrraper } from '../realestate-helper/sub-home/widget/PreviewWidget';
 
@@ -57,6 +59,7 @@ export default function RealestateHelper() {
         <Title tw="text-heading_02">부동산 거래 도우미</Title>
         <Image width={20} height={20} quality={100} src={WomanImage} alt="" />
         <TextButton
+          id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_ALL}
           variant="right"
           size="large"
           color="gray600"
@@ -70,6 +73,7 @@ export default function RealestateHelper() {
 
       <HelperTopContainer>
         <PreviewButton
+          id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_REALESTATE_DOCUMENT}
           type="button"
           tw="text-yellow-1000 border-yellow-300 [background: rgba(255, 245, 217, 0.6)] [min-width: 161.5px]"
           onClick={() => handleNavigateSubPage(makeUrl('documentList'))}
@@ -82,6 +86,7 @@ export default function RealestateHelper() {
           </div>
         </PreviewButton>
         <PreviewButton
+          id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_LISTING_CHECKLIST}
           type="button"
           tw="text-green-800 border-green-300 [background: rgba(227, 252, 237, 0.6)] [min-width: 161.5px]"
           onClick={() => handleNavigateSubPage(makeUrl('listingCheckList'))}
@@ -98,19 +103,31 @@ export default function RealestateHelper() {
       <SeperatorLine />
 
       <Flex tw="gap-5 px-4 justify-between">
-        <PreviewIconWrraper onClick={() => handleNavigateSubPage(makeUrl('tradeProcess'))}>
+        <PreviewIconWrraper
+          onClick={() => handleNavigateSubPage(makeUrl('tradeProcess'))}
+          id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_TRADE_PROCESS}
+        >
           <Image src={RunningImage.src} width={56} height={56} alt="runningImage" tw="h-14" />
           거래 절차
         </PreviewIconWrraper>
-        <PreviewIconWrraper onClick={() => handleNavigateSubPage(makeUrl('commonSense'))}>
+        <PreviewIconWrraper
+          id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_COMMON_SENSE}
+          onClick={() => handleNavigateSubPage(makeUrl('commonSense'))}
+        >
           <Image src={BulbImage.src} width={56} height={56} alt="bulbImage" tw="h-14" />
           상식
         </PreviewIconWrraper>
-        <PreviewIconWrraper onClick={() => handleNavigateSubPage(makeUrl('specialTerms'))}>
+        <PreviewIconWrraper
+          id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_COMMON_SENSE}
+          onClick={() => handleNavigateSubPage(makeUrl('specialTerms'))}
+        >
           <Image src={StampImage.src} width={56} height={56} alt="stampImage" tw="h-14" />
           계약서
         </PreviewIconWrraper>
-        <PreviewIconWrraper onClick={() => handleNavigateSubPage(makeUrl('dict'))}>
+        <PreviewIconWrraper
+          id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_DICTIONARY}
+          onClick={() => handleNavigateSubPage(makeUrl('dict'))}
+        >
           <Image src={DictImage.src} width={56} height={56} alt="dictImage" tw="h-14" />
           용어사전
         </PreviewIconWrraper>

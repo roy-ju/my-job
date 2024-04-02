@@ -14,7 +14,7 @@ export default function CardList({ list, handleClickItem }: CardListProps) {
         <Card
           key={item.id}
           handleClickItem={handleClickItem}
-          title={item?.name ?? ''}
+          title={item?.title ?? ''}
           subTitle={item?.content ?? ''}
           link={item?.notion_url ?? ''}
           thumbnailImgPath={item?.thumb_file_path ?? ''}

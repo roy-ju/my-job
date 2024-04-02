@@ -6,6 +6,8 @@ import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
 
+import { useReadLocalStorage } from 'usehooks-ts';
+
 import Button from '@/components/atoms/Button';
 
 import useMobileMap from '@/states/hooks/useMobileMap';
@@ -23,6 +25,10 @@ import UserIcon from '@/assets/icons/user.svg';
 import Routes from '@/router/routes';
 
 import SpeeachBubble from '@/../public/static/images/speech_bubble.png';
+
+import LocalStorageValue from '@/constants/localStorageValues';
+
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
 
 const BottomGlobalNavigationContainer = styled.div`
   ${tw`relative w-full border-t border-t-gray-300 flex flex-col gap-5 px-[5px] bg-white [z-index: 300]`}
@@ -46,6 +52,7 @@ export default function BottomGlobalNavigation({
   unreadChatCount?: number;
 }) {
   const map = useMobileMap();
+
   const router = useRouter();
 
   const onClickButton = (path: string, e?: MouseEvent<HTMLButtonElement> | undefined) => {
@@ -59,6 +66,8 @@ export default function BottomGlobalNavigation({
     default: tw`text-gray-800`,
     defaultIcon: tw`text-gray-500`,
   };
+
+  const value = useReadLocalStorage(LocalStorageValue.firstVisitInSubHome);
 
   return (
     <BottomGlobalNavigationContainer id="negocio-mob-global-navigation">
@@ -74,14 +83,20 @@ export default function BottomGlobalNavigation({
           <span css={[tw`text-body_01`, index === 0 ? buttonStyles.selected : buttonStyles.default]}>홈</span>
         </NavigationButton>
 
-        <NavigationButton value={1} onClick={(e) => onClickButton(Routes.SubHome, e)}>
-          <Image
-            src={SpeeachBubble.src}
-            alt="speeach_bubble"
-            width={61}
-            height={33.6}
-            tw="absolute [top: -29.3px] [z-index: 301]"
-          />
+        <NavigationButton
+          value={1}
+          onClick={(e) => onClickButton(Routes.SubHome, e)}
+          id={GOOGLE_TAG_BUTTON_ID.HOME_MOBILE_GLOBAL_NAVIGATION_SUBHOME}
+        >
+          {value !== '1' && (
+            <Image
+              src={SpeeachBubble.src}
+              alt="speeach_bubble"
+              width={61}
+              height={33.6}
+              tw="absolute [top: -29.3px] [z-index: 301]"
+            />
+          )}
           <BookIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>거래도우미</span>
         </NavigationButton>

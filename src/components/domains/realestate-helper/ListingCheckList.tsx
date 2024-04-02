@@ -44,7 +44,9 @@ export default function ListingCheckList() {
         <NavigationHeader.Title>매물 체크리스트</NavigationHeader.Title>
       </NavigationHeader>
       <CategoryTabs
-        list={middleCategoryList?.sort((a, b) => a.id - b.id).map((item) => ({ code: item.code, name: item.name }))}
+        list={middleCategoryList
+          ?.sort((a, b) => a.id - b.id)
+          .map((item) => ({ code: item.code, name: item?.name ?? '' }))}
         tab={tab}
         tabIndex={tabIndex}
         handleChangeTab={handleChangeTab}
@@ -53,7 +55,13 @@ export default function ListingCheckList() {
         {middleCategoryList
           ?.sort((a, b) => a.id - b.id)
           .map((item) => (
-            <MainDescription key={item.name} tab={tab} code={item.code} title={item.name} subTitle={item.content} />
+            <MainDescription
+              key={item?.name ?? ''}
+              tab={tab}
+              code={item.code}
+              title={item.name}
+              subTitle={item.content}
+            />
           ))}
         <MarginTopSixteen />
 

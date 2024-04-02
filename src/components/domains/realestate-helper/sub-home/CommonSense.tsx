@@ -13,6 +13,9 @@ import { GuideListItem } from '@/services/sub-home/types';
 import IconButton from '@/components/atoms/IconButton';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+
 import {
   CommonSenseContainer,
   CommonSenseWrraper,
@@ -46,7 +49,14 @@ function CommonSenseTitle() {
 
 function CommonSenseMoreButton({ handleClick }: { handleClick: () => void }) {
   return (
-    <ButtonV2 variant="white" tw="w-full flex gap-0.5" size="bigger" radius="none" onClick={handleClick}>
+    <ButtonV2
+      id={GOOGLE_TAG_BUTTON_ID.SUBHOME_COMMON_SENSE_MORE}
+      variant="white"
+      tw="w-full flex gap-0.5"
+      size="bigger"
+      radius="none"
+      onClick={handleClick}
+    >
       더보기
       <IconArrowRight color={theme`colors.gray.600`} />
     </ButtonV2>
@@ -109,7 +119,7 @@ function CommonSense({ list, handleNavigateCommonSense, handleNavigateCommonSens
       >
         {list.map((item, i) => (
           <CommonSenseCarouselItem
-            key={makeKey(item.name || '', item.content || '', item.created_time || '', i)}
+            key={makeKey(item.title || '', item.content || '', item.created_time || '', i)}
             item={item}
             isDragging={isDragging}
             handleNavigateCommonSenseDetail={handleNavigateCommonSenseDetail}
