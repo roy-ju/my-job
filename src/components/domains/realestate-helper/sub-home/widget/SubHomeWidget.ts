@@ -105,7 +105,7 @@ export const CommonSenseCarouselItemTextTitle = styled.p`
 `;
 
 export const CommonSenseCarouselItemTextSubTitle = styled.p`
-  ${tw`text-gray-800 whitespace-pre-line text-body_02 line-clamp-2`}
+  ${tw`text-gray-800 whitespace-pre-line text-body_02 line-clamp-2 [height: 44px]`}
 `;
 
 export const DictContainer = styled.div`

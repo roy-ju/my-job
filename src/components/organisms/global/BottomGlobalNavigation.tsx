@@ -2,11 +2,9 @@ import { MouseEvent } from 'react';
 
 import { useRouter } from 'next/router';
 
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 import tw, { styled } from 'twin.macro';
-
-import { useReadLocalStorage } from 'usehooks-ts';
 
 import Button from '@/components/atoms/Button';
 
@@ -24,11 +22,9 @@ import UserIcon from '@/assets/icons/user.svg';
 
 import Routes from '@/router/routes';
 
-import SpeeachBubble from '@/../public/static/images/speech_bubble.png';
-
-import LocalStorageValue from '@/constants/localStorageValues';
-
 import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+
+const NewMobile = dynamic(() => import('./NewMobile'), { ssr: false });
 
 const BottomGlobalNavigationContainer = styled.div`
   ${tw`relative w-full border-t border-t-gray-300 flex flex-col gap-5 px-[5px] bg-white [z-index: 300]`}
@@ -67,8 +63,6 @@ export default function BottomGlobalNavigation({
     defaultIcon: tw`text-gray-500`,
   };
 
-  const value = useReadLocalStorage(LocalStorageValue.firstVisitInSubHome);
-
   return (
     <BottomGlobalNavigationContainer id="negocio-mob-global-navigation">
       <BottomGlobalNavigationFlex>
@@ -88,15 +82,7 @@ export default function BottomGlobalNavigation({
           onClick={(e) => onClickButton(Routes.SubHome, e)}
           id={GOOGLE_TAG_BUTTON_ID.HOME_MOBILE_GLOBAL_NAVIGATION_SUBHOME}
         >
-          {value !== '1' && (
-            <Image
-              src={SpeeachBubble.src}
-              alt="speeach_bubble"
-              width={61}
-              height={33.6}
-              tw="absolute [top: -29.3px] [z-index: 301]"
-            />
-          )}
+          <NewMobile />
           <BookIcon css={index === 1 ? buttonStyles.selected : buttonStyles.defaultIcon} />
           <span css={[tw`text-body_01`, index === 1 ? buttonStyles.selected : buttonStyles.default]}>거래도우미</span>
         </NavigationButton>

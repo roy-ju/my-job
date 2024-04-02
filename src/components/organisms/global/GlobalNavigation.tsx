@@ -1,10 +1,8 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo } from 'react';
 
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 import tw from 'twin.macro';
-
-import { useReadLocalStorage } from 'usehooks-ts';
 
 import useControlled from '@/hooks/useControlled';
 
@@ -12,11 +10,9 @@ import { NewCount } from '@/components/atoms';
 
 import Logo from '@/assets/icons/logo.svg';
 
-import SpeeachBubble from '@/../public/static/images/speech_bubble_horizontal.png';
-
-import LocalStorageValue from '@/constants/localStorageValues';
-
 import GlobalHambergerMenu from './GlobalHambergerMenu';
+
+const New = dynamic(() => import('./New'), { ssr: false });
 
 interface NavigationContextType {
   selectedTab: number;
@@ -62,8 +58,6 @@ function GlobalNavigation({
     [tabIndex, handleChangeTab],
   );
 
-  const value = useReadLocalStorage(LocalStorageValue.firstVisitInSubHome);
-
   return (
     <NavigationContext.Provider value={providerValue}>
       <div tw="w-16 h-full min-h-[36rem] bg-white flex flex-col justify-between border-r border-gray-300 shadow-[0px_8px_16px_rgba(0,0,0,0.06)]">
@@ -73,17 +67,7 @@ function GlobalNavigation({
           </button>
           {children}
         </div>
-
-        {value !== '1' && (
-          <Image
-            src={SpeeachBubble.src}
-            alt="speeach_bubble"
-            width={68}
-            height={28}
-            tw="absolute [top: 189px] [left: 50px]"
-            style={{ zIndex: 300 }}
-          />
-        )}
+        <New />
         <GlobalHambergerMenu />
       </div>
     </NavigationContext.Provider>
