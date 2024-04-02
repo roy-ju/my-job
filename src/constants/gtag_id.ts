@@ -49,7 +49,7 @@ const GOOGLE_TAG_BUTTON_ID = {
   /** 서브 홈 네비게이션 무료 등기부 조회 */
   SUBHOME_NAVIGATION_REALESTATE_DOCUMENT: 'gtag-subhome-navigation-realestate-document',
   /** 서브 홈 네비게이션 매물 방문 체크리스트 */
-  SUBHOME_NAVIGATION_LISTING_CHECKLIST: 'gtag-subhome-lnavigation-isting-checklist',
+  SUBHOME_NAVIGATION_LISTING_CHECKLIST: 'gtag-subhome-navigation-listing-checklist',
   /** 서브 홈 네비게이션 거래 절차 */
   SUBHOME_NAVIGATION_TRADE_PROCESS: 'gtag-subhome-navigation-trade-process',
   /** 서브 홈 네비게이션 부동산 상식 */
