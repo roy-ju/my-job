@@ -1,6 +1,6 @@
-import Image from 'next/image';
+import { useMemo } from 'react';
 
-import tw from 'twin.macro';
+import Image from 'next/image';
 
 import Bed from '@/../public/static/images/icon_bed.png';
 
@@ -12,15 +12,14 @@ import HouseGarden from '@/../public/static/images/icon_house-garden.png';
 
 import Sofa from '@/../public/static/images/icon_sofa.png';
 
-import Sparkles from '@/../public/static/images/icon_sparkles.png';
-
 import Toilet from '@/../public/static/images/icon_toilet.png';
 
 import Washer from '@/../public/static/images/icon_washer.png';
 
 import WorldMap from '@/../public/static/images/icon_worldmap.png';
 
-import { useMemo } from 'react';
+import Sparkles from '@/../public/static/images/icon_sparkles-2.png';
+
 import { Flex, SubTitle } from './widget/ListingCheckListWidget';
 
 type MainDescriptionProps = {
@@ -53,8 +52,10 @@ export default function MainDescription({ tab, code, title = '', subTitle = '' }
     return '';
   }, [title]);
 
+  if (tab !== code) return null;
+
   return (
-    <Flex css={[tab !== code && tw`[display: none]`]}>
+    <Flex key={title} initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
       {imgUrl && <Image src={imgUrl} alt="mainDescriptionImage" width={48} height={48} />}
       <SubTitle>
         {title && <span>{title}</span>}

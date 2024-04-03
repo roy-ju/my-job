@@ -64,7 +64,6 @@ export default function ListingCheckList() {
             />
           ))}
         <MarginTopSixteen />
-
         {middleCategoryList
           ?.sort((a, b) => a.id - b.id)
           .map((item) => (

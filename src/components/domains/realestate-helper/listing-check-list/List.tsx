@@ -93,7 +93,7 @@ function List({ tab, code }: ListProps) {
   if (tab !== code) return null;
 
   return (
-    <CheckListContainer style={tab !== code ? { display: 'none' } : {}}>
+    <CheckListContainer>
       <CheckListWrraper>
         <Title url={CheckImage.src} title="꼭 확인해야 할 항목이에요!" alt="iconCheck" />
         <RequiredList list={requiredList} checkedItems={checkedItems} handleClick={handleClick} />
