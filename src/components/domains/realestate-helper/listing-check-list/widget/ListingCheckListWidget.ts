@@ -11,7 +11,7 @@ export const ScrollContainer = styled.div`
   transition: scroll 0.2s ease;
 `;
 
-export const TitleWrraper = styled.div`
+export const TitleWrraper = styled(motion.div)`
   ${tw`flex items-center gap-2 px-5 text-heading_01`}
 `;
 
@@ -19,7 +19,7 @@ export const CheckListContainer = styled.div`
   ${tw``}
 `;
 
-export const CheckListWrraper = styled.div`
+export const CheckListWrraper = styled(motion.div)`
   ${tw`py-5`}
 `;
 
@@ -27,7 +27,7 @@ export const AdditionListWrraper = styled.div`
   ${tw`px-5`}
 `;
 
-export const AdditionalListItem = styled.span`
+export const AdditionalListItem = styled(motion.span)`
   ${tw`flex items-center gap-2 py-4 not-last-of-type:border-b not-last-of-type:border-b-gray-200`}
 `;
 
@@ -59,7 +59,7 @@ export const SubTitle = styled.div`
   }
 `;
 
-export const Flex = styled.div`
+export const Flex = styled(motion.div)`
   ${tw`p-5 flex flex-row items-center [width: calc(100% - 40px)] rounded-2xl mx-auto gap-3 mt-4`}
 
   box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.06), 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
