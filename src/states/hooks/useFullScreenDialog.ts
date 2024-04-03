@@ -8,6 +8,7 @@ export default function useFullScreenDialog() {
   const [dialogStates, setDialogStates] = useRecoilState(fullScreenDialogsAtom);
 
   const addFullScreenDialog = (fullScreenDialog: Omit<FullScreenDialog, 'id'>) => {
+    console.log('실행');
     const id = nanoid();
     setDialogStates((prev) => [...prev, { id, ...fullScreenDialog }]);
   };
