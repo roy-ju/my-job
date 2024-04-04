@@ -8,11 +8,11 @@ import { DanjiPhotosResponse } from '@/services/danji/types';
 
 import { DefaultListingImageLg } from '@/constants/strings';
 
-import PhotoHero from './widget/PhotoHero';
+import PhotoHero from './PhotoHero';
 
 import { CommonDanjiDetailProps } from '../types';
 
-const PhotosDialog = dynamic(() => import('./widget/PhotosDialog'), { ssr: false });
+const PhotosDialog = dynamic(() => import('./PhotosDialog'), { ssr: false });
 
 interface PhotosProps extends CommonDanjiDetailProps {
   danjiPhotos?: DanjiPhotosResponse;

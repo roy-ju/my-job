@@ -1,5 +1,4 @@
 import { Table } from '@/components/molecules';
-import React from 'react';
 
 type TableFieldProps = {
   isRender?: boolean;

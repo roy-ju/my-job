@@ -4,11 +4,11 @@ import PhotoGalleryHeader from './PhotoGalleryHeader';
 
 import ArrowButton from './ArrowButton';
 
-import { Image, ImageWrraper, Stack, StyledSwipeableView } from './PhotoGalleryWidget';
+import { Image, ImageWrraper, Stack, StyledSwipeableView } from './widget/PhotoGalleryWidget';
 
-import usePhotoGalleryHandlers from '../hooks/usePhotoGalleryHandlers';
+import usePhotoGalleryHandlers from './hooks/usePhotoGalleryHandlers';
 
-import FullScreen from '../../full-screen';
+import FullScreen from '../full-screen';
 
 type PhotoGalleryProps = {
   initialIndex: number;

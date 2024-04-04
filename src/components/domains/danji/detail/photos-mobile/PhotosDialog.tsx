@@ -15,9 +15,9 @@ import {
   ImageWrraper,
   Image,
   Title,
-} from './PhotosDialogWidget';
+} from './widget/PhotosDialogWidget';
 
-import usePhotosDialogHandler from '../hooks/usePhotosDialogHandler';
+import usePhotosDialogHandler from './hooks/usePhotosDialogHandler';
 
 type PhotosDialogProps = {
   paths: DanjiPhotoItem[];

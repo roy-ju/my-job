@@ -1,6 +1,6 @@
-import { DanjiNameWrraper, DanjiName } from './SummaryWidget';
+import { DanjiNameWrraper, DanjiName } from './widget/SummaryWidget';
 
-import { CommonDanjiDetailProps } from '../../types';
+import { CommonDanjiDetailProps } from '../types';
 
 export default function Name({ danji }: CommonDanjiDetailProps) {
   return (

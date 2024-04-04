@@ -9,19 +9,19 @@ import { NaverMapV1 } from '@/lib/navermapV1';
 
 import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 
-import useDanjiAroundMapCardMobile from '../hooks/useDanjiAroundMapCardMobile';
+import useDanjiAroundMapCardMobile from './hooks/useDanjiAroundMapCardMobile';
 
-import { Box, PlaceNameText, PlaceNameWrraper, styles } from './DanjiAroundMapCardWidget';
+import { Box, PlaceNameText, PlaceNameWrraper, styles } from './widget/DanjiAroundMapCardWidget';
 
-import { AroundListType } from '../types';
+import { AroundListType } from './types';
 
-import { CommonDanjiDetailProps } from '../../types';
+import { CommonDanjiDetailProps } from '../types';
 
-import MapMarkerSearch from '../../shared/MapMarkerSearch';
+import MapMarkerSearch from '../shared/MapMarkerSearch';
 
-import { MapMarkerShadow } from '../../shared/widgets';
+import { MapMarkerShadow } from '../shared/widgets';
 
-const CustomOverlayDanji = dynamic(() => import('./CustomOverlayDanji'), { ssr: false });
+const CustomOverlayDanji = dynamic(() => import('../CustomOverlayDanji'), { ssr: false });
 
 interface DanjiAroundMapCardProps extends CommonDanjiDetailProps {
   activeIndex?: number;

@@ -29,9 +29,9 @@ const FullScreenMap = dynamic(() => import('./detail/full-screen-map'), {
   ssr: false,
 });
 
-// const DanjiAroundDetail = dynamic(() => import('./detail/danji-around-detail-mobile'), {
-//   ssr: false,
-// });
+const DanjiAroundDetail = dynamic(() => import('./detail/danji-around-detail-mobile'), {
+  ssr: false,
+});
 
 const DanjiSchoolDetail = dynamic(() => import('./detail/danji-school-detail-mobile'), {
   ssr: false,
@@ -108,7 +108,9 @@ const DanjiMobile = ({
       )}
 
       {data?.danji_id && isTrueAround && (
-        <MobileContainer>{/* <DanjiAroundDetail danji={danjiAroundData} /> */}</MobileContainer>
+        <MobileContainer>
+          <DanjiAroundDetail danji={danjiAroundData} />
+        </MobileContainer>
       )}
 
       {data?.danji_id && isTrueSchool && (

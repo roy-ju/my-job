@@ -4,9 +4,9 @@ import { describeRealestateType } from '@/constants/enums';
 
 import { RealestateTypeChipVariant } from '@/constants/strings';
 
-import { RowCenterGapOne, DetailText } from './SummaryWidget';
+import { RowCenterGapOne, DetailText } from './widget/SummaryWidget';
 
-import { CommonDanjiDetailProps } from '../../types';
+import { CommonDanjiDetailProps } from '../types';
 
 export default function Address({ danji }: CommonDanjiDetailProps) {
   return (

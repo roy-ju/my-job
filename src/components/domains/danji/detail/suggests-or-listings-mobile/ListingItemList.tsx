@@ -10,9 +10,9 @@ import DanjiListingsCard from '@/components/organisms/danji/DanjiListingsCard';
 
 import DanjiListingsOrSuggestNodata from './DanjiListingsOrSuggestNodata';
 
-import useCheckSuggestsOrListings from '../hooks/useCheckSuggestsOrListings';
+import useCheckSuggestsOrListings from './hooks/useCheckSuggestsOrListings';
 
-import useCheckListsExisted from '../hooks/useCheckListsExisted';
+import useCheckListsExisted from './hooks/useCheckListsExisted';
 
 type ListingItemListProps = {
   tab: number;

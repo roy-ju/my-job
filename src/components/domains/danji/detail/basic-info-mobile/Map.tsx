@@ -15,15 +15,15 @@ import MapEnlarge from './MapEnlargeButton';
 
 import { MapTypeButton } from './MapTypeButton';
 
-import useBasicInfoDanjiMapMobile from '../hooks/useBasicInfoDanjiMapMobile';
+import useBasicInfoDanjiMapMobile from './hooks/useBasicInfoDanjiMapMobile';
 
-import { MapMarkerShadow } from '../../shared/widgets';
+import { MapMarkerShadow } from '../shared/widgets';
 
-import { MapStreet } from '../../shared/MapStreet';
+import { MapStreet } from '../shared/MapStreet';
 
-import MapMarkerSearch from '../../shared/MapMarkerSearch';
+import MapMarkerSearch from '../shared/MapMarkerSearch';
 
-import { CommonDanjiDetailProps } from '../../types';
+import { CommonDanjiDetailProps } from '../types';
 
 const DivContainer = styled.div``;
 
