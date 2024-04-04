@@ -6,8 +6,6 @@ import { Button } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
-
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import { getAverageDistance } from '@/utils/danjiAroundInfo';
@@ -39,6 +37,8 @@ import useScrollTabs from './hooks/useScrollTabs';
 import useDanjiAroundDetailMobileHandler from './hooks/useDanjiAroundDetailMobileHandler';
 
 import DanjiAroundMapCard from '../danji-around-map-card';
+
+import SubwayFormatUI from '../danji-around-map-card/SubwayFormatUI';
 
 export default function DanjiAroundDetail({ danji }: { danji?: DanjiDetailResponse }) {
   const {
@@ -236,7 +236,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: DanjiDetailRespon
                   }}
                 >
                   {activeCategory.SW8 && (
-                    <ConvertArrayToSubwayComponent
+                    <SubwayFormatUI
                       categoryGroupName={item.category_name}
                       categoryGroupCode={item.category_group_code}
                     />
