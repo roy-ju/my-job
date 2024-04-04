@@ -12,19 +12,19 @@ import { DanjiSchoolsResponse } from '@/services/danji/types';
 
 import useSchoolInfoHandler from './hooks/useSchoolInfoHandler';
 
-import SchoolTabs from './widget/SchoolTabs';
+import SchoolTabs from './SchoolTabs';
 
-import Nodata from './widget/Nodata';
+import Nodata from './Nodata';
 
-import ListItem from './widget/ListItem';
+import ListItem from './ListItem';
 
 import { Container, TitleWrraper, ListWrraper, NodataWrraper, Title } from './widget/SchoolInfoMobileWidget';
 
 import { CommonDanjiDetailProps } from '../types';
 
-const MoreButton = dynamic(() => import('./widget/MoreButton'), { ssr: false });
+const MoreButton = dynamic(() => import('./MoreButton'), { ssr: false });
 
-const DistrictButton = dynamic(() => import('./widget/DistrictButton'), { ssr: false });
+const DistrictButton = dynamic(() => import('./DistrictButton'), { ssr: false });
 
 interface SchoolInfoProps extends CommonDanjiDetailProps {
   danjiSchools?: DanjiSchoolsResponse | undefined;

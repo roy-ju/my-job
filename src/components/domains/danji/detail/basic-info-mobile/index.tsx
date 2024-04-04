@@ -8,7 +8,7 @@ import { Separator, Skeleton } from '@/components/atoms';
 
 import { MarginTopSixteen } from '@/components/atoms/Margin';
 
-import Info from './widget/Info';
+import Info from './Info';
 
 import { CommonDanjiDetailProps } from '../types';
 
@@ -20,7 +20,7 @@ const Title = styled.span`
   ${tw`text-subhead_03 [line-height: 1]`}
 `;
 
-const Map = dynamic(() => import('./widget/Map'), {
+const Map = dynamic(() => import('./Map'), {
   ssr: false,
   loading: () => <Skeleton height="190px" />,
 });

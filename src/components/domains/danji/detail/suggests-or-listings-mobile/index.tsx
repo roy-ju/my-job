@@ -19,23 +19,23 @@ import {
 
 import { apiService } from '@/services';
 
-import Tabs from './widget/Tabs';
+import Tabs from './Tabs';
 
-import Messages from './widget/Messages';
+import Messages from './Messages';
 
-import ListingItemList from './widget/ListingItemList';
+import ListingItemList from './ListingItemList';
 
-import RegisterButtons from './widget/RegisterButtons';
+import RegisterButtons from './RegisterButtons';
 
 import { CommonDanjiDetailProps } from '../types';
 
-const FixedButton = dynamic(() => import('./widget/FixedButton'), { ssr: false });
+const FixedButton = dynamic(() => import('./FixedButton'), { ssr: false });
 
 const ImpossibleSuggestArea = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
   ssr: false,
 });
 
-const ListingDetailOpertionsButtons = dynamic(() => import('./widget/ListingDetailOpertionsButtons'), { ssr: false });
+const ListingDetailOpertionsButtons = dynamic(() => import('./ListingDetailOpertionsButtons'), { ssr: false });
 
 interface SuggestsOrListingsProps extends CommonDanjiDetailProps {
   isListingDetail?: boolean;

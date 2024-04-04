@@ -18,15 +18,7 @@ import {
 
 import useMobileDanjiHandler from './hooks/useMobileDanjiHandler';
 
-import ListingsSection from './section-containers/ListingsSection';
-
-import RealPriceSection from './section-containers/RealPriceSection';
-
-import InfoSection from './section-containers/InfoSection';
-
-import FacilitiesSection from './section-containers/FacilitiesSection';
-
-import NewsSection from './section-containers/NewsSection';
+import { ListingsSection, RealPriceSection, InfoSection, FacilitiesSection, NewsSection } from './section-containers';
 
 import Header from './header-mobile';
 

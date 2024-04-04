@@ -1,10 +1,10 @@
 import { memo } from 'react';
 
-import Name from './widget/Name';
+import Name from './Name';
 
-import Address from './widget/Address';
+import Address from './Address';
 
-import Details from './widget/Details';
+import Details from './Details';
 
 import { Container, PaddingInlineWrraper } from './widget/SummaryWidget';
 

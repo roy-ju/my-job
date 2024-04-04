@@ -8,7 +8,7 @@ import useControlled from '@/hooks/useControlled';
 
 import getChildrenByType from '@/utils/getChildrenByType';
 
-import { schoolTabsStyles, schoolTabStyles, schoolIndicatorStyles } from './SchoolTabsStyles';
+import { schoolTabsStyles, schoolTabStyles, schoolIndicatorStyles } from './widget/SchoolTabsStyles';
 
 interface TabsContext {
   variant: 'outlined' | 'contained' | 'ghost';

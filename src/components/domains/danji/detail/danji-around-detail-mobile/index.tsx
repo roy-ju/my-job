@@ -1,12 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useEffect, useMemo, useRef, useState, MouseEvent } from 'react';
-
-import { styled } from 'twin.macro';
-
-import { motion } from 'framer-motion';
-
-import cloneDeep from 'lodash/cloneDeep';
+import { useEffect } from 'react';
 
 import { Button } from '@/components/atoms';
 
@@ -16,87 +10,37 @@ import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail
 
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
-import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/utils/danjiAroundInfo';
-
-import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
-
-import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
-
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import { getAverageDistance } from '@/utils/danjiAroundInfo';
 
 import CloseIcon from '@/assets/icons/close_18.svg';
 
-import DanjiAroundMapCard from './DanjiAroundMapCard';
+import Container from '@/components/atoms/Container';
 
-const commonStyle = {
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  cursor: 'pointer',
-  borderBottom: '1px solid #E4E4EF',
-};
+import { DanjiDetailResponse } from '@/services/danji/types';
 
-type BtnState = {
-  SW8?: boolean;
-  HP8?: boolean;
-  MT1?: boolean;
-  CS2?: boolean;
-  BK9?: boolean;
-  PO3?: boolean;
-};
+import {
+  BottomSheetContent,
+  Stack,
+  DistanceText,
+  ButtonWrraper,
+  DetailCategoryButton,
+  AroundDanjiDetailFooter,
+  Wrapper,
+  RelativeFlex,
+  EmptyMessage,
+  Message,
+  ListContainer,
+} from './widget/DanjiAroundDetailMobileWidget';
 
-const ButtonsWrraper = styled.div`
-  display: 'flex';
-  align-items: 'center';
-  column-gap: '8px';
-  padding-top: 16px;
-  padding-bottom: 16px;
-  overflow-x: scroll;
-  z-index: 130;
-  -webkit-overflow-scrolling: touch;
-  padding-right: 1px;
-`;
+import { BtnState, categoryButtonList } from './types';
 
-const buttonList: { id: keyof BtnState; korTitle: string }[] = [
-  { id: 'SW8', korTitle: '지하철' },
-  { id: 'HP8', korTitle: '병원' },
-  { id: 'MT1', korTitle: '마트' },
-  { id: 'CS2', korTitle: '편의점' },
-  { id: 'BK9', korTitle: '은행' },
-  { id: 'PO3', korTitle: '관공서' },
-];
+import useScrollTabs from './hooks/useScrollTabs';
 
-const Wrapper = styled(motion.div)({
-  display: 'flex',
-  flexDirection: 'column',
-  zIndex: 1,
-  left: 'auto',
-  right: 'auto',
-  borderTopLeftRadius: '20px',
-  borderTopRightRadius: '20px',
-  background: 'white',
-  transition: 'transform 300ms ease-out' /* 바텀시트 애니메이션 속도 */,
-  margin: 'auto',
-});
+import useDanjiAroundDetailMobileHandler from './hooks/useDanjiAroundDetailMobileHandler';
 
-const BottomSheetContent = styled('div')({
-  overflow: ' auto',
-  WebkitOverflowScrolling: 'touch',
-  minHeight: '105px',
-  marginBottom: '43px',
-  paddingLeft: '20px',
-  paddingRight: '21px',
-  marginTop: '16px',
+import DanjiAroundMapCard from '../danji-around-map-card';
 
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
-});
-
-const Stack = styled('div')({});
-
-export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailResponse }) {
+export default function DanjiAroundDetail({ danji }: { danji?: DanjiDetailResponse }) {
   const {
     makeFalseAround,
     makeBindDanji,
@@ -111,71 +55,61 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     makeDanjiAroundLatLng,
   } = useMobileDanjiInteraction();
 
-  const [map, setMap] = useState<naver.maps.Map | null | undefined>(null);
+  const {
+    sheet,
 
-  const sheet = useRef<HTMLDivElement>(null);
+    map,
+    setMap,
 
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const refs = useRef<any>([]);
-  const listRefs = useRef<any>([]);
+    activeIndex,
+    setActiveIndex,
 
-  const [activeIndex, setActiveIndex] = useState<number>();
+    catergoryList,
+    setCategoryList,
 
-  const [isDrag, setIsDrag] = useState<boolean>(false);
-  const [startX, setStartX] = useState<number>();
+    activeCategory,
+    setActiveCategory,
 
-  const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
-    if (!scrollRef.current) return;
+    setMarkers,
 
-    e.preventDefault();
-    setIsDrag(true);
-    setStartX(e.pageX + scrollRef.current.scrollLeft);
-  };
+    nodata,
 
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
+    addressName,
+    setAddressName,
 
-  const onDragMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!isDrag) return;
+    placeName,
+    setPlaceName,
 
-    if (isDrag && scrollRef.current && startX) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+    tableIndex,
+    setTableIndex,
 
-      scrollRef.current.scrollLeft = startX - e.pageX;
+    isClick,
+    setIsClick,
 
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
-    }
-  };
+    selectedSubwayMarker,
+    setSelectedSubwayMarker,
 
-  const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);
-  const [markers, setMarkers] = useState<SearchCategoryResponse['documents']>([]);
-  const [update, setUpdate] = useState(false);
-  const [nodata, setNodata] = useState<boolean>();
-  const [activeCategory, setActiveCategory] = useState<BtnState>({});
-  const [addressName, setAddressName] = useState<string>('');
-  const [placeName, setPlaceName] = useState<string>('');
-  const [tableIndex, setTableIndex] = useState<number>();
-  const [isClick, setIsClick] = useState<boolean>(false);
-  const [selectedSubwayMarker, setSelectedSubwayMarker] = useState<string>();
+    convertedMarker,
+    convertedCategory,
 
-  const convertedCategory = useMemo(() => {
-    if (activeCategory.SW8)
-      return convertedArr([...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance)));
+    handleAddressName,
+    handlePlaceName,
+    handleSelectedSubwayMarker,
 
-    return [...catergoryList].sort((a, b) => Number(a.distance) - Number(b.distance));
-  }, [update, activeCategory]);
+    getStylingFuction,
+  } = useDanjiAroundDetailMobileHandler({ danji, danjiAddress, danjiPlace, danjiAroundDetailDefault });
 
-  const convertedMarker = useMemo(() => {
-    if (activeCategory.SW8) {
-      return markers;
-    }
-    return convertedArrForMarker([...markers]);
-  }, [update, activeCategory]);
+  const { scrollRef, refs, listRefs, onDragStart, onDragEnd, onDragMove } = useScrollTabs({
+    isClick,
+
+    activeIndex,
+    tableIndex,
+
+    addressName,
+    placeName,
+
+    convertedCategory,
+  });
 
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
@@ -192,228 +126,6 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     makeDanjiAroundAddress('');
     makeDanjiAroundPlace('');
   };
-
-  const handleAddressName = (val: string) => {
-    setAddressName(val);
-    setTableIndex(undefined);
-    setIsClick(true);
-  };
-
-  const handlePlaceName = (val: string) => {
-    setPlaceName(val);
-  };
-
-  const handleSelectedSubwayMarker = (val?: string) => {
-    setSelectedSubwayMarker(val);
-  };
-
-  const getStylingFuction = (plName: string, adName: string, index: number) => {
-    if (typeof tableIndex === 'number') {
-      if (index === 0 && index === tableIndex) {
-        return {
-          ...commonStyle,
-          background: '#F1EEFF',
-          borderTop: '1px solid #E4E4EF',
-        };
-      }
-
-      if (index !== 0 && index === tableIndex) {
-        return {
-          ...commonStyle,
-          background: '#F1EEFF',
-        };
-      }
-
-      return {
-        ...commonStyle,
-      };
-    }
-
-    if (placeName === plName && typeof tableIndex !== 'number') {
-      return {
-        ...commonStyle,
-        background: '#F1EEFF',
-      };
-    }
-
-    if (addressName === adName && typeof tableIndex !== 'number') {
-      return {
-        ...commonStyle,
-        background: '#F1EEFF',
-      };
-    }
-
-    if (index === 0) {
-      return {
-        ...commonStyle,
-        borderTop: '1px solid #E4E4EF',
-      };
-    }
-
-    return {
-      ...commonStyle,
-    };
-  };
-
-  useEffect(() => {
-    if (danjiAddress && danjiPlace) {
-      setAddressName(danjiAddress);
-      setPlaceName(danjiPlace);
-      setIsClick(true);
-    }
-  }, [danjiAddress, danjiPlace]);
-
-  useEffect(() => {
-    if (listRefs?.current && typeof tableIndex === 'number') {
-      if (tableIndex >= 0) {
-        listRefs.current[tableIndex].scrollIntoView(true);
-      }
-    }
-  }, [isClick, listRefs?.current, addressName, tableIndex]);
-
-  useEffect(() => {
-    if (placeName && listRefs?.current) {
-      const firstIndex = convertedCategory.findIndex((item) => item.place_name === placeName);
-      if (firstIndex >= 0) {
-        listRefs.current[firstIndex].scrollIntoView(true);
-        return;
-      }
-    }
-
-    if (addressName && listRefs?.current) {
-      const firstIndex = convertedCategory.findIndex((item) => item.address_name === addressName);
-      if (firstIndex >= 0) {
-        listRefs.current[firstIndex].scrollIntoView(true);
-      }
-    }
-  }, [addressName, placeName, listRefs?.current, convertedCategory]);
-
-  useEffect(() => {
-    let page = 1;
-
-    async function getPlaceData({ x, y, p }: { x?: string; y?: string; p: number }) {
-      const response = await searchCategoryGroup({
-        category_group_code: Object.keys(activeCategory)[0],
-        x,
-        y,
-        radius: 1000,
-        size: 15,
-        page: p,
-      });
-
-      if (!danji?.lat || !danji?.long) return;
-
-      if (response && response.documents.length === 0) {
-        setCategoryList([]);
-        setMarkers([]);
-        setNodata(true);
-        return;
-      }
-
-      if (response && response?.documents) {
-        setNodata(false);
-        const copiedResData = cloneDeep(response.documents);
-        const copiedResMarkerData = cloneDeep(response.documents);
-
-        const convertedResData = copiedResData.map((item) => {
-          if (item.category_group_code === KakaoMapCategoryCode.SUBWAY) {
-            return {
-              ...item,
-              category_name: item.category_name
-                ? item.category_name
-                    .replaceAll(/\s/gi, '')
-                    .slice(item.category_name.replaceAll(/\s/gi, '').lastIndexOf('>') + 1)
-                : item.category_name,
-              place_name: item.place_name.indexOf(' ')
-                ? item.place_name.slice(0, item.place_name.indexOf(' '))
-                : item.place_name,
-            };
-          }
-          return item;
-        });
-
-        setCategoryList((prev) => [...prev, ...convertedResData]);
-        setMarkers((prev) => [...prev, ...copiedResMarkerData]);
-      }
-
-      if (response && !response?.meta.is_end) {
-        getPlaceData({
-          x: danji.long.toString(),
-          y: danji.lat.toString(),
-          p: (page += 1),
-        });
-      }
-
-      if (response && response?.meta.is_end) {
-        getPlaceData({
-          x: danji.long.toString(),
-          y: danji.lat.toString(),
-          p: 0,
-        });
-        setUpdate(true);
-      }
-    }
-
-    getPlaceData({
-      x: danji?.long.toString(),
-      y: danji?.lat.toString(),
-      p: 1,
-    });
-
-    return () => {
-      setUpdate(false);
-    };
-  }, [activeCategory, danji]);
-
-  useEffect(() => {
-    setActiveCategory({ [danjiAroundDetailDefault]: true });
-
-    if (danjiAroundDetailDefault === 'SW8') {
-      setActiveIndex(0);
-    }
-    if (danjiAroundDetailDefault === 'HP8') {
-      setActiveIndex(1);
-    }
-
-    if (danjiAroundDetailDefault === 'MT1') {
-      setActiveIndex(2);
-    }
-    if (danjiAroundDetailDefault === 'CS2') {
-      setActiveIndex(3);
-    }
-    if (danjiAroundDetailDefault === 'BK9') {
-      setActiveIndex(4);
-    }
-    if (danjiAroundDetailDefault === 'PO3') {
-      setActiveIndex(5);
-    }
-  }, [danjiAroundDetailDefault]);
-
-  useEffect(() => {
-    if (activeIndex) {
-      const selectedElement = refs.current[activeIndex];
-
-      if (scrollRef.current && selectedElement) {
-        const { offsetLeft } = scrollRef.current;
-        const { offsetLeft: childOffsetLeft, offsetWidth } = selectedElement;
-        scrollRef.current.scrollLeft =
-          childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
-      }
-    }
-  }, [activeIndex]);
-
-  useEffect(() => {
-    if (map && sheet) {
-      const header = document.getElementById('negocio-header');
-
-      if (header && sheet?.current) {
-        const footerHeight = window.innerHeight - sheet.current.offsetTop;
-        const mapHeight = window.innerHeight - header.offsetHeight - footerHeight;
-        const mapWidth = header.offsetWidth;
-        map.setSize({ width: mapWidth, height: mapHeight });
-      }
-    }
-  }, [map, sheet]);
 
   useEffect(
     () => () => {
@@ -432,8 +144,10 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
     [],
   );
 
+  if (!danji) return null;
+
   return (
-    <div tw="flex flex-col w-full h-full">
+    <Container>
       <NavigationHeader>
         <NavigationHeader.Title>교통 및 주변정보</NavigationHeader.Title>
         <Button
@@ -448,7 +162,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
         </Button>
       </NavigationHeader>
 
-      <div tw="relative flex-1 w-full">
+      <RelativeFlex>
         <DanjiAroundMapCard
           activeIndex={activeIndex}
           aroundList={convertedMarker}
@@ -465,87 +179,43 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
           danjiAroundLat={danjiAroundLat}
           danjiAroundLng={danjiAroundLng}
         />
-      </div>
+      </RelativeFlex>
 
-      <Wrapper tw="w-full" style={{ zIndex: 131 }} ref={sheet}>
-        <Stack
-          id="negocio-footer"
-          style={{
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <ButtonsWrraper
+      <Wrapper ref={sheet}>
+        <AroundDanjiDetailFooter id="negocio-footer">
+          <ButtonWrraper
             ref={scrollRef}
             onMouseDown={onDragStart}
             onMouseMove={onDragMove}
             onMouseUp={onDragEnd}
             onMouseLeave={onDragEnd}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              columnGap: '8px',
-              paddingTop: '16px',
-              paddingBottom: '16px',
-              overflowX: 'scroll',
-              zIndex: 130,
-              WebkitOverflowScrolling: 'touch',
-              paddingRight: '1px',
-            }}
           >
-            {buttonList.map((item, index) => (
-              <Button
-                variant="outlined"
-                size="medium"
+            {categoryButtonList.map((item, index) => (
+              <DetailCategoryButton
                 key={item.id}
                 id={item.id}
                 ref={(element) => {
                   refs.current[index] = element;
                 }}
-                tw="[border-radius: 22px] [scroll-snap-align: center] whitespace-nowrap"
                 onClick={() => onClickCategory(item.id, index)}
                 selected={activeCategory[item.id]}
               >
                 {item.korTitle}
-              </Button>
+              </DetailCategoryButton>
             ))}
-          </ButtonsWrraper>
-        </Stack>
+          </ButtonWrraper>
+        </AroundDanjiDetailFooter>
 
         <BottomSheetContent>
           {catergoryList.length === 0 &&
-            (nodata ? (
-              <p
-                tw="text-gray-700 text-b2 [line-height: 20px]"
-                style={{ minHeight: '105px', maxHeight: '105px', zIndex: 131, textAlign: 'center' }}
-              >
-                다른 주변 정보를 확인해 보세요.
-              </p>
-            ) : (
-              <p
-                tw="text-gray-700 text-b2 [line-height: 20px]"
-                style={{ minWidth: '100%', minHeight: '105px', maxHeight: '105px' }}
-              />
-            ))}
+            (nodata ? <Message>다른 주변 정보를 확인해 보세요.</Message> : <EmptyMessage />)}
+
           {catergoryList && catergoryList.length > 0 && (
-            <div
-              className="danji-around-detail-list-wrraper"
-              style={{
-                minHeight: '105px',
-                maxHeight: '105px',
-                overflowY: 'auto',
-              }}
-            >
+            <ListContainer className="danji-around-detail-list-wrraper">
               {convertedCategory.map((item, index) => (
                 <Stack
                   style={{
                     ...getStylingFuction(item.place_name, item.address_name, index),
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
                   }}
                   id={item.id}
                   key={item.id}
@@ -571,34 +241,14 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
                       categoryGroupCode={item.category_group_code}
                     />
                   )}
-                  <p
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 400,
-                      letterSpacing: '-0.4px',
-                      lineHeight: '20px',
-                      marginLeft: '4px',
-                    }}
-                  >
-                    {item.place_name}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 400,
-                      letterSpacing: '-0.4px',
-                      lineHeight: '20px',
-                      marginLeft: 'auto',
-                    }}
-                  >
-                    {getAverageDistance(item.distance)}m
-                  </p>
+                  <DistanceText tw="ml-1">{item.place_name}</DistanceText>
+                  <DistanceText tw="ml-auto">{getAverageDistance(item.distance)}m</DistanceText>
                 </Stack>
               ))}
-            </div>
+            </ListContainer>
           )}
         </BottomSheetContent>
       </Wrapper>
-    </div>
+    </Container>
   );
 }

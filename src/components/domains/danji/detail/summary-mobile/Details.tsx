@@ -2,9 +2,9 @@ import moment from 'moment';
 
 import { cuttingDot } from '@/utils/fotmat';
 
-import { RowCenterGapOne, DetailText, HorizontalLine } from './SummaryWidget';
+import { RowCenterGapOne, DetailText, HorizontalLine } from './widget/SummaryWidget';
 
-import { CommonDanjiDetailProps } from '../../types';
+import { CommonDanjiDetailProps } from '../types';
 
 export default function Details({ danji }: CommonDanjiDetailProps) {
   return (

@@ -2,7 +2,7 @@ import ArrowLeft from '@/assets/icons/arrow_left_black.svg';
 
 import ArrowRight from '@/assets/icons/arrow_right_black.svg';
 
-import { StyledBox } from './PhotoGalleryWidget';
+import { StyledBox } from './widget/PhotoGalleryWidget';
 
 type ArrowButtonProps = {
   type: 'left' | 'right';

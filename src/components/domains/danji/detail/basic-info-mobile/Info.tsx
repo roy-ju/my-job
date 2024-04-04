@@ -8,9 +8,9 @@ import falsy from '@/utils/falsy';
 
 import TableField from './TableField';
 
-import useConvertedFormat from '../hooks/useConvertedFormat';
+import useConvertedFormat from './hooks/useConvertedFormat';
 
-import { CommonDanjiDetailProps } from '../../types';
+import { CommonDanjiDetailProps } from '../types';
 
 function Info({ danji }: CommonDanjiDetailProps) {
   const { address, joinSaedaeDong, joinSaedaeDongValue } = useConvertedFormat({ danji });

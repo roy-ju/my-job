@@ -10,9 +10,7 @@ import { v4 as uuid4 } from 'uuid';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { Button } from '@/components/atoms';
-
-import NoDataTypeOne from '@/components/organisms/MobDanjiDetail/NoData';
+import Button from '@/components/atoms/Button';
 
 import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
 
@@ -24,9 +22,11 @@ import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
 
+import Nodata from './Nodata';
+
 import { CommonDanjiDetailProps } from '../types';
 
-const DanjiAroundMapCard = dynamic(() => import('./widget/DanjiAroundMapCard'), { ssr: false });
+const DanjiAroundMapCard = dynamic(() => import('../danji-around-map-card'), { ssr: false });
 
 type BtnState = {
   SW8?: boolean;
@@ -279,7 +279,7 @@ export default function AroundInfo({ danji }: CommonDanjiDetailProps) {
       {catergoryList.length === 0 &&
         (nodata ? (
           <div tw="mt-11" style={{ minHeight: '9.5125rem' }}>
-            <NoDataTypeOne message="다른 주변 정보를 확인해 보세요." />
+            <Nodata message="다른 주변 정보를 확인해 보세요." />
           </div>
         ) : (
           <div style={{ minWidth: '100%', minHeight: '9.5125rem' }} />
