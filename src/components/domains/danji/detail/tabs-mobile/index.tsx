@@ -10,10 +10,10 @@ interface TabsProps extends CommonDanjiDetailProps {
   tabIndex: number;
   showRealPriceTab: boolean;
   loadingRealprice: boolean;
-  onClickTab: (e: NegocioMouseEvent<HTMLButtonElement>) => void;
+  handleClickTab: (e: NegocioMouseEvent<HTMLButtonElement>) => void;
 }
 
-function Tabs({ danji, tabIndex, showRealPriceTab, loadingRealprice, onClickTab }: TabsProps) {
+function Tabs({ danji, tabIndex, showRealPriceTab, loadingRealprice, handleClickTab }: TabsProps) {
   const { scrollRef, refs, onDragStart, onDragEnd, onDragMove } = useScrollTabsMobile({ danji, tabIndex });
 
   return (
@@ -30,7 +30,7 @@ function Tabs({ danji, tabIndex, showRealPriceTab, loadingRealprice, onClickTab 
         <CompositedTab>
           <CompositedTab.Button
             value={0}
-            onClick={onClickTab}
+            onClick={handleClickTab}
             ref={(el) => {
               refs.current[0] = el;
               return null;
@@ -45,7 +45,7 @@ function Tabs({ danji, tabIndex, showRealPriceTab, loadingRealprice, onClickTab 
           <CompositedTab>
             <CompositedTab.Button
               value={1}
-              onClick={onClickTab}
+              onClick={handleClickTab}
               ref={(el) => {
                 refs.current[1] = el;
                 return null;
@@ -60,7 +60,7 @@ function Tabs({ danji, tabIndex, showRealPriceTab, loadingRealprice, onClickTab 
         <CompositedTab>
           <CompositedTab.Button
             value={2}
-            onClick={onClickTab}
+            onClick={handleClickTab}
             ref={(el) => {
               refs.current[2] = el;
               return null;
@@ -74,7 +74,7 @@ function Tabs({ danji, tabIndex, showRealPriceTab, loadingRealprice, onClickTab 
         <CompositedTab>
           <CompositedTab.Button
             value={3}
-            onClick={onClickTab}
+            onClick={handleClickTab}
             ref={(el) => {
               refs.current[3] = el;
               return null;
@@ -88,7 +88,7 @@ function Tabs({ danji, tabIndex, showRealPriceTab, loadingRealprice, onClickTab 
         <CompositedTab>
           <CompositedTab.Button
             value={4}
-            onClick={onClickTab}
+            onClick={handleClickTab}
             ref={(el) => {
               refs.current[4] = el;
               return null;

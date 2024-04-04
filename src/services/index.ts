@@ -38,6 +38,7 @@ import {
   SubHomeVerifyAddressRequest,
   SubHomeVerifyAddressResponse,
 } from './sub-home/types';
+import { MapHakgudoResponse } from './map/types';
 
 export class NegocioApiService extends ApiService {
   /** 로그인  */
@@ -622,6 +623,15 @@ export class NegocioApiService extends ApiService {
         code: req.code,
       });
       return data as SubHomeGuideListResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async mapHakgudo(schoolID: string) {
+    try {
+      const { data } = await this.instance.post('/map/hakgudo', { school_id: schoolID });
+      return data as MapHakgudoResponse;
     } catch (e) {
       return null;
     }
