@@ -4,6 +4,8 @@ import React, { memo, useCallback, useRef, useState } from 'react';
 
 import Separator from '@/components/atoms/Separator';
 
+import RelativeFlexContents from '@/components/atoms/RelativeFlexContents';
+
 import News from '@/components/organisms/News';
 
 import useScroll from '@/hooks/useScroll';
@@ -31,21 +33,21 @@ import FacilitiesSection from './sectionContainers/FacilitiesSection';
 
 import NewsSection from './sectionContainers/NewsSection';
 
+import Header from './header-mobile';
+
 import Photos from './photos-mobile';
 
-import Header from './header-mobile';
+import TabsMobile from './tabs-mobile';
 
 import Summary from './summary-mobile';
 
-// import Tabs from './Components/tabs';
+import SuggestsOrListings from './suggests-or-listings-mobile';
 
-// import Summary from './Components/summary';
+import BasicInfo from './basic-info-mobile';
 
-// import BasicInfo from './Components/basicInfo';
+import SchoolInfo from './school-info-mobile';
 
-// import SuggestsOrListings from './Components/suggestsOrListings';
-
-// import SchoolInfo from './Components/schoolInfo';
+import { Container, HeaderWrraper } from './MobileTemplateWidget';
 
 // const Realprice = dynamic(() => import('./Components/realprice'), { ssr: false });
 
@@ -196,29 +198,28 @@ function MobDanjiDetail({
 
   return (
     <>
-      <div tw="relative w-full flex flex-col h-full overflow-x-hidden">
-        <div tw="[z-index: 500]">
+      <Container>
+        <HeaderWrraper>
           <Header danji={danji} isHeaderActive={isHeaderActive} />
-        </div>
-        <div tw="flex-1 min-h-0 overflow-y-auto" id="scroll-container" ref={scrollContainer}>
+        </HeaderWrraper>
+        <RelativeFlexContents id="scroll-container" ref={scrollContainer}>
           <Photos danji={danji} danjiPhotos={danjiPhotos} />
-          {/* <Tabs
+          <TabsMobile
             danji={danji}
             tabIndex={tabIndex}
             showRealPriceTab={showRealPriceTab}
             loadingRealprice={loadingRealprice}
             onClickTab={onClickTab}
-          /> */}
-
+          />
           <ListingsSection ref={listingsSectionRef}>
             <Summary danji={danji} />
-            {/* <SuggestsOrListings
+            <SuggestsOrListings
               tabIndex={tabIndex}
               danji={danji}
               danjiSuggestList={danjiSuggestList}
               danjiListingList={danjiListingList}
               naverDanji={naverDanji}
-            /> */}
+            />
           </ListingsSection>
 
           <RealPriceSection ref={realPriceSectionRef}>
@@ -230,11 +231,13 @@ function MobDanjiDetail({
             /> */}
           </RealPriceSection>
 
-          <InfoSection ref={infoSectionRef}>{/* <BasicInfo danji={danji} /> */}</InfoSection>
+          <InfoSection ref={infoSectionRef}>
+            <BasicInfo danji={danji} />
+          </InfoSection>
 
           <FacilitiesSection ref={facilitiesSectionRef}>
             <Separator tw="w-full [min-height: 8px]" />
-            {/* <SchoolInfo danji={danji} danjiSchools={danjiSchools} preselectedSchoolType={preselectedSchoolType} /> */}
+            <SchoolInfo danji={danji} danjiSchools={danjiSchools} preselectedSchoolType={preselectedSchoolType} />
             <Separator tw="w-full [min-height: 8px]" />
             {/* <AroundInfo danji={danji} /> */}
           </FacilitiesSection>
@@ -246,8 +249,8 @@ function MobDanjiDetail({
               query2={`${danji.sigungu_name} 부동산`}
             />
           </NewsSection>
-        </div>
-      </div>
+        </RelativeFlexContents>
+      </Container>
     </>
   );
 }

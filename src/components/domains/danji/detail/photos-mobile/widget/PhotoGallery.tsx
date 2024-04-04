@@ -6,19 +6,17 @@ import ArrowButton from './ArrowButton';
 
 import { Image, ImageWrraper, Stack, StyledSwipeableView } from './PhotoGalleryWidget';
 
-import usePhotoGalleryHandlers from './hooks/usePhotoGalleryHandlers';
+import usePhotoGalleryHandlers from '../hooks/usePhotoGalleryHandlers';
 
-import FullScreen from '../FullScreen';
+import FullScreen from '../../full-screen';
 
-export default function PhotoGallery({
-  initialIndex = 0,
-  paths,
-  onClose,
-}: {
+type PhotoGalleryProps = {
   initialIndex: number;
   paths: DanjiPhotoItem[];
   onClose: () => void;
-}) {
+};
+
+export default function PhotoGallery({ initialIndex = 0, paths, onClose }: PhotoGalleryProps) {
   const { index, handleNextIndex, handlePrevIndex, handleUpdateIndex } = usePhotoGalleryHandlers({ initialIndex });
 
   return (

@@ -17,9 +17,14 @@ import {
   Title,
 } from './PhotosDialogWidget';
 
-import usePhotosDialogHandler from './hooks/usePhotosDialogHandler';
+import usePhotosDialogHandler from '../hooks/usePhotosDialogHandler';
 
-export default function PhotosDialog({ paths, onClickBack }: { paths: DanjiPhotoItem[]; onClickBack: () => void }) {
+type PhotosDialogProps = {
+  paths: DanjiPhotoItem[];
+  onClickBack: () => void;
+};
+
+export default function PhotosDialog({ paths, onClickBack }: PhotosDialogProps) {
   const { galleryPhotoIndex, handleUpdateIndex, handleCloseGallery } = usePhotosDialogHandler();
 
   return (

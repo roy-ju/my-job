@@ -6,9 +6,9 @@ import { DanjiPhotoItem } from '@/services/danji/types';
 
 import { Container, BackGround, DefaultContainer, ViewAllButton, DragMotion, ImageWrraper } from './PhotoHeroWidget';
 
-import { transition, variants } from './constants/animations';
+import { transition, variants } from '../constants/animations';
 
-import usePhotoHeroHandler from './hooks/usePhotoHeroHandler';
+import usePhotoHeroHandler from '../hooks/usePhotoHeroHandler';
 
 type PhotoHeroProps = {
   photoPaths: DanjiPhotoItem[];

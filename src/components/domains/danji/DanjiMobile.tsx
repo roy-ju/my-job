@@ -20,11 +20,11 @@ import {
 } from '@/services/danji/types';
 import MobileTemplate from './detail/MobileTemplate';
 
-const InvalidAccess = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/popups/InvalidAccess'), {
+const InvalidAccess = dynamic(() => import('@/components/molecules/CommonPopups/InvalidAccess'), {
   ssr: false,
 });
 
-const FullScreenMap = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/FullScreenMap'), {
+const FullScreenMap = dynamic(() => import('./detail/full-screen-map'), {
   ssr: false,
 });
 
