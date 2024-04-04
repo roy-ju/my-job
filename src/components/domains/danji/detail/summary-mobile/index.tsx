@@ -1,20 +1,16 @@
 import { memo } from 'react';
 
-import { DanjiDetailResponse } from '@/services/danji/types';
+import Name from './widget/Name';
 
-import Name from './Name';
+import Address from './widget/Address';
 
-import Address from './Address';
+import Details from './widget/Details';
 
-import Details from './Details';
+import { Container, PaddingInlineWrraper } from './widget/SummaryWidget';
 
-import { Container, PaddingInlineWrraper } from './SummaryWidget';
+import { CommonDanjiDetailProps } from '../types';
 
-type SummaryProps = {
-  danji: DanjiDetailResponse;
-};
-
-function Summary({ danji }: SummaryProps) {
+function Summary({ danji }: CommonDanjiDetailProps) {
   return (
     <Container>
       <PaddingInlineWrraper>

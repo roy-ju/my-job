@@ -6,9 +6,9 @@ import tw from 'twin.macro';
 
 import NavigationHeader from '@/components/molecules/NavigationHeader';
 
-import { DanjiDetailResponse } from '@/services/danji/types';
-
 import useMobileHeaderHandler from './hooks/useMobileHeaderHandler';
+
+import { CommonDanjiDetailProps } from '../types';
 
 const OverlayPresenter = dynamic(() => import('@/components/molecules/OverlayPresenter'), { ssr: false });
 
@@ -20,7 +20,11 @@ const HeartFilledIcon = dynamic(() => import('@/assets/icons/heart.svg'), { ssr:
 
 const HeartOutlinedIcon = dynamic(() => import('@/assets/icons/heart_outlined.svg'), { ssr: false });
 
-function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeaderActive: boolean }) {
+interface HeaderProps extends CommonDanjiDetailProps {
+  isHeaderActive: boolean;
+}
+
+function Header({ danji, isHeaderActive }: HeaderProps) {
   const {
     popup,
     handleClosePopup,

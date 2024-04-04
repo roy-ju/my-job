@@ -2,15 +2,11 @@ import moment from 'moment';
 
 import { cuttingDot } from '@/utils/fotmat';
 
-import { DanjiDetailResponse } from '@/services/danji/types';
-
 import { RowCenterGapOne, DetailText, HorizontalLine } from './SummaryWidget';
 
-type DetailsProps = {
-  danji: DanjiDetailResponse;
-};
+import { CommonDanjiDetailProps } from '../../types';
 
-export default function Details({ danji }: DetailsProps) {
+export default function Details({ danji }: CommonDanjiDetailProps) {
   return (
     <RowCenterGapOne>
       {danji.total_saedae_count && danji.total_saedae_count !== '0' && (
