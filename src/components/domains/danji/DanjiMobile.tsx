@@ -18,7 +18,8 @@ import {
   DanjiSuggestListResponse,
   NaverDanjiResponse,
 } from '@/services/danji/types';
-import MobileTemplate from './detail/MobileTemplate';
+
+import MobileDanjiTemplate from './detail/MobileDanjiTemplate';
 
 const InvalidAccess = dynamic(() => import('@/components/molecules/CommonPopups/InvalidAccess'), {
   ssr: false,
@@ -28,11 +29,11 @@ const FullScreenMap = dynamic(() => import('./detail/full-screen-map'), {
   ssr: false,
 });
 
-const DanjiAroundDetail = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail'), {
-  ssr: false,
-});
+// const DanjiAroundDetail = dynamic(() => import('./detail/danji-around-detail-mobile'), {
+//   ssr: false,
+// });
 
-const DanjiSchoolDetail = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail'), {
+const DanjiSchoolDetail = dynamic(() => import('./detail/danji-school-detail-mobile'), {
   ssr: false,
 });
 
@@ -88,7 +89,7 @@ const DanjiMobile = ({
     <>
       {data?.danji_id && !isTrue && !isTrueAround && !isTrueSchool && (
         <MobileContainer>
-          <MobileTemplate
+          <MobileDanjiTemplate
             danji={data}
             danjiPhotos={prefetchedPhotosData}
             danjiSuggestList={prefetchedSuggestList}
@@ -107,9 +108,7 @@ const DanjiMobile = ({
       )}
 
       {data?.danji_id && isTrueAround && (
-        <MobileContainer>
-          <DanjiAroundDetail danji={danjiAroundData} />
-        </MobileContainer>
+        <MobileContainer>{/* <DanjiAroundDetail danji={danjiAroundData} /> */}</MobileContainer>
       )}
 
       {data?.danji_id && isTrueSchool && (
