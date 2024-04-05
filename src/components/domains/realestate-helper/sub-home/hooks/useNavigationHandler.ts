@@ -82,79 +82,58 @@ export default function useNavigtaionHandler() {
     [platform],
   );
 
-  const handleNavigateSubPage = useCallback(
+  const handleNavigateSubPageRealestateDocument = useCallback(() => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
+    if (!user) {
+      openAuthPopup('onlyLogin');
+      handleUpdateReturnUrl(makeUrl('documentList'));
+      return;
+    }
+
+    router.push(makeUrl('documentList'));
+  }, [
+    handleOpenAppInstallPopup,
+    handleUpdateReturnUrl,
+    inAppInfo.isInAppBrowser,
+    makeUrl,
+    openAuthPopup,
+    router,
+    user,
+  ]);
+
+  const handleNavigateSubPageNotRealestateDocument = useCallback(
     (link: string) => {
-      if (inAppInfo.isInAppBrowser) {
-        handleOpenAppInstallPopup();
-        return;
-      }
-
-      if (!user) {
-        openAuthPopup('onlyLogin');
-        handleUpdateReturnUrl(link);
-        return;
-      }
-
       router.push(link);
     },
-    [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, router, user],
+    [router],
   );
 
   const handleNavigateDictDetail = useCallback(
     (id: number) => {
-      if (inAppInfo.isInAppBrowser) {
-        handleOpenAppInstallPopup();
-        return;
-      }
-
       const url =
         platform === 'pc'
           ? `/${Routes.SubHome}/${Routes.DictionaryDetail}?dictID=${id}`
           : `/${Routes.EntryMobile}/${Routes.DictionaryDetail}?dictID=${id}`;
 
-      if (!user) {
-        openAuthPopup('onlyLogin');
-        handleUpdateReturnUrl(`${url}&entry=subhome`);
-        return;
-      }
-
       router.push(`${url}&entry=subhome`);
     },
-    [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, platform, router, user],
+    [platform, router],
   );
 
   const handleNavigateCommonSenseDetail = useCallback(
     (link: string) => {
-      if (inAppInfo.isInAppBrowser) {
-        handleOpenAppInstallPopup();
-      }
-
-      if (!user) {
-        const url =
-          platform === 'pc'
-            ? `/${Routes.SubHome}/${Routes.CommonSense}`
-            : `/${Routes.EntryMobile}/${Routes.CommonSense}`;
-
-        openAuthPopup('onlyLogin');
-        handleUpdateReturnUrl(url);
-        return;
-      }
-
       openWindowWithLink(link);
     },
-    [
-      handleOpenAppInstallPopup,
-      handleUpdateReturnUrl,
-      inAppInfo.isInAppBrowser,
-      openAuthPopup,
-      openWindowWithLink,
-      platform,
-      user,
-    ],
+    [openWindowWithLink],
   );
 
   return {
-    handleNavigateSubPage,
+    handleNavigateSubPageRealestateDocument,
+    handleNavigateSubPageNotRealestateDocument,
     handleNavigateDictDetail,
     handleNavigateCommonSenseDetail,
     makeUrl,

@@ -2,8 +2,6 @@ import Head from 'next/head';
 
 import SpecialTerms from '@/components/domains/realestate-helper/SpecialTerms';
 
-import MobAuthRequired from '@/components/atoms/MobAuthRequired';
-
 import MobileContainer from '@/components/atoms/MobileContainer';
 
 import Paths from '@/constants/paths';
@@ -29,11 +27,9 @@ export default function SpecialTermsMobile() {
         <meta property="og:type" content="website" />
         <meta property="og:image" content={Paths.DEFAULT_OPEN_GRAPH_IMAGE_1} />
       </Head>
-      <MobAuthRequired>
-        <MobileContainer>
-          <SpecialTerms />
-        </MobileContainer>
-      </MobAuthRequired>
+      <MobileContainer>
+        <SpecialTerms />
+      </MobileContainer>
     </>
   );
 }
