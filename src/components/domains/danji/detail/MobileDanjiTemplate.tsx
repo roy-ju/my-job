@@ -40,7 +40,7 @@ import { Container, HeaderWrraper } from './widget/MobileTemplateWidget';
 
 import { CommonDanjiDetailProps } from './types';
 
-// const Realprice = dynamic(() => import('./Components/realprice'), { ssr: false });
+const Realprice = dynamic(() => import('./real-price-mobile'), { ssr: false });
 
 const AroundInfo = dynamic(() => import('./around-info-mobile'), { ssr: false });
 
@@ -109,12 +109,12 @@ function MobileDanjiTemplate({
             />
           </ListingsSection>
           <RealPriceSection ref={realPriceSectionRef}>
-            {/* <Realprice
+            <Realprice
               danji={danji}
               isShowRpTab={showRealPriceTab}
               setLoadingRp={setLoadingRealprice}
               setIsShowRpTab={setShowRealPriceTab}
-            /> */}
+            />
           </RealPriceSection>
           <InfoSection ref={infoSectionRef}>
             <BasicInfo danji={danji} />
