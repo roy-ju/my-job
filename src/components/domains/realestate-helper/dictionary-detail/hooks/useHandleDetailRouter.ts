@@ -4,42 +4,15 @@ import { useRouter } from 'next/router';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-import useAuth from '@/hooks/services/useAuth';
-
-import useAuthPopup from '@/states/hooks/useAuhPopup';
-
-import useReturnUrl from '@/states/hooks/useReturnUrl';
-
-import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
-
 import Routes from '@/router/routes';
 
 export default function useHandleDetailRouter() {
-  const { user } = useAuth();
-
-  const { openAuthPopup } = useAuthPopup();
-
-  const { handleUpdateReturnUrl } = useReturnUrl();
-
-  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
-
   const { platform } = useCheckPlatform();
 
   const router = useRouter();
 
   const handleGoDictList = useCallback(() => {
     const url = platform === 'pc' ? `/${Routes.Dictionary}` : `/${Routes.EntryMobile}/${Routes.Dictionary}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      handleUpdateReturnUrl(url);
-      openAuthPopup('onlyLogin');
-      return;
-    }
 
     if (typeof window !== 'undefined') {
       const canGoBack = window.history.length > 1;
@@ -50,15 +23,7 @@ export default function useHandleDetailRouter() {
         router.replace(url);
       }
     }
-  }, [
-    user,
-    inAppInfo.isInAppBrowser,
-    platform,
-    router,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-    openAuthPopup,
-  ]);
+  }, [platform, router]);
 
   const handleGoDictDetail = useCallback(
     (e: MouseEvent<HTMLButtonElement>) => {
@@ -74,17 +39,6 @@ export default function useHandleDetailRouter() {
             : `/${depth1}?dictID=${value}`
           : `/${Routes.EntryMobile}/${Routes.DictionaryDetail}?dictID=${value}`;
 
-      if (!user && inAppInfo.isInAppBrowser) {
-        handleOpenAppInstallPopup();
-        return;
-      }
-
-      if (!user) {
-        handleUpdateReturnUrl(url);
-        openAuthPopup('onlyLogin');
-        return;
-      }
-
       if (platform === 'pc') {
         const query = router.query;
 
@@ -98,7 +52,7 @@ export default function useHandleDetailRouter() {
         router.replace(url);
       }
     },
-    [user, inAppInfo.isInAppBrowser, platform, router, handleOpenAppInstallPopup, handleUpdateReturnUrl, openAuthPopup],
+    [platform, router],
   );
 
   return { handleGoDictList, handleGoDictDetail };

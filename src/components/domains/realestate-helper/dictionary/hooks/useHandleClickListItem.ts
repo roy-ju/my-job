@@ -6,23 +6,7 @@ import Routes from '@/router/routes';
 
 import { useRouter } from 'next/router';
 
-import useAuthPopup from '@/states/hooks/useAuhPopup';
-
-import useAuth from '@/hooks/services/useAuth';
-
-import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
-
-import useReturnUrl from '@/states/hooks/useReturnUrl';
-
 export default function useHandleClickListItem({ id }: { id: number }) {
-  const { user } = useAuth();
-
-  const { openAuthPopup } = useAuthPopup();
-
-  const { handleUpdateReturnUrl } = useReturnUrl();
-
-  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
-
   const router = useRouter();
 
   const { platform } = useCheckPlatform();
@@ -32,17 +16,6 @@ export default function useHandleClickListItem({ id }: { id: number }) {
       platform === 'pc'
         ? `/${Routes.SubHome}/${Routes.DictionaryDetail}?dictID=${id}`
         : `/${Routes.EntryMobile}/${Routes.DictionaryDetail}?dictID=${id}`;
-
-    if (!user && inAppInfo.isInAppBrowser) {
-      handleOpenAppInstallPopup();
-      return;
-    }
-
-    if (!user) {
-      handleUpdateReturnUrl(url);
-      openAuthPopup('onlyLogin');
-      return;
-    }
 
     if (platform === 'pc') {
       const depth1 = router?.query?.depth1 ?? '';
@@ -65,16 +38,7 @@ export default function useHandleClickListItem({ id }: { id: number }) {
     } else if (platform === 'mobile') {
       router.replace(url);
     }
-  }, [
-    platform,
-    id,
-    user,
-    inAppInfo.isInAppBrowser,
-    router,
-    handleOpenAppInstallPopup,
-    handleUpdateReturnUrl,
-    openAuthPopup,
-  ]);
+  }, [platform, id, router]);
 
   return { handleClickListItem };
 }
