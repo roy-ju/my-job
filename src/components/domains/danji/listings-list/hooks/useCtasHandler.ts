@@ -13,21 +13,24 @@ export default function useCtasHandler({ danjiID }: { danjiID: number }) {
 
   const handleClickDanjiDetailButton = useCallback(() => {
     if (platform === 'pc') {
-      router.push({
-        pathname: `/${Routes.DanjiDetail}`,
-        query: {
-          danjiID: `${danjiID}`,
-        },
-      });
+      router.push(`/${Routes.DanjiDetail}/${danjiID}`);
+      // router.push({
+      //   pathname: `/${Routes.DanjiDetail}`,
+      //   query: {
+      //     danjiID: `${danjiID}`,
+      //   },
+      // });
     }
 
     if (platform === 'mobile') {
-      router.push({
-        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
-        query: {
-          danjiID: `${danjiID}`,
-        },
-      });
+      router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${danjiID}`);
+
+      // router.push({
+      //   pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
+      //   query: {
+      //     danjiID: `${danjiID}`,
+      //   },
+      // });
     }
   }, [platform, router, danjiID]);
 
