@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -26,18 +26,12 @@ import { apiService } from '@/services';
 
 import { DanjiDetailResponse } from '@/services/danji/types';
 
-export default function useMobileHeaderHandler({ danji }: { danji: DanjiDetailResponse }) {
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+export default function useHeaderHandler({ danji }: { danji: DanjiDetailResponse }) {
+  const { platform } = useCheckPlatform();
+
   const router = useRouter();
-
-  const handleClickBack = () => {
-    const canGoBack = window.history.length > 1;
-
-    if (canGoBack) {
-      router.back();
-    } else {
-      router.replace(`/${Routes.EntryMobile}`);
-    }
-  };
 
   const [popup, setPopup] = useState(false);
 
@@ -48,6 +42,20 @@ export default function useMobileHeaderHandler({ danji }: { danji: DanjiDetailRe
   const { handleUpdateReturnUrl } = useReturnUrl();
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
+
+  const isRenderBackButton = useMemo(() => platform !== 'pc', [platform]);
+
+  const handleClickBack = () => {
+    if (platform === 'pc') return;
+
+    const canGoBack = window.history.length > 1;
+
+    if (canGoBack) {
+      router.back();
+    } else {
+      router.replace(platform === 'pc' ? `/` : `/${Routes.EntryMobile}`);
+    }
+  };
 
   const handleClosePopup = useCallback(() => {
     setPopup(false);
@@ -126,7 +134,7 @@ export default function useMobileHeaderHandler({ danji }: { danji: DanjiDetailRe
   const handleShareViaKakao = () => {
     if (!danji) return;
 
-    const link = `${window.origin}/danjiDetail?danjiID=${danji.danji_id}`;
+    const link = `${window.origin}/danji/${danji.danji_id}`;
 
     kakaoShare({
       width: 1200,
@@ -147,7 +155,7 @@ export default function useMobileHeaderHandler({ danji }: { danji: DanjiDetailRe
 
     const content = `[네고시오] ${danji?.name}\n► ${danji?.road_name_address ?? danji?.jibun_address}\n\n${
       window.origin
-    }/danjiDetail?danjiID=${danji.danji_id}`;
+    }/danji/${danji.danji_id}`;
 
     navigator.clipboard.writeText(content);
 
@@ -157,6 +165,7 @@ export default function useMobileHeaderHandler({ danji }: { danji: DanjiDetailRe
   };
 
   return {
+    isRenderBackButton,
     popup,
     handleClosePopup,
     handleClickBack,

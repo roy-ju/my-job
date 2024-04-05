@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-import DanjiMobile from '@/components/pages/Danji/DanjiMobile';
+import DanjiPc from '@/components/pages/Danji/DanjiPc';
 
 import {
   DanjiDetailResponse,
@@ -16,6 +16,8 @@ import {
 import { checkPlatform } from '@/utils/checkPlatform';
 
 import fetcher from '@/lib/swr/fetcher';
+
+import { MapLayout } from '@/layouts';
 
 const Page: NextPageWithLayout<{
   prefetchedData?: DanjiDetailResponse;
@@ -34,15 +36,17 @@ const Page: NextPageWithLayout<{
   preselectedSchoolType,
   prefetchedDanjiSchoolData,
 }) => (
-  <DanjiMobile
-    prefetchedData={prefetchedData}
-    prefetchedPhotosData={prefetchedPhotosData}
-    prefetchedSuggestList={prefetchedSuggestList}
-    prefetchedListingList={prefetchedListingList}
-    prefetchedNaverDanji={prefetchedNaverDanji}
-    prefetchedDanjiSchoolData={prefetchedDanjiSchoolData}
-    preselectedSchoolType={preselectedSchoolType}
-  />
+  <MapLayout>
+    <DanjiPc
+      prefetchedData={prefetchedData}
+      prefetchedPhotosData={prefetchedPhotosData}
+      prefetchedSuggestList={prefetchedSuggestList}
+      prefetchedListingList={prefetchedListingList}
+      prefetchedNaverDanji={prefetchedNaverDanji}
+      prefetchedDanjiSchoolData={prefetchedDanjiSchoolData}
+      preselectedSchoolType={preselectedSchoolType}
+    />
+  </MapLayout>
 );
 
 Page.getLayout = function getLayout(page) {

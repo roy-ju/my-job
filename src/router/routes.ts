@@ -12,7 +12,7 @@ const Routes = {
   DanjiListings: 'danjiListings',
 
   /** 단지 상세 */
-  DanjiDetail: 'danjiDetail',
+  DanjiDetail: 'danji',
   /** 단지 사진 */
   DanjiPhotos: 'danjiPhotos',
   /** 평형별 실거래 내역 */
@@ -175,6 +175,9 @@ const Routes = {
 
   /** 실제로 존재하는 url은 아니다. 핸들링을 필요한 클라이언트 루트 */
   Home: 'home',
+
+  /** 과거 단지 상세 */
+  PAST_DanjiDetail: 'danjiDetail',
 
   /** 과거 매물추천과 관련된 Routes들 존재하면 안되는 페이지 */
   PAST_RecommedationGuide: 'recommendGuide',

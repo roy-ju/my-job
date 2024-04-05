@@ -6,7 +6,7 @@ import tw from 'twin.macro';
 
 import NavigationHeader from '@/components/molecules/NavigationHeader';
 
-import useMobileHeaderHandler from './hooks/useMobileHeaderHandler';
+import useHeaderHandler from './hooks/useHeaderHandler';
 
 import { CommonDanjiDetailProps } from '../types';
 
@@ -26,6 +26,7 @@ interface HeaderProps extends CommonDanjiDetailProps {
 
 function Header({ danji, isHeaderActive }: HeaderProps) {
   const {
+    isRenderBackButton,
     popup,
     handleClosePopup,
     handleClickBack,
@@ -33,7 +34,7 @@ function Header({ danji, isHeaderActive }: HeaderProps) {
     handleClickShare,
     handleCopyUrl,
     handleShareViaKakao,
-  } = useMobileHeaderHandler({ danji });
+  } = useHeaderHandler({ danji });
 
   return (
     <>
@@ -44,10 +45,14 @@ function Header({ danji, isHeaderActive }: HeaderProps) {
           isHeaderActive && tw`bg-white text-gray-1000`,
         ]}
       >
-        <NavigationHeader.BackButton isHeaderActive={!isHeaderActive} onClick={handleClickBack} />
+        {isRenderBackButton && (
+          <NavigationHeader.BackButton isHeaderActive={!isHeaderActive} onClick={handleClickBack} />
+        )}
+
         <NavigationHeader.Title tw="text-inherit">
           <h1>{danji.name}</h1>
         </NavigationHeader.Title>
+
         <div tw="flex gap-4">
           <NavigationHeader.Button onClick={handleClickShare}>
             <ShareIcon tw="text-inherit" />
@@ -57,6 +62,7 @@ function Header({ danji, isHeaderActive }: HeaderProps) {
           </NavigationHeader.Button>
         </div>
       </NavigationHeader>
+
       {popup && (
         <OverlayPresenter>
           <SharePopup

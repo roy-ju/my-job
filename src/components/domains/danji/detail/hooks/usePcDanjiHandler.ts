@@ -1,10 +1,18 @@
-import { useCallback, useRef, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-return-assign */
+import { useRef, useState, useCallback } from 'react';
 
-import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
 import useScroll from '@/hooks/useScroll';
 
-export default function useMobileDanjiHandler() {
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
+
+export default function usePcDanjiHandler({ danji }: { danji: DanjiDetailResponse }) {
+  const interactStore = useDanjiInteraction({ danjiData: danji });
+
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
   const listingsSectionRef = useRef<HTMLDivElement | null>(null);
@@ -12,6 +20,8 @@ export default function useMobileDanjiHandler() {
   const realPriceSectionRef = useRef<HTMLDivElement | null>(null);
   const facilitiesSectionRef = useRef<HTMLDivElement | null>(null);
   const newsSectionRef = useRef<HTMLDivElement | null>(null);
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [loadingRealprice, setLoadingRealprice] = useState(true);
@@ -26,6 +36,8 @@ export default function useMobileDanjiHandler() {
     facilitiesSection: false,
     newsSection: false,
   });
+
+  const [bottomReached, setBottomReached] = useState(false);
 
   useScroll(scrollContainer, ({ scrollY }) => {
     setIsHeaderActive(scrollY > 0);
@@ -80,7 +92,7 @@ export default function useMobileDanjiHandler() {
           }));
         });
       },
-      { rootMargin: '-104px 0px -104px 0px', threshold: 0.1 },
+      { rootMargin: '-103px 0px -103px 0px', threshold: 0.1 },
     );
 
     if (listingsSectionRef?.current) {
@@ -109,6 +121,32 @@ export default function useMobileDanjiHandler() {
   }, [listingsSectionRef, realPriceSectionRef, infoSectionRef, facilitiesSectionRef, newsSectionRef]);
 
   useIsomorphicLayoutEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((item) => {
+          const targetID = item.target.id;
+          const idPrefix = 'negocio-danjidetail-';
+
+          const { isIntersecting } = item;
+
+          if (targetID === `${idPrefix}bottom`) {
+            setBottomReached(isIntersecting);
+          }
+        });
+      },
+      { rootMargin: '0px 0px 0px 0px', threshold: 0.1 },
+    );
+
+    if (bottomRef.current) {
+      observer.observe(bottomRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [loadingRealprice]);
+
+  useIsomorphicLayoutEffect(() => {
     let i = 0;
 
     if (visibleState.listingsSection === true) {
@@ -129,6 +167,40 @@ export default function useMobileDanjiHandler() {
     }
   }, [visibleState]);
 
+  useIsomorphicLayoutEffect(
+    () => () => {
+      interactStore.makeDataReset();
+    },
+    [],
+  );
+
+  useIsomorphicLayoutEffect(() => {
+    let i = 0;
+
+    if (bottomReached) {
+      i = 4;
+      setTabIndex(i);
+      return;
+    }
+
+    if (visibleState.listingsSection === true) {
+      i = 0;
+      setTabIndex(i);
+    } else if (visibleState.realPriceSection === true) {
+      i = 1;
+      setTabIndex(i);
+    } else if (visibleState.infoSection === true) {
+      i = 2;
+      setTabIndex(i);
+    } else if (visibleState.facilitiesSection === true) {
+      i = 3;
+      setTabIndex(i);
+    } else if (visibleState.newsSection === true) {
+      i = 4;
+      setTabIndex(i);
+    }
+  }, [bottomReached, showRealPriceTab, visibleState]);
+
   return {
     scrollContainer,
 
@@ -137,6 +209,7 @@ export default function useMobileDanjiHandler() {
     realPriceSectionRef,
     facilitiesSectionRef,
     newsSectionRef,
+    bottomRef,
 
     isHeaderActive,
 
@@ -148,5 +221,7 @@ export default function useMobileDanjiHandler() {
 
     loadingRealprice,
     setLoadingRealprice,
+
+    bottomReached,
   };
 }
