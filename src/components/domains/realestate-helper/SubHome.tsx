@@ -35,8 +35,13 @@ import Dict from './sub-home/Dict';
 import { LastVirtualDiv, Seperator } from './sub-home/widget/SubHomeWidget';
 
 export default function SubHome() {
-  const { handleNavigateSubPage, makeUrl, handleNavigateDictDetail, handleNavigateCommonSenseDetail } =
-    useNavigationHandler();
+  const {
+    handleNavigateSubPageRealestateDocument,
+    handleNavigateSubPageNotRealestateDocument,
+    handleNavigateDictDetail,
+    handleNavigateCommonSenseDetail,
+    makeUrl,
+  } = useNavigationHandler();
 
   const { isLoading, list1, list2 } = useFetchSubHomeDashboardInfo();
 
@@ -63,31 +68,31 @@ export default function SubHome() {
         ref={containerRef}
       >
         <Preview
-          handleNavigateTradeProcess={() => handleNavigateSubPage(makeUrl('tradeProcess'))}
-          handleNavigateDeungibu={() => handleNavigateSubPage(makeUrl('documentList'))}
-          handleNavigateCheckList={() => handleNavigateSubPage(makeUrl('listingCheckList'))}
-          handleNavigateSpecialTerms={() => handleNavigateSubPage(makeUrl('specialTerms'))}
-          handleNavigateCommonSense={() => handleNavigateSubPage(makeUrl('commonSense'))}
-          handleNavigateDict={() => handleNavigateSubPage(makeUrl('dict'))}
+          handleNavigateTradeProcess={() => handleNavigateSubPageNotRealestateDocument(makeUrl('tradeProcess'))}
+          handleNavigateDeungibu={handleNavigateSubPageRealestateDocument}
+          handleNavigateCheckList={() => handleNavigateSubPageNotRealestateDocument(makeUrl('listingCheckList'))}
+          handleNavigateSpecialTerms={() => handleNavigateSubPageNotRealestateDocument(makeUrl('specialTerms'))}
+          handleNavigateCommonSense={() => handleNavigateSubPageNotRealestateDocument(makeUrl('commonSense'))}
+          handleNavigateDict={() => handleNavigateSubPageNotRealestateDocument(makeUrl('dict'))}
         />
         <MarginTopTwenty />
-        <Process handleClick={() => handleNavigateSubPage(makeUrl('tradeProcess'))} />
+        <Process handleClick={() => handleNavigateSubPageNotRealestateDocument(makeUrl('tradeProcess'))} />
         <Seperator />
         <Required
-          handleNavigateDeungibu={() => handleNavigateSubPage(makeUrl('documentList'))}
-          handleNavigateCheckList={() => handleNavigateSubPage(makeUrl('listingCheckList'))}
-          handleNavigateSpecialTerms={() => handleNavigateSubPage(makeUrl('specialTerms'))}
+          handleNavigateDeungibu={handleNavigateSubPageRealestateDocument}
+          handleNavigateCheckList={() => handleNavigateSubPageNotRealestateDocument(makeUrl('listingCheckList'))}
+          handleNavigateSpecialTerms={() => handleNavigateSubPageNotRealestateDocument(makeUrl('specialTerms'))}
         />
         <Seperator />
         <CommonSense
           list={list1}
-          handleNavigateCommonSense={() => handleNavigateSubPage(makeUrl('commonSense'))}
+          handleNavigateCommonSense={() => handleNavigateSubPageNotRealestateDocument(makeUrl('commonSense'))}
           handleNavigateCommonSenseDetail={handleNavigateCommonSenseDetail}
         />
         <Seperator />
         <Dict
           list={list2}
-          handleNavigateDict={() => handleNavigateSubPage(makeUrl('dict'))}
+          handleNavigateDict={() => handleNavigateSubPageNotRealestateDocument(makeUrl('dict'))}
           handleNavigateDictDetail={handleNavigateDictDetail}
         />
         <LastVirtualDiv />

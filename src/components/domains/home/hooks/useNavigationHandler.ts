@@ -86,22 +86,34 @@ export default function useNavigationHandler() {
     }
   }, [platform, router]);
 
-  const handleNavigateSubPage = useCallback(
+  const handleNavigateSubPageRealestateDocument = useCallback(() => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
+    if (!user) {
+      openAuthPopup('onlyLogin');
+      handleUpdateReturnUrl(makeUrl('documentList'));
+      return;
+    }
+
+    router.push(makeUrl('documentList'));
+  }, [
+    handleOpenAppInstallPopup,
+    handleUpdateReturnUrl,
+    inAppInfo.isInAppBrowser,
+    makeUrl,
+    openAuthPopup,
+    router,
+    user,
+  ]);
+
+  const handleNavigateSubPageNotRealestateDocument = useCallback(
     (link: string) => {
-      if (inAppInfo.isInAppBrowser) {
-        handleOpenAppInstallPopup();
-        return;
-      }
-
-      if (!user) {
-        openAuthPopup('onlyLogin');
-        handleUpdateReturnUrl(link);
-        return;
-      }
-
       router.push(link);
     },
-    [handleOpenAppInstallPopup, handleUpdateReturnUrl, inAppInfo.isInAppBrowser, openAuthPopup, router, user],
+    [router],
   );
 
   const handleNavigateLawQna = () => {
@@ -112,5 +124,11 @@ export default function useNavigationHandler() {
     }
   };
 
-  return { makeUrl, handleNavigateSubPage, handleNavigateSubHomeAll, handleNavigateLawQna };
+  return {
+    makeUrl,
+    handleNavigateSubPageRealestateDocument,
+    handleNavigateSubPageNotRealestateDocument,
+    handleNavigateSubHomeAll,
+    handleNavigateLawQna,
+  };
 }
