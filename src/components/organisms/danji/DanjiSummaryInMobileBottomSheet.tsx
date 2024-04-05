@@ -70,11 +70,10 @@ const DanjiSummaryInMobileBottomSheet = React.memo(
           pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
           query: {
             danjiID: selectedDanjiSummary?.danjiID,
-
             bor: filter?.buyOrRents || '',
           },
         },
-        `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${selectedDanjiSummary?.danjiID}`,
+        `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${selectedDanjiSummary?.danjiID}`,
       );
     };
 
