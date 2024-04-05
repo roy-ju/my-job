@@ -15,6 +15,8 @@ export default function MobRealPriceDetail() {
   const [buyOrRent, setBuyOrRent] = useState<number>();
   const [selectedYear, setSelectedYear] = useState<number>();
 
+  console.log(router);
+
   const { danji } = useAPI_GetDanjiDetail({
     danjiId: router?.query?.danjiID ? Number(router.query.danjiID) : undefined,
   });
@@ -47,12 +49,16 @@ export default function MobRealPriceDetail() {
     if (canGoBack) {
       router.back();
     } else {
-      router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${router.query.danjiID}`);
+
+      // router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
     }
   }, [router]);
 
   const handleClickTitle = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${router.query.danjiID}`);
+
+    // router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
   }, [router]);
 
   useEffect(() => {

@@ -63,7 +63,9 @@ export default function RealPriceDetail({ depth }: { depth: number }) {
   }, [router.query]);
 
   const onCliCkTitle = useCallback(() => {
-    nextRouter.replace(`/${Routes.DanjiDetail}?danjiID=${nextRouter?.query?.danjiID}`);
+    // nextRouter.replace(`/${Routes.DanjiDetail}?danjiID=${nextRouter?.query?.danjiID}`);
+
+    nextRouter.replace(`/${Routes.DanjiDetail}/${nextRouter?.query?.danjiID}`);
   }, [nextRouter]);
 
   return (

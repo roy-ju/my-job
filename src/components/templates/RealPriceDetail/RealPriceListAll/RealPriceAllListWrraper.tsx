@@ -114,10 +114,14 @@ export function RealPriceAllListWrraper({ danji, buyOrRent }: { danji?: GetDanji
   const onClickItem = useCallback(
     (danjiID: number) => {
       if (platform === 'pc') {
-        nextRouter.push(`/${Routes.DanjiDetail}?danjiID=${danjiID}`);
+        // nextRouter.push(`/${Routes.DanjiDetail}?danjiID=${danjiID}`);
+
+        nextRouter.push(`/${Routes.DanjiDetail}/${danjiID}`);
       }
       if (platform === 'mobile') {
-        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
+        // nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
+
+        nextRouter.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${danjiID}`);
       }
     },
     [nextRouter, platform],
