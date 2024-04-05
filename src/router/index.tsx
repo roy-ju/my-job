@@ -143,10 +143,10 @@ const Qna = dynamic(() => import('@/components/pages/Qna/QnaPc'), {
   loading: FallbackComponent,
 });
 
-const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+// const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
+//   ssr: false,
+//   loading: FallbackComponent,
+// });
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
   loading: FallbackComponent,
   ssr: false,
@@ -562,9 +562,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.ChatRoomReport: {
       return <ChatRoomReport key={query.chatRoomID as string} {...props} />;
     }
-    case Routes.DanjiDetail: {
-      return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
-    }
+    // case Routes.DanjiDetail: {
+    //   return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
+    // }
     case Routes.DanjiPhotos: {
       return <DanjiPhotos key={`${query.danjiID}`} {...props} />;
     }

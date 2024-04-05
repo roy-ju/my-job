@@ -34,8 +34,6 @@ export default function useConvertedStatusGraph({
     year: selectedYear,
   });
 
-  console.log(buyOrRent, selectedYear);
-
   const { listSido, isLoading: statusSidoLoading } = useFetchDanjiStatusGraphSido({
     danjiId: danji.danji_id,
     realestateType: danji.type,

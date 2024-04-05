@@ -162,6 +162,7 @@ export default function DanjiDetailHeader({
         <NavigationHeader.Title tw="text-inherit">
           <h1>{danji.name}</h1>
         </NavigationHeader.Title>
+
         <div tw="flex gap-4">
           <NavigationHeader.Button onClick={handleClickShare}>
             <ShareIcon tw="text-inherit" />
@@ -171,6 +172,7 @@ export default function DanjiDetailHeader({
           </NavigationHeader.Button>
         </div>
       </NavigationHeader>
+
       {popup && (
         <OverlayPresenter>
           <SharePopup

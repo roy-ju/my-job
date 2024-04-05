@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 
 import dynamic from 'next/dynamic';
 
+import tw, { styled } from 'twin.macro';
+
 import Separator from '@/components/atoms/Separator';
 
 import RelativeFlexContents from '@/components/atoms/RelativeFlexContents';
@@ -16,35 +18,46 @@ import {
   NaverDanjiResponse,
 } from '@/services/danji/types';
 
-import useMobileDanjiHandler from './hooks/useMobileDanjiHandler';
+import { Router, useRouter } from 'next/router';
+import {
+  ListingsSection,
+  RealPriceSection,
+  InfoSection,
+  FacilitiesSection,
+  NewsSection,
+} from './detail/section-containers';
 
-import { ListingsSection, RealPriceSection, InfoSection, FacilitiesSection, NewsSection } from './section-containers';
+import Header from './detail/header';
 
-import Header from './header-mobile';
+import Photos from './detail/photos-mobile';
 
-import Photos from './photos-mobile';
+import TabsMobile from './detail/tabs-mobile';
 
-import TabsMobile from './tabs-mobile';
+import Summary from './detail/summary-mobile';
 
-import Summary from './summary-mobile';
+import SuggestsOrListings from './detail/suggests-or-listings-mobile';
 
-import SuggestsOrListings from './suggests-or-listings-mobile';
+import BasicInfo from './detail/basic-info-pc';
 
-import BasicInfo from './basic-info-mobile';
+import SchoolInfo from './detail/school-info-mobile';
 
-import SchoolInfo from './school-info-mobile';
+import News from './detail/news';
 
-import News from './news';
+import { Container, HeaderWrraper } from './detail/widget/MobileTemplateWidget';
 
-import { Container, HeaderWrraper } from './widget/MobileTemplateWidget';
+import { CommonDanjiDetailProps } from './detail/types';
 
-import { CommonDanjiDetailProps } from './types';
+import usePcDanjiHandler from './detail/hooks/usePcDanjiHandler';
 
-const Realprice = dynamic(() => import('./real-price-mobile'), { ssr: false });
+const BottomDiv = styled.div`
+  ${tw`[height: 10px]`}
+`;
 
-const AroundInfo = dynamic(() => import('./around-info-mobile'), { ssr: false });
+const Realprice = dynamic(() => import('./detail/real-price-mobile'), { ssr: false });
 
-interface MobDanjiDetailProps extends CommonDanjiDetailProps {
+const AroundInfo = dynamic(() => import('./detail/around-info-mobile'), { ssr: false });
+
+interface DanjiDetailProps extends CommonDanjiDetailProps {
   danjiPhotos?: DanjiPhotosResponse;
   danjiSuggestList?: DanjiSuggestListResponse;
   danjiListingList?: DanjiListingListResponse;
@@ -53,7 +66,7 @@ interface MobDanjiDetailProps extends CommonDanjiDetailProps {
   danjiSchools?: DanjiSchoolsResponse;
 }
 
-function MobileDanjiTemplate({
+function DanjiDetailPc({
   danji,
   danjiPhotos,
   danjiSuggestList,
@@ -61,7 +74,8 @@ function MobileDanjiTemplate({
   naverDanji,
   preselectedSchoolType,
   danjiSchools,
-}: MobDanjiDetailProps) {
+}: DanjiDetailProps) {
+  console.log(useRouter());
   const {
     scrollContainer,
 
@@ -70,6 +84,7 @@ function MobileDanjiTemplate({
     realPriceSectionRef,
     facilitiesSectionRef,
     newsSectionRef,
+    bottomRef,
 
     isHeaderActive,
 
@@ -81,7 +96,7 @@ function MobileDanjiTemplate({
 
     loadingRealprice,
     setLoadingRealprice,
-  } = useMobileDanjiHandler();
+  } = usePcDanjiHandler({ danji });
 
   return (
     <>
@@ -89,6 +104,7 @@ function MobileDanjiTemplate({
         <HeaderWrraper>
           <Header danji={danji} isHeaderActive={isHeaderActive} />
         </HeaderWrraper>
+
         <RelativeFlexContents id="scroll-container" ref={scrollContainer}>
           <Photos danji={danji} danjiPhotos={danjiPhotos} />
           <TabsMobile
@@ -132,10 +148,11 @@ function MobileDanjiTemplate({
               query2={`${danji.sigungu_name} 부동산`}
             />
           </NewsSection>
+          <BottomDiv id="negocio-danjidetail-bottom" ref={bottomRef} />
         </RelativeFlexContents>
       </Container>
     </>
   );
 }
 
-export default memo(MobileDanjiTemplate);
+export default memo(DanjiDetailPc);
