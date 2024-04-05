@@ -51,7 +51,12 @@ const PreviewButton = styled.button`
 `;
 
 export default function RealestateHelper() {
-  const { makeUrl, handleNavigateSubPage, handleNavigateSubHomeAll } = useNavigationHandler();
+  const {
+    makeUrl,
+    handleNavigateSubPageRealestateDocument,
+    handleNavigateSubPageNotRealestateDocument,
+    handleNavigateSubHomeAll,
+  } = useNavigationHandler();
 
   return (
     <SectionContainer>
@@ -76,10 +81,9 @@ export default function RealestateHelper() {
           id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_REALESTATE_DOCUMENT}
           type="button"
           tw="text-yellow-1000 border-yellow-300 [background: rgba(255, 245, 217, 0.6)] [min-width: 161.5px]"
-          onClick={() => handleNavigateSubPage(makeUrl('documentList'))}
+          onClick={handleNavigateSubPageRealestateDocument}
         >
           <Image src={FolderImage.src} width={42} height={42} alt="folder" />
-
           <div tw="flex-col">
             <p tw="whitespace-nowrap">무료</p>
             <p tw="whitespace-nowrap">등기부 조회</p>
@@ -89,7 +93,7 @@ export default function RealestateHelper() {
           id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_LISTING_CHECKLIST}
           type="button"
           tw="text-green-800 border-green-300 [background: rgba(227, 252, 237, 0.6)] [min-width: 161.5px]"
-          onClick={() => handleNavigateSubPage(makeUrl('listingCheckList'))}
+          onClick={() => handleNavigateSubPageNotRealestateDocument(makeUrl('listingCheckList'))}
         >
           <Image src={CheckImage.src} width={42} height={42} alt="check" />
 
@@ -104,7 +108,7 @@ export default function RealestateHelper() {
 
       <Flex tw="gap-5 px-4 justify-between">
         <PreviewIconWrraper
-          onClick={() => handleNavigateSubPage(makeUrl('tradeProcess'))}
+          onClick={() => handleNavigateSubPageNotRealestateDocument(makeUrl('tradeProcess'))}
           id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_TRADE_PROCESS}
         >
           <Image src={RunningImage.src} width={56} height={56} alt="runningImage" tw="h-14" />
@@ -112,21 +116,21 @@ export default function RealestateHelper() {
         </PreviewIconWrraper>
         <PreviewIconWrraper
           id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_COMMON_SENSE}
-          onClick={() => handleNavigateSubPage(makeUrl('commonSense'))}
+          onClick={() => handleNavigateSubPageNotRealestateDocument(makeUrl('commonSense'))}
         >
           <Image src={BulbImage.src} width={56} height={56} alt="bulbImage" tw="h-14" />
           상식
         </PreviewIconWrraper>
         <PreviewIconWrraper
           id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_COMMON_SENSE}
-          onClick={() => handleNavigateSubPage(makeUrl('specialTerms'))}
+          onClick={() => handleNavigateSubPageNotRealestateDocument(makeUrl('specialTerms'))}
         >
           <Image src={StampImage.src} width={56} height={56} alt="stampImage" tw="h-14" />
           계약서
         </PreviewIconWrraper>
         <PreviewIconWrraper
           id={GOOGLE_TAG_BUTTON_ID.HOME_SUBHOME_DICTIONARY}
-          onClick={() => handleNavigateSubPage(makeUrl('dict'))}
+          onClick={() => handleNavigateSubPageNotRealestateDocument(makeUrl('dict'))}
         >
           <Image src={DictImage.src} width={56} height={56} alt="dictImage" tw="h-14" />
           용어사전
