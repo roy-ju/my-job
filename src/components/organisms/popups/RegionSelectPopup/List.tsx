@@ -1,49 +1,8 @@
-import { NavigationHeader } from '@/components/molecules';
-import CloseIcon from '@/assets/icons/close_24.svg';
-import tw from 'twin.macro';
-import { Button } from '@/components/atoms';
+import Button from '@/components/atoms/Button';
 
-const Container = tw.div`flex flex-col`;
+import { RegionItem } from './types';
 
-function Header({ title = '지역 선택', onClickClose }: { title?: string; onClickClose?: () => void }) {
-  return (
-    <section>
-      <NavigationHeader tw="bg-transparent">
-        <NavigationHeader.Title>{title}</NavigationHeader.Title>
-        <NavigationHeader.Button onClick={onClickClose}>
-          <CloseIcon />
-        </NavigationHeader.Button>
-      </NavigationHeader>
-    </section>
-  );
-}
-
-interface BreadcrumbsProps {
-  value1?: string;
-  value2?: string;
-  value3?: string;
-}
-
-function Breadcrumbs({ value1, value2, value3 }: BreadcrumbsProps) {
-  return (
-    <section>
-      <div tw="h-14 px-5 flex items-center gap-3 text-b2">
-        <span>{value1 ?? '시도'}</span>
-        <span tw="w-px h-2 bg-gray-300" />
-        <span>{value2 ?? '시군구'}</span>
-        <span tw="w-px h-2 bg-gray-300" />
-        <span>{value3 ?? '읍면동'}</span>
-      </div>
-    </section>
-  );
-}
-
-export interface RegionItem {
-  name: string;
-  code: string;
-}
-
-interface Props {
+interface ListProps {
   list1?: RegionItem[];
   list2?: RegionItem[];
   list3?: RegionItem[];
@@ -57,7 +16,17 @@ interface Props {
   onChangeValue3?: (value: RegionItem) => void;
 }
 
-function List({ list1, list2, list3, value1, value2, value3, onChangeValue1, onChangeValue2, onChangeValue3 }: Props) {
+export default function List({
+  list1,
+  list2,
+  list3,
+  value1,
+  value2,
+  value3,
+  onChangeValue1,
+  onChangeValue2,
+  onChangeValue3,
+}: ListProps) {
   return (
     <section tw="flex-1 min-h-0">
       <div tw="h-full flex min-h-0">
@@ -109,20 +78,3 @@ function List({ list1, list2, list3, value1, value2, value3, onChangeValue1, onC
     </section>
   );
 }
-
-interface SubmitProps {
-  onSubmit?: () => void;
-  disabled?: boolean;
-}
-
-function Submit({ disabled, onSubmit }: SubmitProps) {
-  return (
-    <div tw="px-5 pt-4 pb-5">
-      <Button disabled={disabled} onClick={onSubmit} tw="w-full" size="bigger">
-        선택 완료
-      </Button>
-    </div>
-  );
-}
-
-export default Object.assign(Container, { Header, Breadcrumbs, List, Submit });
