@@ -34,7 +34,7 @@ import SuggestCardInDanji from '../suggest/SuggestCardInDanji';
 
 import DanjiListingsCard from '../danji/DanjiListingsCard';
 
-import ImpossibleSuggestAreaPopup from '../popups/ImpossibleSuggestArea';
+import ImpossibleSuggestAreaPopup from '../popups/ImpossibleSuggestAreaPopup';
 
 export default function ActiveListingInfo({
   isListingDetail = false,

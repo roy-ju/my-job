@@ -22,7 +22,7 @@ import MobileGlobalStyles from '@/styles/MobileGlobalStyles';
 
 import Routes from '@/router/routes';
 
-import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
+import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestAreaPopup';
 
 import DanjiSummaryInMobileBottomSheet from '@/components/organisms/danji/DanjiSummaryInMobileBottomSheet';
 

@@ -36,7 +36,7 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
+import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestAreaPopup';
 
 import Markers from './Markers';
 

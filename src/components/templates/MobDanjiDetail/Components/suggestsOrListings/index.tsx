@@ -28,7 +28,7 @@ import RegisterButtons from './RegisterButtons';
 
 const FixedButton = dynamic(() => import('./FixedButton'), { ssr: false });
 
-const ImpossibleSuggestArea = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
+const ImpossibleSuggestArea = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestAreaPopup'), {
   ssr: false,
 });
 

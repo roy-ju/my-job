@@ -16,9 +16,9 @@ import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
 import ToggleTag from '@/components/atoms/ToggleTag';
 
-import { RegionItem } from '@/components/organisms/RegionList';
-
 import GOOGLE_TAG_BUTTON_ID from '@/constants/gtag_id';
+
+import { RegionItem } from '@/components/organisms/popups/RegionSelectPopup/types';
 
 import FormImage from './FormImage';
 
@@ -26,7 +26,7 @@ import isEqualValue from '../suggest/utils/isEqualValue';
 
 import getIncludeValue from '../suggest/utils/getIncludeValue';
 
-const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
+const RegionSelectPopup = dynamic(() => import('@/components/organisms/popups/RegionSelectPopup'), { ssr: false });
 
 export default function SuggestForm() {
   const router = useRouter();
@@ -215,7 +215,10 @@ export default function SuggestForm() {
           </ButtonV2>
         </div>
       </section>
-      {popup === 'regionList' && <RegionListPopup onSubmit={handleSummitRegion} onClickClose={() => handlePopup('')} />}
+
+      {popup === 'regionList' && (
+        <RegionSelectPopup onSubmit={handleSummitRegion} onClickClose={() => handlePopup('')} />
+      )}
     </>
   );
 }
