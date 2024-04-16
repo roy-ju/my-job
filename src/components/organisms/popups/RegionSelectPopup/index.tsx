@@ -8,18 +8,26 @@ import { useMapSigunguList } from '@/apis/map/mapSigunguList';
 
 import { Separator } from '@/components/atoms';
 
-import RegionList, { RegionItem } from '@/components/organisms/RegionList';
-
 import { convertSidoName, convertSigunguName } from '@/utils/fotmat';
 
 import { OverlayPresenter } from '@/components/molecules';
 
-interface RegionFormProps {
+import Header from './Header';
+
+import Cta from './Cta';
+
+import Breadcrumbs from './Breadcrumbs';
+
+import List from './List';
+
+import { RegionItem } from './types';
+
+interface RegionSelectPopupProps {
   onClickClose?: () => void;
   onSubmit?: (item: RegionItem) => void;
 }
 
-export default function RegionListPopup({ onClickClose, onSubmit }: RegionFormProps) {
+export default function RegionSelectPopup({ onClickClose, onSubmit }: RegionSelectPopupProps) {
   const [sido, setSido] = useState<RegionItem | null>(null);
   const [sigungu, setSigungu] = useState<RegionItem | null>(null);
   const [eubmyeondong, setEubmyeondong] = useState<RegionItem | null>(null);
@@ -76,12 +84,12 @@ export default function RegionListPopup({ onClickClose, onSubmit }: RegionFormPr
   return (
     <OverlayPresenter>
       <div tw="bg-white w-[380px] h-[600px] rounded-lg shadow">
-        <RegionList tw="h-full">
-          <RegionList.Header onClickClose={onClickClose} />
+        <div tw="flex flex-col h-full">
+          <Header onClickClose={onClickClose} />
           <Separator tw="h-px" />
-          <RegionList.Breadcrumbs value1={sido?.name} value2={sigungu?.name} value3={eubmyeondong?.name} />
+          <Breadcrumbs value1={sido?.name} value2={sigungu?.name} value3={eubmyeondong?.name} />
           <Separator tw="h-px" />
-          <RegionList.List
+          <List
             list1={sidoList}
             list2={sigunguList}
             list3={eubmyeondongList}
@@ -99,8 +107,8 @@ export default function RegionListPopup({ onClickClose, onSubmit }: RegionFormPr
             value2={sigungu}
             value3={eubmyeondong}
           />
-          <RegionList.Submit disabled={!sido || !sigungu || !eubmyeondong} onSubmit={handleSubmit} />
-        </RegionList>
+          <Cta disabled={!sido || !sigungu || !eubmyeondong} onSubmit={handleSubmit} />
+        </div>
       </div>
     </OverlayPresenter>
   );
