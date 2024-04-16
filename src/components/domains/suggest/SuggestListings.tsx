@@ -14,7 +14,7 @@ import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 
 import { useFetchDanjiSuggestsList } from '@/services/danji/useFetchDanjiSuggestsList';
 
-import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestArea';
+import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestAreaPopup';
 
 import useHandleClickBack from './listings-list/hooks/useHandleClickBack';
 

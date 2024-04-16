@@ -2,11 +2,11 @@ import dynamic from 'next/dynamic';
 
 import usePopupHandler from '../hooks/usePopupHandler';
 
-const RegionListPopup = dynamic(() => import('@/components/organisms/popups/RegionListPopup'), { ssr: false });
+const RegionSelectPopup = dynamic(() => import('@/components/organisms/popups/RegionSelectPopup'), { ssr: false });
 
 const DanjiListPopup = dynamic(() => import('@/components/organisms/popups/DanjiListPopup'), { ssr: false });
 
-const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
+const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestAreaPopup'), {
   ssr: false,
 });
 
@@ -37,7 +37,9 @@ export default function Popups() {
   } = usePopupHandler();
 
   if (popup === 'regionList') {
-    return <RegionListPopup onClickClose={() => handleUpdatePopup('')} onSubmit={handleUpdateAddressAndBubjungdong} />;
+    return (
+      <RegionSelectPopup onClickClose={() => handleUpdatePopup('')} onSubmit={handleUpdateAddressAndBubjungdong} />
+    );
   }
 
   if (popup === 'danjiList') {
