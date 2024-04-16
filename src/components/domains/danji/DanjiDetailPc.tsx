@@ -19,6 +19,7 @@ import {
 } from '@/services/danji/types';
 
 import { Router, useRouter } from 'next/router';
+
 import {
   ListingsSection,
   RealPriceSection,
@@ -35,7 +36,7 @@ import TabsMobile from './detail/tabs-mobile';
 
 import Summary from './detail/summary-mobile';
 
-import SuggestsOrListings from './detail/suggests-or-listings-mobile';
+import SuggestsOrListings from './detail/suggest-or-listings-pc';
 
 import BasicInfo from './detail/basic-info-pc';
 
@@ -118,7 +119,6 @@ function DanjiDetailPc({
           <ListingsSection ref={listingsSectionRef}>
             <Summary danji={danji} />
             <SuggestsOrListings
-              tabIndex={tabIndex}
               danji={danji}
               danjiSuggestList={danjiSuggestList}
               danjiListingList={danjiListingList}
