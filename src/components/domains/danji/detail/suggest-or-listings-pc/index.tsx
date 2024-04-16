@@ -19,24 +19,21 @@ import {
 
 import { apiService } from '@/services';
 
-import Tabs from './Tabs';
+import Tabs from '../suggests-or-listings-mobile/Tabs';
 
-import Messages from './Messages';
+import Messages from '../suggests-or-listings-mobile/Messages';
 
-import ListingItemList from './ListingItemList';
+import ListingItemList from '../suggests-or-listings-mobile/ListingItemList';
 
-import RegisterButtons from './RegisterButtons';
+import RegisterButtons from '../suggests-or-listings-mobile/RegisterButtons';
 
 import { CommonDanjiDetailProps } from '../types';
-
-const FixedButton = dynamic(() => import('./FixedButton'), { ssr: false });
 
 const ImpossibleSuggestArea = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
   ssr: false,
 });
 
 interface SuggestsOrListingsProps extends CommonDanjiDetailProps {
-  tabIndex: number;
   danji: DanjiDetailResponse;
   danjiSuggestList?: DanjiSuggestListResponse;
   danjiListingList?: DanjiListingListResponse;
@@ -44,7 +41,6 @@ interface SuggestsOrListingsProps extends CommonDanjiDetailProps {
 }
 
 export default function SuggestsOrListings({
-  tabIndex,
   danji,
   danjiSuggestList,
   danjiListingList,
@@ -199,7 +195,6 @@ export default function SuggestsOrListings({
           naverDanji={naverDanji}
         />
       </div>
-      <FixedButton tabIndex={tabIndex} handleClickSuggestButton={handleCreateSuggest} />
 
       {popup === 'impossibleSuggestArea' && <ImpossibleSuggestArea handleClosePopup={handleClosePopup} />}
     </>

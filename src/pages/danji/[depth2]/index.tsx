@@ -16,6 +16,10 @@ import { checkPlatform } from '@/utils/checkPlatform';
 
 import getHtmlMetas from '@/utils/getHtmlMetas';
 
+import DanjiRoutes from '@/router/danjiRoutes';
+
+import Routes from '@/router/routes';
+
 const Page: NextPageWithLayout = () => null;
 
 Page.getComponent = function getComponent(pageProps) {
@@ -27,7 +31,7 @@ Page.getLayout = function getLayout(page, pageProps) {
     <MapLayout>
       {PrevPage.getComponent?.({
         query: pageProps.query,
-        route: pageProps.query.depth1,
+        route: Routes.DanjiDetail,
         depth: 1,
       })}
       {page}
