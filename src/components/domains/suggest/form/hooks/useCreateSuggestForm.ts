@@ -98,6 +98,10 @@ export default function useCreateSuggestForm() {
 
         await dashBoardInfoMutate();
 
+        if ((params?.bubjungdong_codes as string[]).length > 1) {
+          sessionStorage.setItem('negocio-suggest-create-count', `${(params?.bubjungdong_codes as string[]).length}`);
+        }
+
         if (platform === 'pc') {
           const depth1 = router?.query?.depth1;
           const depth2 = router?.query?.depth2;
