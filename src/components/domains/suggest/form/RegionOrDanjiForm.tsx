@@ -1,10 +1,11 @@
 import { memo } from 'react';
 
+import tw from 'twin.macro';
+
 import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { DanjiOrRegionalType } from '@/constants/enums';
 
-import tw from 'twin.macro';
 import Section from './ui/Section';
 
 import AnimateRegionOrDanjiButton from './ui/AnimateRegionOrDanjiButton';
@@ -66,12 +67,20 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
                 {address.length > 0 ? '선택한 지역' : '선택한 단지'}
               </AnimationP>
               <AnimationP transition={{ duration: 0.3 }} tw="text-heading_01 flex flex-col gap-1">
-                {address.length > 0
-                  ? address.map((item, idx) => (
-                      <span key={item} css={[idx === 0 && tw`[margin-top: 6px]`]}>
-                        {item}
-                      </span>
-                    ))
+                {needDiabledFields
+                  ? address.length > 0
+                    ? typeof address === 'string'
+                      ? address
+                      : null
+                    : danjiName
+                  : address.length > 0
+                  ? typeof address !== 'string'
+                    ? address.map((item, idx) => (
+                        <span key={item} css={[idx === 0 && tw`[margin-top: 6px]`]}>
+                          {item}
+                        </span>
+                      ))
+                    : null
                   : danjiName}
               </AnimationP>
             </div>
@@ -82,6 +91,7 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
               </ButtonV2>
             )}
           </div>
+
           <AnimationP transition={{ duration: 0.4 }} tw="text-body_01 text-gray-600 mt-4">
             {address.length > 0 ? '추천은 법정동을 기준으로 합니다.' : '선택한 단지의 매물만 추천받을 수 있어요.'}
           </AnimationP>

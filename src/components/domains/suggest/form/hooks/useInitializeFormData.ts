@@ -79,8 +79,6 @@ export default function useInitializeFormData() {
       /** 폼 */
       const forms: FormType[] = JSON.parse(router.query.forms as string);
 
-      console.log(params);
-
       const normalizedParams = normalizeParams(params);
 
       setState(() => ({
@@ -131,7 +129,6 @@ export default function useInitializeFormData() {
         setStateDanjiOrRegion(DanjiOrRegionalType.Regional);
         setStateForms(['region_or_danji', 'realestate_and_buyOrRent_and_price']);
       } else {
-        console.log('hi');
         setStateForms(['region_or_danji']);
       }
     } else if (isEqualValue(router?.query?.entry, Routes.Map)) {

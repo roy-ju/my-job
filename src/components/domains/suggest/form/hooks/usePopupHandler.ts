@@ -43,7 +43,7 @@ export default function usePopupHandler() {
         ...prev,
         address: v.map((item) => item.name),
         bubjungdong: v,
-        forms: [...prev.forms, 'realestate_and_buyOrRent_and_price'],
+        forms: prev.forms.length === 1 ? [...prev.forms, 'realestate_and_buyOrRent_and_price'] : prev.forms,
         popup: '',
       }));
     },

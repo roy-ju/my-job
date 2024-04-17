@@ -2,13 +2,12 @@ import { DanjiOrRegionalType, RealestateType, BuyOrRent } from '@/constants/enum
 
 import { TimeTypeString } from '@/constants/strings';
 
-export default function normalizeParams(params: Record<string, any>) {
+export default function updatedNormalizeParams(params: Record<string, any>) {
   /** 단지 인지 지역인지 */
   const danjiOrRegion = params?.danji_id ? DanjiOrRegionalType.Danji : DanjiOrRegionalType.Regional;
   /** 지역정보 */
-  const address = params?.address ? params.address : [];
-  const code = params?.bubjungdong_code ? params.bubjungdong_code : [];
-
+  const address = params?.address ? params.address.toString() : '';
+  const code = params.bubjungdong_code ? params.bubjungdong_code.toString() : '';
   /** 단지정보 */
   const danjiID = params?.danji_id ? Number(params.danji_id).toString() : null;
   const danjiAddress = params?.danji_address ? params.danji_address.toString() : '';
@@ -72,7 +71,7 @@ export default function normalizeParams(params: Record<string, any>) {
     danjiName,
     danjiRealestateType,
     address,
-    bubjungdong: address.map((item: string, idx: number) => ({ name: item, code: code[idx] })),
+    bubjungdong: { name: address, code },
     realestateTypes,
     buyOrRent,
     tradeOrDepositPrice,

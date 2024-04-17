@@ -1,5 +1,8 @@
 import { useRef } from 'react';
+
 import { useIsomorphicLayoutEffect } from 'usehooks-ts';
+
+import moveCenterScrollInContainer from '@/utils/moveCenterScrollInContainer';
 
 export default function useScrollSelecetedRef() {
   const selectedRefOne = useRef<HTMLButtonElement | null>(null);
@@ -12,8 +15,10 @@ export default function useScrollSelecetedRef() {
 
   useIsomorphicLayoutEffect(() => {
     if (selectedRefOne?.current && scrollConainerRefOne?.current) {
-      const element = selectedRefOne.current;
       const container = scrollConainerRefOne.current;
+      const element = selectedRefOne.current;
+
+      moveCenterScrollInContainer(element, container);
 
       const elementRect = element.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
@@ -29,35 +34,19 @@ export default function useScrollSelecetedRef() {
 
   useIsomorphicLayoutEffect(() => {
     if (selectedRefTwo?.current && scrollConainerRefTwo?.current) {
-      const element = selectedRefTwo.current;
       const container = scrollConainerRefTwo.current;
+      const element = selectedRefTwo.current;
 
-      const elementRect = element.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-
-      const elementTopRelativeToContainer = elementRect.top - containerRect.top;
-
-      const scrollPosition =
-        elementTopRelativeToContainer + container.scrollTop - container.clientHeight / 2 + elementRect.height / 2;
-
-      container.scrollTop = scrollPosition;
+      moveCenterScrollInContainer(element, container);
     }
   }, [scrollConainerRefTwo, selectedRefTwo?.current]);
 
   useIsomorphicLayoutEffect(() => {
     if (selectedRefThree?.current && scrollConainerRefThree?.current) {
-      const element = selectedRefThree.current;
       const container = scrollConainerRefThree.current;
+      const element = selectedRefThree.current;
 
-      const elementRect = element.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-
-      const elementTopRelativeToContainer = elementRect.top - containerRect.top;
-
-      const scrollPosition =
-        elementTopRelativeToContainer + container.scrollTop - container.clientHeight / 2 + elementRect.height / 2;
-
-      container.scrollTop = scrollPosition;
+      moveCenterScrollInContainer(element, container);
     }
   }, [scrollConainerRefThree, selectedRefThree?.current]);
 
