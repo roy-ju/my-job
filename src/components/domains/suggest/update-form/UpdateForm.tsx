@@ -16,8 +16,6 @@ import MoveInDateForm from '../form/MoveInDateForm';
 
 import AreaForm from '../form/AreaForm';
 
-import InterviewForm from '../form/InterviewForm';
-
 import SuggestFormSelector from '../form/selector/SuggestFormSelector';
 
 import SuggestForm from '../form/types';
@@ -32,13 +30,14 @@ export default function UpdateForm() {
     move_in_date: <MoveInDateForm />,
     area: <AreaForm type="update" />,
     additional_conditions: <AdditionalConditionsForm />,
-    interview: <InterviewForm isUpdateForm />,
   };
 
   return (
     <div id="formContainer" tw="w-full flex-1 flex flex-col min-h-0 overflow-y-auto pt-10">
       {forms.map((form) => {
         if (form === 'summary') return null;
+
+        if (form === 'interview') return null;
 
         return (
           <Fragment key={form}>

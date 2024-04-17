@@ -77,7 +77,6 @@ export default function SuggestForm() {
   };
 
   const handleRoute = (from: 'regionListPoup' | 'none', v?: RegionItem[]) => {
-    console.log(v);
     if (isEqualValue(platform, 'pc')) {
       if (isEqualValue(from, 'none')) {
         router.push({
@@ -218,7 +217,7 @@ export default function SuggestForm() {
       </section>
 
       {popup === 'regionList' && (
-        <RegionSelectPopup onSubmit={handleSummitRegion} onClickClose={() => handlePopup('')} />
+        <RegionSelectPopup handleSubmit={handleSummitRegion} handleClose={() => handlePopup('')} />
       )}
     </>
   );

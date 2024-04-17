@@ -1,6 +1,12 @@
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+
+import { useRecoilState } from 'recoil';
+
+import { useIsomorphicLayoutEffect } from 'usehooks-ts';
 
 import { toast } from 'react-toastify';
+
+import SuggestFormState from '@/components/domains/suggest/form/atoms/SuggestFormState';
 
 import { convertSidoName, convertSigunguName } from '@/utils/fotmat';
 
@@ -10,11 +16,17 @@ import { useFetchDanjiSidoList } from '@/services/danji/useFetchDanjiSidoList';
 
 import { useFetchDanjiSigunguList } from '@/services/danji/useFetchDanjiSigunguList';
 
+import moveCenterScrollInContainer from '@/utils/moveCenterScrollInContainer';
+
 import removeElementOnce from '../utils/removeElementOnce';
+
+import splitAddress from '../utils/splitAddress';
 
 import { RegionItem } from '../types';
 
 export default function useRegionSelectPopupHandler() {
+  const [state, _] = useRecoilState(SuggestFormState);
+
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const [currentSelectedSido, setCurrentSelectedSido] = useState<RegionItem | null>(null);
@@ -164,6 +176,73 @@ export default function useRegionSelectPopupHandler() {
     },
     [selectedEubmyeondongs, selectedRegions, selectedSidos, selectedSigungus],
   );
+
+  useEffect(() => {
+    const { bubjungdong, address } = state;
+
+    if (bubjungdong && address && typeof address !== 'string' && Array.isArray(bubjungdong) && bubjungdong.length > 0) {
+      setSelectedRegions(bubjungdong);
+
+      const name = bubjungdong[bubjungdong.length - 1].name;
+
+      const { sido, sigungu, eubmyeondong } = splitAddress(name);
+
+      const sidoCode = bubjungdong[bubjungdong.length - 1].code.slice(0, 2);
+      const sigunguCode = bubjungdong[bubjungdong.length - 1].code.slice(0, 5);
+      const eubmyeondongCode = bubjungdong[bubjungdong.length - 1].code;
+
+      setCurrentSelectedSido({ name: sido, code: sidoCode });
+      setCurrentSelectedSigungu({ name: sigungu, code: sigunguCode });
+      setCurrentSelectedEubmyeondong({ name: eubmyeondong, code: eubmyeondongCode });
+
+      const sidos = bubjungdong.map((item) => splitAddress(item.name).sido);
+      const sigungus = bubjungdong.map((item) => splitAddress(item.name).sigungu);
+      const eubmyeondongs = bubjungdong.map((item) => splitAddress(item.name).eubmyeondong);
+
+      setSelectedSidos(sidos);
+      setSelectedSigungus(sigungus);
+      setSelectedEubmyeondongs(eubmyeondongs);
+    }
+  }, [state]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (currentSelectedSido && sidoData) {
+      const container = document.getElementById('negocio-region-sido-wrraper');
+      const element = document.getElementById(`negocio-region-sido-${currentSelectedSido.code}`);
+
+      if (container && element) {
+        setTimeout(() => {
+          moveCenterScrollInContainer(element, container);
+        }, 100);
+      }
+    }
+  }, [currentSelectedSido, sidoData]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (currentSelectedSigungu && sigunguData) {
+      const container = document.getElementById('negocio-region-sigungu-wrraper');
+      const element = document.getElementById(`negocio-region-sigungu-${currentSelectedSigungu.code}`);
+
+      if (container && element) {
+        setTimeout(() => {
+          moveCenterScrollInContainer(element, container);
+        }, 100);
+      }
+    }
+  }, [currentSelectedSigungu, sigunguData]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (currentSelectedEubmyeondong && eubmyeondongData) {
+      const container = document.getElementById('negocio-region-eubmyeondong-wrraper');
+      const element = document.getElementById(`negocio-region-eubmyeondong-${currentSelectedEubmyeondong.code}`);
+
+      if (container && element) {
+        setTimeout(() => {
+          moveCenterScrollInContainer(element, container);
+        }, 100);
+      }
+    }
+  }, [currentSelectedEubmyeondong, eubmyeondongData]);
 
   return {
     scrollRef,

@@ -40,7 +40,13 @@ export default function useGetSummary() {
   } = useRecoilValue(SuggestFormState);
 
   const locationData = useCallback(() => {
-    if (address) return address;
+    if (address.length > 0 && typeof address !== 'string') {
+      return address.map((item) => (
+        <span key={item} tw="block">
+          {item}
+        </span>
+      ));
+    }
 
     if (danjiName) return danjiName;
 

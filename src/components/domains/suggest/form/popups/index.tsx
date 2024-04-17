@@ -40,7 +40,7 @@ export default function Popups() {
 
   if (popup === 'regionList') {
     return (
-      <RegionSelectPopup onClickClose={() => handleUpdatePopup('')} onSubmit={handleUpdateAddressAndBubjungdong} />
+      <RegionSelectPopup handleClose={() => handleUpdatePopup('')} handleSubmit={handleUpdateAddressAndBubjungdong} />
     );
   }
 
@@ -56,7 +56,12 @@ export default function Popups() {
   }
 
   if (popup === 'reselectRegion') {
-    return <ReselectRegionPopup onClickClose={() => handleUpdatePopup('')} onClickComfirm={() => {}} />;
+    return (
+      <ReselectRegionPopup
+        onClickClose={() => handleUpdatePopup('')}
+        onClickComfirm={() => handleUpdatePopup('regionList')}
+      />
+    );
   }
 
   if (popup === 'reselectDanji') {

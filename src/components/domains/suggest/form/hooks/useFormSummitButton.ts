@@ -310,6 +310,14 @@ export default function useFormSummitButton() {
 
     if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Regional)) {
       try {
+        if (params) {
+          delete params.address;
+
+          params.bubjungdong_codes = params.bubjungdong_code;
+
+          delete params.bubjungdong_code;
+        }
+
         await apiService.createSuggestRegional(params);
 
         await dashBoardInfoMutate();

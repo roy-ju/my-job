@@ -6,20 +6,12 @@ import forms from './constants/forms';
 
 import Section from './ui/Section';
 
-type InterviewFormProps = {
-  isUpdateForm?: boolean;
-};
-
-export default function InterviewForm({ isUpdateForm = false }: InterviewFormProps) {
+export default function InterviewForm() {
   const { interviewAvailabletimes, handleClickInterviewAvailabletimes } = useSelectInterview();
 
   return (
     <Section id={forms.INTERVIEW}>
-      <InterviewField
-        selectedList={interviewAvailabletimes}
-        handleClick={handleClickInterviewAvailabletimes}
-        isUpdateForm={isUpdateForm}
-      />
+      <InterviewField selectedList={interviewAvailabletimes} handleClick={handleClickInterviewAvailabletimes} />
     </Section>
   );
 }

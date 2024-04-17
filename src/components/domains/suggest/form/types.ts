@@ -10,7 +10,7 @@ export interface BubjungdongType {
 /** 폼의 종류 */
 export type FormType = (typeof forms)[keyof typeof forms];
 
-type SuggestForm = {
+interface SuggestForm {
   /** 폼의 종류 */
   forms: FormType[];
   /** 단지인지 지역인지 */
@@ -24,9 +24,9 @@ type SuggestForm = {
   /** 단지 구해요의 단지 부동산 */
   danjiRealestateType: number;
   /** 지역 구해요의 address */
-  address: string[];
+  address: string[] | string;
   /** 지역 구해요의 법정동 ID */
-  bubjungdong: BubjungdongType[] | null;
+  bubjungdong: BubjungdongType[] | BubjungdongType | null;
   /** 지역 구해요의 부동산 종류 */
   realestateTypes: number[];
   /** 매매 | 전세 | 월세 */
@@ -86,6 +86,6 @@ type SuggestForm = {
     | 'invalidAccess'
     | 'impossibleSuggestArea'
     | '';
-};
+}
 
 export default SuggestForm;

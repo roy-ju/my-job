@@ -21,11 +21,11 @@ import useRegionSelectPopupHandler from './hooks/useRegionSelectPopupHandler';
 import { RegionItem } from './types';
 
 interface RegionSelectPopupProps {
-  onClickClose?: () => void;
-  onSubmit?: (item: RegionItem[]) => void;
+  handleClose?: () => void;
+  handleSubmit?: (item: RegionItem[]) => void;
 }
 
-export default function RegionSelectPopup({ onClickClose, onSubmit }: RegionSelectPopupProps) {
+export default function RegionSelectPopup({ handleClose, handleSubmit }: RegionSelectPopupProps) {
   const { platform } = useCheckPlatform();
 
   const {
@@ -51,22 +51,22 @@ export default function RegionSelectPopup({ onClickClose, onSubmit }: RegionSele
     handleRemoveSelectedRegionItem,
   } = useRegionSelectPopupHandler();
 
-  const handleSubmit = useCallback(() => {
+  const handleUpdateBubjungdong = useCallback(() => {
     if (selectedRegions.length === 0) {
       return;
     }
 
     if (selectedRegions.length > 0) {
-      onSubmit?.(selectedRegions);
+      handleSubmit?.(selectedRegions);
     }
-  }, [selectedRegions, onSubmit]);
+  }, [selectedRegions, handleSubmit]);
 
   if (platform === 'mobile') {
     return (
       <FullScreenPresenter>
         <div tw="bg-white w-[100%] h-[100%] shadow">
           <div tw="flex flex-col h-full">
-            <Header onClickClose={onClickClose} />
+            <Header onClickClose={handleClose} />
             <Breadcrumbs />
             <List
               list1={sidoList}
@@ -87,7 +87,7 @@ export default function RegionSelectPopup({ onClickClose, onSubmit }: RegionSele
               selectedRegions={selectedRegions}
               handleRemoveSelectedRegionItem={handleRemoveSelectedRegionItem}
             />
-            <Cta disabled={selectedRegions.length === 0} onSubmit={handleSubmit} />
+            <Cta disabled={selectedRegions.length === 0} onSubmit={handleUpdateBubjungdong} />
           </div>
         </div>
       </FullScreenPresenter>
@@ -98,7 +98,7 @@ export default function RegionSelectPopup({ onClickClose, onSubmit }: RegionSele
     <OverlayPresenter>
       <div tw="bg-white w-[375px] h-[600px] [border-radius: 20px] shadow">
         <div tw="flex flex-col h-full">
-          <Header onClickClose={onClickClose} />
+          <Header onClickClose={handleClose} />
           <Breadcrumbs />
           <List
             list1={sidoList}
@@ -119,7 +119,7 @@ export default function RegionSelectPopup({ onClickClose, onSubmit }: RegionSele
             selectedRegions={selectedRegions}
             handleRemoveSelectedRegionItem={handleRemoveSelectedRegionItem}
           />
-          <Cta disabled={selectedRegions.length === 0} onSubmit={handleSubmit} />
+          <Cta disabled={selectedRegions.length === 0} onSubmit={handleUpdateBubjungdong} />
         </div>
       </div>
     </OverlayPresenter>
