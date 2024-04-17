@@ -1,13 +1,13 @@
 import CheckboxButton from '@/components/atoms/CheckboxButton';
 
-import { RegionItem } from './types';
-
 import {
   ListContainer,
   ListVerticalHorizontalSeperator,
   ListOuterWrraper,
   ListInnerWrraper,
 } from './widget/RegionSelectWidget';
+
+import { RegionItem } from './types';
 
 interface ListProps {
   list1?: RegionItem[];

@@ -97,7 +97,7 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
           setState((prev) => ({
             ...prev,
             forms: formArray,
-            ...normalizedParams,
+            // ...normalizedParams,
             isPastAdditionalCondition: !!suggestData?.note,
           }));
         }

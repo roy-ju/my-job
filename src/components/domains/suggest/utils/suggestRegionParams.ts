@@ -11,7 +11,7 @@ import isEqualValue from './isEqualValue';
 import isNotEqualValue from './isNotEqualValue';
 
 interface Args {
-  bubjungdong: BubjungdongType;
+  bubjungdong: BubjungdongType[];
 
   realestateType: number[];
 
@@ -47,9 +47,9 @@ export default function suggestRegionParams(args: Args) {
       : [...args.realestateType];
 
   const params: Record<string, unknown> = {
-    address: args.bubjungdong.name,
+    address: args.bubjungdong.map((item) => item.name),
 
-    bubjungdong_code: args.bubjungdong.code,
+    bubjungdong_code: args.bubjungdong.map((item) => item.code),
 
     realestate_types: `${updatedRealestateType.sort((a, b) => a - b)}`,
 
