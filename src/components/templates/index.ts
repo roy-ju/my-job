@@ -46,16 +46,25 @@ export { default as SelectAddressTemplate } from './SelectAddressTemplate';
 
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';
-export { default as MobAreaSearch } from './MobAreaSearch';
+
 export { default as MobLayoutMapContainer } from './MobMapLayout';
-export { default as MobGuideOverlay } from './MobGuideOverlay';
+
 export { default as MobMapStreetView } from './MobMapStreetView';
+
 export { default as MobFindAccount } from './MobFindAccount';
+
 export { default as MobListingDetail } from './MobListingDetail';
+
 export { default as MobDanjiDetail } from './MobDanjiDetail';
+
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';
+
 export { default as MobRealPriceDetail } from './MobRealPriceDetail';
+
 export { default as MobDanjiSelect } from './MobDanjiSelect';
+
 export { default as MobRealTradeDetail } from './MobRealTradeDetail';
+
 export { default as MobHog } from './MobHog';
+
 export { default as MobChatMap } from './MobChatMap';
