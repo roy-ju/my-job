@@ -231,3 +231,25 @@ export type DanjiStatusGraphJeonsaeResponse = {
 export type DanjiSuggestRecommendEligibilityResponse = {
   is_eligible: boolean;
 };
+
+export interface AdministrativeDistrictItem {
+  name: string;
+  code: string;
+}
+
+export interface EubmyeondongListItem extends AdministrativeDistrictItem {
+  lat: number;
+  long: number;
+}
+
+export type DanjiSigunguListResponse = {
+  list: AdministrativeDistrictItem[] | null;
+} & ErrorResponse;
+
+export type DanjiSidoListResponse = {
+  list: AdministrativeDistrictItem[] | null;
+} & ErrorResponse;
+
+export type DanjiEubmyeondongListResponse = {
+  list: EubmyeondongListItem[] | null;
+} & ErrorResponse;

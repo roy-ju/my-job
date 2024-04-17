@@ -58,13 +58,8 @@ const radiuses = {
 };
 
 export interface ButtonV2Props {
-  /** 버튼 안의 내용 */
   children?: string | ReactNode;
-  /** 클릭 했을 때 호출할 함수 */
-  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-  /** 클릭 했을 때 호출할 함수 */
-  onMouseDown?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-  /** 버튼 테마 */
+
   variant?:
     | 'primary'
     | 'primaryOutline'
@@ -74,20 +69,19 @@ export interface ButtonV2Props {
     | 'grayOutline'
     | 'white'
     | 'ghost';
-  /** 버튼 사이즈 */
   size?: 'small' | 'medium' | 'big' | 'bigger' | 'none';
-  /** 버튼 radius */
   radius?: 'none' | 'r8' | 'r100';
-  /** 버튼 비활성화 */
-  disabled?: boolean;
-  /** 로딩 여부 */
-  isLoading?: boolean;
-  /** 선택되었는지 여부 */
   selected?: boolean;
-  value?: string | number;
+
   id?: string;
   name?: string;
+  value?: string | number;
+  disabled?: boolean;
+  isLoading?: boolean;
   style?: React.CSSProperties;
+
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  onMouseDown?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const ButtonRoot = styled.button<ButtonV2Props>`

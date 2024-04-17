@@ -16,8 +16,6 @@ import MobMapFilter from '@/components/organisms/MobMapFilter';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
-import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
-
 import { DanjiSummary, ListingSummary } from '@/hooks/useMobileMapLayout';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
@@ -28,9 +26,9 @@ import Close from '@/assets/icons/close_24.svg';
 
 import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNavigation';
 
-import MobAreaSearch from '../MobAreaSearch';
+import RegionSelectPopup from './RegionSelectPopup';
 
-import MobGuideOverlay from '../MobGuideOverlay';
+import GuideOverlay from './GuideOverlay';
 
 interface MobLayoutMapContainerProps {
   code?: string;
@@ -96,18 +94,20 @@ function MobLayoutMapContainer({
   children,
   removeMyMarker,
 }: MobLayoutMapContainerProps) {
-  const { addFullScreenDialog } = useFullScreenDialog();
-
-  const openFullSearchArea = () => {
-    addFullScreenDialog({
-      body: <MobAreaSearch code={code} centerAddress={centerAddress} />,
-    });
-  };
-
   const [isRenderGuideOverlay, setIsRenderGuideOverlay] = useState(false);
 
   const handleGuidOverlay = useCallback(() => {
     setIsRenderGuideOverlay(false);
+  }, []);
+
+  const [regionSelectPopup, setRegionSelectPopup] = useState(false);
+
+  const handleOpenRegionSelectPopup = useCallback(() => {
+    setRegionSelectPopup(true);
+  }, []);
+
+  const handleCloseRegionSelectPopup = useCallback(() => {
+    setRegionSelectPopup(false);
   }, []);
 
   return (
@@ -115,7 +115,7 @@ function MobLayoutMapContainer({
       <div tw="flex flex-col w-full h-full overflow-y-hidden mx-auto items-center">
         <MobMapHeader />
 
-        {isRenderGuideOverlay && <MobGuideOverlay disappearGuideOverlay={handleGuidOverlay} />}
+        {isRenderGuideOverlay && <GuideOverlay disappearGuideOverlay={handleGuidOverlay} />}
 
         <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
 
@@ -176,7 +176,7 @@ function MobLayoutMapContainer({
               sido={convertSidoName(centerAddress?.[0])}
               sigungu={centerAddress?.[1]}
               eubmyundong={centerAddress?.[2]}
-              onClick={openFullSearchArea}
+              onClick={handleOpenRegionSelectPopup}
             />
             <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl" onClick={onClickMapListingList}>
               매물 {listingCount ?? 0}
@@ -213,6 +213,10 @@ function MobLayoutMapContainer({
 
         <BottomGlobalNavigation index={2} />
       </div>
+
+      {regionSelectPopup && (
+        <RegionSelectPopup code={code} centerAddress={centerAddress} onClickClose={handleCloseRegionSelectPopup} />
+      )}
     </>
   );
 }

@@ -13,20 +13,23 @@ const animations = {
     opacity: [0, 1],
   },
 };
-export interface OverlayPresenterProps {
+export interface FullScreenPresenterProps {
+  isAnimate?: boolean;
   position?: 'center' | 'top-left';
   dropShadow?: boolean;
   animationType?: 'none' | 'scale';
   children?: ReactNode;
 }
 
-export default function OverlayPresenter({
+export default function FullScreenPresenter({
+  isAnimate = true,
   animationType = 'scale',
   position = 'center',
   dropShadow = true,
   children,
-}: OverlayPresenterProps) {
+}: FullScreenPresenterProps) {
   const container = typeof window !== 'undefined' && document.getElementById('rootOverlay');
+
   return container && children
     ? createPortal(
         <div
@@ -36,7 +39,7 @@ export default function OverlayPresenter({
             dropShadow && tw`bg-[rgba(0,0,0,0.5)]`,
           ]}
         >
-          <motion.div tw="w-fit h-fit" animate={animations[animationType]}>
+          <motion.div tw="w-full h-full" animate={isAnimate && animations[animationType]}>
             {children}
           </motion.div>
         </div>,
