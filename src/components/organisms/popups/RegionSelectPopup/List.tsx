@@ -1,6 +1,13 @@
-import Button from '@/components/atoms/Button';
+import CheckboxButton from '@/components/atoms/CheckboxButton';
 
 import { RegionItem } from './types';
+
+import {
+  ListContainer,
+  ListVerticalHorizontalSeperator,
+  ListOuterWrraper,
+  ListInnerWrraper,
+} from './widget/RegionSelectWidget';
 
 interface ListProps {
   list1?: RegionItem[];
@@ -10,6 +17,10 @@ interface ListProps {
   value1?: RegionItem | null;
   value2?: RegionItem | null;
   value3?: RegionItem | null;
+
+  values1: string[];
+  values2: string[];
+  values3: string[];
 
   onChangeValue1?: (value: RegionItem) => void;
   onChangeValue2?: (value: RegionItem) => void;
@@ -23,58 +34,60 @@ export default function List({
   value1,
   value2,
   value3,
+  values1,
+  values2,
+  values3,
   onChangeValue1,
   onChangeValue2,
   onChangeValue3,
 }: ListProps) {
   return (
-    <section tw="flex-1 min-h-0">
-      <div tw="h-full flex min-h-0">
-        <div tw="flex-1 h-full min-h-0 overflow-auto">
+    <ListContainer>
+      <ListOuterWrraper>
+        <ListInnerWrraper>
           {list1?.map((item) => (
-            <Button
+            <CheckboxButton
+              key={item.code}
+              variant="primary"
               selected={value1?.code === item.code}
+              active={value1?.code !== item.code && values1.includes(item.name)}
               onClick={() => onChangeValue1?.(item)}
-              tw="w-full h-10 border-none rounded-none hover:bg-gray-50"
-              key={item.code}
-              size="none"
-              variant="outlined"
             >
               {item.name}
-            </Button>
+            </CheckboxButton>
           ))}
-        </div>
-        <div tw="h-full w-px bg-gray-300" />
-        <div tw="flex-1 h-full min-h-0 overflow-auto">
+        </ListInnerWrraper>
+        <ListVerticalHorizontalSeperator />
+
+        <ListInnerWrraper>
           {list2?.map((item) => (
-            <Button
+            <CheckboxButton
+              key={item.code}
+              variant="primary"
               selected={value2?.code === item.code}
+              active={value2?.code !== item.code && values2.includes(item.name)}
               onClick={() => onChangeValue2?.(item)}
-              tw="w-full h-10 border-none rounded-none hover:bg-gray-50"
-              key={item.code}
-              size="none"
-              variant="outlined"
             >
               {item.name}
-            </Button>
+            </CheckboxButton>
           ))}
-        </div>
-        <div tw="h-full w-px bg-gray-300" />
-        <div tw="flex-1 h-full min-h-0 overflow-auto">
+        </ListInnerWrraper>
+        <ListVerticalHorizontalSeperator />
+
+        <ListInnerWrraper>
           {list3?.map((item) => (
-            <Button
-              selected={value3?.code === item.code}
-              onClick={() => onChangeValue3?.(item)}
-              tw="w-full h-10 border-none rounded-none hover:bg-gray-50"
+            <CheckboxButton
               key={item.code}
-              size="none"
-              variant="outlined"
+              variant="primary"
+              selected={value3?.code === item.code}
+              active={value3?.code !== item.code && values3.includes(item.name)}
+              onClick={() => onChangeValue3?.(item)}
             >
               {item.name}
-            </Button>
+            </CheckboxButton>
           ))}
-        </div>
-      </div>
-    </section>
+        </ListInnerWrraper>
+      </ListOuterWrraper>
+    </ListContainer>
   );
 }

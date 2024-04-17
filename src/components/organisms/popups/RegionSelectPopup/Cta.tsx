@@ -1,4 +1,10 @@
-import Button from '@/components/atoms/Button';
+import tw from 'twin.macro';
+
+import { ButtonV2 } from '@/components/atoms';
+
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+import { CtaWrraper } from './widget/RegionSelectWidget';
 
 interface SubmitProps {
   onSubmit?: () => void;
@@ -6,11 +12,13 @@ interface SubmitProps {
 }
 
 export default function Cta({ disabled, onSubmit }: SubmitProps) {
+  const { platform } = useCheckPlatform();
+
   return (
-    <div tw="px-5 pt-4 pb-5">
-      <Button disabled={disabled} onClick={onSubmit} tw="w-full" size="bigger">
+    <CtaWrraper css={[platform === 'pc' ? tw`pb-5` : tw`pb-3`]}>
+      <ButtonV2 disabled={disabled} onClick={onSubmit} tw="w-full" size="bigger">
         선택 완료
-      </Button>
-    </div>
+      </ButtonV2>
+    </CtaWrraper>
   );
 }

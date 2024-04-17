@@ -34,9 +34,9 @@ export default function useSelectDanjiOrRegion() {
     (e?: NegocioMouseEvent<HTMLButtonElement>) => {
       if (e) {
         const { value } = e.currentTarget;
+
         if (isEnumValue(Number(value), DanjiOrRegionalType)) {
           setDanjiOrRegion(Number(value));
-
           handleUpdatePopup(isEqualValue(Number(value), DanjiOrRegionalType.Regional) ? 'regionList' : 'danjiList');
         }
       }
