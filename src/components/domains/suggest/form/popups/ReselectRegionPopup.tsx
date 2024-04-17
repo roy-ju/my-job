@@ -1,18 +1,19 @@
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-type ReselectConfirmPopupProps = {
+type ReselectRegionPopupProps = {
   onClickClose: () => void;
   onClickComfirm: () => void;
 };
 
-export default function ReselectConfirmPopup({ onClickClose, onClickComfirm }: ReselectConfirmPopupProps) {
+export default function ReselectRegionPopup({ onClickClose, onClickComfirm }: ReselectRegionPopupProps) {
   return (
     <OverlayPresenter>
       <Popup>
-        <Popup.ContentGroup>
-          <Popup.SmallTitle tw="text-center">
-            추천받을 위치를 변경하시면 처음부터 다시 입력하셔야 합니다. 추천받을 위치를 변경하시겠습니까?
-          </Popup.SmallTitle>
+        <Popup.ContentGroup tw="gap-2">
+          <Popup.Title>지역을 재선택 하시겠어요?</Popup.Title>
+          <Popup.Body>
+            지역을 재선택하시면 선택한 지역이 모두 삭제되며 처음부터 다시 선택하셔야 합니다. 지역을 재선택할까요?
+          </Popup.Body>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>
           <Popup.CancelButton onClick={onClickClose}>취소</Popup.CancelButton>

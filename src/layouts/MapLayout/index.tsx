@@ -117,7 +117,10 @@ function MapWrapper({
   const handleSuggestFormRouter = useCallback(
     (address?: string, bcode?: string) => {
       if (address && bcode) {
-        router.push({ pathname: `/${Routes.SuggestForm}`, query: { address, bcode, entry: Routes.Map } });
+        router.push({
+          pathname: `/${Routes.SuggestForm}`,
+          query: { address: JSON.stringify([address]), bcode: JSON.stringify([bcode]), entry: Routes.Map },
+        });
       } else {
         router.push({ pathname: `/${Routes.SuggestForm}`, query: { entry: Routes.Map } });
       }

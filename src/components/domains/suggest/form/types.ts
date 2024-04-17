@@ -24,9 +24,9 @@ type SuggestForm = {
   /** 단지 구해요의 단지 부동산 */
   danjiRealestateType: number;
   /** 지역 구해요의 address */
-  address: string;
+  address: string[];
   /** 지역 구해요의 법정동 ID */
-  bubjungdong: BubjungdongType | null;
+  bubjungdong: BubjungdongType[] | null;
   /** 지역 구해요의 부동산 종류 */
   realestateTypes: number[];
   /** 매매 | 전세 | 월세 */
@@ -78,7 +78,8 @@ type SuggestForm = {
   popup:
     | 'regionList'
     | 'danjiList'
-    | 'reselectRegionOrDanji'
+    | 'reselectRegion'
+    | 'reselectDanji'
     | 'quit'
     | 'buyOrRent'
     | 'realestateTypes'

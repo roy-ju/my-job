@@ -45,8 +45,12 @@ export default function useSelectDanjiOrRegion() {
   );
   /** STEP 단지 및 지역선택 */
   const handleOpenReselectPopup = useCallback(() => {
-    handleUpdatePopup('reselectRegionOrDanji');
-  }, [handleUpdatePopup]);
+    if (danjiName) {
+      handleUpdatePopup('reselectDanji');
+    } else {
+      handleUpdatePopup('reselectRegion');
+    }
+  }, [danjiName, handleUpdatePopup]);
 
   return { danjiOrRegion, address, danjiName, handleClickDanjiOrRegion, handleOpenReselectPopup };
 }
