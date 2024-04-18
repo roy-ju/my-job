@@ -1,30 +1,36 @@
+import Image from 'next/image';
+
+import tw from 'twin.macro';
+
 import CheckCircleGray20 from '@/assets/icons/check_circle_gray_20.svg';
 
 import ErrorCircleGray20 from '@/assets/icons/error_circle_gray_20.svg';
 
+import Interview from '@/../public/static/images/suggests/Telephone.png';
+
 export default function StatusLabel({
   render = false,
-  isInterviewLabel = false,
   iconType,
   message,
 }: {
   render?: boolean;
-  isInterviewLabel?: boolean;
-  iconType?: 'error' | 'success';
+  iconType?: 'error' | 'success' | 'interview';
   message?: string;
 }) {
   if (!render) return null;
 
-  if (isInterviewLabel)
-    return (
-      <div tw="w-full flex flex-row items-center gap-1 px-4 h-12 rounded-lg bg-yellow-100 text-body_02 text-gray-900">
-        <p>인터뷰 진행 전입니다.</p>
-      </div>
-    );
-
   return (
-    <div tw="w-full flex flex-row items-center gap-1 px-4 h-12 rounded-lg bg-gray-100 text-body_02 text-gray-700">
-      {iconType === 'success' ? <CheckCircleGray20 /> : <ErrorCircleGray20 />}
+    <div
+      tw="w-full flex flex-row items-center gap-1 px-4 h-12 rounded-lg text-body_02"
+      css={[
+        iconType === 'interview'
+          ? tw`[background: rgba(255, 226, 228, 0.4)] text-red-600`
+          : tw`text-gray-700 bg-gray-100`,
+      ]}
+    >
+      {iconType === 'success' && <CheckCircleGray20 />}
+      {iconType === 'error' && <ErrorCircleGray20 />}
+      {iconType === 'interview' && <Image src={Interview} width={20} height={20} alt="interview" />}
       <p>{message}</p>
     </div>
   );
