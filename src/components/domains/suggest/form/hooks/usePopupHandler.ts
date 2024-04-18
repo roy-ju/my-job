@@ -38,12 +38,12 @@ export default function usePopupHandler() {
   );
 
   const handleUpdateAddressAndBubjungdong = useCallback(
-    async (v: BubjungdongType) => {
+    async (v: BubjungdongType[]) => {
       setState((prev) => ({
         ...prev,
-        address: v.name,
+        address: v.map((item) => item.name),
         bubjungdong: v,
-        forms: [...prev.forms, 'realestate_and_buyOrRent_and_price'],
+        forms: prev.forms.length === 1 ? [...prev.forms, 'realestate_and_buyOrRent_and_price'] : prev.forms,
         popup: '',
       }));
     },
@@ -192,7 +192,8 @@ export default function usePopupHandler() {
       popup: initialValues.popup as
         | 'regionList'
         | 'danjiList'
-        | 'reselectRegionOrDanji'
+        | 'reselectRegion'
+        | 'reselectDanji'
         | 'quit'
         | 'buyOrRent'
         | 'realestateTypes'
@@ -229,7 +230,8 @@ export default function usePopupHandler() {
       popup: initialValues.popup as
         | 'regionList'
         | 'danjiList'
-        | 'reselectRegionOrDanji'
+        | 'reselectRegion'
+        | 'reselectDanji'
         | 'quit'
         | 'buyOrRent'
         | 'realestateTypes'

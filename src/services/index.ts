@@ -452,6 +452,24 @@ export class NegocioApiService extends ApiService {
     await this.instance.post('/suggest/recommend/delete', { suggest_recommend_id: suggestRecommendID });
   }
 
+  /** 구해요 인터뷰 가능시간 수정 */
+  async updateInterviewAvailableTimes(req: { suggestID: number; interviewAvailableTimes: string }): Promise<void> {
+    await this.instance.post('suggest/interviewavailable/update', {
+      suggest_id: req.suggestID,
+      interview_available_times: req.interviewAvailableTimes,
+    });
+  }
+
+  /** 구해요 인터뷰 빠른 요청 등록 */
+  async updateQuickinterview(req: { suggestID: number }): Promise<void> {
+    await this.instance.post('/suggest/quickinterview/update', { suggest_id: req.suggestID });
+  }
+
+  /** 구해요 인터뷰 빠른 요청 취소 */
+  async cancelQuickinterview(req: { suggestID: number }): Promise<void> {
+    await this.instance.post('/suggest/quickinterview/delete', { suggest_id: req.suggestID });
+  }
+
   async suggestView(req: {
     suggest_id: number;
     ip_address: string;

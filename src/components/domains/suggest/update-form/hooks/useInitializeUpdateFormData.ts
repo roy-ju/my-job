@@ -14,7 +14,7 @@ import SuggestFormState from '../../form/atoms/SuggestFormState';
 
 import forms from '../../form/constants/forms';
 
-import normalizeParams from '../../utils/normalizeParams';
+import updatedNormalizeParams from '../../utils/updatedNormalizeParams';
 
 export default function useInitializeUpdateFormData({ suggestID }: { suggestID: number | null }) {
   const { data: suggestData, isLoading: suggestDataLoading, error } = useFetchSuggestDetail({ suggestID });
@@ -82,7 +82,7 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
       };
 
       if (params) {
-        const normalizedParams = normalizeParams(params);
+        const updatedNormalizedParams = updatedNormalizeParams(params);
 
         const formArray =
           suggestData.buy_or_rents === BuyOrRent.Buy.toString()
@@ -93,11 +93,11 @@ export default function useInitializeUpdateFormData({ suggestID }: { suggestID: 
                 .map((item) => item)
                 .filter((ele) => ele !== 'summary' && ele !== 'buy_purpose');
 
-        if (normalizedParams) {
+        if (updatedNormalizedParams) {
           setState((prev) => ({
             ...prev,
             forms: formArray,
-            ...normalizedParams,
+            ...updatedNormalizedParams,
             isPastAdditionalCondition: !!suggestData?.note,
           }));
         }

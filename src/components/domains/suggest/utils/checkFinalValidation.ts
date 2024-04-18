@@ -123,8 +123,9 @@ export default function checkFinalValidation(state: SuggestForm, formType: 'crea
   }
 
   if (
-    !state.interviewAvailabletimes ||
-    (state.interviewAvailabletimes && isEqualValue(state.interviewAvailabletimes.length, 0))
+    formType === 'create' &&
+    (!state.interviewAvailabletimes ||
+      (state.interviewAvailabletimes && isEqualValue(state.interviewAvailabletimes.length, 0)))
   ) {
     errorHandlingWithElement({
       elementID: forms.INTERVIEW,

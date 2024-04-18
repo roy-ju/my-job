@@ -94,9 +94,22 @@ export default function useCreateSuggestForm() {
 
     if (isEqualValue(normalizedParams.danjiOrRegion, DanjiOrRegionalType.Regional)) {
       try {
+        if (params) {
+          delete params.address;
+          params.bubjungdong_codes = params.bubjungdong_code;
+          delete params.bubjungdong_code;
+        }
+
         await apiService.createSuggestRegional(params);
 
         await dashBoardInfoMutate();
+
+        if (typeof window !== 'undefined' && (params?.bubjungdong_codes as string[]).length > 1) {
+          window.sessionStorage.setItem(
+            'negocio-suggest-create-count',
+            `${(params?.bubjungdong_codes as string[]).length}`,
+          );
+        }
 
         if (platform === 'pc') {
           const depth1 = router?.query?.depth1;

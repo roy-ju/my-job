@@ -76,7 +76,7 @@ export default function SuggestForm() {
     setPopup(value);
   };
 
-  const handleRoute = (from: 'regionListPoup' | 'none', v?: RegionItem) => {
+  const handleRoute = (from: 'regionListPoup' | 'none', v?: RegionItem[]) => {
     if (isEqualValue(platform, 'pc')) {
       if (isEqualValue(from, 'none')) {
         router.push({
@@ -94,8 +94,8 @@ export default function SuggestForm() {
             entry: Routes.Home,
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
-            ...(v?.name ? { address: v?.name } : {}),
-            ...(v?.code ? { bcode: v?.code } : {}),
+            ...(v ? { address: JSON.stringify(v.map((item) => item.name)) } : {}),
+            ...(v ? { bcode: JSON.stringify(v.map((item) => item.code)) } : {}),
           },
         });
       }
@@ -115,8 +115,8 @@ export default function SuggestForm() {
             entry: Routes.Home,
             property: property.map((item) => describeRealestateType(Number(item))).join(),
             buyOrRent,
-            ...(v?.name ? { address: v?.name } : {}),
-            ...(v?.code ? { bcode: v?.code } : {}),
+            ...(v ? { address: JSON.stringify(v.map((item) => item.name)) } : {}),
+            ...(v ? { bcode: JSON.stringify(v.map((item) => item.code)) } : {}),
           },
         });
       }
@@ -141,7 +141,7 @@ export default function SuggestForm() {
     return handlePopup('regionList');
   };
 
-  const handleSummitRegion = (v: RegionItem) => {
+  const handleSummitRegion = (v: RegionItem[]) => {
     handlePopup('');
     handleRoute('regionListPoup', v);
   };
@@ -217,7 +217,7 @@ export default function SuggestForm() {
       </section>
 
       {popup === 'regionList' && (
-        <RegionSelectPopup onSubmit={handleSummitRegion} onClickClose={() => handlePopup('')} />
+        <RegionSelectPopup handleSubmit={handleSummitRegion} handleClose={() => handlePopup('')} />
       )}
     </>
   );

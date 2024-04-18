@@ -26,7 +26,7 @@ import Close from '@/assets/icons/close_24.svg';
 
 import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNavigation';
 
-import RegionSelectPopup from './RegionSelectPopup';
+import RegionSelect from './RegionSelect';
 
 import GuideOverlay from './GuideOverlay';
 
@@ -215,7 +215,7 @@ function MobLayoutMapContainer({
       </div>
 
       {regionSelectPopup && (
-        <RegionSelectPopup code={code} centerAddress={centerAddress} onClickClose={handleCloseRegionSelectPopup} />
+        <RegionSelect code={code} centerAddress={centerAddress} handleClose={handleCloseRegionSelectPopup} />
       )}
     </>
   );

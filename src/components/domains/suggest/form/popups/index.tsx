@@ -10,7 +10,9 @@ const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/
   ssr: false,
 });
 
-const ReselectConfirmPopup = dynamic(() => import('./ReselectConfirmPopup'), { ssr: false });
+const ReselectRegionPopup = dynamic(() => import('./ReselectRegionPopup'), { ssr: false });
+
+const ReselectDanjiPopup = dynamic(() => import('./ReselectDanjiPopup'), { ssr: false });
 
 const QuitConfirmPopup = dynamic(() => import('./QuitConfirmPopup'), { ssr: false });
 
@@ -38,7 +40,7 @@ export default function Popups() {
 
   if (popup === 'regionList') {
     return (
-      <RegionSelectPopup onClickClose={() => handleUpdatePopup('')} onSubmit={handleUpdateAddressAndBubjungdong} />
+      <RegionSelectPopup handleClose={() => handleUpdatePopup('')} handleSubmit={handleUpdateAddressAndBubjungdong} />
     );
   }
 
@@ -53,8 +55,17 @@ export default function Popups() {
     );
   }
 
-  if (popup === 'reselectRegionOrDanji') {
-    return <ReselectConfirmPopup onClickClose={() => handleUpdatePopup('')} onClickComfirm={handleUpdateFormReset} />;
+  if (popup === 'reselectRegion') {
+    return (
+      <ReselectRegionPopup
+        onClickClose={() => handleUpdatePopup('')}
+        onClickComfirm={() => handleUpdatePopup('regionList')}
+      />
+    );
+  }
+
+  if (popup === 'reselectDanji') {
+    return <ReselectDanjiPopup onClickClose={() => handleUpdatePopup('')} onClickComfirm={handleUpdateFormReset} />;
   }
 
   if (popup === 'quit') {
