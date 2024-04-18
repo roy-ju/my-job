@@ -27,6 +27,7 @@ export default function OverlayPresenter({
   children,
 }: OverlayPresenterProps) {
   const container = typeof window !== 'undefined' && document.getElementById('rootOverlay');
+
   return container && children
     ? createPortal(
         <div

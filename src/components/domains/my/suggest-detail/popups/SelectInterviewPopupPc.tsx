@@ -27,7 +27,7 @@ import CloseIcon from '@/assets/icons/icon_x_24_2.svg';
 import useSelectInterviewPopupHandler from '../hooks/useSelectInterviewPopupHandler';
 
 const CheckBoxWrraper = styled.div`
-  ${tw`flex flex-col gap-5 px-5 py-4 text-gray-1000`}
+  ${tw`flex flex-col gap-5 px-5 pt-4 pb-5 text-gray-1000`}
 `;
 
 const ButtonWrraper = styled.div`
