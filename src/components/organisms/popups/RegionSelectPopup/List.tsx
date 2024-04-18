@@ -1,13 +1,13 @@
 import CheckboxButton from '@/components/atoms/CheckboxButton';
 
-import { RegionItem } from './types';
-
 import {
   ListContainer,
   ListVerticalHorizontalSeperator,
   ListOuterWrraper,
   ListInnerWrraper,
 } from './widget/RegionSelectWidget';
+
+import { RegionItem } from './types';
 
 interface ListProps {
   list1?: RegionItem[];
@@ -44,10 +44,11 @@ export default function List({
   return (
     <ListContainer>
       <ListOuterWrraper>
-        <ListInnerWrraper>
+        <ListInnerWrraper id="negocio-region-sido-wrraper">
           {list1?.map((item) => (
             <CheckboxButton
               key={item.code}
+              id={`negocio-region-sido-${item.code}`}
               variant="primary"
               selected={value1?.code === item.code}
               active={value1?.code !== item.code && values1.includes(item.name)}
@@ -58,11 +59,11 @@ export default function List({
           ))}
         </ListInnerWrraper>
         <ListVerticalHorizontalSeperator />
-
-        <ListInnerWrraper>
+        <ListInnerWrraper id="negocio-region-sigungu-wrraper">
           {list2?.map((item) => (
             <CheckboxButton
               key={item.code}
+              id={`negocio-region-sigungu-${item.code}`}
               variant="primary"
               selected={value2?.code === item.code}
               active={value2?.code !== item.code && values2.includes(item.name)}
@@ -73,11 +74,11 @@ export default function List({
           ))}
         </ListInnerWrraper>
         <ListVerticalHorizontalSeperator />
-
-        <ListInnerWrraper>
+        <ListInnerWrraper id="negocio-region-eubmyeondong-wrraper">
           {list3?.map((item) => (
             <CheckboxButton
               key={item.code}
+              id={`negocio-region-eubmyeondong-${item.code}`}
               variant="primary"
               selected={value3?.code === item.code}
               active={value3?.code !== item.code && values3.includes(item.name)}

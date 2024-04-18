@@ -5,7 +5,7 @@ const initialValues = {
   danjiAddress: '',
   danjiName: '',
   danjiRealestateType: 0,
-  address: '',
+  address: [],
   bubjungdong: null,
   realestateTypes: [],
   buyOrRent: 0,

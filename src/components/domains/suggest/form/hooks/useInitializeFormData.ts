@@ -115,11 +115,17 @@ export default function useInitializeFormData() {
 
       // 지역과 코드가 있으면 주소와 법정동을 프리필해준다.
       if (router?.query?.address && router?.query?.bcode) {
-        const address = router.query.address as string;
-        const code = router.query.bcode as string;
+        const addresses = JSON.parse(router.query.address as string) as string[];
+        const codes = JSON.parse(router.query.bcode as string) as string[];
 
-        setAddress(address as string);
-        setBubjungdong({ name: address, code });
+        setAddress(addresses);
+
+        const convertedResult = addresses.map((item, index) => ({
+          name: item,
+          code: codes[index],
+        }));
+
+        setBubjungdong(convertedResult);
         setStateDanjiOrRegion(DanjiOrRegionalType.Regional);
         setStateForms(['region_or_danji', 'realestate_and_buyOrRent_and_price']);
       } else {
@@ -130,11 +136,16 @@ export default function useInitializeFormData() {
       if (router?.query?.address && router?.query?.bcode) {
         // 주소와 코드가 있으면 지역이라고 하자.
         setStateDanjiOrRegion(DanjiOrRegionalType.Regional);
-        const address = router.query.address as string;
-        const code = router.query.bcode as string;
+        const address = JSON.parse(router.query.address as string) as string[];
+        const code = JSON.parse(router.query.bcode as string) as string[];
 
-        setAddress(address as string);
-        setBubjungdong({ name: address, code });
+        const convertedResult = address.map((item, index) => ({
+          name: item,
+          code: code[index],
+        }));
+
+        setAddress(address);
+        setBubjungdong(convertedResult);
         setStateForms(['region_or_danji', 'realestate_and_buyOrRent_and_price']);
       } else {
         // 없으면 다시 선택해야한다.

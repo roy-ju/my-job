@@ -74,8 +74,8 @@ function MapWrapper() {
         router.push({
           pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
           query: {
-            address,
-            bcode,
+            address: JSON.stringify([address]),
+            bcode: JSON.stringify([bcode]),
             entry: Routes.Map,
           },
         });

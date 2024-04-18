@@ -23,6 +23,7 @@ import useFetchMySuggestList from '@/services/my/useFetchMySuggestList';
 import useScroll from '@/hooks/useScroll';
 
 import ListItem from './suggest-requested-list/ListItem';
+import CreatedPopup from './suggest-requested-list/popups/CreatedPopup';
 
 const Container = styled.div`
   ${tw`relative flex flex-col w-full h-full`}
@@ -56,6 +57,8 @@ export default function MySuggestRequestedList() {
   const [isScrollingButton, setIsScrollingButton] = useState(false);
 
   const [render, setRender] = useState(false);
+
+  const [createdPopup, setCreatedPopup] = useState(false);
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
@@ -131,6 +134,15 @@ export default function MySuggestRequestedList() {
     [platform, router],
   );
 
+  const handleOpenCreatedPopup = useCallback(() => {
+    setCreatedPopup(true);
+  }, []);
+
+  const handleCloseCreatedPopup = useCallback(() => {
+    window.sessionStorage.removeItem('negocio-suggest-create-count');
+    setCreatedPopup(false);
+  }, []);
+
   useIosWebkitNoneApplySafeArea();
 
   useScroll(scrollContainer, ({ scrollY }) => {
@@ -145,6 +157,29 @@ export default function MySuggestRequestedList() {
     return () => clearTimeout(timeout);
   }, []);
 
+  useEffect(() => {
+    if (render && typeof window !== 'undefined') {
+      const count = window.sessionStorage.getItem('negocio-suggest-create-count');
+
+      if (count) {
+        handleOpenCreatedPopup();
+      }
+    }
+  }, [handleOpenCreatedPopup, render]);
+
+  useEffect(
+    () => () => {
+      if (typeof window !== 'undefined') {
+        const count = window.sessionStorage.getItem('negocio-suggest-create-count');
+
+        if (count) {
+          window.sessionStorage.removeItem('negocio-suggest-create-count');
+        }
+      }
+    },
+    [],
+  );
+
   if (isLoading) {
     return (
       <div tw="py-20">
@@ -154,44 +189,48 @@ export default function MySuggestRequestedList() {
   }
 
   return (
-    <Container id="negocio-my-suggest-requestedList">
-      <NavigationHeader>
-        <NavigationHeader.BackButton onClick={handleClickBack} />
-        <NavigationHeader.Title>나의 구해요 목록</NavigationHeader.Title>
-      </NavigationHeader>
+    <>
+      <Container id="negocio-my-suggest-requestedList">
+        <NavigationHeader>
+          <NavigationHeader.BackButton onClick={handleClickBack} />
+          <NavigationHeader.Title>나의 구해요 목록</NavigationHeader.Title>
+        </NavigationHeader>
 
-      <FlexContentsWrraper ref={scrollContainer}>
-        <Contents>
-          {list && list?.length > 0 ? (
-            <ListContainer onNext={increamentPageNumber}>
-              {list.map((item, index) => (
-                <Fragment key={item.suggest_id}>
-                  <ListItem key={item.suggest_id} item={item} handleClick={handleClickSuggestItem} />
-                  {index !== list.length - 1 && <Seperator />}
-                </Fragment>
-              ))}
-            </ListContainer>
-          ) : (
-            <NoDataUI
-              title="구하는 글이 없습니다."
-              body="구하기 글을 작성하고 원하는 곳의 매물을 추천받아보세요."
-              buttonText="새로운 매물 구하기"
-              onClick={handleClickSuggestForm}
-            />
-          )}
-        </Contents>
-      </FlexContentsWrraper>
+        <FlexContentsWrraper ref={scrollContainer}>
+          <Contents>
+            {list && list?.length > 0 ? (
+              <ListContainer onNext={increamentPageNumber}>
+                {list.map((item, index) => (
+                  <Fragment key={item.suggest_id}>
+                    <ListItem key={item.suggest_id} item={item} handleClick={handleClickSuggestItem} />
+                    {index !== list.length - 1 && <Seperator />}
+                  </Fragment>
+                ))}
+              </ListContainer>
+            ) : (
+              <NoDataUI
+                title="구하는 글이 없습니다."
+                body="구하기 글을 작성하고 원하는 곳의 매물을 추천받아보세요."
+                buttonText="새로운 매물 구하기"
+                onClick={handleClickSuggestForm}
+              />
+            )}
+          </Contents>
+        </FlexContentsWrraper>
 
-      {list && list.length > 0 && render && (
-        <BottomFixedAnimationButton
-          width={142}
-          containerId="negocio-my-suggest-requestedList"
-          ctaTitle="집 구해요 등록"
-          platform={platform}
-          isScrollingButton={isScrollingButton}
-          handleClick={handleClickSuggestForm}
-        />
-      )}
-    </Container>
+        {list && list.length > 0 && render && (
+          <BottomFixedAnimationButton
+            width={142}
+            containerId="negocio-my-suggest-requestedList"
+            ctaTitle="집 구해요 등록"
+            platform={platform}
+            isScrollingButton={isScrollingButton}
+            handleClick={handleClickSuggestForm}
+          />
+        )}
+
+        {createdPopup && <CreatedPopup handleConfirm={handleCloseCreatedPopup} />}
+      </Container>
+    </>
   );
 }

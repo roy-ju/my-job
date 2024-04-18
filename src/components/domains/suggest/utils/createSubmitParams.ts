@@ -35,7 +35,7 @@ export default function createSubmitParams(state: SuggestForm) {
 
   if (isEqualValue(state.danjiOrRegion, DanjiOrRegionalType.Regional)) {
     return suggestRegionParams({
-      bubjungdong: state.bubjungdong as BubjungdongType,
+      bubjungdong: state.bubjungdong as BubjungdongType[],
       realestateType: state.realestateTypes,
       buyOrRent: state.buyOrRent,
       tradeOrDepositPrice: state.tradeOrDepositPrice,
