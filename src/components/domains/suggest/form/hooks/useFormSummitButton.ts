@@ -272,6 +272,7 @@ export default function useFormSummitButton() {
         if (params) {
           delete params.danjiAddress;
           delete params.danjiRealestateType;
+
           params.pyoungs = (params.pyoungs as string[]).join(',');
         }
 
@@ -312,9 +313,7 @@ export default function useFormSummitButton() {
       try {
         if (params) {
           delete params.address;
-
           params.bubjungdong_codes = params.bubjungdong_code;
-
           delete params.bubjungdong_code;
         }
 
@@ -322,8 +321,11 @@ export default function useFormSummitButton() {
 
         await dashBoardInfoMutate();
 
-        if ((params?.bubjungdong_codes as string[]).length > 1) {
-          sessionStorage.setItem('negocio-suggest-create-count', `${(params?.bubjungdong_codes as string[]).length}`);
+        if (typeof window !== 'undefined' && (params?.bubjungdong_codes as string[]).length > 1) {
+          window.sessionStorage.setItem(
+            'negocio-suggest-create-count',
+            `${(params?.bubjungdong_codes as string[]).length}`,
+          );
         }
 
         if (platform === 'pc') {

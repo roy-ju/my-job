@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -32,9 +32,13 @@ import ListHeader from './suggest-detail/ListHeader';
 
 import ListContents from './suggest-detail/ListContents';
 
+import NotyetInterview from './suggest-detail/NotyetInterview';
+
 import useMySuggestDetailHeaderHandler from './suggest-detail/hooks/useMySuggestDetailHeaderHandler';
 
 import DeletePopup from './suggest-detail/popups/DeletePopup';
+
+import SelectInterviewPopupsPc from './suggest-detail/popups/SelectInterviewPopupPc';
 
 const FlexContents = styled.div`
   ${tw`flex flex-col flex-1 h-full pt-6 overflow-y-auto`}
@@ -44,7 +48,7 @@ const Container = styled.div`
   ${tw`flex flex-col w-full h-full`}
 `;
 
-const RecommendsListContainer = styled.div`
+const RecommendsListOrInterviewContainer = styled.div`
   ${tw`flex flex-col w-full px-5 pt-6`}
 `;
 
@@ -58,6 +62,8 @@ const options2 = ['요청 수정', '요청 재개', '요청 취소'];
 
 export default function MySuggestDetail() {
   const router = useRouter();
+
+  const [openSelectInterviewAvailableTimesPopup, setOpenSelectInterviewAvailableTimesPopup] = useState(false);
 
   const {
     data: suggestDetailData,
@@ -87,6 +93,7 @@ export default function MySuggestDetail() {
   }, [suggestDetailData]);
 
   const {
+    isLoading: mySuggestRecommendsLoading,
     data: suggestRecommendsData,
     count,
     mutate: mutateList,
@@ -105,9 +112,27 @@ export default function MySuggestDetail() {
     handleDeleteMySuggest,
   } = useMySuggestDetailHeaderHandler({ suggestID, danjiID, mutate: mutateList, mutateDetail });
 
+  const renderContents = useMemo(() => {
+    if (!mySuggestRecommendsLoading && typeof count === 'number' && count > 0) {
+      return 'recommendsList';
+    }
+
+    if (!isLoading && suggestDetailData && suggestDetailData.is_interviewed) {
+      return 'recommendsList';
+    }
+
+    if (!isLoading && suggestDetailData && !suggestDetailData.is_interviewed) {
+      return 'interviewSection';
+    }
+
+    return null;
+  }, [count, isLoading, mySuggestRecommendsLoading, suggestDetailData]);
+
   const { showInactivePopup, inactivePopupCTA } = useInactive({ suggestDetailData });
 
   const { handleClickBack } = useHandleClickBack();
+
+  useCheckNotResource({ error, message: '이미 취소된 요청 건입니다.' });
 
   const handleClickOptions = useCallback(
     (index: number) => {
@@ -136,7 +161,9 @@ export default function MySuggestDetail() {
     ],
   );
 
-  useCheckNotResource({ error, message: '이미 취소된 요청 건입니다.' });
+  const handleOpenOrCloseSelectInterviewPopup = useCallback((v: boolean) => {
+    setOpenSelectInterviewAvailableTimesPopup(v);
+  }, []);
 
   if (isLoading || !suggestDetailData) {
     return (
@@ -176,18 +203,42 @@ export default function MySuggestDetail() {
               )}
             </StatusLabelWrraper>
           )}
-
           <Summary data={suggestDetailData} />
+
           <SeperatorV2 />
-          <RecommendsListContainer>
-            <ListHeader count={count} />
-            <ListContents list={suggestRecommendsData} onNext={increamentPageNumber} mutate={mutateList} />
-          </RecommendsListContainer>
+
+          {renderContents === 'recommendsList' && (
+            <RecommendsListOrInterviewContainer>
+              <ListHeader count={count} />
+              <ListContents list={suggestRecommendsData} onNext={increamentPageNumber} mutate={mutateList} />
+            </RecommendsListOrInterviewContainer>
+          )}
+
+          {renderContents === 'interviewSection' && (
+            <RecommendsListOrInterviewContainer>
+              <NotyetInterview
+                suggestID={suggestDetailData.suggest_id}
+                isQuickInterview={suggestDetailData.is_quick_interview}
+                interviewAvaliableTimes={suggestDetailData.interview_available_times ?? ''}
+                handleOpenOrCloseSelectInterviewPopup={handleOpenOrCloseSelectInterviewPopup}
+                mutateSuggestDetail={mutateDetail}
+              />
+            </RecommendsListOrInterviewContainer>
+          )}
         </FlexContents>
       </Container>
 
       {deletePopup && (
         <DeletePopup handleClickCancel={handleCloseDeletePopup} handleClickConfirm={handleDeleteMySuggest} />
+      )}
+
+      {openSelectInterviewAvailableTimesPopup && (
+        <SelectInterviewPopupsPc
+          suggestID={suggestDetailData.suggest_id}
+          interviewAvaliableTimes={suggestDetailData.interview_available_times ?? ''}
+          handleOpenOrCloseSelectInterviewPopup={handleOpenOrCloseSelectInterviewPopup}
+          mutateSuggestDetail={mutateDetail}
+        />
       )}
     </>
   );
