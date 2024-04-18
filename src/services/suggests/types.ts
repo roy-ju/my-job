@@ -34,4 +34,6 @@ export type SuggestDetailResponse = {
   additional_conditions: string;
   view_count: number;
   interview_available_times: string;
+  is_interviewed: boolean;
+  is_quick_interview: boolean;
 };
