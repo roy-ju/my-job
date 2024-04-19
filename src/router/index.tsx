@@ -23,7 +23,6 @@ const MapListingList = dynamic(() => import('@/components/pages/pc/MapListingLis
   ssr: false,
   loading: FallbackComponent,
 });
-
 const My = dynamic(() => import('@/components/pages/My/MyPc'), { ssr: false, loading: FallbackComponent });
 const MyDetail = dynamic(() => import('@/components/pages/MyDetail/MyDetailPc'), {
   ssr: false,
@@ -77,7 +76,6 @@ const MyRegisteredHomes = dynamic(() => import('@/components/pages/MyRegisteredH
   ssr: false,
   loading: FallbackComponent,
 });
-
 const Register = dynamic(() => import('@/components/pages/Register/RegisterPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -106,7 +104,6 @@ const Deregister = dynamic(() => import('@/components/pages/Deregister/Deregiste
   ssr: false,
   loading: FallbackComponent,
 });
-
 const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), {
   ssr: false,
   loading: FallbackComponent,
@@ -119,7 +116,6 @@ const ListingDetailHistory = dynamic(() => import('@/components/pages/pc/Listing
   ssr: false,
   loading: FallbackComponent,
 });
-
 const Notifications = dynamic(() => import('@/components/pages/Notifications/NotificationsPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -128,7 +124,6 @@ const NotificationSettings = dynamic(() => import('@/components/pages/Notificati
   ssr: false,
   loading: FallbackComponent,
 });
-
 const NoticeList = dynamic(() => import('@/components/pages/NoticeList/NoticeListPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -137,16 +132,14 @@ const NoticeDetail = dynamic(() => import('@/components/pages/NoticeDetail/Notic
   ssr: false,
   loading: FallbackComponent,
 });
-
 const Qna = dynamic(() => import('@/components/pages/Qna/QnaPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
-// const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
-//   ssr: false,
-//   loading: FallbackComponent,
-// });
+const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
+  ssr: false,
+  loading: FallbackComponent,
+});
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
   loading: FallbackComponent,
   ssr: false,
@@ -171,7 +164,6 @@ const DanjiListings = dynamic(() => import('@/components/pages/DanjiListings/Dan
   loading: FallbackComponent,
   ssr: false,
 });
-
 const ChatRoom = dynamic(() => import('@/components/pages/ChatRoom/ChatRoomPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -184,7 +176,6 @@ const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomRepor
   ssr: false,
   loading: FallbackComponent,
 });
-
 const TransactionReview = dynamic(() => import('@/components/pages/pc/TransactionReview'), {
   ssr: false,
   loading: FallbackComponent,
@@ -193,12 +184,10 @@ const FAQ = dynamic(() => import('@/components/pages/Faq/FaqPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const WaitingCreateForm = dynamic(() => import('@/components/pages/WaitingCreateForm/WaitingCreateFormPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-
 const ListingSelectAddress = dynamic(() => import('@/components/pages/pc/ListingSelectAddress'), {
   ssr: false,
   loading: FallbackComponent,
@@ -231,7 +220,6 @@ const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages
   ssr: false,
   loading: FallbackComponent,
 });
-
 const BiddingForm = dynamic(() => import('@/components/pages/pc/BiddingForm'), {
   ssr: false,
   loading: FallbackComponent,
@@ -256,7 +244,6 @@ const UpdateBiddingSuccess = dynamic(() => import('@/components/pages/pc/UpdateB
   ssr: false,
   loading: FallbackComponent,
 });
-
 const ListingQnaCreateForm = dynamic(() => import('@/components/pages/pc/ListingQnaCreateForm'), {
   ssr: false,
   loading: FallbackComponent,
@@ -269,7 +256,6 @@ const ListingReport = dynamic(() => import('@/components/pages/pc/ListingReport'
   ssr: false,
   loading: FallbackComponent,
 });
-
 const SuggestGuide = dynamic(() => import('@/components/pages/SuggestGuide/SuggestGuidePc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -310,7 +296,6 @@ const SuggestListingForm = dynamic(() => import('@/components/pages/pc/SuggestLi
   ssr: false,
   loading: FallbackComponent,
 });
-
 const LawQna = dynamic(() => import('@/components/pages/pc/LawQna'), {
   ssr: false,
   loading: FallbackComponent,
@@ -331,7 +316,6 @@ const LawQnaUpdate = dynamic(() => import('@/components/pages/pc/LawQnaUpdate'),
   ssr: false,
   loading: FallbackComponent,
 });
-
 const SubHome = dynamic(() => import('@/components/pages/SubHome/SubHomePc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -360,7 +344,6 @@ const SpecialTerms = dynamic(() => import('@/components/pages/SpecialTerms/Speci
   ssr: false,
   loading: FallbackComponent,
 });
-
 const RealestateDocumentList = dynamic(
   () => import('@/components/pages/RealestateDocumentList/RealestateDocumentListPc'),
   {
@@ -403,7 +386,6 @@ const RealestateDocumentAddressVerifyResult = dynamic(
     loading: FallbackComponent,
   },
 );
-
 // 약관 및 정책 관련
 const BusinessInfo = dynamic(() => import('@/components/pages/BusinessInfo/BusinessInfoPc'), {
   ssr: false,
@@ -413,7 +395,6 @@ const ServiceInfo = dynamic(() => import('@/components/pages/ServiceInfo/Service
   ssr: false,
   loading: FallbackComponent,
 });
-
 const ContractTerms = dynamic(() => import('@/components/pages/ContractTerms/ContractTermsPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -426,7 +407,6 @@ const ServiceTerms = dynamic(() => import('@/components/pages/ServiceTerms/Servi
   ssr: false,
   loading: FallbackComponent,
 });
-
 const PrivacyPolicy = dynamic(() => import('@/components/pages/PrivacyPolicy/PrivacyPolicyPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -435,7 +415,6 @@ const TermsAndPolicy = dynamic(() => import('@/components/pages/TermsAndPolicy/T
   ssr: false,
   loading: FallbackComponent,
 });
-
 const Developer = dynamic(() => import('@/components/pages/Developer/DeveloperPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -562,9 +541,9 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.ChatRoomReport: {
       return <ChatRoomReport key={query.chatRoomID as string} {...props} />;
     }
-    // case Routes.DanjiDetail: {
-    //   return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
-    // }
+    case Routes.DanjiDetail: {
+      return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
+    }
     case Routes.DanjiPhotos: {
       return <DanjiPhotos key={`${query.danjiID}`} {...props} />;
     }

@@ -76,8 +76,6 @@ function DanjiDetailPc({
   preselectedSchoolType,
   danjiSchools,
 }: DanjiDetailProps) {
-  console.log(useRouter());
-
   const {
     scrollContainer,
 

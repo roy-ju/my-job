@@ -29,7 +29,7 @@ import RegisterButtons from '../suggests-or-listings-mobile/RegisterButtons';
 
 import { CommonDanjiDetailProps } from '../types';
 
-const ImpossibleSuggestArea = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
+const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestAreaPopup'), {
   ssr: false,
 });
 
@@ -196,7 +196,7 @@ export default function SuggestsOrListings({
         />
       </div>
 
-      {popup === 'impossibleSuggestArea' && <ImpossibleSuggestArea handleClosePopup={handleClosePopup} />}
+      {popup === 'impossibleSuggestArea' && <ImpossibleSuggestAreaPopup handleClosePopup={handleClosePopup} />}
     </>
   );
 }
