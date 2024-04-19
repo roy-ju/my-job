@@ -2,6 +2,8 @@ import { ReactNode, useEffect, useMemo } from 'react';
 
 import { mutate } from 'swr';
 
+import { toast } from 'react-toastify';
+
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
 import useAuth from '@/hooks/services/useAuth';
@@ -62,13 +64,12 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
     onOpen: () => {},
     onClose: () => {},
     onMessage: async (e) => {
-      const Toast = (await import('react-toastify')).default;
       const data = JSON.parse(e.data);
       if (data && data.key) {
         switch (data.key) {
           case 'new_chat':
             if (window.location.pathname.indexOf('/chatRoom') === -1) {
-              Toast?.toast.success('새로운 채팅메시지가 있습니다.');
+              toast.success('새로운 채팅메시지가 있습니다.');
             }
             mutate('/chat/room/list');
             setUnreadChatCount(1);
@@ -80,7 +81,7 @@ export default function NegocioProvider({ children }: { children?: ReactNode }) 
             break;
 
           case 'new_notification':
-            Toast?.toast.success('새로운 알림이 있습니다.');
+            toast.success('새로운 알림이 있습니다.');
             setUnreadNotificationCount(Number(data.value) ?? 0);
             break;
 
