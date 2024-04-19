@@ -8,10 +8,7 @@ const BottomSheetBezel = forwardRef<HTMLDivElement, Props>((props, ref) => (
     ref={ref}
     {...props}
   >
-    <div
-      tw="[min-width: 48px] [max-width: 48px] [min-height: 4px] 
-            bg-gray-400 [border-radius: 2px] mx-auto my-2"
-    />
+    <div tw="[min-width: 48px] [max-width: 48px] [min-height: 4px] bg-gray-400 [border-radius: 2px] mx-auto my-2" />
   </div>
 ));
 
