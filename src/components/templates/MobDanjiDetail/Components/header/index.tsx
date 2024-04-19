@@ -155,9 +155,7 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
 
     navigator.clipboard.writeText(content);
 
-    const Toast = (await import('react-toastify')).default;
-
-    Toast.toast.success('복사되었습니다.');
+    toast.success('복사되었습니다.');
 
     setPopup(false);
   };
