@@ -170,11 +170,9 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
         ]}
       >
         <NavigationHeader.BackButton isHeaderActive={!isHeaderActive} onClick={handleClickBack} />
-
         <NavigationHeader.Title tw="text-inherit">
           <h1>{danji.name}</h1>
         </NavigationHeader.Title>
-
         <div tw="flex gap-4">
           <NavigationHeader.Button onClick={handleClickShare}>
             <ShareIcon tw="text-inherit" />
@@ -184,7 +182,6 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
           </NavigationHeader.Button>
         </div>
       </NavigationHeader>
-
       {popup && (
         <OverlayPresenter>
           <SharePopup

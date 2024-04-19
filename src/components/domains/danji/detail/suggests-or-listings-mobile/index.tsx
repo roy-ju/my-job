@@ -31,7 +31,7 @@ import { CommonDanjiDetailProps } from '../types';
 
 const FixedButton = dynamic(() => import('./FixedButton'), { ssr: false });
 
-const ImpossibleSuggestArea = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestArea'), {
+const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestAreaPopup'), {
   ssr: false,
 });
 
@@ -201,7 +201,7 @@ export default function SuggestsOrListings({
       </div>
       <FixedButton tabIndex={tabIndex} handleClickSuggestButton={handleCreateSuggest} />
 
-      {popup === 'impossibleSuggestArea' && <ImpossibleSuggestArea handleClosePopup={handleClosePopup} />}
+      {popup === 'impossibleSuggestArea' && <ImpossibleSuggestAreaPopup handleClosePopup={handleClosePopup} />}
     </>
   );
 }

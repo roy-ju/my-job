@@ -232,7 +232,6 @@ export type DanjiSuggestRecommendEligibilityResponse = {
   is_eligible: boolean;
 };
 
-<<<<<<< HEAD
 export type SchoolsListItem = {
   school_name: string;
   school_id: string;
@@ -244,7 +243,8 @@ export type SchoolsListItem = {
 
 export type DanjiMapSchoolsResponse = {
   list: SchoolsListItem[] | null;
-=======
+};
+
 export interface AdministrativeDistrictItem {
   name: string;
   code: string;
@@ -265,5 +265,4 @@ export type DanjiSidoListResponse = {
 
 export type DanjiEubmyeondongListResponse = {
   list: EubmyeondongListItem[] | null;
->>>>>>> e82b2d42849a4ed08dc4923be303cdda6f25e832
 } & ErrorResponse;
