@@ -2,6 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import dynamic from 'next/dynamic';
+
 import tw, { styled } from 'twin.macro';
 
 import { Loading } from '@/components/atoms';
@@ -18,7 +20,11 @@ import SeperatorV2 from '@/components/atoms/SeperatorV2';
 
 import { SuggestStatus } from '@/constants/enums';
 
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
 import useCheckNotResource from '@/hooks/useCheckNotResource';
+
+import { AnimatePresence } from 'framer-motion';
 
 import useInactive from './suggest-detail/hooks/useInactive';
 
@@ -36,9 +42,18 @@ import NotyetInterview from './suggest-detail/NotyetInterview';
 
 import useMySuggestDetailHeaderHandler from './suggest-detail/hooks/useMySuggestDetailHeaderHandler';
 
-import DeletePopup from './suggest-detail/popups/DeletePopup';
+const BottomSheetOverlayPresenter = dynamic(() => import('@/components/molecules/BottomSheetOverlayPresenter'), {
+  ssr: false,
+});
 
-import SelectInterviewPopupsPc from './suggest-detail/popups/SelectInterviewPopupPc';
+const SelectInterviewPopupsPc = dynamic(() => import('./suggest-detail/popups/SelectInterviewPopupPc'), { ssr: false });
+
+const SelectInterviewBottomSheetMobile = dynamic(
+  () => import('./suggest-detail/popups/SelectInterviewBottomSheetMobile'),
+  { ssr: false },
+);
+
+const DeletePopup = dynamic(() => import('./suggest-detail/popups/DeletePopup'), { ssr: false });
 
 const FlexContents = styled.div`
   ${tw`flex flex-col flex-1 h-full pt-6 overflow-y-auto`}
@@ -61,6 +76,8 @@ const options = ['요청 수정', '요청 중단', '요청 취소'];
 const options2 = ['요청 수정', '요청 재개', '요청 취소'];
 
 export default function MySuggestDetail() {
+  const { platform } = useCheckPlatform();
+
   const router = useRouter();
 
   const [openSelectInterviewAvailableTimesPopup, setOpenSelectInterviewAvailableTimesPopup] = useState(false);
@@ -232,7 +249,7 @@ export default function MySuggestDetail() {
         <DeletePopup handleClickCancel={handleCloseDeletePopup} handleClickConfirm={handleDeleteMySuggest} />
       )}
 
-      {openSelectInterviewAvailableTimesPopup && (
+      {openSelectInterviewAvailableTimesPopup && platform === 'pc' && (
         <SelectInterviewPopupsPc
           suggestID={suggestDetailData.suggest_id}
           interviewAvaliableTimes={suggestDetailData.interview_available_times ?? ''}
@@ -240,6 +257,19 @@ export default function MySuggestDetail() {
           mutateSuggestDetail={mutateDetail}
         />
       )}
+
+      <AnimatePresence>
+        {openSelectInterviewAvailableTimesPopup && platform === 'mobile' && (
+          <BottomSheetOverlayPresenter handleClick={() => handleOpenOrCloseSelectInterviewPopup(false)}>
+            <SelectInterviewBottomSheetMobile
+              suggestID={suggestDetailData.suggest_id}
+              interviewAvaliableTimes={suggestDetailData.interview_available_times ?? ''}
+              handleOpenOrCloseSelectInterviewPopup={handleOpenOrCloseSelectInterviewPopup}
+              mutateSuggestDetail={mutateDetail}
+            />
+          </BottomSheetOverlayPresenter>
+        )}
+      </AnimatePresence>
     </>
   );
 }

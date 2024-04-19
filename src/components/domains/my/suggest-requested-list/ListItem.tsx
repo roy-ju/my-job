@@ -49,8 +49,18 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
   const labelRenderType = useMemo(() => {
     if (item?.suggest_complete_status) return 'success';
 
+    if (item?.suggest_recommended_count && item.suggest_recommended_count > 0) return '';
+
+    if (!item?.is_interviewed) return 'interview';
+
     return '';
   }, [item]);
+
+  const newCount =
+    labelRenderType === 'success' || labelRenderType === 'interview' ? 0 : item.new_suggest_recommended_count;
+
+  const allCount =
+    labelRenderType === 'success' || labelRenderType === 'interview' ? 0 : item.new_suggest_recommended_count;
 
   return (
     <div>
@@ -81,10 +91,13 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
             </StatusLabelWrraper>
           )}
 
-          <SuggestCounts
-            newCount={labelRenderType === 'success' ? 0 : item.new_suggest_recommended_count}
-            allCount={labelRenderType === 'success' ? 0 : item.suggest_recommended_count}
-          />
+          {labelRenderType === 'interview' && (
+            <StatusLabelWrraper>
+              <StatusLabel render iconType="interview" message="인터뷰 진행 전이에요!" />
+            </StatusLabelWrraper>
+          )}
+
+          <SuggestCounts newCount={newCount} allCount={allCount} />
         </div>
       </button>
     </div>
