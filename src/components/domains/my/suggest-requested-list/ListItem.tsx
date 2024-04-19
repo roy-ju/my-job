@@ -60,7 +60,7 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
     labelRenderType === 'success' || labelRenderType === 'interview' ? 0 : item.new_suggest_recommended_count;
 
   const allCount =
-    labelRenderType === 'success' || labelRenderType === 'interview' ? 0 : item.new_suggest_recommended_count;
+    labelRenderType === 'success' || labelRenderType === 'interview' ? 0 : item.suggest_recommended_count;
 
   return (
     <div>
