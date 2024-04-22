@@ -148,7 +148,11 @@ export default function useRegionSelectPopupHandler() {
   );
 
   const handleRemoveSelectedRegionItem = useCallback(
-    (v: RegionItem) => {
+    (v: RegionItem, isLastRemove: boolean) => {
+      if (isLastRemove) {
+        setCurrentSelectedEubmyeondong(null);
+      }
+
       const splitedName = v.name.split(' ');
 
       const sido = splitedName[0];
