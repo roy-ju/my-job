@@ -8,7 +8,7 @@ import tw, { styled } from 'twin.macro';
 
 import Zap from '@/../public/static/images/icon_zap.png';
 
-import Interview from '@/../public/static/images/suggests/Telephone.png';
+import Phone from '@/../public/static/images/icon_phone.png';
 
 import formatInterviewTimes from './utils/formatInterviewTimes';
 
@@ -56,13 +56,13 @@ export default function Message({ isEveryTimeAvailable, isQuickInterview, interv
     </QuickInterviewGuideContainerIfIsQuickInterview>
   ) : isEveryTimeAvailable ? (
     <QuickInterviewGuideContainerIfIsQuickInterview>
-      <Image src={Interview.src} width={20} height={20} alt="interview" />
+      <Image src={Phone.src} width={20} height={20} alt="interview" />
       <span>{convertedAvaliableTimes}</span>
     </QuickInterviewGuideContainerIfIsQuickInterview>
   ) : (
     <QuickInterviewGuideContainer>
       <div>
-        <Image src={Interview.src} width={20} height={20} alt="interview" />
+        <Image src={Phone.src} width={20} height={20} alt="interview" />
         <span>선택한 인터뷰 시간</span>
       </div>
       <div>{convertedAvaliableTimes}</div>
