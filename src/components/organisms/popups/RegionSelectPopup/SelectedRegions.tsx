@@ -22,7 +22,7 @@ function makeKey(v1: string, v2: string, v3: number) {
 
 type SelectedRegionsProps = {
   selectedRegions: RegionItem[];
-  handleRemoveSelectedRegionItem: (v: RegionItem) => void;
+  handleRemoveSelectedRegionItem: (v: RegionItem, isLastRemove: boolean) => void;
 };
 
 const SelectedRegions = React.forwardRef<HTMLDivElement, SelectedRegionsProps>(
@@ -66,7 +66,13 @@ const SelectedRegions = React.forwardRef<HTMLDivElement, SelectedRegionsProps>(
               <DeleteIcon
                 tw="cursor-pointer"
                 onClick={() => {
-                  handleRemoveSelectedRegionItem(item);
+                  let isLastRemove = false;
+
+                  if (selectedRegions.length === idx + 1) {
+                    isLastRemove = true;
+                  }
+
+                  handleRemoveSelectedRegionItem(item, isLastRemove);
                 }}
               />
             </SelectedRegionsTag>
