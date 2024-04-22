@@ -6,7 +6,7 @@ import CheckCircleGray20 from '@/assets/icons/check_circle_gray_20.svg';
 
 import ErrorCircleGray20 from '@/assets/icons/error_circle_gray_20.svg';
 
-import Interview from '@/../public/static/images/suggests/Telephone.png';
+import Phone from '@/../public/static/images/icon_phone.png';
 
 export default function StatusLabel({
   render = false,
@@ -30,7 +30,7 @@ export default function StatusLabel({
     >
       {iconType === 'success' && <CheckCircleGray20 />}
       {iconType === 'error' && <ErrorCircleGray20 />}
-      {iconType === 'interview' && <Image src={Interview} width={20} height={20} alt="interview" />}
+      {iconType === 'interview' && <Image src={Phone.src} width={20} height={20} alt="interview" tw="mr-1" />}
       <p>{message}</p>
     </div>
   );
