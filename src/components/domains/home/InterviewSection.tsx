@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import ChipV2 from '@/components/atoms/ChipV2';
 
-import { MarginTopTwenty, MarginTopSixteen } from '@/components/atoms/Margin';
+import { MarginTopTwenty, MarginTopSixteen, MarginTopTwelve } from '@/components/atoms/Margin';
 
 import { HomeSuggestInfoResponse } from '@/services/home/types';
 
@@ -44,7 +44,7 @@ export default function InterviewSection({ data }: InterviewSectionProps) {
         isQuickInterview={data.interview_schedule_info?.is_quick_interview ?? false}
         interviewAvaliableTimes={data.interview_schedule_info?.interview_available_times ?? ''}
       />
-      <MarginTopTwenty />
+      <MarginTopTwelve />
       <GuideText>오늘 연락드릴게요! (영업시간 종료, 공휴일은 익일)</GuideText>
     </>
   );
