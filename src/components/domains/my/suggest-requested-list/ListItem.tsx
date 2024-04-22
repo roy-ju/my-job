@@ -6,6 +6,7 @@ import { MySuggestListItem } from '@/services/my/types';
 
 import StatusLabel from '@/components/organisms/suggest/StatusLabel';
 
+import { SuggestStatus } from '@/constants/enums';
 import RealestateTypeLabel from './RealestateTypeLabel';
 
 import CreatedTime from './CreatedTime';
@@ -51,7 +52,7 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
 
     if (item?.suggest_recommended_count && item.suggest_recommended_count > 0) return '';
 
-    if (!item?.is_interviewed) return 'interview';
+    if (!item?.is_interviewed && item.status !== SuggestStatus.Stopped) return 'interview';
 
     return '';
   }, [item]);
