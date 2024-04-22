@@ -38,6 +38,9 @@ export default function InterviewSection({ data }: InterviewSectionProps) {
       </InterviewSectionWrraper>
       <MarginTopSixteen />
       <Message
+        isEveryTimeAvailable={data.interview_schedule_info?.interview_available_times?.includes(
+          '인터뷰 시간대 상관 없어요.',
+        )}
         isQuickInterview={data.interview_schedule_info?.is_quick_interview ?? false}
         interviewAvaliableTimes={data.interview_schedule_info?.interview_available_times ?? ''}
       />
