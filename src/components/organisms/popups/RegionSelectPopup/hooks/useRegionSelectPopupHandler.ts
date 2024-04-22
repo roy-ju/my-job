@@ -111,11 +111,6 @@ export default function useRegionSelectPopupHandler() {
 
   const handleChangeEubmyeondong = useCallback(
     (v: RegionItem) => {
-      if (selectedRegions.length === 5) {
-        toast.error('지역은 5개까지 선택 가능합니다');
-        return;
-      }
-
       if (currentSelectedSido && currentSelectedSigungu) {
         const item = {
           name: `${currentSelectedSido.name} ${currentSelectedSigungu.name} ${v.name}`,
@@ -126,8 +121,11 @@ export default function useRegionSelectPopupHandler() {
 
         if (isExistedSelectedRegion) {
           const filteredItems = selectedRegions.filter((i) => i.name !== item.name);
-          const filteredSidos = removeElementOnce(selectedSidos, currentSelectedSigungu.name);
-          const filteredSigungs = removeElementOnce(selectedSigungus, currentSelectedSido.name);
+
+          const filteredSidos = removeElementOnce(selectedSidos, currentSelectedSido.name);
+
+          const filteredSigungs = removeElementOnce(selectedSigungus, currentSelectedSigungu.name);
+
           const filteredEubmyeondongs = selectedEubmyeondongs.filter((i) => i !== v.name);
 
           // 선택된 읍면동 이름과 현재 선택된 읍면동 이름이 같으면
@@ -139,6 +137,11 @@ export default function useRegionSelectPopupHandler() {
           setSelectedSidos(filteredSidos);
           setSelectedSigungus(filteredSigungs);
           setSelectedEubmyeondongs(filteredEubmyeondongs);
+          return;
+        }
+
+        if (selectedRegions.length === 5) {
+          toast.error('지역은 5개까지 선택 가능합니다');
           return;
         }
 
@@ -194,6 +197,8 @@ export default function useRegionSelectPopupHandler() {
     },
     [selectedEubmyeondongs, selectedRegions, selectedSidos, selectedSigungus],
   );
+
+  console.log(selectedSidos, selectedSigungus, selectedEubmyeondongs);
 
   useEffect(() => {
     const { bubjungdong, address } = state;
