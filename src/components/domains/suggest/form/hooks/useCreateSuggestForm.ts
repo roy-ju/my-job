@@ -96,7 +96,7 @@ export default function useCreateSuggestForm() {
       try {
         if (params) {
           delete params.address;
-          params.bubjungdong_codes = params.bubjungdong_code;
+          params.bubjungdong_codes = (params.bubjungdong_code as string[]).reverse();
           delete params.bubjungdong_code;
         }
 
