@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import tw, { styled } from 'twin.macro';
 
-import Interview from '@/../public/static/images/suggests/Telephone.png';
+import Phone from '@/../public/static/images/icon_phone.png';
 
 type QuickInterviewGuideProps = {
   isQuickInterview: boolean;
@@ -45,13 +45,13 @@ export default function QuickInterviewGuide({ isQuickInterview, interviewAvaliab
 
   return isQuickInterview ? (
     <QuickInterviewGuideContainerIfIsQuickInterview>
-      <Image src={Interview.src} width={20} height={20} alt="interview" />
-      <span>빠른 인터뷰 요청했어요!</span>
+      <Image src={Phone.src} width={20} height={20} alt="interview" />
+      <span>빠른 인터뷰를 요청했어요!</span>
     </QuickInterviewGuideContainerIfIsQuickInterview>
   ) : (
     <QuickInterviewGuideContainer>
       <div>
-        <Image src={Interview.src} width={20} height={20} alt="interview" />
+        <Image src={Phone.src} width={20} height={20} alt="interview" />
         <span>선택한 인터뷰 가능 시간</span>
       </div>
       <div>{convertedAvaliableTimes}</div>

@@ -6,6 +6,7 @@ import ButtonV2 from '@/components/atoms/ButtonV2';
 
 import { DanjiOrRegionalType } from '@/constants/enums';
 
+import { replaceRegionNames } from '@/utils/replaceSigunguNames';
 import Section from './ui/Section';
 
 import AnimateRegionOrDanjiButton from './ui/AnimateRegionOrDanjiButton';
@@ -77,7 +78,7 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
                   ? typeof address !== 'string'
                     ? address.map((item, idx) => (
                         <span key={item} css={[idx === 0 && tw`[margin-top: 6px]`]}>
-                          {item}
+                          {replaceRegionNames(item)}
                         </span>
                       ))
                     : null

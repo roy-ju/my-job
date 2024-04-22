@@ -11,7 +11,7 @@ import QuickInterviewOperators from './QuickInterviewOperators';
 const Container = styled.div``;
 
 const Title = styled.span`
-  ${tw`block mt-2 text-heading_01`}
+  ${tw`block text-heading_01`}
 `;
 
 const Ul = styled.ul`
@@ -39,8 +39,10 @@ export default function NotyetInterview({
 }: NotyetInterviewProps) {
   return (
     <Container>
-      <Title>인터뷰 진행 전입니다.</Title>
-      <Ul>
+      <div tw="[height: 36px] flex items-center mt-2">
+        <Title>인터뷰 진행 전이에요!</Title>
+      </div>
+      <Ul tw="[height: 68px]">
         <li>- 인터뷰 미진행 시, 집을 추천받을 수 없습니다.</li>
         <li>- 인터뷰는 주말, 공휴일을 제외한 영업일에 순차적으로 진행됩니다.</li>
         <li>

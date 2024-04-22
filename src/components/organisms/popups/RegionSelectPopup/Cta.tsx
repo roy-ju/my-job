@@ -15,7 +15,11 @@ export default function Cta({ disabled, onSubmit }: SubmitProps) {
   const { platform } = useCheckPlatform();
 
   return (
-    <CtaWrraper css={[platform === 'pc' ? tw`pb-5` : tw`pb-3`]}>
+    <CtaWrraper
+      css={[
+        platform === 'pc' ? tw`pb-5 [border-bottom-left-radius: 20px] [border-bottom-right-radius: 20px]` : tw`pb-3`,
+      ]}
+    >
       <ButtonV2 disabled={disabled} onClick={onSubmit} tw="w-full" size="bigger">
         선택 완료
       </ButtonV2>
