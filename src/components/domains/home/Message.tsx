@@ -56,7 +56,7 @@ export default function Message({ isQuickInterview, interviewAvaliableTimes }: M
     <QuickInterviewGuideContainer>
       <div>
         <Image src={Interview.src} width={20} height={20} alt="interview" />
-        <span>선택한 인터뷰 가능 시간</span>
+        <span>선택한 인터뷰 시간</span>
       </div>
       <div>{convertedAvaliableTimes}</div>
     </QuickInterviewGuideContainer>
