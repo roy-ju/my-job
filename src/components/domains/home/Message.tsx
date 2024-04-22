@@ -34,15 +34,15 @@ const QuickInterviewGuideContainer = styled.div`
 
 export default function Message({ isEveryTimeAvailable, isQuickInterview, interviewAvaliableTimes }: MessageProps) {
   const convertedAvaliableTimes = useCallback(() => {
-    if (!interviewAvaliableTimes) return '-';
+    if (!interviewAvaliableTimes) return <div tw="text-subhead_01 text-gray-800">-</div>;
 
-    if (interviewAvaliableTimes.includes('인터뷰를 원하지 않아요.')) return '연락가능한 인터뷰시간대를 등록해 주세요!';
-
-    if (interviewAvaliableTimes.includes('인터뷰 시간대 상관 없어요.')) return '순차적으로 연락드릴게요!';
+    if (interviewAvaliableTimes.includes('인터뷰를 원하지 않아요.'))
+      return <div tw="text-subhead_01 text-gray-800">연락가능한 인터뷰시간대를 등록해 주세요!</div>;
 
     const array = formatInterviewTimes(interviewAvaliableTimes).split('/');
 
-    if (array.length === 1) return formatInterviewTimes(interviewAvaliableTimes);
+    if (array.length === 1)
+      return <div tw="text-subhead_01 text-gray-800">{formatInterviewTimes(interviewAvaliableTimes)}</div>;
 
     const newArray = [];
 
@@ -72,7 +72,7 @@ export default function Message({ isEveryTimeAvailable, isQuickInterview, interv
   ) : isEveryTimeAvailable ? (
     <QuickInterviewGuideContainerIfIsQuickInterview>
       <Image src={Phone.src} width={20} height={20} alt="interview" />
-      <span>{convertedAvaliableTimes()}</span>
+      <span>순차적으로 연락드릴게요!</span>
     </QuickInterviewGuideContainerIfIsQuickInterview>
   ) : (
     <QuickInterviewGuideContainer>
