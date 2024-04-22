@@ -6,7 +6,8 @@ import { MySuggestListItem } from '@/services/my/types';
 
 import StatusLabel from '@/components/organisms/suggest/StatusLabel';
 
-import { SuggestStatus } from '@/constants/enums';
+import { DanjiOrRegionalType, SuggestStatus } from '@/constants/enums';
+import { replaceRegionNames } from '@/utils/replaceSigunguNames';
 import RealestateTypeLabel from './RealestateTypeLabel';
 
 import CreatedTime from './CreatedTime';
@@ -73,7 +74,9 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
           </ListItemHeader>
 
           <BasicInfo>
-            <Title>{item.title}</Title>
+            <Title>
+              {item.danji_or_regional === DanjiOrRegionalType.Danji ? item.title : replaceRegionNames(item.title)}
+            </Title>
             <BuyOrRentPriceNegotiableWrraper>
               <BuyOrRent buyOrRents={item.buy_or_rents} />
               <Price
