@@ -46,7 +46,7 @@ export default function QuickInterviewGuide({ isQuickInterview, interviewAvaliab
   return isQuickInterview ? (
     <QuickInterviewGuideContainerIfIsQuickInterview>
       <Image src={Phone.src} width={20} height={20} alt="interview" />
-      <span>빠른 인터뷰 요청했어요!</span>
+      <span>빠른 인터뷰를 요청했어요!</span>
     </QuickInterviewGuideContainerIfIsQuickInterview>
   ) : (
     <QuickInterviewGuideContainer>

@@ -30,7 +30,7 @@ export default function StatusLabel({
     >
       {iconType === 'success' && <CheckCircleGray20 />}
       {iconType === 'error' && <ErrorCircleGray20 />}
-      {iconType === 'interview' && <Image src={Phone.src} width={20} height={20} alt="interview" />}
+      {iconType === 'interview' && <Image src={Phone.src} width={20} height={20} alt="interview" tw="mr-1" />}
       <p>{message}</p>
     </div>
   );
