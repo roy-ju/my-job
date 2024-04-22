@@ -39,7 +39,7 @@ export const ListInnerWrraper = styled.div`
 `;
 
 export const SelectedRegionsContainer = styled.div`
-  ${tw`py-4`}
+  ${tw`py-4 [box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.1)]`}
 `;
 
 export const SelectedRegionsTitleWrraper = styled.div`
@@ -68,7 +68,7 @@ export const ScrollContainer = styled.div`
 `;
 
 export const CtaWrraper = styled.div`
-  ${tw`px-5 pt-3`}
+  ${tw`px-5 pt-3 bg-white`}
 `;
 
 export const SelectedRegionsTag = styled(SelectTag)`
