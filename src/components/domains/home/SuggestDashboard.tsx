@@ -1,16 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
 import Image from 'next/image';
 
-import { theme } from 'twin.macro';
-
-import { MarginTopSixteen, MarginTopTwenty } from '@/components/atoms/Margin';
+import { MarginTopTwenty } from '@/components/atoms/Margin';
 
 import ButtonV2 from '@/components/atoms/ButtonV2';
-
-import ChipV2 from '@/components/atoms/ChipV2';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
@@ -24,24 +20,13 @@ import Hourglass from '@/../public/static/images/icon_hourglass.png';
 
 import Housegarden from '@/../public/static/images/icon_house-garden.png';
 
-import IconArrowRight from '@/assets/icons/icon_arrow_right_12_1.svg';
-
 import Routes from '@/router/routes';
 
-import Message from './Message';
+import TextButton from '@/components/atoms/TextButton';
 
-import {
-  Title,
-  GoListButton,
-  ItemWrraper,
-  ItemTitle,
-  CountText,
-  ItemSubTitle,
-  InterviewSectionWrraper,
-  GuideText,
-  Line,
-  Container,
-} from './widget/SuggestDashobardWidget';
+import { Title, ItemWrraper, ItemTitle, CountText, ItemSubTitle, Container } from './widget/SuggestDashobardWidget';
+
+import InterviewSection from './InterviewSection';
 
 type SuggestDashboardProps = {
   data: HomeSuggestInfoResponse;
@@ -53,16 +38,6 @@ export default function SuggestDashboard({ data }: SuggestDashboardProps) {
   const { platform } = useCheckPlatform();
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
-
-  const interviewSchduleCountText = useMemo(() => {
-    if (data?.interview_schedule_info) {
-      return data.interview_schedule_info.interview_schedule_count
-        ? `${data.interview_schedule_info?.address || ''} 외 ${data.interview_schedule_info.interview_schedule_count}건`
-        : `${data.interview_schedule_info?.address || ''}`;
-    }
-
-    return '';
-  }, [data?.interview_schedule_info]);
 
   const handleClickGoList = useCallback(() => {
     if (platform === 'pc') {
@@ -101,10 +76,7 @@ export default function SuggestDashboard({ data }: SuggestDashboardProps) {
     <Container>
       <Title>
         나의 집구하기 현황
-        <GoListButton onClick={handleClickGoList}>
-          구해요 목록
-          <IconArrowRight color={theme`colors.gray.600`} />
-        </GoListButton>
+        <TextButton variant="right" title="구해요 목록" size="small" color="gray600" onClick={handleClickGoList} />
       </Title>
       <MarginTopTwenty />
       <ItemWrraper>
@@ -125,25 +97,7 @@ export default function SuggestDashboard({ data }: SuggestDashboardProps) {
           {data.suggest_new_recommended_count}/{data.suggest_total_recommended_count}건
         </CountText>
       </ItemWrraper>
-      {data?.interview_schedule_info && <Line />}
-      {data?.interview_schedule_info && <MarginTopSixteen />}
-      {data?.interview_schedule_info && (
-        <InterviewSectionWrraper>
-          <ChipV2 variant="red" size="large">
-            인터뷰 예정
-          </ChipV2>
-          {interviewSchduleCountText}
-        </InterviewSectionWrraper>
-      )}
-      {data?.interview_schedule_info && <MarginTopSixteen />}
-      {data?.interview_schedule_info && (
-        <Message
-          isQuickInterview={data.interview_schedule_info?.is_quick_interview ?? false}
-          interviewAvaliableTimes={data.interview_schedule_info?.interview_available_times ?? ''}
-        />
-      )}
-      {data?.interview_schedule_info && <MarginTopSixteen />}
-      {data?.interview_schedule_info && <GuideText>오늘 연락드릴게요! (영업시간 종료, 공휴일은 익일)</GuideText>}
+      <InterviewSection data={data} />
       <MarginTopTwenty />
       <ButtonV2 tw="w-full" onClick={handleClickGoSuggestForm}>
         새로운 집 구할래요!
