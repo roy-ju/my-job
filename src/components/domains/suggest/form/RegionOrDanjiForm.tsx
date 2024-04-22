@@ -38,8 +38,6 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
   const { danjiOrRegion, address, danjiName, handleClickDanjiOrRegion, handleOpenReselectPopup } =
     useSelectDanjiOrRegion();
 
-  console.log(address);
-
   return (
     <Section id={forms.REGION_OR_DANJI} tw="pt-0">
       {!address.length && !danjiName ? (
