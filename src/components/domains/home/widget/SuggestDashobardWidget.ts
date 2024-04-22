@@ -30,10 +30,6 @@ export const CountText = styled.span`
   ${tw`ml-auto text-subhead_03 text-nego-800`}
 `;
 
-export const GoListButton = styled.button`
-  ${tw`flex flex-row items-center justify-between ml-auto text-gray-600 text-info`}
-`;
-
 export const Line = styled.div`
   ${tw`w-full [min-height: 1px] bg-gray-200`}
 `;
