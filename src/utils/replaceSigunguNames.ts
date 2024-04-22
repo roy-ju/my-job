@@ -1,11 +1,11 @@
 export function replaceRegionNames(text: string) {
   const regionMapping: Record<string, string> = {
-    서울: '서울시',
     서울특별시: '서울시',
-    경기: '경기도',
+    서울: '서울시',
     경기도: '경기도',
-    인천: '인천시',
+    경기: '경기도',
     인천광역시: '인천시',
+    인천: '인천시',
 
     // 부산시: '부산시',
     // 부산광역시: '부산시',
@@ -25,6 +25,7 @@ export function replaceRegionNames(text: string) {
   };
 
   // 정규식을 사용하여 모든 지역 명칭을 대체
+
   return text.replace(
     new RegExp(
       Object.keys(regionMapping)
