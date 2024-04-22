@@ -198,8 +198,6 @@ export default function useRegionSelectPopupHandler() {
     [selectedEubmyeondongs, selectedRegions, selectedSidos, selectedSigungus],
   );
 
-  console.log(selectedSidos, selectedSigungus, selectedEubmyeondongs);
-
   useEffect(() => {
     const { bubjungdong, address } = state;
 
