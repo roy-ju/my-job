@@ -61,8 +61,8 @@ export default function Loans({ list }: LoansProps) {
           <div>내용</div>
         </LoansTableHead>
         {(!open ? list.slice(0, 3) : list.slice(0, list.length)).map((item) => (
-          <LoansTableBody key={item.purpose + item.application_info + item.number}>
-            <div>{`${item.purpose}\n${item.application_info}`}</div>
+          <LoansTableBody key={item.purpose + (item?.application_info ?? '-') + item.number}>
+            <div>{`${item.purpose}\n${item?.application_info ?? '-'}`}</div>
             <div>
               <StrikeOut str={item.description} />
             </div>

@@ -12,6 +12,7 @@ import Phone from '@/../public/static/images/icon_phone.png';
 
 import { v4 } from 'uuid';
 
+import sortTimes from '@/utils/sortTimes';
 import formatInterviewTimes from './utils/formatInterviewTimes';
 
 type MessageProps = {
@@ -46,9 +47,13 @@ export default function Message({ isEveryTimeAvailable, isQuickInterview, interv
 
     const newArray = [];
 
-    for (let i = 0; i < array.length; i++) {
-      newArray.push(array[i]);
-      if (i < array.length - 1) {
+    const convertedArray = sortTimes(array);
+
+    console.log(convertedArray);
+
+    for (let i = 0; i < convertedArray.length; i++) {
+      newArray.push(convertedArray[i]);
+      if (i < convertedArray.length - 1) {
         newArray.push('/');
       }
     }

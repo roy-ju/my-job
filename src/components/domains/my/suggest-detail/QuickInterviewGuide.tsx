@@ -5,6 +5,7 @@ import Image from 'next/image';
 import tw, { styled } from 'twin.macro';
 
 import Phone from '@/../public/static/images/icon_phone.png';
+import sortTimes from '@/utils/sortTimes';
 
 type QuickInterviewGuideProps = {
   isQuickInterview: boolean;
@@ -35,10 +36,9 @@ export default function QuickInterviewGuide({ isQuickInterview, interviewAvaliab
   const convertedAvaliableTimes = useMemo(
     () =>
       interviewAvaliableTimes
-        ? interviewAvaliableTimes
-            .split(',')
-            .map((item) => item.replaceAll('에 인터뷰 가능해요.', ''))
-            .join(' / ')
+        ? sortTimes(interviewAvaliableTimes.split(',').map((item) => item.replaceAll('에 인터뷰 가능해요.', ''))).join(
+            ' / ',
+          )
         : '-',
     [interviewAvaliableTimes],
   );

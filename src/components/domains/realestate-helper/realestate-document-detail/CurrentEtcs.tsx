@@ -61,8 +61,8 @@ export default function CurrentEtcs({ list }: CurrentEtcsProps) {
           <div>내용</div>
         </CurrentEtcsTableHead>
         {(!open ? list.slice(0, 3) : list.slice(0, list.length)).map((item) => (
-          <CurrentEtcsTableBody key={item.purpose + item.application_info + item.number}>
-            <div>{`${item.purpose}\n${item.application_info}`}</div>
+          <CurrentEtcsTableBody key={item.purpose + (item?.application_info ?? '') + item.number}>
+            <div>{`${item.purpose}\n${item?.application_info ?? '-'}`}</div>
             <div>
               <StrikeOut str={item.description} />
             </div>
