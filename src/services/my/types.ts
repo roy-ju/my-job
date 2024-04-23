@@ -80,6 +80,7 @@ export type MySuggestListItem = {
   has_new: boolean;
   suggest_complete_status: boolean;
   is_interviewed: false;
+  interview_available_times: string;
   created_time: string;
 };
 

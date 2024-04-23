@@ -25,6 +25,14 @@ export default function InterviewSection({ data }: InterviewSectionProps) {
 
   if (!data?.interview_schedule_info) return null;
 
+  if (data?.interview_schedule_info && !data.interview_schedule_info?.interview_available_times) return null;
+
+  if (
+    data?.interview_schedule_info &&
+    data.interview_schedule_info.interview_available_times?.includes('인터뷰를 원하지 않아요.')
+  )
+    return null;
+
   return (
     <>
       <MarginTopTwenty />
