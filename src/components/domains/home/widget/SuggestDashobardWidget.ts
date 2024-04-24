@@ -41,3 +41,15 @@ export const InterviewSectionWrraper = styled.div`
 export const GuideText = styled.div`
   ${tw`text-center text-gray-700 text-body_01`}
 `;
+
+export const FlexRow = styled.div`
+  ${tw`flex flex-row`}
+`;
+
+export const InterivewScheduleCountWrraper = styled.div`
+  ${tw``}
+`;
+
+export const EllipsisText = styled.span`
+  ${tw`overflow-hidden whitespace-nowrap text-ellipsis text-right`}
+`;
