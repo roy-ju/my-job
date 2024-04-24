@@ -16,7 +16,7 @@ env:
   NEGOCIO_AGENT_CLIENT_URL: https://agent-test.negocio.kr/
   NEGOCIO_CHAT_PHOTO: https://negocio-chat-photos.s3.ap-northeast-2.amazonaws.com
   NAVER_MAP_URL: https://map.naver.com/v5/entry/address
-  NAVER_SITE_VERIFICATION: 06f93a7407b9c3b68099b33bf28b4c70ec8bb8ba
+  NAVER_SITE_VERIFICATION: 0dcfc4f74a90805357591f76f8a9502813823c2b
   NEGOCIO_DELETED_PROFILE_IMG_PATH: https://negocio-common.s3.ap-northeast-2.amazonaws.com/random_profiles/random_profile_1.png
   GA_TRACKING_ID: G-X5831H4W14
   GTM_ID: GTM-MQPT86G
