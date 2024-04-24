@@ -12,6 +12,7 @@ import { describeBuyOrRentPriceTitle } from '@/utils/fotmat';
 
 import { replaceRegionNames } from '@/utils/replaceSigunguNames';
 
+import sortTimes from '@/utils/sortTimes';
 import getPriceFormatFn from '../../utils/getPriceFormat';
 
 import isEqualValue from '../../utils/isEqualValue';
@@ -143,7 +144,7 @@ export default function useGetSummary() {
 
   const interviewAvailabletimesData = useCallback(() => {
     if (interviewAvailabletimes && interviewAvailabletimes.length > 0) {
-      return interviewAvailabletimes.map((item) => item.replaceAll(' 에 인터뷰 가능해요.', '')).join(' / ');
+      return sortTimes(interviewAvailabletimes.map((item) => item.replaceAll(' 에 인터뷰 가능해요.', ''))).join(' / ');
     }
 
     return '';
