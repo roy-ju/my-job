@@ -6,6 +6,8 @@ import { MySuggestListItem } from '@/services/my/types';
 
 import StatusLabel from '@/components/organisms/suggest/StatusLabel';
 
+import { DanjiOrRegionalType, SuggestStatus } from '@/constants/enums';
+import { replaceRegionNames } from '@/utils/replaceSigunguNames';
 import RealestateTypeLabel from './RealestateTypeLabel';
 
 import CreatedTime from './CreatedTime';
@@ -48,11 +50,30 @@ type ListItemProps = {
 export default function ListItem({ item, handleClick }: ListItemProps) {
   console.log(item);
   const labelRenderType = useMemo(() => {
-    if (item?.suggest_complete_status) return 'success';
+    // 거래 성사 경우
+    if (item?.suggest_complete_status) {
+      return 'success';
+    }
 
-    if (item?.suggest_recommended_count && item.suggest_recommended_count > 0) return '';
+    // 추천 개수가 1개 이상일 경우에는 아무것도 표현하지않고 추천 카운트 영역을 표현한다.
+    if (item?.suggest_recommended_count && item.suggest_recommended_count > 0) {
+      return '';
+    }
 
-    if (!item?.is_interviewed) return 'interview';
+    // 요청 중단인 경우
+    if (item.status === SuggestStatus.Stopped) {
+      return '';
+    }
+
+    // 인터뷰 가능 시간이 없을 경우
+    if (!item?.interview_available_times) {
+      return '';
+    }
+
+    // 인터뷰를 진행하지 않았을 경우
+    if (!item?.is_interviewed) {
+      return 'interview';
+    }
 
     return '';
   }, [item]);
@@ -73,7 +94,9 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
           </ListItemHeader>
 
           <BasicInfo>
-            <Title>{item.title}</Title>
+            <Title>
+              {item.danji_or_regional === DanjiOrRegionalType.Danji ? item.title : replaceRegionNames(item.title)}
+            </Title>
             <BuyOrRentPriceNegotiableWrraper>
               <BuyOrRent buyOrRents={item.buy_or_rents} />
               <Price

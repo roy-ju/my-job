@@ -6,6 +6,8 @@ import ArrowRight from '@/assets/icons/arrow_right_20.svg';
 
 import ArrowDown from '@/assets/icons/arrow_down_20.svg';
 
+import { DanjiOrRegionalType } from '@/constants/enums';
+import { replaceRegionNames } from '@/utils/replaceSigunguNames';
 import useSummaryCTAHandler from './hooks/useSummaryCTAHandler';
 
 import RealestatatesLabel from './RealestatatesLabel';
@@ -85,7 +87,11 @@ export default function Summary({ data }: SummaryProps) {
             css={[!renderRoutingDanjiDetailButton && tw`pointer-events-none`]}
             onClick={handleRouterDanjiDetail}
           >
-            <Title>{data.request_target_text}</Title>
+            <Title>
+              {data.danji_or_regional === DanjiOrRegionalType.Danji
+                ? data.request_target_text
+                : replaceRegionNames(data.request_target_text)}
+            </Title>
             {renderRoutingDanjiDetailButton && <ArrowRight color={theme`colors.gray.700`} />}
           </TitleButton>
           <BuyOrRentPriceNegotiableWrraper>

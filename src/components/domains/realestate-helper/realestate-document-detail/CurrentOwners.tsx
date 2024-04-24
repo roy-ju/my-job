@@ -49,7 +49,7 @@ export default function CurrentOwners({ list }: CurrentOwnersProps) {
         </CurrentOwnersTableHead>
         {(!open ? list.slice(0, 3) : list.slice(0, list.length)).map((item) => (
           <CurrentOwnersTableBody key={item.owner + item.registration_number}>
-            <div>{`${item.owner}\n${item.registration_number}`}</div>
+            <div>{`${item.owner}\n${item?.registration_number || '-'}`}</div>
             <div>{item.address}</div>
             <div>{item.share}</div>
           </CurrentOwnersTableBody>

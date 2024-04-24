@@ -48,7 +48,7 @@ export default function useSelectDanjiOrRegion() {
     if (danjiName) {
       handleUpdatePopup('reselectDanji');
     } else {
-      handleUpdatePopup('reselectRegion');
+      handleUpdatePopup('regionList');
     }
   }, [danjiName, handleUpdatePopup]);
 
