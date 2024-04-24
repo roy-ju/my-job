@@ -49,8 +49,6 @@ export default function Message({ isEveryTimeAvailable, isQuickInterview, interv
 
     const convertedArray = sortTimes(array);
 
-    console.log(convertedArray);
-
     for (let i = 0; i < convertedArray.length; i++) {
       newArray.push(convertedArray[i]);
       if (i < convertedArray.length - 1) {
