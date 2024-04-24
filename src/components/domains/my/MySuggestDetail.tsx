@@ -40,6 +40,8 @@ import ListContents from './suggest-detail/ListContents';
 
 import NotyetInterview from './suggest-detail/NotyetInterview';
 
+import SuggestStopped from './suggest-detail/SuggestStopped';
+
 import useMySuggestDetailHeaderHandler from './suggest-detail/hooks/useMySuggestDetailHeaderHandler';
 
 const BottomSheetOverlayPresenter = dynamic(() => import('@/components/molecules/BottomSheetOverlayPresenter'), {
@@ -130,16 +132,24 @@ export default function MySuggestDetail() {
   } = useMySuggestDetailHeaderHandler({ suggestID, danjiID, mutate: mutateList, mutateDetail });
 
   const renderContents = useMemo(() => {
+    // 추천 갯수가 1개 이상 일때
     if (!mySuggestRecommendsLoading && typeof count === 'number' && count > 0) {
       return 'recommendsList';
     }
 
+    // 인터뷰가능시간 선택 안했을 경우
+    if (!suggestDetailData?.interview_available_times) {
+      return 'recommendsList';
+    }
+
+    // 인터뷰가 완료 되었을때
     if (!isLoading && suggestDetailData && suggestDetailData.is_interviewed) {
       return 'recommendsList';
     }
 
+    // 인터뷰가 완료
     if (!isLoading && suggestDetailData && !suggestDetailData.is_interviewed) {
-      return 'interviewSection';
+      return suggestDetailData.suggest_status === SuggestStatus.Stopped ? 'suggestStopped' : 'interviewSection';
     }
 
     return null;
@@ -223,6 +233,12 @@ export default function MySuggestDetail() {
           <Summary data={suggestDetailData} />
 
           <SeperatorV2 />
+
+          {renderContents === 'suggestStopped' && (
+            <RecommendsListOrInterviewContainer>
+              <SuggestStopped />
+            </RecommendsListOrInterviewContainer>
+          )}
 
           {renderContents === 'recommendsList' && (
             <RecommendsListOrInterviewContainer>

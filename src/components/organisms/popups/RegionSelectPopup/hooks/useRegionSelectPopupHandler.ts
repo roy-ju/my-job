@@ -83,17 +83,6 @@ export default function useRegionSelectPopupHandler() {
     [eubmyeondongData],
   );
 
-  const handleChangeSido = useCallback((v: RegionItem) => {
-    setCurrentSelectedSido(v);
-    setCurrentSelectedSigungu(null);
-    setCurrentSelectedEubmyeondong(null);
-  }, []);
-
-  const handleChangeSigungu = useCallback((v: RegionItem) => {
-    setCurrentSelectedSigungu(v);
-    setCurrentSelectedEubmyeondong(null);
-  }, []);
-
   const handleScrollScrollWidth = () => {
     if (scrollRef.current) {
       const container = scrollRef.current;
@@ -109,13 +98,19 @@ export default function useRegionSelectPopupHandler() {
     }
   };
 
+  const handleChangeSido = useCallback((v: RegionItem) => {
+    setCurrentSelectedSido(v);
+    setCurrentSelectedSigungu(null);
+    setCurrentSelectedEubmyeondong(null);
+  }, []);
+
+  const handleChangeSigungu = useCallback((v: RegionItem) => {
+    setCurrentSelectedSigungu(v);
+    setCurrentSelectedEubmyeondong(null);
+  }, []);
+
   const handleChangeEubmyeondong = useCallback(
     (v: RegionItem) => {
-      if (selectedRegions.length === 5) {
-        toast.error('지역은 5개까지 선택 가능합니다');
-        return;
-      }
-
       if (currentSelectedSido && currentSelectedSigungu) {
         const item = {
           name: `${currentSelectedSido.name} ${currentSelectedSigungu.name} ${v.name}`,
@@ -125,18 +120,35 @@ export default function useRegionSelectPopupHandler() {
         const isExistedSelectedRegion = !!selectedRegions.filter((ele) => ele.name === item.name).length;
 
         if (isExistedSelectedRegion) {
-          toast.error('이미 추가하신 지역입니다.');
+          const filteredItems = selectedRegions.filter((i) => i.name !== item.name);
+
+          const filteredSidos = removeElementOnce(selectedSidos, currentSelectedSido.name);
+
+          const filteredSigungs = removeElementOnce(selectedSigungus, currentSelectedSigungu.name);
+
+          const filteredEubmyeondongs = selectedEubmyeondongs.filter((i) => i !== v.name);
+
+          // 선택된 읍면동 이름과 현재 선택된 읍면동 이름이 같으면
+          if (v.name === currentSelectedEubmyeondong?.name) {
+            setCurrentSelectedEubmyeondong(null);
+          }
+
+          setSelectedRegions(filteredItems);
+          setSelectedSidos(filteredSidos);
+          setSelectedSigungus(filteredSigungs);
+          setSelectedEubmyeondongs(filteredEubmyeondongs);
+          return;
+        }
+
+        if (selectedRegions.length === 5) {
+          toast.error('지역은 5개까지 선택 가능합니다');
           return;
         }
 
         setCurrentSelectedEubmyeondong(v);
-
         setSelectedRegions((prev) => [...prev, item]);
-
         setSelectedSidos((prev) => [...prev, currentSelectedSido.name]);
-
         setSelectedSigungus((prev) => [...prev, currentSelectedSigungu.name]);
-
         setSelectedEubmyeondongs((prev) => [...prev, v.name]);
 
         setTimeout(() => {
@@ -144,17 +156,26 @@ export default function useRegionSelectPopupHandler() {
         }, 50);
       }
     },
-    [currentSelectedSido, currentSelectedSigungu, selectedRegions],
+    [
+      currentSelectedEubmyeondong?.name,
+      currentSelectedSido,
+      currentSelectedSigungu,
+      selectedEubmyeondongs,
+      selectedRegions,
+      selectedSidos,
+      selectedSigungus,
+    ],
   );
 
   const handleRemoveSelectedRegionItem = useCallback(
-    (v: RegionItem) => {
+    (v: RegionItem, isLastRemove: boolean) => {
+      if (isLastRemove) {
+        setCurrentSelectedEubmyeondong(null);
+      }
+
       const splitedName = v.name.split(' ');
-
       const sido = splitedName[0];
-
       const sigungu = splitedName.slice(1, splitedName.length - 1).join(' ');
-
       const eubmyeondong = splitedName[splitedName.length - 1];
 
       const updatedSidos = removeElementOnce(selectedSidos, sido);

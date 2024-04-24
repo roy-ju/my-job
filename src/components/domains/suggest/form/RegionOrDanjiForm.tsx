@@ -71,7 +71,7 @@ export default function RegionOrDanjiForm({ needDiabledFields = false }: RegionO
                 {needDiabledFields
                   ? address.length > 0
                     ? typeof address === 'string'
-                      ? address
+                      ? replaceRegionNames(address)
                       : null
                     : danjiName
                   : address.length > 0
