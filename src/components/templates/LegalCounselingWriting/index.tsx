@@ -58,11 +58,11 @@ export default function LegalCounselingWriting({
             <TextField.TextArea
               value={contentValue}
               onChange={(e) => {
-                if (e.currentTarget.value.length <= 500) {
+                if (e.currentTarget.value.length <= 1500) {
                   setContentValue(e.currentTarget.value as string);
-                } else if (e.currentTarget.value.length > 500) {
+                } else if (e.currentTarget.value.length > 1500) {
                   toast.error('더 이상 입력할 수 없습니다.', { toastId: 'error_max_length' });
-                  setContentValue(e.currentTarget.value.slice(0, 500) as string);
+                  setContentValue(e.currentTarget.value.slice(0, 1500) as string);
                 }
               }}
               placeholder="부동산 법률의 궁금한 내용을 입력해 주세요."
@@ -72,7 +72,7 @@ export default function LegalCounselingWriting({
           </TextField>
         </div>
         <div tw="text-right">
-          <span tw="text-info">{contentValue.length} / 500</span>
+          <span tw="text-info">{contentValue.length} / 1500</span>
         </div>
       </div>
       <PersistentBottomBar>
