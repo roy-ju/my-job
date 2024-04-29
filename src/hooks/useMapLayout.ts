@@ -56,8 +56,6 @@ import useLatest from '@/hooks/useLatest';
 
 import { CommonMarker, ListingDanjiMarker, SchoolMarker, AroundMarker } from '@/types/markers';
 
-import { useRouter } from 'next/router';
-
 const USER_LAST_LOCATION = 'user_last_location';
 
 const DEFAULT_LAT = 37.3945005; // 판교역
@@ -173,8 +171,6 @@ function getUserLastLocation(): { lat: number; lng: number } | null {
  */
 export default function useMapLayout() {
   const customRouter = useCustomRouter(0); // 지도는 최상단이니까 제일 상단 depth 로 초기화한다.
-
-  const router = useRouter();
 
   const interactionState = useRecoilValue(danjiInteractionAtom);
 
@@ -520,17 +516,12 @@ export default function useMapLayout() {
               if (isPanningRef.current) return;
 
               // 단지 상세로 보내는 Router
-              router.push(
-                { pathname: `/${Routes.DanjiDetail}/${item.danji_id}`, query: { bor: filter.buyOrRents } },
-                `/${Routes.DanjiDetail}/${item.danji_id}`,
-              );
-
-              // customRouter.replace(Routes.DanjiDetail, {
-              //   searchParams: { danjiID: `${item.danji_id}` },
-              //   state: {
-              //     bor: filter.buyOrRents,
-              //   },
-              // });
+              customRouter.replace(Routes.DanjiDetail, {
+                searchParams: { danjiID: `${item.danji_id}` },
+                state: {
+                  bor: filter.buyOrRents,
+                },
+              });
               setPolygons([]);
               setSelectedMarker(this);
             },
@@ -1149,20 +1140,12 @@ export default function useMapLayout() {
         setSearchResultMarker(null);
         setSelectedMarker(searchedDanji);
 
-        // customRouter.replace(Routes.DanjiDetail, {
-        //   searchParams: { danjiID: `${searchedDanji.danjiID}`, rt: `${searchedDanji.danjiRealestateType}` },
-        //   state: {
-        //     bor: filter.buyOrRents,
-        //   },
-        // });
-
-        router.push(
-          {
-            pathname: `/${Routes.DanjiDetail}/${searchedDanji.danjiID}`,
-            query: { rt: `${searchedDanji.danjiRealestateType}`, bor: filter.buyOrRents },
+        customRouter.replace(Routes.DanjiDetail, {
+          searchParams: { danjiID: `${searchedDanji.danjiID}`, rt: `${searchedDanji.danjiRealestateType}` },
+          state: {
+            bor: filter.buyOrRents,
           },
-          `/${Routes.DanjiDetail}/${searchedDanji.danjiID}?rt=${searchedDanji.danjiRealestateType}`,
-        );
+        });
 
         lastSearchItem.current = null;
       } else {

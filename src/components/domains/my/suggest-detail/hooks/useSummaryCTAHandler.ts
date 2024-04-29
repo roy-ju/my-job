@@ -35,37 +35,35 @@ export default function useSummaryCTAHandler({ data }: { data?: (SuggestDetailRe
     if (!danjiID) return;
 
     if (platform === 'pc') {
-      // const depth1 = router?.query?.depth1 ?? '';
-      // const depth2 = router?.query?.depth2 ?? '';
+      const depth1 = router?.query?.depth1 ?? '';
+      const depth2 = router?.query?.depth2 ?? '';
 
-      // const query = router.query;
+      const query = router.query;
 
-      // delete query.depth1;
-      // delete query.depth2;
+      delete query.depth1;
+      delete query.depth2;
 
-      // if (depth1 && !depth2) {
-      //   router.push({
-      //     pathname: `/${Routes.DanjiDetail}`,
-      //     query: {
-      //       ...query,
-      //       danjiID: `${danjiID}`,
-      //     },
-      //   });
-      // } else if (depth1 && depth2) {
-      //   router.push({
-      //     pathname: `/${depth1}/${Routes.DanjiDetail}`,
-      //     query: {
-      //       ...query,
-      //       danjiID: `${danjiID}`,
-      //     },
-      //   });
-      // }
-
-      router.push(`/${Routes.DanjiDetail}/${danjiID}`);
+      if (depth1 && !depth2) {
+        router.push({
+          pathname: `/${Routes.DanjiDetail}`,
+          query: {
+            ...query,
+            danjiID: `${danjiID}`,
+          },
+        });
+      } else if (depth1 && depth2) {
+        router.push({
+          pathname: `/${depth1}/${Routes.DanjiDetail}`,
+          query: {
+            ...query,
+            danjiID: `${danjiID}`,
+          },
+        });
+      }
     }
 
     if (platform === 'mobile') {
-      router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${danjiID}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
     }
   }, [danjiID, platform, router]);
 

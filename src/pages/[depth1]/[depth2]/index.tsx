@@ -10,13 +10,11 @@ import { MapLayout } from '@/layouts';
 
 import fetcher from '@/lib/swr/fetcher';
 
+import { DanjiDetailResponse } from '@/services/danji/types';
+
 import { checkPlatform } from '@/utils/checkPlatform';
 
 import getHtmlMetas from '@/utils/getHtmlMetas';
-
-import { DanjiDetailResponse } from '@/services/danji/types';
-
-import Routes from '@/router/routes';
 
 const Page: NextPageWithLayout = () => null;
 
@@ -25,18 +23,12 @@ Page.getComponent = function getComponent(pageProps) {
 };
 
 Page.getLayout = function getLayout(page, pageProps) {
-  const { query } = pageProps;
-
-  if (Number(query.depth2) > 0) {
-    return <MapLayout>{page}</MapLayout>;
-  }
-
   return (
     <MapLayout>
       {PrevPage.getComponent?.({
         query: pageProps.query,
         route: pageProps.query.depth1,
-        depth: 2,
+        depth: 1,
       })}
       {page}
     </MapLayout>
@@ -47,7 +39,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const metas = await getHtmlMetas(context.query);
 
   const forwarded = context.req.headers['x-forwarded-for'];
-
   const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
 
   const userAgent = context.req.headers['user-agent'];
@@ -63,10 +54,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   let danjiDetail: DanjiDetailResponse | null = null;
 
-  const danjiID = Number(context.query.depth2);
-
-  if (danjiID > 0) {
-    const response: DanjiDetailResponse = await fetcher(['/danji/detail', { danji_id: danjiID }]);
+  if (context.query.danjiID) {
+    const response: DanjiDetailResponse = await fetcher(['/danji/detail', { danji_id: Number(context.query.danjiID) }]);
 
     if (response.danji_id) {
       danjiDetail = response;
@@ -77,9 +66,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       ...metas,
       ipAddress: ip ?? null,
-      query: { ...context.query, ...(danjiID ? { danjiID } : {}) },
+      query: context.query,
+      route: context.query.depth2,
       platform,
-      route: danjiID ? Routes.DanjiDetail : context.query.depth2,
       depth: 2,
       ...(danjiDetail ? { prefetchedData: danjiDetail } : {}),
     },
