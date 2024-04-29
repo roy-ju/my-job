@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-import { ListingStatus, VisitUserType } from '@/constants/enums';
+import useFetchListingStatus from '@/services/listing/useFetchListingStatus';
 
-import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
+import { ListingStatus, VisitUserType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
@@ -14,7 +14,7 @@ export default function useListingDetailRedirector(listingID: number) {
   const router = useRouter();
   const [redirectable, setRedirectable] = useState(true);
 
-  const { data: statusData } = useAPI_GetListingStatus(listingID);
+  const { data: statusData } = useFetchListingStatus(listingID);
 
   useIsomorphicLayoutEffect(() => {
     if (!statusData) return;

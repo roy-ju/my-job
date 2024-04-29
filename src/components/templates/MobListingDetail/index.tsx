@@ -18,7 +18,7 @@ import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings
 
 import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
 
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+import { ListingDetailResponse } from '@/services/listing/types';
 
 import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 
@@ -37,7 +37,7 @@ import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRea
 import UserStatusStrings from '../ListingDetail/strings';
 
 export interface ListingDetailProps {
-  listingDetail?: GetListingDetailResponse | null;
+  listingDetail?: ListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
 

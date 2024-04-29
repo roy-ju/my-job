@@ -1,16 +1,23 @@
-import cancelListing from '@/apis/listing/cancelListing';
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Loading, MobileContainer } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingManage } from '@/components/templates';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { memo, useCallback, useRef, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { Loading, MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ListingManage } from '@/components/templates';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
+
+import { apiService } from '@/services';
+
+import Routes from '@/router/routes';
 
 export default memo(() => {
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
-  const { data: listingData, isLoading } = useAPI_GetListingDetail(listingID);
+  const { data: listingData, isLoading } = useFetchListingDetail(listingID);
 
   const popupData = useRef('');
   const [popup, setPopup] = useState('none');
@@ -19,7 +26,7 @@ export default memo(() => {
 
   const handleDelete = useCallback(async () => {
     setIsDeleting(true);
-    await cancelListing({ listing_id: listingID, cancel_reason: popupData.current });
+    await apiService.listingSellerCancel({ listing_id: listingID, cancel_reason: popupData.current });
     router.back(); // TODO: 어떻게 할까요?
   }, [router, listingID]);
 

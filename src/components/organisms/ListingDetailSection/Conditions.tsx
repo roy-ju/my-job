@@ -1,5 +1,3 @@
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-
 import { Moment, Numeral, Button } from '@/components/atoms';
 
 import { Table } from '@/components/molecules';
@@ -10,12 +8,14 @@ import { BuyOrRent } from '@/constants/enums';
 
 import { BuyOrRentString, TimeTypeString } from '@/constants/strings';
 
+import { ListingDetailResponse } from '@/services/listing/types';
+
 import QuestionIcon from '@/assets/icons/question.svg';
 
 export interface ConditionsProps {
-  listing?: GetListingDetailResponse['listing'];
-  debtSuccessions?: GetListingDetailResponse['debt_successions'];
-  collaterals?: GetListingDetailResponse['collaterals'];
+  listing?: ListingDetailResponse['listing'];
+  debtSuccessions?: ListingDetailResponse['debt_successions'];
+  collaterals?: ListingDetailResponse['collaterals'];
 }
 
 export default function Conditions({ listing, debtSuccessions, collaterals }: ConditionsProps) {

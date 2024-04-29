@@ -1,12 +1,21 @@
-import { Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingCreateForm } from '@/components/templates';
 import { memo, useEffect, useRef, useState } from 'react';
-import useAPI_GetOptionList from '@/apis/listing/getOptionList';
-import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
-import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
+
 import { motion } from 'framer-motion';
+
+import { Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
+
+import { ListingCreateForm } from '@/components/templates';
+
+import useFetchOptionList from '@/services/listing/useFetchOptionList';
+
+import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
+
 import { useRouter } from '@/hooks/utils';
+
 import useListingCreateForm from './useListingCreateForm';
 
 interface Props {
@@ -16,7 +25,6 @@ interface Props {
 
 export default memo(({ depth, panelWidth }: Props) => {
   const {
-    // isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
@@ -67,18 +75,6 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     moveInDateType,
     handleChangeMoveInDateType,
-
-    // contractAmount,
-    // handleChangeContractAmount,
-
-    // contractAmountNegotiable,
-    // handleChangeContractAmountNegotiable,
-
-    // remainingAmount,
-    // handleChangeRemainingAmount,
-
-    // interims,
-    // handleAddInterim,
 
     hasRentArea,
     handleChangeHasRentArea,
@@ -131,7 +127,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const router = useRouter(depth);
 
-  const { list: listingOptions } = useAPI_GetOptionList();
+  const { list: listingOptions } = useFetchOptionList();
 
   const [isCoachVisible, setIsCoachVisible] = useState(false);
   const hasBeenVisible = useRef(false);
@@ -155,7 +151,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <ListingCreateForm
-        // isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         isAddCollateralDisabled={isAddCollateralDisabled}
         isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
@@ -169,14 +164,6 @@ export default memo(({ depth, panelWidth }: Props) => {
         onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
         quickSale={quickSale}
         onChangeQuickSale={handleChangeQuickSale}
-        // contractAmount={contractAmount}
-        // onChangeContractAmount={handleChangeContractAmount}
-        // contractAmountNegotiable={contractAmountNegotiable}
-        // onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
-        // remainingAmount={remainingAmount}
-        // onChangeRemainingAmount={handleChangeRemainingAmount}
-        // interims={interims}
-        // onClickAddInterim={handleAddInterim}
         hasDebtSuccession={hasDebtSuccession}
         onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
         debtSuccessionDeposit={debtSuccessionDeposit}

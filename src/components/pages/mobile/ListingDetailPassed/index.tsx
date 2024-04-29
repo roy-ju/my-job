@@ -1,11 +1,17 @@
 import { memo, useState } from 'react';
-import useAPI_GetMyListingDetailPassed from '@/apis/my/getMyListingDetailPassed';
-import { ListingDetailPassed as ListingDetailPassedTemplate } from '@/components/templates';
-import Routes from '@/router/routes';
 import { useRouter } from 'next/router';
+
 import { MobileContainer } from '@/components/atoms';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
-import { getListingStatus } from '@/apis/listing/getListingStatus';
+
+import useAPI_GetMyListingDetailPassed from '@/apis/my/getMyListingDetailPassed';
+
+import { ListingDetailPassed as ListingDetailPassedTemplate } from '@/components/templates';
+
+import Routes from '@/router/routes';
+
+import { apiService } from '@/services';
 
 export default memo(() => {
   const router = useRouter();
@@ -21,7 +27,7 @@ export default memo(() => {
   const handleDirectPassedItem = async () => {
     if (!data?.listing_id) return;
 
-    const response = await getListingStatus(data.listing_id);
+    const response = await apiService.getListingStatus(data.listing_id);
 
     if (response?.can_access) {
       handleNavigateToListingDetail();

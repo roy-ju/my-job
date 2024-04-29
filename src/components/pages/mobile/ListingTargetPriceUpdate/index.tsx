@@ -1,16 +1,22 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { MobileContainer } from '@/components/atoms';
-import { ListingTargetPriceUpdate } from '@/components/templates';
-import Routes from '@/router/routes';
-import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
-import { useRouter } from 'next/router';
 import { memo, useCallback, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { ListingTargetPriceUpdate } from '@/components/templates';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
+
+import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+
+import Routes from '@/router/routes';
 
 export default memo(() => {
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data } = useAPI_GetListingDetail(listingID);
+  const { data } = useFetchListingDetail(listingID);
 
   const [price, setPrice] = useState('');
   const [monthlyRentFee, setMonthlyRentFee] = useState('');

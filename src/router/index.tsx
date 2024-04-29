@@ -207,11 +207,7 @@ const ListingCreateForm = dynamic(() => import('@/components/pages/pc/ListingCre
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingCreateChooseAgent = dynamic(() => import('@/components/pages/pc/ListingCreateChooseAgent'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const ListingCreateSummary = dynamic(() => import('@/components/pages/pc/ListingCreateSummary'), {
+const ListingCreateSummary = dynamic(() => import('@/components/pages/ListingCreateSummary/ListingCreateSummaryPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -603,9 +599,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.ListingSelectAddress: {
       return <ListingSelectAddress {...props} />;
-    }
-    case Routes.ListingCreateChooseAgent: {
-      return <ListingCreateChooseAgent {...props} />;
     }
     case Routes.ListingCreateSummary: {
       return <ListingCreateSummary {...props} />;

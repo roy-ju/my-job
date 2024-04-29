@@ -1,10 +1,16 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Panel } from '@/components/atoms';
-import { ListingTargetPriceUpdate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
-import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 import { memo, useCallback, useState } from 'react';
+
+import { Panel } from '@/components/atoms';
+
+import { ListingTargetPriceUpdate } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 interface Props {
   depth: number;
@@ -15,7 +21,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data } = useAPI_GetListingDetail(listingID);
+  const { data } = useFetchListingDetail(listingID);
 
   const [price, setPrice] = useState('');
   const [monthlyRentFee, setMonthlyRentFee] = useState('');

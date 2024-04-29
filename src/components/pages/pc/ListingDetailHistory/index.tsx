@@ -18,9 +18,7 @@ import { BiddingStatus } from '@/constants/enums';
 
 import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
 
-import cancelBidding from '@/apis/bidding/cancelBidding';
-
-import { getListingStatus } from '@/apis/listing/getListingStatus';
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -120,7 +118,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleNavigateToListingDetail = async () => {
     if (!data?.listing_id) return;
 
-    const response = await getListingStatus(data.listing_id);
+    const response = await apiService.getListingStatus(data.listing_id);
 
     if (response?.can_access) {
       router.replace(Routes.ListingDetail, {
@@ -162,7 +160,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     const biddingID = router?.query?.biddingID;
 
     if (listingID && biddingID) {
-      await cancelBidding(Number(listingID), Number(biddingID));
+      await apiService.cancelBidding(Number(listingID), Number(biddingID));
 
       toast.success('제안을 취소하였습니다.');
 

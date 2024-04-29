@@ -8,13 +8,13 @@ import { ListingStatus, VisitUserType } from '@/constants/enums';
 
 import Routes from '@/router/routes';
 
-import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
+import useFetchListingStatus from '@/services/listing/useFetchListingStatus';
 
 export default function useListingDetailRedirector(listingID: number, depth: number) {
   const router = useRouter(depth);
   const [redirectable, setRedirectable] = useState(true);
 
-  const { data: statusData } = useAPI_GetListingStatus(listingID);
+  const { data: statusData } = useFetchListingStatus(listingID);
 
   useIsomorphicLayoutEffect(() => {
     if (!statusData) return;

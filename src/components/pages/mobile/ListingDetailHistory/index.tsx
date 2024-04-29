@@ -16,9 +16,7 @@ import Routes from '@/router/routes';
 
 import { BiddingStatus } from '@/constants/enums';
 
-import cancelBidding from '@/apis/bidding/cancelBidding';
-
-import { getListingStatus } from '@/apis/listing/getListingStatus';
+import { apiService } from '@/services';
 
 export default memo(() => {
   const router = useRouter();
@@ -56,7 +54,7 @@ export default memo(() => {
   const handleNavigateToListingDetail = async () => {
     if (!data?.listing_id) return;
 
-    const response = await getListingStatus(data.listing_id);
+    const response = await apiService.getListingStatus(data.listing_id);
 
     if (response?.can_access) {
       router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${data.listing_id}`);
@@ -91,7 +89,7 @@ export default memo(() => {
     const biddingID = router?.query?.biddingID;
 
     if (listingID && biddingID) {
-      await cancelBidding(Number(listingID), Number(biddingID));
+      await apiService.cancelBidding(Number(listingID), Number(biddingID));
 
       toast.success('제안을 취소하였습니다.');
 

@@ -1,16 +1,22 @@
-import updateBidding from '@/apis/bidding/updateBidding';
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Loading, MobileContainer } from '@/components/atoms';
-import { BiddingSummary } from '@/components/templates';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { Loading, MobileContainer } from '@/components/atoms';
+
+import { BiddingSummary } from '@/components/templates';
+
+import Routes from '@/router/routes';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
+
+import { apiService } from '@/services';
 
 export default memo(() => {
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data, isLoading } = useAPI_GetListingDetail(listingID);
+  const { data, isLoading } = useFetchListingDetail(listingID);
 
   const [isUpdatingBidding, setIsUpdatingBidding] = useState(false);
 
@@ -24,7 +30,7 @@ export default memo(() => {
   const handleClickNext = useCallback(async () => {
     setIsUpdatingBidding(true);
 
-    await updateBidding({ ...params });
+    await apiService.updateBidding({ ...params });
 
     setIsUpdatingBidding(false);
 
