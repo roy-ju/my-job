@@ -25,27 +25,24 @@ export default function useListItemHandler({
 
   const handleClickFavoriteDanjiItem = (danjiID: number) => () => {
     if (platform === 'pc') {
-      // const depth1 = router?.query?.depth1 ?? '';
-      // const query = router.query;
+      const depth1 = router?.query?.depth1 ?? '';
+      const query = router.query;
 
-      // delete query.depth1;
-      // delete query.depth2;
+      delete query.depth1;
+      delete query.depth2;
 
-      // router.push({
-      //   pathname: `/${depth1}/${Routes.DanjiDetail}`,
-      //   query: {
-      //     ...query,
-      //     danjiID: `${danjiID}`,
-      //   },
-      // });
-
-      router.push(`/${Routes.DanjiDetail}/${danjiID}`);
+      router.push({
+        pathname: `/${depth1}/${Routes.DanjiDetail}`,
+        query: {
+          ...query,
+          danjiID: `${danjiID}`,
+        },
+      });
+      return;
     }
 
     if (platform === 'mobile') {
-      // router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
-
-      router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${danjiID}`);
+      router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${danjiID}`);
     }
   };
 

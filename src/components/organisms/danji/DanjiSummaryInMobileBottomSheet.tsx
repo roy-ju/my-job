@@ -73,7 +73,7 @@ const DanjiSummaryInMobileBottomSheet = React.memo(
             bor: filter?.buyOrRents || '',
           },
         },
-        `/${Routes.EntryMobile}/${Routes.DanjiDetail}/${selectedDanjiSummary?.danjiID}`,
+        `/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${selectedDanjiSummary?.danjiID}`,
       );
     };
 

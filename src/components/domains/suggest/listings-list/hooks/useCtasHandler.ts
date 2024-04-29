@@ -70,23 +70,22 @@ export default function useCtasHandler({ isRecommendable, danjiID }: { isRecomme
 
   const handleClickDanjiDetailButton = useCallback(() => {
     if (platform === 'pc') {
-      router.push(`/${Routes.DanjiDetail}/${danjiID}`);
-      // router.push({
-      //   pathname: `/${Routes.DanjiDetail}`,
-      //   query: {
-      //     danjiID: `${danjiID}`,
-      //   },
-      // });
+      router.push({
+        pathname: `/${Routes.DanjiDetail}`,
+        query: {
+          danjiID: `${danjiID}`,
+        },
+      });
+      return;
     }
 
     if (platform === 'mobile') {
-      router.push(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${danjiID}`);
-      // router.push({
-      //   pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
-      //   query: {
-      //     danjiID: `${danjiID}`,
-      //   },
-      // });
+      router.push({
+        pathname: `/${Routes.EntryMobile}/${Routes.DanjiDetail}`,
+        query: {
+          danjiID: `${danjiID}`,
+        },
+      });
     }
   }, [danjiID, platform]);
 

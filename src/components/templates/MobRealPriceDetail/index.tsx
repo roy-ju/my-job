@@ -47,16 +47,12 @@ export default function MobRealPriceDetail() {
     if (canGoBack) {
       router.back();
     } else {
-      router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${router.query.danjiID}`);
-
-      // router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
+      router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
     }
   }, [router]);
 
   const handleClickTitle = useCallback(() => {
-    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}/${router.query.danjiID}`);
-
-    // router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
+    router.replace(`/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${router.query.danjiID}`);
   }, [router]);
 
   useEffect(() => {
