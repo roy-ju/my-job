@@ -1,10 +1,12 @@
-import { Button } from '@/components/atoms';
+import Image from 'next/image';
+
+import ButtonV2 from '@/components/atoms/ButtonV2';
+
+import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
+
 import { NavigationHeader } from '@/components/molecules';
 
-import { ReactNode } from 'react';
-
 import CharacterImage from '@/../public/static/images/character_mirror.png';
-import Image from 'next/image';
 
 const GuideStepList = [
   '주소를 확인해 주세요.',
@@ -29,15 +31,7 @@ const CheckList = [
   },
 ];
 
-interface PersistentBottomBarProps {
-  children?: ReactNode;
-}
-
-function PersistentBottomBar({ children }: PersistentBottomBarProps) {
-  return <div tw="bg-white w-full pt-4 pb-[42px] px-5 shadow-[0px_0px_24px_rgba(0,0,0,0.08)]">{children}</div>;
-}
-
-export default function MobHog({
+export default function ListingCreateGuideMobilePopup({
   onClickBack,
   onClickListingCreate,
 }: {
@@ -103,11 +97,11 @@ export default function MobHog({
           ))}
         </div>
       </div>
-      <PersistentBottomBar>
-        <Button variant="secondary" tw="w-full" size="bigger" onClick={onClickListingCreate}>
+      <PersistentBottomBarV2>
+        <ButtonV2 tw="w-full" size="bigger" onClick={onClickListingCreate}>
           매물등록 신청하러 가기
-        </Button>
-      </PersistentBottomBar>
+        </ButtonV2>
+      </PersistentBottomBarV2>
     </div>
   );
 }

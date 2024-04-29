@@ -1,9 +1,14 @@
-import CharacterImage from '@/../public/static/images/character_mirror.png';
-import CloseIcon from '@/assets/icons/close_24.svg';
 import { HTMLProps } from 'react';
+
 import Image from 'next/image';
-import useControlled from '@/hooks/useControlled';
+
 import tw from 'twin.macro';
+
+import useControlled from '@/hooks/useControlled';
+
+import CharacterImage from '@/../public/static/images/character_mirror.png';
+
+import CloseIcon from '@/assets/icons/close_24.svg';
 
 const GuideStepList = [
   '주소를 확인해 주세요.',

@@ -8,8 +8,6 @@ import { Panel } from '@/components/atoms';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { ListingCreateSummary } from '@/components/templates';
-
 import { useRouter } from '@/hooks/utils';
 
 import getFileFromUrl from '@/utils/getFileFromUrl';
@@ -159,12 +157,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <ListingCreateSummary
-        listing={params}
-        onClickCreate={onClickCreate}
-        onClickUpdate={onClickUpdate}
-        isLoading={isCreating}
-      />
+      <div />
 
       {successPopup && (
         <OverlayPresenter>

@@ -15,7 +15,6 @@ export { default as TransactionReview } from './TransactionReview';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 export { default as ListingCreateForm } from './ListingCreateForm';
-export { default as ListingCreateSummary } from './ListingCreateSummary';
 export { default as ListingCreateResult } from './ListingCreateResult';
 export { default as OwnerVerification } from './OwnerVerification';
 export { default as OwnerVerificationComplete } from './OwnerVerificationComplete';
@@ -41,8 +40,6 @@ export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 
-export { default as SelectAddressTemplate } from './SelectAddressTemplate';
-
 /** 모바일 */
 export { default as MobSearchMap } from './MobSearchMap';
 
@@ -63,7 +60,5 @@ export { default as MobRealPriceDetail } from './MobRealPriceDetail';
 export { default as MobDanjiSelect } from './MobDanjiSelect';
 
 export { default as MobRealTradeDetail } from './MobRealTradeDetail';
-
-export { default as MobHog } from './MobHog';
 
 export { default as MobChatMap } from './MobChatMap';

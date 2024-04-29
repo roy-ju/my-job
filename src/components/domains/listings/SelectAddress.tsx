@@ -1,4 +1,6 @@
-import { Button, PersistentBottomBar } from '@/components/atoms';
+import { Button, ButtonV2 } from '@/components/atoms';
+
+import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
 
 import { NavigationHeader } from '@/components/molecules';
 
@@ -6,7 +8,7 @@ import { MyAddressListItem } from '@/services/my/types';
 
 import { makeAddressDetail } from '@/utils/fotmat';
 
-export interface SelectAddressTemplateProps {
+export interface SelectAddressProps {
   type?: 'suggest' | 'listing';
   list?: MyAddressListItem[] | null;
   selectedUserAddressID?: number;
@@ -31,7 +33,7 @@ const Ments = {
   },
 };
 
-export default function SelectAddressTemplate({
+export default function SelectAddress({
   type,
   list,
   selectedUserAddressID,
@@ -40,7 +42,7 @@ export default function SelectAddressTemplate({
   onClickItem,
   onClickItemSuggest,
   onClickAddMyAddress,
-}: SelectAddressTemplateProps) {
+}: SelectAddressProps) {
   if (!list || list?.length === 0) return null;
 
   return (
@@ -98,11 +100,11 @@ export default function SelectAddressTemplate({
           </button>
         </div>
       </div>
-      <PersistentBottomBar>
-        <Button tw="w-full mb-[26px]" size="bigger" disabled={!selectedUserAddressID} onClick={() => onClickNext?.()}>
+      <PersistentBottomBarV2>
+        <ButtonV2 tw="w-full" size="bigger" disabled={!selectedUserAddressID} onClick={() => onClickNext?.()}>
           다음
-        </Button>
-      </PersistentBottomBar>
+        </ButtonV2>
+      </PersistentBottomBarV2>
     </div>
   );
 }
