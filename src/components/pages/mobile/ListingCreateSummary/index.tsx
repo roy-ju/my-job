@@ -9,8 +9,6 @@ import { MobileContainer } from '@/components/atoms';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { ListingCreateSummary as ListingCreateSummaryTemplate } from '@/components/templates';
-
 import getFileFromUrl from '@/utils/getFileFromUrl';
 
 import Routes from '@/router/routes';
@@ -110,12 +108,7 @@ const ListingCreateSummary = () => {
 
   return (
     <MobileContainer>
-      <ListingCreateSummaryTemplate
-        listing={params}
-        onClickCreate={onClickCreate}
-        onClickUpdate={onClickUpdate}
-        isLoading={isCreating}
-      />
+      <div />
 
       {successPopup && (
         <OverlayPresenter>

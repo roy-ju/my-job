@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import { Button, ButtonV2, Separator } from '@/components/atoms';
 
 import FlexContents from '@/components/atoms/FlexContents';
@@ -8,13 +10,13 @@ import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import { ListingDetailSection } from '@/components/organisms';
-
 import useListingCreateSummaryHandler from './create-summary/hooks/useListingCreateSummaryHandler';
 
-import SuccessPopup from './create-summary/popups/SuccessPopup';
+import ConditionsInfo from './create-summary/CondtionsInfo';
 
-import ErrorPopup from './create-summary/popups/ErrorPopup';
+const ErrorPopup = dynamic(() => import('./create-summary/popups/ErrorPopup'), { ssr: false });
+
+const SuccessPopup = dynamic(() => import('./create-summary/popups/SuccessPopup'), { ssr: false });
 
 export default function ListingCreateSummary() {
   const {
@@ -43,7 +45,7 @@ export default function ListingCreateSummary() {
 
           <Separator />
           <div tw="px-5 pt-10">
-            <ListingDetailSection.Conditions
+            <ConditionsInfo
               listing={params}
               debtSuccessions={params?.debt_successions}
               collaterals={params?.collaterals}

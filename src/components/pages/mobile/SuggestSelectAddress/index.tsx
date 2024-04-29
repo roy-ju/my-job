@@ -6,13 +6,13 @@ import { MobAuthRequired, MobileContainer } from '@/components/atoms';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { SelectAddressTemplate } from '@/components/templates';
-
 import { makeAddressDetail } from '@/utils/fotmat';
 
 import useFetchMyAddressList from '@/services/my/useFetchMyAddressList';
 
 import Routes from '@/router/routes';
+
+import SelectAddress from '@/components/domains/listings/SelectAddress';
 
 export default memo(() => {
   const router = useRouter();
@@ -112,7 +112,7 @@ export default memo(() => {
     <MobAuthRequired ciRequired>
       <MobileContainer>
         {!showInActivePopup && (
-          <SelectAddressTemplate
+          <SelectAddress
             type="suggest"
             list={list}
             selectedUserAddressID={selectedUserAddressID}

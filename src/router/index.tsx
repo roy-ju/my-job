@@ -199,7 +199,7 @@ const WaitingCreateForm = dynamic(() => import('@/components/pages/WaitingCreate
   loading: FallbackComponent,
 });
 
-const ListingSelectAddress = dynamic(() => import('@/components/pages/pc/ListingSelectAddress'), {
+const ListingSelectAddress = dynamic(() => import('@/components/pages/ListingSelectAddress/ListingSelectAddressPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
