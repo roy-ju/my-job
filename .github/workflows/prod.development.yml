@@ -42,8 +42,8 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Set robots.txt
-        run: mv ./public/robots_prod.txt ./public/robots.txt && rm -rf ./public/robots_prod.txt
+      # - name: Set robots.txt
+      #   run: mv ./public/robots_prod.txt ./public/robots.txt && rm -rf ./public/robots_prod.txt
 
       - name: Generated DynamicSitemaps
         run: sh ./shells/generate-sitemaps.sh
