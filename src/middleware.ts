@@ -88,15 +88,6 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     const firstSegment = segments[1];
 
     if (!exemptions.includes(firstSegment)) {
-      if (segments.filter((ele) => ele === 'danji').length > 0) {
-        const pathname = segments[segments.length - 2];
-        const danjiID = segments[segments.length - 1];
-
-        return NextResponse.redirect(
-          `${request.nextUrl.origin}/${Routes.EntryMobile}/${pathname}/${danjiID}${request.nextUrl.search}`,
-        );
-      }
-
       const lastSegment = segments[segments.length - 1];
 
       if (lastSegment) {
